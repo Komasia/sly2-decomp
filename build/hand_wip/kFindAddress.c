@@ -1,0 +1,6 @@
+// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
+// SLY2_CFLAGS: -O2 -G0
+int *kFindAddress(int *p, int *end, int val)
+{
+    for (; *p != val && p < end; p++) ; if (p >= end) return 0; return p;
+}

@@ -1,0 +1,202 @@
+#include "gifs.h"
+
+void GIFS::CheckReg(int fExpectPack, int regExpect)
+{
+    m_cregAll++;
+}
+
+void GIFS::PackRGBA(uint rgba)
+{
+    CheckReg(1, 1);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->aun[0] = rgba & 0xff;
+    pqw->aun[1] = (rgba & 0xff00) >> 8;
+    pqw->aun[2] = (rgba >> 16) & 0xff;
+    pqw->aun[3] = (rgba >> 24) & 0xff;
+}
+
+void GIFS::PackUV(int u, int v)
+{
+    CheckReg(1, 3);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->an[0] = u;
+    pqw->an[1] = v;
+}
+
+void GIFS::PackSTQ(float s, float t, float q)
+{
+    CheckReg(1, 2);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->ag[0] = s;
+    pqw->ag[1] = t;
+    pqw->ag[2] = q;
+}
+
+void GIFS::PackXYZ(int x, int y, int z)
+{
+    CheckReg(1, 5);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->an[0] = x;
+    pqw->an[1] = y;
+    pqw->al[1] = z;
+}
+
+void GIFS::PackXYZF(int x, int y, int z, int fog)
+{
+    CheckReg(1, 4);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->an[0] = x;
+    pqw->an[1] = y;
+    pqw->an[2] = z;
+    pqw->an[3] = (fog & 0xff) << 4;
+}
+
+void GIFS::PackAD(long a, long d)
+{
+    CheckReg(1, 14);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->aul[0] = d;
+    pqw->aul[1] = a;
+}
+
+void GIFS::ListUV(int u, int v)
+{
+    CheckReg(0, 3);
+    ulong *pul = (ulong *)m_pb;
+    m_pb = (uchar *)(pul + 1);
+    *pul = u | (v << 16);
+}
+
+GIFS::GIFS()
+{
+    m_fEndPrim = 1;
+    m_pqwPrim = NULL;
+    m_creg = 0;
+    m_cregAll = 0;
+}
+
+void GIFS::AddPrimEnd()
+{
+    if (m_pqwPrim)
+    {
+        EndPrim(1);
+    }
+    else
+    {
+        AddPrimPack(0, 1, 0xE);
+        EndPrim(1);
+    }
+}
+
+void GIFS::EndPrim(int fEOP)
+{
+    if (m_pqwPrim)
+    {
+        uint c = m_cregAll / m_creg;
+        if ((uint)m_pb & 0xF)
+        {
+            ulong *pul = (ulong *)m_pb;
+            m_pb = (uchar *)(pul + 1);
+            *pul = 0;
+        }
+        QW *pqw = m_pqwPrim;
+        uint x;
+        if (fEOP) x = pqw->aun[0] | 0x8000; else x = pqw->aun[0];
+        pqw->aun[0] = x | c;
+        m_pqwPrim = NULL;
+    }
+}
+
+void GIFS::AddGifTag(int prim, int c, int creg, ulong regs, uint fEOP)
+{
+    EndPrim(0);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    ulong tag = c | ((ulong)fEOP << 15);
+    ulong tagPrim = ((ulong)prim << 47) | (1L << 46);
+    tag |= tagPrim;
+    tag |= (ulong)creg << 60;
+    pqw->aul[0] = tag;
+    pqw->aul[1] = regs;
+}
+
+void GIFS::AddPrimPack(int prim, int creg, ulong regs)
+{
+    EndPrim(0);
+    ulong tag = ((ulong)creg << 60) | (1L << 46);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->aul[0] = ((ulong)prim << 47) | tag;
+    pqw->aul[1] = regs;
+    m_creg = creg;
+    m_pqwPrim = pqw;
+    m_cregAll = 0;
+}
+
+void GIFS::AddPrimBulk(int prim, int c, int creg, ulong regs, QW **paqwBulk)
+{
+    EndPrim(0);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    ulong tag = ((ulong)prim << 47) | (1L << 46);
+    tag = c | tag;
+    tag |= (ulong)creg << 60;
+    pqw->aul[1] = regs;
+    pqw->aul[0] = tag;
+    if (paqwBulk)
+    {
+        *paqwBulk = (QW *)m_pb;
+    }
+    m_pb += c * creg * sizeof(QW);
+}
+
+void GIFS::AddPrimList(int creg, ulong regs)
+{
+    EndPrim(0);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->aul[1] = regs;
+    pqw->aul[0] = ((ulong)creg << 60) | (1L << 58);
+    m_creg = creg;
+    m_pqwPrim = pqw;
+    m_cregAll = 0;
+}
+
+void GIFS::ListRGBAQ(uint rgba, float q)
+{
+    CheckReg(0, 1);
+    ulong *pul = (ulong *)m_pb;
+    m_pb = (uchar *)(pul + 1);
+    *pul = (ulong)rgba | ((ulong)*(uint *)&q << 32);
+}
+
+void GIFS::ListXYZ(int x, int y, int z)
+{
+    CheckReg(0, 5);
+    ulong *pul = (ulong *)m_pb;
+    m_pb = (uchar *)(pul + 1);
+    *pul = (x | (y << 16)) | ((ulong)z << 32);
+}
+
+void GIFS::ListXYZF(int x, int y, int z, int fog)
+{
+    CheckReg(0, 4);
+    ulong *pul = (ulong *)m_pb;
+    m_pb = (uchar *)(pul + 1);
+    *pul = (x | (y << 16)) | ((ulong)(z & 0xFFFFFF) << 32) | ((ulong)fog << 56);
+}
+
+void GIFS::AddImage(int cqw)
+{
+    EndPrim(0);
+    QW *pqw = (QW *)m_pb;
+    m_pb = (uchar *)(pqw + 1);
+    pqw->aul[0] = cqw | (2L << 58);
+    pqw->aul[1] = 0;
+}

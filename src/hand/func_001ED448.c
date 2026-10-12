@@ -1,0 +1,7 @@
+extern int D_003DD00C, D_003DD010, D_003DD014, D_003DD018;
+void func_001ED448(void)
+{
+    D_003DD010 = 0;
+    D_003DD018 = 0;
+    D_003DD00C = D_003DD014 = 0;
+}

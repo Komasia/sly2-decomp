@@ -1,0 +1,46 @@
+/* Memory heaps. HEAP is an abstract allocator interface (vptr at 0);
+ * CLinearHeap (vtable @0x2CA550) bump-allocates 16-byte aligned blocks from a fixed buffer. */
+#ifndef HEAP_H
+#define HEAP_H
+#include "common.h"
+
+class HEAP
+{
+public:
+    virtual void *PvAlloc(int cb, int n);                 /* slot 1 */
+    virtual void *PvRealloc(void *pv, int cb, int n);     /* slot 2 */
+    virtual void Free(void *pv);                          /* slot 3 */
+};
+
+class CLinearHeap : public HEAP
+{
+public:
+    /* 0x04 */ int m_cbMax;
+    /* 0x08 */ byte *m_pbBase;
+    /* 0x0c */ int m_ib;
+
+    CLinearHeap(int cbMax, byte *pbBase);
+    virtual void *PvAlloc(int cb, int n);
+    virtual void *PvRealloc(void *pv, int cb, int n);
+};
+
+/* Growable array of m_cb-byte elements allocated from m_pheap */
+class CDynArray
+{
+public:
+    /* 0x00 */ void *m_pv;
+    /* 0x04 */ int m_c;
+    /* 0x08 */ int m_cMax;
+    /* 0x0c */ int m_cb;
+    /* 0x10 */ int m_unk10;
+    /* 0x14 */ HEAP *m_pheap;
+
+    void Free();
+    void Reserve(int c);
+};
+
+extern "C" void CopyAb(void *pvDst, void *pvSrc, uint cb);
+extern "C" void *memset(void *pv, int b, uint cb);
+extern "C" int strlen(const char *sz);
+void *PvAllocCopy(HEAP *pheap, int cb, void *pv, int n);
+#endif

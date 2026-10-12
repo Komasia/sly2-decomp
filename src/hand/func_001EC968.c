@@ -1,0 +1,12 @@
+struct VTE { short d; short pad; void (*pf)(void *); };
+struct O { char pad[0xC]; struct VTE *vt; char pad2[0x30-0x10]; void *pChild; char pad3[0x40-0x34]; struct O *pNext; };
+extern struct O *D_003E159C;
+int func_001EDA20(struct O *p);
+void func_001EC968(void)
+{
+    int unused[4];
+    struct O *p;
+    for (p = D_003E159C; p && !p->pChild; p = p->pNext) {
+        if (func_001EDA20(p)) p->vt[8].pf((char *)p + p->vt[8].d);
+    }
+}

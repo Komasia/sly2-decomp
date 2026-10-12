@@ -1,0 +1,66 @@
+typedef struct { float a, b; } F2;
+struct G { char pad[0x24]; float x24; char pad2[0x60 - 0x28]; int x60; };
+extern struct G D_002DDF40;
+extern struct { float t; float dt; } D_002DDED0;
+extern float D_003E1BE0;
+extern F2 D_002BD950, D_002BD958, D_002BD960, D_002BD968, D_002BD970;
+struct X {
+    int x0; char pad[0xC]; float x10; float x14; int x18; int x1C; int x20; int x24; float x28; float x2C; float x30;
+    int x34; int x38; F2 x3C; F2 x44; float x4C; float x50; int x54;
+};
+void func_0014FCC8(struct X *p);
+void *func_001FBB90(int);
+void func_001FB2F8(void *, int);
+void func_00258040(int *, void *);
+void func_001FB018(int);
+void func_0011BC88(void *, float *, float *);
+int func_00132B10(int, int);
+void *func_001A6318(int);
+float func_0011D948(F2 *, float);
+void func_0014F610(struct G *, float);
+
+void func_0014FF38(struct X *p)
+{
+    struct G *pg;
+    void *pv;
+    float g;
+    func_0014FCC8(p);
+    pv = func_001FBB90(0x26);
+    func_001FB2F8(pv, 0);
+    func_00258040(&p->x34, pv);
+    {
+        void *pv2 = func_001FBB90(0x25);
+        func_001FB2F8(pv2, 0);
+        func_00258040(&p->x38, pv2);
+    }
+    func_001FB018(p->x34);
+    pg = &D_002DDF40;
+    func_0011BC88(&pg->x60, &p->x10, &p->x14);
+    if (func_00132B10(p->x0, 0x34)) {
+        p->x3C = D_002BD950;
+        p->x44 = D_002BD958;
+    } else {
+        p->x3C = D_002BD968;
+        p->x44 = D_002BD970;
+        p->x4C = p->x10;
+        p->x50 = p->x14;
+        func_0011BC88(func_001A6318(p->x0), &p->x10, &p->x14);
+        g = func_0011D948(&D_002BD960, p->x14);
+        p->x14 = g;
+        p->x3C.a += p->x10;
+        p->x3C.b += p->x10;
+        p->x44.a += g;
+        p->x44.b += g;
+        p->x44.a = func_0011D948(&D_002BD960, p->x14);
+        p->x44.b = func_0011D948(&D_002BD960, p->x14);
+    }
+    p->x18 = 0;
+    p->x1C = 0;
+    p->x20 = 0;
+    p->x24 = 0;
+    p->x2C = D_002DDF40.x24 / p->x28;
+    p->x30 = D_002DDF40.x24;
+    func_0014F610(&D_002DDF40, 49.0f);
+    p->x54++;
+    D_003E1BE0 = D_002DDED0.t;
+}

@@ -1,0 +1,11 @@
+struct U { char pad[0x70]; unsigned long fl70; };
+struct O { char pad[0xEC]; struct U *pEC; };
+struct Y { int pad; struct O *p4; int pad2[2]; unsigned long fl10; };
+struct X { char pad[0x74]; int n74; };
+int func_00132B10(struct O *p, int n);
+int func_00175820(struct X *x, struct Y *p) {
+    if (p->fl10 & (1UL << 48)) return 0;
+    if (p->p4->pEC->fl70 & 4) return 0;
+    if (x->n74 && func_00132B10(p->p4, 0x62)) return 0;
+    return !func_00132B10(p->p4, 0x33);
+}

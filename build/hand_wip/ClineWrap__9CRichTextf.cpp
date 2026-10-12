@@ -1,0 +1,47 @@
+struct CFont;
+extern "C" {
+extern const unsigned char D_002AA6A1[];
+float func_0015F0F0(CFont *pfont, int ch);
+}
+class CRichText {
+public:
+    unsigned char *m_achz;
+    unsigned char *m_pchCur;
+    CFont *m_pfontCur;
+    int ClineWrap(float dxMax);
+};
+extern "C" void func_0015F970(CRichText *p);
+extern "C" int func_0015F9D0(CRichText *p);
+int CRichText::ClineWrap(float dxMax)
+{
+    int cline = 1;
+    float dx = 0.0f;
+    int ch;
+    func_0015F970(this);
+    while ((ch = func_0015F9D0(this)) != 0) {
+        if (ch == '\n') {
+            cline++;
+            dx = 0.0f;
+        } else {
+            dx += func_0015F0F0(m_pfontCur, ch);
+        }
+        if (dxMax != 0.0f && dx > dxMax) {
+            unsigned char *pch;
+            for (pch = m_pchCur - 1; pch >= m_achz && *pch != '\n'; pch--) {
+                if ((*pch == ' ' || *pch == '\t') && !(D_002AA6A1[pch[1]] & 0x10)) {
+                    cline++;
+                    m_pchCur = pch + 1;
+                    dx = 0.0f;
+                    *pch = '\n';
+                    break;
+                }
+            }
+            if (dx != 0.0f && *m_pchCur) {
+                *m_pchCur = '\n';
+                cline++;
+                dx = 0.0f;
+            }
+        }
+    }
+    return cline;
+}

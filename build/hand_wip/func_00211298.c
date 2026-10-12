@@ -1,0 +1,19 @@
+struct G;
+extern struct G D_003DD490;
+struct F { int id; char pad[0x1C]; };
+struct E { int c; struct F *af; char pad[0xC]; int x14; char pad2[4]; };
+extern struct E D_003D9EDC[];
+extern int D_003D9EF4;
+char *func_0013E368(struct G *g, int id);
+void func_0021ED58(char *dst, char *src);
+void func_00211298(char *dst, int k)
+{
+    struct E *e = &D_003D9EDC[D_003D9EF4];
+    int n = e->c;
+    if (n) {
+        int j = k + e->x14 - 3;
+        while (j < 0)
+            j += n;
+        func_0021ED58(dst, func_0013E368(&D_003DD490, e->af[j % n].id));
+    }
+}

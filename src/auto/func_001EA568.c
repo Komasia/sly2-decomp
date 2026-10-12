@@ -1,0 +1,45 @@
+#include "m2c_prelude.h"
+M2C_UNK func_001ED278(u32);                         /* extern */
+extern s32 D_003DCFF0;
+extern void *D_003DCFF4;
+extern s32 D_003DCFF8;
+extern s32 D_003DCFFC;
+
+void func_001EA568(s32 arg0) {
+    s32 var_a0;
+    s32 var_a1;
+    u32 temp_v1;
+    u32 var_s0;
+    void *temp_s1;
+    void *var_v1;
+
+    var_a1 = 0;
+    if (D_003DCFF8 > 0) {
+        do {
+            temp_s1 = D_003DCFFC + (var_a1 << 5);
+            if (M2C_FIELD(temp_s1, u8 *, 4) == 1) {
+                temp_v1 = arg0 + M2C_FIELD(temp_s1, u32 *, 0xC);
+                M2C_FIELD(temp_s1, u32 *, 0xC) = temp_v1;
+                var_s0 = temp_v1;
+                if (var_s0 < (u32) (var_s0 + (M2C_FIELD(temp_s1, u16 *, 8) * 4))) {
+                    do {
+                        func_001ED278(var_s0);
+                        var_s0 += 4;
+                    } while (var_s0 < (u32) (M2C_FIELD(temp_s1, u32 *, 0xC) + (M2C_FIELD(temp_s1, u16 *, 8) * 4)));
+                }
+            }
+            var_a1 += 1;
+        } while (var_a1 < D_003DCFF8);
+    }
+    if (D_003DCFF0 > 0) {
+        var_a0 = D_003DCFF0;
+        var_v1 = D_003DCFF4;
+        do {
+            var_a0 -= 1;
+            if (M2C_FIELD(var_v1, u8 *, 4) == 1) {
+                M2C_FIELD(var_v1, s32 *, 0x14) = (s32) (arg0 + M2C_FIELD(var_v1, s32 *, 0x14));
+            }
+            var_v1 += 0x28;
+        } while (var_a0 != 0);
+    }
+}

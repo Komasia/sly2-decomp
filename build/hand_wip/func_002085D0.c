@@ -1,0 +1,50 @@
+struct E { int id; int n4; float t8; int pad; };
+struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
+struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
+extern struct { float t; float dt; } D_002DDED0;
+struct E *func_00154180(struct T *pt, int id);
+void *func_002332B8(void *d, void *s, int n);
+
+int func_002085D0(struct S *p, int id, int fFront)
+{
+    struct E *e;
+    struct T *pt;
+    unsigned int n;
+    if (!id || (struct S *)id == p)
+        return 0;
+    e = 0;
+    if (!fFront)
+        e = func_00154180(p->pt, id);
+    if (!e) {
+        pt = p->pt;
+        n = pt->c;
+        if (n >= 8) {
+            int c;
+            if (!fFront) {
+                c = p->c3A4;
+                if (c > 0) {
+                    p->c3A4 = c - 1;
+                    e = &pt->a[8 - c];
+                    func_002332B8(e + 1, e, (c - 1) * 16);
+                    e->id = id;
+                    goto fill;
+                }
+            }
+        } else {
+            if (fFront) {
+                e = &pt->a[n];
+            } else {
+                int c = p->c3A4;
+                e = &pt->a[n - c];
+                func_002332B8(e + 1, e, c * 16);
+            }
+            e->id = id;
+        fill:
+            e->n4 = 0;
+            e->t8 = D_002DDED0.t;
+            p->pt->c++;
+            return 1;
+        }
+    }
+    return 0;
+}

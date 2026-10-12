@@ -1,0 +1,40 @@
+# splat config for Sly 2: Band of Thieves NTSC-U (SCUS_973.16). Regenerates asm/ (optional; used by show.py/automatch).
+name: Sly 2 - Band of Thieves (USA)
+sha1: de2af92a54de71e33edc8a160c31c0337a95e6f5
+options:
+  basename: SCUS_973.16
+  target_path: disc/SCUS_973.16
+  elf_path: SCUS_973.16
+  base_path: ..
+  platform: ps2
+  compiler: EEGCC
+  asm_path: asm
+  src_path: src
+  build_path: build/splat
+  generate_asm_macros_files: False
+  disasm_unknown: True
+  rodata_string_guesser_level: 2
+  migrate_rodata_to_functions: True
+  create_undefined_funcs_auto: True
+  undefined_funcs_auto_path: build/splat/undefined_funcs_auto.txt
+  create_undefined_syms_auto: True
+  undefined_syms_auto_path: build/splat/undefined_syms_auto.txt
+  symbol_addrs_path: config/symbol_addrs.txt
+  section_order: [".text", ".vutext", ".rodata", ".data", ".bss"]
+  subalign: 8
+  gp_value: 0x2E5270
+segments:
+  - [0, databin, elf_header]
+  - name: main
+    type: code
+    start: 0x80
+    vram: 0x100000
+    bss_size: 0x174FD0
+    subsegments:
+    - [0x80, asm, text]
+    - [0x159e70, textbin, vutext]
+    - [0x162400, rodata]
+    - [0x1ac900, data]
+    - { start: 0x1dd2b0, type: bss, vram: 0x2dd230 }
+  - [0x1dd2b0, databin, irx_and_overlays]
+  - [0x27a0b8]

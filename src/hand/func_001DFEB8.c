@@ -1,0 +1,58 @@
+typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
+typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
+extern DLI *D_002DD2FC;
+typedef struct OBJ OBJ;
+typedef struct VT { struct { short d; short pad; void (*pfn)(void *, int, int, int, int, int); } a[8]; } VT;
+struct OBJ {
+    char pad[0xC];
+    VT *vt;
+    char pad10[0x40 - 0x10];
+    int x40;
+    char pad44[0x5C - 0x44];
+    DL dl;
+    char pad68[0x6C - 0x68];
+    int x6C;
+    int x70;
+    int x74;
+    int x78;
+};
+void func_001E5628(void *);
+void func_001E0120(OBJ *);
+void func_001A6CA8(OBJ *, int);
+static inline void InitDli(DLI *pdli, DL *pdl)
+{
+    pdli->pdl = pdl;
+    pdli->ppv = (void **)pdl;
+    pdli->ibDle = pdl->ibDle;
+    pdli->pdliNext = D_002DD2FC;
+    D_002DD2FC = pdli;
+}
+static inline void *PvNextDli(DLI *pdli)
+{
+    void *pv = *pdli->ppv;
+    pdli->ppv = (void **)((char *)pv + pdli->ibDle);
+    return pv;
+}
+void func_001DFEB8(OBJ *p)
+{
+    DLI dli;
+    void *pv;
+    if (p->x74 == 0)
+        return;
+    p->x6C = 0;
+    p->x70 = 0;
+    p->x74 = 0;
+    InitDli(&dli, &p->dl);
+    while ((pv = PvNextDli(&dli)) != 0)
+        func_001E5628(pv);
+    func_001E0120(p);
+    if (p->x78) {
+        func_001A6CA8(p, 2);
+        if ((p->x40 ^ 1) & 1)
+            *(int *)p->x40 &= ~2;
+        else
+            p->x40 &= ~2;
+    }
+    p->vt->a[3].pfn((char *)p + p->vt->a[3].d, 6, 0, 0, 0, 0);
+    D_002DD2FC = dli.pdliNext;
+}

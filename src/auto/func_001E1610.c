@@ -1,0 +1,8 @@
+#include "m2c_prelude.h"
+void func_001E1610(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    void *temp_v0;
+
+    temp_v0 = func_001E01F8(arg0, 0x45, arg3);
+    M2C_FIELD(temp_v0, s32 *, 0x10) = arg1;
+    M2C_FIELD(temp_v0, s32 *, 0x14) = arg2;
+}

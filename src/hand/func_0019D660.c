@@ -1,0 +1,64 @@
+struct O;
+typedef struct { short d; short pad; void (*pfn)(void *, ...); } VTE;
+struct O { char pad[0xC]; VTE *vt; char pad2[0x58 - 0x10]; int x58; };
+struct B { char pad[0x1A8]; float x1a8; };
+struct A { struct B *x0; char pad[0x1C]; int x20; char pad2[0x18]; float x3c; };
+struct S { struct A *x0; int x4; struct O *x8; int xc; struct O *x10; void *x14; };
+extern char D_002DEB30[];
+extern char D_004435F0[];
+void func_0019D948(struct S *p);
+void func_001619A0(void *p, int n, int m);
+void func_00213B00(struct O *p, int n);
+void func_00212E40(struct O *p, int n, float f);
+void func_00227788(void *p);
+void func_00202768(void *p, int n);
+void func_00212A70(struct O *p, int n);
+void func_00212A50(struct O *p, int n);
+void func_0019D660(struct S *p, int st)
+{
+    int old;
+    if (p->x4 == st) return;
+    if (p->x4 == -1) func_0019D948(p);
+    old = p->x4;
+    p->x4 = st;
+    switch (st) {
+    case 0:
+        if (p->x0->x20 == 1) func_001619A0(D_002DEB30, 0xC, 0);
+        else func_001619A0(D_002DEB30, 7, 0);
+        if (p->x8) {
+            p->x8->vt[49].pfn((char *)p->x8 + p->x8->vt[49].d, -1);
+            func_00213B00(p->x8, 0x352);
+            func_00213B00(p->x8, 0x351);
+            func_00212E40(p->x8, 0x352, (p->x0->x0->x1a8 + 3.1415927f) * 0.15915494f);
+            func_00212E40(p->x8, 0x351, p->x0->x3c);
+        }
+        if (p->x0->x20 == 1) {
+            func_00227788(D_004435F0);
+            if (p->x10) p->x10->vt[49].pfn((char *)p->x10 + p->x10->vt[49].d, -1);
+        }
+        if (p->x14) func_00202768(p->x14, 0);
+        break;
+    case 2:
+        if (p->x0->x20 == 1) func_001619A0(D_002DEB30, 0xD, 0);
+        else func_001619A0(D_002DEB30, 8, 0);
+        if (p->x8) p->x8->vt[50].pfn((char *)p->x8 + p->x8->vt[50].d);
+        if (p->x10) p->x10->vt[50].pfn((char *)p->x10 + p->x10->vt[50].d);
+        if (p->x14) func_00202768(p->x14, 10);
+        break;
+    case -1:
+        if (old != 2) {
+            if (p->x0->x20 == 1) func_001619A0(D_002DEB30, 0xD, 0);
+            else func_001619A0(D_002DEB30, 8, 0);
+        }
+        if (p->x8 && p->x8->x58) {
+            func_00212A70(p->x8, 1);
+            func_00212A50(p->x8, 1);
+        }
+        if (p->x10 && p->x10->x58) {
+            func_00212A70(p->x10, 1);
+            func_00212A50(p->x10, 1);
+        }
+        if (p->x14) func_00202768(p->x14, -1);
+        break;
+    }
+}
