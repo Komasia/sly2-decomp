@@ -17,9 +17,13 @@ def pin_loop_branches(text):
         m = re.match(r'^(\$L\d+|\.L\w+):', l)
         if m: labels[m.group(1)] = i
     out = []
+    noreorder = False
     for i, l in enumerate(lines):
+        st = l.strip()
+        if st == '.set\tnoreorder' or st == '.set noreorder': noreorder = True
+        elif st == '.set\treorder' or st == '.set reorder': noreorder = False
         m = re.match(r'^\s+(\w+)\s+(.*)$', l)
-        if m and m.group(1).startswith('b') and m.group(1) not in ('break',):
+        if m and not noreorder and m.group(1).startswith('b') and m.group(1) not in ('break',):
             target = m.group(2).split(',')[-1].strip()
             if target in labels and labels[target] < i:     # backward branch = loop branch
                 # a label right before the branch stops GNU as moving the previous insn into its slot
@@ -28,9 +32,46 @@ def pin_loop_branches(text):
         out.append(l)
     return '\n'.join(out)
 
-def assemble(s_path, obj, root):
+def unfill_short_loops(text, loopmax=5):
+    """gcc reorg filled every slot; Sony's toolchain left the slot of a short single-block loop empty (nop).
+    Move the slot instruction of such loop branches back in front of the branch (agents' gnu-reorg model)."""
+    L = text.split('\n'); labels = {}
+    for i, l in enumerate(L):
+        m = re.match(r'^(\$L\d+):', l)
+        if m: labels[m.group(1)] = i
+    out = []; i = 0
+    def isloop(a, b):
+        for q in range(a, b):
+            if re.match(r'^\s+(j\w*|b\w*)\s', L[q]) and not re.match(r'^\s+(jal|break)\s', L[q]): return False
+        n = sum(1 for q in range(a, b) if re.match(r'^\s+[a-z]', L[q]) and not L[q].strip().startswith('.'))
+        return n <= loopmax
+    while i < len(L):
+        l = L[i]
+        if l.strip() == '.set\tnoreorder' and i + 5 < len(L) and L[i+1].strip() == '.set\tnomacro':
+            br = L[i+2]; slot = L[i+3]
+            m = re.match(r'^\s+(b\w*)\s+(.*)$', br)
+            if m and not m.group(1).endswith('l') and L[i+4].strip() == '.set\tmacro' and L[i+5].strip() == '.set\treorder':
+                tgt = m.group(2).split(',')[-1].strip()
+                sm = re.match(r'^\s+\w+\s+(\$\w+)', slot)
+                regs = set(re.findall(r'\$\w+', m.group(2)))
+                wr_br = sm and sm.group(1) in regs
+                if tgt in labels and labels[tgt] < i and isloop(labels[tgt], i) and not wr_br:
+                    if slot.strip() != 'nop':
+                        k = len(out) - 1
+                        while k >= 0 and (out[k].strip() == '' or out[k].strip().startswith('#')): k -= 1
+                        pm = re.match(r'^\s+\w+\s+(\$\w+)', out[k]) if k >= 0 else None
+                        if pm and pm.group(1) in regs: out.insert(k, slot)
+                        else: out.append(slot)
+                    out.append(br); i += 6; continue
+        out.append(l); i += 1
+    return '\n'.join(out)
+
+def assemble(s_path, obj, root, mode='gnu-reorder'):
     g = os.path.join(root, 'tools', 'compilers', 'ee-gcc2.96')
-    txt = pin_loop_branches(open(s_path).read())
+    txt = open(s_path).read()
+    if mode == 'gnu-reorg':
+        txt = unfill_short_loops(txt)
+    txt = pin_loop_branches(txt)
     s2 = s_path + '.gr.s'
     open(s2, 'w').write(txt)
     p = subprocess.run([os.path.join(g, 'ee', 'bin', 'as'), '-G0', '-EL', '-mabi=eabi', '-o', obj, s2],

@@ -158,15 +158,20 @@ def compile_src(src):
     if m:
         lang = ['-x', 'c'] if src.endswith('.c') else ['-x', 'c++']
         flags = lang + m.group(1).split() + [x for x in flags if x.startswith('-B') or x.startswith('-I')]
-    if _re.search(r'SLY2_ASM:\s*gnu-reorder', head):
+    _am = _re.search(r'SLY2_ASM:\s*(gnu-reorder-db|gnu-reorder|gnu-reorg)\b', head)
+    if _am:
+        # gnu-reorder    : no gcc delay-slot filling; GNU as fills slots (libkernel)
+        # gnu-reorder-db : gcc fills slots (reorg), GNU as fills what is left (libm, libmpeg, printf, alarm)
+        # gnu-reorg      : as gnu-reorder-db, but short single-block loop slots are left empty (libgcc, libgraph)
+        asm_mode = _am.group(1)
         # SDK path: compile to .s without delay-slot filling, then GNU-as reorder assembly (tools/gnu_reorder.py)
         import gnu_reorder
         s_out = out + '.s'
         real = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'wibo-i686')
-        scmd = ([] if native else [real]) + [cc, '-S'] + INCLUDES + [x for x in flags] + ['-fno-delayed-branch', src, '-o', s_out]
+        scmd = ([] if native else [real]) + [cc, '-S'] + INCLUDES + [x for x in flags] + (['-fno-delayed-branch'] if asm_mode == 'gnu-reorder' else []) + [src, '-o', s_out]
         if native: scmd = [x for x in scmd if x != '-mvu0-use-vf0-vf31']
         p = subprocess.run(scmd, capture_output=True, text=True, cwd=ROOT, timeout=300)
-        if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT):
+        if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode):
             print(p.stdout + p.stderr); sys.exit(1)
         return out
     cmd = ([] if native else [WIBO]) + [cc, '-c'] + INCLUDES + flags + [src, '-o', out]

@@ -129,3 +129,13 @@ real names you are confident about (from Sly 1 counterparts, strings, vtables), 
   (tools/gnu_reorder.py adds -fno-delayed-branch, pins loop branches, assembles with ee-gcc2.96's GNU as.)
   Verified: kCopy, kCopy_00239898, kputchar, memclr match this way. Also try SLY2_CC: tools/compilers/ee-gcc2.96 with it.
 - Do NOT add your own `nop`s for delay slots or short-loop padding in this mode; the assembler handles them.
+
+## SDK build modes (round 10) — pick per library, all with SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
+| `// SLY2_ASM:` | Model | Libraries seen so far (verified matches) |
+|---|---|---|
+| `gnu-reorder`    | gcc delay-slot filling OFF, GNU as fills slots, loop slots stay nop | libkernel: kCopy*, memclr, kputchar, DIntr, _sceIDC |
+| `gnu-reorder-db` | gcc reorg fills slots (incl. from branch targets, beql), GNU as fills what's left | libmpeg/libipu (sceMpegInit, sceIpuSync), libm (floorf), libgraph/libdma (sceDmaPutEnv), libgcc fp-bit (__pack_d) |
+| `gnu-reorg`      | as gnu-reorder-db, but slots of short (<=5 insn) single-block loops are emptied | libgcc dp-bit (litodp) |
+- Try `-fstrict-aliasing` in SLY2_CFLAGS: Sony's lib build had it on for some files (sceDmaPutEnv, iAllocTimerCounter).
+- Still unsolved toolchain issues (skip these functions): `$s` regs saved with `sd` into 16-byte slots; frameless `j` tail calls;
+  `mult1`/`mult` constant strides (scePad); the mfc1->branch hazard nop in libm.

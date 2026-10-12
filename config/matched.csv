@@ -5362,7 +5362,9 @@ func_0023B270,0x23B270,4,match,src/lib/syscall/func_0023B270.c
 func_0023B280,0x23B280,4,match,src/lib/syscall/func_0023B280.c
 func_0023B358,0x23B358,4,match,src/lib/syscall/func_0023B358.c
 InitTLB,0x23B368,16,match,src/lib/InitTLB.c
+__pack_d,0x23D338,75,match,src/lib/__pack_d.c
 __fpcmp_parts_d,0x23DC18,69,match,src/lib/__fpcmp_parts_d.c
+litodp,0x23DD80,46,match,src/lib/litodp.c
 dptoli,0x23DE38,37,match,src/lib/dptoli.c
 dptoul,0x23DED0,40,match,src/lib/dptoul.c
 __make_dp,0x23DF70,11,match,src/lib/__make_dp.c
@@ -5398,12 +5400,14 @@ func_00240C28,0x240C28,4,match,src/lib/syscall/func_00240C28.c
 CheckAddress,0x2413E0,10,match,src/lib/CheckAddress.c
 memclr,0x241408,13,match,src/lib/memclr.c
 sceDmaGetChan,0x241440,10,match,src/lib/sceDmaGetChan.c
+sceDmaPutEnv,0x241548,118,match,src/lib/sceDmaPutEnv.c
 sceDmaSync,0x2417F0,14,match,src/lib/sceDmaSync.c
 sceCdGetReadPos,0x242810,12,match,src/lib/sceCdGetReadPos.c
 sceCdGetDiskType_242AB8,0x242AB8,9,match,src/lib/sceCdGetDiskType_242AB8.c
 sceMcMkdir,0x244018,13,match,src/lib/sceMcMkdir.c
 cosf,0x244E10,58,match,src/lib/cosf.c
 func_00244EF8,0x244EF8,7,match,src/lib/func_00244EF8.c
+floorf,0x244F18,57,match,src/lib/floorf.c
 sinf,0x245000,60,match,src/lib/sinf.c
 tanf,0x2450F0,34,match,src/lib/tanf.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
@@ -5412,6 +5416,7 @@ matherr,0x249CB8,9,match,src/lib/matherr.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
+sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
 func_0024B530,0x24B530,2,match,src/auto/func_0024B530.c
 sceMpegGetPicture,0x24B540,18,match,src/lib/sceMpegGetPicture.c
 func_0024B610,0x24B610,3,match,src/auto/func_0024B610.c
@@ -5428,6 +5433,7 @@ _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
 _sceMpegStopIpuDma,0x24F8D0,40,match,src/lib/_sceMpegStopIpuDma.c
 _sceMpegError,0x24FA38,21,match,src/lib/_sceMpegError.c
+sceIpuSync,0x254BC0,26,match,src/lib/sceIpuSync.c
 func_00254F00,0x254F00,104,match,src/lib/func_00254F00.c
 func_002550A0,0x2550A0,22,match,src/lib/func_002550A0.c
 func_002550F8,0x2550F8,84,match,src/hand/func_002550F8.c
