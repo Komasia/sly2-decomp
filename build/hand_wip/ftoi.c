@@ -1,5 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// Round 9: this module (printf: ftoi, snprintf_char) = gcc reorg ON + GNU as filling the rest. With a scratch pipeline
+// (2.95.3 -O2 -G0 WITH delayed-branch, then tools/gnu_reorder.assemble) the `jr; dsra32` tail matches; only the
+// a1/a2 (m/e) register swap remains (21 diffs, all reg names). Needs a gnu-reorder variant without -fno-delayed-branch.
 int ftoi(unsigned long d)
 {
     long e;

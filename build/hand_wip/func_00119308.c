@@ -1,3 +1,4 @@
+/* 2 diff: swc1 x/y store order (target x then y); qmfc2+sw done in one asm to get the d store first */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { float x, y, z; } VECTOR;
 typedef struct { VECTOR normal; float d; } PLANE;
@@ -38,9 +39,6 @@ void func_00119308(PLANE *pplane, qword a, qword b, qword c)
     int n;
     u.q = Normalize(Cross(Sub(b, a), Sub(c, a)));
     d = Dot3(u.q, a);
-    __asm__("qmfc2.ni %0, %1" : "=r"(n) : "j"(d));
-    pplane->normal.x = u.v.x;
-    pplane->normal.y = u.v.y;
-    pplane->normal.z = u.v.z;
-    *(int *)&pplane->d = n;
+    __asm__("qmfc2.ni %0, %2\n\tsw %0, %1" : "=r"(n), "=m"(pplane->d) : "j"(d));
+    pplane->normal.y = u.v.y; pplane->normal.z = u.v.z; pplane->normal.x = u.v.x;
 }

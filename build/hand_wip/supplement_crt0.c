@@ -1,5 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// SLY2_ASM: gnu-reorder
+// Round 9 (gnu-reorder): all 720 orders of the 6 stores tried, with and without -fstrict-aliasing: best 6/24. Target issues
+// the two address stores (option) first; our scheduler issues them last - same scheduler difference as sceFsReset.
 struct SemaParam {
     int currentCount;
     int maxCount;

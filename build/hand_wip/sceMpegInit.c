@@ -1,5 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// SLY2_ASM: gnu-reorder
+// NOTE: exact MATCH when compiled WITH delayed-branch filling + GNU as reorder (see notes/245000.md round 9); not with current gnu-reorder (-fno-delayed-branch).
 int func_00239450(void);
 int func_002394A0(void);
 void sceIpuInit(void);
