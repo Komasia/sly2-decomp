@@ -139,3 +139,8 @@ real names you are confident about (from Sly 1 counterparts, strings, vtables), 
 - Try `-fstrict-aliasing` in SLY2_CFLAGS: Sony's lib build had it on for some files (sceDmaPutEnv, iAllocTimerCounter).
 - Still unsolved toolchain issues (skip these functions): `$s` regs saved with `sd` into 16-byte slots; frameless `j` tail calls;
   `mult1`/`mult` constant strides (scePad); the mfc1->branch hazard nop in libm.
+
+## Housekeeping rules
+- Never `mv`/`cp` anything to /dev/null or other system paths. To set a file aside, move it to build/hand_wip/.
+- Never run git. The coordinator commits and pushes.
+- Ranges 0x190000–0x230000 belong to a human collaborator (see ASSIGNMENTS.md): do not add or change files for functions there.
