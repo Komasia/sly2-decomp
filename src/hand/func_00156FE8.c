@@ -14,18 +14,19 @@ static __inline__ float DistXY(qword d)
     __asm__("qmfc2.ni %0, %1" : "=r"(dist) : "j"(l));
     return dist;
 }
+static __inline__ int FIn(qword d, float g) { return DistXY(d) < g; }
 int func_00156FE8(struct LO *plo, struct P *p)
 {
     struct Q *pq;
-    qword d, l, pos;
-    float dist;
-    int f;
-    if (!plo->f)
-        return 0;
-    pq = p->pq;
-    if (pq->x50)
-        return 0;
-    pos = func_001A62E8(plo);
-    __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(p->v20));
-    return func_0011D910(&pq->x58, GetZ(d)) && DistXY(d) < pq->g54;
+    qword d, pos;
+    if (plo->f) {
+        pq = p->pq;
+        if (!pq->x50) {
+            pos = func_001A62E8(plo);
+            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(p->v20));
+            if (func_0011D910(&pq->x58, GetZ(d)) && FIn(d, pq->g54))
+                return 1;
+        }
+    }
+    return 0;
 }

@@ -948,6 +948,7 @@ func_0011B628,0x11B628,61,match,src/hand/func_0011B628.c
 func_0011B720,0x11B720,48,match,src/hand/func_0011B720.c
 func_0011B7E0,0x11B7E0,18,match,src/hand/func_0011B7E0.c
 DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1,0x11BC88,27,match,src/hand/DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1.cpp
+DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR,0x11BCF8,176,match,src/hand/DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR.cpp
 func_0011BFB8,0x11BFB8,14,match,src/hand/func_0011BFB8.c
 __ml__FRC7MATRIX4G8VU_FLOAT,0x11C128,15,match,src/hand/__ml__FRC7MATRIX4G8VU_FLOAT.cpp
 func_0011C168,0x11C168,16,match,src/hand/func_0011C168.c
@@ -988,8 +989,10 @@ FCheckLm__FP2LMf,0x11D910,12,match,src/auto/FCheckLm__FP2LMf.c
 GLimitLm__FP2LMf,0x11D948,12,match,src/hand/GLimitLm__FP2LMf.cpp
 func_0011D978,0x11D978,24,match,src/hand/func_0011D978.c
 func_0011D9D8,0x11D9D8,2,match,src/auto/func_0011D9D8.c
+MinimizeRange__FPFPvf_fPvffffPfT6,0x11D9E0,188,match,src/hand/MinimizeRange__FPFPvf_fPvffffPfT6.cpp
 func_0011DCD8,0x11DCD8,22,match,src/hand/func_0011DCD8.c
 func_0011DD30,0x11DD30,24,match,src/hand/func_0011DD30.c
+func_0011DD90,0x11DD90,131,match,src/hand/func_0011DD90.c
 ConvertUserHsvToUserRgb__FP6VECTORT0,0x11DFA0,32,match,src/hand/ConvertUserHsvToUserRgb__FP6VECTORT0.cpp
 func_0011E040,0x11E040,77,match,src/auto/func_0011E040.c
 func_0011E178,0x11E178,8,match,src/auto/func_0011E178.c
@@ -1565,6 +1568,7 @@ func_0013CEF8,0x13CEF8,15,match,src/hand/func_0013CEF8.c
 func_0013CF38,0x13CF38,39,match,src/hand/func_0013CF38.c
 func_0013CFD8,0x13CFD8,17,match,src/hand/func_0013CFD8.c
 func_0013D020,0x13D020,98,match,src/hand/func_0013D020.c
+func_0013D1A8,0x13D1A8,39,match,src/hand/func_0013D1A8.cpp
 func_0013D248,0x13D248,55,match,src/hand/func_0013D248.c
 func_0013D400,0x13D400,77,match,src/auto/func_0013D400.c
 func_0013D538,0x13D538,8,match,src/auto/func_0013D538.c
@@ -1719,6 +1723,7 @@ func_00146790,0x146790,4,match,src/auto/func_00146790.c
 func_00146E18,0x146E18,31,match,src/hand/func_00146E18.c
 func_00146E98,0x146E98,18,match,src/auto/func_00146E98.c
 func_00146EE0,0x146EE0,14,match,src/hand/func_00146EE0.c
+func_00146F18,0x146F18,83,match,src/hand/func_00146F18.c
 func_00147068,0x147068,77,match,src/auto/func_00147068.c
 func_001471A0,0x1471A0,8,match,src/auto/func_001471A0.c
 func_001471C0,0x1471C0,24,match,src/hand/func_001471C0.c
@@ -1921,6 +1926,8 @@ func_00150E60,0x150E60,15,match,src/auto/func_00150E60.c
 func_00150EA0,0x150EA0,17,match,src/auto/func_00150EA0.c
 func_00150EE8,0x150EE8,2,match,src/auto/func_00150EE8.c
 func_00150EF0,0x150EF0,26,match,src/hand/func_00150EF0.c
+func_00150F58,0x150F58,47,match,src/hand/func_00150F58.c
+func_00151018,0x151018,47,match,src/hand/func_00151018.c
 func_001510D8,0x1510D8,22,match,src/hand/func_001510D8.c
 func_00151130,0x151130,53,match,src/hand/func_00151130.c
 func_00151208,0x151208,13,match,src/auto/func_00151208.c
@@ -2014,6 +2021,7 @@ func_00156728,0x156728,21,match,src/auto/func_00156728.c
 func_00156780,0x156780,60,match,src/hand/func_00156780.cpp
 func_00156870,0x156870,10,match,src/auto/func_00156870.c
 func_00156898,0x156898,31,match,src/hand/func_00156898.c
+func_00156918,0x156918,40,match,src/hand/func_00156918.c
 func_00156B98,0x156B98,17,match,src/hand/func_00156B98.c
 func_00156BE0,0x156BE0,40,match,src/hand/func_00156BE0.c
 func_00156C80,0x156C80,18,match,src/hand/func_00156C80.c
@@ -2023,6 +2031,7 @@ func_00156D58,0x156D58,16,match,src/auto/func_00156D58.c
 func_00156D98,0x156D98,18,match,src/hand/func_00156D98.c
 func_00156DE0,0x156DE0,53,match,src/hand/func_00156DE0.c
 func_00156EB8,0x156EB8,75,match,src/hand/func_00156EB8.c
+func_00156FE8,0x156FE8,48,match,src/hand/func_00156FE8.c
 func_001570A8,0x1570A8,77,match,src/auto/func_001570A8.c
 func_001571E0,0x1571E0,8,match,src/auto/func_001571E0.c
 StartupDma__Fv,0x157200,29,match,src/auto/StartupDma__Fv.c
@@ -2086,6 +2095,7 @@ func_0015B0C8,0x15B0C8,57,match,src/hand/func_0015B0C8.c
 func_0015B1B0,0x15B1B0,158,match,src/hand/func_0015B1B0.cpp
 func_0015BD20,0x15BD20,66,match,src/hand/func_0015BD20.cpp
 func_0015BE28,0x15BE28,68,match,src/hand/func_0015BE28.c
+func_0015BF40,0x15BF40,37,match,src/hand/func_0015BF40.c
 func_0015C150,0x15C150,18,match,src/hand/func_0015C150.c
 func_0015C198,0x15C198,17,match,src/hand/func_0015C198.c
 func_0015C1E0,0x15C1E0,2,match,src/auto/func_0015C1E0.c
@@ -2358,6 +2368,7 @@ func_001713E8,0x1713E8,28,match,src/auto/func_001713E8.c
 func_00171458,0x171458,3,match,src/auto/func_00171458.c
 func_00171468,0x171468,84,match,src/hand/func_00171468.c
 func_001715B8,0x1715B8,13,match,src/hand/func_001715B8.c
+func_001715F0,0x1715F0,321,match,src/hand/func_001715F0.cpp
 func_00171AF8,0x171AF8,25,match,src/hand/func_00171AF8.c
 func_00171B60,0x171B60,45,match,src/hand/func_00171B60.c
 func_00171C18,0x171C18,31,match,src/hand/func_00171C18.c
@@ -2406,6 +2417,7 @@ func_001749C0,0x1749C0,89,match,src/hand/func_001749C0.c
 func_00174B28,0x174B28,15,match,src/auto/func_00174B28.c
 func_00174B68,0x174B68,25,match,src/hand/func_00174B68.c
 func_00174EA0,0x174EA0,26,match,src/hand/func_00174EA0.c
+func_00174F08,0x174F08,43,match,src/hand/func_00174F08.c
 func_00174FB8,0x174FB8,4,match,src/auto/func_00174FB8.c
 func_00174FC8,0x174FC8,11,match,src/hand/func_00174FC8.c
 func_00174FF8,0x174FF8,38,match,src/hand/func_00174FF8.c
@@ -2445,6 +2457,7 @@ func_00177E80,0x177E80,27,match,src/hand/func_00177E80.c
 func_00177EF0,0x177EF0,34,match,src/hand/func_00177EF0.c
 func_001789F8,0x1789F8,184,match,src/hand/func_001789F8.c
 func_00178CD8,0x178CD8,8,match,src/auto/func_00178CD8.c
+func_00178D00,0x178D00,31,match,src/hand/func_00178D00.c
 func_00178D80,0x178D80,4,match,src/auto/func_00178D80.c
 func_00178D90,0x178D90,65,match,src/hand/func_00178D90.c
 func_00178E98,0x178E98,17,match,src/hand/func_00178E98.c
@@ -2470,6 +2483,7 @@ func_00179EF8,0x179EF8,30,match,src/hand/func_00179EF8.c
 func_00179F70,0x179F70,11,match,src/hand/func_00179F70.c
 func_0017A3D0,0x17A3D0,11,match,src/auto/func_0017A3D0.c
 func_0017A400,0x17A400,25,match,src/hand/func_0017A400.c
+func_0017A468,0x17A468,17,match,src/hand/func_0017A468.c
 func_0017A4B0,0x17A4B0,13,match,src/auto/func_0017A4B0.c
 func_0017A4E8,0x17A4E8,27,match,src/hand/func_0017A4E8.c
 func_0017A558,0x17A558,22,match,src/hand/func_0017A558.c
@@ -5172,9 +5186,11 @@ func_002330D0,0x2330D0,20,match,src/lib/func_002330D0.c
 func_00233130,0x233130,16,match,src/lib/func_00233130.c
 atoi,0x233800,10,match,src/lib/atoi.c
 func_00233828,0x233828,37,match,src/lib/func_00233828.c
+qsort,0x2338C0,631,match,src/lib/qsort.c
 rand,0x2342A0,12,match,src/auto/rand.c
 rand,0x2342A0,12,match,src/lib/rand.c
 func_002342D0,0x2342D0,31,match,src/lib/func_002342D0.c
+func_00234350,0x234350,139,match,src/lib/func_00234350.c
 func_00234580,0x234580,13,match,src/auto/func_00234580.c
 func_002345B8,0x2345B8,8,match,src/lib/func_002345B8.c
 func_00234600,0x234600,4,match,src/lib/syscall/func_00234600.c
@@ -5349,6 +5365,7 @@ kCopy_00239920,0x239920,14,match,src/lib/kCopy_00239920.c
 func_00239958,0x239958,4,match,src/lib/syscall/func_00239958.c
 SetT2,0x239A40,28,match,src/lib/SetT2.c
 UnlinkAlarm,0x239EF0,14,match,src/lib/UnlinkAlarm.c
+iGetTimerSystemTime,0x23A1D0,19,match,src/lib/iGetTimerSystemTime.c
 iAllocTimerCounter,0x23A228,28,match,src/lib/iAllocTimerCounter.c
 func_0023A9C8,0x23A9C8,3,match,src/auto/func_0023A9C8.c
 kputs,0x23AA40,9,match,src/lib/kputs.c
@@ -5356,6 +5373,7 @@ func_0023AAB8,0x23AAB8,3,match,src/auto/func_0023AAB8.c
 func_0023AAC8,0x23AAC8,6,match,src/lib/func_0023AAC8.c
 sceSifExitCmd,0x23AD70,13,match,src/lib/sceSifExitCmd.c
 sceSifRemoveCmdHandler,0x23AE20,19,match,src/lib/sceSifRemoveCmdHandler.c
+sceSifWriteBackDCache,0x23B170,43,match,src/lib/sceSifWriteBackDCache.c
 func_0023B228,0x23B228,4,match,src/lib/syscall/func_0023B228.c
 kCopy_0023B238,0x23B238,14,match,src/lib/kCopy_0023B238.c
 func_0023B270,0x23B270,4,match,src/lib/syscall/func_0023B270.c
@@ -5375,14 +5393,18 @@ fptoui,0x23E1C8,38,match,src/lib/fptoui.c
 __make_fp,0x23E260,11,match,src/lib/__make_fp.c
 func_0023E2D0,0x23E2D0,4,match,src/lib/func_0023E2D0.c
 __terminate,0x23E2E0,9,match,src/lib/__terminate.c
+__throw_type_match,0x23E308,11,match,src/lib/__throw_type_match.c
 func_0023E338,0x23E338,2,match,src/auto/func_0023E338.c
+new_eh_context,0x23E340,21,match,src/lib/new_eh_context.c
 func_0023E398,0x23E398,9,match,src/auto/func_0023E398.c
 __get_eh_info,0x23E3C0,10,match,src/lib/__get_eh_info.c
 eh_context_initialize,0x23E3E8,10,match,src/lib/eh_context_initialize.c
 __get_dynamic_handler_chain,0x23E478,10,match,src/lib/__get_dynamic_handler_chain.c
+__eh_rtime_match,0x23E730,18,match,src/lib/__eh_rtime_match.c
 func_0023E778,0x23E778,2,match,src/auto/func_0023E778.c
 func_0023E780,0x23E780,2,match,src/auto/func_0023E780.c
 old_find_exception_handler,0x23E788,54,match,src/lib/old_find_exception_handler.c
+next_stack_level,0x23EAB0,35,match,src/lib/next_stack_level.c
 func_0023EB40,0x23EB40,2,match,src/auto/func_0023EB40.c
 decode_uleb128,0x23F240,17,match,src/lib/decode_uleb128.c
 decode_sleb128,0x23F288,20,match,src/lib/decode_sleb128.c
@@ -5397,10 +5419,13 @@ sceGsPutDrawEnv,0x2406C0,58,match,src/lib/sceGsPutDrawEnv.c
 func_00240AE0,0x240AE0,34,match,src/lib/func_00240AE0.c
 func_00240B68,0x240B68,7,match,src/auto/func_00240B68.c
 func_00240C28,0x240C28,4,match,src/lib/syscall/func_00240C28.c
+WaitDma,0x241368,28,match,src/lib/WaitDma.c
 CheckAddress,0x2413E0,10,match,src/lib/CheckAddress.c
 memclr,0x241408,13,match,src/lib/memclr.c
 sceDmaGetChan,0x241440,10,match,src/lib/sceDmaGetChan.c
 sceDmaPutEnv,0x241548,118,match,src/lib/sceDmaPutEnv.c
+sceDmaSend,0x241728,26,match,src/lib/sceDmaSend.c
+sceDmaRecv,0x2417A0,18,match,src/lib/sceDmaRecv.c
 sceDmaSync,0x2417F0,14,match,src/lib/sceDmaSync.c
 sceCdGetReadPos,0x242810,12,match,src/lib/sceCdGetReadPos.c
 sceCdGetDiskType_242AB8,0x242AB8,9,match,src/lib/sceCdGetDiskType_242AB8.c
@@ -5433,6 +5458,7 @@ _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
 _sceMpegStopIpuDma,0x24F8D0,40,match,src/lib/_sceMpegStopIpuDma.c
 _sceMpegError,0x24FA38,21,match,src/lib/_sceMpegError.c
+_dualPrimeVector,0x24FAD0,97,match,src/lib/_dualPrimeVector.c
 sceIpuSync,0x254BC0,26,match,src/lib/sceIpuSync.c
 func_00254F00,0x254F00,104,match,src/lib/func_00254F00.c
 func_002550A0,0x2550A0,22,match,src/lib/func_002550A0.c
@@ -5541,6 +5567,7 @@ func_00258898,0x258898,34,match,src/lib/func_00258898.c
 func_00258920,0x258920,34,match,src/lib/func_00258920.c
 func_002589A8,0x2589A8,17,match,src/auto/func_002589A8.c
 func_002589F0,0x2589F0,3,match,src/auto/func_002589F0.c
+func_00258A00,0x258A00,45,match,src/hand/func_00258A00.c
 func_00258AB8,0x258AB8,3,match,src/auto/func_00258AB8.c
 func_00258AC8,0x258AC8,14,match,src/auto/func_00258AC8.c
 func_00258B00,0x258B00,14,match,src/auto/func_00258B00.c
@@ -5563,6 +5590,7 @@ func_00259330,0x259330,34,match,src/lib/func_00259330.c
 func_002593B8,0x2593B8,34,match,src/lib/func_002593B8.c
 func_00259440,0x259440,17,match,src/auto/func_00259440.c
 func_00259488,0x259488,3,match,src/auto/func_00259488.c
+func_00259498,0x259498,45,match,src/hand/func_00259498.c
 func_00259550,0x259550,3,match,src/auto/func_00259550.c
 func_00259560,0x259560,14,match,src/auto/func_00259560.c
 func_00259598,0x259598,14,match,src/auto/func_00259598.c
