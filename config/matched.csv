@@ -5559,6 +5559,7 @@ func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
 matherr,0x249CB8,9,match,src/lib/matherr.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
+func_0024A0E8,0x24A0E8,88,match,src/lib/func_0024A0E8.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
 func_0024B530,0x24B530,2,match,src/auto/func_0024B530.c
