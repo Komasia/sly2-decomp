@@ -25,7 +25,7 @@ Re-check with `python3 tools/worklist.py LO HI 100000`.
 | 0x230000–0x25A000 (Sony SDK, libc, 989snd, game code) | 438 | 33,250 |
 
 ## Extra ranges for the collaborator (Komasia is away until Thursday 2026-10-15)
-While Komasia is offline, the collaborator can **also** take these ranges from Komasia's side. Nobody else will touch them until Komasia hands back on Thursday:
+While Komasia is offline, the collaborator can **also** take these ranges from Komasia's side. Nobody else will touch them until Komasia comes back on Thursday:
 | Range | What | Notes file |
 |---|---|---|
 | 0x160000–0x170000 | engine core | notes/160000.md |
