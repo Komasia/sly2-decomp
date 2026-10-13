@@ -1,5 +1,5 @@
-/* 22 diffs: gcc turns (q->aep[0].p == p) index into movn select; target uses sltiu/sll 6/addu. Also reg alloc. */
-typedef struct { int a, b; } PAIR;
+// Remove contacts linking the owner to the selected object.
+typedef struct { short kind,index; union { short item; int value; } payload; } PAIR;
 typedef struct OBJ OBJ;
 typedef struct EP { void *p; char pad[0x3C]; } EP;
 typedef struct LNK {
@@ -28,7 +28,8 @@ void func_001DEEA8(OBJ *p, void *x)
         LNK **pp = &p->ae[i].pHead;
         LNK *q;
         while ((q = *pp) != 0) {
-            if (x == ((EP *)((char *)q->aep + ((q->aep[0].p == p) << 6)))->p) {
+            int side = q->aep[0].p == p;
+            if (x == ((EP *)((char *)q+((unsigned int)side<<6)+8))->p) {
                 *pp = q->pNext;
                 q->pNext = list;
                 list = q;
