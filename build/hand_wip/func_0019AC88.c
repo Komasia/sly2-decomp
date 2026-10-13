@@ -25,7 +25,10 @@ float func_0019AC88(struct P *p, float t)
  o=p->a->p;
  pos=func_001A62E8(o);
  vel=p->v10;
- func_00185D18(pv, pos, vel, o->xE8->v80, o->f1F30, t, &a.q, &b.q, &c.q);
+ {
+ register qword vv __asm__("$6")=vel;
+ func_00185D18(pv, pos, vv, o->xE8->v80, o->f1F30, t, &a.q, &b.q, &c.q);
+ }
  func_00117120(t,0.0f,1.0f,pos,vel,b.q,c.q,0,0,&d.q);
  g=Len(d.q);
  func_00117120(t,t,1.0f,pos,vel,b.q,c.q,0,0,&e.q);
