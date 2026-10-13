@@ -1,39 +1,39 @@
-/* WIP: blocked by toolchain: the two 'if (!func_0014B9C0()) while (1);' infinite loops - original pads them to 4 nops+b+delay (6), our asm pads to 7 (also with explicit asm nops). Rest close (remaining: 0xFFFC0 min select form, DMA store order). */
-struct E { int cb; int src; int x8; int xC; int x10; };
+/* WIP: five differences in the DMA chunk minimum and destination address allocation. */
+struct E { int cb; int src; int x8; const char *xC; int x10; };
 struct DMA { int src; int dst; int size; int x; };
 extern struct E *D_004E5D80;
 extern struct E *D_004E5E38;
 extern int D_002E2058;
 extern char D_002A6A48[];
 void func_00236A60(int n);
-void func_00238F00(void);
-void func_002420F0(int n);
+int func_00238F00(void);
+int func_002420F0(int n);
 int func_0014B9C0(void);
 void func_0014BA00(void);
-void func_00237E70(void);
+int func_00237E70(void);
 void func_0014BBB0(void *p, char *s, int n);
 int func_00239340(void *p);
 int func_002392F0(void);
-void func_002425F0(int n);
+int func_002425F0(int n);
 void func_0014BD30(int n);
-void func_00238BD0(void);
-int func_00238C58(int cb);
+int func_00238BD0(void);
+void *func_00238C58(int cb);
 void func_00234CA0(int n);
 int func_00234DE0(struct DMA *p, int n);
-int func_00239140(int h, int a, int b);
-void func_00238D40(int h);
+int func_00239140(void *h, int argc, const char *args);
+int func_00238D40(void *h);
 void func_001A7630(void)
 {
     union { char buf[0x100]; struct DMA dma; } u;
     struct E *pe;
     int cbMax;
-    int h;
+    void *h;
     func_00236A60(0);
     func_00238F00();
     func_002420F0(0);
     if (!func_0014B9C0())
         while (1)
-            __asm__ __volatile__("nop\n\tnop\n\tnop\n\tnop");
+            ;
     func_0014BA00();
     func_00237E70();
     if (!D_002E2058) {
@@ -47,12 +47,12 @@ void func_001A7630(void)
         func_002420F0(0);
         if (!func_0014B9C0())
             while (1)
-                __asm__ __volatile__("nop\n\tnop\n\tnop\n\tnop");
+                ;
         func_0014BA00();
         func_00237E70();
-        func_002425F0(0);
-        func_0014BD30(1);
     }
+    func_002425F0(0);
+    func_0014BD30(1);
     func_00238BD0();
     cbMax = 0;
     {
@@ -66,11 +66,10 @@ void func_001A7630(void)
         int cb = pe->cb;
         int off = 0;
         while (cb) {
-            int c = 0xFFFC0;
-            if (cb < c)
-                c = cb;
+            register int limit __asm__("$2")=0xFFFC0;
+            int c=limit; if(cb<limit)c=cb;
             u.dma.src = pe->src + off;
-            u.dma.dst = h + off;
+            u.dma.dst = (int)((char*)h + off);
             u.dma.size = c;
             u.dma.x = 0;
             func_00234CA0(0);

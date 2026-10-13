@@ -5,7 +5,7 @@ struct M3 { qword r[3]; };
 struct S { char pad[0x10C]; void *curve; char pad1[0x120-0x110]; int polar; char pad120[0x12C-0x124]; int arc; char pad2[0x140-0x130]; float time; char pad3[0x150-0x144]; qword origin; float radius; };
 extern "C" {
 void func_001E6F10(void *, float, qword *, qword *);
-M3 *func_0011B830(M3 *,qword,qword);
+M3 func_0011B830(qword,qword);
 qword func_0011E1A0(float,float,float);
 M3 *func_001A6318(struct S *);
 qword func_001A6F00(void *,void *,qword);
@@ -26,7 +26,7 @@ __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvm
 __asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q" : "=j"(len) : "j"(len));
 __asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q" : "=j"(r) : "j"(v),"0"(len));
 return r; }
-static inline M3 Basis(qword a,qword b) return r { func_0011B830(&r,a,b); }
+
 static inline qword Rotate(const M3 &m,qword v) {
     __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z" : "+j"(v) : "j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2])); return v;
 }
@@ -48,7 +48,7 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
     if(p->polar) pos.q=func_0011E1A0(pos.f[0],pos.f[1],pos.f[2]);
     if(p->curve) {
         func_001E6F10(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
-        m=Basis(normal.q,D_002A2DC0);
+        m=func_0011B830(normal.q,D_002A2DC0);
         rotated.q=Rotate(m,pos.q);
     } else if(p->arc) {
         float period=p->radius*6.2831855f;
@@ -58,7 +58,7 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
         qword arc=center.q;
         center.q=Add(arc,p->origin);
         normal.q=Normalize(Cross(D_002A2DC0,arc));
-        m=Basis(normal.q,D_002A2DC0);
+        m=func_0011B830(normal.q,D_002A2DC0);
         rotated.q=Rotate(m,pos.q);
     } else {
         center.i[0]=center.i[1]=center.i[2]=0;

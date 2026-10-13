@@ -15,6 +15,7 @@ extern "C" M3 *func_001A6318(struct O *o);
 extern "C" void func_00117308(M3 *a, float g, float dt, float one, qword v, M3 *pm, qword z, M3 *pm2, int n);
 extern "C" M3 func_0011BC00(M3 *a, M3 *b);
 extern "C" void func_0011BCF8(M3 *pm, float *pg, U *pv);
+static inline qword Scale(qword v,float g){U u;register qword s __asm__("vf2");qword r;__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(g));__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));u.q=s;return r;}
 extern "C" void func_0019DF70(struct P *p)
 {
     M3 m, m2, m4;
@@ -37,11 +38,5 @@ extern "C" void func_0019DF70(struct P *p)
     }
     m4 = func_0011BC00(func_001A6318(p->x0), pm);
     func_0011BCF8(&m4, &f, &vec);
-    {
-        qword s;
-        qword r;
-        __asm__("qmtc2.ni %1, %0" : "=j"(s) : "r"(f / D_002DDED0.dt));
-        __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(vec.q), "j"(s));
-        ((void (*)(void *, qword))p->x0->vt[36].pfn)((char *)p->x0 + p->x0->vt[36].d, r);
-    }
+    {O *o=p->x0;VT *vt=o->vt;void (*call)(void *,qword)=(void(*)(void*,qword))vt[36].pfn;void *thisp=(char*)o+vt[36].d;call(thisp,Scale(vec.q,f/D_002DDED0.dt));}
 }

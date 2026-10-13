@@ -1,4 +1,3 @@
-// WIP: store p->g=1 is scheduled before vsqrt in ours; target loads g_clock.t after div.s and stores g,t,f at the end (+ mtc1->div.s hazard nop).
 typedef int qword __attribute__((mode(TI)));
 struct S { int a; int k; char pad[0x20]; float r; char pad2[0xB4]; qword e0; char pad3[0x10]; qword p100; qword p110; float t; float f; int g; };
 struct CLOCK { float t; float dt; };
@@ -18,8 +17,8 @@ void func_00220508(struct S *p, void *q)
         __asm__("qmfc2.ni %0, %1" : "=r"(len) : "j"(r));
         {
             float f = len / p->r;
-            p->g = 1;
             p->t = D_002DDED0.t;
+            p->g = 1;
             p->f = f;
         }
     }

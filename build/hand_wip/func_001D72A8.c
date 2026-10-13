@@ -43,7 +43,8 @@ void func_001D72A8(OBJ *p)
         pad = D_002E0D00;
     n = func_00187E88(pad);
     if (n == 0) {
-        for (i = 0, pe = p->ae; i < p->c; i++, pe++) {
+        for (i = 0, pe = p->ae; ; i++, pe++) {
+            if(i>=p->c)goto done;
             if (pe->p == func_001F07E8(p->x188) && func_00187D80(pad, pe->fl) && pe->n != -1) {
                 OBJ *q;
                 if (pe->n != 0x378) {
@@ -61,4 +62,5 @@ void func_001D72A8(OBJ *p)
     } else {
         func_001D77D0(p, n);
     }
+done:return;
 }
