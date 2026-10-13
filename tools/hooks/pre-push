@@ -1,0 +1,22 @@
+#!/bin/bash
+# Keeps the README progress graph current. Enable once per clone with:
+#   git config core.hooksPath tools/hooks
+# On `git push`: if the commits being pushed change src/ but not the progress files, this runs
+# tools/progress.py, commits the refreshed graph, and stops the push so you can push again
+# (git won't add a new commit to a push that has already started).
+# Skip it once with: git push --no-verify
+ROOT=$(git rev-parse --show-toplevel); cd "$ROOT" || exit 0
+while read -r lref lsha rref rsha; do
+  [ "$lsha" = "0000000000000000000000000000000000000000" ] && continue
+  if [ "$rsha" = "0000000000000000000000000000000000000000" ]; then base=$(git merge-base "$lsha" origin/main 2>/dev/null); else base=$rsha; fi
+  [ -z "$base" ] && continue
+  changed=$(git diff --name-only "$base" "$lsha")
+  echo "$changed" | grep -q '^src/' || continue
+  echo "$changed" | grep -q '^config/matched.csv$' && continue
+  echo "[pre-push] src/ changed but progress wasn't re-measured. Running tools/progress.py (takes a few minutes)..."
+  if ! python3 tools/progress.py; then echo "[pre-push] progress.py failed; pushing anyway."; exit 0; fi
+  git add config/matched.csv config/progress_history.csv docs/progress.svg 2>/dev/null
+  if git diff --cached --quiet; then exit 0; fi
+  git commit -q -m "Update progress graph" && echo "[pre-push] Progress graph updated and committed. Run git push again to send it." && exit 1
+done
+exit 0
