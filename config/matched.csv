@@ -2615,6 +2615,7 @@ UseStepguardDeathAnimation__FP9STEPGUARDi3OID,0x1800A0,13,match,src/auto/UseStep
 func_001800D8,0x1800D8,9,match,src/hand/func_001800D8.c
 func_00180100,0x180100,34,match,src/hand/func_00180100.c
 func_00180188,0x180188,11,match,src/hand/func_00180188.c
+func_001801B8,0x1801B8,124,match,src/hand/func_001801B8.cpp
 func_001803A8,0x1803A8,14,match,src/hand/func_001803A8.c
 func_001803E0,0x1803E0,37,match,src/hand/func_001803E0.c
 func_00180478,0x180478,33,match,src/hand/func_00180478.c
@@ -2942,6 +2943,7 @@ func_001A2358,0x1A2358,11,match,src/hand/func_001A2358.c
 func_001A2388,0x1A2388,13,match,src/hand/func_001A2388.c
 func_001A23C0,0x1A23C0,14,match,src/hand/func_001A23C0.c
 func_001A23F8,0x1A23F8,25,match,src/hand/func_001A23F8.c
+func_001A2460,0x1A2460,202,match,src/hand/func_001A2460.cpp
 func_001A2788,0x1A2788,73,match,src/hand/func_001A2788.cpp
 func_001A28B0,0x1A28B0,114,match,src/hand/func_001A28B0.c
 func_001A2A78,0x1A2A78,77,match,src/auto/func_001A2A78.c
@@ -5062,6 +5064,7 @@ func_00225AA8,0x225AA8,15,match,src/hand/func_00225AA8.c
 func_00225AE8,0x225AE8,29,match,src/hand/func_00225AE8.c
 func_00225B60,0x225B60,15,match,src/auto/func_00225B60.c
 func_00225BA0,0x225BA0,189,match,src/hand/func_00225BA0.cpp
+func_00225E98,0x225E98,238,match,src/hand/func_00225E98.cpp
 func_00226250,0x226250,48,match,src/hand/func_00226250.c
 func_00226310,0x226310,23,match,src/hand/func_00226310.c
 func_00226370,0x226370,33,match,src/hand/func_00226370.c
@@ -5172,6 +5175,7 @@ func_0022B700,0x22B700,8,match,src/auto/func_0022B700.c
 func_0022B720,0x22B720,31,match,src/hand/func_0022B720.c
 func_0022B7A0,0x22B7A0,14,match,src/auto/func_0022B7A0.c
 UNoise__Fi,0x22BE08,22,match,src/hand/UNoise__Fi.cpp
+UNoise__Ffff,0x22BE60,55,match,src/hand/UNoise__Ffff.cpp
 UBias__Fff,0x22BF40,12,match,src/auto/UBias__Fff.c
 GFromOnz__FP3ONZ,0x22BF70,45,match,src/hand/GFromOnz__FP3ONZ.cpp
 AddWrCircleWarp__FP2WR,0x22C3B0,32,match,src/hand/AddWrCircleWarp__FP2WR.cpp

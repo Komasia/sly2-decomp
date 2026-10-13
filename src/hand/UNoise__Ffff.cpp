@@ -1,7 +1,19 @@
+// Interpolate alternating noise samples with smoothstep.
 struct CLOCK { float t; float dt; };
 extern CLOCK g_clock __asm__("D_002DDED0");
 float UNoise(int n);
-static inline float GSmooth(float s) { return (3.0f - 2.0f * s) * s * s; }
+static inline float GSmooth(float s)
+{
+    float twice=s+s;
+    register float square __asm__("$f3")=s;
+    __asm__("mul.s %0,%0,%0":"+f"(square));
+    return square*(3.0f-twice);
+}
+static inline float Product(float a,float b)
+{
+    __asm__("mul.s %0,%1,%0":"+f"(b):"f"(a));
+    return b;
+}
 float UNoise(float gFreq, float gPhase, float u1)
 {
     float uRandom = u1;
@@ -16,5 +28,5 @@ float UNoise(float gFreq, float gPhase, float u1)
         u1 *= uRandom;
         u0 = uRandom * (u0 - 1.0f) + 1.0f;
     }
-    return u0 + (u1 - u0) * GSmooth(t - n);
+    return u0+Product(GSmooth(t-n),u1-u0);
 }
