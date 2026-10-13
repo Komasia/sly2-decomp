@@ -1,0 +1,46 @@
+typedef int qword __attribute__((mode(TI)));
+typedef union {qword q;float f[4];} V;
+struct COEF {float a,b,c;};
+struct VE {short d,pad;qword(*fn)(void*);};
+struct OWNER {char pad[0xA0];void *parent;char padA4[0x4C];qword force;};
+struct S {char pad[0xC];struct VE *vt;char pad10[0x48];struct OWNER *owner;};
+struct CLOCK {float time,dt;};
+extern struct CLOCK D_002DDED0;
+qword func_001A62E8(struct S*);
+qword func_0022FCC8(void*,void*,qword);
+static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline float Length(qword a){qword r,one;float f;
+__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(r),"=&j"(one):"j"(a));
+__asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(r):"0"(r));
+__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
+static inline qword Scalar(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
+static inline qword AddScaled(qword a,qword b,qword scale){qword r;
+__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=&j"(r):"j"(a),"j"(b),"j"(scale));return r;}
+void func_001F5E10(struct S*p,qword position,struct COEF*c,qword velocity,struct COEF*d)
+{
+ V argument,point,old1,scale1,speed,old2,scale2;
+ struct OWNER *owner=p->owner;
+ point.q=position;speed.q=velocity;
+ if(c){
+   qword difference=Sub(point.q,func_001A62E8(p));
+   float distance=Length(difference);
+   if(1.0e-4f<distance){
+     float value=(c->c*distance+c->b)+c->a/distance;
+     old1.q=owner->force;
+     argument.q=Scalar(value);scale1=argument;
+     owner->force=AddScaled(old1.q,func_0022FCC8(0,owner->parent,difference),scale1.q);
+   }
+ }
+ if(d){
+   qword difference=Sub(speed.q,p->vt[33].fn((char*)p+p->vt[33].d));
+   float distance=Length(difference);
+   if(1.0e-4f<distance){
+     float value=(d->c*distance+d->b)+d->a/distance;
+     float limit=1.0f/D_002DDED0.dt;
+     if(limit<value)value=limit;
+     argument.q=Scalar(value);scale2=argument;
+     old2.q=owner->force;
+     owner->force=AddScaled(old2.q,func_0022FCC8(0,owner->parent,difference),scale2.q);
+   }
+ }
+}

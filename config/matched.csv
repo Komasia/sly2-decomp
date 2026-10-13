@@ -4979,6 +4979,8 @@ FNegTftUl__FP3TFTP2UL,0x21DB38,56,match,src/hand/FNegTftUl__FP3TFTP2UL.cpp
 UnRadixFromChConversion__Fc,0x21DC18,21,match,src/hand/UnRadixFromChConversion__Fc.c
 CchAchFromUl__FPciUlUi,0x21DC70,52,match,src/hand/CchAchFromUl__FPciUlUi.cpp
 ExpFirstFromG__Fd,0x21E048,36,match,src/hand/ExpFirstFromG__Fd.cpp
+CchAchFromDouble__FPciP3TFTd,0x21E1B0,194,match,src/hand/CchAchFromDouble__FPciP3TFTd.cpp
+WriteTftDouble__FP3TFTP5OSTRMd,0x21E4B8,151,match,src/hand/WriteTftDouble__FP3TFTP5OSTRMd.cpp
 vprintf,0x21EBB8,23,match,src/hand/vprintf.c
 kprintf,0x21EC18,18,match,src/hand/kprintf.c
 s1_vsprintf,0x21EC60,29,match,src/hand/s1_vsprintf.c
