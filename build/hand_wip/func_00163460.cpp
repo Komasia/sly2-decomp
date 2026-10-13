@@ -1,24 +1,22 @@
-/* CRef temporaries (same unsolved pattern as func_001617E0): target recomputes &temp each use, we keep them in s-regs */
-class CRef {
-public:
-    int m_tagk;
-    int m_tag;
-    CRef(int n) { m_tagk = 0x15; m_tag = n; }
-    CRef(const CRef &ref);
-    ~CRef() { Decref(); }
-    void Decref();
+// WIP: 15/80 differences, boolean copy/return slots30/40 versus10/20; frame90 versus70.
+extern "C" {void*func_001291A8(void*,const void*);void func_00129EC8(void*);}
+struct CRef{
+ int m_tagk;
+ union{int m_tag;float m_g;};
+ CRef(int n){m_tagk=0x15;m_tag=n;}
+ CRef(bool f){m_tagk=0x17;m_tag=f;}
+ CRef(float g){m_tagk=0x16;m_g=g;}
+ CRef(const CRef&r){func_001291A8(this,&r);}
+ ~CRef(){func_00129EC8(this);}
 };
-class OPT {
-public:
-    int n0, n4;
-    CRef RefSet(CRef ref, void *q);
-};
-struct S { char pad[0x7C]; int f7c; char pad1[0xA4 - 0x80]; float fa4; char pad2[0xD0 - 0xA8]; OPT od0; OPT od8; OPT oe0; };
+struct OPT{int kind,value;};
+struct S{char pad[0x7C];int n;char pad80[0x24];float g;char padA8[0x28];OPT a,b,c;};
 extern char D_003D4A60[];
-extern "C" void func_00163460(S *p)
-{
-    if (p->od0.n0) {
-        CRef ref(p->f7c);
-        p->od0.RefSet(ref, D_003D4A60);
-    }
+extern "C" CRef func_00258200(OPT*,const CRef&,void*);
+extern "C" int func_00163400(S*);
+static inline void SetPv(OPT*p,const CRef&r,void*context=0){CRef arg(r);const CRef&ret=func_00258200(p,arg,D_003D4A60);}
+extern "C" void func_00163460(S*p){
+ {OPT*opt=&p->a;if(opt->kind){CRef r(p->n);SetPv(opt,r);}}
+ {OPT*opt=&p->b;if(opt->kind){void*key=D_003D4A60;int f=func_00163400(p);{CRef r(f!=0);SetPv(opt,r,key);}}}
+ {OPT*opt=&p->c;if(opt->kind){CRef r(p->g);SetPv(opt,r);}}
 }
