@@ -20,7 +20,7 @@ typedef struct S {
 extern int func_00242810(void);
 extern int func_00241E88(int);
 extern int func_00242AE0(void);
-extern void func_0014BC78(int isector, int csector, void *pv, int mode);
+extern void func_0014BC78(unsigned int isector, unsigned int csector, void *pv, int mode);
 
 static __inline__ int Min(int a, int b) { return a < b ? a : b; }
 void func_001849A0(S *p)
@@ -32,11 +32,7 @@ void func_001849A0(S *p)
     p->cb = 0;
     cbuf = p->cbSpool / p->x54;
 
-
-
     if (cbuf > 0x8000) cbuf &= -0x8000; else cbuf &= -0x800;
-
-
 
     if (p->x58 > 0) {
         n = p->x5c + 1;
@@ -66,9 +62,13 @@ void func_001849A0(S *p)
                     p->x4c = 0;
                 } else {
                     int c = p->x40;
+                    register int mode __asm__("$7") = 0;
+                    register int index __asm__("$9") = p->x60;
+                    char *buffer = p->abSpool + index * cbuf + c;
+                    unsigned int count = ((p->x44 - c + 0x7FF) & -0x800) >> 11;
+                    unsigned int sector = p->x50 + c / 0x800;
                     p->x4c = c;
-                    func_0014BC78(p->x50 + c / 0x800, ((p->x44 - c + 0x7FF) & -0x800) >> 11,
-                                  p->abSpool + p->x60 * cbuf + c, 0);
+                    func_0014BC78(sector, count, buffer, mode);
                 }
             }
         }
@@ -80,9 +80,12 @@ void func_001849A0(S *p)
             p->x40 = 0;
             p->x44 = c;
             p->x60 = (p->x60 + 1) % p->x54;
-            p->x58++;
-
-            func_0014BC78(p->x50, ((c + 0x7FF) & -0x800) >> 11, p->abSpool + p->x60 * cbuf, 0);
+            {
+                unsigned int sector = p->x50;
+                char *buffer = p->abSpool + p->x60 * cbuf;
+                p->x58++;
+                func_0014BC78(sector, ((c + 0x7FF) & -0x800) >> 11, buffer, 0);
+            }
         }
 
         if (p->x58 == 0) {
@@ -91,9 +94,7 @@ void func_001849A0(S *p)
             int c = (p->x58 == 1) ? p->x40 : cbuf;
             int v = c - (p->pb - (p->abSpool + p->x5c * cbuf));
 
-
             p->cb = Min(v, 0x1000);
-
 
         }
     } while (p->cb == 0 && p->x48 > 0);
