@@ -1,10 +1,12 @@
-/* WIP 21/112: regalloc (&x in s1 not s0; &y via s0 instead of a0->s5) and k==0 test form (target bnel/b). Structure, FRAME/Y ctor-dtor, SetKey inline right. */
-struct FRAME { int a[4]; FRAME(); ~FRAME(); };
+/* WIP 21/112: key/stream register allocation and nullable-key branch shape. */
+struct FRAME;extern "C" void func_001AE4A0(FRAME*,int);
+struct FRAME {FRAME()__asm__("func_001AE478");~FRAME(){func_001AE4A0(this,2);}};
 struct MSG { int cb; int nKind; };
 struct X;
 extern "C" void func_00258248(X *px);
 struct X { int x0; int x4; int x8; char pad[0x110 - 0xC]; X() { x8 = 2; func_00258248(this); } };
-struct Y { char pad[0x70]; Y(int cb, void *pv, int n) __asm__("func_001848A8"); ~Y(); };
+struct Y;extern "C" void func_00184950(Y*,int);
+struct Y { char pad[0x70]; Y(int cb, void *pv, int n) __asm__("func_001848A8"); ~Y(){func_00184950(this,2);} };
 struct K { int x0; int x4; char pad[0x34 - 8]; int x34; int pad2; int x3C; };
 extern "C" {
 extern char D_002A6CB8[];
