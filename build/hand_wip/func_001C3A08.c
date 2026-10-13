@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct VECTOR { float x, y, z, w; } __attribute__((aligned(16))) VECTOR;
 extern float D_002C0D04;
 void func_001C3500(void *p, int n, qword *pv);
-void func_001E6F10(void *p, float g, VECTOR *pv, int n);
+void func_001E6F10(void *p, float g, VECTOR *pv, VECTOR *tangent);
 
 void func_001C3A08(void *p, int unused, qword *pvec, float g)
 {

@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
-struct S { int a0; int a4; int pad[2]; qword v; };
-void func_001E67B8(int, float, qword *, int);
-qword func_001FA970(int, qword);
+struct S { void *a0; void *a4; int pad[2]; qword v; };
+void func_001E67B8(void *, float, qword *, qword *);
+qword func_001FA970(void *, qword);
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline float LenSq(qword a) {
     qword d,one;float r;
