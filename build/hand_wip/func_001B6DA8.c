@@ -18,7 +18,7 @@ struct P {
 void func_001A7E10(void *pg, struct LINK *pl);
 void *func_001F7530(void *p, int n);
 void *func_002333B4(void *p, int c, int cb);
-void func_001F7598(struct MSG *pmsg);
+void *func_001F7598(struct MSG *pmsg);
 float *func_0012F938(void *p, int n);
 void func_00130D30(struct Q *p, int n, float g, float h);
 void func_00130B18(struct Q *p);
@@ -42,7 +42,7 @@ void func_001B6DA8(struct P *p, int s)
     case 1: {
         union { qword q; float f[4]; } u;
         qword v, up, d, k, r;
-        struct VT *vt;
+        register struct VT *vt __asm__("$5");
         v = ((qword (*)(void *))p->vt[33].pfn)((char *)p + p->vt[33].d);
         up = D_002A2DC0;
         vt = p->vt;
@@ -74,7 +74,7 @@ void func_001B6DA8(struct P *p, int s)
                 msg.x10 = -20;
                 msg.v20 = pso->v10;
                 msg.v30 = psm->v30;
-                func_001F7598(&msg);
+                (void)func_001F7598(&msg);
             }
         }
         func_001A7E10(D_003DD490, p->plink);

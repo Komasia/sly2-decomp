@@ -3076,6 +3076,7 @@ ClsgClipSoAllEdges__FP2SOT0P3BSPiP3LSG,0x1A80D8,71,match,src/hand/ClsgClipSoAllE
 func_001A81F8,0x1A81F8,134,match,src/hand/func_001A81F8.c
 func_001A86B8,0x1A86B8,78,match,src/hand/func_001A86B8.c
 func_001A9C40,0x1A9C40,62,match,src/hand/func_001A9C40.c
+func_001A9D38,0x1A9D38,170,match,src/hand/func_001A9D38.cpp
 func_001A9FE0,0x1A9FE0,16,match,src/hand/func_001A9FE0.c
 func_001AA020,0x1AA020,35,match,src/hand/func_001AA020.c
 func_001AA0B0,0x1AA0B0,74,match,src/hand/func_001AA0B0.c
