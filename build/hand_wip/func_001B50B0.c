@@ -46,11 +46,14 @@ static inline void Neg(struct P *p, qword v)
 }
 static inline void Neg2(struct P *p, qword v)
 {
+    struct PL *pl = p->p1030;
     union { qword q; float f[4]; } u;
-    qword b = Bcast(-1.0f), r;
+    register qword b __asm__("vf2"); qword r;
+    __asm__("qmtc2.ni %1, %0" : "=j"(b) : "r"(-1.0f) : "memory");
     u.q = b;
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r) : "j"(b), "j"(v));
     p->v190 = r;
+    func_00131A00(p->pl->g1C, pl);
 }
 void func_001B50B0(struct P *p)
 {
@@ -93,7 +96,6 @@ void func_001B50B0(struct P *p)
         break;
     case 18:
         Neg2(p, func_00204E38(p, p->p1030, p->p1030->g1C));
-        func_00131A00(p->pl->g1C, p->p1030);
         func_00204660(p, p->pl->g18);
         break;
     }

@@ -41,7 +41,7 @@ void func_0013FF70(struct S *p);
 void func_0020B840(void *a, struct S *p, int n);
 void func_0020BD78(void *a);
 void func_0021F2E0(void *a, struct S *p);
-static inline void Init(struct SUB *ps) { ps->f2 = 4500.0f; ps->f1 = 1.0f; ps->i = 0; }
+static inline void Init(struct SUB *ps, float f, float g) { ps->f2 = g; ps->f1 = f; ps->i = 0; }
 void func_001B4728(struct S *p)
 {
     func_0013FF70(p);
@@ -63,14 +63,17 @@ void func_001B4728(struct S *p)
     func_0020B840((char *)p + 0x1630, p, 0x15);
     func_0020B840((char *)p + 0x1540, p, 0x15);
     func_0020BD78((char *)p + 0x1850);
-    p->x1434 = -60.0f;
-    p->x1098 = -100.0f;
-    p->x109C = 100.0f;
-    p->x10A0 = 50.0f;
-    p->x10A4 = -10.0f;
-    p->sub.f0 = 250.0f;
-    p->x1AC8 = -60.0f;
-    Init(&p->sub);
+    {
+    register float a __asm__("$f6") = -60.0f;
+    register float b __asm__("$f4") = -100.0f;
+    register float c __asm__("$f0") = 100.0f;
+    register float d __asm__("$f1") = -10.0f;
+    register float e __asm__("$f2") = 250.0f;
+    register float f __asm__("$f5") = 1.0f;
+    register float g __asm__("$f3") = 4500.0f;
+    p->x1AC8=a; p->x1434=a; p->x1098=b; p->x109C=c; p->x10A0=50.0f; p->x10A4=d; p->sub.f0=e;
+    Init(&p->sub, f, g);
+    }
     func_0021F2E0((char *)p + 0x1910, p);
     p->x1000 = 4;
     D_002F7900 = p;
