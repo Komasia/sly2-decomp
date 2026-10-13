@@ -1,6 +1,6 @@
 extern char D_002C94A0[];
 struct OBJ;struct X;extern "C" void func_001D4D30(X*,OBJ*);
-void *func_001AE4F8(int);
+extern "C" void *func_001AE4F8(int);
 struct A { int x0; int x4; A() { x0 = 0; x4 = 0; } };
 struct B : A {
     int x8;

@@ -3422,6 +3422,7 @@ func_001BDE18,0x1BDE18,26,match,src/hand/func_001BDE18.c
 func_001BE1E8,0x1BE1E8,21,match,src/hand/func_001BE1E8.c
 func_001BE240,0x1BE240,77,match,src/auto/func_001BE240.c
 func_001BE378,0x1BE378,8,match,src/auto/func_001BE378.c
+func_001BE6F0,0x1BE6F0,168,match,src/hand/func_001BE6F0.cpp
 func_001BE990,0x1BE990,22,match,src/auto/func_001BE990.c
 func_001BE9E8,0x1BE9E8,22,match,src/auto/func_001BE9E8.c
 func_001BEA40,0x1BEA40,18,match,src/auto/func_001BEA40.c

@@ -1,4 +1,3 @@
-// WIP: 1/168 instructions differs; scalar multiply operand order.
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{qword r[3];};
@@ -6,7 +5,8 @@ struct M4{U r[4];};
 struct V3{float f[3];};
 struct PLANE{V3 normal;float distance;};
 struct O{char pad[0x118];O*parent;float fov,clipFar,clipNear;};
-struct P{int width,height;char pad8[8];int x,y;char pad18[8];O*camera;};
+struct QW;
+struct P{int width,height;char pad8[8];int directCount;QW*directData;char pad18[8];O*camera;};
 struct V;
 extern "C" V3 D_002C1F00,D_002C1F10;
 extern "C" M3*func_001A6318(O*);
@@ -17,7 +17,7 @@ extern "C" void func_0011C448(float,float,float,float,float,float,M4*);
 extern "C" void func_0014D8F8(M4*,M4*,M4*);
 extern "C" void func_001574B8(V*);
 extern "C" void func_00226D10(V*);
-extern "C" void func_002270C8(V*,int,int,int);
+extern "C" void func_002270C8(V*,int,QW*,int);
 extern "C" void func_00226D28(V*);
 extern "C" void func_00226CA8(V*,int,int);
 extern "C" void func_00226F28(V*,int,int,void*,int);
@@ -34,7 +34,8 @@ extern "C" void func_001BE6F0(P*p,V*v){
  PLANE planes[2];
  O*object;
  M3*basis;
- float aspect,slope;
+ register float aspect __asm__("$f20");
+ float slope;
  if(!p->camera)return;
  object=p->camera->parent?p->camera->parent:p->camera;
  basis=func_001A6318(object);
@@ -52,7 +53,8 @@ extern "C" void func_001BE6F0(P*p,V*v){
  }
  {qword position=func_001A62E8(object);
  func_00256D18(&view.r[3].q,position);}
- aspect=(float)p->width/(float)p->height;
+ aspect=(float)p->width;
+ aspect/=(float)p->height;
  pv->r[0]=minus2;
  pv->r[1]=minus0;
  pv->r[2]=copy1;
@@ -74,7 +76,7 @@ extern "C" void func_001BE6F0(P*p,V*v){
  }
  func_001574B8(v);
  func_00226D10(v);
- func_002270C8(v,p->x,p->y,0);
+ func_002270C8(v,p->directCount,p->directData,0);
  func_00226D28(v);
  func_00226CA8(v,0,0);
  func_00226F28(v,0xC,4,&product,2);
