@@ -50,9 +50,9 @@ extern "C" void func_00224820(O *owner,int filter,int channel,qword start,qword 
  LSG hit;V scalar;
  COLL *collider=func_0014CC58(0,start,end,queryCount,objects,&hit);
  if(!collider)return;
- V normal;
+ qword normal;
  O *chain=collider->object;
- normal.q=Normalize(Sub(end,start));
+ normal=Normalize(Sub(end,start));
  O *object=func_001F7530(chain,filter);
  if(!object)return;
  O *body=object->state->owner;
@@ -65,27 +65,27 @@ extern "C" void func_00224820(O *owner,int filter,int channel,qword start,qword 
   qword point=hit.point.q;
   record->owner=owner;
   record->object=object;
-  record->impulse.q=Scale(normal.q,k);
+  record->impulse.q=Scale(normal,k);
   record->filter=filter;record->channel=channel;record->point.q=point;
   scalar.q=k;
  }
  if(!body->physics)return;
- float along=Dot(ToVF(func_0022D348(body->motion,0,hit.point.q)),normal.q);
+ float along=Dot(ToVF(func_0022D348(body->motion,0,hit.point.q)),normal);
  float ratio=along/D_002C4334.f;
  float response=Clamp(D_002C4320.a+ratio*(D_002C4320.b+ratio*D_002C4320.c),D_002BBB60.lo,D_002BBB60.hi);
  if(0.0f<response){
- V impulse,linear,angular;
- {qword k=Scalar(response*D_002C4330);impulse.q=Scale(normal.q,k);scalar.q=k;}
- linear.q=func_001FAA00(body,impulse.q);
- angular.q=func_001FAA48(body,hit.point.q,impulse.q);
+ qword impulse,linear,angular;
+ {qword k=Scalar(response*D_002C4330);impulse=Scale(normal,k);scalar.q=k;}
+ linear=func_001FAA00(body,impulse);
+ angular=func_001FAA48(body,hit.point.q,impulse);
  qword delta=Sub(hit.point.q,body->rotation->position.q);
- float change=Dot(Add(linear.q,CrossXYZ(angular.q,delta)),normal.q);
+ float change=Dot(Add(linear,CrossXYZ(angular,delta)),normal);
  if(0.0f<change){
- V fraction,velocity,spin;
- fraction.q=ScalarBits(ClampLo((D_002C4334.f-along)/change,0.0f,1.0f));
- {qword old=ToVF(Get(body,33));qword k=fraction.q;velocity.q=AddScaled(old,linear.q,k);scalar.q=ToCPU(k);}
- {qword old=ToVF(Get(body,34));qword k=fraction.q;spin.q=AddScaled(old,angular.q,k);scalar.q=ToCPU(k);}
- Set(body,35,velocity.q);Set(body,36,spin.q);
+ qword fraction,velocity,spin;
+ fraction=ScalarBits(ClampLo((D_002C4334.f-along)/change,0.0f,1.0f));
+ {qword old=ToVF(Get(body,33));qword k=fraction;velocity=AddScaled(old,linear,k);scalar.q=ToCPU(k);}
+ {qword old=ToVF(Get(body,34));qword k=fraction;spin=AddScaled(old,angular,k);scalar.q=ToCPU(k);}
+ Set(body,35,velocity);Set(body,36,spin);
  }
  }
 }

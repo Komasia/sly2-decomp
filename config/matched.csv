@@ -2295,6 +2295,7 @@ AddImage__4GIFSi,0x167150,25,match,src/P2/gifs.cpp
 func_001671B8,0x1671B8,77,match,src/auto/func_001671B8.c
 _GLOBAL_$I$g_dro,0x1672F0,8,match,src/auto/_GLOBAL_$I$g_dro.c
 __4CRef,0x167310,4,match,src/auto/__4CRef.c
+func_00167870,0x167870,190,match,src/hand/func_00167870.c
 func_00167B68,0x167B68,142,match,src/hand/func_00167B68.cpp
 func_00167DA0,0x167DA0,45,match,src/hand/func_00167DA0.c
 func_00167F78,0x167F78,17,match,src/hand/func_00167F78.c
@@ -3496,6 +3497,7 @@ func_001C3420,0x1C3420,13,match,src/auto/func_001C3420.c
 func_001C3458,0x1C3458,24,match,src/hand/func_001C3458.c
 func_001C34B8,0x1C34B8,18,match,src/hand/func_001C34B8.c
 func_001C3958,0x1C3958,43,match,src/hand/func_001C3958.c
+func_001C3A08,0x1C3A08,32,match,src/hand/func_001C3A08.c
 func_001C3A88,0x1C3A88,74,match,src/hand/func_001C3A88.c
 func_001C3BB0,0x1C3BB0,22,match,src/hand/func_001C3BB0.c
 func_001C3C08,0x1C3C08,3,match,src/auto/func_001C3C08.c
@@ -3596,6 +3598,7 @@ Begin__5CProg,0x1C8D20,7,match,src/hand/Begin__5CProg.cpp
 SetRemain__5CProgi,0x1C8D40,30,match,src/hand/SetRemain__5CProgi.cpp
 func_001C8DB8,0x1C8DB8,7,match,src/hand/func_001C8DB8.c
 func_001C8DD8,0x1C8DD8,159,match,src/hand/func_001C8DD8.c
+func_001C9058,0x1C9058,14,match,src/hand/func_001C9058.c
 func_001C9090,0x1C9090,2,match,src/auto/func_001C9090.c
 func_001C9098,0x1C9098,14,match,src/auto/func_001C9098.c
 func_001C90D0,0x1C90D0,47,match,src/hand/func_001C90D0.c
@@ -4641,6 +4644,7 @@ func_00207468,0x207468,49,match,src/hand/func_00207468.c
 func_00207530,0x207530,25,match,src/hand/func_00207530.c
 func_00207598,0x207598,14,match,src/hand/func_00207598.c
 func_002075D0,0x2075D0,47,match,src/hand/func_002075D0.c
+func_00207690,0x207690,195,match,src/hand/func_00207690.cpp
 func_002079A0,0x2079A0,16,match,src/hand/func_002079A0.c
 func_002079E0,0x2079E0,16,match,src/hand/func_002079E0.c
 func_00207A20,0x207A20,7,match,src/hand/func_00207A20.c

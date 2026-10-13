@@ -2,6 +2,7 @@
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct M3 {qword r[3];};
+struct M4 {M3 basis;qword position;};
 struct COEF {float f[3];};
 struct O;
 struct VE {short delta,pad;qword (*get)(void *);};
@@ -30,7 +31,7 @@ float func_0011E290(qword,qword,qword *,qword *);
 int func_00230380(int);
 void func_001F5E10(O *,qword,const COEF *,qword,const COEF *);
 void func_001F5C30(O *,const M3 *,const COEF *,qword,const COEF *);
-M3 *func_001A6318(O *);
+M4 *func_001A6318(O *);
 void func_0011B938(const M3 *,M3 *,M3 *);
 void func_0011BCF8(const M3 *,float *,qword *);
 void func_001FAC98(O *,qword);
@@ -93,7 +94,7 @@ extern "C" void func_002297F8(O *a,O *b){
  else Zero(w.velocity,factor);
  float zero=0.0f;
  if(spring!=zero){
-  func_0011B938(func_001A6318(a),&w.phase.basis,0);
+  func_0011B938(&func_001A6318(a)->basis,&w.phase.basis,0);
   func_0011BCF8(&w.phase.basis,&w.angle,&w.axis.vector.q);
   qword k=Scalar(w.angle*Times(spring,3.0f)*span);
   qword rotation=Scale(w.axis.vector.q,k);w.angularNormal.q=k;

@@ -12,7 +12,8 @@ extern CLOCK D_002DDED0;
 extern G D_003DD490;
 extern "C" void func_00230630(P *,OWNER *);
 extern "C" qword *func_00256D18(qword *,qword);
-extern "C" M3 func_0011B570(qword);
+extern "C" M3 *func_0011B570(M3 *,qword);
+static inline M3 BuildRotation(qword vector) return matrix {func_0011B570(&matrix,vector);}
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void func_001F3900(P *);
 extern "C" void func_001F38A8(NODE *);
@@ -48,7 +49,7 @@ extern "C" void func_001F9C48(P *p)
     global=&D_003DD490;
     position->stamp=++global->stamp;
     Clear(positionVelocity);
-    frame=Mul(func_0011B570(Scale(rotation->velocity.q,Scalar(clock->dt*coefficient,&scalar))),rotation->matrix);
+    frame=Mul(BuildRotation(Scale(rotation->velocity.q,Scalar(clock->dt*coefficient,&scalar))),rotation->matrix);
     NormalizeRotateMatrix3__FP7MATRIX3(&frame);
     {M3 *dest=&rotation->matrix;*dest=frame;dest->r[1].i[3]=0;dest->r[2].i[3]=0;dest->r[0].i[3]=0;}
     rotation->stamp=++global->stamp;
