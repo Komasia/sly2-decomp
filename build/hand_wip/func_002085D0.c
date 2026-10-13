@@ -9,7 +9,7 @@ int func_002085D0(struct S *p, int id, int fFront)
 {
     struct E *e;
     struct T *pt;
-    unsigned int n;
+    register unsigned int n __asm__("$16");
     if (!id || (struct S *)id == p)
         return 0;
     e = 0;
@@ -24,7 +24,8 @@ int func_002085D0(struct S *p, int id, int fFront)
                 c = p->c3A4;
                 if (c > 0) {
                     p->c3A4 = c - 1;
-                    e = &pt->a[8 - c];
+                    n=8; n-=c; n*=16; n+=0x100;
+                    e=(struct E*)((char*)pt+n);
                     func_002332B8(e + 1, e, (c - 1) * 16);
                     e->id = id;
                     goto fill;
@@ -32,10 +33,12 @@ int func_002085D0(struct S *p, int id, int fFront)
             }
         } else {
             if (fFront) {
-                e = &pt->a[n];
+                register unsigned int offset __asm__("$2")=n*16+0x100;
+                e=(struct E*)((char*)pt+offset);
             } else {
                 int c = p->c3A4;
-                e = &pt->a[n - c];
+                n-=c; n*=16; n+=0x100;
+                e=(struct E*)((char*)pt+n);
                 func_002332B8(e + 1, e, c * 16);
             }
             e->id = id;

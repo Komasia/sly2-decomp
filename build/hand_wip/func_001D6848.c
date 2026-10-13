@@ -35,7 +35,8 @@ qword func_001D6848(float g, qword start, qword end, qword acc)
     union U delta, vel, scalar;
     qword d, s, n, r;
     float k=func_00245000(g);
-    float z, len, q;
+    float z,len,q;
+    register float numerator __asm__("$f20");
     register float angle __asm__("$f12");
     __asm__("vsub.xyzw %0, %2, %1" : "=j"(d) : "j"(start), "j"(end));
     delta.q = d;
@@ -49,7 +50,8 @@ qword func_001D6848(float g, qword start, qword end, qword acc)
     q=q/((z-len*func_002450F0(k))*2.0f);
     if (q<=0.0f) return D_002A2DD0;
     q=Sqrt(q);
-    q=len*q/func_00244E10(k);
+    numerator=len*q;
+    q=numerator/func_00244E10(k);
     vel.q=delta.q;
     vel.a[2]=len*func_002450F0(k);
     Bc(&scalar,q);

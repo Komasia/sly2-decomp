@@ -33,12 +33,17 @@ extern "C" X *func_001FE5F0(P *p, int k, int f)
     p->n24C = 0;
     if (!f) func_00227728(D_004435F0, k, pd->n48);
     if (pd->n48 != -1 && pd->n54) {
-        X *po = func_0015ED78(&D_003DD490, 5, pd->n48, 0);
+        register X *po __asm__("$19")=func_0015ED78(&D_003DD490, 5, pd->n48, 0);
         if (po) {
-            for (int i = 0; i < 6; i++) {
-                if (i == 3) p->a[i] = po;
-                else p->a[i] = func_001F67E0(po, func_001FD0C0(p, i));
-                if (p->a[i]) p->a[i]->pvt[1].pfn((char *)p->a[i] + p->a[i]->pvt[1].d);
+            register int i __asm__("$18")=0;
+            register int primaryRole __asm__("$20")=3;
+            register X **slot __asm__("$16")=p->a;
+            for(;i<6;i++,slot++) {
+                if(i==primaryRole)p->a[3]=po;
+                else *slot=func_001F67E0(po,func_001FD0C0(p,i));
+                { X *current=*slot;
+                  if(current) { VTE &entry=current->pvt[1];
+                    entry.pfn((char *)current+entry.d); } }
             }
         }
     }

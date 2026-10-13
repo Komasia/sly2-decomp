@@ -5,7 +5,8 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct A { char pad[0x70]; qword pos; };
 struct P { char pad[0xC]; struct VTE *pvt; char pad2[0xE8 - 0x10]; void *pe; };
 extern "C" void func_001A6BC8(struct P *p, struct A *pa);
-extern "C" M4 func_0022D148(struct A *pa, int n);
+extern "C" M4 *func_0022D148(M4 *,A *,A *);
+static inline M4 BuildVelocity(A *owner) return result { func_0022D148(&result,owner,0); }
 static __inline__ qword Make(float x, float y, float z)
 {
     qword q, t;
@@ -19,14 +20,13 @@ extern "C" void func_001F4A80(struct P *p, struct A *pa)
     qword r, q;
     func_001A6BC8(p, pa);
     if (!p->pe) return;
-    { M4 t = func_0022D148(pa, 0); m = t; }
-    VTE *vt=p->pvt;
-    short delta=vt[35].d;
-    void (*setpos)(void *,qword)=(void (*)(void *,qword))vt[35].pfn;
-    void *self=(char *)p+delta;
+    { M4 t = BuildVelocity(pa); m = t; }
+    register VTE *vt __asm__("$2")=p->pvt;
+    register int delta __asm__("$4")=vt[35].d;
     q = Make(((float *)&m)[6], ((float *)&m)[8], ((float *)&m)[1]);
+    void (*setpos)(void *,qword)=(void (*)(void *,qword))vt[35].pfn;
     __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w" : "=j"(r) : "j"(m.r[0].q), "j"(m.r[1].q), "j"(m.r[2].q), "j"(m.r[3].q), "j"(pa->pos));
-    setpos(self,r);
+    setpos((char*)p+delta,r);
     {
         qword v[1];
         v[0] = q;

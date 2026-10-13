@@ -1,7 +1,8 @@
-typedef struct {int a[4];} FRAME;
-typedef struct {int cb,kind;} MSG;
-typedef struct {char pad[0x70];} BIS;
-typedef struct {int a,b,kind;char pad[0x104];} KEY;
+// Complete prioritized loader WIP: empty FRAME and actual stream fields.
+struct FRAME {};
+typedef struct {int cb,alignment;} MSG;
+struct BIS {int grf;char unknown4[0x2C];void *vt;int cbSpool;char *abSpool;int x3c,x40,x44,x48,x4c,x50,x54,x58,x5c,x60;};
+typedef struct {int a,b,kind;char filename[0x104];} KEY;
 typedef union {MSG msg;char magic[4];} TMP;
 typedef struct S S;
 typedef struct N {int a,b;char pad8[0x2C];int c;int pad38;int d;S *owner;int priority,last;struct N *next;} N;
@@ -16,8 +17,8 @@ extern "C" void *func_001AE318(MSG *);
 extern "C" int func_00184D60(BIS *,KEY *);
 extern "C" void func_001179D8(BIS *,int,void *);
 extern "C" unsigned char func_00117BD0(BIS *);
-extern "C" int func_00117C20(BIS *);
-extern "C" int func_00233470(const void *,const void *,int);
+extern "C" unsigned short func_00117C20(BIS *);
+extern "C" int func_00233470(const void *,const void *,unsigned int);
 extern "C" void func_00212A70(S *,int);
 extern "C" void func_00214398(S *,BIS *,S *,int *,void **);
 extern "C" void func_00214460(S *,BIS *,S *);
@@ -34,11 +35,14 @@ static inline int SetKey(KEY *k,N *n) {
     k->b=d^c;}
     return k->b!=0;
 }
+struct WORK {
+ FRAME frame;
+ TMP tmp __attribute__((aligned(16)));
+ BIS stream __attribute__((aligned(16)));
+ KEY key __attribute__((aligned(16)));
+};
 extern "C" void func_002124F0(S *p) {
-    FRAME frame;
-    TMP tmp;
-    BIS stream;
-    KEY key;
+    WORK work;
     int priority=0;
     N *n;
     S *owner;
@@ -54,26 +58,26 @@ extern "C" void func_002124F0(S *p) {
         if(n->priority>=priority && owner->state!=0)func_00212A70(owner,0);
     }
     D_003E1C70.priority=priority;
-    func_001AE478(&frame);
-    BIS *bs=&stream;
-    KEY *pk=&key;
-    MSG *msg=&tmp.msg;
+    func_001AE478(&work.frame);
+    BIS *bs=&work.stream;
+    KEY *pk=&work.key;
+    MSG *msg=&work.tmp.msg;
 
-    msg->cb=0x10000;msg->kind=0x40;
+    msg->cb=0x10000;msg->alignment=0x40;
     func_001848A8(bs,0x10000,func_001AE318(msg),0);
     pk->kind=2;
     func_00258248(pk);
-    if(!SetKey(&key,p->file)||!func_00184D60(bs,pk))goto fail;
+    if(!SetKey(&work.key,p->file)||!func_00184D60(bs,pk))goto fail;
     func_001179D8(bs,0x4000,(void *)0x70000000);
-    tmp.magic[0]=func_00117BD0(bs);
-    tmp.magic[1]=func_00117BD0(bs);
-    tmp.magic[2]=func_00117BD0(bs);
-    tmp.magic[3]=func_00117BD0(bs);
+    work.tmp.magic[0]=func_00117BD0(bs);
+    work.tmp.magic[1]=func_00117BD0(bs);
+    work.tmp.magic[2]=func_00117BD0(bs);
+    work.tmp.magic[3]=func_00117BD0(bs);
     version=func_00117C20(bs);
-    if(!func_00233470(tmp.magic,D_002A8AE8,4)&&version==6)goto load;
+    if(!func_00233470(work.tmp.magic,D_002A8AE8,4)&&version==6)goto load;
 fail:
     func_00184950(bs,2);
-    func_001AE4A0(&frame,2);
+    func_001AE4A0(&work.frame,2);
     return;
 load:
     p->file->priority=D_003E1C70.priority;
@@ -81,5 +85,5 @@ load:
     func_00214460(p,bs,p);
     p->file->last=D_003E1C70.priority;
     func_00184950(bs,2);
-    func_001AE4A0(&frame,2);
+    func_001AE4A0(&work.frame,2);
 }

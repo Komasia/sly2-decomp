@@ -204,14 +204,15 @@ extern "C" SW *func_0020D9D0(SW *p)
     for(int n=198;n>=0;n--,list++)func_0011A050(list,0x20);
     i=0;
     for(;i<512;i++)func_0011A050(&p->third[i],12);
-    float upper=D_002C3E6C,lower=D_002C3E68;
+    register float upper __asm__("$f8")=D_002C3E6C;
+    float lower=D_002C3E68;
     float end=D_002C3E64,start=D_002C3E60;
     float slope=(upper-lower)/(end-start);
     float intercept=(end*lower-start*upper)/(end-start);
     p->triple.x=180.0f;triple->y=255.0f;triple->z=255.0f;
     p->f3E20=90.0f;p->f3E64=128.0f;p->f3E68=96.0f;p->f3E6C=160.0f;
-    p->n3C88=393;p->n3C80=-1;p->n3C8C=-1;p->n3CCC=1;p->n3F10=-2;p->n3E24=0;
-    p->range.x=upper;range->y=lower;
+    p->n3C88=393;p->n3C8C=-1;p->n3CCC=1;p->range.x=upper;p->n3C80=-1;p->n3F10=-2;p->n3E24=0;
+    range->y=lower;
     p->coefficients.x=intercept;coefficients->y=slope;coefficients->z=0.0f;
     p->n4740=-1;p->f4750=-60.0f;p->f4754=-60.0f;p->n4554=1;
     func_002333B4(tags,-1,0x20);
