@@ -3570,6 +3570,7 @@ AddAlarmSensor__FP5ALARM3OID,0x1C7A10,11,match,src/hand/AddAlarmSensor__FP5ALARM
 func_001C7A40,0x1C7A40,6,match,src/auto/func_001C7A40.c
 func_001C7A58,0x1C7A58,45,match,src/hand/func_001C7A58.c
 func_001C7B10,0x1C7B10,2,match,src/auto/func_001C7B10.c
+func_001C7B18,0x1C7B18,39,match,src/hand/func_001C7B18.c
 func_001C7BB8,0x1C7BB8,30,match,src/hand/func_001C7BB8.cpp
 func_001C7C30,0x1C7C30,51,match,src/hand/func_001C7C30.cpp
 func_001C7D00,0x1C7D00,2,match,src/auto/func_001C7D00.c
