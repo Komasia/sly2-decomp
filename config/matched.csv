@@ -4403,6 +4403,7 @@ func_001F8DD8,0x1F8DD8,46,match,src/hand/func_001F8DD8.c
 func_001F8E90,0x1F8E90,59,match,src/hand/func_001F8E90.c
 func_001F90D0,0x1F90D0,91,match,src/hand/func_001F90D0.c
 func_001F9B20,0x1F9B20,74,match,src/hand/func_001F9B20.c
+func_001FA328,0x1FA328,128,match,src/hand/func_001FA328.c
 func_001FA810,0x1FA810,88,match,src/hand/func_001FA810.c
 func_001FA970,0x1FA970,35,match,src/hand/func_001FA970.c
 func_001FAA48,0x1FAA48,20,match,src/hand/func_001FAA48.c
