@@ -1,4 +1,4 @@
-// WIP 51 diffs (all knock-on): target rematerialises the 1e-4f epsilon (lui/ori/mtc1 f14) before each of the 3 func_0011D4D0 calls; ours CSEs it into $f20.
+// Compute the hit span and optional intersection outputs.
 typedef int qword __attribute__((mode(TI)));
 typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct MARK { int a[4]; } MARK;
@@ -13,13 +13,20 @@ void func_001AE4A0(MARK *pm, int n);
 void *func_001AE318(MSG *pmsg);
 qword func_001A62E8(void *p);
 int func_00132B10(struct J *pj, int k);
-void func_00229D60();
-int func_001F7E08(struct S *p, void (*pfn)(), int n, void **apv);
+int func_00229D60(void *,void *);
+int func_001F7E08(struct S *p,int (*pfn)(void *,void *),void *context,void **apv);
 int func_0014CDB0(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg);
 int func_0011D4D0(float a, float b, float eps);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
+static inline float Epsilon(){register float f __asm__("$f14");__asm__ __volatile__("li.s %0,%1":"=f"(f):"F"(1e-4f));return f;}
+static inline int WordY(qword q){int r;__asm__("prot3w %0,%1":"=r"(r):"r"(q));return r;}
+static inline int WordZ(qword q){int r;__asm__("pextuw %0,$0,%1":"=r"(r):"r"(q));return r;}
+static inline float FloatWord(int word){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(word));return f;}
+static inline int NearX(qword d,qword n,float e){return func_0011D4D0(GetX(d),GetX(n),e);}
+static inline int NearY(qword d,qword n){int y=WordY(d);float e=Epsilon();return func_0011D4D0(FloatWord(y),GetY(n),e);}
+static inline int NearZ(qword d,qword n){int z=WordZ(d);float e=Epsilon();return func_0011D4D0(FloatWord(z),GetZ(n),e);}
 float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pnormal)
 {
     union { qword q; float f[4]; } a, b;
@@ -56,11 +63,12 @@ float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pnormal)
         *ppos = alsg[0].pos;
     if (pnormal) {
         qword n = alsg[0].normal;
-        qword d = D_002A2DD0;
+        qword d;
+        float epsilon=Epsilon();
         int f;
         *pnormal = n;
-        f = func_0011D4D0(GetX(d), GetX(n), 1e-4f) && func_0011D4D0(GetY(d), GetY(n), 1e-4f) &&
-            func_0011D4D0(GetZ(d), GetZ(n), 1e-4f);
+        d = D_002A2DD0;
+        f = NearX(d,n,epsilon) && NearY(d,n) && NearZ(d,n);
         if (f)
             *pnormal = D_002A2DC0;
     }
