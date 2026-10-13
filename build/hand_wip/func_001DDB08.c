@@ -5,7 +5,7 @@ extern void *D_003E0FAC;
 extern void *D_002E1E40;
 extern void *D_002DD5BC;
 extern void *D_002F7900;
-void func_001291A8(CRef *, CRef *);
+CRef *func_001291A8(CRef *, const CRef *);
 void func_00129EC8(CRef *);
 void func_00258200(CRef *, void *, CRef *, G *);
 void func_001440D0(void *, int);
@@ -21,7 +21,7 @@ static inline void SetRef(void *pv, CRef *pref, G *pg)
 }
 void func_001DDB08(void)
 {
-    G *pg = &D_003D4A60;
+    register G *pg __asm__("$16") = &D_003D4A60;
     CRef ref;
     ref.m_tagk = 0x16;
     ref.m_tag = 0;
