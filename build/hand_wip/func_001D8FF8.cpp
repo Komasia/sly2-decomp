@@ -1,5 +1,3 @@
-// All matches except the two DISPLAY bitfield updates at the end: target keeps a copy
-// (daddu v0,a2) of the masked value and shifts twice; chained/separate/inline/signedness variants tried.
 struct CRef {
     int m_tagk;
     union { int m_tag; float m_g; };
@@ -23,7 +21,7 @@ int func_001A2C98(void);
 void func_001A2BD0(int);
 void func_001FE9C8(void *, int);
 void func_001FEA60(void *, int, int, float);
-int func_0023E1C8(float);
+unsigned int func_0023E1C8(float);
 }
 static inline int GetInt(KEY *k, char *pb) { return func_002581C0(k, pb).m_tag; }
 static inline float GetFloat(KEY *k, char *pb) { return func_002581C0(k, pb).m_g; }

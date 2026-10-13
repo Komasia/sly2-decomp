@@ -32,7 +32,7 @@ static inline qword AddUp(qword pos,const qword *up,qword scalar){
  return r;
 }
 static inline float X(qword value){float r;asm("mtc1 %1,%0":"=f"(r):"r"(value));return r;}
-static inline float Z(qword value){qword r;asm("prot3w %0,%1":"=r"(r):"r"(value));return X(r);}
+static inline float Y(qword value){qword r;asm("prot3w %0,%1":"=r"(r):"r"(value));return X(r);}
 static inline float MaxF(float a,float b){float r;asm("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 extern "C" void func_001D1518(P *p){
  U scalar,maximum,minimum;
@@ -61,9 +61,9 @@ extern "C" void func_001D1518(P *p){
  p->width=maxX-minX;
  if(p->count>0){
   float xScale=MaxF(-minX,maxX);
-  float zScale=MaxF(-Z(minimum.q),Z(maximum.q));
+  float yScale=MaxF(-Y(minimum.q),Y(maximum.q));
   for(i=0;i<p->count;i++){
-   E *e=&p->entries[i];e->x=e->position.a[0]/xScale;e->y=e->position.a[1]/zScale;
+   E *e=&p->entries[i];e->x=e->position.a[0]/xScale;e->y=e->position.a[1]/yScale;
   }
  }
  for(i=0;i<p->sideCount;i++){
