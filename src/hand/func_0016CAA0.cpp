@@ -57,7 +57,7 @@ typedef char HEADER_segments_Offset[FIELD_OFFSET(HEADER,segments)==20?1:-1];
 typedef char HEADER_bones_Offset[FIELD_OFFSET(HEADER,bones)==24?1:-1];
 typedef char REQUEST_bytes_Offset[FIELD_OFFSET(REQUEST,bytes)==0?1:-1];
 typedef char REQUEST_alignment_Offset[FIELD_OFFSET(REQUEST,alignment)==4?1:-1];
-extern "C" void func_0016CAA0(OWNER*p,D*desc,E*entry,int,SPHERE*sphere,int groups,CBinaryInputStream*stream){
+extern "C" void func_0016CAA0(OWNER*p,D*desc,E*entry,void*,SPHERE*sphere,int groups,CBinaryInputStream*stream){
  int i=0;
  p->flags|=1UL<<33;
  VIFS vifs;

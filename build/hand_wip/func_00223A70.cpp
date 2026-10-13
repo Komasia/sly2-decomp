@@ -1,4 +1,4 @@
-// Camera segment avoidance.
+// Complete camera segment avoidance WIP. FRAME has no instance members.
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct O;
@@ -16,12 +16,12 @@ int func_0014F030(void *,O *);
 void func_0020FAA0(WORLD *,qword,qword,int (*)(void *,O *),void *,int *,O ***);
 qword func_0014EB70(int,O **,qword,float);
 int func_0014EA08(int count,O **objects,qword origin,qword endpoint,float gap,float *low,float *high);
-float func_00223A10(void *,qword,void *,void *);
-qword func_0014EDA0(CAMERA *,int,O **,float (*)(void *,qword,void *,void *),qword,qword,float,float);
+float func_00223A10(void *,qword,qword,void *);
+qword func_0014EDA0(CAMERA *,int,O **,float (*)(void *,qword,qword,void *),qword,qword,float,float);
 void func_0011EF08(qword,float *,float *,float *);
 qword func_0011E1A0(float,float,float);
 }
-struct MARK {int mark;MARK(){(void)func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
+struct MARK {MARK(){(void)func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
 struct WORK {V minimum,maximum,origin,candidate;MARK mark;V offset,rayEnd,best,scalar;int count;O **objects;float low,high,phase,radius,height;};
 static inline qword Min(qword a,qword b){qword r;__asm__("vmini.xyz %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Max(qword a,qword b){qword r;__asm__("vmax.xyz %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}

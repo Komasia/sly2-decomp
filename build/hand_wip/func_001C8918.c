@@ -16,9 +16,6 @@ qword func_001A62E8(void *p);
 qword func_0022FC48(int n, void *p, qword q);
 void func_002303A0(struct S *p, struct X *px, int n);
 void func_001305B8(void *a, struct S *p, int n, void *b, float g0, float g1);
-static inline void SetB0(struct X *px, qword q) { px->xB0 = func_0022FCC8(0, px->xA0, q); }
-static inline void SetC0(struct X *px, qword q) { px->xC0 = func_0022FC48(0, px->xA0, q); }
-static inline void SetD0(struct X *px, qword q) { px->xD0 = func_0022FCC8(0, px->xA0, q); }
 void func_001C8918(struct S *p, int n)
 {
     struct X *px;
@@ -38,11 +35,14 @@ void func_001C8918(struct S *p, int n)
     case 1:
         func_00142140(p->x190, p->x208);
         p->x204->xA8 = D_002DDED0.t + 0.25f;
-        q = func_0022FCC8(0, (px = p->x204)->xA0, func_001A6FC0(p->x190, 0, D_002C1080));
+        px = p->x204;
+        q = func_0022FCC8(0, px->xA0, func_001A6FC0(p->x190, 0, D_002C1080));
         px->xB0 = q;
-        q = func_0022FC48(0, (px = p->x204)->xA0, func_001A62E8(p->a1A8[p->x194]));
+        px = p->x204;
+        q = func_0022FC48(0, px->xA0, func_001A62E8(p->a1A8[p->x194]));
         px->xC0 = q;
-        q = func_0022FCC8(0, (px = p->x204)->xA0, func_001A6FC0(p->x190, 0, D_002C1090));
+        px = p->x204;
+        q = func_0022FCC8(0, px->xA0, func_001A6FC0(p->x190, 0, D_002C1090));
         px->xD0 = q;
         func_002303A0(p, p->x204, 0x11);
         break;
@@ -52,3 +52,6 @@ void func_001C8918(struct S *p, int n)
         break;
     }
 }
+
+#define OFF(t,m) ((int)&((t*)0)->m)
+typedef char transition_layout[(sizeof(qword)==16 && OFF(struct CLOCK,t)==0 && OFF(struct CLOCK,dt)==4 && OFF(struct X,xA0)==0xA0 && OFF(struct X,xA8)==0xA8 && OFF(struct X,xB0)==0xB0 && OFF(struct X,xC0)==0xC0 && OFF(struct X,xD0)==0xD0 && OFF(struct S,x188)==0x188 && OFF(struct S,x18C)==0x18C && OFF(struct S,x190)==0x190 && OFF(struct S,x194)==0x194 && OFF(struct S,x1A0)==0x1A0 && OFF(struct S,a1A8)==0x1A8 && OFF(struct S,a1CC)==0x1CC && OFF(struct S,x204)==0x204 && OFF(struct S,x208)==0x208)?1:-1];

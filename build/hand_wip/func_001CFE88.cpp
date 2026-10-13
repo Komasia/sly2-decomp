@@ -1,3 +1,4 @@
+// Follow the sampled target using Hermite velocity and lifetime spin.
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; }; struct M4 { qword r[4]; };
 union U { qword q; float f; };
@@ -10,7 +11,7 @@ void func_00117120(float,float,float,qword,qword,qword,qword,qword*,qword*,int);
 M3 func_0011B500(qword,float);
 void func_001CFE88(S*);
 }
-static inline qword Bc(float f) {U u;qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return r;}
+static inline qword Bc(float f) {U u;qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return u.q;}
 static inline qword ToVu(qword v) {qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(v));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scale(qword a,qword s){__asm__("vmulx.xyzw %0,%0,%1x":"+j"(a):"j"(s));return a;}
@@ -37,3 +38,6 @@ void func_001CFE88(S *p) {
  spin=func_0011B500(p->axis,p->angle*remain/p->duration);
  p->mat=Mul(spin,*(M3*)&m);
 }
+
+#define OFF(t,m) ((int)&((t*)0)->m)
+typedef char follow_layout[(sizeof(qword)==16 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && sizeof(U)==16 && OFF(CLOCK,t)==0 && OFF(CLOCK,dt)==4 && OFF(X,data)==0x60 && OFF(S,start)==0x14 && OFF(S,duration)==0x18 && OFF(S,x)==0x1C && OFF(S,mat)==0x40 && OFF(S,pos)==0x70 && OFF(S,prev)==0x80 && OFF(S,vel)==0x90 && OFF(S,accel)==0xA0 && OFF(S,axis)==0xF0 && OFF(S,angle)==0x100)?1:-1];
