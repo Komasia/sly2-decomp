@@ -82,6 +82,12 @@ def main():
     print(f'matched functions: {mf}/{total_f} ({mf/total_f:.2%})   instructions: {mi}/{total_i} ({mi/total_i:.2%})')
     print(f'  hand-written (src/P2 etc): {sum(1 for r in seen.values() if "/auto/" not in r[4])}, auto/fixed m2c (src/auto): {sum(1 for r in seen.values() if "/auto/" in r[4])}')
     for b in broken: print('  BUILD FAILED:', os.path.relpath(b, M.ROOT))
+    try:
+        import progress_graph
+        progress_graph.render(real, {int(a, 16) for a in seen})
+        print('  graph: docs/progress.svg updated')
+    except Exception as e:
+        print('  graph not updated:', e)
 
 if __name__ == '__main__':
     main()

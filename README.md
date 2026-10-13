@@ -4,6 +4,13 @@
 
 Target: `SCUS_973.16` (NTSC-U, SHA-1 de2af92a54de71e33edc8a160c31c0337a95e6f5)
 
+## Progress
+
+![Decompilation progress](docs/progress.svg)
+
+The graph updates automatically every time `tools/progress.py` runs. Only functions whose compiled bytes are
+identical to the original game count. Ranges: orange = Komasia + Claude, purple = collaborator (see `ASSIGNMENTS.md`).
+
 ## Toolchain (confirmed)
 - **Compiler: ee-gcc 2.95.3 build 136**, flags `-O2 -G0 -ffast-math`, sources are C++ (`-x c++`).
   (Sly 1 used SN ee-gcc 2.95.2 v2.73a; Sly 2 differs — it saves `$ra` with `sd`, not `sq`.)
