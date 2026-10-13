@@ -1,4 +1,4 @@
-// WIP: 57/202 instruction differences; complete camera visibility probe.
+// WIP: 54/202 instruction differences; complete camera visibility probe.
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct M3 {qword r[3];};
@@ -29,7 +29,6 @@ static inline qword ToVF(qword v){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(v
 static inline qword LoadVF(const qword &v){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(v));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword CrossXYZ(qword destination,qword a,qword b){__asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"+j"(destination):"j"(a),"j"(b));return destination;}
 static inline qword Length(qword v){qword len,one;
     __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(len),"=&j"(one):"j"(v));
@@ -69,12 +68,13 @@ extern "C" void func_002236E8(S *p){
     qword upAxis=LoadVF(basis.r[2]);
     basis.r[0]=CrossXYZ(upAxis,upAxis,normalized);
     basis.r[1]=normalized;
-    for(i=0;i<5;i++){
+    V *dst=points;
+    for(i=0;i<5;i++,dst++){
         qword origin=func_001A62E8(object);
         qword position=Add(origin,Rotate(basis,D_002C4290[i]));
         minimum.q=Min(minimum.q,position);
         maximum.q=Max(minimum.q,position);
-        points[i].q=position;
+        dst->q=position;
     }
     {
         MARK mark;
