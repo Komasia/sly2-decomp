@@ -36,6 +36,7 @@ struct LSG {V first;char pad10[0x50];};
 struct REQ {int size,alignment;};
 struct MARK;
 struct WORLD;
+extern "C" {
 extern WORLD D_003DD490;
 extern qword D_002A2DC0,D_002A2DD0;
 
@@ -57,23 +58,25 @@ void func_001FB4F0(void *,float,float);
 void func_001FB1F8(void *,float);
 void *func_002333B4(void *,int,int);
 void func_00228D20(O *,N **);
-struct MARK {int state;};
+}
+struct MARK {};
 union SCRATCH {REQ request;PAIR pair;V velocity;};
 struct WORK {MARK mark;SCRATCH scratch;V start,end;LSG intervals[16];V origin;EVENT event;int count;N **head;REQ *request;};
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
+static inline REQ*Fields(REQ*p){register REQ*copy __asm__("$3");__asm__("daddu %0,%1,$zero":"=r"(copy):"r"(p));return copy;}
 static inline float Min(float a,float b){return b<a?b:a;}
 static inline qword Velocity(O *o){VE *v=o->vt;return v[33].f.velocity((char *)o+v[33].delta);}
 static inline void Impact(O *o,EVENT *e){VE *v=o->vt;v[51].f.event((char *)o+v[51].delta,e);}
 static inline void Signal(O *o,int event,PAIR *pair){VE *v=o->vt;v[4].f.signal((char *)o+v[4].delta,event,pair);}
-void func_00228E50(O *p){
+extern "C" void func_00228E50(O *p){
  WORK work;N *n;COLL **objects;LINK *link;
  func_001F36E0(p);
  if(!p->count)return;
  work.request=&work.scratch.request;work.head=&p->first;
  for(n=*work.head;n;n=n->next)n->object->flags|=0x80000000L;
  func_001AE478(&work.mark);
- {REQ *req=work.request;work.scratch.request.size=p->count*4;req->alignment=16;
+ {register int size __asm__("$3")=p->count;register int alignment __asm__("$2")=16;register REQ*req __asm__("$4")=work.request;size*=4;work.scratch.request.size=size;Fields(req)->alignment=alignment;
  objects=(COLL **)func_001AE318(req);}
  work.count=func_001F7E08(p,func_00229D60,0,objects);
  for(link=p->state->first;link;link=link->next){
@@ -82,7 +85,7 @@ void func_00228E50(O *p){
   if(func_00229468(p,o,0,0)==0.0f)continue;
   o->flags|=0x100000000L;
   if(o->flags&0x80000000L)continue;
-  n=func_002296A0(&D_003DD490);
+  {register WORLD*world __asm__("$4")=&D_003DD490;n=func_002296A0(world);}
   n->owner=p;n->object=o;n->next=p->first;p->first=n;
   if(!p->recipient)continue;
   work.scratch.velocity.q=Velocity(o);
