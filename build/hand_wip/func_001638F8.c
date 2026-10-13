@@ -18,7 +18,7 @@ int func_00164018(struct S *p);
 int func_001637E8(struct S *p);
 void func_001620B0(struct S *p, int n, int c, int a);
 void func_001623D0(struct S *p, int n, int c, int a, int b);
-void func_002581C0(CRef *pref, void *a, void *b);
+void *func_002581C0(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 void func_001A6CA8(struct S *p, int n);
 void func_001638F8(struct S *p)
