@@ -1,4 +1,3 @@
-// WIP: 15/80 differences, boolean copy/return slots30/40 versus10/20; frame90 versus70.
 extern "C" {void*func_001291A8(void*,const void*);void func_00129EC8(void*);}
 struct CRef{
  int m_tagk;
@@ -15,8 +14,10 @@ extern char D_003D4A60[];
 extern "C" CRef func_00258200(OPT*,const CRef&,void*);
 extern "C" int func_00163400(S*);
 static inline void SetPv(OPT*p,const CRef&r,void*context=0){CRef arg(r);const CRef&ret=func_00258200(p,arg,D_003D4A60);}
+static inline void SetInt(OPT*p,int n){CRef r(n);SetPv(p,r);}
+static inline void SetBool(OPT*p,bool b,void*context=0){CRef r(b);SetPv(p,r,context);}
 extern "C" void func_00163460(S*p){
- {OPT*opt=&p->a;if(opt->kind){CRef r(p->n);SetPv(opt,r);}}
- {OPT*opt=&p->b;if(opt->kind){void*key=D_003D4A60;int f=func_00163400(p);{CRef r(f!=0);SetPv(opt,r,key);}}}
+ {OPT*opt=&p->a;if(opt->kind){SetInt(opt,p->n);}}
+ {OPT*opt=&p->b;if(opt->kind){void*key=D_003D4A60;int f=func_00163400(p);{SetBool(opt,f!=0,key);}}}
  {OPT*opt=&p->c;if(opt->kind){CRef r(p->g);SetPv(opt,r);}}
 }

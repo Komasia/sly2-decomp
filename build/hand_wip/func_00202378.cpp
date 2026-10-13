@@ -5,7 +5,7 @@ struct LO {char padE4[0xE4];float radius;char padE8[0x20];int state;};
 struct FRAME;
 extern "C" FRAME *func_001AE478(FRAME *);
 extern "C" void func_001AE4A0(FRAME *,int);
-struct FRAME {int words[4];FRAME(){func_001AE478(this);}~FRAME(){func_001AE4A0(this,2);}};
+struct FRAME {FRAME(){func_001AE478(this);}~FRAME(){func_001AE4A0(this,2);}};
 extern "C" qword func_001A62E8(LO *);
 extern "C" int func_00202350(void *,LO *);
 extern "C" void func_0020FAA0(void *,qword,qword,int (*)(void *,LO *),void *,int *,LO ***);
