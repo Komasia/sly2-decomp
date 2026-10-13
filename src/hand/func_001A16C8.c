@@ -1,4 +1,4 @@
-// Near match: four scalar-load scheduling differences.
+// Select and blend the movement vector for the active mode.
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int bits[4];}U;
 typedef union F{float value;int bits;}F;
@@ -31,8 +31,6 @@ static inline qword Normal(U*u,qword fallback){
     __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(r):"j"(d),"j"(v));
     return r;
 }
-static inline qword Weight(void){register int bits __asm__("$4");register qword r __asm__("vf2");__asm__("lui %0,%%hi(%1)":"=r"(bits):"i"(&D_002BFB00.bits));__asm__("lw %0,%%lo(%1)(%0)":"+r"(bits):"i"(&D_002BFB00.bits):"memory");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));return r;}
-static inline qword Lift(void){register int bits __asm__("$3");register qword r __asm__("vf3");__asm__("lui %0,%%hi(%1)":"=r"(bits):"i"(&D_002BFB04.bits));__asm__("lw %0,%%lo(%1)(%0)":"+r"(bits):"i"(&D_002BFB04.bits):"memory");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));return r;}
 static inline qword Blend(qword direction,qword z,qword a,qword b){__asm__("vmulax.xyzw $ACC,%1,%2x\n\tvmaddx.xyzw %0,%0,%3x":"+j"(z):"j"(direction),"j"(a),"j"(b));return z;}
 static inline qword Intercept(U*self,U*target,struct M3*basis,U*negative){
     register qword position __asm__("vf2")=target->q;
@@ -84,7 +82,7 @@ void func_001A16C8(struct P*p){
     case 0x100:
         if(func_00132B10(p->target,0x4F)){
             struct O*target=p->target;
-            qword n,a,b,mixed;
+            qword n,a,b,mixed,z;
             if(func_00132B10(target,0x51)){
                 struct VT*vt=target->vt;
                 struct M3*basis=((struct M3*(*)(void*))vt[31].fn)((char*)target+vt[31].delta);
@@ -97,9 +95,18 @@ void func_001A16C8(struct P*p){
             }
             scratch.bits[2]=0;
             n=Normal(&scratch,D_002A2DA0.q);
-            a=Weight();b=Lift();
-            scalar.q=a;
-            mixed=Blend(n,D_002A2DC0.q,a,b);
+            {
+                register int first __asm__("$4"),second __asm__("$3");
+                register U*up __asm__("$2");
+                register qword weight __asm__("vf2"),lift __asm__("vf3"),axis __asm__("vf1");
+                // Read blend data and initialize the scalar temporary.
+                __asm__("lui %0,%%hi(%7)\n\tlui %1,%%hi(%8)\n\tlui %2,%%hi(%9)\n\tlw %0,%%lo(%7)(%0)\n\taddiu %2,%2,%%lo(%9)\n\tlw %1,%%lo(%8)(%1)\n\tlqc2 %5,0(%2)\n\tqmtc2.ni %0,%3\n\tqmtc2.ni %1,%4\n\tsqc2 %3,%6"
+                    :"=&r"(first),"=&r"(second),"=&r"(up),"=j"(weight),"=j"(lift),"=j"(axis),"=m"(scalar.q)
+                    :"i"(&D_002BFB00.bits),"i"(&D_002BFB04.bits),"i"(&D_002A2DC0):"memory");
+                a=weight;b=lift;z=axis;
+            }
+
+            mixed=Blend(n,z,a,b);
             scratch.q=n;
             output.q=mixed;
             scalar=(U){b};

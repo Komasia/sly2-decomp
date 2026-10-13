@@ -2938,6 +2938,7 @@ func_001A1358,0x1A1358,150,match,src/hand/func_001A1358.c
 func_001A15B0,0x1A15B0,8,match,src/hand/func_001A15B0.c
 func_001A15D0,0x1A15D0,54,match,src/hand/func_001A15D0.c
 func_001A16A8,0x1A16A8,8,match,src/auto/func_001A16A8.c
+func_001A16C8,0x1A16C8,181,match,src/hand/func_001A16C8.c
 func_001A1F68,0x1A1F68,15,match,src/auto/func_001A1F68.c
 func_001A1FA8,0x1A1FA8,31,match,src/hand/func_001A1FA8.c
 func_001A2028,0x1A2028,21,match,src/hand/func_001A2028.c
