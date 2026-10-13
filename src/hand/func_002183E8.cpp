@@ -19,8 +19,8 @@ static inline M23 Mul(const M23 &q, const M23 &n)
     r.a[5] = m4 * n.a[1] + m5 * n.a[3] + n.a[5];
     return r;
 }
-extern "C" void func_002188B0(F *,int,M23 *,RGBA,RGBA);
-extern "C" void func_00219FE0(F *,int,M23 *,RGBA,RGBA);
+extern "C" void func_002188B0(float,F *,int,M23 *,RGBA,RGBA);
+extern "C" void func_00219FE0(float,F *,int,M23 *,RGBA,RGBA);
 extern "C" void func_002183E8(S *p,int i,M23 *pm,float dt,RGBA c0,RGBA c1) {
     E *e=&p->ae[i];
     int h=e->h8;
@@ -32,12 +32,12 @@ extern "C" void func_002183E8(S *p,int i,M23 *pm,float dt,RGBA c0,RGBA c1) {
         pmUse=&m;
     } else pmUse=pm;
     if(e->x10) {
-        func_002188B0(&p->af[h],i,pmUse,c0,c1);
+        func_002188B0(dt,&p->af[h],i,pmUse,c0,c1);
     } else {
         if(p->af[h].duration <= e->fC) {
             e->fC=0.0f;
             e->hA=0;
         } else e->fC+=dt;
-        func_00219FE0(&p->af[h],i,pmUse,c0,c1);
+        func_00219FE0(dt,&p->af[h],i,pmUse,c0,c1);
     }
 }

@@ -7,7 +7,7 @@ extern void *D_002DD5BC;
 extern void *D_002F7900;
 CRef *func_001291A8(CRef *, const CRef *);
 void func_00129EC8(CRef *);
-void func_00258200(CRef *, void *, CRef *, G *);
+CRef *func_00258200(CRef *,void *,const CRef *,G *);
 void func_001440D0(void *, int);
 void func_00165E38(G *);
 static inline void SetRef(void *pv, CRef *pref, G *pg)
