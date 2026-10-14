@@ -1,8 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 struct M4 {qword r[4];};
 union V {qword q;float f[4];};
-struct HOOK {int x0;void *owner;};
-struct O {char pad[0x40];M4 world;float t0,t1;float *time,*dt;HOOK *hook;int kind;short mode,state;int pad9c;O *parent,*follow; qword basis,v0,v1,v2,v3;};
+struct JOB {int kind;void *owner;};
+union SOURCE {void *object;float deadline;};
+struct O {M4 local,world;float t0,t1;float *time,*dt;JOB *hook;int kind;short mode,state;unsigned int tag;O *parent;int priority;SOURCE source;unsigned short force,damping;qword velocity,v0,v1,v2,v3;};
 extern qword D_002A2DD0;
 extern "C" {
 M4 func_0011C318(const M4 *);
@@ -16,6 +17,8 @@ static inline qword Transform(const M4 &m,qword v) {qword r=m.r[0];
     __asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%1,%4y\n\tvmaddaz.xyz ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(v));return r;}
 static inline qword Rotate(const M4 &m,qword v) {
     __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]));return v;}
+static inline qword RotateRow(const M4 &m,qword v) {qword r=m.r[0];
+    __asm__("vmulax.xyz ACC,%0,%3x\n\tvmadday.xyz ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(v));return r;}
 static inline void Eval(O *p,qword *v) {func_00117120(p->t1-p->t0,*p->time-p->t0,*p->dt,p->v0,p->v1,p->v2,p->v3,0,v,0);}
 extern "C" qword func_0022D348(O *p,O *stop,qword input) {
     M4 m;
@@ -29,7 +32,7 @@ extern "C" qword func_0022D348(O *p,O *stop,qword input) {
             switch(p->kind) {
             case 1:case 4:case 5:case 9:case 10: {
                 switch(p->mode) {
-                case 1:case 2:case 7:case 8:case 9:case 11:case 17:case 18:case 20:case 21:delta=p->basis;break;
+                case 1:case 2:case 7:case 8:case 9:case 11:case 17:case 18:case 20:case 21:delta=p->velocity;break;
                 case 5:case 6:
                     if(p->hook)func_0022DD00(p->hook->owner,p);
                     switch(p->state) {
@@ -39,7 +42,7 @@ extern "C" qword func_0022D348(O *p,O *stop,qword input) {
                     }
                     break;
                 }
-                if(p->parent)sum=Add(sum,Rotate(p->parent->world,delta));
+                if(p->parent)sum=Add(sum,RotateRow(p->parent->world,delta));
                 else sum=Add(sum,delta);
                 break;
             }

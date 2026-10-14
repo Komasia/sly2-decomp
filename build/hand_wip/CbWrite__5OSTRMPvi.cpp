@@ -16,7 +16,7 @@ public:
 int OSTRM::CbWrite(void *pv, int cb)
 {
     int cbWritten = 0;
-    int result = 0;
+    int result;
     if (m_pbMem && m_cbMemMax) {
         int cbAvail;
         if (cb == 0)
@@ -24,7 +24,9 @@ int OSTRM::CbWrite(void *pv, int cb)
         cbAvail = m_cbMemMax - m_cbMem;
         cb = (cbAvail < cb) ? cbAvail : cb;
     }
-    if (cb) {
+    switch(cb) {
+    case 0:result=0;break;
+    default:
     if (m_pbMem) {
         func_001AE5A0(m_pbMem + m_cbMem, pv, cb);
         cbWritten = cb;
@@ -45,6 +47,7 @@ int OSTRM::CbWrite(void *pv, int cb)
     }
     m_cbTotal += cbWritten;
     result = cb;
+    break;
     }
     return result;
 }

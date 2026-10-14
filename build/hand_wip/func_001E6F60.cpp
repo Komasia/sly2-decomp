@@ -1,0 +1,76 @@
+typedef int qword __attribute__((mode(TI)));
+union U {qword q;float f[4];};
+struct M4 {qword a,b,c,d;};
+struct VTE {short delta,pad;void(*fn)();};
+struct P {char padC[0xC];VTE *vt;char pad10[0xD0];int mode,cyclic,count;float *times,*values;qword *points;};
+struct SPACE {qword axis;int mode;};
+struct WORK {M4 matrix;qword closest;U scalar;qword start,end,point,filteredDirection,offset;};
+extern "C" {
+extern float D_002A8138;
+qword func_001FA970(SPACE*,qword);
+float func_001E63C0(P*,float);
+void func_001E6ED8(P*,qword,SPACE*,qword*,qword*,float*,float*,float);
+}
+static inline qword Load(const qword &a){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(a));return r;}
+static inline void CopyMatrix(M4 &out,const M4 *in){out.a=Load(in->a);out.b=Load(in->b);out.c=Load(in->c);out.d=Load(in->d);}
+static inline qword Point(const M4 &m,qword a){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));return r;}
+static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword ToVU(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
+static inline qword Scalar(U &home,float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));home.q=r;return home.q;}
+static inline qword Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
+static inline qword Root(qword a){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(a));return a;}
+static inline float X(qword a){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
+static inline float Length(qword a){return X(Root(Dot(a,a)));}
+static inline qword Normalize(qword a){qword length=Root(Dot(a,a)),r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(length));return r;}
+static inline qword Lerp(qword a,qword b,qword low,qword high){qword r;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(low),"j"(high));return r;}
+extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,qword *outDirection,float *outTime,float *outValue){
+ WORK work;work.point=point;
+ VTE &v=p->vt[31];CopyMatrix(work.matrix,((M4*(*)(void*))v.fn)((char*)p+v.delta));
+ switch(p->mode){
+ case 0:{
+  work.start=Point(work.matrix,p->points[0]);
+  float best=D_002A8138,time=-1.0f;
+  for(int index=1;index<p->count;index++){
+   qword offset=Sub(work.point,work.start);
+   work.end=Point(work.matrix,p->points[index]);
+   qword direction=Sub(work.end,work.start);
+   if(space){
+    work.offset=offset;
+    work.filteredDirection=ToVU(func_001FA970(space,direction));
+    offset=ToVU(func_001FA970(space,work.offset));
+    direction=work.filteredDirection;
+   }
+   float fraction=X(Dot(offset,direction))/X(Dot(direction,direction));
+   float complement;
+   if(fraction<0.0f){fraction=0.0f;complement=1.0f;}else if(fraction>1.0f){fraction=1.0f;complement=0.0f;}else complement=1.0f-fraction;
+   work.closest=Lerp(work.start,work.end,Scalar(work.scalar,complement),Scalar(work.scalar,fraction));
+   qword delta=Sub(work.point,work.closest);
+   if(space)delta=ToVU(func_001FA970(space,delta));
+   float distance=Length(delta);
+   if(distance<best){
+    best=distance;time=complement*p->times[index-1]+fraction*p->times[index];
+    if(outPosition)*outPosition=work.closest;
+    if(outDirection)*outDirection=Normalize(Sub(work.end,work.start));
+   }
+   work.start=work.end;
+  }
+  if(outTime)*outTime=time;
+  if(outValue)*outValue=func_001E63C0(p,time);
+  break;
+ }
+ case 1:{
+  float best=D_002A8138;int closest=-1;
+  for(int index=0;index<p->count;index++){
+   qword delta=Sub(work.point,Point(work.matrix,p->points[index]));
+   if(space)delta=ToVU(func_001FA970(space,delta));
+   float distance=Length(delta);
+   if(distance<best){best=distance;closest=index;}
+  }
+  func_001E6ED8(p,work.point,space,outPosition,outDirection,outTime,outValue,p->times[closest]);
+  break;
+ }
+ }
+}
+
+#define OFF(t,m) ((unsigned int)&((t*)0)->m)
+typedef char nearest_query_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(U)==16 && sizeof(M4)==0x40 && sizeof(VTE)==8 && sizeof(SPACE)==0x20 && sizeof(WORK)==0xB0 && OFF(VTE,delta)==0 && OFF(VTE,fn)==4 && OFF(M4,a)==0 && OFF(M4,b)==0x10 && OFF(M4,c)==0x20 && OFF(M4,d)==0x30 && OFF(P,vt)==0xC && OFF(P,mode)==0xE0 && OFF(P,cyclic)==0xE4 && OFF(P,count)==0xE8 && OFF(P,times)==0xEC && OFF(P,values)==0xF0 && OFF(P,points)==0xF4 && OFF(SPACE,axis)==0 && OFF(SPACE,mode)==0x10 && OFF(WORK,matrix)==0 && OFF(WORK,closest)==0x40 && OFF(WORK,scalar)==0x50 && OFF(WORK,start)==0x60 && OFF(WORK,end)==0x70 && OFF(WORK,point)==0x80 && OFF(WORK,filteredDirection)==0x90 && OFF(WORK,offset)==0xA0)?1:-1];

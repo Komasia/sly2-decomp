@@ -3,6 +3,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { short d,pad; void (*fn)(void *,...); } VE;
 struct M3 { qword r[3]; };
+struct M4 {M3 basis;qword position;};
 struct O { char pad[0xC]; VE *vt; };
 struct CONTROL {int id,state,pad;void *object;};
 struct A { char pad[0xC]; VE *vt; char pad10[0xFB4]; void *color; char padFC8[8]; struct CONTROL basis; };
@@ -10,12 +11,12 @@ struct R { char pad[0x30]; int state; };
 struct S { char pad[0xC]; VE *vt; char pad10[0x140]; int state; float time; char pad158[0x58]; struct O *source; struct A *actor; };
 extern "C" {
 extern struct CLOCK { float t,dt; } D_002DDED0;
-extern float D_002C43B0,D_002C43C0[4],D_002BBB60[2];
+extern float D_002C43B0,D_002C43C0[3],D_002BBB60[2];
 extern char D_003DD490[],D_002DEB30[];
 void func_002240B0(struct S *);
 struct R *func_00205458(void *,int);
 int func_0017A9C0(struct R *);
-struct M3 *func_001A6318(void *);
+struct M4 *func_001A6318(void *);
 void func_00209840(struct CONTROL *,const struct M3 *);
 qword func_001A62E8(void *);
 void func_0017A8C8(struct R *,int);
@@ -49,7 +50,7 @@ extern "C" void func_00225300(struct S *p) {
             } else if(!(r=func_00205458(p->actor,0xB0)) || func_0017A9C0(r)) {
                 p->vt[76].fn((char*)p+p->vt[76].d,2);
             } else {
-                M3 m(*(p->source?func_001A6318(p->source):func_001A6318(p)));
+                M3 m((p->source?func_001A6318(p->source):func_001A6318(p))->basis);
                 func_00209840(&p->actor->basis,&m);
                 if(r->state!=4) {
                     qword pos=p->source?func_001A62E8(p->source):func_001A62E8(p);

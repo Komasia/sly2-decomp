@@ -11,7 +11,7 @@ qword func_001A62E8(void*);
 qword func_001A7348(const struct M3*,const struct M3*,qword);
 float func_0011D948(void*,float);
 float func_002458F0(float,float);
-static inline qword Sub(qword a,qword b){register qword r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Sub(qword a,qword b){register qword r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=&j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a,V*save){qword d,one;float g;
 __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));
 __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(d):"j"(d));
@@ -19,14 +19,13 @@ save->q=a;
 __asm__("qmfc2.ni %0,%1":"=r"(g):"j"(d));return g;}
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){int bits;float f;__asm__("prot3w %0,%1":"=r"(bits):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(bits));return f;}
-static inline qword Load(const qword*p){qword v;__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
 static inline qword Bits(qword v){qword q;__asm__("qmfc2.ni %0,%1":"=r"(q):"j"(v));return q;}
-static inline void Rounded(int*out,float f){float bits;__asm__("cvt.w.s %0,%1":"=&f"(bits):"f"(f));*(float*)out=bits;}
+static inline void Rounded(int*out,float f){float bits;__asm__("cvt.w.s %0,%1":"=&f"(bits):"f"(f));__asm__("swc1 %1,%0":"=m"(*out):"f"(bits));}
 void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outValue,int*outAngle)
 {
  V source,delta;
  void *player;
- qword reference;
+ register qword reference __asm__("vf1");
  float high,low,distance,value;
  register qword difference __asm__("vf3");
  source.q=point;
@@ -34,7 +33,8 @@ void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outV
  if(player)reference=func_001A62E8(player);
  else reference=D_002DDF40.position;
  high=limits->high;low=limits->low;
- distance=Length(Sub(source.q,reference),&delta);
+ {register qword input __asm__("vf2")=source.q;
+  distance=Length(Sub(input,reference),&delta);}
  value=func_0011D948(D_002BBB60,(high-distance)/(high-low));
  difference=delta.q;
  if(outValue)*outValue=value;

@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 struct Node;
 struct Origin {char pad[0x70];qword pos;};
-struct Stats {struct Node *owner;qword *origin;int count,unusedC;float low;int unused14,unused18;float high,scale;};
+struct Stats {struct Node *owner;qword *origin;int count,unusedC;float low;int unused14,unused18;float high,scale;char unknown24[0xC];};
 struct Node {
  char pad[0x10];struct Node *parent;
  char pad14[0x60-0x14];struct Origin *reference;
@@ -24,29 +24,43 @@ static inline float Distance(qword a,qword b) {
  __asm__("mtc1 %1,%0":"=f"(result):"r"(d));
  return result;
 }
+static inline ulong LoadState(struct Node *p)
+{
+    register ulong value __asm__("$2");
+    __asm__("ld %0,%1":"=r"(value):"m"(p->state));
+    return value;
+}
 void func_001F2500(struct Node *p) {
  struct Node *top;
+ struct Stats *attached;
  if (!(p->flags & (3UL<<32))) return;
- if (!p->stats) {
-   top=p;
-   while (!top->stats) {
-     if (!top->parent || ((int)top->state<<8>>28)==1) {
-       struct Stats *s=func_0011CCC0(D_003E12D4);
-       top->stats=s;
-       p->stats=s;
-       s->origin=&top->reference->pos;
-       ++p->stats->count;
-       p->stats->scale=p->scale;
-       p->stats->owner=p;
-       break;
-     }
-     top=top->parent;
-   }
-   if(top!=p) {
-     p->stats=top->stats;
+ top=p;
+ attached=p->stats;
+ if(attached)goto count;
+scan:
+ {
+   register struct Node *next __asm__("$4")=top->parent;
+   if(!next || ((int)((unsigned int)(int)LoadState(top)<<8)>>28)==1) {
+     struct Stats *s=func_0011CCC0(D_003E12D4);
+     top->stats=s;
+     p->stats=s;
+     s->origin=&top->reference->pos;
      ++p->stats->count;
+     p->stats->scale=p->scale;
+     p->stats->owner=p;
+     if(top==p)goto position;
+     attached=p->stats;
+     goto count;
    }
+   top=next;
+   attached=top->stats;
+   if(!attached)goto scan;
+   p->stats=attached;
  }
+count:
+ ++attached->count;
+position:
+
  {
    qword position=func_001A62E8(p);
    float radius=p->radius+Distance(position,*p->stats->origin);

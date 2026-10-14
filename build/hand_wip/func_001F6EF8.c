@@ -16,10 +16,9 @@ __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
 void func_001F6EF8(struct P*p,float dt)
 {
  V scalar;
- int i=0;
+ register int vertexIndex __asm__("a2")=0;
  qword *velocity=p->mesh->velocity;
- qword *acceleration=p->mesh->acceleration;
- qword *positions;
+ qword *acceleration=p->mesh->acceleration;register qword *positions __asm__("s4");
  float maximum=0.0f;
  positions=p->positions;
  if(p->count>0){
@@ -30,24 +29,24 @@ void func_001F6EF8(struct P*p,float dt)
      qword next,newpoint;
      float square;
      scalar.q=time;
-     next=Step(old,force,time);
+     next=Step(old,force,scalar.q);
      scalar.q=half;
-     newpoint=Position(point,old,next,half);
+     newpoint=Position(point,old,next,scalar.q);
      if(p->state!=-1 && 1.0f<LengthSquared(Sub(point,newpoint)))p->state=-1;
      square=LengthSquared(newpoint);
      *position=newpoint;
      *velocity=next;
      if(maximum<square)maximum=square;
-   }while(++velocity,++position,++acceleration,++i<p->count);
+   }while(++velocity,++position,++acceleration,++vertexIndex<p->count);
  }
  p->maximum=__builtin_sqrtf(maximum);
  {
    struct TRI*firstTri=p->mesh->triangles;
    char *firstPlane=(char*)p->planes;
-   i=0;
+   register int planeIndex __asm__("s3")=0;
    if(p->triCount>0){struct TRI*tri=firstTri;char*plane=firstPlane;do{
      func_00119308(plane,positions[tri->index[0]],positions[tri->index[1]],positions[tri->index[2]]);
      plane+=0x20;
-   }while(++tri,++i<p->triCount);}
+   }while(++tri,++planeIndex<p->triCount);}
  }
 }
