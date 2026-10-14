@@ -26,12 +26,15 @@ extern "C" void func_001CA118(struct LO *p, int key, int f)
     r = func_001C99D8(D_003DD490.x3F0C, 16 - c, &a[c]);
     for (pn = p->x3C; pn->id != -1 && pn->owner == p; pn = pn->parent)
         pn->owner = 0;
-    for(pn=r;pn->id!=-1;pn=pn->parent){
-        struct R*row=&D_003DD490.ar[func_001C9950(pn->id)];
+    pn=r;
+    do{
+        struct R*row;
+        if(pn->id==-1)break;
+        row=&D_003DD490.ar[func_001C9950(pn->id)];
         if(row->n!=1)break;
         if(pn->owner)break;
-        pn->owner=p;
-    }
+        pn->owner=p;pn=pn->parent;
+    }while(1);
     p->x3C = r;
     if (f) {
         int n, i;

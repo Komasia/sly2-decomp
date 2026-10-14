@@ -22,7 +22,7 @@ static inline qword Load(const qword *p) {
 static inline qword Transform(const M4 *m, qword v) {
     register qword r __asm__("vf7");
     __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
-        : "=&j"(r) : "j"(m->row[0]), "j"(m->row[1]), "j"(m->row[2]), "j"(m->row[3]), "j"(v));
+        : "+&j"(r) : "j"(m->row[0]), "j"(m->row[1]), "j"(m->row[2]), "j"(m->row[3]), "j"(v));
     return r;
 }
 static inline qword NegativeOne(){register qword r __asm__("vf6");float value=-1.0f;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(value));return r;}

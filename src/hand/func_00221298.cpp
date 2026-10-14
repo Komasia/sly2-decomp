@@ -1,4 +1,3 @@
-// Complete camera activation WIP; genuine nullable frame and BSP pointer contracts.
 typedef int qword __attribute__((mode(TI)));
 struct BSP;
 struct O { char pad[0x2DC]; int x2DC; };
@@ -22,11 +21,10 @@ extern "C" void func_00221298(struct S *p)
         func_00221178(p, 0);
         p->pE0 = po;
     }
-    f = p->x13C;
+    int initial=p->x13C;
     int sentinel=AutomaticSentinel();
-    if (f == sentinel) {
-        f = func_00118FB0(p->p108, 0x7FFFFFFF, func_001A6F00(0, p, func_001A62E8(po))) != 0;
-    }
+    if(initial==sentinel) f=func_00118FB0(p->p108, 0x7FFFFFFF, func_001A6F00(0, p, func_001A62E8(po))) != 0;
+    else f=initial;
     if (p->x124) goto set;
     if (!func_00132B10(po, 0x34)) goto set;
     if (po->x2DC == -1) goto set;

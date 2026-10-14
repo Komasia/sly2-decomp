@@ -17,7 +17,7 @@ static __inline__ qword Make(float x, float y, float z)
 extern "C" void func_001F4A80(struct P *p, struct A *pa)
 {
     M4 m;
-    qword r, q;
+    qword q;
     func_001A6BC8(p, pa);
     if (!p->pe) return;
     { M4 t = BuildVelocity(pa); m = t; }
@@ -25,8 +25,11 @@ extern "C" void func_001F4A80(struct P *p, struct A *pa)
     register int delta __asm__("$4")=vt[35].d;
     q = Make(((float *)&m)[6], ((float *)&m)[8], ((float *)&m)[1]);
     void (*setpos)(void *,qword)=(void (*)(void *,qword))vt[35].pfn;
-    __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w" : "=j"(r) : "j"(m.r[0].q), "j"(m.r[1].q), "j"(m.r[2].q), "j"(m.r[3].q), "j"(pa->pos));
+    {
+        register qword r __asm__("vf6");
+    __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w" : "+j"(r) : "j"(m.r[0].q), "j"(m.r[1].q), "j"(m.r[2].q), "j"(m.r[3].q), "j"(pa->pos));
     setpos((char*)p+delta,r);
+    }
     {
         qword v[1];
         v[0] = q;

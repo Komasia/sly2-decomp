@@ -62,6 +62,7 @@ static inline float Dot(qword av,qword bv){register qword a __asm__("vf3")=av,b 
 static inline qword Direction(const M3 &m,qword q){qword r;__asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.rows[0]),"j"(m.rows[1]),"j"(m.rows[2]),"j"(q));return r;}
 static inline qword Cross(qword a,qword b){qword r=b;__asm__("vopmula.xyz $ACC,%1,%0\n\tvopmsub.xyz %0,%0,%1":"+j"(r):"j"(a));return r;}
 static inline qword Negate(U &temporary,qword q){qword scalar;__asm__("qmtc2.ni %1,%0":"=j"(scalar):"r"(-1.0f));temporary.q=scalar;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(scalar):"j"(q),"j"(temporary.q));return scalar;}
+static inline P* CopyRotation(M3&destination,const M3&source,P*p,P*&frame){register qword x __asm__("$6"),y __asm__("$3"),z __asm__("$2");register P*receiver __asm__("$4"),*nullFrame __asm__("$5");__asm__("lq %0,%6\n\tdaddu %3,%9,$zero\n\tlq %1,%7\n\tdaddu %4,$zero,$zero\n\tlq %2,%8\n\tsq %1,16+%5\n\tsq %0,%5\n\tsq %2,32+%5":"=&r"(x),"=&r"(y),"=&r"(z),"=&r"(receiver),"=&r"(nullFrame),"=m"(destination):"m"(source.rows[0]),"m"(source.rows[1]),"m"(source.rows[2]),"r"(p));frame=nullFrame;return receiver;}
 extern "C" void func_001C3500(P *p,float distance,int forward,M3 *out){
  WORK work;
  float low=func_001E6620(p),high=func_001E6648(p);
@@ -79,8 +80,8 @@ extern "C" void func_001C3500(P *p,float distance,int forward,M3 *out){
   if(i==0)work.first.q=work.direction.q;
   if(Dot(work.tangent.q,work.direction.q)>-0.9f)break;
  }
- func_0011BA08(&work.temporary,work.tangent.q,work.direction.q);{qword x=work.temporary.rows[0],y=work.temporary.rows[1],z=work.temporary.rows[2];work.rotation.rows[1]=y;work.rotation.rows[0]=x;work.rotation.rows[2]=z;}
- qword reference=ToVU(func_001A6FC0(p,0,p->axis));
+ func_0011BA08(&work.temporary,work.tangent.q,work.direction.q);P*frame;P*receiver=CopyRotation(work.rotation,work.temporary,p,frame);
+ qword reference=ToVU(func_001A6FC0(receiver,frame,receiver->axis));
  work.forward.q=Direction(work.rotation,reference);
  qword up=NormalizeUp(work.first.q,UpFallback());
  work.basis.rows[2]=up;

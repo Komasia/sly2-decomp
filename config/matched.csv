@@ -3438,6 +3438,7 @@ func_001BDE18,0x1BDE18,26,match,src/hand/func_001BDE18.c
 func_001BE1E8,0x1BE1E8,21,match,src/hand/func_001BE1E8.c
 func_001BE240,0x1BE240,77,match,src/auto/func_001BE240.c
 func_001BE378,0x1BE378,8,match,src/auto/func_001BE378.c
+func_001BE398,0x1BE398,213,match,src/hand/func_001BE398.cpp
 func_001BE6F0,0x1BE6F0,168,match,src/hand/func_001BE6F0.cpp
 func_001BE990,0x1BE990,22,match,src/auto/func_001BE990.c
 func_001BE9E8,0x1BE9E8,22,match,src/auto/func_001BE9E8.c
@@ -5100,6 +5101,7 @@ func_00221120,0x221120,8,match,src/hand/func_00221120.c
 func_00221140,0x221140,13,match,src/auto/func_00221140.c
 func_00221178,0x221178,60,match,src/hand/func_00221178.c
 func_00221268,0x221268,11,match,src/hand/func_00221268.c
+func_00221298,0x221298,60,match,src/hand/func_00221298.cpp
 func_00221388,0x221388,19,match,src/hand/func_00221388.c
 func_002213D8,0x2213D8,12,match,src/auto/func_002213D8.c
 func_00221408,0x221408,109,match,src/hand/func_00221408.cpp

@@ -16,11 +16,11 @@ extern qword D_002DDFA0[3];
 static inline qword Vector(qword q){register qword r __asm__("vf6");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Cross(qword a,qword b){register qword r __asm__("vf3");__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Cross(qword a,qword b){register qword r __asm__("vf3");__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"+j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scalar(float s,V *store){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(s));store->q=r;return store->q;}
 static inline qword Scale(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(k));return r;}
 static inline qword NormalDirection(qword v){register qword d __asm__("vf2"),one __asm__("vf3");
-    __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(v));
+    __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"+&j"(one):"j"(v));
     __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));
     __asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"+j"(d):"j"(v));return d;
 }

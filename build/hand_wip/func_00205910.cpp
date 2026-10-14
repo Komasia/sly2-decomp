@@ -33,8 +33,8 @@ static inline qword Root(qword a){__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$
 static inline float X(qword a){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
 static inline float Length(qword a){return X(Root(Square(a)));}
 static inline qword Normalize(qword v,qword fallback){qword squared; qword one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(squared),"=&j"(one):"j"(v));qword length=Root(squared);if(X(length)<0.0001f)return fallback;qword r;__asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=j"(r):"j"(v),"j"(length));return r;}
-static inline qword Transform(const M4 &m,qword p){qword r;__asm__("vmulax.xyz ACC,%1,%5x\n\tvmadday.xyz ACC,%2,%5y\n\tvmaddaz.xyz ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m.basis.rows[0].q),"j"(m.basis.rows[1].q),"j"(m.basis.rows[2].q),"j"(m.position.q),"j"(p));return r;}
-static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return q;}
+static inline qword Transform(const M4 &m,qword p){qword r=m.basis.rows[0].q;__asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%1,%4y\n\tvmaddaz.xyz ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.basis.rows[1].q),"j"(m.basis.rows[2].q),"j"(m.position.q),"j"(p));return r;}
+static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
 static inline qword AddScaled(qword p,qword v,qword k){__asm__("vadda.xyzw ACC,$vf0,%0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(p):"j"(v),"j"(k));return p;}
 static inline M3 Mul(const M3 &a,const M3 &b) return r {
     qword a0=a.rows[0].q,a1=a.rows[1].q,a2=a.rows[2].q;
