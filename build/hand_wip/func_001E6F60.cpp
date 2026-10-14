@@ -35,6 +35,21 @@ static inline float Length(qword a){return X(Root(Dot(a,a)));}
 static inline qword Normalize(qword a){qword length=Root(Dot(a,a)),r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(length));return r;}
 static inline qword Lerp(qword a,qword b,qword low,qword high){qword r;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(low),"j"(high));return r;}
 static inline float Zero() { register float value __asm__("$f24");__asm__("mtc1 $zero,%0":"=f"(value));return value; }
+static inline float SegmentFraction(qword offset,qword direction){
+ register qword a __asm__("vf6")=offset;
+ register qword b __asm__("vf3")=direction;
+ register float numerator __asm__("$f1"),denominator __asm__("$f0");
+ __asm__("vmul.xyz $vf2,%3,%2\n\tvaddw.x $vf1,$vf0,$vf0w\n\tvadday.x $ACC,$vf2,$vf2y\n\tvmaddz.x $vf2,$vf1,$vf2z\n\tvmul.xyz $vf4,%2,%2\n\tvaddw.x %2,$vf0,$vf0w\n\tvadday.x $ACC,$vf4,$vf4y\n\tvmaddz.x $vf4,%2,$vf4z\n\tqmfc2.ni $v0,$vf2\n\tqmfc2.ni $v1,$vf4\n\tmtc1 $v0,%0\n\tmtc1 $v1,%1"
+  :"=f"(numerator),"=f"(denominator),"+j"(b):"j"(a):"vf1","vf2","vf4","$2","$3");
+ return numerator/denominator;
+}
+static inline float DisplacementLength(qword displacement){
+ register qword phase __asm__("vf1")=displacement;
+ register float length __asm__("$f0");
+ __asm__("vmul.xyz %1,%1,%1\n\tvaddw.x $vf2,$vf0,$vf0w\n\tvadday.x $ACC,%1,%1y\n\tvmaddz.x %1,$vf2,%1z\n\tvsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %1,$vf0,$Q\n\tqmfc2.ni $v0,%1\n\tmtc1 $v0,%0"
+  :"=f"(length),"+j"(phase): :"vf2","$2");
+ return length;
+}
 extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,qword *outDirection,float *outTime,float *outValue){
  WORK work;work.point=point;
  VTE &v=p->vt[31];CopyMatrix(work.matrix,((M4*(*)(void*))v.fn)((char*)p+v.delta));
@@ -43,16 +58,42 @@ extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,q
   work.start=Point(work.matrix,p->points[0]);
   float best=D_002A8138,time=-1.0f;float lowerBound=Zero();
   for(int index=1;index<p->count;index++){
-   qword query=Load(work.point);qword offset=Sub(query,work.start);
-   work.end=PointKept(query,work.matrix,p->points[index]);
-   qword direction=Sub(work.end,work.start);
-   if(space){
-    work.offset=offset;
-    work.filteredDirection=ToVU(func_001FA970(space,direction));
-    offset=ToVU(func_001FA970(space,work.offset));
-    direction=work.filteredDirection;
+   float fraction;
+   {
+    register qword endPoint __asm__("vf7");
+    register qword pointOffset __asm__("vf6");
+    register qword segmentDirection __asm__("vf3");
+    __asm__("lqc2 %0,%4\n\tlqc2 $vf1,%5\n\tvsub.xyzw %1,%0,$vf1\n\tlqc2 %2,%6\n\tlqc2 $vf1,0x30(%7)\n\tlqc2 $vf5,0(%7)\n\tlqc2 $vf4,0x10(%7)\n\tlqc2 $vf2,0x20(%7)\n\tvmulax.xyz $ACC,$vf5,%2x\n\tvmadday.xyz $ACC,$vf4,%2y\n\tvmaddaz.xyz $ACC,$vf2,%2z\n\tvmaddw.xyz %0,$vf1,$vf0w\n\tlqc2 $vf1,%5\n\tsqc2 %0,%3\n\tvsub.xyzw %2,%0,$vf1"
+      :"=j"(endPoint),"=j"(pointOffset),"=j"(segmentDirection),"=m"(work.end)
+      :"m"(work.point),"m"(work.start),"m"(p->points[index]),"r"(&work.matrix),"X"(work.matrix)
+      :"vf1","vf2","vf4","vf5");
+    if(space){
+     qword projectedDirection;
+     {
+      register qword directionInput __asm__("$5");
+      __asm__("qmfc2.ni %0,%1":"=r"(directionInput):"j"(segmentDirection));
+      work.offset=pointOffset;
+      projectedDirection=func_001FA970(space,directionInput);
+     }
+     qword projectedOffset;
+     {
+      register qword restoredOffset __asm__("vf6");
+      register qword projected __asm__("vf3");
+      __asm__("lqc2 %0,%3\n\tqmtc2.ni %4,%1\n\tsqc2 %1,%2"
+       :"=j"(restoredOffset),"=j"(projected),"=m"(work.filteredDirection)
+       :"m"(work.offset),"r"(projectedDirection));
+      register qword offsetInput __asm__("$5");
+      __asm__("qmfc2.ni %0,%1":"=r"(offsetInput):"j"(restoredOffset));
+      projectedOffset=func_001FA970(space,offsetInput);
+     }
+     {
+      register qword finalDirection __asm__("vf3");
+      register qword finalOffset __asm__("vf6");
+      __asm__("lqc2 %0,%2\n\tqmtc2.ni %3,%1":"=j"(finalDirection),"=j"(finalOffset):"m"(work.filteredDirection),"r"(projectedOffset));
+      fraction=SegmentFraction(finalOffset,finalDirection);
+     }
+    }else fraction=SegmentFraction(pointOffset,segmentDirection);
    }
-   float fraction=X(Dot(offset,direction))/X(Dot(direction,direction));
    float complement;
    if(fraction<lowerBound){fraction=0.0f;complement=1.0f;}else if(fraction>1.0f){fraction=1.0f;complement=0.0f;}else complement=1.0f-fraction;
    work.closest=Lerp(work.start,work.end,Scalar(work.scalar,complement),Scalar(work.scalar,fraction));
@@ -73,9 +114,20 @@ extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,q
  case 1:{
   float best=D_002A8138;int closest=-1;
   for(int index=0;index<p->count;index++){
-   qword delta=Sub(work.point,PointRow0(work.matrix,p->points[index]));
-   if(space)delta=ToVU(func_001FA970(space,delta));
-   float distance=Length(delta);
+   float distance;
+   {
+    register qword displacement __asm__("vf1");
+    __asm__("lqc2 $vf2,0x20(%3)\n\tlqc2 %0,0x30(%3)\n\tlqc2 $vf3,0(%3)\n\tlqc2 $vf5,0x10(%3)\n\tlqc2 $vf4,%2\n\tvmulax.xyz $ACC,$vf3,$vf4x\n\tvmadday.xyz $ACC,$vf5,$vf4y\n\tvmaddaz.xyz $ACC,$vf2,$vf4z\n\tvmaddw.xyz $vf3,%0,$vf0w\n\tlqc2 $vf2,%1\n\tvsub.xyzw %0,$vf2,$vf3"
+     :"=j"(displacement):"m"(work.point),"m"(p->points[index]),"r"(&work.matrix),"X"(work.matrix):"vf2","vf3","vf4","vf5");
+    if(space){
+     qword filtered=func_001FA970(space,displacement);
+     {
+      register qword projected __asm__("vf1");
+      __asm__("qmtc2.ni %1,%0":"=j"(projected):"r"(filtered));
+      distance=DisplacementLength(projected);
+     }
+    }else distance=DisplacementLength(displacement);
+   }
    if(distance<best){best=distance;closest=index;}
   }
   func_001E6ED8(p,work.point,space,outPosition,outDirection,outTime,outValue,p->times[closest]);

@@ -1,4 +1,3 @@
-/* Full draft: 24/424 literal instruction differences. */
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 union U {qword q;float f[4];};
@@ -34,15 +33,19 @@ static inline float Y(qword a){float r;__asm__("prot3w %0,%1":"=r"(r):"r"(a));re
 static inline float Z(qword a){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(a));return r;}
 static inline qword Root(qword a){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(a));return a;}
 static inline float LengthXY(qword a){qword r;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));return X(Root(r));}
-static inline void NormalizeTangent(U &output,const qword &fallback){
+static inline void NormalizeTangent(U &output){
  register qword vector __asm__("vf3");
  register qword length __asm__("vf1");
  register qword one __asm__("vf2");
  qword alternative;
- register float epsilon __asm__("$f1")=0.0001f;
+ register const qword *fallbackAddress __asm__("$2");
+ register float epsilon __asm__("$f1");
+ const int zero=0;const float threshold=0.0001f;
+ __asm__("sw %z3,%0\n\tlui %1,%%hi(%5)\n\tli.s %2,%4\n\taddiu %1,%1,%%lo(%5)"
+  :"=m"(output.f[2]),"=r"(fallbackAddress),"=f"(epsilon):"rJ"(zero),"F"(threshold),"i"(&D_002A2DA0));
  register int word __asm__("$3");
  register float value __asm__("$f0");
- __asm__("lqc2 %0,%4\n\tvmul.xyz %1,%0,%0\n\tvaddw.x %2,$vf0,$vf0w\n\tvadday.x $ACC,%1,%1y\n\tvmaddz.x %1,%2,%1z\n\tlq %3,0(%3)":"=j"(vector),"=j"(length),"=j"(one),"=r"(alternative):"m"(output.q),"3"(&fallback),"m"(fallback));
+ __asm__("lqc2 %0,%4\n\tvmul.xyz %1,%0,%0\n\tvaddw.x %2,$vf0,$vf0w\n\tvadday.x $ACC,%1,%1y\n\tvmaddz.x %1,%2,%1z\n\tlq %3,0(%3)":"=j"(vector),"=j"(length),"=j"(one),"=r"(alternative):"m"(output.q),"3"(fallbackAddress),"m"(*fallbackAddress));
  __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(length));
  __asm__("qmfc2.ni %0,%1":"=r"(word):"j"(length));
  __asm__("mtc1 %1,%0":"=f"(value):"r"(word));
@@ -59,15 +62,34 @@ static inline void TargetDisplacement(U &output,const qword &captured,qword acto
  __asm__("vsub.xyzw %0,%1,%2":"=j"(delta):"j"(target),"j"(current));
  __asm__("sqc2 %1,%0":"=m"(output.q):"j"(delta));
 }
-static inline qword NormalizeDirection(qword input){
+static inline qword NormalizeDirection(qword input,float &speed,const float &sourceSpeed){
  register qword vector __asm__("vf2");
  register qword length __asm__("vf1");
  register qword one __asm__("vf3");
- __asm__("qmtc2.ni %1,%0":"=j"(vector):"r"(input));
+ register float scale __asm__("$f2");
+ __asm__("qmtc2.ni %2,%0\n\tlwc1 %1,%3":"=j"(vector),"=f"(scale):"r"(input),"m"(sourceSpeed));
  __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(length),"=&j"(one):"j"(vector));
  __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(length));
  __asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"+j"(length):"j"(vector));
- return length;
+ speed=scale;return length;
+}
+static inline int NearYInputs(qword previous,qword current,float tolerance){
+ register qword currentWord __asm__("$2"),previousWord __asm__("$3");
+ register float currentInput __asm__("$f12"),previousInput __asm__("$f13");
+ __asm__("prot3w %0,%1":"=r"(currentWord):"r"(current));
+ __asm__("prot3w %0,%1":"=r"(previousWord):"r"(previous));
+ __asm__("mtc1 %1,%0":"=f"(currentInput):"r"(currentWord));
+ __asm__("mtc1 %1,%0":"=f"(previousInput):"r"(previousWord));
+ return func_0011D4D0(currentInput,previousInput,tolerance);
+}
+static inline int NearZInputs(qword previous,qword current,float tolerance){
+ register qword currentWord __asm__("$2"),previousWord __asm__("$3");
+ register float currentInput __asm__("$f12"),previousInput __asm__("$f13");
+ __asm__("pextuw %0,$zero,%1":"=r"(currentWord):"r"(current));
+ __asm__("pextuw %0,$zero,%1":"=r"(previousWord):"r"(previous));
+ __asm__("mtc1 %1,%0":"=f"(currentInput):"r"(currentWord));
+ __asm__("mtc1 %1,%0":"=f"(previousInput):"r"(previousWord));
+ return func_0011D4D0(currentInput,previousInput,tolerance);
 }
 extern "C" void func_001E46A0(P *p,OUTPUT *out){
  WORK work;PARAM *param=p->param;ACTOR *actor=p->actor;
@@ -111,7 +133,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   if(actor->active!=-1&&actor->mode==3){
    PATH *motion=actor->motion;
    func_001E67B8(motion,actor->motionTime,&work.from.q,&work.to.q);
-   work.to.f[2]=0.0f;NormalizeTangent(work.to,D_002A2DA0);
+   NormalizeTangent(work.to);
    int reverse=0;
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    if(motion->cyclic){
@@ -142,19 +164,38 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   if(!target||actor->active==-1||actor->mode!=8)break;
   func_001E4D40(p,target,&work.from.q,0);
   {register qword captured __asm__("$3")=work.from.q;work.second=captured;}
-  work.to.q=Sub(work.second,ToVU(func_001A62E8(actor)));
-  work.to.f[2]=0.0f;
-  work.normal.q=NormalizeDirection(func_001A6FC0(0,actor,work.to.q));
-  out->y=work.normal.f[0]*out->speed;out->x=-work.normal.f[1]*out->speed;
+  {
+   qword actorPosition=func_001A62E8(actor);
+   register qword targetPoint __asm__("vf2");
+   register qword currentPoint __asm__("vf3");
+   register qword displacement __asm__("vf1");
+   register void *sourceInput __asm__("$4");
+   register ACTOR *targetInput __asm__("$5");
+   void *const sourceSpace=0;
+   __asm__("lqc2 %0,%6\n\tdaddu %5,%8,$zero\n\tqmtc2.ni %7,%1\n\tdaddu %4,%z9,$zero\n\tvsub.xyzw %2,%0,%1\n\tsqc2 %2,%3"
+    :"=j"(targetPoint),"=j"(currentPoint),"=j"(displacement),"=m"(work.to.q),"=r"(sourceInput),"=&r"(targetInput)
+    :"m"(work.second),"r"(actorPosition),"r"(actor),"rJ"(sourceSpace));
+   work.to.f[2]=0.0f;
+   float speed;
+   work.normal.q=NormalizeDirection(func_001A6FC0(sourceInput,targetInput,work.to.q),speed,out->speed);
+   out->y=work.normal.f[0]*speed;out->x=-work.normal.f[1]*speed;
+  }
   break;
  }
  case 0x58:
   out->speed=0.0f;out->flags|=0x20;func_001C45A8(out);break;
  case 0x5A:{
-  float tolerance=D_002C3640;
-  qword oldPosition=actor->oldPosition,position=actor->position;
-  int near=0;
-  if(func_0011D4D0(X(position),X(oldPosition),tolerance)&&func_0011D4D0(Y(position),Y(oldPosition),tolerance)&&func_0011D4D0(Z(position),Z(oldPosition),tolerance))near=1;
+  float tolerance;
+  qword oldPosition,position;
+  int near;
+  const int defaultStatus=0;
+  __asm__("lq %0,0x19F0(%1)\n\tlwc1 %2,%7\n\tdaddu %3,%z8,$zero\n\tlq %1,0x1A20(%1)"
+   :"=&r"(oldPosition),"=r"(position),"=f"(tolerance),"=&r"(near)
+   :"1"(actor),"m"(actor->oldPosition),"m"(actor->position),"m"(D_002C3640),"rJ"(defaultStatus));
+  register float previousX __asm__("$f13"),currentX __asm__("$f12");
+  __asm__("mtc1 %1,%0":"=f"(previousX):"r"(oldPosition));
+  __asm__("mtc1 %1,%0":"=f"(currentX):"r"(position));
+  if(func_0011D4D0(currentX,previousX,tolerance)&&NearYInputs(oldPosition,position,tolerance))near=NearZInputs(oldPosition,position,tolerance)!=0;
   if(near)out->flags|=0x40;
   out->speed=0.0f;func_001C45A8(out);break;
  }

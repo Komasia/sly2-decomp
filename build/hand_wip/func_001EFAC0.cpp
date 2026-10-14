@@ -27,6 +27,11 @@ void func_0013F810(GRAPH*,void*);
 }
 struct FRAME {FRAME(){func_001AE478(this);}~FRAME(){func_001AE4A0(this,2);}};
 static inline void Initialize(CHILD *p){VTE &v=p->vt[9];((void(*)(void*))v.fn)((char*)p+v.delta);}
+static inline int ChildId(int value){
+ register int result __asm__("$4");
+ __asm__("daddu %0,%1,$zero":"=r"(result):"r"(value));
+ return result;
+}
 extern "C" void func_001EFAC0(GRAPH *p,void *stream){
  int i=0;
  func_0011A1F8(&p->active,0x14);
@@ -66,7 +71,7 @@ extern "C" void func_001EFAC0(GRAPH *p,void *stream){
   edge->flags=func_00117DB8(stream);
   edge->value=func_00117DB8(stream);
   edge->weight=func_00117E38(stream);
-  int id=func_00117DB8(stream);
+  int id=ChildId(func_00117DB8(stream));
   if(id!=-1){
    if(children.count>0){
     i=0;CHILD *child;
@@ -87,11 +92,11 @@ extern "C" void func_001EFAC0(GRAPH *p,void *stream){
   for(;j<maskCount;j++)if(masks[j]&bit)break;
   if(j!=maskCount)continue;
   uint mask=all;
-  {int remaining=p->edgeCount;EDGE *edge=p->edges;
-   while(remaining>0){uint f=edge->flags;if(f&bit)mask&=f;--remaining;++edge;}
+  {edgeIndex=p->edgeCount;EDGE *edge=p->edges;
+   if(edgeIndex>0)do{uint f=edge->flags;if(f&bit)mask&=f;--edgeIndex;++edge;}while(edgeIndex!=0);
   }
-  {int remaining=p->edgeCount;EDGE *edge=p->edges;
-   while(remaining>0){uint f=edge->flags;if((f&mask)&&!(f&bit))mask&=~f;--remaining;++edge;}
+  {edgeIndex=p->edgeCount;EDGE *edge=p->edges;
+   if(edgeIndex>0)do{uint f=edge->flags;if((f&mask)&&!(f&bit))mask&=~f;--edgeIndex;++edge;}while(edgeIndex!=0);
   }
   masks[maskCount++]=mask;
  }

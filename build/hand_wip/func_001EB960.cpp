@@ -1,4 +1,3 @@
-
 #include "gifs.h"
 struct RGBA {uchar r,g,b,a;};
 struct PACKET {int count;QW*data;};
@@ -9,11 +8,18 @@ extern ENTRY *D_003DCFEC;
 extern uint D_002DE18C;
 extern "C" void func_001EA750(TEXTURE*,int,GIFS*);
 extern "C" void func_001EB960();
-static inline ulong ColorWord(RGBA color,int includeAlpha){ulong value=(ulong)color.r|((ulong)color.g<<8)|((ulong)color.b<<16);if(includeAlpha)value|=(ulong)color.a<<24;return value|(1UL<<32);}
+static inline ulong ColorWord(const RGBA&color,const ENTRY*entry){ulong value=(ulong)color.r|((ulong)color.g<<8)|((ulong)color.b<<16);if(entry->flags&2)return (value|((ulong)color.a<<24))|(1UL<<32);return value|(1UL<<32);}
 static inline void Pair(GIFS&q,int first,ulong regs){q.AddPrimBulk(first,0,4,regs,0);q.AddPrimBulk(first+1,0,4,regs,0);}
 static inline void Packed(GIFS&q){q.AddPrimPack(0,1,0xE);}
 static inline void End(GIFS&q){q.GIFS::EndPrim(1);q.EndDmaCnt();}
-static inline ulong Alpha(ENTRY*e){return (((e->flags&1)?2UL:1UL)<<2)|0x40;}
+union BLEND_WORD {ulong value;struct {ulong first:2;ulong second:2;ulong third:2;ulong fourth:2;ulong remaining:56;} fields;};
+static inline ulong Alpha(ENTRY*e){BLEND_WORD word;word.value=0;word.fields.second=(e->flags&1)?2UL:1UL;word.fields.fourth=1;return word.value;}
+#define OFF(t,m) ((unsigned int)&((t*)0)->m)
+typedef char packet_layout[(sizeof(void*)==4 && sizeof(ulong)==8 && sizeof(QW)==16 && sizeof(DMAS)==28 && sizeof(GIFS)==40 && sizeof(RGBA)==4 && sizeof(PACKET)==8 && sizeof(ENTRY)==44 && sizeof(BLEND_WORD)==8 && OFF(PACKET,count)==0x0 && OFF(PACKET,data)==0x4 && OFF(RGBA,r)==0x0 && OFF(RGBA,g)==0x1 && OFF(RGBA,b)==0x2 && OFF(RGBA,a)==0x3 && OFF(ENTRY,kind)==0x4 && OFF(ENTRY,flags)==0x5 && OFF(ENTRY,color)==0xC && OFF(ENTRY,secondary)==0x10 && OFF(ENTRY,texture)==0x18 && OFF(ENTRY,packets)==0x20 && OFF(GIFS,m_pbMax)==0x0 && OFF(GIFS,m_ab)==0x4 && OFF(GIFS,m_pqwCnt)==0x8 && OFF(GIFS,m_pb)==0xC && OFF(GIFS,m_fPad)==0x10 && OFF(GIFS,m_fEndPrim)==0x14 && OFF(GIFS,m_pqwPrim)==0x1C && OFF(GIFS,m_creg)==0x20 && OFF(GIFS,m_cregAll)==0x24)?1:-1];
+static inline ulong TestWordOr(uint base,ulong bits){
+ register ulong result __asm__("$6");register uint input __asm__("$5")=base;register ulong mask __asm__("$2")=bits;
+ __asm__("or %0,%1,%2":"=r"(result):"r"(input),"r"(mask));return result;
+}
 void func_001EB960(){
  int i;
  for(i=0;i<D_003DCFE8;i++){
@@ -31,15 +37,17 @@ void func_001EB960(){
     test|=e->kind?0x20000UL:0x60000UL;
     q.PackAD(0x47,test);q.PackAD(0x42,0);
    }else if(e->flags&0x10){
-    ulong test=0x7E1UL;if(!e->kind)test=0x7EBUL;
-    if(e->flags&4)test|=0x13000UL;else test|=0x11000UL;
+    uint testBase=0x7E1;if(!e->kind)testBase=0x7EB;
+    ulong test;
+    if(e->flags&4)test=TestWordOr(testBase,0x13000UL);else test=TestWordOr(testBase,0x11000UL);
     test|=e->kind?0x20000UL:0x60000UL;
     q.PackAD(0x47,test);q.PackAD(0x42,((ulong)(e->flags&1)<<3)|1);
    }else if(e->flags&0x80){
     q.PackAD(0x47,0x77000);q.PackAD(0x42,0x54);
    }else{
-    ulong test=0x7E1UL;if(!e->kind)test=0x7EBUL;
-    if(e->flags&4)test|=0x13000UL;else test|=0x11000UL;
+    uint testBase=0x7E1;if(!e->kind)testBase=0x7EB;
+    ulong test;
+    if(e->flags&4)test=TestWordOr(testBase,0x13000UL);else test=TestWordOr(testBase,0x11000UL);
     test|=e->kind?0x20000UL:0x60000UL;
     q.PackAD(0x47,test);q.PackAD(0x42,Alpha(e));
    }
@@ -47,7 +55,7 @@ void func_001EB960(){
    break;
   }
   case 3:{
-   GIFS q;
+   GIFS q;RGBA rounded,color;
    q.AllocStatic(p->count,p->data);
    if(e->flags&2){
     Pair(q,0x7C,0x4F12);Packed(q);
@@ -63,14 +71,14 @@ void func_001EB960(){
    q.AllocStatic(p->count,p->data);++p;
    Pair(q,0x4C,0x4FFF);Packed(q);
    q.PackAD(0x47,0x71001);q.PackAD(0x42,0x6A);
-   q.PackAD(1,(3UL<<32)|0x2000);End(q);q.Clear();
+   q.PackAD(1,(1UL<<32)|0x80002000UL);End(q);q.Clear();
    q.AllocStatic(p->count,p->data);++p;
    Pair(q,0x6C,0x4FFF);q.AddPrimPack(0,5,0x12EEE);
-   q.PackAD(0x47,0x75001);q.PackAD(0x42,(((e->flags&1)?two:one)<<2)|mask);
+   q.PackAD(0x47,0x75001);{BLEND_WORD word;word.value=mask;word.fields.second=(e->flags&1)?two:one;q.PackAD(0x42,word.value);}
    q.PackAD(0x3D,(ulong)D_002DE18C);
    q.PackSTQ(0.f,0.f,1.f);
    {
-    RGBA rounded;
+
     rounded.r=(e->color.r+1)>>1;rounded.g=(e->color.g+1)>>1;
     rounded.b=(e->color.b+1)>>1;rounded.a=(e->color.a+1)>>1;
     q.PackRGBA(*(uint*)&rounded);
@@ -79,9 +87,9 @@ void func_001EB960(){
    q.AllocStatic(p->count,p->data);
    q.AddPrimBulk(0x4D,0,1,4,0);
    {
-    RGBA color=e->secondary;
+    color=e->secondary;
     Packed(q);if(e->flags&1)one=two;q.PackAD(0x42,(one<<2)|mask);
-    q.PackAD(1,ColorWord(color,e->flags&2));
+    q.PackAD(1,ColorWord(color,e));
    }
    End(q);break;
   }

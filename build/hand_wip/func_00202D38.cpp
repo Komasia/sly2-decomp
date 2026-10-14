@@ -5,7 +5,8 @@ struct ACTOR {char pad0[0xE4];float headOffset,threshold;LINK *link;char padF0[0
 struct DISPLAY {char pad0[0x110];void *actorChoice,*risingChoice,*fallingChoice,*nearChoice,*emptyChoice;};
 struct MODEL {void *object;char pad4[0x1C];int state;};
 struct P {int state;char pad4[0xC];U origin;char pad20[0x10];int count;ACTOR *items[1];char pad38[0x54];ACTOR *actor;float proximity,sizeGain;int rising;float choiceTime;int savedFlags;void *resource;MODEL *model;DISPLAY *primary,*secondary;int refreshPending,visible;void *selected,*pending;};
-struct CAMERA {char pad0[0x70];U up;};
+struct CAMERA_UP_VIEW {char pad0[0x10];U up;};
+struct CAMERA {char pad0[0x60];CAMERA_UP_VIEW direction;};
 struct CLOCK {float time,dt;};
 struct PLAYER {char pad0[0x150];void *control;};
 extern CAMERA D_002DDF40;
@@ -29,7 +30,7 @@ int func_001C46C0(void *,unsigned int,float);
 }
 static inline qword Scalar(const float *p){qword r,b;__asm__("lw %0,%1":"=r"(b):"m"(*p));__asm__("qmtc2 %1,%0":"=j"(r):"r"(b));return r;}
 static inline qword Scale(qword a,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
-static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"0"(b));return r;}
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float FloatWord(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline qword Rotate(qword q){qword r;__asm__("prot3w %0,%1":"=r"(r):"r"(q));return r;}
@@ -39,6 +40,21 @@ static inline qword Screen(qword q){return Pack(FloatWord(q)*320.0f+320.0f,Float
 static inline float LengthXY(qword a){__asm__("vmul.xy %0,%0,%0\n\tvaddy.x %0,%0,%0y\n\tvsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(a));return FloatWord(a);}
 static inline float Min(float a,float b){return a<b?a:b;}
 static inline float Max(float a,float b){return a<b?b:a;}
+static inline void ProjectionInputs(qword point,const float &offset,const U &up,qword &pointVU,qword &offsetVU,qword &upVU,qword &argument){
+ int bits;
+ asm("lw %0,%1":"=r"(bits):"m"(offset));
+ register qword world asm("vf2");
+ register qword height asm("vf3");
+ register qword direction asm("vf1");
+ register qword input asm("$5");
+ asm("qmtc2.ni %4,%0
+	qmfc2.ni %3,%0
+	qmtc2.ni %5,%1
+	lqc2 %2,%6"
+     :"=j"(world),"=j"(height),"=j"(direction),"=&r"(input)
+     :"r"(point),"r"(bits),"m"(up));
+ pointVU=world;offsetVU=height;upVU=direction;argument=input;
+}
 extern "C" void func_00202D38(P *p)
 {
     U scalar,head;
@@ -54,10 +70,13 @@ extern "C" void func_00202D38(P *p)
     }
     if(p->actor){
         qword world=func_001A62E8(p->actor);
-        CAMERA *camera=&D_002DDF40;
-        scalar.q=Scalar(&p->actor->headOffset);
-        head.q=Add(world,Scale(camera->up.q,scalar.q));
-        qword base=func_0014F308(camera,world);
+        register CAMERA_UP_VIEW *direction asm("$17")=&D_002DDF40.direction;
+        qword worldVU,offsetVU,upVU,argument;
+        ProjectionInputs(world,p->actor->headOffset,direction->up,worldVU,offsetVU,upVU,argument);
+        scalar.q=offsetVU;
+        head.q=Add(worldVU,Scale(upVU,scalar.q));
+        register CAMERA *camera asm("$17")=(CAMERA *)((char*)direction-0x60);
+        qword base=func_0014F308(camera,argument);
         qword top=func_0014F308(camera,head.q);
         qword first=Screen(base);
         qword second=Screen(top);

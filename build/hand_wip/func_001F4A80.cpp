@@ -14,6 +14,12 @@ static __inline__ qword Make(float x, float y, float z)
             : "=&r"(q), "=&r"(t) : "f"(x), "f"(y), "f"(z));
     return q;
 }
+typedef void (*SETVECTOR)(void *,qword);
+static inline SETVECTOR ReadSetter(const VTE &entry){
+ register SETVECTOR function asm("$3");
+ asm("lw %0,%1":"=r"(function):"m"(entry.pfn));
+ return function;
+}
 extern "C" void func_001F4A80(struct P *p, struct A *pa)
 {
     M4 m;
@@ -23,8 +29,8 @@ extern "C" void func_001F4A80(struct P *p, struct A *pa)
     { M4 t = BuildVelocity(pa); m = t; }
     register VTE *vt __asm__("$2")=p->pvt;
     register int delta __asm__("$4")=vt[35].d;
-    q = Make(((float *)&m)[6], ((float *)&m)[8], ((float *)&m)[1]);
-    void (*setpos)(void *,qword)=(void (*)(void *,qword))vt[35].pfn;
+    q = Make(m.r[1].f[2],m.r[2].f[0],m.r[0].f[1]);
+    SETVECTOR setpos=ReadSetter(vt[35]);
     {
         register qword r __asm__("vf6");
     __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w" : "+j"(r) : "j"(m.r[0].q), "j"(m.r[1].q), "j"(m.r[2].q), "j"(m.r[3].q), "j"(pa->pos));

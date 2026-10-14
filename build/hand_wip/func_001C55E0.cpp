@@ -69,6 +69,7 @@ static inline qword SphereDirection(P *p,CANDIDATE *candidate){
 }
 static inline CONTACT* FirstContact(CONTACT*records){register CONTACT*cursor __asm__("$3");__asm__("la %0,%a1":"=r"(cursor):"p"(records));return cursor;}
 static inline int NextCandidate(int index){register int next __asm__("$19");__asm__("addiu %0,%1,1":"=r"(next):"r"(index));return next;}
+static inline qword PenetrationCenter(const CANDIDATE*candidate,const qword&home,float&radius){register float r __asm__("$f2");register qword center __asm__("vf1");__asm__("lwc1 %0,%2\n\tlqc2 %1,%3":"=f"(r),"=j"(center):"m"(candidate->radius),"m"(home));radius=r;return center;}
 extern "C" void func_001C55E0(P *p){
  WORK work;
  int i=0;
@@ -82,7 +83,11 @@ extern "C" void func_001C55E0(P *p){
   if(candidate->flags&(0x8000UL<<34)){next=i+1;
    CopyVU(&work.center,candidate->entity->position);
    qword current=ToVU(func_001A62E8(p));
-   float penetration=Length(Difference(work.center,current))-candidate->radius-p->radius.value;
+   float candidateRadius;
+   qword center=PenetrationCenter(candidate,work.center,candidateRadius);
+   qword displacement=Difference(center,current);
+   float ownRadius=p->radius.value;
+   float penetration=Length(displacement)-candidateRadius-ownRadius;
    if(penetration<deepest){
     qword direction=SphereDirection(p,candidate);next=NextCandidate(i);
     work.scalar.q=direction;
@@ -99,7 +104,7 @@ extern "C" void func_001C55E0(P *p){
   }
   i=next;
  }
- if(deepest<0.0f){
+ if(deepest<0.0f){float correction;
   if(work.normal.f[2]>0.7f && p->state==4){
    float vertical=func_0011E290(p->velocity,D_002A2DC0,0,&work.primary.q);
    qword length=NormalizeInto(work.primary,D_002A2DD0);
@@ -115,11 +120,13 @@ extern "C" void func_001C55E0(P *p){
     p->raised=1;
     }
    }
+  correction=-deepest;
   }else{
    func_0011E290(p->velocity,work.normal.q,&work.primary.q,&work.secondary.q);
    work.response=Combine(work.primary.q,work.secondary.q,Scalar(work.last,-p->normalResponse),ScalarBits(work.last,p->tangentResponse.bits));
+  correction=-deepest;
   }
-  p->position=AddScaled(p->position,work.normal.q,Scalar(work.primary,-deepest));
+  p->position=AddScaled(p->position,work.normal.q,Scalar(work.primary,correction));
   p->velocity=work.response;
  }
 }

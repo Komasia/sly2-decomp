@@ -1,4 +1,3 @@
-
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M3 {U a,b,c;};
@@ -25,8 +24,12 @@ M3*func_0011B830(M3*,qword,qword);
 void func_001E9858(S*);
 }
 static inline qword Point(M4*m,qword v){qword r=m->a;__asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m->b),"j"(m->c),"j"(m->d),"j"(v));return r;}
-static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Transform(const M3&m,qword v){__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(m.a.q),"j"(m.b.q),"j"(m.c.q));return v;}
+static inline qword PointDifference(const U&world,const U&hit){
+ register qword value __asm__("vf3")=world.q,point __asm__("vf1")=hit.q;
+ __asm__("vsub.xyzw %0,%0,%1":"+j"(value):"j"(point));
+ return value;
+}
 static inline qword PextL(qword a,qword b){qword r;__asm__("pextlw %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
 static inline qword PextH(qword a,qword b){qword r;__asm__("pextuw %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
 static inline qword CopyL(qword a,qword b){qword r;__asm__("pcpyld %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
@@ -61,10 +64,11 @@ void func_001E9858(S*p){
     w.world.q=Point(&object->mat,vertices[k].q);
     func_001E6F60(p->path,w.world.q,0,&phase->hit.q,&w.direction.q,&w.distance,0);
     func_0011B830(&w.temporary,w.direction.q,w.axis.q);
+    qword difference=PointDifference(w.world,phase->hit);
     w.basis=w.temporary;
     TransposeInto(w.temporary,w.basis);
     w.inverse=w.temporary;
-    out->q=Transform(w.inverse,Sub(w.world.q,phase->hit.q));out->f[3]=w.distance;out++;
+    out->q=Transform(w.inverse,difference);out->f[3]=w.distance;out++;
    }
    j=w.nextEntry;
   }

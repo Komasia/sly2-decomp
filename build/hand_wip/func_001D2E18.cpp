@@ -39,7 +39,7 @@ static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Offset(qword origin,qword axis,qword amount){qword r;__asm__("vadda.xyzw ACC,$vf0,%1\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(origin),"j"(axis),"j"(amount));return r;}
 static inline float Dot(qword a,qword b){qword r,one;float f;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));int bits;__asm__("qmfc2.ni %0,%1":"=r"(bits):"j"(r));__asm__("mtc1 %1,%0":"=f"(f):"r"(bits));return f;}
-static inline qword Rotate(const M3 &m,qword v){qword r;__asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.rows[0].q),"j"(m.rows[1].q),"j"(m.rows[2].q),"j"(v));return r;}
+static inline qword Rotate(const M3 &m,qword v){__asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(m.rows[0].q),"j"(m.rows[1].q),"j"(m.rows[2].q));return v;}
 static inline qword InverseRotate(const M3 &m,qword v){qword r=m.rows[0].q,d0,d1,d2,one;__asm__("vmul.xyzw %1,%0,%5\n\tvmaxw.xyzw %4,$vf0,$vf0w\n\tvmul.xyzw %2,%6,%5\n\tvmul.xyzw %3,%7,%5\n\tvadday.x ACC,%1,%1y\n\tvmaddz.x %0,%4,%1z\n\tvaddax.y ACC,%2,%2x\n\tvmaddz.y %0,%4,%2z\n\tvaddax.z ACC,%3,%3x\n\tvmaddy.z %0,%4,%3y":"+j"(r),"=&j"(d0),"=&j"(d1),"=&j"(d2),"=&j"(one):"j"(v),"j"(m.rows[1].q),"j"(m.rows[2].q));return r;}
 static inline qword Divide(qword v,qword scalar){qword r;__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(scalar),"j"(v));return r;}
 static inline float Evaluate(const POLY &p,float t){return p.a+t*(p.b+t*p.c);}

@@ -46,6 +46,7 @@ static inline qword PointVF(qword q){register qword r __asm__("vf3");__asm__("qm
 static inline qword RestorePoint(const V &v){register qword q __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
 static inline qword LaunchUp(){register qword q __asm__("vf2");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
 static inline qword LaunchSpeed(const V &v){register qword q __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
+static inline qword LaunchCurrent(qword position){register qword value asm("vf1");asm("qmtc2.ni %1,%0":"=j"(value):"r"(position));return value;}
 static inline qword ToVF(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword CPUFloat(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Scalar(float f){register qword r __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
@@ -90,7 +91,7 @@ extern "C" void func_002206C8(S *s,int state){
   if(s->selected==D_002DD5BC&&!s->selected->playerState){
     w.scalar.q=CPUFloat(400.0f);w.coefficient.q=w.scalar.q;
     w.point.q=PointVF(func_001A62E8(s->selected));
-    qword position=func_001A62E8(s->owner);qword current=ToVF(position);qword direction=Sub(RestorePoint(w.point),current);
+    qword position=func_001A62E8(s->owner);qword current=LaunchCurrent(position);qword direction=Sub(RestorePoint(w.point),current);
     qword up=LoadUp();
     direction=Sub(direction,Scale(up,DotV(direction,up)));
     qword fallback=D_002A2DA0.q;

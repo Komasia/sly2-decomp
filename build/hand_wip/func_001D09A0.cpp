@@ -15,9 +15,13 @@ static inline float Clamp(float value,const float*b){float low=b[0],high=b[1];if
 static inline qword Rotate(const M3&m,qword q){__asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(q):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]));return q;}
 static inline M3 Mul(const M3&a,const M3&b) return r {
     qword a0=a.r[0],a1=a.r[1],a2=a.r[2];
-    __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[0]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[0]));
-    __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1]));
-    __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
+    qword c0=b.r[0],c1=b.r[1],c2=a0;
+    __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(c0):"j"(a0),"j"(a1),"j"(a2));
+    r.r[0]=c0;
+    __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(c1):"j"(a0),"j"(a1),"j"(a2));
+    r.r[1]=c1;
+    __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"+j"(c2):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
+    r.r[2]=c2;
 }
 static inline qword LengthVector(qword q){qword d,one,length;__asm__("vmul.xyz %0,%1,%1":"=j"(d):"j"(q));__asm__("vaddw.x %0,$vf0,$vf0w":"=j"(one));__asm__("vadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(length):"j"(d));return length;}
 static inline qword Normalize(qword q,qword length){qword n;__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(n):"j"(length),"j"(q));return n;}
@@ -31,8 +35,10 @@ extern "C" void func_001D09A0(P*p)
     float turn=Clamp(D_002C2010[0]+d*(D_002C2010[1]+d*D_002C2010[2]),D_002C2020);
     func_0011B500(&spin,p->matrix.r[1],turn*D_002DDED0.dt);
     p->velocity=Rotate(spin,p->velocity);
-    M3 basis=Mul(spin,p->matrix);
-    p->matrix=basis;
+    M3 basis;
+    M3 product=Mul(spin,p->matrix);
+    basis=product;
+    p->matrix=product;
     float drag=p->drag;p->drag=0.0f;
     func_0011E290(p->velocity,first,&basis.r[0],&basis.r[1]);
     qword parallel=basis.r[0];

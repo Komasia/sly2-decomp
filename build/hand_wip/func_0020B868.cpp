@@ -3,7 +3,7 @@ struct O;
 struct T;
 struct C;
 struct R { char pad[0x9C]; int kind; };
-struct VT { short delta, pad; void (*fn)(struct C *, float, qword *, float, void *); };
+struct VT { short delta, pad; void (*fn)(struct C *, float, qword *, float, qword *); };
 struct C { VT *vt; };
 struct E { int id; struct C *curve; };
 struct GROUP { int offset,count; void *items; };
@@ -29,6 +29,12 @@ static inline void Evaluate(struct C *c,qword *p,float t,float gain)
     VT &entry=c->vt[3];
     entry.fn((C*)((char *)c+entry.delta),t,p,gain,0);
 }
+static inline B *RetainBindings(B *value){
+ register B *input asm("$16")=value;
+ register B *result asm("$21");
+ asm("daddu %0,%1,$zero":"=r"(result):"r"(input));
+ return result;
+}
 extern "C" void func_0020B868(struct P *p)
 {
     if(p->entries[0].src) {
@@ -38,10 +44,10 @@ extern "C" void func_0020B868(struct P *p)
         register unsigned int i __asm__("$20");
         register float gain __asm__("$f20");
         FillBlAmrsg__FiiPviiP3OID(0x40,2,initialBase,0x20,2,D_002C3DC0);
-        base=initialBase;
+        base=RetainBindings(initialBase);
         gain=1.0f;
         i=0;
-        FillBlAmrsg__FiiPviiP3OID(0x40,2,base,0x30,2,D_002C3DC8);
+        FillBlAmrsg__FiiPviiP3OID(0x40,2,initialBase,0x30,2,D_002C3DC8);
         register T **tableOutput __asm__("$22")=&p->table;
         for(b=base;i<2;i++,b++) {
             register struct T *src __asm__("$17")=b->src;

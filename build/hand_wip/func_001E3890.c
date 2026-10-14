@@ -18,7 +18,7 @@ typedef struct ENTITY {char pad74[0x74];int live;} ENTITY;
 typedef struct FLAG_OBJECT {char pad28[0x28];unsigned long flags;char pad30[0xFC];float progress;} FLAG_OBJECT;
 typedef struct ITEM {char pad10[0x10];int id;} ITEM;
 typedef struct MODE_OBJECT {char padF28[0xF28];int mode;} MODE_OBJECT;
-struct P {char pad14[0x14];CTX *context;char pad18[0xC];ACTOR *subject;char pad28[0xC];float elapsed;char pad38[0xC];ACTOR *actor;int blocked;BASE *script;ENTITY *entity;void *pending,*fragment;int generation;FLAG_OBJECT *flagObject;void *target;ITEM *item;char pad6C[0x10];float previousCurve,time;char pad84[0x18];int group;MODE_OBJECT *modeObject;char padA4[0x34];ACTOR *commandActor;int command;};
+struct P {char pad14[0x14];CTX *context;char pad18[0xC];ACTOR *subject;char pad28[0xC];float elapsed;char pad38[0xC];ACTOR *actor;int blocked;BASE *script;ENTITY *entity;void *pending,*fragment;int generation;FLAG_OBJECT *flagObject;void *target;ITEM *item;char pad6C[0x10];float previousCurve,time;char pad84[0x18];int group;MODE_OBJECT *modeObject;char padA4[0x34];ACTOR *commandActor,*commandTarget;};
 extern float D_002DDF0C,D_002DDED0,D_002BD850,D_002C3620,D_002C3624,D_002C3628,D_002C362C;
 extern char D_002DE460[],D_002DFC00[],D_003DA530[],D_003DD040[];
 extern CONTROLLER *D_003E133C;
@@ -52,7 +52,7 @@ int func_001D9880(void*);
 int func_001FE848(void*,int);
 float func_001FE888(void*),func_001FE3F8(void*);
 int func_001F07E8(void*);
-int func_00171DA8(ACTOR*,int);
+int func_00171DA8(ACTOR*,ACTOR*);
 int func_0011D4D0(float,float,float);
 static inline float Clock(P *p){uint value=p->context->taggedFlags;if((value^1)&1)value=*(uint*)value;return value&0x100?D_002DDF0C:D_002DDED0;}
 static inline float Remaining(P *p){return Clock(p)-p->elapsed;}
@@ -182,8 +182,8 @@ int func_001E3890(P *p,OP *instruction){
  case 0x51:result=p->actor&&p->actor->state!=6;break;
  case 0x53:result=op->a14.f<Remaining(p);break;
  case 0x55:
-  if(p->command&&!func_00171DA8(p->commandActor,p->command)){p->commandActor=0;p->command=0;}
-  result=p->command==0;break;
+  if(p->commandTarget&&!func_00171DA8(p->commandActor,p->commandTarget)){p->commandActor=0;p->commandTarget=0;}
+  result=p->commandTarget==0;break;
  case 0x58:{
   ACTOR *target;result=1;if(!p->actor)break;
   target=func_001E1DB8(p,op->a10.id);
@@ -209,4 +209,4 @@ int func_001E3890(P *p,OP *instruction){
 }
 
 #define OFF(t,m) ((unsigned int)&((t*)0)->m)
-typedef char evaluator_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(unsigned long)==8 && sizeof(VALUE)==4 && sizeof(VTE)==8 && sizeof(RANGE)==8 && sizeof(FIRST)==16 && sizeof(WORK)==32 && OFF(VTE,delta)==0x0 && OFF(VTE,fn)==0x4 && OFF(BASE,vt)==0xC && OFF(RANGE,low)==0x0 && OFF(RANGE,high)==0x4 && OFF(WORK,first)==0x0 && OFF(WORK,target)==0x10 && OFF(OP,kind)==0x0 && OFF(OP,a10)==0x10 && OFF(OP,a14)==0x14 && OFF(OP,a18)==0x18 && OFF(OP,a1C)==0x1C && OFF(OP,a20)==0x20 && OFF(OP,a24)==0x24 && OFF(OP,reset)==0x40 && OFF(OP,resetArg)==0x44 && OFF(ACTOR,vt)==0xC && OFF(ACTOR,stage)==0x2DC && OFF(ACTOR,mode)==0x4C8 && OFF(ACTOR,active)==0x4CC && OFF(ACTOR,curveTime)==0xF60 && OFF(ACTOR,thread)==0x1034 && OFF(ACTOR,state)==0x13D0 && OFF(ACTOR,state18C8)==0x18C8 && OFF(ACTOR,index18D8)==0x18D8 && OFF(ACTOR,kind1914)==0x1914 && OFF(ACTOR,oldPosition)==0x19F0 && OFF(ACTOR,position)==0x1A20 && OFF(CONTROLLER,actor)==0x7C && OFF(CONTROLLER,next)==0x84 && OFF(CTX,taggedFlags)==0x40 && OFF(ENTITY,live)==0x74 && OFF(FLAG_OBJECT,flags)==0x28 && OFF(FLAG_OBJECT,progress)==0x12C && OFF(ITEM,id)==0x10 && OFF(MODE_OBJECT,mode)==0xF28 && OFF(P,context)==0x14 && OFF(P,subject)==0x24 && OFF(P,elapsed)==0x34 && OFF(P,actor)==0x44 && OFF(P,blocked)==0x48 && OFF(P,script)==0x4C && OFF(P,entity)==0x50 && OFF(P,pending)==0x54 && OFF(P,fragment)==0x58 && OFF(P,generation)==0x5C && OFF(P,flagObject)==0x60 && OFF(P,target)==0x64 && OFF(P,item)==0x68 && OFF(P,previousCurve)==0x7C && OFF(P,time)==0x80 && OFF(P,group)==0x9C && OFF(P,modeObject)==0xA0 && OFF(P,commandActor)==0xD8 && OFF(P,command)==0xDC)?1:-1];
+typedef char evaluator_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(unsigned long)==8 && sizeof(VALUE)==4 && sizeof(VTE)==8 && sizeof(RANGE)==8 && sizeof(FIRST)==16 && sizeof(WORK)==32 && OFF(VTE,delta)==0x0 && OFF(VTE,fn)==0x4 && OFF(BASE,vt)==0xC && OFF(RANGE,low)==0x0 && OFF(RANGE,high)==0x4 && OFF(WORK,first)==0x0 && OFF(WORK,target)==0x10 && OFF(OP,kind)==0x0 && OFF(OP,a10)==0x10 && OFF(OP,a14)==0x14 && OFF(OP,a18)==0x18 && OFF(OP,a1C)==0x1C && OFF(OP,a20)==0x20 && OFF(OP,a24)==0x24 && OFF(OP,reset)==0x40 && OFF(OP,resetArg)==0x44 && OFF(ACTOR,vt)==0xC && OFF(ACTOR,stage)==0x2DC && OFF(ACTOR,mode)==0x4C8 && OFF(ACTOR,active)==0x4CC && OFF(ACTOR,curveTime)==0xF60 && OFF(ACTOR,thread)==0x1034 && OFF(ACTOR,state)==0x13D0 && OFF(ACTOR,state18C8)==0x18C8 && OFF(ACTOR,index18D8)==0x18D8 && OFF(ACTOR,kind1914)==0x1914 && OFF(ACTOR,oldPosition)==0x19F0 && OFF(ACTOR,position)==0x1A20 && OFF(CONTROLLER,actor)==0x7C && OFF(CONTROLLER,next)==0x84 && OFF(CTX,taggedFlags)==0x40 && OFF(ENTITY,live)==0x74 && OFF(FLAG_OBJECT,flags)==0x28 && OFF(FLAG_OBJECT,progress)==0x12C && OFF(ITEM,id)==0x10 && OFF(MODE_OBJECT,mode)==0xF28 && OFF(P,context)==0x14 && OFF(P,subject)==0x24 && OFF(P,elapsed)==0x34 && OFF(P,actor)==0x44 && OFF(P,blocked)==0x48 && OFF(P,script)==0x4C && OFF(P,entity)==0x50 && OFF(P,pending)==0x54 && OFF(P,fragment)==0x58 && OFF(P,generation)==0x5C && OFF(P,flagObject)==0x60 && OFF(P,target)==0x64 && OFF(P,item)==0x68 && OFF(P,previousCurve)==0x7C && OFF(P,time)==0x80 && OFF(P,group)==0x9C && OFF(P,modeObject)==0xA0 && OFF(P,commandActor)==0xD8 && OFF(P,commandTarget)==0xDC)?1:-1];

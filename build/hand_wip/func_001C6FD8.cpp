@@ -43,7 +43,7 @@ static inline float Z(qword a){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(
 static inline qword ReadPacked(const qword &a){qword r;__asm__("lq %0,%1":"=r"(r):"m"(a));return r;}
 static inline void SetMode(P *p,int mode){VTE *vt=p->vt;((void(*)(void*,int))vt[76].fn)((char*)p+vt[76].delta,mode);}
 static inline REGION*GetRegion(P *p){EXT *extension=p->extension;LINK *link=extension?extension->link:0;return link?link->region:0;}
-static inline int TooFar(float distance,float limit){int r=1;if(!(distance>limit))r=0;return r;}
+static inline int TooFar(float distance,float limit){return distance>limit;}
 static inline qword Read1(const qword &q){register qword r __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(r):"m"(q));return r;}
 static inline qword Read2(const qword &q){register qword r __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(r):"m"(q));return r;}
 static inline qword Read3(const qword &q){register qword r __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(r):"m"(q));return r;}
@@ -81,8 +81,9 @@ static inline float PrefixLengthXY(qword a,qword b){
 }
 static inline qword Bound5(U &home,float f){register qword r __asm__("vf5");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));home.q=r;return home.q;}
 static inline qword Bound3(U &home,float f){register qword r __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));home.q=r;return home.q;}
-static inline qword Add4(qword a,qword b,qword s){register qword r __asm__("vf4");__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
-static inline qword Add1(qword a,qword b,qword s){register qword r __asm__("vf1");__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
+static inline qword Add4(qword a,qword b,qword s){register qword point __asm__("vf1")=a,axis __asm__("vf2")=b,scale __asm__("vf5")=s,r __asm__("vf4");__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(point),"j"(axis),"j"(scale));return r;}
+static inline qword Add1(qword a,qword b,qword s){register qword point __asm__("vf1")=a,axis __asm__("vf2")=b,scale __asm__("vf3")=s;__asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(point):"j"(axis),"j"(scale));return point;}
+static inline const REQUEST* AllocateAddress(const REQUEST*value){register const REQUEST*source __asm__("$5")=value;register const REQUEST*address __asm__("$4");__asm__("daddu %0,%1,$zero":"=r"(address):"r"(source));return address;}
 extern "C" void func_001C6FD8(void *world,int kind,qword seed,P *owner,int requested){
  U original,snap;
  if(!func_001C6DE8(0.0f,300.0f,D_002A775C,seed,0,0,&original.q))return;
@@ -90,19 +91,20 @@ extern "C" void func_001C6FD8(void *world,int kind,qword seed,P *owner,int reque
  REGION *region=0;
  if(nearest)region=GetRegion(nearest);
  if(!region)region=func_001C0D70(original.q,1);
- float height;
- if(!func_001C0940(region,original.q,&snap.q,1)){
+ int projected=func_001C0940(region,original.q,&snap.q,1);
+ float height=original.f[2];
+ if(!projected){
   qword position=func_001A62E8(nearest);
   if(!func_001C0940(region,position,&snap.q,1))return;
   height=Z(position);
- }else height=original.f[2];
+ }
  snap.f[2]=height;
  qword snapped=Read2(snap.q);
  if(TooFar(PrefixLengthXY(Read1(original.q),snapped),D_002C0E80))return;
  if(!func_001C6DE8(-250.0f,1500.0f,D_002A775C,snapped,0,0,&snap.q))return;
  WORK work;
  work.box.request.size=requested*4;work.box.request.alignment=16;
- P **objects=(P**)func_001AE318(&work.box.request);
+ P **objects=(P**)func_001AE318(AllocateAddress(&work.box.request));
  int available=func_001C6CE8(world,kind,requested,objects);
  if(!available)return;
  qword center=Read1(snap.q),axis=Read2(D_002A2DE0);float extent=D_002C0E84;

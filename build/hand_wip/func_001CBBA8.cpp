@@ -9,7 +9,6 @@ void func_001CBBA8(S*,qword*,qword*,float);
 }
 static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword CrossKeepSecond(qword a,qword b){qword r;__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"0"(b));return r;}
-static inline qword ToVu(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
 static inline qword Bc(float f,U &u){register qword q __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));u.q=q;return u.q;}
 static inline qword Dir(const M3 &m,qword a){__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m.a),"j"(m.b),"j"(m.c));return a;}
 static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
@@ -18,9 +17,9 @@ static inline qword NormalizeOr(qword value,qword fallback){
  __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(length),"=&j"(one):"j"(value));
  __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(length):"j"(length));
  __asm__("mtc1 %1,%0":"=f"(scalar):"r"(length));
- result=ToVu(fallback);if(!(scalar<0.0001f))__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(result):"j"(length),"j"(value));return result;
+ result=fallback;if(!(scalar<0.0001f))__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(result):"j"(length),"j"(value));return result;
 }
-static inline qword ReadFallback(const qword*p){qword q;__asm__("lq %0,%1":"=r"(q):"m"(*p));return q;}
+static inline qword ReadFallback(const qword*p){register qword q __asm__("$3");__asm__("lq %0,%1":"=r"(q):"m"(*p));return q;}
 static inline qword LocalDirection(qword v){register qword q __asm__("vf4");__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(v));return q;}
 void func_001CBBA8(S*p,qword*posOut,qword*dirOut,float g){
  U pos;

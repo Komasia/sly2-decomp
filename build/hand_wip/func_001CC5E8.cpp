@@ -64,9 +64,9 @@ extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
   for(int j=0;j<2;j=work.nextJ){
    PATH *path=PathReceiver(func_0013E3C8(10,p->owner,0xB2,-1));
    path->mode=0;path->count=D_002C1ED0;
-   request->size=D_002C1ED0*4;request->alignment=16;path->times=(float *)func_001AE1D0(request);
-   request->size=D_002C1ED0*4;request->alignment=16;path->distances=(float *)func_001AE1D0(request);
-   request->size=D_002C1ED0*16;request->alignment=16;path->points=(qword *)func_001AE1D0(request);
+   work.scratch.request.size=D_002C1ED0*4;request->alignment=16;path->times=(float *)func_001AE1D0(request);
+   request->alignment=16;work.scratch.request.size=D_002C1ED0*4;path->distances=(float *)func_001AE1D0(request);
+   request->alignment=16;work.scratch.request.size=D_002C1ED0*16;path->points=(qword *)func_001AE1D0(request);
    SPACE *space;
    if(j==0){work.scratch.matrix.rows[3]=CopyWorkingFirst(&work.scratch.matrix,&work.original,&work.originalSpace,&space);}
    else{space=p->space;func_002333B4(working,0,0x40);((float *)working)[15]=1.0f;((float *)working)[10]=1.0f;((float *)working)[5]=1.0f;((float *)working)[0]=1.0f;}

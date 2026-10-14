@@ -2327,6 +2327,7 @@ func_0016F128,0x16F128,8,match,src/auto/func_0016F128.c
 RenderGomerSelf__FP5GOMERP2CMP2RO,0x16F148,11,match,src/hand/RenderGomerSelf__FP5GOMERP2CMP2RO.cpp
 func_0016F178,0x16F178,77,match,src/auto/func_0016F178.c
 func_0016F2B0,0x16F2B0,8,match,src/auto/func_0016F2B0.c
+BlendDisplayOnBufferMismatch__Fv,0x16F2D0,101,match,src/hand/BlendDisplayOnBufferMismatch__Fv.c
 VBlankS_Interrupt__Fi,0x16F468,61,match,src/hand/VBlankS_Interrupt__Fi.cpp
 SyncVBlank__Fv,0x16F560,11,match,src/hand/SyncVBlank__Fv.cpp
 SwapGsBuffers__Fv,0x16F590,74,match,src/hand/SwapGsBuffers__Fv.cpp
@@ -2841,6 +2842,7 @@ func_0018F8E8,0x18F8E8,8,match,src/auto/func_0018F8E8.c
 func_0018F908,0x18F908,19,match,src/hand/func_0018F908.c
 func_001903B8,0x1903B8,74,match,src/hand/func_001903B8.cpp
 func_001904E0,0x1904E0,16,match,src/hand/func_001904E0.c
+func_00190520,0x190520,432,match,src/hand/func_00190520.cpp
 func_00190BE0,0x190BE0,30,match,src/hand/func_00190BE0.c
 func_00190C58,0x190C58,46,match,src/hand/func_00190C58.c
 func_00190D10,0x190D10,65,match,src/hand/func_00190D10.c
@@ -3088,6 +3090,7 @@ func_001A7348,0x1A7348,26,match,src/hand/func_001A7348.c
 func_001A73C0,0x1A73C0,77,match,src/auto/func_001A73C0.c
 func_001A74F8,0x1A74F8,8,match,src/auto/func_001A74F8.c
 func_001A7518,0x1A7518,70,match,src/hand/func_001A7518.c
+func_001A7630,0x1A7630,152,match,src/hand/func_001A7630.c
 StartupVU0__Fv,0x1A7890,27,match,src/auto/StartupVU0__Fv.c
 StartupVU1__Fv,0x1A7900,27,match,src/auto/StartupVU1__Fv.c
 func_001A7970,0x1A7970,84,match,src/hand/func_001A7970.c
@@ -3389,6 +3392,7 @@ func_001BAD80,0x1BAD80,13,match,src/auto/func_001BAD80.c
 func_001BADB8,0x1BADB8,13,match,src/auto/func_001BADB8.c
 func_001BADF0,0x1BADF0,58,match,src/hand/func_001BADF0.c
 func_001BAED8,0x1BAED8,16,match,src/hand/func_001BAED8.cpp
+func_001BAF18,0x1BAF18,206,match,src/hand/func_001BAF18.c
 func_001BB250,0x1BB250,107,match,src/hand/func_001BB250.c
 func_001BB400,0x1BB400,146,match,src/hand/func_001BB400.c
 func_001BB648,0x1BB648,179,match,src/hand/func_001BB648.c
@@ -4076,6 +4080,7 @@ func_001E1C40,0x1E1C40,65,match,src/hand/func_001E1C40.cpp
 func_001E1D48,0x1E1D48,27,match,src/hand/func_001E1D48.c
 func_001E1DB8,0x1E1DB8,29,match,src/hand/func_001E1DB8.c
 func_001E4530,0x1E4530,92,match,src/hand/func_001E4530.c
+func_001E46A0,0x1E46A0,424,match,src/hand/func_001E46A0.cpp
 func_001E4D40,0x1E4D40,93,match,src/hand/func_001E4D40.c
 func_001E4EB8,0x1E4EB8,26,match,src/auto/func_001E4EB8.c
 func_001E4F20,0x1E4F20,56,match,src/hand/func_001E4F20.c
@@ -5043,6 +5048,7 @@ func_00218710,0x218710,10,match,src/hand/func_00218710.c
 func_00218738,0x218738,3,match,src/auto/func_00218738.c
 func_00218790,0x218790,71,match,src/hand/func_00218790.c
 func_002190F8,0x2190F8,38,match,src/hand/func_002190F8.c
+func_00219190,0x219190,109,match,src/hand/func_00219190.cpp
 func_00219348,0x219348,46,match,src/hand/func_00219348.c
 func_0021A998,0x21A998,49,match,src/hand/func_0021A998.c
 func_0021AA60,0x21AA60,1090,match,src/hand/func_0021AA60.cpp
@@ -5081,6 +5087,7 @@ CchAchFromUl__FPciUlUi,0x21DC70,52,match,src/hand/CchAchFromUl__FPciUlUi.cpp
 ExpFirstFromG__Fd,0x21E048,36,match,src/hand/ExpFirstFromG__Fd.cpp
 CchAchFromDouble__FPciP3TFTd,0x21E1B0,194,match,src/hand/CchAchFromDouble__FPciP3TFTd.cpp
 WriteTftDouble__FP3TFTP5OSTRMd,0x21E4B8,151,match,src/hand/WriteTftDouble__FP3TFTP5OSTRMd.cpp
+WriteTft__FP3TFTP5OSTRMPPcPci,0x21E718,235,match,src/hand/WriteTft__FP3TFTP5OSTRMPPcPci.cpp
 vprintf,0x21EBB8,23,match,src/hand/vprintf.c
 kprintf,0x21EC18,18,match,src/hand/kprintf.c
 s1_vsprintf,0x21EC60,29,match,src/hand/s1_vsprintf.c
@@ -5637,12 +5644,14 @@ func_00244EF8,0x244EF8,7,match,src/lib/func_00244EF8.c
 floorf,0x244F18,57,match,src/lib/floorf.c
 sinf,0x245000,60,match,src/lib/sinf.c
 tanf,0x2450F0,34,match,src/lib/tanf.c
+fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
 func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
 matherr,0x249CB8,9,match,src/lib/matherr.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
 func_0024A0E8,0x24A0E8,88,match,src/lib/func_0024A0E8.c
+func_0024A738,0x24A738,17,match,src/lib/func_0024A738.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
 func_0024B530,0x24B530,2,match,src/auto/func_0024B530.c

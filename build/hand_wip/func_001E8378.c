@@ -26,7 +26,7 @@ static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=
 static inline qword Bc(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline float Float(qword v){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(v));return f;}
 static inline qword Sq(qword v){qword r,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(v));return r;}
-static inline qword Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
+static inline qword Dot(qword a,qword b){qword r=a,one;__asm__("vmul.xyz %0,%0,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(r),"=&j"(one):"j"(b));return r;}
 static inline qword Length(qword v){qword r=Sq(v);__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(r));return r;}
 static inline qword Norm(qword v,qword len){qword r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(v),"j"(len));return r;}
 static inline qword MulX(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
@@ -36,7 +36,8 @@ static inline qword AddForces(qword a,qword b,qword s,qword c,qword t){qword r;_
 static inline qword Lerp(qword a,qword b,float f,U*scalar){qword r,s,t;scalar->q=Bc(1.f-f);s=scalar->q;scalar->q=Bc(f);t=scalar->q;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(s),"j"(t));return r;}
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float SqrtF(float f){float r;__asm__("sqrt.s %0,%1":"=f"(r):"f"(f));return r;}
-void func_001E8378(P*p){
+void func_001E8378(P*input){
+ register P*p __asm__("$18")=input;
  WORK w;
  register qword velocityStart __asm__("s1");
  int pass,i,last,interior;
@@ -50,19 +51,22 @@ void func_001E8378(P*p){
  last=w.count-1;
  func_001AE5A0(w.oldV,p->velocities,w.count*16);
  interior=w.count-2;
+ {
+ register U *positions __asm__("$16")=p->positions;
+ register U *velocities __asm__("$30")=p->velocities;
  for(pass=0;pass<4;pass++){
   float weight=D_002C3658[pass];
   float predictDt=weight*D_002DDED0.dt;
   float amplitude,rest;
-  w.newP[0].q=Lerp(p->positions[0].q,w.worldStart.q,weight,&w.phase.math.first);
-  w.newV[0].q=Lerp(p->velocities[0].q,velocityStart,weight,&w.phase.math.first);
-  w.newP[last].q=Lerp(p->positions[last].q,w.worldEnd.q,weight,&w.phase.math.first);
-  w.newV[last].q=Lerp(p->velocities[last].q,w.velocityEnd.q,weight,&w.phase.math.first);
+  w.newP[0].q=Lerp(positions[0].q,w.worldStart.q,weight,&w.phase.math.first);
+  w.newV[0].q=Lerp(velocities[0].q,velocityStart,weight,&w.phase.math.first);
+  w.newP[last].q=Lerp(positions[last].q,w.worldEnd.q,weight,&w.phase.math.first);
+  w.newV[last].q=Lerp(velocities[last].q,w.velocityEnd.q,weight,&w.phase.math.first);
   for(i=1;i<last;i++){
    w.phase.math.first.q=Bc(predictDt);
-   w.newV[i].q=AddScaled(p->velocities[i].q,w.forces[i].q,w.phase.math.first.q);
+   w.newV[i].q=AddScaled(velocities[i].q,w.forces[i].q,w.phase.math.first.q);
    w.phase.math.first.q=Bc(predictDt*.5f);
-   w.newP[i].q=AddScaled2(p->positions[i].q,p->velocities[i].q,w.newV[i].q,w.phase.math.first.q);
+   w.newP[i].q=AddScaled2(positions[i].q,velocities[i].q,w.newV[i].q,w.phase.math.first.q);
   }
   rest=p->distances[last];
   amplitude=(.75f-.25f/interior)*SqrtF(Max(rest*rest-Float(Sq(Sub(w.newP[0].q,w.newP[last].q))),0.f));
@@ -117,9 +121,10 @@ void func_001E8378(P*p){
    w.phase.math.first.q=Bc(integrateDt);
    w.oldV[i].q=AddScaled(w.oldV[i].q,force,w.phase.math.first.q);
    w.phase.math.first.q=Bc(integrateDt*.5f);
-   w.oldP[i].q=AddScaled2(w.oldP[i].q,p->velocities[i].q,w.newV[i].q,w.phase.math.first.q);
+   w.oldP[i].q=AddScaled2(w.oldP[i].q,velocities[i].q,w.newV[i].q,w.phase.math.first.q);
    w.forces[i].q=force;
   }
+ }
  }
  if(p->mode==3){
   int oldIndex=1,j;

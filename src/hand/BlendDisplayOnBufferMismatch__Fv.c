@@ -1,5 +1,5 @@
-/* Remaining difference: PMODE enable constant/load scheduling. */
-typedef struct { unsigned long EN1:1, EN2:1, CRTMD:3, MMOD:1, AMOD:1, SLBG:1, ALP:8, reserved:48; } __attribute__((packed)) PMODE;
+typedef struct { unsigned long EN1:1, EN2:1, CRTMD:3, MMOD:1, AMOD:1, SLBG:1, ALP:8, reserved:48; } __attribute__((packed)) PMODE_FIELDS;
+typedef union { PMODE_FIELDS field; unsigned long word; } __attribute__((packed)) PMODE;
 typedef struct { unsigned int FBP:9, FBW:6, PSM:5, reserved0:12, DBX:11, DBY:11, reserved1:10; } __attribute__((packed)) DISPFB;
 typedef struct { unsigned int DX:12, DY:11, MAGH:4, MAGV:2, reserved0:3, DW:12, DH:11, reserved1:9; } __attribute__((packed)) DISPLAY;
 typedef struct { PMODE pmode; unsigned long smode2; DISPFB dispfb; DISPLAY display; unsigned long bgcolor; } DISPENV;
@@ -29,6 +29,13 @@ static inline void PublishMode(const PMODE*value)
     __asm__("ldl %0,%1\n\tldr %0,%2":"=&r"(word):"m"(((const char*)value)[7]),"m"(((const char*)value)[0]),"X"(*value));
     __asm__ __volatile__("sdl %1,0x12000007\n\tsdr %1,0x12000000":"=X"(*(volatile PMODE*)0x12000000):"r"(word):"$1");
 }
+static inline void EnablePrimary(PMODE*mode)
+{
+    const unsigned long primaryMask=1;
+    register unsigned long word __asm__("$2"),mask __asm__("$3");
+    __asm__("li %1,%2\n\tld %0,%3":"=r"(word),"=r"(mask):"i"(primaryMask),"m"(*mode));
+    mode->word=word|mask;
+}
 void BlendDisplayOnBufferMismatch__Fv(void)
 {
     int field=D_002DEDB8;
@@ -41,7 +48,7 @@ void BlendDisplayOnBufferMismatch__Fv(void)
         if(field)display.DY+=1;else dispfb.DBY+=1;
         PublishDisplay(&display);
         PublishBuffer(&dispfb);
-        pmode.EN1=1;
+        EnablePrimary(&pmode);
     }
     PublishMode(&pmode);
 }
@@ -59,3 +66,8 @@ typedef char layout_env_smode2[((unsigned)&((DISPENV*)0)->smode2==0x8)?1:-1];
 typedef char layout_env_dispfb[((unsigned)&((DISPENV*)0)->dispfb==0x10)?1:-1];
 typedef char layout_env_display[((unsigned)&((DISPENV*)0)->display==0x18)?1:-1];
 typedef char layout_env_bgcolor[((unsigned)&((DISPENV*)0)->bgcolor==0x20)?1:-1];
+
+typedef char layout_PMODE_FIELDS[(sizeof(PMODE_FIELDS)==8)?1:-1];
+typedef char layout_PMODE_align[(__alignof__(PMODE)==1)?1:-1];
+typedef char layout_PMODE_field[((unsigned)&((PMODE*)0)->field==0)?1:-1];
+typedef char layout_PMODE_word[((unsigned)&((PMODE*)0)->word==0)?1:-1];

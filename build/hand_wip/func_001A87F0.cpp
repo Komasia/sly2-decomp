@@ -22,16 +22,28 @@ extern "C" {
 static inline qword Load(U*p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(p->q));return r;}
 static inline qword Point(qword*p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline float FirstDistance(qword normal,qword point){
- SCALAR dot,one;qword d,k;int bits;float f;
- __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddaz.x $ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"=&j"(d),"=&j"(k):"j"(normal),"j"(point));
- __asm__("qmfc2.ni %0,%1":"=r"(bits):"j"(d));__asm__("mtc1 %1,%0":"=f"(f):"r"(bits));
- one.q=k;dot.q=d;return f;
+ SCALAR dot,one;
+ register qword product __asm__("vf1"),unit __asm__("vf2");
+ register qword normalValue __asm__("vf3")=normal,pointValue __asm__("vf4")=point;
+ int bits;register float f __asm__("$f22");
+ __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w":"=&j"(product),"=&j"(unit):"j"(normalValue),"j"(pointValue));
+ one.q=unit;
+ __asm__("vadday.x $ACC,%0,%0y\n\tvmaddaz.x $ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"+j"(product):"j"(one.q),"j"(normalValue));
+ dot.q=product;
+ __asm__("qmfc2.ni %0,%2\n\tmtc1 %0,%1":"=&r"(bits),"=f"(f):"j"(dot.q));
+ return f;
 }
 static inline float OtherDistance(qword normal,qword point){
- SCALAR dot,one;qword k;int bits;register float f __asm__("$f20");
- __asm__("vmul.xyz %0,%2,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddaz.x $ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"+j"(point),"=&j"(k):"j"(normal));
- __asm__("qmfc2.ni %0,%1":"=r"(bits):"j"(point));__asm__("mtc1 %1,%0":"=f"(f):"r"(bits));
- one.q=k;dot.q=point;return f;
+ SCALAR dot,one;
+ register qword unit __asm__("vf2");
+ register qword normalValue __asm__("vf3")=normal,pointValue __asm__("vf1")=point;
+ int bits;register float f __asm__("$f20");
+ __asm__("vmul.xyz %0,%2,%0\n\tvaddw.x %1,$vf0,$vf0w":"+j"(pointValue),"=&j"(unit):"j"(normalValue));
+ one.q=unit;
+ __asm__("vadday.x $ACC,%0,%0y\n\tvmaddaz.x $ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"+j"(pointValue):"j"(one.q),"j"(normalValue));
+ dot.q=pointValue;
+ __asm__("qmfc2.ni %0,%2\n\tmtc1 %0,%1":"=&r"(bits),"=f"(f):"j"(dot.q));
+ return f;
 }
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char SCALAR_Size[sizeof(SCALAR)==16?1:-1];

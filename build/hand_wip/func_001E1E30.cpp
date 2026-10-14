@@ -4,17 +4,19 @@ union U { qword q; float f[4]; int i[4]; };
 union WORD { int i; float f; void *p; };
 struct VTE { short delta,pad; void *fn; };
 struct BASE { char pad[12]; VTE *vt; };
+struct PATH { char padC[12]; VTE *vt; char pad10[0xD0]; int mode,cyclic,count; float *times,*values; qword *points; };
+struct SPACE { qword direction; int category; };
 struct ACTOR;
 struct P;
 union VALUE { int id; float f; void *ptr; ACTOR *actor; };
 union ARGS { VALUE a[12]; qword vectors[3]; };
 struct OP { int kind,wait; char pad8[8]; ARGS args; WORD reset,resetArg; char pad48[8]; };
-struct CTX { char padC[12]; VTE *vt; char pad10[0x30]; uint flags; char pad44[0x24]; P *callback; ACTOR *defaultActor; };
+struct CTX { char padC[12]; VTE *vt; char pad10[0x30]; WORD flags; char pad44[0x24]; P *callback; ACTOR *defaultActor; };
 struct ACTOR {
  char padC[12]; VTE *vt; char pad10[0x230]; U relative;
  char pad250[0x8C]; int stage; char pad2E0[8]; int mode2E8;
- char pad2EC[0x1D4]; char mode4C0[8]; int mode,active,word4D0; ACTOR *modePath;
- char pad4D8[0xA7C]; int curveId; int wordF58; ACTOR *curve;
+ char pad2EC[0x1D4]; char mode4C0[8]; int mode,active,word4D0; PATH *modePath;
+ char pad4D8[0xA7C]; int curveId; int wordF58; PATH *curve;
  char padF60[0xE8]; WORD height; char pad104C[0x14]; U goal;
  char pad1070[0x284]; int locked; char pad12F8[0x5F8]; int mode18F0;
  char pad18F4[0x1C]; void *item; int itemKind;
@@ -74,10 +76,10 @@ extern "C" {
  void func_001E4EB8(P*,OP*,ACTOR*),func_001E4D40(P*,ACTOR*,U*,float*);
  M3 *func_0011B500(M3*,qword,float);
  void func_00204660(ACTOR*,float),func_002046B0(ACTOR*,qword);
- void func_00195A00(void*,int,ACTOR*,ACTOR*),func_001F4E28(ACTOR*);
+ void func_00195A00(void*,int,int,void*),func_001F4E28(ACTOR*);
  void func_0014D8C0(CAMERA*);
  void func_001E4F20(P*,ACTOR*),func_001E5000(P*,ACTOR*);
- void func_001E6F60(ACTOR*,qword,U*,U*,float*,float*,float*);
+ void func_001E6F60(PATH*,qword,SPACE*,qword*,qword*,float*,float*);
  void func_0018E540(ACTOR*,int),func_0018C250(ACTOR*,int,int);
  void func_00142140(ACTOR*,ACTOR*),func_00142278(ACTOR*,ACTOR*,ACTOR*);
  void func_00142340(ACTOR*,ACTOR*),func_001421A0(ACTOR*,ACTOR*),func_001421F8(ACTOR*,ACTOR*);
@@ -136,18 +138,40 @@ struct Reference {
 static inline qword ToVU(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
 static inline qword FromWord(int a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword AddScaled(qword point,qword axis,qword scalar){
  __asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(point):"j"(axis),"j"(scalar));return point;
 }
-static inline float Clock(P*p){
- register CTX*context __asm__("$2")=p->context;uint flags=context->flags;if((flags^1)&1)flags=*(uint*)flags;
- return flags&0x100?D_002DDED0.paused:D_002DDED0.time;
+static inline int IndirectFlag(int flags){
+ register int value __asm__("$3");
+ __asm__("xori %0,%1,1\n\tandi %0,%0,1":"=r"(value):"r"(flags));
+ return value;
 }
-static inline void Flag(CTX*p,int on){
- uint value=p->flags;
- if((value^1)&1){uint*flags=(uint*)value;if(on)*flags|=0x100;else *flags&=~0x100;}
- else if(on)p->flags=value|0x100;else p->flags=value&~0x100;
+static inline int PausedFlag(int flags){
+ register int value __asm__("$2");
+ __asm__("andi %0,%1,256":"=r"(value):"r"(flags));
+ return value;
+}
+static inline float Clock(P*p){
+ register CTX*context __asm__("$2")=p->context;
+ register int flags __asm__("$4");
+ __asm__("lw %0,%1":"=r"(flags):"m"(context->flags.i));
+ if(IndirectFlag(flags))flags=*(int*)flags;
+ return PausedFlag(flags)?D_002DDED0.paused:D_002DDED0.time;
+}
+static inline int FlagValue(CTX*context){
+ int value;
+ __asm__("lw %0,%1":"=r"(value):"m"(context->flags.i));
+ return value;
+}
+static inline void FlagOn(CTX*context){
+ int value=FlagValue(context);
+ if((value^1)&1){int*flags=(int*)value;*flags|=0x100;}
+ else context->flags.i=value|0x100;
+}
+static inline void FlagOff(CTX*context){
+ int value=FlagValue(context);
+ if((value^1)&1){int*flags=(int*)value;*flags&=~0x100;}
+ else context->flags.i=value&~0x100;
 }
 static inline int SubjectId(OP*op){
  switch(op->kind){
@@ -159,6 +183,60 @@ static inline int SubjectId(OP*op){
  default:return -1;
  }
 }
+static inline ACTOR *InitialActor(ACTOR *const &slot) {
+ register ACTOR *value __asm__("$2");
+ __asm__("lw %0,%1":"=r"(value):"m"(slot));
+ return value;
+}
+static inline long ReadItemKind(const ACTOR*actor){
+ long value;
+ __asm__("lw %0,%1":"=r"(value):"m"(actor->itemKind));
+ return value;
+}
+static inline VALUE*ArgumentAddress(VALUE*arguments){
+ register VALUE*value __asm__("$2");
+ __asm__("la %0,%a1":"=r"(value):"p"(arguments));
+ return value;
+}
+static inline qword StoredPointDifference(const U&stored,qword origin){
+ register qword point __asm__("vf1");
+ __asm__("lqc2 %0,%1\n\tvsub.xyzw %0,%0,%2":"=&j"(point):"m"(stored.q),"j"(origin));
+ return point;
+}
+static inline qword CameraPosition(const CAMERA*camera){
+ register qword point __asm__("$2");
+ __asm__("lq %0,144(%1)":"=r"(point):"r"(camera),"m"(camera->position.q));
+ return point;
+}
+static inline GRAB*GrabAddress(GRAB&grab){
+ register GRAB*value __asm__("$4");
+ __asm__("la %0,%a1":"=r"(value):"p"(&grab));
+ return value;
+}
+static inline qword RelativePoint(const U&relative,qword originWord){
+ register qword offset __asm__("vf1"),origin __asm__("vf3"),point __asm__("vf2");
+ __asm__("lqc2 %0,%3\n\tqmtc2.ni %4,%1\n\tvadd.xyzw %2,%1,%0"
+   :"=&j"(offset),"=&j"(origin),"=j"(point):"m"(relative.q),"r"(originWord));
+ return point;
+}
+static inline void StoreArguments(VALUE*&slot,VALUE*arguments){
+ __asm__("sw %1,%0":"=m"(slot):"r"(arguments));
+}
+static inline EVENT*NextEvent(EVENT*current){
+ register EVENT*next __asm__("$8");
+ __asm__("addiu %0,%1,48":"=r"(next):"r"(current));
+ return next;
+}
+static inline OP*EventBound(const P*owner){
+ register OP*end __asm__("$3");
+ __asm__("lw %0,%1":"=r"(end):"m"(owner->end));
+ return end;
+}
+static inline OP*HoldEventBound(OP*incoming){
+ register OP*held __asm__("$9");
+ __asm__("daddu %0,%1,$zero":"=r"(held):"r"(incoming));
+ return held;
+}
 void func_001E1E30(P*p){
  p->current++;
  if((uint)p->end<(uint)p->current)return;
@@ -168,8 +246,13 @@ void func_001E1E30(P*p){
  int id=SubjectId(op);
  register ACTOR*selected __asm__("s0");
  if(id==-1){
-  selected=p->overrideActor;
-  if(!selected){selected=p->baseActor;if(!selected)selected=p->context->defaultActor;}
+  ACTOR *candidate=InitialActor(p->overrideActor);
+  if(candidate)selected=candidate;
+  else{
+   candidate=InitialActor(p->baseActor);
+   if(candidate)selected=candidate;
+   else selected=p->context->defaultActor;
+  }
  }else selected=func_001E1DB8(p,id);
  p->subject=selected;
  switch(op->kind){
@@ -190,7 +273,7 @@ void func_001E1E30(P*p){
  case 7:{ACTOR*selected;selected=func_001E1DB8(p,op->args.a[0].id);if(selected&&func_00132B10(selected,0x32))Vi(selected,79,1);break;}
  case 8:p->overrideActor=func_001E1DB8(p,op->args.a[0].id);break;
  case 9:{
-  p->context->callback=p;w.arguments=&op->args.a[0];
+  p->context->callback=p;StoreArguments(w.arguments,ArgumentAddress(&op->args.a[0]));
   CTX*c=p->context;VTE&e=c->vt[3];
   ((void(*)(void*,int,int,int,VALUE**,int))e.fn)((char*)c+e.delta,4,0,1,&w.arguments,0);
   p->context->callback=0;break;
@@ -228,20 +311,32 @@ void func_001E1E30(P*p){
    else V0(selected,50);
   }break;
  }
- case 0x10:func_0014D1D0(&D_002DDED0,6,op->args.a[0].f);Flag(p->context,op->args.a[0].f==0.0f);break;
+ case 0x10:func_0014D1D0(&D_002DDED0,6,op->args.a[0].f);if(op->args.a[0].f==0.0f)FlagOn(p->context);else FlagOff(p->context);break;
  case 0x11:func_00161F48(D_002DEB30,1,&op->args.a[0],p->scope);break;
  case 0x12:func_001E50E0(p,op->args.a[0].id,op->args.a[1].id);break;
  case 0x14:case 0x15:{
   if(op->kind==0x15&&func_00210B68()!=op->args.a[1].id)break;
-  OP*found=0;int depth=0;
-  for(OP*scan=p->start+1;(uint)scan<(uint)p->end;scan++){
-   switch(scan->kind){
-   case 0:depth++;break;case 1:depth--;break;
-   case 0x13:if(!depth&&scan->args.a[0].id==op->args.a[0].id){found=scan;scan=p->end;}break;
-   }
+  register OP*incoming __asm__("$2")=p->end;
+  register OP*match __asm__("$8");register OP*start __asm__("$3");
+  __asm__("daddu %0,%2,$zero\n\tlw %1,%3":"=&r"(match),"=r"(start):"r"(op),"m"(p->start));
+  register OP*found __asm__("$6"),*end __asm__("$5");register OP*scan __asm__("s2");
+  __asm__("daddu %0,$zero,$zero\n\tdaddu %1,%3,$zero\n\taddiu %2,%4,80"
+    :"=&r"(found),"=&r"(end),"=r"(scan):"r"(incoming),"r"(start));
+  int depth=0;
+  register int within __asm__("$2")=(uint)scan<(uint)incoming;
+  if(within){
+   register OP*bound __asm__("$7")=end;
+   do{
+    switch(scan->kind){
+    case 0:depth++;break;case 1:depth--;break;
+    case 0x13:if(!depth&&scan->args.a[0].id==match->args.a[0].id){found=scan;scan=end;}break;
+    }
+    scan++;
+   }while((uint)scan<(uint)bound);
   }
   if(found)p->current=found;break;
  }
+
  case 0x16:{ACTOR*selected;
   ACTOR*target=func_001E1DB8(p,op->args.a[0].id);
   if(target&&func_00132B10(target,0x29)){func_00228170(target);break;}
@@ -281,10 +376,11 @@ void func_001E1E30(P*p){
  }
  case 0x1C:{
   if(!p->subject||!func_00132B10(p->subject,0x35))break;
+  register ACTOR*modeActor __asm__("$4")=p->subject;
   switch(op->args.a[1].id){
-   case 2:func_0018E540(p->subject,3);break;
-   case 4:func_0018C250(p->subject,0xD,-1);break;
-   case 8:func_0018C250(p->subject,9,-1);break;
+   case 2:func_0018E540(modeActor,3);break;
+   case 4:func_0018C250(modeActor,0xD,-1);break;
+   case 8:func_0018C250(modeActor,9,-1);break;
   }break;
  }
  case 0x1D:{ACTOR*selected;
@@ -316,8 +412,8 @@ void func_001E1E30(P*p){
   if(!p->subject||!func_00132B10(p->subject,0x34))break;selected=p->subject;
   ACTOR*clip=func_0015E938(D_003DD490,1,op->args.a[0].id,selected),*target;
   if(op->args.a[1].id==3){
-   w.look=D_002DDF40.position;
-   func_002046B0(selected,Sub(w.look.q,ToVU(func_001A62E8(selected))));target=0;
+   w.look.q=CameraPosition(&D_002DDF40);
+   func_002046B0(selected,StoredPointDifference(w.look,ToVU(func_001A62E8(selected))));target=0;
   }else target=func_001E1DB8(p,op->args.a[1].id);
   func_001424E0(selected,clip,target,op->args.a[2].id);func_001E4EB8(p,op,selected);break;
  }
@@ -333,12 +429,13 @@ void func_001E1E30(P*p){
   if(selected){
    if(func_00132B10(selected,0x22)||func_00132B10(selected,0xC)||func_00132B10(selected,0x26)||
       func_00132B10(selected,0x58)||func_00132B10(selected,0xB)||func_00132B10(selected,0x13)){
-    int mode=0xFFFF;
-    if(!func_00132B10(actor,0x35))mode=func_00132B10(actor,0x37)?0xF8FE:0xF8FA;
+    int mode;
+    if(func_00132B10(actor,0x35))mode=0xFFFF;
+    else mode=func_00132B10(actor,0x37)?0xF8FE:0xF8FA;
     func_001938C0(actor->mode4C0,mode,selected);
    }
    if(actor->active!=-1&&actor->mode==3){
-    ACTOR*path=actor->modePath;func_001E4D40(p,selected,&w.first.pose.point,0);
+    PATH*path=actor->modePath;func_001E4D40(p,selected,&w.first.pose.point,0);
     func_001E6F60(path,w.first.pose.point.q,0,0,0,&p->progress,0);
    }
   }
@@ -368,16 +465,16 @@ void func_001E1E30(P*p){
  case 0x2A:{
   if(!p->subject||!func_00132B10(p->subject,0x34))break;
   ACTOR*actor=p->subject,*target=func_001E1DB8(p,op->args.a[0].id);
-  GRAB*g=&w.first.grab;s1_memset(g,0,0x20);
-  if(!target)g->position.q=Add(ToVU(func_001A62E8(actor)),actor->relative.q);
+  GRAB*g=GrabAddress(w.first.grab);s1_memset(g,0,0x20);
+  if(!target)w.first.grab.position.q=RelativePoint(actor->relative,func_001A62E8(actor));
   else{
-   CONTACT*contact=func_00184670(target);g->contact=contact;
+   CONTACT*contact=func_00184670(target);w.first.grab.contact=contact;
    if(contact){
-    if(actor->curveId!=-1&&actor->curve==target)break;
-    VTE&e=contact->vt[2];((void(*)(void*,ACTOR*,U*))e.fn)((char*)contact+e.delta,actor,&g->position);
-    g->target=target;
+    if(actor->curveId!=-1&&(void*)actor->curve==(void*)target)break;
+    VTE&e=contact->vt[2];((void(*)(void*,ACTOR*,U*))e.fn)((char*)contact+e.delta,actor,&w.first.grab.position);
+    w.first.grab.target=target;
    }else{
-    func_001E4D40(p,target,&g->position,0);func_00173610(&g->position,100.0f,-150.0f,0,0);
+    func_001E4D40(p,target,&w.first.grab.position,0);func_00173610(&w.first.grab.position,100.0f,-150.0f,0,0);
    }
   }
   func_0019F590(actor,g);if(op->args.a[1].id==1)actor->mode2E8=1;
@@ -391,7 +488,9 @@ void func_001E1E30(P*p){
   func_00141968(selected,w.first.pose.point.q,op->args.a[1].f,op->args.a[2].f);break;
  }
  case 0x2C:case 0x2D:{ACTOR*selected;
-  selected=func_00210338(D_003DD490,op->kind==0x2C,op->args.a[0].id,p->scope,p->context,op->args.a[1].f);
+  register int id __asm__("$6")=op->args.a[0].id;
+  register float value __asm__("$f12")=op->args.a[1].f;
+  selected=func_00210338(D_003DD490,op->kind==0x2C,id,p->scope,p->context,value);
   if(selected&&!op->wait&&func_00132B10(selected,0x30))p->flagObject=selected;break;
  }
  case 0x2E:case 0x2F:func_00210408(D_003DD490,op->kind==0x2E,op->args.a[0].id,op->args.a[1].id,0,p->scope,p->context);break;
@@ -403,8 +502,11 @@ void func_001E1E30(P*p){
  case 0x36:func_00210740(D_003DD490,op->args.a[0].id,op->args.a[1].id,op->args.a[2].id,op->args.a[3].id,0,p->scope,p->context,&p->component,op->args.a[4].f,op->args.a[5].f,op->args.a[6].f);break;
  case 0x37:func_002108E8(D_003DD490,op->args.a[0].id,p->context,&p->component);break;
  case 0x38:{
-  float duration=op->reset.f;int automatic=duration==0.0f,depth=0;OP*last=0;
-  if(automatic)duration=0.0f;
+  float initial=op->reset.f,duration;
+  int automatic;
+  if(initial==0.0f){duration=0.0f;automatic=1;}
+  else{duration=initial;automatic=0;}
+  OP*last=0;int depth=0;
   for(OP*scan=op+1;(uint)scan<(uint)p->end&&!last;scan++){
    switch(scan->kind){
    case 0:depth++;break;case 1:depth--;break;
@@ -423,8 +525,8 @@ void func_001E1E30(P*p){
   if(selected&&func_00132B10(selected,0x34)){p->modeObject=selected;func_0019CC50((char*)selected+0xF00,1,target,resource);}break;
  }
  case 0x3C:func_001E54B0(p);break;
- case 0x3D:func_00150E20(D_002DE460,func_001E1DB8(p,op->args.a[0].id));break;
- case 0x3E:func_00150E60(D_002DE460,func_001E1DB8(p,op->args.a[0].id));break;
+ case 0x3D:{ACTOR*target=func_001E1DB8(p,op->args.a[0].id);func_00150E20(D_002DE460,target);break;}
+ case 0x3E:{ACTOR*target=func_001E1DB8(p,op->args.a[0].id);func_00150E60(D_002DE460,target);break;}
  case 0x3F:func_00150EA0(D_002DE460,op->args.vectors[0],op->args.vectors[1],op->args.a[8].f);break;
  case 0x40:func_00150EE8(D_002DE460,op->args.a[0].f);break;
  case 0x41:func_00150EF0(D_002DE460);break;
@@ -436,20 +538,32 @@ void func_001E1E30(P*p){
  case 0x48:if(selected)func_001E5280(p,selected,op->args.a[1].id,op->args.a[2].id);break;
  case 0x49:{
   if(!D_002DE570)break;
-  int count=0,depth=0;EVENT*write=w.events;
-  for(OP*scan=op+1;(uint)scan<(uint)p->end;scan++){
-   switch(scan->kind){
-   case 0:depth++;break;case 1:depth--;break;
-   case 0x49:if(!depth)scan=p->end;break;
-   case 0x4A:if(!depth&&(uint)count<6){write->time=scan->args.a[0].f;write->id=scan->args.a[1].id;write++;count++;}break;
-   }
+  OP*incoming=EventBound(p);EVENT*first=w.events;
+  int count=0;register int depth __asm__("$5")=0;
+  OP*scan=op+1;
+  if((uint)scan<(uint)incoming){
+   OP*end=HoldEventBound(incoming);EVENT*write=first;
+   do{
+    switch(scan->kind){
+    case 0:depth++;break;case 1:depth--;break;
+    case 0x4A:if(!depth&&(uint)count<6){
+     write=NextEvent(write);EVENT*event=(EVENT*)((char*)write-0x30);
+     event->time=scan->args.a[0].f;event->id=scan->args.a[1].id;count++;
+    }break;
+    case 0x49:if(!depth)scan=p->end;break;
+    }
+    scan++;
+   }while((uint)scan<(uint)end);
   }
-  func_001531A8(D_002DE570,op->args.a[0].id,count,w.events);break;
+  func_001531A8(D_002DE570,op->args.a[0].id,count,first);break;
  }
+
  case 0x4A:if(p->subject&&func_00132B10(p->subject,0x44)&&D_002DE570)func_001532D8(D_002DE570,p->subject,op->args.a[1].id,op->args.a[2].id,op->args.a[0].f);break;
  case 0x4B:{ACTOR*selected;
   if(!p->subject||!func_00132B10(p->subject,0x44))break;selected=p->subject;
-  ACTOR*target=op->args.a[0].id==-1?0:func_0015E938(D_003DD490,4,op->args.a[0].id,selected);
+  register ACTOR*target __asm__("$2");
+  if(op->args.a[0].id==-1)target=0;
+  else target=func_0015E938(D_003DD490,4,op->args.a[0].id,selected);
   func_001524A0(selected,target,0);break;
  }
  case 0x4C:func_001FE150(D_003DD040,op->args.a[0].id);break;
@@ -480,13 +594,17 @@ void func_001E1E30(P*p){
  }
  case 0x59:{ACTOR*selected;
   if(!p->subject||!func_00132B10(p->subject,0x36))break;selected=p->subject;
-  if(selected->itemKind<4||selected->itemKind>=7)break;
+  long itemKind=ReadItemKind(selected);
+  if(itemKind>=7L)break;
+  if(itemKind<4L)break;
   ACTOR*target=func_001E1DB8(p,op->args.a[0].id);
   if(target){func_00220508(&selected->item,target);}break;
  }
  case 0x5A:{ACTOR*selected;
   if(!p->subject||!func_00132B10(p->subject,0x36))break;selected=p->subject;
-  if(selected->itemKind<4||selected->itemKind>=7)break;
+  long itemKind=ReadItemKind(selected);
+  if(itemKind>=7L)break;
+  if(itemKind<4L)break;
   op->args.a[2].ptr=selected->item;
   ACTOR*target=func_001E1DB8(p,op->args.a[0].id);
   if(target){func_00220508(&selected->item,target);func_001E4EB8(p,op,selected);}break;
@@ -570,6 +688,28 @@ typedef char command_layout_69[(OFF(P,component)==0xEC)?1:-1];
 typedef char command_layout_70[(OFF(CLOCK,paused)==0x3C)?1:-1];
 typedef char command_layout_71[(OFF(CAMERA,position)==0x90)?1:-1];
 
-
-
 typedef char command_target_layout[OFF(P,target)==0x64?1:-1];
+
+typedef char command_PATH_prefix[(sizeof(PATH)==0xF8)?1:-1];
+typedef char command_PATH_vt[(OFF(PATH,vt)==0xC)?1:-1];
+typedef char command_PATH_mode[(OFF(PATH,mode)==0xE0)?1:-1];
+typedef char command_PATH_cyclic[(OFF(PATH,cyclic)==0xE4)?1:-1];
+typedef char command_PATH_count[(OFF(PATH,count)==0xE8)?1:-1];
+typedef char command_PATH_times[(OFF(PATH,times)==0xEC)?1:-1];
+typedef char command_PATH_values[(OFF(PATH,values)==0xF0)?1:-1];
+typedef char command_PATH_points[(OFF(PATH,points)==0xF4)?1:-1];
+typedef char command_SPACE_prefix[(sizeof(SPACE)==0x20)?1:-1];
+typedef char command_SPACE_direction[(OFF(SPACE,direction)==0)?1:-1];
+typedef char command_SPACE_category[(OFF(SPACE,category)==0x10)?1:-1];
+
+typedef char command_CTX_tagged_flags_width[(sizeof(((CTX*)0)->flags)==4)?1:-1];
+typedef char command_native_word_width[(sizeof(int)==4)?1:-1];
+typedef char command_signed_LW_result_width[(sizeof(long)==8)?1:-1];
+typedef char command_item_word_width[(sizeof(((ACTOR*)0)->itemKind)==4)?1:-1];
+typedef char command_point_word_width[(sizeof(U)==16)?1:-1];
+typedef char command_camera_point_width[(sizeof(((CAMERA*)0)->position)==16)?1:-1];
+typedef char command_relative_point_width[(sizeof(((ACTOR*)0)->relative)==16)?1:-1];
+typedef char command_event_time_offset[(OFF(EVENT,time)==0)?1:-1];
+typedef char command_event_id_offset[(OFF(EVENT,id)==4)?1:-1];
+typedef char command_event_pointer_width[(sizeof(EVENT*)==4)?1:-1];
+typedef char command_operation_pointer_width[(sizeof(OP*)==4)?1:-1];
