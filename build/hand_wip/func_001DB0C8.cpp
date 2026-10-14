@@ -17,6 +17,13 @@ void *func_001FBB90(int);
 void func_001FB2F8(void*,int);
 void func_001DB0C8(P*,int);
 }
+static inline float MissingAndTime(const float&source,int&missing){
+ register int value __asm__("$3");
+ float time;
+ __asm__("addiu %1,$zero,%3\n\tlwc1 %0,%2":"=f"(time),"=&r"(value):"m"(source),"I"(-1));
+ missing=value;
+ return time;
+}
 static inline qword XYZ(float x,float y,float z,U&home){qword r,t;
  __asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(r),"=&r"(t):"f"(x),"f"(y),"f"(z));
  home.q=r;return home.q;
@@ -34,8 +41,10 @@ static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=
 void func_001DB0C8(P*p,int mode){
  U home;HIT hit;PROX proximity;U ray;
  if(mode==p->mode)return;
- p->mode=mode;p->changed=D_002DDF0C;
- if(mode==-1||p->selected==-1)return;
+ p->mode=mode;
+ int missing;
+ p->changed=MissingAndTime(D_002DDF0C,missing);
+ if(mode==missing||p->selected==missing)return;
  ITEM*current=func_001DAE20(p,p->selected);
  qword origin=XYZ(current->x,current->y*D_002C3280,0.0f,home);
  qword direction;

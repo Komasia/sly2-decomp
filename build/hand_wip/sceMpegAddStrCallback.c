@@ -1,4 +1,3 @@
-// NOTE: needs -fstrict-aliasing + gnu-reorder-db. Only diff: target has no gcse copies 'daddu t6,v0' (lui hi of D_002C83D8) and 'daddu t1,v1' (type<<4); everything else (switch tree, loop, store order) matches.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0 -fstrict-aliasing
 // SLY2_ASM: gnu-reorder-db
@@ -22,11 +21,11 @@ typedef struct { char pad[0x40]; MpegSys *sys; } sceMpeg;
 extern StrType D_002C83D8[];
 
 
-int sceMpegAddStrCallback(sceMpeg *mp, unsigned int type, int ch, sceMpegCallback func, void *data)
+sceMpegCallback sceMpegAddStrCallback(sceMpeg *mp, unsigned int type, int ch, sceMpegCallback func, void *data)
 {
     MpegSys *sys = mp->sys;
     StrCb *cb = sys->strCb;
-    int old = 0;
+    sceMpegCallback old = 0;
     u_long x = 0, id;
     int i;
     void *gp;
@@ -34,20 +33,23 @@ int sceMpegAddStrCallback(sceMpeg *mp, unsigned int type, int ch, sceMpegCallbac
     int n;
 
     if (type < 10) {
-        switch (D_002C83D8[type].mask) {
+        StrType *descriptor=&D_002C83D8[type];
+        register u_long mask __asm__("v1");
+        __asm__("ld %0,%1":"=r"(mask):"m"(descriptor->mask));
+        switch (mask) {
         case 0xFFFFFFFFFFUL: shift = 0; break;
         case 0xFFFF000000UL: shift = 24; break;
         case 0xFF00000000UL: shift = 32; break;
         default: id = 0; goto search;
         }
-        x = D_002C83D8[type].id | ((u_long)ch << shift);
+        x = descriptor->id | ((u_long)ch << shift);
     }
     id = x;
 search:
     n = sys->nStrCb;
     for (i = 0; i < n; i++) {
         if (id == cb[i].id) {
-            old = (int)cb[i].func;
+            old = cb[i].func;
             break;
         }
     }

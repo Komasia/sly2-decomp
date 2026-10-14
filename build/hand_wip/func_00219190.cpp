@@ -20,26 +20,32 @@ static inline void Stop(struct M **pp) {
         func_00258040(pp,0);
     }
 }
+static inline unsigned int Presence(M *const &slot){unsigned int value;__asm__("lw %0,%1":"=r"(value):"m"(slot));return value;}
+static inline int EntryStride(){int value;__asm__("addiu %0,$zero,24":"=r"(value));return value;}
+static inline int EntryOffset(int index,int stride){int value;__asm__ __volatile__("mult %0,%1,%2":"=r"(value):"r"(index),"r"(stride):"hi","lo");return value;}
 extern "C" void func_00219190(struct S *p,int fi,int i) {
     struct F *f=&p->af[fi];
-    int j;
-    for (j=0;j<f->count;j++) {
+    int j=0;
+    if(!f->count)return;
+    int stride=EntryStride();
+    int createOffset=EntryOffset(i,stride);
+    do {
         struct A *a=&f->aa[j];
         switch(a->kind) {
         case 0: {
             struct M *m=func_001FBB90(a->id);
             func_001FB2F8(m,0);
             if(m->vt->kind((char *)m+m->vt->d)==2)
-                func_00258040(&p->r->ae[i].pm,m);
+                func_00258040(&((E *)((char *)p->r->ae+createOffset))->pm,m);
             break;
         }
         case 1: {
-            struct E *e=(struct E *)(i * sizeof(struct E) + (int)p->r->ae);
-            if(e->pm) Stop(&e->pm);
+            struct E *e=(struct E *)(EntryOffset(i,stride) + (int)p->r->ae);
+            if(Presence(e->pm)) Stop(&e->pm);
             break;
         }
         case 2: func_001FE5F0(D_003DD040,a->id,0); break;
         case 3: func_001FE738(D_003DD040); break;
         }
-    }
+    } while(++j<f->count);
 }

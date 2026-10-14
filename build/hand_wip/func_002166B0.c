@@ -6,11 +6,12 @@ struct DATA {unsigned int color;int mode;float priority;unsigned int limit;qword
 
 void func_002162D8(struct RT *p, O *po, T *pt);
 void func_00216750(struct RT *p, O *po, struct DATA *q);
+static inline float Horizontal(const float *p){register float value __asm__("$f2");__asm__("lwc1 %0,%1":"=f"(value):"m"(*p));return value;}
 void func_002166B0(struct RT *p, T *pt, struct DATA *q)
 {
     T t = *pt;
     O o;
-    float x=t.a[0],y=t.a[3],g=p->fontScale,shift=p->lineHeight;
+    float x=Horizontal(&t.a[0]),y=t.a[3],g=p->fontScale,shift=p->lineHeight;
     p->sy=y; p->sx=x;
     t.a[0] = x*g;
     t.a[3] = y*g;

@@ -28,6 +28,12 @@ qword func_001D6848(float,qword,qword,qword);
 M3 *func_0011B7E0(M3 *,qword);
 float func_0011D448(float,float);
 }
+static inline OBJ*InitialSource(U&start,U&origin,qword value,const PARAMS*params){
+ OBJ *source;
+ __asm__("sq %2,%0\n\tlw %1,%3":"=m"(start.q),"=&r"(source):"r"(value),"m"(params->source));
+ origin.q=value;
+ return source;
+}
 static inline qword Vector(qword q){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword Pack(float x,float y,float z){qword out,scratch;__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(out),"=&r"(scratch):"f"(x),"f"(y),"f"(z));return out;}
@@ -51,11 +57,9 @@ extern "C" void func_001D6B00(PARAMS *params,OBJ *p)
     WORK work;
     M4 predicted;
     U start,origin,destination,launch,velocity;
-    start.q=func_001A62E8(p);
-    origin=start;
+    OBJ *source=InitialSource(start,origin,func_001A62E8(p),params);
     FRAME *frame;
-    if(params->source){
-        OBJ *source=params->source;
+    if(source){
         VENTRY &entry=source->vt[32];
         frame=((FRAME *(*)(void *,M4 *))entry.fn)((char *)source+entry.delta,&parent);
     }else{

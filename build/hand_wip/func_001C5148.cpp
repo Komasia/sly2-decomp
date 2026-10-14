@@ -33,14 +33,14 @@ static inline qword Difference(qword a,qword b){qword result;__asm__("vsub.xyzw 
 static inline qword Transform(const M3 &matrix,qword value){__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(value):"j"(matrix.rows[0]),"j"(matrix.rows[1]),"j"(matrix.rows[2]));return value;}
 static inline qword PositionAdd(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){__asm__("vadd.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
-static inline qword ReadA0(const qword*p){register qword v __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline qword ReadA1(const qword*p){register qword v __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline qword ReadA2(const qword*p){register qword v __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline qword ReadB0(const qword*p){register qword v __asm__("vf8");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline qword ReadB1(const qword*p){register qword v __asm__("vf5");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline qword ReadB2(const qword*p){register qword v __asm__("vf6");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
-static inline M3 CopyAndMultiply(const M3&a,const M3&b,M3&sampled) return result {
- qword a1=ReadA1(&a.rows[1]),a2=ReadA2(&a.rows[2]);
+static inline qword ReadA0(const qword*p){register qword v __asm__("vf3");__asm__ __volatile__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadA1(const qword*p,unsigned page,SW**world){register qword v __asm__("vf2");register SW*address __asm__("$5");__asm__("lqc2 %0,%2\n\taddiu %1,%3,%%lo(%4)":"=j"(v),"=r"(address):"m"(*p),"r"(page),"i"(&D_003DD490));*world=address;return v;}
+static inline qword ReadA2(const qword*p){register qword v __asm__("vf1");__asm__ __volatile__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB0(const qword*p){register qword v __asm__("vf8");__asm__ __volatile__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB1(const qword*p){register qword v __asm__("vf5");__asm__ __volatile__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB2(const qword*p){register qword v __asm__("vf6");__asm__ __volatile__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline M3 CopyAndMultiply(const M3&a,const M3&b,M3&sampled,unsigned page,SW**world) return result {
+ qword a1=ReadA1(&a.rows[1],page,world),a2=ReadA2(&a.rows[2]);
  qword b0=ReadB0(&b.rows[0]),b1=ReadB1(&b.rows[1]),b2=ReadB2(&b.rows[2]);
  qword a0=ReadA0(&a.rows[0]);
  register qword x __asm__("vf4"),z __asm__("vf7");
@@ -48,8 +48,19 @@ static inline M3 CopyAndMultiply(const M3&a,const M3&b,M3&sampled) return result
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(x):"j"(a0),"j"(a1),"j"(a2),"j"(sampled.rows[0]));
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(z):"j"(a0),"j"(a1),"j"(a2),"j"(sampled.rows[2]));
  __asm__("vmulax.xyz $ACC,%0,%3x\n\tvmadday.xyz $ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(a0):"j"(a1),"j"(a2),"j"(sampled.rows[1]));
- result.rows[1]=a0;result.rows[2]=z;result.rows[0]=x;
+ result.rows[0]=x;result.rows[1]=a0;result.rows[2]=z;
  return;
+}
+static inline void CopyBasis(const M3&source,M3&destination){register qword first __asm__("$2"),second __asm__("$3"),third __asm__("$4");__asm__("lq %0,%3\n\tlq %1,%4\n\tlq %2,%5":"=&r"(first),"=&r"(second),"=r"(third):"m"(source.rows[0]),"m"(source.rows[1]),"m"(source.rows[2]));destination.rows[0]=first;destination.rows[1]=second;destination.rows[2]=third;}
+static inline unsigned WorldPage(){register unsigned page __asm__("$4");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&D_003DD490));return page;}
+static inline unsigned KeepWorldPage(unsigned page){register unsigned kept __asm__("$30");__asm__("daddu %0,%1,$zero":"=r"(kept):"r"(page));return kept;}
+static inline SW* WorldAt(unsigned page){register SW*world __asm__("$4");__asm__("addiu %0,%1,%%lo(%2)":"=r"(world):"r"(page),"i"(&D_003DD490));return world;}
+static inline void ClearFinalW(CHANNEL*channel){__asm__("sw $zero,%0\n\tsw $zero,%1":"=m"(channel->matrix.values[11]),"=m"(channel->matrix.values[7]));}
+static inline CHANNEL *AngularDestination(P *p,const qword &source,qword &angular) {
+ register CHANNEL *channel __asm__("$3");
+ register qword value __asm__("vf2");
+ __asm__("lw %0,%2\n\tlqc2 %1,%3":"=&r"(channel),"=j"(value):"m"(p->orientation),"m"(source));
+ angular=value;return channel;
 }
 static inline CHANNEL *GetChannel(P *p,int channel){VTE &e=p->vt[51];return ((CHANNEL*(*)(P *,int))e.fn)((P *)((char *)p+e.delta),channel);}
 static inline void Sample(MOTION *motion,const ANIM *animation,qword *value,qword *velocity){VTE &e=motion->vt[3];((void(*)(MOTION *,float,float,qword *,qword *))e.fn)((MOTION *)((char *)motion+e.delta),animation->time,animation->duration,value,velocity);}
@@ -66,9 +77,10 @@ extern "C" void func_001C5148(P *p){
  CHANNEL *channel=p->position;
  p->coordinate=position;
  func_00256D18(&channel->position,position);
+ unsigned worldPage=KeepWorldPage(WorldPage());
  *(float *)((char *)channel+0x3C)=1.0f;
  p->position->velocity=p->velocity;
- {int stamp=++D_003DD490.stamp;p->position->stamp=stamp;}
+ {int stamp=++WorldAt(worldPage)->stamp;p->position->stamp=stamp;}
  if(p->holder && p->holder->animation){
   ANIM *animation=p->holder->animation;
   ACTION *action=animation->action;
@@ -90,7 +102,7 @@ extern "C" void func_001C5148(P *p){
    work.home.q=Difference(D_002DDF40.position,p->position->position);
    work.home.words[2]=0;
    func_0011B830(&work.output,work.home.q,D_002A2DC0);
-   work.frame=work.output;
+   CopyBasis(work.output,work.frame);
    if(positionMotion){
     Sample(positionMotion,animation,&work.position,&work.velocity);
     channel=p->position;
@@ -98,18 +110,20 @@ extern "C" void func_001C5148(P *p){
     *(float *)((char *)channel+0x3C)=1.0f;
     CHANNEL *current=p->position;
     current->velocity=Add(current->velocity,Transform(work.frame,work.velocity));
-    {int stamp=++D_003DD490.stamp;p->position->stamp=stamp;}
+    {int stamp=++WorldAt(worldPage)->stamp;p->position->stamp=stamp;}
    }
    if(orientationMotion){
     Sample(orientationMotion,animation,&work.angles,&work.angularVelocity);
     func_0011B628(&work.output,work.angles);
-    work.output=CopyAndMultiply(work.frame,work.output,work.sampled);
+    SW*orientationWorld;
+    work.output=CopyAndMultiply(work.frame,work.output,work.sampled,worldPage,&orientationWorld);
     CHANNEL *current=p->orientation;
     current->matrix=work.output;
-    current->matrix.values[3]=0.0f;current->matrix.values[11]=0.0f;current->matrix.values[7]=0.0f;
-    current=p->orientation;
-    current->velocity=Transform(work.frame,work.angularVelocity);
-    {int stamp=++D_003DD490.stamp;p->orientation->stamp=stamp;}
+    current->matrix.values[3]=0.0f;ClearFinalW(current);
+    qword angular;
+    current=AngularDestination(p,work.angularVelocity,angular);
+    current->velocity=Transform(work.frame,angular);
+    {int stamp=++orientationWorld->stamp;p->orientation->stamp=stamp;}
    }
   }
  }

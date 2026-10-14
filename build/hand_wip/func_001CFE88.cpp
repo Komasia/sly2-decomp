@@ -8,9 +8,10 @@ extern struct CLOCK {float t,dt;} D_002DDED0;
 extern "C" {
 void func_002309E8(void*,int,M4*,M4*,float);
 void func_00117120(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*);
-M3 func_0011B500(qword,float);
+M3* func_0011B500(M3*,qword,float);
 void func_001CFE88(S*);
 }
+static inline M3 Rotation(qword axis,float angle) return result {func_0011B500(&result,axis,angle);}
 static inline qword Duration(float f){U u;register qword r __asm__("vf7");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return u.q;}
 static inline qword Half(float f){U u;register qword r __asm__("vf6");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return u.q;}
 static inline qword Inverse(float f){U u;register qword r __asm__("vf5");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return u.q;}
@@ -39,7 +40,7 @@ void func_001CFE88(S *p) {
  qword w2=Half(-0.5f),w1=Inverse(1.5f/remain),w3=Quarter(0.25f),dt=Duration(remain);
  qword endvel=Blend(delta,vvu,Scale(p->accel,dt),w1,w2,w3);
  func_00117120(remain,clock->dt,1.0f,p->pos,v,m.r[3],endvel,&p->pos,&p->vel,0);
- spin=func_0011B500(p->axis,p->angle*remain/p->duration);
+ spin=Rotation(p->axis,p->angle*remain/p->duration);
  p->mat=Mul(spin,*(M3*)&m);
 }
 

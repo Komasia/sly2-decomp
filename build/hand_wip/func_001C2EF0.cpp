@@ -27,13 +27,11 @@ static inline qword ReadVU(const qword*p){qword q;__asm__("lqc2 %0,0(%1)":"=j"(q
 static inline qword ReadGPR(const qword*p){qword q;__asm__("lq %0,0(%1)":"=r"(q):"r"(p),"m"(*p));return q;}
 static inline qword ToVU(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword ReadFallback(const qword*p){qword q;__asm__("lq %0,%1":"=r"(q):"m"(*p));return q;}
+static inline SO* EmptyFirst(){register SO*first __asm__("$20");__asm__("daddu %0,$zero,$zero":"=r"(first));return first;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Dot(qword a,qword b){qword one,d;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w":"=j"(d),"=&j"(one):"j"(a),"j"(b));__asm__("vadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));return d;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Root(qword d){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));return d;}
-static inline float Scalar(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
-static inline qword Norm(qword q,qword len){qword r;__asm__ __volatile__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(q),"j"(len));return r;}
 static inline qword Dir(M3*m,qword q){qword r;__asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m->a),"j"(m->b),"j"(m->c),"j"(q));return r;}
 static inline void State(SO*p,int state){VTE*v=p->vt;((void(*)(void*,int))v[76].fn)((char*)p+v[76].delta,state);}
 static inline void Reset(SO*p){VTE*v=p->vt;((void(*)(void*))v[8].fn)((char*)p+v[8].delta);}
@@ -53,7 +51,7 @@ static inline qword NormalizeOr(qword value,qword fallback) {
 }
 SO*func_001C2EF0(OWNER*p,int count){
  WORK work;work.count=count;const qword*up=&D_002A2DC0;
- int index=0;SO*first=0;
+ int index=0;SO*first=EmptyFirst();
  for(;index<work.count;){
   SO*node;
   if(index==0)node=p->first;else{node=func_001CB250(p->factory,0);if(node && func_00132B10(node,0x5A))State(node,2);}

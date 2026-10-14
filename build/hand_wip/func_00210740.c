@@ -16,16 +16,15 @@ void func_001FB1F8(struct M *, float);
 void func_001FB2C0(struct M *, float);
 void func_001FB520(struct M *, float);
 void func_00258040(struct M **, struct M *);
+static inline struct O *SelectedValue(struct O *p){struct O *value;__asm__("daddu %0,%1,$zero":"=r"(value):"r"(p));return value;}
 void func_00210740(float offset, float fade, float scale, struct G *p, int id, int oid, int x, int y, struct O *fallback, void *owner, void *unused, struct M **out)
 {
     struct O *o;
     struct M *m;
     if (id == -1)
         return;
-    if (oid != -1)
-        o = func_0015E938(p, 4, oid, owner);
-    else
-        o = fallback;
+    if(oid!=-1)fallback=func_0015E938(p,4,oid,owner);
+    o=SelectedValue(fallback);
     if (o && func_00132B10(o, 0x38) && o->curve) {
         float v = o->curve->value;
         float f = D_002C3EA0[0] + v * (D_002C3EA0[1] + v * D_002C3EA0[2]);

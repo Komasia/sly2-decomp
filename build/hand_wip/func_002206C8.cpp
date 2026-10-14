@@ -41,14 +41,18 @@ static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.intege
 static inline void PlainCall(O *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
 static inline void EffectCall(EFFECT *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
 static inline void VectorCall(O *o,int slot,qword value){VE *v=o->vt;v[slot].f.vector((char *)o+v[slot].delta,value);}
-static inline qword LoadUp(){qword q;__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
+static inline qword LoadUp(){register qword q __asm__("vf1");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
+static inline qword PointVF(qword q){register qword r __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
+static inline qword RestorePoint(const V &v){register qword q __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
+static inline qword LaunchUp(){register qword q __asm__("vf2");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
+static inline qword LaunchSpeed(const V &v){register qword q __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
 static inline qword ToVF(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword CPUFloat(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
-static inline qword Scalar(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
+static inline qword Scalar(float f){register qword r __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword LoadVF(const V &v){qword q;__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
-static inline qword DotV(qword a,qword b){qword d,one;__asm__("vmul.xyz %0,%1,%2":"=j"(d):"j"(a),"j"(b));__asm__("vaddw.x %0,$vf0,$vf0w":"=j"(one));__asm__("vadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));return d;}
-static inline qword LengthV(qword v){qword d,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
+static inline qword DotV(qword a,qword b){register qword d __asm__("vf2"),one __asm__("vf4");__asm__("vmul.xyz %0,%1,%2":"=j"(d):"j"(a),"j"(b));__asm__("vaddw.x %0,$vf0,$vf0w":"=j"(one));__asm__("vadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));return d;}
+static inline qword LengthV(qword v){register qword d __asm__("vf1"),one __asm__("vf2");__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
 static inline float X(qword v){float f;__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(v));return f;}
 static inline qword Scale(qword v,qword k){__asm__("vmulx.xyzw %0,%1,%0x":"+j"(k):"j"(v));return k;}
 static inline qword NormalizeLength(qword v,qword length){__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%0,Q":"+j"(v):"j"(length));return v;}
@@ -85,15 +89,15 @@ extern "C" void func_002206C8(S *s,int state){
  case -1:
   if(s->selected==D_002DD5BC&&!s->selected->playerState){
     w.scalar.q=CPUFloat(400.0f);w.coefficient.q=w.scalar.q;
-    w.point.q=ToVF(func_001A62E8(s->selected));
-    qword position=func_001A62E8(s->owner);qword current=ToVF(position);qword direction=Sub(LoadVF(w.point),current);
+    w.point.q=PointVF(func_001A62E8(s->selected));
+    qword position=func_001A62E8(s->owner);qword current=ToVF(position);qword direction=Sub(RestorePoint(w.point),current);
     qword up=LoadUp();
     direction=Sub(direction,Scale(up,DotV(direction,up)));
     qword fallback=D_002A2DA0.q;
     qword length=LengthV(direction);
     if(X(length)<0.0001f)direction=fallback;else direction=NormalizeLength(direction,length);
     w.scalar.q=Scalar(600.0f);
-    w.velocity.q=Launch(direction,LoadVF(w.coefficient),LoadUp(),w.scalar.q);
+    w.velocity.q=Launch(direction,LaunchSpeed(w.coefficient),LaunchUp(),w.scalar.q);
     func_00136530(D_002DD5BC,1);
     VectorCall(D_002DD5BC,35,w.velocity.q);
   }
