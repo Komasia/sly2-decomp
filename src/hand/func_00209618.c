@@ -16,15 +16,20 @@ void func_00209618(struct Entry *entry, struct S *s)
     U factor, value;
     register qword scalar __asm__("vf1");
     qword extra;
-    qword neg;
-    value.q = D_002A2DD0;
-    extra = value.q;
-    switch (entry->kind) {
+    register qword neg __asm__("vf2");
+    {register qword *zeroAddress __asm__("v0")=&D_002A2DD0;
+     register qword zero __asm__("v0");
+     __asm__("lq %0,0(%1)":"=r"(zero):"r"(zeroAddress),"m"(*zeroAddress));
+     __asm__("sq %1,%0":"=m"(value.q):"r"(zero));}
+    extra=value.q;
+    { register int kind __asm__("v1");
+      __asm__("lw %0,%1":"=r"(kind):"m"(entry->kind));
+    switch (kind) {
     case 0:
     case 1:
         {
             struct E *e;
-            if (entry->kind == 0) e = (struct E *)entry->object;
+            if (kind == 0) e = (struct E *)entry->object;
             else e = ((struct A *)entry->object)->pe30;
             if (e) {
                 value.q = func_00204E38(s, e, e->radius);
@@ -41,18 +46,29 @@ void func_00209618(struct Entry *entry, struct S *s)
             value.q = func_00204E38(s, b->pe38, b->pe38->radius);
         }
         break;
-    case 3:
-        value.q = ((struct A *)entry->object)->v10;
+    case 3: {
+        register struct A *object __asm__("v0")=(struct A *)entry->object;
+        register qword vector __asm__("v0");
+        __asm__("lq %0,16(%1)":"=r"(vector):"r"(object),"m"(object->v10));
+        value.q=vector; }
         break;
     }
-    if (s->param) {
-        __asm__("qmtc2.ni %1, %0" : "=j"(scalar) : "r"(s->param->value->bits));
+    }
+    {
+      register qword current __asm__("vf2")=value.q;
+      if (s->param) {
+        register union FLOATWORD *wordAddress __asm__("v0")=s->param->value;
+        register int parameterWord __asm__("v0");
+        __asm__("lw %0,0(%2)\n\tqmtc2.ni %0,%1":"=r"(parameterWord),"=j"(scalar):"r"(wordAddress),"m"(wordAddress->bits));
         factor.q=scalar;
-        __asm__("vmulx.xyzw %0, %0, %1x" : "+j"(value.q) : "j"(factor.q));
+        __asm__("vmulx.xyzw %0,%0,%1x":"+j"(current):"j"(factor.q));
+        value.q=current;
+      }
     }
     s->v1E0 = extra;
-    __asm__("qmtc2.ni %1, %0" : "=j"(scalar) : "r"(-1.0f));
+    __asm__ __volatile__("qmtc2.ni %1, %0" : "=j"(scalar) : "r"(-1.0f));
     factor.q=scalar;
-    __asm__("vmulx.xyzw %0, %1, %2x" : "=&j"(neg) : "j"(value.q), "j"(factor.q));
+    { register qword source __asm__("vf3")=value.q;
+      __asm__("vmulx.xyzw %0,%1,%2x":"=j"(neg):"j"(source),"j"(factor.q)); }
     s->v190 = neg;
 }

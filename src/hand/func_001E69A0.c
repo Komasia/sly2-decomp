@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
-struct S { void *a0; void *a4; int pad[2]; qword v; };
-void func_001E67B8(void *, float, qword *, qword *);
-qword func_001FA970(void *, qword);
+struct X; struct SPACE;
+struct S { struct X *a0; struct SPACE *a4; int pad[2]; qword v; };
+void func_001E67B8(struct X *, float, qword *, qword *);
+qword func_001FA970(struct SPACE *, qword);
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline qword SquareBits(qword a) {
     register qword d __asm__("vf1"),one __asm__("vf3");
@@ -15,7 +16,8 @@ static inline qword ConvertedSquareBits(qword a) {
     __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(square),"=&j"(one):"j"(value));
     return square;
 }
-float func_001E69A0(float g,struct S*p){
+float func_001E69A0(void *context,float g){
+    struct S *p=(struct S *)context;
     qword v;register qword bits __asm__("$2");float result;
     func_001E67B8(p->a0,g,&v,0);
     if(!p->a4){

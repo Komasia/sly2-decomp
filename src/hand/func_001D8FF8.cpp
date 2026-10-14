@@ -9,8 +9,9 @@ struct CRef {
 };
 struct KEY;
 struct GS { char pad[0x3B2C]; KEY *k[7]; };
-struct DISP { unsigned long dx : 12; unsigned long dy : 11; unsigned long rest : 41; };
-struct GSR { char pad[0x18]; DISP d1; char pad20[0x40 - 0x20]; DISP d2; };
+struct DISP1 { unsigned long dx : 12; unsigned long dy : 11; unsigned long rest : 41; };
+struct DISP2 { unsigned int dx : 12; unsigned int dy : 11; unsigned long rest : 41; };
+struct GSR { char pad[0x18]; DISP1 d1; char pad20[0x40 - 0x20]; DISP2 d2; };
 extern "C" {
 extern GS D_003DD490;
 extern char D_003DD040[];
@@ -47,7 +48,6 @@ extern "C" void func_001D8FF8(char *pb)
     if (D_003DD490.k[6]) {
         float f = GetFloat(D_003DD490.k[6], pb);
         GSR *p = &D_002DEB80;
-        p->d2.dy=func_0023E1C8(f+50.0f)&~1;
-        p->d1.dy=p->d2.dy;
+        p->d1.dy = p->d2.dy = func_0023E1C8(f + 50.0f) & ~1;
     }
 }

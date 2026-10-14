@@ -5,26 +5,25 @@ extern char D_003DD490[];
 struct LO *func_0015E938(void *p, int a, int id, void *scope);
 int func_0015E9C8(void *p, int a, int b, void *scope, int d, struct LO **ap);
 void *func_001AE238(const struct AL *pal, const void *pv);
+static __inline__ void*QueryScope(void){register void*value __asm__("$7");__asm__("daddu %0,$zero,$zero":"=r"(value));return value;}
 void func_001C1138(struct S *p)
 {
     int i,n;register int c __asm__("$6");
     struct LO *ap[0x400];
     struct AL al;
-    struct AL *pal;
     for (i = 0; i < p->c; i++) {
         struct LO *plo = func_0015E938(D_003DD490, 5, p->aid[i], 0);
         plo->x124 = i;
         p->aplo[i] = plo;
     }
-    n = func_0015E9C8(D_003DD490, 0x205, 0x7C, 0, 0x400, ap);
+    n = func_0015E9C8(D_003DD490, 0x205, 0x7C, QueryScope(), 0x400, ap);
     {register int alignment __asm__("$7")=0x10;
     c = 0x400;
     if (n < 0x400) c = n;
-    pal = &al;
-    pal->cb = c * sizeof(struct LO *);
-    pal->cbAlign = alignment;
+    al.cb = c * sizeof(struct LO *);
+    (&al)->cbAlign = alignment;
     p->c2 = c;
-    p->aplo2 = (struct LO**)func_001AE238(pal, ap);}
+    p->aplo2 = (struct LO**)func_001AE238(&al, ap);}
     {
         int j;
         for (j = 0; j < p->c2; j++) p->aplo2[j]->x150 = j;

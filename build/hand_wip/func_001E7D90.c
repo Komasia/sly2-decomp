@@ -9,7 +9,7 @@ static inline qword Dir(qword m0,qword m1,qword m2,qword a){qword r;__asm__("vmu
 static inline qword DirInPlace(qword m0,qword m1,qword m2,qword a){__asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m0),"j"(m1),"j"(m2));return a;}
 static inline float LenSq(qword a){qword d,one;float f;__asm__("vmul.xyz %0,%1,%1":"=j"(d):"j"(a));__asm__ __volatile__("vaddw.x %0,$vf0,$vf0w":"=j"(one));__asm__("vadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
 static inline void Max(float*out,float value){if(*out<value)*out=value;}
-static inline qword Scalar(float f,union U*out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return q;}
+static inline qword Scalar(float f,union U*out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
 static inline qword AddScaled(qword a,qword b,qword k){__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%0,%2x":"+j"(b):"j"(a),"j"(k));return b;}
 static inline float Sqrt(float f){float r;__asm__ __volatile__("sqrt.s %0,%1":"=f"(r):"f"(f));return r;}
 float func_001E7D90(struct P*p)
@@ -56,3 +56,18 @@ float func_001E7D90(struct P*p)
     }
     return Sqrt(squared);
 }
+
+#define OFF(T,f) ((unsigned)&((T*)0)->f)
+typedef char layout0[(sizeof(qword)==16)?1:-1];
+typedef char layout1[(__alignof__(qword)==16)?1:-1];
+typedef char layout2[(sizeof(union U)==16)?1:-1];
+typedef char layout3[(sizeof(struct M4)==0x40)?1:-1];
+typedef char layout4[(OFF(struct M4,r)==0)?1:-1];
+typedef char layout5[(OFF(struct P,matrix)==0xA0)?1:-1];
+typedef char layout6[(OFF(struct P,mode)==0xE0)?1:-1];
+typedef char layout7[(OFF(struct P,count)==0xE8)?1:-1];
+typedef char layout8[(OFF(struct P,times)==0xEC)?1:-1];
+typedef char layout9[(OFF(struct P,distances)==0xF0)?1:-1];
+typedef char layout10[(OFF(struct P,points)==0xF4)?1:-1];
+typedef char layout11[(OFF(struct P,incoming)==0x140)?1:-1];
+typedef char layout12[(OFF(struct P,outgoing)==0x144)?1:-1];

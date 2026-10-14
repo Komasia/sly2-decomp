@@ -26,10 +26,10 @@ qword func_001FAA00(O *,qword);
 qword func_001FAA48(O *,qword,qword);
 }
 static inline qword ToVF(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
-static inline qword ToCPU(qword a){qword r;__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(a));return r;}
 static inline qword ScalarWord(unsigned int bits){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword ScalarBits(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
+static inline qword ScalarHome(V &home,qword value){home.q=value;return home.q;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=&j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword CrossXYZ(qword a,qword b){__asm__("vopmula.xyz ACC,%1,%0\n\tvopmsub.xyz %0,%0,%1":"+j"(b):"j"(a));return b;}
@@ -61,13 +61,12 @@ extern "C" void func_00224820(O *owner,int filter,int channel,qword start,qword 
  if(i>=*count&&*count<capacity){
   HIT *record=&records[(*count)++];
   func_002333B4(record,0,0x60);
-  qword k=ScalarWord(D_002C4334.bits);
+  qword k=ScalarHome(scalar,ScalarWord(D_002C4334.bits));
   qword point=hit.point.q;
   record->owner=owner;
   record->object=object;
   record->impulse.q=Scale(normal,k);
   record->filter=filter;record->channel=channel;record->point.q=point;
-  scalar.q=k;
  }
  if(!body->physics)return;
  float along=Dot(ToVF(func_0022D348(body->motion,0,hit.point.q)),normal);
@@ -75,7 +74,7 @@ extern "C" void func_00224820(O *owner,int filter,int channel,qword start,qword 
  float response=Clamp(D_002C4320.a+ratio*(D_002C4320.b+ratio*D_002C4320.c),D_002BBB60.lo,D_002BBB60.hi);
  if(0.0f<response){
  qword impulse,linear,angular;
- {qword k=Scalar(response*D_002C4330);impulse=Scale(normal,k);scalar.q=k;}
+ {qword k=ScalarHome(scalar,Scalar(response*D_002C4330));impulse=Scale(normal,k);}
  linear=func_001FAA00(body,impulse);
  angular=func_001FAA48(body,hit.point.q,impulse);
  qword delta=Sub(hit.point.q,body->rotation->position.q);
@@ -83,8 +82,8 @@ extern "C" void func_00224820(O *owner,int filter,int channel,qword start,qword 
  if(0.0f<change){
  qword fraction,velocity,spin;
  fraction=ScalarBits(ClampLo((D_002C4334.f-along)/change,0.0f,1.0f));
- {qword old=ToVF(Get(body,33));qword k=fraction;velocity=AddScaled(old,linear,k);scalar.q=ToCPU(k);}
- {qword old=ToVF(Get(body,34));qword k=fraction;spin=AddScaled(old,angular,k);scalar.q=ToCPU(k);}
+ {qword old=ToVF(Get(body,33));qword k=ScalarHome(scalar,fraction);velocity=AddScaled(old,linear,k);}
+ {qword old=ToVF(Get(body,34));qword k=ScalarHome(scalar,fraction);spin=AddScaled(old,angular,k);}
  Set(body,35,velocity);Set(body,36,spin);
  }
  }

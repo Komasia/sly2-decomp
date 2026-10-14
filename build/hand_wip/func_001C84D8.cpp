@@ -15,6 +15,7 @@ static inline qword Pack(float x,float y,float z){register unsigned xword __asm_
 static inline qword Sub(qword a,qword b){qword d;__asm__("vsub.xyzw %0,%1,%2":"=j"(d):"j"(a),"j"(b));return d;}
 static inline float Len(qword a){register qword d __asm__("vf1");register qword one __asm__("vf2");float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(a));__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
 static inline float ClockTime(){float t;__asm__("lwc1 %0,%1":"=f"(t):"m"(D_002DDED0.t));return t;}
+static inline int ComparisonIndex(int value){register int result __asm__("$7");__asm__("daddu %0,%1,$zero":"=r"(result):"r"(value));return result;}
 extern "C" void func_001C84D8(struct S*p){
  union U point;
  int old;
@@ -29,13 +30,13 @@ extern "C" void func_001C84D8(struct S*p){
   case 0:
    if(func_001C46C0(p->input,0xC0,0)){func_001C8918(p,2);break;}
    {
-    int current=p->index,best=-1;
+    int current=p->index,best=-1;int comparison=ComparisonIndex(current);
     unsigned i;
     float bias=D_002C0FE8,smallest=D_002A7798;
     point.q=Pack(p->input->x,p->input->y,0);
     for(i=0;i<9;i++){
      float distance=Len(Sub(point.q,D_002C0FF0[i]));
-     if(i==current)distance*=bias;
+     if(i==comparison)distance*=bias;
      if(distance<smallest){smallest=distance;best=i;}
     }
     if(best!=current){p->index=best;func_001C8918(p,1);}

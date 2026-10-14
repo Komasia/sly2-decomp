@@ -10,7 +10,11 @@ void func_001E6F10(struct O *, float, qword *, int);
 void *func_001C0D70(qword, int);
 int func_001C0920(void *, qword, int);
 void *func_001AE238(struct MSG *, void *);
-void func_001AE5A0(void *, void *, int);
+void func_001AE5A0(void *, const void *, unsigned);
+static inline int EmptyCount(void){
+    register int result __asm__("$21");
+    __asm__("daddu %0,$zero,$zero":"=r"(result));return result;
+}
 void func_001E9C88(struct S *ps, struct O *po)
 {
     struct SEG aseg[64];
@@ -18,7 +22,7 @@ void func_001E9C88(struct S *ps, struct O *po)
     qword pos;
     qword pos2;
     struct SEG *pseg = 0;
-    int cpv = 0;
+    int cpv=EmptyCount();
     void **ppv;
     int cseg = 0;
     float tStart, tPrev, t, tEnd;

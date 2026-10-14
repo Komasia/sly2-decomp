@@ -19,17 +19,20 @@ static inline void StoreVU(U*p,qword q){__asm__("sqc2 %1,%0":"=m"(*p):"j"(q));}
 static inline qword CPU(qword q){register qword r __asm__("$2");__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(q));return r;}
 static inline qword Vector(qword q){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword Scalar(float f){register qword bits __asm__("$3");qword r;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2 %1,%0":"=j"(r):"r"(bits));return r;}
+static inline qword Scalar4(float f){register qword bits __asm__("$3"),r __asm__("vf4");__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2 %1,%0":"=j"(r):"r"(bits));return r;}
 static inline qword CPUScalar(float f){register qword r __asm__("$3");__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Zero(){qword r;__asm__("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword ScaleFirst(qword normal,qword scalar){register qword n __asm__("vf1")=normal,s __asm__("vf4")=scalar,result __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(result):"j"(n),"j"(s));return result;}
+static inline qword CrossFirst(qword a,qword b){register qword up __asm__("vf1")=a,velocity __asm__("vf2")=b,r __asm__("vf3");__asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(up),"j"(velocity));return r;}
+static inline qword CrossRight(qword a,qword b){register qword up __asm__("vf1")=a,dir __asm__("vf2")=b;__asm__("vopmula.xyz ACC,%1,%0\n\tvopmsub.xyz %0,%0,%1":"+j"(dir):"j"(up));return dir;}
 static inline qword Dot(qword a,qword b){qword d,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a),"j"(b));return d;}
 static inline qword Length(qword v){register qword d __asm__("vf1");register qword one __asm__("vf2");__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
 
 static inline float FloatWord(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
-static inline qword Normal(qword v,qword fallback){qword length=Length(v);if(FloatWord(length)<0.0001f)return Vector(fallback);qword r;__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(length),"j"(v));return r;}
+static inline qword Normal(qword v,qword fallback){register qword length __asm__("vf1")=Length(v);register qword result __asm__("vf1");if(FloatWord(length)<0.0001f)result=fallback;else __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(result):"j"(length),"j"(v));return result;}
 static inline void NormalInto(U*home,qword v,qword fallback){qword length=Length(v);if(FloatWord(length)<0.0001f)StoreCPU(home,fallback);else {register qword r __asm__("vf2");__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(length),"j"(v));StoreVU(home,r);}}
 static inline qword Combine(qword a,qword x,qword b,qword y){qword r;__asm__("vmulax.xyzw ACC,%1,%2x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(x),"j"(b),"j"(y));return r;}
 static inline float Random(const float *range){return func_0011D448(range[0],range[1]);}
@@ -75,8 +78,9 @@ extern "C" int func_001D4568(P *p,EVENT *event)
         float horizontal=Random(D_002C21D0);
         float vertical=Random(D_002C21D8);
         linear.q=func_0011E1A0(angle,horizontal,vertical);
-        scalar.q=Scalar(Random(D_002C21E0));
-        angular.q=Scale(Normal(Cross(D_002A2DC0,linear.q),D_002A2DA0),scalar.q);
+        scalar.q=Scalar4(Random(D_002C21E0));
+        register qword strength __asm__("vf4")=scalar.q;
+        angular.q=ScaleFirst(Normal(CrossFirst(D_002A2DC0,linear.q),D_002A2DA0),strength);
         break;
     }
     case 0x1000:{
@@ -90,7 +94,7 @@ extern "C" int func_001D4568(P *p,EVENT *event)
         scalar.q=Scalar(Random(D_002C21F0));
         linear.q=Combine(direction.q,first.q,*up,scalar.q);
         second.q=CPUScalar(Random(D_002C21F8));
-        side.q=Cross(*up,direction.q);
+        side.q=CrossRight(*up,direction.q);
         scalar.q=Scalar(Random(D_002C2200));
         angular.q=Combine(side.q,second.q,*up,scalar.q);
         break;

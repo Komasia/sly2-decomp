@@ -11,10 +11,13 @@ qword func_001FA970(SPACE*,qword);
 float func_001E63C0(P*,float);
 void func_001E6A30(P*,qword,SPACE*,qword*,qword*,float*,float*,float);
 }
+static inline float Mul0(float a,float b){register float r __asm__("$f0");__asm__("mul.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+static inline float Sub1(float a,float b){register float r __asm__("$f1");__asm__("sub.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+static inline float Mul1(float a,float b){register float r __asm__("$f1");__asm__("mul.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Bc(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword Dir(M4*m,qword a){__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m->a),"j"(m->b),"j"(m->c));return a;}
-static inline qword Point(M4*m,qword a){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m->a),"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));return r;}
+static inline qword Point(M4*m,qword a){qword r=m->a;__asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));return r;}
 static inline qword Length(qword a){qword d,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w":"=j"(d),"=j"(one):"j"(a));__asm__("vadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));return d;}
 static inline qword Norm(qword a,qword len){qword r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(len));return r;}
 static inline qword Dot(qword a,qword b){qword one;__asm__("vmul.xyz %0,%2,%0\n\tvaddw.x %1,$vf0,$vf0w":"+j"(b),"=&j"(one):"j"(a));__asm__("vadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(b):"j"(one));return b;}
@@ -59,7 +62,7 @@ void func_001E6A30(P*p,qword position,SPACE*space,qword*outPosition,qword*outDir
   *outPosition=Point(&work.matrix,Lerp(p->points[index],p->points[index+1],low,high));
  }
  if(outDirection){qword tangent=Dir(basis,Sub(p->points[index+1],p->points[index]));*outDirection=Norm(tangent,Length(tangent));}
- float time=(1.0f-fraction)*p->times[index]+fraction*p->times[index+1];
+ float time=Mul1(Sub1(1.0f,fraction),p->times[index])+Mul0(fraction,p->times[index+1]);
  if(work.outTime)*work.outTime=time;
  if(work.outValue)*work.outValue=func_001E63C0(p,time);
 }
