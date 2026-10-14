@@ -1,12 +1,14 @@
+inline void *operator new(unsigned int,void *storage){return storage;}
+struct CLOCK {float t,dt;};
 struct S;
-struct E { struct S *object; int n4; float t8; int pad; };
+struct E { struct S *object; int n4; float t8; int pad; E(S *source,const CLOCK&clock):object(source),n4(0),t8(clock.t){} };
 struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
 struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
-extern struct { float t; float dt; } D_002DDED0;
-struct E *func_00154180(struct T *pt, struct S *object);
-void *func_002332B8(void *d, void *s, int n);
+extern "C" CLOCK D_002DDED0;
+extern "C" struct E *func_00154180(struct T *pt, struct S *object);
+extern "C" void *func_002332B8(void *d, void *s, int n);
 
-int func_002085D0(struct S *p, struct S *object, int fFront)
+extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
 {
     struct E *e;
     struct T *pt;
@@ -28,7 +30,6 @@ int func_002085D0(struct S *p, struct S *object, int fFront)
                     n=8; n-=c; n*=16; n+=0x100;
                     e=(struct E*)((char*)pt+n);
                     func_002332B8(e + 1, e, (c - 1) * 16);
-                    e->object = object;
                     goto fill;
                 }
             }
@@ -42,10 +43,8 @@ int func_002085D0(struct S *p, struct S *object, int fFront)
                 e=(struct E*)((char*)pt+n);
                 func_002332B8(e + 1, e, c * 16);
             }
-            e->object = object;
         fill:
-            e->n4 = 0;
-            e->t8 = D_002DDED0.t;
+            new(e) E(object,D_002DDED0);
             p->pt->c++;
             return 1;
         }

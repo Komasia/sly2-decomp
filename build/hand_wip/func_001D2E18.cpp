@@ -53,6 +53,10 @@ static inline int EntryOffset(int index)
  __asm__("mult %0,%1,%2":"=r"(offset):"r"(index),"r"(stride):"hi","lo");
  return offset;
 }
+static inline CONTACT *FindContact(P *owner,int index,ENTRY *&entry){
+ entry=(ENTRY*)((char*)owner->entries+EntryOffset(index));
+ return func_001D2DD0(owner,entry);
+}
 extern "C" void func_001D2E18(P *p)
 {
     WORK work;
@@ -66,19 +70,23 @@ extern "C" void func_001D2E18(P *p)
     const LIMITS *limits=&p->limits;
     const POLY *traction=&p->traction;
     float total=0.0f;
+    int i=0;
+    if(p->count>0){
     const POLY *velocityResponse=&D_002C2120;
     const POLY *depthResponse=&D_002C2130;
-    for(int i=0;i<p->count;i++){
-        ENTRY *entry=(ENTRY*)((char*)p->entries+EntryOffset(i));
-        CONTACT *hit=func_001D2DD0(p,entry);
+    do {
+        ENTRY *entry;
+        CONTACT *hit=FindContact(p,i,entry);
         if(hit){
             qword point=hit->point.q;
             normal.q=func_001A6318(p)->rows[2].q;
             previous.q=func_0022D348(p->space,0,point);
             qword other=func_0022D348(hit->motion,0,point);
             float fraction=Clamp(hit->depth/(entry->maximum-entry->minimum),0.0f,1.0f);
-            float response=Dot(Subtract(Vector(other),previous.q),normal.q)*Evaluate(*velocityResponse,fraction)*D_002C2110;
-            response+=hit->depth*Evaluate(*depthResponse,fraction)*D_002C2114;
+            float velocityCurve=Evaluate(*velocityResponse,fraction);
+            float depthCurve=Evaluate(*depthResponse,fraction);
+            float response=Dot(Subtract(Vector(other),previous.q),normal.q)*velocityCurve*D_002C2110;
+            response+=hit->depth*depthCurve*D_002C2114;
             if(response<0.0f)goto contactDone;
             work.control.scalar.q=Scalar(response*p->physics->mass);
             force.q=Scale(normal.q,work.control.scalar.q);
@@ -86,6 +94,7 @@ extern "C" void func_001D2E18(P *p)
             total+=Dot(force.q,normal.q);
         }
         contactDone:;
+    }while(++i<p->count);
     }
     float budget=Min(D_002C2140,p->contactScale*total/p->physics->mass);
     work.control.velocity.q=Scalar(LoadScalar(&D_002DDED0.dt));

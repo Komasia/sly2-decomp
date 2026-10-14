@@ -138,7 +138,7 @@ static inline qword FromWord(int a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword AddScaled(qword point,qword axis,qword scalar){
- __asm__("vadda.xyzw $ACC,$vf0,%0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(point):"j"(axis),"j"(scalar));return point;
+ __asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(point):"j"(axis),"j"(scalar));return point;
 }
 static inline float Clock(P*p){
  register CTX*context __asm__("$2")=p->context;uint flags=context->flags;if((flags^1)&1)flags=*(uint*)flags;

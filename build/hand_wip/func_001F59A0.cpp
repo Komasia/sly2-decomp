@@ -14,16 +14,16 @@ extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" M3 *func_0011BC00(M3 *,const M3 *,const M3 *);
 extern "C" void func_0011BCF8(const M3 *,float *,qword *);
 extern "C" float func_0011CFE0(float,float);
-static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Sub(qword a,qword b){register qword r __asm__("vf4");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){__asm__("vadd.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
-static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
-static inline qword Scale(qword v,qword k){__asm__("vmulx.xyzw %0,%0,%1x":"+j"(v):"j"(k));return v;}
+static inline qword Scalar(float f,U *out){qword q;__asm__ volatile("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
+static inline qword Scale(qword source,qword k){register qword v __asm__("vf3")=source;__asm__("vmulx.xyzw %0,%0,%1x":"+j"(v):"j"(k));return v;}
 static inline qword ScaleFactor(qword v,qword k){__asm__("vmulx.xyzw %0,%1,%0x":"+j"(k):"j"(v));return k;}
-static inline qword ScaleNew(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=&j"(r):"j"(v),"j"(k));return r;}
+static inline qword ScaleNew(qword v,qword k){register qword r __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=&j"(r):"j"(v),"j"(k));return r;}
 static inline qword AddScaled(qword a,qword b,qword k){__asm__("vadda.xyzw ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(a):"j"(b),"j"(k));return a;}
 static inline float Dot(qword value,qword normal){register qword d __asm__("vf2")=value,b __asm__("vf1")=normal,one __asm__("vf3");float f;__asm__("vmul.xyz %0,%0,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d),"=&j"(one):"j"(b));__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
 static inline float Length(qword a){qword d,one;float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(a));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
-static inline float Product(float a,float b){register float f __asm__("$f1");__asm__("mul.s %0,%1,%2":"=f"(f):"f"(a),"f"(b));return f;}
+static inline float Product(float x,float y){register float a __asm__("$f1")=x,b __asm__("$f2")=y;__asm__("mul.s %0,%0,%1":"+f"(a):"f"(b));return a;}
 extern "C" void func_001F59A0(P *p,const M3 *orientation,const COEF *c)
 {
     M3 frame,relative;

@@ -11,7 +11,7 @@ qword func_001A6F00(void*,void*,qword);
 int func_001C0960(struct S*,qword,qword,int,struct HIT*,int);
 void func_0011EE08(qword,qword,qword,qword*,float*,float*);
 int func_001C0940(struct S*,qword,qword*,int);
-static inline float Z(qword q){qword z;float f;__asm__("pextuw %0,$zero,%1":"=r"(z):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(z));return f;}
+static inline float InitialEndpoint(union U*home,qword vertex,qword point){register qword word __asm__("$3");register float coordinate __asm__("$f0");__asm__("pextuw %0,$zero,%2\n\tsq %3,%1":"=&r"(word),"=m"(home->q):"r"(point),"r"(vertex));__asm__("mtc1 %2,%0\n\tswc1 %0,%1":"=f"(coordinate),"=m"(home->f[2]):"r"(word));return coordinate;}
 static inline int InitialCount(const struct S*p){int value;__asm__("lw %0,%1":"=r"(value):"m"(p->count));return value;}
 int func_001C0B50(struct S*p,qword point,qword*out){
  void*objects[128];
@@ -21,7 +21,7 @@ int func_001C0B50(struct S*p,qword point,qword*out){
  union U nearest;
  float distance;
  void*leaf;struct S*poly;
- qword projected;
+ qword projected,first;
  int n,i;
  float z,bestDistance;
  leaf=func_001BF110(p->bsp,point,1);
@@ -34,8 +34,8 @@ int func_001C0B50(struct S*p,qword point,qword*out){
  if(!poly){*out=projected;return 1;}
  best.i[2]=0;best.i[1]=0;best.i[0]=0;
  bestDistance=D_002A76DC;
- a.q=func_001A6F00(poly,0,poly->vertices[0]);
- z=Z(projected);a.f[2]=z;
+ first=func_001A6F00(poly,0,poly->vertices[0]);
+ z=InitialEndpoint(&a,first,projected);
  i=1;if(i<InitialCount(poly)){do{
   int c;qword*h;
   b.q=func_001A6F00(poly,0,poly->vertices[i]);b.f[2]=z;

@@ -12,15 +12,19 @@ extern "C" qword func_001A62E8(struct O *po);
 extern "C" qword func_001A6F00(void *source, struct S *p, qword q);
 extern "C" struct BSP *func_00118FB0(struct BSP *p, unsigned int limit, qword v);
 extern "C" int func_00132B10(struct O *po, int n);
+static inline int AutomaticSentinel(){int value;__asm__("addiu %0,$zero,-1":"=r"(value));return value;}
 extern "C" void func_00221298(struct S *p)
 {
     struct O *po = func_001C4A48(&D_003DD490);
     int f;
     if (!po) return;
-    if (po != p->pE0) func_00221178(p, 0);
-    p->pE0 = po;
+    if (po != p->pE0) {
+        func_00221178(p, 0);
+        p->pE0 = po;
+    }
     f = p->x13C;
-    if ((unsigned long)f == (unsigned long)-1) {
+    int sentinel=AutomaticSentinel();
+    if (f == sentinel) {
         f = func_00118FB0(p->p108, 0x7FFFFFFF, func_001A6F00(0, p, func_001A62E8(po))) != 0;
     }
     if (p->x124) goto set;
