@@ -5,7 +5,7 @@ struct DATA{char pad0[4];float amount;};struct SOURCE{char pad0[0x114];DATA*data
 struct CLIP{char pad0[0x74];float duration;};struct ANIMATION{char pad0[0x14];CLIP*clip;};struct COMPONENT{void*object;};
 struct BODY{char pad0[0x70];U position;char pad80[0x20];void*frame;};struct MOTION{char pad0[0x80];U acceleration;};
 struct ACTOR{char pad0[12];VTE*vt;char pad10[0x48];BODY*body;char pad5C[0x8C];MOTION*motion;char padEC[0x28];DATA*data;char pad118[0x78];U velocity;char pad1A0[8];float heading;char pad1AC[0x31C];int category;char pad4CC[0x434];char secondary[0x30];CLIP*secondaryClip;char pad934[0x50];SOURCE*secondaryFocus;char pad988[0x688];U offset;char pad1020[0x10];ANIMATION*animation;COMPONENT component;char pad1038[0x4DC];CLIP*clip1514;CLIP*clip1518;char pad151C[0x338];SOURCE*primaryFocus;char pad1858[0x4D0];EFFECT*effect;};
-struct LINK{void*space;void*target;};struct TRACK{int opaque,id;float weight;};struct QUERY{OBJECT*object;PROVIDER*provider;REFERENCE*reference;int tag;U point;};
+struct LINK{void*space;void*target;};union WORD{int bits;float amount;};struct TRACK{int opaque;WORD control;float weight;};struct QUERY{OBJECT*object;PROVIDER*provider;REFERENCE*reference;int tag;U point;};
 struct CONTEXT{ACTOR*actor;int state,variant;SOURCE*source;char pad10[8];float stamp;int mode;float time;int flags24,flags28,flags2C;int actionFlag;float gain,turnGain,height;int combo;float time44,time48,time4C;char pad50[0x6C];int fieldBC;char padC0[8];LINK*link;char padCC[4];U relative,direction,offset;char pad100[0x20];CLIP*base[5];CLIP*alternate[5];CLIP*special148,*special14C,*special150,*special154,*special158,*special15C;char pad160[8];float oldScale;void*focus;char pad170[4];int focused;CLIP*scripted;float scriptedGain;char pad180[4];TRACK tracks[4];char pad1B4[4];CLIP*multi;SOURCE*scriptFocus;char pad1C0[8];CLIP*special1C8;char pad1CC[4];QUERY query;EVENT*event;};
 struct CLOCK{float time,dt;};struct RANGE{float low,high;};struct TWO_ROWS{U row[2];};
 struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,velocity,endVelocity,duration;};
@@ -38,6 +38,9 @@ typedef char BODY_Size[sizeof(BODY)==176?1:-1];
 typedef char MOTION_Size[sizeof(MOTION)==144?1:-1];
 typedef char ACTOR_Size[sizeof(ACTOR)==7472?1:-1];
 typedef char LINK_Size[sizeof(LINK)==8?1:-1];
+typedef char WORD_Size[sizeof(WORD)==4?1:-1];
+typedef char WORD_bits_Offset[FIELD_OFFSET(WORD,bits)==0?1:-1];
+typedef char WORD_amount_Offset[FIELD_OFFSET(WORD,amount)==0?1:-1];
 typedef char TRACK_Size[sizeof(TRACK)==12?1:-1];
 typedef char QUERY_Size[sizeof(QUERY)==32?1:-1];
 typedef char CONTEXT_Size[sizeof(CONTEXT)==512?1:-1];
@@ -76,7 +79,7 @@ typedef char ACTOR_effect_Offset[FIELD_OFFSET(ACTOR,effect)==7464?1:-1];
 typedef char LINK_space_Offset[FIELD_OFFSET(LINK,space)==0?1:-1];
 typedef char LINK_target_Offset[FIELD_OFFSET(LINK,target)==4?1:-1];
 typedef char TRACK_opaque_Offset[FIELD_OFFSET(TRACK,opaque)==0?1:-1];
-typedef char TRACK_id_Offset[FIELD_OFFSET(TRACK,id)==4?1:-1];
+typedef char TRACK_control_Offset[FIELD_OFFSET(TRACK,control)==4?1:-1];
 typedef char TRACK_weight_Offset[FIELD_OFFSET(TRACK,weight)==8?1:-1];
 typedef char QUERY_object_Offset[FIELD_OFFSET(QUERY,object)==0?1:-1];
 typedef char QUERY_provider_Offset[FIELD_OFFSET(QUERY,provider)==4?1:-1];
@@ -170,7 +173,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
  case 9:case 10:case 16:case 18:{func_002303A0(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;ACTOR*actor=p->actor;VTE&v=actor->vt[35];void*receiver=(char*)actor+v.delta;qword velocity=func_0019A750(p,4);((void(*)(void*,qword))v.fn)(receiver,velocity);p->variant=0;if(p->mode==16)clip=p->special14C;else clip=p->special148;active=0;break;}
  case -1:if(p->focused){func_00204DA8(p->actor,p->oldScale);func_00140C88(p->actor,0);p->focused=0;}p->fieldBC=0;p->state=-1;break;
  case 19:func_00204660(p->actor,p->actor->heading-D_002BF780[p->variant]);p->flags28=0;clip=p->scripted;func_00140C88(p->actor,p->scriptFocus);p->scriptFocus->data->amount=D_002BF798.low*0.5f+D_002BF798.high*0.5f;if(p->actor->effect)func_001F0660(p->actor->effect,0x5F7);break;
- case 20:p->tracks[0].id=0;p->tracks[1].id=0;p->tracks[2].id=0;p->tracks[3].id=0;p->scriptedGain=1.0f;func_001384C0(p->multi);clip=p->multi;flags=9;break;
+ case 20:p->tracks[0].control.bits=0;p->tracks[1].control.bits=0;p->tracks[2].control.bits=0;p->tracks[3].control.bits=0;p->scriptedGain=1.0f;func_001384C0(p->multi);clip=p->multi;flags=9;break;
  case 21:{float minimum=-1000.0f,maximum=-1.0f;w.bodyPosition.q=p->actor->body->position.q;
   if(p->query.object&&(func_00132B10(p->query.object,19)||func_00132B10(p->query.object,11))){minimum=0.0f;maximum=500.0f;}
   w.goal.q=func_0019F3F8(p->actor,&p->query,D_002BF7A0);w.delta.q=Sub(w.goal.q,w.bodyPosition.q);w.acceleration.q=p->actor->motion->acceleration.q;

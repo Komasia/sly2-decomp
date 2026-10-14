@@ -20,7 +20,8 @@ extern int func_0014C748(qword,qword,qword,int,HIT*,float);
 extern M4*func_0011C318(M4*,M4*);
 extern void func_001E6330(PATH*);
 static inline qword Read(const U*v){qword q;__asm__("lq %0,%1":"=r"(q):"m"(v->q));return q;}
-static inline qword Point(const M4*m,qword v){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m->row[0]),"j"(m->row[1]),"j"(m->row[2]),"j"(m->row[3]),"j"(v));return r;}
+static inline qword FirstPoint(const M4*m,qword v){register qword r __asm__("vf6");__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m->row[0]),"j"(m->row[1]),"j"(m->row[2]),"j"(m->row[3]),"j"(v));return r;}
+static inline qword Point(const M4*m,qword v){qword r=m->row[0];__asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m->row[1]),"j"(m->row[2]),"j"(m->row[3]),"j"(v));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Bc(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline float Float(qword v){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(v));return f;}
@@ -29,9 +30,9 @@ static inline qword Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\
 static inline qword Length(qword v){qword r=Sq(v);__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(r));return r;}
 static inline qword Norm(qword v,qword len){qword r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(v),"j"(len));return r;}
 static inline qword MulX(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,$vf0,%1\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
-static inline qword AddScaled2(qword a,qword b,qword c,qword s){qword r;__asm__("vadda.xyzw $ACC,$vf0,%1\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(b),"j"(c),"j"(s));return r;}
-static inline qword AddForces(qword a,qword b,qword s,qword c,qword t){qword r;__asm__("vadda.xyzw $ACC,$vf0,%1\n\tvmaddax.xyzw $ACC,%2,%3x\n\tvmaddx.xyzw %0,%4,%5x":"=j"(r):"j"(a),"j"(b),"j"(s),"j"(c),"j"(t));return r;}
+static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
+static inline qword AddScaled2(qword a,qword b,qword c,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(b),"j"(c),"j"(s));return r;}
+static inline qword AddForces(qword a,qword b,qword s,qword c,qword t){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%3x\n\tvmaddx.xyzw %0,%4,%5x":"=j"(r):"j"(a),"j"(b),"j"(s),"j"(c),"j"(t));return r;}
 static inline qword Lerp(qword a,qword b,float f,U*scalar){qword r,s,t;scalar->q=Bc(1.f-f);s=scalar->q;scalar->q=Bc(f);t=scalar->q;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(s),"j"(t));return r;}
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float SqrtF(float f){float r;__asm__("sqrt.s %0,%1":"=f"(r):"f"(f));return r;}
@@ -39,10 +40,10 @@ void func_001E8378(P*p){
  WORK w;
  register qword velocityStart __asm__("s1");
  int pass,i,last,interior;
- w.worldStart.q=Point(&p->start->world,p->localStart);
+ w.worldStart.q=FirstPoint(&p->start->world,p->localStart);
  w.count=p->path->count;
  velocityStart=func_0022D348(p->start,0,Read(&w.worldStart));
- w.worldEnd.q=Point(&p->end->world,p->localEnd);
+ w.worldEnd.q=FirstPoint(&p->end->world,p->localEnd);
  w.velocityEnd.q=func_0022D348(p->end,0,Read(&w.worldEnd));
  if((unsigned int)w.count>64)return;
  func_001AE5A0(w.oldP,p->positions,w.count*16);

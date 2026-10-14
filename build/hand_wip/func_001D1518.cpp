@@ -37,13 +37,12 @@ static inline float Y(qword value){qword r;asm("prot3w %0,%1":"=r"(r):"r"(value)
 static inline float MaxF(float a,float b){float r;asm("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 extern "C" void func_001D1518(P *p){
  U scalar,maximum,minimum;
- int i;
+ int i=0;
  {qword zero=Zero();minimum.q=CPU(zero);maximum.q=zero;}
- void **binding=&p->binding;
  func_001F36A8(p);
- qword *up=&D_002A2DC0;
- {E *cursor=p->entries,*next=cursor+1;
- for(i=0;i<p->count;i++,cursor++,next++){
+ if(p->count>0){qword *up=&D_002A2DC0;
+ E *cursor=p->entries,*next=cursor+1;
+ do {
   E *e=cursor;
   REF *reference=func_001F4C58(p,e->id,13);
   e->reference=reference;
@@ -60,7 +59,9 @@ extern "C" void func_001D1518(P *p){
    scalar.q=bottom;
    e->bottom=AddUp(pos,up,scalar.q);
   }
- }}
+  ++i;++cursor;++next;
+ }while(i<p->count);}
+ void **binding=&p->binding;
  float maxX=X(maximum.q),minX=X(minimum.q);
  p->width=maxX-minX;
  if(p->count>0){

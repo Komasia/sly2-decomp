@@ -3,6 +3,11 @@ extern int D_002C3650;
 float func_001E6648(struct P *);
 float func_0011D448(float, float);
 float func_001E66C8(struct P *, float);
+static inline float SampleValue(float input) {
+ register float value __asm__("$f3");
+ __asm__("mov.s %0,%1":"=f"(value):"f"(input));
+ return value;
+}
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float Abs(float a){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(a));return r;}
@@ -14,7 +19,7 @@ static inline float GClamp(float x, float lo, float hi)
     return x;
 }
 static inline float S3(float t) { if (0.0f < t) return SqrtF(t); return -SqrtF(-t); }
-static inline float S2(float t) { float k, s, d = t + t; if (t > 0.0f) { k = 3.0f; s = t*t; } else { k = -3.0f; s = t*t; } return s * (k - d); }
+static inline float S2(float t) { float k,s,d; if(t>0.0f){k=3.0f;s=t*t;}else{k=-3.0f;s=t*t;}d=t+t;return s*(k-d); }
 float func_001E8008(struct P *p, float a, float b)
 {
     float r[2];
@@ -28,7 +33,7 @@ float func_001E8008(struct P *p, float a, float b)
     }
     
     r[1]=upper;r[0]=lower;
-    t = func_0011D448(-1.0f, 1.0f);
+    t = SampleValue(func_0011D448(-1.0f, 1.0f));
     switch (D_002C3650) {
     case 0:
         break;
@@ -36,10 +41,12 @@ float func_001E8008(struct P *p, float a, float b)
         t = t * Abs(t);
         break;
     case 2:
-        t = S2(t);
-        break;
+        u=S2(t);
+        goto assign;
     case 3:
-        t = S3(t);
+        u=S3(t);
+    assign:
+        t=u;
         break;
     }
     t = t * 0.5f + 0.5f;

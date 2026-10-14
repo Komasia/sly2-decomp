@@ -37,9 +37,10 @@ static inline qword ToVF(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q
 static inline qword ToCPU(qword q){qword r;__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(q));return r;}
 static inline qword ScalarWord(uint bits){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
+static inline qword VectorHome(V &home,qword value){home.q=value;return home.q;}
 static inline qword LoadVF(const V &v){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(v));return r;}
-static inline qword AddScaled(qword base,qword vector,qword coefficient){qword r;__asm__("vadda.xyzw ACC,$vf0,%1\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(base),"j"(vector),"j"(coefficient));return r;}
-static inline qword AddScaledUp(qword base,qword up,qword coefficient){__asm__("vadda.xyzw ACC,$vf0,%1\n\tvmaddx.xyzw %0,%0,%2x":"+j"(up):"j"(base),"j"(coefficient));return up;}
+static inline qword AddScaled(qword base,qword vector,qword coefficient){qword r;__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(base),"j"(vector),"j"(coefficient));return r;}
+static inline qword AddScaledUp(qword base,qword up,qword coefficient){__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%0,%2x":"+j"(up):"j"(base),"j"(coefficient));return up;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Minimum(qword a,qword b){__asm__("vmini.xyz %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline qword Maximum(qword a,qword b){qword r;__asm__("vmax.xyz %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -54,15 +55,15 @@ static inline float LengthXY(qword v){qword r;__asm__("vmul.xy %0,%1,%1\n\tvaddy
 static inline qword Lerp(qword first,qword second,qword from,qword toward){qword r;__asm__("vmulax.xyzw ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(first),"j"(second),"j"(from),"j"(toward));return r;}
 static inline float Distance(PAIR &snapshot,const V &plane,const V &point){
  func_002564B8(&snapshot.value);func_002564B8(&snapshot.one);
- qword normal=LoadVF(plane),position=LoadVF(point),result,one;
- __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddaz.x ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"=j"(result),"=&j"(one):"j"(normal),"j"(position));
- float distance=X(result);snapshot.one.q=one;snapshot.value.q=result;return distance;
+ qword normal=LoadVF(plane),position=LoadVF(point);
+ __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddaz.x ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"=j"(snapshot.value.q),"=&j"(snapshot.one.q):"j"(normal),"j"(position));
+ return X(snapshot.value.q);
 }
 static inline float BoundaryDistance(PAIR &snapshot,const V &plane,const V &point,qword &livePoint){
  func_002564B8(&snapshot.value);func_002564B8(&snapshot.one);
- qword normal=LoadVF(plane),position=LoadVF(point),one;
- __asm__("vmul.xyz %0,%0,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddaz.x ACC,%1,%0z\n\tvmsubw.x %0,%1,%0w":"+j"(normal),"=&j"(one):"j"(position));
- float distance=X(normal);snapshot.one.q=one;snapshot.value.q=normal;livePoint=position;return distance;
+ qword normal=LoadVF(plane),position=LoadVF(point);
+ __asm__("vmul.xyz %0,%0,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddaz.x ACC,%1,%0z\n\tvmsubw.x %0,%1,%0w":"=j"(snapshot.value.q),"=&j"(snapshot.one.q):"0"(normal),"j"(position));
+ livePoint=position;return X(snapshot.value.q);
 }
 extern "C" void func_0022A220(O *owner){
  WORK w;
@@ -74,9 +75,9 @@ extern "C" void func_0022A220(O *owner){
  qword sourcePosition=func_001A62E8(source);
  owner->collided=0;owner->height=0.0f;
  w.source.q=sourcePosition;
- qword coefficient=ScalarWord(D_002C4490.bits),sourceVector=ToVF(sourcePosition),cameraVector=LoadVF(w.camera),up=LoadVF(D_002A2DC0);
+ qword coefficient=VectorHome(w.phase.scalar,ScalarWord(D_002C4490.bits)),sourceVector=ToVF(sourcePosition),cameraVector=LoadVF(w.camera),up=LoadVF(D_002A2DC0);
  qword cameraTop=AddScaled(cameraVector,up,coefficient),sourceTop=AddScaledUp(sourceVector,up,coefficient);
- w.points[0].q=ToCPU(sourceVector);w.phase.scalar.q=coefficient;w.points[2].q=cameraTop;w.points[1].q=sourceTop;w.points[3].q=ToCPU(cameraVector);
+ w.points[0].q=ToCPU(sourceVector);w.points[2].q=cameraTop;w.points[1].q=sourceTop;w.points[3].q=ToCPU(cameraVector);
  func_00119308(&w.phase.plane,w.camera.q,sourcePosition,ToCPU(sourceTop));
  w.objectsOut=&w.objects;w.plane.q=w.phase.plane.q;
  int i;
@@ -85,17 +86,16 @@ extern "C" void func_0022A220(O *owner){
   qword edge=Sub(w.points[(i+1)%4].q,w.points[i].q);w.temporary.q=edge;
   func_002564C0(normalCopy);
   qword plane=LoadVF(w.plane),direction=LoadVF(w.temporary);
-  qword cross=Cross(direction,plane);
-  normalCopy->q=ToCPU(plane);
+  qword copied=VectorHome(*normalCopy,plane);
+  qword cross=Cross(direction,copied);
   qword normal=Unit(cross);
   func_00119390(sidePlanes+i,normal,w.points[i].q);
  }
  func_001AE478(marker);
  w.phase.request.bytes=0x10000;w.phase.request.alignment=16;
  FACE **faces=(FACE **)func_001AE318(&w.phase.request);
- coefficient=ScalarWord(D_002C4490.bits);
+ coefficient=VectorHome(w.phase.scalar,ScalarWord(D_002C4490.bits));
  qword cam=LoadVF(w.camera),position=LoadVF(w.source),upper=AddScaled(Maximum(cam,position),LoadVF(D_002A2DC0),coefficient),lower=Minimum(cam,position);
- w.phase.scalar.q=coefficient;
  func_0020FAA0(&D_003DD490,lower,upper,func_0014F030,0,objectCount,w.objectsOut);
  qword initialDelta=Sub(w.source.q,w.camera.q);
  float best=Z(initialDelta)/LengthXY(initialDelta),initial=best;
@@ -113,9 +113,11 @@ extern "C" void func_0022A220(O *owner){
     if(0.0f<first&&0.0f<second)continue;
     if(first<0.0f&&second<0.0f)continue;
     float fraction=first/(first-second);
-    qword toward=Scalar(fraction),from=Scalar(1.0f-fraction);
+    qword pending=Scalar(fraction);
+    qword from=VectorHome(w.phase.scalar,Scalar(1.0f-fraction));
+    qword toward=VectorHome(w.phase.scalar,pending);
     w.firstBoundary.q=LoadVF(w.sides[0]);
-    w.phase.scalar.q=from;w.intersection.q=Lerp(w.first.q,w.second.q,from,toward);w.phase.scalar.q=toward;
+    w.intersection.q=Lerp(w.first.q,w.second.q,from,toward);
     int inside=0;qword liveIntersection;
     if(BoundaryDistance(w.evaluations[2],w.firstBoundary,w.intersection,liveIntersection)<0.0f){
      w.temporary.q=LoadVF(w.sides[1]);

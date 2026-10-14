@@ -35,7 +35,7 @@ static inline RGBA BlendColors(float t,RGBA previous,RGBA next){
  return result;
 }
 static inline float MatrixOne(){float value;__asm__("li.s %0,1.0":"=f"(value));return value;}
-static inline M23 *PreviousMatrix(const ITEM *item){M23 *matrix;__asm__ __volatile__("lw %0,%1":"=r"(matrix):"m"(item->previousMatrix));return matrix;}
+static inline M23 *PreviousMatrix(const ITEM *item){M23 *matrix;__asm__("lw %0,%1":"=r"(matrix):"m"(item->previousMatrix));return matrix;}
 static inline void Mix(int n,float *out,const float *a,const float *b,float from,float t){for(n--;n>=0;n--){*out++=from * *a++ + t * *b++;}}
 static inline M23 BlendMatrix(float from,float t,const M23 &previous,const M23 &next){M23 result;Mix(6,result.a,previous.a,next.a,from,t);return result;}
 static inline M23 Mul(const M23 &q,const M23 &n){

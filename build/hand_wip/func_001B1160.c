@@ -5,11 +5,12 @@ struct P { char pad0[0xC]; struct VT *vt; char pad1[0x16C - 0x10]; void *p16C; v
     char pad2[0x1CC - 0x17C]; float g1CC; float g1D0; char pad3[0x220 - 0x1D4]; int x220; };
 extern qword D_002A2DA0;
 qword func_001A62E8(void *p);
-void func_001E6ED8(void *p, qword pos, int a, int b, int c, float g, float *pg, int d);
+struct SPACE;
+void func_001E6ED8(void*,qword,struct SPACE*,qword*,qword*,float*,float*,float);
 float func_001E6660(void *p, float g);
 float func_001E6610(void *p);
 float func_001E6630(void *p);
-void func_001E67B8(void *p, qword *pv, int n, float g);
+void func_001E67B8(void*,float,qword*,qword*);
 void func_001B1328(struct P *p, int n);
 static __inline__ qword VLen(qword c)
 {
@@ -21,6 +22,21 @@ static __inline__ qword VLen(qword c)
     return r;
     }
 }
+#define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
+typedef char qword_Size[sizeof(qword)==16?1:-1];
+typedef char VU_Size[sizeof(VU)==16?1:-1];
+typedef char VT_Size[sizeof(struct VT)==8?1:-1];
+typedef char P_Size[sizeof(struct P)==0x224?1:-1];
+typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
+typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
+typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
+typedef char P_p16C_Offset[FIELD_OFFSET(P,p16C)==364?1:-1];
+typedef char P_p170_Offset[FIELD_OFFSET(P,p170)==368?1:-1];
+typedef char P_g174_Offset[FIELD_OFFSET(P,g174)==372?1:-1];
+typedef char P_g178_Offset[FIELD_OFFSET(P,g178)==376?1:-1];
+typedef char P_g1CC_Offset[FIELD_OFFSET(P,g1CC)==460?1:-1];
+typedef char P_g1D0_Offset[FIELD_OFFSET(P,g1D0)==464?1:-1];
+typedef char P_x220_Offset[FIELD_OFFSET(P,x220)==544?1:-1];
 void func_001B1160(struct P *p)
 {
     void *q;
@@ -42,7 +58,7 @@ void func_001B1160(struct P *p)
     if (!q)
         return;
     upos.q = func_001A62E8(p);
-    func_001E6ED8(q, upos.q, 0, 0, 0, p->g174, &p->g174, 0);
+    func_001E6ED8(q,upos.q,0,0,0,&p->g174,0,p->g174);
     t = func_001E6660(q, p->g174 + p->g178);
     if (t < func_001E6610(q) || func_001E6630(q) < t) {
         if (p->x220 == 1)
@@ -51,12 +67,12 @@ void func_001B1160(struct P *p)
         VU v, uc, ur, ub;
         qword d, c, l, n, k, b, r;
         float gl;
-        func_001E67B8(q, &v.q, 0, t);
+        func_001E67B8(q,t,&v.q,0);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(v.q), "j"(upos.q));
         k = D_002A2DA0;
         __asm__("vmove.xyzw %0, %1" : "=j"(c) : "j"(d));
         uc.q = c;
-        l = VLen(c);
+        l = VLen(uc.q);
         __asm__("qmfc2.ni %0, %1" : "=r"(gl) : "j"(l));
         if (gl < 1e-4f) {
             n = k;
@@ -65,8 +81,8 @@ void func_001B1160(struct P *p)
         }
         __asm__("qmtc2.ni %1, %0" : "=j"(b) : "r"(g));
         ub.q = b;
-        __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(n), "j"(b));
+        __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(n), "j"(ub.q));
         ur.q = r;
-        ((void (*)(void *, qword))p->vt[35].pfn)((char *)p + p->vt[35].d, r);
+        ((void (*)(void *, qword))p->vt[35].pfn)((char *)p + p->vt[35].d, ur.q);
     }
 }

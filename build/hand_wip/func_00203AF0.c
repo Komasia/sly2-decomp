@@ -1,4 +1,3 @@
-/* wip: 17 diffs - v1/a0 register swap for p->pq loads around c/q240 store, and union sqc2 of qmtc2'd scalar scheduled earlier than target. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct E { float a; float b; float c; float d; };
@@ -44,10 +43,15 @@ void func_00203AF0(struct S *p, struct M *m)
     p->f210 = mn;
     c = p->pq->c;
     p->pq->c = c + 2;
-    ((qword *)p->pq->p7C)[c] = p->q240;
-    __asm__("qmtc2.ni %1, %0" : "=j"(u.q) : "r"(p->n214));
-    __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(p->q240), "j"(D_002A2DC0), "j"(u.q));
-    ((qword *)p->pq->p7C)[c + 1] = r;
+    {register struct Q *mesh __asm__("$4")=p->pq;
+     register qword point __asm__("$3")=p->q240;
+     ((qword *)mesh->p7C)[c]=point;}
+    {register int word __asm__("$2");
+     register struct Q *mesh __asm__("$3");
+     __asm__("lw %0,%2\n\tlw %1,%3":"=&r"(word),"=r"(mesh):"m"(p->n214),"m"(p->pq));
+     {register qword value __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(value):"r"(word));u.q=value;}
+     __asm__ __volatile__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(p->q240),"j"(D_002A2DC0),"j"(u.q));
+     ((qword *)mesh->p7C)[c+1]=r;}
     if (fl)
         ((qword *)p->pq->p7C)[c + 2] = D_002A2DD0;
     func_001664A0(p->pq->p0->a40, p->pq->a78, p->pq->a90);

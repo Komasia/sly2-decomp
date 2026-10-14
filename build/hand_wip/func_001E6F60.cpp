@@ -13,7 +13,7 @@ void func_001E6ED8(P*,qword,SPACE*,qword*,qword*,float*,float*,float);
 }
 static inline qword Load(const qword &a){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(a));return r;}
 static inline void CopyMatrix(M4 &out,const M4 *in){out.a=Load(in->a);out.b=Load(in->b);out.c=Load(in->c);out.d=Load(in->d);}
-static inline qword Point(const M4 &m,qword a){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));return r;}
+static inline qword Point(const M4 &m,qword a){register qword r __asm__("vf6");__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));return r;}
 static inline qword PointKept(qword carrier,const M4&m,qword a) {
  __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
     :"+j"(carrier):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));

@@ -71,10 +71,9 @@ void func_001EA000(struct S *ps)
             cseg = idx + 1;
             if (!((unsigned)cseg < 17))
                 cseg = idx;
-            if (fNew) {
+            if (fNew)
                 pseg->a = segStart;
-                pseg->b = segEnd;
-            }
+            pseg->b = segEnd;
             t = segEnd;
         }
         t += D_002C367C;

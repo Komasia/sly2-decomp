@@ -49,8 +49,17 @@ static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x
 static inline qword Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
 static inline float LengthXY(qword a){qword r;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(r));return X(r);}
 static inline qword Rotate(const M3 &m,qword a){qword r;__asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.rows[0].q),"j"(m.rows[1].q),"j"(m.rows[2].q),"j"(a));return r;}
-static inline void StoreCPU(U &out,qword value){__asm__("sq %1,%0":"=m"(out):"r"(value));}
 static inline qword LoadVF(const U &value){qword out;__asm__("lqc2 %0,%1":"=j"(out):"m"(value));return out;}
+static inline float DifferenceLength(qword target,const U &position,U &difference){
+ register qword current __asm__("vf1")=Vector(target);
+ register qword first __asm__("vf2")=LoadVF(position);
+ __asm__("vsub.xyzw %0,%0,%1":"+j"(current):"j"(first));
+ __asm__("sqc2 %1,%0":"=m"(difference):"j"(current));
+ register qword saved __asm__("vf3")=LoadVF(difference);
+ __asm__("vmul.xy %0,%0,%1\n\tvaddy.x %0,%0,%0y":"+j"(current):"j"(saved));
+ __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(current));
+ return X(current);
+}
 union FLOATWORD {float value;int word;};
 static inline qword ScalarBits(const float &f){FLOATWORD view;view.value=f;qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(view.word));return r;}
 static inline qword NormalizeRadius(qword a,const float &radius,U &scalar){
@@ -67,10 +76,10 @@ extern "C" void func_001D2610(P *p)
     WORK work;
     HIT query[4];
     U position,targetPosition,delta,goal,offset;
-    StoreCPU(position,func_001A62E8(p));
-    StoreCPU(targetPosition,func_001A62E8(p->target));
-    delta.q=Subtract(targetPosition.q,position.q);
-    float distance=LengthXY(delta.q);
+    position.q=func_001A62E8(p);
+    qword target=func_001A62E8(p->target);
+    targetPosition.q=target;
+    float distance=DifferenceLength(target,position,delta);
     p->selectedAttach=func_001D2240(p);
     if(!p->selectedAttach)p->selectedObject=func_001D22D0(p);else p->selectedObject=0;
     int previous;

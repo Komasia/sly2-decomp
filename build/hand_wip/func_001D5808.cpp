@@ -7,7 +7,8 @@ struct M3 {U rows[3];};
 struct VENTRY {short delta,pad;void (*fn)();};
 struct OBJECT {char pad0[0xC];VENTRY *vt;};
 struct BLOCK;
-union META {ulong bits;uint words[2];struct {ulong coefficient:32;long kind:4;long channels:8;long sort:6;ulong hidden:1;ulong index:13;} field;};
+enum KIND {KIND_INVALID=-1,KIND_MESH=0,KIND_PACKET=1,KIND_DEFERRED=3,KIND_GROUP=4};
+union META {ulong bits;uint words[2];struct {ulong coefficient:32;KIND kind:4;long channels:8;long sort:6;ulong hidden:1;ulong index:13;} field;};
 struct RENDER {U sphere;META meta;void *payload;BLOCK *next;};
 struct BLOCK {RENDER entries[4];};
 struct STACK {int count;BLOCK *blocks[256];};
@@ -20,6 +21,7 @@ struct CAMERA {char pad0[0x14];int channels;int unused18;union {float coefficien
 struct GAME {char pad0[0x3D5C];int version;};
 struct BUILDER {char pad0[0xC];unsigned char *current;};
 struct QUEUE {int sort;union {float distance;uint distanceWord;};unsigned char *packet;void *data;};
+union FLAG {bool value;uint word;};
 union WORK {U constants;M4 inverse;};
 extern CAMERA D_002DDF40;
 extern GAME D_003DD490;
@@ -62,7 +64,7 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
     OBJECT *deferred[512];
     WORK work;
     M4 matrix,temporary;
-    int near;
+    FLAG near;
     for(int i=0;i<scene->animationCount;i++){
         OBJECT *animation=scene->animations[i];
         if(func_001EDA20(animation))Virtual(animation,8);
@@ -75,7 +77,7 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
     while((block=func_001D57E0(stack))!=0){
         for(unsigned int i=0;i<4;i++){
             register RENDER *render __asm__("s4")=&block->entries[i];
-            if(render->meta.field.kind==-1)continue;
+            if(render->meta.field.kind==KIND_INVALID)continue;
             work.constants.q=Bits(D_002DDF40.coefficientWord);
             __asm__ __volatile__("qmtc2 %0,$vf14" : :"r"(work.constants.q):"vf14");
             work.constants.q=Bits(render->sphere.words[3]);
@@ -93,7 +95,7 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
             if(alpha==0.0f)continue;
             qword relative=Move(position);
             switch(render->meta.field.kind){
-            case 1:{
+            case KIND_PACKET:{
                 if(render->meta.field.hidden)break;
                 register QUEUE *q __asm__("s6")=Allocate();if(!q)break;
                 SetSort(q,render->meta.field.sort,alpha);
@@ -112,9 +114,9 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
                 }
                 break;
             }
-            case 4:func_001D57B8(stack,(BLOCK *)render->payload);break;
-            case 3:if(deferredCount<512)deferred[deferredCount++]=(OBJECT *)render->payload;break;
-            case 0:{
+            case KIND_GROUP:func_001D57B8(stack,(BLOCK *)render->payload);break;
+            case KIND_DEFERRED:if(deferredCount<512)deferred[deferredCount++]=(OBJECT *)render->payload;break;
+            case KIND_MESH:{
                 int index=render->meta.field.index;
                 register MESH *mesh __asm__("s5")=&scene->meshes[index];
                 DESCRIPTOR *descriptor=&scene->descriptors[index];
@@ -153,9 +155,9 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
                 long sort=render->meta.field.sort;
                 if(sort==7 || sort==8){
                     float radius=render->sphere.f[3]+D_002DDF40.proximityRadius;
-                    near=X(CPU(Dot(relative,relative)))<radius*radius;
+                    near.value=X(CPU(Dot(relative,relative)))<radius*radius;
                     Word(builder,0x6001C012);
-                    CopyScalar((uint *)builder->current,(uint *)&near,1);
+                    CopyScalar((uint *)builder->current,&near.word,1);
                     builder->current+=4;
                 }
                 Align(builder);

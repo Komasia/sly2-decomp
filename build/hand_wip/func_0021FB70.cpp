@@ -65,7 +65,7 @@ static inline qword MinXYZ(qword a,qword b){qword r;__asm__("vmini.xyz %0,%1,%2"
 static inline qword MaxXYZ(qword a,qword b){qword r;__asm__("vmax.xyz %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float X(qword v){float f;__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(v));return f;}
 static inline float Z(qword v){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(v));return f;}
-static inline qword Scalar(V &home,float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));home.q=q;return q;}
+static inline qword Scalar(V &home,float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));home.q=q;return home.q;}
 static inline float LengthXY(qword v){
  __asm__("vmul.xy %0,%0,%0":"+j"(v));
  __asm__("vaddy.x %0,%0,%0y":"+j"(v));

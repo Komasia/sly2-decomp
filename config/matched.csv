@@ -4923,6 +4923,7 @@ func_00210F80,0x210F80,24,match,src/hand/func_00210F80.c
 func_00210FE0,0x210FE0,89,match,src/hand/func_00210FE0.c
 func_00211148,0x211148,42,match,src/auto/func_00211148.c
 func_002111F0,0x2111F0,41,match,src/hand/func_002111F0.c
+func_00211298,0x211298,43,match,src/hand/func_00211298.c
 func_00211348,0x211348,17,match,src/hand/func_00211348.c
 func_00211390,0x211390,9,match,src/auto/func_00211390.c
 func_002113B8,0x2113B8,9,match,src/auto/func_002113B8.c
