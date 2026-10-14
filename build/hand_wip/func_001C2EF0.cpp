@@ -26,6 +26,7 @@ SO*func_001C2EF0(OWNER*,int);
 static inline qword ReadVU(const qword*p){qword q;__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(p),"m"(*p));return q;}
 static inline qword ReadGPR(const qword*p){qword q;__asm__("lq %0,0(%1)":"=r"(q):"r"(p),"m"(*p));return q;}
 static inline qword ToVU(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
+static inline qword ReadFallback(const qword*p){qword q;__asm__("lq %0,%1":"=r"(q):"m"(*p));return q;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Dot(qword a,qword b){qword one,d;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w":"=j"(d),"=&j"(one):"j"(a),"j"(b));__asm__("vadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d):"j"(one));return d;}
@@ -38,6 +39,18 @@ static inline void State(SO*p,int state){VTE*v=p->vt;((void(*)(void*,int))v[76].
 static inline void Reset(SO*p){VTE*v=p->vt;((void(*)(void*))v[8].fn)((char*)p+v[8].delta);}
 static inline void Parent(SO*p,SO*parent){VTE*v=p->vt;((void(*)(void*,SO*))v[39].fn)((char*)p+v[39].delta,parent);}
 static inline void Velocity(SO*p,qword velocity){VTE*v=p->vt;((void(*)(void*,qword))v[35].fn)((char*)p+v[35].delta,velocity);}
+static inline qword NormalizeOr(qword value,qword fallback) {
+    register qword length __asm__("vf1");
+    register qword one __asm__("vf4");
+    register qword result __asm__("vf1");
+    float scalar;
+    __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z" : "=j"(length),"=&j"(one) : "j"(value));
+    __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q" : "=j"(length) : "j"(length));
+    __asm__("mtc1 %1,%0" : "=f"(scalar) : "r"(length));
+    if(scalar<0.0001f) result=ToVU(fallback);
+    else __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q" : "=j"(result) : "j"(length),"j"(value));
+    return result;
+}
 SO*func_001C2EF0(OWNER*p,int count){
  WORK work;work.count=count;const qword*up=&D_002A2DC0;
  int index=0;SO*first=0;
@@ -53,9 +66,7 @@ SO*func_001C2EF0(OWNER*p,int count){
   qword axis=ReadVU(up);
   qword delta=Sub(work.target.q,work.start.q);
   qword perpendicular=Sub(delta,Scale(axis,Dot(delta,axis)));
-  qword length=Root(Dot(perpendicular,perpendicular));
-  qword direction;
-  if(Scalar(length)<0.0001f)direction=D_002A2DA0;else direction=Norm(perpendicular,length);
+  qword direction=NormalizeOr(perpendicular,ReadFallback(&D_002A2DA0));
   func_0011B830(&work.matrix,direction,ReadGPR(up));work.basis=work.matrix;
   work.destination.q=Add(work.target.q,Dir(&work.basis,work.offset.q));
   qword acceleration=D_002C0D60;

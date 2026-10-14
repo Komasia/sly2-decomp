@@ -1,11 +1,11 @@
-// WIP: 34/225 differing instructions; complete animated warp matrix update.
+// Complete warp updater WIP; scalar temporary fields are consumed by the calculation.
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct M3 {float f[3][4];} __attribute__((aligned(16)));
 struct M4 {V r[4];};
 struct ONZE {float amplitude,frequency,phase,random;};
 struct ONZ {float minimum,maximum,bias;int count;ONZE terms[4];};
-struct CIRCLE {V uvA,vectorB,uvB;int column;float unused64,frequency,phase;char pad70[0x60];};
+struct CIRCLE {V uvA,vectorB,uvB;int column;float spatialFrequency,frequency,phase;};
 struct BEND {ONZ bend,swivel;};
 union PAYLOAD {CIRCLE circle;BEND bend;};
 struct WRE {int kind,index;char pad8[8];V axis,vectorA;PAYLOAD data;};
@@ -22,7 +22,7 @@ M3 func_0011B500(qword,float);
 }
 static inline qword ScalarLoad(const float &f){int bits;qword q;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
-static inline qword Combine(qword fa,qword a,qword fb,qword b,V &temporary){temporary.q=fa;qword r;__asm__("vmulax.xyzw ACC,%2,%1x\n\tvmaddx.xyzw %0,%4,%3x":"=j"(r):"j"(fa),"j"(a),"j"(fb),"j"(b));temporary.q=fb;return r;}
+static inline qword Combine(qword fa,qword a,qword fb,qword b,V &temporary){temporary.q=fa;fa=temporary.q;temporary.q=fb;fb=temporary.q;qword r;__asm__("vmulax.xyzw ACC,%2,%1x\n\tvmaddx.xyzw %0,%4,%3x":"=j"(r):"j"(fa),"j"(a),"j"(fb),"j"(b));return r;}
 static inline void CopyXYZ(V &destination,const V &v){float x=v.f[0],y=v.f[1],z=v.f[2];destination.f[0]=x;destination.f[1]=y;destination.f[2]=z;}
 static inline void CopyXY(V &destination,const V &v){float x=v.f[0],y=v.f[1];destination.f[0]=x;destination.f[1]=y;}
 static inline qword Unit(qword v){qword len,one,r;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(len),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(len));__asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=j"(r):"j"(v),"0"(len));return r;}

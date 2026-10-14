@@ -1,5 +1,5 @@
 typedef int qword __attribute__((mode(TI)));
-typedef union {qword q;float f[4];int i[4];} V;
+typedef union {qword q;float f[4];} V;
 struct O;
 struct VT {short delta,pad;void(*fn)(void*,qword*);};
 struct O {char pad[0xC];struct VT *vt;char pad10[0x28];float height;char pad3C[0xA4];float radius;char padE4[0x24];int state;};
@@ -14,7 +14,19 @@ int func_0014F850(struct CAMERA*,qword,qword);
 int func_0014F898(struct CAMERA*,qword,float,float*);
 void func_00202378(struct P*,struct O*);
 void func_00202768(struct P*,int);
-static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%1,%2":"=j"(a):"0"(a),"j"(b));return a;}
+static inline void PlaneArguments(qword *eye,qword *threshold,qword *point,qword scalar,const qword *camera,const qword *position) {
+    register qword view __asm__("vf1");
+    register qword value __asm__("$6");
+    register qword local __asm__("vf2");
+    __asm__("lqc2 %0,%3\n\tpor %1,$zero,%5\n\tlqc2 %2,%4"
+            : "=j"(view),"=&r"(value),"=j"(local) : "m"(*camera),"m"(*position),"r"(scalar));
+    *eye=view;*threshold=value;*point=local;
+}
+static inline qword PlaneDelta(qword position,qword camera) {
+    register qword eye __asm__("vf1")=camera;
+    register qword point __asm__("vf2")=position;
+    __asm__("vsub.xyzw %0,%0,%1" : "+j"(point) : "j"(eye));return point;
+}
 static inline qword SubSecond(qword a,qword b){__asm__("vsub.xyzw %0,%1,%2":"=j"(b):"j"(a),"0"(b));return b;}
 static inline float LengthXY(qword a){float g;
 __asm__("vmul.xy %0,%0,%0\n\tvaddy.x %0,%0,%0y":"=j"(a):"0"(a));
@@ -25,8 +37,8 @@ static inline qword ScalarBits(const float*p){qword q;__asm__("lw %0,%1":"=r"(q)
 void func_00202540(struct P*p)
 {
  V radius,screen,position;
- struct O *best=0;
  int i=0;
+ register struct O *best __asm__("$20")=0;
  struct O *owner=p->ref->o;
  float minimum;
  struct O **slot;
@@ -36,12 +48,13 @@ void func_00202540(struct P*p)
  if(p->count>0){slot=p->items;do{
    struct O *o=*slot;
    struct CAMERA *camera;
-   float distance;
+   float distance; qword eye,threshold,point;
    if(!func_00203790(o))continue;
    Store(&position.q,func_001A62E8(o));
    camera=&D_002DDF40;
    radius.q=ScalarBits(&o->radius);
-   if(!func_0014F850(camera,Sub(position.q,camera->position),radius.q))continue;
+   PlaneArguments(&eye,&threshold,&point,radius.q,&camera->position,&position.q);
+   if(!func_0014F850(camera,PlaneDelta(point,eye),threshold))continue;
    if(!func_0014F898(camera,func_001A62E8(o),o->height,&screen.f[0]))continue;
    distance=LengthXY(SubSecond(position.q,camera->position));
    if(distance<minimum){

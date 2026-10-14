@@ -1,5 +1,6 @@
-struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;char pad2d[3];int fUpper;};
-extern "C" {void *func_002333B4(void *,int,unsigned int);extern unsigned char D_002AA6A1[];}
+// Complete TFT specifier parser WIP; actual52-byte record uses natural alignment.
+struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
+extern "C" {void *func_002333B4(void *,int,int);extern unsigned char D_002AA6A1[];}
 int CchParsePchzInt(char *,int *);
 static inline int Abs(int n){return n<0?-n:n;}
 static inline int Upper(unsigned char c){return D_002AA6A1[c]&1;}
@@ -48,7 +49,7 @@ int CchParsePchzTft(char *format,TFT *f,char **args){
         case 4:
             switch(*p){
             case 'h':f->cbits=1;consumed=1;break;
-            case 'l':consumed=1;if(p[1]=='l'){f->cbits=2;consumed++;}else f->cbits=2;break;
+            case 'l':consumed=1;if(p[1]!='l'){f->cbits=2;break;}
             case 'L':case 'q':f->cbits=2;consumed++;break;
             case 'M':case 'm':case 'V':case 'v':
                 f->matrixRows=Upper(*p)?4:3;

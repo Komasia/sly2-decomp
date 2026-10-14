@@ -1,9 +1,10 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} V;
+union FLOATWORD {float value;int word;};
 struct ASEG;struct ALO;
 struct ASEGA {char pad[0x14];struct ASEG *owner;};
-struct TAG {float value;int kind,id,pad;};
-struct E {struct ASEG *animation;int pad[3];qword velocity;float speed;int pad20[3];};
+struct TAG {float value;};
+struct E {struct ASEG *animation;int pad[3];qword velocity;FLOATWORD speed;int pad20[3];};
 struct P {char pad[0x10];qword direction;struct ALO *root;struct ASEGA *active;struct E *entries,*best;int flags,forward,backward;};
 extern const float D_002A8904;
 extern float D_002C3DE4;
@@ -15,41 +16,51 @@ __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tv
 static inline qword DotReuse(qword a,qword b){qword one;
 __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(b),"=&j"(one):"j"(a),"0"(b));return b;}
 static inline qword Sqrt(qword q){__asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(q):"0"(q));return q;}
-static inline qword Normalize(qword v){qword length=Sqrt(Dot(v,v)),result;
-__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(result):"j"(length),"j"(v));return result;}
+static inline void Normalize(V*dst,qword v){qword length=Sqrt(Dot(v,v));register qword result __asm__("vf3");
+__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=&j"(result):"j"(length),"j"(v));dst->q=result;}
+static inline qword LoadScore(const qword*p){register qword r __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
+static inline qword LoadFinal(const qword*p){register qword r __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline qword NormalizeEntry(qword v){qword length=Sqrt(Dot(v,v));
 __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(length):"0"(length),"j"(v));return length;}
 static inline float Float(qword v){float f;__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(v));return f;}
-static inline qword Scalar(const float*p){qword v;__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(*(const int*)p));return v;}
-static inline qword Scale(qword v,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));return r;}
-static inline float StartTime(struct ASEG*a,int id){float f=0.0f;struct TAG*t=func_0012F938(a,id);if(t)f=t->value;return f;}
+static inline qword Scalar(const FLOATWORD*p){register qword v __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(p->word));return v;}
+static inline qword Scale(qword v,qword s){register qword r __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));return r;}
 extern "C" void func_0020CB28(struct P*p,qword v)
 {
  V scalar,direction;
  struct E *best=0;
- direction.q=Normalize(v);
+ register struct E *current __asm__("v0");
+ Normalize(&direction,v);
  float maximum=D_002A8904;
  if(p->forward||p->backward){
    struct E *entry=p->entries;
    unsigned int i=0;
+   qword scoringDirection=LoadScore(&direction.q);
    float bias=D_002C3DE4;
    do{
      struct ASEG *animation=entry->animation;
      if(animation){
-       float score=Float(DotReuse(direction.q,NormalizeEntry(entry->velocity)));
+       float score=Float(DotReuse(scoringDirection,NormalizeEntry(entry->velocity)));
        if(animation==p->active->owner)score*=bias;
        if(maximum<score){maximum=score;best=entry;}
      }
    }while(++entry,++i<4);
- }
- if(best!=p->best){
-   float time;
-   if(p->forward)time=StartTime(best->animation,0x17D);
-   else time=StartTime(best->animation,0x17F);
+ current=p->best;
+ if(best!=current){
+   float time=0.0f;
+   struct TAG*tag;
+   struct ASEG*animation;
+   int id;
+   if(p->forward){id=0x17D;animation=best->animation;}
+   else {id=0x17F;animation=best->animation;}
+   tag=func_0012F938(animation,id);
+   if(tag)time=tag->value;
    ApplyAsegCur(best->animation,p->root,time,1.0f,p->flags,&p->active);
    func_001333C0(p->active,(int)p);
    p->best=best;
+   current=p->best;
  }
- scalar.q=Scalar(&p->best->speed);
- p->direction=Scale(direction.q,scalar.q);
+ }else current=p->best;
+ scalar.q=Scalar(&current->speed);
+ p->direction=Scale(LoadFinal(&direction.q),scalar.q);
 }

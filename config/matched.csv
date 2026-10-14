@@ -2910,6 +2910,7 @@ func_0019E9D8,0x19E9D8,9,match,src/hand/func_0019E9D8.c
 func_0019EA00,0x19EA00,23,match,src/hand/func_0019EA00.c
 func_0019EA60,0x19EA60,16,match,src/auto/func_0019EA60.c
 func_0019EAA0,0x19EAA0,3,match,src/hand/func_0019EAA0.c
+func_0019EAB0,0x19EAB0,271,match,src/hand/func_0019EAB0.cpp
 func_0019EEF0,0x19EEF0,23,match,src/hand/func_0019EEF0.c
 func_0019EF50,0x19EF50,77,match,src/auto/func_0019EF50.c
 func_0019F088,0x19F088,8,match,src/auto/func_0019F088.c
@@ -4091,6 +4092,7 @@ func_001E6648,0x1E6648,6,match,src/auto/func_001E6648.c
 func_001E6660,0x1E6660,26,match,src/hand/func_001E6660.c
 func_001E66C8,0x1E66C8,22,match,src/hand/func_001E66C8.c
 func_001E6728,0x1E6728,35,match,src/hand/func_001E6728.c
+func_001E69A0,0x1E69A0,35,match,src/hand/func_001E69A0.c
 func_001E6DB8,0x1E6DB8,71,match,src/hand/func_001E6DB8.c
 func_001E6ED8,0x1E6ED8,14,match,src/auto/func_001E6ED8.c
 func_001E6F10,0x1E6F10,20,match,src/auto/func_001E6F10.c
@@ -4592,6 +4594,7 @@ func_002021F8,0x2021F8,41,match,src/hand/func_002021F8.c
 func_002022A0,0x2022A0,13,match,src/hand/func_002022A0.c
 func_002022D8,0x2022D8,29,match,src/hand/func_002022D8.c
 func_00202350,0x202350,10,match,src/hand/func_00202350.c
+func_00202540,0x202540,109,match,src/hand/func_00202540.c
 func_002026F8,0x2026F8,14,match,src/hand/func_002026F8.c
 func_00202730,0x202730,14,match,src/hand/func_00202730.c
 func_00203568,0x203568,15,match,src/hand/func_00203568.c
@@ -4632,6 +4635,7 @@ func_00205438,0x205438,7,match,src/auto/func_00205438.c
 func_00205458,0x205458,7,match,src/auto/func_00205458.c
 func_00205478,0x205478,67,match,src/hand/func_00205478.c
 func_00205588,0x205588,58,match,src/hand/func_00205588.c
+func_00205670,0x205670,93,match,src/hand/func_00205670.c
 func_00205D08,0x205D08,2,match,src/auto/func_00205D08.c
 func_00205D10,0x205D10,2,match,src/auto/func_00205D10.c
 func_00205D18,0x205D18,77,match,src/auto/func_00205D18.c

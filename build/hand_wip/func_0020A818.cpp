@@ -1,5 +1,4 @@
 typedef int qword __attribute__((mode(TI)));
-union F {float f;int i;};
 union U { qword q; float f[4]; };
 struct Actor { char pad[0xF30]; int blocked,ready,padF38,busy; };
 struct P { char pad[0xC]; Actor *target; int kind; float unused,tolerance; int disabled; char pad20[8]; int count; Actor *actors[1]; };
@@ -14,7 +13,7 @@ float func_0011CF60(float);
 }
 static inline qword Load(const qword *p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"=j"(a):"j"(b),"0"(a));return a;}
-static inline qword Scalar(U *u,float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));u->q=r;return r;}
+static inline qword Scalar(U *u,float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));u->q=r;return u->q;}
 extern "C" int func_0020A818(P*p,Actor*a)
 {
     U scalar;

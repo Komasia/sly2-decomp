@@ -1,3 +1,4 @@
+// Complete sprite action dispatcher WIP; real activation argument is an integer flag.
 struct VT { char pad[0x40]; short d; short pd; int (*kind)(void *); };
 struct M { char pad[0xC]; struct VT *vt; };
 struct E { char pad[0x14]; struct M *pm; };
@@ -6,19 +7,19 @@ struct A { int kind; int id; };
 struct F { char pad[0x18]; unsigned char count; char pad1[3]; struct A *aa; };
 struct S { char pad[4]; struct F *af; char pad1[8]; struct R *r; };
 extern char D_003DD040[];
-struct M *func_001FBB90(int id);
-void func_001FB2F8(struct M *, void *);
-void func_001FB098(struct M *, float);
-void func_00258040(struct M **pp, struct M *m);
-void *func_001FE5F0(void *p,int a,int b);
-void func_001FE738(void *p);
+extern "C" struct M *func_001FBB90(int id);
+extern "C" void func_001FB2F8(struct M *, int);
+extern "C" void func_001FB098(struct M *, float);
+extern "C" void func_00258040(struct M **pp, struct M *m);
+extern "C" void *func_001FE5F0(void *p,int a,int b);
+extern "C" void func_001FE738(void *p);
 static inline void Stop(struct M **pp) {
     if (pp && *pp) {
         func_001FB098(*pp,0.0f);
         func_00258040(pp,0);
     }
 }
-void func_00219190(struct S *p,int fi,int i) {
+extern "C" void func_00219190(struct S *p,int fi,int i) {
     struct F *f=&p->af[fi];
     int j;
     for (j=0;j<f->count;j++) {
