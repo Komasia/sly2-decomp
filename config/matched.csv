@@ -2901,6 +2901,7 @@ func_0019D330,0x19D330,104,match,src/hand/func_0019D330.c
 func_0019D4D0,0x19D4D0,27,match,src/auto/func_0019D4D0.c
 func_0019D540,0x19D540,71,match,src/hand/func_0019D540.c
 func_0019D660,0x19D660,185,match,src/hand/func_0019D660.c
+func_0019D948,0x19D948,76,match,src/hand/func_0019D948.cpp
 func_0019DCA0,0x19DCA0,6,match,src/hand/func_0019DCA0.c
 func_0019DCB8,0x19DCB8,77,match,src/auto/func_0019DCB8.c
 func_0019DDF0,0x19DDF0,8,match,src/auto/func_0019DDF0.c
@@ -5011,6 +5012,7 @@ func_002161C8,0x2161C8,37,match,src/hand/func_002161C8.c
 func_00216260,0x216260,30,match,src/hand/func_00216260.c
 func_002162D8,0x2162D8,54,match,src/hand/func_002162D8.c
 func_002163B0,0x2163B0,191,match,src/hand/func_002163B0.cpp
+func_002166B0,0x2166B0,39,match,src/hand/func_002166B0.c
 func_00216750,0x216750,251,match,src/hand/func_00216750.c
 func_00216B40,0x216B40,16,match,src/hand/func_00216B40.c
 func_00216B80,0x216B80,17,match,src/hand/func_00216B80.c
@@ -5098,6 +5100,7 @@ func_0021F2E0,0x21F2E0,41,match,src/hand/func_0021F2E0.c
 func_0021F388,0x21F388,35,match,src/hand/func_0021F388.c
 func_0021FB18,0x21FB18,21,match,src/hand/func_0021FB18.c
 func_00220498,0x220498,27,match,src/auto/func_00220498.c
+func_00220508,0x220508,40,match,src/hand/func_00220508.c
 func_002205A8,0x2205A8,72,match,src/hand/func_002205A8.c
 func_00220BE8,0x220BE8,77,match,src/auto/func_00220BE8.c
 func_00220D20,0x220D20,8,match,src/auto/func_00220D20.c
@@ -5615,6 +5618,7 @@ sceGsPutDrawEnv,0x2406C0,58,match,src/lib/sceGsPutDrawEnv.c
 func_00240AE0,0x240AE0,34,match,src/lib/func_00240AE0.c
 func_00240B68,0x240B68,7,match,src/auto/func_00240B68.c
 func_00240C28,0x240C28,4,match,src/lib/syscall/func_00240C28.c
+sceGsSetDefClear,0x241260,65,match,src/lib/sceGsSetDefClear.c
 WaitDma,0x241368,28,match,src/lib/WaitDma.c
 CheckAddress,0x2413E0,10,match,src/lib/CheckAddress.c
 memclr,0x241408,13,match,src/lib/memclr.c

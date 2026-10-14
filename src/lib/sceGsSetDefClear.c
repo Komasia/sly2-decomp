@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// SLY2_ASM: gnu-reorder-db
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef unsigned char u_char;
@@ -17,6 +18,7 @@ typedef struct {
 #define SET_RGBAQ(r, g, b, a, q) \
     ((u_long)(r) | ((u_long)(g) << 8) | ((u_long)(b) << 16) | ((u_long)(a) << 24) | ((u_long)(q) << 32))
 #define SET_XYZ(x, y, z) ((u_long)(x) | ((u_long)(y) << 16) | ((u_long)(z) << 32))
+static inline u_long Combine(u_long a,u_long b){u_long result;__asm__("or %0,%1,%2":"=r"(result):"r"(a),"r"(b));return result;}
 int sceGsSetDefClear(sceGsClear *cp, short ztest, short x, short y, short w, short h,
                      u_char r, u_char g, u_char b, u_char a, u_int z)
 {
@@ -26,7 +28,7 @@ int sceGsSetDefClear(sceGsClear *cp, short ztest, short x, short y, short w, sho
     cp->primaddr = 0;
     cp->prim = 6;
     cp->rgbaqaddr = 1;
-    cp->rgbaq = (u_long)r | ((u_long)g << 8) | ((u_long)0x3f800000 << 32) | ((u_long)b << 16) | ((u_long)a << 24);
+    cp->rgbaq = Combine((u_long)r,(u_long)0x3f800000 << 32) | Combine((u_long)b << 16,(u_long)g << 8) | ((u_long)a << 24);
     cp->xyz2aaddr = 5;
     cp->xyz2a = SET_XYZ(x << 4, y << 4, zz);
     cp->xyz2baddr = 5;

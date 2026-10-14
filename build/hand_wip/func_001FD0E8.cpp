@@ -24,6 +24,8 @@ void *func_001FC138(HEADER *,int);
 void func_00259B48(void *,void *);
 }
 static inline bool Same(const HEADER *a,const HEADER *b){if(a==b)return true;if(!b)return false;return (a->words[2]^a->words[14])==(b->words[2]^b->words[14]);}
+static inline void StoreCount(ARRAY *array,int value){__asm__("sw %1,%0":"=m"(array->count):"r"(value));}
+static inline int Count(const ARRAY *array){int value;__asm__("lw %0,%1":"=r"(value):"m"(array->count));return value;}
 extern "C" void func_001FD0E8(P *p,void *stream)
 {
     HEADER header;
@@ -61,10 +63,10 @@ extern "C" void func_001FD0E8(P *p,void *stream)
     int languages=func_00117BD0(stream);
     int selected=0;
     for(int languageIndex=0;languageIndex<languages;languageIndex++)if(func_00117BD0(stream)==D_002E1E54)selected=languageIndex;
-    array.count=func_00117DB8(stream);
-    request.bytes=array.count*sizeof(EVENT);allocation->alignment=16;
+    StoreCount(&array,func_00117DB8(stream));
+    request.bytes=Count(&array)*sizeof(EVENT);allocation->alignment=16;
     array.entries=(EVENT *)func_001AE2A0(allocation);
-    for(int i=0;i<array.count;i++){
+    for(int i=0;i<Count(&array);i++){
         EVENT *e=&array.entries[i];
         e->id=func_00117D50(stream);
         e->kind=func_00117D50(stream);

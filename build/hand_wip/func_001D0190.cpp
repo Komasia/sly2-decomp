@@ -30,10 +30,13 @@ static inline float Clamp(float v,float low,float high){if(v<low)return low;else
 static inline M3 Facing(qword direction,qword up) return r {func_0011B830(&r,direction,up);}
 static inline M3 Rotation(qword axis,float angle) return r {func_0011B500(&r,axis,angle);}
 static inline M4 Transform(qword position,const M3 &basis,float size) return r {func_0011C288(&r,position,&basis,size);}
-static inline M3 Multiply(const M3 &a,const M3 &b) return r {
- __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.rows[0]):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[0]));
- __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.rows[1]):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[1]));
- __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.rows[2]):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[2]));
+// XYZ products retain the post-rotation W lanes.
+static inline M3 Multiply(const M3&a,const M3&b) return r {
+ register qword row0 __asm__("vf4"),row1 __asm__("vf3")=a.rows[0],row2 __asm__("vf5");
+ register qword left1 __asm__("vf2")=a.rows[1],left2 __asm__("vf1")=a.rows[2],column0 __asm__("vf8")=b.rows[0],column1 __asm__("vf7")=b.rows[1],column2 __asm__("vf6")=b.rows[2];
+ __asm__("vmulax.xyz ACC,%2,%6x\n\tvmadday.xyz ACC,%3,%6y\n\tvmaddz.xyz %1,%4,%6z\n\tvmulax.xyz ACC,%2,%5x\n\tvmadday.xyz ACC,%3,%5y\n\tvmaddz.xyz %0,%4,%5z":"+j"(row0),"+j"(row2):"j"(row1),"j"(left1),"j"(left2),"j"(column0),"j"(column2));
+ __asm__("vmulax.xyz ACC,%0,%3x\n\tvmadday.xyz ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(row1):"j"(left1),"j"(left2),"j"(column1));
+ r.rows[0]=row0;r.rows[1]=row1;r.rows[2]=row2;
 }
 extern "C" void func_001D0190(RIP *p)
 {

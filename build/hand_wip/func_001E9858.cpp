@@ -10,7 +10,9 @@ struct STATE {int pad;OWNER*object;char pad8[0x28-8];};
 struct NODE {MESH*mesh;int n;E*entries;NODE*next;};
 struct CONFIG {void*owner;char pad4[0xC];U zero;float limit;char pad24[0x18];MESH*meshes;STATE*states;void*ae;};
 struct S {char pad[0x80];CONFIG config;char padD0[0xDC-0xD0];NODE*head;char padE0[0x150-0xE0];void*path;};
-struct AL {int cb,align;AL(int c,int a){cb=c;align=a;}};
+struct AL {int cb,align;};
+union PHASE {AL request;U hit;};
+struct WORK {PHASE phase;U direction;M3 basis,temporary,inverse;float distance;U axis;int nextEntry;U world;};
 extern char D_002C44F0;
 extern "C" {
 void func_001F36A8(S*);
@@ -31,46 +33,40 @@ static inline qword CopyL(qword a,qword b){qword r;__asm__("pcpyld %0,%1,%2":"=r
 static inline qword CopyH(qword a,qword b){qword r;__asm__("pcpyud %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
 static inline qword PextL0(qword b){qword r;__asm__("pextlw %0,$zero,%1":"=r"(r):"r"(b));return r;}
 static inline qword PextH0(qword b){qword r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(b));return r;}
-static inline M3 Transpose(const M3&m) return r{
+static inline void TransposeInto(M3&r,const M3&m){
  qword lo=PextL(m.b.q,m.a.q),hi=PextH(m.b.q,m.a.q);
  qword lo1=PextL0(m.c.q),hi1=PextH0(m.c.q);
  r.a.q=CopyL(lo1,lo);
  r.b.q=CopyH(lo,lo1);
  r.c.q=CopyL(hi1,hi);
 }
+static inline qword ReadAxis(const M3*matrix){register qword value __asm__("$2");__asm__("lq %0,%1":"=r"(value):"m"(matrix->c.q));return value;}
 void func_001E9858(S*p){
- U vertices[128];
+ U vertices[128];WORK w;
  func_001F36A8(p);
  if(!p->path||!p->head)return;
- qword axis=func_001A6318(p)->c.q;
- NODE*node;
- for(node=p->head;node;node=node->next){
+ w.axis.q=ReadAxis(func_001A6318(p));
+ for(NODE*node=p->head;node;node=node->next){
   int index=node->mesh-p->config.meshes;
-  STATE*state=&p->config.states[index];
-  OWNER*object=state->object;
+  STATE*state=&p->config.states[index];OWNER*object=state->object;
   state->object=(OWNER*)&D_002C44F0;
-  int j=0;
-  func_0016EF00(&p->config,index);
+  int j=0;func_0016EF00(&p->config,index);
+  PHASE*phase=&w.phase;
   while(j<node->n){
-   E*e=&node->entries[j++];
-   int k=0;
+   E*e=&node->entries[j];w.nextEntry=j+1;int k=0;
    func_001AE5A0(vertices,e->vertices,e->n*16);
-   U*out=(U*)func_001AE1D0(&AL(e->n*16,16));
-   e->samples=out;
+   phase->request.cb=e->n*16;phase->request.align=16;
+   U*out=(U*)func_001AE1D0(&phase->request);e->samples=out;
    for(k=0;k<e->n;k++){
-    U pos,dir;
-    M3 m;
-    float distance;
-    qword world;
-    world=Point(&object->mat,vertices[k].q);
-    func_001E6F60(p->path,world,0,&pos.q,&dir.q,&distance,0);
-    M3 tmp;func_0011B830(&tmp,dir.q,axis);
-    m=tmp;
-    M3 transposed;transposed=Transpose(m);
-    out->q=Transform(transposed,Sub(world,pos.q));
-    out->f[3]=distance;
-    out++;
+    w.world.q=Point(&object->mat,vertices[k].q);
+    func_001E6F60(p->path,w.world.q,0,&phase->hit.q,&w.direction.q,&w.distance,0);
+    func_0011B830(&w.temporary,w.direction.q,w.axis.q);
+    w.basis=w.temporary;
+    TransposeInto(w.temporary,w.basis);
+    w.inverse=w.temporary;
+    out->q=Transform(w.inverse,Sub(w.world.q,phase->hit.q));out->f[3]=w.distance;out++;
    }
+   j=w.nextEntry;
   }
  }
 }
@@ -111,3 +107,15 @@ typedef char mesh_guard31[(OFF(CONFIG,states)==0x40)?1:-1];
 typedef char mesh_guard32[(OFF(CONFIG,ae)==0x44)?1:-1];
 typedef char mesh_guard33[(OFF(AL,cb)==0)?1:-1];
 typedef char mesh_guard34[(OFF(AL,align)==4)?1:-1];
+
+typedef char actual_mesh_work_0[(sizeof(PHASE)==16)?1:-1];
+typedef char actual_mesh_work_1[(sizeof(WORK)==0xF0)?1:-1];
+typedef char actual_mesh_work_2[(OFF(WORK,phase)==0)?1:-1];
+typedef char actual_mesh_work_3[(OFF(WORK,direction)==0x10)?1:-1];
+typedef char actual_mesh_work_4[(OFF(WORK,basis)==0x20)?1:-1];
+typedef char actual_mesh_work_5[(OFF(WORK,temporary)==0x50)?1:-1];
+typedef char actual_mesh_work_6[(OFF(WORK,inverse)==0x80)?1:-1];
+typedef char actual_mesh_work_7[(OFF(WORK,distance)==0xB0)?1:-1];
+typedef char actual_mesh_work_8[(OFF(WORK,axis)==0xC0)?1:-1];
+typedef char actual_mesh_work_9[(OFF(WORK,nextEntry)==0xD0)?1:-1];
+typedef char actual_mesh_work_10[(OFF(WORK,world)==0xE0)?1:-1];

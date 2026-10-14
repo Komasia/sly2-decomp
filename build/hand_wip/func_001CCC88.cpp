@@ -28,7 +28,7 @@ qword *func_00256D18(qword *,qword);
 M4 *func_0011C168(M4 *,const M4 *,const M4 *);
 LO *func_001CCA40(LO *,LO *);
 M4 *func_001A71B0(M4 *,LO *,LO *,const M4 *);
-M4 *func_0011C318(M4 *,const M4 *);
+M4 func_0011C318(const M4 *);
 void func_001A58D0(LO *,int,int);
 float func_00196928(qword,qword,float,float,float,float);
 void func_00131A00(ANIM *,float);
@@ -40,6 +40,7 @@ qword func_0011BFF0(const M3 *);
 JOB *func_0012DC18(LO *,CHANNEL *,int,int,int,qword);
 void func_001F6860(LO *,int);
 }
+static inline void*operator new(unsigned size,void*destination){return destination;}
 static inline SPACE *SourceMatrix(SOURCE *p,M4 *out){VTE &v=p->vt[32];return ((SPACE*(*)(SOURCE *,M4 *))v.fn)((SOURCE *)((char *)p+v.delta),out);}
 static inline M4 *WorldMatrix(LO *p){VTE &v=p->vt[31];return ((M4*(*)(LO *))v.fn)((LO *)((char *)p+v.delta));}
 static inline qword ToVU(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
@@ -70,7 +71,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  if(counterpart){
   func_001A71B0(&work.views.matrices.product,0,object,WorldMatrix(counterpart));
   work.views.matrices.intermediate=work.views.matrices.product;
-  func_0011C318(&work.views.matrices.inverse,&work.views.matrices.intermediate);
+  new(&work.views.matrices.inverse)M4(func_0011C318(&work.views.matrices.intermediate));
   func_0011C168(&work.views.matrices.product,&work.final,&work.views.matrices.inverse);
   work.final=work.views.matrices.product;
  }
@@ -100,3 +101,5 @@ extern "C" void func_001CCC88(P *input,LO *other){
 
 #define OFF(t,m) ((int)&((t*)0)->m)
 typedef char motion_job_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(U)==16 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && sizeof(VTE)==8 && sizeof(VIEWS)==0xC0 && sizeof(WORK)==0x200 && OFF(VTE,delta)==0 && OFF(VTE,fn)==4 && OFF(CHANNEL,current)==0x90 && OFF(CHANNEL,space)==0xA0 && OFF(CHANNEL,endTime)==0xA8 && OFF(ANIM,motion)==0x14 && OFF(ANIM,start)==0x1C && OFF(ANIM,duration)==0x40 && OFF(FOLLOW,velocity)==0x80 && OFF(LO,vt)==0xC && OFF(LO,position)==0x58 && OFF(LO,orientation)==0x5C && OFF(LO,space)==0x60 && OFF(LO,follow)==0xE8 && OFF(LO,basis)==0x1B0 && OFF(LO,playing)==0x1030 && OFF(SOURCE,vt)==0xC && OFF(P,owner)==0 && OFF(P,source)==0x34 && OFF(P,positionJob)==0x94 && OFF(P,otherJob)==0x98 && OFF(P,orientationJob)==0x9C && OFF(CLOCK,time)==0 && OFF(VIEWS,matrices.intermediate)==0 && OFF(VIEWS,matrices.product)==0x40 && OFF(VIEWS,matrices.inverse)==0x80 && OFF(VIEWS,basis.angles)==0 && OFF(VIEWS,basis.converted)==0x30 && OFF(WORK,original)==0 && OFF(WORK,sample)==0x40 && OFF(WORK,start)==0x80 && OFF(WORK,final)==0xC0 && OFF(WORK,views)==0x100 && OFF(WORK,velocity)==0x1C0 && OFF(WORK,destination)==0x1D0 && OFF(WORK,delta)==0x1E0 && OFF(WORK,endVelocity)==0x1F0)?1:-1];
+
+typedef char inverse_field_layout[(__alignof__(M4)==0x10 && OFF(WORK,views)+OFF(VIEWS,matrices.inverse)==0x180 && OFF(WORK,views)+OFF(VIEWS,matrices.intermediate)==0x100)?1:-1];

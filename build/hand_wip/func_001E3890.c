@@ -65,7 +65,8 @@ static inline float LengthXY(qword a){qword r;float f;__asm__("vmul.xy %0,%1,%1\
 static inline float X(qword a){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
 static inline float Y(qword a){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(a));return f;}
 static inline float Z(qword a){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(a));return f;}
-int func_001E3890(P *p,OP *op){
+int func_001E3890(P *p,OP *instruction){
+ register OP *op __asm__("$19")=instruction;
  WORK work;int result;
  switch(op->kind){
  case 3:{int i;int *id=(int*)((char*)op+0x14);result=1;for(i=0;i<op->a10.id;i++,id++){if(func_001E0180(p->context,*id,p)){result=0;break;}}break;}
@@ -166,9 +167,10 @@ int func_001E3890(P *p,OP *op){
  case 0x44:result=func_001D9880(D_003DA530)==0;break;
  case 0x45:result=func_001FE848(D_003DD040,op->a10.id)==0;break;
  case 0x52:{
-  int id=p->item?p->item->id:-1;
-  result=func_001FE848(D_003DD040,id)!=0;
-  if(!result){result=0;if(!(op->a10.f<0.0f))result=0.0f<=func_001FE888(D_003DD040)-op->a10.f;}break;
+  int id=p->item?p->item->id:-1;void *manager=D_003DD040;
+  result=1;if(!func_001FE848(manager,id))break;
+  result=0;if(op->a10.f<0.0f)break;
+  result=0.0f<=func_001FE888(manager)-op->a10.f;break;
  }
  case 0x4A:result=op->a10.f<=func_001FE3F8(D_003DD040);break;
  case 0x4E:result=op->a10.f<=func_001FE3F8(D_003DD040);break;
@@ -185,7 +187,8 @@ int func_001E3890(P *p,OP *op){
  case 0x58:{
   ACTOR *target;result=1;if(!p->actor)break;
   target=func_001E1DB8(p,op->a10.id);
-  if(!(D_002C3620<Remaining(p)))result=target->kind1914>=4&&target->kind1914<7;break;
+  if(D_002C3620<Remaining(p))break;
+  result=target->kind1914>=4&&target->kind1914<7;break;
  }
  case 0x59:{
   qword oldPosition,position;float tolerance;result=1;if(!p->actor)break;
