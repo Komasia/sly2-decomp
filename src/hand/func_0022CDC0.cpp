@@ -24,6 +24,8 @@ static __inline__ void Eval(struct O *po, qword *pa, qword *pb, qword *pc)
 {
     func_00117120(po->g84 - po->g80, *po->pg88 - po->g80, *po->pg8C, po->data.r[0], po->data.r[1], po->data.r[2], po->data.r[3], pa, pb, pc);
 }
+static inline qword SelectedValue(qword input){qword value;__asm__("por %0,$zero,%1":"=r"(value):"r"(input));return value;}
+static inline qword DefaultPoint(){qword value;__asm__("lq %0,0(%1)":"=r"(value):"0"(&D_002A2DD0),"m"(D_002A2DD0));return value;}
 extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
 {
     M4 m, m2;
@@ -55,24 +57,26 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
                     func_002333B4(pr, 0, 0x40);
                 } else {
                     qword q, t;
+                    register qword initial __asm__("$2");
                     switch (po->k9A) {
                     case 0:
-                        q = func_0022CA18(po, &po->local.matrix);
+                        initial = func_0022CA18(po, &po->local.matrix);
                         break;
                     case 1:
                         Eval(po, &m.r[0], 0, 0);
-                        q = m.r[0];
+                        initial = m.r[0];
                         break;
                     case 2: case 3: case 4:
-                        q = po->data.r[0];
+                        initial = po->data.r[0];
                         break;
                     case 5:
-                        q = func_0011BFF0(&po->data.rotation);
+                        initial = func_0011BFF0(&po->data.rotation);
                         break;
                     default:
-                        q = D_002A2DD0;
+                        initial = DefaultPoint();
                         break;
                     }
+                    q=SelectedValue(initial);
                     switch (po->k9A) {
                     case 3: case 4:
                         t = po->data.r[1];
@@ -91,23 +95,26 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
                 break;
             }
             break;
-        default: {
+        case 1: case 4: case 5: case 9: case 10: case 11: case 12: {
             switch (po->k98) {
             case 1: case 2: case 7: case 8: case 9: case 11: case 17: case 18: case 20: case 21:
                 m.r[0] = po->qB0;
                 break;
             case 5: case 6:
+                {qword *output=&m.r[0];qword value;
                 switch (po->k9A) {
+                case 3: case 4:
+                    value = po->data.r[1];
+                    break;
                 case 1:
                     Eval(po, 0, &m.r[1], 0);
-                    m.r[0] = m.r[1];
-                    break;
-                case 3: case 4:
-                    m.r[0] = po->data.r[1];
+                    value = m.r[1];
                     break;
                 case 0: case 2: case 5: default:
-                    m.r[0] = D_002A2DD0;
+                    value = D_002A2DD0;
                     break;
+                }
+                *output=value;
                 }
                 break;
             }

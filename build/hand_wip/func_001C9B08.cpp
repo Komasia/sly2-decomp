@@ -31,8 +31,8 @@ int func_001C9940(int,int);
 P *func_0013E3C8(int,P *,int,int);
 void func_002313F0(P *);
 void func_001A6D28(P *,unsigned int);
-void *func_001AE2A0(REQUEST *);
-void *func_001AE1D0(REQUEST *);
+void *func_001AE2A0(const REQUEST *);
+void *func_001AE1D0(const REQUEST *);
 void *func_001FFA40(SW *,int,P *);
 void func_00256EE0(void **,void *);
 int func_00132B10(P *,int);
@@ -50,6 +50,9 @@ static inline void Append(IF *p,int count,P **items){VTE &e=p->vt[1];((void(*)(I
 static inline void SetKey(P *p,int key,int mode){VTE &e=p->vt[25];((void(*)(P *,int,int))e.fn)((P *)((char *)p+e.delta),key,mode);}
 static inline void SetMatrix(P *p,const M4 *matrix){VTE &e=p->vt[37];((void(*)(P *,const M4 *))e.fn)((P *)((char *)p+e.delta),matrix);}
 static inline int PreviousInstanceCount(const TABLE*table){register int value __asm__("$6");__asm__("lw %0,%1":"=r"(value):"m"(table->count));return value;}
+static inline TABLE* TableBase(const SW*w){register TABLE*value __asm__("$3");__asm__("lw %0,%1":"=r"(value):"m"(w->tables));return value;}
+static inline TABLE* SelectedTable(TABLE*base,int index){register TABLE*value __asm__("$3");__asm__("addu %0,%1,%2":"=r"(value):"r"(base),"r"(index*(int)sizeof(TABLE)));return value;}
+static inline P* TableActor(const WORK&w){register P*value __asm__("$5");__asm__("lw %0,%1":"=r"(value):"m"(w.actor));return value;}
 extern "C" void func_001C9B08(SW *worldInput,P *parentInput,int classId,int id,int unused,void *streamInput,IF *outputInput){
  register SW*world __asm__("$20");register P*parent __asm__("$23");register void*stream __asm__("$18");register IF*output __asm__("$22");
  __asm__("daddu %0,%1,$zero":"=r"(stream):"r"(streamInput));
@@ -75,10 +78,10 @@ extern "C" void func_001C9B08(SW *worldInput,P *parentInput,int classId,int id,i
   actor->matrix=work.matrix;
   func_002313F0(actor);
   func_001A6D28(work.actor,flags);
-  TABLE *table=&world->tables[index];
-  work.actor->table=table;
+  TABLE *table=SelectedTable(TableBase(world),index);
+  P*tableActor=TableActor(work);tableActor->table=table;
   int previous=PreviousInstanceCount(table);
-  if(previous>0)work.actor->scale=table->objects[previous*table->capacity-1]->scale;
+  if(previous>0)tableActor->scale=table->objects[previous*table->capacity-1]->scale;
   int i=0;
   int bindCount=func_00117BD0(stream);
   work.actor->bindCount=bindCount;

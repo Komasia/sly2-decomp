@@ -19,7 +19,7 @@ void func_0014FE28(void *);
 void *func_001FE5F0(void *,int,int);
 void func_00147C20(void *,int,int);
 void func_002036E8(ACTOR *,int);
-void func_001619A0(void *,int,int);
+void func_001619A0(void *,int,void *);
 int func_002022D8(P *);
 void func_002022A0(P *);
 void func_00201E88(P *);
@@ -33,9 +33,19 @@ void func_00212A50(X *,int);
 }
 static inline void Post(X *x,int n){VT *entry=&x->vtable[49];((void (*)(void *,int))entry->function)((char *)x+entry->adjustment,n);}
 static inline void Clear(X *x){VT *entry=&x->vtable[50];((void (*)(void *))entry->function)((char *)x+entry->adjustment);}
-static inline int Flags(X *x){int f=x->flags;if((f^1)&1)f=*(uint *)f;return f&~1;}
+static inline int Untag(int word)
+{
+    register int result __asm__("v0");
+    __asm__("and %0,%1,%2" : "=r"(result) : "r"(word),"r"(~1));
+    return result;
+}
+static inline int IndirectWord(int word)
+{
+    register int result __asm__("v1");
+    __asm__("xori %0,%1,1\n\tandi %0,%0,1" : "=r"(result) : "r"(word));
+    return result;
+}
 static inline void Restore(X *x,uint mask){uint f=x->flags;if((f^1)&1)*(uint *)f=mask|(*(uint *)f&1);else x->flags=mask|(f&1);}
-static inline void OrFlags(X *x,uint mask){uint f=x->flags;if((f^1)&1)*(uint *)f|=mask;else x->flags=f|mask;}
 extern "C" void func_00202768(P *p,int nextState)
 {
     if(p->state==nextState)return;
@@ -119,14 +129,30 @@ extern "C" void func_00202768(P *p,int nextState)
         func_00213B00(p->secondary,0x356);
         func_00213B00(p->secondary,0x357);
         break;
-    case 8:
+    case 8: {
         func_00213928(p->primary,0x35B);
         func_00213B00(p->primary,0x358);
-        p->savedFlags=Flags(*p->model);
-        OrFlags(*p->model,0x102);
+        register X **model __asm__("a1");
+        register X *widget __asm__("v0");
+        register int flags __asm__("a0");
+        __asm__("lw %0,%1":"=r"(model):"m"(p->model));
+        __asm__("lw %0,0(%1)":"=r"(widget):"r"(model),"m"(*model));
+        __asm__("lw %0,64(%1)":"=r"(flags):"r"(widget),"m"(widget->flags));
+        if(IndirectWord(flags))flags=*(uint *)flags;
+        p->savedFlags=Untag(flags);
+        register X *updated __asm__("a0");
+        register uint raw __asm__("v1");
+        __asm__("lw %0,0(%1)":"=r"(updated):"r"(model),"m"(*model));
+        __asm__("lw %0,64(%1)":"=r"(raw):"r"(updated),"m"(updated->flags));
+        if((raw^1)&1)*(uint *)raw|=0x102;
+        else {
+            register uint inlineWord __asm__("v0")=raw|0x102;
+            __asm__("sw %1,%0" : "=m"(updated->flags) : "r"(inlineWord));
+        }
         func_001FE5B8(D_003DD040,1,0);
         func_0014D1D0(D_002DDED0,0,0.0f);
         break;
+    }
     case 9:
         Post(p->secondary,0x339);
         Post(p->primary,0x35C);

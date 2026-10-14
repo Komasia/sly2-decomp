@@ -25,9 +25,11 @@ M4 *func_0011C210(M4 *,qword,const M3 *,const U *);
 qword *func_00256D18(qword *,qword);
 void func_001A5EE8(void *,const M4 *,float,float);
 }
+static inline void CopyMatrix(M4&destination,const M4&source){qword a=source.rows[0].q,b=source.rows[1].q,c=source.rows[2].q,d=source.rows[3].q;destination.rows[0].q=a;destination.rows[1].q=b;destination.rows[2].q=c;destination.rows[3].q=d;}
+static inline void CopyBasis(M3&destination,const M3&source){qword a=source.rows[0].q,b=source.rows[1].q,c=source.rows[2].q;destination.rows[0].q=a;destination.rows[1].q=b;destination.rows[2].q=c;}
 static inline qword BroadcastInto(float value,U&home){qword result;__asm__("qmtc2.ni %1,%0":"=j"(result):"r"(value));home.q=result;return home.q;}
 static inline qword Scalar(const float *p){qword r;__asm__("lw %0,%1":"=r"(r):"m"(*p));return r;}
-static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Subtract(qword first,qword second){register qword a __asm__("vf2")=first;register qword b __asm__("vf1")=second;register qword r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(const U&value){register qword a __asm__("vf4")=value.q;register qword d __asm__("vf1");register qword one __asm__("vf2");float r;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));__asm__("mtc1 %1,%0":"=f"(r):"r"(d));return r;}
@@ -40,9 +42,10 @@ extern "C" void func_001DF5B0(P *p)
     PHASE workspace;
     MEASUREMENT measurement;
     func_001F3C70(p);
-    if(!p->bound)return;
-    scalar.q=Scalar(&p->bound->radius);
-    if(!func_0014F850(&D_002DDF40,Subtract(p->bound->position.q,D_002DDF40.position.q),scalar.q))return;
+    register BOUND *bound __asm__("$3") = p->bound;
+    if(!bound)return;
+    scalar.q=Scalar(&bound->radius);
+    if(!func_0014F850(&D_002DDF40,Subtract(bound->position.q,D_002DDF40.position.q),scalar.q))return;
     for(int i=0;i<p->count;){
         ENTRY *entry=(ENTRY*)((char*)p->entries+ElementOffset(i));
         Query(p,entry,points,measurement.distance);
@@ -54,7 +57,7 @@ extern "C" void func_001DF5B0(P *p)
         if(p->stretch||p->endpoints[0].object||p->endpoints[1].object){
             measurement.direction.q=Subtract(points[1].q,points[0].q);
             func_0011B830(&workspace.initial.facing,measurement.direction.q,D_002A2DC0);
-            basis=workspace.initial.facing;
+            CopyBasis(basis,workspace.initial.facing);
         }
         if(p->stretch){
             float length=Length(measurement.direction);
@@ -63,7 +66,7 @@ extern "C" void func_001DF5B0(P *p)
                 scalar.f[1]=1.0f;
                 scalar.f[2]=1.0f;
                 func_0011C210(&workspace.initial.output,points[0].q,&basis,&scalar);
-                workspace.initial.render=workspace.initial.output;
+                CopyMatrix(workspace.initial.render,workspace.initial.output);
                 func_001A5EE8(p->stretch,&workspace.initial.render,1.0f,1.0f);
             }
         }
@@ -77,7 +80,7 @@ extern "C" void func_001DF5B0(P *p)
                     VENTRY &callback=scale->vt[3];
                     callback.fn((char *)scale+callback.delta,&scalar,0,end->config->first,end->config->second);
                     func_0011C210(&workspace.endpoint.output,points[j].q,&basis,&scalar);
-                    transform=workspace.endpoint.output;
+                    CopyMatrix(transform,workspace.endpoint.output);
                 }else{
                     func_00256D18(&transform.rows[3].q,points[j].q);
                     transform.rows[0]=basis.rows[0];

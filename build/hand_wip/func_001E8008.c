@@ -8,8 +8,9 @@ static inline float SampleValue(float input) {
  __asm__("mov.s %0,%1":"=f"(value):"f"(input));
  return value;
 }
-static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
-static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+static inline void UpperHome(float *home,float value){__asm__("swc1 %1,%0":"=m"(*home):"f"(value));}
+static inline float Min(float a,float b){register float r __asm__("$f0");__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+static inline float Max(float a,float b){register float r __asm__("$f1");__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float Abs(float a){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(a));return r;}
 static inline float SqrtF(float g) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=f"(r) : "f"(g)); return r; }
 static inline float GClamp(float x, float lo, float hi)
@@ -31,8 +32,8 @@ float func_001E8008(struct P *p, float a, float b)
         float c = GClamp(a, b, m - b);
         upper=Min(c+b,m);lower=Max(c-b,0.0f);
     }
-    
-    r[1]=upper;r[0]=lower;
+
+    UpperHome(&r[1],upper);r[0]=lower;
     t = SampleValue(func_0011D448(-1.0f, 1.0f));
     switch (D_002C3650) {
     case 0:

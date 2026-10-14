@@ -20,11 +20,11 @@ M4 *func_0011C288(M4 *,qword,const M3 *,float);
 void func_001A5EE8(void *,const M4 *,float,float);
 }
 static inline qword VectorLoad(const qword *p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
-static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Subtract(qword a,qword b){register qword camera __asm__("vf2")=a,particle __asm__("vf1")=b,result __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(result):"j"(camera),"j"(particle));return result;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword CPUScalar(float f){qword r;__asm__("por %0,$zero,%1":"=r"(r):"r"(f));return r;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
-static inline float Length(qword v){qword d,one;float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
+static inline float Length(qword v){register qword d __asm__("vf1"),one __asm__("vf2"),input __asm__("vf3") = v;float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(input));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
 static inline float Evaluate(const POLY &p,float t){return p.a+t*(p.b+t*p.c);}
 static inline float Clamp(float v,float low,float high){if(v<low)return low;else if(high<v)return high;else return v;}
 static inline M3 Facing(qword direction,qword up) return r {func_0011B830(&r,direction,up);}

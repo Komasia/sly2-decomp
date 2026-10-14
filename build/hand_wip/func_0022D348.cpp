@@ -15,7 +15,9 @@ static inline qword Zero() {qword r;__asm__("vsub.xyzw %0,$vf0,$vf0":"=j"(r));re
 static inline qword Add(qword a,qword b) {qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Transform(const M4 &m,qword v) {qword r=m.r[0];
     __asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%1,%4y\n\tvmaddaz.xyz ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(v));return r;}
-static inline qword BasisRow1(const M4 *m){qword r;__asm__("lqc2 %0,16(%1)":"=j"(r):"r"(m),"m"(m->r[1]));return r;}
+static inline qword InverseTransform(const M4 &m,qword v) {register qword r __asm__("vf4")=m.r[0];
+    __asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%1,%4y\n\tvmaddaz.xyz ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(v));return r;}
+static inline qword BasisRow1(const M4 *m){register qword r __asm__("vf1");__asm__("lqc2 %0,16(%1)":"=j"(r):"r"(m),"m"(m->r[1]));return r;}
 static inline qword BasisRow2(const M4 *m){qword r;__asm__("lqc2 %0,32(%1)":"=j"(r):"r"(m),"m"(m->r[2]));return r;}
 static inline qword RotatePointerRows(const M4 &m,qword v){
 qword r1=BasisRow1(&m);
@@ -23,6 +25,8 @@ qword r2=BasisRow2(&m);
 __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(m.r[0]),"j"(r1),"j"(r2));return v;}
 static inline qword Rotate(const M4 &m,qword v) {
     __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]));return v;}
+static inline qword ParentRotate(const M4 &m,qword v) {register qword row0 __asm__("vf6")=m.r[0];
+    __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(row0),"j"(m.r[1]),"j"(m.r[2]));return v;}
 static inline qword RotateRow(const M4 &m,qword v) {qword r=m.r[0];
     __asm__("vmulax.xyz ACC,%0,%3x\n\tvmadday.xyz ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(v));return r;}
 static inline void Eval(O *p,qword *v) {func_00117120(p->t1-p->t0,*p->time-p->t0,*p->dt,p->v0,p->v1,p->v2,p->v3,0,v,0);}
@@ -58,10 +62,10 @@ extern "C" qword func_0022D348(O *p,O *stop,qword input) {
                 O *parent=p->parent;
                 if(parent) {
                     M4 inverse=func_0011C318(&p->world);
-                    sum=Add(sum,Rotate(parent->world,Transform(m,Transform(inverse,input))));
+                    sum=Add(sum,ParentRotate(parent->world,Transform(m,InverseTransform(inverse,input))));
                 } else {
                     M4 inverse=func_0011C318(&p->world);
-                    sum=Add(sum,Transform(m,Transform(inverse,input)));
+                    sum=Add(sum,Transform(m,InverseTransform(inverse,input)));
                 }
                 break;
             }

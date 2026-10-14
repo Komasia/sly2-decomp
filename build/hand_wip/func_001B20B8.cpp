@@ -2,7 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct VT { short d; short pad; void *pfn; };
 struct SMP { float a, b, c; };
-struct CLOCK { float t; float dt; };
+union WORD {float value;int bits;};
+struct CLOCK { float t; WORD dt; };
 extern "C" struct CLOCK D_002DDED0;
 struct SPS {qword v; int k;}; struct O;
 struct Q { char pad[0xB0]; struct SPS xB0; };
@@ -26,6 +27,34 @@ static inline U BcastI(int bits) return u {qword q;__asm__("qmtc2.ni %1,%0":"=j"
 static inline qword VDiv(qword v, qword s) { qword r; __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(r) : "j"(s), "j"(v)); return r; }
 static inline qword VMulX(qword v, qword s) { register qword r __asm__("vf3"); __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(s)); return r; }
 static inline qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
+#define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)
+typedef char WORD_value_Offset[FIELD_OFFSET(WORD,value)==0?1:-1];
+typedef char WORD_bits_Offset[FIELD_OFFSET(WORD,bits)==0?1:-1];
+typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
+typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
+typedef char SMP_a_Offset[FIELD_OFFSET(SMP,a)==0?1:-1];
+typedef char SMP_b_Offset[FIELD_OFFSET(SMP,b)==4?1:-1];
+typedef char SMP_c_Offset[FIELD_OFFSET(SMP,c)==8?1:-1];
+typedef char CLOCK_t_Offset[FIELD_OFFSET(CLOCK,t)==0?1:-1];
+typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
+typedef char SPS_v_Offset[FIELD_OFFSET(SPS,v)==0?1:-1];
+typedef char SPS_k_Offset[FIELD_OFFSET(SPS,k)==16?1:-1];
+typedef char Q_xB0_Offset[FIELD_OFFSET(Q,xB0)==176?1:-1];
+typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
+typedef char P_x58_Offset[FIELD_OFFSET(P,x58)==88?1:-1];
+typedef char P_pE8_Offset[FIELD_OFFSET(P,pE8)==232?1:-1];
+typedef char P_x1E8_Offset[FIELD_OFFSET(P,x1E8)==488?1:-1];
+typedef char P_g270_Offset[FIELD_OFFSET(P,g270)==624?1:-1];
+typedef char P_g274_Offset[FIELD_OFFSET(P,g274)==628?1:-1];
+typedef char qword_PrefixSize[sizeof(qword)==16?1:-1];
+typedef char U_PrefixSize[sizeof(U)==16?1:-1];
+typedef char WORD_PrefixSize[sizeof(WORD)==4?1:-1];
+typedef char VT_PrefixSize[sizeof(VT)==8?1:-1];
+typedef char SMP_PrefixSize[sizeof(SMP)==12?1:-1];
+typedef char CLOCK_PrefixSize[sizeof(CLOCK)==8?1:-1];
+typedef char SPS_PrefixSize[sizeof(SPS)==32?1:-1];
+typedef char Q_PrefixSize[sizeof(Q)==208?1:-1];
+typedef char P_PrefixSize[sizeof(P)==632?1:-1];
 extern "C" void func_001B20B8(struct P *p)
 {
     qword v, n;
@@ -44,7 +73,7 @@ extern "C" void func_001B20B8(struct P *p)
             t.c = 1.0f;
             smp = t;
         }
-        float dt=D_002DDED0.dt; g=func_0011D018(&smp,0,len,p->g270,dt);
+        float dt=D_002DDED0.dt.value; g=func_0011D018(&smp,0,len,p->g270,dt);
     }
-    func_001FAC30(p,func_001FA810(&p->pE8->xB0,p->x58,VDiv(VSub(VMulX(n,Bcast(g).q),v),BcastI(*(int*)&D_002DDED0.dt).q)));
+    func_001FAC30(p,func_001FA810(&p->pE8->xB0,p->x58,VDiv(VSub(VMulX(n,Bcast(g).q),v),BcastI(D_002DDED0.dt.bits).q)));
 }

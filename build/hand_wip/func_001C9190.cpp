@@ -25,7 +25,9 @@ extern "C" void func_001C93E0(GIFS *,M2 *,float);
 extern "C" void func_00160A98(void);
 extern "C" void func_0014D0B8(CLOCK *,int);
 void OpenFrame(void);
-static inline float*TimePointer(){float*start;__asm__("lw %0,%1":"=r"(start):"m"(D_002DD314));return start;}
+static inline char* TimePage(){register char*page __asm__("$3");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&D_002DD314));return page;}
+static inline float*TimePointer(){char*page=TimePage();register float*start __asm__("$4");__asm__("lw %0,%%lo(%2)(%1)":"=r"(start):"r"(page),"i"(&D_002DD314),"m"(*(float*const*)(page-0x2CEC)));return start;}
+
 static inline void PacketDestination(VIFS*builder,unsigned char*&end,FR*&frame){register unsigned char*packet __asm__("$3");register FR*owner __asm__("$2");__asm__("lw %0,%2\n\tlw %1,%3":"=&r"(packet),"=r"(owner):"m"(builder->m_pb),"m"(D_002DEA4C));end=packet;frame=owner;}
 static inline void Clamp(float *value,const float *bounds){float low=bounds[0],high=bounds[1];if(*value<low)*value=low;else if(high<*value)*value=high;}
 static inline void BeginFrame(CLOCK*clock,VIFS*builder){func_0014D0B8(clock,1);
