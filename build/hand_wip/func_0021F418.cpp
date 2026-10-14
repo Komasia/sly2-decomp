@@ -45,6 +45,7 @@ static inline void Evaluate(TRACK *o,int optional,V *result,float time,float sca
 static inline qword ToVF(qword q){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword CPUFloat(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
+static inline qword ScalarHome(V &home,qword value){home.q=value;return home.q;}
 static inline qword LoadVF(const V &v){qword q;__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
 static inline qword LoadUp(){qword q;__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -67,10 +68,9 @@ extern "C" void func_0021F418(S *s){
    if(end<=time){s->transitioning=0;s->targetWorld.q=s->transitionEnd.q;}
    else{
     float alpha=(time-begin)/(end-begin);
-    qword toward=Scalar(alpha),from=Scalar(1.0f-alpha);
-    w.scratch.vector.q=from;
+    qword from=ScalarHome(w.scratch.vector,Scalar(1.0f-alpha));
+    qword toward=ScalarHome(w.scratch.vector,Scalar(alpha));
     s->targetWorld.q=Lerp(s->transitionBegin.q,s->transitionEnd.q,from,toward);
-    w.scratch.vector.q=toward;
    }
   }
   else{
@@ -118,14 +118,14 @@ extern "C" void func_0021F418(S *s){
    if(func_001C46C0(control,0x30,margin)){
     if(s->animation0)func_002206C8(s,0);else IntCall(s->owner,88,0);
     if(s->selected==D_002DD5BC&&s->selected->mode==8){
-     qword speed=CPUFloat(400.0f);w.scratch.vector.q=speed;w.speed.q=speed;
+     w.speed.q=ScalarHome(w.scratch.vector,CPUFloat(400.0f));
      w.playerPosition.q=ToVF(func_001A62E8(s->selected));
      qword position=func_001A62E8(s->owner);qword current=ToVF(position);qword direction=Sub(LoadVF(w.playerPosition),current);
      qword up=LoadUp();direction=Sub(direction,Scale(up,DotV(direction,up)));
      qword fallback=D_002A2DA0.q; qword length=LengthV(direction);
      if(X(length)<0.0001f)direction=fallback;else direction=NormalizeLength(direction,length);
-     qword height=Scalar(600.0f);
-     w.vector.q=Launch(direction,LoadVF(w.speed),LoadUp(),height);w.scratch.vector.q=height;
+     qword height=ScalarHome(w.scratch.vector,Scalar(600.0f));
+     w.vector.q=Launch(direction,LoadVF(w.speed),LoadUp(),height);
      func_00136530(D_002DD5BC,1);VectorCall(D_002DD5BC,35,LoadVF(w.vector));
     }
     if(s->effect)EffectCall(s->effect,9);

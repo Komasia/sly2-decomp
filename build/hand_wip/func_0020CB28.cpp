@@ -28,6 +28,7 @@ static inline qword Scale(qword v,qword s){register qword r __asm__("vf2");__asm
 extern "C" void func_0020CB28(struct P*p,qword v)
 {
  V scalar,direction;
+ register qword finalDirection __asm__("vf3");
  struct E *best=0;
  register struct E *current __asm__("v0");
  Normalize(&direction,v);
@@ -35,7 +36,7 @@ extern "C" void func_0020CB28(struct P*p,qword v)
  if(p->forward||p->backward){
    struct E *entry=p->entries;
    unsigned int i=0;
-   qword scoringDirection=LoadScore(&direction.q);
+   register qword scoringDirection __asm__("vf4")=direction.q;
    float bias=D_002C3DE4;
    do{
      struct ASEG *animation=entry->animation;
@@ -46,6 +47,7 @@ extern "C" void func_0020CB28(struct P*p,qword v)
      }
    }while(++entry,++i<4);
  current=p->best;
+ finalDirection=direction.q;
  if(best!=current){
    float time=0.0f;
    struct TAG*tag;
@@ -57,10 +59,16 @@ extern "C" void func_0020CB28(struct P*p,qword v)
    if(tag)time=tag->value;
    ApplyAsegCur(best->animation,p->root,time,1.0f,p->flags,&p->active);
    func_001333C0(p->active,(int)p);
-   p->best=best;
+   __asm__("sw %1,%0":"=m"(p->best):"r"(best));
    current=p->best;
+   finalDirection=direction.q;
  }
- }else current=p->best;
- scalar.q=Scalar(&current->speed);
- p->direction=Scale(LoadFinal(&direction.q),scalar.q);
+ }else {current=p->best;finalDirection=direction.q;}
+ {
+  register int speedWord __asm__("v0");
+  register qword gain __asm__("vf1");
+  __asm__("lw %0,32(%2)\n\tqmtc2.ni %0,%1":"=r"(speedWord),"=j"(gain):"r"(current),"m"(current->speed.word));
+  scalar.q=gain;
+ }
+ p->direction=Scale(finalDirection,scalar.q);
 }

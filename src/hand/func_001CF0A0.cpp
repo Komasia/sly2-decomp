@@ -21,7 +21,7 @@ static inline qword Broadcast(U*storage,float f){qword r;__asm__("qmtc2.ni %1,%0
 static inline qword BroadcastBits(U*storage,int f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));storage->q=r;return storage->q;}
 static inline qword Normalize(qword a,float f,U*storage){qword r,l=Broadcast(storage,f);__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(r):"j"(l),"j"(a));return r;}
 static inline void Multiply(R3*scratch,R3*out,const R3*a,const M3&b){
- qword row0=b.r[0].q;
+ register qword row0 __asm__("vf4")=b.r[0].q;
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"+j"(row0):"j"(a->r[0].q),"j"(a->r[1].q),"j"(a->r[2].q),"j"(b.r[0].q));
  scratch->r[0].q=row0;out->r[0]=scratch->r[0];
  register qword row1 __asm__("vf2")=b.r[1].q;
@@ -34,6 +34,9 @@ static inline void Multiply(R3*scratch,R3*out,const R3*a,const M3&b){
 }
 static inline qword Point(const M4 &m,qword a){register qword r __asm__("vf3")=m.a;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));return r;}
 static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
+static inline int ClockWord(char*page){int word;__asm__("lw %0,%%lo(%2)(%1)":"=r"(word):"r"(page),"i"(&D_002DDED0.dtbits),"m"(*(const int*)(page-0x212C)));return word;}
+static inline char*ClockPage(){register char*page __asm__("$2");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&D_002DDED0.dtbits));return page;}
+static inline void PublishBasisStart(S*p,qword first,qword second){__asm__("sqc2 %3,0x40(%2)\n\tsqc2 %4,0x50(%2)":"=m"(p->mat.r[0].q),"=m"(p->mat.r[1].q):"r"(p),"j"(first),"j"(second));}
 void func_001CF0A0(S*p){
  WORK w;
  if(!func_001CF010(p->omega)) {
@@ -44,7 +47,7 @@ void func_001CF0A0(S*p){
    w.shared.math.first.q=Normalize(omega,length,&w.shared.math.second);
    func_0011B500((M3*)&w.rotation,w.shared.math.first.q,length*D_002DDED0.dt);
    Multiply(&w.shared.math.scratch,&w.product,&w.rotation,p->mat);
-   p->mat.r[0]=w.product.r[0];p->mat.r[1]=w.product.r[1];p->mat.r[2]=w.shared.math.scratch.r[2];
+   PublishBasisStart(p,w.product.r[0].q,w.product.r[1].q);p->mat.r[2]=w.shared.math.scratch.r[2];
   }
  }
  p->prev=p->pos;
@@ -52,9 +55,10 @@ void func_001CF0A0(S*p){
  if(!func_001CEFC8(p->vel) || !func_001CF058(p->phys.accel))moving=1;
  if(moving){
   func_0015BFD8(&w.shared.matrix,&p->phys);
+  char*page=ClockPage();
   qword v=Point(w.shared.matrix,p->vel);
   p->vel=v;
-  p->pos=AddScaled(p->pos,v,BroadcastBits(&w.shared.math.first,D_002DDED0.dtbits));
+  p->pos=AddScaled(p->pos,v,BroadcastBits(&w.shared.math.first,ClockWord(page)));
  }
 }
 

@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));typedef unsigned int uint;
 union U{qword q;float f[4];int i[4];};struct M3{U row[3];};struct VTE{short delta,pad;void*fn;};struct ACTOR;struct SOURCE;struct ANIMATION;struct EFFECT;struct CLIP{char pad0[0x74];float duration;};struct PROGRAM;struct CAMERA;struct MANAGER;struct SPACE;
 struct INPUT{char pad0[0x1C];float amount;};
-struct BASE{char pad0[12];VTE*vt;char pad10[0x30];uint flags;};struct COMPONENT{void*object;};struct PROGRAM_ITEM{int tag;CLIP*clip;char pad8[0x94];int active,count;};
+struct BASE{char pad0[12];VTE*vt;char pad10[0x30];uint flags;};struct COMPONENT{void*object;};struct PROGRAM_ITEM{ACTOR*actor;CLIP*clip;char pad8[0x94];int active,count;};
 struct SUB{char pad0[0x30];CLIP*clip;ACTOR*actor;char pad38[0x4C];SOURCE*focus;char pad88[0x1C];};
 struct SPARSE{char pad0[0x10];float x;char pad14[12];float y;char pad24[12];float z;};struct AUX{ACTOR*owner;char pad4[0x108];SOURCE*target;char pad110[4];SPARSE*data;char pad118[0x10];int mode,enabled;char pad130[0x10];int phase;char pad144[12];U position;float value;};
 union LINK_FIELD{int mode;ACTOR*owner;};struct SOURCE{char pad0[12];VTE*vt;char pad10[0xD0];LINK_FIELD link;char padE4[0x28];float parameter;char pad110[4];SPARSE*data;char pad118[0x44];ACTOR*other;char pad160[0x30];ACTOR*actor;char pad194[0x28];int enabled;};
@@ -56,7 +56,7 @@ typedef char INPUT_amount_Offset[FIELD_OFFSET(INPUT,amount)==28?1:-1];
 typedef char BASE_vt_Offset[FIELD_OFFSET(BASE,vt)==12?1:-1];
 typedef char BASE_flags_Offset[FIELD_OFFSET(BASE,flags)==64?1:-1];
 typedef char COMPONENT_object_Offset[FIELD_OFFSET(COMPONENT,object)==0?1:-1];
-typedef char PROGRAM_ITEM_tag_Offset[FIELD_OFFSET(PROGRAM_ITEM,tag)==0?1:-1];
+typedef char PROGRAM_ITEM_actor_Offset[FIELD_OFFSET(PROGRAM_ITEM,actor)==0?1:-1];
 typedef char PROGRAM_ITEM_clip_Offset[FIELD_OFFSET(PROGRAM_ITEM,clip)==4?1:-1];
 typedef char PROGRAM_ITEM_active_Offset[FIELD_OFFSET(PROGRAM_ITEM,active)==156?1:-1];
 typedef char PROGRAM_ITEM_count_Offset[FIELD_OFFSET(PROGRAM_ITEM,count)==160?1:-1];

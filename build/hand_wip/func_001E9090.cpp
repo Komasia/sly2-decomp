@@ -14,7 +14,10 @@ extern "C" M4*func_0011C318(M4*,M4*);
 extern "C" void func_001E95B0(S*,float);
 extern "C" void func_001E6330(PATH*);
 extern "C" void func_001E9090(S*);
-static inline qword Point(const M4&m,qword a){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(a));return r;}
+static inline qword Point(const M4&m,qword a){qword r=m.r[0];
+__asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(a));return r;}
+static inline qword FirstPoint(const M4&m,qword a){register qword r __asm__("vf6");
+__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(a));return r;}
 static inline qword Bc(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
 static inline qword AddScaled2(qword a,qword b,qword c,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(b),"j"(c),"j"(s));return r;}
@@ -32,7 +35,7 @@ void func_001E9090(S*p){
  float dt=D_002DDED0.dt;
  int n=p->path->count;
  int i;
- prev=Point(p->first->matrix,p->start);
+ prev=FirstPoint(p->first->matrix,p->start);
  p->position[0].q=prev;
  U *initialVelocity=p->velocity;
  prevVelocity=func_0022D348(p->first,0,prev);

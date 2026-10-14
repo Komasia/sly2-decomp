@@ -46,7 +46,6 @@ static inline float Sqrt(float f){float r;__asm__("sqrt.s %0,%1":"=f"(r):"f"(f))
 static inline float Abs(float f){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(f));return r;}
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
-static inline qword VectorValue(qword q){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword ScalarValue(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword ScalarCPU(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Pack(float x,float y,float z){qword a,b;__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(a),"=&r"(b):"f"(x),"f"(y),"f"(z));return a;}
@@ -120,8 +119,8 @@ extern "C" void func_001D3450(OWNER *owner,ENTRY *entry,POLYGON *polygon,int unu
                 }else if(radius*radius<X(Dot(temp.intersection.local.q,temp.intersection.local.q)))continue;
                 VECTOR normal;
                 RECORD *record=&records[count++];
-                float orientation=X(Dot(plane.value.q,Subtract(first.q,second.q)));
                 normal.q=plane.value.q;
+                float orientation=X(Dot(normal.q,Subtract(first.q,second.q)));
                 if(orientation<0.0f){record->first=surface;record->second=other;}
                 else{record->first=other;record->second=surface;}
                 record->position.q=temp.intersection.local.q;

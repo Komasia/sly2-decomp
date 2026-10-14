@@ -73,29 +73,29 @@ extern "C" void func_0022A908(O *owner){
  func_0022A220(owner);
  qword camera=D_002DDF40.position.q;
  StoreCPU(w.source,func_001A62E8(owner->source));
- {qword up=LoadUp();qword k=ScalarWord(owner->height.bits);qword old=LoadVF(w.source);StoreVF(w.end,AddScaled(old,up,k));w.scalar.q=k;}
+ {qword up=LoadUp();w.scalar.q=ScalarWord(owner->height.bits);qword old=LoadVF(w.source);StoreVF(w.end,AddScaled(old,up,w.scalar.q));}
  func_0011EE08(camera,w.source.q,w.end.q,0,0,&w.distance);
  float scale=Clamp(Poly(D_002C44C0,w.distance),D_002C44D0.lo,D_002C44D0.hi);
- {qword up=LoadUp();qword k=Scalar(scale*D_002C44D8);qword old=LoadVF(w.end);StoreVF(w.extended,AddScaled(old,up,k));w.scalar.q=k;}
+ {qword up=LoadUp();w.scalar.q=Scalar(scale*D_002C44D8);qword old=LoadVF(w.end);StoreVF(w.extended,AddScaled(old,up,w.scalar.q));}
  if(owner->first){
-  M4 *original=func_001A6318(owner->first);qword k=Scalar(scale);w.scalar.q=k;
-  ScaleRows(w.scaled,original->basis,k);func_0023320C(&w.phase.copy,&w.scaled,0x30);
+  M4 *original=func_001A6318(owner->first);w.scalar.q=Scalar(scale);
+  ScaleRows(w.scaled,original->basis,w.scalar.q);func_0023320C(&w.phase.copy,&w.scaled,0x30);
   SetMatrix(w.result,w.phase.copy,w.extended.q);
   func_001A5EE8(owner->first,&w.result,mainWeight,mainWeight);
  }
  if(owner->segment)func_001A5FB8(owner->segment,w.source.q,w.extended.q,scale,mainWeight);
  if(owner->second){
-  M4 *original=func_001A6318(owner->second);qword k=Scalar(scale);w.scalar.q=k;
-  ScaleRows(w.scaled,original->basis,k);func_0023320C(&w.phase.copy,&w.scaled,0x30);
+  M4 *original=func_001A6318(owner->second);w.scalar.q=Scalar(scale);
+  ScaleRows(w.scaled,original->basis,w.scalar.q);func_0023320C(&w.phase.copy,&w.scaled,0x30);
   SetMatrix(w.result,w.phase.copy,w.source.q);
   func_001A5EE8(owner->second,&w.result,mainWeight,mainWeight);
  }
  float offset=0.0f;
  if(0.0f<effectWeight&&owner->attachment&&owner->attachment->resource&&owner->attachment->resource->id!=-1){
   if(owner->first)offset=scale*owner->first->offset;
-  qword k=Scalar(offset);w.scalar.q=k;
+  w.scalar.q=Scalar(offset);
+  qword effect=AddScaledCoefficient(LoadVF(w.extended),LoadUp(),w.scalar.q);
   w.scalar.word=0x80603030;w.phase.colors[0].word=0xFFC0C0C0;
-  qword effect=AddScaledCoefficient(LoadVF(w.extended),LoadUp(),k);
   w.scalar.color.a=(uchar)(int)(effectWeight*w.scalar.color.a);
   w.phase.colors[0].color.a=(uchar)(int)(effectWeight*w.phase.colors[0].color.a);
   RGBA_RAW *first=&w.phase.colors[1].color,*second=&w.phase.colors[2].color;

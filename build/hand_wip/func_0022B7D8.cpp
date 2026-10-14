@@ -58,7 +58,7 @@ extern "C" void func_0022B7D8(WR *owner){
    case 6:axis=&D_002A2DC0;break;
    default:axis=0;break;
    }
-   if(axis){qword k=Scalar((warp->minimum+warp->maximum)*0.5f);w.center.q=Scale(axis->q,k);w.phase.before.point.q=k;}
+   if(axis){w.phase.before.point.q=Scalar((warp->minimum+warp->maximum)*0.5f);w.center.q=Scale(axis->q,w.phase.before.point.q);}
    else w.center.q=D_002A2DD0.q;
    func_0011C318(&w.phase.before.inverse,&w.matrix);w.phase.before.inverseCopy=w.phase.before.inverse;
    w.center.q=Point(w.phase.before.inverseCopy,w.center.q);
@@ -92,18 +92,17 @@ extern "C" void func_0022B7D8(WR *owner){
     float *output=block->outputs[entry->index];
     V *vertex=w.vertices;float *weight=w.weights;
     for(;vertex<last;vertex++,weight++,output+=4){
-     qword point=PointPosition(w.phase.after.source,vertex->q);
-     w.phase.after.product.r[0].q=point;
+     w.phase.after.product.r[0].q=PointPosition(w.phase.after.source,vertex->q);
      switch(entry->kind){
      case 0:{
       int column=entry->column;
-      float angle=Dot(point,Unit(entry->axis.q))*(entry->spatialFrequency*6.2831855f);
+      float angle=Dot(w.phase.after.product.r[0].q,Unit(entry->axis.q))*(entry->spatialFrequency*6.2831855f);
       func_0011D608(func_0011CF60(angle),&w.sine,&w.cosine);
       output[column]=w.cosine* *weight;output[column+1]=w.sine* *weight;
       break;
      }
      case 1:{
-      w.phase.before.inverse.r[0].q=Sub(point,w.worldCenter.q);
+      w.phase.before.inverse.r[0].q=Sub(w.phase.after.product.r[0].q,w.worldCenter.q);
       output[0]=*weight*w.phase.before.inverse.r[0].f[0];
       output[1]=*weight*w.phase.before.inverse.r[0].f[1];
       output[2]=*weight*w.phase.before.inverse.r[0].f[2];

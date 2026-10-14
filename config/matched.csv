@@ -3472,6 +3472,7 @@ func_001C0D70,0x1C0D70,83,match,src/hand/func_001C0D70.c
 func_001C0EC0,0x1C0EC0,28,match,src/hand/func_001C0EC0.c
 func_001C0F30,0x1C0F30,102,match,src/hand/func_001C0F30.c
 func_001C10C8,0x1C10C8,27,match,src/hand/func_001C10C8.c
+func_001C1138,0x1C1138,73,match,src/hand/func_001C1138.c
 func_001C1260,0x1C1260,119,match,src/hand/func_001C1260.c
 func_001C1440,0x1C1440,25,match,src/auto/func_001C1440.c
 func_001C15F8,0x1C15F8,65,match,src/hand/func_001C15F8.c
@@ -3706,6 +3707,7 @@ ForceRipFade__FP3RIPf,0x1CEAA8,24,match,src/hand/ForceRipFade__FP3RIPf.cpp
 func_001CEFC8,0x1CEFC8,17,match,src/hand/func_001CEFC8.c
 func_001CF010,0x1CF010,18,match,src/hand/func_001CF010.c
 func_001CF058,0x1CF058,17,match,src/hand/func_001CF058.c
+func_001CF0A0,0x1CF0A0,114,match,src/hand/func_001CF0A0.cpp
 func_001CF268,0x1CF268,51,match,src/hand/func_001CF268.c
 func_001CF338,0x1CF338,119,match,src/hand/func_001CF338.cpp
 func_001CF518,0x1CF518,21,match,src/hand/func_001CF518.cpp
@@ -3718,6 +3720,7 @@ func_001CF6B0,0x1CF6B0,174,match,src/hand/func_001CF6B0.cpp
 func_001CF968,0x1CF968,46,match,src/hand/func_001CF968.c
 func_001CFA20,0x1CFA20,7,match,src/auto/func_001CFA20.c
 func_001CFA40,0x1CFA40,30,match,src/hand/func_001CFA40.cpp
+PostShrapnelEmit__FP8SHRAPNELP5EMITB,0x1CFAB8,73,match,src/hand/PostShrapnelEmit__FP8SHRAPNELP5EMITB.cpp
 func_001CFBE0,0x1CFBE0,41,match,src/hand/func_001CFBE0.c
 InitMatch__FP5MATCHP6VECTORfP2SO,0x1CFCD8,22,match,src/hand/InitMatch__FP5MATCHP6VECTORfP2SO.cpp
 func_001CFD30,0x1CFD30,85,match,src/hand/func_001CFD30.cpp
