@@ -1,16 +1,16 @@
 typedef unsigned long ulong;
 struct SBE { int cb; char *pv; };
-extern "C" void *func_002333B4(void *, int, int);
+extern "C" void *func_002333B4(void *, int, unsigned);
 struct SPRBUF {
     ulong *aqw; char *pv; SBE a[8]; int c; int state;
     SPRBUF() { func_002333B4(this, 0, sizeof(*this)); }
 };
-struct SLOTHEAP { int a[10]; };
+struct SLOTHEAP {int bytes,count,alignment;void *head;};
 extern SPRBUF D_003DD2C0[2];
 extern char D_003DD380[], D_003DD400[];
 extern int D_002DD2E0, D_002DD2E4, D_002DD2E8, D_002DD2EC, D_002DD2F0, D_002DD2F4;
 extern SLOTHEAP D_004520A8, D_004520D0, D_004520F8, D_00452120, D_00452148, D_00452170;
-extern "C" void func_0011CCA8(SLOTHEAP *, int, int, int);
+extern "C" SLOTHEAP *func_0011CCA8(SLOTHEAP *, int, int, int);
 extern "C" void func_002019F0(int init, int priority)
 {
     if (priority == 0xFFFF && init) {

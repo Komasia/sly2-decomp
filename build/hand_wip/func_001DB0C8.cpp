@@ -28,7 +28,7 @@ static inline qword Unit(qword v){qword len,one,r;
  __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(len));
  __asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=j"(r):"j"(v),"0"(len));return r;
 }
-static inline qword Scalar(const float&f,U&home){int bits;qword r;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));home.q=r;return home.q;}
+static inline qword Scalar(const float&f,U&home){register int bits __asm__("$2");qword r;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));home.q=r;return home.q;}
 static inline qword Scale(qword a,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 void func_001DB0C8(P*p,int mode){

@@ -25,10 +25,12 @@ extern "C" void func_001C93E0(GIFS *,M2 *,float);
 extern "C" void func_00160A98(void);
 extern "C" void func_0014D0B8(CLOCK *,int);
 void OpenFrame(void);
+static inline float*TimePointer(){float*start;__asm__("lw %0,%1":"=r"(start):"m"(D_002DD314));return start;}
+static inline void PacketDestination(VIFS*builder,unsigned char*&end,FR*&frame){register unsigned char*packet __asm__("$3");register FR*owner __asm__("$2");__asm__("lw %0,%2\n\tlw %1,%3":"=&r"(packet),"=r"(owner):"m"(builder->m_pb),"m"(D_002DEA4C));end=packet;frame=owner;}
 static inline void Clamp(float *value,const float *bounds){float low=bounds[0],high=bounds[1];if(*value<low)*value=low;else if(high<*value)*value=high;}
 static inline void BeginFrame(CLOCK*clock,VIFS*builder){func_0014D0B8(clock,1);
             OpenFrame();
-            unsigned char *end=builder->m_pb;D_002DEA4C->packet=end;
+            unsigned char *end;FR*frame;PacketDestination(builder,end,frame);frame->packet=end;
             builder->m_fCheckCnt=1;
             builder->AddDmaCnt();
             builder->AddVifDirect(0x25,D_002DF260,0);
@@ -40,7 +42,7 @@ extern "C" void func_001C9190(void *)
         func_00234A60(D_003D3A3C);
         D_002DEDBC=0;
         while(BeginFrame(clock,builder),func_00234A90(D_003D3A40,&status),status.count==0){
-            float t=clock->frameT-*D_002DD314;
+            float t=clock->frameT-*TimePointer();
             float scale=1.0f+D_002C10B0*func_00245000(t*D_002C10B4);
             matrix.Identity();
             matrix.a[0]=D_002C10A0*scale;
@@ -58,3 +60,6 @@ extern "C" void func_001C9190(void *)
         func_00234A40(D_003D3A44);
     }
 }
+
+#define OFF(t,m) ((unsigned int)&((t*)0)->m)
+typedef char render_thread_layout[(sizeof(void*)==0x4 && sizeof(float)==0x4 && sizeof(uint)==0x4 && sizeof(ulong)==0x8 && sizeof(SEMA)==0x18 && sizeof(M2)==0x20 && sizeof(FR)==0x34 && sizeof(CLOCK)==0x50 && sizeof(DMAS)==0x1C && sizeof(VIFS)==0x24 && sizeof(GIFS)==0x28 && sizeof(QW)==0x10 && OFF(SEMA,count)==0x0 && OFF(SEMA,maxCount)==0x4 && OFF(SEMA,initialCount)==0x8 && OFF(SEMA,waitThreads)==0xC && OFF(SEMA,attributes)==0x10 && OFF(SEMA,option)==0x14 && OFF(M2,a)==0x0 && OFF(FR,packet)==0x24 && OFF(FR,flags)==0x30 && OFF(CLOCK,frameT)==0x3C && OFF(CLOCK,frameDt)==0x40 && OFF(CLOCK,tick)==0x48 && OFF(VIFS,m_pb)==0xC && OFF(VIFS,m_fCheckCnt)==0x20)?1:-1];

@@ -18,7 +18,7 @@ extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void func_001F3900(P *);
 extern "C" void func_001F38A8(NODE *);
 extern "C" void func_001F4D50(P *);
-static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return q;}
+static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
 static inline qword AddScaled(qword p,qword v,qword k){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=&j"(r):"j"(p),"j"(v),"j"(k));return r;}
 static inline qword Scale(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=&j"(r):"j"(v),"j"(k));return r;}
 static inline void Clear(U *v){v->i[2]=0;v->i[1]=0;v->i[0]=0;}

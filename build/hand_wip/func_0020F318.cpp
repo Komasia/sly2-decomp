@@ -1,6 +1,6 @@
 // Read reward tables and their per-entry short-index lists.
 extern "C" {
-struct MSG { int cb; int nKind; };
+struct REQUEST { int cb; int alignment; };
 typedef struct { int a[16]; } M64;
 struct E { int c; short *a; };
 extern int D_003E1C38;
@@ -14,30 +14,36 @@ int func_00117C80(void *ps);
 int func_00117BD0(void *ps);
 short func_00117C20(void *ps);
 void func_00118458(void *ps, M64 *pm);
-void *func_001AE1D0(struct MSG *pmsg);
-void *func_001AE2A0(struct MSG *pmsg);
+void *func_001AE1D0(struct REQUEST *request);
+void *func_001AE2A0(struct REQUEST *request);
 
 void func_0020F318(void *p, void *ps)
 {
-    struct MSG msg;
+    struct REQUEST msg;
     int i,j;
     {register int alignment __asm__("$18")=0x10;
     D_003E1C38 = func_00117C80(ps);
-    D_003E1C3C = func_00117C80(ps);
-    msg.cb = D_003E1C38 << 6;
-    msg.nKind=alignment;
-    D_003E1C40 = (M64 *)func_001AE1D0(&msg);
+    {
+        register int header __asm__("$2")=func_00117C80(ps);
+        register int firstBytes __asm__("$3")=D_003E1C38;
+        register REQUEST *request __asm__("$4")=&msg;
+        D_003E1C3C=header;
+        firstBytes <<= 6;
+        request->cb=firstBytes;
+        request->alignment=alignment;
+        D_003E1C40 = (M64 *)func_001AE1D0(request);
+    }
     msg.cb = D_003E1C38 << 2;
-    msg.nKind=alignment;
+    msg.alignment=alignment;
     D_003E1C44 = (int *)func_001AE1D0(&msg);
     msg.cb = D_003E1C38 << 2;
-    msg.nKind=alignment;
+    msg.alignment=alignment;
     D_003E1C48 = (int *)func_001AE1D0(&msg);
     msg.cb = D_003E1C38 << 3;
-    msg.nKind=alignment;
+    msg.alignment=alignment;
     D_003E1C4C = (struct E *)func_001AE1D0(&msg);
     msg.cb = 0x240;
-    msg.nKind=alignment;
+    msg.alignment=alignment;
     D_003E1C50 = (M64 *)func_001AE2A0(&msg);
     }
     for (i = 0; i < D_003E1C38; i++) {
@@ -50,7 +56,7 @@ void func_0020F318(void *p, void *ps)
         e = &D_003E1C4C[i];
         e->c = func_00117BD0(ps);
         msg.cb = e->c * 2;
-        msg.nKind=0x10;
+        msg.alignment=0x10;
         e->a = (short *)func_001AE1D0(&msg);
         for (j = 0; j < e->c; j++)
             e->a[j] = func_00117C20(ps);

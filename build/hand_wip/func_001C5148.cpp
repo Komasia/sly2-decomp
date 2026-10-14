@@ -31,13 +31,24 @@ static inline qword Accumulate(qword value,qword force,qword factor,qword time){
 static inline qword Advance(qword value,qword velocity,qword time){__asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(value):"j"(velocity),"j"(time));return value;}
 static inline qword Difference(qword a,qword b){qword result;__asm__("vsub.xyzw %0,%1,%2":"=j"(result):"j"(a),"j"(b));return result;}
 static inline qword Transform(const M3 &matrix,qword value){__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(value):"j"(matrix.rows[0]),"j"(matrix.rows[1]),"j"(matrix.rows[2]));return value;}
+static inline qword PositionAdd(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Add(qword a,qword b){__asm__("vadd.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
-static inline M3 Multiply(const M3 &a,const M3 &b) return result {
- qword x,y,z;
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(x):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[0]));
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(z):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[2]));
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(y):"j"(a.rows[0]),"j"(a.rows[1]),"j"(a.rows[2]),"j"(b.rows[1]));
- result.rows[1]=y;result.rows[2]=z;result.rows[0]=x;
+static inline qword ReadA0(const qword*p){register qword v __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadA1(const qword*p){register qword v __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadA2(const qword*p){register qword v __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB0(const qword*p){register qword v __asm__("vf8");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB1(const qword*p){register qword v __asm__("vf5");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadB2(const qword*p){register qword v __asm__("vf6");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline M3 CopyAndMultiply(const M3&a,const M3&b,M3&sampled) return result {
+ qword a1=ReadA1(&a.rows[1]),a2=ReadA2(&a.rows[2]);
+ qword b0=ReadB0(&b.rows[0]),b1=ReadB1(&b.rows[1]),b2=ReadB2(&b.rows[2]);
+ qword a0=ReadA0(&a.rows[0]);
+ register qword x __asm__("vf4"),z __asm__("vf7");
+ sampled.rows[0]=b0;sampled.rows[1]=b1;sampled.rows[2]=b2;
+ __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(x):"j"(a0),"j"(a1),"j"(a2),"j"(sampled.rows[0]));
+ __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=&j"(z):"j"(a0),"j"(a1),"j"(a2),"j"(sampled.rows[2]));
+ __asm__("vmulax.xyz $ACC,%0,%3x\n\tvmadday.xyz $ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(a0):"j"(a1),"j"(a2),"j"(sampled.rows[1]));
+ result.rows[1]=a0;result.rows[2]=z;result.rows[0]=x;
  return;
 }
 static inline CHANNEL *GetChannel(P *p,int channel){VTE &e=p->vt[51];return ((CHANNEL*(*)(P *,int))e.fn)((P *)((char *)p+e.delta),channel);}
@@ -83,7 +94,7 @@ extern "C" void func_001C5148(P *p){
    if(positionMotion){
     Sample(positionMotion,animation,&work.position,&work.velocity);
     channel=p->position;
-    func_00256D18(&channel->position,Add(channel->position,Transform(work.frame,work.position)));
+    func_00256D18(&channel->position,PositionAdd(channel->position,Transform(work.frame,work.position)));
     *(float *)((char *)channel+0x3C)=1.0f;
     CHANNEL *current=p->position;
     current->velocity=Add(current->velocity,Transform(work.frame,work.velocity));
@@ -92,8 +103,7 @@ extern "C" void func_001C5148(P *p){
    if(orientationMotion){
     Sample(orientationMotion,animation,&work.angles,&work.angularVelocity);
     func_0011B628(&work.output,work.angles);
-    work.sampled=work.output;
-    work.output=Multiply(work.frame,work.sampled);
+    work.output=CopyAndMultiply(work.frame,work.output,work.sampled);
     CHANNEL *current=p->orientation;
     current->matrix=work.output;
     current->matrix.values[3]=0.0f;current->matrix.values[11]=0.0f;current->matrix.values[7]=0.0f;

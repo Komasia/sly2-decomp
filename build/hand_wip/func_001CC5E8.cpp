@@ -22,16 +22,20 @@ void func_001300B8(MOTION *,LO *,SPACE *,SPACE *,M4 *,M4 *,float,float);
 void func_001E6180(PATH *);
 void func_00137A30(LO *,int,int,BLEND *,int,void *,void *,MOTION **);
 }
+static inline PATH*PathReceiver(PATH*value){register PATH*path __asm__("$17");__asm__("daddu %0,%1,$zero":"=r"(path):"r"(value));return path;}
 static inline void Reset(PATH *p){VTE &v=p->vt[9];((void(*)(PATH *))v.fn)((PATH *)((char *)p+v.delta));}
-static inline qword Point(const M4 &m,qword point){
- register qword r __asm__("vf2")=m.rows[0];
- register qword b __asm__("vf4")=m.rows[1],c __asm__("vf3")=m.rows[2],d __asm__("vf1")=m.rows[3],v __asm__("vf5")=point;
- __asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(b),"j"(c),"j"(d),"j"(v));
- return r;
+static inline qword ReadPoint(const qword*p){register qword v __asm__("vf5");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadRow0(const qword*p){register qword v __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadRow1(const qword*p){register qword v __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadRow2(const qword*p){register qword v __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword ReadRow3(const qword*p){register qword v __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
+static inline qword Point(const M4&m,const qword*position){
+ qword v=ReadPoint(position),r=ReadRow0(&m.rows[0]),b=ReadRow1(&m.rows[1]),c=ReadRow2(&m.rows[2]),d=ReadRow3(&m.rows[3]);
+ __asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(b),"j"(c),"j"(d),"j"(v));return r;
 }
 static inline void StorePath(PATH **slot,PATH *path){__asm__("sw %1,%0":"=m"(*slot):"r"(path));}
 static inline void StoreSpace(SPACE **slot,SPACE *space){__asm__("sw %1,%0":"=m"(*slot):"r"(space));}
-static inline SPACE *LoadSpace(SPACE **slot){SPACE *space;__asm__("lw %0,%1":"=r"(space):"m"(*slot));return space;}
+static inline SPACE *LoadSpace(SPACE **slot){register SPACE *space __asm__("$3");__asm__("lw %0,%1":"=r"(space):"m"(*slot));return space;}
 extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
  WORK work;
  p->owner=owner;p->animation=animation;
@@ -50,7 +54,7 @@ extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
   register M4 *working __asm__("$19")=&work.scratch.matrix;
   register REQUEST *request __asm__("$22")=&work.scratch.request;
   for(int j=0;j<2;j=work.nextJ){
-   PATH *path=func_0013E3C8(10,p->owner,0xB2,-1);
+   PATH *path=PathReceiver(func_0013E3C8(10,p->owner,0xB2,-1));
    path->mode=0;path->count=D_002C1ED0;
    request->size=D_002C1ED0*4;request->alignment=16;path->times=(float *)func_001AE1D0(request);
    request->size=D_002C1ED0*4;request->alignment=16;path->distances=(float *)func_001AE1D0(request);
@@ -63,11 +67,11 @@ extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
    if(D_002C1ED0>0)for(;;){
     float t=(float)k/(float)(D_002C1ED0-1);
     func_001300B8(motion,p->owner,space,p->owner->space,&work.sample,0,t*motion->duration,0.0f);
-    path->times[k]=t;qword *destination=&path->points[k];++k;int limit=D_002C1ED0;*destination=Point(work.sample,work.scratch.matrix.rows[3]);
+    path->times[k]=t;qword *destination=&path->points[k];++k;int limit=D_002C1ED0;*destination=Point(work.sample,&work.scratch.matrix.rows[3]);
     if(k>=limit)break;
    }
    Reset(path);func_001E6180(path);
-   if(j==0)StorePath(work.first,path);else StorePath(work.second,path);
+   if(j==0)*work.first=path;else StorePath(work.second,path);
   }
  }
  if(work.present==2){p->blends[0].weight=1.0f;func_00137A30(p->owner,20,2,p->blends,0,0,0,&p->controller);}

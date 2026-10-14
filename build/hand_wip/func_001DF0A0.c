@@ -23,12 +23,19 @@ int func_00132B10(void *, int);
 int func_00205670(void *, qword, qword, qword *);
 void func_001A7C18(void *,void *,Q *,qword,qword,int,int,int,struct CONTACT **,float);
 void func_00149AB8(void *,void *,PAIR,int);
+static inline int ElementOffset(int index)
+{
+    register int stride __asm__("$2")=sizeof(E);
+    int offset;
+    __asm__("mult %0,%1,%2":"=r"(offset):"r"(index),"r"(stride):"hi","lo");
+    return offset;
+}
 void func_001DF0A0(OBJ *p, Q *q)
 {
     register int i __asm__("$20");
     func_001F5990();
     for (i = 0; i < p->x198; i++) {
-        E *e = &p->x19C[i];
+        E *e = (E*)((char*)p->x19C + ElementOffset(i));
         qword out[2];
         VECTOR pos;
         HIT hit;
@@ -49,16 +56,17 @@ void func_001DF0A0(OBJ *p, Q *q)
             register qword len __asm__("vf4");
             register qword start __asm__("vf4")=out[0];
             register qword point __asm__("vf5")=pos.q;
-            int distanceBits;
+            register int distanceBits __asm__("$2");
+            register qword unit __asm__("vf1");
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(start), "j"(point));
             __asm__("vmul.xyz %0, %0, %0\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(d), "=&j"(t));
             __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(d));
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(dir) : "j"(out[1]), "j"(start));
             __asm__("vmul.xyz %0, %2, %2\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=j"(len), "=&j"(t) : "j"(dir));
-            __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(len));
-            __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(dir) : "j"(len), "j"(dir));
             __asm__("qmfc2.ni %0,%1":"=r"(distanceBits):"j"(d));
-            func_001A7C18(D_003DD490,p->xE4,q,point,dir,0xA,distanceBits,0,&e->head,0.0f);
+            __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(len));
+            __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(unit) : "j"(len), "j"(dir));
+            func_001A7C18(D_003DD490,p->xE4,q,point,unit,0xA,distanceBits,0,&e->head,0.0f);
             func_00149AB8(D_003DD490, p, D_002A7AC0, 0);
         }
     }

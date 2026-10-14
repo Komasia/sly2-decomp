@@ -23,7 +23,8 @@ void func_00215730(SPRITE *,ITEM *,M23 *,RGBA,RGBA);
 void func_00219400(float,float,ANIM *,int,int,M23 *,const RGBA *,const RGBA *);
 void func_002158C0(SPRITE *,ITEM *);
 void func_00218790(RGBA *,RGBA *,RGBA *,RGBA *,RGBA *,RGBA *);
-void func_00215850(float,SPRITE *,ITEM *,M23 *,RGBA,RGBA);
+void UpdateMatchingSprite(float,SPRITE *,ITEM *,M23 *,RGBA,RGBA) __asm__("func_00215850");
+void UpdateCurrentSprite(float,SPRITE *,ITEM *,M23 *,RGBA,RGBA) __asm__("func_00215850");
 }
 static inline int NLerp(float t,int previous,int next){
  if(previous==next)return next;
@@ -97,13 +98,12 @@ extern "C" void func_00219400(float time,float duration,ANIM *animation,int phas
    func_00218790(&inputMultiply,&inputAdditive,&localMultiply,&localAdditive,&outputMultiply,additiveOutput);
   }
   if(id>0){
-   if(item->sprite&&item->sprite->id==id){func_00215850(duration,item->sprite,item,&matrix,outputAdditive,outputMultiply);item->cachedTime=time;}
-   else{
-    if(item->sprite)func_002158C0(item->sprite,item);
-    func_00215730(&animation->owner->sprites[id],item,&matrix,outputAdditive,outputMultiply);item->cachedTime=time;
-   }
-  }
-  else{func_00215850(duration,item->sprite,item,&matrix,outputAdditive,outputMultiply);item->cachedTime=time;}
+   if(item->sprite){
+    if(item->sprite->id==id){UpdateMatchingSprite(duration,item->sprite,item,&matrix,outputAdditive,outputMultiply);}
+    else{func_002158C0(item->sprite,item);func_00215730(&animation->owner->sprites[id],item,&matrix,outputAdditive,outputMultiply);}
+   }else{func_00215730(&animation->owner->sprites[id],item,&matrix,outputAdditive,outputMultiply);}
+  }else{UpdateCurrentSprite(duration,item->sprite,item,&matrix,outputAdditive,outputMultiply);}
+  item->cachedTime=time;
   item->matrix=matrix;item->additive=*(RGBA_RAW *)&outputAdditive;item->multiply=*(RGBA_RAW *)&outputMultiply;
   item->interpolate=pose->interpolate;item->mode=pose->mode;item->field64=pose->selected;func_0011A058(flags);
   if(linkOffset){item->kind=1;items[entryIndex+linkOffset].kind=4;}

@@ -3,12 +3,14 @@ struct S { int a; int k; char pad[0x20]; float r; char pad2[0xB4]; qword e0; cha
 struct CLOCK { float t; float dt; };
 extern struct CLOCK D_002DDED0;
 qword func_001A62E8(void *q);
+static inline float DivideBits(int bits,float denominator){float value;__asm__ ("mtc1 %1,%0\n\tdiv.s %0,%0,%2":"=&f"(value):"r"(bits),"f"(denominator));return value;}
+static inline float ClockNow(void){float value;__asm__ __volatile__ ("lwc1 %0,%1":"=f"(value):"m"(D_002DDED0.t));return value;}
 void func_00220508(struct S *p, void *q)
 {
     int k = p->k;
     if (k < 7) if (k >= 4) {
         qword v = func_001A62E8(q), a = p->e0, d, r, t;
-        float len;
+        int len;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(v));
         p->p110 = v;
         __asm__("vmul.xyz %0, %0, %0\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=j"(r), "=&j"(t) : "0"(d));
@@ -16,9 +18,10 @@ void func_00220508(struct S *p, void *q)
         p->p100 = a;
         __asm__("qmfc2.ni %0, %1" : "=r"(len) : "j"(r));
         {
-            float f = len / p->r;
-            p->t = D_002DDED0.t;
+            float f = DivideBits(len,p->r);
+            float now=ClockNow();
             p->g = 1;
+            p->t = now;
             p->f = f;
         }
     }

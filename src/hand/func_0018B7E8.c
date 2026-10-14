@@ -56,14 +56,14 @@ static inline qword NegativeWithState(struct P*p,U*u,struct STATE**stateOut,floa
  __asm__("qmtc2.ni %2,%0\n\tmtc1 $zero,%1":"=j"(s),"=f"(zero):"r"(bits));u->q=s;*stateOut=state;*zeroOut=zero;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(result):"j"(v),"j"(u->q));return result;
 }
 
+static inline void WriteVectorPair(qword value,qword*destination,qword scalar,qword*scalarOut){__asm__("sqc2 %2,%0\n\tsqc2 %3,%1":"=m"(*destination),"=m"(*scalarOut):"j"(value),"j"(scalar));}
 static inline void PrepareAnimation(struct P*p,U*u,struct MODEL**modelOut,struct STATE**stateOut){
  qword input=func_00204E38(p,p->model,p->model->base);register qword v __asm__("vf3");register qword scalar __asm__("vf2");register qword result __asm__("vf1");
  register qword bits __asm__("$3");register struct MODEL*model __asm__("$4");register struct STATE*state __asm__("$3");
  __asm__("qmtc2.ni %3,%0\n\tlw %1,%4\n\tmfc1 %2,%5":"=j"(v),"=r"(model),"=&r"(bits):"r"(input),"m"(p->model),"f"(-1.0f));
  __asm__("qmtc2.ni %1,%0":"=j"(scalar):"r"(bits));
- u->q=scalar;
- __asm__("vmulx.xyzw %0,%2,%3x\n\tlw %1,%4":"=j"(result),"=r"(state):"j"(v),"j"(u->q),"m"(p->state));
- p->velocity=result;*modelOut=model;*stateOut=state;
+ __asm__("vmulx.xyzw %0,%2,%3x\n\tlw %1,%4":"=j"(result),"=r"(state):"j"(v),"j"(scalar),"m"(p->state));
+ WriteVectorPair(result,&p->velocity,scalar,&u->q);*modelOut=model;*stateOut=state;
 }
 
 static inline float Z(qword q){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(q));return r;}
@@ -105,7 +105,7 @@ void func_0018B7E8(struct P*p){
   else func_00204660(p,p->state->heading);
   one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->fn)((char*)p+entry->delta);
   weight=D_002BF3CC*func_0011CFE0(Z(velocity)/(p->factor*D_002BF35C),one);
-  {register float zero __asm__("$f2")=0.0f;register float magnitude __asm__("$f3");register float left __asm__("$f0");__asm__("abs.s %0,%2\n\tmax.s %1,%3,%2\n\tneg.s %2,%2":"=f"(magnitude),"=f"(left),"+f"(weight):"f"(zero));__asm__("swc1 %3,%0\n\tsub.s %1,%1,%4\n\tmax.s %2,%2,%5":"=m"(p->left),"+f"(one),"+f"(zero):"f"(left),"f"(magnitude),"f"(weight));p->right=zero;p->middle=one;}
+  {register float zero __asm__("$f2")=0.0f;register float magnitude __asm__("$f3");register float left __asm__("$f0");__asm__("abs.s %0,%2\n\tmax.s %1,%3,%2\n\tneg.s %2,%2":"=f"(magnitude),"=f"(left),"+f"(weight):"f"(zero));__asm__("swc1 %4,%0\n\tsub.s %1,%1,%5\n\tmax.s %2,%2,%6\n\tswc1 %2,%3":"=m"(p->left),"+f"(one),"+f"(zero),"=m"(p->right):"f"(left),"f"(magnitude),"f"(weight));p->middle=one;}
   func_001384C0(p->blend);break;
  }
  case 0:case 1:break;

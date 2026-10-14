@@ -5,7 +5,7 @@ struct ASEG{char pad[0x74];float duration;};
 struct ASEGA;struct COMPONENT;struct EFFECT;
 struct P{char pad0[12];VE*vt;char pad10[0x190-0x10];U velocity;char pad1a0[0x1010-0x1A0];U offset;char pad1020[0x10];ASEGA*asega;COMPONENT*component;char pad1038[0x1060-0x1038];U goal,motion;char pad1080[0x14D4-0x1080];int alternate;};
 struct PATH{char pad0[12];VE*vt;char pad10[0x190-0x10];void*focus;char pad194[0x1D0-0x194];int attachEffectId;int releaseEffectId;};
-struct C{P*actor;int state;float time;PATH*path;float distance;int pad14;int descending,reset,previous;char pad24[12];U offset;char pad40[0x30];ASEG*clip2;ASEG*clip0;ASEG*clip1;ASEG*fallback;};
+struct C{P*actor;int state;float time;PATH*path;float distance;int pad14;int descending;float reset;int previous;char pad24[12];U offset;char pad40[0x30];ASEG*clip2;ASEG*clip0;ASEG*clip1;ASEG*fallback;};
 struct LM{float low,high;};
 struct WORK{U ahead,behind;LM limit;U point,world,target;};
 struct CLOCK{float t,dt;};

@@ -48,7 +48,10 @@ static inline void SubInto(qword *out,qword a,qword b){qword r=Sub(a,b);__asm__(
 static inline qword Broadcast(U &u,float value){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(value));u.q=r;return u.q;}
 static inline qword Blend(qword delta,qword velocity,qword inv,qword half){qword r;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(delta),"j"(velocity),"j"(inv),"j"(half));return r;}
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
-extern "C" void func_001CCC88(P *p,LO *object){
+extern "C" void func_001CCC88(P *input,LO *other){
+ register P*p __asm__("$22");register LO*object __asm__("$20");
+ __asm__("daddu %0,%1,$zero":"=r"(p):"r"(input));
+ __asm__("daddu %0,%1,$zero":"=r"(object):"r"(other));
  WORK work;
  func_0012E460(&p->positionJob);func_0012E460(&p->otherJob);func_0012E460(&p->orientationJob);
  ANIM *anim=p->owner->playing;MOTION *motion=anim->motion;
