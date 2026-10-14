@@ -7,6 +7,6 @@ float func_001E64C8(struct X *p,float time)
     float a, b;
     float g;
     int i = func_001E7668(p, &a, &b,time);
-    if (p->xE0 == 0) { g = GLerp(p->ag[i], p->ag[i + 1], a / b); } else { int j; func_001E5FC8(p, i); for (j = 1; j < 10; j++) if (a < p->agSub[j]) break; j--; g = (j + (a - p->agSub[j]) / (p->agSub[j + 1] - p->agSub[j])) * 0.1f; g = GLerp(p->ag[i], p->ag[i + 1], g); }
+    if (p->xE0 == 0) { { float fraction=a/b;float upper=*(volatile float*)&p->ag[i+1];float lower=*(volatile float*)&p->ag[i];g=GLerp(lower,upper,fraction); } } else { int j; func_001E5FC8(p, i); for (j = 1; j < 10; j++) if (a < p->agSub[j]) break; j--; g = (j + (a - p->agSub[j]) / (p->agSub[j + 1] - p->agSub[j])) * 0.1f; g = GLerp(p->ag[i], p->ag[i + 1], g); }
     return g;
 }

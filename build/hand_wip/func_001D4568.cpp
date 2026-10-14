@@ -15,26 +15,47 @@ qword func_0011E1A0(float,float,float);
 qword func_001A62E8(P *);
 }
 static inline void StoreCPU(U *p,qword q){__asm__("sq %1,%0":"=m"(*p):"r"(q));}
+static inline void StoreVU(U*p,qword q){__asm__("sqc2 %1,%0":"=m"(*p):"j"(q));}
+static inline qword CPU(qword q){register qword r __asm__("$2");__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(q));return r;}
 static inline qword Vector(qword q){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(q));return r;}
-static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
-static inline qword CPUScalar(float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
+static inline qword Scalar(float f){register qword bits __asm__("$3");qword r;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2 %1,%0":"=j"(r):"r"(bits));return r;}
+static inline qword CPUScalar(float f){register qword r __asm__("$3");__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Zero(){qword r;__asm__("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Dot(qword a,qword b){qword d,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a),"j"(b));return d;}
-static inline qword Length(qword v){qword d=Dot(v,v);__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
+static inline qword Length(qword v){register qword d __asm__("vf1");register qword one __asm__("vf2");__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
+
 static inline float FloatWord(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
-static inline qword Normal(qword v,qword fallback){qword length=Length(v);if(FloatWord(length)<0.0001f)return fallback;qword r;__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(length),"j"(v));return r;}
+static inline qword Normal(qword v,qword fallback){qword length=Length(v);if(FloatWord(length)<0.0001f)return Vector(fallback);qword r;__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(length),"j"(v));return r;}
+static inline void NormalInto(U*home,qword v,qword fallback){qword length=Length(v);if(FloatWord(length)<0.0001f)StoreCPU(home,fallback);else {register qword r __asm__("vf2");__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(length),"j"(v));StoreVU(home,r);}}
 static inline qword Combine(qword a,qword x,qword b,qword y){qword r;__asm__("vmulax.xyzw ACC,%1,%2x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(x),"j"(b),"j"(y));return r;}
 static inline float Random(const float *range){return func_0011D448(range[0],range[1]);}
-static inline void AddVelocity(P *p,int getter,int setter,const U &delta){
-    VENTRY *vt=p->vt;
-    VENTRY *write=&vt[setter];
-    void *receiver=(char *)p+write->delta;
-    qword original=vt[getter].fn.get((char *)p+vt[getter].delta);
-    write->fn.set(receiver,Add(Vector(original),delta.q));
+static inline void AddLinear(P*p,const U&delta){
+ VENTRY*vt=p->vt;
+ VENTRY*write=&vt[35];
+ void*receiver=(char*)p+write->delta;
+ qword original=vt[33].fn.get((char*)p+vt[33].delta);
+ register qword value __asm__("vf1");
+ register qword change __asm__("vf2")=delta.q;
+ __asm__("qmtc2.ni %1,%0":"=j"(value):"r"(original));
+ register void(*set)(void*,qword) __asm__("$6")=write->fn.set;
+ __asm__("vadd.xyzw %0,%0,%1":"+j"(value):"j"(change));
+ set(receiver,value);
+}
+static inline void AddAngular(P*p,const U&delta){
+ VENTRY*vt=p->vt;
+ VENTRY*write=&vt[36];
+ void*receiver=(char*)p+write->delta;
+ qword original=vt[34].fn.get((char*)p+vt[34].delta);
+ register qword value __asm__("vf3");
+ register qword change __asm__("vf4")=delta.q;
+ __asm__("qmtc2.ni %1,%0":"=j"(value):"r"(original));
+ register void(*set)(void*,qword) __asm__("$3")=write->fn.set;
+ __asm__("vadd.xyzw %0,%0,%1":"+j"(value):"j"(change));
+ set(receiver,value);
 }
 extern "C" int func_001D4568(P *p,EVENT *event)
 {
@@ -45,8 +66,9 @@ extern "C" int func_001D4568(P *p,EVENT *event)
     p->remaining=remaining;
     func_001D4C88(p);
     if(!p->remaining)func_001D4940(p,3);
-    linear.q=Zero();
-    StoreCPU(&angular,linear.q);
+    qword zero=Zero();
+    StoreVU(&linear,zero);
+    StoreCPU(&angular,CPU(zero));
     switch(event->kind){
     case 0x100:{
         float angle=func_0011D448(-3.14159274f,3.14159274f);
@@ -63,7 +85,7 @@ extern "C" int func_001D4568(P *p,EVENT *event)
         qword other=func_001A62E8(event->sender);
         qword delta=Subtract(position.q,Vector(other));
         const qword *up=&D_002A2DC0;
-        direction.q=Normal(Subtract(delta,Scale(*up,Dot(delta,*up))),D_002A2DA0);
+        NormalInto(&direction,Subtract(delta,Scale(*up,Dot(delta,*up))),D_002A2DA0);
         first.q=CPUScalar(Random(D_002C21E8));
         scalar.q=Scalar(Random(D_002C21F0));
         linear.q=Combine(direction.q,first.q,*up,scalar.q);
@@ -74,7 +96,7 @@ extern "C" int func_001D4568(P *p,EVENT *event)
         break;
     }
     }
-    AddVelocity(p,33,35,linear);
-    AddVelocity(p,34,36,angular);
+    AddLinear(p,linear);
+    AddAngular(p,angular);
     return 1;
 }

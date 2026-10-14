@@ -30,11 +30,16 @@ static inline int ElementOffset(int index)
     __asm__("mult %0,%1,%2":"=r"(offset):"r"(index),"r"(stride):"hi","lo");
     return offset;
 }
+static inline int HasEntry(const OBJ *owner,int index)
+{
+ register int count __asm__("$2")=owner->x198;
+ return index<count;
+}
 void func_001DF0A0(OBJ *p, Q *q)
 {
     register int i __asm__("$20");
     func_001F5990();
-    for (i = 0; i < p->x198; i++) {
+    for (i = 0; HasEntry(p,i); i++) {
         E *e = (E*)((char*)p->x19C + ElementOffset(i));
         qword out[2];
         VECTOR pos;

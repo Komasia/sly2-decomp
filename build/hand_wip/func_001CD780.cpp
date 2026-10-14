@@ -24,7 +24,7 @@ extern "C" void func_002163B0(RT *,CONFIG *,int);
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
-extern "C" void func_001CD780(qword position,const char *text,int unused,const RGBA *color,float height)
+extern "C" void func_001CD780(qword position,const char *text,const RGBA *unusedColor,const RGBA *color,float height)
 {
     CM *camera=&D_002DDF40;
     qword screen=func_0014F308(camera,position);
@@ -46,3 +46,6 @@ extern "C" void func_001CD780(qword position,const char *text,int unused,const R
     RGBA rgba=*color;config.color=rgba;
     func_002163B0(&rt,&config,6);
 }
+
+#define OFF(T,F) ((unsigned long)&((T*)0)->F)
+typedef char projected_text_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(RGBA)==4 && __alignof__(RGBA)==1 && sizeof(CM)==0xA0 && sizeof(LM)==8 && sizeof(RT)==0xA0 && sizeof(CONFIG)==0x1C && OFF(RGBA,r)==0x0 && OFF(RGBA,g)==0x1 && OFF(RGBA,b)==0x2 && OFF(RGBA,a)==0x3 && OFF(CM,sx)==0x40 && OFF(CM,nearDepth)==0x4C && OFF(CM,matrix)==0x60 && OFF(LM,low)==0x0 && OFF(LM,high)==0x4 && OFF(CONFIG,x)==0x0 && OFF(CONFIG,y)==0x4 && OFF(CONFIG,width)==0x8 && OFF(CONFIG,height)==0xC && OFF(CONFIG,color)==0x10 && OFF(CONFIG,hAlign)==0x14 && OFF(CONFIG,vAlign)==0x18 && OFF(RT,text)==0x0 && OFF(RT,current)==0x4 && OFF(RT,color)==0x14 && OFF(RT,baseColor)==0x18 && OFF(RT,alternateColor)==0x1C && OFF(RT,color0)==0x40 && OFF(RT,color1)==0x50 && OFF(RT,changed)==0x60 && OFF(RT,fontScale)==0x88 && OFF(RT,vAlign)==0x8C && OFF(RT,hAlign)==0x90 && OFF(RT,priority)==0x94)?1:-1];

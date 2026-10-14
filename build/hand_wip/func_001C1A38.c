@@ -1,5 +1,5 @@
 struct E { float t; unsigned short k; unsigned short bit; };
-void *func_002332B8(void *dst, void *src, int cb);
+void *func_002332B8(void *dst, const void *src, unsigned int cb);
 void func_001C1A38(int c, struct E *ae, int bit, float g0, float g1)
 {
     int i, j;
@@ -17,3 +17,6 @@ void func_001C1A38(int c, struct E *ae, int bit, float g0, float g1)
     ae[i].t = g0;
     ae[i].k = 1;
 }
+
+#define OFF(T,F) ((unsigned long)&((T*)0)->F)
+typedef char event_layout[(sizeof(struct E)==8 && OFF(struct E,t)==0 && OFF(struct E,k)==4 && OFF(struct E,bit)==6)?1:-1];

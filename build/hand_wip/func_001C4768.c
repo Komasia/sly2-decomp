@@ -2,10 +2,14 @@ typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct S { char pad[0x40]; qword row[3]; };
 extern qword D_002A2DB0;
-static inline qword ReadRow(const qword *base,int offset) {qword r;__asm__("lqc2 %0,%2(%1)":"=j"(r):"r"(base),"i"(offset),"m"(base[offset/16]));return r;}
+static inline qword FirstRow(const struct S*p){register qword row __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(row):"m"(p->row[0]));return row;}
+static inline qword SecondRow(const qword*base){register qword row __asm__("vf1");__asm__("lqc2 %0,16(%1)":"=j"(row):"r"(base),"m"(base[1]));return row;}
+static inline qword ThirdRow(const qword*base){register qword row __asm__("vf3");__asm__("lqc2 %0,32(%1)":"=j"(row):"r"(base),"m"(base[2]));return row;}
 static inline qword Rot(struct S *p,qword v) {
-    qword r=p->row[0],one,a,b,c;
-    __asm__("vmul.xyzw %2,%0,%7\n\tvmaxw.xyzw %1,$vf0,$vf0w\n\tvmul.xyzw %3,%5,%7\n\tvmul.xyzw %4,%6,%7\n\tvadday.x $ACC,%2,%2y\n\tvmaddz.x %0,%1,%2z\n\tvaddax.y $ACC,%3,%3x\n\tvmaddz.y %0,%1,%3z\n\tvaddax.z $ACC,%4,%4x\n\tvmaddy.z %0,%1,%4y" : "+j"(r), "=&j"(one), "=&j"(a), "=&j"(b), "=&j"(c) : "j"(ReadRow(p->row,16)), "j"(ReadRow(p->row,32)), "j"(v));
+    const qword*base=p->row;
+    register qword third __asm__("vf3")=ThirdRow(base),second __asm__("vf1")=SecondRow(base),r __asm__("vf2")=FirstRow(p),one __asm__("vf7"),a __asm__("vf6"),b __asm__("vf5"),c __asm__("vf4");
+    register qword vector __asm__("vf8")=v;
+    __asm__("vmul.xyzw %2,%0,%7\n\tvmaxw.xyzw %1,$vf0,$vf0w\n\tvmul.xyzw %3,%5,%7\n\tvmul.xyzw %4,%6,%7\n\tvadday.x $ACC,%2,%2y\n\tvmaddz.x %0,%1,%2z\n\tvaddax.y $ACC,%3,%3x\n\tvmaddz.y %0,%1,%3z\n\tvaddax.z $ACC,%4,%4x\n\tvmaddy.z %0,%1,%4y" : "+j"(r), "=&j"(one), "=&j"(a), "=&j"(b), "=&j"(c) : "j"(second), "j"(third), "j"(vector));
     return r;
 }
 static inline qword Norm(qword v,qword fallback) {
@@ -13,7 +17,7 @@ static inline qword Norm(qword v,qword fallback) {
     __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));
     __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));
     __asm__("mtc1 %1,%0":"=f"(f):"r"(d));
-    if(f<0.0001f)__asm__("qmtc2.ni %1,%0":"=j"(d):"r"(fallback));
+    if(f<0.0001f)d=fallback;
     else __asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"+j"(d):"j"(v));
     __asm__("qmfc2.ni %0,%1":"=r"(r):"j"(d));return r;
 }

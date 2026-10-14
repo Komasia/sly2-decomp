@@ -8,7 +8,24 @@ struct MODEL {char pad40[0x40];M4 matrix;};
 struct ME {int n;MODEL *model;char pad8[32];};
 struct E {int n;char pad4[8];qword *src;char pad10[12];U *dst;};
 struct NODE {PART *part;int n;E *entries;NODE *next;};
-struct P {char pad80[0x80];char reset[0x3C];PART *parts;ME *models;char padC4[0x18];NODE *head;char padE0[0x70];void *path;};
+struct RESET {
+ void*owner;
+ char pad4[0xC];
+ U zero;
+ float limit;
+ char pad24[0x18];
+ PART*parts;
+ ME*models;
+ void*positions;
+};
+struct P {
+ char pad80[0x80];
+ RESET reset;
+ char padD0[0xC];
+ NODE*head;
+ char padE0[0x70];
+ void*path;
+};
 struct AL {int cb,align;AL(int n,int a){cb=n;align=a;}};
 extern char D_002C44F0[];
 extern "C" {
@@ -22,7 +39,12 @@ M3 *func_0011B830(M3*,qword,qword);
 void func_001E9858(P*);
 }
 static inline void *Alloc(const AL&a){return func_001AE1D0((AL*)&a);}
-static inline qword Point(M4*m,qword a){qword r;__asm__("vmulax.xyz ACC,%1,%5x\n\tvmadday.xyz ACC,%2,%5y\n\tvmaddaz.xyz ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m->a),"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));return r;}
+static inline qword Point(M4*m,qword a) {
+ qword r=m->a;
+ __asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%1,%4y\n\tvmaddaz.xyz ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w"
+    :"+j"(r):"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));
+ return r;
+}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Transform(M3*m,qword a){__asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m->a),"j"(m->b),"j"(m->c));return a;}
 static inline M3 Transpose(const M3&m) return r {
@@ -46,10 +68,10 @@ void func_001E9858(P*p){
   axis.q=func_001A6318(p)->c;
   NODE *node;
   for(node=p->head;node;node=node->next){
-   int modelIndex=node->part-p->parts;
-   MODEL *model=p->models[modelIndex].model;
-   p->models[modelIndex].model=(MODEL*)D_002C44F0;
-   func_0016EF00(p->reset,modelIndex);
+   int modelIndex=node->part-p->reset.parts;
+   MODEL *model=p->reset.models[modelIndex].model;
+   p->reset.models[modelIndex].model=(MODEL*)D_002C44F0;
+   func_0016EF00(&p->reset,modelIndex);
    int j;
    for(j=0;j<node->n;j++){
     E*e=&node->entries[j];

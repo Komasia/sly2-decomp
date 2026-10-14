@@ -34,11 +34,10 @@ static inline RGBA BlendColors(float t,RGBA previous,RGBA next){
  result.r=NLerp(t,previous.r,next.r);result.g=NLerp(t,previous.g,next.g);result.b=NLerp(t,previous.b,next.b);result.a=NLerp(t,previous.a,next.a);
  return result;
 }
-static inline M23 BlendMatrix(float t,const M23 &previous,const M23 &next){
- M23 result;float from=1.0f;from-=t;const float *a=previous.a,*b=next.a;float *out=result.a;
- for(int n=5;n>=0;n--){*out++=from * *a++ + t * *b++;}
- return result;
-}
+static inline float MatrixOne(){float value;__asm__("li.s %0,1.0":"=f"(value));return value;}
+static inline M23 *PreviousMatrix(const ITEM *item){M23 *matrix;__asm__ __volatile__("lw %0,%1":"=r"(matrix):"m"(item->previousMatrix));return matrix;}
+static inline void Mix(int n,float *out,const float *a,const float *b,float from,float t){for(n--;n>=0;n--){*out++=from * *a++ + t * *b++;}}
+static inline M23 BlendMatrix(float from,float t,const M23 &previous,const M23 &next){M23 result;Mix(6,result.a,previous.a,next.a,from,t);return result;}
 static inline M23 Mul(const M23 &q,const M23 &n){
  float m0=q.a[0],m1=q.a[1],m2=q.a[2],m3=q.a[3],m4=q.a[4],m5=q.a[5];M23 r;
  r.a[0]=m0*n.a[0]+m1*n.a[2];r.a[1]=m0*n.a[1]+m1*n.a[3];r.a[2]=m2*n.a[0]+m3*n.a[2];r.a[3]=m2*n.a[1]+m3*n.a[3];r.a[4]=m4*n.a[0]+m5*n.a[2]+n.a[4];r.a[5]=m4*n.a[1]+m5*n.a[3]+n.a[5];return r;
@@ -67,12 +66,12 @@ extern "C" void func_00219FE0(float duration,ANIM *animation,int index,M23 *pare
     if(first)func_002158C0(item->sprite,item);
     else{
      if(item->interpolate&&item->nextMatrix){
-      float fraction=(processed-item->previousTime)/(item->nextTime-item->previousTime);
-      matrix=BlendMatrix(fraction,*item->previousMatrix,*item->nextMatrix);
+      float from=MatrixOne();float fraction=(processed-item->previousTime)/(item->nextTime-item->previousTime);from-=fraction;
+      matrix=BlendMatrix(from,fraction,*PreviousMatrix(item),*item->nextMatrix);
       currentAdditive=BlendColors(fraction,RGBA(item->previousAdditive),RGBA(item->nextAdditive));
       currentMultiply=BlendColors(fraction,RGBA(item->previousMultiply),RGBA(item->nextMultiply));
      }
-     else{matrix=*item->previousMatrix;*(RGBA_RAW *)&currentAdditive=item->previousAdditive;*(RGBA_RAW *)&currentMultiply=item->previousMultiply;}
+     else{matrix=*PreviousMatrix(item);*(RGBA_RAW *)&currentAdditive=item->previousAdditive;*(RGBA_RAW *)&currentMultiply=item->previousMultiply;}
      matrix=Mul(matrix,*parent);
      {
       RGBA inputMultiply(multiply),inputAdditive(additive),localMultiply(currentMultiply),localAdditive(currentAdditive);

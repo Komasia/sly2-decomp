@@ -14,6 +14,17 @@ void func_001E6ED8(P*,qword,SPACE*,qword*,qword*,float*,float*,float);
 static inline qword Load(const qword &a){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(a));return r;}
 static inline void CopyMatrix(M4 &out,const M4 *in){out.a=Load(in->a);out.b=Load(in->b);out.c=Load(in->c);out.d=Load(in->d);}
 static inline qword Point(const M4 &m,qword a){qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));return r;}
+static inline qword PointKept(qword carrier,const M4&m,qword a) {
+ __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
+    :"+j"(carrier):"j"(m.a),"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));
+ return carrier;
+}
+static inline qword PointRow0(const M4&m,qword a) {
+ qword r=m.a;
+ __asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w"
+    :"+j"(r):"j"(m.b),"j"(m.c),"j"(m.d),"j"(a));
+ return r;
+}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword ToVU(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
 static inline qword Scalar(U &home,float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));home.q=r;return home.q;}
@@ -23,16 +34,17 @@ static inline float X(qword a){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(a));retu
 static inline float Length(qword a){return X(Root(Dot(a,a)));}
 static inline qword Normalize(qword a){qword length=Root(Dot(a,a)),r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(length));return r;}
 static inline qword Lerp(qword a,qword b,qword low,qword high){qword r;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(low),"j"(high));return r;}
+static inline float Zero() { register float value __asm__("$f24");__asm__("mtc1 $zero,%0":"=f"(value));return value; }
 extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,qword *outDirection,float *outTime,float *outValue){
  WORK work;work.point=point;
  VTE &v=p->vt[31];CopyMatrix(work.matrix,((M4*(*)(void*))v.fn)((char*)p+v.delta));
  switch(p->mode){
  case 0:{
   work.start=Point(work.matrix,p->points[0]);
-  float best=D_002A8138,time=-1.0f;
+  float best=D_002A8138,time=-1.0f;float lowerBound=Zero();
   for(int index=1;index<p->count;index++){
-   qword offset=Sub(work.point,work.start);
-   work.end=Point(work.matrix,p->points[index]);
+   qword query=Load(work.point);qword offset=Sub(query,work.start);
+   work.end=PointKept(query,work.matrix,p->points[index]);
    qword direction=Sub(work.end,work.start);
    if(space){
     work.offset=offset;
@@ -42,7 +54,7 @@ extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,q
    }
    float fraction=X(Dot(offset,direction))/X(Dot(direction,direction));
    float complement;
-   if(fraction<0.0f){fraction=0.0f;complement=1.0f;}else if(fraction>1.0f){fraction=1.0f;complement=0.0f;}else complement=1.0f-fraction;
+   if(fraction<lowerBound){fraction=0.0f;complement=1.0f;}else if(fraction>1.0f){fraction=1.0f;complement=0.0f;}else complement=1.0f-fraction;
    work.closest=Lerp(work.start,work.end,Scalar(work.scalar,complement),Scalar(work.scalar,fraction));
    qword delta=Sub(work.point,work.closest);
    if(space)delta=ToVU(func_001FA970(space,delta));
@@ -61,7 +73,7 @@ extern "C" void func_001E6F60(P *p,qword point,SPACE *space,qword *outPosition,q
  case 1:{
   float best=D_002A8138;int closest=-1;
   for(int index=0;index<p->count;index++){
-   qword delta=Sub(work.point,Point(work.matrix,p->points[index]));
+   qword delta=Sub(work.point,PointRow0(work.matrix,p->points[index]));
    if(space)delta=ToVU(func_001FA970(space,delta));
    float distance=Length(delta);
    if(distance<best){best=distance;closest=index;}

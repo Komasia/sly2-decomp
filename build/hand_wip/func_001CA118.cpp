@@ -2,15 +2,16 @@ struct VTE { short d; short pad; void (*pf)(); };
 struct LO { char pad[0xC]; struct VTE *vt; char p1[0x3C - 0x10]; struct N *x3C; };
 struct N { int id; struct N *parent; char pad8[8]; struct LO *owner; };
 struct R { int n; char pad[0x6C - 4]; };
-struct G { char pad[0x3F08]; struct R *ar; void *x3F0C; };
+struct G { char pad[0x3F08]; struct R *ar; N *x3F0C; };
 struct H {};
 extern struct G D_003DD490;
-extern "C" struct N *func_001C99D8(void *p, int c, int *a);
+extern "C" struct N *func_001C99D8(N *p, int c, const int *a);
 extern "C" int func_001C9950(int id);
 extern "C" struct H*func_001AE478(struct H *p);
 extern "C" void func_001AE4A0(struct H *p, int n);
-extern "C" void func_001CA118(struct LO *p, int id, int f)
+extern "C" void func_001CA118(struct LO *p, int key, int f)
 {
+    register int id __asm__("$20")=key;
     int a[16];
     struct H h;
     struct LO **ap;
@@ -21,7 +22,7 @@ extern "C" void func_001CA118(struct LO *p, int id, int f)
     for (; pn && pn->id != -1; pn = pn->parent)
         a[--c] = pn->id;
     c--;
-    a[c] = id;
+    __asm__("sw %1,%0":"=m"(a[c]):"r"(id));
     r = func_001C99D8(D_003DD490.x3F0C, 16 - c, &a[c]);
     for (pn = p->x3C; pn->id != -1 && pn->owner == p; pn = pn->parent)
         pn->owner = 0;

@@ -9,8 +9,8 @@ int func_001C14A8(struct E *ae, int i, float g, unsigned int *grf, int f)
                 unsigned int bit = pe->bit;
                 unsigned int w = bit / 32;
                 unsigned int b = bit - w * 32;
-                if (!f) grf[w] |= 1 << b;
-                else grf[w] -= 1 << b;
+                if (!f) grf[w] |= 1U << b;
+                else grf[w] -= 1U << b;
             }
             i--;
             pe = &ae[i];
@@ -24,8 +24,8 @@ int func_001C14A8(struct E *ae, int i, float g, unsigned int *grf, int f)
                 unsigned int bit = pe->bit;
                 unsigned int w = bit / 32;
                 unsigned int b = bit - w * 32;
-                if (f) grf[w] |= 1 << b;
-                else grf[w] -= 1 << b;
+                if (f) grf[w] |= 1U << b;
+                else grf[w] -= 1U << b;
             }
             i++;
             pe = &ae[i];
@@ -34,3 +34,6 @@ int func_001C14A8(struct E *ae, int i, float g, unsigned int *grf, int f)
     }
     return i;
 }
+
+#define OFF(T,F) ((unsigned long)&((T*)0)->F)
+typedef char event_bitset_layout[(sizeof(struct E)==8 && OFF(struct E,t)==0 && OFF(struct E,k)==4 && OFF(struct E,bit)==6 && sizeof(unsigned)==4)?1:-1];

@@ -25,14 +25,18 @@ void func_001F9240(struct P*p,int flags,int count,void**objects)
    }
    if(flags&2){
      i=0;
-     if(n>0){do{
+     if(n<=0)goto clearVelocityFlag;
+     do{
        struct C*c=contacts[i];
        qword normal=c->normal;
        if(c->kind==11){if(5.0f<Abs(Dot(c->velocity,normal)))break;}
        else {if(Dot(c->velocity,normal)<-5.0f)break;}
-     }while(++i<n);}
-     if(i>=n)flags&=~2;
+     }while(++i<n);
+     if(i<n)goto applyFlags;
+   clearVelocityFlag:
+     flags&=~2;
    }
  }
+applyFlags:
  if(flags)func_001F9410(p,flags,count,objects,n,contacts);
 }

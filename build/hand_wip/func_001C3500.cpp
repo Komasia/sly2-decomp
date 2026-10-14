@@ -45,6 +45,7 @@ static inline qword NormalizeSample(qword value,qword fallback){
  if(scalar<0.0001f)result=fallback;
  else __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(result):"j"(length),"j"(vector));return result;
 }
+static inline qword UpFallback(){qword value;__asm__("lq %0,%1":"=r"(value):"m"(D_002A2DC0));return value;}
 static inline qword NormalizeUp(qword value,qword fallback){
  register qword vector __asm__("vf5")=value;
  register qword sum __asm__("vf1"),one __asm__("vf2");
@@ -56,7 +57,7 @@ static inline qword NormalizeUp(qword value,qword fallback){
  if(scalar<0.0001f)result=fallback;
  else __asm__ __volatile__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(result):"j"(length),"j"(vector));return result;
 }
-static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword Sub(qword av,qword bv){register qword a __asm__("vf2")=av,b __asm__("vf1")=bv,r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Dot(qword av,qword bv){register qword a __asm__("vf3")=av,b __asm__("vf4")=bv,r __asm__("vf2"),one __asm__("vf1");__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(r),"=&j"(one):"j"(a),"j"(b));return X(r);}
 static inline qword Direction(const M3 &m,qword q){qword r;__asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.rows[0]),"j"(m.rows[1]),"j"(m.rows[2]),"j"(q));return r;}
 static inline qword Cross(qword a,qword b){qword r=b;__asm__("vopmula.xyz $ACC,%1,%0\n\tvopmsub.xyz %0,%0,%1":"+j"(r):"j"(a));return r;}
@@ -81,7 +82,7 @@ extern "C" void func_001C3500(P *p,float distance,int forward,M3 *out){
  func_0011BA08(&work.temporary,work.tangent.q,work.direction.q);{qword x=work.temporary.rows[0],y=work.temporary.rows[1],z=work.temporary.rows[2];work.rotation.rows[1]=y;work.rotation.rows[0]=x;work.rotation.rows[2]=z;}
  qword reference=ToVU(func_001A6FC0(p,0,p->axis));
  work.forward.q=Direction(work.rotation,reference);
- qword up=NormalizeUp(work.first.q,D_002A2DC0);
+ qword up=NormalizeUp(work.first.q,UpFallback());
  work.basis.rows[2]=up;
  work.backward.q=Cross(up,work.forward.q);
  work.basis.rows[1]=work.backward.q;
