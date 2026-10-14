@@ -32,6 +32,7 @@ static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x
 static inline float Length(qword a){qword d,one;float r;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));__asm__("mtc1 %1,%0":"=f"(r):"r"(d));return r;}
 static inline M3 Facing(qword direction,qword up) return r {func_0011B830(&r,direction,up);}
 static inline M4 Transform(qword position,const M3 &basis,const U &scale) return r {func_0011C210(&r,position,&basis,&scale);}
+static inline int ElementOffset(int index){register int stride __asm__("$2")=sizeof(ENTRY);register int offset __asm__("$2");__asm__("mult %0,%1,%2":"=r"(offset):"r"(index),"r"(stride):"hi","lo");return offset;}
 extern "C" void func_001DF5B0(P *p)
 {
     U scalar,points[2];
@@ -44,7 +45,7 @@ extern "C" void func_001DF5B0(P *p)
     scalar.q=Scalar(&p->bound->radius);
     if(!func_0014F850(&D_002DDF40,Subtract(p->bound->position.q,D_002DDF40.position.q),scalar.q))return;
     for(int i=0;i<p->count;){
-        ENTRY *entry=&p->entries[i];
+        ENTRY *entry=(ENTRY*)((char*)p->entries+ElementOffset(i));
         func_001DEF98(p,entry,&points[0].q,&distance.value);
         if(entry->maximumLength<distance.value){
             float ratio=entry->maximumLength/distance.value;

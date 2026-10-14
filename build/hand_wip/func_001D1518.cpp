@@ -7,7 +7,7 @@ struct REF {char pad[0x70];qword position;};
 struct E {int id;REF *reference;int pad8;float x,y;char pad14[0x10];F lower,upper;int pad2C;U position; qword top,bottom;};
 struct SIDE {int id;REF *reference;void *binding;int padC,pad10;};
 struct ATTACH {char pad[0x18];int id;void *object;void *binding;char pad24[8];int meshId;REF *mesh;void *meshBinding;int extraId;void *extra;};
-struct P {char pad[0x190];int count;char pad194[0xC];E entries[8];float width;int sideCount;SIDE sides[4];int attachCount;char attachStorage[0x70];void *asset;void *binding;char pad574[0x38];void *path;};
+struct P {char pad[0x190];int count;char pad194[0xC];E entries[8];float width;int sideCount;SIDE sides[4];int attachCount;ATTACH*attachments[8];char pad51C[0x50];void *asset;void *binding;char pad574[0x38];void *path;};
 extern "C" {
 extern qword D_002A2DC0,D_002A2DD0;
 extern char D_003DD490[];
@@ -79,7 +79,7 @@ extern "C" void func_001D1518(P *p){
    --p->sideCount;--i;--side;--next;
   }else side->binding=func_0012DC18(p,reference,1,7,3,D_002A2DD0);
  }}
- {ATTACH **cursor=(ATTACH**)p->attachStorage;
+ {ATTACH **cursor=p->attachments;
  for(int j=0,byteOffset=0;j<p->attachCount;j++,cursor++,byteOffset+=4){
   ATTACH *attach=*cursor;
   attach->object=func_0015E938(D_003DD490,1,attach->id,p);
@@ -94,7 +94,7 @@ extern "C" void func_001D1518(P *p){
     }
    }
   }
-  func_002332B8(cursor,(char*)p->attachStorage+byteOffset+4,(p->attachCount-j)*4-4);
+  func_002332B8(cursor,(char*)p->attachments+byteOffset+4,(p->attachCount-j)*4-4);
   --p->attachCount;--j;--cursor;byteOffset-=4;
  }}
  p->path=func_001E94B0(0x2C9,16);

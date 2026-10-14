@@ -7,7 +7,7 @@ struct VENTRY {short delta,pad;void (*fn)();};
 struct OBJECT {char pad0[0xC];VENTRY *vt;};
 struct PATH {char pad0[0xC];VENTRY *vt;char pad10[0xD8];int count;int unknownEC;float *distances;U *points;};
 struct PARAMS {float fraction,speed,duration;int mode;};
-struct SEGMENT {float start,speed,acceleration,duration,elapsed;};
+struct SEGMENT {union {float start;int startWord;};union {float speed;int speedWord;};float acceleration,duration;union {float elapsed;int elapsedWord;};};
 union TRACKDATA {PARAMS params;struct {int count;SEGMENT segments[6];int current;} motion;};
 struct TRACK {PATH *path;float cursor;TRACKDATA data;};
 union PAYLOAD {U point;TRACK track;};
@@ -110,9 +110,9 @@ extern "C" void func_001DE5D8(P *p)
                                     segments[0].elapsed=Read(work.curve.params.fraction)*Read(work.curve.params.duration);
                                 }
                                 segments[0].duration=Read(work.curve.params.duration);
-                                if(reverse)*(int *)&segments[1].start=0;else segments[1].start=length;
-                                *(int *)&segments[1].elapsed=0;
-                                *(int *)&segments[1].speed=0;
+                                if(reverse)segments[1].startWord=0;else segments[1].start=length;
+                                segments[1].elapsedWord=0;
+                                segments[1].speedWord=0;
                                 endpoint->payload.track.data.motion.current=0;
                                 break;
                             case 16:{

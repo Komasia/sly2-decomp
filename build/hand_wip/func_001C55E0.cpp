@@ -5,7 +5,7 @@ union FLOATWORD {float value;int bits;};
 struct ENTITY {char pad70[0x70];qword position;};
 struct CANDIDATE {ENTITY *entity;void *owner;float radius;int wordC;ulong flags;char pad18[0x5C];int shape;};
 struct CONTACT {qword position;U plane;char info20[16];};
-struct P {char pad150[0x150];int state;char pad154[0x1C];qword position,velocity;char pad190[0x34];int raised;char pad1C8[8];float threshold,boost;FLOATWORD radius;int word1DC;float normalResponse,tangentResponse;};
+struct P {char pad150[0x150];int state;char pad154[0x1C];qword position,velocity;char pad190[0x34];int raised;char pad1C8[8];float threshold;FLOATWORD boost,radius;int word1DC;float normalResponse;FLOATWORD tangentResponse;};
 struct FRAME;
 extern "C" FRAME *func_001AE478(FRAME *);
 extern "C" void func_001AE4A0(FRAME *,int);
@@ -18,7 +18,7 @@ extern float D_002C0D74,D_002C0D78;
 qword func_001A62E8(P *);
 int func_001C5570(void *,CANDIDATE *);
 void func_0020FAA0(void *,qword,qword,int(*)(void *,CANDIDATE *),void *,int *,CANDIDATE ***);
-int func_001A93C8(qword,CANDIDATE *,int,int,int,int,CONTACT *,float);
+int func_001A93C8(qword,CANDIDATE *,int mask,int triangleCount,void *triangles,int capacity,CONTACT *,float);
 float func_0011E290(qword,qword,qword *,qword *);
 }
 static inline void CopyVU(qword *out,const qword &input){qword value;__asm__("lqc2 %0,%1":"=j"(value):"m"(input));*out=value;}
@@ -27,7 +27,6 @@ static inline qword ToVU(qword value){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"
 static inline qword Scalar(U &home,float value){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(value));home.q=r;return home.q;}
 static inline qword ScalarBits(U &home,int bits){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(bits));home.q=r;return home.q;}
 static inline qword AddScaled(qword value,qword direction,qword scale){__asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(value):"j"(direction),"j"(scale));return value;}
-static inline qword DifferenceNew(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=&j"(r):"j"(a),"j"(b));return r;}
 static inline qword Difference(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Square(qword value){qword r,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=j"(one):"j"(value));return r;}
 static inline qword Root(qword square){qword r;__asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(r):"j"(square));return r;}
@@ -36,10 +35,38 @@ static inline float Length(qword value){return X(Root(Square(value)));}
 static inline float Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=j"(one):"j"(a),"j"(b));return X(r);}
 static inline qword Divide(qword value,qword length){__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%0,$Q":"+j"(value):"j"(length));return value;}
 static inline qword ReadPacked(const qword &value){qword r;__asm__("lq %0,%1":"=r"(r):"m"(value));return r;}
-static inline qword Normalize(qword value,const qword &fallback){qword square=Square(value);qword alternative=ReadPacked(fallback);qword length=Root(square);float g=X(length);if(g<0.0001f)return ToVU(alternative);return Divide(value,length);}
-static inline qword NormalizeInto(U &value,const qword &fallback){qword input=ToVU(value.q);qword square=Square(input);qword alternative=ReadPacked(fallback);register qword length __asm__("vf2")=Root(square);float g=X(length);if(g<0.0001f)value.q=alternative;else value.q=Divide(input,length);return length;}
+static inline qword NormalizeInto(U &value,const qword &fallback){
+ register qword input __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(input):"r"(value.q));
+ register qword square __asm__("vf1"),one __asm__("vf2");
+ __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(square),"=&j"(one):"j"(input));
+ register qword length __asm__("vf2");
+ __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(length):"j"(square));
+ float g=X(length);
+ if(g<0.0001f)value.q=ReadPacked(fallback);
+ else{
+  register qword result __asm__("vf1");
+  __asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(result):"j"(input),"j"(length));
+  value.q=result;
+ }
+ return length;
+}
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline qword Combine(qword a,qword b,qword sa,qword sb){qword r;__asm__("vmulax.xyzw $ACC,%1,%3x\n\tvmaddx.xyzw %0,%2,%4x":"=j"(r):"j"(a),"j"(b),"j"(sa),"j"(sb));return r;}
+static inline qword Read1(const qword &q){register qword v __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(v):"m"(q));return v;}
+static inline qword Read2(const qword &q){register qword v __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(v):"m"(q));return v;}
+static inline qword SphereDirection(P *p,CANDIDATE *candidate){
+ register qword position __asm__("vf2")=Read2(p->position);
+ register qword center __asm__("vf1")=Read1(candidate->entity->position);
+ register qword direction __asm__("vf3");
+ __asm__("vsub.xyzw %0,%1,%2":"=j"(direction):"j"(position),"j"(center));
+ __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(position),"=&j"(center):"j"(direction));
+ qword alternative=ReadPacked(D_002A2DA0);
+ __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(center):"j"(position));
+ float length=X(center);
+ if(length<0.0001f)direction=alternative;
+ else direction=Divide(direction,center);
+ return direction;
+}
 extern "C" void func_001C55E0(P *p){
  WORK work;
  int i=0;
@@ -55,7 +82,7 @@ extern "C" void func_001C55E0(P *p){
    qword current=ToVU(func_001A62E8(p));
    float penetration=Length(Difference(work.center,current))-candidate->radius-p->radius.value;
    if(penetration<deepest){
-    qword direction=Normalize(DifferenceNew(p->position,candidate->entity->position),D_002A2DA0);
+    qword direction=SphereDirection(p,candidate);
     work.scalar.q=direction;
     if(Dot(p->velocity,direction)<0.0f){deepest=penetration;work.normal.q=direction;}
    }
@@ -74,20 +101,20 @@ extern "C" void func_001C55E0(P *p){
    float vertical=func_0011E290(p->velocity,D_002A2DC0,0,&work.primary.q);
    qword length=NormalizeInto(work.primary,D_002A2DD0);
    float speed=X(length);
-   float tangent=Min(p->tangentResponse*speed,D_002C0D74);
+   float tangent=Min(p->tangentResponse.value*speed,D_002C0D74);
    float normal=Min((-p->normalResponse)*vertical,D_002C0D78);
    qword ts=Scalar(work.secondary,tangent),ns=Scalar(work.secondary,normal);
    work.response=Combine(work.primary.q,D_002A2DC0,ts,ns);
    if(!p->raised){
     int trigger=Dot(work.response,work.normal.q)<p->threshold;
     if(trigger){
-    work.response=Combine(work.primary.q,D_002A2DC0,Scalar(work.secondary,tangent),ScalarBits(work.secondary,*(int *)&p->boost));
+    work.response=Combine(work.primary.q,D_002A2DC0,Scalar(work.secondary,tangent),ScalarBits(work.secondary,p->boost.bits));
     p->raised=1;
     }
    }
   }else{
    func_0011E290(p->velocity,work.normal.q,&work.primary.q,&work.secondary.q);
-   work.response=Combine(work.primary.q,work.secondary.q,Scalar(work.last,-p->normalResponse),ScalarBits(work.last,*(int *)&p->tangentResponse));
+   work.response=Combine(work.primary.q,work.secondary.q,Scalar(work.last,-p->normalResponse),ScalarBits(work.last,p->tangentResponse.bits));
   }
   p->position=AddScaled(p->position,work.normal.q,Scalar(work.primary,-deepest));
   p->velocity=work.response;

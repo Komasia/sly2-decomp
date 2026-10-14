@@ -7,7 +7,7 @@ struct M3 {U rows[3];};
 struct VENTRY {short delta,pad;void (*fn)();};
 struct OBJECT {char pad0[0xC];VENTRY *vt;};
 struct BLOCK;
-union META {ulong bits;struct {ulong coefficient:32;long kind:4;long channels:8;long sort:6;ulong hidden:1;ulong index:13;} field;};
+union META {ulong bits;uint words[2];struct {ulong coefficient:32;long kind:4;long channels:8;long sort:6;ulong hidden:1;ulong index:13;} field;};
 struct RENDER {U sphere;META meta;void *payload;BLOCK *next;};
 struct BLOCK {RENDER entries[4];};
 struct STACK {int count;BLOCK *blocks[256];};
@@ -16,10 +16,10 @@ struct SKIN {char pad0[0xC];void *matrices;int count,regular,extra,unused1C;uint
 struct MESH {int unknown;TRANSFORM *transform;M4 *parent;uint flags;void *data;int unknown14,unknown18;SKIN *skin;char pad20[8];};
 struct DESCRIPTOR {int unknown;float distance;void *chain;char padC[8];};
 struct SCENE {char pad0[0x24];int animationCount;OBJECT **animations;char pad2C[0xC];int meshCount;DESCRIPTOR *descriptors;MESH *meshes;void *bounds;BLOCK *root;int version;float alpha;};
-struct CAMERA {char pad0[0x14];int channels;int unused18;float coefficient;char pad20[0x28];float proximityRadius;char pad4C[0x44];U position;M3 basis;};
+struct CAMERA {char pad0[0x14];int channels;int unused18;union {float coefficient;uint coefficientWord;};char pad20[0x28];float proximityRadius;char pad4C[0x44];U position;M3 basis;};
 struct GAME {char pad0[0x3D5C];int version;};
 struct BUILDER {char pad0[0xC];unsigned char *current;};
-struct QUEUE {int sort;float distance;unsigned char *packet;void *data;};
+struct QUEUE {int sort;union {float distance;uint distanceWord;};unsigned char *packet;void *data;};
 union WORK {U constants;M4 inverse;};
 extern CAMERA D_002DDF40;
 extern GAME D_003DD490;
@@ -76,11 +76,11 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
         for(unsigned int i=0;i<4;i++){
             register RENDER *render __asm__("s4")=&block->entries[i];
             if(render->meta.field.kind==-1)continue;
-            work.constants.q=Bits(*(const uint *)&D_002DDF40.coefficient);
+            work.constants.q=Bits(D_002DDF40.coefficientWord);
             __asm__ __volatile__("qmtc2 %0,$vf14" : :"r"(work.constants.q):"vf14");
             work.constants.q=Bits(render->sphere.words[3]);
             __asm__ __volatile__("qmtc2 %0,$vf16" : :"r"(work.constants.q):"vf16");
-            work.constants.q=Bits(*(const uint *)&render->meta);
+            work.constants.q=Bits(render->meta.words[0]);
             __asm__ __volatile__("qmtc2 %0,$vf17" : :"r"(work.constants.q):"vf17");
             __asm__ __volatile__("lqc2 $vf15,%0" : :"m"(render->sphere):"vf15");
             __asm__ __volatile__("lqc2 $vf10,%0\n\tlqc2 $vf11,%1\n\tlqc2 $vf12,%2\n\tlqc2 $vf13,%3" : :"m"(D_002DDF40.basis.rows[0]),"m"(D_002DDF40.basis.rows[1]),"m"(D_002DDF40.basis.rows[2]),"m"(D_002DDF40.position):"vf10","vf11","vf12","vf13");
@@ -97,7 +97,7 @@ extern "C" void func_001D5808(STACK *stack,SCENE *scene)
                 if(render->meta.field.hidden)break;
                 register QUEUE *q __asm__("s6")=Allocate();if(!q)break;
                 SetSort(q,render->meta.field.sort,alpha);
-                *(uint *)&q->distance=(uint)CPU(Dot(relative,relative));
+                q->distanceWord=(uint)CPU(Dot(relative,relative));
                 if(1.0f<=alpha){q->packet=(unsigned char *)render->payload;q->data=0;}
                 else{
                     BUILDER *builder=&D_002DEA28;

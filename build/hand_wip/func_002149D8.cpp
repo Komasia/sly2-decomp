@@ -43,6 +43,7 @@ void func_00214398(OWNER *,BIS *,ROOT *,int *,SPRITE **);
 void func_00149A50(WORLD *,OWNER *,PMF,SPRITE *);
 }
 struct MARK {MARK(){func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
+struct INNERFRAME {INNERFRAME() __asm__("func_001AE478");void End(int) __asm__("func_001AE4A0");};
 extern int D_002C40A4;
 extern PMF D_002A8B08;
 extern WORLD D_003DD490;
@@ -91,7 +92,7 @@ extern "C" void func_002149D8(OWNER *owner,BIS *stream,ROOT *root,int,SPRITE *sp
   PAIR first,second;
   first.x=func_00117D50(stream);first.y=func_00117D50(stream);second.x=func_00117D50(stream);second.y=func_00117D50(stream);
   int texture=func_00117DB8(stream);
-  MARK inner;GIFS gif;
+  INNERFRAME inner;GIFS gif;
   gif.AllocSw(16);gif.AddPrimPack(0,1,0xE);
   sprite->data.effect.id=texture;
   if(sprite->kind==6){sprite->data.effect.handle=0;gif.PackAD(0x47,0x5000F);gif.PackAD(0x42,0x80000000A8L);}
@@ -118,7 +119,7 @@ extern "C" void func_002149D8(OWNER *owner,BIS *stream,ROOT *root,int,SPRITE *sp
   vif.AddVifMscal(D_00000650);vif.EndDmaCnt();vif.AddDmaRet();
   if(sprite->kind==6)vif.DetachCopySw(owner->heap,&sprite->data.effect.count,0,&sprite->data.effect.packet);
   else{vif.DetachCopySw(owner->heap,&sprite->data.picture.count,0,&sprite->data.picture.packet);func_00149A50(&D_003DD490,owner,D_002A8B08,sprite);}
-  break;
+  inner.End(2);break;
  }
  case 1:{
   sprite->data.geometry.count=func_00117C20(stream);

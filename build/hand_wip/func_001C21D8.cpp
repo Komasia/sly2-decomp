@@ -15,9 +15,9 @@ struct WORK {SCALAR initialEstimate;void *actor;int exactGoal,maximum;EDGE **out
 extern "C" {
 FRAME *func_001AE478(FRAME *);
 void func_001AE4A0(FRAME *,int);
-void *func_001AE378(REQUEST *);
-void *func_001AE318(REQUEST *);
-void *func_002333B4(void *,int,int);
+void *func_001AE378(const REQUEST *);
+void *func_001AE318(const REQUEST *);
+void *func_002333B4(void *,int,unsigned int);
 qword func_001A62E8(void *);
 NAV *func_001C0D70(qword,int);
 void func_0011A200(DL *);
@@ -30,18 +30,33 @@ int func_001C26E0(GRAPH *,EDGE *,void *);
 int func_001C0920(NAV *,qword,int);
 }
 struct FRAME {~FRAME(){func_001AE4A0(this,2);}};
-static inline qword Difference(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword SquareLength(qword q){qword sum=q,one;__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(sum),"=&j"(one));return sum;}
 static inline qword Root(qword q){__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(q));return q;}
-static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline int LowWord(qword q){register int r __asm__("$6");__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(q));return r;}
 static inline void BuildRequest(REQUEST *request,int size){request->size=size;request->alignment=16;}
 static inline void SelectOrigin(qword &out,EDGE *incoming,qword fallback){if(incoming)out=incoming->end;else out=fallback;}
+static inline qword EdgeBegin(const qword &value){register qword result __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword PathOrigin(const qword &value){register qword result __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword EdgeEnd(const qword &value){register qword result __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword GoalTarget(const qword &value){register qword result __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword ToBegin(qword a,qword b){register qword r __asm__("vf2");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword EdgeSpan(qword a,qword b){register qword r __asm__("vf1");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword ToGoal(qword a,qword b){register qword r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword FirstSquare(qword q){register qword sum __asm__("vf2")=q;register qword one __asm__("vf4");__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(sum),"=&j"(one));return sum;}
+static inline qword SpanSquare(qword q){register qword sum __asm__("vf1")=q;register qword one __asm__("vf5");__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(sum),"=&j"(one));return sum;}
+static inline qword GoalSquare(qword q){register qword sum __asm__("vf3")=q;register qword one __asm__("vf1");__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(sum),"=&j"(one));return sum;}
+static inline qword InitialStart(const qword &value){register qword result __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword InitialTarget(const qword &value){register qword result __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qword InitialDifference(qword a,qword b){register qword r __asm__("vf1");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
+static inline qword InitialSquare(qword q){register qword sum __asm__("vf1")=q;register qword one __asm__("vf2");__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(sum),"=&j"(one));return sum;}
+static inline float FirstX(qword q){register int word __asm__("$2");float f;__asm__("qmfc2.ni %0,%1":"=r"(word):"j"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(word));return f;}
+static inline float SpanX(qword q){register int word __asm__("$3");float f;__asm__("qmfc2.ni %0,%1":"=r"(word):"j"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(word));return f;}
+static inline float GoalX(qword q){register int word __asm__("$4");float f;__asm__("qmfc2.ni %0,%1":"=r"(word):"j"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(word));return f;}
+static inline int EdgeCount(const GRAPH *graph){register int count __asm__("$2");__asm__("lw %0,%1":"=r"(count):"m"(graph->edgeCount));return count;}
 extern "C" int func_001C21D8(GRAPH *graph,void *actor,qword target,int exactGoal,int maximum,EDGE **output){
  FRAME frame;OPEN open;DL closed;WORK w;w.actor=actor;w.target=target;w.exactGoal=exactGoal;w.maximum=maximum;w.output=output;func_001AE478(&frame);
  BuildRequest(&open.request,graph->count*32);
  w.nodes=(NODE*)func_001AE378(&open.request);
- BuildRequest(&open.request,graph->edgeCount*4);
+ BuildRequest(&open.request,EdgeCount(graph)*4);
  w.allowed=(int*)func_001AE318(&open.request);
  func_002333B4(w.allowed,255,graph->edgeCount*4);
  w.start=func_001A62E8(w.actor);
@@ -50,7 +65,7 @@ extern "C" int func_001C21D8(GRAPH *graph,void *actor,qword target,int exactGoal
  func_0011A200(&open.list);func_0011A1F8(&open.list,24);
  func_0011A200(&closed);func_0011A1F8(&closed,24);
  NODE *current=w.nodes+source->index;
- qword initialLength=Root(SquareLength(Difference(w.start,w.target)));
+ qword initialLength=Root(InitialSquare(InitialDifference(InitialStart(w.start),InitialTarget(w.target))));
  w.initialEstimate.word=LowWord(initialLength);int initialWord=w.initialEstimate.word;current->object=source;current->estimate.word=initialWord;current->state=2;
  func_0011A220(&open.list,current);
  while(!func_0011A3B0(&open.list)){
@@ -64,14 +79,15 @@ extern "C" int func_001C21D8(GRAPH *graph,void *actor,qword target,int exactGoal
    int edgeId=adj->indices[i];int *cache=w.allowed+edgeId;EDGE *edge=graph->edges[edgeId];
    if(*cache==-1)*cache=func_001C26E0(graph,edge,w.actor);
    if(!*cache)continue;
-   qword toBegin=SquareLength(Difference(w.origin,edge->begin));
-   qword edgeLength=SquareLength(Difference(edge->begin,edge->end));
-   qword firstLength=Root(toBegin),secondLength=Root(edgeLength);float distance=X(firstLength)+X(secondLength);
+   qword begin=EdgeBegin(edge->begin),origin=PathOrigin(w.origin),end=EdgeEnd(edge->end);
+   qword toBegin=ToBegin(origin,begin),span=EdgeSpan(begin,end);
+   toBegin=FirstSquare(toBegin);span=SpanSquare(span);
+   qword firstLength=Root(toBegin),secondLength=Root(span);float distance=FirstX(firstLength)+SpanX(secondLength);
    NAV *destination=edge->destination;
-   qword toGoal=SquareLength(Difference(edge->end,w.target));
+   qword toGoal=GoalSquare(ToGoal(end,GoalTarget(w.target)));
    float cost=current->cost+distance;
    NODE *neighbor=w.nodes+destination->index;
-   float estimate=cost+X(Root(toGoal));
+   float estimate=cost+GoalX(Root(toGoal));
    if(neighbor->state && neighbor->estimate.f<=estimate)continue;
    switch(neighbor->state){case 1:func_0011A2E8(&closed,neighbor);break;case 2:func_0011A2E8(&open.list,neighbor);break;}
    neighbor->object=destination;neighbor->incoming=edge;neighbor->cost=cost;neighbor->parent=current;neighbor->estimate.f=estimate;neighbor->state=2;

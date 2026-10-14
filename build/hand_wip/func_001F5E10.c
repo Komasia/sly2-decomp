@@ -13,6 +13,7 @@ static inline float Length(qword value){register qword a __asm__("vf3")=value,r 
 __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(r),"=&j"(one):"j"(a));
 __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(r):"0"(r));
 __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
+static inline qword LoadVector(const V *value){register qword result asm("v0");__asm__("lq %0,%1":"=r"(result):"m"(value->q));return result;}
 static inline qword Scalar(float f){register qword r __asm__("$2");__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword AddScaled(qword old,qword direction,qword factor){register qword a __asm__("vf2")=old,b __asm__("vf4")=direction,scale __asm__("vf3")=factor,r __asm__("vf1");
 __asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=&j"(r):"j"(a),"j"(b),"j"(scale));return r;}
@@ -39,12 +40,13 @@ void func_001F5E10(struct S*input,qword position,struct COEF*positionCoefficient
    qword difference=Sub(speed.q,p->vt[33].fn((char*)p+p->vt[33].d));
    float distance=Length(difference);
    if(1.0e-4f<distance){
+     register void *parent asm("a1");
      float value=(d->c*distance+d->b)+d->a/distance;
      float limit=1.0f/D_002DDED0.dt;
      if(limit<value)value=limit;
-     argument.q=Scalar(value);scale2=argument;
-     old2.q=owner->force;
-     owner->force=AddScaled(old2.q,func_0022FCC8(0,owner->parent,difference),scale2.q);
+     scale2.q=Scalar(value);
+     {register qword oldValue asm("v0")=owner->force;old2.q=oldValue;}parent=owner->parent;argument.q=LoadVector(&scale2);
+     owner->force=AddScaled(old2.q,func_0022FCC8(0,parent,difference),argument.q);
    }
  }
 }

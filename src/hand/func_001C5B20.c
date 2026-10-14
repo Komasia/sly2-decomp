@@ -10,7 +10,7 @@ struct S { char pad[0xC]; struct VTE *vt; char pad10[0x1DC-0x10]; float radius; 
 struct Q { int enabled,pad4; float radius; struct SO *so; };
 extern float D_002C0D7C;
 qword func_001A62E8(void *);
-int func_001A93C8(qword,struct SHAPE *,int,int,int,int,void *,float);
+int func_001A93C8(qword,struct SHAPE *,int mask,int triangleCount,void *triangles,int capacity,void *contacts,float radius);
 static inline void Trigger(struct S *p)
 {
     struct VTE *m=&p->vt[76];
@@ -71,3 +71,6 @@ int func_001C5B20(struct S *p,struct Q *q)
     }
     return 0;
 }
+
+#define OFF(t,m) ((unsigned int)&((t*)0)->m)
+typedef char trigger_layout[(sizeof(void*)==4 && sizeof(qword)==16 && __alignof__(qword)==16 && sizeof(unsigned long)==8 && sizeof(struct VTE)==8 && OFF(struct VTE,d)==0 && OFF(struct VTE,fn)==4 && OFF(struct POS,pos)==0x70 && sizeof(struct SHAPE)==0xB0 && OFF(struct SHAPE,pos)==0 && OFF(struct SHAPE,radius)==8 && OFF(struct SHAPE,flags)==0x10 && OFF(struct SO,count)==0xE0 && OFF(struct SO,shapes)==0xE4 && OFF(struct S,vt)==0xC && OFF(struct S,radius)==0x1DC && sizeof(struct Q)==0x10 && OFF(struct Q,enabled)==0 && OFF(struct Q,radius)==8 && OFF(struct Q,so)==0xC)?1:-1];
