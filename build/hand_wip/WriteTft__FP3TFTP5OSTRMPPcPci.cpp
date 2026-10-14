@@ -1,5 +1,6 @@
-struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,columns,rows;unsigned char conversion;char pad2d[3];int fUpper;};
-class OSTRM {public:char pad[0x10];int count;int CbWrite(void *,int);};
+// Complete WIP: physical argument slots, every conversion and used loop state.
+struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,rowItems,rowCount;unsigned char conversion;int fUpper;};
+class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int count,buffered;int CbWrite(void *,int);};
 void WriteTftPchz(TFT *,OSTRM *,char *);
 void WriteTftUl(TFT *,OSTRM *,unsigned long);
 void WriteTftDouble(TFT *,OSTRM *,double);
@@ -21,27 +22,30 @@ void WriteTft(TFT *f,OSTRM *out,char **args,char *text,int count){
         WriteTftUl(f,out,n);break;
     }
     case 'e':case 'f':case 'g':
-        if(f->columns){
+        if(f->rowItems){
             float *p=*(float **)Next(args);
-            char *rowOpen="{ ",*rowSep=",\n",*itemSep=", ",*rowClose=" }";
-            if(f->rows>1)WritePchz(out,"\n");
-            for(int row=0;row<f->rows;++row){
-                if(row)WritePchz(out,rowSep);
+            if(f->rowCount>1)out->CbWrite((char *)"\n",func_0021ED28("\n"));
+            char *rowSep=",\n",*rowOpen="{ ",*itemSep=", ",*rowClose=" }";
+            int i=0;
+            while(i<f->rowCount){
+                if(i)WritePchz(out,rowSep);
+                int nextRow=i+1;
                 WritePchz(out,rowOpen);
-                for(int column=0;column<f->columns;++column){
-                    if(column)WritePchz(out,itemSep);
+                for(i=0;i<f->rowItems;++i){
+                    if(i)WritePchz(out,itemSep);
                     WriteTftDouble(f,out,(double)*p++);
                 }
+                i=nextRow;
                 WritePchz(out,rowClose);
             }
-            if(f->rows>1)WritePchz(out,"\n");
+            if(f->rowCount>1)out->CbWrite((char *)"\n",func_0021ED28("\n"));
         }else WriteTftDouble(f,out,*(double *)Next(args));
         break;
     case 'n':
         switch(f->cbits){
-        case 0:**(int **)Next(args)=out->count;break;
-        case 1:{int n=out->count;**(short **)Next(args)=n;}break;
-        case 2:**(long **)Next(args)=out->count;break;
+        case 0:{int *destination=*(int **)Next(args);*destination=out->count;}break;
+        case 1:{short *destination=*(short **)Next(args);*destination=out->count;}break;
+        case 2:{long *destination=*(long **)Next(args);*destination=out->count;}break;
         }
         break;
     default:out->CbWrite(text,count);break;

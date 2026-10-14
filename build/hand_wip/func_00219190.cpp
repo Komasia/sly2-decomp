@@ -1,4 +1,5 @@
-// Complete sprite action dispatcher WIP; real activation argument is an integer flag.
+// Complete sprite action dispatcher WIP; sound source argument is a nullable object pointer.
+struct O;
 struct VT { char pad[0x40]; short d; short pd; int (*kind)(void *); };
 struct M { char pad[0xC]; struct VT *vt; };
 struct E { char pad[0x14]; struct M *pm; };
@@ -8,7 +9,7 @@ struct F { char pad[0x18]; unsigned char count; char pad1[3]; struct A *aa; };
 struct S { char pad[4]; struct F *af; char pad1[8]; struct R *r; };
 extern char D_003DD040[];
 extern "C" struct M *func_001FBB90(int id);
-extern "C" void func_001FB2F8(struct M *, int);
+extern "C" void func_001FB2F8(struct M *, struct O *);
 extern "C" void func_001FB098(struct M *, float);
 extern "C" void func_00258040(struct M **pp, struct M *m);
 extern "C" void *func_001FE5F0(void *p,int a,int b);

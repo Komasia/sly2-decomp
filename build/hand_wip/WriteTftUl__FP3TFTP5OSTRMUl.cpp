@@ -1,6 +1,7 @@
-struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits;char pad24[8];unsigned char conversion;char pad2d[3];int fUpper;};
+// Complete WIP: native193/target193; no exact-match claim.
+struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits;int matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
 union UL {unsigned short us;short s;unsigned int u;int i;unsigned long ul;long l;};
-class OSTRM {public:int CbWrite(void *,int);};
+class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int written,buffered;int CbWrite(void *,int);};
 int FNegTftUl(TFT *,UL *);
 int CchAchFromUl(char *,int,unsigned long,unsigned int);
 int UnRadixFromChConversion(unsigned char) __asm__("UnRadixFromChConversion__Fc");
@@ -8,8 +9,8 @@ extern "C" unsigned int func_0021ED28(const char *);
 extern "C" void func_0021EE30(char *);
 static inline void WritePad(OSTRM *out,char ch,int count){char b=ch;while(count-- >0)if(out->CbWrite(&b,1)!=1)break;}
 void WriteTftUl(TFT *f,OSTRM *out,unsigned long n){
-    char digits[0x50];
-    char prefix[0x10];
+    char digits[65];
+    char prefix[3];
     int cPrefix,cDigits,cZero;
     char *pPrefix=prefix;
     if(!f->fPrec0 && f->precision)f->fZero=0;

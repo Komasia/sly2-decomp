@@ -30,11 +30,11 @@ float func_0011D448(float,float);
 }
 static inline qword Vector(qword q){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
-static inline qword Pack(float x,float y,float z){qword a,b,c;__asm__("mfc1 %0,%1":"=r"(a):"f"(x));__asm__("mfc1 %0,%1":"=r"(b):"f"(y));__asm__("pextlw %0,%1,%0":"+r"(a):"r"(b));__asm__("mfc1 %0,%1":"=r"(c):"f"(z));__asm__("pcpyld %0,%1,%0":"+r"(a):"r"(c));return a;}
+static inline qword Pack(float x,float y,float z){qword out,scratch;__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(out),"=&r"(scratch):"f"(x),"f"(y),"f"(z));return out;}
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Offset(qword origin,qword axis,qword amount){qword r;__asm__("vadda.xyzw ACC,$vf0,%1\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(origin),"j"(axis),"j"(amount));return r;}
-static inline qword Point(const M4 &m,qword point){qword r;__asm__("vmulax.xyz ACC,%4,%5x\n\tvmadday.xyz ACC,%3,%5y\n\tvmaddaz.xyz ACC,%1,%5z\n\tvmaddw.xyz %0,%2,$vf0w":"=j"(r):"j"(m.rows[2].q),"j"(m.rows[3].q),"j"(m.rows[1].q),"j"(m.rows[0].q),"j"(point));return r;}
+static inline qword Point(const M4&m,const U&point){qword r=m.rows[0].q;__asm__("vmulax.xyz ACC,%0,%4x\n\tvmadday.xyz ACC,%3,%4y\n\tvmaddaz.xyz ACC,%1,%4z\n\tvmaddw.xyz %0,%2,$vf0w":"+j"(r):"j"(m.rows[2].q),"j"(m.rows[3].q),"j"(m.rows[1].q),"j"(point.q));return r;}
 static inline qword LengthVector(qword v){qword d,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));return d;}
 static inline float FloatWord(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Length(qword q){return FloatWord(LengthVector(q));}
@@ -63,13 +63,13 @@ extern "C" void func_001D6B00(PARAMS *params,OBJ *p)
         Identity(&parent);
     }
     func_0011C168(&work.matrix,&frame->world,&parent);
-    qword delta=Subtract(Point(work.matrix,params->target.q),start.q);
+    qword delta=Subtract(Point(work.matrix,params->target),start.q);
     float distance=Length(delta);
     float prediction=Clamp(Evaluate(params->prediction,distance),params->predictionLow,params->predictionHigh);
     if(prediction!=0.0f){
         func_002309E8(frame,0,&work.matrix,0,prediction);
         func_0011C168(&predicted,&work.matrix,&parent);
-        delta=Subtract(Point(predicted,params->target.q),start.q);
+        delta=Subtract(Point(predicted,params->target),start.q);
     }
     distance=Length(delta);
     float displacement=Clamp(Evaluate(params->displacement,distance),params->displacementLow,params->displacementHigh);

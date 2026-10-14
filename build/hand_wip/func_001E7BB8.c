@@ -6,7 +6,7 @@ void func_00231368(struct S*);
 static inline qword Move(qword a){qword r;__asm__ volatile("vmove.xyzw %0,%1":"=j"(r):"j"(a));return r;}
 static inline qword Point(qword m0,qword m1,qword m2,qword m3,qword a) {qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m0),"j"(m1),"j"(m2),"j"(m3),"j"(a));return r;}
 static inline qword Dir(qword m0,qword m1,qword m2,qword a) {__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m0),"j"(m1),"j"(m2));return a;}
-static inline qword Bc(float f){union U u;qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return r;}
+static inline qword Bc(float f){union U u;qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));u.q=r;return u.q;}
 static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
 static inline qword Max(qword a,qword b){__asm__ volatile("vmax.xyz %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline qword Min(qword a,qword b){__asm__ volatile("vmini.xyz %0,%0,%1":"+j"(a):"j"(b));return a;}

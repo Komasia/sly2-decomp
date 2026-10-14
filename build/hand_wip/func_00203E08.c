@@ -8,8 +8,8 @@ struct S {char pad258[0x258];struct M *pm0,*pm1;};
 struct CLK {float time,dt;};
 extern struct CLK D_002DDED0;
 extern float D_002C3C68[];
-M4 func_0011C318(M4 *);
-M4 *func_0011C168(M4 *,M4 *,M4 *);
+M4 *func_0011C318(M4 *,const M4 *);
+M4 *func_0011C168(M4 *,const M4 *,const M4 *);
 float func_0011D018(float,float,float,float *,float *);
 void func_00203E08(struct S *p)
 {
@@ -27,7 +27,7 @@ void func_00203E08(struct S *p)
     old=p->pm0->points;
     velocity=p->pm0->pb->v;
     pmi=&mi;pmm=&mm;
-    mi=func_0011C318(&p->pm0->px->m);
+    func_0011C318(pmi,&p->pm0->px->m);
     func_0011C168(pmm,pmi,&p->pm1->px->m);
     m=mm;
     i=p->pm1->count;

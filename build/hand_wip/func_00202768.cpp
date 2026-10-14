@@ -26,7 +26,7 @@ void func_00201E88(P *);
 void func_00201F90(P *);
 void func_00201F00(P *);
 void *func_001FBB90(int);
-void func_001FB2F8(void *,int);
+void func_001FB2F8(void *,void *);
 void func_00212E40(X *,int,float);
 void func_00212A70(X *,int);
 void func_00212A50(X *,int);

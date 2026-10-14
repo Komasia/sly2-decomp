@@ -1,20 +1,21 @@
-struct E { int id; int n4; float t8; int pad; };
+struct S;
+struct E { struct S *object; int n4; float t8; int pad; };
 struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
 struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
 extern struct { float t; float dt; } D_002DDED0;
-struct E *func_00154180(struct T *pt, int id);
+struct E *func_00154180(struct T *pt, struct S *object);
 void *func_002332B8(void *d, void *s, int n);
 
-int func_002085D0(struct S *p, int id, int fFront)
+int func_002085D0(struct S *p, struct S *object, int fFront)
 {
     struct E *e;
     struct T *pt;
     register unsigned int n __asm__("$16");
-    if (!id || (struct S *)id == p)
+    if (!object || object == p)
         return 0;
     e = 0;
     if (!fFront)
-        e = func_00154180(p->pt, id);
+        e = func_00154180(p->pt, object);
     if (!e) {
         pt = p->pt;
         n = pt->c;
@@ -27,7 +28,7 @@ int func_002085D0(struct S *p, int id, int fFront)
                     n=8; n-=c; n*=16; n+=0x100;
                     e=(struct E*)((char*)pt+n);
                     func_002332B8(e + 1, e, (c - 1) * 16);
-                    e->id = id;
+                    e->object = object;
                     goto fill;
                 }
             }
@@ -41,7 +42,7 @@ int func_002085D0(struct S *p, int id, int fFront)
                 e=(struct E*)((char*)pt+n);
                 func_002332B8(e + 1, e, c * 16);
             }
-            e->id = id;
+            e->object = object;
         fill:
             e->n4 = 0;
             e->t8 = D_002DDED0.t;

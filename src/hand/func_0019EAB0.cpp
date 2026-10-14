@@ -17,7 +17,7 @@ float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
 void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
 qword func_001A6F00(P*,P*,qword);qword func_001A62E8(P*);
 void func_00140C88(P*,void*);
-EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,int);void func_001FB3F0(EFFECT*,qword);
+EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,void*);void func_001FB3F0(EFFECT*,qword);
 void func_0018E540(P*,int);void func_001F15B8(COMPONENT**);
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }

@@ -6,7 +6,7 @@ struct Y { char pad[0x50]; struct X *px; char pad2[0x74 - 0x54]; float f74; char
 struct S { int pad0; struct Y *py; char pad1[0x50 - 8]; float t50; char pad2[0x90 - 0x54]; int h90; float f94; float f98; int af[2]; };
 float func_0011D898(float a, float b);
 void *func_001FBB90(int h);
-void func_001FB2F8(void *p, int n);
+void func_001FB2F8(void *p, void *source);
 qword func_001A62E8(void *p);
 void func_001FB3F0(void *p, qword q);
 void func_001FB4F0(void *p, float a, float b);

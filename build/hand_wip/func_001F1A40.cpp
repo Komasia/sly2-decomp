@@ -4,14 +4,15 @@ struct ITEM {int kind,flags,key,count;};
 struct PICK {int weight,key;};
 struct TABLE {int minimum,maximum;float chance;struct PICK picks[6];};
 struct OBJECT {char pad[0x230];void *state;};
-struct P {char pad404[0x404];struct ITEM items[8];int count;char pad488[8];int busy;int owner;};
+struct OWNER;
+struct P {char pad404[0x404];struct ITEM items[8];int count;char pad488[8];int busy;struct OWNER *owner;};
 extern char D_003DD490[];
 extern struct TABLE D_002C3968[],D_002C3748[];
-void func_001C2DB8(void *);
+void func_001C2DB8(struct OWNER *);
 int func_00210AE0(void);
 int func_00132B10(void *,int);
 void *func_002333B4(void *,int,int);
-int func_0015E938(void *,int,int,int);
+struct OBJECT *func_0015E938(void *,int,int,void *);
 int func_00164030(void *);
 float func_0011D448(float,float);
 int func_0011D3F8(int,int);
@@ -20,13 +21,13 @@ void func_001F1A40(struct P *p)
     struct TABLE *table;
     struct ITEM reward;
     int id,total,choice,remaining,slots;unsigned int i;
-    func_001C2DB8((void *)p->owner);
+    func_001C2DB8(p->owner);
     if(p->busy)return;
     id=func_00210AE0();if(id==-1)id=1;
     if(func_00132B10(p,0x3A))table=&D_002C3968[id];else table=&D_002C3748[id];
     func_002333B4(&reward,0,sizeof(reward));
     if(p->count>0){
-        struct OBJECT *object=(struct OBJECT *)func_0015E938(D_003DD490,4,p->items[0].kind,p->owner);
+        struct OBJECT *object=func_0015E938(D_003DD490,4,p->items[0].kind,p->owner);
         if(object && func_00132B10(object,0x5C) && object->state && func_00164030(object->state))p->count=0;
         if(p->count>0){reward=p->items[0];p->count=0;}
         else goto choose_reward;

@@ -1,8 +1,8 @@
 // Update contact heights and rolling transforms for the linked actor nodes.
 typedef int qword __attribute__((mode(TI)));
-struct M3{qword r[3];};
-struct M4{M3 basis;qword position;};
 union V{qword q;float f[4];};
+struct M3{V r[3];};
+struct M4{M3 basis;V position;};
 struct NODE{M4 matrix,local;char pad80[0x20];NODE*parent;int generation;};
 struct CONTACT{char pad[0x90];float height;};
 struct ENTRY{int unknown;NODE*node;CONTACT*contacts;char padC[8];float tilt,speed,angle,radius;char pad24[12];float x,y;char pad38[0x20];float height;char pad5C[4];};
@@ -27,13 +27,14 @@ qword*func_00256D18(qword*,qword);
 void func_0022FAA0(P*);
 void func_001F3C70(P*);
 }
+static inline float LoadFloat(const float*p){float r;__asm__("lwc1 %0,%1":"=f"(r):"m"(*p));return r;}
 static inline float Abs(float f){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(f));return r;}
 static inline M3 Rotation(qword axis,float angle) return r{func_0011B500(&r,axis,angle);}
 static inline M3 Mul(const M3&a,const M3&b) return r{
- qword x=a.r[0],y=a.r[1],z=a.r[2];
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[0]):"j"(x),"j"(y),"j"(z),"j"(b.r[0]));
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1]):"j"(x),"j"(y),"j"(z),"j"(b.r[1]));
- __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(x),"j"(y),"j"(z),"j"(b.r[2]));
+ qword x=a.r[0].q,y=a.r[1].q,z=a.r[2].q;
+ __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[0].q):"j"(x),"j"(y),"j"(z),"j"(b.r[0].q));
+ __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1].q):"j"(x),"j"(y),"j"(z),"j"(b.r[1].q));
+ __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2].q):"j"(x),"j"(y),"j"(z),"j"(b.r[2].q));
 }
 extern "C" void func_001D41F8(P*p){
  V velocity,point;M3 basis;
@@ -41,7 +42,7 @@ extern "C" void func_001D41F8(P*p){
  velocity.q=func_001A6FC0(0,p,method->fn((P*)((char*)p+method->delta)));
  for(int i=0;i<p->count;i++){
   ENTRY*e=&p->entries[i];
-  point.q=func_0022FC48(0,(NODE*)p->space,e->node->local.position);
+  point.q=func_0022FC48(0,(NODE*)p->space,e->node->local.position.q);
   point.f[0]=e->x;point.f[1]=e->y;
   CONTACT*hit=func_001D2DD0(p,e);
   {
@@ -52,7 +53,7 @@ extern "C" void func_001D41F8(P*p){
   }
   heightDone:;
   point.q=func_0022FC48(p->space,e->node->parent,point.q);
-  float desired=i<2?0.0f:p->drive/e->radius;
+  float desired;if(i<2)desired=0.0f;else desired=LoadFloat(&p->drive)/LoadFloat(&e->radius);
   if(hit){
    float current=velocity.f[0]/e->radius;
    if((0.0f<desired&&current<D_002C21CC*desired)||(desired<0.0f&&D_002C21CC*desired<current))
@@ -68,12 +69,12 @@ extern "C" void func_001D41F8(P*p){
   e->angle=func_0011CF60(e->angle+e->speed*dt);
   basis=Mul(Rotation(D_002A2DC0,e->tilt),Rotation(D_002A2DB0,e->angle));
   NODE*node=e->node;
-  func_00256D18(&node->matrix.position,point.q);
+  func_00256D18(&node->matrix.position.q,point.q);
   node->matrix.basis=basis;
-  ((float*)&node->matrix.position)[3]=1.0f;
-  ((float*)&node->matrix.basis.r[1])[3]=0.0f;
-  ((float*)&node->matrix.basis.r[0])[3]=0.0f;
-  ((float*)&node->matrix.basis.r[2])[3]=0.0f;
+  node->matrix.position.f[3]=1.0f;
+  node->matrix.basis.r[1].f[3]=0.0f;
+  node->matrix.basis.r[0].f[3]=0.0f;
+  node->matrix.basis.r[2].f[3]=0.0f;
   register int generation __asm__("$4")=++D_003DD490.generation;
   e->node->generation=generation;
  }

@@ -47,6 +47,7 @@ extern "C" void func_001D8FF8(char *pb)
     if (D_003DD490.k[6]) {
         float f = GetFloat(D_003DD490.k[6], pb);
         GSR *p = &D_002DEB80;
-        p->d1.dy = p->d2.dy = func_0023E1C8(f + 50.0f) & ~1;
+        p->d2.dy=func_0023E1C8(f+50.0f)&~1;
+        p->d1.dy=p->d2.dy;
     }
 }

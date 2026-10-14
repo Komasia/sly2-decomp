@@ -51,7 +51,8 @@ static inline float LengthXY(qword a){qword r;__asm__("vmul.xy %0,%1,%1\n\tvaddy
 static inline qword Rotate(const M3 &m,qword a){qword r;__asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.rows[0].q),"j"(m.rows[1].q),"j"(m.rows[2].q),"j"(a));return r;}
 static inline void StoreCPU(U &out,qword value){__asm__("sq %1,%0":"=m"(out):"r"(value));}
 static inline qword LoadVF(const U &value){qword out;__asm__("lqc2 %0,%1":"=j"(out):"m"(value));return out;}
-static inline qword ScalarBits(const float &f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(*(const int *)&f));return r;}
+union FLOATWORD {float value;int word;};
+static inline qword ScalarBits(const float &f){FLOATWORD view;view.value=f;qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(view.word));return r;}
 static inline qword NormalizeRadius(qword a,const float &radius,U &scalar){
     qword length=Dot(a,a);
     __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(length));

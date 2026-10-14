@@ -3,7 +3,7 @@ union U{qword q;float f[4];int i[4];};
 union F{float value;int bits;};
 struct VE{short delta,pad;void*fn;};
 struct M4{U row[4];};struct M3{U row[3];};
-struct PATH;struct ASEG;struct ASEGA;struct EFFECT;
+struct PATH;struct ASEG;struct ASEGA;struct EFFECT;struct SOURCE;
 struct P{char pad0[12];VE*vt;char pad10[0x5C-0x10];void*group;char pad60[0x158-0x60];float low0,high0,low1,high1,lead;char pad16c[4];PATH*path;float parameter,phase;char pad17c[0x1C4-0x17C];ASEGA*animation;char pad1c8[8];F speed;int oldMode;float heading;char pad1dc[4];M3 basis;float spin[3];float ratio;int state;float changed,randomDeadline,deadline;int amount;char pad234[12];U damageOffset;};
 struct WORK{U first,second,direction,velocity,scalar;float angle,parameter;};
 struct CLOCK{float t,dt;};
@@ -14,7 +14,7 @@ extern "C"{
  void func_001B1818(P*,float);void func_001B17B8(P*,float);
  qword func_001A62E8(P*);void func_001E6F60(PATH*,qword,void*,U*,U*,float*,float*);
  float func_001E77E8(PATH*);float func_001E6648(PATH*);P*func_001C4AF8(void*,qword);
- EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,int);void func_001FB3F0(EFFECT*,qword);
+ EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,SOURCE*);void func_001FB3F0(EFFECT*,qword);
  qword func_001A6F00(P*,P*,qword);void func_00154E10(void*,qword,int,int,P*);
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
