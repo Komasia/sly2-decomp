@@ -16,11 +16,12 @@ struct OBJECT *func_0015E938(void *,int,int,void *);
 int func_00164030(void *);
 float func_0011D448(float,float);
 int func_0011D3F8(int,int);
+static inline int ChoiceFits(int choice,const PICK *pick){register int weight __asm__("$3")=pick->weight;__asm__("slt %0,%1,%0":"+r"(weight):"r"(choice));return weight;}
 void func_001F1A40(struct P *p)
 {
     struct TABLE *table;
     struct ITEM reward;
-    int id,total,choice,remaining,slots;unsigned int i;
+    int id,total,remaining,slots;unsigned int i;
     func_001C2DB8(p->owner);
     if(p->busy)return;
     id=func_00210AE0();if(id==-1)id=1;
@@ -36,13 +37,13 @@ choose_reward:
         if(func_0011D448(0.0f,1.0f)>table->chance){reward.key=-1;reward.kind=-1;}
         else{
             total=0;for(i=0;i<6;i++)total+=table->picks[i].weight;
-            choice=func_0011D3F8(0,total-1);
+            register int choice __asm__("$4")=func_0011D3F8(0,total-1);
             i=0;goto test_pick;
 next_pick:
             choice-=table->picks[i].weight;i++;
             if(i>=6)goto selected_pick;
 test_pick:
-            if(choice>=table->picks[i].weight)goto next_pick;
+            if(!ChoiceFits(choice,&table->picks[i]))goto next_pick;
             reward.key=table->picks[i].key;
 selected_pick:;
             reward.count=1;reward.kind=0x2B5;

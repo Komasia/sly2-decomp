@@ -35,8 +35,9 @@ static inline int HasEntry(const OBJ *owner,int index)
  register int count __asm__("$2")=owner->x198;
  return index<count;
 }
-void func_001DF0A0(OBJ *p, Q *q)
+void func_001DF0A0(OBJ *p, Q *input)
 {
+    register Q *q __asm__("$21")=input;
     register int i __asm__("$20");
     func_001F5990();
     for (i = 0; HasEntry(p,i); i++) {
@@ -44,8 +45,17 @@ void func_001DF0A0(OBJ *p, Q *q)
         qword out[2];
         VECTOR pos;
         HIT hit;
-        int f = 0;
-        func_001DEF98(p,e->endpoint,out,0);
+        register int f __asm__("$17");
+        qword *outputs;
+        float *distance;
+        OBJ *receiver;
+        __asm__("daddu %0,%4,$zero\n\t"
+                "la %1,%a5\n\t"
+                "daddu %2,$zero,$zero\n\t"
+                "daddu %3,$zero,$zero"
+                : "=r"(receiver),"=r"(outputs),"=r"(distance),"=r"(f)
+                : "r"(p),"p"(out));
+        func_001DEF98(receiver,e->endpoint,outputs,distance);
         if (!func_0014C6A0(q, out[0], out[1], 1, &hit)) {
             void *so = *q->x4->x14;
             if (func_00132B10(so, 0x33))
@@ -56,22 +66,46 @@ void func_001DF0A0(OBJ *p, Q *q)
         }
         if (f) {
             register qword d __asm__("vf1");
-            register qword t __asm__("vf3");
             register qword dir __asm__("vf2");
             register qword len __asm__("vf4");
             register qword start __asm__("vf4")=out[0];
             register qword point __asm__("vf5")=pos.q;
             register int distanceBits __asm__("$2");
-            register qword unit __asm__("vf1");
+            void *ownerState;
+            register float zero __asm__("$f12");
+            register qword pointArgument __asm__("$7"),directionArgument __asm__("$8");
+            register Q *queryArgument __asm__("$6");
+            register int distanceArgument __asm__("$10");
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(start), "j"(point));
-            __asm__("vmul.xyz %0, %0, %0\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(d), "=&j"(t));
-            __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(d));
-            __asm__("vsub.xyzw %0, %1, %2" : "=j"(dir) : "j"(out[1]), "j"(start));
-            __asm__("vmul.xyz %0, %2, %2\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=j"(len), "=&j"(t) : "j"(dir));
-            __asm__("qmfc2.ni %0,%1":"=r"(distanceBits):"j"(d));
-            __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(len));
-            __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(unit) : "j"(len), "j"(dir));
-            func_001A7C18(D_003DD490,p->xE4,q,point,unit,0xA,distanceBits,0,&e->head,0.0f);
+            dir=out[1];
+            // VF1 holds distance, then the normalized direction.
+            __asm__("vmul.xyz %0,%0,%0\n\t"
+                    "vaddw.x $vf3,$vf0,$vf0w\n\t"
+                    "vadday.x $ACC,%0,%0y\n\t"
+                    "vmaddz.x %0,$vf3,%0z\n\t"
+                    "vsub.xyzw %1,%1,%6\n\t"
+                    "vsqrt $Q,%0x\n\t"
+                    "vwaitq\n\t"
+                    "vaddq.x %0,$vf0,$Q\n\t"
+                    "vmul.xyz %2,%1,%1\n\t"
+                    "vaddw.x $vf3,$vf0,$vf0w\n\t"
+                    "vadday.x $ACC,%2,%2y\n\t"
+                    "vmaddz.x %2,$vf3,%2z\n\t"
+                    "qmfc2.ni %3,%0\n\t"
+                    "vsqrt $Q,%2x\n\t"
+                    "vwaitq\n\t"
+                    "vaddq.x %2,$vf0,$Q\n\t"
+                    "lw %4,%7\n\t"
+                    "vdiv $Q,$vf0w,%2x\n\t"
+                    "vwaitq\n\t"
+                    "vmulq.xyzw %0,%1,$Q\n\t"
+                    "mtc1 $zero,%5"
+                    : "+j"(d),"+j"(dir),"=j"(len),"=&r"(distanceBits),"=r"(ownerState),"=f"(zero)
+                    : "j"(start),"m"(p->xE4)
+                    : "vf3");
+            __asm__("qmfc2.ni %0,%1":"=r"(pointArgument):"j"(point));
+            __asm__("daddu %0,%3,$zero\n\tdaddu %1,%4,$zero\n\tqmfc2.ni %2,%5":"=&r"(queryArgument),"=r"(distanceArgument),"=r"(directionArgument):"r"(q),"r"(distanceBits),"j"(d));
+            func_001A7C18(D_003DD490,ownerState,queryArgument,pointArgument,directionArgument,0xA,distanceArgument,0,&e->head,zero);
             func_00149AB8(D_003DD490, p, D_002A7AC0, 0);
         }
     }

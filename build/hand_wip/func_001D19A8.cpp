@@ -57,19 +57,34 @@ static inline float Evaluate(const POLY &p,float t){return p.a+t*(p.b+t*p.c);}
 static inline float Clamp(float v,float low,float high){if(v<low)return low;else if(high<v)return high;else return v;}
 static inline float Abs(float f){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(f));return r;}
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+static inline void ResetDrive(P *p){
+ register float zero __asm__("$f1"),heading __asm__("$f0");
+ __asm__("mtc1 $zero,%0\n\t"
+         "lwc1 %1,%2"
+         : "=f"(zero),"=f"(heading)
+         : "m"(p->heading));
+ p->turn=zero;
+ p->drive=zero;
+ p->goalHeading=heading;
+}
 static inline M4 *GetMatrix(P *p){VENTRY &e=p->vt[31];return ((M4 *(*)(void *))e.fn)((char *)p+e.delta);}
 static inline qword GetVelocity(P *p){VENTRY &e=p->vt[33];return ((qword (*)(void *))e.fn)((char *)p+e.delta);}
 extern "C" void func_001D19A8(P *p)
 {
     U scalar,position,targetPosition,targetVelocity,shot;
+    int i=0;
     func_001F36E0(p);
     p->heading=func_002458F0(p->space->world.basis.rows[0].f[1],p->space->world.basis.rows[0].f[0]);
-    for(int i=0;i<p->attachCount;i++){
-        ATTACH *attach=p->attachments[i];
-        if(!func_001D4E08(attach))func_001F0660(attach->binding,0x65);
+    if(p->attachCount>0){
+        ATTACH **current=p->attachments;
+        do {
+            ATTACH *attach=*current;
+            if(!func_001D4E08(attach))func_001F0660(attach->binding,0x65);
+            ++i;++current;
+        }while(i<p->attachCount);
     }
     switch(p->mode){
-    case 0:case 3:p->drive=0.0f;p->goalHeading=p->heading;p->turn=0.0f;break;
+    case 0:case 3:ResetDrive(p);break;
     case 1:func_001D2150(p);break;
     case 2:func_001D2610(p);break;
     }

@@ -29,6 +29,13 @@ static inline float DotCopy(qword a,qword b){qword r,one;float f;
     __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
 static inline qword Broadcast(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Offset(qword position,qword axis,qword scalar){__asm__("vadda.xyzw ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(position):"j"(axis),"j"(scalar));return position;}
+static inline int RecordIndex(const Record *a,const Record *b){int bytes=(const char *)a-(const char *)b,product;unsigned int divisor;__asm__("lui %0,0xCCCC
+	ori %0,%0,0xCCCD
+	mult %1,%2,%0":"=&r"(divisor),"=r"(product):"r"(bytes):"hi","lo");return product>>2;}
+static inline int MetadataOffset(int index){int offset;__asm__("addiu %0,$zero,40
+	mult %0,%1,%0":"=&r"(offset):"r"(index):"hi","lo");return offset;}
+static inline REQUEST *AllocationInput(REQUEST *request){REQUEST *value;__asm__("daddu %0,%1,$zero":"=r"(value):"r"(request));return value;}
+static inline qword *BufferStart(qword *buffer){qword *value;__asm__("la %0,%a1":"=r"(value):"p"(buffer));return value;}
 extern "C" void func_0021BD18(S *p){
     func_001F36A8(p);
     if(!p->count && p->fade==0.0f)p->fade=0.5f;
@@ -47,7 +54,7 @@ extern "C" void func_0021BD18(S *p){
                 Batch *batch=&node->batches[i];
                 func_001AE5A0(buffer,batch->positions,batch->count*16);
                 for(int n=batch->count;n>0;){
-                    qword *v=buffer;
+                    qword *v=BufferStart(buffer);
                     do{float dot=Dot(*v,p->axis);if(maximum<dot)maximum=dot;if(dot<minimum)minimum=dot;v++;}while(--n);
                 }
             }
@@ -57,14 +64,14 @@ extern "C" void func_0021BD18(S *p){
         qword buffer[128];
         REQUEST req;
         for(node=p->model.nodes;node;node=node->next){
-            int index=node->record-p->model.records;
-            p->model.metadata[index].style=D_002C44F0;
+            int index=RecordIndex(node->record,p->model.records);
+            ((Meta *)((char *)p->model.metadata+MetadataOffset(index)))->style=D_002C44F0;
             func_0016EF00(&p->model,index);
             for(int i=0;i<node->count;i++){
                 Batch *batch=&node->batches[i];
                 func_001AE5A0(buffer,batch->positions,batch->count*16);
                 req.alloc.bytes=batch->count*sizeof(Sample);req.alloc.align=16;
-                Sample *out=(Sample *)func_001AE2A0(&req.alloc);
+                Sample *out=(Sample *)func_001AE2A0(&AllocationInput(&req)->alloc);
                 batch->samples=out;
                 qword *v=buffer;
                 for(int j=0;j<batch->count;j++,v++,out++){

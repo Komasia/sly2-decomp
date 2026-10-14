@@ -50,9 +50,10 @@ extern "C" void func_001DE5D8(P *p)
     M4 matrix;
     U minimum,maximum;
     func_001F2BA8(p);
+    int entryCount=p->count;
     minimum.q=D_002A2DF0;
     maximum.q=D_002A2E00;
-    for(int i=0;i<p->count;){
+    for(int i=0;i<entryCount;){
         ENTRY *entry=&p->entries[i];
         int next=i+1;
         for(unsigned int j=0;j<2;){
@@ -65,7 +66,7 @@ extern "C" void func_001DE5D8(P *p)
                     if(func_00132B10(object,0xA)){
                         PATH *path=(PATH *)object;
                         work.curve.params=endpoint->payload.track.data.params;
-                                                work.curve.params.fraction=Clamp(Read(work.curve.params.fraction),0.0f,1.0f);
+                        work.curve.params.fraction=Clamp(Read(work.curve.params.fraction),0.0f,1.0f);
                         int reverse=0;
                         if(Read(work.curve.params.speed)<0.0f){reverse=1;work.curve.params.speed=-Read(work.curve.params.speed);}
                         work.curve.params.duration=Abs(Read(work.curve.params.duration));
@@ -171,6 +172,7 @@ extern "C" void func_001DE5D8(P *p)
                 }
             }
             if(endpoint->kind==-1){endpoint->kind=0;endpoint->payload.point.q=func_001A62E8((OBJECT *)p);}
+            j=nextEndpoint;
             switch(endpoint->kind){
             case 0:
                 minimum.q=Minimum(minimum.q,endpoint->payload.point.q);
@@ -180,6 +182,8 @@ extern "C" void func_001DE5D8(P *p)
             case 1:{
                 PATH *path=endpoint->payload.track.path;
                 matrix=*GetMatrix(path);
+                // The matrix callback can change the endpoint path.
+                path=endpoint->payload.track.path;
                 for(int k=0;k<path->count;k++){
                     qword position=Point(matrix,path->points[k].q);
                     maximum.q=Maximum(maximum.q,position);
@@ -188,9 +192,9 @@ extern "C" void func_001DE5D8(P *p)
                 break;
             }
             }
-            j=nextEndpoint;
         }
         i=next;
+        entryCount=p->count;
     }
     if(p->count){
         p->boundCount=1;

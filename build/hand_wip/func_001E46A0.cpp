@@ -1,12 +1,13 @@
+/* Full draft: 24/424 literal instruction differences. */
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 union U {qword q;float f[4];};
 union ARG {int id;float gain;};
 struct PATH {char padE4[0xE4];int cyclic;};
 struct PARAM {int kind;char pad4[0xC];int target;ARG value;char pad18[0xC];int flag;};
-struct ACTOR {char pad4C8[0x4C8];int mode,active;int word4D0;PATH *motion;int word4D8;float motionTime;char pad4E0[0xA7C];PATH *curve;float curveTime;char padF64[0xA8C];qword oldPosition;char pad1A00[0x20];qword position;};
-struct P {char pad40[0x40];PARAM *param;ACTOR *actor;int blocked;char pad4C[0x2C];float previousMotion,previousCurve;};
-struct OUTPUT {char pad10[0x10];float x,y,heading,speed;char pad20[0x10];uint flags;};
+struct ACTOR {char padC[0xC];void *vtable;char pad10[0x4C8-0x10];int mode,active;int word4D0;PATH *motion;int word4D8;float motionTime;char pad4E0[0xA7C];PATH *curve;float curveTime;char padF64[0xA8C];qword oldPosition;char pad1A00[0x20];qword position;};
+struct P {char pad24[0x24];ACTOR *overrideActor;char pad28[0x40-0x28];PARAM *param;ACTOR *actor;int blocked;char pad4C[0x2C];float previousMotion,previousCurve;};
+struct OUTPUT {char pad10[0x10];float x,y,heading,speed;char pad20[0x10];uint flags;char pad34[0xC];qword basis[3];};
 struct WORK {U from,to,normal;float heading;qword first,second;};
 extern "C" {
 extern qword D_002A2DA0;
@@ -31,16 +32,48 @@ static inline qword ToVU(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a
 static inline float X(qword a){float r;__asm__("mtc1 %1,%0":"=f"(r):"r"(a));return r;}
 static inline float Y(qword a){float r;__asm__("prot3w %0,%1":"=r"(r):"r"(a));return r;}
 static inline float Z(qword a){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(a));return r;}
-static inline qword Square(qword a){qword r,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a));return r;}
 static inline qword Root(qword a){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(a));return a;}
-static inline qword Divide(qword a,qword length){qword r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(length));return r;}
-static inline qword ReadPacked(const qword &a){qword r;__asm__("lq %0,%1":"=r"(r):"m"(a));return r;}
-static inline qword NormalizeOr(qword a,const qword &fallback){qword length=Root(Square(a)),alternative=ReadPacked(fallback);if(X(length)<0.0001f)return ToVU(alternative);return Divide(a,length);}
-static inline qword Normalize(qword a){return Divide(a,Root(Square(a)));}
 static inline float LengthXY(qword a){qword r;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));return X(Root(r));}
-static inline void WriteVector(U &out,qword a){__asm__("sqc2 %1,%0":"=m"(out.q):"j"(a));}
+static inline void NormalizeTangent(U &output,const qword &fallback){
+ register qword vector __asm__("vf3");
+ register qword length __asm__("vf1");
+ register qword one __asm__("vf2");
+ qword alternative;
+ register float epsilon __asm__("$f1")=0.0001f;
+ register int word __asm__("$3");
+ register float value __asm__("$f0");
+ __asm__("lqc2 %0,%4\n\tvmul.xyz %1,%0,%0\n\tvaddw.x %2,$vf0,$vf0w\n\tvadday.x $ACC,%1,%1y\n\tvmaddz.x %1,%2,%1z\n\tlq %3,0(%3)":"=j"(vector),"=j"(length),"=j"(one),"=r"(alternative):"m"(output.q),"3"(&fallback),"m"(fallback));
+ __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(length));
+ __asm__("qmfc2.ni %0,%1":"=r"(word):"j"(length));
+ __asm__("mtc1 %1,%0":"=f"(value):"r"(word));
+ if(value<epsilon){length=alternative;}
+ else {__asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"+j"(length):"j"(vector));}
+ __asm__("sqc2 %1,%0":"=m"(output.q):"j"(length));
+}
+static inline void TargetDisplacement(U &output,const qword &captured,qword actorPosition){
+ register qword current __asm__("vf3");
+ register qword target __asm__("vf2");
+ register qword delta __asm__("vf1");
+ __asm__("qmtc2.ni %1,%0":"=j"(current):"r"(actorPosition));
+ __asm__("lqc2 %0,%1":"=j"(target):"m"(captured));
+ __asm__("vsub.xyzw %0,%1,%2":"=j"(delta):"j"(target),"j"(current));
+ __asm__("sqc2 %1,%0":"=m"(output.q):"j"(delta));
+}
+static inline qword NormalizeDirection(qword input){
+ register qword vector __asm__("vf2");
+ register qword length __asm__("vf1");
+ register qword one __asm__("vf3");
+ __asm__("qmtc2.ni %1,%0":"=j"(vector):"r"(input));
+ __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(length),"=&j"(one):"j"(vector));
+ __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(length));
+ __asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"+j"(length):"j"(vector));
+ return length;
+}
 extern "C" void func_001E46A0(P *p,OUTPUT *out){
  WORK work;PARAM *param=p->param;ACTOR *actor=p->actor;
+ typedef char layout_local_work[(sizeof(work)==0x60)?1:-1];
+ typedef char layout_local_work_align[(__alignof__(work)==16)?1:-1];
+
  switch(param->kind){
  case 0x1A:{
   int reverse=0;
@@ -78,7 +111,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   if(actor->active!=-1&&actor->mode==3){
    PATH *motion=actor->motion;
    func_001E67B8(motion,actor->motionTime,&work.from.q,&work.to.q);
-   work.to.f[2]=0.0f;WriteVector(work.to,NormalizeOr(work.to.q,D_002A2DA0));
+   work.to.f[2]=0.0f;NormalizeTangent(work.to,D_002A2DA0);
    int reverse=0;
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    if(motion->cyclic){
@@ -91,7 +124,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   }else{
    func_001E4D40(p,target,&work.from.q,0);
    work.first=work.from.q;
-   work.to.q=Sub(work.first,ToVU(func_001A62E8(actor)));
+   TargetDisplacement(work.to,work.first,func_001A62E8(actor));
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    float distance=LengthXY(work.to.q);
    float gain=D_002C3630[0]+distance*(D_002C3630[1]+distance*D_002C3630[2]);
@@ -108,10 +141,10 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   ACTOR *target=func_001E1DB8(p,param->target);
   if(!target||actor->active==-1||actor->mode!=8)break;
   func_001E4D40(p,target,&work.from.q,0);
-  work.second=work.from.q;
+  {register qword captured __asm__("$3")=work.from.q;work.second=captured;}
   work.to.q=Sub(work.second,ToVU(func_001A62E8(actor)));
   work.to.f[2]=0.0f;
-  work.normal.q=Normalize(ToVU(func_001A6FC0(0,actor,work.to.q)));
+  work.normal.q=NormalizeDirection(func_001A6FC0(0,actor,work.to.q));
   out->y=work.normal.f[0]*out->speed;out->x=-work.normal.f[1]*out->speed;
   break;
  }
@@ -132,5 +165,56 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
  if(p->blocked){out->flags|=0x10;if(param->kind==0x50)func_001C45A8(out);}
 }
 
-#define OFF(t,m) ((unsigned int)&((t*)0)->m)
-typedef char controller_action_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(U)==16 && sizeof(ARG)==4 && sizeof(PARAM)==0x28 && sizeof(WORK)==0x60 && OFF(PARAM,kind)==0 && OFF(PARAM,target)==0x10 && OFF(PARAM,value)==0x14 && OFF(PARAM,flag)==0x24 && OFF(ACTOR,mode)==0x4C8 && OFF(ACTOR,active)==0x4CC && OFF(ACTOR,motion)==0x4D4 && OFF(ACTOR,motionTime)==0x4DC && OFF(ACTOR,curve)==0xF5C && OFF(ACTOR,curveTime)==0xF60 && OFF(ACTOR,oldPosition)==0x19F0 && OFF(ACTOR,position)==0x1A20 && OFF(PATH,cyclic)==0xE4 && OFF(P,param)==0x40 && OFF(P,actor)==0x44 && OFF(P,blocked)==0x48 && OFF(P,previousMotion)==0x78 && OFF(P,previousCurve)==0x7C && OFF(OUTPUT,x)==0x10 && OFF(OUTPUT,y)==0x14 && OFF(OUTPUT,heading)==0x18 && OFF(OUTPUT,speed)==0x1C && OFF(OUTPUT,flags)==0x30 && OFF(WORK,from)==0 && OFF(WORK,to)==0x10 && OFF(WORK,normal)==0x20 && OFF(WORK,heading)==0x30 && OFF(WORK,first)==0x40 && OFF(WORK,second)==0x50)?1:-1];
+typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
+typedef char layout_int[(sizeof(int)==4)?1:-1];
+typedef char layout_float[(sizeof(float)==4)?1:-1];
+typedef char layout_qword[(sizeof(qword)==16)?1:-1];
+typedef char layout_qword_align[(__alignof__(qword)==16)?1:-1];
+typedef char layout_U[(sizeof(U)==16)?1:-1];
+typedef char layout_U_align[(__alignof__(U)==16)?1:-1];
+typedef char layout_ARG[(sizeof(ARG)==4)?1:-1];
+typedef char layout_PARAM_prefix[(sizeof(PARAM)==0x28)?1:-1];
+typedef char layout_ACTOR_prefix[(sizeof(ACTOR)==0x1A30)?1:-1];
+typedef char layout_P_prefix[(sizeof(P)==0x80)?1:-1];
+typedef char layout_OUTPUT_prefix[(sizeof(OUTPUT)==0x70)?1:-1];
+typedef char layout_OUTPUT_align[(__alignof__(OUTPUT)==16)?1:-1];
+typedef char layout_PATH_prefix[(sizeof(PATH)==0xE8)?1:-1];
+typedef char layout_WORK[(sizeof(WORK)==0x60)?1:-1];
+typedef char layout_WORK_align[(__alignof__(WORK)==16)?1:-1];
+typedef char layout_PARAM_kind[((unsigned)&((PARAM*)0)->kind==0x0)?1:-1];
+typedef char layout_PARAM_target[((unsigned)&((PARAM*)0)->target==0x10)?1:-1];
+typedef char layout_PARAM_value[((unsigned)&((PARAM*)0)->value==0x14)?1:-1];
+typedef char layout_PARAM_flag[((unsigned)&((PARAM*)0)->flag==0x24)?1:-1];
+typedef char layout_ACTOR_vtable[((unsigned)&((ACTOR*)0)->vtable==0xc)?1:-1];
+typedef char layout_ACTOR_mode[((unsigned)&((ACTOR*)0)->mode==0x4c8)?1:-1];
+typedef char layout_ACTOR_active[((unsigned)&((ACTOR*)0)->active==0x4cc)?1:-1];
+typedef char layout_ACTOR_motion[((unsigned)&((ACTOR*)0)->motion==0x4d4)?1:-1];
+typedef char layout_ACTOR_motionTime[((unsigned)&((ACTOR*)0)->motionTime==0x4dc)?1:-1];
+typedef char layout_ACTOR_curve[((unsigned)&((ACTOR*)0)->curve==0xf5c)?1:-1];
+typedef char layout_ACTOR_curveTime[((unsigned)&((ACTOR*)0)->curveTime==0xf60)?1:-1];
+typedef char layout_ACTOR_oldPosition[((unsigned)&((ACTOR*)0)->oldPosition==0x19f0)?1:-1];
+typedef char layout_ACTOR_position[((unsigned)&((ACTOR*)0)->position==0x1a20)?1:-1];
+typedef char layout_PATH_cyclic[((unsigned)&((PATH*)0)->cyclic==0xe4)?1:-1];
+typedef char layout_P_overrideActor[((unsigned)&((P*)0)->overrideActor==0x24)?1:-1];
+typedef char layout_P_param[((unsigned)&((P*)0)->param==0x40)?1:-1];
+typedef char layout_P_actor[((unsigned)&((P*)0)->actor==0x44)?1:-1];
+typedef char layout_P_blocked[((unsigned)&((P*)0)->blocked==0x48)?1:-1];
+typedef char layout_P_previousMotion[((unsigned)&((P*)0)->previousMotion==0x78)?1:-1];
+typedef char layout_P_previousCurve[((unsigned)&((P*)0)->previousCurve==0x7c)?1:-1];
+typedef char layout_OUTPUT_x[((unsigned)&((OUTPUT*)0)->x==0x10)?1:-1];
+typedef char layout_OUTPUT_y[((unsigned)&((OUTPUT*)0)->y==0x14)?1:-1];
+typedef char layout_OUTPUT_heading[((unsigned)&((OUTPUT*)0)->heading==0x18)?1:-1];
+typedef char layout_OUTPUT_speed[((unsigned)&((OUTPUT*)0)->speed==0x1c)?1:-1];
+typedef char layout_OUTPUT_flags[((unsigned)&((OUTPUT*)0)->flags==0x30)?1:-1];
+typedef char layout_OUTPUT_basis_0[((unsigned)&((OUTPUT*)0)->basis[0]==0x40)?1:-1];
+typedef char layout_OUTPUT_basis_1[((unsigned)&((OUTPUT*)0)->basis[1]==0x50)?1:-1];
+typedef char layout_OUTPUT_basis_2[((unsigned)&((OUTPUT*)0)->basis[2]==0x60)?1:-1];
+typedef char layout_WORK_from[((unsigned)&((WORK*)0)->from==0x0)?1:-1];
+typedef char layout_WORK_to[((unsigned)&((WORK*)0)->to==0x10)?1:-1];
+typedef char layout_WORK_normal[((unsigned)&((WORK*)0)->normal==0x20)?1:-1];
+typedef char layout_WORK_heading[((unsigned)&((WORK*)0)->heading==0x30)?1:-1];
+typedef char layout_WORK_first[((unsigned)&((WORK*)0)->first==0x40)?1:-1];
+typedef char layout_WORK_second[((unsigned)&((WORK*)0)->second==0x50)?1:-1];
+typedef char layout_OUTPUT_basis_span[(sizeof(((OUTPUT*)0)->basis)==0x30)?1:-1];
+typedef char layout_U_qword[((unsigned)&((U*)0)->q==0)?1:-1];
+typedef char layout_U_float[((unsigned)&((U*)0)->f==0)?1:-1];

@@ -11,9 +11,15 @@ void func_0011EF08(qword,float *,float *,float *);
 float func_0020A690(P *);
 float func_0011CF60(float);
 }
+static inline void PlaneArguments(qword *threshold,qword *point,U *scalar,float f,const qword *camera,const qword *position){
+ register qword view asm("vf1"),bits asm("$2"),local asm("vf2"),value asm("$6");
+ __asm__("lqc2 %0,%3\n\tmfc1 %1,%4\n\tlqc2 %2,%5":"=j"(view),"=&r"(bits),"=j"(local):"m"(*camera),"f"(f),"m"(*position));
+ scalar->q=bits;
+ __asm__("por %0,$zero,%2\n\tvsub.xyzw %1,%1,%3":"=r"(value),"+j"(local):"r"(scalar->q),"j"(view));
+ *threshold=value;*point=local;
+}
 static inline qword Load(const qword *p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"=j"(a):"j"(b),"0"(a));return a;}
-static inline qword Scalar(U *u,float f){qword r;__asm__("mfc1 %0,%1":"=r"(r):"f"(f));u->q=r;return u->q;}
 extern "C" int func_0020A818(P*p,Actor*a)
 {
     U scalar;
@@ -29,7 +35,9 @@ extern "C" int func_0020A818(P*p,Actor*a)
         if(a->ready)return 1;
         position0.q=func_001A62E8(a);
         Camera *camera;camera=&D_002DDF40;
-        if(!func_0014F850(camera,Sub(Load(&position0.q),camera->position),Scalar(&scalar,0.0f)))goto fail;
+        qword threshold,point;
+        PlaneArguments(&threshold,&point,&scalar,0.0f,&camera->position,&position0.q);
+        if(!func_0014F850(camera,point,threshold))goto fail;
         qword other;other=func_001A62E8(p->target);
         func_0011EF08(Sub(Load(&position0.q),other),&angle[0],0,0);
         if(p->tolerance<__builtin_fabsf(func_0011CF60(angle[0]-func_0020A690(p)))){fail:return 0;}

@@ -67,6 +67,8 @@ static inline qword SphereDirection(P *p,CANDIDATE *candidate){
  else direction=Divide(direction,center);
  return direction;
 }
+static inline CONTACT* FirstContact(CONTACT*records){register CONTACT*cursor __asm__("$3");__asm__("la %0,%a1":"=r"(cursor):"p"(records));return cursor;}
+static inline int NextCandidate(int index){register int next __asm__("$19");__asm__("addiu %0,%1,1":"=r"(next):"r"(index));return next;}
 extern "C" void func_001C55E0(P *p){
  WORK work;
  int i=0;
@@ -75,24 +77,25 @@ extern "C" void func_001C55E0(P *p){
  work.minimum=AddScaled(start,D_002A2DE0,Scalar(work.scalar,-p->radius.value));
  qword end=AddScaled(Position3(p),D_002A2DE0,ScalarBits(work.scalar,p->radius.bits));
  func_0020FAA0(D_003DD490,work.minimum,end,func_001C5570,0,&work.count,&work.candidates);
- while(i<work.count){int next=i+1;
+ while(i<work.count){int next;
   CANDIDATE *candidate=work.candidates[i];
-  if(candidate->flags&(0x8000UL<<34)){
+  if(candidate->flags&(0x8000UL<<34)){next=i+1;
    CopyVU(&work.center,candidate->entity->position);
    qword current=ToVU(func_001A62E8(p));
    float penetration=Length(Difference(work.center,current))-candidate->radius-p->radius.value;
    if(penetration<deepest){
-    qword direction=SphereDirection(p,candidate);
+    qword direction=SphereDirection(p,candidate);next=NextCandidate(i);
     work.scalar.q=direction;
     if(Dot(p->velocity,direction)<0.0f){deepest=penetration;work.normal.q=direction;}
    }
-  }else if(candidate->shape){
+  }else{next=i+1;if(candidate->shape){
    int count=func_001A93C8(func_001A62E8(p),candidate,0x7FFFFFFF,0,0,8,work.contacts,p->radius.value);
-   if(count>0){CONTACT *contact=work.contacts;do{
+   if(count>0){CONTACT *contact=FirstContact(work.contacts);do{
     float penetration=Dot(contact->position,contact->plane.q)-contact->plane.f[3];
     if(penetration<deepest && Dot(p->velocity,contact->plane.q)<0.0f){work.normal.q=contact->plane.q;deepest=penetration;}
     ++contact;
    }while(--count);}
+  }
   }
   i=next;
  }

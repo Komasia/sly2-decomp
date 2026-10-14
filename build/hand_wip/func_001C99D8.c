@@ -7,9 +7,10 @@ void func_0011A050(struct DL *pdl, int ib);
 int func_001C9968(int id);
 struct DL *func_0015E3C0(void *p, int id);
 void func_0011A070(struct DL *pl, void *pv);
+static inline const int* IncomingIdentifiers(const int*input){register const int*result __asm__("$18");__asm__("daddu %0,%1,$zero":"=r"(result):"r"(input));return result;}
 struct N *func_001C99D8(struct N *p, int c, const int *input_ids)
 {
-    register const int*aid __asm__("$18")=input_ids;
+    const int*aid=IncomingIdentifiers(input_ids);
     struct N *pn, *pnParent, *pnNew;
     struct AL al;
     int i;

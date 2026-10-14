@@ -9,6 +9,12 @@ static inline float SampleValue(float input) {
  return value;
 }
 static inline void UpperHome(float *home,float value){__asm__("swc1 %1,%0":"=m"(*home):"f"(value));}
+static inline float UpperEnd(float center,float span)
+{
+ register float result __asm__("$f0");
+ __asm__("add.s %0,%1,%2":"=f"(result):"f"(center),"f"(span));
+ return result;
+}
 static inline float Min(float a,float b){register float r __asm__("$f0");__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float Max(float a,float b){register float r __asm__("$f1");__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline float Abs(float a){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(a));return r;}
@@ -26,7 +32,7 @@ float func_001E8008(struct P *p, float a, float b)
     float r[2];
     float lower,upper,t,u;
     if (p->fE4) {
-        upper=a+b;lower=a-b;
+        upper=UpperEnd(a,b);lower=a-b;
     } else {
         register float m __asm__("$f3")=func_001E6648(p);
         float c = GClamp(a, b, m - b);
