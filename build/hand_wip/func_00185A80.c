@@ -8,7 +8,7 @@ static inline float Dot(qword a,qword b){qword d,one;float result;__asm__("vmul.
 static inline qword Read(qword raw){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(raw));return q;}
 static inline void DotWrite(qword*row,qword*column,unsigned int*out){qword a,b,one;unsigned int word;__asm__("lqc2 %0,%1":"=j"(b):"m"(*column));__asm__("lqc2 %0,%1":"=j"(a):"m"(*row));__asm__("vmul.xyz %0,%0,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(a),"=&j"(one):"j"(b));__asm__("qmfc2.ni %0,%1":"=r"(word):"j"(a));__asm__("sw %1,%0":"=m"(*out):"r"(word));}
 static inline void RhsWrite(qword vector,qword*plane,float*out){float g=((float*)plane)[3]+Dot(vector,*plane);__asm__("swc1 %1,%0":"=m"(*out):"f"(g));}
-static inline int Count(struct P*p){register int count __asm__("$2");__asm__ __volatile__("lw %0,%1":"=r"(count):"m"(p->count));return count;}
+static inline int Count(struct P*p){register int count __asm__("$2");__asm__("lw %0,%1":"=r"(count):"m"(p->count));return count;}
 qword func_00185A80(void*unused,struct P*p,qword v){
  float matrix[36];float rhs[6] __attribute__((aligned(16)));float weights[6] __attribute__((aligned(16)));U scalar;int i,j,n=Count(p);
  typedef char scratch_layout[(sizeof(matrix)==0x90 && sizeof(rhs)==24 && sizeof(weights)==24 && __alignof__(rhs)==16 && __alignof__(weights)==16)?1:-1];

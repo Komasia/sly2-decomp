@@ -1,4 +1,4 @@
-// Complete TFT specifier parser WIP; actual52-byte record uses natural alignment.
+// Parse one TFT specifier; all length modifiers advance to conversion.
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
 extern "C" {void *func_002333B4(void *,int,int);extern unsigned char D_002AA6A1[];}
 int CchParsePchzInt(char *,int *);
@@ -54,16 +54,19 @@ int CchParsePchzTft(char *format,TFT *f,char **args){
             case 'M':case 'm':case 'V':case 'v':
                 f->matrixRows=Upper(*p)?4:3;
                 f->vectorColumns=Lower(*p)=='v'?1:f->matrixRows;
-                consumed=1;next=5;break;
-            default:next=5;break;
+                consumed=1;break;
+            default:break;
             }
+            next=5;
             break;
         case 5:
             if(*p!='%'){f->fUpper=Upper(*p);f->conversion=Lower(*p);}
             consumed=1;next=6;
             break;
+        default:goto done;
         }
         p+=consumed;state=next;
     }
+ done:
     return (char *)p-format;
 }

@@ -45,9 +45,14 @@ extern "C" void func_001EFAC0(GRAPH *p,void *stream){
   entry->id=func_00117DB8(stream);
   entry->next=func_00117DB8(stream);
  }
- for(i=0;i<p->count;i++){
-  PAIR *entry=&p->nodes[i];int id=entry->next;
-  if(id==-1)entry->next=id;else if(id==0x20)entry->next=-2;else entry->next=func_001F0438(p,entry->next);
+ i=0;
+ if(p->count>0){
+  register int noNode __asm__("$18")=-2;
+  do{
+   PAIR *entry=&p->nodes[i];int id=entry->next;
+   if(id==-1)entry->next=id;else if(id==0x20)entry->next=noNode;else entry->next=func_001F0438(p,entry->next);
+   ++i;
+  }while(i<p->count);
  }
  uint all=0;
  p->edgeCount=func_00117BD0(stream);

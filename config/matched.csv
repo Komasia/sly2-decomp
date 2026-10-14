@@ -3218,6 +3218,7 @@ func_001AF660,0x1AF660,16,match,src/auto/func_001AF660.c
 func_001AF6A0,0x1AF6A0,11,match,src/auto/func_001AF6A0.c
 func_001AF6D0,0x1AF6D0,189,match,src/hand/func_001AF6D0.c
 func_001AF9C8,0x1AF9C8,111,match,src/hand/func_001AF9C8.cpp
+func_001AFB88,0x1AFB88,256,match,src/hand/func_001AFB88.cpp
 func_001AFF88,0x1AFF88,14,match,src/auto/func_001AFF88.c
 func_001B0078,0x1B0078,36,match,src/hand/func_001B0078.c
 func_001B0108,0x1B0108,21,match,src/hand/func_001B0108.c
@@ -5068,6 +5069,7 @@ func_0021D498,0x21D498,18,match,src/hand/func_0021D498.c
 func_0021D4E0,0x21D4E0,77,match,src/auto/func_0021D4E0.c
 func_0021D618,0x21D618,8,match,src/auto/func_0021D618.c
 CchParsePchzInt__FPcPi,0x21D638,30,match,src/hand/CchParsePchzInt__FPcPi.cpp
+CchParsePchzTft__FPcP3TFTPPc,0x21D6B0,208,match,src/hand/CchParsePchzTft__FPcP3TFTPPc.cpp
 WriteTftPchz__FP3TFTP5OSTRMPc,0x21D9F0,81,match,src/hand/WriteTftPchz__FP3TFTP5OSTRMPc.cpp
 FNegTftUl__FP3TFTP2UL,0x21DB38,56,match,src/hand/FNegTftUl__FP3TFTP2UL.cpp
 UnRadixFromChConversion__Fc,0x21DC18,21,match,src/hand/UnRadixFromChConversion__Fc.c

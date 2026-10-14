@@ -14,7 +14,7 @@ extern "C" void func_001F4F10(struct S *p);
 extern "C" int func_00224638(struct S *p);
 extern "C" int func_00224508(struct S *p, struct S *q);
 struct SCALAR {qword q;};
-static inline void InitScalar(SCALAR &home,const float &f){int bits;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(home.q):"r"(bits));}
+static inline void InitScalar(SCALAR &home,const float &f){int bits;__asm__("lw %0,0(%1)":"=r"(bits):"0"(&f),"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(home.q):"r"(bits));}
 static inline qword Scale(const qword &direction,const SCALAR &scalar){qword result;__asm__("vmulx.xyzw %0,%1,%0x":"=j"(result):"j"(direction),"0"(scalar.q));return result;}
 extern "C" void func_00224380(struct S *p)
 {

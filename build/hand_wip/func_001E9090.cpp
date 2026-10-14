@@ -18,6 +18,7 @@ static inline qword Point(const M4&m,qword a){qword r=m.r[0];
 __asm__("vmulax.xyz $ACC,%0,%4x\n\tvmadday.xyz $ACC,%1,%4y\n\tvmaddaz.xyz $ACC,%2,%4z\n\tvmaddw.xyz %0,%3,$vf0w":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(a));return r;}
 static inline qword FirstPoint(const M4&m,qword a){register qword r __asm__("vf6");
 __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2]),"j"(m.r[3]),"j"(a));return r;}
+static inline qword ScalarStored(float f,U&out){qword value;__asm__("qmtc2 %2,%0\n\tsqc2 %0,%1":"=&j"(value),"=m"(out.q):"r"(f));return out.q;}
 static inline qword Bc(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(b),"j"(s));return r;}
 static inline qword AddScaled2(qword a,qword b,qword c,qword s){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(b),"j"(c),"j"(s));return r;}
@@ -26,7 +27,6 @@ static inline qword Sq(qword a){qword r,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.
 static inline qword Dot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
 static inline qword Sqrt(qword a){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(a));return a;}
 static inline float Float(qword a){float r;__asm__("mtc1 %1,%0":"=f"(r):"r"(a));return r;}
-static inline qword Norm(qword a,qword l){qword r;__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(r):"j"(a),"j"(l));return r;}
 static inline float Abs(float a){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(a));return r;}
 void func_001E9090(S*p){
  U scalar;
@@ -41,16 +41,20 @@ void func_001E9090(S*p){
  prevVelocity=func_0022D348(p->first,0,prev);
  initialVelocity[0].q=prevVelocity;
  for(i=1;i<n;i++){
-   qword velocity,position,delta,length,direction;
-   scalar.q=Bc(-p->damping);
-   qword drag=scalar.q;
+   qword velocity,position;
+   register qword delta __asm__("vf2");
+   register qword length __asm__("vf1");
+   register qword direction __asm__("vf3");
+   qword drag=ScalarStored(-p->damping,scalar);
    scalar.q=Bc(dt);
    velocity=AddScaled(p->velocity[i].q,AddScaled(p->force,p->velocity[i].q,drag),scalar.q);
    scalar.q=Bc(dt*.5f);
    position=AddScaled2(p->position[i].q,p->velocity[i].q,velocity,scalar.q);
    delta=Sub(position,prev);
+   register qword fallback __asm__("8");
+   __asm__("lq %0,%1":"=r"(fallback):"m"(D_002A2DA0));
    length=Sqrt(Sq(delta));
-   if(Float(length)<.0001f)direction=D_002A2DA0;else direction=Norm(delta,length);
+   if(Float(length)<.0001f)direction=fallback;else{__asm__("vdiv $Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q":"=j"(direction):"j"(delta),"j"(length));}
    {
     float projection=-Float(Dot(Sub(velocity,prevVelocity),direction));
     float distance=Abs(p->distance[i]-p->distance[i-1]);

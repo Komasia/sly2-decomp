@@ -23,7 +23,7 @@ void func_001E9C88(struct S *ps, struct O *po)
     qword pos2;
     struct SEG *pseg = 0;
     int cpv=EmptyCount();
-    void **ppv;
+    register void **ppv __asm__("$22");
     int cseg = 0;
     float tStart, tPrev, t, tEnd;
     void *pPrev;

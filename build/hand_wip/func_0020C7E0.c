@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
-struct VE { short d; short pad; void (*pf)(void *,float,float,qword *,int); };
+struct VE { short d; short pad; void (*pf)(void *,float,float,qword *,qword *); };
 struct CV { struct VE *vt; };
 struct C { int a; struct CV *pcv; };
 union FLOATWORD { float value; int bits; };

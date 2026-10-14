@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
-struct VE { short d; short pad; void (*pf)(void *, float, float, qword *, int); };
+struct VE { short d; short pad; void (*pf)(void *, qword *, qword *, float, float); };
 struct CV { struct VE *vt; };
 struct C { int a; struct CV *pcv; };
 union FLOATWORD {float value;int bits;};
@@ -10,7 +10,7 @@ struct S { int h; void *po; float a; float b; float c; float ca; float cb; union
 extern char D_003DD490[];
 void *func_0015E938(void *p, int n, int h, void *arg);
 struct MARKER *func_0012F938(void *po, int n);
-struct C *func_0012FF10(void *po, void *arg, void *value, int check);
+struct C *func_0012FF10(void *po, void *arg, int kind, int check);
 
 void func_0020BD88(struct S *p, void *arg)
 {
@@ -41,11 +41,11 @@ void func_0020BD88(struct S *p, void *arg)
     p->c = pc->value.value;
     p->cb = p->c - p->b;
     p->ca = p->c - p->a;
-    c = func_0012FF10(p->po, arg, (void*)1, 1);
+    c = func_0012FF10(p->po, arg, 1, 1);
     if (!c)
         goto initialized;
-    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, p->a, 1.0f, &v0.q, 0);
-    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, p->c, 1.0f, &v1.q, 0);
+    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, &v0.q, 0, p->a, 1.0f);
+    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, &v1.q, 0, p->c, 1.0f);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(v0.q), "j"(v1.q));
     h = p->c;
     h -= p->a;
@@ -53,7 +53,7 @@ void func_0020BD88(struct S *p, void *arg)
     __asm__("vmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y\n\tvsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(d));
     __asm__("qmfc2.ni %0, %1" : "=r"(n) : "j"(d));
     p->dist.bits = n;
-    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, p->a + h, 1.0f, &v2.q, 0);
+    c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, &v2.q, 0, p->a + h, 1.0f);
     {
         struct V3 *pv = &p->v;
         pv->x = 0;

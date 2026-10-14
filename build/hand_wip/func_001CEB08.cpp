@@ -17,13 +17,11 @@ void func_001CEAA8(RIP*,float);
 void func_0011EE08(qw,qw,qw,qw*,float*,float*);
 int func_001CEB08(RIP*,SHAPE*,qw,qw);
 }
-static inline qw ToVu(qw a){qw r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
 static inline qw Add(qw a,qw b){qw r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qw Sub(qw a,qw b){qw r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qw Bc(U*storage,float f){qw r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));storage->q=r;return storage->q;}
 static inline qw Scale(qw v,qw scalar){qw r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(scalar));return r;}
 static inline qw AddScaled(qw a,qw v,qw scalar){qw r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(a),"j"(v),"j"(scalar));return r;}
-static inline qw Blend(qw a,qw b,qw scalar){return AddScaled(a,Sub(b,a),scalar);}
 static inline qw Weighted(qw a,qw fa,qw b,qw fb){qw r;__asm__("vmulax.xyzw $ACC,%1,%2x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(a),"j"(fa),"j"(b),"j"(fb));return r;}
 static inline qw Cross(qw a,qw b){qw r;__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qw DotV(qw a,qw b){qw r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
@@ -33,25 +31,30 @@ static inline qw Divide(qw a,qw scale){qw r;__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq
 static inline qw Norm(qw a){qw len=DotV(a,a),r;float f;__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(len));f=Scalar(len);if(f<0.0001f)r=D_002A2DA0;else r=Divide(a,len);return r;}
 static inline float Max(float a,float b){return a<b?b:a;}
 static inline float Evaluate(POLY*p,float t){return p->a+t*(p->b+t*p->c);}
+static inline qw Sample(const qw&value){register qw result __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(result):"m"(value));return result;}
+static inline qw SpecialBlend(qw sample,qw original,qw scalar){register qw out __asm__("vf3")=original;register qw delta __asm__("vf2");__asm__("vsub.xyzw %1,%2,%0\n\tvadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%3x":"+j"(out),"=&j"(delta):"j"(sample),"j"(scalar));return out;}
+static inline qw VelocityAndScalar(U&storage,const qw&velocity,const float&scalar,qw&original){register qw first __asm__("vf3"),result __asm__("vf4");register int word __asm__("$2");__asm__("lqc2 %0,%3\n\tlw %2,%4\n\tqmtc2.ni %2,%1":"=j"(first),"=j"(result),"=r"(word):"m"(velocity),"m"(scalar));original=first;storage.q=result;return storage.q;}
 int func_001CEB08(RIP*p,SHAPE*shape,qw point,qw normal){
  WORK w;float radius,elastic,friction;
- normal=ToVu(normal);
+ {register qw incomingNormal __asm__("vf8");__asm__("qmtc2.ni %1,%0":"=j"(incomingNormal):"r"(normal));
  w.contact=point;
  if(p->kind==8){radius=p->radius;elastic=p->restitution;friction=p->friction;}else{radius=100.0f;elastic=0.7f;friction=0.8f;}
  radius*=Evaluate(&p->scale,(D_002DDED0.time-p->start)/p->duration);
- w.normal.q=normal;
- if(func_00132B10(shape->owner,0x59)){
+ w.normal.q=incomingNormal;}
+ int special=func_00132B10(shape->owner,0x59);{register qw sampledNormal __asm__("vf8");__asm__("lqc2 %0,%1":"=j"(sampledNormal):"m"(w.normal.q));
+ if(special){
   func_00228C18(shape->owner,w.contact,&w.temporary.q,0);
-  qw v=Blend(p->velocity.q,w.temporary.q,Bc(&w.scalar,D_002C1F64));
-  qw difference=Sub(w.temporary.q,v);
+  qw original;qw scale=VelocityAndScalar(w.scalar,p->velocity.q,D_002C1F64,original);qw sampled=Sample(w.temporary.q);
+  qw v=SpecialBlend(sampled,original,scale);
+  qw difference=Sub(sampled,v);
   float duration=D_002C1F60;
   p->velocity.q=v;
   p->acceleration.q=Divide(difference,Bc(&w.scalar,duration));
   func_001CEAA8(p,duration);
   return 1;
  }
- w.offset.q=Scale(w.normal.q,Bc(&w.temporary,-radius));
- w.firstTorque.q=Cross(w.offset.q,w.normal.q);
+ w.offset.q=Scale(sampledNormal,Bc(&w.temporary,-radius));
+ w.firstTorque.q=Cross(w.offset.q,sampledNormal);w.normal.q=sampledNormal;}
  w.temporary.q=func_0022D348(shape->frame,0,w.contact);
  radius=Max(10.0f,radius);
  float invInertia=2.5f/(radius*radius);

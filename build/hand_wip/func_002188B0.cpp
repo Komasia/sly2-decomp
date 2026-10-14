@@ -25,6 +25,7 @@ static inline RGBA BlendColors(float t,RGBA previous,RGBA next){
  result.r=NLerp(t,previous.r,next.r);result.g=NLerp(t,previous.g,next.g);result.b=NLerp(t,previous.b,next.b);result.a=NLerp(t,previous.a,next.a);
  return result;
 }
+static inline float Ratio(float numerator,float denominator){register float value __asm__("$f4");__asm__("div.s %0,%1,%2":"=f"(value):"f"(numerator),"f"(denominator));return value;}
 static inline M23 BlendMatrix(float t,const M23 &previous,const M23 &next){
  M23 result;float from=1.0f-t;const float *a=previous.a,*b=next.a;float *out=result.a;
  for(int n=5;n>=0;n--){*out++=from * *a++ + t * *b++;}
@@ -43,7 +44,7 @@ extern "C" void func_002188B0(float duration,ANIM *animation,int index,M23 *pare
   ITEM *item=&items[i];
   if(!item->sprite){item->cachedTime=time;func_0011A058(&item->flags);continue;}
   if(item->interpolate&&item->nextMatrix){
-   float fraction=(time-item->previousTime)/(item->nextTime-item->previousTime);
+   float fraction=Ratio(time-item->previousTime,item->nextTime-item->previousTime);
    matrix=BlendMatrix(fraction,*item->previousMatrix,*item->nextMatrix);
    currentAdditive=BlendColors(fraction,RGBA(item->previousAdditive),RGBA(item->nextAdditive));
    currentMultiply=BlendColors(fraction,RGBA(item->previousMultiply),RGBA(item->nextMultiply));

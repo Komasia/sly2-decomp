@@ -28,6 +28,8 @@ static inline SPACE* CopyProduct(P*p,const M4*source){register SPACE*space __asm
 static inline void* OriginalEntry(const VTE*table,int*adjustment){register void*function __asm__("$2");register int delta __asm__("$4");__asm__("lw %0,0x104(%2)\n\tlh %1,0x100(%2)":"=&r"(function),"=r"(delta):"r"(table),"m"(table[32].fn),"m"(table[32].delta));*adjustment=delta;return function;}
 static inline SPACE* ParentSpace(const SPACE*oldSpace){register SPACE*parent __asm__("$3");__asm__("lw %0,%1":"=r"(parent):"m"(oldSpace->parent));return parent;}
 static inline const VTE* SourceTable(const SOURCE*source){register const VTE*table __asm__("$3");__asm__("lw %0,%1":"=r"(table):"m"(source->vt));return table;}
+struct M3 {qword rows[3];};
+static inline qword CopyWorkingFirst(M4*destination,const M4*source,SPACE*const*spaceHome,SPACE**space){register qword first __asm__("$5"),second __asm__("$2"),third __asm__("$3"),last __asm__("$4");register SPACE*original __asm__("$20");__asm__("lq %0,0(%6)\n\tlq %1,16(%6)\n\tlq %2,32(%6)\n\tlq %3,48(%6)\n\tlw %4,%8\n\tsq %0,%5\n\tsq %1,16+%5\n\tsq %2,32+%5":"=&r"(first),"=&r"(second),"=&r"(third),"=&r"(last),"=&r"(original),"=m"(*(M3*)destination):"r"(source),"m"(*source),"m"(*spaceHome));*space=original;return last;}
 static inline void Reset(PATH *p){VTE &v=p->vt[9];((void(*)(PATH *))v.fn)((PATH *)((char *)p+v.delta));}
 static inline qword ReadPoint(const qword*p){register qword v __asm__("vf5");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
 static inline qword ReadRow0(const qword*p){register qword v __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(v):"m"(*p));return v;}
@@ -66,7 +68,7 @@ extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
    request->size=D_002C1ED0*4;request->alignment=16;path->distances=(float *)func_001AE1D0(request);
    request->size=D_002C1ED0*16;request->alignment=16;path->points=(qword *)func_001AE1D0(request);
    SPACE *space;
-   if(j==0){work.scratch.matrix=work.original;space=work.originalSpace;}
+   if(j==0){work.scratch.matrix.rows[3]=CopyWorkingFirst(&work.scratch.matrix,&work.original,&work.originalSpace,&space);}
    else{space=p->space;func_002333B4(working,0,0x40);((float *)working)[15]=1.0f;((float *)working)[10]=1.0f;((float *)working)[5]=1.0f;((float *)working)[0]=1.0f;}
    work.nextJ=j+1;
    int k=0;
@@ -85,3 +87,5 @@ extern "C" void func_001CC5E8(P *p,LO *owner,void *animation){
 
 #define OFF(t,m) ((int)&((t*)0)->m)
 typedef char sampling_layout[(sizeof(qword)==16 && sizeof(void*)==4 && sizeof(VTE)==8 && sizeof(M4)==0x40 && sizeof(BLEND)==0x14 && sizeof(REQUEST)==8 && sizeof(SCRATCH)==0x40 && sizeof(WORK)==0xE0 && OFF(VTE,delta)==0 && OFF(VTE,fn)==4 && OFF(SPACE,matrix)==0 && OFF(SPACE,kind)==0x94 && OFF(SPACE,parent)==0xA0 && OFF(LO,space)==0x60 && OFF(SOURCE,vt)==0xC && OFF(MOTION,duration)==0x74 && OFF(PATH,vt)==0xC && OFF(PATH,mode)==0xE0 && OFF(PATH,count)==0xE8 && OFF(PATH,times)==0xEC && OFF(PATH,distances)==0xF0 && OFF(PATH,points)==0xF4 && OFF(BLEND,weight)==0 && OFF(BLEND,motion)==4 && OFF(BLEND,first)==0xC && OFF(BLEND,second)==0x10 && OFF(P,owner)==0 && OFF(P,animation)==4 && OFF(P,blends)==8 && OFF(P,controller)==0x30 && OFF(P,source)==0x34 && OFF(P,space)==0x38 && OFF(P,matrix)==0x40 && OFF(REQUEST,size)==0 && OFF(REQUEST,alignment)==4 && OFF(WORK,original)==0 && OFF(WORK,scratch)==0x40 && OFF(WORK,sample)==0x80 && OFF(WORK,originalSpace)==0xC0 && OFF(WORK,present)==0xC4 && OFF(WORK,first)==0xC8 && OFF(WORK,second)==0xCC && OFF(WORK,records)==0xD0 && OFF(WORK,nextI)==0xD4 && OFF(WORK,nextJ)==0xD8 && sizeof(int)==4 && __alignof__(qword)==16 && OFF(M4,rows[0])==0 && OFF(M4,rows[1])==0x10 && OFF(M4,rows[2])==0x20 && OFF(M4,rows[3])==0x30 && sizeof(((VTE*)0)->delta)==2 && sizeof(((VTE*)0)->fn)==4 && sizeof(((SPACE*)0)->parent)==4)?1:-1];
+
+typedef char partial_matrix_layout[(sizeof(M3)==0x30 && __alignof__(M3)==16 && OFF(M3,rows[0])==0 && OFF(M3,rows[1])==0x10 && OFF(M3,rows[2])==0x20 && sizeof(((M3*)0)->rows)==0x30)?1:-1];

@@ -63,12 +63,16 @@ static inline float DifferenceLength(qword target,const U &position,U &differenc
 union FLOATWORD {float value;int word;};
 static inline qword ScalarBits(const float &f){FLOATWORD view;view.value=f;qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(view.word));return r;}
 static inline qword NormalizeRadius(qword a,const float &radius,U &scalar){
-    qword length=Dot(a,a);
+    register qword value __asm__("vf3")=a;
+    register qword length __asm__("vf1");
+    register qword one __asm__("vf2");
+    __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(length),"=&j"(one):"j"(value));
     __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(length));
     scalar.q=ScalarBits(radius);
-    qword direction;
-    if(X(length)<0.0001f)direction=Vector(D_002A2DA0);
-    else __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(direction):"j"(length),"j"(a));
+    register qword direction __asm__("vf1");
+    qword fallback=D_002A2DA0;
+    if(X(length)<0.0001f){direction=Vector(fallback);return Scale(direction,scalar.q);}
+    __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(direction):"j"(length),"j"(value));
     return Scale(direction,scalar.q);
 }
 extern "C" void func_001D2610(P *p)

@@ -1,6 +1,7 @@
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
-extern "C" void*func_001291A8(void*,const void*);
-extern "C" void func_00129EC8(void*);
+struct CRef;
+extern "C" CRef*func_001291A8(CRef*,const CRef*);
+extern "C" void func_00129EC8(CRef*);
 struct CRef{
  int tag;
  union{int n;float f;};
@@ -28,10 +29,16 @@ typedef char GameSecond[FIELD_OFFSET(GAME,second)==0x3B44?1:-1];
 extern "C" CRef func_00258200(OPT*,const CRef&,void*);
 extern "C" void func_001AEAA8(void*,int);
 extern "C" void func_001D8FF8(void*);
-static inline void SetPv(OPT*key,const CRef&r){CRef arg(r);const CRef&ret=func_00258200(key,arg,D_003D4A60);}
-static inline void SetInt(OPT*key,int x){CRef r(x);SetPv(key,r);}
-static inline void SetBool(OPT*key,bool x){CRef r(x);SetPv(key,r);}
-static inline void SetFloat(OPT*key,float x){CRef r(x);SetPv(key,r);}
+static inline void SetPv(OPT*key,CRef r,void*context){func_00258200(key,r,context);}
+static inline void SetInt(OPT*key,int x){CRef r(x);SetPv(key,r,D_003D4A60);}
+static inline void SetBool(OPT*key,bool x){CRef r(x);SetPv(key,r,D_003D4A60);}
+static inline void SetFloat(OPT*key,float x){CRef r(x);SetPv(key,r,D_003D4A60);}
+typedef char Final_Size_1[sizeof(MSG)==4?1:-1];
+typedef char Final_Size_2[sizeof(GAME)==15176?1:-1];
+typedef char Final_Size_3[sizeof(int)==4?1:-1];
+typedef char Final_Size_4[sizeof(float)==4?1:-1];
+typedef char Final_Size_5[sizeof(bool)==4?1:-1];
+typedef char Final_Size_6[sizeof(void*)==4?1:-1];
 extern "C" void func_001AFB88(void*owner,MSG*msg){
  switch(msg->kind){
  case 103:
