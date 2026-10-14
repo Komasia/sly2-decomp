@@ -22,7 +22,8 @@ M3 func_0011B500(qword,float);
 }
 static inline qword ScalarLoad(const float &f){int bits;qword q;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
-static inline qword Combine(qword fa,qword a,qword fb,qword b,V &temporary){temporary.q=fa;fa=temporary.q;temporary.q=fb;fb=temporary.q;qword r;__asm__("vmulax.xyzw ACC,%2,%1x\n\tvmaddx.xyzw %0,%4,%3x":"=j"(r):"j"(fa),"j"(a),"j"(fb),"j"(b));return r;}
+static inline qword ScalarHome(V &home,qword value){home.q=value;return home.q;}
+static inline qword Combine(qword fa,qword a,qword fb,qword b){qword r;__asm__("vmulax.xyzw ACC,%2,%1x\n\tvmaddx.xyzw %0,%4,%3x":"=j"(r):"j"(fa),"j"(a),"j"(fb),"j"(b));return r;}
 static inline void CopyXYZ(V &destination,const V &v){float x=v.f[0],y=v.f[1],z=v.f[2];destination.f[0]=x;destination.f[1]=y;destination.f[2]=z;}
 static inline void CopyXY(V &destination,const V &v){float x=v.f[0],y=v.f[1];destination.f[0]=x;destination.f[1]=y;}
 static inline qword Unit(qword v){qword len,one,r;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(len),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(len));__asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=j"(r):"j"(v),"0"(len));return r;}
@@ -45,13 +46,13 @@ void UpdateWrMatrixes(WR *p){
    int column=entry->data.circle.column,next=column+1;
    V *pos0=&matrix->r[column],*pos1=&matrix->r[next],*uv0=&coordinates->r[column],*uv1=&coordinates->r[next];
    qword qc=ScalarLoad(cosine),qs=Scalar(sine),qn=Scalar(-sine);
-   position.q=Combine(qc,entry->vectorA.q,qs,entry->data.circle.vectorB.q,temporary);
+   {qword leftScalar=ScalarHome(temporary,qc);qword rightScalar=ScalarHome(temporary,qs);position.q=Combine(leftScalar,entry->vectorA.q,rightScalar,entry->data.circle.vectorB.q);}
    CopyXYZ(*pos0,position);
-   position.q=Combine(qn,entry->vectorA.q,qc,entry->data.circle.vectorB.q,temporary);
+   {qword leftScalar=ScalarHome(temporary,qn);qword rightScalar=ScalarHome(temporary,qc);position.q=Combine(leftScalar,entry->vectorA.q,rightScalar,entry->data.circle.vectorB.q);}
    CopyXYZ(*pos1,position);
-   uv.q=Combine(qc,entry->data.circle.uvA.q,qs,entry->data.circle.uvB.q,temporary);
+   {qword leftScalar=ScalarHome(temporary,qc);qword rightScalar=ScalarHome(temporary,qs);uv.q=Combine(leftScalar,entry->data.circle.uvA.q,rightScalar,entry->data.circle.uvB.q);}
    CopyXY(*uv0,uv);
-   uv.q=Combine(qn,entry->data.circle.uvA.q,qc,entry->data.circle.uvB.q,temporary);
+   {qword leftScalar=ScalarHome(temporary,qn);qword rightScalar=ScalarHome(temporary,qc);uv.q=Combine(leftScalar,entry->data.circle.uvA.q,rightScalar,entry->data.circle.uvB.q);}
    CopyXY(*uv1,uv);
    break;
   }

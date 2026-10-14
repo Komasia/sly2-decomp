@@ -31,32 +31,36 @@ static inline qword AddUp(qword pos,const qword *up,qword scalar){
  asm("lqc2 %1,%3\n\tvadda.xyzw $ACC,$vf0,%2\n\tvmaddx.xyzw %0,%1,%4x":"=j"(r),"=&j"(axis):"j"(pos),"m"(*up),"j"(scalar));
  return r;
 }
+static inline qword CPU(qword value){qword result;asm("qmfc2.ni %0,%1":"=r"(result):"j"(value));return result;}
 static inline float X(qword value){float r;asm("mtc1 %1,%0":"=f"(r):"r"(value));return r;}
 static inline float Y(qword value){qword r;asm("prot3w %0,%1":"=r"(r):"r"(value));return X(r);}
 static inline float MaxF(float a,float b){float r;asm("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 extern "C" void func_001D1518(P *p){
  U scalar,maximum,minimum;
  int i;
- minimum.q=maximum.q=Zero();
+ {qword zero=Zero();minimum.q=CPU(zero);maximum.q=zero;}
+ void **binding=&p->binding;
  func_001F36A8(p);
- for(i=0;i<p->count;i++){
-  E *e=&p->entries[i];
+ qword *up=&D_002A2DC0;
+ {E *cursor=p->entries,*next=cursor+1;
+ for(i=0;i<p->count;i++,cursor++,next++){
+  E *e=cursor;
   REF *reference=func_001F4C58(p,e->id,13);
   e->reference=reference;
   if(!reference){
-   func_002332B8(e,&p->entries[i+1],(p->count-i)*sizeof(E)-sizeof(E));
-   --p->count;--i;
+   func_002332B8(e,next,(p->count-i)*sizeof(E)-sizeof(E));
+   --p->count;--i;--cursor;--next;
   }else{
    qword pos=func_001A6F00(0,p,reference->position);
    e->position.q=pos;
    qword top=Scalar(e->upper.bits);scalar.q=top;
    qword bottom=Scalar(e->lower.bits);
    minimum.q=Min(pos,minimum.q);maximum.q=Max(pos,maximum.q);
-   e->top=AddUp(pos,&D_002A2DC0,scalar.q);
+   e->top=AddUp(pos,up,scalar.q);
    scalar.q=bottom;
-   e->bottom=AddUp(pos,&D_002A2DC0,scalar.q);
+   e->bottom=AddUp(pos,up,scalar.q);
   }
- }
+ }}
  float maxX=X(maximum.q),minX=X(minimum.q);
  p->width=maxX-minX;
  if(p->count>0){
@@ -66,17 +70,18 @@ extern "C" void func_001D1518(P *p){
    E *e=&p->entries[i];e->x=e->position.a[0]/xScale;e->y=e->position.a[1]/yScale;
   }
  }
- for(i=0;i<p->sideCount;i++){
-  SIDE *side=&p->sides[i];
+ {SIDE *side=p->sides,*next=side+1;
+ for(i=0;i<p->sideCount;i++,side++,next++){
   REF *reference=func_001F4C58(p,side->id,6);
   side->reference=reference;
   if(!reference){
-   func_002332B8(side,&p->sides[i+1],(p->sideCount-i)*sizeof(SIDE)-sizeof(SIDE));
-   --p->sideCount;--i;
+   func_002332B8(side,next,(p->sideCount-i)*sizeof(SIDE)-sizeof(SIDE));
+   --p->sideCount;--i;--side;--next;
   }else side->binding=func_0012DC18(p,reference,1,7,3,D_002A2DD0);
- }
- for(int j=0;j<p->attachCount;j++){
-  ATTACH *attach=((ATTACH **)p->attachStorage)[j];
+ }}
+ {ATTACH **cursor=(ATTACH**)p->attachStorage;
+ for(int j=0,byteOffset=0;j<p->attachCount;j++,cursor++,byteOffset+=4){
+  ATTACH *attach=*cursor;
   attach->object=func_0015E938(D_003DD490,1,attach->id,p);
   if(attach->object){
    attach->mesh=func_001F4C58(p,attach->meshId,6);
@@ -89,10 +94,10 @@ extern "C" void func_001D1518(P *p){
     }
    }
   }
-  func_002332B8(&((ATTACH **)p->attachStorage)[j],&((ATTACH **)p->attachStorage)[j+1],(p->attachCount-j)*4-4);
-  --p->attachCount;--j;
- }
+  func_002332B8(cursor,(char*)p->attachStorage+byteOffset+4,(p->attachCount-j)*4-4);
+  --p->attachCount;--j;--cursor;byteOffset-=4;
+ }}
  p->path=func_001E94B0(0x2C9,16);
- func_001F1448(p->asset,p,-1,0,&p->binding);
+ func_001F1448(p->asset,p,-1,0,binding);
  func_001D14C0(p);
 }

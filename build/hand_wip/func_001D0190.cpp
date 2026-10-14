@@ -19,6 +19,7 @@ M3 *func_0011B500(M3 *,qword,float);
 M4 *func_0011C288(M4 *,qword,const M3 *,float);
 void func_001A5EE8(void *,const M4 *,float,float);
 }
+static inline qword VectorLoad(const qword *p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword CPUScalar(float f){qword r;__asm__("por %0,$zero,%1":"=r"(r):"r"(f));return r;}
@@ -40,7 +41,7 @@ extern "C" void func_001D0190(RIP *p)
     M4 transform;
     U scalar;
     CAMERA *camera=&D_002DDF40;
-    qword direction=Subtract(camera->position.q,p->position.q);
+    qword direction=Subtract(VectorLoad(&camera->position.q),VectorLoad(&p->position.q));
     float distance=Length(direction)*0.001f;
     float time=(D_002DDED0.time-p->start)/p->duration;
     float size=Evaluate(p->size,time)*Clamp(Evaluate(D_002C1FB0,distance),D_002C1FC0[0],D_002C1FC0[1]);

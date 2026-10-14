@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct {qword r[3];} M3;
 union U {qword q;float f[4];};
-struct P {char pad180[0x180];float response;char pad184[0xC];qword velocity;char pad1a0[0x10];M3 basis;char pad1e0[0x30];float height;char pad214[0x34];float oldHeight;};
+union FLOATWORD {float value;int bits;};
+struct P {char pad180[0x180];union FLOATWORD response;char pad184[0xC];qword velocity;char pad1a0[0x10];M3 basis;char pad1e0[0x30];float height;char pad214[0x34];float oldHeight;};
 struct XP {char pad30[0x30];qword local;char pad40[0x30];qword other,normal;float distance;char pad94[8];int kind;};
 struct CLK {float time,dt;};
 extern struct CLK D_002DDED0;
@@ -13,11 +14,10 @@ static __inline__ qword Dot(qword a,qword b){qword one;__asm__("vmul.xyz %0,%0,%
 static __inline__ float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static __inline__ void Scalar(union U *out,float f){qword bits;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2.ni %1,%0":"=j"(out->q):"r"(bits));}
 static __inline__ qword Rotate(const M3*m,qword q){register qword r __asm__("vf3")=q;register qword a __asm__("vf2")=m->r[0],b __asm__("vf1")=m->r[1],c __asm__("vf5")=m->r[2];__asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(r):"j"(a),"j"(b),"j"(c));return r;}
-static __inline__ qword Scale(qword q,qword f){__asm__("vmulx.xyzw %0,%0,%1x":"+j"(q):"j"(f));return q;}
 static __inline__ qword Response(qword old,qword n,qword speed,qword tangent,qword gain){__asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddax.xyzw $ACC,%1,%2x\n\tvmaddx.xyzw %0,%3,%4x":"+j"(old):"j"(n),"j"(speed),"j"(tangent),"j"(gain));return old;}
 static __inline__ qword DotNew(qword a,qword b){register qword d __asm__("vf2"),one __asm__("vf1");__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(a),"j"(b));return d;}
 static __inline__ qword ScaleFactor(qword v,qword f){__asm__("vmulx.xyzw %0,%1,%0x":"+j"(f):"j"(v));return f;}
-static __inline__ qword ScalarAt(const float *f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(*(const int*)f));return q;}
+static __inline__ qword ScalarAt(const union FLOATWORD *f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f->bits));return q;}
 void func_002044B0(struct P*p,struct XP*x,int side)
 {
     float lower,upper,speed,delta;

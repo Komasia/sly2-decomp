@@ -10,12 +10,17 @@ extern qword D_002C1080;
 extern qword D_002C1090;
 void func_001306A8(void *p);
 void func_00142140(void *p, void *q);
-qword func_001A6FC0(void *p, int n, qword q);
-qword func_0022FCC8(int n, void *p, qword q);
+qword func_001A6FC0(void *p, void *frame, qword q);
+qword func_0022FCC8(void *frame, void *p, qword q);
 qword func_001A62E8(void *p);
-qword func_0022FC48(int n, void *p, qword q);
+qword func_0022FC48(void *frame, void *p, qword q);
 void func_002303A0(struct S *p, struct X *px, int n);
-void func_001305B8(void *a, struct S *p, int n, void *b, float g0, float g1);
+void func_001305B8(void *clip, struct S *owner, float position, float speed, int flags, void *output);
+static inline void Selection(const struct S*p,int*index,struct X**timer){
+ register int selected __asm__("$2");register struct X*receiver __asm__("s0");
+ __asm__("lw %0,0x194(%2)\n\tlw %1,0x204(%2)":"=&r"(selected),"=r"(receiver):"r"(p),"m"(p->x194),"m"(p->x204));
+ *index=selected;*timer=receiver;
+}
 void func_001C8918(struct S *p, int n)
 {
     struct X *px;
@@ -38,8 +43,8 @@ void func_001C8918(struct S *p, int n)
         px = p->x204;
         q = func_0022FCC8(0, px->xA0, func_001A6FC0(p->x190, 0, D_002C1080));
         px->xB0 = q;
-        px = p->x204;
-        q = func_0022FC48(0, px->xA0, func_001A62E8(p->a1A8[p->x194]));
+        {int selected;Selection(p,&selected,&px);
+        q=func_0022FC48(0,px->xA0,func_001A62E8(p->a1A8[selected]));}
         px->xC0 = q;
         px = p->x204;
         q = func_0022FCC8(0, px->xA0, func_001A6FC0(p->x190, 0, D_002C1090));
@@ -48,7 +53,7 @@ void func_001C8918(struct S *p, int n)
         break;
     case 2:
         func_00142140(p->x190, p->a1A8[p->x194]);
-        func_001305B8(p->a1CC[p->x194], p, 0, p->x1A0, 0.0f, 1.0f);
+        func_001305B8(p->a1CC[p->x194], p, 0.0f, 1.0f, 0, p->x1A0);
         break;
     }
 }

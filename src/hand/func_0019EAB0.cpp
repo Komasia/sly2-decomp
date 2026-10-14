@@ -4,7 +4,7 @@ struct VE{short delta,pad;void*fn;};
 struct ASEG{char pad[0x74];float duration;};
 struct ASEGA;struct COMPONENT;struct EFFECT;
 struct P{char pad0[12];VE*vt;char pad10[0x190-0x10];U velocity;char pad1a0[0x1010-0x1A0];U offset;char pad1020[0x10];ASEGA*asega;COMPONENT*component;char pad1038[0x1060-0x1038];U goal,motion;char pad1080[0x14D4-0x1080];int alternate;};
-struct PATH{char pad0[12];VE*vt;char pad10[0x190-0x10];void*focus;char pad194[0x1D0-0x194];void*attachEffect;void*releaseEffect;};
+struct PATH{char pad0[12];VE*vt;char pad10[0x190-0x10];void*focus;char pad194[0x1D0-0x194];int attachEffectId;int releaseEffectId;};
 struct C{P*actor;int state;float time;PATH*path;float distance;int pad14;int descending,reset,previous;char pad24[12];U offset;char pad40[0x30];ASEG*clip2;ASEG*clip0;ASEG*clip1;ASEG*fallback;};
 struct LM{float low,high;};
 struct WORK{U ahead,behind;LM limit;U point,world,target;};
@@ -17,7 +17,7 @@ float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
 void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
 qword func_001A6F00(P*,P*,qword);qword func_001A62E8(P*);
 void func_00140C88(P*,void*);
-EFFECT*func_001FBB90(void*);void func_001FB2F8(EFFECT*,int);void func_001FB3F0(EFFECT*,qword);
+EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,int);void func_001FB3F0(EFFECT*,qword);
 void func_0018E540(P*,int);void func_001F15B8(COMPONENT**);
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
@@ -81,8 +81,8 @@ typedef char P_motion_Offset[FIELD_OFFSET(P,motion)==4208?1:-1];
 typedef char P_alternate_Offset[FIELD_OFFSET(P,alternate)==5332?1:-1];
 typedef char PATH_vt_Offset[FIELD_OFFSET(PATH,vt)==12?1:-1];
 typedef char PATH_focus_Offset[FIELD_OFFSET(PATH,focus)==400?1:-1];
-typedef char PATH_attachEffect_Offset[FIELD_OFFSET(PATH,attachEffect)==464?1:-1];
-typedef char PATH_releaseEffect_Offset[FIELD_OFFSET(PATH,releaseEffect)==468?1:-1];
+typedef char PATH_attachEffectId_Offset[FIELD_OFFSET(PATH,attachEffectId)==464?1:-1];
+typedef char PATH_releaseEffectId_Offset[FIELD_OFFSET(PATH,releaseEffectId)==468?1:-1];
 typedef char ASEG_duration_Offset[FIELD_OFFSET(ASEG,duration)==116?1:-1];
 typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
 typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
@@ -115,7 +115,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   p->actor->motion.q=Sub(p->actor->goal.q,w.point.q);
   p->actor->motion.i[2]=0;
   func_00140C88(p->actor,p->path->focus);
-  if(p->path->attachEffect){EFFECT*e=func_001FBB90(p->path->attachEffect);func_001FB2F8(e,0);func_001FB3F0(e,w.point.q);}
+  if(p->path->attachEffectId){EFFECT*e=func_001FBB90(p->path->attachEffectId);func_001FB2F8(e,0);func_001FB3F0(e,w.point.q);}
   break;
  }
  case 0:if(p->actor==D_002E1E40)func_0018E540(p->actor,p->actor->alternate?10:2);break;
@@ -128,7 +128,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
   p->actor->motion.i[2]=0;func_00140C88(p->actor,focus);
-  if(p->path->releaseEffect){EFFECT*e=func_001FBB90(p->path->releaseEffect);func_001FB2F8(e,0);func_001FB3F0(e,func_001A62E8(p->actor));}
+  if(p->path->releaseEffectId){EFFECT*e=func_001FBB90(p->path->releaseEffectId);func_001FB2F8(e,0);func_001FB3F0(e,func_001A62E8(p->actor));}
   p->path=0;return;
  }
  case 0:

@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { short kind,index; union { short item; int value; } payload; } PAIR;
-typedef struct { float x, y, z; } __attribute__((aligned(16))) VECTOR;
+typedef union {qword q;float xyz[4];} VECTOR;
 struct CONTACT;
 typedef struct { int id,kind; char unknown8[8]; qword value; char unknown20[0x80]; } ENDPOINT;
 typedef struct { ENDPOINT endpoint[2]; char unknown140[8]; struct CONTACT *head; int unknown14C; } E;
@@ -37,10 +37,10 @@ void func_001DF0A0(OBJ *p, Q *q)
         if (!func_0014C6A0(q, out[0], out[1], 1, &hit)) {
             void *so = *q->x4->x14;
             if (func_00132B10(so, 0x33))
-                f = func_00205670(so, out[0], out[1], (qword *)&pos);
+                f = func_00205670(so, out[0], out[1], &pos.q);
         } else {
             f = 1;
-            *(qword *)&pos = hit.pos;
+            pos.q = hit.pos;
         }
         if (f) {
             register qword d __asm__("vf1");
@@ -48,7 +48,7 @@ void func_001DF0A0(OBJ *p, Q *q)
             register qword dir __asm__("vf2");
             register qword len __asm__("vf4");
             register qword start __asm__("vf4")=out[0];
-            register qword point __asm__("vf5")=*(qword *)&pos;
+            register qword point __asm__("vf5")=pos.q;
             int distanceBits;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(start), "j"(point));
             __asm__("vmul.xyz %0, %0, %0\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(d), "=&j"(t));

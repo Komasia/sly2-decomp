@@ -1,16 +1,18 @@
+// Complete camera activation WIP; genuine nullable frame and BSP pointer contracts.
 typedef int qword __attribute__((mode(TI)));
+struct BSP;
 struct O { char pad[0x2DC]; int x2DC; };
-struct S { char pad[0xE0]; struct O *pE0; char pad1[0x108 - 0xE4]; void *p108; char pad2[0x124 - 0x10C]; int x124; char pad3[0x13C - 0x128]; int x13C; };
+struct S { char pad[0xE0]; struct O *pE0; char pad1[0x108 - 0xE4]; struct BSP *p108; char pad2[0x124 - 0x10C]; int x124; char pad3[0x13C - 0x128]; int x13C; };
 struct G;
 extern struct G D_003DD490;
 extern int D_002DE240;
-struct O *func_001C4A48(struct G *pg);
-void func_00221178(struct S *p, int k);
-qword func_001A62E8(struct O *po);
-qword func_001A6F00(int a, struct S *p, qword q);
-int func_00118FB0(void *p, int n, qword v);
-int func_00132B10(struct O *po, int n);
-void func_00221298(struct S *p)
+extern "C" struct O *func_001C4A48(struct G *pg);
+extern "C" void func_00221178(struct S *p, int k);
+extern "C" qword func_001A62E8(struct O *po);
+extern "C" qword func_001A6F00(void *source, struct S *p, qword q);
+extern "C" struct BSP *func_00118FB0(struct BSP *p, unsigned int limit, qword v);
+extern "C" int func_00132B10(struct O *po, int n);
+extern "C" void func_00221298(struct S *p)
 {
     struct O *po = func_001C4A48(&D_003DD490);
     int f;
