@@ -1,0 +1,1 @@
+# pending: asfix.py with the position-1 div/sqrt nop rule (makes func_0011D018 match). Not yet verified against the full project; apply after a full uncached progress.py run.
