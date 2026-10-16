@@ -162,3 +162,11 @@ asfix.py now also pads short loops that contain a forward conditional branch in 
 instruction before that branch writes a register the branch tests (so its delay slot is certainly a nop): the branch
 counts as 2 instructions. A branch that is the loop's first instruction keeps the older rule. Fixed strchr
 (func_0021EDF8) and func_001A6260; full uncached rebuild shows no regressions.
+
+## Dead-code scraps: config/junk.csv (2026-10-16)
+The original linker left small scraps of dead code between functions: orphan `addiu $sp,$sp,+N` / `nop` epilogue
+pieces and lone delay-slot instructions with no return. 141 such ranges are listed in `config/junk.csv`; they are
+not functions, so progress.py, the graph and worklist.py skip them (their bytes are still part of .text for a full
+rebuild). Three entries that were a scrap followed by a real tiny function were split, so the function now starts
+at the real address (func_00119BC8, func_0014C1F0, func_00259D60). Totals dropped from 6,813 to 6,675 functions.
+If you find another scrap, add its range to junk.csv with a reason rather than "matching" it.

@@ -44,8 +44,10 @@ def one(src):
 
 def real_functions(funcs):
     out = {}
+    junk = M.load_junk()
     for n, (a, s) in funcs.items():
         if not (M.TEXT_VA <= a < M.TEXT_VA + M.TEXT_SIZE): continue
+        if M.is_junk(a, s, junk): continue       # dead-code scrap (config/junk.csv), not a function
         w = M.target_words(a, s)
         if all(x == 0 for x in w): continue      # alignment padding, not a function
         out[a] = (n, s)

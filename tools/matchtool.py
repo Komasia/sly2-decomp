@@ -40,6 +40,15 @@ def load_functions():
                 funcs[m.group(1)] = (a, by_addr[a][1])
     return funcs
 
+def load_junk():
+    """Address ranges of dead-code scraps between functions (config/junk.csv): not functions, never counted."""
+    p = os.path.join(ROOT, 'config', 'junk.csv')
+    if not os.path.exists(p): return []
+    return [(int(r['Start'], 16), int(r['End'], 16)) for r in csv.DictReader(open(p))]
+
+def is_junk(addr, size, junk=None):
+    return any(lo <= addr and addr + size <= hi for lo, hi in (junk if junk is not None else load_junk()))
+
 def target_words(addr, size):
     elf = open(ELF, 'rb').read()
     off = addr - TEXT_VA + TEXT_OFF
