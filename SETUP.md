@@ -23,6 +23,7 @@ git clone https://github.com/matt-kempster/m2c ~/m2c     # only needed for autom
 | PS2 compiler bundle (game code: **ee-gcc 2.95.3-136**) | extract to `tools/compilers/bundle/` | https://github.com/decompme/compilers/releases/download/compilers/ps2_compilers.tar.xz |
 | ee-gcc 2.95.3-114 (only for its SN assembler `ps2eeas.exe`) | extract to `tools/compilers/2.95.3-114/` | https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.95.3-114.tar.gz |
 | ee-gcc 2.96 (Sony SDK library code, GNU as) | extract to `tools/compilers/ee-gcc2.96/` | https://github.com/decompme/compilers/releases/download/compilers/ee-gcc2.96.tar.xz |
+| More PS2 compilers (Sony SDK libraries: ee-gcc 2.9 does `mult1` and tail calls) | extract each to `tools/compilers/extra/<name>/` | `https://github.com/decompme/compilers/releases/download/compilers/<name>.tar.xz` for ee-gcc2.9-990721, ee-gcc2.9-991111, ee-gcc2.9-991111a, ee-gcc2.9-991111-01, ee-gcc3.2-040921; `.tar.gz` for ee-gcc2.9-991111-01-dtls13010, ee-gcc3.2-030926 |
 
 ee-gcc 2.96 is a 32-bit Linux program: on Ubuntu/Debian `sudo dpkg --add-architecture i386 && sudo apt install libc6:i386`
 (or use `tools/setup_i386.sh` with Ubuntu's `libc6_*_i386.deb`).
