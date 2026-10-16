@@ -236,3 +236,9 @@ matchtool and then clean it up into readable C before saving it to src/. Use at 
 When a short loop ends `c.cond.s; bc1x`, SN's assembler inserts its compare→branch hazard nop, which makes the loop one
 instruction longer (often long enough that it is no longer padded). asfix now counts that nop. If a loop that ends in an
 FPU compare/branch used to be off by one nop, recheck it: func_001E7538 matched with no source change.
+
+## Allocation-only asm operands (policy, 2026-10-16)
+In a function that already uses inline VU asm, an extra *unused* operand on an existing asm statement (e.g. listing
+`"j"(dv)` twice) is accepted the same way register pins are. It emits no instructions and only changes the
+register-allocation heuristics. Say so in a comment on that line. Don't add new asm statements just for this.
+First example: src/hand/func_0012DA30.c.
