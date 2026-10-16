@@ -1,6 +1,3 @@
-// WIP (Claude agent): 7/449. Only the field-picture ref-table block (0x24FEEC-0x24FF18) differs: temp regs a1/a0/a2 for
-// the x1E8/x1DC loads and the constant 2. Keys: 'sel' starts at 1 and is reused as the constant 1 (mtype == sel, fld/avg
-// args, sel = 1 again in backward frame path); frame DMV call order (0,0)(1,0 DMV0)(1,1)(0,1 DMV1).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
@@ -42,13 +39,14 @@ void _getAllRefs(D *d, int bx, int by, int mbtype, int mtype, int *pmv, int *mvf
                 _sceMpegError1(d, "(a) invalid motion_type(%d)-0", mtype);
             }
         } else {
-            cur = d->picture_structure == 2;
+            int two = 2;
+            cur = d->picture_structure == two;
             ref[0][0] = d->fwd_top;
             ref[0][1] = d->fwd_bot;
             ref[1][0] = d->bwd_top;
             ref[1][1] = d->bwd_bot;
             sel = 0;
-            if (d->picture_coding_type == 2 && d->second_field)
+            if (d->picture_coding_type == two && d->second_field)
                 sel = cur != mvfs[0];
             if (mtype == 1 || !(mbtype & 8)) {
                 _getRef0(d, ref[sel][mvfs[0]], 0, 0, 0, 16, bx, by, pmv[0], pmv[1], 0, stw);
