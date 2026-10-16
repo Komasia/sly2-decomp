@@ -251,3 +251,8 @@ scheduling, e.g. whether `&hit` is formed before or after a float argument that 
 matches only with a different float/int order, use that order (it's the real one). If you can, update the shared
 prototype and re-check the callee and its other callers. Examples: func_00117120 (floats first, func_0012E060) and
 func_001A93C8 (float before HIT*, func_0013B5E8).
+
+## Sony code: constants held in locals (2026-10-16)
+When the original keeps a small constant (0/1/2/0x20…) in a callee-saved register ($s3/$s5) for a whole function, the
+Sony source declared it as a local variable, e.g. `int one = 1;`, `int two = 2;`, or a reused flag like `sel`.
+Write that local and use it in every place the original reads the register. This matched sceIoctl and _getAllRefs.
