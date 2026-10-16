@@ -185,7 +185,10 @@ files when it stands in for a known difference between our compiler builds and t
 (e.g. Sony's SDK scheduler keeps the use of a call's return value right after the jal). Prefer natural C when it
 exists, and leave a one-line comment saying what the barrier emulates.
 
-## SDK modes: FPU compare -> branch nop (2026-10-16)
+## SDK modes: FPU compare -> branch nop and mfc1 -> branch nop (2026-10-16)
+Also: labels between c.cond.s and the bc1 are skipped (the nop still goes after the compare), and `mfc1 $r,$fN`
+followed by a gcc-scheduled branch reading $r gets a nop (Sony kept the coprocessor-move delay). Matched
+__kernel_rem_pio2f, __kernel_sinf, __kernel_cosf; all 272 SDK-mode files re-verified.
 gnu_reorder.py also inserts a nop between `c.cond.s` and a following bc1t/bc1f when gcc emitted the branch in a
 noreorder block (Sony assembler hazard rule; matched acosf/asinf/atan2f, floorf unaffected). SLY2_SAVES now only
 rewrites $sp-based sq/lq (real 128-bit data stores stay sq). All 113 SDK-mode files re-verified.
