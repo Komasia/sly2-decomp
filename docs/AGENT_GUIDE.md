@@ -156,3 +156,9 @@ the ee-gcc builds we have emit 128-bit `sq`/`lq`. Add `// SLY2_SAVES: sd` (only 
 matchtool rewrites sq/lq to sd/ld at assembly time. This emulates the compiler difference, like asfix.py does for
 the game's assembler; do not put the macro in the C source. Typical SDK header set:
 `SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114` / `SLY2_CFLAGS: -O2 -G0` / `SLY2_ASM: gnu-reorder-db` / `SLY2_SAVES: sd`.
+
+## Short loops with an inner forward branch (2026-10-16)
+asfix.py now also pads short loops that contain a forward conditional branch in reorder mode, when the
+instruction before that branch writes a register the branch tests (so its delay slot is certainly a nop): the branch
+counts as 2 instructions. A branch that is the loop's first instruction keeps the older rule. Fixed strchr
+(func_0021EDF8) and func_001A6260; full uncached rebuild shows no regressions.

@@ -153,11 +153,21 @@ def fix(text):
             1 for j in range(labels[tgt] + 1, i) if classify(lines[j])[0] in ('blank', 'dir'))
         if uncond and not noreorder[i] and not selfloop: continue
         # count instructions between the label and the branch
-        n = 0; ok = True
+        n = 0; ok = True; last = None
         for j in range(labels[tgt] + 1, i):
             k = classify(lines[j])
             if k[0] == 'insn':
                 if multi(k[1], k[2]): ok = False; break
+                if k[1] in COND and k[1] != 'b' and not noreorder[j] and last is not None:
+                    # a forward conditional branch inside the loop (reorder mode): the assembler gives it a nop
+                    # delay slot when the preceding instruction writes a register the branch tests (it can't be
+                    # moved into the slot).  Count branch + nop; any other case is ambiguous, so skip the loop.
+                    bops = [o.strip() for o in k[2].split(',')]
+                    btgt = bops[-1]
+                    dst = last[2].split(',')[0].strip() if last else None
+                    if btgt in labels and labels[btgt] > i and dst and dst.startswith('$') and dst in bops[:-1]:
+                        n += 2; last = None; continue
+                    ok = False; break
                 if JUMPY.match(k[1]) and not noreorder[j]:
                     # a call/jump in reorder mode: the assembler fills its delay slot from the preceding
                     # instruction if it can.  Only handle the case where it can't (first instruction of the
@@ -165,7 +175,7 @@ def fix(text):
                     if n == 0 and JUMPY.match(k[1]) and k[1] not in ('syscall', 'break', 'eret'):
                         n += 2; continue
                     ok = False; break
-                n += 1
+                n += 1; last = k
             elif k[0] == 'dir' and re.match(r'\.(p2align|align)\s+2\s*$', k[1]):
                 pass                                                          # instructions are already 4-aligned
             elif k[0] == 'dir' and re.match(r'\.(p2align|align|space|skip|word|byte|half)', k[1]):
