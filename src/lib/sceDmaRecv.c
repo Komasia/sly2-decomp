@@ -1,7 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-__asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
+// SLY2_SAVES: sd
 typedef struct { unsigned DIR:1; unsigned p0:1; unsigned MOD:2; unsigned ASP:2; unsigned TTE:1; unsigned TIE:1; unsigned STR:1; unsigned p1:7; unsigned TAG:16; } tD_CHCR;
 typedef struct { tD_CHCR chcr; unsigned p0[3]; unsigned madr; unsigned p1[3]; unsigned qwc; } sceDmaChan;
 void WaitDma(sceDmaChan *d);
