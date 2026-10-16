@@ -105,12 +105,19 @@ def render(real, matched_addrs):
                        + ' '.join(f'{a:.1f},{b:.1f}' for a, b in pts) + '"/>')
         for a, b in pts:
             out.append(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="3.5" fill="{color}"/>')
-    shown = set()
+    # one label per day, at that day's first checkpoint; drop labels that would overlap (keep the newest day)
+    first = {}
     for i, r in enumerate(hist):
-        lab = r['date'][5:] if r['date'] else 'early'
-        if lab in shown and i != n - 1: continue
-        shown.add(lab)
-        out.append(t(xs[i], cy + ch + 16, lab, 10, C_MUTED, 'middle'))
+        first.setdefault(r['date'][5:] if r['date'] else 'early', i)
+    cand = sorted(first.items(), key=lambda kv: kv[1])
+    keep = []
+    for lab, i in cand:
+        while keep and xs[i] - xs[keep[-1][1]] < 42:
+            keep.pop()                      # too close: the later (newer) label wins
+        keep.append((lab, i))
+    for lab, i in keep:
+        anchor = 'end' if xs[i] > cx + cw - 20 else ('start' if xs[i] < cx + 20 else 'middle')
+        out.append(t(xs[i], cy + ch + 16, lab, 10, C_MUTED, anchor))
     ly = cy + ch + 36
     out.append(f'<rect x="{cx}" y="{ly - 9}" width="12" height="4" fill="{C_DONE}"/>' + t(cx + 18, ly - 4, 'Functions', 12))
     out.append(f'<rect x="{cx + 100}" y="{ly - 9}" width="12" height="4" fill="{C_DONE2}"/>' + t(cx + 118, ly - 4, 'Code size (instructions)', 12))
