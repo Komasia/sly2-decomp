@@ -185,6 +185,11 @@ files when it stands in for a known difference between our compiler builds and t
 (e.g. Sony's SDK scheduler keeps the use of a call's return value right after the jal). Prefer natural C when it
 exists, and leave a one-line comment saying what the barrier emulates.
 
+## SDK modes: FPU compare -> branch nop (2026-10-16)
+gnu_reorder.py also inserts a nop between `c.cond.s` and a following bc1t/bc1f when gcc emitted the branch in a
+noreorder block (Sony assembler hazard rule; matched acosf/asinf/atan2f, floorf unaffected). SLY2_SAVES now only
+rewrites $sp-based sq/lq (real 128-bit data stores stay sq). All 113 SDK-mode files re-verified.
+
 ## SDK modes: constant expansion before a call (2026-10-16)
 tools/gnu_reorder.py now also stops GNU as from moving the tail of a multi-instruction constant (`li.d`, `dli`) into
 the delay slot of an immediately following `jal`/`jalr`; Sony's assembler left a nop there. All 101 SDK-mode files
