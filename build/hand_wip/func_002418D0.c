@@ -1,6 +1,6 @@
-// WIP (Claude agent): all-volatile globals give target's program-order and nop jal slots. Only remaining diff: target 'lui s0,%hi(D_002C67A0)' directly, ours 'lui a0' + 'daddu s0,a0' (gcse reaching-reg copy; same issue as InitTimer/_lf_bind).
+// WIP (Claude agent): with -Os only 11 diffs (register numbering v0/v1/a0/a1); -O2 has the lui+copy problem.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
-// SLY2_CFLAGS: -O2 -G0
+// SLY2_CFLAGS: -Os -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
 extern volatile int D_002C67A0;

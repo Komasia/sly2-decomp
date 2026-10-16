@@ -1,3 +1,4 @@
+// NOTE (Claude agent): now MATCHED in src/lib/InitTimer.c with -Os + gnu-reorg + manually strength-reduced loop.
 // WIP (Claude agent): structure right (use SLY2_ASM gnu-reorg for the nop-slot init loop). Remaining: register numbering - target keeps %hi(D_002C5A30) in s2 directly (lui s2) and ts in s1, ours lui v1 + copy to s4; loop counter/value regs v0/v1 swapped vs ours v1/a0.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
