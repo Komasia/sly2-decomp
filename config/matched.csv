@@ -2188,6 +2188,7 @@ func_0015E678,0x15E678,175,match,src/hand/func_0015E678.c
 func_0015E938,0x15E938,7,match,src/hand/func_0015E938.c
 func_0015E958,0x15E958,12,match,src/hand/func_0015E958.c
 func_0015E988,0x15E988,16,match,src/hand/func_0015E988.c
+func_0015E9C8,0x15E9C8,235,match,src/hand/func_0015E9C8.c
 func_0015ED78,0x15ED78,12,match,src/hand/func_0015ED78.c
 func_0015EDA8,0x15EDA8,77,match,src/auto/func_0015EDA8.c
 func_0015EEE0,0x15EEE0,8,match,src/auto/func_0015EEE0.c
@@ -3807,6 +3808,7 @@ func_001CFA20,0x1CFA20,7,match,src/auto/func_001CFA20.c
 func_001CFA40,0x1CFA40,30,match,src/hand/func_001CFA40.cpp
 PostShrapnelEmit__FP8SHRAPNELP5EMITB,0x1CFAB8,73,match,src/hand/PostShrapnelEmit__FP8SHRAPNELP5EMITB.cpp
 func_001CFBE0,0x1CFBE0,41,match,src/hand/func_001CFBE0.c
+RenderShrapnel__FP8SHRAPNELP2CM,0x1CFC88,20,match,src/hand/RenderShrapnel__FP8SHRAPNELP2CM.cpp
 InitMatch__FP5MATCHP6VECTORfP2SO,0x1CFCD8,22,match,src/hand/InitMatch__FP5MATCHP6VECTORfP2SO.cpp
 func_001CFD30,0x1CFD30,85,match,src/hand/func_001CFD30.cpp
 func_001D0038,0x1D0038,38,match,src/hand/func_001D0038.c
@@ -5815,6 +5817,7 @@ execute_cfa_insn,0x23FA40,230,match,src/lib/execute_cfa_insn.c
 __register_frame_info_table,0x23FDD8,10,match,src/lib/__register_frame_info_table.c
 __deregister_frame_info,0x23FE00,30,match,src/lib/__deregister_frame_info.c
 __frame_state_for,0x23FE78,118,match,src/lib/__frame_state_for.c
+fde_split,0x240050,93,match,src/lib/fde_split.c
 func_002401C8,0x2401C8,3,match,src/auto/func_002401C8.c
 func_00240328,0x240328,4,match,src/lib/func_00240328.c
 s1_sceGsResetPath,0x240338,40,match,src/lib/s1_sceGsResetPath.c
@@ -5904,15 +5907,21 @@ atan2f,0x2458F0,74,match,src/lib/atan2f.c
 fmodf,0x245A18,79,match,src/lib/fmodf.c
 powf,0x245B58,322,match,src/lib/powf.c
 sqrtf,0x246060,69,match,src/lib/sqrtf.c
+__ieee754_log10,0x246178,98,match,src/lib/__ieee754_log10.c
 __ieee754_pow,0x246300,842,match,src/lib/__ieee754_pow.c
 __ieee754_sqrt,0x247028,193,match,src/lib/__ieee754_sqrt.c
 __ieee754_atan2f,0x247B00,186,match,src/lib/__ieee754_atan2f.c
+__ieee754_fmodf,0x247DE8,148,match,src/lib/__ieee754_fmodf.c
 __ieee754_rem_pio2f,0x2488C8,248,match,src/lib/__ieee754_rem_pio2f.c
 __ieee754_sqrtf,0x248CA8,78,match,src/lib/__ieee754_sqrtf.c
+__kernel_cosf,0x248DE0,86,match,src/lib/__kernel_cosf.c
+__kernel_rem_pio2f,0x248F38,595,match,src/lib/__kernel_rem_pio2f.c
+__kernel_sinf,0x249888,65,match,src/lib/__kernel_sinf.c
 fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
 func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
 matherr,0x249CB8,9,match,src/lib/matherr.c
+rint,0x249CE0,127,match,src/lib/rint.c
 func_00249EE0,0x249EE0,109,match,src/lib/func_00249EE0.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
@@ -5924,6 +5933,7 @@ GetRomName,0x24A7B0,28,match,src/lib/GetRomName.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
 sceScfGetLanguage,0x24A860,24,match,src/lib/sceScfGetLanguage.c
 _clearEach,0x24AC10,50,match,src/lib/_clearEach.c
+_decodeOrSkipFrame,0x24B148,92,match,src/lib/_decodeOrSkipFrame.c
 _decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
 func_0024B530,0x24B530,2,match,src/auto/func_0024B530.c
@@ -5931,6 +5941,7 @@ sceMpegGetPicture,0x24B540,18,match,src/lib/sceMpegGetPicture.c
 sceMpegReset,0x24B590,31,match,src/lib/sceMpegReset.c
 func_0024B610,0x24B610,3,match,src/auto/func_0024B610.c
 sceMpegAddCallback,0x24B628,13,match,src/lib/sceMpegAddCallback.c
+_sceMpegDispatchMpegCallback,0x24B670,30,match,src/lib/_sceMpegDispatchMpegCallback.c
 _sceMpegDispatchMpegCbNodata,0x24B6E8,29,match,src/lib/_sceMpegDispatchMpegCbNodata.c
 _decodeOrSkip,0x24B760,17,match,src/lib/_decodeOrSkip.c
 sceMpegClearRefBuff,0x24B7A8,21,match,src/lib/sceMpegClearRefBuff.c
@@ -5944,6 +5955,7 @@ func_0024B9C8,0x24B9C8,9,match,src/auto/func_0024B9C8.c
 _cpr8,0x24B9F0,164,match,src/lib/_cpr8.c
 _sceMpegFlush,0x24C360,48,match,src/lib/_sceMpegFlush.c
 _sceMpegOutputFrame,0x24C420,36,match,src/lib/_sceMpegOutputFrame.c
+_doCSC2,0x24C4B0,112,match,src/lib/_doCSC2.c
 _ch3dmaCSC,0x24CB48,82,match,src/lib/_ch3dmaCSC.c
 _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
@@ -6057,6 +6069,7 @@ func_002566B0,0x2566B0,9,match,src/auto/func_002566B0.c
 func_002566D8,0x2566D8,61,match,src/hand/func_002566D8.cpp
 func_002567D0,0x2567D0,51,match,src/hand/func_002567D0.c
 func_002568A0,0x2568A0,7,match,src/auto/func_002568A0.c
+func_002568C0,0x2568C0,78,match,src/hand/func_002568C0.c
 func_002569F8,0x2569F8,62,match,src/hand/func_002569F8.c
 func_00256AF0,0x256AF0,22,match,src/hand/func_00256AF0.c
 func_00256B48,0x256B48,59,match,src/hand/func_00256B48.c
