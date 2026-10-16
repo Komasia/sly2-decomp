@@ -892,6 +892,7 @@ func_00118500,0x118500,4,match,src/hand/func_00118500.c
 func_00118510,0x118510,77,match,src/auto/func_00118510.c
 func_00118648,0x118648,8,match,src/auto/func_00118648.c
 func_001191E8,0x1191E8,71,match,src/hand/func_001191E8.c
+func_00119308,0x119308,33,match,src/hand/func_00119308.c
 func_00119390,0x119390,11,match,src/hand/func_00119390.c
 func_001193C0,0x1193C0,3,match,src/auto/func_001193C0.c
 func_00119488,0x119488,77,match,src/auto/func_00119488.c
@@ -1847,6 +1848,7 @@ func_0014BF48,0x14BF48,44,match,src/hand/func_0014BF48.c
 func_0014BFF8,0x14BFF8,82,match,src/hand/func_0014BFF8.c
 func_0014C140,0x14C140,20,match,src/hand/func_0014C140.c
 func_0014C190,0x14C190,19,match,src/hand/func_0014C190.c
+func_0014C1F0,0x14C1F0,3,match,src/hand/func_0014C1F0.c
 func_0014C200,0x14C200,22,match,src/auto/func_0014C200.c
 func_0014C258,0x14C258,22,match,src/auto/func_0014C258.c
 func_0014C2B0,0x14C2B0,10,match,src/hand/func_0014C2B0.c
@@ -1976,6 +1978,7 @@ func_00152970,0x152970,121,match,src/hand/func_00152970.c
 func_00152B58,0x152B58,64,match,src/hand/func_00152B58.c
 func_00153128,0x153128,32,match,src/auto/func_00153128.c
 func_001531A8,0x1531A8,76,match,src/hand/func_001531A8.c
+func_001532D8,0x1532D8,53,match,src/hand/func_001532D8.c
 func_001533B0,0x1533B0,123,match,src/hand/func_001533B0.c
 func_001535A0,0x1535A0,38,match,src/hand/func_001535A0.c
 func_00153638,0x153638,2,match,src/auto/func_00153638.c
@@ -3496,6 +3499,7 @@ func_001BECF8,0x1BECF8,7,match,src/auto/func_001BECF8.c
 func_001BED18,0x1BED18,62,match,src/hand/func_001BED18.c
 func_001BEE10,0x1BEE10,20,match,src/hand/func_001BEE10.c
 func_001BEE60,0x1BEE60,29,match,src/hand/func_001BEE60.c
+func_001BEED8,0x1BEED8,55,match,src/hand/func_001BEED8.c
 func_001BEFB8,0x1BEFB8,77,match,src/auto/func_001BEFB8.c
 func_001BF0F0,0x1BF0F0,8,match,src/auto/func_001BF0F0.c
 func_001BF110,0x1BF110,57,match,src/hand/func_001BF110.c
@@ -3811,6 +3815,7 @@ func_001D3FA8,0x1D3FA8,17,match,src/hand/func_001D3FA8.c
 func_001D3FF0,0x1D3FF0,24,match,src/hand/func_001D3FF0.c
 func_001D4050,0x1D4050,73,match,src/hand/func_001D4050.c
 func_001D4178,0x1D4178,31,match,src/hand/func_001D4178.c
+func_001D41F8,0x1D41F8,219,match,src/hand/func_001D41F8.cpp
 func_001D4940,0x1D4940,121,match,src/hand/func_001D4940.c
 func_001D4B28,0x1D4B28,8,match,src/auto/func_001D4B28.c
 func_001D4B48,0x1D4B48,17,match,src/hand/func_001D4B48.c
@@ -5403,6 +5408,7 @@ func_00231768,0x231768,30,match,src/lib/func_00231768.c
 func_002317E0,0x2317E0,43,match,src/hand/func_002317E0.c
 func_00231890,0x231890,77,match,src/auto/func_00231890.c
 func_002319C8,0x2319C8,8,match,src/auto/func_002319C8.c
+func_002319E8,0x2319E8,151,match,src/hand/func_002319E8.c
 snd_FlushSoundCommands,0x231C48,139,match,src/lib/snd_FlushSoundCommands.c
 func_00231E90,0x231E90,42,match,src/lib/func_00231E90.c
 func_00231F38,0x231F38,25,match,src/lib/func_00231F38.c
@@ -5611,6 +5617,7 @@ _request_end,0x236D60,51,match,src/lib/_request_end.c
 _alarm_rdata,0x236E30,16,match,src/lib/_alarm_rdata.c
 _search_svdata,0x236F48,19,match,src/lib/_search_svdata.c
 _alarm_bind,0x236F98,16,match,src/lib/_alarm_bind.c
+sceSifBindRpc,0x2370A8,83,match,src/lib/sceSifBindRpc.c
 sceSifCheckStatRpc,0x237488,15,match,src/auto/sceSifCheckStatRpc.c
 get_iob,0x2376D0,27,match,src/lib/get_iob.c
 _sceFsSemInit,0x237AF8,21,match,src/lib/_sceFsSemInit.c
@@ -5696,6 +5703,7 @@ decode_uleb128,0x23F240,17,match,src/lib/decode_uleb128.c
 decode_sleb128,0x23F288,20,match,src/lib/decode_sleb128.c
 add_fdes,0x23F688,34,match,src/lib/add_fdes.c
 find_fde,0x23F850,57,match,src/lib/find_fde.c
+extract_cie_info,0x23F938,65,match,src/lib/extract_cie_info.c
 __register_frame_info_table,0x23FDD8,10,match,src/lib/__register_frame_info_table.c
 func_002401C8,0x2401C8,3,match,src/auto/func_002401C8.c
 func_00240328,0x240328,4,match,src/lib/func_00240328.c
@@ -5739,6 +5747,7 @@ scePadGetModVersion,0x243C40,25,match,src/lib/scePadGetModVersion.c
 sceMcOpen,0x243EF0,74,match,src/lib/sceMcOpen.c
 sceMcMkdir,0x244018,13,match,src/lib/sceMcMkdir.c
 sceMcClose,0x244050,47,match,src/lib/sceMcClose.c
+sceMcRead,0x2441C0,69,match,src/lib/sceMcRead.c
 sceMcGetDir,0x2446F0,83,match,src/lib/sceMcGetDir.c
 sceMcFormat,0x244848,51,match,src/lib/sceMcFormat.c
 sceMcDelete,0x244918,71,match,src/lib/sceMcDelete.c
