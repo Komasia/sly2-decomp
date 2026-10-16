@@ -189,3 +189,8 @@ exists, and leave a one-line comment saying what the barrier emulates.
 tools/gnu_reorder.py now also stops GNU as from moving the tail of a multi-instruction constant (`li.d`, `dli`) into
 the delay slot of an immediately following `jal`/`jalr`; Sony's assembler left a nop there. All 101 SDK-mode files
 re-verified; this finished newlib scalbn (func_00249EE0).
+
+## GSmooth prototype (2026-10-16)
+func_0011D018 is Sly 1's GSmooth: `float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext)`.
+Declaring it with that argument order fixes argument-setup order in its callers (it alone matched func_00150160).
+Check other drafts that call 0x11D018 with a different prototype.
