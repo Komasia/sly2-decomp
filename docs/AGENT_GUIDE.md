@@ -242,3 +242,12 @@ In a function that already uses inline VU asm, an extra *unused* operand on an e
 `"j"(dv)` twice) is accepted the same way register pins are. It emits no instructions and only changes the
 register-allocation heuristics. Say so in a comment on that line. Don't add new asm statements just for this.
 First example: src/hand/func_0012DA30.c.
+
+## Float vs. int parameter order is invisible in the callee (2026-10-16)
+In the EE EABI, float arguments go in $f12.. and integer/pointer arguments go in $a0.., each counted separately. So
+`f(int *p, float g)` and `f(float g, int *p)` compile to identical callee code, and a matched callee's prototype
+order is only a guess. The caller is where the order shows: gcc evaluates arguments in prototype order, which changes
+scheduling, e.g. whether `&hit` is formed before or after a float argument that contains a call. When a caller
+matches only with a different float/int order, use that order (it's the real one). If you can, update the shared
+prototype and re-check the callee and its other callers. Examples: func_00117120 (floats first, func_0012E060) and
+func_001A93C8 (float before HIT*, func_0013B5E8).
