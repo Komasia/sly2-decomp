@@ -9,13 +9,19 @@ void UpdateAsegaIeaCur(ASEGA *pasega)
     if (cea == 0) return;
     if (pasega->svt >= 0.0f) {
         for (iea = 0; iea < cea; iea++) {
-            if (pasega->t <= paseg->aea[iea].t) break;
+            if (pasega->t <= pasega->paseg->aea[iea].t) break;
         }
         pasega->ieaCur = iea;
     } else {
-        for (iea = cea - 1; iea >= 0; iea--) {
-            if (pasega->paseg->aea[iea].t <= pasega->t) break;
+        iea = cea;
+    L2:
+        iea--;
+        if (iea >= 0) {
+            if (pasega->paseg->aea[iea].t <= pasega->t)
+                goto D2;
+            goto L2;
         }
+    D2:
         pasega->ieaCur = iea + 1;
     }
 }
