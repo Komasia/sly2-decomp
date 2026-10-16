@@ -72,7 +72,9 @@ if [ -d "$HOME/m2c" ]; then have "~/m2c"; else added "~/m2c"
   git clone -q https://github.com/matt-kempster/m2c "$HOME/m2c" || echo "  !! couldn't clone m2c (only needed for tools/show.py)"; fi
 
 echo "== Game executable from your own disc"
-if [ -f disc/SCUS_973.16 ]; then have disc/SCUS_973.16
+if [ -f disc/SCUS_973.16 ]; then
+  if [ "$(sha1sum disc/SCUS_973.16 | cut -d' ' -f1)" = de2af92a54de71e33edc8a160c31c0337a95e6f5 ]; then have "disc/SCUS_973.16 (already extracted, checksum OK)"
+  else echo "  !! disc/SCUS_973.16 exists but is not the NTSC-U v1.0 executable (wrong SHA-1)"; MISSING+=("correct disc/SCUS_973.16"); fi
 elif [ -n "$1" ]; then python3 tools/extract_elf.py "$1" && added disc/SCUS_973.16
 else echo "  !! run again with the path to your Sly 2 (USA) ISO to extract disc/SCUS_973.16"; MISSING+=("disc/SCUS_973.16"); fi
 
