@@ -1000,6 +1000,7 @@ func_0011DD90,0x11DD90,131,match,src/hand/func_0011DD90.c
 ConvertUserHsvToUserRgb__FP6VECTORT0,0x11DFA0,32,match,src/hand/ConvertUserHsvToUserRgb__FP6VECTORT0.cpp
 func_0011E040,0x11E040,77,match,src/auto/func_0011E040.c
 func_0011E178,0x11E178,8,match,src/auto/func_0011E178.c
+func_0011E1A0,0x11E1A0,25,match,src/hand/func_0011E1A0.c
 func_0011E208,0x11E208,34,match,src/hand/func_0011E208.c
 func_0011E290,0x11E290,18,match,src/hand/func_0011E290.c
 func_0011E958,0x11E958,39,match,src/hand/func_0011E958.c
@@ -1928,10 +1929,12 @@ func_0014FDE0,0x14FDE0,18,match,src/auto/func_0014FDE0.c
 func_0014FE28,0x14FE28,12,match,src/auto/func_0014FE28.c
 func_0014FE58,0x14FE58,28,match,src/hand/func_0014FE58.c
 func_0014FF38,0x14FF38,137,match,src/hand/func_0014FF38.c
+func_00150160,0x150160,286,match,src/hand/func_00150160.c
 func_001505D8,0x1505D8,14,match,src/auto/func_001505D8.c
 func_00150610,0x150610,69,match,src/hand/func_00150610.c
 func_00150728,0x150728,21,match,src/auto/func_00150728.c
 func_00150780,0x150780,29,match,src/hand/func_00150780.c
+func_001507F8,0x1507F8,79,match,src/hand/func_001507F8.c
 func_00150A28,0x150A28,239,match,src/hand/func_00150A28.c
 func_00150DE8,0x150DE8,14,match,src/auto/func_00150DE8.c
 func_00150E20,0x150E20,15,match,src/auto/func_00150E20.c
@@ -1951,6 +1954,7 @@ func_00151648,0x151648,19,match,src/hand/func_00151648.c
 func_00151698,0x151698,26,match,src/hand/func_00151698.c
 func_001518C8,0x1518C8,13,match,src/auto/func_001518C8.c
 func_00151900,0x151900,19,match,src/hand/func_00151900.c
+func_00151950,0x151950,167,match,src/hand/func_00151950.cpp
 func_00151BF0,0x151BF0,17,match,src/auto/func_00151BF0.c
 func_00151F70,0x151F70,77,match,src/auto/func_00151F70.c
 func_001520A8,0x1520A8,8,match,src/auto/func_001520A8.c
@@ -2098,6 +2102,7 @@ func_00159118,0x159118,38,match,src/hand/func_00159118.c
 func_001591B0,0x1591B0,36,match,src/hand/func_001591B0.c
 LoadEmitmeshFromBrx__FP8EMITMESHP18CBinaryInputStream,0x159240,165,match,src/hand/LoadEmitmeshFromBrx__FP8EMITMESHP18CBinaryInputStream.cpp
 func_001594D8,0x1594D8,9,match,src/auto/func_001594D8.c
+PostEmitterLoad__FP7EMITTER,0x159500,282,match,src/hand/PostEmitterLoad__FP7EMITTER.c
 func_00159968,0x159968,16,match,src/auto/func_00159968.c
 HandleEmitterMessage__FP7EMITTER5MSGIDPv,0x1599A8,23,match,src/hand/HandleEmitterMessage__FP7EMITTER5MSGIDPv.cpp
 PemitterEnsureEmitter__FP7EMITTER4ENSK,0x159A08,5,match,src/auto/PemitterEnsureEmitter__FP7EMITTER4ENSK.c
@@ -5590,6 +5595,7 @@ func_00235110,0x235110,26,match,src/lib/func_00235110.c
 func_00235178,0x235178,26,match,src/lib/func_00235178.c
 func_002351E0,0x2351E0,26,match,src/lib/func_002351E0.c
 func_00235248,0x235248,26,match,src/lib/func_00235248.c
+topThread,0x2352B0,54,match,src/lib/topThread.c
 iWakeupThread,0x235478,37,match,src/lib/iWakeupThread.c
 DelayThread,0x235518,50,match,src/lib/DelayThread.c
 _DelayThreadHandler,0x235758,10,match,src/lib/_DelayThreadHandler.c
@@ -5611,6 +5617,7 @@ _sceFsSemInit,0x237AF8,21,match,src/lib/_sceFsSemInit.c
 _sceFsWaitS,0x237B50,11,match,src/lib/_sceFsWaitS.c
 _sceFs_Poff_Intr,0x237B90,17,match,src/lib/_sceFs_Poff_Intr.c
 func_00237DE0,0x237DE0,35,match,src/lib/func_00237DE0.c
+sceClose,0x238138,94,match,src/lib/sceClose.c
 sceSifAllocIopHeap,0x238C58,28,match,src/lib/sceSifAllocIopHeap.c
 func_00238CC8,0x238CC8,30,match,src/lib/func_00238CC8.c
 func_00238D40,0x238D40,7,match,src/auto/func_00238D40.c
@@ -5632,6 +5639,7 @@ func_00239910,0x239910,4,match,src/lib/syscall/func_00239910.c
 kCopy_00239920,0x239920,14,match,src/lib/kCopy_00239920.c
 func_00239958,0x239958,4,match,src/lib/syscall/func_00239958.c
 SetT2,0x239A40,28,match,src/lib/SetT2.c
+InitTimer,0x239AE0,85,match,src/lib/InitTimer.c
 StartTimerSystemTime,0x239C40,36,match,src/lib/StartTimerSystemTime.c
 UnlinkAlarm,0x239EF0,14,match,src/lib/UnlinkAlarm.c
 iGetTimerSystemTime,0x23A1D0,19,match,src/lib/iGetTimerSystemTime.c
@@ -5657,6 +5665,7 @@ func_0023B270,0x23B270,4,match,src/lib/syscall/func_0023B270.c
 func_0023B280,0x23B280,4,match,src/lib/syscall/func_0023B280.c
 func_0023B358,0x23B358,4,match,src/lib/syscall/func_0023B358.c
 InitTLB,0x23B368,16,match,src/lib/InitTLB.c
+__fixunsdfdi,0x23BEE8,59,match,src/lib/__fixunsdfdi.c
 __pack_d,0x23D338,75,match,src/lib/__pack_d.c
 __fpcmp_parts_d,0x23DC18,69,match,src/lib/__fpcmp_parts_d.c
 litodp,0x23DD80,46,match,src/lib/litodp.c
@@ -5700,6 +5709,7 @@ func_00240AE0,0x240AE0,34,match,src/lib/func_00240AE0.c
 func_00240B68,0x240B68,7,match,src/auto/func_00240B68.c
 checkModelVersion,0x240B88,40,match,src/lib/checkModelVersion.c
 func_00240C28,0x240C28,4,match,src/lib/syscall/func_00240C28.c
+sceGsSetDefDrawEnv,0x241078,121,match,src/lib/sceGsSetDefDrawEnv.c
 sceGsSetDefClear,0x241260,65,match,src/lib/sceGsSetDefClear.c
 WaitDma,0x241368,28,match,src/lib/WaitDma.c
 CheckAddress,0x2413E0,10,match,src/lib/CheckAddress.c
@@ -5741,12 +5751,14 @@ fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
 func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
 matherr,0x249CB8,9,match,src/lib/matherr.c
+func_00249EE0,0x249EE0,109,match,src/lib/func_00249EE0.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
 func_0024A0E8,0x24A0E8,88,match,src/lib/func_0024A0E8.c
 func_0024A738,0x24A738,17,match,src/lib/func_0024A738.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
+_decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
 func_0024B530,0x24B530,2,match,src/auto/func_0024B530.c
 sceMpegGetPicture,0x24B540,18,match,src/lib/sceMpegGetPicture.c
@@ -5775,7 +5787,10 @@ _sceMpegWaitIpuIdle64,0x251FC8,96,match,src/lib/_sceMpegWaitIpuIdle64.c
 _sceMpegPeepBit,0x252230,35,match,src/lib/_sceMpegPeepBit.c
 _sceMpegFlushBuf,0x2522C0,37,match,src/lib/_sceMpegFlushBuf.c
 _skipMB0,0x252398,47,match,src/lib/_skipMB0.c
+_sceMpegSliceA0,0x253518,104,match,src/lib/_sceMpegSliceA0.c
+_pictureHeader,0x253D20,81,match,src/lib/_pictureHeader.c
 _sequenceExtension,0x253E68,80,match,src/lib/_sequenceExtension.c
+_pictureCodingExtension,0x2540B0,121,match,src/lib/_pictureCodingExtension.c
 _sceMpegNextHeader,0x2544C8,85,match,src/lib/_sceMpegNextHeader.c
 _sequenceDisplayExtension,0x254678,35,match,src/lib/_sequenceDisplayExtension.c
 _copyrightExtension,0x254708,37,match,src/lib/_copyrightExtension.c
@@ -5810,6 +5825,7 @@ func_002562F0,0x2562F0,9,match,src/auto/func_002562F0.c
 func_00256318,0x256318,3,match,src/auto/func_00256318.c
 func_00256328,0x256328,9,match,src/auto/func_00256328.c
 func_00256350,0x256350,3,match,src/auto/func_00256350.c
+func_00256360,0x256360,33,match,src/hand/func_00256360.c
 func_002563E8,0x2563E8,22,match,src/auto/func_002563E8.c
 func_00256440,0x256440,22,match,src/auto/func_00256440.c
 func_002564A8,0x2564A8,3,match,src/hand/func_002564A8.c
@@ -5821,6 +5837,7 @@ func_00256588,0x256588,21,match,src/hand/func_00256588.c
 func_002565E0,0x2565E0,29,match,src/lib/func_002565E0.c
 func_00256658,0x256658,21,match,src/auto/func_00256658.c
 func_002566B0,0x2566B0,9,match,src/auto/func_002566B0.c
+func_002566D8,0x2566D8,61,match,src/hand/func_002566D8.cpp
 func_002567D0,0x2567D0,51,match,src/hand/func_002567D0.c
 func_002568A0,0x2568A0,7,match,src/auto/func_002568A0.c
 func_002569F8,0x2569F8,62,match,src/hand/func_002569F8.c
