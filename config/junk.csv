@@ -162,3 +162,6 @@ Start,End,Reason
 0x00259AC8,0x00259AE8,dead-code scrap before a real function
 0x00259B18,0x00259B20,dead-code scrap before a real function
 0x00259BF8,0x00259C08,dead-code scrap before a real function
+0x0014C1DC,0x0014C1F0,dead-code scrap (gap left by an earlier split)
+0x0023AA64,0x0023AA98,dead-code scrap (gap left by an earlier split)
+0x00259D54,0x00259D60,dead-code scrap (gap left by an earlier split)

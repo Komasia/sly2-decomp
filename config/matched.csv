@@ -824,6 +824,7 @@ func_00114680,0x114680,77,match,src/auto/func_00114680.c
 func_001147B8,0x1147B8,8,match,src/auto/func_001147B8.c
 func_001147D8,0x1147D8,185,match,src/hand/func_001147D8.cpp
 func_00114AC0,0x114AC0,8,match,src/auto/func_00114AC0.c
+func_00114AE0,0x114AE0,1926,match,src/hand/func_00114AE0.cpp
 func_001168F8,0x1168F8,8,match,src/auto/func_001168F8.c
 PvAllocClear__FP4HEAPii,0x116918,21,match,src/P2/heap.cpp
 PvAllocCopy__FP4HEAPiPvi,0x116970,25,match,src/P2/heap.cpp
@@ -847,6 +848,7 @@ func_00116E30,0x116E30,29,match,src/hand/func_00116E30.c
 func_00116ED8,0x116ED8,77,match,src/auto/func_00116ED8.c
 func_00117010,0x117010,8,match,src/auto/func_00117010.c
 func_00117030,0x117030,59,match,src/hand/func_00117030.c
+func_00117120,0x117120,121,match,src/hand/func_00117120.c
 func_00117650,0x117650,77,match,src/auto/func_00117650.c
 func_00117788,0x117788,8,match,src/auto/func_00117788.c
 __18CBinaryInputStream,0x1177A8,17,match,src/P2/bis.cpp
@@ -1218,6 +1220,8 @@ func_00127FE0,0x127FE0,77,match,src/auto/func_00127FE0.c
 _GLOBAL_$I$g_gc,0x128118,8,match,src/auto/_GLOBAL_$I$g_gc.c
 func_00128138,0x128138,3,match,src/auto/func_00128138.c
 func_00128148,0x128148,25,match,src/auto/func_00128148.c
+func_001285D8,0x1285D8,66,match,src/hand/func_001285D8.c
+func_001286E0,0x1286E0,200,match,src/hand/func_001286E0.c
 func_00128A00,0x128A00,80,match,src/auto/func_00128A00.c
 func_00128B40,0x128B40,8,match,src/auto/func_00128B40.c
 func_00128B60,0x128B60,77,match,src/auto/func_00128B60.c
@@ -1554,6 +1558,7 @@ func_0013AAE8,0x13AAE8,27,match,src/hand/func_0013AAE8.c
 func_0013AB58,0x13AB58,48,match,src/hand/func_0013AB58.c
 func_0013AC18,0x13AC18,116,match,src/hand/func_0013AC18.c
 func_0013ADE8,0x13ADE8,49,match,src/hand/func_0013ADE8.c
+func_0013AEB0,0x13AEB0,197,match,src/hand/func_0013AEB0.c
 func_0013B1C8,0x13B1C8,34,match,src/hand/func_0013B1C8.c
 func_0013B250,0x13B250,40,match,src/hand/func_0013B250.c
 func_0013B2F0,0x13B2F0,77,match,src/hand/func_0013B2F0.c
@@ -1722,6 +1727,7 @@ func_00145010,0x145010,27,match,src/hand/func_00145010.c
 func_00145080,0x145080,12,match,src/auto/func_00145080.c
 func_001450B0,0x1450B0,12,match,src/auto/func_001450B0.c
 func_001450E0,0x1450E0,195,match,src/hand/func_001450E0.c
+func_001453F0,0x1453F0,237,match,src/hand/func_001453F0.c
 func_001459C0,0x1459C0,58,match,src/hand/func_001459C0.c
 func_00145AA8,0x145AA8,27,match,src/auto/func_00145AA8.c
 func_00145B18,0x145B18,109,match,src/hand/func_00145B18.c
@@ -1741,6 +1747,7 @@ func_001466C0,0x1466C0,11,match,src/hand/func_001466C0.c
 func_001466F0,0x1466F0,26,match,src/hand/func_001466F0.c
 func_00146758,0x146758,14,match,src/auto/func_00146758.c
 func_00146790,0x146790,4,match,src/auto/func_00146790.c
+func_001467A0,0x1467A0,221,match,src/hand/func_001467A0.c
 func_00146E18,0x146E18,31,match,src/hand/func_00146E18.c
 func_00146E98,0x146E98,18,match,src/auto/func_00146E98.c
 func_00146EE0,0x146EE0,14,match,src/hand/func_00146EE0.c
@@ -1814,6 +1821,7 @@ func_00149A30,0x149A30,8,match,src/auto/func_00149A30.c
 func_00149A50,0x149A50,26,match,src/hand/func_00149A50.c
 func_00149AB8,0x149AB8,39,match,src/hand/func_00149AB8.c
 func_00149B58,0x149B58,73,match,src/hand/func_00149B58.c
+func_00149C80,0x149C80,140,match,src/hand/func_00149C80.cpp
 func_00149EB0,0x149EB0,77,match,src/auto/func_00149EB0.c
 func_00149FE8,0x149FE8,8,match,src/auto/func_00149FE8.c
 func_0014A008,0x14A008,40,match,src/hand/func_0014A008.c
@@ -1886,6 +1894,7 @@ func_0014D650,0x14D650,33,match,src/hand/func_0014D650.c
 func_0014D8C0,0x14D8C0,6,match,src/hand/func_0014D8C0.c
 func_0014D8D8,0x14D8D8,8,match,src/hand/func_0014D8D8.c
 func_0014D8F8,0x14D8F8,68,match,src/hand/func_0014D8F8.c
+BuildFrustrum,0x14DA08,89,match,src/hand/BuildFrustrum.cpp
 func_0014E000,0x14E000,30,match,src/hand/func_0014E000.c
 func_0014E078,0x14E078,52,match,src/hand/func_0014E078.c
 func_0014E148,0x14E148,8,match,src/auto/func_0014E148.c
@@ -2119,6 +2128,7 @@ func_00159968,0x159968,16,match,src/auto/func_00159968.c
 HandleEmitterMessage__FP7EMITTER5MSGIDPv,0x1599A8,23,match,src/hand/HandleEmitterMessage__FP7EMITTER5MSGIDPv.cpp
 PemitterEnsureEmitter__FP7EMITTER4ENSK,0x159A08,5,match,src/auto/PemitterEnsureEmitter__FP7EMITTER4ENSK.c
 ModifyEmitterParticles__FP7EMITTER,0x159A20,151,match,src/hand/ModifyEmitterParticles__FP7EMITTER.cpp
+UpdateEmitter__FP7EMITTERf,0x159C80,301,match,src/hand/UpdateEmitter__FP7EMITTERf.cpp
 PauseEmitter__FP7EMITTERf,0x15A138,5,match,src/auto/PauseEmitter__FP7EMITTERf.c
 PauseEmitterIndefinite__FP7EMITTER,0x15A150,4,match,src/auto/PauseEmitterIndefinite__FP7EMITTER.c
 UnpauseEmitter__FP7EMITTER,0x15A160,4,match,src/auto/UnpauseEmitter__FP7EMITTER.c
@@ -5219,6 +5229,7 @@ func_00224508,0x224508,34,match,src/hand/func_00224508.c
 func_00224590,0x224590,9,match,src/hand/func_00224590.c
 func_002245B8,0x2245B8,22,match,src/hand/func_002245B8.c
 func_00224610,0x224610,9,match,src/hand/func_00224610.c
+func_00224638,0x224638,20,match,src/hand/func_00224638.c
 func_00224688,0x224688,4,match,src/auto/func_00224688.c
 func_00224698,0x224698,98,match,src/hand/func_00224698.cpp
 func_00224BF8,0x224BF8,158,match,src/hand/func_00224BF8.c
@@ -5765,6 +5776,7 @@ sceMcRead,0x2441C0,69,match,src/lib/sceMcRead.c
 sceMcGetDir,0x2446F0,83,match,src/lib/sceMcGetDir.c
 sceMcFormat,0x244848,51,match,src/lib/sceMcFormat.c
 sceMcDelete,0x244918,71,match,src/lib/sceMcDelete.c
+atanf,0x244B68,170,match,src/lib/atanf.c
 cosf,0x244E10,58,match,src/lib/cosf.c
 func_00244EF8,0x244EF8,7,match,src/lib/func_00244EF8.c
 floorf,0x244F18,57,match,src/lib/floorf.c
@@ -5773,6 +5785,7 @@ tanf,0x2450F0,34,match,src/lib/tanf.c
 acosf,0x2456F0,63,match,src/lib/acosf.c
 asinf,0x2457F0,63,match,src/lib/asinf.c
 atan2f,0x2458F0,74,match,src/lib/atan2f.c
+__ieee754_atan2f,0x247B00,186,match,src/lib/__ieee754_atan2f.c
 fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
 func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
@@ -5781,6 +5794,7 @@ func_00249EE0,0x249EE0,109,match,src/lib/func_00249EE0.c
 func_0024A098,0x24A098,9,match,src/lib/func_0024A098.c
 func_0024A0C0,0x24A0C0,9,match,src/lib/func_0024A0C0.c
 func_0024A0E8,0x24A0E8,88,match,src/lib/func_0024A0E8.c
+__ieee754_log,0x24A248,315,match,src/lib/__ieee754_log.c
 func_0024A738,0x24A738,17,match,src/lib/func_0024A738.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
