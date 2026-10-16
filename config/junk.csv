@@ -140,3 +140,26 @@ Start,End,Reason
 0x00259D58,0x00259D60,dead-code scrap before a real function
 0x00259D80,0x00259D94,"orphan instructions, no return"
 0x00259DD8,0x00259DE4,"orphan instructions, no return"
+0x00116EA8,0x00116ED4,dead-code scrap
+0x00117120,0x00117128,dead-code scrap before a real function
+0x00232380,0x002323A4,dead-code scrap
+0x002324C8,0x002324FC,dead-code scrap
+0x002325A8,0x002325DC,dead-code scrap
+0x00232D40,0x00232D7C,dead-code scrap
+0x00232E68,0x00232EE4,dead-code scrap
+0x00238B70,0x00238BCC,dead-code scrap
+0x00239160,0x00239194,dead-code scrap
+0x00239518,0x00239520,dead-code scrap before a real function
+0x0023A3F0,0x0023A41C,dead-code scrap
+0x0023A9D8,0x0023AA3C,dead-code scrap
+0x0023AA68,0x0023AA98,dead-code scrap before a real function
+0x0023E198,0x0023E1C4,dead-code scrap
+0x002418C8,0x002418D0,dead-code scrap before a real function
+0x00241970,0x00241978,dead-code scrap before a real function
+0x0024A8C0,0x0024A904,dead-code scrap
+0x0024B800,0x0024B824,dead-code scrap
+0x00258008,0x0025803C,dead-code scrap
+0x00259A50,0x00259A70,dead-code scrap before a real function
+0x00259AC8,0x00259AE8,dead-code scrap before a real function
+0x00259B18,0x00259B20,dead-code scrap before a real function
+0x00259BF8,0x00259C08,dead-code scrap before a real function
