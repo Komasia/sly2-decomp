@@ -1540,7 +1540,7 @@ func_0013AA70,0x13AA70,12,match,src/auto/func_0013AA70.c
 func_0013AAA0,0x13AAA0,18,match,src/hand/func_0013AAA0.c
 func_0013AAE8,0x13AAE8,27,match,src/hand/func_0013AAE8.c
 func_0013AB58,0x13AB58,48,match,src/hand/func_0013AB58.c
-func_0013AC18,0x13AC18,116,0.393,src/hand/func_0013AC18.c
+func_0013AC18,0x13AC18,116,match,src/hand/func_0013AC18.c
 func_0013ADE8,0x13ADE8,49,match,src/hand/func_0013ADE8.c
 func_0013B1C8,0x13B1C8,34,match,src/hand/func_0013B1C8.c
 func_0013B250,0x13B250,40,match,src/hand/func_0013B250.c
@@ -2889,7 +2889,7 @@ func_00195930,0x195930,8,match,src/auto/func_00195930.c
 func_00195950,0x195950,28,match,src/hand/func_00195950.c
 func_001959C0,0x1959C0,15,match,src/hand/func_001959C0.c
 func_00197370,0x197370,86,match,src/hand/func_00197370.c
-func_001974C8,0x1974C8,13,0.429,src/hand/func_001974C8.c
+func_001974C8,0x1974C8,13,match,src/hand/func_001974C8.c
 func_001991A0,0x1991A0,62,match,src/hand/func_001991A0.c
 func_00199298,0x199298,91,match,src/hand/func_00199298.cpp
 FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR,0x199408,115,match,src/hand/FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR.cpp
@@ -3085,7 +3085,7 @@ func_001A66C8,0x1A66C8,11,match,src/hand/func_001A66C8.c
 func_001A66F8,0x1A66F8,13,match,src/hand/func_001A66F8.c
 func_001A6730,0x1A6730,231,match,src/hand/func_001A6730.cpp
 func_001A6AD0,0x1A6AD0,10,match,src/hand/func_001A6AD0.c
-func_001A6AF8,0x1A6AF8,14,0.467,src/hand/func_001A6AF8.c
+func_001A6AF8,0x1A6AF8,14,match,src/hand/func_001A6AF8.c
 func_001A6B30,0x1A6B30,22,match,src/hand/func_001A6B30.c
 func_001A6B88,0x1A6B88,16,match,src/auto/func_001A6B88.c
 func_001A6BC8,0x1A6BC8,7,match,src/auto/func_001A6BC8.c
@@ -4347,7 +4347,7 @@ func_001F2B20,0x1F2B20,34,match,src/hand/func_001F2B20.c
 func_001F2BA8,0x1F2BA8,34,match,src/hand/func_001F2BA8.c
 func_001F2C30,0x1F2C30,69,match,src/hand/func_001F2C30.c
 func_001F2D48,0x1F2D48,76,match,src/hand/func_001F2D48.c
-func_001F2E78,0x1F2E78,89,0.589,src/hand/func_001F2E78.c
+func_001F2E78,0x1F2E78,89,match,src/hand/func_001F2E78.c
 func_001F2FE0,0x1F2FE0,37,match,src/hand/func_001F2FE0.c
 func_001F3078,0x1F3078,39,match,src/hand/func_001F3078.c
 func_001F3118,0x1F3118,49,match,src/hand/func_001F3118.cpp
