@@ -231,3 +231,8 @@ SLY2_SAVES form (their source was tuned for it). New SDK work should start with 
 against the original bytes; tools/perm_objdump.py stands in for MIPS objdump). Works only on plain C drafts without
 inline asm (pycparser). Candidates land in /tmp/perm/NAME/output-*/source.c; ALWAYS verify a candidate with
 matchtool and then clean it up into readable C before saving it to src/. Use at most 1 job per agent (2 cores total).
+
+## FPU compare → short-loop branch (asfix, 2026-10-16)
+When a short loop ends `c.cond.s; bc1x`, SN's assembler inserts its compare→branch hazard nop, which makes the loop one
+instruction longer (often long enough that it is no longer padded). asfix now counts that nop. If a loop that ends in an
+FPU compare/branch used to be off by one nop, recheck it: func_001E7538 matched with no source change.

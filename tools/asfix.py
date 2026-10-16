@@ -182,6 +182,11 @@ def fix(text):
                 ok = False; break
             elif k[0] == 'label+':
                 ok = False; break
+        # SN's assembler puts a nop between an FPU compare and a bc1x that follows it (the hazard nop it emits
+        # where gcc wrote `#nop`); once the branch is emitted as .word it can't, so count that nop here and emit
+        # it ourselves (func_001E7538: a 4-insn loop ending c.le.s/bc1fl is 7 long, so it is not padded).
+        hz = 1 if (c[1].startswith('bc1') and last is not None and last[1].startswith('c.')) else 0
+        n += hz
         if not ok or n + 2 > LOOP_LEN: continue
         # unconditional branches are not padded (only conditional loops trigger the R5900 errata), but are
         # still emitted as .word so the assembler can't add its own padding
@@ -202,14 +207,14 @@ def fix(text):
             off = -(n + pad + 1)
             word = encode(c[1], ops[:-1], off)
             indent = re.match(r'^\s*', lines[i]).group(0)
-            out[i:i + 1] = [f'{indent}.set noreorder'] + [f'{indent}nop' for _ in range(pad)] + \
+            out[i:i + 1] = [f'{indent}.set noreorder'] + [f'{indent}nop' for _ in range(pad + hz)] + \
                 [f'{indent}.word 0x{word:08X}  # {c[1]} {c[2]}', f'{indent}nop', f'{indent}.set reorder']
             changed += 1
             continue
         off = -(n + pad + 1)
         word = encode(c[1], ops[:-1], off)
         indent = re.match(r'^\s*', lines[i]).group(0)
-        repl = [f'{indent}nop' for _ in range(pad)] + [f'{indent}.word 0x{word:08X}  # {c[1]} {c[2]}']
+        repl = [f'{indent}nop' for _ in range(pad + hz)] + [f'{indent}.word 0x{word:08X}  # {c[1]} {c[2]}']
         out[i:i + 1] = repl
         changed += 1
     return '\n'.join(out), changed
