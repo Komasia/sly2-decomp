@@ -1,6 +1,7 @@
-// WIP (Claude agent): structural draft, 811/837 differ by position but ours is 821 insns vs 837; difflib ratio ~0.65.
-// Known: frame 0x130 vs 0x120 (one extra spill slot), per-case exit blocks (s4/s3/end/start on edges) missing,
-// c must be int loaded zero-extended with (char)c uses (gives target's lbu+sll/sra). Case order matters (see switch).
+// WIP (Claude agent): 834/837 insns, difflib ratio ~0.95 (positional 812 differ = 3-insn shift). Left: loop top/tail char regs
+// (target: test value in v0 copied to c in a1; tail 'if (*fmt) fmt++' via a1), default-case (char)c==0 test, '.' case ori order,
+// digit accumulate reg (a0 temp), and one prefix-loop nop. Keys found: each numeric case ends with its own
+// 'start = cp + 1; size = end - cp; goto out;'; 'stop' is cp itself; c is int loaded zero-extended with (char)c uses.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
@@ -16,14 +17,13 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
     char *end;
     char *cp;
     char *start;
-    char *stop;
     const char *digits;
     int *pn;
-    int total;
     int flags;
     int width;
     int prec;
     int plen;
+    int total;
     int size;
     int i;
     int pad;
@@ -35,8 +35,7 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
 
     end = &buf[31];
     total = 0;
-    c = *fmt;
-    while (c) {
+    while ((c = *fmt) != 0) {
         pn = &n;
         flags = 0;
         width = 0;
@@ -98,7 +97,9 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                 } while (u);
                 if (flags & 0x10) *cp-- = '0';
             }
-            break;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         case 'x':
             digits = "0123456789abcdef";
             if (flags & 0x10) {
@@ -128,21 +129,25 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                     u >>= 4;
                 } while (u);
             }
-            break;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         case 'd':
         case 'i':
             if (flags & 0x40) v = va_arg(ap, long);
             else if (flags & 0x80) v = va_arg(ap, short);
             else v = va_arg(ap, int);
             cp = end;
-            if (v < 0) {
+            if (v >= 0) {
+                if (flags & 2) {
+                    prefix[0] = '+';
+                    plen = 1;
+                } else if (flags & 8) {
+                    prefix[0] = ' ';
+                    plen = 1;
+                }
+            } else {
                 prefix[0] = '-';
-                plen = 1;
-            } else if (flags & 2) {
-                prefix[0] = '+';
-                plen = 1;
-            } else if (flags & 8) {
-                prefix[0] = ' ';
                 plen = 1;
             }
             if (v == 0) {
@@ -154,7 +159,9 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                     v /= 10;
                 }
             }
-            break;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         case 'u':
             if (flags & 0x40) u = va_arg(ap, unsigned long);
             else if (flags & 0x80) u = va_arg(ap, unsigned short);
@@ -168,7 +175,9 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                     u /= 10;
                 } while (u);
             }
-            break;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         case 'e':
         case 'f':
             f = va_arg(ap, double);
@@ -189,22 +198,26 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                 put(arg, pn, ')');
                 goto next;
             }
-            start = s;
+            cp = s;
             if (flags & 0x20) {
-                for (size = 0; size < prec && *s++; size++)
+                for (i = 0; i < prec && *cp++; i++)
                     ;
+                size = i;
             } else {
-                for (size = 0; *s; s++)
+                for (size = 0; *cp; cp++)
                     size++;
             }
+            start = s;
             goto out;
         case 'c':
             cp = end;
-            c = va_arg(ap, int);
+            v = va_arg(ap, char);
             flags |= 0x100;
             prec = 1;
-            *cp-- = (char)c;
-            break;
+            *cp-- = v;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         case 'p':
             u = va_arg(ap, unsigned int);
             digits = "0123456789abcdef";
@@ -220,7 +233,9 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
             prefix[0] = '0';
             prefix[1] = 'x';
             plen = 2;
-            break;
+            start = cp + 1;
+            size = end - cp;
+            goto out;
         default:
             if ((char)c == 0) goto next;
             cp = end;
@@ -235,17 +250,15 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
         if (size < prec) prec -= size;
         else prec = 0;
         width = width - size - plen - prec;
-        stop = start + size;
-        pad = ' ';
-        if (flags & 0x100) {
-            if ((flags & 4) && width > 0) pad = '0';
-        } else if ((flags & 0x24) == 4 && width > 0) {
-            pad = '0';
-        }
+        cp = start + size;
+        if (flags & 0x100)
+            pad = (flags & 4) && width > 0 ? '0' : ' ';
+        else
+            pad = (flags & 0x24) == 4 && width > 0 ? '0' : ' ';
         if (flags & 1) {
             for (i = 0; i < plen; i++) total += put(arg, pn, prefix[i]);
             for (i = 0; i < prec; i++) total += put(arg, pn, '0');
-            while (start < stop) total += put(arg, pn, *start++);
+            while (start < cp) total += put(arg, pn, *start++);
             for (i = 0; i < width; i++) total += put(arg, pn, ' ');
         } else if (flags & 4) {
             if (pad == '0') {
@@ -256,12 +269,12 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
                 for (i = 0; i < plen; i++) total += put(arg, pn, prefix[i]);
             }
             for (i = 0; i < prec; i++) total += put(arg, pn, '0');
-            while (start < stop) total += put(arg, pn, *start++);
+            while (start < cp) total += put(arg, pn, *start++);
         } else {
             for (i = 0; i < width; i++) total += put(arg, pn, pad);
             for (i = 0; i < plen; i++) total += put(arg, pn, prefix[i]);
             for (i = 0; i < prec; i++) total += put(arg, pn, '0');
-            while (start < stop) total += put(arg, pn, *start++);
+            while (start < cp) total += put(arg, pn, *start++);
         }
         goto next;
     lit:
@@ -269,7 +282,6 @@ int _sceSnprintf(PutFunc put, void *arg, int n, const unsigned char *fmt, va_lis
         total += put(arg, pn, (char)c);
     next:
         if (*fmt) fmt++;
-        c = *fmt;
     }
     put(arg, &n, 0);
     return total;
