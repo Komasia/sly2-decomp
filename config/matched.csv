@@ -1602,6 +1602,7 @@ func_0013D558,0x13D558,9,match,src/auto/func_0013D558.c
 Reset__10CByteQueue,0x13D580,8,match,src/hand/Reset__10CByteQueue.cpp
 CbFill__10CByteQueueiP11CQueueInput,0x13D5A0,66,match,src/hand/CbFill__10CByteQueueiP11CQueueInput.cpp
 CbDrain__10CByteQueueiP12CQueueOutput,0x13D6A8,74,match,src/hand/CbDrain__10CByteQueueiP12CQueueOutput.cpp
+CbFill__10CByteQueueiPUc,0x13D7D0,18,match,src/hand/CbFill__10CByteQueueiPUc.cpp
 FreeDrain__10CByteQueuei,0x13D818,13,match,src/auto/FreeDrain__10CByteQueuei.c
 func_0013D850,0x13D850,26,match,src/auto/func_0013D850.c
 func_0013D8B8,0x13D8B8,2,match,src/auto/func_0013D8B8.c
@@ -1643,6 +1644,7 @@ func_00140ED8,0x140ED8,30,match,src/hand/func_00140ED8.c
 func_00140F50,0x140F50,7,match,src/auto/func_00140F50.c
 func_00140F70,0x140F70,7,match,src/auto/func_00140F70.c
 func_00141588,0x141588,46,match,src/hand/func_00141588.c
+func_00141640,0x141640,186,match,src/hand/func_00141640.c
 func_00141928,0x141928,15,match,src/auto/func_00141928.c
 func_00141968,0x141968,57,match,src/hand/func_00141968.c
 func_00141A50,0x141A50,107,match,src/hand/func_00141A50.c
@@ -1893,6 +1895,7 @@ func_0014D3D8,0x14D3D8,38,match,src/auto/func_0014D3D8.c
 StartupCm__Fv,0x14D470,2,match,src/auto/StartupCm__Fv.c
 func_0014D478,0x14D478,117,match,src/hand/func_0014D478.c
 func_0014D650,0x14D650,33,match,src/hand/func_0014D650.c
+func_0014D6D8,0x14D6D8,121,match,src/hand/func_0014D6D8.cpp
 func_0014D8C0,0x14D8C0,6,match,src/hand/func_0014D8C0.c
 func_0014D8D8,0x14D8D8,8,match,src/hand/func_0014D8D8.c
 func_0014D8F8,0x14D8F8,68,match,src/hand/func_0014D8F8.c
@@ -3763,6 +3766,7 @@ func_001CD308,0x1CD308,100,match,src/hand/func_001CD308.cpp
 func_001CD498,0x1CD498,77,match,src/auto/func_001CD498.c
 func_001CD5D0,0x1CD5D0,8,match,src/auto/func_001CD5D0.c
 func_001CD5F0,0x1CD5F0,100,match,src/hand/func_001CD5F0.cpp
+func_001CD780,0x1CD780,134,match,src/hand/func_001CD780.cpp
 func_001CD998,0x1CD998,17,match,src/hand/func_001CD998.c
 func_001CD9E0,0x1CD9E0,40,match,src/hand/func_001CD9E0.c
 func_001CDA80,0x1CDA80,61,match,src/hand/func_001CDA80.c
@@ -5165,6 +5169,7 @@ FNegTftUl__FP3TFTP2UL,0x21DB38,56,match,src/hand/FNegTftUl__FP3TFTP2UL.cpp
 UnRadixFromChConversion__Fc,0x21DC18,21,match,src/hand/UnRadixFromChConversion__Fc.c
 CchAchFromUl__FPciUlUi,0x21DC70,52,match,src/hand/CchAchFromUl__FPciUlUi.cpp
 ExpFirstFromG__Fd,0x21E048,36,match,src/hand/ExpFirstFromG__Fd.cpp
+func_0021E0D8,0x21E0D8,54,match,src/hand/func_0021E0D8.c
 CchAchFromDouble__FPciP3TFTd,0x21E1B0,194,match,src/hand/CchAchFromDouble__FPciP3TFTd.cpp
 WriteTftDouble__FP3TFTP5OSTRMd,0x21E4B8,151,match,src/hand/WriteTftDouble__FP3TFTP5OSTRMd.cpp
 WriteTft__FP3TFTP5OSTRMPPcPci,0x21E718,235,match,src/hand/WriteTft__FP3TFTP5OSTRMPPcPci.cpp
@@ -5839,6 +5844,7 @@ sceDmaRecv,0x2417A0,18,match,src/lib/sceDmaRecv.c
 sceDmaSync,0x2417F0,14,match,src/lib/sceDmaSync.c
 sceDmaPause,0x241830,38,match,src/lib/sceDmaPause.c
 func_002418D0,0x2418D0,40,match,src/lib/func_002418D0.c
+cmd_sem_init,0x241A30,57,match,src/lib/cmd_sem_init.c
 cdvd_exit,0x241B18,40,match,src/lib/cdvd_exit.c
 _sceCd_Poff_Intr,0x241BB8,21,match,src/lib/_sceCd_Poff_Intr.c
 PowerOffCB,0x241C10,30,match,src/lib/PowerOffCB.c
@@ -5851,6 +5857,7 @@ sceCdGetDiskType2,0x242A20,38,match,src/lib/sceCdGetDiskType2.c
 sceCdGetDiskType_242AB8,0x242AB8,9,match,src/lib/sceCdGetDiskType_242AB8.c
 sceCdGetDiskType,0x242AE0,38,match,src/lib/sceCdGetDiskType.c
 sceCdBreak,0x242B78,46,match,src/lib/sceCdBreak.c
+sceCdMmode,0x242C30,52,match,src/lib/sceCdMmode.c
 scePadInit,0x242D08,80,match,src/lib/scePadInit.c
 _pad_intr_hdr,0x242E48,18,match,src/lib/_pad_intr_hdr.c
 scePadInit2,0x242E90,56,match,src/lib/scePadInit2.c
@@ -5898,7 +5905,9 @@ fmodf,0x245A18,79,match,src/lib/fmodf.c
 powf,0x245B58,322,match,src/lib/powf.c
 sqrtf,0x246060,69,match,src/lib/sqrtf.c
 __ieee754_pow,0x246300,842,match,src/lib/__ieee754_pow.c
+__ieee754_sqrt,0x247028,193,match,src/lib/__ieee754_sqrt.c
 __ieee754_atan2f,0x247B00,186,match,src/lib/__ieee754_atan2f.c
+__ieee754_rem_pio2f,0x2488C8,248,match,src/lib/__ieee754_rem_pio2f.c
 __ieee754_sqrtf,0x248CA8,78,match,src/lib/__ieee754_sqrtf.c
 fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
@@ -5913,6 +5922,7 @@ func_0024A738,0x24A738,17,match,src/lib/func_0024A738.c
 func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 GetRomName,0x24A7B0,28,match,src/lib/GetRomName.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
+sceScfGetLanguage,0x24A860,24,match,src/lib/sceScfGetLanguage.c
 _clearEach,0x24AC10,50,match,src/lib/_clearEach.c
 _decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
