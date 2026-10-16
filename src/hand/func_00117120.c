@@ -10,7 +10,7 @@ static inline qword VF(float g)
     __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(g));
     return q;
 }
-void func_00117128(qword p0, qword v0, qword p1, qword v1, float dt, float t, float dtScale, qword *ppos, qword *pvel, qword *pacc)
+void func_00117120(qword p0, qword v0, qword p1, qword v1, float dt, float t, float dtScale, qword *ppos, qword *pvel, qword *pacc)
 {
     float v;
     U tmp;

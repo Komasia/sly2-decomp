@@ -4,6 +4,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+// SLY2_DIVNOP
 // SLY2_SAVES: sd
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
