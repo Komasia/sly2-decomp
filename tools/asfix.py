@@ -67,6 +67,22 @@ def multi(mn, ops):
     return bool(MULTI.match(mn))
 
 
+
+def isize(mn, ops):
+    """Number of machine instructions a (possibly macro) instruction expands to, for block-position counting."""
+    import struct
+    if mn == 'li.s':
+        try:
+            bits = struct.unpack('<I', struct.pack('<f', float(ops.split(',')[1])))[0]
+        except Exception:
+            return 3
+        if bits == 0: return 1                 # mtc1 $0
+        return 2 if (bits & 0xFFFF) == 0 else 3   # lui [+ori] + mtc1
+    if mn == 'li':
+        return 2 if multi(mn, ops) else 1
+    if mn in ('la', 'dla'): return 2
+    return 1
+
 # --- R5900 divide hazard: Sly 2's assembler puts two nops before div.s/sqrt.s/rsqrt.s/vdiv/vsqrt/vrsqrt when the
 # instruction starts a basic block (function entry, a label, or the instruction after a branch/jump + delay slot;
 # calls don't count).  Verified against every instance in the game code of SCUS_973.16.
@@ -74,40 +90,41 @@ DIVOPS = re.compile(r'^(div\.s|sqrt\.s|rsqrt\.s|vdiv|vsqrt|vrsqrt)$')
 BR = re.compile(r'^(b\w*|bc\d\w*|j|jr)$')
 
 def divfix(text):
+    """The hazard rule: a divide/sqrt must be at least the 3rd instruction of its basic block.  At position 0
+    the original assembler inserts two nops, at position 1 one nop (verified: all 11 position-1 sites in
+    text.s have the nop, none lack it)."""
     lines = text.split('\n')
     out = []
     st = False            # .set noreorder state
-    bb = True             # next instruction starts a basic block
+    pos = 0               # index of the next instruction within its basic block
     pending = 0           # instructions left before the block boundary after a noreorder branch
-    prev2 = []            # last two emitted instruction mnemonics (to skip already-padded sites)
     for l in lines:
         c = classify(l)
         if c[0] == 'dir':
             if re.match(r'\.set\s+noreorder', c[1]): st = True
             elif re.match(r'\.set\s+reorder', c[1]): st = False
-            elif re.match(r'\.ent\b', c[1]): bb = True; pending = 0
+            elif re.match(r'\.ent\b', c[1]): pos = 0; pending = 0
             out.append(l); continue
         if c[0] == 'label':
-            bb = True; pending = 0; out.append(l); continue
+            pos = 0; pending = 0; out.append(l); continue
         if c[0] == 'label+':
-            bb = True; pending = 0
+            pos = 0; pending = 0
             c = ('insn',) + tuple(c[2].split(None, 1)) + ('',) if len(c[2].split(None, 1)) == 1 else ('insn',) + tuple(c[2].split(None, 1))
         if c[0] != 'insn':
             out.append(l); continue
         mn = c[1]
-        if bb and DIVOPS.match(mn) and prev2 != ['nop', 'nop']:
+        if pos < 2 and DIVOPS.match(mn):
             indent = re.match(r'^\s*', l).group(0) or '\t'
-            out.append(f'{indent}nop'); out.append(f'{indent}nop')
-            prev2 = ['nop', 'nop']
+            out.extend([f'{indent}nop'] * (2 - pos))
+            pos = 2
         out.append(l)
-        prev2 = (prev2 + [mn])[-2:]
         if pending:                     # this was a delay-slot instruction: the next one starts a block
-            pending = 0; bb = True
+            pending = 0; pos = 0
         elif BR.match(mn):
-            if st: pending = 1; bb = False     # explicit delay slot follows
-            else: bb = True                    # assembler supplies the delay slot
+            if st: pending = 1; pos += 1       # explicit delay slot follows
+            else: pos = 0                      # assembler supplies the delay slot
         else:
-            bb = False
+            pos += isize(mn, c[2] if len(c) > 2 else '')
     return '\n'.join(out)
 
 def fix(text):

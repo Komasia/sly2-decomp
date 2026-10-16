@@ -144,3 +144,8 @@ real names you are confident about (from Sly 1 counterparts, strings, vtables), 
 - Never `mv`/`cp` anything to /dev/null or other system paths. To set a file aside, move it to build/hand_wip/.
 - Never run git. The coordinator commits and pushes.
 - Ranges 0x190000–0x230000 belong to a human collaborator (see ASSIGNMENTS.md): do not add or change files for functions there.
+
+## Divide/sqrt hazard padding (2026-10-16)
+`tools/asfix.py` now pads div.s/sqrt.s/rsqrt.s/vdiv/vsqrt/vrsqrt to be at least the 3rd instruction of its basic
+block: 2 nops at block position 0, 1 nop at position 1. Positions count real machine instructions (`li.s` = 1–3,
+`li`/`la` = 1–2) and the padding nops themselves. Verified on a full uncached rebuild (no regressions; +func_0011D018).

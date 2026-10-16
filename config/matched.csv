@@ -972,7 +972,7 @@ func_0011CE08,0x11CE08,77,match,src/auto/func_0011CE08.c
 func_0011CF40,0x11CF40,8,match,src/auto/func_0011CF40.c
 func_0011CF60,0x11CF60,31,match,src/hand/func_0011CF60.c
 GLimitAbs__Fff,0x11CFE0,13,match,src/hand/GLimitAbs__Fff.cpp
-func_0011D018,0x11D018,105,0.362,src/hand/func_0011D018.c
+func_0011D018,0x11D018,105,match,src/hand/func_0011D018.c
 GSmoothA__FffffP4SMPAPf,0x11D1C0,65,match,src/hand/GSmoothA__FffffP4SMPAPf.cpp
 RadSmooth__FfffP3SMPPf,0x11D2D0,27,match,src/hand/RadSmooth__FfffP3SMPPf.cpp
 RadSmoothA__FffffP4SMPAPf,0x11D340,31,match,src/hand/RadSmoothA__FffffP4SMPAPf.cpp
@@ -3005,7 +3005,7 @@ func_001A3680,0x1A3680,21,match,src/auto/func_001A3680.c
 func_001A36D8,0x1A36D8,21,match,src/auto/func_001A36D8.c
 FitRecipFunction__FffffPfT4,0x1A37D0,54,match,src/hand/FitRecipFunction__FffffPfT4.cpp
 ConvertAngleStrength__FffffPfT4,0x1A38A8,47,match,src/hand/ConvertAngleStrength__FffffPfT4.cpp
-func_001A3968,0x1A3968,115,0.319,src/hand/func_001A3968.c
+func_001A3968,0x1A3968,115,match,src/hand/func_001A3968.c
 func_001A3B38,0x1A3B38,18,match,src/hand/func_001A3B38.c
 func_001A3B80,0x1A3B80,95,match,src/hand/func_001A3B80.c
 func_001A3E88,0x1A3E88,23,match,src/hand/func_001A3E88.c
@@ -3101,6 +3101,7 @@ func_001A7C18,0x1A7C18,126,match,src/hand/func_001A7C18.c
 FreeSwXpList__FP2SWP2XP,0x1A7E10,19,match,src/hand/FreeSwXpList__FP2SWP2XP.cpp
 func_001A7E60,0x1A7E60,88,match,src/hand/func_001A7E60.c
 func_001A7FC0,0x1A7FC0,69,match,src/hand/func_001A7FC0.c
+ClsgClipSoAllEdges__FP2SOT0P3BSPiP3LSG,0x1A80D8,71,match,src/hand/ClsgClipSoAllEdges__FP2SOT0P3BSPiP3LSG.c
 func_001A81F8,0x1A81F8,134,match,src/hand/func_001A81F8.c
 func_001A86B8,0x1A86B8,78,match,src/hand/func_001A86B8.c
 func_001A9C40,0x1A9C40,62,match,src/hand/func_001A9C40.c
@@ -3855,7 +3856,7 @@ func_001D93D8,0x1D93D8,11,match,src/auto/func_001D93D8.c
 func_001D9408,0x1D9408,69,match,src/hand/func_001D9408.c
 func_001D9520,0x1D9520,38,match,src/auto/func_001D9520.c
 func_001D95B8,0x1D95B8,36,match,src/hand/func_001D95B8.c
-func_001D9648,0x1D9648,118,0.160,src/hand/func_001D9648.c
+func_001D9648,0x1D9648,118,match,src/hand/func_001D9648.c
 UpdateRecyclable__3CGc,0x1D9820,20,match,src/auto/UpdateRecyclable__3CGc.c
 func_001D9870,0x1D9870,2,match,src/auto/func_001D9870.c
 func_001D9878,0x1D9878,2,match,src/auto/func_001D9878.c

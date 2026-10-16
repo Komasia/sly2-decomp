@@ -6,8 +6,10 @@
 # (git won't add a new commit to a push that has already started).
 # Skip it once with: git push --no-verify
 ROOT=$(git rev-parse --show-toplevel); cd "$ROOT" || exit 0
+[ -n "$GIT_INDEX_FILE" ] && exit 0                # autosave uses a private index; never touch it
 while read -r lref lsha rref rsha; do
   [ "$lsha" = "0000000000000000000000000000000000000000" ] && continue
+  [ "$rref" = "refs/heads/main" ] || continue      # only pushes to main (not the autosave backup branch)
   if [ "$rsha" = "0000000000000000000000000000000000000000" ]; then base=$(git merge-base "$lsha" origin/main 2>/dev/null); else base=$rsha; fi
   [ -z "$base" ] && continue
   changed=$(git diff --name-only "$base" "$lsha")
