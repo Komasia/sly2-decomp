@@ -13,14 +13,14 @@ HIST = os.path.join(ROOT, 'config', 'progress_history.csv')
 SVG = os.path.join(ROOT, 'docs', 'progress.svg')
 
 # Range owners, from ASSIGNMENTS.md
-COLLAB = (0x190000, 0x230000)
+COLLAB = [(0x160000, 0x230000), (0x234F48, 0x2550A0)]   # NaGa's ranges
 C_DONE, C_DONE2, C_LEFT = '#2f9e6e', '#4c7fd1', '#e4e7ec'
 C_TEXT, C_MUTED, C_GRID = '#1f2328', '#656d76', '#d0d7de'
 C_ME, C_COLLAB = '#d97706', '#7c3aed'
 
 
 def owner(lo):
-    return 'collab' if COLLAB[0] <= lo < COLLAB[1] else 'me'
+    return 'collab' if any(a <= lo < b for a, b in COLLAB) else 'me'
 
 
 def load_history():
@@ -121,8 +121,8 @@ def render(real, matched_addrs):
     y += 16
     out.append(t(32, y, 'Where the remaining work is (by address range)', 16, weight='bold'))
     y += 18
-    out.append(f'<rect x="32" y="{y - 9}" width="10" height="10" rx="2" fill="{C_ME}"/>' + t(48, y, 'Komasia + Claude', 12))
-    out.append(f'<rect x="170" y="{y - 9}" width="10" height="10" rx="2" fill="{C_COLLAB}"/>' + t(186, y, 'Collaborator', 12))
+    out.append(f'<rect x="32" y="{y - 9}" width="10" height="10" rx="2" fill="{C_ME}"/>' + t(48, y, 'Dimitri + Claude', 12))
+    out.append(f'<rect x="170" y="{y - 9}" width="10" height="10" rx="2" fill="{C_COLLAB}"/>' + t(186, y, 'NaGa', 12))
     out.append(t(W - 32, y, 'bar = share of the range\'s code matched', 12, C_MUTED, 'end'))
     y += 22
     out.append(t(52, y, 'Range', 11, C_MUTED) + t(560, y, 'Code done', 11, C_MUTED, 'end')
