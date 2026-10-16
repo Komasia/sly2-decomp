@@ -1,4 +1,4 @@
-// wip (Claude agent): `*` builtin. 20 diffs: 0x16/0x1A pv load scheduled before mfc1; 0x1A/0x16 path (target lw s1 + swapped VF regs); &mat addiu scheduling in 0x1B/0x16; 0x1D beq/beql delay-slot fill.
+// wip (Claude agent): `*` builtin. 20 diffs: 0x16/0x1A pv load scheduled before mfc1; 0x1A/0x16 path (target lw s1 + swapped VF regs, ref.u.pv in v0 not a0); &mat addiu scheduling in 0x1B/0x16; 0x1D beq/beql delay-slot fill.
 typedef int qword __attribute__((mode(TI)));
 struct VECTOR { float x, y, z, w; };
 struct MATRIX4 { float af[16]; } __attribute__((aligned(16)));
@@ -99,7 +99,7 @@ CRef func_0011F960(void *pv, CRef *aref)
     if (aref[1].m_tagk)
         pn = (NODE *)aref[1].u.pv;
     for (; pn; pn = pn->pnext) {
-        register CRef *pr __asm__("$17") = &pn->ref;
+        CRef *pr = &pn->ref;
         switch (ref.m_tagk) {
         case 0x16:
             switch (pr->m_tagk) {
