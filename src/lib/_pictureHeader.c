@@ -1,8 +1,7 @@
 // (Claude agent) MATCHES only with the empty asm barrier after the first call (same post-call-group issue). Without: 3/81 differ.
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct {
     char p0[0x160]; int type; int full_pel_fwd; int fwd_f_code; int full_pel_bwd; int bwd_f_code;
     char p174[0x1BC - 0x174]; int tr;

@@ -141,7 +141,6 @@ Start,End,Reason
 0x00259D80,0x00259D94,"orphan instructions, no return"
 0x00259DD8,0x00259DE4,"orphan instructions, no return"
 0x00116EA8,0x00116ED4,dead-code scrap
-0x00117120,0x00117128,dead-code scrap before a real function
 0x00232380,0x002323A4,dead-code scrap
 0x002324C8,0x002324FC,dead-code scrap
 0x002325A8,0x002325DC,dead-code scrap
@@ -163,3 +162,6 @@ Start,End,Reason
 0x00259AC8,0x00259AE8,dead-code scrap before a real function
 0x00259B18,0x00259B20,dead-code scrap before a real function
 0x00259BF8,0x00259C08,dead-code scrap before a real function
+0x0014C1DC,0x0014C1F0,dead-code scrap (gap left by an earlier split)
+0x0023AA64,0x0023AA98,dead-code scrap (gap left by an earlier split)
+0x00259D54,0x00259D60,dead-code scrap (gap left by an earlier split)

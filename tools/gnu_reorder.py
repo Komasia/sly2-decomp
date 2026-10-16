@@ -112,7 +112,36 @@ def fcmp_branch_nop(text):
                 out.append('\tnop')
     return '\n'.join(out)
 
-def assemble(s_path, obj, root, mode='gnu-reorder'):
+DIVS = re.compile(r'^(\s+)(div\.s|sqrt\.s|rsqrt\.s)\s')
+
+def libm_div_nops(text):
+    """'// SLY2_DIVNOP' (Sony libm): that compiler emitted every div.s as a noreorder `nop; nop; div.s` unit, even
+    mid-block, and never placed a division in a delay slot.  Wrap every div.s that way; a div.s that gcc's reorg put
+    in a branch delay slot is moved in front of the branch (an FPU divide never feeds the branch) and the slot
+    gets a nop."""
+    L = text.split('\n'); out = []; noreorder = False; i = 0
+    def isdiv(l): return l.split()[:1] == ['div.s']
+    def unit(l):
+        ind = re.match(r'^\s*', l).group(0) or '\t'
+        return [ind + 'nop', ind + 'nop', l]
+    while i < len(L):
+        l = L[i]; st = l.strip()
+        if st in ('.set\tnoreorder', '.set noreorder'): noreorder = True
+        elif st in ('.set\treorder', '.set reorder'): noreorder = False
+        if noreorder and re.match(r'^\s+(b\w*|j|jal|jr|jalr|bc1\w*)\s', l) and i + 1 < len(L) and isdiv(L[i + 1]):
+            ind = re.match(r'^\s*', l).group(0)
+            out += unit(L[i + 1]) + [l, ind + 'nop']
+            i += 2; continue
+        if isdiv(l):
+            if noreorder: out += unit(l)
+            else:
+                ind = re.match(r'^\s*', l).group(0)
+                out += [ind + '.set\tnoreorder'] + unit(l) + [ind + '.set\treorder']
+            i += 1; continue
+        out.append(l); i += 1
+    return '\n'.join(out)
+
+def assemble(s_path, obj, root, mode='gnu-reorder', divnop=False):
     g = os.path.join(root, 'tools', 'compilers', 'ee-gcc2.96')
     txt = open(s_path).read()
     if mode == 'gnu-reorg':
@@ -120,6 +149,8 @@ def assemble(s_path, obj, root, mode='gnu-reorder'):
     txt = pin_loop_branches(txt)
     txt = pin_const_before_call(txt)
     txt = fcmp_branch_nop(txt)
+    if divnop:
+        txt = libm_div_nops(txt)
     s2 = s_path + '.gr.s'
     open(s2, 'w').write(txt)
     p = subprocess.run([os.path.join(g, 'ee', 'bin', 'as'), '-G0', '-EL', '-mabi=eabi', '-o', obj, s2],

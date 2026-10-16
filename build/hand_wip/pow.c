@@ -1,6 +1,6 @@
-// (Claude agent) newlib w_pow.c, -Os: 12 diffs, all sched/regalloc ties (type-store vs version-load order in DOMAIN/UNDERFLOW blocks, NaN const ld reg). Same pattern as log10.
+// (Claude agent) newlib w_pow.c, -O2: only 6 diffs, all the PRE hi-copy artefact (target 'lui s5,%hi(__fdlib_version)' in the prologue; ours 'lui v1 ... daddu s5,v1' after the call). powf (same source, float) has no copy.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
-// SLY2_CFLAGS: -Os -G0
+// SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
 struct exception {

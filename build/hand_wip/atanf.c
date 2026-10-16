@@ -1,4 +1,5 @@
-// (Claude agent) fdlibm sf_atan.c. TOOLCHAIN: Sony's compiler emits 'nop;nop' before every div.s in libm (noreorder, also mid-block); SDK modes don't. With an asm DIV emulation (not kept) remaining diffs = id=0/1 li placement vs div (sched).
+// (Claude agent) fdlibm sf_atan.c. TOOLCHAIN-ONLY near miss: MATCHES exactly when every div.s is emitted as a noreorder
+// 'nop; nop; div.s' unit (verified with an inline-asm DIV wrapper, not kept; 'id = 1/2' must follow the x division).
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
@@ -43,11 +44,11 @@ float atanf(float x)
 	    if (ix < 0x3f300000) {
 		id = 0; x = ((float)2.0*x-one)/((float)2.0+x);
 	    } else {
-		id = 1; x  = (x-one)/(x+one);
+		x  = (x-one)/(x+one); id = 1;
 	    }
 	} else {
 	    if (ix < 0x401c0000) {
-		id = 2; x  = (x-(float)1.5)/(one+(float)1.5*x);
+		x  = (x-(float)1.5)/(one+(float)1.5*x); id = 2;
 	    } else {
 		id = 3; x  = -(float)1.0/x;
 	    }

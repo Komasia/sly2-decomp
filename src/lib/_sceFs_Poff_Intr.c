@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct { void (*func)(void *); void *arg; } PoffCb;
 extern void *D_0044BE40;
 void _sceFs_Poff_Intr(void *pkt, PoffCb *cb)

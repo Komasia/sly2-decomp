@@ -189,7 +189,7 @@ def compile_src(src):
             body = _re.sub(r'^(\s+)sq(\s+\$\w+\s*,\s*-?\w*\(\$sp\))', r'\1sd\2', body, flags=_re.M)
             body = _re.sub(r'^(\s+)lq(\s+\$\w+\s*,\s*-?\w*\(\$sp\))', r'\1ld\2', body, flags=_re.M)
             open(s_out, 'w').write(body)
-        if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode):
+        if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode, divnop=bool(_re.search(r'SLY2_DIVNOP', head))):
             print(p.stdout + p.stderr); sys.exit(1)
         return out
     cmd = ([] if native else [WIBO]) + [cc, '-c'] + INCLUDES + flags + [src, '-o', out]

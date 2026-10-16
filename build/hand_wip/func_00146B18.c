@@ -1,4 +1,4 @@
-// NEAR MISS (Claude agent): 12/191. Case 3 only: CLQ init (sq 0 + swc1) scheduled after const loads, f5 vs f0 for lm.gMax, v1 vs v0 in atan arg extraction. Key: volatile vsqrt asm.
+// NEAR MISS (Claude agent): 6/191 (hard-reg f5 / v1 vars fixed regs). Remaining: case-3 CLQ init stores vs vsub scheduling (target: por, f1 const, sq 0, swc1 g0, vsub, swc1 g1).
 typedef int qword __attribute__((mode(TI)));
 struct Q { char pad[0x18]; float x18; float x1C; char pad2[0x30 - 0x20]; int x30; };
 struct PO { char pad[0x2DC]; int x2DC; };
@@ -29,11 +29,14 @@ static __inline__ void GClamp(float *pg, struct LM *plm)
 {
     if (*pg < plm->gMin)
         *pg = plm->gMin;
-    else if (plm->gMax < *pg)
-        *pg = plm->gMax;
+    else {
+        register float gMax __asm__("$f5") = plm->gMax;
+        if (gMax < *pg)
+            *pg = gMax;
+    }
 }
 
-static __inline__ float GAtanXY(qword d) { qword r; float x; __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(d)); x = GetX(r); return func_002458F0(GetY(r), x); }
+static __inline__ float GAtanXY(qword d) { register qword r __asm__("v1"); float x; __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(d)); x = GetX(r); { float y; __asm__("prot3w %0,%1" : "=r"(y) : "0"(r)); return func_002458F0(y, x); } }
 void func_00146B18(struct P *p, struct Q *q)
 {
     func_001EF0C0(p, q);

@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct { int x0; int x4; int id; int mode; long base; } Counter;
 typedef struct { char pad[0x1C]; volatile int cur; } TimerSys;
 extern TimerSys D_002C5A30;

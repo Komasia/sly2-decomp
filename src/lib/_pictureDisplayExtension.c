@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fno-strength-reduce
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct {
     char p0[0x14C]; int progressive_sequence;
     char p150[0x184 - 0x150]; int picture_structure; int top_field_first;

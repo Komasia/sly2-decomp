@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct { int type; int pad[7]; } sceMpegCbData;
 typedef int (*sceMpegCallback)(void *mp, sceMpegCbData *cbd, void *data);
 typedef struct { sceMpegCallback func; void *data; void *gp; } CB;

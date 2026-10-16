@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef unsigned long u_long;
 typedef struct { u_long pmode; u_long smode2; u_long dispfb; u_long display; u_long bgcolor; } sceGsDispEnv;
 typedef struct { short sceGsInterMode, sceGsOutMode, sceGsFFMode, sceGsVersion; } sceGsGParam;

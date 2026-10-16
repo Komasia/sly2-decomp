@@ -199,3 +199,32 @@ re-verified; this finished newlib scalbn (func_00249EE0).
 func_0011D018 is Sly 1's GSmooth: `float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext)`.
 Declaring it with that argument order fixes argument-setup order in its callers (it alone matched func_00150160).
 Check other drafts that call 0x11D018 with a different prototype.
+
+## `// SLY2_DIVNOP` (Sony libm divisions, 2026-10-16)
+Sony's libm compiler emitted every `div.s` as a `nop; nop; div.s` unit, even mid-block, and never put a division in
+a delay slot. Opt-in header `// SLY2_DIVNOP` (with SLY2_ASM) makes gnu_reorder.py reproduce that (and moves a div.s
+that gcc placed in a delay slot in front of its branch). Matched __ieee754_atan2f; atanf also needs the source tweak
+in notes/245000.md. Use only for libm files that show the pattern.
+
+## Junk list correction
+Two `nop`s directly before a `div.s` at a function's start are the divide-hazard padding, not scrap: 0x117120 was
+wrongly listed and is fixed (func_00117120 now matches).
+
+## New compilers: ee-gcc 2.9 and 3.2 (2026-10-16)
+`tools/compilers/extra/` now has ee-gcc2.9-990721, 2.9-991111, 2.9-991111a, 2.9-991111-01, 2.9-991111-01-dtls13010,
+3.2-030926, 3.2-040921 (native Linux; use with `// SLY2_CC: tools/compilers/extra/<name>`). ee-gcc 2.9 emits `mult1`
+and frame-teardown `j` tail calls and saves registers with `sd` natively (no SLY2_SAVES needed) — it is at least one
+of Sony's SDK compilers: setD3_CHCR matched with `SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111`,
+`SLY2_CFLAGS: -O2 -G0`, `SLY2_ASM: gnu-reorder-db`. The "mult1" and "j tail call" blockers in notes/23C000.md are
+therefore probably solvable: retry them with ee-gcc 2.9 first. ee-gcc 3.2 also emits both but laid out setD3_CHCR differently.
+
+## Real compiler instead of emulation (2026-10-16)
+71 Sony SDK files that matched with ee-gcc 2.95.3-114 + `SLY2_SAVES: sd` emulation also match with the real Sony
+compiler ee-gcc 2.9-991111 (or 991111-01) with no emulation, so they were switched to it. 25 still need the 114 +
+SLY2_SAVES form (their source was tuned for it). New SDK work should start with ee-gcc 2.9.
+
+## decomp-permuter for plain-C near-misses (2026-10-16)
+`bash tools/permute.sh build/hand_wip/NAME.c [seconds] [jobs]` runs decomp-permuter (random source rewrites scored
+against the original bytes; tools/perm_objdump.py stands in for MIPS objdump). Works only on plain C drafts without
+inline asm (pycparser). Candidates land in /tmp/perm/NAME/output-*/source.c; ALWAYS verify a candidate with
+matchtool and then clean it up into readable C before saving it to src/. Use at most 1 job per agent (2 cores total).
