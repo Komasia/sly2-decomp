@@ -13,6 +13,9 @@ This downloads every compiler and tool the build uses into `tools/` (they are th
 fetched from decomp.me / GitHub rather than stored in this repo), installs the Python packages and the 32-bit C library
 the PS2 compilers need, extracts `disc/SCUS_973.16` from **your own** disc image, writes the disassembly, and turns on
 the progress-graph hook. Then `python3 tools/matchtool.py check src/P2/bis.cpp` should print MATCH lines.
+**Already set up?** Run the same command again: it checks each item, downloads only what is missing (for example
+the new ee-gcc 2.9 / 3.2 compilers) and prints a summary. Nothing existing is overwritten.
+
 The sections below explain what each piece is, if you want to do it by hand.
 
 ## 1. Game executable (from your own disc)
