@@ -256,3 +256,8 @@ func_001A93C8 (float before HIT*, func_0013B5E8).
 When the original keeps a small constant (0/1/2/0x20…) in a callee-saved register ($s3/$s5) for a whole function, the
 Sony source declared it as a local variable, e.g. `int one = 1;`, `int two = 2;`, or a reused flag like `sel`.
 Write that local and use it in every place the original reads the register. This matched sceIoctl and _getAllRefs.
+
+## Matrix-returning callees: by-value inline helper (2026-10-16)
+If a function passes an M3 (3x3 matrix) returned by one call straight into another, write a `static inline` helper that
+takes the M3 by value, and call it directly with the call that returns it: `Helper(GetMat(...), ...)`. This removes
+the extra stack copy and matched func_00231300 and func_0014E1A8.

@@ -127,7 +127,22 @@ def divfix(text):
             pos += isize(mn, c[2] if len(c) > 2 else '')
     return '\n'.join(out)
 
-def fix(text):
+LAST_NEEDS = []      # line indices of `.p2align 3` points inside short loops whose padding needs their alignment
+
+def add_markers(text, needs):
+    """Put `__afA<k>:` before and `__afB<k>:` after the label that follows each `.p2align 3` in needs, so
+    the assembled object shows how many alignment nops the assembler put there."""
+    L = text.split('\n'); ins = []
+    for k, j in enumerate(needs):
+        q = j + 1
+        while q < len(L) and classify(L[q])[0] == 'blank': q += 1
+        ins.append((j, '__afA%d:' % k)); ins.append((q + 1, '__afB%d:' % k))
+    for pos, lab in sorted(ins, reverse=True): L.insert(pos, lab)
+    return '\n'.join(L)
+
+def fix(text, align=None):
+    global LAST_NEEDS
+    LAST_NEEDS = []
     text = divfix(text)
     lines = text.split('\n')
     out = list(lines)
@@ -153,7 +168,7 @@ def fix(text):
             1 for j in range(labels[tgt] + 1, i) if classify(lines[j])[0] in ('blank', 'dir'))
         if uncond and not noreorder[i] and not selfloop: continue
         # count instructions between the label and the branch
-        n = 0; ok = True; last = None
+        n = 0; ok = True; last = None; nal = 0
         for j in range(labels[tgt] + 1, i):
             k = classify(lines[j])
             if k[0] == 'insn':
@@ -178,6 +193,19 @@ def fix(text):
                 n += 1; last = k
             elif k[0] == 'dir' and re.match(r'\.(p2align|align)\s+2\s*$', k[1]):
                 pass                                                          # instructions are already 4-aligned
+            elif k[0] == 'dir' and re.match(r'\.(p2align|align)\s+3\s*$', k[1]):
+                # an 8-byte alignment inside the loop (gcc aligns a loop head that follows a shared return block, and
+                # a backward branch to that block is a short loop to the assembler).  The original assembler counted
+                # the alignment nop as padding; ours doesn't.  The nop count is only known after assembling, so
+                # wibo_cc assembles once with marker labels (add_markers) and passes the counts in `align`.
+                pj = j - 1
+                while pj > 0 and classify(lines[pj])[0] == 'blank': pj -= 1
+                mk = re.match(r'^__afA(\d+):', lines[pj].strip())
+                if align is not None and mk and int(mk.group(1)) in align:
+                    nal += align[int(mk.group(1))]
+                else:
+                    if not mk: LAST_NEEDS.append(j)
+                    ok = False; break
             elif k[0] == 'dir' and re.match(r'\.(p2align|align|space|skip|word|byte|half)', k[1]):
                 ok = False; break
             elif k[0] == 'label+':
@@ -191,6 +219,9 @@ def fix(text):
         # unconditional branches are not padded (only conditional loops trigger the R5900 errata), but are
         # still emitted as .word so the assembler can't add its own padding
         pad = 0 if (uncond and not selfloop and not noreorder[i]) else LOOP_LEN - 2 - n   # unconditional loops in noreorder blocks and `L: b L` are padded too
+        if nal:
+            if pad < nal: continue
+            pad -= nal; n += nal          # alignment nops are part of the padding and of the branch distance
         if not noreorder[i]:
             # reorder mode: the assembler would fill the delay slot itself.  Only safe when padding is
             # inserted (then nothing can be moved into the slot and it gets a nop).
