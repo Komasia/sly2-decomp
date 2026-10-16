@@ -954,9 +954,11 @@ func_0011B570,0x11B570,45,match,src/hand/func_0011B570.c
 func_0011B628,0x11B628,61,match,src/hand/func_0011B628.c
 func_0011B720,0x11B720,48,match,src/hand/func_0011B720.c
 func_0011B7E0,0x11B7E0,18,match,src/hand/func_0011B7E0.c
+func_0011B938,0x11B938,49,match,src/hand/func_0011B938.c
 DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1,0x11BC88,27,match,src/hand/DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1.cpp
 DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR,0x11BCF8,176,match,src/hand/DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR.cpp
 func_0011BFB8,0x11BFB8,14,match,src/hand/func_0011BFB8.c
+func_0011BFF0,0x11BFF0,77,match,src/hand/func_0011BFF0.c
 __ml__FRC7MATRIX4G8VU_FLOAT,0x11C128,15,match,src/hand/__ml__FRC7MATRIX4G8VU_FLOAT.cpp
 func_0011C168,0x11C168,16,match,src/hand/func_0011C168.c
 __ml__FRC7MATRIX4G10VU_VECTOR4,0x11C1A8,11,match,src/hand/__ml__FRC7MATRIX4G10VU_VECTOR4.c
@@ -990,6 +992,7 @@ func_0011D448,0x11D448,34,match,src/hand/func_0011D448.c
 FFloatsNear__Ffff,0x11D4D0,14,match,src/hand/FFloatsNear__Ffff.cpp
 func_0011D508,0x11D508,41,match,src/hand/func_0011D508.c
 PrescaleClq__FP3CLQffT0,0x11D5B0,22,match,src/auto/PrescaleClq__FP3CLQffT0.c
+func_0011D608,0x11D608,77,match,src/hand/func_0011D608.c
 GTrunc__Fd,0x11D740,44,match,src/hand/GTrunc__Fd.cpp
 func_0011D7F0,0x11D7F0,42,match,src/hand/func_0011D7F0.c
 func_0011D898,0x11D898,15,match,src/hand/func_0011D898.c
@@ -1008,6 +1011,7 @@ func_0011E178,0x11E178,8,match,src/auto/func_0011E178.c
 func_0011E1A0,0x11E1A0,25,match,src/hand/func_0011E1A0.c
 func_0011E208,0x11E208,34,match,src/hand/func_0011E208.c
 func_0011E290,0x11E290,18,match,src/hand/func_0011E290.c
+func_0011E2D8,0x11E2D8,46,match,src/hand/func_0011E2D8.c
 func_0011E958,0x11E958,39,match,src/hand/func_0011E958.c
 func_0011E9F8,0x11E9F8,26,match,src/hand/func_0011E9F8.c
 func_0011EBB0,0x11EBB0,98,match,src/hand/func_0011EBB0.c
@@ -1290,9 +1294,11 @@ func_0012B590,0x12B590,19,match,src/auto/func_0012B590.c
 func_0012B5E0,0x12B5E0,62,match,src/hand/func_0012B5E0.c
 func_0012B6D8,0x12B6D8,24,match,src/hand/func_0012B6D8.c
 func_0012B738,0x12B738,166,match,src/hand/func_0012B738.c
+func_0012B9D0,0x12B9D0,50,match,src/hand/func_0012B9D0.c
 func_0012BA98,0x12BA98,54,match,src/hand/func_0012BA98.c
 func_0012BB70,0x12BB70,24,match,src/hand/func_0012BB70.c
 func_0012BBD0,0x12BBD0,165,match,src/hand/func_0012BBD0.c
+func_0012BE68,0x12BE68,49,match,src/hand/func_0012BE68.c
 func_0012BF30,0x12BF30,107,match,src/hand/func_0012BF30.c
 func_0012C0E0,0x12C0E0,24,match,src/hand/func_0012C0E0.c
 func_0012C140,0x12C140,192,match,src/hand/func_0012C140.c
@@ -1339,6 +1345,7 @@ func_0012DE58,0x12DE58,37,match,src/hand/func_0012DE58.c
 func_0012DEF0,0x12DEF0,59,match,src/hand/func_0012DEF0.cpp
 func_0012DFE0,0x12DFE0,12,match,src/auto/func_0012DFE0.c
 func_0012E010,0x12E010,20,match,src/auto/func_0012E010.c
+func_0012E060,0x12E060,35,match,src/hand/func_0012E060.c
 func_0012E0F0,0x12E0F0,11,match,src/auto/func_0012E0F0.c
 func_0012E120,0x12E120,51,match,src/hand/func_0012E120.c
 func_0012E1F0,0x12E1F0,8,match,src/auto/func_0012E1F0.c
@@ -1596,6 +1603,7 @@ func_0013CFD8,0x13CFD8,17,match,src/hand/func_0013CFD8.c
 func_0013D020,0x13D020,98,match,src/hand/func_0013D020.c
 func_0013D1A8,0x13D1A8,39,match,src/hand/func_0013D1A8.cpp
 func_0013D248,0x13D248,55,match,src/hand/func_0013D248.c
+func_0013D328,0x13D328,53,match,src/hand/func_0013D328.cpp
 func_0013D400,0x13D400,77,match,src/auto/func_0013D400.c
 func_0013D538,0x13D538,8,match,src/auto/func_0013D538.c
 func_0013D558,0x13D558,9,match,src/auto/func_0013D558.c
@@ -1900,6 +1908,7 @@ func_0014D8C0,0x14D8C0,6,match,src/hand/func_0014D8C0.c
 func_0014D8D8,0x14D8D8,8,match,src/hand/func_0014D8D8.c
 func_0014D8F8,0x14D8F8,68,match,src/hand/func_0014D8F8.c
 BuildFrustrum,0x14DA08,89,match,src/hand/BuildFrustrum.cpp
+RecalcCmFrustrum__FP2CM,0x14DB70,57,match,src/hand/RecalcCmFrustrum__FP2CM.cpp
 func_0014E000,0x14E000,30,match,src/hand/func_0014E000.c
 func_0014E078,0x14E078,52,match,src/hand/func_0014E078.c
 func_0014E148,0x14E148,8,match,src/auto/func_0014E148.c
@@ -2479,6 +2488,7 @@ func_00173610,0x173610,85,match,src/hand/func_00173610.c
 func_00173768,0x173768,111,match,src/hand/func_00173768.cpp
 func_00173928,0x173928,60,match,src/hand/func_00173928.c
 func_00173A18,0x173A18,20,match,src/hand/func_00173A18.c
+func_00173A68,0x173A68,172,match,src/hand/func_00173A68.c
 func_00173E78,0x173E78,40,match,src/hand/func_00173E78.c
 func_00174490,0x174490,138,match,src/hand/func_00174490.cpp
 func_001746B8,0x1746B8,33,match,src/hand/func_001746B8.c
@@ -2826,6 +2836,8 @@ func_001865F0,0x1865F0,8,match,src/auto/func_001865F0.c
 func_00186610,0x186610,12,match,src/auto/func_00186610.c
 func_00186640,0x186640,12,match,src/auto/func_00186640.c
 func_00186670,0x186670,108,match,src/hand/func_00186670.c
+func_00186820,0x186820,68,match,src/hand/func_00186820.cpp
+func_00186930,0x186930,71,match,src/hand/func_00186930.cpp
 func_00186ED8,0x186ED8,77,match,src/auto/func_00186ED8.c
 func_00187010,0x187010,8,match,src/auto/func_00187010.c
 func_00187030,0x187030,17,match,src/auto/func_00187030.c
@@ -3290,6 +3302,7 @@ func_001AF6D0,0x1AF6D0,189,match,src/hand/func_001AF6D0.c
 func_001AF9C8,0x1AF9C8,111,match,src/hand/func_001AF9C8.cpp
 func_001AFB88,0x1AFB88,256,match,src/hand/func_001AFB88.cpp
 func_001AFF88,0x1AFF88,14,match,src/auto/func_001AFF88.c
+func_001AFFC0,0x1AFFC0,45,match,src/hand/func_001AFFC0.c
 func_001B0078,0x1B0078,36,match,src/hand/func_001B0078.c
 func_001B0108,0x1B0108,21,match,src/hand/func_001B0108.c
 func_001B0160,0x1B0160,33,match,src/hand/func_001B0160.c
@@ -3382,6 +3395,7 @@ func_001B4478,0x1B4478,24,match,src/hand/func_001B4478.c
 func_001B44D8,0x1B44D8,62,match,src/hand/func_001B44D8.c
 func_001B45D0,0x1B45D0,77,match,src/auto/func_001B45D0.c
 func_001B4708,0x1B4708,8,match,src/auto/func_001B4708.c
+func_001B4728,0x1B4728,88,match,src/hand/func_001B4728.c
 func_001B4888,0x1B4888,86,match,src/hand/func_001B4888.c
 func_001B49E0,0x1B49E0,47,match,src/hand/func_001B49E0.c
 func_001B4AA0,0x1B4AA0,358,match,src/hand/func_001B4AA0.cpp
@@ -3558,6 +3572,7 @@ func_001C10C8,0x1C10C8,27,match,src/hand/func_001C10C8.c
 func_001C1138,0x1C1138,73,match,src/hand/func_001C1138.c
 func_001C1260,0x1C1260,119,match,src/hand/func_001C1260.c
 func_001C1440,0x1C1440,25,match,src/auto/func_001C1440.c
+func_001C14A8,0x1C14A8,83,match,src/hand/func_001C14A8.c
 func_001C15F8,0x1C15F8,65,match,src/hand/func_001C15F8.c
 func_001C1700,0x1C1700,109,match,src/hand/func_001C1700.c
 func_001C18B8,0x1C18B8,44,match,src/hand/func_001C18B8.c
@@ -3573,6 +3588,7 @@ func_001C20B0,0x1C20B0,14,match,src/hand/func_001C20B0.c
 func_001C20E8,0x1C20E8,24,match,src/hand/func_001C20E8.c
 func_001C2148,0x1C2148,10,match,src/hand/func_001C2148.c
 func_001C2170,0x1C2170,26,match,src/hand/func_001C2170.c
+func_001C26E0,0x1C26E0,58,match,src/hand/func_001C26E0.c
 func_001C27C8,0x1C27C8,77,match,src/auto/func_001C27C8.c
 func_001C2900,0x1C2900,8,match,src/auto/func_001C2900.c
 func_001C2920,0x1C2920,77,match,src/auto/func_001C2920.c
@@ -4198,6 +4214,7 @@ func_001E6ED8,0x1E6ED8,14,match,src/auto/func_001E6ED8.c
 func_001E6F10,0x1E6F10,20,match,src/auto/func_001E6F10.c
 func_001E7380,0x1E7380,36,match,src/hand/func_001E7380.c
 func_001E7410,0x1E7410,73,match,src/hand/func_001E7410.c
+func_001E7538,0x1E7538,76,match,src/hand/func_001E7538.c
 func_001E7668,0x1E7668,82,match,src/hand/func_001E7668.c
 func_001E77B0,0x1E77B0,12,match,src/hand/func_001E77B0.c
 func_001E77E8,0x1E77E8,21,match,src/hand/func_001E77E8.c
@@ -5397,6 +5414,7 @@ func_0022CB90,0x22CB90,27,match,src/hand/func_0022CB90.cpp
 func_0022CC00,0x22CC00,51,match,src/hand/func_0022CC00.c
 func_0022CDC0,0x22CDC0,226,match,src/hand/func_0022CDC0.cpp
 func_0022D148,0x22D148,127,match,src/hand/func_0022D148.c
+func_0022D348,0x22D348,201,match,src/hand/func_0022D348.cpp
 func_0022D670,0x22D670,10,match,src/hand/func_0022D670.c
 func_0022D698,0x22D698,5,match,src/auto/func_0022D698.c
 func_0022D6B0,0x22D6B0,39,match,src/hand/func_0022D6B0.c
@@ -5482,6 +5500,11 @@ func_00233048,0x233048,16,match,src/lib/func_00233048.c
 func_00233088,0x233088,18,match,src/lib/func_00233088.c
 func_002330D0,0x2330D0,20,match,src/lib/func_002330D0.c
 func_00233130,0x233130,16,match,src/lib/func_00233130.c
+memcpy,0x23320C,43,match,src/lib/memcpy.c
+memmove,0x2332B8,63,match,src/lib/memmove.c
+memset,0x2333B4,46,match,src/lib/memset.c
+func_00233470,0x233470,114,match,src/lib/func_00233470.c
+func_00233638,0x233638,114,match,src/lib/func_00233638.c
 atoi,0x233800,10,match,src/lib/atoi.c
 func_00233828,0x233828,37,match,src/lib/func_00233828.c
 qsort,0x2338C0,631,match,src/lib/qsort.c
@@ -5680,6 +5703,7 @@ func_00237B80,0x237B80,3,match,src/lib/func_00237B80.c
 _sceFs_Poff_Intr,0x237B90,17,match,src/lib/_sceFs_Poff_Intr.c
 func_00237DE0,0x237DE0,35,match,src/lib/func_00237DE0.c
 sceFsReset,0x237E70,13,match,src/lib/sceFsReset.c
+sceOpen,0x237EA8,164,match,src/lib/sceOpen.c
 sceClose,0x238138,94,match,src/lib/sceClose.c
 sceSifInitIopHeap,0x238BD0,34,match,src/lib/sceSifInitIopHeap.c
 sceSifAllocIopHeap,0x238C58,28,match,src/lib/sceSifAllocIopHeap.c
@@ -5743,6 +5767,7 @@ kputs,0x23AA40,9,match,src/lib/kputs.c
 func_0023AA98,0x23AA98,7,match,src/lib/func_0023AA98.c
 func_0023AAB8,0x23AAB8,3,match,src/auto/func_0023AAB8.c
 func_0023AAC8,0x23AAC8,6,match,src/lib/func_0023AAC8.c
+sceSifInitCmd,0x23AAF0,160,match,src/lib/sceSifInitCmd.c
 sceSifExitCmd,0x23AD70,13,match,src/lib/sceSifExitCmd.c
 sceSifRemoveCmdHandler,0x23AE20,19,match,src/lib/sceSifRemoveCmdHandler.c
 _sceSifSendCmd,0x23AE70,77,match,src/lib/_sceSifSendCmd.c
@@ -5756,6 +5781,8 @@ func_0023B280,0x23B280,4,match,src/lib/syscall/func_0023B280.c
 InitTLBFunctions,0x23B290,49,match,src/lib/InitTLBFunctions.c
 func_0023B358,0x23B358,4,match,src/lib/syscall/func_0023B358.c
 InitTLB,0x23B368,16,match,src/lib/InitTLB.c
+InitTLB32MB,0x23B3A8,125,match,src/lib/InitTLB32MB.c
+func_0023B5C0,0x23B5C0,88,match,src/lib/func_0023B5C0.c
 __main__Fv,0x23B7D8,8,match,src/lib/__main__Fv.cpp
 __divdi3,0x23B7F8,443,match,src/lib/__divdi3.c
 __fixunsdfdi,0x23BEE8,59,match,src/lib/__fixunsdfdi.c
@@ -5864,10 +5891,12 @@ sceCdMmode,0x242C30,52,match,src/lib/sceCdMmode.c
 scePadInit,0x242D08,80,match,src/lib/scePadInit.c
 _pad_intr_hdr,0x242E48,18,match,src/lib/_pad_intr_hdr.c
 scePadInit2,0x242E90,56,match,src/lib/scePadInit2.c
+_send_to_iop,0x242F70,69,match,src/lib/_send_to_iop.c
 scePadGetDmaStr,0x243270,24,match,src/lib/scePadGetDmaStr.c
 scePadRead,0x2432D0,45,match,src/lib/scePadRead.c
 scePadGetState_243388,0x243388,50,match,src/lib/scePadGetState_243388.c
 scePadSetReqState,0x243458,41,match,src/lib/scePadSetReqState.c
+scePadGetState,0x243500,20,match,src/hand/scePadGetState.c
 scePadGetReqState,0x243500,20,match,src/lib/scePadGetReqState.c
 scePadInfoAct,0x243558,72,match,src/lib/scePadInfoAct.c
 scePadInfoMode,0x243680,78,match,src/lib/scePadInfoMode.c
@@ -5959,6 +5988,7 @@ _doCSC2,0x24C4B0,112,match,src/lib/_doCSC2.c
 _ch3dmaCSC,0x24CB48,82,match,src/lib/_ch3dmaCSC.c
 _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
+sceMpegAddStrCallback,0x24F790,76,match,src/lib/sceMpegAddStrCallback.c
 func_0024F8C0,0x24F8C0,4,match,src/lib/func_0024F8C0.c
 _sceMpegStopIpuDma,0x24F8D0,40,match,src/lib/_sceMpegStopIpuDma.c
 _sceMpegErrorBdec,0x24F970,50,match,src/lib/_sceMpegErrorBdec.c
