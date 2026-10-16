@@ -1,0 +1,25 @@
+// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CFLAGS: -O2 -G0 
+// SLY2_ASM: gnu-reorder-db
+__asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
+extern char D_00450580[];
+extern int D_004507C0[];
+int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+void func_00243458(int, int, int);
+int scePadSetMainMode(int port, int slot, int offs, int lock)
+{
+    int r;
+    D_004507C0[0] = 6;
+    D_004507C0[1] = port;
+    D_004507C0[2] = slot;
+    D_004507C0[3] = offs;
+    D_004507C0[4] = lock;
+    if (func_00237288(D_00450580, 1, 0, D_004507C0, 0x80, D_004507C0, 0x80, 0, 0) < 0)
+        return 0;
+    r = D_004507C0[5];
+    if (r == 1) {
+        func_00243458(port, slot, 2);
+        r = D_004507C0[5];
+    }
+    return r;
+}
