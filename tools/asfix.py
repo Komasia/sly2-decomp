@@ -50,6 +50,8 @@ def classify(line):
     s = strip(line)
     if not s: return ('blank',)
     m = re.match(r'^([$\w.]+):\s*(.*)$', s)
+    if m and m.group(1).startswith('__af') and not m.group(2):
+        return ('blank',)                       # wibo_cc's alignment markers (add_markers) are invisible here
     if m:
         return ('label', m.group(1)) if not m.group(2) else ('label+', m.group(1), m.group(2))
     if s.startswith('.'): return ('dir', s)
@@ -168,7 +170,7 @@ def fix(text, align=None):
             1 for j in range(labels[tgt] + 1, i) if classify(lines[j])[0] in ('blank', 'dir'))
         if uncond and not noreorder[i] and not selfloop: continue
         # count instructions between the label and the branch
-        n = 0; ok = True; last = None; nal = 0
+        n = 0; ok = True; last = None; nal = 0; unknown = []
         for j in range(labels[tgt] + 1, i):
             k = classify(lines[j])
             if k[0] == 'insn':
@@ -199,12 +201,13 @@ def fix(text, align=None):
                 # the alignment nop as padding; ours doesn't.  The nop count is only known after assembling, so
                 # wibo_cc assembles once with marker labels (add_markers) and passes the counts in `align`.
                 pj = j - 1
-                while pj > 0 and classify(lines[pj])[0] == 'blank': pj -= 1
+                while pj > 0 and not lines[pj].strip().startswith('__afA') and classify(lines[pj])[0] == 'blank': pj -= 1
                 mk = re.match(r'^__afA(\d+):', lines[pj].strip())
                 if align is not None and mk and int(mk.group(1)) in align:
                     nal += align[int(mk.group(1))]
+                elif not mk:
+                    unknown.append(j)                  # recorded below only if the loop is short enough to pad
                 else:
-                    if not mk: LAST_NEEDS.append(j)
                     ok = False; break
             elif k[0] == 'dir' and re.match(r'\.(p2align|align|space|skip|word|byte|half)', k[1]):
                 ok = False; break
@@ -213,6 +216,9 @@ def fix(text, align=None):
         # SN's assembler puts a nop between an FPU compare and a bc1x that follows it (the hazard nop it emits
         # where gcc wrote `#nop`); once the branch is emitted as .word it can't, so count that nop here and emit
         # it ourselves (func_001E7538: a 4-insn loop ending c.le.s/bc1fl is 7 long, so it is not padded).
+        if unknown:
+            if ok and n + 2 <= LOOP_LEN: LAST_NEEDS.extend(unknown)
+            continue
         hz = 1 if (c[1].startswith('bc1') and last is not None and last[1].startswith('c.')) else 0
         n += hz
         if not ok or n + 2 > LOOP_LEN: continue

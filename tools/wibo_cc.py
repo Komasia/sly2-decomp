@@ -57,7 +57,7 @@ def main():
         raw = open(s1).read()
         txt, _ = asfix.fix(raw)
         txt0 = txt
-        needs = list(asfix.LAST_NEEDS)
+        needs = sorted(set(asfix.LAST_NEEDS))
         open(s2, 'w').write(txt)
         flags = []
         skip = False
@@ -77,6 +77,8 @@ def main():
             # (alignment nops + remaining padding = full padding), so the address after each loop-head label shows
             # whether the alignment adds a nop there (section start assumed 8-aligned).
             marked = asfix.add_markers(raw, needs)
+            if os.environ.get('SLY2_ALIGNLOG'):
+                open(os.environ['SLY2_ALIGNLOG'], 'a').write(src + '\n')
             meas = re.sub(r'^(__afA\d+:)\n\s*\.(p2align|align)\s+3\s*$', r'\1', marked, flags=re.M)
             txt, _ = asfix.fix(meas, {k: 0 for k in range(len(needs))})
             open(s2, 'w').write(txt)
