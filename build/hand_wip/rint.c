@@ -1,0 +1,70 @@
+// (Claude agent) near miss 8/135: first-block sub() arg order (a1=s0 before a0=v0) and INSERT_WORDS register choice (t1); int pad[4] reproduces the 0x60 frame.
+// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CFLAGS: -O2 -G0
+// SLY2_ASM: gnu-reorder-db
+// SLY2_SAVES: sd
+/*
+ * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+ * Developed at SunPro, a Sun Microsystems, Inc. business.
+ * Permission to use, copy, modify, and distribute this software is freely
+ * granted, provided that this notice is preserved.
+ */
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef union {
+    double value;
+    struct { __uint32_t lsw; __uint32_t msw; } parts;
+} ieee_double_shape_type;
+#define EXTRACT_WORDS(ix0,ix1,d) do { ieee_double_shape_type ew_u; ew_u.value = (d); (ix0) = ew_u.parts.msw; (ix1) = ew_u.parts.lsw; } while (0)
+#define INSERT_WORDS(d,ix0,ix1) do { union { double value; unsigned long w; } iw_u; iw_u.w = ((unsigned long)(ix0) << 32) | (unsigned int)(ix1); (d) = iw_u.value; } while (0)
+#define GET_HIGH_WORD(i,d) do { ieee_double_shape_type gh_u; gh_u.value = (d); (i) = gh_u.parts.msw; } while (0)
+#define SET_HIGH_WORD(d,v) do { ieee_double_shape_type sh_u; sh_u.value = (d); sh_u.parts.msw = (v); (d) = sh_u.value; } while (0)
+static const double
+TWO52[2] = {
+  4.50359962737049600000e+15,
+ -4.50359962737049600000e+15,
+};
+double rint(double x)
+{
+    __int32_t i0, j0, sx;
+    __uint32_t i, i1;
+    double t;
+    double w;
+    int pad[4];
+    EXTRACT_WORDS(i0, i1, x);
+    sx = (i0 >> 31) & 1;
+    j0 = ((i0 >> 20) & 0x7ff) - 0x3ff;
+    if (j0 < 20) {
+        if (j0 < 0) {
+            if (((i0 & 0x7fffffff) | i1) == 0) return x;
+            i1 |= (i0 & 0x0fffff);
+            i0 &= 0xfffe0000;
+            i0 |= ((i1 | -i1) >> 12) & 0x80000;
+            SET_HIGH_WORD(x, i0);
+            w = TWO52[sx] + x;
+            t = w - TWO52[sx];
+            GET_HIGH_WORD(i0, t);
+            SET_HIGH_WORD(t, (i0 & 0x7fffffff) | (sx << 31));
+            return t;
+        } else {
+            i = (0x000fffff) >> j0;
+            if (((i0 & i) | i1) == 0) return x;
+            i >>= 1;
+            if (((i0 & i) | i1) != 0) {
+                if (j0 == 19) i1 = 0x40000000; else
+                i0 = (i0 & (~i)) | ((0x20000) >> j0);
+            }
+        }
+    } else if (j0 > 51) {
+        if (j0 == 0x400) return x + x;
+        else return x;
+    } else {
+        i = ((__uint32_t)(0xffffffff)) >> (j0 - 20);
+        if ((i1 & i) == 0) return x;
+        i >>= 1;
+        if ((i1 & i) != 0) i1 = (i1 & (~i)) | ((0x40000000) >> (j0 - 20));
+    }
+    INSERT_WORDS(x, i0, i1);
+    w = TWO52[sx] + x;
+    return w - TWO52[sx];
+}
