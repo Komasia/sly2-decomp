@@ -3,6 +3,18 @@
 This repository contains **only our own source code and tools**. It does not contain the game, its code, or any
 compiler binaries. You need your own copy of *Sly 2: Band of Thieves* (USA, SCUS-97316) and a Linux (or WSL) machine.
 
+## Quick start (one command)
+On Linux or WSL (Windows: install WSL first):
+```
+git clone https://github.com/Komasia/sly2-decomp && cd sly2-decomp
+bash tools/setup_all.sh "/path/to/Sly 2 - Band of Thieves (USA).iso"
+```
+This downloads every compiler and tool the build uses into `tools/` (they are third-party programs, so they are
+fetched from decomp.me / GitHub rather than stored in this repo), installs the Python packages and the 32-bit C library
+the PS2 compilers need, extracts `disc/SCUS_973.16` from **your own** disc image, writes the disassembly, and turns on
+the progress-graph hook. Then `python3 tools/matchtool.py check src/P2/bis.cpp` should print MATCH lines.
+The sections below explain what each piece is, if you want to do it by hand.
+
 ## 1. Game executable (from your own disc)
 ```
 python3 tools/extract_elf.py "/path/to/Sly 2 - Band of Thieves (USA).iso"
