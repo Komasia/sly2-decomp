@@ -7,7 +7,7 @@ CRef *func_0012A0B0(CRef *pref, int tagk);
 void *func_002333B4(void *p, int c, int n);
 OBJ *func_00256B48(void);
 void func_001FFD98(CRef *ret, void *b, PRM *prm);
-void func_00129658(CRef *pref, CRef *prefSrc);
+CRef *func_00129658(CRef *pref, CRef *prefSrc); /* CRef::operator= returns *this */
 void func_00129EC8(CRef *pref);
 void func_002550F8(OBJ *p);
 void func_0011CD98(void *pool, OBJ *p);
@@ -24,7 +24,7 @@ public:
     ~SP();
 } __attribute__((aligned(16)));
 extern "C" {
-int func_00256C38(SP *pp, OBJ *p); /* returns int (implicit-int C helper, no return value): void changes arg setup order */
+void func_00256C38(SP *pp, OBJ *p);
 void func_00256C58(SP *pp, OBJ *p);
 void func_00256D40(SP *p, int n);
 }
