@@ -1875,6 +1875,7 @@ func_0014C548,0x14C548,77,match,src/auto/func_0014C548.c
 func_0014C680,0x14C680,8,match,src/auto/func_0014C680.c
 func_0014C6A0,0x14C6A0,14,match,src/hand/func_0014C6A0.c
 func_0014C6D8,0x14C6D8,28,match,src/hand/func_0014C6D8.c
+func_0014C9F8,0x14C9F8,150,match,src/hand/func_0014C9F8.c
 PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG,0x14CC58,85,match,src/hand/PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG.c
 func_0014CDB0,0x14CDB0,54,match,src/hand/func_0014CDB0.c
 func_0014CE88,0x14CE88,77,match,src/auto/func_0014CE88.c
@@ -1948,6 +1949,7 @@ func_0014FDC0,0x14FDC0,7,match,src/auto/func_0014FDC0.c
 func_0014FDE0,0x14FDE0,18,match,src/auto/func_0014FDE0.c
 func_0014FE28,0x14FE28,12,match,src/auto/func_0014FE28.c
 func_0014FE58,0x14FE58,28,match,src/hand/func_0014FE58.c
+func_0014FEC8,0x14FEC8,28,match,src/hand/func_0014FEC8.c
 func_0014FF38,0x14FF38,137,match,src/hand/func_0014FF38.c
 func_00150160,0x150160,286,match,src/hand/func_00150160.c
 func_001505D8,0x1505D8,14,match,src/auto/func_001505D8.c
@@ -2351,6 +2353,7 @@ func_00167DA0,0x167DA0,45,match,src/hand/func_00167DA0.c
 func_00167F78,0x167F78,17,match,src/hand/func_00167F78.c
 func_00167FC0,0x167FC0,123,match,src/hand/func_00167FC0.cpp
 func_001681B0,0x1681B0,17,match,src/auto/func_001681B0.c
+func_001684D0,0x1684D0,89,match,src/hand/func_001684D0.c
 func_00169988,0x169988,23,match,src/auto/func_00169988.c
 func_001699E8,0x1699E8,55,match,src/hand/func_001699E8.c
 func_00169AC8,0x169AC8,251,match,src/hand/func_00169AC8.cpp
@@ -4857,6 +4860,7 @@ func_0020A010,0x20A010,17,match,src/hand/func_0020A010.c
 func_0020A058,0x20A058,41,match,src/hand/func_0020A058.c
 func_0020A100,0x20A100,26,match,src/auto/func_0020A100.c
 func_0020A168,0x20A168,75,match,src/hand/func_0020A168.c
+func_0020A298,0x20A298,56,match,src/hand/func_0020A298.c
 func_0020A378,0x20A378,36,match,src/auto/func_0020A378.c
 func_0020A408,0x20A408,68,match,src/hand/func_0020A408.c
 func_0020A518,0x20A518,10,match,src/hand/func_0020A518.c
@@ -5625,6 +5629,7 @@ func_00235248,0x235248,26,match,src/lib/func_00235248.c
 topThread,0x2352B0,54,match,src/lib/topThread.c
 iWakeupThread,0x235478,37,match,src/lib/iWakeupThread.c
 DelayThread,0x235518,50,match,src/lib/DelayThread.c
+StartThread_2355E0,0x2355E0,94,match,src/lib/StartThread_2355E0.c
 _DelayThreadHandler,0x235758,10,match,src/lib/_DelayThreadHandler.c
 kputchar,0x235780,14,match,src/lib/kputchar.c
 snprintf_char,0x236820,22,match,src/lib/snprintf_char.c
