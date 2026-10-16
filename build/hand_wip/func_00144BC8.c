@@ -1,4 +1,4 @@
-// NEAR MISS (Claude agent): 21/150. Logic complete. Remaining: VF numbering of pos/dot temps (target pos=vf3, dot=vf2, one=vf4) and 2nd LenXY scheduling.
+// NEAR MISS (Claude agent): 4/150. Hard-reg VF vars in Dot fixed the first block; remaining: 2nd block vsub scheduled before the lui of D_002BD2F0 (target lui first).
 typedef int qword __attribute__((mode(TI)));
 struct Q { char pad[0x18]; float x18; float x1C; char pad2[0x30 - 0x20]; int x30; };
 struct O;
@@ -32,10 +32,21 @@ static __inline__ float LenXY(qword d)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
+static __inline__ float LenXY2(qword d)
+{
+    float g;
+    qword t;
+    __asm__("vmul.xy %0, %1, %1" : "=j"(t) : "j"(d));
+    __asm__("vaddy.x %0, %0, %0y" : "+j"(t));
+    d = t;
+    __asm__("vsqrt Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, Q" : "+j"(d));
+    __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
+    return g;
+}
 
 static __inline__ float GClampR(float g, float lo, float hi) { if (g < lo) return lo; if (hi < g) return hi; return g; }
-static __inline__ int FFar(qword a, qword b) { qword d; float lim = D_002BD2F0; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return lim < LenXY(d); }
-static __inline__ qword Dot(qword a, qword b) { qword r, t;
+static __inline__ int FFar(qword a, qword b) { qword d; float lim = D_002BD2F0; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return lim < LenXY2(d); }
+static __inline__ qword Dot(qword a, qword b) { register qword r __asm__("vf2"); register qword t __asm__("vf4");
         __asm__("vmul.xyz %1, %2, %3\n\tvaddw.x %0, $vf0, $vf0w\n\tvadday.x $ACC, %1, %1y\n\tvmaddz.x %1, %0, %1z"
                 : "=&j"(t), "=&j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword Perp(qword d, qword axis) { qword v, r;
