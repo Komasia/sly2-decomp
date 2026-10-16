@@ -199,3 +199,13 @@ re-verified; this finished newlib scalbn (func_00249EE0).
 func_0011D018 is Sly 1's GSmooth: `float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext)`.
 Declaring it with that argument order fixes argument-setup order in its callers (it alone matched func_00150160).
 Check other drafts that call 0x11D018 with a different prototype.
+
+## `// SLY2_DIVNOP` (Sony libm divisions, 2026-10-16)
+Sony's libm compiler emitted every `div.s` as a `nop; nop; div.s` unit, even mid-block, and never put a division in
+a delay slot. Opt-in header `// SLY2_DIVNOP` (with SLY2_ASM) makes gnu_reorder.py reproduce that (and moves a div.s
+that gcc placed in a delay slot in front of its branch). Matched __ieee754_atan2f; atanf also needs the source tweak
+in notes/245000.md. Use only for libm files that show the pattern.
+
+## Junk list correction
+Two `nop`s directly before a `div.s` at a function's start are the divide-hazard padding, not scrap: 0x117120 was
+wrongly listed and is fixed (func_00117120 now matches).
