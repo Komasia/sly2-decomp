@@ -185,7 +185,10 @@ def compile_src(src):
             # emits 128-bit sq/lq there.  Emulate that compiler difference at assembly time (SDK C code has no
             # other 128-bit loads/stores, and any wrong rewrite would simply fail to match).
             body = open(s_out).read()
-            open(s_out, 'w').write('\t.macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm\n' + body)
+            # only register saves/restores (stack-pointer based); real 128-bit data stores stay sq/lq
+            body = _re.sub(r'^(\s+)sq(\s+\$\w+\s*,\s*-?\w*\(\$sp\))', r'\1sd\2', body, flags=_re.M)
+            body = _re.sub(r'^(\s+)lq(\s+\$\w+\s*,\s*-?\w*\(\$sp\))', r'\1ld\2', body, flags=_re.M)
+            open(s_out, 'w').write(body)
         if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode):
             print(p.stdout + p.stderr); sys.exit(1)
         return out

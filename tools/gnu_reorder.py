@@ -87,6 +87,31 @@ def pin_const_before_call(text):
                 out.append('$Lgr_cpin%d:' % i)
     return '\n'.join(out)
 
+FCMP = re.compile(r'^\s+c\.\w+\.s\s')
+BC1 = re.compile(r'^\s+bc1[ft]l?\s')
+
+def fcmp_branch_nop(text):
+    """Sony's assembler put a nop between an FPU compare (c.cond.s) and an immediately following bc1t/bc1f
+    that gcc emitted in a noreorder block (the MIPS I/II compare->branch hazard); GNU as for the R5900 doesn't.  Found on libm acosf/asinf/atan2f."""
+    L = text.split('\n'); out = []
+    noreorder = False
+    for i, l in enumerate(L):
+        st = l.strip()
+        if st in ('.set\tnoreorder', '.set noreorder'): noreorder = True
+        elif st in ('.set\treorder', '.set reorder'): noreorder = False
+        out.append(l)
+        if FCMP.match(l):
+            j = i + 1; entered_noreorder = False
+            while j < len(L) and (not L[j].strip() or L[j].strip().startswith('#')
+                                  or L[j].strip().startswith('.set')):
+                if L[j].strip() in ('.set\tnoreorder', '.set noreorder'): entered_noreorder = True
+                j += 1
+            # only when gcc scheduled the branch itself (noreorder block); when GNU as handles the branch
+            # (reorder mode) Sony's assembler added nothing (floorf)
+            if j < len(L) and BC1.match(L[j]) and entered_noreorder:
+                out.append('\tnop')
+    return '\n'.join(out)
+
 def assemble(s_path, obj, root, mode='gnu-reorder'):
     g = os.path.join(root, 'tools', 'compilers', 'ee-gcc2.96')
     txt = open(s_path).read()
@@ -94,6 +119,7 @@ def assemble(s_path, obj, root, mode='gnu-reorder'):
         txt = unfill_short_loops(txt)
     txt = pin_loop_branches(txt)
     txt = pin_const_before_call(txt)
+    txt = fcmp_branch_nop(txt)
     s2 = s_path + '.gr.s'
     open(s2, 'w').write(txt)
     p = subprocess.run([os.path.join(g, 'ee', 'bin', 'as'), '-G0', '-EL', '-mabi=eabi', '-o', obj, s2],
