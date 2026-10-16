@@ -5,6 +5,11 @@ Each person only commits new matches inside their own ranges, so work never over
 Numbers = unmatched functions / instructions as of 2026-10-16 (5,828 of 6,813 functions matched, 60.0% of code).
 Re-check with `python3 tools/worklist.py LO HI 100000`.
 
+> **While NaGa is on break (from 2026-10-16):** Dimitri asked Claude's agents to work on **all** unfinished ranges,
+> including NaGa's. NaGa: before you resume, `git pull`, then check `python3 tools/worklist.py LO HI` and the newest
+> notes for your ranges so you don't redo something that was finished meanwhile. Tell Dimitri on Discord when you're
+> back, and this note will be removed so the split below applies again.
+
 ## NaGa — 0x160000–0x230000 and 0x234F48–0x2550A0  (706 functions, ~107,900 instructions left)
 | Range | Functions left | Instructions left | Notes file |
 |---|---|---|---|
