@@ -149,3 +149,10 @@ real names you are confident about (from Sly 1 counterparts, strings, vtables), 
 `tools/asfix.py` now pads div.s/sqrt.s/rsqrt.s/vdiv/vsqrt/vrsqrt to be at least the 3rd instruction of its basic
 block: 2 nops at block position 0, 1 nop at position 1. Positions count real machine instructions (`li.s` = 1–3,
 `li`/`la` = 1–2) and the padding nops themselves. Verified on a full uncached rebuild (no regressions; +func_0011D018).
+
+## `// SLY2_SAVES: sd` (Sony SDK register saves, 2026-10-16)
+Sony's SDK compiler saved/restored callee-saved registers with 64-bit `sd`/`ld` (still in 16-byte stack slots);
+the ee-gcc builds we have emit 128-bit `sq`/`lq`. Add `// SLY2_SAVES: sd` (only together with `SLY2_ASM:`) and
+matchtool rewrites sq/lq to sd/ld at assembly time. This emulates the compiler difference, like asfix.py does for
+the game's assembler; do not put the macro in the C source. Typical SDK header set:
+`SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114` / `SLY2_CFLAGS: -O2 -G0` / `SLY2_ASM: gnu-reorder-db` / `SLY2_SAVES: sd`.

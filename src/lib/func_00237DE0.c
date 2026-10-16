@@ -1,7 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
-__asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
+// SLY2_SAVES: sd
 extern char D_0044BDA8[];
 extern char D_002C49E4[];
 extern void *D_002C4A90;

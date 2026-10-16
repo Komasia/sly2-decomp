@@ -171,6 +171,12 @@ def compile_src(src):
         scmd = ([] if native else [real]) + [cc, '-S'] + INCLUDES + [x for x in flags] + (['-fno-delayed-branch'] if asm_mode == 'gnu-reorder' else []) + [src, '-o', s_out]
         if native: scmd = [x for x in scmd if x != '-mvu0-use-vf0-vf31']
         p = subprocess.run(scmd, capture_output=True, text=True, cwd=ROOT, timeout=300)
+        if not p.returncode and os.path.exists(s_out) and _re.search(r'SLY2_SAVES:\s*sd\b', head):
+            # Sony's SDK compiler saved/restored registers with 64-bit sd/ld (in 16-byte slots); the ee-gcc we have
+            # emits 128-bit sq/lq there.  Emulate that compiler difference at assembly time (SDK C code has no
+            # other 128-bit loads/stores, and any wrong rewrite would simply fail to match).
+            body = open(s_out).read()
+            open(s_out, 'w').write('\t.macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm\n' + body)
         if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode):
             print(p.stdout + p.stderr); sys.exit(1)
         return out
