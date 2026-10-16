@@ -165,3 +165,4 @@ Start,End,Reason
 0x0014C1DC,0x0014C1F0,dead-code scrap (gap left by an earlier split)
 0x0023AA64,0x0023AA98,dead-code scrap (gap left by an earlier split)
 0x00259D54,0x00259D60,dead-code scrap (gap left by an earlier split)
+0x0023B720,0x0023B728,dead-code scrap (between kernel asm and dtor walker)
