@@ -1,14 +1,15 @@
-struct OBJ;
-void *func_001AE4F8(int);
+extern char D_002C94A0[];
+struct OBJ;struct X;extern "C" void func_001D4D30(X*,OBJ*);
+extern "C" void *func_001AE4F8(int);
 struct A { int x0; int x4; A() { x0 = 0; x4 = 0; } };
 struct B : A {
     int x8;
-    virtual void F();
+    char *vt;
 };
 struct X : B {
-    X(OBJ *p) { func_001D4D30(this, p); }
+    X(OBJ *p) {vt=D_002C94A0;func_001D4D30(this, p);}
     void *operator new(unsigned int cb) { return func_001AE4F8(cb); }
-    static void func_001D4D30(X *, OBJ *);
+
     char pad[0xB0 - 0x10];
 };
 struct OBJ { char pad[0x4F8]; int c; X *a[1]; };

@@ -1,5 +1,6 @@
+// Complete formatter WIP with the actual52-byte TFT record.
 struct OSTRM { char pad[0x10]; int cchWritten; };
-struct TFT { int a[16]; };
+struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
 extern "C" char *func_0021EDF8(char *p, int ch);
 extern "C" int func_0021ED28(char *p);
 extern "C" int func_0020D660(OSTRM *postrm, char *pb, int cb);

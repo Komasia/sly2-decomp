@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct N { int a[4]; qword plane; };
 void func_002564B8(void *p);
-float func_00223A10(void *p, qword pos, void *b, struct N *n)
+float func_00223A10(void *p, qword pos, qword b, struct N *n)
 {
     U d, one;
     qword plane;

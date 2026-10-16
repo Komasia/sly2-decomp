@@ -39,6 +39,14 @@ python3 tools/matchtool.py check src/P2/bis.cpp      # every function should pri
 python3 tools/progress.py                            # rebuilds config/matched.csv and prints totals
 ```
 
+## 6. Turn on the progress-graph hook (once per clone)
+```
+git config core.hooksPath tools/hooks
+```
+After this, every `git push` that adds or changes code under `src/` automatically re-runs `tools/progress.py` and
+commits the updated README graph. The first push stops after updating the graph, so run `git push` once more.
+To skip it for one push: `git push --no-verify`.
+
 ## How we work
 - Read `docs/AGENT_GUIDE.md` (rules, compiler facts, matching tricks) and the `notes/<range>.md` for your range.
 - `python3 tools/worklist.py LO HI [MAXINSTR]` lists unmatched functions in an address range, smallest first.

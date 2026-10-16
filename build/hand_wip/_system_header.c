@@ -1,7 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
-// SLY2_ASM: gnu-reorder
-// NOTE: logic right; target hoists 'ld pos' before the refill loop and keeps bits in a reg (56 rematerialised per iter). notes/245000.md round 9.
+// SLY2_ASM: gnu-reorder-db
 typedef struct {
     unsigned long buf;
     unsigned long pos;
@@ -16,16 +15,25 @@ static inline void skipBits(BS *bs, int n)
 {
     bs->buf <<= n;
     bs->bits -= n;
-    while (bs->bits < 57) {
-        bs->buf |= (unsigned long)*bs->cur << (56 - bs->bits);
-        bs->cur++;
-        if (bs->cur >= bs->end) bs->cur = bs->start;
-        bs->bits += 8;
-    }
-    bs->pos += n;
+    if (bs->bits < 57) {
+        unsigned char *end=bs->end;
+        unsigned long position=bs->pos;
+        do {
+            unsigned char *cur=bs->cur;
+            int remaining=bs->bits;
+            unsigned long bits=bs->buf | (unsigned long)*cur << (56-remaining);
+            ++cur;
+            bs->buf=bits;
+            bs->cur=cur;
+            if(cur>=end)bs->cur=bs->start;
+            bs->bits=remaining+8;
+        } while(bs->bits<57);
+        bs->pos=position+n;
+    } else bs->pos+=n;
 }
 
-int _system_header(BS *bs)
+struct HEADER;
+int _system_header(BS *bs,struct HEADER *output)
 {
     skipBits(bs, 56);
     skipBits(bs, 40);

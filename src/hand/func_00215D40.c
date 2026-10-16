@@ -5,7 +5,7 @@ struct S {
     char pad20[0x40]; int x60;
 };
 void func_002160D8(struct S *p);
-int func_00215D40(struct S *p)
+unsigned char func_00215D40(struct S *p)
 {
     int fDone = 0;
     p->x60 = 0;

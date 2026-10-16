@@ -1,8 +1,1 @@
-char *func_0021EDF8(char *p, int ch)
-{
-    do {
-        if (*(unsigned char *)p == ch)
-            return p;
-    } while (*p++);
-    return 0;
-}
+unsigned char *func_0021EDF8(unsigned char *p,int ch) { int c; do { c=*p; if(c==ch)goto found; }while(*p++); return 0; found: return p; }

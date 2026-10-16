@@ -1,3 +1,4 @@
+/* Complete response predicate; common-block layout remains. */
 struct T { char pad[0x15C]; int n; };
 struct P { int a; void *p4; void *p8; };
 struct S {
@@ -5,8 +6,6 @@ struct S {
     struct T *x11c0; char p3[0x12C]; int x12f0; char p4[0x5D4]; int x18c8; char p5[0xC]; int x18d8; char p6[0x454]; int x1d30;
     char p7[0x2DC]; void *x2010;
 };
-struct CLOCK { char pad[0x1C]; float g1c; };
-extern struct CLOCK D_002DDED0;
 extern float D_002DDEEC;
 extern float D_002BF3EC, D_002BF3F0;
 extern int D_002DFBC0;
@@ -18,7 +17,7 @@ int func_0019EEF0(void *p, int n);
 int func_001CB2C0(void *p);
 struct P *func_0018D6F8(struct S *p, int n);
 int func_00224590(void *p);
-int func_001CADE0(void *p, int n);
+void*func_001CADE0(void *p, int n);
 int func_0014FD50(void *p);
 int func_0018D760(struct S *p, int n)
 {
@@ -34,10 +33,8 @@ int func_0018D760(struct S *p, int n)
         }
         g = D_002DDEEC;
         if (g == 1.0f) return 1;
-        r = 1;
-        if (n == 0x1D) h = D_002BF3EC;
-        else h = D_002BF3F0;
-        if (!(g == h)) r = 0;
+        if(n==0x1D){h=D_002BF3EC;r=1;}else{h=D_002BF3F0;r=1;}
+        if(!(g==h))r=0;
         return r;
     }
     }
@@ -107,3 +104,25 @@ int func_0018D760(struct S *p, int n)
     }
     return 0;
 }
+
+typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
+typedef char layout_float[(sizeof(float)==4)?1:-1];
+typedef char layout_int[(sizeof(int)==4)?1:-1];
+typedef char layout_T[(sizeof(struct T)==0x160)?1:-1];
+typedef char layout_P[(sizeof(struct P)==12)?1:-1];
+typedef char layout_S[(sizeof(struct S)==0x2014)?1:-1];
+typedef char layout_T_n[((unsigned)&((struct T*)0)->n==0x15c)?1:-1];
+typedef char layout_P_a[((unsigned)&((struct P*)0)->a==0x0)?1:-1];
+typedef char layout_P_p4[((unsigned)&((struct P*)0)->p4==0x4)?1:-1];
+typedef char layout_P_p8[((unsigned)&((struct P*)0)->p8==0x8)?1:-1];
+typedef char layout_S_x2c0[((unsigned)&((struct S*)0)->x2c0==0x2c0)?1:-1];
+typedef char layout_S_x4c0[((unsigned)&((struct S*)0)->x4c0==0x4c0)?1:-1];
+typedef char layout_S_xf50[((unsigned)&((struct S*)0)->xf50==0xf50)?1:-1];
+typedef char layout_S_x10ec[((unsigned)&((struct S*)0)->x10ec==0x10ec)?1:-1];
+typedef char layout_S_x11b4[((unsigned)&((struct S*)0)->x11b4==0x11b4)?1:-1];
+typedef char layout_S_x11c0[((unsigned)&((struct S*)0)->x11c0==0x11c0)?1:-1];
+typedef char layout_S_x12f0[((unsigned)&((struct S*)0)->x12f0==0x12f0)?1:-1];
+typedef char layout_S_x18c8[((unsigned)&((struct S*)0)->x18c8==0x18c8)?1:-1];
+typedef char layout_S_x18d8[((unsigned)&((struct S*)0)->x18d8==0x18d8)?1:-1];
+typedef char layout_S_x1d30[((unsigned)&((struct S*)0)->x1d30==0x1d30)?1:-1];
+typedef char layout_S_x2010[((unsigned)&((struct S*)0)->x2010==0x2010)?1:-1];

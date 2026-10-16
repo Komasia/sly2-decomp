@@ -8,7 +8,7 @@ extern float D_002C3E80;
 int func_002132D0(struct O *po);
 float func_0011D1C0(float a, float b, float c, void *p, float *pv, float dt);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void func_001FB2F8(void *p, void *source);
 
 void func_0020F7E0(struct S *p)
 {

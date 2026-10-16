@@ -4,7 +4,7 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK D_002DDED0;
 extern char D_003DD490[];
 extern qword D_002A2DC0;
-extern float D_002C09A8;
+union WORD{int bits;float value;};extern union WORD D_002C09A8;
 struct SIDE { int x0; int x4; void *x8; void *xC; qword v10; char pad[0x30 - 0x20]; qword v30; };
 struct LINK { struct SIDE as[2]; char pad[0xAC - 0x80]; struct LINK *pnext; };
 struct MSG { void *x0; int x4; void *x8; int xC; int x10; char pad[0x20 - 0x14]; qword v20; qword v30; char pad2[0x60 - 0x40]; };
@@ -18,12 +18,53 @@ struct P {
 void func_001A7E10(void *pg, struct LINK *pl);
 void *func_001F7530(void *p, int n);
 void *func_002333B4(void *p, int c, int cb);
-void func_001F7598(struct MSG *pmsg);
+void *func_001F7598(struct MSG *pmsg);
 float *func_0012F938(void *p, int n);
 void func_00130D30(struct Q *p, int n, float g, float h);
 void func_00130B18(struct Q *p);
 static inline void Zero(struct V3 *pv) { pv->z = 0.0f; pv->y = 0.0f; pv->x = 0.0f; }
 static inline qword Bcast(int g) { qword a; __asm__ __volatile__("qmtc2.ni %1, %0" : "=j"(a) : "r"(g)); return a; }
+#define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
+typedef char qword_Size[sizeof(qword)==16?1:-1];
+typedef char WORD_Size[sizeof(union WORD)==4?1:-1];
+typedef char VT_Size[sizeof(struct VT)==8?1:-1];
+typedef char CLOCK_Size[sizeof(struct CLOCK)==8?1:-1];
+typedef char SIDE_Size[sizeof(struct SIDE)==64?1:-1];
+typedef char LINK_Size[sizeof(struct LINK)==176?1:-1];
+typedef char MSG_Size[sizeof(struct MSG)==96?1:-1];
+typedef char Q_Size[sizeof(struct Q)==24?1:-1];
+typedef char V3_Size[sizeof(struct V3)==12?1:-1];
+typedef char P_Size[sizeof(struct P)==5096?1:-1];
+typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
+typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
+typedef char CLOCK_t_Offset[FIELD_OFFSET(CLOCK,t)==0?1:-1];
+typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
+typedef char SIDE_x0_Offset[FIELD_OFFSET(SIDE,x0)==0?1:-1];
+typedef char SIDE_x4_Offset[FIELD_OFFSET(SIDE,x4)==4?1:-1];
+typedef char SIDE_x8_Offset[FIELD_OFFSET(SIDE,x8)==8?1:-1];
+typedef char SIDE_xC_Offset[FIELD_OFFSET(SIDE,xC)==12?1:-1];
+typedef char SIDE_v10_Offset[FIELD_OFFSET(SIDE,v10)==16?1:-1];
+typedef char SIDE_v30_Offset[FIELD_OFFSET(SIDE,v30)==48?1:-1];
+typedef char LINK_as_Offset[FIELD_OFFSET(LINK,as)==0?1:-1];
+typedef char LINK_pnext_Offset[FIELD_OFFSET(LINK,pnext)==172?1:-1];
+typedef char MSG_x0_Offset[FIELD_OFFSET(MSG,x0)==0?1:-1];
+typedef char MSG_x4_Offset[FIELD_OFFSET(MSG,x4)==4?1:-1];
+typedef char MSG_x8_Offset[FIELD_OFFSET(MSG,x8)==8?1:-1];
+typedef char MSG_xC_Offset[FIELD_OFFSET(MSG,xC)==12?1:-1];
+typedef char MSG_x10_Offset[FIELD_OFFSET(MSG,x10)==16?1:-1];
+typedef char MSG_v20_Offset[FIELD_OFFSET(MSG,v20)==32?1:-1];
+typedef char MSG_v30_Offset[FIELD_OFFSET(MSG,v30)==48?1:-1];
+typedef char Q_x14_Offset[FIELD_OFFSET(Q,x14)==20?1:-1];
+typedef char V3_x_Offset[FIELD_OFFSET(V3,x)==0?1:-1];
+typedef char V3_y_Offset[FIELD_OFFSET(V3,y)==4?1:-1];
+typedef char V3_z_Offset[FIELD_OFFSET(V3,z)==8?1:-1];
+typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
+typedef char P_v190_Offset[FIELD_OFFSET(P,v190)==400?1:-1];
+typedef char P_p1030_Offset[FIELD_OFFSET(P,p1030)==4144?1:-1];
+typedef char P_g131C_Offset[FIELD_OFFSET(P,g131C)==4892?1:-1];
+typedef char P_x13D8_Offset[FIELD_OFFSET(P,x13D8)==5080?1:-1];
+typedef char P_g13DC_Offset[FIELD_OFFSET(P,g13DC)==5084?1:-1];
+typedef char P_plink_Offset[FIELD_OFFSET(P,plink)==5092?1:-1];
 void func_001B6DA8(struct P *p, int s)
 {
     if (p->x13D8 == s)
@@ -42,16 +83,16 @@ void func_001B6DA8(struct P *p, int s)
     case 1: {
         union { qword q; float f[4]; } u;
         qword v, up, d, k, r;
-        struct VT *vt;
+        register struct VT *vt __asm__("$5");
         v = ((qword (*)(void *))p->vt[33].pfn)((char *)p + p->vt[33].d);
         up = D_002A2DC0;
         vt = p->vt;
         __asm__("vmul.xyz %0, %2, %3\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=&j"(d), "=&j"(k) : "j"(v), "j"(up));
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(d) : "j"(up), "j"(d));
-        k = Bcast(*(int *)&D_002C09A8);
+        k = Bcast(D_002C09A8.bits);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(v) : "j"(v), "j"(d));
         u.q = k;
-        __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(v), "j"(up), "j"(k));
+        __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(v), "j"(up), "j"(u.q));
         ((void (*)(void *, qword))vt[35].pfn)((char *)p + vt[35].d, r);
         p->g131C = D_002DDED0.t;
         break;
@@ -74,7 +115,7 @@ void func_001B6DA8(struct P *p, int s)
                 msg.x10 = -20;
                 msg.v20 = pso->v10;
                 msg.v30 = psm->v30;
-                func_001F7598(&msg);
+                (void)func_001F7598(&msg);
             }
         }
         func_001A7E10(D_003DD490, p->plink);

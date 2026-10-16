@@ -1,54 +1,62 @@
-struct H { int a; void *po; };
-struct E { int k; struct H *h; int n8; int nC; };
+struct H { int id; void *table; };
+struct DIRECTION_STATE;
+struct MARKER;
+union PAYLOAD {
+    int oid;
+    struct H *curvature;
+    struct DIRECTION_STATE *direction;
+    void *resource;
+};
+struct E { int kind; union PAYLOAD value; int n8, nC; };
 extern char D_003DD490[];
-void func_0020BD88(struct H *h, int arg);
-void func_0020C7E0(struct H *h);
-void *func_0015E938(void *p, int n, struct H *h, int arg);
-int func_00132EA0(void *po);
-int func_0012F938(void *po, int n);
-struct H *func_0020C010(int cb);
-void func_0020BD78(struct H *h);
+void func_0020BD88(struct H *, void *);
+void func_0020C7E0(struct DIRECTION_STATE *, void *);
+void *func_0015E938(void *, int, int, void *);
+int func_00132EA0(void *);
+struct MARKER *func_0012F938(void *, int);
+struct H *func_0020C010(int);
+void func_0020BD78(struct H *);
 
-void func_00209130(struct E *e, int arg)
+void func_00209130(struct E *e, void *context)
 {
-    void *o;
-    if (e->k != 2) {
-        if (e->k == 3) {
-            func_0020C7E0(e->h);
+    void *resource;
+    if (e->kind != 2) {
+        if (e->kind == 3) {
+            func_0020C7E0(e->value.direction, context);
             return;
         }
     } else {
-        func_0020BD88(e->h, arg);
+        func_0020BD88(e->value.curvature, context);
         return;
     }
-    o = func_0015E938(D_003DD490, 4, e->h, arg);
-    if (!o) {
-        e->k = -1;
+    resource = func_0015E938(D_003DD490, 4, e->value.oid, context);
+    if (!resource) {
+        e->kind = -1;
         return;
     }
-    switch (func_00132EA0(o)) {
+    switch (func_00132EA0(resource)) {
     case 0x6D:
-        if (func_0012F938(o, 0x22)) {
-            e->k = 2;
-            e->h = func_0020C010(0x40);
-            func_0020BD78(e->h);
-            e->h->po = o;
-            func_0020BD88(e->h, arg);
+        if (func_0012F938(resource, 0x22)) {
+            e->kind = 2;
+            e->value.curvature = func_0020C010(0x40);
+            func_0020BD78(e->value.curvature);
+            e->value.curvature->table = resource;
+            func_0020BD88(e->value.curvature, context);
             if (e->nC == -1)
                 e->nC = 0;
         } else {
-            e->h = o;
-            e->k = 0;
+            e->value.resource = resource;
+            e->kind = 0;
         }
         break;
     case 0x6F:
-        e->k = 1;
-        e->h = o;
+        e->kind = 1;
+        e->value.resource = resource;
         if (e->nC == -1)
             e->nC = 0;
         break;
     default:
-        e->k = -1;
+        e->kind = -1;
         break;
     }
 }

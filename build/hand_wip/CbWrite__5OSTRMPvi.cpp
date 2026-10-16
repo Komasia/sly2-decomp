@@ -1,6 +1,5 @@
-/* 56 diffs mostly from block layout: target places 'b end; v0=0' right after the second cb==0 test (bnel). Logic is complete. */
 extern "C" {
-void *func_001AE5A0(void *d, const void *s, int n);
+void func_001AE5A0(void *d, const void *s, unsigned int n) __asm__("CopyAb__FPvT0Ui");
 }
 class OSTRM {
 public:
@@ -17,6 +16,7 @@ public:
 int OSTRM::CbWrite(void *pv, int cb)
 {
     int cbWritten = 0;
+    int result;
     if (m_pbMem && m_cbMemMax) {
         int cbAvail;
         if (cb == 0)
@@ -24,8 +24,9 @@ int OSTRM::CbWrite(void *pv, int cb)
         cbAvail = m_cbMemMax - m_cbMem;
         cb = (cbAvail < cb) ? cbAvail : cb;
     }
-    if (cb == 0)
-        return 0;
+    switch(cb) {
+    case 0:result=0;break;
+    default:
     if (m_pbMem) {
         func_001AE5A0(m_pbMem + m_cbMem, pv, cb);
         cbWritten = cb;
@@ -34,9 +35,7 @@ int OSTRM::CbWrite(void *pv, int cb)
         while (cbWritten < cb) {
             int cbFree = 0x400 - m_cbBuf;
             int cbRem = cb - cbWritten;
-            int cbCopy = cbRem;
-            if (cbFree < cbRem)
-                cbCopy = cbFree;
+            int cbCopy = cbFree < cbRem ? cbFree : cbRem;
             if (cbCopy) {
                 func_001AE5A0(m_ab + m_cbBuf, (char *)pv + cbWritten, cbCopy);
                 cbWritten += cbCopy;
@@ -47,5 +46,8 @@ int OSTRM::CbWrite(void *pv, int cb)
         }
     }
     m_cbTotal += cbWritten;
-    return cb;
+    result = cb;
+    break;
+    }
+    return result;
 }
