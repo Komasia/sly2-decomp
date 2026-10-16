@@ -1335,6 +1335,7 @@ func_0012D890,0x12D890,17,match,src/hand/func_0012D890.c
 func_0012D8D8,0x12D8D8,31,match,src/hand/func_0012D8D8.c
 func_0012D958,0x12D958,29,match,src/hand/func_0012D958.c
 func_0012D9D0,0x12D9D0,23,match,src/hand/func_0012D9D0.c
+func_0012DA30,0x12DA30,72,match,src/hand/func_0012DA30.c
 func_0012DB50,0x12DB50,23,match,src/hand/func_0012DB50.c
 func_0012DBB0,0x12DBB0,25,match,src/hand/func_0012DBB0.c
 func_0012DC18,0x12DC18,34,match,src/hand/func_0012DC18.c
@@ -1541,6 +1542,7 @@ FillBlAmrsg__FiiPviiP3OID,0x137FB8,78,match,src/hand/FillBlAmrsg__FiiPviiP3OID.c
 CalculateBlendAmrsg__FiiPviiP4MRSGPf,0x1380F0,160,match,src/hand/CalculateBlendAmrsg__FiiPviiP4MRSGPf.c
 ImrsgLookUp__FffiP4MRSGPf,0x138370,32,match,src/hand/ImrsgLookUp__FffiP4MRSGPf.cpp
 func_001383F0,0x1383F0,51,match,src/hand/func_001383F0.c
+func_001384C0,0x1384C0,103,match,src/hand/func_001384C0.c
 func_00138BA0,0x138BA0,132,match,src/hand/func_00138BA0.c
 func_00138DB0,0x138DB0,77,match,src/auto/func_00138DB0.c
 func_00138EE8,0x138EE8,8,match,src/auto/func_00138EE8.c
@@ -1572,6 +1574,7 @@ func_0013B250,0x13B250,40,match,src/hand/func_0013B250.c
 func_0013B2F0,0x13B2F0,77,match,src/hand/func_0013B2F0.c
 func_0013B428,0x13B428,103,match,src/hand/func_0013B428.c
 func_0013B5C8,0x13B5C8,7,match,src/hand/func_0013B5C8.c
+func_0013B5E8,0x13B5E8,110,match,src/hand/func_0013B5E8.c
 func_0013B7A0,0x13B7A0,6,match,src/auto/func_0013B7A0.c
 func_0013B7B8,0x13B7B8,42,match,src/hand/func_0013B7B8.c
 func_0013BB80,0x13BB80,30,match,src/hand/func_0013BB80.c
@@ -5705,6 +5708,7 @@ func_00237DE0,0x237DE0,35,match,src/lib/func_00237DE0.c
 sceFsReset,0x237E70,13,match,src/lib/sceFsReset.c
 sceOpen,0x237EA8,164,match,src/lib/sceOpen.c
 sceClose,0x238138,94,match,src/lib/sceClose.c
+sceIoctl,0x2387E8,226,match,src/lib/sceIoctl.c
 sceSifInitIopHeap,0x238BD0,34,match,src/lib/sceSifInitIopHeap.c
 sceSifAllocIopHeap,0x238C58,28,match,src/lib/sceSifAllocIopHeap.c
 func_00238CC8,0x238CC8,30,match,src/lib/func_00238CC8.c
@@ -5748,6 +5752,7 @@ StartTimerSystemTime,0x239C40,36,match,src/lib/StartTimerSystemTime.c
 SetNextComp,0x239CD8,100,match,src/lib/SetNextComp.c
 InsertAlarm,0x239E68,33,match,src/lib/InsertAlarm.c
 UnlinkAlarm,0x239EF0,14,match,src/lib/UnlinkAlarm.c
+cbTimerHandler,0x239F28,169,match,src/lib/cbTimerHandler.c
 iGetTimerSystemTime,0x23A1D0,19,match,src/lib/iGetTimerSystemTime.c
 iAllocTimerCounter,0x23A228,28,match,src/lib/iAllocTimerCounter.c
 AllocTimerCounter,0x23A298,18,match,src/lib/AllocTimerCounter.c
@@ -5783,6 +5788,7 @@ func_0023B358,0x23B358,4,match,src/lib/syscall/func_0023B358.c
 InitTLB,0x23B368,16,match,src/lib/InitTLB.c
 InitTLB32MB,0x23B3A8,125,match,src/lib/InitTLB32MB.c
 func_0023B5C0,0x23B5C0,88,match,src/lib/func_0023B5C0.c
+func_0023B728,0x23B728,44,match,src/lib/func_0023B728.c
 __main__Fv,0x23B7D8,8,match,src/lib/__main__Fv.cpp
 __divdi3,0x23B7F8,443,match,src/lib/__divdi3.c
 __fixunsdfdi,0x23BEE8,59,match,src/lib/__fixunsdfdi.c
@@ -5985,6 +5991,7 @@ _cpr8,0x24B9F0,164,match,src/lib/_cpr8.c
 _sceMpegFlush,0x24C360,48,match,src/lib/_sceMpegFlush.c
 _sceMpegOutputFrame,0x24C420,36,match,src/lib/_sceMpegOutputFrame.c
 _doCSC2,0x24C4B0,112,match,src/lib/_doCSC2.c
+_sceMpegCscStoreRefImage,0x24C670,310,match,src/lib/_sceMpegCscStoreRefImage.c
 _ch3dmaCSC,0x24CB48,82,match,src/lib/_ch3dmaCSC.c
 _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
@@ -6000,6 +6007,7 @@ _sceMpegPictureData0,0x250C58,144,match,src/lib/_sceMpegPictureData0.c
 _slice0,0x250E98,203,match,src/lib/_slice0.c
 _motionVector,0x2511C8,266,match,src/lib/_motionVector.c
 _motionVectors,0x2515F0,103,match,src/lib/_motionVectors.c
+_decMB0,0x251790,342,match,src/lib/_decMB0.c
 _sceMpegWaitIpuIdle,0x251E60,90,match,src/lib/_sceMpegWaitIpuIdle.c
 _sceMpegWaitIpuIdle64,0x251FC8,96,match,src/lib/_sceMpegWaitIpuIdle64.c
 _sceMpegPeepBit,0x252230,35,match,src/lib/_sceMpegPeepBit.c
