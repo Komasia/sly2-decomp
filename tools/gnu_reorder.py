@@ -103,12 +103,34 @@ def fcmp_branch_nop(text):
         if FCMP.match(l):
             j = i + 1; entered_noreorder = False
             while j < len(L) and (not L[j].strip() or L[j].strip().startswith('#')
-                                  or L[j].strip().startswith('.set')):
+                                  or L[j].strip().startswith('.set')
+                                  or re.match(r'^\$?\w+:$', L[j].strip())):     # a label (another branch jumps onto the bc1)
                 if L[j].strip() in ('.set\tnoreorder', '.set noreorder'): entered_noreorder = True
                 j += 1
             # only when gcc scheduled the branch itself (noreorder block); when GNU as handles the branch
             # (reorder mode) Sony's assembler added nothing (floorf)
             if j < len(L) and BC1.match(L[j]) and entered_noreorder:
+                out.append('\tnop')
+    return '\n'.join(out)
+
+MFC1 = re.compile(r'^\s+mfc1\s+(\$\w+)\s*,')
+
+def mfc1_branch_nop(text):
+    """Sony's assembler kept the MIPS-I coprocessor-move delay: `mfc1 $r,$fN` immediately followed by a branch that
+    gcc emitted in a noreorder block and that reads $r gets a nop in between (gcc writes `#nop` there; GNU as for the
+    R5900 drops it).  mtc1 -> c.cond does NOT get one.  Found on libm __kernel_sinf/__kernel_cosf."""
+    L = text.split('\n'); out = []
+    for i, l in enumerate(L):
+        out.append(l)
+        m = MFC1.match(l)
+        if not m: continue
+        r = m.group(1); j = i + 1; entered = False
+        while j < len(L) and (not L[j].strip() or L[j].strip().startswith('#') or L[j].strip().startswith('.set')):
+            if L[j].strip() in ('.set\tnoreorder', '.set noreorder'): entered = True
+            j += 1
+        if j < len(L) and entered:
+            bm = re.match(r'^\s+(b\w*)\s+(.*)$', L[j])
+            if bm and r in re.findall(r'\$\w+', bm.group(2)):
                 out.append('\tnop')
     return '\n'.join(out)
 
@@ -149,6 +171,7 @@ def assemble(s_path, obj, root, mode='gnu-reorder', divnop=False):
     txt = pin_loop_branches(txt)
     txt = pin_const_before_call(txt)
     txt = fcmp_branch_nop(txt)
+    txt = mfc1_branch_nop(txt)
     if divnop:
         txt = libm_div_nops(txt)
     s2 = s_path + '.gr.s'
