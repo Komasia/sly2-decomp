@@ -7,6 +7,7 @@ import matchtool as M
 lo, hi = int(sys.argv[1], 16), int(sys.argv[2], 16)
 mx = int(sys.argv[3]) if len(sys.argv) > 3 else 10**9
 funcs = M.load_functions()
+JUNK = M.load_junk()
 c = json.load(open(os.path.join(M.ROOT, 'build', 'progress_cache.json')))
 done = {n for v in c.values() for n, s in (v['res'] or []) if s == 1.0}
 for d in ('auto', 'hand', 'splicewrap', 'lib'):
@@ -17,6 +18,7 @@ seen = set(); out = []
 for n, (a, s) in funcs.items():
     if not (lo <= a < hi) or a in daddr or a in seen: continue
     if not (M.TEXT_VA <= a < M.TEXT_VA + M.TEXT_SIZE): continue
+    if M.is_junk(a, s, JUNK): continue
     w = M.target_words(a, s)
     if all(x == 0 for x in w) or s // 4 > mx: continue
     seen.add(a)
