@@ -1,11 +1,10 @@
 // (Claude agent) fdlibm ef_atan2.c. TOOLCHAIN-ONLY near miss: MATCHES exactly if the div.s is emitted as a noreorder
 // 'nop; nop; div.s' unit (verified with an inline-asm DIV wrapper, not kept). Sony's libm compiler pads every div.s
 // that way (also atanf, __ieee754_asinf, __ieee754_powf); the SDK asm modes do not.
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_DIVNOP
-// SLY2_SAVES: sd
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

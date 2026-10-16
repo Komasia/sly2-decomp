@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 struct SemaParam { int currentCount; int maxCount; int initCount; int numWaitThreads; unsigned int attr; unsigned int option; };
 extern int D_002C4A84;
 extern char D_002AAA98[];

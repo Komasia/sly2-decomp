@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct { char p0[0x828]; int x828; unsigned int x82C; char p1[0x848 - 0x830]; unsigned int x848; int x84C; } D;
 void _waitIpuIdle(D *d);
 long _sceMpegWaitIpuIdle64(D *d);

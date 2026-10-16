@@ -217,3 +217,8 @@ and frame-teardown `j` tail calls and saves registers with `sd` natively (no SLY
 of Sony's SDK compilers: setD3_CHCR matched with `SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111`,
 `SLY2_CFLAGS: -O2 -G0`, `SLY2_ASM: gnu-reorder-db`. The "mult1" and "j tail call" blockers in notes/23C000.md are
 therefore probably solvable: retry them with ee-gcc 2.9 first. ee-gcc 3.2 also emits both but laid out setD3_CHCR differently.
+
+## Real compiler instead of emulation (2026-10-16)
+71 Sony SDK files that matched with ee-gcc 2.95.3-114 + `SLY2_SAVES: sd` emulation also match with the real Sony
+compiler ee-gcc 2.9-991111 (or 991111-01) with no emulation, so they were switched to it. 25 still need the 114 +
+SLY2_SAVES form (their source was tuned for it). New SDK work should start with ee-gcc 2.9.

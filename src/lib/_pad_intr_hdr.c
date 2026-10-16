@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 extern int (*D_00450844)(void *);
 extern void *D_00450840;
 int _pad_intr_hdr(void **p)

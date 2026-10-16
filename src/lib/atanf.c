@@ -1,9 +1,8 @@
 // (Claude agent) fdlibm sf_atan.c. MATCH with SLY2_DIVNOP; the empty asm barriers after the divisions emulate Sony's
 // libm div.s being an unschedulable 'nop; nop; div.s' unit (gcc may not move id= across it or put it in a delay slot).
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 // SLY2_DIVNOP
 typedef int __int32_t;
 typedef unsigned int __uint32_t;

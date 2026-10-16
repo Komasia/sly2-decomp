@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -Os -G0
 // SLY2_ASM: gnu-reorg
-// SLY2_SAVES: sd
 typedef struct Counter { struct Counter *next; int pad[15]; } Counter;
 typedef struct { long time; int id; int pad; int x10; Counter *free; } TimerSys;
 extern TimerSys D_002C5A30;

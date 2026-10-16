@@ -1,7 +1,6 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
+// SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
 typedef struct {
     char p0[0x108]; int x108; char p1[0x160 - 0x10C]; int x160; char p2[0x184 - 0x164]; int x184;
     char p3[0x1C8 - 0x188]; void *a[4]; void *b[4]; void *c[4];
