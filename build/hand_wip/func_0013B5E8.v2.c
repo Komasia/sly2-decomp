@@ -1,0 +1,50 @@
+// v2 (Claude agent): 2/110. Fixes: real func_0020FC60 prototype (float 5th), func_001A93C8 float param before the HIT* (so &hit is formed after the inner call), HIT local in loop. Remaining: max.s operand tie (target loads g15C->f0, g160->f12); 4 ternary forms, GMax inline, local and if-form tried.
+typedef int qword __attribute__((mode(TI)));
+struct AREQ { int cb; int cbAlign; };
+struct X { char pad[0x60]; int x60; };
+struct O { char pad[0xEC]; struct X *px; };
+struct S { int x0; struct O *po; int x8; int xC; char pad[0x74 - 0x10]; int x74; };
+struct P { char pad[0xEC]; struct X *px; char pad1[0x15C - 0xF0]; float g15C; float g160; char pad2[0x180 - 0x164]; qword q180; };
+struct HIT { int a[12]; };
+extern char D_003DD490[];
+void func_0020FA10();
+void func_0020FC60(void *pg, qword q, void (*pfn)(), struct X *px, float g, int *pc, struct S ***paps);
+void *func_001AE318(struct AREQ *preq);
+int func_00132B10(int n, int k);
+int func_001A93C8(qword q, struct S *ps, int n, int a, int b, int c, float g, struct HIT *phit);
+void func_0013B7B8(struct P *p, int *pn, struct O **apo);
+void func_0013B5E8(struct P *p, int *pc, struct O ***papo)
+{
+    struct AREQ req;
+    int c;
+    struct S **aps;
+    int n;
+    struct O **apo;
+    int i;
+    func_0020FC60(D_003DD490, p->q180, func_0020FA10, p->px, p->g15C < p->g160 ? p->g160 : p->g15C, &c, &aps);
+    if (c == 0) {
+        *pc = 0;
+        *papo = 0;
+        return;
+    }
+    req.cb = c * 4;
+    req.cbAlign = 0x10;
+    apo = (struct O **)func_001AE318(&req);
+    n = 0;
+    for (i = 0; i < c; i++) {
+        struct S *ps = aps[i];
+        struct HIT hit;
+        int x60 = ps->po->px->x60;
+        if (ps->xC == 1)
+            continue;
+        if (x60 == p->px->x60)
+            continue;
+        if (ps->x74 && !func_001A93C8(p->q180, ps, 0x7FFFFFFF, 0, 0, 1, func_00132B10(x60, 0x34) ? p->g160 : p->g15C, &hit))
+            continue;
+        apo[n] = ps->po;
+        n++;
+    }
+    func_0013B7B8(p, &n, apo);
+    *pc = n;
+    *papo = apo;
+}
