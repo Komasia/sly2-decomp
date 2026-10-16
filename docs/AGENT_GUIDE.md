@@ -168,5 +168,6 @@ The original linker left small scraps of dead code between functions: orphan `ad
 pieces and lone delay-slot instructions with no return. 141 such ranges are listed in `config/junk.csv`; they are
 not functions, so progress.py, the graph and worklist.py skip them (their bytes are still part of .text for a full
 rebuild). Three entries that were a scrap followed by a real tiny function were split, so the function now starts
-at the real address (func_00119BC8, func_0014C1F0, func_00259D60). Totals dropped from 6,813 to 6,675 functions.
+at the real address (func_00119BC8, func_0014C1F0, func_00259D60, and 9 more in a second pass that also treats
+a leading "orphan instruction + nop" pair as scrap). Totals dropped from 6,813 to 6,661 functions.
 If you find another scrap, add its range to junk.csv with a reason rather than "matching" it.

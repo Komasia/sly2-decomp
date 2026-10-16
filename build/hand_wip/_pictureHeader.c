@@ -1,3 +1,4 @@
+// (Claude agent) MATCHES only with the empty asm barrier after the first call (same post-call-group issue). Without: 3/81 differ.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
