@@ -178,3 +178,9 @@ CRef::operator= (func_00129658 returns CRef*, func_001291A8 returns void*) retur
 changes scheduling/argument order across the *whole* caller. This finished func_00200DA0, func_00200F58,
 func_001D54B8 and func_001DE008. (The reverse also happens: func_0011B500's result is unused in one caller, and there
 `void` matched — try both.)
+
+## Empty asm barriers (policy, 2026-10-16)
+`__asm__ __volatile__("")` emits no instructions; it only stops gcc moving code across it. It is accepted in matched
+files when it stands in for a known difference between our compiler builds and the ones the game was built with
+(e.g. Sony's SDK scheduler keeps the use of a call's return value right after the jal). Prefer natural C when it
+exists, and leave a one-line comment saying what the barrier emulates.
