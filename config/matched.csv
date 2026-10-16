@@ -5683,6 +5683,7 @@ func_00238E70,0x238E70,35,match,src/lib/func_00238E70.c
 sceSifLoadFileReset,0x238F00,14,match,src/lib/sceSifLoadFileReset.c
 _sceSifLoadModuleBuffer,0x238F38,130,match,src/lib/_sceSifLoadModuleBuffer.c
 s1_sceSifLoadModule,0x239140,7,match,src/lib/s1_sceSifLoadModule.c
+sceSifResetIop,0x239198,85,match,src/lib/sceSifResetIop.c
 sceSifSyncIop,0x2392F0,20,match,src/lib/sceSifSyncIop.c
 DIntr,0x239450,20,match,src/lib/DIntr.c
 func_002394A0,0x2394A0,6,match,src/lib/func_002394A0.c
@@ -5752,6 +5753,7 @@ __main__Fv,0x23B7D8,8,match,src/lib/__main__Fv.cpp
 __divdi3,0x23B7F8,443,match,src/lib/__divdi3.c
 __fixunsdfdi,0x23BEE8,59,match,src/lib/__fixunsdfdi.c
 __floatdidf,0x23BFE0,38,match,src/lib/__floatdidf.c
+__moddi3,0x23C158,410,match,src/lib/__moddi3.c
 __muldi3,0x23C7C0,24,match,src/lib/__muldi3.c
 __pure_virtual,0x23C820,2,match,src/lib/__pure_virtual.c
 __udivdi3,0x23C828,372,match,src/lib/__udivdi3.c
@@ -5760,6 +5762,7 @@ __pack_d,0x23D338,75,match,src/lib/__pack_d.c
 _fpadd_parts,0x23D508,144,match,src/lib/_fpadd_parts.c
 dpadd,0x23D748,22,match,src/lib/dpadd.c
 dpsub,0x23D7A0,25,match,src/lib/dpsub.c
+dpmul,0x23D808,170,match,src/lib/dpmul.c
 dpdiv,0x23DAB0,90,match,src/lib/dpdiv.c
 __fpcmp_parts_d,0x23DC18,69,match,src/lib/__fpcmp_parts_d.c
 dpcmp,0x23DD30,19,match,src/lib/dpcmp.c
@@ -5788,13 +5791,17 @@ func_0023E778,0x23E778,2,match,src/auto/func_0023E778.c
 func_0023E780,0x23E780,2,match,src/auto/func_0023E780.c
 old_find_exception_handler,0x23E788,54,match,src/lib/old_find_exception_handler.c
 find_exception_handler,0x23E860,81,match,src/lib/find_exception_handler.c
+get_reg_addr,0x23E9A8,34,match,src/lib/get_reg_addr.c
 copy_reg,0x23EA30,31,match,src/lib/copy_reg.c
 next_stack_level,0x23EAB0,35,match,src/lib/next_stack_level.c
 func_0023EB40,0x23EB40,2,match,src/auto/func_0023EB40.c
+throw_helper,0x23EB48,204,match,src/lib/throw_helper.c
 __throw,0x23EE78,119,match,src/lib/__throw.c
 __rethrow,0x23F058,121,match,src/lib/__rethrow.c
 decode_uleb128,0x23F240,17,match,src/lib/decode_uleb128.c
 decode_sleb128,0x23F288,20,match,src/lib/decode_sleb128.c
+fde_merge,0x23F2D8,63,match,src/lib/fde_merge.c
+count_fdes,0x23F640,18,match,src/lib/count_fdes.c
 add_fdes,0x23F688,34,match,src/lib/add_fdes.c
 frame_init,0x23F710,79,match,src/lib/frame_init.c
 find_fde,0x23F850,57,match,src/lib/find_fde.c
@@ -5875,6 +5882,7 @@ sceMcGetInfo,0x244570,95,match,src/lib/sceMcGetInfo.c
 sceMcGetDir,0x2446F0,83,match,src/lib/sceMcGetDir.c
 sceMcFormat,0x244848,51,match,src/lib/sceMcFormat.c
 sceMcDelete,0x244918,71,match,src/lib/sceMcDelete.c
+sceMcGetEntSpace,0x244A58,67,match,src/lib/sceMcGetEntSpace.c
 atanf,0x244B68,170,match,src/lib/atanf.c
 cosf,0x244E10,58,match,src/lib/cosf.c
 func_00244EF8,0x244EF8,7,match,src/lib/func_00244EF8.c
@@ -5889,7 +5897,9 @@ atan2f,0x2458F0,74,match,src/lib/atan2f.c
 fmodf,0x245A18,79,match,src/lib/fmodf.c
 powf,0x245B58,322,match,src/lib/powf.c
 sqrtf,0x246060,69,match,src/lib/sqrtf.c
+__ieee754_pow,0x246300,842,match,src/lib/__ieee754_pow.c
 __ieee754_atan2f,0x247B00,186,match,src/lib/__ieee754_atan2f.c
+__ieee754_sqrtf,0x248CA8,78,match,src/lib/__ieee754_sqrtf.c
 fabs,0x249C28,13,match,src/lib/fabs.c
 func_00249C60,0x249C60,8,match,src/lib/func_00249C60.c
 func_00249C80,0x249C80,14,match,src/lib/func_00249C80.c
@@ -5966,6 +5976,7 @@ _rix_111,0x253240,72,match,src/lib/_rix_111.c
 _ri0_111,0x253360,69,match,src/lib/_ri0_111.c
 receiveDataFromIPU,0x253478,40,match,src/lib/receiveDataFromIPU.c
 _sceMpegSliceA0,0x253518,104,match,src/lib/_sceMpegSliceA0.c
+_initSeq,0x2536B8,197,match,src/lib/_initSeq.c
 _sequenceHeader,0x2539D0,171,match,src/lib/_sequenceHeader.c
 _groupOfPicturesHeader,0x253C80,40,match,src/lib/_groupOfPicturesHeader.c
 _pictureHeader,0x253D20,81,match,src/lib/_pictureHeader.c
