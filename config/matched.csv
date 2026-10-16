@@ -972,6 +972,7 @@ func_0011CE08,0x11CE08,77,match,src/auto/func_0011CE08.c
 func_0011CF40,0x11CF40,8,match,src/auto/func_0011CF40.c
 func_0011CF60,0x11CF60,31,match,src/hand/func_0011CF60.c
 GLimitAbs__Fff,0x11CFE0,13,match,src/hand/GLimitAbs__Fff.cpp
+func_0011D018,0x11D018,105,match,src/hand/func_0011D018.c
 GSmoothA__FffffP4SMPAPf,0x11D1C0,65,match,src/hand/GSmoothA__FffffP4SMPAPf.cpp
 RadSmooth__FfffP3SMPPf,0x11D2D0,27,match,src/hand/RadSmooth__FfffP3SMPPf.cpp
 RadSmoothA__FffffP4SMPAPf,0x11D340,31,match,src/hand/RadSmoothA__FffffP4SMPAPf.cpp

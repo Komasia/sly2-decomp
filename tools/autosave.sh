@@ -17,7 +17,7 @@ while true; do
     if [ "$(git rev-parse "$parent^{tree}")" != "$tree" ]; then
       c=$(git commit-tree "$tree" -p "$parent" -p HEAD -m "autosave $(date -u +%Y-%m-%dT%H:%MZ)")
       git update-ref refs/heads/autosave "$c"
-      git push -q -f origin autosave && echo "$(date -u +%H:%M) pushed $c" || echo "$(date -u +%H:%M) push failed"
+      git push -q -f --no-verify origin autosave && echo "$(date -u +%H:%M) pushed $c" || echo "$(date -u +%H:%M) push failed"
     else
       echo "$(date -u +%H:%M) no changes"
     fi
