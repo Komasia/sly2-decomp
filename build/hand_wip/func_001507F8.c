@@ -1,3 +1,4 @@
+// NEAR MISS (round 9, see notes/150000.md)
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 typedef struct { qword r[3]; } M3;

@@ -1,3 +1,4 @@
+// NEAR MISS (round 9, see notes/150000.md)
 typedef int qword __attribute__((mode(TI)));
 struct E { int x0; void *p4; char pad[0x14 - 8]; void *p14; char pad2[0x20 - 0x18]; int x20; };
 struct L { char pad[0x1010]; int c; struct E *ae; };
