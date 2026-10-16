@@ -222,3 +222,9 @@ therefore probably solvable: retry them with ee-gcc 2.9 first. ee-gcc 3.2 also e
 71 Sony SDK files that matched with ee-gcc 2.95.3-114 + `SLY2_SAVES: sd` emulation also match with the real Sony
 compiler ee-gcc 2.9-991111 (or 991111-01) with no emulation, so they were switched to it. 25 still need the 114 +
 SLY2_SAVES form (their source was tuned for it). New SDK work should start with ee-gcc 2.9.
+
+## decomp-permuter for plain-C near-misses (2026-10-16)
+`bash tools/permute.sh build/hand_wip/NAME.c [seconds] [jobs]` runs decomp-permuter (random source rewrites scored
+against the original bytes; tools/perm_objdump.py stands in for MIPS objdump). Works only on plain C drafts without
+inline asm (pycparser). Candidates land in /tmp/perm/NAME/output-*/source.c; ALWAYS verify a candidate with
+matchtool and then clean it up into readable C before saving it to src/. Use at most 1 job per agent (2 cores total).
