@@ -1,4 +1,6 @@
 // v2 (Claude agent): 2/110. Fixes: real func_0020FC60 prototype (float 5th), func_001A93C8 float param before the HIT* (so &hit is formed after the inner call), HIT local in loop. Remaining: max.s operand tie (target loads g15C->f0, g160->f12); 4 ternary forms, GMax inline, local and if-form tried.
+// CAUTION: matched code declares func_001A93C8(qword, SHAPE*, int, int, void*, int, void *contacts, float radius) (float last);
+// putting the float before the pointer gives the same ABI but differs from that prototype. Find a form that keeps it last.
 typedef int qword __attribute__((mode(TI)));
 struct AREQ { int cb; int cbAlign; };
 struct X { char pad[0x60]; int x60; };
