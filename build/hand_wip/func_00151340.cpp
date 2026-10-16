@@ -1,5 +1,7 @@
-// NEAR MISS (Claude agent): 78/179. Joystick/random-target camera spring. Remaining: pos pseudo lands in a GPR (target keeps it in vf1, qmtc2 after Make),
-// first clamp shape (target: r=min; if(!(x<min)){r=x; if(max<x) r=max}), sx/sy FPR numbers, p14->pos reload before Combo, GRand store order.
+// NEAR MISS (Claude agent): 30/179. Joystick / random-target camera spring (func_00151340). Remaining: VU_FLOAT k/c/dt scheduling + target reloads
+// p14->pos for the final AddScaled2 (CSE merges ours), vf register numbering in the spring block, n4CC==9-else path vsub into vf3 instead of vf1.
+// Keys found: GClampR (return-style) for x, in-place GClamp for y; sx * clamp in the decl; u.q = Make(); pos = u.q (keeps pos in vf1);
+// t = clock.t read before the 3rd GRand; VU_FLOAT ctor with "r"(*(int*)&f) (lw for k).
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
 extern "C" CLOCK D_002DDED0;
@@ -35,6 +37,7 @@ static inline float GLimitLm(LM *plm, float g)
     if (g > plm->gMax) return plm->gMax;
     return g;
 }
+static inline float GClampR(float g, float lo, float hi) { if (g < lo) return lo; if (hi < g) return hi; return g; }
 static inline float GClamp(float g, float lo, float hi) { if (g < lo) g = lo; else if (g > hi) g = hi; return g; }
 static inline float GRand(const LM &lm) { return func_0011D448(lm.gMin, lm.gMax); }
 static inline qword Make(float x, float y, float z)
@@ -78,12 +81,13 @@ void func_00151340(X *p, void *pv, JOY *pjoy)
         sy = -1.0f;
         if (0.0f < pjoy->y)
             sy = 1.0f;
-        float ax = GClamp(GFromClq(D_002BDA10, __builtin_fabsf(pjoy->x)), D_002BDA20.gMin, D_002BDA20.gMax);
+        float ax = sx * GClampR(GFromClq(D_002BDA10, __builtin_fabsf(pjoy->x)), D_002BDA20.gMin, D_002BDA20.gMax);
         float ay = GClamp(GFromClq(D_002BDA30, __builtin_fabsf(pjoy->y)), D_002BDA40.gMin, D_002BDA40.gMax);
+        float y = sy * ay;
         v = Zero();
         union { qword q; } u;
-        pos = Make(0.0f, sy * ay, sx * ax);
-        u.q = pos;
+        u.q = Make(0.0f, y, ax);
+        pos = u.q;
     } else if (p->pgs->n4CC != 9) {
         pos = Zero();
         v = pos;
@@ -93,16 +97,18 @@ void func_00151340(X *p, void *pv, JOY *pjoy)
             float z = GRand(D_002BDA50);
             float *pf = p->pos.f;
             pf[0] = 0.0f;
-            pf[2] = z;
             pf[1] = y;
-            p->g18 = D_002DDED0.t + GRand(D_002BDA58);
+            pf[2] = z;
+            float t = D_002DDED0.t;
+            p->g18 = t + GRand(D_002BDA58);
         }
         VU_FLOAT k(D_002BDA60);
         VU_FLOAT c(-D_002BDA64);
+        TGT *ptgt = p->p14;
+        qword tpos = ptgt->pos;
         float gdt = D_002DDED0.dt;
         VU_FLOAT dt(gdt);
-        TGT *ptgt = p->p14;
-        qword a = Combo(Sub(p->pos.q, ptgt->pos), k, p->v, c);
+        qword a = Combo(Sub(p->pos.q, tpos), k, p->v, c);
         v = AddScaled(p->v, a, dt);
         pos = AddScaled2(ptgt->pos, p->v, v, VU_FLOAT(gdt * 0.5f));
     }

@@ -184,3 +184,8 @@ func_001D54B8 and func_001DE008. (The reverse also happens: func_0011B500's resu
 files when it stands in for a known difference between our compiler builds and the ones the game was built with
 (e.g. Sony's SDK scheduler keeps the use of a call's return value right after the jal). Prefer natural C when it
 exists, and leave a one-line comment saying what the barrier emulates.
+
+## SDK modes: constant expansion before a call (2026-10-16)
+tools/gnu_reorder.py now also stops GNU as from moving the tail of a multi-instruction constant (`li.d`, `dli`) into
+the delay slot of an immediately following `jal`/`jalr`; Sony's assembler left a nop there. All 101 SDK-mode files
+re-verified; this finished newlib scalbn (func_00249EE0).

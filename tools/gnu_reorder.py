@@ -66,12 +66,34 @@ def unfill_short_loops(text, loopmax=5):
         out.append(l); i += 1
     return '\n'.join(out)
 
+MULTI_CONST = re.compile(r'^\s+(li\.d|dli)\s')
+CALL = re.compile(r'^\s+(jal|jalr)\s')
+
+def pin_const_before_call(text):
+    """Sony's assembler never filled a call's delay slot with the tail of a multi-instruction constant expansion
+    (li.d / dli -> ori + dsll32 ...); GNU as does.  A label after such a macro, when the next instruction is a
+    call, keeps GNU as from moving it (found on newlib scalbn, func_00249EE0)."""
+    L = text.split('\n'); out = []
+    noreorder = False
+    for i, l in enumerate(L):
+        st = l.strip()
+        if st in ('.set\tnoreorder', '.set noreorder'): noreorder = True
+        elif st in ('.set\treorder', '.set reorder'): noreorder = False
+        out.append(l)
+        if not noreorder and MULTI_CONST.match(l):
+            j = i + 1
+            while j < len(L) and (not L[j].strip() or L[j].strip().startswith('#')): j += 1
+            if j < len(L) and CALL.match(L[j]):
+                out.append('$Lgr_cpin%d:' % i)
+    return '\n'.join(out)
+
 def assemble(s_path, obj, root, mode='gnu-reorder'):
     g = os.path.join(root, 'tools', 'compilers', 'ee-gcc2.96')
     txt = open(s_path).read()
     if mode == 'gnu-reorg':
         txt = unfill_short_loops(txt)
     txt = pin_loop_branches(txt)
+    txt = pin_const_before_call(txt)
     s2 = s_path + '.gr.s'
     open(s2, 'w').write(txt)
     p = subprocess.run([os.path.join(g, 'ee', 'bin', 'as'), '-G0', '-EL', '-mabi=eabi', '-o', obj, s2],
