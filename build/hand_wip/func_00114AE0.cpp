@@ -1,6 +1,10 @@
 // func_00114AE0: static initializer (fInit, nPriority==0xFFFF) for a translation unit, twin of func_001147D8.
 // Fills a 256-entry RGBA palette at D_002A2900 (placement-new RGBA ctors), then two global ctor calls
 // (func_001EAD98 / func_001EB050) and the six slot-heap Schwarz counters shared by many TUs. (Claude agent)
+// Table values extracted by simulating the target's sb stores. STATUS: 4/1926 diffs - entry 167 RGBA(0x11,0x37,0x5D,0x80):
+// target loads 0x11 before 0x5D (s6/a3 swapped). Cause (from -dS/-dR dumps): the 0x11 value pseudo is CSE-shared with
+// entry 169 so it does not die at 167, and sched1 prefers the dying 0x5D store; in the target 0x11 apparently was
+// not shared (CSE hash-table flush point, every 1000 insns, probably falls a few insns earlier in the original).
 struct RGBA { unsigned char r, g, b, a; RGBA(unsigned char r_, unsigned char g_, unsigned char b_, unsigned char a_) { r = r_; g = g_; b = b_; a = a_; } };
 struct SLOTHEAP { int a[10]; };
 extern RGBA D_002A2900[256];
