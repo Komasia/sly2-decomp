@@ -1,0 +1,162 @@
+// wip (Claude agent): script apply (BIF 0x19 / lambda 0x20 / method 0x22) with rest-arg list; 215 diffs: frame 0x10 short (target keeps rest-block slots 0x130-0x160 live, so case-0x20 temps sit at 0x170), s-reg renames in the first loop.
+struct NODE;
+struct CRef {
+    int m_tagk; union { int n; float g; void *pv; NODE *pnode; } u;
+    CRef() { m_tagk = -1; }
+    CRef(const CRef &r);
+    void Decref();
+    void InitTag(int tagk);
+    ~CRef() { Decref(); }
+    CRef &operator=(const CRef &r);
+    CRef &operator=(NODE *pn);
+};
+extern char D_004520A8[];
+extern "C" {
+void func_0011CD98(void *pheap, void *pv);
+void func_002550F8(void *pv);
+NODE *func_00256B48();
+}
+struct SPM {
+    NODE *p;
+    ~SPM();
+    void operator=(NODE *pn);
+};
+struct NODE {
+    int cref;
+    int x4;
+    CRef ref;
+    SPM pnext;
+    void operator delete(void *pv) { func_002550F8(pv); func_0011CD98(D_004520A8, pv); }
+};
+struct SPN {
+    NODE *p;
+    void Set(NODE *pn);
+    SPN() { p = 0; }
+    SPN(NODE *pn) { Set(pn); }
+    ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
+    void operator=(NODE *pn);
+    NODE *operator->() { return p; }
+    int pad;
+};
+struct FRAME {
+    int cref;
+    ~FRAME();
+};
+struct SPF {
+    FRAME *p;
+    int pad;
+    void Set(FRAME *pf);
+    SPF(FRAME *pf) { Set(pf); }
+    ~SPF() { FRAME *pf = p; if (pf && --pf->cref == 0) delete pf; }
+};
+struct BIF {
+    CRef (*pfn)(int c, CRef *aref, FRAME *pframe);
+    int cargMin;
+    int fRest;
+};
+struct METHOD {
+    int x0, x4;
+    void *pv;
+    CRef (*pfn)(void *pv, int c, CRef *aref);
+    int cargMin;
+};
+struct LAMBDA {
+    int x0, x4;
+    FRAME *pframe;
+    int cargMin;
+    int fRest;
+    NODE *pparams;
+    NODE *pbody;
+};
+extern BIF D_002BBB90[];
+extern "C" {
+FRAME *func_00256DD0();
+CRef func_00127838(NODE *p, FRAME *pframe);
+CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
+void func_00127B18(FRAME *pframe, FRAME *pframeParent);
+CRef func_00127190(LAMBDA *plambda, FRAME *pframe);
+CRef func_001272E0(NODE *p, FRAME *pframe);
+}
+
+CRef func_001272E0(NODE *p, FRAME *pframe)
+{
+    CRef ref;
+    BIF *pbif = 0;
+    LAMBDA *plambda = 0;
+    METHOD *pmeth = 0;
+    NODE *pn = p->ref.u.pnode;
+    CRef refOp = func_00127838(pn, pframe);
+    int cargMin, fRest;
+    if (refOp.m_tagk == 0x19) {
+        pbif = &D_002BBB90[refOp.u.n];
+        cargMin = pbif->cargMin;
+        fRest = pbif->fRest;
+    } else if (refOp.m_tagk == 0x22) {
+        pmeth = (METHOD *)refOp.u.pv;
+        fRest = 0;
+        cargMin = pmeth->cargMin;
+    } else {
+        plambda = (LAMBDA *)refOp.u.pv;
+        cargMin = plambda->cargMin;
+        fRest = plambda->fRest;
+    }
+    int carg = cargMin + (fRest != 0);
+    CRef aref[32];
+    pn = pn->pnext.p;
+    int c = cargMin;
+    int i;
+    for (i = 0; i < c; i++) {
+        ref = func_00127838(pn, pframe);
+        aref[i] = ref;
+        pn = pn->pnext.p;
+    }
+    if (fRest) {
+        SPN spCur(pn);
+        SPN spLast;
+        SPN spList;
+        while (spCur.p) {
+            SPN spNew(func_00256B48());
+            spNew->ref = func_00127838(spCur.p, pframe);
+            if (spLast.p) {
+                spLast->pnext = spNew.p;
+                spLast = spNew.p;
+            } else {
+                spLast = spNew.p;
+                spList = spLast.p;
+            }
+            c++;
+            spCur = spCur->pnext.p;
+        }
+        if (spList.p) {
+            aref[i] = spList.p;
+        } else {
+            aref[i].Decref();
+            aref[i].InitTag(0);
+        }
+    }
+    switch (refOp.m_tagk) {
+    case 0x19:
+        ref = pbif->pfn(c, aref, pframe);
+        break;
+    case 0x20: {
+        SPF spf(func_00256DD0());
+        func_00127B18(spf.p, plambda->pframe);
+        NODE *pparam = plambda->pparams;
+        CRef *pref = aref;
+        int j;
+        for (j = 0; j < carg; j++) {
+            if (pparam->ref.m_tagk == 0x14)
+                pparam = pparam->pnext.p;
+            func_00127C00(spf.p, pparam->ref.u.n, pref);
+            pref++;
+            pparam = pparam->pnext.p;
+        }
+        ref = func_00127190(plambda, spf.p);
+        break;
+    }
+    case 0x22:
+        ref = pmeth->pfn(pmeth->pv, c, aref);
+        break;
+    }
+    return ref;
+}
