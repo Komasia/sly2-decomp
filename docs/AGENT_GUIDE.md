@@ -309,3 +309,7 @@ An empty `__asm__ volatile("")` used to force a reload isn't free: gcc's schedul
 code around it gets ordered differently. If a draft has one and the target's order around that spot differs, replace
 the barrier with a plain local of the right type (e.g. a `qword` local holding the reloaded value). That matched
 func_00223A70 and took func_0020A818 from 14 to 2.
+
+## Scoped object with an explicit ctor/dtor (2026-10-17)
+If the target constructs a stack object, calls the constructor, and at the end calls `dtor(this, 2)`, declare that object
+(e.g. FRAME) at function scope and write the ctor and dtor calls out explicitly. Matched func_0013B860.
