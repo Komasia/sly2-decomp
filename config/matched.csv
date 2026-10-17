@@ -2417,6 +2417,7 @@ SendDmaSyncGsFinish__FP10sceDmaChanP2QW,0x16F8B8,41,match,src/hand/SendDmaSyncGs
 BuildClearGifs__FP2QWG4RGBAi,0x16F960,102,match,src/hand/BuildClearGifs__FP2QWG4RGBAi.cpp
 func_0016FAF8,0x16FAF8,32,match,src/hand/func_0016FAF8.cpp
 func_0016FB78,0x16FB78,75,match,src/hand/func_0016FB78.cpp
+func_0016FCA8,0x16FCA8,231,match,src/hand/func_0016FCA8.cpp
 func_00170048,0x170048,33,match,src/hand/func_00170048.c
 func_001700D0,0x1700D0,106,match,src/hand/func_001700D0.c
 BlastAqwGifsBothFrames__FP2QW,0x170278,51,match,src/hand/BlastAqwGifsBothFrames__FP2QW.cpp
@@ -3926,6 +3927,7 @@ func_001D70E0,0x1D70E0,77,match,src/auto/func_001D70E0.c
 func_001D7218,0x1D7218,8,match,src/auto/func_001D7218.c
 func_001D7238,0x1D7238,11,match,src/hand/func_001D7238.c
 func_001D7268,0x1D7268,15,match,src/hand/func_001D7268.c
+func_001D72A8,0x1D72A8,92,match,src/hand/func_001D72A8.c
 func_001D7418,0x1D7418,26,match,src/auto/func_001D7418.c
 func_001D7480,0x1D7480,177,match,src/hand/func_001D7480.cpp
 AddStepguardEffect__FP9STEPGUARD3OID3ZPK,0x1D7748,14,match,src/auto/AddStepguardEffect__FP9STEPGUARD3OID3ZPK.c
@@ -6000,6 +6002,7 @@ sceScfGetLanguage,0x24A860,24,match,src/lib/sceScfGetLanguage.c
 _clearOnce,0x24A908,51,match,src/lib/_clearOnce.c
 sceMpegCreate,0x24A9D8,142,match,src/lib/sceMpegCreate.c
 _clearEach,0x24AC10,50,match,src/lib/_clearEach.c
+_updateRefImage,0x24AE90,173,match,src/lib/_updateRefImage.c
 _decodeOrSkipFrame,0x24B148,92,match,src/lib/_decodeOrSkipFrame.c
 _decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
 sceMpegInit,0x24B480,44,match,src/lib/sceMpegInit.c
@@ -6020,6 +6023,8 @@ func_0024B930,0x24B930,27,match,src/auto/func_0024B930.c
 func_0024B9A0,0x24B9A0,9,match,src/auto/func_0024B9A0.c
 func_0024B9C8,0x24B9C8,9,match,src/auto/func_0024B9C8.c
 _cpr8,0x24B9F0,164,match,src/lib/_cpr8.c
+_dispRefImage,0x24BC80,176,match,src/lib/_dispRefImage.c
+_dispRefImageField,0x24BF40,264,match,src/lib/_dispRefImageField.c
 _sceMpegFlush,0x24C360,48,match,src/lib/_sceMpegFlush.c
 _sceMpegOutputFrame,0x24C420,36,match,src/lib/_sceMpegOutputFrame.c
 _doCSC2,0x24C4B0,112,match,src/lib/_doCSC2.c
