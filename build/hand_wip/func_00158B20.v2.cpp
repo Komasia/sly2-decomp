@@ -1,4 +1,4 @@
-// (Claude agent) v2: 117/195 (was 187). gMax = D_002BDDE8 * pzz->gD0 stops loop-hoisting hi(D_002BDDE8) (frame 0x80 right); AddScaled(VU_FLOAT s, a, b) with volatile asms gives target's qmtc2/sqc2 order.
+// (Claude agent) v2: 114/195 (was 187). gMax = D_002BDDE8 * pzz->gD0 stops loop-hoisting hi(D_002BDDE8) (frame 0x80 right); AddScaled(VU_FLOAT s, a, b) with volatile asm, VU_FLOAT(pdzg->adz[j].gC) lvalue. Left: t-reg choice in i loop, sqrt scheduled early, VF numbers.
 typedef int qword __attribute__((mode(TI)));
 struct DZ { int x0; float g4; float g8; float gC; float g10; int pad[2]; DZ *pdzOther; int pad2[2]; };
 struct ZZ { char pad[0x88]; float g88; char pad2[0xD0 - 0x8C]; float gD0; };
@@ -79,9 +79,8 @@ void func_00158B20(DZG *pdzg, int grf)
                 continue;
             v.q = pso->vB0;
             for (j = 0; j < pdzg->cdz; j++) {
-                float gj = pdzg->adz[j].gC;
-                if (gj != 0.0f)
-                    v.q = AddScaled(VU_FLOAT(gj), v.q, pdzg->af[j].av[i]);
+                if (pdzg->adz[j].gC != 0.0f)
+                    v.q = AddScaled(VU_FLOAT(pdzg->adz[j].gC), v.q, pdzg->af[j].av[i]);
             }
             v.q = ProjectPerp(v.q, pso->normal);
             g = Dot(v.q, v.q);
