@@ -297,3 +297,9 @@ nops before the branch.
 When the target branches to a single shared `return 0` block but ours computes the result with slt/sltu/xori (a
 setcc) or repeats the return, write the early exits as `goto fail;` (or `break` out of the loop) to one shared
 `fail: return 0;`. That gave big drops on func_00136870, func_00154770 and func_00126A18.
+
+## Let gcc emit qmfc2/qmtc2/mfc1 moves itself (2026-10-17)
+gcc's reorg never puts an inline-asm instruction in a branch delay slot. If the target has a `qmfc2`/`qmtc2`/`mfc1`
+in a delay slot (or scheduled across a branch) and ours has it as an asm statement, write the move as plain C (a
+union/cast between the vector, qword and float views, or a plain assignment) so gcc emits it and can schedule it.
+This matched func_0011EE08 and func_00151700.
