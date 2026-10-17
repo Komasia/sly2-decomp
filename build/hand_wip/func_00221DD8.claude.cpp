@@ -72,7 +72,7 @@ extern "C" {
  void func_0014E6D0(CAMERA *,V *,V *,qword,float,float);
  float func_0011D018(PROFILE *,float,float,float,float *);
  void func_00221408(VOLUME *,qword,V *,V *);
- void func_002215C0(VOLUME *,float *,V *,LM *,int,V *,float,float);
+ void func_002215C0(VOLUME *,float,float,float *,V *,LM *,int,V *);
  void func_0011EF08(qword,float *,float *,float *);
  void func_0011EFB0(qword,float *,float *,float *);
  float func_0011CF60(float);
@@ -111,6 +111,7 @@ static inline float Max(float a,float b){return a<b?b:a;}
 static inline float Abs(float f){return __builtin_fabsf(f);}
 static inline float Wrap(float f){return func_0011CF60(f);}
 static inline float Polynomial(const POLY &p,float f){return p.a+f*(p.b+f*p.c);}
+static inline float LimitPitch(float f){return func_0011D948(&D_002C41B0,f);}
 static inline float UnitLimit(float f){return func_0011D948(&D_002BBB60,f);}
 static inline void ProfileScale(PROFILE &p,const PROFILE &source,float scale){p.speed=source.speed*scale;p.terminal=source.terminal*scale;p.duration=source.duration;}
 #define REACHED(o,pv,c,t) ((Wrap((o)-(pv))*Wrap((c)-(t))<=0.0f || Abs(Wrap((c)-(t)))<1e-4f) && Abs(Wrap((c)-(t)))<1.5707964f)
@@ -138,7 +139,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
  if(volume && volume->controlled)input->flags&=~1;
  float strength=(input->flags&1)?0.0f:p->config->strength;
  p->strength=func_0011D018(&D_002C4230,p->strength,strength,D_002DDED0.dt,0);
- p->lastInputTime=Max(p->lastInputTime,input->time);
+ p->lastInputTime=Max(input->time,p->lastInputTime);
  rightPitch=rightYaw=leftPitch=leftYaw=0.0f;
  if(volume && (modes&3)){
   func_00221408(volume,w.point.q,&w.coordinates,&w.direction);
@@ -148,11 +149,11 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
    p->trackYaw=w.coordinates.f[0];
   }
   if(modes&1){
-   func_002215C0(volume,w.coordinates.f,p->config->coefficients,p->config->limits,1,&w.temporary,volume->phase,p->config->addition);
+   func_002215C0(volume,volume->phase,p->config->addition,w.coordinates.f,p->config->coefficients,p->config->limits,1,&w.temporary);
    func_0011EFB0(Sub(w.temporary.q,w.tracked.q),&leftYaw,&leftPitch,&leftRadius);
   }
   if(modes&2){
-   func_002215C0(volume,w.coordinates.f,p->config->coefficients,p->config->limits,2,&w.temporary,volume->phase,p->config->addition);
+   func_002215C0(volume,volume->phase,p->config->addition,w.coordinates.f,p->config->coefficients,p->config->limits,2,&w.temporary);
    func_0011EFB0(Sub(w.temporary.q,w.tracked.q),&rightYaw,&rightPitch,&rightRadius);
   }
  }
@@ -160,22 +161,22 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
  if(D_002DDF40.mode){
   if(D_002DDF40.mode==2){
    p->side=4;p->yaw=D_002DDF40.overrideYaw;
-   p->pitch=func_0011D948(&D_002C41B0,D_002DDF40.overridePitch-func_00244B68(p->config->vertical*D_002DDF40.scale44));
+   p->pitch=LimitPitch(D_002DDF40.overridePitch-func_00244B68(p->config->vertical*D_002DDF40.scale44));
   }else if(!(modes&3)){p->side=4;p->yaw=input->yaw;p->pitch=p->config->radiusLimits.lo;}
   else if(!(modes&2))p->side=1;
-  else if(!(modes&1))p->side=2;
-  else{
+  else if(modes&1){
    float dl=Wrap(leftYaw-input->yaw),dr=Wrap(rightYaw-input->yaw);
-   p->side=Abs(dl)<Abs(dr)?1:2;
-  }
+   if(Abs(dl)<Abs(dr))p->side=1;else p->side=2;
+  }else p->side=2;
   p->lastInputTime=D_002DDED0.t;
   p->changedTime=D_002DDED0.t-D_002C41DC;
  }
  if(!(p->side&modes) && p->side>0 && p->side<3)p->side=4;
  if(volume && volume->controlled){
   w.temporary.q=Sub(func_001A62E8(volume->controlled),input->point.q);w.temporary.n[2]=0;
-  qword length=LengthV(w.temporary.q);
-  w.temporary.q=X(length)<1e-4f?D_002A2DD0.q:Divide(w.temporary.q,length);
+  qword t=w.temporary.q;
+  qword length=LengthV(t);
+  if(X(length)<1e-4f)w.temporary=D_002A2DD0;else w.temporary.q=Divide(t,length);
   float influence=Clamp(Polynomial(volume->influence,X(length)),volume->influenceLimits.lo,volume->influenceLimits.hi);
   w.coordinates.q=Scale(w.temporary.q,Scalar(w.finalPoint,influence));
  }else w.coordinates=input->delta;
@@ -197,7 +198,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
    float angle=func_002458F0(Abs(driver->field1074),Abs(driver->field1070));
    if(angle<0.2617994f)p->pitchVelocity=0.0f;else if(1.3089969f<angle)p->yawVelocity=0.0f;
    yaw=Wrap(yaw+p->yawVelocity*manualDt);
-   pitch=func_0011D948(&D_002C41B0,Wrap(pitch+p->pitchVelocity*manualDt));
+   pitch=LimitPitch(Wrap(pitch+p->pitchVelocity*manualDt));
    if(D_002DDED0.activity-D_002DEB30.lastActivity>5.0f){D_002DEB30.lastActivity=D_002DDED0.activity;func_001619A0(&D_002DEB30,6,0);}
   }
   p->side=4;p->changed=1;p->changedTime=D_002DDED0.t;
@@ -208,8 +209,10 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
   qword length=LengthV(w.finalPoint.q);float distance=X(length);
   w.finalPoint.q=distance<1e-4f?D_002A2DA0.q:Divide(w.finalPoint.q,length);
   int axisMode=(!volume || volume->axisMode==-1)?input->axisMode:volume->axisMode;
-  if(axisMode==0)w.sideAxis.q=CrossXYZ(D_002A2DC0.q,w.finalPoint.q);
-  else if(axisMode==1)w.sideAxis=w.finalPoint;
+  switch(axisMode){
+  case 0:w.sideAxis.q=CrossXYZ(D_002A2DC0.q,w.finalPoint.q);break;
+  case 1:w.sideAxis=w.finalPoint;break;
+  }
   w.sideAxis.q=Unit(w.sideAxis.q,D_002A2DA0.q);
   float steering=func_0011CFE0(X(DotV(w.coordinates.q,w.sideAxis.q))/distance,D_002C41E0)*p->strength;
   float shape=Clamp(Polynomial(D_002C41F0,w.temporary.f[1]),D_002C4200.lo,D_002C4200.hi);
@@ -285,8 +288,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
   if(!(modes&3)){resultRadius=Abs(p->config->addition);vertical=p->config->vertical;lateral=p->config->lateral;break;}
   float alpha;
   if(!(modes&2))alpha=1.0f;
-  else if(!(modes&1))alpha=0.0f;
-  else{
+  else if(modes&1){
    if(p->yaw<leftYaw && p->yaw<rightYaw){
     if(rightYaw<leftYaw)leftYaw-=6.2831855f;else rightYaw-=6.2831855f;
    }else if(leftYaw<p->yaw && rightYaw<p->yaw){
@@ -294,14 +296,14 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
    }
    alpha=(p->yaw-rightYaw)/(leftYaw-rightYaw);
    alpha=alpha*alpha*(3.0f-2.0f*alpha);
-  }
+  }else alpha=0.0f;
   resultRadius=alpha*leftRadius+(1.0f-alpha)*rightRadius;
   lateral=alpha*p->config->lateral+(1.0f-alpha)*(-p->config->lateral);
   vertical=p->config->vertical;
   break;
  }
  }
- if(D_002DDF40.mode){p->distanceVelocity=0.0f;p->verticalVelocity=0.0f;}
+ if(D_002DDF40.mode){p->distanceVelocity=p->verticalVelocity=0.0f;}
  else{
   float damping=p->config->damping*D_002C426C*D_002DDED0.dt+1.0f;
   float spring=p->config->spring*D_002C4270*D_002DDED0.dt;
@@ -324,7 +326,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
  float yawCorrection=func_00244B68(lateral*D_002DDF40.scale40);
  float pitchCorrection=-func_00244B68(vertical*D_002DDF40.scale44);
  if(p->snap){
-  if(D_002DDF40.mode)p->yawOffset=0.0f;
+  if(D_002DDF40.mode){p->yawOffset=0.0f;p->pitchOffset=0.0f;}
   else{
    func_0011EF08(w.temporary.q,0,&planar,&z);
    func_0011BC88(&D_002DDF40.world.basis,&baseYaw,&basePitch);
@@ -333,7 +335,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
    p->yawOffset=Wrap(baseYaw-targetYaw);
    p->pitchOffset=Wrap(basePitch-targetPitch);
   }
-  p->yawOffsetVelocity=0.0f;p->pitchOffsetVelocity=0.0f;
+  p->yawOffsetVelocity=p->pitchOffsetVelocity=0.0f;
  }else{
   p->yawOffsetVelocity+=(p->yawOffset*D_002C4274+p->yawOffsetVelocity*D_002C4278)*D_002DDED0.dt;
   p->pitchOffsetVelocity+=(p->pitchOffset*D_002C427C+p->pitchOffsetVelocity*D_002C4280)*D_002DDED0.dt;
