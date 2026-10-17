@@ -18,5 +18,5 @@ __pycache__/
 scratch*/
 
 # gcc -d debug dumps from experiments
-*.cc.*
-*.c.[a-z]*[0-9]
+/*.cc.*
+/*.c.*
