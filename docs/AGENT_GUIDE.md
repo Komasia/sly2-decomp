@@ -277,3 +277,10 @@ allocation and can fix saved-register swaps. This matched _sceCd_cd_read_intr. R
 Sony's assembler also left the instruction right after a multi-instruction constant (li.d/dli) out of a following
 call's delay slot. gnu_reorder now pins it, which matched libgcc __floatdisf. Check other libgcc converters
 (__floatdidf etc.) with the same `li.d; insn; jal` shape.
+
+## A target nop just before a loop head = a real loop in the source (2026-10-17)
+If the target has a `nop` right before a backward-branch target that sits on an 8-byte boundary, and our build doesn't,
+that nop is gcc's loop-head alignment (`.p2align 3`). gcc emits it only for real `for`/`while`/`do` loops, not for
+loops built from gotos (and not after a loop rotation that gcc doesn't recognise as a loop). It is NOT an assembler
+rule. Rewrite that loop as a real loop. If gcc then hoists constants out of it (loop.c), work on that next. Seen in
+func_001F2500 and func_0012D508.
