@@ -340,3 +340,8 @@ The libm float functions (acosf, asinf, powf, ...) were built with the **-01** c
 ## An unexplained alignment nop may be a dead loop (2026-10-17)
 __unpack_d had a stray alignment nop that turned out to be the `.p2align` of a loop that never runs, here fp-bit's
 denormal-normalising `while`. Write that loop out as in the original library source, even when it looks dead.
+
+## Old register pins can be the problem (2026-10-17)
+Many old drafts pin variables to registers (`register int x asm("$16")`) from earlier tries. Taking the pins out cut
+func_001A64E8 from 26 to 8 and func_001FEA60 from 38 to 6. Before adding pins, try the draft with every pin removed,
+and only put back the ones that clearly help.
