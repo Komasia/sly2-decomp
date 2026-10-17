@@ -267,3 +267,8 @@ the extra stack copy and matched func_00231300 and func_0014E1A8.
 streams. With a positional count, one extra or missing instruction shifts every later instruction, so a draft that
 is really 5 instructions off can show as 100+. RANKING.csv is sorted by the aligned count (column `aligned`). Use it
 to judge how close a draft really is. Only an exact MATCH counts.
+
+## Block-scoped locals change register assignment (2026-10-17)
+Declaring a temporary inside the `if`/loop block that uses it, instead of at function scope, changes gcc's register
+allocation and can fix saved-register swaps. This matched _sceCd_cd_read_intr. Related Sony libcdvd patterns: a
+`static inline nopdelay()` helper and a `while(1){...continue;...break;}` retry loop (matched _sceCd_*_prechk).
