@@ -1,0 +1,29 @@
+typedef struct { unsigned char r, pad0[3], g, pad1[3], b, pad2[3], a, pad3[3]; } CQW;
+struct X { int pad[2]; int iA; int iB; int iEnd; char *ib14; char *ib18; int pad2; char *ib20; char *ib24; };
+struct S { char pad[0x3010]; int pbBase; char pad2[0x3070 - 0x3014]; struct X x; };
+typedef struct { unsigned short rgb : 15, a : 1; } C16;
+void func_00167E58(struct S *p)
+{
+    struct X *px = &p->x;
+    int pbBase = p->pbBase;
+    CQW *pqwA = (CQW *)p + px->iA;
+    CQW *pqwB = (CQW *)p + px->iB;
+    CQW *pqwEnd = (CQW *)p + px->iEnd;
+    C16 *ps1 = (C16 *)(px->ib14 + pbBase);
+    C16 *ps2 = (C16 *)(px->ib18 + pbBase);
+    unsigned char *pb2 = (unsigned char *)(px->ib20 + pbBase);
+    unsigned char *pbAlpha = (unsigned char *)(px->ib24 + pbBase);
+    for (; pqwB < pqwEnd; pqwB++, pqwA++) {
+        C16 c1, c2;
+        C16 *pd1, *pd2;
+        pd1 = ps1++;
+        pd2 = ps2++;
+        c1.rgb = ((pqwA->g >> 3) << 5) | (pqwA->r >> 3) | ((pqwA->b >> 3) << 10); c1.a = pqwA->a >> 7;
+        *pd1 = c1;
+        c2.rgb = ((pqwB->g >> 3) << 5) | (pqwB->r >> 3) | ((pqwB->b >> 3) << 10); c2.a = pqwA->a >> 7;
+        *pd2 = c2;
+        *pbAlpha++ = pqwB->a;
+        if (px->ib20)
+            *pb2++ = pqwA->a;
+    }
+}
