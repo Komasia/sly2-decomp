@@ -18,19 +18,26 @@ CRef func_001238B0(void *pbasic, CRef *aref)
     NODE *pn = (NODE *)aref;
     pn = pn->ref.m_tagk ? (NODE *)pn->ref.u.pv : 0;
     for (; pn; pn = pn->pnext) {
-        CRef *p = &pn->ref;
         if (ref.m_tagk == 0x15) {
-            if (p->m_tagk == 0x15) {
+            if (pn->ref.m_tagk == 0x15) {
+                CRef *p = &pn->ref;
                 if (ref.u.n > p->u.n)
                     ref = *p;
-            } else if ((float)ref.u.n > p->u.g)
-                ref = *p;
+            } else {
+                CRef *p = &pn->ref;
+                if ((float)ref.u.n > p->u.g)
+                    ref = *p;
+            }
         } else {
-            if (p->m_tagk == 0x15) {
+            if (pn->ref.m_tagk == 0x15) {
+                CRef *p = &pn->ref;
                 if ((float)p->u.n < ref.u.g)
                     ref = *p;
-            } else if (ref.u.g > p->u.g)
-                ref = *p;
+            } else {
+                CRef *p = &pn->ref;
+                if (ref.u.g > p->u.g)
+                    ref = *p;
+            }
         }
     }
     return ref;
