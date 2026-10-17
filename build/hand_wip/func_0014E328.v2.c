@@ -1,4 +1,4 @@
-/* near-miss: b (t0) should live in $s5 and the &ae[].b base be spilled to sp+4; ours spills b instead. Also an extra .p2align nop in the search loop. */
+/* v2 (Claude agent, 2026-10-17): vt[4] call takes (po, b) [fixes b in s5]; i=0 in the for; &p->ae[i+1] args -> aligned 5. Left: memmove args, target forms (p + i*16) once then +0x320/+0x310. */
 struct VTE { short d; short pad; void (*pfn)(void *, ...); };
 struct O { int pad[3]; struct VTE *vt; };
 struct E { int prio; struct O *po; int a; int b; };
