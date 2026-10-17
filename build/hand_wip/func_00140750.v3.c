@@ -1,4 +1,4 @@
-/* v2 (Claude agent, 2026-10-17): GMin/GMax as `b < a ? b : a` -> aligned 13 (was 23). Left: dt/D_002BCC6C load+reg order, g==0 if-chain uses bc1tl vs target bc1f+b, clamp cases. */
+/* v3 (Claude agent, 2026-10-17): aligned 6. GMin/GMax as `b < a ? b : a`; a block-local `float dt = D_002DDED0.dt;` before each K*dt; g==1 split into its own else-if. Left: target `bc1f; nop; b END; sw -1` for g==0 where ours has bc1tl, plus the following branch forms. */
 typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; int (*pfn)(void *); };
 struct P {
