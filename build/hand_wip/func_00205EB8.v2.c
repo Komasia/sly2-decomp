@@ -1,0 +1,117 @@
+// wip (Claude agent, pins15, 2026-10-17): aligned 8 (was 9). Removed 9 of 23 register pins (greedy one-at-a-time); the rest each help.
+struct S;
+struct BLOCK {char unknown[0xC];struct S *owner;char tail[0x14];};
+struct F64 { char pad[0x40]; int u40; };
+struct S {
+    char pad0[0x148]; unsigned long u148_lo : 16; unsigned long u148_f : 4; unsigned long u148_hi : 44;
+    char pad1[0x260 - 0x150]; float f260; char pad2[0x2CC - 0x264]; float f2CC; float f2D0;
+    char pad3[0x314 - 0x2D4]; float f314; float f318; float f31C; float f320; float f324; float f328;
+    char pad4[0x350 - 0x32C]; int n350; int n354; int n358; int pad35C; float f360; int n364; char pad5[0x370 - 0x368];
+    float f370; float f374; float f378; int n37C; float f380; float f384; float f388;
+    char pad6[0x3D8 - 0x38C]; int n3D8; char pad7[0x3F0 - 0x3DC]; int n3F0; char pad8[0x3FC - 0x3F4]; int n3FC;
+    char pad9[0x4A0 - 0x400]; int n4A0; char padA[0xE64 - 0x4A4]; int nE64; int nE68; float fE6C; float fE70;
+    char padB[0xE78 - 0xE74]; int nE78; float fE7C; float fE80; int nE84; char padC[0xF40 - 0xE88]; int nF40; int padF44;
+    float fF48; float fF4C; float fF50; float fF54; float fF58; float fF5C; char padD[0xF64 - 0xF60]; struct F64 *pF64;
+    char padE[0xF80 - 0xF68]; int nF80; char padF[0xFBC - 0xF84]; int nFBC; char padG[0xFD0 - 0xFC0]; struct BLOCK block;
+    float fFF4; char padH[0x1000 - 0xFF8]; int n1000;
+};
+extern float D_002A8600;
+extern float D_002A8604;
+extern int D_002C3CF0;
+void func_00203948(struct S *p);
+void func_00205E70(void);
+struct F64 *func_0013E3C8(int a, void *b, int c, int d);
+void func_001A6CA8(struct F64 *p, int n);
+void func_002081C8(struct S *p);
+void func_00209768(struct BLOCK *p, struct S *s);
+
+void func_00205EB8(struct S *p)
+{
+    int v;
+    register int filter;
+    register int enabled __asm__("$3");
+    register int invalid __asm__("$6");
+    register int flags __asm__("$5");
+    register float a;
+    register float b;
+    register float limit;
+    func_00203948(p);
+    func_00205E70();
+    p->pF64 = func_0013E3C8(0x10, 0, 0x288, -1);
+    func_001A6CA8(p->pF64, 2);
+    v = p->pF64->u40;
+    if ((v ^ 1) & 1)
+        *(int *)v &= -3;
+    else
+        p->pF64->u40 = v & -3;
+    filter=0x29FF7E;enabled=1;invalid=-1;flags=0x20F800;
+    limit = D_002A8600;
+    {
+    register float medium=300.0f;
+    register float high __asm__("$f17")=1200.0f;
+    register float extent=800.0f;
+    register float stop __asm__("$f11")=450.0f;
+    register float speed __asm__("$f12")=600.0f;
+    register float minimum __asm__("$f13")=-100.0f;
+    register float start __asm__("$f10")=350.0f;
+    register float end __asm__("$f9")=1000.0f;
+    register float negativeExtent __asm__("$f7")=-800.0f;
+    register float far __asm__("$f8")=3000.0f;
+    register float turn __asm__("$f4")=16.0f;
+    register float lower __asm__("$f3")=5.5f;
+    register float distance __asm__("$f2")=20.0f;
+    register float upper=6.5f;
+    register float minimumAngleA;
+    register float minimumAngleB;
+    a = 0.785398245f;
+    b = 1.30899704f;
+    minimumAngleA=-a;minimumAngleB=-b;
+    p->fF50 = minimumAngleA;
+    p->fF54 = a;
+    p->fF58 = minimumAngleB;
+    p->fF5C = b;
+    p->f318 = high;
+    p->f320 = stop;
+    p->f324 = medium;
+    p->f328 = speed;
+    p->f2D0 = limit;
+    p->f370 = minimum;
+    p->f374 = start;
+    p->f378 = end;
+    p->f380 = negativeExtent;
+    p->f384 = extent;
+    p->f388 = far;
+    p->fE7C = turn;
+    p->fE80 = distance;
+    p->nE84 = 50;
+    p->fE6C = lower;
+    p->fE70 = upper;
+    p->n354 = filter;
+    p->fF48 = medium;
+    p->fF4C = high;
+    p->f314 = extent;
+    p->f31C = medium;
+    }
+    p->f2CC = limit;
+    p->n364 = enabled;
+    p->n37C = enabled;
+    p->nE64 = enabled;
+    p->nF40 = enabled;
+    p->nE68 = invalid;
+    p->nE78 = 0;
+    p->n350 = flags;
+    p->n358 = 0xF800;
+    p->f360 = -10.0f;
+    p->n4A0 = enabled;
+    p->f260 = 1.5f;
+    p->u148_f = 2;
+    p->n3F0 = -200;
+    p->nFBC = invalid;
+    p->fFF4 = D_002A8604;
+    p->n1000 = D_002C3CF0;
+    p->n3D8 = invalid;
+    p->nF80 = invalid;
+    p->n3FC = invalid;
+    func_002081C8(p);
+    func_00209768(&p->block, p);
+}
