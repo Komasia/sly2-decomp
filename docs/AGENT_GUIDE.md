@@ -292,3 +292,8 @@ _motionComp0's IPU wait loop). Add `// SLY2_NOLOOPFIX` to the file header: gnu_r
 whose loop body is plain single instructions as a raw `.word` in a noreorder block with a nop slot, so nothing is
 padded. It's opt-in per file, so use it only when the target shows an unpadded short loop where ours has 1–2 extra
 nops before the branch.
+
+## One shared `return 0` vs several (gcc setcc) (2026-10-17)
+When the target branches to a single shared `return 0` block but ours computes the result with slt/sltu/xori (a
+setcc) or repeats the return, write the early exits as `goto fail;` (or `break` out of the loop) to one shared
+`fail: return 0;`. That gave big drops on func_00136870, func_00154770 and func_00126A18.
