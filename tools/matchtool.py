@@ -108,6 +108,22 @@ def same_lenient(a, b):
     ops = {(0x1F, 0x3F), (0x3F, 0x1F), (0x1E, 0x37), (0x37, 0x1E)}
     return (a >> 26, b >> 26) in ops and (a & 0x03FFFFFF) == (b & 0x03FFFFFF)
 
+IMM_OPS = {0x02, 0x03, 0x08, 0x09, 0x0D, 0x0F, 0x18, 0x19, 0x1E, 0x1F, 0x20, 0x21, 0x23, 0x24, 0x25, 0x27, 0x28, 0x29,
+           0x2B, 0x31, 0x36, 0x37, 0x39, 0x3E, 0x3F}
+
+def aligned_diffs(tgt, words):
+    """Differences after aligning the two instruction streams (an extra/missing instruction counts once instead of
+    shifting everything after it).  Immediates of address-forming ops are ignored for the alignment."""
+    import difflib
+    def key(w):
+        op = w >> 26
+        if op in (0x02, 0x03): return w & 0xFC000000
+        if op in IMM_OPS: return w & 0xFFFF0000
+        return w
+    a = [key(w) for w in tgt]; b = [key(w) for w in words]
+    m = sum(bl.size for bl in difflib.SequenceMatcher(None, a, b, autojunk=False).get_matching_blocks())
+    return max(len(a), len(b)) - m
+
 def compare(name, words, rel, verbose=True):
     funcs = load_functions()
     if name not in funcs:
@@ -126,13 +142,14 @@ def compare(name, words, rel, verbose=True):
                 continue
             diffs.append(i)
     score = 1.0 - len(diffs) / n if n else 0
+    aligned = aligned_diffs(tgt, words) if diffs else 0
     lines = []
     if verbose and diffs:
         for i in range(n):
             a = tgt[i] if i < len(tgt) else None; b = words[i] if i < len(words) else None
             mark = '  ' if i not in diffs else '!!'
             lines.append(f'{mark} {addr + 4*i:08X}  {disasm(a, addr+4*i) if a is not None else "-":40s} | {disasm(b, addr+4*i) if b is not None else "-"}')
-    return score, (f'{name} @0x{addr:06X}: {("MATCH*" if lenient_hits else "MATCH") if not diffs else f"{len(diffs)}/{n} instructions differ ({score:.1%})"}', lines)
+    return score, (f'{name} @0x{addr:06X}: {("MATCH*" if lenient_hits else "MATCH") if not diffs else f"{len(diffs)}/{n} instructions differ ({score:.1%}); aligned {aligned}"}', lines)
 
 def compile_src(src):
     out = tempfile.mktemp(suffix='.o')

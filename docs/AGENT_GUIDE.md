@@ -261,3 +261,9 @@ Write that local and use it in every place the original reads the register. This
 If a function passes an M3 (3x3 matrix) returned by one call straight into another, write a `static inline` helper that
 takes the M3 by value, and call it directly with the call that returns it: `Helper(GetMat(...), ...)`. This removes
 the extra stack copy and matched func_00231300 and func_0014E1A8.
+
+## Aligned difference count (2026-10-17)
+`matchtool.py check` now also prints `aligned N`: the number of differences after lining up the two instruction
+streams. With a positional count, one extra or missing instruction shifts every later instruction, so a draft that
+is really 5 instructions off can show as 100+. RANKING.csv is sorted by the aligned count (column `aligned`). Use it
+to judge how close a draft really is. Only an exact MATCH counts.
