@@ -1,3 +1,4 @@
+/* wip (Claude agent, nonvu12, 2026-10-17): aligned 31 (v1 50). plo1 field store via (int*)((char*)plo1+0x50) gives the plo1 reload; cid==0x84||cid==0x85 now gives addiu/sltiu; decl order oid,cid,cb,n fixes oid=s4. Left: pbis s3 vs target s5 (cid s5 vs s3), dead li v1,0x84 before li v1,1. */
 struct VT { short d; short pad; void *f; };
 struct IF { struct VT *vt; int x4; int x8; };
 struct LO { char pad[0xC]; struct VT *vt; char pad2[0x50 - 0x10]; int x50; };
