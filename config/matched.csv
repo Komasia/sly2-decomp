@@ -1016,6 +1016,7 @@ func_0011E958,0x11E958,39,match,src/hand/func_0011E958.c
 func_0011E9F8,0x11E9F8,26,match,src/hand/func_0011E9F8.c
 func_0011EBB0,0x11EBB0,98,match,src/hand/func_0011EBB0.c
 func_0011EF08,0x11EF08,41,match,src/hand/func_0011EF08.c
+func_0011EFB0,0x11EFB0,54,match,src/hand/func_0011EFB0.c
 func_0011F198,0x11F198,56,match,src/hand/func_0011F198.c
 func_0011F288,0x11F288,12,match,src/hand/func_0011F288.c
 func_0011F2B8,0x11F2B8,12,match,src/hand/func_0011F2B8.c
@@ -4646,6 +4647,7 @@ func_001FC708,0x1FC708,14,match,src/auto/func_001FC708.c
 func_001FC740,0x1FC740,77,match,src/hand/func_001FC740.c
 func_001FC878,0x1FC878,76,match,src/hand/func_001FC878.c
 func_001FC9A8,0x1FC9A8,2,match,src/auto/func_001FC9A8.c
+func_001FC9B0,0x1FC9B0,126,match,src/hand/func_001FC9B0.c
 func_001FCBA8,0x1FCBA8,33,match,src/hand/func_001FCBA8.c
 func_001FCC30,0x1FCC30,24,match,src/hand/func_001FCC30.c
 func_001FCC90,0x1FCC90,4,match,src/auto/func_001FCC90.c
@@ -5808,6 +5810,7 @@ __main__Fv,0x23B7D8,8,match,src/lib/__main__Fv.cpp
 __divdi3,0x23B7F8,443,match,src/lib/__divdi3.c
 __fixunsdfdi,0x23BEE8,59,match,src/lib/__fixunsdfdi.c
 __floatdidf,0x23BFE0,38,match,src/lib/__floatdidf.c
+__floatdisf,0x23C078,56,match,src/lib/__floatdisf.c
 __moddi3,0x23C158,410,match,src/lib/__moddi3.c
 __muldi3,0x23C7C0,24,match,src/lib/__muldi3.c
 __pure_virtual,0x23C820,2,match,src/lib/__pure_virtual.c
@@ -5841,6 +5844,8 @@ __get_eh_info,0x23E3C0,10,match,src/lib/__get_eh_info.c
 eh_context_initialize,0x23E3E8,10,match,src/lib/eh_context_initialize.c
 eh_context_static,0x23E410,26,match,src/lib/eh_context_static.c
 __get_dynamic_handler_chain,0x23E478,10,match,src/lib/__get_dynamic_handler_chain.c
+__sjthrow,0x23E4A0,94,match,src/lib/__sjthrow.c
+__sjpopnthrow,0x23E618,70,match,src/lib/__sjpopnthrow.c
 __eh_rtime_match,0x23E730,18,match,src/lib/__eh_rtime_match.c
 func_0023E778,0x23E778,2,match,src/auto/func_0023E778.c
 func_0023E780,0x23E780,2,match,src/auto/func_0023E780.c
@@ -5932,6 +5937,7 @@ scePadSetButtonInfo,0x243AC0,44,match,src/lib/scePadSetButtonInfo.c
 scePadInfoPressMode,0x243B70,23,match,src/lib/scePadInfoPressMode.c
 scePadEnterPressMode,0x243BD0,21,match,src/lib/scePadEnterPressMode.c
 scePadGetModVersion,0x243C40,25,match,src/lib/scePadGetModVersion.c
+sceMcInit,0x243CB0,138,match,src/lib/sceMcInit.c
 func_00243ED8,0x243ED8,3,match,src/lib/func_00243ED8.c
 sceMcOpen,0x243EF0,74,match,src/lib/sceMcOpen.c
 sceMcMkdir,0x244018,13,match,src/lib/sceMcMkdir.c
@@ -6082,6 +6088,7 @@ sceIpuStopDMA,0x254988,57,match,src/lib/sceIpuStopDMA.c
 sceIpuRestartDMA,0x254A70,84,match,src/lib/sceIpuRestartDMA.c
 sceIpuSync,0x254BC0,26,match,src/lib/sceIpuSync.c
 setD4_CHCR_254C28,0x254C28,29,match,src/lib/setD4_CHCR_254C28.c
+sceIpuInit,0x254CA0,142,match,src/lib/sceIpuInit.c
 func_00254ED8,0x254ED8,5,match,src/lib/func_00254ED8.c
 func_00254EF0,0x254EF0,3,match,src/lib/func_00254EF0.c
 func_00254F00,0x254F00,104,match,src/lib/func_00254F00.c
