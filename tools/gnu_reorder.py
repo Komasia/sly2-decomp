@@ -172,7 +172,46 @@ def libm_div_nops(text):
         out.append(l); i += 1
     return '\n'.join(out)
 
-def assemble(s_path, obj, root, mode='gnu-reorder', divnop=False):
+def no_loop_fix(text):
+    """'// SLY2_NOLOOPFIX': GNU as for the R5900 pads every short loop it assembles in reorder mode (and rejects one
+    in noreorder); Sony's assembler didn't pad some (libmpeg _motionComp0's IPU wait loop).  For a backward branch
+    whose loop body is plain single instructions, emit the branch as a raw .word in a noreorder block with a nop slot
+    (the slot pin_loop_branches would give it anyway), so GNU as neither pads nor complains."""
+    import asfix
+    L = text.split('\n')
+    labels = {}
+    for i, l in enumerate(L):
+        m = re.match(r'^(\$L\d+|\.L\w+):', l)
+        if m: labels[m.group(1)] = i
+    out = []; noreorder = False
+    for i, l in enumerate(L):
+        st = l.strip()
+        if st in ('.set\tnoreorder', '.set noreorder'): noreorder = True
+        elif st in ('.set\treorder', '.set reorder'): noreorder = False
+        m = re.match(r'^(\s+)(b\w*)\s+(.*)$', l)
+        if m and not noreorder and m.group(2) in asfix.COND:
+            ops = [o.strip() for o in m.group(3).split(',')]
+            target = ops[-1]
+            if target in labels and labels[target] < i:
+                n = 0; ok = True
+                for q in range(labels[target] + 1, i):
+                    c = asfix.classify(L[q])
+                    if c[0] in ('blank', 'dir', 'label'):     # labels: pin_loop_branches' $Lgr_pin labels
+                        if c[0] == 'dir' and not c[1].startswith('.set'): ok = False; break
+                        continue
+                    if c[0] != 'insn' or asfix.JUMPY.match(c[1]) or asfix.multi(c[1], c[2]) or c[1] in ('li', 'la', 'dli', 'li.s', 'li.d'):
+                        ok = False; break
+                    n += 1
+                if ok and n:
+                    ind = m.group(1)
+                    w = asfix.encode(m.group(2), ops[:-1], -(n + 1))
+                    out += [ind + '.set\tnoreorder', ind + '.word 0x%08X  # %s %s' % (w, m.group(2), m.group(3)),
+                            ind + 'nop', ind + '.set\treorder']
+                    continue
+        out.append(l)
+    return '\n'.join(out)
+
+def assemble(s_path, obj, root, mode='gnu-reorder', divnop=False, noloopfix=False):
     g = os.path.join(root, 'tools', 'compilers', 'ee-gcc2.96')
     txt = open(s_path).read()
     if mode == 'gnu-reorg':
@@ -183,6 +222,8 @@ def assemble(s_path, obj, root, mode='gnu-reorder', divnop=False):
     txt = mfc1_branch_nop(txt)
     if divnop:
         txt = libm_div_nops(txt)
+    if noloopfix:
+        txt = no_loop_fix(txt)
     s2 = s_path + '.gr.s'
     open(s2, 'w').write(txt)
     p = subprocess.run([os.path.join(g, 'ee', 'bin', 'as'), '-G0', '-EL', '-mabi=eabi', '-o', obj, s2],

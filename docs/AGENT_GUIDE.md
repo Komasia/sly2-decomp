@@ -284,3 +284,11 @@ that nop is gcc's loop-head alignment (`.p2align 3`). gcc emits it only for real
 loops built from gotos (and not after a loop rotation that gcc doesn't recognise as a loop). It is NOT an assembler
 rule. Rewrite that loop as a real loop. If gcc then hoists constants out of it (loop.c), work on that next. Seen in
 func_001F2500 and func_0012D508.
+
+## SLY2_NOLOOPFIX: Sony code whose short loops are NOT padded (2026-10-17)
+On the SDK assembly path, GNU as pads every short loop it assembles in reorder mode (the R5900 erratum fix). It has no
+option to turn that off, and it rejects such a loop in noreorder. Sony's assembler didn't pad some loops (libmpeg
+_motionComp0's IPU wait loop). Add `// SLY2_NOLOOPFIX` to the file header: gnu_reorder then emits each backward branch
+whose loop body is plain single instructions as a raw `.word` in a noreorder block with a nop slot, so nothing is
+padded. It's opt-in per file, so use it only when the target shows an unpadded short loop where ours has 1–2 extra
+nops before the branch.
