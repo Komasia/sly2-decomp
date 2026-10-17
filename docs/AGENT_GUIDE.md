@@ -303,3 +303,9 @@ gcc's reorg never puts an inline-asm instruction in a branch delay slot. If the 
 in a delay slot (or scheduled across a branch) and ours has it as an asm statement, write the move as plain C (a
 union/cast between the vector, qword and float views, or a plain assignment) so gcc emits it and can schedule it.
 This matched func_0011EE08 and func_00151700.
+
+## Empty asm barriers cost a scheduler slot (2026-10-17)
+An empty `__asm__ volatile("")` used to force a reload isn't free: gcc's scheduler counts it as an instruction, so the
+code around it gets ordered differently. If a draft has one and the target's order around that spot differs, replace
+the barrier with a plain local of the right type (e.g. a `qword` local holding the reloaded value). That matched
+func_00223A70 and took func_0020A818 from 14 to 2.
