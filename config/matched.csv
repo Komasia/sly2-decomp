@@ -4833,6 +4833,7 @@ func_00205D10,0x205D10,2,match,src/auto/func_00205D10.c
 func_00205D18,0x205D18,77,match,src/auto/func_00205D18.c
 func_00205E50,0x205E50,8,match,src/auto/func_00205E50.c
 func_00205E70,0x205E70,17,match,src/auto/func_00205E70.c
+func_00205EB8,0x205EB8,145,match,src/hand/func_00205EB8.c
 func_00206100,0x206100,27,match,src/auto/func_00206100.c
 func_00206170,0x206170,26,match,src/hand/func_00206170.cpp
 func_002061D8,0x2061D8,104,match,src/hand/func_002061D8.c
@@ -5457,6 +5458,7 @@ UNoise__Fi,0x22BE08,22,match,src/hand/UNoise__Fi.cpp
 UNoise__Ffff,0x22BE60,55,match,src/hand/UNoise__Ffff.cpp
 UBias__Fff,0x22BF40,12,match,src/auto/UBias__Fff.c
 GFromOnz__FP3ONZ,0x22BF70,45,match,src/hand/GFromOnz__FP3ONZ.cpp
+UpdateWrMatrixes__FP2WR,0x22C028,225,match,src/hand/UpdateWrMatrixes__FP2WR.cpp
 AddWrCircleWarp__FP2WR,0x22C3B0,32,match,src/hand/AddWrCircleWarp__FP2WR.cpp
 AddWrBendWarp__FP2WR,0x22C430,28,match,src/hand/AddWrBendWarp__FP2WR.cpp
 PwreGetWrCur__FP2WR4ENSK4WREK,0x22C4A0,13,match,src/auto/PwreGetWrCur__FP2WR4ENSK4WREK.c
