@@ -1639,6 +1639,7 @@ func_0013FA30,0x13FA30,39,match,src/hand/func_0013FA30.c
 func_0013FAD0,0x13FAD0,27,match,src/hand/func_0013FAD0.c
 func_0013FE18,0x13FE18,77,match,src/auto/func_0013FE18.c
 func_0013FF50,0x13FF50,8,match,src/auto/func_0013FF50.c
+func_0013FF70,0x13FF70,81,match,src/hand/func_0013FF70.c
 func_001400B8,0x1400B8,160,match,src/hand/func_001400B8.c
 func_00140338,0x140338,38,match,src/hand/func_00140338.c
 func_001403D0,0x1403D0,98,match,src/hand/func_001403D0.c
@@ -2375,6 +2376,7 @@ __4CRef,0x167310,4,match,src/auto/__4CRef.c
 func_00167870,0x167870,190,match,src/hand/func_00167870.c
 func_00167B68,0x167B68,142,match,src/hand/func_00167B68.cpp
 func_00167DA0,0x167DA0,45,match,src/hand/func_00167DA0.c
+func_00167E58,0x167E58,72,match,src/hand/func_00167E58.c
 func_00167F78,0x167F78,17,match,src/hand/func_00167F78.c
 func_00167FC0,0x167FC0,123,match,src/hand/func_00167FC0.cpp
 func_001681B0,0x1681B0,17,match,src/auto/func_001681B0.c
@@ -3303,6 +3305,7 @@ func_001AE9A8,0x1AE9A8,16,match,src/auto/func_001AE9A8.c
 func_001AE9E8,0x1AE9E8,21,match,src/hand/func_001AE9E8.c
 func_001AEA40,0x1AEA40,25,match,src/hand/func_001AEA40.c
 func_001AEAA8,0x1AEAA8,270,match,src/hand/func_001AEAA8.c
+func_001AEEE0,0x1AEEE0,297,match,src/hand/func_001AEEE0.cpp
 func_001AF388,0x1AF388,2,match,src/auto/func_001AF388.c
 func_001AF390,0x1AF390,64,match,src/hand/func_001AF390.c
 func_001AF490,0x1AF490,17,match,src/hand/func_001AF490.c
@@ -4670,6 +4673,7 @@ func_001FD700,0x1FD700,75,match,src/hand/func_001FD700.c
 func_001FD830,0x1FD830,133,match,src/hand/func_001FD830.c
 func_001FDA48,0x1FDA48,88,match,src/hand/func_001FDA48.c
 func_001FDBA8,0x1FDBA8,23,match,src/hand/func_001FDBA8.c
+func_001FDC08,0x1FDC08,174,match,src/hand/func_001FDC08.cpp
 func_001FDEC0,0x1FDEC0,2,match,src/auto/func_001FDEC0.c
 func_001FDEC8,0x1FDEC8,136,match,src/hand/func_001FDEC8.c
 func_001FE0E8,0x1FE0E8,25,match,src/hand/func_001FE0E8.c
@@ -5202,6 +5206,7 @@ WriteTftPchz__FP3TFTP5OSTRMPc,0x21D9F0,81,match,src/hand/WriteTftPchz__FP3TFTP5O
 FNegTftUl__FP3TFTP2UL,0x21DB38,56,match,src/hand/FNegTftUl__FP3TFTP2UL.cpp
 UnRadixFromChConversion__Fc,0x21DC18,21,match,src/hand/UnRadixFromChConversion__Fc.c
 CchAchFromUl__FPciUlUi,0x21DC70,52,match,src/hand/CchAchFromUl__FPciUlUi.cpp
+WriteTftUl__FP3TFTP5OSTRMUl,0x21DD40,193,match,src/hand/WriteTftUl__FP3TFTP5OSTRMUl.cpp
 ExpFirstFromG__Fd,0x21E048,36,match,src/hand/ExpFirstFromG__Fd.cpp
 func_0021E0D8,0x21E0D8,54,match,src/hand/func_0021E0D8.c
 CchAchFromDouble__FPciP3TFTd,0x21E1B0,194,match,src/hand/CchAchFromDouble__FPciP3TFTd.cpp
@@ -5861,6 +5866,7 @@ __rethrow,0x23F058,121,match,src/lib/__rethrow.c
 decode_uleb128,0x23F240,17,match,src/lib/decode_uleb128.c
 decode_sleb128,0x23F288,20,match,src/lib/decode_sleb128.c
 fde_merge,0x23F2D8,63,match,src/lib/fde_merge.c
+end_fde_sort,0x23F3D8,153,match,src/lib/end_fde_sort.c
 count_fdes,0x23F640,18,match,src/lib/count_fdes.c
 add_fdes,0x23F688,34,match,src/lib/add_fdes.c
 frame_init,0x23F710,79,match,src/lib/frame_init.c
@@ -5992,6 +5998,7 @@ GetRomName,0x24A7B0,28,match,src/lib/GetRomName.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
 sceScfGetLanguage,0x24A860,24,match,src/lib/sceScfGetLanguage.c
 _clearOnce,0x24A908,51,match,src/lib/_clearOnce.c
+sceMpegCreate,0x24A9D8,142,match,src/lib/sceMpegCreate.c
 _clearEach,0x24AC10,50,match,src/lib/_clearEach.c
 _decodeOrSkipFrame,0x24B148,92,match,src/lib/_decodeOrSkipFrame.c
 _decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
