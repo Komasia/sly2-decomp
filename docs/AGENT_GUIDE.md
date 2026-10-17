@@ -313,3 +313,7 @@ func_00223A70 and took func_0020A818 from 14 to 2.
 ## Scoped object with an explicit ctor/dtor (2026-10-17)
 If the target constructs a stack object, calls the constructor, and at the end calls `dtor(this, 2)`, declare that object
 (e.g. FRAME) at function scope and write the ctor and dtor calls out explicitly. Matched func_0013B860.
+
+## Share variables across switch cases (2026-10-17)
+If the target reuses a "stale" pointer that an earlier case or block assigned, declare those pointers once at function
+scope and reuse them in every block rather than giving each block its own locals. Matched func_001281B0 (108 → 0).
