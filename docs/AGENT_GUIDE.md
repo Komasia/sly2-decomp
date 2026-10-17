@@ -326,3 +326,8 @@ If the target moves a float out of a VU qword with a single `mtc1`, write one as
 When an old draft models a stack area as a local struct, check whether it's really the function's own parameters stored
 to the stack (for example, arguments whose addresses are taken, or varargs-style spills). Use the parameters directly or take
 their addresses. Matched func_0014E4C8 (20 → 0).
+
+## For big, far-off drafts, rewrite fresh instead of patching (2026-10-17)
+_PES_packet (~1900 instructions) matched in one session when it was written fresh from the asm plus the known library
+structure: 339 → 38 → 29 → 17 → 12 → 0. Old m2c-based drafts with aligned > 20 often carry wrong structure that's slow to
+patch out, so prefer a clean rewrite, built section by section, and recheck the aligned count after each section.
