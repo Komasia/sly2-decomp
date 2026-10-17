@@ -3370,6 +3370,7 @@ func_001B2398,0x1B2398,52,match,src/hand/func_001B2398.c
 func_001B26C8,0x1B26C8,77,match,src/auto/func_001B26C8.c
 func_001B2800,0x1B2800,8,match,src/auto/func_001B2800.c
 func_001B2820,0x1B2820,2,match,src/auto/func_001B2820.c
+func_001B2828,0x1B2828,70,match,src/hand/func_001B2828.c
 func_001B2940,0x1B2940,36,match,src/hand/func_001B2940.c
 func_001B29D0,0x1B29D0,44,match,src/hand/func_001B29D0.c
 Reset__15CQueueOutputIop,0x1B2A80,7,match,src/hand/Reset__15CQueueOutputIop.cpp
@@ -3411,6 +3412,7 @@ func_001B4888,0x1B4888,86,match,src/hand/func_001B4888.c
 func_001B49E0,0x1B49E0,47,match,src/hand/func_001B49E0.c
 func_001B4AA0,0x1B4AA0,358,match,src/hand/func_001B4AA0.cpp
 func_001B5038,0x1B5038,30,match,src/hand/func_001B5038.c
+func_001B50B0,0x1B50B0,179,match,src/hand/func_001B50B0.c
 func_001B5380,0x1B5380,182,match,src/hand/func_001B5380.c
 func_001B5820,0x1B5820,91,match,src/hand/func_001B5820.c
 func_001B5D30,0x1B5D30,90,match,src/hand/func_001B5D30.c
@@ -5513,6 +5515,7 @@ func_00233048,0x233048,16,match,src/lib/func_00233048.c
 func_00233088,0x233088,18,match,src/lib/func_00233088.c
 func_002330D0,0x2330D0,20,match,src/lib/func_002330D0.c
 func_00233130,0x233130,16,match,src/lib/func_00233130.c
+memcmp,0x233178,37,match,src/lib/memcmp.c
 memcpy,0x23320C,43,match,src/lib/memcpy.c
 memmove,0x2332B8,63,match,src/lib/memmove.c
 memset,0x2333B4,46,match,src/lib/memset.c
@@ -5895,9 +5898,11 @@ cmd_sem_init,0x241A30,57,match,src/lib/cmd_sem_init.c
 cdvd_exit,0x241B18,40,match,src/lib/cdvd_exit.c
 _sceCd_Poff_Intr,0x241BB8,21,match,src/lib/_sceCd_Poff_Intr.c
 PowerOffCB,0x241C10,30,match,src/lib/PowerOffCB.c
+_sceCd_ncmd_prechk,0x241C98,86,match,src/lib/_sceCd_ncmd_prechk.c
 sceCdNcmdDiskReady,0x241DF0,38,match,src/lib/sceCdNcmdDiskReady.c
 sceCdSync,0x241E88,40,match,src/lib/sceCdSync.c
 sceCdSyncS,0x241F28,27,match,src/lib/sceCdSyncS.c
+_sceCd_scmd_prechk,0x241F98,86,match,src/lib/_sceCd_scmd_prechk.c
 sceCdGetReadPos,0x242810,12,match,src/lib/sceCdGetReadPos.c
 sceCdRead,0x242840,120,match,src/lib/sceCdRead.c
 sceCdGetDiskType2,0x242A20,38,match,src/lib/sceCdGetDiskType2.c
