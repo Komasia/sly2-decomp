@@ -336,3 +336,7 @@ patch out, so prefer a clean rewrite, built section by section, and recheck the 
 The libm float functions (acosf, asinf, powf, ...) were built with the **-01** compiler variant, ee-gcc2.9-991111-01. Its
 `div.s` comes out as `nop; nop; div.s` and is never put in a delay slot. With that compiler, leave SLY2_DIVNOP out
 (not even in a comment). If another Sony function's only remaining diff is a div/delay-slot gap, try the -01 variant.
+
+## An unexplained alignment nop may be a dead loop (2026-10-17)
+__unpack_d had a stray alignment nop that turned out to be the `.p2align` of a loop that never runs, here fp-bit's
+denormal-normalising `while`. Write that loop out as in the original library source, even when it looks dead.
