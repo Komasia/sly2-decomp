@@ -1923,6 +1923,7 @@ func_0014E698,0x14E698,13,match,src/hand/func_0014E698.c
 func_0014E768,0x14E768,110,match,src/hand/func_0014E768.c
 func_0014E920,0x14E920,18,match,src/auto/func_0014E920.c
 func_0014E968,0x14E968,40,match,src/hand/func_0014E968.c
+func_0014EA08,0x14EA08,90,match,src/hand/func_0014EA08.c
 func_0014EB70,0x14EB70,139,match,src/hand/func_0014EB70.cpp
 func_0014F030,0x14F030,3,match,src/auto/func_0014F030.c
 func_0014F268,0x14F268,40,match,src/hand/func_0014F268.c
