@@ -1,4 +1,4 @@
-// v3 (Claude agent): DistanceXY/Distance loads as plain C into register vars (gcc emits qmtc2/lqc2): 20 -> 13 diffs, aligned 7.
+// v3 (Claude agent): DistanceXY/Distance loads as plain C register vars + func_002562A8 returns X* (ctor): 11/240, aligned 5. Left: sq/lw order around 2nd func_001A62E8 call; Moved() setcc addiu 1 scheduled before vsub (a0) vs after vmaddz (v0).
 // v2 (Claude agent): plain C store of func_001A62E8 result (183->20 diffs); remaining: sq/lw order around 2nd call, addiu/lui scheduling vs VU asm.
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
@@ -23,7 +23,7 @@ int func_00175D00(C*);
 void func_00176458(C*,int);
 qword func_001A62E8(P*);
 void*func_001C0D70(qword,int);
-void func_002562A8(X*);
+X *func_002562A8(X*);
 void func_0017DD38(void*,X*);
 int func_00175748(void*);
 int func_0017B7F8(void*);

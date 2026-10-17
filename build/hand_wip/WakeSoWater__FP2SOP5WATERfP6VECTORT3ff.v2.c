@@ -1,4 +1,4 @@
-// WIP v2 (Claude agent): u/dtWait share one variable (fixes f12): 21/337, aligned 10. Left: a.x10/a.xC store order, C-struct float const store scheduling.
+// WIP v2 (Claude agent): u/dtWait share one variable (fixes f12) + C float fields assigned in offset order: 23/337, aligned 9. Left: a.x10/a.xC store order; c.g38 (f20) store sinks to the end, const load order.
 typedef int qword __attribute__((mode(TI)));
 typedef struct VTE { short d; short pad; qword (*pfn)(void *); } VTE;
 typedef struct VT { VTE a[64]; } VT;
@@ -132,12 +132,12 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                         c.gC = 1.0f;
                         c.v10 = p->pxE8->v;
                         c.v20 = D_002A2DC0;
-                        c.g3C = 5.0f;
                         c.g38 = 1.0f;
+                        c.g3C = 5.0f;
+                        c.g40 = 0.39269909f;
                         c.g44 = 1.0471976f;
                         c.g60 = 1.0f;
                         c.g68 = -1.0f;
-                        c.g40 = 0.39269909f;
                         dd = c;
                     }
                     {
