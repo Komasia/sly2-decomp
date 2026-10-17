@@ -345,3 +345,8 @@ denormal-normalising `while`. Write that loop out as in the original library sou
 Many old drafts pin variables to registers (`register int x asm("$16")`) from earlier tries. Taking the pins out cut
 func_001A64E8 from 26 to 8 and func_001FEA60 from 38 to 6. Removing ALL pins at once made 15 of 16 drafts worse, so
 take them out ONE AT A TIME and keep each removal only if the aligned count drops (func_001A4AD8 17→12).
+
+## "memory" clobbers fix the order of scratch stores (2026-10-17)
+If an asm writes to scratch memory (stack or scratchpad) and the target orders loads and stores around it differently,
+add a `"memory"` clobber to those asm statements so gcc doesn't move memory accesses across them. This matched
+UpdateWrMatrixes__FP2WR (14 → 0).
