@@ -317,3 +317,7 @@ If the target constructs a stack object, calls the constructor, and at the end c
 ## Share variables across switch cases (2026-10-17)
 If the target reuses a "stale" pointer that an earlier case or block assigned, declare those pointers once at function
 scope and reuse them in every block rather than giving each block its own locals. Matched func_001281B0 (108 → 0).
+
+## Float from a qword: mtc1 instead of qmfc2 (2026-10-17)
+If the target moves a float out of a VU qword with a single `mtc1`, write one asm that takes the qword as input and emits
+`mtc1` directly, rather than `qmfc2 "=r"` into an int followed by a cast. Matched func_00145DB0 and func_001462A8.
