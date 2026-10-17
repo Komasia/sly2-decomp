@@ -331,3 +331,8 @@ their addresses. Matched func_0014E4C8 (20 → 0).
 _PES_packet (~1900 instructions) matched in one session when it was written fresh from the asm plus the known library
 structure: 339 → 38 → 29 → 17 → 12 → 0. Old m2c-based drafts with aligned > 20 often carry wrong structure that's slow to
 patch out, so prefer a clean rewrite, built section by section, and recheck the aligned count after each section.
+
+## Sony libm uses ee-gcc2.9-991111-01 (2026-10-17)
+The libm float functions (acosf, asinf, powf, ...) were built with the **-01** compiler variant, ee-gcc2.9-991111-01. Its
+`div.s` comes out as `nop; nop; div.s` and is never put in a delay slot. With that compiler, leave SLY2_DIVNOP out
+(not even in a comment). If another Sony function's only remaining diff is a div/delay-slot gap, try the -01 variant.
