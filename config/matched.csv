@@ -1021,6 +1021,7 @@ func_0011F288,0x11F288,12,match,src/hand/func_0011F288.c
 func_0011F2B8,0x11F2B8,12,match,src/hand/func_0011F2B8.c
 func_0011F2E8,0x11F2E8,77,match,src/auto/func_0011F2E8.c
 func_0011F420,0x11F420,8,match,src/auto/func_0011F420.c
+func_0011FEC8,0x11FEC8,258,match,src/hand/func_0011FEC8.cpp
 func_001202D0,0x1202D0,11,match,src/auto/func_001202D0.c
 func_00120300,0x120300,11,match,src/auto/func_00120300.c
 func_00120330,0x120330,15,match,src/hand/func_00120330.c
