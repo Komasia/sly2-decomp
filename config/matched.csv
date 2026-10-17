@@ -1,5 +1,7 @@
 name,addr,n_instr,status,source
 _start,0x100008,132,match,src/hand/_start.c
+func_00100218,0x100218,2,match,src/hand/func_00100218.c
+func_00100220,0x100220,2,match,src/hand/func_00100220.c
 func_00100228,0x100228,31,match,src/hand/func_00100228.cpp
 func_001002A8,0x1002A8,42,match,src/splicewrap/func_001002A8.c
 func_00100350,0x100350,42,match,src/splicewrap/func_00100350.c
@@ -1034,6 +1036,7 @@ func_00120488,0x120488,12,match,src/auto/func_00120488.c
 func_001204B8,0x1204B8,12,match,src/auto/func_001204B8.c
 func_001204E8,0x1204E8,12,match,src/auto/func_001204E8.c
 func_00120518,0x120518,12,match,src/auto/func_00120518.c
+func_001205B8,0x1205B8,141,match,src/hand/func_001205B8.cpp
 func_001207F0,0x1207F0,12,match,src/auto/func_001207F0.c
 func_00120820,0x120820,8,match,src/hand/func_00120820.c
 func_00120840,0x120840,8,match,src/hand/func_00120840.c
@@ -1232,6 +1235,7 @@ func_00127FE0,0x127FE0,77,match,src/auto/func_00127FE0.c
 _GLOBAL_$I$g_gc,0x128118,8,match,src/auto/_GLOBAL_$I$g_gc.c
 func_00128138,0x128138,3,match,src/auto/func_00128138.c
 func_00128148,0x128148,25,match,src/auto/func_00128148.c
+func_001281B0,0x1281B0,266,match,src/hand/func_001281B0.c
 func_001285D8,0x1285D8,66,match,src/hand/func_001285D8.c
 func_001286E0,0x1286E0,200,match,src/hand/func_001286E0.c
 func_00128A00,0x128A00,80,match,src/auto/func_00128A00.c
@@ -1653,6 +1657,7 @@ func_001403D0,0x1403D0,98,match,src/hand/func_001403D0.c
 func_00140558,0x140558,72,match,src/hand/func_00140558.c
 func_00140678,0x140678,28,match,src/hand/func_00140678.c
 func_001406E8,0x1406E8,25,match,src/hand/func_001406E8.c
+func_00140750,0x140750,154,match,src/hand/func_00140750.c
 func_001409B8,0x1409B8,11,match,src/auto/func_001409B8.c
 func_001409E8,0x1409E8,68,match,src/hand/func_001409E8.c
 func_00140AF8,0x140AF8,77,match,src/hand/func_00140AF8.c
@@ -1760,12 +1765,14 @@ func_00145CD0,0x145CD0,11,match,src/hand/func_00145CD0.c
 func_00145D00,0x145D00,26,match,src/hand/func_00145D00.c
 func_00145D68,0x145D68,14,match,src/auto/func_00145D68.c
 func_00145DA0,0x145DA0,4,match,src/auto/func_00145DA0.c
+func_00145DB0,0x145DB0,174,match,src/hand/func_00145DB0.c
 func_00146068,0x146068,59,match,src/hand/func_00146068.c
 func_00146158,0x146158,27,match,src/auto/func_00146158.c
 func_001461C8,0x1461C8,11,match,src/hand/func_001461C8.c
 func_001461F8,0x1461F8,26,match,src/hand/func_001461F8.c
 func_00146260,0x146260,14,match,src/auto/func_00146260.c
 func_00146298,0x146298,4,match,src/auto/func_00146298.c
+func_001462A8,0x1462A8,174,match,src/hand/func_001462A8.c
 func_00146560,0x146560,59,match,src/hand/func_00146560.c
 func_00146650,0x146650,27,match,src/auto/func_00146650.c
 func_001466C0,0x1466C0,11,match,src/hand/func_001466C0.c
@@ -1802,6 +1809,7 @@ func_00148738,0x148738,2,match,src/auto/func_00148738.c
 func_00148740,0x148740,23,match,src/hand/func_00148740.c
 func_001487A0,0x1487A0,47,match,src/hand/func_001487A0.c
 func_00148860,0x148860,30,match,src/hand/func_00148860.c
+func_001488D8,0x1488D8,103,match,src/hand/func_001488D8.c
 func_00148A78,0x148A78,32,match,src/hand/func_00148A78.c
 func_00148AF8,0x148AF8,7,match,src/auto/func_00148AF8.c
 func_00148B18,0x148B18,7,match,src/auto/func_00148B18.c
@@ -1878,6 +1886,7 @@ CpchzTokenizePath__FPc,0x14B7F8,111,match,src/hand/CpchzTokenizePath__FPc.cpp
 func_0014B9C0,0x14B9C0,15,match,src/auto/func_0014B9C0.c
 SetCdMmode__Fv,0x14BA00,11,match,src/auto/SetCdMmode__Fv.c
 StartupCd__Fv,0x14BA30,2,match,src/auto/StartupCd__Fv.c
+UpdateCd__Fv,0x14BA38,93,match,src/hand/UpdateCd__Fv.cpp
 CdPath__FPcT0i,0x14BBB0,49,match,src/hand/CdPath__FPcT0i.cpp
 func_0014BC78,0x14BC78,45,match,src/hand/func_0014BC78.c
 FCdCompleted__Fi,0x14BD30,8,match,src/auto/FCdCompleted__Fi.c
@@ -1929,6 +1938,7 @@ func_0014E148,0x14E148,8,match,src/auto/func_0014E148.c
 func_0014E168,0x14E168,15,match,src/auto/func_0014E168.c
 func_0014E1A8,0x14E1A8,49,match,src/hand/func_0014E1A8.c
 func_0014E270,0x14E270,44,match,src/hand/func_0014E270.c
+func_0014E4C8,0x14E4C8,116,match,src/hand/func_0014E4C8.c
 func_0014E698,0x14E698,13,match,src/hand/func_0014E698.c
 func_0014E6D0,0x14E6D0,37,match,src/hand/func_0014E6D0.c
 func_0014E768,0x14E768,110,match,src/hand/func_0014E768.c
@@ -3480,6 +3490,7 @@ func_001B9130,0x1B9130,114,match,src/hand/func_001B9130.cpp
 func_001B92F8,0x1B92F8,60,match,src/hand/func_001B92F8.c
 func_001B93E8,0x1B93E8,294,match,src/hand/func_001B93E8.cpp
 func_001B9880,0x1B9880,7,match,src/auto/func_001B9880.c
+func_001B98A0,0x1B98A0,89,match,src/hand/func_001B98A0.c
 func_001B9A08,0x1B9A08,86,match,src/hand/func_001B9A08.c
 func_001B9B60,0x1B9B60,3,match,src/auto/func_001B9B60.c
 func_001B9B70,0x1B9B70,36,match,src/hand/func_001B9B70.c
