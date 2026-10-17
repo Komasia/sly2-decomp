@@ -308,8 +308,8 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
   float damping=p->config->damping*D_002C426C*D_002DDED0.dt+1.0f;
   float spring=p->config->spring*D_002C4270*D_002DDED0.dt;
   p->distanceVelocity=damping*p->distanceVelocity+(resultRadius-p->distance)*spring;
-  p->verticalVelocity=damping*p->verticalVelocity+(vertical-p->vertical)*spring;
   resultRadius=p->distance+p->distanceVelocity*D_002DDED0.dt;
+  p->verticalVelocity=damping*p->verticalVelocity+(vertical-p->vertical)*spring;
   vertical=p->vertical+p->verticalVelocity*D_002DDED0.dt;
  }
  w.temporary.q=func_0011E208(resultYaw,resultPitch,resultRadius);
@@ -326,7 +326,7 @@ extern "C" void func_00221DD8(S *p,Q *input,INPUT *driver){
  float yawCorrection=func_00244B68(lateral*D_002DDF40.scale40);
  float pitchCorrection=-func_00244B68(vertical*D_002DDF40.scale44);
  if(p->snap){
-  if(D_002DDF40.mode){p->yawOffset=0.0f;p->pitchOffset=0.0f;}
+  if(D_002DDF40.mode)p->yawOffset=p->pitchOffset=0.0f;
   else{
    func_0011EF08(w.temporary.q,0,&planar,&z);
    func_0011BC88(&D_002DDF40.world.basis,&baseYaw,&basePitch);
