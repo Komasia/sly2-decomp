@@ -5696,6 +5696,7 @@ sceSnprintf,0x236918,18,match,src/lib/sceSnprintf.c
 func_00236960,0x236960,32,match,src/lib/func_00236960.c
 func_002369E0,0x2369E0,32,match,src/lib/func_002369E0.c
 func_00236C00,0x236C00,9,match,src/lib/func_00236C00.c
+func_00236C28,0x236C28,42,match,src/lib/func_00236C28.c
 func_00236CD0,0x236CD0,7,match,src/auto/func_00236CD0.c
 _sceRpcGetFPacket,0x236CF0,12,match,src/lib/_sceRpcGetFPacket.c
 _sceRpcGetFPacket2,0x236D20,16,match,src/lib/_sceRpcGetFPacket2.c
@@ -5894,6 +5895,7 @@ sceDmaRecv,0x2417A0,18,match,src/lib/sceDmaRecv.c
 sceDmaSync,0x2417F0,14,match,src/lib/sceDmaSync.c
 sceDmaPause,0x241830,38,match,src/lib/sceDmaPause.c
 func_002418D0,0x2418D0,40,match,src/lib/func_002418D0.c
+_sceCd_cd_read_intr,0x241978,46,match,src/lib/_sceCd_cd_read_intr.c
 cmd_sem_init,0x241A30,57,match,src/lib/cmd_sem_init.c
 cdvd_exit,0x241B18,40,match,src/lib/cdvd_exit.c
 _sceCd_Poff_Intr,0x241BB8,21,match,src/lib/_sceCd_Poff_Intr.c
@@ -5983,6 +5985,7 @@ func_0024A780,0x24A780,12,match,src/lib/func_0024A780.c
 GetRomName,0x24A7B0,28,match,src/lib/GetRomName.c
 IsT10K,0x24A820,16,match,src/lib/IsT10K.c
 sceScfGetLanguage,0x24A860,24,match,src/lib/sceScfGetLanguage.c
+_clearOnce,0x24A908,51,match,src/lib/_clearOnce.c
 _clearEach,0x24AC10,50,match,src/lib/_clearEach.c
 _decodeOrSkipFrame,0x24B148,92,match,src/lib/_decodeOrSkipFrame.c
 _decodeOrSkipField,0x24B2B8,113,match,src/lib/_decodeOrSkipField.c
