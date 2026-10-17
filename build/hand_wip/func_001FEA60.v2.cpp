@@ -1,3 +1,4 @@
+// wip (Claude agent, nonvu13, 2026-10-17): aligned 6 (v1 38). No register pin: p->weights everywhere except a `float (*w)[4]=p->weights` local for the w[2][channel] test; case 1 via `X **pp=&p->refs[i]; if(*pp) ((*pp)->*action)();`. Left: target loads *pp once into a0 and copies to a3 for the PMF dispatch; ours reloads *pp before the jalr.
 class X;
 typedef void (X::*PMF)();
 struct P {char pad0[0x13C];float weights[8][4];int pad1BC;float outputs[4];char pad1D0[0x30];X *object;int count;X *refs[8];X *component;};
