@@ -20,3 +20,4 @@ scratch*/
 # gcc -d debug dumps from experiments
 /*.cc.*
 /*.c.*
+/*.s
