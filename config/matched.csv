@@ -2222,6 +2222,7 @@ func_0015F8A8,0x15F8A8,31,match,src/hand/func_0015F8A8.c
 __9CRichTextPcP5CFont,0x15F928,18,match,src/auto/__9CRichTextPcP5CFont.c
 Reset__9CRichText,0x15F970,14,match,src/hand/Reset__9CRichText.cpp
 SetBaseColor__9CRichTextP4RGBA,0x15F9A8,10,match,src/hand/SetBaseColor__9CRichTextP4RGBA.cpp
+ClineWrap__9CRichTextf,0x15FD68,100,match,src/hand/ClineWrap__9CRichTextf.cpp
 FUN_0015e1b0,0x15FEF8,17,match,src/hand/FUN_0015e1b0.c
 DxMaxLine__9CRichText,0x15FF40,35,match,src/hand/DxMaxLine__9CRichText.cpp
 Draw__9CRichTextP8CTextBoxT1P4GIFS,0x15FFD0,164,match,src/hand/Draw__9CRichTextP8CTextBoxT1P4GIFS.cpp
@@ -5498,6 +5499,7 @@ func_00232838,0x232838,224,match,src/lib/func_00232838.c
 func_00232BB8,0x232BB8,16,match,src/lib/func_00232BB8.c
 snd_SendCurrentBatch__Fv,0x232BF8,82,match,src/lib/snd_SendCurrentBatch__Fv.cpp
 func_00232D80,0x232D80,10,match,src/lib/func_00232D80.c
+func_00232DA8,0x232DA8,48,match,src/hand/func_00232DA8.c
 func_00232EE8,0x232EE8,15,match,src/lib/func_00232EE8.c
 func_00232F28,0x232F28,9,match,src/auto/func_00232F28.c
 func_00232F60,0x232F60,9,match,src/auto/func_00232F60.c
@@ -5780,6 +5782,7 @@ func_0023AAB8,0x23AAB8,3,match,src/auto/func_0023AAB8.c
 func_0023AAC8,0x23AAC8,6,match,src/lib/func_0023AAC8.c
 sceSifInitCmd,0x23AAF0,160,match,src/lib/sceSifInitCmd.c
 sceSifExitCmd,0x23AD70,13,match,src/lib/sceSifExitCmd.c
+sceSifAddCmdHandler,0x23ADA8,30,match,src/hand/sceSifAddCmdHandler.c
 sceSifRemoveCmdHandler,0x23AE20,19,match,src/lib/sceSifRemoveCmdHandler.c
 _sceSifSendCmd,0x23AE70,77,match,src/lib/_sceSifSendCmd.c
 sceSifSendCmd,0x23AFA8,15,match,src/lib/sceSifSendCmd.c
