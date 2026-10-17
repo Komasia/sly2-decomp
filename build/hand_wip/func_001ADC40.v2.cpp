@@ -1,3 +1,4 @@
+/* (Claude agent, 2026-10-17) 2/107 (aligned 2; was 92/35). Left: target `addiu a0,sp,0x10; jal 1AE478; daddu s5,a0`, ours `addiu s5,sp,0x10; jal; daddu a0,s5`. */
 /* WIP 92/107: game-state caching, temporary/branch scheduling. */
 struct REF{int tag;union{int n;float g;};};
 struct G{char pad[0x3A18];char object[0x104];void*primary;int pad20[2];void*fallback;};
