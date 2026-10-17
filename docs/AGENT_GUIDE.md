@@ -272,3 +272,8 @@ to judge how close a draft really is. Only an exact MATCH counts.
 Declaring a temporary inside the `if`/loop block that uses it, instead of at function scope, changes gcc's register
 allocation and can fix saved-register swaps. This matched _sceCd_cd_read_intr. Related Sony libcdvd patterns: a
 `static inline nopdelay()` helper and a `while(1){...continue;...break;}` retry loop (matched _sceCd_*_prechk).
+
+## li.d / dli then one instruction then a call (gnu_reorder, 2026-10-17)
+Sony's assembler also left the instruction right after a multi-instruction constant (li.d/dli) out of a following
+call's delay slot. gnu_reorder now pins it, which matched libgcc __floatdisf. Check other libgcc converters
+(__floatdidf etc.) with the same `li.d; insn; jal` shape.

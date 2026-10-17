@@ -72,19 +72,28 @@ CALL = re.compile(r'^\s+(jal|jalr)\s')
 def pin_const_before_call(text):
     """Sony's assembler never filled a call's delay slot with the tail of a multi-instruction constant expansion
     (li.d / dli -> ori + dsll32 ...); GNU as does.  A label after such a macro, when the next instruction is a
-    call, keeps GNU as from moving it (found on newlib scalbn, func_00249EE0)."""
-    L = text.split('\n'); out = []
+    call, keeps GNU as from moving it (found on newlib scalbn, func_00249EE0).  The same holds for the one ordinary
+    instruction right after the macro when the call follows it (libgcc __floatdisf: li.d; dsra; jal)."""
+    L = text.split('\n'); out = []; pins_after = set()
     noreorder = False
     for i, l in enumerate(L):
         st = l.strip()
         if st in ('.set\tnoreorder', '.set noreorder'): noreorder = True
         elif st in ('.set\treorder', '.set reorder'): noreorder = False
         out.append(l)
+        if i in pins_after: out.append('$Lgr_cpin2_%d:' % i)
         if not noreorder and MULTI_CONST.match(l):
             j = i + 1
             while j < len(L) and (not L[j].strip() or L[j].strip().startswith('#')): j += 1
             if j < len(L) and CALL.match(L[j]):
                 out.append('$Lgr_cpin%d:' % i)
+            elif j < len(L) and re.match(r'^\s+[a-z]', L[j]) and not L[j].strip().startswith('.'):
+                # one ordinary instruction between the macro and the call: Sony's assembler didn't move that one into
+                # the call's slot either (it came right after a macro expansion).  Pin it with a label after it.
+                k = j + 1
+                while k < len(L) and (not L[k].strip() or L[k].strip().startswith('#')): k += 1
+                if k < len(L) and CALL.match(L[k]):
+                    pins_after.add(j)
     return '\n'.join(out)
 
 FCMP = re.compile(r'^\s+c\.\w+\.s\s')
