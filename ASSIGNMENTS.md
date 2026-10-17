@@ -2,27 +2,29 @@
 
 Two people: **Dimitri** (GitHub owner; Claude agents work on Dimitri's ranges) and **NaGa**.
 Each person only commits new matches inside their own ranges, so work never overlaps.
-Numbers = unmatched functions / instructions as of 2026-10-16 (5,828 of 6,813 functions matched, 60.0% of code).
+Numbers = unmatched functions / instructions as of 2026-10-17 (6,326 of 6,662 functions matched, 74.3% of code).
 Re-check with `python3 tools/worklist.py LO HI 100000`.
 
-> **While NaGa is on break (from 2026-10-16):** Dimitri asked Claude's agents to work on **all** unfinished ranges,
-> including NaGa's. NaGa: before you resume, `git pull`, then check `python3 tools/worklist.py LO HI` and the newest
-> notes for your ranges so you don't redo something that was finished meanwhile. Tell Dimitri on Discord when you're
-> back, and this note will be removed so the split below applies again.
+> **2026-10-17 to about 2026-10-22: Dimitri is away and Claude's agents are paused.** NaGa's ranges below are his
+> alone again; Claude agents won't touch them until Dimitri is back and this note is updated. Start with
+> `docs/HANDOFF_2026-10-17.md`: what changed while you were away, the new tricks, and the closest drafts in your ranges.
 
-## NaGa — 0x160000–0x230000 and 0x234F48–0x2550A0  (706 functions, ~107,900 instructions left)
+## NaGa — 0x160000–0x230000 and 0x234F48–0x2550A0  (242 functions, ~72,900 instructions left)
 | Range | Functions left | Instructions left | Notes file |
 |---|---|---|---|
-| 0x160000–0x190000 (engine; borrowed from Dimitri on 10-12, still active) | 71 | 18,859 | notes/160000.md, 170000.md, 180000.md |
-| 0x190000–0x230000 (engine) | 272 | 59,185 | notes/190000.md … notes/220000.md |
-| 0x234F48–0x2550A0 (Sony SDK, borrowed on 10-12, still active) | 363 | 29,830 | notes/234F48.md, 23C000.md, 245000.md |
+| 0x160000–0x190000 (engine; borrowed from Dimitri on 10-12) | 53 | 17,499 | notes/160000.md, 170000.md, 180000.md |
+| 0x190000–0x230000 (engine) | 175 | 52,444 | notes/190000.md … notes/220000.md |
+| 0x234F48–0x2550A0 (Sony SDK, borrowed on 10-12) | 14 | 2,937 | notes/23C000.md (status table), 245000.md |
 
-## Dimitri (+ Claude agents) — 0x100000–0x160000, 0x230000–0x234F48, 0x2550A0–0x25A000  (279 functions, ~32,200 instructions left)
+## Dimitri (+ Claude agents, paused) — 0x100000–0x160000, 0x230000–0x234F48, 0x2550A0–0x25A000  (94 functions, ~17,200 instructions left)
 | Range | Functions left | Instructions left | Notes file |
 |---|---|---|---|
-| 0x100000–0x160000 (engine core) | 233 | 30,658 | notes/100000.md … notes/150000.md |
-| 0x230000–0x234F48 (game code / libc) | 26 | 1,062 | notes/230000.md |
-| 0x2550A0–0x25A000 (game code / libc) | 20 | 476 | notes/230000.md |
+| 0x100000–0x160000 (engine core) | 92 | 16,894 | notes/100000.md … notes/150000.md |
+| 0x230000–0x234F48 (game code / libc) | 2 | 262 | notes/230000.md |
+| 0x2550A0–0x25A000 (game code / libc) | 0 | 0 | done |
+
+If NaGa runs out of work in his ranges before Dimitri is back, he can take near-misses in 0x100000–0x160000 too;
+just say so on Discord first.
 
 The borrowed ranges stay with NaGa while he is working in them. If one should move back to Dimitri, say so on Discord and change this file in the same commit.
 
