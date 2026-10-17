@@ -2626,6 +2626,7 @@ func_0017ABC8,0x17ABC8,50,match,src/hand/func_0017ABC8.c
 func_0017AC90,0x17AC90,167,match,src/hand/func_0017AC90.c
 func_0017AF30,0x17AF30,145,match,src/hand/func_0017AF30.c
 func_0017B178,0x17B178,12,match,src/auto/func_0017B178.c
+func_0017B1A8,0x17B1A8,243,match,src/hand/func_0017B1A8.cpp
 func_0017B578,0x17B578,6,match,src/hand/func_0017B578.c
 func_0017B590,0x17B590,11,match,src/hand/func_0017B590.c
 func_0017B5C0,0x17B5C0,12,match,src/auto/func_0017B5C0.c
@@ -3059,6 +3060,7 @@ func_001A01A8,0x1A01A8,77,match,src/auto/func_001A01A8.c
 func_001A02E0,0x1A02E0,8,match,src/auto/func_001A02E0.c
 func_001A0300,0x1A0300,83,match,src/hand/func_001A0300.c
 func_001A0450,0x1A0450,179,match,src/hand/func_001A0450.c
+func_001A0720,0x1A0720,167,match,src/hand/func_001A0720.c
 func_001A09C0,0x1A09C0,77,match,src/auto/func_001A09C0.c
 func_001A0AF8,0x1A0AF8,8,match,src/auto/func_001A0AF8.c
 func_001A0B18,0x1A0B18,10,match,src/hand/func_001A0B18.c
@@ -3455,7 +3457,9 @@ func_001B4AA0,0x1B4AA0,358,match,src/hand/func_001B4AA0.cpp
 func_001B5038,0x1B5038,30,match,src/hand/func_001B5038.c
 func_001B50B0,0x1B50B0,179,match,src/hand/func_001B50B0.c
 func_001B5380,0x1B5380,182,match,src/hand/func_001B5380.c
+func_001B5658,0x1B5658,113,match,src/hand/func_001B5658.c
 func_001B5820,0x1B5820,91,match,src/hand/func_001B5820.c
+func_001B5990,0x1B5990,232,match,src/hand/func_001B5990.cpp
 func_001B5D30,0x1B5D30,90,match,src/hand/func_001B5D30.c
 func_001B5E98,0x1B5E98,119,match,src/hand/func_001B5E98.c
 func_001B6728,0x1B6728,51,match,src/hand/func_001B6728.c
@@ -4239,6 +4243,7 @@ func_001E4F20,0x1E4F20,56,match,src/hand/func_001E4F20.c
 func_001E5000,0x1E5000,56,match,src/hand/func_001E5000.c
 func_001E50E0,0x1E50E0,48,match,src/hand/func_001E50E0.c
 func_001E51A0,0x1E51A0,56,match,src/hand/func_001E51A0.c
+func_001E5280,0x1E5280,59,match,src/hand/func_001E5280.c
 func_001E5370,0x1E5370,26,match,src/hand/func_001E5370.c
 func_001E53D8,0x1E53D8,14,match,src/auto/func_001E53D8.c
 func_001E5410,0x1E5410,21,match,src/hand/func_001E5410.c
@@ -5784,6 +5789,7 @@ _sceFsIobSemaMK,0x2374E0,28,match,src/lib/_sceFsIobSemaMK.c
 new_iob,0x237558,34,match,src/lib/new_iob.c
 sceFsSifCallRpc,0x2375E0,59,match,src/lib/sceFsSifCallRpc.c
 get_iob,0x2376D0,27,match,src/lib/get_iob.c
+_sceFs_Rcv_Intr,0x237740,237,match,src/lib/_sceFs_Rcv_Intr.c
 _sceFsSemInit,0x237AF8,21,match,src/lib/_sceFsSemInit.c
 _sceFsWaitS,0x237B50,11,match,src/lib/_sceFsWaitS.c
 func_00237B80,0x237B80,3,match,src/lib/func_00237B80.c
@@ -5804,6 +5810,7 @@ _sceSifLoadModuleBuffer,0x238F38,130,match,src/lib/_sceSifLoadModuleBuffer.c
 s1_sceSifLoadModule,0x239140,7,match,src/lib/s1_sceSifLoadModule.c
 sceSifResetIop,0x239198,85,match,src/lib/sceSifResetIop.c
 sceSifSyncIop,0x2392F0,20,match,src/lib/sceSifSyncIop.c
+sceSifRebootIop,0x239340,68,match,src/lib/sceSifRebootIop.c
 DIntr,0x239450,20,match,src/lib/DIntr.c
 func_002394A0,0x2394A0,6,match,src/lib/func_002394A0.c
 supplement_crt0,0x2394B8,24,match,src/lib/supplement_crt0.c

@@ -25,7 +25,7 @@ extern void func_00190E18(void *p);
 extern void func_00185E40(void *p);
 extern void func_0018DF60(void *p);
 
-extern void func_00189C40(void *p, int a, float g, void *geometry, void *response, void *d);
+extern void func_00189C40(void *p, void *a, float g, void *geometry, void *response, void *d);
 #define C40(p,a,b,c,d,g) func_00189C40(p,a,g,b,c,d)
 
 extern int func_00189EC8(void *p, void *a, void *response);
@@ -109,8 +109,8 @@ void func_0018BCE0(char *p)
         break;
     case 0x18:
         if (F(void *, 0x19F0)) {
-            C40(p, F(int, 0x19D8), F(void *, 0x19E0), F(void *, 0x19F0), A(0x1520), D_002BF3DC);
-            C40(p, F(int, 0x19D4), F(void *, 0x19DC), F(void *, 0x19F4), A(0x1620), D_002BF3DC);
+            C40(p, F(void *, 0x19D8), F(void *, 0x19E0), F(void *, 0x19F0), A(0x1520), D_002BF3DC);
+            C40(p, F(void *, 0x19D4), F(void *, 0x19DC), F(void *, 0x19F4), A(0x1620), D_002BF3DC);
             (void)func_00189EC8(p, A(0x1520), F(void *, 0x19F0));
             (void)func_00189EC8(p, A(0x1620), F(void *, 0x19F4));
         }
