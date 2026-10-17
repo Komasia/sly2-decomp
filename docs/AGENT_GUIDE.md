@@ -321,3 +321,8 @@ scope and reuse them in every block rather than giving each block its own locals
 ## Float from a qword: mtc1 instead of qmfc2 (2026-10-17)
 If the target moves a float out of a VU qword with a single `mtc1`, write one asm that takes the qword as input and emits
 `mtc1` directly, rather than `qmfc2 "=r"` into an int followed by a cast. Matched func_00145DB0 and func_001462A8.
+
+## A stack "local struct" may be spilled parameters (2026-10-17)
+When an old draft models a stack area as a local struct, check whether it's really the function's own parameters stored
+to the stack (for example, arguments whose addresses are taken, or varargs-style spills). Use the parameters directly or take
+their addresses. Matched func_0014E4C8 (20 → 0).
