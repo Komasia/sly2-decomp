@@ -2871,6 +2871,7 @@ func_00184FD8,0x184FD8,77,match,src/auto/func_00184FD8.c
 func_00185110,0x185110,8,match,src/auto/func_00185110.c
 func_00185130,0x185130,7,match,src/auto/func_00185130.c
 func_00185150,0x185150,111,match,src/hand/func_00185150.c
+func_00185310,0x185310,234,match,src/hand/func_00185310.c
 func_001856B8,0x1856B8,2,match,src/hand/func_001856B8.c
 func_00185BF8,0x185BF8,12,match,src/hand/func_00185BF8.c
 func_00185C28,0x185C28,13,match,src/auto/func_00185C28.c
@@ -3077,6 +3078,7 @@ func_001A0720,0x1A0720,167,match,src/hand/func_001A0720.c
 func_001A09C0,0x1A09C0,77,match,src/auto/func_001A09C0.c
 func_001A0AF8,0x1A0AF8,8,match,src/auto/func_001A0AF8.c
 func_001A0B18,0x1A0B18,10,match,src/hand/func_001A0B18.c
+func_001A0B40,0x1A0B40,342,match,src/hand/func_001A0B40.cpp
 func_001A1098,0x1A1098,43,match,src/hand/func_001A1098.c
 func_001A1148,0x1A1148,106,match,src/hand/func_001A1148.cpp
 func_001A12F0,0x1A12F0,26,match,src/hand/func_001A12F0.c
@@ -3085,6 +3087,7 @@ func_001A15B0,0x1A15B0,8,match,src/hand/func_001A15B0.c
 func_001A15D0,0x1A15D0,54,match,src/hand/func_001A15D0.c
 func_001A16A8,0x1A16A8,8,match,src/auto/func_001A16A8.c
 func_001A16C8,0x1A16C8,181,match,src/hand/func_001A16C8.c
+func_001A19A0,0x1A19A0,370,match,src/hand/func_001A19A0.cpp
 func_001A1F68,0x1A1F68,15,match,src/auto/func_001A1F68.c
 func_001A1FA8,0x1A1FA8,31,match,src/hand/func_001A1FA8.c
 func_001A2028,0x1A2028,21,match,src/hand/func_001A2028.c
@@ -5275,6 +5278,7 @@ func_0021BB68,0x21BB68,8,match,src/auto/func_0021BB68.c
 func_0021BB88,0x21BB88,18,match,src/auto/func_0021BB88.c
 func_0021BBD0,0x21BBD0,14,match,src/hand/func_0021BBD0.c
 func_0021BC08,0x21BC08,68,match,src/hand/func_0021BC08.c
+func_0021BD18,0x21BD18,239,match,src/hand/func_0021BD18.cpp
 func_0021C0D8,0x21C0D8,59,match,src/hand/func_0021C0D8.c
 func_0021C1C8,0x21C1C8,94,match,src/hand/func_0021C1C8.c
 func_0021C340,0x21C340,174,match,src/hand/func_0021C340.c
@@ -5334,6 +5338,7 @@ func_0021FB18,0x21FB18,21,match,src/hand/func_0021FB18.c
 func_00220498,0x220498,27,match,src/auto/func_00220498.c
 func_00220508,0x220508,40,match,src/hand/func_00220508.c
 func_002205A8,0x2205A8,72,match,src/hand/func_002205A8.c
+func_002206C8,0x2206C8,327,match,src/hand/func_002206C8.cpp
 func_00220BE8,0x220BE8,77,match,src/auto/func_00220BE8.c
 func_00220D20,0x220D20,8,match,src/auto/func_00220D20.c
 func_00220D40,0x220D40,37,match,src/hand/func_00220D40.c
@@ -5904,6 +5909,7 @@ sceSifRemoveCmdHandler,0x23AE20,19,match,src/lib/sceSifRemoveCmdHandler.c
 _sceSifSendCmd,0x23AE70,77,match,src/lib/_sceSifSendCmd.c
 sceSifSendCmd,0x23AFA8,15,match,src/lib/sceSifSendCmd.c
 isceSifSendCmd,0x23AFE8,15,match,src/lib/isceSifSendCmd.c
+_sceSifCmdIntrHdlr,0x23B028,82,match,src/lib/_sceSifCmdIntrHdlr.c
 sceSifWriteBackDCache,0x23B170,43,match,src/lib/sceSifWriteBackDCache.c
 func_0023B228,0x23B228,4,match,src/lib/syscall/func_0023B228.c
 kCopy_0023B238,0x23B238,14,match,src/lib/kCopy_0023B238.c
