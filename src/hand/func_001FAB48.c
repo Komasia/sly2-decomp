@@ -5,7 +5,11 @@ qword func_001FAB48(struct A *p, qword *pv, qword q)
 {
     qword r, c, s;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(q), "j"(p->pb->pos));
-    __asm__("vopmula.xyz $ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(c) : "j"(pv[1]), "j"(r));
+    c=pv[1];
+    __asm__("vopmula.xyz $ACC, %0, %1\n\tvopmsub.xyz %0, %1, %0" : "+j"(c) : "j"(r));
     __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(pv[0]), "j"(c));
     return s;
 }
+
+#define OFF(T,F) ((unsigned long)&((T*)0)->F)
+typedef char velocity_point_layout[(sizeof(qword)==16 && __alignof__(qword)==16 && sizeof(void*)==4 && sizeof(struct B)==0x80 && OFF(struct B,pos)==0x70 && OFF(struct A,pb)==0x5C)?1:-1];
