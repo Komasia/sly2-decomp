@@ -1,0 +1,135 @@
+typedef int qword __attribute__((mode(TI)));
+typedef union { qword q; float f; } U;
+struct WORK{U u0,v10,v20,s;float at;U uq;qword incoming;U sum;};
+static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); return z; }
+struct C { char pad[0x88]; float g88; };
+struct B { char pad[0xE8]; struct C *pc; };
+struct S { struct B *pb; };
+struct SPACE;
+typedef struct { short d; short pad; struct SPACE *(*pfn)(void *, void *); } VTE;
+struct O { char pad[0xC]; VTE *vt; };
+qword func_001A62E8(void *p);
+qword func_0022D348(struct SPACE *p, struct SPACE *stop, qword q);
+int func_0019A400(struct S *p, qword a, qword b, qword c, qword d, float *pg);
+void func_00117120(float tMax, float t, float s, qword a, qword va, qword b, qword vb, qword *pp, qword *pv, qword *pa);
+static __inline__ float LenXY0(qword v)
+{
+    register float r __asm__("$2");
+    __asm__("vmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y" : "+j"(v));
+    __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(v));
+    __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(v));
+    return r;
+}
+static __inline__ float LenXY1(qword v)
+{
+    register float r __asm__("$f1");
+    register unsigned bits __asm__("$3");
+    __asm__("vmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y" : "+j"(v));
+    __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(v));
+    __asm__("qmfc2.ni %0, %1" : "=r"(bits) : "j"(v));
+    __asm__("mtc1 %1,%0":"=f"(r):"r"(bits));
+    return r;
+}
+static inline float GMax(float a, float b) { return a > b ? a : b; }
+void func_0019A4A0(struct S *p, qword a, struct O *o, qword b, qword c, float *pt, float *pg, qword *pv, qword *pw)
+{
+    struct WORK w;
+    qword q,r,pos;
+    register float time __asm__("$f1");
+    struct SPACE*x;
+    w.incoming=c;
+    pos=func_001A62E8(p->pb);
+    x=o->vt[32].pfn((char*)o+o->vt[32].d,0);
+    q = func_0022D348(x, 0, b);
+    w.uq.q = q;
+    if (!func_0019A400(p, pos, a, b, q, &w.at)) {
+        float dz = GetZ(a) - GetZ(q);
+        float g = p->pb->pc->g88;
+        float t1 = -dz / g;
+        float h;
+        t1 = GMax(0.0f, t1);
+        { register float height __asm__("$f6") = GetZ(pos);
+          register float end __asm__("$f4") = GetZ(b);
+          float th = t1 * 0.5f;
+          __asm__("sub.s %0,%0,%1":"+f"(height):"f"(end));
+          h = height + (g * th * t1 + dz * t1); }
+        if (pt) *pt = t1;
+        if (pg) *pg = 1010000.0f - h;
+        return;
+    }
+    time=w.at;
+    {
+        register qword base __asm__("vf3");
+        register float step __asm__("$f0");
+        register unsigned bits __asm__("$2");
+        __asm__("qmtc2.ni %1,%0":"=j"(base):"r"(b));
+        step=0.15f;
+        {
+            __asm__("lqc2 $vf2,%4\n\tlqc2 $vf1,%5\n\tmin.s %0,%0,%3\n\tvadd.xyzw $vf1,$vf1,$vf2\n\tmfc1 %1,%0\n\tsqc2 $vf1,%2"
+            : "+f"(step),"=r"(bits),"=m"(w.sum.q)
+            : "f"(time),"m"(w.incoming),"m"(w.uq.q)
+            : "vf1","vf2","memory");
+        }
+        {
+            register qword scalar __asm__("vf1");
+            register qword old __asm__("vf4")=w.uq.q;
+            register qword out __asm__("vf2");
+            __asm__("qmtc2.ni %1,%0":"=j"(scalar):"r"(bits));
+            __asm__("vadda.xyzw ACC,%2,$vf0\n\tvmaddx.xyzw %0,%3,%4x\n\tsqc2 %4,%1":"=j"(out),"=m"(w.s.q):"j"(base),"j"(old),"j"(scalar):"memory");
+            w.u0.q=out;
+        }
+    }
+    __asm__("lq %0,%1":"=r"(r):"m"(w.sum.q));
+    if (pt) *pt = time;
+    if (pg) {
+        float d1, d2;
+        register float halfTime __asm__("$f0");
+        register float half __asm__("$f3");
+        register float limit __asm__("$f2");
+        func_00117120(w.at, 0.0f, 1.0f, pos, a, w.u0.q, w.sum.q, 0, 0, &w.v10.q);
+        d1 = LenXY0(w.v10.q);
+        func_00117120(w.at, w.at, 1.0f, pos, a, w.u0.q, w.sum.q, 0, 0, &w.v20.q);
+        d2 = LenXY1(w.v20.q);
+        halfTime=w.at; half=0.5f;
+        __asm__("mul.s %0,%0,%1":"+f"(halfTime):"f"(half));
+        __asm__("add.s %0,%0,%1":"+f"(d1):"f"(d2));
+        d1 *= halfTime;
+        limit=1000000.0f;
+        __asm__("min.s %0,%0,%1":"+f"(d1):"f"(limit));
+        *pg=d1;
+    }
+    if (pv) *pv = w.u0.q;
+    if (pw) *pw = r;
+}
+
+#define OFF(t,m) ((unsigned int)&(((t*)0)->m))
+typedef char Pointer_size[sizeof(void*)==4?1:-1];
+typedef char Float_size[sizeof(float)==4?1:-1];
+typedef char Int_size[sizeof(int)==4?1:-1];
+typedef char Short_size[sizeof(short)==2?1:-1];
+typedef char Qword_size[sizeof(qword)==16?1:-1];
+typedef char Qword_alignment[__alignof__(qword)==16?1:-1];
+typedef char U_size[sizeof(U)==16?1:-1];
+typedef char U_alignment[__alignof__(U)==16?1:-1];
+typedef char U_scalar[OFF(U,f)==0?1:-1];
+typedef char C_gravity[OFF(struct C,g88)==0x88?1:-1];
+typedef char C_size[sizeof(struct C)==0x8C?1:-1];
+typedef char B_physics[OFF(struct B,pc)==0xE8?1:-1];
+typedef char B_size[sizeof(struct B)==0xEC?1:-1];
+typedef char S_body[OFF(struct S,pb)==0?1:-1];
+typedef char S_size[sizeof(struct S)==4?1:-1];
+typedef char VTE_size[sizeof(VTE)==8?1:-1];
+typedef char VTE_delta[OFF(VTE,d)==0?1:-1];
+typedef char VTE_function[OFF(VTE,pfn)==4?1:-1];
+typedef char O_vtable[OFF(struct O,vt)==0xC?1:-1];
+typedef char O_prefix[sizeof(struct O)==0x10?1:-1];
+typedef char WORK_size[sizeof(struct WORK)==0x80?1:-1];
+typedef char WORK_alignment[__alignof__(struct WORK)==16?1:-1];
+typedef char WORK_u0[OFF(struct WORK,u0)==0x00?1:-1];
+typedef char WORK_v10[OFF(struct WORK,v10)==0x10?1:-1];
+typedef char WORK_v20[OFF(struct WORK,v20)==0x20?1:-1];
+typedef char WORK_s[OFF(struct WORK,s)==0x30?1:-1];
+typedef char WORK_at[OFF(struct WORK,at)==0x40?1:-1];
+typedef char WORK_uq[OFF(struct WORK,uq)==0x50?1:-1];
+typedef char WORK_incoming[OFF(struct WORK,incoming)==0x60?1:-1];
+typedef char WORK_sum[OFF(struct WORK,sum)==0x70?1:-1];
