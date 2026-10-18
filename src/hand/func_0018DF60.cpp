@@ -37,21 +37,20 @@ static inline qword Normalize(qword vin,const U*negative,U*u){
  return r;
 }
 
-static inline void NegativeTarget(const M4&m,const qword&offset,U*negative,U*scratch,U*target){
+static inline P*NegativeTarget(const M4&m,const qword&offset,U*negative,U*scratch,U*target,P*p){
  register float minus __asm__("$f0")=-1.0f;register qword raw __asm__("$2");
- register qword axis1 __asm__("vf4"),axis2 __asm__("vf3"),scaled __asm__("vf2");
+ register qword axis1 __asm__("vf4"),axis2 __asm__("vf3"),scaled __asm__("vf2");register P*owner __asm__("$4");
  {
   register qword scalar __asm__("vf1");
-  __asm__("mfc1 %0,%6\n\tlqc2 %1,%7\n\tsq %0,%2\n\tqmtc2.ni %0,%3\n\tlqc2 %4,%8\n\tlqc2 %5,%9"
-  :"=&r"(raw),"=j"(axis1),"=m"(negative->q),"=j"(scalar),"=j"(axis2),"=j"(scaled)
-  :"f"(minus),"m"(m.r[1]),"m"(m.r[2]),"m"(offset));
+  __asm__("daddu %0,%3,$zero\n\tmfc1 %1,%4\n\tlqc2 %2,%5":"=&r"(owner),"=&r"(raw),"=j"(axis1):"r"(p),"f"(minus),"m"(m.r[1]));
+  __asm__("sq %4,%0\n\tqmtc2.ni %4,%1\n\tlqc2 %2,%5\n\tlqc2 %3,%6":"=m"(negative->q),"=j"(scalar),"=j"(axis2),"=j"(scaled):"r"(raw),"m"(m.r[2]),"m"(offset));
   __asm__("vmulx.xyzw %0,%0,%1x":"+j"(scaled):"j"(scalar));
  }
  register qword axis0 __asm__("vf5"),origin __asm__("vf1"),result __asm__("vf6");/* Preserve the inherited VF6.W after the direction callback. */
  __asm__("lqc2 %0,%2\n\tlqc2 %1,%3":"=j"(axis0),"=j"(origin):"m"(m.r[0]),"m"(m.r[3]));
- __asm__("vmulax.xyz ACC,%2,%6x\n\tvmadday.xyz ACC,%3,%6y\n\tvmaddaz.xyz ACC,%4,%6z\n\tvmaddw.xyz %0,%5,$vf0w\n\tsq %7,%1"
- :"+j"(result),"=m"(scratch->q):"j"(axis0),"j"(axis1),"j"(axis2),"j"(origin),"j"(scaled),"r"(raw));
- target->q=result;
+ __asm__ volatile("vmulax.xyz ACC,%2,%6x\n\tvmadday.xyz ACC,%3,%6y\n\tvmaddaz.xyz ACC,%4,%6z\n\tvmaddw.xyz %0,%5,$vf0w\n\tsq %7,%1"
+ :"=&j"(result),"=m"(scratch->q):"j"(axis0),"j"(axis1),"j"(axis2),"j"(origin),"j"(scaled),"r"(raw));
+ target->q=result;return owner;
 }
 
 
@@ -63,6 +62,15 @@ static inline float WeightAmount(qword normalized,float&zero){
 
 
 
+
+
+static inline unsigned SmoothSamplePage(){register unsigned page __asm__("$6");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&D_002BF3F8));return page;}
+static inline float SmoothInputs(M4*source,const CLOCK*clock,float factor,unsigned page,M3*&current,M3*&optional,SMP*&sample){
+ register M3*receiver __asm__("$4"),*out __asm__("$7");register float dt __asm__("$f12");register unsigned address __asm__("$6")=page;
+ __asm__("lwc1 %0,%4\n\tdaddu %1,%5,$zero\n\taddiu %3,%3,%%lo(%7)\n\tdaddu %2,$zero,$zero\n\tmul.s %0,%0,%6":"=&f"(dt),"=r"(receiver),"=r"(out),"+r"(address):"m"(clock->dt),"r"(source),"f"(factor),"i"(&D_002BF3F8));
+ current=receiver;optional=out;sample=(SMP*)address;return dt;
+}
+
 extern "C" void func_0018DF60(P*p){
  M4 m=*((M4*(*)(void*))p->object->vt[31].fn)((char*)p->object+p->object->vt[31].delta);
  U direction,position,scratch,negative;
@@ -70,10 +78,11 @@ extern "C" void func_0018DF60(P*p){
  M4*current=func_001A6318(p);
  CLOCK*clock=&D_002DDED0;
  float factor=0.5f;
- func_0011C950((M3*)current,&p->matrix,&D_002BF3F8,0,&direction.q,clock->dt*factor);
+ unsigned samplePage=SmoothSamplePage();M3*receiver,*optional;SMP*sample;float smoothDt=SmoothInputs(current,clock,factor,samplePage,receiver,optional,sample);
+ func_0011C950(receiver,&p->matrix,sample,optional,&direction.q,smoothDt);
  ((void(*)(void*,qword))p->vt[36].fn)((char*)p+p->vt[36].delta,direction.q);
- U target;NegativeTarget(m,p->offset,&negative,&scratch,&target);
- (void)func_0011F088(func_001A62E8(p),target.q,&D_002BF408,&position.q,clock->dt*factor);
+ U target;P*owner=NegativeTarget(m,p->offset,&negative,&scratch,&target,p);
+ (void)func_0011F088(func_001A62E8(owner),target.q,&D_002BF408,&position.q,clock->dt*factor);
  ((void(*)(void*,qword))p->vt[35].fn)((char*)p+p->vt[35].delta,position.q);
  qword relative;
  {

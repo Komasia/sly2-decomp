@@ -103,7 +103,9 @@ extern "C" void func_0019C300(CONTEXT *context,OBJECT *target,qword localPoint,
       register SPACE*receiver __asm__("$4");
       register float dtArgument __asm__("$f12");
       __asm__ volatile("la %0,%a4\n\tdaddu %1,%5,$zero\n\tmov.s %2,%6\n\tsq %7,%3":"=&r"(published),"=&r"(receiver),"=f"(dtArgument),"=m"(comparison.q):"p"(&predicted),"r"(frame),"f"(duration),"r"(snapshot));
-      func_002309E8(receiver,0,published,0,dtArgument);
+      register SPACE*sourceSpace __asm__("$5");register M4*optionalOutput __asm__("$7");const int nullValue=0;
+      __asm__("daddu %0,%z2,$zero\n\tdaddu %1,%z2,$zero":"=r"(optionalOutput),"=r"(sourceSpace):"rJ"(nullValue));
+      func_002309E8(receiver,sourceSpace,published,optionalOutput,dtArgument);
       func_0011C168(&product,published,inverseOwner);
     }
     register float squared __asm__("$f2"),radius __asm__("$f1"),radiusSquared __asm__("$f0");
@@ -112,8 +114,8 @@ extern "C" void func_0019C300(CONTEXT *context,OBJECT *target,qword localPoint,
  register qword a __asm__("vf1"),b __asm__("vf2"),c __asm__("vf3"),d __asm__("vf4"),p __asm__("vf6");
  __asm__("lqc2 %0,%5\n\tlqc2 %1,%6\n\tlqc2 %2,%7\n\tlqc2 %3,%8\n\tlqc2 %4,%9":"=j"(a),"=j"(b),"=j"(c),"=j"(d),"=j"(p):"m"(product.row[0]),"m"(product.row[1]),"m"(product.row[2]),"m"(product.row[3]),"m"(localPoint));
  register qword q __asm__("vf5");
- /* Read the inherited VF5.W after the actual matrix-product call. */
- __asm__("vmulax.xyz $ACC,%2,%6x\n\tvmadday.xyz $ACC,%3,%6y\n\tvmaddaz.xyz $ACC,%4,%6z\n\tvmaddw.xyz %0,%5,$vf0w\n\tsqc2 %2,%1":"+&j"(q),"=m"(predicted.row[0]):"j"(a),"j"(b),"j"(c),"j"(d),"j"(p));
+ /* Capture the inherited VF5.W after the actual matrix-product call. */
+ __asm__ volatile("vmulax.xyz $ACC,%2,%6x\n\tvmadday.xyz $ACC,%3,%6y\n\tvmaddaz.xyz $ACC,%4,%6z\n\tvmaddw.xyz %0,%5,$vf0w\n\tsqc2 %2,%1":"=&j"(q),"=m"(predicted.row[0]):"j"(a),"j"(b),"j"(c),"j"(d),"j"(p));
  {
  register qword other __asm__("vf1");
  __asm__("lqc2 %3,%6\n\tsqc2 %4,%0\n\tvsub.xyzw %2,%2,%3\n\tsqc2 %5,%1":"=m"(predicted.row[1]),"=m"(predicted.row[2]),"+&j"(q),"=&j"(other):"j"(b),"j"(c),"m"(comparison.q));

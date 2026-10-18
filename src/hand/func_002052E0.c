@@ -1,5 +1,4 @@
-/* (Claude agent) func_002052E0: copy source matrix row by row, -1 broadcast via plain qmtc2 helper (no volatile asm);
-   the dead store of the scale union is written just before the position call so it lands in the jalr delay slot. */
+// Set the parent matrix, position and inherited motion.
 typedef int qword __attribute__((mode(TI)));
 typedef union U { qword q; float f; } U;
 typedef union {float value;int word;} FLOATWORD;
@@ -16,11 +15,11 @@ typedef struct P {
 extern qword D_002A2DD0, D_002A2DC0;
 extern int func_00132B10(B *, int);
 extern void func_001F49C8(P *, B *);
-static inline qword Transform(const M4 *m, qword v) {
-    register qword r __asm__("vf7");
-    __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
-        : "+&j"(r) : "j"(m->row[0]), "j"(m->row[1]), "j"(m->row[2]), "j"(m->row[3]), "j"(v));
-    return r;
+static inline qword Transform(const M4*m,qword v,qword last,qword*published){
+ register qword result __asm__("vf7"),argument __asm__("$5"),origin __asm__("vf1")=last;
+ __asm__ volatile("vmulax.xyz $ACC,%3,%7x\n\tvmadday.xyz $ACC,%4,%7y\n\tvmaddaz.xyz $ACC,%5,%7z\n\tvmaddw.xyz %0,%6,$vf0w\n\tqmfc2.ni %1,%0\n\tsqc2 %6,%2"
+  :"=&j"(result),"=&r"(argument),"=m"(*published):"j"(m->row[0]),"j"(m->row[1]),"j"(m->row[2]),"j"(origin),"j"(v));
+ return argument;
 }
 static inline qword Broadcast(float f){register qword r __asm__("vf6");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword MulX(qword v,qword s){register qword r __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));return r;}
@@ -40,8 +39,7 @@ extern void func_002052E0(P *p, B *other)
         m.row[1] = source->row[1];
         v = MulX(p->offset, sc);
         m.row[2] = source->row[2];
-        m.row[3] = source->row[3];
-        {qword t = Transform(&m,v);
+        {qword t = Transform(&m,v,source->row[3],&m.row[3]);
         P *self = (P *)((char *)p+set[29].delta);
         register void (*positionFn)(P*,qword) __asm__("v1")=(void(*)(P*,qword))set[29].fn;
         scale.q = sc;
@@ -61,3 +59,23 @@ extern void func_002052E0(P *p, B *other)
         func_001F49C8(p,other);
     }
 }
+
+typedef char layout_qword[(sizeof(qword)==16)?1:-1];
+typedef char layout_scalar[(sizeof(U)==16)?1:-1];
+typedef char layout_word[(sizeof(FLOATWORD)==4)?1:-1];
+typedef char layout_word_value[((unsigned)&((FLOATWORD*)0)->value==0)?1:-1];
+typedef char layout_word_bits[((unsigned)&((FLOATWORD*)0)->word==0)?1:-1];
+typedef char layout_matrix[(sizeof(M4)==0x40)?1:-1];
+typedef char layout_matrix_0[((unsigned)&((M4*)0)->row[0]==0)?1:-1];
+typedef char layout_matrix_1[((unsigned)&((M4*)0)->row[1]==0x10)?1:-1];
+typedef char layout_matrix_2[((unsigned)&((M4*)0)->row[2]==0x20)?1:-1];
+typedef char layout_matrix_3[((unsigned)&((M4*)0)->row[3]==0x30)?1:-1];
+typedef char layout_vte[(sizeof(VTE)==8)?1:-1];
+typedef char layout_delta[((unsigned)&((VTE*)0)->delta==0)?1:-1];
+typedef char layout_function[((unsigned)&((VTE*)0)->fn==4)?1:-1];
+typedef char layout_base[(sizeof(B)==0x10)?1:-1];
+typedef char layout_vtable[((unsigned)&((B*)0)->vt==0xC)?1:-1];
+typedef char layout_count[((unsigned)&((P*)0)->count==0x208)?1:-1];
+typedef char layout_offset[((unsigned)&((P*)0)->offset==0x240)?1:-1];
+typedef char layout_amount[((unsigned)&((P*)0)->amount==0x1048)?1:-1];
+typedef char layout_adjusted[((unsigned)&((P*)0)->adjusted==0x1060)?1:-1];

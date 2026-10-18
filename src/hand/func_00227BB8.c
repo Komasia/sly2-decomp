@@ -17,7 +17,7 @@ void func_00227BB8(struct S *p, void *pbis)
         qword a,b,m,one; register qword h __asm__("vf1");
         qword g;
         a = func_0011F288(p->c, p->points);
-        __asm__("" : "+j"(a));
+        __asm__("qmtc2.ni %1,%0" : "=j"(a) : "r"(a));
         b = func_0011F2B8(p->c, p->points);
         __asm__("qmtc2.ni %1, %0" : "=j"(h) : "r"(0.5f));
         u.q = h;
@@ -31,3 +31,21 @@ void func_00227BB8(struct S *p, void *pbis)
         p->g120 = D_002A9880;
     }
 }
+
+#define OFF(t,m) ((unsigned)&(((t*)0)->m))
+typedef char CheckQwordSize[(sizeof(qword)==16)?1:-1];
+typedef char CheckQwordAlignment[(__alignof__(qword)==16)?1:-1];
+typedef char CheckVUSize[(sizeof(VU)==16)?1:-1];
+typedef char CheckVUAlignment[(__alignof__(VU)==16)?1:-1];
+typedef char CheckIntSize[(sizeof(int)==4)?1:-1];
+typedef char CheckFloatSize[(sizeof(float)==4)?1:-1];
+typedef char CheckPointerSize[(sizeof(void*)==4)?1:-1];
+typedef char CheckExtraOffset[(OFF(struct S,aE0)==0xE0)?1:-1];
+typedef char CheckCountOffset[(OFF(struct S,c)==0xF0)?1:-1];
+typedef char CheckPointsOffset[(OFF(struct S,points)==0xF4)?1:-1];
+typedef char CheckCenterOffset[(OFF(struct S,v110)==0x110)?1:-1];
+typedef char CheckRadiusSquaredOffset[(OFF(struct S,g120)==0x120)?1:-1];
+typedef char CheckPointStride[(sizeof(*((struct S*)0)->points)==16)?1:-1];
+typedef char CheckVUQwordOffset[(OFF(VU,q)==0)?1:-1];
+typedef char CheckVUFloatOffset[(OFF(VU,f)==0)?1:-1];
+typedef char CheckVUFloatExtent[(sizeof(((VU*)0)->f)==16)?1:-1];

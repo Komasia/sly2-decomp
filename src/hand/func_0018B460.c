@@ -16,9 +16,13 @@ void func_002046F0(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struc
 qword func_0022FC48(struct SPACE*,struct SPACE*,qword);qword func_0022FCC8(struct SPACE*,struct SPACE*,qword);
 float func_002458F0(float,float);float func_0011D948(struct LM*,float);
 struct M3*func_0011B628(struct M3*,qword);qword*func_00256D18(qword*,qword);void func_0012DA30(struct DV*,qword);
-static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword Point(const struct M4*m,qword a){register qword r __asm__("vf6");/* Preserve the inherited VF6.W after prediction. */__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"+j"(r):"j"(m->r[0].q),"j"(m->r[1].q),"j"(m->r[2].q),"j"(m->r[3].q),"j"(a));return r;}
+static inline qword Point(const struct M4*m,const qword*a,struct SPACE**source){
+ register qword r __asm__("vf6"),row0 __asm__("vf5")=m->r[0].q;register struct SPACE*sourceValue __asm__("$4");const int nullSource=0;
+ __asm__ volatile("lqc2 $vf4,%3\n\tlqc2 $vf2,%4\n\tdaddu %1,%z7,$zero\n\tlqc2 $vf1,%5\n\tlqc2 $vf3,%6\n\tvmulax.xyz $ACC,%2,$vf3x\n\tvmadday.xyz $ACC,$vf4,$vf3y\n\tvmaddaz.xyz $ACC,$vf2,$vf3z\n\tvmaddw.xyz %0,$vf1,$vf0w"
+ :"=&j"(r),"=&r"(sourceValue):"j"(row0),"m"(m->r[1].q),"m"(m->r[2].q),"m"(m->r[3].q),"m"(*a),"rJ"(nullSource):"vf1","vf2","vf3","vf4");
+ *source=sourceValue;return r;
+}
 static inline float X(qword q){float x;__asm__("mtc1 %1,%0":"=f"(x):"r"(q));return x;}
 static inline qword Pack(float x,float y,float z){qword q,t;__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(q),"=&r"(t):"f"(x),"f"(y),"f"(z));return q;}
 static inline float CorrectionDistance(struct P*p,qword correction){
@@ -36,9 +40,16 @@ void func_0018B460(struct P*p){
  if(zero<ratio){
   register qword mapped __asm__("$17");qword tilt,axis,residual;register float limit __asm__("$f1");struct SPACE*space;register struct SPACE*relativeDestination __asm__("$5");struct M4*frame;float heading;
   func_002046F0(p,p->owner->aim);
-  func_002309E8(p->owner->aim->frame,0,&w.phase.predicted,0,Min(ratio,D_002BF380));
-  {register unsigned page __asm__("$3");
-   __asm__("por %0,$zero,%2\n\tlui %1,%%hi(%3)":"=r"(mapped),"=r"(page):"r"(func_0022FC48(0,p->space,Point(&w.phase.predicted,D_002BF390))),"i"(&D_002BF3A0));
+  {register struct OWNER*predictionOwner __asm__("$2")=p->owner;
+   register float capped __asm__("$f12");register struct M4*request __asm__("$6"),*optionalOutput __asm__("$7");
+   register struct AIM*aim __asm__("$3");register struct SPACE*sourceSpace __asm__("$5");const int nullValue=0;
+   __asm__("lwc1 %0,%6\n\tdaddu %1,%7,$zero\n\tlw %2,%8\n\tdaddu %3,%z9,$zero\n\tmin.s %0,%5,%0\n\tdaddu %4,%z9,$zero"
+    :"=&f"(capped),"=&r"(request),"=&r"(aim),"=r"(optionalOutput),"=r"(sourceSpace)
+    :"f"(ratio),"m"(D_002BF380),"r"(&w.phase.predicted),"m"(predictionOwner->aim),"rJ"(nullValue));
+   func_002309E8(aim->frame,sourceSpace,request,optionalOutput,capped);
+  }
+  {struct SPACE*sourceSpace;qword predictedPoint=Point(&w.phase.predicted,&D_002BF390,&sourceSpace);register unsigned page __asm__("$3");
+   __asm__("por %0,$zero,%2\n\tlui %1,%%hi(%3)":"=r"(mapped),"=r"(page):"r"(func_0022FC48(sourceSpace,p->space,predictedPoint)),"i"(&D_002BF3A0));
    {register int zBits __asm__("$2");register float z __asm__("$f12"),x __asm__("$f13"),coefficient __asm__("$f0");
     __asm__("pextuw %0,$zero,%4\n\tlwc1 %3,%%lo(%6)(%5)\n\tmtc1 %0,%1\n\tmtc1 %4,%2":"=&r"(zBits),"=f"(z),"=f"(x),"=f"(coefficient):"r"(mapped),"r"(page),"i"(&D_002BF3A0):"memory");
     heading=func_002458F0(-z,coefficient*x);}}
