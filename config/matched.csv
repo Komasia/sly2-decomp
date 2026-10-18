@@ -3931,6 +3931,7 @@ func_001D0CA8,0x1D0CA8,16,match,src/auto/func_001D0CA8.c
 func_001D0CE8,0x1D0CE8,15,match,src/auto/func_001D0CE8.c
 func_001D0D28,0x1D0D28,71,match,src/hand/func_001D0D28.c
 func_001D0E48,0x1D0E48,27,match,src/hand/func_001D0E48.c
+func_001D0EB8,0x1D0EB8,140,match,src/hand/func_001D0EB8.c
 func_001D10E8,0x1D10E8,7,match,src/auto/func_001D10E8.c
 func_001D1108,0x1D1108,22,match,src/hand/func_001D1108.c
 func_001D1160,0x1D1160,46,match,src/hand/func_001D1160.c
