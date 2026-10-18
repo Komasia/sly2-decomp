@@ -2989,6 +2989,7 @@ func_001957F8,0x1957F8,77,match,src/auto/func_001957F8.c
 func_00195930,0x195930,8,match,src/auto/func_00195930.c
 func_00195950,0x195950,28,match,src/hand/func_00195950.c
 func_001959C0,0x1959C0,15,match,src/hand/func_001959C0.c
+func_00196AA8,0x196AA8,211,match,src/hand/func_00196AA8.cpp
 func_00197370,0x197370,86,match,src/hand/func_00197370.c
 func_001974C8,0x1974C8,13,match,src/hand/func_001974C8.c
 func_001991A0,0x1991A0,62,match,src/hand/func_001991A0.c
@@ -2996,6 +2997,7 @@ func_00199298,0x199298,91,match,src/hand/func_00199298.cpp
 FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR,0x199408,115,match,src/hand/FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR.cpp
 func_001995D8,0x1995D8,128,match,src/hand/func_001995D8.cpp
 func_0019A400,0x19A400,40,match,src/hand/func_0019A400.c
+func_0019A4A0,0x19A4A0,171,match,src/hand/func_0019A4A0.c
 func_0019AA58,0x19AA58,24,match,src/hand/func_0019AA58.c
 func_0019AAB8,0x19AAB8,32,match,src/hand/func_0019AAB8.cpp
 func_0019AB38,0x19AB38,32,match,src/hand/func_0019AB38.cpp
@@ -3233,6 +3235,7 @@ func_001A81F8,0x1A81F8,134,match,src/hand/func_001A81F8.c
 CategorizeAlsg__FiP3LSGPiT2PP3LSGT4,0x1A8410,170,match,src/hand/CategorizeAlsg__FiP3LSGPiT2PP3LSGT4.cpp
 func_001A86B8,0x1A86B8,78,match,src/hand/func_001A86B8.c
 func_001A9108,0x1A9108,175,match,src/hand/func_001A9108.cpp
+func_001A9B28,0x1A9B28,69,match,src/hand/func_001A9B28.cpp
 func_001A9C40,0x1A9C40,62,match,src/hand/func_001A9C40.c
 func_001A9D38,0x1A9D38,170,match,src/hand/func_001A9D38.cpp
 func_001A9FE0,0x1A9FE0,16,match,src/hand/func_001A9FE0.c
@@ -4649,6 +4652,7 @@ func_001F90D0,0x1F90D0,91,match,src/hand/func_001F90D0.c
 func_001F9240,0x1F9240,115,match,src/hand/func_001F9240.c
 func_001F9B20,0x1F9B20,74,match,src/hand/func_001F9B20.c
 func_001F9C48,0x1F9C48,137,match,src/hand/func_001F9C48.cpp
+func_001F9E70,0x1F9E70,301,match,src/hand/func_001F9E70.cpp
 func_001FA328,0x1FA328,128,match,src/hand/func_001FA328.c
 func_001FA528,0x1FA528,185,match,src/hand/func_001FA528.cpp
 func_001FA810,0x1FA810,88,match,src/hand/func_001FA810.c
