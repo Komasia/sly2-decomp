@@ -28,20 +28,22 @@ void func_0011E7C8(qword a, qword b, qword c, qword pos, float *puv, float *pdis
 {
     float v;
     qword w0, w1, w2, w3, n, l;
+    qword *pdef;
     func_0011E630(a, b, c, pos, puv, pdist, pnormal);
     puv[0] = GClamp(puv[0], 0.0f, 1.0f);
     v = GClamp(puv[1], 0.0f, 1.0f);
     w0 = VF(puv[0] - 1.0f);
     w1 = VF(-puv[0]);
-    puv[1] = v;
     w2 = VF(1.0f - v);
     w3 = VF(v);
     __asm__("vmulax.xyzw $ACC, %5, %1x\n\tvmaddax.xyzw $ACC, %6, %2x\n\tvmaddax.xyzw $ACC, %7, %3x\n\tvmaddx.xyzw %0, %8, %4x"
             : "=j"(n) : "j"(w0), "j"(w1), "j"(w2), "j"(w3), "j"(a), "j"(b), "j"(c), "j"(pos));
+    pdef = &D_002A2DA0;
     l = Len(n);
+    puv[1] = v;
     *pnormal = n;
     if (F(l) < 1e-4f) {
-        *pnormal = D_002A2DA0;
+        *pnormal = *pdef;
     } else {
         qword r;
         __asm__("vdiv $Q, $vf0w, %2x\n\tvwaitq\n\tvmulq.xyzw %0, %1, $Q" : "=j"(r) : "j"(n), "j"(l));
