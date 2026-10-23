@@ -1,5 +1,6 @@
 // (Claude agent, lane E17) MATCH from fresh19: func_0022CC00 declared void here. With the M4* return, the call sets $v0, so the
-// r3 store (v0) loses sched2's "more dependents" tie-break to the r2 store (v1, reused after the call). One commented pin remains.
+// r3 store (v0) lost sched2's "more dependents" tie-break to the r2 store (v1, reused after the call). With void, plain *pm = t
+// matches and the old r1/$7 pin and qword temps are gone.
 // (Claude agent, lane E7) fresh18: aligned 2 (fresh17 3). SetM4 copies mat through explicit qword temps r0,r1,r2 stored r1,r2,r0.
 // Left: path-3 *pm = t (target loads r0,r2,r3,r1, stores r3,r2,r0,r1); all 24 temp store orders x load orders tried, Q4 struct copies: 2.
 // (Claude agent, lane E6) fresh17: aligned 3 (fresh16 6). (1) VUF ctor: `float f = g; asm("" : "+f"(f)); qmtc2 "r"(f)`:
@@ -102,9 +103,7 @@ void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
             v[0] = AddScale(func_0022CA18(po, &po->local), po->qB0, VUF(g));
             M4 t;
             func_0022C8C0(&t, po, v[0]);
-            { // register pin: r1 in $a3 gives the target's r0,r2,r3,r1 load order
-              register qword r1 asm("$7"); qword r0 = t.r[0]; qword r2 = t.r[2]; qword r3 = t.r[3]; r1 = t.r[1];
-              pm->r[0] = r0; pm->r[2] = r2; pm->r[1] = r1; pm->r[3] = r3; }
+            *pm = t;
             func_0022CC00(&t, po, po->qB0);
             *pm2 = t;
             break;
