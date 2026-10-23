@@ -368,3 +368,7 @@ If the target counts up while our build counts down (or the reverse), or the loo
 ## Write asm output to a plain qword, then copy it into the union (2026-10-23)
 An asm whose `"=r"`/`"=j"` output goes straight into a union member makes gcc store to the stack twice. Write the
 output to a plain `qword` local and assign that to the union afterwards. This was the last fix for SmoothMatrix.
+
+## Statement macros: a plain `{ }` block, not `do { } while (0)` (2026-10-23)
+With this gcc, a `do { ... } while (0)` macro can leave an extra nop (it's a loop to the scheduler). If a macro body
+shows up with a stray nop, define it as a plain `{ ... }` block. That helped func_0013C560 go from 46 to 13.
