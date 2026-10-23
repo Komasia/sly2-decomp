@@ -1,3 +1,4 @@
+// v3 (Claude agent, lane D10): aligned 4 -> 1. Init takes the color pointer through Addr() after SetSize. Left: daddu a0/sb order in the key loop.
 // NEAR MISS (Claude agent) 15/308: v1 + func_00117120 float-first prototype (fixes 1.0f/max.s order). Remaining: &u (s1=sp+0x160) computed before SetPos (target after SetSize), sb/daddu a0 order in key loop.
 typedef int qword __attribute__((mode(TI)));
 struct FONT { char ab[0x84]; float dy; char pad[0xA0 - 0x88]; };
