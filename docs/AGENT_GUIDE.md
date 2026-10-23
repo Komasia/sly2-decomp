@@ -416,3 +416,7 @@ setup of that register wait until after the asm. func_0011B500 matched with that
 If a D_ symbol holds a small constant block that only one function uses (e.g. `{0.1f, 1.0f}`), it may be that
 function's local aggregate initializer, `struct LM lm = {0.1f, 1.0f};`, which gcc puts in .rodata. Writing it
 as a local changes register allocation. In func_00146B18 that let one pin be removed.
+
+## Policy note: multi-alternative constraints (2026-10-23)
+An asm constraint with an alternative that's never chosen (e.g. `"r,j"`) only steers allocation, so it counts as an
+allocation-only operand: allowed, with a comment saying why (func_0011BA08).
