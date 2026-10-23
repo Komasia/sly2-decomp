@@ -961,6 +961,7 @@ func_0011B570,0x11B570,45,match,src/hand/func_0011B570.c
 func_0011B628,0x11B628,61,match,src/hand/func_0011B628.c
 func_0011B720,0x11B720,48,match,src/hand/func_0011B720.c
 func_0011B7E0,0x11B7E0,18,match,src/hand/func_0011B7E0.c
+func_0011B830,0x11B830,66,match,src/hand/func_0011B830.c
 func_0011B938,0x11B938,49,match,src/hand/func_0011B938.c
 DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1,0x11BC88,27,match,src/hand/DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1.cpp
 DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR,0x11BCF8,176,match,src/hand/DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR.cpp
@@ -1591,6 +1592,7 @@ func_001390D8,0x1390D8,59,match,src/hand/func_001390D8.c
 func_001391C8,0x1391C8,33,match,src/hand/func_001391C8.c
 func_00139250,0x139250,49,match,src/hand/func_00139250.c
 func_00139318,0x139318,21,match,src/hand/func_00139318.c
+func_00139370,0x139370,85,match,src/hand/func_00139370.c
 func_001394C8,0x1394C8,261,match,src/hand/func_001394C8.c
 func_001398E0,0x1398E0,7,match,src/auto/func_001398E0.c
 func_00139900,0x139900,20,match,src/auto/func_00139900.c
@@ -1740,6 +1742,7 @@ func_001432E0,0x1432E0,40,match,src/hand/func_001432E0.c
 func_00143380,0x143380,17,match,src/auto/func_00143380.c
 func_001433C8,0x1433C8,17,match,src/auto/func_001433C8.c
 func_00143410,0x143410,154,match,src/hand/func_00143410.cpp
+func_00143678,0x143678,286,match,src/hand/func_00143678.cpp
 func_00143AF0,0x143AF0,57,match,src/hand/func_00143AF0.cpp
 func_00143BD8,0x143BD8,39,match,src/hand/func_00143BD8.c
 func_00143C78,0x143C78,32,match,src/hand/func_00143C78.c
@@ -2052,6 +2055,7 @@ func_001518C8,0x1518C8,13,match,src/auto/func_001518C8.c
 func_00151900,0x151900,19,match,src/hand/func_00151900.c
 func_00151950,0x151950,167,match,src/hand/func_00151950.cpp
 func_00151BF0,0x151BF0,17,match,src/auto/func_00151BF0.c
+func_00151C38,0x151C38,206,match,src/hand/func_00151C38.cpp
 func_00151F70,0x151F70,77,match,src/auto/func_00151F70.c
 func_001520A8,0x1520A8,8,match,src/auto/func_001520A8.c
 func_001520C8,0x1520C8,13,match,src/auto/func_001520C8.c
@@ -2193,6 +2197,7 @@ func_00158480,0x158480,77,match,src/auto/func_00158480.c
 func_001585B8,0x1585B8,8,match,src/auto/func_001585B8.c
 func_001585D8,0x1585D8,36,match,src/hand/func_001585D8.c
 AppendDzgDz__FP3DZGP2DZ,0x158668,47,match,src/hand/AppendDzgDz__FP3DZGP2DZ.c
+func_00158728,0x158728,139,match,src/hand/func_00158728.cpp
 func_00158958,0x158958,11,match,src/auto/func_00158958.c
 SolveDzg__FP3DZGiiPP2XPPiPPP2SO,0x158988,102,match,src/hand/SolveDzg__FP3DZGiiPP2XPPiPPP2SO.cpp
 func_00158FC0,0x158FC0,77,match,src/auto/func_00158FC0.c
@@ -5616,6 +5621,7 @@ func_00230380,0x230380,8,match,src/lib/func_00230380.c
 func_002303A0,0x2303A0,125,match,src/hand/func_002303A0.c
 func_00230598,0x230598,37,match,src/lib/func_00230598.c
 func_00230630,0x230630,56,match,src/hand/func_00230630.c
+func_00230710,0x230710,182,match,src/hand/func_00230710.cpp
 func_002309E8,0x2309E8,43,match,src/lib/func_002309E8.c
 func_00230A98,0x230A98,141,match,src/hand/func_00230A98.c
 func_00230CD0,0x230CD0,8,match,src/lib/func_00230CD0.c
