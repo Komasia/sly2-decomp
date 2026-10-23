@@ -364,3 +364,7 @@ splits the hi/lo parts and schedules them. Matched func_00143410 (`&D_003DD490.t
 ## Unsigned loop counters stop gcc reversing a loop (2026-10-23)
 If the target counts up while our build counts down (or the reverse), or the loop's exit test differs, try an
 `unsigned` counter. In func_001477D8 it stopped gcc's loop reversal (98 → 90).
+
+## Write asm output to a plain qword, then copy it into the union (2026-10-23)
+An asm whose `"=r"`/`"=j"` output goes straight into a union member makes gcc store to the stack twice. Write the
+output to a plain `qword` local and assign that to the union afterwards. This was the last fix for SmoothMatrix.
