@@ -1533,6 +1533,7 @@ func_00134770,0x134770,14,match,src/auto/func_00134770.c
 func_001347A8,0x1347A8,42,match,src/hand/func_001347A8.c
 func_00134850,0x134850,312,match,src/hand/func_00134850.c
 func_00134D30,0x134D30,30,match,src/hand/func_00134D30.c
+func_00134DA8,0x134DA8,296,match,src/hand/func_00134DA8.c
 func_00135248,0x135248,296,match,src/hand/func_00135248.c
 func_001356E8,0x1356E8,53,match,src/hand/func_001356E8.c
 func_001357C0,0x1357C0,58,match,src/hand/func_001357C0.c
