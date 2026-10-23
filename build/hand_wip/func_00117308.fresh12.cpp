@@ -67,11 +67,17 @@ void func_00117308(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pma
     }
     if (pwOut) {
         qword k = VU_FLOAT(u * (6.0f - u * 6.0f) / dt).q;
-        M3 rel;
-        func_0011BC00(&rel, pmat0, pmat1);
-        qword w = func_0011BFB8(&rel);
+        qword w;
+        {
+            M3 rel;
+            func_0011BC00(&rel, pmat0, pmat1);
+            w = func_0011BFB8(&rel);
+        }
         float h = u * 3.0f;
-        qword sc = VF(gScale);
+        U us;
+        qword sc;
+        __asm__("qmtc2.ni %1, %0" : "=j"(sc) : "r"(gScale));
+        us.q = sc;
         qword ka = VF(1.0f - u * (4.0f - h));
         qword kb = VF(u * (h + -2.0f));
         qword r;
