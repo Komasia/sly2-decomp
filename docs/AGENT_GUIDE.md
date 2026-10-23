@@ -384,3 +384,12 @@ For a schedule-order diff, compile with `-fsched-verbose-5` and read the sched2 
 tie goes to the one with more dependent instructions later on. A call that "returns" a value in $v0 adds a dependence,
 so **declaring a callee `void` when the target never uses its result** can flip the tie. That matched func_00230710
 (1 → 0) with no pins. Also check every callee prototype: an `int` return the target never reads changes scheduling.
+
+## Read the compiler's pass dumps to find the first divergence (2026-10-23)
+When a draft is stuck, compile with gcc's dump flags (`-da` for every RTL pass, or `-fsched-verbose-5` for the
+scheduler) and find the FIRST pass where our output differs from the target. Fix the C that feeds that pass.
+- **.loop:** shows loop-invariant hoisting. func_0015B9F0 matched once a global was read into a local before the
+  loop, which stopped `%hi(D_...)` being hoisted out.
+- **sched1/sched2:** show priority ties and dependences (see the scheduler-dump section above).
+- **.greg/.lreg:** show register allocation; a tie there can justify the one allowed pin.
+- **.gcse:** shows the order gcse creates pseudos in, which can decide register and slot order.
