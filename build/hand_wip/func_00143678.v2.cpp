@@ -1,3 +1,4 @@
+// v2 (Claude agent, laneC4 2026-10-23): aligned 60 -> 18 with an unused 8-byte aggregate local (int dummy[2]) in the !q->p194 block: reserves sp+0x20 so block 1 lands at 0x30/0x40/0x50. Left: frame 0x100 vs 0xF0 (block 2 Send return at 0x60, not 0x40), beql slot.
 struct CRef;
 extern "C" void func_00129EC8(CRef *);
 extern "C" void func_001291A8(CRef *, const CRef *);
