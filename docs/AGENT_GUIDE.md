@@ -399,3 +399,15 @@ scheduler) and find the FIRST pass where our output differs from the target. Fix
   statements. That took func_0015B428 from 56 to 4.
 - An earlyclobber output (`"=&j"`) forces a different register from every input. If the target reuses an input's
   register for the output, drop the `&` (`"=j"`). That was the last fix for func_0015B428 (4 → 0) and helped func_00137248.
+
+## gcse hash order depends on symbol NAMES (2026-10-23)
+gcse orders some expressions by a hash of the symbol name. So a global called `D_002DEA4C` can schedule differently
+from the same global under its real name. Lanes D and E each found a function stuck for this reason (func_00157FA0, where
+renaming the global took it 8 → 2, and func_0015CAD8). Globals are extern declarations, and their names never reach the
+binary, so giving one a real name is legitimate. Look for the real name in Sly 1's symbols (config/harvest_sly1.csv,
+sly1_matches.csv) or a matched sibling's usage. Use a plausible descriptive name, never one picked only to hit a hash.
+Declare it in the shared header if siblings use it, and note the rename in the commit/notes.
+
+## Clobber a dead argument register to delay a later setup (2026-10-23)
+Adding a clobber of an argument register that's dead at that point (e.g. `"$4"` for a0) to an asm makes any later
+setup of that register wait until after the asm. func_0011B500 matched with that plus an allocation-only `"+r"` operand.
