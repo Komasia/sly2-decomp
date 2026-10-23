@@ -393,3 +393,9 @@ scheduler) and find the FIRST pass where our output differs from the target. Fix
 - **sched1/sched2:** show priority ties and dependences (see the scheduler-dump section above).
 - **.greg/.lreg:** show register allocation; a tie there can justify the one allowed pin.
 - **.gcse:** shows the order gcse creates pseudos in, which can decide register and slot order.
+
+## Comma increments and earlyclobber on asm outputs (2026-10-23)
+- In a loop with two counters, `k++, i++` in one for-increment can produce a different schedule from two separate
+  statements. That took func_0015B428 from 56 to 4.
+- An earlyclobber output (`"=&j"`) forces a different register from every input. If the target reuses an input's
+  register for the output, drop the `&` (`"=j"`). That was the last fix for func_0015B428 (4 → 0) and helped func_00137248.
