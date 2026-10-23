@@ -1,3 +1,4 @@
+// fresh6 (Claude agent, lane A17, 2026-10-23): aligned 7 -> 2. A commented `register M3 *pt asm("$5") = &m` pin plus a commented empty volatile asm right after it keep `a1 = sp` ahead of the MulM3 asm, so pa is copied to v0 like the target. Left: s0=a0 / sd ra swap and addiu a2 after the first sqc2 (sched2 priority: the barrier adds deps). NOTE: still has fresh5's three VF output pins.
 // fresh5 (Claude agent, lane A12): aligned 7 like .c, alternative base: NON-volatile asm with "m"(*pa)/"m"(*pb) inputs keeps pm in a0 across the asm like the target (no daddu a0,s0). Left: target sets a1=sp before the asm and copies pa to v0.
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
