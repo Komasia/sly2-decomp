@@ -1,4 +1,4 @@
-/* v2 (Claude agent): Dot returns float (qmfc2 "=r" float) -> regs a1/a2/a3/v0/v1 now match the target; aligned 11 -> 8. Left: the float is stored with mtc1+swc1, target sw $a3 from the GPR. */
+/* v3 (Claude agent, lane D3): Dot as a plain {} block macro writing qmfc2 into a named float; aligned 8 -> 4. Left: target keeps &ax[i].normal in a reg (addiu 0x10 + loop-head nop), ours folds it into lqc2 0x10; the float still goes mtc1+swc1 (target sw $a3). */
 typedef int qword __attribute__((mode(TI)));
 struct X { qword pos; qword normal; qword x20; };
 struct E { int a, b, c; };
