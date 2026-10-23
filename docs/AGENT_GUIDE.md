@@ -350,3 +350,8 @@ take them out ONE AT A TIME and keep each removal only if the aligned count drop
 If an asm writes to scratch memory (stack or scratchpad) and the target orders loads and stores around it differently,
 add a `"memory"` clobber to those asm statements so gcc doesn't move memory accesses across them. This matched
 UpdateWrMatrixes__FP2WR (14 → 0).
+
+## M3 matrix helpers: named return plus a dead copy (2026-10-23)
+func_00122F00 (18 → 0) matched with a g++ **named-return-value** MulM3 helper (`M3 MulM3(...) return r { ... }`), plus a
+per-row M3 copy that is never used afterwards but still shapes the stack frame and schedule. If a matrix function has
+an unexplained stack copy, try a named return and a dead local copy.
