@@ -1,3 +1,4 @@
+// fresh13 (Claude agent, lane A6): aligned 11, as fresh12, but `M3 us` for the gScale dead store puts ka/kb dead stores at 0x30 like the target. Left: VF numbering/schedule of the final vmulax block.
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
