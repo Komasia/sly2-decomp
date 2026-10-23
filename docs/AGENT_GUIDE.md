@@ -411,3 +411,8 @@ Declare it in the shared header if siblings use it, and note the rename in the c
 ## Clobber a dead argument register to delay a later setup (2026-10-23)
 Adding a clobber of an argument register that's dead at that point (e.g. `"$4"` for a0) to an asm makes any later
 setup of that register wait until after the asm. func_0011B500 matched with that plus an allocation-only `"+r"` operand.
+
+## Some D_ "globals" are really local initializers (2026-10-23)
+If a D_ symbol holds a small constant block that only one function uses (e.g. `{0.1f, 1.0f}`), it may be that
+function's local aggregate initializer, `struct LM lm = {0.1f, 1.0f};`, which gcc puts in .rodata. Writing it
+as a local changes register allocation. In func_00146B18 that let one pin be removed.
