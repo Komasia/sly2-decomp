@@ -1,4 +1,4 @@
-// v4 (Claude agent, laneC16 2026-10-23): v3 plus ONE pin (pe in $19): 39 -> 32.
+// v4 (Claude agent, laneC16 2026-10-23): 39 -> 30. ONE pin (pe in $19, gives a copy daddu s3,a0 + bc1t where the target has addu s3 + bc1tl), first-branch store pairs and the final xD0/xC0 stores written in reversed order, p80 temp for x88, d.f[0] before c. Left: loop !po store order, b init (target qmfc2+sq), Madd VF numbering, pin copy. pq pinned to $18 instead: 23 aligned but many positional shifts (param copy).
 // v3 (Claude agent, laneC16 2026-10-23): aligned 57 -> 39. Also Madd ties r to a ("0"(a)) and the vadda asm has an unused "j"(s) (allocation-only). The pb == NULL branch reads p->p4 through a volatile P*: the target reloads p->p4 there, so the loop's p->p4 pseudo dies at the xC8 load (v1) like the target. Left: pq/pe s2/s3 swap, !po store order, b init via qmfc2/sq, Madd VF numbering, final store order.
 // fresh1 (Claude agent, 2026-10-23): aligned 57 (old v2 58). Left: p/pe s3/s1 swap, init-store order, VF numbering in the madd block. Note: the assembler swaps vadda operands, so write "%0, $vf0".
 typedef int qword __attribute__((mode(TI)));
@@ -57,19 +57,21 @@ void func_00138660(struct P *p, struct Q *pq)
             qword v = p->x10;
             float *pv = pq->xD0.f;
             float *pw = pq->xF0.f;
+            float *p80;
             pq->x9A = 2;
-            pq->xC0.q = v;
             pq->xE0.q = v;
-            pv[1] = 0;
+            pq->xC0.q = v;
             pv[2] = 0;
+            pv[1] = 0;
             pv[0] = 0;
-            pw[1] = 0;
             pw[2] = 0;
+            pw[1] = 0;
+            p80 = &pq->x80;
             pq->x8C = &pq->x84;
             pq->x84 = 1.0f;
-            pq->x88 = &pq->x80;
-            pw[0] = 0;
+            pq->x88 = p80;
             pq->x80 = 0.0f;
+            pw[0] = 0;
         }
         return;
     }
@@ -94,8 +96,8 @@ void func_00138660(struct P *p, struct Q *pq)
             continue;
         po = p->xC[i];
         if (!po) {
-            c.q = p->x10;
             d.f[0] = 0.0f;
+            c.q = p->x10;
             d.f[2] = 0.0f;
             d.f[1] = 0.0f;
         } else {
@@ -130,6 +132,6 @@ void func_00138660(struct P *p, struct Q *pq)
         }
     }
     pq->x9A = 4;
-    pq->xC0.q = a.q;
     pq->xD0.q = b.q;
+    pq->xC0.q = a.q;
 }
