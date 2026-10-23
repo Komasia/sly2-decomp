@@ -372,3 +372,9 @@ output to a plain `qword` local and assign that to the union afterwards. This wa
 ## Statement macros: a plain `{ }` block, not `do { } while (0)` (2026-10-23)
 With this gcc, a `do { ... } while (0)` macro can leave an extra nop (it's a loop to the scheduler). If a macro body
 shows up with a stray nop, define it as a plain `{ ... }` block. That helped func_0013C560 go from 46 to 13.
+
+## Pass &local through a small inline helper to stop gcse sharing the address (2026-10-23)
+When the target recomputes `&local` (an `addiu` from sp) at each use but our build computes it once and keeps it in a
+register, pass the address through a small inline helper (e.g. `static inline T *Addr(T *p) { return p; }`) or have an
+inline wrapper take the address itself. This stops gcse sharing the address. It matched func_00120FB0 (2 → 0) and
+func_001300B8 (46 → 0).
