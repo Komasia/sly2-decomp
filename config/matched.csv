@@ -957,12 +957,14 @@ func_0011B318,0x11B318,10,match,src/auto/func_0011B318.c
 func_0011B340,0x11B340,36,match,src/hand/func_0011B340.c
 NormalizeRotateMatrix3__FP7MATRIX3,0x11B3D0,40,match,src/hand/NormalizeRotateMatrix3__FP7MATRIX3.cpp
 func_0011B480,0x11B480,31,match,src/hand/func_0011B480.c
+func_0011B500,0x11B500,27,match,src/hand/func_0011B500.c
 func_0011B570,0x11B570,45,match,src/hand/func_0011B570.c
 func_0011B628,0x11B628,61,match,src/hand/func_0011B628.c
 func_0011B720,0x11B720,48,match,src/hand/func_0011B720.c
 func_0011B7E0,0x11B7E0,18,match,src/hand/func_0011B7E0.c
 func_0011B830,0x11B830,66,match,src/hand/func_0011B830.c
 func_0011B938,0x11B938,49,match,src/hand/func_0011B938.c
+func_0011BC00,0x11BC00,34,match,src/hand/func_0011BC00.c
 DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1,0x11BC88,27,match,src/hand/DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1.cpp
 DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR,0x11BCF8,176,match,src/hand/DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR.cpp
 func_0011BFB8,0x11BFB8,14,match,src/hand/func_0011BFB8.c
@@ -1023,10 +1025,12 @@ func_0011E290,0x11E290,18,match,src/hand/func_0011E290.c
 func_0011E2D8,0x11E2D8,46,match,src/hand/func_0011E2D8.c
 func_0011E390,0x11E390,71,match,src/hand/func_0011E390.c
 func_0011E4B0,0x11E4B0,95,match,src/hand/func_0011E4B0.c
+func_0011E630,0x11E630,102,match,src/hand/func_0011E630.c
 func_0011E7C8,0x11E7C8,100,match,src/hand/func_0011E7C8.c
 func_0011E958,0x11E958,39,match,src/hand/func_0011E958.c
 func_0011E9F8,0x11E9F8,26,match,src/hand/func_0011E9F8.c
 func_0011EBB0,0x11EBB0,98,match,src/hand/func_0011EBB0.c
+func_0011ED40,0x11ED40,49,match,src/hand/func_0011ED40.c
 func_0011EE08,0x11EE08,61,match,src/hand/func_0011EE08.c
 func_0011EF08,0x11EF08,41,match,src/hand/func_0011EF08.c
 func_0011EFB0,0x11EFB0,54,match,src/hand/func_0011EFB0.c
@@ -1359,6 +1363,7 @@ func_0012D088,0x12D088,19,match,src/auto/func_0012D088.c
 func_0012D0D8,0x12D0D8,11,match,src/auto/func_0012D0D8.c
 func_0012D108,0x12D108,65,match,src/hand/func_0012D108.c
 func_0012D210,0x12D210,3,match,src/hand/func_0012D210.c
+func_0012D220,0x12D220,174,match,src/hand/func_0012D220.c
 func_0012D4D8,0x12D4D8,12,match,src/auto/func_0012D4D8.c
 func_0012D508,0x12D508,212,match,src/hand/func_0012D508.cpp
 func_0012D858,0x12D858,13,match,src/hand/func_0012D858.c
@@ -1900,6 +1905,7 @@ func_0014A200,0x14A200,17,match,src/hand/func_0014A200.c
 func_0014A248,0x14A248,21,match,src/auto/func_0014A248.c
 func_0014A2A0,0x14A2A0,118,match,src/hand/func_0014A2A0.c
 func_0014A478,0x14A478,21,match,src/hand/func_0014A478.c
+func_0014A4D0,0x14A4D0,344,match,src/hand/func_0014A4D0.cpp
 func_0014AA30,0x14AA30,208,match,src/hand/func_0014AA30.c
 func_0014AD70,0x14AD70,41,match,src/hand/func_0014AD70.c
 func_0014AE18,0x14AE18,8,match,src/auto/func_0014AE18.c
@@ -2034,6 +2040,7 @@ func_00150610,0x150610,69,match,src/hand/func_00150610.c
 func_00150728,0x150728,21,match,src/auto/func_00150728.c
 func_00150780,0x150780,29,match,src/hand/func_00150780.c
 func_001507F8,0x1507F8,79,match,src/hand/func_001507F8.c
+func_00150938,0x150938,59,match,src/hand/func_00150938.c
 func_00150A28,0x150A28,239,match,src/hand/func_00150A28.c
 func_00150DE8,0x150DE8,14,match,src/auto/func_00150DE8.c
 func_00150E20,0x150E20,15,match,src/auto/func_00150E20.c
@@ -2075,6 +2082,7 @@ func_001527C8,0x1527C8,17,match,src/hand/func_001527C8.c
 func_00152810,0x152810,88,match,src/hand/func_00152810.c
 func_00152970,0x152970,121,match,src/hand/func_00152970.c
 func_00152B58,0x152B58,64,match,src/hand/func_00152B58.c
+func_00152C58,0x152C58,308,match,src/hand/func_00152C58.cpp
 func_00153128,0x153128,32,match,src/auto/func_00153128.c
 func_001531A8,0x1531A8,76,match,src/hand/func_001531A8.c
 func_001532D8,0x1532D8,53,match,src/hand/func_001532D8.c
@@ -2135,6 +2143,7 @@ func_00155A38,0x155A38,12,match,src/auto/func_00155A38.c
 func_00155A68,0x155A68,29,match,src/hand/func_00155A68.c
 func_00155AE0,0x155AE0,172,match,src/hand/func_00155AE0.c
 func_00155D90,0x155D90,135,match,src/hand/func_00155D90.c
+func_00155FB0,0x155FB0,248,match,src/hand/func_00155FB0.cpp
 func_00156390,0x156390,77,match,src/auto/func_00156390.c
 func_001564C8,0x1564C8,8,match,src/auto/func_001564C8.c
 func_001564E8,0x1564E8,24,match,src/hand/func_001564E8.c
@@ -2194,6 +2203,7 @@ NCmpPrplReverseZ__FPP3RPLT0,0x157A50,18,match,src/hand/NCmpPrplReverseZ__FPP3RPL
 func_00157A98,0x157A98,18,match,src/hand/func_00157A98.c
 func_00157AE0,0x157AE0,131,match,src/hand/func_00157AE0.c
 func_00157CF0,0x157CF0,172,match,src/hand/func_00157CF0.c
+func_00157FA0,0x157FA0,312,match,src/hand/func_00157FA0.c
 func_00158480,0x158480,77,match,src/auto/func_00158480.c
 func_001585B8,0x1585B8,8,match,src/auto/func_001585B8.c
 func_001585D8,0x1585D8,36,match,src/hand/func_001585D8.c
@@ -2226,7 +2236,9 @@ CalculateEmitvx__FiP2LMiP6EMITVX,0x15AE38,52,match,src/hand/CalculateEmitvx__FiP
 ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4,0x15AF08,111,match,src/hand/ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4.c
 func_0015B0C8,0x15B0C8,57,match,src/hand/func_0015B0C8.c
 func_0015B1B0,0x15B1B0,158,match,src/hand/func_0015B1B0.cpp
+func_0015B428,0x15B428,240,match,src/hand/func_0015B428.cpp
 func_0015B7E8,0x15B7E8,130,match,src/hand/func_0015B7E8.cpp
+func_0015B9F0,0x15B9F0,204,match,src/hand/func_0015B9F0.cpp
 func_0015BD20,0x15BD20,66,match,src/hand/func_0015BD20.cpp
 func_0015BE28,0x15BE28,68,match,src/hand/func_0015BE28.c
 func_0015BF40,0x15BF40,37,match,src/hand/func_0015BF40.c
