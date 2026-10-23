@@ -355,3 +355,8 @@ UpdateWrMatrixes__FP2WR (14 → 0).
 func_00122F00 (18 → 0) matched with a g++ **named-return-value** MulM3 helper (`M3 MulM3(...) return r { ... }`), plus a
 per-row M3 copy that is never used afterwards but still shapes the stack frame and schedule. If a matrix function has
 an unexplained stack copy, try a named return and a dead local copy.
+
+## Take a global's address through its containing struct (2026-10-23)
+If the target builds an address as `lui`/`addiu` of a struct base plus a field offset, not the field's own symbol,
+write it as `&D_struct.field` rather than `&D_fieldsymbol`, even when both are the same address. This changes how gcc
+splits the hi/lo parts and schedules them. Matched func_00143410 (`&D_003DD490.trie` instead of `&D_003E0EA8`).
