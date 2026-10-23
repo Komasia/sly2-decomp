@@ -378,3 +378,9 @@ When the target recomputes `&local` (an `addiu` from sp) at each use but our bui
 register, pass the address through a small inline helper (e.g. `static inline T *Addr(T *p) { return p; }`) or have an
 inline wrapper take the address itself. This stops gcse sharing the address. It matched func_00120FB0 (2 → 0) and
 func_001300B8 (46 → 0).
+
+## Use the scheduler dump to break ties; check callee return types (2026-10-23)
+For a schedule-order diff, compile with `-fsched-verbose-5` and read the sched2 dump. When two instructions are tied, the
+tie goes to the one with more dependent instructions later on. A call that "returns" a value in $v0 adds a dependence,
+so **declaring a callee `void` when the target never uses its result** can flip the tie. That matched func_00230710
+(1 → 0) with no pins. Also check every callee prototype: an `int` return the target never reads changes scheduling.
