@@ -897,6 +897,7 @@ func_00118510,0x118510,77,match,src/auto/func_00118510.c
 func_00118648,0x118648,8,match,src/auto/func_00118648.c
 func_00118A88,0x118A88,159,match,src/hand/func_00118A88.cpp
 func_00118D08,0x118D08,168,match,src/hand/func_00118D08.cpp
+func_00118FB0,0x118FB0,55,match,src/hand/func_00118FB0.cpp
 func_001191E8,0x1191E8,71,match,src/hand/func_001191E8.c
 func_00119308,0x119308,33,match,src/hand/func_00119308.c
 func_00119390,0x119390,11,match,src/hand/func_00119390.c
@@ -1016,6 +1017,7 @@ func_0011E208,0x11E208,34,match,src/hand/func_0011E208.c
 func_0011E290,0x11E290,18,match,src/hand/func_0011E290.c
 func_0011E2D8,0x11E2D8,46,match,src/hand/func_0011E2D8.c
 func_0011E4B0,0x11E4B0,95,match,src/hand/func_0011E4B0.c
+func_0011E7C8,0x11E7C8,100,match,src/hand/func_0011E7C8.c
 func_0011E958,0x11E958,39,match,src/hand/func_0011E958.c
 func_0011E9F8,0x11E9F8,26,match,src/hand/func_0011E9F8.c
 func_0011EBB0,0x11EBB0,98,match,src/hand/func_0011EBB0.c
@@ -1027,6 +1029,8 @@ func_0011F288,0x11F288,12,match,src/hand/func_0011F288.c
 func_0011F2B8,0x11F2B8,12,match,src/hand/func_0011F2B8.c
 func_0011F2E8,0x11F2E8,77,match,src/auto/func_0011F2E8.c
 func_0011F420,0x11F420,8,match,src/auto/func_0011F420.c
+func_0011F440,0x11F440,163,match,src/hand/func_0011F440.cpp
+func_0011F6D0,0x11F6D0,163,match,src/hand/func_0011F6D0.cpp
 func_0011FEC8,0x11FEC8,258,match,src/hand/func_0011FEC8.cpp
 func_001202D0,0x1202D0,11,match,src/auto/func_001202D0.c
 func_00120300,0x120300,11,match,src/auto/func_00120300.c
@@ -1078,6 +1082,7 @@ func_00121F00,0x121F00,110,match,src/hand/func_00121F00.cpp
 func_001220B8,0x1220B8,43,match,src/hand/func_001220B8.c
 func_00122168,0x122168,43,match,src/hand/func_00122168.c
 func_00122218,0x122218,43,match,src/hand/func_00122218.c
+func_001222C8,0x1222C8,62,match,src/hand/func_001222C8.c
 func_001223C0,0x1223C0,58,match,src/hand/func_001223C0.cpp
 func_001224A8,0x1224A8,34,match,src/hand/func_001224A8.c
 func_00122530,0x122530,12,match,src/auto/func_00122530.c
@@ -1222,6 +1227,7 @@ func_00126F78,0x126F78,59,match,src/hand/func_00126F78.cpp
 func_00127068,0x127068,74,match,src/hand/func_00127068.cpp
 func_00127190,0x127190,38,match,src/hand/func_00127190.c
 func_00127228,0x127228,46,match,src/hand/func_00127228.cpp
+func_001272E0,0x1272E0,341,match,src/hand/func_001272E0.cpp
 func_00127838,0x127838,97,match,src/hand/func_00127838.cpp
 func_001279C0,0x1279C0,77,match,src/auto/func_001279C0.c
 func_00127AF8,0x127AF8,8,match,src/auto/func_00127AF8.c
@@ -1403,6 +1409,7 @@ func_0012F8C0,0x12F8C0,12,match,src/hand/func_0012F8C0.c
 func_0012F8F0,0x12F8F0,18,match,src/hand/func_0012F8F0.c
 func_0012F938,0x12F938,21,match,src/hand/func_0012F938.c
 func_0012F990,0x12F990,10,match,src/auto/func_0012F990.c
+func_0012F9B8,0x12F9B8,267,match,src/hand/func_0012F9B8.cpp
 func_0012FDE8,0x12FDE8,27,match,src/hand/func_0012FDE8.c
 func_0012FE58,0x12FE58,45,match,src/hand/func_0012FE58.cpp
 func_0012FF10,0x12FF10,64,match,src/hand/func_0012FF10.cpp
@@ -1423,6 +1430,7 @@ func_00130918,0x130918,127,match,src/hand/func_00130918.c
 func_00130B18,0x130B18,133,match,src/hand/func_00130B18.c
 func_00130D30,0x130D30,96,match,src/hand/func_00130D30.c
 UpdateAsegaIeaCur__FP5ASEGA,0x130EB0,53,match,src/hand/UpdateAsegaIeaCur__FP5ASEGA.cpp
+func_00130F88,0x130F88,93,match,src/hand/func_00130F88.cpp
 func_00131100,0x131100,92,match,src/hand/func_00131100.cpp
 func_00131270,0x131270,7,match,src/hand/func_00131270.c
 func_00131290,0x131290,297,match,src/hand/func_00131290.cpp
@@ -1550,6 +1558,7 @@ func_001371C8,0x1371C8,19,match,src/hand/func_001371C8.c
 func_00137218,0x137218,11,match,src/auto/func_00137218.c
 func_001374E0,0x1374E0,4,match,src/auto/func_001374E0.c
 func_001374F0,0x1374F0,56,match,src/hand/func_001374F0.c
+func_001375D0,0x1375D0,108,match,src/hand/func_001375D0.cpp
 func_00137780,0x137780,77,match,src/auto/func_00137780.c
 func_001378B8,0x1378B8,8,match,src/auto/func_001378B8.c
 func_001378D8,0x1378D8,77,match,src/auto/func_001378D8.c
@@ -1570,6 +1579,7 @@ func_001390D8,0x1390D8,59,match,src/hand/func_001390D8.c
 func_001391C8,0x1391C8,33,match,src/hand/func_001391C8.c
 func_00139250,0x139250,49,match,src/hand/func_00139250.c
 func_00139318,0x139318,21,match,src/hand/func_00139318.c
+func_001394C8,0x1394C8,261,match,src/hand/func_001394C8.c
 func_001398E0,0x1398E0,7,match,src/auto/func_001398E0.c
 func_00139900,0x139900,20,match,src/auto/func_00139900.c
 func_0013A688,0x13A688,105,match,src/hand/func_0013A688.c
@@ -1945,6 +1955,7 @@ func_0014E148,0x14E148,8,match,src/auto/func_0014E148.c
 func_0014E168,0x14E168,15,match,src/auto/func_0014E168.c
 func_0014E1A8,0x14E1A8,49,match,src/hand/func_0014E1A8.c
 func_0014E270,0x14E270,44,match,src/hand/func_0014E270.c
+func_0014E328,0x14E328,104,match,src/hand/func_0014E328.c
 func_0014E4C8,0x14E4C8,116,match,src/hand/func_0014E4C8.c
 func_0014E698,0x14E698,13,match,src/hand/func_0014E698.c
 func_0014E6D0,0x14E6D0,37,match,src/hand/func_0014E6D0.c
@@ -1953,6 +1964,7 @@ func_0014E920,0x14E920,18,match,src/auto/func_0014E920.c
 func_0014E968,0x14E968,40,match,src/hand/func_0014E968.c
 func_0014EA08,0x14EA08,90,match,src/hand/func_0014EA08.c
 func_0014EB70,0x14EB70,139,match,src/hand/func_0014EB70.cpp
+func_0014EDA0,0x14EDA0,164,match,src/hand/func_0014EDA0.c
 func_0014F030,0x14F030,3,match,src/auto/func_0014F030.c
 func_0014F268,0x14F268,40,match,src/hand/func_0014F268.c
 func_0014F308,0x14F308,45,match,src/hand/func_0014F308.c
@@ -2193,6 +2205,7 @@ CalculateEmitvx__FiP2LMiP6EMITVX,0x15AE38,52,match,src/hand/CalculateEmitvx__FiP
 ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4,0x15AF08,111,match,src/hand/ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4.c
 func_0015B0C8,0x15B0C8,57,match,src/hand/func_0015B0C8.c
 func_0015B1B0,0x15B1B0,158,match,src/hand/func_0015B1B0.cpp
+func_0015B7E8,0x15B7E8,130,match,src/hand/func_0015B7E8.cpp
 func_0015BD20,0x15BD20,66,match,src/hand/func_0015BD20.cpp
 func_0015BE28,0x15BE28,68,match,src/hand/func_0015BE28.c
 func_0015BF40,0x15BF40,37,match,src/hand/func_0015BF40.c
@@ -2249,12 +2262,14 @@ DxFromCh__8CFontBrxc,0x15F0F0,22,match,src/hand/DxFromCh__8CFontBrxc.cpp
 func_0015F148,0x15F148,53,match,src/auto/func_0015F148.c
 func_0015F220,0x15F220,114,match,src/hand/func_0015F220.c
 SwitchTex0__8CFontBrxP4GIFS,0x15F3E8,38,match,src/hand/SwitchTex0__8CFontBrxP4GIFS.cpp
+DxDrawCh__8CFontBrxcffUiP4GIFS,0x15F480,160,match,src/hand/DxDrawCh__8CFontBrxcffUiP4GIFS.cpp
 func_0015F710,0x15F710,93,match,src/hand/func_0015F710.cpp
 func_0015F888,0x15F888,7,match,src/hand/func_0015F888.c
 func_0015F8A8,0x15F8A8,31,match,src/hand/func_0015F8A8.c
 __9CRichTextPcP5CFont,0x15F928,18,match,src/auto/__9CRichTextPcP5CFont.c
 Reset__9CRichText,0x15F970,14,match,src/hand/Reset__9CRichText.cpp
 SetBaseColor__9CRichTextP4RGBA,0x15F9A8,10,match,src/hand/SetBaseColor__9CRichTextP4RGBA.cpp
+ChNext__9CRichText,0x15F9D0,226,match,src/hand/ChNext__9CRichText.cpp
 ClineWrap__9CRichTextf,0x15FD68,100,match,src/hand/ClineWrap__9CRichTextf.cpp
 FUN_0015e1b0,0x15FEF8,17,match,src/hand/FUN_0015e1b0.c
 DxMaxLine__9CRichText,0x15FF40,35,match,src/hand/DxMaxLine__9CRichText.cpp
