@@ -1,3 +1,4 @@
+// laneI5v4 (Claude agent): aligned 45. laneI2v2 + pad loop pdma/pbPad, ibMat offset, CopyQws volatile barrier, (ulong)(int)aw[6], pdesc before psub, plain tag constants.
 // func_00169198 (Claude agent, lane I1): fresh rewrite in the style of Lilly's matched files.
 // Builds the VIF packet for every submodel of a model: model matrix, optional bone matrices, optional skin matrices,
 // then queues the packet with its sort distance.

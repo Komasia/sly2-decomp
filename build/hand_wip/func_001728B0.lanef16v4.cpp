@@ -39,6 +39,7 @@ static inline qword QwLengthXY(qword v){qword qw;
  __asm__("vsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q":"=j"(qw):"0"(qw));return qw;}
 static inline float GFromVf(qword qw){float g;__asm__("qmfc2 %0, %1":"=r"(g):"j"(qw));return g;}
 static inline float GXOfQw(qword qw){float x;__asm__("mtc1 %1, %0":"=f"(x):"r"(qw));return x;}
+// allocation-only second "j"(b): the extra reference raises b's local-alloc priority, so b gets vf1 and the dot vf2 as in the target
 static inline qword QwDot(qword a,qword b){qword qw,vfOne;
  __asm__("vmul.xyz %1, %2, %3\n\tvaddw.x %0, $vf0, $vf0w\n\tvadday.x $ACC, %1, %1y\n\tvmaddz.x %1, %0, %1z":"=j"(vfOne),"=j"(qw):"j"(a),"j"(b),"j"(b));return qw;}
 static inline qword QwScaleX(qword v,qword g){qword qw;__asm__("vmulx.xyzw %0, %1, %2x":"=j"(qw):"j"(v),"0"(g));return qw;}
