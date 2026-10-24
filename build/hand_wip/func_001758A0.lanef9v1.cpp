@@ -39,6 +39,12 @@ struct PROPERTY { CREF ref; M4 frame; };
 union SLOT { LOS line; PROPERTY property; };
 struct POLY { float a, b, c; };
 struct CLOCK { float time, dt; };
+struct BASIC {
+    char pad0[0xC];
+    virtual void VUnk00();
+    virtual void VUnk01();
+    virtual void HandleSpliceEvent(unsigned symidEvent, int fPost, int cargs, void **ppvargs, CREF *pref);
+};
 extern "C" {
 extern CLOCK D_002DDED0;
 extern POLY D_002BE600;
@@ -209,10 +215,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
         {
         void **pa = &argument;
         *pa = (char *)entry + 0x18;
-        {
-            VTE *e = &p->vt[3];
-            ((void (*)(void *, int, int, int, void **, CREF *))e->fn)((char *)p + e->delta, 0x18, 0, 1, pa, ref);
-        }
+        ((BASIC *)p)->HandleSpliceEvent(0x18, 0, 1, pa, ref);
         }
         if (slot.property.ref.tagk != 0x17 || !slot.property.ref.tag) {
             func_00129EC8(ref);
