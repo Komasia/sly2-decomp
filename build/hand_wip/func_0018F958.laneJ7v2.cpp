@@ -1,4 +1,4 @@
-// func_0018F958 (Claude agent, lane J6, 2026-10-24): aligned 9, 27 diff lines, frame 0x2B0, 194 insns, no pins. laneJ6v2 + const-ref StoreDot input copied into a local (gcse hash 101 buckets).
+// func_0018F958 (Claude agent, lane J7, 2026-10-24): aligned 7, 15 diff lines, frame 0x2B0, 194 insns, no pins. laneJ7v1 + 64 commented empty asms at the end (131 gcse hash buckets): all six PRE slots 0x1EC..0x200 match. Left: D_002A2D00 lui regs (shared PRE HIGH), s3/s2 init order, matrix preheader i+1 order.
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));

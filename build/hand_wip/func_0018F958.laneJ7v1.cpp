@@ -1,4 +1,4 @@
-// func_0018F958 (Claude agent, lane J6, 2026-10-24): aligned 9, 27 diff lines, frame 0x2B0, 194 insns, no pins. laneJ6v2 + const-ref StoreDot input copied into a local (gcse hash 101 buckets).
+// func_0018F958 (Claude agent, lane J7, 2026-10-24): aligned 7, 29 diff lines, frame 0x2B0, 194 insns, no pins. laneJ6v3 + `U*second=Addr(&...second)` computed before the empty asm and reused by the .second store: the store giv representative is now earlier than the arg giv, so loop.c emits the arg increment first (target addiu s2 before s1).
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
