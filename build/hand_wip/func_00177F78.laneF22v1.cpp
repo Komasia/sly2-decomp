@@ -1,3 +1,4 @@
+// laneF22v1 (Claude agent): aligned 142 (laneF21v2 154). `float gNear = 1.0f; gNear -= sGap / D_002BE670;`: gNear is set twice, so its 1.0f is not a loop movable and the two 1.0f loads no longer combine; both stay in the loop as in the target. No pins, no new asm.
 // laneF21v2 (Claude agent): aligned 154 (laneF20v3 163). posNext (QwIntegrate) computed before vNew (target stores the VU_FLOAT temps dt, dt*dt*.5, dt in that order), and `float half = 0.5f;` declared before the dt load (target loads 0.5 into f1 first). No pins.
 // laneF20v3 (Claude agent): aligned 163. v2 + GEvaluateClqLm reads gMin and gMax into locals before the clamp (target loads gMax in the bc1f delay slot).
 // laneF20v2 (Claude agent): aligned 183. v1 + QwDot takes const-ref params.
