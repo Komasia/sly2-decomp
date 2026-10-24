@@ -1,4 +1,4 @@
-// func_0018F958 (Claude agent, lane J5, 2026-10-24): aligned 25, frame 0x2B0, 194 insns. laneJ4v3 with StoreDot output "=&rV"(*out): the never-chosen V alternative (operand offsettable) lets g++ keep *out a MEM (no SF temp), reload makes the output reload + sw like the target.
+// func_0018F958 (Claude agent, lane J5, 2026-10-24): aligned 18, 22 diff lines, frame 0x2B0, 194 insns, no pins. laneJ5v1 + one allocation-only extra "j"(a) on StoreDot (basis vf1/relative vf2 like the target) + rhs via block-scoped `float*in=input+axisIndex` (addu operand order). The 68 commented empty asms at the end ONLY pad the RTL to ~263 insns at gcse so the expression hash table has 131 buckets: that reproduces the target PRE slot order 0x1EC..0x200 (see notes/180000.md J1/J5). laneJ5v4 is the same without the padding.
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
