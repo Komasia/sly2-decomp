@@ -1,3 +1,4 @@
+// laneL2v1 (Claude agent, 2026-10-24): aligned 82 (fresh1 90). C++ VU_VECTOR/VU_FLOAT class helpers in the j loop: pass-1 loop 128 / pass-2 101 insns, so 1.0/512/224 and HIGH(D_002BD410) stay in the loop and only f20 is saved. Left: extra dead VU temp stores at 0xC0, D_002BD3B0[j] still strength-reduced, &rw spilled instead of fp.
 // fresh1 (Claude agent, 2026-10-23): aligned 90 (old 98): unsigned loop counters stop gcc reversing both loops (target uses sltiu). Left: p in s1 vs s3; the target's inner loop does not hoist 1.0/512/224/&D_002BD410 or strength-reduce D_002BD3B0[j]; ours hoists them all (f21-f23).
 // DRAFT (Claude agent): HUD 2-matrix GIF sprite draw (state loop 0..2 over x164/x168/x16C; logic complete, regalloc/frame not yet: extra f21-f23, p in s1 vs s3).
 typedef int qword __attribute__((mode(TI)));
