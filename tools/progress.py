@@ -20,10 +20,10 @@ def compile_any(src):
         return fns
     t = tempfile.mkdtemp(); of = os.path.join(t, 'f.o')
     if src.endswith('.c'):
-        flags = ['-x', 'c', '-O2', '-G0', '-ffast-math', '-mvu0-use-vf0-vf31', '-B' + B + '/', '-I/home/claude/m2c']
+        flags = ['-x', 'c', '-O2', '-G0', '-ffast-math', '-mvu0-use-vf0-vf31', '-B' + B + '/', '-I' + M.M2C_INC]
     else:
         flags = M.CFLAGS
-    p = subprocess.run([M.WIBO, M.CC, '-c'] + M.INCLUDES + flags + [src, '-o', of], capture_output=True, text=True, cwd=M.ROOT, timeout=120)
+    p = subprocess.run(M.WIBO_CMD + [M.CC, '-c'] + M.INCLUDES + flags + [src, '-o', of], capture_output=True, text=True, cwd=M.ROOT, timeout=120)
     if not os.path.exists(of):
         shutil.rmtree(t, ignore_errors=True); return None
     fns = M.obj_functions(of); shutil.rmtree(t, ignore_errors=True)
@@ -73,7 +73,7 @@ def main():
         if res is None: broken.append(src); continue
         for name, score in res:
             a, s = funcs[name]
-            rows.append((name, f'0x{a:06X}', s // 4, 'match' if score == 1.0 else f'{score:.3f}', os.path.relpath(src, M.ROOT)))
+            rows.append((name, f'0x{a:06X}', s // 4, 'match' if score == 1.0 else f'{score:.3f}', os.path.relpath(src, M.ROOT).replace(os.sep, '/')))
     rows.sort(key=lambda r: r[1])
     with open(os.path.join(M.ROOT, 'config', 'matched.csv'), 'w', newline='') as f:
         w = csv.writer(f); w.writerow(['name', 'addr', 'n_instr', 'status', 'source']); w.writerows(rows)
