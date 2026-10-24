@@ -1965,6 +1965,7 @@ func_0014C548,0x14C548,77,match,src/auto/func_0014C548.c
 func_0014C680,0x14C680,8,match,src/auto/func_0014C680.c
 func_0014C6A0,0x14C6A0,14,match,src/hand/func_0014C6A0.c
 func_0014C6D8,0x14C6D8,28,match,src/hand/func_0014C6D8.c
+func_0014C748,0x14C748,172,match,src/hand/func_0014C748.cpp
 func_0014C9F8,0x14C9F8,150,match,src/hand/func_0014C9F8.c
 PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG,0x14CC58,85,match,src/hand/PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG.c
 func_0014CDB0,0x14CDB0,54,match,src/hand/func_0014CDB0.c
