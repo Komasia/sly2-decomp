@@ -1,0 +1,731 @@
+func_00168638 @0x168638: 479/730 instructions differ (34.4%); aligned 33
+   00168638  addiu       $sp, $sp, -0x290             | addiu       $sp, $sp, -0x290
+   0016863C  lui         $v0, 0x2E                    | lui         $v0, 0x0
+   00168640  sq          $s6, 0x200($sp)              | sq          $s6, 0x200($sp)
+   00168644  addiu       $v0, $v0, -0x20C0            | addiu       $v0, $v0, 0x0
+   00168648  swc1        $f22, 0x280($sp)             | swc1        $f22, 0x280($sp)
+   0016864C  daddu       $s6, $a0, $zero              | daddu       $s6, $a0, $zero
+   00168650  swc1        $f21, 0x278($sp)             | swc1        $f21, 0x278($sp)
+   00168654  mov.s       $f22, $f12                   | mov.s       $f22, $f12
+   00168658  sq          $s0, 0x260($sp)              | sq          $s0, 0x260($sp)
+   0016865C  mov.s       $f21, $f13                   | mov.s       $f21, $f13
+   00168660  sq          $s1, 0x250($sp)              | sq          $s1, 0x250($sp)
+   00168664  sq          $s2, 0x240($sp)              | sq          $s2, 0x240($sp)
+   00168668  sq          $s3, 0x230($sp)              | sq          $s3, 0x230($sp)
+   0016866C  sq          $s4, 0x220($sp)              | sq          $s4, 0x220($sp)
+   00168670  sq          $s5, 0x210($sp)              | sq          $s5, 0x210($sp)
+   00168674  sq          $s7, 0x1F0($sp)              | sq          $s7, 0x1F0($sp)
+   00168678  sq          $fp, 0x1E0($sp)              | sq          $fp, 0x1E0($sp)
+   0016867C  sd          $ra, 0x1D0($sp)              | sd          $ra, 0x1D0($sp)
+   00168680  swc1        $f20, 0x270($sp)             | swc1        $f20, 0x270($sp)
+   00168684  lw          $a0, 0x0($s6)                | lw          $a0, 0x0($s6)
+   00168688  lwc1        $f0, 0x20($s6)               | lwc1        $f0, 0x20($s6)
+   0016868C  lw          $v1, 0x60($a0)               | lw          $v1, 0x60($a0)
+   00168690  sw          $a1, 0x160($sp)              | sw          $a1, 0x160($sp)
+   00168694  lq          $v0, 0x90($v0)               | lq          $v0, 0x90($v0)
+   00168698  sq          $v0, 0x170($sp)              | sq          $v0, 0x170($sp)
+   0016869C  addiu       $v0, $v1, 0x40               | addiu       $v0, $v1, 0x40
+   001686A0  lqc2        $vf4, 0x30($v0)              | lqc2        $vf4, 0x30($v0)
+   001686A4  lqc2        $vf3, 0x10($v0)              | lqc2        $vf3, 0x10($v0)
+   001686A8  lqc2        $vf5, 0x40($v1)              | lqc2        $vf5, 0x40($v1)
+   001686AC  sw          $a2, 0x164($sp)              | sw          $a2, 0x164($sp)
+   001686B0  lqc2        $vf2, 0x20($v0)              | lqc2        $vf2, 0x20($v0)
+   001686B4  lqc2        $vf1, 0x10($s6)              | lqc2        $vf1, 0x10($s6)
+   001686B8  daddu       $v0, $a1, $zero              | daddu       $v0, $a1, $zero
+   001686BC  vmulax.xyz  $ACC, $vf5, $vf1x            | vmulax.xyz  $ACC, $vf5, $vf1x
+   001686C0  vmadday.xyz $ACC, $vf3, $vf1y            | vmadday.xyz $ACC, $vf3, $vf1y
+   001686C4  vmaddaz.xyz $ACC, $vf2, $vf1z            | vmaddaz.xyz $ACC, $vf2, $vf1z
+   001686C8  vmaddw.xyz  $vf5, $vf4, $vf0w            | vmaddw.xyz  $vf5, $vf4, $vf0w
+   001686CC  beqz        $v0, . + 4 + (0x10 << 2)     | beqz        $v0, . + 4 + (0x10 << 2)
+   001686D0  swc1        $f0, 0x150($sp)              | swc1        $f0, 0x150($sp)
+   001686D4  lqc2        $vf4, 0x0($v0)               | lqc2        $vf4, 0x0($v0)
+   001686D8  daddu       $a0, $v0, $zero              | daddu       $a0, $v0, $zero
+   001686DC  lqc2        $vf3, 0x10($v0)              | lqc2        $vf3, 0x10($v0)
+   001686E0  lqc2        $vf2, 0x20($v0)              | lqc2        $vf2, 0x20($v0)
+   001686E4  lqc2        $vf1, 0x30($v0)              | lqc2        $vf1, 0x30($v0)
+   001686E8  vmulax.xyz  $ACC, $vf4, $vf5x            | vmulax.xyz  $ACC, $vf4, $vf5x
+   001686EC  vmadday.xyz $ACC, $vf3, $vf5y            | vmadday.xyz $ACC, $vf3, $vf5y
+   001686F0  vmaddaz.xyz $ACC, $vf2, $vf5z            | vmaddaz.xyz $ACC, $vf2, $vf5z
+   001686F4  vmaddw.xyz  $vf5, $vf1, $vf0w            | vmaddw.xyz  $vf5, $vf1, $vf0w
+   001686F8  jal         func_11CAB0                  | jal         func_000000
+   001686FC  sqc2        $vf5, 0x1C0($sp)             | sqc2        $vf5, 0x1C0($sp)
+   00168700  lwc1        $f1, 0x150($sp)              | lwc1        $f1, 0x150($sp)
+   00168704  lqc2        $vf5, 0x1C0($sp)             | lqc2        $vf5, 0x1C0($sp)
+   00168708  mul.s       $f1, $f1, $f0                | mul.s       $f1, $f1, $f0
+   0016870C  swc1        $f1, 0x150($sp)              | swc1        $f1, 0x150($sp)
+   00168710  ld          $v0, 0x50($s6)               | ld          $v0, 0x50($s6)
+   00168714  ori         $v1, $zero, 0x8000           | ori         $v1, $zero, 0x8000
+   00168718  dsll        $v1, $v1, 18                 | dsll        $v1, $v1, 18
+   0016871C  and         $v0, $v0, $v1                | and         $v0, $v0, $v1
+   00168720  beqz        $v0, . + 4 + (0x7 << 2)      | beqz        $v0, . + 4 + (0x7 << 2)
+   00168724  lw          $v1, 0x164($sp)              | lw          $v1, 0x164($sp)
+   00168728  lw          $a0, 0x24($v1)               | lw          $a0, 0x24($v1)
+   0016872C  beqz        $a0, . + 4 + (0x4 << 2)      | beqz        $a0, . + 4 + (0x4 << 2)
+   00168730  qmfc2.ni    $a1, $vf5                    | qmfc2.ni    $a1, $vf5
+   00168734  jal         func_167DA0                  | jal         func_000000
+   00168738  addiu       $a2, $sp, 0x150              | addiu       $a2, $sp, 0x150
+   0016873C  qmtc2.ni    $v0, $vf5                    | qmtc2.ni    $v0, $vf5
+   00168740  lui         $a3, 0x2E                    | lui         $a3, 0x0
+!! 00168744  lw          $v1, 0x0($s6)                | lw          $a2, 0x0($s6)
+   00168748  addiu       $a1, $a3, -0x2020            | addiu       $a1, $a3, 0xA0
+!! 0016874C  lw          $a0, 0x38($v1)               | lw          $a0, 0x150($sp)
+   00168750  lw          $v0, -0x84($a1)              | lw          $v0, -0x84($a1)
+!! 00168754  lw          $a2, 0x150($sp)              | lw          $v1, 0x38($a2)
+   00168758  sq          $v0, 0x0($sp)                | sq          $v0, 0x0($sp)
+!! 0016875C  qmtc2.ni    $v0, $vf14                   | sq          $a0, 0x0($sp)
+!! 00168760  sq          $a2, 0x0($sp)                | qmtc2.ni    $v0, $vf14
+!! 00168764  vmove.xyzw  $vf15, $vf5                  | sq          $v1, 0x0($sp)
+!! 00168768  sq          $a0, 0x0($sp)                | vmove.xyzw  $vf15, $vf5
+!! 0016876C  qmtc2.ni    $a2, $vf16                   | qmtc2.ni    $a0, $vf16
+!! 00168770  qmtc2.ni    $a0, $vf17                   | qmtc2.ni    $v1, $vf17
+   00168774  lqc2        $vf10, 0x0($a1)              | lqc2        $vf10, 0x0($a1)
+   00168778  lqc2        $vf11, 0x10($a1)             | lqc2        $vf11, 0x10($a1)
+   0016877C  lqc2        $vf12, 0x20($a1)             | lqc2        $vf12, 0x20($a1)
+   00168780  lqc2        $vf13, 0x170($sp)            | lqc2        $vf13, 0x170($sp)
+   00168784  vcallms     0x1C0                        | vcallms     0x1C0
+   00168788  cfc2.i      $zero, $vi0                  | cfc2.i      $zero, $vi0
+   0016878C  qmfc2.ni    $a0, $vf19                   | qmfc2.ni    $a0, $vf19
+   00168790  mtc1        $zero, $f0                   | mtc1        $zero, $f0
+   00168794  mtc1        $a0, $f20                    | mtc1        $a0, $f20
+   00168798  nop                                      | nop
+   0016879C  c.eq.s      $f20, $f0                    | c.eq.s      $f20, $f0
+   001687A0  nop                                      | nop
+!! 001687A4  bc1t        . + 4 + (0x26E << 2)         | bc1t        . + 4 + (0x270 << 2)
+   001687A8  lq          $s0, 0x260($sp)              | lq          $s0, 0x260($sp)
+   001687AC  lui         $v0, 0x2E                    | lui         $v0, 0x0
+   001687B0  lui         $v1, 0x3E                    | lui         $v1, 0x0
+   001687B4  lwc1        $f0, -0x2130($v0)            | lwc1        $f0, 0x0($v0)
+   001687B8  daddu       $s2, $v1, $zero              | daddu       $s2, $v1, $zero
+   001687BC  addiu       $v1, $v1, -0x2B70            | addiu       $v1, $v1, 0x0
+   001687C0  lw          $a0, 0x4C($s6)               | lw          $a0, 0x4C($s6)
+   001687C4  swc1        $f0, 0x4($s6)                | swc1        $f0, 0x4($s6)
+   001687C8  lw          $v0, 0x3D5C($v1)             | lw          $v0, 0x3D5C($v1)
+   001687CC  beql        $a0, $v0, . + 4 + (0x4 << 2) | beql        $a0, $v0, . + 4 + (0x4 << 2)
+   001687D0  lw          $v0, 0x24($s6)               | lw          $v0, 0x24($s6)
+   001687D4  jal         func_1681F8                  | jal         func_000000
+   001687D8  daddu       $a0, $s6, $zero              | daddu       $a0, $s6, $zero
+   001687DC  lw          $v0, 0x24($s6)               | lw          $v0, 0x24($s6)
+   001687E0  blez        $v0, . + 4 + (0x14 << 2)     | blez        $v0, . + 4 + (0x14 << 2)
+   001687E4  daddu       $s1, $zero, $zero            | daddu       $s1, $zero, $zero
+   001687E8  lw          $v1, 0x28($s6)               | lw          $v1, 0x28($s6)
+   001687EC  nop                                      | nop
+   001687F0  sll         $v0, $s1, 2                  | sll         $v0, $s1, 2
+   001687F4  addu        $v0, $v0, $v1                | addu        $v0, $v0, $v1
+   001687F8  lw          $s0, 0x0($v0)                | lw          $s0, 0x0($v0)
+   001687FC  jal         func_1EDA20                  | jal         func_000000
+   00168800  daddu       $a0, $s0, $zero              | daddu       $a0, $s0, $zero
+   00168804  beql        $v0, $zero, . + 4 + (0x7 << 2) | beql        $v0, $zero, . + 4 + (0x7 << 2)
+   00168808  lw          $v0, 0x24($s6)               | lw          $v0, 0x24($s6)
+   0016880C  lw          $v0, 0xC($s0)                | lw          $v0, 0xC($s0)
+   00168810  lh          $a0, 0x40($v0)               | lh          $a0, 0x40($v0)
+   00168814  lw          $v1, 0x44($v0)               | lw          $v1, 0x44($v0)
+   00168818  jalr        $v1                          | jalr        $v1
+   0016881C  addu        $a0, $s0, $a0                | addu        $a0, $s0, $a0
+   00168820  lw          $v0, 0x24($s6)               | lw          $v0, 0x24($s6)
+   00168824  addiu       $s1, $s1, 0x1                | addiu       $s1, $s1, 0x1
+   00168828  slt         $v0, $s1, $v0                | slt         $v0, $s1, $v0
+   0016882C  bnel        $v0, $zero, . + 4 + (-0x10 << 2) | bnel        $v0, $zero, . + 4 + (-0x10 << 2)
+   00168830  lw          $v1, 0x28($s6)               | lw          $v1, 0x28($s6)
+   00168834  ld          $v0, 0x50($s6)               | ld          $v0, 0x50($s6)
+   00168838  ori         $v1, $zero, 0x8000           | ori         $v1, $zero, 0x8000
+   0016883C  dsll        $v1, $v1, 19                 | dsll        $v1, $v1, 19
+   00168840  and         $v0, $v0, $v1                | and         $v0, $v0, $v1
+   00168844  beqz        $v0, . + 4 + (0x5 << 2)      | beqz        $v0, . + 4 + (0x5 << 2)
+   00168848  sw          $zero, 0x180($sp)            | sw          $zero, 0x180($sp)
+   0016884C  addiu       $v0, $s2, -0x2B70            | addiu       $v0, $s2, 0x0
+   00168850  lw          $v1, 0x3BEC($v0)             | lw          $v1, 0x3BEC($v0)
+   00168854  sltiu       $v1, $v1, 0x1                | sltiu       $v1, $v1, 0x1
+   00168858  sw          $v1, 0x180($sp)              | sw          $v1, 0x180($sp)
+   0016885C  lw          $v0, 0x38($s6)               | lw          $v0, 0x38($s6)
+!! 00168860  blez        $v0, . + 4 + (0x23E << 2)    | blez        $v0, . + 4 + (0x240 << 2)
+   00168864  daddu       $s1, $zero, $zero            | daddu       $s1, $zero, $zero
+   00168868  addiu       $a0, $zero, 0x14             | addiu       $a0, $zero, 0x14
+   0016886C  nop                                      | nop
+   00168870  addiu       $v0, $zero, 0x28             | addiu       $v0, $zero, 0x28
+   00168874  mult        $a0, $s1, $a0                | mult        $a0, $s1, $a0
+   00168878  lw          $a1, 0x3C($s6)               | lw          $a1, 0x3C($s6)
+   0016887C  mult        $v0, $s1, $v0                | mult        $v0, $s1, $v0
+   00168880  lw          $t2, 0x40($s6)               | lw          $t2, 0x40($s6)
+   00168884  lw          $a2, 0x44($s6)               | lw          $a2, 0x44($s6)
+   00168888  addiu       $v1, $zero, 0x18             | addiu       $v1, $zero, 0x18
+   0016888C  addiu       $a3, $s1, 0x1                | addiu       $a3, $s1, 0x1
+   00168890  mult        $v1, $s1, $v1                | mult        $v1, $s1, $v1
+   00168894  addu        $a1, $a1, $a0                | addu        $a1, $a1, $a0
+   00168898  sw          $a3, 0x1A4($sp)              | sw          $a3, 0x1A4($sp)
+   0016889C  sw          $a1, 0x168($sp)              | sw          $a1, 0x168($sp)
+   001688A0  addu        $s3, $t2, $v0                | addu        $s3, $t2, $v0
+   001688A4  lw          $a0, 0xC($s3)                | lw          $a0, 0xC($s3)
+   001688A8  andi        $v0, $a0, 0x800              | andi        $v0, $a0, 0x800
+!! 001688AC  bnez        $v0, . + 4 + (0x226 << 2)    | bnez        $v0, . + 4 + (0x228 << 2)
+   001688B0  addu        $s2, $a2, $v1                | addu        $s2, $a2, $v1
+   001688B4  andi        $v0, $a0, 0x1000             | andi        $v0, $a0, 0x1000
+   001688B8  beqz        $v0, . + 4 + (0x16 << 2)     | beqz        $v0, . + 4 + (0x16 << 2)
+   001688BC  addiu       $v0, $sp, 0x10               | addiu       $v0, $sp, 0x10
+   001688C0  lw          $a1, 0x10($s3)               | lw          $a1, 0x10($s3)
+   001688C4  daddu       $a0, $v0, $zero              | daddu       $a0, $v0, $zero
+   001688C8  daddu       $s0, $v0, $zero              | daddu       $s0, $v0, $zero
+   001688CC  addiu       $a2, $zero, 0x40             | addiu       $a2, $zero, 0x40
+   001688D0  jal         func_1AE5A0                  | jal         func_000000
+   001688D4  addiu       $a1, $a1, 0x14               | addiu       $a1, $a1, 0x14
+   001688D8  lw          $v0, 0x160($sp)              | lw          $v0, 0x160($sp)
+   001688DC  beqz        $v0, . + 4 + (0x2F << 2)     | beqz        $v0, . + 4 + (0x2F << 2)
+   001688E0  daddu       $a1, $v0, $zero              | daddu       $a1, $v0, $zero
+   001688E4  addiu       $a0, $sp, 0x50               | addiu       $a0, $sp, 0x50
+   001688E8  jal         func_11C168                  | jal         func_000000
+   001688EC  daddu       $a2, $s0, $zero              | daddu       $a2, $s0, $zero
+   001688F0  lq          $v0, 0x50($sp)               | lq          $v0, 0x50($sp)
+   001688F4  lq          $v1, 0x60($sp)               | lq          $v1, 0x60($sp)
+   001688F8  lq          $a0, 0x70($sp)               | lq          $a0, 0x70($sp)
+   001688FC  lq          $a1, 0x80($sp)               | lq          $a1, 0x80($sp)
+   00168900  sq          $v0, 0x10($sp)               | sq          $v0, 0x10($sp)
+   00168904  sq          $v1, 0x20($sp)               | sq          $v1, 0x20($sp)
+   00168908  sq          $a0, 0x30($sp)               | sq          $a0, 0x30($sp)
+   0016890C  b           . + 4 + (0x23 << 2)          | b           . + 4 + (0x23 << 2)
+   00168910  sq          $a1, 0x40($sp)               | sq          $a1, 0x40($sp)
+   00168914  lw          $a1, 0x4($s3)                | lw          $a1, 0x4($s3)
+   00168918  addiu       $a0, $sp, 0x50               | addiu       $a0, $sp, 0x50
+   0016891C  lw          $s0, 0x8($s3)                | lw          $s0, 0x8($s3)
+   00168920  addiu       $a2, $zero, 0x40             | addiu       $a2, $zero, 0x40
+   00168924  jal         func_23320C                  | jal         func_000000
+   00168928  addiu       $a1, $a1, 0x40               | addiu       $a1, $a1, 0x40
+   0016892C  beqz        $s0, . + 4 + (0x8 << 2)      | beqz        $s0, . + 4 + (0x8 << 2)
+   00168930  daddu       $a2, $s0, $zero              | daddu       $a2, $s0, $zero
+   00168934  addiu       $a0, $sp, 0x90               | addiu       $a0, $sp, 0x90
+   00168938  jal         func_11C168                  | jal         func_000000
+   0016893C  addiu       $a1, $sp, 0x50               | addiu       $a1, $sp, 0x50
+   00168940  addiu       $a0, $sp, 0x50               | addiu       $a0, $sp, 0x50
+   00168944  addiu       $a1, $sp, 0x90               | addiu       $a1, $sp, 0x90
+   00168948  jal         func_23320C                  | jal         func_000000
+   0016894C  addiu       $a2, $zero, 0x40             | addiu       $a2, $zero, 0x40
+   00168950  lw          $v1, 0x160($sp)              | lw          $v1, 0x160($sp)
+   00168954  beqz        $v1, . + 4 + (0x8 << 2)      | beqz        $v1, . + 4 + (0x8 << 2)
+   00168958  addiu       $a0, $sp, 0x90               | addiu       $a0, $sp, 0x90
+   0016895C  daddu       $a1, $v1, $zero              | daddu       $a1, $v1, $zero
+   00168960  jal         func_11C168                  | jal         func_000000
+   00168964  addiu       $a2, $sp, 0x50               | addiu       $a2, $sp, 0x50
+   00168968  addiu       $a0, $sp, 0x50               | addiu       $a0, $sp, 0x50
+   0016896C  addiu       $a1, $sp, 0x90               | addiu       $a1, $sp, 0x90
+   00168970  jal         func_23320C                  | jal         func_000000
+   00168974  addiu       $a2, $zero, 0x40             | addiu       $a2, $zero, 0x40
+   00168978  lq          $a1, 0x50($sp)               | lq          $a1, 0x50($sp)
+   0016897C  addiu       $s0, $sp, 0x10               | addiu       $s0, $sp, 0x10
+   00168980  lq          $v0, 0x60($sp)               | lq          $v0, 0x60($sp)
+   00168984  lq          $v1, 0x70($sp)               | lq          $v1, 0x70($sp)
+   00168988  lq          $a0, 0x80($sp)               | lq          $a0, 0x80($sp)
+   0016898C  sq          $a1, 0x10($sp)               | sq          $a1, 0x10($sp)
+   00168990  sq          $v0, 0x20($sp)               | sq          $v0, 0x20($sp)
+   00168994  sq          $v1, 0x30($sp)               | sq          $v1, 0x30($sp)
+   00168998  sq          $a0, 0x40($sp)               | sq          $a0, 0x40($sp)
+   0016899C  daddu       $a0, $sp, $zero              | daddu       $a0, $sp, $zero
+   001689A0  daddu       $a1, $s2, $zero              | daddu       $a1, $s2, $zero
+   001689A4  jal         func_1AE5A0                  | jal         func_000000
+   001689A8  addiu       $a2, $zero, 0xC              | addiu       $a2, $zero, 0xC
+   001689AC  lqc2        $vf5, 0x0($sp)               | lqc2        $vf5, 0x0($sp)
+   001689B0  daddu       $a0, $s0, $zero              | daddu       $a0, $s0, $zero
+   001689B4  lqc2        $vf4, 0x10($sp)              | lqc2        $vf4, 0x10($sp)
+   001689B8  lqc2        $vf3, 0x20($sp)              | lqc2        $vf3, 0x20($sp)
+   001689BC  lqc2        $vf2, 0x30($sp)              | lqc2        $vf2, 0x30($sp)
+   001689C0  lqc2        $vf1, 0x40($sp)              | lqc2        $vf1, 0x40($sp)
+   001689C4  vmulax.xyz  $ACC, $vf4, $vf5x            | vmulax.xyz  $ACC, $vf4, $vf5x
+   001689C8  vmadday.xyz $ACC, $vf3, $vf5y            | vmadday.xyz $ACC, $vf3, $vf5y
+   001689CC  vmaddaz.xyz $ACC, $vf2, $vf5z            | vmaddaz.xyz $ACC, $vf2, $vf5z
+   001689D0  vmaddw.xyz  $vf1, $vf1, $vf0w            | vmaddw.xyz  $vf1, $vf1, $vf0w
+   001689D4  jal         func_11CAB0                  | jal         func_000000
+   001689D8  sqc2        $vf1, 0x1B0($sp)             | sqc2        $vf1, 0x1B0($sp)
+   001689DC  lwc1        $f1, 0xC($s2)                | lwc1        $f1, 0xC($s2)
+   001689E0  addiu       $v1, $zero, 0x2              | addiu       $v1, $zero, 0x2
+   001689E4  lw          $v0, 0xC($s3)                | lw          $v0, 0xC($s3)
+   001689E8  mul.s       $f0, $f0, $f1                | mul.s       $f0, $f0, $f1
+   001689EC  lqc2        $vf1, 0x1B0($sp)             | lqc2        $vf1, 0x1B0($sp)
+   001689F0  andi        $v0, $v0, 0x7                | andi        $v0, $v0, 0x7
+   001689F4  bne         $v0, $v1, . + 4 + (0x8 << 2) | bne         $v0, $v1, . + 4 + (0x8 << 2)
+   001689F8  swc1        $f0, 0x154($sp)              | swc1        $f0, 0x154($sp)
+   001689FC  lw          $a1, 0x164($sp)              | lw          $a1, 0x164($sp)
+   00168A00  lw          $a0, 0x24($a1)               | lw          $a0, 0x24($a1)
+   00168A04  beqz        $a0, . + 4 + (0x4 << 2)      | beqz        $a0, . + 4 + (0x4 << 2)
+   00168A08  qmfc2.ni    $a1, $vf1                    | qmfc2.ni    $a1, $vf1
+   00168A0C  jal         func_167DA0                  | jal         func_000000
+   00168A10  addiu       $a2, $sp, 0x154              | addiu       $a2, $sp, 0x154
+   00168A14  qmtc2.ni    $v0, $vf1                    | qmtc2.ni    $v0, $vf1
+   00168A18  lw          $v0, 0x18($s3)               | lw          $v0, 0x18($s3)
+!! 00168A1C  bnez        $v0, . + 4 + (0x1D << 2)     | bnez        $v0, . + 4 + (0x1E << 2)
+   00168A20  lqc2        $vf2, 0x170($sp)             | lqc2        $vf2, 0x170($sp)
+   00168A24  lui         $a3, 0x2E                    | lui         $a3, 0x0
+   00168A28  lw          $a0, 0x10($s2)               | lw          $a0, 0x10($s2)
+   00168A2C  addiu       $a1, $a3, -0x2020            | addiu       $a1, $a3, 0xA0
+!! 00168A30  lw          $v1, 0x154($sp)              | lw          $v0, 0x154($sp)
+!! 00168A34  lw          $v0, -0x84($a1)              | lw          $v1, -0x84($a1)
+!! 00168A38  qmtc2.ni    $v1, $vf16                   | sq          $v1, 0x50($sp)
+!! 00168A3C  sq          $v0, 0x50($sp)               | qmtc2.ni    $v1, $vf14
+!! 00168A40  qmtc2.ni    $v0, $vf14                   | sq          $v0, 0x50($sp)
+!! 00168A44  sq          $v1, 0x50($sp)               | qmtc2.ni    $v0, $vf16
+!! 00168A48  qmtc2.ni    $a0, $vf17                   | sq          $a0, 0x50($sp)
+!! 00168A4C  sq          $a0, 0x50($sp)               | qmtc2.ni    $a0, $vf17
+!! 00168A50  vmove.xyzw  $vf15, $vf1                  | lqc2        $vf13, 0x170($sp)
+!! 00168A54  lqc2        $vf13, 0x170($sp)            | lqc2        $vf10, 0x0($a1)
+!! 00168A58  lqc2        $vf10, 0x0($a1)              | lqc2        $vf11, 0x10($a1)
+!! 00168A5C  lqc2        $vf11, 0x10($a1)             | lqc2        $vf12, 0x20($a1)
+!! 00168A60  lqc2        $vf12, 0x20($a1)             | vmove.xyzw  $vf15, $vf1
+   00168A64  vcallms     0x1C0                        | vcallms     0x1C0
+   00168A68  cfc2.i      $zero, $vi0                  | cfc2.i      $zero, $vi0
+!! 00168A6C  mtc1        $zero, $f1                   | qmfc2.ni    $v0, $vf19
+!! 00168A70  qmfc2.ni    $v0, $vf19                   | mtc1        $zero, $f1
+   00168A74  mtc1        $v0, $f0                     | mtc1        $v0, $f0
+   00168A78  addiu       $v1, $s1, 0x1                | addiu       $v1, $s1, 0x1
+!! 00168A7C  c.eq.s      $f0, $f1                     | sw          $v1, 0x1A4($sp)
+!! 00168A80  swc1        $f0, 0x158($sp)              | c.eq.s      $f0, $f1
+!! 00168A84  bc1t        . + 4 + (0x1B0 << 2)         | nop
+!! 00168A88  sw          $v1, 0x1A4($sp)              | bc1t        . + 4 + (0x1B1 << 2)
+!! 00168A8C  b           . + 4 + (0xE << 2)           | swc1        $f0, 0x158($sp)
+!! 00168A90  sqc2        $vf18, 0x190($sp)            | b           . + 4 + (0xE << 2)
+!! 00168A94  lui         $v0, 0x2E                    | sqc2        $vf18, 0x190($sp)
+!! 00168A98  lwc1        $f12, 0x10($s2)              | lui         $v0, 0x0
+!! 00168A9C  vsub.xyzw   $vf2, $vf1, $vf2             | lwc1        $f12, 0x10($s2)
+!! 00168AA0  sqc2        $vf2, 0x190($sp)             | vsub.xyzw   $vf2, $vf1, $vf2
+!! 00168AA4  addiu       $v1, $s1, 0x1                | sqc2        $vf2, 0x190($sp)
+!! 00168AA8  sqc2        $vf1, 0x1B0($sp)             | addiu       $v1, $s1, 0x1
+!! 00168AAC  addiu       $a0, $v0, -0x20C0            | sqc2        $vf1, 0x1B0($sp)
+!! 00168AB0  addiu       $a2, $sp, 0x158              | addiu       $a0, $v0, 0x0
+!! 00168AB4  sw          $v1, 0x1A4($sp)              | addiu       $a2, $sp, 0x158
+!! 00168AB8  jal         func_14F898                  | sw          $v1, 0x1A4($sp)
+!! 00168ABC  lq          $a1, 0x190($sp)              | jal         func_000000
+!! 00168AC0  beqz        $v0, . + 4 + (0x1A1 << 2)    | lq          $a1, 0x190($sp)
+!! 00168AC4  lqc2        $vf1, 0x1B0($sp)             | beqz        $v0, . + 4 + (0x1A2 << 2)
+!! 00168AC8  lui         $v1, 0x2E                    | lqc2        $vf1, 0x1B0($sp)
+!! 00168ACC  lw          $v0, 0xC($s3)                | lui         $v1, 0x0
+!! 00168AD0  addiu       $a3, $v1, -0x15D8            | lw          $v0, 0xC($s3)
+!! 00168AD4  daddu       $fp, $v1, $zero              | addiu       $a3, $v1, 0x0
+!! 00168AD8  lw          $a0, 0xC($a3)                | daddu       $fp, $v1, $zero
+!! 00168ADC  andi        $v0, $v0, 0x100              | lw          $a0, 0xC($a3)
+!! 00168AE0  beqz        $v0, . + 4 + (0xD << 2)      | andi        $v0, $v0, 0x100
+!! 00168AE4  sw          $a0, 0x1A0($sp)              | beqz        $v0, . + 4 + (0xD << 2)
+!! 00168AE8  lw          $a1, 0x164($sp)              | sw          $a0, 0x1A0($sp)
+!! 00168AEC  lui         $a0, 0x4000                  | lw          $a1, 0x164($sp)
+!! 00168AF0  lw          $v1, 0x14($a1)               | lui         $a0, 0x4000
+!! 00168AF4  lw          $v0, 0x18($a1)               | lw          $v1, 0x14($a1)
+!! 00168AF8  or          $v1, $v1, $a0                | lw          $v0, 0x18($a1)
+!! 00168AFC  dsll32      $v0, $v0, 0                  | or          $v1, $v1, $a0
+!! 00168B00  or          $v1, $v1, $v0                | dsll32      $v0, $v0, 0
+!! 00168B04  lw          $v0, 0x1A0($sp)              | or          $v1, $v1, $v0
+!! 00168B08  sd          $v1, 0x0($v0)                | lw          $v0, 0x1A0($sp)
+!! 00168B0C  lw          $v0, 0xC($a3)                | sd          $v1, 0x0($v0)
+!! 00168B10  addiu       $v0, $v0, 0x10               | lw          $v0, 0xC($a3)
+!! 00168B14  sw          $v0, 0xC($a3)                | addiu       $v0, $v0, 0x10
+!! 00168B18  lw          $v0, 0xC($s3)                | sw          $v0, 0xC($a3)
+!! 00168B1C  addiu       $v1, $zero, 0x2              | lw          $v0, 0xC($s3)
+!! 00168B20  andi        $a0, $v0, 0x7                | addiu       $v1, $zero, 0x2
+!! 00168B24  beq         $a0, $v1, . + 4 + (0x5 << 2) | andi        $a0, $v0, 0x7
+!! 00168B28  addiu       $v0, $zero, 0x3              | beq         $a0, $v1, . + 4 + (0x5 << 2)
+!! 00168B2C  beq         $a0, $v0, . + 4 + (0x1A << 2) | addiu       $v0, $zero, 0x3
+!! 00168B30  addiu       $v0, $fp, -0x15D8            | beq         $a0, $v0, . + 4 + (0x1A << 2)
+!! 00168B34  b           . + 4 + (0x48 << 2)          | addiu       $v0, $fp, 0x0
+!! 00168B38  addiu       $s1, $s1, 0x1                | b           . + 4 + (0x49 << 2)
+!! 00168B3C  lw          $v1, 0x164($sp)              | addiu       $s1, $s1, 0x1
+!! 00168B40  addiu       $s1, $s1, 0x1                | lw          $v1, 0x164($sp)
+!! 00168B44  lw          $a0, 0x2C($v1)               | addiu       $s1, $s1, 0x1
+!! 00168B48  beqz        $a0, . + 4 + (0x17F << 2)    | lw          $a0, 0x2C($v1)
+!! 00168B4C  sw          $s1, 0x1A4($sp)              | beqz        $a0, . + 4 + (0x180 << 2)
+!! 00168B50  lw          $v0, 0x28($v1)               | sw          $s1, 0x1A4($sp)
+!! 00168B54  dsll32      $a0, $a0, 0                  | lw          $v0, 0x28($v1)
+!! 00168B58  lui         $v1, 0x4000                  | dsll32      $a0, $a0, 0
+!! 00168B5C  lw          $a1, 0xC($a3)                | lui         $v1, 0x4000
+!! 00168B60  or          $v0, $v0, $v1                | lw          $a1, 0xC($a3)
+!! 00168B64  lui         $a2, 0x1000                  | or          $v0, $v0, $v1
+!! 00168B68  or          $v0, $v0, $a0                | lui         $a2, 0x1000
+!! 00168B6C  addiu       $t2, $sp, 0x50               | or          $v0, $v0, $a0
+!! 00168B70  sd          $v0, 0x0($a1)                | addiu       $t2, $sp, 0x50
+!! 00168B74  lw          $v1, 0xC($a3)                | sd          $v0, 0x0($a1)
+!! 00168B78  addiu       $v0, $v1, 0x10               | lw          $v1, 0xC($a3)
+!! 00168B7C  sw          $v0, 0xC($a3)                | addiu       $v0, $v1, 0x10
+!! 00168B80  daddu       $s5, $v0, $zero              | sw          $v0, 0xC($a3)
+!! 00168B84  sd          $a2, 0x10($v1)               | daddu       $s5, $v0, $zero
+!! 00168B88  lw          $v0, 0xC($a3)                | sd          $a2, 0x10($v1)
+!! 00168B8C  addiu       $v0, $v0, 0x10               | lw          $v0, 0xC($a3)
+!! 00168B90  b           . + 4 + (0x39 << 2)          | addiu       $v0, $v0, 0x10
+!! 00168B94  sw          $v0, 0xC($a3)                | b           . + 4 + (0x3A << 2)
+!! 00168B98  lw          $s5, 0xC($a3)                | sw          $v0, 0xC($a3)
+!! 00168B9C  lui         $v0, 0x1000                  | lw          $s5, 0xC($a3)
+!! 00168BA0  lqc2        $vf2, 0x170($sp)             | lui         $v0, 0x1000
+!! 00168BA4  lui         $a0, 0x2E                    | lqc2        $vf2, 0x170($sp)
+!! 00168BA8  sd          $v0, 0x0($s5)                | lui         $a0, 0x0
+!! 00168BAC  addiu       $v1, $a0, -0x20C0            | sd          $v0, 0x0($s5)
+!! 00168BB0  vsub.xyzw   $vf1, $vf2, $vf1             | addiu       $v1, $a0, 0x0
+!! 00168BB4  addiu       $a0, $zero, 0x1              | vsub.xyzw   $vf1, $vf2, $vf1
+!! 00168BB8  lwc1        $f1, 0x48($v1)               | addiu       $a0, $zero, 0x1
+!! 00168BBC  vmul.xyz    $vf1, $vf1, $vf1             | lwc1        $f1, 0x48($v1)
+!! 00168BC0  vaddw.x     $vf2, $vf0, $vf0w            | vmul.xyz    $vf1, $vf1, $vf1
+!! 00168BC4  vadday.x    $ACC, $vf1, $vf1y            | vaddw.x     $vf2, $vf0, $vf0w
+!! 00168BC8  vmaddz.x    $vf1, $vf2, $vf1z            | vadday.x    $ACC, $vf1, $vf1y
+!! 00168BCC  lwc1        $f0, 0x154($sp)              | vmaddz.x    $vf1, $vf2, $vf1z
+!! 00168BD0  qmfc2.ni    $v0, $vf1                    | lwc1        $f0, 0x154($sp)
+!! 00168BD4  lw          $a1, 0xC($a3)                | qmfc2.ni    $v0, $vf1
+!! 00168BD8  mtc1        $v0, $f2                     | lw          $a1, 0xC($a3)
+   00168BDC  add.s       $f0, $f0, $f1                | add.s       $f0, $f0, $f1
+!! 00168BE0  addiu       $v0, $a1, 0x10               | mtc1        $v0, $f2
+!! 00168BE4  sw          $v0, 0xC($a3)                | addiu       $v0, $a1, 0x10
+   00168BE8  mul.s       $f0, $f0, $f0                | mul.s       $f0, $f0, $f0
+!! 00168BEC  c.lt.s      $f2, $f0                     | sw          $v0, 0xC($a3)
+!! 00168BF0  nop                                      | c.lt.s      $f2, $f0
+!! 00168BF4  bc1t        . + 4 + (0x2 << 2)           | nop
+!! 00168BF8  sw          $a0, 0x15C($sp)              | bc1t        . + 4 + (0x2 << 2)
+!! 00168BFC  sw          $zero, 0x15C($sp)            | sw          $a0, 0x15C($sp)
+!! 00168C00  lui         $v0, 0x6001                  | sw          $zero, 0x15C($sp)
+!! 00168C04  addiu       $s1, $s1, 0x1                | lui         $v0, 0x6001
+!! 00168C08  sw          $s1, 0x1A4($sp)              | addiu       $s1, $s1, 0x1
+!! 00168C0C  ori         $v0, $v0, 0xC012             | sw          $s1, 0x1A4($sp)
+!! 00168C10  sw          $v0, 0x10($a1)               | ori         $v0, $v0, 0xC012
+!! 00168C14  addiu       $a0, $sp, 0x15C              | sw          $v0, 0x10($a1)
+!! 00168C18  addiu       $t2, $sp, 0x50               | addiu       $a0, $sp, 0x15C
+   00168C1C  daddu       $a1, $zero, $zero            | daddu       $a1, $zero, $zero
+!! 00168C20  lw          $v0, 0xC($a3)                | addiu       $t2, $sp, 0x50
+!! 00168C24  addiu       $v0, $v0, 0x4                | lw          $v0, 0xC($a3)
+!! 00168C28  sw          $v0, 0xC($a3)                | addiu       $v0, $v0, 0x4
+!! 00168C2C  daddu       $v1, $v0, $zero              | sw          $v0, 0xC($a3)
+!! 00168C30  lw          $v0, 0x0($a0)                | daddu       $v1, $v0, $zero
+!! 00168C34  addiu       $a1, $a1, -0x1               | nop
+!! 00168C38  addiu       $a0, $a0, 0x4                | lw          $v0, 0x0($a0)
+!! 00168C3C  sw          $v0, 0x0($v1)                | addiu       $a1, $a1, -0x1
+!! 00168C40  bgez        $a1, . + 4 + (-0x5 << 2)     | addiu       $a0, $a0, 0x4
+!! 00168C44  addiu       $v1, $v1, 0x4                | sw          $v0, 0x0($v1)
+!! 00168C48  lw          $v0, 0xC($a3)                | bgez        $a1, . + 4 + (-0x5 << 2)
+!! 00168C4C  addiu       $v0, $v0, 0x4                | addiu       $v1, $v1, 0x4
+!! 00168C50  b           . + 4 + (0x9 << 2)           | lw          $v0, 0xC($a3)
+!! 00168C54  sw          $v0, 0xC($a3)                | addiu       $v0, $v0, 0x4
+!! 00168C58  lw          $s5, 0xC($v0)                | b           . + 4 + (0x9 << 2)
+!! 00168C5C  lui         $a0, 0x1000                  | sw          $v0, 0xC($a3)
+!! 00168C60  sw          $s1, 0x1A4($sp)              | lw          $s5, 0xC($v0)
+!! 00168C64  addiu       $t2, $sp, 0x50               | lui         $a0, 0x1000
+!! 00168C68  sd          $a0, 0x0($s5)                | sw          $s1, 0x1A4($sp)
+!! 00168C6C  lw          $v1, 0xC($v0)                | addiu       $t2, $sp, 0x50
+!! 00168C70  addiu       $v1, $v1, 0x10               | sd          $a0, 0x0($s5)
+!! 00168C74  sw          $v1, 0xC($v0)                | lw          $v1, 0xC($v0)
+!! 00168C78  lw          $v0, 0x18($s3)               | addiu       $v1, $v1, 0x10
+!! 00168C7C  beqz        $v0, . + 4 + (0x1E << 2)     | sw          $v1, 0xC($v0)
+!! 00168C80  lw          $v1, 0x160($sp)              | lw          $v0, 0x18($s3)
+!! 00168C84  bnez        $v1, . + 4 + (0x3 << 2)      | beqz        $v0, . + 4 + (0x1E << 2)
+!! 00168C88  addiu       $t1, $fp, -0x15D8            | lw          $v1, 0x160($sp)
+!! 00168C8C  lui         $v0, 0x2A                    | bnez        $v1, . + 4 + (0x3 << 2)
+!! 00168C90  addiu       $v1, $v0, 0x2D30             | addiu       $t1, $fp, 0x0
+   00168C94  lui         $v0, 0x6C04                  | lui         $v0, 0x0
+!! 00168C98  lw          $a0, 0xC($t1)                | addiu       $v1, $v0, 0x0
+!! 00168C9C  ori         $v0, $v0, 0xC000             | lui         $v0, 0x6C04
+!! 00168CA0  daddu       $a3, $v1, $zero              | lw          $a0, 0xC($t1)
+!! 00168CA4  sw          $v0, 0x0($a0)                | ori         $v0, $v0, 0xC000
+!! 00168CA8  lw          $v1, 0xC($t1)                | daddu       $a3, $v1, $zero
+!! 00168CAC  addiu       $v1, $v1, 0x4                | sw          $v0, 0x0($a0)
+!! 00168CB0  daddu       $a2, $v1, $zero              | lw          $v1, 0xC($t1)
+!! 00168CB4  sw          $v1, 0xC($t1)                | addiu       $v1, $v1, 0x4
+!! 00168CB8  addiu       $t0, $zero, 0xC              | daddu       $a2, $v1, $zero
+!! 00168CBC  nop                                      | sw          $v1, 0xC($t1)
+!! 00168CC0  lw          $v0, 0x0($a3)                | addiu       $t0, $zero, 0xC
+!! 00168CC4  addiu       $t0, $t0, -0x4               | nop
+!! 00168CC8  lw          $v1, 0x4($a3)                | lw          $v0, 0x0($a3)
+!! 00168CCC  lw          $a0, 0x8($a3)                | addiu       $t0, $t0, -0x4
+!! 00168CD0  lw          $a1, 0xC($a3)                | lw          $v1, 0x4($a3)
+!! 00168CD4  sw          $v0, 0x0($a2)                | lw          $a0, 0x8($a3)
+!! 00168CD8  addiu       $a3, $a3, 0x10               | lw          $a1, 0xC($a3)
+!! 00168CDC  sw          $v1, 0x4($a2)                | sw          $v0, 0x0($a2)
+!! 00168CE0  sw          $a0, 0x8($a2)                | addiu       $a3, $a3, 0x10
+!! 00168CE4  sw          $a1, 0xC($a2)                | sw          $v1, 0x4($a2)
+!! 00168CE8  bgez        $t0, . + 4 + (-0xB << 2)     | sw          $a0, 0x8($a2)
+!! 00168CEC  addiu       $a2, $a2, 0x10               | sw          $a1, 0xC($a2)
+!! 00168CF0  b           . + 4 + (0x1A << 2)          | bgez        $t0, . + 4 + (-0xB << 2)
+!! 00168CF4  lw          $v0, 0xC($t1)                | addiu       $a2, $a2, 0x10
+!! 00168CF8  addiu       $t1, $fp, -0x15D8            | b           . + 4 + (0x1A << 2)
+!! 00168CFC  lui         $v0, 0x6C04                  | lw          $v0, 0xC($t1)
+!! 00168D00  lw          $a0, 0xC($t1)                | addiu       $t1, $fp, 0x0
+!! 00168D04  ori         $v0, $v0, 0xC000             | lui         $v0, 0x6C04
+!! 00168D08  daddu       $a3, $s0, $zero              | lw          $a0, 0xC($t1)
+!! 00168D0C  sw          $v0, 0x0($a0)                | ori         $v0, $v0, 0xC000
+!! 00168D10  lw          $v1, 0xC($t1)                | daddu       $a3, $s0, $zero
+!! 00168D14  addiu       $v1, $v1, 0x4                | sw          $v0, 0x0($a0)
+!! 00168D18  daddu       $a2, $v1, $zero              | lw          $v1, 0xC($t1)
+!! 00168D1C  sw          $v1, 0xC($t1)                | addiu       $v1, $v1, 0x4
+!! 00168D20  addiu       $t0, $zero, 0xC              | daddu       $a2, $v1, $zero
+!! 00168D24  nop                                      | sw          $v1, 0xC($t1)
+!! 00168D28  lw          $v0, 0x0($a3)                | addiu       $t0, $zero, 0xC
+!! 00168D2C  addiu       $t0, $t0, -0x4               | nop
+!! 00168D30  lw          $v1, 0x4($a3)                | lw          $v0, 0x0($a3)
+!! 00168D34  lw          $a0, 0x8($a3)                | addiu       $t0, $t0, -0x4
+!! 00168D38  lw          $a1, 0xC($a3)                | lw          $v1, 0x4($a3)
+!! 00168D3C  sw          $v0, 0x0($a2)                | lw          $a0, 0x8($a3)
+!! 00168D40  addiu       $a3, $a3, 0x10               | lw          $a1, 0xC($a3)
+!! 00168D44  sw          $v1, 0x4($a2)                | sw          $v0, 0x0($a2)
+!! 00168D48  sw          $a0, 0x8($a2)                | addiu       $a3, $a3, 0x10
+!! 00168D4C  sw          $a1, 0xC($a2)                | sw          $v1, 0x4($a2)
+!! 00168D50  bgez        $t0, . + 4 + (-0xB << 2)     | sw          $a0, 0x8($a2)
+!! 00168D54  addiu       $a2, $a2, 0x10               | sw          $a1, 0xC($a2)
+!! 00168D58  lw          $v0, 0xC($t1)                | bgez        $t0, . + 4 + (-0xB << 2)
+!! 00168D5C  addiu       $v0, $v0, 0x40               | addiu       $a2, $a2, 0x10
+!! 00168D60  sw          $v0, 0xC($t1)                | lw          $v0, 0xC($t1)
+!! 00168D64  lwc1        $f1, 0x158($sp)              | addiu       $v0, $v0, 0x40
+!! 00168D68  c.lt.s      $f20, $f1                    | sw          $v0, 0xC($t1)
+!! 00168D6C  nop                                      | lwc1        $f1, 0x158($sp)
+!! 00168D70  bc1fl       . + 4 + (0x6 << 2)           | c.lt.s      $f20, $f1
+!! 00168D74  mul.s       $f0, $f21, $f1               | nop
+!! 00168D78  mul.s       $f0, $f22, $f20              | bc1fl       . + 4 + (0x6 << 2)
+!! 00168D7C  mul.s       $f1, $f21, $f20              | mul.s       $f0, $f21, $f1
+!! 00168D80  swc1        $f0, 0x50($sp)               | mul.s       $f0, $f22, $f20
+!! 00168D84  b           . + 4 + (0x4 << 2)           | mul.s       $f1, $f21, $f20
+!! 00168D88  swc1        $f1, 0x54($sp)               | swc1        $f0, 0x50($sp)
+!! 00168D8C  mul.s       $f1, $f22, $f1               | b           . + 4 + (0x4 << 2)
+!! 00168D90  swc1        $f0, 0x54($sp)               | swc1        $f1, 0x54($sp)
+!! 00168D94  swc1        $f1, 0x50($sp)               | mul.s       $f1, $f22, $f1
+!! 00168D98  lwc1        $f0, 0x50($s6)               | swc1        $f0, 0x54($sp)
+!! 00168D9C  swc1        $f0, 0x58($sp)               | swc1        $f1, 0x50($sp)
+!! 00168DA0  lw          $v0, 0xC($s3)                | lwc1        $f0, 0x50($s6)
+!! 00168DA4  andi        $v0, $v0, 0x200              | swc1        $f0, 0x58($sp)
+!! 00168DA8  beqz        $v0, . + 4 + (0x2 << 2)      | lw          $v0, 0xC($s3)
+!! 00168DAC  daddu       $v1, $zero, $zero            | andi        $v0, $v0, 0x200
+!! 00168DB0  lw          $v1, 0x34($s6)               | beqz        $v0, . + 4 + (0x2 << 2)
+!! 00168DB4  addiu       $t1, $fp, -0x15D8            | daddu       $v1, $zero, $zero
+!! 00168DB8  lui         $v0, 0x6C01                  | lw          $v1, 0x34($s6)
+!! 00168DBC  lw          $a0, 0xC($t1)                | addiu       $t1, $fp, 0x0
+!! 00168DC0  ori         $v0, $v0, 0xC008             | lui         $v0, 0x6C01
+!! 00168DC4  sw          $v1, 0x5C($sp)               | lw          $a0, 0xC($t1)
+!! 00168DC8  daddu       $a3, $t2, $zero              | ori         $v0, $v0, 0xC008
+!! 00168DCC  sw          $v0, 0x0($a0)                | sw          $v1, 0x5C($sp)
+!! 00168DD0  lw          $v1, 0xC($t1)                | daddu       $a3, $t2, $zero
+!! 00168DD4  addiu       $v1, $v1, 0x4                | sw          $v0, 0x0($a0)
+!! 00168DD8  daddu       $a2, $v1, $zero              | lw          $v1, 0xC($t1)
+!! 00168DDC  sw          $v1, 0xC($t1)                | addiu       $v1, $v1, 0x4
+!! 00168DE0  daddu       $t0, $zero, $zero            | daddu       $a2, $v1, $zero
+!! 00168DE4  nop                                      | sw          $v1, 0xC($t1)
+!! 00168DE8  lw          $v0, 0x0($a3)                | daddu       $t0, $zero, $zero
+!! 00168DEC  addiu       $t0, $t0, -0x4               | nop
+!! 00168DF0  lw          $v1, 0x4($a3)                | lw          $v0, 0x0($a3)
+!! 00168DF4  lw          $a0, 0x8($a3)                | addiu       $t0, $t0, -0x4
+!! 00168DF8  lw          $a1, 0xC($a3)                | lw          $v1, 0x4($a3)
+!! 00168DFC  sw          $v0, 0x0($a2)                | lw          $a0, 0x8($a3)
+!! 00168E00  addiu       $a3, $a3, 0x10               | lw          $a1, 0xC($a3)
+!! 00168E04  sw          $v1, 0x4($a2)                | sw          $v0, 0x0($a2)
+!! 00168E08  sw          $a0, 0x8($a2)                | addiu       $a3, $a3, 0x10
+!! 00168E0C  sw          $a1, 0xC($a2)                | sw          $v1, 0x4($a2)
+!! 00168E10  bgez        $t0, . + 4 + (-0xB << 2)     | sw          $a0, 0x8($a2)
+!! 00168E14  addiu       $a2, $a2, 0x10               | sw          $a1, 0xC($a2)
+!! 00168E18  lw          $v0, 0xC($t1)                | bgez        $t0, . + 4 + (-0xB << 2)
+!! 00168E1C  addiu       $v0, $v0, 0x10               | addiu       $a2, $a2, 0x10
+!! 00168E20  sw          $v0, 0xC($t1)                | lw          $v0, 0xC($t1)
+!! 00168E24  lw          $v1, 0x18($s3)               | addiu       $v0, $v0, 0x10
+!! 00168E28  beqz        $v1, . + 4 + (0x4 << 2)      | sw          $v0, 0xC($t1)
+!! 00168E2C  lw          $a1, 0x168($sp)              | lw          $v1, 0x18($s3)
+!! 00168E30  daddu       $a0, $s6, $zero              | beqz        $v1, . + 4 + (0x4 << 2)
+!! 00168E34  jal         func_1684D0                  | lw          $a1, 0x168($sp)
+!! 00168E38  daddu       $a2, $s3, $zero              | daddu       $a0, $s6, $zero
+!! 00168E3C  lw          $s2, 0x1C($s3)               | jal         func_000000
+!! 00168E40  beqz        $s2, . + 4 + (0x5C << 2)     | daddu       $a2, $s3, $zero
+!! 00168E44  daddu       $a1, $s0, $zero              | lw          $s2, 0x1C($s3)
+!! 00168E48  jal         func_11C318                  | beqz        $s2, . + 4 + (0x5C << 2)
+!! 00168E4C  addiu       $a0, $sp, 0x60               | daddu       $a1, $s0, $zero
+!! 00168E50  daddu       $s1, $zero, $zero            | jal         func_000000
+!! 00168E54  lw          $v0, 0x10($s2)               | addiu       $a0, $sp, 0x60
+!! 00168E58  blez        $v0, . + 4 + (0x56 << 2)     | daddu       $s1, $zero, $zero
+!! 00168E5C  lw          $s0, 0x20($s2)               | lw          $v0, 0x10($s2)
+!! 00168E60  lui         $s4, 0x6C04                  | blez        $v0, . + 4 + (0x56 << 2)
+!! 00168E64  ori         $s4, $s4, 0xC000             | lw          $s0, 0x20($s2)
+!! 00168E68  lw          $v0, 0x14($s2)               | lui         $s4, 0x6C04
+!! 00168E6C  nop                                      | ori         $s4, $s4, 0xC000
+!! 00168E70  beqz        $v0, . + 4 + (0x2B << 2)     | lw          $v0, 0x14($s2)
+!! 00168E74  addiu       $s7, $s1, 0x1                | nop
+!! 00168E78  lw          $v0, 0xC($s2)                | beqz        $v0, . + 4 + (0x2B << 2)
+!! 00168E7C  sll         $a2, $s1, 6                  | addiu       $s7, $s1, 0x1
+!! 00168E80  addiu       $a2, $a2, 0x6F0              | lw          $v0, 0xC($s2)
+!! 00168E84  addiu       $a0, $sp, 0x110              | sll         $a2, $s1, 6
+!! 00168E88  addu        $a2, $v0, $a2                | addiu       $a2, $a2, 0x6F0
+!! 00168E8C  jal         func_11C168                  | addiu       $a0, $sp, 0x110
+!! 00168E90  addiu       $a1, $sp, 0x60               | addu        $a2, $v0, $a2
+!! 00168E94  lq          $v0, 0x140($sp)              | jal         func_000000
+!! 00168E98  addiu       $t2, $fp, -0x15D8            | addiu       $a1, $sp, 0x60
+!! 00168E9C  lq          $a0, 0x110($sp)              | lq          $v0, 0x140($sp)
+!! 00168EA0  or          $a3, $s0, $s4                | addiu       $t2, $fp, 0x0
+!! 00168EA4  lq          $a1, 0x120($sp)              | lq          $a0, 0x110($sp)
+!! 00168EA8  addiu       $t0, $sp, 0xD0               | or          $a3, $s0, $s4
+!! 00168EAC  lq          $v1, 0x130($sp)              | lq          $a1, 0x120($sp)
+!! 00168EB0  lw          $a2, 0xC($t2)                | addiu       $t0, $sp, 0xD0
+!! 00168EB4  sq          $a0, 0xD0($sp)               | lq          $v1, 0x130($sp)
+!! 00168EB8  sq          $a1, 0xE0($sp)               | lw          $a2, 0xC($t2)
+!! 00168EBC  sq          $v1, 0xF0($sp)               | sq          $a0, 0xD0($sp)
+!! 00168EC0  sq          $v0, 0x100($sp)              | sq          $a1, 0xE0($sp)
+!! 00168EC4  sw          $a3, 0x0($a2)                | sq          $v1, 0xF0($sp)
+!! 00168EC8  lw          $v0, 0xC($t2)                | sq          $v0, 0x100($sp)
+!! 00168ECC  addiu       $v0, $v0, 0x4                | sw          $a3, 0x0($a2)
+!! 00168ED0  daddu       $a2, $v0, $zero              | lw          $v0, 0xC($t2)
+!! 00168ED4  sw          $v0, 0xC($t2)                | addiu       $v0, $v0, 0x4
+!! 00168ED8  addiu       $a3, $s0, 0x4                | daddu       $a2, $v0, $zero
+!! 00168EDC  addiu       $t1, $zero, 0xC              | sw          $v0, 0xC($t2)
+!! 00168EE0  lw          $v0, 0x0($t0)                | addiu       $a3, $s0, 0x4
+!! 00168EE4  addiu       $t1, $t1, -0x4               | addiu       $t1, $zero, 0xC
+!! 00168EE8  lw          $v1, 0x4($t0)                | lw          $v0, 0x0($t0)
+!! 00168EEC  lw          $a0, 0x8($t0)                | addiu       $t1, $t1, -0x4
+!! 00168EF0  lw          $a1, 0xC($t0)                | lw          $v1, 0x4($t0)
+!! 00168EF4  sw          $v0, 0x0($a2)                | lw          $a0, 0x8($t0)
+!! 00168EF8  addiu       $t0, $t0, 0x10               | lw          $a1, 0xC($t0)
+!! 00168EFC  sw          $v1, 0x4($a2)                | sw          $v0, 0x0($a2)
+!! 00168F00  sw          $a0, 0x8($a2)                | addiu       $t0, $t0, 0x10
+!! 00168F04  sw          $a1, 0xC($a2)                | sw          $v1, 0x4($a2)
+!! 00168F08  bgez        $t1, . + 4 + (-0xB << 2)     | sw          $a0, 0x8($a2)
+!! 00168F0C  addiu       $a2, $a2, 0x10               | sw          $a1, 0xC($a2)
+!! 00168F10  lw          $v0, 0xC($t2)                | bgez        $t1, . + 4 + (-0xB << 2)
+!! 00168F14  daddu       $s0, $a3, $zero              | addiu       $a2, $a2, 0x10
+!! 00168F18  addiu       $v0, $v0, 0x40               | lw          $v0, 0xC($t2)
+!! 00168F1C  sw          $v0, 0xC($t2)                | daddu       $s0, $a3, $zero
+!! 00168F20  lw          $v0, 0x18($s2)               | addiu       $v0, $v0, 0x40
+!! 00168F24  beqz        $v0, . + 4 + (0x1E << 2)     | sw          $v0, 0xC($t2)
+!! 00168F28  addiu       $t2, $fp, -0x15D8            | lw          $v0, 0x18($s2)
+!! 00168F2C  lw          $a1, 0xC($s2)                | beqz        $v0, . + 4 + (0x1E << 2)
+!! 00168F30  lw          $a0, 0xC($t2)                | addiu       $t2, $fp, 0x0
+!! 00168F34  or          $v0, $s0, $s4                | lw          $a1, 0xC($s2)
+!! 00168F38  sll         $v1, $s1, 6                  | lw          $a0, 0xC($t2)
+!! 00168F3C  sw          $v0, 0x0($a0)                | or          $v0, $s0, $s4
+!! 00168F40  addu        $v1, $v1, $a1                | sll         $v1, $s1, 6
+!! 00168F44  addiu       $a2, $v1, 0x7F0              | sw          $v0, 0x0($a0)
+!! 00168F48  lw          $v0, 0xC($t2)                | addu        $v1, $v1, $a1
+!! 00168F4C  addiu       $v0, $v0, 0x4                | addiu       $a2, $v1, 0x7F0
+!! 00168F50  daddu       $t0, $v0, $zero              | lw          $v0, 0xC($t2)
+!! 00168F54  sw          $v0, 0xC($t2)                | addiu       $v0, $v0, 0x4
+!! 00168F58  addiu       $a3, $s0, 0x4                | daddu       $t0, $v0, $zero
+!! 00168F5C  addiu       $t1, $zero, 0xC              | sw          $v0, 0xC($t2)
+!! 00168F60  lw          $v0, 0x0($a2)                | addiu       $a3, $s0, 0x4
+!! 00168F64  addiu       $t1, $t1, -0x4               | addiu       $t1, $zero, 0xC
+!! 00168F68  lw          $v1, 0x4($a2)                | lw          $v0, 0x0($a2)
+!! 00168F6C  lw          $a0, 0x8($a2)                | addiu       $t1, $t1, -0x4
+!! 00168F70  lw          $a1, 0xC($a2)                | lw          $v1, 0x4($a2)
+!! 00168F74  sw          $v0, 0x0($t0)                | lw          $a0, 0x8($a2)
+!! 00168F78  addiu       $a2, $a2, 0x10               | lw          $a1, 0xC($a2)
+!! 00168F7C  sw          $v1, 0x4($t0)                | sw          $v0, 0x0($t0)
+!! 00168F80  sw          $a0, 0x8($t0)                | addiu       $a2, $a2, 0x10
+!! 00168F84  sw          $a1, 0xC($t0)                | sw          $v1, 0x4($t0)
+!! 00168F88  bgez        $t1, . + 4 + (-0xB << 2)     | sw          $a0, 0x8($t0)
+!! 00168F8C  addiu       $t0, $t0, 0x10               | sw          $a1, 0xC($t0)
+!! 00168F90  lw          $v0, 0xC($t2)                | bgez        $t1, . + 4 + (-0xB << 2)
+!! 00168F94  daddu       $s0, $a3, $zero              | addiu       $t0, $t0, 0x10
+!! 00168F98  addiu       $v0, $v0, 0x40               | lw          $v0, 0xC($t2)
+!! 00168F9C  sw          $v0, 0xC($t2)                | daddu       $s0, $a3, $zero
+!! 00168FA0  lw          $v0, 0x10($s2)               | addiu       $v0, $v0, 0x40
+!! 00168FA4  daddu       $s1, $s7, $zero              | sw          $v0, 0xC($t2)
+!! 00168FA8  slt         $v0, $s1, $v0                | lw          $v0, 0x10($s2)
+!! 00168FAC  bnel        $v0, $zero, . + 4 + (-0x50 << 2) | daddu       $s1, $s7, $zero
+!! 00168FB0  lw          $v0, 0x14($s2)               | slt         $v0, $s1, $v0
+!! 00168FB4  addiu       $a1, $fp, -0x15D8            | bnel        $v0, $zero, . + 4 + (-0x50 << 2)
+!! 00168FB8  lw          $a0, 0xC($a1)                | lw          $v0, 0x14($s2)
+!! 00168FBC  andi        $v0, $a0, 0xF                | addiu       $a1, $fp, 0x0
+!! 00168FC0  beql        $v0, $zero, . + 4 + (0xA << 2) | lw          $a0, 0xC($a1)
+!! 00168FC4  lw          $a0, 0x0($s5)                | andi        $v0, $a0, 0xF
+!! 00168FC8  sw          $zero, 0x0($a0)              | beql        $v0, $zero, . + 4 + (0xA << 2)
+!! 00168FCC  lw          $v0, 0xC($a1)                | lw          $a0, 0x0($s5)
+!! 00168FD0  addiu       $v0, $v0, 0x4                | sw          $zero, 0x0($a0)
+!! 00168FD4  daddu       $a0, $v0, $zero              | lw          $v0, 0xC($a1)
+!! 00168FD8  andi        $v1, $a0, 0xF                | addiu       $v0, $v0, 0x4
+!! 00168FDC  bnez        $v1, . + 4 + (-0x6 << 2)     | daddu       $a0, $v0, $zero
+!! 00168FE0  sw          $v0, 0xC($a1)                | andi        $v1, $a0, 0xF
+!! 00168FE4  addiu       $a1, $fp, -0x15D8            | bnez        $v1, . + 4 + (-0x6 << 2)
+!! 00168FE8  lw          $a0, 0x0($s5)                | sw          $v0, 0xC($a1)
+!! 00168FEC  lw          $v0, 0xC($a1)                | addiu       $a1, $fp, 0x0
+!! 00168FF0  lui         $a2, 0x6000                  | lw          $a0, 0x0($s5)
+!! 00168FF4  subu        $v0, $v0, $s5                | lw          $v0, 0xC($a1)
+!! 00168FF8  sra         $v0, $v0, 4                  | lui         $a2, 0x6000
+!! 00168FFC  addiu       $v0, $v0, -0x1               | subu        $v0, $v0, $s5
+!! 00169000  or          $a0, $a0, $v0                | sra         $v0, $v0, 4
+!! 00169004  sw          $a0, 0x0($s5)                | addiu       $v0, $v0, -0x1
+!! 00169008  lw          $v1, 0xC($a1)                | or          $a0, $a0, $v0
+!! 0016900C  sd          $a2, 0x0($v1)                | sw          $a0, 0x0($s5)
+!! 00169010  lw          $v0, 0xC($a1)                | lw          $v1, 0xC($a1)
+!! 00169014  addiu       $v0, $v0, 0x10               | sd          $a2, 0x0($v1)
+!! 00169018  jal         func_1CD998                  | lw          $v0, 0xC($a1)
+!! 0016901C  sw          $v0, 0xC($a1)                | addiu       $v0, $v0, 0x10
+!! 00169020  daddu       $a1, $v0, $zero              | jal         func_000000
+!! 00169024  lbu         $v0, 0xC($s3)                | sw          $v0, 0xC($a1)
+!! 00169028  dsrl        $v0, $v0, 3                  | daddu       $a1, $v0, $zero
+!! 0016902C  addiu       $a0, $v0, -0x3               | lbu         $v0, 0xC($s3)
+!! 00169030  sltiu       $v1, $a0, 0x8                | dsrl        $v0, $v0, 3
+!! 00169034  beqz        $v1, . + 4 + (0x2F << 2)     | addiu       $a0, $v0, -0x3
+!! 00169038  lui         $v0, 0x2A                    | sltiu       $v1, $a0, 0x8
+!! 0016903C  sll         $v1, $a0, 2                  | beqz        $v1, . + 4 + (0x2F << 2)
+!! 00169040  addiu       $v0, $v0, 0x5280             | lui         $v0, 0x0
+!! 00169044  addu        $v1, $v1, $v0                | sll         $v1, $a0, 2
+!! 00169048  lw          $a0, 0x0($v1)                | addiu       $v0, $v0, 0x0
+!! 0016904C  jr          $a0                          | addu        $v1, $v1, $v0
+!! 00169050  nop                                      | lw          $a0, 0x0($v1)
+!! 00169054  lw          $v1, 0x180($sp)              | jr          $a0
+!! 00169058  beqz        $v1, . + 4 + (0xA << 2)      | nop
+!! 0016905C  lwc1        $f1, 0x50($sp)               | lw          $v1, 0x180($sp)
+!! 00169060  lui         $at, 0x3F80                  | beqz        $v1, . + 4 + (0xA << 2)
+!! 00169064  mtc1        $at, $f0                     | lwc1        $f1, 0x50($sp)
+!! 00169068  nop                                      | lui         $at, 0x3F80
+!! 0016906C  c.eq.s      $f1, $f0                     | mtc1        $at, $f0
+   00169070  nop                                      | nop
+!! 00169074  bc1t        . + 4 + (0x21 << 2)          | c.eq.s      $f1, $f0
+!! 00169078  addiu       $v0, $zero, 0x16             | nop
+!! 0016907C  b           . + 4 + (0x1F << 2)          | bc1t        . + 4 + (0x21 << 2)
+!! 00169080  addiu       $v0, $zero, 0x17             | addiu       $v0, $zero, 0x16
+!! 00169084  lui         $at, 0x3F80                  | b           . + 4 + (0x1F << 2)
+!! 00169088  mtc1        $at, $f0                     | addiu       $v0, $zero, 0x17
+!! 0016908C  nop                                      | lui         $at, 0x3F80
+!! 00169090  c.eq.s      $f1, $f0                     | mtc1        $at, $f0
+   00169094  nop                                      | nop
+!! 00169098  bc1tl       . + 4 + (0x17 << 2)          | c.eq.s      $f1, $f0
+!! 0016909C  lbu         $v0, 0xC($s3)                | nop
+!! 001690A0  lw          $v0, 0xC($s3)                | bc1tl       . + 4 + (0x17 << 2)
+!! 001690A4  addiu       $v1, $zero, 0x6              | lbu         $v0, 0xC($s3)
+!! 001690A8  addiu       $a0, $zero, 0x5              | lw          $v0, 0xC($s3)
+!! 001690AC  andi        $v0, $v0, 0xF8               | addiu       $v1, $zero, 0x6
+!! 001690B0  xori        $v0, $v0, 0x18               | addiu       $a0, $zero, 0x5
+!! 001690B4  movz        $v1, $a0, $v0                | andi        $v0, $v0, 0xF8
+!! 001690B8  b           . + 4 + (0x11 << 2)          | xori        $v0, $v0, 0x18
+!! 001690BC  sw          $v1, 0x0($a1)                | movz        $v1, $a0, $v0
+!! 001690C0  lw          $a0, 0x180($sp)              | b           . + 4 + (0x11 << 2)
+!! 001690C4  beqz        $a0, . + 4 + (0xB << 2)      | sw          $v1, 0x0($a1)
+!! 001690C8  addiu       $v0, $zero, 0x17             | lw          $a0, 0x180($sp)
+!! 001690CC  b           . + 4 + (0xC << 2)           | beqz        $a0, . + 4 + (0xB << 2)
+!! 001690D0  sw          $v0, 0x0($a1)                | addiu       $v0, $zero, 0x17
+!! 001690D4  lw          $a3, 0x180($sp)              | b           . + 4 + (0xC << 2)
+!! 001690D8  beqz        $a3, . + 4 + (0x6 << 2)      | sw          $v0, 0x0($a1)
+!! 001690DC  addiu       $v0, $zero, 0x18             | lw          $a3, 0x180($sp)
+!! 001690E0  b           . + 4 + (0x7 << 2)           | beqz        $a3, . + 4 + (0x6 << 2)
+!! 001690E4  sw          $v0, 0x0($a1)                | addiu       $v0, $zero, 0x18
+!! 001690E8  lw          $v0, 0x180($sp)              | b           . + 4 + (0x7 << 2)
+!! 001690EC  bnez        $v0, . + 4 + (0x3 << 2)      | sw          $v0, 0x0($a1)
+!! 001690F0  addiu       $v0, $zero, 0x19             | lw          $v0, 0x180($sp)
+!! 001690F4  lbu         $v0, 0xC($s3)                | bnez        $v0, . + 4 + (0x3 << 2)
+!! 001690F8  dsrl        $v0, $v0, 3                  | addiu       $v0, $zero, 0x19
+!! 001690FC  sw          $v0, 0x0($a1)                | lbu         $v0, 0xC($s3)
+!! 00169100  lw          $v0, 0xC($s3)                | dsrl        $v0, $v0, 3
+!! 00169104  andi        $v0, $v0, 0x400              | sw          $v0, 0x0($a1)
+!! 00169108  beqz        $v0, . + 4 + (0x4 << 2)      | lw          $v0, 0xC($s3)
+!! 0016910C  lw          $v1, 0x168($sp)              | andi        $v0, $v0, 0x400
+!! 00169110  lwc1        $f0, 0x4($v1)                | beqz        $v0, . + 4 + (0x4 << 2)
+!! 00169114  b           . + 4 + (0x8 << 2)           | lw          $v1, 0x168($sp)
+!! 00169118  swc1        $f0, 0x4($a1)                | lwc1        $f0, 0x4($v1)
+!! 0016911C  lqc2        $vf3, 0x190($sp)             | b           . + 4 + (0x8 << 2)
+!! 00169120  vmul.xyz    $vf1, $vf3, $vf3             | swc1        $f0, 0x4($a1)
+!! 00169124  vaddw.x     $vf2, $vf0, $vf0w            | lqc2        $vf3, 0x190($sp)
+!! 00169128  vadday.x    $ACC, $vf1, $vf1y            | vmul.xyz    $vf1, $vf3, $vf3
+!! 0016912C  vmaddz.x    $vf1, $vf2, $vf1z            | vaddw.x     $vf2, $vf0, $vf0w
+!! 00169130  qmfc2.ni    $v0, $vf1                    | vadday.x    $ACC, $vf1, $vf1y
+!! 00169134  sw          $v0, 0x4($a1)                | vmaddz.x    $vf1, $vf2, $vf1z
+!! 00169138  lw          $v1, 0x1A0($sp)              | qmfc2.ni    $v0, $vf1
+!! 0016913C  sw          $v1, 0x8($a1)                | sw          $v0, 0x4($a1)
+!! 00169140  lw          $v0, 0x10($s3)               | lw          $v0, 0x1A0($sp)
+!! 00169144  sw          $v0, 0xC($a1)                | sw          $v0, 0x8($a1)
+!! 00169148  lw          $v0, 0x38($s6)               | lw          $v0, 0x10($s3)
+!! 0016914C  lw          $s1, 0x1A4($sp)              | sw          $v0, 0xC($a1)
+!! 00169150  slt         $v0, $s1, $v0                | lw          $v0, 0x38($s6)
+!! 00169154  bnez        $v0, . + 4 + (-0x23A << 2)   | lw          $s1, 0x1A4($sp)
+!! 00169158  addiu       $a0, $zero, 0x14             | slt         $v0, $s1, $v0
+!! 0016915C  lq          $s0, 0x260($sp)              | bnez        $v0, . + 4 + (-0x23C << 2)
+!! 00169160  lq          $s1, 0x250($sp)              | addiu       $a0, $zero, 0x14
+!! 00169164  lq          $s2, 0x240($sp)              | lq          $s0, 0x260($sp)
+!! 00169168  lq          $s3, 0x230($sp)              | lq          $s1, 0x250($sp)
+!! 0016916C  lq          $s4, 0x220($sp)              | lq          $s2, 0x240($sp)
+!! 00169170  lq          $s5, 0x210($sp)              | lq          $s3, 0x230($sp)
+!! 00169174  lq          $s6, 0x200($sp)              | lq          $s4, 0x220($sp)
+!! 00169178  lq          $s7, 0x1F0($sp)              | lq          $s5, 0x210($sp)
+!! 0016917C  lq          $fp, 0x1E0($sp)              | lq          $s6, 0x200($sp)
+!! 00169180  ld          $ra, 0x1D0($sp)              | lq          $s7, 0x1F0($sp)
+!! 00169184  lwc1        $f22, 0x280($sp)             | lq          $fp, 0x1E0($sp)
+!! 00169188  lwc1        $f21, 0x278($sp)             | ld          $ra, 0x1D0($sp)
+!! 0016918C  lwc1        $f20, 0x270($sp)             | lwc1        $f22, 0x280($sp)
+!! 00169190  jr          $ra                          | lwc1        $f21, 0x278($sp)
+!! 00169194  addiu       $sp, $sp, 0x290              | lwc1        $f20, 0x270($sp)
+!! 00169198  -                                        | jr          $ra
+!! 0016919C  -                                        | addiu       $sp, $sp, 0x290
