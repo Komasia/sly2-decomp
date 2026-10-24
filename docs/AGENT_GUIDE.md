@@ -143,7 +143,7 @@ real names you are confident about (from Sly 1 counterparts, strings, vtables), 
 ## Housekeeping rules
 - Never `mv`/`cp` anything to /dev/null or other system paths. To set a file aside, move it to build/hand_wip/.
 - Never run git. The coordinator commits and pushes.
-- Ranges 0x160000–0x230000 and 0x234F48–0x2550A0 belong to NaGa (see ASSIGNMENTS.md). Since 2026-10-17 NaGa is working them again: Claude agents must stay OUT of those ranges unless ASSIGNMENTS.md says otherwise.
+- Ranges are split three ways (see ASSIGNMENTS.md): Dimitri + Claude agents 0x100000–0x190000; NaGa 0x190000–0x1F0000; Lilly 0x1F0000–0x230000 and 0x234F48–0x2550A0. Claude agents must stay OUT of NaGa's and Lilly's ranges.
 
 ## Divide/sqrt hazard padding (2026-10-16)
 `tools/asfix.py` now pads div.s/sqrt.s/rsqrt.s/vdiv/vsqrt/vrsqrt to be at least the 3rd instruction of its basic

@@ -1,32 +1,37 @@
 # Range assignments
 
-Two people: **Dimitri** (GitHub owner; Claude agents work on Dimitri's ranges) and **NaGa**.
+Three people: **Dimitri** (GitHub owner; Claude agents work on Dimitri's ranges), **NaGa**, and **lillyflower648 (Lilly)**.
 Each person only commits new matches inside their own ranges, so work never overlaps.
-Numbers = unmatched functions / instructions as of 2026-10-23 (6,438 of 6,662 functions matched, 80.4% of code).
-Re-check with `python3 tools/worklist.py LO HI 100000`.
+Numbers = unmatched functions / instructions as of 2026-10-24 (6,468 of 6,662 functions matched, 81.7% of code).
+Re-check with `python3 tools/worklist.py LO HI 100000`. The per-function list for every range is in `docs/WORKLIST.md`.
 
-> **2026-10-23:** Dimitri is back, and Claude's agents are working **only in Dimitri's ranges** (0x100000–0x160000, 0x230000–0x234F48).
-> NaGa's ranges below are his alone; Claude agents don't touch them. **NaGa: start with `docs/NAGA_WORKLIST.md`.** It lists every
-> function left in your ranges with its size, how close its best draft is, and the draft files. `docs/AGENT_GUIDE.md` (newest sections
-> at the bottom) has the tricks that produced matches over the last few days.
+> **2026-10-24 re-split (Lilly joined):** 0x160000–0x190000 goes back to Dimitri (it was borrowed from him on 10-12), and
+> 0x1F0000–0x230000 plus the Sony SDK range go to Lilly. **NaGa: if you have unpushed work in a range that moved, push it
+> anyway and say so on Discord; it'll be kept.** Old drafts in `build/hand_wip/` belong to everyone, so build on them freely,
+> but save new versions under new names instead of overwriting someone else's file.
 
-## NaGa — 0x160000–0x230000 and 0x234F48–0x2550A0  (165 functions, ~57,000 instructions left)
+## Dimitri (+ Claude agents) — 0x100000–0x190000, 0x230000–0x234F48, 0x2550A0–0x25A000  (63 functions, ~20,100 instructions left)
 | Range | Functions left | Instructions left | Notes file |
 |---|---|---|---|
-| 0x160000–0x190000 (engine; borrowed from Dimitri on 10-12) | 35 | 13,333 | notes/160000.md, 170000.md, 180000.md |
-| 0x190000–0x230000 (engine) | 119 | 41,091 | notes/190000.md … notes/220000.md |
-| 0x234F48–0x2550A0 (Sony SDK, borrowed on 10-12) | 11 | 2,550 | notes/23C000.md (status table), 245000.md |
+| 0x100000–0x160000 (engine core) | 28 | 6,771 | notes/100000.md … notes/150000.md |
+| 0x160000–0x190000 (engine) | 35 | 13,333 | notes/160000.md, 170000.md, 180000.md |
+| 0x230000–0x234F48, 0x2550A0–0x25A000 | 0 | 0 | done |
 
-## Dimitri (+ Claude agents) — 0x100000–0x160000, 0x230000–0x234F48, 0x2550A0–0x25A000  (59 functions, ~11,800 instructions left)
+## NaGa — 0x190000–0x1F0000  (79 functions, ~25,900 instructions left)
 | Range | Functions left | Instructions left | Notes file |
 |---|---|---|---|
-| 0x100000–0x160000 (engine core) | 58 | 11,649 | notes/100000.md … notes/150000.md |
-| 0x230000–0x234F48 (game code / libc) | 1 | 182 | notes/230000.md |
-| 0x2550A0–0x25A000 (game code / libc) | 0 | 0 | done |
+| 0x190000–0x1F0000 (engine) | 79 | 25,918 | notes/190000.md … notes/1E0000.md |
 
-If either side runs out of work, say so on Discord before moving into the other's ranges.
+## Lilly (lillyflower648) — 0x1F0000–0x230000 and 0x234F48–0x2550A0  (51 functions, ~17,700 instructions left)
+| Range | Functions left | Instructions left | Notes file |
+|---|---|---|---|
+| 0x1F0000–0x230000 (engine) | 40 | 15,173 | notes/1F0000.md … notes/220000.md |
+| 0x234F48–0x2550A0 (Sony SDK; uses the Sony compilers, see the SDK sections of the guide) | 11 | 2,550 | notes/23C000.md (status table), 245000.md |
 
-The borrowed ranges stay with NaGa while he is working in them. If one should move back to Dimitri, say so on Discord and change this file in the same commit.
+**Lilly, start here:** `SETUP.md` (toolchain), then `docs/AGENT_GUIDE.md` (workflow plus every trick that has produced
+a match; the newest sections at the bottom matter most), then your part of `docs/WORKLIST.md`.
+
+If anyone runs out of work, say so on Discord before moving into someone else's range, and update this file in the same commit.
 
 Near-miss drafts are in `build/hand_wip/`; check there first. Many are only a few instructions away from matching.
 The `autosave` branch is an automatic, unverified backup of Claude's workspace. Ignore it and work from `main`.
