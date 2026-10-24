@@ -3532,6 +3532,7 @@ func_001B10B0,0x1B10B0,8,match,src/auto/func_001B10B0.c
 func_001B10D0,0x1B10D0,28,match,src/hand/func_001B10D0.c
 func_001B1140,0x1B1140,7,match,src/auto/func_001B1140.c
 func_001B1160,0x1B1160,113,match,src/hand/func_001B1160.c
+func_001B1328,0x1B1328,291,match,src/hand/func_001B1328.cpp
 SetStepSpinRatio__FP4STEPf,0x1B17B8,23,match,src/hand/SetStepSpinRatio__FP4STEPf.cpp
 func_001B1818,0x1B1818,20,match,src/hand/func_001B1818.c
 func_001B1868,0x1B1868,37,match,src/hand/func_001B1868.c
@@ -3870,6 +3871,7 @@ func_001C4E50,0x1C4E50,42,match,src/hand/func_001C4E50.c
 func_001C4EF8,0x1C4EF8,26,match,src/auto/func_001C4EF8.c
 func_001C4F60,0x1C4F60,77,match,src/hand/func_001C4F60.c
 func_001C5098,0x1C5098,43,match,src/hand/func_001C5098.c
+func_001C5148,0x1C5148,265,match,src/hand/func_001C5148.cpp
 func_001C5570,0x1C5570,27,match,src/hand/func_001C5570.c
 func_001C5B20,0x1C5B20,125,match,src/hand/func_001C5B20.c
 func_001C5D18,0x1C5D18,54,match,src/hand/func_001C5D18.c
@@ -3932,6 +3934,7 @@ func_001C9058,0x1C9058,14,match,src/hand/func_001C9058.c
 func_001C9090,0x1C9090,2,match,src/auto/func_001C9090.c
 func_001C9098,0x1C9098,14,match,src/auto/func_001C9098.c
 func_001C90D0,0x1C90D0,47,match,src/hand/func_001C90D0.c
+func_001C9190,0x1C9190,147,match,src/hand/func_001C9190.cpp
 func_001C93E0,0x1C93E0,169,match,src/hand/func_001C93E0.cpp
 func_001C9688,0x1C9688,166,match,src/hand/func_001C9688.c
 func_001C9920,0x1C9920,8,match,src/auto/func_001C9920.c
@@ -4052,10 +4055,12 @@ func_001CFBE0,0x1CFBE0,41,match,src/hand/func_001CFBE0.c
 RenderShrapnel__FP8SHRAPNELP2CM,0x1CFC88,20,match,src/hand/RenderShrapnel__FP8SHRAPNELP2CM.cpp
 InitMatch__FP5MATCHP6VECTORfP2SO,0x1CFCD8,22,match,src/hand/InitMatch__FP5MATCHP6VECTORfP2SO.cpp
 func_001CFD30,0x1CFD30,85,match,src/hand/func_001CFD30.cpp
+func_001CFE88,0x1CFE88,108,match,src/hand/func_001CFE88.cpp
 func_001D0038,0x1D0038,38,match,src/hand/func_001D0038.c
 func_001D00D0,0x1D00D0,14,match,src/hand/func_001D00D0.c
 func_001D0108,0x1D0108,20,match,src/auto/func_001D0108.c
 func_001D0158,0x1D0158,13,match,src/auto/func_001D0158.c
+func_001D0190,0x1D0190,213,match,src/hand/func_001D0190.cpp
 func_001D04E8,0x1D04E8,46,match,src/hand/func_001D04E8.c
 func_001D05A0,0x1D05A0,36,match,src/hand/func_001D05A0.c
 func_001D0630,0x1D0630,115,match,src/hand/func_001D0630.cpp
@@ -4255,6 +4260,7 @@ func_001DD820,0x1DD820,25,match,src/hand/func_001DD820.c
 func_001DD888,0x1DD888,22,match,src/hand/func_001DD888.c
 func_001DD8E0,0x1DD8E0,15,match,src/hand/func_001DD8E0.c
 func_001DD920,0x1DD920,121,match,src/hand/func_001DD920.c
+func_001DDB08,0x1DDB08,50,match,src/hand/func_001DDB08.cpp
 func_001DDBD0,0x1DDBD0,8,match,src/auto/func_001DDBD0.c
 func_001DDBF0,0x1DDBF0,84,match,src/hand/func_001DDBF0.cpp
 func_001DDD40,0x1DDD40,29,match,src/hand/func_001DDD40.c
@@ -4283,6 +4289,7 @@ func_001DEF98,0x1DEF98,65,match,src/hand/func_001DEF98.c
 func_001DF260,0x1DF260,80,match,src/hand/func_001DF260.c
 func_001DF3A0,0x1DF3A0,11,match,src/auto/func_001DF3A0.c
 func_001DF3D0,0x1DF3D0,120,match,src/hand/func_001DF3D0.c
+func_001DF5B0,0x1DF5B0,213,match,src/hand/func_001DF5B0.cpp
 func_001DF908,0x1DF908,29,match,src/hand/func_001DF908.c
 func_001DF980,0x1DF980,77,match,src/auto/func_001DF980.c
 func_001DFAB8,0x1DFAB8,8,match,src/auto/func_001DFAB8.c
@@ -4444,9 +4451,11 @@ func_001E66C8,0x1E66C8,22,match,src/hand/func_001E66C8.c
 func_001E6728,0x1E6728,35,match,src/hand/func_001E6728.c
 func_001E67B8,0x1E67B8,121,match,src/hand/func_001E67B8.c
 func_001E69A0,0x1E69A0,35,match,src/hand/func_001E69A0.c
+func_001E6A30,0x1E6A30,226,match,src/hand/func_001E6A30.cpp
 func_001E6DB8,0x1E6DB8,71,match,src/hand/func_001E6DB8.c
 func_001E6ED8,0x1E6ED8,14,match,src/auto/func_001E6ED8.c
 func_001E6F10,0x1E6F10,20,match,src/auto/func_001E6F10.c
+func_001E6F60,0x1E6F60,264,match,src/hand/func_001E6F60.cpp
 func_001E7380,0x1E7380,36,match,src/hand/func_001E7380.c
 func_001E7410,0x1E7410,73,match,src/hand/func_001E7410.c
 func_001E7538,0x1E7538,76,match,src/hand/func_001E7538.c
@@ -4467,6 +4476,7 @@ func_001E8008,0x1E8008,110,match,src/hand/func_001E8008.c
 func_001E81C0,0x1E81C0,109,match,src/hand/func_001E81C0.c
 func_001E93F0,0x1E93F0,48,match,src/hand/func_001E93F0.c
 func_001E94B0,0x1E94B0,64,match,src/hand/func_001E94B0.c
+func_001E95B0,0x1E95B0,157,match,src/hand/func_001E95B0.cpp
 func_001E9828,0x1E9828,11,match,src/auto/func_001E9828.c
 func_001E9858,0x1E9858,153,match,src/hand/func_001E9858.cpp
 func_001E9AC0,0x1E9AC0,92,match,src/hand/func_001E9AC0.cpp
