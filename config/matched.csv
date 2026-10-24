@@ -5976,6 +5976,7 @@ deci2Putchar,0x2357B8,44,match,src/lib/deci2Putchar.c
 serialPutchar,0x235868,13,match,src/lib/serialPutchar.c
 ftoi,0x2358A0,36,match,src/lib/ftoi.c
 printfloat,0x235930,118,match,src/lib/printfloat.c
+_sceSnprintf,0x235B08,837,match,src/lib/_sceSnprintf.c
 snprintf_char,0x236820,22,match,src/lib/snprintf_char.c
 func_00236878,0x236878,10,match,src/lib/func_00236878.c
 func_002368A0,0x2368A0,10,match,src/lib/func_002368A0.c
