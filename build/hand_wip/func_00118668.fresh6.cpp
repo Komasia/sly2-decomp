@@ -1,3 +1,4 @@
+/* fresh6 (Claude agent, lane A29, 2026-10-24): aligned 16 -> 15. fresh5 plus a separate LerpT for phit->pos0 whose vmul asm has allocation-only extra operands (3x "j"(qt), 1x "j"(qu)): qt0 vf1, qu0 vf2, qu1 vf3, qt1 vf4 as in the target. Left: memset a0 = s4 (cse), r1 vf3 (target vf1: qu1 must not die at vmul2, i.e. the 2nd Lerp dead stores sit after the vmul at lreg time). */
 /* BSP segment clip (fresh rewrite, lane A4). */
 typedef int qword __attribute__((mode(TI)));
 class VUF {
