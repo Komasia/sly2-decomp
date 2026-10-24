@@ -68,9 +68,18 @@ def main():
         if k not in srcs: del cache[k]
     json.dump(cache, open(CACHE, 'w'))
     rows = []; broken = []
+    prev = {}   # previous results per source: a source this machine cannot build (e.g. SDK files needing Linux-only compilers) keeps them
+    try:
+        for r in csv.DictReader(open(os.path.join(M.ROOT, 'config', 'matched.csv'), newline='')):
+            prev.setdefault(r['source'], []).append((r['name'], r['addr'], int(r['n_instr']), r['status'], r['source']))
+    except OSError:
+        pass
     for src in srcs:
         res = cache[src]['res']
-        if res is None: broken.append(src); continue
+        if res is None:
+            broken.append(src)
+            rows.extend(prev.get(os.path.relpath(src, M.ROOT).replace(os.sep, '/'), []))
+            continue
         for name, score in res:
             a, s = funcs[name]
             rows.append((name, f'0x{a:06X}', s // 4, 'match' if score == 1.0 else f'{score:.3f}', os.path.relpath(src, M.ROOT).replace(os.sep, '/')))
@@ -83,7 +92,7 @@ def main():
     mf = len(seen); mi = sum(r[2] for r in seen.values())
     print(f'matched functions: {mf}/{total_f} ({mf/total_f:.2%})   instructions: {mi}/{total_i} ({mi/total_i:.2%})')
     print(f'  hand-written (src/P2 etc): {sum(1 for r in seen.values() if "/auto/" not in r[4])}, auto/fixed m2c (src/auto): {sum(1 for r in seen.values() if "/auto/" in r[4])}')
-    for b in broken: print('  BUILD FAILED:', os.path.relpath(b, M.ROOT))
+    for b in broken: print('  BUILD FAILED (previous results kept):', os.path.relpath(b, M.ROOT))
     try:
         import progress_graph
         progress_graph.render(real, {int(a, 16) for a in seen})
