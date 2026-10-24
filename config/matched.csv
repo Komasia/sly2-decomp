@@ -6292,6 +6292,7 @@ _ch4dma,0x24CC90,53,match,src/lib/_ch4dma.c
 _system_header,0x24CD70,116,match,src/lib/_system_header.c
 _pack_header,0x24CF40,426,match,src/lib/_pack_header.c
 _PES_packet,0x24D5E8,1898,match,src/lib/_PES_packet.c
+sceMpegDemuxPssRing,0x24F390,248,match,src/lib/sceMpegDemuxPssRing.c
 func_0024F770,0x24F770,8,match,src/lib/func_0024F770.c
 sceMpegAddStrCallback,0x24F790,76,match,src/lib/sceMpegAddStrCallback.c
 func_0024F8C0,0x24F8C0,4,match,src/lib/func_0024F8C0.c
