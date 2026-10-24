@@ -437,3 +437,5 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - Lilly's matched files (src/hand/, comment "ported from Lilly's personal Sly 2 decomp") are a good helper library: copying her MATRIX3 `operator*` from func_0021CB18.cpp as-is matched func_00142AF8.
 
 - **Pass dumps:** use `sh tools/dump.sh <workdir> <draft> -da` (or `-fsched-verbose-5`). It compiles inside <workdir>, so the dump files never land in the repo root. Never pass -da through matchtool.py.
+
+- **Const-ref helper params** (`const VU_VECTOR &a`) instead of by-value qwords changed spill slots and loop sizes enough to match func_00173F18 and to take func_00180668 17→3 and func_0018FC60 134→75 (2026-10-24).
