@@ -5023,6 +5023,7 @@ func_00206518,0x206518,140,match,src/hand/func_00206518.c
 func_00206748,0x206748,54,match,src/hand/func_00206748.c
 func_00206820,0x206820,45,match,src/hand/func_00206820.c
 FUN_00148910__FPfT0,0x2068D8,9,match,src/auto/FUN_00148910__FPfT0.c
+func_00206900,0x206900,273,match,src/hand/func_00206900.cpp
 func_00206D48,0x206D48,26,match,src/hand/func_00206D48.c
 func_00206DB0,0x206DB0,39,match,src/hand/func_00206DB0.c
 func_00206E50,0x206E50,23,match,src/hand/func_00206E50.c
