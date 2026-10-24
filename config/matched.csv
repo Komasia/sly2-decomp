@@ -5496,6 +5496,7 @@ func_00221A18,0x221A18,169,match,src/hand/func_00221A18.c
 func_00221CC0,0x221CC0,9,match,src/auto/func_00221CC0.c
 func_00221CE8,0x221CE8,59,match,src/hand/func_00221CE8.c
 func_00221DD8,0x221DD8,1604,match,src/hand/func_00221DD8.cpp
+func_002236E8,0x2236E8,202,match,src/hand/func_002236E8.cpp
 func_00223A10,0x223A10,23,match,src/hand/func_00223A10.c
 func_00223A70,0x223A70,234,match,src/hand/func_00223A70.cpp
 func_00223E18,0x223E18,77,match,src/auto/func_00223E18.c
