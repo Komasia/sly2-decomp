@@ -4794,6 +4794,7 @@ func_001F8E90,0x1F8E90,59,match,src/hand/func_001F8E90.c
 func_001F8F80,0x1F8F80,83,match,src/hand/func_001F8F80.c
 func_001F90D0,0x1F90D0,91,match,src/hand/func_001F90D0.c
 func_001F9240,0x1F9240,115,match,src/hand/func_001F9240.c
+func_001F9410,0x1F9410,451,match,src/hand/func_001F9410.cpp
 func_001F9B20,0x1F9B20,74,match,src/hand/func_001F9B20.c
 func_001F9C48,0x1F9C48,137,match,src/hand/func_001F9C48.cpp
 func_001F9E70,0x1F9E70,301,match,src/hand/func_001F9E70.cpp
@@ -5231,6 +5232,7 @@ CbWrite__5OSTRMPvi,0x20D660,78,match,src/hand/CbWrite__5OSTRMPvi.cpp
 Flush__5OSTRM,0x20D798,56,match,src/hand/Flush__5OSTRM.cpp
 func_0020D878,0x20D878,77,match,src/auto/func_0020D878.c
 func_0020D9B0,0x20D9B0,8,match,src/auto/func_0020D9B0.c
+func_0020D9D0,0x20D9D0,363,match,src/hand/func_0020D9D0.cpp
 RestoreChkmgrFromCheckpoint__FP6CHKMGR,0x20DF80,47,match,src/hand/RestoreChkmgrFromCheckpoint__FP6CHKMGR.c
 func_0020E040,0x20E040,10,match,src/hand/func_0020E040.c
 func_0020E068,0x20E068,70,match,src/hand/func_0020E068.c
@@ -5412,6 +5414,7 @@ func_00218710,0x218710,10,match,src/hand/func_00218710.c
 func_00218738,0x218738,3,match,src/auto/func_00218738.c
 func_00218748,0x218748,18,match,src/hand/func_00218748.c
 func_00218790,0x218790,71,match,src/hand/func_00218790.c
+func_002188B0,0x2188B0,530,match,src/hand/func_002188B0.cpp
 func_002190F8,0x2190F8,38,match,src/hand/func_002190F8.c
 func_00219190,0x219190,109,match,src/hand/func_00219190.cpp
 func_00219348,0x219348,46,match,src/hand/func_00219348.c
@@ -5480,6 +5483,7 @@ func_0021F2E0,0x21F2E0,41,match,src/hand/func_0021F2E0.c
 func_0021F388,0x21F388,35,match,src/hand/func_0021F388.c
 func_0021F418,0x21F418,447,match,src/hand/func_0021F418.cpp
 func_0021FB18,0x21FB18,21,match,src/hand/func_0021FB18.c
+func_0021FB70,0x21FB70,517,match,src/hand/func_0021FB70.cpp
 func_00220388,0x220388,68,match,src/hand/func_00220388.cpp
 func_00220498,0x220498,27,match,src/auto/func_00220498.c
 func_00220508,0x220508,40,match,src/hand/func_00220508.c
@@ -5666,6 +5670,7 @@ func_0022B5C0,0x22B5C0,80,match,src/auto/func_0022B5C0.c
 func_0022B700,0x22B700,8,match,src/auto/func_0022B700.c
 func_0022B720,0x22B720,31,match,src/hand/func_0022B720.c
 func_0022B7A0,0x22B7A0,14,match,src/auto/func_0022B7A0.c
+func_0022B7D8,0x22B7D8,393,match,src/hand/func_0022B7D8.cpp
 UNoise__Fi,0x22BE08,22,match,src/hand/UNoise__Fi.cpp
 UNoise__Ffff,0x22BE60,55,match,src/hand/UNoise__Ffff.cpp
 UBias__Fff,0x22BF40,12,match,src/auto/UBias__Fff.c
