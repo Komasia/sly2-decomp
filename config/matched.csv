@@ -5968,6 +5968,7 @@ func_00237DE0,0x237DE0,35,match,src/lib/func_00237DE0.c
 sceFsReset,0x237E70,13,match,src/lib/sceFsReset.c
 sceOpen,0x237EA8,164,match,src/lib/sceOpen.c
 sceClose,0x238138,94,match,src/lib/sceClose.c
+sceRead,0x2382B8,155,match,src/lib/sceRead.c
 sceIoctl,0x2387E8,226,match,src/lib/sceIoctl.c
 sceSifInitIopHeap,0x238BD0,34,match,src/lib/sceSifInitIopHeap.c
 sceSifAllocIopHeap,0x238C58,28,match,src/lib/sceSifAllocIopHeap.c
