@@ -6115,6 +6115,7 @@ __deregister_frame_info,0x23FE00,30,match,src/lib/__deregister_frame_info.c
 __frame_state_for,0x23FE78,118,match,src/lib/__frame_state_for.c
 fde_split,0x240050,93,match,src/lib/fde_split.c
 func_002401C8,0x2401C8,3,match,src/auto/func_002401C8.c
+func_002401D8,0x2401D8,83,match,src/lib/func_002401D8.c
 func_00240328,0x240328,4,match,src/lib/func_00240328.c
 s1_sceGsResetPath,0x240338,40,match,src/lib/s1_sceGsResetPath.c
 func_002403D8,0x2403D8,34,match,src/lib/func_002403D8.c
