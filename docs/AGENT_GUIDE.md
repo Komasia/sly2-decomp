@@ -420,3 +420,9 @@ as a local changes register allocation. In func_00146B18 that let one pin be rem
 ## Policy note: multi-alternative constraints (2026-10-23)
 An asm constraint with an alternative that's never chosen (e.g. `"r,j"`) only steers allocation, so it counts as an
 allocation-only operand: allowed, with a comment saying why (func_0011BA08).
+
+## Loops that loop.c leaves alone: multiple entry points (2026-10-24)
+If the -dL dump shows the target's loop was NOT optimized (no hoisting, no strength reduction), give the loop more
+than one entry point, which makes loop.c skip it. Test the first element before the loop, then `goto` into a
+`for (;;)` at its increment. That matched func_00149440. A loop built entirely from gotos does the same job
+(func_00138970).
