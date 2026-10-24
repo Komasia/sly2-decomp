@@ -447,3 +447,5 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - **GPR reload round-robin:** to move a GPR reload, give a nearby VU helper asm output a never-chosen memory alternative, `"=r,m" : "j,!r"` (the `!` keeps reload from choosing m). Its output reload advances the round-robin. func_00169198 went 5→3 and func_00168638 33→31 (2026-10-24).
 
 - **Growing loop RTL:** cse never removes 16-byte register copies from inline struct pass-throughs, and nothing runs cse between the two loop passes. So VU_VECTOR/VU_FLOAT class helpers that take and return by value add about 2 insns each to both loop passes and nothing to the final code. Use this to reach the loop-size thresholds when the target keeps invariants inside a loop (func_001477D8, lane L2, 2026-10-24). Write the source naturally; 50 nested identity calls is a probe, not source.
+
+- **Giv set-up order:** gcc expands a nested inline-call argument before the other arguments, and loop.c emits giv set-ups in reverse order of discovery. Moving a nested call inside a helper body reorders the loop-pointer set-ups (matched func_00185E40, 2026-10-24).
