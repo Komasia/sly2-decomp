@@ -5667,6 +5667,7 @@ func_0022B5C0,0x22B5C0,80,match,src/auto/func_0022B5C0.c
 func_0022B700,0x22B700,8,match,src/auto/func_0022B700.c
 func_0022B720,0x22B720,31,match,src/hand/func_0022B720.c
 func_0022B7A0,0x22B7A0,14,match,src/auto/func_0022B7A0.c
+func_0022B7D8,0x22B7D8,393,match,src/hand/func_0022B7D8.cpp
 UNoise__Fi,0x22BE08,22,match,src/hand/UNoise__Fi.cpp
 UNoise__Ffff,0x22BE60,55,match,src/hand/UNoise__Ffff.cpp
 UBias__Fff,0x22BF40,12,match,src/auto/UBias__Fff.c
