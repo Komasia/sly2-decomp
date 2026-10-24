@@ -5983,6 +5983,7 @@ _sceSnprintf_pf,0x2368C8,19,match,src/lib/_sceSnprintf_pf.c
 sceSnprintf,0x236918,18,match,src/lib/sceSnprintf.c
 func_00236960,0x236960,32,match,src/lib/func_00236960.c
 func_002369E0,0x2369E0,32,match,src/lib/func_002369E0.c
+sceSifInitRpc,0x236A60,103,match,src/lib/sceSifInitRpc.c
 func_00236C00,0x236C00,9,match,src/lib/func_00236C00.c
 func_00236C28,0x236C28,42,match,src/lib/func_00236C28.c
 func_00236CD0,0x236CD0,7,match,src/auto/func_00236CD0.c
