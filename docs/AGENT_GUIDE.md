@@ -435,3 +435,5 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 ## 2026-10-24 (Claude agent): sqrt.s helper and Lilly's helpers
 - An inline `SqrtF` helper (`sqrt.s` asm) is accepted: `__builtin_sqrtf` does not give the game's code (checked on func_001F70C0), and many matched files already use the helper. Other FPU one-liners that C can express (e.g. `abs.s` → `__builtin_fabsf`) should be plain C.
 - Lilly's matched files (src/hand/, comment "ported from Lilly's personal Sly 2 decomp") are a good helper library: copying her MATRIX3 `operator*` from func_0021CB18.cpp as-is matched func_00142AF8.
+
+- **Pass dumps:** use `sh tools/dump.sh <workdir> <draft> -da` (or `-fsched-verbose-5`). It compiles inside <workdir>, so the dump files never land in the repo root. Never pass -da through matchtool.py.
