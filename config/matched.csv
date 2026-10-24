@@ -2593,6 +2593,7 @@ func_00172658,0x172658,65,match,src/hand/func_00172658.c
 func_00172760,0x172760,13,match,src/hand/func_00172760.c
 func_00172798,0x172798,59,match,src/hand/func_00172798.c
 func_00172888,0x172888,9,match,src/hand/func_00172888.c
+func_001728B0,0x1728B0,407,match,src/hand/func_001728B0.cpp
 func_00172F10,0x172F10,59,match,src/hand/func_00172F10.c
 func_00173000,0x173000,77,match,src/auto/func_00173000.c
 func_00173138,0x173138,8,match,src/auto/func_00173138.c
@@ -3053,6 +3054,7 @@ func_0018ED98,0x18ED98,40,match,src/hand/func_0018ED98.c
 func_0018EE38,0x18EE38,134,match,src/hand/func_0018EE38.c
 func_0018F050,0x18F050,21,match,src/hand/func_0018F050.c
 func_0018F0A8,0x18F0A8,129,match,src/hand/func_0018F0A8.c
+func_0018F2B0,0x18F2B0,171,match,src/hand/func_0018F2B0.cpp
 func_0018F560,0x18F560,74,match,src/hand/func_0018F560.c
 func_0018F688,0x18F688,46,match,src/hand/func_0018F688.c
 func_0018F740,0x18F740,28,match,src/hand/func_0018F740.c
@@ -6318,6 +6320,7 @@ _sceMpegError1,0x24FA90,16,match,src/lib/_sceMpegError1.c
 _dualPrimeVector,0x24FAD0,97,match,src/lib/_dualPrimeVector.c
 _getAllRefs,0x24FC58,449,match,src/lib/_getAllRefs.c
 _motionComp0,0x250360,148,match,src/lib/_motionComp0.c
+_getRef0,0x2505B0,290,match,src/lib/_getRef0.c
 _doMC,0x250A38,135,match,src/lib/_doMC.c
 _sceMpegPictureData0,0x250C58,144,match,src/lib/_sceMpegPictureData0.c
 _slice0,0x250E98,203,match,src/lib/_slice0.c
