@@ -5300,6 +5300,7 @@ func_00211390,0x211390,9,match,src/auto/func_00211390.c
 func_002113B8,0x2113B8,9,match,src/auto/func_002113B8.c
 func_002113E0,0x2113E0,16,match,src/auto/func_002113E0.c
 func_00211420,0x211420,65,match,src/hand/func_00211420.c
+func_00211528,0x211528,341,match,src/hand/func_00211528.cpp
 func_00211A80,0x211A80,100,match,src/hand/func_00211A80.c
 func_00211C10,0x211C10,17,match,src/auto/func_00211C10.c
 func_00211C58,0x211C58,19,match,src/hand/func_00211C58.cpp
