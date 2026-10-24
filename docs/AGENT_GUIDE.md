@@ -451,3 +451,29 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - **Giv set-up order:** gcc expands a nested inline-call argument before the other arguments, and loop.c emits giv set-ups in reverse order of discovery. Moving a nested call inside a helper body reorders the loop-pointer set-ups (matched func_00185E40, 2026-10-24).
 
 - **"r,V" memory-input on qmtc2:** a never-chosen "V" alternative on a qmtc2 input keeps the word in memory until reload, which changes register and slot choices. It matched func_0014F110 (2026-10-24); worth trying on any qmtc2 from a global or struct word.
+
+## 2026-10-24 (NaGa's lanes): what moved the last hard functions
+Wave 1 of ten agents on 0x190000-0x1F0000 matched 15 functions that had resisted every earlier try (full per-function notes in
+`notes/190000-1F0000_lanes.md`). The techniques that did it, newest first:
+- **Un-hack drafts one pin / asm at a time.** A draft at aligned 1-5 that needs several pins or whole-instruction asm is only a map.
+  Delete each pin or asm separately and keep the deletion if the count holds (func_00197500: 9 pins + a volatile asm block -> natural C).
+- **Register swaps are global-alloc priority ties.** `-da` writes `.greg` ("N regs to allocate" is the priority order) and `.lreg`
+  (refs, live length). Priority = floor_log2(refs) * refs / live_length, refs weighted by loop depth; it predicted every s-register
+  choice. A `do { } while (0)` around one statement raises a global's depth; splitting a variable that is assigned in two blocks into two
+  variables changes its priority.
+- **Scheduler barriers.** A `volatile` asm is a full barrier (drop `volatile` when only data dependences matter). A `do { } while (0)` in a
+  copy macro emits NOTE_INSN_LOOP_BEG, which sched also treats as a barrier (func_001A4AD8). sched1 ties go to the insn with more
+  dependents (func_0019AC88: `h = t * 0.5f` instead of overwriting `t`). The "birthing insn" boost applies to registers set exactly once
+  in the whole function.
+- **loop.c / gcse.** A constant is hoisted out of a loop only when life * 95 * savings >= the loop's insn count (`-da -dL` prints
+  "Loop from..: N real insns"; two loop passes). gcse's table size, (n_insns / 2) | 1 after cse1, decides PRE register numbering and spill
+  order; a dead counter that survives cse1 can flip it (func_001EA000). gcse hoists a lone `sp+K` computed after a loop.
+- **Spilled pseudo vs struct member.** A stack slot after the real locals that is reloaded around calls is a spilled pseudo: write a plain
+  local (func_001E9858).
+- **Call setup / returns.** Memmove-style `a0=s0; a1=s0; a0+=16` -> call through a `static inline` forwarder taking two `void *`. A target
+  ending `li v0,K; jr ra; nop` with an unfilled slot -> a conditional `goto done;` to a shared `result = K; done: return result;`;
+  separate `return` blocks instead of a shared variable let cross-jumping rebuild tails.
+- **VU asm.** Rewrite from scratch with one asm per VU op; `"=&j"` for multi-insn outputs; a duplicated unused `"j"` input (commented) raises
+  a value's allocation priority; `"=j"` instead of `"+j"` fixes vf numbering; `"rV"` gives `lui r; lw r,%lo(r)`.
+- **Dead-store slot.** To put a dead temp store in a given slot, declare a union local in an inner block; the slot is reused by the next
+  same-size temporary (func_001C3500).
