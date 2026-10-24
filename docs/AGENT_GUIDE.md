@@ -426,3 +426,8 @@ If the -dL dump shows the target's loop was NOT optimized (no hoisting, no stren
 than one entry point, which makes loop.c skip it. Test the first element before the loop, then `goto` into a
 `for (;;)` at its increment. That matched func_00149440. A loop built entirely from gotos does the same job
 (func_00138970).
+
+## 2026-10-24 (Claude agent): allocation-only operands that changed allocation
+- **EnforceDzgDz** (8→0): one commented empty asm with allocation-only `"f"(1e-4f)` / `"f"(-1e-4f)` inputs. local-alloc doubles a constant's live length when it has an extra use, which moved the FPU register choice to the target's.
+- **func_00155868** (2→0): extra unused `"j"(b), "r"(b), "r"(b)` operands make b GPR-class, so its qmtc2 is emitted as a reload in the target's position (one vf1 pin kept).
+- **func_00179898**: a plain field load `q = p->p10->v3E0;` plus one commented empty `asm volatile("":::"memory")` before the call fixed the load order.
