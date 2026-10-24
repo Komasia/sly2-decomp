@@ -12,15 +12,20 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 HIST = os.path.join(ROOT, 'config', 'progress_history.csv')
 SVG = os.path.join(ROOT, 'docs', 'progress.svg')
 
-# Range owners, from ASSIGNMENTS.md
-COLLAB = [(0x160000, 0x230000), (0x234F48, 0x2550A0)]   # NaGa's ranges
+# Range owners, from ASSIGNMENTS.md (everything not listed is Dimitri + Claude)
+OWNERS = {'naga': [(0x190000, 0x1F0000)],
+          'lilly': [(0x1F0000, 0x230000), (0x234F48, 0x2550A0)]}
 C_DONE, C_DONE2, C_LEFT = '#2f9e6e', '#4c7fd1', '#e4e7ec'
 C_TEXT, C_MUTED, C_GRID = '#1f2328', '#656d76', '#d0d7de'
-C_ME, C_COLLAB = '#d97706', '#7c3aed'
+C_ME, C_COLLAB, C_LILLY = '#d97706', '#7c3aed', '#db2777'
+WHO = [('me', 'Dimitri + Claude', C_ME), ('naga', 'NaGa', C_COLLAB), ('lilly', 'Lilly', C_LILLY)]
 
 
-def owner(lo):
-    return 'collab' if any(a <= lo < b for a, b in COLLAB) else 'me'
+def owner(addr):
+    for who, rs in OWNERS.items():
+        if any(a <= addr < b for a, b in rs):
+            return who
+    return 'me'
 
 
 def load_history():
@@ -124,12 +129,29 @@ def render(real, matched_addrs):
     out.append(t(cx + cw, ly - 4, '"early" = checkpoints before the GitHub repo (code size not recorded then)', 11, C_MUTED, 'end'))
     y = ly + 24
 
+    # ---- per-person progress
+    y += 16
+    out.append(t(32, y, 'Progress by person (assigned ranges, see ASSIGNMENTS.md)', 16, weight='bold'))
+    y += 8
+    for key, label, color in WHO:
+        fs = [a for a in real if owner(a) == key]
+        if not fs: continue
+        ti = sum(real[a][1] // 4 for a in fs); di = sum(real[a][1] // 4 for a in fs if a in matched_addrs)
+        df = sum(1 for a in fs if a in matched_addrs); frac = di / ti if ti else 1
+        y += 26
+        out.append(f'<rect x="32" y="{y - 11}" width="10" height="12" rx="2" fill="{color}"/>' + t(48, y, label, 12, weight='bold'))
+        out.append(bar(190, y - 12, 320, 14, frac, color, 3))
+        out.append(t(600, y, f'{frac:.1%} of code', 12, anchor='end'))
+        out.append(t(W - 32, y, f'{df:,} of {len(fs):,} functions matched · {len(fs) - df:,} left', 12, C_MUTED, 'end'))
+    y += 20
+
     # ---- per-range table
     y += 16
     out.append(t(32, y, 'Where the remaining work is (by address range)', 16, weight='bold'))
     y += 18
     out.append(f'<rect x="32" y="{y - 9}" width="10" height="10" rx="2" fill="{C_ME}"/>' + t(48, y, 'Dimitri + Claude', 12))
     out.append(f'<rect x="170" y="{y - 9}" width="10" height="10" rx="2" fill="{C_COLLAB}"/>' + t(186, y, 'NaGa', 12))
+    out.append(f'<rect x="240" y="{y - 9}" width="10" height="10" rx="2" fill="{C_LILLY}"/>' + t(256, y, 'Lilly', 12))
     out.append(t(W - 32, y, 'bar = share of the range\'s code matched', 12, C_MUTED, 'end'))
     y += 22
     out.append(t(52, y, 'Range', 11, C_MUTED) + t(560, y, 'Code done', 11, C_MUTED, 'end')
@@ -138,14 +160,15 @@ def render(real, matched_addrs):
     y += 8
     buckets = {}
     for a, (name, s) in real.items():
-        b = buckets.setdefault(a >> 16, {'fi': 0, 'ti': 0, 'fl': 0, 'il': 0, 'big': 0})
+        b = buckets.setdefault(a >> 16, {'fi': 0, 'ti': 0, 'fl': 0, 'il': 0, 'big': 0, 'own': {}})
+        b['own'][owner(a)] = b['own'].get(owner(a), 0) + s // 4
         b['ti'] += s // 4
         if a in matched_addrs: b['fi'] += s // 4
         else: b['fl'] += 1; b['il'] += s // 4; b['big'] = max(b['big'], s // 4)
     for k in sorted(buckets):
         b = buckets[k]; lo = k << 16; frac = b['fi'] / b['ti'] if b['ti'] else 1
         y += 22
-        oc = C_COLLAB if owner(lo) == 'collab' else C_ME
+        oc = {'me': C_ME, 'naga': C_COLLAB, 'lilly': C_LILLY}[max(b['own'], key=b['own'].get)]   # colour by whoever owns most of the block's code
         out.append(f'<rect x="32" y="{y - 11}" width="10" height="12" rx="2" fill="{oc}"/>')
         out.append(t(52, y, f'0x{lo:06X}–0x{lo + 0x10000:06X}', 12, weight='bold' if frac == 1 else 'normal'))
         out.append(bar(250, y - 11, 250, 12, frac, C_DONE2 if frac < 1 else C_DONE, 3))
