@@ -5003,6 +5003,7 @@ func_00205478,0x205478,67,match,src/hand/func_00205478.c
 func_00205588,0x205588,58,match,src/hand/func_00205588.c
 func_00205670,0x205670,93,match,src/hand/func_00205670.c
 func_002057E8,0x2057E8,73,match,src/hand/func_002057E8.cpp
+func_00205910,0x205910,254,match,src/hand/func_00205910.cpp
 func_00205D08,0x205D08,2,match,src/auto/func_00205D08.c
 func_00205D10,0x205D10,2,match,src/auto/func_00205D10.c
 func_00205D18,0x205D18,77,match,src/auto/func_00205D18.c
