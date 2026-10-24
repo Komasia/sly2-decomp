@@ -4993,6 +4993,7 @@ func_00204DA8,0x204DA8,35,match,src/hand/func_00204DA8.cpp
 func_00204E38,0x204E38,40,match,src/hand/func_00204E38.c
 func_00204ED8,0x204ED8,40,match,src/hand/func_00204ED8.c
 func_00204F78,0x204F78,36,match,src/hand/func_00204F78.c
+func_00205008,0x205008,182,match,src/hand/func_00205008.cpp
 func_002052E0,0x2052E0,85,match,src/hand/func_002052E0.c
 func_00205438,0x205438,7,match,src/auto/func_00205438.c
 func_00205458,0x205458,7,match,src/auto/func_00205458.c
