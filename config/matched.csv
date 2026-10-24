@@ -6321,6 +6321,7 @@ _sceMpegError1,0x24FA90,16,match,src/lib/_sceMpegError1.c
 _dualPrimeVector,0x24FAD0,97,match,src/lib/_dualPrimeVector.c
 _getAllRefs,0x24FC58,449,match,src/lib/_getAllRefs.c
 _motionComp0,0x250360,148,match,src/lib/_motionComp0.c
+_getRef0,0x2505B0,290,match,src/lib/_getRef0.c
 _doMC,0x250A38,135,match,src/lib/_doMC.c
 _sceMpegPictureData0,0x250C58,144,match,src/lib/_sceMpegPictureData0.c
 _slice0,0x250E98,203,match,src/lib/_slice0.c
