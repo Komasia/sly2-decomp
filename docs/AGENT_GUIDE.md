@@ -441,3 +441,5 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - **Const-ref helper params** (`const VU_VECTOR &a`) instead of by-value qwords changed spill slots and loop sizes enough to match func_00173F18 and to take func_00180668 17→3 and func_0018FC60 134→75 (2026-10-24).
 
 - **Loop-size threshold:** loop.c hoists invariants differently once a loop body passes about 95 RTL insns. Const-ref helpers and extra copies add RTL insns without changing the final code, so they can push a loop over that line. That fixed the hoist order in func_0018F2B0 and func_00180668 (2026-10-24).
+
+- **Reload round-robin:** reload hands out spill registers in turn. A commented clobber of a DEAD VF register on a nearby VU helper asm skips that register, so a later reload lands where the target has it. That matched func_00180668 (2026-10-24).
