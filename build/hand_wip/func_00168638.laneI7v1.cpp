@@ -1,4 +1,5 @@
 // laneI6v2 (Claude agent): aligned 51. laneI5v4 + final GBitsSqLength with qwOne as operand 0, case 3 GBitsSqDist (old order), fAlt kind as (x != 1.0f) ? 23 : 22.
+// laneI7v1: params order only (48).
 // laneI5v4 (Claude agent): aligned 57. laneI4v5 + pad loop via `DMA *pdma` and a `pbPad` cursor, skin offset `int ibMat = imat*0x40 + 0x6F0`, commented empty volatile asm at the start of CopyQws.
 // func_00168638 (Claude agent, lane I3): fresh rewrite in the style of Lilly's matched files.
 // laneI4v5 (Claude agent): aligned 120 (raw 179), frame 0x290. v4 + posCam, pos, sRadius declaration order.
