@@ -5231,6 +5231,7 @@ CbWrite__5OSTRMPvi,0x20D660,78,match,src/hand/CbWrite__5OSTRMPvi.cpp
 Flush__5OSTRM,0x20D798,56,match,src/hand/Flush__5OSTRM.cpp
 func_0020D878,0x20D878,77,match,src/auto/func_0020D878.c
 func_0020D9B0,0x20D9B0,8,match,src/auto/func_0020D9B0.c
+func_0020D9D0,0x20D9D0,363,match,src/hand/func_0020D9D0.cpp
 RestoreChkmgrFromCheckpoint__FP6CHKMGR,0x20DF80,47,match,src/hand/RestoreChkmgrFromCheckpoint__FP6CHKMGR.c
 func_0020E040,0x20E040,10,match,src/hand/func_0020E040.c
 func_0020E068,0x20E068,70,match,src/hand/func_0020E068.c
