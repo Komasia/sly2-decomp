@@ -6164,6 +6164,7 @@ sceCdNcmdDiskReady,0x241DF0,38,match,src/lib/sceCdNcmdDiskReady.c
 sceCdSync,0x241E88,40,match,src/lib/sceCdSync.c
 sceCdSyncS,0x241F28,27,match,src/lib/sceCdSyncS.c
 _sceCd_scmd_prechk,0x241F98,86,match,src/lib/_sceCd_scmd_prechk.c
+sceCdInit,0x2420F0,186,match,src/lib/sceCdInit.c
 sceCdDiskReady_old,0x2423D8,134,match,src/lib/sceCdDiskReady_old.c
 sceCdDiskReady_2425F0,0x2425F0,136,match,src/lib/sceCdDiskReady_2425F0.c
 sceCdGetReadPos,0x242810,12,match,src/lib/sceCdGetReadPos.c
