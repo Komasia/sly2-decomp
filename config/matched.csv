@@ -4975,6 +4975,7 @@ func_00204108,0x204108,45,match,src/hand/func_00204108.c
 func_002041C0,0x2041C0,14,match,src/auto/func_002041C0.c
 func_002041F8,0x2041F8,19,match,src/auto/func_002041F8.c
 func_00204248,0x204248,2,match,src/auto/func_00204248.c
+func_00204250,0x204250,152,match,src/hand/func_00204250.c
 func_002044B0,0x2044B0,107,match,src/hand/func_002044B0.cpp
 func_00204660,0x204660,20,match,src/hand/func_00204660.c
 func_002046B0,0x2046B0,15,match,src/hand/func_002046B0.c
