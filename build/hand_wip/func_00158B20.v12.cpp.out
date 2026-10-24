@@ -1,0 +1,192 @@
+func_00158B20 @0x158B20: 28/191 instructions differ (85.3%); aligned 26
+   00158B20  addiu       $sp, $sp, -0x80              | addiu       $sp, $sp, -0x80
+   00158B24  lui         $v0, 0x2E                    | lui         $v0, 0x0
+   00158B28  sq          $s0, 0x70($sp)               | sq          $s0, 0x70($sp)
+   00158B2C  sq          $s1, 0x60($sp)               | sq          $s1, 0x60($sp)
+   00158B30  daddu       $s0, $a0, $zero              | daddu       $s0, $a0, $zero
+   00158B34  sq          $s2, 0x50($sp)               | sq          $s2, 0x50($sp)
+   00158B38  daddu       $s1, $a1, $zero              | daddu       $s1, $a1, $zero
+   00158B3C  sq          $s3, 0x40($sp)               | sq          $s3, 0x40($sp)
+   00158B40  addiu       $s2, $zero, 0x28             | addiu       $s2, $zero, 0x28
+   00158B44  sd          $ra, 0x30($sp)               | sd          $ra, 0x30($sp)
+   00158B48  addiu       $s3, $v0, -0x2130            | addiu       $s3, $v0, 0x0
+   00158B4C  daddu       $a0, $s0, $zero              | daddu       $a0, $s0, $zero
+   00158B50  jal         func_158988                  | jal         func_000000
+   00158B54  daddu       $a1, $s1, $zero              | daddu       $a1, $s1, $zero
+   00158B58  lw          $v0, 0x50($s0)               | lw          $v0, 0x50($s0)
+   00158B5C  addiu       $t5, $zero, -0x1             | addiu       $t5, $zero, -0x1
+   00158B60  lui         $at, 0x3C23                  | lui         $at, 0x3C23
+   00158B64  ori         $at, $at, 0xD70A             | ori         $at, $at, 0xD70A
+   00158B68  mtc1        $at, $f2                     | mtc1        $at, $f2
+   00158B6C  daddu       $t2, $zero, $zero            | daddu       $t2, $zero, $zero
+   00158B70  sw          $zero, 0x8($sp)              | sw          $zero, 0x8($sp)
+   00158B74  daddu       $t1, $zero, $zero            | daddu       $t1, $zero, $zero
+   00158B78  sw          $zero, 0x4($sp)              | sw          $zero, 0x4($sp)
+   00158B7C  blez        $v0, . + 4 + (0x57 << 2)     | blez        $v0, . + 4 + (0x57 << 2)
+   00158B80  sw          $zero, 0x0($sp)              | sw          $zero, 0x0($sp)
+   00158B84  lw          $t7, 0x8($s0)                | lw          $t7, 0x8($s0)
+   00158B88  daddu       $t4, $v0, $zero              | daddu       $t4, $v0, $zero
+   00158B8C  addiu       $t6, $zero, 0x28             | addiu       $t6, $zero, 0x28
+   00158B90  mult        $v0, $t2, $t6                | mult        $v0, $t2, $t6
+   00158B94  nop                                      | nop
+   00158B98  addu        $v1, $v0, $t7                | addu        $v1, $v0, $t7
+   00158B9C  lw          $v0, 0x1C($v1)               | lw          $v0, 0x1C($v1)
+   00158BA0  bnez        $v0, . + 4 + (0x4A << 2)     | bnez        $v0, . + 4 + (0x4A << 2)
+   00158BA4  addiu       $t3, $t2, 0x1                | addiu       $t3, $t2, 0x1
+   00158BA8  lwc1        $f0, 0xC($v1)                | lwc1        $f0, 0xC($v1)
+   00158BAC  lui         $at, 0x38D1                  | lui         $at, 0x38D1
+   00158BB0  ori         $at, $at, 0xB717             | ori         $at, $at, 0xB717
+   00158BB4  mtc1        $at, $f1                     | mtc1        $at, $f1
+   00158BB8  nop                                      | nop
+   00158BBC  c.lt.s      $f0, $f1                     | c.lt.s      $f0, $f1
+   00158BC0  nop                                      | nop
+   00158BC4  bc1tl       . + 4 + (0x42 << 2)          | bc1tl       . + 4 + (0x42 << 2)
+   00158BC8  daddu       $t2, $t3, $zero              | daddu       $t2, $t3, $zero
+   00158BCC  lw          $v0, 0x54($s0)               | lw          $v0, 0x54($s0)
+   00158BD0  sll         $v1, $t2, 2                  | sll         $v1, $t2, 2
+   00158BD4  addu        $v1, $v1, $v0                | addu        $v1, $v1, $v0
+   00158BD8  lw          $a3, 0x0($v1)                | lw          $a3, 0x0($v1)
+   00158BDC  lwc1        $f0, 0x94($a3)               | lwc1        $f0, 0x94($a3)
+   00158BE0  c.lt.s      $f0, $f1                     | c.lt.s      $f0, $f1
+   00158BE4  nop                                      | nop
+   00158BE8  bc1tl       . + 4 + (0x39 << 2)          | bc1tl       . + 4 + (0x39 << 2)
+   00158BEC  daddu       $t2, $t3, $zero              | daddu       $t2, $t3, $zero
+   00158BF0  lq          $v0, 0xB0($a3)               | lq          $v0, 0xB0($a3)
+   00158BF4  lw          $v1, 0x4($s0)                | lw          $v1, 0x4($s0)
+   00158BF8  blez        $v1, . + 4 + (0x1C << 2)     | blez        $v1, . + 4 + (0x1C << 2)
+   00158BFC  sq          $v0, 0x10($sp)               | sq          $v0, 0x10($sp)
+   00158C00  mtc1        $zero, $f1                   | mtc1        $zero, $f1
+   00158C04  daddu       $a1, $v1, $zero              | daddu       $a1, $v1, $zero
+   00158C08  lw          $a0, 0x8($s0)                | lw          $a0, 0x8($s0)
+   00158C0C  sll         $t0, $t2, 4                  | sll         $t0, $t2, 4
+   00158C10  daddu       $a2, $zero, $zero            | daddu       $a2, $zero, $zero
+   00158C14  nop                                      | nop
+   00158C18  lwc1        $f0, 0xC($a0)                | lwc1        $f0, 0xC($a0)
+   00158C1C  c.eq.s      $f0, $f1                     | c.eq.s      $f0, $f1
+   00158C20  nop                                      | nop
+   00158C24  bc1tl       . + 4 + (0xE << 2)           | bc1tl       . + 4 + (0xE << 2)
+   00158C28  addiu       $a2, $a2, 0x60               | addiu       $a2, $a2, 0x60
+   00158C2C  mfc1        $v0, $f0                     | mfc1        $v0, $f0
+   00158C30  lw          $v1, 0x60($s0)               | lw          $v1, 0x60($s0)
+   00158C34  qmtc2.ni    $v0, $vf3                    | qmtc2.ni    $v0, $vf3
+   00158C38  sqc2        $vf3, 0x20($sp)              | sqc2        $vf3, 0x20($sp)
+   00158C3C  addu        $v1, $a2, $v1                | addu        $v1, $a2, $v1
+   00158C40  lqc2        $vf2, 0x10($sp)              | lqc2        $vf2, 0x10($sp)
+   00158C44  lw          $v0, 0x54($v1)               | lw          $v0, 0x54($v1)
+   00158C48  addu        $v0, $t0, $v0                | addu        $v0, $t0, $v0
+   00158C4C  lqc2        $vf1, 0x0($v0)               | lqc2        $vf1, 0x0($v0)
+   00158C50  vadda.xyzw  $ACC, $vf0, $vf2             | vadda.xyzw  $ACC, $vf0, $vf2
+   00158C54  vmaddx.xyzw $vf2, $vf1, $vf3x            | vmaddx.xyzw $vf2, $vf1, $vf3x
+   00158C58  sqc2        $vf2, 0x10($sp)              | sqc2        $vf2, 0x10($sp)
+   00158C5C  addiu       $a2, $a2, 0x60               | addiu       $a2, $a2, 0x60
+   00158C60  addiu       $a1, $a1, -0x1               | addiu       $a1, $a1, -0x1
+   00158C64  bnez        $a1, . + 4 + (-0x14 << 2)    | bnez        $a1, . + 4 + (-0x14 << 2)
+   00158C68  addiu       $a0, $a0, 0x28               | addiu       $a0, $a0, 0x28
+   00158C6C  lqc2        $vf1, 0x80($a3)              | lqc2        $vf1, 0x80($a3)
+   00158C70  lqc2        $vf3, 0x10($sp)              | lqc2        $vf3, 0x10($sp)
+   00158C74  vmul.xyz    $vf2, $vf3, $vf1             | vmul.xyz    $vf2, $vf3, $vf1
+   00158C78  vaddw.x     $vf4, $vf0, $vf0w            | vaddw.x     $vf4, $vf0, $vf0w
+   00158C7C  vadday.x    $ACC, $vf2, $vf2y            | vadday.x    $ACC, $vf2, $vf2y
+   00158C80  vmaddz.x    $vf2, $vf4, $vf2z            | vmaddz.x    $vf2, $vf4, $vf2z
+   00158C84  vmulx.xyzw  $vf2, $vf1, $vf2x            | vmulx.xyzw  $vf2, $vf1, $vf2x
+   00158C88  vsub.xyzw   $vf2, $vf3, $vf2             | vsub.xyzw   $vf2, $vf3, $vf2
+   00158C8C  vmul.xyz    $vf4, $vf2, $vf2             | vmul.xyz    $vf4, $vf2, $vf2
+   00158C90  vaddw.x     $vf1, $vf0, $vf0w            | vaddw.x     $vf1, $vf0, $vf0w
+   00158C94  vadday.x    $ACC, $vf4, $vf4y            | vadday.x    $ACC, $vf4, $vf4y
+   00158C98  vmaddz.x    $vf4, $vf1, $vf4z            | vmaddz.x    $vf4, $vf1, $vf4z
+   00158C9C  sqc2        $vf2, 0x10($sp)              | sqc2        $vf2, 0x10($sp)
+!! 00158CA0  qmfc2.ni    $v0, $vf4                    | qmfc2.ni    $t0, $vf4
+!! 00158CA4  mtc1        $v0, $f0                     | mtc1        $t0, $f0
+   00158CA8  nop                                      | nop
+   00158CAC  c.lt.s      $f2, $f0                     | c.lt.s      $f2, $f0
+   00158CB0  nop                                      | nop
+   00158CB4  bc1fl       . + 4 + (0x6 << 2)           | bc1fl       . + 4 + (0x6 << 2)
+   00158CB8  daddu       $t2, $t3, $zero              | daddu       $t2, $t3, $zero
+   00158CBC  sqc2        $vf2, 0x0($sp)               | sqc2        $vf2, 0x0($sp)
+   00158CC0  mov.s       $f2, $f0                     | mov.s       $f2, $f0
+   00158CC4  daddu       $t5, $t2, $zero              | daddu       $t5, $t2, $zero
+   00158CC8  daddu       $t1, $a3, $zero              | daddu       $t1, $a3, $zero
+   00158CCC  daddu       $t2, $t3, $zero              | daddu       $t2, $t3, $zero
+   00158CD0  slt         $v0, $t2, $t4                | slt         $v0, $t2, $t4
+   00158CD4  bnez        $v0, . + 4 + (-0x50 << 2)    | bnez        $v0, . + 4 + (-0x50 << 2)
+   00158CD8  mult        $v0, $t2, $t6                | mult        $v0, $t2, $t6
+   00158CDC  beqz        $t1, . + 4 + (0x48 << 2)     | beqz        $t1, . + 4 + (0x48 << 2)
+!! 00158CE0  mult        $a3, $t5, $s2                | mult        $a2, $t5, $s2
+   00158CE4  lw          $v0, 0x4($s0)                | lw          $v0, 0x4($s0)
+!! 00158CE8  lw          $a1, 0x8($s0)                | lw          $v1, 0x8($s0)
+!! 00158CEC  addiu       $v1, $zero, 0x60             | addiu       $a0, $zero, 0x60
+!! 00158CF0  mult        $a2, $v0, $s2                | mult        $t0, $v0, $s2
+!! 00158CF4  lw          $a0, 0x60($s0)               | lw          $a1, 0x60($s0)
+!! 00158CF8  mult        $v0, $v0, $v1                | mult        $v0, $v0, $a0
+!! 00158CFC  addu        $v1, $a3, $a1                | addu        $a3, $t0, $v1
+!! 00158D00  addu        $a3, $a1, $a2                | addu        $v1, $v1, $a2
+!! 00158D04  sw          $v1, 0x1C($a3)               | addu        $a1, $a1, $v0
+!! 00158D08  addu        $a2, $a0, $v0                | sw          $v1, 0x1C($a3)
+   00158D0C  sw          $a3, 0x1C($v1)               | sw          $a3, 0x1C($v1)
+   00158D10  c1          0x20004                      | c1          0x20004
+   00158D14  neg.s       $f0, $f0                     | neg.s       $f0, $f0
+   00158D18  addiu       $v1, $zero, 0x1              | addiu       $v1, $zero, 0x1
+   00158D1C  addiu       $a0, $zero, 0xE              | addiu       $a0, $zero, 0xE
+   00158D20  swc1        $f0, 0x10($a3)               | swc1        $f0, 0x10($a3)
+!! 00158D24  sw          $t1, 0x50($a2)               | sw          $t1, 0x50($a1)
+   00158D28  lw          $v0, 0x10($a3)               | lw          $v0, 0x10($a3)
+   00158D2C  qmtc2.ni    $v0, $vf2                    | qmtc2.ni    $v0, $vf2
+   00158D30  lqc2        $vf1, 0x0($sp)               | lqc2        $vf1, 0x0($sp)
+   00158D34  sqc2        $vf2, 0x10($sp)              | sqc2        $vf2, 0x10($sp)
+   00158D38  vdiv        $Q, $vf0w, $vf2x             | vdiv        $Q, $vf0w, $vf2x
+   00158D3C  vwaitq                                   | vwaitq
+   00158D40  vmulq.xyzw  $vf1, $vf1, $Q               | vmulq.xyzw  $vf1, $vf1, $Q
+!! 00158D44  sqc2        $vf1, 0x40($a2)              | sqc2        $vf1, 0x40($a1)
+   00158D48  sw          $v1, 0x0($a3)                | sw          $v1, 0x0($a3)
+   00158D4C  lw          $v0, 0x9C($t1)               | lw          $v0, 0x9C($t1)
+   00158D50  bnel        $v0, $a0, . + 4 + (0x1E << 2) | bnel        $v0, $a0, . + 4 + (0x1E << 2)
+   00158D54  lw          $v0, 0x1C($a3)               | lw          $v0, 0x1C($a3)
+   00158D58  lw          $v0, 0x8($t1)                | lw          $v0, 0x8($t1)
+   00158D5C  andi        $v1, $s1, 0x1                | andi        $v1, $s1, 0x1
+   00158D60  beqz        $v1, . + 4 + (0xF << 2)      | beqz        $v1, . + 4 + (0xF << 2)
+   00158D64  lw          $a0, 0xE8($v0)               | lw          $a0, 0xE8($v0)
+!! 00158D68  lwc1        $f2, 0x88($a0)               | lwc1        $f0, 0x88($a0)
+   00158D6C  lwc1        $f3, 0xD0($a0)               | lwc1        $f3, 0xD0($a0)
+!! 00158D70  neg.s       $f2, $f2                     | neg.s       $f0, $f0
+   00158D74  lw          $v0, 0x1C($a3)               | lw          $v0, 0x1C($a3)
+   00158D78  lwc1        $f4, 0x4($s3)                | lwc1        $f4, 0x4($s3)
+!! 00158D7C  lwc1        $f0, 0xC($v0)                | lwc1        $f1, 0xC($v0)
+!! 00158D80  mul.s       $f2, $f2, $f3                | mul.s       $f0, $f0, $f3
+!! 00158D84  lwc1        $f1, 0x94($t1)               | lwc1        $f2, 0x94($t1)
+!! 00158D88  abs.s       $f0, $f0                     | abs.s       $f1, $f1
+!! 00158D8C  mul.s       $f2, $f2, $f4                | mul.s       $f0, $f0, $f4
+!! 00158D90  max.s       $f0, $f0, $f2                | max.s       $f1, $f1, $f0
+!! 00158D94  mul.s       $f1, $f1, $f0                | mul.s       $f2, $f2, $f1
+   00158D98  b           . + 4 + (0x11 << 2)          | b           . + 4 + (0x11 << 2)
+!! 00158D9C  swc1        $f1, 0x8($a3)                | swc1        $f2, 0x8($a3)
+   00158DA0  lw          $v0, 0x1C($a3)               | lw          $v0, 0x1C($a3)
+   00158DA4  lui         $v1, 0x2C                    | lui         $v1, 0x0
+!! 00158DA8  lwc1        $f3, 0xD0($a0)               | lwc1        $f2, 0xD0($a0)
+   00158DAC  lwc1        $f1, 0xC($v0)                | lwc1        $f1, 0xC($v0)
+!! 00158DB0  lwc1        $f2, -0x2218($v1)            | lwc1        $f3, 0x0($v1)
+   00158DB4  abs.s       $f1, $f1                     | abs.s       $f1, $f1
+   00158DB8  lwc1        $f0, 0x94($t1)               | lwc1        $f0, 0x94($t1)
+!! 00158DBC  mul.s       $f2, $f3, $f2                | mul.s       $f2, $f2, $f3
+   00158DC0  mul.s       $f0, $f0, $f1                | mul.s       $f0, $f0, $f1
+   00158DC4  b           . + 4 + (0x5 << 2)           | b           . + 4 + (0x5 << 2)
+!! 00158DC8  min.s       $f0, $f2, $f0                | min.s       $f0, $f0, $f2
+   00158DCC  lwc1        $f1, 0x94($t1)               | lwc1        $f1, 0x94($t1)
+   00158DD0  lwc1        $f0, 0xC($v0)                | lwc1        $f0, 0xC($v0)
+   00158DD4  abs.s       $f0, $f0                     | abs.s       $f0, $f0
+   00158DD8  mul.s       $f0, $f0, $f1                | mul.s       $f0, $f0, $f1
+   00158DDC  swc1        $f0, 0x8($a3)                | swc1        $f0, 0x8($a3)
+   00158DE0  lwc1        $f0, 0x8($a3)                | lwc1        $f0, 0x8($a3)
+   00158DE4  daddu       $a1, $a3, $zero              | daddu       $a1, $a3, $zero
+   00158DE8  daddu       $a0, $s0, $zero              | daddu       $a0, $s0, $zero
+   00158DEC  neg.s       $f0, $f0                     | neg.s       $f0, $f0
+   00158DF0  jal         func_158668                  | jal         func_000000
+   00158DF4  swc1        $f0, 0x4($a3)                | swc1        $f0, 0x4($a3)
+   00158DF8  b           . + 4 + (-0xAB << 2)         | b           . + 4 + (-0xAB << 2)
+   00158DFC  daddu       $a0, $s0, $zero              | daddu       $a0, $s0, $zero
+   00158E00  lq          $s0, 0x70($sp)               | lq          $s0, 0x70($sp)
+   00158E04  lq          $s1, 0x60($sp)               | lq          $s1, 0x60($sp)
+   00158E08  lq          $s2, 0x50($sp)               | lq          $s2, 0x50($sp)
+   00158E0C  lq          $s3, 0x40($sp)               | lq          $s3, 0x40($sp)
+   00158E10  ld          $ra, 0x30($sp)               | ld          $ra, 0x30($sp)
+   00158E14  jr          $ra                          | jr          $ra
+   00158E18  addiu       $sp, $sp, 0x80               | addiu       $sp, $sp, 0x80
