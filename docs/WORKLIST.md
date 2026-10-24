@@ -3,6 +3,7 @@
 Every function still unmatched, grouped by owner (see `ASSIGNMENTS.md`). **Size** is the number of target instructions.
 **Closeness** is the aligned diff count from `build/hand_wip/RANKING.csv`. That file is stale, and many drafts have improved since, so
 re-check with `python3 tools/matchtool.py check <draft> <func>`. **Drafts** lists the newest few draft files in `build/hand_wip/`.
+Drafts named `*.codex18*` often score low only through multiple pins or instruction asm; see ASSIGNMENTS.md.
 Before starting a function, check `notes/<range>.md`: it records what was already tried, and which tricks worked on neighbours.
 
 ## Dimitri + Claude agents — 63 functions

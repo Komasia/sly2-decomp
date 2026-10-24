@@ -31,6 +31,11 @@ Re-check with `python3 tools/worklist.py LO HI 100000`. The per-function list fo
 **Lilly, start here:** `SETUP.md` (toolchain), then `docs/AGENT_GUIDE.md` (workflow plus every trick that has produced
 a match; the newest sections at the bottom matter most), then your part of `docs/WORKLIST.md`.
 
+**Heads-up about `*.codex18*` drafts:** many of these score very low (aligned 2–6) only because they use several
+register pins or hand-written instruction asm. Under the project rules (at most ONE commented pin per function; asm only as
+commented barriers or allocation-only operands, never replacing C), they can't become matches as they are. Use them as a
+guide to structure and types, not as the closeness number to trust.
+
 If anyone runs out of work, say so on Discord before moving into someone else's range, and update this file in the same commit.
 
 Near-miss drafts are in `build/hand_wip/`; check there first. Many are only a few instructions away from matching.
