@@ -5370,6 +5370,7 @@ func_002142B0,0x2142B0,20,match,src/hand/func_002142B0.c
 func_00214300,0x214300,38,match,src/auto/func_00214300.c
 func_00214398,0x214398,50,match,src/hand/func_00214398.c
 func_00214460,0x214460,349,match,src/hand/func_00214460.cpp
+func_002149D8,0x2149D8,761,match,src/hand/func_002149D8.cpp
 func_002155C0,0x2155C0,62,match,src/hand/func_002155C0.cpp
 func_002156B8,0x2156B8,30,match,src/hand/func_002156B8.cpp
 func_00215730,0x215730,71,match,src/hand/func_00215730.cpp
