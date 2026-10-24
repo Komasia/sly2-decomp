@@ -1,4 +1,4 @@
-// func_0018F958 (Claude agent, lane J1, 2026-10-24): old .cpp + arg via table[side][axis] (stores via response ptr), const-ref helpers, index-form final loop. aligned 87.
+
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));

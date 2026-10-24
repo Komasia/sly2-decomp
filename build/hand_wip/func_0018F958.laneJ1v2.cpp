@@ -1,3 +1,4 @@
+// func_0018F958 (Claude agent, lane J1, 2026-10-24): aligned 73, function-scope side reused by the index-form final loop.
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
