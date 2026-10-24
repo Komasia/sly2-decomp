@@ -1,3 +1,4 @@
+// v11 (Claude agent, lane D36): aligned 21 -> 13. v8 + (1) clamp via locals t0/t1 with GMax(t0, 0.0f) (target min/max regs and store order), (2) `float a, b;` declared at function top (a/b get f4/f5 like the target), (3) SqrtF inline (sqrt.s asm with "=&f", as in matched DecomposeRotateMatrixRad/GetJoyXYDeflection) gives the target sqrt.s f0,f12 + mov.s f12,f0. Left: prologue schedule only (target: mtc1 dd before vsub dir, sub.s c before the Dot(dir,dpos) vmul, mtc1 b after Dot(dir,dir); one mtc1-hazard nop).
 // v8 (Claude agent, lane D27): v7 (22) with Normalize reading D_002A2DA0 itself after VLen and the gl float made by a separate mtc1 asm (so reorg cannot pull the lq into the bc1f slot): lq a1 now after qmfc2 like the target (21). Left: sqrt.s f0,f12 + mov.s f12,f0; prologue Dot/sub.s order; min/max regs.
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };

@@ -1,3 +1,4 @@
+// v9 (Claude agent, lane D36): v8 + clamp through locals t0/t1, GMax(t0, 0.0f): 21 -> 16. See v11.
 // v8 (Claude agent, lane D27): v7 (22) with Normalize reading D_002A2DA0 itself after VLen and the gl float made by a separate mtc1 asm (so reorg cannot pull the lq into the bc1f slot): lq a1 now after qmfc2 like the target (21). Left: sqrt.s f0,f12 + mov.s f12,f0; prologue Dot/sub.s order; min/max regs.
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
