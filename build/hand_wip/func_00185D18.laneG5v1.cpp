@@ -1,3 +1,4 @@
+/* laneG5v1 (Claude agent): laneG2v1 + results computed into locals and stored at the end (fixes VF numbering), plus an allocation-only "r"(pvel) operand on the last AddScaled2 (fixes s1/s2). aligned 18 (G2v1 33). Left: pre-call arg/sqc2 interleave; post-call TRIREF copy is scheduled before the closest/normal lqc2s. */
 /* lane G2 (Claude agent, 2026-10-24): clean rewrite, no pins, aligned 33. By-value VU_FLOAT class temps give the target's reused 0x30 temp slot; union-wrapped closest/normal get slots 0x10/0x20 at declaration. Left: VF numbering (vel vf6/t vf5/acc vf3), s1/s2 roles of ppos/pvel, post-call schedule (target copies TRIREF before the offset mfc1). */
 typedef int qword __attribute__((mode(TI)));
 struct TRIREF { int index; float a, b; };
