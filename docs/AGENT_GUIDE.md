@@ -443,3 +443,5 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - **Loop-size threshold:** loop.c hoists invariants differently once a loop body passes about 95 RTL insns. Const-ref helpers and extra copies add RTL insns without changing the final code, so they can push a loop over that line. That fixed the hoist order in func_0018F2B0 and func_00180668 (2026-10-24).
 
 - **Reload round-robin:** reload hands out spill registers in turn. A commented clobber of a DEAD VF register on a nearby VU helper asm skips that register, so a later reload lands where the target has it. That matched func_00180668 (2026-10-24).
+
+- **GPR reload round-robin:** to move a GPR reload, give a nearby VU helper asm output a never-chosen memory alternative, `"=r,m" : "j,!r"` (the `!` keeps reload from choosing m). Its output reload advances the round-robin. func_00169198 went 5→3 and func_00168638 33→31 (2026-10-24).
