@@ -6143,6 +6143,7 @@ func_00240AE0,0x240AE0,34,match,src/lib/func_00240AE0.c
 func_00240B68,0x240B68,7,match,src/auto/func_00240B68.c
 checkModelVersion,0x240B88,40,match,src/lib/checkModelVersion.c
 func_00240C28,0x240C28,4,match,src/lib/syscall/func_00240C28.c
+sceGsSetDefDispEnv,0x240C38,221,match,src/lib/sceGsSetDefDispEnv.c
 sceGszbufaddr,0x240FB0,50,match,src/lib/sceGszbufaddr.c
 sceGsSetDefDrawEnv,0x241078,121,match,src/lib/sceGsSetDefDrawEnv.c
 sceGsSetDefClear,0x241260,65,match,src/lib/sceGsSetDefClear.c
