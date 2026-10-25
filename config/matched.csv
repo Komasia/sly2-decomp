@@ -5705,6 +5705,7 @@ func_00229ED0,0x229ED0,8,match,src/auto/func_00229ED0.c
 func_00229EF0,0x229EF0,37,match,src/hand/func_00229EF0.c
 func_00229F88,0x229F88,54,match,src/hand/func_00229F88.c
 func_0022A060,0x22A060,112,match,src/hand/func_0022A060.c
+func_0022A220,0x22A220,441,match,src/hand/func_0022A220.cpp
 func_0022A908,0x22A908,376,match,src/hand/func_0022A908.cpp
 func_0022AEE8,0x22AEE8,77,match,src/auto/func_0022AEE8.c
 func_0022B020,0x22B020,8,match,src/auto/func_0022B020.c
