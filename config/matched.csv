@@ -6255,6 +6255,7 @@ scePadInit,0x242D08,80,match,src/lib/scePadInit.c
 _pad_intr_hdr,0x242E48,18,match,src/lib/_pad_intr_hdr.c
 scePadInit2,0x242E90,56,match,src/lib/scePadInit2.c
 _send_to_iop,0x242F70,69,match,src/lib/_send_to_iop.c
+scePadPortOpen,0x243088,121,match,src/lib/scePadPortOpen.c
 scePadGetDmaStr,0x243270,24,match,src/lib/scePadGetDmaStr.c
 scePadRead,0x2432D0,45,match,src/lib/scePadRead.c
 scePadGetState_243388,0x243388,50,match,src/lib/scePadGetState_243388.c
