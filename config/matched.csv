@@ -3265,6 +3265,7 @@ ConvertAngleStrength__FffffPfT4,0x1A38A8,47,match,src/hand/ConvertAngleStrength_
 func_001A3968,0x1A3968,115,match,src/hand/func_001A3968.c
 func_001A3B38,0x1A3B38,18,match,src/hand/func_001A3B38.c
 func_001A3B80,0x1A3B80,95,match,src/hand/func_001A3B80.c
+func_001A3D00,0x1A3D00,98,match,src/hand/func_001A3D00.c
 func_001A3E88,0x1A3E88,23,match,src/hand/func_001A3E88.c
 func_001A3EE8,0x1A3EE8,35,match,src/hand/func_001A3EE8.c
 func_001A3F78,0x1A3F78,183,match,src/hand/func_001A3F78.cpp
@@ -4071,6 +4072,7 @@ func_001D05A0,0x1D05A0,36,match,src/hand/func_001D05A0.c
 func_001D0630,0x1D0630,115,match,src/hand/func_001D0630.cpp
 func_001D0800,0x1D0800,54,match,src/hand/func_001D0800.cpp
 func_001D08D8,0x1D08D8,50,match,src/hand/func_001D08D8.cpp
+func_001D09A0,0x1D09A0,150,match,src/hand/func_001D09A0.cpp
 func_001D0BF8,0x1D0BF8,44,match,src/hand/func_001D0BF8.c
 func_001D0CA8,0x1D0CA8,16,match,src/auto/func_001D0CA8.c
 func_001D0CE8,0x1D0CE8,15,match,src/auto/func_001D0CE8.c
