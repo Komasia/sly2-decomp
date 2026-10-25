@@ -2236,6 +2236,7 @@ AppendDzgDz__FP3DZGP2DZ,0x158668,47,match,src/hand/AppendDzgDz__FP3DZGP2DZ.c
 func_00158728,0x158728,139,match,src/hand/func_00158728.cpp
 func_00158958,0x158958,11,match,src/auto/func_00158958.c
 SolveDzg__FP3DZGiiPP2XPPiPPP2SO,0x158988,102,match,src/hand/SolveDzg__FP3DZGiiPP2XPPiPPP2SO.cpp
+func_00158B20,0x158B20,191,match,src/hand/func_00158B20.cpp
 func_00158E20,0x158E20,103,match,src/hand/func_00158E20.cpp
 func_00158FC0,0x158FC0,77,match,src/auto/func_00158FC0.c
 func_001590F8,0x1590F8,8,match,src/auto/func_001590F8.c
