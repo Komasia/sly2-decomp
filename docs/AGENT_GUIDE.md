@@ -477,3 +477,26 @@ Wave 1 of ten agents on 0x190000-0x1F0000 matched 15 functions that had resisted
   a value's allocation priority; `"=j"` instead of `"+j"` fixes vf numbering; `"rV"` gives `lui r; lw r,%lo(r)`.
 - **Dead-store slot.** To put a dead temp store in a given slot, declare a union local in an inner block; the slot is reused by the next
   same-size temporary (func_001C3500).
+
+## 2026-10-25 (NaGa's lanes, wave 3): what finished another 19 functions
+Per-function notes are in `notes/190000-1F0000_lanes.md` (agents `w3lane1`..`w3lane10`).
+- **Copy matched siblings first** (Lilly's ports and earlier matches): the pass-through base call with the full virtual signature,
+  two-input `Dot`, `VU_VECTOR(const qword &)` helpers, pointer-to-member constants, `GAME *game = &D_003DD490` (func_001DF0A0,
+  func_001C2EF0, func_00194F70).
+- **reorg's backward delay-slot search stops at any asm.** Whether a compare is an asm helper or plain C decides what fills the
+  branch slot (func_001999D0). Replace FPU one-liner asms (`min.s`, `abs.s`) with plain C (`b < a ? b : a`, `__builtin_fabsf`)
+  before any scheduling work (func_001D2E18).
+- **Normalize-with-fallback in return style** (`if (X(l) < 1e-4f) return fallback; return Div(v, l);`): an if/else assigning one
+  variable lets jump.c hoist the fallback copy (the old vf1-pin cases).
+- **cse1 adds REG_EQUAL to every `x = const`, and local-alloc doubles that variable's live length** (halving its priority). Compare the
+  "across N insns" counts in `.flow` and `.lreg`; one extra use (e.g. an `i < count` guard) wins the tie back (func_001CE2E8).
+- **Loop exit handling inside the test** (`j = n; for (;;) { if (--j < 0) { ...; break; } ... }`) keeps jump.c from copying the test in
+  front of the loop and gives the target's `b test` entry; it replaced goto/`do{}while(0)` hacks (func_00194F70).
+- **Reload drives many VU/GPR choices.** A `"j"` repeat of a spilled pseudo is an extra reload that adds a spill register and shifts
+  reload's round-robin; `"jm"` removes it (func_001D4568). A value that lives across calls with few refs is best left a plain local so
+  reload makes the target's spill stores (func_001DB0C8, func_001E5FC8).
+- **Aliasing:** a scalar local's store never blocks struct-field loads through a pointer, so sched1 hoists them; if the target keeps the
+  store first, the local is an aggregate. Reading a global as a field of its containing struct makes a load wait for a struct store.
+- **Measured gcse PRE hash:** `hash(plus (reg r) (const_int c)) = (13258 + r + c) mod S`, S = (insns/2)|1 (func_001A8B50 notes).
+- **Not accepted:** locals or empty objects that exist only to move a stack slot or a pseudo number (func_001AA1D8's `NOOP` objects,
+  the earlier padded func_001A87F0).
