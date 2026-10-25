@@ -4029,6 +4029,7 @@ OnRipgRemove__FP4RIPG,0x1CDE80,66,match,src/hand/OnRipgRemove__FP4RIPG.cpp
 func_001CDF88,0x1CDF88,121,match,src/hand/func_001CDF88.c
 func_001CE170,0x1CE170,22,match,src/auto/func_001CE170.c
 FUN_0019e420,0x1CE1C8,72,match,src/hand/FUN_0019e420.c
+func_001CE2E8,0x1CE2E8,199,match,src/hand/func_001CE2E8.cpp
 RenderRipgSelf__FP4RIPGP2CMP2RO,0x1CE608,45,match,src/hand/RenderRipgSelf__FP4RIPGP2CMP2RO.cpp
 func_001CE6C0,0x1CE6C0,4,match,src/auto/func_001CE6C0.c
 func_001CE6D0,0x1CE6D0,110,match,src/hand/func_001CE6D0.c
