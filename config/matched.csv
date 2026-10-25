@@ -2263,6 +2263,7 @@ FPausedEmitter__FP7EMITTER,0x15A170,20,match,src/hand/FPausedEmitter__FP7EMITTER
 OnEmitterValuesChanged__FP7EMITTER,0x15A1C0,32,match,src/auto/OnEmitterValuesChanged__FP7EMITTER.c
 SetEmitterParticleCount__FP7EMITTERi,0x15A240,28,match,src/hand/SetEmitterParticleCount__FP7EMITTERi.cpp
 SetEmitterAutoPause__FP7EMITTERi,0x15A2B0,4,match,src/auto/SetEmitterAutoPause__FP7EMITTERi.c
+WakeSoWater__FP2SOP5WATERfP6VECTORT3ff,0x15A2C0,337,match,src/hand/WakeSoWater__FP2SOP5WATERfP6VECTORT3ff.cpp
 func_0015A808,0x15A808,335,match,src/hand/func_0015A808.cpp
 func_0015AD48,0x15AD48,60,match,src/hand/func_0015AD48.c
 CalculateEmitvx__FiP2LMiP6EMITVX,0x15AE38,52,match,src/hand/CalculateEmitvx__FiP2LMiP6EMITVX.cpp
