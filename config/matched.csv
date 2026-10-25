@@ -1680,6 +1680,7 @@ func_0013D850,0x13D850,26,match,src/auto/func_0013D850.c
 func_0013D8B8,0x13D8B8,2,match,src/auto/func_0013D8B8.c
 func_0013D8C0,0x13D8C0,77,match,src/auto/func_0013D8C0.c
 func_0013D9F8,0x13D9F8,8,match,src/auto/func_0013D9F8.c
+func_0013DA18,0x13DA18,345,match,src/hand/func_0013DA18.cpp
 func_0013DF80,0x13DF80,87,match,src/hand/func_0013DF80.c
 func_0013E0E0,0x13E0E0,75,match,src/hand/func_0013E0E0.c
 func_0013E210,0x13E210,77,match,src/auto/func_0013E210.c
