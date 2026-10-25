@@ -2660,6 +2660,7 @@ func_00175790,0x175790,15,match,src/auto/func_00175790.c
 func_001757D0,0x1757D0,15,match,src/auto/func_001757D0.c
 func_00175810,0x175810,4,match,src/auto/func_00175810.c
 func_00175820,0x175820,32,match,src/hand/func_00175820.c
+func_001758A0,0x1758A0,279,match,src/hand/func_001758A0.cpp
 func_00175D00,0x175D00,188,match,src/hand/func_00175D00.c
 func_00175FF0,0x175FF0,28,match,src/auto/func_00175FF0.c
 func_00176060,0x176060,14,match,src/hand/func_00176060.c
