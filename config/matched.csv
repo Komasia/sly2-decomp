@@ -4447,6 +4447,7 @@ func_001E5D60,0x1E5D60,8,match,src/auto/func_001E5D60.c
 func_001E5D80,0x1E5D80,13,match,src/auto/func_001E5D80.c
 func_001E5DB8,0x1E5DB8,15,match,src/hand/func_001E5DB8.c
 func_001E5DF8,0x1E5DF8,115,match,src/hand/func_001E5DF8.c
+func_001E5FC8,0x1E5FC8,110,match,src/hand/func_001E5FC8.c
 func_001E6180,0x1E6180,107,match,src/hand/func_001E6180.c
 func_001E6330,0x1E6330,4,match,src/auto/func_001E6330.c
 func_001E6340,0x1E6340,31,match,src/hand/func_001E6340.c
