@@ -3140,6 +3140,7 @@ func_00196DF8,0x196DF8,349,match,src/hand/func_00196DF8.cpp
 func_00197370,0x197370,86,match,src/hand/func_00197370.c
 func_001974C8,0x1974C8,13,match,src/hand/func_001974C8.c
 func_00197500,0x197500,677,match,src/hand/func_00197500.cpp
+func_00197F98,0x197F98,1154,match,src/hand/func_00197F98.cpp
 func_001991A0,0x1991A0,62,match,src/hand/func_001991A0.c
 func_00199298,0x199298,91,match,src/hand/func_00199298.cpp
 FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR,0x199408,115,match,src/hand/FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR.cpp
