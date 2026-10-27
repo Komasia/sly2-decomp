@@ -4530,6 +4530,7 @@ func_001E7D90,0x1E7D90,151,match,src/hand/func_001E7D90.c
 func_001E7FF0,0x1E7FF0,6,match,src/auto/func_001E7FF0.c
 func_001E8008,0x1E8008,110,match,src/hand/func_001E8008.c
 func_001E81C0,0x1E81C0,109,match,src/hand/func_001E81C0.c
+func_001E8378,0x1E8378,838,match,src/hand/func_001E8378.cpp
 func_001E9090,0x1E9090,215,match,src/hand/func_001E9090.cpp
 func_001E93F0,0x1E93F0,48,match,src/hand/func_001E93F0.c
 func_001E94B0,0x1E94B0,64,match,src/hand/func_001E94B0.c
