@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001574A0(M2C_UNK *);                   /* extern */
-s32 func_001AE318(s32 *, s32, s32);                 /* extern */
+M2C_UNK Flush__4DMAS(M2C_UNK *);                   /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32);                 /* extern */
 extern s128 D_002A2DD0;
 extern f32 D_002A77D0;
 extern f32 D_002A77D4;

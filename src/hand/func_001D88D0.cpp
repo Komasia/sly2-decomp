@@ -7,8 +7,8 @@ struct FRAME {
     ~FRAME();
 };
 struct V { int c; void *pv; };
-V *func_001AE1D0(MSG *pmsg);
-void *func_001AE238(MSG *pmsg, void *pv);
+V *PvAllocSwImpl(MSG *pmsg) asm("PvAllocSwImpl__Fi");
+void *PvAllocSwCopyImpl(MSG *pmsg, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 void func_001D87C0(void *p, va_list ap, V *pv);
 extern "C" V *func_001D88D0(void *p, ...)
 {
@@ -20,13 +20,13 @@ extern "C" V *func_001D88D0(void *p, ...)
     va_start(ap, p);
     pmsg->cb = 8;
     pmsg->nKind = 0x10;
-    pv = func_001AE1D0(pmsg);
+    pv = PvAllocSwImpl(pmsg);
     func_001D87C0(p, ap, pv);
     {
         void *pvOld = pv->pv;
         pmsg->cb = pv->c * 2;
         pmsg->nKind = 0x10;
-        pv->pv = func_001AE238(pmsg, pvOld);
+        pv->pv = PvAllocSwCopyImpl(pmsg, pvOld);
     }
     return pv;
 }

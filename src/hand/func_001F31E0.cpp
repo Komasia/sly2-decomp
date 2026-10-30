@@ -23,9 +23,9 @@ int func_00117D00(void *);
 float func_00117E38(void *);
 void func_00117FD0(void *,GEO *);
 void func_00118220(void *,GEO *,TREE *);
-void func_00117ED0(void *,STATE *);
+void ReadMatrix(void *,STATE *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
 void func_00167320(DATA *,P *,void *);
-void *func_001AE2A0(MSG *);
+void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 void func_00166270(GEO *,const M4 *,GEO *);
 void func_001F2B20(P *);
 void func_001F35F8(P *,float);
@@ -38,7 +38,7 @@ static inline int Extra(P *p){VE *v=&p->vt[63];return ((int (*)(P *))v->fn)((P *
 static inline void *Lookup(P *p,int id){VE *v=&p->vt[51];return ((void *(*)(P *,int))v->fn)((P *)((char *)p+v->delta),id);}
 static inline void Post(P *p){VE *v=&p->vt[64];((void (*)(P *))v->fn)((P *)((char *)p+v->delta));}
 static inline void SetActive(P *p){uint f=p->flags;if((f^1)&1)*(uint *)f|=8;else p->flags=f|8;}
-extern "C" void func_001F31E0(P *p,void *stream)
+extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
 {
     int i=0;E *e;
     func_0022D7A0(p,stream);
@@ -48,7 +48,7 @@ extern "C" void func_001F31E0(P *p,void *stream)
     p->count=func_00117D50(stream);
     MSG request;
     request.bytes=(p->count+extra)*sizeof(E);request.alignment=16;
-    p->entries=(E *)func_001AE2A0(&request);
+    p->entries=(E *)PvAllocSwClearImpl(&request);
     for(;i<p->count;i++){
         e=&p->entries[i];
         GEO *local=&e->local;
@@ -74,10 +74,10 @@ extern "C" void func_001F31E0(P *p,void *stream)
     func_001F2B20(p);
     if(p->count>0){
         request.bytes=sizeof(STATE);request.alignment=16;
-        STATE *state=(STATE *)func_001AE2A0(&request);
+        STATE *state=(STATE *)PvAllocSwClearImpl(&request);
         p->state=state;
         state->mass=func_00117E38(stream);
-        func_00117ED0(stream,state);
+        ReadMatrix(stream,state);
         func_001F35F8(p,1.0f);
         Post(p);
     }

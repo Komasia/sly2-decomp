@@ -3,7 +3,7 @@ struct M4 { qword r[4]; };
 struct N { qword normal; char pad[0xC]; int index; };
 struct Geom { int count; qword *points; int countN; struct N *normals; int x10,x14; };
 struct REQ { int cb,kind; };
-void *func_001AE238(struct REQ *r,void *src);
+void *PvAllocSwCopyImpl__FiPv(struct REQ *r,void *src);
 void func_00119390(struct N *n,qword v,qword p);
 static inline qword Transform(const struct M4 *m,qword p) {
  qword r;
@@ -30,10 +30,10 @@ void func_00166270(struct Geom *src,const struct M4 *transform,struct Geom *dest
  int i,j;
  dest->count=src->count;
  req.cb=src->count*16;req.kind=16;
- dest->points=func_001AE238(&req,src->points);
+ dest->points=PvAllocSwCopyImpl__FiPv(&req,src->points);
  dest->countN=src->countN;
  req.cb=src->countN*32;req.kind=16;
- dest->normals=func_001AE238(&req,src->normals);
+ dest->normals=PvAllocSwCopyImpl__FiPv(&req,src->normals);
  dest->x10=src->x10;dest->x14=src->x14;
  if(transform) {
   m=*transform;

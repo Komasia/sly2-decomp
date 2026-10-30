@@ -17,8 +17,8 @@ extern "C" FRAME *func_001AE478(FRAME *);
 extern "C" void func_001AE4A0(FRAME *,int);
 struct FRAME {FRAME(){}~FRAME(){}};
 struct MSG {int bytes,alignment;};
-extern "C" void *func_001AE1D0(MSG *);
-extern "C" void *func_001AE2A0(MSG *);
+extern "C" void *PvAllocSwImpl(MSG *) asm("PvAllocSwImpl__Fi");
+extern "C" void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 extern "C" void *func_001AE378(MSG *);
 static inline qword Sub(qword a,qword b) {qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
 static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"0"(a),"j"(b));return r;}
@@ -35,13 +35,13 @@ extern "C" void func_001F6C08(P *p)
     func_001AE478(&storage);
     MSG *allocation=&request;
     request.bytes=triBytes;allocation->alignment=alignment;
-    p->mesh=(MESH *)func_001AE1D0(allocation);
+    p->mesh=(MESH *)PvAllocSwImpl(allocation);
     request.bytes=p->pointCount*16;allocation->alignment=alignment;
-    p->mesh->velocity=(qword *)func_001AE2A0(allocation);
+    p->mesh->velocity=(qword *)PvAllocSwClearImpl(allocation);
     request.bytes=p->pointCount*16;allocation->alignment=alignment;
-    p->mesh->acceleration=(qword *)func_001AE2A0(allocation);
+    p->mesh->acceleration=(qword *)PvAllocSwClearImpl(allocation);
     request.bytes=p->triCount*triBytes;allocation->alignment=alignment;
-    p->mesh->triangles=(TRI *)func_001AE2A0(allocation);
+    p->mesh->triangles=(TRI *)PvAllocSwClearImpl(allocation);
     request.bytes=p->triCount*4;allocation->alignment=alignment;
     int *counts=(int *)func_001AE378(allocation);
     int itri;

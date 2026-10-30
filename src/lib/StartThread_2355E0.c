@@ -10,7 +10,7 @@ typedef struct {
 } ThreadParam;
 int func_00235100(void);
 int func_00239450(void);
-int func_002394A0(void);
+int EIntr(void);
 int func_00234920(int tid, ThreadParam *info);
 int func_00234840(int tid, void *arg);
 int StartThread_2355E0(int tid, void *arg)
@@ -25,7 +25,7 @@ int StartThread_2355E0(int tid, void *arg)
         return -1;
     r = func_00234920(tid, &info);
     if (r < 0) {
-        func_002394A0();
+        EIntr();
         return r;
     }
     if (info.status == 0x10) {
@@ -46,9 +46,9 @@ int StartThread_2355E0(int tid, void *arg)
         "lw $8, 0x1E0(%0)\n\tsd $8, 0x1E0(%0)\n\tsd $0, 0x1E8(%0)\n\t"
         "lw $8, 0x1F0(%0)\n\tsd $8, 0x1F0(%0)\n\tsd $0, 0x1F8(%0)\n\t.set reorder"
         : : "r"(p), "r"(arg) : "$8", "memory");
-    func_002394A0();
+    EIntr();
     return func_00234840(tid, arg);
     }
-    func_002394A0();
+    EIntr();
     return -1;
 }

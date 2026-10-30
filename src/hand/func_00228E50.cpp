@@ -43,7 +43,7 @@ extern qword D_002A2DC0,D_002A2DD0;
 void func_001F36E0(O *);
 MARK *func_001AE478(MARK *);
 void func_001AE4A0(MARK *,int);
-void *func_001AE318(const REQ *);
+void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00229D60(void *,COLL *);
 int func_001F7E08(O *,int (*)(void *,COLL *),void *,COLL **);
 int func_001F6838(O *);
@@ -77,7 +77,7 @@ extern "C" void func_00228E50(O *p){
  for(n=*work.head;n;n=n->next)n->object->flags|=0x80000000L;
  func_001AE478(&work.mark);
  {register int size __asm__("$3")=p->count;register int alignment __asm__("$2")=16;register REQ*req __asm__("$4")=work.request;size*=4;work.scratch.request.size=size;Fields(req)->alignment=alignment;
- objects=(COLL **)func_001AE318(req);}
+ objects=(COLL **)PvAllocSlot(req);}
  work.count=func_001F7E08(p,func_00229D60,0,objects);
  for(link=p->state->first;link;link=link->next){
   O *o=link->object;

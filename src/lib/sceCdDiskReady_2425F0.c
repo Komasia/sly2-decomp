@@ -12,7 +12,7 @@ extern int D_00450550[];
 extern int D_002C81C0[];
 int printf(const char *fmt, ...);
 int func_00239450(void);
-int func_002394A0(void);
+int EIntr(void);
 void func_00241A30(void);
 int func_00234A70(int);
 void func_00236A60(int);
@@ -53,7 +53,7 @@ int sceCdDiskReady_2425F0(int mode)
     }
     r = func_00239450();
     D_002C6780 = 0;
-    if (r) func_002394A0();
+    if (r) EIntr();
     D_00450550[0] = mode;
     func_0023B170(D_00450550, 4);
     if (func_00237288(&D_00450510, 0, 0, D_00450550, 4, D_002C81C0, 4, 0, 0) < 0) {

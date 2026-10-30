@@ -4,17 +4,17 @@ struct O { char pad[0x54]; int n54; };
 struct E { int n0; int n4; void *p8; struct O *pC; int n10; int pad[2]; };
 struct S { char pad[0x40]; unsigned int u40; char pad2[0xC]; int n50; struct E *a54; int pad3; int n5C; void *p60; };
 struct AL { int cb; int n; };
-void func_001A5C48(struct S *p);
+void PostLoLoad__FP2LO(struct S *p);
 void *func_0015E938(struct G *g, int a, int b, int c);
 struct O *func_0013E3C8(int a, int b, int c, int d);
 void func_00170C50(struct O *o, int a, int b, int c);
-void *func_001AE2A0(struct AL *a);
+void *PvAllocSwClearImpl__Fi(struct AL *a);
 void func_001A6CA8(struct S *p, int n);
 void func_001733F8(struct S *p) {
     int i;
     struct AL al;
     unsigned int f;
-    func_001A5C48(p);
+    PostLoLoad__FP2LO(p);
     for (i = 0; i < p->n50; i++) {
         struct E *e = &p->a54[i];
         switch (e->n0) {
@@ -36,7 +36,7 @@ void func_001733F8(struct S *p) {
     }
     al.cb = p->n5C * 0x30;
     al.n = 0x10;
-    p->p60 = func_001AE2A0(&al);
+    p->p60 = PvAllocSwClearImpl__Fi(&al);
     func_001A6CA8(p, 1);
     f = p->u40;
     if ((f ^ 1) & 1) *(int *)f |= 2;

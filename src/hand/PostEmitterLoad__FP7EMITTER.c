@@ -21,7 +21,7 @@ void func_0015A150(struct EMITTER *p);
 void func_0015A138(struct EMITTER *p, float g);
 struct EMITTER *func_0015E938(void *pg, int kind, int oid, int n);
 struct EMITTER *func_0013E3C8(int cid, void *p, int oid, int n);
-void *func_001AE238(struct ALLOCREQ *preq, void *pv);
+void *PvAllocSwCopyImpl__FiPv(struct ALLOCREQ *preq, void *pv);
 void func_001A6CA8(struct EMITTER *p, int n);
 void *func_001A6318(struct EMITTER *p);
 void func_0011A220(void *pv, struct EMITTER *p);
@@ -31,7 +31,7 @@ static __inline__ void *PvAllocCopy(int cb, void *pv)
     struct ALLOCREQ req;
     req.cb = cb;
     req.kind = 0x10;
-    return func_001AE238(&req, pv);
+    return PvAllocSwCopyImpl__FiPv(&req, pv);
 }
 
 static __inline__ int FPtr(int n) { return !(n & 1); }

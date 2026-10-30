@@ -12,10 +12,10 @@ extern "C" {
 extern char D_002A6CB8[];
 int func_0021ECD8(char *buf, const char *fmt, ...);
 int func_001AC7A0(void *p, char *name, int mode, int *ph);
-void *func_001AE318(REQUEST *pmsg);
+void *PvAllocSlot(REQUEST *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00184D60(Y *py, X *px);
 int func_001AC8A8(void *p, int h, char *buf, int n, int *pn);
-int func_00117898(Y *py, int cb, char *buf);
+int CbRead(Y *py, int cb, char *buf) asm("CbRead__18CBinaryInputStreamiPv");
 void func_00184CF0(Y *py);
 int func_001AC808(void *p, int h);
 int func_001AC260(void *p, const char *a, K *k, const char *b);
@@ -91,7 +91,7 @@ int func_001AC260(void *p, const char *a, K *k, const char *b)
         REQUEST *pmsg = &msg;
         pmsg->bytes = 0x403F;
         pmsg->alignment = 0x10;
-        void *pv = func_001AE318(pmsg);
+        void *pv = PvAllocSlot(pmsg);
         Y y(0x403F, pv, 0);
         if (!SetKey(&x, k) || !func_00184D60(&y, &x))
             ret = 0x27;
@@ -99,7 +99,7 @@ int func_001AC260(void *p, const char *a, K *k, const char *b)
             char buf[0x1000];
             int n;
             int out;
-            while ((n = func_00117898(&y, 0x1000, buf)) != 0) {
+            while ((n = CbRead(&y, 0x1000, buf)) != 0) {
                 ret = func_001AC8A8(p, h, buf, n, &out);
                 if (ret)
                     goto done;

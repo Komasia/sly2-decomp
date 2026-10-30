@@ -1,9 +1,9 @@
 #include "m2c_prelude.h"
 M2C_UNK CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
-M2C_UNK func_00117968(s32, s32, s32);               /* extern */
+M2C_UNK Read__18CBinaryInputStreamiPv(s32, s32, s32);               /* extern */
 M2C_UNK func_001291A8(s32, s32 *);                  /* extern */
 M2C_UNK func_00129EC8(s32 *);                       /* extern */
-s32 func_001AE318(void *, s32, s32, s32);           /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(void *, s32, s32, s32);           /* extern */
 s16 func_00233800(s32);                             /* extern */
 s32 func_0023E1C8(f32);                             /* extern */
 extern M2C_UNK D_002A78F0;

@@ -36,7 +36,7 @@ static inline qword Mid(qword a, qword b, qword k) { qword r; __asm__("vmulax.xy
 // Length of a vector in two steps (sum of squares, then sqrt).  The "memory" clobbers keep the stores around the steps in source order.
 #define LEN1(d, one, v) __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z" : "=j"(d), "=&j"(one) : "j"(v) : "memory")
 #define LEN2(d) __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q" : "+j"(d) : : "memory")
-void func_001CDF88(S *p)
+void ProjectRipgTransform__FP4RIPGfi(S *p)
 {
     DLI dli;
     union U lo, hi, t, half;

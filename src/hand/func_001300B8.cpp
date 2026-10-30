@@ -8,7 +8,7 @@ struct OBJ { virtual void f1(); virtual void f2(); virtual void Eval(float f, fl
 struct ENT { unsigned n : 20; unsigned k : 10; unsigned f30 : 1; unsigned f31 : 1; OBJ *pobj; };
 struct X { char pad[0x5C]; int c; ENT *aent; };
 extern "C" {
-void *func_001AE318(const AREQ &req);
+void *PvAllocSlot(const AREQ &req) asm("PvAllocSlot__FP8ALLOCREQ");
 void *func_002333B4(void *pv, int b, int cb);
 void func_0012FE58(X *px, void *p, ENT *pent, int *pa, Y **ppy);
 M4 func_0011C168(M4 *pa, M4 *pb);
@@ -45,7 +45,7 @@ void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *
         func_002333B4(pg, 0, sizeof(M4));
         pg[15] = 1.0f; pg[10] = 1.0f; pg[5] = 1.0f; pg[0] = 1.0f;
     }
-    apy = (Y **)func_001AE318(AREQ(px->c * 4, 0x10));
+    apy = (Y **)PvAllocSlot(AREQ(px->c * 4, 0x10));
     for (i = 0; i < px->c; i++) {
         pe = &px->aent[i];
         if (pe->f30) {

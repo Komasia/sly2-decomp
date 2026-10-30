@@ -1,6 +1,6 @@
 typedef struct MSG { int cb; int nKind; } MSG;
-void *func_001AE2A0(MSG *pmsg);
-static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return func_001AE2A0(pmsg); }
+void *PvAllocSwClearImpl__Fi(MSG *pmsg);
+static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwClearImpl__Fi(pmsg); }
 struct C { int a[4]; };
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a[3]; struct VTE *vt; int pad[6]; unsigned long fl; };

@@ -24,10 +24,10 @@ struct XV { virtual void f1(); virtual void f2(); virtual void f3(); virtual voi
 struct ELEM { float g; X *px; };
 extern "C" {
 X *func_0013E3C8(int a, void *p, int b, int c);
-void *func_001AE1D0(const AREQ &req);
-void *func_001AE238(const AREQ &req, void *pv);
+void *PvAllocSwImpl(const AREQ &req) asm("PvAllocSwImpl__Fi");
+void *PvAllocSwCopyImpl(const AREQ &req, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 void *func_001AE378(const AREQ &req);
-void *func_001AE2A0(const AREQ &req);
+void *PvAllocSwClearImpl(const AREQ &req) asm("PvAllocSwClearImpl__Fi");
 OBJ *func_0012B3B0(int id);
 OBJ *func_0012CB98(int id);
 void func_0012FE58(X *px, void *p, ENT *pent, int *pa, void **ppb);
@@ -65,13 +65,13 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
         pxNew->cElem = c;
         pxNew->aelem = aelem;
         pxNew->n = n;
-        pxNew->ae3 = (E3 *)func_001AE1D0(AREQ(n * 12));
+        pxNew->ae3 = (E3 *)PvAllocSwImpl(AREQ(n * 12));
         for (int ie = 0; ie < n; ie++) {
             E3 *pe3 = &pxNew->ae3[ie];
             pe3->a = pa[ie];
             int b = pb[ie];
             pe3->b = b;
-            pe3->pv = func_001AE1D0(AREQ(b * 8));
+            pe3->pv = PvAllocSwImpl(AREQ(b * 8));
         }
         
         if (pxCopy) {
@@ -79,7 +79,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             pxNew->x98 = pxCopy->x98;
             pxNew->x9C = pxCopy->x9C;
             pxNew->xA0 = pxCopy->xA0;
-            { void *pvOld = pxCopy->xA4; pxNew->xA4 = func_001AE238(AREQ(pxCopy->xA0 << 4), pvOld); }
+            { void *pvOld = pxCopy->xA4; pxNew->xA4 = PvAllocSwCopyImpl(AREQ(pxCopy->xA0 << 4), pvOld); }
             pxNew->xA8 = pxCopy->xA8;
             pxNew->xAC = pxCopy->xAC;
         }
@@ -120,7 +120,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             pobj->q10 = func_0022CA18(pv, pv);
             pobj->px = pxNew;
             pobj->ae3 = pxNew->ae3;
-            pobj->apobj = (OBJ **)func_001AE2A0(AREQ(c * 4));
+            pobj->apobj = (OBJ **)PvAllocSwClearImpl(AREQ(c * 4));
             pentNew->pobj = pobj;
             } else pobj = pentNew->pobj;
                 } else {
@@ -128,7 +128,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             pobj = func_0012CB98(2);
             pobj->px = pxNew;
             pobj->ae3 = pxNew->ae3;
-            pobj->apobj = (OBJ **)func_001AE2A0(AREQ(c * 4));
+            pobj->apobj = (OBJ **)PvAllocSwClearImpl(AREQ(c * 4));
             pentNew->pobj = pobj;
             *(unsigned *)pentNew |= mF31;
             } else pobj = pentNew->pobj;
@@ -137,7 +137,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
                 __asm__("" : : "r"(i * 4));  /* empty asm, allocation only: one more ref on the i*4 giv */
             }
         }
-        { ENT *aentOld = pxNew->aent; pxNew->aent = (ENT *)func_001AE238(AREQ(pxNew->c * 8), aentOld); }
+        { ENT *aentOld = pxNew->aent; pxNew->aent = (ENT *)PvAllocSwCopyImpl(AREQ(pxNew->c * 8), aentOld); }
         pxNew->x6C = pxFirst->x6C;
         pxNew->g78 = pxFirst->g78;
         pxNew->xD4 = -1;

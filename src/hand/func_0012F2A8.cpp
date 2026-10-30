@@ -11,8 +11,8 @@ int func_00117D50(BIS *pbis);
 int func_00117DB8(BIS *pbis);
 int func_00117D00(BIS *pbis);
 int func_00117BD0(BIS *pbis);
-void *func_001AE1D0(AREQ *preq);
-void *func_001AE2A0(AREQ *preq);
+void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
+void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 OBJ *func_0012B3B0(int id);
 OBJ *func_0012CB98(int id);
 void func_0012F590(X *px, BIS *pbis, int n, int *pa, int *pb);
@@ -23,7 +23,7 @@ void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
  px->g74 = func_00117E38(pbis);
  px->c = func_00117D50(pbis);
  req.cbAlign = 0x10; req.cb = px->c * 8;
- px->aent = (ENT *)func_001AE1D0(&req);
+ px->aent = (ENT *)PvAllocSwImpl(&req);
  for (i = 0; i < px->c; i++) {
    ENT *pe = &px->aent[i];
    pe->n = func_00117DB8(pbis);
@@ -36,7 +36,7 @@ void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
  }
  px->c2 = func_00117BD0(pbis);
  req.cbAlign = 0x10; req.cb = px->c2 * 12;
- px->aent2 = (ENT2 *)func_001AE2A0(&req);
+ px->aent2 = (ENT2 *)PvAllocSwClearImpl(&req);
  for (i = 0; i < px->c2; i++) {
    ENT2 *pe = &px->aent2[i];
    pe->a = func_00117BD0(pbis);

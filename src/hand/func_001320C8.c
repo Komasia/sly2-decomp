@@ -1,3 +1,3 @@
 struct S { char pad[0x148]; unsigned long grf; };
-void func_001F2108(struct S *);
-void func_001320C8(struct S *p) { func_001F2108(p); p->grf |= 0x8000L << 19; }
+void InitSo__FP2SO(struct S *);
+void InitBarrier__FP7BARRIER(struct S *p) { InitSo__FP2SO(p); p->grf |= 0x8000L << 19; }

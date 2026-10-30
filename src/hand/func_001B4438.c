@@ -1,7 +1,7 @@
 struct S { char pad[0x148]; unsigned long fl; };
-void func_001F2108(struct S *p);
+void InitSo__FP2SO(struct S *p);
 void func_001B4438(struct S *p)
 {
-    func_001F2108(p);
+    InitSo__FP2SO(p);
     p->fl &= ~(1UL << 35);
 }

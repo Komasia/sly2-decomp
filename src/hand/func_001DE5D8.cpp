@@ -80,7 +80,7 @@ void func_001E6F10(PATH *, qword *, qword *, float);
 void *func_002333B4(void *, int, int);
 qword func_001A62E8(void *);
 qword func_0022FC48(void *, void *, qword);
-void *func_001AE2A0(MSG *);
+void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 void func_00166270(GEO *, const M4 *, GEO *);
 void func_001F2B20(P *);
 }
@@ -263,7 +263,7 @@ extern "C" void func_001DE5D8(P *p)
         p->boundCount = 1;
         request.bytes = sizeof(BOUND);
         request.alignment = 16;
-        BOUND *bound = (BOUND *)func_001AE2A0(&request);
+        BOUND *bound = (BOUND *)PvAllocSwClearImpl(&request);
         p->bounds = bound;
         bound->object = p->space;
         bound->owner = p;
@@ -272,7 +272,7 @@ extern "C" void func_001DE5D8(P *p)
         bound->local.count = 2;
         request.alignment = 16;
         request.bytes = 2 * sizeof(qword);
-        bound->local.points = (U *)func_001AE2A0(&request);
+        bound->local.points = (U *)PvAllocSwClearImpl(&request);
         func_00166270(&bound->local, 0, &bound->world);
         bound->world.points[0].q = minimum;
         bound->world.points[1].q = maximum;

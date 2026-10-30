@@ -60,7 +60,7 @@ REGION *func_001C0D70(qword, int);
 int func_001C0940(REGION *, qword, qword *, int);
 int func_001C0980(REGION *, qword, qword, int);
 qword func_001A62E8(LO *);
-void *func_001AE318(ALLOCREQ *);
+void *PvAllocSlot(ALLOCREQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_001C6CE8(void *, int, int, LO **);
 int func_001C5570(void *, CANDIDATE *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, CANDIDATE *), void *, int *, CANDIDATE ***);
@@ -74,7 +74,7 @@ struct VU_FLOAT {
     qword q;
     VU_FLOAT(float f) { __asm__("qmtc2.ni %1,%0" : "=j"(q) : "r"(f)); }
 };
-static inline void *PvAllocFrame(int cb, int cbAlign) { ALLOCREQ req(cb, cbAlign); return func_001AE318(&req); }
+static inline void *PvAllocFrame(int cb, int cbAlign) { ALLOCREQ req(cb, cbAlign); return PvAllocSlot(&req); }
 static inline float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 static inline float GFromVf(qword v) { float g; __asm__("mtc1 %1,%0" : "=f"(g) : "r"(v)); return g; }
 static inline qword Add(qword a, qword b) { qword r; __asm__("vadd.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }

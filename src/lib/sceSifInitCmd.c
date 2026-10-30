@@ -25,7 +25,7 @@ extern HANDLER D_0044EE00[32];
 extern int D_0044EF80[32];
 
 int func_00239450(void);
-void func_002394A0(void);
+void EIntr(void);
 void func_00234CA0(int);
 void func_00234E00(void);
 int func_00234730(int, void *, int);
@@ -43,7 +43,7 @@ void sceSifInitCmd(void)
 
     func_00239450();
     if (D_002C5A60) {
-        func_002394A0();
+        EIntr();
         return;
     }
     D_002C5A60 = 1;
@@ -65,7 +65,7 @@ void sceSifInitCmd(void)
     D_0044EE00[0].data = &D_0044EDD8;
     D_0044EE00[1].func = func_0023AA98;
     D_0044EE00[1].data = &D_0044EDD8;
-    func_002394A0();
+    EIntr();
     func_00234CA0(0);
     if (*(volatile unsigned int *)0x1000E010 & 0x20)
         *(volatile unsigned int *)0x1000E010 = 0x20;

@@ -1,4 +1,4 @@
-// func_001EFAC0: ported from Lilly's personal Sly 2 decomp (src/P2/sm.c), reduced to the declarations it needs.
+// LoadSmFromBrx__FP2SMP18CBinaryInputStream: ported from Lilly's personal Sly 2 decomp (src/P2/sm.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // 0x001EFAC0 LoadFromBrx__2SMP18CBinaryInputStream  (MATCHES Sly 2)
 // Sly 2's LoadSmFromBrx (SM virtual 13): reads the animation segments the machine plays (a nested object list, held out of the world
@@ -182,7 +182,7 @@ struct SM : public LO
       SMRT *asmrt;
       DL dlSma;
       SMINIT *psminit;
-    virtual void LoadFromBrx(CBinaryInputStream *pbis) __asm__("func_001EFAC0");
+    virtual void LoadFromBrx(CBinaryInputStream *pbis) __asm__("LoadSmFromBrx__FP2SMP18CBinaryInputStream");
 };
 struct SMT
 {

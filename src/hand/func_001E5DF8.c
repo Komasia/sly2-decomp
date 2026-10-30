@@ -15,9 +15,9 @@ struct P {
 void func_00231768(struct P *, void *);
 int func_00117D00(void *);
 int func_00117C20(void *);
-void *func_001AE1D0(struct MSG *);
-void func_00117968(void *, int, void *);
-void func_00117EB0(void *, qword *);
+void *PvAllocSwImpl__Fi(struct MSG *);
+void Read__18CBinaryInputStreamiPv(void *, int, void *);
+void ReadVector__18CBinaryInputStreamP6VECTOR(void *, qword *);
 void func_0013F810(struct P *, void *);
 void func_001E6180(struct P *);
 void func_001E5DF8(struct P *p, void *pbis)
@@ -30,27 +30,27 @@ void func_001E5DF8(struct P *p, void *pbis)
     p->c = func_00117C20(pbis);
     msg.cb = p->c * 4;
     msg.nKind = 0x10;
-    p->aE = func_001AE1D0(&msg);
+    p->aE = PvAllocSwImpl__Fi(&msg);
     msg.cb = p->c * 4;
     msg.nKind = 0x10;
-    p->aF0 = func_001AE1D0(&msg);
+    p->aF0 = PvAllocSwImpl__Fi(&msg);
     msg.cb = p->c * 16;
     msg.nKind = 0x10;
-    p->aF4 = func_001AE1D0(&msg);
-    func_00117968(pbis, p->c * 4, p->aE);
+    p->aF4 = PvAllocSwImpl__Fi(&msg);
+    Read__18CBinaryInputStreamiPv(pbis, p->c * 4, p->aE);
     for (i = 0; i < p->c; i++)
-        func_00117EB0(pbis, &p->aF4[i]);
+        ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->aF4[i]);
     if (p->fE0) {
         msg.cb = p->c * 16;
         msg.nKind = 0x10;
-        p->a140 = func_001AE1D0(&msg);
+        p->a140 = PvAllocSwImpl__Fi(&msg);
         msg.cb = p->c * 16;
         msg.nKind = 0x10;
-        p->a144 = func_001AE1D0(&msg);
+        p->a144 = PvAllocSwImpl__Fi(&msg);
         for (i = 0; i < p->c; i++)
-            func_00117EB0(pbis, &p->a140[i]);
+            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->a140[i]);
         for (i = 0; i < p->c; i++)
-            func_00117EB0(pbis, &p->a144[i]);
+            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->a144[i]);
     }
     func_0013F810(p, pbis);
     func_001E6180(p);

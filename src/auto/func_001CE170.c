@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001574A0(M2C_UNK *);                   /* extern */
-s32 func_001AE318(s32 *, s32, s32);                 /* extern */
+M2C_UNK Flush__4DMAS(M2C_UNK *);                   /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32);                 /* extern */
 extern s128 D_002A2DD0;
 extern f32 D_002A77D0;
 extern f32 D_002A77D4;
@@ -33,7 +33,7 @@ extern M2C_UNK D_003DD4BC;
 extern s32 D_003E115C;
 extern s32 D_003E1398;
 
-void func_001CE170(s32 arg0) {
+void UpdateRipgBounds__FP4RIPG(s32 arg0) {
     M2C_FIELD(M2C_FIELD(arg0, void **, 0xEC), s128 *, 0) = (s128) M2C_FIELD(arg0, s128 *, 0x170);
     M2C_FIELD(M2C_FIELD(arg0, void **, 0xEC), s128 *, 0x10) = (s128) M2C_FIELD(arg0, s128 *, 0x180);
     M2C_FIELD(M2C_FIELD(arg0, void **, 0xEC), s128 *, 0x20) = (s128) M2C_FIELD(arg0, s128 *, 0x190);

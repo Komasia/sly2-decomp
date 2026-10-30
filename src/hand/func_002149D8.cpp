@@ -42,9 +42,9 @@ int func_00117D50(BIS *);
 int func_00117D00(BIS *);
 int func_00117DB8(BIS *);
 float func_00117E38(BIS *);
-void func_00117ED0(BIS *,M3 *);
-void func_00117968(BIS *,int,void *);
-void *func_00116918(HEAP *,int,int);
+void ReadMatrix(BIS *,M3 *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
+void Read(BIS *,int,void *) asm("Read__18CBinaryInputStreamiPv");
+void *PvAllocClear(HEAP *,int,int) asm("PvAllocClear__FP4HEAPii");
 void *func_001AE378(ALLOCREQ *);
 void func_00214398(OWNER *,BIS *,ROOT *,int *,SPRITE **);
 void func_00149A50(WORLD *,OWNER *,PMF,SPRITE *);
@@ -72,12 +72,12 @@ extern "C" void func_002149D8(OWNER *const owner,BIS *stream,ROOT *root,int,SPRI
   D_002C40A4=1;
   func_00214398(owner,stream,root,&sprite->data.nested.count,&sprite->data.nested.children);
   sprite->data.nested.wordCount=func_00117C80(stream);
-  sprite->data.nested.words=(uint *)func_00116918(owner->heap,sprite->data.nested.wordCount*4,0x13);
+  sprite->data.nested.words=(uint *)PvAllocClear(owner->heap,sprite->data.nested.wordCount*4,0x13);
   int i;
   for(i=0;i<sprite->data.nested.wordCount;i++)sprite->data.nested.words[i]=func_00117C80(stream);
   sprite->data.nested.floatCount=func_00117C80(stream);
   int j;
-  sprite->data.nested.floats=(float *)func_00116918(owner->heap,sprite->data.nested.floatCount*4,0x13);
+  sprite->data.nested.floats=(float *)PvAllocClear(owner->heap,sprite->data.nested.floatCount*4,0x13);
   for(j=0;j<sprite->data.nested.floatCount;j++)sprite->data.nested.floats[j]=func_00117E38(stream);
   D_002C40A4=0;break;
  case 3:{
@@ -90,10 +90,10 @@ extern "C" void func_002149D8(OWNER *const owner,BIS *stream,ROOT *root,int,SPRI
   break;
  }
  case 2:{
-  func_00117ED0(stream,&raw);M3 matrix=raw;CopyXY(sprite->data.polygon.matrix,matrix);
+  ReadMatrix(stream,&raw);M3 matrix=raw;CopyXY(sprite->data.polygon.matrix,matrix);
   sprite->data.polygon.count=func_00117C20(stream);
-  sprite->data.polygon.vertices=(VERTEX *)func_00116918(owner->heap,sprite->data.polygon.count*sizeof(VERTEX),0x14);
-  func_00117968(stream,sprite->data.polygon.count*sizeof(VERTEX),sprite->data.polygon.vertices);break;
+  sprite->data.polygon.vertices=(VERTEX *)PvAllocClear(owner->heap,sprite->data.polygon.count*sizeof(VERTEX),0x14);
+  Read(stream,sprite->data.polygon.count*sizeof(VERTEX),sprite->data.polygon.vertices);break;
  }
  case 6:case 7:{
   PAIR first,second;

@@ -6,7 +6,7 @@ struct S { char pad[0x28]; unsigned long fl; char p0[0x30]; int x60; char p1[0x7
 extern char D_003DD490[];
 void *func_0015E938(void *g, int n, int oid, struct S *p);
 void func_0011A1F8(void *pdl, int ib);
-void *func_001AE2A0(struct MSG *pmsg);
+void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void func_0011A220(void *pdl, void *pv);
 void func_0017F138(struct S *p);
 void func_001F2B20(struct S *p);
@@ -29,7 +29,7 @@ void func_00181840(struct S *p)
             struct Q *q;
             msg.cb = 0x70;
             msg.nKind = 0x10;
-            q = (struct Q *)func_001AE2A0(&msg);
+            q = (struct Q *)PvAllocSwClearImpl__Fi(&msg);
             q->pr = pe;
             q->n = -1;
             func_0011A220(pe->dl, q);

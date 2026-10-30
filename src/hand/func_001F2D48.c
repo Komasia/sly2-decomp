@@ -10,7 +10,7 @@ struct K { int a, b; };
 struct G;
 extern struct G D_003DD490;
 extern struct K D_002A8270;
-void func_001A5848(struct P *);
+void OnLoRemove__FP2LO(struct P *);
 void func_001F2BA8(struct P *);
 void func_00149B58(struct G *, int, struct P *, struct K, int);
 void func_001F37C8(struct P *, int);
@@ -28,12 +28,12 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->m_ppv = (void **)((char *)pv + pdli->m_ibDle);
     return pv;
 }
-void func_001F2D48(struct P *p)
+void OnSoRemove__FP2SO(struct P *p)
 {
     DLI dli;
     struct O *po;
     int n;
-    func_001A5848(p);
+    OnLoRemove__FP2LO(p);
     func_001F2BA8(p);
     p->n130 = 0;
     p->f12C = 1.0f;

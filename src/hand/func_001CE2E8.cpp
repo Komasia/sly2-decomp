@@ -34,7 +34,7 @@ extern DLI *D_002DD2FC; /* innermost active list iterator */
 extern CLOCK D_002DDED0;
 FRAME *func_001AE478(FRAME *);
 void func_001AE4A0(FRAME *, int);
-void *func_001AE318(const REQ *);
+void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00118A88(void *, int, qword, float, int *, ENTRY **);
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
 int func_00132B10(void *, int);
@@ -72,7 +72,7 @@ void BounceRipgRips(P *p)
                         remaining = Min(0x1555, shape->capacity);
                         phase.request.cb = remaining * 12;
                         SetAlign(&phase.request, 16);
-                        entries = (ENTRY *)func_001AE318(&phase.request);
+                        entries = (ENTRY *)PvAllocSlot(&phase.request);
                         if (func_00118A88(shape->tree, 0x7FFFFFFF, Origin(p->state), p->state->radius, &remaining, &entries) != 2) {
                             func_001AE4A0(&frame, 2);
                             continue;

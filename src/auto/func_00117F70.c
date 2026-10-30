@@ -10,6 +10,6 @@ extern M2C_UNK D_002BBB20;
 extern void *D_002DD2F8;
 extern void *D_002DD2FC;
 
-void func_00117F70(s32 arg0, s32 arg1) {
-    func_00117968(arg0, 0x10, arg1);
+void ReadVector4__18CBinaryInputStreamP7VECTOR4(s32 arg0, s32 arg1) {
+    Read__18CBinaryInputStreamiPv(arg0, 0x10, arg1);
 }

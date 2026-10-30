@@ -8,7 +8,7 @@ struct REQ {int cb,kind;REQ(int cb_,int kind_):cb(cb_),kind(kind_) {}};
 struct FRAME {int pad[4];};
 extern "C" struct FRAME *func_001AE478(struct FRAME*);
 extern "C" void func_001AE4A0(struct FRAME*,int);
-extern "C" void *func_001AE318(struct REQ*);
+extern "C" void *PvAllocSlot(struct REQ*) asm("PvAllocSlot__FP8ALLOCREQ");
 extern "C" int func_00118A88(void*,int,qword,int*,struct Entry**,float);
 static inline int Min(int a,int b){return a<b?a:b;}
 // Collect unique edges incident to a geometry point.
@@ -16,7 +16,7 @@ extern "C" int func_001665F0(struct P*p,struct G*g,int index,int max,struct E**o
  struct FRAME frame;int capacity,limit,count,i;struct Entry*first,*end;
  func_001AE478(&frame);
  capacity=Min(g->count,0x1555);limit=capacity;struct REQ req(capacity*12,16);
- end=first=(struct Entry*)func_001AE318(&req);
+ end=first=(struct Entry*)PvAllocSlot(&req);
  if(func_00118A88(g->tree,0x7FFFFFFF,p->points[index],&limit,&end,1.0f)!=2){func_001AE4A0(&frame,2);return 0;}
  int ne=end-first;
  count=0;

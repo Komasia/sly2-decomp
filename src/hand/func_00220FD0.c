@@ -7,8 +7,8 @@ void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
 MARK *func_001AE478(MARK *pm);
 void func_001AE4A0(MARK *pm, int n);
-void *func_001AE318(MSG *pmsg);
-void *func_001AE238(MSG *pmsg, void *pv);
+void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
+void *PvAllocSwCopyImpl__FiPv(MSG *pmsg, void *pv);
 void func_00221818(struct S *p, int id);
 void func_0013F810(struct S *p, void *pbis);
 void func_00221940(struct S *p);
@@ -27,7 +27,7 @@ void func_00220FD0(struct S *p, void *pbis)
         MSG *pm = &msg;
         pm->cb = 0x240;
         pm->nKind = 0x10;
-        p->a = func_001AE318(pm);
+        p->a = PvAllocSlot__FP8ALLOCREQ(pm);
     }
     func_00221818(p, 0x30);
     func_0013F810(p, pbis);
@@ -36,7 +36,7 @@ void func_00220FD0(struct S *p, void *pbis)
         MSG *pm = &msg;
         pm->cb = p->c * 0x90;
         pm->nKind = 0x10;
-        pv = func_001AE238(pm, p->a);
+        pv = PvAllocSwCopyImpl__FiPv(pm, p->a);
     }
     p->x11C = 1;
     p->a = pv;

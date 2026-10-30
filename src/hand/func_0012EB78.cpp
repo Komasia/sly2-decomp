@@ -3,7 +3,7 @@ struct OBJ { int a[4]; OBJ(); ~OBJ(); };
 struct T { char pad[0xE4]; int c; void *p; int pad2; int c2; void *q; };
 extern "C" {
 void *func_001AE378(AREQ *preq);
-void *func_001AE238(AREQ *preq, void *pv);
+void *PvAllocSwCopyImpl(AREQ *preq, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 void func_00231170(T *t, void *p);
 void func_0012EB78(T *t, void *p);
 }
@@ -21,8 +21,8 @@ void func_0012EB78(T *t, void *p)
     func_00231170(t, p);
     req.cb = t->c * 0x14;
     preq->cbAlign = 0x10;
-    t->p = func_001AE238(preq, t->p);
+    t->p = PvAllocSwCopyImpl(preq, t->p);
     req.cb = t->c2 * 0x10;
     preq->cbAlign = 0x10;
-    t->q = func_001AE238(preq, t->q);
+    t->q = PvAllocSwCopyImpl(preq, t->q);
 }

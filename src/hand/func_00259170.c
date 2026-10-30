@@ -6,12 +6,12 @@ typedef struct {
 typedef struct { char p0[0xE4]; X *px; } SO;
 extern char D_003DD490[];
 extern char D_002CE4B8[];
-void func_001A5C48(SO *p);
+void PostLoLoad__FP2LO(SO *p);
 void *func_002333B4(void *p, int c, int n);
 int func_00233178(const void *a, const void *b, int n);
 void *func_0015E938(void *pg, int kind, int oid, SO *p);
 void func_002590F0(SO *p, int f);
-void *func_001AE238(AREQ *preq, void *pv);
+void *PvAllocSwCopyImpl__FiPv(AREQ *preq, void *pv);
 void func_00259170(SO *p)
 {
     void *a[5];
@@ -21,7 +21,7 @@ void func_00259170(SO *p)
     int o1;
     int o2 = -1;
 
-    func_001A5C48(p);
+    PostLoLoad__FP2LO(p);
     {
         X *x0 = p->px;
         o1 = x0->x20;
@@ -62,6 +62,6 @@ void func_00259170(SO *p)
         preq = &req;
         req.cb = 0x14;
         preq->cbAlign = 0x10;
-        p->px->x8 = func_001AE238(preq, a);
+        p->px->x8 = PvAllocSwCopyImpl__FiPv(preq, a);
     }
 }

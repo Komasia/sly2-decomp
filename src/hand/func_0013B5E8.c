@@ -10,7 +10,7 @@ struct HIT { int a[12]; };
 extern char D_003DD490[];
 void func_0020FA10();
 void func_0020FC60(void *pg, qword q, void (*pfn)(), struct X *px, float g, int *pc, struct S ***paps);
-void *func_001AE318(struct AREQ *preq);
+void *PvAllocSlot__FP8ALLOCREQ(struct AREQ *preq);
 int func_00132B10(int n, int k);
 int func_001A93C8(qword q, struct S *ps, int n, int a, int b, int c, float g, struct HIT *phit);
 void func_0013B7B8(struct P *p, int *pn, struct O **apo);
@@ -30,7 +30,7 @@ void func_0013B5E8(struct P *p, int *pc, struct O ***papo)
     }
     req.cb = c * 4;
     req.cbAlign = 0x10;
-    apo = (struct O **)func_001AE318(&req);
+    apo = (struct O **)PvAllocSlot__FP8ALLOCREQ(&req);
     n = 0;
     for (i = 0; i < c; i++) {
         struct S *ps = aps[i];

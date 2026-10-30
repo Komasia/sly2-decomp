@@ -31,7 +31,7 @@ UQ *func_002564C0(UQ *);
 UQ *func_002564B8(UQ *);
 FRAME *func_001AE478(FRAME *);
 void func_001AE4A0(FRAME *, int);
-void *func_001AE318(REQ *);
+void *PvAllocSlot(REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_0014F030(void *, O *);
 void func_0020FAA0(WORLD *, qword, qword, int (*)(void *, O *), void *, int *, O ***);
 int func_00118D08(NODE *, NODE *, int, UQ *, int *, FACE ***);
@@ -190,7 +190,7 @@ extern "C" void func_0022A220(O *po)
     REQ *preq = (REQ *)&tmp;
     preq->cb = 0x10000;
     preq->align = 16;
-    apface = (FACE **)func_001AE318(preq);
+    apface = (FACE **)PvAllocSlot(preq);
     qword k2 = QI(D_002C4490);
     tmp.q = k2;
     func_0020FAA0(&D_003DD490, Min(posCam, posSrc), AddUp(Max(posCam, posSrc), D_002A2DC0, k2),

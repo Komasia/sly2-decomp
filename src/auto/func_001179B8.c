@@ -56,6 +56,6 @@ extern M2C_UNK D_00452120;
 extern M2C_UNK D_00452148;
 extern M2C_UNK D_00452170;
 
-void func_001179B8(s32 arg0, s32 arg1, s32 arg2) {
-    func_00117968(arg0, arg1, 0);
+void Skip__18CBinaryInputStreami(s32 arg0, s32 arg1, s32 arg2) {
+    Read__18CBinaryInputStreamiPv(arg0, arg1, 0);
 }

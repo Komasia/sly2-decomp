@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
 M2C_UNK CopyAb__FPvT0Ui(void *, void *, s32);       /* extern */
-s32 func_001AE318(s32 *);                           /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
 extern M2C_UNK D_002A2D00;
 extern s128 D_002A2DB0;
 extern s128 D_002A2DC0;

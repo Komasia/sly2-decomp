@@ -51,7 +51,7 @@ typedef char VE_readTransform_Offset[FIELD_OFFSET(VE,readTransform)==4?1:-1];
 extern "C"{
 extern int D_003DA790;
 extern LINK D_003DA798[];
-void*func_001AE238(REQUEST*,void*);
+void*PvAllocSwCopyImpl(REQUEST*,void*) asm("PvAllocSwCopyImpl__FiPv");
 SO*func_001ED850(SO*);
 void func_00169EB8(D*,E*,int,void*,int,void*,void*);
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
@@ -59,7 +59,7 @@ void func_0011A058(int*);
 void func_0011A098(void*,LINK*);
 void func_001EC740(int,int,int,uint,uint);
 }
-static inline void*Copy(int bytes,void*source){REQUEST request;request.bytes=bytes;request.alignment=16;return func_001AE238(&request,source);}
+static inline void*Copy(int bytes,void*source){REQUEST request;request.bytes=bytes;request.alignment=16;return PvAllocSwCopyImpl(&request,source);}
 static inline void ReadTransform(SO*object,STREAM*stream,TRANSFORM**output){VE*method=&object->vt[52];method->readTransform((SO*)((char*)object+method->delta),stream,output);}
 static inline void CopyObjects(P*p){for(int i=0;i<p->objectCount;i++){if(p->objects[i]->flags&4){p->objects=(SO**)Copy(p->objectCount*4,p->objects);return;}}}
 extern "C" void func_0016EA80(P*p,SO*owner,STREAM*stream){

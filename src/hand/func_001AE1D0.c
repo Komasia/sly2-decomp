@@ -1,7 +1,7 @@
 struct MSG { int cb; int nKind; };
 extern unsigned int D_002F6384;
 void func_001AE1C8(int);
-void *func_001AE1D0(struct MSG *p)
+void *PvAllocSwImpl__Fi(struct MSG *p)
 {
     unsigned int pv;
     if (!p->cb)

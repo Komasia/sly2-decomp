@@ -40,6 +40,6 @@ extern M2C_UNK D_003DD490;
 extern M2C_UNK D_003E12B8;
 extern void *D_003E148C;
 
-void func_001574A0(void) {
+void Flush__4DMAS(void) {
 
 }

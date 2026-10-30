@@ -66,7 +66,7 @@ int func_00258178(FIELD*);
 int func_00259A88(ROOT*);
 RF func_0012AB78(FIELD*,P*);
 RR func_00127E90(ROOT*,P*);
-void*func_001AE238(REQUEST*,void*);
+void*PvAllocSwCopyImpl(REQUEST*,void*) asm("PvAllocSwCopyImpl__FiPv");
 void func_0011A058(int*);
 void func_0011A060(void*);
 void func_0011A070(void*,NODE*);
@@ -77,7 +77,7 @@ struct RF{FIELD*p;RF(){}RF(const RF&r):p(r.p){if(p)++p->refs;}~RF(){FIELD*f=p;if
 struct RR{ROOT*p;RR(){}RR(const RR&r):p(r.p){if(p)++p->refs;}~RR(){ROOT*r=p;if(r&&!--r->refs)func_00257078(r,3);}};
 typedef char FieldRefSize[sizeof(RF)==4?1:-1];
 typedef char RootRefSize[sizeof(RR)==4?1:-1];
-static inline NODE*CopyNode(int bytes,REQUEST*r,NODE*n){r->bytes=bytes;r->alignment=16;return(NODE*)func_001AE238(r,n);}
+static inline NODE*CopyNode(int bytes,REQUEST*r,NODE*n){r->bytes=bytes;r->alignment=16;return(NODE*)PvAllocSwCopyImpl(r,n);}
 static inline META*Type(P*p){VE*v=&p->vt[6];return v->type((P*)((char*)p+v->delta));}
 extern "C" void func_001A6730(P*p,const P*source){
     func_00128148(D_002DD598);

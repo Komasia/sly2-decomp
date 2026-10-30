@@ -1,11 +1,11 @@
 #include "m2c_prelude.h"
 M2C_UNK CopyAb__FPvT0Ui(void *, void *, s32);       /* extern */
 M2C_UNK ListXYZF__4GIFSiiii(s32, s32, M2C_UNK, M2C_UNK); /* extern */
-M2C_UNK func_001572E0(M2C_UNK *, s32);              /* extern */
-M2C_UNK func_001573C0(M2C_UNK *, s32, M2C_UNK *, s32); /* extern */
-M2C_UNK func_00166920(M2C_UNK *);                   /* extern */
-M2C_UNK func_00226C10(M2C_UNK *, s64, s64, s64);    /* extern */
-M2C_UNK func_00226FD0(M2C_UNK *, s32, s32, s32);    /* extern */
+M2C_UNK AllocSw__4DMASi(M2C_UNK *, s32);              /* extern */
+M2C_UNK DetachCopySw__4DMASPiPP2QWT2(M2C_UNK *, s32, M2C_UNK *, s32); /* extern */
+M2C_UNK __4GIFS(M2C_UNK *);                   /* extern */
+M2C_UNK __4VIFS(M2C_UNK *, s64, s64, s64);    /* extern */
+M2C_UNK AddVifUnpack__4VIFS3UPKiP18CBinaryInputStreami(M2C_UNK *, s32, s32, s32);    /* extern */
 M2C_UNK func_00240460(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_00240600(void *, s32 *, s32 *, s32 *); /* extern */
 s32 func_002406C0(M2C_UNK *);                       /* extern */

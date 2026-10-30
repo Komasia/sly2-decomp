@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
 M2C_UNK func_00129EC8(M2C_UNK *);                   /* extern */
-s32 func_001AE318(void *);                          /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(void *);                          /* extern */
 s32 func_002441C0(s32, s32, s32);                   /* extern */
 s32 func_002442D8(s32, s32, s32);                   /* extern */
 s32 func_00244570(s32, s32, s32, s32);              /* extern */

@@ -8,7 +8,7 @@ struct STRINGGEN {
  STRINGGEN(){func_002333B4(this,0,sizeof(*this));}
 };
 extern "C" {
-LINEAR *func_00116A98(LINEAR *,int,void *);
+LINEAR *__11CLinearHeapiPUc(LINEAR *,int,void *);
 POOL *func_0011CCA8(POOL *,int,int,int);
 void func_00210EB0(char *,void *,void *);
 }
@@ -129,7 +129,7 @@ extern const STRINGGEN D_002A9220;
 extern const STRINGGEN D_002A9230;
 extern "C" void func_0021AA60(int initialize,int priority){
  if(priority==0xFFFF&&initialize){
-  func_00116A98(&D_003E1C70,0x60000,D_003E21A0);
+  __11CLinearHeapiPUc(&D_003E1C70,0x60000,D_003E21A0);
   D_003E1C80.vtable=D_002CA578;D_003E1C80.field4=-1;
   STRINGGEN *destination=D_003E1C88;
   *destination++=D_002A8B90;

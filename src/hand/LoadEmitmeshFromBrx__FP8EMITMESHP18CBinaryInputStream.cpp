@@ -5,14 +5,14 @@ struct TRI { int aipos[3]; float sArea; };
 struct EMITMESH { int cpos; qword *apos; int ctri; TRI *atri; qword *anormal; float sArea; int pad18[2]; qword v20; };
 extern "C" {
 int func_00117C20(CBinaryInputStream *pbis);
-void func_00117EB0(CBinaryInputStream *pbis, qword *pv);
+void ReadVector(CBinaryInputStream *pbis, qword *pv) asm("ReadVector__18CBinaryInputStreamP6VECTOR");
 float func_00117E38(CBinaryInputStream *pbis);
-void *func_001AE1D0(AL *pal);
-void *func_001AE2A0(AL *pal);
+void *PvAllocSwImpl(AL *pal) asm("PvAllocSwImpl__Fi");
+void *PvAllocSwClearImpl(AL *pal) asm("PvAllocSwClearImpl__Fi");
 }
 extern qword D_002A2DC0;
-static inline void *PvAlloc(int cb, int cbAlign) { AL al(cb, cbAlign); return func_001AE1D0(&al); }
-static inline void *PvAllocClear(int cb, int cbAlign) { AL al(cb, cbAlign); return func_001AE2A0(&al); }
+static inline void *PvAlloc(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocSwImpl(&al); }
+static inline void *PvAllocClear(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocSwClearImpl(&al); }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static inline qword Cross(qword a, qword b)
@@ -53,7 +53,7 @@ void LoadEmitmeshFromBrx(EMITMESH *pemitmesh, CBinaryInputStream *pbis)
     pemitmesh->apos = (qword *)PvAlloc(pemitmesh->cpos * 16, 16);
     pemitmesh->anormal = (qword *)PvAllocClear(pemitmesh->cpos * 16, 16);
     for (i = 0; i < pemitmesh->cpos; i++)
-        func_00117EB0(pbis, &pemitmesh->apos[i]);
+        ReadVector(pbis, &pemitmesh->apos[i]);
     pemitmesh->ctri = func_00117C20(pbis);
     pemitmesh->atri = (TRI *)PvAlloc(pemitmesh->ctri * 16, 16);
     pemitmesh->sArea = 0.0f;
@@ -71,7 +71,7 @@ void LoadEmitmeshFromBrx(EMITMESH *pemitmesh, CBinaryInputStream *pbis)
             *pn = Add(*pn, normal);
         }
     }
-    func_00117EB0(pbis, &pemitmesh->v20);
+    ReadVector(pbis, &pemitmesh->v20);
     for (i = 0; i < pemitmesh->cpos; i++)
         VNormalize(&pemitmesh->anormal[i], pemitmesh->anormal[i], D_002A2DC0);
 }

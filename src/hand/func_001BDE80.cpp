@@ -25,7 +25,7 @@ extern DLI *D_002DD2FC;
 extern qword D_002A2DD0;
 extern DL D_003E1A40;
 extern "C" {
-void *func_001AE318(const AREQ &r);
+void *PvAllocSlot(const AREQ &r) asm("PvAllocSlot__FP8ALLOCREQ");
 X *func_001BDA00(void);
 void func_001BDBF0(X *p, int n, qword *pts);
 void func_001BDE18(X *p, X *pNew);
@@ -34,7 +34,7 @@ void func_0011A220(DL *pdl, void *pv);
 void func_001E6180(X *p);
 int func_001BC2F8(X *p);
 }
-static inline void *Alloc(int cb) { return func_001AE318(AREQ(cb, 0x10)); }
+static inline void *Alloc(int cb) { return PvAllocSlot(AREQ(cb, 0x10)); }
 /* point * 4x4 matrix (xyz only, w from row 3) */
 static inline qword MulPt(M4*m,qword*point){
  qword out;

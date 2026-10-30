@@ -2,7 +2,7 @@ struct DL { void *head; void *tail; int ibDle; };
 struct N { int id; struct N *pnParent; int x8; int xC; int x10; struct N *pnNext; struct DL dl; int pad; };
 struct AL { int cb; int cbAlign; };
 extern char D_003DD490[];
-void *func_001AE2A0(const struct AL *pal);
+void *PvAllocSwClearImpl__Fi(const struct AL *pal);
 void func_0011A050(struct DL *pdl, int ib);
 int func_001C9968(int id);
 struct DL *func_0015E3C0(void *p, int id);
@@ -24,7 +24,7 @@ again:
     }
     al.cb = c * sizeof(struct N);
     al.cbAlign = 0x10;
-    pnNew = (struct N *)func_001AE2A0(&al);
+    pnNew = (struct N *)PvAllocSwClearImpl__Fi(&al);
     pnParent = p;
     for (i = 0; i < c; i++) {
         pn = &pnNew[i];

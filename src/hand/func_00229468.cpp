@@ -11,7 +11,7 @@ extern qword D_002A2DD0;
 extern "C" {
 MARK *func_001AE478(MARK *pm);
 void func_001AE4A0(MARK *pm, int n);
-void *func_001AE318(MSG *pmsg);
+void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 qword func_001A62E8(void *p);
 int func_00132B10(struct J *pj, int k);
 int func_00229D60(void *,void *);
@@ -56,7 +56,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
         MSG *pm = &work.msg;
         pm->cb = p->c * 4;
         pm->cbAlign = 0x10;
-        apv = (void **)func_001AE318(pm);
+        apv = (void **)PvAllocSlot(pm);
     }
     c = func_001F7E08(p, func_00229D60, 0, apv);
     if (!func_0014CDB0(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {

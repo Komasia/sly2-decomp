@@ -1,8 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK CopyAb__FPvT0Ui(s32, s128 **, s32, s32);    /* extern */
-M2C_UNK func_00117EB0(s32, void *);                 /* extern */
-M2C_UNK func_00117F70(s32, s32);                    /* extern */
-s128 **func_001AE318(s32 *, M2C_UNK);               /* extern */
+M2C_UNK ReadVector__18CBinaryInputStreamP6VECTOR(s32, void *);                 /* extern */
+M2C_UNK ReadVector4__18CBinaryInputStreamP7VECTOR4(s32, s32);                    /* extern */
+s128 **PvAllocSlot__FP8ALLOCREQ(s32 *, M2C_UNK);               /* extern */
 extern f32 D_002A76DC;
 extern s128 *D_002A76E0;
 extern f32 D_002A76E4;
@@ -26,7 +26,7 @@ extern M2C_UNK D_003DD020;
 extern M2C_UNK D_003DD490;
 
 void func_001C0378(s32 arg0) {
-    func_00231100(arg0);
+    InitAlo__FP3ALO(arg0);
     M2C_FIELD(arg0, s32 *, 0x110) = -1;
     func_0011A1F8(arg0 + 0x118, 0x60);
     M2C_FIELD(arg0, s32 *, 0x124) = -1;

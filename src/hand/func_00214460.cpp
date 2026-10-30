@@ -28,8 +28,8 @@ int func_00117BD0(BIS *);
 int func_00117D50(BIS *);
 int func_00117DB8(BIS *);
 float func_00117E38(BIS *);
-void func_00117ED0(BIS *,M3 *);
-void *func_00116918(HEAP *,int,int);
+void ReadMatrix(BIS *,M3 *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
+void *PvAllocClear(HEAP *,int,int) asm("PvAllocClear__FP4HEAPii");
 void func_002156B8(FRAME *);
 }
 static inline void CopyXY(M23 *dst,const M3 &src){
@@ -40,24 +40,24 @@ static inline void CopyXY(M23 *dst,const M3 &src){
 extern "C" void func_00214460(OWNER *owner,BIS *stream,ROOT *root){
  int i,j,k,m;
  root->groupCount=func_00117C20(stream);
- root->groups=(GROUP *)func_00116918(owner->heap,(int)root->groupCount*0x30,0x12);
+ root->groups=(GROUP *)PvAllocClear(owner->heap,(int)root->groupCount*0x30,0x12);
  for(i=0;i<root->groupCount;i++){
   GROUP *group=&root->groups[i];
   group->first=(i==0);group->owner=root;
   group->reuseCount=func_00117C20(stream);
-  group->reuse=(REUSE *)func_00116918(owner->heap,(int)group->reuseCount*0x18,0x12);
+  group->reuse=(REUSE *)PvAllocClear(owner->heap,(int)group->reuseCount*0x18,0x12);
   int count=func_00117C20(stream);
   for(j=0;j<group->reuseCount;){
    int next=j+1;
    REUSE *reuse=&group->reuse[j];
    reuse->previous=0;reuse->index=-1;reuse->phase=0;reuse->elapsed=0.0f;
    reuse->count=count;
-   reuse->frames=(FRAME *)func_00116918(owner->heap,count*0x70,0x10);
+   reuse->frames=(FRAME *)PvAllocClear(owner->heap,count*0x70,0x10);
    for(m=0;m<reuse->count;m++)func_002156B8(&reuse->frames[m]);
    j=next;
   }
   group->animCount=func_00117C20(stream);
-  group->animations=(ANIM *)func_00116918(owner->heap,(int)group->animCount*0x18,0x12);
+  group->animations=(ANIM *)PvAllocClear(owner->heap,(int)group->animCount*0x18,0x12);
   group->index=-1;
   for(j=0;j<group->animCount;j++){
    ANIM *animation=&group->animations[j];
@@ -65,35 +65,35 @@ extern "C" void func_00214460(OWNER *owner,BIS *stream,ROOT *root){
    animation->duration=func_00117E38(stream);
    animation->id=func_00117DB8(stream);
    animation->count=func_00117C20(stream);
-   animation->keys=(KEY *)func_00116918(owner->heap,(int)animation->count*0x20,0x12);
+   animation->keys=(KEY *)PvAllocClear(owner->heap,(int)animation->count*0x20,0x12);
    for(k=0;k<animation->count;k++){
     KEY *key=&animation->keys[k];
     key->time=func_00117E38(stream);
     key->itemCount=func_00117BD0(stream);
-    key->items=(ITEM *)func_00116918(owner->heap,(int)key->itemCount*0x40,0x12);
+    key->items=(ITEM *)PvAllocClear(owner->heap,(int)key->itemCount*0x40,0x12);
     for(m=0;m<key->itemCount;m++){
      ITEM *item=&key->items[m];
      item->a0=func_00117C20(stream);item->a2=func_00117C20(stream);item->a4=func_00117C20(stream);item->a6=func_00117D50(stream);
      item->flags=func_00117BD0(stream);item->mode=func_00117BD0(stream);item->id=func_00117DB8(stream);
-     M3 raw;func_00117ED0(stream,&raw);M3 matrix=raw;CopyXY(&item->matrix,matrix);
+     M3 raw;ReadMatrix(stream,&raw);M3 matrix=raw;CopyXY(&item->matrix,matrix);
     }
     key->colorCount=func_00117BD0(stream);
-    key->colors=(COLORS *)func_00116918(owner->heap,(int)key->colorCount*8,0x12);
+    key->colors=(COLORS *)PvAllocClear(owner->heap,(int)key->colorCount*8,0x12);
     for(m=0;m<key->colorCount;m++){
      COLORS *colors=&key->colors[m];
      RGBA second(func_00117C80(stream));RGBA first(func_00117C80(stream));
      colors->second=*(RGBA_RAW *)&second;colors->first=*(RGBA_RAW *)&first;
     }
     key->shortCount=func_00117BD0(stream);
-    key->shorts=(ushort *)func_00116918(owner->heap,(int)key->shortCount*2,0x12);
+    key->shorts=(ushort *)PvAllocClear(owner->heap,(int)key->shortCount*2,0x12);
     for(m=0;m<key->shortCount;m++){
      ushort *dst=&key->shorts[m];*dst=func_00117C20(stream);
     }
     key->byteCount=func_00117BD0(stream);
-    key->bytes=(uchar *)func_00116918(owner->heap,(int)key->byteCount,0x12);
+    key->bytes=(uchar *)PvAllocClear(owner->heap,(int)key->byteCount,0x12);
     for(int byteIndex=0;byteIndex<key->byteCount;byteIndex++)key->bytes[byteIndex]=func_00117BD0(stream);
     key->tagCount=func_00117BD0(stream);
-    key->tags=(TAG *)func_00116918(owner->heap,(int)key->tagCount*8,0x12);
+    key->tags=(TAG *)PvAllocClear(owner->heap,(int)key->tagCount*8,0x12);
     for(m=0;m<key->tagCount;m++){
      key->tags[m].kind=func_00117BD0(stream);
      if(key->tags[m].kind<2)key->tags[m].value.signedBits=func_00117DB8(stream);

@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00117968(s32, void *, s32);            /* extern */
+M2C_UNK Read__18CBinaryInputStreamiPv(s32, void *, s32);            /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
-s32 func_001AE318(s32 *, s32, s32 *, M2C_UNK);      /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32 *, M2C_UNK);      /* extern */
 extern s128 D_002A2DD0;
 extern f32 D_002A97A8;
 extern M2C_UNK D_002A97F0;
@@ -39,7 +39,7 @@ extern M2C_UNK D_003DD040;
 extern M2C_UNK D_003DD490;
 extern s32 D_003E0FE0;
 
-s32 func_00226C10(s32 arg0) {
+s32 __4VIFS(s32 arg0) {
     __4DMAS(arg0);
     M2C_FIELD(arg0, s32 *, 0x10) = 1;
     M2C_FIELD(arg0, M2C_UNK **, 0x18) = &D_002CE488;

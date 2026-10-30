@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
 /* Warning: missing "jr $ra" in last block of func_0022B040 (initial). */
 
-s32 func_001AE318(s32 *, M2C_UNK);                  /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *, M2C_UNK);                  /* extern */
 extern M2C_UNK D_002A2D00;
 extern s128 D_002A2DA0;
 extern s128 D_002A2DB0;

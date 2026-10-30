@@ -21,7 +21,7 @@ extern int D_002C7900;
 extern char D_002C7910[];
 extern char D_002AB608[];
 extern char D_002AB620[];
-void func_00241978(void *);
+void _sceCd_cd_read_intr(void *);
 int func_00241DF0(void);
 int func_00241C98(int);
 void func_0023B170(void *, int);
@@ -68,7 +68,7 @@ int sceCdRead(unsigned int lbn, unsigned int sectors, void *buf, sceCdRMode *mod
         func_00236960(D_002AB608);
     D_002C67A0 = 1;
     D_002C6774 = 1;
-    if (sceSifCallRpc(D_002C7910, 1, 1, rd, 0x18, 0, 0, func_00241978, D_002C7840) < 0) {
+    if (sceSifCallRpc(D_002C7910, 1, 1, rd, 0x18, 0, 0, _sceCd_cd_read_intr, D_002C7840) < 0) {
         D_002C67A0 = 0;
         D_002C6774 = 0;
         func_00234A40(D_002C6768);

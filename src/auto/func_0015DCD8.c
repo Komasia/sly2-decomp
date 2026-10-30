@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00117EB0(s32, s32);                    /* extern */
+M2C_UNK ReadVector__18CBinaryInputStreamP6VECTOR(s32, s32);                    /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
-s32 *func_001AE318(s32 *, s32, s32);                /* extern */
+s32 *PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32);                /* extern */
 extern M2C_UNK D_002A2D30;
 extern s128 D_002A2DA0;
 extern s128 D_002A2DB0;

@@ -3,11 +3,11 @@ extern "C" {
 void func_001AE478(void *p);
 void func_001AE4A0(void *p, int n);
 struct MSG { int cb; int nKind; };
-void *func_001AE318(MSG *pmsg);
+void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 void func_001AE5A0(void *pvDst, void *pvSrc, int cb);
 }
 class FRAME { public: FRAME() { func_001AE478(this); } ~FRAME() { func_001AE4A0(this, 2); } int a[4]; };
-static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return func_001AE318(pmsg); }
+static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSlot(pmsg); }
 static inline float GAbs(float g) { return __builtin_fabsf(g); }
 
 extern "C" int FInvertMatrix__FiPfT1(int c, int n, float *pgSrc, float *pgDst)

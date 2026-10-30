@@ -3,7 +3,7 @@ M2C_UNK CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
 M2C_UNK func_001291A8(s32, s32 *);                  /* extern */
 M2C_UNK func_00129EC8(s32 *, s32);                  /* extern */
 M2C_UNK func_0012A0B0(s32 *, M2C_UNK);              /* extern */
-s32 func_001AE318(s32 *);                           /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
 extern M2C_UNK D_002A43B0;
 extern M2C_UNK D_002BBB90;
 extern void *D_002DD2AC;

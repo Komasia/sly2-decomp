@@ -2,10 +2,10 @@ struct B { int a[12]; };
 struct MK { int a; };
 extern int D_003DCF9C, D_003DCF98;
 extern int D_002DE598;
-void func_00166920(struct B *pb);
+void __4GIFS(struct B *pb);
 struct MK *func_001AE478(struct MK *pm);
 void func_001AE4A0(struct MK *pm, int n);
-void func_001572E0(struct B *pb, int n);
+void AllocSw__4DMASi(struct B *pb, int n);
 void func_001574B8(struct B *pb);
 int func_001ECC28(int a, void *p, struct B *pb);
 void func_00166BD8(struct B *pb, int a, int b, int c);
@@ -18,9 +18,9 @@ void func_00170730(void *p) {
     struct B b;
     struct MK mk;
     int n;
-    func_00166920(&b);
+    __4GIFS(&b);
     func_001AE478(&mk);
-    func_001572E0(&b, ((D_003DCF9C * 3 + D_003DCF98) << 3) | 4);
+    AllocSw__4DMASi(&b, ((D_003DCF9C * 3 + D_003DCF98) << 3) | 4);
     func_001574B8(&b);
     if (func_001ECC28(1, p, &b)) {
         func_00166BD8(&b, 0, 1, 0xE);

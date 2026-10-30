@@ -3,9 +3,9 @@
 
 /* Warning: missing "jr $ra" in last block of func_001ABFF8 (initial). */
 
-s32 func_00117898(M2C_UNK *, M2C_UNK, M2C_UNK *);   /* extern */
+s32 CbRead__18CBinaryInputStreamiPv(M2C_UNK *, M2C_UNK, M2C_UNK *);   /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
-s32 func_001AE318(s32 *, s32, s32 *, M2C_UNK);      /* extern */
+s32 PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32 *, M2C_UNK);      /* extern */
 M2C_UNK func_002355E0(s32, s32);                    /* extern */
 M2C_UNK func_00243CB0();                            /* extern */
 s32 func_00244450(M2C_UNK, void *, s32 *);          /* extern */

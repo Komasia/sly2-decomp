@@ -18,7 +18,7 @@ extern "C" {
 void *func_001AE478(void *pframe);
 void func_001AE4A0(void *pframe, int n);
 void *func_001AE378(MSG *pmsg);
-void *func_001AE318(MSG *pmsg);
+void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 void *func_002333B4(void *pv, int b, unsigned int cb);
 qword func_001A62E8(void *pv);
 NAV *func_001C0D70(qword pos, int f);
@@ -33,7 +33,7 @@ int func_001C0920(NAV *pnav, qword pos, int f);
 }
 
 static inline void *PvAllocClear(int cb) { MSG msg; msg.cb = cb; msg.nKind = 0x10; return func_001AE378(&msg); }
-static inline void *PvAlloc(int cb) { MSG msg; msg.cb = cb; msg.nKind = 0x10; return func_001AE318(&msg); }
+static inline void *PvAlloc(int cb) { MSG msg; msg.cb = cb; msg.nKind = 0x10; return PvAllocSlot(&msg); }
 // The current stack-allocation scope (out of line: 0x1AE478 / 0x1AE4A0)
 struct STACKSCOPE { STACKSCOPE(); ~STACKSCOPE(); };
 static inline qword QwSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }

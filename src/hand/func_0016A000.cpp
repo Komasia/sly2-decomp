@@ -547,8 +547,8 @@ void CopyDmaRefsChainSw(SUBGLOB *psubglob, GLOB *pglob, int cqw, void *pvBase, i
 extern "C" {
 void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
 }
-extern "C" void func_00117F90(CBinaryInputStream *pbis, void *pv);
-extern "C" void func_00117FB0(CBinaryInputStream *pbis, void *pv);
+extern "C" void ReadCb12(CBinaryInputStream *pbis, void *pv) asm("ReadCb12__18CBinaryInputStreamPv");
+extern "C" void ReadCb8(CBinaryInputStream *pbis, void *pv) asm("ReadCb8__18CBinaryInputStreamPv");
 void FixupRgba(RGBA *prgba);
 extern int D_003E11EC;
 static inline void *PvAllocStackP(int cb)
@@ -694,8 +694,8 @@ void LoadSubglobType0FromBrx(GLOBSET *const pglobset, SUBGLOB *psubglob, GLOB *p
     spec.iSpec = pbis->S8Read();
     if (spec.iSpec != -1)
     {
-        func_00117F90(pbis, &spec.agUnk00);
-        func_00117FB0(pbis, &spec.agUnk10);
+        ReadCb12(pbis, &spec.agUnk00);
+        ReadCb8(pbis, &spec.agUnk10);
         pbis->ReadVector(&spec.vec);
         spec.agUnk00[1] *= 0.007874016f;
         spec.agUnk00[2] *= 6.200012e-05f;

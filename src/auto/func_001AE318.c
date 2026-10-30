@@ -2,7 +2,7 @@
 M2C_UNK CheckForOutOfMemory__Fv(s32);               /* extern */
 extern s32 D_002F6388;
 
-s32 func_001AE318(void *arg0) {
+s32 PvAllocSlot__FP8ALLOCREQ(void *arg0) {
     s32 temp_a0;
     s32 var_v0;
 

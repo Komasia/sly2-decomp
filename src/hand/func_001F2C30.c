@@ -8,20 +8,20 @@ struct H { char pad[0x2C]; int n2C; };
 struct G { char pad[0x45CC]; struct H *ph; };
 extern struct G D_003DD490;
 extern struct S8 D_002A8270;
-void func_001A5800(struct L *);
+void OnLoAdd__FP2LO(struct L *);
 void func_0022FAA0(struct L *);
 void func_001F2B20(struct L *);
 qword func_001A62E8(struct L *);
 void *func_001C0D70(qword, int);
 void func_001F37C8(struct L *, void *);
 void func_00149A50(struct G *, struct L *, struct S8, int);
-void func_001F2C30(struct L *p)
+void OnSoAdd__FP2SO(struct L *p)
 {
     struct L *q;
     void *pv;
     int unused[4];
     int v;
-    func_001A5800(p);
+    OnLoAdd__FP2LO(p);
     func_0022FAA0(p);
     func_001F2B20(p);
     v = p->v40;

@@ -11,7 +11,7 @@ void func_001EAE40(void *);
 void func_001EB098(void *);
 int func_00117C20(void *);
 void *func_001AE378(struct MSG *);
-void *func_001AE2A0(struct MSG *);
+void *PvAllocSwClearImpl__Fi(struct MSG *);
 void *func_001ED7A8(int, void *);
 void func_001EB2F0(void *, struct E *);
 void func_0020F640(void *, void *);
@@ -49,7 +49,7 @@ void func_001EB748(void *p, int k, void *pbis)
             void *q;
             msg.cb = 0x1C;
             msg.nKind = 0x10;
-            q = func_001AE2A0(&msg);
+            q = PvAllocSwClearImpl__Fi(&msg);
             func_001EB678(pe, q);
             func_0011A070(D_003E1590, q);
         }
