@@ -6,19 +6,29 @@ tools/asfix.py over it (Sly 2's short-loop padding) and assembles the result wit
 flags.  Every other invocation is passed straight to the real wibo."""
 import os, sys, subprocess, tempfile, shutil, signal, re
 HERE = os.path.dirname(os.path.abspath(__file__))
-REAL = os.path.join(HERE, 'wibo-i686')
+WIN = os.name == 'nt'   # native Windows: the compilers are .exe files, run them directly (no wibo)
+REAL = None if WIN else os.path.join(HERE, 'wibo-i686')
 sys.path.insert(0, HERE)
 import asfix
 
 def run(cmd, tries=3, timeout=60):
     """wibo occasionally hangs; run in its own process group, kill and retry on timeout"""
+    if WIN:
+        cmd = [c for c in cmd if c is not None]
     for _ in range(tries):
-        p = subprocess.Popen(cmd, start_new_session=True)
+        p = subprocess.Popen(cmd) if WIN else subprocess.Popen(cmd, start_new_session=True)
         try:
             return p.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            os.killpg(p.pid, signal.SIGKILL); p.wait()
+            if WIN: p.kill()
+            else: os.killpg(p.pid, signal.SIGKILL)
+            p.wait()
     return 1
+
+def passthrough(a):
+    if WIN:
+        sys.exit(subprocess.call(a))
+    os.execv(REAL, [REAL] + a)
 
 def marker_addrs(obj):
     """{name: value} of the __af* marker symbols in an object"""
@@ -40,12 +50,12 @@ def marker_addrs(obj):
 def main():
     a = sys.argv[1:]
     if not (a and a[0].endswith('ee-gcc.exe') and '-c' in a and '-o' in a):
-        os.execv(REAL, [REAL] + a)
+        passthrough(a)
     o = a.index('-o'); obj = a[o + 1]
     rest = a[1:o] + a[o + 2:]
     srcs = [x for x in rest if not x.startswith('-') and os.path.splitext(x)[1] in ('.c', '.cpp', '.cc', '.C')]
     if len(srcs) != 1:
-        os.execv(REAL, [REAL] + a)
+        passthrough(a)
     src = srcs[0]
     t = tempfile.mkdtemp(prefix='wcc')
     try:

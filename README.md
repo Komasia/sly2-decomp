@@ -1,4 +1,4 @@
-# Sly 2: Band of Thieves — matching decompilation (work in progress)
+# Sly 2: Band of Thieves — matching decompilation
 
 **New here? Start with [SETUP.md](SETUP.md).** This repo contains no game data; bring your own disc.
 

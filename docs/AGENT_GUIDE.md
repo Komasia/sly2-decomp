@@ -451,3 +451,52 @@ than one entry point, which makes loop.c skip it. Test the first element before 
 - **Giv set-up order:** gcc expands a nested inline-call argument before the other arguments, and loop.c emits giv set-ups in reverse order of discovery. Moving a nested call inside a helper body reorders the loop-pointer set-ups (matched func_00185E40, 2026-10-24).
 
 - **"r,V" memory-input on qmtc2:** a never-chosen "V" alternative on a qmtc2 input keeps the word in memory until reload, which changes register and slot choices. It matched func_0014F110 (2026-10-24); worth trying on any qmtc2 from a global or struct word.
+
+## 2026-10-24 (NaGa's lanes): what moved the last hard functions
+Wave 1 of ten agents on 0x190000-0x1F0000 matched 15 functions that had resisted every earlier try (full per-function notes in
+`notes/190000-1F0000_lanes.md`). The techniques that did it, newest first:
+- **Un-hack drafts one pin / asm at a time.** A draft at aligned 1-5 that needs several pins or whole-instruction asm is only a map.
+  Delete each pin or asm separately and keep the deletion if the count holds (func_00197500: 9 pins + a volatile asm block -> natural C).
+- **Register swaps are global-alloc priority ties.** `-da` writes `.greg` ("N regs to allocate" is the priority order) and `.lreg`
+  (refs, live length). Priority = floor_log2(refs) * refs / live_length, refs weighted by loop depth; it predicted every s-register
+  choice. A `do { } while (0)` around one statement raises a global's depth; splitting a variable that is assigned in two blocks into two
+  variables changes its priority.
+- **Scheduler barriers.** A `volatile` asm is a full barrier (drop `volatile` when only data dependences matter). A `do { } while (0)` in a
+  copy macro emits NOTE_INSN_LOOP_BEG, which sched also treats as a barrier (func_001A4AD8). sched1 ties go to the insn with more
+  dependents (func_0019AC88: `h = t * 0.5f` instead of overwriting `t`). The "birthing insn" boost applies to registers set exactly once
+  in the whole function.
+- **loop.c / gcse.** A constant is hoisted out of a loop only when life * 95 * savings >= the loop's insn count (`-da -dL` prints
+  "Loop from..: N real insns"; two loop passes). gcse's table size, (n_insns / 2) | 1 after cse1, decides PRE register numbering and spill
+  order; a dead counter that survives cse1 can flip it (func_001EA000). gcse hoists a lone `sp+K` computed after a loop.
+- **Spilled pseudo vs struct member.** A stack slot after the real locals that is reloaded around calls is a spilled pseudo: write a plain
+  local (func_001E9858).
+- **Call setup / returns.** Memmove-style `a0=s0; a1=s0; a0+=16` -> call through a `static inline` forwarder taking two `void *`. A target
+  ending `li v0,K; jr ra; nop` with an unfilled slot -> a conditional `goto done;` to a shared `result = K; done: return result;`;
+  separate `return` blocks instead of a shared variable let cross-jumping rebuild tails.
+- **VU asm.** Rewrite from scratch with one asm per VU op; `"=&j"` for multi-insn outputs; a duplicated unused `"j"` input (commented) raises
+  a value's allocation priority; `"=j"` instead of `"+j"` fixes vf numbering; `"rV"` gives `lui r; lw r,%lo(r)`.
+- **Dead-store slot.** To put a dead temp store in a given slot, declare a union local in an inner block; the slot is reused by the next
+  same-size temporary (func_001C3500).
+
+## 2026-10-25 (NaGa's lanes, wave 3): what finished another 19 functions
+Per-function notes are in `notes/190000-1F0000_lanes.md` (agents `w3lane1`..`w3lane10`).
+- **Copy matched siblings first** (Lilly's ports and earlier matches): the pass-through base call with the full virtual signature,
+  two-input `Dot`, `VU_VECTOR(const qword &)` helpers, pointer-to-member constants, `GAME *game = &D_003DD490` (func_001DF0A0,
+  func_001C2EF0, func_00194F70).
+- **reorg's backward delay-slot search stops at any asm.** Whether a compare is an asm helper or plain C decides what fills the
+  branch slot (func_001999D0). Replace FPU one-liner asms (`min.s`, `abs.s`) with plain C (`b < a ? b : a`, `__builtin_fabsf`)
+  before any scheduling work (func_001D2E18).
+- **Normalize-with-fallback in return style** (`if (X(l) < 1e-4f) return fallback; return Div(v, l);`): an if/else assigning one
+  variable lets jump.c hoist the fallback copy (the old vf1-pin cases).
+- **cse1 adds REG_EQUAL to every `x = const`, and local-alloc doubles that variable's live length** (halving its priority). Compare the
+  "across N insns" counts in `.flow` and `.lreg`; one extra use (e.g. an `i < count` guard) wins the tie back (func_001CE2E8).
+- **Loop exit handling inside the test** (`j = n; for (;;) { if (--j < 0) { ...; break; } ... }`) keeps jump.c from copying the test in
+  front of the loop and gives the target's `b test` entry; it replaced goto/`do{}while(0)` hacks (func_00194F70).
+- **Reload drives many VU/GPR choices.** A `"j"` repeat of a spilled pseudo is an extra reload that adds a spill register and shifts
+  reload's round-robin; `"jm"` removes it (func_001D4568). A value that lives across calls with few refs is best left a plain local so
+  reload makes the target's spill stores (func_001DB0C8, func_001E5FC8).
+- **Aliasing:** a scalar local's store never blocks struct-field loads through a pointer, so sched1 hoists them; if the target keeps the
+  store first, the local is an aggregate. Reading a global as a field of its containing struct makes a load wait for a struct store.
+- **Measured gcse PRE hash:** `hash(plus (reg r) (const_int c)) = (13258 + r + c) mod S`, S = (insns/2)|1 (func_001A8B50 notes).
+- **Not accepted:** locals or empty objects that exist only to move a stack slot or a pseudo number (func_001AA1D8's `NOOP` objects,
+  the earlier padded func_001A87F0).

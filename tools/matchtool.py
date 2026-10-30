@@ -19,6 +19,8 @@ ELF = os.path.join(ROOT, 'disc', 'SCUS_973.16')
 TEXT_VA, TEXT_OFF, TEXT_SIZE = 0x100000, 0x80, 0x159df0
 CC = os.environ.get('SLY2_CC', os.path.join(ROOT, 'tools', 'compilers', 'bundle', 'ee-gcc2.95.3-136', 'bin', 'ee-gcc.exe'))  # Sly 2 compiler
 WIBO = os.environ.get('SLY2_WIBO', os.path.join(ROOT, 'tools', 'wibo_cc.py'))
+WIBO_CMD = [sys.executable, WIBO] if os.name == 'nt' else [WIBO]   # native Windows: no wibo, wibo_cc.py runs the .exe files
+M2C_INC = os.environ.get('SLY2_M2C_INC', '/home/claude/m2c')     # directory holding m2c_macros.h (needed by raw m2c .c files)
 CFLAGS = os.environ.get('SLY2_CFLAGS', '-x c++ -O2 -G0 -ffast-math -mvu0-use-vf0-vf31 -fno-exceptions').split() + ['-B' + os.path.join(ROOT, 'tools/compilers/bundle/ee-gcc2.95.3-136/lib/gcc-lib/ee/2.95.3') + '/']
 INCLUDES = ['-I' + os.path.join(ROOT, 'include')] + os.environ.get('SLY2_INC', '').split()
 
@@ -156,7 +158,7 @@ def compile_src(src):
     flags = CFLAGS
     if src.endswith('.c'):
         flags = ['c' if x == 'c++' else x for x in CFLAGS]
-        flags = flags + ['-I/home/claude/m2c']
+        flags = flags + ['-I' + M2C_INC]
     cc = CC
     # Per-file overrides (used for Sony SDK library code built with other compilers/flags):
     #   // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.2-274          (compiler directory, relative to project root)
@@ -209,7 +211,7 @@ def compile_src(src):
         if p.returncode or not os.path.exists(s_out) or gnu_reorder.assemble(s_out, out, ROOT, asm_mode, divnop=bool(_re.search(r'SLY2_DIVNOP', head)), noloopfix=bool(_re.search(r'SLY2_NOLOOPFIX', head))):
             print(p.stdout + p.stderr); sys.exit(1)
         return out
-    cmd = ([] if native else [WIBO]) + [cc, '-c'] + INCLUDES + flags + [src, '-o', out]
+    cmd = ([] if native else WIBO_CMD) + [cc, '-c'] + INCLUDES + flags + [src, '-o', out]
     if native:
         cmd = [x for x in cmd if x != '-mvu0-use-vf0-vf31']
     p = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT, timeout=300)
