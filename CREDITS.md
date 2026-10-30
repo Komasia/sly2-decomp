@@ -6,13 +6,14 @@ code that is byte-identical to the original game, with every call and data refer
 ## Who did what
 
 Counted by who first committed each matched source file (the "Dimitri + Claude" row includes the work done before the
-GitHub repo existed, which was imported in one commit).
+GitHub repo existed, which was imported in one commit). Everyone worked with AI assistants: Dimitri with Claude agents,
+NaGa with Claude and ChatGPT, and Lilly with Claude.
 
 | Who | Functions matched | Instructions | Main areas |
 |---|---|---|---|
 | **Dimitri** (Komasia) + **Claude** agents | ~6,240 | ~251,000 | Project setup, toolchain identification, engine core 0x100000–0x190000, the bulk of the early matching, final relocation audit |
-| **NaGa** | 343 | ~56,600 | Engine 0x190000–0x1F0000 |
-| **Lilly** (lillyflower648) | 107 | ~42,400 | Engine 0x1F0000–0x230000 and the Sony SDK libraries (0x234F48–0x2550A0) |
+| **NaGa** (with Claude and ChatGPT) | 343 | ~56,600 | Engine 0x190000–0x1F0000 |
+| **Lilly** (lillyflower648, with Claude) | 107 | ~42,400 | Engine 0x1F0000–0x230000 and the Sony SDK libraries (0x234F48–0x2550A0) |
 
 ## Timeline
 - **Before 2026-10-12** — Dimitri and Claude identify the compiler (ee-gcc 2.95.3 build 136 with the SN assembler from
