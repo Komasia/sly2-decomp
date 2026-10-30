@@ -79,7 +79,7 @@ typedef char FieldRefSize[sizeof(RF)==4?1:-1];
 typedef char RootRefSize[sizeof(RR)==4?1:-1];
 static inline NODE*CopyNode(int bytes,REQUEST*r,NODE*n){r->bytes=bytes;r->alignment=16;return(NODE*)PvAllocSwCopyImpl(r,n);}
 static inline META*Type(P*p){VE*v=&p->vt[6];return v->type((P*)((char*)p+v->delta));}
-extern "C" void func_001A6730(P*p,const P*source){
+extern "C" void CloneLo__FP2LOT0(P*p,const P*source){
     func_00128148(D_002DD598);
     if(source->field){
         {RF r=func_0012AB78(source->field,p);func_002580A8(&p->field,r.p);}

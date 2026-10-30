@@ -1,4 +1,4 @@
-// func_001C5148 (w2lane4, wave 2): per-frame update of an animated object (state 6 only forwards to func_001F3980).
+// func_001C5148 (w2lane4, wave 2): per-frame update of an animated object (state 6 only forwards to ProjectSoTransform).
 // Step 1: damped velocity/position integration of the object's own coordinate (VU: velocity = velocity * damping + acceleration * dt,
 //         coordinate += velocity * dt) which is pushed into the position channel.
 // Step 2: if the object's holder has an animation, find the position/orientation motions of this object in the animation's action
@@ -38,7 +38,7 @@ extern CAMERA D_002DDF40;
 extern SW D_003DD490;
 extern float D_002C0D4C;
 extern qword D_002A2DC0;
-void func_001F3980(P *);
+void ProjectSoTransform(P *) asm("ProjectSoTransform__FP2SOfi");
 qword *func_00256D18(qword *, qword);
 M3 func_0011B830(qword, qword);
 M3 func_0011B628(qword);
@@ -111,7 +111,7 @@ static inline void Sample(MOTION *motion, const ANIM *animation, qword *value, q
 
 extern "C" void func_001C5148(P *p)
 {
-    if (p->state == 6) { func_001F3980(p); return; }
+    if (p->state == 6) { ProjectSoTransform(p); return; }
     float factor;
     if (p->state == 0 || p->state == 5) factor = 1.0f + D_002C0D4C * D_002DDED0.dt.value;
     else factor = 1.0f;
@@ -167,5 +167,5 @@ extern "C" void func_001C5148(P *p)
             }
         }
     }
-    func_001F3980(p);
+    ProjectSoTransform(p);
 }

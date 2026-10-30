@@ -1,4 +1,4 @@
-// func_001F50E0 (0x1F50E0): SO virtual 48 - rebuild the bounds of the SO's tree record (SO+0xEC).
+// UpdateSoBounds__FP2SO (0x1F50E0): SO virtual 48 - rebuild the bounds of the SO's tree record (SO+0xEC).
 // Pass 1, the box of every visible collision part: UpdateSoPartGeom (0x1F38A8) first, then a sphere part adds its
 // XF position -/+ radius * D_002A2DE0, a mesh part its world points, and a part whose geometry is stale
 // (nStampGeom != nStampWorld) also its local points from nUnk1c on, moved by the part's matrix.
@@ -127,7 +127,7 @@ static inline void ExtendBox(qword &qwMin, qword &qwMax, const qword &qwPos)
     qwMax = QwMax(qwMax, qwPos);
 }
 
-extern "C" void func_001F50E0(SO *pso)
+extern "C" void UpdateSoBounds__FP2SO(SO *pso)
 {
     qword qwMin = D_002A2DF0;
     qword qwMax = D_002A2E00;

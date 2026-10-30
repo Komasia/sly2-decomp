@@ -35,7 +35,7 @@ extern void func_001FB4F0(void *p, float a, float b);
 extern void func_001FB1F8(void *p, float g);
 extern void func_001FB2C0(void *p, float g);
 
-void func_0015C690(EMITTER *p, EMITO *po)
+void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
 {
     EMITP emitp;
     EMITB b;

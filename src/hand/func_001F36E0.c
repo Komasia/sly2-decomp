@@ -9,7 +9,7 @@ void func_001A5E28(struct P *);
 qword func_001A62E8(struct P *);
 void *func_001C0D70(qword, int);
 void func_001F37C8(struct P *, void *);
-void func_001F36E0(struct P *p)
+void UpdateSo__FP2SOf(struct P *p)
 {
     void *q;
     float d;

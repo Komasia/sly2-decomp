@@ -2,14 +2,14 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
 struct S { char pad[0xE0]; char aE0[0x10]; int c; qword *points; char pad1[0x18]; qword v110; float g120; };
 extern float D_002A9880;
-void func_00231170(struct S *p, void *pbis);
+void LoadAloFromBrx__FP3ALOP18CBinaryInputStream(struct S *p, void *pbis);
 void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
 qword func_0011F288(int c, qword *points);
 qword func_0011F2B8(int c, qword *points);
 void func_00227BB8(struct S *p, void *pbis)
 {
-    func_00231170(p, pbis);
+    LoadAloFromBrx__FP3ALOP18CBinaryInputStream(p, pbis);
     func_00117FD0(pbis, &p->c);
     func_00118220(pbis, &p->c, p->aE0);
     if (p->c > 0) {

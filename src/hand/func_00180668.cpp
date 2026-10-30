@@ -19,7 +19,7 @@ extern POLY D_002BE830,D_002BE840,D_002BE860;
 extern LM D_002BE850,D_002BBB60;
 extern CLOCK D_002DDED0;
 extern char D_002DE578[],D_003DD490[];
-void func_001F36E0(P*);
+void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 int func_0017F550(P*);
 void func_00181268(P*,int);
 qword func_001A62E8(void*);
@@ -77,7 +77,7 @@ static inline float Clamp(float f,LM*p){float low=p->low,high=p->high;if(f<low)f
 
 extern "C" void func_00180668(P*p){
  U nearest,direction,unit;
- func_001F36E0(p);
+ UpdateSo(p);
  if(p->state==2||p->state==4){if(func_0017F550(p))func_00181268(p,0);}
  if(p->state!=0&&p->state!=4){if(!p->target||!Alive(p->target))func_00181268(p,0);}
  if(!p->active&&p->target&&Alive(p->target)){

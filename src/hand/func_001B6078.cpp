@@ -75,7 +75,7 @@ extern int D_002DD5BC;
 void func_002303A0(P *, void *, int);
 void func_00142880(P *);
 void func_001B6DA8(P *, int);
-void func_0015C150(OBJ *);
+void ExplodeExpl(OBJ *) asm("ExplodeExpl__FP4EXPL");
 void func_00195FB8(void *, int, int);
 void func_00192BD8(void *, int);
 void func_001A0B40(void *, int);
@@ -129,7 +129,7 @@ extern "C" void func_001B6078(P *p, int next)
                 break;
             }
             }
-            if (object) { Call(object, 8); func_0015C150(object); Call(object, 9); }
+            if (object) { Call(object, 8); ExplodeExpl(object); Call(object, 9); }
         }
         func_00195FB8(Block(p, 0x2C0), -1, 0); break;
     }

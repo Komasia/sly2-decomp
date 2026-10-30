@@ -1,4 +1,4 @@
-// func_0015C3C0 (Claude agent, lane D40): matched with Lilly's MATRIX3 operator* (src/hand/func_0021CB18.cpp: rows of the LEFT
+// ExplodeExplgExplso (Claude agent, lane D40): matched with Lilly's MATRIX3 operator* (src/hand/func_0021CB18.cpp: rows of the LEFT
 // matrix into qword locals, VU_VECTOR4 row temps) and her QwRotateVec(MATRIX3 *, qword), with px->mat as the left operand.
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { qword r[4]; };
@@ -39,8 +39,8 @@ inline qword QwRotateVec(const MATRIX3 *pmat, qword qwVec)
             : "j"(pmat->r[0]), "j"(pmat->r[1]), "j"(pmat->r[2]), "j"(qwVec));
     return qwResult;
 }
-extern "C" void func_0015C3C0(S *p, P *pp);
-void func_0015C3C0(S *p, P *pp)
+extern "C" void ExplodeExplgExplso(S *p, P *pp) asm("ExplodeExplgExplso__FP5EXPLGP6EXPLSO");
+void ExplodeExplgExplso(S *p, P *pp)
 {
     P loc = *pp;
     XF xf;

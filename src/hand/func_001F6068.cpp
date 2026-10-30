@@ -1,4 +1,4 @@
-// func_001F6068: ported from Lilly's personal Sly 2 decomp (src/P2/so.c), reduced to the declarations it needs.
+// CloneSo__FP2SOT0: ported from Lilly's personal Sly 2 decomp (src/P2/so.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002C44F0 (g_xfWorld)
 // 0x001F6068 Clone__2SOP2LO  (MATCHES Sly 2, T1075)
@@ -489,7 +489,7 @@ struct SO : public LO
                 ulong fTreeRoot : 1;
                 ulong fUnk35 : 1;
                 ulong fHasIkLimbs : 1;
-    virtual void Clone(LO *ploBase) __asm__("func_001F6068");
+    virtual void Clone(LO *ploBase) __asm__("CloneSo__FP2SOT0");
       virtual void VUnk48();
       virtual void GetCpdefi(CPDEFI *pcpdefi);
       virtual XF *PxfFromIxf(int ixf);

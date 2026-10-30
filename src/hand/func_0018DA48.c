@@ -25,7 +25,7 @@ extern OBJ *func_001CB250(int oid, int n);
 extern int func_00224610(OBJ *p);
 extern void func_0018D698(void *p, REC *prec, OBJ *pobj);
 extern void func_00141EA8(void *p, int n);
-extern void func_0015C150(int x);
+extern void ExplodeExpl__FP4EXPL(int x);
 extern void func_00195A00(void *p, int a, int b, int c);
 extern void func_00141D38(void *p, int n);
 
@@ -117,7 +117,7 @@ void func_0018DA48(char *p, int n)
         break;
     case 0x1F:
         if (F(int, 0x204C))
-            func_0015C150(F(int, 0x204C));
+            ExplodeExpl__FP4EXPL(F(int, 0x204C));
         func_00141CD0(p, n);
         func_00195A00(A(0x2C0), 9, 0, 0);
         break;

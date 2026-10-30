@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001F3C70();                            /* extern */
+M2C_UNK RenderSoSelf__FP2SOP2CMP2RO();                            /* extern */
 
 void func_00203AD0(void) {
-    func_001F3C70();
+    RenderSoSelf__FP2SOP2CMP2RO();
 }

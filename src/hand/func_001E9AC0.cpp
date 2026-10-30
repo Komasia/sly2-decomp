@@ -6,7 +6,7 @@ struct E { int n; char pad4[8]; V *out; char pad10[0x1C-0x10]; U *samples; };
 struct NODE { int pad; int n; E *entries; NODE *next; };
 struct S { char pad[0xDC]; NODE *head; char padE0[0x150-0xE0]; void *path; };
 extern "C" {
-void func_001F3C70(S*);
+void RenderSoSelf(S*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 float func_001E6630(void*);
 M3 *func_001A6318(S*);
 void func_001E67B8(void*,float,qword*,qword*);
@@ -22,7 +22,7 @@ static inline float GetY(qword q) {float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q)
 static inline float Min(float a,float b) {return b<a?b:a;}
 void func_001E9AC0(S *p)
 {
- func_001F3C70(p);
+ RenderSoSelf(p);
  float end=func_001E6630(p->path);
  qword axis=func_001A6318(p)->c;
  NODE *node;
@@ -47,5 +47,5 @@ void func_001E9AC0(S *p)
    }
   }
  }
- func_001F3C70(p);
+ RenderSoSelf(p);
 }

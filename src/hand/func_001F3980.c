@@ -18,7 +18,7 @@ static inline void Clear(int *a)
     a[1] = 0;
     a[0] = 0;
 }
-void func_001F3980(struct P *p)
+void ProjectSoTransform__FP2SOfi(struct P *p)
 {
     int i;
     func_001F3900(p);

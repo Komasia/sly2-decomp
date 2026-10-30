@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a[3]; struct VTE *vt; };
 struct P { int a; int b; float f; float g; qword q; qword r; qword s; };
-void func_0015C198(struct O *o, int a, int b, float f, float g, qword q, qword r)
+void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(struct O *o, int a, int b, float f, float g, qword q, qword r)
 {
     struct P p;
     struct VTE *e;

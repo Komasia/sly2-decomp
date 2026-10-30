@@ -9,7 +9,7 @@ struct S {
     char pad18c[4]; qword previous;
 };
 extern struct CLOCK { float t; float dt; } D_002DDED0;
-void func_001F3980(struct S *);
+void ProjectSoTransform__FP2SOfi(struct S *);
 qword func_001A62E8(void *);
 void func_0021C5F8(struct S *, qword);
 static inline qword VSub(qword a, qword b)
@@ -31,7 +31,7 @@ static inline float Sqrt(qword d) {
 }
 void func_0021C1C8(struct S *p)
 {
-    func_001F3980(p);
+    ProjectSoTransform__FP2SOfi(p);
     if (!p->state) {
         struct T *e = &p->array[p->index];
         p->index = (p->index + 1) % p->count;

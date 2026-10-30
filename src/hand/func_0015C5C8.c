@@ -1,6 +1,6 @@
 struct O { char pad[0x100]; void *p100; void *p104; };
 void func_00133448(void *pv, void *po);
-void func_0015C5C8(struct O *o, int msgid, void *pv)
+void HandleExplsMessage__FP5EXPLS5MSGIDPv(struct O *o, int msgid, void *pv)
 {
     if (msgid == 1) {
         if (pv == o->p100) {
