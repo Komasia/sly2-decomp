@@ -9,8 +9,8 @@ extern QW D_00442560[4];
 extern QW D_004425A0[3];
 extern QW D_004424F0[3];
 extern QW D_00442520[4];
-extern int D_002EDDB0;
-extern ulong D_002EDCE0,D_002EDBF0;
+extern int D_002DEDB0;
+extern ulong D_002DECE0,D_002DEBF0;
 extern "C" void func_00211528(){
  GIFS setup;
  QW *data=D_004421B0;
@@ -31,7 +31,7 @@ extern "C" void func_00211528(){
  tiles.PackAD(0x4A,0);tiles.PackAD(0x42,0x44);tiles.PackAD(0x47,0x50000);
  tiles.AddPrimEnd();
  GIFS frame;
- ulong *active=(D_002EDDB0&1)?&D_002EDCE0:&D_002EDBF0;
+ ulong *active=(D_002DEDB0&1)?&D_002DECE0:&D_002DEBF0;
  ulong frameWord=*active;
  frame.AllocStatic(3,D_00442210);
  frame.AddPrimPack(0,1,0xE);frame.PackAD(0x3F,0);frame.PackAD(0x4E,0x3A000000L|(frameWord&0x1FF));

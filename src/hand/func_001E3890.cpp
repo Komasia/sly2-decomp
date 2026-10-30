@@ -756,6 +756,7 @@ struct CAMMOVE
 struct CPCAMBLEND : public CPLCY
 {
       CAMMOVE *pcammove;
+      uint32_t   _pad_510    [ 4 ] ;   // CM::cpzoom is at 0x520 (game: &g_cm + 0x520 = 0x2DE460)
 };
 struct ACT1;
 struct CPHANG : public CPLCY

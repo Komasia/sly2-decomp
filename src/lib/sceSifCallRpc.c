@@ -36,7 +36,7 @@ struct SemaParam {
     unsigned int attr;
     unsigned int option;
 };
-extern char D_00445A00[];
+extern char D_0044A600[];
 extern char D_002AA9F8[];
 void *func_00236C28(void *);
 void func_00236CD0(void *);
@@ -53,7 +53,7 @@ int sceSifCallRpc(ClientData *bd, unsigned int fno, unsigned int mode, void *sen
     struct SemaParam sema;
     void *gp;
 
-    call = (CallPkt *)func_00236C28(D_00445A00);
+    call = (CallPkt *)func_00236C28(D_0044A600);
     if (call == 0) return -1;
     {
         void *ep = *(void * volatile *)&end_param;

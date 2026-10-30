@@ -26,7 +26,7 @@ struct SemaParam {
     unsigned int attr;
     unsigned int option;
 };
-extern char D_00445A00[];
+extern char D_0044A600[];
 extern char D_002AA9E8[];
 void *func_00236C28(void *);
 void func_00236CD0(void *);
@@ -41,7 +41,7 @@ int sceSifBindRpc(ClientData *bd, unsigned int request, unsigned int mode)
 
     bd->buff = 0;
     bd->serve = 0;
-    bind = (BindPkt *)func_00236C28(D_00445A00);
+    bind = (BindPkt *)func_00236C28(D_0044A600);
     if (bind == 0) return -1;
     bd->pkt = bind;
     bd->id = bind->rec_id;
