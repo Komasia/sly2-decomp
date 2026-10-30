@@ -23,7 +23,7 @@ def compile_any(src):
         flags = ['-x', 'c', '-O2', '-G0', '-ffast-math', '-mvu0-use-vf0-vf31', '-B' + B + '/', '-I' + M.M2C_INC]
     else:
         flags = M.CFLAGS
-    p = subprocess.run(M.WIBO_CMD + [M.CC, '-c'] + M.INCLUDES + flags + [src, '-o', of], capture_output=True, text=True, cwd=M.ROOT, timeout=120)
+    p = subprocess.run(M.WIBO_CMD + [M.CC, '-c'] + M.INCLUDES + flags + [os.path.relpath(src, M.ROOT), '-o', of], capture_output=True, text=True, cwd=M.ROOT, timeout=120)   # relative path, as matchtool.py compiles it (a few files depend on the source path)
     if not os.path.exists(of):
         shutil.rmtree(t, ignore_errors=True); return None
     fns = M.obj_functions(of); shutil.rmtree(t, ignore_errors=True)
