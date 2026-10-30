@@ -12,7 +12,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 HIST = os.path.join(ROOT, 'config', 'progress_history.csv')
 SVG = os.path.join(ROOT, 'docs', 'progress.svg')
 
-# Range owners, from ASSIGNMENTS.md (everything not listed is Dimitri + Claude)
+# Range owners during the project (see CREDITS.md) (everything not listed is Dimitri + Claude)
 OWNERS = {'naga': [(0x190000, 0x1F0000)],
           'lilly': [(0x1F0000, 0x230000), (0x234F48, 0x2550A0)]}
 C_DONE, C_DONE2, C_LEFT = '#2f9e6e', '#4c7fd1', '#e4e7ec'
@@ -131,7 +131,7 @@ def render(real, matched_addrs):
 
     # ---- per-person progress
     y += 16
-    out.append(t(32, y, 'Progress by person (assigned ranges, see ASSIGNMENTS.md)', 16, weight='bold'))
+    out.append(t(32, y, 'Progress by person (ranges each person owned, see CREDITS.md)', 16, weight='bold'))
     y += 8
     for key, label, color in WHO:
         fs = [a for a in real if owner(a) == key]
@@ -147,7 +147,7 @@ def render(real, matched_addrs):
 
     # ---- per-range table
     y += 16
-    out.append(t(32, y, 'Where the remaining work is (by address range)', 16, weight='bold'))
+    out.append(t(32, y, 'By address range', 16, weight='bold'))
     y += 18
     out.append(f'<rect x="32" y="{y - 9}" width="10" height="10" rx="2" fill="{C_ME}"/>' + t(48, y, 'Dimitri + Claude', 12))
     out.append(f'<rect x="170" y="{y - 9}" width="10" height="10" rx="2" fill="{C_COLLAB}"/>' + t(186, y, 'NaGa', 12))
@@ -182,7 +182,9 @@ def render(real, matched_addrs):
     y += 24
     out.append(t(32, y, 'What\'s left, by function size', 16, weight='bold'))
     y += 18
-    out.append(t(32, y, 'Small functions are mostly done; the remaining code is concentrated in large functions '
+    left_all = sum(1 for a in real if a not in matched_addrs)
+    out.append(t(32, y, 'Every function is matched — the decompilation is complete.' if not left_all else
+                 'Small functions are mostly done; the remaining code is concentrated in large functions '
                  '(VU0 vector math, rendering, Sony libraries).', 12, C_MUTED))
     sizes = [(1, 20, 'Tiny (≤20 instr.)'), (21, 100, 'Small (21–100)'), (101, 300, 'Medium (101–300)'),
              (301, 1000, 'Large (301–1,000)'), (1001, 10 ** 9, 'Huge (1,000+)')]

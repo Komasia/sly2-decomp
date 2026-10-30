@@ -1,4 +1,10 @@
-# Sly 2 matching decomp — guide for decompilation agents
+# Sly 2 matching notes (compiler facts and techniques)
+
+> **Historical document.** This was the working guide for the people and Claude agents who matched Sly 2,
+> kept because it records the compiler facts and matching techniques we found. It refers to files that were
+> removed when the project was finalized (`notes/`, `build/hand_wip/`, `docs/WORKLIST.md`, and helper scripts such
+> as `worklist.py`, `permute.sh`, `quickfix.py`). They are all still in the git history at commit `e0aacd4`.
+
 
 Goal: write C/C++ source that compiles to **byte-identical** code for functions of Sly 2 (SCUS_973.16).
 Project root: `/home/claude/decomp`. Always run tools from the root.

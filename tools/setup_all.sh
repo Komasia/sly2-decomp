@@ -69,7 +69,7 @@ if python3 -c "import rabbitizer, spimdisasm, splat" 2>/dev/null; then have "pyt
   || { echo "  !! pip install failed - install rabbitizer, spimdisasm and splat64[mips] yourself"; MISSING+=("python packages"); }
 fi
 if [ -d "$HOME/m2c" ]; then have "~/m2c"; else added "~/m2c"
-  git clone -q https://github.com/matt-kempster/m2c "$HOME/m2c" || echo "  !! couldn't clone m2c (only needed for tools/show.py)"; fi
+  git clone -q https://github.com/matt-kempster/m2c "$HOME/m2c" || echo "  !! couldn't clone m2c (only needed for tools/show.py drafts)"; fi
 
 echo "== Game executable from your own disc"
 if [ -f disc/SCUS_973.16 ]; then
@@ -80,9 +80,6 @@ else echo "  !! run again with the path to your Sly 2 (USA) ISO to extract disc/
 
 echo "== Disassembly (used by tools/show.py for m2c drafts)"
 if [ -d asm ]; then have asm/; elif [ -f disc/SCUS_973.16 ]; then python3 -m splat split config/sly2.yaml >/dev/null && added asm/; fi
-
-echo "== Turn on the progress-graph hook"
-git config core.hooksPath tools/hooks
 
 echo
 echo "== Summary"

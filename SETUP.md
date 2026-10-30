@@ -11,8 +11,7 @@ bash tools/setup_all.sh "/path/to/Sly 2 - Band of Thieves (USA).iso"
 ```
 This downloads every compiler and tool the build uses into `tools/` (they are third-party programs, so they are
 fetched from decomp.me / GitHub rather than stored in this repo), installs the Python packages and the 32-bit C library
-the PS2 compilers need, extracts `disc/SCUS_973.16` from **your own** disc image, writes the disassembly, and turns on
-the progress-graph hook. Then `python3 tools/matchtool.py check src/P2/bis.cpp` should print MATCH lines.
+the PS2 compilers need, extracts `disc/SCUS_973.16` from **your own** disc image, and writes the disassembly. Then `python3 tools/matchtool.py check src/P2/bis.cpp` should print MATCH lines.
 **Already set up?** From your existing clone just run (no ISO needed, since you already have `disc/SCUS_973.16`):
 ```
 git pull
@@ -32,7 +31,7 @@ It writes `disc/SCUS_973.16` and checks SHA-1 `de2af92a54de71e33edc8a160c31c0337
 ## 2. Python packages
 ```
 pip install rabbitizer spimdisasm splat64[mips]
-git clone https://github.com/matt-kempster/m2c ~/m2c     # only needed for automatch/show drafts
+git clone https://github.com/matt-kempster/m2c ~/m2c     # only needed for tools/show.py drafts
 ```
 `tools/matchtool.py` needs `rabbitizer` on PYTHONPATH.
 
@@ -50,7 +49,7 @@ ee-gcc 2.96 is a 32-bit Linux program: on Ubuntu/Debian `sudo dpkg --add-archite
 
 ## 4. Optional: disassembly for drafts
 ```
-python3 -m splat split config/sly2.yaml      # writes asm/ (used by tools/show.py and tools/automatch.py)
+python3 -m splat split config/sly2.yaml      # writes asm/ (used by tools/show.py)
 ```
 
 ## 5. Check it works
@@ -60,18 +59,7 @@ python3 tools/matchtool.py check src/P2/bis.cpp      # every function should pri
 python3 tools/progress.py                            # rebuilds config/matched.csv and prints totals
 ```
 
-## 6. Turn on the progress-graph hook (once per clone)
-```
-git config core.hooksPath tools/hooks
-```
-After this, every `git push` that adds or changes code under `src/` automatically re-runs `tools/progress.py` and
-commits the updated README graph. The first push stops after updating the graph, so run `git push` once more.
-To skip it for one push: `git push --no-verify`.
-
-## How we work
-- Read `docs/AGENT_GUIDE.md` (rules, compiler facts, matching tricks) and the `notes/<range>.md` for your range.
-- `python3 tools/worklist.py LO HI [MAXINSTR]` lists unmatched functions in an address range, smallest first.
-- One function per file: `src/hand/NAME.c` (or `.cpp`), checked with `python3 tools/matchtool.py check FILE NAME`.
-  **Only byte-identical functions are committed to `src/`**; near-misses go in `build/hand_wip/` with a note.
-- Sony SDK library code goes in `src/lib/` with per-file compiler headers (see the end of `docs/AGENT_GUIDE.md`).
-- To avoid overlap, claim an address range (e.g. in an issue or on Discord) before starting on it.
+## Notes
+- Compiler facts, per-file compiler headers (`SLY2_CC:`, `SLY2_CFLAGS:`, `SLY2_ASM:` …) and the matching techniques
+  used are written up in `docs/MATCHING_NOTES.md`.
+- `python3 tools/show.py NAME` prints a function's original assembly next to an m2c draft.

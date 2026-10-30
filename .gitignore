@@ -11,7 +11,6 @@ tools/cc/
 tools/wibo-i686
 # Build output / caches
 build/*
-!build/hand_wip/
 __pycache__/
 *.o
 *.pyc
