@@ -70,6 +70,110 @@ def bar(x, y, w, h, frac, color, r=4):
             f'<rect x="{x}" y="{y}" width="{max(0, w * frac):.1f}" height="{h}" rx="{r}" fill="{color}"/>')
 
 
+RHIST = os.path.join(ROOT, 'config', 'readability_history.csv')
+C_NAME, C_CLEAN, C_DATA = '#0e7490', '#9333ea', '#ca8a04'
+ADDR_NAME = re.compile(r'^(func|D|jtbl|lbl)_[0-9A-Fa-f]{6,8}$')
+
+
+def cache_texts(cache):
+    for src in cache:
+        try:
+            yield open(os.path.join(ROOT, src), errors='replace').read()
+        except OSError:
+            pass
+
+
+def readability_stats(real):
+    """How readable the (already byte-identical) source is:
+    named   = functions with a real name (not func_XXXXXXXX) in functions.csv / symbol_addrs.txt
+    clean   = functions whose source is no longer raw decompiler output (not in src/auto/, no M2C_ macros)
+    globals = non-function symbols in symbol_addrs.txt with a real name (not D_XXXXXXXX)"""
+    names = {}
+    for line in open(os.path.join(ROOT, 'config', 'symbol_addrs.txt')):
+        m = re.match(r'\s*(\S+)\s*=\s*0x([0-9A-Fa-f]+);', line)
+        if m:
+            names.setdefault(int(m.group(2), 16), set()).add(m.group(1))
+    for a, (n, _) in real.items():
+        names.setdefault(a, set()).add(n)
+    named = sum(1 for a in real if any(not ADDR_NAME.match(n) for n in names.get(a, ())))
+    raw, cache = set(), {}
+    with open(os.path.join(ROOT, 'config', 'matched.csv'), newline='') as f:
+        for r in csv.DictReader(f):
+            src = r['source']
+            if src not in cache:
+                try:
+                    txt = open(os.path.join(ROOT, src), errors='replace').read()
+                except OSError:
+                    txt = ''
+                cache[src] = src.startswith('src/auto/') or 'M2C_' in txt
+            if cache[src]:
+                raw.add(int(r['addr'], 16))
+    clean = sum(1 for a in real if a not in raw)
+    # globals the source actually uses: address-named D_XXXXXXXX references in src/ plus named data symbols
+    used = set()
+    for txt in cache_texts(cache):
+        used.update(int(h, 16) for h in re.findall(r'\bD_([0-9A-Fa-f]{6,8})\b', txt))
+    gaddrs = [a for a in set(names) | used if a not in real]
+    gnamed = sum(1 for a in gaddrs if any(not ADDR_NAME.match(n) for n in names.get(a, ())))
+    return {'named': named, 'clean': clean, 'total': len(real), 'globals_named': gnamed, 'globals': len(gaddrs)}
+
+
+def readability_log(s):
+    rows = []
+    if os.path.exists(RHIST):
+        with open(RHIST, newline='') as f:
+            rows = list(csv.DictReader(f))
+    keys = ['named', 'clean', 'total', 'globals_named', 'globals']
+    if not rows or any(int(rows[-1][k]) != s[k] for k in keys):
+        rows.append({'date': datetime.datetime.now().strftime('%Y-%m-%dT%H:%M'), **{k: str(s[k]) for k in keys}})
+        with open(RHIST, 'w', newline='') as f:
+            w = csv.DictWriter(f, fieldnames=['date'] + keys)
+            w.writeheader(); w.writerows(rows)
+    return rows
+
+
+def readability_section(out, y, W, real):
+    s = readability_stats(real)
+    hist = readability_log(s)
+    out.append('<!-- Readability Section -->')
+    y += 8
+    out.append(t(32, y, 'Readability (readable branch)', 16, weight='bold'))
+    out.append(t(W - 32, y, 'renaming and cleanup only — every function stays byte-identical', 12, C_MUTED, 'end'))
+    rows = [('Functions with real names', 'instead of func_XXXXXXXX addresses', s['named'], s['total'], C_NAME, 'functions'),
+            ('Clean source', 'no raw decompiler output (src/auto/, M2C_FIELD offsets)', s['clean'], s['total'], C_CLEAN, 'functions'),
+            ('Named globals', 'data symbols with real names instead of D_XXXXXXXX', s['globals_named'], s['globals'], C_DATA, 'symbols')]
+    for label, sub, done, total, color, unit in rows:
+        frac = done / total if total else 1
+        y += 34
+        out.append(t(32, y, label, 13, weight='bold'))
+        out.append(t(32, y + 15, sub, 11, C_MUTED))
+        out.append(bar(330, y - 11, 420, 14, frac, color, 3))
+        out.append(t(W - 32, y, f'{frac:.1%}', 13, color, 'end', 'bold'))
+        out.append(t(W - 32, y + 15, f'{done:,} of {total:,} {unit}', 11, C_MUTED, 'end'))
+    # small history chart of the three percentages
+    y += 36
+    cx, cy, cw, ch = 72, y, W - 72 - 40, 110
+    for p in (0, 50, 100):
+        gy = cy + ch - ch * p / 100
+        out.append(f'<line x1="{cx}" y1="{gy:.1f}" x2="{cx + cw}" y2="{gy:.1f}" stroke="{C_GRID}" stroke-width="1"/>')
+        out.append(t(cx - 8, gy + 4, f'{p}%', 11, C_MUTED, 'end'))
+    n = len(hist)
+    xs = [cx + (cw * i / (n - 1) if n > 1 else cw / 2) for i in range(n)]
+    for num, den, color in (('named', 'total', C_NAME), ('clean', 'total', C_CLEAN), ('globals_named', 'globals', C_DATA)):
+        pts = [(xs[i], cy + ch - ch * int(r[num]) / max(1, int(r[den]))) for i, r in enumerate(hist)]
+        if len(pts) > 1:
+            out.append(f'<polyline fill="none" stroke="{color}" stroke-width="2" stroke-linejoin="round" points="'
+                       + ' '.join(f'{a:.1f},{b:.1f}' for a, b in pts) + '"/>')
+        for a, b in pts:
+            out.append(f'<circle cx="{a:.1f}" cy="{b:.1f}" r="3" fill="{color}"/>')
+    if hist:
+        out.append(t(cx, cy + ch + 16, hist[0]['date'][5:10], 10, C_MUTED, 'start'))
+        if n > 1:
+            out.append(t(cx + cw, cy + ch + 16, hist[-1]['date'][5:10], 10, C_MUTED, 'end'))
+    out.append(t(cx + cw / 2, cy + ch + 16, 'readability over time (one point per change)', 10, C_MUTED, 'middle'))
+    return cy + ch + 28
+
+
 def render(real, matched_addrs):
     """real: {addr: (name, size_bytes)} for every real function; matched_addrs: set of matched addrs."""
     total_f = len(real); total_i = sum(s // 4 for _, s in real.values())
@@ -102,6 +206,9 @@ def render(real, matched_addrs):
                  mf, total_f, C_DONE, 'functions')
     y = headline(y, 'Code size (instructions)', 'The same, weighted by size — the honest "how much of the game is decompiled" number',
                  mi, total_i, C_DONE2, 'instructions')
+
+    # ---- readability (readable branch): names and clean source, all still byte-identical
+    y = readability_section(out, y, W, real)
 
     # ---- history line chart
     out.append('<!-- Progress Over Time Section -->')
