@@ -6,7 +6,7 @@ struct X { char pad[0xE8]; struct T *pt; };
 void func_0023320C(void *d, const void *s, unsigned int cb);
 void *func_002333B4(void *d, int c, unsigned int cb);
 int func_0011B318(struct T *pt, qword *pv);
-void func_001F35F8(struct X *p, float s)
+void AdjustSoMomint__FP2SOf(struct X *p, float s)
 {
     struct T *pt = p->pt;
     M3 m;

@@ -52,7 +52,10 @@ typedef struct BASIC {
 typedef struct XF {
     /* 0x00 */ char unk_0x00[0x40];
     /* 0x40 */ struct MATRIX4 matWorld;
-    /* 0x80 */ char unk_0x80[0x10];
+    /* 0x80 */ int nUnk80;
+    /* 0x84 */ int nUnk84;
+    /* 0x88 */ int *pnUnk88;           /* points at this XF's nUnk80 or nUnk84 */
+    /* 0x8c */ int *pnUnk8C;
     /* 0x90 */ int nUnk90;
     /* 0x94 */ int unk_0x94;
     /* 0x98 */ short nKindUnk98;
@@ -63,7 +66,8 @@ typedef struct XF {
     /* 0xb0 */ qword qwPosUnkB0;
     /* 0xc0 */ char unk_0xc0[0x30];
     /* 0xf0 */ int anUnkF0[3];
-} XF;
+    /* 0xfc */ int unk_0xfc;
+} XF;   /* 0x100 bytes (SO::axf is an array of them) */
 
 /* SO::psobounds: shared bounds record, owned by the SO in its first field */
 typedef struct SOBOUNDS {
@@ -99,6 +103,17 @@ typedef struct LO {
     /* 0x40 */ int grfUnk40;
     /* 0x44 */ int unk_0x44[3];
 } LO;
+
+/* ALO (class 3, derived from LO): an LO with a transform. Its world matrix is the matrix of the XF it hangs
+ * off times its local matrix, recomputed when the XF's stamp moves on (func_00231368). */
+typedef struct ALO {
+    /* 0x00 */ LO lo;
+    /* 0x50 */ XF *pxf;                /* 0: use the default XF D_002C44F0 */
+    /* 0x54 */ int nStamp;             /* XF::nStamp when matWorld was last computed; -1 = never */
+    /* 0x58 */ int unk_0x58[2];
+    /* 0x60 */ struct MATRIX4 matLocal;
+    /* 0xa0 */ struct MATRIX4 matWorld;
+} ALO;
 
 typedef struct GEOM {
     int cpos;

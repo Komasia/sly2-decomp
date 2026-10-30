@@ -8,7 +8,7 @@ extern "C" {
 int func_00158958(DZG *, DZ *);
 void func_00158728(DZG *, int, DZ *, int);
 void RemoveDlEntry(DL *, void *) asm("RemoveDlEntry__FP2DLPv");
-void func_0011A220(DL *, void *);
+void AppendDlEntry(DL *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_0011A770(DZG *, DZ *);
 }
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -36,7 +36,7 @@ void SolveDzg(DZG *pdzg, int a, int b, XP **ppxp, int *pn, SO ***pppso)
             if (!pdz->f18)
                 func_00158728(pdzg, a, pdz, func_00158958(pdzg, pdz));
             RemoveDlEntry(&pdzg->dl30, pdz);
-            func_0011A220(&pdzg->dlC, pdz);
+            AppendDlEntry(&pdzg->dlC, pdz);
             pdzg->c3C++;
         }
     }

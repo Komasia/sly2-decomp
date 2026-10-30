@@ -19,7 +19,7 @@ void func_001A7E10(struct P *, void *);
 void func_001F5078(struct LO *);
 void func_0011CD98(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
-int func_0011A380(void *, struct X *);
+int FFindDlEntry__FP2DLPv(void *, struct X *);
 void *func_002332B8(void *, void *, int);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
 void func_001337D0(struct P *p, struct X *px)
@@ -48,7 +48,7 @@ void func_001337D0(struct P *p, struct X *px)
     __asm__ __volatile__("");
     func_001A7E10(p, px->pv6C);
     RemoveDlEntry__FP2DLPv(p->a3D10, px);
-    if (func_0011A380(p->a3D1C, px))
+    if (FFindDlEntry__FP2DLPv(p->a3D1C, px))
         RemoveDlEntry__FP2DLPv(p->a3D1C, px);
     if ((px->grf & 1) == 1)
         RemoveDlEntry__FP2DLPv(p->a3D28, px);

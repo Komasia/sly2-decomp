@@ -27,7 +27,7 @@ P *func_0011CCC0(void *);
 void *func_002333B4(void *, int, int);
 float func_00154C90(void *);
 void func_00131A00(P *, float);
-void func_0011A220(void *, void *);
+void AppendDlEntry(void *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(P *, int);
 void func_0012FE58(struct T *, int, struct E60 *, int *, int *);
 void func_001F8668(int, long);
@@ -62,8 +62,8 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
         p->g4C = GClamp(GEval(&pt->poly, func_00154C90(D_002DE578)), pt->g90, pt->g94);
     }
     func_00131A00(p, g1);
-    func_0011A220(D_003E1218, p);
-    func_0011A220(&pt->dl50, p);
+    AppendDlEntry(D_003E1218, p);
+    AppendDlEntry(&pt->dl50, p);
     ((void (*)(P *))p->pvt[1].pfn)((P *)((char *)p + p->pvt[1].d));
     G g(p);
     func_00256EE0(p, pt->x0);

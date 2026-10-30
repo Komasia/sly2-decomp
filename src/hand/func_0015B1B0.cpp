@@ -54,7 +54,7 @@ PART *func_001CE888(void *p, int n, SO *pso);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 void func_0015BF40(void *p, EMITTER *pemit);
 MATRIX3 *func_001A6318(void *p);
-int func_0011A3B0(void *p);
+int FIsDlEmpty(void *p) asm("FIsDlEmpty__FP2DL");
 }
 extern "C" void func_0015B1B0(EMITTER *pemit, EMITX *px, int c, qword *apos, qword *avel, float *at0, float *at1)
 {
@@ -91,6 +91,6 @@ extern "C" void func_0015B1B0(EMITTER *pemit, EMITX *px, int c, qword *apos, qwo
             ppart->mat40 = *func_001A6318(pemit->pshd->p0);
         ppart->Init(pemit);
     }
-    if (func_0011A3B0((char *)pso + 0x15C))
+    if (FIsDlEmpty((char *)pso + 0x15C))
         pso->V9();
 }

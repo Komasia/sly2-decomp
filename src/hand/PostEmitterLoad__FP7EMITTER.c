@@ -24,7 +24,7 @@ struct EMITTER *func_0013E3C8(int cid, void *p, int oid, int n);
 void *PvAllocSwCopyImpl__FiPv(struct ALLOCREQ *preq, void *pv);
 void func_001A6CA8(struct EMITTER *p, int n);
 void *func_001A6318(struct EMITTER *p);
-void func_0011A220(void *pv, struct EMITTER *p);
+void AppendDlEntry__FP2DLPv(void *pv, struct EMITTER *p);
 
 static __inline__ void *PvAllocCopy(int cb, void *pv)
 {
@@ -122,7 +122,7 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
             pvte->pfn(pthis, func_001A6318(pemitter));
         }
         pemitter->nE0 = 0;
-        func_0011A220((char *)pemitterNew + 0x11C, pemitter);
+        AppendDlEntry__FP2DLPv((char *)pemitterNew + 0x11C, pemitter);
         if (FPtr(pemitter->grf40))
             *(int *)pemitter->grf40 &= ~2;
         else

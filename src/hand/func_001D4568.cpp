@@ -1,4 +1,4 @@
-/* func_001D4568 (Claude agent, wave-3 lane 9): hit reaction. After the base handler (func_001F7588) accepts the event, the
+/* func_001D4568 (Claude agent, wave-3 lane 9): hit reaction. After the base handler (FAbsorbSoWkr) accepts the event, the
  * remaining count is updated (clamped at 0) and, for kind 0x100 (random hit) or 0x1000 (hit from a sender), a random linear
  * and angular impulse is built and added to the object's velocity through its virtual get/set pairs (vtable slots 33/35 and
  * 34/36).
@@ -24,7 +24,7 @@ struct EVENT { P *sender; char pad4[8]; int kind, change; };
 extern qword D_002A2DA0, D_002A2DC0;
 extern float D_002C21D0[2], D_002C21D8[2], D_002C21E0[2], D_002C21E8[2], D_002C21F0[2], D_002C21F8[2], D_002C2200[2];
 extern "C" {
-int func_001F7588(P *, EVENT *);
+int FAbsorbSoWkr(P *, EVENT *) asm("FAbsorbSoWkr__FP2SOP3WKR");
 void func_001D4C88(P *);
 void func_001D4940(P *, int);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
@@ -80,7 +80,7 @@ static inline void AddVector(P *p, int get, int set, const VU_VECTOR4 &delta)
 
 int func_001D4568(P *p, EVENT *event)
 {
-    if (!func_001F7588(p, event))
+    if (!FAbsorbSoWkr(p, event))
         return 0;
     int remaining = p->remaining + event->change;
     if (remaining < 0)

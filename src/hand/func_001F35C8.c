@@ -1,15 +1,15 @@
-/* func_001F35C8 (0x1F35C8): set the SO's mass and rescale its moment of inertia by the same ratio
- * (Sly 1 SetSoMass; func_001F35F8 = AdjustSoMomint). */
+/* SetSoMass__FP2SOf (0x1F35C8): set the SO's mass and rescale its moment of inertia by the same ratio
+ * (Sly 1 SetSoMass; AdjustSoMomint__FP2SOf = AdjustSoMomint). */
 #include "so.h"
 
-void func_001F35F8(SO *pso, float rMass);
+void AdjustSoMomint__FP2SOf(SO *pso, float rMass);
 
-void func_001F35C8(SO *pso, float m)
+void SetSoMass__FP2SOf(SO *pso, float m)
 {
     SOPHYS *psophys = pso->psophys;
     float mOld = psophys->m;
     float rMass = m / mOld;
 
     psophys->m = mOld * rMass;
-    func_001F35F8(pso, rMass);
+    AdjustSoMomint__FP2SOf(pso, rMass);
 }

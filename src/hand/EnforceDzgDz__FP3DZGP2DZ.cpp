@@ -28,7 +28,7 @@ struct DZG {
 };
 
 extern "C" {
-void func_0011A220(DL *pdl, void *pv);
+void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 extern const float D_002A4120;
 extern const float D_002A4124;
@@ -41,7 +41,7 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
     int iter;
     if (pdz) {
         RemoveDlEntry(&pdzg->dlD, pdz);
-        func_0011A220(&pdzg->dlA, pdz);
+        AppendDlEntry(&pdzg->dlA, pdz);
         pdzg->cdzA++;
     }
     for (iter = 0; iter < 10; iter++) {
@@ -132,26 +132,26 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
         case 2:
             pdzg->cdzA--;
             RemoveDlEntry(&pdzg->dlA, pdzBest);
-            func_0011A220(&pdzg->dlB, pdzBest);
+            AppendDlEntry(&pdzg->dlB, pdzBest);
             if (pdzBest == pdz)
                 return;
             break;
         case 1:
             pdzg->cdzA++;
             RemoveDlEntry(&pdzg->dlB, pdzBest);
-            func_0011A220(&pdzg->dlA, pdzBest);
+            AppendDlEntry(&pdzg->dlA, pdzBest);
             break;
         case 4:
             pdzg->cdzA--;
             RemoveDlEntry(&pdzg->dlA, pdzBest);
-            func_0011A220(&pdzg->dlC, pdzBest);
+            AppendDlEntry(&pdzg->dlC, pdzBest);
             if (pdzBest == pdz)
                 return;
             break;
         case 3:
             pdzg->cdzA++;
             RemoveDlEntry(&pdzg->dlC, pdzBest);
-            func_0011A220(&pdzg->dlA, pdzBest);
+            AppendDlEntry(&pdzg->dlA, pdzBest);
             break;
         }
     }

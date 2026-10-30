@@ -30,7 +30,7 @@ X *func_001BDA00(void);
 void func_001BDBF0(X *p, int n, qword *pts);
 void func_001BDE18(X *p, X *pNew);
 void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
-void func_0011A220(DL *pdl, void *pv);
+void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 void func_001E6180(X *p);
 int func_001BC2F8(X *p);
 }
@@ -110,7 +110,7 @@ extern "C" void func_001BDE80(int n, X **ap)
                 func_001BDE18(pv, pNew);
             }
             ((void (*)(X *))px->vt[9].pfn)((X *)((char *)px + px->vt[9].d));
-            func_0011A220(&D_003E1A40, px);
+            AppendDlEntry(&D_003E1A40, px);
             D_002DD2FC = dli.pdliNext;
         } else {
             func_001BDE18(px, pNew);

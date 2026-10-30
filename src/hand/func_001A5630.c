@@ -5,7 +5,7 @@ int func_001A61A0(struct S *s);
 void RemoveDlEntry__FP2DLPv(void *a, void *b);
 void func_00147E20(void *a, int b);
 void func_001A5448(void *p, void **a, struct S ***b);
-void func_0011A220(void *a, struct S *s);
+void AppendDlEntry__FP2DLPv(void *a, struct S *s);
 void func_001A5630(struct S *s)
 {
     struct VTE *e;
@@ -27,7 +27,7 @@ void func_001A5630(struct S *s)
     f = (s->x28 >> 60) & 1;
     func_001A5448(s->x10, &a, &b);
     RemoveDlEntry__FP2DLPv(a, s);
-    func_0011A220(a, s);
+    AppendDlEntry__FP2DLPv(a, s);
     if (!*b)
         *b = s;
     s->x28 |= 0x0100000000000000UL;

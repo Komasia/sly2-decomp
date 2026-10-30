@@ -3,7 +3,7 @@ typedef union { qword q; float f[4]; } VU;
 struct M { int x0; char pad[0x2C]; qword v30; char pad2[4]; int x44; };
 struct P { char pad[0x150]; int x150; };
 extern qword D_002A2DC0;
-int func_001F7588(struct P *p, struct M *pm);
+int FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct M *pm);
 qword func_001A62E8(void *p);
 void func_0013B428(struct P *p, qword pos, qword n);
 int func_00132B10(int n, int k);
@@ -20,7 +20,7 @@ int func_0013B2F0(struct P *p, struct M *pm)
     int r;
     if (p->x150 == 1)
         return 0;
-    r = func_001F7588(p, pm);
+    r = FAbsorbSoWkr__FP2SOP3WKR(p, pm);
     if (r && (pm->x44 & 8)) {
         VU u;
         VU *pu;

@@ -19,7 +19,7 @@ struct EMITTER {
 struct EMITX { PRG **ppprg; RIPG **ppripg; EMITTER *pemitter; };
 extern "C" {
 void func_001A5E28(EMITTER *p);
-int func_0011A3B0(int *pdl);
+int FIsDlEmpty(int *pdl) asm("FIsDlEmpty__FP2DL");
 int func_001A61A0(EMITTER *p);
 qword func_001A62E8(void *p);
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
@@ -51,7 +51,7 @@ void UpdateEmitter(EMITTER *p, float dt)
     func_001A5E28(p);
     if (p->x118 != -1)
         return;
-    if (!func_0011A3B0(&p->dl11C)) {
+    if (!FIsDlEmpty(&p->dl11C)) {
         EMITTER *pe;
         for (pe = (EMITTER *)p->dl11C; pe; pe = pe->pNext) {
             if (!func_001A61A0(pe))

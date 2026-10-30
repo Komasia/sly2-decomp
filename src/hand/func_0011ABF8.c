@@ -23,7 +23,7 @@ typedef struct DZG {
 
 extern DLI *g_pdliFirst;
 void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv);
-void func_0011A220(DL *pdl, void *pv);
+void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
 void func_0011A770(DZG *pdzg, DZ *pdz);
 
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -51,7 +51,7 @@ void func_0011ABF8(DZG *pdzg)
     while ((pdz = (DZ *)PvNextDli(&dli)) != 0) {
         if (pdz->nKind == 1) {
             RemoveDlEntry__FP2DLPv(&pdzg->dlD, pdz);
-            func_0011A220(&pdzg->dlA, pdz);
+            AppendDlEntry__FP2DLPv(&pdzg->dlA, pdz);
             pdzg->n3C++;
         }
     }

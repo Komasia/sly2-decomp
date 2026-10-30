@@ -20,7 +20,7 @@ extern "C"{
  extern F D_002BE708;
  extern U D_002A2DC0;
  extern char D_003DD490[],D_002DFC00[];
- void func_001F35C8(P*,float);
+ void SetSoMass(P*,float) asm("SetSoMass__FP2SOf");
  void func_00130D30(ASEGA*,int,float,float);
  void func_0012E460(DELTA**);
  void func_002303A0(P*,GROUP*,int);
@@ -117,7 +117,7 @@ extern "C" void func_0017B1A8(C*p,int next){
  U point,direction,scratch,scale,cached;
  if(next==p->mode)return;
  switch(p->mode){
- case -1:func_001F35C8(p->actor,D_002BE6FC*p->actor->tuning->speed);break;
+ case -1:SetSoMass(p->actor,D_002BE6FC*p->actor->tuning->speed);break;
  case 3:if(next!=-1)func_00130D30(p->control->asega,0,0.0f,1.0f);break;
  }
  if((unsigned)p->mode<2&&(unsigned)next>=2){
@@ -143,7 +143,7 @@ extern "C" void func_0017B1A8(C*p,int next){
   :"r"(clockHigh),"m"(*(float*)(clockHigh+(short)(clockAddress&0xffff))));
  p->time=newTime;
  switch(next){
- case -1:func_001F35C8(p->actor,p->actor->tuning->speed/D_002BE6FC);func_001749C0(p,1);break;
+ case -1:SetSoMass(p->actor,p->actor->tuning->speed/D_002BE6FC);func_001749C0(p,1);break;
  case 0:{
   Request(p->target,&request,D_002BE700);
   func_0017AA78(p,&request,&point,&direction);

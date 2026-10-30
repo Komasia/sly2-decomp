@@ -5,7 +5,7 @@ extern char D_003DD490[];
 struct Q *func_001CDCD0(void *pg, int n);
 void *func_0011CCC0(void *pool);
 struct R *func_001CE6D0(void *pv, void *a);
-void func_0011A220(void *pdl, void *pv);
+void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
 void func_001CE9C0(struct R *r);
 struct R *func_001CE888(struct G *p, void *a, struct Q *q)
 {
@@ -17,7 +17,7 @@ struct R *func_001CE888(struct G *p, void *a, struct Q *q)
     if (pv) {
     r = func_001CE6D0(pv, a);
     r->p8 = q;
-    func_0011A220(q->dl, r);
+    AppendDlEntry__FP2DLPv(q->dl, r);
     func_001CE9C0(r);
     return r; }
     return 0;

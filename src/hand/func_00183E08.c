@@ -5,7 +5,7 @@ struct Q { char pad[0xC]; char xc[0x38]; int fl; };
 struct S { char pad[0xC]; struct VTE *vt; char p1[0x16C]; int x17c; char p2[0x10]; struct O *x190; };
 struct M { struct Q *q; void *pv; };
 extern char D_003DD490[];
-int func_001F7588(struct S *p, struct Q *q);
+int FAbsorbSoWkr__FP2SOP3WKR(struct S *p, struct Q *q);
 qword func_001A62E8(struct S *p);
 void func_00156B98(void *g, int n, qword pos, struct S *p);
 void func_0019CD38(void *p, int n);
@@ -14,7 +14,7 @@ int func_00183E08(struct S *p, struct Q *q)
 {
     struct M m;
     struct VTE *e;
-    if (!func_001F7588(p, q)) return 0;
+    if (!FAbsorbSoWkr__FP2SOP3WKR(p, q)) return 0;
     if (p->x17c == 3) return 1;
     if (!(q->fl & 8)) return 1;
     func_00156B98(D_003DD490, 0, func_001A62E8(p), p);

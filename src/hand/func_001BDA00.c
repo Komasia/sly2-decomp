@@ -25,7 +25,7 @@ extern DL D_003E1A40;
 O *func_0013E3C8(int a, int b, int c, int d);
 void func_002333B4(void *p, int c, int n);
 void *PvAllocSwImpl__Fi(AREQ *preq);
-void func_0011A220(DL *pdl, O *p);
+void AppendDlEntry__FP2DLPv(DL *pdl, O *p);
 void RemoveDlEntry__FP2DLPv(DL *pdl, O *p);
 
 O *func_001BDA00(void)
@@ -62,7 +62,7 @@ O *func_001BDA00(void)
             req.align = 0x10;
             q->x1EC = PvAllocSwImpl__Fi(&req);
             ((void (*)(void *))q->vt[9].pfn)((char *)q + q->vt[9].d);
-            func_0011A220(&D_003E1A40, q);
+            AppendDlEntry__FP2DLPv(&D_003E1A40, q);
         }
         p = D_003E1A40.pvFirst;
     }

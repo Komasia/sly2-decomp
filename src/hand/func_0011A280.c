@@ -3,15 +3,15 @@ typedef struct DLE { void *pvNext; void *pvPrev; } DLE;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))
 
-void func_0011A220(DL *pdl, void *pv);
-void func_0011A250(DL *pdl, void *pv);
+void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
+void PrependDlEntry__FP2DLPv(DL *pdl, void *pv);
 
-void func_0011A280(DL *pdl, void *pvNext, void *pv)
+void InsertDlEntryBefore__FP2DLPvT1(DL *pdl, void *pvNext, void *pv)
 {
     if (!pvNext) {
-        func_0011A220(pdl, pv);
+        AppendDlEntry__FP2DLPv(pdl, pv);
     } else if (pvNext == pdl->pvFirst) {
-        func_0011A250(pdl, pv);
+        PrependDlEntry__FP2DLPv(pdl, pv);
     } else {
         DLE *pdle = PDLE(pdl, pv);
         DLE *pdleNext = PDLE(pdl, pvNext);

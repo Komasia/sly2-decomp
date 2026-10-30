@@ -18,7 +18,7 @@ typedef struct DZG {
 void *func_001AE378(MSG *pmsg);
 void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
 void *func_002333B4(void *pv, int b, unsigned int cb);
-void func_0011A1F8(DL *pdl, int ibDle);
+void InitDl__FP2DLi(DL *pdl, int ibDle);
 
 DZG *func_0011A550(DZG *pdzg, int cpsoMax)
 {
@@ -34,10 +34,10 @@ DZG *func_0011A550(DZG *pdzg, int cpsoMax)
     func_002333B4(&pdzg->dlB, 0, sizeof(DL));
     func_002333B4(&pdzg->dlC, 0, sizeof(DL));
     func_002333B4(&pdzg->dlD, 0, sizeof(DL));
-    func_0011A1F8(&pdzg->dlA, 0x20);
-    func_0011A1F8(&pdzg->dlB, 0x20);
-    func_0011A1F8(&pdzg->dlC, 0x20);
-    func_0011A1F8(&pdzg->dlD, 0x20);
+    InitDl__FP2DLi(&pdzg->dlA, 0x20);
+    InitDl__FP2DLi(&pdzg->dlB, 0x20);
+    InitDl__FP2DLi(&pdzg->dlC, 0x20);
+    InitDl__FP2DLi(&pdzg->dlD, 0x20);
     msg.cb = cpsoMax * cpsoMax * 4;
     msg.nKind = 0x10;
     pdzg->pv40 = PvAllocSlot__FP8ALLOCREQ(&msg);

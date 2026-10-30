@@ -35,7 +35,7 @@ void func_001AE4A0(FRAME *pframe, int n);
 void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
 void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
 DZG *func_0011A550(DZG *pdzg, int cdzsMax);
-void func_0011A220(DL *pdl, void *pv);
+void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
 void func_0011ABF8(DZG *pdzg);
 
 static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSlot__FP8ALLOCREQ(pmsg); }
@@ -54,7 +54,7 @@ void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
         pdz->ag = (float *)PvAllocMsg(&msg, c * sizeof(float), 0x10);
         func_001AE5A0(pdz->ag, agA + i * c, c * sizeof(float));
         pdz->g10 = agB[i];
-        func_0011A220(&dzg.dlD, pdz);
+        AppendDlEntry__FP2DLPv(&dzg.dlD, pdz);
     }
     dzg.cdzs = c;
     func_0011ABF8(&dzg);

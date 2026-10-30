@@ -3,7 +3,7 @@ typedef struct DLE { void *pvNext; void *pvPrev; } DLE;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))
 
-void func_0011A250(DL *pdl, void *pv)
+void PrependDlEntry__FP2DLPv(DL *pdl, void *pv)
 {
     DLE *pdle = PDLE(pdl, pv);
     if (!pdl->pvFirst) {

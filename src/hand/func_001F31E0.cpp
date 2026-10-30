@@ -28,7 +28,7 @@ void func_00167320(DATA *,P *,void *);
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 void func_00166270(GEO *,const M4 *,GEO *);
 void func_001F2B20(P *);
-void func_001F35F8(P *,float);
+void AdjustSoMomint(P *,float) asm("AdjustSoMomint__FP2SOf");
 void func_0013F810(P *,void *);
 void func_001F2500(P *);
 void func_0013FB40(P *,void *,void *);
@@ -78,7 +78,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         p->state=state;
         state->mass=func_00117E38(stream);
         ReadMatrix(stream,state);
-        func_001F35F8(p,1.0f);
+        AdjustSoMomint(p,1.0f);
         Post(p);
     }
     func_0013F810(p,stream);

@@ -8,8 +8,8 @@ extern char D_003DD4BC[];
 extern char D_003DD490[];
 void func_001A5448(ALO *p, void **ppdl, ALO ***pppalo);
 void RemoveDlEntry__FP2DLPv(void *pdl, void *p);
-void func_0011A220(void *pdl, void *p);
-void func_0011A280(void *pdl, void *pBefore, void *p);
+void AppendDlEntry__FP2DLPv(void *pdl, void *p);
+void InsertDlEntryBefore__FP2DLPvT1(void *pdl, void *pBefore, void *p);
 int func_001A61A0(ALO *p);
 void func_00148300(void *g, ALO *p);
 void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
@@ -32,12 +32,12 @@ void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
         if (palo == *ppaloOld)
             *ppaloOld = palo->x24;
         RemoveDlEntry__FP2DLPv(pdlOld, palo);
-        func_0011A220(pdlNew, palo);
+        AppendDlEntry__FP2DLPv(pdlNew, palo);
         if (!*ppaloNew)
             *ppaloNew = palo;
     } else {
         RemoveDlEntry__FP2DLPv(pdlOld, palo);
-        func_0011A280(pdlNew, *ppaloNew, palo);
+        InsertDlEntryBefore__FP2DLPvT1(pdlNew, *ppaloNew, palo);
     }
     if (func_001A61A0(palo)) {
         VFN(palo, 22, void (*)(ALO *))(VTHIS(palo, 22));

@@ -2,12 +2,12 @@ struct Q { int x0; char pad[0x40]; int x44; };
 struct P { char pad[0x1E0]; int x1E0; float x1E4; float x1E8; char pad2[0x2A8 - 0x1EC]; int x2A8; };
 struct CLOCK { float t; };
 extern struct CLOCK D_002DDED0;
-void *func_001F7588(struct P *p, struct Q *q);
+void *FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct Q *q);
 int func_00149100(struct P *p, int x);
 void func_001490A0(struct P *p, int f);
 void *func_00148F20(struct P *p, struct Q *q)
 {
-    void *r = func_001F7588(p, q);
+    void *r = FAbsorbSoWkr__FP2SOP3WKR(p, q);
     if (r && !(q->x44 & 4) && func_00149100(p, q->x0)) {
         switch (p->x2A8) {
         case 1:

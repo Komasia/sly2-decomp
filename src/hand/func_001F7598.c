@@ -20,8 +20,8 @@ extern float D_002DDED0;
 struct O *func_001A5BF0(void *);
 int func_001F78D8(struct O *, int);
 struct K *func_0011CCC0(void *);
-void func_0011A210(void *);
-void func_0011A220(void *, void *);
+void ClearDle__FP3DLE(void *);
+void AppendDlEntry__FP2DLPv(void *, void *);
 
 #define VCALL(po, slot, T) ((T)(po)->pvt[slot].pfn)((void *)((char *)(po) + (po)->pvt[slot].d)
 
@@ -43,8 +43,8 @@ struct O *func_001F7598(struct K *pk)
             pkNew = func_0011CCC0(D_003E15A8);
             *pkNew = *pk;
             pkNew->f4C = D_002DDED0;
-            func_0011A210(pkNew->dle);
-            func_0011A220(&D_003E15C0, pkNew);
+            ClearDle__FP3DLE(pkNew->dle);
+            AppendDlEntry__FP2DLPv(&D_003E15C0, pkNew);
             if (pk->n44 & 0xF8) {
                 {
                     m.po = po; m.n = (int)pk->p0; m.pk = pk;

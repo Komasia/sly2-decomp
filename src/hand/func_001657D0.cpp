@@ -36,7 +36,7 @@ extern int D_002DEB44;
 extern "C" int func_001637E8(O *p);
 extern "C" void func_001619A0(void *pv, int n, O *p);
 extern "C" void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
-extern "C" void func_0011A220(DL *pdl, void *pv);
+extern "C" void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 extern "C" void func_001620B0(O *p, int n, int c, int a);
 extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
 extern "C" void func_001643B0(O *p);
@@ -66,7 +66,7 @@ extern "C" void func_001657D0(O *p, int n)
         }
         break;
     case 1:
-        func_0011A220(&D_003E0F90, p);
+        AppendDlEntry(&D_003E0F90, p);
         break;
     case 2:
         if (p->ff4 == 0)

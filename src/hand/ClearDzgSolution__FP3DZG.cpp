@@ -19,9 +19,9 @@ struct DZG {
 };
 
 extern "C" {
-void func_0011A200(DL *pdl);
-void func_0011A210(DLE *pdle);
-void func_0011A220(DL *pdl, void *pv);
+void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
+void ClearDle(DLE *pdle) asm("ClearDle__FP3DLE");
+void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 }
 
 void ClearDzgSolution(DZG *pdzg)
@@ -29,15 +29,15 @@ void ClearDzgSolution(DZG *pdzg)
     int i;
 
     pdzg->n3C = 0;
-    func_0011A200(&pdzg->dlA);
-    func_0011A200(&pdzg->dlB);
-    func_0011A200(&pdzg->dlC);
-    func_0011A200(&pdzg->dlD);
+    ClearDl(&pdzg->dlA);
+    ClearDl(&pdzg->dlB);
+    ClearDl(&pdzg->dlC);
+    ClearDl(&pdzg->dlD);
 
     for (i = 0; i < pdzg->cdzs; i++) {
         DZS *pdzs = &pdzg->adzs[i];
         pdzs->gC = pdzs->g10 = 0.0f;
-        func_0011A210(&pdzs->dle);
-        func_0011A220(&pdzg->dlD, pdzs);
+        ClearDle(&pdzs->dle);
+        AppendDlEntry(&pdzg->dlD, pdzs);
     }
 }

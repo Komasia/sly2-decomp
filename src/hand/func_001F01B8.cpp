@@ -9,7 +9,7 @@ extern VT D_002D9768;
 extern "C" {
 S *func_0011CCC0(void *);
 void *func_002333B4(void *, int, int);
-void func_0011A220(void *, S *);
+void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 int func_001F0638(S *);
 int func_001F0438(P *, int);
@@ -35,8 +35,8 @@ extern "C" void func_001F01B8(P *p, int a, int b, int c, int d, S **pps)
     ps->p24 = p;
     ps->n38 = -1;
     ps->f44 = 1.0f;
-    func_0011A220(D_003DD490.dl, ps);
-    func_0011A220(p->dl68, ps);
+    AppendDlEntry(D_003DD490.dl, ps);
+    AppendDlEntry(p->dl68, ps);
     ps->pvt->a[1].pfn((char *)ps + ps->pvt->a[1].d);
     Lock l(p);
     func_00256EE0(ps, p->n0);
