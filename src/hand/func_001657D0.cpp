@@ -35,7 +35,7 @@ extern char D_002DEB30[];
 extern int D_002DEB44;
 extern "C" int func_001637E8(O *p);
 extern "C" void func_001619A0(void *pv, int n, O *p);
-extern "C" void func_0011A2E8(DL *pdl, void *pv);
+extern "C" void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 extern "C" void func_0011A220(DL *pdl, void *pv);
 extern "C" void func_001620B0(O *p, int n, int c, int a);
 extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
@@ -51,7 +51,7 @@ extern "C" void func_001657D0(O *p, int n)
         p->Msg(0x16, 0, 0, 0, 0);
     }
     if (p->n54 == 1)
-        func_0011A2E8(&D_003E0F90, p);
+        RemoveDlEntry(&D_003E0F90, p);
     if (func_001637E8(p)) {
         func_001620B0(p, n, p->fa8, p->fac);
         func_001623D0(p, n, p->fb0, p->fb4, p->ff4);

@@ -33,12 +33,12 @@ extern G D_002E65E0;
 extern CLOCK D_002DDED0;
 extern JOY D_002DFC00;
 void *func_001AE378(const AREQ &r);
-int func_00132600(CBinaryAsyncStream *ps, X *px);
+int FOpenFile__18CBinaryAsyncStreamP13CFileLocation(CBinaryAsyncStream *ps, X *px);
 void func_001B3EC0(P *p, CBinaryAsyncStream *ps);
 int func_0024B610(MPEG *p);
 void func_0014D0B8(CLOCK *p, int k);
 void func_001871C0(JOY *p);
-void func_001AB1A0(G *g);
+void UpdateSave(G *g) asm("UpdateSave__FP4SAVE");
 uint func_00187D80(JOY *p, uint k);
 void func_0014BA38(void);
 void func_001B4058(P *p);
@@ -103,13 +103,13 @@ extern "C" void func_001B3BD0(P *p, K *k)
     CBinaryAsyncStream strm(0x80000, p->x110);
     X x;
     bool ok = x.FSet(k);
-    if (ok && func_00132600(&strm, &x)) {
+    if (ok && FOpenFile__18CBinaryAsyncStreamP13CFileLocation(&strm, &x)) {
         func_001B3EC0(p, &strm);
         while (!func_0024B610(&p->x118)) {
             int f;
             func_0014D0B8(&D_002DDED0, 1);
             func_001871C0(&D_002DFC00);
-            if (!D_002E65E0.xFD50) func_001AB1A0(&D_002E65E0);
+            if (!D_002E65E0.xFD50) UpdateSave(&D_002E65E0);
             f = 0;
             if (FMatch(k, &D_002A3968) || FMatch(k, &D_002A39A8)) f = D_002F68F8 != 0;
             if (D_002C0268) f = 1;

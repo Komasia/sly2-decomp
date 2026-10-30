@@ -1,6 +1,6 @@
 float fmodf(float x, float y);
 
-float func_0011D898(float gDividend, float gDivisor)
+float GModPositive__Fff(float gDividend, float gDivisor)
 {
     float result = fmodf(gDividend, gDivisor);
     if (result < 0.0f) {

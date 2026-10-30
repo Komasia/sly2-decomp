@@ -1,7 +1,7 @@
 typedef struct VT { short d; short pad; void (*pfn)(void *); } VT;
 typedef struct O { char pad[0xC]; VT *vt; } O;
 typedef struct CRef { int m_tagk; union { int *pn; char *pb; O *po; } u; } CRef;
-void func_00129DF8(CRef *pref)
+void Incref__4CRef(CRef *pref)
 {
     switch (pref->m_tagk) {
     case 0x1B:

@@ -6,7 +6,7 @@ static inline float GClamp(float g, float lo, float hi)
     return g;
 }
 
-void func_0011D608(float rad, float *psin, float *pcos)
+void CalculateSinCos__FfPfT1(float rad, float *psin, float *pcos)
 {
     float g = (rad + 1.5707963705062866f) * 0.31830987334251404f;
     int n = (int)g;

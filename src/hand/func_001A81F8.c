@@ -8,7 +8,7 @@ typedef struct GEOM { char pad[0x94]; qword *apos; char pad2[0x9C - 0x98]; VTX *
 typedef struct SO { char pad[0x74]; void *pbsp; } SO;
 int func_00118668(void *bsp, int max, qword a, qword b, int clsgMax, LSG *alsg);
 // Clip edges of selected surfaces and attach their originating edge.
-int func_001A81F8(void *unused, SO *pso, GEOM *pgeom, int cent, ENT *aent, int clsgMax, LSG *alsg)
+int ClsgClipSoBspEdges__FP2SOT0iP3BSPiP3LSG(void *unused, SO *pso, GEOM *pgeom, int cent, ENT *aent, int clsgMax, LSG *alsg)
 {
     int ilsg = 0;
     int clsg = 0;

@@ -8,13 +8,13 @@ extern float D_002DDF0C;
 extern struct PMF D_002A6BA0;
 int func_0020E040(void *g);
 int func_001AB088(void *p);
-void func_001AAF90(void *t, struct PMF pmf);
+void CreateMemcardThread__FP7MEMCARDii(void *t, struct PMF pmf);
 void func_001AB630(struct S *s);
 void func_001AB418(struct S *s, int);
 int func_001B42C0(void *p);
 int func_001B01E8(void *p);
 void func_001ACB58(struct H *h, int n);
-void func_001AB1A0(struct S *s)
+void UpdateSave__FP4SAVE(struct S *s)
 {
     if (func_0020E040(D_003DD490))
         return;
@@ -26,7 +26,7 @@ void func_001AB1A0(struct S *s)
         return;
     if (s->x8 == s->xC) {
         if (s->x14 <= D_002DDF0C)
-            func_001AAF90(s->xFD5C, D_002A6BA0);
+            CreateMemcardThread__FP7MEMCARDii(s->xFD5C, D_002A6BA0);
         else
             func_001AB630(s);
     } else {

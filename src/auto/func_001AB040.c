@@ -4,7 +4,7 @@ M2C_UNK SignalSema(s32);                            /* extern */
 M2C_UNK WaitSema(s32);                              /* extern */
 M2C_UNK func_002348B0(s32, M2C_UNK);                /* extern */
 
-void func_001AB040(void *arg0) {
+void SetMemcardThreadHighPrio__FP7MEMCARD(void *arg0) {
     if (FMemcardThreadValid__FP7MEMCARD() != 0) {
         func_002348B0(M2C_FIELD(arg0, s32 *, 4), 1);
     }

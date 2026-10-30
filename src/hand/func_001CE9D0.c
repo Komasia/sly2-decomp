@@ -5,7 +5,7 @@ struct S { int x0; int cRef; char p1[0xE8 - 0x8]; struct N *pn; struct VTE *vt; 
 extern char D_003E1144[];
 extern char D_003E14E4[];
 void func_0011CD98(void *pool, void *pv);
-void func_001CE9D0(struct S *p)
+void ReleaseRip__FP3RIP(struct S *p)
 {
     struct N *pn, *pnNext;
     if (--p->cRef == 0) {

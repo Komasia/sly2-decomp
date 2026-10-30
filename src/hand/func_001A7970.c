@@ -10,7 +10,7 @@ void func_001C2A78(int n);
 void Begin__5CProg(struct B *b);
 void func_0014D0B8(void *p, int n);
 void SetRemain__5CProgi(struct B *b, int n);
-void func_001C8DB8(struct B *b);
+void End__5CProg(struct B *b);
 void func_001C2BA8(int n);
 void func_001A7970(void)
 {
@@ -42,6 +42,6 @@ void func_001A7970(void)
         D_002BFCE0[i]();
     }
     SetRemain__5CProgi(&b, 0);
-    func_001C8DB8(&b);
+    End__5CProg(&b);
     func_001C2BA8(1);
 }

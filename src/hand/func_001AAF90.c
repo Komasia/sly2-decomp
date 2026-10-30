@@ -4,14 +4,14 @@ struct ThreadParam { int attr; void *entry; void *stack; int stackSize; void *gp
 extern char D_002E5270[], D_002E2080[];
 extern int D_004425D8[];
 void func_001AAF18(struct S *s);
-void func_001AB040(struct S *s);
+void SetMemcardThreadHighPrio__FP7MEMCARD(struct S *s);
 void *func_002333B4(void *p, int c, unsigned int n);
 int func_00234820(struct ThreadParam *tp);
 void func_002355E0(int id, void *arg);
-void func_001AAF90(struct S *s, struct PMF pmf)
+void CreateMemcardThread__FP7MEMCARDii(struct S *s, struct PMF pmf)
 {
     struct ThreadParam tp;
-    func_001AB040(s);
+    SetMemcardThreadHighPrio__FP7MEMCARD(s);
     s->pmf = pmf;
     s->x10 = 0x21;
     func_002333B4(&tp, 0, sizeof(tp));

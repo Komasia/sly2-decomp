@@ -5,7 +5,7 @@ struct S {
 };
 extern char D_003DD490[];
 void func_001A5448(struct S *p, void **a, struct S ***b);
-void func_0011A2E8(void *a, struct S *s);
+void RemoveDlEntry__FP2DLPv(void *a, struct S *s);
 void func_0011A280(void *a, struct S *b, struct S *s);
 void func_00147E88(void *g, int n);
 int func_001A61A0(struct S *s);
@@ -24,7 +24,7 @@ void func_001A5478(struct S *s)
     if (s == *b) {
         *b = s->x24;
     } else {
-        func_0011A2E8(a, s);
+        RemoveDlEntry__FP2DLPv(a, s);
         func_0011A280(a, *b, s);
     }
     if (s->x10) {

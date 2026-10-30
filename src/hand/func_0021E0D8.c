@@ -6,7 +6,7 @@ double func_0023D7A0(double,double);
 double func_0023DD80(int);
 int func_0023DE38(double);
 /* Digit of g at decimal position a (precision b): 0 outside [b, b+15). */
-unsigned char func_0021E0D8(double g, int a, int b)
+unsigned char ChDigitFromG__Fdii(double g, int a, int b)
 {
 int i; double x;
     if (a < b || a - 15 >= b) i = 0;

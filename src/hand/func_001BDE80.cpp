@@ -29,7 +29,7 @@ void *func_001AE318(const AREQ &r);
 X *func_001BDA00(void);
 void func_001BDBF0(X *p, int n, qword *pts);
 void func_001BDE18(X *p, X *pNew);
-void func_0011A2E8(DL *pdl, void *pv);
+void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 void func_0011A220(DL *pdl, void *pv);
 void func_001E6180(X *p);
 int func_001BC2F8(X *p);
@@ -105,7 +105,7 @@ extern "C" void func_001BDE80(int n, X **ap)
             X *pv;
             InitDli(&dli, &px->dl);
             while ((pv = (X *)PvNextDli(&dli)) != 0) {
-                func_0011A2E8(&px->dl, pv);
+                RemoveDlEntry(&px->dl, pv);
                 pv->x1D8 = 0;
                 func_001BDE18(pv, pNew);
             }

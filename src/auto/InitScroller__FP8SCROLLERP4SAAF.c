@@ -33,7 +33,7 @@ extern s32 D_003E12C8;
 extern void *D_003E159C;
 
 void InitScroller__FP8SCROLLERP4SAAF(s32 arg0, s32 arg1) {
-    func_001ED8E0(arg0, arg1);
+    InitSaa__FP3SAAP4SAAF(arg0, arg1);
     M2C_FIELD(arg0, f32 *, 0x50) = (f32) M2C_FIELD(arg1, f32 *, 0xC);
     M2C_FIELD(arg0, f32 *, 0x54) = (f32) M2C_FIELD(arg1, f32 *, 0x10);
     M2C_FIELD(arg0, f32 *, 0x58) = (f32) M2C_FIELD(arg1, f32 *, 0x14);

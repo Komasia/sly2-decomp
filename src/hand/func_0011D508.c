@@ -2,7 +2,7 @@ static inline float sqrtf_(float x) { float r; __asm__("sqrt.s %0, %1" : "=&f"(r
 #define sqrtf sqrtf_
 float fabsf(float x);
 
-int func_0011D508(float a, float b, float c, float *ax)
+int CSolveQuadratic__FfffPf(float a, float b, float c, float *ax)
 {
     float alpha;
     float beta;

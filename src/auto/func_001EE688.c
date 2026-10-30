@@ -1,8 +1,8 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001ED8E0();                            /* extern */
+M2C_UNK InitSaa__FP3SAAP4SAAF();                            /* extern */
 
-void func_001EE688(void *arg0, void *arg1) {
-    func_001ED8E0();
+void InitCircler__FP7CIRCLERP4SAAF(void *arg0, void *arg1) {
+    InitSaa__FP3SAAP4SAAF();
     M2C_FIELD(arg0, f32 *, 0x50) = (f32) M2C_FIELD(arg1, f32 *, 0xC);
     M2C_FIELD(arg0, f32 *, 0x54) = (f32) M2C_FIELD(arg1, f32 *, 0x10);
     M2C_FIELD(arg0, f32 *, 0x58) = (f32) M2C_FIELD(arg1, f32 *, 0x14);

@@ -8,7 +8,7 @@ struct Q2 { char pad[0xEC]; struct Q *pq; };
 struct G;
 extern struct G D_003DD490;
 int func_0011A380(void *, void *);
-void func_0011A2E8(void *, void *);
+void RemoveDlEntry__FP2DLPv(void *, void *);
 int func_0011A3B0(void *);
 void func_001A00D0(struct G *, int, struct E *);
 void func_001F4E28(struct P *);
@@ -19,7 +19,7 @@ void func_001F2930(struct P *p, struct E *pe)
     int i;
     if (!p->pq) return;
     if (!func_0011A380(p->pq->dl, pe)) return;
-    func_0011A2E8(p->pq->dl, pe);
+    RemoveDlEntry__FP2DLPv(p->pq->dl, pe);
     if (pe->fl & (1L << 51)) func_001A00D0(&D_003DD490, 0, pe);
     func_001F4E28(p);
     if (func_0011A3B0(p->pq->dl)) {

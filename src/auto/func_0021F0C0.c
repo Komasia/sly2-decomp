@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
 M2C_UNK SignalSema(s32);                            /* extern */
 
-void func_0021F0C0(void *arg0) {
+void LeaveCritSect__FP8CRITSECT(void *arg0) {
     s32 temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, s32 *, 0) - 1;

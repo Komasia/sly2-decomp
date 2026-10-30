@@ -7,7 +7,7 @@ int func_00241E88(void);
 void func_00235078(void *, void *);
 void func_00231C48(void);
 
-int func_00232DA8(int mode)
+int snd_StreamSafeCdSync(int mode)
 {
     char *pe;
     if (!D_002C464C)

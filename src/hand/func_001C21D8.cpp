@@ -25,7 +25,7 @@ NAV *func_001C0D70(qword pos, int f);
 void func_0011A200(DL *pdl);
 void func_0011A1F8(DL *pdl, int ibDle);
 void func_0011A220(DL *pdl, void *pv);
-void func_0011A2E8(DL *pdl, void *pv);
+void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 void func_0011A280(DL *pdl, void *pvNext, void *pv);
 int func_0011A3B0(DL *pdl);
 int func_001C26E0(GRAPH *pgraph, EDGE *pedge, void *pvActor);
@@ -50,7 +50,7 @@ static inline qword QwLength(qword v)
 struct EMPTY { ~EMPTY() {} };
 static inline NAV *PnavFind(const qword &pos) { return func_001C0D70(pos, 0); }
 static inline void AppendNode(DL *pdl, NODE *pnode) { func_0011A220(pdl, pnode); }
-static inline void RemoveNode(DL *pdl, NODE *pnode) { func_0011A2E8(pdl, pnode); }
+static inline void RemoveNode(DL *pdl, NODE *pnode) { RemoveDlEntry(pdl, pnode); }
 static inline void InsertNode(DL *pdl, NODE *pnodeNext, NODE *pnode) { func_0011A280(pdl, pnodeNext, pnode); }
 static inline float GXOfQw(qword qw) { float x; __asm__("mtc1 %1, %0" : "=f"(x) : "r"(qw)); return x; }
 static inline float GDistX(const qword &a, const qword &b) { return GXOfQw(QwLength(QwSub(a, b))); }

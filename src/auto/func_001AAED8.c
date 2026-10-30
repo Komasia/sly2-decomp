@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
 s32 SemaCreate__Fii(M2C_UNK, M2C_UNK);              /* extern */
 
-void func_001AAED8(void *arg0) {
+void InitMemcard__FP7MEMCARD(void *arg0) {
     s32 temp_v0;
 
     temp_v0 = SemaCreate__Fii(1, 1);

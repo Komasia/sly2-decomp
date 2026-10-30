@@ -5,10 +5,10 @@ struct SAI { int a; };
 struct EYES { char pad[0x1C]; int cframe; char pad1[0x34 - 0x20]; SAI sai; char pad2[0x50 - 0x38]; float dtBlink; float dtOpenMin; float dtOpenMax; float uDoubleBlink;
     int pad60; EYESS eyess; float tEyess; float dtOpen; float dframe; float iframe; float uOpen; };
 extern "C" int func_0011A1E8(SAI *psai);
-extern "C" void func_001EDA68(EYES *p, int iframe);
+extern "C" void SetSaiIframe(EYES *p, int iframe) asm("SetSaiIframe__FP3SAIi");
 void SetEyesEyess(EYES *peyes, EYESS eyess);
-extern "C" void func_001EE228(EYES *peyes);
-void func_001EE228(EYES *peyes)
+extern "C" void UpdateEyes(EYES *peyes) asm("UpdateEyes__FP4EYESf");
+void UpdateEyes(EYES *peyes)
 {
     if (func_0011A1E8(&peyes->sai) || peyes->cframe < 2)
         return;
@@ -43,5 +43,5 @@ void func_001EE228(EYES *peyes)
     }
 
     SetEyesEyess(peyes, eyessNext);
-    func_001EDA68(peyes, (int)peyes->iframe);
+    SetSaiIframe(peyes, (int)peyes->iframe);
 }

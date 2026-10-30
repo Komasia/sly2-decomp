@@ -1,6 +1,6 @@
 typedef unsigned int uint;
 
-float func_0011D7F0(float g)
+float GTrunc__Ff(float g)
 {
     uint u = *(uint *)&g;
     int exp = ((u >> 23) & 0xFF) - 0x7F;

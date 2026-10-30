@@ -15,7 +15,7 @@ int func_00187D80(void *p, int n);
 void func_001AD168(struct S *s);
 void func_001ACFE0(struct S *s);
 int func_001AB088(void *p);
-void func_001AAF90(void *p, struct PMF pmf);
+void CreateMemcardThread__FP7MEMCARDii(void *p, struct PMF pmf);
 void func_001ACB58(struct S *s, int n);
 void func_001ACBB8(struct S *s);
 void func_001660F8(void);
@@ -74,7 +74,7 @@ void func_001ACCC8(struct S *s)
         if (func_001AB088(D_002F633C))
             return;
         if (!D_002E65E0.xFD6C) {
-            func_001AAF90(D_002F633C, D_002A6D88);
+            CreateMemcardThread__FP7MEMCARDii(D_002F633C, D_002A6D88);
             func_001ACB58(s, 0x16);
         } else
             func_001ACB58(s, 0x14);

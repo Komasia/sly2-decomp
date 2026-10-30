@@ -15,7 +15,7 @@ void func_00174950(struct S *p);
 float func_002458F0(float y, float x);
 float *func_001A6318(struct A *a);
 void func_00209818(void *p, float f);
-float func_0011CF60(float f);
+float RadNormalize__Ff(float f);
 qword func_0011E1A0(float a, float b, float c);
 qword func_001A62E8(void *p);
 void func_0020C6F8(void *p, qword v);
@@ -24,7 +24,7 @@ void func_001EEFC0(struct S *p);
 void func_00156C80(struct G *g, int n, qword v, struct A *a, void *q);
 void *func_001C4840(struct G *g);
 int func_001A6AF8(int n, void *o);
-void func_00187E28(void *p, int n, float f);
+void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 void func_00179328(struct S *p) {
     int f;
     float a;
@@ -48,7 +48,7 @@ void func_00179328(struct S *p) {
     func_00209818(p->p10->aFD0, a);
     e = p->p40;
     if (e && e->n0 == 2) {
-        qword r = func_0011E1A0(func_0011CF60(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);
+        qword r = func_0011E1A0(RadNormalize__Ff(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);
         qword pos = func_001A62E8(p->p10);
         qword s;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(pos), "j"(r));
@@ -62,7 +62,7 @@ void func_00179328(struct S *p) {
     if (p->p10->n334) {
         void *o = func_001C4840(&D_003DD490);
         if (o && func_001A6AF8(p->n50, o) && (o == D_002F7900 || (p->n5C & 0x40000))) {
-            func_00187E28(D_002DFC00, 3, 1.50000005960464477539e-01f);
+            TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, 3, 1.50000005960464477539e-01f);
             p->fB0 = D_002DDED0.t + 5.00000044703483581543e-02f;
         }
         p->fB4 = D_002DDED0.t + 1.33333340287208557129e-01f;

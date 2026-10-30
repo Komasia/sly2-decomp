@@ -1,4 +1,4 @@
-/* func_001CE2E8 (Claude agent, wave-3 lane 6): for an active particle system (mode 1), walk the subject nodes and their shape lists; for
+/* BounceRipgRips (Claude agent, wave-3 lane 6): for an active particle system (mode 1), walk the subject nodes and their shape lists; for
  * every usable shape query its tree for candidate entries (scratch-frame allocation), then let each live rip test its contacts against the
  * shape (vtable slot 8, stop at the first hit); finally notify the owner (vtable slot 9) if the rip list reports a change.
  *
@@ -39,7 +39,7 @@ int func_00118A88(void *, int, qword, float, int *, ENTRY **);
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
 int func_00132B10(void *, int);
 int func_0011A3B0(DL *);
-void func_001CE2E8(P *);
+void BounceRipgRips(P *) asm("BounceRipgRips__FP4RIPG");
 }
 /* the scratch request and the rip iterator share one stack slot */
 union PHASE { REQ request; DLI rip; };
@@ -48,7 +48,7 @@ static inline void *Next(DLI *it) { void *p = *it->next; it->next = (void **)((c
 static inline void SetAlign(REQ *r, int a) { r->align = a; }
 static inline const qword &Origin(STATE *s) { return s->origin; }
 static inline int Min(int a, int b) { return a <= b ? a : b; }
-void func_001CE2E8(P *p)
+void BounceRipgRips(P *p)
 {
     if (p->mode == 1) {
         NODE *node;

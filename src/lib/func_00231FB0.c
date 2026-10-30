@@ -5,7 +5,7 @@ extern char D_002AA250[], D_002AA280[], D_002AA1C8[], D_002AA2A0[];
 extern unsigned int D_00448480[];
 extern int D_004484C0[];
 extern char D_00448440[];
-int func_00232DA8(int);
+int snd_StreamSafeCdSync(int);
 void func_0021EC18(const char *, ...);
 void func_00234F48(void *, void *);
 void func_00231C48(void);
@@ -21,7 +21,7 @@ int func_00231FB0(int a, int b)
             func_0021EC18(D_002AA250);
         return 0;
     }
-    if (func_00232DA8(1) == 1) {
+    if (snd_StreamSafeCdSync(1) == 1) {
         if (!D_002C46B8)
             func_0021EC18(D_002AA280);
         return 0;

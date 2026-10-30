@@ -15,7 +15,7 @@ void func_00234CA0(int);
 void func_00231F38(void *, int);
 int func_00237488(void *);
 int func_00237288(void *, int, int, void *, int, void *, int, void *, void *);
-void func_00232BB8(void);
+void snd_PostMessage__Fv(void);
 
 void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long), long arg)
 {
@@ -75,5 +75,5 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
     D_002C4668[D_002C4680] -= len;
     D_002C4670[D_002C4680][*D_002C4660[D_002C4680]].fn = fn;
     D_002C4670[D_002C4680][*D_002C4660[D_002C4680]].arg = arg;
-    func_00232BB8();
+    snd_PostMessage__Fv();
 }

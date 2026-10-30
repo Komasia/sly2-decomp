@@ -38,7 +38,7 @@ void func_0011EFB0(qword v, float *pa, float *pb, float *pc);
 FRAME *func_001AE478(FRAME *pf);
 void func_001AE4A0(FRAME *pf, int n);
 void func_001B44D8(int *pc, void **pa);
-float func_0011CF60(float g);
+float RadNormalize(float g) asm("RadNormalize__Ff");
 qword func_0011E208(float pan, float tilt, float s);
 int func_0014CC58(int n, qword a, qword b, int c, void *pv, qword *phit);
 qword func_00155FB0(void *p, qword pos);
@@ -115,7 +115,7 @@ qword func_00155FB0(void *p, qword pos)
     for (i = 0; i < 11; i++) {
         qword test;
         float g;
-        float panT = func_0011CF60(pan + D_002BDCA0[i]);
+        float panT = RadNormalize(pan + D_002BDCA0[i]);
         test = Add(pos, func_0011E208(panT, tilt, s));
         int f = func_0014CC58(0, pos, test, c, av, &hit.q);
         if (f)

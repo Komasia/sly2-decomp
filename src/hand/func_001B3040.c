@@ -8,7 +8,7 @@ void func_00227788(void *p);
 void func_00232408(void);
 int func_00231C48(void);
 void func_00232D80(int n);
-void func_00232DA8(int n);
+void snd_StreamSafeCdSync(int n);
 int func_00232220(int n);
 void func_002321E8(int n, int m);
 void func_0013D558(void *p, int cb, void *pv);
@@ -20,7 +20,7 @@ void func_001B3040(struct S *p)
     func_00232408();
     while (func_00231C48()) ;
     func_00232D80(1);
-    func_00232DA8(0);
+    snd_StreamSafeCdSync(0);
     p->xA0 = func_00232220(2);
     p->xA4 = func_00232220(0x10);
     func_002321E8(2, 0x400);

@@ -1,5 +1,5 @@
 int func_0011D3C0(void);
-float func_0011D448(float gMin, float gMax)
+float GRandInRange__Fff(float gMin, float gMax)
 {
     if (gMin == gMax)
         return gMin;

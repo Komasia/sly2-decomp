@@ -14,7 +14,7 @@ void func_00234CA0(int);
 void func_00231F38(void *, int);
 int func_00237488(void *);
 int func_00237288(void *, int, int, void *, int, void *, int, void *, void *);
-int func_00231E90(void);
+int snd_GotReturns__Fv(void);
 void snd_SendCurrentBatch__Fv(void);
 
 int func_002325E0(int cmd, int size, unsigned char *buf)
@@ -49,7 +49,7 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
         func_00237288(D_00443800, cmd, 1, D_00443880, size, D_00443840, 0xC, 0, 0);
     else
         func_00237288(D_00443800, cmd, 1, 0, 0, D_00443840, 0xC, 0, 0);
-    while (!func_00231E90())
+    while (!snd_GotReturns__Fv())
         ;
     ret = D_00443840[1];
     if (*D_002C4660[D_002C4680] && !D_002C4684)

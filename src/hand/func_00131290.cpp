@@ -18,7 +18,7 @@ void *func_00131270(struct P *);
 void func_00210740(void *, int, int, int, int, void *, void *, struct Q *, void *, float, float, float);
 void func_002108E8(void *, void *, struct Q *, void *);
 void func_0014F750(void *, void *);
-void func_00187E28(void *, void *, float);
+void TriggerJoyRumbleRumk(void *, void *, float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
 void *func_0015E938(void *, int, void *, void *);
 int func_00132EA0(void *);
 void func_0012F9B8(void *, int, int, int, float, float);
@@ -64,7 +64,7 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         func_0014F750(D_002DDF40, pev->pv);
         break;
     case 3:
-        func_00187E28(D_002DFC00, pev->pv, pev->uC.g);
+        TriggerJoyRumbleRumk(D_002DFC00, pev->pv, pev->uC.g);
         break;
     case 4: {
         void *po = func_0015E938(D_003DD490, 4, pev->pv, func_00131270(p));

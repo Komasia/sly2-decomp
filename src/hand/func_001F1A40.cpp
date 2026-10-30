@@ -14,7 +14,7 @@ int func_00132B10(void *,int);
 void *func_002333B4(void *,int,int);
 struct OBJECT *func_0015E938(void *,int,int,void *);
 int func_00164030(void *);
-float func_0011D448(float,float);
+float GRandInRange(float,float) asm("GRandInRange__Fff");
 int func_0011D3F8(int,int);
 void func_001F1A40(struct P *p)
 {
@@ -33,7 +33,7 @@ void func_001F1A40(struct P *p)
         else goto choose_reward;
     }else{
 choose_reward:
-        if(func_0011D448(0.0f,1.0f)>table->chance){reward.key=-1;reward.kind=-1;}
+        if(GRandInRange(0.0f,1.0f)>table->chance){reward.key=-1;reward.kind=-1;}
         else{
             total=0;for(i=0;i<6;i++)total+=table->picks[i].weight;
             int choice=func_0011D3F8(0,total-1);

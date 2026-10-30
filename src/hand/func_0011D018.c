@@ -1,9 +1,9 @@
 /* GSmooth (Sly 1 util.c). Code-identical except ONE toolchain nop: target has `sub.s; nop; div.s` at 0x11D0B8
    (div.s is the 2nd insn of a basic block -> original assembler pads it to position 2 with 1 nop; asfix only pads position 0). */
 typedef struct SMP { float gA; float gB; float gC; } SMP;
-int func_0011D508(float a, float b, float c, float *ax);
+int CSolveQuadratic__FfffPf(float a, float b, float c, float *ax);
 
-float func_0011D018(SMP *psmp, float *pdgNext, float gCur, float gTarget, float dt)
+float GSmooth__FfffP3SMPPf(SMP *psmp, float *pdgNext, float gCur, float gTarget, float dt)
 {
     float dg;
     float gNew;
@@ -39,7 +39,7 @@ float func_0011D018(SMP *psmp, float *pdgNext, float gCur, float gTarget, float 
         dg = gThresh;
     }
 
-    c = func_0011D508((psmp->gA - psmp->gB) / (psmp->gC + psmp->gC), psmp->gB, -dg, ax);
+    c = CSolveQuadratic__FfffPf((psmp->gA - psmp->gB) / (psmp->gC + psmp->gC), psmp->gB, -dg, ax);
     t = ax[c - 1] - dt;
     if (0.0f < t) {
         float b = psmp->gB;

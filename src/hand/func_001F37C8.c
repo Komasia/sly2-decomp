@@ -3,7 +3,7 @@ struct O { char pad[0x10]; struct Q *pq; char pad2[0x20 - 0x14]; char sub[1]; };
 struct E { char pad[0xDC]; struct O *po; };
 struct P { char pad[0xE8]; struct E *pe; };
 int func_0011A380(void *, void *);
-void func_0011A2E8(void *, void *);
+void RemoveDlEntry__FP2DLPv(void *, void *);
 void func_0011A220(void *, void *);
 void func_001C1440(struct Q *, void *);
 void func_001F37C8(struct P *p, struct Q *q)
@@ -12,7 +12,7 @@ void func_001F37C8(struct P *p, struct Q *q)
     struct Q *old = o->pq;
     if (old == q) return;
     if (old) {
-        if (func_0011A380(old->dl, o)) func_0011A2E8(old->dl, o);
+        if (func_0011A380(old->dl, o)) RemoveDlEntry__FP2DLPv(old->dl, o);
     }
     if (q) {
         if (!func_0011A380(q->dl, o)) {

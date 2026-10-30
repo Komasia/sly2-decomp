@@ -11,7 +11,7 @@ void func_002348B0(int tid, int prio);
 void *func_002333B4(void *p, int c, int n);
 int func_00234820(struct ThreadParam *tp);
 
-void func_0021F100(void)
+void StartupThread__Fv(void)
 {
     struct ThreadParam tp;
     int *ptid = D_004425D0;

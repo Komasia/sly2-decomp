@@ -9,7 +9,7 @@ extern f32 *D_003E0E80;
 extern M2C_UNK D_003E1144;
 extern M2C_UNK D_004520A8;
 
-s32 func_00132600(s32 arg0, s32 arg1) {
+s32 FOpenFile__18CBinaryAsyncStreamP13CFileLocation(s32 arg0, s32 arg1) {
     s32 var_a2;
 
     var_a2 = 0;

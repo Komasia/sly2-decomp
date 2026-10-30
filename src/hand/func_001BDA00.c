@@ -26,7 +26,7 @@ O *func_0013E3C8(int a, int b, int c, int d);
 void func_002333B4(void *p, int c, int n);
 void *func_001AE1D0(AREQ *preq);
 void func_0011A220(DL *pdl, O *p);
-void func_0011A2E8(DL *pdl, O *p);
+void RemoveDlEntry__FP2DLPv(DL *pdl, O *p);
 
 O *func_001BDA00(void)
 {
@@ -66,7 +66,7 @@ O *func_001BDA00(void)
         }
         p = D_003E1A40.pvFirst;
     }
-    func_0011A2E8(&D_003E1A40, p);
+    RemoveDlEntry__FP2DLPv(&D_003E1A40, p);
     p->x1E8 = -1;
     ((void (*)(void *))p->vt[8].pfn)((char *)p + p->vt[8].d);
     p->x1D8 = 0;

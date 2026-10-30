@@ -58,11 +58,11 @@ float func_001E6620(FOCUS *);
 float func_001E6648(FOCUS *);
 float func_001E6610(FOCUS *);
 float func_001E6630(FOCUS *);
-float func_0011D018(float, float, float, SMP *, float *);
+float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
 void func_001940B0(CONTEXT *, int);
 void func_00204660(ACTOR *, float);
 float func_00204740(ACTOR *);
-float func_0011CF60(float);
+float RadNormalize(float) asm("RadNormalize__Ff");
 void func_00192BD8(CONTEXT *, int);
 void func_0020BB58(PROGRAM *, float);
 void func_0020BC08(PROGRAM *);
@@ -190,8 +190,8 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             FOCUS *focus;
             if (func_00132B10(ctx->focus, 12) && !(focus = ctx->focus)->cyclic) {
                 float lo, hi;
-                func_0011D018(ctx->value, func_001E6620(focus) + 30.0f, D_002DDED0.dt, &smp, &lo);
-                func_0011D018(ctx->value, func_001E6648(focus) - 30.0f, D_002DDED0.dt, &smp, &hi);
+                GSmooth(ctx->value, func_001E6620(focus) + 30.0f, D_002DDED0.dt, &smp, &lo);
+                GSmooth(ctx->value, func_001E6648(focus) - 30.0f, D_002DDED0.dt, &smp, &hi);
                 s = GClamp(lateral, lo, hi);
             } else {
                 s = lateral;
@@ -232,7 +232,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 func_001940B0(ctx, 3);
         }
         func_00204660(ctx->actor, heading);
-        if (ctx->step == 5 && 0.25f < __builtin_fabsf(func_0011CF60(func_00204740(ctx->actor) - heading)))
+        if (ctx->step == 5 && 0.25f < __builtin_fabsf(RadNormalize(func_00204740(ctx->actor) - heading)))
             step = 5;
         func_00192BD8(ctx, step);
         break;
@@ -323,10 +323,10 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             if (focus->cyclic) {
                 limit = smp.svFast;
             } else if (ctx->reversed) {
-                func_0011D018(ctx->value, 50.0f, D_002DDED0.dt, &smp, &limit);
+                GSmooth(ctx->value, 50.0f, D_002DDED0.dt, &smp, &limit);
                 limit = -limit;
             } else {
-                func_0011D018(ctx->value, func_001E6648(focus) - 50.0f, D_002DDED0.dt, &smp, &limit);
+                GSmooth(ctx->value, func_001E6648(focus) - 50.0f, D_002DDED0.dt, &smp, &limit);
             }
             float ratio = (limit - smp.svSlow) / (smp.svFast - smp.svSlow);
             float amount = pjoy->amount;
@@ -338,7 +338,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 g = amount;
         }
         if (ctx->reversed)
-            heading = func_0011CF60(heading + 3.1415927f);
+            heading = RadNormalize(heading + 3.1415927f);
         if (0.0f < g) {
             func_00192BD8(ctx, 4);
             func_0020BB58(&ctx->program240, g);

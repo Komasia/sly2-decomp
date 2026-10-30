@@ -5,7 +5,7 @@ typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI
 
 extern DLI *g_pdliFirst;
 
-void func_0011A2E8(DL *pdl, void *pv)
+void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv)
 {
     DLE *pdle = PDLE(pdl, pv);
     DLI *pdli = g_pdliFirst;

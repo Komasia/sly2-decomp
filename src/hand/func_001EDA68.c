@@ -6,7 +6,7 @@ static inline int Clamp(int n, int lo, int hi)
     if (n > hi) return hi;
     return n;
 }
-void func_001EDA68(S *p, int n)
+void SetSaiIframe__FP3SAIi(S *p, int n)
 {
     unsigned short i;
     if (func_0011A1E8(&p->x34)) return;

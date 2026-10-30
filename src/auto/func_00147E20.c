@@ -39,6 +39,6 @@ void func_00147E20(s32 arg0, s32 arg1) {
         if (M2C_FIELD(arg0, s32 *, 0x39A4) == arg1) {
             M2C_FIELD(arg0, s32 *, 0x39A4) = (s32) M2C_FIELD(arg1, s32 *, 4);
         }
-        func_0011A2E8(temp_s2, arg1);
+        RemoveDlEntry__FP2DLPv(temp_s2, arg1);
     }
 }

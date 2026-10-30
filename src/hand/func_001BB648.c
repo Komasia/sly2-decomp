@@ -24,7 +24,7 @@ void func_001F6AC8(P *p, int v);
 void func_001F6B48(P *p, int v);
 int func_00132B10(void *p, int k);
 void func_0014F750(void *g, int v);
-void func_00187E28(void *g, int v, float f);
+void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *g, int v, float f);
 qword func_001A62E8(void *p);
 void func_00154E10(void *g, qword q, int v, int a, P *p);
 void func_00161F48(void *g, int k, int v, P *p);
@@ -76,7 +76,7 @@ void func_001BB648(P *p, E *pe)
             if (p->x168 & 2) func_0014F750(D_002DDF40, pi->v);
             break;
         case 9:
-            if (p->x168 & 4) func_00187E28(D_002DFC00, pi->v, 0.3f);
+            if (p->x168 & 4) TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, pi->v, 0.3f);
             break;
         case 10:
             if (p->x168 & 8) {

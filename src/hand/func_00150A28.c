@@ -17,7 +17,7 @@ struct X {
     struct SND *pC0;
 };
 void func_0014FD40(struct X *p);
-float func_0011D018(void *p, float *pdg, float g, float gTarget, float dt);
+float GSmooth__FfffP3SMPPf(void *p, float *pdg, float g, float gTarget, float dt);
 float func_0011D948(void *p, float g);
 void func_001FB2C0(struct SND *p, float g);
 void func_001FB1F8(struct SND *p, float g);
@@ -55,7 +55,7 @@ void func_00150A28(struct X *p)
     if (D_002DDED0.dt == 0.0f)
         return;
     if (0.0f <= p->g18) {
-        float g = GClamp(func_0011D018(D_002BD9B8, 0, p->gAC, p->g18, D_002DDED0.dt), 0.0f, 1.0f);
+        float g = GClamp(GSmooth__FfffP3SMPPf(D_002BD9B8, 0, p->gAC, p->g18, D_002DDED0.dt), 0.0f, 1.0f);
         p->gB0 = (g - p->gAC) / D_002DDED0.dt;
         p->gAC = g;
     }
