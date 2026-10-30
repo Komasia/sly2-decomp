@@ -5,7 +5,7 @@ Called automatically at the end of tools/progress.py, so the graph is refreshed 
 measured. If progress.svg or progress_history.csv conflicts on a pull, just re-run tools/progress.py.
 Running this file directly redraws the SVG from the last config/progress_history.csv + config/matched.csv
 (needs disc/SCUS_973.16 for the per-range totals)."""
-import os, csv, datetime
+import os, re, csv, datetime
 from html import escape
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -18,7 +18,7 @@ OWNERS = {'naga': [(0x190000, 0x1F0000)],
 C_DONE, C_DONE2, C_LEFT = '#2f9e6e', '#4c7fd1', '#e4e7ec'
 C_TEXT, C_MUTED, C_GRID = '#1f2328', '#656d76', '#d0d7de'
 C_ME, C_COLLAB, C_LILLY = '#d97706', '#7c3aed', '#db2777'
-WHO = [('me', 'Dimitri + Claude', C_ME), ('naga', 'NaGa', C_COLLAB), ('lilly', 'Lilly', C_LILLY)]
+WHO = [('me', 'Dimitri + Claude', C_ME), ('naga', 'NaGa + Claude + ChatGPT', C_COLLAB), ('lilly', 'Lilly + Claude', C_LILLY)]
 
 
 def owner(addr):
@@ -47,9 +47,22 @@ def log(mf, mi, total_f, total_i, note=''):
     return rows
 
 
+
+def pretty(parts):
+    """One SVG element per line (indented two spaces), blank line + comment before each section."""
+    lines = []
+    for part in parts:
+        if part.startswith('<!--'):
+            lines += ['', part]
+            continue
+        for el in re.split(r'(?<=>)(?=<)', part):
+            lines.append(el.replace('"/>', '" />'))
+    return '\n'.join('  ' + l if l else '' for l in lines)
+
+
 def t(x, y, s, size=13, color=C_TEXT, anchor='start', weight='normal'):
     return (f'<text x="{x:.1f}" y="{y:.1f}" font-size="{size}" fill="{color}" text-anchor="{anchor}" '
-            f'font-weight="{weight}">{escape(str(s))}</text>')
+            f'font-weight="{weight}">{escape(str(s), quote=False)}</text>')
 
 
 def bar(x, y, w, h, frac, color, r=4):
@@ -67,6 +80,7 @@ def render(real, matched_addrs):
     W = 960; out = []; y = 0
 
     # ---- header
+    out.append('<!-- Header -->')
     y += 40
     out.append(t(32, y, 'Sly 2: Band of Thieves — matching decompilation progress', 22, weight='bold'))
     y += 22
@@ -75,6 +89,7 @@ def render(real, matched_addrs):
     # ---- headline bars
     def headline(y, label, sub, done, total, color, unit):
         frac = done / total
+        out.append(f'<!-- {label} Section -->')
         out.append(t(32, y, label, 15, weight='bold'))
         out.append(t(W - 32, y, f'{frac:.1%}', 22, color, 'end', 'bold'))
         out.append(t(32, y + 18, sub, 12, C_MUTED))
@@ -89,6 +104,7 @@ def render(real, matched_addrs):
                  mi, total_i, C_DONE2, 'instructions')
 
     # ---- history line chart
+    out.append('<!-- Progress Over Time Section -->')
     y += 16
     out.append(t(32, y, 'Progress over time', 16, weight='bold'))
     out.append(t(W - 32, y, 'each point = one recorded checkpoint', 12, C_MUTED, 'end'))
@@ -130,6 +146,7 @@ def render(real, matched_addrs):
     y = ly + 24
 
     # ---- per-person progress
+    out.append('<!-- Progress By Person Section -->')
     y += 16
     out.append(t(32, y, 'Progress by person (ranges each person owned, see CREDITS.md)', 16, weight='bold'))
     y += 8
@@ -140,12 +157,13 @@ def render(real, matched_addrs):
         df = sum(1 for a in fs if a in matched_addrs); frac = di / ti if ti else 1
         y += 26
         out.append(f'<rect x="32" y="{y - 11}" width="10" height="12" rx="2" fill="{color}"/>' + t(48, y, label, 12, weight='bold'))
-        out.append(bar(190, y - 12, 320, 14, frac, color, 3))
-        out.append(t(600, y, f'{frac:.1%} of code', 12, anchor='end'))
+        out.append(bar(240, y - 12, 270, 14, frac, color, 3))
+        out.append(t(630, y, f'{frac:.1%} of code', 12, anchor='end'))
         out.append(t(W - 32, y, f'{df:,} of {len(fs):,} functions matched · {len(fs) - df:,} left', 12, C_MUTED, 'end'))
     y += 20
 
     # ---- per-range table
+    out.append('<!-- By Address Range Section -->')
     y += 16
     out.append(t(32, y, 'By address range', 16, weight='bold'))
     y += 18
@@ -179,6 +197,7 @@ def render(real, matched_addrs):
     y += 20
 
     # ---- remaining by function size
+    out.append('<!-- By Function Size Section -->')
     y += 24
     out.append(t(32, y, 'What\'s left, by function size', 16, weight='bold'))
     y += 18
@@ -204,7 +223,7 @@ def render(real, matched_addrs):
     H = y + 24
     svg = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" '
            f'font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif">'
-           f'<rect width="{W}" height="{H}" rx="12" fill="#ffffff" stroke="{C_GRID}"/>' + ''.join(out) + '</svg>\n')
+           '\n' + pretty([f'<rect width="{W}" height="{H}" rx="12" fill="#ffffff" stroke="{C_GRID}"/>'] + out) + '\n</svg>\n')
     os.makedirs(os.path.dirname(SVG), exist_ok=True)
     open(SVG, 'w').write(svg)
     return SVG
