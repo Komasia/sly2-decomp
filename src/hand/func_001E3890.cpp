@@ -1,6 +1,6 @@
 // func_001E3890: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002BD850 (D_002BD850), D_002C3620 (D_002C3620), D_002C3624 (D_002C3624), D_002C3628 (D_002C3628), D_002C362C (D_002C362C), D_003DA530 (D_003DA530), g_clock, D_002DDF40 (g_cm), g_joy, D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), D_003DD490 (g_sw)
+// Globals: DT_CmJoltMax, D_002C3620 (D_002C3620), D_002C3624 (D_002C3624), D_002C3628 (D_002C3628), D_002C362C (D_002C362C), D_003DA530 (D_003DA530), g_clock, D_002DDF40 (g_cm), g_joy, D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), D_003DD490 (g_sw)
 // 0x001E3890 FIsJsgCommandComplete__FP3JSGP8RELAYCMD  (T1306, our name; MATCH)
 // Whether the command the script is on has finished, by kind; UpdateJsg asks it of the current command (a command that is fAsync is not asked) and
 // ReleaseJsgJtIfComplete of the one that took the character. A kind with nothing to wait for (and every kind past the table) is complete at once.
@@ -2849,7 +2849,7 @@ extern "C" int FCurrentIdMatches(SNDMGR *psndmgr, int idLine);
 extern "C" float func_001FE888(SNDMGR *psndmgr);
 extern "C" float GetFirstTimerSeconds(SNDMGR *psndmgr);
 extern "C" void ClearBhvstk(BHVSTK *pbhvstk);
-extern float D_002BD850;
+extern float DT_CmJoltMax;
 extern float D_002C3620;
 extern float D_002C3624;
 extern float D_002C3628;
@@ -3174,7 +3174,7 @@ int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd)
         fComplete = pjsg->ploFade == 0;
         break;
     case RELAYCK_Unk32:
-        fComplete = D_002BD850 < TJsgNow(pjsg) - pjsg->tCommand;
+        fComplete = DT_CmJoltMax < TJsgNow(pjsg) - pjsg->tCommand;
         break;
     case RELAYCK_Rumble:
         fComplete = prelaycmd->rumble.dtRumble < TJsgNow(pjsg) - pjsg->tCommand;

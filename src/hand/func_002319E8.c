@@ -11,7 +11,7 @@ extern CB gLoadReturnDef;
 extern int D_00443B80[], D_00444B80[], D_00447B80[], D_00447FC0[];
 extern CB D_00445B80[], D_00446B80[];
 extern RPC D_00443800, D_00448440;
-extern int D_00448400[];
+extern int gStats[];
 extern unsigned int gLoadReturnValue;
 extern char D_002AA100[], D_002AA128[];
 void func_0021EC18(const char *, ...);
@@ -59,12 +59,12 @@ void func_002319E8(int flags)
         while (i--)
             ;
     } while (!D_00448440.x[9]);
-    ((volatile int *)D_00448400)[0] = 0;
-    ((volatile int *)D_00448400)[4] = 0;
+    ((volatile int *)gStats)[0] = 0;
+    ((volatile int *)gStats)[4] = 0;
     *D_00443B80 = 0;
     *D_00444B80 = 0;
     gCommandBuffeBytesAvail[0] = 0xFFC;
-    buf[0] = (int)D_00448400;
+    buf[0] = (int)gStats;
     buf[1] = flags;
     gCommandBuffeBytesAvail[1] = 0xFFC;
     func_002325E0(0, 8, buf);

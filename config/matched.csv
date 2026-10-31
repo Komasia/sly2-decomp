@@ -2514,7 +2514,7 @@ func_0016EA80,0x16EA80,287,match,src/hand/func_0016EA80.cpp
 func_0016EF00,0x16EF00,55,match,src/hand/func_0016EF00.c
 func_0016EFE0,0x16EFE0,81,match,src/auto/func_0016EFE0.c
 func_0016F128,0x16F128,8,match,src/hand/func_0016F128.c
-RenderGomerSelf__FP5GOMERP2CMP2RO,0x16F148,11,match,src/hand/RenderGomerSelf__FP5GOMERP2CMP2RO.cpp
+func_0016F148,0x16F148,11,match,src/hand/func_0016F148.cpp
 func_0016F178,0x16F178,77,match,src/hand/func_0016F178.c
 func_0016F2B0,0x16F2B0,8,match,src/hand/func_0016F2B0.c
 BlendDisplayOnBufferMismatch__Fv,0x16F2D0,101,match,src/hand/BlendDisplayOnBufferMismatch__Fv.c
@@ -4640,7 +4640,7 @@ func_001EF850,0x1EF850,29,match,src/hand/func_001EF850.c
 func_001EF8C8,0x1EF8C8,27,match,src/hand/func_001EF8C8.c
 func_001EF938,0x1EF938,77,match,src/hand/func_001EF938.c
 func_001EFA70,0x1EFA70,8,match,src/hand/func_001EFA70.c
-func_001EFA90,0x1EFA90,12,match,src/auto/func_001EFA90.c
+func_001EFA90,0x1EFA90,12,match,src/hand/func_001EFA90.c
 LoadSmFromBrx__FP2SMP18CBinaryInputStream,0x1EFAC0,386,match,src/hand/func_001EFAC0.cpp
 PostSmLoad__FP2SM,0x1F00C8,23,match,src/hand/PostSmLoad__FP2SM.cpp
 func_001F0128,0x1F0128,27,match,src/hand/func_001F0128.c

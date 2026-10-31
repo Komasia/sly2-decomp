@@ -23,7 +23,7 @@ typedef struct {
 } OBJ;
 extern char D_002DDF40[];
 extern float D_002C2000;
-extern qword D_002BBB50;
+extern qword g_clqOne;
 void func_001CE920(OBJ *, qword);
 qword func_0014F308(void *, qword);
 float GRandInRange__Fff(float, float);
@@ -44,6 +44,6 @@ void func_001D04E8(OBJ *p, qword q)
         v->z = z;
     }
     p->x18 = D_002C2000;
-    p->x30 = D_002BBB50;
+    p->x30 = g_clqOne;
     p->x20 = d->x50;
 }

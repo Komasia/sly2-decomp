@@ -24,7 +24,7 @@ extern M2C_UNK D_002F633C;
 extern s32 s_pvWorldMin;
 extern s32 s_pvWorldMac;
 extern s32 s_pvStackMin;
-extern s32 D_002F638C;
+extern s32 s_pvStackMac;
 extern M2C_UNK s_critsectStack;
 extern s32 s_ipvStackCur;
 extern M2C_UNK s_apvStackMin;

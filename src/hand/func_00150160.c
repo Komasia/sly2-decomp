@@ -12,7 +12,7 @@ extern struct POLY D_002BD980;
 extern float D_002BD990, D_002BD994, D_002BD998, D_002BD99C;
 extern char D_002BD9A0[];
 extern struct LM D_002BD9B0;
-extern char g_lmZeroOne[], D_002BBB68[];
+extern char g_lmZeroOne[], g_lmNegOneOne[];
 struct CRef { int m_tagk; int m_n; };
 struct SND { char pad[0x4E]; short c4E; };
 struct JOY { char pad[0x103C]; float g103C; float g1040; char pad2[0x1074 - 0x1044]; float g1074; };
@@ -62,7 +62,7 @@ void func_00150160(struct X *p, void *pv, struct JOY *pjoy)
     p->g20 = x = GClamp2(x, 0.0f, 1.0f);
     if (p->g24 != 0.0f && 0.0f < x && x < 1.0f) {
         struct SND *ps = p->p34;
-        func_001FB2C0(ps, func_0011D948(D_002BBB68, __builtin_fabsf(p->g24)));
+        func_001FB2C0(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->g24)));
         ps = p->p34;
         func_001FB1F8(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->g24) * 0.5f + 0.5f));
         if (p->p34->c4E > 0)

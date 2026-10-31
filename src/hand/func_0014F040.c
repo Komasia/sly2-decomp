@@ -6,7 +6,7 @@ typedef union { qword q; float f; } U;
 struct PL { qword pos; qword plane; };
 struct P { char pad[0x48]; float g48; };
 extern float D_002BD8D8;
-extern char D_002BD8E0[];
+extern char s_smpSquishEye[];
 extern float D_002DDEE0;
 void *func_002564B8(void *p);
 void GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, float *pr);
@@ -40,6 +40,6 @@ float func_0014F040(struct P *p, int unused, qword vIn, struct PL *pl)
     float r;
     qword plane = pl->plane;
     qword pos = pl->pos;
-    GSmooth__FfffP3SMPPf(GDistPlane(plane, pos), p->g48 - D_002BD8D8, D_002DDEE0, D_002BD8E0, &r);
+    GSmooth__FfffP3SMPPf(GDistPlane(plane, pos), p->g48 - D_002BD8D8, D_002DDEE0, s_smpSquishEye, &r);
     return GDot(&vIn, pl->plane) - r;
 }

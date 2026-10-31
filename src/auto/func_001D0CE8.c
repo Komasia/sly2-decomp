@@ -5,7 +5,7 @@ extern s128 D_002A2DB0;
 extern s128 g_normalZ;
 extern s128 D_002A2DD0;
 extern f32 D_002A7810;
-extern s128 D_002BBB50;
+extern s128 g_clqOne;
 extern M2C_UNK g_lmZeroOne;
 extern s128 D_002C1F50;
 extern f32 D_002C1F60;

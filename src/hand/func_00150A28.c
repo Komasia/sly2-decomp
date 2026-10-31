@@ -7,7 +7,7 @@ struct CM;
 extern struct CM D_002DDF40;
 extern float D_003E1BE0;
 extern char D_002BD9B8[], D_002BD9C8[], D_002BD9D8[], D_002BD9E8[], D_002BD9F8[];
-extern char g_lmZeroOne[], D_002BBB68[];
+extern char g_lmZeroOne[], g_lmNegOneOne[];
 struct SND { char pad[0x4E]; short c4E; };
 struct X {
     char pad0[0x18]; float g18; char pad1[0x20 - 0x1C];
@@ -61,7 +61,7 @@ void func_00150A28(struct X *p)
     }
     if (p->gB0 != 0.0f) {
         struct SND *ps = p->pC0;
-        func_001FB2C0(ps, func_0011D948(D_002BBB68, __builtin_fabsf(p->gB0)));
+        func_001FB2C0(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->gB0)));
         ps = p->pC0;
         func_001FB1F8(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
         if (p->pC0->c4E > 0)

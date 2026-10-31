@@ -1,6 +1,6 @@
 // func_0014DC58: ported from Lilly's personal Sly 2 decomp (src/P2/cm.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002A2DE0 (D_002A2DE0), D_002BD850 (D_002BD850), SW_CmJolt, g_clock, g_lmZeroOne, s_clqUToUJolt, s_dposJolt, s_rotJolt, s_vecOffset, s_vecRange
+// Globals: D_002A2DE0 (D_002A2DE0), DT_CmJoltMax, SW_CmJolt, g_clock, g_lmZeroOne, s_clqUToUJolt, s_dposJolt, s_rotJolt, s_vecOffset, s_vecRange
 // 0x0014DC58 UpdateCmMat4__FP2CM  (T1386; Sly 1 never matched it)
 // The camera's placement CM::mat (3 rotation rows, row 3 = the position; SetCmMat4 / SetCmPanTilt / the policies set it) or its projection changed:
 //  1. the world -> clip matrix matViewProj = CombineEyeLookAtProj(eye, matProj), where eye is CM::mat itself, or, for 0.5 s after a camera jolt
@@ -403,7 +403,7 @@ static inline qword QwAddScaled(qword qwBase, qword qwD, VU_FLOAT g)
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(qw) : "j"(qwBase), "j"(qwD), "j"(g.qw));
     return qw;
 }
-extern float D_002BD850;
+extern float DT_CmJoltMax;
 extern float SW_CmJolt;
 extern CLQ s_clqUToUJolt;
 extern qword s_dposJolt;
@@ -440,13 +440,13 @@ void UpdateCmMat4(CM *pcm)
 {
     MATRIX4 matEye;
     float dtJolt = g_clock.t - pcm->tJolt;
-    if (dtJolt > D_002BD850)
+    if (dtJolt > DT_CmJoltMax)
     {
         CombineEyeLookAtProj(&pcm->mat, &pcm->matProj, &pcm->matViewProj);
     }
     else
     {
-        float gEnv = GEvaluateClqLm(&s_clqUToUJolt, &g_lmZeroOne, dtJolt / D_002BD850);
+        float gEnv = GEvaluateClqLm(&s_clqUToUJolt, &g_lmZeroOne, dtJolt / DT_CmJoltMax);
         float gJolt = sinf(dtJolt * SW_CmJolt) * gEnv;
         {
             MATRIX3 matRot = LoadRotateMatrix(QwMulX(s_rotJolt, VuFloatOfFloat(gJolt)));

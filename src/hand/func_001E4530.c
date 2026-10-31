@@ -2,7 +2,7 @@ struct G { int a; };
 extern struct G D_003DD490;
 extern struct G D_003DD040;
 extern struct G D_002DE578;
-extern float D_002BD850;
+extern float DT_CmJoltMax;
 union U { int n; float g; };
 struct P { int kind; int x4; int pad[2]; union U u10; union U u14; int x18; };
 struct C { char pad[0x18]; int x18; };
@@ -38,7 +38,7 @@ float func_001E4530(struct C *pc, struct P *p)
         }
         break;
     case 0x32:
-        g = D_002BD850;
+        g = DT_CmJoltMax;
         break;
     case 0x23:
     case 0x33:
