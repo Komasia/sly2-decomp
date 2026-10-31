@@ -1,4 +1,4 @@
-/* func_00149440 (Claude agent, lane D27). The compare loop: the first element is tested before a real for(;;) that is entered by a goto at its increment, so loop.c sees a multiple-entry loop and leaves it alone (no strength reduction), like the target. The redundant fChanged = 1 before `goto changed` is removed later by flow, and jump2 then turns that test into the target bne. */
+/* UpdateVolbtn__FP6VOLBTNf (Claude agent, lane D27). The compare loop: the first element is tested before a real for(;;) that is entered by a goto at its increment, so loop.c sees a multiple-entry loop and leaves it alone (no strength reduction), like the target. The redundant fChanged = 1 before `goto changed` is removed later by flow, and jump2 then turns that test into the target bne. */
 typedef int qword __attribute__((mode(TI)));
 struct CTX { int a[4]; };
 struct G { char pad[0x3EB8]; int c; void *apo[1]; };
@@ -22,7 +22,7 @@ int func_00227C90(struct P *, qword);
 void func_002338C0(void *, int, int, int (*)(const void *, const void *));
 int func_00149420(const void *, const void *);
 
-void func_00149440(struct P *p)
+void UpdateVolbtn__FP6VOLBTNf(struct P *p)
 {
     int k;
     func_001A5E28(p);

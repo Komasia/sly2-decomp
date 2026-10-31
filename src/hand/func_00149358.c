@@ -1,6 +1,6 @@
 void func_00227BB8(void *p);
 void func_00148738(void *p, void *q);
-void func_00149358(char *p)
+void LoadVolbtnFromBrx__FP6VOLBTNP18CBinaryInputStream(char *p)
 {
     func_00227BB8(p);
     func_00148738(p + 0x130, p);

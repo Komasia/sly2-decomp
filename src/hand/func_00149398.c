@@ -3,7 +3,7 @@ void PostLoLoad__FP2LO(void *p);
 void func_00148740(void *p);
 void func_00149718(void *p, int n);
 int PvAllocSwImpl__Fi(struct P2 *p);
-void func_00149398(char *p)
+void PostVolbtnLoad__FP6VOLBTN(char *p)
 {
     PostLoLoad__FP2LO(p);
     func_00148740(p + 0x130);

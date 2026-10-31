@@ -5,7 +5,7 @@ extern struct CLOCK D_002DDED0;
 void *FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct Q *q);
 int func_00149100(struct P *p, int x);
 void func_001490A0(struct P *p, int f);
-void *func_00148F20(struct P *p, struct Q *q)
+void *FAbsorbButtonWkr__FP6BUTTONP3WKR(struct P *p, struct Q *q)
 {
     void *r = FAbsorbSoWkr__FP2SOP3WKR(p, q);
     if (r && !(q->x44 & 4) && func_00149100(p, q->x0)) {

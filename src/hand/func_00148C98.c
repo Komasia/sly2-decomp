@@ -23,7 +23,7 @@ static inline int IOther(struct X *px, struct SO *pso)
     return px->x60 == pso->ae[0].x8 ? 0 : 1;
 }
 
-void func_00148C98(struct P *p)
+void UpdateButton__FP6BUTTONf(struct P *p)
 {
     UpdateSo__FP2SOf(p);
     switch (p->x1E0) {

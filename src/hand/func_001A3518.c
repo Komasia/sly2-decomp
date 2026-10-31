@@ -1,5 +1,4 @@
-/* func_001A3518 (0x1A3518): LIGHT virtual slot 22: unregister from the world (LO slot 22), then take the light out
- * of the world's lights (func_001A3D00). */
+/* func_001A3518 (0x1A3518): LIGHT virtual slot 22: LO slot 22, then func_001A3D00(world, plight). */
 #include "light.h"
 
 void func_001A6178(LO *plo);

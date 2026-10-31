@@ -1,4 +1,4 @@
-/* func_001A6178 (0x1A6178): LO virtual slot 22: unregister the LO from the world (func_00210140); see slot 21. */
+/* func_001A6178 (0x1A6178): LO virtual slot 22: func_00210140(world, plo); the partner of slot 21. */
 #include "so.h"
 
 void func_00210140(void *psw, LO *plo);

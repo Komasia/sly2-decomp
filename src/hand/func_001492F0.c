@@ -1,7 +1,7 @@
 void InitXfm__FP3XFM(void *p);
 void func_00148718(void *p);
 void func_001A6CA8(void *p, int n);
-void func_001492F0(char *p)
+void InitVolbtn__FP6VOLBTN(char *p)
 {
     unsigned int v;
     InitXfm__FP3XFM(p);

@@ -1,5 +1,4 @@
-/* func_001A34E0 (0x1A34E0): LIGHT virtual slot 21: register with the world (LO slot 21), then add the light to
- * the world's lights (func_001A3E88). */
+/* func_001A34E0 (0x1A34E0): LIGHT virtual slot 21: LO slot 21, then func_001A3E88(world, plight). */
 #include "light.h"
 
 void func_001A6150(LO *plo);

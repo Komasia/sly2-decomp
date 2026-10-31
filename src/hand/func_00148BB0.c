@@ -1,6 +1,6 @@
 void InitSo__FP2SO(void *p);
 void func_00148718(void *p);
-void func_00148BB0(char *p)
+void InitButton__FP6BUTTON(char *p)
 {
     unsigned int v;
     InitSo__FP2SO(p);
