@@ -1,7 +1,7 @@
 struct G { int a; };
 extern struct G D_003DD490;
 extern int D_002E1E00;
-extern char D_002DEB30[];
+extern char g_game[];
 struct S { char pad[0x184]; int n184; char pad2[0x38]; int n1C0; };
 int func_0020F0B0(struct G *g);
 int func_0017F1D0(struct S *p, int *pn);
@@ -14,7 +14,7 @@ int func_0017FBE8(struct S *p, int *pn) {
     if (D_002E1E00 & 1) return 0;
     if (!func_0017F1D0(p, pn)) return 0;
     func_00180100(p);
-    if (p->n184 > 0) { func_001619A0(D_002DEB30, 0xF, *pn); func_0017FD08(p, 2); }
+    if (p->n184 > 0) { func_001619A0(g_game, 0xF, *pn); func_0017FD08(p, 2); }
     else func_0017FD08(p, 4);
     return 1;
 }

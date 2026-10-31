@@ -16,7 +16,7 @@ public:
 };
 struct G;
 extern G D_003DD490;
-extern char D_002DEB30[];
+extern char g_game[];
 extern "C" void func_00165DC0(G *pg, O *p);
 extern "C" int func_00162670(O *p);
 extern "C" void func_00163460(O *p);
@@ -29,7 +29,7 @@ extern "C" void func_001629A0(O *p)
     if (func_00162670(p)) {
         p->f7c++;
         func_00163460(p);
-        func_001619A0(D_002DEB30, 0x21, p);
+        func_001619A0(g_game, 0x21, p);
         func_001620B0(p, 4, p->f8c, p->f90);
         func_001623D0(p, 4, p->f94, p->f98, p->ff0);
         p->Msg(0x13, 0, 0, 0, 0);

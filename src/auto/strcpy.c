@@ -3,7 +3,7 @@ void CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
 M2C_UNK _$_5OSTRM(void *, M2C_UNK);                 /* extern */
 s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
 extern s128 D_002A2DA0;
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern s128 D_002A2DD0;
 extern f32 D_002A96A0;
 extern f32 D_002A96E0;
@@ -12,7 +12,7 @@ extern f32 D_002A96F8;
 extern f32 D_002A96FC;
 extern f32 D_002A9700;
 extern M2C_UNK D_002AA6A1;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern f32 D_002C40E4;
 extern M2C_UNK D_002C40F0;
 extern f32 D_002C4100;
@@ -45,11 +45,11 @@ extern f32 D_002C4278;
 extern f32 D_002C427C;
 extern f32 D_002C4280;
 extern s32 D_002DD5BC;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_002DE220;
 extern s32 D_002DE240;
-extern M2C_UNK D_002DEB30;
+extern M2C_UNK g_game;
 extern s32 D_002DFBC4;
 extern M2C_UNK D_002E5270;
 extern M2C_UNK D_003DD490;

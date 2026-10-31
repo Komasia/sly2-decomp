@@ -38,7 +38,7 @@ struct MARK;
 struct WORLD;
 extern "C" {
 extern WORLD D_003DD490;
-extern qword D_002A2DC0,D_002A2DD0;
+extern qword g_normalZ,D_002A2DD0;
 
 void UpdateSo(O *) asm("UpdateSo__FP2SOf");
 MARK *func_001AE478(MARK *);
@@ -108,7 +108,7 @@ extern "C" void func_00228E50(O *p){
     func_001FB4F0(effect,100.0f,1000.0f);
     func_001FB1F8(effect,fall);
     func_002333B4(&work.event,0,sizeof(work.event));
-    normal=D_002A2DC0;
+    normal=g_normalZ;
     work.event.position.q=Add(work.intervals[0].first.q,work.origin.q);
     work.event.kind=14;work.event.strength=radius*fall;work.event.normal=normal;
     Impact(p->recipient,&work.event);

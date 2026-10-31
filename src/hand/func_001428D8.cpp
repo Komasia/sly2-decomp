@@ -1,6 +1,6 @@
 // func_001428D8: ported from Lilly's personal Sly 2 decomp (src/P2/stepplayer_raw.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002BD280 (D_002BD280), D_002BD290 (D_002BD290), D_002BD2A0 (D_002BD2A0), D_002BD2B0 (D_002BD2B0), D_002BBB60 (g_lmZeroOne)
+// Globals: D_002BD280 (D_002BD280), D_002BD290 (D_002BD290), D_002BD2A0 (D_002BD2A0), D_002BD2B0 (D_002BD2B0), g_lmZeroOne
 // 0x001428D8 HeroInteractDistance  (T1414, our name)
 // How far an object is from the hero as the interact pickers rank it: *psDist = the xy distance |hero - plo| plus a bias, *pdz = the height difference (hero - plo)
 // plus a bias (both optional). Callers: GuardEvalInteractMode 0x208E70 (plo = a guard, *pploCur = &hero->ploUnk10dc, *pdz is tested against the guard's height window;
@@ -1015,7 +1015,7 @@ extern CLQ D_002BD280;
 extern CLQ D_002BD290;
 extern CLQ D_002BD2A0;
 extern CLQ D_002BD2B0;
-extern LM D_002BBB60;
+extern LM g_lmZeroOne;
 static inline VU_VECTOR4 SubPos(qword a, qword b)
 {
     VU_VECTOR4 r;
@@ -1067,7 +1067,7 @@ extern "C" void HeroInteractDistance(STEPPLAYER *pstepplayer, LO *plo, LO **pplo
     {
         qword qwStick = MakeVecFromAngle(pctl->radLeft, pctl->sLeft, 0.0f);
         float rAway = GXOfQwVf(QwDot(qwStick, vec)) / sXY;
-        sBias += GEvaluateClqLm(&D_002BD2A0, &D_002BBB60, rAway) * GEvaluateClq(&D_002BD2B0, sXY);
+        sBias += GEvaluateClqLm(&D_002BD2A0, &g_lmZeroOne, rAway) * GEvaluateClq(&D_002BD2B0, sXY);
     }
     sXY += sBias;
     dz += zBias;

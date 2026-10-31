@@ -20,10 +20,10 @@ extern "C" {
 extern float D_002A53E0;
 extern float D_002BE5E4;
 extern float D_002BE5E8;
-extern CLOCK D_002DDED0;
-extern LM D_002BBB60;
+extern CLOCK g_clock;
+extern LM g_lmZeroOne;
 extern CAMERA D_002DDF40;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 FRAME *func_001AE478(FRAME *);
 void func_001AE4A0(FRAME *, int);
 void func_001B44D8(int *, void ***);
@@ -126,7 +126,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
         LO *plo;
         if (psel->fBusy)
             goto next;
-        if (D_002DDED0.t < psel->tUntil)
+        if (g_clock.t < psel->tUntil)
             goto next;
         plo = psel->plo;
         if (!plo)
@@ -178,7 +178,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
             for (int k = 0; k < c; )
             {
                 int kNext = k + 1;
-                float u = D_002BE5E8 * ((float)k + GRandInRange(D_002BBB60.gMin, D_002BBB60.gMax));
+                float u = D_002BE5E8 * ((float)k + GRandInRange(g_lmZeroOne.gMin, g_lmZeroOne.gMax));
                 if (func_001EA3B0(plo->pv180, u))
                     goto nextSample;
                 {
@@ -193,7 +193,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
                             VU_FLOAT gNeg = VuFloatFromMemWord(0xBF800000);
                             dirCurve.q = QwScaleX(dirCurve.q, gNeg);
                         }
-                        M3 matCurve = func_0011B500(func_002458F0(dirCurve.v.y, dirCurve.v.x), D_002A2DC0);
+                        M3 matCurve = func_0011B500(func_002458F0(dirCurve.v.y, dirCurve.v.x), g_normalZ);
                         int j;
                         for (j = 0; j < pset->cpos; j++)
                         {

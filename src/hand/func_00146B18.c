@@ -8,7 +8,7 @@ struct P { char pad[0x10]; struct PO *p10; char pad2[0x30 - 0x14]; int x30; floa
 struct CLOCK { float t; };
 struct CLQ { float g0, g1, g2, gPad; } __attribute__((aligned(16)));
 struct LM { float gMin, gMax; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_001EF0C0(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
@@ -58,7 +58,7 @@ void func_00146B18(struct P *p, struct Q *q)
         qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));
         q->x1C = 1.0f;
         q->x18 = GAtanR(d);
-        if (D_002DDED0.t - p->x34 < 0.1f) {
+        if (g_clock.t - p->x34 < 0.1f) {
             q->x30 |= 0x80;
             func_001C45A8(q);
         }
@@ -82,7 +82,7 @@ void func_00146B18(struct P *p, struct Q *q)
         }
         q->x1C = s;
         q->x18 = GAtanXY2(d, b);
-        if (D_002DDED0.t - p->x34 < 0.1f && p->p10->x2DC == -1) {
+        if (g_clock.t - p->x34 < 0.1f && p->p10->x2DC == -1) {
             q->x30 |= 0x40;
             func_001C45A8(q);
         }
@@ -92,7 +92,7 @@ void func_00146B18(struct P *p, struct Q *q)
         qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));
         q->x1C = 1.0f;
         q->x18 = GAtanR(d);
-        if (D_002DDED0.t - p->x34 < 0.1f) {
+        if (g_clock.t - p->x34 < 0.1f) {
             q->x30 |= 0x80;
             func_001C45A8(q);
         }

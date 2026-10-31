@@ -1,7 +1,7 @@
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
-extern struct CLOCK { float a[20]; } D_002DDED0;
-extern DLI *D_002DD2FC;
+extern struct CLOCK { float a[20]; } g_clock;
+extern DLI *s_pdliFirst;
 typedef struct {
     char pad[0x40];
     unsigned int x40;
@@ -20,8 +20,8 @@ static inline void InitDli(DLI *pdli, DL *pdl)
     pdli->pdl = pdl;
     pdli->ppv = (void **)pdl;
     pdli->ibDle = pdl->ibDle;
-    pdli->pdliNext = D_002DD2FC;
-    D_002DD2FC = pdli;
+    pdli->pdliNext = s_pdliFirst;
+    s_pdliFirst = pdli;
 }
 static inline void *PvNextDli(DLI *pdli)
 {
@@ -41,13 +41,13 @@ void func_001DFC50(OBJ *p)
     if ((fl ^ 1) & 1)
         fl = *(unsigned int *)fl;
     if (fl & 0x100)
-        p->t += D_002DDED0.a[16];
+        p->t += g_clock.a[16];
     else
-        p->t += D_002DDED0.a[1];
+        p->t += g_clock.a[1];
     InitDli(&dli, &p->dl);
     while ((pv = PvNextDli(&dli)) != 0)
         func_001E1C40(pv);
     if (FIsDlEmpty__FP2DL(&p->dl))
         func_001DFEB8(p);
-    D_002DD2FC = dli.pdliNext;
+    s_pdliFirst = dli.pdliNext;
 }

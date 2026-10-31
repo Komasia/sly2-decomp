@@ -6,7 +6,7 @@ struct P {
     char pad7[0x19A0 - 0x10DC]; struct Y *py0; struct Y *py1;
 };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern int D_002DDF54;
 extern struct P *D_002E1E40;
 extern float D_002BD268, D_002BD26C;
@@ -27,8 +27,8 @@ void func_001425B0(struct P *p)
         g1 = 1.0f;
         g0 = g1;
     }
-    p->g10D4 = GSmooth__FfffP3SMPPf(p->g10D4, g0, D_002DDED0.dt, D_002BD270, 0);
-    p->g10D8 = GSmooth__FfffP3SMPPf(p->g10D8, g1, D_002DDED0.dt, D_002BD270, 0);
+    p->g10D4 = GSmooth__FfffP3SMPPf(p->g10D4, g0, g_clock.dt, D_002BD270, 0);
+    p->g10D8 = GSmooth__FfffP3SMPPf(p->g10D8, g1, g_clock.dt, D_002BD270, 0);
     if (p == D_002E1E40) {
         p->py0->g = p->g10D4;
         p->py1->g = p->g10D4;

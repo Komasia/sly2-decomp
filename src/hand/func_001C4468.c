@@ -6,8 +6,8 @@ struct S {
     float g70, g74; int pad78; struct LO *x7C; int x80;
 };
 struct J { char pad[0x103C]; float a, b; char p1[0x1070 - 0x1044]; float c, d; char p2[0x10B4 - 0x1078]; int x10B4; int p3; int x10BC; };
-extern int D_002DFBC0;
-extern struct J D_002DFC00;
+extern int g_grfjoyt;
+extern struct J g_joy;
 extern struct J D_002E0D00;
 extern char D_002DDFA0[];
 void func_001C42E8(struct S *p);
@@ -26,7 +26,7 @@ void func_001C4468(struct S *p)
         func_001C42E8(p);
         break;
     case 1:
-        pj = (D_002DFBC0 & 2) ? &D_002DFC00 : &D_002E0D00;
+        pj = (g_grfjoyt & 2) ? &g_joy : &D_002E0D00;
         p->g10 = pj->a;
         p->g14 = pj->b;
         p->g20 = pj->c;

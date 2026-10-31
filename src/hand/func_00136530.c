@@ -12,7 +12,7 @@ struct P {
 };
 extern struct G *D_002F7900;
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void func_001A58D0(struct P *, int, int);
 void func_0012E460(void *);
@@ -50,7 +50,7 @@ void func_00136530(struct P *p, int k)
         break;
     }
     p->k1800 = k;
-    p->t1804 = D_002DDED0.t;
+    p->t1804 = g_clock.t;
     pv = p->apv[k];
     switch (k) {
     case -1: {

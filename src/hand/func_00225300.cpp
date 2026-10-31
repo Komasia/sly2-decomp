@@ -1,14 +1,14 @@
 // State-5 update: fade the actor in, hand it control of the source's basis, then drop a prize and leave state 3.
 // No actor -> state 3; actor without a live 0xB0 behaviour -> state 2. Otherwise copy the source's (or own) world basis
 // into the actor's control record (+0xFD0), set the behaviour to state 4 once within 100 units, fade the actor's colour
-// with the quadratic D_002C43C0 {1.2, 0, -1} over D_002C43B0 (3 s) clamped to D_002BBB60 {0, 1}, and after the fade
+// with the quadratic D_002C43C0 {1.2, 0, -1} over D_002C43B0 (3 s) clamped to g_lmZeroOne {0, 1}, and after the fade
 // spawn prize 0x5D at the source, call actor slot 9, post game event 0x18 for the actor (func_001619A0) and set state 3.
 // Matching notes (notes/220000.md, 2026-10-24):
-//  - Clamp reads both bounds before testing: gMax is loaded in the bc1f delay slot, and &D_002BBB60 becomes a loop
+//  - Clamp reads both bounds before testing: gMax is loaded in the bc1f delay slot, and &g_lmZeroOne becomes a loop
 //    invariant (fp) while gMin goes through the shared %hi (s5).
-//  - The game event's &D_002DEB30 is built straight into $a0 (the one register pin). As a normal argument it goes through
-//    an argument pseudo; loop.c's single-use substitution then gives %hi(D_002DEB30) life 2 in loop pass 2, so it is
-//    hoisted, wins s7 (a later hoist has the shortest live length) and pushes &D_002BBB60 out of the registers.
+//  - The game event's &g_game is built straight into $a0 (the one register pin). As a normal argument it goes through
+//    an argument pseudo; loop.c's single-use substitution then gives %hi(g_game) life 2 in loop pass 2, so it is
+//    hoisted, wins s7 (a later hoist has the shortest live length) and pushes &g_lmZeroOne out of the registers.
 //  - The colour broadcast is one asm for both pextlw (t ties to the mfc1 register, the lw of the colour sits between).
 typedef int qword __attribute__((mode(TI)));
 typedef struct { short d,pad; void (*fn)(void *,...); } VE;
@@ -20,13 +20,13 @@ struct A { char pad[0xC]; VE *vt; char pad10[0xFB4]; void *color; char padFC8[8]
 struct R { char pad[0x30]; int state; };
 struct S { char pad[0xC]; VE *vt; char pad10[0x140]; int state; float time; char pad158[0x58]; struct O *source; struct A *actor; };
 extern "C" {
-extern struct CLOCK { float t,dt; } D_002DDED0;
+extern struct CLOCK { float t,dt; } g_clock;
 struct LM { float gMin, gMax; };
 extern float D_002C43B0,D_002C43C0[3];
-extern LM D_002BBB60;
+extern LM g_lmZeroOne;
 extern char D_003DD490[];
 struct GAME;
-extern GAME D_002DEB30;
+extern GAME g_game;
 void func_002240B0(struct S *);
 struct R *func_00205458(void *,int);
 int func_0017A9C0(struct R *);
@@ -73,16 +73,16 @@ extern "C" void func_00225300(struct S *p) {
                     if(Length(Sub(pos,other))<100.0f)func_0017A8C8(r,4);
                 }
                 if(p->actor->color) {
-                    float t=(D_002DDED0.t-p->time)/D_002C43B0;
+                    float t=(g_clock.t-p->time)/D_002C43B0;
                     float g=D_002C43C0[0]+t*(D_002C43C0[1]+t*D_002C43C0[2]);
-                    Clamp(&g,&D_002BBB60);
+                    Clamp(&g,&g_lmZeroOne);
                     func_0012D108(p->actor->color,Splat(g));
                 }
-                if(D_002C43B0<D_002DDED0.t-p->time) {
+                if(D_002C43B0<g_clock.t-p->time) {
                     func_001C6FD8(D_003DD490,0x5D,func_001A62E8(p->source),p,1);
                     p->actor->vt[9].fn((char*)p->actor+p->actor->vt[9].d);
-                    // PIN: &D_002DEB30 straight into $a0 keeps %hi(D_002DEB30) inside the loop (see the header).
-                    register GAME *pgame asm("$4")=&D_002DEB30;
+                    // PIN: &g_game straight into $a0 keeps %hi(g_game) inside the loop (see the header).
+                    register GAME *pgame asm("$4")=&g_game;
                     func_001619A0(pgame,0x18,p->actor);
                     p->vt[76].fn((char*)p+p->vt[76].d,3);
                 }

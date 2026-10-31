@@ -50,7 +50,7 @@ struct EV {
 };
 struct LIST { void *pvFirst; void *pvLast; int ib; };
 struct CLOCK { float t; };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 
 struct MGR {
     char pad[0x39F0];
@@ -83,7 +83,7 @@ void func_00149C80(MGR *p)
 
     EV *pev;
     while ((pev = (EV *)p->levs.pvFirst) != 0) {
-        if (D_002DDED0.t < pev->t)
+        if (g_clock.t < pev->t)
             break;
         pev->nC = -1;
         OSP *posp = pev->posp;

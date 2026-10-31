@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 struct VTE { short d; short pad; void *pfn; };
 struct P {
     int pad[3]; struct VTE *vt; char pad1[0x170 - 0x10]; int x170; int x174; int pad2[2]; qword x180; M3 mat;
@@ -46,7 +46,7 @@ void func_0013B428(struct P *p, qword pos, qword q)
         MulStore(p, &m);
         break;
     case 1:
-        func_0011B830(&m, p->x1C0, D_002A2DC0);
+        func_0011B830(&m, p->x1C0, g_normalZ);
         p->mat = m;
         break;
     case 2:

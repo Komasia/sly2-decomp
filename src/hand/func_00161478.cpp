@@ -10,7 +10,7 @@ struct H{char pad[0x9C];float start,end,elapsed;};
 struct G{char pad[0x3B0C];H*object;char pad10[0xC];OPT*primary;char pad20[0x38];OPT*options[9];};
 struct CLOCK{float time,dt;};
 extern G D_003DD490;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern int D_002E0C20;
 extern char D_003D4A60[],D_002DE578[];
 extern "C" CRef func_002581C0(OPT*,void*);
@@ -30,16 +30,16 @@ static inline void SetPrimaryFloat(OPT*p,float value,void*context){
 extern "C" void func_00161478(){
  if(!D_003DD490.primary)return;
  float x=GetFloat(D_003DD490.primary,D_003D4A60);
- SetPrimaryFloat(D_003DD490.primary,x+D_002DDED0.dt,D_003D4A60);
+ SetPrimaryFloat(D_003DD490.primary,x+g_clock.dt,D_003D4A60);
  unsigned int i=func_00210AE0();
  if(i<9){
   OPT*p=D_003DD490.options[i];
-  if(p){float g=GetFloat(p,D_003D4A60);SetFloat(p,g+D_002DDED0.dt,D_003D4A60);}
+  if(p){float g=GetFloat(p,D_003D4A60);SetFloat(p,g+g_clock.dt,D_003D4A60);}
  }
  H*p=D_003DD490.object;
  if(p&&(float)D_002E0C20<10.0f){
-  p->elapsed+=D_002DDED0.dt;
-  if(p->start<p->elapsed)func_00154D88(D_002DE578,D_002DDED0.dt/(p->end-p->start));
+  p->elapsed+=g_clock.dt;
+  if(p->start<p->elapsed)func_00154D88(D_002DE578,g_clock.dt/(p->end-p->start));
  }
 }
 

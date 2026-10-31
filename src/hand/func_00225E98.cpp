@@ -17,9 +17,9 @@ void func_002309E8(void *,void *,M4 *,M4 *,float);
 float func_00244B68(float);
 float func_0011D948(void *,float);
 float func_0011D1C0(float,float,float,float,SMP *,float *);
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002DDF7C;
-extern char D_002BBB60[];
+extern char g_lmZeroOne[];
 extern float D_002C4418[2],D_002C4420[3];
 extern SMP D_002A97B0;
 }
@@ -53,7 +53,7 @@ extern "C" void func_00225E98(S *p){
         scratch.q=ToVF(func_001A62E8(p));
         float angle=func_00244B68(radius/(Length(Sub(scratch.q,func_001A62E8(p->target)))*0.5f));
         angle=angle+angle;
-        CLOCK *clock=&D_002DDED0;
+        CLOCK *clock=&g_clock;
         angle=Max(angle,p->range.lo);
         func_002309E8(p->target->component,0,&m,0,clock->dt);
         scratch.q=LoadVF(m.r[3]);future.q=scratch.q;
@@ -72,17 +72,17 @@ extern "C" void func_00225E98(S *p){
             desired=Min(Max(horizontal,vertical),p->range.hi);
         }else desired=p->range.hi;
         desired=Max(desired,angle);
-        float target=func_0011D948(D_002BBB60,1.0f-Fraction(&p->range,desired));
+        float target=func_0011D948(g_lmZeroOne,1.0f-Fraction(&p->range,desired));
         float delta=Abs(target-p->blend);
         spring=D_002A97B0;
         float rate=(1.0f-delta)*D_002C4418[0]+delta*D_002C4418[1];
         spring.d*=rate;spring.a*=rate;spring.b*=rate;
-        p->blend=func_0011D1C0(p->blend,p->velocity,target,D_002DDED0.dt,&spring,&p->velocity);
+        p->blend=func_0011D1C0(p->blend,p->velocity,target,g_clock.dt,&spring,&p->velocity);
     }else {
         if(p->control){
             float blend=p->blend,zoom=p->control->zoom;
             p->velocity=(D_002C4420[0]+blend*(D_002C4420[1]+blend*D_002C4420[2]))*zoom*Abs(zoom);
-            p->blend=func_0011D948(D_002BBB60,blend+p->velocity*D_002DDED0.dt);
+            p->blend=func_0011D948(g_lmZeroOne,blend+p->velocity*g_clock.dt);
         }
     }
     p->strength=Blend(&p->range,1.0f-p->blend);

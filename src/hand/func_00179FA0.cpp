@@ -13,7 +13,7 @@ struct LIMIT{float low,high;};
 extern "C"{
  extern unsigned long D_002DFB70;
  extern int D_002DFB78;
- extern qword D_002A2DC0;
+ extern qword g_normalZ;
  extern LIMIT D_002BE6B8;
  unsigned long func_00207A20(int);
  int func_00132B10(P*,int);
@@ -100,7 +100,7 @@ extern "C" void func_00179FA0(C*p){
    active|=func_00207A20(0x1B);
    if(!p->reverse)heading=RadNormalize(heading+3.1415927410125732421875f);
    p->basisValid=1;
-   func_0011B500(&work.temp.first.rotation,heading,D_002A2DC0);
+   func_0011B500(&work.temp.first.rotation,heading,g_normalZ);
    p->matrix=work.temp.first.rotation;
   }else if(func_00132B10(p->target,0x27)){
    active|=func_00207A20(0x29);
@@ -113,7 +113,7 @@ extern "C" void func_00179FA0(C*p){
    active|=func_00207A20(0x28);
    p->basisValid=1;
    M3*m=func_001A6318(p->target);
-   (void)func_0011B830(&work.temp.basis,m->r[0],D_002A2DC0);
+   (void)func_0011B830(&work.temp.basis,m->r[0],g_normalZ);
    p->matrix=work.temp.basis;
    func_0017A468(p);
   }else{

@@ -11,7 +11,7 @@ union CURRENT {E*entry;SIDE*side;ATTACH*attachment;};
 union SCALE {const qword*axis;int stride;};
 struct P {char pad[0x190];int count;char pad194[0xC];E entries[8];float width;int sideCount;SIDE sides[4];int attachCount;ATTACH*attachments[8];char pad51C[0x50];void *asset;void *binding;char pad574[0x38];void *path;};
 extern "C" {
-extern qword D_002A2DC0,D_002A2DD0;
+extern qword g_normalZ,D_002A2DD0;
 extern char D_003DD490[];
 void func_001F36A8(P *);
 REF *func_001F4C58(P *,int,int);
@@ -34,7 +34,7 @@ extern "C" void func_001D1518(P *p){
  func_001F36A8(p);
  if(p->count>0){
  int stride=0x60;
- scale.axis=&D_002A2DC0;
+ scale.axis=&g_normalZ;
  E *next=p->entries+1,*cursor=p->entries;
  do {
   current.entry=cursor;

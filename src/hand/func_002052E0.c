@@ -12,7 +12,7 @@ typedef struct P {
     char pad3[0x1048 - 0x250]; FLOATWORD amount;
     char pad4[0x1060 - 0x104C]; qword adjusted;
 } P;
-extern qword D_002A2DD0, D_002A2DC0;
+extern qword D_002A2DD0, g_normalZ;
 extern int func_00132B10(B *, int);
 extern void func_001F49C8(P *, B *);
 static inline qword Transform(const M4*m,qword v,qword last,qword*published){
@@ -49,7 +49,7 @@ extern void func_002052E0(P *p, B *other)
             qword r;
             __asm__("qmtc2.ni %1,%0" : "=j"(scale.q) : "r"(p->amount.word));
             r = m.row[3];
-            __asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x" : "+j"(r) : "j"(D_002A2DC0), "j"(scale.q));
+            __asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x" : "+j"(r) : "j"(g_normalZ), "j"(scale.q));
             p->adjusted = r;
         }
         { VTE *s=p->base.vt; ((void (*)(P *,qword))s[35].fn)((P *)((char *)p+s[35].delta), D_002A2DD0); }

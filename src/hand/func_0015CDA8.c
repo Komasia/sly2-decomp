@@ -2,7 +2,7 @@ typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
 struct G { char pad[0x3B58]; void *apA[9]; void *apB[9]; };
 extern struct G D_003DD490;
 extern char D_003D4A60[];
-extern char D_002DFC00[];
+extern char g_joy[];
 extern int D_002BE26C;
 extern int D_002BE270;
 struct S { char pad[0x110]; int i110; char pad2[4]; int i118; char pad3[0xC]; int n128; };
@@ -59,5 +59,5 @@ void func_0015CDA8(struct S *p)
         D_002BE270 = -1;
         func_0015D648(p, 8, 0);
     }
-    func_00187E78(D_002DFC00);
+    func_00187E78(g_joy);
 }

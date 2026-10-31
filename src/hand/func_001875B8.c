@@ -7,7 +7,7 @@ struct S {
     int x10bc; char x10c0[0xC]; char x10cc[4];
 };
 struct CLOCK { char pad[0x3C]; float g3c; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_001D5150(void *p, int a, int b);
 void func_002333B4(void *pv, int b, int cb);
 void func_001875B8(struct S *p, int a, int b)
@@ -44,5 +44,5 @@ void func_001875B8(struct S *p, int a, int b)
     }
     p->a = a;
     p->b = b;
-    p->t = D_002DDED0.g3c;
+    p->t = g_clock.g3c;
 }

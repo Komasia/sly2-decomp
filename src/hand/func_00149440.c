@@ -4,7 +4,7 @@ struct CTX { int a[4]; };
 struct G { char pad[0x3EB8]; int c; void *apo[1]; };
 extern struct G D_003DD490;
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 struct VTE { short d; short pad; void *pfn; };
 struct P {
     int pad[3]; struct VTE *vt; char pad1[0x1C0 - 0x10]; int x1C0; float x1C4; float x1C8; char pad2[0x1D8 - 0x1CC]; void *x1D8;
@@ -28,7 +28,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
     func_001A5E28(p);
     k = p->x1C0;
     if (k == 2) {
-        if (0.0f <= p->x1C8 && p->x1C8 < D_002DDED0.t - p->x1C4)
+        if (0.0f <= p->x1C8 && p->x1C8 < g_clock.t - p->x1C4)
             func_00149718(p, 1);
     } else if (k < 3) if (k >= 0) {
         void *apo[64];

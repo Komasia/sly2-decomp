@@ -10,7 +10,7 @@ extern struct G D_002DDF40;
 extern char D_002C4120[];
 extern float D_002C41DC;
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_0014FCC8(struct S *p, void *pj, struct T *pt);
 int func_00132B10(void *pj, int k);
 int func_0015E988(int a, int b);
@@ -64,9 +64,9 @@ void func_00221A18(struct S *p, void *pj, struct T *pt)
     p->x34 = 0;
     if (p->pt && p->pt->x184)
         func_0014D8C0(&D_002DDF40);
-    p->g80 = D_002DDED0.t;
-    p->g60 = D_002DDED0.t;
-    p->g48 = D_002DDED0.t - D_002C41DC;
+    p->g80 = g_clock.t;
+    p->g60 = g_clock.t;
+    p->g48 = g_clock.t - D_002C41DC;
     p->x3C = 0;
     if (p->pt && p->pt->g188 != 0.0f)
         D_002DDF40.g24 = p->pt->g188;

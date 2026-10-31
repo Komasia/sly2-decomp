@@ -16,11 +16,11 @@ struct CM{char pad[0x90];U position;};
 struct POLY{float a,b,c;};
 struct LIMIT{float lo,hi;};
 extern "C"{
- extern CLOCK D_002DDED0;
+ extern CLOCK g_clock;
  extern CM D_002DDF40;
  extern U D_002BFA00,D_002BFA10,D_002A2DD0;
  extern POLY D_002BFA20;
- extern LIMIT D_002BBB60;
+ extern LIMIT g_lmZeroOne;
  extern float D_002A6720;
  int func_00132B10(P*,int);
  float func_002458F0(float,float);
@@ -132,7 +132,7 @@ extern "C" void func_001A0B40(C*p,int next){
   if(func_00132B10(p->actor,0x35)){
    P*actor=p->actor;actor->first->inner->value->value.Clear();actor->second->inner->value->value.Clear();
   }
-  p->actor->frozen=1;p->changed=D_002DDED0.time;break;
+  p->actor->frozen=1;p->changed=g_clock.time;break;
  case 8:
   {qword moving=Vector(p->actor);P*actor=p->actor;
   register qword mv __asm__("vf4")=From(moving),axis __asm__("vf1"),dot __asm__("vf2"),one __asm__("vf3");float threshold;
@@ -142,7 +142,7 @@ extern "C" void func_001A0B40(C*p,int next){
   else{
    register qword v __asm__("vf2")=From(Vector(actor));
    float fraction,lower;register LIMIT*range __asm__("$2");
-   __asm__("lui $3,%%hi(%5)\n\tvmul.xy $vf1,%4,%4\n\tvaddy.x $vf1,$vf1,$vf1y\n\taddiu %2,$3,%%lo(%5)\n\tvsqrt $Q,$vf1x\n\tvwaitq\n\tvaddq.x $vf1,$vf0,$Q\n\tlwc1 $f1,8(%2)\n\tqmfc2.ni $4,$vf1\n\tlwc1 $f2,4(%2)\n\tmtc1 $4,$f0\n\tlwc1 %0,%%lo(%5)($3)\n\tmul.s $f1,$f0,$f1\n\tlui %2,%%hi(%6)\n\tlwc1 %1,%%lo(%6)(%2)\n\tsqc2 %4,%3\n\taddiu %2,%2,%%lo(%6)\n\tadd.s $f2,$f2,$f1\n\tmul.s $f0,$f0,$f2\n\tadd.s %0,%0,$f0":"=&f"(fraction),"=&f"(lower),"=&r"(range),"=m"(velocity.q):"j"(v),"i"(&D_002BFA20),"i"(&D_002BBB60):"$3","$4","$f0","$f1","$f2","vf1","memory");
+   __asm__("lui $3,%%hi(%5)\n\tvmul.xy $vf1,%4,%4\n\tvaddy.x $vf1,$vf1,$vf1y\n\taddiu %2,$3,%%lo(%5)\n\tvsqrt $Q,$vf1x\n\tvwaitq\n\tvaddq.x $vf1,$vf0,$Q\n\tlwc1 $f1,8(%2)\n\tqmfc2.ni $4,$vf1\n\tlwc1 $f2,4(%2)\n\tmtc1 $4,$f0\n\tlwc1 %0,%%lo(%5)($3)\n\tmul.s $f1,$f0,$f1\n\tlui %2,%%hi(%6)\n\tlwc1 %1,%%lo(%6)(%2)\n\tsqc2 %4,%3\n\taddiu %2,%2,%%lo(%6)\n\tadd.s $f2,$f2,$f1\n\tmul.s $f0,$f0,$f2\n\tadd.s %0,%0,$f0":"=&f"(fraction),"=&f"(lower),"=&r"(range),"=m"(velocity.q):"j"(v),"i"(&D_002BFA20),"i"(&g_lmZeroOne):"$3","$4","$f0","$f1","$f2","vf1","memory");
    float blend=ClampKnownLower(fraction,lower,range);
    float angle=func_002458F0(velocity.f[1],velocity.f[0])+3.1415927f;
    angle=RadNormalize(angle-p->actor->yaw);
@@ -176,7 +176,7 @@ extern "C" void func_001A0B40(C*p,int next){
   p->actor->control->yaw=p->actor->yaw;clip=p->clips[next];break;
  }
  func_001F4BF8(p->actor);
- p->mode=next;p->time=D_002DDED0.time;
+ p->mode=next;p->time=g_clock.time;
  if(next!=-1){
   if(!clip)clip=p->Default(next);
   func_00130658(&p->actor->asega);func_001F15B8(&p->actor->component);

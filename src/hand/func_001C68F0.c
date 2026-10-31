@@ -15,7 +15,7 @@ struct X {
 struct M { int n; struct S *p; int pad[14]; };
 extern char D_003DD490[];
 extern char D_002C0E10[];
-extern char D_002DEB30[];
+extern char g_game[];
 float GRandInRange__Fff(float a, float b);
 struct X *func_001CE888(void *pg, int a, int b);
 struct LO *func_001C4840(void *pg);

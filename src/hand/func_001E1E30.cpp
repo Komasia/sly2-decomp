@@ -1,6 +1,6 @@
 // func_001E1E30: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002A7AD0 (D_002A7AD0), D_002DE570 (D_002DE570), D_003DA530 (D_003DA530), D_002DDED0 (g_clock), D_002DDF40 (g_cm), D_002DEB30 (g_game), D_003DA0C0 (g_hintbox), D_002DFC00 (g_joy), D_002A2DC0 (g_normalZ), D_002A2DD0 (g_qwZero), D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), D_003DD490 (g_sw)
+// Globals: D_002A7AD0 (D_002A7AD0), D_002DE570 (D_002DE570), D_003DA530 (D_003DA530), g_clock, D_002DDF40 (g_cm), g_game, D_003DA0C0 (g_hintbox), g_joy, g_normalZ, D_002A2DD0 (g_qwZero), D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), D_003DD490 (g_sw)
 // 0x001E1E30 NextJsgCommand__FP3JSG  (T1200; was DispatchAsegEvent: it is Sly 1's NextJsgJsge)
 // Steps the script to the next command of its block and executes it. First the command's actor is chosen (the oid the command carries, else the
 // SetActor default, the block's object or the relay's firer), then the command runs by kind (the table in re/notes/relay-commands-t1289.md), and
@@ -321,7 +321,7 @@ struct GAME
       int oidTaskCur;
       int oidTaskPending;
 };
-extern GAME D_002DEB30;
+extern GAME g_game;
 struct TASKPAIR
 {
     OID oidTask;
@@ -350,7 +350,7 @@ struct CLOCK
       int cWrapAround;
       undefined4 unk_0x5c;
 };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 void SetClockRate(CLOCK *pclock, CRK crk, float rt);
 struct EDGE
 {
@@ -636,7 +636,7 @@ struct JOY;
 enum RUMK
 {
 };
-extern JOY D_002DFC00;
+extern JOY g_joy;
 void TriggerJoyRumbleRumk(JOY *pjoy, RUMK rumk, float dt);
 struct RSMG
 {
@@ -2770,7 +2770,7 @@ extern char D_003DA530[];
 extern LO *D_002DE570;
 extern float D_002A7AD0;
 extern qword D_002A2DD0;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 static inline LO *PloJsgActorDefault(JSG *pjsg)
 {
     if (pjsg->ploActorDefault)
@@ -3033,7 +3033,7 @@ void NextJsgCommand(JSG *pjsg)
         break;
     }
     case RELAYCK_SetClockRate:
-        SetClockRate(&D_002DDED0, (CRK)6, prelaycmd->setClockRate.rate);
+        SetClockRate(&g_clock, (CRK)6, prelaycmd->setClockRate.rate);
         if (prelaycmd->setClockRate.rate == 0.0f)
         {
             RELAY *prelay = pjsg->prelay;
@@ -3062,7 +3062,7 @@ void NextJsgCommand(JSG *pjsg)
         }
         break;
     case RELAYCK_SetTaskState:
-        SetTaskStates(&D_002DEB30, 1, (TASKPAIR *)&prelaycmd->setTaskState, pjsg->ploContext);
+        SetTaskStates(&g_game, 1, (TASKPAIR *)&prelaycmd->setTaskState, pjsg->ploContext);
         break;
     case RELAYCK_HandsOff:
         SetJsgHandsOff(pjsg, prelaycmd->handsOff.fHandsOff, prelaycmd->handsOff.grfHandsOff);
@@ -3139,12 +3139,12 @@ void NextJsgCommand(JSG *pjsg)
         {
             pjsg->ploActor->TranslateToPos(*(qword *)&pos);
         }
-        mat = LoadRotateMatrixRad(rad, D_002A2DC0);
+        mat = LoadRotateMatrixRad(rad, g_normalZ);
         pjsg->ploActor->RotateToMat((MATRIX4 *)&mat);
         if (FIsBasicDerivedFrom(pjsg->ploActor, (CID)52))
         {
             STEPPLAYER *pstepplayer = (STEPPLAYER *)pjsg->ploActor;
-            pstepplayer->qwUnk1060 = QwAddScaledX(*(qword *)&pos, D_002A2DC0, VuFloatFromMemWord(pstepplayer->nUnk1048));
+            pstepplayer->qwUnk1060 = QwAddScaledX(*(qword *)&pos, g_normalZ, VuFloatFromMemWord(pstepplayer->nUnk1048));
             if (!prelaycmd->teleportTo.fAir && pstepplayer->cUnk12f4 == 0)
             {
                 SetJtAirJump(&pstepplayer->jtair, 0xB, 0, 0);
@@ -3518,7 +3518,7 @@ void NextJsgCommand(JSG *pjsg)
         JoltCm(&D_002DDF40, prelaycmd->unk32.nUnk4);
         break;
     case RELAYCK_Rumble:
-        TriggerJoyRumbleRumk(&D_002DFC00, (RUMK)prelaycmd->rumble.rumk, prelaycmd->rumble.dtRumble);
+        TriggerJoyRumbleRumk(&g_joy, (RUMK)prelaycmd->rumble.rumk, prelaycmd->rumble.dtRumble);
         break;
     case RELAYCK_Explode:
         ExplodeAsegEvent(&D_003DD490, prelaycmd->explode.oidA, prelaycmd->explode.oidB, prelaycmd->explode.oidC, pjsg->ploContext, (ASEG *)pjsg->prelay,
@@ -3872,10 +3872,10 @@ void NextJsgCommand(JSG *pjsg)
     }
     if (GrfUpdateLo(pjsg->prelay) & 0x100)
     {
-        pjsg->tCommand = D_002DDED0.tReal;
+        pjsg->tCommand = g_clock.tReal;
     }
     else
     {
-        pjsg->tCommand = D_002DDED0.t;
+        pjsg->tCommand = g_clock.t;
     }
 }

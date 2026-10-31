@@ -10,7 +10,7 @@ qword func_0011E1A0(float,float,float);
 M3 *func_001A6318(struct S *);
 qword func_001A6F00(void *,void *,qword);
 }
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }
 static inline qword Add(qword a,qword b) { qword r; __asm__("vadd.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }
 static inline qword Cross(qword a,qword b) { qword r; __asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1" : "=j"(r) : "0"(a),"j"(b));return r; }
@@ -34,14 +34,14 @@ extern "C" void func_00221408(S *p,qword v,qword *out,qword *normal) {
     M3 m;
     if(p->curve) {
         func_001E6F10(p->curve,p->time,&pos.q,normal);
-        m=func_0011B830(*normal,D_002A2DC0);
+        m=func_0011B830(*normal,g_normalZ);
         *out=InverseRotate(m,Sub(v,pos.q));
     } else if(p->arc) {
         U a;
         a.q=func_0011E1A0(p->time/p->radius,p->radius,0.0f);
         pos.q=Add(p->origin,a.q);
-        *normal=Normalize(Cross(D_002A2DC0,a.q));
-        m=func_0011B830(*normal,D_002A2DC0);
+        *normal=Normalize(Cross(g_normalZ,a.q));
+        m=func_0011B830(*normal,g_normalZ);
         *out=InverseRotate(m,Sub(v,pos.q));
     } else {
         *normal=Normalize(func_001A6318(p)->r[0]);

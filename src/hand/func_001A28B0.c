@@ -15,7 +15,7 @@ struct P {
  struct SMP smp10A8;
 };
 struct CLOCK { float t,dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 int func_001A2788(struct P *p,void *o,qword *pos);
 void func_00228C18(void *o,qword pos,qword *dir,qword *v);
 void func_002297F8(struct P *p,void *o);
@@ -54,7 +54,7 @@ void func_001A28B0(struct P *p,void *o)
   v=Scale(v,k);
   accel.q=v;
   origin.q=func_001A62E8(p);
-  clock=&D_002DDED0;
+  clock=&g_clock;
   func_0011D1C0(origin.f[2]+p->height10A0,vel.f[2]-dir.f[2],pos.f[2],clock->dt,&p->smp10A8,&z);
   g=(z-vel.f[2])/clock->dt-p->xE8->v80.f[2];
   accel.f[2]=accel.f[2]>g?accel.f[2]:g;

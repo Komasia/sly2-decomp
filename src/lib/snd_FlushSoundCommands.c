@@ -1,17 +1,17 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 typedef struct CB { void (*fn)(int, long); int pad; long arg; } CB;
-extern int D_002C4640;
-extern void (*D_002C4650)(int);
-extern int D_002C4654, D_002C4658, D_002C465C, D_002C4680, D_002C4684, D_002C4688;
-extern int *D_002C4660[2];
-extern CB *D_002C4670[2];
-extern int *D_002C4678[2];
-extern void (*D_002C46A4)(int, long);
-extern long D_002C46A8;
-extern CB D_002C4690;
-extern int D_00443840[];
-extern unsigned int D_00448480;
+extern int gCommBusy;
+extern void (*gCdCallback)(int);
+extern int gSSRead, gSSReadDone, gLoadingFromFS, gCommandFillBuffer, gCaching, gLoadBusy;
+extern int *gSndCommandBuffePtr[2];
+extern CB *gSndCommandReturnDefPtr[2];
+extern int *gReturnValuesPtr[2];
+extern void (*gLoadCB)(int, long);
+extern long gLoadUserData;
+extern CB gLoadReturnDef;
+extern int gSyncBuffer[];
+extern unsigned int gLoadReturnValue;
 int snd_GotReturns__Fv(void);
 void func_00234CA0(int);
 void snd_SendCurrentBatch__Fv(void);
@@ -20,48 +20,48 @@ int snd_StreamSafeCdSync(int);
 int snd_FlushSoundCommands(void)
 {
     int i;
-    if (D_002C4640 && snd_GotReturns__Fv()) {
-        if (D_002C465C) {
-            if (D_002C46A4)
-                D_002C46A4(D_00443840[1], D_002C46A8);
-            D_002C46A4 = 0;
-            D_002C465C = 0;
+    if (gCommBusy && snd_GotReturns__Fv()) {
+        if (gLoadingFromFS) {
+            if (gLoadCB)
+                gLoadCB(gSyncBuffer[1], gLoadUserData);
+            gLoadCB = 0;
+            gLoadingFromFS = 0;
         } else {
-            int other = D_002C4680 != 1;
-            for (i = 0; i < *D_002C4660[other]; i++) {
-                if (D_002C4670[other][i].fn)
-                    D_002C4670[other][i].fn(D_002C4678[other][i + 1], D_002C4670[other][i].arg);
+            int other = gCommandFillBuffer != 1;
+            for (i = 0; i < *gSndCommandBuffePtr[other]; i++) {
+                if (gSndCommandReturnDefPtr[other][i].fn)
+                    gSndCommandReturnDefPtr[other][i].fn(gReturnValuesPtr[other][i + 1], gSndCommandReturnDefPtr[other][i].arg);
             }
         }
     }
-    if (D_002C4688) {
+    if (gLoadBusy) {
         func_00234CA0(0);
-        if (D_00448480 != 0xFFFFFFFF) {
-            void (*fn)(int, long) = D_002C4690.fn;
+        if (gLoadReturnValue != 0xFFFFFFFF) {
+            void (*fn)(int, long) = gLoadReturnDef.fn;
             if (fn) {
-                long arg = D_002C4690.arg;
-                D_002C4690.fn = 0;
-                D_002C4690.arg = 0;
-                fn(D_00448480, arg);
+                long arg = gLoadReturnDef.arg;
+                gLoadReturnDef.fn = 0;
+                gLoadReturnDef.arg = 0;
+                fn(gLoadReturnValue, arg);
             }
-            D_00448480 = 0;
-            D_002C4688 = 0;
+            gLoadReturnValue = 0;
+            gLoadBusy = 0;
         }
     }
-    if (!D_002C4640) {
-        if (*D_002C4660[D_002C4680] && !D_002C4684)
+    if (!gCommBusy) {
+        if (*gSndCommandBuffePtr[gCommandFillBuffer] && !gCaching)
             snd_SendCurrentBatch__Fv();
     }
-    if (D_002C4654) {
+    if (gSSRead) {
         snd_StreamSafeCdSync(1);
-        if (D_002C4658) {
-            D_002C4654 = 0;
-            D_002C4658 = 0;
-            if (D_002C4650)
-                D_002C4650(1);
+        if (gSSReadDone) {
+            gSSRead = 0;
+            gSSReadDone = 0;
+            if (gCdCallback)
+                gCdCallback(1);
         }
     }
-    if (D_002C4640 || D_002C4688)
+    if (gCommBusy || gLoadBusy)
         return 1;
     return 0;
 }

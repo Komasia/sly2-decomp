@@ -5,7 +5,7 @@ struct O { char pad[0x4C8]; int x4C8; int x4CC; char pad1[0x4D4 - 0x4D0]; struct
     char aDF0[0xF50 - 0xDF0]; char aF50[0x18C8 - 0xF50]; int n18C8; int x18CC; int n18D0; float g18D4;
     char pad3[0x1FF0 - 0x18D8]; char a1FF0[1]; };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern float D_002BF298;
 extern float D_002BF29C;
 extern void func_00204250(struct O *p, struct A *pa, void *pv);
@@ -57,7 +57,7 @@ void func_00188CC8(struct O *p, struct A *pa, void *pv)
         break;
     case 5:
         if ((unsigned int)(p->n18D0 - 8) < 2) {
-            register float g __asm__("$f0") = D_002DDED0.t - p->g18D4;
+            register float g __asm__("$f0") = g_clock.t - p->g18D4;
             if (g < D_002BF298) { g=D_002BF29C; pa->g94=g; }
         }
         break;

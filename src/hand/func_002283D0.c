@@ -4,9 +4,9 @@ struct S { int x0, x4, x8; struct VTE *vt; char pad[0x134 - 0x10]; int x134; int
 struct G;
 extern struct G D_003DD490;
 extern char D_002DDF40[];
-extern char D_002DEB30[];
+extern char g_game[];
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_00228358(struct S *p, int k);
 struct S *func_002280D0(struct G *pg);
 void func_00161F48(void *a, int b, void *c, struct S *p);
@@ -21,10 +21,10 @@ void func_002283D0(struct S *p)
         if (q) func_002283D0(q);
         return;
     }
-    func_00161F48(D_002DEB30, p->x164, p->a168, p);
+    func_00161F48(g_game, p->x164, p->a168, p);
     func_0014E4C8(D_002DDF40, 2, -1, D_002DDF40 + 0x450, 0, 0);
     func_0014E4C8(D_002DDF40, 2, -1, D_002DDF40 + 0x520, 0, 0);
     func_00228358(p, 4);
-    p->t = D_002DDED0.t + p->dt;
+    p->t = g_clock.t + p->dt;
     p->vt[3].pfn((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
 }

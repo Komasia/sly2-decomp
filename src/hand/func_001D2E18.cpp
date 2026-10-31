@@ -31,8 +31,8 @@ struct P {
 };
 struct CLOCK { float time, dt; };
 union PHASE { M3 rotation; struct { U acceleration, world, limited; } impulse; };
-extern CLOCK D_002DDED0;
-extern const qword D_002A2DC0, D_002A2DD0;
+extern CLOCK g_clock;
+extern const qword g_normalZ, D_002A2DD0;
 extern POLY D_002C2100, D_002C2120, D_002C2130;
 extern float D_002C2110, D_002C2114, D_002C2140, D_002C2144, D_002C2148;
 extern "C" {
@@ -95,7 +95,7 @@ static inline float Abs(float f) { return __builtin_fabsf(f); }
 extern "C" void func_001D2E18(P *p)
 {
     func_001F9B20(p);
-    if (D_002DDED0.time - p->lastCorrection > 3.0f) {
+    if (g_clock.time - p->lastCorrection > 3.0f) {
         M3 reset;
         func_0011B938(func_001A6318(p), 0, &reset);
         func_001F5C30(p, &reset, &D_002C2100, D_002A2DD0, 0);
@@ -131,7 +131,7 @@ extern "C" void func_001D2E18(P *p)
         } while (++i < p->count);
     }
     float budget = Min(D_002C2140, p->contactScale * total / p->physics->mass);
-    CLOCK *clock = &D_002DDED0;
+    CLOCK *clock = &g_clock;
     qword origin = p->primary->velocity.q;
     velocity.q = ScalarBits(*(const int *)&clock->dt);
     scalar.q = AddScaled(origin, p->primary->acceleration.q, velocity.q);
@@ -146,7 +146,7 @@ extern "C" void func_001D2E18(P *p)
     func_001FAC98(p, worldTorque.q);
     float dt = clock->dt;
     float half = dt * 0.5f;
-    func_0011B500(&phase.rotation, D_002A2DC0, (localVelocity.f[2] + torque.f[2] * half) * dt);
+    func_0011B500(&phase.rotation, g_normalZ, (localVelocity.f[2] + torque.f[2] * half) * dt);
     desired.f[0] = p->acceleration * p->drive;
     desired.f[2] = desired.f[1] = 0.0f;
     basis = phase.rotation;
@@ -160,7 +160,7 @@ extern "C" void func_001D2E18(P *p)
         minimum = -ClampTo(Evaluate(p->traction, Clamp(-fraction, 0.0f, 1.0f)), p->limits);
         maximum = p->reverseLimit;
     }
-    dtv.q = TimeStep(D_002DDED0);
+    dtv.q = TimeStep(g_clock);
     phase.impulse.acceleration.q = Divide(Subtract(desired.q, velocity.q), dtv.q);
     phase.impulse.acceleration.bits[2] = 0;
     phase.impulse.acceleration.f[0] = Clamp(phase.impulse.acceleration.f[0], minimum, maximum);

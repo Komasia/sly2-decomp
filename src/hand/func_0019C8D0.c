@@ -1,6 +1,6 @@
 struct O { char pad[0x12F0]; int x12f0; };
 struct S { struct O *p; int x4; int pad[5]; int x1c; int pad2[3]; int x2c; };
-extern int D_002DFBC0;
+extern int g_grfjoyt;
 extern char D_002DE2E0[];
 int func_0014FD50(void *);
 int func_0019C8D0(struct S *p, int k) {
@@ -17,7 +17,7 @@ int func_0019C8D0(struct S *p, int k) {
     case 3:
         {
             int r = 0;
-            if (p->x1c == 0x11 && p->p->x12f0 && (D_002DFBC0 & 2)) r = !func_0014FD50(D_002DE2E0);
+            if (p->x1c == 0x11 && p->p->x12f0 && (g_grfjoyt & 2)) r = !func_0014FD50(D_002DE2E0);
             return r;
         }
     case 2: case 5: case 27:

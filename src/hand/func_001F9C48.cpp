@@ -8,7 +8,7 @@ struct VT {short delta,pad;void (*fn)(void *);};
 struct P {char padC[0xC];VT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x8C];E *e;};
 struct G {char pad3D58[0x3D58];int stamp;};
 struct CLOCK {float time,dt;};
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern G D_003DD490;
 extern "C" void func_00230630(P *,OWNER *);
 extern "C" qword *func_00256D18(qword *,qword);
@@ -41,7 +41,7 @@ extern "C" void func_001F9C48(P *p)
     NODE *node;
     func_00230630(p,position);
     func_00230630(p,rotation);
-    clock=&D_002DDED0;
+    clock=&g_clock;
     {qword point=position->position.q;
     qword k=Scalar(clock->dt*coefficient,&scalar);
     func_00256D18(&position->position.q,AddScaled(point,position->velocity.q,k));}

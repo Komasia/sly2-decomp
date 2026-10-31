@@ -30,8 +30,8 @@ extern int D_002F68F8;
 extern int D_002C0268;
 extern int D_002BD4C0;
 extern G D_002E65E0;
-extern CLOCK D_002DDED0;
-extern JOY D_002DFC00;
+extern CLOCK g_clock;
+extern JOY g_joy;
 void *func_001AE378(const AREQ &r);
 int FOpenFile__18CBinaryAsyncStreamP13CFileLocation(CBinaryAsyncStream *ps, X *px);
 void func_001B3EC0(P *p, CBinaryAsyncStream *ps);
@@ -107,15 +107,15 @@ extern "C" void func_001B3BD0(P *p, K *k)
         func_001B3EC0(p, &strm);
         while (!func_0024B610(&p->x118)) {
             int f;
-            func_0014D0B8(&D_002DDED0, 1);
-            func_001871C0(&D_002DFC00);
+            func_0014D0B8(&g_clock, 1);
+            func_001871C0(&g_joy);
             if (!D_002E65E0.xFD50) UpdateSave(&D_002E65E0);
             f = 0;
             if (FMatch(k, &D_002A3968) || FMatch(k, &D_002A39A8)) f = D_002F68F8 != 0;
             if (D_002C0268) f = 1;
             if (f) {
                 int fQuit = 0;
-                if (func_00187D80(&D_002DFC00, 0x91F)) fQuit = 1;
+                if (func_00187D80(&g_joy, 0x91F)) fQuit = 1;
                 if (fQuit) {
                     p->x108 = 0;
                     break;

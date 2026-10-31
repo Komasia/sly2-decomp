@@ -10,7 +10,7 @@ struct G { char pad[0x3B1C]; void *x3B1C; };
 struct H { char pad[0x100C]; int x100C; int x1010; };
 struct I { char pad[0xFD54]; void *xFD54; };
 extern G D_003DD490;
-extern H D_002DFC00;
+extern H g_joy;
 extern I D_002E65E0;
 extern char D_002A7A70[];
 extern "C" char *func_0021ED58(char *, const char *);
@@ -22,7 +22,7 @@ extern "C" void func_001DDBF0(char *pch)
 {
     float g;
     void *pv;
-    if (D_002DFC00.x100C == 1 && D_002DFC00.x1010 == 0) {
+    if (g_joy.x100C == 1 && g_joy.x1010 == 0) {
         func_0021ED58(pch, func_0013E368(&D_003DD490, 9));
         return;
     }

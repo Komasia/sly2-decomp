@@ -10,9 +10,9 @@ struct CLOCK {float time,dt;};
 struct EFFECT;
 extern CAMERA D_002DDF40;
 extern PROFILE D_003E1A60;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002C3D4C;
-extern float D_002C3D50[3],D_002C3D60[2],D_002BBB60[2];
+extern float D_002C3D50[3],D_002C3D60[2],g_lmZeroOne[2];
 extern "C" {
 void func_001F3C10(P *);
 int func_0014FD50(void *);
@@ -47,7 +47,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             float gain=profile->a+distance*(profile->b+distance*profile->c);
             float min=profile->min,max=profile->max;
             if(gain<min)gain=min;else if(max<gain)gain=max;
-            float elapsed=D_002DDED0.time-p->start;
+            float elapsed=g_clock.time-p->start;
             float along=gain,across=gain;
             if(elapsed<0.85f){
                 float wave=func_00245000(elapsed*D_002C3D4C);
@@ -55,7 +55,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
                 float mix=(wave+1.0f)*0.5f;
                 float magnitude=D_002C3D50[0]+u*(D_002C3D50[1]+u*D_002C3D50[2]);
                 float blend=(1.0f-mix)*D_002C3D60[0]+mix*D_002C3D60[1];
-                float min=D_002BBB60[0],max=D_002BBB60[1];
+                float min=g_lmZeroOne[0],max=g_lmZeroOne[1];
                 if(magnitude<min)magnitude=min;else if(max<magnitude)magnitude=max;
                 float strength=blend*magnitude;
                 across=1.0f-strength;

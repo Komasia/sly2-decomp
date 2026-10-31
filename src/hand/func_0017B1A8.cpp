@@ -15,11 +15,11 @@ struct REQUEST{int flag;float a,b;int pad;U point,direction;};
 struct C{char pad0[0x10];P*actor;char pad14[0x40-0x14];CONTROL*control;char pad44[12];int mode;float time;int pad58;P*target;int owned;DELTA*delta;};
 struct CLOCK{float time,dt;};
 extern "C"{
- extern CLOCK D_002DDED0;
+ extern CLOCK g_clock;
  extern float D_002BE6FC,D_002BE700,D_002BE704;
  extern F D_002BE708;
- extern U D_002A2DC0;
- extern char D_003DD490[],D_002DFC00[];
+ extern U g_normalZ;
+ extern char D_003DD490[],g_joy[];
  void SetSoMass(P*,float) asm("SetSoMass__FP2SOf");
  void func_00130D30(ASEGA*,int,float,float);
  void func_0012E460(DELTA**);
@@ -165,7 +165,7 @@ extern "C" void func_0017B1A8(C*p,int next){
    p->delta=func_0012DE58(p->actor,first,0,end,localPoint,localDirection);
   }
   int owned=0;if(request.flag)owned=p->target->owner==p->actor;p->owned=owned;
-  if(p->actor->attention){P*focus=func_001C4840(D_003DD490);if(focus&&p->target==focus)TriggerJoyRumbleRumk(D_002DFC00,3,0.15f);}
+  if(p->actor->attention){P*focus=func_001C4840(D_003DD490);if(focus&&p->target==focus)TriggerJoyRumbleRumk(g_joy,3,0.15f);}
   break;
  }
  case 3:{ENTRY*entry=func_0012F938(p->control->curves,0x3C);if(entry)func_00130D30(p->control->asega,0,entry->value,1.0f);break;}

@@ -1,7 +1,7 @@
 struct B { int a[12]; };
 struct MK { int a; };
 extern int D_003DCF9C, D_003DCF98;
-extern int D_002DE598;
+extern int g_pdcGif;
 void __4GIFS(struct B *pb);
 struct MK *func_001AE478(struct MK *pm);
 void func_001AE4A0(struct MK *pm, int n);
@@ -29,7 +29,7 @@ void func_00170730(void *p) {
         func_00166968(&b);
         func_001576B0(&b);
         func_00157348(&b, 0, &n);
-        func_0016F8B8(D_002DE598, n);
+        func_0016F8B8(g_pdcGif, n);
     }
     func_001AE4A0(&mk, 2);
 }

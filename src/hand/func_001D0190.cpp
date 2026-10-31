@@ -18,10 +18,10 @@ struct RIP {char pad0[0x14];float start,duration;void *material;POLY size;int un
 struct CAMERA {char pad0[0x90];qword position;};
 struct CLOCK {float time,dt;};
 extern CAMERA D_002DDF40;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern POLY D_002C1FB0,D_002C1FD0,D_002C1FF0;
-extern float D_002C1FC0[2],D_002C1FE0[2],D_002BBB60[2];
-extern const qword D_002A2DA0,D_002A2DC0;
+extern float D_002C1FC0[2],D_002C1FE0[2],g_lmZeroOne[2];
+extern const qword D_002A2DA0,g_normalZ;
 extern "C" {
 void func_001CE980(RIP *);
 int func_0014F850(CAMERA *,qword,qword);
@@ -52,17 +52,17 @@ extern "C" void func_001D0190(RIP *p)
     M3 basis,rotation,product;
     M4 transform;
     qword direction=Subtract(D_002DDF40.position,p->position);
-    float time=(D_002DDED0.time-p->start)/p->duration;
+    float time=(g_clock.time-p->start)/p->duration;
     float distance=Length(direction)*0.001f;
     float size=Evaluate(p->size,time)*Clamp(Evaluate(D_002C1FB0,distance),D_002C1FC0[0],D_002C1FC0[1]);
     if(!func_0014F850(&D_002DDF40,Scale(direction,VU_FLOAT(-1.0f)),BcG(size*100.0f))){func_001CE980(p);return;}
     /* opacity clamp; the result shares lo's register, hi is loaded before the compare */
-    float opacity=D_002BBB60[0];
-    float hi=D_002BBB60[1];
+    float opacity=g_lmZeroOne[0];
+    float hi=g_lmZeroOne[1];
     float v=Evaluate(p->opacity,time);
     if(v<opacity){}else if(hi<v)opacity=hi;else opacity=v;
     opacity*=Clamp(Evaluate(D_002C1FD0,distance),D_002C1FE0[0],D_002C1FE0[1]);
-    basis=func_0011B830(direction,D_002A2DC0);
+    basis=func_0011B830(direction,g_normalZ);
     rotation=func_0011B500(D_002A2DA0,Evaluate(D_002C1FF0,time));
     product=Multiply(basis,rotation);
     transform=func_0011C288(p->position,product,size);

@@ -4,8 +4,8 @@ void **PvAllocSlot__FP8ALLOCREQ(s32 *);                        /* extern */
 extern s128 D_002A2DD0;
 extern M2C_UNK D_002C3C20;
 extern M2C_UNK D_002C44F0;
-extern void *D_002DD2FC;
-extern f32 D_002DDED0;
+extern void *s_pdliFirst;
+extern f32 g_clock;
 extern f32 D_002DDED4;
 extern M2C_UNK D_003DD490;
 extern void *D_003E1218;

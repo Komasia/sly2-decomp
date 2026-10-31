@@ -3,7 +3,7 @@ struct VT {short adjustment,unused;void *function;};
 struct ACTOR {char pad0[0xF4];int id;int unusedF8,key;};
 struct X {char pad0[0xC];VT *vtable;char pad10[0x30];uint flags;char pad44[0x14];void *shown;char pad5C[0x98];ACTOR *actor;};
 struct P {int state;char pad4[0x70];int specialCount;char pad78[0x14];ACTOR *actor;char pad90[0x10];uint savedFlags;void *resource;X **model;X *primary,*secondary;char padB4[8];int selected,pending;};
-extern char D_003DD490[],D_003DD040[],D_002DDED0[],D_002DE390[],D_002DEB30[];
+extern char D_003DD490[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
 extern "C" {
 void func_0020EFC0(void *,int);
 void func_0020F030(void *,int);
@@ -77,7 +77,7 @@ extern "C" void func_00202768(P *p,int nextState)
         break;
     case 8:
         Restore(*p->model,p->savedFlags);
-        func_0014D1D0(D_002DDED0,0,1.0f);
+        func_0014D1D0(g_clock,0,1.0f);
         func_001FE5B8(D_003DD040,1,1);
         func_00213928(p->primary,0x358);
         break;
@@ -90,7 +90,7 @@ extern "C" void func_00202768(P *p,int nextState)
             func_00147C20(p->resource,0x608,p->actor->key);
         }
         func_002036E8(p->actor,1);
-        func_001619A0(D_002DEB30,10,0);
+        func_001619A0(g_game,10,0);
         p->actor=0;
         if(func_002022D8(p)){
             func_00213B00(p->primary,0x35D);
@@ -108,7 +108,7 @@ extern "C" void func_00202768(P *p,int nextState)
         Post(p->primary,-1);
         func_00201E88(p);
         func_00201F90(p);
-        func_001619A0(D_002DEB30,9,0);
+        func_001619A0(g_game,9,0);
         break;
     case 1:
         func_00213928(p->primary,0x35D);
@@ -150,7 +150,7 @@ extern "C" void func_00202768(P *p,int nextState)
             __asm__("sw %1,%0" : "=m"(updated->flags) : "r"(inlineWord));
         }
         func_001FE5B8(D_003DD040,1,0);
-        func_0014D1D0(D_002DDED0,0,0.0f);
+        func_0014D1D0(g_clock,0,0.0f);
         break;
     }
     case 9:
@@ -172,11 +172,11 @@ extern "C" void func_00202768(P *p,int nextState)
         Clear(p->secondary);
         Clear(p->primary);
         func_00201F00(p);
-        func_001619A0(D_002DEB30,11,0);
+        func_001619A0(g_game,11,0);
         break;
     case -1:
         if(previous!=10){
-            func_001619A0(D_002DEB30,11,0);
+            func_001619A0(g_game,11,0);
             if(p->primary->shown){func_00212A70(p->primary,1);func_00212A50(p->primary,1);}
             if(p->secondary->shown){func_00212A70(p->secondary,1);func_00212A50(p->secondary,1);}
         }

@@ -7,7 +7,7 @@ struct O{char pad[0xC];struct VT*vt;};
 struct M3{U row[3];};
 struct P{struct O*self;char pad4[0x30-4];struct O*target;char pad34[8];int mode;char pad40[0x20];U velocity;};
 extern F D_002BFACC,D_002BFAD0,D_002BFAD4,D_002BFB00,D_002BFB04;
-extern U D_002BFAE0,D_002BFAF0,D_002A2DA0,D_002A2DC0;
+extern U D_002BFAE0,D_002BFAF0,D_002A2DA0,g_normalZ;
 int func_00132B10(struct O*,int);
 qword func_0011E9F8(qword,float);
 qword func_001A62E8(struct O*);
@@ -102,7 +102,7 @@ void func_001A16C8(struct P*p){
                 // Read blend data and initialize the scalar temporary.
                 __asm__("lui %0,%%hi(%7)\n\tlui %1,%%hi(%8)\n\tlui %2,%%hi(%9)\n\tlw %0,%%lo(%7)(%0)\n\taddiu %2,%2,%%lo(%9)\n\tlw %1,%%lo(%8)(%1)\n\tlqc2 %5,0(%2)\n\tqmtc2.ni %0,%3\n\tqmtc2.ni %1,%4\n\tsqc2 %3,%6"
                     :"=&r"(first),"=&r"(second),"=&r"(up),"=j"(weight),"=j"(lift),"=j"(axis),"=m"(scalar.q)
-                    :"i"(&D_002BFB00.bits),"i"(&D_002BFB04.bits),"i"(&D_002A2DC0):"memory");
+                    :"i"(&D_002BFB00.bits),"i"(&D_002BFB04.bits),"i"(&g_normalZ):"memory");
                 a=weight;b=lift;z=axis;
             }
 

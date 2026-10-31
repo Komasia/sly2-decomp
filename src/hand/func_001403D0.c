@@ -10,7 +10,7 @@ struct P {
     char pad4[0xFD0 - 0xF00]; int xFD0;
     char pad5[0x1084 - 0xFD4]; void *x1084;
 };
-extern struct G D_002DFC00;
+extern struct G g_joy;
 extern char D_002DE2E0[];
 extern char D_003DA0F0[];
 void UpdateStep__FP4STEPf(struct P *p);
@@ -58,7 +58,7 @@ void func_001403D0(struct P *p)
     if (p->xEFC && func_00131968(p->xEFC))
         func_001306A8(&p->xEFC);
     if (!func_0014FD50(D_002DE2E0) && p->x150->x80 == 1 && func_001C4660(p->x150, 0.0f, 0x100)) {
-        struct G *pg = &D_002DFC00;
+        struct G *pg = &g_joy;
         if ((pg->x10B4 & 0x108) == 0x100) {
             func_00187DE0(pg, 0x100);
             func_001DB490(D_003DA0F0);

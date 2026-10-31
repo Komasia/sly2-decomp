@@ -1,11 +1,11 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 typedef struct CB { void (*fn)(int, long); int pad; long arg; } CB;
-extern int D_002C4640, D_002C4680, D_002C4684, D_002C46B8;
-extern int *D_002C4660[2];
-extern int D_002C4668[2];
-extern CB *D_002C4670[2];
-extern int D_00443840[];
+extern int gCommBusy, gCommandFillBuffer, gCaching, D_002C46B8;
+extern int *gSndCommandBuffePtr[2];
+extern int gCommandBuffeBytesAvail[2];
+extern CB *gSndCommandReturnDefPtr[2];
+extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA1C8[], D_002AA5E8[], D_002AA610[], D_002AA670[];
 void func_0021EC18(const char *, ...);
@@ -25,15 +25,15 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
     int i;
     unsigned char *p;
 
-    if (!D_002C4684 && !D_002C4640 && !size && !fn) {
-        func_00231F38(D_00443840, 1);
+    if (!gCaching && !gCommBusy && !size && !fn) {
+        func_00231F38(gSyncBuffer, 1);
         while (func_00237488(D_00443800)) {
             if (!D_002C46B8)
                 func_0021EC18(D_002AA1C8);
             func_00231C48();
             func_00234CA0(0);
         }
-        func_00237288(D_00443800, cmd, 1, 0, 0, D_00443840, 0xC, 0, 0);
+        func_00237288(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
         return;
     }
     tries = 0;
@@ -45,21 +45,21 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
         while (1)
             ;
     }
-    while (*D_002C4660[D_002C4680] == 0x100 || D_002C4668[D_002C4680] < len) {
-        if (D_002C4684) {
-            D_002C4684 = 0;
+    while (*gSndCommandBuffePtr[gCommandFillBuffer] == 0x100 || gCommandBuffeBytesAvail[gCommandFillBuffer] < len) {
+        if (gCaching) {
+            gCaching = 0;
             held = 1;
         }
         func_00231C48();
         if (tries == 1 && !D_002C46B8)
-            func_0021EC18(D_002AA610, D_002C4680, *D_002C4660[D_002C4680]);
+            func_0021EC18(D_002AA610, gCommandFillBuffer, *gSndCommandBuffePtr[gCommandFillBuffer]);
         tries++;
     }
     if (tries && !D_002C46B8)
         func_0021EC18(D_002AA670, tries);
     if (held)
-        D_002C4684 = 1;
-    p = (unsigned char *)D_002C4660[D_002C4680] - (D_002C4668[D_002C4680] - 0x1000);
+        gCaching = 1;
+    p = (unsigned char *)gSndCommandBuffePtr[gCommandFillBuffer] - (gCommandBuffeBytesAvail[gCommandFillBuffer] - 0x1000);
     *(short *)p = cmd;
     p += 2;
     *(short *)p = size;
@@ -72,8 +72,8 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
             p[i] = buf[i];
         func_0023320C(p + 0xC, *(void **)(buf + 0xC), *(int *)(buf + 8));
     }
-    D_002C4668[D_002C4680] -= len;
-    D_002C4670[D_002C4680][*D_002C4660[D_002C4680]].fn = fn;
-    D_002C4670[D_002C4680][*D_002C4660[D_002C4680]].arg = arg;
+    gCommandBuffeBytesAvail[gCommandFillBuffer] -= len;
+    gSndCommandReturnDefPtr[gCommandFillBuffer][*gSndCommandBuffePtr[gCommandFillBuffer]].fn = fn;
+    gSndCommandReturnDefPtr[gCommandFillBuffer][*gSndCommandBuffePtr[gCommandFillBuffer]].arg = arg;
     snd_PostMessage__Fv();
 }

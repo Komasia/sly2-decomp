@@ -1,9 +1,9 @@
 struct DL{void*first;void*last;int linkOffset;};
-extern void*D_002DD2FC;
+extern void*s_pdliFirst;
 struct DLI{
  DL*list;void**next;int linkOffset;void*previous;
- DLI(DL*owner){int offset=owner->linkOffset;previous=D_002DD2FC;D_002DD2FC=this;list=owner;next=(void**)owner;linkOffset=offset;}
- ~DLI(){D_002DD2FC=previous;}
+ DLI(DL*owner){int offset=owner->linkOffset;previous=s_pdliFirst;s_pdliFirst=this;list=owner;next=(void**)owner;linkOffset=offset;}
+ ~DLI(){s_pdliFirst=previous;}
  void*Next(){void*value=*next;next=(void**)((unsigned int)value+linkOffset);return value;}
 };
 struct VTE{short delta,pad;void(*method)(void*);};

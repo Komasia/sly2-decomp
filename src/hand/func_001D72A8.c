@@ -10,8 +10,8 @@ typedef struct OBJ {
 extern struct G D_003DD490;
 extern char D_003DA150[];
 extern char D_002DE2E0[];
-extern int D_002DFBC0;
-extern char D_002DFC00[];
+extern int g_grfjoyt;
+extern char g_joy[];
 extern char D_002E0D00[];
 void UpdateSo__FP2SOf(OBJ *);
 int func_0014FD50(void *);
@@ -37,8 +37,8 @@ void func_001D72A8(OBJ *p)
         return;
     if (func_0014FD50(D_002DE2E0))
         return;
-    if (D_002DFBC0 & 2)
-        pad = D_002DFC00;
+    if (g_grfjoyt & 2)
+        pad = g_joy;
     else
         pad = D_002E0D00;
     n = func_00187E88(pad);

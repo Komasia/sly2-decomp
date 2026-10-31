@@ -3,7 +3,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G D_003DD490;
-extern char D_002DEB30[];
+extern char g_game[];
 extern char D_002DE578[];
 struct E { int n0; int pad[2]; int nC; };
 struct A {
@@ -44,9 +44,9 @@ void func_00179898(struct S *p) {
     if (a->n330 == 0) {
         a->n330 = 1;
         if (p->p50 == func_001C4840(&D_003DD490))
-            func_001619A0(D_002DEB30, 0x18, p->p10);
+            func_001619A0(g_game, 0x18, p->p10);
         else
-            func_001619A0(D_002DEB30, 0x17, p->p10);
+            func_001619A0(g_game, 0x17, p->p10);
         n = Count(p->p10);
         {
             qword q = p->p10->v3E0;

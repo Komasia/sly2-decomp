@@ -39,11 +39,11 @@ struct STEPPLAYER { char pad0[0x9C4]; int idUnk9C4; };
 struct CLOCK { float t; float dt; };
 
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern int D_002E1E50;
 extern float D_002BF710, D_002BF714;
 extern SMP D_002BF718;
-extern char D_002DEB30[];
+extern char g_game[];
 int func_00194F48(const void *, const void *);   // JTGRABCAND compare for qsort
 void func_002338C0(void *base, uint c, uint cb, int (*pfnCmp)(const void *, const void *));   // qsort
 void *func_002332B8(void *dst, const void *src, uint cb);   // memmove
@@ -107,7 +107,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
                         }
                     }
                     if (D_002E1E50) {
-                        float dt = D_002DDED0.dt;
+                        float dt = g_clock.dt;
                         float dsPrev = pcandOld->dsParam;
                         float dsNew = dsPrev + dt * ((pcand->sParam - pcandOld->sParam) * D_002BF710 + (pcand->dsParam - dsPrev) * D_002BF714);
                         float dsAvg;
@@ -115,7 +115,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
                         dsAvg = (dsPrev + dsNew) * 0.5f;
                         pcandOld->sParam = pcandOld->sParam + dt * dsAvg;
                     } else {
-                        pcandOld->sParam = GSmooth(pcandOld->sParam, pcand->sParam, D_002DDED0.dt, &D_002BF718, &pcandOld->dsParam);
+                        pcandOld->sParam = GSmooth(pcandOld->sParam, pcand->sParam, g_clock.dt, &D_002BF718, &pcandOld->dsParam);
                     }
                     if (fWrap) {
                         if (asRange[1] < pcandOld->sParam)
@@ -143,7 +143,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
             pcand->ploUnk10 = plo;
         }
         psw->ajtgrabcand[psw->cjtgrabcand++] = *pcand;
-        func_001619A0(D_002DEB30, 0x3D, pcand->plo);
+        func_001619A0(g_game, 0x3D, pcand->plo);
     }
     func_002338C0(ajtgrabcandOld, psw->cjtgrabcand, sizeof(JTGRABCAND), func_00194F48);
 }

@@ -1,11 +1,11 @@
 /* func_00205910 (Lilly / Claude agent, T1593): terrain-fit of the crawl probes (our name UpdateCrawlCollide, 0x205910; see
  * re/symbols: the 3-probe floor follower of the vent crawl, called from UpdateJtGrab case 8).  MATCH, no register pins.
- * What it does: the actor's orientation is turned about the up axis (D_002A2DC0) by its heading (p+0x1A8) into a position+rotation
+ * What it does: the actor's orientation is turned about the up axis (g_normalZ) by its heading (p+0x1A8) into a position+rotation
  * matrix matCur (copied to matOrig); the largest probe radius (length of the local probe points, start -FLT_MAX D_002A85F8) is the
  * sphere for the nearby-objects query (func_0020FC60, filter func_0020FA50 with p+0xEC as context).  Then D_002C3CE4 passes: every
  * probe point is placed with matCur and snapped to the floor by the line test func_00173610 (height->max / height->min); a probe
  * that finds no floor is dropped by D_002C3CE0 along matCur's up row.  The plane through the three probes gives a normal (cross of
- * the two edges, D_002A2DC0 if shorter than 0.0001), func_0011BA08 builds the rotation from matOrig's up row to it, func_0011BCF8
+ * the two edges, g_normalZ if shorter than 0.0001), func_0011BA08 builds the rotation from matOrig's up row to it, func_0011BCF8
  * measures its angle, which is limited to D_002C3CE8 (func_0011B500 rebuilds the rotation about the same axis with the limit),
  * and matCur = adjustment * matOrig.  The final rotation is stored at p+0x1B0.
  * How it matches (everything came from the personal decomp's recipes, nothing from register pins):
@@ -35,7 +35,7 @@ struct P {char pad0[0xEC];void *attachment;char padF0[0xB8];float heading;char p
 struct HEIGHT {float min,max;};
 struct GAME;
 extern GAME D_003DD490;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern const float D_002A85F8;
 extern float D_002C3CE0;
 extern float D_002C3CE8;
@@ -95,7 +95,7 @@ static inline void InitMat(MATRIX4 *pm,const MATRIX3 &rot,qword pos)
 extern "C" void func_00205910(P *p,HEIGHT *height,int pointCount,const qword *localPoints)
 {
     MATRIX4 matCur,matOrig;
-    InitMat(&matCur,Rotation(D_002A2DC0,p->heading),func_001A62E8(p));
+    InitMat(&matCur,Rotation(g_normalZ,p->heading),func_001A62E8(p));
     matOrig=matCur;
     float radius=D_002A85F8;
     for(int i=0;i<pointCount;i++){float length=GLength(localPoints[i]);radius=(radius>length)?radius:length;}
@@ -115,7 +115,7 @@ extern "C" void func_00205910(P *p,HEIGHT *height,int pointCount,const qword *lo
         }
         MATRIX3 adjustment;
         float angle;
-        const qword *pFallback=&D_002A2DC0;
+        const qword *pFallback=&g_normalZ;
         qword origin=points[0].q;
         qword first=QwSub(points[1].q,origin);
         qword second=QwSub(points[2].q,origin);

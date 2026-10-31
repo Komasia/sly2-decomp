@@ -4,7 +4,7 @@ struct PR { int a, b; };
 struct S { int x0, x4, x8; struct VTE *vt; char pad[0xE0 - 0x10]; int xE0; char aE4[0x40]; int x124; char a128[0x20]; int c; struct PR apr[1]; };
 struct G;
 extern struct G D_003DD490;
-extern char D_002DEB30[];
+extern char g_game[];
 extern char D_002DDF40[];
 struct O *func_0015E938(struct G *pg, int k, int id, struct S *p);
 void func_0020FF70(struct G *pg, int a, void *b, struct S *p, int c);
@@ -25,7 +25,7 @@ void func_00228750(struct S *p)
         }
     }
     func_0020FF70(&D_003DD490, p->xE0, p->aE4, p, 1);
-    func_00161F48(D_002DEB30, p->x124, p->a128, p);
+    func_00161F48(g_game, p->x124, p->a128, p);
     for (j = func_0015E9C8(&D_003DD490, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
         if (apo[j]->k != 2) func_00228358(apo[j], 0);
     }

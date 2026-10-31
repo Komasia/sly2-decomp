@@ -6,7 +6,7 @@ typedef union { qword q; float f[4]; } U;
 typedef struct { qword r[3]; } M3;
 typedef union { struct { qword r[4]; } q; M3 m3; float af[4][4]; } M4;
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 struct CM { char pad[0x390]; float g390; };
 extern struct CM D_002DDF40;
 extern qword D_002BDA70[];
@@ -56,7 +56,7 @@ extern "C" void func_00151700(struct X *p)
     U c;
     struct PATH *ppath;
     func_0014FD40(p);
-    u = D_002DDED0.t - D_002DDF40.g390;
+    u = g_clock.t - D_002DDF40.g390;
     t = GClamp(u / p->ppath->dt, 0.0f, 1.0f);
     u = t;
     c.f[1] = u * u;

@@ -2,7 +2,7 @@ struct CRef {
     int kind;
     union { int integer; float scalar; void *pointer; } value;
 };
-extern char D_002DEB30[];
+extern char g_game[];
 void func_001331F8(void *p, int n, int deferred, int argumentCount,
                    void *const *arguments, struct CRef *output);
 void func_001619A0(void *p, int n, void *q);
@@ -18,10 +18,10 @@ void func_001A61E0(void *p, int n, int deferred, int argumentCount,
     func_001331F8(p, n, deferred, argumentCount, arguments, output);
     switch (n) {
     case 5:
-        func_001619A0(D_002DEB30, 0x1A, p);
+        func_001619A0(g_game, 0x1A, p);
         break;
     case 6:
-        func_001619A0(D_002DEB30, 0x1B, p);
+        func_001619A0(g_game, 0x1B, p);
         break;
     }
 }

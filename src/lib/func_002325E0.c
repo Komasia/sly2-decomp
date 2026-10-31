@@ -1,10 +1,10 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
-extern int D_002C4640, D_002C4680, D_002C4684, D_002C46B8;
-extern int *D_002C4660[2];
+extern int gCommBusy, gCommandFillBuffer, gCaching, D_002C46B8;
+extern int *gSndCommandBuffePtr[2];
 extern unsigned char D_00443880[];
 extern unsigned char D_0044388C[];
-extern int D_00443840[];
+extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA5A0[], D_002AA1C8[];
 void func_0021EC18(const char *, ...);
@@ -34,11 +34,11 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
             D_00443880[i] = buf[i];
         func_0023320C(D_0044388C, *(void **)(buf + 0xC), *(int *)(buf + 8));
     }
-    while (D_002C4640) {
+    while (gCommBusy) {
         func_00231C48();
         func_00234CA0(0);
     }
-    func_00231F38(D_00443840, 1);
+    func_00231F38(gSyncBuffer, 1);
     while (func_00237488(D_00443800)) {
         if (!D_002C46B8)
             func_0021EC18(D_002AA1C8);
@@ -46,13 +46,13 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
         func_00234CA0(0);
     }
     if (size)
-        func_00237288(D_00443800, cmd, 1, D_00443880, size, D_00443840, 0xC, 0, 0);
+        func_00237288(D_00443800, cmd, 1, D_00443880, size, gSyncBuffer, 0xC, 0, 0);
     else
-        func_00237288(D_00443800, cmd, 1, 0, 0, D_00443840, 0xC, 0, 0);
+        func_00237288(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
     while (!snd_GotReturns__Fv())
         ;
-    ret = D_00443840[1];
-    if (*D_002C4660[D_002C4680] && !D_002C4684)
+    ret = gSyncBuffer[1];
+    if (*gSndCommandBuffePtr[gCommandFillBuffer] && !gCaching)
         snd_SendCurrentBatch__Fv();
     return ret;
 }

@@ -17,9 +17,9 @@ struct CLOCK {float t,dt;};
 union SCRATCH {V vector;RANGE range;};
 struct WORK {SCRATCH scratch;V delta;float angle,radius;V ownerPosition,speed,vector,playerPosition;};
 extern O *D_002DD5BC;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002C40E0;
-extern V D_002A2DC0,D_002A2DA0,D_002A2DD0;
+extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 qword func_001A62E8(O *);
 int func_001DAEA8(int);
@@ -69,11 +69,11 @@ static inline qword ActiveDifference(const V &target,const V &owner){register qw
 static inline void ProjectionInputs(qword current,const V &player,qword &currentVF,qword &playerVF,V *&high,V *&savedHigh){
  register V *upper asm("$3"),*saved asm("$4");
  register qword origin asm("vf1"),point asm("vf4");
- asm("lui %0,%%hi(%6)\n\tqmtc2.ni %4,%2\n\tlqc2 %3,%5\n\tdaddu %1,%0,$zero":"=&r"(upper),"=r"(saved),"=j"(origin),"=j"(point):"r"(current),"m"(player),"i"(&D_002A2DC0));
+ asm("lui %0,%%hi(%6)\n\tqmtc2.ni %4,%2\n\tlqc2 %3,%5\n\tdaddu %1,%0,$zero":"=&r"(upper),"=r"(saved),"=j"(origin),"=j"(point):"r"(current),"m"(player),"i"(&g_normalZ));
  currentVF=origin;playerVF=point;high=upper;savedHigh=saved;
 }
 static inline V *InitialUpAddress(V *upper){register V *address asm("$3");
- asm("addiu %0,%1,%%lo(%2)":"=r"(address):"r"(upper),"i"(&D_002A2DC0));return address;
+ asm("addiu %0,%1,%%lo(%2)":"=r"(address):"r"(upper),"i"(&g_normalZ));return address;
 }
 static inline qword PointDifference(qword player,qword current){register qword point asm("vf4")=player,origin asm("vf1")=current;
  asm("vsub.xyzw %0,%0,%1":"+j"(point):"j"(origin));return point;
@@ -106,7 +106,7 @@ static inline qword PlanarUnit(qword input,qword up){
 }
 static inline qword LiftFromUpper(float height,const V &speed,V *upper,qword &speedValue,qword &upValue){
  register V *address asm("$2");register qword normal asm("vf1"),scalar asm("vf2"),velocity asm("vf4");register int bits asm("$5");
- asm("addiu %0,%5,%%lo(%9)\n\tlqc2 %1,0(%0)\n\tmfc1 %2,%6\n\tqmtc2.ni %2,%3\n\tlqc2 %4,%7":"=&r"(address),"=j"(normal),"=&r"(bits),"=j"(scalar),"=j"(velocity):"r"(upper),"f"(height),"m"(speed),"m"(*(const V *)((const char *)upper+0x2DC0)),"i"(&D_002A2DC0));
+ asm("addiu %0,%5,%%lo(%9)\n\tlqc2 %1,0(%0)\n\tmfc1 %2,%6\n\tqmtc2.ni %2,%3\n\tlqc2 %4,%7":"=&r"(address),"=j"(normal),"=&r"(bits),"=j"(scalar),"=j"(velocity):"r"(upper),"f"(height),"m"(speed),"m"(*(const V *)((const char *)upper+0x2DC0)),"i"(&g_normalZ));
  upValue=normal;speedValue=velocity;return scalar;
 }
 static inline qword SavedPlayerAndOwner(qword player,const S *state,O *&owner){
@@ -144,7 +144,7 @@ extern "C" void func_0021F418(S *s){
  if(initialState<7){
  if(initialState>=4){
   if(s->transitioning){
-   float begin=s->transitionStart,end=begin+s->transitionDuration,time=D_002DDED0.t;
+   float begin=s->transitionStart,end=begin+s->transitionDuration,time=g_clock.t;
    if(end<=time){s->transitioning=0;s->targetWorld.q=s->transitionEnd.q;}
    else{
     qword toward;s->targetWorld.q=TransitionBlend(s->transitionBegin,s->transitionEnd,time-begin,end-begin,w.scratch.vector,toward);
@@ -154,7 +154,7 @@ extern "C" void func_0021F418(S *s){
   else{
    CopyRange(w.scratch.range,s->bounds);
    if(func_001DAEA8(0x24))w.scratch.range.hi*=D_002C40E0;
-   float dt=PlanarSnapshot(Sub(s->targetWorld.q,w.ownerPosition.q),w.delta,D_002DDED0.dt);
+   float dt=PlanarSnapshot(Sub(s->targetWorld.q,w.ownerPosition.q),w.delta,g_clock.dt);
    float elevation;
    float scale;qword delta;
    float speed;

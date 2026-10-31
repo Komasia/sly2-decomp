@@ -13,7 +13,7 @@ struct MSG { struct P *p; float g; void *pv; };
 extern char D_003DD490[];
 extern "C" {
 extern char D_002DDF40[];
-extern char D_002DFC00[];
+extern char g_joy[];
 void *func_00131270(struct P *);
 void func_00210740(void *, int, int, int, int, void *, void *, struct Q *, void *, float, float, float);
 void func_002108E8(void *, void *, struct Q *, void *);
@@ -64,7 +64,7 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         func_0014F750(D_002DDF40, pev->pv);
         break;
     case 3:
-        TriggerJoyRumbleRumk(D_002DFC00, pev->pv, pev->uC.g);
+        TriggerJoyRumbleRumk(g_joy, pev->pv, pev->uC.g);
         break;
     case 4: {
         void *po = func_0015E938(D_003DD490, 4, pev->pv, func_00131270(p));

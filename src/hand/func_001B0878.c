@@ -2,7 +2,7 @@ struct R { int tagk; int tag; };
 struct G1 { char pad[0x4C]; int x4C; };
 struct G2 { char pad[0xFD50]; int xFD50; };
 struct S { char pad[0x1C]; int f; };
-extern char D_002DEB30[], D_003D4A60[];
+extern char g_game[], D_003D4A60[];
 extern struct G1 D_002E6550;
 extern struct G2 D_002E65E0;
 extern int D_003E0FE4;
@@ -14,8 +14,8 @@ void func_001ABD40(struct G2 *p);
 void func_001660F8(void);
 void func_001B0878(struct S *p)
 {
-    func_001619A0(D_002DEB30, 0x2D, 0);
-    func_001619A0(D_002DEB30, 0x2E, 0);
+    func_001619A0(g_game, 0x2D, 0);
+    func_001619A0(g_game, 0x2E, 0);
     if (D_002E65E0.xFD50) {
         struct R r;
         int v;

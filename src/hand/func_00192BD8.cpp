@@ -63,11 +63,11 @@ struct VU_FLOAT { qword q; };
 union U { qword q; float f[4]; int i[4]; };
 
 extern "C" {
-extern CLOCK D_002DDED0;          // g_clock
+extern CLOCK g_clock;
 extern ACTOR *D_002E1E40;         // the player
 extern ACTOR *D_002F7900;
 extern MANAGER D_002DDF40;
-extern qword D_002A2DA0, D_002A2DC0, D_002A2DD0, D_002BF650;
+extern qword D_002A2DA0, g_normalZ, D_002A2DD0, D_002BF650;
 extern float D_002BF63C, D_002BF640;
 int func_00132B10(void *, int);
 qword func_001A62E8(void *);
@@ -243,7 +243,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             break;
         }
         p->previous = -1;
-        p->pactor->tStamp = D_002DDED0.t;
+        p->pactor->tStamp = g_clock.t;
         break;
     case 7:
         if (Less(step, 11) && !Less(step, 9)) {
@@ -251,7 +251,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             if (source->other) {
                 qword pos = func_001A62E8(source->other);
                 SetVector(p->pactor, 29, Sub(pos, p->pactor->posOffset));
-                p->pactor->motion = AddScaled(pos, D_002A2DC0, VuFloat(p->pactor->height));
+                p->pactor->motion = AddScaled(pos, g_normalZ, VuFloat(p->pactor->height));
                 func_002046B0(p->pactor, func_001A6318(source->other)->row[0]);
                 SetPointer(p->pactor, 30, p->pactor->local);
                 SetVector(p->pactor, 35, D_002A2DD0);
@@ -509,7 +509,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
         break;
     }
     p->step = step;
-    p->tStep = D_002DDED0.t;
+    p->tStep = g_clock.t;
     if (step != -1) {
         func_00130658(&p->pactor->animation);
         func_001F15B8(&p->pactor->component);

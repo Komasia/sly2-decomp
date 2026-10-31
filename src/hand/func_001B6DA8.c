@@ -2,9 +2,9 @@
 typedef int qword __attribute__((mode(TI)));
 struct VT { short d; short pad; void *pfn; };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD490[];
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 union WORD{int bits;float value;};extern union WORD D_002C09A8;
 struct SIDE { int x0; int x4; void *x8; void *xC; qword v10; char pad[0x30 - 0x20]; qword v30; };
 struct LINK { struct SIDE as[2]; char pad[0xAC - 0x80]; struct LINK *pnext; };
@@ -72,7 +72,7 @@ void func_001B6DA8(struct P *p, int s)
     if (p->x13D8 == -1)
         Zero(&p->v190);
     p->x13D8 = s;
-    p->g13DC = D_002DDED0.t;
+    p->g13DC = g_clock.t;
     switch (s) {
     case 0:
         break;
@@ -89,13 +89,13 @@ void func_001B6DA8(struct P *p, int s)
         register void(*setter)(void*,qword) __asm__("$2");
         register qword argument __asm__("$5");
         v=((qword(*)(void*))p->vt[33].pfn)((char*)p+p->vt[33].d);
-        __asm__("lw %0,%3\n\tlqc2 %1,%4\n\tlui %2,%5":"=&r"(vt),"=j"(up),"=r"(bits):"m"(p->vt),"m"(D_002A2DC0),"I"(0x2C));
+        __asm__("lw %0,%3\n\tlqc2 %1,%4\n\tlui %2,%5":"=&r"(vt),"=j"(up),"=r"(bits):"m"(p->vt),"m"(g_normalZ),"I"(0x2C));
         __asm__("vmul.xyz %0,%3,%4\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z\n\tlw %2,%5":"=&j"(d),"=&j"(k),"+r"(bits):"j"(v),"j"(up),"m"(((int*)bits)[0x9A8/4]));
         __asm__("vmulx.xyzw %0,%2,%0x\n\tlh %1,%3":"+j"(d),"=r"(delta):"j"(up),"m"(vt[35].d));
         __asm__("qmtc2.ni %5,%1\n\tvsub.xyzw %0,%0,%6\n\tlw %2,%8\n\tvadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %3,%7,%1x\n\tqmfc2.ni %4,%3":"+&j"(v),"=&j"(k),"=r"(setter),"=j"(r),"=r"(argument):"r"(bits),"j"(d),"j"(up),"m"(vt[35].pfn));
         u.q=k;
         setter((char*)p+delta,argument);
-        p->g131C = D_002DDED0.t;
+        p->g131C = g_clock.t;
         break;
     }
     case 2: {

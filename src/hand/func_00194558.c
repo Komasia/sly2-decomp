@@ -1,11 +1,11 @@
 struct O { char pad[0x12F0]; int x12f0; };
 struct S { struct O *p; int a; int k; };
-extern int D_002DFBC0;
+extern int g_grfjoyt;
 extern char D_002DE2E0[];
 int func_0014FD50(void *);
 static __inline__ int FX(struct S *p) {
     int r = 0;
-    if (p->p->x12f0 && (D_002DFBC0 & 2)) r = !func_0014FD50(D_002DE2E0);
+    if (p->p->x12f0 && (g_grfjoyt & 2)) r = !func_0014FD50(D_002DE2E0);
     return r;
 }
 int func_00194558(struct S *p, int k) {

@@ -9,7 +9,7 @@ struct DMAC { int chcr; int pad[31]; int sadr; };
 extern "C" {
 extern int D_002C3C5C;
 extern SPRBUF D_003DD2C0[2];
-extern DMAC *D_002DE59C;
+extern DMAC *g_pdcFromSpr;
 void func_002417F0(DMAC *pch, int a, int b);
 void func_002417A0(DMAC *pch);
 }
@@ -23,7 +23,7 @@ void SaveSprBuf(void *pv, ...)
     DMAC *pch;
     va_list ap;
     psb->state = 3;
-    func_002417F0(D_002DE59C, 0, 0);
+    func_002417F0(g_pdcFromSpr, 0, 0);
     va_start(ap, pv);
     while (pv) {
         apv[c++] = pv;
@@ -32,7 +32,7 @@ void SaveSprBuf(void *pv, ...)
     j = 0;
     for (c = psb->c - c; c < psb->c - 1; c++, j++)
         psb->a[c].pv[-2] = (ulong)(psb->a[c].cb >> 4) | ((ulong)1 << 28) | ((ulong)(int)apv[j] << 32);
-    pch = D_002DE59C;
+    pch = g_pdcFromSpr;
     psb->a[c].pv[-2] = (ulong)(psb->a[c].cb >> 4) | ((ulong)7 << 28) | ((ulong)(int)apv[j] << 32);
     {
         pch->chcr &= ~0x40;

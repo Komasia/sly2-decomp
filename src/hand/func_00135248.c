@@ -17,7 +17,7 @@ struct P {
     char pad13[0x1878 - 0x1870]; struct ASEG *p1878;
 };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void func_002303A0(struct P *, void *, int);
 void func_00142880(struct P *);
@@ -134,7 +134,7 @@ void func_00135248(struct P *p, int k)
     c = 4;
     g = 0.0f;
     rate = 1.0f;
-    p->t13D4 = D_002DDED0.t;
+    p->t13D4 = g_clock.t;
     switch (k) {
     case 0:
         func_002303A0(p, p->p58, 1);

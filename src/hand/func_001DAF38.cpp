@@ -9,7 +9,7 @@ struct CRef {
     void Decref();
 };
 struct G { char pad[0xC]; int n; };
-extern G D_002DEB30;
+extern G g_game;
 extern char D_002A79A0[];
 extern char D_002A79A8[];
 extern char D_002A79B8[];
@@ -23,7 +23,7 @@ extern "C" void func_001DAF38(int n, int f)
     func_0021ECD8(buf, D_002A79A0, n);
     ref = func_001D8B20(CRef(f != 0), D_002A79A8, D_002A79B8, buf, 0);
     if (f) {
-        D_002DEB30.n = n;
-        func_001619A0(&D_002DEB30, 0x3B, 0);
+        g_game.n = n;
+        func_001619A0(&g_game, 0x3B, 0);
     }
 }

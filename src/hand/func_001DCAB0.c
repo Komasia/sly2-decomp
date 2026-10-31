@@ -10,7 +10,7 @@ extern TBL D_003DA150;
 extern REC D_002BCD00[];
 extern REC2 D_002C3288[];
 extern struct G D_003DD490;
-extern char D_002DEB30[],D_002A7A38[];
+extern char g_game[],D_002A7A38[];
 char *func_0013E368(struct G *,int);
 int func_00161798(void *);
 int func_0021ECD8(char *,const char *,...);
@@ -32,7 +32,7 @@ void func_001DCAB0(char *pch)
             if(i<0x2B) {
                 if(D_002BCD00[i].ids2!=pt->x30) {
                     int *pc=&D_002BCD00[i].cost;
-                    int count=func_00161798(D_002DEB30);
+                    int count=func_00161798(g_game);
                     int idsT=count<*pc?0xD9:0xDA;
                     struct G *pg=&D_003DD490;
                     char *fmt=D_002A7A38;

@@ -11,8 +11,8 @@ struct REQUEST{int bytes,alignment;};
 union WORK{REQUEST request;U scalar;};
 struct MARK;
 extern "C"{
-extern CLOCK D_002DDED0;
-extern qword D_002A2DC0;
+extern CLOCK g_clock;
+extern qword g_normalZ;
 extern float D_002A656C;
 MARK*func_001AE478(MARK*);
 void func_001AE4A0(MARK*,int);
@@ -58,7 +58,7 @@ typedef char WORK_request_Offset[FIELD_OFFSET(WORK,request)==0?1:-1];
 typedef char WORK_scalar_Offset[FIELD_OFFSET(WORK,scalar)==0?1:-1];
 typedef char U_q_Offset[FIELD_OFFSET(U,q)==0?1:-1];
 extern "C" int func_0019A098(P*p,float previous,float*stamp){
- float now=D_002DDED0.time;
+ float now=g_clock.time;
  if(now-previous<1.0f)return 0;
  if(stamp){if(now-*stamp<1.0f)return 0;*stamp=now;}
  if(p->mode)return 0;
@@ -74,7 +74,7 @@ extern "C" int func_0019A098(P*p,float previous,float*stamp){
  register REQUEST*argument __asm__("$4");
  register qword result __asm__("vf3");
  // The scalar home is overwritten by the real matrix-size request.
- __asm__("mult $3,%7,%7\n\tla %0,%a5\n\tmfc1 $2,%4\n\tdaddu %1,%0,$zero\n\tqmtc2.ni $2,$vf2\n\tsqc2 $vf2,%3\n\tlui $2,%%hi(%6)\n\taddiu $2,$2,%%lo(%6)\n\tsll $3,$3,2\n\tlqc2 $vf1,0($2)\n\tvmulx.xyzw %2,$vf1,$vf2x\n\tsw $3,%3":"=&r"(request),"=&r"(argument),"=j"(result),"=m"(work.scalar.q):"f"(negative),"p"(&work.request),"i"(&D_002A2DC0),"r"(count):"$2","$3","vf1","vf2","hi","lo","memory");
+ __asm__("mult $3,%7,%7\n\tla %0,%a5\n\tmfc1 $2,%4\n\tdaddu %1,%0,$zero\n\tqmtc2.ni $2,$vf2\n\tsqc2 $vf2,%3\n\tlui $2,%%hi(%6)\n\taddiu $2,$2,%%lo(%6)\n\tsll $3,$3,2\n\tlqc2 $vf1,0($2)\n\tvmulx.xyzw %2,$vf1,$vf2x\n\tsw $3,%3":"=&r"(request),"=&r"(argument),"=j"(result),"=m"(work.scalar.q):"f"(negative),"p"(&work.request),"i"(&g_normalZ),"r"(count):"$2","$3","vf1","vf2","hi","lo","memory");
  down.q=result;
  request->alignment=16;
  returned=(float*)PvAllocSlot(argument);

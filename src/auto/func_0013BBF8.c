@@ -6,7 +6,7 @@ M2C_UNK ReadVector4__18CBinaryInputStreamP7VECTOR4(s32, void *);                
 M2C_UNK func_001291A8(s32 *, s32 *);                /* extern */
 M2C_UNK func_00129EC8(s32 *);                       /* extern */
 s32 PvAllocSlot__FP8ALLOCREQ(void *, s32, s32, M2C_UNK, s32, s32); /* extern */
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern s128 D_002A2DD0;
 extern s128 D_002A2DE0;
 extern f32 D_002A4B18;
@@ -21,10 +21,10 @@ extern s32 D_002BC9D0;
 extern M2C_UNK D_002BC9F0;
 extern M2C_UNK D_002CBE20;
 extern M2C_UNK D_002CBE38;
-extern M2C_UNK D_002DD590;
-extern f32 D_002DDED0;
+extern M2C_UNK g_heapSw;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
-extern M2C_UNK D_002DEB30;
+extern M2C_UNK g_game;
 extern M2C_UNK D_002DEDC0;
 extern s32 D_002E1E54;
 extern M2C_UNK D_003D4A60;

@@ -4,8 +4,8 @@ typedef struct OBJ { char pad[0x15C]; int x15C; char pad1[0x16C - 0x160]; void *
 #define A(o) ((char *)p + (o))
 
 typedef struct SND { char pad[0xC]; int xC; } SND;
-extern SND D_002DEB30;
-extern char D_002DDED0[];
+extern SND g_game;
+extern char g_clock[];
 extern float D_002BF3EC;
 extern float D_002BF3F0;
 extern float D_003E1BEC;
@@ -31,13 +31,13 @@ extern void func_00141D38(void *p, int n);
 
 void func_0018DA48(char *p, int n)
 {
-    D_002DEB30.xC = n;
-    func_001619A0(&D_002DEB30, 0x3C, p);
+    g_game.xC = n;
+    func_001619A0(&g_game, 0x3C, p);
     switch (n) {
     case 0x1D: {
         void *pv;
         func_00141CD0(p, n);
-        func_0014D1D0(D_002DDED0, 1, D_002BF3EC);
+        func_0014D1D0(g_clock, 1, D_002BF3EC);
         D_003E1BEC = -1.0f;
         pv = func_001FBB90(0x67);
         func_001FB2F8(pv, 0);
@@ -47,7 +47,7 @@ void func_0018DA48(char *p, int n)
     case 0x2A: {
         void *pv;
         func_00141CD0(p, n);
-        func_0014D1D0(D_002DDED0, 1, D_002BF3F0);
+        func_0014D1D0(g_clock, 1, D_002BF3F0);
         D_003E1BEC = 0.7f;
         pv = func_001FBB90(0x66);
         func_001FB2F8(pv, 0);

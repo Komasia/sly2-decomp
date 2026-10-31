@@ -8,9 +8,9 @@ struct P {struct O*o;char pad4[0x260-4];float x260;char pad264[0x2A0-0x264];floa
 struct CURVE;
 struct SMP {float g0,g1,g2;};
 struct CLOCK {float t,dt;};
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern float D_002BF668;
-extern qword D_002A2DC0,D_002A2DD0;
+extern qword g_normalZ,D_002A2DD0;
 void func_001E67B8(struct CURVE*,float,qword*,qword*);
 qword func_0011E1A0(float,float,float);
 float func_001E63C0(struct CURVE*,float);
@@ -25,12 +25,12 @@ void func_00193A68(struct P*p,struct CURVE*curve,qword*outPos,qword*outVel,float
  U pos,dir,dead;struct SMP smp;float low,high;qword v;float dot,current;
  struct T*shape=p->o->x150;
  func_001E67B8(curve,t,&pos.q,&dir.q);
- dir.q=Normal(Reject(dir.q,D_002A2DC0),D_002A2DD0);
+ dir.q=Normal(Reject(dir.q,g_normalZ),D_002A2DD0);
  {register float width __asm__("$f0")=shape->x1C;register float factor __asm__("$f13")=p->x2A0;v=func_0011E1A0(p->o->x150->x18,factor*width,0.0f);}
  dot=Dot(v,dir.q);dead.q=v;
  current=func_001E63C0(curve,t);
  smp.g1=p->x260;smp.g0=p->x2A0;smp.g2=D_002BF668;
- (void)GSmooth__FfffP3SMPPf(current,50.0f,D_002DDED0.dt,&smp,&low);
- (void)GSmooth__FfffP3SMPPf(current,func_001E6648(curve)-50.0f,D_002DDED0.dt,&smp,&high);
+ (void)GSmooth__FfffP3SMPPf(current,50.0f,g_clock.dt,&smp,&low);
+ (void)GSmooth__FfffP3SMPPf(current,func_001E6648(curve)-50.0f,g_clock.dt,&smp,&high);
  {float hi=high;*outPos=Sub(pos.q,p->o->pos);{float g;if(dot<low)g=low;else if(hi<dot)g=hi;else g=dot;*outVel=Scale(dir.q,g);}}
 }

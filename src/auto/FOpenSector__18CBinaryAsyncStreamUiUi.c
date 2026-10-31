@@ -8,7 +8,7 @@ extern s128 D_002BC920;
 extern s128 D_002BC970;
 extern s128 D_002BC980;
 extern s32 D_002DD5BC;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_003DD490;
 extern f32 *D_003E0E80;

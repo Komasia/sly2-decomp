@@ -5,7 +5,7 @@ struct P {
     int x4c4; char pad2[0x500-0x4C8]; int x500;
 };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_00192BD8(struct P *p, int n);
 void func_0018E540(struct O *o, int n);
 void func_0018ED70(struct O *o);
@@ -15,7 +15,7 @@ void func_001928F8(struct P *p, int n, int a, int b)
 {
     func_00192BD8(p, -1);
     p->x8 = n;
-    p->x4 = D_002DDED0.t;
+    p->x4 = g_clock.t;
     p->x18 = b;
     p->x14 = a;
     p->x0->vt[88].pfn((char *)p->x0 + p->x0->vt[88].d, 2);

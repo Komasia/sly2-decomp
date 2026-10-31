@@ -1,7 +1,7 @@
 struct G { char pad[0x13C]; float a[8][4]; float g1BC; float b[4]; char pad2[0x1F0 - 0x1D0]; long l1F0; long l1F8; };
 extern struct G D_003DD040;
 struct CLOCK;
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_002319E8(int);
 int func_00233048(int, int, int, int, int, int, int);
 long func_0014D240(struct CLOCK *);
@@ -16,7 +16,7 @@ void func_001FCEA0(void)
         D_003DD040.b[i] = 1.0f;
         for (j = 0; j < 8; j++) D_003DD040.a[j][i] = 1.0f;
     }
-    t = func_0014D240(&D_002DDED0);
+    t = func_0014D240(&g_clock);
     D_003DD040.l1F0 = t;
     D_003DD040.l1F8 = t;
 }

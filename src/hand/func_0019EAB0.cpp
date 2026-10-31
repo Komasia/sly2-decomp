@@ -10,7 +10,7 @@ struct LM{float low,high;};
 struct WORK{U ahead,behind;LM limit;U point,world,target;};
 struct CLOCK{float t,dt;};
 extern "C"{
-extern CLOCK D_002DDED0;extern U D_002A2DC0;extern P*D_002E1E40;
+extern CLOCK g_clock;extern U g_normalZ;extern P*D_002E1E40;
 void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
 void func_00204F78(P*,PATH*,int);
 float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
@@ -26,7 +26,7 @@ static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=
 static inline qword Vector(qword q){qword v;__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(q));return v;}
 static inline qword Direction(U*a,U*b,U*&axis){
  register qword first __asm__("vf2"),second __asm__("vf1"),direction __asm__("vf3");register U*address __asm__("$2");
- __asm__("lqc2 %0,%4\n\tlui %2,%%hi(%6)\n\tlqc2 %1,%5\n\taddiu %2,%2,%%lo(%6)\n\tvsub.xyzw %3,%0,%1":"=j"(first),"=j"(second),"=&r"(address),"=j"(direction):"m"(a->q),"m"(b->q),"i"(&D_002A2DC0));
+ __asm__("lqc2 %0,%4\n\tlui %2,%%hi(%6)\n\tlqc2 %1,%5\n\taddiu %2,%2,%%lo(%6)\n\tvsub.xyzw %3,%0,%1":"=j"(first),"=j"(second),"=&r"(address),"=j"(direction):"m"(a->q),"m"(b->q),"i"(&g_normalZ));
  axis=address;return direction;
 }
 static inline qword Normal(qword v,U*axis){
@@ -120,7 +120,7 @@ extern "C" void func_0019EAB0(C*p,int next){
  }
  case 0:if(p->actor==D_002E1E40)func_0018E540(p->actor,p->actor->alternate?10:2);break;
  }
- p->state=next;p->time=D_002DDED0.t;
+ p->state=next;p->time=g_clock.t;
  ASEG*clip=0;float position=0.0f,speed=1.0f;int flags=1;
  switch(next){
  case -1:{

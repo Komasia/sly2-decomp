@@ -10,7 +10,7 @@ qword func_0011E1A0(float,float,float);
 M3 *func_001A6318(struct S *);
 qword func_001A6F00(void *,void *,qword);
 }
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern "C" float func_00245A18(float,float);
 struct COEF { float a,b,c,d; };
 struct BOUND { float low,high; };
@@ -48,7 +48,7 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
     if(p->polar) pos.q=func_0011E1A0(pos.f[0],pos.f[1],pos.f[2]);
     if(p->curve) {
         func_001E6F10(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
-        m=func_0011B830(normal.q,D_002A2DC0);
+        m=func_0011B830(normal.q,g_normalZ);
         rotated.q=Rotate(m,pos.q);
     } else if(p->arc) {
         float period=p->radius*6.2831855f;
@@ -57,8 +57,8 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
         center.q=func_0011E1A0(angle/p->radius,p->radius,0.0f);
         qword arc=center.q;
         center.q=Add(arc,p->origin);
-        normal.q=Normalize(Cross(D_002A2DC0,arc));
-        m=func_0011B830(normal.q,D_002A2DC0);
+        normal.q=Normalize(Cross(g_normalZ,arc));
+        m=func_0011B830(normal.q,g_normalZ);
         rotated.q=Rotate(m,pos.q);
     } else {
         center.i[0]=center.i[1]=center.i[2]=0;

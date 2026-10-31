@@ -3,7 +3,7 @@
 // - A new HIT record (deduplicated by object, up to capacity) gets owner/object/filter/channel/point and
 //   impulse = normal * D_002C4334 (the target speed).
 // - If the body has physics: project its point velocity (func_0022D348) on the normal, evaluate the quadratic
-//   D_002C4320 at along / D_002C4334 clamped to D_002BBB60, scale by D_002C4330, get the linear (func_001FAA00)
+//   D_002C4320 at along / D_002C4334 clamped to g_lmZeroOne, scale by D_002C4330, get the linear (func_001FAA00)
 //   and angular (func_001FAA48) responses and, when they speed the point up along the normal, add the fraction
 //   (target - along) / change (clamped to 0..1) of them to the body's velocity (virtuals 33/34 -> 35/36).
 // Matching notes (T1586 lilly28 -> T1591 MATCH):
@@ -29,7 +29,7 @@ struct RANGE {float lo,hi;};
 extern float D_002C4334;
 extern float D_002C4330;
 extern POLY D_002C4320;
-extern RANGE D_002BBB60;
+extern RANGE g_lmZeroOne;
 extern "C" {
 COLL *func_0014CC58(int,qword,qword,int,COLL **,LSG *);
 O *func_001F7530(O *,int);
@@ -84,7 +84,7 @@ extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qwor
  if(!body->physics)return;
  float along=Dot(func_0022D348(body->motion,0,hit.point),normal);
  float ratio=along/D_002C4334;
- float response=Clamp(D_002C4320.a+ratio*(D_002C4320.b+ratio*D_002C4320.c),D_002BBB60.lo,D_002BBB60.hi);
+ float response=Clamp(D_002C4320.a+ratio*(D_002C4320.b+ratio*D_002C4320.c),g_lmZeroOne.lo,g_lmZeroOne.hi);
  float fz=0.0f;
  if(fz<response){
  bits=BitsOfFloat(response*D_002C4330);

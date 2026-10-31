@@ -121,7 +121,7 @@ extern CURVE *D_003E13CC, *D_003E13C0, *D_003E13F0;
 extern HOOK *D_003E13B4;
 extern MESH *D_003E142C;
 extern STEPPLAYER *D_002F7900;      // the partner
-extern CLOCK D_002DDED0;            // g_clock
+extern CLOCK g_clock;
 extern qword D_002A2DD0;            // zero vector
 extern float D_002BF8E0;            // score limit
 extern float D_002BF8E4, D_002BF8E8, D_002BF8EC, D_002BF8F0, D_002BF8F4, D_002BF8F8, D_002BF8FC, D_002BF904, D_002BF908;
@@ -527,7 +527,7 @@ LPartnerDone:
 
     if (nKind != -1) {
         XF *pxf = pjtair->pstepplayer->pxf;
-        pxf->tGoal = D_002DDED0.t + tBest;
+        pxf->tGoal = g_clock.t + tBest;
         pxf->posGoal = Sub(posBest.q, pjtair->pstepplayer->qwUnk240);
         pxf->vGoal = vBest.q;
         pjtair->uTarget = uBest;

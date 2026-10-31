@@ -1,8 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
-extern "C" struct CLOCK D_002DDED0;
+extern "C" struct CLOCK g_clock;
 extern "C" qword D_002A2DD0;
-extern "C" char D_002DEB30[];
+extern "C" char g_game[];
 struct M4 { qword r[4]; };
 struct VTE { short d; short pad; void *pfn; };
 struct O { char pad[0xC]; struct VTE *vt; int n10; };
@@ -77,7 +77,7 @@ void func_0017FD08(struct S *p, int n) {
         break;
     }
     p->n1C0 = n;
-    p->f1C4 = D_002DDED0.t;
+    p->f1C4 = g_clock.t;
     switch (n) {
     case -1:
         {
@@ -108,7 +108,7 @@ void func_0017FD08(struct S *p, int n) {
         }
         break;
     case 4:
-        func_001619A0(D_002DEB30, 0x10, p);
+        func_001619A0(g_game, 0x10, p);
         break;
     }
     func_0017F4C0(p, n == -1 ? 0 : &p->a1C8[n]);

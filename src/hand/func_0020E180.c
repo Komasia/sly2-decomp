@@ -8,7 +8,7 @@ struct S {
     char pad5[0x45E8 - 0x3F24]; char a45E8[2][0x28];
 };
 struct ZPR { char ab[0x630]; };
-extern char D_002DEB30[];
+extern char g_game[];
 void *PvAllocSwImpl__Fi(struct MSG *pmsg);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void func_0011A050(void *p, int n);
@@ -41,5 +41,5 @@ void func_0020E180(struct S *p)
         func_001BE398(p->a45E8[j], &zpr);
     if (p->fl3BF4 & 0x20)
         p->n3E38 = 1;
-    func_001619A0(D_002DEB30, 2, 0);
+    func_001619A0(g_game, 2, 0);
 }

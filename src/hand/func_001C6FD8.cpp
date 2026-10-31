@@ -47,7 +47,7 @@ struct LO : BASIC {
     virtual void SetState(int state);                  // 76
 };
 extern char D_003DD490[];
-extern qword D_002A2DA0, D_002A2DC0, D_002A2DE0, D_002C0D60;
+extern qword D_002A2DA0, g_normalZ, D_002A2DE0, D_002C0D60;
 extern float D_002A775C, D_002A7760, D_002C0D70;
 extern float D_002C0E80, D_002C0E84, D_002C0E88, D_002C0E8C, D_002C0E90, D_002C0E94;
 extern CLQ D_002C0EA0;
@@ -181,12 +181,12 @@ extern "C" void func_001C6FD8(void *pworld, int kind, qword posSeed, void *pvUnu
         qword posBase = posSnap.q;
         qword posTrial = Add(posBase, func_0011E1A0(gAngle, gRadius, 0.0f));
         qword dpos = Sub(posTrial, posOrig.q);
-        qword dposPerp = Sub(dpos, Scale(Dot(dpos, D_002A2DC0), D_002A2DC0));
+        qword dposPerp = Sub(dpos, Scale(Dot(dpos, g_normalZ), g_normalZ));
         qword posAdjust = AddScaled(posTrial, VU_FLOAT(g), Normalize(dposPerp));
         int fBlocked = !func_001C0980(pregion, posSnap.q, posTrial, 0) && !func_001C0980(pregion, posTrial, posAdjust, 0);
         VECTOR4 posLand;
         if (fBlocked && func_001C6DE8(-300.0f, 300.0f, 0.7f, posTrial, ccand, apcand, &posLand.q)) {
-            qword posTarget = AddScaled(posLand.q, VU_FLOAT(aplo[cLaunched]->sRadius - 1.0f), D_002A2DC0);
+            qword posTarget = AddScaled(posLand.q, VU_FLOAT(aplo[cLaunched]->sRadius - 1.0f), g_normalZ);
             float t = func_00196928(Sub(posTarget, posOrig.q), D_002C0D60, D_002C0EB8, D_002C0EBC, D_002C0EC0, D_002C0EC0);
             t += cLaunched * D_002C0EC4;
             qword v = Combine(Sub(posTarget, posOrig.q), VU_FLOAT(1.0f / t), D_002C0D60, VU_FLOAT(-0.5f * t));

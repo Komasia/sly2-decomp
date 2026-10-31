@@ -9,10 +9,10 @@ struct CM {
 };
 struct G { char pad[0x3E38]; int x3E38; };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern float D_002DDEE0;
-extern int D_002DFBC0;
-extern char D_002DFC00[];
+extern int g_grfjoyt;
+extern char g_joy[];
 extern char D_002E0D00[];
 extern struct G D_003DD490;
 extern char D_002BD810[];
@@ -51,7 +51,7 @@ void func_0014D478(struct CM *p)
         }
         {
             struct VTE *e = &po->vt[6];
-            e->pfn((char *)po + e->d, pv, (D_002DFBC0 & 1) ? D_002DFC00 : D_002E0D00);
+            e->pfn((char *)po + e->d, pv, (g_grfjoyt & 1) ? g_joy : D_002E0D00);
         }
         poPrev = po;
         if (p->c <= 0)
@@ -61,7 +61,7 @@ void func_0014D478(struct CM *p)
     if (p->x300) {
         func_0014F5A0(p, p->g24);
     } else if (p->g24 != p->g20) {
-        p->g20 = func_0011D1C0(p->g20, p->g28, p->g24, D_002DDED0.dt, &p->g2C, &p->g28);
+        p->g20 = func_0011D1C0(p->g20, p->g28, p->g24, g_clock.dt, &p->g2C, &p->g28);
         func_0014DB70(p);
     }
     p->x300 = 0;

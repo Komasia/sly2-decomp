@@ -9,8 +9,8 @@ struct DMAC { int chcr; int pad[31]; int sadr; };
 extern "C" {
 extern int D_002C3C5C;
 extern SPRBUF D_003DD2C0[2];
-extern DMAC *D_002DE59C;
-extern DMAC *D_002DE5A0;
+extern DMAC *g_pdcFromSpr;
+extern DMAC *g_pdcToSpr;
 void func_002417F0(DMAC *pch, int a, int b);
 void func_00241728(DMAC *pch, int a);
 }
@@ -25,7 +25,7 @@ void LoadSprBuf(int cb, ...)
     va_start(ap, cb);
     pv = psb->pv;
     if (psb->state == 3)
-        func_002417F0(D_002DE59C, 0, 0);
+        func_002417F0(g_pdcFromSpr, 0, 0);
     psb->state = 1;
     pvSrc = va_arg(ap, char *);
     while (cb) {
@@ -46,8 +46,8 @@ void LoadSprBuf(int cb, ...)
         c++;
     }
     psb->c = c;
-    D_002DE5A0->chcr |= 0x40;
-    D_002DE5A0->sadr = ((int)psb->pv & 0x0FFFFFFF) | 0x80000000;
-    func_00241728(D_002DE5A0, (int)psb->aqw & 0x0FFFFFFF);
+    g_pdcToSpr->chcr |= 0x40;
+    g_pdcToSpr->sadr = ((int)psb->pv & 0x0FFFFFFF) | 0x80000000;
+    func_00241728(g_pdcToSpr, (int)psb->aqw & 0x0FFFFFFF);
     va_end(ap);
 }

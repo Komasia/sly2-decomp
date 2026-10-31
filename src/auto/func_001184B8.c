@@ -9,8 +9,8 @@ extern M2C_UNK D_002BBB10;
 extern M2C_UNK D_002BBB20;
 extern M2C_UNK D_002CA5A0;
 extern M2C_UNK D_002CA5C0;
-extern void *D_002DD2F8;
-extern void *D_002DD2FC;
+extern void *g_psliFirst;
+extern void *s_pdliFirst;
 
 void func_001184B8(s32 arg0, s32 arg1) {
     M2C_FIELD(arg0, M2C_UNK **, 0x30) = &D_002CA5A0;

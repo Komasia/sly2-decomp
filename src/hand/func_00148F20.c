@@ -1,7 +1,7 @@
 struct Q { int x0; char pad[0x40]; int x44; };
 struct P { char pad[0x1E0]; int x1E0; float x1E4; float x1E8; char pad2[0x2A8 - 0x1EC]; int x2A8; };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void *FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct Q *q);
 int func_00149100(struct P *p, int x);
 void func_001490A0(struct P *p, int f);
@@ -15,7 +15,7 @@ void *FAbsorbButtonWkr__FP6BUTTONP3WKR(struct P *p, struct Q *q)
             break;
         case 2:
             if (p->x1E0 == 0) {
-                if (p->x1E8 <= D_002DDED0.t - p->x1E4) func_001490A0(p, 1);
+                if (p->x1E8 <= g_clock.t - p->x1E4) func_001490A0(p, 1);
             } else if (p->x1E0 == 1) {
                 func_001490A0(p, 0);
             }

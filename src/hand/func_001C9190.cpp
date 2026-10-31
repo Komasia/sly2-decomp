@@ -15,13 +15,13 @@ struct CLOCK {float t,dt,ratio,realRatio,realDt,realT;char pad18[0x24];float fra
 struct FR {int n0;void *p4;char pad8[0x1C];void *packet;char pad28[8];int flags;};
 extern VIFS D_002DEA28;
 extern GIFS D_002DEA00;
-extern FR *D_002DEA4C;
-extern CLOCK D_002DDED0;
+extern FR *g_pfrmOpen;
+extern CLOCK g_clock;
 extern float *D_002DD314;
 extern int D_003D3A3C,D_003D3A40,D_003D3A44,D_002DEDBC,D_002DEB18;
 extern uint D_002BE538;
 extern int D_002C10A0,D_002C10A4,D_002C10A8,D_002C10AC;
-extern float D_002C10B0,D_002C10B4,D_002C10C0[3],D_002BBB60[2];
+extern float D_002C10B0,D_002C10B4,D_002C10C0[3],g_lmZeroOne[2];
 extern QW D_002DF260[];
 extern "C" int func_00234A60(int);
 extern "C" int func_00234A40(int);
@@ -34,10 +34,10 @@ void OpenFrame(void);
 static inline void Clamp(float *value,const float *bounds){float low=bounds[0],high=bounds[1];if(*value<low)*value=low;else if(high<*value)*value=high;}
 static inline void BeginFrame()
 {
-    func_0014D0B8(&D_002DDED0,1);
+    func_0014D0B8(&g_clock,1);
     OpenFrame();
     uchar *pb=D_002DEA28.m_pb;
-    D_002DEA4C->packet=pb;
+    g_pfrmOpen->packet=pb;
     D_002DEA28.m_fCheckCnt=1;
     D_002DEA28.AddDmaCnt();
     D_002DEA28.AddVifDirect(0x25,D_002DF260,0);
@@ -53,18 +53,18 @@ extern "C" void func_001C9190(void *)
             BeginFrame();
             func_00234A90(D_003D3A40,&status);
             if(status.count!=0)break;
-            float t=-*D_002DD314+D_002DDED0.frameT;
+            float t=-*D_002DD314+g_clock.frameT;
             float scale=1.0f+D_002C10B0*func_00245000(t*D_002C10B4);
             matrix.Identity();
             matrix.a[0]=D_002C10A0*scale;
             matrix.a[3]=D_002C10A4*scale;
             matrix.a[4]=D_002C10A8;matrix.a[5]=D_002C10AC;
             float alpha=D_002C10C0[0]+t*(D_002C10C0[1]+t*D_002C10C0[2]);
-            Clamp(&alpha,D_002BBB60);
+            Clamp(&alpha,g_lmZeroOne);
             func_001C93E0(&D_002DEA00,&matrix,alpha);
             func_00160A98();D_002BE538++;
         }
-        do{D_002DEA4C->flags&=-2;}while(0);
+        do{g_pfrmOpen->flags&=-2;}while(0);
         func_00160A98();D_002BE538++;
         do {func_00234A90(D_002DEB18,&status);}while(status.count==0);
         func_00234A60(D_003D3A40);

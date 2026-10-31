@@ -10,11 +10,11 @@ struct T { char pad[0x130]; float x130; };
 struct R { char pad[0x4C]; int x4C; };
 struct P { struct PO *p0; char pad[0xC]; qword pos; float d20; float t24; int f28; };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern float D_002BD2D0;
 extern float D_002BD2D4;
 extern char D_003DD490[];
-extern char D_002DEB30[];
+extern char g_game[];
 int func_00144068(struct PO *);
 int func_0020F0B0(void *);
 int func_00132B10(struct T *, int);
@@ -56,9 +56,9 @@ void func_00144640(struct P *p)
     }
     if (!func_00144068(p->p0))
         return;
-    if (D_002DDED0.t < p->t24)
+    if (g_clock.t < p->t24)
         return;
-    p->t24 = D_002DDED0.t + D_002BD2D0;
+    p->t24 = g_clock.t + D_002BD2D0;
     if (func_0020F0B0(D_003DD490)) {
         int fAny = 0;
         struct LN *pln;
@@ -71,7 +71,7 @@ void func_00144640(struct P *p)
                     struct R *pr = func_00205458(po, 0xA9);
                     if (!pr || !pr->x4C) {
                         if (0.0f <= po->x130)
-                            func_001619A0(D_002DEB30, 0x17, po);
+                            func_001619A0(g_game, 0x17, po);
                         func_001F7BF8(po, 0.5f);
                         fAny = 1;
                     }

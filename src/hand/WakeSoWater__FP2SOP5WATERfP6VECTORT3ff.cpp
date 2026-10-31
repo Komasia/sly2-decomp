@@ -63,9 +63,9 @@ union V4 { qword q; float a[4]; };
 struct CLOCK { float t; };
 
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern int D_002BDEB0[];
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern char D_003DD490[];
 float GRandInRange(float lo, float hi) asm("GRandInRange__Fff");
 int func_0011D3F8(int lo, int hi);
@@ -141,9 +141,9 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
         if (!fWake) {
             u = 1.0f - t * (1.0f - gFrac);
             if (psnd) {
-                fWake = u < D_002DDED0.t - psnd->t;
+                fWake = u < g_clock.t - psnd->t;
             } else {
-                float tc = D_002DDED0.t;
+                float tc = g_clock.t;
                 int c0 = (int)(tc / u);
                 int c1 = (int)((tc + dt) / u);
                 fWake = c0 != c1;
@@ -158,10 +158,10 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                 prip->g24 = gScale * 0.6f;
                 prip->pex = pwater->px17C;
                 if (psnd)
-                    psnd->t = D_002DDED0.t;
+                    psnd->t = g_clock.t;
                 if (500.0f < d && pwater->px178) {
                     EMITP emitp = { 1, 0, pwater->px178->id, pwater->px17C->id, pwater->x18, 0, {{ 8.0f, 12.0f, 1.0f }} };
-                    EMITV emitv = { {{ d * 0.5f, d * 0.75f, 0.0f, 1.0f }}, p->pxE8->v, D_002A2DC0, 0, 0, 1.0f, 5.0f,
+                    EMITV emitv = { {{ d * 0.5f, d * 0.75f, 0.0f, 1.0f }}, p->pxE8->v, g_normalZ, 0, 0, 1.0f, 5.0f,
                                     {{ 0.39269909f, 1.0471976f }}, { 0 }, {{ 1.0f, 0.0f, -1.0f }} };
                     E e;
                     V4 posSplash;
@@ -171,7 +171,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                     e.p8 = pwater->px178;
                     e.pC = pwater->px17C;
                     e.p10 = pwater;
-                    func_0015BE28(posSplash.q, D_002A2DC0, func_0011D3F8(4, 6), emitp, emitv, &e, 0, 0);
+                    func_0015BE28(posSplash.q, g_normalZ, func_0011D3F8(4, 6), emitp, emitv, &e, 0, 0);
                 }
             }
         }

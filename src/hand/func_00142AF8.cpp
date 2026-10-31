@@ -20,7 +20,7 @@ struct P {
 };
 struct GS { char pad[0x4678]; int c4678; char pad1[0x4690 - 0x467C]; S *ps4690; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern int D_002DD640;
 extern float D_002A4D68;
 extern qword D_002A2DA0;
@@ -83,7 +83,7 @@ void func_00142AF8(P *p)
         f = 1;
     if (p->nF04 != -1)
         f = 0;
-    if (p->g114C < D_002DDED0.t && (p->n1148 != 0 || f)) {
+    if (p->g114C < g_clock.t && (p->n1148 != 0 || f)) {
         p->n1148 = !p->n1148;
         func_00142880(p);
     }

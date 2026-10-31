@@ -11,8 +11,8 @@ extern M2C_UNK D_002AA6A1;
 extern M2C_UNK D_002BBAF0;
 extern M2C_UNK D_002BBB10;
 extern M2C_UNK D_002BBB20;
-extern void *D_002DD2F8;
-extern void *D_002DD2FC;
+extern void *g_psliFirst;
+extern void *s_pdliFirst;
 
 void SetDecompress__18CBinaryInputStreamiPUc(void *arg0, s32 arg1, s32 arg2) {
     M2C_FIELD(arg0, s32 *, 0x24) = arg2;

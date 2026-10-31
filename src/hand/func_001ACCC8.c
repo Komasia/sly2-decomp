@@ -4,7 +4,7 @@ struct S { char pad[0x10]; void *x10; char pad2[0x24 - 0x14]; struct P *x24; cha
 struct MC { char pad[8]; int x8; char pad2[0xFD58 - 0xC]; int xFD58; char pad3[0xFD6C - 0xFD5C]; int xFD6C; };
 struct CLOCK { char pad[0x3C]; float t3c; };
 extern struct MC D_002E65E0;
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD490[];
 extern char D_003D9ED0[];
 extern char D_002F633C[];
@@ -34,7 +34,7 @@ void func_001ACCC8(struct S *s)
         return;
     if (func_0020E040(D_003DD490))
         return;
-    if (D_002DDED0.t3c - s->x24->x5C <= 0.1f)
+    if (g_clock.t3c - s->x24->x5C <= 0.1f)
         return;
     r = func_001ACC80(s);
     if (r != 1) {

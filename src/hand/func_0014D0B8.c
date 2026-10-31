@@ -3,7 +3,7 @@ struct CLOCK {
     float t; float dt; float rDt; float rDtReal; float dtReal; float tReal; char pad[0x24 - 0x18]; float r24;
     char pad2[0x3C - 0x28]; float t3C; float dt40; ulong tick;
 };
-extern char D_002DEB30[];
+extern char g_game[];
 ulong func_0014D240(struct CLOCK *p);
 void func_00161478(void *p);
 static __inline__ float GClamp(float g, float gMin, float gMax)
@@ -26,7 +26,7 @@ void func_0014D0B8(struct CLOCK *p, int fPaused)
     if (!fPaused) {
         p->dt = dt2 * p->rDt;
         p->t += p->dt;
-        func_00161478(D_002DEB30);
+        func_00161478(g_game);
     }
     }
     p->tick = tick;

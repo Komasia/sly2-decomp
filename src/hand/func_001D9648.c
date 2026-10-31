@@ -1,8 +1,8 @@
-extern struct CLOCK { float t; float dt; float g; } D_002DDED0;
+extern struct CLOCK { float t; float dt; float g; } g_clock;
 typedef struct { char pad[0x100C]; int x100C; } PAD;
-extern int D_002DFBC0;
+extern int g_grfjoyt;
 extern int D_002DFBC4;
-extern PAD D_002DFC00;
+extern PAD g_joy;
 extern PAD D_002E0D00;
 extern char D_003D9ED0[], D_003DA150[], D_003DA0F0[], D_002DDEC0[], D_00443740[], D_003D9E80[];
 extern char D_003DA0C0[], D_003DA3C0[], D_002E6550[], D_002E65A0[], D_003DA4F0[], D_003DA530[];
@@ -27,20 +27,20 @@ void func_001D9648(void *pdl)
 {
     PAD *pad;
     if (D_002DFBC4 & 8) {
-        if (D_002DDED0.g == 0.0f || 0.1f < D_002DDED0.t / D_002DDED0.g)
+        if (g_clock.g == 0.0f || 0.1f < g_clock.t / g_clock.g)
             func_001870A0(8);
     }
-    if (D_002DFBC0 & 2)
-        pad = &D_002DFC00;
+    if (g_grfjoyt & 2)
+        pad = &g_joy;
     else
         pad = &D_002E0D00;
     if (func_00187D80(pad, 0x800)) {
         if (!func_001B0290(0))
             func_00187E08(pad, 0x800);
-    } else if (D_002DFBC0 & 2) {
+    } else if (g_grfjoyt & 2) {
         int r = FIsDlEmpty__FP2DL(pdl);
         int f = 0;
-        if (pad->x100C == 1 && 5.0f <= D_002DDED0.t)
+        if (pad->x100C == 1 && 5.0f <= g_clock.t)
             f = 1;
         if (r && f)
             func_001B0290(0);

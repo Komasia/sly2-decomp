@@ -6,7 +6,7 @@ extern int D_002DEDB0;
 extern int D_002DEDB8;
 extern char D_002DEBE0[];
 extern char D_002DECD0[];
-extern sceDmaChan *D_002DE598;
+extern sceDmaChan *g_pdcGif;
 void SendDmaSyncGsFinish(sceDmaChan *pch, QW *pqw);
 static inline ulong Tex0FromDisp(ulong disp)
 {
@@ -44,5 +44,5 @@ extern "C" void func_00160F98()
     gifs.AddPrimEnd();
     gifs.AddDmaEnd();
     gifs.EndDmaCnt();
-    SendDmaSyncGsFinish(D_002DE598, aqw);
+    SendDmaSyncGsFinish(g_pdcGif, aqw);
 }

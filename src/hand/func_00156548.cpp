@@ -8,7 +8,7 @@ struct SW { char pad[0x3D68]; int c; char pad2[0x3FFC - 0x3D6C]; char dl[0xC]; c
 extern SW D_003DD490;
 extern VT D_002CE2B8;
 struct CLOCK { float t; float dt; };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern "C" {
 S *func_0011CCC0(void *);
 void *func_002333B4(void *, int, int);
@@ -32,7 +32,7 @@ extern "C" void func_00156548(P *p, qword q, int b, S **pps)
     ps->pvt = &D_002CE2B8;
     ps->n40 = b;
     ps->n48 = ++D_003DD490.c;
-    ps->f4C = D_002DDED0.t;
+    ps->f4C = g_clock.t;
     ps->n54 = p->n64;
     AppendDlEntry(D_003DD490.dl, ps);
     ps->pvt->a[1].pfn((char *)ps + ps->pvt->a[1].d);

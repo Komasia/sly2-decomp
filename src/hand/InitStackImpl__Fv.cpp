@@ -1,11 +1,11 @@
 struct CRITSECT { int a[3]; };
-extern CRITSECT D_002F6390;
-extern int D_002F639C;
-extern void *D_002F6388;
-extern void *D_002F63A0[];
+extern CRITSECT s_critsectStack;
+extern int s_ipvStackCur;
+extern void *s_pvStackMin;
+extern void *s_apvStackMin[];
 void EnterCritSect(CRITSECT *p);
 void InitStackImpl()
 {
-    EnterCritSect(&D_002F6390);
-    D_002F63A0[++D_002F639C] = D_002F6388;
+    EnterCritSect(&s_critsectStack);
+    s_apvStackMin[++s_ipvStackCur] = s_pvStackMin;
 }

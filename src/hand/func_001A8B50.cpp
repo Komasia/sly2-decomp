@@ -27,7 +27,7 @@ struct NODE { unsigned int left, right; SURF *psurf; };
 struct LSG { U apos[2], anormal[2]; float au[2]; int lsgk; SURF *apsurf[2]; EDGE *pedge; int iiposSwap; LSG *plsgNext; };
 struct XP { char pad0[0x9C]; int kind; void *first, *second; int padA8; XP *next; };
 extern "C" {
-extern U D_002A2DC0;
+extern U g_normalZ;
 int ClsgClipSoAllEdges(SCENE *, SHAPE *, SHAPE *, NODE *, int, LSG *) __asm__("ClsgClipSoAllEdges__FP2SOT0P3BSPiP3LSG");
 int ClsgClipSoBspEdges(SCENE *, SHAPE *, SHAPE *, int, NODE *, int, LSG *) asm("ClsgClipSoBspEdges__FP2SOT0iP3BSPiP3LSG");
 void CategorizeAlsg(int, LSG *, int *, int *, LSG **, LSG **) __asm__("CategorizeAlsg__FiP3LSGPiT2PP3LSGT4");
@@ -159,5 +159,5 @@ extern "C" void func_001A8B50(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, N
     next:;
     }
     if (old == *out && (!aclsg[0] || !aclsg[1]))
-        func_001A7C18(scene, a, b, a->space->position.q, 0.0f, D_002A2DC0.q, 13, 0, 0, out);
+        func_001A7C18(scene, a, b, a->space->position.q, 0.0f, g_normalZ.q, 13, 0, 0, out);
 }

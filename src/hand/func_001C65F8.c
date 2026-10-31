@@ -15,7 +15,7 @@ struct X {
 struct M { int n; struct S *p; int pad[14]; };
 extern char D_003DD490[];
 extern char D_002C0DA0[];
-extern char D_002DEB30[];
+extern char g_game[];
 float GRandInRange__Fff(float a, float b);
 struct X *func_001CE888(void *pg, int a, int b);
 qword func_001A62E8(struct S *p);
@@ -59,7 +59,7 @@ void func_001C65F8(struct S *p, int n)
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
         func_00161868(D_003DD490);
-        func_001619A0(D_002DEB30, 0x12, p);
+        func_001619A0(g_game, 0x12, p);
         break;
     }
     }

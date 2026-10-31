@@ -2,7 +2,7 @@
 /* Warning: missing "jr $ra" in last block of func_001574A8 (initial). */
 
 void DetachCopySw__4DMASPiPP2QWT2i(M2C_UNK *arg0, s32 arg1, s32 arg2, s32 *arg3); /* static */
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern f32 D_002A5148;
 extern M2C_UNK D_002BDCF0;
 extern f32 D_002BDD00;
@@ -19,15 +19,15 @@ extern M2C_UNK D_002BDEB0;
 extern M2C_UNK D_002C1F00;
 extern M2C_UNK D_002C1F10;
 extern M2C_UNK D_002CE488;
-extern void *D_002DD2FC;
-extern M2C_UNK D_002DD590;
-extern f32 D_002DDED0;
+extern void *s_pdliFirst;
+extern M2C_UNK g_heapSw;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
 extern s32 D_002DE5A4;
 extern M2C_UNK D_002DE5B0;
 extern s128 D_002DE5F0;
 extern M2C_UNK D_002DEA28;
-extern void *D_002DEA4C;
+extern void *g_pfrmOpen;
 extern M2C_UNK D_002DEA50;
 extern M2C_UNK D_002DEDC0;
 extern M2C_UNK D_002DF010;

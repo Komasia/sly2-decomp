@@ -11,7 +11,7 @@ struct OWNER {M3 matrix;char pad30[0x70];SPACE *parent;char padA4[0xC];qword vel
 struct P {char pad5C[0x5C];OWNER *owner;};
 struct COEF {float a,b,c;};
 struct CLOCK {float time,dt;};
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern "C" M3 *func_0022FD38(M3 *,SPACE *,SPACE *,const M3 *);
 static inline M3 BuildFrame(SPACE*parent,const M3*orientation) return result {func_0022FD38(&result,0,parent,orientation);}
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
@@ -58,7 +58,7 @@ extern "C" void func_001F59A0(P *p,const M3 *orientation,const COEF *c)
     func_0011BCF8(&relative,&angle,&axis.q);
     desired=func_0011CFE0((angle/stopAngle)*maximum,maximum);
     speed=GetX(DotQ(owner->velocity,axis.q));
-    clock=&D_002DDED0;
+    clock=&g_clock;
     float half=clock->dt*0.5f;
     remaining=angle-(speed+desired)*half;
     if(remaining<stopAngle)desired=func_0011CFE0((remaining/stopAngle)*maximum,maximum);

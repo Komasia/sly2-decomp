@@ -22,8 +22,8 @@ struct OBJ {
 extern "C" {
 extern GS D_003DD490;
 extern char D_002A7878[];
-extern int D_002DFBC0;
-extern char D_002DFC00[], D_002E0D00[];
+extern int g_grfjoyt;
+extern char g_joy[], D_002E0D00[];
 void func_001F1448(void *, OBJ *, int, int, void *);
 void func_00162E38(SUB *);
 int func_0015E9C8(GS *, int, int, int, int, SO **);
@@ -77,7 +77,7 @@ extern "C" void func_001D7480(OBJ *p, int s)
         }
         func_001F1448(p->x184, p, idx, 0, p->x188);
         func_001D77D0(p, 0);
-        func_00187E78((D_002DFBC0 & 2) ? D_002DFC00 : D_002E0D00);
+        func_00187E78((g_grfjoyt & 2) ? g_joy : D_002E0D00);
         VCALL5(p, 3, 5, 0, 0, 0, 0);
     }
 }

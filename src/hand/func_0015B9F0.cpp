@@ -1,5 +1,5 @@
 // func_0015B9F0: emitter particle transform (Claude agent, lane E20). The clock time is read into a local BEFORE
-// the ptimes->at[i] load, so loop.c sees a 1-insn life for %hi(D_002DDED0) and doesn't hoist it.
+// the ptimes->at[i] load, so loop.c sees a 1-insn life for %hi(g_clock) and doesn't hoist it.
 typedef int qword __attribute__((mode(TI)));
 struct M4 { qword r[4]; };
 struct BUF { qword *apos; qword *av; float *ag; float *an; int f10; };
@@ -13,7 +13,7 @@ struct EMITTER { char pad[8]; EO *peo; };
 struct TIMES { char pad[0xC]; float *at; };
 struct CLOCK { float t; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002A5150;
 void func_0015B7E8(int c, EMITB *pemitb, BUF *pb);
 int func_0011D4D0(float g1, float g2, float gEps);
@@ -61,7 +61,7 @@ void func_0015B9F0(int c, EMITTER *pemit, TIMES *ptimes, BUF *pb)
     pv = palo->pvt->pfn((ALO *)((char *)palo + palo->pvt->d), &mWorld);
     mBase = mWorld;
     for (i = 0; i < c; i++) {
-        float tNow = D_002DDED0.t;
+        float tNow = g_clock.t;
         float t = ptimes->at[i] - tNow;
         int k = palo->pemitb->k18;
         if (!func_0011D4D0(t, tPrev, 0.0001f)) {

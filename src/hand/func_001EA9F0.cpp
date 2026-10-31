@@ -11,7 +11,7 @@ extern "C" {
 struct SRC { float ag[3]; float aclr[3][4]; };
 extern struct SRC D_003E12F4;
 extern int D_002C3680[];
-extern int D_002DE598;
+extern int g_pdcGif;
 void func_0011DFA0(const float *, VEC3 *);
 int func_00170548(void *, int);
 void __4GIFS(GIFS *);
@@ -108,6 +108,6 @@ void func_001EA9F0(O *p, void *pbs)
     func_00166968(&dmas);
     func_001576B0(&dmas);
     func_00157348(&dmas, 0, &x);
-    func_0016F8B8(D_002DE598, x);
+    func_0016F8B8(g_pdcGif, x);
     }
 }

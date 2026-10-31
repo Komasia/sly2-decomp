@@ -1,12 +1,12 @@
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 struct G;
 extern struct G D_003DD490;
 extern qword D_002A2DD0;
 extern float D_002A5584;
 extern void *D_002F7900;
-extern char D_002DFC00[];
+extern char g_joy[];
 struct E4 { char pad[0x1C]; float f1C; };
 struct E { int n0; struct E4 *p4; void *p8; };
 struct A { char pad[0x1A8]; float f1A8; char pad2[0x334 - 0x1AC]; int n334; char pad3[0x35C - 0x338]; char a35C[4]; char pad4[0xF04 - 0x360]; int nF04; char pad5[0xFD0 - 0xF08]; char aFD0[4]; };
@@ -62,9 +62,9 @@ void func_00179328(struct S *p) {
     if (p->p10->n334) {
         void *o = func_001C4840(&D_003DD490);
         if (o && func_001A6AF8(p->n50, o) && (o == D_002F7900 || (p->n5C & 0x40000))) {
-            TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, 3, 1.50000005960464477539e-01f);
-            p->fB0 = D_002DDED0.t + 5.00000044703483581543e-02f;
+            TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 3, 1.50000005960464477539e-01f);
+            p->fB0 = g_clock.t + 5.00000044703483581543e-02f;
         }
-        p->fB4 = D_002DDED0.t + 1.33333340287208557129e-01f;
+        p->fB4 = g_clock.t + 1.33333340287208557129e-01f;
     }
 }

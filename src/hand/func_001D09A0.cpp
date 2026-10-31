@@ -18,7 +18,7 @@ struct M3 { qword r[3]; };
 struct P { char pad0[0x40]; M3 matrix; char pad70[0x20]; qword vel; char padA0[0x24]; float drag; };
 struct CLOCK { float time, dt; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002C2010[3], D_002C2020[2], D_002C2028, D_002C202C;
 extern qword D_002A2DA0;
 M3 func_0011B500(qword, float);
@@ -96,7 +96,7 @@ extern "C" void func_001D09A0(P *p)
     qword axis = p->matrix.r[1];
     float g = Dot(p->vel, row0);
     float t = GClamp(D_002C2010[0] + g * (D_002C2010[1] + g * D_002C2010[2]), D_002C2020);
-    M3 rot = func_0011B500(axis, t * D_002DDED0.dt);
+    M3 rot = func_0011B500(axis, t * g_clock.dt);
     p->vel = Rotate(rot, p->vel);
     p->matrix = Multiply(rot, p->matrix);
     float drag = p->drag;
@@ -104,7 +104,7 @@ extern "C" void func_001D09A0(P *p)
     struct { qword along, across; } w;
     func_0011E290(p->vel, row0, &w.along, &w.across);
     qword len = NormalizeSafe(&w.along, &D_002A2DA0);
-    float dt = D_002DDED0.dt;
+    float dt = g_clock.dt;
     g = GetX(len);
     float gAlong = D_002C2028 + (D_002C202C * dt + 1.0f) * (g - D_002C2028);
     float gAcross = drag * dt + 1.0f;

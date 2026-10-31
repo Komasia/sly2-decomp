@@ -29,9 +29,9 @@ public:
 };
 struct DL { void *pvFirst; void *pvLast; int ibDle; };
 struct CLOCK { float t; };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern DL D_003E0F90;
-extern char D_002DEB30[];
+extern char g_game[];
 extern int D_002DEB44;
 extern "C" int func_001637E8(O *p);
 extern "C" void func_001619A0(void *pv, int n, O *p);
@@ -47,7 +47,7 @@ extern "C" void func_001657D0(O *p, int n)
     if (p->n54 == n)
         return;
     if (func_001637E8(p)) {
-        func_001619A0(D_002DEB30, 0x26, p);
+        func_001619A0(g_game, 0x26, p);
         p->Msg(0x16, 0, 0, 0, 0);
     }
     if (p->n54 == 1)
@@ -74,10 +74,10 @@ extern "C" void func_001657D0(O *p, int n)
         break;
     }
     p->n54 = n;
-    p->f58 = D_002DDED0.t;
+    p->f58 = g_clock.t;
     func_001643B0(p);
     if (func_001637E8(p)) {
-        func_001619A0(D_002DEB30, 0x25, p);
+        func_001619A0(g_game, 0x25, p);
         p->Msg(0x15, 0, 0, 0, 0);
         p->V4(0x11, p);
     }

@@ -1,7 +1,7 @@
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a, b, c; struct VTE *vt; void *p10; };
 struct S { struct O *pNew; int a, b; struct O *pCur; };
-extern char D_002DFC00[];
+extern char g_joy[];
 void func_001D95B8(struct S *p) {
     struct O *po = p->pNew;
     struct O *pOld;
@@ -18,7 +18,7 @@ void func_001D95B8(struct S *p) {
     p->pCur = po;
     if (po) {
         struct VTE *e = &po->vt[9];
-        po->p10 = D_002DFC00;
+        po->p10 = g_joy;
         ((void (*)(void *, int, struct O *))e->pfn)((char *)po + e->d, 1, pOld);
     }
 }

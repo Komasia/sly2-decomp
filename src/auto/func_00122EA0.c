@@ -2,7 +2,7 @@
 void func_001291A8(s32, M2C_UNK *);              /* extern */
 void func_00129EC8(M2C_UNK *);                   /* extern */
 void func_0012A0B0(M2C_UNK *, M2C_UNK);          /* extern */
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_003DD040;
 extern M2C_UNK D_003DD490;

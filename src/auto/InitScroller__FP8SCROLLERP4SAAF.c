@@ -9,13 +9,13 @@ s32 PvAllocSlot__FP8ALLOCREQ(void *, s32, s32);                /* extern */
 M2C_UNK __4VIFS(M2C_UNK *);                   /* extern */
 f32 func_00245B58(f32 *, f32 *, M2C_UNK, f32, f32, f32); /* extern */
 extern M2C_UNK D_002BAAE8;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern f32 D_002C3690;
 extern f32 D_002C3694;
 extern f32 D_002C3698;
 extern M2C_UNK D_002C36A0;
 extern M2C_UNK D_002C3728;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern f32 D_002DDED4;
 extern s32 D_003DA790;
 extern M2C_UNK D_003DA798;

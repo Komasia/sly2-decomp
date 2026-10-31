@@ -34,8 +34,8 @@ struct P {
     char pad520[0x20]; float heading, goalHeading, steering, wheelAngle, drive; char pad554[0x50];
     P *target; void *navigator; PATH *path; float cursor, nextAttack; P *selectedObject; ATTACH *selectedAttach;
 };
-extern CLOCK D_002DDED0;
-extern const qword D_002A2DA0, D_002A2DC0;
+extern CLOCK g_clock;
+extern const qword D_002A2DA0, g_normalZ;
 extern float D_002C20E8, D_002C20EC, D_002C20F0, D_002C20F4, D_002C20F8;
 extern "C" {
 qword func_001A62E8(P *);
@@ -156,12 +156,12 @@ extern "C" void func_001D2610(P *p)
             goal = target;
             break;
         case 2: {
-            M3 m = func_0011B500(D_002A2DC0, angle);
+            M3 m = func_0011B500(g_normalZ, angle);
             goal = Add(target, Rotate(m, offset));
             break;
         }
         case 3: {
-            M3 m = func_0011B500(D_002A2DC0, -angle);
+            M3 m = func_0011B500(g_normalZ, -angle);
             goal = Add(target, Rotate(m, offset));
             break;
         }
@@ -190,7 +190,7 @@ extern "C" void func_001D2610(P *p)
         p->drive = 0.0f;
         p->goalHeading = p->heading;
         p->wheelAngle = func_002458F0(GetY(delta), GetX(delta));
-        if (p->nextAttack < D_002DDED0.t) {
+        if (p->nextAttack < g_clock.t) {
             ATTACH *attach = func_001D2240(p);
             if (attach) {
                 if (attach->mesh) {
@@ -205,7 +205,7 @@ extern "C" void func_001D2610(P *p)
                 }
             fire:
                 func_001F0660(attach->binding, 0x68);
-                float t = D_002DDED0.t;
+                float t = g_clock.t;
                 p->nextAttack = t + GRandInRange(1.0f, 1.5f);
             }
         }
@@ -228,7 +228,7 @@ extern "C" void func_001D2610(P *p)
         break;
     }
 
-    if (D_002DDED0.t > p->nextAttack) {
+    if (g_clock.t > p->nextAttack) {
         for (int i = 0; i < p->attachCount; i++) {
             ATTACH *attach = p->attachments[i];
             if (!func_001D4E08(attach))
@@ -247,7 +247,7 @@ extern "C" void func_001D2610(P *p)
                     continue;
             }
             func_001F0660(attach->binding, 0x68);
-            float t = D_002DDED0.t;
+            float t = g_clock.t;
             p->nextAttack = t + GRandInRange(attach->fireInterval.min, attach->fireInterval.max);
         }
     }

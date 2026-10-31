@@ -10,8 +10,8 @@ extern f32 D_002C3D94;
 extern M2C_UNK D_002C3D98;
 extern f32 D_002C3DA8;
 extern f32 D_002C3DAC;
-extern f32 D_002DDED0;
-extern M2C_UNK D_002DEB30;
+extern f32 g_clock;
+extern M2C_UNK g_game;
 extern M2C_UNK D_003DD490;
 
 void func_002085B0(s32 arg0, s32 arg1, s32 arg2) {

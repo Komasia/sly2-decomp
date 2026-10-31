@@ -6,12 +6,12 @@ s32 func_00242810();                                /* extern */
 s32 func_002432D0(s32, s32, M2C_UNK *);             /* extern */
 s32 func_00243388(s32, s32);                        /* extern */
 s32 scePadGetState(s32, s32);                       /* extern */
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern f32 D_002A5684;
 extern f32 D_002A5688;
 extern f32 D_002A568C;
 extern f32 D_002A5690;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern f32 D_002BE908;
 extern f32 D_002BE90C;
 extern f32 D_002BE910;
@@ -29,13 +29,13 @@ extern M2C_UNK D_002BF320;
 extern M2C_UNK D_002BF330;
 extern M2C_UNK D_002D2918;
 extern M2C_UNK D_002DDEC0;
-extern M2C_UNK D_002DDED0;
+extern M2C_UNK g_clock;
 extern f32 D_002DDED4;
 extern f32 D_002DDF0C;
 extern M2C_UNK D_002DDF40;
-extern f32 D_002DEB30;
+extern f32 g_game;
 extern s32 D_002DFB84;
-extern s32 D_002DFBC0;
+extern s32 g_grfjoyt;
 extern s32 D_002DFBC4;
 extern s32 D_002E0CBC;
 extern s32 D_002E1E40;

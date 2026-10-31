@@ -28,12 +28,12 @@ float func_0011E290(qword,qword,qword*,qword*);
 float func_0011D1C0(float,float,float,float,SMPA*,float*);
 M3 func_0011B570(qword);
 void func_0018F958(P*,NODE*,qword*,qword*,DELTA*);
-extern U D_002A2DC0,D_002A2DA0,D_002A2DB0,D_002A2DD0;
+extern U g_normalZ,D_002A2DA0,D_002A2DB0,D_002A2DD0;
 extern CLQ D_002BF4F0,D_002BF520;
-extern LM D_002BF500,D_002BBB60;
+extern LM D_002BF500,g_lmZeroOne;
 extern float D_002BF508,D_002BF50C,D_002BF510,D_002BF514,D_002BF540,D_002BF544;
 extern SMPA D_002BF530;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 }
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"rV"(n));return v;}
@@ -71,7 +71,7 @@ extern "C" void func_0018FC60(P*p){
  anchorVelocity.q=func_0022D348(Space(p->target),0,anchor.q);
  axis.q=QwSub(func_001A62E8(p),anchor.q);
  displacement=axis;
- qword length=NormalizeAt(&axis,&D_002A2DC0);
+ qword length=NormalizeAt(&axis,&g_normalZ);
  float distance=GXOfVf(length);
  U relative,perpendicular,parallel;
  relative.q=QwSub(Velocity(p),anchorVelocity.q);
@@ -89,42 +89,42 @@ extern "C" void func_0018FC60(P*p){
  float bias;
  if(p->state==0||p->state==2)bias=D_002BF508;else bias=D_002BF50C;
  U angular,parallelAngular,perpendicularAngular;
- angular.q=QwAddScaled(angularFirst.q,angularSecond.q,VuFloatFromMemWord(*(int*)&Addr(&D_002DDED0)->dt));
+ angular.q=QwAddScaled(angularFirst.q,angularSecond.q,VuFloatFromMemWord(*(int*)&Addr(&g_clock)->dt));
  func_0011E290(angular.q,anchorBasis.r[1].q,&parallelAngular.q,&perpendicularAngular.q);
- angular.q=QwCombo(parallelAngular.q,perpendicularAngular.q,VuFloat(drag*Addr(&D_002DDED0)->dt+1.0f),VuFloat(bias*Addr(&D_002DDED0)->dt+1.0f));
- if((p->state==0||p->state==2)&&D_002DDED0.t-p->stamp<D_002BF510){
-  float amount=Addr(&D_002DDED0)->dt*D_002BF514;
+ angular.q=QwCombo(parallelAngular.q,perpendicularAngular.q,VuFloat(drag*Addr(&g_clock)->dt+1.0f),VuFloat(bias*Addr(&g_clock)->dt+1.0f));
+ if((p->state==0||p->state==2)&&g_clock.t-p->stamp<D_002BF510){
+  float amount=Addr(&g_clock)->dt*D_002BF514;
   if(p->state==0)amount=-amount;
   if(p->reverse)amount=-amount;
   float down=-p->accel->value.f[2];
   float speed=GLength(perpendicular.q);
   float t=(down*displacement.f[2]+speed*0.5f*speed)/down;
-  float g=D_002BF520.g0;g+=t*(D_002BF520.g1+t*D_002BF520.g2);float lo=D_002BBB60.gMin,hi=D_002BBB60.gMax;if(g<lo)g=lo;else if(hi<g)g=hi;amount*=g;
+  float g=D_002BF520.g0;g+=t*(D_002BF520.g1+t*D_002BF520.g2);float lo=g_lmZeroOne.gMin,hi=g_lmZeroOne.gMax;if(g<lo)g=lo;else if(hi<g)g=hi;amount*=g;
   angular.q=QwAddScaled(angular.q,anchorBasis.r[1].q,VuFloat(amount));
  }
  float speedOut;
- float next=func_0011D1C0(distance,radial,D_002BF544-p->target->property,Addr(&D_002DDED0)->dt,&D_002BF530,&speedOut);
+ float next=func_0011D1C0(distance,radial,D_002BF544-p->target->property,Addr(&g_clock)->dt,&D_002BF530,&speedOut);
  angular.q=QwScaleX(angular.q,VuFloat(GMinOf(D_002BF544,distance)/GMaxOf(D_002BF540,next)));
  U velocity;
  STATE state;
  if(p->other){
   NODE*object=p->other->object;
   qword base;
-  qword dt;__asm__("":"=r"(dt):"0V"(*(int*)&D_002DDED0.dt):"memory"); /* empty asm, see below: the "memory" clobber keeps the point/spin/base loads after the dt store (target order) */
+  qword dt;__asm__("":"=r"(dt):"0V"(*(int*)&g_clock.dt):"memory"); /* empty asm, see below: the "memory" clobber keeps the point/spin/base loads after the dt store (target order) */
   base=anchorVelocity.q; /* empty asm: the dt bits as a GPR qword (target lw; sq, no qmtc2). The "V" alternative is allocation-only (never chosen: the operand is offsettable), it keeps the MEM in the asm so reload loads it straight into the output reg */
   qword point=anchor.q,spin=D_002A2DD0.q;
   state.direction=D_002A2DD0;state.position=D_002A2DD0;state.velocity.q=dt;
   qword arm=QwSub(point,func_001A62E8(object));
   velocity.q=QwAddScaled2Q(base,spin,QwCross(spin,arm),dt);
  }else velocity=anchorVelocity;
- state.rotation=func_0011B570(QwScaleX(QwAdd(angularFirst.q,angular.q),VuFloat(Addr(&D_002DDED0)->dt*0.5f)));
+ state.rotation=func_0011B570(QwScaleX(QwAdd(angularFirst.q,angular.q),VuFloat(Addr(&g_clock)->dt*0.5f)));
  state.direction.q=QwRotateVec(&state.rotation,axis.q);
  qword radius=QwScaleXK(state.direction.q,VuFloat(next));
  state.position.q=QwAdd(anchor.q,radius);
  qword final=QwAdd(QwAdd(velocity.q,QwCross(angular.q,radius)),QwScaleX(state.direction.q,VuFloatFromMemWord(*(int*)&speedOut)));
  state.velocity.q=final;
  qword current=Velocity(p);
- projected.q=QwSub(QwDivideBy(QwSub(final,current),VuFloatFromMemWord(*(int*)&Addr(&D_002DDED0)->dt).qw),p->accel->value.q);
+ projected.q=QwSub(QwDivideBy(QwSub(final,current),VuFloatFromMemWord(*(int*)&Addr(&g_clock)->dt).qw),p->accel->value.q);
  if(p->other)func_0018F958(p,p->other->object,&anchor.q,&projected.q,p->response);
  else p->response[0].first=projected;
 }

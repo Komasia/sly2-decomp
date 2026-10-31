@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
 struct M { int x0; char pad[0x2C]; qword v30; char pad2[4]; int x44; };
 struct P { char pad[0x150]; int x150; };
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 int FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct M *pm);
 qword func_001A62E8(void *p);
 void func_0013B428(struct P *p, qword pos, qword n);
@@ -29,7 +29,7 @@ int func_0013B2F0(struct P *p, struct M *pm)
         qword c = pm->v30;
         qword l;
         float gl;
-        __asm__("" : "=r"(k) : "0"(D_002A2DC0));
+        __asm__("" : "=r"(k) : "0"(g_normalZ));
         l = VLen(c);
         __asm__("qmfc2.ni %0, %1" : "=r"(gl) : "j"(l));
         pu = &u;

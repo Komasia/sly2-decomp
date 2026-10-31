@@ -7,9 +7,9 @@ struct S {
 };
 struct VE { short d; short pad; float *(*pf)(void *); };
 struct VT { struct VE e[32]; };
-extern struct { float t; float dt; } D_002DDED0;
+extern struct { float t; float dt; } g_clock;
 extern float D_002C3C80[3];
-extern float D_002BBB60[2];
+extern float g_lmZeroOne[2];
 void UpdateSo__FP2SOf(struct S *p);
 void func_00203E08(struct S *p);
 float func_002458F0(float y, float x);
@@ -28,7 +28,7 @@ void UpdateStep__FP4STEPf(struct S *p)
         d = __builtin_fabsf(d);
         f = D_002C3C80[0] + d * (D_002C3C80[1] + d * D_002C3C80[2]);
         {
-            float lo = D_002BBB60[0], hi = D_002BBB60[1];
+            float lo = g_lmZeroOne[0], hi = g_lmZeroOne[1];
             if (f < lo)
                 f = lo;
             else if (hi < f)
@@ -43,5 +43,5 @@ void UpdateStep__FP4STEPf(struct S *p)
         break;
     }
     if (p->n208)
-        p->t20C = D_002DDED0.t;
+        p->t20C = g_clock.t;
 }

@@ -1,7 +1,7 @@
 extern int D_002E2050, D_002E2054;
 extern void *D_002DD644;
 extern int D_002BE538;
-extern char D_003DD490[], D_003D9E70[], D_002DFC00[], D_002DDF40[], D_002DDED0[];
+extern char D_003DD490[], D_003D9E70[], g_joy[], D_002DDF40[], g_clock[];
 void func_0023B7D8(void);
 void func_001A7970(void);
 void func_001613A8(void);
@@ -28,10 +28,10 @@ void func_001A7518(int a, int b)
     func_001613A8();
     for (;;) {
         func_0020E890(D_003DD490);
-        func_001871C0(D_002DFC00);
+        func_001871C0(g_joy);
         func_0014BA38();
         func_0014D470(D_002DDF40);
-        func_0014D0B8(D_002DDED0, 0);
+        func_0014D0B8(g_clock, 0);
         func_00226550(D_003DD490);
         func_001D9648(D_003D9E70);
         func_00160828();

@@ -1,6 +1,6 @@
 // func_0020E3C0: ported from Lilly's personal Sly 2 decomp (src/P2/sw.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002DEB30 (g_game), D_002E1E54 (g_nLang), D_003D4A60 (g_savedata), D_002A39E8 (g_apchzWorld)
+// Globals: g_game, D_002E1E54 (g_nLang), D_003D4A60 (g_savedata), D_002A39E8 (g_apchzWorld)
 // 0x0020E3C0 ResolveSwSaveVars__FP2SW  (T1037)
 // Once the level file has named its save variables (LoadSaveVarsFromBrx), looks up the paths the game itself reads and writes by name (SW 0x3B1C..:
 // the language and sound settings in "flags", the job and world of this level, each world's "dt" and "percent_complete") and stores the current
@@ -142,7 +142,7 @@ struct LM
 {
 	float gMin, gMax;
 };
-extern GAME D_002DEB30;
+extern GAME g_game;
 struct FILEREC
 {
       uint aw[16];
@@ -507,5 +507,5 @@ void ResolveSwSaveVars(SW *psw)
     SetSaveVarInt(psw->psvpEpisodeCurrent, func_00210AE0());
     if (func_00210AE0() > NGetEpisodeBest())
         SetSaveVarByName(CRef((TAGK)0x15, func_00210AE0()), "episodeBest", 0);
-    OnGameEvent(&D_002DEB30, 3, 0);
+    OnGameEvent(&g_game, 3, 0);
 }

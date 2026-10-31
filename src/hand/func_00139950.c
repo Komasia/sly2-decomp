@@ -10,7 +10,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 typedef struct { float x, y, z, w; } V;
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 float RadNormalize__Ff(float);
 
 static __inline__ float FloatFromQw(qword q)
@@ -44,7 +44,7 @@ static __inline__ int UpdateMs10(const M4 *pm, qword dt, qword *pa, qword *pb, q
     register qword v22 __asm__("vf22");
     register qword v23 __asm__("vf23");
     register qword v24 __asm__("vf24");
-    float t = D_002DDED0.t;
+    float t = g_clock.t;
     int cDead = 0;
     int j = -1;
     int i;

@@ -14,7 +14,7 @@ struct F { char pad[0x40]; qword v; SO *pso; qword *av; char pad2[0x60 - 0x58]; 
 struct DZG { int x0; int cdz; DZ *adz; char pad[0x50 - 0xC]; int cso; SO **apso; int pad58[2]; F *af; };
 struct CLOCK { float t; float dt; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002BDDE8;
 void func_00158988(DZG *pdzg, int grf);
 void func_00158668(DZG *pdzg, DZ *pdz, F *pf);
@@ -123,7 +123,7 @@ void func_00158B20(DZG *pdzg, int grf)
             ZZ *pzz = psoBest->palo->pzz;
             float gLimit;
             if (grf & 1) {
-                gLimit = -pzz->g88 * pzz->gD0 * D_002DDED0.dt;
+                gLimit = -pzz->g88 * pzz->gD0 * g_clock.dt;
                 float g = __builtin_fabsf(pdz->pdzOther->gC);
                 pdz->g8 = psoBest->g94 * (g < gLimit ? gLimit : g);
             } else {

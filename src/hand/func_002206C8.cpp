@@ -16,8 +16,8 @@ struct CLOCK {float t,dt;};
 struct WORK {V scalar,saved,coefficient,velocity,point;};
 extern O *D_002DD5BC;
 extern WORLD D_003DD490;
-extern CLOCK D_002DDED0;
-extern V D_002A2DC0,D_002A2DA0,D_002A2DD0;
+extern CLOCK g_clock;
+extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 void func_001CD098(CONTROL *,O *);
 void func_001CD2C0(CONTROL *);
@@ -41,10 +41,10 @@ static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.intege
 static inline void PlainCall(O *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
 static inline void EffectCall(EFFECT *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
 static inline void VectorCall(O *o,int slot,qword value){VE *v=o->vt;v[slot].f.vector((char *)o+v[slot].delta,value);}
-static inline qword LoadUp(){register qword q __asm__("vf1");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
+static inline qword LoadUp(){register qword q __asm__("vf1");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&g_normalZ),"m"(g_normalZ));return q;}
 static inline qword PointVF(qword q){register qword r __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword RestorePoint(const V &v){register qword q __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
-static inline qword LaunchUp(){register qword q __asm__("vf2");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&D_002A2DC0),"m"(D_002A2DC0));return q;}
+static inline qword LaunchUp(){register qword q __asm__("vf2");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&g_normalZ),"m"(g_normalZ));return q;}
 static inline qword LaunchSpeed(const V &v){register qword q __asm__("vf4");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}
 static inline qword LaunchCurrent(qword position){register qword value asm("vf1");asm("qmtc2.ni %1,%0":"=j"(value):"r"(position));return value;}
 static inline qword ToVF(qword q){register qword r asm("vf2");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
@@ -71,11 +71,11 @@ static inline qword RestoreTarget(O **receiver,const S *state,const V &saved){
 
 static inline qword ProjectionStart(qword current,const V&saved,qword&point,V*&savedHigh){
  register V*upper asm("$3"),*retained asm("$4");register qword position asm("vf1"),target asm("vf3");
- asm("lui %0,%%hi(%6)\n\tqmtc2.ni %4,%2\n\tlqc2 %3,%5\n\tdaddu %1,%0,$zero":"=&r"(upper),"=r"(retained),"=j"(position),"=j"(target):"r"(current),"m"(saved.q),"i"(&D_002A2DC0));
+ asm("lui %0,%%hi(%6)\n\tqmtc2.ni %4,%2\n\tlqc2 %3,%5\n\tdaddu %1,%0,$zero":"=&r"(upper),"=r"(retained),"=j"(position),"=j"(target):"r"(current),"m"(saved.q),"i"(&g_normalZ));
  point=target;savedHigh=retained;
  register V*full asm("$3");
  asm("vsub.xyzw %0,%0,%1":"+j"(target):"j"(position));
- asm("addiu %0,%1,%%lo(%2)":"=r"(full):"r"(upper),"i"(&D_002A2DC0));
+ asm("addiu %0,%1,%%lo(%2)":"=r"(full):"r"(upper),"i"(&g_normalZ));
  register qword normal asm("vf1");asm("lqc2 %0,%1":"=j"(normal):"m"(*full));
  point=target;return normal;
 }
@@ -93,7 +93,7 @@ static inline qword ProjectUnit(qword input,qword up){
 }
 static inline qword LiftInputs(V*upper,float&height){
  register float scalar asm("$f0");register V*address asm("$2");register qword up asm("vf2");
- asm("li.s %0,600.0\n\taddiu %1,%3,%%lo(%5)\n\tlqc2 %2,0(%1)":"=f"(scalar),"=&r"(address),"=j"(up):"r"(upper),"m"(*(const V*)((const char*)upper+0x2DC0)),"i"(&D_002A2DC0):"$1");
+ asm("li.s %0,600.0\n\taddiu %1,%3,%%lo(%5)\n\tlqc2 %2,0(%1)":"=f"(scalar),"=&r"(address),"=j"(up):"r"(upper),"m"(*(const V*)((const char*)upper+0x2DC0)),"i"(&g_normalZ):"$1");
  height=scalar;return up;
 }
 static inline O*PositionReceiver(O*selected){register O*argument asm("$4");asm("daddu %0,%1,$zero":"=r"(argument):"r"(selected));return argument;}
@@ -122,7 +122,7 @@ extern "C" void func_002206C8(S *s,int state){
   break;
  }
  int previous=s->state;
- s->state=state;s->time=D_002DDED0.t;
+ s->state=state;s->time=g_clock.t;
  func_00134320(&D_003DD490,s->owner);
  switch(s->state){
  case -1:func_00204660(s->owner,func_00204740(s->owner));s->owner->movement=0;break;

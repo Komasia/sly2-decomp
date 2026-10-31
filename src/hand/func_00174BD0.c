@@ -4,7 +4,7 @@ struct G;
 struct ANIMATION;
 extern struct G D_003DD490;
 extern void *D_002F7900;
-extern char D_002DFC00[];
+extern char g_joy[];
 extern char D_002DDF40[];
 struct VTE { short d; short pad; void *pfn; };
 struct A {
@@ -72,7 +72,7 @@ int func_00174BD0(struct S *p, int msg, struct M *pm) {
     case 0x2F:
         {
             struct O *o = func_00205458(p->p10, 0xA5);
-            if (o && o->p30 == func_001C4840(&D_003DD490)) TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, 8, 1.0f);
+            if (o && o->p30 == func_001C4840(&D_003DD490)) TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 8, 1.0f);
         }
         return 0;
     case 0x34:
@@ -83,7 +83,7 @@ int func_00174BD0(struct S *p, int msg, struct M *pm) {
             if (o && func_001A6AF8(o->parent, g) && g == D_002F7900) {
                 switch (pm->n8) {
                 case 0x35: func_0014F750(D_002DDF40, 0); break;
-                case 0x34: TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, 3, 1.50000005960464477539e-01f); break;
+                case 0x34: TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 3, 1.50000005960464477539e-01f); break;
                 }
             }
         }

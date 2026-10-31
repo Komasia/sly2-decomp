@@ -1,6 +1,6 @@
 // func_00221DD8: ported from Lilly's personal Sly 2 decomp (src/P2/cplcy.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
-// Globals: D_002A2DA0 (D_002A2DA0), D_002C4118 (D_002C4118), D_002C41B0 (D_002C41B0), D_002C41D8 (D_002C41D8), D_002C41DC (D_002C41DC), D_002C41E0 (D_002C41E0), D_002C41F0 (D_002C41F0), D_002C4200 (D_002C4200), D_002C4208 (D_002C4208), D_002C4220 (D_002C4220), D_002C4230 (D_002C4230), D_002C4240 (D_002C4240), D_002C4250 (D_002C4250), D_002C4260 (D_002C4260), D_002C426C (D_002C426C), D_002C4270 (D_002C4270), D_002C4274 (D_002C4274), D_002C4278 (D_002C4278), D_002C427C (D_002C427C), D_002C4280 (D_002C4280), D_002C41EC (g_SheetCameraEngineCameraDamping), D_002C41E4 (g_SheetCameraEngineCameraHorizontalSpeed), D_002C41E8 (g_SheetCameraEngineCameraVerticalSpeed), D_002DDED0 (g_clock), D_002DDF40 (g_cm), D_002DEB30 (g_game), D_002BBB60 (g_lmZeroOne), D_002A2DC0 (g_normalZ), D_002A2DD0 (g_qwZero)
+// Globals: D_002A2DA0 (D_002A2DA0), D_002C4118 (D_002C4118), D_002C41B0 (D_002C41B0), D_002C41D8 (D_002C41D8), D_002C41DC (D_002C41DC), D_002C41E0 (D_002C41E0), D_002C41F0 (D_002C41F0), D_002C4200 (D_002C4200), D_002C4208 (D_002C4208), D_002C4220 (D_002C4220), D_002C4230 (D_002C4230), D_002C4240 (D_002C4240), D_002C4250 (D_002C4250), D_002C4260 (D_002C4260), D_002C426C (D_002C426C), D_002C4270 (D_002C4270), D_002C4274 (D_002C4274), D_002C4278 (D_002C4278), D_002C427C (D_002C427C), D_002C4280 (D_002C4280), D_002C41EC (g_SheetCameraEngineCameraDamping), D_002C41E4 (g_SheetCameraEngineCameraHorizontalSpeed), D_002C41E8 (g_SheetCameraEngineCameraVerticalSpeed), g_clock, D_002DDF40 (g_cm), g_game, g_lmZeroOne, g_normalZ, D_002A2DD0 (g_qwZero)
 // 0x00221DD8 Update__7CMPART2P6CPDEFIP3JOY  (MATCHES Sly 2; T1253, 1604 instructions). The frame is the game's 0x230 (0x00 posFocus, 0x10 posHang,
 // 0x20 vecTangent, 0x30 dposCrv / vFocus, 0x40..0x60 the free camera's temporaries, 0x70 smp, 0x80 vecHeading / smpPull, 0x90..0xEF six untouched
 // locals, 0xF0.. the view floats, 0x124 / 0x128 the pull flags; T1203). How the last 16.5% -> MATCH went (re/notes/camera-updatecm.md "T1253"):
@@ -254,7 +254,7 @@ struct LM
 {
 	float gMin, gMax;
 };
-extern LM D_002BBB60;
+extern LM g_lmZeroOne;
 float RadNormalize(float rad);
 float GLimitAbs(float g, float absLimit);
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext);
@@ -271,7 +271,7 @@ struct GAME
       int oidTaskCur;
       int oidTaskPending;
 };
-extern GAME D_002DEB30;
+extern GAME g_game;
 struct SND
 {
       undefined4 unk_0x00[3];
@@ -300,7 +300,7 @@ struct CLOCK
       int cWrapAround;
       undefined4 unk_0x5c;
 };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 struct EDGE
 {
     ushort aipos[2];
@@ -1010,7 +1010,7 @@ float atan2f(float y, float x);
 void DecomposeSphere(qword v, float *prad, float *pradTilt, float *psLen);
 extern "C" qword VuvecSphere(float radPan, float radTilt, float s);
 extern float D_002C41DC;
-extern VECTOR D_002A2DC0;
+extern VECTOR g_normalZ;
 extern qword D_002A2DD0;
 struct RAW8
 {
@@ -1668,7 +1668,7 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
 {
     LO *plo = (LO *)pvHero;
     TN *ptnCur = ptn;
-    float dt = D_002DDED0.dtCm;
+    float dt = g_clock.dtCm;
     LO *ploPlayer = 0;
     if (FIsBasicDerivedFrom((BASIC *)plo, (CID)0x34))
         ploPlayer = plo;
@@ -1703,7 +1703,7 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
         uTunnelWant = pcpd->uTunnel;
     else
         uTunnelWant = 0.0f;
-    uTunnel = GSmooth(uTunnel, uTunnelWant, D_002DDED0.dt, &D_002C4230, 0);
+    uTunnel = GSmooth(uTunnel, uTunnelWant, g_clock.dt, &D_002C4230, 0);
     tMoveLast = tMoveLast > pcpdefi->tMoveLast ? tMoveLast : pcpdefi->tMoveLast;
     float radPanFwdNew = 0.0f;
     float radTiltFwdNew = 0.0f;
@@ -1770,8 +1770,8 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             else
                 nMode = 2;
         }
-        tMoveLast = D_002DDED0.t;
-        tManual = D_002DDED0.t - D_002C41DC;
+        tMoveLast = g_clock.t;
+        tManual = g_clock.t - D_002C41DC;
     }
     if ((nMode & grftnm) == 0 && nMode > 0 && nMode < 3)
         nMode = 4;
@@ -1840,14 +1840,14 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             radPanNew = RadNormalize(radPanNew + dradPan * dt);
             radTiltNew = RadNormalize(radTiltNew + dradTilt * dt);
             radTiltNew = GLimitLm(&D_002C41B0, radTiltNew);
-            if (D_002DDED0.tCm - D_002DEB30.tCmTurned > 5.0f)
+            if (g_clock.tCm - g_game.tCmTurned > 5.0f)
             {
-                D_002DEB30.tCmTurned = D_002DDED0.tCm;
-                OnGameEvent(&D_002DEB30, 6, 0);
+                g_game.tCmTurned = g_clock.tCm;
+                OnGameEvent(&g_game, 6, 0);
             }
         }
         nMode = 4;
-        tManual = D_002DDED0.t;
+        tManual = g_clock.t;
         fArrived = 1;
     }
     else if (nMode == 4)
@@ -1897,7 +1897,7 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
         switch (nTurnAxis)
         {
         case 0:
-            *(qword *)&vecAxis = QwCross(*(qword *)&D_002A2DC0, *(qword *)&vecView);
+            *(qword *)&vecAxis = QwCross(*(qword *)&g_normalZ, *(qword *)&vecView);
             break;
         case 1:
             vecAxis = vecView;
@@ -1919,8 +1919,8 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
         float gTurn = GLimitAbs(GFromVf(QwDot(*(qword *)&vFocus, qwAxis)) / sView, D_002C41E0);
         float dradPanFree = gTurn * uTunnel;
         dradPanFree *= GEvaluateClqLm(&D_002C41F0, &D_002C4200, vecStick.y);
-        dradPanFree *= GLimitRange(GEvaluateClq(&D_002C4220, D_002DDED0.t - tManual), D_002BBB60.gMin, D_002BBB60.gMax);
-        float radPanFree = RadNormalize(radPanNew + dradPanFree * D_002DDED0.dt);
+        dradPanFree *= GLimitRange(GEvaluateClq(&D_002C4220, g_clock.t - tManual), g_lmZeroOne.gMin, g_lmZeroOne.gMax);
+        float radPanFree = RadNormalize(radPanNew + dradPanFree * g_clock.dt);
         float uSpeed = GMin(GFromVf(QwLengthXY(*(qword *)&vFocus)) * 0.0016666667f, 1.0f);
         float radTiltFree;
         SMP smp;
@@ -1929,7 +1929,7 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             smp.svFast = D_002C4260.svFast * uSpeed;
             smp.svSlow = D_002C4260.svSlow * uSpeed;
             smp.dtFast = D_002C4260.dtFast;
-            radTiltFree = RadSmooth(radTiltNew, GLimitLm(&pcpd->lmTilt, radTiltNew), D_002DDED0.dt, &smp, 0);
+            radTiltFree = RadSmooth(radTiltNew, GLimitLm(&pcpd->lmTilt, radTiltNew), g_clock.dt, &smp, 0);
         }
         else
         {
@@ -2018,10 +2018,10 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             if (fPullIdle)
             {
                 float gRamp;
-                float dtIdle = D_002DDED0.t - (tMoveLast + D_002C41D8);
-                float dtQuiet = D_002DDED0.t - (tManual + D_002C41DC);
+                float dtIdle = g_clock.t - (tMoveLast + D_002C41D8);
+                float dtQuiet = g_clock.t - (tManual + D_002C41DC);
                 if (ptnCur->dtPullIdle > 0.0f)
-                    gRamp = GLimitLm(&D_002BBB60, dtIdle / ptnCur->dtPullIdle) * GLimitLm(&D_002BBB60, dtQuiet / ptnCur->dtPullIdle);
+                    gRamp = GLimitLm(&g_lmZeroOne, dtIdle / ptnCur->dtPullIdle) * GLimitLm(&g_lmZeroOne, dtQuiet / ptnCur->dtPullIdle);
                 else if (dtIdle > 0.0f && dtQuiet > 0.0f)
                     gRamp = 1.0f;
                 else
@@ -2037,7 +2037,7 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             {
                 float gRamp;
                 if (ptnCur->dtPullEnter > 0.0f)
-                    gRamp = GLimitLm(&D_002BBB60, (D_002DDED0.t - ptnCur->tTns) / ptnCur->dtPullEnter);
+                    gRamp = GLimitLm(&g_lmZeroOne, (g_clock.t - ptnCur->tTns) / ptnCur->dtPullEnter);
                 else
                     gRamp = 1.0f;
                 float gEnter = gRamp * ptnCur->gPullEnter;
@@ -2051,8 +2051,8 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
             smpPull.svFast = D_002C4208.svFast * gPull;
             smpPull.svSlow = D_002C4208.svSlow * gPull;
             smpPull.dtFast = D_002C4208.dtFast;
-            float radPanPull = RadSmooth(radPanNew, RadNormalize(radPanNew + RadNormalize(radPanView - radPanNew)), D_002DDED0.dt, &smpPull, 0);
-            float radTiltPull = RadSmooth(radTiltNew, RadNormalize(radTiltNew + RadNormalize(radTiltView - radTiltNew)), D_002DDED0.dt, &smpPull, 0);
+            float radPanPull = RadSmooth(radPanNew, RadNormalize(radPanNew + RadNormalize(radPanView - radPanNew)), g_clock.dt, &smpPull, 0);
+            float radTiltPull = RadSmooth(radTiltNew, RadNormalize(radTiltNew + RadNormalize(radTiltView - radTiltNew)), g_clock.dt, &smpPull, 0);
             if (fabsf(RadNormalize(radPanView - radPanPull)) > fabsf(RadNormalize(radPanView - radPanFree)))
                 radPanPull = radPanFree;
             if (fabsf(RadNormalize(radTiltView - radTiltPull)) > fabsf(RadNormalize(radTiltView - radTiltFree)))
@@ -2155,12 +2155,12 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
     }
     else
     {
-        float c = pcpd->cDist * D_002C426C * D_002DDED0.dt + 1.0f;
-        float k = pcpd->kDist * D_002C4270 * D_002DDED0.dt;
+        float c = pcpd->cDist * D_002C426C * g_clock.dt + 1.0f;
+        float k = pcpd->kDist * D_002C4270 * g_clock.dt;
         dsDist = c * dsDist + (sDistOut - sDist) * k;
-        sDistOut = sDist + dsDist * D_002DDED0.dt;
+        sDistOut = sDist + dsDist * g_clock.dt;
         duFrameY = c * duFrameY + (uFrameYWant - uFrameY) * k;
-        uFrameYWant = uFrameY + duFrameY * D_002DDED0.dt;
+        uFrameYWant = uFrameY + duFrameY * g_clock.dt;
     }
     VECTOR4 dposEye;
     *(qword *)&dposEye = VuvecSphere(radPanOut, radTiltOut, sDistOut);
@@ -2202,10 +2202,10 @@ void CMPART2::Update(CPDEFI *pcpdefi, JOY *pjoy)
     }
     else
     {
-        dradPanLook += (radPanLook * D_002C4274 + dradPanLook * D_002C4278) * D_002DDED0.dt;
-        dradTiltLook += (radTiltLook * D_002C427C + dradTiltLook * D_002C4280) * D_002DDED0.dt;
-        radPanLook += dradPanLook * D_002DDED0.dt;
-        radTiltLook += dradTiltLook * D_002DDED0.dt;
+        dradPanLook += (radPanLook * D_002C4274 + dradPanLook * D_002C4278) * g_clock.dt;
+        dradTiltLook += (radTiltLook * D_002C427C + dradTiltLook * D_002C4280) * g_clock.dt;
+        radPanLook += dradPanLook * g_clock.dt;
+        radTiltLook += dradTiltLook * g_clock.dt;
     }
     SetCmPanTilt(&D_002DDF40, *(qword *)&posEyeWant, *(qword *)&posHang, radLookX + radPanLook, radLookY + radTiltLook);
     uFrameY = uFrameYWant;

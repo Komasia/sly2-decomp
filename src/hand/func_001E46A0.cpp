@@ -10,7 +10,7 @@ struct OUTPUT {char pad10[0x10];float x,y,heading,speed;char pad20[0x10];uint fl
 struct WORK {U from,to,normal;float heading;qword first,second;};
 extern "C" {
 extern qword D_002A2DA0;
-extern float D_002C3630[3],D_002BBB60[2],D_002C3640;
+extern float D_002C3630[3],g_lmZeroOne[2],D_002C3640;
 float func_001E6728(PATH*,float);
 void func_001E6F10(PATH*,qword*,qword*,float);
 qword func_001C4768(OUTPUT*,qword);
@@ -150,7 +150,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    float distance=LengthXY(work.to.q);
    float gain=D_002C3630[0]+distance*(D_002C3630[1]+distance*D_002C3630[2]);
-   float low=D_002BBB60[0],high=D_002BBB60[1];
+   float low=g_lmZeroOne[0],high=g_lmZeroOne[1];
    if(gain<low)gain=low;else if(high<gain)gain=high;
    out->speed*=gain;
   }

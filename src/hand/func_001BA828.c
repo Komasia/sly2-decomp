@@ -1,7 +1,7 @@
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern int D_002E1E40;
-extern char D_002DEB30[];
+extern char g_game[];
 struct VE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VE *vt; char pad1[0x38 - 0x10]; int x38; char pad2[4]; int x40; };
 struct S { char pad[0x10]; int x10; char pad1[4]; int x18; char pad2[0x30 - 0x1C]; int x30; float f34; int x38; };
@@ -17,7 +17,7 @@ void func_001BA828(struct S *p, int st)
     if (p->x30 == 0) func_00171C18(p->x18, p->x10 + 0x1090);
     func_001EF0D8(&p->x18);
     p->x30 = st;
-    p->f34 = D_002DDED0.t;
+    p->f34 = g_clock.t;
     switch (st) {
     case 0: {
         struct O *o = func_00205438(p->x10, 0xA9);
@@ -35,7 +35,7 @@ void func_001BA828(struct S *p, int st)
         struct O *o = func_00205438(p->x10, 0x9D);
         o->x40 = p->x10 + 0x1060;
         VCALL0(o, 8);
-        func_001619A0(D_002DEB30, 0x33, p->x10);
+        func_001619A0(g_game, 0x33, p->x10);
         break;
     }
     }

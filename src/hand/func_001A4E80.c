@@ -4,7 +4,7 @@ struct P { char pad[0x108]; int x108; };
 struct H { char pad[0x44]; int x44; };
 extern struct P D_002F66B0;
 extern struct H D_002E6550;
-extern char D_003DD490[], D_002BFCA0[], D_002DEB30[];
+extern char D_003DD490[], D_002BFCA0[], g_game[];
 int func_001A4E70(struct S *s);
 void func_001B3A48(struct P *p, int n);
 void func_0022B490(void *g, void *a, int b, int c, int d, int e);
@@ -30,7 +30,7 @@ void func_001A4E80(struct S *s)
         func_0022B490(D_003DD490, e->x8, e->xC, -1, e->x10, 0x30A);
         break;
     case 3:
-        func_001651D8(D_002DEB30, e->x14, e->x18);
+        func_001651D8(g_game, e->x14, e->x18);
         break;
     case 4:
         break;

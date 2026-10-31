@@ -1,5 +1,5 @@
 struct MSG { int cb; int nKind; };
-extern unsigned int D_002F6384;
+extern unsigned int s_pvWorldMac;
 void func_001AE1C8(int);
 void *PvAllocSwImpl__Fi(struct MSG *p)
 {
@@ -7,7 +7,7 @@ void *PvAllocSwImpl__Fi(struct MSG *p)
     if (!p->cb)
         return 0;
     func_001AE1C8(p->cb);
-    pv = (D_002F6384 + (p->nKind - 1)) & -p->nKind;
-    D_002F6384 = pv + ((p->cb + 15) & -16);
+    pv = (s_pvWorldMac + (p->nKind - 1)) & -p->nKind;
+    s_pvWorldMac = pv + ((p->cb + 15) & -16);
     return (void*)pv;
 }

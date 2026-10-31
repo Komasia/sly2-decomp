@@ -44,7 +44,7 @@ struct WHEEL { char pad0[0x20]; float radius, bottom, top; char pad2C[0x24]; qwo
 struct CONTACT;
 struct GAME;
 extern GAME D_003DD490;
-extern const qword D_002A2DC0;
+extern const qword g_normalZ;
 extern const qword D_002C2150[5];
 /* -FLT_MAX / FLT_MAX below are constant-pool literals (0x2A7838/0x2A783C), not globals: their REG_EQUAL sets order f24/f26 */
 
@@ -233,13 +233,13 @@ extern "C" void func_001D3450(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unu
     }
     /* ray pass. VU_VECTOR temporaries keep the loop above loop.c's ~95-insn threshold, so &D_002C2150 is not hoisted;
        posPrev = pos at the END of the body puts the a2 argument move after the row loads (sched2 tie) */
-    VU_VECTOR posPrev = Transform(frame, BlendStart(D_002C2150[0], radius, D_002A2DC0, height));
+    VU_VECTOR posPrev = Transform(frame, BlendStart(D_002C2150[0], radius, g_normalZ, height));
     for (uint j = 0; j < 6; j++) {
         VU_VECTOR dir;
         if (j < 5)
             dir = Scale(D_002C2150[j], radius);
         else
-            dir = Blend(D_002C2150[4], radius, D_002A2DC0, height);
+            dir = Blend(D_002C2150[4], radius, g_normalZ, height);
         VU_VECTOR pos;
         pos = Transform(frame, dir);
         int clsg = func_00118668(pbsp, (BSP *)0x7FFFFFFF, posPrev.q, pos.q, 16, alsg);

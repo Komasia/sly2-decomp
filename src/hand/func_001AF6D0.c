@@ -6,7 +6,7 @@ struct S { char pad[0x10]; int x10; };
 struct P { char pad[0x8]; void *x8; };
 struct G { char pad[0x14C]; float x14C; float x150; };
 extern struct G D_003DD040;
-extern char D_002BBB60[];
+extern char g_lmZeroOne[];
 extern float D_002DDF10;
 extern float D_002C01C8, D_002C01CC;
 extern float D_002F6468, D_002F646C;
@@ -25,7 +25,7 @@ void func_001AF6D0(struct S *s, struct P *p, int *pk)
         float g;
         if (f == 0.0f)
             return;
-        g = func_0011D948(D_002BBB60, D_003DD040.x150 + f * D_002DDF10 * 1.5f);
+        g = func_0011D948(g_lmZeroOne, D_003DD040.x150 + f * D_002DDF10 * 1.5f);
         func_001FEA60(&D_003DD040, 1, g, 1);
         func_00212E40(p->x8, 0x315, g);
         break;
@@ -35,7 +35,7 @@ void func_001AF6D0(struct S *s, struct P *p, int *pk)
         float g;
         if (f == 0.0f)
             return;
-        g = func_0011D948(D_002BBB60, D_003DD040.x14C + f * D_002DDF10 * 1.5f);
+        g = func_0011D948(g_lmZeroOne, D_003DD040.x14C + f * D_002DDF10 * 1.5f);
         func_001FEA60(&D_003DD040, 0, g, 1);
         func_001FEA60(&D_003DD040, 3, g, 1);
         func_00212E40(p->x8, 0x315, g);

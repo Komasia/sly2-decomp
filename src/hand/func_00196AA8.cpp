@@ -3,7 +3,7 @@ union U{qword q;float f[4];int i[4];};struct P;
 struct CONTACT{char pad0[8];P*owner;char padC[0x80-12];U normal;char pad90[0x1C];CONTACT*next;};
 struct GROUP{CONTACT*first;GROUP*next;};struct COLLISION{char pad0[0x64];GROUP*groups;CONTACT*single;};struct P{char pad0[0xEC];COLLISION*collision;};struct MOVE{P*actor;char pad4[0x18];int mode;};
 struct FRAME{};struct REQ{int bytes,alignment;};union SCRATCH{U scalar;REQ request;};struct WORK{U normals[64];SCRATCH scratch;FRAME frame;U residual,original;};
-extern "C"{extern U D_002A2DC0;extern float D_002A63B0;FRAME*func_001AE478(FRAME*);void func_001AE4A0(FRAME*,int);void*PvAllocSlot(REQ*) asm("PvAllocSlot__FP8ALLOCREQ");void func_0011AD30(int,float*,float*,float*,float);void func_00195FB8(MOVE*,int,void*);}
+extern "C"{extern U g_normalZ;extern float D_002A63B0;FRAME*func_001AE478(FRAME*);void func_001AE4A0(FRAME*,int);void*PvAllocSlot(REQ*) asm("PvAllocSlot__FP8ALLOCREQ");void func_0011AD30(int,float*,float*,float*,float);void func_00195FB8(MOVE*,int,void*);}
 static inline void Publish(U*home,qword q){__asm__ volatile("sqc2 %1,%0":"=m"(home->q):"j"(q));}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword v,qword k){__asm__("vmulx.xyzw %0,%1,%2x":"=j"(v):"j"(v),"j"(k));return v;}
@@ -60,7 +60,7 @@ typedef char Normal_Stride[(FIELD_OFFSET(WORK,normals[1])-FIELD_OFFSET(WORK,norm
 extern "C" void func_00196AA8(MOVE*p,U*out){
  WORK w;unsigned base=(unsigned)w.normals-16;int count=0;CONTACT*c;GROUP*group=p->actor->collision->groups;
  for(;;){c=group?group->first:p->actor->collision->single;
-  if(c){unsigned write=base+count*16;do{if((uint)count>=64)goto collected;qword normal=c->normal.q;if(p->actor!=c->owner){qword negative=Scalar(-1.0f);Publish(&w.scratch.scalar,negative);normal=Scale(normal,negative);}if(Z(normal)>0.7f)continue;write+=16;*(qword*)write=Reject(normal,D_002A2DC0.q);count++;}while((c=c->next)!=0);}
+  if(c){unsigned write=base+count*16;do{if((uint)count>=64)goto collected;qword normal=c->normal.q;if(p->actor!=c->owner){qword negative=Scalar(-1.0f);Publish(&w.scratch.scalar,negative);normal=Scale(normal,negative);}if(Z(normal)>0.7f)continue;write+=16;*(qword*)write=Reject(normal,g_normalZ.q);count++;}while((c=c->next)!=0);}
   if(!group)break;group=group->next;
  }
  collected:

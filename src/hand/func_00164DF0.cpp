@@ -7,7 +7,7 @@ struct CRef;
 struct HEAP_SCOPE;
 extern "C"{
 extern int D_002DEB28,D_003E0F8C;
-extern char D_002DEB30[],D_002E65E0[],D_003D4A60[];
+extern char g_game[],D_002E65E0[],D_003D4A60[];
 extern G D_003DD490;
 HEAP_SCOPE*func_001AE478(HEAP_SCOPE*);
 void*func_001AE378(const REQUEST&);
@@ -60,7 +60,7 @@ extern "C" void func_00164DF0(P*p,int state){
     int mode=func_00210AE0();
     if((unsigned)mode<9){
         void*object=D_003DD490.players[mode];
-        if(object){SetValue(object,func_00161660(D_002DEB30));}
+        if(object){SetValue(object,func_00161660(g_game));}
     }
     if(func_001637E8(p)&&old!=-1&&old<2&&p->state>=2){
         if(p->link){func_00162CD0(p->link,p);if(p->link)return;}

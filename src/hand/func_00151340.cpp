@@ -5,7 +5,7 @@
 // never-chosen "V" alternative (the func_0014F110 trick: lw instead of lwc1+mfc1).
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
-extern "C" CLOCK D_002DDED0;
+extern "C" CLOCK g_clock;
 struct CM;
 extern "C" CM D_002DDF40;
 struct CLQ { float g0, g1, g2, pad; };
@@ -89,17 +89,17 @@ void func_00151340(X *p, void *pv, JOY *pjoy)
         pos = zero;
         v = pos;
     } else {
-        if (p->g18 < D_002DDED0.t) {
+        if (p->g18 < g_clock.t) {
             float y = GRand(D_002BDA48);
             float z = GRand(D_002BDA50);
             float *pf = p->pos.f;
             pf[0] = 0.0f;
             pf[1] = y;
             pf[2] = z;
-            float t = D_002DDED0.t;
+            float t = g_clock.t;
             p->g18 = t + GRand(D_002BDA58);
         }
-        float dt = D_002DDED0.dt;
+        float dt = g_clock.dt;
         qword accel = VecCombo(VU_FLOAT(&D_002BDA60), Sub(p->pos.q, p->p14->pos), VU_FLOAT(-D_002BDA64), p->v);
         v = AddScaled(p->v, accel, VU_FLOAT(dt));
         pos = AddScaled2(p->p14->pos, p->v, v, VU_FLOAT(dt * 0.5f));

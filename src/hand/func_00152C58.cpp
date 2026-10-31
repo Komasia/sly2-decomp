@@ -34,7 +34,7 @@ struct P {
 };
 struct CLOCK { float t; float dt; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern char D_003DD040[];
 extern float D_002BDB50, D_002BDB54, D_002BDB58, D_002BDB5C, D_002BDBB0;
 extern KEY D_002BDB70[4];
@@ -127,7 +127,7 @@ void func_00152C58(P *p)
                 break;
             }
             if (p->stateHint == 1) {
-                func_00117120(GMax(pe->t - t, D_002DDED0.dt), D_002DDED0.dt, 1.0f, p->pos, p->vel, pe->pos, D_002BDBD0, &p->pos, &p->vel, 0);
+                func_00117120(GMax(pe->t - t, g_clock.dt), g_clock.dt, 1.0f, p->pos, p->vel, pe->pos, D_002BDBD0, &p->pos, &p->vel, 0);
             }
         }
         tb.x = ((float *)&p->pos)[0] - dxB * 0.5f;

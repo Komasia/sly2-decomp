@@ -11,7 +11,7 @@ struct EMITB { char pad[0xF0]; V3 dir; };
 extern "C" {
 extern LM D_002C1F78;
 extern float D_002C1F80[3];
-extern LM D_002BBB60;
+extern LM g_lmZeroOne;
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void func_001CE9B8(SHRAPNEL *psh, EMITB *pemitb);
 }
@@ -28,7 +28,7 @@ static inline qword VLen(qword v)
     return t;
 }
 static inline float LowerLimit(char*page){return *(const float*)(page-0x44A0);}
-static inline float ReadLengthAndPublish(qword length,char**out,LM**limits,float*duration,float life){register char*page __asm__("$2");register LM*address __asm__("$3");register float scalar __asm__("$f3");__asm__("lui %0,%%hi(%5)\n\tqmfc2.ni %1,%4\n\tswc1 %6,%3\n\tmtc1 %1,%2\n\taddiu %1,%0,%%lo(%5)":"=&r"(page),"=&r"(address),"=f"(scalar),"=m"(*duration):"j"(length),"i"(&D_002BBB60),"f"(life));*out=page;*limits=address;return scalar;}
+static inline float ReadLengthAndPublish(qword length,char**out,LM**limits,float*duration,float life){register char*page __asm__("$2");register LM*address __asm__("$3");register float scalar __asm__("$f3");__asm__("lui %0,%%hi(%5)\n\tqmfc2.ni %1,%4\n\tswc1 %6,%3\n\tmtc1 %1,%2\n\taddiu %1,%0,%%lo(%5)":"=&r"(page),"=&r"(address),"=f"(scalar),"=m"(*duration):"j"(length),"i"(&g_lmZeroOne),"f"(life));*out=page;*limits=address;return scalar;}
 static inline void CopyDirection(SHRAPNEL*dest,const EMITB*source){register float xz __asm__("$f0");register float y __asm__("$f1");__asm__("lwc1 %0,%5\n\tswc1 %0,%2\n\tlwc1 %1,%6\n\tswc1 %1,%3\n\tlwc1 %0,%7\n\tswc1 %0,%4":"=&f"(xz),"=&f"(y),"=m"(dest->dir.x),"=m"(dest->dir.y),"=m"(dest->dir.z):"m"(source->dir.x),"m"(source->dir.y),"m"(source->dir.z));}
 void PostShrapnelEmit(SHRAPNEL *psh, EMITB *pemitb)
 {

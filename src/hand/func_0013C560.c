@@ -26,9 +26,9 @@ struct O {
     char pad3[0x180 - 0x168]; float g180; int st; float g188; struct E *pe;
 };
 struct MSG { int k; void *p; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern struct GS D_003DD490;
-extern char D_002DEB30[];
+extern char g_game[];
 extern qword D_002A2DD0;
 extern qword D_002A4B60;
 void func_001CB4B8(void *pv, struct O *p);
@@ -162,7 +162,7 @@ void func_0013C560(struct O *p, int st)
             func_001618F8(&D_003DD490, p->pq->g18C + 0.99f);
         func_00156C80(&D_003DD490, 1, func_001A62E8(p->pq), p->pq, (char *)p->pq + 0x198);
         if (st == 2)
-            func_001619A0(D_002DEB30, 0x2F, p);
+            func_001619A0(g_game, 0x2F, p);
         p->pq->p194 = 0;
         p->pq = 0;
         VCALL(p, 3, PFN3), 5, 0, 0, 0, 0);
@@ -202,7 +202,7 @@ void func_0013C560(struct O *p, int st)
     }
 
     p->st = st;
-    p->g188 = D_002DDED0.t;
+    p->g188 = g_clock.t;
 
     switch (st) {
     case 0:
@@ -288,7 +288,7 @@ void func_0013C560(struct O *p, int st)
         u.f[2] = c;
         VCALL(p, 36, PFNQ), u.q);
         func_001F5880(p, D_002A4B60);
-        func_001619A0(D_002DEB30, 0x30, p);
+        func_001619A0(g_game, 0x30, p);
         break;
     }
     }

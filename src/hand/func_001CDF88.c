@@ -10,8 +10,8 @@ typedef struct S {
     VT *vt; char padF0[0x154 - 0xF0]; float size; int pad158; DL children; char pad168[8];
     union U lo; union U hi; union U center; float radius;
 } S;
-extern DLI *D_002DD2FC;
-extern struct { float t; } D_002DDED0;
+extern DLI *s_pdliFirst;
+extern struct { float t; } g_clock;
 extern const float D_002A77D0, D_002A77D4;
 void func_001F4B58(S *);
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -19,8 +19,8 @@ static inline void InitDli(DLI *pdli, DL *pdl)
     pdli->pdl = pdl;
     pdli->ppv = (void **)pdl;
     pdli->ibDle = pdl->ibDle;
-    pdli->pdliNext = D_002DD2FC;
-    D_002DD2FC = pdli;
+    pdli->pdliNext = s_pdliFirst;
+    s_pdliFirst = pdli;
 }
 static inline void *PvNextDli(DLI *pdli)
 {
@@ -49,7 +49,7 @@ void ProjectRipgTransform__FP4RIPGfi(S *p)
     phi->f[1] = phi->f[2] = D_002A77D4;
     hi.f[0] = D_002A77D4;
     while ((q = (S *)PvNextDli(&dli)) != 0) {
-        if (D_002DDED0.t >= q->time)
+        if (g_clock.t >= q->time)
             q->vt->a[4].pfn((char *)q + q->vt->a[4].d);
         lo.q = Min(lo.q, Min(q->cornerA, q->cornerB));
         hi.q = Max(hi.q, Max(q->cornerA, q->cornerB));
@@ -76,5 +76,5 @@ void ProjectRipgTransform__FP4RIPGfi(S *p)
         p->center.q = mid;
         func_001F4B58(p);
     }
-    D_002DD2FC = dli.pdliNext;
+    s_pdliFirst = dli.pdliNext;
 }

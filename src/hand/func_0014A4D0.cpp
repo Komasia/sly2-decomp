@@ -14,7 +14,7 @@ struct CLOCK { float t; float dt; };
 extern "C" {
 extern G D_003DD490;
 extern SO *D_003E1450;
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002BD460;
 extern float D_002BD468[2];
 extern float D_002BD470, D_002BD474, D_002BD478, D_002BD47C;
@@ -87,8 +87,8 @@ void func_0014A4D0(P *p)
         v = ((qword (*)(void *))e->pfn)((char *)pso + e->d);
     }
     if (FLess(D_002BD460, Len(v)))
-        p->t48 = D_002DDED0.t;
-    float dt = D_002DDED0.t - p->t48;
+        p->t48 = g_clock.t;
+    float dt = g_clock.t - p->t48;
     if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !func_0020F0B0(pg)) {
         if (func_00132B10(pso, 0x34) && pso->x2DC == 0x11) {
             PATH *ppath = pso->ppath;

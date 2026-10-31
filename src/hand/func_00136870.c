@@ -6,7 +6,7 @@ struct E { int x0; void *p4; void *p8; };
 struct P { char pad[0x2C0]; char a2C0[0x200]; char a4C0[0xF50 - 0x4C0]; char aF50[0x11B4 - 0xF50]; int x11B4; int pad1[2];
     struct A *pa11C0; char pad2[0x12F0 - 0x11C4]; int x12F0; char pad3[0x13D0 - 0x12F4]; int x13D0; char pad4[0x1818 - 0x13D4];
     long x1818; };
-extern int D_002DFBC0;
+extern int g_grfjoyt;
 extern char D_002DE2E0[];
 int func_001443D8();
 int func_0019C8D0(void *pv, int k);
@@ -74,7 +74,7 @@ int func_00136870(struct P *p, int k)
         }
         case 3: {
             int r = 0;
-            if (p->x12F0 && (D_002DFBC0 & 2))
+            if (p->x12F0 && (g_grfjoyt & 2))
                 r = func_0014FD50(D_002DE2E0) == 0;
             return r;
         }

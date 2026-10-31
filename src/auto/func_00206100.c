@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
 M2C_UNK func_00129EC8(M2C_UNK *);                   /* extern */
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern s128 D_002A2DD0;
 extern f32 D_002A85F8;
 extern f32 D_002A8600;
@@ -8,7 +8,7 @@ extern f32 D_002A8604;
 extern f32 D_002A8610;
 extern f32 D_002A8614;
 extern f32 D_002A8868;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern M2C_UNK D_002C3CB8;
 extern M2C_UNK D_002C3CC8;
 extern s32 D_002C3CE4;
@@ -24,7 +24,7 @@ extern M2C_UNK D_002C3D50;
 extern M2C_UNK D_002C3D60;
 extern s32 D_002DD5BC;
 extern s32 D_002DD648;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern M2C_UNK D_002DDF40;
 extern s32 D_002E1E40;
 extern s32 D_002F7900;

@@ -7,7 +7,7 @@ struct P {
     int state; float tState; char pad3[0x80 - 0x68]; qword v80; int x90;
 };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int oid);
 int func_00132B10(void *p, int n);
@@ -26,7 +26,7 @@ void func_00145B18(struct P *p, int state)
     if (state == p->state) return;
     func_001EF0D8(p->m18);
     p->state = state;
-    p->tState = D_002DDED0.t;
+    p->tState = g_clock.t;
     switch (state) {
     case 0: {
         struct O *po = func_00205438(p->p10, 0xA8);

@@ -9,10 +9,10 @@ struct P {
     qword q80; char pad3[0xC0 - 0x90]; struct O *xC0; int xC4; float xC8; int xCC; float xD0;
 };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
-extern qword D_002A2DC0;
+extern struct CLOCK g_clock;
+extern qword g_normalZ;
 extern float D_002BD2E0[3];
-extern float D_002BBB60[2];
+extern float g_lmZeroOne[2];
 extern float D_002BD2F0;
 void func_001EF0C0(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
@@ -65,17 +65,17 @@ void func_00144BC8(struct P *p, struct Q *q)
         __asm__("lqc2 %0, %1" : "=j"(pos) : "m"(p->q80));
         v = func_001A62E8(p->p10);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(v));
-        axis = D_002A2DC0;
+        axis = g_normalZ;
         v = Perp(d, axis);
         g = GPoly(D_002BD2E0, LenXY(v));
-        s = GClampR(g, D_002BBB60[0], D_002BBB60[1]);
+        s = GClampR(g, g_lmZeroOne[0], g_lmZeroOne[1]);
         if (0.0f < s) {
             q->x1C = s * p->xD0;
             q->x18 = func_002458F0(GetY(v), GetX(v));
         }
         if (p->xCC)
             q->x30 |= 8;
-        if (p->xC0 && p->xC8 < D_002DDED0.t - p->x50) {
+        if (p->xC0 && p->xC8 < g_clock.t - p->x50) {
             int f = 1;
             struct O *po = p->xC0->x7C;
             qword a, b;

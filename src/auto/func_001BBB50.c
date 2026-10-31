@@ -14,7 +14,7 @@ extern f32 D_002C0AC4;
 extern M2C_UNK D_002C0BF8;
 extern M2C_UNK D_002C1F00;
 extern M2C_UNK D_002C1F10;
-extern s32 *D_002DD2FC;
+extern s32 *s_pdliFirst;
 extern M2C_UNK D_003DD020;
 extern M2C_UNK D_003DD4BC;
 extern s32 D_003E1A40;

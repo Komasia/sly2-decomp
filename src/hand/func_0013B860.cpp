@@ -12,7 +12,7 @@ struct MSG { P *p; int x4; PO *po; int xC; int x10; int pad14[3]; qword v20; qwo
 struct MSG2 { int k; P *p; float g8; float gC; };
 struct G { char pad[0x402C]; int x402C; };
 extern "C" {
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern int D_002BC9E0;
 extern float D_002A4B1C;
 extern G D_003DD490;
@@ -31,7 +31,7 @@ extern "C" void func_0013B860(P *p)
 {
     if (((p->ul28 >> 60) & 1) == 0)
         return;
-    func_0013B428(p, func_001A62E8(p), D_002A2DC0);
+    func_0013B428(p, func_001A62E8(p), g_normalZ);
     FRAME frame;
     if (p->x164 == 0) {
         FrameInit(&frame);
@@ -52,7 +52,7 @@ extern "C" void func_0013B860(P *p)
             msg.p = p;
             msg.po = po;
             qword pos = func_001A62E8(po);
-            qword def = D_002A2DC0;
+            qword def = g_normalZ;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(p->v180));
             {
                 register qword t __asm__("vf2");

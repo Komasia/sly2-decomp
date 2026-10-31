@@ -62,7 +62,7 @@ struct X { char pad[0x78]; float g78; };
 struct S { P *p; int k; float t; int kCur; X *px0; X *px1; };
 struct CLOCK { float t; float dt; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002BC9B8;
 void func_002046F0(P *p, int n);
 R *func_0012FF10(X *px, P *p, int a, int b);
@@ -78,7 +78,7 @@ extern "C" void func_001375D0(S *s, int k)
         return;
     s->k = k;
     px = 0;
-    s->t = D_002DDED0.t;
+    s->t = g_clock.t;
     if (k == -1) {
         VU_FLOATM g(D_002BC9B8);
         qword vel = s->p->GetVel();

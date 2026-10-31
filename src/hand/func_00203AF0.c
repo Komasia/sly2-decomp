@@ -11,7 +11,7 @@ struct S {
     char pad5[0x258 - 0x250]; struct Q *pq;
 };
 extern float D_002A85F0;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern qword D_002A2DD0;
 void func_001F2BA8(struct S *p);
 void func_001F2B20(struct S *p);
@@ -53,7 +53,7 @@ void func_00203AF0(struct S *p, struct M *m)
      __asm__("lw %0,%2\n\tlw %1,%3":"=&r"(word),"=r"(mesh):"m"(p->n214),"m"(p->pq));
      {register qword value __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(value):"r"(word));
      dst=(qword *)mesh->p7C;
-     __asm__ __volatile__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(p->q240),"j"(D_002A2DC0),"j"(value));
+     __asm__ __volatile__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(p->q240),"j"(g_normalZ),"j"(value));
      {qword *slot=(qword *)(c*16+(int)dst);
      u.q=value;
      slot[1]=r;}}}

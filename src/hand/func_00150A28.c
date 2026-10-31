@@ -2,12 +2,12 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 typedef union { struct { qword r[4]; } q; M3 m3; float af[4][4]; } M4;
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 struct CM;
 extern struct CM D_002DDF40;
 extern float D_003E1BE0;
 extern char D_002BD9B8[], D_002BD9C8[], D_002BD9D8[], D_002BD9E8[], D_002BD9F8[];
-extern char D_002BBB60[], D_002BBB68[];
+extern char g_lmZeroOne[], D_002BBB68[];
 struct SND { char pad[0x4E]; short c4E; };
 struct X {
     char pad0[0x18]; float g18; char pad1[0x20 - 0x1C];
@@ -52,18 +52,18 @@ static __inline__ float GFrac(float g, float a, float b)
 void func_00150A28(struct X *p)
 {
     func_0014FD40(p);
-    if (D_002DDED0.dt == 0.0f)
+    if (g_clock.dt == 0.0f)
         return;
     if (0.0f <= p->g18) {
-        float g = GClamp(GSmooth__FfffP3SMPPf(D_002BD9B8, 0, p->gAC, p->g18, D_002DDED0.dt), 0.0f, 1.0f);
-        p->gB0 = (g - p->gAC) / D_002DDED0.dt;
+        float g = GClamp(GSmooth__FfffP3SMPPf(D_002BD9B8, 0, p->gAC, p->g18, g_clock.dt), 0.0f, 1.0f);
+        p->gB0 = (g - p->gAC) / g_clock.dt;
         p->gAC = g;
     }
     if (p->gB0 != 0.0f) {
         struct SND *ps = p->pC0;
         func_001FB2C0(ps, func_0011D948(D_002BBB68, __builtin_fabsf(p->gB0)));
         ps = p->pC0;
-        func_001FB1F8(ps, func_0011D948(D_002BBB60, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
+        func_001FB1F8(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
         if (p->pC0->c4E > 0)
             func_001FB060(p->pC0);
     } else {
@@ -74,14 +74,14 @@ void func_00150A28(struct X *p)
         M3 m0, m30, m60, m90;
         M4 m4;
         float u;
-        p->q50 = func_0011F088(p->q50, p->q80, D_002DDED0.dt, D_002BD9C8, 0);
+        p->q50 = func_0011F088(p->q50, p->q80, g_clock.dt, D_002BD9C8, 0);
         func_0011B628(&m90, p->q60);
         m0 = m90;
         func_0011B628(&m90, p->q90);
         m30 = m90;
-        func_0011C950(&m0, &m30, D_002BD9D8, &m60, 0, D_002DDED0.dt);
+        func_0011C950(&m0, &m30, D_002BD9D8, &m60, 0, g_clock.dt);
         p->q60 = func_0011BFF0(&m60);
-        p->g70 = func_0011D2D0(D_002BD9E8, 0, p->g70, p->gA0, D_002DDED0.dt);
+        p->g70 = func_0011D2D0(D_002BD9E8, 0, p->g70, p->gA0, g_clock.dt);
         {
         M4 *pm4 = &m4;
         func_00256D18(&pm4->q.r[3], p->q50);
@@ -96,19 +96,19 @@ void func_00150A28(struct X *p)
         func_0014F5A0(&D_002DDF40, p->g70);
         func_0011BC88(pm4, &p->gA4, &p->gA8);
         }
-        p->gAC = func_0011D948(D_002BBB60, GFrac(p->g70, p->gB8, p->gBC));
+        p->gAC = func_0011D948(g_lmZeroOne, GFrac(p->g70, p->gB8, p->gBC));
     } else {
         float u = 1.0f - p->gAC;
         func_0014F5A0(&D_002DDF40, (1.0f - u) * p->gB8 + u * p->gBC);
         {
             qword a = p->q30;
-            p->q30 = func_0011F088(a, func_001507F8(p), D_002DDED0.dt, D_002BD9F8, 0);
+            p->q30 = func_0011F088(a, func_001507F8(p), g_clock.dt, D_002BD9F8, 0);
         }
         {
             qword a = p->q20;
-            p->q20 = func_0011F088(a, func_00150780(p), D_002DDED0.dt, D_002BD9F8, 0);
+            p->q20 = func_0011F088(a, func_00150780(p), g_clock.dt, D_002BD9F8, 0);
         }
         func_0014E1A8(&D_002DDF40, p->q30, p->q20, 0.0f, 0.0f);
     }
-    D_003E1BE0 = D_002DDED0.t;
+    D_003E1BE0 = g_clock.t;
 }

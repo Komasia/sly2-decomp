@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
-extern s32 D_002F6380;
-extern s32 D_002F6384;
+extern s32 s_pvWorldMin;
+extern s32 s_pvWorldMac;
 
 void FreeSw__Fv(void) {
-    D_002F6384 = D_002F6380;
+    s_pvWorldMac = s_pvWorldMin;
 }

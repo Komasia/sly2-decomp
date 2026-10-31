@@ -10,7 +10,7 @@ struct CLOCK {
     unsigned long tickLast;
     int hi;
 };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 unsigned long func_0014D240(struct CLOCK *p);
 void func_0014D068(struct CLOCK *p);
 void func_0014CFE0(void)
@@ -19,10 +19,10 @@ void func_0014CFE0(void)
     unsigned int i;
     float *pf;
     __asm__ volatile ("mfc0 %0, $9" : "=r"(c[0]));
-    D_002DDED0.tickLast = c[0];
-    D_002DDED0.tick = func_0014D240(&D_002DDED0);
-    for (i = 0; i < 9; i++) D_002DDED0.af[i] = 1.0f;
-    D_002DDED0.rDt = 1.0f;
-    D_002DDED0.rDtPrev = 1.0f;
-    func_0014D068(&D_002DDED0);
+    g_clock.tickLast = c[0];
+    g_clock.tick = func_0014D240(&g_clock);
+    for (i = 0; i < 9; i++) g_clock.af[i] = 1.0f;
+    g_clock.rDt = 1.0f;
+    g_clock.rDtPrev = 1.0f;
+    func_0014D068(&g_clock);
 }

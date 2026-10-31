@@ -6,7 +6,7 @@ struct O{char pad[0x58];struct LO*lo;char pad5C[0x8C];struct ACC*acc;};
 struct X{char pad[0x180];struct O*object;};
 struct ANIM{char pad[0x40];float rate;};
 struct P{char pad[0x1030];struct ANIM*anim;char pad1034[0x3BC];struct X*x;char pad13F4[0x58];int state;};
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern float D_002C09C8;
 qword func_0022FCC8(struct LO*,struct LO*,qword);
 int CSolveQuadratic__FfffPf(float,float,float,float*);
@@ -49,11 +49,11 @@ void func_001B7700(struct P*p,qword goal,float*animation,float*duration,qword*ou
  switch(owner->state){
  case 0:{
   struct LO*parent=owner->x->object->lo->parent;
-  qword first=func_0022FCC8(0,parent,Scale(D_002A2DC0,2500.0f,&roots));
+  qword first=func_0022FCC8(0,parent,Scale(g_normalZ,2500.0f,&roots));
   {
    register struct LO*space __asm__("$4");register int bits __asm__("$2");
    __asm__("sq %3,%0\n\tdaddu %1,%z5,$zero\n\tmfc1 %2,%4":"=m"(start.q),"=r"(space),"=r"(bits):"r"(first),"f"(-2000.0f),"rJ"((struct LO*)0));
-   end=func_0022FCC8(space,parent,FinalLaunchScale(&D_002A2DC0,bits,&roots));
+   end=func_0022FCC8(space,parent,FinalLaunchScale(&g_normalZ,bits,&roots));
   }
   break;
  }

@@ -6,7 +6,7 @@ struct S {
     char p1[0x1F4 - 0x1A8]; void *x1F4; int p1F8; void *x1FC; int x200; int p204[2]; void *a20C[6];
 };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD040[];
 extern char D_003DD490[];
 void func_001FE738(void *p);
@@ -46,7 +46,7 @@ void func_001C8730(struct S *p, int n)
         break;
     }
     p->x180 = n;
-    p->x184 = D_002DDED0.t;
+    p->x184 = g_clock.t;
     switch (n) {
     case -1:
         return;

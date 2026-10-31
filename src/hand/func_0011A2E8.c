@@ -3,12 +3,12 @@ typedef struct DLE { void *pvNext; void *pvPrev; } DLE;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))
 
-extern DLI *g_pdliFirst;
+extern DLI *s_pdliFirst;
 
 void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv)
 {
     DLE *pdle = PDLE(pdl, pv);
-    DLI *pdli = g_pdliFirst;
+    DLI *pdli = s_pdliFirst;
     void *pvT;
 
     while (pdli) {

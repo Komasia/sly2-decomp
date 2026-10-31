@@ -10,7 +10,7 @@ float func_00117E38(CBinaryInputStream *pbis);
 void *PvAllocSwImpl(AL *pal) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AL *pal) asm("PvAllocSwClearImpl__Fi");
 }
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 static inline void *PvAlloc(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocSwImpl(&al); }
 static inline void *PvAllocClear(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocSwClearImpl(&al); }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -73,5 +73,5 @@ void LoadEmitmeshFromBrx(EMITMESH *pemitmesh, CBinaryInputStream *pbis)
     }
     ReadVector(pbis, &pemitmesh->v20);
     for (i = 0; i < pemitmesh->cpos; i++)
-        VNormalize(&pemitmesh->anormal[i], pemitmesh->anormal[i], D_002A2DC0);
+        VNormalize(&pemitmesh->anormal[i], pemitmesh->anormal[i], g_normalZ);
 }

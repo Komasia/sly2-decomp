@@ -27,7 +27,7 @@ extern M2C_UNK D_002CF508;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_002DEA28;
 extern s32 D_002DEB28;
-extern M2C_UNK D_002DEB30;
+extern M2C_UNK g_game;
 extern s32 D_002DEB4C;
 extern s32 D_002DEB54;
 extern M2C_UNK D_002DEB60;

@@ -17,7 +17,7 @@ typedef struct P {
     int x170;
 } P;
 extern char D_003DD490[];
-extern char D_002DEB30[];
+extern char g_game[];
 int func_001BBE48(P *p);
 int func_001BBE18(P *p);
 void *func_001C4840(void *g);
@@ -55,7 +55,7 @@ void func_001BB400(P *p)
             if (++p->i >= p->c) {
                 ((void (*)(void *, int, P *))p->vt[4].pfn)((char *)p + p->vt[4].d, 0x10, p);
                 ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
-                func_001619A0(D_002DEB30, 0x11, p);
+                func_001619A0(g_game, 0x11, p);
             }
         }
     }

@@ -134,7 +134,7 @@ struct WR
 
 extern VECTOR D_002A2DA0; // (1, 0, 0, 0)
 extern VECTOR D_002A2DB0; // (0, 1, 0, 0)
-extern VECTOR D_002A2DC0; // (0, 0, 1, 0)
+extern VECTOR g_normalZ; // (0, 0, 1, 0)
 extern VECTOR D_002A2DD0; // (0, 0, 0, 0)
 
 extern "C"
@@ -298,7 +298,7 @@ extern "C" void func_0022B7D8(WR *pwr)
                 posBend = QwScale(*(qword *)&D_002A2DB0, VuFloat((pwrbg->weki.sInner + pwrbg->weki.sOuter) * 0.5f));
                 break;
             case 6:
-                posBend = QwScale(*(qword *)&D_002A2DC0, VuFloat((pwrbg->weki.sInner + pwrbg->weki.sOuter) * 0.5f));
+                posBend = QwScale(*(qword *)&g_normalZ, VuFloat((pwrbg->weki.sInner + pwrbg->weki.sOuter) * 0.5f));
                 break;
             default:
                 posBend = *(qword *)&D_002A2DD0;

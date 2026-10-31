@@ -47,9 +47,9 @@ struct VU_FLOAT { qword q; };
 
 extern "C" {
 extern SW D_003DD490;                                   // the world
-extern CLOCK D_002DDED0;                                // g_clock
+extern CLOCK g_clock;
 extern uint D_002DFBC4;
-extern qword D_002A2DC0;                                // (0, 0, 1)
+extern qword g_normalZ;                                // (0, 0, 1)
 extern float D_002BF5B0, D_002BF5B4, D_002BF5B8;
 int func_001C46C0(JOY *, uint, float);
 int func_001C4660(JOY *, uint, float);
@@ -113,7 +113,7 @@ static inline void ProbeGround(CONTEXT *p)
     int i;
     qword pos = func_001A62E8(p->pactor);
     qword posBase = QwAdd(pos, p->pactor->posOffset);
-    qword posEnd = QwAdd(posBase, QwScale(D_002A2DC0, VuFloat(&D_002BF5B0)));
+    qword posEnd = QwAdd(posBase, QwScale(g_normalZ, VuFloat(&D_002BF5B0)));
     int cso;
     SO **apso;
     func_0020FAA0(&D_003DD490, posEnd, posBase, func_0020F948, p->pactor->pvFilter, &cso, &apso);
@@ -168,7 +168,7 @@ extern "C" void func_001911A8(CONTEXT *p)
         step = p->step;
         switch (p->action) {
         case 1:
-            if (0.15f < D_002DDED0.t - p->tHold && func_001C46C0(pjoy, 0x40, 0.25f)) {
+            if (0.15f < g_clock.t - p->tHold && func_001C46C0(pjoy, 0x40, 0.25f)) {
                 func_00195A00((char *)p->pactor + 0x2C0, 7, 0, p->pactorFocus);
                 break;
             }
@@ -218,7 +218,7 @@ extern "C" void func_001911A8(CONTEXT *p)
         case 10:
             if (!p->pactor->pasega || func_00131968(p->pactor->pasega)) {
                 SetControl(p->pactor, 0);
-            } else if (D_002BF5B8 < D_002DDED0.t - p->tStamp) {
+            } else if (D_002BF5B8 < g_clock.t - p->tStamp) {
                 if (0.0f < p->pactor->pjoy->amount || (p->pactor->pjoy->grfbtn & 0xD0)) {
                     SetControl(p->pactor, 0);
                     return;

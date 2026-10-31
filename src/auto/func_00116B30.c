@@ -7,7 +7,7 @@ extern s32 D_002DD2E8;
 extern s32 D_002DD2EC;
 extern s32 D_002DD2F0;
 extern s32 D_002DD2F4;
-extern M2C_UNK D_002DD590;
+extern M2C_UNK g_heapSw;
 extern M2C_UNK D_004520A8;
 extern M2C_UNK D_004520D0;
 extern M2C_UNK D_004520F8;
@@ -24,9 +24,9 @@ void func_00116B30(s32 arg0, s32 arg1) {
     s32 temp_v1;
 
     if ((arg1 == 0xFFFF) && (arg0 != 0)) {
-        M2C_FIELD(&D_002DD590, M2C_UNK **, 0) = &D_002CA578;
+        M2C_FIELD(&g_heapSw, M2C_UNK **, 0) = &D_002CA578;
         temp_v1 = D_002DD2E0 + 1;
-        M2C_FIELD(&D_002DD590, s32 *, 4) = -1;
+        M2C_FIELD(&g_heapSw, s32 *, 4) = -1;
         D_002DD2E0 = temp_v1;
         if (temp_v1 == 1) {
             func_0011CCA8(&D_004520A8, 0x14, 0x2000, 0x10);

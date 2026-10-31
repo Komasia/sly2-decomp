@@ -8,8 +8,8 @@ struct S {char pad[0x58];NODE *positionNode,*rotationNode;char pad60[0xF0];int s
 struct WORLD;
 struct CLOCK {float t,dt;};
 extern WORLD D_003DD490;
-extern CLOCK D_002DDED0;
-extern qword D_002A2DC0;
+extern CLOCK g_clock;
+extern qword g_normalZ;
 extern float D_002A97A8;
 extern O *D_002E1E40;
 extern int D_002C4398[];
@@ -63,7 +63,7 @@ static inline M3 MakeBasis(qword direction,qword rawUp) return result;{
 extern "C" void func_00224EC8(S *p,int state){
  int old=p->state;
  if(state==old)return;
- p->state=state;p->time=D_002DDED0.t;p->sentinel=-1;
+ p->state=state;p->time=g_clock.t;p->sentinel=-1;
  func_0012E460(&p->positionJob);
  func_0012E460(&p->rotationJob);
  if(old==0||old==4)func_00134320(&D_003DD490,p);
@@ -83,7 +83,7 @@ extern "C" void func_00224EC8(S *p,int state){
   ZeroVelocity(p->positionNode);ZeroVelocity(p->rotationNode);
   if(func_00224688(p)&&p->rotationNode){
    qword direction=Normalize(ToVF(func_0022FCC8(0,p->rotationNode->parent,p->direction)));
-   qword rawUp=func_0022FCC8(0,p->rotationNode->parent,D_002A2DC0);
+   qword rawUp=func_0022FCC8(0,p->rotationNode->parent,g_normalZ);
    M3 basis;basis=MakeBasis(direction,rawUp);
    p->rotationJob=func_0012DC18(p,p->rotationNode,0,7,2,func_0011BFF0(&basis));
   }

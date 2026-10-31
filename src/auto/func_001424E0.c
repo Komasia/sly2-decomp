@@ -4,7 +4,7 @@ M2C_UNK func_001291A8(s32 *, s32 *, s32, s32);      /* extern */
 M2C_UNK func_00129EC8(s32 *);                       /* extern */
 void *PvAllocSlot__FP8ALLOCREQ(s32 *);                         /* extern */
 extern s128 D_002A2DA0;
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern M2C_UNK D_002A4D50;
 extern f32 D_002A4D64;
 extern f32 D_002A4D68;
@@ -19,7 +19,7 @@ extern M2C_UNK D_002A4E18;
 extern M2C_UNK D_002A4E20;
 extern f32 D_002A4E30;
 extern f32 D_002A4E34;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern f32 D_002BD268;
 extern f32 D_002BD26C;
 extern M2C_UNK D_002BD270;
@@ -39,10 +39,10 @@ extern M2C_UNK D_002BD330;
 extern M2C_UNK D_002BD338;
 extern f32 D_002BD340;
 extern s32 D_002DD640;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern f32 D_002DDED4;
 extern s32 D_002DDF54;
-extern M2C_UNK D_002DEB30;
+extern M2C_UNK g_game;
 extern s32 D_002E1E40;
 extern M2C_UNK D_003D4A60;
 extern M2C_UNK D_003DD490;

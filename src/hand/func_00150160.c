@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 struct CM { char pad[0x20]; float g20; };
 extern struct CM D_002DDF40;
 struct G { char pad[0x3B4C]; void *p3B4C; char pad2[0x4750 - 0x3B50]; float g4750; };
@@ -12,7 +12,7 @@ extern struct POLY D_002BD980;
 extern float D_002BD990, D_002BD994, D_002BD998, D_002BD99C;
 extern char D_002BD9A0[];
 extern struct LM D_002BD9B0;
-extern char D_002BBB60[], D_002BBB68[];
+extern char g_lmZeroOne[], D_002BBB68[];
 struct CRef { int m_tagk; int m_n; };
 struct SND { char pad[0x4E]; short c4E; };
 struct JOY { char pad[0x103C]; float g103C; float g1040; char pad2[0x1074 - 0x1044]; float g1074; };
@@ -58,13 +58,13 @@ void func_00150160(struct X *p, void *pv, struct JOY *pjoy)
     func_0014FD40(p, pv, pjoy);
     x = p->g20;
     p->g24 = (D_002BD980.c0 + x * (D_002BD980.c1 + x * D_002BD980.c2)) * pjoy->g1074 * __builtin_fabsf(pjoy->g1074);
-    x += p->g24 * D_002DDED0.dt;
+    x += p->g24 * g_clock.dt;
     p->g20 = x = GClamp2(x, 0.0f, 1.0f);
     if (p->g24 != 0.0f && 0.0f < x && x < 1.0f) {
         struct SND *ps = p->p34;
         func_001FB2C0(ps, func_0011D948(D_002BBB68, __builtin_fabsf(p->g24)));
         ps = p->p34;
-        func_001FB1F8(ps, func_0011D948(D_002BBB60, __builtin_fabsf(p->g24) * 0.5f + 0.5f));
+        func_001FB1F8(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->g24) * 0.5f + 0.5f));
         if (p->p34->c4E > 0)
             func_001FB060(p->p34);
     } else {
@@ -80,9 +80,9 @@ void func_00150160(struct X *p, void *pv, struct JOY *pjoy)
     func_00129EC8(&ref);
     if (f)
         gTilt = -gTilt;
-    gPan = p->g18 + func_0011CFE0(gPan - p->g18, D_002BD998 * D_002DDED0.dt);
-    gTilt = p->g1C + func_0011CFE0(gTilt - p->g1C, D_002BD99C * D_002DDED0.dt);
-    dt = D_002DDED0.dt * 0.5f;
+    gPan = p->g18 + func_0011CFE0(gPan - p->g18, D_002BD998 * g_clock.dt);
+    gTilt = p->g1C + func_0011CFE0(gTilt - p->g1C, D_002BD99C * g_clock.dt);
+    dt = g_clock.dt * 0.5f;
     {
         float gMin, gMax;
         GSmooth__FfffP3SMPPf(p->g10, p->g3C, dt, D_002BD9A0, &gMin);
@@ -94,11 +94,11 @@ void func_00150160(struct X *p, void *pv, struct JOY *pjoy)
     }
     {
         float k = (1.0f - D_002DDF40.g20) * D_002BD9B0.gMin + D_002DDF40.g20 * D_002BD9B0.gMax;
-        p->g10 += k * p->g18 * D_002DDED0.dt;
-        p->g14 += k * p->g1C * D_002DDED0.dt;
+        p->g10 += k * p->g18 * g_clock.dt;
+        p->g14 += k * p->g1C * g_clock.dt;
     }
     if (6.2831855f <= p->g40 - p->g3C)
         p->g10 = RadNormalize__Ff(p->g10);
     func_0014E1A8(&D_002DDF40, func_0014FEC8(p), func_0014FE58(p), 0.0f, 0.0f);
-    D_003DD490.g4750 = D_002DDED0.t;
+    D_003DD490.g4750 = g_clock.t;
 }

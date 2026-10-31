@@ -54,9 +54,9 @@ struct BASIC {
     virtual void HandleSpliceEvent(unsigned symidEvent, int fPost, int cargs, void **ppvargs, CREF *pref);
 };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern POLY D_002BE600;
-extern LM D_002BBB60;
+extern LM g_lmZeroOne;
 extern char D_003DD490[];
 int func_00132B10(P *, int);
 int func_0020A818(void *, P *);
@@ -147,7 +147,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
         if (!enabled)
             return 0;
     }
-    if (D_002DDED0.time < p->cooldown)
+    if (g_clock.time < p->cooldown)
         return 0;
     if (func_00132B10(target, 0x32)) {
         VTE *e = &target->vt[77];
@@ -185,7 +185,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
         }
         gain = D_002BE600.a + distance * (D_002BE600.b + distance * D_002BE600.c);
         {
-            float lo = D_002BBB60.low, hi = D_002BBB60.high;
+            float lo = g_lmZeroOne.low, hi = g_lmZeroOne.high;
             if (gain < lo)
                 gain = lo;
             else if (hi < gain)

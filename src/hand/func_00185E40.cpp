@@ -27,7 +27,7 @@ struct P{char pad0[0xC];VTE*vt;char pad10[0x140];CONTROL*control;char pad154[0x3
 struct CLOCK{float time,dt;};
 struct VU_FLOAT{qword qw;VU_FLOAT(){}VU_FLOAT(float f){__asm__("mfc1 %0,%1":"=r"(qw):"f"(f));}};
 extern "C"{
-extern U D_002A2DC0;extern M3 D_002DDFA0;extern CLOCK D_002DDED0;extern PARAMS D_002BE920,D_002BE930,D_002BE940;
+extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002BE920,D_002BE930,D_002BE940;
 qword func_001A62E8(P*);M4*func_001A6318(P*);
 void func_00185310(void*,qword,TRIREF*,TRIREF*,qword*,qword*);
 M3 func_0011B830(qword,qword);M3 func_0011B340(M3*);qword*func_00256D18(qword*,qword);
@@ -84,16 +84,16 @@ extern "C" void func_00185E40(P*p){
  qword fallback=QwScaleX(normal.q,VuFloat(-1.0f));register qword direction asm("vf2"); // the one register pin: direction vf2
  if(GXOfQw(len)<0.0001f)direction=fallback;else direction=QwDivide(difference,len);
  qword target=QwAddScaled(closest.q,direction,VuFloat(-p->points[0].f[0]));
- M4*pd;BuildM4L(func_0011B830(direction,D_002A2DC0.q),target,pd=&frame);frame.r[0].i[3]=frame.r[1].i[3]=frame.r[2].i[3]=0;pd->r[3].f[3]=1.0f;
+ M4*pd;BuildM4L(func_0011B830(direction,g_normalZ.q),target,pd=&frame);frame.r[0].i[3]=frame.r[1].i[3]=frame.r[2].i[3]=0;pd->r[3].f[3]=1.0f;
  int i;
  for(i=0;i<3;i++)func_00185310(p->mesh,QwTransformPos(&frame,p->points[i].q),&p->triangle,0,&contacts[i].q,0);
  qword surface=QwCross(QwSub(contacts[2].q,contacts[0].q),QwSub(contacts[1].q,contacts[0].q));
  qword unit=QwDivide(surface,QwSqrt(QwDot(surface,surface)));
- {M3 m=func_0011B830(unit,D_002A2DC0.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
+ {M3 m=func_0011B830(unit,g_normalZ.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
  U angular,linear;
- func_0011C950(func_001A6318(p),&p->basis,&D_002BE920,0,&angular.q,D_002DDED0.dt*0.5f);
+ func_0011C950(func_001A6318(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
  SetVec(p,36,angular.q);
- func_0011F088(position,target,&D_002BE930,&linear.q,D_002DDED0.dt*0.5f);
+ func_0011F088(position,target,&D_002BE930,&linear.q,g_clock.dt*0.5f);
  LIST planes;U samples[3];
  for(i=0;i<3;i++)StoreAddRot(&samples[i],target,&p->basis,&p->points[i].q);
  func_001856B8(p->mesh,&planes);
@@ -106,7 +106,7 @@ extern "C" void func_00185E40(P*p){
   movement.q=QwRotateVec(&rotation,movement.q);movement.f[0]=0.0f;
   qword dir=QwSqrt(QwDot(movement.q,movement.q));
   VU_FLOAT speed;LoadVuFloatFromMemWord(speed,*(int*)&p->control->speed);M3 copy=rotation;
-  qword fallback=D_002A2DC0.q;
+  qword fallback=g_normalZ.q;
   if(GXOfQw(dir)<0.0001f)dir=fallback;else dir=QwDivideR(movement.q,dir,fallback); // "r"(fallback): allocation-only
   movement.q=QwScaleX(dir,speed);
   p->acceleration.q=QwCombo(p->axes[1].direction.q,p->axes[2].direction.q,VuFloatFromMemWord(movement.i[1]),VuFloatFromMemWord(movement.i[2]));

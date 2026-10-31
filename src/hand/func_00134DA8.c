@@ -21,9 +21,9 @@ struct P {
     int x15F0; char pad15F4[0x1600 - 0x15F4]; char x1600[0x16B0 - 0x1600]; int x16B0; char pad16B4[0x181C - 0x16B4]; int x181C;
 };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD490[];
-extern struct LM D_002BBB60;
+extern struct LM g_lmZeroOne;
 extern struct POLY D_002BC940;
 extern struct POLY D_002BC950;
 extern float D_002BC960;
@@ -163,12 +163,12 @@ void func_00134DA8(struct P *p)
         break;
     case 6:
         if (p->x16B0 == 1) {
-            float g0 = GClamp(GEval(&D_002BC940, p->p150->g1C), &D_002BBB60);
-            float g1 = GClamp(GEval(&D_002BC950, p->p150->g1C), &D_002BBB60);
+            float g0 = GClamp(GEval(&D_002BC940, p->p150->g1C), &g_lmZeroOne);
+            float g1 = GClamp(GEval(&D_002BC950, p->p150->g1C), &g_lmZeroOne);
             float z = 0.0f;
             if (z < p->p150->g1C) {
                 float d = RadNormalize__Ff(p->p150->g18 - p->g1A8);
-                func_00204660(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * D_002DDED0.dt));
+                func_00204660(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * g_clock.dt));
             }
             SetVel(p, func_0011E1A0(p->p150->g18 + 3.1415927f, g0 * LenXY(p->v1520) * p->p1030->g40, z), p->x14F0, p->x15F0);
         }

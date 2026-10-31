@@ -33,11 +33,11 @@ struct CLOCK { float time; FLOATWORD dt; };
 struct CAMERA { char pad90[0x90]; qword position; };
 struct SW { char pad3D58[0x3D58]; int stamp; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern CAMERA D_002DDF40;
 extern SW D_003DD490;
 extern float D_002C0D4C;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 void ProjectSoTransform(P *) asm("ProjectSoTransform__FP2SOfi");
 qword *func_00256D18(qword *, qword);
 M3 func_0011B830(qword, qword);
@@ -113,10 +113,10 @@ extern "C" void func_001C5148(P *p)
 {
     if (p->state == 6) { ProjectSoTransform(p); return; }
     float factor;
-    if (p->state == 0 || p->state == 5) factor = 1.0f + D_002C0D4C * D_002DDED0.dt.value;
+    if (p->state == 0 || p->state == 5) factor = 1.0f + D_002C0D4C * g_clock.dt.value;
     else factor = 1.0f;
-    p->velocity = VecCombo(VU_FLOAT(factor), VU_VECTOR(p->velocity), VU_FLOAT(D_002DDED0.dt.bits), VU_VECTOR(p->acceleration));
-    qword newPosition = Advance(p->coordinate, p->velocity, VU_FLOAT(D_002DDED0.dt.bits));
+    p->velocity = VecCombo(VU_FLOAT(factor), VU_VECTOR(p->velocity), VU_FLOAT(g_clock.dt.bits), VU_VECTOR(p->acceleration));
+    qword newPosition = Advance(p->coordinate, p->velocity, VU_FLOAT(g_clock.dt.bits));
     CHANNEL *channel = p->position;
     p->coordinate = newPosition;
     func_00256D18(&channel->position, newPosition);
@@ -145,7 +145,7 @@ extern "C" void func_001C5148(P *p)
             M3 frame, rot;
             dir.q = Difference(D_002DDF40.position, p->position->position);
             dir.words[2] = 0;
-            frame = func_0011B830(dir.q, D_002A2DC0);
+            frame = func_0011B830(dir.q, g_normalZ);
             if (positionMotion) {
                 Sample(positionMotion, animation, &position.q, &velocity.q);
                 channel = p->position;

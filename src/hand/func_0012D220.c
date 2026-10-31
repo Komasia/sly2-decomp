@@ -22,7 +22,7 @@ extern char D_003DD490[];
 extern qword D_002A2DD0;
 extern float D_002A45A8;
 struct CLOCK { float t; int dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern int D_002DDED4;  /* g_clock.dt */
 void *func_0015E938(void *pg, int k, int n, void *pv);
 void *func_001C4AF8(void *pg, qword pos);

@@ -30,8 +30,8 @@ struct CLOCK { float t, dt; };
 struct REQ { int cb, align; };
 struct FRAME { int a[4]; };
 extern "C" {
-extern DLI *D_002DD2FC; /* innermost active list iterator */
-extern CLOCK D_002DDED0;
+extern DLI *s_pdliFirst; /* innermost active list iterator */
+extern CLOCK g_clock;
 FRAME *func_001AE478(FRAME *);
 void func_001AE4A0(FRAME *, int);
 void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
@@ -43,7 +43,7 @@ void BounceRipgRips(P *) asm("BounceRipgRips__FP4RIPG");
 }
 /* the scratch request and the rip iterator share one stack slot */
 union PHASE { REQ request; DLI rip; };
-static inline void Init(DLI *it, DL *list) { it->list = list; it->next = (void **)list; it->offset = list->offset; it->outer = D_002DD2FC; D_002DD2FC = it; }
+static inline void Init(DLI *it, DL *list) { it->list = list; it->next = (void **)list; it->offset = list->offset; it->outer = s_pdliFirst; s_pdliFirst = it; }
 static inline void *Next(DLI *it) { void *p = *it->next; it->next = (void **)((char *)p + it->offset); return p; }
 static inline void SetAlign(REQ *r, int a) { r->align = a; }
 static inline const qword &Origin(STATE *s) { return s->origin; }
@@ -82,7 +82,7 @@ void BounceRipgRips(P *p)
                     Init(&phase.rip, &p->rips);
                     RIP *rip;
                     for (rip = (RIP *)Next(&phase.rip); rip; rip = (RIP *)Next(&phase.rip)) {
-                        if (D_002DDED0.t <= rip->start) continue;
+                        if (g_clock.t <= rip->start) continue;
                         int count = func_0014C6D8(shape, entries, rip->extra, rip->position, 4, contacts);
                         int i = 0;
                         if (i < count) do {
@@ -91,11 +91,11 @@ void BounceRipgRips(P *p)
                             i++;
                         } while (i < count);
                     }
-                    D_002DD2FC = phase.rip.outer;
+                    s_pdliFirst = phase.rip.outer;
                     func_001AE4A0(&frame, 2);
                 }
             }
-            D_002DD2FC = shapes.outer;
+            s_pdliFirst = shapes.outer;
         }
         if (FIsDlEmpty(&p->rips)) p->vt[9].fn((char *)p + p->vt[9].delta);
     }

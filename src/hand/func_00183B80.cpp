@@ -11,7 +11,7 @@ struct O {
 };
 struct CLOCK { float t; };
 extern "C" {
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 extern qword D_002BE8F0;
 extern char D_003DD490[];
@@ -89,5 +89,5 @@ void func_00183B80(struct O *p, int n)
         { struct VTE *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 5, 0, 0, 0, 0); }
     }
     p->n17C = n;
-    p->g180 = D_002DDED0.t;
+    p->g180 = g_clock.t;
 }

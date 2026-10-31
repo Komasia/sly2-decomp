@@ -5,9 +5,9 @@ struct S {
     int n230; char pad234[0x284 - 0x234]; float g284; float g288; char x28C[0x18]; float g2A4;
 };
 struct CLOCK { float t; float dt; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD040[];
-extern char D_002DEB30[];
+extern char g_game[];
 void func_001A5E28(struct S *);
 float func_001FE3F8(void *);
 void func_00152390(int, int, int, int);
@@ -42,7 +42,7 @@ void func_00152970(struct S *p)
                 continue;
             if (!pe->n18 && pe->gC < t) {
                 p->n230 = pe->n4;
-                func_001619A0(D_002DEB30, 0x34, p);
+                func_001619A0(g_game, 0x34, p);
                 pe->n18 = 1;
             }
             if (pe->gC + p->g5C < t) {
@@ -56,6 +56,6 @@ void func_00152970(struct S *p)
         }
         break;
     }
-    { float dt = D_002DDED0.dt; p->g288 = GSmooth__FfffP3SMPPf(p->x28C, p->g288, p->g284, dt, 0); }
+    { float dt = g_clock.dt; p->g288 = GSmooth__FfffP3SMPPf(p->x28C, p->g288, p->g284, dt, 0); }
     func_00152B58(p);
 }

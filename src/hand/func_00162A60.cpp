@@ -17,7 +17,7 @@ public:
 struct W { int a, b, f8; char pad[0x38 - 0xC]; int f38; };
 struct G { char pad[0x3B14]; O *f3b14; char pad2[0x3C88 - 0x3B18]; int f3c88; int f3c8c; };
 extern G D_003DD490;
-extern char D_002DEB30[];
+extern char g_game[];
 extern "C" void func_00165DC0(G *pg, O *p);
 extern "C" void func_00165E10(G *pg, O *p);
 extern "C" W *func_00210B70();
@@ -45,7 +45,7 @@ extern "C" void func_00162A60(O *p)
         D_003DD490.f3c8c = -1;
     }
     if (func_00162670(p)) {
-        func_001619A0(D_002DEB30, 0x22, p);
+        func_001619A0(g_game, 0x22, p);
         func_001620B0(p, 5, p->f8c, p->f90);
         func_001623D0(p, 5, p->f94, p->f98, p->ff0);
         p->Msg(0x14, 0, 0, 0, 0);

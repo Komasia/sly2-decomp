@@ -16,8 +16,8 @@ extern "C"{
 extern qword D_002A2DD0,D_002A2DA0;
 extern float D_002BE820,D_002BE824,D_002BE828;
 extern POLY D_002BE830,D_002BE840,D_002BE860;
-extern LM D_002BE850,D_002BBB60;
-extern CLOCK D_002DDED0;
+extern LM D_002BE850,g_lmZeroOne;
+extern CLOCK g_clock;
 extern char D_002DE578[],D_003DD490[];
 void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 int func_0017F550(P*);
@@ -124,13 +124,13 @@ dispatch:
   int refresh=0;
   if(D_002BE820<Length(QwSubC(target,p->previousTarget)))refresh=1;
   else if(D_002BE820<Length(QwSub(self,p->previousSelf)))refresh=1;
-  else if(D_002BE824<D_002DDED0.t-p->stamp)refresh=1;
+  else if(D_002BE824<g_clock.t-p->stamp)refresh=1;
   if(refresh){
    func_001C02D0(p->binding,self,target,p->curve);
    p->progress=0.0f;
    p->previousTarget=target;
    p->previousSelf=self;
-   p->stamp=D_002DDED0.t;
+   p->stamp=g_clock.t;
   }
   func_001E7380(p->curve,self,0,&nearest.q,p->progress,&direction.q,0,&p->progress);
   {
@@ -141,7 +141,7 @@ dispatch:
   float remaining=func_001E6648(p->curve)-p->progress;
   float turn=Heading(func_001A6FC0(0,p,unit.q));
   float response=func_00154C90(D_002DE578);
-  float speed=Limit(Evaluate(&p->remaining,remaining),&D_002BBB60)*Limit(Evaluate(&p->angle,turn),&D_002BBB60)*Limit(Evaluate(&D_002BE830,response),&D_002BBB60)*p->scale;
+  float speed=Limit(Evaluate(&p->remaining,remaining),&g_lmZeroOne)*Limit(Evaluate(&p->angle,turn),&g_lmZeroOne)*Limit(Evaluate(&D_002BE830,response),&g_lmZeroOne)*p->scale;
   qword force=QwScaleX(unit.q,VuFloat(speed));
   NODE*objects[64];
   int n=func_0015E9C8(D_003DD490,0x105,0x49,0,64,objects);
@@ -153,7 +153,7 @@ dispatch:
     scalar.f[2]=0.0f;
     qword len=NormalizeInPlace(&scalar,&D_002A2DA0,p);
     float weight=Limit(REvaluate(D_002BE840,RGXOfVf(len)),&D_002BE850);
-    weight*=Limit(REvaluate(D_002BE860,RGXOfQw(RDot(scalar.q,unit.q))),&D_002BBB60);
+    weight*=Limit(REvaluate(D_002BE860,RGXOfQw(RDot(scalar.q,unit.q))),&g_lmZeroOne);
     force=RAddScaled(force,scalar.q,RVuFloat(weight));
    }
   }

@@ -11,9 +11,9 @@ struct VE{short delta,pad;qword(*fn)(P*);};
 struct P{char pad[0xC];VE*vt;char pad10[0x50];P*space;char pad64[0x12C];int count;char pad194[12];ENTRY entries[8];char pad4A0[0xB0];float drive;};
 struct CLOCK{float time,dt;};
 struct G{char pad[0x3D58];int generation;};
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern G D_003DD490;
-extern qword D_002A2DC0,D_002A2DB0;
+extern qword g_normalZ,D_002A2DB0;
 extern char D_002C21A0[],D_002C21B0[],D_002C21C0[];
 extern float D_002C21CC;
 extern "C" {
@@ -48,7 +48,7 @@ extern "C" void func_001D41F8(P*p){
    float height;
    if(hit){float limit=e->height+hit->height;if(point.f[2]<limit){point.f[2]=limit;goto heightDone;}height=limit;}
    else height=e->height;
-   (void)GSmooth(point.f[2],height,D_002DDED0.dt,D_002C21A0,0);point.f[2]=height;
+   (void)GSmooth(point.f[2],height,g_clock.dt,D_002C21A0,0);point.f[2]=height;
   }
   heightDone:;
   point.q=func_0022FC48(p->space,e->node->parent,point.q);
@@ -56,17 +56,17 @@ extern "C" void func_001D41F8(P*p){
   if(hit){
    float current=velocity.f[0]/e->radius;
    if((0.0f<desired&&current<D_002C21CC*desired)||(desired<0.0f&&D_002C21CC*desired<current))
-    e->speed=GSmooth(e->speed,D_002C21CC*desired,D_002DDED0.dt,D_002C21B0,0);
+    e->speed=GSmooth(e->speed,D_002C21CC*desired,g_clock.dt,D_002C21B0,0);
    else e->speed=current;
   }else{
-   float dt=D_002DDED0.dt;
+   float dt=g_clock.dt;
    void*table;
    if(Abs(e->speed)<Abs(desired))table=D_002C21B0;else table=D_002C21C0;
    e->speed=GSmooth(e->speed,desired,dt,table,0);
   }
-  float dt=D_002DDED0.dt;
+  float dt=g_clock.dt;
   e->angle=RadNormalize(e->angle+e->speed*dt);
-  basis=Mul(Rotation(D_002A2DC0,e->tilt),Rotation(D_002A2DB0,e->angle));
+  basis=Mul(Rotation(g_normalZ,e->tilt),Rotation(D_002A2DB0,e->angle));
   NODE*node=e->node;
   func_00256D18(&node->matrix.position.q,point.q);
   node->matrix.basis=basis;

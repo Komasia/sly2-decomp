@@ -7,7 +7,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
-extern DLI *D_002DD2FC;     /* g_pdliFirst */
+extern DLI *s_pdliFirst;
 struct VT { struct { short d; short pad; void (*pfn)(); } a[64]; };
 #define F(T, p, off) (*(T *)((char *)(p) + (off)))
 struct SO { char pad[0x18]; void *p18; };
@@ -17,7 +17,7 @@ struct ENT { void *po; int x4; };
 struct CLOCK { float t; float dt; };
 struct GS { char pad[0x4758]; float g4758; };
 struct GG { char pad[0x2010]; void *p2010; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern struct GS D_003DD490;
 extern DL D_003E148C;
 extern struct GG *D_002E1E40;
@@ -50,8 +50,8 @@ static inline void InitDli(DLI *pdli, DL *pdl)
     pdli->m_pdl = pdl;
     pdli->m_ppv = (void **)pdl;
     pdli->m_ibDle = pdl->ibDle;
-    pdli->m_pdliNext = D_002DD2FC;
-    D_002DD2FC = pdli;
+    pdli->m_pdliNext = s_pdliFirst;
+    s_pdliFirst = pdli;
 }
 static inline void *PvNextDli(DLI *pdli)
 {
@@ -167,8 +167,8 @@ void func_00140F90(void *p, int msg, void *pv)
                             if (F(int, po2, 0x54) == 4 && F(void *, po2, 0x44) == p)
                                 func_00156780(po2);
                         }
-                        D_002DD2FC = dli.m_pdliNext;
-                        D_003DD490.g4758 = D_002DDED0.t + D_002BCC94;
+                        s_pdliFirst = dli.m_pdliNext;
+                        D_003DD490.g4758 = g_clock.t + D_002BCC94;
                         break;
                     }
                     }

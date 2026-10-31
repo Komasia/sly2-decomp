@@ -9,7 +9,7 @@ public:
 };
 struct CLOCK { float t; };
 extern "C" {
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 int func_001E5778(P *p);
 void RemoveDlEntry(int *pdl, P *p) asm("RemoveDlEntry__FP2DLPv");
 void func_001E5370(P *p);
@@ -42,7 +42,7 @@ void func_001E5628(P *p)
     func_001E54B0(p);
     func_001E54E8(p);
     func_001E5570(p);
-    func_0014D1D0(&D_002DDED0, 6, 1.0f);
+    func_0014D1D0(&g_clock, 6, 1.0f);
     func_001E4EB8(p, 0, 0);
     func_001E4F20(p, 0);
     func_001E5000(p, 0);

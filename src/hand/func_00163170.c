@@ -9,7 +9,7 @@ struct X {
     char pad4[0xB0 - 0xA8]; int fB0; int fB4; struct O *pB8; struct O *pBC; struct X *fC0; int fC4; float fC8;
 };
 struct CLOCK { float t; };
-extern struct CLOCK D_002DDED0;
+extern struct CLOCK g_clock;
 extern char D_003DD490[];
 int func_00164030(struct X *p);
 void func_001A6CA8(struct X *p, int n);
@@ -59,7 +59,7 @@ void func_00163170(struct X *p, int n)
         func_0020EFC0(D_003DD490, 2);
     }
     p->fC4 = n;
-    p->fC8 = D_002DDED0.t;
+    p->fC8 = g_clock.t;
     switch (n) {
     case 0: {
         int v;

@@ -1,5 +1,5 @@
 struct CLOCK { float t; };
-extern CLOCK D_002DDED0 asm("D_002DDED0");
+extern CLOCK g_clock asm("g_clock");
 struct SAI { int a; };
 struct CIRCLER { char pad[0x34]; SAI sai; char pad2[0x50 - 0x38]; float radsSpeed; float radius; float duCenter; float dvCenter; };
 extern "C" int func_0011A1E8(SAI *psai);
@@ -11,7 +11,7 @@ void UpdateCircler(CIRCLER *pcircler, float dt)
     if (func_0011A1E8(&pcircler->sai))
         return;
 
-    float angle = RadNormalize(D_002DDED0.t * pcircler->radsSpeed);
+    float angle = RadNormalize(g_clock.t * pcircler->radsSpeed);
 
     float sinOut;
     float cosOut;

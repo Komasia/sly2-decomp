@@ -43,11 +43,11 @@ struct CHAIN
     float shape, shapeDamping;
 };
 struct CLOCK { float t, dt; };
-extern CLOCK D_002DDED0;
+extern CLOCK g_clock;
 extern float D_002C3658[4];
 extern float D_002C3668[4];
 extern qword D_002A2DA0;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern "C" {
 qword func_0022D348(SPACE *, SPACE *, qword);
 void func_001AE5A0(void *, const void *, unsigned);
@@ -187,7 +187,7 @@ void func_001E8378(CHAIN *p)
     func_001AE5A0(accV, p->velocity, count * 16);
     for (int pass = 0; pass < 4; pass++) {
         float w = D_002C3658[pass];
-        float h = w * D_002DDED0.dt;
+        float h = w * g_clock.dt;
         Blend(&newP[0], &p->position[0], start, w);
         Blend(&newV[0], &p->velocity[0], startVel, w);
         Blend(&newP[count - 1], &p->position[count - 1], end, w);
@@ -226,7 +226,7 @@ void func_001E8378(CHAIN *p)
                 LerpP(&mid, &newP[i - 1], &newP[i + 1], r);
                 LerpP(&midV, &newV[i - 1], &newV[i + 1], r);
                 dir.q = SubP(&mid, &newP[i]);
-                float len = Normalize(&dir, D_002A2DC0);
+                float len = Normalize(&dir, g_normalZ);
                 proj.q = Scale(dir.q, Dot(SubP(&midV, &newV[i]), dir.q));
                 F = VecCombo3(F, VU_FLOAT(p->bend * len), dir.q, VU_FLOAT(&p->bendDamping), proj.q);
             }
@@ -236,13 +236,13 @@ void func_001E8378(CHAIN *p)
                 LerpP(&mid, &newP[0], &newP[count - 1], r);
                 LerpP(&midV, &newV[0], &newV[count - 1], r);
                 dir.q = SubP(&mid, &newP[i]);
-                float len = Normalize(&dir, D_002A2DC0);
+                float len = Normalize(&dir, g_normalZ);
                 proj.q = Scale(dir.q, Dot(SubP(&midV, &newV[i]), dir.q));
                 float r4 = r * 4.0f;
                 F = VecCombo3(F, VU_FLOAT(p->shape * (len - amplitude * r4 * (1.0f - r))), dir.q, VU_FLOAT(&p->shapeDamping), proj.q);
             }
             float wk = D_002C3668[pass];
-            float k = wk * D_002DDED0.dt;
+            float k = wk * g_clock.dt;
             Store(&accV[i], AddScaled(accV[i].q, VU_FLOAT(k), F));
             Store(&accP[i], AddScaled2I(accP[i].q, VU_FLOAT(k * 0.5f), p->velocity[i].q, newV[i].q));
             Store(&force[i], F);

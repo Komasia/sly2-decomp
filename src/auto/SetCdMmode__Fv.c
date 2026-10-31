@@ -1,9 +1,9 @@
 #include "m2c_prelude.h"
 M2C_UNK sceCdMmode(M2C_UNK);                        /* extern */
-extern s32 D_002BD4C4;
+extern s32 g_scecd;
 
 void SetCdMmode__Fv(void) {
-    if (D_002BD4C4 == 0x14) {
+    if (g_scecd == 0x14) {
         sceCdMmode(2);
     }
 }

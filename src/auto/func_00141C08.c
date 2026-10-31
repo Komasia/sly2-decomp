@@ -12,7 +12,7 @@ extern M2C_UNK D_002A4D50;
 extern M2C_UNK D_002A4D58;
 extern M2C_UNK D_002AC880;
 extern M2C_UNK D_002BAAE8;
-extern M2C_UNK D_002BBB60;
+extern M2C_UNK g_lmZeroOne;
 extern M2C_UNK D_002BC9F0;
 extern f32 D_002BCC74;
 extern f32 D_002BCC78;
@@ -40,14 +40,14 @@ extern f32 D_002BD264;
 extern s32 D_002C3258;
 extern M2C_UNK D_002CBE20;
 extern M2C_UNK D_002CBE38;
-extern M2C_UNK D_002DD590;
+extern M2C_UNK g_heapSw;
 extern s32 D_002DD5BC;
-extern f32 D_002DDED0;
+extern f32 g_clock;
 extern f32 D_002DDED4;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_002DE2E0;
 extern M2C_UNK D_002DEDC0;
-extern M2C_UNK D_002DFC00;
+extern M2C_UNK g_joy;
 extern s32 D_002E1E40;
 extern s32 D_002E1E54;
 extern s32 D_002F7900;
@@ -73,7 +73,7 @@ void func_00141C08(s32 arg0, s32 arg1, s32 arg2) {
             M2C_FIELD(temp_v0_2, void (**)(s32, s32), 0x334)(arg0 + M2C_FIELD(temp_v0_2, s16 *, 0x330), M2C_FIELD(arg1, s32 *, 0));
         }
         M2C_FIELD(arg1, s32 *, 4) = arg2;
-        M2C_FIELD(arg1, f32 *, 8) = (f32) D_002DDED0;
+        M2C_FIELD(arg1, f32 *, 8) = (f32) g_clock;
         switch (arg2) {                             /* irregular */
         case 2:
             temp_v0_3 = M2C_FIELD(arg0, void **, 0xC);

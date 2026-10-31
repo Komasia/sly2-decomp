@@ -4,7 +4,7 @@ struct G { int x0; int x4; int x8; int xC; };
 struct P { char pad[0x4C0]; char a4C0[0x9BC - 0x4C0]; int x9BC; char pad1[0x11B0 - 0x9C0]; char a11B0[4]; int x11B4; int pad2[2];
     struct O *po11C0; char pad3[0x130C - 0x11C4]; int x130C; char pad4[0x16B4 - 0x1310]; struct E *pe16B4;
     char pad5[0x1874 - 0x16B8]; int x1874; };
-extern struct G D_002DEB30;
+extern struct G g_game;
 void func_001619A0(struct G *pg, int n, struct P *p);
 struct E *func_00136A28(struct P *p, int k);
 void func_002206C8(void *pv, int n);
@@ -18,8 +18,8 @@ void func_00141CD0(struct P *p, int k);
 void func_00141D38(struct P *p, int k);
 void func_00136A90(struct P *p, int k)
 {
-    D_002DEB30.xC = k;
-    func_001619A0(&D_002DEB30, 0x3C, p);
+    g_game.xC = k;
+    func_001619A0(&g_game, 0x3C, p);
     switch (k) {
     case 4: case 5: case 7: case 9: case 11: case 13: {
         struct E *pe = func_00136A28(p, k);

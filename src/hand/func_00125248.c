@@ -4,10 +4,10 @@ CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129DA8(CRef *pref, CRef *prefSrc);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float g);
-extern char D_002DFC00[];
+extern char g_joy[];
 CRef *func_00125248(CRef *ret, void *pbasic, CRef *aref)
 {
-    void *p = D_002DFC00;
+    void *p = g_joy;
     int n = aref[0].u.n;
     CRef ref;
     func_00129DA8(&ref, &aref[1]);

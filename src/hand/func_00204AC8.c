@@ -5,7 +5,7 @@ struct X4 { char pad[0xEC]; struct EC *pec; };
 struct X { int pad; struct X4 *p4; };
 struct S { char pad[0xC]; struct VE *vt; char pad2[0x218 - 0x10]; qword *p218; qword *p21C; char pad3[0x258 - 0x220]; void *p258; };
 struct HIT { qword pos; qword q10; qword normal; qword q30; float t; int n44; int n48; int n4C; char pad[0x10]; };
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern char D_003DD490[];
 void func_001F5990(void);
 int func_00132B10(void *p, int n);
@@ -33,11 +33,11 @@ void func_00204AC8(struct S *p, struct X *x, int a2, int a3, int a4, int a5)
         if (fl & 8)
             n = hit.normal;
         else if (0.7f < ((float *)&hit.normal)[2])
-            n = D_002A2DC0;
+            n = g_normalZ;
         else if (hit.n48)
             n = hit.normal;
         else if (func_002048C8(p, *p->p218, x, hit.n4C))
-            n = D_002A2DC0;
+            n = g_normalZ;
         else
             n = hit.normal;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(*p->p218), "j"(hit.pos));

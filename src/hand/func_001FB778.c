@@ -3,7 +3,7 @@ typedef union {qword q;float f[4];int i[4];} V;
 struct RANGE {float low,high;};
 struct M3 {qword r[3];};
 struct CAMERA {char pad[0x90];qword position;};
-extern char D_003DD490[],D_002BBB60[];
+extern char D_003DD490[],g_lmZeroOne[];
 extern struct CAMERA D_002DDF40;
 extern struct M3 D_002DDFA0;
 void *func_001C4A48(void*);
@@ -35,7 +35,7 @@ void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outV
  high=limits->high;low=limits->low;
  {register qword input __asm__("vf2")=source.q;
   distance=Length(Sub(input,reference),&delta);}
- value=func_0011D948(D_002BBB60,(high-distance)/(high-low));
+ value=func_0011D948(g_lmZeroOne,(high-distance)/(high-low));
  difference=delta.q;
  if(outValue)*outValue=value;
  if(outAngle){

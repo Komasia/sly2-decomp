@@ -5,7 +5,7 @@ s32 *PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32);                /* extern */
 extern M2C_UNK D_002A2D30;
 extern s128 D_002A2DA0;
 extern s128 D_002A2DB0;
-extern s128 D_002A2DC0;
+extern s128 g_normalZ;
 extern s128 D_002A2DD0;
 extern f32 D_002A5148;
 extern f32 D_002A5150;
@@ -29,14 +29,14 @@ extern s32 D_002DD2E8;
 extern s32 D_002DD2EC;
 extern s32 D_002DD2F0;
 extern s32 D_002DD2F4;
-extern void *D_002DD2FC;
-extern f32 D_002DDED0;
+extern void *s_pdliFirst;
+extern f32 g_clock;
 extern f32 D_002DDF0C;
 extern M2C_UNK D_002DDF40;
 extern M2C_UNK D_002DE5B0;
 extern s128 D_002DE5F0;
 extern M2C_UNK D_002DEA28;
-extern M2C_UNK D_002DFC00;
+extern M2C_UNK g_joy;
 extern M2C_UNK D_002E6550;
 extern M2C_UNK D_002F66B0;
 extern M2C_UNK D_003D4A60;
@@ -56,7 +56,7 @@ void func_0015DCD8(s32 arg0) {
     void *temp_v0;
 
     func_001A5E28(arg0);
-    if ((D_002DDED0 - M2C_FIELD(arg0, f32 *, 0x68)) > (M2C_FIELD(arg0, f32 *, 0x5C) + M2C_FIELD(arg0, f32 *, 0x60) + M2C_FIELD(arg0, f32 *, 0x64))) {
+    if ((g_clock - M2C_FIELD(arg0, f32 *, 0x68)) > (M2C_FIELD(arg0, f32 *, 0x5C) + M2C_FIELD(arg0, f32 *, 0x60) + M2C_FIELD(arg0, f32 *, 0x64))) {
         temp_v0 = M2C_FIELD(arg0, void **, 0xC);
         M2C_FIELD(temp_v0, void (**)(s32), 0x4C)(arg0 + M2C_FIELD(temp_v0, s16 *, 0x48));
     }

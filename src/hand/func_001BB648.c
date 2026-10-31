@@ -14,9 +14,9 @@ typedef struct P {
 } P;
 extern char D_003DD490[];
 extern char D_002DDF40[];
-extern char D_002DFC00[];
+extern char g_joy[];
 extern char D_002DE578[];
-extern char D_002DEB30[];
+extern char g_game[];
 SO *func_0015E938(void *g, int k, int v, P *p);
 void func_001F6978(P *p, int v);
 void func_001F69F8(P *p, int v);
@@ -76,7 +76,7 @@ void func_001BB648(P *p, E *pe)
             if (p->x168 & 2) func_0014F750(D_002DDF40, pi->v);
             break;
         case 9:
-            if (p->x168 & 4) TriggerJoyRumbleRumk__FP3JOY4RUMKf(D_002DFC00, pi->v, 0.3f);
+            if (p->x168 & 4) TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, pi->v, 0.3f);
             break;
         case 10:
             if (p->x168 & 8) {
@@ -93,7 +93,7 @@ void func_001BB648(P *p, E *pe)
             break;
         }
         case 12:
-            func_00161F48(D_002DEB30, 1, pi->v, p);
+            func_00161F48(g_game, 1, pi->v, p);
             break;
         }
     }

@@ -13,8 +13,8 @@ extern int D_002DEB20;
 extern int D_002DEB18;
 extern int D_002DEB1C;
 extern int D_002DEDBC;
-extern sceDmaChan *D_002DE594;
-extern sceDmaChan *D_002DE598;
+extern sceDmaChan *g_pdcVif1;
+extern sceDmaChan *g_pdcGif;
 extern "C" void func_00234A60(int sid);
 extern "C" void func_00234A40(int sid);
 extern "C" void func_001EE7B0(FR *pfr);
@@ -38,11 +38,11 @@ extern "C" void func_00160B70()
         func_001EE7B0(pfr);
         RestoreGsBuffers();
         func_00170048();
-        SendDmaSyncGsFinish(D_002DE594, D_002DEB14->aqw24);
-        SendDmaSyncGsFinish(D_002DE598, D_002DEB14->aqwGifs);
+        SendDmaSyncGsFinish(g_pdcVif1, D_002DEB14->aqw24);
+        SendDmaSyncGsFinish(g_pdcGif, D_002DEB14->aqwGifs);
         if (D_002DEB14->n30 & 1)
             func_00160F98();
-        func_002417F0(D_002DE594, 0, 0);
+        func_002417F0(g_pdcVif1, 0, 0);
         func_00234A40(D_002DEB1C);
         SwapGsBuffers();
         D_002DEDBC = 1;

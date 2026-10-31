@@ -51,7 +51,7 @@ typedef char CONTACT_next_Offset[FIELD_OFFSET(CONTACT,next)==172?1:-1];
 typedef char CONTACT_difference_Offset[FIELD_OFFSET(CONTACT,difference)==176?1:-1];
 extern float D_002C3C60[],D_002BF8A4;
 extern int D_002BF8A8;
-extern qword D_002A2DC0;
+extern qword g_normalZ;
 extern char D_003DD490[];
 extern int func_00144068(LO *);
 extern int func_001999D0(P *,SHAPE *,qword,int,void *,U *);
@@ -130,7 +130,7 @@ CONTACT *func_00199D48(P *p,int *outSide,qword *outNormal)
                 /* "rV": the word is a memory operand that fails 'V' at reload, so reload loads it at the asm through the
                    dying %hi register (lui v1 / lw v1,%lo(v1)) instead of a separate pseudo; allocation only */
                 __asm__("qmtc2.ni %1,%0":"=j"(lift):"rV"(D_002BF8A8));
-                value=Project(selected->q,direction.q,back,D_002A2DC0,lift);
+                value=Project(selected->q,direction.q,back,g_normalZ,lift);
                 scalar=(U){back};       /* the original keeps both scalars in one 16-byte stack temporary */
                 point.q=value;
                 scalar=(U){lift};

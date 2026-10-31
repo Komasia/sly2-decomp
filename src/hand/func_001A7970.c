@@ -1,7 +1,7 @@
 /* Run the 19 initialization stages with CProg color and remaining-count updates. */
 struct B { char data[0x70]; };
 struct C { int c; } __attribute__((aligned(16)));
-extern char D_002A6A58[], D_002C46D8[], D_002C46C0[], D_002DDED0[];
+extern char D_002A6A58[], D_002C46D8[], D_002C46C0[], g_clock[];
 extern void (*D_002BFCE0[])(void);
 void func_001700D0(void);
 struct B *__5CProgP4RGBAN31(struct B *b, struct C *c0, struct C *c1, struct C *c2, struct C *c3);
@@ -34,7 +34,7 @@ void func_001A7970(void)
     Begin__5CProg(&b);
     f = 0;
     for (i = 0; i < 19; i++) {
-        func_0014D0B8(D_002DDED0, 1);
+        func_0014D0B8(g_clock, 1);
         if (f)
             SetRemain__5CProgi(&b, 19 - i);
         else if (D_002BFCE0[i] == func_001700D0)

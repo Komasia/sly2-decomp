@@ -9,7 +9,7 @@ typedef struct WORK{QUERY query;NODE*result256[256];NODE*result32[32];NODE*resul
 typedef struct LM{float low,high;}LM;
 extern NODE*D_003E13FC,*D_003E13F0,*D_003E1408,*D_003E13E4,*D_003E13C0,*D_003E13D8,*D_003E13CC,*D_003E13B4,*D_003E1450;
 extern char D_003DD490;
-extern qword D_002A2DA0,D_002A2DC0;
+extern qword D_002A2DA0,g_normalZ;
 extern const float D_002A53D0;
 extern LM D_002BE5A8,D_002BE5B0;
 
@@ -92,7 +92,7 @@ extern "C" void func_001728B0(P*p){
   PAIR*previous=0;
   for(i=0;i<(int)w.query.count&&accepted<4;i++){
    ROW*row=&w.query.row[i];qword original=row->point.q;
-   qword up=D_002A2DC0;
+   qword up=g_normalZ;
    qword delta=QwSub(original,w.query.point.q);
    qword qwFallback=D_002A2DA0;
    qword planar=QwSub(delta,QwScaleX(up,QwDot(delta,up)));
