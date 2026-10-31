@@ -2,7 +2,7 @@ struct S { char pad[0x174]; void *p174; };
 void func_00133590(struct S *p, int n);
 void func_001FB098(void *p, float g);
 void func_00258040(void **pp, int n);
-void func_001C3E20(struct S *p, int n)
+void HandlePoMessage__FP2PO5MSGIDPv(struct S *p, int n)
 {
     func_00133590(p, n);
     if (n == 5) {

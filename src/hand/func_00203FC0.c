@@ -15,7 +15,7 @@ void func_00203E08(struct S *p);
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float a);
 
-void func_00203FC0(struct S *p)
+void UpdateStep__FP4STEPf(struct S *p)
 {
     UpdateSo__FP2SOf(p);
     func_00203E08(p);

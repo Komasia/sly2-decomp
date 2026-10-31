@@ -5,6 +5,6 @@ void PostLoLoad__FP2LO(LO *plo);
 
 void func_001A3400(LIGHT *plight)
 {
-    PostLoLoad__FP2LO(&plight->alo.lo);
+    PostLoLoad__FP2LO(&plight->xfm.lo);
     func_001A3968(plight);
 }

@@ -8,7 +8,7 @@ struct DA { int n0; int cMax; int c; struct O **a; };
 struct S { char pad[0xE0]; int c; struct O **apo; };
 void func_001AE478(struct C *);
 void func_001AE4A0(struct C *, int);
-void LoadAloFromBrx__FP3ALOP18CBinaryInputStream(struct S *p, void *q);
+void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct S *p, void *q);
 void func_0013F888(struct DA *pda);
 void func_002317E0(struct S *p, void *q, struct DA *pda);
 int func_00132B10(void *p, int n);
@@ -18,7 +18,7 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
     struct DA da;
     MSG msg;
     int i;
-    LoadAloFromBrx__FP3ALOP18CBinaryInputStream(p, q);
+    LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(p, q);
     func_001AE478(&ctx);
     func_0013F888(&da);
     func_002317E0(p, q, &da);

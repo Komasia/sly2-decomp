@@ -26,7 +26,7 @@ M4 *func_0011C318(M4 *,const M4 *);
 }
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a){qword one;float f;__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(a),"=&j"(one));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(a));__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
-extern "C" void func_00207690(P *p)
+extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
 {
     M4 local;
     U offset;

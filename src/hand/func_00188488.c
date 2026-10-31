@@ -13,7 +13,7 @@ void func_00204D48(struct S *p, float g);
 void func_001371B8(void *pv, struct S *p);
 void func_001CC158(void *pv);
 static __inline__ void InitLm(struct LM4 *plm, float g8, float gc) { plm->g8 = g8; plm->gc = gc; plm->n = 0; }
-void func_00188488(struct S *p)
+void InitJt__FP2JT(struct S *p)
 {
     func_0013FF70(p);
     p->x19ac = 15.0f;

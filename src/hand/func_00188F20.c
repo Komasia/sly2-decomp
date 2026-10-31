@@ -34,7 +34,7 @@ extern void func_0018D698(void *p, E *pe, void *c);
 static __inline__ void ClearX(CLR *px) { px->a = px->b = px->c = 0; }
 
 
-void func_00188F20(char *p, int msg, void *pv)
+void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
 {
     func_00140F90(p, msg, pv);
     switch (msg) {

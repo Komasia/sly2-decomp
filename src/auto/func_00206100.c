@@ -35,7 +35,7 @@ extern M2C_UNK D_003DD490;
 extern M2C_UNK D_003E1444;
 extern M2C_UNK D_003E1A60;
 
-void func_00206100(s32 arg0, s32 arg1) {
+void CloneStepguard__FP9STEPGUARDT0(s32 arg0, s32 arg1) {
     void *temp_s1;
     void *temp_v0;
 

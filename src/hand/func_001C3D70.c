@@ -1,6 +1,6 @@
 struct S { char pad[0x40]; int x40; char pad2[0x118]; int n15c; int a[2]; void *p168; };
 void InitSo__FP2SO(struct S *p);
-void func_001C3D70(struct S *p)
+void InitPo__FP2PO(struct S *p)
 {
     int v;
     InitSo__FP2SO(p);

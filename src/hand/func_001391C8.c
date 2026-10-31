@@ -1,10 +1,10 @@
 struct S { char pad[0x18]; int f18; char pad2[0x38 - 0x1c]; float f38; int pad3; int f40; char pad4[0x448 - 0x44]; int f448; };
-void InitAlo__FP3ALO(struct S *);
+void InitXfm__FP3XFM(struct S *);
 void InitDl__FP2DLi(void *, int);
 void func_001A6CA8(struct S *, int);
 void func_001391C8(struct S *p) {
     int x;
-    InitAlo__FP3ALO(p);
+    InitXfm__FP3XFM(p);
     InitDl__FP2DLi(&p->f448, 0x1090);
     p->f18 = -1;
     p->f38 = 1e10f;

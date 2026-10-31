@@ -10,7 +10,7 @@ void func_001A3460(LIGHT *plight)
     int nStamp;
 
     func_001A5E80(plight);
-    pxf = plight->alo.pxf;
+    pxf = plight->xfm.pxf;
     nStamp = 0;
     if (pxf != NULL)
         nStamp = pxf->nStamp;

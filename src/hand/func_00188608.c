@@ -21,7 +21,7 @@ extern int func_001F0380(int a, int b, int c, int d);
 extern char D_002BF1B0[];
 extern qword D_002A2DD0;
 
-void func_00188608(char *p)
+void PostJtLoad__FP2JT(char *p)
 {
     int n;
     func_001400B8(p);

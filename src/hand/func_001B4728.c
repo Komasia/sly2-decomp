@@ -1,4 +1,4 @@
-/* func_001B4728: actor defaults init. The int -1 stores come before the float stores in source; gcc schedules them so x17F4 lands right after x220. (Claude agent) */
+/* InitMurray__FP6MURRAY: actor defaults init. The int -1 stores come before the float stores in source; gcc schedules them so x17F4 lands right after x220. (Claude agent) */
 /* Complete actor defaults and embedded binding initialization. */
 struct SUB{float f0;int i;float f1,f2;};
 struct BIND{void*owner;char pad4[0x8C];int word90;float f94,f98;};
@@ -15,7 +15,7 @@ void func_0020B840(struct BIND*a,void*owner,int word90);
 void func_0020BD78(struct RESET*a);
 void func_0021F2E0(struct CONTEXT*a,void*owner);
 static inline void Init(struct SUB *ps, float f, float g) { ps->f2 = g; ps->f1 = f; ps->i = 0; }
-void func_001B4728(struct S *p)
+void InitMurray__FP6MURRAY(struct S *p)
 {
     func_0013FF70(p);
     p->x220 = 50.0f;

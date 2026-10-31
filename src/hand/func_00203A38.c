@@ -7,7 +7,7 @@ void *func_001F6030(struct O *p, int oid);
 void func_00203AF0(struct O *p, void *pv);
 void func_001F2AD0(struct O *p, void *pv);
 void func_001EEC70(void *pv);
-void func_00203A38(struct O *p)
+void PostStepLoad__FP4STEP(struct O *p)
 {
     func_001F36A8(p);
     p->x294 = func_001E94B0(0x2C9, 0x10);

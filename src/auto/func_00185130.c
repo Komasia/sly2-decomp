@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK InitAlo__FP3ALO();                            /* extern */
+M2C_UNK InitXfm__FP3XFM();                            /* extern */
 
 void func_00185130(void) {
-    InitAlo__FP3ALO();
+    InitXfm__FP3XFM();
 }

@@ -39,7 +39,7 @@ extern void func_00189618(void *p);
 
 static __inline__ qword VMulX(qword a, qword s) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(a), "j"(s)); return r; }
 
-void func_0018BCE0(char *p)
+void UpdateJt__FP2JTf(char *p)
 {
     VU u;
     qword av[3];

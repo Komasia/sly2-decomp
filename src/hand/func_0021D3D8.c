@@ -1,8 +1,8 @@
 struct S { char pad[0xE8]; float a, b, c; int f; };
-void InitAlo__FP3ALO(struct S *p);
+void InitXfm__FP3XFM(struct S *p);
 void func_0021D3D8(struct S *p)
 {
-    InitAlo__FP3ALO(p);
+    InitXfm__FP3XFM(p);
     p->a = 2000.0f;
     p->b = -800.0f;
     p->c = 800.0f;

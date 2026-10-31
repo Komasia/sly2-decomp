@@ -3,7 +3,7 @@ struct S { char pad[0x240]; VEC3 v; };
 extern char D_002BE990[];
 void func_002039C0(struct S *p);
 void func_001A64E8(struct S *p, int n, void *pv);
-void func_001885B8(struct S *p)
+void LoadJtFromBrx__FP2JTP18CBinaryInputStream(struct S *p)
 {
     VEC3 *pv;
     func_002039C0(p);

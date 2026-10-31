@@ -13,7 +13,7 @@ extern char D_002C3CF8[];
 extern char D_003DD490[];
 extern struct K D_002A8608;
 extern qword D_002A2DE0;
-void func_00203A38(struct S *p);
+void PostStepLoad__FP4STEP(struct S *p);
 void func_001A64E8(struct S *p, int n, void *pv);
 void func_00204DA8(struct S *p, float f);
 void func_002303A0(struct S *p, int n, int m);
@@ -28,10 +28,10 @@ void func_00170C90(struct O *po, int a, int b, float f);
 void *func_001F4C58(struct S *p, int n, int m);
 void *func_0012DC18(struct S *p, void *x, int a, int b, int c, qword q);
 
-void func_002061D8(struct S *p)
+void PostStepguardLoad__FP9STEPGUARD(struct S *p)
 {
     void *x;
-    func_00203A38(p);
+    PostStepLoad__FP4STEP(p);
     func_001A64E8(p, 1, D_002C3CF8);
     func_00204DA8(p, p->f260);
     func_002303A0(p, p->n58, 2);

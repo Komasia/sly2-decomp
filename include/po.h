@@ -22,7 +22,8 @@ typedef struct PO {
     /* 0x000 */ SO so;
     /* 0x150 */ POCTL *pctl;
     /* 0x154 */ uint grfbtnForce;
-    /* 0x158 */ int unk_0x158[5];
+    /* 0x158 */ int unk_0x158[4];
+    /* 0x168 */ struct PO *ppoUnk168;  /* a clone points it at itself (ClonePo) */
     /* 0x16c */ void *ptnCam;          /* camera tunnel (TN) used while this PO is in focus */
     /* 0x170 */ int unk_0x170[4];
 } PO;   /* 0x180 bytes */

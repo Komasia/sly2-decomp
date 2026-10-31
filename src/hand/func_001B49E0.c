@@ -10,7 +10,7 @@ void func_001426E8(struct S *p, int n);
 void *func_001F4C58(struct S *p, int a, int b);
 int func_0012DC18(struct S *p, void *a, int b, int c, int d, qword q);
 void func_001B6078(struct S *p, int n);
-void func_001B49E0(struct S *p)
+void PostMurrayLoad__FP6MURRAY(struct S *p)
 {
     char *b = (char *)p;
     void *v;

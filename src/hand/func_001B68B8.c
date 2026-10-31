@@ -37,7 +37,7 @@ void func_002205A8(void *p);
 void func_001B93E8(P *p, int k);
 void func_001B6078(P *p, int s);
 
-void func_001B68B8(P *p, int msg, MSG *pm)
+void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
 {
     func_00140F90(p, msg, pm);
     switch (msg) {

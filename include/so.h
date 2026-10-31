@@ -104,16 +104,17 @@ typedef struct LO {
     /* 0x44 */ int unk_0x44[3];
 } LO;
 
-/* ALO (class 3, derived from LO): an LO with a transform. Its world matrix is the matrix of the XF it hangs
+/* XFM (class 3, derived from LO; Sly 1 xform.c's XFM - its methods sit right after wr.c in Sly 2's alphabetical
+ * file order, and it is the parent of EMITTER, LIGHT and EXPL; Sly 2 has no ALO class): an LO with a transform. Its world matrix is the matrix of the XF it hangs
  * off times its local matrix, recomputed when the XF's stamp moves on (func_00231368). */
-typedef struct ALO {
+typedef struct XFM {
     /* 0x00 */ LO lo;
     /* 0x50 */ XF *pxf;                /* 0: use the default XF D_002C44F0 */
     /* 0x54 */ int nStamp;             /* XF::nStamp when matWorld was last computed; -1 = never */
     /* 0x58 */ int unk_0x58[2];
     /* 0x60 */ struct MATRIX4 matLocal;
     /* 0xa0 */ struct MATRIX4 matWorld;
-} ALO;
+} XFM;
 
 typedef struct GEOM {
     int cpos;

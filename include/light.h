@@ -1,10 +1,10 @@
-/* LIGHT (class 4, derived from ALO): partial layout used by the light.c functions around 0x1A3360. */
+/* LIGHT (class 4, derived from XFM): partial layout used by the light.c functions around 0x1A3360. */
 #ifndef LIGHT_H
 #define LIGHT_H
 #include "so.h"
 
 typedef struct LIGHT {
-    /* 0x000 */ ALO alo;
+    /* 0x000 */ XFM xfm;
     /* 0x0e0 */ int nUnkE0;
     /* 0x0e4 */ int nStampXf;          /* XF::nStamp the light was last rebuilt for; -1 = never */
     /* 0x0e8 */ int unk_0xe8[2];

@@ -8,6 +8,6 @@ extern char D_003DD490[];   /* the world (SW) */
 
 void func_001A3518(LIGHT *plight)
 {
-    func_001A6178(&plight->alo.lo);
+    func_001A6178(&plight->xfm.lo);
     func_001A3D00(D_003DD490, plight);
 }

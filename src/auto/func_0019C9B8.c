@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK InitAlo__FP3ALO();                            /* extern */
+M2C_UNK InitXfm__FP3XFM();                            /* extern */
 
 void func_0019C9B8(void *arg0) {
-    InitAlo__FP3ALO();
+    InitXfm__FP3XFM();
     M2C_FIELD(arg0, f32 *, 0xE8) = 100.0f;
 }

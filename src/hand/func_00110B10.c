@@ -1,4 +1,4 @@
-/* func_00110B10 (0x110B10): factory (CLS::pfnNew) of class 3 (ALO): allocate a zeroed 0xE0-byte object and run the
+/* func_00110B10 (0x110B10): factory (CLS::pfnNew) of class 3 (XFM): allocate a zeroed 0xE0-byte object and run the
  * inline constructor (vtable D_002DD090, null pframe / psidebag reference pointers). */
 #include "so.h"
 
