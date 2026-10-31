@@ -24,7 +24,7 @@ extern M2C_UNK D_002BD490;
 extern M2C_UNK D_002BD498;
 extern M2C_UNK D_002BD4A0;
 extern M2C_UNK D_002BD4B0;
-extern s32 D_002BD4C0;
+extern s32 g_cds;
 extern void *g_psliFirst;
 extern s32 D_002DD648;
 extern u8 D_002DD680;

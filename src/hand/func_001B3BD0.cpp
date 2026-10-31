@@ -28,7 +28,7 @@ extern K D_002A3968;
 extern K D_002A39A8;
 extern int D_002F68F8;
 extern int D_002C0268;
-extern int D_002BD4C0;
+extern int g_cds;
 extern G D_002E65E0;
 extern CLOCK g_clock;
 extern JOY g_joy;
@@ -123,7 +123,7 @@ extern "C" void func_001B3BD0(P *p, K *k)
             }
             if (x.x8 == 2) {
                 func_0014BA38();
-                if (D_002BD4C0 != 3) break;
+                if (g_cds != 3) break;
             }
             func_001B4058(p);
         }

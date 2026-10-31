@@ -11,7 +11,7 @@ extern s32 D_002A8350;
 extern M2C_UNK D_002A83B8;
 extern M2C_UNK D_002A83C0;
 extern M2C_UNK g_lmZeroOne;
-extern s32 D_002BD4C0;
+extern s32 g_cds;
 extern M2C_UNK D_002C3C40;
 extern f32 D_002C3C58;
 extern M2C_UNK D_002CA510;

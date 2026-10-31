@@ -1940,7 +1940,7 @@ func_0014B690,0x14B690,3,match,src/auto/func_0014B690.c
 func_0014B6A0,0x14B6A0,77,match,src/hand/func_0014B6A0.c
 func_0014B7D8,0x14B7D8,8,match,src/hand/func_0014B7D8.c
 CpchzTokenizePath__FPc,0x14B7F8,111,match,src/hand/CpchzTokenizePath__FPc.cpp
-func_0014B9C0,0x14B9C0,15,match,src/auto/func_0014B9C0.c
+FValidCdMmode__Fv,0x14B9C0,15,match,src/hand/func_0014B9C0.cpp
 SetCdMmode__Fv,0x14BA00,11,match,src/hand/SetCdMmode__Fv.cpp
 StartupCd__Fv,0x14BA30,2,match,src/hand/StartupCd__Fv.c
 UpdateCd__Fv,0x14BA38,93,match,src/hand/UpdateCd__Fv.cpp

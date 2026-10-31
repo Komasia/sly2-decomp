@@ -1000,3 +1000,5 @@ g_grfusr = 0x2DFBC4; // type:data
 __builtin_new = 0x1AE4F8; // type:func
 __10STACKSCOPE = 0x1AE478; // type:func
 _$_10STACKSCOPE = 0x1AE4A0; // type:func
+FValidCdMmode__Fv = 0x14B9C0; // type:func
+g_cds = 0x2BD4C0; // type:data

@@ -7,7 +7,7 @@ extern char D_002A6A48[];
 void func_00236A60(int n);
 int func_00238F00(void);
 int func_002420F0(int n);
-int func_0014B9C0(void);
+int FValidCdMmode__Fv(void);
 void func_0014BA00(void);
 int func_00237E70(void);
 void func_0014BBB0(char *p, char *s, int n);
@@ -36,7 +36,7 @@ void func_001A7630(void)
     func_00236A60(0);
     func_00238F00();
     func_002420F0(0);
-    if (!func_0014B9C0())
+    if (!FValidCdMmode__Fv())
         while (1)
             ;
     func_0014BA00();
@@ -50,7 +50,7 @@ void func_001A7630(void)
         func_00236A60(0);
         func_00238F00();
         func_002420F0(0);
-        if (!func_0014B9C0())
+        if (!FValidCdMmode__Fv())
             while (1)
                 ;
         func_0014BA00();

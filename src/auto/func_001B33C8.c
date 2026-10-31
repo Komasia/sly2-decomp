@@ -12,7 +12,7 @@ extern M2C_UNK D_002A2D30;
 extern s128 D_002A2DD0;
 extern M2C_UNK D_002A3968;
 extern M2C_UNK D_002A39A8;
-extern s32 D_002BD4C0;
+extern s32 g_cds;
 extern f32 D_002BF730;
 extern s32 D_002C0268;
 extern M2C_UNK D_002C0270;

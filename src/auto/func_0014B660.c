@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-extern s32 D_002BD4C0;
+extern s32 g_cds;
 
 void func_0014B660(void) {
-    D_002BD4C0 = 3;
+    g_cds = 3;
 }

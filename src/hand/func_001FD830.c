@@ -5,7 +5,7 @@ struct P { char pad[0x4C]; struct Q *pq; char pad1[0x58 - 0x50]; int n58; char p
     long l1F0; long l1F8; struct X *r200; int c; struct X *a[8]; struct X *r228; };
 struct CLOCK { float t; float dt; char pad[0x40 - 8]; float f40; };
 extern struct CLOCK g_clock;
-extern int D_002BD4C0;
+extern int g_cds;
 extern struct K D_002A8288;
 long func_0014D240(struct CLOCK *);
 void func_001FDA48(struct P *);
@@ -31,7 +31,7 @@ void func_001FD830(struct P *p)
     func_001FDA48(p);
     func_001FDBA8(p);
     top = p->c > 0 ? *(p->a + p->c - 1) : 0;
-    if (D_002BD4C0 == 3) {
+    if (g_cds == 3) {
         if (p->n58) {
             if (top) func_001FB060(top);
             if (p->r228) func_001FB060(p->r228);
