@@ -1,6 +1,6 @@
 struct S { char pad[0x3B18]; int h3B18; };
 extern char g_game[], D_003D9E70[], D_002DDF40[], D_003DD040[], D_002E0CCC[];
-extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648, D_003D4A54, D_002DE570, D_002DFB80, D_002DFBC4;
+extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648, D_003D4A54, D_002DE570, D_002DFB80, g_grfusr;
 extern int D_003E1C40, D_003E1C44, D_003E1C48, D_003E1C4C, D_003E1C50, D_003DD48C;
 void func_001619A0(void *p, int a, int b);
 void func_00162EA0(int h);
@@ -35,7 +35,7 @@ void func_0020E068(struct S *p)
     D_003D4A54 = 0;
     D_002DE570 = 0;
     D_002DFB80 = 0;
-    D_002DFBC4 = 0;
+    g_grfusr = 0;
     D_003E1C40 = 0;
     D_003E1C44 = 0;
     D_003E1C48 = 0;

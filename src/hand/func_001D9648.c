@@ -1,12 +1,12 @@
 extern struct CLOCK { float t; float dt; float g; } g_clock;
 typedef struct { char pad[0x100C]; int x100C; } PAD;
 extern int g_grfjoyt;
-extern int D_002DFBC4;
+extern int g_grfusr;
 extern PAD g_joy;
 extern PAD D_002E0D00;
 extern char D_003D9ED0[], D_003DA150[], D_003DA0F0[], D_002DDEC0[], D_00443740[], D_003D9E80[];
 extern char D_003DA0C0[], D_003DA3C0[], D_002E6550[], D_002E65A0[], D_003DA4F0[], D_003DA530[];
-void func_001870A0(int);
+void RemoveGrfusr__Fi(int);
 int func_00187D80(PAD *, int);
 void func_00187E08(PAD *, int);
 int func_001B0290(int);
@@ -26,9 +26,9 @@ void func_001DD920(void *);
 void func_001D9648(void *pdl)
 {
     PAD *pad;
-    if (D_002DFBC4 & 8) {
+    if (g_grfusr & 8) {
         if (g_clock.g == 0.0f || 0.1f < g_clock.t / g_clock.g)
-            func_001870A0(8);
+            RemoveGrfusr__Fi(8);
     }
     if (g_grfjoyt & 2)
         pad = &g_joy;

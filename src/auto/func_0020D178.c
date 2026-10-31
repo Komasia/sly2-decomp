@@ -55,7 +55,7 @@ extern M2C_UNK D_002DDF40;
 extern s32 D_002DE570;
 extern M2C_UNK g_game;
 extern s32 D_002DFB80;
-extern s32 D_002DFBC4;
+extern s32 g_grfusr;
 extern M2C_UNK g_joy;
 extern M2C_UNK D_002E0CCC;
 extern void *D_002E1E40;

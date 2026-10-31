@@ -48,7 +48,7 @@ struct VU_FLOAT { qword q; };
 extern "C" {
 extern SW D_003DD490;                                   // the world
 extern CLOCK g_clock;
-extern uint D_002DFBC4;
+extern uint g_grfusr;
 extern qword g_normalZ;                                // (0, 0, 1)
 extern float D_002BF5B0, D_002BF5B4, D_002BF5B8;
 int func_001C46C0(JOY *, uint, float);
@@ -246,7 +246,7 @@ extern "C" void func_001911A8(CONTEXT *p)
                 SetControl(p->pactor, 0);
                 break;
             }
-            if (D_002DFBC4 & 1)
+            if (g_grfusr & 1)
                 break;
             if (pjoy->grfbtn & func_00141EA8(p->pactor, 0x28))
                 break;
@@ -264,7 +264,7 @@ extern "C" void func_001911A8(CONTEXT *p)
             }
             if (p->fInhibit)
                 break;
-            if (D_002DFBC4 & 1)
+            if (g_grfusr & 1)
                 break;
             if (pjoy->grfbtn & 0x20)
                 break;

@@ -36,7 +36,7 @@ extern M2C_UNK D_002DDF40;
 extern f32 g_game;
 extern s32 D_002DFB84;
 extern s32 g_grfjoyt;
-extern s32 D_002DFBC4;
+extern s32 g_grfusr;
 extern s32 D_002E0CBC;
 extern s32 D_002E1E40;
 extern M2C_UNK D_003DD490;

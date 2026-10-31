@@ -28,7 +28,7 @@ void SetDecompress(STREAM *,int,void *) asm("SetDecompress__18CBinaryInputStream
 void func_00184CA0(STREAM *);
 void func_0020E068(SW *);
 void func_0014D068(void *);
-void func_00187078(int);
+void AddGrfusr(int) asm("AddGrfusr__Fi");
 void *func_002333B4(void *,int,uint);
 SW *func_0020D9D0(SW *);
 int func_001B3B08(void *);
@@ -100,7 +100,7 @@ extern "C" void func_0020E890(SW *p)
     func_00184CA0(reader);
     func_0020E068(p);
     func_0014D068(g_clock);
-    func_00187078(8);
+    AddGrfusr(8);
     func_002333B4(&D_003DD490,0,0x4790);
     func_002333B4(&D_003DD490,0,0x4790);
     func_0020D9D0(&D_003DD490);

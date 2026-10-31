@@ -23,7 +23,7 @@ struct CLOCK { float t; float dt; };
 extern CM D_002DDF40;
 extern CLOCK g_clock;
 extern SW D_003DD490;
-extern int D_002DFBC4;
+extern int g_grfusr;
 extern int D_002C4118;
 extern float D_002C4110;
 extern float D_002C4114;
@@ -108,7 +108,7 @@ static inline qword QwAxesXyz(qword qwV, qword qwBack, qword qwSide, qword qwUp)
 extern "C" void func_002236E8(CMPART2 *pcmpart)
 {
     LO *plo = pcmpart->pvHero;
-    if (D_002DFBC4 & 2)
+    if (g_grfusr & 2)
     {
         pcmpart->tLastSeen = g_clock.t;
         return;

@@ -34,5 +34,6 @@ struct RUMBLE {
 };
 
 void SetRumbleRums(RUMBLE *prumble, RUMS rums);
+void InitRumble(RUMBLE *prumble, int nPort, int nSlot);
 
 #endif
