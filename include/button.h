@@ -6,7 +6,8 @@
 #include "so.h"
 
 typedef struct BTN {
-    char unk_0x00[0x10];
+    /* 0x00 */ void *paloOwner;        /* the BUTTON / VOLBTN the component belongs to */
+    /* 0x04 */ char unk_0x04[0x0c];
 } BTN;
 
 typedef struct BUTTON {

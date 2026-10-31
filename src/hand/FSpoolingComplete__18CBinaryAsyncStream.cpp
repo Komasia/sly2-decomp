@@ -1,27 +1,11 @@
-typedef unsigned char byte;
-typedef unsigned int uint;
-enum BASK { BASK_Nil = -1, BASK_Host = 0, BASK_Cd = 1 };
-class CBinaryAsyncStream {
-public:
-    BASK m_bask;        /* 0x00 */
-    int m_fd;           /* 0x04 */
-    uint m_isector;     /* 0x08 */
-    int m_cbSpooling;   /* 0x0c */
-    byte *m_pbSpooling; /* 0x10 */
-    byte *m_abSpool;    /* 0x14 */
-    int m_unk18;        /* 0x18 (new in Sly 2) */
-    int m_cb;           /* 0x1c */
-    byte *m_pb;         /* 0x20 */
-    int m_ibCur;        /* 0x24 */
-    int m_cbUnspooled;  /* 0x28 */
-    int m_cbFile;       /* 0x2c */
-    bool FSpooling();
-    bool FSpoolingComplete();
-    void FinishSpooling();
-};
+/* CBinaryAsyncStream::FSpoolingComplete (0x1327E0): has the read in flight finished (Sly 1 bas.c)? Only asked once the
+ * current chunk is used up. A failed read is dropped. */
+#include "bas.h"
+
 extern "C" int sceIoctl(int fd, int req, void *pv);
 extern "C" int sceCdSync(int mode);
 extern "C" int sceCdGetError(void);
+
 bool CBinaryAsyncStream::FSpoolingComplete()
 {
     int status = 0;
