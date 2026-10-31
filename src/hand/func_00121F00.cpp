@@ -14,9 +14,9 @@ struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 extern "C" {
 void *func_002333B4(void *pv, int b, unsigned int cb);
 CRef func_00129DA8(CRef *pref);
-CRef func_00121F00(int carg, CRef *pref);
+CRef RefOpMatrix(int carg, CRef *pref) asm("RefOpMatrix__FiP4CRefP6CFrame");
 }
-CRef func_00121F00(int carg, CRef *pref)
+CRef RefOpMatrix(int carg, CRef *pref)
 {
     CRef ref(0x1B);
     MATRIX4 *pm = (MATRIX4 *)ref.u.pv;

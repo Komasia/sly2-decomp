@@ -10,7 +10,7 @@ static __inline__ float GLimit(float g, float gMin, float gMax)
         return gMax;
     return g;
 }
-CRef *func_001233F0(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpClqEvaluateLm__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     float *c = (float *)aref[0].u.pv;
     LM *plm = (LM *)aref[1].u.pv;

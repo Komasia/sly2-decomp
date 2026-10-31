@@ -1,4 +1,4 @@
-// same shape as func_001238B0 (max instead of min): list pointer reuses the aref parameter variable
+// same shape as RefOpMinimum (max instead of min): list pointer reuses the aref parameter variable
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -11,8 +11,8 @@ struct CRef {
     CRef &operator=(float g);
 };
 struct NODE { int cref; int x4; CRef ref; NODE *pnext; };
-extern "C" CRef func_00123788(void *pbasic, CRef *aref);
-CRef func_00123788(void *pbasic, CRef *aref)
+extern "C" CRef RefOpMaximum(void *pbasic, CRef *aref) asm("RefOpMaximum__FiP4CRefP6CFrame");
+CRef RefOpMaximum(void *pbasic, CRef *aref)
 {
     CRef ref(aref[0]);
     if (aref[1].m_tagk != 0) aref = (CRef *)aref[1].u.pv; else aref = 0;

@@ -3,7 +3,7 @@ void func_00129518(CRef *pref, int n);
 void func_00129558(CRef *pref, float g);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 void func_00129EC8(CRef *pref);
-CRef *func_001236F8(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpAbs__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     ref.m_tagk = -1;

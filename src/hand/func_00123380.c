@@ -1,7 +1,7 @@
 typedef struct CRef { int m_tagk; union { int n; float g; void *p; } u; } CRef;
 void Decref__4CRef(CRef *pref);
 void func_00129DA8(CRef *pref, CRef *prefSrc);
-CRef *func_00123380(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpClqEvaluate__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     float *a = (float *)aref[0].u.p;
     CRef ref;

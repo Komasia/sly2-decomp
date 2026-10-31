@@ -38,8 +38,8 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" void func_0011BCF8(void *pv, float *pg, void *pvec);
-extern "C" CRef func_00123118(void *pbasic, CRef *aref);
-CRef func_00123118(void *pbasic, CRef *aref)
+extern "C" CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref) asm("RefOpMatrixDecomposeToRadianNormal__FiP4CRefP6CFrame");
+CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref)
 {
     SPN sp;
     struct { float g, h, i; } g;

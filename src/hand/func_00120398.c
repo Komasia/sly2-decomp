@@ -1,5 +1,5 @@
 typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
-CRef *func_00120398(CRef *ret, CRef *aref, int op)
+CRef *RefCmp__FP4CRef4CMPK(CRef *ret, CRef *aref, int op)
 {
     float ag[2];
     int i;

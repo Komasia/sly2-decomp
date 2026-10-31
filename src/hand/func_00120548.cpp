@@ -1,11 +1,11 @@
-// MATCH (Claude agent laneB14, 2026-10-23), from func_00120548.cpp (6). FEq body written out with one commented register pin (pb in a1)
+// MATCH (Claude agent laneB14, 2026-10-23), from RefOpEqv.cpp (6). FEq body written out with one commented register pin (pb in a1)
 // plus one empty asm whose only job is extra uses of f (f is live from entry on the default path, so its priority was below the return pointer's).
 struct CRef {
     int m_tagk; int m_tag;
     CRef(int n, int tagk) { m_tag = n; m_tagk = tagk; }
 };
-extern "C" CRef func_00120548(void *pbasic, CRef *aref);
-CRef func_00120548(void *pbasic, CRef *aref)
+extern "C" CRef RefOpEqv(void *pbasic, CRef *aref) asm("RefOpEqv__FiP4CRefP6CFrame");
+CRef RefOpEqv(void *pbasic, CRef *aref)
 {
     CRef *pa = &aref[0];
     register CRef *pb __asm__("$5") = &aref[1];  /* register pin: &aref[1] reuses the dead pbasic register (a1) as in the target */

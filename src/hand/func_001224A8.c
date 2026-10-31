@@ -4,7 +4,7 @@ extern PFNG D_002BBB70[];
 void func_00129558(CRef *pref, float g);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 void func_00129EC8(CRef *pref);
-CRef *func_001224A8(CRef *ret, CRef *parg, int i)
+CRef *RefUfo__FP4CRef4UFOK(CRef *ret, CRef *parg, int i)
 {
     CRef ref;
     float g;

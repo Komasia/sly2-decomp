@@ -13,9 +13,9 @@ struct VECTOR { float x, y, z; };
 struct NODE { int cref; int x4; CRef ref; NODE *pnext; };
 extern "C" {
 CRef func_00129DA8(CRef *pref);
-CRef func_00121DD8(int c, CRef *pref);
+CRef RefOpVector(int c, CRef *pref) asm("RefOpVector__FiP4CRefP6CFrame");
 }
-CRef func_00121DD8(int c, CRef *pref)
+CRef RefOpVector(int c, CRef *pref)
 {
     CRef ref(0x1A);
     VECTOR *pv = (VECTOR *)ref.u.pv;

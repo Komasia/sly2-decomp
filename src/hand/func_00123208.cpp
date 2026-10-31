@@ -15,7 +15,7 @@ struct W { char pad[0xC]; qword *pv; };
 extern qword g_normalZ;
 extern "C" {
 MATRIX3 func_0011B830(qword a, qword b);
-CRef func_00123208(void *pbasic, CRef *aref);
+CRef RefOpMatrixLookAt(void *pbasic, CRef *aref) asm("RefOpMatrixLookAt__FiP4CRefP6CFrame");
 }
 static inline qword VecSub(qword *pb, qword *pa)
 {
@@ -24,7 +24,7 @@ static inline qword VecSub(qword *pb, qword *pa)
     __asm__ ("vsub.xyzw %0, %0, %1" : "+j"(b) : "j"(a));
     return b;
 }
-CRef func_00123208(void *pbasic, CRef *aref)
+CRef RefOpMatrixLookAt(void *pbasic, CRef *aref)
 {
     qword *pup;
     if (aref[2].m_tagk == 0)

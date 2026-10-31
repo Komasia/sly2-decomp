@@ -3,7 +3,7 @@ void Decref__4CRef(CRef *pref);
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129DA8(CRef *pref, CRef *prefSrc);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-CRef *func_00122168(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpLm__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     int i;

@@ -13,7 +13,7 @@ struct CRef {
 struct W { char pad[0xC]; qword *pv; };
 extern qword D_002A2DD0;
 extern "C" {
-CRef func_00122810(void *pbasic, CRef *aref);
+CRef RefOpVectorDistance(void *pbasic, CRef *aref) asm("RefOpVectorDistance__FiP4CRefP6CFrame");
 }
 static inline float SDist(qword *pa, qword *pb)
 {
@@ -33,7 +33,7 @@ static inline float SDist(qword *pa, qword *pb)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef func_00122810(void *pbasic, CRef *aref)
+CRef RefOpVectorDistance(void *pbasic, CRef *aref)
 {
     CRef ref;
     if (aref[1].m_tagk == 0)

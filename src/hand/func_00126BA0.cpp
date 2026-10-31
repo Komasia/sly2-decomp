@@ -11,7 +11,7 @@ struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 struct P { char pad[0xC]; struct { char pad[0x10]; NODE *pargs; } *pv; };
 extern "C" {
 CRef func_00127838(NODE *p, void *penv);
-CRef func_00120548(int carg, CRef *aref, void *penv);
+CRef RefOpEqv(int carg, CRef *aref, void *penv) asm("RefOpEqv__FiP4CRefP6CFrame");
 CRef func_00126BA0(P *p, void *penv);
 }
 CRef func_00126BA0(P *p, void *penv)
@@ -37,7 +37,7 @@ CRef func_00126BA0(P *p, void *penv)
             pk = (NODE *)pc->ref.u.pv;
             while (pk) {
                 arefT[1] = pk->ref;
-                test = func_00120548(2, arefT, penv);
+                test = RefOpEqv(2, arefT, penv);
                 if (test.m_tagk == 0x17 && test.u.n) {
                     f = 1;
                     pk = 0;

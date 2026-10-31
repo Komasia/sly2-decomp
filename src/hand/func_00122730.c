@@ -13,7 +13,7 @@ static __inline__ int GDot(qword *pa, qword *pb)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef *func_00122730(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpVectorDotProduct__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     int g = GDot((qword *)aref[0].m_tag, (qword *)aref[1].m_tag);
     ret->m_tagk = 0x16;

@@ -10,10 +10,10 @@ struct CRef {
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 extern "C" {
-CRef func_001207F0(int carg, CRef *aref, void *pctx);
-CRef func_00120E10(int carg, CRef *aref, void *pctx);
+CRef RefOpEqual(int carg, CRef *aref, void *pctx) asm("RefOpEqual__FiP4CRefP6CFrame");
+CRef RefOpIsMember(int carg, CRef *aref, void *pctx) asm("RefOpIsMember__FiP4CRefP6CFrame");
 }
-CRef func_00120E10(int carg, CRef *aref, void *pctx)
+CRef RefOpIsMember(int carg, CRef *aref, void *pctx)
 {
     CRef ref;
     CRef arefT[2];
@@ -24,7 +24,7 @@ CRef func_00120E10(int carg, CRef *aref, void *pctx)
         arefT[0] = aref[0];
         for (p = (NODE *)aref[1].u.pv; p; p = p->pnext) {
             arefT[1] = p->ref;
-            ref = func_001207F0(2, arefT, pctx);
+            ref = RefOpEqual(2, arefT, pctx);
             if (ref.m_tagk == 0x17 && ref.u.n) {
                 pres->u.n = 1;
                 break;

@@ -39,8 +39,8 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef func_00127838(NODE *pn, CRef *aref);
-extern "C" CRef func_00121710(void *pbasic, CRef *aref, CRef *arefCall);
-CRef func_00121710(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
+extern "C" CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpMap__FiP4CRefP6CFrame");
+CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
  SPN spRes; spRes.Set(func_00256B48());
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
  *pa = aref[0]; NODE *pTail; NODE *pn; pn = (NODE *)aref[1].u.pv; while (pn) { *pb = pn->ref; SPN spNew; NODE *pnNew = func_00256B48(); spNew.Set(pnNew); spNew->ref = func_00127838(sp.p, arefCall);

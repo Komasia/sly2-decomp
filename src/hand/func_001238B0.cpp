@@ -11,8 +11,8 @@ struct CRef {
     CRef &operator=(float g);
 };
 struct NODE { int cref; int x4; CRef ref; NODE *pnext; };
-extern "C" CRef func_001238B0(void *pbasic, CRef *aref);
-CRef func_001238B0(void *pbasic, CRef *aref)
+extern "C" CRef RefOpMinimum(void *pbasic, CRef *aref) asm("RefOpMinimum__FiP4CRefP6CFrame");
+CRef RefOpMinimum(void *pbasic, CRef *aref)
 {
     CRef ref(aref[0]);
     if (aref[1].m_tagk != 0) aref = (CRef *)aref[1].u.pv; else aref = 0;

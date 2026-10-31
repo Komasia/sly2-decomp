@@ -26,7 +26,7 @@ struct CRef {
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 CRef func_00129BC8(CRef *pref, void *a, void *b);
-extern "C" CRef func_0011FEC8(void *pv, CRef *aref);
+extern "C" CRef RefOpDiv(void *pv, CRef *aref) asm("RefOpDiv__FiP4CRefP6CFrame");
 
 struct VU_FLOAT_V {
     qword q;
@@ -56,7 +56,7 @@ static inline void DivMatrix(MATRIX4 *pm, float d)
     *pm = mat;
 }
 
-CRef func_0011FEC8(void *pv, CRef *aref)
+CRef RefOpDiv(void *pv, CRef *aref)
 {
     CRef ref;
     int fInt = 0;

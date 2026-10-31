@@ -35,8 +35,8 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" CRef func_00120B08(void *pbasic, CRef *aref);
-CRef func_00120B08(void *pbasic, CRef *aref)
+extern "C" CRef RefOpCons(void *pbasic, CRef *aref) asm("RefOpCons__FiP4CRefP6CFrame");
+CRef RefOpCons(void *pbasic, CRef *aref)
 {
     SPN sp;
     sp.Set(func_00256B48());

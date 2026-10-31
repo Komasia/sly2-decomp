@@ -46,8 +46,8 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef func_00127838(NODE *pn, CRef *aref);
-extern "C" CRef func_00121938(void *pbasic, CRef *aref, CRef *arefCall);
-CRef func_00121938(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
+extern "C" CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpFilter__FiP4CRefP6CFrame");
+CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
  *pa = aref[0];
  SP spRes; NODE *pTail; NODE *pn = aref[1].u.pnode;

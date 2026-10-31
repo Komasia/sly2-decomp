@@ -4,7 +4,7 @@ void func_0012A0B0(CRef *pref, int tagk);
 void func_00129658(CRef *pref, CRef *prefSrc);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 void func_00129EC8(CRef *pref);
-CRef *func_00120D78(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpNth__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     func_0012A0B0(&ref, 0);

@@ -11,7 +11,7 @@ struct CRef {
 };
 struct W { char pad[0xC]; qword *pv; };
 extern qword D_002A2DD0;
-extern "C" CRef func_001229B8(void *pbasic, CRef *aref);
+extern "C" CRef RefOpVectorNormalize(void *pbasic, CRef *aref) asm("RefOpVectorNormalize__FiP4CRefP6CFrame");
 static __inline__ qword VLen(qword c)
 {
     qword l, one;
@@ -49,4 +49,4 @@ static __inline__ void Normalize1(qword *pv, qword *pdef)
         *pv = rn;
     }
 }
-CRef func_001229B8(void *pbasic, CRef *aref) { CRef ref((qword *)aref[0].u.pv); if (aref[1].m_tagk == 0) Normalize1(ref.u.pq, &D_002A2DD0); else Normalize(ref.u.pq, ((W *)aref[1].u.pv)->pv); return ref; }
+CRef RefOpVectorNormalize(void *pbasic, CRef *aref) { CRef ref((qword *)aref[0].u.pv); if (aref[1].m_tagk == 0) Normalize1(ref.u.pq, &D_002A2DD0); else Normalize(ref.u.pq, ((W *)aref[1].u.pv)->pv); return ref; }

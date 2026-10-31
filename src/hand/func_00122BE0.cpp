@@ -17,9 +17,9 @@ struct W { char pad[0xC]; O *po; };
 extern "C" {
 CRef func_00129DA8(CRef *pref);
 qword func_001D6848(qword a, qword b, qword c, float g);
-CRef func_00122BE0(void *pbasic, CRef *aref);
+CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref) asm("RefOpVectorBallisticVelocity__FiP4CRefP6CFrame");
 }
-CRef func_00122BE0(void *pbasic, CRef *aref)
+CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref)
 {
     VQ v;
     v.v.x = 0.0f;

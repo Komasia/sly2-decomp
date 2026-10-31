@@ -1,7 +1,7 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 void Decref__4CRef(CRef *pref);
 void InitTag__4CRef(CRef *pref, int tagk);
-CRef *func_00120330(CRef *ret)
+CRef *RefOpPrintSidebag__FiP4CRefP6CFrame(CRef *ret)
 {
     CRef ref;
     ref.m_tagk = -1;

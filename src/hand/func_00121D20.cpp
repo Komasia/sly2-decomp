@@ -36,8 +36,8 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" CRef func_00127838(NODE *pn, CRef *aref);
-extern "C" CRef func_00121D20(void *pbasic, CRef *pref, CRef *aref);
-CRef func_00121D20(void *pbasic, CRef *pref, CRef *aref)
+extern "C" CRef RefOpEval(void *pbasic, CRef *pref, CRef *aref) asm("RefOpEval__FiP4CRefP6CFrame");
+CRef RefOpEval(void *pbasic, CRef *pref, CRef *aref)
 {
     SPN sp;
     sp.Set(func_00256B48());

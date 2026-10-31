@@ -1,4 +1,4 @@
-// func_0011F960 MATCH (Claude agent, lane A12, 2026-10-23), from fresh4 (6): 0x1A/0x16 MulVectorR builds the VU float from the int bits with ONE commented pin ($17, pr's register, as the target), and MulMatrix (0x1B/0x16) has a commented volatile empty asm that keeps &mat after the mtc1. The other old pins were removed.
+// RefOpMult MATCH (Claude agent, lane A12, 2026-10-23), from fresh4 (6): 0x1A/0x16 MulVectorR builds the VU float from the int bits with ONE commented pin ($17, pr's register, as the target), and MulMatrix (0x1B/0x16) has a commented volatile empty asm that keeps &mat after the mtc1. The other old pins were removed.
 typedef int qword __attribute__((mode(TI)));
 struct VECTOR { float x, y, z, w; };
 struct MATRIX4 { float af[16]; } __attribute__((aligned(16)));
@@ -46,7 +46,7 @@ struct CRef {
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 CRef func_00129BC8(CRef *pref, void *a, void *b);
-extern "C" CRef func_0011F960(void *pv, CRef *aref);
+extern "C" CRef RefOpMult(void *pv, CRef *aref) asm("RefOpMult__FiP4CRefP6CFrame");
 
 static inline qword MulVF(const qword *pv, float g)
 {
@@ -109,7 +109,7 @@ static inline void Mul2(V8 *p, float d)
     p->x *= d;
     p->y *= d;
 }
-CRef func_0011F960(void *pv, CRef *aref)
+CRef RefOpMult(void *pv, CRef *aref)
 {
     CRef ref;
     int fInt = 0;

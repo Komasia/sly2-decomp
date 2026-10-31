@@ -1,4 +1,4 @@
-// (Claude agent, lane A9, 2026-10-23) script `-` builtin (probably), same shape as func_0011F440: the inline accessor in the
+// (Claude agent, lane A9, 2026-10-23) script `-` builtin (probably), same shape as RefOpAdd: the inline accessor in the
 // if/else keeps `pn = 0` after the branch (no jump.c rewrite), so reorg puts it in the beqz delay slot.
 typedef int qword __attribute__((mode(TI)));
 struct VECTOR { float x, y, z, w; };
@@ -17,10 +17,10 @@ struct CRef {
     CRef &operator=(const MATRIX4 &m);
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
-extern "C" CRef func_0011F6D0(void *pv, CRef *aref);
+extern "C" CRef RefOpSub(void *pv, CRef *aref) asm("RefOpSub__FiP4CRefP6CFrame");
 
 static inline NODE *PnFromRef(CRef *p) { return (NODE *)p->u.pv; }
-CRef func_0011F6D0(void *pv, CRef *aref)
+CRef RefOpSub(void *pv, CRef *aref)
 {
     CRef ref;
     int tagk = aref[0].m_tagk;

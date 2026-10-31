@@ -12,9 +12,9 @@ struct CRef {
 extern "C" {
 CRef func_00129DA8(CRef *pref);
 void func_0011D8D8(void *pv, float a, float b, float c, float d);
-CRef func_00123498(void *pbasic, CRef *aref);
+CRef RefOpClqFit(void *pbasic, CRef *aref) asm("RefOpClqFit__FiP4CRefP6CFrame");
 }
-CRef func_00123498(void *pbasic, CRef *aref)
+CRef RefOpClqFit(void *pbasic, CRef *aref)
 {
     CRef ref(0x1C);
     {

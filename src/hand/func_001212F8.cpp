@@ -38,8 +38,8 @@ struct SP {
     NODE *operator->() { return p; }
 };
 extern "C" SP func_00128CB8(NODE *src, void *a, void *b);
-extern "C" CRef func_001212F8(void *pbasic, CRef *aref);
-CRef func_001212F8(void *pbasic, CRef *aref) { if (aref[0].m_tagk == 0) return aref[0];
+extern "C" CRef RefOpAppend(void *pbasic, CRef *aref) asm("RefOpAppend__FiP4CRefP6CFrame");
+CRef RefOpAppend(void *pbasic, CRef *aref) { if (aref[0].m_tagk == 0) return aref[0];
  SP spRes; NODE *pTail;
  for (NODE *pn = aref[0].u.pnode; pn; pn = pn->pnext.p) {
    if (pn->ref.m_tagk != 0x1F) continue;

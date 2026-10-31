@@ -15,7 +15,7 @@ static __inline__ int GLength(qword *pa)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef *func_001227D0(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpVectorLth__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     int g = GLength((qword *)aref[0].m_tag);
     ret->m_tagk = 0x16;

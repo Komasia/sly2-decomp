@@ -1,5 +1,5 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *func_001239D8(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpModulo__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     int r = aref[0].m_tag % aref[1].m_tag;
     ret->m_tagk = 0x15;

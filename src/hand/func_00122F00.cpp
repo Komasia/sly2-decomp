@@ -33,8 +33,8 @@ static inline M3 MulM3(const M3 &a, M3 *pb) return m
             : "=j"(r2) : "j"(a.r[0]), "j"(a.r[1]), "j"(a.r[2]), "j"(pb->r[2]));
     m.r[2] = r2; t.r[2] = r2;
 }
-extern "C" CRef func_00122F00(void *pv, CRef *aref);
-CRef func_00122F00(void *pv, CRef *aref)
+extern "C" CRef RefOpMatrixInterpolateRotate(void *pv, CRef *aref) asm("RefOpMatrixInterpolateRotate__FiP4CRefP6CFrame");
+CRef RefOpMatrixInterpolateRotate(void *pv, CRef *aref)
 {
     M3 mat = func_0011BC00((M3 *)aref[0].u.pv, (M3 *)aref[1].u.pv);
     UF normal;

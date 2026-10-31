@@ -2,7 +2,7 @@ typedef struct CRef { int m_tagk; void *m_p; } CRef;
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129658(CRef *pref, CRef *prefSrc);
 void func_00256C58(void *p, void *q);
-CRef *func_00120C48(CRef *ret, void *pbasic, CRef *aref, int cref, int k)
+CRef *RefOpSetCadr__FiP4CRefP6CFrame4BIFK(CRef *ret, void *pbasic, CRef *aref, int cref, int k)
 {
     char *p = aref[0].m_p;
     if (k == 0x23)

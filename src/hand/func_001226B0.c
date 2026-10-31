@@ -1,6 +1,6 @@
 typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
 float func_002458F0(float y, float x);
-CRef *func_001226B0(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpAtan2__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     float ag[2];
     int i;

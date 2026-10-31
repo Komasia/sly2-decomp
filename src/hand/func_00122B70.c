@@ -3,7 +3,7 @@ typedef struct CRef { int m_tagk; int m_tag; } CRef;
 CRef *func_00129248(CRef *pref, qword v);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 void func_00129EC8(CRef *pref);
-CRef *func_00122B70(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpVectorProjectTangent__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     register qword a __asm__("vf3") = *(qword *)aref[0].m_tag;

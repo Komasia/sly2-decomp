@@ -18,10 +18,10 @@ struct CRef {
     CRef &operator=(const MATRIX4 &m);
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
-extern "C" CRef func_0011F440(void *pv, CRef *aref);
+extern "C" CRef RefOpAdd(void *pv, CRef *aref) asm("RefOpAdd__FiP4CRefP6CFrame");
 
 static inline NODE *PnFromRef(CRef *p) { return (NODE *)p->u.pv; }
-CRef func_0011F440(void *pv, CRef *aref)
+CRef RefOpAdd(void *pv, CRef *aref)
 {
     CRef ref;
     int tagk = aref[0].m_tagk;

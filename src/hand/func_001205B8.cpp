@@ -15,8 +15,8 @@ struct NODE { int cref; int n4; CRef ref; NODE *pnext; };
 struct W { int cref; int n4; int n8; CRef ref; int n14; NODE *pnext; };
 struct X { int cref; int n4; int n8; int nC; };
 
-extern "C" CRef func_001205B8(const CRef &a, const CRef &b);
-CRef func_001205B8(const CRef &a, const CRef &b)
+extern "C" CRef RefEqualHelper(const CRef &a, const CRef &b) asm("RefEqualHelper__FP4CRefT0");
+CRef RefEqualHelper(const CRef &a, const CRef &b)
 {
     int f;
     if (a.m_tagk != b.m_tagk) {
@@ -32,7 +32,7 @@ CRef func_001205B8(const CRef &a, const CRef &b)
                 f = 0;
             } else {
                 CRef r;
-                r = func_001205B8(pa->ref, pb->ref);
+                r = RefEqualHelper(pa->ref, pb->ref);
                 if (r.u.n == 0) {
                     f = 0;
                 } else if (pa->pnext == 0) {
@@ -40,7 +40,7 @@ CRef func_001205B8(const CRef &a, const CRef &b)
                 } else {
                     CRef ra(pa->pnext);
                     CRef rb(pb->pnext);
-                    r = func_001205B8(ra, rb);
+                    r = RefEqualHelper(ra, rb);
                     f = r.u.n;
                 }
             }
@@ -60,7 +60,7 @@ CRef func_001205B8(const CRef &a, const CRef &b)
             } else {
                 CRef ra(pa->pnext);
                 CRef rb(pb->pnext);
-                f = func_001205B8(ra, rb).u.n;
+                f = RefEqualHelper(ra, rb).u.n;
             }
             break;
         }

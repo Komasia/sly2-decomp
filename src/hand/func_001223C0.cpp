@@ -14,9 +14,9 @@ extern "C" {
 CRef func_00129DA8(CRef *pref);
 int func_0011D3F8(int a, int b);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
-CRef func_001223C0(void *pbasic, CRef *aref);
+CRef RefOpRandom(void *pbasic, CRef *aref) asm("RefOpRandom__FiP4CRefP6CFrame");
 }
-CRef func_001223C0(void *pbasic, CRef *aref)
+CRef RefOpRandom(void *pbasic, CRef *aref)
 {
     CRef ref;
     if (aref[0].m_tagk == 0x15 && aref[1].m_tagk == aref[0].m_tagk) {

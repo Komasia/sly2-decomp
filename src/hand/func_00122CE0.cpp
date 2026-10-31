@@ -39,8 +39,8 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" float func_0011E4B0(qword a, qword b, void *pvec);
-extern "C" CRef func_00122CE0(void *pbasic, CRef *aref);
-CRef func_00122CE0(void *pbasic, CRef *aref)
+extern "C" CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref) asm("RefOpVectorRadianNormal__FiP4CRefP6CFrame");
+CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref)
 {
     SPN sp;
     sp.Set(func_00256B48());

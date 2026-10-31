@@ -2,7 +2,7 @@ typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
 void Decref__4CRef(CRef *pref);
 void func_00129DA8(CRef *pref, CRef *prefSrc);
 int func_0011D910(int n, float g);
-CRef *func_00123608(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpLmCheck__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     int n = aref[0].u.n;
     CRef ref;

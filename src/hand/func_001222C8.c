@@ -8,7 +8,7 @@ void Decref__4CRef(CRef *pref);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 CRef *func_00129558(CRef *pref, float g);
 CRef *func_001296A8(CRef *pref, VECTOR *pv);
-CRef *func_001222C8(CRef *ret, int carg, CRef *aref)
+CRef *RefOpGetElement__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
     CRef ref;
     IDX *pidx;

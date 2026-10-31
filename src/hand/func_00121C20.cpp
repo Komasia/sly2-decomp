@@ -37,8 +37,8 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef func_00127838(NODE *pn, CRef *aref);
-extern "C" CRef func_00121C20(void *pbasic, CRef *aref, CRef *arefCall);
-CRef func_00121C20(void *pbasic, CRef *aref, CRef *arefCall)
+extern "C" CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpForEach__FiP4CRefP6CFrame");
+CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall)
 {
     if (aref[1].m_tagk == 0x1F) {
         SPN sp;

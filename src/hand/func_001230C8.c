@@ -4,7 +4,7 @@ void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void func_00129248(CRef *pref, TI vec);
 TI func_0011BFF0(int n);
-CRef *func_001230C8(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpMatrixDecomposeToEuler__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     func_00129248(&ref, func_0011BFF0(aref->m_tag));

@@ -16,9 +16,9 @@ struct XF { char pad[0x30]; qword pos; };
 extern "C" {
 void func_0011B938(XF *pxf, int f, MATRIX3 *pmat);
 VECTOR *func_00256D18(VECTOR *pv, qword q);
-CRef func_001232D0(void *pbasic, CRef *aref);
+CRef RefOpMatrixTiltUpright(void *pbasic, CRef *aref) asm("RefOpMatrixTiltUpright__FiP4CRefP6CFrame");
 }
-CRef func_001232D0(void *pbasic, CRef *aref)
+CRef RefOpMatrixTiltUpright(void *pbasic, CRef *aref)
 {
     MATRIX3 mat;
     func_0011B938((XF *)aref[0].u.pv, 0, &mat);
