@@ -9,9 +9,9 @@ extern "C"{
 extern int D_002DEB28,D_003E0F8C;
 extern char g_game[],D_002E65E0[],D_003D4A60[];
 extern G D_003DD490;
-HEAP_SCOPE*func_001AE478(HEAP_SCOPE*);
+HEAP_SCOPE*__10STACKSCOPE(HEAP_SCOPE*);
 void*func_001AE378(const REQUEST&);
-void func_001AE4A0(HEAP_SCOPE*,int);
+void _$_10STACKSCOPE(HEAP_SCOPE*,int);
 void func_00164CE8(P*,int,int*,P**);
 void func_00165A60(P*,int);
 int func_00210AE0(void);
@@ -23,7 +23,7 @@ CRef*func_001291A8(CRef*,const CRef*);
 void func_00129EC8(CRef*);
 }
 static inline void*Allocate(int n){return func_001AE378(REQUEST(n,16));}
-struct HEAP_SCOPE{HEAP_SCOPE(){func_001AE478(this);}~HEAP_SCOPE(){func_001AE4A0(this,2);}};
+struct HEAP_SCOPE{HEAP_SCOPE(){__10STACKSCOPE(this);}~HEAP_SCOPE(){_$_10STACKSCOPE(this,2);}};
 struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
     OVERRIDE(P*p,int x,int y):context(0),object(p){if(object){oldX=object->x;object->x=x;oldY=object->y;object->y=y;}}
     ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}

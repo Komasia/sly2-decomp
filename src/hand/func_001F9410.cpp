@@ -24,8 +24,8 @@ struct FRAME;
 extern CLOCK g_clock;
 extern GAME D_003DD490;
 extern "C" {
-FRAME *func_001AE478(FRAME *);
-void func_001AE4A0(FRAME *,int);
+FRAME *__10STACKSCOPE(FRAME *);
+void _$_10STACKSCOPE(FRAME *,int);
 DZG *func_001585D8(DZG *,int,XP **,int,P **);
 void func_00158668(DZG *,DZ *,DZS *);
 void func_00158988(DZG *,int);
@@ -38,7 +38,7 @@ void func_00158B20(DZG *,int);
 void func_001F9C48(P *);
 }
 // Stack frame mark: ctor 0x1AE478, dtor 0x1AE4A0 (called with the 2.95 in-charge flag 2).
-struct FRAME {FRAME(){func_001AE478(this);}~FRAME(){func_001AE4A0(this,2);}};
+struct FRAME {FRAME(){__10STACKSCOPE(this);}~FRAME(){_$_10STACKSCOPE(this,2);}};
 
 #define FLT_MAX 3.40282347e+38f
 

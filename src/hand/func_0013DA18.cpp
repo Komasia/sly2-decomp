@@ -16,8 +16,8 @@
 extern "C" {
 struct BIS;
 struct AREQ { int cb; int cbAlign; };
-void func_001AE478(void *p);
-void func_001AE4A0(void *p, int n);
+void __10STACKSCOPE(void *p);
+void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 void *PvAllocSlot(AREQ *preq) asm("PvAllocSlot__FP8ALLOCREQ");

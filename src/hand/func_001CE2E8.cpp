@@ -32,8 +32,8 @@ struct FRAME { int a[4]; };
 extern "C" {
 extern DLI *s_pdliFirst; /* innermost active list iterator */
 extern CLOCK g_clock;
-FRAME *func_001AE478(FRAME *);
-void func_001AE4A0(FRAME *, int);
+FRAME *__10STACKSCOPE(FRAME *);
+void _$_10STACKSCOPE(FRAME *, int);
 void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00118A88(void *, int, qword, float, int *, ENTRY **);
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
@@ -62,7 +62,7 @@ void BounceRipgRips(P *p)
                 if ((shape->flags & (1UL << 48)) && !special) continue;
                 {
                     FRAME frame;
-                    func_001AE478(&frame);
+                    __10STACKSCOPE(&frame);
                     PHASE phase;
                     XP contacts[4];
                     int remaining;
@@ -74,7 +74,7 @@ void BounceRipgRips(P *p)
                         SetAlign(&phase.request, 16);
                         entries = (ENTRY *)PvAllocSlot(&phase.request);
                         if (func_00118A88(shape->tree, 0x7FFFFFFF, Origin(p->state), p->state->radius, &remaining, &entries) != 2) {
-                            func_001AE4A0(&frame, 2);
+                            _$_10STACKSCOPE(&frame, 2);
                             continue;
                         }
                         entries--;
@@ -92,7 +92,7 @@ void BounceRipgRips(P *p)
                         } while (i < count);
                     }
                     s_pdliFirst = phase.rip.outer;
-                    func_001AE4A0(&frame, 2);
+                    _$_10STACKSCOPE(&frame, 2);
                 }
             }
             s_pdliFirst = shapes.outer;

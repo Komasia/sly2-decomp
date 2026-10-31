@@ -30,8 +30,8 @@ typedef struct DZG {
     void *pv4C;
 } DZG;
 
-void func_001AE478(FRAME *pframe);
-void func_001AE4A0(FRAME *pframe, int n);
+void __10STACKSCOPE(FRAME *pframe);
+void _$_10STACKSCOPE(FRAME *pframe, int n);
 void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
 void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
 DZG *func_0011A550(DZG *pdzg, int cdzsMax);
@@ -46,7 +46,7 @@ void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
     MSG msg;
     int i;
 
-    func_001AE478(&frame);
+    __10STACKSCOPE(&frame);
     func_0011A550(&dzg, c);
     for (i = 0; i < c; i++) {
         DZ *pdz = &dzg.adzs[i];
@@ -61,5 +61,5 @@ void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
     for (i = 0; i < c; i++) {
         agX[i] = dzg.adzs[i].gC;
     }
-    func_001AE4A0(&frame, 2);
+    _$_10STACKSCOPE(&frame, 2);
 }

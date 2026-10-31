@@ -2,12 +2,12 @@
  * inline constructor (vtable g_vtvolbtn, null pframe / psidebag reference pointers). */
 #include "so.h"
 
-void *func_001AE4F8(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
+void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 extern VTE g_vtvolbtn[];
 
 BASIC *func_00110FE8(void)
 {
-    BASIC *pbasic = (BASIC *)func_001AE4F8(0x2D0);
+    BASIC *pbasic = (BASIC *)__builtin_new(0x2D0);
 
     pbasic->pvt = g_vtvolbtn;
     pbasic->pframe = NULL;

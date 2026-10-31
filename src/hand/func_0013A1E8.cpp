@@ -41,8 +41,8 @@ extern VIFS D_002DEA28;
 extern char D_00000000[];
 extern char D_00000390[];
 extern char D_00000870[];
-void func_001AE478(FRAME *pf);
-void func_001AE4A0(FRAME *pf, int n);
+void __10STACKSCOPE(FRAME *pf);
+void _$_10STACKSCOPE(FRAME *pf, int n);
 int FIsDlEmpty(void *pdl) asm("FIsDlEmpty__FP2DL");
 int func_0011A3C0(void *pdl);
 void *PvAllocSlot(const AL &al) asm("PvAllocSlot__FP8ALLOCREQ");
@@ -81,7 +81,7 @@ static inline qword RotKZ(const M3 &m, qword v, qword k, int z)
 void func_0013A1E8(P *p)
 {
     FRAME frame;
-    func_001AE478(&frame);
+    __10STACKSCOPE(&frame);
     int cLight;
     M4 *aLight;
     if (p->xE0 != 0 && FIsDlEmpty(&p->xE0->x11C) == 0) {
@@ -150,7 +150,7 @@ void func_0013A1E8(P *p)
     }
     if (cLight == 0) {
     none:
-        func_001AE4A0(&frame, 2);
+        _$_10STACKSCOPE(&frame, 2);
         return;
     }
     int c = 0;
@@ -190,5 +190,5 @@ void func_0013A1E8(P *p)
     func_001576F0(&D_002DEA28);
     func_00157620(&D_002DEA28);
     pdma->x8 = save;
-    func_001AE4A0(&frame, 2);
+    _$_10STACKSCOPE(&frame, 2);
 }

@@ -2,12 +2,12 @@
  * inline constructor (vtable g_vtlight, null pframe / psidebag reference pointers). */
 #include "so.h"
 
-void *func_001AE4F8(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
+void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 extern VTE g_vtlight[];
 
 BASIC *func_00110B48(void)
 {
-    BASIC *pbasic = (BASIC *)func_001AE4F8(0x170);
+    BASIC *pbasic = (BASIC *)__builtin_new(0x170);
 
     pbasic->pvt = g_vtlight;
     pbasic->pframe = NULL;

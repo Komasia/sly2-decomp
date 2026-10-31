@@ -35,8 +35,8 @@ void func_00256D18(VECTOR *pv, qword v);
 float func_002458F0(float y, float x);
 qword func_0011E1A0(float a, float b, float c);
 void func_0011EFB0(qword v, float *pa, float *pb, float *pc);
-FRAME *func_001AE478(FRAME *pf);
-void func_001AE4A0(FRAME *pf, int n);
+FRAME *__10STACKSCOPE(FRAME *pf);
+void _$_10STACKSCOPE(FRAME *pf, int n);
 void func_001B44D8(int *pc, void **pa);
 float RadNormalize(float g) asm("RadNormalize__Ff");
 qword func_0011E208(float pan, float tilt, float s);
@@ -109,7 +109,7 @@ qword func_00155FB0(void *p, qword pos)
         off.q = func_0011E1A0(func_002458F0(((float *)pm)[1], ((float *)pm2)[0]), D_002BDC98, 0.0f);
     }
     func_0011EFB0(Sub(Add(posTarget, off.q), pos), &pan, &tilt, &s);
-    func_001AE478(&frame);
+    __10STACKSCOPE(&frame);
     func_001B44D8(&c, &av);
     gBest = D_002A513C;
     for (i = 0; i < 11; i++) {
@@ -133,7 +133,7 @@ qword func_00155FB0(void *p, qword pos)
     }
     {
         qword r = Add(pos, func_0011E208(panBest, tilt, s));
-        func_001AE4A0(&frame, 2);
+        _$_10STACKSCOPE(&frame, 2);
         return r;
     }
 }

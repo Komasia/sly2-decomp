@@ -10,8 +10,8 @@ struct OBJECT{char pad[0x1C];int count;void*segments;char pad24[8];};
 struct HEADER{ushort flags,base,pad4,pad6,position,weights,color,end,extra,extra2;ushort segments[2],bones[4];};
 struct REQUEST{int bytes,alignment;REQUEST(int cb,int a):bytes(cb),alignment(a){}};
 extern "C"{
-void*func_001AE478(void*);
-void func_001AE4A0(void*,int);
+void*__10STACKSCOPE(void*);
+void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 OBJECT*func_001EC8F8(int);
 int func_001EC688(OBJECT*,int,int,VIFS*);
@@ -22,8 +22,8 @@ extern uint D_002BE540[];
 extern UPK D_002BE558[];
 extern char D_00000000[],D_00001910[],D_00001A68[];
 }
-struct MARK{MARK(){func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
-struct LEASE{LEASE(){func_001AE478(this);}void Release(){func_001AE4A0(this,2);}};
+struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
+struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
 static inline void*Allocate(int bytes){return PvAllocSwClearImpl(REQUEST(bytes,16));}
 typedef char D_Size[sizeof(D)==20?1:-1];
 typedef char BONE_Size[sizeof(BONE)==80?1:-1];

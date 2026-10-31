@@ -24,8 +24,8 @@ extern CLOCK g_clock;
 extern LM g_lmZeroOne;
 extern CAMERA D_002DDF40;
 extern qword g_normalZ;
-FRAME *func_001AE478(FRAME *);
-void func_001AE4A0(FRAME *, int);
+FRAME *__10STACKSCOPE(FRAME *);
+void _$_10STACKSCOPE(FRAME *, int);
 void func_001B44D8(int *, void ***);
 qword func_001A62E8(LO *);
 M4 *func_001A6318(LO *);
@@ -115,7 +115,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
     }
     SEL *pselBest;
     int fFlip = 0;
-    func_001AE478(&frame);
+    __10STACKSCOPE(&frame);
     func_001B44D8(&cplo, &aplo);
     pselBest = 0;
     float sBest = D_002A53E0;
@@ -221,6 +221,6 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
     *pposOut = posBest.q;
     *pmatOut = matBest;
     *pfFlip = fFlip;
-    func_001AE4A0(&frame, 2);
+    _$_10STACKSCOPE(&frame, 2);
     return pselBest;
 }

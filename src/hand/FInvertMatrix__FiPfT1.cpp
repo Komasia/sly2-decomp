@@ -1,12 +1,12 @@
 // Gauss-Jordan inverse with column pivoting. Sly 2 takes (stride c, size n, src, dst); the symbol name comes from Sly 1.
 extern "C" {
-void func_001AE478(void *p);
-void func_001AE4A0(void *p, int n);
+void __10STACKSCOPE(void *p);
+void _$_10STACKSCOPE(void *p, int n);
 struct MSG { int cb; int nKind; };
 void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 void func_001AE5A0(void *pvDst, void *pvSrc, int cb);
 }
-class FRAME { public: FRAME() { func_001AE478(this); } ~FRAME() { func_001AE4A0(this, 2); } int a[4]; };
+class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } int a[4]; };
 static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSlot(pmsg); }
 static inline float GAbs(float g) { return __builtin_fabsf(g); }
 

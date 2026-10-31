@@ -3487,11 +3487,11 @@ PvAllocSlot__FP8ALLOCREQ,0x1AE318,24,match,src/auto/func_001AE318.c
 func_001AE378,0x1AE378,23,match,src/hand/func_001AE378.c
 InitStackImpl__Fv,0x1AE3D8,19,match,src/hand/InitStackImpl__Fv.cpp
 FreeStackImpl__Fv,0x1AE428,19,match,src/hand/FreeStackImpl__Fv.cpp
-func_001AE478,0x1AE478,10,match,src/auto/func_001AE478.c
-func_001AE4A0,0x1AE4A0,17,match,src/auto/func_001AE4A0.c
+__10STACKSCOPE,0x1AE478,10,match,src/hand/func_001AE478.cpp
+_$_10STACKSCOPE,0x1AE4A0,17,match,src/hand/func_001AE4A0.cpp
 malloc,0x1AE4E8,2,match,src/hand/malloc.c
 free,0x1AE4F0,2,match,src/hand/free.c
-func_001AE4F8,0x1AE4F8,10,match,src/hand/func_001AE4F8.c
+__builtin_new,0x1AE4F8,10,match,src/hand/func_001AE4F8.c
 __builtin_delete,0x1AE520,2,match,src/hand/__builtin_delete.c
 CopyAqw__FPvT0i,0x1AE528,29,match,src/hand/CopyAqw__FPvT0i.cpp
 CopyAb__FPvT0Ui,0x1AE5A0,54,match,src/hand/CopyAb__FPvT0Ui.cpp

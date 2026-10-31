@@ -24,8 +24,8 @@ void func_002577E0(void);
 void func_00257948(void);
 void func_00257AB0(void);
 void func_00257C18(void);
-void func_001AE478(CTX *);
-void func_001AE4A0(CTX *, int);
+void __10STACKSCOPE(CTX *);
+void _$_10STACKSCOPE(CTX *, int);
 void *PvAllocSlot__FP8ALLOCREQ(MSG *);
 void func_001285D8(GC *, void *);
 void func_001281B0(GC *);
@@ -73,7 +73,7 @@ void func_001286E0(GC *pgc)
     func_002574F8();
     func_00257500();
     func_00257508();
-    func_001AE478(&ctx);
+    __10STACKSCOPE(&ctx);
     InitStack(&pgc->cFrame, (void ***)&pgc->apFrame, D_00452108);
     InitStack(&pgc->cNode, (void ***)&pgc->apNode, D_004520B8);
     pgc->apClo = (void **)AllocA(D_00452130);
@@ -116,5 +116,5 @@ void func_001286E0(GC *pgc)
     func_00257948();
     func_00257AB0();
     func_00257C18();
-    func_001AE4A0(&ctx, 2);
+    _$_10STACKSCOPE(&ctx, 2);
 }

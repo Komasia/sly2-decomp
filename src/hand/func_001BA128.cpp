@@ -21,8 +21,8 @@ int func_00131968(POOL*);
 qword func_0022FC48(SPACE*,SPACE*,qword);
 M3*func_0011BA08(M3*,qword,qword);
 qword func_0011BFF0(M3*);
-void*func_001AE478(void*);
-void func_001AE4A0(void*,int);
+void*__10STACKSCOPE(void*);
+void _$_10STACKSCOPE(void*,int);
 int func_001BA100(void*,ROW*);
 void func_0020FAA0(GAME*,qword,qword,int(*)(void*,ROW*),void*,int*,ROW***);
 extern P*D_003E1444;
@@ -30,7 +30,7 @@ extern float D_002A7620;
 extern qword D_002C0A80,D_002C0A90,D_002C0AA0;
 extern GAME D_003DD490;
 }
-struct MARK{MARK(){func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
+struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 static inline qword Vector(qword r){qword v;__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(r));return v;}
 static inline qword Sub(qword a,qword b){qword q;__asm__("vsub.xyzw %0,%1,%2":"=j"(q):"j"(a),"j"(b));return q;}
 static inline qword Add(qword a,qword b){qword q;__asm__("vadd.xyzw %0,%1,%2":"=j"(q):"j"(a),"j"(b));return q;}

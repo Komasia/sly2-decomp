@@ -9,8 +9,8 @@ struct S { char pad[0xE0]; int c; };
 extern qword g_normalZ;
 extern qword D_002A2DD0;
 extern "C" {
-MARK *func_001AE478(MARK *pm);
-void func_001AE4A0(MARK *pm, int n);
+MARK *__10STACKSCOPE(MARK *pm);
+void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 qword func_001A62E8(void *p);
 int func_00132B10(struct J *pj, int k);
@@ -51,7 +51,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
         work.a.f[2] = pj->px->g8;
     }
     work.b.f[2] = pj->px->g18;
-    func_001AE478(&work.mark);
+    __10STACKSCOPE(&work.mark);
     {
         MSG *pm = &work.msg;
         pm->cb = p->c * 4;
@@ -62,7 +62,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
     if (!func_0014CDB0(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {
         if (pnormal)
             *pnormal = g_normalZ;
-        func_001AE4A0(&work.mark, 2);
+        _$_10STACKSCOPE(&work.mark, 2);
         return 0.0f;
     }
     if (ppos)
@@ -80,6 +80,6 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
             *pnormal = g_normalZ;
     }
     g = work.alsg[0].g44 - work.alsg[0].g40;
-    func_001AE4A0(&work.mark, 2);
+    _$_10STACKSCOPE(&work.mark, 2);
     return g;
 }

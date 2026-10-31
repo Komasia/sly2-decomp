@@ -6,8 +6,8 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a[3]; struct VTE *vt; int pad[6]; unsigned long fl; };
 struct DA { int n0; int cMax; int c; struct O **a; };
 struct S { char pad[0xE0]; int c; struct O **apo; };
-void func_001AE478(struct C *);
-void func_001AE4A0(struct C *, int);
+void __10STACKSCOPE(struct C *);
+void _$_10STACKSCOPE(struct C *, int);
 void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct S *p, void *q);
 void func_0013F888(struct DA *pda);
 void func_002317E0(struct S *p, void *q, struct DA *pda);
@@ -19,7 +19,7 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
     MSG msg;
     int i;
     LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(p, q);
-    func_001AE478(&ctx);
+    __10STACKSCOPE(&ctx);
     func_0013F888(&da);
     func_002317E0(p, q, &da);
     p->apo = PvAllocMsg(&msg, da.c * 4, 0x10);
@@ -33,5 +33,5 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
             p->apo[p->c++] = o;
         }
     }
-    func_001AE4A0(&ctx, 2);
+    _$_10STACKSCOPE(&ctx, 2);
 }

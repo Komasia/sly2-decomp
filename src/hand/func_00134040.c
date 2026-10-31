@@ -8,8 +8,8 @@ struct P { char pad[0x3D34]; struct X *pxFirst; };
 struct C { int a[4]; };
 void func_00133E30(struct P *p);
 void func_00133E80(struct P *p);
-struct C *func_001AE478(struct C *);
-void func_001AE4A0(struct C *, int);
+struct C *__10STACKSCOPE(struct C *);
+void _$_10STACKSCOPE(struct C *, int);
 void func_001A7E10(struct P *, void *);
 void *func_001AA1D8(struct P *, struct X *, struct X *);
 void func_001F5078(struct LO *);
@@ -24,7 +24,7 @@ void func_00134040(struct P *p)
     int i;
     func_00133E30(p);
     func_00133E80(p);
-    func_001AE478(&ctx);
+    __10STACKSCOPE(&ctx);
     for (px = p->pxFirst; px; px = px->pnext) {
         unsigned long grf = px->grf;
         struct L *pl;
@@ -75,5 +75,5 @@ void func_00134040(struct P *p)
         px->grf &= ~8L;
         VCALL(px->plo, 58, void (*)(void *)));
     }
-    func_001AE4A0(&ctx, 2);
+    _$_10STACKSCOPE(&ctx, 2);
 }

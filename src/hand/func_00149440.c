@@ -12,8 +12,8 @@ struct P {
 };
 void func_001A5E28(struct P *);
 void func_00149718(struct P *, int);
-struct CTX *func_001AE478(struct CTX *);
-void func_001AE4A0(struct CTX *, int);
+struct CTX *__10STACKSCOPE(struct CTX *);
+void _$_10STACKSCOPE(struct CTX *, int);
 void func_001AE5A0(void *, void *, int);
 int func_0015E9C8(struct G *, int, int, int, int, void **);
 int func_001A61A0(void *);
@@ -39,7 +39,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
         int c;
         int j;
         int cSel;
-        func_001AE478(&ctx);
+        __10STACKSCOPE(&ctx);
         func_001AE5A0(apo, p->a28C, p->c288 * 4);
         c = p->c288;
         for (; i < p->c2AC; i++)
@@ -97,6 +97,6 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
             }
         }
         func_00149718(p, fFound);
-        func_001AE4A0(&ctx, 2);
+        _$_10STACKSCOPE(&ctx, 2);
     }
 }

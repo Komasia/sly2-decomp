@@ -12,8 +12,8 @@ struct OBJECT{char pad[0x1C];int count;void*segments;};
 struct HEADER{ushort flags,base,vertices,pad6,pad8,padA,padC,padE,weight,end,segments[2],bones[4];};
 struct REQUEST{int bytes,alignment;REQUEST(int cb,int a):bytes(cb),alignment(a){}void*Allocate();void*AllocateZero();};
 extern "C"{
-void*func_001AE478(void*);
-void func_001AE4A0(void*,int);
+void*__10STACKSCOPE(void*);
+void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void*PvAllocSlot(const REQUEST&) asm("PvAllocSlot__FP8ALLOCREQ");
 void*func_002333B4(void*,int,uint);
@@ -29,8 +29,8 @@ extern uint D_002BE540[];
 extern UPK D_002BE558[];
 extern char D_00000000[],D_00001910[],D_00001A68[];
 }
-struct MARK{MARK(){func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
-struct LEASE{LEASE(){func_001AE478(this);}void Release(){func_001AE4A0(this,2);}};
+struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
+struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
 inline void*REQUEST::Allocate(){return PvAllocSlot(*this);}
 inline void*REQUEST::AllocateZero(){return PvAllocSwClearImpl(*this);}
 static inline void*Allocate(int bytes){return REQUEST(bytes,16).Allocate();}

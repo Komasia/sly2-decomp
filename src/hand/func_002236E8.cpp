@@ -5,7 +5,7 @@
 // tested against the camera hulls (FFindCmClearInterval). The first visible point resets tLastSeen; when the hero
 // has been hidden for more than D_002C4114 (2.0) seconds the camera cuts (CutCm).
 // MATCH notes (Lilly's agent, T1578): STACKSCOPE needs its real out-of-line ctor/dtor (an inline wrapper calling
-// func_001AE478 makes gcc keep hi(g_clock) in $fp). Loop 1 keeps a pointer to the current sample and loop 2 starts
+// __10STACKSCOPE makes gcc keep hi(g_clock) in $fp). Loop 1 keeps a pointer to the current sample and loop 2 starts
 // from `pqw -= 4`: loop.c emits the pointer's final value after loop 1 and cse2 folds the rewind to sp+0x30, which
 // is why the game sets the loop-2 pointer in the STACKSCOPE constructor's delay slot. Any `&aqw[3]` written after
 // loop 1 is hoisted above loop 1 by gcse's PRE instead.

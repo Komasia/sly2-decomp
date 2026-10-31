@@ -15,8 +15,8 @@ struct GRAPH { char pad[0x10]; int cnav; char pad14[8]; ADJ *aadj; int cedge; ED
 struct NODE { NAV *pnav; EDGE *pedge; NODE *pnodeParent; float gCost; float gEstimate; int state; NODE *pnodeNext; NODE *pnodePrev; };
 
 extern "C" {
-void *func_001AE478(void *pframe);
-void func_001AE4A0(void *pframe, int n);
+void *__10STACKSCOPE(void *pframe);
+void _$_10STACKSCOPE(void *pframe, int n);
 void *func_001AE378(MSG *pmsg);
 void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
 void *func_002333B4(void *pv, int b, unsigned int cb);

@@ -24,8 +24,8 @@ int func_0011D910(void *p, float f);
 float RadNormalize__Ff(float f);
 qword *func_001A6318(struct A *a);
 void func_0011E958(qword v, int n, float *pf);
-void func_001AE478(struct X *x);
-void func_001AE4A0(struct X *x, int n);
+void __10STACKSCOPE(struct X *x);
+void _$_10STACKSCOPE(struct X *x, int n);
 int func_0020FA10(void);
 void func_0020FAA0(struct G *g, qword a, qword b, int (*fn)(void), int z, int *pa, int *pb);
 struct R *func_0014CC58(int n, qword a, qword b, int c, int d, struct Y *y);
@@ -88,14 +88,14 @@ int func_00175D00(struct S *p) {
     }
     {
         struct R *r;
-        func_001AE478(&x);
+        __10STACKSCOPE(&x);
         func_0020FAA0(&D_003DD490, pa, pb, func_0020FA10, p->p10->nEC, &na, &nb);
         r = func_0014CC58(0, pa, pb, na, nb, &y);
         if (r && r->p4->p14->p0 != p->p30) {
-            func_001AE4A0(&x, 2);
+            _$_10STACKSCOPE(&x, 2);
             return 0;
         }
-        func_001AE4A0(&x, 2);
+        _$_10STACKSCOPE(&x, 2);
         return 1;
     }
 }

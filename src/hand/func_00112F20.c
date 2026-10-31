@@ -2,12 +2,12 @@
  * inline constructor (vtable g_vtcircler, null pframe / psidebag reference pointers). */
 #include "so.h"
 
-void *func_001AE4F8(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
+void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 extern VTE g_vtcircler[];
 
 BASIC *func_00112F20(void)
 {
-    BASIC *pbasic = (BASIC *)func_001AE4F8(0x60);
+    BASIC *pbasic = (BASIC *)__builtin_new(0x60);
 
     pbasic->pvt = g_vtcircler;
     pbasic->pframe = NULL;

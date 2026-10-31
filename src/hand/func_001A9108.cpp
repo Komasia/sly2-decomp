@@ -8,8 +8,8 @@ struct HIT{qword p;char pad10[0x30];float time;char pad44[0x1C];};
 struct OUT{qword p,plane;int kind;};
 union U{qword q;float f[4];};union SCR{REQ req;U u;};
 struct WORK{FRAME frame;SCR scratch;HIT hits[16];int count;ENTRY*end;U position,endpoint;};
-extern "C" FRAME*func_001AE478(FRAME*);
-extern "C" void func_001AE4A0(FRAME*,int);
+extern "C" FRAME*__10STACKSCOPE(FRAME*);
+extern "C" void _$_10STACKSCOPE(FRAME*,int);
 extern "C" void*PvAllocSlot(REQ*) asm("PvAllocSlot__FP8ALLOCREQ");
 extern "C" int func_00118A88(ENTRY*,int,qword,float,int*,ENTRY**);
 extern "C" int func_00118668(ENTRY*,int,qword,qword,int,HIT*);
@@ -21,7 +21,7 @@ extern "C" void func_001A9108(ENTRY*tree,int mask,void*geometry,qword pos,OUT*ou
  WORK work;
  work.position.q=pos;
  float radius=Max(radius0,100.0f);
- func_001AE478(&work.frame);
+ __10STACKSCOPE(&work.frame);
  ENTRY*first;
  {REQ*r=&work.scratch.req;r->bytes=0xFFFC;r->alignment=16;first=(ENTRY*)PvAllocSlot(r);}
  int limit=0x1555;
@@ -57,11 +57,11 @@ extern "C" void func_001A9108(ENTRY*tree,int mask,void*geometry,qword pos,OUT*ou
    }
   }
   for(int j=0;j<work.count;j++)first[j].poly->flags&=~0x1000;
-  if(best>0.0f){func_001AE4A0(&work.frame,2);return;}
+  if(best>0.0f){_$_10STACKSCOPE(&work.frame,2);return;}
  }
  more:radius+=radius;
  }while(radius<52000.0f);
- func_001AE4A0(&work.frame,2);
+ _$_10STACKSCOPE(&work.frame,2);
 }
 
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)

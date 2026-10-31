@@ -41,8 +41,8 @@ extern WORLD D_003DD490;
 extern qword g_normalZ,D_002A2DD0;
 
 void UpdateSo(O *) asm("UpdateSo__FP2SOf");
-MARK *func_001AE478(MARK *);
-void func_001AE4A0(MARK *,int);
+MARK *__10STACKSCOPE(MARK *);
+void _$_10STACKSCOPE(MARK *,int);
 void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00229D60(void *,COLL *);
 int func_001F7E08(O *,int (*)(void *,COLL *),void *,COLL **);
@@ -75,7 +75,7 @@ extern "C" void func_00228E50(O *p){
  if(!p->count)return;
  work.request=&work.scratch.request;work.head=&p->first;
  for(n=*work.head;n;n=n->next)n->object->flags|=0x80000000L;
- func_001AE478(&work.mark);
+ __10STACKSCOPE(&work.mark);
  {register int size __asm__("$3")=p->count;register int alignment __asm__("$2")=16;register REQ*req __asm__("$4")=work.request;size*=4;work.scratch.request.size=size;Fields(req)->alignment=alignment;
  objects=(COLL **)PvAllocSlot(req);}
  work.count=func_001F7E08(p,func_00229D60,0,objects);
@@ -125,5 +125,5 @@ extern "C" void func_00228E50(O *p){
    Signal(o,o->flags&0x80000000L?5:4,(PAIR *)work.request);
   }
  }
- func_00228D20(p,work.head);func_001AE4A0(&work.mark,2);
+ func_00228D20(p,work.head);_$_10STACKSCOPE(&work.mark,2);
 }

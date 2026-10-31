@@ -1,9 +1,9 @@
 // ~CBinaryAsyncStream() is the out-of-line g++ dtor _$_18CBinaryAsyncStream (0x1325B8); calling it (rather than an inline wrapper) keeps `this` in $s6.
 typedef unsigned int uint;
 struct CTX;
-extern "C" CTX *func_001AE478(CTX *);
-extern "C" void func_001AE4A0(CTX *, int);
-struct CTX { CTX() __asm__("func_001AE478"); ~CTX() { func_001AE4A0(this, 2); } };
+extern "C" CTX *__10STACKSCOPE(CTX *);
+extern "C" void _$_10STACKSCOPE(CTX *, int);
+struct CTX { CTX() __asm__("__10STACKSCOPE"); ~CTX() { _$_10STACKSCOPE(this, 2); } };
 struct AREQ { int cb; int align; AREQ(int c, int a) { cb = c; align = a; } };
 struct K;
 struct X {

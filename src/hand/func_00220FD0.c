@@ -5,8 +5,8 @@ struct S { char pad[0xE4]; char aE4[0x18]; char aFC[0x10]; struct O *p10C; int c
 void func_00231768(struct S *p, void *pbis);
 void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
-MARK *func_001AE478(MARK *pm);
-void func_001AE4A0(MARK *pm, int n);
+MARK *__10STACKSCOPE(MARK *pm);
+void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
 void *PvAllocSwCopyImpl__FiPv(MSG *pmsg, void *pv);
 void func_00221818(struct S *p, int id);
@@ -22,7 +22,7 @@ void func_00220FD0(struct S *p, void *pbis)
     func_00231768(p, pbis);
     func_00117FD0(pbis, p->aE4);
     func_00118220(pbis, p->aE4, p->aFC);
-    func_001AE478(&mark);
+    __10STACKSCOPE(&mark);
     {
         MSG *pm = &msg;
         pm->cb = 0x240;
@@ -52,5 +52,5 @@ void func_00220FD0(struct S *p, void *pbis)
         break;
     }
     if (!p->p10C) p->flags &= ~2;
-    func_001AE4A0(&mark, 2);
+    _$_10STACKSCOPE(&mark, 2);
 }

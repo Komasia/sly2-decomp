@@ -2,12 +2,12 @@
  * inline constructor (vtable g_vtxfm, null pframe / psidebag reference pointers). */
 #include "so.h"
 
-void *func_001AE4F8(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
+void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 extern VTE g_vtxfm[];
 
 BASIC *func_00110B10(void)
 {
-    BASIC *pbasic = (BASIC *)func_001AE4F8(0xE0);
+    BASIC *pbasic = (BASIC *)__builtin_new(0xE0);
 
     pbasic->pvt = g_vtxfm;
     pbasic->pframe = NULL;

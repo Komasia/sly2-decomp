@@ -17,8 +17,8 @@ extern ACTOR *D_002E1E40,*D_002DD5BC,*D_002F7900;
 extern SW D_003DD490;
 extern "C" {
 void func_00160E68(int);
-FRAME *func_001AE478(FRAME *);
-void func_001AE4A0(FRAME *,int);
+FRAME *__10STACKSCOPE(FRAME *);
+void _$_10STACKSCOPE(FRAME *,int);
 void func_001C2A78(int);
 void func_00258248(KEY *);
 STREAM *func_001848A8(STREAM *,int,void *,int);
@@ -81,21 +81,21 @@ extern "C" void func_0020E890(SW *p)
     else{float remaining=p->resumeTime-Time();resume=remaining>0.0f?remaining:0.0f;}
     FRAME frame;
     FRAME *scope=&frame;
-    func_001AE478(scope);
+    __10STACKSCOPE(scope);
     func_001C2A78(2);
     KEY key;
     KEY *keyPointer=&key;
     keyPointer->kind=2;
     func_00258248(keyPointer);
     int hasFile=NonZero(request.header.words[1]^request.header.words[15]);
-    if(hasFile&&!SetKey(&key,&request.header)){func_001AE4A0(scope,2);return;}
+    if(hasFile&&!SetKey(&key,&request.header)){_$_10STACKSCOPE(scope,2);return;}
     HEADER *current=&p->current; const HEADER *requested=&request.header; int changed=!Same(requested,current);
     STREAM stream;
     register STREAM *argument __asm__("$4")=StreamHome(&stream);
     register STREAM *reader __asm__("$21");
     __asm__("daddu %0,%1,$zero":"=r"(reader):"r"(argument));
     func_001848A8(argument,0xD8000,D_002F7980,0);
-    if(hasFile&&!func_00184D60(reader,&key)){func_00184950(reader,2);func_001AE4A0(scope,2);return;}
+    if(hasFile&&!func_00184D60(reader,&key)){func_00184950(reader,2);_$_10STACKSCOPE(scope,2);return;}
     SetDecompress(reader,0x4000,(void *)0x70000000);
     func_00184CA0(reader);
     func_0020E068(p);
@@ -148,5 +148,5 @@ extern "C" void func_0020E890(SW *p)
     func_0022B420(D_00443740);
     if(!hasFile)func_001A4E80(D_002E1E88);
     func_00184950(reader,2);
-    func_001AE4A0(scope,2);
+    _$_10STACKSCOPE(scope,2);
 }

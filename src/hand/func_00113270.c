@@ -2,12 +2,12 @@
  * inline constructor (vtable D_002D05A0, null pframe / psidebag reference pointers). */
 #include "so.h"
 
-void *func_001AE4F8(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
+void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 extern VTE D_002D05A0[];
 
 BASIC *func_00113270(void)
 {
-    BASIC *pbasic = (BASIC *)func_001AE4F8(0x60);
+    BASIC *pbasic = (BASIC *)__builtin_new(0x60);
 
     pbasic->pvt = D_002D05A0;
     pbasic->pframe = NULL;

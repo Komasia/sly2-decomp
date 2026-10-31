@@ -30,8 +30,8 @@ extern "C"{
  int func_00210AE0();
  void func_001D8FF8(void*);
  void func_00165280(P*);
- LEASE*func_001AE478(LEASE*);
- void func_001AE4A0(LEASE*,int);
+ LEASE*__10STACKSCOPE(LEASE*);
+ void _$_10STACKSCOPE(LEASE*,int);
  void func_00165C98(int*,P***);
  void func_00164270(P*);
  void func_001643B0(P*);
@@ -46,7 +46,7 @@ extern "C"{
  CRef*func_001291A8(CRef*,const CRef*);
  void func_00129EC8(CRef*);
 }
-struct LEASE{LEASE(){func_001AE478(this);}void Release(){func_001AE4A0(this,2);}};
+struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
 struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
  OVERRIDE(P*p,int x,int y):context(0),object(p){if(object){oldX=object->x;object->x=x;oldY=object->y;object->y=y;}}
  ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}

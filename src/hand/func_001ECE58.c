@@ -14,8 +14,8 @@ extern int D_003DCFF0;
 extern struct E2 *D_003DCFF4;
 void __4GIFS(struct DMAS *);
 void __4VIFS(struct X *);
-struct M *func_001AE478(struct M *);
-void func_001AE4A0(struct M *, int);
+struct M *__10STACKSCOPE(struct M *);
+void _$_10STACKSCOPE(struct M *, int);
 void AllocSw__4DMASi(struct X *, int);
 void func_001574B8(struct X *);
 void func_00226D10(struct X *);
@@ -49,7 +49,7 @@ int func_001ECE58(struct BS *pbs, int k)
     result = 0;
     __4VIFS(&x);
     n4 = pbs->n4;
-    func_001AE478(&m);
+    __10STACKSCOPE(&m);
     AllocSw__4DMASi(&x, (D_003DCF9C * 3 + D_003DCF98) * 10 + 4);
     func_001574B8(&x);
     func_00226D10(&x);
@@ -98,7 +98,7 @@ int func_001ECE58(struct BS *pbs, int k)
     }
     {
         int r = result;
-        func_001AE4A0(&m, 2);
+        _$_10STACKSCOPE(&m, 2);
         return r;
     }
 }

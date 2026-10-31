@@ -13,8 +13,8 @@ struct EDGE {unsigned short vertex[2],face[2];int extra[2];};
 struct PLANE {U normal;U extra;};
 struct P {char pad0[0x10];MESH *mesh;char pad14[0x68];U *positions;int planeCount;PLANE *planes;char pad88[8];int pointCount;U *source;int triCount;void *triSource;int edgeCount;EDGE *edges;};
 struct FRAME;
-extern "C" FRAME *func_001AE478(FRAME *);
-extern "C" void func_001AE4A0(FRAME *,int);
+extern "C" FRAME *__10STACKSCOPE(FRAME *);
+extern "C" void _$_10STACKSCOPE(FRAME *,int);
 struct FRAME {FRAME(){}~FRAME(){}};
 struct MSG {int bytes,alignment;};
 extern "C" void *PvAllocSwImpl(MSG *) asm("PvAllocSwImpl__Fi");
@@ -32,7 +32,7 @@ extern "C" void func_001F6C08(P *p)
     FRAME storage;
     MSG request;
     int triBytes=sizeof(TRI),alignment=16;
-    func_001AE478(&storage);
+    __10STACKSCOPE(&storage);
     MSG *allocation=&request;
     request.bytes=triBytes;allocation->alignment=alignment;
     p->mesh=(MESH *)PvAllocSwImpl(allocation);
@@ -69,5 +69,5 @@ extern "C" void func_001F6C08(P *p)
         cross.q=Cross(first.q,second.q);
         if(Dot(cross.q,plane->normal.q)<0.0f){int t=ptri->vertex[1];ptri->vertex[1]=ptri->vertex[2];ptri->vertex[2]=t;}
     }
-    func_001AE4A0(&storage,2);
+    _$_10STACKSCOPE(&storage,2);
 }

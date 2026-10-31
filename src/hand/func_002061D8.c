@@ -19,7 +19,7 @@ void func_00204DA8(struct S *p, float f);
 void func_002303A0(struct S *p, int n, int m);
 void func_002080F0(struct S *p);
 void func_0020AAA8(struct S *p);
-void *func_001AE4F8(int cb);
+void *__builtin_new(int cb);
 void func_0020CE28(void *pv, struct S *p);
 void func_0020D1B0(void *pv, struct S *p);
 void func_00149A50(void *g, struct S *p, struct K k, int n);
@@ -38,9 +38,9 @@ void PostStepguardLoad__FP9STEPGUARD(struct S *p)
     func_002303A0(p, p->n5C, 2);
     func_002080F0(p);
     func_0020AAA8(p);
-    p->p498 = func_001AE4F8(0x10);
+    p->p498 = __builtin_new(0x10);
     func_0020CE28(p->p498, p);
-    p->p49C = func_001AE4F8(0x14);
+    p->p49C = __builtin_new(0x14);
     func_0020D1B0(p->p49C, p);
     if (!p->p3C->n24)
         func_00149A50(D_003DD490, p, D_002A8608, 0);

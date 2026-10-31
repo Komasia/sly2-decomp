@@ -3,12 +3,12 @@ extern int D_003E1C30;
 struct L { int a[4]; };
 struct M { int a; int b; int c[2]; };
 void func_00117988(void *q, int n);
-void func_001AE478(struct L *pl);
+void __10STACKSCOPE(struct L *pl);
 void *PvAllocSlot__FP8ALLOCREQ(struct M *pm);
 void Read__18CBinaryInputStreamiPv(void *q, int a, void *x);
 void func_001EA568(void *x);
 void func_00170730(void *p);
-void func_001AE4A0(struct L *pl, int n);
+void _$_10STACKSCOPE(struct L *pl, int n);
 void Skip__18CBinaryInputStreami(void *q, int a);
 void func_00170828(void *p);
 void func_0020F640(void *p, void *q)
@@ -18,7 +18,7 @@ void func_0020F640(void *p, void *q)
         struct L l;
         struct M m;
         void *x;
-        func_001AE478(&l);
+        __10STACKSCOPE(&l);
         { struct M *pm = &m;
         pm->a = D_003E1C30;
         pm->b = 0x10;
@@ -26,7 +26,7 @@ void func_0020F640(void *p, void *q)
         Read__18CBinaryInputStreamiPv(q, D_003E1C30, x);
         func_001EA568(x);
         func_00170730(p);
-        func_001AE4A0(&l, 2);
+        _$_10STACKSCOPE(&l, 2);
     } else {
         Skip__18CBinaryInputStreami(q, D_003E1C30);
         func_00170828(p);

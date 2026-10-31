@@ -62,13 +62,13 @@ int func_00117DB8(STREAM*) __asm__("S32Read__18CBinaryInputStream");
 void ReadMatrix4(STREAM*,M4*) asm("ReadMatrix4__18CBinaryInputStreamP7MATRIX4");
 void*PvAllocSwImpl(const REQUEST&) asm("PvAllocSwImpl__Fi");
 void*PvAllocSwCopyImpl(const REQUEST&,void*) asm("PvAllocSwCopyImpl__FiPv");
-MARK*func_001AE478(MARK*);
-void func_001AE4A0(MARK*,int);
+MARK*__10STACKSCOPE(MARK*);
+void _$_10STACKSCOPE(MARK*,int);
 BINDING*func_0016C8E0(P*,STREAM*);
 M4*func_0011C168(M4*,const M4*,const M4*);
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 }
-struct MARK{MARK(){func_001AE478(this);}~MARK(){func_001AE4A0(this,2);}};
+struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 static inline void*Allocate(int bytes){return PvAllocSwImpl(REQUEST(bytes,16));}
 static inline void*Reallocate(int bytes,void*old){return PvAllocSwCopyImpl(REQUEST(bytes,16),old);}
 extern "C" void func_00169AC8(P*p,const D*sourceD,const E*sourceE,const SPHERE*sourceSphere,D*desc,E*entry,SPHERE*sphere,int groups,const int*counts,FACE**faces,STREAM*stream){
