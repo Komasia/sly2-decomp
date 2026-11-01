@@ -21,7 +21,7 @@ extern float D_002BD470, D_002BD474, D_002BD478, D_002BD47C;
 PSO *func_001C4840(G *pg);
 qword func_001A62E8(void *p);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
-int func_0020F0B0(G *pg);
+int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
 int func_00132B10(PSO *p, int n);
 void func_00208540(W *pw, void *p);
 int func_001BBE48(SO *p);
@@ -89,7 +89,7 @@ void func_0014A4D0(P *p)
     if (FLess(D_002BD460, Len(v)))
         p->t48 = g_clock.t;
     float dt = g_clock.t - p->t48;
-    if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !func_0020F0B0(pg)) {
+    if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !IsSwHandsOff(pg)) {
         if (func_00132B10(pso, 0x34) && pso->x2DC == 0x11) {
             PATH *ppath = pso->ppath;
             pos = func_001A62E8(pso);

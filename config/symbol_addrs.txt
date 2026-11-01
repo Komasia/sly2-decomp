@@ -1108,3 +1108,4 @@ SetCmFarClip__FP2CMf = 0x14F670; // type:func
 SetCmRgbaFog__FP2CMP4RGBA = 0x14F6F0; // type:func
 SetCmMrdRatio__FP2CMf = 0x14F730; // type:func
 FReadJoy__FP3JOY = 0x187998; // type:func
+IsSwHandsOff__FP2SW = 0x20F0B0; // type:func
