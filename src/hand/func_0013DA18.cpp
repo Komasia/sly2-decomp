@@ -6,7 +6,7 @@
 // 0x1AE1D0/0x1AE2A0/0x1AE318 PvAllocSw/PvAllocSwClear/PvAllocStack Impl(SWALLOC *), 0x1C9058/90/98 CLoadSpin Begin/SetName/End,
 // 0x16F960 BuildClearGifs(QW *, const RGBA &, int), 0x1703F8 InitGsb, 0x258248 InitFloc, 0x1848A8/0x184950 CBinaryInputStream
 // ctor/dtor, 0x1AE478/0x1AE4A0 STACKSCOPE ctor/dtor, 0x13F888 CLoadCollectorArray ctor, 0x13FB40 LoadSwObjectsFromBrx,
-// 0x13E510 PloCloneLo, 0x14B690 PchzFidName. D_003DD040 = g_sndmgr, D_003DD490 = g_sw, D_002DDF40 = g_cm.
+// 0x13E510 PloCloneLo, 0x14B690 PchzFidName. D_003DD040 = g_sndmgr.
 // Matching notes: the alloc helpers take cbAlign as a parameter (its copy lets loop.c hoist the loop's 0x10, which reload then
 // rematerialises); the black clear colour is stored as `unsigned int`.
 // STAND-IN (same trick as func_0013E818.cpp / func_00219400.cpp): the five spilled gcse reaching pseudos (&gsb1, &frame, &bis,
@@ -62,8 +62,8 @@ void func_001EC7A0(void);
 LO *func_0013E510(LO *po, int n);
 extern char D_002A4BD0[];
 extern char D_003DD040[];
-extern char D_003DD490[];
-extern char D_002DDF40[];
+extern char g_sw[];
+extern char g_cm[];
 extern char D_002DEDC0[];
 extern int D_003E1C34;
 }
@@ -130,8 +130,8 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
     func_0020F318(psw, pbis);
     func_0013DF80(psw, pbis);
     func_0013E0E0(psw, pbis);
-    func_0013F810(D_003DD490, pbis);
-    func_0013F810(D_002DDF40, pbis);
+    func_0013F810(g_sw, pbis);
+    func_0013F810(g_cm, pbis);
     func_00117988(pbis, 0x10);
     func_001FF7E8(psw);
     func_0020E3C0(psw);

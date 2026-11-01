@@ -9,11 +9,11 @@ typedef struct LORUN {
 } LORUN;
 
 LORUN *func_00210100(void *psw);
-extern char D_003DD490[];   /* the world (SW) */
+extern char g_sw[];   /* the world (SW) */
 
 LORUN *func_001A5D58(LO *plo)
 {
-    LORUN *plorun = func_00210100(D_003DD490);
+    LORUN *plorun = func_00210100(g_sw);
 
     plorun->plorunNext = (LORUN *)plo->plorunFirst;
     plo->plorunFirst = plorun;

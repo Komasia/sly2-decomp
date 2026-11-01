@@ -29,14 +29,14 @@ extern M2C_UNK D_002CE488;
 extern void **s_pdliFirst;
 extern f32 g_clock;
 extern f32 D_002DDED4;
-extern M2C_UNK D_002DDF40;
+extern M2C_UNK g_cm;
 extern f32 D_002DDF7C;
 extern M2C_UNK g_game;
 extern s32 D_002E1E40;
 extern M2C_UNK D_002E65E0;
 extern M2C_UNK D_003D4A60;
 extern M2C_UNK D_003DD040;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 extern s32 D_003E0FE0;
 
 f32 func_00224350(s32 arg0, s32 arg1) {

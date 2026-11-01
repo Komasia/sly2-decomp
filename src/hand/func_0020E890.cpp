@@ -11,10 +11,10 @@ struct SW {char pad0[0x3BF0];int pending;REQUEST request;HEADER current;int unus
 struct FRAME;
 struct STREAM;
 struct REF;
-extern char g_clock[],D_002DDF40[],g_game[],D_002F7980[],D_002F66B0[],D_00443740[],D_002E1E88[];
+extern char g_clock[],g_cm[],g_game[],D_002F7980[],D_002F66B0[],D_00443740[],D_002E1E88[];
 extern char D_002A8A88[];
 extern ACTOR *D_002E1E40,*D_002DD5BC,*D_002F7900;
-extern SW D_003DD490;
+extern SW g_sw;
 extern "C" {
 void func_00160E68(int);
 FRAME *__10STACKSCOPE(FRAME *);
@@ -101,11 +101,11 @@ extern "C" void func_0020E890(SW *p)
     func_0020E068(p);
     func_0014D068(g_clock);
     AddGrfusr(8);
-    func_002333B4(&D_003DD490,0,0x4790);
-    func_002333B4(&D_003DD490,0,0x4790);
-    func_0020D9D0(&D_003DD490);
+    func_002333B4(&g_sw,0,0x4790);
+    func_002333B4(&g_sw,0,0x4790);
+    func_0020D9D0(&g_sw);
     if(func_001B3B08(D_002F66B0))changed=1;
-    func_0014D6D8(D_002DDF40);
+    func_0014D6D8(g_cm);
     p->current=request.header;
     *destination=request;
     func_0020E180(p);
@@ -141,8 +141,8 @@ extern "C" void func_0020E890(SW *p)
         ACTOR *actor=func_001C4840(p);
         if(actor&&func_00132B10(actor,0x34)&&actor->widget&&!actor->widget->shown)func_00212A70(actor->widget,1);
     }
-    func_0014D478(D_002DDF40);
-    func_0014D8C0(D_002DDF40);
+    func_0014D478(g_cm);
+    func_0014D8C0(g_cm);
     func_001619A0(g_game,5,0);
     func_001C2BA8(2);
     func_0022B420(D_00443740);

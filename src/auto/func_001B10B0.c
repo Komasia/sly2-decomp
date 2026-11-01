@@ -33,7 +33,7 @@ extern M2C_UNK D_003D9ED0;
 extern M2C_UNK D_003DA3C0;
 extern M2C_UNK D_003DA530;
 extern M2C_UNK D_003DD040;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 extern s32 D_003E0F9C;
 extern s32 D_003E0FE4;
 

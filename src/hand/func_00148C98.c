@@ -1,6 +1,6 @@
 struct K { int a; int b; };
 extern const struct K D_002A4E80;
-extern char D_003DD490[];
+extern char g_sw[];
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 struct PG { char pad[0x18C4]; int x18C4; int x18C8; };
@@ -70,7 +70,7 @@ void UpdateButton__FP6BUTTONf(struct P *p)
         }
         found:
             p->x2F8 = oid;
-            func_00149AB8(D_003DD490, p, D_002A4E80, 0);
+            func_00149AB8(g_sw, p, D_002A4E80, 0);
             k = p->x1E0;
             break;
         case 0: {

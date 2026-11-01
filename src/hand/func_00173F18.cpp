@@ -22,7 +22,7 @@ extern float D_002BE5E4;
 extern float D_002BE5E8;
 extern CLOCK g_clock;
 extern LM g_lmZeroOne;
-extern CAMERA D_002DDF40;
+extern CAMERA g_cm;
 extern qword g_normalZ;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
@@ -187,7 +187,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
                     if (sDist < D_002BE5E4 || sBest < sDist)
                         goto nextSample;
                     {
-                        int fFlipT = GXOfQw(QwDot(D_002DDF40.dir, dirCurve.q)) < 0.0f;
+                        int fFlipT = GXOfQw(QwDot(g_cm.dir, dirCurve.q)) < 0.0f;
                         if (!fFlipT)
                         {
                             VU_FLOAT gNeg = VuFloatFromMemWord(0xBF800000);

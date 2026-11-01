@@ -3,7 +3,7 @@
 extern char g_vtso[], g_vtstepguard[], g_vtbasic[], D_002DA9D0[];
 typedef struct { int x0, x4, x8; void *xC; } B;
 typedef struct { int x0, x4, x8; void *xC; char pad[0x70]; char x80[0xF4]; int x174; char pad2[0xC38]; char xDB0[0x70]; B xE20; } S;
-void *func_00167310(void *); void *func_0020C058(void *);
+void *__7GLOBSET(void *); void *func_0020C058(void *);
 S *func_00256360(S *p)
 {
     B *q;
@@ -11,7 +11,7 @@ S *func_00256360(S *p)
     p->x0 = 0;
     p->x4 = 0;
     p->xC = g_vtso;
-    func_00167310(p->x80);
+    __7GLOBSET(p->x80);
     p->x174 = 0;
     p->xC = g_vtstepguard;
     func_0020C058(p->xDB0);

@@ -16,7 +16,7 @@ extern void *s_pdliFirst;
 extern s32 D_002DD644;
 extern f32 g_clock;
 extern f32 D_002DDED4;
-extern M2C_UNK D_002DDF40;
+extern M2C_UNK g_cm;
 extern M2C_UNK D_002DEA00;
 extern s32 D_002DEA34;
 extern void *g_pfrmOpen;
@@ -27,7 +27,7 @@ extern M2C_UNK D_002DFB00;
 extern M2C_UNK D_002DFB20;
 extern s32 D_002E1E40;
 extern M2C_UNK D_003DD040;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 extern s32 D_003E0E70;
 extern s32 D_003E134C;
 

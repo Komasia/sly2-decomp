@@ -28,7 +28,7 @@ extern s32 D_002E1E40;
 extern s32 D_002E1E54;
 extern s32 D_002F7900;
 extern M2C_UNK D_003DD040;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 extern s32 D_003E1C34;
 extern M2C_UNK D_004435F0;
 extern M2C_UNK D_004520A8;

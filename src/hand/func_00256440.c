@@ -11,7 +11,7 @@ typedef struct MURRAY {
 
 extern VTE g_vtso[];
 extern VTE g_vtmurray[];
-void *__4CRef(void *pglobset);     /* GLOBSET constructor (0x167310; the symbol name is a misnomer) */
+void *__7GLOBSET(void *pglobset);   /* GLOBSET::GLOBSET() (0x167310) */
 void *func_0020C058(void *p);      /* class 145 constructor */
 
 MURRAY *func_00256440(MURRAY *pmurray)
@@ -19,7 +19,7 @@ MURRAY *func_00256440(MURRAY *pmurray)
     pmurray->po.so.lo.pframe = NULL;
     pmurray->po.so.lo.psidebag = NULL;
     pmurray->po.so.lo.pvt = g_vtso;
-    __4CRef(pmurray->po.so.globset);
+    __7GLOBSET(pmurray->po.so.globset);
     pmurray->po.unk_0x170[1] = 0;
     pmurray->po.so.lo.pvt = g_vtmurray;
     func_0020C058(pmurray->unk_0x1890);

@@ -4,9 +4,9 @@
 #include "so.h"
 
 void func_00210268(void *psw, LO *plo);
-extern char D_003DD490[];   /* the world (SW) */
+extern char g_sw[];   /* the world (SW) */
 
 void func_001A6150(LO *plo)
 {
-    func_00210268(D_003DD490, plo);
+    func_00210268(g_sw, plo);
 }

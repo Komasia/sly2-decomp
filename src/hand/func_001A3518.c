@@ -3,10 +3,10 @@
 
 void func_001A6178(LO *plo);
 void func_001A3D00(void *psw, LIGHT *plight);
-extern char D_003DD490[];   /* the world (SW) */
+extern char g_sw[];   /* the world (SW) */
 
 void func_001A3518(LIGHT *plight)
 {
     func_001A6178(&plight->xfm.lo);
-    func_001A3D00(D_003DD490, plight);
+    func_001A3D00(g_sw, plight);
 }

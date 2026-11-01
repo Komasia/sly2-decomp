@@ -1,8 +1,9 @@
 // func_00112100 MATCH (Claude agent, lane A12, 2026-10-23), from v3 (1): commented pin on the SUB vtable pointer (a0, as the target) plus a commented volatile empty asm before the vt store, which keeps `sw a0,0x170` ahead of the return move (sched2 tie-break).
-extern "C" void func_00167310(void *);
-class CRef {
+extern "C" void __7GLOBSET(void *);   /* GLOBSET::GLOBSET() (0x167310) */
+/* stand-in for the SO::globset member (named Globset so its inline constructor does not collide with __7GLOBSET) */
+class Globset {
 public:
-    CRef() { func_00167310(this); }
+    Globset() { __7GLOBSET(this); }
     int a[4];
 };
 class BASIC {
@@ -14,7 +15,7 @@ public:
 class X : public BASIC {
 public:
     char pad[0x80 - 0x10];
-    CRef ref;
+    Globset globset;
     char pad2[0x170 - 0x90];
     virtual void F();
 };

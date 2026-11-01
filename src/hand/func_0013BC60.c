@@ -3,12 +3,12 @@
 #include "bomb.h"
 
 void func_00134320(void *psw, BOMB *pbomb);
-extern char D_003DD490[];   /* the world (SW) */
+extern char g_sw[];   /* the world (SW) */
 
 void func_0013BC60(BOMB *pbomb, SO *psoOwner)
 {
     if (psoOwner != pbomb->psoOwner) {
         pbomb->psoOwner = psoOwner;
-        func_00134320(D_003DD490, pbomb);
+        func_00134320(g_sw, pbomb);
     }
 }

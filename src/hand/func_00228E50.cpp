@@ -37,7 +37,7 @@ struct REQ {int size,alignment;};
 struct MARK;
 struct WORLD;
 extern "C" {
-extern WORLD D_003DD490;
+extern WORLD g_sw;
 extern qword g_normalZ,D_002A2DD0;
 
 void UpdateSo(O *) asm("UpdateSo__FP2SOf");
@@ -85,7 +85,7 @@ extern "C" void func_00228E50(O *p){
   if(func_00229468(p,o,0,0)==0.0f)continue;
   o->flags|=0x100000000L;
   if(o->flags&0x80000000L)continue;
-  {register WORLD*world __asm__("$4")=&D_003DD490;n=func_002296A0(world);}
+  {register WORLD*world __asm__("$4")=&g_sw;n=func_002296A0(world);}
   n->owner=p;n->object=o;n->next=p->first;p->first=n;
   if(!p->recipient)continue;
   work.scratch.velocity.q=Velocity(o);

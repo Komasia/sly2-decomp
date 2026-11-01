@@ -5,5 +5,5 @@ PO *func_001C4A48(SW *psw);
 
 int func_001C40F8(PO *ppo)
 {
-    return ppo == func_001C4A48(&D_003DD490);
+    return ppo == func_001C4A48(&g_sw);
 }

@@ -72,7 +72,7 @@ struct LAMBDA {
     NODE *pparams;
     NODE *pbody;
 };
-extern BIF D_002BBB90[];
+extern BIF g_mpbifkbif[];
 extern "C" {
 FRAME *func_00256DD0();
 CRef func_00127838(NODE *p, FRAME *pframe);
@@ -92,7 +92,7 @@ CRef func_001272E0(NODE *p, FRAME *pframe)
     CRef refOp = func_00127838(pnFn, pframe);
     int cargMin, fRest;
     if (refOp.m_tagk == 0x19) {
-        pbif = &D_002BBB90[refOp.u.n];
+        pbif = &g_mpbifkbif[refOp.u.n];
         cargMin = pbif->cargMin;
         fRest = pbif->fRest;
     } else if (refOp.m_tagk == 0x22) {

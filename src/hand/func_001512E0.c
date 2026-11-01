@@ -10,6 +10,6 @@ void func_0014FCE8(CPLCY *pcplcy, void *pv1, void *pv2);
 void func_001512E0(CPHANG *pcphang, void *pv1, void *pv2)
 {
     func_0012E460(&pcphang->pact1);
-    func_0014D8C0(&D_002DDF40);
+    func_0014D8C0(&g_cm);
     func_0014FCE8(&pcphang->cplcy, pv1, pv2);
 }

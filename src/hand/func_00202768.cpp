@@ -3,7 +3,7 @@ struct VT {short adjustment,unused;void *function;};
 struct ACTOR {char pad0[0xF4];int id;int unusedF8,key;};
 struct X {char pad0[0xC];VT *vtable;char pad10[0x30];uint flags;char pad44[0x14];void *shown;char pad5C[0x98];ACTOR *actor;};
 struct P {int state;char pad4[0x70];int specialCount;char pad78[0x14];ACTOR *actor;char pad90[0x10];uint savedFlags;void *resource;X **model;X *primary,*secondary;char padB4[8];int selected,pending;};
-extern char D_003DD490[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
+extern char g_sw[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
 extern "C" {
 void func_0020EFC0(void *,int);
 void func_0020F030(void *,int);
@@ -52,8 +52,8 @@ extern "C" void func_00202768(P *p,int nextState)
     if(!p->primary)return;
     if(!p->secondary)return;
     if(((uint)(p->state-8)<2)!=((uint)(nextState-8)<2)){
-        if((uint)(nextState-8)<2)func_0020EFC0(D_003DD490,0);
-        else func_0020F030(D_003DD490,0);
+        if((uint)(nextState-8)<2)func_0020EFC0(g_sw,0);
+        else func_0020F030(g_sw,0);
     }
     switch(p->state){
     case -1:case 0:case 2:case 3:case 10:break;

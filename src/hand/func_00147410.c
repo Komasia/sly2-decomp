@@ -6,7 +6,7 @@ struct CLOCK { char pad[0x3C]; float t3C; };
 extern struct CLOCK g_clock;
 extern struct P *D_002DD644;
 extern char D_003DD040[];
-extern char D_003DD490[];
+extern char g_sw[];
 void func_001FE5B8(void *p, int a, int b);
 void func_0014D1D0(struct CLOCK *p, int a, float g);
 void func_0020EFC0(void *p, int a);
@@ -22,11 +22,11 @@ void func_00147410(struct P *p, int state)
         D_002DD644 = p;
         func_001FE5B8(D_003DD040, 2, 0);
         func_0014D1D0(&g_clock, 8, 0.0f);
-        func_0020EFC0(D_003DD490, 0);
+        func_0020EFC0(g_sw, 0);
         p->vt[8].pfn((char *)p + p->vt[8].d);
         if (!func_001A61A0(p)) {
             struct LO *plo;
-            AppendDlEntry__FP2DLPv(D_003DD490 + 0x2C, p->px14);
+            AppendDlEntry__FP2DLPv(g_sw + 0x2C, p->px14);
             plo = p->px14->plo;
             plo->vt[23].pfn((char *)plo + plo->vt[23].d);
         }
@@ -42,7 +42,7 @@ void func_00147410(struct P *p, int state)
         D_002DD644 = 0;
         func_0014D1D0(&g_clock, 8, 1.0f);
         func_001FE5B8(D_003DD040, 2, 1);
-        func_0020F030(D_003DD490, 0);
+        func_0020F030(g_sw, 0);
         p->vt[9].pfn((char *)p + p->vt[9].d);
         break;
     case 3:

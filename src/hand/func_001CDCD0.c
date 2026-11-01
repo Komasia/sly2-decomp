@@ -5,7 +5,7 @@ extern struct VTE g_vtso[];
 extern struct VTE g_vtripg[];
 void *func_0011CCC0(void *pool);
 void *func_002333B4(void *p, int c, int cb);
-void *func_00167310(void *p);
+void *__7GLOBSET(void *p);
 void *func_0015E3A8(struct G *p, int n);
 void func_0011A070(void *pl, void *pv);
 #define VCALL0(o, n) ((void (*)(void *))(o)->vt[n].pf)((char *)(o) + (o)->vt[n].d)
@@ -19,7 +19,7 @@ struct O *func_001CDCD0(struct G *p, int a)
     po->x0 = 0;
     po->x4 = 0;
     po->vt = g_vtso;
-    func_00167310(po->x80);
+    __7GLOBSET(po->x80);
     po->x150 = a;
     po->vt = g_vtripg;
     func_0011A070(func_0015E3A8(p, 0x57), po);

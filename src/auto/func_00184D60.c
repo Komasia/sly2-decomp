@@ -32,14 +32,14 @@ extern M2C_UNK D_002DDEC0;
 extern M2C_UNK g_clock;
 extern f32 D_002DDED4;
 extern f32 D_002DDF0C;
-extern M2C_UNK D_002DDF40;
+extern M2C_UNK g_cm;
 extern f32 g_game;
 extern s32 D_002DFB84;
 extern s32 g_grfjoyt;
 extern s32 g_grfusr;
 extern s32 D_002E0CBC;
 extern s32 D_002E1E40;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 
 s32 func_00184D60(s32 arg0, s32 arg1) {
     s32 var_a2;

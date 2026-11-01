@@ -42,7 +42,7 @@ extern M2C_UNK D_002F66B0;
 extern s32 D_002F68F8;
 extern s32 D_002F7900;
 extern M2C_UNK D_003DD040;
-extern M2C_UNK D_003DD490;
+extern M2C_UNK g_sw;
 extern void *D_003E0714;
 extern void *D_003E13B4;
 extern M2C_UNK D_003E1C20;

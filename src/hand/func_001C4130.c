@@ -22,7 +22,7 @@ void func_001C4130(PO *ppo, TN *ptn)
         if (ptn != NULL) {
             ptn->nUnk128 = -1;
             func_001A58D0((TN *)ppo->ptnCam, 0, 0);
-            if (func_001C4A48(&D_003DD490) == ppo)
+            if (func_001C4A48(&g_sw) == ppo)
                 func_00221268((TN *)ppo->ptnCam, 1);
         }
     }

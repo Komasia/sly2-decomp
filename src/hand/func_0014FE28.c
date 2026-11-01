@@ -5,5 +5,5 @@ void func_0014FE28(CPLOOK *pcplook)
 {
     pcplook->uZoom = 0;
     pcplook->svuZoom = 0;
-    SetCmFov__FP2CMf(&D_002DDF40, pcplook->radFovZoom);
+    SetCmFov__FP2CMf(&g_cm, pcplook->radFovZoom);
 }

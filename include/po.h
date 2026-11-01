@@ -35,6 +35,6 @@ typedef struct SW {
     /* 0x3f00 */ PO *ppoOverride;
 } SW;
 
-extern SW D_003DD490;   /* the world */
+extern SW g_sw;   /* the world */
 
 #endif

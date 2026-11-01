@@ -5,7 +5,7 @@
 
 SO *func_001F2798(SO *pso);
 void func_00134320(void *psw, SO *pso);
-extern char D_003DD490[];   /* the world (SW) */
+extern char g_sw[];   /* the world (SW) */
 
 void func_001F27F0(SO *pso)
 {
@@ -17,7 +17,7 @@ void func_001F27F0(SO *pso)
         if (psoRoot->ptree == NULL) {
             pvte = &psoRoot->lo.pvt[53];   /* slot 52: allocate the tree record */
             psoRoot->ptree = ((SOTREE *(*)(void *))pvte->pfn)((char *)psoRoot + pvte->d);
-            func_00134320(D_003DD490, psoRoot);
+            func_00134320(g_sw, psoRoot);
         }
         pso->ptree = psoRoot->ptree;
     }

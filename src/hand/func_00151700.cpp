@@ -8,7 +8,7 @@ typedef union { struct { qword r[4]; } q; M3 m3; float af[4][4]; } M4;
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 struct CM { char pad[0x390]; float g390; };
-extern struct CM D_002DDF40;
+extern struct CM g_cm;
 extern qword D_002BDA70[];
 struct K { qword pos; qword rot; float fov; };
 struct PATH { struct K *pk0; struct K *pk1; float dt; int pad; int ik; };
@@ -56,7 +56,7 @@ extern "C" void func_00151700(struct X *p)
     U c;
     struct PATH *ppath;
     func_0014FD40(p);
-    u = g_clock.t - D_002DDF40.g390;
+    u = g_clock.t - g_cm.g390;
     t = GClamp(u / p->ppath->dt, 0.0f, 1.0f);
     u = t;
     c.f[1] = u * u;
@@ -81,7 +81,7 @@ extern "C" void func_00151700(struct X *p)
         m4.af[1][3] = 0.0f;
         m4.af[0][3] = 0.0f;
         pm4->af[3][3] = 1.0f;
-        func_0014E168(&D_002DDF40, pm4);
+        func_0014E168(&g_cm, pm4);
     }
-    SetCmFov(&D_002DDF40, fov);
+    SetCmFov(&g_cm, fov);
 }

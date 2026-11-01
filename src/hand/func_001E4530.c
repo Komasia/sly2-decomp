@@ -1,5 +1,5 @@
 struct G { int a; };
-extern struct G D_003DD490;
+extern struct G g_sw;
 extern struct G D_003DD040;
 extern struct G D_002DE578;
 extern float DT_CmJoltMax;
@@ -30,7 +30,7 @@ float func_001E4530(struct C *pc, struct P *p)
     }
     case 0xD:
         if (p->x18 != -1) {
-            void *px = func_0015E938(&D_003DD490, 4, p->u10.n, pc->x18);
+            void *px = func_0015E938(&g_sw, 4, p->u10.n, pc->x18);
             if (px) {
                 void *py = func_001F67E0(px, p->u14.n);
                 if (py) g = func_001F11A8(py, p->x18);

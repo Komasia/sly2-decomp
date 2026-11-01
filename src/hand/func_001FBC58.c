@@ -4,7 +4,7 @@ struct G { char pad[0xE8]; int nE8; };
 struct S { int n0; };
 struct M { int n0; int pad4; int n8; int nC; short h10; short pad12; int pad14[3]; short h20; short pad22; int pad24; int n28; int pad2C; };
 extern struct G D_003DD040;
-extern char D_003DD490[];
+extern char g_sw[];
 extern int D_002DD5BC, D_002F7900, D_002E1E40;
 struct S *func_001FD028(struct G *, int);
 short func_001FD070(struct G *, struct S *);
@@ -61,5 +61,5 @@ void func_001FBC58(struct P *p)
     case 0x73: id = D_002DD5BC; break;
     case 0x15: id = D_002F7900; break;
     }
-    if (id == func_001C4840(D_003DD490)) func_001FEED0(&D_003DD040);
+    if (id == func_001C4840(g_sw)) func_001FEED0(&D_003DD040);
 }

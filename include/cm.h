@@ -4,7 +4,7 @@
  * decomp"), checked against the matched code: the CM constructor (func_0014D3D8) builds the policy members at
  * 0x3A0, 0x3B0, 0x450, 0x4A8, 0x4C0, 0x500, 0x520, 0x5F0 and 0x600 and the class is 0x630 bytes; SetCmNearClip /
  * SetCmFarClip / SetCmFov write sNearClip / sFarClip / fov+fovTarget+dfov; the fog setters write 0x240..0x24C.
- * The game's one camera object is D_002DDF40 (Lilly: g_cm).
+ * The game's one camera object is g_cm (Lilly: g_cm).
  *
  * A camera policy is a g++ class whose data (CPLCYDATA) comes before its vtable pointer (+0x0C). Virtual slots
  * seen so far: 0 (all policies share func_0014FCC0), 1 (func_0014FCC8 in CPLCY), 2 (func_0014FCE8 in CPLCY: leave
@@ -171,7 +171,7 @@ typedef struct CM {
     /* 0x624 */ float rUnk624;
 } CM;   /* 0x630 */
 
-extern CM D_002DDF40;   /* the camera (Lilly: g_cm) */
+extern CM g_cm;   /* the camera (Lilly: g_cm) */
 
 void RecalcCmFrustrum__FP2CM(CM *pcm);
 void SetCmFov__FP2CMf(CM *pcm, float fov);

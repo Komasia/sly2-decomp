@@ -66,7 +66,7 @@ extern "C" {
 extern CLOCK g_clock;
 extern int D_002BDEB0[];
 extern qword g_normalZ;
-extern char D_003DD490[];
+extern char g_sw[];
 float GRandInRange(float lo, float hi) asm("GRandInRange__Fff");
 int func_0011D3F8(int lo, int hi);
 int func_00132B10(SO *p, int n);
@@ -150,7 +150,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
             }
         }
         if (fWake && pwater->px17C) {
-            RIP *prip = func_001CE888(D_003DD490, 7, 0);
+            RIP *prip = func_001CE888(g_sw, 7, 0);
             if (prip) {
                 EVT *pe = &prip->pvt->a[1];
                 pe->pfn((char *)prip + pe->d, gScale, v, 0);

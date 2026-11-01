@@ -5,7 +5,7 @@ M2C_UNK func_0012A0B0(s32 *, M2C_UNK);              /* extern */
 s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
 s32 *func_001291A8(s32 *arg0, s32 *arg1);           /* static */
 extern M2C_UNK D_002A43B0;
-extern M2C_UNK D_002BBB90;
+extern M2C_UNK g_mpbifkbif;
 extern void *D_002DD2AC;
 extern void *D_002DD2CC;
 extern s32 D_002DD598;

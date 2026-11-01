@@ -1,7 +1,7 @@
 /* Sly 2 world (SW, class 1, 0x4790 bytes; Sly 1 sw.c), partial: only the fields the cleaned sources use, with Lilly's
  * Sly 2 names (src/hand/func_0020E3C0.cpp / func_0020F318.cpp, "ported from Lilly's personal Sly 2 decomp"). The
  * offsets were checked against the matched code (counter pairs at 0x3D78..0x3D84, the lighting setters at
- * 0x3E10..0x3E24, the two 12-byte allocation arrays at 0x39D0 / 0x39D8). The game's world is D_003DD490 (Lilly: g_sw). */
+ * 0x3E10..0x3E24, the two 12-byte allocation arrays at 0x39D0 / 0x39D8). The game's world is g_sw (Lilly: g_sw). */
 #ifndef SW_H
 #define SW_H
 #include "so.h"
@@ -27,6 +27,6 @@ typedef struct SW {
     /* 0x3e28 */ char unk_0x3e28[0x4790 - 0x3e28];
 } SW;
 
-extern SW D_003DD490;   /* the world (Lilly: g_sw) */
+extern SW g_sw;   /* the world (Lilly: g_sw) */
 
 #endif

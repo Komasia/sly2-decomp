@@ -1,5 +1,5 @@
 struct G;
-extern struct G D_003DD490;
+extern struct G g_sw;
 extern char g_clock[], g_game[];
 struct S { char pad[0x24]; int x24; };
 void func_001D9910(struct S *p);
@@ -11,6 +11,6 @@ void func_001AEA40(struct S *p)
     func_001D9910(p);
     p->x24 = 0;
     func_0014D1D0(g_clock, 0, 1.0f);
-    func_0020F030(&D_003DD490, 0);
+    func_0020F030(&g_sw, 0);
     func_001619A0(g_game, 0x2C, 0);
 }

@@ -6,7 +6,7 @@ struct Q { char pad[0x34]; char dl[0x2C]; struct P *p60; };
 struct P { char pad[0xC]; struct VTE *pvt; char pad2[0xE0 - 0x10]; int nE0; struct E *aE4; int nE8; struct Q *pq; };
 struct Q2 { char pad[0xEC]; struct Q *pq; };
 struct G;
-extern struct G D_003DD490;
+extern struct G g_sw;
 int FFindDlEntry__FP2DLPv(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, void *);
 int FIsDlEmpty__FP2DL(void *);
@@ -20,13 +20,13 @@ void func_001F2930(struct P *p, struct E *pe)
     if (!p->pq) return;
     if (!FFindDlEntry__FP2DLPv(p->pq->dl, pe)) return;
     RemoveDlEntry__FP2DLPv(p->pq->dl, pe);
-    if (pe->fl & (1L << 51)) func_001A00D0(&D_003DD490, 0, pe);
+    if (pe->fl & (1L << 51)) func_001A00D0(&g_sw, 0, pe);
     func_001F4E28(p);
     if (FIsDlEmpty__FP2DL(p->pq->dl)) {
         struct Q *pq = p->pq;
         ((struct Q2 *)pq->p60)->pq = 0;
         p->pq = 0;
-        func_001337D0(&D_003DD490, pq);
+        func_001337D0(&g_sw, pq);
     } else if (p->pq->p60 != p) {
         i = p->nE0;
         while (--i >= 0) {

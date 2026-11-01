@@ -13,7 +13,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern float D_002BD2D0;
 extern float D_002BD2D4;
-extern char D_003DD490[];
+extern char g_sw[];
 extern char g_game[];
 int func_00144068(struct PO *);
 int IsSwHandsOff__FP2SW(void *);
@@ -59,7 +59,7 @@ void func_00144640(struct P *p)
     if (g_clock.t < p->t24)
         return;
     p->t24 = g_clock.t + D_002BD2D0;
-    if (IsSwHandsOff__FP2SW(D_003DD490)) {
+    if (IsSwHandsOff__FP2SW(g_sw)) {
         int fAny = 0;
         struct LN *pln;
         for (pln = p->p0->xEC->x64; pln; pln = pln->pnext) {

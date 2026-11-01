@@ -5,6 +5,6 @@
 void func_0014FCE8(CPLCY *pcplcy)
 {
     pcplcy->pvHero = NULL;
-    SetCmNearClip__FP2CMf(&D_002DDF40, pcplcy->sNearClipSaved);
-    D_002DDF40.fovTarget = pcplcy->gFovTargetSaved;
+    SetCmNearClip__FP2CMf(&g_cm, pcplcy->sNearClipSaved);
+    g_cm.fovTarget = pcplcy->gFovTargetSaved;
 }

@@ -3,5 +3,5 @@
 
 int func_0014FD50(CPLCY *pcplcy)
 {
-    return D_002DDF40.acpr[0].pcplcy == pcplcy;
+    return g_cm.acpr[0].pcplcy == pcplcy;
 }
