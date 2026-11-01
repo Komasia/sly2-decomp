@@ -22,7 +22,7 @@ float GSmooth(float gCur, float gTarget, float dt, void *psmp, float *pdgNext) a
 M3 func_0011B500(qword v, float g);
 qword *func_00256D18(qword *p, qword v);
 void func_0014E168(CM *p, M4 *m);
-void func_0014F5A0(CM *p, float g);
+void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
 void func_00151950(X *p);
 }
 static inline M3 Mul(const M3 &a, const M3 &b) return r
@@ -91,5 +91,5 @@ void func_00151950(X *p)
     if (D_002DDF40.g24 != D_002DDF40.g20)
         D_002DDF40.g24 = py->g1BC;
     else
-        func_0014F5A0(&D_002DDF40, py->g1BC);
+        SetCmFov(&D_002DDF40, py->g1BC);
 }

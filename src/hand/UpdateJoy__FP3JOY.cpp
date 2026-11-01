@@ -24,7 +24,7 @@ int func_00243930(int port, int slot, unsigned char *pb);
 int func_00243B70(int port, int slot);
 int func_00243BD0(int port, int slot);
 int func_00243500(int port, int slot);
-int func_00187998(JOY *pjoy);
+int FReadJoy(JOY *pjoy) asm("FReadJoy__FP3JOY");
 void func_001D51B8(void *prumble);
 void SetJoyJoys(JOY *pjoy, int joys, int joyk) asm("SetJoyJoys__FP3JOY4JOYS4JOYK");
 }
@@ -158,7 +158,7 @@ void UpdateJoy(JOY *pjoy)
         }
         break;
     case 3:
-        if (func_00187998(pjoy)) {
+        if (FReadJoy(pjoy)) {
             if (pjoy->fRumbleEnabled && pjoy->joyk >= 3)
                 func_001D51B8(pjoy->rumble);
         } else {

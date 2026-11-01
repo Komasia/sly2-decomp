@@ -30,7 +30,7 @@ qword func_0011BFF0(M3 *pm);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
 qword *func_00256D18(qword *p, qword v);
 void func_0014E168(struct CM *p, M4 *m);
-void func_0014F5A0(struct CM *p, float g);
+void SetCmFov__FP2CMf(struct CM *p, float g);
 void func_0011BC88(M4 *pm, float *pa, float *pb);
 qword func_001507F8(struct X *p);
 qword func_00150780(struct X *p);
@@ -93,13 +93,13 @@ void func_00150A28(struct X *p)
         m4.af[0][3] = 0.0f;
         pm4->af[3][3] = 1.0f;
         func_0014E168(&D_002DDF40, pm4);
-        func_0014F5A0(&D_002DDF40, p->g70);
+        SetCmFov__FP2CMf(&D_002DDF40, p->g70);
         func_0011BC88(pm4, &p->gA4, &p->gA8);
         }
         p->gAC = func_0011D948(g_lmZeroOne, GFrac(p->g70, p->gB8, p->gBC));
     } else {
         float u = 1.0f - p->gAC;
-        func_0014F5A0(&D_002DDF40, (1.0f - u) * p->gB8 + u * p->gBC);
+        SetCmFov__FP2CMf(&D_002DDF40, (1.0f - u) * p->gB8 + u * p->gBC);
         {
             qword a = p->q30;
             p->q30 = func_0011F088(a, func_001507F8(p), g_clock.dt, D_002BD9F8, 0);

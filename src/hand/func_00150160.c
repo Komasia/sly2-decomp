@@ -27,7 +27,7 @@ void func_001FB2C0(struct SND *p, float g);
 void func_001FB1F8(struct SND *p, float g);
 void func_001FB060(struct SND *p);
 void func_001FB018(struct SND *p);
-void func_0014F5A0(struct CM *p, float g);
+void SetCmFov__FP2CMf(struct CM *p, float g);
 void func_002581C0(struct CRef *, void *, void *);
 void func_00129EC8(struct CRef *);
 float func_0011CFE0(float g, float gMax);
@@ -72,7 +72,7 @@ void func_00150160(struct X *p, void *pv, struct JOY *pjoy)
             func_001FB018(p->p34);
     }
     u = 1.0f - p->g20;
-    func_0014F5A0(&D_002DDF40, (1.0f - u) * p->g2C + u * p->g30);
+    SetCmFov__FP2CMf(&D_002DDF40, (1.0f - u) * p->g2C + u * p->g30);
     gPan = -__builtin_fabsf(pjoy->g103C) * pjoy->g103C * D_002BD990;
     gTilt = -__builtin_fabsf(pjoy->g1040) * pjoy->g1040 * D_002BD994;
     func_002581C0(&ref, D_003DD490.p3B4C, D_003D4A60);

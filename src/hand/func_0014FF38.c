@@ -17,7 +17,7 @@ void func_0011BC88(void *, float *, float *);
 int func_00132B10(int, int);
 void *func_001A6318(int);
 float func_0011D948(F2 *, float);
-void func_0014F610(struct G *, float);
+void SetCmNearClip__FP2CMf(struct G *, float);
 
 void func_0014FF38(struct X *p)
 {
@@ -60,7 +60,7 @@ void func_0014FF38(struct X *p)
     p->x24 = 0;
     p->x2C = D_002DDF40.x24 / p->x28;
     p->x30 = D_002DDF40.x24;
-    func_0014F610(&D_002DDF40, 49.0f);
+    SetCmNearClip__FP2CMf(&D_002DDF40, 49.0f);
     p->x54++;
     D_003E1BE0 = g_clock.t;
 }

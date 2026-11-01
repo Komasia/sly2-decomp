@@ -65,7 +65,7 @@ extern void func_0014BF48(void *p, JOY *pjoy, int grfbtn);
 extern int func_001C4840(void *p);
 extern void func_001619A0(SND *p, int n, int a);
 
-int func_00187998(JOY *p)
+int FReadJoy__FP3JOY(JOY *p)
 {
     unsigned char ab[0x40];
     int fRet = 1;

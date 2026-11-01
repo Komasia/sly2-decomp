@@ -21,7 +21,7 @@ qword func_001A62E8(ALO *p);
 M3 *func_0011B7E0(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
 void func_0014E168(CM *p, M4 *m);
-void func_0014F5A0(CM *p, float g);
+void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
 void func_00151C38(X *p);
 }
 static inline float GFromClq(const CLQ &c, float g) { return c.g0 + g * (c.g1 + g * c.g2); }
@@ -67,7 +67,7 @@ struct VU_FLOATJ { qword q; VU_FLOATJ(float f) { __asm__("qmtc2.ni %1, %0" : "=j
 static inline qword Scale(qword a, VU_FLOATJ s) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(a), "j"(s.q)); return r; }
 
 static inline void Cm1(M4 *pm) { func_0014E168(&D_002DDF40, pm); }
-static inline void Cm2(float g) { func_0014F5A0(&D_002DDF40, g); }
+static inline void Cm2(float g) { SetCmFov(&D_002DDF40, g); }
 void func_00151C38(X *p)
 {
     U d;

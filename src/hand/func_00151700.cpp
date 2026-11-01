@@ -17,7 +17,7 @@ void func_0014FD40(struct X *p);
 void func_0011B628(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
 void func_0014E168(struct CM *p, M4 *m);
-void func_0014F5A0(struct CM *p, float g);
+void SetCmFov(struct CM *p, float g) asm("SetCmFov__FP2CMf");
 
 static __inline__ float GClamp(float g, float gMin, float gMax)
 {
@@ -83,5 +83,5 @@ extern "C" void func_00151700(struct X *p)
         pm4->af[3][3] = 1.0f;
         func_0014E168(&D_002DDF40, pm4);
     }
-    func_0014F5A0(&D_002DDF40, fov);
+    SetCmFov(&D_002DDF40, fov);
 }

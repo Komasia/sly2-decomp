@@ -18,7 +18,7 @@ extern struct G D_003DD490;
 extern char D_002BD810[];
 void func_0014E920(struct CM *p, void *pv);
 void func_0014E768(struct CM *p, struct O *po, void *pv);
-void func_0014F5A0(struct CM *p, float g);
+void SetCmFov__FP2CMf(struct CM *p, float g);
 float func_0011D1C0(float g, float h, float i, float dt, float *pa, float *pb);
 void func_0014DB70(struct CM *p);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, float *pr);
@@ -59,7 +59,7 @@ void func_0014D478(struct CM *p)
     }
     }
     if (p->x300) {
-        func_0014F5A0(p, p->g24);
+        SetCmFov__FP2CMf(p, p->g24);
     } else if (p->g24 != p->g20) {
         p->g20 = func_0011D1C0(p->g20, p->g28, p->g24, g_clock.dt, &p->g2C, &p->g28);
         func_0014DB70(p);
