@@ -1,4 +1,4 @@
-// func_0013E818: ported from Lilly's personal Sly 2 decomp (src/P2/brx.c), reduced to the declarations it needs.
+// LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream: ported from Lilly's personal Sly 2 decomp (src/P2/brx.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: g_sw
 // 0x0013E818 LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream  (MATCHES Sly 2, T1071; 99.8% in T0906, 98.2% in T1003)
@@ -268,7 +268,7 @@ inline void *PvAllocStackClear(int cb, int cbAlign)
     pswalloc->cbAlign = cbAlign;
     return PvAllocStackClearImpl(pswalloc);
 }
-void LoadOptionFromBrx(void *const pvStruct, EOPID *peopid, GRFEOPID grfeopid, CBinaryInputStream *pbis) __asm__("func_0013E818");
+void LoadOptionFromBrx(void *const pvStruct, EOPID *peopid, GRFEOPID grfeopid, CBinaryInputStream *pbis) __asm__("LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream");
 void LoadOptionFromBrx(void *const pvStruct, EOPID *peopid, GRFEOPID grfeopid, CBinaryInputStream *pbis)
 {
     int fNever = 0;

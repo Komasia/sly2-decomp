@@ -45,7 +45,7 @@ void __10STACKSCOPE(FRAME *pf);
 void _$_10STACKSCOPE(FRAME *pf, int n);
 int FIsDlEmpty(void *pdl) asm("FIsDlEmpty__FP2DL");
 int func_0011A3C0(void *pdl);
-void *PvAllocSlot(const AL &al) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
 int func_001A61A0(LO *plo);
 qword func_001A62E8(LO *plo);
 M3 *func_001A6318(LO *plo);
@@ -64,7 +64,7 @@ void func_001576F0(VIFS *p);
 void func_00157620(VIFS *p);
 void func_0013A1E8(P *p);
 }
-static inline void *PvAllocStack(int cb) { return PvAllocSlot(AL(cb, 0x10)); }
+static inline void *PvAllocStack(int cb) { return PvAllocStackImpl(AL(cb, 0x10)); }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 /* earlyclobber output (else branch: vsub vf3 distinct from its inputs); the 2nd "j"(b) is allocation-only */
 static inline qword SubE(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=&j"(r) : "j"(a), "j"(b), "j"(b)); return r; }

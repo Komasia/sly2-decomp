@@ -7,7 +7,7 @@ struct AL { int cb; int cbAlign; };
 extern float D_002BD8D4;
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-void *PvAllocSlot__FP8ALLOCREQ(struct AL *pal);
+void *PvAllocStackImpl__Fi(struct AL *pal);
 int func_001A93C8(qword pos, struct LO *po, struct E *pe, float g, int a, int b, int cMax, struct X *ax);
 void func_0011AD30(int c, float *aDot, float *aW, float *aZ, float g);
 qword func_0011E9F8(qword v, float g);
@@ -29,7 +29,7 @@ static inline void *PvAlloc(int cb, int cbAlign)
     struct AL al;
     al.cb = cb;
     al.cbAlign = cbAlign;
-    return PvAllocSlot__FP8ALLOCREQ(&al);
+    return PvAllocStackImpl__Fi(&al);
 }
 
 qword func_0014EDA0(void *p, int c, struct LO **apo, float (*pfn)(void *, qword, qword, struct X *),

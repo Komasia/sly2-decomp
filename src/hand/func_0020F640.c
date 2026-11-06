@@ -4,7 +4,7 @@ struct L { int a[4]; };
 struct M { int a; int b; int c[2]; };
 void func_00117988(void *q, int n);
 void __10STACKSCOPE(struct L *pl);
-void *PvAllocSlot__FP8ALLOCREQ(struct M *pm);
+void *PvAllocStackImpl__Fi(struct M *pm);
 void Read__18CBinaryInputStreamiPv(void *q, int a, void *x);
 void func_001EA568(void *x);
 void func_00170730(void *p);
@@ -22,7 +22,7 @@ void func_0020F640(void *p, void *q)
         { struct M *pm = &m;
         pm->a = D_003E1C30;
         pm->b = 0x10;
-        x = PvAllocSlot__FP8ALLOCREQ(pm); }
+        x = PvAllocStackImpl__Fi(pm); }
         Read__18CBinaryInputStreamiPv(q, D_003E1C30, x);
         func_001EA568(x);
         func_00170730(p);

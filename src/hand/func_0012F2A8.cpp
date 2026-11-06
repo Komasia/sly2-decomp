@@ -16,7 +16,7 @@ void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 OBJ *func_0012B3B0(int id);
 OBJ *func_0012CB98(int id);
 void func_0012F590(X *px, BIS *pbis, int n, int *pa, int *pb);
-void func_0013F810(X *px, BIS *pbis);
+void LoadOptionsFromBrx(X *px, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
 void func_0012F2A8(X *px, BIS *pbis);
 }
 void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
@@ -47,4 +47,4 @@ void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
  func_0012F590(px, pbis, 0, &px->x98, &px->x9C);
  func_0012F590(px, pbis, 1, &px->xA0, &px->xA4);
  func_0012F590(px, pbis, 0, &px->xA8, &px->xAC);
- func_0013F810(px, pbis); }
+ LoadOptionsFromBrx(px, pbis); }

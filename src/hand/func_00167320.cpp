@@ -1,4 +1,4 @@
-// func_00167320: ported from Lilly's personal Sly 2 decomp (src/P2/glob.c), reduced to the declarations it needs.
+// LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream: ported from Lilly's personal Sly 2 decomp (src/P2/glob.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // 0x00167320 LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream  (MATCHES Sly 2, T1064)
 // SO::LoadFromBrx 0x1F31E0 calls it for the model of every SO. File order (re/notes/formats/07-globs.md):
@@ -561,7 +561,7 @@ static inline void *PvAllocSwClear(int cb)
     swalloc.cbAlign = 0x10;
     return PvAllocSwClearImpl(&swalloc);
 }
-void LoadGlobsetFromBrx(GLOBSET *pglobset, SO *pso, CBinaryInputStream *pbis) __asm__("func_00167320");
+void LoadGlobsetFromBrx(GLOBSET *pglobset, SO *pso, CBinaryInputStream *pbis) __asm__("LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream");
 void LoadGlobsetFromBrx(GLOBSET *pglobset, SO *pso, CBinaryInputStream *pbis)
 {
     pglobset->pso = pso;

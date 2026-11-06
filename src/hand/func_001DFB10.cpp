@@ -13,7 +13,7 @@ struct OBJ {
     char pad5c[0x7C - 0x5C];
     int f7C;
 };
-void *PvAllocSlot(MSG *) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(MSG *) asm("PvAllocStackImpl__Fi");
 void *PvAllocSwImpl(MSG *) asm("PvAllocSwImpl__Fi");
 void func_001AE5A0(void *, void *, int);
 void func_001E0290(OBJ *, int);
@@ -26,7 +26,7 @@ extern "C" void func_001DFB10(OBJ *p, void *x)
     MSG *pmsg = &msg;
     pmsg->cb = 0xA000;
     pmsg->nKind = 0x10;
-    p->ae = (ENT *)PvAllocSlot(pmsg);
+    p->ae = (ENT *)PvAllocStackImpl(pmsg);
     func_001E0290(p, -1);
     p->f7C = 1;
     LoadLoFromBrx(p, x);

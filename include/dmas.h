@@ -38,7 +38,7 @@ public:
 };
 
 extern HEAP g_heapSw;
-void *PvAllocSlot(ALLOCREQ *preq);                       /* 0x1AE318 */
+void *PvAllocStackImpl(ALLOCREQ *preq) asm("PvAllocStackImpl__Fi");   /* 0x1AE318 (stack allocator) */
 void *PvAllocCopy(HEAP *pheap, int cb, void *pv, int n); /* 0x116970 */
 void CopyAqw(void *pvDst, void *pvSrc, int cqw);        /* 0x1AE528 */
 #endif

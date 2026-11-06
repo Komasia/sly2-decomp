@@ -16,7 +16,7 @@ typedef struct { short d; short pad; void (*pfn)(struct LO *, M3 *); } VT;
 struct LO { int x0, x4, x8; VT *vt; char pad[0x20 - 0x10]; struct LO *x20; char pad2[0x160 - 0x24]; int x160; };
 extern struct LO *D_003E04F8;
 extern qword g_normalZ;
-struct LO *func_0013E3C8(int a, int b, int c, int d);
+struct LO *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_0011B830(M3 *pm, qword v, qword w);
 void func_001A3610(struct LO *p, float f);
 void func_001A3630(struct LO *p, float f);
@@ -30,7 +30,7 @@ void func_001A3260(void)
         if (p->x160 == 0) break;
     }
     if (p) return;
-    p = func_0013E3C8(4, 0, 0x188, -1);
+    p = PloNew__F3CIDP2SW3OIDi(4, 0, 0x188, -1);
     r.q = Make(-0.2f, 0.3f, -1.0f);
     func_0011B830(&m, r.q, g_normalZ);
     c = m;

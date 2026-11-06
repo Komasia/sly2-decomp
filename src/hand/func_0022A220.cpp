@@ -31,7 +31,7 @@ UQ *func_002564C0(UQ *);
 UQ *func_002564B8(UQ *);
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
-void *PvAllocSlot(REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(REQ *) asm("PvAllocStackImpl__Fi");
 int func_0014F030(void *, O *);
 void func_0020FAA0(WORLD *, qword, qword, int (*)(void *, O *), void *, int *, O ***);
 int func_00118D08(NODE *, NODE *, int, UQ *, int *, FACE ***);
@@ -190,7 +190,7 @@ extern "C" void func_0022A220(O *po)
     REQ *preq = (REQ *)&tmp;
     preq->cb = 0x10000;
     preq->align = 16;
-    apface = (FACE **)PvAllocSlot(preq);
+    apface = (FACE **)PvAllocStackImpl(preq);
     qword k2 = QI(D_002C4490);
     tmp.q = k2;
     func_0020FAA0(&g_sw, Min(posCam, posSrc), AddUp(Max(posCam, posSrc), g_normalZ, k2),

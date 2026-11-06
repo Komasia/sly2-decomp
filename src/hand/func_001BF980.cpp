@@ -7,12 +7,12 @@ struct V { qword pos; int cEdge; E *aEdge; };
 struct G { int c; };
 struct NODE { V *pv; float f; float g; NODE *parent; int depth; NODE *next; };
 extern "C" {
-void *PvAllocSlot(const AREQ &r) asm("PvAllocSlot__FP8ALLOCREQ");
-void *func_001AE378(const AREQ &r);
+void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
+void *PvAllocStackClearImpl(const AREQ &r) asm("PvAllocStackClearImpl__Fi");
 int func_001BF970(G *p, V *pv);
 }
-static inline void *Alloc(int cb) { return PvAllocSlot(AREQ(cb, 0x10)); }
-static inline void *AllocB(int cb) { return func_001AE378(AREQ(cb, 0x10)); }
+static inline void *Alloc(int cb) { return PvAllocStackImpl(AREQ(cb, 0x10)); }
+static inline void *AllocB(int cb) { return PvAllocStackClearImpl(AREQ(cb, 0x10)); }
 static inline float Dist2(const qword &a, const qword &b)
 {
     qword d;

@@ -45,7 +45,7 @@ float func_00117E38(BIS *);
 void ReadMatrix(BIS *,M3 *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
 void Read(BIS *,int,void *) asm("Read__18CBinaryInputStreamiPv");
 void *PvAllocClear(HEAP *,int,int) asm("PvAllocClear__FP4HEAPii");
-void *func_001AE378(ALLOCREQ *);
+void *PvAllocStackClearImpl(ALLOCREQ *) asm("PvAllocStackClearImpl__Fi");
 void func_00214398(OWNER *,BIS *,ROOT *,int *,SPRITE **);
 void func_00149A50(WORLD *,OWNER *,PMF,SPRITE *);
 }
@@ -56,7 +56,7 @@ extern PMF D_002A8B08;
 extern WORLD g_sw;
 extern QW D_002A2E10;
 extern char D_00000650[],D_00000140[];
-static inline void *Acquire(ALLOCREQ *request,int bytes,int alignment){request->cb=bytes;request->cbAlign=alignment;return func_001AE378(request);}
+static inline void *Acquire(ALLOCREQ *request,int bytes,int alignment){request->cb=bytes;request->cbAlign=alignment;return PvAllocStackClearImpl(request);}
 static inline void CopyXY(M23 &dst,const M3 &src){
  const float *a=(const float *)&src.r[0],*b=(const float *)&src.r[1],*c=(const float *)&src.r[2];
  dst.a[0]=a[0];dst.a[1]=a[1];dst.a[2]=b[0];dst.a[3]=b[1];dst.a[4]=c[0];dst.a[5]=c[1];

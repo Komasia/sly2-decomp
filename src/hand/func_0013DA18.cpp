@@ -9,7 +9,7 @@
 // 0x13E510 PloCloneLo, 0x14B690 PchzFidName. D_003DD040 = g_sndmgr.
 // Matching notes: the alloc helpers take cbAlign as a parameter (its copy lets loop.c hoist the loop's 0x10, which reload then
 // rematerialises); the black clear colour is stored as `unsigned int`.
-// STAND-IN (same trick as func_0013E818.cpp / func_00219400.cpp): the five spilled gcse reaching pseudos (&gsb1, &frame, &bis,
+// STAND-IN (same trick as LoadOptionFromBrx.cpp / func_00219400.cpp): the five spilled gcse reaching pseudos (&gsb1, &frame, &bis,
 // &gsb0, &frameT) get their spill slots in the order of the gcse expression hash-table size S = max_cuid/2|1. This source has
 // S = 171 after cse1; the game's slot order needs S = 201/203 (~60 more insns). `if (fNever)` is dead code (cprop folds it,
 // jump deletes it; the final code is unchanged) that only supplies those insns. What the game really had there is unknown.
@@ -20,7 +20,7 @@ void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
-void *PvAllocSlot(AREQ *preq) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(AREQ *preq) asm("PvAllocStackImpl__Fi");
 void func_001AE5A0(void *pvDst, void *pvSrc, int cb);
 void *func_002333B4(void *pv, int b, int cb);
 void func_0012AE18(void);
@@ -37,7 +37,7 @@ void func_001D7B88(void *p, BIS *pbis);
 void func_0020F318(void *psw, BIS *pbis);
 void func_0013DF80(void *psw, BIS *pbis);
 void func_0013E0E0(void *psw, BIS *pbis);
-void func_0013F810(void *p, BIS *pbis);
+void LoadOptionsFromBrx(void *p, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
 void func_001FF7E8(void *psw);
 void func_0020E3C0(void *psw);
 void func_0020F1C8(void *psw);
@@ -85,7 +85,7 @@ class OBJ { public: OBJ(int k, void *pv, int n); ~OBJ(); char ab[0x70]; };
 
 static inline void *AllocZ(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocSwClearImpl(preq); }
 static inline void *Alloc(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocSwImpl(preq); }
-static inline void *AllocS(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocSlot(preq); }
+static inline void *AllocS(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocStackImpl(preq); }
 
 extern "C" void func_0013DA18(SW *psw, BIS *pbis)
 {
@@ -130,8 +130,8 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
     func_0020F318(psw, pbis);
     func_0013DF80(psw, pbis);
     func_0013E0E0(psw, pbis);
-    func_0013F810(g_sw, pbis);
-    func_0013F810(g_cm, pbis);
+    LoadOptionsFromBrx(g_sw, pbis);
+    LoadOptionsFromBrx(g_cm, pbis);
     func_00117988(pbis, 0x10);
     func_001FF7E8(psw);
     func_0020E3C0(psw);

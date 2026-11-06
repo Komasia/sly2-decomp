@@ -27,7 +27,7 @@ void DMAS::AllocSw(int cqw)
     int cb = cqw << 4;
     req.cb = cb;
     req.cbAlign = 0x10;
-    uchar *ab = (uchar *)PvAllocSlot(&req);
+    uchar *ab = (uchar *)PvAllocStackImpl(&req);
     m_ab = ab;
     m_pb = ab;
     m_pbMax = ab + cb;

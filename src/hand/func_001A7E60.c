@@ -12,7 +12,7 @@ static __inline__ qword Lin(qword a, qword *pb, int f)
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(a) : "0"(a), "j"(*pb), "j"(t.q):"memory");
     return a;
 }
-void func_001A7E60(void *unused, int n, struct P **ap)
+void RecalcSwXpPos__FP2SWiPP2XP(void *unused, int n, struct P **ap)
 {
     int i;
     for (i = 0; i < n; i++) {

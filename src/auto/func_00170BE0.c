@@ -7,7 +7,7 @@ M2C_UNK ReadCb12__18CBinaryInputStreamPv(s32, M2C_UNK *);              /* extern
 M2C_UNK ReadCb8__18CBinaryInputStreamPv(s32, M2C_UNK *);              /* extern */
 M2C_UNK AllocSw__4DMASi(M2C_UNK *, s32);              /* extern */
 M2C_UNK DetachCopySw__4DMASPiPP2QWT2(M2C_UNK *, s32 *, s32 *, s32 *); /* extern */
-s32 *PvAllocSlot__FP8ALLOCREQ(s32 *, s8, M2C_UNK, M2C_UNK);    /* extern */
+s32 *PvAllocStackImpl__Fi(s32 *, s8, M2C_UNK, M2C_UNK);    /* extern */
 M2C_UNK __4VIFS(M2C_UNK *, s64, s64, s64);    /* extern */
 M2C_UNK AddVifUnpack__4VIFS3UPKiP18CBinaryInputStreami(M2C_UNK *, s32, s32, s32);    /* extern */
 M2C_UNK func_00240460(M2C_UNK, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */

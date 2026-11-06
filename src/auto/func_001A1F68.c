@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-s32 PvAllocSlot__FP8ALLOCREQ(s32 *, M2C_UNK);                  /* extern */
+s32 PvAllocStackImpl__Fi(s32 *, M2C_UNK);                  /* extern */
 extern s128 D_002A2DA0;
 extern s128 D_002A2DB0;
 extern s128 D_002A2DD0;

@@ -4,7 +4,7 @@ struct AREQ { int cb; int cbAlign; };
 struct LSG { qword v0; qword v10; qword v20; qword v30; float at[2]; int x48; int x4C; int x50; int pad[3]; };
 struct CTX *__10STACKSCOPE(struct CTX *);
 void _$_10STACKSCOPE(struct CTX *, int);
-void *PvAllocSlot__FP8ALLOCREQ(struct AREQ *);
+void *PvAllocStackImpl__Fi(struct AREQ *);
 void func_001AE5A0(void *, void *, int);
 
 int func_0014C9F8(int c1, struct LSG *alsg1, int c2, struct LSG *alsg2_, int cMax, struct LSG *alsgOut, int k)
@@ -24,7 +24,7 @@ int func_0014C9F8(int c1, struct LSG *alsg1, int c2, struct LSG *alsg2_, int cMa
         struct AREQ *preq = &req;
         preq->cb = cMax * sizeof(struct LSG);
         preq->cbAlign = 0x10;
-        alsgT = PvAllocSlot__FP8ALLOCREQ(preq);
+        alsgT = PvAllocStackImpl__Fi(preq);
     }
     i1 = 0;
     i2 = 0;

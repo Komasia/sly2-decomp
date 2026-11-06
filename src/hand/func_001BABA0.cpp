@@ -12,12 +12,12 @@ struct P {
     E *ae;
 };
 extern "C" {
-void *PvAllocSlot(const AREQ &r) asm("PvAllocSlot__FP8ALLOCREQ");
-void *func_001AE378(const AREQ &r);
+void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
+void *PvAllocStackClearImpl(const AREQ &r) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocSwCopyImpl(const AREQ &r, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 }
-static inline void *Alloc(int cb) { return PvAllocSlot(AREQ(cb, 0x10)); }
-static inline void *AllocB(int cb) { return func_001AE378(AREQ(cb, 0x10)); }
+static inline void *Alloc(int cb) { return PvAllocStackImpl(AREQ(cb, 0x10)); }
+static inline void *AllocB(int cb) { return PvAllocStackClearImpl(AREQ(cb, 0x10)); }
 static inline void *Realloc(void *pv, int cb) { return PvAllocSwCopyImpl(AREQ(cb, 0x10), pv); }
 extern "C" {
 void LoadSoFromBrx(P *p, void *a) asm("LoadSoFromBrx__FP2SOP18CBinaryInputStream");

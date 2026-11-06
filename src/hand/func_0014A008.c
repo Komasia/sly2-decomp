@@ -2,7 +2,7 @@ struct S { int a, b; };
 struct F { int a[4]; };
 struct P { char pad[0x54]; int n54; int n58; };
 struct F *__10STACKSCOPE(struct F *f);
-int func_001AE378(struct S *s);
+int PvAllocStackClearImpl__Fi(struct S *s);
 void LoadLoFromBrx__FP2LOP18CBinaryInputStream(struct P *p, int a);
 int PvAllocSwCopyImpl__FiPv(struct S *s, int n);
 void _$_10STACKSCOPE(struct F *f, int n);
@@ -17,7 +17,7 @@ void func_0014A008(struct P *p, int a)
     struct S s;
     __10STACKSCOPE(&f);
     InitS(&s, 0x100, 0x10);
-    p->n58 = func_001AE378(&s);
+    p->n58 = PvAllocStackClearImpl__Fi(&s);
     LoadLoFromBrx__FP2LOP18CBinaryInputStream(p, a);
     InitS(&s, p->n54, 0x10);
     p->n58 = PvAllocSwCopyImpl__FiPv(&s, p->n58);

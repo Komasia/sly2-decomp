@@ -7,7 +7,7 @@ public:
 };
 class CBinaryInputStream;
 struct S { char pad[0x54]; int c54; void *a58; int c5C; void *a60; char pad2[0x8C - 0x64]; int c8C; void *a90; int c94; void *a98; };
-extern "C" void *PvAllocSlot(ALLOCREQ *preq) asm("PvAllocSlot__FP8ALLOCREQ");
+extern "C" void *PvAllocStackImpl(ALLOCREQ *preq) asm("PvAllocStackImpl__Fi");
 extern "C" void *PvAllocSwCopyImpl(ALLOCREQ *preq, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 extern "C" void LoadLoFromBrx(S *p, CBinaryInputStream *pbis) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
 extern "C" void func_00118420(CBinaryInputStream *pbis);
@@ -15,7 +15,7 @@ static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
     preq->nKind = nKind;
-    return PvAllocSlot(preq);
+    return PvAllocStackImpl(preq);
 }
 static inline void *PvShrinkReq(ALLOCREQ *preq, int cb, int nKind, void *pv)
 {

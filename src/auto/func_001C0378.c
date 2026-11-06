@@ -2,7 +2,7 @@
 M2C_UNK CopyAb__FPvT0Ui(s32, s128 **, s32, s32);    /* extern */
 M2C_UNK ReadVector__18CBinaryInputStreamP6VECTOR(s32, void *);                 /* extern */
 M2C_UNK ReadVector4__18CBinaryInputStreamP7VECTOR4(s32, s32);                    /* extern */
-s128 **PvAllocSlot__FP8ALLOCREQ(s32 *, M2C_UNK);               /* extern */
+s128 **PvAllocStackImpl__Fi(s32 *, M2C_UNK);               /* extern */
 extern f32 D_002A76DC;
 extern s128 *D_002A76E0;
 extern f32 D_002A76E4;

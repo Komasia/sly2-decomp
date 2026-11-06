@@ -3,7 +3,7 @@
 
 s32 PvAllocCopy__FP4HEAPiPvi(s32, s32, s32, M2C_UNK);          /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
-s128 *PvAllocSlot__FP8ALLOCREQ(s32 *, s32, s32);               /* extern */
+s128 *PvAllocStackImpl__Fi(s32 *, s32, s32);               /* extern */
 void DetachCopySw__4DMASPiPP2QWT2i(M2C_UNK *arg0, s32 arg1, u32 *arg2, s32 *arg3); /* static */
 void Flush__4DMAS(s32, s32 *);                     /* static */
 extern s128 D_002A2DD0;

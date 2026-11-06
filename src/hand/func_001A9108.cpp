@@ -10,7 +10,7 @@ union U{qword q;float f[4];};union SCR{REQ req;U u;};
 struct WORK{FRAME frame;SCR scratch;HIT hits[16];int count;ENTRY*end;U position,endpoint;};
 extern "C" FRAME*__10STACKSCOPE(FRAME*);
 extern "C" void _$_10STACKSCOPE(FRAME*,int);
-extern "C" void*PvAllocSlot(REQ*) asm("PvAllocSlot__FP8ALLOCREQ");
+extern "C" void*PvAllocStackImpl(REQ*) asm("PvAllocStackImpl__Fi");
 extern "C" int func_00118A88(ENTRY*,int,qword,float,int*,ENTRY**);
 extern "C" int func_00118668(ENTRY*,int,qword,qword,int,HIT*);
 extern "C" void func_00119390(qword*,qword,qword);
@@ -23,7 +23,7 @@ extern "C" void func_001A9108(ENTRY*tree,int mask,void*geometry,qword pos,OUT*ou
  float radius=Max(radius0,100.0f);
  __10STACKSCOPE(&work.frame);
  ENTRY*first;
- {REQ*r=&work.scratch.req;r->bytes=0xFFFC;r->alignment=16;first=(ENTRY*)PvAllocSlot(r);}
+ {REQ*r=&work.scratch.req;r->bytes=0xFFFC;r->alignment=16;first=(ENTRY*)PvAllocStackImpl(r);}
  int limit=0x1555;
  if(radius<52000.0f)do {
   work.end=first;work.count=limit;

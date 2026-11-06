@@ -6,7 +6,7 @@ extern "C" {
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 qword func_00153E60(T *p);
-void *PvAllocSlot(AL *pal) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
 qword func_001A6F00(SO *pso, int z, qword v);
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
 int func_0014CC58(int z, qword a, qword b, int i, int j, int k);
@@ -26,7 +26,7 @@ int func_001545F0(T *p, SO *pso)
     qword *ppos = D_002BDBF0;
     qword q = func_00153E60(p);
     AL al(0x10, 0x10);
-    qword *apos = (qword *)PvAllocSlot(&al);
+    qword *apos = (qword *)PvAllocStackImpl(&al);
     int ii, jj;
     qword vmax = q;
     qword vmin = q;

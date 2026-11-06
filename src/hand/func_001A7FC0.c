@@ -6,7 +6,7 @@ struct LO { int x0, x4, x8; VT *vt; };
 struct E { int x0; void *x4; int x8; struct LO *xC; qword x10; qword x20; qword x30; };
 struct P { struct E e[2]; char pad[0x30]; qword xB0; };
 qword func_0022D348(void *p, int n, qword q);
-void func_001A7FC0(void *unused, int n, struct P **ap)
+void RecalcSwXpMovement__FP2SWiPP2XP(void *unused, int n, struct P **ap)
 {
     int i;
     for (i = 0; i < n; i++) {

@@ -43,7 +43,7 @@ extern qword g_normalZ,D_002A2DD0;
 void UpdateSo(O *) asm("UpdateSo__FP2SOf");
 MARK *__10STACKSCOPE(MARK *);
 void _$_10STACKSCOPE(MARK *,int);
-void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");
 int func_00229D60(void *,COLL *);
 int func_001F7E08(O *,int (*)(void *,COLL *),void *,COLL **);
 int func_001F6838(O *);
@@ -77,7 +77,7 @@ extern "C" void func_00228E50(O *p){
  for(n=*work.head;n;n=n->next)n->object->flags|=0x80000000L;
  __10STACKSCOPE(&work.mark);
  {register int size __asm__("$3")=p->count;register int alignment __asm__("$2")=16;register REQ*req __asm__("$4")=work.request;size*=4;work.scratch.request.size=size;Fields(req)->alignment=alignment;
- objects=(COLL **)PvAllocSlot(req);}
+ objects=(COLL **)PvAllocStackImpl(req);}
  work.count=func_001F7E08(p,func_00229D60,0,objects);
  for(link=p->state->first;link;link=link->next){
   O *o=link->object;

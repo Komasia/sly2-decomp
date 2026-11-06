@@ -2,7 +2,7 @@
 M2C_UNK SetDecompress__18CBinaryInputStreamiPUc(M2C_UNK *, M2C_UNK, M2C_UNK); /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
 M2C_UNK __4GIFS(M2C_UNK *);                   /* extern */
-s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
+s32 PvAllocStackImpl__Fi(s32 *);                           /* extern */
 extern M2C_UNK D_0025AFA0;
 extern M2C_UNK D_0025B870;
 extern M2C_UNK D_002A8A78;

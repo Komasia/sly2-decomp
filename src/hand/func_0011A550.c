@@ -15,8 +15,8 @@ typedef struct DZG {
     void *pv4C;
 } DZG;
 
-void *func_001AE378(MSG *pmsg);
-void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
+void *PvAllocStackClearImpl__Fi(MSG *pmsg);
+void *PvAllocStackImpl__Fi(MSG *pmsg);
 void *func_002333B4(void *pv, int b, unsigned int cb);
 void InitDl__FP2DLi(DL *pdl, int ibDle);
 
@@ -29,7 +29,7 @@ DZG *func_0011A550(DZG *pdzg, int cpsoMax)
     pdzg->cpso = 0;
     msg.cb = cpsoMax * 0x28;
     msg.nKind = 0x10;
-    pdzg->apso = func_001AE378(&msg);
+    pdzg->apso = PvAllocStackClearImpl__Fi(&msg);
     func_002333B4(&pdzg->dlA, 0, sizeof(DL));
     func_002333B4(&pdzg->dlB, 0, sizeof(DL));
     func_002333B4(&pdzg->dlC, 0, sizeof(DL));
@@ -40,15 +40,15 @@ DZG *func_0011A550(DZG *pdzg, int cpsoMax)
     InitDl__FP2DLi(&pdzg->dlD, 0x20);
     msg.cb = cpsoMax * cpsoMax * 4;
     msg.nKind = 0x10;
-    pdzg->pv40 = PvAllocSlot__FP8ALLOCREQ(&msg);
+    pdzg->pv40 = PvAllocStackImpl__Fi(&msg);
     msg.cb = cpsoMax * cpsoMax * 4;
     msg.nKind = 0x10;
-    pdzg->pv44 = PvAllocSlot__FP8ALLOCREQ(&msg);
+    pdzg->pv44 = PvAllocStackImpl__Fi(&msg);
     msg.cb = cpsoMax * 4;
     msg.nKind = 0x10;
-    pdzg->pv48 = PvAllocSlot__FP8ALLOCREQ(&msg);
+    pdzg->pv48 = PvAllocStackImpl__Fi(&msg);
     msg.cb = cpsoMax * 4;
     msg.nKind = 0x10;
-    pdzg->pv4C = PvAllocSlot__FP8ALLOCREQ(&msg);
+    pdzg->pv4C = PvAllocStackImpl__Fi(&msg);
     return pdzg;
 }

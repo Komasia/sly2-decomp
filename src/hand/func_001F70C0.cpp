@@ -10,7 +10,7 @@ struct FRAME {int pad[4];};
 extern "C" FRAME *__10STACKSCOPE(FRAME *);
 extern "C" void _$_10STACKSCOPE(FRAME *,int);
 struct MSG {int bytes,alignment;};
-extern "C" void *func_001AE378(MSG *);
+extern "C" void *PvAllocStackClearImpl(MSG *) asm("PvAllocStackClearImpl__Fi");
 extern "C" void func_001AE5A0(void *,const void *,unsigned int);
 extern "C" M4 *func_0011C318(M4 *,const M4 *);
 extern "C" M4 *func_0011C168(M4 *,const M4 *,const M4 *);
@@ -33,7 +33,7 @@ extern "C" void func_001F70C0(P *source,LO *space,int inserted,P *dest)
     dest->radius=Sqrt(maximum);
     temporary=source->local;
     request.bytes=(temporary.count+inserted)*16;allocation->alignment=16;
-    qword *points=(qword *)func_001AE378(allocation);
+    qword *points=(qword *)PvAllocStackClearImpl(allocation);
     int pinned=source->pinnedCount;
     func_001AE5A0(points,temporary.points,pinned*16);
     func_001AE5A0(points+(pinned+inserted),temporary.points+pinned,(temporary.count-pinned)*16);

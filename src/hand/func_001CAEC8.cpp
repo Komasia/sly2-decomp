@@ -24,7 +24,7 @@ int func_0015E678(SW *,int,int,P *,void *,int,P **);
 STREAM *func_00118480(STREAM *);
 void func_00118500(STREAM *,void *,void *,int);
 short func_00117D50(STREAM *);
-void func_0013E818(P *,DESC *,int,STREAM *);
+void LoadOptionFromBrx(P *,DESC *,int,STREAM *) asm("LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream");
 void func_00127B40(void *,void *);
 void func_00256EE0(void **,void *);
 void func_001184B8(STREAM *,int);
@@ -56,7 +56,7 @@ extern "C" NODE *func_001CAEC8(P *p,int minimum){
   func_00118480(&stream);
   func_00118500(&stream,bind->begin,bind->end,0);
   int index;
-  while((index=func_00117D50(&stream))>=0){DESC *desc=&D_002AC880[index];func_0013E818(work.found,desc,desc->flags&0x2031,&stream);}
+  while((index=func_00117D50(&stream))>=0){DESC *desc=&D_002AC880[index];LoadOptionFromBrx(work.found,desc,desc->flags&0x2031,&stream);}
   if(bind->resource && !p->disabled){
    if(work.found->resource)func_00127B40(bind->resource,work.found->resource);
    func_00256EE0(&work.found->resource,bind->resource);

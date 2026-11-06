@@ -1,10 +1,10 @@
 struct MSG { int cb; int nKind; };
 class FRAME { public: int a[4]; FRAME(); ~FRAME(); };
 struct S { char pad[0x198]; int c; void *pv; };
-extern "C" void *func_001AE378(MSG *pmsg);
+extern "C" void *PvAllocStackClearImpl(MSG *pmsg) asm("PvAllocStackClearImpl__Fi");
 extern "C" void *PvAllocSwCopyImpl(MSG *pmsg, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 extern "C" void LoadSoFromBrx(S *p, void *q) asm("LoadSoFromBrx__FP2SOP18CBinaryInputStream");
-static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return func_001AE378(pmsg); }
+static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocStackClearImpl(pmsg); }
 static inline void *PvReallocMsg(MSG *pmsg, int cb, int nKind, void *pv) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwCopyImpl(pmsg, pv); }
 extern "C" void func_001DE478(S *p, void *q)
 {

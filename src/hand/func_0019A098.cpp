@@ -16,7 +16,7 @@ extern qword g_normalZ;
 extern float D_002A656C;
 MARK*__10STACKSCOPE(MARK*);
 void _$_10STACKSCOPE(MARK*,int);
-void*PvAllocSlot(REQUEST*) asm("PvAllocSlot__FP8ALLOCREQ");
+void*PvAllocStackImpl(REQUEST*) asm("PvAllocStackImpl__Fi");
 void func_0011AD30(int,float*,float*,float*,float);
 }
 struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
@@ -77,7 +77,7 @@ extern "C" int func_0019A098(P*p,float previous,float*stamp){
  __asm__("mult $3,%7,%7\n\tla %0,%a5\n\tmfc1 $2,%4\n\tdaddu %1,%0,$zero\n\tqmtc2.ni $2,$vf2\n\tsqc2 $vf2,%3\n\tlui $2,%%hi(%6)\n\taddiu $2,$2,%%lo(%6)\n\tsll $3,$3,2\n\tlqc2 $vf1,0($2)\n\tvmulx.xyzw %2,$vf1,$vf2x\n\tsw $3,%3":"=&r"(request),"=&r"(argument),"=j"(result),"=m"(work.scalar.q):"f"(negative),"p"(&work.request),"i"(&g_normalZ),"r"(count):"$2","$3","vf1","vf2","hi","lo","memory");
  down.q=result;
  request->alignment=16;
- returned=(float*)PvAllocSlot(argument);
+ returned=(float*)PvAllocStackImpl(argument);
  }
  register float*matrix __asm__("$22");float*rhs;
  register int rowbytes __asm__("$18")=count*4;
@@ -85,10 +85,10 @@ extern "C" int func_0019A098(P*p,float previous,float*stamp){
  register REQUEST*argument __asm__("$4");
  __asm__("sw %3,%2\n\tdaddu %0,%4,$zero\n\tdaddu %1,%5,$zero":"=&r"(argument),"=r"(matrix),"=m"(work.request.bytes):"r"(rowbytes),"r"(request),"r"(returned));
  request->alignment=16;
- rhs=(float*)PvAllocSlot(argument);
+ rhs=(float*)PvAllocStackImpl(argument);
  }
  work.request.bytes=rowbytes;request->alignment=16;
- float*weights=(float*)PvAllocSlot(request);
+ float*weights=(float*)PvAllocStackImpl(request);
  float*cursor=matrix;
  for(group=p->collision->groups;group;group=group->next){
   for(c=group->first;c;c=c->next){

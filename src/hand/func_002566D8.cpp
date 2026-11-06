@@ -5,7 +5,7 @@ struct MARK { int a[4]; };
 extern "C" {
 void *__10STACKSCOPE(MARK *);
 void _$_10STACKSCOPE(MARK *, int);
-void *PvAllocSlot(DESC *) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(DESC *) asm("PvAllocStackImpl__Fi");
 int func_00117DB8(void *);
 void Reserve(void *, int) asm("Reserve__9CDynArrayi");
 void *func_002333B4(void *, int, int);
@@ -17,7 +17,7 @@ extern "C" void func_002566D8(O *p, void *pv)
     MARK m;
     __10STACKSCOPE(&m);
     DESC d(4, 0x10);
-    void *buf = PvAllocSlot(&d);
+    void *buf = PvAllocStackImpl(&d);
     int n = func_00117DB8(pv);
     Reserve(p->x10, n);
     if (n > 0) do {

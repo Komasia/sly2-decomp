@@ -7,10 +7,10 @@ void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
-void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
+void *PvAllocStackImpl__Fi(MSG *pmsg);
 void *PvAllocSwCopyImpl__FiPv(MSG *pmsg, void *pv);
 void func_00221818(struct S *p, int id);
-void func_0013F810(struct S *p, void *pbis);
+void LoadOptionsFromBrx__FPvP18CBinaryInputStream(struct S *p, void *pbis);
 void func_00221940(struct S *p);
 void func_0013F888(MSG *pmsg);
 void func_002317E0(struct S *p, void *pbis, MSG *pmsg);
@@ -27,10 +27,10 @@ void func_00220FD0(struct S *p, void *pbis)
         MSG *pm = &msg;
         pm->cb = 0x240;
         pm->nKind = 0x10;
-        p->a = PvAllocSlot__FP8ALLOCREQ(pm);
+        p->a = PvAllocStackImpl__Fi(pm);
     }
     func_00221818(p, 0x30);
-    func_0013F810(p, pbis);
+    LoadOptionsFromBrx__FPvP18CBinaryInputStream(p, pbis);
     func_00221940(p);
     {
         MSG *pm = &msg;

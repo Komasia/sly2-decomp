@@ -23,10 +23,10 @@ struct XV { virtual void f1(); virtual void f2(); virtual void f3(); virtual voi
             virtual void f6(); virtual void f7(); virtual void f8(); virtual void Init(); };
 struct ELEM { float g; X *px; };
 extern "C" {
-X *func_0013E3C8(int a, void *p, int b, int c);
+X *PloNew(int a, void *p, int b, int c) asm("PloNew__F3CIDP2SW3OIDi");
 void *PvAllocSwImpl(const AREQ &req) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwCopyImpl(const AREQ &req, void *pv) asm("PvAllocSwCopyImpl__FiPv");
-void *func_001AE378(const AREQ &req);
+void *PvAllocStackClearImpl(const AREQ &req) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocSwClearImpl(const AREQ &req) asm("PvAllocSwClearImpl__Fi");
 OBJ *func_0012B3B0(int id);
 OBJ *func_0012CB98(int id);
@@ -59,7 +59,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
     if (!pxFirst) { *ppx = 0; return; }
     {
         FRAME frame;
-        X *pxNew = func_0013E3C8(0x6E, p, -1, -1);
+        X *pxNew = PloNew(0x6E, p, -1, -1);
         pxNew->Init();
         pxNew->cb = cb;
         pxNew->cElem = c;
@@ -88,7 +88,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             for (i = 0; i < c; i++) {
                 if (PELEM(i)->px) cTotal += PELEM(i)->px->c;
             }
-            pxNew->aent = (ENT *)func_001AE378(AREQ(cTotal * 8));
+            pxNew->aent = (ENT *)PvAllocStackClearImpl(AREQ(cTotal * 8));
             pxNew->c = 0;
         }
         for (i = 0; i < c; i++) {

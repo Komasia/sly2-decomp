@@ -32,13 +32,13 @@ typedef struct DZG {
 
 void __10STACKSCOPE(FRAME *pframe);
 void _$_10STACKSCOPE(FRAME *pframe, int n);
-void *PvAllocSlot__FP8ALLOCREQ(MSG *pmsg);
+void *PvAllocStackImpl__Fi(MSG *pmsg);
 void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
 DZG *func_0011A550(DZG *pdzg, int cdzsMax);
 void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
 void func_0011ABF8(DZG *pdzg);
 
-static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSlot__FP8ALLOCREQ(pmsg); }
+static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocStackImpl__Fi(pmsg); }
 void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
 {
     FRAME frame;

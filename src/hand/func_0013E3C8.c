@@ -11,7 +11,7 @@ void *func_0015E3A8(struct G *pg, int cid);
 void func_0011A070(void *pdl, struct LO *plo);
 int func_001A61A0(struct LO *plo);
 #define VCALL(p, n) ((void (*)(void *))(p)->pvt[n].pfn)((char *)(p) + (p)->pvt[n].d)
-struct LO *func_0013E3C8(int cid, void *psw, int oid, int n)
+struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n)
 {
     struct G *pg; struct LO *plo = (D_002BAAE8 + cid)->pfnNew();
     plo->psw = psw;

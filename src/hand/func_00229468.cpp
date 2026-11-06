@@ -11,7 +11,7 @@ extern qword D_002A2DD0;
 extern "C" {
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
-void *PvAllocSlot(MSG *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom(struct J *pj, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_00229D60(void *,void *);
@@ -56,7 +56,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
         MSG *pm = &work.msg;
         pm->cb = p->c * 4;
         pm->cbAlign = 0x10;
-        apv = (void **)PvAllocSlot(pm);
+        apv = (void **)PvAllocStackImpl(pm);
     }
     c = func_001F7E08(p, func_00229D60, 0, apv);
     if (!func_0014CDB0(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {

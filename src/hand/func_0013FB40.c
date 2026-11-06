@@ -16,7 +16,7 @@ int func_0015E938(struct G *, int, int, int, int);
 int func_0015E958(struct G *, int, int, int, int);
 int func_0013FAD0(int c, short *a);
 int func_0015E988(int, int);
-struct LO *func_0013E3C8(int cid, void *psw, int oid, int n);
+struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
 void func_001C9B08(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
 
 #define VCALL1(p, n, a) ((void (*)(void *, void *))(void*)(p)->vt[n].f)((char *)(p) + (p)->vt[n].d, a)
@@ -84,7 +84,7 @@ void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
         filter:
             if (func_0013FAD0(k, as) == 0) {
                 if (cid == 0x84 || cid == 0x85) {
-                    plo1 = func_0013E3C8(cid, psw, oid, -1);
+                    plo1 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, -1);
                     if (cid == 0x84)
                         plo1->x50 = 1;
                     else
@@ -101,7 +101,7 @@ void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
         if (func_0015E988(cid, 6)) {
             func_001C9B08(&g_sw, psw, cid, oid, n, pbis, pif);
         } else {
-            plo2 = func_0013E3C8(cid, psw, oid, n);
+            plo2 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, n);
             VCALL1(plo2, 14, pbis);
             if (pif)
                 VCALL2(pif, 1, 1, &plo2);

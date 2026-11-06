@@ -12,7 +12,7 @@ extern "C" {
 extern char D_002A6CB8[];
 int func_0021ECD8(char *buf, const char *fmt, ...);
 int func_001AC7A0(void *p, char *name, int mode, int *ph);
-void *PvAllocSlot(REQUEST *pmsg) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(REQUEST *pmsg) asm("PvAllocStackImpl__Fi");
 int func_00184D60(Y *py, X *px);
 int func_001AC8A8(void *p, int h, char *buf, int n, int *pn);
 int CbRead(Y *py, int cb, char *buf) asm("CbRead__18CBinaryInputStreamiPv");
@@ -91,7 +91,7 @@ int func_001AC260(void *p, const char *a, K *k, const char *b)
         REQUEST *pmsg = &msg;
         pmsg->bytes = 0x403F;
         pmsg->alignment = 0x10;
-        void *pv = PvAllocSlot(pmsg);
+        void *pv = PvAllocStackImpl(pmsg);
         Y y(0x403F, pv, 0);
         if (!SetKey(&x, k) || !func_00184D60(&y, &x))
             ret = 0x27;

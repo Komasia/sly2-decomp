@@ -24,12 +24,12 @@ float func_00117E38(void *);
 void func_00117FD0(void *,GEO *);
 void func_00118220(void *,GEO *,TREE *);
 void ReadMatrix(void *,STATE *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
-void func_00167320(DATA *,P *,void *);
+void LoadGlobsetFromBrx(DATA *,P *,void *) asm("LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream");
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 void func_00166270(GEO *,const M4 *,GEO *);
 void func_001F2B20(P *);
 void AdjustSoMomint(P *,float) asm("AdjustSoMomint__FP2SOf");
-void func_0013F810(P *,void *);
+void LoadOptionsFromBrx(P *,void *) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
 void func_001F2500(P *);
 void func_0013FB40(P *,void *,void *);
 void func_001A6D28(P *,int);
@@ -43,7 +43,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
     int i=0;E *e;
     func_0022D7A0(p,stream);
     int metadata=func_00117C80(stream);
-    func_00167320(&p->data,p,stream);
+    LoadGlobsetFromBrx(&p->data,p,stream);
     int extra=Extra(p);
     p->count=func_00117D50(stream);
     MSG request;
@@ -81,7 +81,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         AdjustSoMomint(p,1.0f);
         Post(p);
     }
-    func_0013F810(p,stream);
+    LoadOptionsFromBrx(p,stream);
     if(p->data.guard)SetActive(p);
     func_001F2500(p);
     func_0013FB40(p,stream,0);

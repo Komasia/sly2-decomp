@@ -32,7 +32,7 @@ extern int g_cds;
 extern G D_002E65E0;
 extern CLOCK g_clock;
 extern JOY g_joy;
-void *func_001AE378(const AREQ &r);
+void *PvAllocStackClearImpl(const AREQ &r) asm("PvAllocStackClearImpl__Fi");
 int FOpenFile__18CBinaryAsyncStreamP13CFileLocation(CBinaryAsyncStream *ps, X *px);
 void func_001B3EC0(P *p, CBinaryAsyncStream *ps);
 int func_0024B610(MPEG *p);
@@ -99,7 +99,7 @@ typedef char int_PrefixSize[sizeof(int)==4?1:-1];
 extern "C" void func_001B3BD0(P *p, K *k)
 {
     CTX ctx;
-    p->x110 = func_001AE378(AREQ(0x41FC00, 0x40));
+    p->x110 = PvAllocStackClearImpl(AREQ(0x41FC00, 0x40));
     CBinaryAsyncStream strm(0x80000, p->x110);
     X x;
     bool ok = x.FSet(k);

@@ -7,7 +7,7 @@
 
 M2C_UNK Read__18CBinaryInputStreamiPv(s32, M2C_UNK, s32);           /* extern */
 M2C_UNK func_00129EC8(void *);                      /* extern */
-s32 PvAllocSlot__FP8ALLOCREQ(s32 *, s32 *);                    /* extern */
+s32 PvAllocStackImpl__Fi(s32 *, s32 *);                    /* extern */
 extern M2C_UNK g_vtbasic;
 extern M2C_UNK g_vtso;
 extern M2C_UNK g_vtstepguard;

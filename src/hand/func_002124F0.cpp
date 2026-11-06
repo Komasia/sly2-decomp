@@ -13,7 +13,7 @@ extern "C" void _$_10STACKSCOPE(FRAME *,int);
 extern "C" BIS *func_001848A8(BIS *,int,void *,int);
 extern "C" void func_00184950(BIS *,int);
 extern "C" void func_00258248(KEY *);
-extern "C" void *PvAllocSlot(MSG *) asm("PvAllocSlot__FP8ALLOCREQ");
+extern "C" void *PvAllocStackImpl(MSG *) asm("PvAllocStackImpl__Fi");
 extern "C" int func_00184D60(BIS *,KEY *);
 extern "C" void SetDecompress(BIS *,int,void *) asm("SetDecompress__18CBinaryInputStreamiPUc");
 extern "C" unsigned char func_00117BD0(BIS *);
@@ -64,7 +64,7 @@ extern "C" void func_002124F0(S *p) {
     MSG *msg=&work.tmp.msg;
 
     msg->cb=0x10000;msg->alignment=0x40;
-    func_001848A8(bs,0x10000,PvAllocSlot(msg),0);
+    func_001848A8(bs,0x10000,PvAllocStackImpl(msg),0);
     pk->kind=2;
     func_00258248(pk);
     if(!SetKey(&work.key,p->file)||!func_00184D60(bs,pk))goto fail;

@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
 M2C_UNK func_001291A8(M2C_UNK *, M2C_UNK *, s32, s32); /* extern */
 M2C_UNK func_00129EC8(M2C_UNK *);                   /* extern */
-s32 PvAllocSlot__FP8ALLOCREQ(s32 *);                           /* extern */
+s32 PvAllocStackImpl__Fi(s32 *);                           /* extern */
 extern f32 g_clock;
 extern M2C_UNK D_002DE578;
 extern M2C_UNK g_game;

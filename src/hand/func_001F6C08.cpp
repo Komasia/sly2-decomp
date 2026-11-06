@@ -19,7 +19,7 @@ struct FRAME {FRAME(){}~FRAME(){}};
 struct MSG {int bytes,alignment;};
 extern "C" void *PvAllocSwImpl(MSG *) asm("PvAllocSwImpl__Fi");
 extern "C" void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
-extern "C" void *func_001AE378(MSG *);
+extern "C" void *PvAllocStackClearImpl(MSG *) asm("PvAllocStackClearImpl__Fi");
 static inline qword Sub(qword a,qword b) {qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
 static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz $ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1":"=j"(r):"0"(a),"j"(b));return r;}
 static inline float Dot(qword a,qword b){qword r,one;float f;
@@ -43,7 +43,7 @@ extern "C" void func_001F6C08(P *p)
     request.bytes=p->triCount*triBytes;allocation->alignment=alignment;
     p->mesh->triangles=(TRI *)PvAllocSwClearImpl(allocation);
     request.bytes=p->triCount*4;allocation->alignment=alignment;
-    int *counts=(int *)func_001AE378(allocation);
+    int *counts=(int *)PvAllocStackClearImpl(allocation);
     int itri;
     TRI *ptri;
     for(int i=0;i<p->edgeCount;i++) {

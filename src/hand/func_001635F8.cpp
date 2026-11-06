@@ -11,7 +11,7 @@ public:
     int S32Read();
 };
 struct S { char pad[0x90]; int *a90; int c94; void *a98; int *a9C; int cA0; void *aA4; int cA8; void *aAC; int cB0; void *aB4; };
-extern "C" void *PvAllocSlot(ALLOCREQ *preq) asm("PvAllocSlot__FP8ALLOCREQ");
+extern "C" void *PvAllocStackImpl(ALLOCREQ *preq) asm("PvAllocStackImpl__Fi");
 extern "C" void *PvAllocSwCopyImpl(ALLOCREQ *preq, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 extern "C" void *PvAllocSwClearImpl(ALLOCREQ *preq) asm("PvAllocSwClearImpl__Fi");
 extern "C" void *PvAllocSwImpl(ALLOCREQ *preq) asm("PvAllocSwImpl__Fi");
@@ -21,7 +21,7 @@ static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
     preq->nKind = nKind;
-    return PvAllocSlot(preq);
+    return PvAllocStackImpl(preq);
 }
 static inline void *PvShrinkReq(ALLOCREQ *preq, int cb, int nKind, void *pv)
 {

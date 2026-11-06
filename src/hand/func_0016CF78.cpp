@@ -15,7 +15,7 @@ extern "C"{
 void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
-void*PvAllocSlot(const REQUEST&) asm("PvAllocSlot__FP8ALLOCREQ");
+void*PvAllocStackImpl(const REQUEST&) asm("PvAllocStackImpl__Fi");
 void*func_002333B4(void*,int,uint);
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 OBJECT*func_001EC8F8(int);
@@ -31,7 +31,7 @@ extern char D_00000000[],D_00001910[],D_00001A68[];
 }
 struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
-inline void*REQUEST::Allocate(){return PvAllocSlot(*this);}
+inline void*REQUEST::Allocate(){return PvAllocStackImpl(*this);}
 inline void*REQUEST::AllocateZero(){return PvAllocSwClearImpl(*this);}
 static inline void*Allocate(int bytes){return REQUEST(bytes,16).Allocate();}
 static inline void*AllocateZero(int bytes){return REQUEST(bytes,16).AllocateZero();}
@@ -121,7 +121,7 @@ extern "C" void func_0016CF78(P*p,D*desc,E*entry,PARAM*param,SPHERE*sphere,int g
   OBJECT*object=func_001EC8F8(input->U16Read());
   vertices=input->U8Read();
   int vectorCount=input->U8Read();
-  vectors=(U*)PvAllocSlot(REQUEST(vectorCount*sizeof(U),16));
+  vectors=(U*)PvAllocStackImpl(REQUEST(vectorCount*sizeof(U),16));
   if(vectorCount>0){U*cursor=vectors;index=vectorCount;do{input->ReadVector((VECTOR*)cursor);--index;++cursor;}while(index);}
   char*boneWeights;
   int bones=desc->count<4?desc->count:4;

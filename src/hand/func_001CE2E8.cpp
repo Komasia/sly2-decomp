@@ -34,7 +34,7 @@ extern DLI *s_pdliFirst; /* innermost active list iterator */
 extern CLOCK g_clock;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
-void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
+void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");
 int func_00118A88(void *, int, qword, float, int *, ENTRY **);
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -72,7 +72,7 @@ void BounceRipgRips(P *p)
                         remaining = Min(0x1555, shape->capacity);
                         phase.request.cb = remaining * 12;
                         SetAlign(&phase.request, 16);
-                        entries = (ENTRY *)PvAllocSlot(&phase.request);
+                        entries = (ENTRY *)PvAllocStackImpl(&phase.request);
                         if (func_00118A88(shape->tree, 0x7FFFFFFF, Origin(p->state), p->state->radius, &remaining, &entries) != 2) {
                             _$_10STACKSCOPE(&frame, 2);
                             continue;
