@@ -29,3 +29,5 @@ NaGa with Claude and ChatGPT, and Lilly with Claude.
   [rabbitizer / spimdisasm / splat](https://github.com/Decompollaborate),
   [decomp-permuter](https://github.com/simonlindholm/decomp-permuter)
 - The Sly 1 decompilation, used as a reference for shared engine code
+- [SafeHouse](https://github.com/FridiNaTor1/SafeHouse) by FridiNaTor1, the native PC port of the Sly games: function
+  names and struct layout notes on the `readable` branch (names taken from it are marked `// name: SafeHouse port`)
