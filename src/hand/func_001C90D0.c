@@ -6,7 +6,7 @@ extern char D_002E5270[];
 extern int D_003D3A3C, D_003D3A40, D_003D3A44;
 void func_001C9190(void *);
 void func_002333B4(void *p, int c, int cb);
-int func_00234820(struct TP *ptp);
+int CreateThread(struct TP *ptp);
 int func_0021EFD0(int a, int b);
 int func_002355E0(int tid, void *arg);
 void func_001C90D0(void)
@@ -18,7 +18,7 @@ void func_001C90D0(void)
     tp.gp_reg = D_002E5270;
     tp.initial_priority = 4;
     tp.func = func_001C9190;
-    D_004425D0.tid = func_00234820(&tp);
+    D_004425D0.tid = CreateThread(&tp);
     D_003D3A3C = func_0021EFD0(0, 1);
     D_003D3A40 = func_0021EFD0(0, 1);
     D_003D3A44 = func_0021EFD0(0, 1);

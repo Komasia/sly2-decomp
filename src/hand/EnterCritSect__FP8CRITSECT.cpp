@@ -1,10 +1,10 @@
 struct CRITSECT { int cEnter; int thread; int sema; };
-extern "C" int func_00234910(void);
+extern "C" int GetThreadId(void);
 extern "C" int func_00234A60(int sema);
 
 void EnterCritSect(CRITSECT *pcritsect)
 {
-    int threadId = func_00234910();
+    int threadId = GetThreadId();
 
     if (threadId != pcritsect->thread)
     {

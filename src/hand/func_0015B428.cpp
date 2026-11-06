@@ -27,7 +27,7 @@ PRG *func_001390D8(void *pv);
 void func_001394C8(PRG *pprg, EMITTER *p);
 BLK *func_00138FF8(void *pv, PRG *pprg);
 void *func_002333B4(void *pv, int b, int cb);
-int func_0011D3F8(int nMin, int nMax);
+int NRandInRange(int nMin, int nMax) asm("NRandInRange__Fii");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void func_0015B428(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab);
 }
@@ -72,11 +72,11 @@ void func_0015B428(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *
             ((float *)&pfr->av[i])[3] = ag2[k];
 #define pd ((PD *)&pfr->apd[i])
             func_002333B4(pd, 0, sizeof(PD));
-            pd->n0 = func_0011D3F8(0, pprg->c3B0 - 1);
+            pd->n0 = NRandInRange(0, pprg->c3B0 - 1);
             if (pprg->f434)
                 pd->n0 &= ~1u;
             if (p->fC8)
-                pd->n4 = func_0011D3F8(0, pprg->c1A0 - 1);
+                pd->n4 = NRandInRange(0, pprg->c1A0 - 1);
             if (pprg->k43C == 2) {
                 float g = GRand(&p->lm);
                 pd->g8 = g;

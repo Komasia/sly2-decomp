@@ -74,7 +74,7 @@ extern float D_002C3610;
 extern "C" {
 void func_001F2BA8(P *);
 void *func_0015E938(G *, int, int, P *);
-int func_00132B10(void *, int);
+int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float func_001E6648(PATH *);
 void func_001E6F10(PATH *, qword *, qword *, float);
 void *func_002333B4(void *, int, int);
@@ -115,7 +115,7 @@ extern "C" void func_001DE5D8(P *p)
             if (endpoint->id != -1) {
                 void *object = func_0015E938(&g_sw, 1, endpoint->id, p);
                 if (object) {
-                    if (func_00132B10(object, 10)) {
+                    if (FIsBasicDerivedFrom(object, 10)) {
                         PATH *path = (PATH *)object;
                         PARAMS params = endpoint->track.params;
                         int reverse = 0;
@@ -228,7 +228,7 @@ extern "C" void func_001DE5D8(P *p)
                             }
                             SetDirty(p);
                         }
-                    } else if (func_00132B10(object, 3) || func_00132B10(object, 0x30)) {
+                    } else if (FIsBasicDerivedFrom(object, 3) || FIsBasicDerivedFrom(object, 0x30)) {
                         endpoint->kind = 0;
                         endpoint->point = func_001A62E8(object);
                     }

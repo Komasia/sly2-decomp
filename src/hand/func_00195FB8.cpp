@@ -11,7 +11,7 @@ struct CLOCK{float time,dt;};struct RANGE{float low,high;};struct TWO_ROWS{U row
 struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,velocity,endVelocity,duration;};
 extern "C"{extern SCENE g_sw;extern CLOCK g_clock;extern ACTOR*D_002E1E40;extern U D_002A2DB0,g_normalZ,D_002A2DD0;extern float D_002BF780[],D_002BF7A0;extern RANGE D_002BF798;
 void func_00204F78(ACTOR*,void*,int);void func_00134320(SCENE*,void*);void func_00183B80(SOURCE*,int);void func_002303A0(ACTOR*,BODY*,int);void func_001CCAC0(SECONDARY*,int);void func_0018E540(ACTOR*,int);void func_001F0660(EFFECT*,int);void func_00140C88(ACTOR*,void*);void func_0012E460(EVENT**);void func_001F6860(ACTOR*,int);
-qword func_0022FC48(SPACE*,SPACE*,qword);qword func_0022FCC8(SPACE*,SPACE*,qword);void func_0011E2D8(qword,qword,qword,TWO_ROWS*);qword func_001A62E8(ACTOR*);void func_00204DA8(ACTOR*,float);qword func_0019A750(CONTEXT*,int);void func_00204660(ACTOR*,float);void func_001384C0(CLIP*);int func_00132B10(OBJECT*,int);qword func_0019F3F8(ACTOR*,QUERY*,float);float func_00196928(qword,qword,float,float,float,float);EVENT*func_0012DE58(ACTOR*,BODY*,int,float,qword,qword);void func_002046B0(ACTOR*,qword);void func_001F15B8(COMPONENT*);void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
+qword func_0022FC48(SPACE*,SPACE*,qword);qword func_0022FCC8(SPACE*,SPACE*,qword);void func_0011E2D8(qword,qword,qword,TWO_ROWS*);qword func_001A62E8(ACTOR*);void func_00204DA8(ACTOR*,float);qword func_0019A750(CONTEXT*,int);void func_00204660(ACTOR*,float);void func_001384C0(CLIP*);int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword func_0019F3F8(ACTOR*,QUERY*,float);float func_00196928(qword,qword,float,float,float,float);EVENT*func_0012DE58(ACTOR*,BODY*,int,float,qword,qword);void func_002046B0(ACTOR*,qword);void func_001F15B8(COMPONENT*);void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
 static inline void Notify(ACTOR*p,int slot){VTE&v=p->vt[slot];((void(*)(void*))v.fn)((char*)p+v.delta);}
 static inline void ClearXYZ(U*v){v->i[2]=0;v->i[1]=0;v->i[0]=0;}
 static inline void ClearVelocity(ACTOR*p){ClearXYZ(&p->velocity);}
@@ -202,7 +202,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
   __asm__("lw $2,0(%4)\n\tlw %1,0x1D0(%4)\n\tlw %0,0x58($2)\n\tli.s %2,-1.00000000000000000000e3\n\tlq %0,0x70(%0)\n\tli.s %3,-1.00000000000000000000e0"
    :"=&r"(bodyPosition),"=r"(queryObject),"=f"(minimum),"=f"(maximum):"r"(p),"m"(p->actor),"m"(p->query.object):"$2","at","memory");
   w.bodyPosition.q=bodyPosition;
-  if(queryObject&&(func_00132B10(queryObject,19)||func_00132B10(p->query.object,11))){minimum=0.0f;maximum=500.0f;}
+  if(queryObject&&(FIsBasicDerivedFrom(queryObject,19)||FIsBasicDerivedFrom(p->query.object,11))){minimum=0.0f;maximum=500.0f;}
   qword queried=func_0019F3F8(p->actor,&p->query,D_002BF7A0);
   register ACTOR*queryOwner __asm__("$3");register qword queriedVector __asm__("vf2");register float maximumArg __asm__("$f15"),minimumArg __asm__("$f13");
   __asm__("lw %0,%5\n\tqmtc2.ni %4,%1\n\tsq %4,%2\n\tmov.s %3,%6"

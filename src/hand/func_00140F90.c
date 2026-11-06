@@ -27,7 +27,7 @@ void func_002206C8(void *p, int n);
 qword func_00204E38(void *p, struct SO *pso, float g);
 qword func_001A62E8(void *p);
 void func_002205A8(void *p);
-int func_00132B10(void *p, int n);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_00224590(void *p);
 void func_002245B8(void *p);
 void func_00130658(void *p);
@@ -131,7 +131,7 @@ void func_00140F90(void *p, int msg, void *pv)
             if (F(int, p, 0x4C8) == 0xB) {
                 void *po;
                 int n;
-                if (F(void *, p, 0x4D4) != 0 && func_00132B10(F(void *, p, 0x4D4), 100)) {
+                if (F(void *, p, 0x4D4) != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, p, 0x4D4), 100)) {
                     po = F(void *, p, 0x4D4);
                     if (func_00224590(po))
                         func_002245B8(po);

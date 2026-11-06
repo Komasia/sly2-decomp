@@ -22,7 +22,7 @@ void func_001F6978(P *p, int v);
 void func_001F69F8(P *p, int v);
 void func_001F6AC8(P *p, int v);
 void func_001F6B48(P *p, int v);
-int func_00132B10(void *p, int k);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void func_0014F750(void *g, int v);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *g, int v, float f);
 qword func_001A62E8(void *p);
@@ -65,7 +65,7 @@ void func_001BB648(P *p, E *pe)
             func_001F6B48(p, pi->v);
             break;
         case 7:
-            if (func_00132B10(ps, 0x1E)) {
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(ps, 0x1E)) {
                 MSG msg;
                 msg.a = 1;
                 msg.ps = psPrev ? psPrev : ps;

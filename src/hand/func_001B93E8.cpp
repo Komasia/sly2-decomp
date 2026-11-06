@@ -85,7 +85,7 @@ extern "C" EVENT*func_0012F938(ASEG*,int);
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 func_001A71B0(void*,void*,M4*);
 extern "C" void func_001B72B0(P*,NODE*,const M4*,qword*,qword*);
-extern "C" int func_00132B10(OWNER*,int);
+extern "C" int FIsBasicDerivedFrom(OWNER*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" void func_00209E28(OWNER*,int);
 extern "C" void func_00209E88(OWNER*);
 extern "C" void func_001B7700(P*,qword,float*,float*,qword*,qword*);
@@ -123,7 +123,7 @@ extern "C" void func_001B93E8(P*p,int state) {
   M4 work=func_001A71B0(p,0,&predicted);
   predicted=work;
   func_001B72B0(p,0,&predicted,&work.row[0].q,&work.row[1].q);
-  if(func_00132B10(owner,0x38))func_00209E28(owner,(int)p);
+  if(FIsBasicDerivedFrom(owner,0x38))func_00209E28(owner,(int)p);
   func_001B7700(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
   p->m13FC=func_0012DE58(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
   VTE*entry=&owner->vt[35];
@@ -171,7 +171,7 @@ extern "C" void func_001B93E8(P*p,int state) {
    p->m1624=func_0012DD28(p,stretch->second,(void*)5,stretch);
    p->m160C=func_0012DDB0(p,p->targetSecond,(void*)5,(void*)5,(int)stretch->frame,&frame);
   }
-  if(func_00132B10(owner,0x38))func_00209E88(owner);
+  if(FIsBasicDerivedFrom(owner,0x38))func_00209E88(owner);
   ClearXYZ(&p->velocity);
   break;
  }

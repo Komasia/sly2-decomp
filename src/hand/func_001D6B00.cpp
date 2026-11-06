@@ -72,7 +72,7 @@ qword func_001A62E8(SO *);                                       // PosLoWorld
 MATRIX4 *func_0011C168(MATRIX4 *, MATRIX4 *, MATRIX4 *);
 void *func_002333B4(void *, int, int);                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
-int func_00132B10(SO *, int);                                    // FIsBasicDerivedFrom
+int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");                                    // FIsBasicDerivedFrom
 void func_0013BC60(SO *, LAUNCH *);
 void func_00134320(void *, SO *);
 void func_001F5720(SO *, void *);
@@ -209,7 +209,7 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     qword posAim;
     qword posLaunch = AddScaled(posOrigin, VU_FLOAT(offset), Normalize(dpos));
     posAim = QwFromVf(posLaunch);
-    if (func_00132B10(pso, 0x4F)) {
+    if (FIsBasicDerivedFrom(pso, 0x4F)) {
         func_0013BC60(pso, plaunch);
         func_00134320(g_sw, pso);
     }
@@ -217,9 +217,9 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     func_001F5720(pso, 0);
     func_001F57C0(pso, 0);
     func_001A58D0(pso, 0, 3);
-    if (func_00132B10(pso, 0x52)) {
+    if (FIsBasicDerivedFrom(pso, 0x52)) {
         func_001F4898(pso, VECTOR(pso->svLaunch, 0.0f, 0.0f).q);
-    } else if (func_00132B10(pso, 0x51)) {
+    } else if (FIsBasicDerivedFrom(pso, 0x51)) {
         qword v = VuFloatFromWord(pso->svLaunch) * Normalize2(posAim, posStart);
         pso->SetVelocity(v);
         MATRIX3 mat;
@@ -238,6 +238,6 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
         qword w = NormalizeTo(QwToVf(VECTOR(x, y, z).q)) * VU_FLOAT(g);
         pso->SetAngularVelocity(w);
     }
-    if (func_00132B10(pso, 0x50))
+    if (FIsBasicDerivedFrom(pso, 0x50))
         pso->SetTarget(plaunch->psoSource, VECTOR4(plaunch->posTarget));
 }

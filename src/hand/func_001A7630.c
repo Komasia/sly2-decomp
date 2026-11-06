@@ -18,7 +18,7 @@ int func_0014BD30(int n);
 int func_00238BD0(void);
 void *func_00238C58(int cb);
 void func_00234CA0(int n);
-int func_00234DE0(struct DMA *p, int n);
+int sceSifSetDma(struct DMA *p, int n);
 int func_00239140(void *h, int argumentBytes, const char *arguments);
 int func_00238D40(void *h);
 static inline int CopyLimit(int value)
@@ -88,7 +88,7 @@ void func_001A7630(void)
             u.dma.bytes = c;
             u.dma.attributes = 0;
             func_00234CA0(operation);
-            while (!func_00234DE0(&u.dma, 1))
+            while (!sceSifSetDma(&u.dma, 1))
                 ;
             cb -= c;
             off += c;

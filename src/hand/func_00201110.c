@@ -10,7 +10,7 @@ void func_00129EC8(CRef *pref);
 CRef *func_00129D58(CRef *ret, CRef *pref);
 CRef *func_00129DA8(CRef *ret, CRef *pref);
 
-CRef *func_00201110(CRef *ret, int c, CRef *aref, int *aotype, void **apv)
+CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *aotype, void **apv)
 {
     CREFA ref;
     CREFA t;

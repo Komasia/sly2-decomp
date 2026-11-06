@@ -30,7 +30,7 @@ float GRandInRange(float, float) asm("GRandInRange__Fff");
 qword func_0011E1A0(float, float, float);
 M3 func_0011B830(qword, qword);
 qword func_001D69F0(qword, qword, qword, float);
-int func_00132B10(SO *, int);
+int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001C6BD0(SO *, qword, qword, float, float);
 SO *func_001CB250(void *, int);
 void func_001C2DB8(OWNER *);
@@ -89,7 +89,7 @@ extern "C" SO *func_001C2EF0(OWNER *p, int count)
             node = p->first;
         else {
             node = func_001CB250(p->factory, 0);
-            if (node && func_00132B10(node, 0x5A))
+            if (node && FIsBasicDerivedFrom(node, 0x5A))
                 SetState(node, 2);
         }
         if (!node)
@@ -106,9 +106,9 @@ extern "C" SO *func_001C2EF0(OWNER *p, int count)
         mat = func_0011B830(Normalize(side, D_002A2DA0), g_normalZ);
         qword dest = Add(target, Transform(mat, offset));
         qword velocity = func_001D69F0(start, dest, D_002C0D60, Rand(D_002C0CE0));
-        if (func_00132B10(node, 0x5A)) {
+        if (FIsBasicDerivedFrom(node, 0x5A)) {
             float lifetime;
-            if (func_00132B10(node, 0x5B) || func_00132B10(node, 0x5D))
+            if (FIsBasicDerivedFrom(node, 0x5B) || FIsBasicDerivedFrom(node, 0x5D))
                 lifetime = (float)i * D_002C0CEC;
             else
                 lifetime = D_002A76E8;

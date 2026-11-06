@@ -25,7 +25,7 @@ extern float D_002C10B0,D_002C10B4,D_002C10C0[3],g_lmZeroOne[2];
 extern QW D_002DF260[];
 extern "C" int func_00234A60(int);
 extern "C" int func_00234A40(int);
-extern "C" int func_00234A90(int,SEMA *);
+extern "C" int ReferSemaStatus(int,SEMA *);
 extern "C" float func_00245000(float);
 extern "C" void func_001C93E0(GIFS *,M2 *,float);
 extern "C" void func_00160A98(void);
@@ -51,7 +51,7 @@ extern "C" void func_001C9190(void *)
         D_002DEDBC=0;
         for(;;){
             BeginFrame();
-            func_00234A90(D_003D3A40,&status);
+            ReferSemaStatus(D_003D3A40,&status);
             if(status.count!=0)break;
             float t=-*D_002DD314+g_clock.frameT;
             float scale=1.0f+D_002C10B0*func_00245000(t*D_002C10B4);
@@ -66,7 +66,7 @@ extern "C" void func_001C9190(void *)
         }
         do{g_pfrmOpen->flags&=-2;}while(0);
         func_00160A98();D_002BE538++;
-        do {func_00234A90(D_002DEB18,&status);}while(status.count==0);
+        do {ReferSemaStatus(D_002DEB18,&status);}while(status.count==0);
         func_00234A60(D_003D3A40);
         func_00234A40(D_003D3A44);
     }

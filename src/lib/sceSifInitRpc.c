@@ -27,7 +27,7 @@ int DIntr(void);
 void EIntr(void);
 void sceSifInitCmd(void);
 void sceSifAddCmdHandler(unsigned int cid, void (*h)(void *, void *), void *data);
-int func_00234E30(unsigned int reg);
+int sceSifGetReg(unsigned int reg);
 void func_00234E20(unsigned int reg, int val);
 unsigned int sceSifSendCmd(unsigned int cid, void *pkt, int size, void *src, void *dst, int n);
 int func_0023AAC8(int);
@@ -62,7 +62,7 @@ void sceSifInitRpc(unsigned int mode)
     sceSifAddCmdHandler(0x8000000A, _request_call, &D_0044A600);
     sceSifAddCmdHandler(0x8000000C, _request_rdata, &D_0044A600);
     EIntr();
-    if (func_00234E30(0x80000002) != 0)
+    if (sceSifGetReg(0x80000002) != 0)
         return;
     cmd = (Cmd *)(D_00448E00 + 0x40);
     cmd->xc = 1;

@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl func_00234A90\n"
-    ".ent func_00234A90\n"
-    "func_00234A90:\n"
+    ".globl ReferSemaStatus\n"
+    ".ent ReferSemaStatus\n"
+    "ReferSemaStatus:\n"
     "addiu $3, $0, 71\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end func_00234A90\n"
+    ".end ReferSemaStatus\n"
     ".set reorder\n"
 );

@@ -45,7 +45,7 @@ ACTOR *func_001C4840(SW *);
 ACTOR *func_001C4A48(SW *);
 void func_00129EC8(REF *);
 ACTOR *func_0015E938(SW *,int,int,void *);
-int func_00132B10(ACTOR *,int);
+int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001C4080(ACTOR *);
 int func_00210AE0(void);
 void func_00212A70(WIDGET *,int);
@@ -133,13 +133,13 @@ extern "C" void func_0020E890(SW *p)
             }
             for(int i=0;i<p->actorCount;i++){
                 ACTOR *actor=p->actors[i];
-                if(actor!=selected&&func_00132B10(actor,0x34)&&!func_001C4080(actor))Hide(actor);
+                if(actor!=selected&&FIsBasicDerivedFrom(actor,0x34)&&!func_001C4080(actor))Hide(actor);
             }
         }
     }
     if(!func_00210AE0()){
         ACTOR *actor=func_001C4840(p);
-        if(actor&&func_00132B10(actor,0x34)&&actor->widget&&!actor->widget->shown)func_00212A70(actor->widget,1);
+        if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)func_00212A70(actor->widget,1);
     }
     func_0014D478(g_cm);
     func_0014D8C0(g_cm);

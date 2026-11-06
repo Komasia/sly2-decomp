@@ -33,7 +33,7 @@ float RadNormalize(float) asm("RadNormalize__Ff");
 void func_002206C8(S *,int);
 void func_001384C0(ASEG *);
 int func_00131968(ASEGA *);
-int func_00132B10(O *,int);
+int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001C46C0(CONTROL *,int,float);
 void func_00136530(O *,int);
 TRACKREF *func_0012FF10(ASEG *,O *,void *,int);
@@ -202,7 +202,7 @@ extern "C" void func_0021F418(S *s){
    if(!animation||func_00131968(animation)){if(D_002DD5BC->mode==8)func_002206C8(s,4);else func_002206C8(s,0);}
    break;
   case 4:case 5:case 6:{
-   if(func_00132B10(s->selected,0x64)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
+   if(FIsBasicDerivedFrom(s->selected,0x64)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
    float margin=0.1f;
    if(func_001C46C0(control,0xC0,margin)){func_002206C8(s,7);break;}
    if(func_001C46C0(control,0x30,margin)){

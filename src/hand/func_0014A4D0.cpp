@@ -22,11 +22,11 @@ PSO *func_001C4840(G *pg);
 qword func_001A62E8(void *p);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
-int func_00132B10(PSO *p, int n);
+int FIsBasicDerivedFrom(PSO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00208540(W *pw, void *p);
 int func_001BBE48(SO *p);
 int func_0015E9C8(G *pg, int a, int b, void *c, int d, SO **apso);
-int func_0011D3F8(int a, int b);
+int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 qword func_0011E208(float a, float b, float c);
 float func_0011E4B0(qword a, qword b, void *p);
 float func_002458F0(float y, float x);
@@ -90,7 +90,7 @@ void func_0014A4D0(P *p)
         p->t48 = g_clock.t;
     float dt = g_clock.t - p->t48;
     if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !IsSwHandsOff(pg)) {
-        if (func_00132B10(pso, 0x34) && pso->x2DC == 0x11) {
+        if (FIsBasicDerivedFrom(pso, 0x34) && pso->x2DC == 0x11) {
             PATH *ppath = pso->ppath;
             pos = func_001A62E8(pso);
             int c = ppath->c;
@@ -119,7 +119,7 @@ void func_0014A4D0(P *p)
                     apso[k++] = apso[i];
             }
             if (k) {
-                SO *pt = apso[func_0011D3F8(0, k - 1)];
+                SO *pt = apso[NRandInRange(0, k - 1)];
                 posT = func_001A62E8(pt);
                 r = *(float *)&pt->pxEC;
             }

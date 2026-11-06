@@ -11,7 +11,7 @@ void _$_10STACKSCOPE(struct C *, int);
 void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct S *p, void *q);
 void func_0013F888(struct DA *pda);
 void func_002317E0(struct S *p, void *q, struct DA *pda);
-int func_00132B10(void *p, int n);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
 {
     struct C ctx;
@@ -26,7 +26,7 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
     for (i = 0; i < da.c; i++) {
         struct O *o = da.a[i];
         o->fl |= 0x200000000000000L;
-        if (!func_00132B10(o, 0x1E)) {
+        if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x1E)) {
             struct VTE *e = &o->vt[9];
             e->pfn((char *)o + e->d);
         } else {

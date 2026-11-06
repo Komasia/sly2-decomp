@@ -14,7 +14,7 @@ int printf(const char *fmt, ...);
 int func_00239450(void);
 int EIntr(void);
 void func_00241A30(void);
-int func_00234A70(int);
+int PollSema(int);
 void func_00236A60(int);
 int func_002370A8(sceSifClientData *, unsigned int, int);
 void func_0023B170(void *, int);
@@ -29,7 +29,7 @@ int sceCdDiskReady_2425F0(int mode)
     int i;
     if (D_002C6750 > 0) printf("NEW DiskReady Call\n");
     func_00241A30();
-    if (D_002C6770 != func_00234A70(D_002C6770)) {
+    if (D_002C6770 != PollSema(D_002C6770)) {
         if (mode == 8) return -1;
         return 6;
     }

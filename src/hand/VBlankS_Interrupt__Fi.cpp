@@ -8,14 +8,14 @@ extern int D_002DEDB0;
 extern int D_002BE590;
 extern int D_002BE594;
 extern DISPENV D_002DEB80[2];
-extern "C" void func_00234A50(int sid);
+extern "C" void iSignalSema(int sid);
 extern "C" void func_00240600(DISPENV *pdisp);
 void BlendDisplayOnBufferMismatch();
 int VBlankS_Interrupt(int ch)
 {
     if (D_002DFB58) {
         D_002DFB58 = 0;
-        func_00234A50(D_002DFB4C);
+        iSignalSema(D_002DFB4C);
     }
     switch (D_002DEDBC) {
     case 1:

@@ -6,13 +6,13 @@ extern char D_004520A8[];
 CRef *func_0012A0B0(CRef *pref, int tagk);
 void *func_002333B4(void *p, int c, int n);
 OBJ *func_00256B48(void);
-void func_001FFD98(CRef *ret, void *b, PRM *prm);
+void RefGetPeopid(CRef *ret, void *b, PRM *prm) asm("RefGetPeopid__FP5BASICP5EOPID");
 CRef *func_00129658(CRef *pref, CRef *prefSrc); /* CRef::operator= returns *this */
 void func_00129EC8(CRef *pref);
 void func_002550F8(OBJ *p);
 void func_0011CD98(void *pool, OBJ *p);
 void func_00129480(CRef *pref, OBJ *p);
-CRef *func_00200DA0(CRef *ret, int c, int *a, void **b);
+CRef *RefSetArgListFromPvs(CRef *ret, int c, int *a, void **b) asm("RefSetArgListFromPvs__FiP4OTYPPPv");
 }
 class SP {
 public:
@@ -45,7 +45,7 @@ inline SP::~SP()
     }
 }
 
-CRef *func_00200DA0(CRef *ret, int c, int *a, void **b)
+CRef *RefSetArgListFromPvs(CRef *ret, int c, int *a, void **b)
 {
     if (c == 0) {
         func_0012A0B0(ret, 0);
@@ -62,7 +62,7 @@ CRef *func_00200DA0(CRef *ret, int c, int *a, void **b)
         SP nw(func_00256B48());
         CRef *pr = &nw.p->ref;
         CREFA ref;
-        func_001FFD98(&ref.r, pb, &prm);
+        RefGetPeopid(&ref.r, pb, &prm);
         func_00129658(pr, &ref.r);
         func_00129EC8(&ref.r);
         ppTail->Set(nw.p);

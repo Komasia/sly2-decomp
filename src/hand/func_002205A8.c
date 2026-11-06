@@ -8,7 +8,7 @@ void func_001A58D0(struct O *po, int a, int b);
 void func_001F5720(struct O *po, int a);
 void func_001F57C0(struct O *po, int a);
 qword func_001A6FC0(void *p, int a, qword q);
-int func_00132B10(struct O *po, int n);
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n);
 void func_002205A8(struct S *p)
 {
     struct O *po;
@@ -28,7 +28,7 @@ void func_002205A8(struct S *p)
         po = (struct O *)((char *)po + pve->d);
         pve->pfn(po, func_001A6FC0(p->p0, 0, p->q30));
     }
-    if (func_00132B10(p->po, 100))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, 100))
         p->po->vt[76].pfn((char *)p->po + p->po->vt[76].d, 1);
 tail:
     if (p->p12C)

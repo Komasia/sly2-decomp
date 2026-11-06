@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl func_00234900\n"
-    ".ent func_00234900\n"
-    "func_00234900:\n"
+    ".globl iReleaseWaitThread\n"
+    ".ent iReleaseWaitThread\n"
+    "iReleaseWaitThread:\n"
     "addiu $3, $0, -46\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end func_00234900\n"
+    ".end iReleaseWaitThread\n"
     ".set reorder\n"
 );

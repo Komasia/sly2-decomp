@@ -2,9 +2,9 @@ struct O { char pad[0xF40]; struct O *xF40; };
 struct G;
 extern struct G g_sw;
 struct O *func_001C4840(struct G *p);
-int func_00132B10(struct O *p, int n);
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
 struct O*func_0015E938(struct G *p, int a, int b, struct O *po);
-static __inline__ struct O *Get(struct O *po) { return (po && func_00132B10(po, 0x34)) ? po->xF40 : po; }
+static __inline__ struct O *Get(struct O *po) { return (po && FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x34)) ? po->xF40 : po; }
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)
 typedef char O_xF40_Offset[FIELD_OFFSET(struct O,xF40)==3904?1:-1];
 typedef char Size_0[sizeof(struct O)==3908?1:-1];

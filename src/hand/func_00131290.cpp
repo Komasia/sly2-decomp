@@ -35,7 +35,7 @@ void func_00161958(void *);
 void func_00210678(void *, int, int, void *, struct Q *, float);
 void func_00230CF0(struct P *, void *);
 void func_001F81E0(void *, int);
-int func_00132B10(void *, int);
+int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00143090(void *, void *, void *, void *);
 }
 extern "C" void func_00131290(struct P *p, struct EV *pev)
@@ -152,7 +152,7 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         func_001F81E0(p->po, -1);
         break;
     case 24:
-        if (p->po && func_00132B10(p->po, 0x34)) {
+        if (p->po && FIsBasicDerivedFrom(p->po, 0x34)) {
             char *pb = (char *)pev->pv;
             func_00143090(p->po, pb, pb + 8, pb + 0x10);
         }

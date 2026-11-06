@@ -6,7 +6,7 @@ extern int D_004425D8[];
 void func_001AAF18(struct S *s);
 void SetMemcardThreadHighPrio__FP7MEMCARD(struct S *s);
 void *func_002333B4(void *p, int c, unsigned int n);
-int func_00234820(struct ThreadParam *tp);
+int CreateThread(struct ThreadParam *tp);
 void func_002355E0(int id, void *arg);
 void CreateMemcardThread__FP7MEMCARDii(struct S *s, struct PMF pmf)
 {
@@ -20,7 +20,7 @@ void CreateMemcardThread__FP7MEMCARDii(struct S *s, struct PMF pmf)
     tp.gpReg = D_002E5270;
     tp.stackSize = 0x4000;
     tp.initPriority = 3;
-    s->x4 = func_00234820(&tp);
+    s->x4 = CreateThread(&tp);
     D_004425D8[0] = s->x4;
     func_002355E0(s->x4, s);
 }

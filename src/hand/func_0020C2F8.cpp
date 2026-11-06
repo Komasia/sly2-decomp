@@ -16,7 +16,7 @@ void ApplyAsegCur(ASEG *,ALO *,float,float,int,ASEGA **);
 extern "C" {
 void func_001333C0(ASEGA *,int);
 qword func_001F5860(ALO *);
-int func_00132B10(ALO *,int);
+int FIsBasicDerivedFrom(ALO *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_0020B210(ALO *);
 void func_0020D178(void *);
 float func_00196928(qword,qword,float,float,float,float);
@@ -55,7 +55,7 @@ extern "C" void func_0020C2F8(P *p,int state)
         p->previousVelocity.q=func_001F5860(p->subject);
         break;
     case 1:{
-        if(func_00132B10(p->subject,0x38)){
+        if(FIsBasicDerivedFrom(p->subject,0x38)){
             ALO *subject=p->subject;
             func_0020B210(subject);
             func_0020D178(subject->control);
@@ -77,7 +77,7 @@ extern "C" void func_0020C2F8(P *p,int state)
         float time;
         if(ballistic){
             float low,high,slopeLow,slopeHigh;
-            if(p->related&&(func_00132B10(p->related,0x13)||func_00132B10(p->related,0xB))){
+            if(p->related&&(FIsBasicDerivedFrom(p->related,0x13)||FIsBasicDerivedFrom(p->related,0xB))){
                 low=1250.0f;slopeLow=1.1f;high=0.0f;slopeHigh=50.0f;
             }else if(p->steep){
                 low=1500.0f;slopeLow=1.33f;high=-1500.0f;slopeHigh=-1.33f;
@@ -129,7 +129,7 @@ extern "C" void func_0020C2F8(P *p,int state)
     case 4:
         if(p->ballistic)func_0020C760(p);
         func_001F5880(p->subject,p->previousVelocity.q);
-        if(func_00132B10(p->subject,0x38))func_0020D1A0(p->subject->control);
+        if(FIsBasicDerivedFrom(p->subject,0x38))func_0020D1A0(p->subject->control);
         break;
     }
 }

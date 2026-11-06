@@ -58,7 +58,7 @@ extern CLOCK g_clock;
 extern POLY D_002BE600;
 extern LM g_lmZeroOne;
 extern char g_sw[];
-int func_00132B10(P *, int);
+int FIsBasicDerivedFrom(P *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_0020A818(void *, P *);
 qword func_001A62E8(P *);
 unsigned func_001C9950(unsigned);
@@ -149,7 +149,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
     }
     if (g_clock.time < p->cooldown)
         return 0;
-    if (func_00132B10(target, 0x32)) {
+    if (FIsBasicDerivedFrom(target, 0x32)) {
         VTE *e = &target->vt[77];
         if (((int (*)(void *))e->fn)((char *)target + e->delta))
             return 0;

@@ -37,8 +37,8 @@ struct SPB {
     operator BINDING *() { return p; }
 };
 struct FRAME { char pad[0x8]; SPM pbinding; };
-extern "C" CRef func_0012A980(FRAME *pframe, int sym, CRef *pref);
-CRef func_0012A980(FRAME *pframe, int sym, CRef *pref)
+extern "C" CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref) asm("RefAddBinding__8CSidebagiP4CRef");
+CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref)
 {
     SPM *ppbFirst = &pframe->pbinding;
     SPB sp;

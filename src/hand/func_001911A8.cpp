@@ -70,7 +70,7 @@ void func_001A9B28(SW *, SO *, SO *, int, BSP *, XP **);
 int func_00118A88(BSP *, BSP *, float, qword, int *, BSP **);   // prune a BSP to a sphere
 void func_001A8B50(SW *, SO *, SO *, int, BSP *, BSP *, XP **);
 void func_001CD098(ATTACH *, ACTOR *);
-int func_00132B10(ACTOR *, int);
+int FIsBasicDerivedFrom(ACTOR *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001423A0(ACTOR *);
 int func_001441A0(ACTOR *);
 uint func_00141EA8(ACTOR *, int);
@@ -231,7 +231,7 @@ extern "C" void func_001911A8(CONTEXT *p)
                 SetControl(p->pactor, 0);
             break;
         case 5:
-            if (func_00132B10(p->pactorFocus, 11) && func_001423A0(p->pactor)) {
+            if (FIsBasicDerivedFrom(p->pactorFocus, 11) && func_001423A0(p->pactor)) {
                 p->pactor->ptarget = p->pactorFocus;
                 p->pactor->gTarget = p->gParam;
                 SetControl(p->pactor, 8);

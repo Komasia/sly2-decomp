@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl s1_GetThreadId\n"
-    ".ent s1_GetThreadId\n"
-    "s1_GetThreadId:\n"
+    ".globl ReleaseWaitThread\n"
+    ".ent ReleaseWaitThread\n"
+    "ReleaseWaitThread:\n"
     "addiu $3, $0, 45\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end s1_GetThreadId\n"
+    ".end ReleaseWaitThread\n"
     ".set reorder\n"
 );

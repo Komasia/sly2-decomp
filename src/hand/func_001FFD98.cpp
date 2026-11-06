@@ -1,4 +1,4 @@
-// func_001FFD98: ported from Lilly's personal Sly 2 decomp (src/P2/spliceobj.c), reduced to the declarations it needs.
+// RefGetPeopid__FP5BASICP5EOPID: ported from Lilly's personal Sly 2 decomp (src/P2/spliceobj.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_00452170 (g_slotheapMethod)
 // 0x001FFD98 RefFromPv__FPvP5PVREC  (MATCHES Sly 2, T0997; our name)
@@ -204,7 +204,7 @@ struct EOPID
 struct PVREC : EOPID
 {
 };
-CRef RefFromPv(void *pv, PVREC *ppvrec) __asm__("func_001FFD98");
+CRef RefFromPv(void *pv, PVREC *ppvrec) __asm__("RefGetPeopid__FP5BASICP5EOPID");
 CRef RefFromPv(void *pv, PVREC *ppvrec)
 {
     CRef ref;

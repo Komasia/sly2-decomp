@@ -68,8 +68,8 @@ extern int D_002BDEB0[];
 extern qword g_normalZ;
 extern char g_sw[];
 float GRandInRange(float lo, float hi) asm("GRandInRange__Fff");
-int func_0011D3F8(int lo, int hi);
-int func_00132B10(SO *p, int n);
+int NRandInRange(int lo, int hi) asm("NRandInRange__Fii");
+int FIsBasicDerivedFrom(SO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001FB1F8(void *p, float g);
 void func_001FB098(void *p, float g);
 void *func_001FBB90(int id);
@@ -120,7 +120,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
     SND *psnd;
     float t, u;
     psnd = 0;
-    if (func_00132B10(p, 0x32))
+    if (FIsBasicDerivedFrom(p, 0x32))
         psnd = (SND *)p;
     if (d > 10.0f || fWake) {
         u = (d - 10.0f) * 0.0012658228f;
@@ -131,7 +131,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
             if (psnd->psnd) {
                 func_001FB1F8(psnd->psnd, g);
             } else {
-                void *ps = func_001FBB90(D_002BDEB0[func_0011D3F8(0, 3)]);
+                void *ps = func_001FBB90(D_002BDEB0[NRandInRange(0, 3)]);
                 func_001FB2F8(ps, (SO *)psnd);
                 func_001FB4F0(ps, 100.0f, 1000.0f);
                 func_001FB1F8(ps, g);
@@ -171,7 +171,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                     e.p8 = pwater->px178;
                     e.pC = pwater->px17C;
                     e.p10 = pwater;
-                    func_0015BE28(posSplash.q, g_normalZ, func_0011D3F8(4, 6), emitp, emitv, &e, 0, 0);
+                    func_0015BE28(posSplash.q, g_normalZ, NRandInRange(4, 6), emitp, emitv, &e, 0, 0);
                 }
             }
         }

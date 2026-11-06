@@ -1,5 +1,5 @@
 void *func_0015E938(void *pv, int k, int id, void *ctx);
-int func_00132B10(void *p, int cid);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void func_001F6AC8(void *p, void *q);
 void func_001F6B48(void *p, void *q);
 void func_002104A0(void *pv, int f, int id, void *q, void *pdef, void *ctx)
@@ -9,7 +9,7 @@ void func_002104A0(void *pv, int f, int id, void *q, void *pdef, void *ctx)
         p = pdef;
     else
         p = func_0015E938(pv, 4, id, ctx);
-    if (p && func_00132B10(p, 0x30)) {
+    if (p && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x30)) {
         if (f)
             func_001F6AC8(p, q);
         else

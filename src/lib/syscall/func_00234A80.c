@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl func_00234A80\n"
-    ".ent func_00234A80\n"
-    "func_00234A80:\n"
+    ".globl iPollSema\n"
+    ".ent iPollSema\n"
+    "iPollSema:\n"
     "addiu $3, $0, -70\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end func_00234A80\n"
+    ".end iPollSema\n"
     ".set reorder\n"
 );

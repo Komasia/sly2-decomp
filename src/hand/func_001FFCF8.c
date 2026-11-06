@@ -5,7 +5,7 @@ struct R { int n0; int n4; };
 struct VTE { short d; short p; struct R *(*pfn)(void *); };
 struct VT { struct VTE a[7]; };
 struct X { char pad[0xC]; struct VT *pvt; };
-int func_001FFCF8(struct X *px, int k)
+int PeopidFind__FP5BASICi(struct X *px, int k)
 {
     struct R *r = px->pvt->a[6].pfn((char *)px + px->pvt->a[6].d);
     struct T *t = &D_00279AD0[r->n4];

@@ -5,7 +5,7 @@ struct P { char pad[0x404]; struct Ent a[8]; int n484; int n488; int n48C; int n
 struct G;
 extern struct G g_sw;
 struct O *func_0015E938(struct G *, int, int, int);
-int func_00132B10(struct O *, int);
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
 int func_001C2DC8(int, struct O *, int, int);
 void func_001F1900(struct P *);
 void func_001F1CF8(struct P *p)
@@ -18,7 +18,7 @@ void func_001F1CF8(struct P *p)
         if (!po) continue;
         a8 = pe->a8;
         k = 0x2B0;
-        if (func_00132B10(po, 0x5C)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5C)) {
             struct X *px = po->px;
             if (px) {
                 int n = px->n54;

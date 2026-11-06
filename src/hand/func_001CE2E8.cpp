@@ -37,7 +37,7 @@ void _$_10STACKSCOPE(FRAME *, int);
 void *PvAllocSlot(const REQ *) asm("PvAllocSlot__FP8ALLOCREQ");
 int func_00118A88(void *, int, qword, float, int *, ENTRY **);
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
-int func_00132B10(void *, int);
+int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int FIsDlEmpty(DL *) asm("FIsDlEmpty__FP2DL");
 void BounceRipgRips(P *) asm("BounceRipgRips__FP4RIPG");
 }
@@ -54,7 +54,7 @@ void BounceRipgRips(P *p)
         NODE *node;
         for (node = p->state->nodes; node; node = node->next) {
             if (node->object->state->flags & 4) continue;
-            int special = func_00132B10(node->object->state->subject, 0x59);
+            int special = FIsBasicDerivedFrom(node->object->state->subject, 0x59);
             DLI shapes;
             Init(&shapes, &node->object->state->shapes);
             SHAPE *shape;

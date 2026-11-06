@@ -10,7 +10,7 @@ extern char g_sw[];
 extern struct W *D_003E1480;
 void *func_001C4840(void *p);
 int func_001A61A0(struct SO *p);
-int func_00132B10(void *p, int k);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 int func_0020F1B8(void *p);
 qword func_001A62E8(struct SO *p);
 qword func_00153E60(struct T *p);
@@ -29,13 +29,13 @@ int func_001541D8(struct T *p, struct SO *pso, int k)
     struct SO *pme = func_001C4840(g_sw);
     if (!pso) { k = 0; goto done; }
     if (!func_001A61A0(pso)) { k = 0; goto done; }
-    if (func_00132B10(pso, 0x32) && pso->vt[77].pfn((char *)pso + pso->vt[77].d) == 2) { k = 0; goto done; }
-    if (func_00132B10(pso, 0x34) && pme && func_00132B10(pme, 0x46)) { k = 0; goto done; }
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x32) && pso->vt[77].pfn((char *)pso + pso->vt[77].d) == 2) { k = 0; goto done; }
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x34) && pme && FIsBasicDerivedFrom__FP5BASIC3CID(pme, 0x46)) { k = 0; goto done; }
     if (func_0020F1B8(g_sw)) { k = 0; goto done; }
     if (p->xF4) { k = 0; goto done; }
-    if (func_00132B10(pso, 0x34) && pso->x11AC) { k = 0; goto done; }
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x34) && pso->x11AC) { k = 0; goto done; }
     if (p->xF0) { k = 1; goto done; }
-    if (func_00132B10(pso, 0x33))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x33))
         v = Add(func_001A62E8(pso), pso->pos);
     else
         v = func_001A62E8(pso);

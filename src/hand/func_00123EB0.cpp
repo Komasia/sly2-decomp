@@ -13,7 +13,7 @@ extern "C" {
 CRef func_00200CA8(void *a, void *b, CRef *pref);
 CRef func_00200D10(void *a, void *b, CRef *pref);
 CRef func_00200C28(void *a, void *b, CRef *pref);
-CRef func_00200BA0(void *a, void *b);
+CRef RefGetOption(void *a, void *b) asm("RefGetOption__FP5BASICi");
 CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op);
 }
 CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op)
@@ -32,7 +32,7 @@ CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op)
         ref = func_00200C28(a, b, &aref[2]);
         break;
     case 0x6F:
-        ref = func_00200BA0(a, b);
+        ref = RefGetOption(a, b);
         break;
     }
     return ref;

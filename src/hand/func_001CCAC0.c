@@ -13,7 +13,7 @@ extern struct CLOCK g_clock;
 extern struct P8 D_002A77C8;
 extern char g_sw[];
 void func_0012E460(int *p);
-int func_00132B10(struct O *p, int n);
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
 qword func_001A62E8(struct W *p);
 void func_001E6F60(struct O *p, qword q, int a, int b, int c, int d, int *pn);
 struct O *func_001CCA40(struct W *pw, struct O *po);
@@ -35,13 +35,13 @@ void func_001CCAC0(struct S *p, int n)
     case 1:
         p->x8C = p->x84;
         p->x90 = 1;
-        if (func_00132B10(p->x84, 10)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 10)) {
             struct O *po = p->x84;
             func_001E6F60(po, func_001A62E8(p->x0), 0, 0, 0, 0, &p->x88);
             p->x90 = 0;
-        } else if (func_00132B10(p->x84, 0x14) && (p->x84->xE0 & p->x0->x1000)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 0x14) && (p->x84->xE0 & p->x0->x1000)) {
             p->x90 = 2;
-        } else if (func_00132B10(p->x84, 0x30)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 0x30)) {
             struct O *po = func_001CCA40(p->x0, p->x84);
             if (po) {
                 p->x8C = po;

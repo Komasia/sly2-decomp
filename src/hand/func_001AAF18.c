@@ -4,7 +4,7 @@ extern char D_002E65E0[];
 extern int D_004425D8[];
 void func_00234A60(int);
 void func_00234A40(int);
-void func_00234860(void);
+void ExitDeleteThread(void);
 void *func_002333B4(void *, int, unsigned int);
 void func_001AAF18(struct S *s)
 {
@@ -14,5 +14,5 @@ void func_001AAF18(struct S *s)
     s->x4 = -1;
     D_004425D8[0] = -1;
     func_00234A40(s->x0);
-    func_00234860();
+    ExitDeleteThread();
 }

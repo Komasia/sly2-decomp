@@ -21,7 +21,7 @@ extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 void func_001CD098(CONTROL *,O *);
 void func_001CD2C0(CONTROL *);
-int func_00132B10(O *,int);
+int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00134320(WORLD *,O *);
 float func_00204740(O *);
 void func_00204660(O *,float);
@@ -114,7 +114,7 @@ extern "C" void func_002206C8(S *s,int state){
  switch(old){
  case -1:
   if(s->selected!=D_002DD5BC)func_001CD098(&s->owner->controller,s->selected);
-  if(func_00132B10(s->selected,0x64))IntCall(s->selected,76,0);
+  if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,0);
   ZeroXYZ(s->owner->target);
   break;
  case 3:
@@ -149,7 +149,7 @@ extern "C" void func_002206C8(S *s,int state){
     VectorCall(D_002DD5BC,35,w.velocity.q);
   }
   else if(s->selected->id==s->peer->id){
-   if(func_00132B10(s->selected,0x64))IntCall(s->selected,76,4);
+   if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,4);
    else{func_001A58D0(s->selected,0,0xF);func_001F7BF8(s->selected,0.25f);}
   }
   func_001CD2C0(&s->owner->controller);
@@ -170,7 +170,7 @@ extern "C" void func_002206C8(S *s,int state){
  case 6:animation=s->animation6;break;
  case 7:
   animation=s->animation7;
-  if(func_00132B10(s->selected,0x64))func_00141CD0(s->owner,s->selected->actorId);
+  if(FIsBasicDerivedFrom(s->selected,0x64))func_00141CD0(s->owner,s->selected->actorId);
   break;
  }
  func_001F15B8(&s->owner->extra);
