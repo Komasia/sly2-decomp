@@ -9,8 +9,9 @@ qword func_001A62E8(void *p);
 void func_001E7380(int a, float g, qword q, struct G *pg, void *pv, int b, int c, float *pf);
 void func_001E6F60(int a, qword q, struct G *pg, void *pv, int b, int c, float *pf);
 struct O *func_00205438(void *p, int n);
-void func_0017ECF0(struct S *p, int n);
-void func_0017EB88(struct S *p) {
+void Step__11JOBPATHSTEPi(struct S *p, int n);
+// name: SafeHouse port (JOBPATHSTEP::Enter)
+void Enter__11JOBPATHSTEP(struct S *p) {
     struct O *o;
     func_001EEF70(p);
     if (p->g38 >= 0.0f)
@@ -21,6 +22,6 @@ void func_0017EB88(struct S *p) {
     o->nA8 = p->n50;
     o->nAC = p->n54;
     o->nBC = p->n58;
-    func_0017ECF0(p, 1);
+    Step__11JOBPATHSTEPi(p, 1);
     o->vt[8].pfn((char *)o + o->vt[8].d);
 }

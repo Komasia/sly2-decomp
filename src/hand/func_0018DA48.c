@@ -14,7 +14,7 @@ extern void func_001619A0(void *p, int n, void *pv);
 extern void func_00141CD0(void *p, int n);
 extern void func_0014D1D0(void *p, int n, float g);
 extern void *func_001FBB90(int n);
-extern void func_001FB2F8(void *p, int n);
+extern void SetSource__4CSndPv(void *p, int n);
 extern void func_00258040(void *p, void *pv);
 extern void func_0018C250(void *p, int a, int b);
 extern void func_00195FB8(void *p, int a, int b);
@@ -40,7 +40,7 @@ void func_0018DA48(char *p, int n)
         func_0014D1D0(g_clock, 1, D_002BF3EC);
         D_003E1BEC = -1.0f;
         pv = func_001FBB90(0x67);
-        func_001FB2F8(pv, 0);
+        SetSource__4CSndPv(pv, 0);
         func_00258040(A(0x2044), pv);
         break;
     }
@@ -50,7 +50,7 @@ void func_0018DA48(char *p, int n)
         func_0014D1D0(g_clock, 1, D_002BF3F0);
         D_003E1BEC = 0.7f;
         pv = func_001FBB90(0x66);
-        func_001FB2F8(pv, 0);
+        SetSource__4CSndPv(pv, 0);
         func_00258040(A(0x2044), pv);
         break;
     }

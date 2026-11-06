@@ -10,7 +10,7 @@ extern char D_003DD040[];
 extern char g_game[];
 int func_001C4660(void *, int, float);
 int func_001C4700(void *, int);
-float func_001FE3F8(void *);
+float TMusicTop__FPv(void *);
 void func_00152390(struct O *, int, int, int);
 void func_001619A0(void *, int, struct S *);
 void func_00153640(struct S *, float);
@@ -32,7 +32,7 @@ void func_001533B0(struct S *p, struct O *po)
         if (pe->n20)
             continue;
         func_001619A0(g_game, 0x35, p);
-        if (func_001FE3F8(D_003DD040) < pe->gC - p->g58) {
+        if (TMusicTop__FPv(D_003DD040) < pe->gC - p->g58) {
             func_00152390(po, -1, -1, 1);
             func_00153640(p, p->g298);
             return;

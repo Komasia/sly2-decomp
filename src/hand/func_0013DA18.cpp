@@ -31,8 +31,8 @@ void func_00117988(BIS *pbis, int cb);
 void func_001C9058(void *p);
 void func_001C9090(void *p, void *pv);
 void func_001C9098(void *p);
-void func_001FD0E8(void *p, BIS *pbis);
-void func_001FD5E8(void *p);
+void LoadMusicFromBrx(void *p, BIS *pbis) asm("LoadMusicFromBrx__FP8SOUNDMGRP18CBinaryInputStream");
+void LoadSoundBank(void *p) asm("LoadSoundBank__FP8SOUNDMGR");
 void func_001D7B88(void *p, BIS *pbis);
 void func_0020F318(void *psw, BIS *pbis);
 void func_0013DF80(void *psw, BIS *pbis);
@@ -125,7 +125,7 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
         Read(pbis, 0x40, psw);
         Read(pbis, 0x40, psw);
     }
-    func_001FD0E8(D_003DD040, pbis);
+    LoadMusicFromBrx(D_003DD040, pbis);
     func_001D7B88((char *)psw + 0x3A18, pbis);
     func_0020F318(psw, pbis);
     func_0013DF80(psw, pbis);
@@ -197,7 +197,7 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
     }
     func_001ED448();
     psw->iwe = -2;
-    func_001FD5E8(D_003DD040);
+    LoadSoundBank(D_003DD040);
     func_001C9090(&h, 0);
     func_001C9098(&h);
 }

@@ -9,7 +9,8 @@ float func_002458F0(float y, float x);
 void func_00209818(void *p, float f);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
-void func_00174F08(struct S *p)
+// name: SafeHouse port (JOBMOVE::Steer)
+void Steer__7JOBMOVE(struct S *p)
 {
     func_001EEFB8(p);
     if (p->n30 == 0)

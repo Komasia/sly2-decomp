@@ -6,7 +6,8 @@ void func_001EEF70(struct S *p);
 qword func_001A62E8(void *p);
 static inline float Max(float a, float b) { return a > b ? a : b; }
 static inline float Min(float a, float b) { return a < b ? a : b; }
-void func_00177EF0(struct S *p) {
+// name: SafeHouse port (JOBFOLLOW::Enter)
+void Enter__9JOBFOLLOW(struct S *p) {
     struct VTE *e;
     float g;
     func_001EEF70(p);

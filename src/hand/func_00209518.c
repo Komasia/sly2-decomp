@@ -9,7 +9,8 @@ struct B {
 };
 struct S { int n; int a; struct B *pb; };
 
-struct ANIMATION *func_00209518(struct S *p)
+// name: SafeHouse port (PasegaOfKinde)
+struct ANIMATION *PasegaOfKinde__FP5KINDE(struct S *p)
 {
     switch (p->n) {
     case 0: return (struct ANIMATION *)p->pb;

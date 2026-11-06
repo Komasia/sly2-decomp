@@ -12,8 +12,9 @@ void func_001EA000(void *p);
 struct R *func_001EA3B0(void *p, float f);
 void func_001E6F10(struct B *b, float f, qword *pv, int n);
 void func_002562A8(struct X *x);
-void func_0017DD38(void *p, struct X *x);
-void func_0017ECF0(struct S *p, int force) {
+void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
+// name: SafeHouse port (JOBPATHSTEP::Step)
+void Step__11JOBPATHSTEPi(struct S *p, int force) {
     float d;
     float t;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, 0x3A)) d = D_002BE7BC; else d = D_002BE7C0;
@@ -42,6 +43,6 @@ void func_0017ECF0(struct S *p, int force) {
         q = p->p18;
         func_002562A8(&x);
         x.v = p->v40;
-        func_0017DD38(q, &x);
+        SetGoal__7JOBGOTOP4GOAL(q, &x);
     }
 }

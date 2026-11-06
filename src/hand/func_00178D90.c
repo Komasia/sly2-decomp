@@ -9,7 +9,8 @@ void func_001E6F60(struct O *po, qword q, struct G *pg, void *pv, int b, int c, 
 float func_001E6620(struct O *po);
 float func_001E6648(struct O *po);
 void func_001E6F10(struct O *po, float g, void *pv, int n);
-void func_00178D90(struct S *p, struct O *po, int n) {
+// name: SafeHouse port (JOBFOLLOW::Follow)
+void Follow__9JOBFOLLOWP3CRVi(struct S *p, struct O *po, int n) {
     p->n38 = n;
     p->po = po;
     if (p->g48 >= 0.0f) {

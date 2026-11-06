@@ -3,7 +3,8 @@ struct S { void *p0; void *p4; int pad[2]; qword q10; };
 extern char D_003DD020[];
 void func_001E6F60(void *p, qword a, void *b, qword *pq, int c, int d, int e);
 qword func_001A62E8(void *p);
-qword func_001C1EC0(struct S *p, qword a)
+// name: SafeHouse port (PosGoal)
+qword PosGoal__FP4GOALG9VU_VECTOR(struct S *p, qword a)
 {
     qword q;
     if (p->p0) {

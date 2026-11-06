@@ -15,7 +15,7 @@ int func_00208B38(struct A *p, void *q);
 float func_00208BB0(struct A *p);
 qword func_001A62E8(struct A *p);
 void *func_00156B98(struct G *g, int n, qword v, struct A *p);
-void func_00176750(struct S *p, struct F *f);
+void React__8JOBREACTP5AIMSG(struct S *p, struct F *f);
 void func_00177BA0(struct S *p) {
     struct F f;
     func_002333B4(&f, 0, sizeof f);
@@ -56,5 +56,5 @@ void func_00177BA0(struct S *p) {
             }
         }
     }
-    func_00176750(p, &f);
+    React__8JOBREACTP5AIMSG(p, &f);
 }

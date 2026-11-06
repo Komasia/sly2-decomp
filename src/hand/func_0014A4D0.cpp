@@ -23,7 +23,7 @@ qword func_001A62E8(void *p);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
 int FIsBasicDerivedFrom(PSO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_00208540(W *pw, void *p);
+void SetGuardPursued(W *pw, void *p) asm("SetGuardPursued__FP5GUARDP2LO");
 int func_001BBE48(SO *p);
 int func_0015E9C8(G *pg, int a, int b, void *c, int d, SO **apso);
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
@@ -100,7 +100,7 @@ void func_0014A4D0(P *p)
             }
             goto done;
         }
-        func_00208540(p->pw, pso);
+        SetGuardPursued(p->pw, pso);
         return;
     }
     for (SO *ps = D_003E1450; ps; ps = ps->pnext) {
@@ -156,5 +156,5 @@ done:
         VTE *e = &plo->vt[29];
         ((void (*)(void *, qword))e->pfn)((char *)plo + e->d, pos);
     }
-    func_00208540(p->pw, p->pw->plo);
+    SetGuardPursued(p->pw, p->pw->plo);
 }

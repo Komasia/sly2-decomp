@@ -15,14 +15,14 @@ extern float D_002BE614,D_003E1BE8;
 void func_001EEF98(C*);
 int func_001EF0A8(C*);
 int func_00209098(P*);
-int func_00176060(C*);
-int func_00175FF0(C*);
-int func_00175D00(C*);
-void func_00176458(C*,int);
+int FLost__9JOBPURSUE(C*);
+int FTryAction__9JOBPURSUE(C*);
+int FCanShoot__9JOBPURSUE(C*);
+void SetPursueState__9JOBPURSUEi(C*,int);
 qword func_001A62E8(P*);
 void*func_001C0D70(qword,int);
 void func_002562A8(X*);
-void func_0017DD38(void*,X*);
+void SetGoal__7JOBGOTOP4GOAL(void*,X*);
 int func_00175748(void*);
 int func_0017B7F8(void*);
 int func_00174FB8(void*);
@@ -90,10 +90,10 @@ void func_00176098(C*p){
   case 0:case 3:{
    float distance;void*region;qword current;P*actor;int mode;
    if(func_001EF0A8(p))break;
-   if(func_00209098(p->actor)){func_00176458(p,5);break;}
-   if(func_00176060(p)){func_00176458(p,4);break;}
-   if(func_00175FF0(p)){func_00176458(p,1);break;}
-   if(func_00175D00(p)){func_00176458(p,2);break;}
+   if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
+   if(FLost__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,4);break;}
+   if(FTryAction__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,1);break;}
+   if(FCanShoot__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,2);break;}
    StorePoint(&work.point,func_001A62E8(p->target));
    current=func_001A62E8(p->actor);
    distance=DistanceXY(p,&work.point,current,&actor,&mode);
@@ -101,32 +101,32 @@ void func_00176098(C*p){
    region=func_001C0D70(work.point.q,1);
    if(p->state!=0){
     if(p->state!=3)break;
-    if(distance<p->actor->close &&region==ActorRegion(p->actor)){func_00176458(p,0);break;}
+    if(distance<p->actor->close &&region==ActorRegion(p->actor)){SetPursueState__9JOBPURSUEi(p,0);break;}
     if(p->region==region&&!Moved(p,&work.point))break;
     p->region=region;p->cached=work.point;
     func_002562A8(&work.frame);
     {register qword framePoint __asm__("$3")=work.point.q;
      work.frame.point=framePoint;
     }
-    func_0017DD38(p->sub,&work.frame);
+    SetGoal__7JOBGOTOP4GOAL(p->sub,&work.frame);
    }else{
-    if(p->actor->far<distance ||region!=ActorRegion(p->actor))func_00176458(p,3);
+    if(p->actor->far<distance ||region!=ActorRegion(p->actor))SetPursueState__9JOBPURSUEi(p,3);
    }
    break;
   }
   case 1:
-   if(func_00209098(p->actor)){func_00176458(p,5);break;}
-   if(!func_001EF0A8(p)&&func_00175748(p->sub))func_00176458(p,0);
+   if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
+   if(!func_001EF0A8(p)&&func_00175748(p->sub))SetPursueState__9JOBPURSUEi(p,0);
    break;
   case 2:
-   if(func_00209098(p->actor)){func_00176458(p,5);break;}
-   if(!func_001EF0A8(p)&&func_0017B7F8(p->sub))func_00176458(p,0);
+   if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
+   if(!func_001EF0A8(p)&&func_0017B7F8(p->sub))SetPursueState__9JOBPURSUEi(p,0);
    break;
   case 4:
-   if(!func_001EF0A8(p)&&func_00174FB8(p->sub))func_00176458(p,-1);
+   if(!func_001EF0A8(p)&&func_00174FB8(p->sub))SetPursueState__9JOBPURSUEi(p,-1);
    break;
   case 5:
-   if(!func_001EF0A8(p)&&!func_00209098(p->actor))func_00176458(p,3);
+   if(!func_001EF0A8(p)&&!func_00209098(p->actor))SetPursueState__9JOBPURSUEi(p,3);
    break;
   }
  }while(old!=p->state);

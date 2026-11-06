@@ -1,11 +1,12 @@
-void func_001FE9F8(void *, float);
-void func_001FEA60(void *, int, int, float);
-void func_001FEDF0(void *p)
+void SetSoundMasterVolume__FP8SOUNDMGRf(void *, float);
+void SetSoundChannelVolume__FP8SOUNDMGRiif(void *, int, int, float);
+// name: SafeHouse port (ResetSoundVolumes)
+void ResetSoundVolumes__FPv(void *p)
 {
     int i, j;
-    func_001FE9F8(p, 1.0f);
+    SetSoundMasterVolume__FP8SOUNDMGRf(p, 1.0f);
     for (i = 0; i < 8; i++) {
         if (i == 1) continue;
-        for (j = 0; j < 4; j++) func_001FEA60(p, j, i, 1.0f);
+        for (j = 0; j < 4; j++) SetSoundChannelVolume__FP8SOUNDMGRiif(p, j, i, 1.0f);
     }
 }

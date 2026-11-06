@@ -75,7 +75,8 @@ extern M2C_UNK D_3AB0;
 extern M2C_UNK D_738;
 extern M2C_UNK D_7F0;
 
-s32 func_001713E8(s32 arg0) {
+// name: SafeHouse port (JOBSCRIPT::Update)
+s32 Update__9JOBSCRIPT(s32 arg0) {
     s32 temp_a1;
     s32 var_v0;
     void *temp_v0;
@@ -84,7 +85,7 @@ s32 func_001713E8(s32 arg0) {
     var_v0 = M2C_FIELD(arg0, s32 *, 0x38);
     if (var_v0 != 0) {
 loop_1:
-        var_v0 = func_00171468(arg0);
+        var_v0 = FRunning__9JOBSCRIPT(arg0);
         if (var_v0 == 0) {
             var_v0 = M2C_FIELD(arg0, s32 *, 0x38);
             temp_a1 = M2C_FIELD(var_v0, s32 *, 0x18);

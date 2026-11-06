@@ -2,7 +2,7 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VTE *vt; };
 struct P { struct O *po; char pad[0x9C - 4]; int n9C; int pad2; int nA4; };
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, void *q);
+void SetSource__4CSndPv(void *p, void *q);
 void func_001488D8(struct P *p, int n);
 void func_00148A78(struct P *p, int n);
 void func_001487A0(struct P *p)
@@ -12,7 +12,7 @@ void func_001487A0(struct P *p)
     ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)o + e->d, 5, 0, 0, 0, 0);
     if (!p->n9C) {
         struct O *o2 = p->po;
-        func_001FB2F8(func_001FBB90(2), o2);
+        SetSource__4CSndPv(func_001FBB90(2), o2);
     }
     func_001488D8(p, 0);
     if (!p->nA4) func_00148A78(p, 2);

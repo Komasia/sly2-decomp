@@ -22,8 +22,8 @@ struct R *func_00205458(void *, int);
 void func_001619A0(void *, int, struct T *);
 void func_001F7BF8(struct T *, float);
 qword func_001A62E8(void *p);
-int func_00173610(float, float, qword *, int, int);
-int func_0017D608(qword *);
+int FDropOnGround__FP6VECTORffiPv(float, float, qword *, int, int);
+int FSnapPosToSurfaceAbove__FP6VECTOR(qword *);
 void func_0019F540(struct PO *, qword);
 
 static __inline__ float GDist(qword a, qword b)
@@ -101,7 +101,7 @@ void func_00144640(struct P *p)
         float g = GDist(r, p->pos);
         if (p->d20 - g < D_002BD2D4 * D_002BD2D0) {
             qword v = p->pos;
-            if (func_00173610(100.0f, -150.0f, &v, 0, 0) || func_0017D608(&v)) {
+            if (FDropOnGround__FP6VECTORffiPv(100.0f, -150.0f, &v, 0, 0) || FSnapPosToSurfaceAbove__FP6VECTOR(&v)) {
                 func_0019F540(p->p0, v);
                 p->f28 = 1;
             }

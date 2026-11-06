@@ -3,7 +3,8 @@ struct S;
 extern struct S g_lmZeroOne;
 float func_0011D948(struct S *, float);
 void func_002321E8(int, int);
-void func_001FE9F8(struct P *p, float x)
+// name: SafeHouse port (SetSoundMasterVolume)
+void SetSoundMasterVolume__FP8SOUNDMGRf(struct P *p, float x)
 {
     float g = func_0011D948(&g_lmZeroOne, x);
     int n = (int)(g * 1024.0f);

@@ -10,8 +10,9 @@ struct S {
 };
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
-void func_00178D90(struct O *o, int a, int b);
-void func_0017D450(struct S *p, int n) {
+void Follow__9JOBFOLLOWP3CRVi(struct O *o, int a, int b);
+// name: SafeHouse port (JOBGOTO::SetState)
+void SetState__7JOBGOTOi(struct S *p, int n) {
     if (n == p->n30) return;
     if (!((unsigned)n < 3 && p->n30 >= 0 && p->n30 < 3)) func_001EF0D8((char *)p + 0x18);
     p->n30 = n;
@@ -33,10 +34,10 @@ void func_0017D450(struct S *p, int n) {
                 o->nC8 = p->nA8;
                 o->u40.n40 = p->nBC;
                 if (!p->nA8 || p->nAC || !(p->p10->nFE8 & 4)) o->nC0 = 9; else o->nC0 = 8;
-                func_00178D90(o, p->p10->n294, 0);
+                Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
                 e = &o->vt[8]; e->pfn((char *)o + e->d);
             } else {
-                func_00178D90(o, p->p10->n294, 0);
+                Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
             }
         }
         break;

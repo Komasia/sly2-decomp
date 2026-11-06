@@ -8,15 +8,16 @@ struct A { char pad[0xE8]; struct C *pE8; char pad2[0x294 - 0xEC]; struct B *p29
 struct T { char pad[0x70]; float f70; };
 struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; };
 void func_001EEF98(struct S *p);
-float func_0020A690(struct K *k);
+float RadTargetrec__FP9TARGETREC(struct K *k);
 qword func_001A62E8(void *p);
 void func_0011EF08(qword v, float *a, float *b, int n);
 float RadNormalize__Ff(float f);
 int func_0011D910(void *p, float f);
-qword func_0017BFF8(struct S *p, void *q, float f, qword v);
+qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(struct S *p, void *q, float f, qword v);
 void func_001C02D0(void *q, qword a, qword b, struct B *c);
-void func_00178D90(struct T *t, struct B *b, int n);
-void func_0017C3E8(struct S *p) {
+void Follow__9JOBFOLLOWP3CRVi(struct T *t, struct B *b, int n);
+// name: SafeHouse port (JOBSURROUND::Update)
+void Update__11JOBSURROUND(struct S *p) {
     struct A *a;
     struct C *c;
     struct D *d;
@@ -38,7 +39,7 @@ void func_0017C3E8(struct S *p) {
     q = d ? d->p10 : 0;
     k = a->p3CC;
     o = k->pC;
-    g = func_0020A690(k);
+    g = RadTargetrec__FP9TARGETREC(k);
     pos = func_001A62E8(o);
     t = p->p18;
     if (t->f70 > D_002BE748) goto doit;
@@ -52,8 +53,8 @@ void func_0017C3E8(struct S *p) {
 doit:
     {
         qword v = func_001A62E8(p->p10);
-        func_001C02D0(q, v, func_0017BFF8(p, q, g, pos), b);
+        func_001C02D0(q, v, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(p, q, g, pos), b);
     }
-    func_00178D90(t, b, 0);
+    Follow__9JOBFOLLOWP3CRVi(t, b, 0);
     }
 }

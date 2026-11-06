@@ -8,15 +8,15 @@ struct Q { int pad[2]; int n8; };
 struct M { int n0; int pad; void *p8; int nC; struct Q *p10; };
 struct S { char pad[0x90]; int n90; struct O **a94; };
 struct R *func_001CB250(void *p, int n);
-void func_00173610(qword *pv, float a, float b, int c, int d);
+void FDropOnGround(qword *pv, float a, float b, int c, int d) asm("FDropOnGround__FP6VECTORffiPv");
 int NRandInRange(int lo, int hi) asm("NRandInRange__Fii");
 void *func_00205458(struct R *r, int n);
 void *func_002333B4(void *p, int c, int n);
 }
 struct F { int a; int rest[0x1B]; F() { func_002333B4(this, 0, sizeof *this); } };
 extern "C" {
-void func_00176750(void *o, struct F *f);
-void func_00176750(void *o, struct F *f);
+void React(void *o, struct F *f) asm("React__8JOBREACTP5AIMSG");
+void React(void *o, struct F *f) asm("React__8JOBREACTP5AIMSG");
 }
 extern "C" struct R *func_00174490(struct S *p, struct M *m, qword *pv, int a3, int t0) {
     struct R *r = 0;
@@ -30,7 +30,7 @@ extern "C" struct R *func_00174490(struct S *p, struct M *m, qword *pv, int a3, 
       {
         int idx[8];
         int i, j, l;
-        func_00173610(pv, D_002BE5F0[1], D_002BE5F0[0], 1, 0);
+        FDropOnGround(pv, D_002BE5F0[1], D_002BE5F0[0], 1, 0);
         for (l = 0; l < p->n90; l++) idx[l] = l;
         for (j = 0; j < p->n90; j++) {
             int i = NRandInRange(0, p->n90 - 1);
@@ -54,9 +54,9 @@ extern "C" struct R *func_00174490(struct S *p, struct M *m, qword *pv, int a3, 
             o = func_00205458(r, 0x9C);
             F f;
             f.a = -1;
-            func_00176750(o, &f);
+            React(o, &f);
             f.a = k;
-            func_00176750(o, &f);
+            React(o, &f);
             }
         }
     

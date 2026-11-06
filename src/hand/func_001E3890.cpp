@@ -2846,7 +2846,7 @@ extern "C" void func_001E5468(JSG *pjsg);
 extern "C" int func_00187D80(JOY *pjoy, uint grfbtn);
 extern "C" int func_001D9880(void *pv);
 extern "C" int FCurrentIdMatches(SNDMGR *psndmgr, int idLine);
-extern "C" float func_001FE888(SNDMGR *psndmgr);
+extern "C" float TDialog(SNDMGR *psndmgr) asm("TDialog__FP8SOUNDMGR");
 extern "C" float GetFirstTimerSeconds(SNDMGR *psndmgr);
 extern "C" void ClearBhvstk(BHVSTK *pbhvstk);
 extern float DT_CmJoltMax;
@@ -3289,7 +3289,7 @@ int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd)
         }
         else
         {
-            fComplete = 0.0f <= func_001FE888(&D_003DD040) - prelaycmd->unk52.dtWait;
+            fComplete = 0.0f <= TDialog(&D_003DD040) - prelaycmd->unk52.dtWait;
         }
         break;
     }

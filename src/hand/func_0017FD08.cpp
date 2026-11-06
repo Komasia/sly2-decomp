@@ -18,9 +18,9 @@ extern "C" {
 void func_00213B00(struct O *o, int n);
 void func_00180100(struct S *p);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void SetSource(void *p, int n) asm("SetSource__4CSndPv");
 void func_00258040(void **pp, void *q);
-void func_001FB018(void *p);
+void Pause(void *p) asm("Pause__4CSnd");
 void func_0012E460(int *p);
 void func_002303A0(struct S *p, struct N *n, int k);
 void func_001A58D0(struct S *p, int a, int b);
@@ -28,7 +28,7 @@ void func_001F5720(struct S *p, int n);
 void func_001F57C0(struct S *p, int n);
 void func_001F68A8(struct S *p, int n);
 void func_001F0660(void *p, int n);
-void func_001FB098(void *p, float f);
+void Stop(void *p, float f) asm("Stop__4CSndf");
 struct M4 func_0022FF40(int a, int b, struct M4 *pm);
 int func_0012DC18(struct S *p, struct N *n, int a, int b, int c, qword v);
 qword func_0011BFF0(struct M4 *pm);
@@ -49,9 +49,9 @@ void func_0017FD08(struct S *p, int n) {
                 func_00180100(p);
                 if (p->n2A8 != old) {
                     void *r = func_001FBB90(p->n2A8);
-                    func_001FB2F8(r, 0);
+                    SetSource(r, 0);
                     func_00258040(&p->p2A4, r);
-                    func_001FB018(p->p2A4);
+                    Pause(p->p2A4);
                 }
             }
         }
@@ -85,7 +85,7 @@ void func_0017FD08(struct S *p, int n) {
             if (q) { struct VTE *e = &q->vt[0x32]; ((void (*)(void *))e->pfn)((char *)q + e->d); }
             void **pp = &p->p2A4;
             if (*pp) {
-                func_001FB098(*pp, 0.0f);
+                Stop(*pp, 0.0f);
                 func_00258040(pp, 0);
             }
         }

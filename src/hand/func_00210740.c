@@ -10,10 +10,10 @@ extern float D_002C3EB0[2];
 struct O *func_0015E938(struct G *, int, int, void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
 struct M *func_001FBB90(int);
-void func_001FB2F8(struct M *, struct O *);
-void func_001FB4F0(struct M *, float, float);
-void func_001FB1F8(struct M *, float);
-void func_001FB2C0(struct M *, float);
+void SetSource__4CSndPv(struct M *, struct O *);
+void SetFalloff__4CSndff(struct M *, float, float);
+void SetVolume__4CSndf(struct M *, float);
+void SetPitch__4CSndiif(struct M *, float);
 void func_001FB520(struct M *, float);
 void func_00258040(struct M **, struct M *);
 static inline struct O *SelectedValue(struct O *p){struct O *value;__asm__("daddu %0,%1,$zero":"=r"(value):"r"(p));return value;}
@@ -34,10 +34,10 @@ void func_00210740(float offset, float fade, float scale, struct G *p, int id, i
     }
     offset += p->offset;
     m = func_001FBB90(id);
-    func_001FB2F8(m, o);
-    func_001FB4F0(m, (float)x, (float)y);
-    func_001FB1F8(m, scale);
-    func_001FB2C0(m, offset);
+    SetSource__4CSndPv(m, o);
+    SetFalloff__4CSndff(m, (float)x, (float)y);
+    SetVolume__4CSndf(m, scale);
+    SetPitch__4CSndiif(m, offset);
     func_001FB520(m, fade);
     if (m->vt->kind((char *)m + m->vt->d) == 2)
         func_00258040(out, m);

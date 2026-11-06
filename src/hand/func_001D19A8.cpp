@@ -36,9 +36,9 @@ float func_0011D2D0(float,float,float,void *,float *);
 qword func_001A62E8(P *);
 int func_0011D4D0(float,float,float);
 float GSmooth(float,float,float,void *,float *) asm("GSmooth__FfffP3SMPPf");
-void func_001FB1F8(SOUND *,float);
-void func_001FB2C0(SOUND *,float);
-void func_001FB060(SOUND *);
+void SetVolume(SOUND *,float) asm("SetVolume__4CSndf");
+void SetPitch(SOUND *,float) asm("SetPitch__4CSndiif");
+void Resume(SOUND *) asm("Resume__4CSnd");
 void func_001F5078(P *);
 }
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
@@ -197,9 +197,9 @@ extern "C" void func_001D19A8(P *p)
     if(p->sound){
         p->soundRate=GSmooth(p->soundRate,p->drive/D_002C20A4,g_clock.dt,D_002C20A8,0);
         float rate=Clamp(p->soundRate,0.2f,1.0f);
-        func_001FB1F8(p->sound,rate);
-        func_001FB2C0(p->sound,rate*0.2f);
-        if(p->sound->references>0)func_001FB060(p->sound);
+        SetVolume(p->sound,rate);
+        SetPitch(p->sound,rate*0.2f);
+        if(p->sound->references>0)Resume(p->sound);
     }
     if(p->drive!=0.0f || p->turn!=0.0f)func_001F5078(p);
 }

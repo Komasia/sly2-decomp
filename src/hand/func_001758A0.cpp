@@ -1,4 +1,4 @@
-// func_001758A0: pick the first enabled response ENTRY of p that accepts target (range, height, angle, optional
+// PactionSelect__FP5GUARDP2LOP9TARGETREC: pick the first enabled response ENTRY of p that accepts target (range, height, angle, optional
 // line of sight), ask p's HandleSpliceEvent(0x18) about it with a CRef(true), then run the response.
 // (Claude agent, T1672) MATCH from lanef10v1 with real C++ locals instead of the SLOT union and explicit calls:
 // FRAME with out-of-line ctor/dtor (__10STACKSCOPE / _$_10STACKSCOPE(this, 2)), CRef(bool) with inline dtor
@@ -59,7 +59,7 @@ extern POLY D_002BE600;
 extern LM g_lmZeroOne;
 extern char g_sw[];
 int FIsBasicDerivedFrom(P *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_0020A818(void *, P *);
+int FTargetrecAllows(void *, P *) asm("FTargetrecAllows__FP9TARGETRECP5GUARD");
 qword func_001A62E8(P *);
 unsigned func_001C9950(unsigned);
 int func_0011D910(LM *, float);
@@ -69,7 +69,7 @@ int func_00175820(void *, void *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, void *), void *, int *, void ***);
 int func_0014CC58(int, qword, qword, int, void **, LSG *);
 void func_0020AB68(P *, ENTRY *, void *, qword);
-void func_0020A9A8(void *, int);
+void SetTargetrecTimer(void *, int) asm("SetTargetrecTimer__FP9TARGETRECi");
 }
 static inline qword QwSub(qword qw0, qword qw1)
 {
@@ -132,7 +132,8 @@ static inline int Blocked(LOS *line, float limit)
     return GLength(QwSub(line->start.q, line->hit.point.q)) < limit;
 }
 
-extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
+// name: SafeHouse port (PactionSelect)
+extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *gate)
 {
     qword from, to;
     float height, distance;
@@ -154,7 +155,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
         if (((int (*)(void *))e->fn)((char *)target + e->delta))
             return 0;
     }
-    if (gate && !func_0020A818(gate, p))
+    if (gate && !FTargetrecAllows(gate, p))
         return 0;
     from = func_001A62E8(p);
     to = func_001A62E8(target);
@@ -218,7 +219,7 @@ extern "C" ENTRY *func_001758A0(P *p, P *target, void *gate)
                 func_0020AB68(p, entry, owner, frame.row[3].q);
                 entry = 0;
                 if (gate)
-                    func_0020A9A8(gate, 3);
+                    SetTargetrecTimer(gate, 3);
             }
             return entry;
         }

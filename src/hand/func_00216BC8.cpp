@@ -23,7 +23,7 @@ extern "C" char *func_0021ED58(char *,const char *);
 extern "C" char *func_0021EDA0(char *,const char *);
 extern "C" RT *func_00215BA8(RT *,char *,S *,DATA *);
 extern "C" int func_00215F40(RT *);
-extern "C" void func_00227820(void *,RT *);
+extern "C" void StrDialogSubtitleTyped(void *,RT *) asm("StrDialogSubtitleTyped__FP9DIALOGSUBPv");
 extern "C" void func_00215CA8(RT *,char *);
 extern "C" int func_00215D40(RT *);
 extern "C" void func_00215D00(RT *,RGBA *);
@@ -54,7 +54,7 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         style=*data;
         func_00215BA8(&rt,text,p,&style);
         func_00215F40(&rt);
-        func_00227820(D_004435F0,&rt);
+        StrDialogSubtitleTyped(D_004435F0,&rt);
         func_00215CA8(&rt,0);
         while((ch=func_00215D40(&rt))!=0)if(ch=='\n')lines++;
         visible=(int)(p->height/p->scale);

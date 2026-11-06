@@ -3,7 +3,8 @@ s32 func_0013E368(M2C_UNK *, s32);                  /* extern */
 M2C_UNK strcpy(s8 *, s32);                          /* extern */
 extern M2C_UNK g_sw;
 
-void func_002277D0(s32 *arg0, s8 *arg1) {
+// name: SafeHouse port (GetDialogSubtitleText)
+void GetDialogSubtitleText__FP9DIALOGSUBPc(s32 *arg0, s8 *arg1) {
     s32 temp_v1;
 
     temp_v1 = *arg0;

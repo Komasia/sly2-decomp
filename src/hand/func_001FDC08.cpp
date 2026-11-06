@@ -9,9 +9,10 @@ extern float D_002DDF10;
 struct PLAYER *func_001C4A48(void *);
 int FIsBasicDerivedFrom(void *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float GSmooth(float,float,float,struct COEF *,float *) asm("GSmooth__FfffP3SMPPf");
-void func_001FC2E0(struct REF *,int,float);
+void SetVoiceVolume(struct REF *,int,float) asm("SetVoiceVolume__9CSndVoiceif");
 static __inline__ float Sqrt(float f){float r;__asm__ __volatile__("sqrt.s %0,%1":"=f"(r):"f"(f));return r;}
-void func_001FDC08(struct P *input)
+// name: SafeHouse port (UpdateStemWeights)
+void UpdateStemWeights__FPv(struct P *input)
 {
     struct P *p=input;
     struct REF *ref;
@@ -49,7 +50,7 @@ norm:
         float gain=Sqrt((1.0f-selectedSquare)/sum);
         for(i=0;i<3;i++)if(i!=p->selected)p->weights[i]*=gain;
     }
-    if(ref){func_001FC2E0(ref,0,p->weights[0]);func_001FC2E0(ref,1,p->weights[1]);func_001FC2E0(ref,2,p->weights[2]);}
+    if(ref){SetVoiceVolume(ref,0,p->weights[0]);SetVoiceVolume(ref,1,p->weights[1]);SetVoiceVolume(ref,2,p->weights[2]);}
 }
 
 }

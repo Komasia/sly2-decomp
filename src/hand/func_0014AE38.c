@@ -27,7 +27,7 @@ void *func_001C4840(void *);
 qword func_001A62E8(void *);
 void *func_0014AE18(struct P *);
 void func_001E6180(struct SP *);
-void func_00178D90(struct OA7 *, struct SP *, int);
+void Follow__9JOBFOLLOWP3CRVi(struct OA7 *, struct SP *, int);
 
 #define VCALL0(po, n) { struct VTE *e = &(po)->vt[n]; ((void (*)(void *))e->pfn)((char *)(po) + e->d); }
 
@@ -87,7 +87,7 @@ void func_0014AE38(struct P *p, int state)
         }
         func_001E6180(psp);
         po = func_00205438(p->p10, 0xA7);
-        func_00178D90(po, psp, 0);
+        Follow__9JOBFOLLOWP3CRVi(po, psp, 0);
         po->xC0 = 8;
         po->x40 = 1;
         po->x64 = 25.0f;

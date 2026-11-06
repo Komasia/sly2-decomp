@@ -12,7 +12,7 @@ void func_001EEF98(struct P *p);
 int func_001EF0A8(struct P *p);
 qword func_001A62E8(void *p);
 int func_00227C90(void *p, qword v);
-void func_001BA828(struct P *p, int n);
+void SetProxState__7JOBPROXi(struct P *p, int n);
 int func_00209A68(struct O *po, int n);
 void *func_00205458(struct O *po, int n);
 static inline float Dist(qword a, qword b) {
@@ -26,7 +26,8 @@ static inline float Dist(qword a, qword b) {
 }
 static inline float GEval(struct POLY *pp, float x) { return pp->c0 + x * (pp->c1 + x * pp->c2); }
 static inline float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
-void func_001BA608(struct P *p)
+// name: SafeHouse port (JOBPROX::Update)
+void Update__7JOBPROX(struct P *p)
 {
     int s;
     func_001EEF98(p);
@@ -38,15 +39,15 @@ void func_001BA608(struct P *p)
         case 0: {
             struct S *ps = p->po->pF64;
             if (!func_00227C90(ps->xEC, func_001A62E8(D_002E1E40)))
-                func_001BA828(p, 1);
+                SetProxState__7JOBPROXi(p, 1);
             break;
         }
         case 1: {
             struct S *ps = p->po->pF64;
             if (func_00227C90(ps->xE8, func_001A62E8(D_002E1E40)))
-                func_001BA828(p, 0);
+                SetProxState__7JOBPROXi(p, 0);
             else if (p->po->poly.dt < g_clock.t - p->g34)
-                func_001BA828(p, 2);
+                SetProxState__7JOBPROXi(p, 2);
             break;
         }
         case 2:

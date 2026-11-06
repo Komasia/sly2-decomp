@@ -10,17 +10,18 @@ extern struct K D_002A8288;
 long func_0014D240(struct CLOCK *);
 void func_001FDA48(struct P *);
 void func_001FDBA8(struct P *);
-void func_001FB060(struct X *);
-void func_001FB018(struct X *);
-void func_001FDC08(struct P *);
+void Resume__4CSnd(struct X *);
+void Pause__4CSnd(struct X *);
+void UpdateStemWeights__FPv(struct P *);
 void func_001FDEC0(struct P *);
-void func_001FDEC8(struct P *);
+void UpdateDialogEvents__FPv(struct P *);
 int func_001FE5E0(struct P *);
 float GSmooth__FfffP3SMPPf(float, float, float, struct K *, int);
-void func_001FEA60(struct P *, int, float, int);
-void func_001FB8E0(struct Q *);
+void SetSoundChannelVolume__FP8SOUNDMGRiif(struct P *, int, float, int);
+void UpdateFrame__4CSnd(struct Q *);
 int func_00231C48(void);
-void func_001FD830(struct P *p)
+// name: SafeHouse port (UpdateSoundMgr)
+void UpdateSoundMgr__FPv(struct P *p)
 {
     struct X *top;
     float f, g;
@@ -33,30 +34,30 @@ void func_001FD830(struct P *p)
     top = p->c > 0 ? *(p->a + p->c - 1) : 0;
     if (g_cds == 3) {
         if (p->n58) {
-            if (top) func_001FB060(top);
-            if (p->r228) func_001FB060(p->r228);
-            if (p->r200) func_001FB060(p->r200);
+            if (top) Resume__4CSnd(top);
+            if (p->r228) Resume__4CSnd(p->r228);
+            if (p->r200) Resume__4CSnd(p->r200);
             p->n58 = 0;
         }
     } else if (!p->n58) {
-        if (top) func_001FB018(top);
-        if (p->r228) func_001FB018(p->r228);
-        if (p->r200) func_001FB018(p->r200);
+        if (top) Pause__4CSnd(top);
+        if (p->r228) Pause__4CSnd(p->r228);
+        if (p->r200) Pause__4CSnd(p->r200);
         p->n58 = 1;
     }
     g = 1.0f;
-    func_001FDC08(p);
+    UpdateStemWeights__FPv(p);
     func_001FDEC0(p);
-    func_001FDEC8(p);
+    UpdateDialogEvents__FPv(p);
     k = D_002A8288;
     if (func_001FE5E0(p) && g_clock.dt == 0.0f) g = 0.0f;
     f = GSmooth__FfffP3SMPPf(p->f15C, g, g_clock.f40, &k, 0);
-    func_001FEA60(p, 0, f, 2);
-    func_001FEA60(p, 1, f, 2);
-    func_001FEA60(p, 2, g, 2);
+    SetSoundChannelVolume__FP8SOUNDMGRiif(p, 0, f, 2);
+    SetSoundChannelVolume__FP8SOUNDMGRiif(p, 1, f, 2);
+    SetSoundChannelVolume__FP8SOUNDMGRiif(p, 2, g, 2);
     for (q = p->pq; q;) {
         struct Q *n = q->pNext;
-        func_001FB8E0(q);
+        UpdateFrame__4CSnd(q);
         q = n;
     }
     func_00231C48();

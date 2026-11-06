@@ -1,3 +1,4 @@
 struct S { char pad[0x3C]; int n3C; };
-void func_00174920(struct S *p);
-void func_00174FC8(struct S *p) { func_00174920(p); p->n3C = 2; }
+void Init__7JOBMOVE(struct S *p);
+// name: SafeHouse port (JOBSTAND::Init)
+void Init__8JOBSTAND(struct S *p) { Init__7JOBMOVE(p); p->n3C = 2; }

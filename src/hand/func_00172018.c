@@ -12,9 +12,9 @@ int func_00172658(struct S *p);
 qword func_00172760(struct S *p);
 qword func_001A62E8(void *p);
 void func_002562A8(struct X *x);
-void func_0017DD38(void *p, struct X *x);
-int func_0017DCB8(void *p);
-int func_0017DCF8(void *p);
+void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
+int NArrived__7JOBGOTO(void *p);
+int FStuck__7JOBGOTO(void *p);
 void func_00172320(struct S *p, int n);
 void func_00172560(struct S *p);
 void func_00172F10(struct S *p);
@@ -42,10 +42,10 @@ void func_00172018(struct S *p) {
                     struct X x;
                     func_002562A8(&x);
                     x.v = v;
-                    func_0017DD38(p->p18, &x);
+                    SetGoal__7JOBGOTOP4GOAL(p->p18, &x);
                 }
                 p->n48 = 0;
-            } else if (func_00172658(p) || func_0017DCB8(p->p18) || func_0017DCF8(p->p18)) {
+            } else if (func_00172658(p) || NArrived__7JOBGOTO(p->p18) || FStuck__7JOBGOTO(p->p18)) {
                 func_00172320(p, 2);
             }
             break;

@@ -11,15 +11,16 @@ extern qword D_002A2DD0;
 void func_001EEF98(struct X *p);
 int func_001EF0A8(struct X *p);
 int func_00174FB8(void *p);
-int func_00178D00(void *p);
+int FArrived__9JOBFOLLOW(void *p);
 int func_00175748(void *p);
-int func_001758A0(struct SO *p, int n, int z);
+int PactionSelect__FP5GUARDP2LOP9TARGETREC(struct SO *p, int n, int z);
 qword func_001A62E8(void *p);
-void func_00155AE0(struct X *p, int k);
-void *func_00155A68(struct X *p);
+void SetB5State__5JOBB5i(struct X *p, int k);
+void *PloEnd__5JOBB5(struct X *p);
 
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
-void func_00155D90(struct X *p)
+// name: SafeHouse port (JOBB5::Update)
+void Update__5JOBB5(struct X *p)
 {
     func_001EEF98(p);
     while (!func_001EF0A8(p)) {
@@ -36,29 +37,29 @@ void func_00155D90(struct X *p)
                 pso = p->pso;
                 ((void (*)(void *, qword))pso->vt[36].pfn)((char *)pso + pso->vt[36].d, D_002A2DD0);
                 p->t48 = g_clock.t;
-                func_00155AE0(p, 1);
+                SetB5State__5JOBB5i(p, 1);
             }
             break;
         case 2:
-            if (func_00178D00(p->x18))
-                func_00155AE0(p, 1);
+            if (FArrived__9JOBFOLLOW(p->x18))
+                SetB5State__5JOBB5i(p, 1);
             break;
         case 1:
             if (2.5f < g_clock.t - p->t48 && 0.1f < g_clock.t - p->t34) {
-                if ((p->x54 = func_001758A0(p->pso, p->x4C, 0)) != 0)
-                    func_00155AE0(p, 3);
+                if ((p->x54 = PactionSelect__FP5GUARDP2LOP9TARGETREC(p->pso, p->x4C, 0)) != 0)
+                    SetB5State__5JOBB5i(p, 3);
             }
             break;
         case 3:
             p->t44 = g_clock.t;
             if (func_00175748(p->x18)) {
                 int k = 1;
-                void *n = func_00155A68(p);
+                void *n = PloEnd__5JOBB5(p);
                 if (n != p->x40) {
                     p->x40 = n;
                     k = 2;
                 }
-                func_00155AE0(p, k);
+                SetB5State__5JOBB5i(p, k);
             }
             break;
         }

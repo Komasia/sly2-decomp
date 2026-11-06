@@ -17,7 +17,8 @@ static __inline__ qword MAdd(qword p, qword up, float s) {
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(p), "j"(up), "j"(u.q));
     return r;
 }
-int func_00173610(qword *pv, float a, float b, int k, int (*fn)(void)) {
+// name: SafeHouse port (FDropOnGround)
+int FDropOnGround__FP6VECTORffiPv(qword *pv, float a, float b, int k, int (*fn)(void)) {
     struct X x;
     int na, nb;
     qword va, vb;

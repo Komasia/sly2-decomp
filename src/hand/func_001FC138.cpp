@@ -4,7 +4,8 @@ struct X {
     X(A *pa, B *pb);
     char pad[0x3C0];
 };
-extern "C" X *func_001FC138(A *pa, B *pb)
+// name: SafeHouse port (PsndNewVoice)
+extern "C" X *PsndNewVoice__FP9SNDSTREAMPv(A *pa, B *pb)
 {
     X *px;
     if (pa)

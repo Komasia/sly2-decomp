@@ -19,10 +19,10 @@ struct X {
 void func_0014FD40(struct X *p);
 float GSmooth__FfffP3SMPPf(void *p, float *pdg, float g, float gTarget, float dt);
 float func_0011D948(void *p, float g);
-void func_001FB2C0(struct SND *p, float g);
-void func_001FB1F8(struct SND *p, float g);
-void func_001FB060(struct SND *p);
-void func_001FB018(struct SND *p);
+void SetPitch__4CSndiif(struct SND *p, float g);
+void SetVolume__4CSndf(struct SND *p, float g);
+void Resume__4CSnd(struct SND *p);
+void Pause__4CSnd(struct SND *p);
 qword func_0011F088(qword a, qword b, float g, void *p, int n);
 void func_0011B628(M3 *pm, qword v);
 void func_0011C950(M3 *a, M3 *b, void *p, M3 *out, int n, float g);
@@ -61,14 +61,14 @@ void func_00150A28(struct X *p)
     }
     if (p->gB0 != 0.0f) {
         struct SND *ps = p->pC0;
-        func_001FB2C0(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->gB0)));
+        SetPitch__4CSndiif(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->gB0)));
         ps = p->pC0;
-        func_001FB1F8(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
+        SetVolume__4CSndf(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
         if (p->pC0->c4E > 0)
-            func_001FB060(p->pC0);
+            Resume__4CSnd(p->pC0);
     } else {
         if (p->pC0->c4E <= 0)
-            func_001FB018(p->pC0);
+            Pause__4CSnd(p->pC0);
     }
     if (p->p40) {
         M3 m0, m30, m60, m90;

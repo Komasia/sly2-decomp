@@ -30,7 +30,7 @@ void func_0015D880(struct X *p, int n);
 void func_001B3A48(void *p, int n);
 void func_0022B490(struct G *pg, int a, int b, int c, int d, int e);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void SetSource__4CSndPv(void *p, int n);
 int func_0015D798(struct X *p);
 int func_002121E8(struct X *p, int n);
 void *func_0015E938(struct G *pg, int kind, int oid, int n);
@@ -40,7 +40,7 @@ int func_00210B98(int n);
 
 static __inline__ void PlaySound(int n)
 {
-    func_001FB2F8(func_001FBB90(n), 0);
+    SetSource__4CSndPv(func_001FBB90(n), 0);
 }
 
 void func_0015CF30(struct X *p)

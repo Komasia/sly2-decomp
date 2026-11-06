@@ -5,8 +5,9 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x20]; int n30; char pad3[8]
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; int n30; float g34; char pad3[8]; int n40; };
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
-void func_00208540(void *p, int n);
-void func_0017B8B0(struct S *p, int n) {
+void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
+// name: SafeHouse port (JOBB2::SetB2State)
+void SetB2State__5JOBB2i(struct S *p, int n) {
     if (n == p->n30) return;
     func_001EF0D8(p->a18);
     p->n30 = n;
@@ -14,7 +15,7 @@ void func_0017B8B0(struct S *p, int n) {
     switch (n) {
     case 0:
         { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
-        func_00208540(p->p10, 0);
+        SetGuardPursued__FP5GUARDP2LO(p->p10, 0);
         break;
     case 1:
         { struct O *o = func_00205438(p->p10, 0xA5); struct VTE *e; o->n30 = p->n40; o->n40 = 1; e = &o->vt[8]; e->pfn((char *)o + e->d); }

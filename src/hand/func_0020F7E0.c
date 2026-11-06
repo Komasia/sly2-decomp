@@ -8,7 +8,7 @@ extern float D_002C3E80;
 int func_002132D0(struct O *po);
 float func_0011D1C0(float a, float b, float c, void *p, float *pv, float dt);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, void *source);
+void SetSource__4CSndPv(void *p, void *source);
 
 void func_0020F7E0(struct S *p)
 {
@@ -37,7 +37,7 @@ void func_0020F7E0(struct S *p)
             d = (0.0f > d) ? 0.0f : d;
             n = (int)d;
             if (n != p->n4770) {
-                func_001FB2F8(func_001FBB90((n & 1) ? 0x30 : 0x31), 0);
+                SetSource__4CSndPv(func_001FBB90((n & 1) ? 0x30 : 0x31), 0);
                 p->n4770 = n;
             }
         }

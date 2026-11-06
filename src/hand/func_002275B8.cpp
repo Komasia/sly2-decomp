@@ -3,7 +3,8 @@ struct RGBA {
     RGBA() {}
     RGBA(int r_, int g_, int b_, int a_) { r = r_; g = g_; b = b_; a = a_; }
 };
-extern "C" RGBA func_002275B8(int k)
+// name: SafeHouse port (RgbaDialogSpeaker)
+extern "C" RGBA RgbaDialogSpeaker__Fi(int k)
 {
     RGBA clr;
     switch (k) {

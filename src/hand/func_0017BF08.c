@@ -6,16 +6,17 @@ struct S { char pad[0x10]; struct T *pt; };
 void func_001EEF70(struct S *p);
 qword func_001A62E8(void *p);
 void func_001C02D0(void *p, qword a, qword b, int n);
-void func_0017C550(struct S *p, int n);
-void func_0017BF08(struct S *p) {
+void SetSurroundState__11JOBSURROUNDi(struct S *p, int n);
+// name: SafeHouse port (JOBSURROUND::Enter)
+void Enter__11JOBSURROUND(struct S *p) {
     func_001EEF70(p);
     if (p->pt->nFE8 & 4) {
         struct C *c = p->pt->pE8 ? p->pt->pE8->pDC : 0;
         void *pv = c ? c->p10 : 0;
         qword q = func_001A62E8(p->pt);
         func_001C02D0(pv, q, func_001A62E8(p->pt), p->pt->n294);
-        func_0017C550(p, 1);
+        SetSurroundState__11JOBSURROUNDi(p, 1);
     } else {
-        func_0017C550(p, 0);
+        SetSurroundState__11JOBSURROUNDi(p, 0);
     }
 }

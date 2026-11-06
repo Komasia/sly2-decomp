@@ -1,4 +1,4 @@
-// func_001FD0E8: LoadSoundSectionFromBrx (0x1FD0E8), written from the sound section's layout (our names; Lilly's decomp has it as unmatched).
+// LoadMusicFromBrx__FP8SOUNDMGRP18CBinaryInputStream: LoadSoundSectionFromBrx (0x1FD0E8), written from the sound section's layout (our names; Lilly's decomp has it as unmatched).
 // Reads the level's sound section: the sound bank's file record (the loaded bank is kept when the record's file id is unchanged), per-sound kinds (S8),
 // the effect id -> sound index table, the ambience stream record, six ids, then the dialogue/music stream records (one file record per language;
 // the record of the language in g_nLang = D_002E1E54 is kept) and the loose file records. The allocation requests are {cb, cbAlign} records built by
@@ -118,7 +118,7 @@ extern int D_002E1E54;
 extern "C" void func_002321B8(void *);
 extern "C" int func_00231C48(void);
 extern "C" void *func_002333B4(void *, int, uint);
-extern "C" STREAMSND *func_001FC138(FILEREC *, int);
+extern "C" STREAMSND *PsndNewVoice(FILEREC *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 extern "C" void func_00259B48(void *, STREAMSND *);
 inline int FSameFileId(FILEREC *prec, FILEREC *precOther)
 {
@@ -128,7 +128,8 @@ inline int FSameFileId(FILEREC *prec, FILEREC *precOther)
         return 0;
     return (prec->aw[2] ^ prec->aw[14]) == (precOther->aw[2] ^ precOther->aw[14]);
 }
-extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbis) __asm__("func_001FD0E8");
+extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbis) __asm__("LoadMusicFromBrx__FP8SOUNDMGRP18CBinaryInputStream");
+// name: SafeHouse port (LoadMusicFromBrx)
 extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbis)
 {
     FILEREC rec;
@@ -163,7 +164,7 @@ extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbi
     {
         psndmgr->precAmbience = (FILEREC *)PvAllocSwClearLoad(sizeof(FILEREC), 0x10);
         pbis->ReadFileRecord(psndmgr->precAmbience);
-        STREAMSND *psnd = func_001FC138(psndmgr->precAmbience, 4);
+        STREAMSND *psnd = PsndNewVoice(psndmgr->precAmbience, 4);
         func_00259B48(&psndmgr->psndAmbience, psnd);
     }
     func_002333B4(psndmgr->anUnk1D4, -1, sizeof(psndmgr->anUnk1D4));

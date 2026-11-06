@@ -7,10 +7,10 @@ int func_00209098(void *p);
 int func_0014A478(struct P *p);
 int func_0014AA30(struct P *p);
 int func_001C4840(void *p);
-int func_001758A0(void *p, int n, int m);
+int PactionSelect__FP5GUARDP2LOP9TARGETREC(void *p, int n, int m);
 void func_0014AE38(struct P *p, int k);
 void func_0014AD70(struct P *p);
-int func_00178D00(void *p);
+int FArrived__9JOBFOLLOW(void *p);
 int func_00174FB8(void *p);
 int func_00175748(void *p);
 void func_0014A2A0(struct P *p)
@@ -32,7 +32,7 @@ void func_0014A2A0(struct P *p)
                 int v = func_0014AA30(p);
                 p->x40 = v;
                 if (v == p->x3C) {
-                    int r = func_001758A0(p->x10, func_001C4840(g_sw), 0);
+                    int r = PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
                     p->x44 = r;
                     if (r)
                         func_0014AE38(p, 3);
@@ -46,10 +46,10 @@ void func_0014A2A0(struct P *p)
                 func_0014AE38(p, 4);
             else if (func_0014A478(p))
                 func_0014AE38(p, 2);
-            else if (func_00178D00(p->x18))
+            else if (FArrived__9JOBFOLLOW(p->x18))
                 func_0014AE38(p, 0);
             else
-                func_001758A0(p->x10, func_001C4840(g_sw), 0);
+                PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
             break;
         case 2:
             if (func_00209098(p->x10))

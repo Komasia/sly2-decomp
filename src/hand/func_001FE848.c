@@ -2,7 +2,8 @@ struct U { char pad[0x40]; int n; };
 struct T { char pad[0x60]; struct U *pu; };
 struct S { char pad[0x200]; struct T *pt; };
 static inline int PresentValue(void){register int r __asm__("$4");__asm__("addiu %0,$zero,%1":"=r"(r):"i"(1));return r;}
-int func_001FE848(struct S *p, int n)
+// name: SafeHouse port (FDialogPlaying)
+int FDialogPlaying__FP8SOUNDMGRi(struct S *p, int n)
 {
     struct U *pu; int f;
     if (p->pt) {

@@ -29,7 +29,8 @@ void _$_10STACKSCOPE(struct X *x, int n);
 int func_0020FA10(void);
 void func_0020FAA0(struct G *g, qword a, qword b, int (*fn)(void), int z, int *pa, int *pb);
 struct R *func_0014CC58(int n, qword a, qword b, int c, int d, struct Y *y);
-int func_00175D00(struct S *p) {
+// name: SafeHouse port (JOBPURSUE::FCanShoot)
+int FCanShoot__9JOBPURSUE(struct S *p) {
     struct X x;
     struct Y y;
     float f[4];

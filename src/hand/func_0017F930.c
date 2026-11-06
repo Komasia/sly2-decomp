@@ -21,9 +21,9 @@ qword func_0011E1A0(float a, float b, float c);
 void func_0012D108(void *p, qword q);
 void func_001F0660(void *p, int n);
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
-void func_001FB1F8(struct M *p, float g);
-void func_001FB060(struct M *p);
-void func_001FB018(struct M *p);
+void SetVolume__4CSndf(struct M *p, float g);
+void Resume__4CSnd(struct M *p);
+void Pause__4CSnd(struct M *p);
 struct V3 { float x, y, z; };
 static __inline__ qword Make(float x, float y, float z) { qword q, t;
     __asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0"
@@ -61,11 +61,11 @@ void func_0017F930(struct S *p) {
     if (p->p2A4) {
         float g = (p->n1C0 == 1) ? p->p150->g1C : 0.0f;
         p->g2AC = GSmooth__FfffP3SMPPf(D_002BE7F0, 0, p->g2AC, g, g_clock.dt);
-        func_001FB1F8(p->p2A4, p->g2AC);
+        SetVolume__4CSndf(p->p2A4, p->g2AC);
         if (0.0f < p->g2AC) {
-            if (p->p2A4->s4E > 0) func_001FB060(p->p2A4);
+            if (p->p2A4->s4E > 0) Resume__4CSnd(p->p2A4);
         } else {
-            if (p->p2A4->s4E <= 0) func_001FB018(p->p2A4);
+            if (p->p2A4->s4E <= 0) Pause__4CSnd(p->p2A4);
         }
     }
 }

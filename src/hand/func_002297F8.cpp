@@ -38,7 +38,7 @@ void func_0011BCF8(const M3 *,float *,qword *);
 void func_001FAC98(O *,qword);
 void func_0015A2C0(O *,WATER *,float,qword,qword,float,float);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_001FB098(EMITTER *,float);
+void Stop(EMITTER *,float) asm("Stop__4CSndf");
 void func_00258040(EMITTER **,EMITTER *);
 }
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
@@ -56,7 +56,7 @@ static inline qword NegativeAngular(qword angular,float sign,qword &scalar){qwor
 #define GAIN2(G,amount,friction) {for(i=0;i<3;i++)coefficients->f[i]=G.f[i]*amount*friction;}
 #define GAIN1(G,friction) {for(i=0;i<3;i++)coefficients->f[i]=G.f[i]*friction;}
 static inline void Zero(V &v,float zero){v.f[0]=v.f[1]=v.f[2]=zero;}
-static inline void Clear(EMITTER **emitter){if(emitter&&*emitter){func_001FB098(*emitter,0.0f);func_00258040(emitter,0);}}
+static inline void Clear(EMITTER **emitter){if(emitter&&*emitter){Stop(*emitter,0.0f);func_00258040(emitter,0);}}
 extern "C" void func_002297F8(O *a,O *b){
  WORK w;
  int i;

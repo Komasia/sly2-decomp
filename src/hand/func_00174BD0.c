@@ -14,7 +14,7 @@ struct A {
 struct O { char pad[0x30]; void *p30; char pad2[0x1C]; void *parent; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; void *p40; };
 struct M { struct ANIMATION *animation; float f4; int n8; };
-struct ANIMATION *func_00209518(void *p);
+struct ANIMATION *PasegaOfKinde__FP5KINDE(void *p);
 qword func_00204E38(struct A *a, struct ANIMATION *animation, float f);
 void func_002097C8(void *p, struct S *s);
 void func_002097D8(void *p, struct S *s);
@@ -26,11 +26,12 @@ void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 int func_001A6AF8(void *n, void *o);
 void func_0014F750(void *p, int n);
 void func_001F7A68(struct A *a, int n);
-int func_00174BD0(struct S *p, int msg, struct M *pm) {
+// name: SafeHouse port (JOBMOVE::Message)
+int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
     struct ANIMATION *animation;
     if (msg != 9) return 0;
     if (!p->p40) return 0;
-    animation = func_00209518(p->p40);
+    animation = PasegaOfKinde__FP5KINDE(p->p40);
     if (animation != pm->animation) return 0;
     switch (pm->n8) {
     case 0x15E:

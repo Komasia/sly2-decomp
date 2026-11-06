@@ -21,7 +21,7 @@ int func_002068D8(const void *,const void *);
 int func_002085D0(struct P *,struct P *,int);
 void func_00153DE0(struct MANAGER *);
 struct ENTRY *func_00154180(struct MANAGER *,struct P *);
-void func_0020A9A8(struct ANCHOR *,int);
+void SetTargetrecTimer(struct ANCHOR *,int) asm("SetTargetrecTimer__FP9TARGETRECi");
 static __inline__ qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static __inline__ float LengthXY(qword a){qword r;float f;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(r));__asm__("mtc1 %1,%0":"=f"(f):"r"(r));return f;}
 static __inline__ float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
@@ -120,13 +120,13 @@ void func_00206900(struct P *p)
     if(p->anchor){
         struct ENTRY *entry=func_00154180(p->manager,p->anchor->object);
         if(entry){
-            switch(entry->mode){case 1:func_0020A9A8(p->anchor,1);break;
+            switch(entry->mode){case 1:SetTargetrecTimer(p->anchor,1);break;
             case 2:{
                 qword ownPosition,difference;
                 anchorPosition=func_001A62E8(p->anchor->object);
                 ownPosition=func_001A62E8(p);
                 difference=Subtract(anchorPosition,ownPosition);
-                if(Near(difference))func_0020A9A8(p->anchor,2);
+                if(Near(difference))SetTargetrecTimer(p->anchor,2);
             }break;
             }
         }

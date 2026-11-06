@@ -19,7 +19,8 @@ static inline float Dist(qword a, qword b) {
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-int func_00178D00(struct O *p)
+// name: SafeHouse port (JOBFOLLOW::FArrived)
+int FArrived__9JOBFOLLOW(struct O *p)
 {
     if (!p->f3C)
         return 0;

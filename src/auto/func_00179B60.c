@@ -26,8 +26,9 @@ extern s64 D_002DFB70;
 extern s32 D_002DFB78;
 extern M2C_UNK g_sw;
 
-void func_00179B60(s32 arg0) {
-    func_00179D30(arg0, -1);
+// name: SafeHouse port (JOBWAIT::Exit)
+void Exit__7JOBWAIT(s32 arg0) {
+    SetWaitState__7JOBWAITi(arg0, -1);
     func_001EEF78(arg0);
     func_00209970(M2C_FIELD(arg0, s32 *, 0x10), 0x1E);
 }

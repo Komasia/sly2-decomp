@@ -1,7 +1,8 @@
 struct P { char pad[0x14]; int n14; float f18; char pad2[0x40 - 0x1C]; int n40; float f44; char pad3[0x50 - 0x48]; unsigned short f50;
     char pad4[0x70 - 0x52]; float af70[6]; int a88[6]; char pad5[0x3BC - 0xA0]; int n3BC; };
 void func_00233088(int, int, int, int, int, int, int);
-void func_001FC740(struct P *p)
+// name: SafeHouse port (CSndVoice::SendChanges)
+void SendChanges__9CSndVoice(struct P *p)
 {
     int i;
     if (p->f50 & 0x70) {

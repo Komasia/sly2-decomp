@@ -6,9 +6,9 @@ extern struct G g_cm;
 struct A { char pad[0xA4]; float gA4; float gA8; int nAC; int nB0; float gB4; float gB8; float gBC; void *pC0; void *pC4; };
 void func_0014FCC8(struct A *a, int n);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void SetSource__4CSndPv(void *p, int n);
 void func_00258040(void **pp, void *p);
-void func_001FB018(void *p);
+void Pause__4CSnd(void *p);
 void DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1(void *pmat, float *pa, float *pb);
 void SetCmNearClip__FP2CMf(struct G *pg, float g);
 void func_00150EF0(struct A *a);
@@ -18,12 +18,12 @@ void func_00150938(struct A *a, int n)
     struct G *pg;
     func_0014FCC8(a, n);
     p = func_001FBB90(0x26);
-    func_001FB2F8(p, 0);
+    SetSource__4CSndPv(p, 0);
     func_00258040(&a->pC0, p);
     p = func_001FBB90(0x25);
-    func_001FB2F8(p, 0);
+    SetSource__4CSndPv(p, 0);
     func_00258040(&a->pC4, p);
-    func_001FB018(a->pC0);
+    Pause__4CSnd(a->pC0);
     __asm__ __volatile__("" ::: "$6"); /* a2 is dead here: delays the a2 setup like the original */
     pg = &g_cm;
     DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1(pg->mat, &a->gA4, &a->gA8);

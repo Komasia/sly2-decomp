@@ -13,25 +13,26 @@ struct G;
 extern G g_sw;
 extern char D_004435F0[];
 extern "C" {
-void func_001FE738(P *, int);
+void StopDialog(P *, int) asm("StopDialog__FP8SOUNDMGR");
 D *func_001FCFA0(P *, int);
-X *func_001FC138(D *, int);
-void func_00227728(void *, int, int);
+X *PsndNewVoice(D *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
+void SetDialogSubtitle(void *, int, int) asm("SetDialogSubtitle__FP9DIALOGSUBii");
 X *func_0015ED78(G *, int, int, int);
 int func_001FD0C0(P *, int);
 X *func_001F67E0(X *, int);
 }
-extern "C" X *func_001FE5F0(P *p, int k, int f)
+// name: SafeHouse port (PsndStartDialog)
+extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
 {
     D *pd;
-    func_001FE738(p, k);
+    StopDialog(p, k);
     pd = func_001FCFA0(p, k);
     if (!pd) return 0;
-    p->r200 = func_001FC138(pd, 0);
+    p->r200 = PsndNewVoice(pd, 0);
     p->n244 = 0;
     p->n248 = 0;
     p->n24C = 0;
-    if (!f) func_00227728(D_004435F0, k, pd->n48);
+    if (!f) SetDialogSubtitle(D_004435F0, k, pd->n48);
     if (pd->n48 != -1 && pd->n54) {
         register X *po __asm__("$19")=func_0015ED78(&g_sw, 5, pd->n48, 0);
         if (po) {

@@ -10,9 +10,9 @@ struct X {
 };
 void func_0014FCC8(struct X *p);
 void *func_001FBB90(int);
-void func_001FB2F8(void *, int);
+void SetSource__4CSndPv(void *, int);
 void func_00258040(int *, void *);
-void func_001FB018(int);
+void Pause__4CSnd(int);
 void func_0011BC88(void *, float *, float *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int, int);
 void *func_001A6318(int);
@@ -26,14 +26,14 @@ void func_0014FF38(struct X *p)
     float g;
     func_0014FCC8(p);
     pv = func_001FBB90(0x26);
-    func_001FB2F8(pv, 0);
+    SetSource__4CSndPv(pv, 0);
     func_00258040(&p->x34, pv);
     {
         void *pv2 = func_001FBB90(0x25);
-        func_001FB2F8(pv2, 0);
+        SetSource__4CSndPv(pv2, 0);
         func_00258040(&p->x38, pv2);
     }
-    func_001FB018(p->x34);
+    Pause__4CSnd(p->x34);
     pg = &g_cm;
     func_0011BC88(&pg->x60, &p->x10, &p->x14);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0, 0x34)) {

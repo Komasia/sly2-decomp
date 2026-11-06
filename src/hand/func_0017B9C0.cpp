@@ -13,7 +13,7 @@ extern "C"{
  extern POLY D_002BE720,D_002BE730;
  float GRandInRange(float,float) asm("GRandInRange__Fff");
  qword func_001A62E8(P*);
- void func_0011ED40(qword,qword,qword,qword*,float*,float*);
+ void ParamSegPoint(qword,qword,qword,qword*,float*,float*) asm("ParamSegPoint__FG9VU_VECTORN20P6VECTORN23");
 }
 static inline unsigned long Eligible(unsigned long flags){return (flags>>60)&1;}
 static inline qword From(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
@@ -55,7 +55,8 @@ typedef char RANGE_lo_Offset[FIELD_OFFSET(RANGE,lo)==0?1:-1];
 typedef char RANGE_hi_Offset[FIELD_OFFSET(RANGE,hi)==4?1:-1];
 typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
-extern "C" void func_0017B9C0(C*p){
+// name: SafeHouse port (JOBB2::Choose)
+extern "C" void Choose__5JOBB2(C*p){
  WORK work;
  P*best;
  float lower;
@@ -86,7 +87,7 @@ extern "C" void func_0017B9C0(C*p){
   if(choice==p->preferred)cost=D_002BE720.a+cost*(D_002BE720.b+cost*D_002BE720.c);
   for(int j=0;j<p->actor->nearCount;j++){
    qword position=func_001A62E8(p->actor->near[j]);
-   func_0011ED40(position,work.origin.q,To(candidate),0,&work.t,&work.d);
+   ParamSegPoint(position,work.origin.q,To(candidate),0,&work.t,&work.d);
    if(work.t<0.0f)continue;
    if(work.t>1.0f)continue;
    float penalty=D_002BE730.a+work.d*(D_002BE730.b+work.d*D_002BE730.c);
@@ -104,7 +105,7 @@ extern "C" void func_0017B9C0(C*p){
   float f=DistanceFrom(position,&work.origin);
   if(f>distance)continue;
   if(best){
-   func_0011ED40(To(position),work.origin.q,work.bestPoint.q,0,&work.t2,&work.d2);
+   ParamSegPoint(To(position),work.origin.q,work.bestPoint.q,0,&work.t2,&work.d2);
    if(work.t2<0.0f)continue;
    if(work.t2>1.0f)continue;
    if(work.d2>500.0f)continue;

@@ -10,8 +10,8 @@ struct A { char pad[0x33C]; int n33C; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; struct C *p40; char pad3[0xC]; int n50; int pad4; int n58; };
 struct M { int n0; int pad; int n8; int nC; int n10; char pad2[0x30]; int n44; };
 struct X { int a; int pad[7]; qword v; qword pad2; };
-int func_00174BD0(struct S *p, int msg, struct M *pm);
-int func_00209518(struct C *c);
+int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm);
+int PasegaOfKinde__FP5KINDE(struct C *c);
 int func_00209430(struct C *c);
 void func_00209360(struct C *c);
 void func_00209278(struct C *c, struct A *a, int fl, float g);
@@ -23,11 +23,11 @@ void *func_002333B4(void *p, int c, int n);
 qword func_001A62E8(struct A *a);
 void func_00156698(void *p, qword v, struct A *a);
 int func_0017AF30(struct S *p, int msg, struct M *pm) {
-    if (func_00174BD0(p, msg, pm)) return 1;
+    if (Message__7JOBMOVEiPv(p, msg, pm)) return 1;
     switch (msg) {
     case 9:
         if (p->p40 == 0) return 0;
-        if (func_00209518(p->p40) != pm->n0) return 0;
+        if (PasegaOfKinde__FP5KINDE(p->p40) != pm->n0) return 0;
         if (pm->n8 == 0x3D) p->n58 = 0;
         return 0;
     case 0xC:

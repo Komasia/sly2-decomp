@@ -116,7 +116,7 @@ float func_001E66C8(CURVE *pcrv, float s);
 float func_001E6648(CURVE *pcrv);
 void func_001E7380(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps);
 void func_001E6F10(CURVE *pcrv, float s, VEC *ppos, VEC *pdir);
-int func_00178D00(S *p);
+int FArrived(S *p) asm("FArrived__9JOBFOLLOW");
 void func_0011EE08(qword a, qword b, qword c, VEC *pv, float *pg0, float *pg1);
 int func_001C0B50(CONTEXT *pctx, qword pos, VEC *pv);
 }
@@ -350,7 +350,7 @@ extern "C" void func_00177F78(S *p)
     if (fReverse)
         ds = -ds;
     float gSpeed;
-    if (func_00178D00(p))
+    if (FArrived(p))
     {
         gSpeed = 0.0f;
         nextDir.qw = D_002A2DA0;

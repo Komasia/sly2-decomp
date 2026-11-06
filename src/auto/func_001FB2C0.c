@@ -12,9 +12,10 @@ extern M2C_UNK D_003DD040;
 extern M2C_UNK D_003DD08C;
 extern M2C_UNK g_sw;
 
-void func_001FB2C0(s32 arg0, s32 arg1, s32 arg2, f32 fparg0) {
+// name: SafeHouse port (CSnd::SetPitch)
+void SetPitch__4CSndiif(s32 arg0, s32 arg1, s32 arg2, f32 fparg0) {
     if (fparg0 != M2C_FIELD(arg0, f32 *, 0x18)) {
         M2C_FIELD(arg0, f32 *, 0x18) = fparg0;
-        func_001FB658(arg0, 0x40, 0x40);
+        SetDirty__4CSndUiUi(arg0, 0x40, 0x40);
     }
 }

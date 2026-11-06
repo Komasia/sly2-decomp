@@ -10,7 +10,8 @@ struct O {
     char pad3[0x70 - 0x60];
     qword m[3];
 };
-void func_0017A468(struct O *p)
+// name: SafeHouse port (OffsetUseByHands)
+void OffsetUseByHands__FP6JOBUSE(struct O *p)
 {
     struct A *a = p->p10;
     qword *m = p->m;

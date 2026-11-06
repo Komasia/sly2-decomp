@@ -26,7 +26,7 @@ extern "C"{
  void func_002303A0(P*,GROUP*,int);
  void func_00134320(void*,P*);
  void func_001F4E28(P*);
- void func_001749C0(C*,int);
+ void SetMoveState(C*,int) asm("SetMoveState__7JOBMOVEi");
  void func_0017AA78(C*,REQUEST*,U*,U*);
  qword func_001A62E8(P*);
  qword func_0022FC48(void*,void*,qword);
@@ -143,7 +143,7 @@ extern "C" void func_0017B1A8(C*p,int next){
   :"r"(clockHigh),"m"(*(float*)(clockHigh+(short)(clockAddress&0xffff))));
  p->time=newTime;
  switch(next){
- case -1:SetSoMass(p->actor,p->actor->tuning->speed/D_002BE6FC);func_001749C0(p,1);break;
+ case -1:SetSoMass(p->actor,p->actor->tuning->speed/D_002BE6FC);SetMoveState(p,1);break;
  case 0:{
   Request(p->target,&request,D_002BE700);
   func_0017AA78(p,&request,&point,&direction);

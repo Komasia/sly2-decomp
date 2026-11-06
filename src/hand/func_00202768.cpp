@@ -14,9 +14,9 @@ void func_00213928(X *,int);
 void func_00213B00(X *,int);
 void func_00214300(X *,int);
 void func_0014D1D0(void *,int,float);
-void func_001FE5B8(void *,int,int);
+void SetSoundMgrFlags(void *,int,int) asm("SetSoundMgrFlags__FP8SOUNDMGRUii");
 void func_0014FE28(void *);
-void *func_001FE5F0(void *,int,int);
+void *PsndStartDialog(void *,int,int) asm("PsndStartDialog__FP8SOUNDMGRii");
 void func_00147C20(void *,int,int);
 void func_002036E8(ACTOR *,int);
 void func_001619A0(void *,int,void *);
@@ -26,7 +26,7 @@ void func_00201E88(P *);
 void func_00201F90(P *);
 void func_00201F00(P *);
 void *func_001FBB90(int);
-void func_001FB2F8(void *,void *);
+void SetSource(void *,void *) asm("SetSource__4CSndPv");
 void func_00212E40(X *,int,float);
 void func_00212A70(X *,int);
 void func_00212A50(X *,int);
@@ -78,7 +78,7 @@ extern "C" void func_00202768(P *p,int nextState)
     case 8:
         Restore(*p->model,p->savedFlags);
         func_0014D1D0(g_clock,0,1.0f);
-        func_001FE5B8(D_003DD040,1,1);
+        SetSoundMgrFlags(D_003DD040,1,1);
         func_00213928(p->primary,0x358);
         break;
     case 9:
@@ -86,7 +86,7 @@ extern "C" void func_00202768(P *p,int nextState)
         func_00214300(p->primary,-1);
         Post(p->primary,0x310);
         if(p->resource){
-            if(p->actor->key!=-1)func_001FE5F0(D_003DD040,p->actor->key,0);
+            if(p->actor->key!=-1)PsndStartDialog(D_003DD040,p->actor->key,0);
             func_00147C20(p->resource,0x608,p->actor->key);
         }
         func_002036E8(p->actor,1);
@@ -123,7 +123,7 @@ extern "C" void func_00202768(P *p,int nextState)
         func_00212E40(p->secondary,0x35A,0.0f);
         break;
     case 7:
-        func_001FB2F8(func_001FBB90(0x52),0);
+        SetSource(func_001FBB90(0x52),0);
         p->selected=p->actor->id;
         func_00213B00(p->primary,0x356);
         func_00213B00(p->secondary,0x356);
@@ -149,7 +149,7 @@ extern "C" void func_00202768(P *p,int nextState)
             register uint inlineWord __asm__("v0")=raw|0x102;
             __asm__("sw %1,%0" : "=m"(updated->flags) : "r"(inlineWord));
         }
-        func_001FE5B8(D_003DD040,1,0);
+        SetSoundMgrFlags(D_003DD040,1,0);
         func_0014D1D0(g_clock,0,0.0f);
         break;
     }

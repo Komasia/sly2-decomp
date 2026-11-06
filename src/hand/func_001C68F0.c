@@ -23,7 +23,7 @@ qword func_001A62E8(struct S *p);
 struct MAT *func_001A6318(struct S *p);
 void func_001C6AB0(struct S *p, int n);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void SetSource__4CSndPv(void *p, int n);
 void func_00161868(void *pg);
 void func_001619A0(void *p, int n, struct S *ps);
 void func_001C60B8(struct S *p, int n);

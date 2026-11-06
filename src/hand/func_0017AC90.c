@@ -12,7 +12,7 @@ struct Y { char pad[0x60]; void *p60; };
 struct X { char pad[0x19A4]; struct Y *p19A4; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x50 - 0x14]; int n50; float g54; int pad3; struct X *p5C; int pad4; struct C *p64; };
 struct OUT { char pad[0x30]; qword v; };
-void func_00174B68(struct S *p);
+void Update__7JOBMOVE(struct S *p);
 void func_0017B1A8(struct S *p, int n);
 void func_0017ABC8(struct S *p);
 qword func_001A62E8(struct A *a);
@@ -22,7 +22,7 @@ static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r
 void func_0017AC90(struct S *p) {
     qword v;
     int s;
-    func_00174B68(p);
+    Update__7JOBMOVE(p);
     {
         struct A *a = p->p10;
         struct VTE *e = &a->vt[33];

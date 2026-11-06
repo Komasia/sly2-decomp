@@ -10,7 +10,7 @@ struct SO *func_00145AA8(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 qword func_001A62E8(void *p);
 int func_001C09A0(struct SO *pso, qword pos, int n);
-int func_00173610(qword *ppos, float a, float b, int c, int d);
+int FDropOnGround__FP6VECTORffiPv(qword *ppos, float a, float b, int c, int d);
 int func_001459C0(struct P *p)
 {
     struct SO *pso = func_00145AA8(p);
@@ -25,7 +25,7 @@ int func_001459C0(struct P *p)
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x34) && p->p30->x2DC != -1) return 0;
     pos = func_001A62E8(p->p30);
     if (!func_001C09A0(pso, pos, 0)) return 0;
-    if (!func_00173610(&pos, 100.0f, -150.0f, 0, 0)) return 0;
+    if (!FDropOnGround__FP6VECTORffiPv(&pos, 100.0f, -150.0f, 0, 0)) return 0;
     p->pos = pos;
     return 1;
 }

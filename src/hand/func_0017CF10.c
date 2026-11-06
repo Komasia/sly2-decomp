@@ -6,18 +6,19 @@ struct S { char pad[0x10]; struct O *p10; char pad2[0x1C]; int n30; int pad3; fl
 struct L { float a, b, c; };
 void func_001EEF98(struct S *p);
 int func_0017D188(struct S *p);
-void func_0017D058(struct S *p, int n);
+void SetLadderState__9JOBLADDERi(struct S *p, int n);
 float GSmooth__FfffP3SMPPf(float a, float b, float dt, struct L *pl, int n);
 float func_001E66C8(int n, float g);
 void func_001C3500(int a, float g, int b, void *pv);
-void func_0017CF10(struct S *p) {
+// name: SafeHouse port (JOBLADDER::Update)
+void Update__9JOBLADDER(struct S *p) {
     int s;
     func_001EEF98(p);
     do {
         s = p->n30;
         if (s == 0) {
             if (func_0017D188(p)) {
-                func_0017D058(p, 1);
+                SetLadderState__9JOBLADDERi(p, 1);
             } else {
                 struct L l;
                 float g;

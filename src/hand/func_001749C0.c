@@ -11,7 +11,8 @@ int func_00209A68(struct O *o, int n);
 void func_00209278(struct E *e, struct O *o, int n, float g);
 void func_00209360(struct E *e);
 void func_001EF038(struct S *p);
-void func_001749C0(struct S *p, int n) {
+// name: SafeHouse port (JOBMOVE::SetMoveState)
+void SetMoveState__7JOBMOVEi(struct S *p, int n) {
     if (p->n30 == n) return;
     p->n30 = n;
     p->g34 = g_clock.t;

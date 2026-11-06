@@ -11,7 +11,7 @@ struct S {
 void func_001CB5D0(struct S *p);
 void func_0020B210(struct S *p);
 void *func_002333B4(void *p, int c, int n);
-void func_00208540(struct S *p, int n);
+void SetGuardPursued__FP5GUARDP2LO(struct S *p, int n);
 void func_002088E0(struct S *p);
 void func_001F17F8(struct S *p, int a);
 void func_00207030(struct S *p, int n);
@@ -32,7 +32,7 @@ void func_00206748(struct S *p)
     p->nF94 = 0;
     p->nFA8 = 0;
     p->n390 = 0;
-    func_00208540(p, 0);
+    SetGuardPursued__FP5GUARDP2LO(p, 0);
     func_002088E0(p);
     one = 1;
     p->n330 = 0;

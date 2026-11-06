@@ -41,7 +41,7 @@ extern KEY D_002BDB70[4];
 extern const SZ D_002A5018;
 extern qword D_002BDBC0, D_002BDBD0;
 void func_001A5ED8(P *p);
-float func_001FE3F8(void *p);
+float TMusicTop(void *p) asm("TMusicTop__FPv");
 FONT *func_00215AC0(FONT *pf, const char *sz, float scale);
 float func_00215ED8(FONT *pf);
 void func_002163B0(FONT *pf, TB *ptb, int grf);
@@ -53,7 +53,7 @@ static inline float GMax(float a, float b) { return a < b ? b : a; }
 void func_00152C58(P *p)
 {
     func_001A5ED8(p);
-    float t = func_001FE3F8(D_003DD040);
+    float t = TMusicTop(D_003DD040);
     if (p->state < 3) if (p->state > 0) if (p->c != 0) {
         FONT fontA;
         func_00215AC0(&fontA, "&2?&.", D_002BDB58);

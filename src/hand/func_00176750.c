@@ -11,24 +11,25 @@ struct O {
 };
 struct A { char pad[0x4B0]; qword v4B0; char pad2[0xF68 - 0x4C0]; int nF68; int pad3; qword vF70; char pad4[0x108C - 0xF80]; int n108C; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct F f30; float fA0; float fA4; };
-int func_00177DC0(struct F *a, struct F *b);
+int FSameMsg__FP5AIMSGT0(struct F *a, struct F *b);
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
-void func_00171258(struct O *o, int a, int b, int c);
+void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, int c);
 void func_001725E0(struct O *o, int n);
 float GRandInRange__Fff(float a, float b);
-void func_00208540(void *p, int n);
+void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
 #define VCALL(o) { struct VTE *e = &(o)->vt[8]; e->pfn((char *)(o) + e->d); }
-void func_00176750(struct S *p, struct F *m) {
+// name: SafeHouse port (JOBREACT::React)
+void React__8JOBREACTP5AIMSG(struct S *p, struct F *m) {
     int fl;
-    if (func_00177DC0(m, &p->f30)) return;
+    if (FSameMsg__FP5AIMSGT0(m, &p->f30)) return;
     func_001EF0D8(p->a18);
     p->f30 = *m;
     p->fA0 = g_clock.t;
     fl = 0;
     switch (m->a) {
     case 5:
-        { struct O *o; fl = 1; o = func_00205438(p->p10, 0xA9); func_00171258(o, m->u.s.n10, 1, 0); VCALL(o) }
+        { struct O *o; fl = 1; o = func_00205438(p->p10, 0xA9); SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(o, m->u.s.n10, 1, 0); VCALL(o) }
         break;
     case 1:
         { struct O *o; fl = 1; o = func_00205438(p->p10, 0xAA); VCALL(o) }
@@ -86,5 +87,5 @@ void func_00176750(struct S *p, struct F *m) {
         { struct O *o = func_00205438(p->p10, 0xBF); o->u40.v40 = p->p10->v4B0; VCALL(o) }
         break;
     }
-    if (fl) func_00208540(p->p10, 0);
+    if (fl) SetGuardPursued__FP5GUARDP2LO(p->p10, 0);
 }

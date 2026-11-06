@@ -3,7 +3,7 @@ extern struct G D_002F66B0;
 extern char D_003DD040[], D_004435F0[];
 struct S { int x0; int x4; char x8[0x28]; char x30[0x20]; char x50[0x50]; int xA0; int xA4; };
 void func_00232438(unsigned int m);
-void func_001FE738(void *p);
+void StopDialog__FP8SOUNDMGR(void *p);
 void func_00227788(void *p);
 void func_00232408(void);
 int func_00231C48(void);
@@ -15,7 +15,7 @@ void func_0013D558(void *p, int cb, void *pv);
 void func_001B3040(struct S *p)
 {
     func_00232438(0xFFFFFFFF);
-    func_001FE738(D_003DD040);
+    StopDialog__FP8SOUNDMGR(D_003DD040);
     func_00227788(D_004435F0);
     func_00232408();
     while (func_00231C48()) ;

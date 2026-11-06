@@ -11,12 +11,12 @@ void func_001EEF98(struct S *p);
 int func_001EF0A8(struct S *p);
 int func_00174FB8(void *p);
 int func_00209098(void *p);
-void func_0017E278(struct S *p, int n);
+void SetState__5JOBBDi(struct S *p, int n);
 int func_00208B38(struct A *a, void *o);
 float func_00208BB0(struct A *a);
 qword func_001A62E8(void *p);
-qword func_001C1EC0(struct X *s, qword v);
-void func_0017E0E0(struct S *p);
+qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
+void ChooseAway__5JOBBD(struct S *p);
 static __inline__ float Dist(qword a, qword b) {
     qword d;
     float f;
@@ -26,17 +26,18 @@ static __inline__ float Dist(qword a, qword b) {
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-void func_0017DE50(struct S *p) {
+// name: SafeHouse port (JOBBD::Update)
+void Update__5JOBBD(struct S *p) {
     int s;
     func_001EEF98(p);
     while (s = p->n30, !func_001EF0A8(p)) {
         switch (p->n30) {
         case 0:
-            if (func_00174FB8(p->p18)) func_0017E278(p, 1);
+            if (func_00174FB8(p->p18)) SetState__5JOBBDi(p, 1);
             break;
         case 1:
             if (func_00209098(p->p10)) {
-                func_0017E278(p, 2);
+                SetState__5JOBBDi(p, 2);
             } else {
                 { float dt = g_clock.dt; p->f40 -= dt; }
                 if (p->f40 <= 0.0f) {
@@ -45,13 +46,13 @@ void func_0017DE50(struct S *p) {
                     if (o == p->p38 && func_00208B38(p->p10, o)) {
                         p->f40 = func_00208BB0(p->p10);
                     } else {
-                        func_0017E278(p, -1);
+                        SetState__5JOBBDi(p, -1);
                     }
                 }
             }
             break;
         case 2:
-            if (!func_00209098(p->p10)) func_0017E278(p, 1);
+            if (!func_00209098(p->p10)) SetState__5JOBBDi(p, 1);
             break;
         }
         if (p->n30 != s) continue;
@@ -63,13 +64,13 @@ void func_0017DE50(struct S *p) {
         struct X *x = &t->x40;
         qword pos = func_001A62E8(p->p10);
         int f = 0;
-        qword q = func_001C1EC0(x, pos);
+        qword q = PosGoal__FP4GOALG9VU_VECTOR(x, pos);
         if (Dist(func_001A62E8(p->p10), q) < D_002BE764) {
             f = 1;
         } else if (Dist(func_001A62E8(p->p10), func_001A62E8(p->p38)) < D_002BE768) {
             f = 1;
         }
-        if (f) func_0017E0E0(p);
+        if (f) ChooseAway__5JOBBD(p);
         }
     }
 }

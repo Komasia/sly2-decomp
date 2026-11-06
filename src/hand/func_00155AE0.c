@@ -16,13 +16,13 @@ extern float D_002A5138;
 void func_0020AC28(struct SO *pso, int a, int b, qword q);
 float GRandInRange__Fff(float a, float b);
 void func_001EF0D8(int *p);
-void *func_00155A68(struct X *p);
+void *PloEnd__5JOBB5(struct X *p);
 struct ASEG *func_00205438(struct SO *pso, int id);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 void func_00209818(void *p, float g);
 void func_001E6180(struct ALO *p);
-void func_00178D90(struct ASEG *a, struct ALO *b, int c);
+void Follow__9JOBFOLLOWP3CRVi(struct ASEG *a, struct ALO *b, int c);
 
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static __inline__ float GetX(qword q)
@@ -38,7 +38,8 @@ static __inline__ float GetY(qword q)
     return y;
 }
 
-void func_00155AE0(struct X *p, int k)
+// name: SafeHouse port (JOBB5::SetB5State)
+void SetB5State__5JOBB5i(struct X *p, int k)
 {
     if (k == p->state) return;
     switch (p->state) {
@@ -60,7 +61,7 @@ void func_00155AE0(struct X *p, int k)
     case 0: {
         struct ASEG *pa;
         qword d;
-        p->x40 = func_00155A68(p);
+        p->x40 = PloEnd__5JOBB5(p);
         pa = func_00205438(p->pso, 0x9D);
         pa->x3C = 0xB;
         d = Sub(func_001A62E8(p->x40), func_001A62E8(p->pso));
@@ -94,7 +95,7 @@ void func_00155AE0(struct X *p, int k)
             pq[1] = func_001A62E8(p->x40);
         }
         func_001E6180(palo);
-        func_00178D90(pa, palo, 0);
+        Follow__9JOBFOLLOWP3CRVi(pa, palo, 0);
         pa->xC0 = 8;
         pa->xC8 = p->x4C;
         pa->x40 = 1;

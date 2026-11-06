@@ -1,4 +1,4 @@
-// func_00155868: pick the E whose nearer end (min of |a-pos|, |b-pos|) is farthest from pos.
+// PrecFarthest__FP5GUARD: pick the E whose nearer end (min of |a-pos|, |b-pos|) is farthest from pos.
 typedef int qword __attribute__((mode(TI)));
 struct E { int x0; void *p4; char pad[0x14 - 8]; void *p14; char pad2[0x20 - 0x18]; int x20; };
 struct L { char pad[0x1010]; int c; struct E *ae; };
@@ -15,7 +15,8 @@ static inline qword Dot(qword v)
 static inline qword Sqrt(qword v) { qword d; __asm__ __volatile__("vsqrt Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, Q" : "=j"(d) : "j"(v)); return d; }
 static inline float GFromQ(qword v) { float g; __asm__ __volatile__("qmfc2.ni %0, %1" : "=r"(g) : "j"(v)); return g; }
 static inline float GMin(float a, float b) { return a < b ? a : b; }
-struct E *func_00155868(struct X *p)
+// name: SafeHouse port (PrecFarthest)
+struct E *PrecFarthest__FP5GUARD(struct X *p)
 {
     struct E *peBest = 0;
     int i;

@@ -18,7 +18,7 @@ extern "C"{
  void func_001B1818(P*,float);void func_001B17B8(P*,float);
  qword func_001A62E8(P*);void func_001E6F60(PATH*,qword,void*,U*,U*,float*,float*);
  float func_001E77E8(PATH*);float func_001E6648(PATH*);P*func_001C4AF8(void*,qword);
- EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,SOURCE*);void func_001FB3F0(EFFECT*,qword);
+ EFFECT*func_001FBB90(int);void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
  qword func_001A6F00(P*,P*,qword);void func_00154E10(void*,qword,int,int,P*);
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
@@ -104,7 +104,7 @@ extern "C" void func_001B1328(P*p,int next){
   w.velocity.q=velocity;SetVelocity(p,velocity);SetMode(p);break;
  }
  case 5:{
-  EFFECT*e=func_001FBB90(0x14);func_001FB2F8(e,0);func_001FB3F0(e,func_001A62E8(p));
+  EFFECT*e=func_001FBB90(0x14);SetSource(e,0);SetPosition(e,func_001A62E8(p));
   func_00154E10(D_002DE578,func_001A6F00(p,0,p->damageOffset.q),p->amount,-100,p);Call(p,9);break;
  }
  }

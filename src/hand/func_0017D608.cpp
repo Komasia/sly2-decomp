@@ -1,4 +1,4 @@
-// func_0017D608: ported from Lilly's personal Sly 2 decomp (src/P2/guardbhv_goto.c), reduced to the declarations it needs.
+// FSnapPosToSurfaceAbove__FP6VECTOR: ported from Lilly's personal Sly 2 decomp (src/P2/guardbhv_goto.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BE750 (D_002BE750), D_002BE754 (D_002BE754), g_normalZ
 // 0x0017D608 FSnapPosToSurfaceAbove__FPUx  (our name; was FUN_0017D608)
@@ -74,7 +74,8 @@ static inline qword QwAddScaled(qword qwBase, qword qwVec, VU_FLOAT gScale)
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(qw) : "j"(qwBase), "j"(qwVec), "j"(gScale.qw));
     return qw;
 }
-int FSnapPosToSurfaceAbove(qword *ppos) __asm__("func_0017D608");
+int FSnapPosToSurfaceAbove(qword *ppos) __asm__("FSnapPosToSurfaceAbove__FP6VECTOR");
+// name: SafeHouse port (FSnapPosToSurfaceAbove)
 int FSnapPosToSurfaceAbove(qword *ppos)
 {
     STACKSCOPE scope;

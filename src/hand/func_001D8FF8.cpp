@@ -20,8 +20,8 @@ extern GSR D_002DEB80;
 CRef func_002581C0(KEY *, char *);
 int func_001A2C98(void);
 void func_001A2BD0(int);
-void func_001FE9C8(void *, int);
-void func_001FEA60(void *, int, int, float);
+void SetSoundPlaybackMode(void *, int) asm("SetSoundPlaybackMode__FP8SOUNDMGRi");
+void SetSoundChannelVolume(void *, int, int, float) asm("SetSoundChannelVolume__FP8SOUNDMGRiif");
 unsigned int func_0023E1C8(float);
 }
 static inline int GetInt(KEY *k, char *pb) { return func_002581C0(k, pb).m_tag; }
@@ -31,12 +31,12 @@ extern "C" void func_001D8FF8(char *pb)
     if (g_sw.k[0] && func_001A2C98() >= 2)
         func_001A2BD0(GetInt(g_sw.k[0], pb));
     if (g_sw.k[1])
-        func_001FE9C8(D_003DD040, GetInt(g_sw.k[1], pb));
+        SetSoundPlaybackMode(D_003DD040, GetInt(g_sw.k[1], pb));
     if (g_sw.k[2])
-        func_001FEA60(D_003DD040, 1, 1, 1.0f - GetFloat(g_sw.k[2], pb));
+        SetSoundChannelVolume(D_003DD040, 1, 1, 1.0f - GetFloat(g_sw.k[2], pb));
     if (g_sw.k[3]) {
-        func_001FEA60(D_003DD040, 0, 1, 1.0f - GetFloat(g_sw.k[3], pb));
-        func_001FEA60(D_003DD040, 3, 1, 1.0f - GetFloat(g_sw.k[3], pb));
+        SetSoundChannelVolume(D_003DD040, 0, 1, 1.0f - GetFloat(g_sw.k[3], pb));
+        SetSoundChannelVolume(D_003DD040, 3, 1, 1.0f - GetFloat(g_sw.k[3], pb));
     }
     if (g_sw.k[4])
         D_003DD050 = GetInt(g_sw.k[4], pb);

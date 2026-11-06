@@ -5,7 +5,8 @@ struct T { char pad[0xC]; struct VTE *vt; char pad2[0x1A0]; char a1B0[0x10]; };
 struct S { char pad[0x10]; struct T *pt; };
 void func_0020B210(struct T *t);
 void func_00204660(struct T *t, float g);
-void func_00171B60(struct S *p, qword q, float g) {
+// name: SafeHouse port (PlaceGuard)
+void PlaceGuard__FP5GUARDG9VU_VECTORf(struct S *p, qword q, float g) {
     struct T *t = p->pt;
     struct VTE *e;
     func_0020B210(t);

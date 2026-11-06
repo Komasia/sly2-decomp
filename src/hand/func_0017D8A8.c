@@ -13,7 +13,7 @@ struct S {
     char pad3[0xB4 - 0x80]; int nB4; struct I *aB8[1]; int nBC; int nC0;
 };
 qword func_001A62E8(struct A *p);
-qword func_001C1EC0(struct V2 *p, qword v);
+qword PosGoal__FP4GOALG9VU_VECTOR(struct V2 *p, qword v);
 void *func_001C0D70(qword v, int n);
 int func_001C21D8(void *a, struct A *b, qword v, int c, int d, struct I **pp);
 void func_001C0940(void *a, qword v, qword *pv, int n);
@@ -22,7 +22,7 @@ void func_0017D8A8(struct S *p) {
     p->u.v60 = p->v40;
     if (p->nBC == 0) {
         qword pos = func_001A62E8(p->p10);
-        qword v = func_001C1EC0(&p->v40, pos);
+        qword v = PosGoal__FP4GOALG9VU_VECTOR(&p->v40, pos);
         struct C *c = p->p10->pE8;
         struct D *d = c ? c->pDC : 0;
         void *q = d ? d->p10 : 0;

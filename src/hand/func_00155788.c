@@ -7,7 +7,8 @@ struct Q { char pad[0x20]; int n20; };
 struct S { int pad[4]; struct T *pt; int pad2; char ab18[0x18]; int k30; float t34; int n38; struct Q *pq; };
 void func_001EF0D8(void *p);
 struct O *func_00205438(struct T *pt, int n);
-void func_00155788(struct S *p, int k)
+// name: SafeHouse port (JOBB4::SetB4State)
+void SetB4State__5JOBB4i(struct S *p, int k)
 {
     if (k == p->k30)
         return;

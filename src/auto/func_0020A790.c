@@ -2,7 +2,8 @@
 M2C_UNK CopyAb__FPvT0Ui(void *, void *, s32);       /* extern */
 s32 func_0020A658();                                /* extern */
 
-void func_0020A790(void *arg0) {
+// name: SafeHouse port (RemoveTargetrecGuard)
+void RemoveTargetrecGuard__FP9TARGETREC(void *arg0) {
     s32 temp_v0;
     s32 temp_v0_2;
     s32 temp_v1;

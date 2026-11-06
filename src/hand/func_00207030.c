@@ -17,7 +17,7 @@ void func_00206E50(struct S *p);
 void func_00208700(struct S *p, int n);
 void func_00206DB0(struct S *p);
 void *func_00205458(struct S *p, int n);
-struct Y *func_00209518(void *p);
+struct Y *PasegaOfKinde__FP5KINDE(void *p);
 void func_00131A20(struct Y *y, float f);
 int func_001C4840(void *p);
 void func_00177BA0(struct Z *z);
@@ -46,7 +46,7 @@ void func_00207030(struct S *p, int k)
     case 0xE: {
         struct X *x = func_00205458(p, 0x9D);
         if (x) {
-            struct Y *y = func_00209518(x->p40);
+            struct Y *y = PasegaOfKinde__FP5KINDE(x->p40);
             if (y)
                 func_00131A20(y, y->p14->f78);
         }
@@ -73,7 +73,7 @@ void func_00207030(struct S *p, int k)
     case 0xE: {
         struct X *x = func_00205458(p, 0x9D);
         if (x) {
-            struct Y *y = func_00209518(x->p40);
+            struct Y *y = PasegaOfKinde__FP5KINDE(x->p40);
             if (y)
                 func_00131A20(y, 0.0f);
         }

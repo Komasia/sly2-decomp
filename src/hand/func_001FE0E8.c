@@ -2,7 +2,8 @@ struct E { short s0; short k; union { int n; float g; } u; };
 struct P { char pad[0x22C]; void *ap[3]; void *p238; };
 void func_001F80D0(void *, float);
 void func_001F0660(void *, int);
-void func_001FE0E8(struct P *p, struct E *pe)
+// name: SafeHouse port (FireDialogTarget)
+void FireDialogTarget__FP8SOUNDMGRPv(struct P *p, struct E *pe)
 {
     int k = pe->k;
     if (k != -1 && p->ap[k]) {

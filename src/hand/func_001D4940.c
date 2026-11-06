@@ -20,11 +20,11 @@ extern int D_002C2208[];
 void func_00213B00(W *, int);
 void func_001D4C88(OBJ *);
 void *func_001FBB90(int);
-void func_001FB2F8(void *, OBJ *);
+void SetSource__4CSndPv(void *, OBJ *);
 void func_00258040(void **, void *);
-void func_001FB4F0(void *, float, float);
-void func_001FB018(void *);
-void func_001FB098(void *, float);
+void SetFalloff__4CSndff(void *, float, float);
+void Pause__4CSnd(void *);
+void Stop__4CSndf(void *, float);
 void func_001D4B28(OBJ *, int);
 void func_001F0730(void *, int);
 void func_001D4940(OBJ *p, int n)
@@ -42,10 +42,10 @@ void func_001D4940(OBJ *p, int n)
         }
         if (p->x59C != -1) {
             void *ps = func_001FBB90(p->x59C);
-            func_001FB2F8(ps, p);
+            SetSource__4CSndPv(ps, p);
             func_00258040(&p->x598, ps);
-            func_001FB4F0(p->x598, 500.0f, 1500.0f);
-            func_001FB018(p->x598);
+            SetFalloff__4CSndff(p->x598, 500.0f, 1500.0f);
+            Pause__4CSnd(p->x598);
         }
         break;
     case 1:
@@ -62,7 +62,7 @@ void func_001D4940(OBJ *p, int n)
         {
             void **pps = &p->x598;
             if (*pps) {
-                func_001FB098(*pps, 0.0f);
+                Stop__4CSndf(*pps, 0.0f);
                 func_00258040(pps, 0);
             }
         }

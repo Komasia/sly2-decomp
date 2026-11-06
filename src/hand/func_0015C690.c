@@ -29,11 +29,11 @@ extern void func_00256D18(qword *pv, qword a);
 extern void func_0015BD20(int c, EMITB *pb, EMITR *pr);
 extern qword func_001A6F00(int x, int y, qword v);
 extern void *func_001FBB90(int id);
-extern void func_001FB2F8(void *p, void *pso);
-extern void func_001FB3F0(void *p, qword v);
-extern void func_001FB4F0(void *p, float a, float b);
-extern void func_001FB1F8(void *p, float g);
-extern void func_001FB2C0(void *p, float g);
+extern void SetSource__4CSndPv(void *p, void *pso);
+extern void SetPosition__4CSndG9VU_VECTOR(void *p, qword v);
+extern void SetFalloff__4CSndff(void *p, float a, float b);
+extern void SetVolume__4CSndf(void *p, float g);
+extern void SetPitch__4CSndiif(void *p, float g);
 
 void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
 {
@@ -147,10 +147,10 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
         }
         pos.q = func_001A6F00(emitp.x0, 0, pos.q);
         ps = func_001FBB90(p->psnd->id);
-        func_001FB2F8(ps, 0);
-        func_001FB3F0(ps, pos.q);
-        func_001FB4F0(ps, p->psnd->g4, p->psnd->g8);
-        func_001FB1F8(ps, p->psnd->gC);
-        func_001FB2C0(ps, p->psnd->g10);
+        SetSource__4CSndPv(ps, 0);
+        SetPosition__4CSndG9VU_VECTOR(ps, pos.q);
+        SetFalloff__4CSndff(ps, p->psnd->g4, p->psnd->g8);
+        SetVolume__4CSndf(ps, p->psnd->gC);
+        SetPitch__4CSndiif(ps, p->psnd->g10);
     }
 }

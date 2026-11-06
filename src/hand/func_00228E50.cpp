@@ -53,9 +53,9 @@ N *func_002296A0(WORLD *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_0014CDB0(qword,qword,int,COLL **,int,LSG *);
 void *func_001FBB90(int);
-void func_001FB2F8(void *,O *);
-void func_001FB4F0(void *,float,float);
-void func_001FB1F8(void *,float);
+void SetSource(void *,O *) asm("SetSource__4CSndPv");
+void SetFalloff(void *,float,float) asm("SetFalloff__4CSndff");
+void SetVolume(void *,float) asm("SetVolume__4CSndf");
 void *func_002333B4(void *,int,int);
 void func_00228D20(O *,N **);
 }
@@ -104,9 +104,9 @@ extern "C" void func_00228E50(O *p){
     float fall=Min(-work.scratch.velocity.f[2],600.0f)*(1.0f/600.0f);
     float radius=((o->state->maximum.f[0]-o->state->minimum.f[0])+(o->state->maximum.f[1]-o->state->minimum.f[1]))*0.5f;
     void *effect=func_001FBB90(0x13);
-    func_001FB2F8(effect,o);
-    func_001FB4F0(effect,100.0f,1000.0f);
-    func_001FB1F8(effect,fall);
+    SetSource(effect,o);
+    SetFalloff(effect,100.0f,1000.0f);
+    SetVolume(effect,fall);
     func_002333B4(&work.event,0,sizeof(work.event));
     normal=g_normalZ;
     work.event.position.q=Add(work.intervals[0].first.q,work.origin.q);

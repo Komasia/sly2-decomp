@@ -11,7 +11,7 @@ struct E4 { char pad[0x1C]; float f1C; };
 struct E { int n0; struct E4 *p4; void *p8; };
 struct A { char pad[0x1A8]; float f1A8; char pad2[0x334 - 0x1AC]; int n334; char pad3[0x35C - 0x338]; char a35C[4]; char pad4[0xF04 - 0x360]; int nF04; char pad5[0xFD0 - 0xF08]; char aFD0[4]; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; char pad3[0xC]; struct E *p40; char pad4[0xC]; int n50; char pad5[8]; int n5C; char pad6[0x20]; union { qword v; float f[4]; } v80; char pad7[0x20]; float fB0; float fB4; };
-void func_00174950(struct S *p);
+void Enter__7JOBMOVE(struct S *p);
 float func_002458F0(float y, float x);
 float *func_001A6318(struct A *a);
 void func_00209818(void *p, float f);
@@ -29,7 +29,7 @@ void func_00179328(struct S *p) {
     int f;
     float a;
     struct E *e;
-    func_00174950(p);
+    Enter__7JOBMOVE(p);
     {
         qword d, one, l;
         float g;

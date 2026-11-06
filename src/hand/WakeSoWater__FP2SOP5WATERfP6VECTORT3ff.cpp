@@ -70,11 +70,11 @@ extern char g_sw[];
 float GRandInRange(float lo, float hi) asm("GRandInRange__Fff");
 int NRandInRange(int lo, int hi) asm("NRandInRange__Fii");
 int FIsBasicDerivedFrom(SO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_001FB1F8(void *p, float g);
-void func_001FB098(void *p, float g);
+void SetVolume(void *p, float g) asm("SetVolume__4CSndf");
+void Stop(void *p, float g) asm("Stop__4CSndf");
 void *func_001FBB90(int id);
-void func_001FB2F8(void *p, SO *pso);
-void func_001FB4F0(void *p, float a, float b);
+void SetSource(void *p, SO *pso) asm("SetSource__4CSndPv");
+void SetFalloff(void *p, float a, float b) asm("SetFalloff__4CSndff");
 void func_00258040(void *pp, void *p);
 RIP *func_001CE888(void *p, int k, int x);
 void *func_002333B4(void *p, int c, int cb);
@@ -129,12 +129,12 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
             void **pp = &psnd->psnd;
             g = t * 0.9f + 0.1f;
             if (psnd->psnd) {
-                func_001FB1F8(psnd->psnd, g);
+                SetVolume(psnd->psnd, g);
             } else {
                 void *ps = func_001FBB90(D_002BDEB0[NRandInRange(0, 3)]);
-                func_001FB2F8(ps, (SO *)psnd);
-                func_001FB4F0(ps, 100.0f, 1000.0f);
-                func_001FB1F8(ps, g);
+                SetSource(ps, (SO *)psnd);
+                SetFalloff(ps, 100.0f, 1000.0f);
+                SetVolume(ps, g);
                 func_00258040(pp, ps);
             }
         }
@@ -178,7 +178,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
     } else if (psnd) {
         void **pp = &psnd->psnd;
         if (pp && *pp) {
-            func_001FB098(*pp, g);
+            Stop(*pp, g);
             func_00258040(pp, 0);
         }
     }

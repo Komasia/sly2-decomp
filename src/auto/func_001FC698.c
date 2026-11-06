@@ -12,6 +12,7 @@ extern M2C_UNK D_003DD040;
 extern M2C_UNK D_003DD08C;
 extern M2C_UNK g_sw;
 
-void func_001FC698(s32 arg0) {
+// name: SafeHouse port (CSndVoice::StopIop)
+void StopIop__9CSndVoice(s32 arg0) {
     func_00233088(0x524B5553, 2, M2C_FIELD(arg0, s32 *, 0x40), 0, M2C_ERROR(/* Read from unset register $a4 */), M2C_ERROR(/* Read from unset register $a5 */), M2C_ERROR(/* Read from unset register $a6 */));
 }

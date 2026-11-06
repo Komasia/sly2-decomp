@@ -19,7 +19,8 @@ static inline int FSet(struct K *pk, struct X *px)
     }
     return pk->n4 != 0;
 }
-void func_001FD5E8(struct P *p)
+// name: SafeHouse port (LoadSoundBank)
+void LoadSoundBank__FP8SOUNDMGR(struct P *p)
 {
     int i;
     if (!p->pE8) {

@@ -5,11 +5,11 @@ struct E {struct LO *object;struct RANGE limits;float gain;};
 struct P {char pad1C[0x1C];struct LO *object;qword position;char pad30[0x70];int counts[6];struct E entries[6][8];};
 extern qword D_002A2DD0;
 int func_0011D4D0(float,float,float);
-void func_001FB528(struct P *);
+void Update3D__4CSnd(struct P *);
 qword func_001A62E8(struct LO *);
 void func_001FB778(struct P *,qword,const struct RANGE *,float *,int *);
-void func_001FC380(struct P *,int,int);
-void func_001FC2E0(struct P *,int,float);
+void SetVoicePan__9CSndVoiceii(struct P *,int,int);
+void SetVoiceVolume__9CSndVoiceif(struct P *,int,float);
 static inline float X(qword q) { float f; __asm__("mtc1 %1, %0" : "=f"(f) : "r"(q)); return f; }
 static inline float Y(qword q) { float f; __asm__("prot3w %0, %1" : "=r"(f) : "r"(q)); return f; }
 static inline float Z(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
@@ -17,11 +17,12 @@ static inline int FNear(qword a, qword b)
 {
     return func_0011D4D0(X(a), X(b), 0.0001f) && func_0011D4D0(Y(a), Y(b), 0.0001f) && func_0011D4D0(Z(a), Z(b), 0.0001f);
 }
-void func_001FC9B0(struct P *p)
+// name: SafeHouse port (CSndVoice::Update3D)
+void Update3D__9CSndVoice(struct P *p)
 {
     int group;
     if (p->object || !FNear(D_002A2DD0, p->position))
-        func_001FB528(p);
+        Update3D__4CSnd(p);
     for (group = 0; group < 6; group++) {
         int count = p->counts[group];
         if (count) {
@@ -39,8 +40,8 @@ void func_001FC9B0(struct P *p)
                     { float gain = fade * entry->gain; maximum = maximum > gain ? maximum : gain; }
                 }
             }
-            func_001FC380(p, group, active == 1 ? flags : 0);
-            func_001FC2E0(p, group, maximum);
+            SetVoicePan__9CSndVoiceii(p, group, active == 1 ? flags : 0);
+            SetVoiceVolume__9CSndVoiceif(p, group, maximum);
         }
     }
 }

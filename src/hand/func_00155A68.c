@@ -3,7 +3,8 @@ struct Q { int pad0; int n4; int pad8; void *pC; int pad10; int n14; int pad18; 
 struct S { char pad[0x38]; struct Q *pq; char pad2[0x10]; void *p4C; };
 qword func_001A62E8(void *p);
 int func_00227C90(void *p, qword q);
-int func_00155A68(struct S *p)
+// name: SafeHouse port (JOBB5::PloEnd)
+int PloEnd__5JOBB5(struct S *p)
 {
     if (func_00227C90(p->pq->pC, func_001A62E8(p->p4C)))
         return p->pq->n4;

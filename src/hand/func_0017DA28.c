@@ -15,22 +15,23 @@ struct S {
     float fA0; int nA4; char pad4[0xC]; int nB4; struct Q *pB8; int nBC;
 };
 int func_001EF0A8(struct S *p);
-void func_0017D450(struct S *p, int n);
+void SetState__7JOBGOTOi(struct S *p, int n);
 void func_0017D8A8(struct S *p);
 void func_002562A8(struct X *x);
 qword func_001A62E8(void *p);
-qword func_001C1EC0(struct X *s, qword v);
+qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
 void func_0011EE08(qword p, qword a, qword b, qword *pc, float *pt, int n);
 void func_001E6180(struct B *b);
 int func_001C02D0(void *q, qword a, qword b, struct B *c);
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
-void func_0017DA28(struct S *p) {
+// name: SafeHouse port (JOBGOTO::Search)
+void Search__7JOBGOTO(struct S *p) {
     struct X x;
     int k;
     if (p->n30 == -1) return;
     if (!(p->p10->nFE8 & 2)) return;
     if (func_001EF0A8(p)) return;
-    func_0017D450(p, 0);
+    SetState__7JOBGOTOi(p, 0);
     func_0017D8A8(p);
     func_002562A8(&x);
     if (p->nB4 == 0) {
@@ -44,8 +45,8 @@ void func_0017DA28(struct S *p) {
             union { qword q; float f[4]; } c;
             float t;
             qword pos = func_001A62E8(p->p10);
-            qword a = func_001C1EC0(&q->x60, pos);
-            qword b = func_001C1EC0(&q->x80, pos);
+            qword a = PosGoal__FP4GOALG9VU_VECTOR(&q->x60, pos);
+            qword b = PosGoal__FP4GOALG9VU_VECTOR(&q->x80, pos);
             int f;
             func_0011EE08(pos, a, b, &c.q, &t, 0);
             f = 0;
@@ -66,7 +67,7 @@ void func_0017DA28(struct S *p) {
     if (k > 0) if (k < 3) {
         struct B *b = p->p10->p294;
         qword pos = func_001A62E8(p->p10);
-        qword q = func_001C1EC0(&x, pos);
+        qword q = PosGoal__FP4GOALG9VU_VECTOR(&x, pos);
         if (p->nBC) {
             b->nE8 = 2;
             b->pF4[0] = pos;
@@ -82,7 +83,7 @@ void func_0017DA28(struct S *p) {
             }
         }
     }
-    func_0017D450(p, k);
+    SetState__7JOBGOTOi(p, k);
     p->fA0 = g_clock.t;
     p->nA4 = g_sw.p45CC->n28;
 }

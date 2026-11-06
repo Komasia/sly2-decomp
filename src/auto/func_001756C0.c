@@ -2,7 +2,8 @@
 s32 func_00174898(s32);                             /* extern */
 s32 func_001EF0B8(void *, s32, void *);             /* extern */
 
-s32 func_001756C0(void *arg0, s32 arg1, void *arg2) {
+// name: SafeHouse port (JOBACT::Message)
+s32 Message__6JOBACTiPv(void *arg0, s32 arg1, void *arg2) {
     s32 temp_a0;
 
     if (arg1 == 0xB) {

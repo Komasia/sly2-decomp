@@ -1,4 +1,4 @@
-// func_0011ED40 (Claude agent, lane A22, 2026-10-23): matched from build/hand_wip/func_0011ED40.v4.c.
+// ParamSegPoint__FG9VU_VECTORN20P6VECTORN23 (Claude agent, lane A22, 2026-10-23): matched from build/hand_wip/ParamSegPoint__FG9VU_VECTORN20P6VECTORN23.v4.c.
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 static inline qword Sub(qword a, qword b)
@@ -16,7 +16,8 @@ static inline float Dot(qword a, qword b)
     __asm__("mtc1 %1, %0" : "=f"(g) : "r"(d) : "$4");
     return g;
 }
-void func_0011ED40(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist)
+// name: SafeHouse port (ParamSegPoint)
+void ParamSegPoint__FG9VU_VECTORN20P6VECTORN23(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist)
 {
     register qword p0r __asm__("vf5") = p0; /* the one register pin: p0 copy shared by both Subs and the vadda */
     qword d = Sub(p1, p0r);

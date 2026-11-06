@@ -4,7 +4,8 @@ struct DL;
 extern struct DL D_003DD08C;
 int FFindDlEntry__FP2DLPv(struct DL *, void *);
 void RemoveDlEntry__FP2DLPv(struct DL *, void *);
-void func_001FB710(struct X *px)
+// name: SafeHouse port (CSnd::RemoveActive)
+void RemoveActive__4CSnd(struct X *px)
 {
     if (FFindDlEntry__FP2DLPv(&D_003DD08C, px)) {
         RemoveDlEntry__FP2DLPv(&D_003DD08C, px);

@@ -25,7 +25,7 @@ void func_001F8DD8(struct S *p);
 void func_001BE1E8(void);
 void func_001EC968(void);
 void UpdateSave__FP4SAVE(void *pv);
-void func_001FD830(void *pv);
+void UpdateSoundMgr__FPv(void *pv);
 void func_0014D478(void *pv);
 void func_0020F7E0(struct S *p);
 void func_00128148(void *pv);
@@ -81,7 +81,7 @@ void func_00226550(struct S *p)
         s_pdliFirst = dli.m_pdliNext;
     }
     UpdateSave__FP4SAVE(D_002E65E0);
-    func_001FD830(D_003DD040);
+    UpdateSoundMgr__FPv(D_003DD040);
     if (0.0f < g_clock.g10)
         func_0014D478(g_cm);
     func_0020F7E0(p);

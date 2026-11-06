@@ -6,9 +6,9 @@ struct M { int n0; int n4; int n8; int nC; int n10; int n14; };
 struct G { char pad[0x10]; int n10; };
 extern struct G D_003DD040;
 void func_00258248(struct K *);
-int func_001FD080(struct G *, struct X *);
-void func_001FB018(struct P *);
-void func_001FB658(struct P *, int, int);
+int ItrackFromStream__FP8SOUNDMGRP9SNDSTREAM(struct G *, struct X *);
+void Pause__4CSnd(struct P *);
+void SetDirty__4CSndUiUi(struct P *, int, int);
 void func_001FCBA8(void);
 void func_00233130(int, int, int, struct M *, void (*)(void), struct P *);
 static inline int FSet(struct K *pk, struct X *px)
@@ -25,21 +25,22 @@ static inline int FSet(struct K *pk, struct X *px)
     }
     return pk->n4 != 0;
 }
-void func_001FC510(struct P *p)
+// name: SafeHouse port (CSndVoice::StartIop)
+void StartIop__9CSndVoice(struct P *p)
 {
     struct K k;
     struct M m;
     int n;
     k.n8 = 2;
     func_00258248(&k);
-    n = func_001FD080(&D_003DD040, p->p60);
+    n = ItrackFromStream__FP8SOUNDMGRP9SNDSTREAM(&D_003DD040, p->p60);
     if (FSet(&k, p->p60)) {
         if (k.n8 != 2) {
-            func_001FB658(p, 0x1FFF, 0);
+            SetDirty__4CSndUiUi(p, 0x1FFF, 0);
             return;
         }
         m.n0 = k.n0;
-        func_001FB018(p);
+        Pause__4CSnd(p);
         m.n4 = (int)(p->f44 * 1024.0f);
         m.n8 = p->n14;
         m.nC = n;
@@ -52,8 +53,8 @@ void func_001FC510(struct P *p)
         p->h52 = 1;
         p->pvt[1].pfn((char *)p + p->pvt[1].d);
         func_00233130(0x524B5553, 1, 0x18, &m, func_001FCBA8, p);
-        func_001FB658(p, 0x3F, 0);
+        SetDirty__4CSndUiUi(p, 0x3F, 0);
     } else {
-        func_001FB658(p, 0x1FFF, 0);
+        SetDirty__4CSndUiUi(p, 0x1FFF, 0);
     }
 }

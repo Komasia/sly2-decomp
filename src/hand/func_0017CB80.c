@@ -11,11 +11,12 @@ qword func_001A62E8(void *p);
 float func_001E66C8(void *p, float f);
 void func_001E7380(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
 int func_0017CE30(struct S *p);
-void func_0017CD00(struct S *p, int n);
+void SetRailState__7JOBRAILi(struct S *p, int n);
 float func_002458F0(float y, float x);
 void func_00209818(void *p, float f);
 void func_00131A00(void *p, float f);
-void func_0017CB80(struct S *p) {
+// name: SafeHouse port (JOBRAIL::Update)
+void Update__7JOBRAIL(struct S *p) {
     int s;
     func_001EEF98(p);
     do {
@@ -31,7 +32,7 @@ void func_0017CB80(struct S *p) {
             func_001E7380(q, func_001E66C8(q, p->p10->nF8C ? t + D_002BE74C : t - D_002BE74C), pos, 0, 0, &v, 0, &t);
             p->p10->fF88 = t;
             if (func_0017CE30(p)) {
-                func_0017CD00(p, 1);
+                SetRailState__7JOBRAILi(p, 1);
             } else {
                 if (p->p10->nF8C == 0) {
                     qword w = v.q;

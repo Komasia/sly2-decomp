@@ -34,7 +34,7 @@ extern OBJECT*D_002F7900;
 extern void*D_003E14BC;extern void*D_003E14B0;extern void*D_003E14B8;struct GAMESTATE{char pad[0x4028];void*context;};extern GAMESTATE g_sw;
 extern CLOCK g_clock;extern float D_002BE620;
 void*func_002333B4(void*,int,unsigned);
-void func_00176750(S*,STATE*);
+void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
 qword func_001A62E8(void*);M4*func_001A6318(void*);
 qword func_001A6FC0(void*,void*,qword);
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -45,8 +45,8 @@ void func_00207030(OBJECT*,int);
 void func_001F7A68(OBJECT*,int);
 unsigned func_001F78D8(OBJECT*,unsigned);
 int func_001F78A0(unsigned);
-void func_0020A9A8(TUNE*,int);
-void func_0017A5B0(HELPER*,int);
+void SetTargetrecTimer(TUNE*,int) asm("SetTargetrecTimer__FP9TARGETRECi");
+void SetSleepState(HELPER*,int) asm("SetSleepState__8JOBSLEEPi");
 void func_001305B8(ASEG*,OBJECT*,float,float,int,ASEGA**);
 unsigned long func_00207A20(int);
 int func_0020A378(OBJECT*,OBJECT*,unsigned long);
@@ -78,12 +78,12 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
    func_001B9DB8(D_002F7900,func_001A62E8(p->actor));
   if(msg->data.kind==0x40000){void*context=D_003E14BC;qword position=func_001A62E8(p->actor);(void)func_00156698(context,position,p->actor);}
   Clear(&w.next);w.next.kind=11;w.next.msg=*msg;w.next.msg.data.flags=0x40;
-  func_00176750(p,&w.next);return 1;
+  React(p,&w.next);return 1;
  }
  switch(p->actor->mode){case 14:func_00207030(p->actor,-1);break;case 8:case 13:msg->data.amount<<=2;break;}
  if(p->actor->suppressAmount)msg->data.amount=0;
  if(p->actor->extraGate&&p->current.kind!=11&&p->current.kind!=5&&(msg->data.kind==0x4000||msg->data.kind==0x2000)){
-  func_001F7A68(p->actor,0);Clear(&w.next);w.next.kind=19;func_00176750(p,&w.next);return 1;
+  func_001F7A68(p->actor,0);Clear(&w.next);w.next.kind=19;React(p,&w.next);return 1;
  }
  switch((KINDENUM)p->current.kind){
  case 9:
@@ -96,14 +96,14 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   if(p->helper->flags&p->actor->mask11)return 1;
   break;
  }
- if(p->actor->selected==msg->data.object)func_0020A9A8(p->actor->tuning,5);
+ if(p->actor->selected==msg->data.object)SetTargetrecTimer(p->actor->tuning,5);
  if(msg->data.kind==0x80000&&(msg->data.flags&8)){
   if(p->current.kind==8){
-   HELPER*h=p->helper;func_0017A5B0(h,0);h->until=Max(g_clock.t+D_002BE620,h->until);
+   HELPER*h=p->helper;SetSleepState(h,0);h->until=Max(g_clock.t+D_002BE620,h->until);
   }else{
    p->actor->otherProgress+=msg->data.amount;
    if(p->actor->otherProgress<=0){
-    p->actor->otherProgress=p->actor->otherCapacity;Clear(&w.next);w.next.kind=8;func_00176750(p,&w.next);
+    p->actor->otherProgress=p->actor->otherCapacity;Clear(&w.next);w.next.kind=8;React(p,&w.next);
    }else func_001305B8(p->actor->otherClip,p->actor,0.0f,1.0f,1,&p->actor->otherAnimation);
   }goto finish;
  }
@@ -111,16 +111,16 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   if(func_0020A378(p->actor,msg->data.object,func_00207A20(6))){
    {int reserve=p->actor->reserve+msg->data.amount;int limited=4<reserve?reserve:5;p->actor->reserve=limited;}
    (void)func_00156698(g_sw.context,func_001A62E8(p->actor),p->actor);
-   Clear(&w.next);w.next.kind=7;w.next.msg.data.object=msg->data.object;func_00176750(p,&w.next);goto finish;
+   Clear(&w.next);w.next.kind=7;w.next.msg.data.object=msg->data.object;React(p,&w.next);goto finish;
   }
  }
  if(msg->data.kind==0x1000000&&(msg->data.flags&8)){
   Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
-  w.next.msg=*msg;p->current.kind=-1;func_00176750(p,&w.next);func_00207030(p->actor,8);goto finish;
+  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);func_00207030(p->actor,8);goto finish;
  }
  if(msg->data.kind==0x2000000&&(msg->data.flags&8)){
   Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
-  w.next.msg=*msg;p->current.kind=-1;func_00176750(p,&w.next);func_00207030(p->actor,0x22);goto finish;
+  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);func_00207030(p->actor,0x22);goto finish;
  }
  originalFlags=msg->data.flags;
  if(!(originalFlags&0xF0))goto finish;
@@ -184,7 +184,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
    qword normalized=Normalize(direction);*(qword*)&w.scalar=Scalar(500.0f);
    selected->data.direction=ScaleInPlace(normalized,w.scalar.q);
   }else if(p->actor->mode==-1&&FIsBasicDerivedFrom(selected->data.object,0x38)&&selected->data.object->mode==0x22)func_00207030(p->actor,0x22);
-  p->current.kind=-1;func_00176750(p,&w.next);
+  p->current.kind=-1;React(p,&w.next);
  }
 finish:
  if(D_002F7900&&selected->data.kind==0x20000)func_001B9D28(D_002F7900,func_001A62E8(p->actor));

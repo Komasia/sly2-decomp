@@ -4,7 +4,8 @@ void *func_001C0960(void *p, qword a, qword b, int c, int d, int e);
 int func_001C1700(void *p, int z, qword a, qword b, int c, void **ap);
 void *func_001BC688(void *p, qword a, qword b, int n, struct S *ps);
 void *func_0014C9F8(void *p, int d, void *r, struct S *ps, int c, int d2, int one);
-void *func_001C0A40(void *p, qword a, qword b, int c, int d)
+// name: SafeHouse port (AtFreeNav)
+void *AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii(void *p, qword a, qword b, int c, int d)
 {
     void *ap[0x80];
     struct S s;

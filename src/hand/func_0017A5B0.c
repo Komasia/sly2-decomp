@@ -5,7 +5,8 @@ struct T { char pad[0xE7C]; float gE7C; float gE80; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; struct U *p40; char pad3[0xC]; int n50; float g54; float g58; };
 void func_001F0660(void *p, int n);
 float GRandInRange__Fff(float a, float b);
-void func_0017A5B0(struct S *p, int n) {
+// name: SafeHouse port (JOBSLEEP::SetSleepState)
+void SetSleepState__8JOBSLEEPi(struct S *p, int n) {
     if (n == p->n50) return;
     p->n50 = n;
     p->g54 = n;

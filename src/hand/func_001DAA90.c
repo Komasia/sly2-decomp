@@ -22,7 +22,7 @@ void func_001DA858(OBJ *);
 R *func_001DAE20(OBJ *, int);
 void func_001DA950(OBJ *, int, int);
 void *func_001FBB90(int);
-void func_001FB2F8(void *, int);
+void SetSource__4CSndPv(void *, int);
 void func_00141FC8(void *, int, int);
 void func_001DAA90(OBJ *p)
 {
@@ -62,7 +62,7 @@ void func_001DAA90(OBJ *p)
         } else if (!(r->fl & 1)) {
             func_001DA950(p, 1, 0x33);
         } else {
-            func_001FB2F8(func_001FBB90(0x34), 0);
+            SetSource__4CSndPv(func_001FBB90(0x34), 0);
             func_00141FC8(pv, i, p->x48);
         }
     }

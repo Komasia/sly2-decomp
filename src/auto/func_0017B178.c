@@ -28,5 +28,5 @@ extern M2C_UNK g_sw;
 
 void func_0017B178(s32 arg0) {
     func_0017B1A8(arg0, -1);
-    func_00174B28(arg0);
+    Exit__7JOBMOVE(arg0);
 }

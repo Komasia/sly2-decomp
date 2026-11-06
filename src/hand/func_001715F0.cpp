@@ -16,17 +16,17 @@ struct S : SB {
 struct X { void *p0; void *p4; int pad[2]; qword q; X(); };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void *func_001715B8(struct S *p, int oid);
+void *PloNear(struct S *p, int oid) asm("PloNear__9JOBSCRIPT3OID");
 void func_00171AF8(struct S *p, void *o, qword *pq, float *pg);
-void func_00171B60(struct S *p, qword q, float g);
+void PlaceGuard(struct S *p, qword q, float g) asm("PlaceGuard__FP5GUARDG9VU_VECTORf");
 void *func_00205438(struct A *a, int k);
 void func_001E9C30(void *o);
-void func_0017CDB8(void *o, int n);
+void SetDirection(void *o, int n) asm("SetDirection__7JOBRAILi");
 void func_0017D110(void *o, int n);
 void func_002562A8(struct X *x);
 inline X::X() { func_002562A8(this); }
 int FIsBasicDerivedFrom(void *o, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_0017DD38(void *o, struct X *x);
+void SetGoal(void *o, struct X *x) asm("SetGoal__7JOBGOTOP4GOAL");
 void func_0012F9B8(void *o, int a, int b, void *c, float f, float g);
 void *func_001711F0(void *p, int id);
 void func_001EEFC0(struct S *p);
@@ -42,7 +42,8 @@ struct O5 : O { char pad1[0x40 - 0x10]; struct X50 *p40; };
 
 #define VCALL8(o) { struct O *oo = (struct O *)(o); oo->V8(); }
 
-extern "C" void func_001715F0(struct S *p, struct CMD *c)
+// name: SafeHouse port (JOBSCRIPT::Execute)
+extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
 {
     union { qword q; } q;
     float g;
@@ -51,7 +52,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
     int n;
     switch (c->op) {
     case 0:
-        p->n34 = func_001715B8(p, c->n4);
+        p->n34 = PloNear(p, c->n4);
         break;
     case 1:
         p->p10->k2CC = c->u.k8;
@@ -60,8 +61,8 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         p->p10->k2D4 = c->u.k8;
         break;
     case 3: {
-        func_00171AF8(p, func_001715B8(p, c->n4), &q.q, &g);
-        func_00171B60(p, q.q, g);
+        func_00171AF8(p, PloNear(p, c->n4), &q.q, &g);
+        PlaceGuard(p, q.q, g);
         break;
     }
     case 4:
@@ -88,7 +89,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         break;
     }
     case 6: {
-        void *o = func_001715B8(p, p->p38->n4);
+        void *o = PloNear(p, p->p38->n4);
         struct A *a;
         if (!o) break;
         a = p->p10;
@@ -101,13 +102,13 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
             o2->n58 = p->n4C;
             if (!p->n4C) func_001E9C30(o);
             if (p->p44) o2->g38 = p->p44->g8;
-            if (c->u.s.nC != -1) o2->n50 = func_001715B8(p, c->u.s.nC);
+            if (c->u.s.nC != -1) o2->n50 = PloNear(p, c->u.s.nC);
             VCALL8(o2);
             break;
         }
         case 0: {
             struct O *o2 = (struct O *)func_00205438(a, 0xB8);
-            func_0017CDB8(o2, (int)p->p38->p8);
+            SetDirection(o2, (int)p->p38->p8);
             VCALL8(o2);
             break;
         }
@@ -130,7 +131,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
             x.q = *(qword *)qq->p8;
             p->g48 = qq->gC;
         } else {
-            void *o = func_001715B8(p, qq->n4);
+            void *o = PloNear(p, qq->n4);
             if (o) {
                 func_00171AF8(p, o, 0, &p->g48);
                 if (FIsBasicDerivedFrom(o, 10)) x.p0 = o;
@@ -141,8 +142,8 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         n = a->nF80;
         if (n == -1) {
             struct O3 *o3 = (struct O3 *)func_00205438(a, 0xBA);
-            func_0017DD38(o3, &x);
-            if (c->n10 != -1) o3->nA8 = func_001715B8(p, c->n10);
+            SetGoal(o3, &x);
+            if (c->n10 != -1) o3->nA8 = PloNear(p, c->n10);
             o3->gB0 = c->g14;
             o3->nBC = p->n4C;
             VCALL8(o3);
@@ -151,7 +152,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         break;
     }
     case 8: {
-        func_0012F9B8(func_001715B8(p, c->n4), 0, 0, &t, 0.0f, 1.0f);
+        func_0012F9B8(PloNear(p, c->n4), 0, 0, &t, 0.0f, 1.0f);
         break;
     }
     case 9:
@@ -168,7 +169,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         func_001EF038(p);
         break;
     case 13: {
-        void *o = func_001715B8(p, p->p38->n4);
+        void *o = PloNear(p, p->p38->n4);
         struct O4 *o4 = (struct O4 *)func_00205438(p->p10, 0xAC);
         o4->p60 = o;
         o4->n68 = 1;
@@ -190,7 +191,7 @@ extern "C" void func_001715F0(struct S *p, struct CMD *c)
         }
         break;
     case 15:
-        func_001E0020(func_001715B8(p, c->n4), c->u.s.n8);
+        func_001E0020(PloNear(p, c->n4), c->u.s.n8);
         break;
     }
     p->g3C = g_clock.t;

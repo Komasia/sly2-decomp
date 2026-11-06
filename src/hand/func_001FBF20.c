@@ -1,6 +1,7 @@
 struct X { char pad[0x14]; int n14; float g18; char pad2[0x40 - 0x1C]; void *p40; float g44; char pad3[0x50 - 0x48]; unsigned short fl; };
 void func_00232500(void *, int, int, int, int, int);
-void func_001FBF20(struct X *px)
+// name: SafeHouse port (CSndPlain::SendChanges)
+void SendChanges__9CSndPlain(struct X *px)
 {
     int fl = px->fl;
     if (fl & 0x70) {

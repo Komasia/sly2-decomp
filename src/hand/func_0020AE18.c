@@ -10,7 +10,8 @@ void func_00209130(void *pe, struct O *o);
 void *func_001F4C58(struct O *o, int a, int b);
 float *func_0012F938(int h, int a);
 void func_001300B8(int h, struct O *o, int a, int b, struct L *pl, int c, float f, float g);
-void func_0020AE18(struct S *p)
+// name: SafeHouse port (PostLoadGuardAction)
+void PostLoadGuardAction__FP2LO(struct S *p)
 {
     struct O *o;
     PostLoLoad__FP2LO(p);

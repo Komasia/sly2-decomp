@@ -79,7 +79,7 @@ void func_00133448(SOURCE *, ACTOR *);
 void func_00204F78(ACTOR *, SOURCE *, int);
 void func_001E67B8(SOURCE *, float, qword *, qword *);
 EFFECT *func_001FBB90(int);
-void func_001FB2F8(EFFECT *, SOURCE *);
+void SetSource(EFFECT *, SOURCE *) asm("SetSource__4CSndPv");
 void func_00258040(EFFECT **, EFFECT *);
 void func_002046F0(ACTOR *, SOURCE *);
 void func_00204CA8(ACTOR *);
@@ -89,7 +89,7 @@ void func_0014E4C8(MANAGER *, int, int, CAMERA *, ACTOR *, void *);
 void func_0018E540(ACTOR *, int);
 void func_001CCAC0(ATTACH *, int);
 void func_001CD2C0(void *);
-void func_001FB098(EFFECT *, float);
+void Stop(EFFECT *, float) asm("Stop__4CSndf");
 void func_00140C88(ACTOR *, void *);
 void func_00194118(CONTEXT *);
 qword func_001A6F00(void *, void *, qword);
@@ -228,7 +228,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
         }
         case 2: {
             EFFECT *effect = func_001FBB90(0x5C);
-            func_001FB2F8(effect, 0);
+            SetSource(effect, 0);
             func_00258040(&D_002E1E40->effect, effect);
             break;
         }
@@ -313,7 +313,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             break;
         case 2:
             if (D_002E1E40->effect) {
-                func_001FB098(D_002E1E40->effect, 0.0f);
+                Stop(D_002E1E40->effect, 0.0f);
                 func_00258040(&D_002E1E40->effect, 0);
             }
             break;

@@ -7,7 +7,7 @@ extern struct CLOCK g_clock;
 extern struct P *D_002DD644;
 extern char D_003DD040[];
 extern char g_sw[];
-void func_001FE5B8(void *p, int a, int b);
+void SetSoundMgrFlags__FP8SOUNDMGRUii(void *p, int a, int b);
 void func_0014D1D0(struct CLOCK *p, int a, float g);
 void func_0020EFC0(void *p, int a);
 void func_0020F030(void *p, int a);
@@ -20,7 +20,7 @@ void func_00147410(struct P *p, int state)
     switch (p->state) {
     case -1:
         D_002DD644 = p;
-        func_001FE5B8(D_003DD040, 2, 0);
+        SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 0);
         func_0014D1D0(&g_clock, 8, 0.0f);
         func_0020EFC0(g_sw, 0);
         p->vt[8].pfn((char *)p + p->vt[8].d);
@@ -41,7 +41,7 @@ void func_00147410(struct P *p, int state)
     case -1:
         D_002DD644 = 0;
         func_0014D1D0(&g_clock, 8, 1.0f);
-        func_001FE5B8(D_003DD040, 2, 1);
+        SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 1);
         func_0020F030(g_sw, 0);
         p->vt[9].pfn((char *)p + p->vt[9].d);
         break;

@@ -16,8 +16,9 @@ void func_00227788(void *);
 void func_00259B48(void *, void *);
 void func_0011CDB8(void *);
 void ClearDl__FP2DL(void *);
-void func_001FEDF0(struct P *);
-void func_001FD700(struct P *p)
+void ResetSoundVolumes__FPv(struct P *);
+// name: SafeHouse port (ResetSoundMgr)
+void ResetSoundMgr__FP8SOUNDMGR(struct P *p)
 {
     func_00232408();
     func_00233048(0x524B5553, 10, 0, 0, 0, 0, 0);
@@ -47,5 +48,5 @@ void func_001FD700(struct P *p)
     func_0011CDB8(p->s1C);
     func_0011CDB8(p->s34);
     ClearDl__FP2DL(p->s4C);
-    func_001FEDF0(p);
+    ResetSoundVolumes__FPv(p);
 }

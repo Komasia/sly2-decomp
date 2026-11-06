@@ -14,7 +14,7 @@ extern struct GS D_002DEB80;
 int func_00187E88(int);
 int func_001880D8(int);
 float func_0011D948(void *, float);
-void func_001FEA60(struct G *, int, float, int);
+void SetSoundChannelVolume__FP8SOUNDMGRiif(struct G *, int, float, int);
 void func_00212E40(void *, int, float);
 static __inline__ float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
 void func_001AF6D0(struct S *s, struct P *p, int *pk)
@@ -26,7 +26,7 @@ void func_001AF6D0(struct S *s, struct P *p, int *pk)
         if (f == 0.0f)
             return;
         g = func_0011D948(g_lmZeroOne, D_003DD040.x150 + f * D_002DDF10 * 1.5f);
-        func_001FEA60(&D_003DD040, 1, g, 1);
+        SetSoundChannelVolume__FP8SOUNDMGRiif(&D_003DD040, 1, g, 1);
         func_00212E40(p->x8, 0x315, g);
         break;
     }
@@ -36,8 +36,8 @@ void func_001AF6D0(struct S *s, struct P *p, int *pk)
         if (f == 0.0f)
             return;
         g = func_0011D948(g_lmZeroOne, D_003DD040.x14C + f * D_002DDF10 * 1.5f);
-        func_001FEA60(&D_003DD040, 0, g, 1);
-        func_001FEA60(&D_003DD040, 3, g, 1);
+        SetSoundChannelVolume__FP8SOUNDMGRiif(&D_003DD040, 0, g, 1);
+        SetSoundChannelVolume__FP8SOUNDMGRiif(&D_003DD040, 3, g, 1);
         func_00212E40(p->x8, 0x315, g);
         break;
     }

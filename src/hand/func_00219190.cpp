@@ -9,13 +9,13 @@ struct F { char pad[0x18]; unsigned char count; char pad1[3]; struct A *aa; };
 struct S { char pad[4]; struct F *af; char pad1[8]; struct R *r; };
 extern char D_003DD040[];
 extern "C" struct M *func_001FBB90(int id);
-extern "C" void func_001FB2F8(struct M *, struct O *);
-extern "C" void func_001FB098(struct M *, float);
+extern "C" void SetSource(struct M *, struct O *) asm("SetSource__4CSndPv");
+extern "C" void Stop(struct M *, float) asm("Stop__4CSndf");
 extern "C" void func_00258040(struct M **pp, struct M *m);
-extern "C" void *func_001FE5F0(void *p,int a,int b);
-extern "C" void func_001FE738(void *p);
+extern "C" void *PsndStartDialog(void *p,int a,int b) asm("PsndStartDialog__FP8SOUNDMGRii");
+extern "C" void StopDialog(void *p) asm("StopDialog__FP8SOUNDMGR");
 static inline M *SlotSound(M *const &slot){register M *value asm("$4");asm("lw %0,0(%1)":"=r"(value):"r"(&slot),"m"(slot));return value;}
-static inline void Stop(M **pp){if(pp){M *sound=SlotSound(*pp);if(sound){func_001FB098(sound,0.0f);func_00258040(pp,0);}}}
+static inline void Stop(M **pp){if(pp){M *sound=SlotSound(*pp);if(sound){Stop(sound,0.0f);func_00258040(pp,0);}}}
 static inline unsigned int Presence(M *const &slot){register unsigned int value asm("$3");__asm__("lw %0,%1":"=r"(value):"m"(slot));return value;}
 static inline int EntryOffset(int index,int stride){int value;__asm__("mult %0,%1,%2":"=r"(value):"r"(index),"r"(stride):"hi","lo");return value;}
 static inline int ActionKind(const A &action){register int value asm("$3");asm("lw %0,%1":"=r"(value):"m"(action.kind));return value;}
@@ -35,7 +35,7 @@ extern "C" void func_00219190(struct S *p,int fi,int i) {
         switch(ActionKind(*a)) {
         case 0: {
             struct M *m=func_001FBB90(a->id);
-            func_001FB2F8(m,0);
+            SetSource(m,0);
             if(m->vt->kind((char *)m+m->vt->d)==2)
                 func_00258040(&((E *)(createOffset+(int)p->r->ae))->pm,m);
             break;
@@ -46,8 +46,8 @@ extern "C" void func_00219190(struct S *p,int fi,int i) {
             if(Presence(e->pm)) Stop(SlotAddress(e));
             break;
         }
-        case 2: func_001FE5F0(D_003DD040,a->id,0); break;
-        case 3: func_001FE738(D_003DD040); break;
+        case 2: PsndStartDialog(D_003DD040,a->id,0); break;
+        case 3: StopDialog(D_003DD040); break;
         }
     } while(++j<f->count);
 }

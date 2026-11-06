@@ -12,7 +12,7 @@ struct O *func_00205438(void *p, int n);
 qword func_00172760(struct S *p);
 qword func_001A62E8(void *p);
 void func_002562A8(struct X *x);
-void func_0017DD38(void *p, struct X *x);
+void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 float func_002458F0(float y, float x);
 void func_00209818(void *p, float f);
 void func_00172560(struct S *p);
@@ -40,7 +40,7 @@ void func_00172320(struct S *p, int n) {
             v = func_00172760(p);
             func_002562A8(&x);
             x.v = v;
-            func_0017DD38(o, &x);
+            SetGoal__7JOBGOTOP4GOAL(o, &x);
             e = &o->vt[8]; e->pfn((char *)o + e->d);
             p->f38 = D_002A5398;
         }

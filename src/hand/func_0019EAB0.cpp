@@ -17,7 +17,7 @@ float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
 void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
 qword func_001A6F00(P*,P*,qword);qword func_001A62E8(P*);
 void func_00140C88(P*,void*);
-EFFECT*func_001FBB90(int);void func_001FB2F8(EFFECT*,void*);void func_001FB3F0(EFFECT*,qword);
+EFFECT*func_001FBB90(int);void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
 void func_0018E540(P*,int);void func_001F15B8(COMPONENT**);
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
@@ -115,7 +115,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   p->actor->motion.q=Sub(p->actor->goal.q,w.point.q);
   p->actor->motion.i[2]=0;
   func_00140C88(p->actor,p->path->focus);
-  if(p->path->attachEffectId){EFFECT*e=func_001FBB90(p->path->attachEffectId);func_001FB2F8(e,0);func_001FB3F0(e,w.point.q);}
+  if(p->path->attachEffectId){EFFECT*e=func_001FBB90(p->path->attachEffectId);SetSource(e,0);SetPosition(e,w.point.q);}
   break;
  }
  case 0:if(p->actor==D_002E1E40)func_0018E540(p->actor,p->actor->alternate?10:2);break;
@@ -128,7 +128,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
   p->actor->motion.i[2]=0;func_00140C88(p->actor,focus);
-  if(p->path->releaseEffectId){EFFECT*e=func_001FBB90(p->path->releaseEffectId);func_001FB2F8(e,0);func_001FB3F0(e,func_001A62E8(p->actor));}
+  if(p->path->releaseEffectId){EFFECT*e=func_001FBB90(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,func_001A62E8(p->actor));}
   p->path=0;return;
  }
  case 0:

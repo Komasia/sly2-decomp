@@ -14,7 +14,8 @@ struct Ref {
 struct S { int c; Ref a[8]; };
 struct P { char pad[0x204]; S s; };
 extern "C" X *func_001FCFF8(P *, int);
-extern "C" Ref func_001FE478(P *p, int n)
+// name: SafeHouse port (RefTakeMusic)
+extern "C" Ref RefTakeMusic__FP8SOUNDMGRi(P *p, int n)
 {
     X *v = func_001FCFF8(p, n);
     int i;

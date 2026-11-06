@@ -9,7 +9,8 @@ void func_001EEF70(struct S *p);
 struct O *func_00205438(void *p, int n);
 qword *func_001A6318(void *p);
 struct M3 func_0011B830(qword a, qword b);
-void func_0017D1F0(struct S *p) {
+// name: SafeHouse port (JOBHOLD::Enter)
+void Enter__7JOBHOLD(struct S *p) {
     struct O *o; struct VTE *e; struct T *t;
     func_001EEF70(p);
     o = func_00205438(p->pt, 0x9D); o->n3C = 2; e = &o->vt[8]; e->pfn((char *)o + e->d);

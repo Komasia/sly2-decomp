@@ -2,7 +2,8 @@
 M2C_UNK func_001EEF68();                            /* extern */
 M2C_UNK func_00209890(s32, M2C_UNK);                /* extern */
 
-void func_0017CE68(void *arg0) {
+// name: SafeHouse port (JOBLADDER::Init)
+void Init__9JOBLADDER(void *arg0) {
     func_001EEF68();
     M2C_FIELD(arg0, s32 *, 0x30) = -1;
     func_00209890(M2C_FIELD(arg0, s32 *, 0x10), 0x27);

@@ -25,9 +25,9 @@ extern "C"{
  void func_0011B500(M3*,float,qword);
  M3*func_0011B830(M3*,qword,qword);
  void func_001C3500(P*,int,M3*,float);
- void func_0017A468(C*);
- int func_00173610(qword*,float,float,int,int(*)(void));
- void func_00174950(C*);
+ void OffsetUseByHands(C*) asm("OffsetUseByHands__FP6JOBUSE");
+ int FDropOnGround(qword*,float,float,int,int(*)(void)) asm("FDropOnGround__FP6VECTORffiPv");
+ void Enter(C*) asm("Enter__7JOBMOVE");
  void func_00209818(CONTROL*,float);
  void func_00209840(CONTROL*,M3*);
  void func_0020C6F8(INFO*,qword);
@@ -73,7 +73,8 @@ typedef char TEMP_first_rotation_Offset[FIELD_OFFSET(TEMP,first.rotation)==16?1:
 typedef char TEMP_basis_Offset[FIELD_OFFSET(TEMP,basis)==0?1:-1];
 typedef char LIMIT_low_Offset[FIELD_OFFSET(LIMIT,low)==0?1:-1];
 typedef char LIMIT_high_Offset[FIELD_OFFSET(LIMIT,high)==4?1:-1];
-extern "C" void func_00179FA0(C*p){
+// name: SafeHouse port (JOBUSE::Enter)
+extern "C" void Enter__6JOBUSE(C*p){
  WORK work;U point,otherPoint,direction;
  if(!D_002DFB78){
   unsigned long a=func_00207A20(0x1B),b=func_00207A20(0x27),c=func_00207A20(0x28),d=func_00207A20(0x29);
@@ -108,21 +109,21 @@ extern "C" void func_00179FA0(C*p){
    active|=func_00207A20(0x27);
    p->basisValid=1;
    func_001C3500(p->target,p->reverse,&p->matrix,work.curve);
-   func_0017A468(p);
+   OffsetUseByHands(p);
   }else if(FIsBasicDerivedFrom(p->target,0x13)&&p->target->kind==3){
    active|=func_00207A20(0x28);
    p->basisValid=1;
    M3*m=func_001A6318(p->target);
    (void)func_0011B830(&work.temp.basis,m->r[0],g_normalZ);
    p->matrix=work.temp.basis;
-   func_0017A468(p);
+   OffsetUseByHands(p);
   }else{
-  (void)func_00173610(&p->point.q,D_002BE6B8.high,D_002BE6B8.low,1,0);
+  (void)FDropOnGround(&p->point.q,D_002BE6B8.high,D_002BE6B8.low,1,0);
   p->target=0;
   }
  }
  p->actor->flags|=active;
- func_00174950(p);
+ Enter(p);
  p->actor->flags &= ~active;
  p->actor->flags |= old;
  if(p->driver){

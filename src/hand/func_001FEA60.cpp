@@ -13,7 +13,8 @@ static inline X *ReadReceiver(X **pp)
     __asm__("lw %0,%1":"=r"(receiver):"m"(*pp));
     return receiver;
 }
-extern "C" void func_001FEA60(P *p,int channel,int category,float input)
+// name: SafeHouse port (SetSoundChannelVolume)
+extern "C" void SetSoundChannelVolume__FP8SOUNDMGRiif(P *p,int channel,int category,float input)
 {
     if((unsigned int)category>=8)return;
     if(channel<0)return;

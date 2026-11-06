@@ -6,7 +6,8 @@ struct S { int pad0; char a4[8]; struct VTE *vt; char pad[8]; char a18[0x18]; st
 void func_001EF0D8(void *p);
 void func_00256EE0(struct S *p, int n);
 void func_002580A8(void *p, int n);
-void func_00171258(struct S *p, struct T *t, int a, struct U *u) {
+// name: SafeHouse port (JOBSCRIPT::SetTarget)
+void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct S *p, struct T *t, int a, struct U *u) {
     if (t == p->pt) return;
     if (p->pt) {
         func_001EF0D8(p->a18);

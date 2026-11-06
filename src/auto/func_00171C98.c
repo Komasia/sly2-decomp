@@ -2,7 +2,8 @@
 s32 func_001711F0(s32, s32);                        /* extern */
 M2C_UNK func_001EF0D8(void *);                      /* extern */
 
-void func_00171C98(void *arg0, s32 arg1) {
+// name: SafeHouse port (JOBSCRIPT::SeekMarker)
+void SeekMarker__9JOBSCRIPT3OID(void *arg0, s32 arg1) {
     if (M2C_FIELD(arg0, s32 *, 0x30) != 0) {
         if (M2C_FIELD(arg0, s32 *, 0x40) != 0) {
             func_001EF0D8(arg0 + 0x18);

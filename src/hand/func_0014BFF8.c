@@ -5,7 +5,7 @@ extern DLI *g_psliFirst;
 extern float D_002DDF0C;
 void func_0011A118(struct H *ph, struct X *px);
 void *func_001FBB90(int n);
-void func_001FB2F8(void *p, int n);
+void SetSource__4CSndPv(void *p, int n);
 void func_0014BF18(struct H *ph);
 static __inline__ void InitDli(DLI *pdli, struct H *pdl)
 {
@@ -42,7 +42,7 @@ void func_0014BFF8(struct H *ph)
             }
         }
         if (pxBest) {
-            func_001FB2F8(func_001FBB90(0x34), 0);
+            SetSource__4CSndPv(func_001FBB90(0x34), 0);
             pxBest->pfn(pxBest->pv);
         }
         func_0014BF18(ph);

@@ -13,7 +13,8 @@ void func_0020AC28(void *p, void *po, int n, qword v);
 void func_001EF0D8(void *p);
 void func_001EF038(struct S *p);
 struct O *func_00205438(void *p, int n);
-void func_00175488(struct S *p, int n) {
+// name: SafeHouse port (JOBACT::SetActState)
+void SetActState__6JOBACTi(struct S *p, int n) {
     if (n == p->n34) return;
     if (p->n34 == 0) {
         func_00133448(p->q30, p->p10);

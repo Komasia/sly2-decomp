@@ -9,7 +9,7 @@ extern "C" {
 qword func_001A62E8(Actor *);
 int func_0014F850(Camera *,qword,qword);
 void func_0011EF08(qword,float *,float *,float *);
-float func_0020A690(P *);
+float RadTargetrec(P *) asm("RadTargetrec__FP9TARGETREC");
 float RadNormalize(float) asm("RadNormalize__Ff");
 }
 static inline void PlaneArguments(qword *threshold,qword *point,U *scalar,float f,const qword *camera,const qword *position){
@@ -21,7 +21,8 @@ static inline void PlaneArguments(qword *threshold,qword *point,U *scalar,float 
 }
 static inline qword Load(const qword *p){qword r;__asm__("lqc2 %0,%1":"=j"(r):"m"(*p));return r;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"=j"(a):"j"(b),"0"(a));return a;}
-extern "C" int func_0020A818(P*p,Actor*a)
+// name: SafeHouse port (FTargetrecAllows)
+extern "C" int FTargetrecAllows__FP9TARGETRECP5GUARD(P*p,Actor*a)
 {
     U scalar;
     float angle[2];
@@ -42,14 +43,14 @@ extern "C" int func_0020A818(P*p,Actor*a)
         if(!func_0014F850(camera,point,threshold))goto fail;
         qword other;other=func_001A62E8(p->target);
         func_0011EF08(Sub(position0.q,other),&angle[0],0,0);
-        if(p->tolerance<__builtin_fabsf(RadNormalize(angle[0]-func_0020A690(p)))){fail:return 0;}
+        if(p->tolerance<__builtin_fabsf(RadNormalize(angle[0]-RadTargetrec(p)))){fail:return 0;}
         return 1;
     }
     case 1:{
         position1.q=func_001A62E8(a);
         qword other;other=func_001A62E8(p->target);
         func_0011EF08(Sub(position1.q,other),&angle[1],0,0);
-        if(p->tolerance<__builtin_fabsf(RadNormalize(angle[1]-func_0020A690(p))))return 0;
+        if(p->tolerance<__builtin_fabsf(RadNormalize(angle[1]-RadTargetrec(p))))return 0;
         return 1;
     }
     case -1:break;

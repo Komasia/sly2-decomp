@@ -5,8 +5,8 @@ typedef struct G { char pad[0x228]; void *p; } G;
 extern G D_003DD040;
 void PostLoLoad__FP2LO(T *t);
 void **PvAllocSwClearImpl__Fi(AREQ *preq);
-void *func_001FE990(G *pg, int id);
-void func_001FC408(float g, void *p, void *q, T *t, float *pv);
+void *IvoiceFromTarget__FP8SOUNDMGRi(G *pg, int id);
+void AddVoiceFalloff__9CSndVoiceiiPvf(float g, void *p, void *q, T *t, float *pv);
 void func_0012EC50(T *t)
 {
     AREQ req;
@@ -20,7 +20,7 @@ void func_0012EC50(T *t)
         int i;
         for (i = 0; i < t->crec; i++) {
             REC *prec = &t->arec[i];
-            func_001FC408(prec->g, p, func_001FE990(&D_003DD040, prec->id), t, prec->v);
+            AddVoiceFalloff__9CSndVoiceiiPvf(prec->g, p, IvoiceFromTarget__FP8SOUNDMGRi(&D_003DD040, prec->id), t, prec->v);
         }
     }
 }

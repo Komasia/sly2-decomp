@@ -11,7 +11,7 @@ typedef struct {
 void func_001DC260(OBJ *, int);
 void func_001DBBE0(OBJ *, int);
 void *func_001FBB90(int);
-void func_001FB2F8(void *, int);
+void SetSource__4CSndPv(void *, int);
 void func_001DC4B0(OBJ *p, unsigned int n)
 {
     if (n == p->state)
@@ -30,9 +30,9 @@ void func_001DC4B0(OBJ *p, unsigned int n)
     case 3:
         if (p->i > 0) {
             func_001DBBE0(p, p->i - 1);
-            func_001FB2F8(func_001FBB90(0x35), 0);
+            SetSource__4CSndPv(func_001FBB90(0x35), 0);
         } else {
-            func_001FB2F8(func_001FBB90(0x36), 0);
+            SetSource__4CSndPv(func_001FBB90(0x36), 0);
         }
         break;
     case 5:
@@ -40,9 +40,9 @@ void func_001DC4B0(OBJ *p, unsigned int n)
     case 7:
         if (p->i < p->c - 1) {
             func_001DBBE0(p, p->i + 1);
-            func_001FB2F8(func_001FBB90(0x35), 0);
+            SetSource__4CSndPv(func_001FBB90(0x35), 0);
         } else {
-            func_001FB2F8(func_001FBB90(0x36), 0);
+            SetSource__4CSndPv(func_001FBB90(0x36), 0);
         }
         break;
     }

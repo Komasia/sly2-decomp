@@ -5,7 +5,8 @@ struct G { char pad[0x60]; float x; float y; };
 extern struct G g_cm;
 float func_002458F0(float y, float x);
 #define VCALL31(o) ((float *(*)(void *))(o)->vt[31].pfn)((char *)(o) + (o)->vt[31].d)
-float func_0020A690(struct S *p)
+// name: SafeHouse port (RadTargetrec)
+float RadTargetrec__FP9TARGETREC(struct S *p)
 {
     float r = 0.0f;
     switch (p->k) {

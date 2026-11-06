@@ -1,5 +1,6 @@
 struct S { int k; int a[3]; int n10; int b[2]; int n1C; };
-int func_00177DC0(struct S *a, struct S *b) {
+// name: SafeHouse port (FSameMsg)
+int FSameMsg__FP5AIMSGT0(struct S *a, struct S *b) {
     if (a->k != b->k) return 0;
     switch (a->k) {
     case 9: case 10: case 11: return a->n1C == b->n1C;

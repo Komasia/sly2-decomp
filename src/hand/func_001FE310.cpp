@@ -7,18 +7,19 @@ struct Ref {
     X *px;
     ~Ref() { if (px) px->pvt->a[2].pfn((char *)px + px->pvt->a[2].d); }
 };
-extern "C" void func_001FE478(Ref *, P *, int);
-extern "C" void func_001FB098(X *, float);
+extern "C" void RefTakeMusic(Ref *, P *, int) asm("RefTakeMusic__FP8SOUNDMGRi");
+extern "C" void Stop(X *, float) asm("Stop__4CSndf");
 extern "C" void func_00259B48(Ref *, void *);
-extern "C" void func_001FE310(P *p, int n)
+// name: SafeHouse port (PopMusic)
+extern "C" void PopMusic__FP8SOUNDMGRi(P *p, int n)
 {
     Ref r;
-    func_001FE478(&r, p, n);
+    RefTakeMusic(&r, p, n);
     if (r.px) {
         int f = 0;
         if (!r.px->n40) { f = r.px->c52 || (r.px->fl & 1); f ^= 1; }
         if (!f) {
-            func_001FB098(r.px, 0.0f);
+            Stop(r.px, 0.0f);
             func_00259B48(&r, p->s.c > 0 ? *(p->s.a + p->s.c - 1) : 0);
             if (r.px) r.px->pvt->a[7].pfn((char *)r.px + r.px->pvt->a[7].d);
         }

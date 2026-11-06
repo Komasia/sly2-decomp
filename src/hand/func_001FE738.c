@@ -6,26 +6,27 @@ struct E { char pad[0x54]; int c; struct A *ae; };
 struct Y { char pad[0x60]; struct E *pe; };
 struct Ref { struct Y *px; };
 struct P { char pad[0x200]; struct Ref r; char pad2[0x22C - 0x204]; struct X *ap[6]; int n244; int n248; float g24C; };
-void func_001FE0E8(struct P *, struct A *);
+void FireDialogTarget__FP8SOUNDMGRPv(struct P *, struct A *);
 void func_001F0660(void *, int);
-void func_001FB098(struct Y *, float);
+void Stop__4CSndf(struct Y *, float);
 void func_00259B48(struct Ref *, void *);
 void func_002333B4(void *, int, int);
 static inline void Stop(struct Ref *pr)
 {
     if (pr && pr->px) {
-        func_001FB098(pr->px, 0.0f);
+        Stop__4CSndf(pr->px, 0.0f);
         func_00259B48(pr, 0);
     }
 }
-void func_001FE738(struct P *p)
+// name: SafeHouse port (StopDialog)
+void StopDialog__FP8SOUNDMGR(struct P *p)
 {
     int i;
     struct E *pe;
     if (!p->r.px) return;
     pe = p->r.px->pe;
     while (p->n244 < pe->c) {
-        func_001FE0E8(p, &pe->ae[p->n244]);
+        FireDialogTarget__FP8SOUNDMGRPv(p, &pe->ae[p->n244]);
         p->n244++;
     }
     if (p->ap[5]) func_001F0660(p->ap[5], 0x611);

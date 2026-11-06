@@ -6,11 +6,12 @@ extern char D_003DD040[];
 extern char D_002A97F0[];
 float func_001FCFD0(void *p, int id);
 int func_00215E30(struct Q *q);
-int func_001FE848(void *p, int id);
-float func_001FE888(void *p);
+int FDialogPlaying__FP8SOUNDMGRi(void *p, int id);
+float TDialog__FP8SOUNDMGR(void *p);
 void func_00215E80(struct Q *q, int n);
 void func_0021EDA0(void *p, void *s);
-void func_00227820(struct P *p, struct Q *q)
+// name: SafeHouse port (StrDialogSubtitleTyped)
+void StrDialogSubtitleTyped__FP9DIALOGSUBPv(struct P *p, struct Q *q)
 {
     void *pv;
     float f;
@@ -19,10 +20,10 @@ void func_00227820(struct P *p, struct Q *q)
     pv = D_003DD040;
     f = func_001FCFD0(pv, p->id) - 0.5f;
     c = func_00215E30(q);
-    if (f <= 0.0f || !func_001FE848(pv, p->id))
+    if (f <= 0.0f || !FDialogPlaying__FP8SOUNDMGRi(pv, p->id))
         n = c;
     else
-        n = (int)(func_001FE888(pv) / f * (float)c);
+        n = (int)(TDialog__FP8SOUNDMGR(pv) / f * (float)c);
     if (n < c) {
         func_00215E80(q, n);
         fShow = 1;

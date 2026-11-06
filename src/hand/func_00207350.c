@@ -15,7 +15,7 @@ void func_00207288(struct S *p);
 void func_00206900(struct S *p);
 int func_00209430(void *pc);
 void func_0020AB68(struct S *p, struct O *po, int n, qword v);
-void func_0020ACC0(struct S *p);
+void UpdateGuardActionAim__FP5GUARD(struct S *p);
 void func_001F1CF8(struct S *p);
 void func_0020CE70(void *p);
 void func_0020D1F8(void *p);
@@ -36,7 +36,7 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
     if (p->po && func_00209430(p->po->pc))
         func_0020AB68(p, 0, 0, D_002A2DD0);
     if (p->hF0C)
-        func_0020ACC0(p);
+        UpdateGuardActionAim__FP5GUARD(p);
     if (p->n48C)
         func_001F1CF8(p);
     func_0020CE70(p->p498);

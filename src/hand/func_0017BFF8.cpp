@@ -1,8 +1,8 @@
-// func_0017BFF8 MATCH (Claude agent lane H14), no pins: laneH13v2 with the inner loop as `int k=0;int i=hits;do{SEGMENT*base=segments;Closest(target,&base[k],...);...;k++;}while(--i);`. base is its own pseudo inside the do-body (cse block after the loop label, so not shared with the 1C0A40 call arg, which stays `addiu t0,sp,0x50`); loop.c hoists it to the inner preheader, the &base[k] giv is then initialised as a copy of it, and pass 1 hoists base once more into the index-loop preheader (s4), like the target.
-// func_0017BFF8 laneH13v2 (Claude agent lane H13): inner loop `SEGMENT*segment=base;int i=hits;do{...segment++;}while(--i);` with a function-scope `SEGMENT*base=segments;` so cse cannot share &segments with the 1C0A40 call arg (rematerialized like the target), 22 -> 17. Left: base is set before the mode loop (s6) instead of the index-loop preheader (target s4), which shifts s-reg roles.
-// func_0017BFF8 laneH12v1 (Claude agent lane H12): laneH11v2 + `U point` at function scope between selected and segments, and the two VU scales passed as a qword (QwFromMemWord) into QwOffset(base,v,const qword&g,U*scratch) that stores g into point (target sqc2 0x40): frame and the whole VU block exact (82 -> 72 differing, aligned 26).
-// func_0017BFF8 laneH11v2 (Claude agent lane H11): laneH6v1 + 11EE08 call via inline Closest(qword,const SEGMENT*,U&,float&) (55->33) + plain QwAddScaled with `U point` declared mid-block before `if(hits>0)` (frame 0x460 exact, 33->26).
-// func_0017BFF8 laneH6v1 (Claude agent lane H6): fresh Lilly-style rewrite, no pins, VU helper asms only. aligned 55 (old .c 81, which used lw/lqc2 instruction asms).
+// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf MATCH (Claude agent lane H14), no pins: laneH13v2 with the inner loop as `int k=0;int i=hits;do{SEGMENT*base=segments;Closest(target,&base[k],...);...;k++;}while(--i);`. base is its own pseudo inside the do-body (cse block after the loop label, so not shared with the 1C0A40 call arg, which stays `addiu t0,sp,0x50`); loop.c hoists it to the inner preheader, the &base[k] giv is then initialised as a copy of it, and pass 1 hoists base once more into the index-loop preheader (s4), like the target.
+// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH13v2 (Claude agent lane H13): inner loop `SEGMENT*segment=base;int i=hits;do{...segment++;}while(--i);` with a function-scope `SEGMENT*base=segments;` so cse cannot share &segments with the 1C0A40 call arg (rematerialized like the target), 22 -> 17. Left: base is set before the mode loop (s6) instead of the index-loop preheader (target s4), which shifts s-reg roles.
+// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH12v1 (Claude agent lane H12): laneH11v2 + `U point` at function scope between selected and segments, and the two VU scales passed as a qword (QwFromMemWord) into QwOffset(base,v,const qword&g,U*scratch) that stores g into point (target sqc2 0x40): frame and the whole VU block exact (82 -> 72 differing, aligned 26).
+// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH11v2 (Claude agent lane H11): laneH6v1 + 11EE08 call via inline Closest(qword,const SEGMENT*,U&,float&) (55->33) + plain QwAddScaled with `U point` declared mid-block before `if(hits>0)` (frame 0x460 exact, 33->26).
+// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH6v1 (Claude agent lane H6): fresh Lilly-style rewrite, no pins, VU helper asms only. aligned 55 (old .c 81, which used lw/lqc2 instruction asms).
 // Left: frame 0x480 vs 0x460 (VU_FLOAT temps get their own slot 0x370; target stores them into point at 0x40), region spilled instead of fp, &point/&distance hoisted by loop.c into s-regs (target rematerializes them).
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
@@ -20,7 +20,7 @@ void func_0011EF08(qword,float*,float*,float*);
 float RadNormalize(float) asm("RadNormalize__Ff");float func_0011CFE0(float,float);float func_0011D948(LM*,float);
 qword func_0011E1A0(float,float,float);int func_0011D910(LM*,float);
 int func_001C0B50(void*,qword,qword*);
-int func_001C0A40(void*,qword,qword,int,SEGMENT*);
+int AtFreeNav(void*,qword,qword,int,SEGMENT*) asm("AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii");
 void func_0011EE08(qword,qword,qword,qword*,float*,float*);
 }
 struct VU_FLOAT{qword qw;};
@@ -32,7 +32,8 @@ static inline qword QwFromMemWord(int n){qword v;__asm__("qmtc2.ni %1,%0":"=j"(v
 static inline qword QwAddScaled(qword base,qword v,VU_FLOAT g){qword r;__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(base),"j"(v),"j"(g.qw));return r;}
 
 static inline void Closest(qword t,const SEGMENT*s,U&pt,float&d){func_0011EE08(t,s->a,s->b,&pt.q,0,&d);}
-extern "C" qword func_0017BFF8(P*p,void*region,qword origin,float heading){
+// name: SafeHouse port (PosSurroundPlace)
+extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*region,qword origin,float heading){
  U closest;LM first,second,selected;U point;SEGMENT segments[8];FLOW flow;
  TUNING*tuning;
  first=p->actor->first;second=p->actor->second;
@@ -62,7 +63,7 @@ extern "C" qword func_0017BFF8(P*p,void*region,qword origin,float heading){
   int index;
   for(index=0;index<count;index++){
    qword direction=func_0011E1A0(heading+(-1.0f+index/((count-1)*0.5f))*limit,1.0f,0.0f);
-   int hits=func_001C0A40(region,QwOffset(origin,direction,QwFromMemWord(*(int*)&selected.low),&point),QwOffset(origin,direction,QwFromMemWord(*(int*)&selected.high),&point),8,segments);
+   int hits=AtFreeNav(region,QwOffset(origin,direction,QwFromMemWord(*(int*)&selected.low),&point),QwOffset(origin,direction,QwFromMemWord(*(int*)&selected.high),&point),8,segments);
    if(hits>0){
     int k=0;int i=hits;
     do{

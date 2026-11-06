@@ -32,7 +32,7 @@ extern "C"{
  void func_001A0B40(C*,int);
  int func_00132EA0(P*);
  void*func_001FBB90(int);
- void func_001FB2F8(void*,P*);
+ void SetSource(void*,P*) asm("SetSource__4CSndPv");
  qword func_001A62E8(P*);
  void*func_00156698(int,qword,P*);
 }
@@ -127,7 +127,7 @@ notify:
    if(Z(Vector(p->actor,33))>400.0f){
     int effect=-1;
     switch(func_00132EA0(p->actor)){case 0x35:effect=0x69;break;case 0x36:effect=0x84;break;case 0x37:effect=0x83;break;}
-    P*actor=p->actor;void*created=func_001FBB90(effect);func_001FB2F8(created,actor);
+    P*actor=p->actor;void*created=func_001FBB90(effect);SetSource(created,actor);
    }
    func_001A15B0(p,&C::Reaction);break;
   }

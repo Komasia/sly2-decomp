@@ -12,11 +12,12 @@ struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct P *p3
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
 qword func_001A62E8(void *p);
-qword func_001C1EC0(struct SEG *s, qword v);
+qword PosGoal__FP4GOALG9VU_VECTOR(struct SEG *s, qword v);
 void func_001E6180(struct B *b);
-void func_00178D90(struct O *o, struct B *b, int n);
+void Follow__9JOBFOLLOWP3CRVi(struct O *o, struct B *b, int n);
 void func_0017E628(struct S *p);
-void func_0017E6B0(struct S *p, int n) {
+// name: SafeHouse port (JOBLINK::SetState)
+void SetState__7JOBLINKi(struct S *p, int n) {
     if (n == p->n38) return;
     func_001EF0D8(p->a18);
     p->n38 = n;
@@ -29,7 +30,7 @@ void func_0017E6B0(struct S *p, int n) {
                 struct O *o = func_00205438(p->p10, 0xA7);
                 struct B *b = p->p10->p294;
                 qword pos = func_001A62E8(p->p10);
-                qword q = func_001C1EC0(&p->p30->a60[p->n34], pos);
+                qword q = PosGoal__FP4GOALG9VU_VECTOR(&p->p30->a60[p->n34], pos);
                 qword d;
                 float len;
                 float t = g_clock.t;
@@ -47,7 +48,7 @@ void func_0017E6B0(struct S *p, int n) {
                 func_001E6180(b);
                 o->u40.n40 = 1;
                 o->f64 = 10.0f;
-                func_00178D90(o, b, 0);
+                Follow__9JOBFOLLOWP3CRVi(o, b, 0);
                 { struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
             }
             break;

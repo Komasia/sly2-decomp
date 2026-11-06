@@ -14,15 +14,16 @@ struct S {
 };
 void func_001EEF98(struct S *p);
 int func_001EF0A8(struct S *p);
-int func_00178D00(struct T *t);
-void func_0017D450(struct S *p, int n);
-int func_001792E8(struct T *t);
+int FArrived__9JOBFOLLOW(struct T *t);
+void SetState__7JOBGOTOi(struct S *p, int n);
+int FStuck__9JOBFOLLOW(struct T *t);
 float func_001E6648(void *p);
 void func_001E6F10(void *p, float f, float *pv, int n);
 int func_0017E570(struct T *t);
-int func_0017EAE8(struct T *t);
-void func_0017DA28(struct S *p);
-void func_0017D6C8(struct S *p) {
+int FDone__11JOBNAVPOINT(struct T *t);
+void Search__7JOBGOTO(struct S *p);
+// name: SafeHouse port (JOBGOTO::Update)
+void Update__7JOBGOTO(struct S *p) {
     int s;
     func_001EEF98(p);
     if (!(p->p10->nFE8 & 2)) return;
@@ -33,26 +34,26 @@ void func_0017D6C8(struct S *p) {
         case 2:
             {
                 struct T *t = p->p18;
-                if (s == 2 && func_00178D00(t)) {
-                    func_0017D450(p, 3);
+                if (s == 2 && FArrived__9JOBFOLLOW(t)) {
+                    SetState__7JOBGOTOi(p, 3);
                 } else if (g_clock.t - p->fA0 > D_002BE758 || p->nA4 != g_sw.p45CC->n28) {
-                    func_0017DA28(p);
-                } else if (func_001792E8(t)) {
+                    Search__7JOBGOTO(p);
+                } else if (FStuck__9JOBFOLLOW(t)) {
                     float f = t->f34 + D_002BE75C;
                     float hi = func_001E6648(t->p30);
                     p->n80 = 0;
                     p->n84 = 0;
                     func_001E6F10(t->p30, f < hi ? f : hi, p->a90, 0);
                     p->a90[2] = p->p10->p218->f8;
-                    func_0017D450(p, 5);
+                    SetState__7JOBGOTOi(p, 5);
                 }
             }
             break;
         case 3:
-            if (func_0017E570(p->p18)) func_0017DA28(p);
+            if (func_0017E570(p->p18)) Search__7JOBGOTO(p);
             break;
         case 5:
-            if (func_0017EAE8(p->p18)) func_0017DA28(p);
+            if (FDone__11JOBNAVPOINT(p->p18)) Search__7JOBGOTO(p);
             break;
         }
         if (s != p->n30) continue;

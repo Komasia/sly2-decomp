@@ -14,8 +14,8 @@ extern "C"{
  int func_001EF0A8(C*);
  int func_00177D20(C*);
  int func_00177D48(C*);
- int func_00177DC0(const STATE*,const STATE*);
- void func_00176750(C*,const STATE*);
+ int FSameMsg(const STATE*,const STATE*) asm("FSameMsg__FP5AIMSGT0");
+ void React(C*,const STATE*) asm("React__8JOBREACTP5AIMSG");
  void*func_002333B4(void*,int,unsigned int);
  int func_00208B38(P*,P*);
  float func_00208BB0(P*);
@@ -32,7 +32,7 @@ extern "C"{
  void func_00156780(P*);
  void func_00176B80(C*,int,P*);
  int func_0017A9C0(H*);
- int func_0017EAE8(H*);
+ int FDone(H*) asm("FDone__11JOBNAVPOINT");
  int func_0017DE40(H*);
  void func_00177BA0(C*);
 }
@@ -67,7 +67,8 @@ typedef char C_started_Offset[FIELD_OFFSET(C,started)==160?1:-1];
 typedef char C_expires_Offset[FIELD_OFFSET(C,expires)==164?1:-1];
 typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
-extern "C" void func_00177618(C*p){
+// name: SafeHouse port (JOBREACT::Update)
+extern "C" void Update__8JOBREACT(C*p){
  func_001EEF98(p);
  while(!func_001EF0A8(p)){
   STATE previous=p->state;
@@ -85,33 +86,33 @@ extern "C" void func_00177618(C*p){
      else{if(func_00177D48(p))next.kind=16;else next.kind=1;}
     }
    }else next.kind=12;
-   func_00176750(p,&next);break;
+   React(p,&next);break;
   }
   case 2:{
-   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;func_00176750(p,&next);}
+   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;React(p,&next);}
    else{
     P*object=Target(p->actor);
-    if(object){STATE next;Clear(&next);Attack(p,&next,object);func_00176750(p,&next);}
+    if(object){STATE next;Clear(&next);Attack(p,&next,object);React(p,&next);}
     else{
      H*h=p->helper;P*old=h->target;P*selected=func_0020A408(p->actor,old);
      if(selected!=old)func_001725E0(h,selected);
-     else if(func_00172550(h)){STATE next;Clear(&next);next.kind=1;func_00176750(p,&next);}
+     else if(func_00172550(h)){STATE next;Clear(&next);next.kind=1;React(p,&next);}
     }
    }
    break;
   }
   case 3:{
-   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;func_00176750(p,&next);}
+   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;React(p,&next);}
    else if(func_00174FB8(p->helper)){
-    STATE next;Clear(&next);if(FIsBasicDerivedFrom(p->actor,0x3B)){next.kind=13;next.payload.s.object=p->state.payload.s.object;}else{next.kind=4;next.payload.s.object=p->state.payload.s.object;}func_00176750(p,&next);
+    STATE next;Clear(&next);if(FIsBasicDerivedFrom(p->actor,0x3B)){next.kind=13;next.payload.s.object=p->state.payload.s.object;}else{next.kind=4;next.payload.s.object=p->state.payload.s.object;}React(p,&next);
    }
    break;
   }
   case 5:if(func_00171458(p->helper))func_00177BA0(p);break;
   case 4:{
    H*h=p->helper;
-   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;func_00176750(p,&next);}
-   else if(func_00175810(h)){STATE next;Clear(&next);next.kind=1;func_00176750(p,&next);}
+   if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;React(p,&next);}
+   else if(func_00175810(h)){STATE next;Clear(&next);next.kind=1;React(p,&next);}
    else{
     P*object=Target(p->actor);
     if(object!=p->actor->selected){
@@ -124,17 +125,17 @@ extern "C" void func_00177618(C*p){
        if(owner&&owner!=p->actor){next.payload.s.object=owner;next.kind=17;}
       }
      }
-     func_00176750(p,&next);
+     React(p,&next);
     }
    }
    break;
   }
-  case 12:{if(!func_00177D20(p)){STATE next;Clear(&next);next.kind=1;func_00176750(p,&next);}break;}
-  case 0:{STATE next;Clear(&next);next.kind=1;func_00176750(p,&next);break;}
+  case 12:{if(!func_00177D20(p)){STATE next;Clear(&next);next.kind=1;React(p,&next);}break;}
+  case 0:{STATE next;Clear(&next);next.kind=1;React(p,&next);break;}
   case 8:{
    if(func_00174FB8(p->helper)){
     P*object=func_00156B98(g_sw,0,func_001A62E8(p->actor),p->actor);
-    STATE next;Clear(&next);next.kind=2;next.payload.s.object=object;func_00176750(p,&next);func_00156780(object);
+    STATE next;Clear(&next);next.kind=2;next.payload.s.object=object;React(p,&next);func_00156780(object);
    }
    break;
   }
@@ -149,9 +150,9 @@ extern "C" void func_00177618(C*p){
   case 6:if(func_0017A9C0(p->helper))func_00177BA0(p);break;
   case 9:if(func_00174FB8(p->helper))func_00177BA0(p);break;
   case 10:if(func_00174FB8(p->helper))func_00177BA0(p);break;
-  case 19:if(func_0017EAE8(p->helper))func_00177BA0(p);break;
+  case 19:if(FDone(p->helper))func_00177BA0(p);break;
   case 18:if(func_0017DE40(p->helper))func_00177BA0(p);break;
   }
-  if(func_00177DC0(current,&previous))break;
+  if(FSameMsg(current,&previous))break;
  }
 }

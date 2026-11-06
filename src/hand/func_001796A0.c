@@ -1,3 +1,3 @@
 struct S { char pad[0x3C]; int n3C; };
-void func_00174920(struct S *p);
-void func_001796A0(struct S *p) { func_00174920(p); p->n3C = 5; }
+void Init__7JOBMOVE(struct S *p);
+void func_001796A0(struct S *p) { Init__7JOBMOVE(p); p->n3C = 5; }

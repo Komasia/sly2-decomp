@@ -7,7 +7,8 @@ struct S { char pad[0xF08]; struct B *pb; struct D *pd; int nF10; char pad2[0xC]
 qword func_0022FC48(int a, int b, qword v);
 void func_0011BA08(MATRIX3 *pm, qword a, qword b);
 qword func_0011BFF0(MATRIX3 *pm);
-void func_0020ACC0(struct S *p)
+// name: SafeHouse port (UpdateGuardActionAim)
+void UpdateGuardActionAim__FP5GUARD(struct S *p)
 {
     MATRIX3 m;
     qword v, d;

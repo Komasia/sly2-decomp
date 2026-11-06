@@ -9,7 +9,7 @@ extern struct CLOCK g_clock;
 extern char D_003DD040[];
 extern char g_game[];
 void func_001A5E28(struct S *);
-float func_001FE3F8(void *);
+float TMusicTop__FPv(void *);
 void func_00152390(int, int, int, int);
 void func_001619A0(void *, int, struct S *);
 void func_00153640(struct S *, float);
@@ -21,7 +21,7 @@ void func_00152970(struct S *p)
     int i, j;
     struct E *pe;
     func_001A5E28(p);
-    t = func_001FE3F8(D_003DD040);
+    t = TMusicTop__FPv(D_003DD040);
     switch (p->n50) {
     case 1:
         for (j = 0; j < p->c1C0; j++) {

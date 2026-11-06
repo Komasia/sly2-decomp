@@ -9,12 +9,12 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern char D_003DD040[];
 extern char g_sw[];
-void func_001FE738(void *p);
+void StopDialog__FP8SOUNDMGR(void *p);
 void func_001DFEB8(void *p);
 void func_001C8918(struct S *p, int n);
 void func_0020F160(void *p);
 void func_001DAF38(int n, int f);
-int func_001FE5F0(void *p, void *q, int f);
+int PsndStartDialog__FP8SOUNDMGRii(void *p, void *q, int f);
 void func_0020F198(void *p);
 void func_0020F128(void *p);
 void func_0020F1A8(void *p);
@@ -24,7 +24,7 @@ void func_001C8730(struct S *p, int n)
     void *pv;
     if (n == p->x180) return;
     if (p->x1A4) {
-        func_001FE738(D_003DD040);
+        StopDialog__FP8SOUNDMGR(D_003DD040);
         p->x1A4 = 0;
     }
     if (p->x19C)
@@ -38,7 +38,7 @@ void func_001C8730(struct S *p, int n)
         if (p->x200 != -1)
             func_001DAF38(p->x200, 1);
         if (p->x1FC)
-            p->x1A4 = func_001FE5F0(D_003DD040, p->x1FC, 1);
+            p->x1A4 = PsndStartDialog__FP8SOUNDMGRii(D_003DD040, p->x1FC, 1);
         break;
     case 0:
         if (p->x190)
@@ -55,7 +55,7 @@ void func_001C8730(struct S *p, int n)
         func_001C8918(p, 1);
         func_0020F128(g_sw);
         if (p->x1F4)
-            p->x1A4 = func_001FE5F0(D_003DD040, p->x1F4, 0);
+            p->x1A4 = PsndStartDialog__FP8SOUNDMGRii(D_003DD040, p->x1F4, 0);
         break;
     case 1:
         ((void (*)(void *, int))p->vt[79].pf)((char *)p + p->vt[79].d, 1);

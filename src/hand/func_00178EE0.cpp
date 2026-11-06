@@ -1,4 +1,4 @@
-// func_00178EE0 (Claude agent, lane G13, 2026-10-24): laneG10v2 (no pins) + VU_FLOAT(float) qmtc2 constructor building the speed in place, and the 1e-4 length test read with GXOfQw (gcc emits the qmfc2, asm mtc1).
+// Update__9JOBFOLLOW (Claude agent, lane G13, 2026-10-24): laneG10v2 (no pins) + VU_FLOAT(float) qmtc2 constructor building the speed in place, and the 1e-4 length test read with GXOfQw (gcc emits the qmfc2, asm mtc1).
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX3 { float mat[3][4]; };
 struct CLQ { float g0, g1, g2; };
@@ -140,7 +140,8 @@ static inline int FMoved(qword qwPos, qword qwPosLast)
     return D_002BE6B0 < GLength(QwSub(qwPos, qwPosLast));
 }
 
-extern "C" void func_00178EE0(P *p)
+// name: SafeHouse port (JOBFOLLOW::Update)
+extern "C" void Update__9JOBFOLLOW(P *p)
 {
     func_001789F8(p);
     if (p->mode < 2)

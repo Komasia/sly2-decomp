@@ -6,28 +6,29 @@ struct M { int n0; int pad4; int n8; int nC; short h10; short pad12; int pad14[3
 extern struct G D_003DD040;
 extern char g_sw[];
 extern int D_002DD5BC, D_002F7900, D_002E1E40;
-struct S *func_001FD028(struct G *, int);
+struct S *IsoundFromSfxid__FP8SOUNDMGRi(struct G *, int);
 short func_001FD070(struct G *, struct S *);
-void func_001FB658(struct P *, int, int);
-void func_001FB710(struct P *);
+void SetDirty__4CSndUiUi(struct P *, int, int);
+void RemoveActive__4CSnd(struct P *);
 void *func_002333B4(void *, int, int);
 void func_001FBAF8(void);
 void func_00232320(struct M *, void (*)(void), struct P *);
 void func_002322F0(struct M *);
 int func_001C4840(void *);
-void func_001FEED0(struct G *);
-void func_001FBC58(struct P *p)
+void StepSoundMood__FP8SOUNDMGR(struct G *);
+// name: SafeHouse port (CSndPlain::StartIop)
+void StartIop__9CSndPlain(struct P *p)
 {
     struct G *pg = &D_003DD040;
-    struct S *ps = func_001FD028(pg, p->n60);
+    struct S *ps = IsoundFromSfxid__FP8SOUNDMGRi(pg, p->n60);
     struct M m;
     int id;
     if (!ps || !pg->nE8) {
-        func_001FB658(p, 0x1FFF, 0);
+        SetDirty__4CSndUiUi(p, 0x1FFF, 0);
         return;
     }
     if (p->f50 & 2) {
-        func_001FB710(p);
+        RemoveActive__4CSnd(p);
         return;
     }
     func_002333B4(&m, 0, 0x30);
@@ -50,16 +51,16 @@ void func_001FBC58(struct P *p)
         p->n52 = 1;
         p->pvt[1].pfn((char *)p + p->pvt[1].d);
         func_00232320(&m, func_001FBAF8, p);
-        func_001FB658(p, 0x7F, 0);
+        SetDirty__4CSndUiUi(p, 0x7F, 0);
         return;
     }
     id = 0;
     func_002322F0(&m);
-    func_001FB658(p, 0x1FFF, 0);
+    SetDirty__4CSndUiUi(p, 0x1FFF, 0);
     switch (p->n60) {
     case 0x6F: id = D_002E1E40; break;
     case 0x73: id = D_002DD5BC; break;
     case 0x15: id = D_002F7900; break;
     }
-    if (id == func_001C4840(g_sw)) func_001FEED0(&D_003DD040);
+    if (id == func_001C4840(g_sw)) StepSoundMood__FP8SOUNDMGR(&D_003DD040);
 }

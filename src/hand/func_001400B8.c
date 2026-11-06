@@ -26,7 +26,7 @@ int func_0015E650(struct G *, int, int, struct P *, int, void **);
 void *PvAllocSwClearImpl__Fi(struct AREQ *);
 void func_00141EF8(struct P *);
 void func_001440D0(struct P *, int);
-int func_001F8278(struct P *);
+int PtargetrecOf__FP2LO(struct P *);
 void SetSoMass__FP2SOf(struct P *, float);
 qword func_001A62E8(struct P *);
 struct M3 *func_001A6318(struct P *);
@@ -75,7 +75,7 @@ void func_001400B8(struct P *p)
     }
     func_00141EF8(p);
     func_001440D0(p, g_sw.grf & 4);
-    p->x1088 = func_001F8278(p);
+    p->x1088 = PtargetrecOf__FP2LO(p);
     SetSoMass__FP2SOf(p, 0.25f);
     if (p->pso->x94 == 0) {
         qword q = func_001A62E8(p);

@@ -1623,7 +1623,7 @@ extern "C" {
 qword func_00190C58(JT *pjt);
 }
 extern "C" {
-void func_001FB3F0(SND *psnd, qword qwPos);
+void SetPosition(SND *psnd, qword qwPos) asm("SetPosition__4CSndG9VU_VECTOR");
 }
 extern "C" {
 void GuardCapVelocityForPounce(STEPGUARD *pguard);
@@ -2258,7 +2258,7 @@ void SetJtJts(JT *pjt, JTS jts, JTBS jtbs)
     {
         SND *psnd = MakeSnd(sfxid);
         SetSndOwner(psnd, 0);
-        func_001FB3F0(psnd, PosLoWorld(pjt));
+        SetPosition(psnd, PosLoWorld(pjt));
     }
     if (!fKeep)
     {
