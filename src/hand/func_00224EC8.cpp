@@ -14,12 +14,12 @@ extern float D_002A97A8;
 extern O *D_002E1E40;
 extern int D_002C4398[];
 extern "C" {
-void func_0012E460(void **);
+void DeleteCtrl(void **) asm("DeleteCtrl__FPP4CTRL");
 void func_00134320(WORLD *,S *);
 void SetAloCnstrLin(S *,int) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(S *,int) asm("SetAloCnstrAng__FP3ALOi");
 qword func_0011BFF0(const void *);
-void *func_0012DC18(S *,NODE *,int,int,int,qword);
+void *PctrlNewPos(S *,NODE *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 int func_00224688(S *);
 qword func_0022FCC8(NODE *,NODE *,qword);
 M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
@@ -64,8 +64,8 @@ extern "C" void func_00224EC8(S *p,int state){
  int old=p->state;
  if(state==old)return;
  p->state=state;p->time=g_clock.t;p->sentinel=-1;
- func_0012E460(&p->positionJob);
- func_0012E460(&p->rotationJob);
+ DeleteCtrl(&p->positionJob);
+ DeleteCtrl(&p->rotationJob);
  if(old==0||old==4)func_00134320(&g_sw,p);
  switch(p->state){
  case 0:{
@@ -73,8 +73,8 @@ extern "C" void func_00224EC8(S *p,int state){
   ZeroVelocity(p->positionNode);ZeroVelocity(p->rotationNode);
   qword position=p->positionNode->orientation;
   qword rotation=func_0011BFF0(p->rotationNode);
-  p->positionJob=func_0012DC18(p,p->positionNode,0,7,2,position);
-  p->rotationJob=func_0012DC18(p,p->rotationNode,0,7,2,rotation);
+  p->positionJob=PctrlNewPos(p,p->positionNode,0,7,2,position);
+  p->rotationJob=PctrlNewPos(p,p->rotationNode,0,7,2,rotation);
   func_00134320(&g_sw,p);
   break;
  }
@@ -85,7 +85,7 @@ extern "C" void func_00224EC8(S *p,int state){
    qword direction=Normalize(ToVF(func_0022FCC8(0,p->rotationNode->parent,p->direction)));
    qword rawUp=func_0022FCC8(0,p->rotationNode->parent,g_normalZ);
    M3 basis;basis=MakeBasis(direction,rawUp);
-   p->rotationJob=func_0012DC18(p,p->rotationNode,0,7,2,func_0011BFF0(&basis));
+   p->rotationJob=PctrlNewPos(p,p->rotationNode,0,7,2,func_0011BFF0(&basis));
   }
   break;
  }

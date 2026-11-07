@@ -28,7 +28,7 @@ qword func_0022FCC8(void*,void*,qword);
 float func_002458F0(float,float);
 float RadNormalize(float) asm("RadNormalize__Ff");
 int func_0011D910(LM*,float);
-void func_001C02D0(void*,qword,qword,void*);
+void FNavPathCrv(void*,qword,qword,void*) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 void func_001E7380(void*,qword,void*,qword*,float,qword*,float*,float*);
 float func_001E6648(void*);
 float GSuck(void*) asm("GSuck__FPv");
@@ -127,7 +127,7 @@ dispatch:
   else if(D_002BE820<Length(QwSub(self,p->previousSelf)))refresh=1;
   else if(D_002BE824<g_clock.t-p->stamp)refresh=1;
   if(refresh){
-   func_001C02D0(p->binding,self,target,p->curve);
+   FNavPathCrv(p->binding,self,target,p->curve);
    p->progress=0.0f;
    p->previousTarget=target;
    p->previousSelf=self;

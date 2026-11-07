@@ -6,10 +6,10 @@ struct S { char pad[0x10]; struct O *pParent; int pad14; int cid; char pad2[0x7C
            struct A *pa; int nA4; int pad4[1]; struct O *pAC; char eB0[4]; int hB4; char pad5[0xC0 - 0xB8]; void *pC0; };
 void PostLoLoad__FP2LO(struct S *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *o, int n);
-void func_00209130(void *pe, struct O *o);
+void ResolveKinde__FP5KINDEP5GUARD(void *pe, struct O *o);
 void *func_001F4C58(struct O *o, int a, int b);
 float *func_0012F938(int h, int a);
-void func_001300B8(int h, struct O *o, int a, int b, struct L *pl, int c, float f, float g);
+void CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(int h, struct O *o, int a, int b, struct L *pl, int c, float f, float g);
 // name: SafeHouse port (PostLoadGuardAction)
 void PostLoadGuardAction__FP2LO(struct S *p)
 {
@@ -18,7 +18,7 @@ void PostLoadGuardAction__FP2LO(struct S *p)
     for (o = p->pParent; o && !FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x38); o = o->pParent)
         ;
     p->pAC = o;
-    func_00209130(p->eB0, o);
+    ResolveKinde__FP5KINDEP5GUARD(p->eB0, o);
     if (p->cid != 0x2CC)
         p->pC0 = p->eB0;
     if (p->a != -1) {
@@ -29,7 +29,7 @@ void PostLoadGuardAction__FP2LO(struct S *p)
         p->nA4 = (int)func_001F4C58(p->pAC, p->b, 6);
         h = p->hB4;
         pf = func_0012F938(h, p->c);
-        func_001300B8(h, p->pAC, p->nA4, p->pa->nA0, &l, 0, *pf, 1.0f);
+        CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(h, p->pAC, p->nA4, p->pa->nA0, &l, 0, *pf, 1.0f);
         p->v90 = l.v;
     }
 }

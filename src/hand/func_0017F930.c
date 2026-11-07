@@ -18,7 +18,7 @@ void UpdateSo__FP2SOf(struct S *p);
 int FShipSegmentDone__FP2LO(struct S *p);
 void SetShipState__FP2LOi(struct S *p, int n);
 qword func_0011E1A0(float a, float b, float c);
-void func_0012D108(void *p, qword q);
+void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword q);
 void func_001F0660(void *p, int n);
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 void SetVolume__4CSndf(struct M *p, float g);
@@ -50,7 +50,7 @@ void UpdateShip__FP2LO(struct S *p) {
         v = Make(0.0f, 0.0f, p->p150->g28); u.q = v;
         for (i = 0; i < p->n230; i++) {
             struct E *e = &p->a234[i];
-            if (e->pC) func_0012D108(e->pC, v);
+            if (e->pC) SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(e->pC, v);
             if (e->p14) {
                 if (0.0f < p->p150->g2C) func_001F0660(e->p14, 0x68);
                 else func_001F0660(e->p14, 0x66);

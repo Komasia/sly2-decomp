@@ -5,10 +5,11 @@ struct P : B { int x10; struct Q *pq; int x18; float g1C; float g20; char pad2[0
     char pad3[0x50 - 0x44]; int i50; };
 struct G { P *p; G(P *pp) : p(pp) { p->Begin(); } ~G() { p->End(); } };
 extern "C" {
-void func_00131290(struct P *p, struct E *pe);
+void FireAsegaEvent(struct P *p, struct E *pe) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
 int func_00131968(struct P *p);
 }
-extern "C" void func_00131100(struct P *p)
+// name: SafeHouse port (FireAsegaStartEvents)
+extern "C" void FireAsegaStartEvents__FP5ASEGA(struct P *p)
 {
     if (p->pq->c) {
     G g(p);
@@ -30,7 +31,7 @@ extern "C" void func_00131100(struct P *p)
         switch (pe->k) {
         case 7: case 8: case 11: case 13: case 14: case 15: case 16:
         case 21: case 22: case 23: case 24:
-            func_00131290(p, pe);
+            FireAsegaEvent(p, pe);
             break;
         }
     }

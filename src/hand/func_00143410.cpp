@@ -39,7 +39,8 @@ static inline void *Alloc(int cb)
     AREQ req(cb, 0x10);
     return PvAllocStackImpl(req);
 }
-extern "C" KEY *func_00143410(int id)
+// name: SafeHouse port (AkeyStandHeldBy)
+extern "C" KEY *AkeyStandHeldBy__Fi(int id)
 {
     unsigned short as[8];
     KEY key;

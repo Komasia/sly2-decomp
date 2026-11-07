@@ -29,12 +29,12 @@ void func_0011C950(M3 *a, M3 *b, void *p, M3 *out, int n, float g);
 qword func_0011BFF0(M3 *pm);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
 qword *func_00256D18(qword *p, qword v);
-void func_0014E168(struct CM *p, M4 *m);
+void SetCmPosMat__FP2CMP6VECTOR(struct CM *p, M4 *m);
 void SetCmFov__FP2CMf(struct CM *p, float g);
 void func_0011BC88(M4 *pm, float *pa, float *pb);
 qword PosEye__6CPFREE(struct X *p);
 qword PosFocus__6CPFREE(struct X *p);
-void func_0014E1A8(struct CM *p, qword a, qword b, float c, float d);
+void SetCmLookAt__FP2CMG9VU_VECTORT1ff(struct CM *p, qword a, qword b, float c, float d);
 
 static __inline__ float GClamp(float g, float gMin, float gMax)
 {
@@ -93,7 +93,7 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
         m4.af[1][3] = 0.0f;
         m4.af[0][3] = 0.0f;
         pm4->af[3][3] = 1.0f;
-        func_0014E168(&g_cm, pm4);
+        SetCmPosMat__FP2CMP6VECTOR(&g_cm, pm4);
         SetCmFov__FP2CMf(&g_cm, p->g70);
         func_0011BC88(pm4, &p->gA4, &p->gA8);
         }
@@ -109,7 +109,7 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
             qword a = p->q20;
             p->q20 = func_0011F088(a, PosFocus__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
         }
-        func_0014E1A8(&g_cm, p->q30, p->q20, 0.0f, 0.0f);
+        SetCmLookAt__FP2CMG9VU_VECTORT1ff(&g_cm, p->q30, p->q20, 0.0f, 0.0f);
     }
     D_003E1BE0 = g_clock.t;
 }

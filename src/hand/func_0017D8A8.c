@@ -14,7 +14,7 @@ struct S {
 };
 qword func_001A62E8(struct A *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct V2 *p, qword v);
-void *func_001C0D70(qword v, int n);
+void *PregionAt__FG9VU_VECTORi(qword v, int n);
 int func_001C21D8(void *a, struct A *b, qword v, int c, int d, struct I **pp);
 void func_001C0940(void *a, qword v, qword *pv, int n);
 void func_0017D8A8(struct S *p) {
@@ -28,7 +28,7 @@ void func_0017D8A8(struct S *p) {
         void *q = d ? d->p10 : 0;
         void *r;
         int fail;
-        r = func_001C0D70(v, 0);
+        r = PregionAt__FG9VU_VECTORi(v, 0);
         fail = 0;
         if (r == 0) {
             fail = 1;

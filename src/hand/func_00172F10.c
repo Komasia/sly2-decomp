@@ -8,7 +8,8 @@ struct S { char pad[0x18]; void *p18; char pad2[0x20]; float g3C; char pad3[0x10
 int NArrived__7JOBGOTO(void *p);
 void func_002562A8(struct Q2 *pq);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct Q2 *pq);
-void func_00172F10(struct S *p) {
+// name: SafeHouse port (JOBINVESTIGATE::NextSearchPlace)
+void NextSearchPlace__14JOBINVESTIGATE(struct S *p) {
     void *p18;
     struct E *pe;
     struct Q2 q;

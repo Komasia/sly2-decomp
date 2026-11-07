@@ -14,13 +14,13 @@ extern float D_002C43F4;
 extern "C" void func_00229738(struct O *po, struct N *node);
 extern "C" void *func_00205458(struct O *po, int k);
 extern "C" void func_0017A8C8(void *pv, int k);
-extern "C" void func_0012D108(void *pv, qword q);
+extern "C" void SetCtrlPos(void *pv, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 extern "C" void func_00224EC8(struct P *p, int k);
 extern "C" qword func_001A62E8(void *p);
 extern "C" qword SourcePosition(void * source) __asm__("func_001A62E8");
 
 extern "C" int func_0015E9C8(struct G *pg, int a, int b, int c, int cMax, struct O **apo);
-extern "C" int func_00206EB0(struct O *po, int k);
+extern "C" int FGuardModeAllowed(struct O *po, int k) asm("FGuardModeAllowed__FP5GUARDi");
 extern "C" void func_00229710(struct O *po, struct N *node);
 extern "C" void func_00209E28(struct O *po, int k);
 static __inline__ float GDist(qword a, qword b)
@@ -59,7 +59,7 @@ extern "C" void func_00225660(struct P *p, int k)
         if (pv)
             func_0017A8C8(pv, 2);
         if (p->po->xFC4)
-            func_0012D108(p->po->xFC4, D_002A2DE0);
+            SetCtrlPos(p->po->xFC4, D_002A2DE0);
         p->po = 0;
     }
     func_00224EC8(p, k);
@@ -75,7 +75,7 @@ extern "C" void func_00225660(struct P *p, int k)
         poBest = 0;
         for (i = 0; i < c; i++) {
             struct O *po = apo[i];
-            if (func_00206EB0(po, 0xB)) {
+            if (FGuardModeAllowed(po, 0xB)) {
                 float g = GDist(func_001A62E8(po), pos);
                 if (g < gBest) {
                     gBest = g;

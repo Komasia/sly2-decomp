@@ -11,7 +11,8 @@ static __inline__ void AddV(qword *pd, qword *ps)
     __asm__ ("vadd.xyzw %0, %0, %1" : "+j"(a) : "j"(b));
     *pd = a;
 }
-void func_0012D958(T2 *p)
+// name: SafeHouse port (CTRLSOURCE::Fetch)
+void Fetch__10CTRLSOURCE(T2 *p)
 {
     O *po = p->po;
     if (po) {

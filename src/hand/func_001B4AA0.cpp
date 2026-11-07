@@ -51,7 +51,7 @@ extern "C" int func_001938C0(void*,unsigned,int);
 extern "C" void func_00197500(void*);
 extern "C" int func_00143D20(P*,float);
 extern "C" void func_001911A8(void*);
-extern "C" void func_001A12F0(void*);
+extern "C" void UpdateDamageTransitions(void*) asm("UpdateDamageTransitions__FP5ACTOR");
 extern "C" void UpdateMurrayFlop(P*) asm("UpdateMurrayFlop__FP6MURRAY");
 extern "C" void func_001B5380(P*);
 extern "C" void UpdateMurrayHold(P*) asm("UpdateMurrayHold__FP6MURRAY");
@@ -120,7 +120,7 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
    }
    break;
   case 13:func_001911A8(&p->gate);break;
-  case 14:func_001A12F0(p->action);break;
+  case 14:UpdateDamageTransitions(p->action);break;
   case 3:UpdateMurrayFlop(p);break;
   case 5:func_001B5380(p);break;
   case 6:UpdateMurrayHold(p);break;

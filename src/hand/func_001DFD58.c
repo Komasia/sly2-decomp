@@ -18,12 +18,13 @@ struct OBJ {
     int x7C;
 };
 void func_001E02C0(OBJ *);
-void *func_001E5AE0(OBJ *, void *, int);
-void func_001E1C40(void *);
+void *PrunNew__FP2LOPvP3RUN(OBJ *, void *, int);
+void RunRun__FP4PRUN(void *);
 int FIsDlEmpty__FP2DL(DL *);
-void func_001DFEB8(OBJ *);
+void StopScptImpl__FP2LO(OBJ *);
 void func_001A6CA8(OBJ *, int);
-void func_001DFD58(OBJ *p, int n)
+// name: SafeHouse port (StartScptImpl)
+void StartScptImpl__FP2LOi(OBJ *p, int n)
 {
     int fl;
     if (p->x74)
@@ -38,11 +39,11 @@ void func_001DFD58(OBJ *p, int n)
         func_001E02C0(p);
         p->x7C = 0;
     }
-    func_001E1C40(func_001E5AE0(p, p->x54, 0));
+    RunRun__FP4PRUN(PrunNew__FP2LOPvP3RUN(p, p->x54, 0));
     if (!p->x74)
         return;
     if (FIsDlEmpty__FP2DL(&p->dl)) {
-        func_001DFEB8(p);
+        StopScptImpl__FP2LO(p);
         return;
     }
     fl = p->x40;

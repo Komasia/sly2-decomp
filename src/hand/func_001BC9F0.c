@@ -15,7 +15,8 @@ static __inline__ float GDistPlane(qword plane, qword pos)
     d.q = td;
     return dist;
 }
-int func_001BC9F0(struct X *p, qword pos)
+// name: SafeHouse port (FPolyContains)
+int FPolyContains__FP7NAVPOLYG9VU_VECTOR(struct X *p, qword pos)
 {
     int i;
     func_001BD400(p);

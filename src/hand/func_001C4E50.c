@@ -5,7 +5,8 @@ extern float D_002A7710;
 void InitSo__FP2SO(struct S *p);
 void SetAloXpBytes__FP3ALOUiUc(struct S *p, int a, int b);
 static inline int FPtr(int v) { return !(v & 1); }
-void func_001C4E50(struct S *p)
+// name: SafeHouse port (InitPickup)
+void InitPickup__FP2LO(struct S *p)
 {
     int v;
     InitSo__FP2SO(p);

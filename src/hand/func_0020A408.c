@@ -7,21 +7,22 @@ struct X { int a; int b; };
 extern struct { char pad[0x148C]; struct O *first; } D_003E0000;
 extern float g_clock;
 extern float D_002C3DB0;
-int func_00208D70(struct S *p);
-int func_0020A168(struct S *p, struct O *a, struct O *b);
+int FGuardFreeN__FP5GUARD(struct S *p);
+int NCompareNoises__FP5GUARDP5NOISET1(struct S *p, struct O *a, struct O *b);
 struct X *func_00154180(void *p, int n);
 void func_00154080(void *p, struct X *x, int n);
 
-struct O *func_0020A408(struct S *p, struct O *def)
+// name: SafeHouse port (PloGuardInterest)
+struct O *PloGuardInterest__FP5GUARDP2LO(struct S *p, struct O *def)
 {
     struct O *o, *best;
     int unused[4];
-    if (!func_00208D70(p))
+    if (!FGuardFreeN__FP5GUARD(p))
         return def;
     best = def;
     for (o = D_003E0000.first; o; o = o->next) {
         if (p->vt->e[89].pf((char *)p + p->vt->e[89].d, o)) {
-            if (!best || func_0020A168(p, o, best) < 0)
+            if (!best || NCompareNoises__FP5GUARDP5NOISET1(p, o, best) < 0)
                 best = o;
         }
     }

@@ -14,8 +14,8 @@ int func_0011D4D0(float, float, float);
 float RadNormalize__Ff(float);
 qword func_0011BFF0(void *);
 int func_0014FD50(void *);
-void func_0014E4C8(void *, int, int, void *, int, int);
-void func_0014E328(void *, int, void *, int, void *);
+void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(void *, int, int, void *, int, int);
+void SetCmPolicy__FP2CM3CPPP5CPLCYii(void *, int, void *, int, void *);
 static inline float X(qword q) { float f; __asm__("mtc1 %1, %0" : "=f"(f) : "r"(q)); return f; }
 static inline float Y(qword q) { float f; __asm__("prot3w %0, %1" : "=r"(f) : "r"(q)); return f; }
 static inline float Z(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
@@ -23,7 +23,8 @@ static inline int FNear(qword a, qword b)
 {
     return func_0011D4D0(X(b), X(a), 0.0001f) && func_0011D4D0(Y(b), Y(a), 0.0001f) && func_0011D4D0(Z(b), Z(a), 0.0001f);
 }
-void func_001E57A0(struct P *p, struct A *pa, struct A *pb, float t)
+// name: SafeHouse port (StartRunCamera)
+void StartRunCamera__FP3RUNP7SCPTCMDT1f(struct P *p, struct A *pa, struct A *pb, float t)
 {
     float tBase;
     int i;
@@ -65,6 +66,6 @@ void func_001E57A0(struct P *p, struct A *pa, struct A *pb, float t)
     if (p->sub.f8C == 0.0f)
         p->sub.f8C = D_002A8124;
     if (func_0014FD50(g_cm.m500))
-        func_0014E4C8(&g_cm, 2, 10, g_cm.m500, 0, g_cm.n510);
-    func_0014E328(&g_cm, 10, g_cm.m500, 0, &p->sub);
+        RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(&g_cm, 2, 10, g_cm.m500, 0, g_cm.n510);
+    SetCmPolicy__FP2CM3CPPP5CPLCYii(&g_cm, 10, g_cm.m500, 0, &p->sub);
 }

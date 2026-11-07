@@ -3,6 +3,6 @@
 
 void func_001E1810(RELAY *prelay, int idMusic)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_StopMusic, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_StopMusic, 1);
     prelaycmd->u.stopMusic.idMusic = idMusic;
 }

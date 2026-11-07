@@ -8,98 +8,99 @@ void func_001EEF98(struct S *p);
 int func_001EF0A8(struct S *p);
 int func_00174FB8(void *p);
 int func_00209098(void *p);
-int func_00172658(struct S *p);
-qword func_00172760(struct S *p);
+int FNear__14JOBINVESTIGATE(struct S *p);
+qword PosNoise__14JOBINVESTIGATE(struct S *p);
 qword func_001A62E8(void *p);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 int NArrived__7JOBGOTO(void *p);
 int FStuck__7JOBGOTO(void *p);
-void func_00172320(struct S *p, int n);
-void func_00172560(struct S *p);
-void func_00172F10(struct S *p);
+void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n);
+void SetDeadlines__14JOBINVESTIGATE(struct S *p);
+void NextSearchPlace__14JOBINVESTIGATE(struct S *p);
 float func_002458F0(float y, float x);
-void func_00209818(void *p, float f);
+void SetMoveHeading__FP7MOVEREF(void *p, float f);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
-void func_00172018(struct S *p) {
+// name: SafeHouse port (JOBINVESTIGATE::Update)
+void Update__14JOBINVESTIGATE(struct S *p) {
     int s;
     func_001EEF98(p);
     while (!func_001EF0A8(p)) {
         s = p->n30;
         switch (s) {
         case 0:
-            if (func_00174FB8(p->p18)) func_00172320(p, 1);
+            if (func_00174FB8(p->p18)) SetInvestigateState__14JOBINVESTIGATEi(p, 1);
             break;
         case 1:
             if (func_00209098(p->p10)) {
-                func_00172320(p, 5);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 5);
             } else if (p->n48) {
-                if (func_00172658(p)) {
-                    func_00172320(p, 2);
+                if (FNear__14JOBINVESTIGATE(p)) {
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 2);
                 } else {
-                    qword v = func_00172760(p);
+                    qword v = PosNoise__14JOBINVESTIGATE(p);
                     struct X x;
                     func_002562A8(&x);
                     x.v = v;
                     SetGoal__7JOBGOTOP4GOAL(p->p18, &x);
                 }
                 p->n48 = 0;
-            } else if (func_00172658(p) || NArrived__7JOBGOTO(p->p18) || FStuck__7JOBGOTO(p->p18)) {
-                func_00172320(p, 2);
+            } else if (FNear__14JOBINVESTIGATE(p) || NArrived__7JOBGOTO(p->p18) || FStuck__7JOBGOTO(p->p18)) {
+                SetInvestigateState__14JOBINVESTIGATEi(p, 2);
             }
             break;
         case 2:
             if (func_00209098(p->p10)) {
-                func_00172320(p, 5);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 5);
             } else if (p->n48) {
-                if (func_00172658(p)) {
-                    func_00172560(p);
+                if (FNear__14JOBINVESTIGATE(p)) {
+                    SetDeadlines__14JOBINVESTIGATE(p);
                 } else {
-                    func_00172320(p, 1);
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 1);
                 }
                 p->n48 = 0;
             } else if (p->f38 < g_clock.t || func_00174FB8(p->p18)) {
-                func_00172320(p, 4);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 4);
             } else if (g_clock.t > p->f3C) {
-                func_00172320(p, 3);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 3);
             } else {
-                qword a = func_00172760(p);
+                qword a = PosNoise__14JOBINVESTIGATE(p);
                 qword b = func_001A62E8(p->p10);
                 qword d;
                 __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-                func_00209818(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
+                SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
             }
             break;
         case 3:
             if (func_00209098(p->p10)) {
-                func_00172320(p, 5);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 5);
             } else if (p->n48) {
-                if (func_00172658(p)) {
-                    func_00172320(p, 2);
+                if (FNear__14JOBINVESTIGATE(p)) {
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 2);
                 } else {
-                    func_00172320(p, 1);
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 1);
                 }
                 p->n48 = 0;
             } else if (p->f38 < g_clock.t) {
-                func_00172320(p, 4);
+                SetInvestigateState__14JOBINVESTIGATEi(p, 4);
             } else {
-                func_00172F10(p);
+                NextSearchPlace__14JOBINVESTIGATE(p);
             }
             break;
         case 5:
-            if (!func_00209098(p->p10)) func_00172320(p, 1);
+            if (!func_00209098(p->p10)) SetInvestigateState__14JOBINVESTIGATEi(p, 1);
             break;
         case 4:
             if (p->n48) {
-                if (func_00172658(p)) {
-                    func_00172320(p, 2);
+                if (FNear__14JOBINVESTIGATE(p)) {
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 2);
                 } else {
-                    func_00172320(p, 1);
+                    SetInvestigateState__14JOBINVESTIGATEi(p, 1);
                 }
                 p->n48 = 0;
             } else if (func_00174FB8(p->p18)) {
-                func_00172320(p, -1);
+                SetInvestigateState__14JOBINVESTIGATEi(p, -1);
             }
             break;
         }

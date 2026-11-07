@@ -13,7 +13,7 @@ float func_002458F0(float y, float x);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
 void func_00204660(struct LO *po, float g);
 int func_0019A098(struct LO *po, int n, float g);
-void func_001A15D0(struct S *s);
+void EndDamageReaction__FP5ACTOR(struct S *s);
 static inline float GClamp(float g, float lo, float hi)
 {
     float r;
@@ -22,7 +22,8 @@ static inline float GClamp(float g, float lo, float hi)
     else r = g;
     return r;
 }
-void func_001A1358(struct S *s)
+// name: SafeHouse port (UpdateDamage)
+void UpdateDamage__FP5ACTOR(struct S *s)
 {
     if (s->x90 != -1) {
         float u;
@@ -55,9 +56,9 @@ done:
         g = func_002458F0(v.f[1], v.f[0]) + 3.1415927f;
         func_00204660(s->po, func_0011D2D0(D_002BFAC0, 0, s->po->x1A8, g, g_clock.dt));
         if (0.25f < g_clock.t - s->x8 && s->po->x208)
-            func_001A15D0(s);
+            EndDamageReaction__FP5ACTOR(s);
         else if (func_0019A098(s->po, 0, s->x8))
-            func_001A15D0(s);
+            EndDamageReaction__FP5ACTOR(s);
         break;
     }
     }

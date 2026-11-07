@@ -5,7 +5,8 @@ struct S { char pad[0x3C]; struct A *pa; };
 extern struct E *D_003E1398;
 int func_001C9950(int id);
 int func_001C9958(int id);
-int func_001CB658(struct S *p)
+// name: SafeHouse port (PproxyOfInstance)
+int PproxyOfInstance__FP2LO(struct S *p)
 {
     struct A *pa = p->pa;
     int i, j;

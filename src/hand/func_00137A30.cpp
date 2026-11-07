@@ -30,8 +30,8 @@ void *PvAllocStackClearImpl(const AREQ &req) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocSwClearImpl(const AREQ &req) asm("PvAllocSwClearImpl__Fi");
 OBJ *func_0012B3B0(int id);
 OBJ *func_0012CB98(int id);
-void func_0012FE58(X *px, void *p, ENT *pent, int *pa, void **ppb);
-qword func_0022CA18(void *pa, void *pb);
+void GetAsegChannelTarget(X *px, void *p, ENT *pent, int *pa, void **ppb) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
+qword VecXfValue(void *pa, void *pb) asm("VecXfValue__FP2XFP7MATRIX4");
 void func_00256EE0(X *px, int n);
 void func_001384C0(X *px);
 void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **ppx);
@@ -116,8 +116,8 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             if (!pentNew->pobj) {
             int a; void *pv;
             pobj = func_0012B3B0(5);
-            func_0012FE58(pxNew, p, pentNew, &a, &pv);
-            pobj->q10 = func_0022CA18(pv, pv);
+            GetAsegChannelTarget(pxNew, p, pentNew, &a, &pv);
+            pobj->q10 = VecXfValue(pv, pv);
             pobj->px = pxNew;
             pobj->ae3 = pxNew->ae3;
             pobj->apobj = (OBJ **)PvAllocSwClearImpl(AREQ(c * 4));

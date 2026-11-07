@@ -13,7 +13,7 @@ qword func_0011E9F8(qword,float);
 qword func_001A62E8(struct O*);
 struct M3*func_001A6318(struct O*);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct O*,struct O*,qword);
-void func_001A0B40(struct P*,int);
+void SetDamageState__FP5ACTORi(struct P*,int);
 static inline float Max(float a,float b){return a>b?a:b;}
 static inline qword Scalar(float f){qword q;int bits;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Word(float f){qword q;__asm__("mfc1 %0,%1":"=r"(q):"f"(f));return q;}
@@ -48,7 +48,8 @@ static inline qword Difference(U*first,qword target){
     __asm__("lqc2 %0,%2\n\tqmtc2.ni %3,%1":"=j"(a),"=j"(b):"m"(first->q),"r"(target));
     __asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;
 }
-void func_001A16C8(struct P*p){
+// name: SafeHouse port (ApplyDamageVelocity)
+void ApplyDamageVelocity__FP5ACTOR(struct P*p){
     U output=p->velocity;
     U scratch,scalar;
     U selfPosition,targetPosition,negative,otherPosition;
@@ -118,5 +119,5 @@ void func_001A16C8(struct P*p){
         struct VT*vt=object->vt;
         ((void(*)(void*,qword))vt[35].fn)((char*)object+vt[35].delta,output.q);
     }
-    func_001A0B40(p,7);
+    SetDamageState__FP5ACTORi(p,7);
 }

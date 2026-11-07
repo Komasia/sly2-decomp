@@ -1,6 +1,7 @@
 struct S { char pad[0x394]; int n; int a[1]; };
 void *func_002332B8(void *d, void *s, int n);
-void func_00208728(struct S *p, int x)
+// name: SafeHouse port (RemoveTargetClass)
+void RemoveTargetClass__FPvi(struct S *p, int x)
 {
     int i;
     for (i = 0; i < p->n; i++) {

@@ -8,8 +8,8 @@ struct S { char pad[0x10]; struct O *p10; char pad2[0x1C]; int n30; float g34; c
 void func_00209788(void *p, struct S *ps);
 void func_00209790(void *p, struct S *ps);
 int func_00209A68(struct O *o, int n);
-void func_00209278(struct E *e, struct O *o, int n, float g);
-void func_00209360(struct E *e);
+void PlayKinde__FP5KINDEP5GUARDif(struct E *e, struct O *o, int n, float g);
+void StopKinde__FP5KINDE(struct E *e);
 void func_001EF038(struct S *p);
 // name: SafeHouse port (JOBMOVE::SetMoveState)
 void SetMoveState__7JOBMOVEi(struct S *p, int n) {
@@ -24,7 +24,7 @@ void SetMoveState__7JOBMOVEi(struct S *p, int n) {
             f = p->pe->pa->g74 * p->p10->gFF0;
         else
             f = 0.0f;
-        func_00209278(p->pe, p->p10, p->pe->nC | 1, f);
+        PlayKinde__FP5KINDEP5GUARDif(p->pe, p->p10, p->pe->nC | 1, f);
         break;
     }
     case 1:
@@ -34,7 +34,7 @@ void SetMoveState__7JOBMOVEi(struct S *p, int n) {
                 p->p10->gFF0 = p->pe->pb->g1C / p->pe->pa->g74;
                 p->p10->gFF4 = g_clock.t;
             }
-            func_00209360(p->pe);
+            StopKinde__FP5KINDE(p->pe);
             p->pe = 0;
             func_00209790(p->p10->aFD0, p);
         }

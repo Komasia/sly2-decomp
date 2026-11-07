@@ -14,10 +14,10 @@ extern CLOCK g_clock;extern qword g_normalZ;
 extern float D_002BF288,D_002BF28C,D_002BF290,D_002BF294;
 void func_001F9B20(P*);void func_00204108(P*);
 void func_001903B8(P*);void func_0019DF70(void*);void func_00196DF8(void*);
-void func_001A1148(void*);void func_00194170(void*);void UpdateSlyDodgeMotion(void*) asm("UpdateSlyDodgeMotion__FP3SLY");
+void UpdateDamageMotion(void*) asm("UpdateDamageMotion__FP5ACTOR");void func_00194170(void*);void UpdateSlyDodgeMotion(void*) asm("UpdateSlyDodgeMotion__FP3SLY");
 qword VelActorAnimRoot(P*,MODEL*,float) asm("VelActorAnimRoot__FP5ACTORPvf");float GEventAseg11(void*,int) asm("GEventAseg11__Fv");
 void func_001FAC30(P*,qword);qword func_0011E9F8(qword,float);
-M4*func_001A6318(P*);float func_0011E290(qword,qword,qword*,qword*);
+M4*func_001A6318(P*);float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 M3 func_0011B500(qword,float);
 }
 struct VU_FLOAT{qword qw;};
@@ -39,7 +39,7 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  case 3:func_001903B8(p);break;
  case 8:func_0019DF70((char*)p+0xF50);break;
  case 2:func_00196DF8((char*)p+0x2C0);break;
- case 4:func_001A1148((char*)p+0xDF0);break;
+ case 4:UpdateDamageMotion((char*)p+0xDF0);break;
  case 7:func_00194170((char*)p+0x4C0);break;
  case 6:UpdateSlyDodgeMotion((char*)p+0x1FF0);break;
  case 14:{
@@ -59,7 +59,7 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
    VTE*e=&p->vt[33];qword position=((qword(*)(void*))e->fn)((char*)p+e->delta);
    e=&p->vt[34];qword direction=((qword(*)(void*))e->fn)((char*)p+e->delta);
    M4*m=func_001A6318(p);M3 basis;basis.r[0]=m->r[0];basis.r[1]=m->r[1];basis.r[2]=m->r[2];
-   float projection=func_0011E290(position,basis.r[0].q,&w.a.q,&w.b.q);
+   float projection=GSplitVector(position,basis.r[0].q,&w.a.q,&w.b.q);
    float dt=g_clock.dt;
    float gAlong=projection-D_002BF290*dt;
    float gPerp=1.0f-D_002BF294*dt;

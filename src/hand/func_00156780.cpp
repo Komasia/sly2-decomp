@@ -16,7 +16,8 @@ public:
     CRefGuard(O *p) : m_p(p) { p->AddRef(); }
     ~CRefGuard() { m_p->Release(); }
 };
-extern "C" void func_00156780(O *o)
+// name: SafeHouse port (RemoveNoise)
+extern "C" void RemoveNoise__FP5NOISE(O *o)
 {
     if (func_00156870(o))
         return;

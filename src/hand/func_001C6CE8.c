@@ -3,7 +3,8 @@ struct LO { char pad[0xC]; struct VTE *vt; };
 void *func_0015E938(void *p, int a, int id, int b);
 struct LO *func_001CB250(void *pg, int n);
 void func_001CB488(void *pg, struct LO *plo);
-int func_001C6CE8(void *p, int kind, int n, struct LO **aplo)
+// name: SafeHouse port (CpickupInstances)
+int CpickupInstances__FPviiPP2LO(void *p, int kind, int n, struct LO **aplo)
 {
     int id, i, c;
     void *pg;

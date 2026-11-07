@@ -27,7 +27,7 @@ void SetGuardPursued(W *pw, void *p) asm("SetGuardPursued__FP5GUARDP2LO");
 int func_001BBE48(SO *p);
 int func_0015E9C8(G *pg, int a, int b, void *c, int d, SO **apso);
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
-qword func_0011E208(float a, float b, float c);
+qword SetVectorSphere(float a, float b, float c) asm("SetVectorSphere__Ffff");
 float func_0011E4B0(qword a, qword b, void *p);
 float func_002458F0(float y, float x);
 qword func_0011E1A0(float a, float b, float c);
@@ -127,7 +127,7 @@ void func_0014A4D0(P *p)
                 float pan = GRandInRange(-3.1415927f, 3.1415927f);
                 float tilt = GRandInRange(-3.1415927f, 3.1415927f);
                 register qword q asm("vf3"); /* register pin: the target's vadd writes posT's new value to vf3 */
-                q = Add(posT, func_0011E208(pan, tilt, GRandInRange(0.0f, r)));
+                q = Add(posT, SetVectorSphere(pan, tilt, GRandInRange(0.0f, r)));
                 qword e = SubX(q, posMe);
                 posT = q;
                 if (FLess(Len2(e), Len2(d))) {

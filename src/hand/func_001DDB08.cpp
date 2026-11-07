@@ -18,7 +18,7 @@ CRef func_00258200(void *, const CRef &, G *);
 void StartPlayerCounters(void *, int) asm("StartPlayerCounters__FP5ACTORi");
 void func_00165E38(G *);
 }
-/* The unused third parameter is deliberate: it is the same SetPv form as func_0013D328 / func_00143AF0,
+/* The unused third parameter is deliberate: it is the same SetPv form as func_0013D328 / AkeyReturnBooty,
    and the dummy makes gcc keep the %hi/%lo of D_003D4A60 in s0 across the whole function. */
 static inline void SetPv(void *pv, const CRef &r, void *) { CRef arg(r); const CRef &ret = func_00258200(pv, arg, &D_003D4A60); }
 extern "C" void func_001DDB08(void)

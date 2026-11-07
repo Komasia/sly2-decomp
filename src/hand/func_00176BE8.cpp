@@ -41,7 +41,7 @@ int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001B9DB8(OBJECT*,qword);
 void func_001B9D28(OBJECT*,qword);
 OBJECT*func_00156698(void*,qword,OBJECT*);
-void func_00207030(OBJECT*,int);
+void SetGuardMode(OBJECT*,int) asm("SetGuardMode__FP5GUARDi");
 void SetAloEntryMode(OBJECT*,int) asm("SetAloEntryMode__FP3ALOi");
 unsigned func_001F78D8(OBJECT*,unsigned);
 int func_001F78A0(unsigned);
@@ -51,7 +51,7 @@ void func_001305B8(ASEG*,OBJECT*,float,float,int,ASEGA**);
 unsigned long func_00207A20(int);
 int func_0020A378(OBJECT*,OBJECT*,unsigned long);
 int func_0020A298(OBJECT*,OBJECT*,unsigned long);
-void*func_00209AD0(OBJECT*,unsigned long);
+void*PkindeBest(OBJECT*,unsigned long) asm("PkindeBest__FP5GUARDUl");
 int func_001EF0B8(S*,int,MSG*);
 }
 static __inline__ void Clear(STATE*s){(void)func_002333B4(s,0,sizeof(*s));}
@@ -80,7 +80,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   Clear(&w.next);w.next.kind=11;w.next.msg=*msg;w.next.msg.data.flags=0x40;
   React(p,&w.next);return 1;
  }
- switch(p->actor->mode){case 14:func_00207030(p->actor,-1);break;case 8:case 13:msg->data.amount<<=2;break;}
+ switch(p->actor->mode){case 14:SetGuardMode(p->actor,-1);break;case 8:case 13:msg->data.amount<<=2;break;}
  if(p->actor->suppressAmount)msg->data.amount=0;
  if(p->actor->extraGate&&p->current.kind!=11&&p->current.kind!=5&&(msg->data.kind==0x4000||msg->data.kind==0x2000)){
   SetAloEntryMode(p->actor,0);Clear(&w.next);w.next.kind=19;React(p,&w.next);return 1;
@@ -116,11 +116,11 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
  }
  if(msg->data.kind==0x1000000&&(msg->data.flags&8)){
   Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
-  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);func_00207030(p->actor,8);goto finish;
+  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);SetGuardMode(p->actor,8);goto finish;
  }
  if(msg->data.kind==0x2000000&&(msg->data.flags&8)){
   Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
-  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);func_00207030(p->actor,0x22);goto finish;
+  w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);SetGuardMode(p->actor,0x22);goto finish;
  }
  originalFlags=msg->data.flags;
  if(!(originalFlags&0xF0))goto finish;
@@ -138,7 +138,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   flags&=~0x20;
   int type=Slot(p->actor,msg->data.kind,0x8D0)->kind;
   if(type==-1&&Slot(p->actor,msg->data.kind,0xA70)->kind!=type){flags&=~0x80;flags|=0x20;}
-  if(Slot(p->actor,msg->data.kind,0x8D0)->kind==-1&&!func_00209AD0(p->actor,func_00207A20(6))){flags&=~0x80;flags|=0x20;}
+  if(Slot(p->actor,msg->data.kind,0x8D0)->kind==-1&&!PkindeBest(p->actor,func_00207A20(6))){flags&=~0x80;flags|=0x20;}
  }
  if(flags&0x10){
   if(p->actor->capacity>0){
@@ -183,7 +183,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
    }
    qword normalized=Normalize(direction);*(qword*)&w.scalar=Scalar(500.0f);
    selected->data.direction=ScaleInPlace(normalized,w.scalar.q);
-  }else if(p->actor->mode==-1&&FIsBasicDerivedFrom(selected->data.object,0x38)&&selected->data.object->mode==0x22)func_00207030(p->actor,0x22);
+  }else if(p->actor->mode==-1&&FIsBasicDerivedFrom(selected->data.object,0x38)&&selected->data.object->mode==0x22)SetGuardMode(p->actor,0x22);
   p->current.kind=-1;React(p,&w.next);
  }
 finish:

@@ -19,14 +19,14 @@ void func_002267C0(struct S *p);
 void func_001C4468(struct L *pl);
 void AgeSwContacts__FPv(struct S *p);
 void func_0019F120(struct S *p);
-void func_00130918(void *pv);
-void func_00156728(void *pv);
+void UpdateAsega__FP5ASEGA(void *pv);
+void ExpireNoises__FPv(void *pv);
 void func_001F8DD8(struct S *p);
-void func_001BE1E8(void);
+void UpdateNavPolys__Fv(void);
 void func_001EC968(void);
 void UpdateSave__FP4SAVE(void *pv);
 void UpdateSoundMgr__FPv(void *pv);
-void func_0014D478(void *pv);
+void UpdateCm__FP2CM(void *pv);
 void func_0020F7E0(struct S *p);
 void func_00128148(void *pv);
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -69,13 +69,13 @@ void func_00226550(struct S *p)
         func_0019F120(p);
         InitDli(&dli, &p->dl);
         while ((pv = PvNextDli(&dli)) != 0)
-            func_00130918(pv);
+            UpdateAsega__FP5ASEGA(pv);
         InitDli(&dli2, &p->dl2);
         while ((pv = PvNextDli(&dli2)) != 0)
-            func_00156728(pv);
+            ExpireNoises__FPv(pv);
         func_00149C80(p);
         func_001F8DD8(p);
-        func_001BE1E8();
+        UpdateNavPolys__Fv();
         func_001EC968();
         func_00149C80(p);
         s_pdliFirst = dli.m_pdliNext;
@@ -83,7 +83,7 @@ void func_00226550(struct S *p)
     UpdateSave__FP4SAVE(D_002E65E0);
     UpdateSoundMgr__FPv(D_003DD040);
     if (0.0f < g_clock.g10)
-        func_0014D478(g_cm);
+        UpdateCm__FP2CM(g_cm);
     func_0020F7E0(p);
     func_00128148(D_002DD598);
 }

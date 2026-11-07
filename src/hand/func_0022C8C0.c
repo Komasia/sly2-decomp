@@ -8,7 +8,8 @@ struct S { M4 m; char pad[0x94 - 0x40]; int k; };
 void *func_0023320C(void *d, void *s, int n);
 M3 *func_0011B628(M3 *pm, qword v);
 VU *func_00256D18(VU *pv, qword q);
-M4 *func_0022C8C0(M4 *pm, struct S *p, qword v)
+// name: SafeHouse port (MatXfWithValue)
+M4 *MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR(M4 *pm, struct S *p, qword v)
 {
     switch (p->k) {
     case 0: case 8: case 13: case 14: case 15:

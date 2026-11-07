@@ -26,7 +26,7 @@ struct P{
 union PHASE{qword direction;U scalar;};
 extern qword D_002A2DD0;extern char g_sw[];
 extern float D_002BF3C0,D_002BF3C4,D_002BF3C8,D_002BF3CC,D_002BF35C;
-float func_00204740(struct P*);float RadNormalize__Ff(float);
+float RadStepHeading__FP4STEP(struct P*);float RadNormalize__Ff(float);
 void func_00194A40(void*,struct P*,unsigned int);
 void func_0018B2C0(struct P*);void func_0018A8C8(struct P*);void UpdateSlyButtons__FP3SLY(struct P*);
 struct BINDING*func_0012FF10(void*,struct P*,void*,int);
@@ -38,7 +38,7 @@ int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword Vel
 void func_00131A00(struct MODEL*,float);void func_00204660(struct P*,float);
 void func_001441E8(struct P*,float);void func_0018C250(struct P*,int,int);
 float func_0011CFE0(float,float);void func_001384C0(void*);
-void func_001A1358(void*);void func_0019FC30(struct P*);int func_00131968(void*);void func_001306A8(void**);
+void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int func_00131968(void*);void func_001306A8(void**);
 static inline void*At(struct P*p,int offset){return(char*)p+offset;}
 static inline void ReadBinding(struct BINDING*b,struct MODEL*m,qword*out){
  struct COMPONENT*c=b->component;struct VTE*entry=&c->vt[3];
@@ -70,7 +70,7 @@ static inline float Z(qword q){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(
 // name: SafeHouse port (UpdateSlyInput)
 void UpdateSlyInput__FP3SLY(struct P*p){
  union PHASE phase;U scalar;float initialHeading;
- initialHeading=func_00204740(p);(void)RadNormalize__Ff(p->state->heading-initialHeading);
+ initialHeading=RadStepHeading__FP4STEP(p);(void)RadNormalize__Ff(p->state->heading-initialHeading);
  func_00194A40(g_sw,p,0xFFFF);
  func_0018B2C0(p);func_0018A8C8(p);UpdateSlyButtons__FP3SLY(p);
  switch(p->mode){
@@ -102,7 +102,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  case 24:{
   register float one __asm__("$f20");register float weight __asm__("$f1");qword velocity;struct VTE*entry;
   func_001441E8(p,D_002BF3C4);
-  if(p->submode==12){float angle=RadNormalize__Ff(func_00204740(p)-p->heading);if(__builtin_fabsf(angle)<D_002BF3C8)func_0018C250(p,24,13);}
+  if(p->submode==12){float angle=RadNormalize__Ff(RadStepHeading__FP4STEP(p)-p->heading);if(__builtin_fabsf(angle)<D_002BF3C8)func_0018C250(p,24,13);}
   else func_00204660(p,p->state->heading);
   one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->fn)((char*)p+entry->delta);
   weight=D_002BF3CC*func_0011CFE0(Z(velocity)/(p->factor*D_002BF35C),one);
@@ -111,7 +111,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  }
  case 0:case 1:break;
  }
- func_001A1358(At(p,0xDF0));func_0019FC30(p);
+ UpdateDamage__FP5ACTOR(At(p,0xDF0));UpdateSafeGround__FP5ACTOR(p);
  if(p->animation&&func_00131968(p->animation)){func_001306A8(&p->animation);p->animationKind=-1;}
 }
 

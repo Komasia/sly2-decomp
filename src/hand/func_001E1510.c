@@ -3,6 +3,6 @@
 
 void func_001E1510(RELAY *prelay, int fAsync, float gUnk4)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_TweenTime, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_TweenTime, fAsync);
     prelaycmd->u.tweenTime.gUnk4 = gUnk4;
 }

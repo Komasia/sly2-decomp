@@ -57,7 +57,8 @@ extern M2C_UNK D_003E1518;
 extern M2C_UNK D_003E1530;
 extern s32 D_004425D4;
 
-void func_00161868(s32 arg0) {
+// name: SafeHouse port (ShowCoinCounter)
+void ShowCoinCounter__FP2SW(s32 arg0) {
     void *temp_s0;
     void *temp_v0;
 

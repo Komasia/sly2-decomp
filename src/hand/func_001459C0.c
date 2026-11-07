@@ -11,7 +11,8 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 qword func_001A62E8(void *p);
 int func_001C09A0(struct SO *pso, qword pos, int n);
 int FDropOnGround__FP6VECTORffiPv(qword *ppos, float a, float b, int c, int d);
-int func_001459C0(struct P *p)
+// name: SafeHouse port (JOBCOMPANION::FNeedRecover)
+int FNeedRecover__12JOBCOMPANION(struct P *p)
 {
     struct SO *pso = func_00145AA8(p);
     struct D *pd;

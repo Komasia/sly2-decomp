@@ -4,7 +4,8 @@ typedef union { qword q; float f[4]; } VU;
 struct CLOCK { float t; union { float g; int n; } dt; };
 extern struct CLOCK g_clock;
 struct P { char pad[0x300]; int f300; };
-void func_0014E6D0(struct P *p, qword *ppos, float *pvel, qword target, float k1, float k2)
+// name: SafeHouse port (SpringCm)
+void SpringCm__FP2CMP7VECTOR4T1G9VU_VECTORff(struct P *p, qword *ppos, float *pvel, qword target, float k1, float k2)
 {
     register struct CLOCK *pclock __asm__("v0");
     register qword s1 __asm__("vf3");

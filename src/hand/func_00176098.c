@@ -20,13 +20,13 @@ int FTryAction__9JOBPURSUE(C*);
 int FCanShoot__9JOBPURSUE(C*);
 void SetPursueState__9JOBPURSUEi(C*,int);
 qword func_001A62E8(P*);
-void*func_001C0D70(qword,int);
+void*PregionAt__FG9VU_VECTORi(qword,int);
 void func_002562A8(X*);
 void SetGoal__7JOBGOTOP4GOAL(void*,X*);
 int func_00175748(void*);
 int func_0017B7F8(void*);
 int func_00174FB8(void*);
-void func_0020B140(P*,P*);
+void RaiseGuardAlarm__FP5GUARDP2LO(P*,P*);
 static inline void StorePoint(U*home,qword a){__asm__("sq %1,%0":"=m"(home->q):"r"(a):"memory");}
 static inline float XFloat(qword q){register float f __asm__("$3");__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(q));return f;}
 static inline qword Root(qword q){__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(q));return q;}
@@ -81,7 +81,8 @@ typedef char WORK_frame_Offset[FIELD_OFFSET(WORK,frame)==0?1:-1];
 typedef char WORK_point_Offset[FIELD_OFFSET(WORK,point)==32?1:-1];
 typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
-void func_00176098(C*p){
+// name: SafeHouse port (JOBPURSUE::Update)
+void Update__9JOBPURSUE(C*p){
  WORK work;int old;
  func_001EEF98(p);
  do{
@@ -98,7 +99,7 @@ void func_00176098(C*p){
    current=func_001A62E8(p->actor);
    distance=DistanceXY(p,&work.point,current,&actor,&mode);
    if(mode==8 ||mode==13){SCALE*scale=actor->scale;if(scale)distance/=scale->value;}
-   region=func_001C0D70(work.point.q,1);
+   region=PregionAt__FG9VU_VECTORi(work.point.q,1);
    if(p->state!=0){
     if(p->state!=3)break;
     if(distance<p->actor->close &&region==ActorRegion(p->actor)){SetPursueState__9JOBPURSUEi(p,0);break;}
@@ -131,7 +132,7 @@ void func_00176098(C*p){
   }
  }while(old!=p->state);
  if(p->actor->emit &&old<4 &&old>=0 &&p->actor->time<=g_clock.time &&D_003E1BE8<=g_clock.time)
-  func_0020B140(p->actor,p->target);
+  RaiseGuardAlarm__FP5GUARDP2LO(p->actor,p->target);
 }
 
 typedef char Pointer_Size[sizeof(void*)==4?1:-1];

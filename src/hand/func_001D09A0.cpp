@@ -1,4 +1,4 @@
-/* func_001D09A0 (Claude agent, wave-3 lane 6): particle turning + axis-dependent damping (P: basis rows at 0x40, velocity at 0x90, drag at 0xC4).
+/* MoveRipFlutter__FP4RIPN (Claude agent, wave-3 lane 6): particle turning + axis-dependent damping (P: basis rows at 0x40, velocity at 0x90, drag at 0xC4).
  * Turn the basis and velocity about basis row 1 by a clamped quadratic of vel.row0, split the velocity into the part along the old row 0 and the
  * part across it, normalise the along part (fallback D_002A2DA0 when shorter than 1e-4), blend its length toward a target and damp the
  * across part, update with drag cleared, then restore drag.
@@ -22,8 +22,8 @@ extern CLOCK g_clock;
 extern float D_002C2010[3], D_002C2020[2], D_002C2028, D_002C202C;
 extern qword D_002A2DA0;
 M3 func_0011B500(qword, float);
-float func_0011E290(qword, qword, qword *, qword *);
-void func_001CF0A0(P *);
+float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
+void MoveRip(P *) asm("MoveRip__FP4RIPN");
 }
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -90,7 +90,8 @@ static inline qword NormalizeSafe(qword *pv, const qword *pfallback)
     else *pv = Divide(v, len);
     return len;
 }
-extern "C" void func_001D09A0(P *p)
+// name: SafeHouse port (MoveRipFlutter)
+extern "C" void MoveRipFlutter__FP4RIPN(P *p)
 {
     qword row0 = p->matrix.r[0];
     qword axis = p->matrix.r[1];
@@ -102,13 +103,13 @@ extern "C" void func_001D09A0(P *p)
     float drag = p->drag;
     p->drag = 0.0f;
     struct { qword along, across; } w;
-    func_0011E290(p->vel, row0, &w.along, &w.across);
+    GSplitVector(p->vel, row0, &w.along, &w.across);
     qword len = NormalizeSafe(&w.along, &D_002A2DA0);
     float dt = g_clock.dt;
     g = GetX(len);
     float gAlong = D_002C2028 + (D_002C202C * dt + 1.0f) * (g - D_002C2028);
     float gAcross = drag * dt + 1.0f;
     p->vel = VecCombo(VU_FLOAT(gAlong), VU_VECTOR(w.along), VU_FLOAT(gAcross), VU_VECTOR(w.across));
-    func_001CF0A0(p);
+    MoveRip(p);
     p->drag = drag;
 }

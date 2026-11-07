@@ -5,7 +5,7 @@ struct Q { char pad[0x60]; int n60; };
 int FXfmMoving(int);
 void SetXfMode__FP3ALOP2XFi(void *, struct O *, int);
 qword func_0022FCC8(int, int, qword);
-void func_00230598(void *, struct O *);
+void HoldXfMode(void *, struct O *);
 void MarkAloDirty__FP3ALO(void *);
 void WakeAlo__FP3ALO(void *);
 void SetAloIced__FP3ALOl(void *, int);
@@ -16,7 +16,7 @@ void SetAloAngVelocity__FP3ALOG9VU_VECTOR(struct P *p, qword v)
     if (!FXfmMoving(p->po->k)) SetXfMode__FP3ALOP2XFi(p, p->po, 1);
     po = p->po;
     po->q = func_0022FCC8(((struct Q *)p)->n60, po->nA0, v);
-    func_00230598(p, p->po);
+    HoldXfMode(p, p->po);
     MarkAloDirty__FP3ALO(p);
     WakeAlo__FP3ALO(p);
     SetAloIced__FP3ALOl(p, 0);

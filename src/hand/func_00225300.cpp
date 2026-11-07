@@ -34,8 +34,8 @@ struct M4 *func_001A6318(void *);
 void func_00209840(struct CONTROL *,const struct M3 *);
 qword func_001A62E8(void *);
 void func_0017A8C8(struct R *,int);
-void func_0012D108(void *,qword);
-void func_001C6FD8(void *,int,qword,void *,int);
+void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
+void SpawnPickups(void *,int,qword,void *,int) asm("SpawnPickups__FP6VECTORiG9VU_VECTORPvi");
 void BroadcastTaskEvent(GAME *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 }
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b)); return r; }
@@ -76,10 +76,10 @@ extern "C" void func_00225300(struct S *p) {
                     float t=(g_clock.t-p->time)/D_002C43B0;
                     float g=D_002C43C0[0]+t*(D_002C43C0[1]+t*D_002C43C0[2]);
                     Clamp(&g,&g_lmZeroOne);
-                    func_0012D108(p->actor->color,Splat(g));
+                    SetCtrlPos(p->actor->color,Splat(g));
                 }
                 if(D_002C43B0<g_clock.t-p->time) {
-                    func_001C6FD8(g_sw,0x5D,func_001A62E8(p->source),p,1);
+                    SpawnPickups(g_sw,0x5D,func_001A62E8(p->source),p,1);
                     p->actor->vt[9].fn((char*)p->actor+p->actor->vt[9].d);
                     // PIN: &g_game straight into $a0 keeps %hi(g_game) inside the loop (see the header).
                     register GAME *pgame asm("$4")=&g_game;

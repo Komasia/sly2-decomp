@@ -16,7 +16,7 @@ struct P {
 };
 struct CLOCK { float t,dt; };
 extern struct CLOCK g_clock;
-int func_001A2788(struct P *p,void *o,qword *pos);
+int FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(struct P *p,void *o,qword *pos);
 void func_00228C18(void *o,qword pos,qword *dir,qword *v);
 void func_002297F8(struct P *p,void *o);
 qword func_001A62E8(struct P *p);
@@ -28,7 +28,8 @@ static inline qword Add(qword a,qword b) { qword r; __asm__("vadd.xyzw %0,%1,%2"
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }
 static inline qword Broadcast(int g) { qword r; __asm__("qmtc2.ni %1,%0" : "=j"(r) : "r"(g));return r; }
 static inline qword Scale(qword v,qword k) { qword r; __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(r) : "j"(v),"j"(k));return r; }
-void func_001A28B0(struct P *p,void *o)
+// name: SafeHouse port (ApplyWaterToActor)
+void ApplyWaterToActor__FP3ALOT0(struct P *p,void *o)
 {
  U origin,vel,pos,local,dir,v50,accel,bcast;
  float z,g;
@@ -42,7 +43,7 @@ void func_001A28B0(struct P *p,void *o)
   if(origin.f[2]<0.0f) func_002297F8(p,o);
   break;
  case 3:case 10:
-  if(!func_001A2788(p,o,&pos.q)) break;
+  if(!FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(p,o,&pos.q)) break;
   local.q=Mul(&p->m1B0,&p->v190);
   func_00228C18(o,pos.q,&dir.q,&v50.q);
   v=GetVel(p);

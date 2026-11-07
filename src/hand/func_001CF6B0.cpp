@@ -13,13 +13,13 @@ extern CLOCK g_clock;
 extern char g_sw[];
 extern qword D_002A2DA0,D_002A2DB0,g_normalZ;
 extern "C" {
-O *func_001CE888(void*,void*,void*);
+O *FLaunchHudRip(void*,void*,void*) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 qword func_0022FC48(void*,LO*,qword);
 float GRandInRange(float,float) asm("GRandInRange__Fff");
-void func_0011E2D8(qword,qword,qword,qword*);
+void BuildOrthonormalVectors(qword,qword,qword,qword*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");
 M3 func_0011B628(qword);
 M3 func_0011BA08(qword,qword);
-O *func_001CF6B0(EMIT*,LO*,LO*,qword,qword);
+O *PripDecal(EMIT*,LO*,LO*,qword,qword) asm("PripDecal__FP4RIPNP4RIPGP2LOG9VU_VECTORT3");
 }
 static inline float Polynomial(POLY*p,float t){return p->a+t*(p->b+t*p->c);}
 static inline float Dot(qword a,qword b){qword d,one;float f;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=j"(one):"j"(a),"j"(b));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
@@ -31,10 +31,11 @@ static inline M3 Mul(const M3&a,const M3&b) return r {
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1]));
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
 }
-O *func_001CF6B0(EMIT*p,LO*visual,LO*space,qword position,qword direction){
+// name: SafeHouse port (PripDecal)
+O *PripDecal(EMIT*p,LO*visual,LO*space,qword position,qword direction){
  O*object=0;
  if(visual){
-  object=func_001CE888(g_sw,(void*)10,0);
+  object=FLaunchHudRip(g_sw,(void*)10,0);
   if(object){
    float zero=0.0f;
    U local;local.q=func_0022FC48(0,space,position);
@@ -43,7 +44,7 @@ O *func_001CF6B0(EMIT*p,LO*visual,LO*space,qword position,qword direction){
    object->vt[1].fn((char*)object+object->vt[1].delta,local.q,0,size);
    object->visual=visual;object->duration=5.0f;object->spin=-size;object->space=space;
    M3 frame;frame.r[2]=direction;
-   func_0011E2D8(direction,D_002A2DA0,D_002A2DB0,frame.r);
+   BuildOrthonormalVectors(direction,D_002A2DA0,D_002A2DB0,frame.r);
    U angles;angles.f[1]=zero;angles.f[0]=zero;angles.f[2]=GRandInRange(zero,6.28318548f);
    M3 rotation;
    rotation=func_0011B628(angles.q);

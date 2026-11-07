@@ -12,9 +12,9 @@ typedef struct {
     int x74;
 } OBJ;
 void func_001A5E28(OBJ *);
-void func_001E1C40(void *);
+void RunRun__FP4PRUN(void *);
 int FIsDlEmpty__FP2DL(DL *);
-void func_001DFEB8(OBJ *);
+void StopScptImpl__FP2LO(OBJ *);
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
     pdli->pdl = pdl;
@@ -29,7 +29,8 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->ppv = (void **)((char *)pv + pdli->ibDle);
     return pv;
 }
-void func_001DFC50(OBJ *p)
+// name: SafeHouse port (UpdateScpt)
+void UpdateScpt__FP2LO(OBJ *p)
 {
     DLI dli;
     void *pv;
@@ -46,8 +47,8 @@ void func_001DFC50(OBJ *p)
         p->t += g_clock.a[1];
     InitDli(&dli, &p->dl);
     while ((pv = PvNextDli(&dli)) != 0)
-        func_001E1C40(pv);
+        RunRun__FP4PRUN(pv);
     if (FIsDlEmpty__FP2DL(&p->dl))
-        func_001DFEB8(p);
+        StopScptImpl__FP2LO(p);
     s_pdliFirst = dli.pdliNext;
 }

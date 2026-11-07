@@ -5,7 +5,8 @@ struct O { char pad[0x70]; int c; struct T *at; };
 struct HIT { char pad[0x40]; float g40; float g44; char pad2[0x18]; };
 int func_00118668(struct T *pBegin, struct T *pEnd, qword pos, qword dir, int c, struct HIT *ahit);
 int func_0014C9F8(int c, struct HIT *ahit, int cNew, struct HIT *ahitNew, int cMax, struct HIT *ahitOut, int f);
-int func_0014EA08(int n, struct O **apo, qword pos, qword dir, float *pgMin, float *pgMax, float g)
+// name: SafeHouse port (FFindCmClearInterval)
+int FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f(int n, struct O **apo, qword pos, qword dir, float *pgMin, float *pgMax, float g)
 {
     struct HIT ahit[0x40];
     int c = 0;

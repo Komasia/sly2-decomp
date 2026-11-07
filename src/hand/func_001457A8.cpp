@@ -1,4 +1,4 @@
-// func_001457A8 MATCH (Claude agent for Lilly, T1647, 2026-10-25), from v6 (14).
+// PlanFollow MATCH (Claude agent for Lilly, T1647, 2026-10-25), from v6 (14).
 // Branch 1: VU_FLOAT has a user copy ctor (so the temporary lives at 0x40) and its qmtc2 ctor writes a plain qword
 // local first, then copies it into q (an asm output straight into the member goes through a second stack temp).
 // Branch 2: the VU_FLOAT is loaded with an asm lw from "m"(f) (VU_FLOATM, as in SetSlyDodgeState), and AddScaled takes
@@ -25,10 +25,10 @@ M3 *func_001A6318(void *p);
 M3 func_0011B500(qword axis, float g);
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 E *func_00145AA8(P *p);
-int func_001C02D0(E *pe, qword r, qword v, B *pb);
+int FNavPathCrv(E *pe, qword r, qword v, B *pb) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 void func_001E6180(B *pb);
 void Follow(void *p, B *pb, int n) asm("Follow__9JOBFOLLOWP3CRVi");
-void func_001457A8(P *p);
+void PlanFollow(P *p) asm("PlanFollow__12JOBCOMPANION");
 }
 struct VU_FLOAT { qword q; VU_FLOAT(const VU_FLOAT &s) { q = s.q; } VU_FLOAT(float f) { qword t; __asm__("qmtc2.ni %1, %0" : "=j"(t) : "r"(f)); q = t; } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -63,7 +63,8 @@ static inline qword Add(qword a, qword b)
     return r;
 }
 
-void func_001457A8(P *p)
+// name: SafeHouse port (JOBCOMPANION::PlanFollow)
+void PlanFollow(P *p)
 {
     union { M4 m4; struct { M3 m; qword pos; } s; } u;
     p->q50 = func_001A62E8(p->po);
@@ -90,9 +91,9 @@ void func_001457A8(P *p)
             pb->pq[1] = u.s.pos;
             func_001E6180(pb);
         } else if (func_00145AA8(p) != pe) {
-            func_001C02D0(pe, r, r, pb);
-        } else if (!func_001C02D0(pe, r, u.s.pos, pb)) {
-            func_001C02D0(pe, r, r, pb);
+            FNavPathCrv(pe, r, r, pb);
+        } else if (!FNavPathCrv(pe, r, u.s.pos, pb)) {
+            FNavPathCrv(pe, r, r, pb);
         }
         Follow(p->p18, pb, 0);
     }

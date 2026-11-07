@@ -4,7 +4,8 @@ struct P { char pad[0xA4]; int c; struct O *apo[4]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void *func_002332B8(void *pdst, const void *psrc, unsigned int cb);
 static inline unsigned ByteOffset(int index){register unsigned result __asm__("$4");__asm__("sll %0,%1,2":"=r"(result):"r"(index));return result;}
-void func_001E5280(struct P *p, struct O *po, int a, int b)
+// name: SafeHouse port (ReleaseRunEffects)
+void ReleaseRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
 {
     int i;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x33)) return;

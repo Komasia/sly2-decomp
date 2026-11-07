@@ -8,7 +8,7 @@ void func_0020BD88(void *p, struct S *s);
 void func_0021F388(void *p);
 void AttachActorLook__FP5ACTORi(struct S *p, int n);
 void *func_001F4C58(struct S *p, int a, int b);
-int func_0012DC18(struct S *p, void *a, int b, int c, int d, qword q);
+int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, void *a, int b, int c, int d, qword q);
 void func_001B6078(struct S *p, int n);
 void PostMurrayLoad__FP6MURRAY(struct S *p)
 {
@@ -25,7 +25,7 @@ void PostMurrayLoad__FP6MURRAY(struct S *p)
     AttachActorLook__FP5ACTORi(p, 0x16);
     v = func_001F4C58(p, p->x18, 0xC);
     if (v) {
-        *(int *)(b + 0x1ACC) = func_0012DC18(p, v, 0, 7, 2, D_002A2DE0);
+        *(int *)(b + 0x1ACC) = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, v, 0, 7, 2, D_002A2DE0);
     }
     func_001B6078(p, 0);
 }

@@ -4,14 +4,14 @@ struct T { char pad[0xF64]; void *pF64; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x28]; int n3C; };
 void func_001EEF70(struct S *p);
 void func_0017A8C8(struct S *p, int n);
-void func_0020B210(struct T *t);
+void DetachGuardMove__FP5GUARD(struct T *t);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct T *t, int a, int b, qword q);
 void DetachAloContacts__FP3ALO(struct T *t);
 void func_001EEFC0(struct S *p);
 void func_00153FF8(void *p);
 void func_00154038(void *p, int a, int b);
 void func_0017A730(struct S *p) {
-    func_001EEF70(p); func_0017A8C8(p, 0); func_0020B210(p->pt); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0);
+    func_001EEF70(p); func_0017A8C8(p, 0); DetachGuardMove__FP5GUARD(p->pt); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0);
     DetachAloContacts__FP3ALO(p->pt); func_001EEFC0(p); func_00153FF8(p->pt->pF64);
     if (p->n3C) func_00154038(p->pt->pF64, p->n3C, 2);
 }

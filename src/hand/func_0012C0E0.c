@@ -1,5 +1,6 @@
 typedef struct T { int pad; int c; float *a; } T;
-int func_0012C0E0(T *t, float g)
+// name: SafeHouse port (TRKPA::IkeyFind)
+int IkeyFind__5TRKPAf(T *t, float g)
 {
     int i;
     for (i = 1; i < t->c - 1; i++) {

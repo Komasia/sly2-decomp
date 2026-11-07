@@ -3,5 +3,5 @@
 
 void func_001E1408(RELAY *prelay, int fAsync)
 {
-    func_001E01F8(prelay, RELAYCK_EndJtMode, fAsync);
+    PcmdNew__FP4SCPTii(prelay, RELAYCK_EndJtMode, fAsync);
 }

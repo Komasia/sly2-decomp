@@ -118,7 +118,7 @@ void func_001E7380(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pd
 void func_001E6F10(CURVE *pcrv, float s, VEC *ppos, VEC *pdir);
 int FArrived(S *p) asm("FArrived__9JOBFOLLOW");
 void func_0011EE08(qword a, qword b, qword c, VEC *pv, float *pg0, float *pg1);
-int func_001C0B50(CONTEXT *pctx, qword pos, VEC *pv);
+int FKeepOnNav(CONTEXT *pctx, qword pos, VEC *pv) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
 }
 struct VU_FLOAT
 {
@@ -489,7 +489,7 @@ extern "C" void func_00177F78(S *p)
     {
         VEC posHit;
         VEC vecUnused2;
-        if (func_001C0B50(pctx, posNext, &posHit))
+        if (FKeepOnNav(pctx, posNext, &posHit))
         {
             VEC normal;
             pqwZero = &D_002A2DA0;

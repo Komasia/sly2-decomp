@@ -30,8 +30,8 @@ void func_00142880(P *p);
 void SetActorLookTarget(P *p, int n, S *ps) asm("SetActorLookTarget__FP5ACTORiP2LO");
 void func_001428D8(P *p, S *ps, void **ppv, float *pg, float *pg2);
 int func_0011D910(void *p, float g);
-void func_0012CFE0(Q *pq);
-void func_0012D020(Q *pq);
+void EnsureCtrlAdded(Q *pq) asm("EnsureCtrlAdded__FP4CTRL");
+void EnsureCtrlRemoved(Q *pq) asm("EnsureCtrlRemoved__FP4CTRL");
 qword func_001A62E8(void *p);
 qword ConvertPos(int n, P *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0011E958(qword v, float *pa, float *pb);
@@ -41,7 +41,7 @@ M3 func_0011B500(qword v, float g);
 M3 func_0022FD38(void *pvFrom, void *pvTo, M3 *pm);
 M3 func_0011B340(const M3 *pm);
 qword func_0011BFF0(M3 *pm);
-void func_0012D108(Q *pq, qword q);
+void SetCtrlPos(Q *pq, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void UpdateActorLook(P *p) asm("UpdateActorLook__FP5ACTOR");
 }
 struct VU_VECTOR4 { qword qw; };
@@ -131,16 +131,16 @@ void UpdateActorLook(P *p)
         }
     }
     if (p->n1104 != 0) {
-        func_0012CFE0(p->pq);
+        EnsureCtrlAdded(p->pq);
         pan = p->g1110;
         tilt = p->g1114;
         g = p->g1118;
     } else {
         if (p->p10F8 == 0 || p->n1148 == 0 || !f) {
-            func_0012D020(p->pq);
+            EnsureCtrlRemoved(p->pq);
             return;
         }
-        func_0012CFE0(p->pq);
+        EnsureCtrlAdded(p->pq);
         func_0011E958(ConvertPos(0, p, func_001A62E8(p->p10F8)), &pan, &tilt);
         pan = func_0011D978(&p->lmPan, pan);
         tilt = func_0011D978(&p->lmTilt, tilt);
@@ -164,5 +164,5 @@ void UpdateActorLook(P *p)
     else
         m2 = m0 * p->m1150;
     m2 = func_0022FD38(p->p60, p->pq->p8->pA0, &m2);
-    func_0012D108(p->pq, func_0011BFF0(&m2));
+    SetCtrlPos(p->pq, func_0011BFF0(&m2));
 }

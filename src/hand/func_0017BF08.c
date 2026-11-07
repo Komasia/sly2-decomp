@@ -5,7 +5,7 @@ struct T { char pad[0xE8]; struct B *pE8; char pad2[0x294 - 0xEC]; int n294; cha
 struct S { char pad[0x10]; struct T *pt; };
 void func_001EEF70(struct S *p);
 qword func_001A62E8(void *p);
-void func_001C02D0(void *p, qword a, qword b, int n);
+void FNavPathCrv__FP9NAVREGIONiiP3CRV(void *p, qword a, qword b, int n);
 void SetSurroundState__11JOBSURROUNDi(struct S *p, int n);
 // name: SafeHouse port (JOBSURROUND::Enter)
 void Enter__11JOBSURROUND(struct S *p) {
@@ -14,7 +14,7 @@ void Enter__11JOBSURROUND(struct S *p) {
         struct C *c = p->pt->pE8 ? p->pt->pE8->pDC : 0;
         void *pv = c ? c->p10 : 0;
         qword q = func_001A62E8(p->pt);
-        func_001C02D0(pv, q, func_001A62E8(p->pt), p->pt->n294);
+        FNavPathCrv__FP9NAVREGIONiiP3CRV(pv, q, func_001A62E8(p->pt), p->pt->n294);
         SetSurroundState__11JOBSURROUNDi(p, 1);
     } else {
         SetSurroundState__11JOBSURROUNDi(p, 0);

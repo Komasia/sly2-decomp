@@ -1,6 +1,6 @@
 // func_00139DC0 (0x139DC0): CPU fallback of func_00139AB8 (taken when p->x160 != 0 or D_002BC9C0 is set). For every particle
 // batch in the DLI list at p->dl it copies the live particles (b.w > clock.t) from abuf[i] to abuf[(i + 1) & 1]: x160 0 =
-// velocity transformed by func_0015BFD8's matrix, 1 = plain copy, 2 = func_00117120 path; x43C == 2 updates c.w through
+// velocity transformed by UpdatePsys's matrix, 1 = plain copy, 2 = func_00117120 path; x43C == 2 updates c.w through
 // RadNormalize. It accumulates the bounding box in vMin/vMax and sets p->vF0 = centre, p->g100 = radius + p->g120 (or calls
 // virtual slot 9 when p->c444 drops to 0).
 // MATCH (Claude agent for Lilly, T1677, 2026-10-25): lilly5 (T1673) + the T1675 func_00139AB8 prologue fix: VECTOR is a
@@ -45,7 +45,7 @@ extern struct DLI *s_pdliFirst;
 extern int D_002BC9C0;
 extern "C" {
 void func_00139AB8(struct P *p);
-struct M4 func_0015BFD8(void *p);
+struct M4 UpdatePsys(void *p) asm("UpdatePsys__FP4PSYS");
 void func_00117120(float, float, float, qword, qword, qword, qword, qword *, qword *, int);
 float RadNormalize(float g) asm("RadNormalize__Ff");
 void func_00139098(struct Q *pq);
@@ -87,7 +87,7 @@ void func_00139DC0(struct P *p)
             func_00139AB8(p);
             return;
         }
-        m = func_0015BFD8(p->x170);
+        m = UpdatePsys(p->x170);
     }
     {
     VECTOR vMin = {{{FLT_MAX, FLT_MAX, FLT_MAX}}};

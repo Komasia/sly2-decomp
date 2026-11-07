@@ -3,5 +3,5 @@
 
 void func_001E15F0(RELAY *prelay)
 {
-    func_001E01F8(prelay, RELAYCK_StopLine, 0);
+    PcmdNew__FP4SCPTii(prelay, RELAYCK_StopLine, 0);
 }

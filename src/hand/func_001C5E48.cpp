@@ -36,10 +36,10 @@ public:
 };
 extern "C" {
 void UpdateSo(P *p) asm("UpdateSo__FP2SOf");
-void func_001C6308(P *p);
-void func_001C55E0(P *p);
-void func_001C5D18(P *p);
-void func_001C5E48(P *p);
+void UpdatePickupGlint(P *p) asm("UpdatePickupGlint__FP2LO");
+void UpdatePickupGround(P *p) asm("UpdatePickupGround__FP2LO");
+void TestPickupCollect(P *p) asm("TestPickupCollect__FP2LO");
+void UpdatePickupBase(P *p) asm("UpdatePickupBase__FP2LO");
 }
 static inline float LenSq(qword v)
 {
@@ -49,16 +49,17 @@ static inline float LenSq(qword v)
     __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(t));
     return r;
 }
-void func_001C5E48(P *p)
+// name: SafeHouse port (UpdatePickupBase)
+void UpdatePickupBase(P *p)
 {
     UpdateSo(p);
-    func_001C6308(p);
+    UpdatePickupGlint(p);
     switch (p->state) {
     case 0:
         if (LenSq(p->pos) > 10000.0f)
-            func_001C55E0(p);
+            UpdatePickupGround(p);
     case 5:
-        func_001C5D18(p);
+        TestPickupCollect(p);
         break;
     case 3:
         if (*(float *)((char *)&p->pos + 8) < 0.0f)
@@ -71,8 +72,8 @@ void func_001C5E48(P *p)
         } else if (D_002C0D50 < g_clock.t - p->t154) {
             p->SetState(2);
         } else {
-            func_001C55E0(p);
-            func_001C5D18(p);
+            UpdatePickupGround(p);
+            TestPickupCollect(p);
         }
         break;
     case 1:

@@ -3,6 +3,6 @@
 
 void func_001E1458(RELAY *prelay, int oidObj, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_TweenAimObj, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_TweenAimObj, fAsync);
     prelaycmd->u.tweenAimObj.oidObj = oidObj;
 }

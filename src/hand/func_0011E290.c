@@ -1,5 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
-float func_0011E290(qword a, qword b, qword *ppar, qword *pperp)
+// name: SafeHouse port (GSplitVector)
+float GSplitVector__FG9VU_VECTORT0P6VECTORT2(qword a, qword b, qword *ppar, qword *pperp)
 {
     qword d, one, p;
     float g;

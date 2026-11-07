@@ -6,7 +6,8 @@ int FFindDlEntry__FP2DLPv(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, void *);
 void AppendDlEntry__FP2DLPv(void *, void *);
 void func_001C1440(struct Q *, void *);
-void func_001F37C8(struct P *p, struct Q *q)
+// name: SafeHouse port (SetAloRegion)
+void SetAloRegion__FP3ALOP9NAVREGION(struct P *p, struct Q *q)
 {
     struct O *o = p->pe->po;
     struct Q *old = o->pq;

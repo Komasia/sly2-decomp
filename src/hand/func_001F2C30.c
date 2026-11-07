@@ -9,11 +9,11 @@ struct G { char pad[0x45CC]; struct H *ph; };
 extern struct G g_sw;
 extern struct S8 D_002A8270;
 void OnLoAdd__FP2LO(struct L *);
-void func_0022FAA0(struct L *);
+void UpdateAloXfWorlds__FP3ALO(struct L *);
 void AddAloSoes__FP3ALO(struct L *);
 qword func_001A62E8(struct L *);
-void *func_001C0D70(qword, int);
-void func_001F37C8(struct L *, void *);
+void *PregionAt__FG9VU_VECTORi(qword, int);
+void SetAloRegion__FP3ALOP9NAVREGION(struct L *, void *);
 void func_00149A50(struct G *, struct L *, struct S8, int);
 void OnSoAdd__FP2SO(struct L *p)
 {
@@ -22,7 +22,7 @@ void OnSoAdd__FP2SO(struct L *p)
     int unused[4];
     int v;
     OnLoAdd__FP2LO(p);
-    func_0022FAA0(p);
+    UpdateAloXfWorlds__FP3ALO(p);
     AddAloSoes__FP3ALO(p);
     v = p->v40;
     if ((v ^ 1) & 1) *(int *)v |= 0x14;
@@ -30,7 +30,7 @@ void OnSoAdd__FP2SO(struct L *p)
     pv = p->pe ? p->pe->pDC : 0;
     if (pv) {
         if (g_sw.ph && g_sw.ph->n2C)
-            func_001F37C8(p, func_001C0D70(func_001A62E8(p), 1));
+            SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(func_001A62E8(p), 1));
         else
             func_00149A50(&g_sw, p, D_002A8270, 0);
     }

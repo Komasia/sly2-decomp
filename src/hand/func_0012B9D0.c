@@ -3,11 +3,12 @@ typedef struct VECTOR3 { float x, y, z; } VECTOR3;
 typedef union V3Q { VECTOR3 v; qword q; } V3Q;
 typedef struct KEY { VECTOR3 pos; float t; qword dposIn; qword dposOut; } KEY;
 typedef struct T { int pad; int c; KEY *a; } T;
-int func_0012B6D8(T *t, float g);
+int IkeyFind__5TRKPKf(T *t, float g);
 void func_00117120(float tMax, float t, float s, qword a, qword va, qword b, qword vb, void *ppos, void *pv, int n);
-void func_0012B9D0(T *t, void *pv, void *pdv, float g, float dtScale)
+// name: SafeHouse port (TRKPK::Eval)
+void Eval__5TRKPKP7VECTOR4T1ff(T *t, void *pv, void *pdv, float g, float dtScale)
 {
-    int i = func_0012B6D8(t, g);
+    int i = IkeyFind__5TRKPKf(t, g);
     V3Q u0, u1;
     u0.v = t->a[i - 1].pos;
     u1.v = t->a[i].pos;

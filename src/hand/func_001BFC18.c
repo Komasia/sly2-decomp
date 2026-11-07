@@ -5,9 +5,10 @@ void __10STACKSCOPE(struct CTX *c);
 void _$_10STACKSCOPE(struct CTX *c, int n);
 void *PvAllocStackImpl__Fi(struct REQ *r);
 void func_001AE5A0(void *dst, void *src, int cb);
-int func_001BF900(void *ctx, qword a, qword b, int n);
+int FNavBlocked__FP9NAVREGIONG9VU_VECTORT1i(void *ctx, qword a, qword b, int n);
 static __inline__ void *PvAllocReq(struct REQ *preq, int cb, int nKind) { preq->cb = cb; preq->align = nKind; return PvAllocStackImpl__Fi(preq); }
-void func_001BFC18(void *ctx, int *pc, qword **ap)
+// name: SafeHouse port (SmoothNav)
+void SmoothNav__FP9NAVREGIONPiPPG9VU_VECTOR(void *ctx, int *pc, qword **ap)
 {
     struct CTX c;
     struct REQ req;
@@ -23,7 +24,7 @@ void func_001BFC18(void *ctx, int *pc, qword **ap)
     cur = ap + 1;
     next = ap + 2;
     while (next < end) {
-        if (func_001BF900(ctx, **prev, **next, 0)) {
+        if (FNavBlocked__FP9NAVREGIONG9VU_VECTORT1i(ctx, **prev, **next, 0)) {
             tmp[k] = *cur;
             prev = cur;
             cur = next++;
@@ -34,7 +35,7 @@ void func_001BFC18(void *ctx, int *pc, qword **ap)
     }
     tmp[k] = ap[n - 1];
     k++;
-    if (k < n && k >= 3) func_001BFC18(ctx, &k, tmp);
+    if (k < n && k >= 3) SmoothNav__FP9NAVREGIONPiPPG9VU_VECTOR(ctx, &k, tmp);
     func_001AE5A0(ap, tmp, k * 4);
     *pc = k;
     _$_10STACKSCOPE(&c, 2);

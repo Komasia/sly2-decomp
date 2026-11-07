@@ -17,7 +17,7 @@ extern void func_00226D10(P *);
 extern void func_002270C8(P *, int, void *, int);
 extern void func_00226CA8(P *, int, int);
 extern void func_00226F28(P *, int, int, void *, int);
-extern void func_0014F768(CM *, int, int, MATRIX4 *, MATRIX4 *);
+extern void MatCmStereoEye__FP2CMiP7MATRIX4iPv(CM *, int, int, MATRIX4 *, MATRIX4 *);
 extern void func_001576F0(P *);
 extern void func_0016E1A8(P *, void *, void *);
 void func_00157CF0(P *p, void *a1, void *a2)
@@ -50,9 +50,9 @@ void func_00157CF0(P *p, void *a1, void *a2)
         func_00226F28(p, 0xC, 2, akg, 0);
         if (g_sw.x3E38) {
             if (g_pfrmOpen == D_002DEA50)
-                func_0014F768(pcm, 1, 0, &m1, &m2);
+                MatCmStereoEye__FP2CMiP7MATRIX4iPv(pcm, 1, 0, &m1, &m2);
             else
-                func_0014F768(pcm, 2, 0, &m1, &m2);
+                MatCmStereoEye__FP2CMiP7MATRIX4iPv(pcm, 2, 0, &m1, &m2);
         } else {
             MATRIX4 *pm1 = &pcm->m140;
             MATRIX4 *pm2 = &pcm->m60;

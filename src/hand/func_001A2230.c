@@ -17,7 +17,8 @@ typedef char P_PrefixSize[sizeof(struct P)==3576?1:-1];
 typedef char S_PrefixSize[sizeof(struct S)==148?1:-1];
 typedef char GAME_PrefixSize[sizeof(struct GAME)==15740?1:-1];
 typedef char int_Size[sizeof(int)==4?1:-1];
-int func_001A2230(struct S *s, int n)
+// name: SafeHouse port (FDamageImmune)
+int FDamageImmune__FP5ACTORi(struct S *s, int n)
 {
     if (s->x0->x298)
         return 1;

@@ -17,16 +17,16 @@ extern "C" {
 void func_001333C0(ASEGA *,int);
 qword func_001F5860(ALO *);
 int FIsBasicDerivedFrom(ALO *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_0020B210(ALO *);
+void DetachGuardMove(ALO *) asm("DetachGuardMove__FP5GUARD");
 void func_0020D178(void *);
-float func_00196928(qword,qword,float,float,float,float);
+float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 qword func_0022FC48(SPACE *,SPACE *,qword);
 qword func_0022FCC8(SPACE *,SPACE *,qword);
-void *func_0012DE58(ALO *,SPACE *,int,qword,qword,float);
+void *PctrlNewTarget(ALO *,SPACE *,int,qword,qword,float) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
 void func_00134320(GAME *,ALO *);
 void SetAloGravity(ALO *,qword) asm("SetAloGravity__FP3ALOG9VU_VECTOR");
-void func_00130D30(ASEGA *,int,float,float);
-void func_0020B2A8(ALO *,ALO *,int);
+void SetAsegaTime(ASEGA *,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
+void AttachGuardMove(ALO *,ALO *,int) asm("AttachGuardMove__FP5GUARDP2LOi");
 void func_0020C760(P *);
 void func_0020D1A0(void *);
 }
@@ -57,7 +57,7 @@ extern "C" void func_0020C2F8(P *p,int state)
     case 1:{
         if(FIsBasicDerivedFrom(p->subject,0x38)){
             ALO *subject=p->subject;
-            func_0020B210(subject);
+            DetachGuardMove(subject);
             func_0020D178(subject->control);
         }
         float playbackRate=p->job->playbackRate;
@@ -84,7 +84,7 @@ extern "C" void func_0020C2F8(P *p,int state)
             }else{
                 low=1250.0f;slopeLow=1.1f;high=-1250.0f;slopeHigh=-1.1f;
             }
-            time=func_00196928(delta.q,acceleration.q,low,high,slopeLow,slopeHigh);
+            time=TJumpTo(delta.q,acceleration.q,low,high,slopeLow,slopeHigh);
         }else time=motionTuning->flightTime/playbackRate;
         time=Max(p->tuning->minimumTime/playbackRate,time);
         ALO *subject=p->subject;
@@ -114,17 +114,17 @@ extern "C" void func_0020C2F8(P *p,int state)
               :"j"(timeScalar),"j"(motionVelocity),"m"(launchSubject->space));
             qword position=func_0022FC48(0,parentSpace->parent,target);
             qword speed=func_0022FCC8(0,p->subject->space->parent,finalVelocity.q);
-            p->constraint=func_0012DE58(p->subject,p->subject->space,5,position,speed,p->arrival);
+            p->constraint=PctrlNewTarget(p->subject,p->subject->space,5,position,speed,p->arrival);
             p->subject->flags|=0x04000000ul;
             func_00134320(&g_sw,p->subject);
         }
         SetAloGravity(p->subject,acceleration.q);
         break;
     }
-    case 2:func_00130D30(p->job,0,p->tuning->afterStart,1.0f);break;
+    case 2:SetAsegaTime(p->job,0,p->tuning->afterStart,1.0f);break;
     case 3:
-        func_00130D30(p->job,0,p->tuning->afterEnd,1.0f);
-        if(p->related)func_0020B2A8(p->subject,p->related,p->kind);
+        SetAsegaTime(p->job,0,p->tuning->afterEnd,1.0f);
+        if(p->related)AttachGuardMove(p->subject,p->related,p->kind);
         break;
     case 4:
         if(p->ballistic)func_0020C760(p);

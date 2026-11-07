@@ -9,7 +9,8 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern "C" void *func_002332B8(void *dst, void *src, int cb);
 extern "C" void *func_002333B4(void *p, int v, int cb);
-extern "C" void func_0019FD30(struct P *p, struct S *s, float g)
+// name: SafeHouse port (RecordSafeTarget)
+extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float g)
 {
     int i;
     E *e;

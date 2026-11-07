@@ -7,7 +7,7 @@ extern qword D_002A2DD0;
 extern "C" {
 MATRIX4 func_0011C318(const MATRIX4 &mat);
 MATRIX4 func_0011C168(const MATRIX4 &a, const MATRIX4 &b);
-qword func_0022CA18(Y *py, MATRIX4 mat);
+qword VecXfValue(Y *py, MATRIX4 mat) asm("VecXfValue__FP2XFP7MATRIX4");
 void func_0012DEF0(XX *x);
 }
-void func_0012DEF0(XX *x) { MATRIX4 m; if (x->py->pA0) m = func_0011C168(func_0011C168(func_0011C318(x->py->pA0->mat), x->p1C->mat), x->mat); else m = func_0011C168(x->p1C->mat, x->mat); Y *py = x->py; py->qC0 = func_0022CA18(py, m); x->py->qD0 = D_002A2DD0; x->py->s9A = 3; }
+void func_0012DEF0(XX *x) { MATRIX4 m; if (x->py->pA0) m = func_0011C168(func_0011C168(func_0011C318(x->py->pA0->mat), x->p1C->mat), x->mat); else m = func_0011C168(x->p1C->mat, x->mat); Y *py = x->py; py->qC0 = VecXfValue(py, m); x->py->qD0 = D_002A2DD0; x->py->s9A = 3; }

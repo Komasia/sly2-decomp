@@ -1,4 +1,4 @@
-// func_0014DC58: ported from Lilly's personal Sly 2 decomp (src/P2/cm.c), reduced to the declarations it needs.
+// UpdateCmMat4__FP2CM: ported from Lilly's personal Sly 2 decomp (src/P2/cm.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DE0 (D_002A2DE0), DT_CmJoltMax, SW_CmJolt, g_clock, g_lmZeroOne, s_clqUToUJolt, s_dposJolt, s_rotJolt, s_vecOffset, s_vecRange
 // 0x0014DC58 UpdateCmMat4__FP2CM  (T1386; Sly 1 never matched it)
@@ -435,7 +435,8 @@ static inline float GEvaluateClqLm(CLQ *pclq, LM *plm, float x)
         return gMax;
     return g;
 }
-void UpdateCmMat4(CM *pcm) __asm__("func_0014DC58");
+void UpdateCmMat4(CM *pcm) __asm__("UpdateCmMat4__FP2CM");
+// name: SafeHouse port (UpdateCmMat4)
 void UpdateCmMat4(CM *pcm)
 {
     MATRIX4 matEye;

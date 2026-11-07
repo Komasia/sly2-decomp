@@ -9,8 +9,8 @@ int func_001443D8(struct P *p);
 qword func_001A62E8(struct P *p);
 void *func_00156698(void *a, qword pos, struct P *p);
 int func_00209A68(struct SO *pso, int n);
-int func_00156FE8(struct X *px, void *q);
-void func_00156780(void *q);
+int FListenerHearsNoise__FP2LOP5NOISE(struct X *px, void *q);
+void RemoveNoise__FP5NOISE(void *q);
 // name: SafeHouse port (NActorPerceived)
 int NActorPerceived__FP5ACTOR(struct P *p)
 {
@@ -33,8 +33,8 @@ int NActorPerceived__FP5ACTOR(struct P *p)
     }
     if (r == 0) {
         for (px = D_003E1468; px; px = px->pxNext)
-            if (func_00156FE8(px, q)) { r = 1; break; }
+            if (FListenerHearsNoise__FP2LOP5NOISE(px, q)) { r = 1; break; }
     }
-    func_00156780(q);
+    RemoveNoise__FP5NOISE(q);
     return r;
 }

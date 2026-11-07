@@ -76,8 +76,8 @@ extern "C" {
 extern CLOCK g_clock;
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");                    // GRandInRange
 void *func_002333B4(void *pv, int b, unsigned int cb);          // memset
-void func_0015B428(EMITB *pemitb, EMITX *pemitx, int cpart, VECTOR *apos, VECTOR *av, float *atBirth, float *atDeath,
-                   void *pv1, void *pv2);
+void InsertPsysParticles(EMITB *pemitb, EMITX *pemitx, int cpart, VECTOR *apos, VECTOR *av, float *atBirth, float *atDeath,
+                   void *pv1, void *pv2) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");
 void func_00195368(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand);
 }
 void OnEmitterValuesChanged(EMITTER *pemitter);
@@ -160,6 +160,6 @@ LEmit:
         func_002333B4(&emitx, 0, sizeof(emitx));
         emitx.ppprg = &pemitter->pprg;
         emitx.pemitter = pemitter;
-        func_0015B428(pemitter->pemitb, &emitx, cpart, apos, av, atBirth, atDeath, 0, 0);
+        InsertPsysParticles(pemitter->pemitb, &emitx, cpart, apos, av, atBirth, atDeath, 0, 0);
     }
 }

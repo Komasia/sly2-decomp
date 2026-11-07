@@ -1,7 +1,8 @@
 extern float D_002BFB20, D_002BFB24;
 struct Q { char pad[0x94]; float x94; float x98; };
 struct S { int x0; int x4; };
-void func_001A2100(struct S *p, struct Q *q)
+// name: SafeHouse port (AdjustDamageXp)
+void AdjustDamageXp__FP5ACTORP2XP(struct S *p, struct Q *q)
 {
     switch (p->x4) {
     case 4: case 12:

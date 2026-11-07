@@ -1,4 +1,4 @@
-// MATCH (Claude agent, laneB6, 2026-10-23), from the 116/aligned-25 draft: (1) no f4/f2 locals (`(grf >> 2) & 1` and `grf & 2` at their uses), so the vtable address is hoisted into fp; (2) func_00230018 takes pn as a 3rd argument; (3) pn->xC before pn->x14; (4) floats before pp in the prototype (prologue copy order).
+// MATCH (Claude agent, laneB6, 2026-10-23), from the 116/aligned-25 draft: (1) no f4/f2 locals (`(grf >> 2) & 1` and `grf & 2` at their uses), so the vtable address is hoisted into fp; (2) AddXfCtrl takes pn as a 3rd argument; (3) pn->xC before pn->x14; (4) floats before pp in the prototype (prologue copy order).
 struct VTE { short d; short pad; void (*pfn)(); };
 struct POLY { float a, b, c; };
 struct E60 { unsigned int k; int x4; };
@@ -29,22 +29,23 @@ float GSuck(void *) asm("GSuck__FPv");
 void func_00131A00(P *, float);
 void AppendDlEntry(void *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(P *, int);
-void func_0012FE58(struct T *, int, struct E60 *, int *, int *);
+void GetAsegChannelTarget(struct T *, int, struct E60 *, int *, int *) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 void SetAloIced(int, long) asm("SetAloIced__FP3ALOl");
 void *func_0012E1F0(unsigned int);
-void func_00230018(int, int, void *);
+void AddXfCtrl(int, int, void *) asm("AddXfCtrl__FP3ALOP2XFP4CTRL");
 void func_00130010(struct T *, int, struct E68 *, int *, int *);
 void *func_0012CE50(unsigned int);
-void func_00131990(P *, int);
-void func_00131290(P *, struct EV *);
-void func_00230CF0(P *, int);
-void func_00131100(P *);
+void SetAsegaEventSound(P *, int) asm("SetAsegaEventSound__FP5ASEGAi");
+void FireAsegaEvent(P *, struct EV *) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
+void SnapAsegaXfs(P *, int) asm("SnapAsegaXfs__FP5ASEGAi");
+void FireAsegaStartEvents(P *) asm("FireAsegaStartEvents__FP5ASEGA");
 void func_00130EB0(P *);
 }
 static inline float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
 static inline float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
 
-extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, P **pp)
+// name: SafeHouse port (ApplyAseg)
+extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, float g0, float g1, P **pp)
 {
     P *p = func_0011CCC0(D_003E1224);
     int i, j, k;
@@ -73,7 +74,7 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
         struct E60 *pe = &pt->ae60[i];
         if (!(pe->k & 0x40000000)) {
             int a, b;
-            func_0012FE58(pt, x, pe, &a, &b);
+            GetAsegChannelTarget(pt, x, pe, &a, &b);
             if (b) {
                 SetAloIced(a, 0);
                 struct N34 *pn = (struct N34 *)func_0012E1F0(0x2C);
@@ -90,7 +91,7 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
                 pn->p24 = p;
                 pn->pnNext = p->pn34;
                 p->pn34 = pn;
-                func_00230018(a, b, pn);
+                AddXfCtrl(a, b, pn);
             }
         }
     }
@@ -110,16 +111,16 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
             ((void (*)(P *, int))po->pvt[44].pfn)((P *)((char *)po + po->pvt[44].d), pe->x0);
         }
     }
-    func_00131990(p, pt->x70);
+    SetAsegaEventSound(p, pt->x70);
     p->g20 = g0;
     for (k = 0; k < pt->cev; k++)
-        func_00131290(p, &pt->aev[k]);
+        FireAsegaEvent(p, &pt->aev[k]);
     p->g1C = p->g20;
-    func_00230CF0(p, (grf >> 2) & 1);
+    SnapAsegaXfs(p, (grf >> 2) & 1);
     if (grf & 2) {
         if (p->g40 < 0.0f)
             p->x50 = pt->xA0;
-        func_00131100(p);
+        FireAsegaStartEvents(p);
     } else {
         func_00130EB0(p);
     }

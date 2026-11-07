@@ -32,8 +32,8 @@ extern M2C_UNK D_004435F0;
 
 void func_001A1F68(s32 arg0, s32 arg1) {
     if (*M2C_FIELD(arg0, s32 **, 0x10) > 0) {
-        func_001A0B40(arg0, 0);
+        SetDamageState__FP5ACTORi(arg0, 0);
         return;
     }
-    func_001A0B40(arg0, 8);
+    SetDamageState__FP5ACTORi(arg0, 8);
 }

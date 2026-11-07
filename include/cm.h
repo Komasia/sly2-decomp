@@ -1,7 +1,7 @@
 /* Sly 2 camera (CM, class 135, Sly 1 cm.c) and its camera policies (CPLCY family, Sly 1 cplcy.c).
  *
  * Layout and field names after Lilly's Sly 2 CM (src/hand/func_0014DC58.cpp, "ported from Lilly's personal Sly 2
- * decomp"), checked against the matched code: the CM constructor (func_0014D3D8) builds the policy members at
+ * decomp"), checked against the matched code: the CM constructor (__2CM) builds the policy members at
  * 0x3A0, 0x3B0, 0x450, 0x4A8, 0x4C0, 0x500, 0x520, 0x5F0 and 0x600 and the class is 0x630 bytes; SetCmNearClip /
  * SetCmFarClip / SetCmFov write sNearClip / sFarClip / fov+fovTarget+dfov; the fog setters write 0x240..0x24C.
  * The game's one camera object is g_cm (Lilly: g_cm).

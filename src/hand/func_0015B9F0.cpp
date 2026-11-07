@@ -15,7 +15,7 @@ struct CLOCK { float t; };
 extern "C" {
 extern CLOCK g_clock;
 extern float D_002A5150;
-void func_0015B7E8(int c, EMITB *pemitb, BUF *pb);
+void ChooseEmitParticles(int c, EMITB *pemitb, BUF *pb) asm("ChooseEmitParticles__FiP7EMITTERP3BUF");
 int func_0011D4D0(float g1, float g2, float gEps);
 void func_002309E8(void *p, int n, M4 *pm0, float t, M4 *pm1);
 void func_0011C168(M4 *pmOut, M4 *pmA, M4 *pmB);
@@ -55,7 +55,7 @@ void func_0015B9F0(int c, EMITTER *pemit, TIMES *ptimes, BUF *pb)
     if (!saved)
         psav->x0 = palo->x10;
     pb->f10 = 0;
-    func_0015B7E8(c, palo->pemitb, pb);
+    ChooseEmitParticles(c, palo->pemitb, pb);
     palo->pemitb->f1C = 0;
     tPrev = D_002A5150;
     pv = palo->pvt->pfn((ALO *)((char *)palo + palo->pvt->d), &mWorld);

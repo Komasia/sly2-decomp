@@ -10,8 +10,8 @@ struct X { int x0, x4, x8; VT *vt; char pad[0xE8 - 0x10]; int c; char pad2[0xF4 
 extern "C" {
 void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
 qword func_001A62E8(X *p);
-void *func_001C0D70(qword pos, int n);
-void func_001C1BA0(void *r, X *p);
+void *PregionAt(qword pos, int n) asm("PregionAt__FG9VU_VECTORi");
+void AddPolyToRegion(void *r, X *p) asm("AddPolyToRegion__FP9NAVREGIONP7NAVPOLY");
 }
 extern float D_002A76D0, D_002A76D4;
 static inline void *Alloc(int cb) { return PvAllocStackImpl(AREQ(cb, 0x10)); }
@@ -42,8 +42,8 @@ extern "C" void func_001BD040(X *p)
     }
     p->vmin.f[2] = D_002A76D0;
     p->vmax.f[2] = D_002A76D4;
-    r = func_001C0D70(func_001A62E8(p), 0);
+    r = PregionAt(func_001A62E8(p), 0);
     if (!r)
         return;
-    func_001C1BA0(r, p);
+    AddPolyToRegion(r, p);
 }

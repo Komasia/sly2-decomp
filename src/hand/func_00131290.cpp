@@ -17,15 +17,15 @@ extern char g_joy[];
 void *func_00131270(struct P *);
 void func_00210740(void *, int, int, int, int, void *, void *, struct Q *, void *, float, float, float);
 void func_002108E8(void *, void *, struct Q *, void *);
-void func_0014F750(void *, void *);
+void JoltCm(void *, void *) asm("JoltCm__FP2CMi");
 void TriggerJoyRumbleRumk(void *, void *, float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
 void *func_0015E938(void *, int, void *, void *);
 int func_00132EA0(void *);
-void func_0012F9B8(void *, int, int, int, float, float);
-void func_001DFD58(void *, int);
-void func_00130D30(struct P *, int, float, float);
-void func_00130B18(struct P *);
-void func_00131990(struct P *, int);
+void ApplyAseg(void *, int, int, int, float, float) asm("ApplyAseg__FP4ASEGiiffPP5ASEGA");
+void StartScptImpl(void *, int) asm("StartScptImpl__FP2LOi");
+void SetAsegaTime(struct P *, int, float, float) asm("SetAsegaTime__FP5ASEGAiff");
+void RetractAsega(struct P *) asm("RetractAsega__FP5ASEGA");
+void SetAsegaEventSound(struct P *, int) asm("SetAsegaEventSound__FP5ASEGAi");
 void func_00210338(void *, int, void *, void *, struct Q *, float);
 void func_00210538(void *, int, int, int, void *, struct Q *, float);
 void func_00210408(void *, int, void *, int, void *, void *, struct Q *);
@@ -33,12 +33,13 @@ void func_002104A0(void *, int, void *, int, void *, void *, struct Q *);
 void func_001618F8(void *, float);
 void func_00161958(void *);
 void func_00210678(void *, int, int, void *, struct Q *, float);
-void func_00230CF0(struct P *, void *);
+void SnapAsegaXfs(struct P *, void *) asm("SnapAsegaXfs__FP5ASEGAi");
 void func_001F81E0(void *, int);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00143090(void *, void *, void *, void *);
 }
-extern "C" void func_00131290(struct P *p, struct EV *pev)
+// name: SafeHouse port (FireAsegaEvent)
+extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
 {
     G g(p);
     struct MSG msg;
@@ -61,7 +62,7 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         func_002108E8(g_sw, pev->pv, pq, p->a5C);
         break;
     case 2:
-        func_0014F750(g_cm, pev->pv);
+        JoltCm(g_cm, pev->pv);
         break;
     case 3:
         TriggerJoyRumbleRumk(g_joy, pev->pv, pev->uC.g);
@@ -71,27 +72,27 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         if (po) {
             switch (func_00132EA0(po)) {
             case 0x6D:
-                func_0012F9B8(po, 0, 0, 0, 0.0f, 1.0f);
+                ApplyAseg(po, 0, 0, 0, 0.0f, 1.0f);
                 break;
             case 0x72:
-                func_001DFD58(po, 0);
+                StartScptImpl(po, 0);
                 break;
             }
         }
         break;
     }
     case 5:
-        func_00130D30(p, 0, *(float *)&pev->pv, pev->uC.g);
+        SetAsegaTime(p, 0, *(float *)&pev->pv, pev->uC.g);
         break;
     case 6:
-        func_00130B18(p);
+        RetractAsega(p);
         break;
     case 9:
     case 10:
         {
             int fT = (pev->k == 9);
             fT ^= f;
-            func_00131990(p, fT);
+            SetAsegaEventSound(p, fT);
         }
         break;
     case 7:
@@ -143,7 +144,7 @@ extern "C" void func_00131290(struct P *p, struct EV *pev)
         break;
     }
     case 21:
-        func_00230CF0(p, pev->pv);
+        SnapAsegaXfs(p, pev->pv);
         break;
     case 22:
         func_001F81E0(p->po, (int)pev->pv);

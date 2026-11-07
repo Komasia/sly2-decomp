@@ -12,9 +12,10 @@ void func_001EEF98(struct P *);
 int func_001A61A0(struct Q *);
 qword func_001A62E8(void *);
 qword *func_001A6318(void *);
-void func_00146650(struct P *, int);
+void SetState__16JOBBENTLEYATTACKi(struct P *, int);
 
-void func_001462A8(struct P *p)
+// name: SafeHouse port (JOBBENTLEYATTACK::Update)
+void Update__16JOBBENTLEYATTACK(struct P *p)
 {
     VU d;
     qword a, b, c, l, one, n;
@@ -23,7 +24,7 @@ void func_001462A8(struct P *p)
     if (p->x30 == -1)
         return;
     if (p->p10->xDF4 != -1 || !func_001A61A0(p->p38) || p->p38->x330) {
-        func_00146650(p, -1);
+        SetState__16JOBBENTLEYATTACKi(p, -1);
         return;
     }
     a = func_001A62E8(p->p38);
@@ -64,18 +65,18 @@ void func_001462A8(struct P *p)
                 __asm__("vaddw.x %0, $vf0, $vf0w\n\tvadday.x ACC, %1, %1y\n\tvmaddz.x %1, %0, %1z" : "=&j"(one2), "+j"(t));
                 __asm__("qmfc2.ni %0, %1" : "=r"(dot) : "j"(t));
                 if (0.8f < dot)
-                    func_00146650(p, 2);
+                    SetState__16JOBBENTLEYATTACKi(p, 2);
             } else if (D_002BD358.b < g) {
-                func_00146650(p, 1);
+                SetState__16JOBBENTLEYATTACKi(p, 1);
             }
             break;
         case 1:
             if (g < D_002BD358.a)
-                func_00146650(p, 0);
+                SetState__16JOBBENTLEYATTACKi(p, 0);
             break;
         case 2:
             if (p->p10->x1714 == -1 && 0.1f < g_clock.t - p->x34)
-                func_00146650(p, -1);
+                SetState__16JOBBENTLEYATTACKi(p, -1);
             break;
         }
         if (p->x30 == state)

@@ -17,7 +17,7 @@ struct O;
 extern char D_003D4A60[];
 extern "C" {
 void func_0013C560(void *, int);
-O *func_0013D1A8(S *);
+O *AkeyStand(S *) asm("AkeyStand__FP2LO");
 void func_0013CF38(S *, int);
 CRef func_00258200(O *, const CRef &, void *);
 }
@@ -27,7 +27,7 @@ extern "C" void func_0013D328(S *p, int n)
     if (p->f194) func_0013C560(p->f194, 0);
     FRAME frame;
     {
-        O *po = func_0013D1A8(p);
+        O *po = AkeyStand(p);
         CRef ref(0x15, n);
         SetPv(po, ref, D_003D4A60);
     }

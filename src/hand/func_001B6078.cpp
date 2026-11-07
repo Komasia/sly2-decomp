@@ -78,7 +78,7 @@ void SetMurrayFlopPhase(P *, int) asm("SetMurrayFlopPhase__FP6MURRAYi");
 void ExplodeExpl(OBJ *) asm("ExplodeExpl__FP4EXPL");
 void func_00195FB8(void *, int, int);
 void func_00192BD8(void *, int);
-void func_001A0B40(void *, int);
+void SetDamageState(void *, int) asm("SetDamageState__FP5ACTORi");
 void SetMurrayPunch(P *, int) asm("SetMurrayPunch__FP6MURRAYi");
 void SetMurrayBerserk(P *, int) asm("SetMurrayBerserk__FP6MURRAYi");
 void func_001B93E8(P *, int);
@@ -96,12 +96,12 @@ int func_001DAEA8(int);
 void func_001B5E98(P *);
 qword func_001A62E8(P *);
 void func_002046B0(P *, qword);
-void func_00130658(ASEGA **);
+void RetractAsegaPp(ASEGA **) asm("RetractAsegaPp__FPP5ASEGA");
 void func_001F15B8(COMPONENT **);
 void func_001305B8(ASEG *, P *, float, float, int, ASEGA **);
 void func_001F14F8(void *, P *, int, int, int, COMPONENT **);
 ENTRY *func_0012F938(ASEG *, int);
-void func_00131A90(ASEGA *, float);
+void SetAsegaSeekTime(ASEGA *, float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static inline void *Block(P *p, int offset) { return (void *)((char *)p + offset); }
 // virtual call through slot `index` of an object whose vptr is at +0xC
@@ -134,7 +134,7 @@ extern "C" void func_001B6078(P *p, int next)
         func_00195FB8(Block(p, 0x2C0), -1, 0); break;
     }
     case 13: func_00192BD8(Block(p, 0x4C0), -1); break;
-    case 14: func_001A0B40(Block(p, 0xDF0), -1); break;
+    case 14: SetDamageState(Block(p, 0xDF0), -1); break;
     case 11: SetMurrayPunch(p, -1); break;
     case 12: SetMurrayBerserk(p, -1); break;
     case 4: func_001B93E8(p, -1); break;
@@ -193,12 +193,12 @@ extern "C" void func_001B6078(P *p, int next)
     }
     {
         ASEGA **animation = &p->asega; COMPONENT **component = &p->component; float position = 0.0f;
-        func_00130658(animation); func_001F15B8(component);
+        RetractAsegaPp(animation); func_001F15B8(component);
         func_001305B8(clip, p, position, 1.0f, flags, animation);
         func_001F14F8(source, p, id, flags, mode, component);
         if (clip || source) {
             if (clip) { if (duration == position) { ENTRY *e = func_0012F938(clip, 0x1AC); if (e) duration = e->value; } }
-            if (duration != 0.0f) func_00131A90(p->asega, g_clock.t + duration / p->asega->rate);
+            if (duration != 0.0f) SetAsegaSeekTime(p->asega, g_clock.t + duration / p->asega->rate);
         }
     }
     Call((OBJ *)p, 90);

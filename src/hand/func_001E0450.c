@@ -3,6 +3,6 @@
 
 void func_001E0450(RELAY *prelay, int oidObj)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_SetCtlState, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_SetCtlState, 1);
     prelaycmd->u.setCtlState.oidObj = oidObj;
 }

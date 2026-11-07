@@ -10,7 +10,7 @@ extern float D_002BF298;
 extern float D_002BF29C;
 extern void func_00204250(struct O *p, struct A *pa, void *pv);
 extern void func_0019E9C8(void *p, struct A *pa, void *pv);
-extern void func_001A2100(void *p, struct A *pa, void *pv);
+extern void AdjustDamageXp__FP5ACTORP2XP(void *p, struct A *pa, void *pv);
 extern void func_001374E0(void *p, struct A *pa, void *pv);
 static __inline__ float GClamp(float g, float lo, float hi)
 {
@@ -47,7 +47,7 @@ void OnSlyXpNew__FP3ALOP2XPPv(struct O *p, struct A *pa, void *pv)
         }
         break;
     case 4:
-        func_001A2100(p->aDF0, pa, pv);
+        AdjustDamageXp__FP5ACTORP2XP(p->aDF0, pa, pv);
         break;
     case 6:
         func_001374E0(p->a1FF0, pa, pv);

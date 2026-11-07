@@ -16,7 +16,7 @@ struct OBJ {
     int x74;
     int x78;
 };
-void func_001E5628(void *);
+void RetireRun__FP4PRUN(void *);
 void func_001E0120(OBJ *);
 void func_001A6CA8(OBJ *, int);
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -33,7 +33,8 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->ppv = (void **)((char *)pv + pdli->ibDle);
     return pv;
 }
-void func_001DFEB8(OBJ *p)
+// name: SafeHouse port (StopScptImpl)
+void StopScptImpl__FP2LO(OBJ *p)
 {
     DLI dli;
     void *pv;
@@ -44,7 +45,7 @@ void func_001DFEB8(OBJ *p)
     p->x74 = 0;
     InitDli(&dli, &p->dl);
     while ((pv = PvNextDli(&dli)) != 0)
-        func_001E5628(pv);
+        RetireRun__FP4PRUN(pv);
     func_001E0120(p);
     if (p->x78) {
         func_001A6CA8(p, 2);

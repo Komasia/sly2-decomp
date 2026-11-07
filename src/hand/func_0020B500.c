@@ -5,7 +5,8 @@ struct S { char pad[0x50]; int c; void **apv; };
 void PostLoLoad__FP2LO(struct S *p);
 int func_0015E9C8(struct G *pg, int a, int b, int c, int cMax, void **apv);
 void *PvAllocSwImpl__Fi(ALLOCREQ *preq);
-void func_0020B500(struct S *p)
+// name: SafeHouse port (PostLoadGuardManager)
+void PostLoadGuardManager__FP2LO(struct S *p)
 {
     ALLOCREQ req;
     PostLoLoad__FP2LO(p);

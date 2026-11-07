@@ -32,7 +32,8 @@ static inline void *PvAlloc(int cb, int cbAlign)
     return PvAllocStackImpl__Fi(&al);
 }
 
-qword func_0014EDA0(void *p, int c, struct LO **apo, float (*pfn)(void *, qword, qword, struct X *),
+// name: SafeHouse port (SquishCmEye)
+qword SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff(void *p, int c, struct LO **apo, float (*pfn)(void *, qword, qword, struct X *),
                     qword pos, qword v, float g, float h)
 {
     struct X ax[64];

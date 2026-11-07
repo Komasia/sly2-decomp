@@ -1,4 +1,4 @@
-// func_0015A808: EMITB choose emit position/direction (Claude agent, lanes E3-E11).
+// ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3: EMITB choose emit position/direction (Claude agent, lanes E3-E11).
 // Notes: the unused case-1 VU_VECTOR[3] frees the stack slot that case 3's an[] reuses; VLen = one length-squared asm
 // plus a separate vsqrt asm; Normalize returns its VU_VECTOR by value (gives dir its stack slot).
 typedef int qword __attribute__((mode(TI)));
@@ -95,7 +95,8 @@ static inline VU_VECTOR Normalize(qword d)
     }
     return dir;
 }
-extern "C" void func_0015A808(EMITB *p, int i, int c, qword *ppos, qword *pv)
+// name: SafeHouse port (ChooseEmitPosition)
+extern "C" void ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3(EMITB *p, int i, int c, qword *ppos, qword *pv)
 {
     EP *pep = &p->ep;
     LM *plm;

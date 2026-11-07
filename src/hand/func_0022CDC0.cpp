@@ -17,7 +17,7 @@ extern "C" void *func_002333B4(void *p, int c, int n);
 extern "C" M4 *DmatSkew(M4 *pm, struct O *pa, const M3 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 extern "C" M4 *func_0022CB90(M4 *pr, struct O *pa, const M3 *basis, qword c, qword d);
 extern "C" M4 *DmatOfValue(M4 *pm, struct O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
-extern "C" qword func_0022CA18(struct O *pa, const M4 *matrix);
+extern "C" qword VecXfValue(struct O *pa, const M4 *matrix) asm("VecXfValue__FP2XFP7MATRIX4");
 extern "C" qword func_0011BFF0(const M3 *rotation);
 extern "C" void func_00117120(float g0, float g1, float g2, qword q0, qword q1, qword q2, qword q3, qword *pa, qword *pb, qword *pc);
 static __inline__ void Eval(struct O *po, qword *pa, qword *pb, qword *pc)
@@ -26,7 +26,8 @@ static __inline__ void Eval(struct O *po, qword *pa, qword *pb, qword *pc)
 }
 static inline qword SelectedValue(qword input){qword value;__asm__("por %0,$zero,%1":"=r"(value):"r"(input));return value;}
 static inline qword DefaultPoint(){qword value;__asm__("lq %0,0(%1)":"=r"(value):"0"(&D_002A2DD0),"m"(D_002A2DD0));return value;}
-extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
+// name: SafeHouse port (DmatXf)
+extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
 {
     M4 m, m2;
     switch (po->k98) {
@@ -38,7 +39,7 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
         case 0: case 2: case 3: case 13: case 15:
             break;
         case 8: case 14: {
-            func_0022CDC0(&m, po->source.object);
+            DmatXf__FP2XFPv(&m, po->source.object);
             func_0023320C(pr, &m, 0x40);
             pr->m[3][0] = -pr->m[3][0];
             pr->m[3][1] = -pr->m[3][1];
@@ -60,7 +61,7 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
                     register qword initial __asm__("$2");
                     switch (po->k9A) {
                     case 0:
-                        initial = func_0022CA18(po, &po->local.matrix);
+                        initial = VecXfValue(po, &po->local.matrix);
                         break;
                     case 1:
                         Eval(po, &m.r[0], 0, 0);

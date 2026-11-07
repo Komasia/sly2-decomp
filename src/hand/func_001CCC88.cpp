@@ -20,9 +20,9 @@ extern "C" {
 extern qword D_002C1EE0;
 extern float D_002C1EF0;
 extern CLOCK g_clock;
-void func_0012E460(JOB **);
+void DeleteCtrl(JOB **) asm("DeleteCtrl__FPP4CTRL");
 float GEventAseg11(MOTION *,int) asm("GEventAseg11__Fv");
-void func_001300B8(MOTION *,float,float,LO *,SPACE *,SPACE *,M4 *,M4 *);
+void CalculateAsegMatrices(MOTION *,float,float,LO *,SPACE *,SPACE *,M4 *,M4 *) asm("CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6");
 qword func_001A62E8(LO *);
 qword *func_00256D18(qword *,qword);
 M4 *func_0011C168(M4 *,const M4 *,const M4 *);
@@ -30,14 +30,14 @@ LO *func_001CCA40(LO *,LO *);
 M4 func_001A71B0(LO *,LO *,const M4 *);
 M4 func_0011C318(const M4 *);
 void func_001A58D0(LO *,int,int);
-float func_00196928(qword,qword,float,float,float,float);
+float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 void func_00131A00(ANIM *,float);
 qword func_0022FC48(SPACE *,SPACE *,qword);
 qword func_0022FCC8(SPACE *,SPACE *,qword);
-JOB *func_0012DE58(LO *,CHANNEL *,int,float,qword,qword);
+JOB *PctrlNewTarget(LO *,CHANNEL *,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
 M3 *func_0022FD38(M3 *,SPACE *,SPACE *,const M3 *);
 qword func_0011BFF0(const M3 *);
-JOB *func_0012DC18(LO *,CHANNEL *,int,int,int,qword);
+JOB *PctrlNewPos(LO *,CHANNEL *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void SetAloContactsOff(LO *,int) asm("SetAloContactsOff__FP3ALOi");
 }
 static inline void*operator new(unsigned size,void*destination){return destination;}
@@ -58,11 +58,11 @@ extern "C" void func_001CCC88(P *input,LO *other){
  __asm__("daddu %0,%1,$zero":"=r"(p):"r"(input));
  __asm__("daddu %0,%1,$zero":"=r"(object):"r"(other));
  WORK work;
- func_0012E460(&p->positionJob);register float zero __asm__("$f21")=0.0f;func_0012E460(&p->otherJob);func_0012E460(&p->orientationJob);
+ DeleteCtrl(&p->positionJob);register float zero __asm__("$f21")=0.0f;DeleteCtrl(&p->otherJob);DeleteCtrl(&p->orientationJob);
  ANIM *anim=p->owner->playing;MOTION *motion=anim->motion;
  float time=GEventAseg11(motion,0x1C7),phase=(time-anim->start)/anim->duration;
  SPACE *space=SourceMatrix(p->source,&work.original);register M4*workingBase __asm__("$19")=&work.sample;
- func_001300B8(motion,time,zero,p->owner,space,p->owner->space,SampleOutput(workingBase),0);
+ CalculateAsegMatrices(motion,time,zero,p->owner,space,p->owner->space,SampleOutput(workingBase),0);
  LO *owner=p->owner;
  M4 *start=&work.start;M3 *basis=&owner->basis;register M4*product __asm__("$21");
  qword location=func_001A62E8(owner);
@@ -116,7 +116,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  float limit;qword initialSpeed;DeltaForDuration(work,func_001A62E8(initialOwner),limit,initialSpeed);
  register float negativeLimit __asm__("$f13"),minimum __asm__("$f15"),maximum __asm__("$f14");
  __asm__("neg.s %0,%3\n\t.set noat\n\tlui $at,0xBF80\n\tmtc1 $at,%1\n\t.set at\n\tmov.s %2,%4":"=f"(negativeLimit),"=f"(minimum),"=f"(maximum):"f"(limit),"f"(unit):"$1");
- float duration=Max(phase,func_00196928(work.delta,initialSpeed,limit,negativeLimit,maximum,minimum));
+ float duration=Max(phase,TJumpTo(work.delta,initialSpeed,limit,negativeLimit,maximum,minimum));
  float speed=phase/duration;phase=duration;
  func_00131A00(anim,speed);
  {
@@ -143,14 +143,14 @@ extern "C" void func_001CCC88(P *input,LO *other){
  register CHANNEL*channel __asm__("$5");register qword velocityArgument __asm__("$8"),positionArgument __asm__("$7");register float timeArgument __asm__("$f12");register LO*receiver __asm__("$4");
  __asm__("lw %0,%5\n\tpor %1,$zero,%6\n\tmov.s %2,%7\n\tpor %3,$zero,%8\n\tdaddu %4,%9,$zero"
   :"=&r"(channel),"=&r"(velocityArgument),"=f"(timeArgument),"=&r"(positionArgument),"=r"(receiver):"m"(object->position),"r"(endVelocity),"f"(endTime),"r"(position),"r"(object));
- p->positionJob=func_0012DE58(receiver,channel,5,timeArgument,positionArgument,velocityArgument);
+ p->positionJob=PctrlNewTarget(receiver,channel,5,timeArgument,positionArgument,velocityArgument);
  }
  func_0022FD38(&work.views.basis.converted,0,object->orientation->space,(M3*)finalMatrix);
  work.views.basis.angles=work.views.basis.converted;
  qword angles=func_0011BFF0((M3*)workingBase);
  register CHANNEL*orientationChannel __asm__("$5");register LO*orientationOwner __asm__("$4");register qword anglesArgument __asm__("$9");
  __asm__("lw %0,%3\n\tdaddu %1,%4,$zero\n\tpor %2,$zero,%5":"=&r"(orientationChannel),"=&r"(orientationOwner),"=r"(anglesArgument):"m"(object->orientation),"r"(object),"r"(angles));
- JOB *job=func_0012DC18(orientationOwner,orientationChannel,5,9,2,anglesArgument);p->orientationJob=job;
+ JOB *job=PctrlNewPos(orientationOwner,orientationChannel,5,9,2,anglesArgument);p->orientationJob=job;
  if(object->orientation->current==job)object->orientation->endTime=endTime;
  SetAloContactsOff(object,1);
 }

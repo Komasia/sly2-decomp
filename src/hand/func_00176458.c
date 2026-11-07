@@ -15,7 +15,7 @@ void SetTargetrecTimer__FP9TARGETRECi(void *p, int n);
 qword func_001A62E8(int p);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
-int func_001C0D70(qword v, int n);
+int PregionAt__FG9VU_VECTORi(qword v, int n);
 void func_00154038(void *p, int a, int b);
 void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
 // name: SafeHouse port (JOBPURSUE::SetPursueState)
@@ -66,7 +66,7 @@ void SetPursueState__9JOBPURSUEi(struct S *p, int n) {
             o->nAC = 1;
             e = &o->vt[8]; e->pfn((char *)o + e->d);
             p->v50 = v1;
-            p->n44 = func_001C0D70(v1, 1);
+            p->n44 = PregionAt__FG9VU_VECTORi(v1, 1);
         }
         break;
     case 4:

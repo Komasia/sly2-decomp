@@ -18,11 +18,11 @@ void func_00141A50(struct P *p);
 int func_001C46C0(struct Q *q, float g, int n);
 int func_001C4660(struct Q *q, float g, int n);
 void func_00140338(struct P *p);
-void func_00144640(int *pl);
+void UpdateActorWatch__FP5ACTOR(int *pl);
 int func_001449C8(int *pl);
-void func_001E46A0(void *p, struct Q *q);
+void DriveScptActor__FPvP6PADCTL(void *p, struct Q *q);
 void func_00140558(struct P *p);
-void func_001A2460(struct P *p);
+void UpdateActorWater__FP5ACTOR(struct P *p);
 void UpdateActorNoise__FP5ACTOR(struct P *p);
 void UpdateActorLook__FP5ACTOR(struct P *p);
 int func_00131968(int x);
@@ -40,19 +40,19 @@ void func_001403D0(struct P *p)
         func_00140338(p);
     pl = &p->xFD0;
     if (p->xDF4 == -1) {
-        func_00144640(pl);
+        UpdateActorWatch__FP5ACTOR(pl);
         if (!func_001449C8(pl)) {
             if (p->c270 > 0) {
                 struct O *po = p->a274[p->c270 - 1];
                 struct VTE *e = &po->vt[14];
                 e->pfn((char *)po + e->d, p->x150);
             } else if (p->x1084) {
-                func_001E46A0(p->x1084, p->x150);
+                DriveScptActor__FPvP6PADCTL(p->x1084, p->x150);
             }
         }
     }
     func_00140558(p);
-    func_001A2460(p);
+    UpdateActorWater__FP5ACTOR(p);
     UpdateActorNoise__FP5ACTOR(p);
     UpdateActorLook__FP5ACTOR(p);
     if (p->xEFC && func_00131968(p->xEFC))

@@ -5,7 +5,7 @@ void func_0011C318(M4 *pmDst, M4 *pmSrc);
 void func_0011C168(M4 *pmDst, M4 *pmA, M4 *pmB);
 void *func_0023320C(void *d, void *s, int n);
 void *func_002333B4(void *p, int c, int n);
-M4 *func_0022CDC0(M4 *pr, struct O *po);
+M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po);
 static __inline__ void AddM4(M4 *pmDst, M4 *pmA, M4 *pmB)
 {
     int i;
@@ -26,7 +26,7 @@ M4 *func_0022D148(M4 *pm, struct O *po, struct O *poStop)
             break;
         default: {
             
-            func_0022CDC0(&mA, p);
+            DmatXf__FP2XFPv(&mA, p);
             { qword d = mA.r[3], a = mA.r[0], b = mA.r[1], c = mA.r[2]; mB.r[0] = a; mB.r[1] = b; mB.r[2] = c; mB.r[3] = d; }
             
             if (p->pParent) {

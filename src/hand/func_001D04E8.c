@@ -25,7 +25,7 @@ extern char g_cm[];
 extern float D_002C2000;
 extern qword g_clqOne;
 void func_001CE920(OBJ *, qword);
-qword func_0014F308(void *, qword);
+qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(void *, qword);
 float GRandInRange__Fff(float, float);
 void func_001D04E8(OBJ *p, qword q)
 {
@@ -33,7 +33,7 @@ void func_001D04E8(OBJ *p, qword q)
     float x, y;
     func_001CE920(p, q);
     d = p->xF0;
-    p->x100 = func_0014F308(g_cm, q);
+    p->x100 = ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(g_cm, q);
     x = GRandInRange__Fff(d->x20[0], d->x30[0]);
     y = GRandInRange__Fff(d->x20[1], d->x30[1]);
     {

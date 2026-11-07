@@ -1,4 +1,4 @@
-// func_001C5148 (w2lane4, wave 2): per-frame update of an animated object (state 6 only forwards to ProjectSoTransform).
+// UpdatePickupMotion__FP2LO (w2lane4, wave 2): per-frame update of an animated object (state 6 only forwards to ProjectSoTransform).
 // Step 1: damped velocity/position integration of the object's own coordinate (VU: velocity = velocity * damping + acceleration * dt,
 //         coordinate += velocity * dt) which is pushed into the position channel.
 // Step 2: if the object's holder has an animation, find the position/orientation motions of this object in the animation's action
@@ -109,7 +109,8 @@ static inline void Sample(MOTION *motion, const ANIM *animation, qword *value, q
     ((void (*)(MOTION *, float, float, qword *, qword *))e.fn)((MOTION *)((char *)motion + e.delta), animation->time, animation->duration, value, velocity);
 }
 
-extern "C" void func_001C5148(P *p)
+// name: SafeHouse port (UpdatePickupMotion)
+extern "C" void UpdatePickupMotion__FP2LO(P *p)
 {
     if (p->state == 6) { ProjectSoTransform(p); return; }
     float factor;

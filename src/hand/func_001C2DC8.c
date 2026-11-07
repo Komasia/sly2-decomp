@@ -3,7 +3,7 @@ struct LO { char pad[0xC]; struct VTE *vt; };
 struct S { char pad[0x150]; int x150; struct LO *x154; struct LO *x158; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
 struct LO *func_001CB250(struct LO *plo, int n);
-void func_001C7A58(struct LO *plo, int id);
+void SetPickupLootKind__FP2LOi(struct LO *plo, int id);
 int func_001F4C58(struct S *p, void *pv, int n);
 int func_001C2DC8(struct S *p, struct LO *plo, int id, void *pv)
 {
@@ -21,7 +21,7 @@ int func_001C2DC8(struct S *p, struct LO *plo, int id, void *pv)
     } else {
         return 2;
     }
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5E)) func_001C7A58(p->x158, id);
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5E)) SetPickupLootKind__FP2LOi(p->x158, id);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5A))
         ((void (*)(void *, int))p->x158->vt[76].pf)((char *)p->x158 + p->x158->vt[76].d, 2);
     else

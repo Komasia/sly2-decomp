@@ -10,7 +10,8 @@ struct S *func_0011CCC0(void *);
 void *func_002333B4(void *, int, int);
 int func_0015E938(void *, int, int, int);
 void PrependDlEntry__FP2DLPv(void *, void *);
-struct S *func_001E5AE0(struct A *pa, struct E *pe, struct C *pc)
+// name: SafeHouse port (PrunNew)
+struct S *PrunNew__FP2LOPvP3RUN(struct A *pa, struct E *pe, struct C *pc)
 {
     struct S *p = func_0011CCC0(D_003E1560);
     struct E *peLast, *pe2;

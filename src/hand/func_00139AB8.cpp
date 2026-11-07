@@ -38,7 +38,7 @@ extern void *g_pdcFromSpr;
 void LoadSprBuf(int cb, ...);
 void SaveSprBuf(void *pv, ...);
 extern "C" {
-M4 func_0015BFD8(void *p);
+M4 UpdatePsys(void *p) asm("UpdatePsys__FP4PSYS");
 void FlushCache(int);
 
 void func_00201998(void);
@@ -109,7 +109,7 @@ void func_00139AB8(PX *p)
     VECTOR vMin = {{{FLT_MAX, FLT_MAX, FLT_MAX}}};
     VECTOR vMax = {{{-FLT_MAX, -FLT_MAX, -FLT_MAX}}};
     M4 m;
-    m = func_0015BFD8(p->x170);
+    m = UpdatePsys(p->x170);
     {
     DLI dli;
     Q *pq;

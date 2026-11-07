@@ -1,4 +1,4 @@
-// func_001453F0: camera/AI state update. Keys: `f = func_001459C0(p) != 0; if (f)` (stops loop.c hoisting constant 1), inline GClamp.
+// Update__12JOBCOMPANION: camera/AI state update. Keys: `f = FNeedRecover__12JOBCOMPANION(p) != 0; if (f)` (stops loop.c hoisting constant 1), inline GClamp.
 typedef int qword __attribute__((mode(TI)));
 struct LM { float gMin, gMax; };
 struct D { char pad[0x10]; void *p10; };
@@ -17,15 +17,15 @@ extern float D_002BD340;
 void func_001EEF98(struct P *p);
 int func_001EF0A8(struct P *p);
 qword func_001A62E8(void *p);
-struct SO *func_001450E0(struct P *p);
-int func_001459C0(struct P *p);
+struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
+int FNeedRecover__12JOBCOMPANION(struct P *p);
 int func_0011D910(struct LM *plm, float g);
-void func_00145B18(struct P *p, int n);
+void SetState__12JOBCOMPANIONi(struct P *p, int n);
 int func_00132EA0(void *p);
 int func_00145DA0(struct X *px);
 int func_00146298(struct X *px);
 int func_00146790(struct X *px);
-void func_001457A8(struct P *p);
+void PlanFollow__12JOBCOMPANION(struct P *p);
 void func_00131A00(void *p, float g);
 
 static __inline__ float LenXY(qword d)
@@ -50,7 +50,8 @@ static __inline__ float Len(qword d)
 static __inline__ void GClamp(float *pg, float lo, float hi) { if (*pg < lo) *pg = lo; else if (hi < *pg) *pg = hi; }
 static __inline__ int FFar(qword a, qword b) { float lim = D_002BD340; return lim < LenXY(Sub(a, b)); }
 
-void func_001453F0(struct P *p)
+// name: SafeHouse port (JOBCOMPANION::Update)
+void Update__12JOBCOMPANION(struct P *p)
 {
     struct PO *po;
     qword a, b;
@@ -63,7 +64,7 @@ void func_001453F0(struct P *p)
     a = func_001A62E8(po);
     b = func_001A62E8(pv30);
     gXY = LenXY(Sub(a, b));
-    pso = func_001450E0(p);
+    pso = FindEnemy__12JOBCOMPANION(p);
     if (pso) {
         qword c = func_001A62E8(pso);
         float dA = Len(Sub(c, a));
@@ -77,37 +78,37 @@ void func_001453F0(struct P *p)
         int f;
         switch (state) {
         case 0:
-            f = func_001459C0(p) != 0;
+            f = FNeedRecover__12JOBCOMPANION(p) != 0;
             if (f)
-                func_00145B18(p, 1);
+                SetState__12JOBCOMPANIONi(p, 1);
             else if (func_0011D910(&D_002BD330, g)) {
                 p->p90 = pso;
-                func_00145B18(p, 2);
+                SetState__12JOBCOMPANIONi(p, 2);
             }
             break;
         case 1:
             if (p->p10->x2DC == -1)
-                func_00145B18(p, 0);
+                SetState__12JOBCOMPANIONi(p, 0);
             break;
         case 2:
-            f = func_001459C0(p) != 0;
+            f = FNeedRecover__12JOBCOMPANION(p) != 0;
             if (f)
-                func_00145B18(p, 1);
+                SetState__12JOBCOMPANIONi(p, 1);
             else if (!func_0011D910(&D_002BD338, g))
-                func_00145B18(p, 0);
+                SetState__12JOBCOMPANIONi(p, 0);
             else {
                 switch (func_00132EA0(p->p10)) {
                 case 0x36:
                     if (func_00145DA0(p->p18))
-                        func_00145B18(p, 0);
+                        SetState__12JOBCOMPANIONi(p, 0);
                     break;
                 case 0x37:
                     if (func_00146298(p->p18))
-                        func_00145B18(p, 0);
+                        SetState__12JOBCOMPANIONi(p, 0);
                     break;
                 case 0x35:
                     if (func_00146790(p->p18))
-                        func_00145B18(p, 0);
+                        SetState__12JOBCOMPANIONi(p, 0);
                     break;
                 }
             }
@@ -122,7 +123,7 @@ void func_001453F0(struct P *p)
         if (!pv)
             p->p18->x40 = 1;
         if (FFar(p->q50, b))
-            func_001457A8(p);
+            PlanFollow__12JOBCOMPANION(p);
         if (po->p1030) {
             float t = (gXY - p->g6C) / (p->g70 - p->g6C);
             GClamp(&t, 0.0f, 1.0f);

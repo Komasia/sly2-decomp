@@ -17,7 +17,7 @@ extern M2C_UNK D_00452148;
 
 s32 func_00258B38(s32 arg0, s32 arg1) {
     if (arg1 == 1) {
-        func_00258A00(arg0, 2);
+        SetPositionKind(arg0, 2);
     }
     return M2C_FIELD(arg0, s32 *, 0xE4) + 0x10;
 }

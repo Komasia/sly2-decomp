@@ -1,4 +1,4 @@
-// func_001E1E30: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
+// ExecuteRun__FP4PRUN: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A7AD0 (D_002A7AD0), D_002DE570 (D_002DE570), D_003DA530 (D_003DA530), g_clock, g_cm, g_game, D_003DA0C0 (g_hintbox), g_joy, g_normalZ, D_002A2DD0 (g_qwZero), D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), g_sw
 // 0x001E1E30 NextJsgCommand__FP3JSG  (T1200; was DispatchAsegEvent: it is Sly 1's NextJsgJsge)
@@ -2724,8 +2724,8 @@ struct BENTLEY : public STEPPLAYER
 JSG *PjsgStartBlock(RELAY *prelay, RELAYCMD *prelaycmdBegin, JSG *pjsgParent);
 JSG *PjsgFindRelayBlock(RELAY *prelay, OID oidLabel, JSG *pjsgExcept);
 void EndJsg(JSG *pjsg);
-extern "C" void func_001E51A0(JSG *pjsg, LO *plo, int n5, int n6);
-extern "C" void func_001E5280(JSG *pjsg, LO *plo, int n5, int n6);
+extern "C" void HoldRunEffects(JSG *pjsg, LO *plo, int n5, int n6) asm("HoldRunEffects__FP3RUNP2LOii");
+extern "C" void ReleaseRunEffects(JSG *pjsg, LO *plo, int n5, int n6) asm("ReleaseRunEffects__FP3RUNP2LOii");
 void StartJsgCamBlend(JSG *pjsg, RELAYCMD *prelaycmdFrom, RELAYCMD *prelaycmdTo, float dt);
 void PopJsgCamBlend(JSG *pjsg, int n);
 float DtJsgCommand(JSG *pjsg, RELAYCMD *prelaycmd);
@@ -2752,7 +2752,7 @@ struct JSGENT
     undefined4 unk_0x08[(0x30 - 0x08) / 4];
 };
 extern "C" void RelayFire(RELAY *prelay, LO *ploFirer);
-extern "C" void func_001DFEB8(RELAY *prelay);
+extern "C" void StopScptImpl(RELAY *prelay) asm("StopScptImpl__FP2LO");
 extern "C" BHV *PbhvPushStep(STEP *pstep, int cid);
 extern "C" void EnterJtGrabState(JTGRAB *pjtgrab, int nState, LO *plo, GRABSPOT *pspot);
 extern "C" void SetJtGrabPhase(JTGRAB *pjtgrab, int nPhase);
@@ -2789,7 +2789,8 @@ static inline qword QwAddScaledX(qword qw, qword qwDir, VU_FLOAT vuScale)
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(qwSum) : "j"(qw), "j"(qwDir), "j"(vuScale.qw));
     return qwSum;
 }
-void NextJsgCommand(JSG *pjsg) __asm__("func_001E1E30");
+void NextJsgCommand(JSG *pjsg) __asm__("ExecuteRun__FP4PRUN");
+// name: SafeHouse port (ExecuteRun)
 void NextJsgCommand(JSG *pjsg)
 {
     pjsg->prelaycmdCur++;
@@ -2916,7 +2917,7 @@ void NextJsgCommand(JSG *pjsg)
         }
         if (prelayStop)
         {
-            func_001DFEB8(prelayStop);
+            StopScptImpl(prelayStop);
         }
         break;
     }
@@ -3653,13 +3654,13 @@ void NextJsgCommand(JSG *pjsg)
     case RELAYCK_Unk47:
         if (ploActor)
         {
-            func_001E51A0(pjsg, ploActor, prelaycmd->unk47.nUnk5, prelaycmd->unk47.nUnk6);
+            HoldRunEffects(pjsg, ploActor, prelaycmd->unk47.nUnk5, prelaycmd->unk47.nUnk6);
         }
         break;
     case RELAYCK_Unk48:
         if (ploActor)
         {
-            func_001E5280(pjsg, ploActor, prelaycmd->unk48.nUnk5, prelaycmd->unk48.nUnk6);
+            ReleaseRunEffects(pjsg, ploActor, prelaycmd->unk48.nUnk5, prelaycmd->unk48.nUnk6);
         }
         break;
     case RELAYCK_Unk49:

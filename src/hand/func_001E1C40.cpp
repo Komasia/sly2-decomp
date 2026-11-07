@@ -8,26 +8,27 @@ public:
     ~LOCK() { m_p->vt[2].pfn((char *)m_p + m_p->vt[2].d); }
 };
 extern "C" {
-void func_001E1E30(P *p);
+void ExecuteRun(P *p) asm("ExecuteRun__FP4PRUN");
 int func_001E5778(P *p);
-void func_001E1D48(P *p);
-int func_001E3890(P *p, E *pe);
-void func_001E5628(P *p);
-void func_001E1C40(P *p);
+void FinishRunPending(P *p) asm("FinishRunPending__FP3RUN");
+int FCmdDone(P *p, E *pe) asm("FCmdDone__FP3RUNP7SCPTCMD");
+void RetireRun(P *p) asm("RetireRun__FP4PRUN");
+void RunRun(P *p) asm("RunRun__FP4PRUN");
 }
-void func_001E1C40(P *p)
+// name: SafeHouse port (RunRun)
+void RunRun(P *p)
 {
     LOCK lock(p);
     if (!p->peCur) {
         p->peCur = p->peFirst;
-        func_001E1E30(p);
+        ExecuteRun(p);
         if (func_001E5778(p)) return;
     }
-    while (p->peCur <= p->peMax && (p->peCur->n4 || func_001E3890(p, p->peCur))) {
-        func_001E1D48(p);
-        func_001E1E30(p);
+    while (p->peCur <= p->peMax && (p->peCur->n4 || FCmdDone(p, p->peCur))) {
+        FinishRunPending(p);
+        ExecuteRun(p);
         if (func_001E5778(p)) return;
     }
-    func_001E1D48(p);
-    if (p->peCur > p->peMax) func_001E5628(p);
+    FinishRunPending(p);
+    if (p->peCur > p->peMax) RetireRun(p);
 }

@@ -27,10 +27,10 @@ extern "C" {
 extern G D_003D4A60;
 extern char g_sw[];
 extern char D_002A4DB0[], D_002A4D50[], D_002A4DC0[], D_002A4DC8[];
-void *func_00143410(void *p);
-int func_0013C478(void *p);
-void *func_0013D1A8(Q *p);
-S *func_00143AF0(LO *p, int n);
+void *AkeyStandHeldBy(void *p) asm("AkeyStandHeldBy__Fi");
+int IdBooty(void *p) asm("IdBooty__FP2LO");
+void *AkeyStand(Q *p) asm("AkeyStand__FP2LO");
+S *AkeyReturnBooty(LO *p, int n) asm("AkeyReturnBooty__FP5ACTORi");
 int func_00210A88(void);
 BL *func_002109B8(int);
 int func_00233178(const void *a, const void *b, int n);
@@ -51,31 +51,32 @@ static inline void SetPv(void *pv, const CRef &r, void *)
 }
 static inline void *Vcall103(LO *p) { VTE *e = &p->vt[103]; return e->pfn((char *)p + e->d); }
 
-extern "C" void func_00143678(LO *p, int n, Q *q)
+// name: SafeHouse port (SaveBootyMove)
+extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)
 {
     MARK m;
     switch (n) {
     case 0: {
-        CRef ret = SetProgressPoCurrent(CRef(0x15, q->p194 ? func_0013C478(q->p194) : -1), Vcall103(p), D_002A4DB0, 0);
+        CRef ret = SetProgressPoCurrent(CRef(0x15, q->p194 ? IdBooty(q->p194) : -1), Vcall103(p), D_002A4DB0, 0);
         if (p->p11A8) {
             if (!q->p194) {
                 int dummy[2];
-                void *pv0 = func_00143410(p->p18);
+                void *pv0 = AkeyStandHeldBy(p->p18);
                 CRef16 a0(0x15, -1);
                 SetPv(pv0, a0, &D_003D4A60);
             }
-            void *pv = func_0013D1A8(q);
-            CRef a(0x15, func_0013C478(p->p11A8));
+            void *pv = AkeyStand(q);
+            CRef a(0x15, IdBooty(p->p11A8));
             SetPv(pv, a, &D_003D4A60);
         } else {
-            void *pv = func_0013D1A8(q);
+            void *pv = AkeyStand(q);
             CRef a(0x15, (int)p->p18);
             SetPv(pv, a, &D_003D4A60);
         }
         break;
     }
     case 1: {
-        void *pv = func_00143410(p->p18);
+        void *pv = AkeyStandHeldBy(p->p18);
         if (pv) {
             CRef a(0x15, -1);
             Send(pv, a);
@@ -91,7 +92,7 @@ extern "C" void func_00143678(LO *p, int n, Q *q)
         break;
     }
     case 2: {
-        S *ps = func_00143AF0(p, func_0013C478(p->p11A8));
+        S *ps = AkeyReturnBooty(p, IdBooty(p->p11A8));
         int i = func_00210A88();
         if (ps && i != -1) {
             BL *pb = func_002109B8(i);

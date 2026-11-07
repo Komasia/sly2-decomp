@@ -26,7 +26,7 @@ qword func_001A62E8(ACTOR *);
 MATRIX3 *func_001A6318(ACTOR *);
 void func_00131A00(void *, float);
 float func_002458F0(float, float);
-void func_00209818(void *, float);
+void SetMoveHeading(void *, float) asm("SetMoveHeading__FP7MOVEREF");
 void func_0020CB28(CONTROL *, qword);
 }
 static inline VU_FLOAT VuFloat(float g)
@@ -154,7 +154,7 @@ extern "C" void Update__9JOBFOLLOW(P *p)
         {
         case 0:
             func_00131A00(pchoice->control, p->rate * g);
-            func_00209818(p->actor->control, func_002458F0(GYOfQw(dpos), GXOfQw(dpos)));
+            SetMoveHeading(p->actor->control, func_002458F0(GYOfQw(dpos), GXOfQw(dpos)));
             break;
         case 3:
         {

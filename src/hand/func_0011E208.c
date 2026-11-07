@@ -7,7 +7,8 @@ static __inline__ qword Make(float x, float y, float z)
     return q;
 }
 void CalculateSinCos__FfPfT1(float g, float *ps, float *pc);
-qword func_0011E208(float radPan, float radTilt, float r)
+// name: SafeHouse port (SetVectorSphere)
+qword SetVectorSphere__Ffff(float radPan, float radTilt, float r)
 {
     union { qword q; float f[4]; } v;
     float sp, cp, st, ct;

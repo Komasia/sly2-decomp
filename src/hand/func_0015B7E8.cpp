@@ -10,10 +10,10 @@ struct BUF { qword *apos; qword *av; float *ag; float *an; int f10; };
 extern "C" {
 void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
 void func_0015AE38(int n, void *p, int c, EMITVX *pvx);
-void func_0015A808(EMITTER *pemit, int i, int c, qword *ppos, qword *pnormal);
+void ChooseEmitPosition(EMITTER *pemit, int i, int c, qword *ppos, qword *pnormal) asm("ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3");
 void func_0015B0C8(void *p, EMITVX *pvx, void *q, int n, qword *ppos, qword *pnormal, qword *pvel, float *ptBirth, float *ptDeath);
 void func_0015AD48(EMITTER *pemit, qword *ppos, qword *pvel);
-void func_0015B7E8(int c, EMITTER *pemit, BUF *pb);
+void ChooseEmitParticles(int c, EMITTER *pemit, BUF *pb) asm("ChooseEmitParticles__FiP7EMITTERP3BUF");
 }
 static inline void *PvAlloc(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocStackImpl(&al); }
 static inline qword MulRow(const MATRIX3 &m, qword v)
@@ -30,7 +30,8 @@ static inline qword Cross(qword a, qword b)
     __asm__("vopmula.xyz ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(d) : "j"(a), "j"(b));
     return d;
 }
-void func_0015B7E8(int c, EMITTER *pemit, BUF *pb)
+// name: SafeHouse port (ChooseEmitParticles)
+void ChooseEmitParticles(int c, EMITTER *pemit, BUF *pb)
 {
     pb->apos = (qword *)PvAlloc(c * 16, 16);
     pb->av = (qword *)PvAlloc(c * 16, 16);
@@ -40,7 +41,7 @@ void func_0015B7E8(int c, EMITTER *pemit, BUF *pb)
     func_0015AE38(pemit->x84, pemit->x90, c, &vx);
     for (int i = 0; i < c; i++) {
         union { qword q; float f[4]; } normal;
-        func_0015A808(pemit, i, c, &pb->apos[i], &normal.q);
+        ChooseEmitPosition(pemit, i, c, &pb->apos[i], &normal.q);
         func_0015B0C8((char *)pemit + 0x50, &vx, (char *)pemit + 0x10, i, &pb->apos[i], &normal.q, &pb->av[i], &pb->ag[i], &pb->an[i]);
         XF *pxf = pemit->pxf;
         if (pxf) {

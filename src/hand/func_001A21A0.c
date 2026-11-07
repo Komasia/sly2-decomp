@@ -1,7 +1,8 @@
 struct S { char pad[0x4C0]; char x4C0[0x18C8 - 0x4C0]; int x18C8; };
 int func_00194640(void *p, int n);
-int func_00140ED8(struct S *s, int n);
-int func_001A21A0(struct S *s, int n)
+int FActorImmune__FP5ACTORi(struct S *s, int n);
+// name: SafeHouse port (FSlyImmune)
+int FSlyImmune__FP5ACTORi(struct S *s, int n)
 {
     switch (s->x18C8) {
     case 3:
@@ -16,5 +17,5 @@ int func_001A21A0(struct S *s, int n)
             return 1;
         break;
     }
-    return func_00140ED8(s, n);
+    return FActorImmune__FP5ACTORi(s, n);
 }

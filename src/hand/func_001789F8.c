@@ -15,7 +15,7 @@ struct S {
 void func_001EEF98(struct S *p);
 void func_00177F78(struct S *p);
 qword func_001A62E8(struct A *a);
-int func_001BD718(qword q, void *a1, void *a2, void *obj, int dir, struct T **pp, float *pf, float g);
+int NNavWay__FG9VU_VECTORP6VECTORP9NAVREGIONP3CRViPP7NAVPOLYPff(qword q, void *a1, void *a2, void *obj, int dir, struct T **pp, float *pf, float g);
 void func_001E6F60(struct T *po, qword q, struct G *pg, void *pv, int b, int c, float *pf);
 float func_001E7B38(struct T *p, float a, float b);
 static inline float Dist(qword a, qword b) {
@@ -47,7 +47,7 @@ void func_001789F8(struct S *p) {
             if (!p->n40) {
                 struct X *x = p->p10->pE8;
                 struct Y *y = x ? x->pDC : 0;
-                int n = func_001BD718(pos, y ? y->p10 : 0, x->pDC->a20, p->p30, p->n38 == 0, &p->p54, &p->g60, p->g34);
+                int n = NNavWay__FG9VU_VECTORP6VECTORP9NAVREGIONP3CRViPP7NAVPOLYPff(pos, y ? y->p10 : 0, x->pDC->a20, p->p30, p->n38 == 0, &p->p54, &p->g60, p->g34);
                 p->n58 = n;
                 switch (n) {
                 case 0:

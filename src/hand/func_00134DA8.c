@@ -47,7 +47,7 @@ void func_00131A00(struct S1030 *px, float g);
 float RadNormalize__Ff(float g);
 float func_0011CFE0(float g, float dg);
 void UpdateActorSupport__FP5ACTOR(struct P *p);
-void func_001A1358(void *pv);
+void UpdateDamage__FP5ACTOR(void *pv);
 
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
 static __inline__ float GClamp(float g, struct LM *plm)
@@ -188,5 +188,5 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
         break;
     }
     UpdateActorSupport__FP5ACTOR(p);
-    func_001A1358(p->xDF0);
+    UpdateDamage__FP5ACTOR(p->xDF0);
 }

@@ -1,7 +1,7 @@
-// func_001BF3D8: walk the segment from -> to (XY only) through the 2D BSP of a navigation graph and write the
+// CsegNav__FP9NAVREGIONG9VU_VECTORT1iP6NAVSEGi: walk the segment from -> to (XY only) through the 2D BSP of a navigation graph and write the
 // leaf spans it crosses into out[] (at most `capacity` rows); returns the number of rows (wave-4 lane 6).
-// Matched siblings: func_001BF110 / func_001BF1F8 (same GRAPH/NODE layout and Make/GetX/GetY/Dot helpers),
-// func_001BF398 (plane side test), caller func_001BF900 (ROW layout).
+// Matched siblings: ItriNav / ItriNavFrom (same GRAPH/NODE layout and Make/GetX/GetY/Dot helpers),
+// func_001BF398 (plane side test), caller FNavBlocked (ROW layout).
 // Keys:
 //  * The row count is `cursor - out` (ROW = 96 bytes). The exact division by 96 is a multiply by inverse(3) and an
 //    arithmetic shift by 5, so loop.c reduces both uses to registers stepping by 32 and only `sra 5` survives.
@@ -57,7 +57,8 @@ static inline VU_VECTOR Lerp(const qword &a, const qword &b, float t)
     return VecCombo(VU_FLOAT(1.0f - t), VU_VECTOR(a), VU_FLOAT(t), VU_VECTOR(b));
 }
 
-extern "C" int func_001BF3D8(GRAPH *g, qword from, qword to, int capacity, ROW *out, int flags)
+// name: SafeHouse port (CsegNav)
+extern "C" int CsegNav__FP9NAVREGIONG9VU_VECTORT1iP6NAVSEGi(GRAPH *g, qword from, qword to, int capacity, ROW *out, int flags)
 {
     STATE st[33]; // st[0] is the current state, st[1..32] the stack of pending far sides
     STATE *top;

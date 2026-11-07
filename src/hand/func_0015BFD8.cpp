@@ -15,8 +15,9 @@ static inline MATRIX4 operator+(const MATRIX4 &a, const MATRIX4 &b) return r
     for (int i = 0; i < 4; i++)
         r.r[i] = Add(a.r[i], b.r[i]);
 }
-extern "C" MATRIX4 func_0015BFD8(X *p);
-MATRIX4 func_0015BFD8(X *p)
+extern "C" MATRIX4 UpdatePsys(X *p) asm("UpdatePsys__FP4PSYS");
+// name: SafeHouse port (UpdatePsys)
+MATRIX4 UpdatePsys(X *p)
 {
     MATRIX4 mScale = D_002A2D30;
     float *pf = (float *)&mScale;

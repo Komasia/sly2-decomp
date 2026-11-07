@@ -1,8 +1,8 @@
 // func_001DF5B0 (w2lane4, wave 2): per-frame render of a "connector" (a chain of links drawn between pairs of points).
 // After the generic update (RenderSoSelf) and a camera visibility test of the connector's bounding sphere
-// (func_0014F850), each link is queried for its two end points and its length (func_001DEF98). A link longer than its
+// (FInsideCmPlanes), each link is queried for its two end points and its length (func_001DEF98). A link longer than its
 // maximum is pulled back toward the first point, then the line object, the stretched middle object and the two end caps
-// (func_001A5FB8 / func_001A5EE8) are placed along the segment, in a basis built from the segment direction (BuildLookAtMatrix).
+// (func_001A5FB8 / AppendAloExtraDraws) are placed along the segment, in a basis built from the segment direction (BuildLookAtMatrix).
 // Matching notes (all found by reading the sched1/local-alloc/reload dumps):
 //  * The radius temporary VU_FLOAT(const float *, int) is a volatile empty asm (word load into a 128-bit GPR value); it acts as the
 //    scheduler barrier that keeps the camera/bound loads before the call arguments, which is what puts the camera address
@@ -39,13 +39,13 @@ struct VU_FLOAT {
 };
 extern "C" {
 void RenderSoSelf(P *) asm("RenderSoSelf__FP2SOP2CMP2RO");
-int func_0014F850(CAMERA *, qword, VU_FLOAT);
+int FInsideCmPlanes(CAMERA *, qword, VU_FLOAT) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 void func_001DEF98(P *, ENTRY *, qword *, float *);
 void func_001A5FB8(void *, qword, qword, float, float);
 M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M4 func_0011C210(qword, const M3 *, const U *);
 qword *func_00256D18(qword *, qword);
-void func_001A5EE8(void *, const M4 *, float, float);
+void AppendAloExtraDraws(void *, const M4 *, float, float) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 }
 static inline qword Subtract(qword a, qword b)
 {
@@ -89,7 +89,7 @@ extern "C" void func_001DF5B0(P *p)
     qword boundPosition = bound->position.q;
     VU_FLOAT radius(&bound->radius, 0);
     qword relativePosition = Subtract(boundPosition, cam->position.q);
-    if (!func_0014F850(cam, relativePosition, radius)) return;
+    if (!FInsideCmPlanes(cam, relativePosition, radius)) return;
     U points[2];
     M3 basis;
     float dist;
@@ -115,7 +115,7 @@ extern "C" void func_001DF5B0(P *p)
                 scale.f[2] = 1.0f;
                 M4 render;
                 render = func_0011C210(points[0].q, &basis, &scale);
-                func_001A5EE8(p->stretch, &render, 1.0f, 1.0f);
+                AppendAloExtraDraws(p->stretch, &render, 1.0f, 1.0f);
             }
         }
         int next = i + 1;
@@ -136,7 +136,7 @@ extern "C" void func_001DF5B0(P *p)
                     matrix.rows[0].bits[3] = matrix.rows[1].bits[3] = matrix.rows[2].bits[3] = 0;
                     pm->rows[3].f[3] = 1.0f;
                 }
-                func_001A5EE8(end->object, &matrix, 1.0f, 1.0f);
+                AppendAloExtraDraws(end->object, &matrix, 1.0f, 1.0f);
             }
         }
         i = next;

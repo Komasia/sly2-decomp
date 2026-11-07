@@ -18,7 +18,7 @@ void ReadVector__18CBinaryInputStreamP6VECTOR(void *,qword *);
 int func_00117D50(void *);
 void *PvAllocSwClearImpl__Fi(struct Alloc *);
 struct Hook *func_0012E1F0(int);
-void func_00230018(struct S *,struct O *,struct Hook *);
+void AddXfCtrl__FP3ALOP2XFP4CTRL(struct S *,struct O *,struct Hook *);
 qword func_0022FC48(struct O *,struct O *,qword);
 qword func_0022FCC8(struct O *,struct O *,qword);
 static inline void *Alloc(int cb) { struct Alloc req; req.cb=cb; req.align=16; return PvAllocSwClearImpl__Fi(&req); }
@@ -51,7 +51,7 @@ void func_0021C888(struct S *p,void *stream) {
             h->xC=-1;
             h->entry=e;
             h->flags=16;
-            func_00230018(p,e->object,h);
+            AddXfCtrl__FP3ALOP2XFP4CTRL(p,e->object,h);
             e->object->entry=e;
         }
         for(j=0;j<n->count;j++) {

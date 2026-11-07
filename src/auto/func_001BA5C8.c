@@ -26,5 +26,5 @@ extern s32 D_003E1444;
 void Exit__7JOBPROX(s32 arg0) {
     SetProxState__7JOBPROXi(arg0, -1);
     func_001EEF78(arg0);
-    func_00209970(M2C_FIELD(arg0, s32 *, 0x10), 0x25);
+    RemoveGuardState__FP5GUARDi(M2C_FIELD(arg0, s32 *, 0x10), 0x25);
 }

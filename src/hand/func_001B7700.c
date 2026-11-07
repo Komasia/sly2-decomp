@@ -10,7 +10,7 @@ extern qword g_normalZ;
 extern float D_002C09C8;
 qword func_0022FCC8(struct LO*,struct LO*,qword);
 int CSolveQuadratic__FfffPf(float,float,float,float*);
-void func_00130D30(struct ANIM*,int,float,float);
+void SetAsegaTime__FP5ASEGAiff(struct ANIM*,int,float,float);
 static inline float Clamp(float inputValue,float inputLower,const float*upper){register float value __asm__("$f0")=inputValue;register float lower __asm__("$f12")=inputLower;float limit=*upper;if(value<lower)return lower;if(limit<value)return limit;return value;}
 static inline qword Scale(qword v,float f,U*u){qword s,r;__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(f));u->q=s;__asm__("vmulx.xyzw %0,%1,%2x":"=&j"(r):"j"(v),"j"(u->q));return r;}
 static inline qword FinalLaunchScale(const qword*up,int bits,U*scalar){register qword factor __asm__("vf2"),source __asm__("vf1"),result __asm__("vf3");__asm__("qmtc2.ni %4,%0\n\tlqc2 %1,%5\n\tvmulx.xyzw %2,%1,%0x\n\tsqc2 %0,%3":"=j"(factor),"=j"(source),"=j"(result),"=m"(scalar->q):"r"(bits),"m"(*up));return result;}
@@ -89,7 +89,7 @@ void func_001B7700(struct P*p,qword goal,float*animation,float*duration,qword*ou
   }
   if(!count)t=D_002C09C8;
   else t=Clamp(roots.f[count-1],D_002C09C8,duration);
-  func_00130D30(owner->anim,0,*animation-t*owner->anim->rate,owner->anim->rate);
+  SetAsegaTime__FP5ASEGAiff(owner->anim,0,*animation-t*owner->anim->rate,owner->anim->rate);
   {
    register qword actualAcceleration __asm__("vf3");register qword qt __asm__("vf1");
    register float averageTime __asm__("$f0")=0.5f;register int bits __asm__("$2");

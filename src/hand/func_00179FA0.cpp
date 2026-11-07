@@ -28,7 +28,7 @@ extern "C"{
  void OffsetUseByHands(C*) asm("OffsetUseByHands__FP6JOBUSE");
  int FDropOnGround(qword*,float,float,int,int(*)(void)) asm("FDropOnGround__FP6VECTORffiPv");
  void Enter(C*) asm("Enter__7JOBMOVE");
- void func_00209818(CONTROL*,float);
+ void SetMoveHeading(CONTROL*,float) asm("SetMoveHeading__FP7MOVEREF");
  void func_00209840(CONTROL*,M3*);
  void func_0020C6F8(INFO*,qword);
  void func_001EEFC0(C*);
@@ -134,7 +134,7 @@ extern "C" void Enter__6JOBUSE(C*p){
    P*actor; qword delta=HeadingInputs(p,&point,current,&actor);
    CONTROL*control=Control(actor);
    float angle=Angle(delta);
-   func_00209818(control,angle);
+   SetMoveHeading(control,angle);
    break;
   }
   case 2:{

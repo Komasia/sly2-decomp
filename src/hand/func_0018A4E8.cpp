@@ -18,7 +18,7 @@ struct SMP {float a,b,duration;};
 extern "C" CLOCK g_clock;
 extern "C" SMP D_002BF348;
 
-extern "C" float func_00204740(A *p);
+extern "C" float RadStepHeading(A *p) asm("RadStepHeading__FP4STEP");
 extern "C" int FIsBasicDerivedFrom(B *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" float func_001E6648(B *p);
 extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
@@ -45,7 +45,7 @@ extern "C" void func_0018A4E8(S *ps, R *pr)
 
     if (ps->x8 != 0)
         return;
-    pr->g30 = func_00204740(ps->p0);
+    pr->g30 = RadStepHeading(ps->p0);
     if (ps->p0->x1024 != ps->p68)
         return;
     pr->x34 = 0;

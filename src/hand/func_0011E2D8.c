@@ -1,9 +1,10 @@
-/* func_0011E2D8(normal, a, b, M3 rows *pm): builds basis rows 0/1. VF registers pinned with hard-register locals (Claude agent). */
+/* BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(normal, a, b, M3 rows *pm): builds basis rows 0/1. VF registers pinned with hard-register locals (Claude agent). */
 typedef int qword __attribute__((mode(TI)));
 #define CROSS(r, a, b) __asm__("vopmula.xyz $ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(r) : "j"(a), "j"(b))
 #define DOT(d, one, v) __asm__("vmul.xyz %1, %2, %2\n\tvaddw.x %0, $vf0, $vf0w\n\tvadday.x $ACC, %1, %1y\n\tvmaddz.x %1, %0, %1z" : "=j"(one), "=j"(d) : "j"(v))
 static __inline__ float FloatQ(qword q) { float g; __asm__("mtc1 %1, %0" : "=f"(g) : "r"(q)); return g; }
-void func_0011E2D8(qword a, qword b, qword c, qword *pm)
+// name: SafeHouse port (BuildOrthonormalVectors)
+void BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(qword a, qword b, qword c, qword *pm)
 {
     register qword vb __asm__("vf1") = b;
     register qword va __asm__("vf3") = a;

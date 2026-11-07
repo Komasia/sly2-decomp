@@ -20,7 +20,8 @@ typedef struct { char b[12]; } LEAF;
 typedef union { qword q; struct { char pad[0xC]; unsigned short a[2]; } s; } NODE;
 struct T { char pad[0xC]; LEAF *aleaf; int cnode; NODE *anode; };
 extern float D_002C0C00;
-LEAF *func_001BF1F8(struct T *p, NODE *pn, qword pos, int fl)
+// name: SafeHouse port (ItriNavFrom)
+LEAF *ItriNavFrom__FP9NAVREGIONP4NODEG9VU_VECTORi(struct T *p, NODE *pn, qword pos, int fl)
 {
     union { qword q; float f; } u;
     NODE *pnEnd, *anode;
@@ -48,7 +49,7 @@ LEAF *func_001BF1F8(struct T *p, NODE *pn, qword pos, int fl)
             } else {
                 NODE *pnT = anode + k;
                 if (pnT != pnEnd) {
-                    LEAF *pl = func_001BF1F8(p, pnT, pos, fl);
+                    LEAF *pl = ItriNavFrom__FP9NAVREGIONP4NODEG9VU_VECTORi(p, pnT, pos, fl);
                     if (pl)
                         return pl;
                 }

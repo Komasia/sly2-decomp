@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK Start__4CTRL(void *, void *);              /* extern */
 
-void func_00131C40(void *arg0) {
+// name: SafeHouse port (CTRLASEG::Start)
+void Start__8CTRLASEG(void *arg0) {
     s32 temp_a0;
 
     temp_a0 = M2C_FIELD(arg0, s32 *, 0x20);

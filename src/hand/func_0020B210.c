@@ -1,6 +1,7 @@
 struct S { char pad[0xF80]; int state; int arg; };
 void func_00204F78(struct S *p, int a, int b);
-void func_0020B210(struct S *p)
+// name: SafeHouse port (DetachGuardMove)
+void DetachGuardMove__FP5GUARD(struct S *p)
 {
     switch (p->state) {
     case 0:

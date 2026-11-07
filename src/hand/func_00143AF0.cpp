@@ -16,7 +16,7 @@ struct G;
 extern "C" G D_003D4A60;
 extern char D_002A4DB0[];
 extern "C" {
-void *func_00143410(void *p);
+void *AkeyStandHeldBy(void *p) asm("AkeyStandHeldBy__Fi");
 CRef func_00258200(void *p, const CRef &ref, G *pv);
 CRef SetProgressPoCurrent(const CRef &ref, void *o, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 }
@@ -33,9 +33,10 @@ static inline void SetPv(void *pv, const CRef &r, void *)
     }
     func_00129EC8((CRef *)&arg);
 }
-extern "C" void *func_00143AF0(LO *p, int x)
+// name: SafeHouse port (AkeyReturnBooty)
+extern "C" void *AkeyReturnBooty__FP5ACTORi(LO *p, int x)
 {
-    void *pv = func_00143410(p->p18);
+    void *pv = AkeyStandHeldBy(p->p18);
     if (pv) {
         CRef a(x, 0x15);
         SetPv(pv, a, &D_003D4A60);

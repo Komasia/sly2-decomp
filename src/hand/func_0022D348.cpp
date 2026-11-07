@@ -7,8 +7,8 @@ struct O {M4 local,world;float t0,t1;float *time,*dt;JOB *hook;int kind;short mo
 extern qword D_002A2DD0;
 extern "C" {
 M4 func_0011C318(const M4 *);
-M4 func_0022CDC0(O *);
-void func_0022DD00(void *,O *);
+M4 DmatXf(O *) asm("DmatXf__FP2XFPv");
+void RefreshXf(void *,O *) asm("RefreshXf__FP3ALOP2XF");
 void func_00117120(float,float,float,qword,qword,qword,qword,qword *,qword *,qword *);
 }
 static inline qword Zero() {qword r;__asm__("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
@@ -45,7 +45,7 @@ extern "C" qword func_0022D348(O *p,O *stop,qword in) {
                 switch(p->mode) {
                 case 1:case 2:case 7:case 8:case 9:case 11:case 17:case 18:case 20:case 21:delta=p->velocity;break;
                 case 5:case 6:
-                    if(p->hook)func_0022DD00(p->hook->owner,p);
+                    if(p->hook)RefreshXf(p->hook->owner,p);
                     switch(p->state) {
                     case 3:case 4:delta=p->v1;break;
                     case 1:{V tmp;Eval(p,&tmp.q);delta=tmp.q;break;}
@@ -58,8 +58,8 @@ extern "C" qword func_0022D348(O *p,O *stop,qword in) {
                 break;
             }
             default: {
-                if(p->hook)func_0022DD00(p->hook->owner,p);
-                m=func_0022CDC0(p);
+                if(p->hook)RefreshXf(p->hook->owner,p);
+                m=DmatXf(p);
                 O *parent=p->parent;
                 if(parent) {
                     M4 inverse=func_0011C318(&p->world);

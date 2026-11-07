@@ -6,7 +6,8 @@ qword func_001A62E8(void *p);
 void func_001E6F60(struct A *pa, qword q, int a, int b, int c, int d, int *pn);
 void func_00204F78(struct S *p, struct A *pa, int n);
 
-void func_0020B2A8(struct S *p, struct A *pa, int n)
+// name: SafeHouse port (AttachGuardMove)
+void AttachGuardMove__FP5GUARDP2LOi(struct S *p, struct A *pa, int n)
 {
     p->pF84 = pa;
     p->nF8C = n;

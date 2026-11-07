@@ -15,7 +15,7 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
-extern "C" { void func_00142540(void *p, int n, qword q); CRef func_0010A940(void *p, int c, void *aref); }
+extern "C" { void SetActorFollow__FP5ACTORiG9VU_VECTOR(void *p, int n, qword q); CRef func_0010A940(void *p, int c, void *aref); }
 CRef func_0010A940(void *p, int c, void *aref)
 {
     int ak[2] = {0x2002, 2};
@@ -24,6 +24,6 @@ CRef func_0010A940(void *p, int c, void *aref)
     CRef ref = func_00201360(2, aref, ak, &n, &u);
     ref.Decref();
     ref.InitTag(0x24);
-    func_00142540(p, n, u.q);
+    SetActorFollow__FP5ACTORiG9VU_VECTOR(p, n, u.q);
     return ref;
 }

@@ -12,8 +12,8 @@ void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int oid);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 float GRandInRange__Fff(float a, float b);
-void func_001457A8(struct P *p);
-void func_0019F540(void *p, qword v);
+void PlanFollow__12JOBCOMPANION(struct P *p);
+void RecoverTo__FP5ACTORG9VU_VECTOR(void *p, qword v);
 int func_00132EA0(void *p);
 static __inline__ void Activate(struct P *p, int oid)
 {
@@ -21,7 +21,8 @@ static __inline__ void Activate(struct P *p, int oid)
     po->x38 = p->x90;
     po->vt[8].pfn((char *)po + po->vt[8].d);
 }
-void func_00145B18(struct P *p, int state)
+// name: SafeHouse port (JOBCOMPANION::SetState)
+void SetState__12JOBCOMPANIONi(struct P *p, int state)
 {
     if (state == p->state) return;
     func_001EF0D8(p->m18);
@@ -35,12 +36,12 @@ void func_00145B18(struct P *p, int state)
             po->xC4 = 8;
             po->gC8 = GRandInRange__Fff(0.1f, 0.3f);
         }
-        func_001457A8(p);
+        PlanFollow__12JOBCOMPANION(p);
         po->vt[8].pfn((char *)po + po->vt[8].d);
         break;
     }
     case 1:
-        func_0019F540(p->p10, p->v80);
+        RecoverTo__FP5ACTORG9VU_VECTOR(p->p10, p->v80);
         break;
     case 2:
         switch (func_00132EA0(p->p10)) {

@@ -3,7 +3,8 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct CM { char pad[0x40]; float sx, sy; char pad2[0x18]; M4 mat; };
 void func_0011C318(M4 *pm, M4 *pn);
-qword func_0014F308(struct CM *p, qword v)
+// name: SafeHouse port (ConvertCmWorldToScreen)
+qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(struct CM *p, qword v)
 {
     union { qword q; float f[4]; } r;
     M4 m;

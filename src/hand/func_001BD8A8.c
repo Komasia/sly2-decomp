@@ -4,11 +4,12 @@ typedef struct { char pad[0x60]; } HIT;
 struct X;
 typedef struct { short d; short pad; M4 *(*pfn)(struct X *); } VT;
 struct X { int x0, x4, x8; VT *vt; char pad[0xE8 - 0x10]; int c; char pad2[0xF4 - 0xEC]; qword *apos; };
-int func_001BC688(struct X *p, qword a, qword b, int n, HIT *phit);
-int func_001BC9F0(struct X *p, qword pos);
+int ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(struct X *p, qword a, qword b, int n, HIT *phit);
+int FPolyContains__FP7NAVPOLYG9VU_VECTOR(struct X *p, qword pos);
 static inline qword MulPt(M4 *m, qword v) { qword r; __asm__("vmulax.xyz $ACC, %1, %2x\n\tvmadday.xyz $ACC, %3, %2y\n\tvmaddaz.xyz $ACC, %4, %2z\n\tvmaddw.xyz %0, %5, $vf0w" : "=j"(r) : "j"(m->r[0]), "j"(v), "j"(m->r[1]), "j"(m->r[2]), "j"(m->r[3])); return r; }
 static inline M4 *GetMat(struct X *p) { return p->vt[31].pfn((struct X *)((char *)p + p->vt[31].d)); }
-int func_001BD8A8(struct X *p, struct X *q)
+// name: SafeHouse port (FPolysOverlap)
+int FPolysOverlap__FP7NAVPOLYT0(struct X *p, struct X *q)
 {
     int i;
     M4 m = *GetMat(p);
@@ -18,12 +19,12 @@ int func_001BD8A8(struct X *p, struct X *q)
     if (i < p->c) {
         do {
             qword w = MulPt(&m, p->apos[i]);
-            if (func_001BC688(q, v, w, 1, &hit))
+            if (ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(q, v, w, 1, &hit))
                 break;
             v = w;
         } while (++i < p->c);
     }
     if (i < p->c)
         return 1;
-    return func_001BC9F0(p, MulPt(GetMat(q), q->apos[0])) != 0;
+    return FPolyContains__FP7NAVPOLYG9VU_VECTOR(p, MulPt(GetMat(q), q->apos[0])) != 0;
 }

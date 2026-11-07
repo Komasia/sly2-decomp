@@ -10,7 +10,7 @@ extern char D_004435F0[];
 void func_00232408(void);
 void func_00233048(int, int, int, int, int, int, int);
 int func_00231C48(void);
-void func_00156BE0(int, qword, int, void *);
+void SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(int, qword, int, void *);
 void *func_002333B4(void *, int, int);
 void func_00227788(void *);
 void func_00259B48(void *, void *);
@@ -36,7 +36,7 @@ void ResetSoundMgr__FP8SOUNDMGR(struct P *p)
     p->aEC[3] = 0;
     p->aEC[4] = 0;
     p->aEC[5] = 0;
-    func_00156BE0(0, D_002A2DD0, 0, p->s74);
+    SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(0, D_002A2DD0, 0, p->s74);
     func_002333B4(p->s108, 0, 0xC);
     func_00227788(D_004435F0);
     func_00259B48(&p->r200, 0);

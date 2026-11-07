@@ -7,7 +7,7 @@ struct P { char pad[0xC]; VTE *vt; char pad10[0x4C]; LO *object; };
 extern "C" M3 func_0011B340(const M3 *);
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void *func_002333B4(void *,int,int);
-extern "C" void func_00230598(P *,LO *);
+extern "C" void HoldXfMode(P *,LO *);
 static inline M3 Mul(const M3 &a,const M3 &b) return r
 {
     qword a0=a.r[0].q,a1=a.r[1].q,a2=a.r[2].q;
@@ -40,7 +40,7 @@ extern "C" void SetAloAngVelocityToLoad__FP3ALOG9VU_VECTOR(P *p,qword position)
     NormalizeRotateMatrix3__FP7MATRIX3(&normalized);
     M3 relative=Mul(*rotation,func_0011B340(&normalized));
     object->velocity.q=func_0022FCC8(0,object->parent,Transform(relative,Sub(position,&origin)));
-    func_00230598(p,object);
+    HoldXfMode(p,object);
     MarkAloDirty(p);
     WakeAlo(p);
     SetAloIced(p,0);

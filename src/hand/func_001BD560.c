@@ -6,10 +6,11 @@ void func_001E6F10(S *p, qword *pv, int z, float t);
 float func_001E66C8(S *p, float t);
 float SMinCrv__FP3CRV(S *p);
 float func_001E6648(S *p);
-int func_001BC688(void *p, qword a, qword b, int c, HIT *ahit);
+int ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(void *p, qword a, qword b, int c, HIT *ahit);
 
 
-int func_001BD560(void *p, S *s, int fForward, qword *pq, float *pt, float t)
+// name: SafeHouse port (NPathLeavesPoly)
+int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *p, S *s, int fForward, qword *pq, float *pt, float t)
 {
     qword av[2];
     HIT ahit[2];
@@ -36,7 +37,7 @@ int func_001BD560(void *p, S *s, int fForward, qword *pq, float *pt, float t)
             else t = func_001E6648(s);
         }
         func_001E6F10(s, &av[1], 0, t);
-        c = func_001BC688(p, av[0], av[1], 2, ahit);
+        c = ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(p, av[0], av[1], 2, ahit);
         if (c > 0) {
             if (pt) *pt = t;
             if (pq) *pq = (ahit - 1)[c].q;

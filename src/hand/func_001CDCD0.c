@@ -9,7 +9,8 @@ void *__7GLOBSET(void *p);
 void *func_0015E3A8(struct G *p, int n);
 void func_0011A070(void *pl, void *pv);
 #define VCALL0(o, n) ((void (*)(void *))(o)->vt[n].pf)((char *)(o) + (o)->vt[n].d)
-struct O *func_001CDCD0(struct G *p, int a)
+// name: SafeHouse port (PripgNew)
+struct O *PripgNew__FP2SW5RIPGT(struct G *p, int a)
 {
     struct O *po;
     if (!a && p->x406C) return p->x406C;

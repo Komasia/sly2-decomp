@@ -8,7 +8,8 @@ static __inline__ qword Make(float x, float y, float z)
 }
 struct S { char pad[0x94]; int k; };
 qword func_0011BFF0(float *m);
-qword func_0022CA18(struct S *p, float *m)
+// name: SafeHouse port (VecXfValue)
+qword VecXfValue__FP2XFP7MATRIX4(struct S *p, float *m)
 {
     qword v;
     union { qword q; float f; } r;

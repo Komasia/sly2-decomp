@@ -3,7 +3,7 @@
 
 void func_001E1088(RELAY *prelay, int rumk, int fAsync, float dtRumble)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_Rumble, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Rumble, fAsync);
     prelaycmd->u.rumble.dtRumble = dtRumble;
     prelaycmd->u.rumble.rumk = rumk;
 }

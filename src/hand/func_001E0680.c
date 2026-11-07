@@ -3,6 +3,6 @@
 
 void func_001E0680(RELAY *prelay, float rate)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_SetClockRate, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_SetClockRate, 1);
     prelaycmd->u.setClockRate.rate = rate;
 }

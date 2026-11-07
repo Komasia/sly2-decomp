@@ -8,7 +8,7 @@ extern "C" {
 qword ConvertPos(void *p, void *q, qword v) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020FAA0(void *pv, qword vMin, qword vMax, void *pfn, int n, int *pn0, int *pn1);
 int func_0014CC58(int n, qword a, qword b, int n0, int n1, HIT *phit);
-void func_0012DA30(void *p, qword v);
+void SetCtrlSourceOffset(void *p, qword v) asm("SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR");
 void func_0020F948();
 extern char g_sw[];
 extern qword g_normalZ;
@@ -36,10 +36,10 @@ int func_00189EC8(O *p, M *pm, void *px)
             hit.v0 = VSub(hit.v0, g_normalZ);
             w = ConvertPos(0, p, hit.v0);
             u.q = w;
-            func_0012DA30(px, VSub(w, pm->v10));
+            SetCtrlSourceOffset(px, VSub(w, pm->v10));
             return 1;
         } else {
-            func_0012DA30(px, D_002A2DD0);
+            SetCtrlSourceOffset(px, D_002A2DD0);
             if (p->x208 && ((float *)&pm->v40)[2] < -85.0f)
                 return 0;
             return 1;

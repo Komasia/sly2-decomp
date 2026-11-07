@@ -7,8 +7,8 @@ extern qword D_002A2DA0;
 extern qword D_002A2DB0;
 float GRandInRange__Fff(float a, float b);
 float RadNormalize__Ff(float g);
-qword func_0011E208(float pan, float tilt, float r);
-void func_0011E2D8(qword a, qword b, qword c, M3 *pm);
+qword SetVectorSphere__Ffff(float pan, float tilt, float r);
+void BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(qword a, qword b, qword c, M3 *pm);
 
 void ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4(struct EMITVX *pemitvx, float gRand, float sv, struct LM *plm,
                                                      qword *pnormal, int i, qword *pv)
@@ -27,10 +27,10 @@ void ChooseEmitVelocity__FP6EMITVXffP2LMP6VECTORiT4(struct EMITVX *pemitvx, floa
     }
     tilt = RadNormalize__Ff(tilt + 1.5707964f);
     pan = RadNormalize__Ff(pan);
-    v.q = func_0011E208(pan, tilt, GRandInRange__Fff(plm->gMin, plm->gMax));
+    v.q = SetVectorSphere__Ffff(pan, tilt, GRandInRange__Fff(plm->gMin, plm->gMax));
     v.f[2] *= sv;
     m.r[2] = *pnormal;
-    func_0011E2D8(*pnormal, D_002A2DA0, D_002A2DB0, &m);
+    BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(*pnormal, D_002A2DA0, D_002A2DB0, &m);
     __asm__("vmulax.xyz $ACC, %2, %1x\n\tvmadday.xyz $ACC, %3, %1y\n\tvmaddz.xyz %0, %4, %1z"
             : "=j"(r) : "j"(v.q), "j"(m.r[0]), "j"(m.r[1]), "j"(m.r[2]));
     *pv = r;

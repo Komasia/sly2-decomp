@@ -48,10 +48,10 @@ M3 func_0011B500(qword, float);
 int func_001C0960(void *, qword, qword, int, HIT *, int);
 void func_001E6180(PATH *);
 void func_001D2420(P *);
-void func_001C02D0(void *, qword, qword, PATH *);
+void FNavPathCrv(void *, qword, qword, PATH *) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 float func_002458F0(float, float);
 M3 *func_001A6318(P *);
-qword func_0022CA18(void *, void *);
+qword VecXfValue(void *, void *) asm("VecXfValue__FP2XFP7MATRIX4");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void func_001F0660(void *, int);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
@@ -178,7 +178,7 @@ extern "C" void func_001D2610(P *p)
             func_001E6180(p->path);
             func_001D2420(p);
         } else if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, target)) {
-            func_001C02D0(p->navigator, position, target, p->path);
+            FNavPathCrv(p->navigator, position, target, p->path);
             func_001D2420(p);
         }
         func_001D2490(p);
@@ -196,7 +196,7 @@ extern "C" void func_001D2610(P *p)
                 if (attach->mesh) {
                     M3 m = *func_001A6318(attach->anchor);
                     float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
-                    qword packed = func_0022CA18(attach->mesh, attach->mesh);
+                    qword packed = VecXfValue(attach->mesh, attach->mesh);
                     float error = Abs(RadNormalize(aim - p->wheelAngle));
                     float pitch = GetZ(packed) - attach->meshBinding->pitch;
                     if (error < D_002C20EC && Abs(pitch) < D_002C20F0)
@@ -214,7 +214,7 @@ extern "C" void func_001D2610(P *p)
     case 2: {
         VV object = func_001A62E8(p->selectedObject);
         if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, object)) {
-            func_001C02D0(p->navigator, position, object, p->path);
+            FNavPathCrv(p->navigator, position, object, p->path);
             func_001D2420(p);
         }
         func_001D2490(p);
@@ -240,7 +240,7 @@ extern "C" void func_001D2610(P *p)
             if (attach->mesh) {
                 M3 m = *func_001A6318(attach->anchor);
                 float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
-                qword packed = func_0022CA18(attach->mesh, attach->mesh);
+                qword packed = VecXfValue(attach->mesh, attach->mesh);
                 float error = Abs(RadNormalize(aim - p->wheelAngle));
                 float pitch = GetZ(packed) - attach->meshBinding->pitch;
                 if (D_002C20F4 < error || D_002C20F8 < Abs(pitch))

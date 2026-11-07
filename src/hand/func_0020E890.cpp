@@ -32,7 +32,7 @@ void AddGrfusr(int) asm("AddGrfusr__Fi");
 void *func_002333B4(void *,int,uint);
 SW *func_0020D9D0(SW *);
 int func_001B3B08(void *);
-void func_0014D6D8(void *);
+void InitCm(void *) asm("InitCm__FP2CM");
 void func_0020E180(SW *);
 void func_0013DA18(SW *,STREAM *);
 void func_00184CF0(STREAM *);
@@ -49,7 +49,7 @@ int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001C4080(ACTOR *);
 int func_00210AE0(void);
 void func_00212A70(WIDGET *,int);
-void func_0014D478(void *);
+void UpdateCm(void *) asm("UpdateCm__FP2CM");
 void func_0014D8C0(void *);
 void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 void func_001C2BA8(int);
@@ -105,7 +105,7 @@ extern "C" void func_0020E890(SW *p)
     func_002333B4(&g_sw,0,0x4790);
     func_0020D9D0(&g_sw);
     if(func_001B3B08(D_002F66B0))changed=1;
-    func_0014D6D8(g_cm);
+    InitCm(g_cm);
     p->current=request.header;
     *destination=request;
     func_0020E180(p);
@@ -141,7 +141,7 @@ extern "C" void func_0020E890(SW *p)
         ACTOR *actor=func_001C4840(p);
         if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)func_00212A70(actor->widget,1);
     }
-    func_0014D478(g_cm);
+    UpdateCm(g_cm);
     func_0014D8C0(g_cm);
     BroadcastTaskEvent(g_game,5,0);
     func_001C2BA8(2);

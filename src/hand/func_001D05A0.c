@@ -16,11 +16,12 @@ typedef struct {
     qword x100;
 } OBJ;
 void func_00117120(float, float, float, qword, qword, qword, qword, qword *, qword *, int);
-qword func_0014F268(void *, qword);
+qword ConvertCmScreenToWorld__FP2CMG9VU_VECTOR(void *, qword);
 static inline float GMax(float a, float b) { return a < b ? b : a; }
-void func_001D05A0(OBJ *p)
+// name: SafeHouse port (MoveRipHud)
+void MoveRipHud__FP4RIPN(OBJ *p)
 {
     func_00117120(GMax(p->x14 + p->x18 - g_clock.t, g_clock.dt), g_clock.dt, 1.0f, p->x100, p->x90, p->xF0->a, p->xF0->b, &p->x100, &p->x90, 0);
     p->x80 = p->x70;
-    p->x70 = func_0014F268(g_cm, p->x100);
+    p->x70 = ConvertCmScreenToWorld__FP2CMG9VU_VECTOR(g_cm, p->x100);
 }

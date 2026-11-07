@@ -5,22 +5,23 @@ struct S { char pad[0xF8]; int xF8; int xFC; int x100; struct E *x104; struct E 
 struct M { struct O *po; void *pv; };
 struct G { char pad[0x3D70]; int x3D70; };
 extern struct G g_sw;
-int func_001C1700(struct S *p, int z, qword a, qword b, int c, void **ap);
-int func_001BD8A8(struct O *po, void *pv);
-void func_001BDE80(int n, struct M *pm);
+int CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(struct S *p, int z, qword a, qword b, int c, void **ap);
+int FPolysOverlap__FP7NAVPOLYT0(struct O *po, void *pv);
+void MergePolys__FiPP7NAVPOLY(int n, struct M *pm);
 void func_001C1D20(struct S *p);
 void func_001C1A38(int c, struct E *ae, int bit, float g0, float g1);
-void func_001C1BA0(struct S *p, struct O *po)
+// name: SafeHouse port (AddPolyToRegion)
+void AddPolyToRegion__FP9NAVREGIONP7NAVPOLY(struct S *p, struct O *po)
 {
     void *ap[0x20];
     int n, i;
-    n = func_001C1700(p, 0, po->a.q, po->b.q, 0x20, ap);
+    n = CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(p, 0, po->a.q, po->b.q, 0x20, ap);
     for (i = 0; i < n; i++) {
-        if (func_001BD8A8(po, ap[i])) {
+        if (FPolysOverlap__FP7NAVPOLYT0(po, ap[i])) {
             struct M m;
             m.po = po;
             m.pv = ap[i];
-            func_001BDE80(2, &m);
+            MergePolys__FiPP7NAVPOLY(2, &m);
             return;
         }
     }

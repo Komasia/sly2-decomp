@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001C0320(s32);                         /* extern */
+M2C_UNK FNavPoint__FP9NAVREGIONG9VU_VECTORP6VECTOR(s32);                         /* extern */
 
 void func_001C0940(s32 arg0) {
-    func_001C0320(arg0 + 0xE0);
+    FNavPoint__FP9NAVREGIONG9VU_VECTORP6VECTOR(arg0 + 0xE0);
 }

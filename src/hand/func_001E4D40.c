@@ -6,7 +6,8 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 qword func_001A62E8(struct O *po);
 void func_001E6F60(struct O *po, qword q, int a, qword *pv, float *pg, int b, int c);
 float func_002458F0(float y, float x);
-void func_001E4D40(struct P *p, struct O *po, qword *pv, float *pg)
+// name: SafeHouse port (GetRunAim)
+void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float *pg)
 {
     union { qword q; float a[4]; } uv;
     float ag[4];

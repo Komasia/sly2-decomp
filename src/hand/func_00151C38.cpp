@@ -20,7 +20,7 @@ void func_0014FD40(X *p);
 qword func_001A62E8(ALO *p);
 M3 *func_0011B7E0(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
-void func_0014E168(CM *p, M4 *m);
+void SetCmPosMat(CM *p, M4 *m) asm("SetCmPosMat__FP2CMP6VECTOR");
 void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
 void Update(X *p) asm("Update__6CPPAIRP6CPDEFIP5CMJOY");
 }
@@ -66,7 +66,7 @@ static inline qword Normalize(qword a)
 struct VU_FLOATJ { qword q; VU_FLOATJ(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 static inline qword Scale(qword a, VU_FLOATJ s) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(a), "j"(s.q)); return r; }
 
-static inline void Cm1(M4 *pm) { func_0014E168(&g_cm, pm); }
+static inline void Cm1(M4 *pm) { SetCmPosMat(&g_cm, pm); }
 static inline void Cm2(float g) { SetCmFov(&g_cm, g); }
 // name: SafeHouse port (CPPAIR::Update)
 void Update(X *p)

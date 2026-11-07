@@ -35,7 +35,8 @@ static __inline__ float GDot(const qword *pa, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-float func_0014F040(struct P *p, int unused, qword vIn, struct PL *pl)
+// name: SafeHouse port (GCmAvoidWeight)
+float GCmAvoidWeight__FP2CMiG9VU_VECTORP5CMHIT(struct P *p, int unused, qword vIn, struct PL *pl)
 {
     float r;
     qword plane = pl->plane;

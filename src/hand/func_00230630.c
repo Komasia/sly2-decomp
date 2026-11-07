@@ -1,7 +1,8 @@
 typedef struct S { char pad[0x98]; short k; short x9A; } S;
 void SetXfMode__FP3ALOP2XFi(void *, S *, int);
 
-void func_00230630(void *p, S *s)
+// name: SafeHouse port (ReleaseXfMode)
+void ReleaseXfMode__FP3ALOP2XF(void *p, S *s)
 {
     switch (s->k) {
     case 7:

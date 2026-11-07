@@ -1,4 +1,4 @@
-/* func_001BDE80: merge a set of convex polygons into one new polygon (hull of all their transformed points), re-centre
+/* MergePolys__FiPP7NAVPOLY: merge a set of convex polygons into one new polygon (hull of all their transformed points), re-centre
    it on the average point, then reparent the old polygons' children to the new one (lane 10).
    X is the polygon object (apos = point array, c = point count incl. the closing duplicate, vt = vtable).
 
@@ -26,9 +26,9 @@ extern qword D_002A2DD0;
 extern DL D_003E1A40;
 extern "C" {
 void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
-X *func_001BDA00(void);
+X *PpathNewMerged(void) asm("PpathNewMerged__Fv");
 void func_001BDBF0(X *p, int n, qword *pts);
-void func_001BDE18(X *p, X *pNew);
+void AddPolyMember(X *p, X *pNew) asm("AddPolyMember__FP2LOT0");
 void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 void func_001E6180(X *p);
@@ -55,7 +55,8 @@ static inline void *PvNextDli(DLI *pdli)
     return pv;
 }
 
-extern "C" void func_001BDE80(int n, X **ap)
+// name: SafeHouse port (MergePolys)
+extern "C" void MergePolys__FiPP7NAVPOLY(int n, X **ap)
 {
     int c = 0;
     int i, j, k;
@@ -78,7 +79,7 @@ extern "C" void func_001BDE80(int n, X **ap)
         }
     } while (++polygon < n);
     }
-    pNew = func_001BDA00();
+    pNew = PpathNewMerged();
     func_001BDBF0(pNew, c, apos);
     {
         qword sum = D_002A2DD0;
@@ -107,13 +108,13 @@ extern "C" void func_001BDE80(int n, X **ap)
             while ((pv = (X *)PvNextDli(&dli)) != 0) {
                 RemoveDlEntry(&px->dl, pv);
                 pv->x1D8 = 0;
-                func_001BDE18(pv, pNew);
+                AddPolyMember(pv, pNew);
             }
             ((void (*)(X *))px->vt[9].pfn)((X *)((char *)px + px->vt[9].d));
             AppendDlEntry(&D_003E1A40, px);
             s_pdliFirst = dli.pdliNext;
         } else {
-            func_001BDE18(px, pNew);
+            AddPolyMember(px, pNew);
         }
     }
     pNew->xE4 = 1;

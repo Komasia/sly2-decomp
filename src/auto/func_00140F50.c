@@ -1,6 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001A19A0(s32);                         /* extern */
+M2C_UNK FAcceptDamage__FP5ACTORP5CTMSG(s32);                         /* extern */
 
-void func_00140F50(s32 arg0) {
-    func_001A19A0(arg0 + 0xDF0);
+// name: SafeHouse port (FActorAcceptContact)
+void FActorAcceptContact__FP3ALO(s32 arg0) {
+    FAcceptDamage__FP5ACTORP5CTMSG(arg0 + 0xDF0);
 }

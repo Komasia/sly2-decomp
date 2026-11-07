@@ -30,5 +30,5 @@ extern M2C_UNK g_sw;
 void Exit__7JOBWAIT(s32 arg0) {
     SetWaitState__7JOBWAITi(arg0, -1);
     func_001EEF78(arg0);
-    func_00209970(M2C_FIELD(arg0, s32 *, 0x10), 0x1E);
+    RemoveGuardState__FP5GUARDi(M2C_FIELD(arg0, s32 *, 0x10), 0x1E);
 }

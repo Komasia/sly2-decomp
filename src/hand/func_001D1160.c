@@ -12,10 +12,10 @@ typedef struct {
     float xF4;
     float xF8;
 } OBJ;
-void func_001CF268(OBJ *);
+void UpdateRipLife__FP4RIPG(OBJ *);
 void func_001D1160(OBJ *p)
 {
-    func_001CF268(p);
+    UpdateRipLife__FP4RIPG(p);
     if (p->xF0) {
         p->xF8 += g_clock.dt * p->xF4;
         while (p->xF8 >= 1.0f) {

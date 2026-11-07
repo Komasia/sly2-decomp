@@ -21,8 +21,8 @@ extern "C"{
  extern U g_normalZ;
  extern char g_sw[],g_joy[];
  void SetSoMass(P*,float) asm("SetSoMass__FP2SOf");
- void func_00130D30(ASEGA*,int,float,float);
- void func_0012E460(DELTA**);
+ void SetAsegaTime(ASEGA*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
+ void DeleteCtrl(DELTA**) asm("DeleteCtrl__FPP4CTRL");
  void SetXfMode(P*,GROUP*,int) asm("SetXfMode__FP3ALOP2XFi");
  void func_00134320(void*,P*);
  void DetachAloContacts(P*) asm("DetachAloContacts__FP3ALO");
@@ -31,7 +31,7 @@ extern "C"{
  qword func_001A62E8(P*);
  qword func_0022FC48(void*,void*,qword);
  qword func_0022FCC8(void*,void*,qword);
- DELTA*func_0012DE58(P*,GROUP*,void*,float,qword,qword);
+ DELTA*PctrlNewTarget(P*,GROUP*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
  P*func_001C4840(void*);
  void TriggerJoyRumbleRumk(void*,int,float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
  ENTRY*func_0012F938(void*,int);
@@ -118,10 +118,10 @@ extern "C" void func_0017B1A8(C*p,int next){
  if(next==p->mode)return;
  switch(p->mode){
  case -1:SetSoMass(p->actor,D_002BE6FC*p->actor->tuning->speed);break;
- case 3:if(next!=-1)func_00130D30(p->control->asega,0,0.0f,1.0f);break;
+ case 3:if(next!=-1)SetAsegaTime(p->control->asega,0,0.0f,1.0f);break;
  }
  if((unsigned)p->mode<2&&(unsigned)next>=2){
-  func_0012E460(&p->delta);SetXfMode(p->actor,p->actor->first,2);SetXfMode(p->actor,p->actor->second,2);
+  DeleteCtrl(&p->delta);SetXfMode(p->actor,p->actor->first,2);SetXfMode(p->actor,p->actor->second,2);
  }
  int was=Still(p->mode),now=Still(next);
  p->mode=next;
@@ -162,15 +162,15 @@ extern "C" void func_0017B1A8(C*p,int next){
    float end=*(float*)(clockCarrier+(short)(clockAddress&0xffff))+D_002BE700;
    qword localPoint=func_0022FC48(0,first->space,point.q);
    qword localDirection=func_0022FCC8(0,first->space,direction.q);
-   p->delta=func_0012DE58(p->actor,first,0,end,localPoint,localDirection);
+   p->delta=PctrlNewTarget(p->actor,first,0,end,localPoint,localDirection);
   }
   int owned=0;if(request.flag)owned=p->target->owner==p->actor;p->owned=owned;
   if(p->actor->attention){P*focus=func_001C4840(g_sw);if(focus&&p->target==focus)TriggerJoyRumbleRumk(g_joy,3,0.15f);}
   break;
  }
- case 3:{ENTRY*entry=func_0012F938(p->control->curves,0x3C);if(entry)func_00130D30(p->control->asega,0,entry->value,1.0f);break;}
+ case 3:{ENTRY*entry=func_0012F938(p->control->curves,0x3C);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);break;}
  case 4:case 5:
-  if(p->mode==4){ENTRY*entry=func_0012F938(p->control->curves,0x173);if(entry)func_00130D30(p->control->asega,0,entry->value,1.0f);}
+  if(p->mode==4){ENTRY*entry=func_0012F938(p->control->curves,0x173);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);}
   break;
  case 1:case 2:break;
  }

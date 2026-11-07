@@ -11,14 +11,14 @@ struct S {
 };
 extern qword D_002A2DD0;
 void UpdateStep__FP4STEPf(struct S *p);
-void func_00207288(struct S *p);
-void func_00206900(struct S *p);
-int func_00209430(void *pc);
+void UpdateGuardTimedMode__FP5GUARD(struct S *p);
+void RefreshGuardTargets__FP5GUARD(struct S *p);
+int FKindeDone__FP5KINDE(void *pc);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct O *po, int n, qword v);
 void UpdateGuardActionAim__FP5GUARD(struct S *p);
 void func_001F1CF8(struct S *p);
-void func_0020CE70(void *p);
-void func_0020D1F8(void *p);
+void UpdateWatchA__FP6WATCHA(void *p);
+void UpdateWatchB__FP6WATCHB(void *p);
 void func_001EED10(void *p);
 void func_002097E0(void *p);
 int func_00131968(int h);
@@ -31,16 +31,16 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
         return;
     if (p->kFBC == 0xE)
         return;
-    func_00207288(p);
-    func_00206900(p);
-    if (p->po && func_00209430(p->po->pc))
+    UpdateGuardTimedMode__FP5GUARD(p);
+    RefreshGuardTargets__FP5GUARD(p);
+    if (p->po && FKindeDone__FP5KINDE(p->po->pc))
         SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p, 0, 0, D_002A2DD0);
     if (p->hF0C)
         UpdateGuardActionAim__FP5GUARD(p);
     if (p->n48C)
         func_001F1CF8(p);
-    func_0020CE70(p->p498);
-    func_0020D1F8(p->p49C);
+    UpdateWatchA__FP6WATCHA(p->p498);
+    UpdateWatchB__FP6WATCHB(p->p49C);
     func_001EED10(p->x26C);
     func_002097E0(p->xFD0);
     if (p->h34C && func_00131968(p->h34C))

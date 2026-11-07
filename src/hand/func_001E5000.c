@@ -4,7 +4,7 @@ struct P { char pad[0x24]; struct X *p24; char pad2[0x74 - 0x28]; void *p74; };
 extern qword D_002A2DD0;
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 qword func_001A62E8(struct X *);
-void func_001E4D40(struct P *, void *, qword *, int);
+void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *, void *, qword *, int);
 void func_001E5000(struct P *p, void *pv)
 {
     struct X *px;
@@ -26,7 +26,7 @@ void func_001E5000(struct P *p, void *pv)
     if (!pv) return;
     if (px) {
         px->n1044 = 1;
-        func_001E4D40(p, pv, &px->v1060, 0);
+        GetRunAim__FP3RUNP2LOP6VECTORPf(p, pv, &px->v1060, 0);
         ((float *)&px->v1060)[2] += px->f1048;
         px->v1070 = D_002A2DD0;
     }

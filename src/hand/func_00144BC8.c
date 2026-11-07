@@ -55,7 +55,8 @@ static __inline__ qword Perp(qword d, qword axis) { qword v, r;
         __asm__("vmulx.xyzw %0, %1, %0x" : "+j"(v) : "j"(axis));
         __asm__("vsub.xyzw %0, %1, %0" : "+j"(v) : "j"(d)); return v; }
 static __inline__ float GPoly(float *a, float g) { return a[0] + g * (a[1] + g * a[2]); }
-void func_00144BC8(struct P *p, struct Q *q)
+// name: SafeHouse port (JOBACTORFOLLOW::Drive)
+void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
 {
     func_001EF0C0(p, q);
     if (p->x4C < 2) if (p->x4C >= 0) {

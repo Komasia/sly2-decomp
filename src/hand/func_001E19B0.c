@@ -3,6 +3,6 @@
 
 void func_001E19B0(RELAY *prelay, int idHint)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_ClearHintBox, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_ClearHintBox, 1);
     prelaycmd->u.clearHintBox.idHint = idHint;
 }

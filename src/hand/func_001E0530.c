@@ -3,7 +3,7 @@
 
 void func_001E0530(RELAY *prelay, int oidRelay, int oidFirer, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_FireRelay, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_FireRelay, fAsync);
     prelaycmd->u.fireRelay.oidRelay = oidRelay;
     prelaycmd->u.fireRelay.oidFirer = oidFirer;
 }

@@ -31,7 +31,8 @@ static __inline__ float GDist(qword a, qword b)
 }
 static __inline__ float GFromClq(float g, struct CLQ *pclq) { return pclq->g0 + g * (pclq->g1 + g * pclq->g2); }
 
-struct SO *func_001450E0(struct P *p)
+// name: SafeHouse port (JOBCOMPANION::FindEnemy)
+struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
 {
     struct SO *psoBest = 0;
     float gBest = D_002A4E30;

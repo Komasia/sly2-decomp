@@ -3,7 +3,8 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VTE *vt; char pad2[0x30 - 0x10]; int n30; char pad3[0x40 - 0x34]; qword q40; };
 void func_001EECD0(void *p);
 struct O *func_00205438(void *p, int n);
-void func_00142540(char *p, int a, qword q)
+// name: SafeHouse port (SetActorFollow)
+void SetActorFollow__FP5ACTORiG9VU_VECTOR(char *p, int a, qword q)
 {
     struct O *o;
     struct VTE *e;

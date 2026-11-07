@@ -58,7 +58,7 @@ struct P { int x0; void *x4; X *px8; int xC; int pad10[3]; float g1C; float g20;
 
 extern "C" {
 extern qword D_002A2DD0, g_normalZ, D_002BC380;
-void func_0022DD00(void *pv, X *px);
+void RefreshXf(void *pv, X *px) asm("RefreshXf__FP3ALOP2XF");
 void func_00117120(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n);
 M3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_0022FD38(M3 *pm, int n, X *px, M3 *pmSrc);
@@ -100,7 +100,7 @@ extern "C" void func_0012D508(P *p)
     }
     py = p->px24;
     if (py->po90)
-        func_0022DD00(py->po90->x4, py);
+        RefreshXf(py->po90->x4, py);
     qword v;
     switch ((short)(p->px24->u98 - 1)) {
     case 0: case 1: case 6: case 7: case 8: case 10: case 16: case 17: case 19: case 20:

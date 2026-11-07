@@ -15,7 +15,7 @@ qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 qword PosGoal(struct X *s, qword v) asm("PosGoal__FP4GOALG9VU_VECTOR");
 qword func_0011E1A0(float a, float b, float c);
-int func_001C0B50(void *q, qword v, qword *out);
+int FKeepOnNav(void *q, qword v, qword *out) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
 void func_002562A8(struct X *x);
 void SetGoal(void *p, struct X *x) asm("SetGoal__7JOBGOTOP4GOAL");
 }
@@ -49,7 +49,7 @@ extern "C" void ChooseAway__5JOBBD(struct S *p) {
         qword o = func_0011E1A0(ang + D_002BE770[i], D_002BE76C, 0.0f);
         qword s;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(b), "j"(o));
-        if (func_001C0B50(q, s, &hit.q)) {
+        if (FKeepOnNav(q, s, &hit.q)) {
             qword e, l;
             float g;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(e) : "j"(hit.q), "j"(a));

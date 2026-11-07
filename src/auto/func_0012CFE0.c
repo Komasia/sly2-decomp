@@ -1,9 +1,10 @@
 #include "m2c_prelude.h"
-s32 func_0012D058();                                /* extern */
-M2C_UNK func_00230018(s32, s32, void *);            /* extern */
+s32 FXfHasCtrl__FP2XF();                                /* extern */
+M2C_UNK AddXfCtrl__FP3ALOP2XFP4CTRL(s32, s32, void *);            /* extern */
 
-void func_0012CFE0(void *arg0) {
-    if (func_0012D058() == 0) {
-        func_00230018(M2C_FIELD(arg0, s32 *, 4), M2C_FIELD(arg0, s32 *, 8), arg0);
+// name: SafeHouse port (EnsureCtrlAdded)
+void EnsureCtrlAdded__FP4CTRL(void *arg0) {
+    if (FXfHasCtrl__FP2XF() == 0) {
+        AddXfCtrl__FP3ALOP2XFP4CTRL(M2C_FIELD(arg0, s32 *, 4), M2C_FIELD(arg0, s32 *, 8), arg0);
     }
 }

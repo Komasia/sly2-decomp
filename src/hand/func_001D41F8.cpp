@@ -24,7 +24,7 @@ float GSmooth(float,float,float,void*,float*) asm("GSmooth__FfffP3SMPPf");
 float RadNormalize(float) asm("RadNormalize__Ff");
 M3*func_0011B500(M3*,qword,float);
 qword*func_00256D18(qword*,qword);
-void func_0022FAA0(P*);
+void UpdateAloXfWorlds(P*) asm("UpdateAloXfWorlds__FP3ALO");
 void RenderSoSelf(P*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 }
 static inline float Abs(float f){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(f));return r;}
@@ -77,5 +77,5 @@ extern "C" void func_001D41F8(P*p){
   register int generation=++g_sw.generation;
   e->node->generation=generation;
  }
- func_0022FAA0(p);RenderSoSelf(p);
+ UpdateAloXfWorlds(p);RenderSoSelf(p);
 }

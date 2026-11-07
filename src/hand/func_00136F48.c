@@ -13,8 +13,8 @@ void func_002046B0(struct PO *, qword);
 void func_00204CA8(struct PO *);
 void func_001384C0(void *);
 void func_001305B8(void *, struct PO *, int, void **, float, float);
-void func_00131B10(void *, struct PO *, int);
-void func_00131A90(void *, float);
+void DemoteAsegaOnXf__FiiP2XF(void *, struct PO *, int);
+void SetAsegaSeekTime__FP5ASEGAf(void *, float);
 static __inline__ float Clamp(float g, float gMin, float gMax)
 {
     if (g < gMin)
@@ -77,7 +77,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
     if (!ps->pvE0)
         return;
     if (ps->x10)
-        func_00131B10(ps->pvE0, ps->po, ps->po->x10B8);
+        DemoteAsegaOnXf__FiiP2XF(ps->pvE0, ps->po, ps->po->x10B8);
     if (ps->pvE0 && dt != 0.0f)
-        func_00131A90(ps->pvE0, g_clock.t + dt);
+        SetAsegaSeekTime__FP5ASEGAf(ps->pvE0, g_clock.t + dt);
 }

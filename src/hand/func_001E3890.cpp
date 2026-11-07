@@ -1,4 +1,4 @@
-// func_001E3890: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
+// FCmdDone__FP3RUNP7SCPTCMD: ported from Lilly's personal Sly 2 decomp (src/P2/jsg.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: DT_CmJoltMax, D_002C3620 (D_002C3620), D_002C3624 (D_002C3624), D_002C3628 (D_002C3628), D_002C362C (D_002C362C), D_003DA530 (D_003DA530), g_clock, g_cm, g_joy, D_003DD040 (g_sndmgr), D_004435F0 (g_subtitle), g_sw
 // 0x001E3890 FIsJsgCommandComplete__FP3JSGP8RELAYCMD  (T1306, our name; MATCH)
@@ -2862,7 +2862,8 @@ static inline float TJsgNow(JSG *pjsg)
     }
     return g_clock.t;
 }
-int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd) __asm__("func_001E3890");
+int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd) __asm__("FCmdDone__FP3RUNP7SCPTCMD");
+// name: SafeHouse port (FCmdDone)
 int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd)
 {
     int fComplete;

@@ -2,7 +2,8 @@ struct E { char pad[0x10]; long id; char pad2[8]; };
 struct S { char pad[0x4C0]; int c; char pad2[0xC]; struct E a[1]; };
 long func_00207A20(int n);
 int func_00209A28(long id, long mask);
-struct E *func_00209AD0(struct S *p, long mask)
+// name: SafeHouse port (PkindeBest)
+struct E *PkindeBest__FP5GUARDUl(struct S *p, long mask)
 {
     int i;
     int k = 0;

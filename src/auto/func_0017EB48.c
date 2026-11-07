@@ -1,10 +1,10 @@
 #include "m2c_prelude.h"
 M2C_UNK func_001EEF68();                            /* extern */
-M2C_UNK func_00209890(s32, M2C_UNK);                /* extern */
+M2C_UNK AddGuardState__FP5GUARDi(s32, M2C_UNK);                /* extern */
 
 // name: SafeHouse port (JOBPATHSTEP::Init)
 void Init__11JOBPATHSTEP(void *arg0) {
     func_001EEF68();
     M2C_FIELD(arg0, f32 *, 0x38) = -1.0f;
-    func_00209890(M2C_FIELD(arg0, s32 *, 0x10), 0x2E);
+    AddGuardState__FP5GUARDi(M2C_FIELD(arg0, s32 *, 0x10), 0x2E);
 }

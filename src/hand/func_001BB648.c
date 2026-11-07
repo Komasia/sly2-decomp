@@ -23,10 +23,10 @@ void func_001F69F8(P *p, int v);
 void func_001F6AC8(P *p, int v);
 void func_001F6B48(P *p, int v);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
-void func_0014F750(void *g, int v);
+void JoltCm__FP2CMi(void *g, int v);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *g, int v, float f);
 qword func_001A62E8(void *p);
-void func_00154E10(void *g, qword q, int v, int a, P *p);
+void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(void *g, qword q, int v, int a, P *p);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int k, int v, P *p);
 
 void func_001BB648(P *p, E *pe)
@@ -73,7 +73,7 @@ void func_001BB648(P *p, E *pe)
             }
             break;
         case 8:
-            if (p->x168 & 2) func_0014F750(g_cm, pi->v);
+            if (p->x168 & 2) JoltCm__FP2CMi(g_cm, pi->v);
             break;
         case 9:
             if (p->x168 & 4) TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, pi->v, 0.3f);
@@ -83,7 +83,7 @@ void func_001BB648(P *p, E *pe)
                 qword q;
                 if (psPrev) q = func_001A62E8(psPrev);
                 else q = func_001A62E8(p);
-                func_00154E10(D_002DE578, q, pi->v, -100, p);
+                DropPickups__FP6VECTORG9VU_VECTORiiP2LO(D_002DE578, q, pi->v, -100, p);
             }
             break;
         case 11: {

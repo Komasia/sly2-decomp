@@ -1,4 +1,4 @@
-// func_00140F90 (0x140F90): message handler (p, msg, pv): msg 3 resets x1038 and stops the 0xDF0/0x11B0 actions, msg 9 (pso->p18 == p)
+// HandleActorMessage__FP5ACTOR5MSGIDPv (0x140F90): message handler (p, msg, pv): msg 3 resets x1038 and stops the 0xDF0/0x11B0 actions, msg 9 (pso->p18 == p)
 // switches on pmsg->k (0x15E: x190 = -v and virtual slot 35 called with the 0x1B0 rows times v; 0x161/0x162; 0x27B/0x27C; 0x1C7/0x1C8),
 // msgs 4/5 call virtual slots 8/9 on the 0x1090 entries, msg 1 / msg 11 release 0x4D4 / 0x1310; then forwards to func_001EED78/HandlePoMessage__FP2PO5MSGIDPv.
 // MATCH (Claude agent for Lilly, T1682, 2026-10-25), no pins: from v6 (aligned 2), case 0x15E written with NO volatile asm and no vf6 pin.
@@ -22,7 +22,7 @@ extern struct GS g_sw;
 extern DL D_003E148C;
 extern struct GG *D_002E1E40;
 extern float D_002BCC94;
-void func_001A15D0(void *p);
+void EndDamageReaction__FP5ACTOR(void *p);
 void func_002206C8(void *p, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct SO *pso, float g);
 qword func_001A62E8(void *p);
@@ -30,14 +30,14 @@ void func_002205A8(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_00224590(void *p);
 void func_002245B8(void *p);
-void func_00130658(void *p);
+void RetractAsegaPp__FPP5ASEGA(void *p);
 void func_00141CD0(void *p);
 void func_001305B8(void *pa, void *p, float g, int n, float h, void *pb);
 void func_0019F170(void *p, int n);
 void func_0019F220(void *p, int n);
 void *func_001CB250(void *p, int n);
 void func_001A58D0(void *p, int a, int b);
-void func_00156780(void *p);
+void RemoveNoise__FP5NOISE(void *p);
 void func_001CCC88(void *p, void *q);
 void func_00131A00(void *p, float g);
 void func_001CD098(void *p, void *q);
@@ -66,7 +66,8 @@ static inline qword VecSub(qword a, qword b)
     return r;
 }
 
-void func_00140F90(void *p, int msg, void *pv)
+// name: SafeHouse port (HandleActorMessage)
+void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
 {
     switch (msg) {
     case 3:
@@ -74,7 +75,7 @@ void func_00140F90(void *p, int msg, void *pv)
             (F(void *, p, 0x1034) != 0 && pv == F(void *, F(void *, p, 0x1034), 0x30))) {
             F(int, p, 0x1038) = -1;
             if ((unsigned)(F(int, p, 0xDF4) - 8) < 5) {
-                func_001A15D0((char *)p + 0xDF0);
+                EndDamageReaction__FP5ACTOR((char *)p + 0xDF0);
             } else {
                 switch (F(int, p, 0x11B4)) {
                 case 5:
@@ -140,7 +141,7 @@ void func_00140F90(void *p, int msg, void *pv)
                 if (F(void *, p, 0x130C) != 0) {
                     __asm__("" : : : "$3", "$4"); /* clobber of dead v1/a0 (Claude agent): target keeps n in a1 */
                     if (F(int, p, 0x1314) == n) {
-                        func_00130658((char *)p + 0x1310);
+                        RetractAsegaPp__FPP5ASEGA((char *)p + 0x1310);
                         F(int, p, 0x1314) = -1;
                     } else {
                         func_00141CD0(p);
@@ -165,7 +166,7 @@ void func_00140F90(void *p, int msg, void *pv)
                         InitDli(&dli, &D_003E148C);
                         while ((po2 = PvNextDli(&dli)) != 0) {
                             if (F(int, po2, 0x54) == 4 && F(void *, po2, 0x44) == p)
-                                func_00156780(po2);
+                                RemoveNoise__FP5NOISE(po2);
                         }
                         s_pdliFirst = dli.m_pdliNext;
                         g_sw.g4758 = g_clock.t + D_002BCC94;
@@ -225,7 +226,7 @@ void func_00140F90(void *p, int msg, void *pv)
         break;
     case 11:
         if (((struct MSGB *)pv)->p4 == p) {
-            func_00130658((char *)p + 0x1310);
+            RetractAsegaPp__FPP5ASEGA((char *)p + 0x1310);
             F(int, p, 0x1314) = -1;
         }
         break;

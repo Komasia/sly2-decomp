@@ -42,7 +42,8 @@ extern char D_002CFD20[];
 extern char D_002CFCA0[];
 extern char D_002CFC20[];
 extern char D_002CFDA0[];
-struct P *func_001EF138(int kind,void *memory){
+// name: SafeHouse port (PjobNew)
+struct P *PjobNew__F3CIDPv(int kind,void *memory){
  struct P *result;
  switch(kind){
  case 0x9C:

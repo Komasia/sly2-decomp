@@ -14,7 +14,7 @@ void func_001EEF98(struct P *p);
 int func_001A61A0(struct T *p);
 qword func_001A62E8(void *p);
 struct M3 *func_001A6318(void *p);
-void func_00146E18(struct P *p, int n);
+void SetState__12JOBSLYATTACKi(struct P *p, int n);
 float GRandInRange__Fff(float gMin, float gMax);
 
 static __inline__ float Dot(qword a, qword b)
@@ -48,7 +48,8 @@ static __inline__ float SafeNormalize(qword *pv, qword *pvDefault)
     return g;
 }
 
-void func_001467A0(struct P *p)
+// name: SafeHouse port (JOBSLYATTACK::Update)
+void Update__12JOBSLYATTACK(struct P *p)
 {
     union { qword q; float f[4]; } d;
     float g;
@@ -57,7 +58,7 @@ void func_001467A0(struct P *p)
     if (p->x30 == -1)
         return;
     if (p->p10->xDF4 != -1 || !func_001A61A0(p->p38) || p->p38->x330) {
-        func_00146E18(p, -1);
+        SetState__12JOBSLYATTACKi(p, -1);
         return;
     }
     {
@@ -75,21 +76,21 @@ void func_001467A0(struct P *p)
                 struct M3 *pm = func_001A6318(p->p10);
                 if (0.8f < Dot(pm->r[0], d.q)) {
                     if (GRandInRange__Fff(0.0f, 1.0f) < 0.3f)
-                        func_00146E18(p, 3);
+                        SetState__12JOBSLYATTACKi(p, 3);
                     else
-                        func_00146E18(p, 2);
+                        SetState__12JOBSLYATTACKi(p, 2);
                 }
             } else if (D_002BD36C < g) {
-                func_00146E18(p, 1);
+                SetState__12JOBSLYATTACKi(p, 1);
             }
             break;
         case 1:
             if (g < D_002BD368)
-                func_00146E18(p, 0);
+                SetState__12JOBSLYATTACKi(p, 0);
             break;
         case 2:
             if (p->p10->x18D8 == -1 && 0.1f < g_clock.t - p->x34)
-                func_00146E18(p, -1);
+                SetState__12JOBSLYATTACKi(p, -1);
             break;
         case 3: {
             float t = g_clock.t;
@@ -97,15 +98,15 @@ void func_001467A0(struct P *p)
                 struct PO *po = p->p10;
                 if (po->x2DC != -1) {
                     if (po->x2DC == 1 && D_002BD370 < t - po->g2E0)
-                        func_00146E18(p, 4);
+                        SetState__12JOBSLYATTACKi(p, 4);
                 } else
-                    func_00146E18(p, -1);
+                    SetState__12JOBSLYATTACKi(p, -1);
             }
             break;
         }
         case 4:
             if (0.1f < g_clock.t - p->x34 && p->p10->x18C8 != 13)
-                func_00146E18(p, -1);
+                SetState__12JOBSLYATTACKi(p, -1);
             break;
         }
     } while (p->x30 != state);

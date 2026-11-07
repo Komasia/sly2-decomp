@@ -7,15 +7,15 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 void func_001A5E28(struct P *);
 qword func_001A62E8(struct P *);
-void *func_001C0D70(qword, int);
-void func_001F37C8(struct P *, void *);
+void *PregionAt__FG9VU_VECTORi(qword, int);
+void SetAloRegion__FP3ALOP9NAVREGION(struct P *, void *);
 void UpdateSo__FP2SOf(struct P *p)
 {
     void *q;
     float d;
     func_001A5E28(p);
     q = p->pe ? p->pe->pDC : 0;
-    if (q) func_001F37C8(p, func_001C0D70(func_001A62E8(p), 1));
+    if (q) SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(func_001A62E8(p), 1));
     d = p->g130;
     if (d != 0.0f) {
         float v = p->g12C + g_clock.dt * d;

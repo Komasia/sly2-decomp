@@ -4,8 +4,9 @@ struct S { int a[3]; struct VTE *vt; char pad[0xE0 - 0x10]; unsigned int c; stru
 extern struct O *D_003E148C;
 void func_001A5E28(struct S *p);
 void func_00156DE0(struct S *p, int f);
-int func_00156FE8(struct S *p, struct O *o);
-void func_00156EB8(struct S *p)
+int FListenerHearsNoise__FP2LOP5NOISE(struct S *p, struct O *o);
+// name: SafeHouse port (UpdateNoiseListener)
+void UpdateNoiseListener__FP2LO(struct S *p)
 {
     struct O *o;
     func_001A5E28(p);
@@ -17,7 +18,7 @@ void func_00156EB8(struct S *p)
                 break;
         if (i < (int)p->c)
             continue;
-        if (!func_00156FE8(p, o))
+        if (!FListenerHearsNoise__FP2LOP5NOISE(p, o))
             continue;
         if (p->c < 8) {
             struct VTE *e = &o->vt[1];

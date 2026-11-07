@@ -4,7 +4,8 @@ struct A { int c; void *pv; int pad[14]; };
 struct M { int x0; int x4; int x8; };
 struct S { char pad[0xC]; struct VTE *vt; char p1[0x168 - 0x10]; int x168; char p2[0x218 - 0x16C]; struct LO *x218; };
 void func_00133590(struct S *p, int n, struct M *pm);
-void func_001C5098(struct S *p, int n, struct M *pm)
+// name: SafeHouse port (OnPickupMessage)
+void OnPickupMessage__FP2LO5MSGIDPv(struct S *p, int n, struct M *pm)
 {
     struct A a;
     func_00133590(p, n, pm);

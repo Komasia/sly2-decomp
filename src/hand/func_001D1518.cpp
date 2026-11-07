@@ -17,7 +17,7 @@ void func_001F36A8(P *);
 REF *func_001F4C58(P *,int,int);
 void *func_002332B8(void *,const void *,int);
 qword ConvertPos(void *,P *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-void *func_0012DC18(P *,REF *,int,int,int,qword);
+void *PctrlNewPos(P *,REF *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void *func_0015E938(void *,int,int,P *);
 void *func_001F0380(void *,P *,int,int);
 void *func_001E94B0(int,int);
@@ -103,7 +103,7 @@ extern "C" void func_001D1518(P *p){
    --current.side;--next;--i;
    func_002332B8(destination,source,bytes);
    --p->sideCount;
-  }else current.side->binding=func_0012DC18(p,reference,1,7,3,D_002A2DD0);
+  }else current.side->binding=PctrlNewPos(p,reference,1,7,3,D_002A2DD0);
   count=p->sideCount;
   ++i;++next;++current.side;
   count=i<count;
@@ -121,7 +121,7 @@ extern "C" void func_001D1518(P *p){
     current.attachment->extra=func_0015E938(g_sw,1,current.attachment->extraId,p);
     if(current.attachment->extra || current.attachment->extraId==invalid){
      current.attachment->binding=func_001F0380(current.attachment->object,p,-1,0);
-     if(current.attachment->mesh)current.attachment->meshBinding=func_0012DC18(p,current.attachment->mesh,1,7,3,D_002A2DD0);
+     if(current.attachment->mesh)current.attachment->meshBinding=PctrlNewPos(p,current.attachment->mesh,1,7,3,D_002A2DD0);
      goto attachment_next;
     }
    }

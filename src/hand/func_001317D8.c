@@ -12,7 +12,8 @@ static __inline__ void PingPong(struct P *p, float *pt, float *pdt, float tMax, 
         p->g44 = -p->g44;
     }
 }
-int func_001317D8(struct P *p, float *pt, float *pdt)
+// name: SafeHouse port (FWrapAsegaTime)
+int FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pt, float *pdt)
 {
     float tMax = p->pq->tMax;
     float t = *pt;

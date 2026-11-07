@@ -6,7 +6,7 @@ struct P { char pad[0xC]; struct VT *pvt; char pad2[0x58 - 0x10]; struct O *po; 
 int FXfmMoving(int);
 void SetXfMode__FP3ALOP2XFi(struct P *, struct O *, int);
 qword func_0022FCC8(int, int, qword);
-void func_00230598(struct P *, struct O *);
+void HoldXfMode(struct P *, struct O *);
 void MarkAloDirty__FP3ALO(struct P *);
 void WakeAlo__FP3ALO(struct P *);
 void SetAloIced__FP3ALOl(struct P *, int);
@@ -21,7 +21,7 @@ void SetAloVelocityToLoad__FP3ALOG9VU_VECTOR(struct P *p, qword q)
     cur = ((qword (*)(void *))p->pvt->a[33].pfn)((char *)p + p->pvt->a[33].d);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(q), "j"(cur));
     po->v.q = func_0022FCC8(0, po->nA0, d);
-    func_00230598(p, po);
+    HoldXfMode(p, po);
     MarkAloDirty__FP3ALO(p);
     WakeAlo__FP3ALO(p);
     SetAloIced__FP3ALOl(p, 0);

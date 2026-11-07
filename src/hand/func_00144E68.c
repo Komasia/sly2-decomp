@@ -4,8 +4,9 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x40 - 0x10]; int n40; char 
 struct P { char pad[0x10]; void *o10; char pad2[0x30 - 0x14]; int n30; float g34; int n38; float g3C; qword q40; };
 void func_001EEF70(void *p);
 struct O *func_00205438(void *p, int n);
-void func_00144F48(struct P *p, qword q);
-void func_00144E68(struct P *p)
+void SetGoal__12JOBACTORWALKG9VU_VECTOR(struct P *p, qword q);
+// name: SafeHouse port (JOBACTORWALK::Enter)
+void Enter__12JOBACTORWALK(struct P *p)
 {
     struct O *o;
     struct VTE *e;
@@ -15,7 +16,7 @@ void func_00144E68(struct P *p)
     o->g64 = p->g34;
     o->nCC = p->n38;
     o->gD0 = p->g3C;
-    func_00144F48(p, p->q40);
+    SetGoal__12JOBACTORWALKG9VU_VECTOR(p, p->q40);
     e = &o->vt[8];
     ((void (*)(void *))e->pfn)((char *)o + e->d);
 }

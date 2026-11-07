@@ -16,9 +16,10 @@ struct O {
 extern char g_sw[];
 extern "C" {
 O *func_0015E938(void *pg, int k, int id, void *p);
-void func_0012FE58(void *a, void *b, KEYID *pk, O **ppo, int *pn);
+void GetAsegChannelTarget(void *a, void *b, KEYID *pk, O **ppo, int *pn) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 }
-void func_0012FE58(void *a, void *b, KEYID *pk, O **ppo, int *pn)
+// name: SafeHouse port (GetAsegChannelTarget)
+void GetAsegChannelTarget(void *a, void *b, KEYID *pk, O **ppo, int *pn)
 {
     if (b)
         *ppo = func_0015E938(g_sw, 1, pk->id, b);

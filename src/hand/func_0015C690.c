@@ -26,7 +26,7 @@ extern V4 func_00256CE8(float g);
 extern V4 func_00256D08(qword *pv);
 extern qword func_00256D28(qword a, qword b);
 extern void func_00256D18(qword *pv, qword a);
-extern void func_0015BD20(int c, EMITB *pb, EMITR *pr);
+extern void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(int c, EMITB *pb, EMITR *pr);
 extern qword ConvertPos__FP2LOT0G9VU_VECTOR(int x, int y, qword v);
 extern void *PsndNewPlain__Fi(int id);
 extern void SetSource__4CSndPv(void *p, void *pso);
@@ -99,7 +99,7 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
     }
     if (emitp.x0 == 0 && b.x10 != 2 && !(po->grf & 0x48))
         emitp.x0 = (int)p;
-    func_0015BD20(c, &b, pr);
+    EmitParticles__FP8EMITTERNP5EMITBP5EMITG(c, &b, pr);
     if (p->psnd) {
         void *ps;
         switch (b.x10) {

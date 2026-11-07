@@ -17,10 +17,10 @@ void _$_10STACKSCOPE(void *,int);
 qword func_001A62E8(void *);
 int func_0014F030(void *,SO *);
 void func_0020FAA0(WORLD *,qword,qword,int (*)(void *,SO *),void *,int *,SO ***);
-qword func_0014EB70(int,SO **,qword,float);
-int func_0014EA08(int count,SO **objects,qword origin,qword endpoint,float gap,float *low,float *high);
-float func_00223A10(void *,qword,qword,N *);
-qword func_0014EDA0(CAMERA *,int,SO **,float (*)(void *,qword,qword,N *),qword,qword,float,float);
+qword FindCmClosestClearPos(int,SO **,qword,float) asm("FindCmClosestClearPos__FP8CMSOLIDSP6VECTORG9VU_VECTORf");
+int FFindCmClearInterval(int count,SO **objects,qword origin,qword endpoint,float gap,float *low,float *high) asm("FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f");
+float GCmCutWeight(void *,qword,qword,N *) asm("GCmCutWeight__FP2CMG9VU_VECTORT1P5CMHIT");
+qword SquishCmEye(CAMERA *,int,SO **,float (*)(void *,qword,qword,N *),qword,qword,float,float) asm("SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff");
 void func_0011EF08(qword,float *,float *,float *);
 qword func_0011E1A0(float,float,float);
 }
@@ -48,8 +48,8 @@ extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qwo
     w.maximum.q=Max(begin,Max(end,func_001A62E8(object)));
     func_0020FAA0(&g_sw,w.minimum.q,w.maximum.q,func_0014F030,0,&w.count,&w.objects);
     int count=w.count; SO **objects=w.objects;
-    w.origin.q=func_0014EB70(count,objects,func_001A62E8(object),500.0f);
-    func_0014EA08(w.count,w.objects,w.origin.q,end,initialAngle,&w.low,&w.high);
+    w.origin.q=FindCmClosestClearPos(count,objects,func_001A62E8(object),500.0f);
+    FFindCmClearInterval(w.count,w.objects,w.origin.q,end,initialAngle,&w.low,&w.high);
     if(w.high<one){
         float angle=initialAngle;
         p->state=4;
@@ -60,7 +60,7 @@ extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qwo
             qword off=func_0011E1A0(w.phase+angle,w.radius,w.height);
             w.offset.q=off;
             w.rayEnd.q=Add(begin,off);
-            func_0014EA08(w.count,w.objects,w.origin.q,w.rayEnd.q,minGap,&w.low,&w.high);
+            FFindCmClearInterval(w.count,w.objects,w.origin.q,w.rayEnd.q,minGap,&w.low,&w.high);
             float cost=(1.25f-w.high)*(Abs(angle)+0.47123894f);
             if(cost<bestCost){
                 float left=1.0f-w.high;
@@ -76,8 +76,8 @@ extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qwo
         }while(angle<3.1415927f);
         w.candidate.q=w.best.q;
     }else w.candidate.q=end;
-    final=ToVF(func_0014EDA0(&g_cm,w.count,w.objects,func_00223A10,w.candidate.q,w.candidate.q,g_cm.radius,g_cm.radius));
-    func_0014EA08(w.count,w.objects,w.candidate.q,final,0.0f,&w.low,&w.high);
+    final=ToVF(SquishCmEye(&g_cm,w.count,w.objects,GCmCutWeight,w.candidate.q,w.candidate.q,g_cm.radius,g_cm.radius));
+    FFindCmClearInterval(w.count,w.objects,w.candidate.q,final,0.0f,&w.low,&w.high);
     if(w.high!=1.0f){
         float u=(w.low+w.high)*0.5f;
         qword left=ScalarHome(w.offset,1.0f-u);

@@ -11,7 +11,7 @@ extern char g_sw[];
 extern float GSuck__FPv(void *p);
 extern int NRandInRange__Fii(int a, int b);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
-extern void func_001C6FD8(void *p, int k, qword q, void *pv, int n);
+extern void SpawnPickups__FP6VECTORiG9VU_VECTORPvi(void *p, int k, qword q, void *pv, int n);
 static inline int NLerp(float g, int a, int b)
 {
     if (a == b)
@@ -20,7 +20,8 @@ static inline int NLerp(float g, int a, int b)
         return a + (int)(g * ((float)b + 0.999f - (float)a));
     return b + (int)((1.0f - g) * ((float)a + 0.999f - (float)b));
 }
-void func_00154E10(S *p, qword q, int n, int dn, void *pv)
+// name: SafeHouse port (DropPickups)
+void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(S *p, qword q, int n, int dn, void *pv)
 {
     if (p->x0 <= 0) {
         int a = NLerp(GSuck__FPv(D_002DE578), p->p14->x28, p->p14->x30);
@@ -44,7 +45,7 @@ void func_00154E10(S *p, qword q, int n, int dn, void *pv)
             n = NRandInRange__Fii(p->p14->x18, p->p14->x1C);
     }
     if (n > 0)
-        func_001C6FD8(g_sw, 0x5B, q, pv, n);
+        SpawnPickups__FP6VECTORiG9VU_VECTORPvi(g_sw, 0x5B, q, pv, n);
     if (p->x4 <= 0)
-        func_001C6FD8(g_sw, 0x5D, q, pv, 1);
+        SpawnPickups__FP6VECTORiG9VU_VECTORPvi(g_sw, 0x5D, q, pv, 1);
 }

@@ -10,8 +10,8 @@ extern struct CAMERA g_cm;
 extern const float D_002A8550;
 int func_00203790(struct O*);
 qword func_001A62E8(struct O*);
-int func_0014F850(struct CAMERA*,qword,qword);
-int func_0014F898(struct CAMERA*,qword,float,float*);
+int FInsideCmPlanes__FP2CMG9VU_VECTORT1(struct CAMERA*,qword,qword);
+int FInsideCmMrd__FP2CMG9VU_VECTORfPf(struct CAMERA*,qword,float,float*);
 void func_00202378(struct P*,struct O*);
 void func_00202768(struct P*,int);
 static inline void PlaneArguments(qword *eye,qword *threshold,qword *point,qword scalar,const qword *camera,const qword *position) {
@@ -54,8 +54,8 @@ void func_00202540(struct P*p)
    camera=&g_cm;
    radius.q=ScalarBits(&o->radius);
    PlaneArguments(&eye,&threshold,&point,radius.q,&camera->position,&position.q);
-   if(!func_0014F850(camera,PlaneDelta(point,eye),threshold))continue;
-   if(!func_0014F898(camera,func_001A62E8(o),o->height,&screen.f[0]))continue;
+   if(!FInsideCmPlanes__FP2CMG9VU_VECTORT1(camera,PlaneDelta(point,eye),threshold))continue;
+   if(!FInsideCmMrd__FP2CMG9VU_VECTORfPf(camera,func_001A62E8(o),o->height,&screen.f[0]))continue;
    distance=LengthXY(SubSecond(position.q,camera->position));
    if(distance<minimum){
      func_00202378(p,o);

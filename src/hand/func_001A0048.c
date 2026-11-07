@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { union { qword q0; struct { void *x0; int x4; void *x8; int xc; } s; } u; qword q1; } E;
 struct S { int x0; int c; int pad[2]; E a[1]; };
-void func_001A0048(struct S *s, void *p0, void *p8)
+// name: SafeHouse port (RemoveSafeGroundReferences)
+void RemoveSafeGroundReferences__FP2LOP3SOEPv(struct S *s, void *p0, void *p8)
 {
     E *dst = s->a;
     E *src = dst;

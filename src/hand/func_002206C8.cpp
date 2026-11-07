@@ -23,7 +23,7 @@ void func_001CD098(CONTROL *,O *);
 void func_001CD2C0(CONTROL *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00134320(WORLD *,O *);
-float func_00204740(O *);
+float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 void func_00204660(O *,float);
 qword func_001A62E8(O *);
 void func_002046B0(O *,qword);
@@ -125,7 +125,7 @@ extern "C" void func_002206C8(S *s,int state){
  s->state=state;s->time=g_clock.t;
  func_00134320(&g_sw,s->owner);
  switch(s->state){
- case -1:func_00204660(s->owner,func_00204740(s->owner));s->owner->movement=0;break;
+ case -1:func_00204660(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
  case 7:
   {O*getterOwner;w.saved.q=SavedTargetAndOwner(s,getterOwner);
    qword position=func_001A62E8(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);func_002046B0(receiver,Sub(target,current));}

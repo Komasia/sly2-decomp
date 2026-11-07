@@ -10,7 +10,7 @@ extern struct CLOCK g_clock;
 void CopyAloSoeMatrices__FP3ALO(struct P *);
 void IntegrateSoeMesh__FP3SOEf(struct E *, float);
 int func_00230380(int);
-void func_0022DE88(struct P *);
+void UpdateAloXfs__FP3ALO(struct P *);
 void UpdateSoeWorld__FP3SOE(struct E *);
 static inline void Clear(int *a)
 {
@@ -39,7 +39,7 @@ void ProjectSoTransform__FP2SOfi(struct P *p)
             p->pvt[70].pfn((char *)p + p->pvt[70].d);
         }
     }
-    func_0022DE88(p);
+    UpdateAloXfs__FP3ALO(p);
     for (i = 0; i < p->nE0; i++) {
         struct E *pe = &p->aE4[i];
         if (!(pe->fl & (1L << 50))) UpdateSoeWorld__FP3SOE(pe);

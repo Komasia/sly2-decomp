@@ -1,8 +1,8 @@
 // Update (Lilly's agent, T1649): joystick / random-target camera spring. MATCH.
-// Keys: the sibling helper style of Update__7CPTIMEDP6CPDEFIP5CMJOY / func_0014EB70 (by-value VU_FLOAT temps -> the sqc2 0(sp) after each qmtc2,
+// Keys: the sibling helper style of Update__7CPTIMEDP6CPDEFIP5CMJOY / FindCmClosestClearPos (by-value VU_FLOAT temps -> the sqc2 0(sp) after each qmtc2,
 // VU_VECTOR(const qword &) wrappers, VecCombo(f1, v1, f2, v2)); Sub taking VU_VECTORs makes both p14->pos reads plain MEMs,
 // so cse2 keeps the target's two lqc2 0x20(v0); k is read through a VU_FLOAT(const float *) ctor whose word input has a
-// never-chosen "V" alternative (the func_0014F110 trick: lw instead of lwc1+mfc1).
+// never-chosen "V" alternative (the PosCmAvoid trick: lw instead of lwc1+mfc1).
 typedef int qword __attribute__((mode(TI)));
 struct CLOCK { float t; float dt; };
 extern "C" CLOCK g_clock;
@@ -27,8 +27,8 @@ struct X {
 extern "C" {
 void func_0014FD40(X *p, void *pv, JOY *pjoy);
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
-void func_0012D108(TGT *p, qword pos);
-void func_0014E168(CM *p, int *pm);
+void SetCtrlPos(TGT *p, qword pos) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
+void SetCmPosMat(CM *p, int *pm) asm("SetCmPosMat__FP2CMP6VECTOR");
 void Update(X *p, void *pv, JOY *pjoy) asm("Update__10CPACTUATEDP6CPDEFIP5CMJOY");
 }
 static inline float GFromClq(const CLQ &c, float g) { return c.g0 + g * (c.g1 + g * c.g2); }
@@ -105,7 +105,7 @@ void Update(X *p, void *pv, JOY *pjoy)
         v = AddScaled(p->v, accel, VU_FLOAT(dt));
         pos = AddScaled2(p->p14->pos, p->v, v, VU_FLOAT(dt * 0.5f));
     }
-    func_0012D108(p->p14, pos);
+    SetCtrlPos(p->p14, pos);
     p->v = v;
-    func_0014E168(&g_cm, &p->p10->m40);
+    SetCmPosMat(&g_cm, &p->p10->m40);
 }

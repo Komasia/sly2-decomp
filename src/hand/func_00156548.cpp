@@ -20,7 +20,8 @@ struct Lock {
     Lock(S *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
     ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
 };
-extern "C" void func_00156548(P *p, qword q, int b, S **pps)
+// name: SafeHouse port (PnoiseNew)
+extern "C" void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(P *p, qword q, int b, S **pps)
 {
     S *ps = func_0011CCC0(g_sw.pool);
     func_002333B4(ps, 0, 0x60);

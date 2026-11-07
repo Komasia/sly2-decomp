@@ -68,7 +68,7 @@ qword func_0022FCC8(SPACE *, SPACE *, qword);
 void func_00195FB8(CONTEXT *, int, void *);
 void func_002309E8(SPACE *, SPACE *, M4 *, float, M4 *);
 void func_00117120(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *);
-float func_00204740(ACTOR *);
+float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void CalculateSinCos(float, float *, float *) asm("CalculateSinCos__FfPfT1");
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
@@ -83,7 +83,7 @@ M3 func_0011BA08(qword, qword);
 M3 func_0011B500(qword, float);
 float func_002458F0(float, float);
 float func_00244E10(float);
-float func_0011E290(qword, qword, qword *, qword *);
+float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 qword func_0011E9F8(qword, float);
 void func_00140C88(ACTOR *, void *);
 }
@@ -352,7 +352,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         heading = headingSample;
         break;
     case 20: {
-        float headingOld = func_00204740(p->actor);
+        float headingOld = RadStepHeading(p->actor);
         float s, c;
         CalculateSinCos(RadNormalize(input->heading - headingOld), &s, &c);
         float lateral = s * input->amount;
@@ -473,7 +473,7 @@ extern "C" void func_00197F98(CONTEXT *p)
             float g = GNormalize(dir, D_002A2DA0);
 
             U perp;
-            float proj = func_0011E290(desired.q, dir.q, 0, &perp.q);
+            float proj = GSplitVector(desired.q, dir.q, 0, &perp.q);
             if (proj < g && g * -0.25f < proj) {
                 desired.q = QwAddScaled(perp.q, dir.q, VuFloat(g));
                 desired.q = func_0011E9F8(desired.q, speed);

@@ -24,7 +24,7 @@ struct O *func_00205458(struct A *a, int n);
 void *func_001C4840(struct G *g);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 int func_001A6AF8(void *n, void *o);
-void func_0014F750(void *p, int n);
+void JoltCm__FP2CMi(void *p, int n);
 void SetAloEntryMode__FP3ALOi(struct A *a, int n);
 // name: SafeHouse port (JOBMOVE::Message)
 int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
@@ -83,7 +83,7 @@ int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
             struct O *o = func_00205458(p->p10, 0xA0);
             if (o && func_001A6AF8(o->parent, g) && g == D_002F7900) {
                 switch (pm->n8) {
-                case 0x35: func_0014F750(g_cm, 0); break;
+                case 0x35: JoltCm__FP2CMi(g_cm, 0); break;
                 case 0x34: TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 3, 1.50000005960464477539e-01f); break;
                 }
             }

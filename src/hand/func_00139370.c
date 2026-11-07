@@ -8,7 +8,7 @@ struct X { int x0; int x4; int x8; unsigned char ab[4]; int c; long *al; };
 struct P { char pad[0x1A0]; int n1A0; int pad1[3]; GE age[0x20]; int x3B0; unsigned char ab[4]; char pad2[0x438 - 0x3B8]; void *p438; };
 extern char D_002DD600[];
 extern char D_002DD5C0[];
-struct X *func_001EC8D0(void *pv);
+struct X *PshdOfId__Fi(void *pv);
 static __inline__ int NPow2(int c)
 {
     int n = 1;
@@ -20,7 +20,7 @@ static __inline__ int NPow2(int c)
 }
 void func_00139370(struct P *p, void *pv)
 {
-    register struct X *px asm("$9") = func_001EC8D0(pv); /* register pin (Claude agent): px in t1 */
+    register struct X *px asm("$9") = PshdOfId__Fi(pv); /* register pin (Claude agent): px in t1 */
     int n, v, i, j;
     int cExtra;
     int c;

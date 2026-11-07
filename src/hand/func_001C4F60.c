@@ -11,7 +11,8 @@ extern char g_sw[];
 void func_001F36A8(struct S *p);
 struct LO *func_0015ED78(void *pg, int a, int b, struct S *p);
 void *func_0015E938(void *pg, int a, int b, struct S *p);
-void func_001C4F60(struct S *p)
+// name: SafeHouse port (PostLoadPickup)
+void PostLoadPickup__FP2LO(struct S *p)
 {
     struct LO *plo;
     func_001F36A8(p);

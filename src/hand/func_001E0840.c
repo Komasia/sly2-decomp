@@ -3,7 +3,7 @@
 
 void func_001E0840(RELAY *prelay, int oidTunnel, int oidActor)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_SetTunnel, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_SetTunnel, 1);
     prelaycmd->u.setTunnel.oidTunnel = oidTunnel;
     prelaycmd->u.setTunnel.oidActor = oidActor;
 }

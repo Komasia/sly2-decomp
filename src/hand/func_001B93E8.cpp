@@ -77,7 +77,7 @@ typedef char P_m1624_Offset[FIELD_OFFSET(P,m1624)==5668?1:-1];
 extern "C" CLOCK g_clock;
 extern "C" M4 D_002A2D30;
 extern "C" float D_002C0A3C,D_002C0A40;
-extern "C" void func_0012E460(MOTION**);
+extern "C" void DeleteCtrl(MOTION**) asm("DeleteCtrl__FPP4CTRL");
 extern "C" void SetAloCnstrLin(OWNER*,int) asm("SetAloCnstrLin__FP3ALOi");
 extern "C" void func_001A58D0(OWNER*,int,int);
 extern "C" void SetAloContactsOff(OWNER*,int) asm("SetAloContactsOff__FP3ALOi");
@@ -89,9 +89,9 @@ extern "C" int FIsBasicDerivedFrom(OWNER*,int) asm("FIsBasicDerivedFrom__FP5BASI
 extern "C" void func_00209E28(OWNER*,int);
 extern "C" void func_00209E88(OWNER*);
 extern "C" void func_001B7700(P*,qword,float*,float*,qword*,qword*);
-extern "C" MOTION*func_0012DE58(void*,void*,void*,float,qword,qword);
+extern "C" MOTION*PctrlNewTarget(void*,void*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
 extern "C" qword func_0022FCC8(NODE*,NODE*,qword);
-extern "C" MOTION*func_0012DC18(void*,void*,void*,int,int,qword);
+extern "C" MOTION*PctrlNewPos(void*,void*,void*,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 extern "C" MOTION*func_0012DD28(void*,void*,void*,STRETCH*);
 extern "C" MOTION*func_0012DDB0(void*,void*,void*,void*,int,M4*);
 extern "C" void func_001B7D20(P*);
@@ -99,7 +99,7 @@ extern "C" void func_001B6078(P*,int);
 static inline void ClearXYZ(U*v){v->i[0]=v->i[1]=v->i[2]=0;}
 extern "C" void func_001B93E8(P*p,int state) {
  if(p->state==state)return;
- if(p->state==1){func_0012E460(&p->m13FC);func_0012E460(&p->m1400);}
+ if(p->state==1){DeleteCtrl(&p->m13FC);DeleteCtrl(&p->m1400);}
  p->state=state;
  p->time=g_clock.time;
  OWNER*owner;
@@ -125,12 +125,12 @@ extern "C" void func_001B93E8(P*p,int state) {
   func_001B72B0(p,0,&predicted,&work.row[0].q,&work.row[1].q);
   if(FIsBasicDerivedFrom(owner,0x38))func_00209E28(owner,(int)p);
   func_001B7700(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
-  p->m13FC=func_0012DE58(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
+  p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
   VTE*entry=&owner->vt[35];
   void*receiver=(char*)owner+entry->delta;
   qword velocity=func_0022FCC8(owner->left->parent,0,work.row[2].q);
   ((void(*)(void*,qword))entry->fn)(receiver,velocity);
-  p->m1400=func_0012DC18(owner,owner->right,(void*)5,7,2,work.row[0].q);
+  p->m1400=PctrlNewPos(owner,owner->right,(void*)5,7,2,work.row[0].q);
   break;
  }
  case 2:{
@@ -149,8 +149,8 @@ extern "C" void func_001B93E8(P*p,int state) {
   U position,rotation;
   M4 frame;
   func_001B72B0(p,root->node,&D_002A2D30,&rotation.q,&position.q);
-  p->m13F8=func_0012DC18(owner,owner->right,(void*)5,7,2,rotation.q);
-  p->m13F4=func_0012DC18(owner,owner->left,(void*)5,7,2,position.q);
+  p->m13F8=PctrlNewPos(owner,owner->right,(void*)5,7,2,rotation.q);
+  p->m13F4=PctrlNewPos(owner,owner->left,(void*)5,7,2,position.q);
   if(p->link->first){
    GOAL*goal=p->link->first;
    STRETCH*stretch=p->first;

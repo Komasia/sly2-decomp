@@ -16,7 +16,8 @@ typedef struct T {
     VECTOR v3;      /* 0xF0 */
 } T;
 static __inline__ void ClearVec(VECTOR *pv) { pv->x = pv->y = pv->z = 0; }
-void func_0012B520(S *s, T *t)
+// name: SafeHouse port (TRKPC::Setup)
+void Setup__5TRKPCP2XF(S *s, T *t)
 {
     t->s = 2;
     t->g = 1.0f;

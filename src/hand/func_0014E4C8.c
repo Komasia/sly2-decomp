@@ -5,7 +5,8 @@ struct E { int prio; struct O *po; int a; int b; };
 struct P { char pad[0x30C]; int c; struct E ae[8]; char pad2[0x390 - 0x390]; float t; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void func_0014E4C8(struct P *p, int grf, int prio, struct O *po, int a, int b)
+// name: SafeHouse port (RevokeCmPolicy)
+void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(struct P *p, int grf, int prio, struct O *po, int a, int b)
 {
     struct E *peOut;
     struct E *pe;

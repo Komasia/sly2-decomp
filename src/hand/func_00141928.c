@@ -3,7 +3,7 @@
 #include "so.h"
 
 void OnSoRemove__FP2SO(SO *p);
-void func_00130658(void *);
+void RetractAsegaPp__FPP5ASEGA(void *);
 void func_001EECD0(void *);
 
 typedef struct OBJ {
@@ -17,7 +17,7 @@ typedef struct OBJ {
 void func_00141928(OBJ *p)
 {
     OnSoRemove__FP2SO(&p->so);
-    func_00130658(p->unk_0xefc);
-    func_00130658(p->unk_0xf14);
+    RetractAsegaPp__FPP5ASEGA(p->unk_0xefc);
+    RetractAsegaPp__FPP5ASEGA(p->unk_0xf14);
     func_001EECD0(p->unk_0x26c);
 }

@@ -3,7 +3,8 @@ struct VTE { short d; short pad; void (*pf)(void *); };
 struct O { char pad[0xC]; struct VTE *vt; };
 struct S { char pad[0x58]; struct O *po; int n5C; };
 void func_00133448(struct O *po, struct S *p);
-void func_001E5410(struct S *p)
+// name: SafeHouse port (RUN::ReleaseSmaWatch)
+void ReleaseSmaWatch__3RUN(struct S *p)
 {
     if (p->po) {
         func_00133448(p->po, p);

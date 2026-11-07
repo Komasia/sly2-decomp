@@ -29,9 +29,9 @@ extern "C"{
  void func_00204CA8(P*);
  void func_002046B0(P*,qword);
  qword func_001A62E8(P*);
- float func_00204740(P*);
+ float RadStepHeading(P*) asm("RadStepHeading__FP4STEP");
  void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");
- void func_00130658(ASEGA**);
+ void RetractAsegaPp(ASEGA**) asm("RetractAsegaPp__FPP5ASEGA");
  void func_001F15B8(COMPONENT**);
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
  void func_001F1448(void*,P*,int,void*,COMPONENT**);
@@ -110,7 +110,8 @@ typedef char RIG_Prefix_Size[sizeof(RIG)==0xAC?1:-1];
 typedef char P_Prefix_Size[sizeof(P)==0x19C0?1:-1];
 typedef char C_Prefix_Size[sizeof(C)==0xD4?1:-1];
 typedef char CM_Prefix_Size[sizeof(CM)==0xA0?1:-1];
-extern "C" void func_001A0B40(C*p,int next){
+// name: SafeHouse port (SetDamageState)
+extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
  U velocity,camera0,camera1;
  if(next==p->mode)return;
  switch(p->mode){
@@ -166,20 +167,20 @@ extern "C" void func_001A0B40(C*p,int next){
  case 0:case 6:case 7:clip=p->clips[next];break;
  case 4:case 12:
   SetVector(p->actor,D_002A2DD0.q);
-  func_00204660(p->actor,func_00204740(p->actor));
+  func_00204660(p->actor,RadStepHeading(p->actor));
   p->actor->control->yaw=p->actor->yaw;
   if(next==12)flags=0x21;
   clip=p->clips[next];break;
  case 1:case 2:
   flags=0;
-  func_00204660(p->actor,func_00204740(p->actor));
+  func_00204660(p->actor,RadStepHeading(p->actor));
   p->actor->control->yaw=p->actor->yaw;clip=p->clips[next];break;
  }
  MarkAloDirty(p->actor);
  p->mode=next;p->time=g_clock.time;
  if(next!=-1){
   if(!clip)clip=p->Default(next);
-  func_00130658(&p->actor->asega);func_001F15B8(&p->actor->component);
+  RetractAsegaPp(&p->actor->asega);func_001F15B8(&p->actor->component);
   func_001305B8(clip,p->actor,0.0f,1.0f,flags,&p->actor->asega);
   func_001F1448(0,p->actor,-1,0,&p->actor->component);
   Invoke(p->actor,90);

@@ -200,7 +200,7 @@ void func_0011C168(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB)
 void func_0011C318(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc);
 float func_0011CAB0(const MATRIX4 *pmat);
 qword func_00167DA0(const MATRIX4 *pmat, qword qwPos, float *psRadius);
-int func_0014F898(VIEW *pview, qword qwDpos, float sRange, float *pgVis);
+int FInsideCmMrd(VIEW *pview, qword qwDpos, float sRange, float *pgVis) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
 void func_001684D0(MODEL *pmodel, SUBDESC *pdesc, SUB *psub);
 RPL *func_001CD998(void);
 }
@@ -450,7 +450,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
         else
         {
             dposSub = QwSub(posSub, posCam);
-            if (!func_0014F898(&g_cm, dposSub, psph->sRange, &gVisSub))
+            if (!FInsideCmMrd(&g_cm, dposSub, psph->sRange, &gVisSub))
                 continue;
         }
         uchar *pbStart = D_002DEA28.pb;

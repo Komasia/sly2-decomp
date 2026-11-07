@@ -7,7 +7,7 @@ extern char D_002C0A50[];
 void PostStepguardLoad__FP9STEPGUARD(struct S *p);
 void func_001A64E8(struct S *p, int n, void *pv);
 float *func_0012F938(void *p, int n);
-void func_001300B8(void *p, struct S *ps, void *p1, int n, struct L *pl, int m, float a, float b);
+void CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(void *p, struct S *ps, void *p1, int n, struct L *pl, int m, float a, float b);
 void SetSoMass__FP2SOf(struct S *p, float g);
 void func_001BA018(struct S *p)
 {
@@ -17,7 +17,7 @@ void func_001BA018(struct S *p)
     PostStepguardLoad__FP9STEPGUARD(p);
     func_001A64E8(p, 3, D_002C0A50);
     pg = func_0012F938(p->p1020, 0x5DB);
-    func_001300B8(p->p1020, p, p->p1030, p->p1034->nA0, &l, 0, *pg, 1.0f);
+    CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(p->p1020, p, p->p1030, p->p1034->nA0, &l, 0, *pg, 1.0f);
     a = l.q30;
     b = p->p1034->q30;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));

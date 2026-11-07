@@ -21,7 +21,7 @@ void func_0011BCF8(M3 *pm, float *pg, qword *pv);
 float GSmooth(float gCur, float gTarget, float dt, void *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf"); /* GSmooth */
 M3 func_0011B500(qword v, float g);
 qword *func_00256D18(qword *p, qword v);
-void func_0014E168(CM *p, M4 *m);
+void SetCmPosMat(CM *p, M4 *m) asm("SetCmPosMat__FP2CMP6VECTOR");
 void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
 void Update(X *p) asm("Update__8CPATTACHP6CPDEFIP5CMJOY");
 }
@@ -88,7 +88,7 @@ void Update(X *p)
         m.af[1][3] = 0.0f;
         m.af[0][3] = 0.0f;
     }
-    func_0014E168(&g_cm, &m);
+    SetCmPosMat(&g_cm, &m);
     if (g_cm.g24 != g_cm.g20)
         g_cm.g24 = py->g1BC;
     else

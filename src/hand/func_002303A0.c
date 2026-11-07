@@ -16,10 +16,10 @@ static inline void SetV(V *pv, float x, float y, float z) { pv->x = x; pv->y = y
 int FXfmMoving(int);
 int func_00230348(int);
 int func_00230380(int);
-M4 func_0022CDC0(P *);
+M4 DmatXf__FP2XFPv(P *);
 M4 func_0011C318(P *);
 M4 func_0011C168(M4 *, M4 *);
-void func_0022C818(S *, P *);
+void ResetXfParams__FP2XFPv(S *, P *);
 
 // name: SafeHouse port (SetXfMode)
 void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
@@ -29,7 +29,7 @@ void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
     if (FXfmMoving(n) && !FXfmMoving(p->x98)) {
         M4 m;
         M4 t;
-        t = func_0022CDC0(p);
+        t = DmatXf__FP2XFPv(p);
         m = t;
         switch (p->x94) {
         case 1: case 4: case 5: case 9: case 10:
@@ -55,10 +55,10 @@ void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
         if (!func_00230380(p->x98)) {
             { V *pv = &p->xF0; pv->z = 0; pv->y = 0; pv->x = 0; }
         }
-        func_0022C818(s, p);
+        ResetXfParams__FP2XFPv(s, p);
         break;
     case 0: case 13: case 14: case 15: case 16: case 17: case 20: case 21:
-        func_0022C818(s, p);
+        ResetXfParams__FP2XFPv(s, p);
         break;
     }
     p->x98 = n;

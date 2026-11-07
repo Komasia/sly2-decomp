@@ -21,8 +21,8 @@ void *func_001F7530(void *p, int n);
 void *func_002333B4(void *p, int c, int cb);
 void *PaloAcceptContact__FP5CTMSG(struct MSG *pmsg);
 float *func_0012F938(void *p, int n);
-void func_00130D30(struct Q *p, int n, float g, float h);
-void func_00130B18(struct Q *p);
+void SetAsegaTime__FP5ASEGAiff(struct Q *p, int n, float g, float h);
+void RetractAsega__FP5ASEGA(struct Q *p);
 static inline void Zero(struct V3 *pv) { pv->z = 0.0f; pv->y = 0.0f; pv->x = 0.0f; }
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char qword_Size[sizeof(qword)==16?1:-1];
@@ -125,9 +125,9 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
         {
             float *pg = func_0012F938(p->p1030->x14, 0x1A5);
             if (pg)
-                func_00130D30(p->p1030, 0, *pg, 1.0f);
+                SetAsegaTime__FP5ASEGAiff(p->p1030, 0, *pg, 1.0f);
             else
-                func_00130B18(p->p1030);
+                RetractAsega__FP5ASEGA(p->p1030);
         }
         break;
     }

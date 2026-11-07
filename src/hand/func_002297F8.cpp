@@ -28,7 +28,7 @@ qword func_001FA810(CONSTRAINT *,NODE *,qword);
 void func_001FAC30(O *,qword);
 qword func_001A62E8(O *);
 void func_00228C18(O *,qword,qword *,qword *);
-float func_0011E290(qword,qword,qword *,qword *);
+float GSplitVector(qword,qword,qword *,qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 int func_00230380(int);
 void AccelAloTowardPosition(O *,qword,const COEF *,qword,const COEF *) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
 void AccelAloTowardRotation(O *,const M3 *,const COEF *,qword,const COEF *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
@@ -74,7 +74,7 @@ extern "C" void func_002297F8(O *a,O *b){
  if(friction!=0.0f){
   func_00228C18(b,func_001A62E8(a),&w.velocity.q,&w.phase.vectors[0].q);
   qword linear=Get(a,33);qword relative=Sub(w.velocity.q,linear);
-  float dot=func_0011E290(relative,w.normal.q,&w.phase.vectors[1].q,&w.phase.vectors[2].q);
+  float dot=GSplitVector(relative,w.normal.q,&w.phase.vectors[1].q,&w.phase.vectors[2].q);
   if(span==1.0f||0.0f<dot)factor=1.0f;else factor=span*0.5f+0.5f;
   if(func_00230380(a->body->kind)){
    COEF *coefficients=&w.axis.coefficients;
@@ -87,7 +87,7 @@ extern "C" void func_002297F8(O *a,O *b){
    qword angular=Get(a,34);
    qword k;
    qword negative=NegativeAngular(angular,-1.0f,k);
-   w.scalar.q=k;func_0011E290(negative,w.normal.q,&w.angularNormal.q,&w.angularTangent.q);
+   w.scalar.q=k;GSplitVector(negative,w.normal.q,&w.angularNormal.q,&w.angularTangent.q);
    COEF *coefficients=&w.axis.coefficients;
    GAIN2(D_002C4480,span,friction);
    AccelAloTowardRotation(a,&D_002A2D00,0,AddNormal(angular,w.angularNormal),coefficients);

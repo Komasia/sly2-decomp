@@ -15,13 +15,14 @@ extern qword D_002A2DD0;
 extern qword D_002C0D60;
 extern float D_002A773C;
 void func_001A58D0(struct S *p, int a, int b);
-struct LO *func_001CB658(struct S *p);
+struct LO *PproxyOfInstance__FP2LO(struct S *p);
 void func_001CB4B8(struct LO *q, struct S *p);
 struct LO *func_001F0380(void *a, struct S *p, int anim, int z);
-void func_001F10F0(struct LO *q, float g);
+void AdvanceSma__FP3SMAf(struct LO *q, float g);
 void func_001F0660(struct LO *q, int anim);
 void func_001F0598(struct LO *q);
-void func_001C60B8(struct S *p, int n)
+// name: SafeHouse port (SetPickupStateBase)
+void SetPickupStateBase__FP2LOi(struct S *p, int n)
 {
     int anim = -1;
     struct LO *q;
@@ -47,7 +48,7 @@ void func_001C60B8(struct S *p, int n)
         p->x1CC = D_002A773C;
         ((void (*)(void *))p->vt[9].pf)((char *)p + p->vt[9].d);
         {
-            struct LO *r = func_001CB658(p);
+            struct LO *r = PproxyOfInstance__FP2LO(p);
             if (r)
                 func_001CB4B8(r, p);
         }
@@ -72,7 +73,7 @@ void func_001C60B8(struct S *p, int n)
             p->x168 = func_001F0380(p->x164, p, anim, 0);
             ((void (*)(void *))p->x168->vt[1].pf)((char *)p->x168 + p->x168->vt[1].d);
             if (p->x160 > 0.0f)
-                func_001F10F0(p->x168, p->x160);
+                AdvanceSma__FP3SMAf(p->x168, p->x160);
         } else {
             func_001F0660(p->x168, anim);
         }

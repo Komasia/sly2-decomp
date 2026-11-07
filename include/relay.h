@@ -1,7 +1,7 @@
 /* Sly 2 relays and their scripts (Sly 1 relay.c / jsg.c family).
  *
  * A RELAY is an LO holding an array of script commands (RELAYCMD, 0x50 bytes each). The script loader appends
- * the commands one at a time through func_001E01F8 (appends a zeroed command); each per-kind adder (func_001E0290 ..
+ * the commands one at a time through PcmdNew__FP4SCPTii (appends a zeroed command); each per-kind adder (func_001E0290 ..
  * func_001E1B10) then stores the command's arguments in the payload union. When the relay fires, a JSG runs
  * the commands (NextJsgCommand, FIsJsgCommandComplete).
  *
@@ -18,7 +18,7 @@ typedef int OID;
 
 enum RELAYCK {
     RELAYCK_BlockBegin = 0x00,
-    RELAYCK_BlockEnd = 0x01,       /* closes the block a BlockBegin opened (func_001E5AE0 counts the nesting) */
+    RELAYCK_BlockEnd = 0x01,       /* closes the block a BlockBegin opened (PrunNew__FP2LOPvP3RUN counts the nesting) */
     RELAYCK_StopBlock = 0x02,
     RELAYCK_WaitBlocks = 0x03,
     RELAYCK_WaitAlarm = 0x04,
@@ -268,6 +268,6 @@ typedef struct JSG {
     /* 0xec */ void *psnd;              /* CRefPtr<SND> */
 } JSG;
 
-RELAYCMD *func_001E01F8(RELAY *prelay, int relayck, int fAsync);   /* next free command (a dummy when full), zeroed */
+RELAYCMD *PcmdNew__FP4SCPTii(RELAY *prelay, int relayck, int fAsync);   /* next free command (a dummy when full), zeroed */
 
 #endif

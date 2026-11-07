@@ -4,7 +4,8 @@ typedef struct { qword r[4]; } M4;
 void *func_002333B4(void *p, int c, int cb);
 void func_0011C318(M4F *pmOut, M4F *pm);
 void func_0011C168(M4 *pmOut, M4F *pa, M4F *pb);
-void func_0014D8F8(M4F *pm, M4F *pproj, M4 *pmOut)
+// name: SafeHouse port (CombineEyeLookAtProj)
+void CombineEyeLookAtProj__FP7MATRIX4T0Pv(M4F *pm, M4F *pproj, M4 *pmOut)
 {
     M4F m;
     M4 r;

@@ -27,7 +27,7 @@ typedef struct P {
 extern char g_sw[];
 extern float D_002C0990[];
 extern float D_002C099C;
-void func_00140F90(P *p, int msg, MSG *pm);
+void HandleActorMessage__FP5ACTOR5MSGIDPv(P *p, int msg, MSG *pm);
 void SetMurrayFlopPhase__FP6MURRAYi(P *p, int k);
 qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, P *p);
@@ -39,7 +39,7 @@ void func_001B6078(P *p, int s);
 
 void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
 {
-    func_00140F90(p, msg, pm);
+    HandleActorMessage__FP5ACTOR5MSGIDPv(p, msg, pm);
     switch (msg) {
     case 9:
         if (pm->x0 != p->x1030 && pm->x0 != p->x190C) return;

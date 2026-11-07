@@ -1,8 +1,8 @@
 struct S { char pad[0x1A0]; float a1A0; char p1[0x1D0 - 0x1A4]; float a1D0, a1D4, a1D8, a1DC, a1E0, a1E4; char p2[0x230 - 0x1E8]; float a230, a234; };
-void func_001C4E50(struct S *p);
+void InitPickup__FP2LO(struct S *p);
 void func_001C6508(struct S *p)
 {
-    func_001C4E50(p);
+    InitPickup__FP2LO(p);
     p->a1D8 = 45.0f;
     p->a1DC = 65.0f;
     p->a1D0 = 250.0f;

@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-void func_0012D0D8(void *arg0, s128 *arg1, void *arg2) {
+// name: SafeHouse port (CTRLPOS::Query)
+void Query__7CTRLPOSP7VECTOR4T1f(void *arg0, s128 *arg1, void *arg2) {
     if (arg1 != NULL) {
         *arg1 = M2C_FIELD(arg0, s128 *, 0x20);
     }

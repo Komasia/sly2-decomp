@@ -19,7 +19,8 @@ void func_001AE5A0(void *, void *, int);
 void func_001E0290(OBJ *, int);
 void LoadLoFromBrx(OBJ *, void *) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
 static inline int Max(int a, int b) { return a < b ? b : a; }
-extern "C" void func_001DFB10(OBJ *p, void *x)
+// name: SafeHouse port (BeginScptLoad)
+extern "C" void BeginScptLoad__FP2LOPv(OBJ *p, void *x)
 {
     FRAME frame;
     MSG msg;

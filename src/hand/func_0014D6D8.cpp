@@ -16,16 +16,17 @@ extern qword g_posEyeDefault;
 extern qword g_posCenterDefault;
 void *func_002333B4(void *pv, int b, int cb);
 void func_0014DB70(CM *p);
-void func_0014E1A8(CM *p, qword pos, qword tgt, float da, float db);
+void SetCmLookAt(CM *p, qword pos, qword tgt, float da, float db) asm("SetCmLookAt__FP2CMG9VU_VECTORT1ff");
 void func_0014D8C0(CM *p);
 void func_0014FDA0(void *p);
 void Init(void *p) asm("Init__8CPFOLLOW");
 void func_0014FCC0(void *p);
-void func_0014E328(CM *p, int prio, void *po, int a, int b);
+void SetCmPolicy(CM *p, int prio, void *po, int a, int b) asm("SetCmPolicy__FP2CM3CPPP5CPLCYii");
 }
 static inline void SetNF(CM *p, float n, float f) { p->g4C = n; p->g50 = f; }
 static inline void InitLm(LM *plm, float g0, float g8, float gC) { plm->g0 = g0; plm->gC = gC; plm->g8 = g8; plm->n4 = 0; }
-extern "C" void func_0014D6D8(CM *p)
+// name: SafeHouse port (InitCm)
+extern "C" void InitCm__FP2CM(CM *p)
 {
     static RGBA s_rgba(0x80303030);
     p->v240.x = D_002BD81C;
@@ -46,7 +47,7 @@ extern "C" void func_0014D6D8(CM *p)
     pm[5] = 1.0f;
     pm[0] = 1.0f;
     func_0014DB70(p);
-    func_0014E1A8(p, g_posEyeDefault, g_posCenterDefault, 0.0f, 0.0f);
+    SetCmLookAt(p, g_posEyeDefault, g_posCenterDefault, 0.0f, 0.0f);
     func_0014D8C0(p);
     p->c30C = 0;
     func_0014FDA0(p->x3A0);
@@ -59,7 +60,7 @@ extern "C" void func_0014D6D8(CM *p)
     func_0014FCC0(p->x5F0);
     p->x10 = 0;
     p->x14 = 0xFF;
-    func_0014E328(p, 0, p->x3A0, 0, 0);
+    SetCmPolicy(p, 0, p->x3A0, 0, 0);
     p->x61C = -1;
     p->g618 = -10.0f;
 }

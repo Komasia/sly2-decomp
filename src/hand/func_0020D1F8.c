@@ -6,9 +6,10 @@ struct S { struct LO *po; int k; float t; struct X *x; int n; };
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3E58;
 qword func_001A62E8(void *p);
-void func_0020D3C0(struct S *p, int k);
+void SetWatchB__FP6WATCHBi(struct S *p, int k);
 
-void func_0020D1F8(struct S *p)
+// name: SafeHouse port (UpdateWatchB)
+void UpdateWatchB__FP6WATCHB(struct S *p)
 {
     int k;
     if (!p->n)
@@ -34,19 +35,19 @@ void func_0020D1F8(struct S *p)
                     f = 1;
             }
             if (f)
-                func_0020D3C0(p, 1);
+                SetWatchB__FP6WATCHBi(p, 1);
             break;
         }
         case 1:
             if (!p->x)
-                func_0020D3C0(p, 0);
+                SetWatchB__FP6WATCHBi(p, 0);
             else if (g_clock.t - p->t > D_002C3E58 &&
                      !((int (*)(void *, void *))p->po->vt[76].pf)((char *)p->po + p->po->vt[76].d, p->x->p188))
-                func_0020D3C0(p, 2);
+                SetWatchB__FP6WATCHBi(p, 2);
             break;
         case 2:
             if (!p->x || ((int (*)(void *, void *))p->po->vt[76].pf)((char *)p->po + p->po->vt[76].d, p->x->p188))
-                func_0020D3C0(p, 0);
+                SetWatchB__FP6WATCHBi(p, 0);
             break;
         }
     } while (p->k != k);

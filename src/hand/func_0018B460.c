@@ -15,7 +15,7 @@ extern qword D_002BF390;extern struct LM D_002BF3A8,D_002BF3B0;extern struct CLO
 void func_002046F0(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struct SPACE*,struct M4*,struct M4*,float);
 qword func_0022FC48(struct SPACE*,struct SPACE*,qword);qword func_0022FCC8(struct SPACE*,struct SPACE*,qword);
 float func_002458F0(float,float);float func_0011D948(struct LM*,float);
-struct M3*func_0011B628(struct M3*,qword);qword*func_00256D18(qword*,qword);void func_0012DA30(struct DV*,qword);
+struct M3*func_0011B628(struct M3*,qword);qword*func_00256D18(qword*,qword);void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(struct DV*,qword);
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Point(const struct M4*m,const qword*a,struct SPACE**source){
  register qword r __asm__("vf6"),row0 __asm__("vf5")=m->r[0].q;register struct SPACE*sourceValue __asm__("$4");const int nullSource=0;
@@ -91,7 +91,7 @@ void func_0018B460(struct P*p){
    residual=returned;
   }
   {register int near __asm__("$2")=1;float distance=CorrectionDistance(p,residual);if(distance<limit){}else near=0;if(near){
-   func_0012DA30(p->dvYaw,tilt);func_0012DA30(p->dvResidual,w.residual.q);func_0012DA30(p->dvX,axis);
+   SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvYaw,tilt);SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvResidual,w.residual.q);SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvX,axis);
    p->valid=1;p->time=g_clock.time;return;
   }}
  }}
@@ -103,19 +103,19 @@ void func_0018B460(struct P*p){
    register struct DV*source __asm__("$2"),*receiver __asm__("$4");register qword raw __asm__("$3"),scalar __asm__("vf2");
    __asm__("lw %0,%2\n\tlq %1,%3":"=&r"(source),"=r"(raw):"m"(p->dvYaw),"m"(w.gain.q));
    __asm__("daddu %0,%3,$zero\n\tsq %4,%1\n\tqmtc2.ni %4,%2":"=&r"(receiver),"=m"(w.phase.scalar.q),"=j"(scalar):"r"(source),"r"(raw));
-   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(source->value));func_0012DA30(receiver,scalar);
+   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(source->value));SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(receiver,scalar);
   }
   {
    register qword raw __asm__("$2"),scalar __asm__("vf2");register struct DV*receiver __asm__("$4");
    __asm__("lq %0,%1":"=r"(raw):"m"(w.gain.q));
    __asm__("sq %3,%0\n\tqmtc2.ni %3,%1\n\tlw %2,%4":"=m"(w.phase.scalar.q),"=j"(scalar),"=r"(receiver):"r"(raw),"m"(p->dvResidual));
-   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(receiver->value));func_0012DA30(receiver,scalar);
+   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(receiver->value));SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(receiver,scalar);
   }
   {
    register struct DV*source __asm__("$2"),*receiver __asm__("$4");register qword raw __asm__("$3"),scalar __asm__("vf2");
    __asm__("lq %0,%2\n\tlw %1,%3":"=&r"(raw),"=r"(source):"m"(w.gain.q),"m"(p->dvX));
    __asm__("sq %3,%0\n\tqmtc2.ni %3,%1\n\tdaddu %2,%4,$zero":"=m"(w.phase.scalar.q),"=j"(scalar),"=r"(receiver):"r"(raw),"r"(source));
-   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(source->value));func_0012DA30(receiver,scalar);
+   __asm__("vmulx.xyzw %0,%1,%0x":"+j"(scalar):"j"(source->value));SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(receiver,scalar);
   }
   p->valid=0;
  }

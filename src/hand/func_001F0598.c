@@ -5,7 +5,7 @@ struct P { char pad[0xC]; struct VT *pvt; char pad2[0x24 - 0x10]; struct Q *pq; 
 struct DL;
 extern struct DL D_003E126C;
 int func_001F0638(struct P *);
-void func_00130B18(void *);
+void RetractAsega__FP5ASEGA(void *);
 void RemoveDlEntry__FP2DLPv(void *, void *);
 void func_001F0598(struct P *p)
 {
@@ -13,7 +13,7 @@ void func_001F0598(struct P *p)
         void *pv = p->p30;
         if (pv) {
             p->p30 = 0;
-            func_00130B18(pv);
+            RetractAsega__FP5ASEGA(pv);
         }
         RemoveDlEntry__FP2DLPv(p->pq->dl, p);
         RemoveDlEntry__FP2DLPv(&D_003E126C, p);

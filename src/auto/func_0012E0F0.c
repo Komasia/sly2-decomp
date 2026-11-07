@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-void func_0012E0F0(void *arg0, s128 arg1, s128 arg2) {
+// name: SafeHouse port (CTRLTARGET::SetGoal)
+void SetGoal__10CTRLTARGETG9VU_VECTORT1(void *arg0, s128 arg1, s128 arg2) {
     void *temp_v1;
 
     temp_v1 = M2C_FIELD(arg0, void **, 8);

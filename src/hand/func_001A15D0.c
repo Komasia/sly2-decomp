@@ -6,7 +6,8 @@ struct S { struct O *x0; int x4; char pad[0x14]; struct PMF pmf; char pad2[0xC];
 void *func_002333B4(void *p, int c, unsigned int n);
 void func_001A16A8(struct S *p);
 void func_00195A00(void *p, int a, int b, int c);
-void func_001A15D0(struct S *s)
+// name: SafeHouse port (EndDamageReaction)
+void EndDamageReaction__FP5ACTOR(struct S *s)
 {
     struct PMF pmf = s->pmf;
     func_002333B4(&s->pmf, 0, sizeof(s->pmf));

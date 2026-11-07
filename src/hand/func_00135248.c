@@ -24,7 +24,7 @@ void func_00142880(struct P *);
 void ExplodeExpl__FP4EXPL(struct VO *);
 void func_00195FB8(void *, int, int);
 void func_00192BD8(void *, int);
-void func_001A0B40(void *, int);
+void SetDamageState__FP5ACTORi(void *, int);
 void func_0019EAB0(void *, int);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *);
 void SetBentleyHold__FP7BENTLEYi(struct P *, int);
@@ -35,7 +35,7 @@ int GrfActorLookMask__FP5ACTOR(struct P *);
 void ActorSetLookFlag__FP5ACTORi(struct P *, int);
 void func_0020BD68(struct ASEGP *);
 void func_0019CD38(void *, int);
-void func_00130658(void *);
+void RetractAsegaPp__FPP5ASEGA(void *);
 void func_001F15B8(void *);
 void func_001305B8(struct ASEG *, struct P *, int, void *, float, float);
 void func_001F14F8(void *, struct P *, int, int, int, void *);
@@ -102,7 +102,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
         func_00192BD8(p->a4C0, -1);
         break;
     case 4:
-        func_001A0B40(p->aDF0, -1);
+        SetDamageState__FP5ACTORi(p->aDF0, -1);
         break;
     case 13:
         func_0019EAB0(p->aF50, -1);
@@ -203,7 +203,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
     case 12:
         return;
     }
-    func_00130658(&p->p1030);
+    RetractAsegaPp__FPP5ASEGA(&p->p1030);
     func_001F15B8(&p->x1034);
     func_001305B8(pasega, p, n, &p->p1030, g, rate);
     func_001F14F8(pjt, p, anim, n, c, &p->x1034);

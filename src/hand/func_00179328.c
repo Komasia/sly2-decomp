@@ -14,7 +14,7 @@ struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; char pad3[0x
 void Enter__7JOBMOVE(struct S *p);
 float func_002458F0(float y, float x);
 float *func_001A6318(struct A *a);
-void func_00209818(void *p, float f);
+void SetMoveHeading__FP7MOVEREF(void *p, float f);
 float RadNormalize__Ff(float f);
 qword func_0011E1A0(float a, float b, float c);
 qword func_001A62E8(void *p);
@@ -45,7 +45,7 @@ void func_00179328(struct S *p) {
         float *m = func_001A6318(p->p10);
         a = func_002458F0(m[1], func_001A6318(p->p10)[0]);
     }
-    func_00209818(p->p10->aFD0, a);
+    SetMoveHeading__FP7MOVEREF(p->p10->aFD0, a);
     e = p->p40;
     if (e && e->n0 == 2) {
         qword r = func_0011E1A0(RadNormalize__Ff(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);

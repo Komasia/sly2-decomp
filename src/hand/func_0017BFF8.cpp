@@ -19,7 +19,7 @@ qword func_001A62E8(ACTOR*);
 void func_0011EF08(qword,float*,float*,float*);
 float RadNormalize(float) asm("RadNormalize__Ff");float func_0011CFE0(float,float);float func_0011D948(LM*,float);
 qword func_0011E1A0(float,float,float);int func_0011D910(LM*,float);
-int func_001C0B50(void*,qword,qword*);
+int FKeepOnNav(void*,qword,qword*) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
 int AtFreeNav(void*,qword,qword,int,SEGMENT*) asm("AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii");
 void func_0011EE08(qword,qword,qword,qword*,float*,float*);
 }
@@ -45,7 +45,7 @@ extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*regi
  func_0011EF08(QwSub(func_001A62E8(p->actor),origin),&flow.polarAngle,&flow.polarLength,0);
  float angle=heading+func_0011CFE0(RadNormalize(flow.polarAngle-heading),tuning->narrow);
  float length=func_0011D948(&first,flow.polarLength);
- if(func_001C0B50(region,QwAdd(origin,func_0011E1A0(angle,length,0.0f)),&closest.q)){
+ if(FKeepOnNav(region,QwAdd(origin,func_0011E1A0(angle,length,0.0f)),&closest.q)){
   func_0011EF08(QwSub(closest.q,origin),&flow.candidateAngle,&flow.candidateLength,0);
   if(__builtin_fabsf(RadNormalize(flow.candidateAngle-heading))<tuning->wide&&func_0011D910(&second,flow.candidateLength))return closest.q;
  }
@@ -76,6 +76,6 @@ extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*regi
   }
   if(bestDistance!=D_002A5600)return best;
  }
- if(func_001C0B50(region,origin,&closest.q))return closest.q;
+ if(FKeepOnNav(region,origin,&closest.q))return closest.q;
  return origin;
 }

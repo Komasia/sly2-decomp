@@ -29,10 +29,10 @@ void ReadMatrix4(void *,M4 *) asm("ReadMatrix4__18CBinaryInputStreamP7MATRIX4");
 void *PvAllocSwClearImpl(REQ *) asm("PvAllocSwClearImpl__Fi");
 void *func_0012E1F0(int);
 void *func_002333B4(void *,int,int);
-qword func_0022CA18(E *,E *);
-void func_0022C818(S *,E *);
-void func_00230018(S *,E *,JOB *);
-void func_0022FAA0(S *);
+qword VecXfValue(E *,E *) asm("VecXfValue__FP2XFP7MATRIX4");
+void ResetXfParams(S *,E *) asm("ResetXfParams__FP2XFPv");
+void AddXfCtrl(S *,E *,JOB *) asm("AddXfCtrl__FP3ALOP2XFP4CTRL");
+void UpdateAloXfWorlds(S *) asm("UpdateAloXfWorlds__FP3ALO");
 void func_00186670(S *,void *);
 void func_001603B8(S *,void *);
 void func_0021C888(S *,void *);
@@ -72,15 +72,15 @@ extern "C" void func_0022D7A0(S *p,void *stream){
   case 0:case 13:case 15:ReadMatrix4(stream,&e->matrix);break;
   case 8:case 14:{Identity(&e->matrix);e->origin=Lookup(p,func_00117D50(stream));e->matrix.r[3].f[0]=-e->origin->position[0];e->matrix.r[3].f[1]=-e->origin->position[1];e->matrix.r[3].f[2]=-e->origin->position[2];break;}
   case 1:case 2:case 3:case 4:case 5:case 6:case 7:case 9:case 10:case 11:case 12:default:
-   ReadMatrix4(stream,&e->matrix);e->current=e->previous=func_0022CA18(e,e);break;
+   ReadMatrix4(stream,&e->matrix);e->current=e->previous=VecXfValue(e,e);break;
   }
-  func_0022C818(p,e);
-  if(has1){j1->h.owner=p;j1->h.entry=e;j1->h.order=-1;j1->initial=func_0022CA18(e,e);func_00230018(p,e,&j1->h);}
-  if(has2){j2->h.owner=p;j2->h.entry=e;j2->h.order=j2->b;j2->initial=func_0022CA18(e,e);func_00230018(p,e,&j2->h);}
-  if(has4){j4->h.owner=p;j4->h.entry=e;j4->h.order=-1;func_00230018(p,e,&j4->h);}
-  if(flags){j9->h.owner=p;j9->h.entry=e;j9->h.order=-1;func_00230018(p,e,&j9->h);}
+  ResetXfParams(p,e);
+  if(has1){j1->h.owner=p;j1->h.entry=e;j1->h.order=-1;j1->initial=VecXfValue(e,e);AddXfCtrl(p,e,&j1->h);}
+  if(has2){j2->h.owner=p;j2->h.entry=e;j2->h.order=j2->b;j2->initial=VecXfValue(e,e);AddXfCtrl(p,e,&j2->h);}
+  if(has4){j4->h.owner=p;j4->h.entry=e;j4->h.order=-1;AddXfCtrl(p,e,&j4->h);}
+  if(flags){j9->h.owner=p;j9->h.entry=e;j9->h.order=-1;AddXfCtrl(p,e,&j9->h);}
  }
- func_0022FAA0(p);
+ UpdateAloXfWorlds(p);
  func_00186670(p,stream);
  func_001603B8(p,stream);
  func_0021C888(p,stream);

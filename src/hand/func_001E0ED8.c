@@ -3,7 +3,7 @@
 
 void func_001E0ED8(RELAY *prelay, int oidObj, int fAsync, float dtFade)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_AddObject, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_AddObject, fAsync);
     prelaycmd->u.addObject.oidObj = oidObj;
     prelaycmd->u.addObject.dtFade = dtFade;
 }

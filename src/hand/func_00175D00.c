@@ -18,7 +18,7 @@ struct R { int pad; struct R1 *p4; };
 union V { qword q; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *t, int n);
 qword func_001A62E8(void *p);
-float func_00204740(struct A *a);
+float RadStepHeading__FP4STEP(struct A *a);
 void func_0011EFB0(qword v, float *a, float *b, float *c);
 int func_0011D910(void *p, float f);
 float RadNormalize__Ff(float f);
@@ -68,7 +68,7 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
     pa = func_001A62E8(p->p10);
     pb = func_001A62E8(p->p30);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pb), "j"(pa));
-    g = func_00204740(p->p10);
+    g = RadStepHeading__FP4STEP(p->p10);
     func_0011EFB0(d, &f[0], &f[1], &f[2]);
     if (!func_0011D910(p->p10->aF48, f[2])) return 0;
     {

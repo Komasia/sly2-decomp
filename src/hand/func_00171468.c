@@ -8,7 +8,7 @@ int func_0017CE30(void *p);
 int func_0017D188(void *p);
 int NArrived__7JOBGOTO(void *p);
 int func_00174FB8(void *p);
-void func_00209818(void *p, float g);
+void SetMoveHeading__FP7MOVEREF(void *p, float g);
 void func_001EF0D8(void *p);
 // name: SafeHouse port (JOBSCRIPT::FRunning)
 int FRunning__9JOBSCRIPT(struct S *p) {
@@ -30,7 +30,7 @@ int FRunning__9JOBSCRIPT(struct S *p) {
     case 7:
         if (NArrived__7JOBGOTO(p->p18)) {
             p->n40 = 0;
-            func_00209818(p->p10->aFD0, p->g48);
+            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, p->g48);
         }
         break;
     case 5:

@@ -73,7 +73,7 @@ void SetSoeOff(P*,ACTION*) asm("SetSoeOff__FP3ALOP3SOE");void MarkAloDirty(P*) a
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
 qword func_001A62E8(void*);qword ConvertPos(void*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0018F560(P*,BLEND*,ASEG*);int func_001F0400(SM*,int);void func_001F09D8(COMPONENT*,int);
-void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);void func_00131A90(ASEGA*,float);
+void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);void SetAsegaSeekTime(ASEGA*,float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,func_001A62E8(p));}}
 static __inline__ void Active(NODE*p){VE&v=p->vt[8];((void(*)(void*))v.fn)((char*)p+v.delta);}
@@ -246,7 +246,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  func_001305B8(clipArgument,p,startArgument,rateArgument,1,&p->current);
  if(stopDelay!=0.0f){register ASEGA*current __asm__("$4");register float stopTime __asm__("$f12");
   __asm__ __volatile__("lui $3,%%hi(%2)\n\tlw %0,%3\n\tlwc1 %1,%%lo(%2)($3)":"=r"(current),"=f"(stopTime):"i"(&g_clock),"m"(p->current):"$3","memory");
-  func_00131A90(current,stopTime+stopDelay);
+  SetAsegaSeekTime(current,stopTime+stopDelay);
  }
  Emit(p,enterEffect);
 }

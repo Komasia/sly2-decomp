@@ -14,12 +14,13 @@ extern "C" CLOCK g_clock;
 extern "C" qword func_001A62E8(P*);
 extern "C" void*func_002333B4(void*,int,int);
 extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
-extern "C" int func_001A2788(P*,L*,qword*);
+extern "C" int FWaterSurfaceUnder(P*,L*,qword*) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 func_0011C168(const M4*,const M4*);
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
 static inline qword Direction(P*p){return ((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);}
-extern "C" void func_001A2460(P*p){
+// name: SafeHouse port (UpdateActorWater)
+extern "C" void UpdateActorWater__FP5ACTOR(P*p){
  U point;
  int valid;
  if(p->link){
@@ -46,7 +47,7 @@ extern "C" void func_001A2460(P*p){
   }
  }
  if(!p->link->effect)return;
- if(!func_001A2788(p,p->link,&point.q))return;
+ if(!FWaterSurfaceUnder(p,p->link,&point.q))return;
  int i=0;
  if(p->count>0){
  U position;

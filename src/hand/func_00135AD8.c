@@ -5,7 +5,7 @@ struct M { int x0; int x4; int x8; };
 struct E { int x0; int x4; struct M *pm; };
 struct P { char pad[0x1030]; int x1030; char pad1[0x16B4 - 0x1034]; struct Q *pq; char pad2[0x16CC - 0x16B8]; int x16CC;
     char pad3[0x1710 - 0x16D0]; char a1710[0x1824 - 0x1710]; struct E ae[6]; char pad4[0x186C - 0x186C]; struct O *po; };
-void func_00140F90(struct P *p, int k, struct M *pm);
+void HandleActorMessage__FP5ACTOR5MSGIDPv(struct P *p, int k, struct M *pm);
 struct O *func_001CB250(void *pv, int n);
 void func_001CB488(void *pv, struct O *po);
 void func_001357C0(struct P *p, int n);
@@ -14,7 +14,7 @@ void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, int n
 // name: SafeHouse port (OnBentleyMessage)
 void OnBentleyMessage__FP2LO5MSGIDPv(struct P *p, int k, struct M *pm)
 {
-    func_00140F90(p, k, pm);
+    HandleActorMessage__FP5ACTOR5MSGIDPv(p, k, pm);
     switch (k) {
     case 9:
         if (pm->x0 == p->x1030) {

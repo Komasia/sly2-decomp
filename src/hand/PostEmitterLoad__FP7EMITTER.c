@@ -14,7 +14,7 @@ struct ALLOCREQ { int cb; int kind; };
 extern char g_sw[];
 extern const struct K D_002A5140;
 extern float D_002A5148;
-void func_002586D8(struct EMITTER *p);
+void ResolveEmits__FP8EMITTERN(struct EMITTER *p);
 void func_00149A50(void *pg, struct EMITTER *p, struct K k, int n);
 float GRandInRange__Fff(float gMin, float gMax);
 void func_0015A150(struct EMITTER *p);
@@ -38,7 +38,7 @@ static __inline__ int FPtr(int n) { return !(n & 1); }
 
 void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
 {
-    func_002586D8(pemitter);
+    ResolveEmits__FP8EMITTERN(pemitter);
     if (pemitter->pemitb->pemito->palo)
         func_00149A50(g_sw, pemitter, D_002A5140, 0);
     if (pemitter->kind == -1) {

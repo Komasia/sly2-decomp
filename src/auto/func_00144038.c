@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-s32 func_00144038(void *arg0) {
+// name: SafeHouse port (FActorScriptAnim)
+s32 FActorScriptAnim__FP2LO(void *arg0) {
     s16 temp_a1;
     void *temp_v1;
 

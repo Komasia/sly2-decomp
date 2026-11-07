@@ -3,6 +3,6 @@
 
 void func_001E1058(RELAY *prelay, int nUnk4, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_Unk32, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Unk32, fAsync);
     prelaycmd->u.unk32.nUnk4 = nUnk4;
 }

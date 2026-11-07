@@ -6,11 +6,12 @@ struct O { char pad[0x208]; struct A *x208; char pad2[0x9E0-0x20C]; char x9e0[0x
 struct T { char pad[0xEC]; int xec; char pad2[0x10C-0xF0]; float x10c; char pad3[0x184-0x110]; float x184; char pad4[0x19C-0x188]; int x19c; };
 struct P { struct O *x0; int x4; int x8; int pad[2]; struct T *x14; void *x18; int x1c; float x20; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *t, int n);
-void func_0019FD30(void *p, void *s, float g);
-void func_0019FEB0(void *p, int a, qword q);
+void RecordSafeTarget__FP5ACTORP2LOf(void *p, void *s, float g);
+void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(void *p, int a, qword q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
-void func_001942F0(struct P *p)
+// name: SafeHouse port (UpdateSafeInteract)
+void UpdateSafeInteract__FP5ACTOR(struct P *p)
 {
     float g, s;
     switch (p->x8) {
@@ -18,13 +19,13 @@ void func_001942F0(struct P *p)
         if (p->x14->x19c)
             return;
         g = p->x20;
-        func_0019FD30(p->x0->x9e0, p->x18, g);
+        RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
         break;
     case 4:
         if (p->x14->xec)
             return;
         g = 0.0f;
-        func_0019FD30(p->x0->x9e0, p->x18, g);
+        RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
         break;
     case 0:
     case 13:
@@ -32,14 +33,14 @@ void func_001942F0(struct P *p)
             if (p->x14->x19c)
                 return;
             g = p->x20;
-            func_0019FD30(p->x0->x9e0, p->x18, g);
+            RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
             break;
         }
         if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, 0x26)) {
             if (p->x14->xec)
                 return;
             g = 0.0f;
-            func_0019FD30(p->x0->x9e0, p->x18, g);
+            RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
             break;
         }
         if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, 0x22)) {
@@ -55,14 +56,14 @@ void func_001942F0(struct P *p)
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(a), "j"(func_001A62E8(p->x14)));
             g = func_002458F0(d.f[1], d.f[0]) * s;
         }
-        func_0019FD30(p->x0->x9e0, p->x18, g);
+        RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
         break;
     default:
     {
         struct O *o = p->x0;
         struct A *pa = o->x208;
         if (pa && pa->x88 > 0.7f && !(pa->x4c->fl & 0x20000000) && !o->x108c)
-            func_0019FEB0(o->x9e0, pa->x40, pa->x60);
+            RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(o->x9e0, pa->x40, pa->x60);
         return;
     }
     }

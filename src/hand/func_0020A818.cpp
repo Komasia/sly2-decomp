@@ -7,7 +7,7 @@ struct Camera { char pad[0x90]; qword position; };
 extern Camera g_cm;
 extern "C" {
 qword func_001A62E8(Actor *);
-int func_0014F850(Camera *,qword,qword);
+int FInsideCmPlanes(Camera *,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 void func_0011EF08(qword,float *,float *,float *);
 float RadTargetrec(P *) asm("RadTargetrec__FP9TARGETREC");
 float RadNormalize(float) asm("RadNormalize__Ff");
@@ -40,7 +40,7 @@ extern "C" int FTargetrecAllows__FP9TARGETRECP5GUARD(P*p,Actor*a)
         __asm__("sq %2,%0\n\tla %1,%3":"=m"(position0.q),"=r"(camera):"r"(returned),"i"(&g_cm));
         qword threshold,point;
         PlaneArguments(&threshold,&point,&scalar,0.0f,&camera->position,&position0.q);
-        if(!func_0014F850(camera,point,threshold))goto fail;
+        if(!FInsideCmPlanes(camera,point,threshold))goto fail;
         qword other;other=func_001A62E8(p->target);
         func_0011EF08(Sub(position0.q,other),&angle[0],0,0);
         if(p->tolerance<__builtin_fabsf(RadNormalize(angle[0]-RadTargetrec(p)))){fail:return 0;}

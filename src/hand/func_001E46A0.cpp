@@ -17,8 +17,8 @@ qword func_001C4768(OUTPUT*,qword);
 float func_002458F0(float,float);
 float func_001E6648(PATH*),func_001E6630(PATH*);
 float RadNormalize(float) asm("RadNormalize__Ff");
-ACTOR *func_001E1DB8(P*,int);
-void func_001E4D40(P*,ACTOR*,qword*,float*);
+ACTOR *PloFind(P*,int) asm("PloFind__FP3RUNi");
+void GetRunAim(P*,ACTOR*,qword*,float*) asm("GetRunAim__FP3RUNP2LOP6VECTORPf");
 void func_00204660(ACTOR*,float);
 void func_001E67B8(PATH*,float,qword*,qword*);
 qword func_001A62E8(ACTOR*);
@@ -91,7 +91,8 @@ static inline int NearZInputs(qword previous,qword current,float tolerance){
  __asm__("mtc1 %1,%0":"=f"(previousInput):"r"(previousWord));
  return func_0011D4D0(currentInput,previousInput,tolerance);
 }
-extern "C" void func_001E46A0(P *p,OUTPUT *out){
+// name: SafeHouse port (DriveScptActor)
+extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
  WORK work;PARAM *param=p->param;ACTOR *actor=p->actor;
  typedef char layout_local_work[(sizeof(work)==0x60)?1:-1];
  typedef char layout_local_work_align[(__alignof__(work)==16)?1:-1];
@@ -119,16 +120,16 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
  stopped:
   out->speed=0.0f;if(actor->active!=-1)out->flags|=0x20;break;
  case 0x23:{
-  ACTOR *target=func_001E1DB8(p,param->value.id);
+  ACTOR *target=PloFind(p,param->value.id);
   if(!target)goto stopped;
-  func_001E4D40(p,target,0,&work.heading);
+  GetRunAim(p,target,0,&work.heading);
   func_00204660(actor,work.heading);out->heading=work.heading;
   goto stopped;
  }
  case 0x24:{
   out->speed=__builtin_fabsf(param->value.gain);
   if(param->flag)out->flags|=8;
-  ACTOR *target=func_001E1DB8(p,param->target);
+  ACTOR *target=PloFind(p,param->target);
   if(!target)goto activityFlags;
   if(actor->active!=-1&&actor->mode==3){
    PATH *motion=actor->motion;
@@ -144,7 +145,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
    }else if(p->previousMotion<actor->motionTime)reverse=1;
    if(reverse)out->heading=RadNormalize(out->heading+3.1415927f);
   }else{
-   func_001E4D40(p,target,&work.from.q,0);
+   GetRunAim(p,target,&work.from.q,0);
    work.first=work.from.q;
    TargetDisplacement(work.to,work.first,func_001A62E8(actor));
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
@@ -160,9 +161,9 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
   break;
  case 0x29:{
   out->speed=__builtin_fabsf(param->value.gain);
-  ACTOR *target=func_001E1DB8(p,param->target);
+  ACTOR *target=PloFind(p,param->target);
   if(!target||actor->active==-1||actor->mode!=8)break;
-  func_001E4D40(p,target,&work.from.q,0);
+  GetRunAim(p,target,&work.from.q,0);
   {register qword captured __asm__("$3")=work.from.q;work.second=captured;}
   {
    qword actorPosition=func_001A62E8(actor);

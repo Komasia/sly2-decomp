@@ -1,4 +1,4 @@
-/* func_00196928: largest non-negative limit from two quadratic root sets and two sqrt cone terms
+/* TJumpTo__FG9VU_VECTORT0ffff: largest non-negative limit from two quadratic root sets and two sqrt cone terms
    (lane 6, 2026-10-24).  v and a are VECTORs passed by value in single GPRs. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
@@ -22,7 +22,8 @@ static inline float LenXY(qword v) {
     return r;
 }
 
-float func_00196928(qword v, qword a, float low, float high, float slope0, float slope1) {
+// name: SafeHouse port (TJumpTo)
+float TJumpTo__FG9VU_VECTORT0ffff(qword v, qword a, float low, float high, float slope0, float slope1) {
     U r0, r1;
     float az = Z(a) * 0.5f, naz = -az;
     float vz, best = 0.0f, l, t;

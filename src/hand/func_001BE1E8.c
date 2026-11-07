@@ -3,7 +3,8 @@ extern struct DL D_003E1A4C;
 void RemoveDlEntry__FP2DLPv(struct DL *pdl, void *pv);
 void func_001BD040(void *pv);
 int FIsDlEmpty__FP2DL(struct DL *pdl);
-void func_001BE1E8(void)
+// name: SafeHouse port (UpdateNavPolys)
+void UpdateNavPolys__Fv(void)
 {
     while (!FIsDlEmpty__FP2DL(&D_003E1A4C)) {
         void *pv = D_003E1A4C.pvFirst;

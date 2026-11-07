@@ -3,7 +3,7 @@
 
 void func_001E17A0(RELAY *prelay, int oidOther, int oidActor)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_PlayAsegDefault, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_PlayAsegDefault, 1);
     prelaycmd->u.playAsegDefault.oidOther = oidOther;
     prelaycmd->u.playAsegDefault.oidActor = oidActor;
 }

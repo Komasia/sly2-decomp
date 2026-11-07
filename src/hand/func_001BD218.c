@@ -21,7 +21,8 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->m_ppv = (void **)((char *)pv + pdli->m_ibDle);
     return pv;
 }
-void func_001BD218(struct S *p)
+// name: SafeHouse port (DissolveMerged)
+void DissolveMerged__FP2LO(struct S *p)
 {
     DLI dli;
     struct S *pv;

@@ -6,7 +6,8 @@ extern struct R D_002A53C0, D_002A53C8;
 void func_0011EFB0(qword v, float *pa, float *pb, float *pc);
 int func_0011D910(struct R *pr, float g);
 float RadNormalize__Ff(float g);
-int func_00172798(struct S *p) {
+// name: SafeHouse port (AddSearchPlace)
+int AddSearchPlace__FP8WAYQUERY(struct S *p) {
     float a, b, c;
     qword d;
     struct E *pe;

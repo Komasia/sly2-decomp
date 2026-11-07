@@ -1,7 +1,8 @@
-/* func_0014F630: SetCmNearClip, also in the active policy's saved value. */
+/* SetCmNearClipAll__FP2CMf: SetCmNearClip, also in the active policy's saved value. */
 #include "cm.h"
 
-void func_0014F630(CM *pcm, float sNearClip)
+// name: SafeHouse port (SetCmNearClipAll)
+void SetCmNearClipAll__FP2CMf(CM *pcm, float sNearClip)
 {
     CPLCY *pcplcy;
 

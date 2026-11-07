@@ -5,7 +5,7 @@ typedef struct { short d; short pad; M4 *(*pfn)(struct X *); } VT;
 struct X { int x0, x4, x8; VT *vt; char pad[0xE8 - 0x10]; int c; char pad2[0xF4 - 0xEC]; qword *apos; };
 int func_001BC208(qword a, qword b);
 int func_001BC278(qword a, qword b, qword c);
-int func_001BC530(struct X *p, int i);
+int IpolyWrap__FP7NAVPOLYi(struct X *p, int i);
 static inline qword MulPt(M4 *m, qword v) { qword r; __asm__("vmulax.xyz $ACC, %1, %2x\n\tvmadday.xyz $ACC, %3, %2y\n\tvmaddaz.xyz $ACC, %4, %2z\n\tvmaddw.xyz %0, %5, $vf0w" : "=j"(r) : "j"(m->r[0]), "j"(v), "j"(m->r[1]), "j"(m->r[2]), "j"(m->r[3])); return r; }
 static inline M4 *GetMat(struct X *p) { return p->vt[31].pfn((struct X *)((char *)p + p->vt[31].d)); }
 int func_001BC2F8(struct X *p)
@@ -20,9 +20,9 @@ int func_001BC2F8(struct X *p)
     m = *GetMat(p);
     sgn = func_001BC208(MulPt(&m, p->apos[0]), MulPt(&m, p->apos[1]));
     for (; i < p->c - 1; i++) {
-        int i0 = func_001BC530(p, i);
-        int i1 = func_001BC530(p, i0 + 1);
-        int i2 = func_001BC530(p, i1 + 1);
+        int i0 = IpolyWrap__FP7NAVPOLYi(p, i);
+        int i1 = IpolyWrap__FP7NAVPOLYi(p, i0 + 1);
+        int i2 = IpolyWrap__FP7NAVPOLYi(p, i1 + 1);
         qword c = MulPt(&m, p->apos[i2]);
         qword b = MulPt(&m, p->apos[i1]);
         qword a = MulPt(&m, p->apos[i0]);

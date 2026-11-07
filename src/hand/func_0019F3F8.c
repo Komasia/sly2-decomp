@@ -11,7 +11,8 @@ struct Q { struct O *x0; struct S *x4; struct R *x8; int xc; U x10; };
 struct P { char pad[0x240]; qword x240; };
 qword func_0022FC48(void *a, void *b, qword q);
 void func_002309E8(void *o, float g, int n, M4 *pm, int m);
-qword func_0019F3F8(struct P *p, struct Q *q, float g)
+// name: SafeHouse port (PosSafeEntry)
+qword PosSafeEntry__FP5ACTORPvf(struct P *p, struct Q *q, float g)
 {
     U t;
     M4 m;

@@ -14,7 +14,7 @@ extern "C" void RenderSoSelf(P*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 extern "C" M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 extern "C" M3 func_0011B500(qword,float);
 extern "C" qword*func_00256D18(qword*,qword);
-extern "C" void func_001A5EE8(void*,M4*,float,float);
+extern "C" void AppendAloExtraDraws(void*,M4*,float,float) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 extern "C" float fabsf(float);
 static inline qword Load(const qword*p){return *p;}
 static inline qword Cross(qword a,qword b){qword up=a,dir=b;__asm__("vopmula.xyz ACC,%0,%1\n\tvopmsub.xyz %0,%1,%0":"+j"(up):"j"(dir));return up;}
@@ -50,7 +50,7 @@ extern "C" void CollectHackSwarmDraws__FP5SCENE(P*p){
    pm->r[0].q=m.r[0];pm->r[1].q=m.r[1];pm->r[2].q=m.r[2];
    mm.r[0].i[3]=mm.r[1].i[3]=mm.r[2].i[3]=0;
    pm->r[3].f[3]=1.0f;
-   func_001A5EE8(p->model,pm,1.0f,1.0f);
+   AppendAloExtraDraws(p->model,pm,1.0f,1.0f);
    n=n->next;
   }
  }

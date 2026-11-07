@@ -1,7 +1,8 @@
 typedef struct KEY { float t; float g; float dgIn; float dgOut; } KEY;
 typedef struct T { int pad; int c; KEY *a; } T;
 void func_00117030(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1);
-void func_0012CDA0(T *t, float *pg, float *pdg, float g, float dtScale)
+// name: SafeHouse port (TRKGK::Eval)
+void Eval__5TRKGKPfT1ff(T *t, float *pg, float *pdg, float g, float dtScale)
 {
     int i;
     KEY *k0, *k1;

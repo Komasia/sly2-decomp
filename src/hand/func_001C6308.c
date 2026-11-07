@@ -18,7 +18,7 @@ extern float D_002C0D90;
 extern struct G g_sw;
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct S *,void *,qword);
 float GRandInRange__Fff(float,float);
-struct Q *func_001CE888(struct G *,void *,void *);
+struct Q *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *,void *,void *);
 qword func_001A62E8(void *);
 static inline float Dot(qword a,qword b)
 {
@@ -34,7 +34,8 @@ static inline float Max(float a,float b)
     __asm__("max.s %0,%0,%1":"+f"(a):"f"(b));
     return a;
 }
-void func_001C6308(struct S *p)
+// name: SafeHouse port (UpdatePickupGlint)
+void UpdatePickupGlint__FP2LO(struct S *p)
 {
     union U scale;
     qword direction;
@@ -50,7 +51,7 @@ void func_001C6308(struct S *p)
                 if(Dot(direction,g_cm.a)<0)emitter=p->left;
                 else emitter=p->right;
                 if(!emitter)goto changed;
-                q=func_001CE888(&g_sw,(void *)4,0);
+                q=FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(&g_sw,(void *)4,0);
                 if(!q)goto changed;
                 p->last=g_clock.t;
                 {

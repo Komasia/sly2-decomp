@@ -7,7 +7,7 @@ void RestartJob__FP3JOB(int h);
 void func_001D9408(void *p);
 void func_001FF830(struct S *p);
 void func_00161458(void *p);
-void func_0014D650(void *p);
+void ResetCm__FP2CM(void *p);
 void ResetSoundMgr__FP8SOUNDMGR(void *p);
 void func_001EC7E8(void);
 void func_001D53C0(void *p, int n);
@@ -24,7 +24,7 @@ void func_0020E068(struct S *p)
     func_001D9408(D_003D9E70);
     func_001FF830(p);
     func_00161458(pv);
-    func_0014D650(g_cm);
+    ResetCm__FP2CM(g_cm);
     ResetSoundMgr__FP8SOUNDMGR(D_003DD040);
     func_001EC7E8();
     func_001D53C0(D_002E0CCC, 3);

@@ -12,11 +12,11 @@ struct M { int n0; int pad; int n8; int nC; int n10; char pad2[0x30]; int n44; }
 struct X { int a; int pad[7]; qword v; qword pad2; };
 int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm);
 int PasegaOfKinde__FP5KINDE(struct C *c);
-int func_00209430(struct C *c);
-void func_00209360(struct C *c);
-void func_00209278(struct C *c, struct A *a, int fl, float g);
+int FKindeDone__FP5KINDE(struct C *c);
+void StopKinde__FP5KINDE(struct C *c);
+void PlayKinde__FP5KINDEP5GUARDif(struct C *c, struct A *a, int fl, float g);
 float *func_0012F938(void *p, void *q);
-void func_00130D30(void *p, float a, float b, int n);
+void SetAsegaTime__FP5ASEGAiff(void *p, float a, float b, int n);
 void func_0017B1A8(struct S *p, int n);
 struct O *func_0015E938(struct G *g, int a, int b, int c);
 void *func_002333B4(void *p, int c, int n);
@@ -40,9 +40,9 @@ int func_0017AF30(struct S *p, int msg, struct M *pm) {
             if (pm->nC != 0x200000) return 0;
             if (!(pm->n44 & 8)) return 0;
             if (!p->n50) return 0;
-            if (func_00209430(p->p40)) {
-                func_00209360(p->p40);
-                func_00209278(p->p40, p->p10, p->p40->nC | 1, 0.0f);
+            if (FKindeDone__FP5KINDE(p->p40)) {
+                StopKinde__FP5KINDE(p->p40);
+                PlayKinde__FP5KINDEP5GUARDif(p->p40, p->p10, p->p40->nC | 1, 0.0f);
             }
             p->n58++;
             g = 0.0f;
@@ -52,7 +52,7 @@ int func_0017AF30(struct S *p, int msg, struct M *pm) {
                 if (r) { g = *r; break; }
                 i--;
             }
-            func_00130D30(p->p40->p8, g, 1.0f, 0);
+            SetAsegaTime__FP5ASEGAiff(p->p40->p8, g, 1.0f, 0);
             func_0017B1A8(p, 0);
             o = func_0015E938(&g_sw, 5, D_002BE6E8[i], 0);
             if (o) {

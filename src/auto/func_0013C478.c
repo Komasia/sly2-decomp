@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-s32 func_0013C478(void *arg0) {
+// name: SafeHouse port (IdBooty)
+s32 IdBooty__FP2LO(void *arg0) {
     s32 *temp_v1;
     s32 var_v0;
 

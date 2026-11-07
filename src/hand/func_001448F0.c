@@ -35,7 +35,8 @@ static __inline__ int IDist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-void func_001448F0(struct P *p, qword pos)
+// name: SafeHouse port (SetActorWatchTarget)
+void SetActorWatchTarget__FP5ACTORG9VU_VECTOR(struct P *p, qword pos)
 {
     if (p->f28 == 0) {
         qword r;

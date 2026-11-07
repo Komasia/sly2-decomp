@@ -24,7 +24,7 @@ extern "C"{
 qword func_001A62E8(void*);
 M4*func_001A6318(void*);
 qword func_0022D348(void*,void*,qword);
-float func_0011E290(qword,qword,qword*,qword*);
+float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 float func_0011D1C0(float,float,float,float,SMPA*,float*);
 M3 func_0011B570(qword);
 void func_0018F958(P*,NODE*,qword*,qword*,DELTA*);
@@ -75,7 +75,7 @@ extern "C" void func_0018FC60(P*p){
  float distance=GXOfVf(length);
  U relative,perpendicular,parallel;
  relative.q=QwSub(Velocity(p),anchorVelocity.q);
- float radial=func_0011E290(relative.q,axis.q,&parallel.q,&perpendicular.q);
+ float radial=GSplitVector(relative.q,axis.q,&parallel.q,&perpendicular.q);
  U firstAxis,angularFirst;
  firstAxis.q=QwNormalize(QwCross(axis.q,perpendicular.q),D_002A2DA0.q);
  float ratio=GLength(perpendicular.q)/distance;
@@ -90,7 +90,7 @@ extern "C" void func_0018FC60(P*p){
  if(p->state==0||p->state==2)bias=D_002BF508;else bias=D_002BF50C;
  U angular,parallelAngular,perpendicularAngular;
  angular.q=QwAddScaled(angularFirst.q,angularSecond.q,VuFloatFromMemWord(*(int*)&Addr(&g_clock)->dt));
- func_0011E290(angular.q,anchorBasis.r[1].q,&parallelAngular.q,&perpendicularAngular.q);
+ GSplitVector(angular.q,anchorBasis.r[1].q,&parallelAngular.q,&perpendicularAngular.q);
  angular.q=QwCombo(parallelAngular.q,perpendicularAngular.q,VuFloat(drag*Addr(&g_clock)->dt+1.0f),VuFloat(bias*Addr(&g_clock)->dt+1.0f));
  if((p->state==0||p->state==2)&&g_clock.t-p->stamp<D_002BF510){
   float amount=Addr(&g_clock)->dt*D_002BF514;

@@ -3,6 +3,6 @@
 
 void func_001E04B0(RELAY *prelay, int idSignal)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_Signal, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Signal, 1);
     prelaycmd->u.signal.idSignal = idSignal;
 }

@@ -11,7 +11,7 @@ void RenderSoSelf__FP2SOP2CMP2RO(struct P *);
 qword func_001A62E8(void *);
 void *func_001A6318(void *);
 M4 func_0011C210(qword, void *, VU *);
-void func_001A5EE8(struct P *, M4 *, float, float);
+void AppendAloExtraDraws__FP5SCENEP3ALOff(struct P *, M4 *, float, float);
 
 static inline float GClamp(float g, float gMin, float gMax)
 {
@@ -44,7 +44,7 @@ void func_0013C000(struct P *p)
         }
         mT = func_0011C210(func_001A62E8(p), func_001A6318(p), &v);
         m = mT;
-        func_001A5EE8(p, &m, 1.0f, 1.0f);
+        AppendAloExtraDraws__FP5SCENEP3ALOff(p, &m, 1.0f, 1.0f);
         break;
     }
     case 1:

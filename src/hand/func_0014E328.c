@@ -8,7 +8,8 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 void *func_002332B8(void *dst, void *src, int cb);
 static inline void Move(void *pvDst, void *pvSrc, int cb) { func_002332B8(pvDst, pvSrc, cb); }
-void func_0014E328(struct P *p, int prio, struct O *po, int a, int b)
+// name: SafeHouse port (SetCmPolicy)
+void SetCmPolicy__FP2CM3CPPP5CPLCYii(struct P *p, int prio, struct O *po, int a, int b)
 {
     int i;
     if (p->c < sizeof(p->ae) / sizeof(p->ae[0])) {

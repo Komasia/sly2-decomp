@@ -27,13 +27,14 @@ extern G g_sw;
 extern qword D_002A2DD0;
 int func_00131968(A *);
 int FFirst__4CTRL(C *);
-void func_0022DD00(LO *, P *);
-qword func_0022CA18(P *, P *);
+void RefreshXf__FP3ALOP2XF(LO *, P *);
+qword VecXfValue__FP2XFP7MATRIX4(P *, P *);
 qword func_0011BFF0(qword *);
-M4 func_0022C8C0(P *, qword);
+M4 MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR(P *, qword);
 void func_00117120(float, float, float, qword, qword, qword, qword, qword *, int, int);
 
-void func_00230CF0(A *a, int flag)
+// name: SafeHouse port (SnapAsegaXfs)
+void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
 {
     LO *list[16];
     int n;
@@ -52,7 +53,7 @@ void func_00230CF0(A *a, int flag)
             continue;
         p = c->x8;
         q = c->x4;
-        func_0022DD00(q, p);
+        RefreshXf__FP3ALOP2XF(q, p);
         switch (p->x98) {
         case 0: case 13:
             continue;
@@ -68,7 +69,7 @@ void func_00230CF0(A *a, int flag)
             list[n++] = q;
         switch (p->x9A) {
         case 0:
-            v = func_0022CA18(p, p);
+            v = VecXfValue__FP2XFP7MATRIX4(p, p);
             break;
         case 1: {
             func_00117120(p->x84 - p->x80, *p->x88 - p->x80, *p->x8C, p->xC0[0], p->xC0[1], p->xC0[2], p->xC0[3], (qword *)&out, 0, 0);
@@ -86,7 +87,7 @@ void func_00230CF0(A *a, int flag)
             break;
         }
         {
-            M4 t = func_0022C8C0(p, v);
+            M4 t = MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR(p, v);
             *(M4 *)p->m = t;
         }
         p->xB0 = D_002A2DD0;

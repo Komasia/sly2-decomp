@@ -17,16 +17,17 @@ extern char g_sw[];
 extern char D_002C0DA0[];
 extern char g_game[];
 float GRandInRange__Fff(float a, float b);
-struct X *func_001CE888(void *pg, int a, int b);
+struct X *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(void *pg, int a, int b);
 qword func_001A62E8(struct S *p);
 struct MAT *func_001A6318(struct S *p);
 void func_001C67A0(struct S *p, int n);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-void func_00161868(void *pg);
+void ShowCoinCounter__FP2SW(void *pg);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, struct S *ps);
-void func_001C60B8(struct S *p, int n);
-void func_001C65F8(struct S *p, int n)
+void SetPickupStateBase__FP2LOi(struct S *p, int n);
+// name: SafeHouse port (SetCoinState)
+void SetCoinState__FP2LOi(struct S *p, int n)
 {
     if (p->x150 == n) return;
     switch (n) {
@@ -34,7 +35,7 @@ void func_001C65F8(struct S *p, int n)
         p->x238 = GRandInRange__Fff(p->x230, p->x234);
         break;
     case 1: {
-        struct X *px = func_001CE888(g_sw, 9, 0);
+        struct X *px = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(g_sw, 9, 0);
         struct LO *plo;
         if (px) {
             struct VTE *e;
@@ -58,10 +59,10 @@ void func_001C65F8(struct S *p, int n)
         }
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
-        func_00161868(g_sw);
+        ShowCoinCounter__FP2SW(g_sw);
         BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x12, p);
         break;
     }
     }
-    func_001C60B8(p, n);
+    SetPickupStateBase__FP2LOi(p, n);
 }

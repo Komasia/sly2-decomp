@@ -7,7 +7,8 @@ struct O { char pad[0x208]; int n208; char pad2[0x4A0 - 0x20C]; int n4A0; char p
 int func_00209A68(struct O *o, int n);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct O *o, int a, qword v);
 int FDropOnGround__FP6VECTORffiPv(qword *pv, float f, float g, int a, int (*pfn)(void));
-int func_0020D020(struct O **pp)
+// name: SafeHouse port (FWatchA)
+int FWatchA__FP6WATCHA(struct O **pp)
 {
     struct O *o = *pp;
     unsigned int i;

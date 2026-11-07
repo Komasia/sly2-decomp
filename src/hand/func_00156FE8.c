@@ -15,7 +15,8 @@ static __inline__ float DistXY(qword d)
     return dist;
 }
 static __inline__ int FIn(qword d, float g) { return DistXY(d) < g; }
-int func_00156FE8(struct LO *plo, struct P *p)
+// name: SafeHouse port (FListenerHearsNoise)
+int FListenerHearsNoise__FP2LOP5NOISE(struct LO *plo, struct P *p)
 {
     struct Q *pq;
     qword d, pos;

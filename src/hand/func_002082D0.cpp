@@ -11,7 +11,7 @@ extern "C" qword func_001A62E8(void *);
 extern "C" int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" int func_002089F0(P *,O *);
 extern "C" int func_00208B38(P *,O *);
-extern "C" int func_002087E8(P *,O *);
+extern "C" int FTargetClass(P *,O *) asm("FTargetClass__FPvP2LO");
 static inline qword Sub(const qword&a,qword b){
     qword d,bv,av;
     __asm__("lqc2 %2,%4\n\tqmtc2.ni %3,%1\n\tvsub.xyzw %0,%2,%1":"=&j"(d),"=&j"(bv),"=&j"(av):"r"(b),"m"(a));
@@ -27,7 +27,8 @@ static inline float Length(qword d){
     return f;
 }
 static inline float Weight(float distance,const float *k){return k[0]+distance*(k[1]+distance*k[2]);}
-extern "C" O *func_002082D0(P*p)
+// name: SafeHouse port (PloGuardTarget)
+extern "C" O *PloGuardTarget__FP5GUARD(P*p)
 {
     O *best=0;
     if(p->current&&(((unsigned int)(p->current->flags>>60))&1)){best=p->current;goto done;}
@@ -45,9 +46,9 @@ extern "C" O *func_002082D0(P*p)
             float distance=Length(delta);
             if(candidate==previous)distance=Weight(distance,D_002C3D70);
             if((p->mode==0x22||p->mode==0x25)&&FIsBasicDerivedFrom(candidate,0x38))distance=Weight(distance,D_002C3D80);
-            if(func_002087E8(p,candidate)){
-                if(best&&!func_002087E8(p,best)){bestDistance=distance;goto take;}
-            }else if(best&&func_002087E8(p,best))continue;
+            if(FTargetClass(p,candidate)){
+                if(best&&!FTargetClass(p,best)){bestDistance=distance;goto take;}
+            }else if(best&&FTargetClass(p,best))continue;
             if(distance<bestDistance){bestDistance=distance;take:best=candidate;}
         }
     }

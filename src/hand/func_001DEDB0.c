@@ -5,7 +5,7 @@ typedef struct { char pad[0x1A0]; ENT a[2]; } OBJ;
 extern struct G g_sw;
 void func_0015E9C8(struct G *, int, int, void *, int, Q **);
 void *func_001F6788(void *, int);
-void *func_00130488(Q *, void *, int, float, float);
+void *PasegaApplyAseg__Fiiiff(Q *, void *, int, float, float);
 R *func_0012FF10(Q *, void *, int, int);
 void func_001DEDB0(OBJ *p)
 {
@@ -23,7 +23,7 @@ void func_001DEDB0(OBJ *p)
             continue;
         e->r = func_001F6788(o, q->x18);
         if (e->r == 0) {
-            e->r = func_00130488(q, o, 8, 0.0f, 1.0f);
+            e->r = PasegaApplyAseg__Fiiiff(q, o, 8, 0.0f, 1.0f);
             if (e->r == 0)
                 continue;
         }

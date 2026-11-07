@@ -1,5 +1,5 @@
 // func_001EA000 (lane 5): matched. Samples an object's path over [tStart, tEnd] and collects the time segments where
-// func_001E9F50 finds a valid position into ps->aseg10 (func_001BD560 == 3 means "no bound found", so tStart/tEnd are
+// PpolyAtPoint__FG9VU_VECTOR finds a valid position into ps->aseg10 (NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff == 3 means "no bound found", so tStart/tEnd are
 // used), intersects them with ps->aseg through func_0014C9F8 and fixes up a wrap-around pair at the end.
 // Notes for whoever touches this again:
 //  - `pseg` (the aseg10 pointer used by the wrap-around fix-up) must be assigned after the copy loops, outside the block
@@ -29,8 +29,8 @@ extern float D_002C367C;
 float SMinCrv__FP3CRV(struct O *);
 float func_001E6648(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
-void *func_001E9F50(qword);
-int func_001BD560(void *, struct O *, float, int, qword *, float *);
+void *PpolyAtPoint__FG9VU_VECTOR(qword);
+int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int, qword *, float *);
 void *func_002333B4(void *, int, unsigned int);
 int func_0014C9F8(int, struct X *, int, struct X *, int, struct X *, int);
 
@@ -63,16 +63,16 @@ void func_001EA000(struct S *ps)
     while (t < tEnd) {
         void *pv;
         func_001E6F10(ps->po, t, (qword *)&pos, 0);
-        pv = func_001E9F50(*(qword *)&pos);
+        pv = PpolyAtPoint__FG9VU_VECTOR(*(qword *)&pos);
         if (pv) {
             int fSave = ps->po->fE4;
             struct SEG *pseg;
             int fNew;
             int idx;
             ps->po->fE4 = 0;
-            if (func_001BD560(pv, ps->po, t, 0, 0, &segStart) == 3)
+            if (NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(pv, ps->po, t, 0, 0, &segStart) == 3)
                 segStart = tStart;
-            if (func_001BD560(pv, ps->po, t, 1, 0, &segEnd) == 3)
+            if (NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(pv, ps->po, t, 1, 0, &segEnd) == 3)
                 segEnd = tEnd;
             ps->po->fE4 = fSave;
             pseg = &aseg[cseg];

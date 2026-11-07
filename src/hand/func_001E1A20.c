@@ -3,7 +3,7 @@
 
 void func_001E1A20(RELAY *prelay, int oidStep, int oidUnk5)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_ResetStepGoal, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_ResetStepGoal, 1);
     prelaycmd->u.resetStepGoal.oidStep = oidStep;
     prelaycmd->u.resetStepGoal.oidUnk5 = oidUnk5;
 }

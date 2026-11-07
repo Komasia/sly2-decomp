@@ -27,12 +27,12 @@ void func_002562A8(struct X *x);
 inline X::X() { func_002562A8(this); }
 int FIsBasicDerivedFrom(void *o, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void SetGoal(void *o, struct X *x) asm("SetGoal__7JOBGOTOP4GOAL");
-void func_0012F9B8(void *o, int a, int b, void *c, float f, float g);
+void ApplyAseg(void *o, int a, int b, void *c, float f, float g) asm("ApplyAseg__FP4ASEGiiffPP5ASEGA");
 void *func_001711F0(void *p, int id);
 void func_001EEFC0(struct S *p);
 void func_001EF038(struct S *p);
 void func_002090D0(struct X50 *x, struct A *a);
-void func_00209130(struct X50 *x, struct A *a);
+void ResolveKinde(struct X50 *x, struct A *a) asm("ResolveKinde__FP5KINDEP5GUARD");
 void func_001E0020(void *o, int n);
 
 struct O2 : O { char pad1[0x30 - 0x10]; void *p30; int n34; float g38; char pad2[0x50-0x3C]; void *n50; int pad3; int n58; };
@@ -152,7 +152,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         break;
     }
     case 8: {
-        func_0012F9B8(PloNear(p, c->n4), 0, 0, &t, 0.0f, 1.0f);
+        ApplyAseg(PloNear(p, c->n4), 0, 0, &t, 0.0f, 1.0f);
         break;
     }
     case 9:
@@ -182,7 +182,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         func_002090D0(&p->x50, p->p10);
         p->x50.n54 = c->n4;
         p->x50.n5C = c->u.s.n8;
-        func_00209130(&p->x50, p->p10);
+        ResolveKinde(&p->x50, p->p10);
         if (p->p10->nF80 == -1) {
             struct O5 *o5 = (struct O5 *)func_00205438(p->p10, 0x9D);
             o5->p40 = &p->x50;

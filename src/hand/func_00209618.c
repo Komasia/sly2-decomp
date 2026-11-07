@@ -11,7 +11,8 @@ extern qword D_002A2DD0;
 qword VelActorAnimRoot__FP5ACTORPvf(struct S *, struct E *, float);
 qword func_00204ED8(struct S *, struct E *, float);
 void func_0020C0E8(struct B *);
-void func_00209618(struct Entry *entry, struct S *s)
+// name: SafeHouse port (SteerByKinde)
+void SteerByKinde__FP5KINDEP5GUARD(struct Entry *entry, struct S *s)
 {
     U factor, value;
     register qword scalar __asm__("vf1");

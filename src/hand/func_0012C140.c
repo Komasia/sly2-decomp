@@ -26,14 +26,15 @@ typedef struct OBJ {
     VQ pos1;
     VQ dpos1;
 } OBJ;
-int func_0012C0E0(T *t, float g);
-void func_0012C140(T *t, OBJ *po)
+int IkeyFind__5TRKPAf(T *t, float g);
+// name: SafeHouse port (TRKPA::Setup)
+void Setup__5TRKPAP2XF(T *t, OBJ *po)
 {
     int i;
     unsigned int j;
     int f;
     if (t->c) {
-        i = func_0012C0E0(t, *po->pt0);
+        i = IkeyFind__5TRKPAf(t, *po->pt0);
         po->t0 = t->at[i - 1];
         po->t1 = t->at[i];
     } else {

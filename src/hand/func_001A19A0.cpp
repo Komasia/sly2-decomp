@@ -10,8 +10,8 @@ struct P{char pad0[12];VE*vt;char pad10[0x29C-0x10];int guard;char pad2A0[0x4C8-
 struct RECORD{P*object;int pad4,pad8;int flags;int delta;char pad14[0x30-0x14];int a,b,c;char pad3C[0x60-0x3C];}__attribute__((aligned(16)));
 struct C{P*actor;int kind;char pad8[8];int*counter;char pad14[8];ACTION action;char pad24[0x30-0x24];RECORD record;int mode;float time,changed;char pad9C[0x108-0x9C];void*effect;void*output;
  void Reaction() __asm__("func_001A1F68");
- void Special() __asm__("func_001A2028");
- void Stop() __asm__("func_001A1FA8");
+ void Special() __asm__("NextSpecial__FP5ACTOR");
+ void Stop() __asm__("NextStunned__FP5ACTOR");
  void Finish() __asm__("func_001A16A8");
 };
 struct CLOCK{float time,dt;};
@@ -22,14 +22,14 @@ extern "C"{
  extern G g_sw;
  extern qword D_002A2DD0,D_002BFB10;
  int func_001A2358(C*,RECORD*);
- int func_00155228(void*,int);
+ int NScaleDamage(void*,int) asm("NScaleDamage__FPvi");
  void func_001305B8(void*,P*,float,float,int,void**);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
  void func_00143380(P*);
  void BroadcastTaskEvent(void*,int,P*) asm("BroadcastTaskEvent__FP2SWiP2LO");
  void func_001A15B0(C*,ACTION);
- void func_001A16C8(C*);
- void func_001A0B40(C*,int);
+ void ApplyDamageVelocity(C*) asm("ApplyDamageVelocity__FP5ACTOR");
+ void SetDamageState(C*,int) asm("SetDamageState__FP5ACTORi");
  int func_00132EA0(P*);
  void*PsndNewPlain(int) asm("PsndNewPlain__Fi");
  void SetSource(void*,P*) asm("SetSource__4CSndPv");
@@ -86,7 +86,8 @@ typedef char P_Prefix_Size[sizeof(P)==0x11AC?1:-1];
 typedef char W_Prefix_Size[sizeof(W)==0x15C?1:-1];
 typedef char COUNT_Size[sizeof(COUNT)==12?1:-1];
 typedef char G_Prefix_Size[sizeof(G)==0x403C?1:-1];
-extern "C" int func_001A19A0(C*p,RECORD*input){
+// name: SafeHouse port (FAcceptDamage)
+extern "C" int FAcceptDamage__FP5ACTORP5CTMSG(C*p,RECORD*input){
  RECORD accepted;int delta;
  if(func_001A2358(p,input)){
   if((unsigned)p->kind-8u<5u)return 0;
@@ -96,7 +97,7 @@ extern "C" int func_001A19A0(C*p,RECORD*input){
  if(p->actor->mode==1)return Delegate(p->actor->delegate,input);
  if(p->actor->guard)delta=0;
  else if(p->mode==1)delta=0;
- else delta=func_00155228(D_002DE578,input->delta);
+ else delta=NScaleDamage(D_002DE578,input->delta);
  if(input->flags==0x100000){
   if(Add32(*p->counter,delta)>0){
    if(p->mode!=1){p->mode=0;p->time=p->changed=g_clock.time;}
@@ -123,7 +124,7 @@ notify:
   if(*p->counter>0){p->mode=1;p->time=g_clock.time;}
   switch(input->flags){
   case 0x100:case 0x200:{
-   func_001A16C8(p);
+   ApplyDamageVelocity(p);
    if(Z(Vector(p->actor,33))>400.0f){
     int effect=-1;
     switch(func_00132EA0(p->actor)){case 0x35:effect=0x69;break;case 0x36:effect=0x84;break;case 0x37:effect=0x83;break;}
@@ -131,15 +132,15 @@ notify:
    }
    func_001A15B0(p,&C::Reaction);break;
   }
-  case 0x8000:func_001A0B40(p,7);func_001A15B0(p,&C::Special);break;
+  case 0x8000:SetDamageState(p,7);func_001A15B0(p,&C::Special);break;
   case 0x800:case 0x1000:
    SetVector(p->actor,35,D_002A2DD0);SetVector(p->actor,36,D_002A2DD0);
-   func_001A0B40(p,input->flags==0x800?1:2);func_001A15B0(p,&C::Stop);break;
-  case 0x2000:if(*p->counter>0){func_001A0B40(p,3);func_001A15B0(p,&C::Finish);}else func_001A0B40(p,10);break;
-  case 0x400:SetVector(p->actor,35,D_002BFB10);if(*p->counter>0)func_001A0B40(p,4);else func_001A0B40(p,12);break;
+   SetDamageState(p,input->flags==0x800?1:2);func_001A15B0(p,&C::Stop);break;
+  case 0x2000:if(*p->counter>0){SetDamageState(p,3);func_001A15B0(p,&C::Finish);}else SetDamageState(p,10);break;
+  case 0x400:SetVector(p->actor,35,D_002BFB10);if(*p->counter>0)SetDamageState(p,4);else SetDamageState(p,12);break;
   case 0x4000:
-   if(*p->counter>0){func_001A0B40(p,5);func_001A15B0(p,&C::Finish);}else func_001A0B40(p,11);break;
-  case 0x40:func_001A16C8(p);func_001A15B0(p,&C::Reaction);break;
+   if(*p->counter>0){SetDamageState(p,5);func_001A15B0(p,&C::Finish);}else SetDamageState(p,11);break;
+  case 0x40:ApplyDamageVelocity(p);func_001A15B0(p,&C::Reaction);break;
   }
  }
 sound:

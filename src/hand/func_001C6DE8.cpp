@@ -1,9 +1,9 @@
-// func_001C6DE8: find a landing point on the objects below/above `point` (used three times by func_001C6FD8, which sits
+// FFindPickupFloor__FfffG9VU_VECTORiP6VECTORPG9VU_VECTOR: find a landing point on the objects below/above `point` (used three times by SpawnPickups, which sits
 // right after it in the same file and shares its FRAME / VU_FLOAT / VV / AddScaled idioms). Casts a line from point up to
 // point + axis * gMax and, failing that, down to point + axis * gMin, against `apcand` (fetched with func_0020FAA0 when the
 // caller passed none); returns the hit position, or point itself when gMin >= 0 and nothing above was found.
 // Matching notes (wave 4, lane 1):
-//  * FRAME is a plain RAII local with out-of-line ctor/dtor (as in func_001C6FD8); g++ emits the three `dtor(this, 2)` calls
+//  * FRAME is a plain RAII local with out-of-line ctor/dtor (as in SpawnPickups); g++ emits the three `dtor(this, 2)` calls
 //    and cross-jumping rebuilds the target's shared tails. Parameters are used directly (their homes are 0x80/0x84).
 //  * The game loads func_0020FAA0's third argument (posMax) into $a2 BEFORE the `apcand == 0` test: that load is the last insn
 //    of block 0, so reorg puts it in the bnez delay slot, and its write of $a2 gives the `sw a2,0x84` home store one more
@@ -43,7 +43,8 @@ static inline qword AddScaled(VV base, VU_FLOAT g, qword v)
     return r;
 }
 
-extern "C" int func_001C6DE8(float gMin, float gMax, float gThreshold, qword point, int ccand, CANDIDATE **apcand,
+// name: SafeHouse port (FFindPickupFloor)
+extern "C" int FFindPickupFloor__FfffG9VU_VECTORiP6VECTORPG9VU_VECTOR(float gMin, float gMax, float gThreshold, qword point, int ccand, CANDIDATE **apcand,
                              qword *ppos)
 {
     LSG lsg;

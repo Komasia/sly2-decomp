@@ -3,7 +3,8 @@ struct N { int f0; int f4; struct X *px; char pad[0x1c]; struct N *pnext; };
 struct S { char pad[0x34]; struct N *pfirst; };
 int FFirst__4CTRL(struct N *);
 void SetXfMode__FP3ALOP2XFi(int, struct X *, int);
-void func_00131A90(struct S *p, float g) {
+// name: SafeHouse port (SetAsegaSeekTime)
+void SetAsegaSeekTime__FP5ASEGAf(struct S *p, float g) {
     struct N *pn;
     for (pn = p->pfirst; pn; pn = pn->pnext) {
         if (FFirst__4CTRL(pn) && pn->px->f98 == 7) {

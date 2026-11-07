@@ -26,7 +26,7 @@ void func_00149A50(void *g, struct S *p, struct K k, int n);
 struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_00170C90(struct O *po, int a, int b, float f);
 void *func_001F4C58(struct S *p, int n, int m);
-void *func_0012DC18(struct S *p, void *x, int a, int b, int c, qword q);
+void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, void *x, int a, int b, int c, qword q);
 
 void PostStepguardLoad__FP9STEPGUARD(struct S *p)
 {
@@ -54,5 +54,5 @@ void PostStepguardLoad__FP9STEPGUARD(struct S *p)
         p->p3F8->vt[9].pf((char *)p->p3F8 + p->p3F8->vt[9].d);
     x = func_001F4C58(p, p->n18, 0xC);
     if (x)
-        p->pFC4 = func_0012DC18(p, x, 0, 7, 2, D_002A2DE0);
+        p->pFC4 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, x, 0, 7, 2, D_002A2DE0);
 }

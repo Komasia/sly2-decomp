@@ -3,5 +3,5 @@
 
 void func_001E1540(RELAY *prelay)
 {
-    func_001E01F8(prelay, RELAYCK_Unk41, 1);
+    PcmdNew__FP4SCPTii(prelay, RELAYCK_Unk41, 1);
 }

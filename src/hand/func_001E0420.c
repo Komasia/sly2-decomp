@@ -3,6 +3,6 @@
 
 void func_001E0420(RELAY *prelay, int oidRelay)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_StopRelay, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_StopRelay, 1);
     prelaycmd->u.stopRelay.oidRelay = oidRelay;
 }

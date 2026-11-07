@@ -17,7 +17,7 @@ void func_00179328(struct S *p);
 void *func_001C4840(struct G *g);
 void BroadcastTaskEvent__FP2SWiP2LO(void *a, int n, struct A *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct A *source, void *target, qword v);
-void func_00154E10(void *a, qword v, int n, int m, struct A *p);
+void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(void *a, qword v, int n, int m, struct A *p);
 void func_00134320(struct G *g, struct A *p);
 void func_00153FF8(void *p);
 static inline int Count(struct A *a) {
@@ -54,7 +54,7 @@ void func_00179898(struct S *p) {
             /* Empty barrier: the target re-reads p->p10 for arg0 after loading q instead of reusing the register. */
             __asm__ __volatile__("" ::: "memory");
             v = ConvertPos__FP2LOT0G9VU_VECTOR(p->p10, 0, q);
-            func_00154E10(D_002DE578, v, n, p->p10->n3F0, p->p10);
+            DropPickups__FP6VECTORG9VU_VECTORiiP2LO(D_002DE578, v, n, p->p10->n3F0, p->p10);
         }
         func_00134320(&g_sw, p->p10);
         func_00153FF8(p->p10->pF64);

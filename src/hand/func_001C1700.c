@@ -9,7 +9,8 @@ static inline qword Min(qword a,qword b){qword r;__asm__("vmini.xyz %0,%1,%2":"=
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Z(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline qword And(qword a,qword b){qword r;__asm__("pand %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
-int func_001C1700(struct S*p,struct C*c,qword a,qword b,int max,void**out){
+// name: SafeHouse port (CpolyNear)
+int CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(struct S*p,struct C*c,qword a,qword b,int max,void**out){
  struct C local;
  union U mask,copy;
  qword hi,lo;

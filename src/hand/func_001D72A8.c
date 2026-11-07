@@ -20,7 +20,7 @@ int func_00187D80(void *, int);
 void *func_001F07E8(void *);
 OBJ *func_0015E938(struct G *, int, int, OBJ *);
 void func_001DC260(void *, int);
-void func_001DFD58(OBJ *, int);
+void StartScptImpl__FP2LOi(OBJ *, int);
 void func_001D77D0(OBJ *, int);
 void func_001D72A8(OBJ *p)
 {
@@ -60,7 +60,7 @@ void func_001D72A8(OBJ *p)
             }
             q = func_0015E938(&g_sw, 4, pe->n, p);
             if (q) {
-                func_001DFD58(q, 0);
+                StartScptImpl__FP2LOi(q, 0);
                 return;
             }
         }

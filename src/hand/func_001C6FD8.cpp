@@ -1,9 +1,9 @@
-// func_001C6FD8 (wave-3 lane 10): spray up to cRequested objects of a kind (0x5B / 0x5D, made by func_001C6CE8) out of a
+// SpawnPickups__FP6VECTORiG9VU_VECTORPvi (wave-3 lane 10): spray up to cRequested objects of a kind (0x5B / 0x5D, made by CpickupInstances) out of a
 // point. The seed is dropped to the ground (posOrig), snapped onto the region (posSnap, height from posOrig or from the
 // nearest object) and raised again; then up to 50 candidate landing points are tried on a widening spiral around posSnap.
 // A candidate is used when it is blocked from posSnap and its sideways-pushed partner, and a landing spot is found near it
 // among the objects in the box around posSnap; the object is launched ballistically from posOrig to land there after a
-// time from func_00196928 (staggered per object). Objects that found no spot are put back into state 2.
+// time from TJumpTo (staggered per object). Objects that found no spot are put back into state 2.
 // Matching notes (found on the -da dumps):
 //  * PvAllocFrame keeps its ALLOCREQ in the inline's own block, so the slot is freed and posMin reuses it (sp+0x30) like
 //    the game; posLand is declared in the loop body after the first temporaries so it shares sp+0x50 with them.
@@ -54,20 +54,20 @@ extern CLQ D_002C0EA0;
 extern LM D_002C0EB0;
 extern float D_002C0EB8, D_002C0EBC, D_002C0EC0, D_002C0EC4;
 extern "C" {
-int func_001C6DE8(float, float, float, qword, int, CANDIDATE **, qword *);
+int FFindPickupFloor(float, float, float, qword, int, CANDIDATE **, qword *) asm("FFindPickupFloor__FfffG9VU_VECTORiP6VECTORPG9VU_VECTOR");
 LO *func_001C4840(void *);
-REGION *func_001C0D70(qword, int);
+REGION *PregionAt(qword, int) asm("PregionAt__FG9VU_VECTORi");
 int func_001C0940(REGION *, qword, qword *, int);
 int func_001C0980(REGION *, qword, qword, int);
 qword func_001A62E8(LO *);
 void *PvAllocStackImpl(ALLOCREQ *) asm("PvAllocStackImpl__Fi");
-int func_001C6CE8(void *, int, int, LO **);
+int CpickupInstances(void *, int, int, LO **) asm("CpickupInstances__FPviiPP2LO");
 int func_001C5570(void *, CANDIDATE *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, CANDIDATE *), void *, int *, CANDIDATE ***);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 float RadNormalize(float) asm("RadNormalize__Ff");
 qword func_0011E1A0(float, float, float);
-float func_00196928(qword, qword, float, float, float, float);
+float TJumpTo(qword, qword, float, float, float, float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 void func_001C6BD0(LO *, qword, qword, float, float);
 }
 struct VU_FLOAT {
@@ -137,17 +137,18 @@ static inline REGION *PregionFromLo(LO *plo)
 }
 static inline int FFartherThan(float g, float gMax) { return gMax < g; }
 
-extern "C" void func_001C6FD8(void *pworld, int kind, qword posSeed, void *pvUnused, int cRequested)
+// name: SafeHouse port (SpawnPickups)
+extern "C" void SpawnPickups__FP6VECTORiG9VU_VECTORPvi(void *pworld, int kind, qword posSeed, void *pvUnused, int cRequested)
 {
     VECTOR4 posOrig;
-    if (!func_001C6DE8(0.0f, 300.0f, D_002A775C, posSeed, 0, 0, &posOrig.q))
+    if (!FFindPickupFloor(0.0f, 300.0f, D_002A775C, posSeed, 0, 0, &posOrig.q))
         return;
     LO *plo = func_001C4840(pworld);
     REGION *pregion = 0;
     if (plo)
         pregion = PregionFromLo(plo);
     if (!pregion)
-        pregion = func_001C0D70(posOrig.q, 1);
+        pregion = PregionAt(posOrig.q, 1);
     VECTOR4 posSnap;
     if (func_001C0940(pregion, posOrig.q, &posSnap.q, 1))
         posSnap.f[2] = posOrig.f[2];
@@ -159,11 +160,11 @@ extern "C" void func_001C6FD8(void *pworld, int kind, qword posSeed, void *pvUnu
     }
     if (FFartherThan(GFromVf(LengthXY(Sub(posOrig.q, posSnap.q))), D_002C0E80))
         return;
-    if (!func_001C6DE8(-250.0f, 1500.0f, D_002A775C, posSnap.q, 0, 0, &posSnap.q))
+    if (!FFindPickupFloor(-250.0f, 1500.0f, D_002A775C, posSnap.q, 0, 0, &posSnap.q))
         return;
     FRAME frame;
     LO **aplo = (LO **)PvAllocFrame(cRequested * sizeof(LO *), 0x10);
-    int clo = func_001C6CE8(pworld, kind, cRequested, aplo);
+    int clo = CpickupInstances(pworld, kind, cRequested, aplo);
     if (!clo)
         return;
     float r = D_002C0E84;
@@ -185,9 +186,9 @@ extern "C" void func_001C6FD8(void *pworld, int kind, qword posSeed, void *pvUnu
         qword posAdjust = AddScaled(posTrial, VU_FLOAT(g), Normalize(dposPerp));
         int fBlocked = !func_001C0980(pregion, posSnap.q, posTrial, 0) && !func_001C0980(pregion, posTrial, posAdjust, 0);
         VECTOR4 posLand;
-        if (fBlocked && func_001C6DE8(-300.0f, 300.0f, 0.7f, posTrial, ccand, apcand, &posLand.q)) {
+        if (fBlocked && FFindPickupFloor(-300.0f, 300.0f, 0.7f, posTrial, ccand, apcand, &posLand.q)) {
             qword posTarget = AddScaled(posLand.q, VU_FLOAT(aplo[cLaunched]->sRadius - 1.0f), g_normalZ);
-            float t = func_00196928(Sub(posTarget, posOrig.q), D_002C0D60, D_002C0EB8, D_002C0EBC, D_002C0EC0, D_002C0EC0);
+            float t = TJumpTo(Sub(posTarget, posOrig.q), D_002C0D60, D_002C0EB8, D_002C0EBC, D_002C0EC0, D_002C0EC0);
             t += cLaunched * D_002C0EC4;
             qword v = Combine(Sub(posTarget, posOrig.q), VU_FLOAT(1.0f / t), D_002C0D60, VU_FLOAT(-0.5f * t));
             LO *ploLaunch = aplo[cLaunched++];

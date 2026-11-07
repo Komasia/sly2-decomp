@@ -2,7 +2,8 @@ struct VTE { short d; short pad; void (*pfn)(void *, int, int); };
 struct O { int pad[3]; struct VTE *vt; };
 struct P { char pad[0xA4]; int c; struct O *apo[4]; int aB8[4]; int aC8[4]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
-void func_001E51A0(struct P *p, struct O *po, int a, int b)
+// name: SafeHouse port (HoldRunEffects)
+void HoldRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
 {
     int i;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x33)) return;

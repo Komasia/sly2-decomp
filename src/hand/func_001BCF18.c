@@ -4,7 +4,8 @@ extern float D_002C0ABC;
 float func_001E66C8(void *a, float g);
 void func_001E6F10(void *a, float t, V *pv, int n);
 int func_001C0920(void *b, qword v, void *c);
-int func_001BCF18(void *a, void *b, float g, float range, float *pf, void *c)
+// name: SafeHouse port (FPolyPointOnRegion)
+int FPolyPointOnRegion__FP7NAVPOLYP9NAVREGIONffPfPv(void *a, void *b, float g, float range, float *pf, void *c)
 {
     float d, t;
     V v0, v1;

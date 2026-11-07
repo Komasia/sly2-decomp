@@ -61,7 +61,7 @@ float func_001E6630(FOCUS *);
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
 void func_001940B0(CONTEXT *, int);
 void func_00204660(ACTOR *, float);
-float func_00204740(ACTOR *);
+float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void func_00192BD8(CONTEXT *, int);
 void func_0020BB58(PROGRAM *, float);
@@ -232,7 +232,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 func_001940B0(ctx, 3);
         }
         func_00204660(ctx->actor, heading);
-        if (ctx->step == 5 && 0.25f < __builtin_fabsf(RadNormalize(func_00204740(ctx->actor) - heading)))
+        if (ctx->step == 5 && 0.25f < __builtin_fabsf(RadNormalize(RadStepHeading(ctx->actor) - heading)))
             step = 5;
         func_00192BD8(ctx, step);
         break;

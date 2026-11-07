@@ -34,7 +34,7 @@ float func_0011CFE0(float g, float gMax);
 float RadNormalize__Ff(float g);
 qword PosEye__7CPRECON(struct X *p);
 qword PosFocus__7CPRECON(struct X *p);
-void func_0014E1A8(struct CM *p, qword a, qword b, float c, float d);
+void SetCmLookAt__FP2CMG9VU_VECTORT1ff(struct CM *p, qword a, qword b, float c, float d);
 
 static __inline__ float GClamp(float g, float gMin, float gMax)
 {
@@ -100,6 +100,6 @@ void Update__7CPRECONP6CPDEFIP5CMJOY(struct X *p, void *pv, struct JOY *pjoy)
     }
     if (6.2831855f <= p->g40 - p->g3C)
         p->g10 = RadNormalize__Ff(p->g10);
-    func_0014E1A8(&g_cm, PosEye__7CPRECON(p), PosFocus__7CPRECON(p), 0.0f, 0.0f);
+    SetCmLookAt__FP2CMG9VU_VECTORT1ff(&g_cm, PosEye__7CPRECON(p), PosFocus__7CPRECON(p), 0.0f, 0.0f);
     g_sw.g4750 = g_clock.t;
 }

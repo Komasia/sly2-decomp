@@ -10,8 +10,8 @@ struct CONTEXT{ACTOR*actor;int state,variant;SOURCE*source;char pad10[8];float s
 struct CLOCK{float time,dt;};struct RANGE{float low,high;};struct TWO_ROWS{U row[2];};
 struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,velocity,endVelocity,duration;};
 extern "C"{extern SCENE g_sw;extern CLOCK g_clock;extern ACTOR*D_002E1E40;extern U D_002A2DB0,g_normalZ,D_002A2DD0;extern float D_002BF780[],D_002BF7A0;extern RANGE D_002BF798;
-void func_00204F78(ACTOR*,void*,int);void func_00134320(SCENE*,void*);void func_00183B80(SOURCE*,int);void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void func_001CCAC0(SECONDARY*,int);void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void func_001F0660(EFFECT*,int);void func_00140C88(ACTOR*,void*);void func_0012E460(EVENT**);void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
-qword func_0022FC48(SPACE*,SPACE*,qword);qword func_0022FCC8(SPACE*,SPACE*,qword);void func_0011E2D8(qword,qword,qword,TWO_ROWS*);qword func_001A62E8(ACTOR*);void func_00204DA8(ACTOR*,float);qword func_0019A750(CONTEXT*,int);void func_00204660(ACTOR*,float);void func_001384C0(CLIP*);int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword func_0019F3F8(ACTOR*,QUERY*,float);float func_00196928(qword,qword,float,float,float,float);EVENT*func_0012DE58(ACTOR*,BODY*,int,float,qword,qword);void func_002046B0(ACTOR*,qword);void func_001F15B8(COMPONENT*);void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
+void func_00204F78(ACTOR*,void*,int);void func_00134320(SCENE*,void*);void func_00183B80(SOURCE*,int);void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void func_001CCAC0(SECONDARY*,int);void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void func_001F0660(EFFECT*,int);void func_00140C88(ACTOR*,void*);void DeleteCtrl(EVENT**) asm("DeleteCtrl__FPP4CTRL");void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
+qword func_0022FC48(SPACE*,SPACE*,qword);qword func_0022FCC8(SPACE*,SPACE*,qword);void BuildOrthonormalVectors(qword,qword,qword,TWO_ROWS*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");qword func_001A62E8(ACTOR*);void func_00204DA8(ACTOR*,float);qword func_0019A750(CONTEXT*,int);void func_00204660(ACTOR*,float);void func_001384C0(CLIP*);int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword PosSafeEntry(ACTOR*,QUERY*,float) asm("PosSafeEntry__FP5ACTORPvf");float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");EVENT*PctrlNewTarget(ACTOR*,BODY*,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");void func_002046B0(ACTOR*,qword);void func_001F15B8(COMPONENT*);void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
 static inline void Notify(ACTOR*p,int slot){VTE&v=p->vt[slot];((void(*)(void*))v.fn)((char*)p+v.delta);}
 static inline void ClearXYZ(U*v){v->i[2]=0;v->i[1]=0;v->i[0]=0;}
 static inline void ClearVelocity(ACTOR*p){ClearXYZ(&p->velocity);}
@@ -153,7 +153,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
   SetXfMode(p->actor,p->actor->body,2);p->actor->velocity.q=D_002A2DD0.q;
   if(Less(p->mode,16)&&!Less(p->mode,14)){if(p->actor!=D_002E1E40)func_001CCAC0((SECONDARY*)p->actor->secondary,-1);else SetSlyMode(p->actor,-1);}break;
  case 19:case 20:if(Less(newMode,21)&&!Less(newMode,19))break;if(p->actor->effect)func_001F0660(p->actor->effect,0x5F8);func_00140C88(p->actor,0);break;
- case 21:func_0012E460(&p->event);SetXfMode(p->actor,p->actor->body,2);SetAloContactsOff(p->actor,0);break;
+ case 21:DeleteCtrl(&p->event);SetXfMode(p->actor,p->actor->body,2);SetAloContactsOff(p->actor,0);break;
  }
  register unsigned clockHigh __asm__("$3"),savedClockHigh __asm__("$21");
  __asm__("lui %0,%%hi(%1)":"=r"(clockHigh):"i"(&g_clock));
@@ -170,7 +170,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
   __asm__("lq %0,0(%2)\n\taddiu %1,%4,0x20\n\tqmfc2.ni %2,%3"
    :"=&r"(axisArg),"=r"(basisOutput),"=r"(directionArg):"j"(direction),"p"(&w.temp),"2"(axisAddress):"memory");
   w.temp.q=point;PublishReal(&w.scalar,negative);w.basis.row[0].q=direction;
-  func_0011E2D8(directionArg,upArg,axisArg,basisOutput);
+  BuildOrthonormalVectors(directionArg,upArg,axisArg,basisOutput);
   ACTOR*actor;qword delta;
   {register ACTOR*owner __asm__("$16");qword value;
    __asm__("lqc2 $vf3,%2\n\tlqc2 $vf1,%3\n\tlqc2 $vf5,%4\n\tlqc2 $vf4,%5\n\tlw %0,%6\n\tvmulax.xyz $ACC,$vf5,$vf3x\n\tvmadday.xyz $ACC,$vf4,$vf3y\n\tvmaddz.xyz $vf3,$vf1,$vf3z\n\tlqc2 %1,%7\n\tvsub.xyzw %1,%1,$vf3"
@@ -203,7 +203,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
    :"=&r"(bodyPosition),"=r"(queryObject),"=f"(minimum),"=f"(maximum):"r"(p),"m"(p->actor),"m"(p->query.object):"$2","at","memory");
   w.bodyPosition.q=bodyPosition;
   if(queryObject&&(FIsBasicDerivedFrom(queryObject,19)||FIsBasicDerivedFrom(p->query.object,11))){minimum=0.0f;maximum=500.0f;}
-  qword queried=func_0019F3F8(p->actor,&p->query,D_002BF7A0);
+  qword queried=PosSafeEntry(p->actor,&p->query,D_002BF7A0);
   register ACTOR*queryOwner __asm__("$3");register qword queriedVector __asm__("vf2");register float maximumArg __asm__("$f15"),minimumArg __asm__("$f13");
   __asm__("lw %0,%5\n\tqmtc2.ni %4,%1\n\tsq %4,%2\n\tmov.s %3,%6"
    :"=&r"(queryOwner),"=j"(queriedVector),"=m"(w.goal.q),"=f"(maximumArg)
@@ -216,7 +216,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
   __asm__("lw %1,0xE8(%3)\n\tlq %0,%4\n\tlq %1,0x80(%1)\n\tsq %1,%2"
    :"=r"(deltaArg),"=&r"(accelerationArg),"=m"(w.acceleration.q)
    :"r"(queryOwner),"m"(w.delta.q),"m"(queryOwner->motion):"memory");
-  float solved=func_00196928(deltaArg,accelerationArg,rangeLimit,minimumArg,durationUnit,maximumArg);maximum=D_002BF7A0;
+  float solved=TJumpTo(deltaArg,accelerationArg,rangeLimit,minimumArg,durationUnit,maximumArg);maximum=D_002BF7A0;
   {register float negativeHalf __asm__("$f1")=-0.5f;register ACTOR*velocityOwner __asm__("$5");
    __asm__("max.s %0,%0,%3\n\tlw %1,%4\n\tmul.s %2,%0,%2"
     :"+f"(maximum),"=r"(velocityOwner),"+f"(negativeHalf):"f"(solved),"m"(p->actor));
@@ -245,7 +245,7 @@ extern "C" void func_00195FB8(CONTEXT*p,int newMode,SOURCE*source){WORK w;
   register BODY*coordinateBody __asm__("$2");
   __asm__ volatile("lw $3,%2\n\tlw %0,0x58($3)\n\tsqc2 %3,%1":"=&r"(coordinateBody),"=m"(w.temp.q):"m"(p->actor),"j"(fullAfter):"$3","memory");
   qword localGoal=func_0022FC48(coordinateSpace,coordinateBody->frame,goalArg);qword localEnd=func_0022FCC8(0,p->actor->body->frame,w.endVelocity.q);
-  p->event=func_0012DE58(p->actor,p->actor->body,5,deadline,localGoal,localEnd);SetAloContactsOff(p->actor,1);
+  p->event=PctrlNewTarget(p->actor,p->actor->body,5,deadline,localGoal,localEnd);SetAloContactsOff(p->actor,1);
   {register ACTOR*cleared __asm__("$3");register qword directionArg __asm__("$5");
    __asm__("lw %0,%2\n\tlq %1,%3":"=&r"(cleared),"=r"(directionArg):"m"(p->actor),"m"(w.delta.q));
    ClearVelocity(cleared);func_002046B0(p->actor,directionArg);}clip=p->base[0];break;}

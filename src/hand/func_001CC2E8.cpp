@@ -30,8 +30,8 @@ void func_001CC1F8(P*,qword,float*,float*,float);
 void func_001CC168(P*,qword,float*,float*,float);
 M3 *func_0022FD38(M3*,FRAME*,FRAME*,const M3*);
 qword func_0011BFF0(const M3*);
-void func_0012D108(void*,qword);
-void func_00130D30(void*,int,float,float);
+void SetCtrlPos(void*,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
+void SetAsegaTime(void*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void func_001384C0(MOTION*);
 void func_002046B0(LO*,qword);
 void func_00204CA8(LO*);
@@ -70,12 +70,12 @@ void func_001CC2E8(P*p){
   func_001CC1F8(p,w.stage.late.context.position,&w.projection,0,w.t);
   func_0022FD38(&w.stage.late.temporary,0,p->space->frame,&w.basis);
   w.stage.late.transformed=w.stage.late.temporary;
-  func_0012D108(p->job,func_0011BFF0(&w.stage.late.transformed));
+  SetCtrlPos(p->job,func_0011BFF0(&w.stage.late.transformed));
  }else{
   Minimize(func_001CC288,cursor,0.5f,0.1f,0.0f,1.0f,&w.t,&w.result);
   func_001CC168(p,w.stage.late.context.position,&w.projection,0,w.t);
  }
- func_00130D30(p->animation->player,0,w.t*p->motion->duration,0.0f);
+ SetAsegaTime(p->animation->player,0,w.t*p->motion->duration,0.0f);
  p->fraction=w.projection;p->weight=1.0f-w.projection;
  func_001384C0(p->motion);
  w.saved.q=w.position.q;

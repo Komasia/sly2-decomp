@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00130658(s32);                         /* extern */
+M2C_UNK RetractAsegaPp__FPP5ASEGA(s32);                         /* extern */
 M2C_UNK func_001EECD0(s32);                         /* extern */
 M2C_UNK OnSoRemove__FP2SO();                            /* extern */
 M2C_UNK SetGuardPursued__FP5GUARDP2LO(s32, M2C_UNK);                /* extern */
@@ -8,5 +8,5 @@ void OnStepguardRemove__FP9STEPGUARD(s32 arg0) {
     OnSoRemove__FP2SO();
     SetGuardPursued__FP5GUARDP2LO(arg0, 0);
     func_001EECD0(arg0 + 0x26C);
-    func_00130658(arg0 + 0x34C);
+    RetractAsegaPp__FPP5ASEGA(arg0 + 0x34C);
 }

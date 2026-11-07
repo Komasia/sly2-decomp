@@ -19,7 +19,7 @@ int func_001C4660(struct PO *po, int grf, float g);
 void func_001C4738(struct PO *po, int grf);
 void func_00197500(void *pv);
 void func_001911A8(void *pv);
-void func_001A12F0(void *pv);
+void UpdateDamageTransitions__FP5ACTOR(void *pv);
 void func_0019CC50(void *pv, int a, int b, int c);
 void func_001938C0(void *pv, int a, int b);
 int func_00136A28(struct P *p, int n);
@@ -105,7 +105,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             func_001911A8(&p->x4C0);
             break;
         case 4:
-            func_001A12F0(p->aDF0);
+            UpdateDamageTransitions__FP5ACTOR(p->aDF0);
             break;
         case 5:
             if ((p->p150->x30 & 8) || !FActorTargetInReach__FP5ACTORi(p, 1)) {

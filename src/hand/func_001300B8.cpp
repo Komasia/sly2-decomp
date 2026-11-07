@@ -10,12 +10,12 @@ struct X { char pad[0x5C]; int c; ENT *aent; };
 extern "C" {
 void *PvAllocStackImpl(const AREQ &req) asm("PvAllocStackImpl__Fi");
 void *func_002333B4(void *pv, int b, int cb);
-void func_0012FE58(X *px, void *p, ENT *pent, int *pa, Y **ppy);
+void GetAsegChannelTarget(X *px, void *p, ENT *pent, int *pa, Y **ppy) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 M4 func_0011C168(M4 *pa, M4 *pb);
-M4 func_0022C8C0(Y *py, qword q);
+M4 MatXfWithValue(Y *py, qword q) asm("MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR");
 M4 func_0022CB90(Y *py, M4 *pm, qword q1, qword q2);
 M4 DmatOfValue(Y *py, qword q) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
-void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2);
+void CalculateAsegMatrices(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2) asm("CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6");
 }
 static inline void ClearM4(M4 *pm) { func_002333B4(pm, 0, sizeof(M4)); }
 static inline M4 AddM4(const M4 &a, const M4 &b) return m
@@ -27,7 +27,8 @@ static inline M4 AddM4(const M4 &a, const M4 &b) return m
         m.a[i] = q;
     }
 }
-void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2)
+// name: SafeHouse port (CalculateAsegMatrices)
+void CalculateAsegMatrices(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2)
 {
     M4 mA;
     M4 mB;
@@ -52,7 +53,7 @@ void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *
             apy[i] = 0;
         } else {
             int n;
-            func_0012FE58(px, p, pe, &n, &apy[i]);
+            GetAsegChannelTarget(px, p, pe, &n, &apy[i]);
         }
     }
     for (py = pyFirst; py != pyLast; py = py->pyNext) {
@@ -60,7 +61,7 @@ void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *
             pe = &px->aent[i];
             if (py == apy[i] && !pe->f31) {
                 pe->pobj->Eval(f, g, &aq[0], &aq[1]);
-                mA = func_0022C8C0(py, aq[0]);
+                mA = MatXfWithValue(py, aq[0]);
                 switch (py->x94) {
                 case 6: case 7:
                     mB = func_0022CB90(py, &mA, aq[0], aq[1]);

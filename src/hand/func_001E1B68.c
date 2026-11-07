@@ -3,7 +3,7 @@
 #include "relay.h"
 #include "slotheap.h"
 
-extern SLOTHEAP D_003E1560;   /* JSG slot heap (func_001E5AE0 allocates from it) */
+extern SLOTHEAP D_003E1560;   /* JSG slot heap (PrunNew__FP2LOPvP3RUN allocates from it) */
 
 void func_00256EE0(void *ppframe, void *pframe);       /* CRefPtr<CFrame> assignment */
 void func_002580A8(void *ppsidebag, void *psidebag);   /* CRefPtr<CSidebag> assignment */

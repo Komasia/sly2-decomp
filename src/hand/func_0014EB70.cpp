@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 extern "C" {
 extern int D_002BD8B0[];
-qword func_0011E208(float pan, float tilt, float s);
-int func_0014EA08(void *p, void *x, qword a, qword b, float *pt, float *pu, float g);
-qword func_0014EB70(void *p, void *x, qword pos, float g);
+qword SetVectorSphere(float pan, float tilt, float s) asm("SetVectorSphere__Ffff");
+int FFindCmClearInterval(void *p, void *x, qword a, qword b, float *pt, float *pu, float g) asm("FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f");
+qword FindCmClosestClearPos(void *p, void *x, qword pos, float g) asm("FindCmClosestClearPos__FP8CMSOLIDSP6VECTORG9VU_VECTORf");
 }
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -23,7 +23,8 @@ static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v
     return r;
 }
 
-qword func_0014EB70(void *p, void *x, qword pos, float g)
+// name: SafeHouse port (FindCmClosestClearPos)
+qword FindCmClosestClearPos(void *p, void *x, qword pos, float g)
 {
     float t, u;
     qword best;
@@ -36,9 +37,9 @@ qword func_0014EB70(void *p, void *x, qword pos, float g)
         float tilt = (float)(i - 4) * 0.3926991f;
         int c = D_002BD8B0[i];
         for (j = 0; j < c; j++) {
-            qword dir = func_0011E208((float)j * 3.1415927f / (float)c, tilt, 1.0f);
+            qword dir = SetVectorSphere((float)j * 3.1415927f / (float)c, tilt, 1.0f);
             qword test = AddScaled(pos, dir, VU_FLOAT(g));
-            if (func_0014EA08(p, x, pos, test, &t, &u, dg + dg)) {
+            if (FFindCmClearInterval(p, x, pos, test, &t, &u, dg + dg)) {
                 if (0.0f < t)
                     t += dg;
                 if (t < gBest) {

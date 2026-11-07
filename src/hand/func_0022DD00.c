@@ -1,9 +1,10 @@
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0x18]; struct VTE *vt; };
 struct S { char pad[0x80]; float gMin; float gMax; float *pg; int pad1; struct O *po; int pad2; short k; short state; };
-void func_0022C818(void *pa, struct S *p);
+void ResetXfParams__FP2XFPv(void *pa, struct S *p);
 void SetXfMode__FP3ALOP2XFi(void *pa, struct S *p, int state);
-void func_0022DD00(void *pa, struct S *p)
+// name: SafeHouse port (RefreshXf)
+void RefreshXf__FP3ALOP2XF(void *pa, struct S *p)
 {
     float g = *p->pg;
     if (g < p->gMin || p->gMax < g || p->state >= 3) {
@@ -26,7 +27,7 @@ void func_0022DD00(void *pa, struct S *p)
             }
         } else {
             p->state = 0;
-            func_0022C818(pa, p);
+            ResetXfParams__FP2XFPv(pa, p);
             SetXfMode__FP3ALOP2XFi(pa, p, 0);
         }
     }

@@ -14,15 +14,15 @@ extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648;
 void func_001CB518(struct S *p);
 void func_001EECD0(void *p);
 void func_00209778(void *p);
-void func_00209870(struct S *p, int n);
+void SetGuardStateMask__FP5GUARDUl(struct S *p, int n);
 void func_0020CE40(void *p);
 void func_0020D1C8(void *p);
 void func_0020D1A0(void *p);
 qword func_001A62E8(void *p);
-float func_00204740(struct S *p);
+float RadStepHeading__FP4STEP(struct S *p);
 void func_00204660(struct S *p, float f);
 unsigned long func_00207A20(int n);
-void *func_00209AD0(struct S *p, unsigned long m);
+void *PkindeBest__FP5GUARDUl(struct S *p, unsigned long m);
 void func_00153EF8(struct F64 *pf, struct S *p, int n);
 void func_001F1A40(struct S *p);
 void func_001F1CF8(struct S *p);
@@ -40,25 +40,25 @@ void func_00206518(struct S *p)
     p->n344 = p->n340;
     func_001EECD0(p->a26C);
     func_00209778(p->aFD0);
-    func_00209870(p, 0);
+    SetGuardStateMask__FP5GUARDUl(p, 0);
     func_0020CE40(p->p498);
     func_0020D1C8(p->p49C);
     func_0020D1A0(p->p498);
     p->q300 = func_001A62E8(p);
-    p->f310 = func_00204740(p);
+    p->f310 = RadStepHeading__FP4STEP(p);
     p->p2F0->pq = pq;
     p->p2F0->f = p->f310;
     func_00204660(p, p->f310);
     p->flFE8 = 0;
-    if (func_00209AD0(p, func_00207A20(9)))
+    if (PkindeBest__FP5GUARDUl(p, func_00207A20(9)))
         p->flFE8 |= 2;
     else
         p->nE78 = 2;
-    if (func_00209AD0(p, func_00207A20(8)))
+    if (PkindeBest__FP5GUARDUl(p, func_00207A20(8)))
         p->flFE8 |= 4;
-    if (func_00209AD0(p, func_00207A20(0xF)))
+    if (PkindeBest__FP5GUARDUl(p, func_00207A20(0xF)))
         p->flFE8 |= 1;
-    if (func_00209AD0(p, func_00207A20(0x11)))
+    if (PkindeBest__FP5GUARDUl(p, func_00207A20(0x11)))
         p->flFE8 |= 8;
     func_00153EF8(p->pF64, p, D_002E1E40);
     func_00153EF8(p->pF64, p, D_002F7900);

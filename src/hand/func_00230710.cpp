@@ -17,12 +17,12 @@ struct O {
 };
 extern "C" {
 int FXfmMoving(int);
-M4 *func_0022C8C0(M4 *pm, O *po, qword v);
+M4 *MatXfWithValue(M4 *pm, O *po, qword v) asm("MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR");
 M4 *func_0022CB90(M4 *pr, O *pa, const M4 *basis, qword c, qword d);
 void DmatOfValue(M4 *pm, O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
 M4 *DmatSkew(M4 *pm, O *pa, const M4 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 M3 *func_0011B570(M3 *, qword);
-qword func_0022CA18(O *pa, const M4 *matrix);
+qword VecXfValue(O *pa, const M4 *matrix) asm("VecXfValue__FP2XFP7MATRIX4");
 qword *func_00256D18(qword *, qword);
 void *func_002333B4(void *, int, int);
 void func_00230710(O *po, M4 *pm, M4 *pm2, float g);
@@ -54,7 +54,7 @@ static inline void SetM4(M4 *pm, const M3 &mat, qword pos)
     pm->m[1][3] = 0.0f;
     pm->m[0][3] = 0.0f;
 }
-static inline M4 C8c0(O *po, const qword &v) return r { func_0022C8C0(&r, po, v); }
+static inline M4 C8c0(O *po, const qword &v) return r { MatXfWithValue(&r, po, v); }
 static inline M4 Cc00(O *po, const qword &v) return r { DmatOfValue(&r, po, v); }
 static inline M4 Ccd0(O *po, const M4 *pm, qword v) return r { DmatSkew(&r, po, pm, v); }
 static inline qword Scale(qword v, const VUF &f)
@@ -77,7 +77,7 @@ void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
         M4 t;
         OB *pob = po->pob;
         ((void (*)(void *, qword *, qword *))pob->vt[5].pfn)((char *)pob + pob->vt[5].d, &q[0], &q[1]);
-        func_0022C8C0(&t, po, q[0]);
+        MatXfWithValue(&t, po, q[0]);
         *pm = t;
         switch (po->k94) {
         case 6: case 7:
@@ -100,9 +100,9 @@ void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
         }
         default: {
             qword v[1];
-            v[0] = AddScale(func_0022CA18(po, &po->local), po->qB0, VUF(g));
+            v[0] = AddScale(VecXfValue(po, &po->local), po->qB0, VUF(g));
             M4 t;
-            func_0022C8C0(&t, po, v[0]);
+            MatXfWithValue(&t, po, v[0]);
             *pm = t;
             DmatOfValue(&t, po, po->qB0);
             *pm2 = t;

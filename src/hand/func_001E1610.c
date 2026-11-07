@@ -3,7 +3,7 @@
 
 void func_001E1610(RELAY *prelay, int idLine, int fWait, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_Line, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Line, fAsync);
     prelaycmd->u.line.idLine = idLine;
     prelaycmd->u.line.fWait = fWait;
 }

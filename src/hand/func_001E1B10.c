@@ -3,7 +3,7 @@
 
 void func_001E1B10(RELAY *prelay, int oidShip, int oidActor, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_Unk5A, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Unk5A, fAsync);
     prelaycmd->u.unk5A.oidShip = oidShip;
     prelaycmd->u.unk5A.oidActor = oidActor;
     prelaycmd->u.unk5A.nUnk6 = 0;

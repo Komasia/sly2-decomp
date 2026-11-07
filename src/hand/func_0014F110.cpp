@@ -1,4 +1,4 @@
-// func_0014F110 (Claude agent, lane K5, 2026-10-24): MATCH. Built on laneK4v1 (K3/K4 fresh rewrite in the func_0014C748 style).
+// PosCmAvoid (Claude agent, lane K5, 2026-10-24): MATCH. Built on laneK4v1 (K3/K4 fresh rewrite in the func_0014C748 style).
 // Keys: the VU_FLOAT(const float *) ctor's word input has a never-chosen "V" alternative ("r,V"), so it stays a MEM until
 // reload: the clock dt load is then an input reload (lw v0 for the vdiv; for the final AddScaled reload reuses the dying
 // pclock register, lw s0,0x10(s0)), which also shortens the clock chain in sched1 so no extra operand is needed on the vdiv;
@@ -15,10 +15,10 @@ extern char g_sw[];
 void *__10STACKSCOPE(FRAME *p);
 void _$_10STACKSCOPE(FRAME *p, int n);
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
-qword func_0014EDA0(void *p, int i, int j, void *pfn, qword a, qword v, float g, float h);
+qword SquishCmEye(void *p, int i, int j, void *pfn, qword a, qword v, float g, float h) asm("SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff");
 void func_0014F030(void);
-void func_0014F040(void);
-qword func_0014F110(void *p, qword pos, qword posTarget);
+void GCmAvoidWeight(void) asm("GCmAvoidWeight__FP2CMiG9VU_VECTORP5CMHIT");
+qword PosCmAvoid(void *p, qword pos, qword posTarget) asm("PosCmAvoid__FP2CMG9VU_VECTORT1");
 }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline qword Add(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -39,7 +39,8 @@ static inline qword QwSqrt(const qword &a) { qword r; __asm__("vsqrt $Q, %1x\n\t
 static inline float GXOfQw(const qword &q) { float x; __asm__("mtc1 %1, %0" : "=f"(x) : "r"(q)); return x; }
 static inline float Length(const qword &v) { return GXOfQw(QwSqrt(QwDot(v, v))); }
 
-qword func_0014F110(void *p, qword pos, qword posTarget)
+// name: SafeHouse port (PosCmAvoid)
+qword PosCmAvoid(void *p, qword pos, qword posTarget)
 {
     CLOCK *pclock = &g_clock;
     int ii, jj;
@@ -49,7 +50,7 @@ qword func_0014F110(void *p, qword pos, qword posTarget)
     qword posMax = Add(pos, D_002BD900);
     FRAME frame;
     func_0020FAA0(g_sw, posMin, posMax, (void *)func_0014F030, 0, &ii, &jj);
-    qword w = func_0014EDA0(p, ii, jj, (void *)func_0014F040, pos, v, D_002BD8D8, Length(v) + D_002BD8DC);
+    qword w = SquishCmEye(p, ii, jj, (void *)GCmAvoidWeight, pos, v, D_002BD8D8, Length(v) + D_002BD8DC);
     qword r = AddScaled(pos, w, VU_FLOAT(&pclock->dtPrev));
     return r;
 }

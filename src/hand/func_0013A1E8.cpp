@@ -1,6 +1,6 @@
 // func_0013A1E8: light-list VU upload (Claude agent for Lilly, T1676; built on the team's v2..v14 drafts).
 // Collects the lights of p->xE0's list whose position (PosLoWorld 0x1A62E8 + PmatLoWorld 0x1A6318 rotating p->vF0)
-// passes the camera tests func_0014F850 / func_0014F898, as M4s in a stack array (or the single D_002A2D30 when the
+// passes the camera tests FInsideCmPlanes / FInsideCmMrd, as M4s in a stack array (or the single D_002A2D30 when the
 // list check fails), then uploads each light per DMA queue through the VIF helpers.
 // Matching notes (gather loop, the last diffs; found with sched1/sched2/local-alloc dumps):
 //  * The g100 lw must issue after the &g_cm addiu in sched1 (else lw and lui overlap and the lui gets v1):
@@ -49,8 +49,8 @@ void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
 int func_001A61A0(LO *plo);
 qword func_001A62E8(LO *plo);
 M3 *func_001A6318(LO *plo);
-int func_0014F850(CM *pcm, qword d, VU_FLOAT r);
-int func_0014F898(CM *pcm, qword d, float g, float *pg);
+int FInsideCmPlanes(CM *pcm, qword d, VU_FLOAT r) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
+int FInsideCmMrd(CM *pcm, qword d, float g, float *pg) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
 void func_00256D18(void *pv, qword v);
 DMA *func_001CD998(void);
 void func_001574B8(VIFS *p);
@@ -118,10 +118,10 @@ void func_0013A1E8(P *p)
             int z; __asm__("" : "=r"(z) : "r"(pcm));
             qword d = Sub(AddZ(RotKZ(mat, v, vf.q, z), pos, z), pcm->pos);
             __asm__("" : "+j"(d)); /* empty asm: extra refs so d is caller-saved in vf1 */
-            if (!func_0014F850(&g_cm, d, vf))
+            if (!FInsideCmPlanes(&g_cm, d, vf))
                 goto next;
             float g;
-            if (!func_0014F898(&g_cm, d, plo->g38, &g))
+            if (!FInsideCmMrd(&g_cm, d, plo->g38, &g))
                 goto next;
             func_00256D18(&pl->x30, pos);
             cLight++;
@@ -143,7 +143,7 @@ void func_0013A1E8(P *p)
         qword v = p->vF0;
         __asm__("" : "+j"(v)); /* empty asm: keeps vF0 in a pseudo */
         VU_FLOAT vf(p->g100);
-        if (!func_0014F850(pcm, SubE(v, pcm->pos), vf))
+        if (!FInsideCmPlanes(pcm, SubE(v, pcm->pos), vf))
             goto none;
         cLight = 1;
         aLight = &D_002A2D30;

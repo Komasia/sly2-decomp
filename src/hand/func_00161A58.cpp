@@ -22,8 +22,8 @@ extern "C"{
  extern CHECK D_003E1088,D_002A37E8;
  extern char D_003D4A60[];
  int func_0015E9C8(G*,int,int,P*,int,P**);
- int func_0013C478(void*);
- void*func_00143AF0(P*,int);
+ int IdBooty(void*) asm("IdBooty__FP2LO");
+ void*AkeyReturnBooty(P*,int) asm("AkeyReturnBooty__FP5ACTORi");
  void func_001613F8(P*);
  void func_00166008();
  void func_001AB630(BANK*);
@@ -94,7 +94,7 @@ extern "C" void func_00161A58(P*p,int action){
   if(Same(&D_003E1088,&D_002A37E8)){
    P*results[3];
    int found=func_0015E9C8(&g_sw,5,0x34,0,3,results);
-   if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->widget)(void)func_00143AF0(object,func_0013C478(object->widget));--count;++cursor;}while(count);}
+   if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->widget)(void)AkeyReturnBooty(object,IdBooty(object->widget));--count;++cursor;}while(count);}
   }
   break;
  }

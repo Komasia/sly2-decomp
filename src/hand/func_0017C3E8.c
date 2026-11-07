@@ -14,7 +14,7 @@ void func_0011EF08(qword v, float *a, float *b, int n);
 float RadNormalize__Ff(float f);
 int func_0011D910(void *p, float f);
 qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(struct S *p, void *q, float f, qword v);
-void func_001C02D0(void *q, qword a, qword b, struct B *c);
+void FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
 void Follow__9JOBFOLLOWP3CRVi(struct T *t, struct B *b, int n);
 // name: SafeHouse port (JOBSURROUND::Update)
 void Update__11JOBSURROUND(struct S *p) {
@@ -53,7 +53,7 @@ void Update__11JOBSURROUND(struct S *p) {
 doit:
     {
         qword v = func_001A62E8(p->p10);
-        func_001C02D0(q, v, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(p, q, g, pos), b);
+        FNavPathCrv__FP9NAVREGIONiiP3CRV(q, v, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(p, q, g, pos), b);
     }
     Follow__9JOBFOLLOWP3CRVi(t, b, 0);
     }

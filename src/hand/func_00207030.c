@@ -10,24 +10,25 @@ extern qword D_002A2DE0;
 extern qword D_002C3D30;
 extern float D_002A8698;
 extern char g_sw[];
-int func_00206EB0(struct S *p, int k);
-void func_0012D108(void *p, qword q);
-void func_00208728(struct S *p, int n);
+int FGuardModeAllowed__FP5GUARDi(struct S *p, int k);
+void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword q);
+void RemoveTargetClass__FPvi(struct S *p, int n);
 void func_00206E50(struct S *p);
 void func_00208700(struct S *p, int n);
 void func_00206DB0(struct S *p);
 void *func_00205458(struct S *p, int n);
 struct Y *PasegaOfKinde__FP5KINDE(void *p);
-void func_00131A20(struct Y *y, float f);
+void SetAsegaAsegSpeed__FP5ASEGAf(struct Y *y, float f);
 int func_001C4840(void *p);
 void func_00177BA0(struct Z *z);
 
-void func_00207030(struct S *p, int k)
+// name: SafeHouse port (SetGuardMode)
+void SetGuardMode__FP5GUARDi(struct S *p, int k)
 {
     int old;
     if (k == p->k)
         return;
-    if (!func_00206EB0(p, k))
+    if (!FGuardModeAllowed__FP5GUARDi(p, k))
         return;
     old = p->k;
     p->k = k;
@@ -36,11 +37,11 @@ void func_00207030(struct S *p, int k)
     case 8:
     case 0xD:
         if (p->pFC4)
-            func_0012D108(p->pFC4, D_002A2DE0);
+            SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(p->pFC4, D_002A2DE0);
         break;
     case 0x22:
     case 0x25:
-        func_00208728(p, 0x38);
+        RemoveTargetClass__FPvi(p, 0x38);
         func_00206E50(p);
         break;
     case 0xE: {
@@ -48,7 +49,7 @@ void func_00207030(struct S *p, int k)
         if (x) {
             struct Y *y = PasegaOfKinde__FP5KINDE(x->p40);
             if (y)
-                func_00131A20(y, y->p14->f78);
+                SetAsegaAsegSpeed__FP5ASEGAf(y, y->p14->f78);
         }
         break;
     }
@@ -63,7 +64,7 @@ void func_00207030(struct S *p, int k)
     case 8:
     case 0xD:
         if (p->pFC4)
-            func_0012D108(p->pFC4, D_002C3D30);
+            SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(p->pFC4, D_002C3D30);
         break;
     case 0x22:
     case 0x25:
@@ -75,7 +76,7 @@ void func_00207030(struct S *p, int k)
         if (x) {
             struct Y *y = PasegaOfKinde__FP5KINDE(x->p40);
             if (y)
-                func_00131A20(y, 0.0f);
+                SetAsegaAsegSpeed__FP5ASEGAf(y, 0.0f);
         }
         {
             struct V3 *pv = &p->v190;

@@ -12,9 +12,10 @@ void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 int CsoeCollect(L *pl, void *pfn, int n, void *pv) asm("CsoeCollect__FP3ALOPvN21");
 int func_0014CDB0(qword a, qword b, int n, void *pv, int c, HIT *phit);
 void func_00229D60(void);
-int func_001A2788(O *po, L *pl, qword *pv);
+int FWaterSurfaceUnder(O *po, L *pl, qword *pv) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
 }
-int func_001A2788(O *po, L *pl, qword *pv)
+// name: SafeHouse port (FWaterSurfaceUnder)
+int FWaterSurfaceUnder(O *po, L *pl, qword *pv)
 {
     U off, b, a;
     HIT hit;

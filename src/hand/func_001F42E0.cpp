@@ -10,7 +10,7 @@ extern "C" M3 func_0011B340(const M3 *);
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void *func_002333B4(void *,int,int);
 extern "C" void DetachAloContacts(P *) asm("DetachAloContacts__FP3ALO");
-extern "C" void func_00230598(P *,LO *);
+extern "C" void HoldXfMode(P *,LO *);
 extern "C" void CopyAloSoeMatrices(P *) asm("CopyAloSoeMatrices__FP3ALO");
 static inline M3 Mul(const M3 &a,const M3 &b) return r
 {
@@ -45,7 +45,7 @@ extern "C" void SetAloRotation__FP3ALOP7MATRIX3(P *p,const M3 *basis)
         p->object->stamp=stamp;
         p->vt[18].fn((char *)p+p->vt[18].delta);
         DetachAloContacts(p);
-        func_00230598(p,p->object);
+        HoldXfMode(p,p->object);
         CopyAloSoeMatrices(p);
     }
 }

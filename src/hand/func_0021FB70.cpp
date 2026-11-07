@@ -64,7 +64,7 @@ extern "C" {
  V *func_00256D18(V *,qword);
  void func_0021C5F8(MARKER *,qword);
  float func_002458F0(float,float);
- float func_00204740(LO *);                    // JtGetFacingAngle
+ float RadStepHeading(LO *) asm("RadStepHeading__FP4STEP");                    // JtGetFacingAngle
  float RadNormalize(float) asm("RadNormalize__Ff");                   // RadNormalize
  void func_001384C0(ASEGBL *);
 }
@@ -192,7 +192,7 @@ extern "C" void func_0021FB70(JTTHROW *pjtthrow,int fUpdateBlends)
  V dpos;
  dpos.q=QwSub(posAim,posHeroNow);
  float rad=func_002458F0(dpos.f[1],dpos.f[0]);
- float radHero=func_00204740(pjtthrow->pstepplayer);
+ float radHero=RadStepHeading(pjtthrow->pstepplayer);
  rad=RadNormalize(rad-radHero);
  float uTurn=GClamp(rad/pjtthrow->radTurnAim,-1.0f,1.0f)*0.5f+0.5f;
  if(fUpdateBlends){

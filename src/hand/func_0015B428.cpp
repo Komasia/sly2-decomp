@@ -24,12 +24,12 @@ extern "C" {
 extern CM g_cm;
 extern char g_sw[];
 PRG *func_001390D8(void *pv);
-void func_001394C8(PRG *pprg, EMITTER *p);
+void SetPsysFromEmitb(PRG *pprg, EMITTER *p) asm("SetPsysFromEmitb__FP4PSYSP8EMITTERN");
 BLK *func_00138FF8(void *pv, PRG *pprg);
 void *func_002333B4(void *pv, int b, int cb);
 int NRandInRange(int nMin, int nMax) asm("NRandInRange__Fii");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
-void func_0015B428(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab);
+void InsertPsysParticles(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");
 }
 
 static inline float Dot(qword a, qword b)
@@ -43,7 +43,8 @@ static inline float Dot(qword a, qword b)
 
 static inline float GRand(LM *plm) { return GRandInRange(plm->gMin, plm->gMax); }
 
-void func_0015B428(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab)
+// name: SafeHouse port (InsertPsysParticles)
+void InsertPsysParticles(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab)
 {
     PRG *pprg = 0;
     if (px && px->ppprg)
@@ -54,7 +55,7 @@ void func_0015B428(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *
             return;
         if (px && px->ppprg)
             *px->ppprg = pprg;
-        func_001394C8(pprg, p);
+        SetPsysFromEmitb(pprg, p);
         if (px && px->pemitter)
             pprg->pvt->pfn((PRG *)((char *)pprg + pprg->pvt->d), px->pemitter);
         if (!pprg)

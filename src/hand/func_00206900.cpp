@@ -37,7 +37,8 @@ static __inline__ int Near(qword difference){return LengthXY(difference)<D_002C3
 #define PAD1 __asm__ volatile("");
 #define PAD4 PAD1 PAD1 PAD1 PAD1
 #define LOOP_SIZE_PAD PAD4 PAD4 PAD4 PAD4 PAD4 PAD4
-void func_00206900(struct P *p)
+// name: SafeHouse port (RefreshGuardTargets)
+void RefreshGuardTargets__FP5GUARD(struct P *p)
 {
     struct CANDIDATE candidates[64];
     struct P *objects[256];

@@ -3,6 +3,6 @@
 
 void func_001E0650(RELAY *prelay, int oidWidget)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_WidgetHide, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_WidgetHide, 1);
     prelaycmd->u.widgetHide.oidWidget = oidWidget;
 }

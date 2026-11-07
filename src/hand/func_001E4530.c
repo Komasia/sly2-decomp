@@ -7,20 +7,21 @@ union U { int n; float g; };
 struct P { int kind; int x4; int pad[2]; union U u10; union U u14; int x18; };
 struct C { char pad[0x18]; int x18; };
 struct O { char pad[0x74]; float g74; float g78; char pad2[0x80 - 0x7C]; float a[3]; int pad3; float gMin; float gMax; };
-struct O *func_001E1DB8(struct C *pc, int n);
+struct O *PloFind__FP3RUNi(struct C *pc, int n);
 float GSuck__FPv(struct G *pg);
 void *func_0015E938(struct G *pg, int k, int a, int b);
 void *func_001F67E0(void *p, int n);
 float func_001F11A8(void *p, int n);
 float func_001FCFD0(struct G *pg, int n);
 static __inline__ float GClamp(float g, float lo, float hi) { if (g < lo) return lo; if (g > hi) return hi; return g; }
-float func_001E4530(struct C *pc, struct P *p)
+// name: SafeHouse port (GCmdDuration)
+float GCmdDuration__FP3RUNP7SCPTCMD(struct C *pc, struct P *p)
 {
     float g = 0.0f;
     if (p->x4) return g;
     switch (p->kind) {
     case 0xA: {
-        struct O *po = func_001E1DB8(pc, p->u10.n);
+        struct O *po = PloFind__FP3RUNi(pc, p->u10.n);
         if (po) {
             float t = GSuck__FPv(&D_002DE578);
             float *pa = po->a; float s = pa[0] + t * (pa[1] + t * pa[2]); s = GClamp(s, po->gMin, po->gMax);

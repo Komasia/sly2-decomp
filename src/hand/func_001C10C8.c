@@ -4,7 +4,8 @@ void *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_001C0648(void *p);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void func_001C1138(void *p);
-void func_001C10C8(struct G *p)
+// name: SafeHouse port (InitSwNav)
+void InitSwNav__FP2SW(struct G *p)
 {
     if (!p->p45cc) {
         struct MSG msg;

@@ -1,7 +1,7 @@
-// func_001BFF28: build a route between two points over the navigation graph (wave-3 lane 4, from w2lane6.v1).
-// Finds the triangles containing both points, projects the points onto them (func_001BFDB0), links a temporary start
+// CposNavPath: build a route between two points over the navigation graph (wave-3 lane 4, from w2lane6.v1).
+// Finds the triangles containing both points, projects the points onto them (PosNearestTri), links a temporary start
 // vertex to the start triangle's corners and the goal vertex to the goal triangle's corners, runs the path search
-// (func_001BF980) and the path simplifier (func_001BFC18), copies the route out, drops points closer than the minimum
+// (AstarNav) and the path simplifier (SmoothNav), copies the route out, drops points closer than the minimum
 // spacing, and returns a two-point route (offset along +X) when only one point is left.
 // Keys of the last fixes (tail block):
 //  * D_002C0C04 is a `const float` read by value through VU_FLOAT(const float) whose qmtc2 input has a never-chosen "V"
@@ -21,14 +21,14 @@ struct AREQ { int cb, align; AREQ() {} AREQ *Set(int n) { cb = n; align = 16; re
 extern const float D_002C0C04; // minimum spacing between route points (50.0f)
 extern qword D_002A2DA0;       // (1, 0, 0, 0)
 extern "C" {
-TRI *func_001BF1F8(G *, BSP *, qword, int);
-qword func_001BFDB0(TRI *, qword);
+TRI *ItriNavFrom(G *, BSP *, qword, int) asm("ItriNavFrom__FP9NAVREGIONP4NODEG9VU_VECTORi");
+qword PosNearestTri(TRI *, qword) asm("PosNearestTri__FP9NAVREGIONG9VU_VECTOR");
 void __10STACKSCOPE(void *);
 void _$_10STACKSCOPE(void *, int);
 void *PvAllocStackImpl(AREQ *) asm("PvAllocStackImpl__Fi");
-void func_001BF980(G *, V *, V *, int, int *, V **);
-void func_001BFC18(G *, int *, V **);
-int func_001BFF28(G *, qword, qword, int, U *);
+void AstarNav(G *, V *, V *, int, int *, V **) asm("AstarNav__FP9NAVREGIONPvT1iPiT1");
+void SmoothNav(G *, int *, V **) asm("SmoothNav__FP9NAVREGIONPiPPG9VU_VECTOR");
+int CposNavPath(G *, qword, qword, int, U *) asm("CposNavPath__FP9NAVREGIONG9VU_VECTORT1iP7VECTOR4");
 }
 struct MARK { MARK() { __10STACKSCOPE(this); } ~MARK() { _$_10STACKSCOPE(this, 2); } };
 // the unused second output keeps gcse from hoisting the qmtc2 out of the loops (not single_set)
@@ -63,14 +63,15 @@ static inline qword AddScaled(qword p, qword axis, VU_FLOAT s)
     return r;
 }
 
-int func_001BFF28(G *g, qword from, qword to, int capacity, U *out)
+// name: SafeHouse port (CposNavPath)
+int CposNavPath(G *g, qword from, qword to, int capacity, U *out)
 {
-    TRI *first = func_001BF1F8(g, g->pbsp, from, 1);
+    TRI *first = ItriNavFrom(g, g->pbsp, from, 1);
     if (!first) return 0;
-    qword start = func_001BFDB0(first, from);
-    TRI *last = func_001BF1F8(g, g->pbsp, to, 1);
+    qword start = PosNearestTri(first, from);
+    TRI *last = ItriNavFrom(g, g->pbsp, to, 1);
     if (!last) return 0;
-    qword finish = func_001BFDB0(last, to);
+    qword finish = PosNearestTri(last, to);
     U *write;
     int count;
     if (first == last) {
@@ -111,8 +112,8 @@ int func_001BFF28(G *g, qword from, qword to, int capacity, U *out)
             e->cost = Dist2DI(v->pos.q, fv);
         }
         int found;
-        func_001BF980(g, &initial, pg, 128, &found, path);
-        if (found >= 3) func_001BFC18(g, &found, path);
+        AstarNav(g, &initial, pg, 128, &found, path);
+        if (found >= 3) SmoothNav(g, &found, path);
         int n = found; if (n > capacity) n = capacity; count = n;
         for (int i = 0; i < count; i++) out[i].q = path[i]->pos.q;
         for (int i = 0; i < 3; i++) last->apv[i]->cEdge--;

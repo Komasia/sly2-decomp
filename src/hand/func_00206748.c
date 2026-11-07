@@ -9,17 +9,17 @@ struct S {
     char p12[0x1000 - 0xFF8]; int n1000;
 };
 void func_001CB5D0(struct S *p);
-void func_0020B210(struct S *p);
+void DetachGuardMove__FP5GUARD(struct S *p);
 void *func_002333B4(void *p, int c, int n);
 void SetGuardPursued__FP5GUARDP2LO(struct S *p, int n);
 void func_002088E0(struct S *p);
 void func_001F17F8(struct S *p, int a);
-void func_00207030(struct S *p, int n);
+void SetGuardMode__FP5GUARDi(struct S *p, int n);
 void func_00206748(struct S *p)
 {
     int one;
     func_001CB5D0(p);
-    func_0020B210(p);
+    DetachGuardMove__FP5GUARD(p);
     p->n2E8 = 0;
     func_002333B4(p->a2DC, 0, 0xC);
     p->nE94 = 0;
@@ -44,5 +44,5 @@ void func_00206748(struct S *p)
     p->fFF4 = D_002A8610;
     p->n1000 = D_002C3CF0;
     func_001F17F8(p, -1);
-    func_00207030(p, -1);
+    SetGuardMode__FP5GUARDi(p, -1);
 }

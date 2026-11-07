@@ -14,7 +14,8 @@ static inline float DistSq(void *p, qword *pq)
     return f;
 }
 
-int func_0020A168(void *p, struct E2 *a, struct E2 *b)
+// name: SafeHouse port (NCompareNoises)
+int NCompareNoises__FP5GUARDP5NOISET1(void *p, struct E2 *a, struct E2 *b)
 {
     int n;
     float d, d2;

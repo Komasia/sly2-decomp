@@ -4,7 +4,7 @@ void func_00129EC8(void *p);
 void func_00129658(void *p, const void *q);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 void func_0021ECD8(char *buf, const char *fmt, ...);
-void func_001C60B8(void *p, int n);
+void SetPickupStateBase(void *p, int n) asm("SetPickupStateBase__FP2LOi");
 }
 struct CRef {
     int m_tagk; int m_tag;
@@ -28,8 +28,9 @@ extern char D_002A7770[];
 extern char D_002A7778[];
 CRef func_001D8A38(char *a, char *b, char *c, int n);
 CRef SetProgressPoCurrent(const CRef &r, char *a, char *b, char *c, int n) asm("SetProgressPoCurrent__FP4CRefPci");
-extern "C" void func_001C77E8(S *p, int n);
-void func_001C77E8(S *p, int n)
+extern "C" void SetLootState(S *p, int n) asm("SetLootState__FP2LOi");
+// name: SafeHouse port (SetLootState)
+void SetLootState(S *p, int n)
 {
     if (p->x150 == n) return;
     switch (n) {
@@ -54,5 +55,5 @@ void func_001C77E8(S *p, int n)
         break;
     }
     }
-    func_001C60B8(p, n);
+    SetPickupStateBase(p, n);
 }

@@ -3,7 +3,7 @@
 
 void func_001E0610(RELAY *prelay, int oidWidget, int idLabel, int fAsync)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_WidgetShow, fAsync);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_WidgetShow, fAsync);
     prelaycmd->u.widgetShow.oidWidget = oidWidget;
     prelaycmd->u.widgetShow.idLabel = idLabel;
 }

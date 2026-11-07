@@ -4,7 +4,8 @@ typedef struct { int x0; } E;
 typedef struct { char pad[0xE0]; int xE0; E *xE4; } S;
 typedef struct { int a, b; } P;
 E *PvAllocSwCopyImpl__FiPv(P *, E *);
-E *func_00258658(S *p, int x)
+// name: SafeHouse port (PimgEmitb)
+E *PimgEmitb(S *p, int x)
 {
     if (x == 1) {
         p->xE0 = x;

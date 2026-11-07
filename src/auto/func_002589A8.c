@@ -18,10 +18,10 @@ extern M2C_UNK D_00452148;
 void func_002589A8(s32 arg0, s32 arg1) {
     switch (arg1) {                                 /* irregular */
     case 0:
-        func_00258898(arg0, 1);
+        OffKind0(arg0, 1);
         return;
     case 1:
-        func_00258920(arg0, 1);
+        OffKind1(arg0, 1);
         break;
     }
 }

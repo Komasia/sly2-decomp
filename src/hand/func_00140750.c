@@ -9,7 +9,7 @@ extern struct { float t; float dt; } g_clock;
 extern float D_002BCC6C, D_002BCC70, D_002BCC74, D_002BCC78;
 int NActorPerceived__FP5ACTOR(struct P *p);
 qword func_001A62E8(struct P *p);
-void func_00156548(void *a, qword pos, struct P *p, int n);
+void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(void *a, qword pos, struct P *p, int n);
 
 static inline float GClamp(float g, float lo, float hi)
 {
@@ -57,5 +57,5 @@ void UpdateActorNoise__FP5ACTOR(struct P *p)
         { float dt = g_clock.dt; p->x10D0 = GClamp(p->x10D0 + D_002BCC78 * dt, 0.0f, 1.0f); }
         break;
     }
-    if (p->x10D0 == 1.0f) func_00156548(p->p10C4, func_001A62E8(p), p, 0);
+    if (p->x10D0 == 1.0f) PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(p->p10C4, func_001A62E8(p), p, 0);
 }

@@ -2,19 +2,19 @@ typedef int qword __attribute__((mode(TI)));
 extern qword D_002A2DD0;
 struct A { char pad[0xA0]; int nA0; };
 struct S { char pad[0xF08]; struct A *pa; int h; int n; char pad2[0xC]; qword v; };
-void func_0012E460(int *ph);
-int func_0012DC18(struct S *p, int a, int b, int c, int d, qword q);
+void DeleteCtrl__FPP4CTRL(int *ph);
+int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, int a, int b, int c, int d, qword q);
 // name: SafeHouse port (SetGuardActionAim)
 void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct A *pa, int n, qword v)
 {
     if (p->pa) {
-        func_0012E460(&p->h);
+        DeleteCtrl__FPP4CTRL(&p->h);
         p->h = 0;
         p->pa = 0;
     }
     p->pa = pa;
     if (pa && pa->nA0) {
-        p->h = func_0012DC18(p, pa->nA0, 5, 8, 3, D_002A2DD0);
+        p->h = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, pa->nA0, 5, 8, 3, D_002A2DD0);
         p->n = n;
         p->v = v;
     }

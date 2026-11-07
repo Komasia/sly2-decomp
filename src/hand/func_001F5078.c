@@ -1,8 +1,8 @@
 /* WakeAlo__FP3ALO (0x1F5078): if the SO has a tree, call its virtual slot 46 with 4 and, for a physical SO,
- * refresh both attachment transforms (func_00230598). */
+ * refresh both attachment transforms (HoldXfMode). */
 #include "so.h"
 
-void func_00230598(SO *pso, XF *pxf);
+void HoldXfMode(SO *pso, XF *pxf);
 
 // name: SafeHouse port (WakeAlo)
 void WakeAlo__FP3ALO(SO *pso)
@@ -13,8 +13,8 @@ void WakeAlo__FP3ALO(SO *pso)
         pvte = &pso->lo.pvt[47];   /* slot 46 */
         ((void (*)(void *, int))pvte->pfn)((char *)pso + pvte->d, 4);
         if (pso->psophys != NULL) {
-            func_00230598(pso, pso->pxfUnk58);
-            func_00230598(pso, pso->pxfUnk5c);
+            HoldXfMode(pso, pso->pxfUnk58);
+            HoldXfMode(pso, pso->pxfUnk5c);
         }
     }
 }

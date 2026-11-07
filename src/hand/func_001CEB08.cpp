@@ -15,7 +15,7 @@ void func_00228C18(void*,qw,qw*,qw*);
 qw func_0022D348(void*,void*,qw);
 void func_001CEAA8(RIP*,float);
 void func_0011EE08(qw,qw,qw,qw*,float*,float*);
-int func_001CEB08(RIP*,SHAPE*,qw,qw);
+int FBounceRip(RIP*,SHAPE*,qw,qw) asm("FBounceRip__FP3RIPP2SOG9VU_VECTORT2");
 }
 static inline float Max(float a,float b){return a<b?b:a;}
 static inline float Evaluate(POLY*p,float t){return p->a+t*(p->b+t*p->c);}
@@ -35,7 +35,8 @@ static inline qw PrepareOffsetTorque(qw normal,float amount,WORK&w){register qw 
  __asm__("mfc1 $3,%3\n\tqmtc2.ni $3,%0\n\tvmulx.xyzw $vf10,%4,%0x\n\tsqc2 %0,%1\n\tvopmula.xyz $ACC,$vf10,%4\n\tvopmsub.xyz %0,%4,$vf10\n\tsqc2 $vf10,%2":"=&j"(torque),"=m"(w.temporary.q),"=m"(w.offset.q):"f"(amount),"j"(normal):"vf10","$3");return torque;
 }
 static inline SHAPE*CaptureShape(SHAPE*incoming){register SHAPE*saved __asm__("$17");__asm__("daddu %0,%1,$zero":"=r"(saved):"r"(incoming));return saved;}
-int func_001CEB08(RIP*p,SHAPE*incomingShape,qw point,qw normal){
+// name: SafeHouse port (FBounceRip)
+int FBounceRip(RIP*p,SHAPE*incomingShape,qw point,qw normal){
  SHAPE*shape=CaptureShape(incomingShape);
  WORK w;float radius,elastic,friction;void*owner;
  {register qw incomingNormal __asm__("vf8");__asm__("qmtc2.ni %1,%0":"=j"(incomingNormal):"r"(normal));

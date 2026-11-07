@@ -3,6 +3,6 @@
 
 void func_001E02E0(RELAY *prelay, int oidLabel)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_StopBlock, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_StopBlock, 1);
     prelaycmd->u.stopBlock.oidLabel = oidLabel;
 }

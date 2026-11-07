@@ -47,14 +47,14 @@ public:
 };
 struct S { void *x0; char p0[0x34 - 4]; LO *x34; char p1[0x94 - 0x38]; int x94; int x98; int x9C; LO *xA0; };
 extern "C" {
-void func_0012E460(int *p);
+void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
 LO *func_001CCA40(void *pw, LO *po);
 void func_0011C168(MAT4 *pd, MAT4 *pa, MAT4 *pb);
 void func_001A6BE8(LO *po, MAT4 *pm);
 void SetAloCnstrLin(LO *po, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(LO *po, int n) asm("SetAloCnstrAng__FP3ALOi");
-qword func_0022CA18(void *a, void *b);
-int func_0012DC18(LO *p, Q *q, int a, int b, int c, qword d);
+qword VecXfValue(void *a, void *b) asm("VecXfValue__FP2XFP7MATRIX4");
+int PctrlNewPos(LO *p, Q *q, int a, int b, int c, qword d) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void func_001F7C68(LO *po, float g);
 void func_001CD098(S *p, LO *po);
 }
@@ -65,9 +65,9 @@ void func_001CD098(S *p, LO *po)
     MAT4 buf;
     MAT4 m;
     if (po == p->xA0) return;
-    func_0012E460(&p->x94);
-    func_0012E460(&p->x98);
-    func_0012E460(&p->x9C);
+    DeleteCtrl(&p->x94);
+    DeleteCtrl(&p->x98);
+    DeleteCtrl(&p->x9C);
     void *v = p->x34->V32(&buf);
     po->V10(p->x0, v, 0);
     m = *p->x34->V31();
@@ -86,9 +86,9 @@ void func_001CD098(S *p, LO *po)
         SetAloCnstrAng(po, 1);
     }
     Q *q = po->x58;
-    p->x98 = func_0012DC18(po, q, 5, 0, 2, func_0022CA18(q, q));
+    p->x98 = PctrlNewPos(po, q, 5, 0, 2, VecXfValue(q, q));
     q = po->x5C;
-    p->x9C = func_0012DC18(po, q, 5, 0, 2, func_0022CA18(q, q));
+    p->x9C = PctrlNewPos(po, q, 5, 0, 2, VecXfValue(q, q));
     func_001F7C68(po, 0.25f);
     p->xA0 = po;
 }

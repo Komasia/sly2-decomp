@@ -5,10 +5,11 @@ typedef struct { int x0; char pad[0x2C]; union { float f; V4 v; } u; } T;
 typedef struct { char pad[0xC0]; int xC0; } E;
 typedef struct { char pad[0xE4]; E *xE4; } S;
 extern V4 D_002BDDF0; extern float D_002BDE00;
-T *func_00258898(S *, int);
-void func_00258D98(S *p, int k)
+T *OffKind0(S *, int);
+// name: SafeHouse port (SetKind0Payload)
+void SetKind0Payload(S *p, int k)
 {
-    T *t = func_00258898(p, 1);
+    T *t = OffKind0(p, 1);
     if (t->x0 == k) return;
     if (p->xE4->xC0 != 0) return;
     t->x0 = k;

@@ -4,7 +4,8 @@ int func_00131968(struct O *po);
 int func_001F0638(struct O *po);
 int func_0020C0D8(struct O *po);
 int func_0020CA98(struct O *po);
-int func_00209430(struct E *pe)
+// name: SafeHouse port (FKindeDone)
+int FKindeDone__FP5KINDE(struct E *pe)
 {
     int f;
     switch (pe->k) {

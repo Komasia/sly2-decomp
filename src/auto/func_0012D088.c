@@ -15,9 +15,10 @@ extern M2C_UNK D_004520D0;
 extern M2C_UNK D_00452148;
 extern M2C_UNK D_004521E8;
 
-void func_0012D088(s32 arg0) {
+// name: SafeHouse port (CTRLPOS::Fetch)
+void Fetch__7CTRLPOS(s32 arg0) {
     M2C_FIELD(M2C_FIELD(arg0, void **, 8), s128 *, 0xC0) = (s128) M2C_FIELD(arg0, s128 *, 0x20);
     M2C_FIELD(M2C_FIELD(arg0, void **, 8), s128 *, 0xD0) = (s128) D_002A2DD0;
     M2C_FIELD(M2C_FIELD(arg0, void **, 8), u16 *, 0x9A) = (u16) M2C_FIELD(arg0, u16 *, 0x1C);
-    func_0022C818(M2C_FIELD(arg0, s32 *, 4), (s32) M2C_FIELD(arg0, void **, 8));
+    ResetXfParams__FP2XFPv(M2C_FIELD(arg0, s32 *, 4), (s32) M2C_FIELD(arg0, void **, 8));
 }

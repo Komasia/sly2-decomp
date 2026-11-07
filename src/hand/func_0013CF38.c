@@ -4,7 +4,7 @@ extern struct G g_sw;
 struct S { char pad[0x194]; struct A *pa; };
 int func_0013D248(struct S *);
 struct A *func_001CB250(void *, int);
-void func_0013C490(struct A *, int);
+void SelectBootyRecord__FP2LOi(struct A *, int);
 void func_0013C560(struct A *, int);
 void func_0013CF38(struct S *p) {
     struct G *pg;
@@ -18,7 +18,7 @@ void func_0013CF38(struct S *p) {
     pa = func_001CB250(pg->f4638, 0);
     p->pa = pa;
     if (pa) {
-        func_0013C490(pa, i);
+        SelectBootyRecord__FP2LOi(pa, i);
         p->pa->f15c = p;
         func_0013C560(p->pa, 1);
     }

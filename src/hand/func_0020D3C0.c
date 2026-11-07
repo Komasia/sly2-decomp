@@ -7,7 +7,8 @@ extern struct { float t; float dt; } g_clock;
 void func_002333B4(void *p, int c, int n);
 qword func_001A62E8(struct O *po);
 void PaloAcceptContact__FP5CTMSG(struct L *pl);
-void func_0020D3C0(struct S *p, int state)
+// name: SafeHouse port (SetWatchB)
+void SetWatchB__FP6WATCHBi(struct S *p, int state)
 {
     if (state != p->state) {
         p->state = state;

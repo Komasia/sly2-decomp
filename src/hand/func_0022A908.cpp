@@ -58,7 +58,7 @@ qword func_001A62E8(LO *plo);
 void func_0011EE08(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist);
 MATRIX4 *func_001A6318(SO *pso);
 VECTOR *func_00256D18(VECTOR *pv, qword qw);
-void func_001A5EE8(SO *pso, MATRIX4 *pmat, float a, float b);
+void AppendAloExtraDraws(SO *pso, MATRIX4 *pmat, float a, float b) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 void func_001A5FB8(SO *pso, qword pos0, qword pos1, float s, float a);
 char *func_0013E368(SW *psw, int id);
 void func_001CD780(qword pos, float s, char *pchz, const RGBA *prgba0, const RGBA *prgba1);
@@ -165,7 +165,7 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
         mat.mat[1].w = 0.0f;
         mat.mat[0].w = 0.0f;
         pmat->pos.w = 1.0f;
-        func_001A5EE8(pwaypt->psoMarker, pmat, uShow, uShow);
+        AppendAloExtraDraws(pwaypt->psoMarker, pmat, uShow, uShow);
     }
     if (pwaypt->psoBeam)
         func_001A5FB8(pwaypt->psoBeam, pos, posEnd, rScale, uShow);
@@ -179,7 +179,7 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
         mat.mat[1].w = 0.0f;
         mat.mat[0].w = 0.0f;
         pmat->pos.w = 1.0f;
-        func_001A5EE8(pwaypt->psoBase, pmat, uShow, uShow);
+        AppendAloExtraDraws(pwaypt->psoBase, pmat, uShow, uShow);
     }
 
     if (0.0f < uLabel && pwaypt->pattach && pwaypt->pattach->ptask && pwaypt->pattach->ptask->idLabelName != -1)

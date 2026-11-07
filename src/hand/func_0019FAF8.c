@@ -6,10 +6,11 @@ struct E { qword a; qword b; };
 struct O { char pad[0x240]; qword x240; };
 struct P { struct O *x0; int x4; int pad[2]; struct E ae[1]; };
 int func_0015E9C8(struct G *g, int k, int n, int m, int c, void **apv);
-float func_0019F7D0(struct P *p, struct E *e, int c, void **apv);
+float GCostSafeEntry__FP5ACTORPviPP3LO2(struct P *p, struct E *e, int c, void **apv);
 void func_002333B4(void *p, int v, int cb);
 qword func_001A62E8(void *p);
-void func_0019FAF8(struct P *p, struct E *pe)
+// name: SafeHouse port (EntryBestSafe)
+void EntryBestSafe__FP5ACTORPv(struct P *p, struct E *pe)
 {
     void *apv[16];
     int c, i;
@@ -20,7 +21,7 @@ void func_0019FAF8(struct P *p, struct E *pe)
     for (i = 0; i < p->x4; i++) {
         float g;
         e = &p->ae[i];
-        g = func_0019F7D0(p, e, c, apv);
+        g = GCostSafeEntry__FP5ACTORPviPP3LO2(p, e, c, apv);
         if (g < best) {
             best = g;
             *pe = *e;

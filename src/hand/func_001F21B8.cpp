@@ -14,7 +14,7 @@ extern "C" {
 void func_002333B4(void *, int, int);
 void func_0011C168(struct MAT *, struct ALO *, struct MAT *);
 void func_001A5900(struct LO *, struct LO *, struct LO *, int);
-void func_0022FAA0(struct LO *);
+void UpdateAloXfWorlds(struct LO *) asm("UpdateAloXfWorlds__FP3ALO");
 void func_001F2468(struct LO *);
 void func_001F26A8(struct LO *);
 void SetAloIced(struct LO *, int) asm("SetAloIced__FP3ALOl");
@@ -59,7 +59,7 @@ extern "C" void func_001F21B8(struct LO *plo, struct LO *pa, struct LO *pb, int 
         if (d >= 0 && d < c) pe->pe = pv;
     }
     func_001A5900(plo, pa, pb, grf);
-    func_0022FAA0(plo);
+    UpdateAloXfWorlds(plo);
     if (grf & 1) VCALL(plo, 29, void (*)(void *, qword)), *(qword *)mat.m[3]);
     if (grf & 2) VCALL(plo, 30, void (*)(void *, struct MAT *)), &mat);
     if (grf & 4) VCALL(plo, 35, void (*)(void *, qword)), q1);

@@ -4,7 +4,7 @@ struct S { char pad[0x40]; M m; qword q70; char pad2[0xF0 - 0x80]; void *p; };
 extern "C" {
 qword func_0022FC48(void *p, int n, qword q);
 M func_0022FD38(void *p, int n, M *pm);
-int func_001CF338(S *p, qword q, M m);
+int CollectRipDraws(S *p, qword q, M m) asm("CollectRipDraws__FP2CMG9VU_VECTORPv");
 void func_001CFA40(S *p);
 }
 void func_001CFA40(S *p)
@@ -12,5 +12,5 @@ void func_001CFA40(S *p)
     qword q = func_0022FC48(p->p, 0, p->q70);
     M m;
     m = func_0022FD38(p->p, 0, &p->m);
-    func_001CF338(p, q, m);
+    CollectRipDraws(p, q, m);
 }

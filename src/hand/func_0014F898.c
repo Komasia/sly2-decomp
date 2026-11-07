@@ -1,6 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct P { int pad[7]; float g1C; };
-int func_0014F898(struct P *p, qword v, float g, float *pu)
+// name: SafeHouse port (FInsideCmMrd)
+int FInsideCmMrd__FP2CMG9VU_VECTORfPf(struct P *p, qword v, float g, float *pu)
 {
     qword l, one;
     float l2, r, r2, d2;

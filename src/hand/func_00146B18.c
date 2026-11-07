@@ -44,7 +44,8 @@ static __inline__ float GAtanR(qword d)
     __asm__("mtc1 %1,%0" : "=f"(fy) : "r"(y));
     return func_002458F0(fy, GetX(d));
 }
-void func_00146B18(struct P *p, struct Q *q)
+// name: SafeHouse port (JOBSLYATTACK::Drive)
+void Drive__12JOBSLYATTACKP6PADCTL(struct P *p, struct Q *q)
 {
     func_001EF0C0(p, q);
     switch (p->x30) {

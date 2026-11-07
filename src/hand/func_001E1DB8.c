@@ -3,7 +3,8 @@ extern struct G g_sw;
 void *func_0015E938(struct G *g, int k, int id, int x);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void *func_001CB2E0(void *p);
-void *func_001E1DB8(S *p, int id)
+// name: SafeHouse port (PloFind)
+void *PloFind__FP3RUNi(S *p, int id)
 {
     void *q;
     if (id == -1) {

@@ -3,7 +3,8 @@ extern struct CLOCK g_clock;
 struct P { char pad[0x30]; int state; float tState; };
 void func_001EF038(struct P *p);
 void func_001EEFC0(struct P *p);
-void func_00146E18(struct P *p, int state)
+// name: SafeHouse port (JOBSLYATTACK::SetState)
+void SetState__12JOBSLYATTACKi(struct P *p, int state)
 {
     if (state == p->state) return;
     switch (p->state) {

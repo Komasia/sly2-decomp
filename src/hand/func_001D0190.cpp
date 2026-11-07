@@ -24,11 +24,11 @@ extern float D_002C1FC0[2],D_002C1FE0[2],g_lmZeroOne[2];
 extern const qword D_002A2DA0,g_normalZ;
 extern "C" {
 void func_001CE980(RIP *);
-int func_0014F850(CAMERA *,qword,qword);
+int FInsideCmPlanes(CAMERA *,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M3 func_0011B500(qword,float);
 M4 func_0011C288(qword,const M3 &,float);
-void func_001A5EE8(void *,const M4 &,float,float);
+void AppendAloExtraDraws(void *,const M4 &,float,float) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 }
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -55,7 +55,7 @@ extern "C" void func_001D0190(RIP *p)
     float time=(g_clock.time-p->start)/p->duration;
     float distance=Length(direction)*0.001f;
     float size=Evaluate(p->size,time)*Clamp(Evaluate(D_002C1FB0,distance),D_002C1FC0[0],D_002C1FC0[1]);
-    if(!func_0014F850(&g_cm,Scale(direction,VU_FLOAT(-1.0f)),BcG(size*100.0f))){func_001CE980(p);return;}
+    if(!FInsideCmPlanes(&g_cm,Scale(direction,VU_FLOAT(-1.0f)),BcG(size*100.0f))){func_001CE980(p);return;}
     /* opacity clamp; the result shares lo's register, hi is loaded before the compare */
     float opacity=g_lmZeroOne[0];
     float hi=g_lmZeroOne[1];
@@ -66,5 +66,5 @@ extern "C" void func_001D0190(RIP *p)
     rotation=func_0011B500(D_002A2DA0,Evaluate(D_002C1FF0,time));
     product=Multiply(basis,rotation);
     transform=func_0011C288(p->position,product,size);
-    func_001A5EE8(p->material,transform,opacity,1.0f);
+    AppendAloExtraDraws(p->material,transform,opacity,1.0f);
 }

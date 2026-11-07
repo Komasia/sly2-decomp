@@ -10,7 +10,7 @@ extern struct CLOCK g_clock;
 extern char D_003DD040[];
 extern char g_sw[];
 void StopDialog__FP8SOUNDMGR(void *p);
-void func_001DFEB8(void *p);
+void StopScptImpl__FP2LO(void *p);
 void func_001C8918(struct S *p, int n);
 void func_0020F160(void *p);
 void func_001DAF38(int n, int f);
@@ -18,7 +18,7 @@ int PsndStartDialog__FP8SOUNDMGRii(void *p, void *q, int f);
 void func_0020F198(void *p);
 void func_0020F128(void *p);
 void func_0020F1A8(void *p);
-void func_001DFD58(void *p, struct LO *q);
+void StartScptImpl__FP2LOi(void *p, struct LO *q);
 void func_001C8730(struct S *p, int n)
 {
     void *pv;
@@ -28,7 +28,7 @@ void func_001C8730(struct S *p, int n)
         p->x1A4 = 0;
     }
     if (p->x19C)
-        func_001DFEB8(p->x19C);
+        StopScptImpl__FP2LO(p->x19C);
     switch (p->x180) {
     case 2:
         func_001C8918(p, -1);
@@ -74,5 +74,5 @@ void func_001C8730(struct S *p, int n)
     pv = p->a20C[p->x180];
     p->x19C = pv;
     if (pv)
-        func_001DFD58(pv, p->x190);
+        StartScptImpl__FP2LOi(pv, p->x190);
 }

@@ -14,7 +14,8 @@ void *func_002333B4(void *p, int c, int n);
 void React__8JOBREACTP5AIMSG(void *p, struct L *pl);
 void func_00153FF8(void *p);
 
-void func_0020B590(struct S *p)
+// name: SafeHouse port (UpdateGuardManager)
+void UpdateGuardManager__FP2LO(struct S *p)
 {
     int i, c;
     struct O **apo;

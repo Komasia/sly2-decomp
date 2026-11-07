@@ -4,7 +4,8 @@ struct VTE { short d; short pad; void *pfn; };
 struct O { int x0, x4, x8; struct VTE *vt; };
 void func_0011C318(M4 *out, void *in);
 void func_0011C168(M4 *out, void *a, M4 *b);
-void func_001A5EE8(struct O *o, void *m, float a, float b)
+// name: SafeHouse port (AppendAloExtraDraws)
+void AppendAloExtraDraws__FP5SCENEP3ALOff(struct O *o, void *m, float a, float b)
 {
     M4 t;
     M4 r;

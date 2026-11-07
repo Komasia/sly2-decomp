@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK func_00143DE8(s32, void *);                 /* extern */
 
-void func_001E4EB8(void *arg0, s32 arg1, s32 arg2) {
+// name: SafeHouse port (SetRunPending)
+void SetRunPending__FP3RUNiP2LO(void *arg0, s32 arg1, s32 arg2) {
     s32 temp_a0;
 
     if (arg1 != M2C_FIELD(arg0, s32 *, 0x40)) {

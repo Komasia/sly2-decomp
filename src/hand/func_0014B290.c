@@ -6,7 +6,7 @@ struct P { char pad[0x38C]; struct O *x38C; struct O *x390; char pad2[0xF64 - 0x
 extern float D_002A4EE8;
 extern float D_002BD4B0[3];
 int func_00209A68(struct P *p, int k);
-struct O *func_002082D0(struct P *p);
+struct O *PloGuardTarget__FP5GUARD(struct P *p);
 qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int k);
 static __inline__ float GDist(qword a, qword b)
@@ -24,7 +24,8 @@ static __inline__ float GDist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-struct O *func_0014B290(struct P *p)
+// name: SafeHouse port (PloGuardTarget3F)
+struct O *PloGuardTarget3F__FP5GUARD(struct P *p)
 {
     struct O *poBest;
     struct O *po;
@@ -33,7 +34,7 @@ struct O *func_0014B290(struct P *p)
     qword pos;
     int i;
     if (func_00209A68(p, 0x24))
-        return func_002082D0(p);
+        return PloGuardTarget__FP5GUARD(p);
     poBest = 0;
     po = p->x390;
     if (po && po->f) {

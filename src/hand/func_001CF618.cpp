@@ -6,7 +6,7 @@ extern G g_cm;
 extern qword g_normalZ;
 extern "C" {
 M BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-int func_001CF338(S *p, qword q, M m);
+int CollectRipDraws(S *p, qword q, M m) asm("CollectRipDraws__FP2CMG9VU_VECTORPv");
 void func_001CF618(S *p);
 }
 void func_001CF618(S *p)
@@ -22,5 +22,5 @@ void func_001CF618(S *p)
         v = g_normalZ;
     }
     m = BuildLookAtMatrix(p->q90, v);
-    func_001CF338(p, p->q70, m);
+    CollectRipDraws(p, p->q70, m);
 }

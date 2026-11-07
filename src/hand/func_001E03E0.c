@@ -3,7 +3,7 @@
 
 void func_001E03E0(RELAY *prelay, int idAlarm, int oidRelay)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_RaiseAlarm, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_RaiseAlarm, 1);
     prelaycmd->u.raiseAlarm.idAlarm = idAlarm;
     prelaycmd->u.raiseAlarm.oidRelay = oidRelay;
 }

@@ -2,7 +2,7 @@
 // (Lilly's agent, T1683) MATCH, no register pins. Built from the lilly1/v3 drafts (Claude agents, T1679 / lane E20).
 //
 // Sly 2 signature (SO *, WATER *, qword pos, qword v, float dt, float gFrac, float gScale) despite the Sly 1 mangled name.
-// The splash is func_0015BE28(pos, dir, cParticle, EMITP, EMITV, &e, 0, 0) with the EMITP (0x40) and EMITV (0x70) blocks
+// The splash is LaunchWaterSpray(pos, dir, cParticle, EMITP, EMITV, &e, 0, 0) with the EMITP (0x40) and EMITV (0x70) blocks
 // passed BY VALUE (EABI: a3 / t0 point at the caller's copies). They are aggregate initializers: g++ builds each one
 // in a memset stack temp and block-copies it, which is the target's memset + stores + lq/sq copy. What matched is the
 // unions in the two types (as in func_0015CAD8): store_constructor emits a (clobber (mem:BLK)) for every union
@@ -76,9 +76,9 @@ void *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
 void SetSource(void *p, SO *pso) asm("SetSource__4CSndPv");
 void SetFalloff(void *p, float a, float b) asm("SetFalloff__4CSndff");
 void func_00258040(void *pp, void *p);
-RIP *func_001CE888(void *p, int k, int x);
+RIP *FLaunchHudRip(void *p, int k, int x) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 void *func_002333B4(void *p, int c, int cb);
-void func_0015BE28(qword pos, qword dir, int n, EMITP emitp, EMITV emitv, E *pe, int x, int y);
+void LaunchWaterSpray(qword pos, qword dir, int n, EMITP emitp, EMITV emitv, E *pe, int x, int y) asm("LaunchWaterSpray__FG9VU_VECTORT0P2LON22iii");
 }
 
 static inline qword Length(qword a)
@@ -150,7 +150,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
             }
         }
         if (fWake && pwater->px17C) {
-            RIP *prip = func_001CE888(g_sw, 7, 0);
+            RIP *prip = FLaunchHudRip(g_sw, 7, 0);
             if (prip) {
                 EVT *pe = &prip->pvt->a[1];
                 pe->pfn((char *)prip + pe->d, gScale, v, 0);
@@ -171,7 +171,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                     e.p8 = pwater->px178;
                     e.pC = pwater->px17C;
                     e.p10 = pwater;
-                    func_0015BE28(posSplash.q, g_normalZ, NRandInRange(4, 6), emitp, emitv, &e, 0, 0);
+                    LaunchWaterSpray(posSplash.q, g_normalZ, NRandInRange(4, 6), emitp, emitv, &e, 0, 0);
                 }
             }
         }

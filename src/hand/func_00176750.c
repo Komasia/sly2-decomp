@@ -15,7 +15,7 @@ int FSameMsg__FP5AIMSGT0(struct F *a, struct F *b);
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
 void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, int c);
-void func_001725E0(struct O *o, int n);
+void SetNoise__14JOBINVESTIGATEP5NOISE(struct O *o, int n);
 float GRandInRange__Fff(float a, float b);
 void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
 #define VCALL(o) { struct VTE *e = &(o)->vt[8]; e->pfn((char *)(o) + e->d); }
@@ -41,7 +41,7 @@ void React__8JOBREACTP5AIMSG(struct S *p, struct F *m) {
         { struct O *o = func_00205438(p->p10, 0xA5); o->n30 = m->u.s.n10; VCALL(o) }
         break;
     case 2:
-        { struct O *o; fl = 1; o = func_00205438(p->p10, 0xAB); func_001725E0(o, m->u.s.n10); VCALL(o) }
+        { struct O *o; fl = 1; o = func_00205438(p->p10, 0xAB); SetNoise__14JOBINVESTIGATEP5NOISE(o, m->u.s.n10); VCALL(o) }
         break;
     case 9:
         { struct O *o = func_00205438(p->p10, 0xA1); o->b50 = m->u.b; VCALL(o) }

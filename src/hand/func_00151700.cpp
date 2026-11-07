@@ -16,7 +16,7 @@ struct X { char pad[0x10]; struct PATH *ppath; };
 void func_0014FD40(struct X *p);
 void func_0011B628(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
-void func_0014E168(struct CM *p, M4 *m);
+void SetCmPosMat(struct CM *p, M4 *m) asm("SetCmPosMat__FP2CMP6VECTOR");
 void SetCmFov(struct CM *p, float g) asm("SetCmFov__FP2CMf");
 
 static __inline__ float GClamp(float g, float gMin, float gMax)
@@ -82,7 +82,7 @@ extern "C" void Update__7CPTIMEDP6CPDEFIP5CMJOY(struct X *p)
         m4.af[1][3] = 0.0f;
         m4.af[0][3] = 0.0f;
         pm4->af[3][3] = 1.0f;
-        func_0014E168(&g_cm, pm4);
+        SetCmPosMat(&g_cm, pm4);
     }
     SetCmFov(&g_cm, fov);
 }

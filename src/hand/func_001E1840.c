@@ -3,6 +3,6 @@
 
 void func_001E1840(RELAY *prelay, float dtWait)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_WaitTimer, 0);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_WaitTimer, 0);
     prelaycmd->u.waitTimer.dtWait = dtWait;
 }

@@ -1,5 +1,6 @@
 struct S { char pad[0xE8]; int c; };
-int func_001BC530(struct S *p, int n)
+// name: SafeHouse port (IpolyWrap)
+int IpolyWrap__FP7NAVPOLYi(struct S *p, int n)
 {
     int c = p->c;
     int r = n % c;

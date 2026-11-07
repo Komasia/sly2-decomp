@@ -4,7 +4,7 @@ struct M4 { U r[4]; };
 struct CAMERA { char pad[0x90]; qword pos; };
 extern struct CAMERA g_cm;
 qword *func_00256D18(qword *p, qword v);
-void func_001A5EE8(void *p, struct M4 *m, float a, float b);
+void AppendAloExtraDraws__FP5SCENEP3ALOff(void *p, struct M4 *m, float a, float b);
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b)); return r; }
 static inline qword Cross(qword a,qword b) { qword r; __asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1" : "=j"(r) : "j"(a),"j"(b)); return r; }
 static inline qword LenV(qword v) { qword l,t; __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z" : "=j"(l),"=&j"(t) : "j"(v)); __asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q" : "=j"(l) : "0"(l));return l; }
@@ -40,6 +40,6 @@ void func_001A5FB8(void *p,qword a,qword b,float width,float scale)
   pm->r[2].q=z.q;
   m.r[0].i[3]=m.r[1].i[3]=m.r[2].i[3]=0;
   pm->r[3].f[3]=1.0f;
-  func_001A5EE8(p,pm,scale,scale);
+  AppendAloExtraDraws__FP5SCENEP3ALOff(p,pm,scale,scale);
  }
 }

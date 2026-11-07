@@ -1,4 +1,4 @@
-// func_001BC688: clips the segment pos1-pos2 to the convex volume pcnvo (its cplane - 1 planes, built by func_001BD400)
+// ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT: clips the segment pos1-pos2 to the convex volume pcnvo (its cplane - 1 planes, built by func_001BD400)
 // and writes the parts of it OUTSIDE the volume to alsg (at most clsgMax LSGs); returns how many. Convex-volume twin of
 // ClsgClipEdgeToBsp (func_00118668), same LSG record (0x60 bytes: apos[2], anormal[2], au[2], apsurf[2]).
 // gIn / gOut = where the segment enters / leaves the volume (0 = pos1, 1 = pos2), normalIn / normalOut = those planes.
@@ -60,7 +60,8 @@ static inline qword QwMix(VU_FLOAT g1, const qword &qw1, VU_FLOAT g2, const qwor
 static inline qword QwZero() { qword qw; __asm__("vsub.xyzw %0, $vf0, $vf0" : "=j"(qw)); return qw; }
 static inline qword QwNeg(qword v) { qword qw; __asm__("vsub.xyzw %0, $vf0, $vf0\n\tvsub.xyzw %0, %0, %1" : "=&j"(qw) : "j"(v)); return qw; }
 
-extern "C" int func_001BC688(CNVO *pcnvo, qword pos1, qword pos2, int clsgMax, LSG *alsg)
+// name: SafeHouse port (ChitPoly)
+extern "C" int ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(CNVO *pcnvo, qword pos1, qword pos2, int clsgMax, LSG *alsg)
 {
     func_001BD400(pcnvo);
     float gIn = 0.0f;

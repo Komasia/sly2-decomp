@@ -23,7 +23,8 @@ static __inline__ int ISide(qword plane, qword pos)
         i = 0;
     return i;
 }
-void *func_001C0D70(qword pos, int f)
+// name: SafeHouse port (PregionAt)
+void *PregionAt__FG9VU_VECTORi(qword pos, int f)
 {
     struct B *pb = g_sw.pbsp;
     struct N *pn, *pnEnd, *an;

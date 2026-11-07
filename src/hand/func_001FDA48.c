@@ -9,7 +9,7 @@ void func_002330D0(int, int, int, int, int, int, int, void (*)(void), long);
 void *func_001C4840(struct SW *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 qword func_001A62E8(void *);
-void func_00156BE0(struct O *, qword, void *, void *);
+void SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(struct O *, qword, void *, void *);
 static inline float Eval(struct V3 *pv, float t)
 {
     return pv->x + t * (pv->y + t * pv->z);
@@ -36,5 +36,5 @@ void func_001FDA48(struct P *p)
         po->f5C = y;
         po->f58 = -y;
     }
-    func_00156BE0(po, q, pv, p->x74);
+    SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(po, q, pv, p->x74);
 }

@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001CF268();                            /* extern */
+M2C_UNK UpdateRipLife__FP4RIPG();                            /* extern */
 
 void func_001CFA20(void) {
-    func_001CF268();
+    UpdateRipLife__FP4RIPG();
 }

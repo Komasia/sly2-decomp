@@ -27,7 +27,7 @@ extern int D_002DDED4;  /* g_clock.dt */
 void *func_0015E938(void *pg, int k, int n, void *pv);
 void *func_001C4AF8(void *pg, qword pos);
 qword func_001A62E8(void *po);
-void func_002301D0(void *a, struct X *b);
+void SortXfCtrls__FP3ALOP2XF(void *a, struct X *b);
 qword func_0022FCC8(int n, int k, qword v);
 void func_0011E958(qword q, float *pa, float *pb);
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
@@ -82,7 +82,7 @@ void func_0012D220(struct P *p)
     if (k != p->xC) {
         struct P *p90;
         p->xC = k;
-        func_002301D0(p->x4, p->x8);
+        SortXfCtrls__FP3ALOP2XF(p->x4, p->x8);
         p90 = p->x8->p90;
         if (p90 != p) {
             struct O *po2 = (struct O *)p90;

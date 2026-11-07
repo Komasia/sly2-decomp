@@ -1,7 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001C4E50();                            /* extern */
+M2C_UNK InitPickup__FP2LO();                            /* extern */
 
 void func_001C7E38(void *arg0) {
-    func_001C4E50();
+    InitPickup__FP2LO();
     M2C_FIELD(arg0, f32 *, 0x1DC) = 50.0f;
 }

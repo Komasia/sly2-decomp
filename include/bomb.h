@@ -16,7 +16,7 @@ typedef struct MISSILE {
     /* 0x210 */ char unk_0x210[0x50];
     /* 0x260 */ float sUnk260;         /* 800 after InitMissile */
     /* 0x264 */ int fUnk264;           /* 1 after InitMissile; class 81 clears it */
-    /* 0x268 */ char unk_0x268[4];     /* sub-object passed to func_0012E460 */
+    /* 0x268 */ char unk_0x268[4];     /* sub-object passed to DeleteCtrl__FPP4CTRL */
     /* 0x26c */ float gUnk26c;         /* 1.0 after InitMissile */
     /* 0x270 */ float sUnk270;         /* class 81: 2000 */
     /* 0x274 */ float sUnk274;         /* class 81: 5000, class 82: 1500 */

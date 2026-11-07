@@ -19,7 +19,8 @@ static __inline__ float Dot(qword a, qword b)
 typedef struct { char b[12]; } LEAF;
 typedef union { qword q; struct { char pad[0xC]; unsigned short a[2]; } s; } NODE;
 struct T { char pad[0xC]; LEAF *aleaf; int cnode; NODE *anode; };
-LEAF *func_001BF110(struct T *p, qword pos, int fl)
+// name: SafeHouse port (ItriNav)
+LEAF *ItriNav__FP9NAVREGIONG9VU_VECTORi(struct T *p, qword pos, int fl)
 {
     union { qword q; float f; } u;
     NODE *pn, *pnEnd, *anode;

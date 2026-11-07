@@ -2,7 +2,8 @@
 // SLY2_CFLAGS: -O2 -G0 -ffast-math -mvu0-use-vf0-vf31
 typedef struct { char pad[0x98]; unsigned short x98; } B;
 void SetXfMode__FP3ALOP2XFi(void *, B *, int);
-void func_00230598(void *a, B *b)
+// name: SafeHouse port (HoldXfMode)
+void HoldXfMode(void *a, B *b)
 {
     switch ((short)b->x98) {
     case 6: case 10: SetXfMode__FP3ALOP2XFi(a, b, 7); break;

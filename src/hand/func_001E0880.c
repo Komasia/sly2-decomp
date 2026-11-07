@@ -3,7 +3,7 @@
 
 void func_001E0880(RELAY *prelay, int oidFocus, int oidActor)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_SetFocus, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_SetFocus, 1);
     prelaycmd->u.setFocus.oidFocus = oidFocus;
     prelaycmd->u.setFocus.oidActor = oidActor;
 }

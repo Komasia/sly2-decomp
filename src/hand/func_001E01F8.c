@@ -2,7 +2,8 @@ struct CMD { int kind; int b; char pad[0x48]; };
 struct Q { char pad[0x50]; int c; struct CMD *a; int cMax; };
 extern struct CMD D_003DA740;
 void func_002333B4(void *p, int b, int cb);
-struct CMD *func_001E01F8(struct Q *pq, int kind, int b)
+// name: SafeHouse port (PcmdNew)
+struct CMD *PcmdNew__FP4SCPTii(struct Q *pq, int kind, int b)
 {
     struct CMD *p;
     int cMax = pq->cMax;

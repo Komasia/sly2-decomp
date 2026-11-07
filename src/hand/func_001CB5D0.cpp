@@ -18,7 +18,7 @@ public:
 };
 extern "C" {
 void func_001CB5C8(LO *p, int n);
-void func_001F37C8(LO *p, int n);
+void SetAloRegion(LO *p, int n) asm("SetAloRegion__FP3ALOP9NAVREGION");
 void func_001CB5D0(LO *p, int n);
 }
 void func_001CB5D0(LO *p, int n)
@@ -27,6 +27,6 @@ void func_001CB5D0(LO *p, int n)
     int f;
     func_001CB5C8(p, n);
     f = p->pa ? p->pa->f : 0;
-    if (f) func_001F37C8(p, 0);
+    if (f) SetAloRegion(p, 0);
     for (pc = p->pFirst; pc; pc = pc->pNext) pc->Fn(n);
 }

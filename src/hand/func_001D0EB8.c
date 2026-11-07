@@ -7,10 +7,10 @@ extern qword D_002A2DD0,D_002A2DA0,g_normalZ;
 union FLOATWORD {float value;int bits;};
 struct CLOCK {float time;union FLOATWORD dt;};
 extern union FLOATWORD D_002DDED4;
-void func_001CF0A0(struct S*);
+void MoveRip__FP4RIPN(struct S*);
 float GRandInRange__Fff(float,float);
 int func_0011D4D0(float,float,float);
-void func_0011E2D8(qword,qword,qword,struct B*);
+void BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(qword,qword,qword,struct B*);
 void CalculateSinCos__FfPfT1(float,float*,float*);
 static inline const void*ClockHigh(void){register const void*page __asm__("$2");__asm__("lui %0,%%hi(D_002DDED4)":"=r"(page));return page;}
 static inline qword Factors(const float*cs,float speed,float*first,float*second){
@@ -64,7 +64,7 @@ static inline void BasisArguments(qword normal,struct B*destination,qword*argume
 void func_001D0EB8(struct S*p) {
     int near=0,choose=0;
     float roll;
-    func_001CF0A0(p);
+    MoveRip__FP4RIPN(p);
     roll=GRandInRange__Fff(0.0f,1.0f);
     FNear(&near,p->vel,D_002A2DD0);
     if(!near&&roll<0.3f) choose=1;
@@ -77,7 +77,7 @@ void func_001D0EB8(struct S*p) {
         qword xAxis,upAxis,normalArgument;struct B*basisOutput;
         norm.q=NormalizeAndAxes(p,(qword*)0x002A0000,&xAxis,&upAxis);
         BasisArguments(norm.q,&basis,&normalArgument,&basisOutput);
-        func_0011E2D8(normalArgument,xAxis,upAxis,basisOutput);
+        BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(normalArgument,xAxis,upAxis,basisOutput);
         speed=GRandInRange__Fff(100.0f,100.0f+(1.0f-roll*3.33333325386f)*300.0f);
         angle=GRandInRange__Fff(0.0f,6.28318548203f);
         CalculateSinCos__FfPfT1(angle,&cs[0],&cs[1]);

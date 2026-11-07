@@ -1,11 +1,12 @@
 typedef struct VT { short d; short pad; void *pfn; } VT;
 typedef struct N { char pad[0xC]; int k; struct N *next; int x14; VT *vt; } N;
 typedef struct S { char pad[0x90]; N *first; } S;
-void func_0022C840(void *, S *);
+void InvalidateXfParams__FP3ALOP2XF(void *, S *);
 
 #define VCALL(o, k) ((void (*)(void *))(o)->vt[k].pfn)((char *)(o) + (o)->vt[k].d)
 
-void func_00230018(void *ctx, S *s, N *n)
+// name: SafeHouse port (AddXfCtrl)
+void AddXfCtrl__FP3ALOP2XFP4CTRL(void *ctx, S *s, N *n)
 {
     N **pp = &s->first;
     N *head = s->first;
@@ -15,7 +16,7 @@ void func_00230018(void *ctx, S *s, N *n)
     n->next = *pp;
     *pp = n;
     if (s->first != head) {
-        func_0022C840(ctx, s);
+        InvalidateXfParams__FP3ALOP2XF(ctx, s);
         if (head)
             VCALL(head, 2);
         VCALL(s->first, 1);

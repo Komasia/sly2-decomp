@@ -14,22 +14,23 @@ int func_001E5778(P *p);
 void RemoveDlEntry(int *pdl, P *p) asm("RemoveDlEntry__FP2DLPv");
 void func_001E5370(P *p);
 void func_001E53D8(P *p);
-void func_001E5410(P *p);
+void ReleaseSmaWatch(P *p) asm("ReleaseSmaWatch__3RUN");
 void func_001E5468(P *p);
 void func_001E54B0(P *p);
 void func_001E54E8(P *p);
 void func_001E5570(P *p);
 void func_0014D1D0(CLOCK *pclock, int n, float g);
-void func_001E4EB8(P *p, int a, int b);
+void SetRunPending(P *p, int a, int b) asm("SetRunPending__FP3RUNiP2LO");
 void func_001E4F20(P *p, void *po);
 void func_001E5000(P *p, int a);
 void func_001E50E0(P *p, int a, int b);
 void Stop(void *pv, float g) asm("Stop__4CSndf");
 void func_00258040(void **ppv, int n);
-void func_001E5A98(P *p, int n);
-void func_001E5628(P *p);
+void EndRunCamera(P *p, int n) asm("EndRunCamera__FP3RUNi");
+void RetireRun(P *p) asm("RetireRun__FP4PRUN");
 }
-void func_001E5628(P *p)
+// name: SafeHouse port (RetireRun)
+void RetireRun(P *p)
 {
     if (func_001E5778(p)) return;
     LOCK lock(p);
@@ -37,13 +38,13 @@ void func_001E5628(P *p)
     RemoveDlEntry(&p->pq->dl, p);
     func_001E5370(p);
     func_001E53D8(p);
-    func_001E5410(p);
+    ReleaseSmaWatch(p);
     func_001E5468(p);
     func_001E54B0(p);
     func_001E54E8(p);
     func_001E5570(p);
     func_0014D1D0(&g_clock, 6, 1.0f);
-    func_001E4EB8(p, 0, 0);
+    SetRunPending(p, 0, 0);
     func_001E4F20(p, 0);
     func_001E5000(p, 0);
     func_001E50E0(p, 0, 0);
@@ -51,6 +52,6 @@ void func_001E5628(P *p)
         Stop(*ppv, 0.0f);
         func_00258040(ppv, 0);
     }
-    if (p->x9C) func_001E5A98(p, 1);
+    if (p->x9C) EndRunCamera(p, 1);
     p->vt[2].pfn((char *)p + p->vt[2].d);
 }

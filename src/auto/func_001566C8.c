@@ -57,7 +57,8 @@ extern M2C_UNK D_003E12B8;
 extern void *D_003E148C;
 extern M2C_UNK D_003E1498;
 
-void func_001566C8(s32 arg0, s32 arg1) {
+// name: SafeHouse port (ReleaseNoise)
+void ReleaseNoise__FP5NOISEi(s32 arg0, s32 arg1) {
     s32 temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, s32 *, 0x10) - 1;

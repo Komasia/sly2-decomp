@@ -1,7 +1,7 @@
 // func_00155FB0 (Claude agent, lane D20): matched from v8.
 // g_normalZ: Sly 1 name of the (0,0,1) vector at g_normalZ.
 // The clamp scale lives in a function-scope VUV sc (declared after lm) so its slot sits at 0x30 before frame.
-// Sub2 clobbers vf4, which is dead there (the next write to vf4 is the qmtc2 of func_0011E208's result), so the pos reload takes vf2.
+// Sub2 clobbers vf4, which is dead there (the next write to vf4 is the qmtc2 of SetVectorSphere's result), so the pos reload takes vf2.
 // The empty volatile asm in the loop stops jump threading of the two f tests.
 // DRAFT (Claude agent): escape/flee target position search (logic complete, not close: frame 0x130 vs 0x1D0 - target returns func_256CE8/256D08 VECTOR4 results via hidden pointer slots 0xB0..0xE0 and spills more temps; unreachable `b; mov.s f22,f20` block at 0x1561EC not reproduced).
 typedef int qword __attribute__((mode(TI)));
@@ -39,7 +39,7 @@ FRAME *__10STACKSCOPE(FRAME *pf);
 void _$_10STACKSCOPE(FRAME *pf, int n);
 void func_001B44D8(int *pc, void **pa);
 float RadNormalize(float g) asm("RadNormalize__Ff");
-qword func_0011E208(float pan, float tilt, float s);
+qword SetVectorSphere(float pan, float tilt, float s) asm("SetVectorSphere__Ffff");
 int func_0014CC58(int n, qword a, qword b, int c, void *pv, qword *phit);
 qword func_00155FB0(void *p, qword pos);
 }
@@ -116,7 +116,7 @@ qword func_00155FB0(void *p, qword pos)
         qword test;
         float g;
         float panT = RadNormalize(pan + D_002BDCA0[i]);
-        test = Add(pos, func_0011E208(panT, tilt, s));
+        test = Add(pos, SetVectorSphere(panT, tilt, s));
         int f = func_0014CC58(0, pos, test, c, av, &hit.q);
         if (f)
             test = hit.q;
@@ -132,7 +132,7 @@ qword func_00155FB0(void *p, qword pos)
         }
     }
     {
-        qword r = Add(pos, func_0011E208(panBest, tilt, s));
+        qword r = Add(pos, SetVectorSphere(panBest, tilt, s));
         _$_10STACKSCOPE(&frame, 2);
         return r;
     }

@@ -13,7 +13,7 @@ extern struct K D_002A8270;
 void OnLoRemove__FP2LO(struct P *);
 void RemoveAloSoes__FP3ALO(struct P *);
 void func_00149B58(struct G *, int, struct P *, struct K, int);
-void func_001F37C8(struct P *, int);
+void SetAloRegion__FP3ALOP9NAVREGION(struct P *, int);
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
     pdli->m_pdl = pdl;
@@ -41,7 +41,7 @@ void OnSoRemove__FP2SO(struct P *p)
     if (p->pe) n = p->pe->nDC;
     if (n) {
         func_00149B58(&g_sw, 3, p, D_002A8270, 0);
-        func_001F37C8(p, 0);
+        SetAloRegion__FP3ALOP9NAVREGION(p, 0);
     }
     InitDli(&dli, &p->dl);
     while ((po = PvNextDli(&dli)) != 0 && !(po->fl & (1L << 56)))

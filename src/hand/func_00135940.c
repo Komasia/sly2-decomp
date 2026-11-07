@@ -8,7 +8,7 @@ void func_001F9B20(struct P *p);
 void func_00204108(struct P *p);
 void func_00196DF8(void *p);
 void func_00194170(void *p);
-void func_001A1148(void *p);
+void UpdateDamageMotion__FP5ACTOR(void *p);
 void func_0019DF70(void *p);
 void func_001FAC30(struct P *p, qword v);
 // name: SafeHouse port (UpdateBentleyMotion)
@@ -21,7 +21,7 @@ void UpdateBentleyMotion__FP3ALO(struct P *p)
     switch (p->k) {
     case 2: func_00196DF8(p->a2C0); break;
     case 3: func_00194170(p->a4C0); break;
-    case 4: func_001A1148(p->aDF0); break;
+    case 4: UpdateDamageMotion__FP5ACTOR(p->aDF0); break;
     case 13: func_0019DF70(p->aF50); break;
     case 6:
         if (p->x16B0 == 2) {

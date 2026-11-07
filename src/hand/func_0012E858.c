@@ -8,9 +8,9 @@ struct P { char pad[0x10]; struct SO *pso; };
 extern char g_cm[];
 qword func_001A62E8(struct SO *pso);
 M3 *func_001A6318(struct SO *pso);
-void func_0014E1A8(void *pcm, qword a, qword b, float g, float h);
+void SetCmLookAt__FP2CMG9VU_VECTORT1ff(void *pcm, qword a, qword b, float g, float h);
 void func_00256D18(qword *p, qword v);
-void func_0014E168(void *pcm, M4 *pm);
+void SetCmPosMat__FP2CMP6VECTOR(void *pcm, M4 *pm);
 float func_00244B68(float g);
 void SetCmFov__FP2CMf(void *pcm, float g);
 static __inline__ void LoadM4(M4 *pm, M3 *pmat)
@@ -28,7 +28,7 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
     if (pso->psoE0) {
         qword a = func_001A62E8(pso);
         qword b = func_001A62E8(pso->psoE0);
-        func_0014E1A8(g_cm, a, b, 0.0f, 0.0f);
+        SetCmLookAt__FP2CMG9VU_VECTORT1ff(g_cm, a, b, 0.0f, 0.0f);
     } else {
         M3 m = *func_001A6318(pso);
         M3 mT;
@@ -55,7 +55,7 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
         ((int *)&m4.r[1])[3] = 0;
         ((int *)&m4.r[0])[3] = 0;
         ((float *)&pm->r[3])[3] = 1.0f;
-        func_0014E168(g_cm, pm);
+        SetCmPosMat__FP2CMP6VECTOR(g_cm, pm);
     }
     if (pso->x12C > 0) {
         float g = func_00244B68(17.995901107788086f / pso->g128);

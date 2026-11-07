@@ -31,7 +31,7 @@ void func_002270C8(VIFS *p, int n, void *pv, int m);
 void func_00226D10(VIFS *p);
 void func_00226CA8(VIFS *p, int a, int b);
 void func_00226F28(VIFS *p, int a, int b, void *pv, int n);
-void func_0014F768(CM *p, int k, void *pv, M4 *pm0, M4 *pm1);
+void MatCmStereoEye__FP2CMiP7MATRIX4iPv(CM *p, int k, void *pv, M4 *pm0, M4 *pm1);
 void func_001576F0(VIFS *p);
 void Flush__4DMAS(void *p);
 void func_001EA9F0(GAME *p, int n);
@@ -81,9 +81,9 @@ void func_00157FA0(GAME *pgame)
     D_002DE5A4 = 0;
     if (g_sw.f3E38) {
         if (g_pfrmOpen == &D_002DEA50)
-            func_0014F768(&g_cm, 1, 0, &mat0, &mat1);
+            MatCmStereoEye__FP2CMiP7MATRIX4iPv(&g_cm, 1, 0, &mat0, &mat1);
         else
-            func_0014F768(&g_cm, 2, 0, &mat0, &mat1);
+            MatCmStereoEye__FP2CMiP7MATRIX4iPv(&g_cm, 2, 0, &mat0, &mat1);
     } else {
         M4 *pm0 = &g_cm.m140;
         M4 *pm1 = &g_cm.m60;

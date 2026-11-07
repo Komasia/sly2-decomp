@@ -16,13 +16,14 @@ extern char g_joy[];
 extern char D_002E0D00[];
 extern struct G g_sw;
 extern char D_002BD810[];
-void func_0014E920(struct CM *p, void *pv);
-void func_0014E768(struct CM *p, struct O *po, void *pv);
+void ResetCmAdjust__FP2CM(struct CM *p, void *pv);
+void AdjustCmCpdefi__FP2CMP2SOP6CPDEFI(struct CM *p, struct O *po, void *pv);
 void SetCmFov__FP2CMf(struct CM *p, float g);
 float func_0011D1C0(float g, float h, float i, float dt, float *pa, float *pb);
 void func_0014DB70(struct CM *p);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, float *pr);
-void func_0014D478(struct CM *p)
+// name: SafeHouse port (UpdateCm)
+void UpdateCm__FP2CM(struct CM *p)
 {
     struct O *po;
     struct O *poPrev;
@@ -39,8 +40,8 @@ void func_0014D478(struct CM *p)
                 struct VTE *e = &poT->vt[50];
                 e->pfn((char *)poT + e->d, pv);
                 if (poPrev || poT != p->po260)
-                    func_0014E920(p, pv);
-                func_0014E768(p, poT, pv);
+                    ResetCmAdjust__FP2CM(p, pv);
+                AdjustCmCpdefi__FP2CMP2SOP6CPDEFI(p, poT, pv);
                 p->po260 = poT;
                 poLast = poT;
             }

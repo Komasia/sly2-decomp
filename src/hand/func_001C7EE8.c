@@ -12,13 +12,14 @@ void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 qword func_001A62E8(struct S *p);
 void *func_00156B98(void *pg, int n, qword q, struct S *p);
-struct LO *func_001CB658(struct S *p);
+struct LO *PproxyOfInstance__FP2LO(struct S *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *p, int n);
 void func_001C7C30(int n, int f);
 void func_001618B0(void *pg);
-void func_001C60B8(struct S *p, int n);
-static inline int FTest(struct S *p) { struct LO *q = func_001CB658(p); return q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 7); }
-void func_001C7EE8(struct S *p, int n)
+void SetPickupStateBase__FP2LOi(struct S *p, int n);
+static inline int FTest(struct S *p) { struct LO *q = PproxyOfInstance__FP2LO(p); return q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 7); }
+// name: SafeHouse port (SetClueState)
+void SetClueState__FP2LOi(struct S *p, int n)
 {
     struct LO *q;
     char *pg;
@@ -39,13 +40,13 @@ void func_001C7EE8(struct S *p, int n)
         qv = func_001A62E8(p);
         func_00156B98(pg, 0, qv, p);
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
-        q = func_001CB658(p);
+        q = PproxyOfInstance__FP2LO(p);
         if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 7)) {
-            struct LO *plo = func_001CB658(p);
+            struct LO *plo = PproxyOfInstance__FP2LO(p);
             func_001C7C30(plo->x100, 1);
             ((void (*)(void *))plo->vt[9].pf)((char *)plo + plo->vt[9].d);
             func_001618B0(pg);
         }
     }
-    func_001C60B8(p, n);
+    SetPickupStateBase__FP2LOi(p, n);
 }

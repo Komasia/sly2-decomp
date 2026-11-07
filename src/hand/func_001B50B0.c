@@ -37,10 +37,10 @@ void UpdateMurrayPunch__FP6MURRAY(struct P *p);
 void UpdateMurrayBerserk__FP6MURRAY(struct P *p);
 void func_00131A00(struct ASEGA *p,float g);
 void func_001B82A0(struct P *p);
-void func_001A1358(void *p);
+void UpdateDamage__FP5ACTOR(void *p);
 int func_00133D08(struct G *pg,struct BBOX *a,struct BBOX *b);
 void func_00134320(struct G *pg, struct P *p);
-void func_0012D108(void *p, qword v);
+void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword v);
 static inline qword Bcast(float g) { qword a; __asm__("qmtc2.ni %1, %0" : "=j"(a) : "r"(g)); return a; }
 static inline void Neg(struct P *p, qword v)
 {
@@ -149,7 +149,7 @@ void UpdateMurray__FP2LO(struct P *p)
         break;
     }
     func_001B82A0(p);
-    func_001A1358(p->xDF0);
+    UpdateDamage__FP5ACTOR(p->xDF0);
     if (p->p1430 && p->g1434 + 0.1f < g_clock.t) {
         if (!p->p1430->xEC || !func_00133D08(&g_sw, p->xEC, p->p1430->xEC))
             p->p1430 = 0;
@@ -158,8 +158,8 @@ void UpdateMurray__FP2LO(struct P *p)
     }
     if (p->x1ACC) {
         if (g_clock.t - p->g1AC8 < D_002C08E4)
-            func_0012D108(p->x1ACC, D_002C08F0);
+            SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(p->x1ACC, D_002C08F0);
         else
-            func_0012D108(p->x1ACC, D_002A2DE0);
+            SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(p->x1ACC, D_002A2DE0);
     }
 }

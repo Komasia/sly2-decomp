@@ -15,14 +15,14 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void func_001A58D0(struct P *, int, int);
-void func_0012E460(void *);
+void DeleteCtrl__FPP4CTRL(void *);
 void SetXfMode__FP3ALOP2XFi(struct P *, struct O *, int);
-float func_00204740(struct P *);
+float RadStepHeading__FP4STEP(struct P *);
 void func_00204660(struct P *, float);
 void func_00204CA8(struct P *);
 void func_002206C8(void *, int);
 M4 func_0022FF40(void *, void *, M4 *);
-void *func_0012DC18(struct P *p, struct O *pso, int a, int b, int c, qword q);
+void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct P *p, struct O *pso, int a, int b, int c, qword q);
 qword func_0011BFF0(M4 *pm);
 void func_001F15B8(void *);
 void func_001305B8(void *, struct P *, int, void *, float, float);
@@ -38,14 +38,14 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         int save = p->x9E4;
         func_001A58D0(p, 0, 0xF);
         p->x9E4 = save;
-        func_0012E460(&p->pv1810);
-        func_0012E460(&p->pv1814);
+        DeleteCtrl__FPP4CTRL(&p->pv1810);
+        DeleteCtrl__FPP4CTRL(&p->pv1814);
         SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
         SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
         break;
     }
     case 1:
-        func_00204660(p, func_00204740(p));
+        func_00204660(p, RadStepHeading__FP4STEP(p));
         p->x1A4 = 0;
         func_00204CA8(p);
         break;
@@ -76,8 +76,8 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         }
         ((void (*)(void *, qword))p->vt[35].f)((char *)p + p->vt[35].d, D_002A2DD0);
         ((void (*)(void *, qword))p->vt[36].f)((char *)p + p->vt[36].d, D_002A2DD0);
-        p->pv1810 = func_0012DC18(p, p->p58, 1, 7, 2, m.pos);
-        p->pv1814 = func_0012DC18(p, p->p5C, 1, 7, 2, func_0011BFF0(&m));
+        p->pv1810 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->p58, 1, 7, 2, m.pos);
+        p->pv1814 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->p5C, 1, 7, 2, func_0011BFF0(&m));
         break;
     }
     case 1:

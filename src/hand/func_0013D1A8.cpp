@@ -8,9 +8,10 @@ int func_00210A88(void);
 short func_001D8720(void *, char *);
 void *func_002109B8(int);
 void func_001D8CC8(void *, struct P *);
-void func_0013D1A8(struct S *p);
+void AkeyStand(struct S *p) asm("AkeyStand__FP2LO");
 }
-void func_0013D1A8(struct S *p) {
+// name: SafeHouse port (AkeyStand)
+void AkeyStand(struct S *p) {
     short as[3];
     struct P par;
     int i;

@@ -1,5 +1,5 @@
 /* func_001E9C88: samples the path po from its start to its end in steps of D_002C367C, collects the distinct
- * objects found at each sample (func_001C0D70) into apv[64] and the parameter ranges where consecutive samples
+ * objects found at each sample (PregionAt__FG9VU_VECTORi) into apv[64] and the parameter ranges where consecutive samples
  * do not stay inside one object (func_001C0920) into aseg[64] (joining the first/last range when po->fE4), then copies
  * both lists to the heap (PvAllocSwCopyImpl__FiPv) into ps.
  * Matching note: the &apv argument of the final PvAllocSwCopyImpl__FiPv call must go through an inline helper; integrate.c
@@ -14,7 +14,7 @@ extern float D_002C367C;
 float SMinCrv__FP3CRV(struct O *);
 float func_001E6648(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
-void *func_001C0D70(qword, int);
+void *PregionAt__FG9VU_VECTORi(qword, int);
 int func_001C0920(void *, qword, int);
 void *PvAllocSwCopyImpl__FiPv(struct MSG *, void *);
 void func_001AE5A0(void *, const void *, unsigned);
@@ -37,12 +37,12 @@ void func_001E9C88(struct S *ps, struct O *po)
     t = tStart;
     tEnd = func_001E6648(ps->po);
     func_001E6F10(ps->po, tStart, &pos, 0);
-    pPrev = func_001C0D70(pos, 0);
+    pPrev = PregionAt__FG9VU_VECTORi(pos, 0);
     for (; t < tEnd; t += D_002C367C) {
         void *pCur;
         int outside;
         func_001E6F10(ps->po, t, &pos2, 0);
-        pCur = func_001C0D70(pos2, 0);
+        pCur = PregionAt__FG9VU_VECTORi(pos2, 0);
         if (pCur) {
             int i;
             for (i = 0; i < cpv; i++)

@@ -3,7 +3,7 @@ struct O {int pad[3];struct VE *vt;int tag;struct O *previous,*next;};
 struct STK {int tag,count;void *slots[1];};
 int func_001EF6F0(void);
 void *func_002333B4(void *,int,int);
-struct O *func_001EF138(int,void *);
+struct O *PjobNew__F3CIDPv(int,void *);
 static inline int Count(const int*p){
     register int value __asm__("$2");
     __asm__("lw %0,%1":"=r"(value):"m"(*p));
@@ -20,7 +20,7 @@ struct O *func_001EEE00(struct STK *stack,int selector){
         stack->count=index+1;
     }
     func_002333B4(memory,0,func_001EF6F0());
-    object=func_001EF138(selector,memory);
+    object=PjobNew__F3CIDPv(selector,memory);
     {
         register int tag __asm__("$3")=stack->tag;
         object->tag=tag;

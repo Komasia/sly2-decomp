@@ -9,7 +9,7 @@ qword PosGoal__FP4GOALG9VU_VECTOR(void *p, qword q);
 int FDropOnGround__FP6VECTORffiPv(qword *pq, float a, float b, int n, void *pfn);
 void FSnapPosToSurfaceAbove__FP6VECTOR(qword *pq);
 struct O *func_00205438(struct O *p, int n);
-void func_0020B210(struct O *p);
+void DetachGuardMove__FP5GUARD(struct O *p);
 // name: SafeHouse port (JOBNAVPOINT::Start)
 void Start__11JOBNAVPOINT(struct S *p) {
     union { qword q; float a[4]; } u;
@@ -24,7 +24,7 @@ void Start__11JOBNAVPOINT(struct S *p) {
         e = &o->vt[8];
         e->pfn((char *)o + e->d);
     } else {
-        func_0020B210(p->p10);
+        DetachGuardMove__FP5GUARD(p->p10);
         {
             struct O *o = p->p10;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(u.q) : "j"(u.q), "j"(o->pos));

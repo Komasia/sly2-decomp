@@ -3,7 +3,7 @@ struct C { char pad[0x60]; void *p60; };
 struct B { char pad[0xEC]; struct C *pc; };
 struct A { int x0; struct B *pb; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-int func_001CEB08(void *p, struct A *pa, qword q0, qword q1);
+int FBounceRip__FP3RIPP2SOG9VU_VECTORT2(void *p, struct A *pa, qword q0, qword q1);
 void func_001CE980(void *p);
 int FBounceShrapnel__FP8SHRAPNELP2SOP6VECTORT2(void *p, struct A *pa, qword q0, qword q1)
 {
@@ -13,5 +13,5 @@ int FBounceShrapnel__FP8SHRAPNELP2SOP6VECTORT2(void *p, struct A *pa, qword q0, 
         func_001CE980(p);
         return 1;
     }
-    return func_001CEB08(p, pa, q0, q1);
+    return FBounceRip__FP3RIPP2SOG9VU_VECTORT2(p, pa, q0, q1);
 }

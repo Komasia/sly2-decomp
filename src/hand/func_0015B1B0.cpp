@@ -47,16 +47,17 @@ public:
 struct EMITX { int x0; SO **ppso; void *p8; };
 extern "C" {
 extern char g_sw[];
-SO *func_001CDCD0(void *p, int n);
+SO *PripgNew(void *p, int n) asm("PripgNew__FP2SW5RIPGT");
 void func_001CDE70(SO *pso, EMITTER *pemit);
 void func_001333C0(SO *pso, void *p);
-PART *func_001CE888(void *p, int n, SO *pso);
+PART *FLaunchHudRip(void *p, int n, SO *pso) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 void func_0015BF40(void *p, EMITTER *pemit);
 MATRIX3 *func_001A6318(void *p);
 int FIsDlEmpty(void *p) asm("FIsDlEmpty__FP2DL");
 }
-extern "C" void func_0015B1B0(EMITTER *pemit, EMITX *px, int c, qword *apos, qword *avel, float *at0, float *at1)
+// name: SafeHouse port (EmitParticleObjects)
+extern "C" void EmitParticleObjects__FP8EMITTERNP6VECTORiT1PfN24(EMITTER *pemit, EMITX *px, int c, qword *apos, qword *avel, float *at0, float *at1)
 {
     SO *pso = 0;
     int i;
@@ -64,7 +65,7 @@ extern "C" void func_0015B1B0(EMITTER *pemit, EMITX *px, int c, qword *apos, qwo
     if (px && px->ppso)
         pso = *px->ppso;
     if (!pso) {
-        pso = func_001CDCD0(g_sw, pemit->xC4);
+        pso = PripgNew(g_sw, pemit->xC4);
         if (!pso)
             return;
         if (px && px->ppso)
@@ -75,7 +76,7 @@ extern "C" void func_0015B1B0(EMITTER *pemit, EMITX *px, int c, qword *apos, qwo
     }
     if (!pso)
         return;
-    for (i = 0; i < c && (ppart = func_001CE888(g_sw, pemit->xC0, pso)) != 0; i++) {
+    for (i = 0; i < c && (ppart = FLaunchHudRip(g_sw, pemit->xC0, pso)) != 0; i++) {
         ppart->Set(apos[i], GRandInRange(pemit->gD8, pemit->gDC), pemit->pshd->x10);
         if (pemit->gE4 != 0.0f || pemit->gE8 != 0.0f) {
             ppart->x24 = pemit->gE4;

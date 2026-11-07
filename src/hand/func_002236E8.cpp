@@ -34,9 +34,9 @@ extern "C" {
 qword func_001A62E8(LO *plo);
 int func_0014F030(void *pv, SO *pso);
 void func_0020FAA0(SW *psw, qword posMin, qword posMax, int (*pfnFilter)(void *, SO *), int nUnk, int *pcpso, SOPART ***papso);
-qword func_0014F308(CM *pcm, qword pos);
-qword func_0014F268(CM *pcm, qword ndc);
-int func_0014EA08(int cpsopart, SOPART **apsopart, qword posFrom, qword posTo, float duMin, float *puEnter, float *puExit);
+qword ConvertCmWorldToScreen(CM *pcm, qword pos) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
+qword ConvertCmScreenToWorld(CM *pcm, qword ndc) asm("ConvertCmScreenToWorld__FP2CMG9VU_VECTOR");
+int FFindCmClearInterval(int cpsopart, SOPART **apsopart, qword posFrom, qword posTo, float duMin, float *puEnter, float *puExit) asm("FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f");
 void func_0014D8C0(CM *pcm);
 }
 struct STACKSCOPE {
@@ -158,11 +158,11 @@ extern "C" void CheckFocusVisible__FP8CPFOLLOW(CMPART2 *pcmpart)
     func_0020FAA0(&g_sw, aqw[0], aqw[1], func_0014F030, 0, &cpso, &apso);
     for (i = 0; i < 5; i++, pqw++)
     {
-        aqw[2] = func_0014F308(&g_cm, *pqw);
+        aqw[2] = ConvertCmWorldToScreen(&g_cm, *pqw);
         ((VECTOR4 *)&aqw[2])->z = g_cm.sNearClip;
-        aqw[2] = func_0014F268(&g_cm, aqw[2]);
+        aqw[2] = ConvertCmScreenToWorld(&g_cm, aqw[2]);
         float uExit;
-        if (func_0014EA08(cpso, apso, *pqw, aqw[2], 0.0f, 0, &uExit) && 1.0f <= uExit)
+        if (FFindCmClearInterval(cpso, apso, *pqw, aqw[2], 0.0f, 0, &uExit) && 1.0f <= uExit)
         {
             pcmpart->tLastSeen = g_clock.t;
             break;

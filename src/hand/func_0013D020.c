@@ -10,7 +10,7 @@ void func_001DA4B8(void *pv, int n, float g);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *pv, int n);
 void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, struct P *p);
-void func_00143678(struct Q *q, int n, struct P *p);
+void SaveBootyMove__FP5ACTORiP2LO(struct Q *q, int n, struct P *p);
 void func_0013C560(struct A *pa, int n);
 void func_00184130(struct P *p, struct Q *q);
 void func_0013D020(struct P *p, struct Q *q)
@@ -33,7 +33,7 @@ void func_0013D020(struct P *p, struct Q *q)
     }
     if (p->pa)
         SetSource__4CSndPv(PsndNewPlain__Fi(0x27), 0);
-    func_00143678(q, 0, p);
+    SaveBootyMove__FP5ACTORiP2LO(q, 0, p);
     if (q->pa && p->pa) {
         q->pa->p15C = p;
         func_0013C560(q->pa, 3);

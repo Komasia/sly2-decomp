@@ -21,7 +21,7 @@ void *PvAllocStackClearImpl(MSG *pmsg) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 void *func_002333B4(void *pv, int b, unsigned int cb);
 qword func_001A62E8(void *pv);
-NAV *func_001C0D70(qword pos, int f);
+NAV *PregionAt(qword pos, int f) asm("PregionAt__FG9VU_VECTORi");
 void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
 void InitDl(DL *pdl, int ibDle) asm("InitDl__FP2DLi");
 void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
@@ -48,7 +48,7 @@ static inline qword QwLength(qword v)
 }
 // Unknown object at sp+0x30 with an empty destructor (see the header comment)
 struct EMPTY { ~EMPTY() {} };
-static inline NAV *PnavFind(const qword &pos) { return func_001C0D70(pos, 0); }
+static inline NAV *PnavFind(const qword &pos) { return PregionAt(pos, 0); }
 static inline void AppendNode(DL *pdl, NODE *pnode) { AppendDlEntry(pdl, pnode); }
 static inline void RemoveNode(DL *pdl, NODE *pnode) { RemoveDlEntry(pdl, pnode); }
 static inline void InsertNode(DL *pdl, NODE *pnodeNext, NODE *pnode) { InsertDlEntryBefore(pdl, pnodeNext, pnode); }

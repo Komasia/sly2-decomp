@@ -10,7 +10,7 @@ typedef struct { float gMin, gMax; } LM;
 extern "C" {
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-qword func_0019F3F8(O *p, Q *q, float g);
+qword PosSafeEntry(O *p, Q *q, float g) asm("PosSafeEntry__FP5ACTORPvf");
 void func_0020FC60(void *g, qword pos, void *pfn, void *x, int *pi, int *pj, float r);
 int func_0014CC58(int z, qword a, qword b, int i, int j, HIT *phit);
 void func_0020F948(void);
@@ -24,11 +24,12 @@ class FRAME { int a[4]; public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_
 static inline float GMax(float a, float b) { return a > b ? a : b; }
 static inline float GFromClq(CLQ *pclq, float g) { return pclq->g + g * (pclq->gFirst + g * pclq->gSecond); }
 static inline float GClamp(float g, float lo, float hi) { if (g < lo) g = lo; else if (g > hi) g = hi; return g; }
-extern "C" float func_0019F7D0(S *p, Q *q, int n, LO2 **apo);
-float func_0019F7D0(S *p, Q *q, int n, LO2 **apo)
+extern "C" float GCostSafeEntry(S *p, Q *q, int n, LO2 **apo) asm("GCostSafeEntry__FP5ACTORPviPP3LO2");
+// name: SafeHouse port (GCostSafeEntry)
+float GCostSafeEntry(S *p, Q *q, int n, LO2 **apo)
 {
     float g = 0.0f;
-    qword pos = func_0019F3F8(p->x0, q, g);
+    qword pos = PosSafeEntry(p->x0, q, g);
     if (q->x8) {
         FRAME frame;
         U a, b;

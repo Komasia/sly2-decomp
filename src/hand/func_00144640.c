@@ -24,7 +24,7 @@ void func_001F7BF8(struct T *, float);
 qword func_001A62E8(void *p);
 int FDropOnGround__FP6VECTORffiPv(float, float, qword *, int, int);
 int FSnapPosToSurfaceAbove__FP6VECTOR(qword *);
-void func_0019F540(struct PO *, qword);
+void RecoverTo__FP5ACTORG9VU_VECTOR(struct PO *, qword);
 
 static __inline__ float GDist(qword a, qword b)
 {
@@ -47,7 +47,8 @@ static inline int IOther(struct PO *p0, struct SO *pso)
     return p0 == pso->ae[0].x8 ? 0 : 1;
 }
 
-void func_00144640(struct P *p)
+// name: SafeHouse port (UpdateActorWatch)
+void UpdateActorWatch__FP5ACTOR(struct P *p)
 {
     if (p->f28) {
         if (p->p0->x2DC == -1)
@@ -102,7 +103,7 @@ void func_00144640(struct P *p)
         if (p->d20 - g < D_002BD2D4 * D_002BD2D0) {
             qword v = p->pos;
             if (FDropOnGround__FP6VECTORffiPv(100.0f, -150.0f, &v, 0, 0) || FSnapPosToSurfaceAbove__FP6VECTOR(&v)) {
-                func_0019F540(p->p0, v);
+                RecoverTo__FP5ACTORG9VU_VECTOR(p->p0, v);
                 p->f28 = 1;
             }
         }

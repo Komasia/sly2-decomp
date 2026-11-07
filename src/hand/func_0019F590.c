@@ -14,10 +14,10 @@ extern struct G g_sw;
 struct D { char pad[0x60]; qword x60; };
 extern struct D g_cm;
 extern float D_002BF940;
-void func_0019FAF8(void *p, E *e);
+void EntryBestSafe__FP5ACTORPv(void *p, E *e);
 struct P *func_001C4840(struct G *g);
-qword func_0019F3F8(struct P *p, E *e, float g);
-float func_00196928(qword a, qword b, float c, float d, float e, float f);
+qword PosSafeEntry__FP5ACTORPvf(struct P *p, E *e, float g);
+float TJumpTo__FG9VU_VECTORT0ffff(qword a, qword b, float c, float d, float e, float f);
 void func_002046B0(struct P *p, qword q);
 void func_0014D8C0(struct D *d);
 void func_00195A00(void *p, int a, int b, int c);
@@ -26,15 +26,16 @@ void func_00148300(struct G *g, int a);
 void func_0019B110(void *p, int a);
 void func_0015E1D8(int a);
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
-void func_0019F590(struct P *p, E *q)
+// name: SafeHouse port (RecoverActorTo)
+void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
 {
     E e;
     if (!q) {
-        func_0019FAF8(p->x9e0, &e);
+        EntryBestSafe__FP5ACTORPv(p->x9e0, &e);
         q = &e;
         if (p == func_001C4840(&g_sw)) {
-            qword r = func_0019F3F8(p, &e, 0.0f);
-            float g = func_00196928(VSub(r, p->x58->x70), p->xe8->x80, 1000.0f, -1000.0f, 1.0f, -1.0f);
+            qword r = PosSafeEntry__FP5ACTORPvf(p, &e, 0.0f);
+            float g = TJumpTo__FG9VU_VECTORT0ffff(VSub(r, p->x58->x70), p->xe8->x80, 1000.0f, -1000.0f, 1.0f, -1.0f);
             if (D_002BF940 < g) {
                 int save = p->x9e4;
                 ((void (*)(void *, qword))p->vt[29].pfn)((char *)p + p->vt[29].d, VSub(r, p->x240));

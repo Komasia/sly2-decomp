@@ -14,11 +14,11 @@ extern char g_sw[];
 extern char D_002BF2A0[];
 extern char D_002BF2B8[];
 
-extern void func_00140F90(void *p, int msg, void *pv);
+extern void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv);
 extern void SetSlyMode__FP3SLYi(void *p, int n);
 extern void func_0018C250(void *p, int a, int b);
-extern void func_00131B10(void *a, void *p, int c);
-extern void func_00131B60(void *a, void *p, int c, void *d);
+extern void DemoteAsegaOnXf__FiiP2XF(void *a, void *p, int c);
+extern void DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv(void *a, void *p, int c, void *d);
 extern qword func_001A62E8(void *p);
 extern void *func_001F1E20(void *a, qword q);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
@@ -36,7 +36,7 @@ static __inline__ void ClearX(CLR *px) { px->a = px->b = px->c = 0; }
 
 void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
 {
-    func_00140F90(p, msg, pv);
+    HandleActorMessage__FP5ACTOR5MSGIDPv(p, msg, pv);
     switch (msg) {
     case 3:
         if (pv == F(void *, 0x18E0)) {
@@ -71,13 +71,13 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
             (F(O1034 *, 0x1034) && x == F(O1034 *, 0x1034)->x30)) {
             switch (pm->x8) {
             case 0x16E:
-                func_00131B10(F(void *, 0x18E0), p, F(int, 0x10B8));
+                DemoteAsegaOnXf__FiiP2XF(F(void *, 0x18E0), p, F(int, 0x10B8));
                 break;
             case 0x16F:
-                func_00131B60(F(void *, 0x18E0), p, 3, D_002BF2A0);
+                DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv(F(void *, 0x18E0), p, 3, D_002BF2A0);
                 break;
             case 0x170:
-                func_00131B60(F(void *, 0x18E0), p, 3, D_002BF2B8);
+                DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv(F(void *, 0x18E0), p, 3, D_002BF2B8);
                 break;
             case 0x164:
                 F(int, 0x18E4) = 1;

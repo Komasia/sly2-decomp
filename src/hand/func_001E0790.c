@@ -3,7 +3,7 @@
 
 void func_001E0790(RELAY *prelay, int oidLabel, int nValue)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_GotoLabelIf, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_GotoLabelIf, 1);
     prelaycmd->u.gotoLabelIf.oidLabel = oidLabel;
     prelaycmd->u.gotoLabelIf.nValue = nValue;
 }

@@ -4,7 +4,8 @@ struct X *func_00205458(void *p, int n);
 int func_00206D48(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 
-int func_00206EB0(void *p, int k)
+// name: SafeHouse port (FGuardModeAllowed)
+int FGuardModeAllowed__FP5GUARDi(void *p, int k)
 {
     struct X *x;
     if (k == -1)

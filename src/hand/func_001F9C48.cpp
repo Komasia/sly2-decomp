@@ -10,7 +10,7 @@ struct G {char pad3D58[0x3D58];int stamp;};
 struct CLOCK {float time,dt;};
 extern CLOCK g_clock;
 extern G g_sw;
-extern "C" void func_00230630(P *,OWNER *);
+extern "C" void ReleaseXfMode(P *,OWNER *) asm("ReleaseXfMode__FP3ALOP2XF");
 extern "C" qword *func_00256D18(qword *,qword);
 extern "C" M3 *func_0011B570(M3 *,qword);
 static inline M3 BuildRotation(qword vector) return matrix {func_0011B570(&matrix,vector);}
@@ -39,8 +39,8 @@ extern "C" void func_001F9C48(P *p)
     CLOCK *clock;
     G *global;
     NODE *node;
-    func_00230630(p,position);
-    func_00230630(p,rotation);
+    ReleaseXfMode(p,position);
+    ReleaseXfMode(p,rotation);
     clock=&g_clock;
     {qword point=position->position.q;
     qword k=Scalar(clock->dt*coefficient,&scalar);

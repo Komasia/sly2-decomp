@@ -1,15 +1,16 @@
-/* func_0014E920: resets the camera's adjustment / focus offsets: dposAdjust from func_0014E698, vAdjust and
+/* ResetCmAdjust__FP2CM: resets the camera's adjustment / focus offsets: dposAdjust from CalcCmAdjust__FP2CMP6CPDEFI, vAdjust and
  * vFocus zeroed. */
 #include "cm.h"
 
-qword func_0014E698(void);
+qword CalcCmAdjust__FP2CMP6CPDEFI(void);
 
-void func_0014E920(CM *pcm)
+// name: SafeHouse port (ResetCmAdjust)
+void ResetCmAdjust__FP2CM(CM *pcm)
 {
     float *pvAdjust;
     float *pvFocus;
 
-    pcm->dposAdjust = func_0014E698();
+    pcm->dposAdjust = CalcCmAdjust__FP2CMP6CPDEFI();
     pvFocus = pcm->vFocus;
     pvAdjust = pcm->vAdjust;
     pvAdjust[2] = 0;

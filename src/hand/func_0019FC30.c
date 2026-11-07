@@ -5,11 +5,12 @@ struct A { char pad[0x40]; int x40; char pad2[0x4C-0x44]; struct S4C *x4c; char 
 struct B { char pad[0x10C]; int x10c; };
 struct P { char pad[0x208]; struct A *x208; char pad2[0x108C-0x20C]; int x108c; char pad3[0x18C4-0x1090]; struct B *x18c4; int x18c8; };
 extern struct VECTOR D_002A2DD0;
-void func_0019FEB0(void *p, int a, qword q);
-void func_0019FD30(void *p, void *b, float g);
-void func_001942F0(void *p);
-void func_0019EA60(void *p);
-void func_0019FC30(struct P *p)
+void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(void *p, int a, qword q);
+void RecordSafeTarget__FP5ACTORP2LOf(void *p, void *b, float g);
+void UpdateSafeInteract__FP5ACTOR(void *p);
+void UpdateSafePipe__FP5ACTOR(void *p);
+// name: SafeHouse port (UpdateSafeGround)
+void UpdateSafeGround__FP5ACTOR(struct P *p)
 {
     struct VECTOR v = D_002A2DD0;
     switch (p->x18c8) {
@@ -18,21 +19,21 @@ void func_0019FC30(struct P *p)
     {
         struct A *pa = p->x208;
         if (pa && pa->x88 > 0.7f && !(pa->x4c->fl & 0x20000000) && !p->x108c)
-            func_0019FEB0((char *)p + 0x9E0, pa->x40, pa->x60);
+            RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR((char *)p + 0x9E0, pa->x40, pa->x60);
         break;
     }
     case 3: case 22:
     {
         struct B *pb = p->x18c4;
         if (!pb->x10c)
-            func_0019FD30((char *)p + 0x9E0, pb ? (char *)pb + 0x100 : 0, 0.0f);
+            RecordSafeTarget__FP5ACTORP2LOf((char *)p + 0x9E0, pb ? (char *)pb + 0x100 : 0, 0.0f);
         break;
     }
     case 7:
-        func_001942F0((char *)p + 0x4C0);
+        UpdateSafeInteract__FP5ACTOR((char *)p + 0x4C0);
         break;
     case 8:
-        func_0019EA60((char *)p + 0xF50);
+        UpdateSafePipe__FP5ACTOR((char *)p + 0xF50);
         break;
     }
 }

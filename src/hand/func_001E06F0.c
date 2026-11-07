@@ -3,7 +3,7 @@
 
 void func_001E06F0(RELAY *prelay, int fHandsOff, int grfHandsOff)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_HandsOff, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_HandsOff, 1);
     prelaycmd->u.handsOff.fHandsOff = fHandsOff;
     prelaycmd->u.handsOff.grfHandsOff = grfHandsOff;
 }

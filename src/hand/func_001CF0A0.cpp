@@ -6,8 +6,8 @@ struct S {char pad[0x40];M3 mat;qword pos,prev,vel;PHYS phys;qword omega;float g
 extern struct CLOCK {float time;union{float dt;int dtbits;};} g_clock;
 extern "C" {
 int func_001CF010(qword);int func_001CEFC8(qword);int func_001CF058(qword);
-M3*func_0011B500(M3*,qword,float);M4 *func_0015BFD8(M4*,PHYS*);
-void func_001CF0A0(S*);
+M3*func_0011B500(M3*,qword,float);M4 *UpdatePsys(M4*,PHYS*) asm("UpdatePsys__FP4PSYS");
+void MoveRip(S*) asm("MoveRip__FP4RIPN");
 }
 static inline qword Scale(qword a,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
 static inline qword Sq(qword a){qword r,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"j"(a));return r;}
@@ -37,7 +37,8 @@ static inline qword AddScaled(qword a,qword b,qword s){qword r;__asm__("vadda.xy
 static inline int ClockWord(char*page){int word;__asm__("lw %0,%%lo(%2)(%1)":"=r"(word):"r"(page),"i"(&g_clock.dtbits),"m"(*(const int*)(page-0x212C)));return word;}
 static inline char*ClockPage(){register char*page __asm__("$2");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&g_clock.dtbits));return page;}
 static inline void PublishBasisStart(S*p,qword first,qword second){__asm__("sqc2 %3,0x40(%2)\n\tsqc2 %4,0x50(%2)":"=m"(p->mat.r[0].q),"=m"(p->mat.r[1].q):"r"(p),"j"(first),"j"(second));}
-void func_001CF0A0(S*p){
+// name: SafeHouse port (MoveRip)
+void MoveRip(S*p){
  WORK w;
  if(!func_001CF010(p->omega)) {
   qword omega=Scale(p->omega,Broadcast(&w.shared.math.first,p->gE4*g_clock.dt+1.0f));
@@ -54,7 +55,7 @@ void func_001CF0A0(S*p){
  int moving=0;
  if(!func_001CEFC8(p->vel) || !func_001CF058(p->phys.accel))moving=1;
  if(moving){
-  func_0015BFD8(&w.shared.matrix,&p->phys);
+  UpdatePsys(&w.shared.matrix,&p->phys);
   char*page=ClockPage();
   qword v=Point(w.shared.matrix,p->vel);
   p->vel=v;

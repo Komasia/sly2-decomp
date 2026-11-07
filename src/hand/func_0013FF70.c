@@ -8,7 +8,7 @@ void InitStep__FP4STEP(struct P *p);
 void func_00195950(void *pv, struct P *p);
 void func_00191090(void *pv, struct P *p);
 void func_0019F3E8(void *pv, struct P *p);
-void func_001A0B18(void *pv, struct P *p);
+void InitDamage__FP5ACTORi(void *pv, struct P *p);
 void func_0019CBF8(void *pv, struct P *p);
 void func_0021F2E0(void *pv, struct P *p);
 void func_0019DE10(void *pv, struct P *p);
@@ -21,7 +21,7 @@ void InitActorFields__FP5ACTOR(struct P *p)
     func_00195950((char *)p + 0x2C0, p);
     func_00191090((char *)p + 0x4C0, p);
     func_0019F3E8((char *)p + 0x9E0, p);
-    func_001A0B18((char *)p + 0xDF0, p);
+    InitDamage__FP5ACTORi((char *)p + 0xDF0, p);
     func_0019CBF8((char *)p + 0xF00, p);
     func_0021F2E0((char *)p + 0x11B0, p);
     func_0019DE10((char *)p + 0xF50, p);

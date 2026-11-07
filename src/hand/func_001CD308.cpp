@@ -10,13 +10,13 @@ extern float D_002C1EF4;
 extern qword D_002A2DD0;
 extern "C" {
 void func_001CCAC0(S *p, int n);
-void func_0012E460(int *p);
+void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
 void func_001A58D0(LO *p, int a, int b);
 qword func_001A62E8(LO *p);
 qword func_0022FC48(int a, void *pv, qword q);
-int func_0012DE58(LO *p, Q *q, int n, qword a, qword b, float g);
+int PctrlNewTarget(LO *p, Q *q, int n, qword a, qword b, float g) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
 void *func_001A6318(LO *p);
-int func_0012DC18(LO *p, Q *q, int a, int b, int c, qword d);
+int PctrlNewPos(LO *p, Q *q, int a, int b, int c, qword d) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void func_001CD308(S *p, LO *po);
 }
 MAT func_0022FD38(int a, void *pv, void *v);
@@ -27,9 +27,9 @@ void func_001CD308(S *p, LO *po)
     int unused[4];
     if (!p->xA0) return;
     func_001CCAC0(p, -1);
-    func_0012E460(&p->x94);
-    func_0012E460(&p->x98);
-    func_0012E460(&p->x9C);
+    DeleteCtrl(&p->x94);
+    DeleteCtrl(&p->x98);
+    DeleteCtrl(&p->x9C);
     if (po->x10) {
         
         void *pv = ((void *(*)(void *, void *))po->vt[32].pf)((char *)po + po->vt[32].d, &mat);
@@ -39,10 +39,10 @@ void func_001CD308(S *p, LO *po)
         func_001A58D0(p->xA0, 0, 0xF);
     }
     Q *q = p->xA0->x58;
-    p->x94 = func_0012DE58(p->xA0, q, 5, func_0022FC48(0, q->xA0, func_001A62E8(po)), D_002A2DD0, g_clock.t + D_002C1EF4);
+    p->x94 = PctrlNewTarget(p->xA0, q, 5, func_0022FC48(0, q->xA0, func_001A62E8(po)), D_002A2DD0, g_clock.t + D_002C1EF4);
     q = p->xA0->x5C;
     mat = func_0022FD38(0, q->xA0, func_001A6318(po));
-    p->x9C = func_0012DC18(p->xA0, q, 5, 7, 2, func_0011BFF0(mat));
+    p->x9C = PctrlNewPos(p->xA0, q, 5, 7, 2, func_0011BFF0(mat));
     p->x84 = p->xA0;
     func_001CCAC0(p, 1);
     p->xA0 = 0;

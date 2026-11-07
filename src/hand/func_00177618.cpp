@@ -19,8 +19,8 @@ extern "C"{
  void*func_002333B4(void*,int,unsigned int);
  int func_00208B38(P*,P*);
  float func_00208BB0(P*);
- P*func_0020A408(P*,P*);
- void func_001725E0(H*,P*);
+ P*PloGuardInterest(P*,P*) asm("PloGuardInterest__FP5GUARDP2LO");
+ void SetNoise(H*,P*) asm("SetNoise__14JOBINVESTIGATEP5NOISE");
  int func_00172550(H*);
  int func_00174FB8(H*);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -29,7 +29,7 @@ extern "C"{
  P*func_00174898(void*);
  qword func_001A62E8(P*);
  P*func_00156B98(void*,int,qword,P*);
- void func_00156780(P*);
+ void RemoveNoise(P*) asm("RemoveNoise__FP5NOISE");
  void func_00176B80(C*,int,P*);
  int func_0017A9C0(H*);
  int FDone(H*) asm("FDone__11JOBNAVPOINT");
@@ -80,7 +80,7 @@ extern "C" void Update__8JOBREACT(C*p){
     P*object=Target(p->actor);
     if(object)Attack(p,&next,object);
     else{
-     P*selected=func_0020A408(p->actor,0);
+     P*selected=PloGuardInterest(p->actor,0);
      if(selected){next.kind=2;next.payload.s.object=selected;}
      else if(p->state.kind==17&&g_clock.time<p->expires)next.kind=17;
      else{if(func_00177D48(p))next.kind=16;else next.kind=1;}
@@ -94,8 +94,8 @@ extern "C" void Update__8JOBREACT(C*p){
     P*object=Target(p->actor);
     if(object){STATE next;Clear(&next);Attack(p,&next,object);React(p,&next);}
     else{
-     H*h=p->helper;P*old=h->target;P*selected=func_0020A408(p->actor,old);
-     if(selected!=old)func_001725E0(h,selected);
+     H*h=p->helper;P*old=h->target;P*selected=PloGuardInterest(p->actor,old);
+     if(selected!=old)SetNoise(h,selected);
      else if(func_00172550(h)){STATE next;Clear(&next);next.kind=1;React(p,&next);}
     }
    }
@@ -135,7 +135,7 @@ extern "C" void Update__8JOBREACT(C*p){
   case 8:{
    if(func_00174FB8(p->helper)){
     P*object=func_00156B98(g_sw,0,func_001A62E8(p->actor),p->actor);
-    STATE next;Clear(&next);next.kind=2;next.payload.s.object=object;React(p,&next);func_00156780(object);
+    STATE next;Clear(&next);next.kind=2;next.payload.s.object=object;React(p,&next);RemoveNoise(object);
    }
    break;
   }

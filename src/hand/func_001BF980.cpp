@@ -24,7 +24,8 @@ static inline float Dist2(const qword &a, const qword &b)
     return r;
 }
 
-extern "C" void func_001BF980(G *p, V *pvStart, V *pvGoal, int cMax, int *pc, V **apv)
+// name: SafeHouse port (AstarNav)
+extern "C" void AstarNav__FP9NAVREGIONPvT1iPiT1(G *p, V *pvStart, V *pvGoal, int cMax, int *pc, V **apv)
 {
     NODE node;
     CTX ctx;

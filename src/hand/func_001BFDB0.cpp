@@ -1,4 +1,4 @@
-// func_001BFDB0: closest point of a navigation triangle to p (wave-3 lane 4). T holds pointers to the three corners.
+// PosNearestTri: closest point of a navigation triangle to p (wave-3 lane 4). T holds pointers to the three corners.
 // If p lies outside an edge in the XY plane (z of cross(p - v0, v1 - v0) > 0, tested a-b, b-c, c-a in turn), the result
 // is the closest point on that edge (func_0011EE08); otherwise p is projected along g_normalZ (world up) onto the
 // triangle's plane.
@@ -17,7 +17,7 @@ struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 extern "C" {
 extern qword g_normalZ; // (0, 0, 1, 0)
 void func_0011EE08(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist);
-qword func_001BFDB0(T *t, qword p);
+qword PosNearestTri(T *t, qword p) asm("PosNearestTri__FP9NAVREGIONG9VU_VECTOR");
 }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline qword Cross(qword a, qword b) { qword r; __asm__("vopmula.xyz ACC,%1,%2\n\tvopmsub.xyz %0,%2,%1" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -39,7 +39,8 @@ static inline qword AddScaled(qword a, qword b, float g)
     return r;
 }
 
-qword func_001BFDB0(T *t, qword p)
+// name: SafeHouse port (PosNearestTri)
+qword PosNearestTri(T *t, qword p)
 {
     U result;
     qword a = *t->a, b = *t->b, c = *t->c;

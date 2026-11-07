@@ -84,8 +84,8 @@ void func_00258040(EFFECT **, EFFECT *);
 void func_002046F0(ACTOR *, SOURCE *);
 void func_00204CA8(ACTOR *);
 void func_002046B0(ACTOR *, qword);
-void func_0014E328(MANAGER *, int, CAMERA *, ACTOR *, void *);
-void func_0014E4C8(MANAGER *, int, int, CAMERA *, ACTOR *, void *);
+void SetCmPolicy(MANAGER *, int, CAMERA *, ACTOR *, void *) asm("SetCmPolicy__FP2CM3CPPP5CPLCYii");
+void RevokeCmPolicy(MANAGER *, int, int, CAMERA *, ACTOR *, void *) asm("RevokeCmPolicy__FP2CMi3CPPP5CPLCYii");
 void SetSlyMode(ACTOR *, int) asm("SetSlyMode__FP3SLYi");
 void func_001CCAC0(ATTACH *, int);
 void func_001CD2C0(void *);
@@ -94,7 +94,7 @@ void func_00140C88(ACTOR *, void *);
 void func_00194118(CONTEXT *);
 qword ConvertPos(void *, void *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020BD68(PROGRAM_ITEM *);
-void func_00130658(ANIMATION **);
+void RetractAsegaPp(ANIMATION **) asm("RetractAsegaPp__FPP5ASEGA");
 void func_001F15B8(COMPONENT *);
 void func_001305B8(CLIP *, ACTOR *, float, float, int, ANIMATION **);
 void func_001F1448(PROGRAM *, ACTOR *, int, int, COMPONENT *);
@@ -257,13 +257,13 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
                 SetVector(p->pactor, 35, D_002A2DD0);
                 SetVector(p->pactor, 36, D_002A2DD0);
             }
-            func_0014E328(&g_cm, 10, (CAMERA *)((char *)&g_cm + 0x4C0), p->pactor, p->pactor->anchor);
+            SetCmPolicy(&g_cm, 10, (CAMERA *)((char *)&g_cm + 0x4C0), p->pactor, p->pactor->anchor);
         }
         break;
     case 9:
     case 10:
         if (!(Less(step, 11) && !Less(step, 9)))
-            func_0014E4C8(&g_cm, 2, 10, (CAMERA *)((char *)&g_cm + 0x4C0), 0, 0);
+            RevokeCmPolicy(&g_cm, 2, 10, (CAMERA *)((char *)&g_cm + 0x4C0), 0, 0);
         break;
     }
 
@@ -511,7 +511,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
     p->step = step;
     p->tStep = g_clock.t;
     if (step != -1) {
-        func_00130658(&p->pactor->animation);
+        RetractAsegaPp(&p->pactor->animation);
         func_001F15B8(&p->pactor->component);
         func_001305B8(clip, p->pactor, blend, speed, flags, &p->pactor->animation);
         func_001F1448(script, p->pactor, -1, flags, &p->pactor->component);

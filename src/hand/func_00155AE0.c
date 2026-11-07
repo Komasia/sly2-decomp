@@ -20,7 +20,7 @@ void *PloEnd__5JOBB5(struct X *p);
 struct ASEG *func_00205438(struct SO *pso, int id);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
-void func_00209818(void *p, float g);
+void SetMoveHeading__FP7MOVEREF(void *p, float g);
 void func_001E6180(struct ALO *p);
 void Follow__9JOBFOLLOWP3CRVi(struct ASEG *a, struct ALO *b, int c);
 
@@ -67,7 +67,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         d = Sub(func_001A62E8(p->x40), func_001A62E8(p->pso));
         {
             float g = func_002458F0(GetY(d), GetX(d)) + 3.1415927f;
-            func_00209818(p->pso->xFD0, g);
+            SetMoveHeading__FP7MOVEREF(p->pso->xFD0, g);
         }
         pa->vt[8].pfn((char *)pa + pa->vt[8].d);
         p->g3C = D_002A5138;

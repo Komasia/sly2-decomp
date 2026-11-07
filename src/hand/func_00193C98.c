@@ -5,7 +5,7 @@ struct Q { int x0; int x4; float x8; int xc; U x10; qword x20; };
 struct HIT { qword a; U b; qword c[4]; };
 struct P { char pad[0x4D4]; struct O *x4d4; int pad2[2]; float x4e0; int x4e4; };
 extern qword D_002A2DD0;
-void func_0012DA30(void *r, qword q);
+void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(void *r, qword q);
 float SMinCrv__FP3CRV(struct O *o);
 float func_001E6648(struct O *o);
 float GModPositive__Fff(float g, float hi);
@@ -28,7 +28,7 @@ void func_00193C98(struct P *p, struct Q *q, void *r)
     struct HIT hit;
     qword d;
     if (!q->x4) {
-        func_0012DA30(r, D_002A2DD0);
+        SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(r, D_002A2DD0);
         return;
     }
     o = p->x4d4;
@@ -45,6 +45,6 @@ void func_00193C98(struct P *p, struct Q *q, void *r)
     v.q = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, v.q);
     if (func_0014C748(q->x20, q->x8, q->x10.q, v.q, 1, &hit) > 0) {
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(hit.b.q), "j"(q->x10.q));
-        func_0012DA30(r, d);
+        SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(r, d);
     }
 }

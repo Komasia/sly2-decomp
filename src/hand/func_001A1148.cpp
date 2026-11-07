@@ -15,7 +15,8 @@ static inline qword BroadcastTo(float g,U *u) { qword q=Broadcast(g); u->q=q;ret
 static inline qword Scale(qword a,qword b) { qword q; __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(q) : "j"(a),"j"(b));return q; }
 static inline float GetZ(qword v) { float g; __asm__("pextuw %0,$0,%1" : "=r"(g) : "r"(v));return g; }
 inline void O::Negate(U &u) { qword v=xE8->v80; qword k=Broadcast(-1.0f); u.q=k; Set(Scale(v,k)); }
-extern "C" void func_001A1148(struct P *p)
+// name: SafeHouse port (UpdateDamageMotion)
+extern "C" void UpdateDamageMotion__FP5ACTOR(struct P *p)
 {
  U u,v,u2;
  qword k;

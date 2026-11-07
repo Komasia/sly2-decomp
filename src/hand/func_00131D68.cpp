@@ -6,15 +6,16 @@ public:
 };
 struct O { char pad[0x1c]; float f1c; char pad2[0x40 - 0x20]; float f40; };
 struct S { int pad[7]; C *pc; int f20; O *po; };
-extern "C" void func_001317D8(O *, float *, float *);
+extern "C" void FWrapAsegaTime(O *, float *, float *) asm("FWrapAsegaTime__FP5ASEGAPfT1");
 extern "C" void Query(S *, int, int) asm("Query__4CTRLP7VECTOR4T1f");
-extern "C" void func_00131D68(S *p, int a, int b, float g) {
+// name: SafeHouse port (CTRLASEG::Query)
+extern "C" void Query__8CTRLASEGP7VECTOR4T1f(S *p, int a, int b, float g) {
     if (p->pc) {
         O *po = p->po;
         float t, dt;
         dt = po->f40;
         t = po->f1c + g * dt;
-        func_001317D8(po, &t, &dt);
+        FWrapAsegaTime(po, &t, &dt);
         p->pc->V3(a, b, t, dt);
     } else {
         Query(p, a, b);

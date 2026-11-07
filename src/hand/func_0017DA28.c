@@ -22,7 +22,7 @@ qword func_001A62E8(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
 void func_0011EE08(qword p, qword a, qword b, qword *pc, float *pt, int n);
 void func_001E6180(struct B *b);
-int func_001C02D0(void *q, qword a, qword b, struct B *c);
+int FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 // name: SafeHouse port (JOBGOTO::Search)
 void Search__7JOBGOTO(struct S *p) {
@@ -77,7 +77,7 @@ void Search__7JOBGOTO(struct S *p) {
             struct C *c = p->p10->pE8;
             struct D *d = c ? c->pDC : 0;
             void *e = d ? d->p10 : 0;
-            if (!func_001C02D0(e, pos, q, b)) {
+            if (!FNavPathCrv__FP9NAVREGIONiiP3CRV(e, pos, q, b)) {
                 p->x80 = x;
                 k = 5;
             }

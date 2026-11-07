@@ -14,7 +14,8 @@ extern M2C_UNK g_sw;
 extern M2C_UNK D_003E1218;
 extern M2C_UNK D_003E1224;
 
-void func_001308B8(s32 arg0, s32 arg1) {
+// name: SafeHouse port (ReleaseAsega)
+void ReleaseAsega__FP5ASEGAi(s32 arg0, s32 arg1) {
     s32 temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, s32 *, 0x10) - 1;

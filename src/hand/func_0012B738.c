@@ -26,10 +26,11 @@ typedef struct OBJ {
     V3Q pos1;
     qword dpos1;
 } OBJ;
-int func_0012B6D8(T *t, float g);
-void func_0012B738(T *t, OBJ *po)
+int IkeyFind__5TRKPKf(T *t, float g);
+// name: SafeHouse port (TRKPK::Setup)
+void Setup__5TRKPKP2XF(T *t, OBJ *po)
 {
-    int i = func_0012B6D8(t, *po->pt);
+    int i = IkeyFind__5TRKPKf(t, *po->pt);
     int f;
     po->t0 = t->a[i - 1].t;
     po->pos0.v = t->a[i - 1].pos;

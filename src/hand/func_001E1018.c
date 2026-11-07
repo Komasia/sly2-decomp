@@ -3,7 +3,7 @@
 
 void func_001E1018(RELAY *prelay, int oidAseg, int oidPart)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_HidePart, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_HidePart, 1);
     prelaycmd->u.hidePart.oidAseg = oidAseg;
     prelaycmd->u.hidePart.oidPart = oidPart;
 }

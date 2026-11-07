@@ -4,8 +4,8 @@ struct T { char pad[0xF64]; void *pF64; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x48]; int n5C; };
 void Enter__7JOBMOVE(struct S *p);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct T *t, int a, int b, qword q);
-void func_0020B210(struct T *t);
+void DetachGuardMove__FP5GUARD(struct T *t);
 void func_0017B1A8(struct S *p, int n);
 void func_001EEFC0(struct S *p);
 void func_00154038(void *p, int a, int b);
-void func_0017AA08(struct S *p) { Enter__7JOBMOVE(p); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0); func_0020B210(p->pt); func_0017B1A8(p, 0); func_001EEFC0(p); func_00154038(p->pt->pF64, p->n5C, 2); }
+void func_0017AA08(struct S *p) { Enter__7JOBMOVE(p); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0); DetachGuardMove__FP5GUARD(p->pt); func_0017B1A8(p, 0); func_001EEFC0(p); func_00154038(p->pt->pF64, p->n5C, 2); }

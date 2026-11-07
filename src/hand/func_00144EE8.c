@@ -1,5 +1,6 @@
 int FArrived__9JOBFOLLOW(void *p);
-int func_00144EE8(char *p)
+// name: SafeHouse port (JOBACTORWALK::FAtGoal)
+int FAtGoal__12JOBACTORWALK(char *p)
 {
     char *q = *(char **)(p + 0x18);
     int r = 0;

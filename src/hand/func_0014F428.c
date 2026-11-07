@@ -1,6 +1,6 @@
 #include "mat.h"
 struct CM { char pad[0x90]; struct VECTOR pos; };
-void func_0014E168(struct CM *p, struct MATRIX4 *m);
+void SetCmPosMat__FP2CMP6VECTOR(struct CM *p, struct MATRIX4 *m);
 void func_0014F428(struct CM *p, struct MATRIX3 *pmat)
 {
     struct MATRIX4 m;
@@ -9,5 +9,5 @@ void func_0014F428(struct CM *p, struct MATRIX3 *pmat)
     m.mat[2][3] = 0.0f;
     m.mat[1][3] = 0.0f;
     m.mat[0][3] = 0.0f;
-    func_0014E168(p, &m);
+    SetCmPosMat__FP2CMP6VECTOR(p, &m);
 }

@@ -1,4 +1,4 @@
-/* func_0014D3D8: CM constructor (class 135; also the class factory's, func_00112DA8): BASIC part, CM vtable
+/* __2CM: CM constructor (class 135; also the class factory's, func_00112DA8): BASIC part, CM vtable
  * (D_002CA4D0), then each camera-policy member is constructed; the CPTWOSHOT member at +0x600 is a plain CPLCY
  * with its own vtable (D_002CD378). */
 #include "cm.h"
@@ -15,7 +15,8 @@ CPLCY *func_00151610(CPLCY *pcplcy);     /* CPCAMBLEND (+0x500) */
 CPZOOM *func_00150728(CPZOOM *pcpzoom);  /* CPZOOM (+0x520) */
 CPLCY *func_001518C8(CPLCY *pcplcy);     /* CPTURRET (+0x5F0) */
 
-CM *func_0014D3D8(CM *pcm)
+// name: SafeHouse port (CM::CM)
+CM *__2CM(CM *pcm)
 {
     CPTWOSHOT *pcptwoshot;
 

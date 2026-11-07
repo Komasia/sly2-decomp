@@ -3,6 +3,6 @@
 
 void func_001E0570(RELAY *prelay, int oidContext)
 {
-    RELAYCMD *prelaycmd = func_001E01F8(prelay, RELAYCK_SetContext, 1);
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_SetContext, 1);
     prelaycmd->u.setContext.oidContext = oidContext;
 }

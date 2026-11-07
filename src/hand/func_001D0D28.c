@@ -22,9 +22,10 @@ typedef struct {
 extern struct G g_sw;
 typedef struct { qword pos; char rest[0x50]; } HIT;
 int func_0014C6A0(void *, qword, qword, int, HIT *);
-EMIT *func_001CE888(struct G *, int, int);
+EMIT *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *, int, int);
 void func_001CEA88(OBJ *, int);
-void func_001D0D28(OBJ *p, int n)
+// name: SafeHouse port (TouchRipKind1)
+void TouchRipKind1__FP4RIPNi(OBJ *p, int n)
 {
     HIT hit;
     int i;
@@ -37,7 +38,7 @@ void func_001D0D28(OBJ *p, int n)
             goto found;
     }
 found:
-    pe = func_001CE888(&g_sw, 7, 0);
+    pe = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(&g_sw, 7, 0);
     if (pe) {
         pe->vt->a[1].pfn((char *)pe + pe->vt->a[1].d, 40.0f, hit.pos, 0);
         pe->x18 = 0.75f;

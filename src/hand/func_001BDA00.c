@@ -28,7 +28,8 @@ void *PvAllocSwImpl__Fi(AREQ *preq);
 void AppendDlEntry__FP2DLPv(DL *pdl, O *p);
 void RemoveDlEntry__FP2DLPv(DL *pdl, O *p);
 
-O *func_001BDA00(void)
+// name: SafeHouse port (PpathNewMerged)
+O *PpathNewMerged__Fv(void)
 {
     O *p;
     int i, j;

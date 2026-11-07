@@ -4,7 +4,7 @@ struct S { char pad[0x184]; int f184; };
 extern char D_003D4A60[];
 void __10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
-void *func_0013D1A8(struct S *);
+void *AkeyStand__FP2LO(struct S *);
 void NProgress(struct CRef *, void *, void *);
 void func_00129EC8(struct CRef *);
 static inline int NFromRef(void *pv)
@@ -20,7 +20,7 @@ int func_0013D248(struct S *p) {
     struct C ctx;
     int n;
     __10STACKSCOPE(&ctx);
-    n = NFromRef(func_0013D1A8(p));
+    n = NFromRef(AkeyStand__FP2LO(p));
     if (n == 0) n = p->f184;
     else if (n >= 0) { if (n < 10) { if (n >= 7) n = -1; } }
     switch (n) {

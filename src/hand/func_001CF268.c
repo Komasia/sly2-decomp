@@ -7,7 +7,8 @@ struct G { char pad[0x150]; int x150; };
 struct S { char pad[0x8]; struct G *pg; char p0[0x14 - 0xC]; float x14; float x18; char p1[0x70 - 0x1C]; qword x70;
     char p2[0xE0 - 0x80]; struct LO *xE0; char p3[0xEC - 0xE4]; struct VTE *vt; };
 void func_001CE980(struct S *p);
-void func_001CF268(struct S *p)
+// name: SafeHouse port (UpdateRipLife)
+void UpdateRipLife__FP4RIPG(struct S *p)
 {
     struct LO *plo;
     int f;

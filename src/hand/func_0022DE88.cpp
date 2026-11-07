@@ -1,4 +1,4 @@
-// func_0022DE88: ported from Lilly's personal Sly 2 decomp (src/P2/xf.c), reduced to the declarations it needs.
+// UpdateAloXfs__FP3ALO: ported from Lilly's personal Sly 2 decomp (src/P2/xf.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DA0 (D_002A2DA0), g_clock, D_002A2DD0 (g_qwZero), g_sw
 // 0x0022DE88 UpdateSoSlots__FP2SO (our name, was FUN_0022DE88; SO::Update 0x1F3980 calls it right after the SO's own update). THE per-frame step of an SO's XF slots:
@@ -965,7 +965,8 @@ static inline void TurnSlotMat(XF *pxf, MATRIX3 *pmatFrom, qword qwTurn)
     pxf->mat.mat[0][3] = 0.0f;
 }
 MATRIX3 LoadRotateMatrixRad(float rad, qword qwAxis);
-void UpdateSoSlots(SO *pso) __asm__("func_0022DE88");
+void UpdateSoSlots(SO *pso) __asm__("UpdateAloXfs__FP3ALO");
+// name: SafeHouse port (UpdateAloXfs)
 void UpdateSoSlots(SO *pso)
 {
     int fMoving;

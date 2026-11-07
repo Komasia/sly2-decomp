@@ -38,7 +38,8 @@ static __inline__ float GMax3(float a, float b, float c) { if (b < a && c < a) r
 void func_0011D5B0(float g, float h, void *pa, void *pb);
 void func_0015BF40(void *p, struct Q *q);
 
-void func_001394C8(struct P *p, struct Q *q)
+// name: SafeHouse port (SetPsysFromEmitb)
+void SetPsysFromEmitb__FP4PSYSP8EMITTERN(struct P *p, struct Q *q)
 {
     struct CLR *pclr;
     float g;

@@ -16,7 +16,8 @@ static __inline__ float Dist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(r));
     return g;
 }
-void func_0019FEB0(struct P *p, struct S *s, qword q)
+// name: SafeHouse port (RecordSafeGround)
+void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(struct P *p, struct S *s, qword q)
 {
     int i;
     E *e;

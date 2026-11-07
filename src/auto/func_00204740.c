@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK atan2f(f32, f32);                           /* extern */
 
-void func_00204740(void *arg0) {
+// name: SafeHouse port (RadStepHeading)
+void RadStepHeading__FP4STEP(void *arg0) {
     void *temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, void **, 0x60);

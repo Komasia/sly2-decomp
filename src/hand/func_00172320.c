@@ -9,19 +9,20 @@ struct A { char pad[0xFD0]; char aFD0[4]; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; int n30; float f34; float f38; char pad3[0xC]; int n48; };
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
-qword func_00172760(struct S *p);
+qword PosNoise__14JOBINVESTIGATE(struct S *p);
 qword func_001A62E8(void *p);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 float func_002458F0(float y, float x);
-void func_00209818(void *p, float f);
-void func_00172560(struct S *p);
-void func_001728B0(struct S *p);
-void func_00172F10(struct S *p);
-void func_001725E0(struct S *p, int n);
+void SetMoveHeading__FP7MOVEREF(void *p, float f);
+void SetDeadlines__14JOBINVESTIGATE(struct S *p);
+void FindSearchPlaces__14JOBINVESTIGATE(struct S *p);
+void NextSearchPlace__14JOBINVESTIGATE(struct S *p);
+void SetNoise__14JOBINVESTIGATEP5NOISE(struct S *p, int n);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
-void func_00172320(struct S *p, int n) {
+// name: SafeHouse port (JOBINVESTIGATE::SetInvestigateState)
+void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
     if (n == p->n30) return;
     func_001EF0D8(p->a18);
     p->n30 = n;
@@ -37,7 +38,7 @@ void func_00172320(struct S *p, int n) {
             struct VTE *e;
             qword v;
             o->nC0 = 1;
-            v = func_00172760(p);
+            v = PosNoise__14JOBINVESTIGATE(p);
             func_002562A8(&x);
             x.v = v;
             SetGoal__7JOBGOTOP4GOAL(o, &x);
@@ -47,13 +48,13 @@ void func_00172320(struct S *p, int n) {
         break;
     case 2:
         {
-            qword a = func_00172760(p);
+            qword a = PosNoise__14JOBINVESTIGATE(p);
             qword b = func_001A62E8(p->p10);
             qword d;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-            func_00209818(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
+            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
             { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
-            func_00172560(p);
+            SetDeadlines__14JOBINVESTIGATE(p);
         }
         break;
     case 3:
@@ -61,14 +62,14 @@ void func_00172320(struct S *p, int n) {
             struct O *o = func_00205438(p->p10, 0xBA);
             struct VTE *e;
             o->nC0 = 1;
-            func_001728B0(p);
-            func_00172F10(p);
+            FindSearchPlaces__14JOBINVESTIGATE(p);
+            NextSearchPlace__14JOBINVESTIGATE(p);
             e = &o->vt[8]; e->pfn((char *)o + e->d);
         }
         break;
     case 4:
         { struct O *o = func_00205438(p->p10, 0x9D); struct VTE *e; o->n3C = 0xE; e = &o->vt[8]; e->pfn((char *)o + e->d); }
-        func_001725E0(p, 0);
+        SetNoise__14JOBINVESTIGATEP5NOISE(p, 0);
         p->n48 = 0;
         break;
     case 5:

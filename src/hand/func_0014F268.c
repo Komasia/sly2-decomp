@@ -11,7 +11,8 @@ static __inline__ qword Mul(M4 *pm, qword v)
             : "=j"(o) : "j"(v), "j"(pm->r[0]), "j"(pm->r[1]), "j"(pm->r[2]), "j"(pm->r[3]));
     return o;
 }
-qword func_0014F268(struct CM *p, qword v)
+// name: SafeHouse port (ConvertCmScreenToWorld)
+qword ConvertCmScreenToWorld__FP2CMG9VU_VECTOR(struct CM *p, qword v)
 {
     union { qword q; float f[4]; } r;
     float x = GetX(v);

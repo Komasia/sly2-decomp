@@ -3,7 +3,7 @@ struct S { char pad[0xC]; struct VTE *vt; char p1[0xFC]; int x10c; char p2[4]; v
 extern char g_sw[], g_game[];
 void ApplyRsmg__FP2LOiP4RSMGii(void *g, int a, int *pb, struct S *p, int n);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int a, int *pb, struct S *p);
-void func_001DFD58(void *p, int n);
+void StartScptImpl__FP2LOi(void *p, int n);
 void func_00184130(struct S *p, int n)
 {
     struct VTE *e;
@@ -14,5 +14,5 @@ void func_00184130(struct S *p, int n)
     ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x15c, &p->x160, p);
     e = &p->vt[3];
     ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 5, 0, 0, 0, 0);
-    if (p->x114) func_001DFD58(p->x114, n);
+    if (p->x114) StartScptImpl__FP2LOi(p->x114, n);
 }

@@ -4,7 +4,8 @@ extern char g_sw[];
 void PostLoLoad__FP2LO(void *p);
 void func_00149A50(void *a, void *b, S8 c, int d);
 typedef struct T { char pad[0xB0]; int f; } T;
-void func_0012F8F0(T *t)
+// name: SafeHouse port (PostAsegLoad)
+void PostAsegLoad__FP4ASEG(T *t)
 {
     PostLoLoad__FP2LO(t);
     if (t->f)

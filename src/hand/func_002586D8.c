@@ -10,9 +10,10 @@ void PostLoLoad__FP2LO(SO *p);
 void *func_002333B4(void *p, int c, int n);
 int func_00233178(const void *a, const void *b, int n);
 void *func_0015E938(void *pg, int kind, int oid, SO *p);
-void func_00258658(SO *p, int f);
+void PimgEmitb(SO *p, int f);
 void *PvAllocSwCopyImpl__FiPv(AREQ *preq, void *pv);
-void func_002586D8(SO *p)
+// name: SafeHouse port (ResolveEmits)
+void ResolveEmits__FP8EMITTERN(SO *p)
 {
     void *a[5];
     AREQ req;
@@ -58,7 +59,7 @@ void func_002586D8(SO *p)
     if (p->px->x8 == 0)
         p->px->x8 = D_002CE4A0;
     if (func_00233178(p->px->x8, a, 0x14)) {
-        func_00258658(p, 1);
+        PimgEmitb(p, 1);
         preq = &req;
         req.cb = 0x14;
         preq->cbAlign = 0x10;

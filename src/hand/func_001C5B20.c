@@ -36,7 +36,8 @@ static inline float LenSq(qword a)
     __asm__("mtc1 %1,%0":"=f"(f):"r"(d));
     return f;
 }
-int func_001C5B20(struct S *p,struct Q *q)
+// name: SafeHouse port (FPickupTouched)
+int FPickupTouched__FP2LOP6PICKUP(struct S *p,struct Q *q)
 {
     char scratch[0x30] __attribute__((aligned(16)));
     qword pos;

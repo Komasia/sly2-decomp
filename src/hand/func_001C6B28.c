@@ -3,8 +3,9 @@ struct LO { char pad[0xC]; struct VTE *vt; char pad2[0x150 - 0x10]; int x150; ch
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 void RequestTaskState__FP4TASKii(void *p, int n, struct LO *plo);
-void func_001C60B8(struct LO *p, int n);
-void func_001C6B28(struct LO *p, int n)
+void SetPickupStateBase__FP2LOi(struct LO *p, int n);
+// name: SafeHouse port (SetPrizeState)
+void SetPrizeState__FP2LOi(struct LO *p, int n)
 {
     if (p->x150 == n) return;
     if (n == 1) {
@@ -13,5 +14,5 @@ void func_001C6B28(struct LO *p, int n)
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
     }
-    func_001C60B8(p, n);
+    SetPickupStateBase__FP2LOi(p, n);
 }

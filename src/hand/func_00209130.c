@@ -17,7 +17,8 @@ struct MARKER *func_0012F938(void *, int);
 struct H *func_0020C010(int);
 void func_0020BD78(struct H *);
 
-void func_00209130(struct E *e, void *context)
+// name: SafeHouse port (ResolveKinde)
+void ResolveKinde__FP5KINDEP5GUARD(struct E *e, void *context)
 {
     void *resource;
     if (e->kind != 2) {

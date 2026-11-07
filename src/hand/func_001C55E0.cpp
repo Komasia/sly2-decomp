@@ -1,9 +1,9 @@
-// func_001C55E0: one commented pin (QwNormalizeInto), one allocation-only asm operand (GFromVf), VU one-op asm helpers only.
+// UpdatePickupGround__FP2LO: one commented pin (QwNormalizeInto), one allocation-only asm operand (GFromVf), VU one-op asm helpers only.
 // dprize-style collision response (next to matched FCheckDprizeCollect): query the radius box with func_0020FAA0, find the deepest
 // sphere / CplaneFromSphere contact that the velocity approaches, then push the position out and rebuild the velocity (floor case:
 // tangent + clamped normal parts, one-shot boost; otherwise normal/tangent split with the two response factors).
 // Keys (wave 4, from w3lane8.v3 at aligned 52): call results passed raw so gcc emits the qmtc2; QwNormalizeInto reads the vector
-// like matched func_001D09A0's NormalizeSafe; GDot's 1.0 temp is not early-clobber; "rV" on every qmtc2 of a float word read from
+// like matched MoveRipFlutter's NormalizeSafe; GDot's 1.0 temp is not early-clobber; "rV" on every qmtc2 of a float word read from
 // memory (the lw becomes a reload: frees local-alloc and resets reload's round-robin); gSpeed read with the mtc1 form.
 // Last fix (wave 5): the length test also reads its float with the mtc1 asm. A reload mtc1 has latency 2, which gave the
 // gNormal copy (anti dependence on that $f0 write) sched2 priority 7 > 6 for the li.s 1e-4; the asm mtc1 costs 1, so the
@@ -30,7 +30,7 @@ qword func_001A62E8(P *);
 int func_001C5570(void *, SOPART *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, SOPART *), void *, int *, SOPART ***);
 int func_001A93C8(qword, float, SOPART *, void *, int, void *, int, CMCONTACT *);
-float func_0011E290(qword, qword, qword *, qword *);
+float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
 
@@ -81,7 +81,7 @@ static inline qword QwNormalize(qword v, qword fallback)
 }
 static inline qword QwNormalizeInto(qword *pv, const qword &fallback)
 {
-    register qword g asm("$2") = *(volatile qword *)pv; /* the one pin (as in func_001D09A0): the target reads the vector into $v0, then qmtc2 */
+    register qword g asm("$2") = *(volatile qword *)pv; /* the one pin (as in MoveRipFlutter): the target reads the vector into $v0, then qmtc2 */
     qword v = g;
     qword len = QwLength(v);
     if (GFromVf(len) < 0.0001f)
@@ -98,7 +98,8 @@ static inline float GDot(qword a, qword b)
 }
 static inline float GMin(float a, float b) { return (b < a) ? b : a; }
 
-extern "C" void func_001C55E0(P *p)
+// name: SafeHouse port (UpdatePickupGround)
+extern "C" void UpdatePickupGround__FP2LO(P *p)
 {
     FRAME frame;
     U vec;
@@ -143,7 +144,7 @@ extern "C" void func_001C55E0(P *p)
         {
             U primary;
             if (normal.g[2] > 0.7f && p->state == 4) {
-                float gNormal = func_0011E290(p->v, g_normalZ, 0, &primary.qw);
+                float gNormal = GSplitVector(p->v, g_normalZ, 0, &primary.qw);
                 float gSpeed = GFromVf(QwNormalizeInto(&primary.qw, D_002A2DD0));
                 float gTangent = GMin(p->gTangentResponse.g * gSpeed, D_002C0D74);
                 gNormal = GMin(-p->gNormalResponse * gNormal, D_002C0D78);
@@ -157,7 +158,7 @@ extern "C" void func_001C55E0(P *p)
                 }
             } else {
                 U secondary;
-                func_0011E290(p->v, normal.qw, &primary.qw, &secondary.qw);
+                GSplitVector(p->v, normal.qw, &primary.qw, &secondary.qw);
                 response.qw = QwCombo(VU_FLOAT(-p->gNormalResponse), primary.qw, VU_FLOAT(p->gTangentResponse.bits), secondary.qw);
             }
         }

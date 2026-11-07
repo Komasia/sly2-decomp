@@ -16,7 +16,8 @@ extern M2C_UNK g_cm;
 extern M2C_UNK g_sw;
 extern s32 D_003E148C;
 
-s32 func_0020B438(s32 arg0, s32 arg1) {
+// name: SafeHouse port (LockGuardActivation)
+s32 LockGuardActivation__FP5GUARDi(s32 arg0, s32 arg1) {
     s32 temp_v0;
 
     if (M2C_FIELD(arg0, s32 *, 0xFFC) == 0) {
