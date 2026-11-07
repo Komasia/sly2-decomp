@@ -46,18 +46,18 @@ void _$_10STACKSCOPE(MARK *,int);
 void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");
 int func_00229D60(void *,COLL *);
 int CsoeCollect(O *,int (*)(void *,COLL *),void *,COLL **) asm("CsoeCollect__FP3ALOPvN21");
-int func_001F6838(O *);
+int FAloOutOfSweep(O *) asm("FAloOutOfSweep__FP3ALO");
 int func_00230380(int);
-float func_00229468(O *,O *,qword *,qword *);
+float GWaterDepth(O *,O *,qword *,qword *) asm("GWaterDepth__FP3ALOT0P6VECTORT2");
 N *func_002296A0(WORLD *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_0014CDB0(qword,qword,int,COLL **,int,LSG *);
+int CClipSegmentEntries(qword,qword,int,COLL **,int,LSG *) asm("CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3");
 void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,O *) asm("SetSource__4CSndPv");
 void SetFalloff(void *,float,float) asm("SetFalloff__4CSndff");
 void SetVolume(void *,float) asm("SetVolume__4CSndf");
 void *func_002333B4(void *,int,int);
-void func_00228D20(O *,N **);
+void SettleWaterNodes(O *,N **) asm("SettleWaterNodes__FP3ALOPv");
 }
 struct MARK {};
 union SCRATCH {REQ request;PAIR pair;V velocity;};
@@ -69,7 +69,8 @@ static inline float Min(float a,float b){return b<a?b:a;}
 static inline qword Velocity(O *o){VE *v=o->vt;return v[33].f.velocity((char *)o+v[33].delta);}
 static inline void Impact(O *o,EVENT *e){VE *v=o->vt;v[51].f.event((char *)o+v[51].delta,e);}
 static inline void Signal(O *o,int event,PAIR *pair){VE *v=o->vt;v[4].f.signal((char *)o+v[4].delta,event,pair);}
-extern "C" void func_00228E50(O *p){
+// name: SafeHouse port (UpdateWater)
+extern "C" void UpdateWater__FP5WATER(O *p){
  WORK work;N *n;COLL **objects;LINK *link;
  UpdateSo(p);
  if(!p->count)return;
@@ -81,8 +82,8 @@ extern "C" void func_00228E50(O *p){
  work.count=CsoeCollect(p,func_00229D60,0,objects);
  for(link=p->state->first;link;link=link->next){
   O *o=link->object;
-  if(!o->physics||o->physics->scale<1e-4f||func_001F6838(o)||!func_00230380(o->body->kind))continue;
-  if(func_00229468(p,o,0,0)==0.0f)continue;
+  if(!o->physics||o->physics->scale<1e-4f||FAloOutOfSweep(o)||!func_00230380(o->body->kind))continue;
+  if(GWaterDepth(p,o,0,0)==0.0f)continue;
   o->flags|=0x100000000L;
   if(o->flags&0x80000000L)continue;
   {register WORLD*world __asm__("$4")=&g_sw;n=func_002296A0(world);}
@@ -99,7 +100,7 @@ extern "C" void func_00228E50(O *p){
    if(FIsBasicDerivedFrom(o,0x33))dz=o->height;
    else dz=o->state->minimum.f[2]-c->source->position.f[2];
    work.start.f[2]+=dz;work.end.f[2]+=dz;
-   if(func_0014CDB0(work.start.q,work.end.q,work.count,objects,16,work.intervals)>0){
+   if(CClipSegmentEntries(work.start.q,work.end.q,work.count,objects,16,work.intervals)>0){
     qword normal;
     float fall=Min(-work.scratch.velocity.f[2],600.0f)*(1.0f/600.0f);
     float radius=((o->state->maximum.f[0]-o->state->minimum.f[0])+(o->state->maximum.f[1]-o->state->minimum.f[1]))*0.5f;
@@ -125,5 +126,5 @@ extern "C" void func_00228E50(O *p){
    Signal(o,o->flags&0x80000000L?5:4,(PAIR *)work.request);
   }
  }
- func_00228D20(p,work.head);_$_10STACKSCOPE(&work.mark,2);
+ SettleWaterNodes(p,work.head);_$_10STACKSCOPE(&work.mark,2);
 }

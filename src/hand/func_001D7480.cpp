@@ -26,7 +26,7 @@ extern int g_grfjoyt;
 extern char g_joy[], D_002E0D00[];
 void ReplaceSmaHandle(void *, OBJ *, int, int, void *) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 void func_00162E38(SUB *);
-int func_0015E9C8(GS *, int, int, int, int, SO **);
+int CFindObjectsByClass(GS *, int, int, int, int, SO **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 void ReturnActorBooty(SO *) asm("ReturnActorBooty__FP5ACTORii");
 void StartPlayerCounters(SO *, int) asm("StartPlayerCounters__FP5ACTORi");
 CRef func_001D8A38(const char *, ...);
@@ -37,7 +37,8 @@ void func_00187E78(void *);
 }
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
 #define VCALL5(o, n, a1, a2, a3, a4, a5) ((void (*)(void *, int, int, int, int, int))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d, a1, a2, a3, a4, a5)
-extern "C" void func_001D7480(OBJ *p, int s)
+// name: SafeHouse port (SetSafeHouseState)
+extern "C" void SetSafeHouseState__FP2SWi(OBJ *p, int s)
 {
     if (p->x180 == s)
         return;
@@ -54,16 +55,16 @@ extern "C" void func_001D7480(OBJ *p, int s)
         int idx;
         if (g_sw.x3B0C && !g_sw.x3B0C->x74)
             func_00162E38(g_sw.x3B0C);
-        n = func_0015E9C8(&g_sw, 5, 0x34, 0, 3, aso0);
+        n = CFindObjectsByClass(&g_sw, 5, 0x34, 0, 3, aso0);
         for (int i0 = 0; i0 < n; i0++) {
             SO *so = aso0[i0];
             ReturnActorBooty(so);
             StartPlayerCounters(so, 1);
         }
-        n = func_0015E9C8(&g_sw, 0x105, 0x64, 0, 0x20, aso1);
+        n = CFindObjectsByClass(&g_sw, 0x105, 0x64, 0, 0x20, aso1);
         for (int i1 = 0; i1 < n; i1++)
             ((void (*)(void *, int))aso1[i1]->vt[76].pfn)((char *)aso1[i1] + aso1[i1]->vt[76].d, 4);
-        n = func_0015E9C8(&g_sw, 0x105, 0x4F, 0, 0x20, aso2);
+        n = CFindObjectsByClass(&g_sw, 0x105, 0x4F, 0, 0x20, aso2);
         for (int i2 = 0; i2 < n; i2++)
             VCALL(aso2[i2], 9);
         if (p->x184) {

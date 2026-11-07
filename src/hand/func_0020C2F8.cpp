@@ -23,7 +23,7 @@ float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0f
 qword func_0022FC48(SPACE *,SPACE *,qword);
 qword func_0022FCC8(SPACE *,SPACE *,qword);
 void *PctrlNewTarget(ALO *,SPACE *,int,qword,qword,float) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
-void func_00134320(GAME *,ALO *);
+void RecalcSwOxfFilterForObject(GAME *,ALO *) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
 void SetAloGravity(ALO *,qword) asm("SetAloGravity__FP3ALOG9VU_VECTOR");
 void SetAsegaTime(ASEGA *,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void AttachGuardMove(ALO *,ALO *,int) asm("AttachGuardMove__FP5GUARDP2LOi");
@@ -116,7 +116,7 @@ extern "C" void func_0020C2F8(P *p,int state)
             qword speed=func_0022FCC8(0,p->subject->space->parent,finalVelocity.q);
             p->constraint=PctrlNewTarget(p->subject,p->subject->space,5,position,speed,p->arrival);
             p->subject->flags|=0x04000000ul;
-            func_00134320(&g_sw,p->subject);
+            RecalcSwOxfFilterForObject(&g_sw,p->subject);
         }
         SetAloGravity(p->subject,acceleration.q);
         break;

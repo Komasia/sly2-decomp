@@ -63,7 +63,7 @@ extern float D_002BE750;
 extern float D_002BE754;
 extern qword g_normalZ;
 extern "C" {
-void func_001B44D8(int *pcpso, SOPART ***papso);
+void ApsoeOccluders(int *pcpso, SOPART ***papso) asm("ApsoeOccluders__FPiPPP3SOE");
 }
 extern "C" {
 SOPART *PsoHitTestLineObjects(int grfhtl, qword pos0, qword pos1, int cpso, SOPART **apso, LSG *plsgBest);
@@ -81,7 +81,7 @@ int FSnapPosToSurfaceAbove(qword *ppos)
     STACKSCOPE scope;
     int cpso;
     SOPART **apso;
-    func_001B44D8(&cpso, &apso);
+    ApsoeOccluders(&cpso, &apso);
     qword posBottom = QwAddScaled(*ppos, g_normalZ, VuFloatFromMemWord(*(int *)&D_002BE750));
     qword posTop = QwAddScaled(*ppos, g_normalZ, VuFloatFromMemWord(*(int *)&D_002BE754));
     LSG lsg;

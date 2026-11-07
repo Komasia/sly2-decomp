@@ -6,10 +6,11 @@ struct D { char pad[0x460]; float x460; int p1[3]; float x470; char pad2[0x5C4-0
 extern struct D g_cm;
 extern qword D_002A2DD0;
 int func_00131968(void *p);
-void func_0019CD38(struct P *p, int n);
+void SetBinocState__FP5ACTORi(struct P *p, int n);
 void SetStepPhysHeading__FP3ALOf(struct O *o, float g);
-void func_0019DA78(void *p);
-void func_0019D330(struct P *p)
+void UpdateBinocWindow__FP5ACTOR(void *p);
+// name: SafeHouse port (UpdateBinoc)
+void UpdateBinoc__FP5ACTOR(struct P *p)
 {
     int n;
     do {
@@ -18,7 +19,7 @@ void func_0019D330(struct P *p)
         case 0:
             p->x0->x190 = D_002A2DD0;
             if (!p->x14 || func_00131968(p->x14))
-                func_0019CD38(p, 1);
+                SetBinocState__FP5ACTORi(p, 1);
             break;
         case 1:
             p->x0->x190 = D_002A2DD0;
@@ -26,19 +27,19 @@ void func_0019D330(struct P *p)
             case 0:
                 SetStepPhysHeading__FP3ALOf(p->x0, g_cm.x460);
                 p->x3c = g_cm.x470;
-                func_0019DA78(p->x24);
+                UpdateBinocWindow__FP5ACTOR(p->x24);
                 break;
             case 1:
                 SetStepPhysHeading__FP3ALOf(p->x0, g_cm.x5c4);
                 p->x3c = g_cm.x5cc;
-                func_0019DA78(p->x24);
+                UpdateBinocWindow__FP5ACTOR(p->x24);
                 break;
             }
             break;
         case 2:
             p->x0->x190 = D_002A2DD0;
             if (!p->x14 || func_00131968(p->x14))
-                func_0019CD38(p, -1);
+                SetBinocState__FP5ACTORi(p, -1);
             break;
         }
     } while (n != p->x4);

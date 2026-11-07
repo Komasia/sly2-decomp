@@ -13,11 +13,11 @@ extern "C"{
 extern CLOCK g_clock;extern qword g_normalZ;
 extern float D_002BF288,D_002BF28C,D_002BF290,D_002BF294;
 void ApplyAloGravity(P*) asm("ApplyAloGravity__FP3ALO");void UpdateStepPhysMotion(P*) asm("UpdateStepPhysMotion__FP3ALO");
-void func_001903B8(P*);void func_0019DF70(void*);void func_00196DF8(void*);
+void func_001903B8(P*);void UpdateClimbMotion(void*) asm("UpdateClimbMotion__FP5ACTOR");void UpdateJumpMotion(void*) asm("UpdateJumpMotion__FP4JUMP");
 void UpdateDamageMotion(void*) asm("UpdateDamageMotion__FP5ACTOR");void func_00194170(void*);void UpdateSlyDodgeMotion(void*) asm("UpdateSlyDodgeMotion__FP3SLY");
 qword VelActorAnimRoot(P*,MODEL*,float) asm("VelActorAnimRoot__FP5ACTORPvf");float GEventAseg11(void*,int) asm("GEventAseg11__Fv");
-void AccelAloPos(P*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");qword func_0011E9F8(qword,float);
-M4*func_001A6318(P*);float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
+void AccelAloPos(P*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");
+M4*MatJtLo(P*) asm("MatJtLo__FP2LO");float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 M3 func_0011B500(qword,float);
 }
 struct VU_FLOAT{qword qw;};
@@ -37,8 +37,8 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  switch(p->mode){case 3:case 8:ApplyAloGravity(p);break;case 21:case 22:break;default:UpdateStepPhysMotion(p);break;}
  switch(p->mode){
  case 3:func_001903B8(p);break;
- case 8:func_0019DF70((char*)p+0xF50);break;
- case 2:func_00196DF8((char*)p+0x2C0);break;
+ case 8:UpdateClimbMotion((char*)p+0xF50);break;
+ case 2:UpdateJumpMotion((char*)p+0x2C0);break;
  case 4:UpdateDamageMotion((char*)p+0xDF0);break;
  case 7:func_00194170((char*)p+0x4C0);break;
  case 6:UpdateSlyDodgeMotion((char*)p+0x1FF0);break;
@@ -51,14 +51,14 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
    qword resp=p->actor->response;
    AccelAloPos(p,QwScaleX(resp,VuFloat(-1.0f)));
   }else w.b.f[2]=w.a.f[2];
-  AccelAloPos(p,func_0011E9F8(QwDivide(QwSub(w.b.q,w.a.q),VuFloatFromMemWord(*(int*)&g_clock.dt)),D_002BF288));
+  AccelAloPos(p,LimitVectorLength(QwDivide(QwSub(w.b.q,w.a.q),VuFloatFromMemWord(*(int*)&g_clock.dt)),D_002BF288));
   break;
  }
  case 24:
   if(p->submode==13){
    VTE*e=&p->vt[33];qword position=((qword(*)(void*))e->fn)((char*)p+e->delta);
    e=&p->vt[34];qword direction=((qword(*)(void*))e->fn)((char*)p+e->delta);
-   M4*m=func_001A6318(p);M3 basis;basis.r[0]=m->r[0];basis.r[1]=m->r[1];basis.r[2]=m->r[2];
+   M4*m=MatJtLo(p);M3 basis;basis.r[0]=m->r[0];basis.r[1]=m->r[1];basis.r[2]=m->r[2];
    float projection=GSplitVector(position,basis.r[0].q,&w.a.q,&w.b.q);
    float dt=g_clock.dt;
    float gAlong=projection-D_002BF290*dt;
@@ -71,7 +71,7 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
    qword sum=QwAdd(w.a.q,w.b.q);
    qword moved=QwSub(QwRotateVecAt(&rotation,&sum),position);
    qword velocity=QwDivide(moved,VuFloatFromMemWord(*(int*)&g_clock.dt));
-   AccelAloPos(p,func_0011E9F8(QwProjectOut(velocity,g_normalZ),D_002BF28C));
+   AccelAloPos(p,LimitVectorLength(QwProjectOut(velocity,g_normalZ),D_002BF28C));
   }
   break;
  }

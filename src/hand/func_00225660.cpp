@@ -19,10 +19,10 @@ extern "C" void SetCarryStateBase(struct P *p, int k) asm("SetCarryStateBase__FP
 extern "C" qword func_001A62E8(void *p);
 extern "C" qword SourcePosition(void * source) __asm__("func_001A62E8");
 
-extern "C" int func_0015E9C8(struct G *pg, int a, int b, int c, int cMax, struct O **apo);
+extern "C" int CFindObjectsByClass(struct G *pg, int a, int b, int c, int cMax, struct O **apo) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 extern "C" int FGuardModeAllowed(struct O *po, int k) asm("FGuardModeAllowed__FP5GUARDi");
-extern "C" void func_00229710(struct O *po, struct N *node);
-extern "C" void func_00209E28(struct O *po, int k);
+extern "C" void LinkObjNode(struct O *po, struct N *node) asm("LinkObjNode__FP5WNODEi");
+extern "C" void ReactGuardHeld(struct O *po, int k) asm("ReactGuardHeld__FP2LOi");
 static __inline__ float GDist(qword a, qword b)
 {
     qword d, t;
@@ -71,7 +71,7 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
         float gBest;
         struct O *poBest;
         Vec pos(p->x1B0?SourcePosition(p->x1B0):func_001A62E8(p));
-        c = func_0015E9C8(&g_sw, 0x105, 0x38, 0, 0x20, apo);
+        c = CFindObjectsByClass(&g_sw, 0x105, 0x38, 0, 0x20, apo);
         gBest = 400.0f;
         poBest = 0;
         for (i = 0; i < c; i++) {
@@ -90,7 +90,7 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
             p->po = poBest;
             p->hook.owner = p;
             p->hook.object = poBest;
-            func_00229710(poBest, &p->hook);
+            LinkObjNode(poBest, &p->hook);
             q = poBest->vt[33].pfn((char *)poBest + poBest->vt[33].d);
             s=LoadCoefficient();
             u.q = q;
@@ -99,7 +99,7 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
             v.q = s;
             u.f[2] = D_002C43F4;
             ((void (*)(void *, qword))poBest->vt[35].pfn)((char *)poBest + poBest->vt[35].d, u.q);
-            func_00209E28(poBest, 0);
+            ReactGuardHeld(poBest, 0);
         }
     }
 }

@@ -1,6 +1,7 @@
 struct E { int id; int n; float t; int pad; };
 struct S { char pad[0xFC]; int c; struct E a[1]; };
-struct E *func_00154180(struct S *p, int id)
+// name: SafeHouse port (PdetentryFind)
+struct E *PdetentryFind__FP8DETECTORi(struct S *p, int id)
 {
     int i;
     if (!id)

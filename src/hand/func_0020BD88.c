@@ -11,7 +11,7 @@ struct S { int h; void *po; float a; float b; float c; float ca; float cb; union
 extern char g_sw[];
 void *func_0015E938(void *p, int n, int h, void *arg);
 struct MARKER *PeventLaunch__FP5KINDEi(void *po, int n);
-struct C *func_0012FF10(void *po, void *arg, int kind, int check);
+struct C *PchnFindAseg__FP4ASEGP3ALOPvi(void *po, void *arg, int kind, int check);
 
 void func_0020BD88(struct S *p, void *arg)
 {
@@ -45,7 +45,7 @@ void func_0020BD88(struct S *p, void *arg)
     p->c = pc->value.value;
     p->cb = p->c - p->b;
     p->ca = p->c - p->a;
-    c = func_0012FF10(p->po, arg, 1, 1);
+    c = PchnFindAseg__FP4ASEGP3ALOPvi(p->po, arg, 1, 1);
     if (!c)
         goto initialized;
     c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, &v0.q, 0, p->a, 1.0f);

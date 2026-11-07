@@ -12,7 +12,8 @@ static __inline__ float GetZ(qword q)
     __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q));
     return z;
 }
-void func_00184510(struct S *p, int unused, UV *pv)
+// name: SafeHouse port (PosHookTarget)
+void PosHookTarget__FP2LOiPv(struct S *p, int unused, UV *pv)
 {
     if (pv) {
         if (D_002DFB84) {

@@ -22,7 +22,7 @@ extern M3 D_002A2D00;
 extern COEF D_002C4470,D_002C4480;
 extern float D_002DDED4;
 extern "C" {
-float func_00229468(O *,O *,qword *,qword *);
+float GWaterDepth(O *,O *,qword *,qword *) asm("GWaterDepth__FP3ALOT0P6VECTORT2");
 int func_0011D4D0(float,float,float);
 qword ProjectCnstr(CONSTRAINT *,NODE *,qword) asm("ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR");
 void AccelAloPos(O *,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
@@ -32,10 +32,10 @@ float GSplitVector(qword,qword,qword *,qword *) asm("GSplitVector__FG9VU_VECTORT
 int func_00230380(int);
 void AccelAloTowardPosition(O *,qword,const COEF *,qword,const COEF *) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
 void AccelAloTowardRotation(O *,const M3 *,const COEF *,qword,const COEF *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
-M4 *func_001A6318(O *);
+M4 *MatJtLo(O *) asm("MatJtLo__FP2LO");
 void func_0011B938(const M3 *,M3 *,M3 *);
 void func_0011BCF8(const M3 *,float *,qword *);
-void func_001FAC98(O *,qword);
+void AccelRotation(O *,qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
 void func_0015A2C0(O *,WATER *,float,qword,qword,float,float);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void Stop(EMITTER *,float) asm("Stop__4CSndf");
@@ -57,10 +57,11 @@ static inline qword NegativeAngular(qword angular,float sign,qword &scalar){qwor
 #define GAIN1(G,friction) {for(i=0;i<3;i++)coefficients->f[i]=G.f[i]*friction;}
 static inline void Zero(V &v,float zero){v.f[0]=v.f[1]=v.f[2]=zero;}
 static inline void Clear(EMITTER **emitter){if(emitter&&*emitter){Stop(*emitter,0.0f);func_00258040(emitter,0);}}
-extern "C" void func_002297F8(O *a,O *b){
+// name: SafeHouse port (ApplyWaterToAlo)
+extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
  WORK w;
  int i;
- float span=func_00229468(b,a,&w.point.q,&w.normal.q);
+ float span=GWaterDepth(b,a,&w.point.q,&w.normal.q);
  float epsilon=0.0001f;
  if(span<epsilon)return;
  float spring=Near(D_002A2DD0,a->physics->direction.q,epsilon)?0.0f:a->physics->spring*b->physics->spring;
@@ -97,11 +98,11 @@ extern "C" void func_002297F8(O *a,O *b){
  }
  else Zero(w.velocity,0.0f);
  if(spring!=0.0f){
-  func_0011B938(&func_001A6318(a)->basis,&w.phase.basis,0);
+  func_0011B938(&MatJtLo(a)->basis,&w.phase.basis,0);
   func_0011BCF8(&w.phase.basis,&w.angle,&w.axis.vector.q);
   float gain=spring*3.0f;qword k=Scalar(w.angle*gain*span);
   qword rotation=Scale(w.axis.vector.q,k);w.angularNormal.q=k;
-  func_001FAC98(a,rotation);
+  AccelRotation(a,rotation);
  }
  if(0.0f<span&&span<1.0f&&0.9f<w.normal.f[2]){
   float radius=((a->state->maximum.f[0]-a->state->minimum.f[0])+(a->state->maximum.f[1]-a->state->minimum.f[1]))*0.25f;

@@ -2,14 +2,14 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct CM { char pad[0x40]; float sx, sy; char pad2[0x18]; M4 mat; };
-void func_0011C318(M4 *pm, M4 *pn);
+void InverseAffineMatrix4__FP7MATRIX4(M4 *pm, M4 *pn);
 // name: SafeHouse port (ConvertCmWorldToScreen)
 qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(struct CM *p, qword v)
 {
     union { qword q; float f[4]; } r;
     M4 m;
     float x, y, z;
-    func_0011C318(&m, &p->mat);
+    InverseAffineMatrix4__FP7MATRIX4(&m, &p->mat);
     __asm__("vmulax.xyz $ACC, %1, %2x\n\tvmadday.xyz $ACC, %3, %2y\n\tvmaddaz.xyz $ACC, %4, %2z\n\tvmaddw.xyz %0, %5, $vf0w"
             : "=j"(r.q) : "j"(m.r[0]), "j"(v), "j"(m.r[1]), "j"(m.r[2]), "j"(m.r[3]));
     x = r.f[0];

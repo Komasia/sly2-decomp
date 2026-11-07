@@ -13,7 +13,7 @@ extern float D_002BD370;
 void Update__5AIJOB(struct P *p);
 int func_001A61A0(struct T *p);
 qword func_001A62E8(void *p);
-struct M3 *func_001A6318(void *p);
+struct M3 *MatJtLo__FP2LO(void *p);
 void SetState__12JOBSLYATTACKi(struct P *p, int n);
 float GRandInRange__Fff(float gMin, float gMax);
 
@@ -73,7 +73,7 @@ void Update__12JOBSLYATTACK(struct P *p)
         switch (state) {
         case 0:
             if (g < D_002BD360) {
-                struct M3 *pm = func_001A6318(p->p10);
+                struct M3 *pm = MatJtLo__FP2LO(p->p10);
                 if (0.8f < Dot(pm->r[0], d.q)) {
                     if (GRandInRange__Fff(0.0f, 1.0f) < 0.3f)
                         SetState__12JOBSLYATTACKi(p, 3);

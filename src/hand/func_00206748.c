@@ -13,7 +13,7 @@ void DetachGuardMove__FP5GUARD(struct S *p);
 void *func_002333B4(void *p, int c, int n);
 void SetGuardPursued__FP5GUARDP2LO(struct S *p, int n);
 void func_002088E0(struct S *p);
-void func_001F17F8(struct S *p, int a);
+void SetPocketMode__FP2LOi(struct S *p, int a);
 void SetGuardMode__FP5GUARDi(struct S *p, int n);
 void func_00206748(struct S *p)
 {
@@ -43,6 +43,6 @@ void func_00206748(struct S *p)
     p->n4A0 = one;
     p->fFF4 = D_002A8610;
     p->n1000 = D_002C3CF0;
-    func_001F17F8(p, -1);
+    SetPocketMode__FP2LOi(p, -1);
     SetGuardMode__FP5GUARDi(p, -1);
 }

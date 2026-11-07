@@ -18,16 +18,17 @@ typedef struct OBJ {
 } OBJ;
 extern int D_002C2208[];
 void func_00213B00(W *, int);
-void func_001D4C88(OBJ *);
+void UpdateVehicleHealth__FP7VEHICLE(OBJ *);
 void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, OBJ *);
 void func_00258040(void **, void *);
 void SetFalloff__4CSndff(void *, float, float);
 void Pause__4CSnd(void *);
 void Stop__4CSndf(void *, float);
-void func_001D4B28(OBJ *, int);
+void SetVehicleAiState__FP7VEHICLEi(OBJ *, int);
 void SeekSma__FP3SMA3OID(void *, int);
-void func_001D4940(OBJ *p, int n)
+// name: SafeHouse port (SetVehicleMode)
+void SetVehicleMode__FP7VEHICLEi(OBJ *p, int n)
 {
     W *pw;
     if (n == p->state)
@@ -38,7 +39,7 @@ void func_001D4940(OBJ *p, int n)
         if (pw) {
             pw->vt->a[49].pfn((char *)pw + pw->vt->a[49].d, -1);
             func_00213B00(p->pw, 0x34F);
-            func_001D4C88(p);
+            UpdateVehicleHealth__FP7VEHICLE(p);
         }
         if (p->x59C != -1) {
             void *ps = PsndNewPlain__Fi(p->x59C);
@@ -49,7 +50,7 @@ void func_001D4940(OBJ *p, int n)
         }
         break;
     case 1:
-        func_001D4B28(p, -1);
+        SetVehicleAiState__FP7VEHICLEi(p, -1);
         break;
     }
     p->state = n;
@@ -69,7 +70,7 @@ void func_001D4940(OBJ *p, int n)
         break;
     }
     case 1:
-        func_001D4B28(p, 0);
+        SetVehicleAiState__FP7VEHICLEi(p, 0);
         break;
     case 3:
         p->vt->a[3].pfn((char *)p + p->vt->a[3].d, 5, 0, 0, 0, 0);

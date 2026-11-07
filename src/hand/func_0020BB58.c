@@ -7,7 +7,7 @@ struct ANIMATION;
 struct S { struct T *pt; struct ANIMATION *animation; int pad[2]; float f10; char pad2[0x50 - 0x14]; float f50; int n54; };
 void func_001384C0(struct ANIMATION *);
 struct R *func_0020BB48(struct S *p);
-qword func_0020BAD8(struct S *p);
+qword VecGaitVelocity__FP4GAIT(struct S *p);
 static inline void InitScalar(U *value,int bits) {
     register int word __asm__("$2")=bits;
     register qword r __asm__("vf2");
@@ -22,7 +22,8 @@ static inline qword Negate(qword v,U *value) {
     __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(result) : "j"(v),"j"(value->q));
     return result;
 }
-void func_0020BB58(struct S *p, float g)
+// name: SafeHouse port (SetGaitMix)
+void SetGaitMix__FP4GAITf(struct S *p, float g)
 {
     struct T *pt;
     U b, a;
@@ -38,7 +39,7 @@ void func_0020BB58(struct S *p, float g)
     pt = p->pt;
     InitScalar(&a,func_0020BB48(p)->scale.bits);
     b = a;
-    q = func_0020BAD8(p);
+    q = VecGaitVelocity__FP4GAIT(p);
     r1=Negate(q,&b);
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r2) : "j"(a.q), "j"(r1));
     pt->v = r2;

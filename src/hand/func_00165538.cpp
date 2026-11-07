@@ -60,7 +60,7 @@ extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) as
 extern "C" void func_00129EC8(CRef *pref);
 extern "C" int func_00210A88();
 extern "C" void *func_00210990(int n);
-extern "C" void func_0022B490(G *pg, void *p, int a, int b, int c, int d);
+extern "C" void RequestTransition(G *pg, void *p, int a, int b, int c, int d) asm("RequestTransition__FP2SWPUc3OIDT2iT2");
 // name: SafeHouse port (RestartTask)
 extern "C" void RestartTask__FP4TASK(X *p)
 {
@@ -89,5 +89,5 @@ extern "C" void RestartTask__FP4TASK(X *p)
     int k = 4;
     if (g_sw.f3e38 && (p->fBC == -1 || p->fBC == func_00210A88()))
         k = 0x24;
-    func_0022B490(&g_sw, func_00210990(p->fBC), id, -1, k, 0x30A);
+    RequestTransition(&g_sw, func_00210990(p->fBC), id, -1, k, 0x30A);
 }

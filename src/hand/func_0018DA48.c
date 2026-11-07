@@ -16,17 +16,17 @@ extern void func_0014D1D0(void *p, int n, float g);
 extern void *PsndNewPlain__Fi(int n);
 extern void SetSource__4CSndPv(void *p, int n);
 extern void func_00258040(void *p, void *pv);
-extern void func_0018C250(void *p, int a, int b);
-extern void func_00195FB8(void *p, int a, int b);
+extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
+extern void SetJumpAnimState__FP4JUMPiP2LO(void *p, int a, int b);
 extern REC *func_0018D6F8(void *p, int n);
-extern void func_002206C8(void *p, int n);
+extern void SetJtThrowState__FP7JTTHROWi(void *p, int n);
 extern void StartInteract__FP5ACTORii3JTL(void *p, int a, int b, int c);
-extern OBJ *func_001CB250(int oid, int n);
+extern OBJ *PloAcquireProxyObject__FP2SWi(int oid, int n);
 extern int func_00224610(OBJ *p);
 extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, REC *prec, OBJ *pobj);
 extern void func_00141EA8(void *p, int n);
 extern void ExplodeExpl__FP4EXPL(int x);
-extern void func_00195A00(void *p, int a, int b, int c);
+extern void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 extern void func_00141D38(void *p, int n);
 
 void func_0018DA48(char *p, int n)
@@ -56,11 +56,11 @@ void func_0018DA48(char *p, int n)
     }
     case 0x21:
         func_00141CD0(p, n);
-        func_0018C250(p, 9, -1);
+        SetJtJts__FP2JT3JTS4JTBS(p, 9, -1);
         break;
     case 0x1B:
         func_00141CD0(p, n);
-        func_00195FB8(A(0x2C0), 0x13, 0);
+        SetJumpAnimState__FP4JUMPiP2LO(A(0x2C0), 0x13, 0);
         break;
     case 0x1A:
     case 0x25:
@@ -69,14 +69,14 @@ void func_0018DA48(char *p, int n)
         REC *prec = func_0018D6F8(p, n);
         OBJ *pobj;
         if ((unsigned int)(F(int, 0x11B4) - 4) < 3) {
-            func_002206C8(A(0x11B0), 7);
+            SetJtThrowState__FP7JTTHROWi(A(0x11B0), 7);
             break;
         }
         if (prec->x8) {
             StartInteract__FP5ACTORii3JTL(A(0x4C0), 0xB, prec->x8, 0);
             break;
         }
-        pobj = func_001CB250(prec->x4, 0);
+        pobj = PloAcquireProxyObject__FP2SWi(prec->x4, 0);
         if (!pobj)
             break;
         pobj->x15C = prec->x0;
@@ -86,8 +86,8 @@ void func_0018DA48(char *p, int n)
         }
         F(OBJ *, 0x11C0) = pobj;
         func_00141EA8(p, n);
-        func_0018C250(p, 0x17, -1);
-        func_002206C8(A(0x11B0), 4);
+        SetJtJts__FP2JT3JTS4JTBS(p, 0x17, -1);
+        SetJtThrowState__FP7JTTHROWi(A(0x11B0), 4);
         break;
     }
     case 0x22:
@@ -101,15 +101,15 @@ void func_0018DA48(char *p, int n)
         break;
     case 0x18:
         func_00141CD0(p, n);
-        func_0018C250(p, 6, -1);
+        SetJtJts__FP2JT3JTS4JTBS(p, 6, -1);
         break;
     case 0x19:
         func_00141CD0(p, n);
-        func_0018C250(p, 0x18, 0xC);
+        SetJtJts__FP2JT3JTS4JTBS(p, 0x18, 0xC);
         break;
     case 0x27:
         func_00141CD0(p, n);
-        func_0018C250(p, 5, 9);
+        SetJtJts__FP2JT3JTS4JTBS(p, 5, 9);
         break;
     case 0x28:
         func_00141CD0(p, n);
@@ -119,11 +119,11 @@ void func_0018DA48(char *p, int n)
         if (F(int, 0x204C))
             ExplodeExpl__FP4EXPL(F(int, 0x204C));
         func_00141CD0(p, n);
-        func_00195A00(A(0x2C0), 9, 0, 0);
+        SetJumpKind__FP4JUMPiiP2LO(A(0x2C0), 9, 0, 0);
         break;
     case 0x1E:
         func_00141CD0(p, n);
-        func_00195A00(A(0x2C0), 0xE, 0, 0);
+        SetJumpKind__FP4JUMPiiP2LO(A(0x2C0), 0xE, 0, 0);
         break;
     default:
         func_00141D38(p, n);

@@ -13,15 +13,16 @@ int func_001A61A0(struct SO *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 int func_0020F1B8(void *p);
 qword func_001A62E8(struct SO *p);
-qword func_00153E60(struct T *p);
+qword PosDetectorEye__FP8DETECTOR(struct T *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int z, struct W *pw, qword v);
 int func_00118668(void *p, int mask, qword a, qword b, int n, struct BUF *pbuf);
-int func_00227C90(void *p, qword v);
-int func_00154770(struct T *p, struct SO *pso);
-int func_001545F0(struct T *p, struct SO *pso);
+int FPointInShape__FP2LOG9VU_VECTOR(void *p, qword v);
+int FTargetHidden__FP8DETECTORP2LO(struct T *p, struct SO *pso);
+int FSightBlocked__FP8DETECTORP2LO(struct T *p, struct SO *pso);
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 
-int func_001541D8(struct T *p, struct SO *pso, int k)
+// name: SafeHouse port (NDetectState)
+int NDetectState__FP8DETECTORP2LOi(struct T *p, struct SO *pso, int k)
 {
     struct BUF buf;
     qword v;
@@ -40,7 +41,7 @@ int func_001541D8(struct T *p, struct SO *pso, int k)
     else
         v = func_001A62E8(pso);
     for (pw = D_003E1480; pw; pw = pw->pNext) {
-        qword a = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, func_00153E60(p));
+        qword a = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, PosDetectorEye__FP8DETECTOR(p));
         qword b = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, v);
         if (func_00118668(pw->xEC, 0x7FFFFFFF, a, b, 4, &buf) > 0) { k = 0; goto done; }
     }
@@ -55,20 +56,20 @@ int func_001541D8(struct T *p, struct SO *pso, int k)
                 }
             }
         }
-        if (!func_00227C90(p->xE8, v)) { k = 0; goto done; }
-        if (p->xEC && !func_00227C90(p->xEC, v)) { k = 0; goto done; }
-        if (!(p->xF8 & 1) && func_00154770(p, pso)) { k = 0; goto done; }
+        if (!FPointInShape__FP2LOG9VU_VECTOR(p->xE8, v)) { k = 0; goto done; }
+        if (p->xEC && !FPointInShape__FP2LOG9VU_VECTOR(p->xEC, v)) { k = 0; goto done; }
+        if (!(p->xF8 & 1) && FTargetHidden__FP8DETECTORP2LO(p, pso)) { k = 0; goto done; }
         if (p->xF8 & 2) { k = 1; goto done; }
-        { k = !func_001545F0(p, pso); goto done; }
+        { k = !FSightBlocked__FP8DETECTORP2LO(p, pso); goto done; }
     case 1:
-        if (p->xEC && !func_00227C90(p->xEC, v)) { k = 0; goto done; }
-        if (!func_00227C90(p->xE8, v)) { k = 2; goto done; }
+        if (p->xEC && !FPointInShape__FP2LOG9VU_VECTOR(p->xEC, v)) { k = 0; goto done; }
+        if (!FPointInShape__FP2LOG9VU_VECTOR(p->xE8, v)) { k = 2; goto done; }
         break;
     case 2:
-        if (p->xEC && !func_00227C90(p->xEC, v)) { k = 0; goto done; }
-        if (func_00227C90(p->xE8, v)) {
+        if (p->xEC && !FPointInShape__FP2LOG9VU_VECTOR(p->xEC, v)) { k = 0; goto done; }
+        if (FPointInShape__FP2LOG9VU_VECTOR(p->xE8, v)) {
             if (p->xF8 & 2) { k = 1; goto done; }
-            if (func_001545F0(p, pso)) return k;
+            if (FSightBlocked__FP8DETECTORP2LO(p, pso)) return k;
             k = 1;
             goto done;
         }
@@ -76,7 +77,7 @@ int func_001541D8(struct T *p, struct SO *pso, int k)
     default:
         goto done;
     }
-    if ((p->xF8 & 8) && func_001545F0(p, pso)) k = 0;
+    if ((p->xF8 & 8) && FSightBlocked__FP8DETECTORP2LO(p, pso)) k = 0;
 done:
     return k;
 }

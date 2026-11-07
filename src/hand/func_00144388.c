@@ -1,9 +1,10 @@
-int func_001F4FC8(void *p, int a);
-int func_00220498(void *p, int a, int b);
+int OverlapKindAlo__FP3ALOT0(void *p, int a);
+int OverlapKindJtThrow__FP7JTTHROWP3ALOi(void *p, int a, int b);
 void func_001CC9A8(void *p, int a, int b);
-void func_00144388(char *p, int a)
+// name: SafeHouse port (OverlapKindActor)
+void OverlapKindActor__FP3ALOi(char *p, int a)
 {
-    int x = func_001F4FC8(p, a);
-    x = func_00220498(p + 0x11B0, a, x);
+    int x = OverlapKindAlo__FP3ALOT0(p, a);
+    x = OverlapKindJtThrow__FP7JTTHROWP3ALOi(p + 0x11B0, a, x);
     func_001CC9A8(p + 0x900, a, x);
 }

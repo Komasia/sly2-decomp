@@ -15,7 +15,7 @@ struct P {char pad0[0xC];VE *vt;char pad10[0x30];uint flags;char pad44[0x3C];DAT
 struct MSG {int bytes,alignment;};
 extern char D_002C44F0[];
 extern "C" {
-void func_0022D7A0(P *,void *);
+void LoadAloXfsFromBrx(P *,void *) asm("LoadAloXfsFromBrx__FP3ALOP18CBinaryInputStream");
 int func_00117C80(void *);
 int func_00117D50(void *);
 int func_00117DB8(void *);
@@ -41,7 +41,7 @@ static inline void SetActive(P *p){uint f=p->flags;if((f^1)&1)*(uint *)f|=8;else
 extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
 {
     int i=0;E *e;
-    func_0022D7A0(p,stream);
+    LoadAloXfsFromBrx(p,stream);
     int metadata=func_00117C80(stream);
     LoadGlobsetFromBrx(&p->data,p,stream);
     int extra=Extra(p);

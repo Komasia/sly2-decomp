@@ -11,7 +11,7 @@ struct WORK {U from,to,normal;float heading;qword first,second;};
 extern "C" {
 extern qword D_002A2DA0;
 extern float D_002C3630[3],g_lmZeroOne[2],D_002C3640;
-float func_001E6728(PATH*,float);
+float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");
 void func_001E6F10(PATH*,qword*,qword*,float);
 qword func_001C4768(OUTPUT*,qword);
 float func_002458F0(float,float);
@@ -23,7 +23,7 @@ void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");
 void EvalCrv(PATH*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
 qword func_001A62E8(ACTOR*);
 qword ConvertVec(void*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
-void func_001C45A8(OUTPUT*);
+void StampPadctlState(OUTPUT*) asm("StampPadctlState__FP6PADCTL");
 int func_0011D4D0(float,float,float);
 }
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -100,9 +100,9 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
  switch(param->kind){
  case 0x1A:{
   int reverse=0;
-  float t=func_001E6728(actor->curve,actor->curveTime+50.0f);
+  float t=SClampCrv(actor->curve,actor->curveTime+50.0f);
   func_001E6F10(actor->curve,&work.from.q,0,t);
-  t=func_001E6728(actor->curve,actor->curveTime-50.0f);
+  t=SClampCrv(actor->curve,actor->curveTime-50.0f);
   func_001E6F10(actor->curve,&work.to.q,0,t);
   qword direction=func_001C4768(out,Sub(work.from.q,work.to.q));
   float x=X(direction),y=Y(direction);
@@ -184,7 +184,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   break;
  }
  case 0x58:
-  out->speed=0.0f;out->flags|=0x20;func_001C45A8(out);break;
+  out->speed=0.0f;out->flags|=0x20;StampPadctlState(out);break;
  case 0x5A:{
   float tolerance;
   qword oldPosition,position;
@@ -198,13 +198,13 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   __asm__("mtc1 %1,%0":"=f"(currentX):"r"(position));
   if(func_0011D4D0(currentX,previousX,tolerance)&&NearYInputs(oldPosition,position,tolerance))near=NearZInputs(oldPosition,position,tolerance)!=0;
   if(near)out->flags|=0x40;
-  out->speed=0.0f;func_001C45A8(out);break;
+  out->speed=0.0f;StampPadctlState(out);break;
  }
  case 0x2A:out->speed=0.0f;break;
  case 0x50:p->blocked=1;break;
  case 0x51:p->blocked=0;break;
  }
- if(p->blocked){out->flags|=0x10;if(param->kind==0x50)func_001C45A8(out);}
+ if(p->blocked){out->flags|=0x10;if(param->kind==0x50)StampPadctlState(out);}
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];

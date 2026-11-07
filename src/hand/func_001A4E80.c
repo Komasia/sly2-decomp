@@ -7,7 +7,7 @@ extern struct H D_002E6550;
 extern char g_sw[], D_002BFCA0[], g_game[];
 int func_001A4E70(struct S *s);
 void QueueMovie__FPUcPv(struct P *p, int n);
-void func_0022B490(void *g, void *a, int b, int c, int d, int e);
+void RequestTransition__FP2SWPUc3OIDT2iT2(void *g, void *a, int b, int c, int d, int e);
 void RequestTaskStartByOid__FP2SWi3OID(void *g, int a, int b);
 void func_001ACC38(struct H *h, int n);
 void func_001A4E80(struct S *s)
@@ -24,10 +24,10 @@ void func_001A4E80(struct S *s)
         QueueMovie__FPUcPv(p, e->x4);
         if (e->x0 == 1)
             p->x108 = e->x0;
-        func_0022B490(g_sw, D_002BFCA0, 0x189, -1, 0, -1);
+        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, D_002BFCA0, 0x189, -1, 0, -1);
         break;
     case 2:
-        func_0022B490(g_sw, e->x8, e->xC, -1, e->x10, 0x30A);
+        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, e->x8, e->xC, -1, e->x10, 0x30A);
         break;
     case 3:
         RequestTaskStartByOid__FP2SWi3OID(g_game, e->x14, e->x18);

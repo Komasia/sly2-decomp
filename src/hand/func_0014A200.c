@@ -1,10 +1,11 @@
 void Enter__5AIJOB(void *p);
-void func_0014AE38(void *p, int n);
+void SetState__8JOBCHASEi(void *p, int n);
 extern float g_clock;
-void func_0014A200(char *p)
+// name: SafeHouse port (JOBCHASE::Enter)
+void Enter__8JOBCHASE(char *p)
 {
     Enter__5AIJOB(p);
-    func_0014AE38(p, 0);
+    SetState__8JOBCHASEi(p, 0);
     *(float *)(p + 0x48) = g_clock;
     *(int *)(*(char **)(p + 0x10) + 0x4A4) = 0;
 }

@@ -65,7 +65,7 @@ extern "C" {
 extern CLOCK g_clock;
 extern float D_002BC9B8;
 void FaceObject(P *p, int n) asm("FaceObject__FP5ACTORP2LO");
-R *func_0012FF10(X *px, P *p, int a, int b);
+R *PchnFindAseg(X *px, P *p, int a, int b) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 void ClearSmaHandle(void *pv) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(X *px, P *p, int n, void *pv, float g0, float g1);
 }
@@ -94,7 +94,7 @@ extern "C" void SetSlyDodgeState__FP3SLYi(S *s, int k)
         else
             px = s->px1;
         FaceObject(s->p, PXOF(s->p)->x10DC);
-        func_0012FF10(px, s->p, 1, 1)->pq->Eval(0, &v.q, 0.0f, px->g78);
+        PchnFindAseg(px, s->p, 1, 1)->pq->Eval(0, &v.q, 0.0f, px->g78);
         s->p->SetVel(PXOF(s->p)->m1B0 * VU_VECTOR(v.q));
         PXOF(s->p)->v190 = VU_VECTOR(v.q) * VU_FLOAT(-1.0f);
         s->kCur = k;

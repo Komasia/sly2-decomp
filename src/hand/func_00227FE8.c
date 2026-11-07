@@ -1,7 +1,8 @@
 struct O { char pad[0x18]; int id; char pad1[0x16C - 0x1C]; int c; int aid[1]; };
 struct O *func_0015E938(void *pg, int k, int id, struct O *p);
-int func_0015E9C8(void *pg, int a, int b, struct O *po, int n, struct O **apo);
-struct O *func_00227FE8(void *pg, int id, int k)
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *pg, int a, int b, struct O *po, int n, struct O **apo);
+// name: SafeHouse port (PloFindCheckpoint)
+struct O *PloFindCheckpoint__FP2SW3OIDT1(void *pg, int id, int k)
 {
     struct O *apo[32];
     struct O *poRet;
@@ -13,7 +14,7 @@ struct O *func_00227FE8(void *pg, int id, int k)
         if (po) a = 1;
     }
     poRet = 0;
-    n = func_0015E9C8(pg, a, 0x2A, po, 0x20, apo);
+    n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(pg, a, 0x2A, po, 0x20, apo);
     for (i = 0; i < n; i++) {
         struct O *pe = apo[i];
         int j;

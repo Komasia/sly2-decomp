@@ -7,9 +7,9 @@ struct RGBA {
 struct L { char pad[0x84]; char *pb; };
 struct S { int x0; int k; L *pl; int xc; int i; };
 struct T { char pad[0x58]; int x58; };
-extern "C" void func_002183E8(void *p, int a, void *b, float g, RGBA c0, RGBA c1);
+extern "C" void Advance(void *p, int a, void *b, float g, RGBA c0, RGBA c1) asm("Advance__13CScreenPlayeriP3M23f4RGBAT4");
 extern "C" void func_00215850(float g, S *p, T *t, void *b, RGBA c0, RGBA c1)
 {
     if (p->k == 4)
-        func_002183E8(p->pl->pb + p->i * 0x30, t->x58, b, g, c0, c1);
+        Advance(p->pl->pb + p->i * 0x30, t->x58, b, g, c0, c1);
 }

@@ -17,9 +17,9 @@ int func_0015E988(int a, int b);
 void InitCmeTilt__FP7ZONECME(void *pe);
 void GetCmCpdefi__FP2CMP2SOP6CPDEFI(struct G *pg, void *pj, void *pq);
 void PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(void *pe, void *pa, qword *pb, struct T *pt);
-void func_001E6F60(void *p, qword q, int a, qword *pq, int b, int c, void *pv);
+void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(void *p, qword q, int a, qword *pq, int b, int c, void *pv);
 void UpdateZonePath__FP8CPFOLLOWi(struct S *p, void *pq);
-void func_0011EFB0(qword v, float *pa, float *pb, float *pc);
+void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *pa, float *pb, float *pc);
 qword SetVectorSphere__Ffff(float a, float b, float c);
 void func_0014D8C0(struct G *pg);
 static __inline__ qword VAdd(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -52,13 +52,13 @@ void Activate__8CPFOLLOWP2LOPv(struct S *p, void *pj, struct T *pt)
     if (p->pt) {
         struct T *ptT = p->pt;
         if (ptT->x10C)
-            func_001E6F60(ptT->x10C, q50, 0, &q60, 0, 0, ptT->x140);
+            NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(ptT->x10C, q50, 0, &q60, 0, 0, ptT->x140);
         else if (ptT->x12C)
             UpdateZonePath__FP8CPFOLLOWi(p, &q0);
         PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(p->pe, &q0, &q50, p->pt);
     }
     { qword *pq = &g_cm.q2E0; a = VAdd(q50, *pq);
-    func_0011EFB0(VSub(pq[-0x25], a), &p->g18, &p->g1C, &p->g20); }
+    ConvertVectorToSphere__FG9VU_VECTORPfN21(VSub(pq[-0x25], a), &p->g18, &p->g1C, &p->g20); }
     p->g20 = p->g20 - g_cm.g4C;
     p->pos = VAdd(a, SetVectorSphere__Ffff(p->g18, p->g1C, p->g20));
     p->g24 = ((struct R *)p->pe)->g5C;

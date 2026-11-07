@@ -6,7 +6,7 @@ struct P {
 };
 void ClearJobs__FP5ACTOR(void *p);
 int func_001443D8(struct P *p);
-void func_0019CD38(void *p, int n);
+void SetBinocState__FP5ACTORi(void *p, int n);
 void func_00143DE8(struct P *p, struct LO *plo)
 {
     struct LO *old = p->plo;
@@ -23,7 +23,7 @@ void func_00143DE8(struct P *p, struct LO *plo)
     if (plo) {
         plo->vt[1].pfn((char *)plo + plo->vt[1].d);
         ClearJobs__FP5ACTOR(p->m26C);
-        if (func_001443D8(p)) func_0019CD38(p->mF00, -1);
+        if (func_001443D8(p)) SetBinocState__FP5ACTORi(p->mF00, -1);
         if (p->x11B4 != -1 && *p->plo->p40 != 0x1E)
             p->vt[88].pfn((char *)p + p->vt[88].d, 0);
     }

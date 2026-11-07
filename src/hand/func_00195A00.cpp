@@ -1,4 +1,4 @@
-// func_00195A00: ported from Lilly's personal Sly 2 decomp (src/P2/jtair.c), reduced to the declarations it needs.
+// SetJumpKind__FP4JUMPiiP2LO: ported from Lilly's personal Sly 2 decomp (src/P2/jtair.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF750 (D_002BF750), D_002BF754 (D_002BF754), D_002BF758 (D_002BF758), D_002BF75C (D_002BF75C), D_002BF760 (D_002BF760), D_002BF764 (D_002BF764), D_002BF76C (D_002BF76C), D_002BF770 (D_002BF770), D_002BF730 (g_SheetMovementMiscJumpHorizontalSpeed), D_002BF768 (g_SheetMovementMiscTurnbuckleLaunchHorizontalSpeed), g_clock, g_normalZ
 // 0x00195A00 SetJtAirJump (curated name): starts a flight of the given kind. n2 picks the directional clip; plo is the object the sub-state works on.
@@ -1327,7 +1327,8 @@ static inline qword QwProjectOut(qword v, qword n)
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(qw) : "j"(v), "j"(qw));
     return qw;
 }
-void SetJtAirJump(JTAIR *pjtair, int nKind, int n2, LO *plo) __asm__("func_00195A00");
+void SetJtAirJump(JTAIR *pjtair, int nKind, int n2, LO *plo) __asm__("SetJumpKind__FP4JUMPiiP2LO");
+// name: SafeHouse port (SetJumpKind)
 void SetJtAirJump(JTAIR *pjtair, int nKind, int n2, LO *plo)
 {
     qword vel;

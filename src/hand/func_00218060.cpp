@@ -18,10 +18,11 @@ extern "C" int func_00213E20(S *p, int k, QQ *pq, RGBA *pc0, RGBA *pc1, int c, v
 extern "C" void func_00217F38(A *p, int i);
 // F12 is independent of the integer slots. These pointers address real
 // independent caller copies of the nontrivial by-value colors (A3/T0).
-extern "C" void func_002183E8(float g, A *p, int i, QQ *pq, const RGBA *c0, const RGBA *c1);
+extern "C" void Advance(float g, A *p, int i, QQ *pq, const RGBA *c0, const RGBA *c1) asm("Advance__13CScreenPlayeriP3M23f4RGBAT4");
 static inline float GMin(float a, float b) { return b < a ? b : a; }
 static inline float GMax(float a, float b) { return a < b ? b : a; }
-extern "C" void func_00218060(A *p, int i, Y *py, float g)
+// name: SafeHouse port (CScreenPlayer::SeekEntry)
+extern "C" void SeekEntry__13CScreenPlayeriPvf(A *p, int i, Y *py, float g)
 {
     QQ q;
     RGBA c0, c1;
@@ -42,9 +43,9 @@ extern "C" void func_00218060(A *p, int i, Y *py, float g)
     p->ae[i].x10 = 0;
     // The primary argument object is copied again for the second call.
     RGBA argument0(c0),argument1(c1);
-    func_002183E8(0.0f, p, i, &q, &argument0, &argument1);
+    Advance(0.0f, p, i, &q, &argument0, &argument1);
     p->ae[i].x10 = 0;
     argument0=c0;RGBA argument2(c1);
-    func_002183E8(g, p, i, &q, &argument0, &argument2);
+    Advance(g, p, i, &q, &argument0, &argument2);
     p->ae[i].x10 = 1;
 }

@@ -15,7 +15,7 @@ extern "C" M3 func_0011B500(qword,float);
 extern "C" qword func_001A62E8(P*);
 extern "C" qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,float,M4*);
-extern "C" void func_0011EE08(qword,qword,qword,qword*,float*,float*);
+extern "C" void PosNearestSegment(qword,qword,qword,qword*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 extern "C" int func_0015ED78(G*,int,int,P*);
 extern "C" float func_002458F0(float,float);
 extern "C" float RadNormalize(float) asm("RadNormalize__Ff");
@@ -55,7 +55,7 @@ extern "C" void func_0018F2B0(P*p,float headingInput,int mask,float dtInput,U*of
   candidate.q=func_001A62E8(node);
   void*owner=GetFrame(node,&fx.m);
   func_002309E8(owner,0,&prediction,dt,0);
-  func_0011EE08(target.q,candidate.q,Transform(prediction,fx.m.r[3].q),0,&t,&distance);
+  PosNearestSegment(target.q,candidate.q,Transform(prediction,fx.m.r[3].q),0,&t,&distance);
   if(IsBonus(node))distance+=D_002BF4B8;
   if(distance<nearest){
    qword other=candidate.q;

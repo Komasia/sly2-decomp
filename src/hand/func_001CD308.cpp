@@ -15,12 +15,12 @@ void ReparentBooty(LO *p, int a, int b) asm("ReparentBooty__FP3ALOii");
 qword func_001A62E8(LO *p);
 qword func_0022FC48(int a, void *pv, qword q);
 int PctrlNewTarget(LO *p, Q *q, int n, qword a, qword b, float g) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
-void *func_001A6318(LO *p);
+void *MatJtLo(LO *p) asm("MatJtLo__FP2LO");
 int PctrlNewPos(LO *p, Q *q, int a, int b, int c, qword d) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void func_001CD308(S *p, LO *po);
 }
 MAT func_0022FD38(int a, void *pv, void *v);
-qword func_0011BFF0(MAT m);
+qword DecomposeEulerMatrix(MAT m) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void func_001CD308(S *p, LO *po)
 {
     MAT mat;
@@ -41,8 +41,8 @@ void func_001CD308(S *p, LO *po)
     Q *q = p->xA0->x58;
     p->x94 = PctrlNewTarget(p->xA0, q, 5, func_0022FC48(0, q->xA0, func_001A62E8(po)), D_002A2DD0, g_clock.t + D_002C1EF4);
     q = p->xA0->x5C;
-    mat = func_0022FD38(0, q->xA0, func_001A6318(po));
-    p->x9C = PctrlNewPos(p->xA0, q, 5, 7, 2, func_0011BFF0(mat));
+    mat = func_0022FD38(0, q->xA0, MatJtLo(po));
+    p->x9C = PctrlNewPos(p->xA0, q, 5, 7, 2, DecomposeEulerMatrix(mat));
     p->x84 = p->xA0;
     func_001CCAC0(p, 1);
     p->xA0 = 0;

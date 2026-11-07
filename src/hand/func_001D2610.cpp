@@ -1,5 +1,5 @@
-// func_001D2610 (Claude agent, wave-4 lane 7): MATCH. Mode-1 update of a vehicle with attached weapons (called from
-// func_001D19A8): pick a ready attachment (func_001D2240) or a target object (func_001D22D0), run the state machine
+// UpdateVehicleAi__FP7VEHICLE (Claude agent, wave-4 lane 7): MATCH. Mode-1 update of a vehicle with attached weapons (called from
+// UpdateVehicleControl): pick a ready attachment (FirstReadyAttachment) or a target object (BestVehiclePickup), run the state machine
 // (0 approach/orbit the target, 1 attack in place, 2 pursue the object, 3 back away) until the state is stable, steer
 // for the current state, then let every ready attachment fire once its aim error is small enough.
 // Callees: 0x2456F0 acosf, 0x2458F0 atan2f, 0x11D910 FCheckLm, 0x11CF60 RadNormalize, 0x11D448 GRandInRange,
@@ -11,7 +11,7 @@
 //   target's `vmul.xy vf1, vf1, vf3` with delta stored and reloaded. Its two extra "jm" operands are allocation-only:
 //   they tip regclass so that delta (read four times through "r" by GetX/GetY) stays VU-class and is spilled, as in
 //   the target, instead of getting $s1.
-// - GetY returns the prot3w result as a float in a GPR (like func_001D2490): gcc's own mtc1 into $f12 is not an asm,
+// - GetY returns the prot3w result as a float in a GPR (like FollowVehiclePath): gcc's own mtc1 into $f12 is not an asm,
 //   so reorg can still fill the atan2f delay slot with the goalHeading store.
 // - The radius scalar goes through Lilly's VuFloatFromMemWord ("rV": reload makes the lw at the qmtc2), its VU_FLOAT
 //   temporary takes slot 0x00, the case-2 matrix 0x10, the case-3 matrix the coalesced 0x00, and the HIT array
@@ -39,25 +39,25 @@ extern const qword D_002A2DA0, g_normalZ;
 extern float D_002C20E8, D_002C20EC, D_002C20F0, D_002C20F4, D_002C20F8;
 extern "C" {
 qword func_001A62E8(P *);
-ATTACH *func_001D2240(P *);
-P *func_001D22D0(P *);
+ATTACH *FirstReadyAttachment(P *) asm("FirstReadyAttachment__FP7VEHICLE");
+P *BestVehiclePickup(P *) asm("BestVehiclePickup__FP7VEHICLE");
 int func_0011D910(LM *, float);
-void func_001D4B28(P *, int);
+void SetVehicleAiState(P *, int) asm("SetVehicleAiState__FP7VEHICLEi");
 float func_002456F0(float);
 M3 func_0011B500(qword, float);
 int func_001C0960(void *, qword, qword, int, HIT *, int);
 void RecalcCrv(PATH *) asm("RecalcCrv__FP3CRV");
-void func_001D2420(P *);
+void ResetVehiclePathHeight(P *) asm("ResetVehiclePathHeight__FP7VEHICLE");
 void FNavPathCrv(void *, qword, qword, PATH *) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 float func_002458F0(float, float);
-M3 *func_001A6318(P *);
+M3 *MatJtLo(P *) asm("MatJtLo__FP2LO");
 qword VecXfValue(void *, void *) asm("VecXfValue__FP2XFP7MATRIX4");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void SetSmaGoal(void *, int) asm("SetSmaGoal__FP3SMA3OID");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
-void func_001D2490(P *);
+void FollowVehiclePath(P *) asm("FollowVehiclePath__FP7VEHICLE");
 int func_001D4E08(ATTACH *);
-int func_00227C90(void *, qword);
+int FPointInShape(void *, qword) asm("FPointInShape__FP2LOG9VU_VECTOR");
 }
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct VU_FLOAT { qword q; };
@@ -103,15 +103,16 @@ static inline VV Rotate(const M3 &m, VV v)
 static inline float Max(float a, float b) { return a < b ? b : a; }
 static inline float Abs(float f) { return __builtin_fabsf(f); }
 
-extern "C" void func_001D2610(P *p)
+// name: SafeHouse port (UpdateVehicleAi)
+extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
 {
     VV position = func_001A62E8(p);
     VV target = func_001A62E8(p->target);
     VV delta = Sub(target, position);
     float distance = Length2D(delta);
-    p->selectedAttach = func_001D2240(p);
+    p->selectedAttach = FirstReadyAttachment(p);
     if (!p->selectedAttach)
-        p->selectedObject = func_001D22D0(p);
+        p->selectedObject = BestVehiclePickup(p);
     else
         p->selectedObject = 0;
     int state;
@@ -121,24 +122,24 @@ extern "C" void func_001D2610(P *p)
         case 0:
             if (p->selectedAttach) {
                 if (func_0011D910(&p->selectedAttach->enterRange, distance))
-                    func_001D4B28(p, 1);
+                    SetVehicleAiState(p, 1);
             } else if (p->selectedObject) {
-                func_001D4B28(p, 2);
+                SetVehicleAiState(p, 2);
             } else {
-                func_001D4B28(p, 3);
+                SetVehicleAiState(p, 3);
             }
             break;
         case 1:
             if (!p->selectedAttach || !func_0011D910(&p->selectedAttach->exitRange, distance))
-                func_001D4B28(p, 0);
+                SetVehicleAiState(p, 0);
             break;
         case 2:
             if (!p->selectedObject)
-                func_001D4B28(p, 0);
+                SetVehicleAiState(p, 0);
             break;
         case 3:
             if (p->selectedAttach || p->selectedObject)
-                func_001D4B28(p, 0);
+                SetVehicleAiState(p, 0);
             break;
         }
     } while (state != p->state);
@@ -176,12 +177,12 @@ extern "C" void func_001D2610(P *p)
             p->path->points[1].q = goal;
             p->path->count = 2;
             RecalcCrv(p->path);
-            func_001D2420(p);
+            ResetVehiclePathHeight(p);
         } else if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, target)) {
             FNavPathCrv(p->navigator, position, target, p->path);
-            func_001D2420(p);
+            ResetVehiclePathHeight(p);
         }
-        func_001D2490(p);
+        FollowVehiclePath(p);
         p->wheelAngle = p->heading;
         break;
     }
@@ -191,10 +192,10 @@ extern "C" void func_001D2610(P *p)
         p->goalHeading = p->heading;
         p->wheelAngle = func_002458F0(GetY(delta), GetX(delta));
         if (p->nextAttack < g_clock.t) {
-            ATTACH *attach = func_001D2240(p);
+            ATTACH *attach = FirstReadyAttachment(p);
             if (attach) {
                 if (attach->mesh) {
-                    M3 m = *func_001A6318(attach->anchor);
+                    M3 m = *MatJtLo(attach->anchor);
                     float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
                     qword packed = VecXfValue(attach->mesh, attach->mesh);
                     float error = Abs(RadNormalize(aim - p->wheelAngle));
@@ -215,9 +216,9 @@ extern "C" void func_001D2610(P *p)
         VV object = func_001A62E8(p->selectedObject);
         if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, object)) {
             FNavPathCrv(p->navigator, position, object, p->path);
-            func_001D2420(p);
+            ResetVehiclePathHeight(p);
         }
-        func_001D2490(p);
+        FollowVehiclePath(p);
         p->wheelAngle = p->heading;
         break;
     }
@@ -233,12 +234,12 @@ extern "C" void func_001D2610(P *p)
             ATTACH *attach = p->attachments[i];
             if (!func_001D4E08(attach))
                 continue;
-            if (attach->constraint && !func_00227C90(attach->constraint, target))
+            if (attach->constraint && !FPointInShape(attach->constraint, target))
                 continue;
             if (0.0f < attach->enterRange.max && p->state != 1)
                 continue;
             if (attach->mesh) {
-                M3 m = *func_001A6318(attach->anchor);
+                M3 m = *MatJtLo(attach->anchor);
                 float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
                 qword packed = VecXfValue(attach->mesh, attach->mesh);
                 float error = Abs(RadNormalize(aim - p->wheelAngle));

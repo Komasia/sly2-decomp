@@ -18,13 +18,13 @@ extern "C"{
  unsigned long func_00207A20(int);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
  qword func_001A62E8(P*);
- M3*func_001A6318(P*);
- void func_001E6F60(P*,qword,void*,qword*,qword*,float*,float*);
+ M3*MatJtLo(P*) asm("MatJtLo__FP2LO");
+ void NearestCrvAll(P*,qword,void*,qword*,qword*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
  float func_002458F0(float,float);
  float RadNormalize(float) asm("RadNormalize__Ff");
  void func_0011B500(M3*,float,qword);
  M3*BuildLookAtMatrix(M3*,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
- void func_001C3500(P*,int,M3*,float);
+ void MatPipeFrame(P*,int,M3*,float) asm("MatPipeFrame__FP2LOfiPv");
  void OffsetUseByHands(C*) asm("OffsetUseByHands__FP6JOBUSE");
  int FDropOnGround(qword*,float,float,int,int(*)(void)) asm("FDropOnGround__FP6VECTORffiPv");
  void Enter(C*) asm("Enter__7JOBMOVE");
@@ -89,12 +89,12 @@ extern "C" void Enter__6JOBUSE(C*p){
   if(FIsBasicDerivedFrom(p->target,10)){
    P*target=p->target;
    qword position=func_001A62E8(p->actor);
-   func_001E6F60(target,position,0,&p->point.q,&work.temp.first.direction.q,0,&work.curve);
+   NearestCrvAll(target,position,0,&p->point.q,&work.temp.first.direction.q,0,&work.curve);
    heading=func_002458F0(work.temp.first.direction.f[1],work.temp.first.direction.f[0]);
   }else{
    p->point.q=func_001A62E8(p->target);
-   M3*a=func_001A6318(p->target);
-   M3*b=func_001A6318(p->target);
+   M3*a=MatJtLo(p->target);
+   M3*b=MatJtLo(p->target);
    heading=func_002458F0(((U*)a->r)->f[1],((U*)b->r)->f[0]);
   }
   if(FIsBasicDerivedFrom(p->target,13)){
@@ -108,12 +108,12 @@ extern "C" void Enter__6JOBUSE(C*p){
   }else if(FIsBasicDerivedFrom(p->target,11)){
    active|=func_00207A20(0x27);
    p->basisValid=1;
-   func_001C3500(p->target,p->reverse,&p->matrix,work.curve);
+   MatPipeFrame(p->target,p->reverse,&p->matrix,work.curve);
    OffsetUseByHands(p);
   }else if(FIsBasicDerivedFrom(p->target,0x13)&&p->target->kind==3){
    active|=func_00207A20(0x28);
    p->basisValid=1;
-   M3*m=func_001A6318(p->target);
+   M3*m=MatJtLo(p->target);
    (void)BuildLookAtMatrix(&work.temp.basis,m->r[0],g_normalZ);
    p->matrix=work.temp.basis;
    OffsetUseByHands(p);
@@ -141,7 +141,7 @@ extern "C" void Enter__6JOBUSE(C*p){
    otherPoint=p->point;
    qword current=func_001A62E8(p->actor);
    P*actor;direction.q=BasisInputs(p,&otherPoint,current,&actor);
-   M3*m=func_001A6318(actor->linked);
+   M3*m=MatJtLo(actor->linked);
    (void)BuildLookAtMatrix(&work.temp.basis,m->r[0],direction.q);
    func_00209840(Control(p->actor),&work.temp.basis);
    break;

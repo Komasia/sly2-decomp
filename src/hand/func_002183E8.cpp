@@ -21,7 +21,8 @@ static inline M23 Mul(const M23 &q, const M23 &n)
 }
 extern "C" void func_002188B0(float,F *,int,M23 *,RGBA,RGBA);
 extern "C" void func_00219FE0(float,F *,int,M23 *,RGBA,RGBA);
-extern "C" void func_002183E8(S *p,int i,M23 *pm,float dt,RGBA c0,RGBA c1) {
+// name: SafeHouse port (CScreenPlayer::Advance)
+extern "C" void Advance__13CScreenPlayeriP3M23f4RGBAT4(S *p,int i,M23 *pm,float dt,RGBA c0,RGBA c1) {
     E *e=&p->ae[i];
     int h=e->h8;
     if(h<0)return;

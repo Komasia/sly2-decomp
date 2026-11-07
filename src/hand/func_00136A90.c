@@ -7,9 +7,9 @@ struct P { char pad[0x4C0]; char a4C0[0x9BC - 0x4C0]; int x9BC; char pad1[0x11B0
 extern struct G g_game;
 void BroadcastTaskEvent__FP2SWiP2LO(struct G *pg, int n, struct P *p);
 struct E *func_00136A28(struct P *p, int k);
-void func_002206C8(void *pv, int n);
+void SetJtThrowState__FP7JTTHROWi(void *pv, int n);
 void StartInteract__FP5ACTORii3JTL(void *pv, int n, void *pv2, int m);
-struct O *func_001CB250(void *pv, int n);
+struct O *PloAcquireProxyObject__FP2SWi(void *pv, int n);
 int func_00224610(struct O *po);
 void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, struct O *po);
 void func_00141EA8(struct P *p, int k);
@@ -25,7 +25,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
     case 4: case 5: case 7: case 9: case 11: case 13: {
         struct E *pe = func_00136A28(p, k);
         if ((unsigned int)(p->x11B4 - 4) < 3) {
-            func_002206C8(p->a11B0, 7);
+            SetJtThrowState__FP7JTTHROWi(p->a11B0, 7);
             return;
         }
         if (pe->p8) {
@@ -34,7 +34,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
         }
         p->pe16B4 = pe;
         if (k == 7 || k == 11) {
-            struct O *po = func_001CB250(pe->p4, 0);
+            struct O *po = PloAcquireProxyObject__FP2SWi(pe->p4, 0);
             if (!po)
                 return;
             po->x15C = pe->x0;
@@ -45,7 +45,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
             p->po11C0 = po;
             func_00141EA8(p, k);
             SetBentleyState__FP7BENTLEYi(p, 0xC);
-            func_002206C8(p->a11B0, 4);
+            SetJtThrowState__FP7JTTHROWi(p->a11B0, 4);
             return;
         }
         func_00141CD0(p, k);

@@ -23,20 +23,20 @@ extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 qword func_001A62E8(O *);
 int func_001DAEA8(int);
-qword func_0011E1A0(float,float,float);
-void func_0011EF08(qword,float *,float *,float *);
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
+void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
 float func_0011D948(RANGE *,float);
-void func_0021FB70(S *,int);
+void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
 float func_002458F0(float,float);
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
-void func_002206C8(S *,int);
+void SetJtThrowState(S *,int) asm("SetJtThrowState__FP7JTTHROWi");
 void func_001384C0(ASEG *);
 int func_00131968(ASEGA *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_001C46C0(CONTROL *,int,float);
+int GrfPadctlTakePressed(CONTROL *,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
-TRACKREF *func_0012FF10(ASEG *,O *,void *,int);
+TRACKREF *PchnFindAseg(ASEG *,O *,void *,int) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 }
 static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
 static inline void EffectCall(EFFECT *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
@@ -136,7 +136,8 @@ static inline void CopyRange(RANGE &destination,const RANGE &source){
  register RangeBits value asm("$5");
  asm("ldl %0,7+%2\n\tldr %0,%2\n\tsdl %0,7+%1\n\tsdr %0,%1":"=&r"(value),"=m"(destination):"m"(source));
 }
-extern "C" void func_0021F418(S *s){
+// name: SafeHouse port (UpdateJtThrow)
+extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
  WORK w;
  register CONTROL *control asm("$19")=s->owner->control;
  qword initial=func_001A62E8(s->owner);
@@ -169,16 +170,16 @@ extern "C" void func_0021F418(S *s){
     asm("lwc1 %0,%4\n\tlwc1 %1,%5\n\tmul.s %2,%2,%6\n\tsqc2 %7,%3":"=&f"(z),"=&f"(direction),"+f"(step),"=m"(w.vector.q):"m"(w.delta.f[2]),"m"(control->heading),"f"(scale),"j"(delta));
     elevation=z;heading=direction;advance=step;
    }
-   qword movement=func_0011E1A0(heading,advance,elevation);
+   qword movement=SetVectorCylind(heading,advance,elevation);
    float *angleArgument,*radiusArgument;
    qword sum=PolarOperands(w.vector,movement,&w.angle,&w.radius,angleArgument,radiusArgument);
    w.delta.q=sum;
-   func_0011EF08(sum,angleArgument,radiusArgument,0);
+   ConvertVectorToCylind(sum,angleArgument,radiusArgument,0);
    w.radius=func_0011D948(&w.scratch.range,w.radius);
-   qword polar=func_0011E1A0(w.angle,w.radius,elevation);
+   qword polar=SetVectorCylind(w.angle,w.radius,elevation);
    StoreTarget(s->targetWorld,w.delta,w.ownerPosition,polar);
   }
-  func_0021FB70(s,1);
+  UpdateJtThrowArc(s,1);
  }
  }
  for(;;){
@@ -190,23 +191,23 @@ extern "C" void func_0021F418(S *s){
    float heading=func_002458F0(w.scratch.vector.f[1],w.scratch.vector.f[0]);
    float angle=RadNormalize(heading-RadStepHeading(s->owner));
    float threshold=s->idleThreshold;
-   if(threshold<angle)func_002206C8(s,2);
-   else if(angle<-threshold)func_002206C8(s,1);
+   if(threshold<angle)SetJtThrowState(s,2);
+   else if(angle<-threshold)SetJtThrowState(s,1);
    else{s->blend1=angle/threshold*0.5f+0.5f;s->blend0=1.0f-s->blend1;func_001384C0(s->animation0);}
    break;
   }
   case 1:case 2:
-   if(!animation||func_00131968(animation))func_002206C8(s,0);
+   if(!animation||func_00131968(animation))SetJtThrowState(s,0);
    break;
   case 3:
-   if(!animation||func_00131968(animation)){if(D_002DD5BC->mode==8)func_002206C8(s,4);else func_002206C8(s,0);}
+   if(!animation||func_00131968(animation)){if(D_002DD5BC->mode==8)SetJtThrowState(s,4);else SetJtThrowState(s,0);}
    break;
   case 4:case 5:case 6:{
    if(FIsBasicDerivedFrom(s->selected,0x64)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
    float margin=0.1f;
-   if(func_001C46C0(control,0xC0,margin)){func_002206C8(s,7);break;}
-   if(func_001C46C0(control,0x30,margin)){
-    if(s->animation0)func_002206C8(s,0);else IntCall(s->owner,88,0);
+   if(GrfPadctlTakePressed(control,0xC0,margin)){SetJtThrowState(s,7);break;}
+   if(GrfPadctlTakePressed(control,0x30,margin)){
+    if(s->animation0)SetJtThrowState(s,0);else IntCall(s->owner,88,0);
     O *selected=s->selected;if(selected==D_002DD5BC&&selected->mode==8){
      w.speed.q=ScalarHome(w.scratch.vector,CPUFloat(400.0f));
      O *positionOwner;w.playerPosition.q=SavedPlayerAndOwner(func_001A62E8(selected),s,positionOwner);
@@ -220,18 +221,18 @@ extern "C" void func_0021F418(S *s){
     if(s->effect)EffectCall(s->effect,9);
     return;
    }
-   if(!animation||func_00131968(animation))func_002206C8(s,4);
+   if(!animation||func_00131968(animation))SetJtThrowState(s,4);
    else if(s->state==4){
     w.scratch.vector.q=ActiveDifference(s->targetWorld,w.ownerPosition);
     float heading=func_002458F0(w.scratch.vector.f[1],w.scratch.vector.f[0]);
     float angle=RadNormalize(heading-RadStepHeading(s->owner));
     float threshold=s->activeThreshold;
-    if(threshold<angle)func_002206C8(s,6);else if(angle<-threshold)func_002206C8(s,5);
+    if(threshold<angle)SetJtThrowState(s,6);else if(angle<-threshold)SetJtThrowState(s,5);
    }
    break;
   }
   case 7:
-   if(!animation||func_00131968(animation)){if(s->animation0)func_002206C8(s,0);else IntCall(s->owner,88,0);}
+   if(!animation||func_00131968(animation)){if(s->animation0)SetJtThrowState(s,0);else IntCall(s->owner,88,0);}
    break;
   }
   if(s->state==previous||s->state==-1)break;
@@ -239,7 +240,7 @@ extern "C" void func_0021F418(S *s){
  O *owner=s->owner;
  if(owner->movement!=1)return;
  ASEGA *animation=owner->animation;
- TRACKREF *reference=animation?func_0012FF10(animation->definition,owner,(void *)6,1):0;
+ TRACKREF *reference=animation?PchnFindAseg(animation->definition,owner,(void *)6,1):0;
  if(reference){
   Evaluate(reference->track,0,&w.scratch.vector,animation->time,animation->scale);
   V *direction=&s->owner->direction;float height=w.scratch.vector.f[2];direction->f[0]=0.0f;direction->f[2]=height;direction->f[1]=0.0f;

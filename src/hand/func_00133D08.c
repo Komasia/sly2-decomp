@@ -6,7 +6,8 @@ static __inline__ int Call(struct O *po, struct O *poOther)
 {
     return ((int (*)(void *, struct O *))po->pvt[61].pfn)((char *)po + po->pvt[61].d, poOther);
 }
-int func_00133D08(void *unused, struct B *pa, struct B *pb)
+// name: SafeHouse port (FOverlapOxa)
+int FOverlapOxa__FP3OXAT0Pv(void *unused, struct B *pa, struct B *pb)
 {
     int n1, n2, r;
     if (pa->min[0] >= pb->max[0] || pa->min[1] >= pb->max[1] || pa->min[2] >= pb->max[2] ||

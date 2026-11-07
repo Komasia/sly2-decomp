@@ -15,7 +15,7 @@ void func_001AEEE0(void *);
 void UpdateShop__FP2SW(void *);
 void UpdateGadgetMenu__FP2SW(void *);
 void func_0014BFF8(void *);
-void func_0022B198(void *);
+void UpdateWipe__FP4WIPE(void *);
 void func_001D9DF8(void *);
 void func_001DA350(void *);
 void UpdateJobHelp__FP2SW(void *);
@@ -49,7 +49,7 @@ void func_001D9648(void *pdl)
     UpdateShop__FP2SW(D_003DA150);
     UpdateGadgetMenu__FP2SW(D_003DA0F0);
     func_0014BFF8(D_002DDEC0);
-    func_0022B198(D_00443740);
+    UpdateWipe__FP4WIPE(D_00443740);
     func_001D9DF8(D_003D9E80);
     func_001DA350(D_003DA0C0);
     UpdateJobHelp__FP2SW(D_003DA3C0);

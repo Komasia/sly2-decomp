@@ -15,12 +15,12 @@ void UpdateStepguard(P*) asm("UpdateStepguard__FP9STEPGUARDf");
 int func_00209A68(P*,int);
 qword func_001A62E8(P*);
 qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-int func_00227C90(VOLUME*,qword);
+int FPointInShape(VOLUME*,qword) asm("FPointInShape__FP2LOG9VU_VECTOR");
 void func_001BA408(P*,int);
 int func_00131968(POOL*);
 qword func_0022FC48(SPACE*,SPACE*,qword);
-M3*func_0011BA08(M3*,qword,qword);
-qword func_0011BFF0(M3*);
+M3*BuildRotateVectorsMatrix(M3*,qword,qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
+qword DecomposeEulerMatrix(M3*) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 int func_001BA100(void*,ROW*);
@@ -66,7 +66,7 @@ extern "C" void func_001BA128(P*p){
    qword origin=Vector(func_001A62E8(p));
    float distance=Square(Sub(origin,func_001A62E8(node)));
    if(nearest<distance)continue;
-   if(func_00227C90(volume,func_001A62E8(node))){p->target=node;nearest=distance;}
+   if(FPointInShape(volume,func_001A62E8(node))){p->target=node;nearest=distance;}
   }
   if(!p->target&&!func_00209A68(p,2)){
    qword position=Vector(ConvertPos(p,0,D_002C0A80));
@@ -77,7 +77,7 @@ extern "C" void func_001BA128(P*p){
    func_0020FAA0(&g_sw,low,high,func_001BA100,0,&count,&rows);
    for(int i=0;i<count;i++){
     ROW*row=rows[i];
-    if(func_00227C90(volume,func_001A62E8(row->object))){p->target=row->object;break;}
+    if(FPointInShape(volume,func_001A62E8(row->object))){p->target=row->object;break;}
    }
   }
   if(p->target)func_001BA408(p,1);
@@ -89,9 +89,9 @@ extern "C" void func_001BA128(P*p){
   qword position=func_001A62E8(p->target);
   qword local=func_0022FC48(0,node->space,position);
   qword direction=Sub(local,p->node->position);
-  M3 matrix;func_0011BA08(&matrix,p->axis,direction);
+  M3 matrix;BuildRotateVectorsMatrix(&matrix,p->axis,direction);
   MOTION*motion=p->motion;
-  motion->angles=func_0011BFF0(&matrix);
+  motion->angles=DecomposeEulerMatrix(&matrix);
   break;
  }
  default:break;

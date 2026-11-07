@@ -12,7 +12,7 @@ struct P {
 };
 extern struct P *D_002DD5BC;
 void InitActorFields__FP5ACTOR(struct P *p);
-void func_0020B840(void *pv, struct P *p, int n);
+void InitGait__FP4GAITii(void *pv, struct P *p, int n);
 // name: SafeHouse port (InitBentley)
 void InitBentley__FP7BENTLEY(struct P *p)
 {
@@ -26,8 +26,8 @@ void InitBentley__FP7BENTLEY(struct P *p)
     p->x103C = 45.0f;
     p->x1048 = 125.0f;
 //}
-    func_0020B840(p->a1320, p, 0x73);
-    func_0020B840(p->a1600, p, 0x73);
+    InitGait__FP4GAITii(p->a1320, p, 0x73);
+    InitGait__FP4GAITii(p->a1600, p, 0x73);
     p->x3D8 = -70.0f;
     p->x1098 = -100.0f;
     p->x109C = 100.0f;

@@ -18,7 +18,7 @@ void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int k);
-void func_001C45A8(struct Q *q);
+void StampPadctlState__FP6PADCTL(struct Q *q);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 
@@ -88,7 +88,7 @@ void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
                 f = po->pvt->pfn((struct O *)((char *)po + po->pvt->d)) != 0;
             if (f) {
                 q->x30 |= p->xC0->x30 & p->xC4;
-                func_001C45A8(q);
+                StampPadctlState__FP6PADCTL(q);
             }
         }
     }

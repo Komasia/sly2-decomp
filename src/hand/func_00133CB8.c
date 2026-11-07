@@ -1,7 +1,8 @@
 struct N { int f0; struct N *pnext; int f8; int key; };
 struct L { char pad[0x64]; struct N *phead; };
 struct K { char pad[0x60]; int key; };
-struct N *func_00133CB8(void *unused, struct L *pl, struct K *pk) {
+// name: SafeHouse port (PoxRemoveSw)
+struct N *PoxRemoveSw__FP2SWP3OXAT1(void *unused, struct L *pl, struct K *pk) {
     int key = pk->key;
     struct N *pn = pl->phead;
     if (pn) {

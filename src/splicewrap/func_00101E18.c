@@ -1,6 +1,7 @@
 #include "splicewrap.h"
 void Pause__4CSnd(s32);                         /* extern */
-CRef *func_00101E18(CRef *ret, void *pbasic, s32 cref, CRef *aref)
+// name: SafeHouse port (RefSoundMethod)
+CRef *RefSoundMethod__FP5BASICiP4CRef(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 0, aref, NULL);

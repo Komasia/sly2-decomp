@@ -25,10 +25,10 @@ void UpdateSo(P *) asm("UpdateSo__FP2SOf");
 float func_002458F0(float,float);
 int func_001D4E08(ATTACH *);
 void SetSmaGoal(void *,int) asm("SetSmaGoal__FP3SMA3OID");
-void func_001D2150(P *);
-void func_001D2610(P *);
+void UpdateVehiclePlayer(P *) asm("UpdateVehiclePlayer__FP7VEHICLE");
+void UpdateVehicleAi(P *) asm("UpdateVehicleAi__FP7VEHICLE");
 float RadNormalize(float) asm("RadNormalize__Ff");
-qword func_0011E1A0(float,float,float);
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 qword func_0022FCC8(FRAME *,FRAME *,qword);
 float func_0011D948(const LIMITS *,float);
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
@@ -63,7 +63,8 @@ static inline void ResetDrive(P *p){
 }
 static inline M4*GetMatrixFrom(P*p,VENTRY*vt){VENTRY&e=vt[31];return ((M4*(*)(void*))e.fn)((char*)p+e.delta);}
 static inline qword GetVelocity(P *p){VENTRY &e=p->vt[33];return ((qword (*)(void *))e.fn)((char *)p+e.delta);}
-extern "C" void func_001D19A8(P *p)
+// name: SafeHouse port (UpdateVehicleControl)
+extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
 {
     U scalar,position,targetPosition,targetVelocity,shot;
     int i=0;
@@ -79,8 +80,8 @@ extern "C" void func_001D19A8(P *p)
     }
     switch(p->mode){
     case 0:case 3:ResetDrive(p);break;
-    case 2:func_001D2150(p);break;
-    case 1:func_001D2610(p);break;
+    case 2:UpdateVehiclePlayer(p);break;
+    case 1:UpdateVehicleAi(p);break;
     }
     register float angle __asm__("$f0")=RadNormalize(p->goalHeading-p->heading);
     p->steering=Clamp(Evaluate(D_002C2040,angle),D_002C2050.low,D_002C2050.high);
@@ -113,7 +114,7 @@ extern "C" void func_001D19A8(P *p)
         LIMITS*limits=&p->sides[0].angleLimits;SIDE*side=p->sides;
         do {
             ++i;
-            qword direction=func_0011E1A0(p->wheelAngle,1.0f,0.0f);
+            qword direction=SetVectorCylind(p->wheelAngle,1.0f,0.0f);
             direction=func_0022FCC8(0,side->reference->parent,direction);
             float orientation=func_002458F0(Y(direction),X(direction));
             scalar.q=Pack(0.0f,0.0f,func_0011D948(limits,orientation));

@@ -7,7 +7,7 @@ struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct 
 union BASE_PHASE{M3 returned;struct{U local,acceleration,corrected,scalar;}vectors;};
 union WORK{struct{U local,scalar;M3 basis,rotation,returned;U original;}turn;struct{U direction;M3 basis;BASE_PHASE phase;}move;U scalar;};
 extern "C"{extern CLOCK g_clock;extern U D_002A2DA0,g_normalZ,D_002A2DD0;extern SMP D_002BF7A8,D_002BF7B8,D_002BF7C8;extern float D_002BF7D4,D_002BF7F0,D_002BF7F4,D_002BF7F8,D_002BF810,D_002BF814;extern PARAMS D_002BF7E0;extern POLY D_002BF800;extern RANGE g_lmZeroOne;
-qword ConvertVec(ACTOR*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");M3*func_0011B570(M3*,qword);M3*func_0011B7E0(M3*,qword);M4*func_001A6318(ACTOR*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");qword func_0011E9F8(qword,float);void AccelAloPos(ACTOR*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");void AccelAloTowardPosition(ACTOR*,qword,PARAMS*,qword,PARAMS*) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");void func_00196AA8(CONTEXT*,U*);}
+qword ConvertVec(ACTOR*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");M3*BuildRotateMatrixVector(M3*,qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");M3*func_0011B7E0(M3*,qword);M4*MatJtLo(ACTOR*) asm("MatJtLo__FP2LO");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");void AccelAloPos(ACTOR*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");void AccelAloTowardPosition(ACTOR*,qword,PARAMS*,qword,PARAMS*) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");void PushJumpOffWalls(CONTEXT*,U*) asm("PushJumpOffWalls__FP4JUMPP6VECTOR");}
 static inline qword Velocity(ACTOR*p){VTE&v=p->vt[33];return ((qword(*)(void*))v.fn)((char*)p+v.delta);}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword a,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(k));return r;}
@@ -72,7 +72,7 @@ typedef char WORK_move_direction_Offset[FIELD_OFFSET(WORK,move.direction)==0?1:-
 typedef char WORK_move_basis_Offset[FIELD_OFFSET(WORK,move.basis)==16?1:-1];
 typedef char WORK_move_phase_Offset[FIELD_OFFSET(WORK,move.phase)==64?1:-1];
 typedef char WORK_scalar_Offset[FIELD_OFFSET(WORK,scalar)==0?1:-1];
-extern "C" void func_00196DF8(CONTEXT*p){WORK w;
+extern "C" void UpdateJumpMotion__FP4JUMP(CONTEXT*p){WORK w;
  switch(p->mode){
  case 20:{
   register float zero __asm__("$f20")=0.0f;
@@ -82,9 +82,9 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
   register unsigned clockWord __asm__("$16");register float updatedX __asm__("$f0"),updatedY __asm__("$f0");register M3*rotationOutput __asm__("$4");register qword rotation __asm__("vf2");
   __asm__("lui %0,%%hi(%6)\n\taddiu %0,%0,%%lo(%6)\n\tli.s $f1,0.5\n\tlw $3,%4\n\taddiu %1,%5,0x50\n\tlwc1 $f0,4(%0)\n\tlw $2,0x5C($3)\n\tmfc1 $3,$f0\n\tmul.s $f0,$f0,$f1\n\tqmtc2.ni $3,$vf5\n\tlqc2 $vf2,0xB0($2)\n\tsqc2 $vf5,%3\n\tmfc1 $3,$f0\n\tqmtc2.ni $3,$vf4\n\tlqc2 $vf3,0xF0($2)\n\tsqc2 $vf4,%3\n\tvadda.xyzw $ACC,$vf2,$vf0\n\tvmaddx.xyzw $vf2,$vf3,$vf5x\n\tlqc2 $vf1,0xB0($2)\n\tvadd.xyzw $vf1,$vf1,$vf2\n\tvmulx.xyzw %2,$vf1,$vf4x"
    :"=&r"(clockWord),"=r"(rotationOutput),"=j"(rotation),"=m"(w.turn.scalar.q):"m"(p->actor),"p"(&w),"i"(&g_clock):"$2","$3","$f0","$f1","vf1","vf3","vf4","vf5","at","memory");
-  (void)func_0011B570(rotationOutput,rotation);
+  (void)BuildRotateMatrixVector(rotationOutput,rotation);
   {
-   register M4*matrix __asm__("$2")=func_001A6318(p->actor);
+   register M4*matrix __asm__("$2")=MatJtLo(p->actor);
    register qword first __asm__("vf3"),second __asm__("vf2"),r0 __asm__("vf4"),r1 __asm__("vf6"),r2 __asm__("vf5");
    register SMP*parameters __asm__("$4");register float*empty __asm__("$5");
    register float current __asm__("$f12"),target __asm__("$f13"),step __asm__("$f14");
@@ -117,7 +117,7 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
   register qword desired __asm__("vf2");register float maximum __asm__("$f12");
   __asm__("lui $2,%%hi(%5)\n\tlqc2 $vf2,0x40(%4)\n\tlqc2 $vf5,0x20(%4)\n\tlqc2 $vf3,0x30(%4)\n\tlqc2 $vf1,0(%4)\n\tvmulax.xyz $ACC,$vf5,$vf1x\n\tvmadday.xyz $ACC,$vf3,$vf1y\n\tvmaddz.xyz $vf1,$vf2,$vf1z\n\tlw %0,4(%0)\n\tlqc2 $vf2,0xB0(%4)\n\tqmtc2.ni %0,$vf4\n\tvsub.xyzw $vf1,$vf1,$vf2\n\tlwc1 %2,%%lo(%5)($2)\n\tvdiv Q,$vf0w,$vf4x\n\tvwaitq\n\tvmulq.xyzw %1,$vf1,Q\n\tsqc2 $vf4,%3"
    :"+r"(clockWord),"=j"(desired),"=f"(maximum),"=m"(w.turn.scalar.q):"p"(&w),"i"(&D_002BF7D4):"$2","vf1","vf3","vf4","vf5","memory");
-  register qword acceleration __asm__("$2")=func_0011E9F8(desired,maximum);
+  register qword acceleration __asm__("$2")=LimitVectorLength(desired,maximum);
   register float z __asm__("$f0");
   __asm__("pextuw $3,$zero,%1\n\tmtc1 $3,%0":"=f"(z):"r"(acceleration):"$3");
   if(z<zero){
@@ -186,7 +186,7 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
   }else gain=p->gain;
   w.move.phase.vectors.scalar.q=Scalar(gain);w.move.phase.vectors.acceleration.q=Scale(w.move.phase.vectors.acceleration.q,w.move.phase.vectors.scalar.q);
   w.move.phase.vectors.corrected.q=Rotate(&w.move.basis,w.move.phase.vectors.acceleration.q,w.move.basis.row[0].q);
-  func_00196AA8(p,&w.move.phase.vectors.corrected);
+  PushJumpOffWalls(p,&w.move.phase.vectors.corrected);
   if(p->mode!=5){
    w.move.direction.q=Velocity(p->actor);
    register float threshold __asm__("$f0"),z __asm__("$f1");
@@ -201,3 +201,5 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
  }
  }
 }
+
+// name: SafeHouse port (UpdateJumpMotion)

@@ -51,11 +51,11 @@ extern CLOCK g_clock;
 extern uint g_grfusr;
 extern qword g_normalZ;                                // (0, 0, 1)
 extern float D_002BF5B0, D_002BF5B4, D_002BF5B8;
-int func_001C46C0(JOY *, uint, float);
-int func_001C4660(JOY *, uint, float);
-void func_001C4738(JOY *, uint);
-void func_00195A00(void *, int, int, ACTOR *);
-void func_0019CC50(void *, int, int, int);
+int GrfPadctlTakePressed(JOY *, uint, float) asm("GrfPadctlTakePressed__FP6PADCTL");
+int GrfPadctlPressedWithin(JOY *, uint, float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");
+void ForgetPadctlPresses(JOY *, uint) asm("ForgetPadctlPresses__FP6PADCTLUi");
+void SetJumpKind(void *, int, int, ACTOR *) asm("SetJumpKind__FP4JUMPiiP2LO");
+void OpenBinoc(void *, int, int, int) asm("OpenBinoc__FP5ACTORiP2LOT2");
 int func_00131968(ASEGA *);
 void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");                     // set the step
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");                         // stack allocation in the current STACKSCOPE
@@ -169,24 +169,24 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
         step = p->step;
         switch (p->action) {
         case 1:
-            if (0.15f < g_clock.t - p->tHold && func_001C46C0(pjoy, 0x40, 0.25f)) {
-                func_00195A00((char *)p->pactor + 0x2C0, 7, 0, p->pactorFocus);
+            if (0.15f < g_clock.t - p->tHold && GrfPadctlTakePressed(pjoy, 0x40, 0.25f)) {
+                SetJumpKind((char *)p->pactor + 0x2C0, 7, 0, p->pactorFocus);
                 break;
             }
-            if (func_001C4660(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3)) {
-                func_001C4738(pjoy, 0x400);
-                func_0019CC50((char *)p->pactor + 0xF00, 0, 0, 0);
+            if (GrfPadctlPressedWithin(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3)) {
+                ForgetPadctlPresses(pjoy, 0x400);
+                OpenBinoc((char *)p->pactor + 0xF00, 0, 0, 0);
             }
             break;
         case 3:
         case 4:
-            if (func_001C46C0(pjoy, 0x40, 0.1f)) {
-                func_00195A00((char *)p->pactor + 0x2C0, 1, 0, 0);
+            if (GrfPadctlTakePressed(pjoy, 0x40, 0.1f)) {
+                SetJumpKind((char *)p->pactor + 0x2C0, 1, 0, 0);
                 break;
             }
-            if (func_001C4660(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3)) {
-                func_001C4738(pjoy, 0x400);
-                func_0019CC50((char *)p->pactor + 0xF00, 0, 0, 0);
+            if (GrfPadctlPressedWithin(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3)) {
+                ForgetPadctlPresses(pjoy, 0x400);
+                OpenBinoc((char *)p->pactor + 0xF00, 0, 0, 0);
             }
             break;
         case 7: {
@@ -254,13 +254,13 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             SetControl(p->pactor, 0);
             break;
         default:
-            if (func_001C46C0(pjoy, 0x40, 0.1f)) {
-                func_00195A00((char *)p->pactor + 0x2C0, 1, 0, 0);
+            if (GrfPadctlTakePressed(pjoy, 0x40, 0.1f)) {
+                SetJumpKind((char *)p->pactor + 0x2C0, 1, 0, 0);
                 break;
             }
-            if (func_001C4660(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3) && (p->action == 0 || p->action == 13)) {
-                func_001C4738(pjoy, 0x400);
-                func_0019CC50((char *)p->pactor + 0xF00, 0, 0, 0);
+            if (GrfPadctlPressedWithin(pjoy, 0x400, 0.15f) && CanAct(p->pactor, 3) && (p->action == 0 || p->action == 13)) {
+                ForgetPadctlPresses(pjoy, 0x400);
+                OpenBinoc((char *)p->pactor + 0xF00, 0, 0, 0);
                 break;
             }
             if (p->fInhibit)

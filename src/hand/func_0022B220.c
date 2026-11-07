@@ -4,7 +4,7 @@ struct M { char pad[0x3C40]; struct CHK chk; };
 extern struct M g_sw;
 extern struct CHK D_003E10D0;
 struct S { int k; int x4; struct X x; void *po; int n; };
-void func_0022B090(struct S *p, int k);
+void SetWipeState__FPv5WIPES(struct S *p, int k);
 void func_0020DF80(struct M *pm, struct X *px);
 void *func_0015E938(struct M *pm, int k, int n, int z);
 static __inline__ int FSameChk(struct CHK *a, struct CHK *b)
@@ -21,7 +21,7 @@ void func_0022B220(struct S *p, struct X *px, int n, int f)
     case 1:
         return;
     case 2:
-        func_0022B090(p, 0);
+        SetWipeState__FPv5WIPES(p, 0);
         break;
     case 3:
         return;
@@ -38,5 +38,5 @@ void func_0022B220(struct S *p, struct X *px, int n, int f)
     p->x4 = 1;
     p->x = *px;
     p->n = n;
-    func_0022B090(p, f);
+    SetWipeState__FPv5WIPES(p, f);
 }

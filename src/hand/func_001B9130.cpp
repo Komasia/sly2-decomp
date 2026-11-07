@@ -30,7 +30,7 @@ extern "C" float D_002C0A38;
 extern "C" char g_sw[];
 extern "C" void OnStepXpNew(P *p, X *px, int i) asm("OnStepXpNew__FP3ALOP2XPi");
 extern "C" void AdjustDamageXp(void *p, X *px, int i) asm("AdjustDamageXp__FP5ACTORP2XP");
-extern "C" void func_0019E9C8(void *p, X *px, int i);
+extern "C" void AdjustClimbXp(void *p, X *px, int i) asm("AdjustClimbXp__FP2XPPv");
 extern "C" qword func_0011F198(qword a, qword b);
 extern "C" int PxpCloneList(void *g, X *px) asm("PxpCloneList__FP2XPPv");
 extern "C" void PrependXpList(void *g, int r, void *p) asm("PrependXpList__FP2XPPP2XPPv");
@@ -67,7 +67,7 @@ extern "C" void OnMurrayXpNew__FP3ALOP2XPi(P *p, X *px, int i)
         }
         break;
     case 20:
-        func_0019E9C8(p->xF50, px, i);
+        AdjustClimbXp(p->xF50, px, i);
         break;
     }
 }

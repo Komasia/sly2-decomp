@@ -16,12 +16,12 @@ extern LM D_002BE5A8,D_002BE5B0;
 extern "C" {
 extern qword func_001A62E8(NODE*);extern float RadStepHeading(NODE*) asm("RadStepHeading__FP4STEP");
 extern int AddSearchPlace(QUERY*) asm("AddSearchPlace__FP8WAYQUERY");
-extern void func_001E6F60(NODE*,qword,void*,qword*,qword*,float*,float*);
+extern void NearestCrvAll(NODE*,qword,void*,qword*,qword*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 extern int FIsBasicDerivedFrom(NODE*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-extern int func_0015E9C8(void*,int,int,NODE*,int,NODE**);
+extern int CFindObjectsByClass(void*,int,int,NODE*,int,NODE**) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 extern int func_00172888(ROW*,ROW*);
 extern void func_002338C0(void*,unsigned,unsigned,int(*)(ROW*,ROW*));
-extern qword func_0011E1A0(float,float,float);extern float GRandInRange(float,float) asm("GRandInRange__Fff");
+extern qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");extern float GRandInRange(float,float) asm("GRandInRange__Fff");
 }
 struct VU_FLOAT{qword qw;};
 static inline qword QwSub(qword a,qword b){qword r;__asm__("vsub.xyzw %0, %1, %2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -70,20 +70,20 @@ extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
   w.query.candidate.q=QwAddScaled(posObj,n,g);
   AddSearchPlace(&w.query);
  }
- for(object=D_003E13F0;object;object=object->next1B4){func_001E6F60(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
+ for(object=D_003E13F0;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
  for(object=D_003E1408;object;object=object->next104){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
  for(object=D_003E13E4;object;object=object->next174){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
- for(object=D_003E13C0;object;object=object->next1B4){func_001E6F60(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
+ for(object=D_003E13C0;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
  for(object=D_003E13D8;object;object=object->next104){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
- for(object=D_003E13CC;object;object=object->next1B4){func_001E6F60(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
+ for(object=D_003E13CC;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
  for(object=D_003E13B4;object;object=object->nextE0){
   if((object->flags&1)&&FIsBasicDerivedFrom(object,0x13)){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
  }
- {int count=func_0015E9C8(&g_sw,0x505,0x23,0,0x100,w.result256);
+ {int count=CFindObjectsByClass(&g_sw,0x505,0x23,0,0x100,w.result256);
  if(count>0){cursor=w.result256;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
- {int count=func_0015E9C8(&g_sw,0x505,0x67,0,0x20,w.result32);
+ {int count=CFindObjectsByClass(&g_sw,0x505,0x67,0,0x20,w.result32);
  if(count>0){cursor=w.result32;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
- {int count=func_0015E9C8(&g_sw,0x505,0x1B,0,0x80,w.result128);
+ {int count=CFindObjectsByClass(&g_sw,0x505,0x1B,0,0x80,w.result128);
  if(count>0){cursor=w.result128;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
  for(object=D_003E1450;object;object=object->next174){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
  lastAngle=0.0f;
@@ -110,13 +110,13 @@ extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
   }
  }
  qword origin=w.query.point.q;
- qword anchor=QwAdd(origin,func_0011E1A0(w.query.heading+3.1415927f,-350.0f,0.0f));
+ qword anchor=QwAdd(origin,SetVectorCylind(w.query.heading+3.1415927f,-350.0f,0.0f));
  while(accepted<4){
   float angle,length;qword point;
   lastAngle+=GRandInRange(D_002BE5A8.low,D_002BE5A8.high);
   angle=lastAngle+w.query.heading;
   length=GRandInRange(D_002BE5B0.low,D_002BE5B0.high);
-  point=QwAdd(anchor,func_0011E1A0(angle,length,0.0f));
+  point=QwAdd(anchor,SetVectorCylind(angle,length,0.0f));
   {PAIR*pair=&p->pair[accepted];pair->candidate.q=point;pair->original.q=point;}accepted++;
  }
  p->index=0;p->time=D_002A53D0;

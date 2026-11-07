@@ -9,8 +9,8 @@ extern float g_clock;
 extern float D_002C3DB0;
 int FGuardFreeN__FP5GUARD(struct S *p);
 int NCompareNoises__FP5GUARDP5NOISET1(struct S *p, struct O *a, struct O *b);
-struct X *func_00154180(void *p, int n);
-void func_00154080(void *p, struct X *x, int n);
+struct X *PdetentryFind__FP8DETECTORi(void *p, int n);
+void SetDetentryState__FP8DETECTORP8DETENTRYi(void *p, struct X *x, int n);
 
 // name: SafeHouse port (PloGuardInterest)
 struct O *PloGuardInterest__FP5GUARDP2LO(struct S *p, struct O *def)
@@ -27,10 +27,10 @@ struct O *PloGuardInterest__FP5GUARDP2LO(struct S *p, struct O *def)
         }
     }
     if (best && best->k54 == 4) {
-        struct X *x = func_00154180(p->pF64, best->n44);
+        struct X *x = PdetentryFind__FP8DETECTORi(p->pF64, best->n44);
         if (x) {
             if (!x->b) {
-                func_00154080(p->pF64, x, 2);
+                SetDetentryState__FP8DETECTORP8DETENTRYi(p->pF64, x, 2);
                 p->tF04 = g_clock + D_002C3DB0;
             }
             return def;

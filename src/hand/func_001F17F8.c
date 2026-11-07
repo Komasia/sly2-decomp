@@ -8,7 +8,8 @@ extern struct CLOCK g_clock;
 extern int D_002C3738[];
 void SeekSma__FP3SMA3OID(void *, int);
 #define VF(q, n) (q)->pvt->a[n].pfn((char *)(q) + (q)->pvt->a[n].d)
-void func_001F17F8(struct P *p, int k)
+// name: SafeHouse port (SetPocketMode)
+void SetPocketMode__FP2LOi(struct P *p, int k)
 {
     void *pv;
     if (k == p->n3FC) return;

@@ -1,4 +1,4 @@
-// func_00117308 (Claude agent, lane A13, 2026-10-23): MATCH, from build/hand_wip/func_00117308.fresh15.cpp (4).
+// MatHermiteRotation (Claude agent, lane A13, 2026-10-23): MATCH, from build/hand_wip/MatHermiteRotation.fresh15.cpp (4).
 // Rotation interpolation between two orientations (pmat0/w0 and pmat1/w1); writes the blended matrix and/or the
 // blended angular velocity.  Matching notes:
 //  - k is a plain qword (no volatile copy): it gets no hard register and is reloaded from its spill slot (0x120).
@@ -14,13 +14,13 @@ struct VU_FLOAT {
     VU_FLOAT(float f) { __asm__("mfc1 %0, %1" : "=r"(q) : "f"(f)); }
 };
 extern "C" {
-void func_0011B570(M3 *pm, qword v);
-M3 *func_0011BC00(M3 *pr, M3 *pa, M3 *pb);
+void BuildRotateMatrixVector(M3 *pm, qword v) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
+M3 *MulMat3TransposeA(M3 *pr, M3 *pa, M3 *pb) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 qword func_0011BFB8(M3 *pm);
 }
 static inline M3 Rot(qword v) return m
 {
-    func_0011B570(&m, v);
+    BuildRotateMatrixVector(&m, v);
 }
 static inline qword VF(float g)
 {
@@ -63,8 +63,9 @@ static inline void MulP(M3 *pm, const M3 &a, const M3 *pb)
             : "=j"(r2) : "j"(a.r[0]), "j"(a.r[1]), "j"(a.r[2]), "j"(pb->r[2]));
     t.r[2] = r2; pm->r[2] = r2;
 }
-extern "C" void func_00117308(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pmat1, qword w1, M3 *pmatOut, qword *pwOut);
-void func_00117308(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pmat1, qword w1, M3 *pmatOut, qword *pwOut)
+extern "C" void MatHermiteRotation(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pmat1, qword w1, M3 *pmatOut, qword *pwOut) asm("MatHermiteRotation__FfffPvG9VU_VECTORT3T4T3PG9VU_VECTOR");
+// name: SafeHouse port (MatHermiteRotation)
+void MatHermiteRotation(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pmat1, qword w1, M3 *pmatOut, qword *pwOut)
 {
     float u = t / dt;
     float v = 1.0f - u;
@@ -74,15 +75,15 @@ void func_00117308(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pma
         float u3 = u2 * u;
         M3 a, b, rel, rot;
         qword w;
-        func_0011B570(&rot, Scale(w0, VF(u * v * v * dt)));
+        BuildRotateMatrixVector(&rot, Scale(w0, VF(u * v * v * dt)));
         MulP(&rel, rot, pmat0);
         a = rel;
-        func_0011B570(&rot, Scale(w1, VF(-h2 * dt)));
+        BuildRotateMatrixVector(&rot, Scale(w1, VF(-h2 * dt)));
         MulP(&rel, rot, pmat1);
         b = rel;
-        func_0011BC00(&rel, &a, &b);
+        MulMat3TransposeA(&rel, &a, &b);
         w = func_0011BFB8(&rel);
-        func_0011B570(&rot, Scale(w, VF(h2 * (3.0f - dt) + u3)));
+        BuildRotateMatrixVector(&rot, Scale(w, VF(h2 * (3.0f - dt) + u3)));
         MulP(&rel, rot, &a);
         *pmatOut = rel;
     }
@@ -91,7 +92,7 @@ void func_00117308(float dt, float t, float gScale, M3 *pmat0, qword w0, M3 *pma
         qword w;
         {
             M3 rel;
-            func_0011BC00(&rel, pmat0, pmat1);
+            MulMat3TransposeA(&rel, pmat0, pmat1);
             w = func_0011BFB8(&rel);
         }
         float h = u * 3.0f;

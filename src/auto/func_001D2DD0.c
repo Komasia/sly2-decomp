@@ -54,7 +54,8 @@ extern M2C_UNK D_003DA150;
 extern M2C_UNK g_sw;
 extern s32 D_003E0FD8;
 
-s32 func_001D2DD0(s32 arg0, s32 arg1) {
+// name: SafeHouse port (BestContact)
+s32 BestContact__FP12VEHICLEWHEELi(s32 arg0, s32 arg1) {
     f32 temp_f0;
     f32 var_f1;
     void *var_v0;

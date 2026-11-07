@@ -10,7 +10,7 @@ void SetInteractState__FP5ACTORi(struct P *p, int n);
 void SetSlyMode__FP3SLYi(struct O *o, int n);
 void UpdateSlyReach__FP3SLY(struct O *o);
 void func_001CCAC0(void *p, int n);
-void func_00192A28(struct P *p);
+void ForgetGuardsInteract__FP5ACTOR(struct P *p);
 // name: SafeHouse port (StartInteract)
 void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
 {
@@ -40,11 +40,11 @@ void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
         break;
     case 8:
         n = 7;
-        func_00192A28(p);
+        ForgetGuardsInteract__FP5ACTOR(p);
         break;
     case 1:
         n = 0;
-        func_00192A28(p);
+        ForgetGuardsInteract__FP5ACTOR(p);
         break;
     case 11: case 12:
         n = 0;

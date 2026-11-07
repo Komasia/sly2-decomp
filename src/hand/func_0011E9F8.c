@@ -1,6 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
-qword func_0011E9F8(qword v, float gMax)
+// name: SafeHouse port (LimitVectorLength)
+qword LimitVectorLength__FG9VU_VECTORf(qword v, float gMax)
 {
     qword d, one, l;
     float g;

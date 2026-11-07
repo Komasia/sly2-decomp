@@ -6,7 +6,7 @@ union SOURCE {void *object;float deadline;};
 struct O {M4 local,world;float t0,t1;float *time,*dt;JOB *hook;int kind;short mode,state;unsigned int tag;O *parent;int priority;SOURCE source;unsigned short force,damping;qword velocity,v0,v1,v2,v3;};
 extern qword D_002A2DD0;
 extern "C" {
-M4 func_0011C318(const M4 *);
+M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 M4 DmatXf(O *) asm("DmatXf__FP2XFPv");
 void RefreshXf(void *,O *) asm("RefreshXf__FP3ALOP2XF");
 void Hermite(float,float,float,qword,qword,qword,qword,qword *,qword *,qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
@@ -62,10 +62,10 @@ extern "C" qword func_0022D348(O *p,O *stop,qword in) {
                 m=DmatXf(p);
                 O *parent=p->parent;
                 if(parent) {
-                    M4 inverse=func_0011C318(&p->world);
+                    M4 inverse=InverseAffineMatrix4(&p->world);
                     sum=Add(sum,ParentRotate(parent->world,Transform(m,InverseTransform(inverse,input))));
                 } else {
-                    M4 inverse=func_0011C318(&p->world);
+                    M4 inverse=InverseAffineMatrix4(&p->world);
                     sum=Add(sum,Transform(m,InverseTransform(inverse,input)));
                 }
                 break;
@@ -74,6 +74,6 @@ extern "C" qword func_0022D348(O *p,O *stop,qword in) {
             break;
         }
     }
-    if(stop) {M4 inverse=func_0011C318(&stop->world);sum=RotatePointerRows(inverse,sum);}
+    if(stop) {M4 inverse=InverseAffineMatrix4(&stop->world);sum=RotatePointerRows(inverse,sum);}
     return sum;
 }

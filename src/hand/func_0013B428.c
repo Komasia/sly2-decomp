@@ -6,9 +6,9 @@ struct P {
     int pad[3]; struct VTE *vt; char pad1[0x170 - 0x10]; int x170; int x174; int pad2[2]; qword x180; M3 mat;
     qword x1C0; qword x1D0;
 };
-M3 *func_001A6318(struct P *);
+M3 *MatJtLo__FP2LO(struct P *);
 void BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(M3 *, qword, qword);
-void func_0011BA08(M3 *, qword, qword);
+void BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1(M3 *, qword, qword);
 static __inline__ qword MulV(M3 *pm, qword v)
 {
     qword o;
@@ -19,7 +19,7 @@ static __inline__ qword MulV(M3 *pm, qword v)
 static __inline__ void MulStore(struct P *p, M3 *pm)
 {
     M3 t, u;
-    M3 *pb = func_001A6318(p);
+    M3 *pb = MatJtLo__FP2LO(p);
     u.r[0] = t.r[0] = MulV(pm, pb->r[0]);
     u.r[1] = t.r[1] = MulV(pm, pb->r[1]);
     t.r[2] = u.r[2] = MulV(pm, pb->r[2]);
@@ -43,7 +43,7 @@ void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword q)
     }
     switch (p->x170) {
     case 0:
-        func_0011BA08(&m, func_001A6318(p)->r[2], q);
+        BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1(&m, MatJtLo__FP2LO(p)->r[2], q);
         MulStore(p, &m);
         break;
     case 1:
@@ -51,11 +51,11 @@ void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword q)
         p->mat = m;
         break;
     case 2:
-        func_0011BA08(&m, func_001A6318(p)->r[0], q);
+        BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1(&m, MatJtLo__FP2LO(p)->r[0], q);
         MulStore(p, &m);
         break;
     case 3:
-        p->mat = *func_001A6318(p);
+        p->mat = *MatJtLo__FP2LO(p);
         break;
     }
 }

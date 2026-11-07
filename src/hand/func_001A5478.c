@@ -9,7 +9,7 @@ void RemoveDlEntry__FP2DLPv(void *a, struct S *s);
 void InsertDlEntryBefore__FP2DLPvT1(void *a, struct S *b, struct S *s);
 void func_00147E88(void *g, int n);
 int func_001A61A0(struct S *s);
-void func_00148300(void *g, struct S *s);
+void CheckLoRoot__FP2SWP2LO(void *g, struct S *s);
 void func_001A5478(struct S *s)
 {
     void *a;
@@ -48,6 +48,6 @@ skip:
         e = &s->vt[0xB8 / 8];
         ((void (*)(void *))e->pfn)((char *)s + e->d);
     } else if (!s->x10) {
-        func_00148300(g_sw, s);
+        CheckLoRoot__FP2SWP2LO(g_sw, s);
     }
 }

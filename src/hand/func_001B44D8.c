@@ -3,7 +3,8 @@ struct O { char pad[0x20]; struct O *next; char pad1[0xE0 - 0x24]; int c; struct
 struct REQ { int cb; int align; };
 extern struct O *D_003E0714;
 struct E **PvAllocStackImpl__Fi(struct REQ *r);
-void func_001B44D8(int *pc, struct E ***pap)
+// name: SafeHouse port (ApsoeOccluders)
+void ApsoeOccluders__FPiPPP3SOE(int *pc, struct E ***pap)
 {
     struct O *o;
     struct E **a, **pp;

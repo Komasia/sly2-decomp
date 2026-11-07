@@ -8,10 +8,10 @@ struct S { char pad[0xDC]; NODE *head; char padE0[0x150-0xE0]; void *path; };
 extern "C" {
 void RenderSoSelf(S*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 float GMaxCrv(void*) asm("GMaxCrv__FP3CRV");
-M3 *func_001A6318(S*);
+M3 *MatJtLo(S*) asm("MatJtLo__FP2LO");
 void EvalCrv(void*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-void func_001E9AC0(S*);
+void PlaceRopeMeshScene(S*) asm("PlaceRopeMeshScene__FP3ALO");
 }
 static inline qword Transform(M3 *m,qword a) { __asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m->a),"j"(m->b),"j"(m->c));return a; }
 static inline qword Add(qword a,qword b) { qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r; }
@@ -20,11 +20,12 @@ static inline void StoreX(float *p,qword q) {__asm__("sw %1,%0":"=m"(*p):"r"(q))
 static inline float GetZ(qword q) {float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
 static inline float GetY(qword q) {float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline float Min(float a,float b) {return b<a?b:a;}
-void func_001E9AC0(S *p)
+// name: SafeHouse port (PlaceRopeMeshScene)
+void PlaceRopeMeshScene(S *p)
 {
  RenderSoSelf(p);
  float end=GMaxCrv(p->path);
- qword axis=func_001A6318(p)->c;
+ qword axis=MatJtLo(p)->c;
  NODE *node;
  for(node=p->head;node;node=node->next) {
   int j;

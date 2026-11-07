@@ -34,5 +34,5 @@ extern s32 D_003E115C;
 extern s32 D_003E1398;
 
 s32 func_001CB2C0(s32 arg0, s32 arg1) {
-    return func_001CADE0(arg0, 2) != 0;
+    return IrowProxyChoose__FP2SWi(arg0, 2) != 0;
 }

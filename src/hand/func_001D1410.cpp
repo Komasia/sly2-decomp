@@ -22,7 +22,8 @@ struct OBJ { char pad[0x4F8]; int c; X *a[1]; };
 extern "C" {
 void ClonePo(OBJ *) asm("ClonePo__FP2POT0");
 void func_001D4DE0(X *, X *);
-void func_001D1410(OBJ *p)
+// name: SafeHouse port (CloneVehicle)
+void CloneVehicle__FP2LO(OBJ *p)
 {
     int i;
     ClonePo(p);

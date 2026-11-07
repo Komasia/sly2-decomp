@@ -18,12 +18,12 @@ extern char D_002BCCB8[], D_002BCCC8[], D_002BCCD8[];
 extern struct { float a, b, c; } D_002BCCF0;
 extern struct { float lo, hi; } g_lmZeroOne;
 extern qword D_002A2DD0;
-void func_001F58F0(struct JT *, struct XP *);
+void GetSoCpdefi__FP2SOP6CPDEFI(struct JT *, struct XP *);
 qword func_001A62E8(void *);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, int n);
 qword func_0011F088(qword a, qword b, float dt, void *pv, int n);
 void func_0019C8B0(void *, struct XP *);
-void func_0018A4E8(void *, struct XP *);
+void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(void *, struct XP *);
 void func_001A2160(void *, struct XP *);
 
 static __inline__ float GPoly(float x, float a, float b, float c) { return a + x * (b + x * c); }
@@ -39,9 +39,10 @@ static __inline__ float GClamp(float g, float lo, float hi)
     return r;
 }
 
-void func_00141640(struct JT *pjt, struct XP *pxp)
+// name: SafeHouse port (GetActorCmTarget)
+void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct JT *pjt, struct XP *pxp)
 {
-    func_001F58F0(pjt, pxp);
+    GetSoCpdefi__FP2SOP6CPDEFI(pjt, pxp);
     if (pjt->x1044) {
         pxp->pos.q = pjt->x1060.q;
         pjt->x104C = pjt->x1060.f[2];
@@ -86,7 +87,7 @@ void func_00141640(struct JT *pjt, struct XP *pxp)
     if (pjt->x2DC != -1)
         func_0019C8B0(pjt->ax2C0, pxp);
     if (pjt->x4CC != -1)
-        func_0018A4E8(pjt->ax4C0, pxp);
+        GetInteractCpdefi__FP5ACTORP9ACTORPOSE(pjt->ax4C0, pxp);
     if (pjt->xDF4 != -1)
         func_001A2160(pjt->axDF0, pxp);
     {

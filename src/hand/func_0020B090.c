@@ -3,7 +3,8 @@ struct O { char pad[0xC]; VTE *vt; };
 struct S { char pad[0x2C0]; long fl; char pad2[0xFD0 - 0x2C8]; struct O *po; };
 long func_00207A20(int n);
 int func_002040F8(struct S *p);
-int func_0020B090(struct S *p)
+// name: SafeHouse port (GrfGuardXp)
+int GrfGuardXp__FP3ALO(struct S *p)
 {
     long m;
     if (p->fl & func_00207A20(0x14))

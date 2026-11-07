@@ -20,10 +20,10 @@ void SetXfMode__FP3ALOP2XFi(struct P *, struct O *, int);
 float RadStepHeading__FP4STEP(struct P *);
 void SetStepPhysHeading__FP3ALOf(struct P *, float);
 void TurnActorNow__FP5ACTOR(struct P *);
-void func_002206C8(void *, int);
+void SetJtThrowState__FP7JTTHROWi(void *, int);
 M4 func_0022FF40(void *, void *, M4 *);
 void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct P *p, struct O *pso, int a, int b, int c, qword q);
-qword func_0011BFF0(M4 *pm);
+qword DecomposeEulerMatrix__FP7MATRIX3(M4 *pm);
 void ClearSmaHandle__FPP3SMA(void *);
 void func_001305B8(void *, struct P *, int, void *, float, float);
 
@@ -60,7 +60,7 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
             return;
         if (pg->k1914 == 7)
             return;
-        func_002206C8(&pg->x1910, 0);
+        SetJtThrowState__FP7JTTHROWi(&pg->x1910, 0);
         return;
     }
     case 0: {
@@ -77,7 +77,7 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         ((void (*)(void *, qword))p->vt[35].f)((char *)p + p->vt[35].d, D_002A2DD0);
         ((void (*)(void *, qword))p->vt[36].f)((char *)p + p->vt[36].d, D_002A2DD0);
         p->pv1810 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->p58, 1, 7, 2, m.pos);
-        p->pv1814 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->p5C, 1, 7, 2, func_0011BFF0(&m));
+        p->pv1814 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->p5C, 1, 7, 2, DecomposeEulerMatrix__FP7MATRIX3(&m));
         break;
     }
     case 1:

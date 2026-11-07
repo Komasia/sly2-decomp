@@ -5,7 +5,7 @@ struct AL { int cb; int cbAlign; AL(int c, int a) { cb = c; cbAlign = a; } };
 extern "C" {
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-qword func_00153E60(T *p);
+qword PosDetectorEye(T *p) asm("PosDetectorEye__FP8DETECTOR");
 void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
 qword ConvertPos(SO *pso, int z, qword v) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
@@ -14,17 +14,18 @@ void func_00154568(void);
 void func_00154528(void);
 extern char g_sw[];
 extern qword D_002BDBF0[];
-int func_001545F0(T *p, SO *pso);
+int FSightBlocked(T *p, SO *pso) asm("FSightBlocked__FP8DETECTORP2LO");
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
 
 
-int func_001545F0(T *p, SO *pso)
+// name: SafeHouse port (FSightBlocked)
+int FSightBlocked(T *p, SO *pso)
 {
     FRAME frame;
     int i;
     qword *ppos = D_002BDBF0;
-    qword q = func_00153E60(p);
+    qword q = PosDetectorEye(p);
     AL al(0x10, 0x10);
     qword *apos = (qword *)PvAllocStackImpl(&al);
     int ii, jj;

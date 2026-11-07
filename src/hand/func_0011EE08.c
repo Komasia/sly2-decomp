@@ -1,4 +1,4 @@
-// func_0011EE08: closest point on segment p0-p1 to pos (Claude agent). The dead stack copy of the t vector is a
+// PosNearestSegment__FG9VU_VECTORN20P6VECTORN23: closest point on segment p0-p1 to pos (Claude agent). The dead stack copy of the t vector is a
 // volatile sqc2 asm (keeps it ahead of beqz); the ppos copy goes vf->gpr via a gcc reload (empty asm with "0") so
 // reorg can steal its qmfc2 into the delay slot.
 typedef int qword __attribute__((mode(TI)));
@@ -35,7 +35,8 @@ static inline float GClamp(float g, float lo, float hi)
     else if (g > hi) g = hi;
     return g;
 }
-void func_0011EE08(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist)
+// name: SafeHouse port (PosNearestSegment)
+void PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist)
 {
     qword d = Sub(p1, p0);
     qword e0 = Sub(pos, p0);

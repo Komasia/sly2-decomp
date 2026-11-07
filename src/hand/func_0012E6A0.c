@@ -2,7 +2,8 @@ extern char g_cm[];
 void OnLoAdd__FP2LO(void *p);
 void SetCmPolicy__FP2CM3CPPP5CPLCYii(void *a, int b, void *c, int d, void *e);
 typedef struct T { char pad[0x124]; int f; } T;
-void func_0012E6A0(T *t)
+// name: SafeHouse port (EnableCmObject)
+void EnableCmObject__FP2LO(T *t)
 {
     OnLoAdd__FP2LO(t);
     if (t->f)

@@ -14,13 +14,13 @@ extern ulong D_003DD480;
 extern float D_002A8614;
 extern float D_002C3D04,D_002C3D08,D_002C3D0C;
 ulong func_00207A20(int);
-int func_0015E9C8(struct GAME *,int,int,int,int,struct P **);
+int CFindObjectsByClass(struct GAME *,int,int,int,int,struct P **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 qword func_001A62E8(struct P *);
 void func_002338C0(void *,unsigned int,unsigned int,int (*)(const void *,const void *));
 int func_002068D8(const void *,const void *);
 int func_002085D0(struct P *,struct P *,int);
-void func_00153DE0(struct MANAGER *);
-struct ENTRY *func_00154180(struct MANAGER *,struct P *);
+void UpdateDetector(struct MANAGER *) asm("UpdateDetector__FP8DETECTOR");
+struct ENTRY *PdetentryFind(struct MANAGER *,struct P *) asm("PdetentryFind__FP8DETECTORi");
 void SetTargetrecTimer(struct ANCHOR *,int) asm("SetTargetrecTimer__FP9TARGETRECi");
 static __inline__ qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static __inline__ float LengthXY(qword a){qword r;float f;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(r));__asm__("mtc1 %1,%0":"=f"(f):"r"(r));return f;}
@@ -61,7 +61,7 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
         int kind;
         for(kind=0;kind<p->kindCount;kind++){
             int *source=&p->kinds[kind];
-            int objectCount=func_0015E9C8(&g_sw,0x505,*source,0,256,objects);
+            int objectCount=CFindObjectsByClass(&g_sw,0x505,*source,0,256,objects);
             int i=0;
             if(objectCount>0){
                 float initialStamp=D_002A8614;
@@ -117,9 +117,9 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
             }while(--candidateCount);
         }
     }
-    func_00153DE0(p->manager);
+    UpdateDetector(p->manager);
     if(p->anchor){
-        struct ENTRY *entry=func_00154180(p->manager,p->anchor->object);
+        struct ENTRY *entry=PdetentryFind(p->manager,p->anchor->object);
         if(entry){
             switch(entry->mode){case 1:SetTargetrecTimer(p->anchor,1);break;
             case 2:{

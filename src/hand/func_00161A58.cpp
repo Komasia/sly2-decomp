@@ -21,7 +21,7 @@ extern "C"{
  extern BANK D_002E65E0;
  extern CHECK D_003E1088,D_002A37E8;
  extern char D_003D4A60[];
- int func_0015E9C8(G*,int,int,P*,int,P**);
+ int CFindObjectsByClass(G*,int,int,P*,int,P**) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
  int IdBooty(void*) asm("IdBooty__FP2LO");
  void*AkeyReturnBooty(P*,int) asm("AkeyReturnBooty__FP5ACTORi");
  void func_001613F8(P*);
@@ -42,7 +42,7 @@ extern "C"{
  void func_001629A0(P*);
  void ActivateTaskNow(P*) asm("ActivateTaskNow__FP4TASK");
  void func_001657A8(P*);
- void func_0022B490(G*,CHECK*,int,int,int,int);
+ void RequestTransition(G*,CHECK*,int,int,int,int) asm("RequestTransition__FP2SWPUc3OIDT2iT2");
  CRef*func_001291A8(CRef*,const CRef*);
  void func_00129EC8(CRef*);
 }
@@ -94,7 +94,7 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
  case 1:{
   if(Same(&D_003E1088,&D_002A37E8)){
    P*results[3];
-   int found=func_0015E9C8(&g_sw,5,0x34,0,3,results);
+   int found=CFindObjectsByClass(&g_sw,5,0x34,0,3,results);
    if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->widget)(void)AkeyReturnBooty(object,IdBooty(object->widget));--count;++cursor;}while(count);}
   }
   break;
@@ -128,7 +128,7 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
   mark.Release();
   break;
  }
- case 16:{G*g=&g_sw;if(!g->first)func_0022B490(g,0,g->a,g->b,g->ready?0x20:0,0x30A);break;}
+ case 16:{G*g=&g_sw;if(!g->first)RequestTransition(g,0,g->a,g->b,g->ready?0x20:0,0x30A);break;}
  case 2:case 6:case 7:case 8:case 9:case 10:case 11:case 12:case 13:case 14:case 15:break;
  }
 }

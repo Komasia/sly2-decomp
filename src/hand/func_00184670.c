@@ -1,5 +1,6 @@
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-void *func_00184670(char *p)
+// name: SafeHouse port (JtlDescFromLo)
+void *JtlDescFromLo__FP2LO(char *p)
 {
     if (!p) return 0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x58)) return p + 0x150;

@@ -13,7 +13,7 @@ qword func_001A62E8(struct O*);
 int FInsideCmPlanes__FP2CMG9VU_VECTORT1(struct CAMERA*,qword,qword);
 int FInsideCmMrd__FP2CMG9VU_VECTORfPf(struct CAMERA*,qword,float,float*);
 void func_00202378(struct P*,struct O*);
-void func_00202768(struct P*,int);
+void SetPhotoPromptState__FPvi(struct P*,int);
 static inline void PlaneArguments(qword *eye,qword *threshold,qword *point,qword scalar,const qword *camera,const qword *position) {
     register qword view __asm__("vf1");
     register qword value __asm__("$6");
@@ -62,5 +62,5 @@ void func_00202540(struct P*p)
      if(o->state!=2){best=o;minimum=distance;}
    }
  }while(++slot,++i<p->count);}
- if(best!=p->best){p->best=best;func_00202768(p,2);}
+ if(best!=p->best){p->best=best;SetPhotoPromptState__FPvi(p,2);}
 }

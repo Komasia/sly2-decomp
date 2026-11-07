@@ -12,7 +12,7 @@ int func_001D9880(void *p);
 void func_001D54B8(void);
 void func_001DD888(void *p);
 void *func_00210B98(int n);
-void func_0022B490(struct G *pg, void *p, int a, int b, int c, int d);
+void RequestTransition__FP2SWPUc3OIDT2iT2(struct G *pg, void *p, int a, int b, int c, int d);
 // name: SafeHouse port (StartGameFromSave)
 void StartGameFromSave__FP2SW(void *pv)
 {
@@ -34,7 +34,7 @@ void StartGameFromSave__FP2SW(void *pv)
         g_game.f10 = -1;
         g_game.f14 = -1;
         g_game.f18 = 0x62F;
-        func_0022B490(&g_sw, func_00210B98(0), 0x189, -1, 0x48, -1);
+        RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, func_00210B98(0), 0x189, -1, 0x48, -1);
         return;
     }
     {
@@ -60,5 +60,5 @@ void StartGameFromSave__FP2SW(void *pv)
         ps = D_002A3828;
         __asm__ __volatile__("" : : "r"(n)); /* allocation-only: keeps n live past the compare */
     }
-    func_0022B490(&g_sw, ps, 0x189, -1, 0x40, -1);
+    RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, ps, 0x189, -1, 0x40, -1);
 }

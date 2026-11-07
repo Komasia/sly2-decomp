@@ -22,11 +22,12 @@ void *func_0015E938(void *,int,int,P *);
 void *func_001F0380(void *,P *,int,int);
 void *func_001E94B0(int,int);
 void ReplaceSmaHandle(void *,P *,int,int,void **) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
-void func_001D14C0(P *);
+void ResetVehicleState(P *) asm("ResetVehicleState__FP2LO");
 }
 static inline qword Zero(){qword r;asm("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
 static inline qword CPU(qword value){qword result;asm("qmfc2.ni %0,%1":"=r"(result):"j"(value));return result;}
-extern "C" void func_001D1518(P *p){
+// name: SafeHouse port (PostLoadVehicle)
+extern "C" void PostLoadVehicle__FP2LO(P *p){
  U scalar,maximum,minimum;
  register int i __asm__("$18")=0;CURRENT current;SCALE scale;
  register int count __asm__("$2");
@@ -141,7 +142,7 @@ extern "C" void func_001D1518(P *p){
 
  p->path=func_001E94B0(0x2C9,16);
  ReplaceSmaHandle(p->asset,p,-1,0,binding);
- func_001D14C0(p);
+ ResetVehicleState(p);
 }
 
 #define OFF(T,F) ((unsigned int)&((T*)0)->F)

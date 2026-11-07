@@ -16,7 +16,7 @@ struct S { char pad[0x3D88]; DL dl; char pad1[0x3EAC - 0x3D94]; struct L *pl; ch
 void func_00149C80(struct S *p);
 void func_00147F40(struct S *p);
 void func_002267C0(struct S *p);
-void func_001C4468(struct L *pl);
+void UpdatePadctl__FP6PADCTL(struct L *pl);
 void AgeSwContacts__FPv(struct S *p);
 void func_0019F120(struct S *p);
 void UpdateAsega__FP5ASEGA(void *pv);
@@ -43,7 +43,8 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->m_ppv = (void **)((char *)pv + pdli->m_ibDle);
     return pv;
 }
-void func_00226550(struct S *p)
+// name: SafeHouse port (RegisterSwPass)
+void RegisterSwPass__FPv(struct S *p)
 {
     func_00149C80(p);
     func_00147F40(p);
@@ -55,7 +56,7 @@ void func_00226550(struct S *p)
         DLI dli, dli2;
         void *pv;
         for (pl = p->pl; pl; pl = pl->pnext)
-            func_001C4468(pl);
+            UpdatePadctl__FP6PADCTL(pl);
         AgeSwContacts__FPv(p);
         p->pi = &i;
         for (i = 0; i < p->c; i++) {

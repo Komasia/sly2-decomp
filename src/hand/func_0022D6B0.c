@@ -1,7 +1,8 @@
 struct S { char pad[0x54]; int base; };
 extern int D_004437A0;
 extern int D_004437A8[];
-int func_0022D6B0(int a, struct S *b, struct S *c)
+// name: SafeHouse port (PxfFromRef)
+int PxfFromRef__FiP3ALOT1(int a, struct S *b, struct S *c)
 {
     int r = 0;
     switch (a & 0x3000) {

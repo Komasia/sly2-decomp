@@ -1,6 +1,6 @@
 #include "splicewrap.h"
 void SetBasic__4CRefP5BASIC(void *, s32);                 /* extern */
-s32 func_001F67E0(s32, s32);                        /* extern */
+s32 PsmaFindAloSm__Fi3OID(s32, s32);                        /* extern */
 
 CRef *func_00101468(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
@@ -9,7 +9,7 @@ CRef *func_00101468(CRef *ret, void *pbasic, s32 cref, CRef *aref)
     s32 arg0_v;
     aotyp[0] = 6;
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 1, aref, aotyp, &arg0_v);
-    SetBasic__4CRefP5BASIC(&ref, func_001F67E0(pbasic, arg0_v));
+    SetBasic__4CRefP5BASIC(&ref, PsmaFindAloSm__Fi3OID(pbasic, arg0_v));
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

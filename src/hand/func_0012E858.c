@@ -7,7 +7,7 @@ struct SO { char pad[0xE0]; struct SO *psoE0; char pad2[0x128 - 0xE4]; float g12
 struct P { char pad[0x10]; struct SO *pso; };
 extern char g_cm[];
 qword func_001A62E8(struct SO *pso);
-M3 *func_001A6318(struct SO *pso);
+M3 *MatJtLo__FP2LO(struct SO *pso);
 void SetCmLookAt__FP2CMG9VU_VECTORT1ff(void *pcm, qword a, qword b, float g, float h);
 void func_00256D18(qword *p, qword v);
 void SetCmPosMat__FP2CMP6VECTOR(void *pcm, M4 *pm);
@@ -30,7 +30,7 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
         qword b = func_001A62E8(pso->psoE0);
         SetCmLookAt__FP2CMG9VU_VECTORT1ff(g_cm, a, b, 0.0f, 0.0f);
     } else {
-        M3 m = *func_001A6318(pso);
+        M3 m = *MatJtLo__FP2LO(pso);
         M3 mT;
         M4 m4;
         U g;

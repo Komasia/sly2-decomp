@@ -17,8 +17,8 @@ O *FLaunchHudRip(void*,void*,void*) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3")
 qword func_0022FC48(void*,LO*,qword);
 float GRandInRange(float,float) asm("GRandInRange__Fff");
 void BuildOrthonormalVectors(qword,qword,qword,qword*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");
-M3 func_0011B628(qword);
-M3 func_0011BA08(qword,qword);
+M3 BuildEulerMatrix(qword) asm("BuildEulerMatrix__FP6VECTORG9VU_VECTOR");
+M3 BuildRotateVectorsMatrix(qword,qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 O *PripDecal(EMIT*,LO*,LO*,qword,qword) asm("PripDecal__FP4RIPNP4RIPGP2LOG9VU_VECTORT3");
 }
 static inline float Polynomial(POLY*p,float t){return p->a+t*(p->b+t*p->c);}
@@ -47,13 +47,13 @@ O *PripDecal(EMIT*p,LO*visual,LO*space,qword position,qword direction){
    BuildOrthonormalVectors(direction,D_002A2DA0,D_002A2DB0,frame.r);
    U angles;angles.f[1]=zero;angles.f[0]=zero;angles.f[2]=GRandInRange(zero,6.28318548f);
    M3 rotation;
-   rotation=func_0011B628(angles.q);
+   rotation=BuildEulerMatrix(angles.q);
    {M3 orient=Mul(frame,rotation);
    object->matrix=orient;}
    qword *up=&g_normalZ;
    if(__builtin_fabsf(Dot(direction,*up))<0.7f){
     U flat;flat.q=direction;flat.f[2]=zero;
-    M3 tilt;tilt=func_0011BA08(flat.q,direction);
+    M3 tilt;tilt=BuildRotateVectorsMatrix(flat.q,direction);
     U home;
     object->velocity.q=Transform(tilt,Scale(*up,-50.0f,home));
    }

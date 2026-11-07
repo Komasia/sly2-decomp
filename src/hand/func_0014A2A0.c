@@ -1,23 +1,24 @@
 struct P { char pad[0x10]; void *x10; int pad1; void *x18; char pad2[0x30 - 0x1C]; int x30; int pad3[2]; int x3C; int x40; int x44; };
 extern char g_sw[];
 void Update__5AIJOB(struct P *p);
-void func_0014A4D0(struct P *p);
+void Aim__8JOBCHASE(struct P *p);
 int func_001EF0A8(struct P *p);
 int func_00209098(void *p);
-int func_0014A478(struct P *p);
-int func_0014AA30(struct P *p);
+int FAirborne__8JOBCHASE(struct P *p);
+int IBest__8JOBCHASE(struct P *p);
 int func_001C4840(void *p);
 int PactionSelect__FP5GUARDP2LOP9TARGETREC(void *p, int n, int m);
-void func_0014AE38(struct P *p, int k);
-void func_0014AD70(struct P *p);
+void SetState__8JOBCHASEi(struct P *p, int k);
+void Step__8JOBCHASE(struct P *p);
 int FArrived__9JOBFOLLOW(void *p);
 int func_00174FB8(void *p);
 int func_00175748(void *p);
-void func_0014A2A0(struct P *p)
+// name: SafeHouse port (JOBCHASE::Update)
+void Update__8JOBCHASE(struct P *p)
 {
     int s;
     Update__5AIJOB(p);
-    func_0014A4D0(p);
+    Aim__8JOBCHASE(p);
     for (;;) {
         if (func_001EF0A8(p))
             break;
@@ -25,47 +26,47 @@ void func_0014A2A0(struct P *p)
         switch (s) {
         case 0:
             if (func_00209098(p->x10)) {
-                func_0014AE38(p, 4);
-            } else if (func_0014A478(p)) {
-                func_0014AE38(p, 2);
+                SetState__8JOBCHASEi(p, 4);
+            } else if (FAirborne__8JOBCHASE(p)) {
+                SetState__8JOBCHASEi(p, 2);
             } else {
-                int v = func_0014AA30(p);
+                int v = IBest__8JOBCHASE(p);
                 p->x40 = v;
                 if (v == p->x3C) {
                     int r = PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
                     p->x44 = r;
                     if (r)
-                        func_0014AE38(p, 3);
+                        SetState__8JOBCHASEi(p, 3);
                 } else {
-                    func_0014AD70(p);
+                    Step__8JOBCHASE(p);
                 }
             }
             break;
         case 1:
             if (func_00209098(p->x10))
-                func_0014AE38(p, 4);
-            else if (func_0014A478(p))
-                func_0014AE38(p, 2);
+                SetState__8JOBCHASEi(p, 4);
+            else if (FAirborne__8JOBCHASE(p))
+                SetState__8JOBCHASEi(p, 2);
             else if (FArrived__9JOBFOLLOW(p->x18))
-                func_0014AE38(p, 0);
+                SetState__8JOBCHASEi(p, 0);
             else
                 PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
             break;
         case 2:
             if (func_00209098(p->x10))
-                func_0014AE38(p, 4);
+                SetState__8JOBCHASEi(p, 4);
             else if (func_00174FB8(p->x18))
-                func_0014AE38(p, 0);
+                SetState__8JOBCHASEi(p, 0);
             break;
         case 3:
             if (func_00209098(p->x10))
-                func_0014AE38(p, 4);
+                SetState__8JOBCHASEi(p, 4);
             else if (func_00175748(p->x18))
-                func_0014AE38(p, 0);
+                SetState__8JOBCHASEi(p, 0);
             break;
         case 4:
             if (!func_00209098(p->x10))
-                func_0014AE38(p, 0);
+                SetState__8JOBCHASEi(p, 0);
             break;
         }
         if (s == p->x30)

@@ -7,7 +7,7 @@ struct S { char pad[0x16d8]; int f16d8; void *f16dc; void *f16e0; struct Q *pq; 
 extern ti128 D_002A2DD0;
 extern float g_clock;
 void FireBentleyDart__FP7BENTLEY(struct S *);
-struct O *func_001CB250(void *, int);
+struct O *PloAcquireProxyObject__FP2SWi(void *, int);
 void func_001D6B00(struct Q *, struct O *);
 void ExpireIn__FP3ALOf(struct O *, float);
 void SetBentleyState2__FP7BENTLEYi(struct S *, int);
@@ -22,7 +22,7 @@ void func_001357C0(struct S *p, int a) {
     default: return;
     }
     if (!pv) return;
-    po = func_001CB250(pv, 0);
+    po = PloAcquireProxyObject__FP2SWi(pv, 0);
     if (!po) return;
     po->pe->f18 = a;
     pq = p->pq;

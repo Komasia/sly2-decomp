@@ -8,11 +8,11 @@ struct XB { char pad[0xC];
 struct X : XB { char pad10[0x10]; X *next; };
 struct B { X *first; int a, b; };
 struct S { char pad[0x3038]; B ab[199]; };
-extern "C" void func_001C4A60(S *p, int k);
+extern "C" void SetPoForced(S *p, int k) asm("SetPoForced__FP2SWP2LO");
 extern "C" void func_002102A0(S *p)
 {
     int i;
-    func_001C4A60(p, 0);
+    SetPoForced(p, 0);
     for (i = 0; i < 199; i++) {
         X *x = ((struct B *)((char *)p + 0x3038))[i].first;
         for (; x; x = x->next)

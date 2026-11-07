@@ -9,18 +9,18 @@ struct P {
     char pad7[0xDF4 - 0x370]; int xDF4;
 };
 qword func_001A62E8(struct P *p);
-qword func_001D6848(qword a, qword b, float g, qword c);
-void func_00195A00(void *p, int a, int b, int c);
+qword VecBallisticVelocity__FfG9VU_VECTORN21(qword a, qword b, float g, qword c);
+void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 void func_00141968(struct P *p, qword v, float g, float h)
 {
     UQ pos;
     UQ r;
     pos.q = func_001A62E8(p);
     pos.f[2] += p->dz;
-    r.q = func_001D6848(pos.q, v, g, p->pE8->q);
+    r.q = VecBallisticVelocity__FfG9VU_VECTORN21(pos.q, v, g, p->pE8->q);
     p->vt[35].pfn((char *)p + p->vt[35].d, r.q);
     if (p->xDF4 == -1) {
-        func_00195A00((char *)p + 0x2C0, 8, 0, 0);
+        SetJumpKind__FP4JUMPiiP2LO((char *)p + 0x2C0, 8, 0, 0);
         p->k300 = 3;
         p->v360.q = r.q;
         p->v360.f[2] = 0.0f;

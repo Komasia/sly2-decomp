@@ -12,7 +12,8 @@ static inline void Add(struct O *po, qword d)
     __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(a), "j"(r));
     po->pos = s;
 }
-void func_001FAB78(struct P *p, qword a, qword b)
+// name: SafeHouse port (ForceAt)
+void ForceAt__FP3ALOG9VU_VECTORT1(struct P *p, qword a, qword b)
 {
     qword x = DvAloImpulse__FP3ALOG9VU_VECTOR(p, b);
     qword y = func_001FAA48(p, a, b);

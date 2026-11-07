@@ -1,5 +1,5 @@
-// MATCH (w3lane3, 2026-10-25): func_00194F70 = UpdateJtGrabCandidates(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
-// (name and structures from src/hand/func_00194A40.cpp, the GatherJtGrabCandidates port that calls it).
+// MATCH (w3lane3, 2026-10-25): TrackJt = UpdateJtGrabCandidates(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
+// (name and structures from src/hand/UpdateJtCandidates.cpp, the GatherJtGrabCandidates port that calls it).
 // Merges this frame's sorted grab candidates into the four the world keeps (SW::ajtgrabcand): an old candidate
 // whose object is found again takes the new distance and smooths its parameter towards the new one (wrapping
 // around the spot's range), one that is gone is dropped, and the remaining new ones are linked and appended.
@@ -48,13 +48,14 @@ int func_00194F48(const void *, const void *);   // JTGRABCAND compare for qsort
 void func_002338C0(void *base, uint c, uint cb, int (*pfnCmp)(const void *, const void *));   // qsort
 void *func_002332B8(void *dst, const void *src, uint cb);   // memmove
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf");   // GSmooth
-void func_001F7BF8(LO *plo, float g);
+void FadeAloOut(LO *plo, float g) asm("FadeAloOut__FP3ALOf");
 void BroadcastTaskEvent(void *pv, int msg, LO *plo) asm("BroadcastTaskEvent__FP2SWiP2LO");
-LO *func_001956D0(SW *psw, int id, JTGRABCAND *pcand);
-void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand);
+LO *PloNewJtAura(SW *psw, int id, JTGRABCAND *pcand) asm("PloNewJtAura__FP2LOiP5JTENT");
+void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand) asm("TrackJt__FP5ACTORP5JTENTiP10JTGRABCAND");
 }
 
-void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
+// name: SafeHouse port (TrackJt)
+void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
 {
     float asRange[2];
     qword qwPos;
@@ -75,7 +76,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
             if (--j < 0) {
                 // Not seen this frame: drop it.
                 if (pcandOld->ploUnk10)
-                    func_001F7BF8(pcandOld->ploUnk10, 0.5f);
+                    FadeAloOut(pcandOld->ploUnk10, 0.5f);
                 func_002332B8(pcandOld, pcandOld + 1, (3 - i) * (int)sizeof(JTGRABCAND));
                 psw->cjtgrabcand--;
                 break;
@@ -137,7 +138,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
         pcand = &ajtgrabcand[j];
         if (pstepplayer->idUnk9C4 && pcand->nPriority == 1) {
             register LO *plo asm("$6"); // the one register pin: the original keeps the link result in a2, global-alloc would pick v0
-            plo = func_001956D0(psw, pstepplayer->idUnk9C4, pcand);
+            plo = PloNewJtAura(psw, pstepplayer->idUnk9C4, pcand);
             if (!plo)
                 break;
             pcand->ploUnk10 = plo;

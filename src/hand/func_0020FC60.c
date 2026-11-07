@@ -4,8 +4,8 @@ struct O { char pad[0x60]; struct O *next; };
 struct G { char pad[0x20]; qword pos; float r; struct O *first; char pad2[0x40 - 0x38]; struct G *next; };
 struct S { char pad[0x3D1C]; struct G *first; };
 void *PvAllocStackImpl__Fi(struct MSG *pmsg);
-void func_00133E30(struct S *p);
-void func_00133E80(struct S *p);
+void FlushSwOxaDirty1__FP2SW(struct S *p);
+void UpdateSwAaox__FP2SW(struct S *p);
 
 void func_0020FC60(struct S *p, qword pos, float r, int (*pfn)(void *, struct O *), void *ctx, int *pc, struct O ***pap)
 {
@@ -17,8 +17,8 @@ void func_0020FC60(struct S *p, qword pos, float r, int (*pfn)(void *, struct O 
     msg.nKind = 0x10;
     ap = PvAllocStackImpl__Fi(&msg);
     c = 0;
-    func_00133E30(p);
-    func_00133E80(p);
+    FlushSwOxaDirty1__FP2SW(p);
+    UpdateSwAaox__FP2SW(p);
     for (g = p->first; g; g = g->next) {
         float rr;
         qword d, e, tmp;

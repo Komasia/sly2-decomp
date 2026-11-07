@@ -1,6 +1,6 @@
-// func_00197F98: per-frame movement / jump-target update of a player context (MATCH; T1870, Lilly's agent; = lilly30 + FloatUse + EMPTY).
+// UpdateJumpInput__FP4JUMP: per-frame movement / jump-target update of a player context (MATCH; T1870, Lilly's agent; = lilly30 + FloatUse + EMPTY).
 // Joystick combo timers, a search over the two jump-target lists (D_003E13E4 sources / D_003E1420 objects) that picks the best
-// intercept (func_0019A4A0 + func_0011EE08) and switches to mode 6/8, goal prediction for modes 6..18 (func_002309E8 forecast +
+// intercept (func_0019A4A0 + PosNearestSegment) and switches to mode 6/8, goal prediction for modes 6..18 (func_002309E8 forecast +
 // derivative matrices), an acceleration-cost check, the heading switch (modes 0, 11-15, 20, 22, default) and the basic-move
 // velocity (modes 0-5, 7).
 // Two allocation/frame probes (no register pins):
@@ -10,7 +10,7 @@
 //  2. FloatUse(vel.f[2], actor): empty asm giving the `actor` pseudo of the post-search Make argument a 3rd reference, so local-alloc
 //     gives it v0 and the physics pointer v1 like the target (physics = 2 refs over a shorter life would otherwise be allocated first).
 // Other allocation-shaping asm helpers: VuFloatMemBits (lw into a TI GPR pseudo), QwAddScaled2/QwScale2 (VU_FLOAT listed twice),
-// GFromQw users. See notes/190000-1F0000_lanes.md "func_00197F98 - T1862" and the T1870 note.
+// GFromQw users. See notes/190000-1F0000_lanes.md "UpdateJumpInput__FP4JUMP - T1862" and the T1870 note.
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int i[4]; };
 struct EMPTY { ~EMPTY() {} };
@@ -61,11 +61,11 @@ extern LM D_002BF798, D_002BF850, D_002BF858, D_002BF870;
 extern SMP D_002BF860;
 qword func_001A62E8(void *);
 void func_0019A4A0(CONTEXT *, qword, void *, qword, qword, float *, float *, qword *, qword *);
-void func_0011EE08(qword, qword, qword, qword *, float *, float *);
+void PosNearestSegment(qword, qword, qword, qword *, float *, float *) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 qword func_0022D348(SPACE *, SPACE *, qword);
 qword func_0022FC48(SPACE *, SPACE *, qword);
 qword func_0022FCC8(SPACE *, SPACE *, qword);
-void func_00195FB8(CONTEXT *, int, void *);
+void SetJumpAnimState(CONTEXT *, int, void *) asm("SetJumpAnimState__FP4JUMPiP2LO");
 void func_002309E8(SPACE *, SPACE *, M4 *, float, M4 *);
 void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
@@ -78,13 +78,13 @@ void func_001CC2E8(void *);
 void func_002046B0(ACTOR *, qword);
 void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 void func_001441E8(ACTOR *, float);
-qword func_0011E1A0(float, float, float);
-M3 func_0011BA08(qword, qword);
+qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
+M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 M3 func_0011B500(qword, float);
 float func_002458F0(float, float);
 float func_00244E10(float);
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
-qword func_0011E9F8(qword, float);
+qword LimitVectorLength(qword, float) asm("LimitVectorLength__FG9VU_VECTORf");
 void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
 }
 
@@ -163,7 +163,8 @@ static inline float GLerp(const LM &lm, float u) { return (1.0f - u) * lm.low + 
 static inline float GClamp(float g, float lo, float hi) { if (g < lo) return lo; if (hi < g) return hi; return g; }
 static inline int FMoving(qword v) { return D_002BF848 < GLengthXY(v); }
 
-extern "C" void func_00197F98(CONTEXT *p)
+// name: SafeHouse port (UpdateJumpInput)
+extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
 {
     INPUT *input = p->actor->input;
     switch (p->combo) {
@@ -227,7 +228,7 @@ extern "C" void func_00197F98(CONTEXT *p)
             end.q = QwAddScaled(delta.q, rel.q, VuFloat(GMin(0.25f, t)));
 
             delta.f[2] = end.f[2] = 0.0f;
-            func_0011EE08(D_002A2DD0, delta.q, end.q, 0, &alpha, &dist);
+            PosNearestSegment(D_002A2DD0, delta.q, end.q, 0, &alpha, &dist);
             if (!((dist <= D_002BF83C && alpha != 0.0f) || (dist <= D_002BF83C * 0.25f && vel.f[2] <= 0.0f)))
                 continue;
 
@@ -258,7 +259,7 @@ extern "C" void func_00197F98(CONTEXT *p)
 
             delta.f[2] = end.f[2] = 0.0f;
 
-            func_0011EE08(D_002A2DD0, delta.q, end.q, 0, &alpha, &dist);
+            PosNearestSegment(D_002A2DD0, delta.q, end.q, 0, &alpha, &dist);
             if (!((dist <= obj->radius && alpha != 0.0f) || (dist <= obj->radius * 0.25f && vel.f[2] <= 0.0f)))
                 continue;
             objBest = obj;
@@ -278,9 +279,9 @@ extern "C" void func_00197F98(CONTEXT *p)
             v.q = Make(velBest.f[0], velBest.f[1], FloatUse(vel.f[2], actor) + tBest * actor->physics->gravity.f[2]);
             body->velocityGoal.q = func_0022FCC8(0, frame, v.q);
             if (srcBest)
-                func_00195FB8(p, 6, srcBest);
+                SetJumpAnimState(p, 6, srcBest);
             else
-                func_00195FB8(p, 8, objBest);
+                SetJumpAnimState(p, 8, objBest);
         }
         break;
     }
@@ -336,7 +337,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         Hermite(dt, dt, 1.0f, body->position.q, body->velocity.q, body->goal.q, body->velocityGoal.q, 0, 0, &accel1.q);
         if (D_002BF844 < (GLengthQ(accel0.q) + GLengthQ(accel1.q)) * 0.5f * dt)
 
-            func_00195FB8(p, 4, 0);
+            SetJumpAnimState(p, 4, 0);
         break;
     }
     }
@@ -410,7 +411,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         func_001441E8(p->actor, D_002BF878);
         {
             ACTOR *actor = p->actor;
-            actor->velocity.q = func_0011E1A0(input->heading + 3.14159265f, input->amount * D_002BF87C, D_002BF880);
+            actor->velocity.q = SetVectorCylind(input->heading + 3.14159265f, input->amount * D_002BF87C, D_002BF880);
         }
         if (FMoving(vel.q))
             p->actor->heading = func_002458F0(vel.f[1], vel.f[0]) + offset;
@@ -421,7 +422,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         qword b = p->actor->velocity.q;
         a = QwSub(a, QwScaleQ(up, QwDot(a, up)));
         b = QwSub(b, QwScaleQ(up, QwDot(b, up)));
-        basis = func_0011BA08(g_normalZ, QwCombine(D_002BF890, a, half, b, halfNeg));
+        basis = BuildRotateVectorsMatrix(g_normalZ, QwCombine(D_002BF890, a, half, b, halfNeg));
 
         ACTOR *actor = p->actor;
         actor->local = MulM3(basis, func_0011B500(g_normalZ, actor->heading));
@@ -463,7 +464,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         }
         speed *= p->scale;
         U desired;
-        desired.q = func_0011E1A0(input->heading, input->amount * speed, 0.0f);
+        desired.q = SetVectorCylind(input->heading, input->amount * speed, 0.0f);
         ACTOR *actor = p->actor;
         actor->velocity.q = QwScale2(RotateTranspose(actor->local, desired.q), VuFloat(-1.0f));
         if ((p->mode != 0 || p->combo == 3) && !p->jump) {
@@ -476,7 +477,7 @@ extern "C" void func_00197F98(CONTEXT *p)
             float proj = GSplitVector(desired.q, dir.q, 0, &perp.q);
             if (proj < g && g * -0.25f < proj) {
                 desired.q = QwAddScaled(perp.q, dir.q, VuFloat(g));
-                desired.q = func_0011E9F8(desired.q, speed);
+                desired.q = LimitVectorLength(desired.q, speed);
             }
         }
         if (p->velocitySource) {

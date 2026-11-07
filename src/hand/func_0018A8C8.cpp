@@ -1,4 +1,4 @@
-// func_0018A8C8: ported from Lilly's personal Sly 2 decomp (src/P2/jtground.c), reduced to the declarations it needs.
+// UpdateSlyTransitions__FP2JT: ported from Lilly's personal Sly 2 decomp (src/P2/jtground.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DA0 (D_002A2DA0), D_002BF354 (D_002BF354), D_002BF360 (D_002BF360), D_002BF364 (D_002BF364), D_002BF370 (D_002BF370), g_clock, g_normalZ
 // 0x0018A8C8 JtChooseGroundState (curated name)
@@ -1507,7 +1507,7 @@ static inline float GXOfQw(qword qw)
     return x;
 }
 extern "C" {
-void func_00197500(JTAIR *pjtair);
+void UpdateJumpTransitions(JTAIR *pjtair) asm("UpdateJumpTransitions__FP4JUMP");
 }
 extern "C" {
 void UpdateJtGrabPre(JTGRAB *pjtgrab);
@@ -1555,7 +1555,8 @@ static inline qword QwRotateVecAt(MATRIX3 *pmat, qword *pqwVec)
             : "j"(*pqwVec), "j"(*(qword *)pmat->mat[0]), "j"(*(qword *)pmat->mat[1]), "j"(*(qword *)pmat->mat[2]));
     return qwResult;
 }
-extern "C" void JtChooseGroundState(JT *pjt) __asm__("func_0018A8C8");
+extern "C" void JtChooseGroundState(JT *pjt) __asm__("UpdateSlyTransitions__FP2JT");
+// name: SafeHouse port (UpdateSlyTransitions)
 extern "C" void JtChooseGroundState(JT *pjt)
 {
     JTS jtsOld;
@@ -1600,7 +1601,7 @@ extern "C" void JtChooseGroundState(JT *pjt)
             switch (pjt->jts)
             {
                 case JTS_Air:
-                    func_00197500(&pjt->jtair);
+                    UpdateJumpTransitions(&pjt->jtair);
                     if (pjt->nUnk1d30)
                     {
                         SetJtJts(pjt, JTS_Unk11, JTBS_Nil);

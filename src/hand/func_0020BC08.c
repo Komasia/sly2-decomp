@@ -12,7 +12,8 @@ void SetPosition__4CSndG9VU_VECTOR(void *p, qword q);
 void SetFalloff__4CSndff(void *p, float a, float b);
 void SetVolume__4CSndf(void *p, float t);
 
-void func_0020BC08(struct S *p)
+// name: SafeHouse port (UpdateGaitFeet)
+void UpdateGaitFeet__FP4GAIT(struct S *p)
 {
     struct X *x = p->py->px;
     float g = x->g;

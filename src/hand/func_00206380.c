@@ -3,13 +3,14 @@ struct Q { char pad[0xC]; VTE *vt; char pad2[0xEC - 0x10]; void *pEC; };
 struct T { char pad[0xEC]; void *pEC; };
 struct O { char pad[0x50]; int k; char pad2[8]; struct T *pt; };
 struct S { char pad[0x26C]; char x26C[4]; };
-int func_001F4FC8(struct S *p, struct Q *q);
+int OverlapKindAlo__FP3ALOT0(struct S *p, struct Q *q);
 int func_00209A68(struct S *p, int n);
 struct O *PjobFind__FP5GUARDPv(void *p, int n);
 int func_00134310(int a, int b);
-int func_00206380(struct S *p, struct Q *q)
+// name: SafeHouse port (OverlapKindGuard)
+int OverlapKindGuard__FP3ALOT0(struct S *p, struct Q *q)
 {
-    int r = func_001F4FC8(p, q);
+    int r = OverlapKindAlo__FP3ALOT0(p, q);
     if (func_00209A68(p, 7)) {
         if (!((int (*)(void *))q->vt[62].pfn)((char *)q + q->vt[62].d))
             r = func_00134310(r, 1);

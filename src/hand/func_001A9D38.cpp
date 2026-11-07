@@ -5,7 +5,7 @@ struct A{LO*lo;int x4;float radius;int xC;unsigned long flags;int x18,first;M4 m
 struct B{LO*lo;char pad4[0xC];unsigned long flags;char pad18[8];M4 m;char pad60[0x48];int oldGeneration,generation;};
 struct HIT{qword p;char pad10[0x30];float time;int x44,x48,tag;char pad50[0x10];};
 struct W;struct C;
-extern "C" M4 func_0011C318(const M4*);
+extern "C" M4 InverseAffineMatrix4(const M4*) asm("InverseAffineMatrix4__FP7MATRIX4");
 extern "C" int ClipSegmentSoe(B*,qword,qword,int,HIT*) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
 extern "C" void PxpAddSw(W*,A*,B*,qword,qword,int,int,int,C**,float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 static inline qword TransformNew(const M4*m,qword p){qword r;__asm__("vmulax.xyz ACC,%1,%3x\n\tvmadday.xyz ACC,%2,%3y\n\tvmaddaz.xyz ACC,%4,%3z\n\tvmaddw.xyz %0,%5,$vf0w":"=&j"(r):"j"(m->r[0]),"j"(m->r[1]),"j"(p),"j"(m->r[2]),"j"(m->r[3]));return r;}
@@ -30,7 +30,7 @@ extern "C" void MarkSweptVertices__FP3SOET0PP2XPPv(W*w,A*a,B*b,C**out){
  for(i=a->first;i<a->count;i++){
   HIT hits[2];
   qword pos=TransformNew(&a->m,a->vertices[i]);
-  if(b->oldGeneration!=b->generation)pos=Transform(&b->lo->m,Transform(&func_0011C318(&b->m),pos));
+  if(b->oldGeneration!=b->generation)pos=Transform(&b->lo->m,Transform(&InverseAffineMatrix4(&b->m),pos));
   qword dest=a->probes[i];
   int count=ClipSegmentSoe(b,pos,dest,2,hits);
   if(count){

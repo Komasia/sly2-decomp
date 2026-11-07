@@ -2737,7 +2737,7 @@ extern "C" void AddDanceBeat(LO *plo, LO *ploActor, int n5, int n6, float g) asm
 extern "C" void StartMurrayHold(MURRAY *pmurray, SMA *psma, int n7, int n6, int n8) asm("StartMurrayHold__FP6MURRAYP3SMAiii");
 extern "C" void func_001B9880(MURRAY *pmurray);
 void ReleaseJsgSma(JSG *pjsg);
-extern "C" void func_00220508(MOVEREC *pmr, LO *plo);
+extern "C" void SetJtThrowTarget(MOVEREC *pmr, LO *plo) asm("SetJtThrowTarget__FP7JTTHROWP2LO");
 void PutSwHeroAtWarp(WARP *pwarp);
 MATRIX3 LoadRotateMatrixRad(float rad, qword normal);
 GRABSPOT *PspotFromLo(LO *plo);
@@ -3838,7 +3838,7 @@ void NextJsgCommand(JSG *pjsg)
                 LO *plo = PloFindJsgObject(pjsg, prelaycmd->unk59.oidShip);
                 if (plo)
                 {
-                    func_00220508(&pmurray->moverec, plo);
+                    SetJtThrowTarget(&pmurray->moverec, plo);
                 }
             }
         }
@@ -3864,7 +3864,7 @@ void NextJsgCommand(JSG *pjsg)
                 LO *plo = PloFindJsgObject(pjsg, prelaycmd->unk5A.oidShip);
                 if (plo)
                 {
-                    func_00220508(&pmurray->moverec, plo);
+                    SetJtThrowTarget(&pmurray->moverec, plo);
                     SetJsgJt(pjsg, prelaycmd, pmurray);
                 }
             }

@@ -7,7 +7,7 @@ struct O { char pad[0xC]; struct VT *pvt; char pad1[0x150 - 0x10]; struct P *p15
 extern qword func_001A62E8(void *p);
 extern int func_0011D910(void *p, float g);
 extern struct T *PjobFind__FP5GUARDPv(void *p, int n);
-extern void func_0018C250(struct O *p, int n, int m);
+extern void SetJtJts__FP2JT3JTS4JTBS(struct O *p, int n, int m);
 extern float func_002458F0(float y, float x);
 extern float RadNormalize__Ff(float g);
 extern int FSlyAnchorsAhead__FP3SLY(struct O *p);
@@ -36,7 +36,7 @@ int NSlyNextSwing__FP3SLY(struct O *p)
                 int k = pt->n50;
                 if (k < 2) {
                     if (k >= 0) {
-                        func_0018C250(p, 0x10, -1);
+                        SetJtJts__FP2JT3JTS4JTBS(p, 0x10, -1);
                         return -1;
                     }
                 }

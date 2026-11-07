@@ -1,4 +1,4 @@
-/* func_001D4568 (Claude agent, wave-3 lane 9): hit reaction. After the base handler (FAbsorbSoWkr) accepts the event, the
+/* AcceptVehicleContact (Claude agent, wave-3 lane 9): hit reaction. After the base handler (FAbsorbSoWkr) accepts the event, the
  * remaining count is updated (clamped at 0) and, for kind 0x100 (random hit) or 0x1000 (hit from a sender), a random linear
  * and angular impulse is built and added to the object's velocity through its virtual get/set pairs (vtable slots 33/35 and
  * 34/36).
@@ -25,12 +25,12 @@ extern qword D_002A2DA0, g_normalZ;
 extern float D_002C21D0[2], D_002C21D8[2], D_002C21E0[2], D_002C21E8[2], D_002C21F0[2], D_002C21F8[2], D_002C2200[2];
 extern "C" {
 int FAbsorbSoWkr(P *, EVENT *) asm("FAbsorbSoWkr__FP2SOP3WKR");
-void func_001D4C88(P *);
-void func_001D4940(P *, int);
+void UpdateVehicleHealth(P *) asm("UpdateVehicleHealth__FP7VEHICLE");
+void SetVehicleMode(P *, int) asm("SetVehicleMode__FP7VEHICLEi");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
-qword func_0011E1A0(float, float, float);
+qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 qword func_001A62E8(P *);
-int func_001D4568(P *, EVENT *);
+int AcceptVehicleContact(P *, EVENT *) asm("AcceptVehicleContact__FP3ALOP5CTMSG");
 }
 static inline VV Zero() { qword r; __asm__("vsub.xyzw %0, $vf0, $vf0" : "=j"(r)); return r; }
 static inline VU_VECTOR4 VecZero() { VU_VECTOR4 v; v.q = Zero(); return v; }
@@ -78,7 +78,8 @@ static inline void AddVector(P *p, int get, int set, const VU_VECTOR4 &delta)
     ((void (*)(void *, qword))pset->fn)(receiver, Add(original, delta.q));
 }
 
-int func_001D4568(P *p, EVENT *event)
+// name: SafeHouse port (AcceptVehicleContact)
+int AcceptVehicleContact(P *p, EVENT *event)
 {
     if (!FAbsorbSoWkr(p, event))
         return 0;
@@ -86,9 +87,9 @@ int func_001D4568(P *p, EVENT *event)
     if (remaining < 0)
         remaining = 0;
     p->remaining = remaining;
-    func_001D4C88(p);
+    UpdateVehicleHealth(p);
     if (!p->remaining)
-        func_001D4940(p, 3);
+        SetVehicleMode(p, 3);
     VU_VECTOR4 linear, angular;
     linear = VecZero();
     angular = linear;
@@ -99,7 +100,7 @@ int func_001D4568(P *p, EVENT *event)
         float angle = GRandInRange(-3.14159274f, 3.14159274f);
         float horizontal = Random(D_002C21D0);
         float vertical = Random(D_002C21D8);
-        linear.q = func_0011E1A0(angle, horizontal, vertical);
+        linear.q = SetVectorCylind(angle, horizontal, vertical);
         angular.q = VuFloat(Random(D_002C21E0)) * NormalizeSafe(Cross(g_normalZ, linear.q), D_002A2DA0);
         break;
     }

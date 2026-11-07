@@ -22,7 +22,7 @@ extern s32 D_003E1A4C;
 extern M2C_UNK D_003E1A78;
 
 /*
-Decompilation failure in function func_001BB648:
+Decompilation failure in function RunItems__FP2LOP3BRK:
 
 Found jr instruction at chunk.s line 67, but the corresponding jump table is not provided.
 

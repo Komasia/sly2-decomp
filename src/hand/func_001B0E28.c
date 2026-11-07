@@ -5,7 +5,7 @@ struct S { char pad[0x168]; float f168; int x16C; char pad1[0x1C4 - 0x170]; int 
 void UpdateSo__FP2SOf(struct S *p);
 int StBirdSees__FP2LO(struct S *p);
 int FBirdFacing__FP2LO(struct S *p);
-void func_001F7BF8(struct S *p, float f);
+void FadeAloOut__FP3ALOf(struct S *p, float f);
 void SetBirdState__FP2LOi(struct S *p, int st);
 void MoveBirdAlongPath__FP2LO(struct S *p);
 // name: SafeHouse port (UpdateBird)
@@ -34,7 +34,7 @@ void UpdateBird__FP2LO(struct S *p)
         break;
     case 4:
         if (p->f22C <= g_clock.t) {
-            func_001F7BF8(p, p->f168);
+            FadeAloOut__FP3ALOf(p, p->f168);
             p->f22C = D_002A70E0;
         }
         break;

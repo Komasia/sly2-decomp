@@ -1,4 +1,4 @@
-// func_00194A40: ported from Lilly's personal Sly 2 decomp (src/P2/jtgrab.c), reduced to the declarations it needs.
+// UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi: ported from Lilly's personal Sly 2 decomp (src/P2/jtgrab.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF660 (D_002BF660), D_002BF664 (D_002BF664), D_002BF70C (D_002BF70C), D_003DA0C0 (g_hintbox), g_sw
 // 0x00194A40 GatherJtGrabCandidates__FP2SWP10STEPPLAYERUi  (MATCHES Sly 2; our name for the record)
@@ -1417,7 +1417,8 @@ extern float D_002BF664;
 extern float D_002BF70C;
 extern HINTBOX D_003DA0C0;
 void AddJtGrabCandidate(SW *psw, STEPPLAYER *pstepplayer, qword qwPosJt, LO *plo, GRABSPOT *pspot, int ccandMax, JTGRABCAND *ajtgrabcand);
-void GatherJtGrabCandidates(SW *psw, STEPPLAYER *pstepplayer, uint grf) __asm__("func_00194A40");
+void GatherJtGrabCandidates(SW *psw, STEPPLAYER *pstepplayer, uint grf) __asm__("UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi");
+// name: SafeHouse port (UpdateJtCandidates)
 void GatherJtGrabCandidates(SW *psw, STEPPLAYER *pstepplayer, uint grf)
 {
     JTGRABCAND ajtgrabcand[4];

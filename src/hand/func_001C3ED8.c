@@ -2,14 +2,15 @@ struct VTE { short d; short pad; void (*pf)(); };
 struct LO { char pad[0xC]; struct VTE *vt; char p1[0x150 - 0x10]; void *x150; };
 struct G { char pad[0x3EB8]; int c; struct LO *a[16]; char p1[0x3EFC - 0x3EFC]; struct LO *plo3EFC; };
 extern struct G g_sw;
-int func_001C4080(struct LO *p);
+int NPoEnabled__FP2LO(struct LO *p);
 void *__builtin_new(int cb);
 void *func_001C4280(void *pv, struct LO *p);
 void func_001C4940(struct G *pg, struct LO *plo);
-void func_001C4640(void *pv, int n);
-void func_001C3ED8(struct LO *p, int n)
+void SetPadctlControl__FP6PADCTLi(void *pv, int n);
+// name: SafeHouse port (EnablePo)
+void EnablePo__FP2POi(struct LO *p, int n)
 {
-    if (n == func_001C4080(p)) return;
+    if (n == NPoEnabled__FP2LO(p)) return;
     if (!p->x150) {
         struct G *pg = &g_sw;
         if ((unsigned int)pg->c >= 16) return;
@@ -33,5 +34,5 @@ void func_001C3ED8(struct LO *p, int n)
         break;
     }
     }
-    func_001C4640(p->x150, n);
+    SetPadctlControl__FP6PADCTLi(p->x150, n);
 }

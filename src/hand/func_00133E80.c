@@ -1,9 +1,10 @@
 struct X;
 struct E { int f0; struct X *px; float *pg; };
 struct P { char pad[0x3CCC]; int fDirty; int c; struct E *aae[3]; };
-void func_00133A38(struct P *, struct X *, struct X *, int);
+void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *, struct X *, struct X *, int);
 void *func_002332B8(void *, void *, unsigned int);
-void func_00133E80(struct P *p)
+// name: SafeHouse port (UpdateSwAaox)
+void UpdateSwAaox__FP2SW(struct P *p)
 {
     int i;
     if (!p->fDirty)
@@ -27,7 +28,7 @@ void func_00133E80(struct P *p)
                     if (*pe2->pg <= g)
                         break;
                     if (pe->f0 != pe2->f0)
-                        func_00133A38(p, pe->px, pe2->px, 0);
+                        UpdateSwPox__FP2SWP3OXAT1Uc(p, pe->px, pe2->px, 0);
                 }
                 pe2++;
                 e = *pe;

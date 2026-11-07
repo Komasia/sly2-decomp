@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-void *func_001BBDB0(s32, M2C_UNK);                  /* extern */
+void *PitemNew__FP2LOi(s32, M2C_UNK);                  /* extern */
 s32 func_001BBE18();                                /* extern */
 M2C_UNK func_001F6B48(s32, s32);                    /* extern */
 
@@ -8,5 +8,5 @@ void func_001BBCF0(s32 arg0, s32 arg1) {
         func_001F6B48(arg0, arg1);
         return;
     }
-    M2C_FIELD(func_001BBDB0(arg0, 5), s32 *, 4) = arg1;
+    M2C_FIELD(PitemNew__FP2LOi(arg0, 5), s32 *, 4) = arg1;
 }

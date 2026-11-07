@@ -17,7 +17,8 @@ void SetPitch__4CSndiif(struct M *, float);
 void func_001FB520(struct M *, float);
 void func_00258040(struct M **, struct M *);
 static inline struct O *SelectedValue(struct O *p){struct O *value;__asm__("daddu %0,%1,$zero":"=r"(value):"r"(p));return value;}
-void func_00210740(float offset, float fade, float scale, struct G *p, int id, int oid, int x, int y, struct O *fallback, void *owner, void *unused, struct M **out)
+// name: SafeHouse port (PlayAsegaSound)
+void PlayAsegaSound__FfffPviiiiN33PPv(float offset, float fade, float scale, struct G *p, int id, int oid, int x, int y, struct O *fallback, void *owner, void *unused, struct M **out)
 {
     struct O *o;
     struct M *m;

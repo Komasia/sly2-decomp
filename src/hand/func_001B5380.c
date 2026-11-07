@@ -12,17 +12,17 @@ struct P {
 };
 void func_001B7D20(struct P *p);
 void func_001B6078(struct P *p, int n);
-int func_001C4660(struct PL *pl,unsigned int k,float g);
-int func_001C46C0(struct PL *pl, int k, float g);
-void func_001C4738(struct PL *pl, int k);
+int GrfPadctlPressedWithin__FP6PADCTLUif(struct PL *pl,unsigned int k,float g);
+int GrfPadctlTakePressed__FP6PADCTL(struct PL *pl, int k, float g);
+void ForgetPadctlPresses__FP6PADCTLUi(struct PL *pl, int k);
 int func_001DAEA8(int n);
-void func_00195A00(void *p, int a, int b, int c);
-void func_0019CC50(void *p, int a, int b, int c);
+void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
+void OpenBinoc__FP5ACTORiP2LOT2(void *p, int a, int b, int c);
 void SetMurrayCarryMove__FP6MURRAYi(struct P *p, int n);
 void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p,struct PL*pl,float g);
-void func_0020BB58(void *p, float g);
-void func_0020BC08(void *p);
+void SetGaitMix__FP4GAITf(void *p, float g);
+void UpdateGaitFeet__FP4GAIT(void *p);
 static inline void NegateSource(qword value,qword*velocity,U*scalar){
     register qword input __asm__("vf3"),neg __asm__("vf1"),result __asm__("vf2");
     register int bits __asm__("$3");
@@ -46,17 +46,17 @@ void UpdateMurrayCarryHeld__FP6MURRAY(struct P *p)
                 func_001B7D20(p);
                 p->p13F0 = 0;
                 func_001B6078(p, 0);
-            } else if (func_001C4660(p->pl, 0x40, 0.1f) && func_001DAEA8(0x12)) {
-                func_001C4738(p->pl, 0x40);
-                func_00195A00(p->x2C0, 0xF, 0, 0);
-            } else if (func_001C46C0(p->pl, 0xA0, 0.0f)) {
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0x40, 0.1f) && func_001DAEA8(0x12)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->pl, 0x40);
+                SetJumpKind__FP4JUMPiiP2LO(p->x2C0, 0xF, 0, 0);
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->pl, 0xA0, 0.0f)) {
                 func_001B6078(p, 7);
-            } else if (func_001C46C0(p->pl, 0x10, 0.0f) && p->x1438) {
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->pl, 0x10, 0.0f) && p->x1438) {
                 p->x143C = 0;
                 func_001B6078(p, 8);
-            } else if (func_001C4660(p->pl, 0x400, 0.15f) && ((int (*)(void *, int))p->vt[99].pfn)((char *)p + p->vt[99].d, 3)) {
-                func_001C4738(p->pl, 0x400);
-                func_0019CC50(p->xF00, 0, 0, 0);
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0x400, 0.15f) && ((int (*)(void *, int))p->vt[99].pfn)((char *)p + p->vt[99].d, 3)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->pl, 0x400);
+                OpenBinoc__FP5ACTORiP2LOT2(p->xF00, 0, 0, 0);
             } else {
                 struct PL*source=p->pl;
                 struct PL*pl=CopyPL(source);
@@ -80,8 +80,8 @@ void UpdateMurrayCarryHeld__FP6MURRAY(struct P *p)
         break;
     case 1:
         SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
-        func_0020BB58(p->x1460, p->pl->g1C);
-        func_0020BC08(p->x1460);
+        SetGaitMix__FP4GAITf(p->x1460, p->pl->g1C);
+        UpdateGaitFeet__FP4GAIT(p->x1460);
         break;
     case 2: {
         U u;

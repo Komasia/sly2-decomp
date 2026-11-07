@@ -11,7 +11,8 @@ static __inline__ qword Make(float x, float y, float z)
 float func_0011CFE0(float g, float gLimit);
 float func_002457F0(float g);
 float func_002458F0(float y, float x);
-qword func_0011BFF0(MATRIX3 *pmat)
+// name: SafeHouse port (DecomposeEulerMatrix)
+qword DecomposeEulerMatrix__FP7MATRIX3(MATRIX3 *pmat)
 {
     U r;
     qword q;

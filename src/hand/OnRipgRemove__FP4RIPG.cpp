@@ -8,7 +8,7 @@ extern SW g_sw;
 extern "C" {
 void func_001CE980(RIP *prip);
 void OnSoRemove(RIPG *p) asm("OnSoRemove__FP2SO");
-void func_001337D0(SW *psw, void *pv);
+void RemoveSwOxa(SW *psw, void *pv) asm("RemoveSwOxa__FP2SWP3OXA");
 void func_001A57A8(RIPG *p);
 void *func_0015E3A8(SW *psw, int n);
 void func_0011A118(void *pl, RIPG *p);
@@ -40,7 +40,7 @@ void OnRipgRemove(RIPG *pripg)
     if (pripg == psw->x406C) psw->x406C = 0;
     OnSoRemove(pripg);
     if (pripg->xEC) {
-        func_001337D0(psw, pripg->xEC);
+        RemoveSwOxa(psw, pripg->xEC);
         pripg->xEC = 0;
     }
     func_001A57A8(pripg);

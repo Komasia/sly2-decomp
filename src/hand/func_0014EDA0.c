@@ -10,7 +10,7 @@ void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocStackImpl__Fi(struct AL *pal);
 int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword pos, struct LO *po, struct E *pe, float g, int a, int b, int cMax, struct X *ax);
 void func_0011AD30(int c, float *aDot, float *aW, float *aZ, float g);
-qword func_0011E9F8(qword v, float g);
+qword LimitVectorLength__FG9VU_VECTORf(qword v, float g);
 
 static inline int Dot(qword *pa, qword *pb)
 {
@@ -78,7 +78,7 @@ qword SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff(void *p, int c
         {
             qword q;
             __asm__("qmfc2.ni %0, %1" : "=r"(q) : "j"(sum));
-            r = func_0011E9F8(q, h);
+            r = LimitVectorLength__FG9VU_VECTORf(q, h);
         }
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(v), "j"(r));
         _$_10STACKSCOPE(&frame, 2);

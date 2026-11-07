@@ -23,10 +23,10 @@ extern DL D_003E148C;
 extern struct GG *D_002E1E40;
 extern float D_002BCC94;
 void EndDamageReaction__FP5ACTOR(void *p);
-void func_002206C8(void *p, int n);
+void SetJtThrowState__FP7JTTHROWi(void *p, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct SO *pso, float g);
 qword func_001A62E8(void *p);
-void func_002205A8(void *p);
+void ReleaseJtThrow__FP7JTTHROW(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_00224590(void *p);
 void func_002245B8(void *p);
@@ -35,7 +35,7 @@ void func_00141CD0(void *p);
 void func_001305B8(void *pa, void *p, float g, int n, float h, void *pb);
 void func_0019F170(void *p, int n);
 void func_0019F220(void *p, int n);
-void *func_001CB250(void *p, int n);
+void *PloAcquireProxyObject__FP2SWi(void *p, int n);
 void ReparentBooty__FP3ALOii(void *p, int a, int b);
 void RemoveNoise__FP5NOISE(void *p);
 void func_001CCC88(void *p, void *q);
@@ -80,11 +80,11 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
                 switch (F(int, p, 0x11B4)) {
                 case 5:
                 case 6:
-                    func_002206C8((char *)p + 0x11B0, 4);
+                    SetJtThrowState__FP7JTTHROWi((char *)p + 0x11B0, 4);
                     break;
                 case 1:
                 case 2:
-                    func_002206C8((char *)p + 0x11B0, 0);
+                    SetJtThrowState__FP7JTTHROWi((char *)p + 0x11B0, 0);
                     break;
                 }
             }
@@ -126,7 +126,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
         }
         case 0x27B:
             if (F(int, p, 0x11B4) != -1)
-                func_002205A8((char *)p + 0x11B0);
+                ReleaseJtThrow__FP7JTTHROW((char *)p + 0x11B0);
             break;
         case 0x27C:
             if (F(int, p, 0x4C8) == 0xB) {
@@ -160,7 +160,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
                     case 0x17: {
                         DLI dli;
                         void *po2;
-                        void *pa = func_001CB250(D_002E1E40->p2010, 0);
+                        void *pa = PloAcquireProxyObject__FP2SWi(D_002E1E40->p2010, 0);
                         if (pa)
                             ReparentBooty__FP3ALOii(pa, 0, 3);
                         InitDli(&dli, &D_003E148C);

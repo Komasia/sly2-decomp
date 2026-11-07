@@ -13,7 +13,8 @@ void func_001EC7E8(void);
 void func_001D53C0(void *p, int n);
 void func_001AE300(void);
 
-void func_0020E068(struct S *p)
+// name: SafeHouse port (UnloadWorld)
+void UnloadWorld__FPv(struct S *p)
 {
     void *pv = g_game;
     BroadcastTaskEvent__FP2SWiP2LO(pv, 1, 0);

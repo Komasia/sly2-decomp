@@ -22,7 +22,8 @@ OBJ *func_0015E938(struct G *, int, int, OBJ *);
 void func_001DC260(void *, int);
 void StartScptImpl__FP2LOi(OBJ *, int);
 void func_001D77D0(OBJ *, int);
-void func_001D72A8(OBJ *p)
+// name: SafeHouse port (UpdateSafeHouse)
+void UpdateSafeHouse__FP2LO(OBJ *p)
 {
     char *pad;
     int n;

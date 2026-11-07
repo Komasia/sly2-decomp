@@ -4,7 +4,7 @@
 #include "so.h"
 
 SO *PaloPhysRoot__FP3ALO(SO *pso);
-void func_00134320(void *psw, SO *pso);
+void RecalcSwOxfFilterForObject__FP2SWP2SO(void *psw, SO *pso);
 extern char g_sw[];   /* the world (SW) */
 
 // name: SafeHouse port (PoxaEnsure)
@@ -18,7 +18,7 @@ void PoxaEnsure__FP3ALO(SO *pso)
         if (psoRoot->ptree == NULL) {
             pvte = &psoRoot->lo.pvt[53];   /* slot 52: allocate the tree record */
             psoRoot->ptree = ((SOTREE *(*)(void *))pvte->pfn)((char *)psoRoot + pvte->d);
-            func_00134320(g_sw, psoRoot);
+            RecalcSwOxfFilterForObject__FP2SWP2SO(g_sw, psoRoot);
         }
         pso->ptree = psoRoot->ptree;
     }

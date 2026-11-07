@@ -9,7 +9,7 @@ union V { qword q; float f[4]; };
 void Update__5AIJOB(struct S *p);
 qword func_001A62E8(void *p);
 float SWrapCrv__FP3CRVf(void *p, float f);
-void func_001E7380(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
+void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
 int func_0017CE30(struct S *p);
 void SetRailState__7JOBRAILi(struct S *p, int n);
 float func_002458F0(float y, float x);
@@ -29,7 +29,7 @@ void Update__7JOBRAIL(struct S *p) {
             union V v;
             a->nF8C = t < p->f3C;
             pos = func_001A62E8(p->p10);
-            func_001E7380(q, SWrapCrv__FP3CRVf(q, p->p10->nF8C ? t + D_002BE74C : t - D_002BE74C), pos, 0, 0, &v, 0, &t);
+            NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(q, SWrapCrv__FP3CRVf(q, p->p10->nF8C ? t + D_002BE74C : t - D_002BE74C), pos, 0, 0, &v, 0, &t);
             p->p10->fF88 = t;
             if (func_0017CE30(p)) {
                 SetRailState__7JOBRAILi(p, 1);

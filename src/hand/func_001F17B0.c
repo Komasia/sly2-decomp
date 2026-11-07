@@ -1,6 +1,7 @@
 struct E { int a; int b; int c; int d; };
 struct S { char pad[0x404]; struct E ae[8]; int c; int pad2[2]; int f; };
-void func_001F17B0(struct S *p, int x)
+// name: SafeHouse port (AddPocketPrize)
+void AddPocketPrize__FP2LOi(struct S *p, int x)
 {
     if (p->c <= 0 || p->f) {
         struct E *pe = &p->ae[p->c++];

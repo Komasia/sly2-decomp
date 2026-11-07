@@ -1,4 +1,4 @@
-/* func_001E8378 (Lilly's range): one RK4-style step of a spring rope (CHAIN, same struct as matched func_001E9090).
+/* StepRopeSpring (Lilly's range): one RK4-style step of a spring rope (CHAIN, same struct as matched StepRopeTrail).
  * Matching tricks (T1869, see notes/190000-1F0000_lanes.md):
  *  - the 4 empty volatile asms at the end of the pass loop add 4 RTL insns (no code) so the hoisted start/startVel/end/endVel
  *    copies get vf12..14 in the game's order (global-alloc live length);
@@ -52,9 +52,9 @@ extern "C" {
 qword func_0022D348(SPACE *, SPACE *, qword);
 void func_001AE5A0(void *, const void *, unsigned);
 int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
-M4 *func_0011C318(M4 *, M4 *);
-void func_001E6330(PATH *);
-void func_001E8378(CHAIN *);
+M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
+void RefreshCrv(PATH *) asm("RefreshCrv__FP3CRV");
+void StepRopeSpring(CHAIN *) asm("StepRopeSpring__FP4ROPE");
 }
 
 static inline VV TransformPoint(const M4 &m, VV v)
@@ -172,7 +172,8 @@ static inline VV SubP(const U *a, const U *b) { return Sub(a->q, b->q); }
 static inline void Blend(U *pd, const U *pa, const qword &b, float t) { pd->q = VecCombo(VU_FLOAT(1.0f - t), VU_VECTOR(pa->q), VU_FLOAT(t), VU_VECTOR(b)); }
 static inline void LerpP(U *pd, const U *pa, const U *pb, float t) { pd->q = VecCombo(VU_FLOAT(1.0f - t), VU_VECTOR(pa->q), VU_FLOAT(t), VU_VECTOR(pb->q)); }
 
-void func_001E8378(CHAIN *p)
+// name: SafeHouse port (StepRopeSpring)
+void StepRopeSpring(CHAIN *p)
 {
     U newP[64], newV[64], accP[64], accV[64], force[64];
     int i;
@@ -296,7 +297,7 @@ void func_001E8378(CHAIN *p)
     {
         PATH *path = p->path;
         VT *e = &path->vt[31];
-        func_0011C318(&inverse, e->fn((char *)path + e->delta));
+        InverseAffineMatrix4(&inverse, e->fn((char *)path + e->delta));
     }
     for (i = 0; i < count; i++)
     {
@@ -308,5 +309,5 @@ void func_001E8378(CHAIN *p)
         for (i = 1; i < count; i++)
             p->path->dist[i] = p->path->dist[i - 1] + GFromQw(Length(Sub(p->path->pos[i - 1].q, p->path->pos[i].q)));
     }
-    func_001E6330(p->path);
+    RefreshCrv(p->path);
 }

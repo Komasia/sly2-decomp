@@ -33,7 +33,7 @@ qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, P *p);
 void ReleaseMurrayThrow__FP6MURRAY(P *p);
 void PutDownMurrayCarry__FP6MURRAY(P *p);
-void func_002205A8(void *p);
+void ReleaseJtThrow__FP7JTTHROW(void *p);
 void SetMurrayCarry__FP6MURRAYi(P *p, int k);
 void func_001B6078(P *p, int s);
 
@@ -59,7 +59,7 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
                 PutDownMurrayCarry__FP6MURRAY(p);
                 break;
             case 15:
-                func_002205A8(p->x1910);
+                ReleaseJtThrow__FP7JTTHROW(p->x1910);
                 break;
             }
             break;

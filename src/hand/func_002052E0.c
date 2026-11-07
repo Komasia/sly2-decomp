@@ -23,7 +23,8 @@ static inline qword Transform(const M4*m,qword v,qword last,qword*published){
 }
 static inline qword Broadcast(float f){register qword r __asm__("vf6");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword MulX(qword v,qword s){register qword r __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));return r;}
-extern void func_002052E0(P *p, B *other)
+// name: SafeHouse port (TeleportActor)
+extern void TeleportActor__FP2LOT0(P *p, B *other)
 {
     if (!other) return;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(other, 3)) {

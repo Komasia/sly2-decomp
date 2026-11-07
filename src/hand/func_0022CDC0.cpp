@@ -18,7 +18,7 @@ extern "C" M4 *DmatSkew(M4 *pm, struct O *pa, const M3 *basis, qword v) asm("Dma
 extern "C" M4 *func_0022CB90(M4 *pr, struct O *pa, const M3 *basis, qword c, qword d);
 extern "C" M4 *DmatOfValue(M4 *pm, struct O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
 extern "C" qword VecXfValue(struct O *pa, const M4 *matrix) asm("VecXfValue__FP2XFP7MATRIX4");
-extern "C" qword func_0011BFF0(const M3 *rotation);
+extern "C" qword DecomposeEulerMatrix(const M3 *rotation) asm("DecomposeEulerMatrix__FP7MATRIX3");
 extern "C" void Hermite(float g0, float g1, float g2, qword q0, qword q1, qword q2, qword q3, qword *pa, qword *pb, qword *pc) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 static __inline__ void Eval(struct O *po, qword *pa, qword *pb, qword *pc)
 {
@@ -71,7 +71,7 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
                         initial = po->data.r[0];
                         break;
                     case 5:
-                        initial = func_0011BFF0(&po->data.rotation);
+                        initial = DecomposeEulerMatrix(&po->data.rotation);
                         break;
                     default:
                         initial = DefaultPoint();

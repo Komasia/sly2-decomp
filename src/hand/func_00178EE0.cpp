@@ -23,7 +23,7 @@ extern CLOCK g_clock;
 extern qword g_normalZ, D_002A2DD0;
 void func_001789F8(P *);
 qword func_001A62E8(ACTOR *);
-MATRIX3 *func_001A6318(ACTOR *);
+MATRIX3 *MatJtLo(ACTOR *) asm("MatJtLo__FP2LO");
 void func_00131A00(void *, float);
 float func_002458F0(float, float);
 void SetMoveHeading(void *, float) asm("SetMoveHeading__FP7MOVEREF");
@@ -158,7 +158,7 @@ extern "C" void Update__9JOBFOLLOW(P *p)
             break;
         case 3:
         {
-            qword qwLocal = QwDotRowsMatP(func_001A6318(p->actor), dpos);
+            qword qwLocal = QwDotRowsMatP(MatJtLo(p->actor), dpos);
             qword qwFallback = D_002A2DD0;
             float gSpeed = p->rate * g;
             gSpeed *= GXOfQw(QwLengthXY(pchoice->model->velocity));

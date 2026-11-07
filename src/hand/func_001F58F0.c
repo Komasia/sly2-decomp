@@ -8,7 +8,8 @@ extern struct CLOCK g_clock;
 qword func_0022D348(struct O *, int, qword);
 void func_0011B938(void *, int, struct V *);
 float func_002458F0(float, float);
-void func_001F58F0(struct P *p, struct Out *po)
+// name: SafeHouse port (GetSoCpdefi)
+void GetSoCpdefi__FP2SOP6CPDEFI(struct P *p, struct Out *po)
 {
     struct O *o = p->po;
     struct V v;

@@ -15,7 +15,7 @@ extern qword D_002BF390;extern struct LM D_002BF3A8,D_002BF3B0;extern struct CLO
 void FaceObject__FP5ACTORP2LO(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struct SPACE*,struct M4*,struct M4*,float);
 qword func_0022FC48(struct SPACE*,struct SPACE*,qword);qword func_0022FCC8(struct SPACE*,struct SPACE*,qword);
 float func_002458F0(float,float);float func_0011D948(struct LM*,float);
-struct M3*func_0011B628(struct M3*,qword);qword*func_00256D18(qword*,qword);void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(struct DV*,qword);
+struct M3*BuildEulerMatrix__FP6VECTORG9VU_VECTOR(struct M3*,qword);qword*func_00256D18(qword*,qword);void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(struct DV*,qword);
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Point(const struct M4*m,const qword*a,struct SPACE**source){
  register qword r __asm__("vf6"),row0 __asm__("vf5")=m->r[0].q;register struct SPACE*sourceValue __asm__("$4");const int nullSource=0;
@@ -33,7 +33,8 @@ static inline float CorrectionDistance(struct P*p,qword correction){
  {register qword one __asm__("vf2");__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(d),"=&j"(one));}
  __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(d));__asm__("qmfc2.ni %0,%1":"=r"(result):"j"(d));return result;
 }
-void func_0018B460(struct P*p){
+// name: SafeHouse port (UpdatePickpocketPose)
+void UpdatePickpocketPose__FP3SLY(struct P*p){
  struct WORK w;register float ratio __asm__("$f20");{register float height __asm__("$f0")=p->height,base __asm__("$f1")=p->model->base,scale __asm__("$f2")=p->model->scale;height=height-base;__asm__("div.s %0,%1,%2":"=f"(ratio):"f"(height),"f"(scale));}
  if(p->owner&&p->owner->aim){
  float zero=0.0f;
@@ -55,7 +56,7 @@ void func_0018B460(struct P*p){
     heading=func_002458F0(-z,coefficient*x);}}
   heading=func_0011D948(&D_002BF3A8,heading);
   tilt=Pack(zero,heading,zero);w.axis.q=tilt;
-  func_0011B628(&w.rotation,Add(p->euler,w.axis.q));
+  BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&w.rotation,Add(p->euler,w.axis.q));
   frame=&w.transform;
   func_00256D18(&frame->r[3].q,p->position);
   {

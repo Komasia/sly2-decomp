@@ -1,4 +1,4 @@
-// func_001E6F60 (w2lane4, wave 2): closest point of a path (a chain of control points, transformed by the path's
+// NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2 (w2lane4, wave 2): closest point of a path (a chain of control points, transformed by the path's
 // own matrix) to a query point. mode 0 walks every segment, projects the point on it (clamped to the segment), keeps the
 // nearest candidate and reports its position, direction, interpolated time and the path value at that time. mode 1 only
 // measures the distances to the control points and hands the nearest vertex time to NearestCrv.
@@ -80,7 +80,8 @@ static inline float Clamp(float g, float lo, float hi)
     else if (g > hi) g = hi;
     return g;
 }
-extern "C" void func_001E6F60(PATH *p, qword point, SPACE *space, qword *outPosition, qword *outDirection,
+// name: SafeHouse port (NearestCrvAll)
+extern "C" void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(PATH *p, qword point, SPACE *space, qword *outPosition, qword *outDirection,
                               float *outTime, float *outValue)
 {
     M4 matrix;

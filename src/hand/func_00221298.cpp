@@ -6,19 +6,20 @@ struct G;
 extern struct G g_sw;
 extern int D_002DE240;
 extern "C" struct O *func_001C4A48(struct G *pg);
-extern "C" void func_00221178(struct S *p, int k);
+extern "C" void UpdateZoneCamera(struct S *p, int k) asm("UpdateZoneCamera__FP2LOi");
 extern "C" qword func_001A62E8(struct O *po);
 extern "C" qword ConvertPos(void *source, struct S *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 extern "C" struct BSP *func_00118FB0(struct BSP *p, unsigned int limit, qword v);
 extern "C" int FIsBasicDerivedFrom(struct O *po, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 static inline int AutomaticSentinel(){int value;__asm__("addiu %0,$zero,-1":"=r"(value));return value;}
-extern "C" void func_00221298(struct S *p)
+// name: SafeHouse port (EvaluateZone)
+extern "C" void EvaluateZone__FP2LO(struct S *p)
 {
     struct O *po = func_001C4A48(&g_sw);
     int f;
     if (!po) return;
     if (po != p->pE0) {
-        func_00221178(p, 0);
+        UpdateZoneCamera(p, 0);
         p->pE0 = po;
     }
     int initial=p->x13C;
@@ -31,5 +32,5 @@ extern "C" void func_00221298(struct S *p)
     if (D_002DE240) goto set;
     if (p->x13C == -1) return;
 set:
-    func_00221178(p, f);
+    UpdateZoneCamera(p, f);
 }

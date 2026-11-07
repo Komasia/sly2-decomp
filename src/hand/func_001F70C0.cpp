@@ -12,8 +12,8 @@ extern "C" void _$_10STACKSCOPE(FRAME *,int);
 struct MSG {int bytes,alignment;};
 extern "C" void *PvAllocStackClearImpl(MSG *) asm("PvAllocStackClearImpl__Fi");
 extern "C" void func_001AE5A0(void *,const void *,unsigned int);
-extern "C" M4 *func_0011C318(M4 *,const M4 *);
-extern "C" M4 *func_0011C168(M4 *,const M4 *,const M4 *);
+extern "C" M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
+extern "C" M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 extern "C" void CopyTransformGeom(GEO *,const M4 *,GEO *) asm("CopyTransformGeom__FP4GEOMP7MATRIX4T0");
 extern "C" void func_001191E8(TREE *,GEO *,TREE *,GEO *);
 
@@ -39,7 +39,7 @@ extern "C" void RebuildSoe__FP3SOEP2XFiT0(P *source,LO *space,int inserted,P *de
     func_001AE5A0(points,temporary.points,pinned*16);
     func_001AE5A0(points+(pinned+inserted),temporary.points+pinned,(temporary.count-pinned)*16);
     temporary.count+=inserted;temporary.points=points;
-    {M4 product,inverse;func_0011C168(&product,(func_0011C318(&inverse,&space->matrix),&inverse),&source->owner->matrix);transform=product;}
+    {M4 product,inverse;MulMatrix4(&product,(InverseAffineMatrix4(&inverse,&space->matrix),&inverse),&source->owner->matrix);transform=product;}
     CopyTransformGeom(&temporary,&transform,&dest->local);
     CopyTransformGeom(&dest->local,&space->matrix,&dest->world);
     func_001191E8(&source->tree,&source->world,&dest->tree,&dest->world);

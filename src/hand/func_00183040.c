@@ -2,12 +2,12 @@ typedef int qword __attribute__((mode(TI)));
 struct T { char pad[0x218]; qword *pq; };
 struct S { char pad[0xE4]; int xe4; };
 struct V { float a[4]; };
-void func_001E6F60(struct S *p, qword q, int a, struct V *pv, int b, int c, float *pg);
+void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct S *p, qword q, int a, struct V *pv, int b, int c, float *pg);
 float SMaxCrv__FP3CRV(struct S *p);
 void func_00183040(struct S *p, struct T *t, float *pg)
 {
     struct V v;
-    func_001E6F60(p, *t->pq, 0, &v, 0, 0, pg);
+    NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(p, *t->pq, 0, &v, 0, 0, pg);
     if (!p->xe4) {
         float lim = SMaxCrv__FP3CRV(p) - 30.0f;
         float g = *pg;

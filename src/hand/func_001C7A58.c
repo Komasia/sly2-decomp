@@ -1,7 +1,7 @@
 struct E { int id; char pad[0x18]; int c; void *a[3]; };
 struct S { char pad[0x23C]; int c; struct E *ae; struct E *pe; };
 void func_001F6A68(struct S *p);
-void func_001F6978(struct S *p, void *pv);
+void ShowAloGlobs__FP3ALOi(struct S *p, void *pv);
 // name: SafeHouse port (SetPickupLootKind)
 void SetPickupLootKind__FP2LOi(struct S *p, int id)
 {
@@ -22,5 +22,5 @@ void SetPickupLootKind__FP2LOi(struct S *p, int id)
     }
     }
     func_001F6A68(p);
-    for (i = 0; i < p->pe->c; i++) func_001F6978(p, p->pe->a[i]);
+    for (i = 0; i < p->pe->c; i++) ShowAloGlobs__FP3ALOi(p, p->pe->a[i]);
 }

@@ -1,6 +1,7 @@
 struct LM { float gMin; float gMax; };
 struct S { char pad[0xC]; int c; struct LM alm[1]; };
-struct LM *func_001EA3B0(struct S *p, float g)
+// name: SafeHouse port (FInPathSpan)
+struct LM *FInPathSpan__FP7PATHRECf(struct S *p, float g)
 {
     int i;
     struct LM *alm = p->alm;

@@ -12,7 +12,7 @@ struct CLOCK{float time,dt;};struct LM{float values[3];};
 struct WORK{U reference,direction,local;M3 matrix,returned;float heading;U target;};
 extern "C"{
  void func_00190BE0(P*,float*);float RadNormalize(float) asm("RadNormalize__Ff");void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");qword func_001A62E8(P*);M3* func_0011B500(M3*,qword,float);float func_002458F0(float,float);
- void func_0018C250(P*,int,int);void func_0018FC60(P*);void WakeAlo(P*) asm("WakeAlo__FP3ALO");int func_001C4660(PL*,uint,float);void func_001C4738(PL*,int);void func_0019CC50(void*,int,P*,void*);
+ void SetJtJts(P*,int,int) asm("SetJtJts__FP2JT3JTS4JTBS");void func_0018FC60(P*);void WakeAlo(P*) asm("WakeAlo__FP3ALO");int GrfPadctlPressedWithin(PL*,uint,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(PL*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");void OpenBinoc(void*,int,P*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");
  float GSmooth(float,float,float,LM*,float*) asm("GSmooth__FfffP3SMPPf");void func_001384C0(ANIMATION*);float func_0011CFE0(float,float);
  extern CLOCK g_clock;extern qword g_normalZ;
  extern float D_002BF554,D_002BF558,D_002BF55C,D_002BF560,D_002BF564,D_002BF568,D_002BF56C,D_002BF58C,D_002BF590;
@@ -133,9 +133,9 @@ extern "C" void func_00190520(P*p){
    bool fast=X(magnitude)>limit;if(fast)next=1;}
   break;
  }
- func_0018C250(p,3,next);func_0018FC60(p);
+ SetJtJts(p,3,next);func_0018FC60(p);
  if(p->link)WakeAlo(p->link->object);
- if(func_001C4660(p->input,0x400,0.15f)&&Can(p,3)){func_001C4738(p->input,0x400);func_0019CC50(p->action,0,0,0);}
+ if(GrfPadctlPressedWithin(p->input,0x400,0.15f)&&Can(p,3)){ForgetPadctlPresses(p->input,0x400);OpenBinoc(p->action,0,0,0);}
  if(p->state==3)return;
  float activeTarget,speedTarget;
  switch(p->state){case 0:activeTarget=1.0f;speedTarget=1.0f;break;case 2:activeTarget=1.0f;speedTarget=0.0f;break;case 1:{register float half __asm__("$f0"),zero __asm__("$f20");const uint halfBits=0x3F000000;const int zeroBits=0;

@@ -20,7 +20,8 @@ static inline float GClamp(float x, float lo, float hi)
 }
 static inline float GMin(float a, float b) { return b < a ? b : a; }
 static inline float GMax(float a, float b) { return a < b ? b : a; }
-float func_001E8008(struct P *p, float a, float b)
+// name: SafeHouse port (SRandCrvNear)
+float SRandCrvNear__FP3CRVff(struct P *p, float a, float b)
 {
     float r[2];
     float t,u,upper,minimum;

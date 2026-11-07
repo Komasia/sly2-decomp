@@ -1,4 +1,4 @@
-// func_001C3500 (lane 6, 2026-10-24): builds an orientation basis (M3) for a position `distance` along a path.
+// MatPipeFrame__FP2LOfiPv (lane 6, 2026-10-24): builds an orientation basis (M3) for a position `distance` along a path.
 // It samples the path tangent at the start, then tries sample distances distance, +10, -10, +20, -20 ... (wrapped
 // for cyclic paths, rejected outside [low,high] otherwise) until the direction between the samples at +-50 is within
 // ~25 degrees of the tangent, rotates the path axis by the tangent->direction rotation, and builds the basis
@@ -13,9 +13,9 @@ float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");           // high distance bound
 float GMinCrv(PATH *) asm("GMinCrv__FP3CRV");           // start distance
 void EvalCrv(PATH *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 float GModPositive(float, float) asm("GModPositive__Fff");     // wrap into range
-float func_001E6728(PATH *, float);
+float SClampCrv(PATH *, float) asm("SClampCrv__FP3CRVf");
 void func_001E6F10(PATH *, float, qword *, qword *);
-M3 func_0011BA08(qword, qword);
+M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 qword ConvertVec(PATH *, PATH *, qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword func_0011E390(qword);
 }
@@ -72,7 +72,8 @@ static inline qword Cross(qword a, qword b)
 
 struct WORK { M3 basis; qword tangent, first, direction; };
 
-extern "C" void func_001C3500(PATH *p, float distance, int forward, M3 *out)
+// name: SafeHouse port (MatPipeFrame)
+extern "C" void MatPipeFrame__FP2LOfiPv(PATH *p, float distance, int forward, M3 *out)
 {
     WORK w;
     U fwd;   // declared outside the inner block on purpose: the stack slot of `back` (declared inside) is freed at the
@@ -93,15 +94,15 @@ extern "C" void func_001C3500(PATH *p, float distance, int forward, M3 *out)
             } else
                 sample = low + GModPositive(sample - low, high - low);
             float r = 50.0f;
-            func_001E6F10(p, func_001E6728(p, sample + r), &fwd.q, 0);
-            func_001E6F10(p, func_001E6728(p, sample - r), &back.q, 0);
+            func_001E6F10(p, SClampCrv(p, sample + r), &fwd.q, 0);
+            func_001E6F10(p, SClampCrv(p, sample - r), &back.q, 0);
             w.direction = Normalize(Sub(fwd.q, back.q), g_normalZ);
             if (i == 0)
                 w.first = w.direction;
             if (Dot(w.tangent, w.direction) > -0.9f)
                 break;
         }
-        rot = func_0011BA08(w.tangent, w.direction);
+        rot = BuildRotateVectorsMatrix(w.tangent, w.direction);
         qword ref = ConvertVec(p, 0, p->axis);
         fwd.q = Transform(rot, ref);
         qword up = Normalize(w.first, g_normalZ);

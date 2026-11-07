@@ -16,7 +16,7 @@ extern "C" void*func_002333B4(void*,int,int);
 extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
 extern "C" int FWaterSurfaceUnder(P*,L*,qword*) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
-extern "C" M4 func_0011C168(const M4*,const M4*);
+extern "C" M4 MulMatrix4(const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
 static inline qword Direction(P*p){return ((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);}
 // name: SafeHouse port (UpdateActorWater)
@@ -63,7 +63,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
   position.q=func_001A62E8(object);
   void*frame=((void*(*)(void*,M4*))object->vt[32].fn)((char*)object+object->vt[32].delta,pbase);
   func_002309E8(frame,0,ppred,0,g_clock.dt);
-  predicted=func_0011C168(ppred,pbase);
+  predicted=MulMatrix4(ppred,pbase);
   int crossed=0;
   if(point.f[2]<=position.f[2]){if(predpos->f[2]<=point.f[2])crossed=1;}
   else if(point.f[2]<=predpos->f[2])crossed=1;

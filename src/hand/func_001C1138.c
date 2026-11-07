@@ -3,7 +3,7 @@ struct AL { int cb; int cbAlign;  };
 struct S { char pad[0x10]; int c; int *aid; struct LO **aplo; int x1C; int c2; struct LO **aplo2; int x28; int x2C; };
 extern char g_sw[];
 struct LO *func_0015E938(void *p, int a, int id, void *scope);
-int func_0015E9C8(void *p, int a, int b, void *scope, int d, struct LO **ap);
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *p, int a, int b, void *scope, int d, struct LO **ap);
 void *PvAllocSwCopyImpl__FiPv(const struct AL *pal, const void *pv);
 static __inline__ void*QueryScope(void){register void*value __asm__("$7");__asm__("daddu %0,$zero,$zero":"=r"(value));return value;}
 static __inline__ const struct AL*PrepareRequest(struct AL*request,struct S*owner,int count,int alignment){register int requiredAlignment __asm__("$7")=alignment;register const struct AL*result __asm__("$4");register unsigned bytes __asm__("$2");__asm__("sll %1,%5,2\n\tdaddu %0,%4,$zero\n\tsw %1,%2\n\tsw %6,4(%4)":"=&r"(result),"=&r"(bytes),"=m"(request->cb),"=m"(request->cbAlign):"r"(request),"r"(count),"r"(requiredAlignment));owner->c2=count;return result;}
@@ -20,7 +20,7 @@ void func_001C1138(struct S *p)
         plo->x124 = i;
         p->aplo[i] = plo;
     }
-    n = func_0015E9C8(WorldAddress(worldPage), 0x205, 0x7C, QueryScope(), 0x400, ap);
+    n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(WorldAddress(worldPage), 0x205, 0x7C, QueryScope(), 0x400, ap);
     {register int alignment __asm__("$7")=0x10;
     c = 0x400;
     if (n < 0x400) c = n;

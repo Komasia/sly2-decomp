@@ -9,7 +9,7 @@ struct QW;
 struct P{int width,height;char pad8[8];int directCount;QW*directData;char pad18[8];O*camera;};
 struct V;
 extern "C" V3 D_002C1F00,D_002C1F10;
-extern "C" M3*func_001A6318(O*);
+extern "C" M3*MatJtLo(O*) asm("MatJtLo__FP2LO");
 extern "C" qword func_001A62E8(O*);
 extern "C" qword*func_00256D18(qword*,qword);
 extern "C" float func_002450F0(float);
@@ -38,7 +38,7 @@ extern "C" void func_001BE6F0(P*p,V*v){
  float slope;
  if(!p->camera)return;
  object=p->camera->parent?p->camera->parent:p->camera;
- basis=func_001A6318(object);
+ basis=MatJtLo(object);
  M4*pv=&view;
  axis0.q=basis->r[0];
  {qword neg=Bcast(-1.0f);

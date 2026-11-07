@@ -11,7 +11,7 @@ struct T { char pad[0xE4]; int xe4; char pad2[0x1BC - 0xE8]; int x1bc; };
 struct S { struct LO *x0; int x4; int x8; int xc; int x10; struct T *x14; int x18; float x1c; float x20; };
 extern qword D_002A2DB0;
 qword func_001A62E8(void *p);
-M4 *func_001A6318(struct LO *p);
+M4 *MatJtLo__FP2LO(struct LO *p);
 void NearestCrv__FP3CRV(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
 float SMinCrv__FP3CRV(struct T *t);
 float SMaxCrv__FP3CRV(struct T *t);
@@ -55,7 +55,7 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
             float d0, d1;
             vel.q = p->x0->vt[33].v33.pfn((char *)p->x0 + p->x0->vt[33].v33.d);
             d0 = Dot(vel.q, v1.q);
-            m = func_001A6318(p->x0);
+            m = MatJtLo__FP2LO(p->x0);
             w=p->x0->x190;
             __asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(w):"j"(m->row[0]),"j"(m->row[1]),"j"(m->row[2]));
             d1 = -Dot2(w, v1.q);

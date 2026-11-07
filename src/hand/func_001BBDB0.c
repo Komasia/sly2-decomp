@@ -3,7 +3,8 @@ struct E { int id; int n; int c; struct I *a; };
 struct S;
 extern char D_002A76C0[];
 struct E *func_001BBE68(struct S *p, void *k);
-struct I *func_001BBDB0(struct S *p, int x)
+// name: SafeHouse port (PitemNew)
+struct I *PitemNew__FP2LOi(struct S *p, int x)
 {
     struct E *pe = func_001BBE68(p, D_002A76C0);
     struct I *pi;

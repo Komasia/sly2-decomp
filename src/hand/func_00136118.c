@@ -11,7 +11,7 @@ void LandCarry__FP2LOT0(struct O *po, int n);
 int func_00141EA8(struct P *p, int n);
 int func_001C4728(void *pv, int n);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *p);
-void func_00195A00(void *pv, int a, int b, int c);
+void SetJumpKind__FP4JUMPiiP2LO(void *pv, int a, int b, int c);
 // name: SafeHouse port (UpdateBentleyHold)
 void UpdateBentleyHold__FP7BENTLEY(struct P *p)
 {
@@ -34,7 +34,7 @@ void UpdateBentleyHold__FP7BENTLEY(struct P *p)
                 ((void (*)(void *, int))po->vt[76].pfn)((char *)po + po->vt[76].d, 1);
             common:
                 ReleaseBentleyCarried__FP7BENTLEY(p);
-                func_00195A00(p->a2C0, 0xB, 0, 0);
+                SetJumpKind__FP4JUMPiiP2LO(p->a2C0, 0xB, 0, 0);
             } else if (0.1f < g_clock.t - p->g20C) {
                 SetBentleyHold__FP7BENTLEYi(p, 2);
             } else {

@@ -14,7 +14,7 @@ extern "C" qword D_002A2DD0;
 struct LO;
 extern "C" void SetMissileTarget(P*,LO*,V*) asm("SetMissileTarget__FP3ALOP2LOP6VECTOR");
 extern "C" V*PredictProjectileAim(V*,P*,float) asm("PredictProjectileAim__FP2LOf");
-extern "C" qword func_0011E9F8(qword,float);
+extern "C" qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");
 extern "C" qword func_001A62E8(P*);
 extern "C" int ClipSegmentSphere(qword,qword,qword,int,HIT*,float) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 inline qword Scale(qword a,qword k){__asm__("vmulx.xyzw %0,%1,%2x":"=j"(k):"j"(a),"0"(k));return k;}
@@ -34,7 +34,7 @@ extern "C" void SetHomingMissileTarget__FP3ALOP2LOP6VECTOR(P*p,LO*source,V*point
   w.spill.q=k;
   qword raw=method(receiver);
   w.velocity.q=Scale(raw,w.spill.q);
-  qword clamped=func_0011E9F8(w.velocity.q,0.75f*p->g274);
+  qword clamped=LimitVectorLength(w.velocity.q,0.75f*p->g274);
   register qword velocity __asm__("vf1");
   __asm__("qmtc2.ni %1,%0":"=j"(velocity):"r"(clamped));
   register qword scalarWord __asm__("$2");

@@ -4,13 +4,13 @@ struct S { char pad[0xEC]; void *o; int n; };
 void RequestTaskState__FP4TASKii(void *o, int n, void *p);
 char *func_001C4840(struct G *pg);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
-void func_0019D948(void *pv);
+void SetBinocWindowArgs__FP8BINOCWIN(void *pv);
 void func_002036E8(struct S *p, int n)
 {
     if (p->o) {
         char *o;
         RequestTaskState__FP4TASKii(p->o, 2, p);
         o = func_001C4840(&g_sw);
-        if (o && FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x34)) func_0019D948(o + 0xF24);
+        if (o && FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x34)) SetBinocWindowArgs__FP8BINOCWIN(o + 0xF24);
     } else p->n = n;
 }

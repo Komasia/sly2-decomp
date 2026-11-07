@@ -8,7 +8,7 @@ extern Camera g_cm;
 extern "C" {
 qword func_001A62E8(Actor *);
 int FInsideCmPlanes(Camera *,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
-void func_0011EF08(qword,float *,float *,float *);
+void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
 float RadTargetrec(P *) asm("RadTargetrec__FP9TARGETREC");
 float RadNormalize(float) asm("RadNormalize__Ff");
 }
@@ -42,14 +42,14 @@ extern "C" int FTargetrecAllows__FP9TARGETRECP5GUARD(P*p,Actor*a)
         PlaneArguments(&threshold,&point,&scalar,0.0f,&camera->position,&position0.q);
         if(!FInsideCmPlanes(camera,point,threshold))goto fail;
         qword other;other=func_001A62E8(p->target);
-        func_0011EF08(Sub(position0.q,other),&angle[0],0,0);
+        ConvertVectorToCylind(Sub(position0.q,other),&angle[0],0,0);
         if(p->tolerance<__builtin_fabsf(RadNormalize(angle[0]-RadTargetrec(p)))){fail:return 0;}
         return 1;
     }
     case 1:{
         position1.q=func_001A62E8(a);
         qword other;other=func_001A62E8(p->target);
-        func_0011EF08(Sub(position1.q,other),&angle[1],0,0);
+        ConvertVectorToCylind(Sub(position1.q,other),&angle[1],0,0);
         if(p->tolerance<__builtin_fabsf(RadNormalize(angle[1]-RadTargetrec(p))))return 0;
         return 1;
     }

@@ -1,4 +1,4 @@
-// func_00202D38 (0x202D38, 524 instructions): per-frame update of the Sly-only interaction prompt (screen projection of the
+// UpdatePhotoPrompt__FPv (0x202D38, 524 instructions): per-frame update of the Sly-only interaction prompt (screen projection of the
 // actor's head, proximity/size gain, state machine, input check). MATCH (Lilly/Claude T1613), no register pins.
 // Case 9 flag is `!link || link->state == 1` (the game's `beqz link` jumps TO the `li a0,1`); the label before that set
 // keeps jump.c from turning it into movn.
@@ -18,20 +18,20 @@ extern CLOCK g_clock;
 extern PLAYER *D_002E1E40;
 extern char D_002DE2E0[];
 extern "C" {
-void func_0019CCE8(MODEL *);
+void CloseBinoc(MODEL *) asm("CloseBinoc__FP5ACTOR");
 void func_00213928(DISPLAY *,int);
 void func_00202540(P *);
-void func_002020C8(P *);
+void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 int func_002022D8(P *);
-void func_00202768(P *,int);
+void SetPhotoPromptState(P *,int) asm("SetPhotoPromptState__FPvi");
 qword func_001A62E8(ACTOR *);
 qword ConvertCmWorldToScreen(CM *,qword) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
 void func_00212E40(DISPLAY *,int,float);
-int func_002121E8(DISPLAY *,int);
+int FSpriteAnimPlaying(DISPLAY *,int) asm("FSpriteAnimPlaying__FP2LOi");
 void func_00213B00(DISPLAY *,int);
 int func_00203758(ACTOR *);
 int func_0014FD50(void *);
-int func_001C46C0(void *,int,float);
+int GrfPadctlTakePressed(void *,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
 }
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2 %1,%0":"=j"(v.qw):"rV"(n));return v;}
 static inline qword QwScaleX(qword a,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
@@ -57,16 +57,17 @@ static inline VU_FLOAT ScreenFromProjected(qword q)
 static inline float Min(float a,float b){return a<b?a:b;}
 static inline float Max(float a,float b){return a<b?b:a;}
 static inline float GClamp(float g,float gMin,float gMax){return Max(gMin,Min(g,gMax));}
-extern "C" void func_00202D38(P *p)
+// name: SafeHouse port (UpdatePhotoPrompt)
+extern "C" void UpdatePhotoPrompt__FPv(P *p)
 {
     if(!p->primary)return;
     if(!p->secondary)return;
-    if(p->refreshPending){p->refreshPending=0;func_0019CCE8(p->model);}
+    if(p->refreshPending){p->refreshPending=0;CloseBinoc(p->model);}
     if(p->choiceTime+5.0f<g_clock.time)func_00213928(p->primary,0x35B);
     if(p->state<8)if(p->state>=2){
         func_00202540(p);
-        func_002020C8(p);
-        if(!func_002022D8(p))func_00202768(p,1);
+        DistanceModels(p);
+        if(!func_002022D8(p))SetPhotoPromptState(p,1);
     }
     if(p->actor){
         qword world=func_001A62E8(p->actor);
@@ -90,63 +91,63 @@ extern "C" void func_00202D38(P *p)
     case -1:
         break;
     case 2:
-        if(p->actor&&p->actor->state!=2)func_00202768(p,4);
+        if(p->actor&&p->actor->state!=2)SetPhotoPromptState(p,4);
         break;
     case 4:
-        if(!p->actor)func_00202768(p,2);
-        else if(p->actor->state==3)func_00202768(p,3);
+        if(!p->actor)SetPhotoPromptState(p,2);
+        else if(p->actor->state==3)SetPhotoPromptState(p,3);
         else if(p->proximity>=1.0f){
-            if(p->rising)func_00202768(p,5);
-            else func_00202768(p,6);
+            if(p->rising)SetPhotoPromptState(p,5);
+            else SetPhotoPromptState(p,6);
         }
         break;
     case 3:
-        if(!p->actor)func_00202768(p,2);
-        else if(p->actor->state!=3)func_00202768(p,4);
+        if(!p->actor)SetPhotoPromptState(p,2);
+        else if(p->actor->state!=3)SetPhotoPromptState(p,4);
         break;
     case 5:
-        if(!p->actor)func_00202768(p,2);
-        else if(p->proximity<1.0f)func_00202768(p,4);
-        else if(p->sizeGain>=1.0f-p->actor->threshold)func_00202768(p,7);
+        if(!p->actor)SetPhotoPromptState(p,2);
+        else if(p->proximity<1.0f)SetPhotoPromptState(p,4);
+        else if(p->sizeGain>=1.0f-p->actor->threshold)SetPhotoPromptState(p,7);
         else func_00212E40(p->secondary,0x35A,p->sizeGain);
         break;
     case 6:
-        if(!p->actor)func_00202768(p,2);
-        else if(p->proximity<1.0f)func_00202768(p,4);
-        else if(p->sizeGain>=1.0f-p->actor->threshold)func_00202768(p,7);
+        if(!p->actor)SetPhotoPromptState(p,2);
+        else if(p->proximity<1.0f)SetPhotoPromptState(p,4);
+        else if(p->sizeGain>=1.0f-p->actor->threshold)SetPhotoPromptState(p,7);
         else func_00212E40(p->secondary,0x35A,p->sizeGain);
         break;
     case 7:
         if(p->actor){
             if(p->proximity<1.0f||p->sizeGain<1.0f-p->actor->threshold){
-                if(p->rising)func_00202768(p,5);
-                else func_00202768(p,6);
+                if(p->rising)SetPhotoPromptState(p,5);
+                else SetPhotoPromptState(p,6);
             }
         }
-        else func_00202768(p,2);
+        else SetPhotoPromptState(p,2);
         break;
     case 8:
-        if(!func_002121E8(p->primary,0x358)){
+        if(!FSpriteAnimPlaying(p->primary,0x358)){
             int changed=0;
             if(p->actor&&p->actor->state==1&&p->proximity>=1.0f&&p->sizeGain>=1.0f-p->actor->threshold){
-                if(!p->actor->mode)func_00202768(p,9);
-                else{p->pending=p->actor->choice;func_00202768(p,7);changed=1;}
+                if(!p->actor->mode)SetPhotoPromptState(p,9);
+                else{p->pending=p->actor->choice;SetPhotoPromptState(p,7);changed=1;}
             }
             else{
-                if(p->actor&&p->actor->state!=1){p->pending=p->primary->actorChoice;func_00202768(p,3);}
-                else if(p->proximity>=1.0f&&p->rising){p->pending=p->primary->risingChoice;func_00202768(p,5);}
-                else if(p->proximity>=1.0f&&!p->rising){p->pending=p->primary->fallingChoice;func_00202768(p,6);}
-                else if(p->actor){p->pending=p->primary->nearChoice;func_00202768(p,4);}
-                else{p->pending=p->primary->emptyChoice;func_00202768(p,2);}
+                if(p->actor&&p->actor->state!=1){p->pending=p->primary->actorChoice;SetPhotoPromptState(p,3);}
+                else if(p->proximity>=1.0f&&p->rising){p->pending=p->primary->risingChoice;SetPhotoPromptState(p,5);}
+                else if(p->proximity>=1.0f&&!p->rising){p->pending=p->primary->fallingChoice;SetPhotoPromptState(p,6);}
+                else if(p->actor){p->pending=p->primary->nearChoice;SetPhotoPromptState(p,4);}
+                else{p->pending=p->primary->emptyChoice;SetPhotoPromptState(p,2);}
                 changed=1;
             }
             if(changed){func_00213B00(p->primary,0x35B);p->choiceTime=g_clock.time;}
         }
         break;
     case 9:
-        if(!func_002121E8(p->primary,0x35C)){
+        if(!FSpriteAnimPlaying(p->primary,0x35C)){
             int ready=1;
-            func_00202768(p,2);
+            SetPhotoPromptState(p,2);
             for(int i=0;i<p->count;i++){
                 ACTOR *actor=p->items[i];
                 int done=func_00203758(actor);
@@ -158,23 +159,23 @@ extern "C" void func_00202D38(P *p)
         }
         break;
     case 10:
-        if(!func_002121E8(p->primary,0x314))func_00202768(p,-1);
+        if(!FSpriteAnimPlaying(p->primary,0x314))SetPhotoPromptState(p,-1);
         break;
     case 0:
-        if(func_002121E8(p->primary,0x314))func_00202768(p,1);
+        if(FSpriteAnimPlaying(p->primary,0x314))SetPhotoPromptState(p,1);
         break;
     case 1:
-        func_002020C8(p);
-        if(func_002022D8(p))func_00202768(p,2);
+        DistanceModels(p);
+        if(func_002022D8(p))SetPhotoPromptState(p,2);
         break;
     }
     if(p->model->state!=1){
         switch(p->state){
         case 2:case 3:case 4:case 5:case 6:
-            if(!func_0014FD50(D_002DE2E0)&&func_001C46C0(D_002E1E40->control,10,0.0f))func_00202768(p,8);
+            if(!func_0014FD50(D_002DE2E0)&&GrfPadctlTakePressed(D_002E1E40->control,10,0.0f))SetPhotoPromptState(p,8);
             break;
         case 7:
-            if(!func_0014FD50(D_002DE2E0)&&func_001C46C0(D_002E1E40->control,250,0.0f))func_00202768(p,8);
+            if(!func_0014FD50(D_002DE2E0)&&GrfPadctlTakePressed(D_002E1E40->control,250,0.0f))SetPhotoPromptState(p,8);
             break;
         }
     }

@@ -1,6 +1,6 @@
-// func_0021FB70 = UpdateJtThrowArc (Lilly's Sly2Port name, 0x21FB70): while the hero holds an object (JTTHROW, jts 23)
+// UpdateJtThrowArc__FP7JTTHROWi = UpdateJtThrowArc (Lilly's Sly2Port name, 0x21FB70): while the hero holds an object (JTTHROW, jts 23)
 // it predicts the arc the object would fly to the aim point. The launch point (vLaunchLocal in the hero's space) and the
-// carried object's gravity give CalculateLaunchVelocity (func_001D6848) a velocity whose elevation follows lmAim; the
+// carried object's gravity give CalculateLaunchVelocity (VecBallisticVelocity) a velocity whose elevation follows lmAim; the
 // apex and the end point after tPredict seconds bound a box for FindSwObjectsInBox (func_0020FAA0). 28 samples along the
 // arc are line-tested (func_0014CC58); at the first hit the flight time is the closest non-negative root of the vertical
 // motion (CSolveQuadratic). The flight time may change by at most 3 * dt per frame; up to 30 points of the arc are written
@@ -54,10 +54,10 @@ extern V g_normalZ;                           // (0, 0, 1)
 extern "C" {
  qword ConvertPos(LO *,LO *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");         // ConvertLoPos
  qword func_001A62E8(LO *);                    // PosLoWorld
- qword func_001D6848(qword,qword,qword,float); // CalculateLaunchVelocity
+ qword VecBallisticVelocity(qword,qword,qword,float) asm("VecBallisticVelocity__FfG9VU_VECTORN21"); // CalculateLaunchVelocity
  int func_001DAEA8(int);                       // FPowerUpAcquired
  void func_0020FAA0(SW *,qword,qword,int (*)(void *,SO *),void *,int *,SO ***); // FindSwObjectsInBox
- int func_0021FB18(void *,SO *);
+ int ArcEntry(void *,SO *) asm("ArcEntry__FP3OXAP3SOE");
  SO *func_0014CC58(int,qword,qword,int,SO **,HIT *);
  int CSolveQuadratic(float,float,float,float *) asm("CSolveQuadratic__FfffPf");
  M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
@@ -101,14 +101,15 @@ static inline float GClamp(float g,float gMin,float gMax){if(g<gMin)return gMin;
 static inline float GMax(float g0,float g1){return g0<g1?g1:g0;}
 static inline float GFromClq(const CLQ &clq,float x){return clq.g0+x*(clq.g1+x*clq.g2);}
 
-extern "C" void func_0021FB70(JTTHROW *pjtthrow,int fUpdateBlends)
+// name: SafeHouse port (UpdateJtThrowArc)
+extern "C" void UpdateJtThrowArc__FP7JTTHROWi(JTTHROW *pjtthrow,int fUpdateBlends)
 {
  qword posLaunch=ConvertPos(pjtthrow->pstepplayer,0,pjtthrow->vLaunchLocal.q);
  qword posHold=pjtthrow->posHold.q;
  qword vAccel=pjtthrow->ploCarried->pgravity->vAccel.q;
  qword posHero=func_001A62E8(pjtthrow->pstepplayer);
  float uFar=GClamp((GLengthXY(QwSub(posHold,posHero))-pjtthrow->lmAim.gMin)/(pjtthrow->lmAim.gMax-pjtthrow->lmAim.gMin),0.0f,1.0f);
- qword vLaunch=func_001D6848(posLaunch,pjtthrow->posHold.q,vAccel,GFromClq(D_002C40F0,uFar));
+ qword vLaunch=VecBallisticVelocity(posLaunch,pjtthrow->posHold.q,vAccel,GFromClq(D_002C40F0,uFar));
  float tApex=GMax(-GZOfQw(vLaunch)/GZOfQw(vAccel),0.0f);
  qword posApex=PosOnArc(posLaunch,vAccel,vLaunch,tApex,0.5f);
  float t;
@@ -121,7 +122,7 @@ extern "C" void func_0021FB70(JTTHROW *pjtthrow,int fUpdateBlends)
  posMax=QwMax(posLaunch,posMax);
  posMin=QwMin(posLaunch,posMin);
  int cso;SO **apso;
- func_0020FAA0(&g_sw,posMin,posMax,func_0021FB18,pjtthrow->ploCarried->pvFilter,&cso,&apso);
+ func_0020FAA0(&g_sw,posMin,posMax,ArcEntry,pjtthrow->ploCarried->pvFilter,&cso,&apso);
  pjtthrow->vLaunch.q=vLaunch;
  float dt=t*0.034482758f;
  V apos[30];

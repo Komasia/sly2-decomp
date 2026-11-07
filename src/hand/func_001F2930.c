@@ -12,7 +12,7 @@ void RemoveDlEntry__FP2DLPv(void *, void *);
 int FIsDlEmpty__FP2DL(void *);
 void func_001A00D0(struct G *, int, struct E *);
 void DetachAloContacts__FP3ALO(struct P *);
-void func_001337D0(struct G *, struct Q *);
+void RemoveSwOxa__FP2SWP3OXA(struct G *, struct Q *);
 void WakeAlo__FP3ALO(struct P *);
 // name: SafeHouse port (RemoveSoeFromOxa)
 void RemoveSoeFromOxa__FP3ALOP3SOE(struct P *p, struct E *pe)
@@ -27,7 +27,7 @@ void RemoveSoeFromOxa__FP3ALOP3SOE(struct P *p, struct E *pe)
         struct Q *pq = p->pq;
         ((struct Q2 *)pq->p60)->pq = 0;
         p->pq = 0;
-        func_001337D0(&g_sw, pq);
+        RemoveSwOxa__FP2SWP3OXA(&g_sw, pq);
     } else if (p->pq->p60 != p) {
         i = p->nE0;
         while (--i >= 0) {

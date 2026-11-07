@@ -5,7 +5,7 @@ typedef struct { qword r[3]; } M3;
 typedef union { qword q; float g; } UF;
 struct SMP;
 extern "C" {
-M3 func_0011BC00(M3 *pa, M3 *pb);
+M3 MulMat3TransposeA(M3 *pa, M3 *pb) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3 *pmat, float *prad, qword *pvec);
 float GSmooth(float g, float gGoal, float dt, struct SMP *psmp, float *pdv) asm("GSmooth__FfffP3SMPPf");
 M3 func_0011B500(float rad, qword axis);
@@ -30,7 +30,7 @@ void SmoothMatrix(M3 *pmatPrev, M3 *pmatGoal, struct SMP *psmp, float dt, M3 *pm
     UF normal;
     float rad, dv, radNew;
     {
-        M3 mat = func_0011BC00(pmatPrev, pmatGoal);
+        M3 mat = MulMat3TransposeA(pmatPrev, pmatGoal);
         func_0011BCF8(&mat, &rad, &normal.q);
     }
     radNew = GSmooth(0.0f, rad, dt, psmp, &dv);

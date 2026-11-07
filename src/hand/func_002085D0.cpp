@@ -5,7 +5,7 @@ struct E { struct S *object; int n4; float t8; int pad; E(S *source,const CLOCK&
 struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
 struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
 extern "C" CLOCK g_clock;
-extern "C" struct E *func_00154180(struct T *pt, struct S *object);
+extern "C" struct E *PdetentryFind(struct T *pt, struct S *object) asm("PdetentryFind__FP8DETECTORi");
 extern "C" void *func_002332B8(void *d, void *s, int n);
 
 extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
@@ -17,7 +17,7 @@ extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
         return 0;
     e = 0;
     if (!fFront)
-        e = func_00154180(p->pt, object);
+        e = PdetentryFind(p->pt, object);
     if (!e) {
         pt = p->pt;
         n = pt->c;

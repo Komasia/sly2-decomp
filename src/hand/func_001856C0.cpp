@@ -1,4 +1,4 @@
-// func_001856C0 (Claude agent, lane G17, 2026-10-24): MATCH, no register pins, VU helper asms only.
+// AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf (Claude agent, lane G17, 2026-10-24): MATCH, no register pins, VU helper asms only.
 // From laneG16v1 (46). Keys: (1) points loop as `for (n = 0; n < count; n++)` over points[n] (gcc reverses it: bnez),
 // with the edge direction Sub hoisted into the edge body and the edge-plane Cross left inside the loop (loop.c moves it
 // after the count test) (46 -> 38). (2) Append(LIST*, const qword&) helper storing through `&l->planes[l->count++]`:
@@ -17,7 +17,7 @@ typedef struct LIST { int count; int pad[3]; qword planes[1]; } LIST;
 typedef struct PARAMS { float a, b, duration; } PARAMS;
 extern "C" {
 extern float D_002DDED4, D_002A5688;
-extern void func_0011EE08(qword, qword, qword, qword *, float *, float *);
+extern void PosNearestSegment(qword, qword, qword, qword *, float *, float *) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 extern float GSmooth(float, float, float, PARAMS *, float *) asm("GSmooth__FfffP3SMPPf");
 extern void func_001193C0(qword *, qword, float);
 static inline qword Transform(const M4 &m, qword p)
@@ -53,7 +53,7 @@ static inline float Dot(const qword &a, const qword &b)
 }
 static inline void ClosestPoint(const qword &point, const qword &start, const qword &end, qword *closest, float *dist)
 {
-    func_0011EE08(point, start, end, closest, 0, dist);
+    PosNearestSegment(point, start, end, closest, 0, dist);
 }
 static inline void Evaluate(const float &r, const float &d, const float &dt, PARAMS *params, float *out)
 {
@@ -65,7 +65,8 @@ static inline void BuildPlane(qword *plane, const qword &normal, const float &g)
 }
 static inline U *Addr(U *p) { return p; }
 static inline void Append(LIST *l, const qword &q) { qword *p = &l->planes[l->count++]; *p = q; }
-extern "C" void func_001856C0(MESH *mesh, LIST *out, int count, qword *points, PARAMS *params, float radius)
+// name: SafeHouse port (AddClimbSurfEdgePlanes)
+extern "C" void AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf(MESH *mesh, LIST *out, int count, qword *points, PARAMS *params, float radius)
 {
     M4 mat;
     U v[3];

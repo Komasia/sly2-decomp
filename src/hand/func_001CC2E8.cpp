@@ -19,9 +19,9 @@ struct WORK {U position; M3 basis; STAGE stage; float t,result,projection; U sav
 
 extern "C" {
 qword func_001A62E8(LO*);
-void func_001E7380(void*,qword,void*,qword*,qword*,float*,float*,float);
-M4 func_0011C318(const M4*);
-M4 *func_0011C168(M4*,const M4*,const M4*);
+void NearestCrvS(void*,qword,void*,qword*,qword*,float*,float*,float) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
+M4 InverseAffineMatrix4(const M4*) asm("InverseAffineMatrix4__FP7MATRIX4");
+M4 *MulMatrix4(M4*,const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
 qword ConvertPos(LO*,LO*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void Minimize(float(*)(void*,float),void*,float,float,float,float,float*,float*) __asm__("MinimizeRange__FPFPvf_fPvffffPfT6");
 float func_001CC2B8(void*,float);
@@ -29,7 +29,7 @@ float func_001CC288(void*,float);
 void func_001CC1F8(P*,qword,float*,float*,float);
 void func_001CC168(P*,qword,float*,float*,float);
 M3 *func_0022FD38(M3*,FRAME*,FRAME*,const M3*);
-qword func_0011BFF0(const M3*);
+qword DecomposeEulerMatrix(const M3*) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void SetCtrlPos(void*,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SetAsegaTime(void*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void func_001384C0(MOTION*);
@@ -49,14 +49,14 @@ void func_001CC2E8(P*p){
  if(p->active==-1)return;
  switch(p->mode){
  default:cursor=&w.stage.late.context;break;
- case 0:{cursor=p->path;func_001E7380(cursor,func_001A62E8(p->owner),0,&w.position.q,0,0,&p->time,p->time);cursor=&w.stage.late.context;break;}
+ case 0:{cursor=p->path;NearestCrvS(cursor,func_001A62E8(p->owner),0,&w.position.q,0,0,&p->time,p->time);cursor=&w.stage.late.context;break;}
  case 1:{qword found=func_001A62E8(p->follow);__asm__("sq %1,%0":"=m"(w.position.q):"r"(found));cursor=&w.stage.late.context;break;}
  case 2:{
   M4*output=&w.stage.early.temporary;
   M4*world=p->follow->vt[31].matrix((char*)p->follow+p->follow->vt[31].delta);
-  cursor=&w.stage.early.inverse;new(cursor)M4(func_0011C318(&p->matrix));
+  cursor=&w.stage.early.inverse;new(cursor)M4(InverseAffineMatrix4(&p->matrix));
   const M4*inverseArg=InverseArgument((M4*)cursor);
-  func_0011C168(output,world,inverseArg);
+  MulMatrix4(output,world,inverseArg);
   cursor=PublishProductAndBasis(&w);
   break;
  }
@@ -70,7 +70,7 @@ void func_001CC2E8(P*p){
   func_001CC1F8(p,w.stage.late.context.position,&w.projection,0,w.t);
   func_0022FD38(&w.stage.late.temporary,0,p->space->frame,&w.basis);
   w.stage.late.transformed=w.stage.late.temporary;
-  SetCtrlPos(p->job,func_0011BFF0(&w.stage.late.transformed));
+  SetCtrlPos(p->job,DecomposeEulerMatrix(&w.stage.late.transformed));
  }else{
   Minimize(func_001CC288,cursor,0.5f,0.1f,0.0f,1.0f,&w.t,&w.result);
   func_001CC168(p,w.stage.late.context.position,&w.projection,0,w.t);

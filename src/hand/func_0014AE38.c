@@ -25,13 +25,14 @@ void EndChildJob__FPP5AIJOB(void *);
 void *func_00205438(struct X *, int);
 void *func_001C4840(void *);
 qword func_001A62E8(void *);
-void *func_0014AE18(struct P *);
+void *PloEntry__8JOBCHASE(struct P *);
 void RecalcCrv__FP3CRV(struct SP *);
 void Follow__9JOBFOLLOWP3CRVi(struct OA7 *, struct SP *, int);
 
 #define VCALL0(po, n) { struct VTE *e = &(po)->vt[n]; ((void (*)(void *))e->pfn)((char *)(po) + e->d); }
 
-void func_0014AE38(struct P *p, int state)
+// name: SafeHouse port (JOBCHASE::SetState)
+void SetState__8JOBCHASEi(struct P *p, int state)
 {
     if (state == p->x30)
         return;
@@ -83,7 +84,7 @@ void func_0014AE38(struct P *p, int state)
             qword *pq = psp->xF4;
             *pq = func_001A62E8(p->p10);
             pq = psp->xF4;
-            pq[1] = func_001A62E8(func_0014AE18(p));
+            pq[1] = func_001A62E8(PloEntry__8JOBCHASE(p));
         }
         RecalcCrv__FP3CRV(psp);
         po = func_00205438(p->p10, 0xA7);
@@ -100,7 +101,7 @@ void func_0014AE38(struct P *p, int state)
     }
     case 2: {
         struct OAC *po = func_00205438(p->p10, 0xAC);
-        po->x50 = func_001A62E8(func_0014AE18(p));
+        po->x50 = func_001A62E8(PloEntry__8JOBCHASE(p));
         po->x68 = 1;
         VCALL0(po, 8);
         break;

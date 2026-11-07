@@ -9,7 +9,8 @@ void SetAloCnstrLin__FP3ALOi(struct O *po, int a);
 void SetAloCnstrAng__FP3ALOi(struct O *po, int a);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(void *p, int a, qword q);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n);
-void func_002205A8(struct S *p)
+// name: SafeHouse port (ReleaseJtThrow)
+void ReleaseJtThrow__FP7JTTHROW(struct S *p)
 {
     struct O *po;
     if (p->po == D_002DD5BC) {

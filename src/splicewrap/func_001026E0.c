@@ -1,6 +1,7 @@
 #include "splicewrap.h"
 void JoltCm__FP2CMi(s32, s32);                    /* extern */
-CRef *func_001026E0(CRef *ret, void *pbasic, s32 cref, CRef *aref)
+// name: SafeHouse port (RefCmJolt)
+CRef *RefCmJolt__FP5BASICiP4CRef(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
     OTYP aotyp[1];

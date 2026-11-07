@@ -27,7 +27,7 @@ void ClearSmaHandle__FPP3SMA(void *p);
 void func_001305B8(void *q, struct P *p, float g, float h, int n, struct ANIM **ppanim);
 float *PeventLaunch__FP5KINDEi(void *q, int n);
 void SetAsegaSeekTime__FP5ASEGAf(struct ANIM *pa, float t);
-struct R *func_0012FF10(struct S14 *p, struct P *pp, int a, int b);
+struct R *PchnFindAseg__FP4ASEGP3ALOPvi(struct S14 *p, struct P *pp, int a, int b);
 void func_001431D0(struct P *p);
 static inline qword MulM3(qword *m, qword v)
 {
@@ -72,7 +72,7 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
     if (g != 0.0f)
         SetAsegaSeekTime__FP5ASEGAf(p->panim, g_clock.t + g / p->panim->g40);
     if (p->panim) {
-        struct R *r = func_0012FF10(p->panim->p14, p, 1, 1);
+        struct R *r = PchnFindAseg__FP4ASEGP3ALOPvi(p->panim->p14, p, 1, 1);
         if (r) {
             qword a, b, pos, t, v;
             ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)((char *)r->po + r->po->vt[3].d, &a, 0.0f, 0.0f, 0);

@@ -10,7 +10,7 @@ struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x1
 void Update__5AIJOB(struct S *p);
 float RadTargetrec__FP9TARGETREC(struct K *k);
 qword func_001A62E8(void *p);
-void func_0011EF08(qword v, float *a, float *b, int n);
+void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword v, float *a, float *b, int n);
 float RadNormalize__Ff(float f);
 int func_0011D910(void *p, float f);
 qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(struct S *p, void *q, float f, qword v);
@@ -46,7 +46,7 @@ void Update__11JOBSURROUND(struct S *p) {
     {
         qword dv;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(dv) : "j"(b->pF4[b->nE8 - 1]), "j"(pos));
-        func_0011EF08(dv, &out[0], &out[1], 0);
+        ConvertVectorToCylind__FG9VU_VECTORPfN21(dv, &out[0], &out[1], 0);
     }
     if (__builtin_fabsf(RadNormalize__Ff(out[0] - g)) > k->f18) goto doit;
     if (func_0011D910(p->p10->a324, out[1])) return;

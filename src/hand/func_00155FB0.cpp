@@ -26,18 +26,18 @@ extern float D_002A513C;
 SO *func_001C4840(void *p);
 extern char D_002DE578[];
 qword func_001A62E8(void *p);
-M3 *func_001A6318(void *p);
+M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 float GSuck(void *p) asm("GSuck__FPv");
 VUV func_00256CE8(float g);
 VUV func_00256D08(VECTOR *pv);
 qword func_00258480(qword a, qword b, qword c, qword d);
 void func_00256D18(VECTOR *pv, qword v);
 float func_002458F0(float y, float x);
-qword func_0011E1A0(float a, float b, float c);
-void func_0011EFB0(qword v, float *pa, float *pb, float *pc);
+qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
+void ConvertVectorToSphere(qword v, float *pa, float *pb, float *pc) asm("ConvertVectorToSphere__FG9VU_VECTORPfN21");
 FRAME *__10STACKSCOPE(FRAME *pf);
 void _$_10STACKSCOPE(FRAME *pf, int n);
-void func_001B44D8(int *pc, void **pa);
+void ApsoeOccluders(int *pc, void **pa) asm("ApsoeOccluders__FPiPPP3SOE");
 float RadNormalize(float g) asm("RadNormalize__Ff");
 qword SetVectorSphere(float pan, float tilt, float s) asm("SetVectorSphere__Ffff");
 int func_0014CC58(int n, qword a, qword b, int c, void *pv, qword *phit);
@@ -104,13 +104,13 @@ qword func_00155FB0(void *p, qword pos)
         }
         off.q = ScaleR(vel, sc);
     } else {
-        M3 *pm = func_001A6318(pso);
-        M3 *pm2 = func_001A6318(pso);
-        off.q = func_0011E1A0(func_002458F0(((float *)pm)[1], ((float *)pm2)[0]), D_002BDC98, 0.0f);
+        M3 *pm = MatJtLo(pso);
+        M3 *pm2 = MatJtLo(pso);
+        off.q = SetVectorCylind(func_002458F0(((float *)pm)[1], ((float *)pm2)[0]), D_002BDC98, 0.0f);
     }
-    func_0011EFB0(Sub(Add(posTarget, off.q), pos), &pan, &tilt, &s);
+    ConvertVectorToSphere(Sub(Add(posTarget, off.q), pos), &pan, &tilt, &s);
     __10STACKSCOPE(&frame);
-    func_001B44D8(&c, &av);
+    ApsoeOccluders(&c, &av);
     gBest = D_002A513C;
     for (i = 0; i < 11; i++) {
         qword test;

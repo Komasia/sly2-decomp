@@ -5,8 +5,8 @@ struct VECTOR { qword q; VECTOR() {} VECTOR(const VECTOR &v) : q(v.q) {} };
 extern "C" {
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 qword func_001A62E8(void *p);
-VECTOR *func_001A6318(SO *p);
-int func_00154770(void *p, SO *pso);
+VECTOR *MatJtLo(SO *p) asm("MatJtLo__FP2LO");
+int FTargetHidden(void *p, SO *pso) asm("FTargetHidden__FP8DETECTORP2LO");
 }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=&j"(d) : "j"(a), "j"(b)); return d; }
 static inline float Dot(qword a, const VECTOR &b)
@@ -18,7 +18,8 @@ static inline float Dot(qword a, const VECTOR &b)
     return g;
 }
 
-int func_00154770(void *p, SO *pso)
+// name: SafeHouse port (FTargetHidden)
+int FTargetHidden(void *p, SO *pso)
 {
     if (!FIsBasicDerivedFrom(pso, 0x34)) return 0;
     if (pso->x4CC == -1) return 0;
@@ -34,7 +35,7 @@ int func_00154770(void *p, SO *pso)
             return !pso->x4D4->xE4;
         }
         {
-            bool f = Dot(d.q, *func_001A6318(pso)) <= 0.0f;
+            bool f = Dot(d.q, *MatJtLo(pso)) <= 0.0f;
             bool g = false;
             if (pso->x4C8 == 0) g = !pso->x1040;
             if (f == g) break;

@@ -3,7 +3,8 @@ struct A { unsigned short c; short pad; struct E *ae; char pad8[0x28]; };
 struct S { char pad[0x7C]; int x7C; unsigned short c80; short pad82; struct A *aa; };
 int func_00218738(struct A *a);
 int func_00218710(struct A *a);
-int func_002121E8(struct S *p, int k)
+// name: SafeHouse port (FSpriteAnimPlaying)
+int FSpriteAnimPlaying__FP2LOi(struct S *p, int k)
 {
     int j, l;
     if (k == -1)

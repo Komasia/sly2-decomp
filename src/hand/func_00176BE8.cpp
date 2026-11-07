@@ -35,7 +35,7 @@ extern void*D_003E14BC;extern void*D_003E14B0;extern void*D_003E14B8;struct GAME
 extern CLOCK g_clock;extern float D_002BE620;
 void*func_002333B4(void*,int,unsigned);
 void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
-qword func_001A62E8(void*);M4*func_001A6318(void*);
+qword func_001A62E8(void*);M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001B9DB8(OBJECT*,qword);
@@ -162,7 +162,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
   if(FIsBasicDerivedFrom(selected->data.object,0x34)){
    qword own=func_001A62E8(p->actor);OBJECT*otherObject=selected->data.object;w.own.q=own;w.other.q=func_001A62E8(otherObject);
    qword scalar=Raw(-150.0f);w.copy.q=scalar;OBJECT*frameObject=selected->data.object;w.scalar.q=scalar;
-   M4*frame=func_001A6318(frameObject);
+   M4*frame=MatJtLo(frameObject);
    int special;
    {
     register qword axis __asm__("vf1"),origin __asm__("vf2"),delta __asm__("vf3");

@@ -5,7 +5,7 @@ extern G g_sw;
 extern char D_0025E090[];
 extern char D_0025E668[];
 extern "C" void EnsureVu1Code(VIFS *pvifs, void *pvStart, void *pvEnd) asm("EnsureVu1Code__FP4VIFSPvT1");
-extern "C" int func_0015E9C8(G *pg, int kind, int n, int m, int c, void **apv);
+extern "C" int CFindObjectsByClass(G *pg, int kind, int n, int m, int c, void **apv) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 extern "C" void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
 static inline int Min(int a, int b) { return a < b ? a : b; }
 extern "C" void func_00167FC0(VIFS *pvifs)
@@ -18,7 +18,7 @@ extern "C" void func_00167FC0(VIFS *pvifs)
     pvifs->AddDmaCnt();
     pvifs->AddVifFlusha();
     pvifs->AddVifBaseOffset(0x32, 0);
-    int c = func_0015E9C8(&g_sw, 0x505, 4, 0, 0x180, (void **)apx);
+    int c = CFindObjectsByClass(&g_sw, 0x505, 4, 0, 0x180, (void **)apx);
     for (i = 0; i < c; i++) {
         px = apx[i];
         if (!px->f160)

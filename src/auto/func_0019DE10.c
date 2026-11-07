@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-void func_0019DE10(void *arg0, s32 arg1) {
+// name: SafeHouse port (InitClimb)
+void InitClimb__FP5ACTORi(void *arg0, s32 arg1) {
     void *temp_a1;
     void *temp_v0;
 

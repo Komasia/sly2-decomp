@@ -4,7 +4,7 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y
 struct S { char pad[0x10C]; void *p10C; char pad1[0x12C - 0x110]; int x12C; char pad2[0x140 - 0x130]; float g140; char pad3[0x150 - 0x144]; qword v150; float g160; };
 struct P { char pad[0x10]; struct S *ps; int x14; };
 void PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(int a, int b, qword *pq, int c);
-void func_001E7380(void *p, qword q, float g, int a, int b, int c, int d, float *pg);
+void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, qword q, float g, int a, int b, int c, int d, float *pg);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *ps, qword q);
 float func_002458F0(float y, float x);
 // name: SafeHouse port (UpdateZonePath)
@@ -16,7 +16,7 @@ void UpdateZonePath__FP8CPFOLLOWi(struct P *p, int b)
     if (!ps->p10C && !ps->x12C) return;
     PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(p->x14, b, &q, 0);
     if (ps->p10C) {
-        func_001E7380(ps->p10C, q, ps->g140, 0, 0, 0, 0, &ps->g140);
+        NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(ps->p10C, q, ps->g140, 0, 0, 0, 0, &ps->g140);
     } else {
         qword v = ConvertPos__FP2LOT0G9VU_VECTOR(0, ps, q), d;
         float g;

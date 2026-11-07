@@ -21,8 +21,8 @@ struct G;
 extern G g_sw;
 extern int D_003E11EC;
 extern "C" LO *func_0015E938(G *pg, int kind, int oid, void *owner);
-extern "C" void func_0011C318(MATRIX4 *pmatDst, MATRIX4 *pmatSrc);
-extern "C" void func_0011C168(MATRIX4 *pmatDst, MATRIX4 *pmatA, MATRIX4 *pmatB);
+extern "C" void InverseAffineMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
+extern "C" void MulMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatA, MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 extern "C" void *func_002333B4(void *pv, int n, int cb);
 extern "C" void func_0022B7A0(LO *plo, X *px);
 extern "C" void func_00167B68(S *p)
@@ -41,10 +41,10 @@ extern "C" void func_00167B68(S *p)
                 MATRIX4 mat;
                 if (pgrp->pbone) {
                     MATRIX4 matT;
-                    func_0011C318(&matT, &pitem->pbone->mat);
-                    func_0011C168(&mat, &matT, &pgrp->pbone->mat);
+                    InverseAffineMatrix4(&matT, &pitem->pbone->mat);
+                    MulMatrix4(&mat, &matT, &pgrp->pbone->mat);
                 } else {
-                    func_0011C318(&mat, &pitem->pbone->mat);
+                    InverseAffineMatrix4(&mat, &pitem->pbone->mat);
                 }
                 pitem->mat = mat;
             } else if (pgrp->pbone) {

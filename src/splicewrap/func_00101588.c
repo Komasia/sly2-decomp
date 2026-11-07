@@ -2,7 +2,8 @@
 void SetBasic__4CRefP5BASIC(void *, s32);                 /* extern */
 s32 func_001F85E0(s32, s32);                        /* extern */
 
-CRef *func_00101588(CRef *ret, void *pbasic, s32 cref, CRef *aref)
+// name: SafeHouse port (RefSoeHandle)
+CRef *RefSoeHandle__FP2LOiP4CRef(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
     OTYP aotyp[1];

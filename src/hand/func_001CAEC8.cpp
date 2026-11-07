@@ -15,8 +15,8 @@ struct WORK {int id;P *found,*child;void *cursor;P *owner;};
 extern "C" {
 extern SW g_sw;
 extern DESC D_002AC880[];
-NODE *func_001CADE0(P *,int);
-void func_001CAA60(P *,NODE *);
+NODE *IrowProxyChoose(P *,int) asm("IrowProxyChoose__FP2SWi");
+void DetachProxy(P *,NODE *) asm("DetachProxy__FP5PROXYP10PROXYSPARE");
 int func_001CA930(P *,NODE *);
 int func_001C9940(int,int);
 TREE *func_001C99D8(TREE *,int,int *);
@@ -38,9 +38,9 @@ static inline void Query(P *p,void **cursor){VTE &v=p->vt[3];((void(*)(P *,int,i
 extern "C" NODE *func_001CAEC8(P *p,int minimum){
  STREAM stream;
  WORK work;
- NODE *node=func_001CADE0(p,minimum);
+ NODE *node=IrowProxyChoose(p,minimum);
  if(!node)return 0;
- if(node->owner)func_001CAA60(node->owner,node);
+ if(node->owner)DetachProxy(node->owner,node);
  node->owner=p;node->next=p->head;p->head=node;
  work.owner=p;
  node->matrix=p->matrix;

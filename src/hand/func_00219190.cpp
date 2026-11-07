@@ -24,7 +24,8 @@ static inline R *StopReceiver(const S *owner){register R *value asm("$3");asm("l
 static inline E *StopArray(const R *receiver){register E *value asm("$4");asm("lw %0,%1":"=r"(value):"m"(receiver->ae));return value;}
 static inline M **SlotAddress(E *entry){M **value;asm("addiu %0,%0,%2":"=r"(value):"0"(entry),"i"(sizeof(E)-sizeof(M *)));return value;}
 static inline E *StopEntry(E *array,int offset){register E *value asm("$2");asm("addu %0,%1,%2":"=r"(value):"r"(offset),"r"(array));return value;}
-extern "C" void func_00219190(struct S *p,int fi,int i) {
+// name: SafeHouse port (RunScreenKeyEvents)
+extern "C" void RunScreenKeyEvents__FP8SENTRYRTii(struct S *p,int fi,int i) {
     struct F *f=&p->af[fi];
     int j=0;
     if(!f->count)return;

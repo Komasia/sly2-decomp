@@ -7,9 +7,9 @@ extern char g_sw[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
 extern "C" {
 void func_0020EFC0(void *,int);
 void func_0020F030(void *,int);
-void func_002020C8(P *);
+void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 void func_00202030(P *);
-void func_002021F8(P *);
+void ListMarks(P *) asm("ListMarks__FP11PHOTOPROMPT");
 void func_00213928(X *,int);
 void func_00213B00(X *,int);
 void SetScreenObjListed(X *,int) asm("SetScreenObjListed__FP2LOi");
@@ -46,7 +46,8 @@ static inline int IndirectWord(int word)
     return result;
 }
 static inline void Restore(X *x,uint mask){uint f=x->flags;if((f^1)&1)*(uint *)f=mask|(*(uint *)f&1);else x->flags=mask|(f&1);}
-extern "C" void func_00202768(P *p,int nextState)
+// name: SafeHouse port (SetPhotoPromptState)
+extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
 {
     if(p->state==nextState)return;
     if(!p->primary)return;
@@ -58,11 +59,11 @@ extern "C" void func_00202768(P *p,int nextState)
     switch(p->state){
     case -1:case 0:case 2:case 3:case 10:break;
     case 1:
-        func_002020C8(p);
+        DistanceModels(p);
         func_00202030(p);
         func_00213B00(p->primary,0x35D);
         if(p->specialCount>0)func_00213B00(p->primary,0x35E);
-        func_002021F8(p);
+        ListMarks(p);
         break;
     case 4:
         func_00213928(p->secondary,0x359);
@@ -96,7 +97,7 @@ extern "C" void func_00202768(P *p,int nextState)
             func_00213B00(p->primary,0x35D);
             if(p->specialCount>0)func_00213B00(p->primary,0x35E);
         }
-        func_002021F8(p);
+        ListMarks(p);
         break;
     }
     int previous=p->state;

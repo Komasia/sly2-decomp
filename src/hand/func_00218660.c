@@ -11,7 +11,8 @@ static inline void Release(void **pp)
         func_00258040(pp, 0);
     }
 }
-void func_00218660(struct S *p, int i)
+// name: SafeHouse port (StopEntrySound)
+void StopEntrySound__FP8SENTRYRTi(struct S *p, int i)
 {
     struct E *e = (struct E*)(i*sizeof(struct E)+(int)p->ae);
     if (e->h8 >= 0) {

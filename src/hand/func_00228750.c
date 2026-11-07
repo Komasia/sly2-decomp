@@ -9,10 +9,11 @@ extern char g_cm[];
 struct O *func_0015E938(struct G *pg, int k, int id, struct S *p);
 void ApplyRsmg__FP2LOiP4RSMGii(struct G *pg, int a, void *b, struct S *p, int c);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);
-int func_0015E9C8(struct G *pg, int a, int b, int c, int n, struct O **apo);
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *pg, int a, int b, int c, int n, struct O **apo);
 void SetExitState__FP2LOi(struct O *po, int k);
 void func_0014D8C0(void *p);
-void func_00228750(struct S *p)
+// name: SafeHouse port (ApplyCheckpoint)
+void ApplyCheckpoint__FP2SW(struct S *p)
 {
     struct O *apo[32];
     int i, j;
@@ -26,7 +27,7 @@ void func_00228750(struct S *p)
     }
     ApplyRsmg__FP2LOiP4RSMGii(&g_sw, p->xE0, p->aE4, p, 1);
     ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x124, p->a128, p);
-    for (j = func_0015E9C8(&g_sw, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
+    for (j = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
         if (apo[j]->k != 2) SetExitState__FP2LOi(apo[j], 0);
     }
     func_0014D8C0(g_cm);

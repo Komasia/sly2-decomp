@@ -22,7 +22,8 @@ void AddXfCtrl__FP3ALOP2XFP4CTRL(struct S *,struct O *,struct Hook *);
 qword func_0022FC48(struct O *,struct O *,qword);
 qword func_0022FCC8(struct O *,struct O *,qword);
 static inline void *Alloc(int cb) { struct Alloc req; req.cb=cb; req.align=16; return PvAllocSwClearImpl__Fi(&req); }
-void func_0021C888(struct S *p,void *stream) {
+// name: SafeHouse port (LoadAloChainsFromBrx)
+void LoadAloChainsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p,void *stream) {
     int count=func_00117D00(stream);
     int i,j;
     struct E *e;

@@ -5,9 +5,9 @@ extern float D_002C09A0, D_002BF730;
 int func_00131968(int n);
 void func_001B6078(struct P *p, int n);
 void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int n);
-int func_0019A098(struct P *p, void *q, float f);
+int FActorStuckOnContacts__FP5ACTORfPf(struct P *p, void *q, float f);
 void RecoverActorTo__FP5ACTORPv(struct P *p, int n);
-qword func_0011E1A0(float a, float b, float c);
+qword SetVectorCylind__Ffff(float a, float b, float c);
 // name: SafeHouse port (UpdateMurrayFlop)
 void UpdateMurrayFlop__FP6MURRAY(struct P *p)
 {
@@ -17,14 +17,14 @@ void UpdateMurrayFlop__FP6MURRAY(struct P *p)
         if (!p->x1030 || func_00131968(p->x1030)) func_001B6078(p, 0);
         else if (p->x13D8 == 1) {
             if (p->x13E4) SetMurrayFlopPhase__FP6MURRAYi(p, 2);
-            else if (func_0019A098(p, p->x131C, p->f13DC)) RecoverActorTo__FP5ACTORPv(p, 0);
+            else if (FActorStuckOnContacts__FP5ACTORfPf(p, p->x131C, p->f13DC)) RecoverActorTo__FP5ACTORPv(p, 0);
         }
         if (p->x13D8 == s || p->x13D8 == -1) break;
     }
     switch (p->x13D8) {
     case 0:
     case 1:
-        p->q190 = func_0011E1A0(p->x150->f18 + 3.14159265f, D_002C09A0 * D_002BF730 * p->x150->f1C, 0.0f);
+        p->q190 = SetVectorCylind__Ffff(p->x150->f18 + 3.14159265f, D_002C09A0 * D_002BF730 * p->x150->f1C, 0.0f);
         break;
     }
 }

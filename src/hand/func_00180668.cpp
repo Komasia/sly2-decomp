@@ -29,11 +29,11 @@ float func_002458F0(float,float);
 float RadNormalize(float) asm("RadNormalize__Ff");
 int func_0011D910(LM*,float);
 void FNavPathCrv(void*,qword,qword,void*) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
-void func_001E7380(void*,qword,void*,qword*,float,qword*,float*,float*);
+void NearestCrvS(void*,qword,void*,qword*,float,qword*,float*,float*) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
 float SMaxCrv(void*) asm("SMaxCrv__FP3CRV");
 float GSuck(void*) asm("GSuck__FPv");
-int func_0015E9C8(void*,int,int,void*,int,NODE**);
-qword func_0011E9F8(qword,float);
+int CFindObjectsByClass(void*,int,int,void*,int,NODE**) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
+qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");
 }
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"rV"(n));return v;}
@@ -133,7 +133,7 @@ dispatch:
    p->previousSelf=self;
    p->stamp=g_clock.t;
   }
-  func_001E7380(p->curve,self,0,&nearest.q,p->progress,&direction.q,0,&p->progress);
+  NearestCrvS(p->curve,self,0,&nearest.q,p->progress,&direction.q,0,&p->progress);
   {
    float eps=0.0001f;qword d;
    __asm__("vsub.xyzw %0,%1,%2":"=j"(d):"j"(QwAddScaled(nearest.q,direction.q,VuFloatFromMemWord(*(int*)&D_002BE828))),"j"(self),"f"(eps)); /* allocation-only "f"(eps): the epsilon is loaded before the subtract */
@@ -145,7 +145,7 @@ dispatch:
   float speed=Limit(Evaluate(&p->remaining,remaining),&g_lmZeroOne)*Limit(Evaluate(&p->angle,turn),&g_lmZeroOne)*Limit(Evaluate(&D_002BE830,response),&g_lmZeroOne)*p->scale;
   qword force=QwScaleX(unit.q,VuFloat(speed));
   NODE*objects[64];
-  int n=func_0015E9C8(g_sw,0x105,0x49,0,64,objects);
+  int n=CFindObjectsByClass(g_sw,0x105,0x49,0,64,objects);
   for(int i=0;i<n;i++){
    NODE*object=objects[i];
    if(object!=&p->node&&object->group!=p->node.group){
@@ -158,7 +158,7 @@ dispatch:
     force=RAddScaled(force,scalar.q,RVuFloat(weight));
    }
   }
-  p->output=func_0011E9F8(force,speed);
+  p->output=LimitVectorLength(force,speed);
   p->heading=func_002458F0(unit.f[1],unit.f[0]);
   break;
  }

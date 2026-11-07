@@ -8,8 +8,8 @@ struct S {char pad258[0x258];struct M *pm0,*pm1;};
 struct CLK {float time,dt;};
 extern struct CLK g_clock;
 extern float D_002C3C68[];
-M4 *func_0011C318(M4 *,const M4 *);
-M4 *func_0011C168(M4 *,const M4 *,const M4 *);
+M4 *InverseAffineMatrix4__FP7MATRIX4(M4 *,const M4 *);
+M4 *MulMatrix4__FP7MATRIX4T0Pv(M4 *,const M4 *,const M4 *);
 float GSmooth__FfffP3SMPPf(float,float,float,float *,float *);
 static __inline__ void CopyMatrix(M4 *destination,const M4 *source) {
     register qword row0 __asm__("$2");
@@ -54,7 +54,7 @@ void UpdateStepMesh__FP3ALO(struct S *input)
        :"=r"(nextPoints),"=r"(oldPoints),"+r"(firstBasis),"=r"(velocity)
        :"m"(secondSource->points),"m"(firstSource->points),"m"(velocityContainer->v));
      pd=nextPoints;old=oldPoints;}
-    func_0011C318(pmi,(M4 *)firstBasis);
+    InverseAffineMatrix4__FP7MATRIX4(pmi,(M4 *)firstBasis);
     {register struct M *currentSource __asm__("$2");
      register M4 *destination __asm__("$4");
      register M4 *inverse __asm__("$5");
@@ -63,7 +63,7 @@ void UpdateStepMesh__FP3ALO(struct S *input)
      __asm__("daddu %0,%3,$zero\n\tdaddu %1,%4,$zero\n\tlw %2,%5"
        :"=&r"(destination),"=&r"(inverse),"=r"(basis)
        :"r"(pmm),"r"(pmi),"m"(currentSource->px));
-     func_0011C168(destination,inverse,&basis->m);}
+     MulMatrix4__FP7MATRIX4T0Pv(destination,inverse,&basis->m);}
 
     CopyMatrix(&m,&mm);
     i=((struct S*)context)->pm1->count;

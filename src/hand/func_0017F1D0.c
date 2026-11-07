@@ -10,7 +10,7 @@ struct P {char pad[0xC];struct VT *vt;char pad10[0x58-0x10];struct O *x58;char p
 struct MSG {char pad[0x10];int delta;char pad14[0x20-0x14];qword pos;char pad30[0x44-0x30];int flags;};
 extern qword g_normalZ,D_002A2DA0;
 qword func_001A62E8(struct P*);
-qword func_0011E9F8(qword,float);
+qword LimitVectorLength__FG9VU_VECTORf(qword,float);
 qword ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(struct SPS*,struct O*,qword);
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Reject(qword a,qword n){qword d,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a),"j"(n));__asm__("vmulx.xyzw %0,%1,%2x":"=j"(d):"j"(n),"j"(d));return Sub(a,d);}
@@ -27,7 +27,7 @@ int FHackSoHit__FP2LOP5CTMSG(struct P*p,struct MSG*m){
  dir=Normal(Reject(Sub(func_001A62E8(p),m->pos),g_normalZ),D_002A2DA0);
  {float *a=&p->g0;t=-m->delta;g=Clamp(p->g0+t*(a[1]+t*a[2]),p->gMin,p->gMax);}
  {struct VT*vt=p->vt;v=((qword(*)(struct P*))vt[33].fn)((struct P*)((char*)p+vt[33].d));}
- v=func_0011E9F8(AddScaled(v,dir,g),p->gMax);
+ v=LimitVectorLength__FG9VU_VECTORf(AddScaled(v,dir,g),p->gMax);
  v=ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(&p->xE8->s,p->x58,v);
  {struct VT*vt=p->vt;((void(*)(struct P*,qword))vt[35].fn)((struct P*)((char*)p+vt[35].d),v);}
  return 1;

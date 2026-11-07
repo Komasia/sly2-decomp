@@ -19,7 +19,7 @@ X *PsndNewVoice(D *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 void SetDialogSubtitle(void *, int, int) asm("SetDialogSubtitle__FP9DIALOGSUBii");
 X *func_0015ED78(G *, int, int, int);
 int func_001FD0C0(P *, int);
-X *func_001F67E0(X *, int);
+X *PsmaFindAloSm(X *, int) asm("PsmaFindAloSm__Fi3OID");
 }
 // name: SafeHouse port (PsndStartDialog)
 extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
@@ -41,7 +41,7 @@ extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
             register X **slot __asm__("$16")=p->a;
             for(;i<6;i++,slot++) {
                 if(i==primaryRole)p->a[3]=po;
-                else *slot=func_001F67E0(po,func_001FD0C0(p,i));
+                else *slot=PsmaFindAloSm(po,func_001FD0C0(p,i));
                 { X *current=*slot;
                   if(current) { VTE &entry=current->pvt[1];
                     entry.pfn((char *)current+entry.d); } }

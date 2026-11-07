@@ -12,9 +12,9 @@ struct CLOCK{float t,dt;};
 extern "C"{
 extern CLOCK g_clock;extern U g_normalZ;extern P*D_002E1E40;
 void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
-void func_00204F78(P*,PATH*,int);
-float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
-void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
+void PairActorWith(P*,PATH*,int) asm("PairActorWith__FP5ACTORP2LOi");
+float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);
+void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float func_0011D948(LM*,float);
 qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword func_001A62E8(P*);
 void SetActorZone(P*,void*) asm("SetActorZone__FP5ACTORP2LO");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
@@ -96,18 +96,19 @@ typedef char LM_low_Offset[FIELD_OFFSET(LM,low)==0?1:-1];
 typedef char LM_high_Offset[FIELD_OFFSET(LM,high)==4?1:-1];
 typedef char CLOCK_t_Offset[FIELD_OFFSET(CLOCK,t)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
-extern "C" void func_0019EAB0(C*p,int next){
+// name: SafeHouse port (SetClimbState)
+extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  int old=p->state;if(next==old)return;
  WORK w;
  switch(old){
  case -1:{
-  PathState(p->path,5);func_001333C0(p->path,p->actor);func_00204F78(p->actor,p->path,1);
+  PathState(p->path,5);func_001333C0(p->path,p->actor);PairActorWith(p->actor,p->path,1);
   p->previous=old;
-  func_001E6F10(p->path,func_001E6728(p->path,p->distance+50.0f),&w.ahead,0);
-  func_001E6F10(p->path,func_001E6728(p->path,p->distance-50.0f),&w.behind,0);
+  func_001E6F10(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
+  func_001E6F10(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
   U*axis; qword direction=Direction(&w.ahead,&w.behind,axis);
   p->descending=Z(Normal(direction,axis))<-0.5f;
-  func_0019E110(p,&w.limit);p->distance=func_0011D948(&w.limit,p->distance);
+  LmClimb(p,&w.limit);p->distance=func_0011D948(&w.limit,p->distance);
   func_001E6F10(p->path,p->distance,&w.point,0);
   qword offset=Vector(ConvertPos(p->actor,0,p->offset.q));P*owner;
   qword point=WorldInputs(p,&w.point,&w.world,offset,owner);
@@ -124,7 +125,7 @@ extern "C" void func_0019EAB0(C*p,int next){
  ASEG*clip=0;float position=0.0f,speed=1.0f;int flags=1;
  switch(next){
  case -1:{
-  PathState(p->path,6);func_00133448(p->path,p->actor);func_00204F78(p->actor,p->path,0);
+  PathState(p->path,6);func_00133448(p->path,p->actor);PairActorWith(p->actor,p->path,0);
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
   p->actor->motion.i[2]=0;SetActorZone(p->actor,focus);

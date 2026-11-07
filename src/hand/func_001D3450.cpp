@@ -1,4 +1,4 @@
-// func_001D3450 (MATCH, T1816 from w4lane10/w5lane3): wheel/suspension support contacts of a SOPART's pruned BSP.
+// MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT (MATCH, T1816 from w4lane10/w5lane3): wheel/suspension support contacts of a SOPART's pruned BSP.
 // Build the wheel frame (owner matrix rotation + wheel world position), prune the part's BSP to the wheel sphere, then:
 //  1. edge pass: every edge between two pruned surfaces that crosses the wheel plane gives a support point (wheel space)
 //     inside the wheel profile (radius circle below the axle, |x| <= radius above it);
@@ -51,7 +51,7 @@ extern const qword D_002C2150[5];
 extern "C" {
 qword ConvertPos(OWNER *, OWNER *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 qword *func_00256D18(qword *, qword);
-M4 func_0011C318(const M4 *);
+M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 void func_00119390(VECTOR4 *, qword, qword);
 void *func_002333B4(void *, int, uint);
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");
@@ -150,7 +150,8 @@ static inline VU_VECTOR Blend(const qword &a, const VU_FLOAT &sa, const qword &b
     return VU_VECTOR(r);
 }
 
-extern "C" void func_001D3450(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unused3, int unused4, BSP *pbspRoot, CONTACT **ppcontact)
+// name: SafeHouse port (MarkWheel)
+extern "C" void MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unused3, int unused4, BSP *pbspRoot, CONTACT **ppcontact)
 {
     int csupport = 0;
     M4 *pmat = GetMatrix(owner);
@@ -158,7 +159,7 @@ extern "C" void func_001D3450(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unu
     M4 *pframe = &frame;
     BuildFrame(pframe, pmat, ConvertPos(owner, 0, wheel->pos));
     M4 inverse;
-    inverse = func_0011C318(pframe);
+    inverse = InverseAffineMatrix4(pframe);
     float height = wheel->top - wheel->bottom;
     float radius = wheel->radius;
     qword plane;

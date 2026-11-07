@@ -9,7 +9,7 @@ struct E { struct O *po; int pad[3]; qword vel; union FLOATWORD speed; int pad2[
 struct S { struct E ae[4]; int fInit; };
 extern char g_sw[];
 struct O *func_0015E938(void *,int,int,void *);
-struct C *func_0012FF10(struct O *,void *,int,int);
+struct C *PchnFindAseg__FP4ASEGP3ALOPvi(struct O *,void *,int,int);
 
 void func_0020C7E0(struct S *p,void *arg)
 {
@@ -32,7 +32,7 @@ void func_0020C7E0(struct S *p,void *arg)
         e->po = o;
         if (!o)
             continue;
-        c = func_0012FF10(o,arg,1,1);
+        c = PchnFindAseg__FP4ASEGP3ALOPvi(o,arg,1,1);
         c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, 0.0f,1.0f,&v0.q,0);
         c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, o->duration.value,1.0f,&v1.q,0);
         { register int bits __asm__("$17")=o->duration.bits;

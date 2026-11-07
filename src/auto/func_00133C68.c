@@ -9,7 +9,8 @@ extern f32 *D_003E0E80;
 extern M2C_UNK D_003E1144;
 extern M2C_UNK D_004520A8;
 
-s32 func_00133C68(s32 arg0, s32 arg1, s32 arg2) {
+// name: SafeHouse port (PoxAddSw)
+s32 PoxAddSw__FP2SWP3OXAT1(s32 arg0, s32 arg1, s32 arg2) {
     void *temp_v0;
 
     temp_v0 = func_0011CCC0(arg0 + 0x3CF8);

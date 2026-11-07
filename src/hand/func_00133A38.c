@@ -3,14 +3,15 @@ struct LO { int pad[3]; struct VTE *vt; };
 struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; int f; };
 struct X { char pad[0x60]; struct LO *plo; struct L *pl; };
 struct P { char pad[0x3CF8]; char aCF8[4]; };
-int func_00133D08(struct P *, struct X *, struct X *);
-struct L *func_00133C68(struct P *, struct X *, struct X *);
-struct L *func_00133CB8(struct P *, struct X *, struct X *);
+int FOverlapOxa__FP3OXAT0Pv(struct P *, struct X *, struct X *);
+struct L *PoxAddSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
+struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
 void func_001A7E10(struct P *, void *);
 void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, struct L *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
-void func_00133A38(struct P *p, struct X *px1, struct X *px2, int k)
+// name: SafeHouse port (UpdateSwPox)
+void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *p, struct X *px1, struct X *px2, int k)
 {
     struct L *pl;
     struct L *plT;
@@ -33,11 +34,11 @@ void func_00133A38(struct P *p, struct X *px1, struct X *px2, int k)
         break;
     }
     pl = plT;
-    if (f || func_00133D08(p, px1, px2)) {
+    if (f || FOverlapOxa__FP3OXAT0Pv(p, px1, px2)) {
         if (!pl) {
             struct L *pl2;
-            plT = func_00133C68(p, px1, px2);
-            pl2 = func_00133C68(p, px2, px1);
+            plT = PoxAddSw__FP2SWP3OXAT1(p, px1, px2);
+            pl2 = PoxAddSw__FP2SWP3OXAT1(p, px2, px1);
             plT->pother = pl2;
             pl2->pother = plT;
             pl = plT;
@@ -46,8 +47,8 @@ void func_00133A38(struct P *p, struct X *px1, struct X *px2, int k)
         struct L *pl1, *pl2;
         VCALL(px1->plo, 54, void (*)(void *, struct LO *)), px2->plo);
         VCALL(px2->plo, 54, void (*)(void *, struct LO *)), px1->plo);
-        pl1 = func_00133CB8(p, px1, px2);
-        pl2 = func_00133CB8(p, px2, px1);
+        pl1 = PoxRemoveSw__FP2SWP3OXAT1(p, px1, px2);
+        pl2 = PoxRemoveSw__FP2SWP3OXAT1(p, px2, px1);
         if (pl1->pv) {
             func_001A7E10(p, pl1->pv);
             if (!VCALL(pl1->po, 62, int (*)(void *))))

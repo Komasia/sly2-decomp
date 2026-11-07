@@ -22,17 +22,17 @@ extern "C" {
 void func_001CD098(CONTROL *,O *);
 void func_001CD2C0(CONTROL *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_00134320(WORLD *,O *);
+void RecalcSwOxfFilterForObject(WORLD *,O *) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 void SetStepPhysHeading(O *,float) asm("SetStepPhysHeading__FP3ALOf");
 qword func_001A62E8(O *);
 void func_002046B0(O *,qword);
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 void ReparentBooty(O *,int,int) asm("ReparentBooty__FP3ALOii");
-void func_001F7BF8(O *,float);
+void FadeAloOut(O *,float) asm("FadeAloOut__FP3ALOf");
 void func_001384C0(ASEG *);
 qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-void func_0021FB70(S *,int);
+void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
 void func_00141CD0(O *,int);
 void ClearSmaHandle(HANDLE *) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(ASEG *,O *,float,float,int,ASEGA **);
@@ -107,7 +107,8 @@ static inline qword SavedPlayerAndOwner(qword position,const S*state,O*&receiver
  asm("qmtc2.ni %2,%0\n\tlw %1,%3":"=j"(point),"=r"(owner):"r"(position),"m"(state->owner));
  receiver=owner;return point;
 }
-extern "C" void func_002206C8(S *s,int state){
+// name: SafeHouse port (SetJtThrowState)
+extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  WORK w;
  int old=s->state;
  if(state==old)return;
@@ -123,7 +124,7 @@ extern "C" void func_002206C8(S *s,int state){
  }
  int previous=s->state;
  s->state=state;s->time=g_clock.t;
- func_00134320(&g_sw,s->owner);
+ RecalcSwOxfFilterForObject(&g_sw,s->owner);
  switch(s->state){
  case -1:SetStepPhysHeading(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
  case 7:
@@ -150,7 +151,7 @@ extern "C" void func_002206C8(S *s,int state){
   }
   else if(s->selected->id==s->peer->id){
    if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,4);
-   else{ReparentBooty(s->selected,0,0xF);func_001F7BF8(s->selected,0.25f);}
+   else{ReparentBooty(s->selected,0,0xF);FadeAloOut(s->selected,0.25f);}
   }
   func_001CD2C0(&s->owner->controller);
   if(s->effect)EffectCall(s->effect,9);
@@ -164,7 +165,7 @@ extern "C" void func_002206C8(S *s,int state){
  case 3:animation=s->animation3;IntCall(s->owner,79,1);break;
  case 4:
   if(s->effect){s->effect->active=1;s->effect->reset=0;EffectCall(s->effect,8);}
-  if(previous!=5&&previous!=6){s->distance=0.0f;s->targetWorld.q=ConvertPos(s->owner,0,s->targetLocal.q);func_0021FB70(s,0);}
+  if(previous!=5&&previous!=6){s->distance=0.0f;s->targetWorld.q=ConvertPos(s->owner,0,s->targetLocal.q);UpdateJtThrowArc(s,0);}
   animation=s->animation4;flags=9;s->field128=0;break;
  case 5:animation=s->animation5;break;
  case 6:animation=s->animation6;break;
@@ -176,5 +177,5 @@ extern "C" void func_002206C8(S *s,int state){
  ClearSmaHandle(&s->owner->extra);
  func_001305B8(animation,s->owner,0.0f,1.0f,flags,&s->owner->animation);
  PlainCall(s->owner,90);
- func_00134320(&g_sw,s->owner);
+ RecalcSwOxfFilterForObject(&g_sw,s->owner);
 }

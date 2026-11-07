@@ -1,4 +1,4 @@
-/* func_00148300 (Claude agent): case 2 before case 0, and a block-local r per case (so the g38 load ties to f20). */
+/* CheckLoRoot__FP2SWP2LO (Claude agent): case 2 before case 0, and a block-local r per case (so the g38 load ties to f20). */
 typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; void (*pfn)(void *); };
 struct SO { char pad[0xC]; struct VTE *vt; char pad1[0x14 - 0x10]; int id; char pad2[0x28 - 0x18]; long x28; char pad3[8]; float g38; };
@@ -23,7 +23,8 @@ static __inline__ float GDistSq(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-void func_00148300(struct P *p, struct SO *pso)
+// name: SafeHouse port (CheckLoRoot)
+void CheckLoRoot__FP2SWP2LO(struct P *p, struct SO *pso)
 {
     int grf;
     qword posA, posB;

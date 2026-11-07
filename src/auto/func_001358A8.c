@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00141640(void *, s32 *);               /* extern */
+M2C_UNK GetActorCmTarget__FP5ACTORP9ACTORPOSE(void *, s32 *);               /* extern */
 M2C_UNK func_0019EA00(void *, s32 *);               /* extern */
 extern f32 g_clock;
 
@@ -14,7 +14,7 @@ void GetBentleyCpdefi__FP7BENTLEYP9ACTORPOSE(void *arg0, s32 *arg1) {
             M2C_FIELD(arg0, f32 *, 0x1080) = (f32) g_clock;
         }
     }
-    func_00141640(arg0, arg1);
+    GetActorCmTarget__FP5ACTORP9ACTORPOSE(arg0, arg1);
     temp_v1_2 = M2C_FIELD(arg0, s32 *, 0x13D0);
     switch (temp_v1_2) {                            /* irregular */
     case 13:

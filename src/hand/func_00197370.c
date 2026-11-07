@@ -8,7 +8,8 @@ float RadNormalize__Ff(float g);
 void ClearSmaHandle__FPP3SMA(void *p);
 void func_001305B8(void *a, struct O *o, int n, void *b, float g, float h);
 #define Get(p, i) ((p)->x1c == 2 ? (p)->a134[i] : (p)->a120[i])
-void func_00197370(struct P *p)
+// name: SafeHouse port (SelectDirectionalJumpAnimation)
+void SelectDirectionalJumpAnimation__FP4JUMP(struct P *p)
 {
     float d, ad;
     struct S1030 *s;

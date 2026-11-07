@@ -2,7 +2,8 @@ void Init__5AIJOB(void *p);
 void func_001FEE90(void *p);
 void AddGuardState__FP5GUARDi(void *p, int n);
 extern char D_003DD040[];
-void func_0014A1B0(char *p)
+// name: SafeHouse port (JOBCHASE::Init)
+void Init__8JOBCHASE(char *p)
 {
     Init__5AIJOB(p);
     func_001FEE90(D_003DD040);

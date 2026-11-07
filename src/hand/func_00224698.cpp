@@ -8,7 +8,7 @@ extern "C" {
 void ApplyAloGravity(S *) asm("ApplyAloGravity__FP3ALO");
 qword func_001A62E8(void *);
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-M3 *func_001A6318(S *);
+M3 *MatJtLo(S *) asm("MatJtLo__FP2LO");
 void func_0011B938(M3 *,M3 *,M3 *);
 void AccelAloTowardRotation(S *,M3 *,void *,qword,void *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 }
@@ -45,7 +45,7 @@ extern "C" void ApplyCarryGravity__FP3ALO(S *p) {
         else n=Scale(d,len);
         m=BuildLookAtMatrix(n,g_normalZ);
     } else {
-        func_0011B938(func_001A6318(p),0,&m);
+        func_0011B938(MatJtLo(p),0,&m);
     }
     AccelAloTowardRotation(p,&m,D_002C4300,D_002A2DD0,D_002C4310);
 }

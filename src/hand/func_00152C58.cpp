@@ -43,7 +43,7 @@ extern qword D_002BDBC0, D_002BDBD0;
 void func_001A5ED8(P *p);
 float TMusicTop(void *p) asm("TMusicTop__FPv");
 FONT *func_00215AC0(FONT *pf, const char *sz, float scale);
-float func_00215ED8(FONT *pf);
+float DxTextUi(FONT *pf) asm("DxTextUi__FP7FONTBRX");
 void func_002163B0(FONT *pf, TB *ptb, int grf);
 void Hermite(float dt, float t, float dtScale, qword p0, qword v0, qword p1, qword v1, qword *ppos, qword *pvel, qword *pacc) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 void DrawDancePrompts(P *p) asm("DrawDancePrompts__FP7FONTBRX");
@@ -67,15 +67,15 @@ void DrawDancePrompts(P *p)
         u.s = D_002A5018;
         FONT fontBig;
         func_00215AC0(&fontBig, u.s.a, D_002BDB50);
-        float dxBig = func_00215ED8(&fontBig);
+        float dxBig = DxTextUi(&fontBig);
         float dyBig = fontBig.dy;
         FONT fontSmall;
         func_00215AC0(&fontSmall, u.s.a, D_002BDB54);
-        float dxSmall = func_00215ED8(&fontSmall);
+        float dxSmall = DxTextUi(&fontSmall);
         float dySmall = fontSmall.dy;
-        float dxA = func_00215ED8(&fontA);
+        float dxA = DxTextUi(&fontA);
         float dyA = fontA.dy;
-        float dxB = func_00215ED8(&fontB);
+        float dxB = DxTextUi(&fontB);
         float dyB = fontB.dy;
         int i;
         for (i = 0; i < p->c; i++) {

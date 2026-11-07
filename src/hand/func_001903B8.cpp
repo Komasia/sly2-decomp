@@ -12,7 +12,7 @@ void AccelAloPos(PP *p, qword q) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 void BrakeAloRotation(PP *p, M3 *pm, float *pg) asm("BrakeAloRotation__FP3ALOP7MATRIX3Pf");
 void func_001903B8(PP *p);
 }
-M3 func_0011BA08(qword a, qword b);
+M3 BuildRotateVectorsMatrix(qword a, qword b) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 M3 func_0011B500(qword a, float g);
 extern qword g_normalZ;
 extern float D_002BF548[];
@@ -41,7 +41,7 @@ void func_001903B8(PP *p)
     v.q = a;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(a) : "j"(a), "j"(func_001A62E8(p)));
     d.q = a;
-    m1 = func_0011BA08(g_normalZ, a);
+    m1 = BuildRotateVectorsMatrix(g_normalZ, a);
     m2 = func_0011B500(g_normalZ, p->x1A8);
     m = Mul(m1, m2);
     BrakeAloRotation(p, &m, D_002BF548);

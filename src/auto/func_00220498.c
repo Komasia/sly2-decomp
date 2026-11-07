@@ -2,7 +2,8 @@
 s32 func_00134310(s32, M2C_UNK);                    /* extern */
 extern s32 D_002DD5BC;
 
-s32 func_00220498(void *arg0, void *arg1, s32 arg2) {
+// name: SafeHouse port (OverlapKindJtThrow)
+s32 OverlapKindJtThrow__FP7JTTHROWP3ALOi(void *arg0, void *arg1, s32 arg2) {
     s32 temp_a0;
 
     if (arg1 == M2C_FIELD(arg0, s32 *, 0x10)) {

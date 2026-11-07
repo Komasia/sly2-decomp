@@ -11,13 +11,14 @@ extern char g_sw[];
 extern float D_002A7810;
 extern float D_002C20C0[3];
 qword func_001A62E8(void *);
-int func_0015E9C8(void *, int, int, int, int, SO **);
-SO *func_001D22D0(OBJ *p)
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *, int, int, int, int, SO **);
+// name: SafeHouse port (BestVehiclePickup)
+SO *BestVehiclePickup__FP7VEHICLE(OBJ *p)
 {
     SO *best = 0;
     SO *aso[16];
     qword pos = func_001A62E8(p);
-    int n = func_0015E9C8(g_sw, 0x105, 0x6C, 0, 0x10, aso);
+    int n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x105, 0x6C, 0, 0x10, aso);
     float fMin = D_002A7810;
     int i;
     for (i = 0; i < n; i++) {

@@ -7,7 +7,7 @@ extern struct CLOCK g_clock;
 struct S { char pad[0xEC]; void *xEC; char pad1[0x138 - 0xF0]; int x138; int k; float t140; int x144; int c; int *a; int x150; int x154; float t158; float dt; };
 void func_001A5E28(struct S *p);
 void QueueMovie__FPUcPv(void *a, int b);
-void func_0022B490(struct G *p, int a, int b, int c, int d, int e);
+void RequestTransition__FP2SWPUc3OIDT2iT2(struct G *p, int a, int b, int c, int d, int e);
 void *func_001C4840(struct G *pg);
 qword func_001A62E8(void *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *p, qword q);
@@ -24,7 +24,7 @@ void UpdateExit__FP2LO(struct S *p)
             int i;
             for (i = 0; i < p->c; i++)
                 QueueMovie__FPUcPv(D_002F66B0, p->a[i]);
-            func_0022B490(&g_sw, p->x144, p->x150, -1, p->x138 ? 0x20 : 0, p->x154);
+            RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, p->x144, p->x150, -1, p->x138 ? 0x20 : 0, p->x154);
             p->t158 = 0.0f;
         }
         break;

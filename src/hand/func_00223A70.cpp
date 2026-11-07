@@ -1,4 +1,4 @@
-/* (Claude agent) MATCH: the loop's func_0011E1A0 result is a plain qword local; gcc emits the qmtc2 itself and schedules it. */
+/* (Claude agent) MATCH: the loop's SetVectorCylind result is a plain qword local; gcc emits the qmtc2 itself and schedules it. */
 // Complete camera segment avoidance WIP. FRAME has no instance members.
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
@@ -21,8 +21,8 @@ qword FindCmClosestClearPos(int,SO **,qword,float) asm("FindCmClosestClearPos__F
 int FFindCmClearInterval(int count,SO **objects,qword origin,qword endpoint,float gap,float *low,float *high) asm("FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f");
 float GCmCutWeight(void *,qword,qword,N *) asm("GCmCutWeight__FP2CMG9VU_VECTORT1P5CMHIT");
 qword SquishCmEye(CAMERA *,int,SO **,float (*)(void *,qword,qword,N *),qword,qword,float,float) asm("SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff");
-void func_0011EF08(qword,float *,float *,float *);
-qword func_0011E1A0(float,float,float);
+void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 }
 struct MARK {MARK(){(void)__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 struct WORK {V minimum,maximum,origin,candidate;MARK mark;V offset,rayEnd,best,scalar;int count;SO **objects;float low,high,phase,radius,height;};
@@ -53,11 +53,11 @@ extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qwo
     if(w.high<one){
         float angle=initialAngle;
         p->state=4;
-        func_0011EF08(Sub(end,begin),&w.phase,&w.radius,&w.height);
+        ConvertVectorToCylind(Sub(end,begin),&w.phase,&w.radius,&w.height);
         float bestCost=D_002A9700;
         float minGap=initialAngle;
         do{
-            qword off=func_0011E1A0(w.phase+angle,w.radius,w.height);
+            qword off=SetVectorCylind(w.phase+angle,w.radius,w.height);
             w.offset.q=off;
             w.rayEnd.q=Add(begin,off);
             FFindCmClearInterval(w.count,w.objects,w.origin.q,w.rayEnd.q,minGap,&w.low,&w.high);

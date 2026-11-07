@@ -10,12 +10,13 @@ extern int g_grfjoyt;
 extern struct J g_joy;
 extern struct J D_002E0D00;
 extern char D_002DDFA0[];
-void func_001C42E8(struct S *p);
+void ClearPadctl__FP6PADCTL(struct S *p);
 void func_0011BC88(void *pv, float *pa, float *pb);
 struct MATRIX3 func_0011B720(float a, float b);
-void func_001C4330(struct S *p, float g, float *px, float *py, float *pang, float *pr, float *pr2);
-void func_001C45A8(struct S *p);
-void func_001C4468(struct S *p)
+void TurnPadctlStick__FPffN50(struct S *p, float g, float *px, float *py, float *pang, float *pr, float *pr2);
+void StampPadctlState__FP6PADCTL(struct S *p);
+// name: SafeHouse port (UpdatePadctl)
+void UpdatePadctl__FP6PADCTL(struct S *p)
 {
     float a, b;
     struct J *pj;
@@ -23,7 +24,7 @@ void func_001C4468(struct S *p)
     a = 0.0f;
     switch (p->x80) {
     case 0:
-        func_001C42E8(p);
+        ClearPadctl__FP6PADCTL(p);
         break;
     case 1:
         pj = (g_grfjoyt & 2) ? &g_joy : &D_002E0D00;
@@ -36,7 +37,7 @@ void func_001C4468(struct S *p)
         break;
     }
     p->mat = func_0011B720(a, b);
-    func_001C4330(p, a, &p->g10, &p->g14, &p->g18, &p->g1c, &p->g70);
-    func_001C4330(p, a, &p->g20, &p->g24, &p->g28, &p->g2c, &p->g74);
-    func_001C45A8(p);
+    TurnPadctlStick__FPffN50(p, a, &p->g10, &p->g14, &p->g18, &p->g1c, &p->g70);
+    TurnPadctlStick__FPffN50(p, a, &p->g20, &p->g24, &p->g28, &p->g2c, &p->g74);
+    StampPadctlState__FP6PADCTL(p);
 }

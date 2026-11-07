@@ -14,7 +14,7 @@ struct X { char pad[0x60]; struct LO *plo; struct L *pl; int x68; void *pv6C; un
 struct E { int f0; struct X *px; int x8; };
 struct P { char pad[0x3CD0]; int c; struct E *aae[3]; char a3CE0[0x3CF8 - 0x3CE0]; char aCF8[0x3D10 - 0x3CF8];
     char a3D10[0xC]; char a3D1C[0xC]; char a3D28[0xC]; char a3D34[0xC]; };
-struct L *func_00133CB8(struct P *, struct X *, struct X *);
+struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
 void func_001A7E10(struct P *, void *);
 void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, void *);
@@ -22,7 +22,8 @@ void RemoveDlEntry__FP2DLPv(void *, struct X *);
 int FFindDlEntry__FP2DLPv(void *, struct X *);
 void *func_002332B8(void *, void *, int);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
-void func_001337D0(struct P *p, struct X *px)
+// name: SafeHouse port (RemoveSwOxa)
+void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
 {
     struct L *pl, *plNext;
     int i;
@@ -30,7 +31,7 @@ void func_001337D0(struct P *p, struct X *px)
         struct L *pl2;
         VCALL(px->plo, 54, void (*)(void *, struct LO *)), pl->po);
         VCALL(pl->po, 54, void (*)(void *, struct LO *)), px->plo);
-        pl2 = func_00133CB8(p, ((struct LX *)pl->po)->px, px);
+        pl2 = PoxRemoveSw__FP2SWP3OXAT1(p, ((struct LX *)pl->po)->px, px);
         if (pl->pv) {
             if (!VCALL(pl->po, 62, int (*)(void *))))
                 WakeAlo__FP3ALO(pl->po);

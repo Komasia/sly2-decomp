@@ -7,7 +7,7 @@ struct Dest { M4 m; char pad[0xA0-0x40]; Source *parent; int stamp; };
 struct S { Source *source; Dest *dest; int position,rotation; };
 struct G { char pad[0x3D58]; int counter; };
 extern G g_sw;
-extern "C" M4 func_0011C318(const M4 *m);
+extern "C" M4 InverseAffineMatrix4(const M4 *m) asm("InverseAffineMatrix4__FP7MATRIX4");
 extern "C" M3 func_0011B340(const M3 *m);
 extern "C" void func_0011B3D0(M3 *m);
 extern "C" qword *func_00256D18(qword *p,qword v);
@@ -27,7 +27,7 @@ extern "C" void func_001604E8(void *,S *s)
 {
  M3 m;
  if(s->position) {
-  M4 inv=func_0011C318(&s->dest->parent->m40);
+  M4 inv=InverseAffineMatrix4(&s->dest->parent->m40);
   Dest *dest=s->dest;
   func_00256D18(&dest->m.r[3].q,Transform(inv,s->source->m40.r[3].q));
   dest->m.r[3].f[3]=1.0f;

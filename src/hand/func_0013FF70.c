@@ -5,26 +5,26 @@ struct P {
     char pad7[0x12F0 - 0x1148]; int x12F0; char pad8[0x1300 - 0x12F4]; int x1300; float x1304; char pad9[0x1318 - 0x1308]; int x1318;
 };
 void InitStep__FP4STEP(struct P *p);
-void func_00195950(void *pv, struct P *p);
+void InitJump__FP4JUMPi(void *pv, struct P *p);
 void InitInteract__FP5ACTORi(void *pv, struct P *p);
 void func_0019F3E8(void *pv, struct P *p);
 void InitDamage__FP5ACTORi(void *pv, struct P *p);
-void func_0019CBF8(void *pv, struct P *p);
-void func_0021F2E0(void *pv, struct P *p);
-void func_0019DE10(void *pv, struct P *p);
+void InitBinoc__FP5BINOC5BLOTK(void *pv, struct P *p);
+void InitJtThrow__FP5ACTORUi(void *pv, struct P *p);
+void InitClimb__FP5ACTORi(void *pv, struct P *p);
 void func_00144638(void *pv, struct P *p);
 void SetAloXpBytes__FP3ALOUiUc(struct P *p, int mask, int n);
 // name: SafeHouse port (InitActorFields)
 void InitActorFields__FP5ACTOR(struct P *p)
 {
     InitStep__FP4STEP(p);
-    func_00195950((char *)p + 0x2C0, p);
+    InitJump__FP4JUMPi((char *)p + 0x2C0, p);
     InitInteract__FP5ACTORi((char *)p + 0x4C0, p);
     func_0019F3E8((char *)p + 0x9E0, p);
     InitDamage__FP5ACTORi((char *)p + 0xDF0, p);
-    func_0019CBF8((char *)p + 0xF00, p);
-    func_0021F2E0((char *)p + 0x11B0, p);
-    func_0019DE10((char *)p + 0xF50, p);
+    InitBinoc__FP5BINOC5BLOTK((char *)p + 0xF00, p);
+    InitJtThrow__FP5ACTORUi((char *)p + 0x11B0, p);
+    InitClimb__FP5ACTORi((char *)p + 0xF50, p);
     func_00144638((char *)p + 0xFD0, p);
 
 

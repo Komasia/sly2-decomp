@@ -10,7 +10,8 @@ static __inline__ int FSameChk(struct CHK *a, struct CHK *b)
     if (!a || !b) return 0;
     return (a->a[2] ^ a->a[14]) == (b->a[2] ^ b->a[14]);
 }
-void func_0022B490(struct M *pm, struct CHK *pchk, int a, int b, int flags, int n)
+// name: SafeHouse port (RequestTransition)
+void RequestTransition__FP2SWPUc3OIDT2iT2(struct M *pm, struct CHK *pchk, int a, int b, int flags, int n)
 {
     struct X x;
     struct CHK *pchkCur = &pm->chk;

@@ -2,7 +2,7 @@
 // For every pose of key `phase`: reset the item's "previous" state (colours default to additive 0x7F7F7F7F / multiply
 // 0xFFFFFFFF unless the pose has a COLORS entry), look in the following keys for the same item to find its "next"
 // pose, then interpolate matrix and colours between them at the clamped time (GLimitLm), combine with the parent
-// matrix/colours (func_00218790) and draw through func_00215850 (same sprite) or replace the sprite (func_002158C0 +
+// matrix/colours (CombineColors) and draw through func_00215850 (same sprite) or replace the sprite (func_002158C0 +
 // func_00215730). Finally the item's matrix/colours/pose bytes are saved and the link kinds are set (1 for the
 // linking pose, 4 for the item it links to).
 //
@@ -85,7 +85,7 @@ void *func_002333B4(void *, int, unsigned int);
 void func_00215730(SPRITE *, ITEM *, M23 *, RGBA, RGBA);
 void func_00219400(float, float, ANIM *, int, int, M23 *, const RGBA *, const RGBA *);
 void func_002158C0(SPRITE *, ITEM *);
-void func_00218790(RGBA *, RGBA *, RGBA *, RGBA *, RGBA *, RGBA *);
+void CombineColors(RGBA *, RGBA *, RGBA *, RGBA *, RGBA *, RGBA *) asm("CombineColors__FPUcN50");
 void UpdateMatchingSprite(float, SPRITE *, ITEM *, M23 *, RGBA, RGBA) __asm__("func_00215850");
 void UpdateCurrentSprite(float, SPRITE *, ITEM *, M23 *, RGBA, RGBA) __asm__("func_00215850");
 }
@@ -226,7 +226,7 @@ extern "C" void func_00219400(float time, float duration, ANIM *animation, int p
         matrix = Mul(matrix, *parent);
         {
             RGBA inputMultiply(*multiply), inputAdditive(*additive), localMultiply(currentMultiply), localAdditive(currentAdditive);
-            func_00218790(&inputMultiply, &inputAdditive, &localMultiply, &localAdditive, &outputMultiply, &outputAdditive);
+            CombineColors(&inputMultiply, &inputAdditive, &localMultiply, &localAdditive, &outputMultiply, &outputAdditive);
         }
         if (id > 0) {
             if (item->sprite) {

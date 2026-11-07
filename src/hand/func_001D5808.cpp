@@ -26,7 +26,7 @@
 //       &fNear, so loop.c no longer folds it: it is hoisted to the while top and spilled to 0x8F0 as in the target (no 0x8F4 shifts).
 //   (2) Both params unpacks (4 words) go through UnpackWords too: the dead odd loop ends gcse's block before the copy, so the PRE
 //       `lui t3` (hi of D_002DEA28) is inserted above the do-while barrier and scheduled early as in the target.
-//   (3) Packet dist is stored by a `sw` asm (SetX, as SetInteractState/func_001E9AC0): reorg never fills a delay slot from an asm,
+//   (3) Packet dist is stored by a `sw` asm (SetX, as SetInteractState/PlaceRopeMeshScene): reorg never fills a delay slot from an asm,
 //       giving the target's unfilled bc1f slot; its allocation-only "j" input keeps the Dot result in a VF register.
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
@@ -167,8 +167,8 @@ int func_001EDA20(OBJ *pobj);
 void func_001681F8(SCENE *pscene);
 void func_001D57B8(STACK *pstack, BLOCK *pblock);
 BLOCK *func_001D57E0(STACK *pstack);
-M4 func_0011C168(const M4 &matA, const M4 &matB);
-M4 func_0011C318(const M4 &matSrc);
+M4 MulMatrix4(const M4 &matA, const M4 &matB) asm("MulMatrix4__FP7MATRIX4T0Pv");
+M4 InverseAffineMatrix4(const M4 &matSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 }
 struct VU_FLOAT
 {
@@ -447,7 +447,7 @@ extern "C" void func_001D5808(STACK *pstack, SCENE *pscene)
                 if (pmesh->pmatParent)
                 {
                     M4 mat;
-                    mat = func_0011C168(*pmesh->pmatParent, pmesh->pxf->mat);
+                    mat = MulMatrix4(*pmesh->pmatParent, pmesh->pxf->mat);
                     UnpackQws<0x6C04C000>(&mat, 16);
                 }
                 else
@@ -459,9 +459,9 @@ extern "C" void func_001D5808(STACK *pstack, SCENE *pscene)
                 {
                     M4 matInv;
                     if (pmesh->pmatParent)
-                        matInv = func_0011C318(func_0011C168(*pmesh->pmatParent, pmesh->pxf->mat));
+                        matInv = InverseAffineMatrix4(MulMatrix4(*pmesh->pmatParent, pmesh->pxf->mat));
                     else
-                        matInv = func_0011C318(pmesh->pxf->mat);
+                        matInv = InverseAffineMatrix4(pmesh->pxf->mat);
                     uint ib = pskin->ib;
                     for (int imat = 0; imat < pskin->cmat; imat++)
                     {
@@ -469,7 +469,7 @@ extern "C" void func_001D5808(STACK *pstack, SCENE *pscene)
                         {
                             M4 mat;
                             int ibMat = imat * 0x40 + 0x6F0;
-                            mat = func_0011C168(matInv, *(M4 *)(pskin->pbOwner + ibMat));
+                            mat = MulMatrix4(matInv, *(M4 *)(pskin->pbOwner + ibMat));
                             UnpackQws(ib | 0x6C04C000, &mat, 16);
                             ib += 4;
                         }

@@ -24,7 +24,7 @@ extern "C"{
  void SetAsegaTime(ASEGA*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
  void DeleteCtrl(DELTA**) asm("DeleteCtrl__FPP4CTRL");
  void SetXfMode(P*,GROUP*,int) asm("SetXfMode__FP3ALOP2XFi");
- void func_00134320(void*,P*);
+ void RecalcSwOxfFilterForObject(void*,P*) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
  void DetachAloContacts(P*) asm("DetachAloContacts__FP3ALO");
  void SetMoveState(C*,int) asm("SetMoveState__7JOBMOVEi");
  void GetTarget(C*,REQUEST*,U*,U*) asm("GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2");
@@ -132,7 +132,7 @@ extern "C" void SetState__5JOBB1i(C*p,int next){
   register P*callbackActor __asm__("$5");
   __asm__("lui %0,%2\n\tlw %1,%3":"=&r"(gameBase),"=r"(callbackActor)
    :"i"((gameAddress+0x8000)>>16),"m"(p->actor));
-  func_00134320(gameBase+(short)(gameAddress&0xffff),callbackActor);
+  RecalcSwOxfFilterForObject(gameBase+(short)(gameAddress&0xffff),callbackActor);
   DetachAloContacts(p->actor);p->mode=next;
  }
  const unsigned clockAddress=0x2DDED0;

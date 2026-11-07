@@ -5,7 +5,7 @@ struct B { char pad[0x148]; unsigned long x148; };
 struct S { struct O *x0; int x4; char pad[0x14]; struct PMF pmf; char pad2[0xC]; struct B *x30; };
 void *func_002333B4(void *p, int c, unsigned int n);
 void func_001A16A8(struct S *p);
-void func_00195A00(void *p, int a, int b, int c);
+void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 // name: SafeHouse port (EndDamageReaction)
 void EndDamageReaction__FP5ACTOR(struct S *s)
 {
@@ -20,6 +20,6 @@ void EndDamageReaction__FP5ACTOR(struct S *s)
     } else if (s->x30 && (s->x30->x148 & 0x200000000UL)) {
         func_001A16A8(s);
     } else {
-        func_00195A00((char *)s->x0 + 0x2C0, 11, 0, 0);
+        SetJumpKind__FP4JUMPiiP2LO((char *)s->x0 + 0x2C0, 11, 0, 0);
     }
 }

@@ -27,7 +27,7 @@ extern "C" void StrDialogSubtitleTyped(void *,RT *) asm("StrDialogSubtitleTyped_
 extern "C" void func_00215CA8(RT *,char *);
 extern "C" int func_00215D40(RT *);
 extern "C" void func_00215D00(RT *,RGBA *);
-extern "C" float func_00215ED8(RT *);
+extern "C" float DxTextUi(RT *) asm("DxTextUi__FP7FONTBRX");
 extern "C" float GModPositive(float,float) asm("GModPositive__Fff");
 extern "C" void func_001DA5C8(SCROLL *,int);
 extern "C" void func_002166B0(RT *,T *,DATA *);
@@ -75,10 +75,10 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         func_0021ED58(marquee,D_002A8B88);
         func_00215CA8(&rt,marquee);
         scale=t->a[0];
-        paddingWidth=func_00215ED8(&rt)*scale;
+        paddingWidth=DxTextUi(&rt)*scale;
         func_0021EDA0(marquee,text);
         func_00215CA8(&rt,marquee);
-        textWidth=func_00215ED8(&rt)*scale;
+        textWidth=DxTextUi(&rt)*scale;
         func_0021EDA0(marquee,D_002A8B88);
         func_0021EDA0(marquee,text);
         func_0021EDA0(marquee,D_002A8B88);

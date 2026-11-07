@@ -34,7 +34,8 @@ static inline float X(qword q) { float f; __asm__("mtc1 %1,%0" : "=f"(f) : "r"(q
 static inline float Y(qword q) { float f; __asm__("prot3w %0,%1" : "=r"(f) : "r"(q)); return f; }
 static inline float Z(qword q) { float f; __asm__("pextuw %0,$zero,%1" : "=r"(f) : "r"(q)); return f; }
 
-extern "C" void func_00205008(SO *pso, int grf, LO *plo, qword posOther, qword direction, qword pos)
+// name: SafeHouse port (AddActorLineXps)
+extern "C" void AddActorLineXps__FP5ACTORiP6VECTORG9VU_VECTORN23(SO *pso, int grf, LO *plo, qword posOther, qword direction, qword pos)
 {
     XP **ppxpFirst, **ppxpOut;
     SOPART *psopartOther;

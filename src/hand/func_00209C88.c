@@ -6,9 +6,10 @@ extern qword D_002A2DA0;
 void func_001F4FA8(struct S *p);
 void func_001E6F10(void *po, qword *pa, qword *pb, float f);
 qword func_001A62E8(void *p);
-qword *func_001A6318(void *p);
+qword *MatJtLo__FP2LO(void *p);
 
-void func_00209C88(struct S *p)
+// name: SafeHouse port (AddGuardRailContacts)
+void AddGuardRailContacts__FP3ALO(struct S *p)
 {
     qword a, b;
     func_001F4FA8(p);
@@ -29,7 +30,7 @@ void func_00209C88(struct S *p)
     case 2: {
         struct VE *pe = &p->vt[82];
         void *pthis = (char *)p + pe->d;
-        pe->pf(pthis, 7, p->pF84, func_001A62E8(p->pF84), *func_001A6318(p->pF84), func_001A62E8(p->pF90));
+        pe->pf(pthis, 7, p->pF84, func_001A62E8(p->pF84), *MatJtLo__FP2LO(p->pF84), func_001A62E8(p->pF90));
         break;
     }
     case 3: {

@@ -6,8 +6,8 @@ struct S { char pad[0x10C]; void *curve; char pad1[0x120-0x110]; int polar; char
 extern "C" {
 void func_001E6F10(void *, float, qword *, qword *);
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-qword func_0011E1A0(float,float,float);
-M3 *func_001A6318(struct S *);
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
+M3 *MatJtLo(struct S *);
 qword ConvertPos(void *,void *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 }
 extern qword g_normalZ;
@@ -46,7 +46,7 @@ extern "C" void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(S *
         *f++=x; times++; bounds++; coef++;
     } while(--i>=0);
     if(mode==2) pos.f[0]=-pos.f[0];
-    if(p->polar) pos.q=func_0011E1A0(pos.f[0],pos.f[1],pos.f[2]);
+    if(p->polar) pos.q=SetVectorCylind(pos.f[0],pos.f[1],pos.f[2]);
     if(p->curve) {
         func_001E6F10(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
         m=BuildLookAtMatrix(normal.q,g_normalZ);
@@ -55,7 +55,7 @@ extern "C" void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(S *
         float period=p->radius*6.2831855f;
         float phase=mode!=1?time-delta:time+delta;
         float angle=func_00245A18(phase,period);
-        center.q=func_0011E1A0(angle/p->radius,p->radius,0.0f);
+        center.q=SetVectorCylind(angle/p->radius,p->radius,0.0f);
         qword arc=center.q;
         center.q=Add(arc,p->origin);
         normal.q=Normalize(Cross(g_normalZ,arc));

@@ -71,12 +71,12 @@ extern qword D_002A2DA0, g_normalZ, D_002A2DD0, D_002BF650;
 extern float D_002BF63C, D_002BF640;
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 qword func_001A62E8(void *);
-M3 *func_001A6318(void *);
-void func_001E6F60(SOURCE *, qword, void *, void *, void *, float *, float *);
+M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
+void NearestCrvAll(SOURCE *, qword, void *, void *, void *, float *, float *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 void func_00183B80(SOURCE *, int);
 void func_001333C0(SOURCE *, ACTOR *);
 void func_00133448(SOURCE *, ACTOR *);
-void func_00204F78(ACTOR *, SOURCE *, int);
+void PairActorWith(ACTOR *, SOURCE *, int) asm("PairActorWith__FP5ACTORP2LOi");
 void EvalCrv(SOURCE *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 EFFECT *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(EFFECT *, SOURCE *) asm("SetSource__4CSndPv");
@@ -91,9 +91,9 @@ void func_001CCAC0(ATTACH *, int);
 void func_001CD2C0(void *);
 void Stop(EFFECT *, float) asm("Stop__4CSndf");
 void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
-void func_00194118(CONTEXT *);
+void ResetZoneInteract(CONTEXT *) asm("ResetZoneInteract__FP2LO");
 qword ConvertPos(void *, void *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-void func_0020BD68(PROGRAM_ITEM *);
+void ResetGaitFeet(PROGRAM_ITEM *) asm("ResetGaitFeet__FP4GAIT");
 void RetractAsegaPp(ANIMATION **) asm("RetractAsegaPp__FPP5ASEGA");
 void ClearSmaHandle(COMPONENT *) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(CLIP *, ACTOR *, float, float, int, ANIMATION **);
@@ -123,11 +123,11 @@ static inline void AddFlags(uint *pflags, uint bits)
 // The never-chosen "V" alternative is allocation-only: the word stays a MEM until reload (as in UpdateInteractTransitions).
 static inline VU_FLOAT VuFloat(const float &g) { VU_FLOAT v; __asm__("qmtc2.ni %1,%0" : "=j,j"(v.q) : "r,V"(*(const int *)&g)); return v; }
 
-static inline bool Less(int n, int limit) { return n < limit; }   // as in func_00195FB8: keeps the two range tests apart
+static inline bool Less(int n, int limit) { return n < limit; }   // as in SetJumpAnimState: keeps the two range tests apart
 static inline float X(qword q) { float f; __asm__("mtc1 %1,%0" : "=f"(f) : "r"(q)); return f; }
 // The vector is moved to a GPR once (gcc's own qmfc2 for the "r" inputs) and its x word is stored straight from there:
 // no C construct gives a 32-bit store of the low word of a TImode GPR (unions go through the stack, casts sign-extend).
-// Same StoreX/GetY/GetZ helpers as the matched func_001E9AC0.cpp.
+// Same StoreX/GetY/GetZ helpers as the matched PlaceRopeMeshScene.cpp.
 static inline void SetX(float *pg, qword q) { __asm__("sw %1,%0" : "=m"(*pg) : "r"(q)); }
 static inline float GetY(qword q) { float f; __asm__("prot3w %0,%1" : "=r"(f) : "r"(q)); return f; }
 static inline float GetZ(qword q) { float f; __asm__("pextuw %0,$zero,%1" : "=r"(f) : "r"(q)); return f; }
@@ -193,7 +193,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
     case -1:
         if (p->focus && FIsBasicDerivedFrom(p->focus, 10)) {
             SOURCE *source = p->focus;
-            func_001E6F60(source, func_001A62E8(p->pactor), 0, 0, 0, &p->param, &p->value);
+            NearestCrvAll(source, func_001A62E8(p->pactor), 0, 0, 0, &p->param, &p->value);
         }
         switch (p->action) {
         case 1: {
@@ -208,7 +208,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             SOURCE *source = p->focus;
             SourceState(source, 5);
             func_001333C0(source, p->pactor);
-            func_00204F78(p->pactor, source, 1);
+            PairActorWith(p->pactor, source, 1);
             ACTOR *actor = p->pactor;
             actor->position = func_001A62E8(source);
             break;
@@ -218,13 +218,13 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             U dir, tangent;
             SourceState(source, 5);
             func_001333C0(source, p->pactor);
-            func_00204F78(p->pactor, source, 1);
+            PairActorWith(p->pactor, source, 1);
             p->index = -1;
             EvalCrv(source, p->param, &p->pactor->position, &tangent.q);
             dir.i[2] = 0;
             Normalize(&dir.q);
             qword normal = dir.q;   // read before the call: a VU pseudo spilled to 0x50
-            p->reversed = X(Dot(normal, func_001A6318(p->pactor)->row[0])) < D_002BF63C;
+            p->reversed = X(Dot(normal, MatJtLo(p->pactor)->row[0])) < D_002BF63C;
             break;
         }
         case 2: {
@@ -253,7 +253,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                 qword pos = func_001A62E8(source->other);
                 SetVector(p->pactor, 29, Sub(pos, p->pactor->posOffset));
                 p->pactor->motion = AddScaled(pos, g_normalZ, VuFloat(p->pactor->height));
-                func_002046B0(p->pactor, func_001A6318(source->other)->row[0]);
+                func_002046B0(p->pactor, MatJtLo(source->other)->row[0]);
                 SetPointer(p->pactor, 30, p->pactor->local);
                 SetVector(p->pactor, 35, D_002A2DD0);
                 SetVector(p->pactor, 36, D_002A2DD0);
@@ -289,7 +289,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             SOURCE *source = p->focus;
             SourceState(source, 6);
             func_00133448(source, p->pactor);
-            func_00204F78(p->pactor, source, 0);
+            PairActorWith(p->pactor, source, 0);
             break;
         }
         case 6:
@@ -412,7 +412,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                     if (source->actor)
                         SetActorZone(p->pactor, source->actor);
                     else {
-                        func_00194118(p);
+                        ResetZoneInteract(p);
                         p->aux->target = source;
                         SetActorZone(p->pactor, p->aux);
                     }
@@ -421,7 +421,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                     if (source->owner)
                         SetActorZone(p->pactor, source->owner);
                     else {
-                        func_00194118(p);
+                        ResetZoneInteract(p);
                         p->aux->enabled = 1;
                         AUX *aux = p->aux;
                         aux->position = ConvertPos(0, p->aux, func_001A62E8(source));
@@ -433,8 +433,8 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                     if (source->owner)
                         SetActorZone(p->pactor, source->owner);
                     else {
-                        func_00194118(p);
-                        qword v = Transform(*func_001A6318(source), D_002BF650);
+                        ResetZoneInteract(p);
+                        qword v = Transform(*MatJtLo(source), D_002BF650);
                         SetX(&p->aux->data->x, v);
                         p->aux->data->y = GetY(v);
                         p->aux->data->z = GetZ(v);
@@ -453,15 +453,15 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         switch (p->action) {
         case 3:
             clip = p->program240.clip;
-            func_0020BD68(&p->program240);
+            ResetGaitFeet(&p->program240);
             break;
         case 1:
             clip = p->program180.clip;
-            func_0020BD68(&p->program180);
+            ResetGaitFeet(&p->program180);
             break;
         case 2:
             clip = p->pactor->program.clip;
-            func_0020BD68(&p->pactor->program);
+            ResetGaitFeet(&p->pactor->program);
             break;
         }
 
@@ -479,7 +479,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         SOURCE *source = p->focus;
         clip = p->clip324;
         if (source->other) {
-            M3 basis = *func_001A6318(source->other);
+            M3 basis = *MatJtLo(source->other);
             func_002046B0(p->pactor, basis.row[0]);
         }
         p->pactor->velocity = D_002A2DD0;

@@ -14,7 +14,7 @@ int func_0020E040(G *g);
 int func_001D9880(void *p);
 char *func_001C4840(G *g);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
-void func_0019CD38(void *p, int k);
+void SetBinocState__FP5ACTORi(void *p, int k);
 int func_002127C8(void);
 int func_00210AE0(void);
 int func_00132EA0(void *p);
@@ -32,7 +32,7 @@ int AentPause__FPv(X *px)
     if (func_0020E040(&g_sw)) return 0;
     if (func_001D9880(D_002E6550)) return 0;
     pl = func_001C4840(&g_sw);
-    if (pl && FIsBasicDerivedFrom__FP5BASIC3CID(pl, 0x34)) func_0019CD38(pl + 0xF00, -1);
+    if (pl && FIsBasicDerivedFrom__FP5BASIC3CID(pl, 0x34)) SetBinocState__FP5ACTORi(pl + 0xF00, -1);
     if (!func_002127C8()) return 0;
     psrc = D_002C00E8;
     pdst = D_002F65D0;

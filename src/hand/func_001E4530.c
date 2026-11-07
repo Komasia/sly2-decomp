@@ -10,7 +10,7 @@ struct O { char pad[0x74]; float g74; float g78; char pad2[0x80 - 0x7C]; float a
 struct O *PloFind__FP3RUNi(struct C *pc, int n);
 float GSuck__FPv(struct G *pg);
 void *func_0015E938(struct G *pg, int k, int a, int b);
-void *func_001F67E0(void *p, int n);
+void *PsmaFindAloSm__Fi3OID(void *p, int n);
 float func_001F11A8(void *p, int n);
 float func_001FCFD0(struct G *pg, int n);
 static __inline__ float GClamp(float g, float lo, float hi) { if (g < lo) return lo; if (g > hi) return hi; return g; }
@@ -33,7 +33,7 @@ float GCmdDuration__FP3RUNP7SCPTCMD(struct C *pc, struct P *p)
         if (p->x18 != -1) {
             void *px = func_0015E938(&g_sw, 4, p->u10.n, pc->x18);
             if (px) {
-                void *py = func_001F67E0(px, p->u14.n);
+                void *py = PsmaFindAloSm__Fi3OID(px, p->u14.n);
                 if (py) g = func_001F11A8(py, p->x18);
             }
         }

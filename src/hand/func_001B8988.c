@@ -12,7 +12,7 @@ typedef struct P {
 int func_00131968(void *p);
 void func_001B6078(P *p, int s);
 int func_001B84E0(P *p);
-int func_001C46C0(T *t, int k, float f);
+int GrfPadctlTakePressed__FP6PADCTL(T *t, int k, float f);
 void SetMurrayPunch__FP6MURRAYi(P *p, int k);
 int FMurrayGrab__FP6MURRAY(P *p);
 void EndMurrayPunch__FP6MURRAY(P *p);
@@ -29,7 +29,7 @@ void UpdateMurrayPunchTransitions__FP6MURRAY(P *p)
             switch (p->x1810) {
             case 0:
             case 1:
-                if (func_001B84E0(p) && func_001C46C0(p->x150, 0x80, 0.25f)) {
+                if (func_001B84E0(p) && GrfPadctlTakePressed__FP6PADCTL(p->x150, 0x80, 0.25f)) {
                     SetMurrayPunch__FP6MURRAYi(p, p->x1810 == 0);
                 } else if (!func_001B84E0(p) || !FMurrayGrab__FP6MURRAY(p)) {
                     if (p->x181C && 0.0f < p->x150->x1C) EndMurrayPunch__FP6MURRAY(p);
@@ -37,7 +37,7 @@ void UpdateMurrayPunchTransitions__FP6MURRAY(P *p)
                 break;
             case 2:
             case 3:
-                if (func_001B84E0(p) && func_001C46C0(p->x150, 0x10, 0.25f)) {
+                if (func_001B84E0(p) && GrfPadctlTakePressed__FP6PADCTL(p->x150, 0x10, 0.25f)) {
                     SetMurrayPunch__FP6MURRAYi(p, (p->x1810 == 2) ? 3 : 2);
                 } else if (!func_001B84E0(p) || !FMurrayGrab__FP6MURRAY(p)) {
                     if (p->x181C && 0.0f < p->x150->x1C) EndMurrayPunch__FP6MURRAY(p);

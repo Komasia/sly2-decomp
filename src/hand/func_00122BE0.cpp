@@ -16,7 +16,7 @@ struct O { char pad[0xE8]; XFM *pxfm; };
 struct W { char pad[0xC]; O *po; };
 extern "C" {
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
-qword func_001D6848(qword a, qword b, qword c, float g);
+qword VecBallisticVelocity(qword a, qword b, qword c, float g) asm("VecBallisticVelocity__FfG9VU_VECTORN21");
 CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref) asm("RefOpVectorBallisticVelocity__FiP4CRefP6CFrame");
 }
 CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref)
@@ -32,6 +32,6 @@ CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref)
     }
     CRef ref(0x1A);
     qword *pq = (qword *)ref.u.pv;
-    *pq = func_001D6848(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, v.q, RefCoerceF32(&aref[2]).u.g);
+    *pq = VecBallisticVelocity(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, v.q, RefCoerceF32(&aref[2]).u.g);
     return ref;
 }

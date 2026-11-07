@@ -1,9 +1,10 @@
 void *func_0015E938(void *pv, int k, int id);
 void *func_001EC918(int id);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
-void func_001F80D0(void *p, float f);
+void SetAloEyesClosed__FP3ALOf(void *p, float f);
 void SetEyesClosed__FP4EYESf(void *p, float f);
-void func_00210678(void *pv, int id1, int id2, float f)
+// name: SafeHouse port (SetEyesClosedOf)
+void SetEyesClosedOf__FP2LOiif(void *pv, int id1, int id2, float f)
 {
     void *p1 = 0;
     void *p2 = 0;
@@ -18,7 +19,7 @@ void func_00210678(void *pv, int id1, int id2, float f)
             p2 = 0;
     }
     if (p1)
-        func_001F80D0(p1, f);
+        SetAloEyesClosed__FP3ALOf(p1, f);
     if (p2)
         SetEyesClosed__FP4EYESf(p2, f);
 }

@@ -3,19 +3,20 @@ struct P { char pad[0x404]; struct E ae[8]; int c484; int i488; int pad2[2]; voi
 struct G;
 extern struct G g_game;
 void BroadcastTaskEvent__FP2SWiP2LO(struct G *, int, struct P *);
-void *func_001C2EF0(void *, int);
-void func_001F17F8(struct P *, int);
-void func_001F1CF8(struct P *);
-void *func_001F1E20(struct P *p)
+void *PloLaunchReward__FP2LOi(void *, int);
+void SetPocketMode__FP2LOi(struct P *, int);
+void NextPocketPrize__FP2LO(struct P *);
+// name: SafeHouse port (PloTakePocket)
+void *PloTakePocket__FP2LO(struct P *p)
 {
     void *r;
     if (p->i488 >= p->c484) return 0;
     {
         BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x19, p);
-        r = func_001C2EF0(p->p494, (p->ae + p->i488)->nC);
-        func_001F17F8(p, -1);
+        r = PloLaunchReward__FP2LOi(p->p494, (p->ae + p->i488)->nC);
+        SetPocketMode__FP2LOi(p, -1);
         p->i488++;
-        func_001F1CF8(p);
+        NextPocketPrize__FP2LO(p);
     }
     return r;
 }

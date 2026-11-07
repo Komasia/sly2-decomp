@@ -3,7 +3,7 @@ typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct MARK { int a[4]; } MARK;
 struct S { char pad[0xE4]; int c; int pad1; void *pEC; };
 static __inline__ int Min(int a, int b) { return a < b ? a : b; }
-int func_00227C90(struct S *p, qword v, float g);
+int FPointInShape__FP2LOG9VU_VECTOR(struct S *p, qword v, float g);
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
@@ -12,7 +12,7 @@ int func_00118A88(void *p, int n, qword v, int *pc, void **ppv, float g);
 int func_00227D20(struct S *p, qword v, float g)
 {
     if (g <= 1.0f) {
-        return func_00227C90(p, v, g);
+        return FPointInShape__FP2LOG9VU_VECTOR(p, v, g);
     } else {
         MARK mark;
         int f = 0;

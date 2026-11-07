@@ -4,7 +4,8 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
-void func_0011EF08(qword v, float *prad, float *pr, float *pz)
+// name: SafeHouse port (ConvertVectorToCylind)
+void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword v, float *prad, float *pr, float *pz)
 {
     if (prad)
         *prad = RadNormalize__Ff(func_002458F0(GetY(v), GetX(v)));

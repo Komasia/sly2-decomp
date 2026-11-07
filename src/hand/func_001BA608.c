@@ -11,7 +11,7 @@ struct P { char pad[0x10]; struct O *po; char pad2[0x30 - 0x14]; int x30; float 
 void Update__5AIJOB(struct P *p);
 int func_001EF0A8(struct P *p);
 qword func_001A62E8(void *p);
-int func_00227C90(void *p, qword v);
+int FPointInShape__FP2LOG9VU_VECTOR(void *p, qword v);
 void SetProxState__7JOBPROXi(struct P *p, int n);
 int func_00209A68(struct O *po, int n);
 void *func_00205458(struct O *po, int n);
@@ -38,13 +38,13 @@ void Update__7JOBPROX(struct P *p)
         switch (s) {
         case 0: {
             struct S *ps = p->po->pF64;
-            if (!func_00227C90(ps->xEC, func_001A62E8(D_002E1E40)))
+            if (!FPointInShape__FP2LOG9VU_VECTOR(ps->xEC, func_001A62E8(D_002E1E40)))
                 SetProxState__7JOBPROXi(p, 1);
             break;
         }
         case 1: {
             struct S *ps = p->po->pF64;
-            if (func_00227C90(ps->xE8, func_001A62E8(D_002E1E40)))
+            if (FPointInShape__FP2LOG9VU_VECTOR(ps->xE8, func_001A62E8(D_002E1E40)))
                 SetProxState__7JOBPROXi(p, 0);
             else if (p->po->poly.dt < g_clock.t - p->g34)
                 SetProxState__7JOBPROXi(p, 2);

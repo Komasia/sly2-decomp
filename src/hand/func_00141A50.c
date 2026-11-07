@@ -10,7 +10,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern int D_002C3258[];
 extern struct T D_002BCD00[];
-int func_001C46C0(struct X150 *p, int mask, float g);
+int GrfPadctlTakePressed__FP6PADCTL(struct X150 *p, int mask, float g);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 int func_001441A0(struct P *p);
@@ -28,7 +28,7 @@ void func_00141A50(struct P *p)
         int id = pe->id;
         switch (pe->state) {
         case 0:
-            if (func_001C46C0(p->p150, mask, 0.15f)) {
+            if (GrfPadctlTakePressed__FP6PADCTL(p->p150, mask, 0.15f)) {
                 if (!p->vt[99].pfn((char *)p + p->vt[99].d, id)) {
                     SetSource__4CSndPv(PsndNewPlain__Fi(0x2E), 0);
                 } else {

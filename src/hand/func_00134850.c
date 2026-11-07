@@ -11,22 +11,22 @@ struct P {
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern float D_002BC930;
-void func_00195A00(void *pv, int a, int b, int c);
+void SetJumpKind__FP4JUMPiiP2LO(void *pv, int a, int b, int c);
 int FActorTargetInReach__FP5ACTORi(struct P *p, int n);
 void SetBentleyState__FP7BENTLEYi(struct P *p, int n);
-int func_001C46C0(struct PO *po, int grf, float g);
-int func_001C4660(struct PO *po, int grf, float g);
-void func_001C4738(struct PO *po, int grf);
-void func_00197500(void *pv);
+int GrfPadctlTakePressed__FP6PADCTL(struct PO *po, int grf, float g);
+int GrfPadctlPressedWithin__FP6PADCTLUif(struct PO *po, int grf, float g);
+void ForgetPadctlPresses__FP6PADCTLUi(struct PO *po, int grf);
+void UpdateJumpTransitions__FP4JUMP(void *pv);
 void UpdateInteractTransitions__FP5ACTOR(void *pv);
 void UpdateDamageTransitions__FP5ACTOR(void *pv);
-void func_0019CC50(void *pv, int a, int b, int c);
+void OpenBinoc__FP5ACTORiP2LOT2(void *pv, int a, int b, int c);
 void FInteractCircle__FP5ACTOR(void *pv, int a, int b);
 int func_00136A28(struct P *p, int n);
-void func_0019E1E0(void *pv);
+void UpdateClimbTransitions__FP5ACTOR(void *pv);
 void UpdateBentleyHold__FP7BENTLEY(struct P *p);
 void func_001367D8(struct P *p);
-void func_0021F418(void *pv);
+void UpdateJtThrow__FP7JTTHROW(void *pv);
 int func_00131968(void *pv);
 int func_001F0638(void *pv);
 void UpdateBentleyState2__FP7BENTLEY(struct P *p);
@@ -54,14 +54,14 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             if (p->x4C8 == 1 || p->x4C8 == 12)
                 break;
             if (0.1f < g_clock.t - p->g20C)
-                func_00195A00(p->a2C0, 0, 0, 0);
+                SetJumpKind__FP4JUMPiiP2LO(p->a2C0, 0, 0, 0);
             break;
         case 5:
         case 7:
         case 12:
         default:
             if (0.1f < g_clock.t - p->g20C)
-                func_00195A00(p->a2C0, 0, 0, 0);
+                SetJumpKind__FP4JUMPiiP2LO(p->a2C0, 0, 0, 0);
             break;
         }
         switch (p->state) {
@@ -70,16 +70,16 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
         case 7:
             if (!(p->p150->x30 & 8) && FActorTargetInReach__FP5ACTORi(p, 0)) {
                 SetBentleyState__FP7BENTLEYi(p, 5);
-            } else if (func_001C46C0(p->p150, 0x40, 0.1f)) {
-                func_00195A00(p->a2C0, 1, 0, 0);
-            } else if (func_001C4660(p->p150, 0x400, 0.15f) && VCALL99(p, 3)) {
-                func_001C4738(p->p150, 0x400);
-                func_0019CC50(p->aF00, 0, 0, 0);
-            } else if (func_001C4660(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
-                func_001C4738(p->p150, 0x10);
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->p150, 0x40, 0.1f)) {
+                SetJumpKind__FP4JUMPiiP2LO(p->a2C0, 1, 0, 0);
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x400, 0.15f) && VCALL99(p, 3)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x400);
+                OpenBinoc__FP5ACTORiP2LOT2(p->aF00, 0, 0, 0);
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
                 p->x16B4 = func_00136A28(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
-            } else if (func_001C46C0(p->p150, 0x20, 0.2f)) {
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->p150, 0x20, 0.2f)) {
                 FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
             } else {
                 float g = p->p150->g1C;
@@ -94,9 +94,9 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             }
             break;
         case 2:
-            func_00197500(p->a2C0);
-            if (func_001C4660(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
-                func_001C4738(p->p150, 0x10);
+            UpdateJumpTransitions__FP4JUMP(p->a2C0);
+            if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
                 p->x16B4 = func_00136A28(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             }
@@ -110,21 +110,21 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
         case 5:
             if ((p->p150->x30 & 8) || !FActorTargetInReach__FP5ACTORi(p, 1)) {
                 SetBentleyState__FP7BENTLEYi(p, 0);
-            } else if (func_001C46C0(p->p150, 0x40, 0.1f)) {
-                func_00195A00(p->a2C0, 1, 0, 0);
-            } else if (func_001C4660(p->p150, 0x400, 0.15f) && VCALL99(p, 3)) {
-                func_001C4738(p->p150, 0x400);
-                func_0019CC50(p->aF00, 0, 0, 0);
-            } else if (func_001C46C0(p->p150, 0x20, 0.2f)) {
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->p150, 0x40, 0.1f)) {
+                SetJumpKind__FP4JUMPiiP2LO(p->a2C0, 1, 0, 0);
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x400, 0.15f) && VCALL99(p, 3)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x400);
+                OpenBinoc__FP5ACTORiP2LOT2(p->aF00, 0, 0, 0);
+            } else if (GrfPadctlTakePressed__FP6PADCTL(p->p150, 0x20, 0.2f)) {
                 FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
-            } else if (func_001C4660(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
-                func_001C4738(p->p150, 0x10);
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
+                ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
                 p->x16B4 = func_00136A28(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             }
             break;
         case 13:
-            func_0019E1E0(p->aF50);
+            UpdateClimbTransitions__FP5ACTOR(p->aF50);
             break;
         case 6:
             UpdateBentleyHold__FP7BENTLEY(p);
@@ -133,7 +133,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             func_001367D8(p);
             break;
         case 12:
-            func_0021F418(p->a11B0);
+            UpdateJtThrow__FP7JTTHROW(p->a11B0);
             break;
         case 10:
             if (p->p1030 && func_00131968(p->p1030))

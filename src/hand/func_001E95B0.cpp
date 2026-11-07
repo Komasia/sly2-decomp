@@ -1,4 +1,4 @@
-/* func_001E95B0 (Claude agent, wave-2 lane 7): append a time sample to a sampled path (two U arrays a/b, a
+/* SetRopeLength (Claude agent, wave-2 lane 7): append a time sample to a sampled path (two U arrays a/b, a
  * path with positions/distances, a time array). If the new time is earlier than the last sample the tail is
  * truncated; otherwise samples are inserted until the new time is within a step of the last one or the
  * capacity is reached, interpolating a/b/pos/dist for the sample that becomes the second-to-last.
@@ -12,8 +12,8 @@ union U {qword q;float f[4];};
 struct PATH {char pad[0xE8];int count;int padEC;float*dist;U*pos;};
 struct S {char pad[0x48];PATH*path;int active;int pad50;U*a;U*b;float*time;char pad60[0x84-0x60];int capacity;float step;};
 extern float D_002C3678;
-extern "C" void func_001E6330(PATH*);
-extern "C" void func_001E95B0(S*,float);
+extern "C" void RefreshCrv(PATH*) asm("RefreshCrv__FP3CRV");
+extern "C" void SetRopeLength(S*,float) asm("SetRopeLength__FP4ROPEf");
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v2)
@@ -24,7 +24,8 @@ static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v
 }
 /* pd = p0 * cf + p1 * f */
 static inline void Lerp(U*pd,const U*p0,const U*p1,float f,float cf){pd->q=VecCombo(VU_FLOAT(cf),VU_VECTOR(p0->q),VU_FLOAT(f),VU_VECTOR(p1->q));}
-void func_001E95B0(S*p,float time){
+// name: SafeHouse port (SetRopeLength)
+void SetRopeLength(S*p,float time){
  int count=p->path->count;
  int n;
  if(time<p->time[count-1]){
@@ -60,5 +61,5 @@ void func_001E95B0(S*p,float time){
 finished:
  p->path->count=n;
 refresh:
- func_001E6330(p->path);
+ RefreshCrv(p->path);
 }

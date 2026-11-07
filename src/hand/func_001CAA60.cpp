@@ -1,4 +1,4 @@
-// func_001CAA60: ported from Lilly's personal Sly 2 decomp (src/P2/proxy.c), reduced to the declarations it needs.
+// DetachProxy__FP5PROXYP10PROXYSPARE: ported from Lilly's personal Sly 2 decomp (src/P2/proxy.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DD0 (g_qwZero)
 // 0x001CAA60 ReleasePspare__FP5PROXYP10PROXYSPARE  (MATCHES Sly 2, T0861)
@@ -416,7 +416,8 @@ struct SO : public LO
                 ulong fUnk35 : 1;
                 ulong fHasIkLimbs : 1;
 };
-void ReleasePspare(PROXY *pproxy, PROXYSPARE *pspare) __asm__("func_001CAA60");
+void ReleasePspare(PROXY *pproxy, PROXYSPARE *pspare) __asm__("DetachProxy__FP5PROXYP10PROXYSPARE");
+// name: SafeHouse port (DetachProxy)
 void ReleasePspare(PROXY *pproxy, PROXYSPARE *pspare)
 {
     int iplo;

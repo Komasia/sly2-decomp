@@ -16,18 +16,18 @@ extern char D_002BF2B8[];
 
 extern void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv);
 extern void SetSlyMode__FP3SLYi(void *p, int n);
-extern void func_0018C250(void *p, int a, int b);
+extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern void DemoteAsegaOnXf__FiiP2XF(void *a, void *p, int c);
 extern void DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv(void *a, void *p, int c, void *d);
 extern qword func_001A62E8(void *p);
-extern void *func_001F1E20(void *a, qword q);
+extern void *PloTakePocket__FP2LO(void *a, qword q);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 extern int func_0015E938(void *p, int a, int b, void *c);
 extern void StartPrizeInteract__FP5ACTORP4ASEGP2LOi(void *p, int oid, void *pv, int n);
 extern void *func_00205458(void *p, int n);
 extern void SetState__5JOBB1i(void *p, int n);
 extern void func_00156B98(void *p, int a, qword q, void *c);
-extern void func_00195A00(void *p, int a, int b, int c);
+extern void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, E *pe, void *c);
 
 
@@ -51,7 +51,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
         switch (F(int, 0x18C8)) {
         case 9:
         case 0xB:
-            func_0018C250(p, 0, -1);
+            SetJtJts__FP2JT3JTS4JTBS(p, 0, -1);
             break;
         case 7:
         case 0x15:
@@ -59,7 +59,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
             break;
         case 5:
 
-            if (F(int, 0x18D0) < 10) { if (F(int, 0x18D0) >= 8) func_0018C250(p, 5, 4); }
+            if (F(int, 0x18D0) < 10) { if (F(int, 0x18D0) >= 8) SetJtJts__FP2JT3JTS4JTBS(p, 5, 4); }
 
             break;
         }
@@ -89,17 +89,17 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                 if (F(int, 0x18EC)) {
                     switch (F(int, 0x18D8)) {
                     case 0xC: case 0xE: case 0x10: case 0x12: case 0x14:
-                        func_0018C250(p, 5, 6);
+                        SetJtJts__FP2JT3JTS4JTBS(p, 5, 6);
                         break;
                     case 0xD: case 0xF: case 0x11: case 0x13: case 0x15:
-                        func_0018C250(p, 5, 7);
+                        SetJtJts__FP2JT3JTS4JTBS(p, 5, 7);
                         break;
                     }
                 }
                 break;
             case 0x167:
                 if (F(void *, 0x10DC) && F(int, 0x1BD4)) {
-                    void *po = func_001F1E20(F(void *, 0x10DC), func_001A62E8(p));
+                    void *po = PloTakePocket__FP2LO(F(void *, 0x10DC), func_001A62E8(p));
                     if (po && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5B) && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5D)) {
                         int oid = func_0015E938(g_sw, 1, 0x282, p);
                         F(void *, 0x1BCC) = po;
@@ -139,11 +139,11 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
         case 3:
         case 0x16:
             if (F(void *, 0x18C4) == pv)
-                func_00195A00(A(0x2C0), 0, 0, 0);
+                SetJumpKind__FP4JUMPiiP2LO(A(0x2C0), 0, 0, 0);
             break;
         case 7:
             if (F(int, 0x4C8) < 5) { if (F(int, 0x4C8) >= 3 && F(void *, 0x4D4) == pv)
-                func_00195A00(A(0x2C0), 0, 0, 0); }
+                SetJumpKind__FP4JUMPiiP2LO(A(0x2C0), 0, 0, 0); }
             break;
         }
         pe = (E *)A(0x1FB0);
@@ -164,16 +164,16 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
         if (k & 2) {
             switch (F(int, 0x18D8)) {
             case 4: case 6: case 0xC: case 0xE: case 0x10: case 0x12: case 0x14:
-                func_0018C250(p, 0, -1);
+                SetJtJts__FP2JT3JTS4JTBS(p, 0, -1);
                 SetSlyMode__FP3SLYi(p, 8);
                 break;
             case 5: case 7: case 0xD: case 0xF: case 0x11: case 0x13: case 0x15:
-                func_0018C250(p, 0, -1);
+                SetJtJts__FP2JT3JTS4JTBS(p, 0, -1);
                 SetSlyMode__FP3SLYi(p, 9);
                 break;
             }
         } else if (k & 4) {
-            func_0018C250(p, 0, -1);
+            SetJtJts__FP2JT3JTS4JTBS(p, 0, -1);
             SetSlyMode__FP3SLYi(p, 8);
         }
         break;

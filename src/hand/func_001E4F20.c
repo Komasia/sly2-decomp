@@ -3,13 +3,13 @@ struct O { int pad[3]; struct VTE *vt; char pad2[0x28 - 0x10]; unsigned long flP
 struct G { int a; };
 extern struct G g_sw;
 struct P { char pad[0x24]; void *p24; char pad2[0x6C - 0x28]; struct O *po; int fActive; };
-void func_00221268(struct O *po, int n);
+void SetZoneForced__FP2LOi(struct O *po, int n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void *func_001C4A48(struct G *pg);
 void func_001E4F20(struct P *p, struct O *po)
 {
     if (p->po) {
-        func_00221268(p->po, -1);
+        SetZoneForced__FP2LOi(p->po, -1);
         p->po->pvE0 = 0;
         if (p->fActive) p->po->vt[9].pfn((char *)p->po + p->po->vt[9].d);
         p->po = 0;
@@ -19,5 +19,5 @@ void func_001E4F20(struct P *p, struct O *po)
     p->fActive = !po->fBit60;
     if (p->fActive) po->vt[8].pfn((char *)po + po->vt[8].d);
     po->pvE0 = (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, 0x30)) ? p->p24 : func_001C4A48(&g_sw);
-    func_00221268(po, 1);
+    SetZoneForced__FP2LOi(po, 1);
 }

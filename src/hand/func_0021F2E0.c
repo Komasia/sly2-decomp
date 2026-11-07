@@ -2,7 +2,8 @@ typedef struct { float x, y, z; } V3;
 struct S { int x0; int x4; char pad8[0xC]; float x14; float x18; float x1C; float x20; float x24; float x28; int pad2C;
   V3 v30; char pad3C[0x84]; V3 vC0; int padCC; V3 vD0; };
 static inline void SetV(V3 *pv, float x, float y, float z) { pv->x = x; pv->y = y; pv->z = z; }
-void func_0021F2E0(struct S *p, int a)
+// name: SafeHouse port (InitJtThrow)
+void InitJtThrow__FP5ACTORUi(struct S *p, int a)
 {
     p->x0 = a;
     p->x4 = -1;

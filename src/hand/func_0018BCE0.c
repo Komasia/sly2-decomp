@@ -17,13 +17,13 @@ extern float D_002BF3DC;
 extern void func_001403D0(void *p);
 extern void UpdateSlyInput__FP3SLY(void *p);
 extern void SetStepPhysHeading__FP3ALOf(void *p, float g);
-extern void func_0020BB58(void *p, float g);
-extern void func_0020BC08(void *p);
+extern void SetGaitMix__FP4GAITf(void *p, float g);
+extern void UpdateGaitFeet__FP4GAIT(void *p);
 extern void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(void *p, void *a, void *animation);
 extern void UpdateSlyStanding__FP3SLY(void *p);
 extern void func_00190E18(void *p);
-extern void func_00185E40(void *p);
-extern void func_0018DF60(void *p);
+extern void UpdateSlyClimbSurf__FP3SLY(void *p);
+extern void UpdateSlyHangFollow__FP3SLY(void *p);
 
 extern void func_00189C40(void *p, void *a, float g, void *geometry, void *response, void *d);
 #define C40(p,a,b,c,d,g) func_00189C40(p,a,g,b,c,d)
@@ -31,8 +31,8 @@ extern void func_00189C40(void *p, void *a, float g, void *geometry, void *respo
 extern int func_00189EC8(void *p, void *a, void *response);
 extern void UpdateSlyReach__FP3SLY(void *p);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-extern void func_001E7380(void *p, qword q, void *metric, qword *point, qword *direction, float *normalized, float *distance, float g);
-extern void func_0018C250(void *p, int a, int b);
+extern void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, qword q, void *metric, qword *point, qword *direction, float *normalized, float *distance, float g);
+extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern qword func_001A62E8(void *p);
 extern void DistSegments__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword d, float *parameters, float *distance, qword *direction);
 extern void func_00189618(void *p);
@@ -57,8 +57,8 @@ void UpdateJt__FP2JTf(char *p)
     case 1: {
         qword s, motion;
         SetStepPhysHeading__FP3ALOf(p, F(struct X150 *, 0x150)->g18);
-        func_0020BB58(A(0x1320), 1.0f);
-        func_0020BC08(A(0x1320));
+        SetGaitMix__FP4GAITf(A(0x1320), 1.0f);
+        UpdateGaitFeet__FP4GAIT(A(0x1320));
         {
             unsigned page;
             __asm__("lui %0,%%hi(%2)\n\tlqc2 %1,%3"
@@ -99,13 +99,13 @@ void UpdateJt__FP2JTf(char *p)
         func_00190E18(p);
         break;
     case 0xC:
-        func_0020BC08(A(0x1C30));
+        UpdateGaitFeet__FP4GAIT(A(0x1C30));
         break;
     case 0x15:
-        func_00185E40(p);
+        UpdateSlyClimbSurf__FP3SLY(p);
         break;
     case 0x16:
-        func_0018DF60(p);
+        UpdateSlyHangFollow__FP3SLY(p);
         break;
     case 0x18:
         if (F(void *, 0x19F0)) {
@@ -121,10 +121,10 @@ void UpdateJt__FP2JTf(char *p)
         if (FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), 0xB)) {
             void *po2 = F(void *, 0x1854);
             for (i = 0; i < 3; i++)
-                func_001E7380(po2, ((qword *)A(0x1890))[i], 0, &av[i], 0, 0, 0, F(float, 0x1858));
+                NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(po2, ((qword *)A(0x1890))[i], 0, &av[i], 0, 0, 0, F(float, 0x1858));
             goto loop;
         L16:
-            func_0018C250(p, 0x16, -1);
+            SetJtJts__FP2JT3JTS4JTBS(p, 0x16, -1);
             goto end;
         } else {
             qword q;
@@ -147,11 +147,11 @@ void UpdateJt__FP2JTf(char *p)
                     F(struct X1854 *, 0x18C4) = po;
                     if (po->x124 == 3)
                         goto L16;
-                    func_0018C250(p, 3, 1);
+                    SetJtJts__FP2JT3JTS4JTBS(p, 3, 1);
                 } else {
                     F(void *, 0xF5C) = F(void *, 0x1854);
                     F(float, 0xF60) = F(float, 0x1858);
-                    func_0018C250(p, 8, -1);
+                    SetJtJts__FP2JT3JTS4JTBS(p, 8, -1);
                 }
                 break;
             }

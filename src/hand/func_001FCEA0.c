@@ -5,7 +5,8 @@ extern struct CLOCK g_clock;
 void func_002319E8(int);
 int func_00233048(int, int, int, int, int, int, int);
 long func_0014D240(struct CLOCK *);
-void func_001FCEA0(void)
+// name: SafeHouse port (StartupGameSound)
+void StartupGameSound__Fv(void)
 {
     int i, j;
     long t;

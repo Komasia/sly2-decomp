@@ -3,7 +3,8 @@ extern struct CLOCK g_clock;
 extern float D_002BE5E0;
 struct E { int n; float g4; float g8; int pad[9]; };
 struct S { char pad[0x5C]; int c; struct E *ae; };
-struct E *func_00173E78(struct S *p, int k) {
+// name: SafeHouse port (PslotChoose)
+struct E *PslotChoose__FP7SPAWNERi(struct S *p, int k) {
     float t4 = g_clock.t - D_002BE5E0;
     float t8 = g_clock.t;
     struct E *peBest = 0;

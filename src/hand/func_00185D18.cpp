@@ -1,4 +1,4 @@
-// func_00185D18 (Claude agent, lane G16, 2026-10-24): MATCH, no register pins, VU helper asms only.
+// ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff (Claude agent, lane G16, 2026-10-24): MATCH, no register pins, VU helper asms only.
 // From laneG15v1 (6). Keys: (1) D_002BE918 is `extern const float` read straight into the qmtc2's "rV" operand
 // (VuFloatFromMem(float)): reload makes the lw, and the unchanging MEM keeps the *ppos/*pvel stores free of
 // anti-dependences on it (3). (2) the last AddScaled2 lists a dead "$2" (v0) clobber: the extra dependence on the lw
@@ -7,7 +7,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct TRIREF { int index; float a, b; };
 extern "C" {
-void func_00185310(void *p, qword v, int n, TRIREF *ptr, qword *ppos, qword *pnormal);
+void FindClimbSurfClosestPoint(void *p, qword v, int n, TRIREF *ptr, qword *ppos, qword *pnormal) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
 extern const float D_002BE918;
 }
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(*(int *)&f)); } VU_FLOAT() {} };
@@ -33,11 +33,12 @@ static inline qword AddScaled2H(qword a, qword b, VU_FLOAT sb, qword c, VU_FLOAT
         : "=j"(r) : "j"(a), "j"(b), "j"(sb.q), "j"(c), "j"(sc.q), "r"(hint), "r"(hint2) : "$2");
     return r;
 }
-extern "C" int func_00185D18(void *p, qword pos, qword vel, qword acc, TRIREF *ptr, qword *ppos, qword *pvel, float offset, float t)
+// name: SafeHouse port (ClimbSurfLanding)
+extern "C" int ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff(void *p, qword pos, qword vel, qword acc, TRIREF *ptr, qword *ppos, qword *pvel, float offset, float t)
 {
     TRIREF tr;
     union { qword q; } closest, normal;
-    func_00185310(p, AddScaled2(pos, vel, VU_FLOAT(t), acc, VU_FLOAT((t * 0.5f) * t)), 0, &tr, &closest.q, &normal.q);
+    FindClimbSurfClosestPoint(p, AddScaled2(pos, vel, VU_FLOAT(t), acc, VU_FLOAT((t * 0.5f) * t)), 0, &tr, &closest.q, &normal.q);
     *ptr = tr;
     qword rp = AddScaled(closest.q, normal.q, VU_FLOAT(offset));
     qword rv = AddScaled2H(vel, acc, VU_FLOAT(t), normal.q, VuFloatFromMem(D_002BE918), ptr, pvel);

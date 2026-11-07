@@ -144,8 +144,8 @@ void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);         // CopyAb
 qword ConvertPos(SO *psoFrom, SO *psoTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");              // ConvertLoPos
 float RadNormalize(float rad) asm("RadNormalize__Ff");                                      // RadNormalize
 void CalculateSinCos(float rad, float *pgSin, float *pgCos) asm("CalculateSinCos__FfPfT1");           // CalculateSinCos
-MATRIX4 func_0011C318(const MATRIX4 *pmat);                          // the inverse of a 4x4 matrix
-MATRIX4 func_0011C168(const MATRIX4 &matL, const MATRIX4 &matR);     // MATRIX4 operator*
+MATRIX4 InverseAffineMatrix4(const MATRIX4 *pmat) asm("InverseAffineMatrix4__FP7MATRIX4");                          // the inverse of a 4x4 matrix
+MATRIX4 MulMatrix4(const MATRIX4 &matL, const MATRIX4 &matR) asm("MulMatrix4__FP7MATRIX4T0Pv");     // MATRIX4 operator*
 }
 
 // pos (w = 1) transformed by mat
@@ -305,10 +305,10 @@ extern "C" void func_0022B7D8(WR *pwr)
                 break;
             }
             MATRIX4 matInverse;
-            matInverse = func_0011C318(&dmat);
+            matInverse = InverseAffineMatrix4(&dmat);
             posBend = QwTransformPos(matInverse, posBend);
             if (pwrbg->pglob->pmatUnk08)
-                dmat = func_0011C168(pwrbg->weki.dmat, *pwrbg->pglob->pmatUnk08);
+                dmat = MulMatrix4(pwrbg->weki.dmat, *pwrbg->pglob->pmatUnk08);
         }
 
         for (WRBGBATCH *pwrbgbatch = (WRBGBATCH *)pwrbg->slBatch.head; pwrbgbatch; pwrbgbatch = pwrbgbatch->pwrbgbatchNext)
@@ -364,7 +364,7 @@ extern "C" void func_0022B7D8(WR *pwr)
 
             MATRIX4 matWorld = pwrbg->pglob->pxf->matWorld;
             if (pwrbg->pglob->pmatUnk08)
-                matWorld = func_0011C168(matWorld, *pwrbg->pglob->pmatUnk08);
+                matWorld = MulMatrix4(matWorld, *pwrbg->pglob->pmatUnk08);
             posWorldBend = ConvertPos(pwrbg->pso, 0, posBend);
 
             // the state vectors of every warp entry

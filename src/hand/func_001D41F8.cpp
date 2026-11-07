@@ -19,7 +19,7 @@ extern float D_002C21CC;
 extern "C" {
 qword ConvertVec(P*,P*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword func_0022FC48(P*,NODE*,qword);
-CONTACT*func_001D2DD0(P*,ENTRY*);
+CONTACT*BestContact(P*,ENTRY*) asm("BestContact__FP12VEHICLEWHEELi");
 float GSmooth(float,float,float,void*,float*) asm("GSmooth__FfffP3SMPPf");
 float RadNormalize(float) asm("RadNormalize__Ff");
 M3*func_0011B500(M3*,qword,float);
@@ -35,7 +35,8 @@ static inline M3 Mul(const M3&a,const M3&b) return r{
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1].q):"j"(x),"j"(y),"j"(z),"j"(b.r[1].q));
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2].q):"j"(x),"j"(y),"j"(z),"j"(b.r[2].q));
 }
-extern "C" void func_001D41F8(P*p){
+// name: SafeHouse port (DrawVehiclePose)
+extern "C" void DrawVehiclePose__FP3ALO(P*p){
  V velocity,point;M3 basis;
  VE*method=&p->vt[33];
  velocity.q=ConvertVec(0,p,method->fn((P*)((char*)p+method->delta)));
@@ -43,7 +44,7 @@ extern "C" void func_001D41F8(P*p){
   ENTRY*e=&p->entries[i];
   point.q=func_0022FC48(0,(NODE*)p->space,e->node->local.position.q);
   point.f[0]=e->x;point.f[1]=e->y;
-  CONTACT*hit=func_001D2DD0(p,e);
+  CONTACT*hit=BestContact(p,e);
   {
    float height;
    if(hit){float limit=e->height+hit->height;if(point.f[2]<limit){point.f[2]=limit;goto heightDone;}height=limit;}

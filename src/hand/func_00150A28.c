@@ -24,9 +24,9 @@ void SetVolume__4CSndf(struct SND *p, float g);
 void Resume__4CSnd(struct SND *p);
 void Pause__4CSnd(struct SND *p);
 qword func_0011F088(qword a, qword b, float g, void *p, int n);
-void func_0011B628(M3 *pm, qword v);
+void BuildEulerMatrix__FP6VECTORG9VU_VECTOR(M3 *pm, qword v);
 void func_0011C950(M3 *a, M3 *b, void *p, M3 *out, int n, float g);
-qword func_0011BFF0(M3 *pm);
+qword DecomposeEulerMatrix__FP7MATRIX3(M3 *pm);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
 qword *func_00256D18(qword *p, qword v);
 void SetCmPosMat__FP2CMP6VECTOR(struct CM *p, M4 *m);
@@ -76,12 +76,12 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
         M4 m4;
         float u;
         p->q50 = func_0011F088(p->q50, p->q80, g_clock.dt, D_002BD9C8, 0);
-        func_0011B628(&m90, p->q60);
+        BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&m90, p->q60);
         m0 = m90;
-        func_0011B628(&m90, p->q90);
+        BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&m90, p->q90);
         m30 = m90;
         func_0011C950(&m0, &m30, D_002BD9D8, &m60, 0, g_clock.dt);
-        p->q60 = func_0011BFF0(&m60);
+        p->q60 = DecomposeEulerMatrix__FP7MATRIX3(&m60);
         p->g70 = func_0011D2D0(D_002BD9E8, 0, p->g70, p->gA0, g_clock.dt);
         {
         M4 *pm4 = &m4;

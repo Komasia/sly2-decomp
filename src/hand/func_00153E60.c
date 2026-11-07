@@ -5,7 +5,8 @@ extern qword g_normalZ;
 qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 
-qword func_00153E60(struct T *p)
+// name: SafeHouse port (PosDetectorEye)
+qword PosDetectorEye__FP8DETECTOR(struct T *p)
 {
     if (!p->xE0) return func_001A62E8(p);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xE0, 0x38)) {

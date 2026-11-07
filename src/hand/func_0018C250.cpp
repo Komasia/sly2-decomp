@@ -1,4 +1,4 @@
-// func_0018C250: ported from Lilly's personal Sly 2 decomp (src/P2/jtstate.c), reduced to the declarations it needs.
+// SetJtJts__FP2JT3JTS4JTBS: ported from Lilly's personal Sly 2 decomp (src/P2/jtstate.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF358 (D_002BF358), D_002BF35C (D_002BF35C), D_002BF3E0 (D_002BF3E0), D_002BF3E4 (D_002BF3E4), D_002BF3E8 (D_002BF3E8), g_clock, g_game, D_002A2DD0 (g_qwZero), g_sw
 // 0x0018C250 SetJtJts
@@ -1702,7 +1702,8 @@ static inline qword QwRotateVecV(qword qwVec, MATRIX3 *pmat)
 void ChooseJtRushTarget(JT *pjt);
 void ChooseJtSmashTarget(JT *pjt);
 void SetJtChannelMask(JT *pjt, uint grf);
-void SetJtJts(JT *pjt, JTS jts, JTBS jtbs) __asm__("func_0018C250");
+void SetJtJts(JT *pjt, JTS jts, JTBS jtbs) __asm__("SetJtJts__FP2JT3JTS4JTBS");
+// name: SafeHouse port (SetJtJts)
 void SetJtJts(JT *pjt, JTS jts, JTBS jtbs)
 {
     ASEG *paseg = 0;

@@ -13,7 +13,8 @@ static __inline__ void *PvLookup(struct S *p, void *pbis)
     struct VTE *e = &p->vt[51];
     return e->pfn((char *)p + e->d, func_00117D50(pbis));
 }
-void func_00186670(struct S *p, void *pbis)
+// name: SafeHouse port (LoadAloPairsFromBrx)
+void LoadAloPairsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p, void *pbis)
 {
     int c = func_00117BD0(pbis);
     int i;

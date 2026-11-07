@@ -31,7 +31,7 @@ void SetSmaGoal(void *p, int n) asm("SetSmaGoal__FP3SMA3OID");
 void Stop(void *p, float f) asm("Stop__4CSndf");
 struct M4 func_0022FF40(int a, int b, struct M4 *pm);
 int PctrlNewPos(struct S *p, struct N *n, int a, int b, int c, qword v) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
-qword func_0011BFF0(struct M4 *pm);
+qword DecomposeEulerMatrix(struct M4 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void BroadcastTaskEvent(void *a, int n, struct S *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
 void PlayHackSeg(struct S *p, struct Q *q) asm("PlayHackSeg__FP2LOP6HACKSO");
 void SetShipState(struct S *p, int n) asm("SetShipState__FP2LOi");
@@ -102,7 +102,7 @@ void SetShipState(struct S *p, int n) {
             { struct VTE *e = &p->vt[0x23]; ((void (*)(void *, qword))e->pfn)((char *)p + e->d, D_002A2DD0); }
             { struct VTE *e = &p->vt[0x24]; ((void (*)(void *, qword))e->pfn)((char *)p + e->d, D_002A2DD0); }
             p->n298 = PctrlNewPos(p, p->p58, 1, 7, 2, m.r[3]);
-            p->n29C = PctrlNewPos(p, p->p5C, 1, 7, 2, func_0011BFF0(&m));
+            p->n29C = PctrlNewPos(p, p->p5C, 1, 7, 2, DecomposeEulerMatrix(&m));
             SetAloCnstrLin(p, 1);
             SetAloCnstrAng(p, 1);
             SetAloSensors(p, 1);

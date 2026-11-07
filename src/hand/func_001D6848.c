@@ -31,7 +31,8 @@ static inline qword Norm(qword a) {
     return d;
 }
 static inline qword Difference(qword end,const qword *start){qword result;__asm__("vsub.xyzw %0,%1,%2":"=j"(result):"j"(end),"j"(*start));return result;}
-qword func_001D6848(float g, qword start, qword end, qword acc)
+// name: SafeHouse port (VecBallisticVelocity)
+qword VecBallisticVelocity__FfG9VU_VECTORN21(float g, qword start, qword end, qword acc)
 {
     union U delta, vel, scalar;
     qword d, s, n, r;

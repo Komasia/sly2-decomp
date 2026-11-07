@@ -15,7 +15,7 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
-extern "C" { void func_00207C48(void *p, void *, int, int, int, int); CRef func_00102C38(void *p, int c, void *aref); }
+extern "C" { void SetGuardKind3__FP5GUARDiiiii(void *p, void *, int, int, int, int); CRef func_00102C38(void *p, int c, void *aref); }
 CRef func_00102C38(void *p, int c, void *aref)
 {
     int ak[5] = {0x9010, 0x6, 0x6, 0x6, 0x6};
@@ -27,6 +27,6 @@ CRef func_00102C38(void *p, int c, void *aref)
     CRef ref = func_00201360(5, aref, ak, &v0, &v1, &v2, &v3, &v4);
     ref.Decref();
     ref.InitTag(0x24);
-    func_00207C48(p, &v0, v1, v2, v3, v4);
+    SetGuardKind3__FP5GUARDiiiii(p, &v0, v1, v2, v3, v4);
     return ref;
 }

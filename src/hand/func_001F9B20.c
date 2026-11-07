@@ -5,7 +5,7 @@ extern qword D_002A2DD0;
 int func_0011D4D0(float, float, float);
 qword ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(void *p, int n, qword v);
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v);
-void func_00229798(struct P *p);
+void ApplyAloWater__FP3ALO(struct P *p);
 static inline float X(qword q) { float f; __asm__("mtc1 %1, %0" : "=f"(f) : "r"(q)); return f; }
 static inline float Y(qword q) { float f; __asm__("prot3w %0, %1" : "=r"(f) : "r"(q)); return f; }
 static inline float Z(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
@@ -20,5 +20,5 @@ void ApplyAloGravity__FP3ALO(struct P *p)
     int fNear = FNear(D_002A2DD0, p->pe->v80);
     if (!fNear) fUpd = p->pe->nC0 != 3;
     if (fUpd) AccelAloPos__FP3ALOG9VU_VECTOR(p, ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(p->pe->subB0, p->n58, p->pe->v80));
-    if (p->n138) func_00229798(p);
+    if (p->n138) ApplyAloWater__FP3ALO(p);
 }

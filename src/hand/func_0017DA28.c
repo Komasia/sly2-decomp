@@ -20,7 +20,7 @@ void func_0017D8A8(struct S *p);
 void func_002562A8(struct X *x);
 qword func_001A62E8(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
-void func_0011EE08(qword p, qword a, qword b, qword *pc, float *pt, int n);
+void PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(qword p, qword a, qword b, qword *pc, float *pt, int n);
 void RecalcCrv__FP3CRV(struct B *b);
 int FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
@@ -48,7 +48,7 @@ void Search__7JOBGOTO(struct S *p) {
             qword a = PosGoal__FP4GOALG9VU_VECTOR(&q->x60, pos);
             qword b = PosGoal__FP4GOALG9VU_VECTOR(&q->x80, pos);
             int f;
-            func_0011EE08(pos, a, b, &c.q, &t, 0);
+            PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(pos, a, b, &c.q, &t, 0);
             f = 0;
             if (t > 0.0f && t < 1.0f) {
                 qword d, l;

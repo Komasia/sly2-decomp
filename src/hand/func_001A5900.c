@@ -11,7 +11,7 @@ void RemoveDlEntry__FP2DLPv(void *pdl, void *p);
 void AppendDlEntry__FP2DLPv(void *pdl, void *p);
 void InsertDlEntryBefore__FP2DLPvT1(void *pdl, void *pBefore, void *p);
 int func_001A61A0(ALO *p);
-void func_00148300(void *g, ALO *p);
+void CheckLoRoot__FP2SWP2LO(void *g, ALO *p);
 void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
 {
     unsigned long fOld = palo->x28.u >> 60 & 1;
@@ -61,5 +61,5 @@ void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
     if (func_001A61A0(palo))
         VFN(palo, 23, void (*)(ALO *))(VTHIS(palo, 23));
     else if (!palo->x10 && fNew)
-        func_00148300(g_sw, palo);
+        CheckLoRoot__FP2SWP2LO(g_sw, palo);
 }

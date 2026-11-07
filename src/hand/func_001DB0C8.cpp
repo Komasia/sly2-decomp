@@ -33,7 +33,7 @@ extern float D_002C3280, D_002C3274, D_002C3278, D_002C327C, D_002A79C8;
 extern "C" {
 ITEM *func_001DAE20(SELECTOR *sel, int id);
 int ClipSegmentSphere(qword point, qword start, qword end, int flags, HIT *hit, float radius) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
-void func_0011EE08(qword point, qword start, qword end, qword *unused, float *along, float *distance);
+void PosNearestSegment(qword point, qword start, qword end, qword *unused, float *along, float *distance) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 void SelectGadget(SELECTOR *sel, int id) asm("SelectGadget__FPvi");
 void func_001DA9E8(SELECTOR *sel);
 void *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
@@ -108,7 +108,7 @@ void StepGadget(SELECTOR *sel, int mode)
         if (ClipSegmentSphere(point, origin, Add(origin, ray), 1, &hit, D_002C3278) > 0) {
             score = hit.fraction * D_002C3274;
         } else {
-            func_0011EE08(point, origin, Add(origin, ray), 0, &proximity.along, &proximity.distance);
+            PosNearestSegment(point, origin, Add(origin, ray), 0, &proximity.along, &proximity.distance);
             if (proximity.distance < D_002C327C) {
                 if (zero < proximity.along)
                     score = D_002C3274 + proximity.distance;

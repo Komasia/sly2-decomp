@@ -8,7 +8,7 @@ struct G;
 extern "C" G g_cm;
 extern "C" qword func_001A62E8(void *);
 extern "C" qword ConvertCmWorldToScreen(void *,qword) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
-extern "C" void func_002183E8(S *,int,M23 *,float,const RGBA &,const RGBA &);
+extern "C" void Advance(S *,int,M23 *,float,const RGBA &,const RGBA &) asm("Advance__13CScreenPlayeriP3M23f4RGBAT4");
 static inline float GetX(qword q) {float f; __asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float GetY(qword q) {float f; __asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline M23 Mul(const M23 &q, const M23 &n)
@@ -32,6 +32,6 @@ extern "C" void func_00218220(S *p,float dt) {
             m.a[5] = GetY(q)*-246.40001f+246.40001f;
         }
         if(p->owner->pm) m=Mul(m,*p->owner->pm);
-        func_002183E8(p,0,&m,dt,RGBA(0x7F7F7F7F),RGBA(0xFFFFFFFF));
+        Advance(p,0,&m,dt,RGBA(0x7F7F7F7F),RGBA(0xFFFFFFFF));
     }
 }

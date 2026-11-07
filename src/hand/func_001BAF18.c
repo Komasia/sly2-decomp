@@ -11,13 +11,14 @@ typedef struct P {
 } P;
 extern char g_sw[];
 SO *func_0015E938(void *g, int k, int v, P *p);
-void func_001F6978(P *p, int v);
+void ShowAloGlobs__FP3ALOi(P *p, int v);
 void func_001F69F8(P *p, int v);
-void func_001F6AC8(P *p, int v);
+void SetAloSoesByTag__FP3ALOi(P *p, int v);
 void func_001F6B48(P *p, int v);
 
 enum { EVENT_SHIFT = 4 };
-void func_001BAF18(P *p, int id)
+// name: SafeHouse port (GotoEvent)
+void GotoEvent__FP2LOi(P *p, int id)
 {
     int iTarget = p->current;
     int cur, j, k;
@@ -56,13 +57,13 @@ void func_001BAF18(P *p, int id)
                     ((void (*)(void *))ps->vt[9].pfn)((char *)ps + ps->vt[9].d);
                     break;
                 case 2:
-                    func_001F6978(p, pi->value);
+                    ShowAloGlobs__FP3ALOi(p, pi->value);
                     break;
                 case 3:
                     func_001F69F8(p, pi->value);
                     break;
                 case 4:
-                    func_001F6AC8(p, pi->value);
+                    SetAloSoesByTag__FP3ALOi(p, pi->value);
                     break;
                 case 5:
                     func_001F6B48(p, pi->value);
@@ -101,13 +102,13 @@ void func_001BAF18(P *p, int id)
                     func_001F69F8(p, pi->value);
                     break;
                 case 3:
-                    func_001F6978(p, pi->value);
+                    ShowAloGlobs__FP3ALOi(p, pi->value);
                     break;
                 case 4:
                     func_001F6B48(p, pi->value);
                     break;
                 case 5:
-                    func_001F6AC8(p, pi->value);
+                    SetAloSoesByTag__FP3ALOi(p, pi->value);
                     break;
                 }
             }

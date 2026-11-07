@@ -14,7 +14,7 @@ MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
 void func_0020FC60(struct G *pg, qword pos, void (*pfn)(), void *pv, float r, int *pc, struct A ***papa);
 qword SetVectorSphere__Ffff(float a, float b, float c);
-qword func_0011E9F8(qword v, float r);
+qword LimitVectorLength__FG9VU_VECTORf(qword v, float r);
 void func_00224820(struct S *p, int a, int b, qword pos, qword posT, int c, struct A **apa, int cMax, int *pcx, struct X *ax);
 void PaloAcceptContact__FP5CTMSG(struct X *px);
 struct R *func_00156698(void *pv, qword pos, struct S *p);
@@ -39,7 +39,7 @@ void BlastCarry__FP2LOiiG9VU_VECTORf(struct S *p, int a, int b, qword pos, float
         }
     }
     for (k = 0; k < c; k++) {
-        qword v = func_0011E9F8(VSub(apa[k]->pb->pos, pos), r);
+        qword v = LimitVectorLength__FG9VU_VECTORf(VSub(apa[k]->pb->pos, pos), r);
         func_00224820(p, a, b, pos, VAdd(pos, v), c, apa, 0x20, &cx, ax);
     }
     for (m = 0; m < cx; m++)

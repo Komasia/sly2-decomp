@@ -12,8 +12,8 @@ struct P { char pad[0xC]; struct VTE *pvt; char pad2[0x58 - 0x10]; struct LO *p5
 struct SW { char pad[0x3D58]; int n3D58; };
 extern struct SW g_sw;
 qword *func_00256D18(qword *, qword);
-M4 *func_0011C318(M4 *,const M4 *);
-M4 *func_0011C168(M4 *, const M4 *, const M4 *);
+M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
+M4 *MulMatrix4(M4 *, const M4 *, const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void *func_002333B4(void *, int, int);
 void DetachAloContacts(struct P *) asm("DetachAloContacts__FP3ALO");
 void HoldXfMode(struct P *, struct LO *);
@@ -37,8 +37,8 @@ void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
     m0.f[0][3] = 0.0f;
     m0.f[3][3] = 1.0f;
     presult=&mC0;
-    func_0011C318(&m100,&p->p58->m40);
-    func_0011C168(presult, &m100, &p->p60->m40);
+    InverseAffineMatrix4(&m100,&p->p58->m40);
+    MulMatrix4(presult, &m100, &p->p60->m40);
     m40.r[1] = mC0.r[1];
     m40.r[0] = mC0.r[0];
     m40.r[2] = mC0.r[2];
@@ -54,10 +54,10 @@ void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
         m80.f[0][0] = 1.0f;
     }
     M4 *world=&m140;
-    func_0011C318(&m180,&m80);
-    func_0011C168(world, &m180, &m0);
-    func_0011C318(&m1C0,&m40);
-    func_0011C168(&m100, world, &m1C0);
+    InverseAffineMatrix4(&m180,&m80);
+    MulMatrix4(world, &m180, &m0);
+    InverseAffineMatrix4(&m1C0,&m40);
+    MulMatrix4(&m100, world, &m1C0);
     plo = p->p58;
     mC0 = m100;
     func_00256D18(&plo->v30.q, mC0.r[3]);

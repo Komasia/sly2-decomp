@@ -6,8 +6,8 @@ struct LX { char pad[0xEC]; struct X *px; };
 struct X { char pad[0x58]; struct X *pnext; int x5C; struct LO *plo; struct L *pl; void *pv68; int x6C; unsigned long grf; };
 struct P { char pad[0x3D34]; struct X *pxFirst; };
 struct C { int a[4]; };
-void func_00133E30(struct P *p);
-void func_00133E80(struct P *p);
+void FlushSwOxaDirty1__FP2SW(struct P *p);
+void UpdateSwAaox__FP2SW(struct P *p);
 struct C *__10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void func_001A7E10(struct P *, void *);
@@ -15,15 +15,16 @@ void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct P *, struct X *, struct X *);
 void WakeAlo__FP3ALO(struct LO *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
-void func_00134040(struct P *p)
+// name: SafeHouse port (UpdateSwXps)
+void UpdateSwXps__FP2SW(struct P *p)
 {
     struct C ctx;
     struct X *apx[0x300];
     int c = 0;
     struct X *px;
     int i;
-    func_00133E30(p);
-    func_00133E80(p);
+    FlushSwOxaDirty1__FP2SW(p);
+    UpdateSwAaox__FP2SW(p);
     __10STACKSCOPE(&ctx);
     for (px = p->pxFirst; px; px = px->pnext) {
         unsigned long grf = px->grf;

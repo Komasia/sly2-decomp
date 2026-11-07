@@ -15,7 +15,7 @@ extern char g_sw[];
 void DeleteCtrl__FPP4CTRL(int *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
 qword func_001A62E8(struct W *p);
-void func_001E6F60(struct O *p, qword q, int a, int b, int c, int d, int *pn);
+void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct O *p, qword q, int a, int b, int c, int d, int *pn);
 struct O *func_001CCA40(struct W *pw, struct O *po);
 qword VecXfValue__FP2XFP7MATRIX4(void *a, void *b);
 int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct W *p, void *q, int a, int b, int c, qword d);
@@ -37,7 +37,7 @@ void func_001CCAC0(struct S *p, int n)
         p->x90 = 1;
         if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 10)) {
             struct O *po = p->x84;
-            func_001E6F60(po, func_001A62E8(p->x0), 0, 0, 0, 0, &p->x88);
+            NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(po, func_001A62E8(p->x0), 0, 0, 0, 0, &p->x88);
             p->x90 = 0;
         } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 0x14) && (p->x84->xE0 & p->x0->x1000)) {
             p->x90 = 2;

@@ -14,7 +14,7 @@ extern "C" CLOCK g_clock;
 extern "C" M3 D_002DDFA0;
 extern "C" qword g_normalZ;
 extern "C" SMP D_002BF3F8,D_002BF408;
-extern "C" M4*func_001A6318(P*);
+extern "C" M4*MatJtLo(P*) asm("MatJtLo__FP2LO");
 extern "C" qword func_001A62E8(P*);
 extern "C" void func_0011C950(M3*,M3*,SMP*,M3*,qword*,float);
 extern "C" qword func_0011F088(qword,qword,SMP*,qword*,float);
@@ -71,11 +71,12 @@ static inline float SmoothInputs(M4*source,const CLOCK*clock,float factor,unsign
  current=receiver;optional=out;sample=(SMP*)address;return dt;
 }
 
-extern "C" void func_0018DF60(P*p){
+// name: SafeHouse port (UpdateSlyHangFollow)
+extern "C" void UpdateSlyHangFollow__FP3SLY(P*p){
  M4 m=*((M4*(*)(void*))p->object->vt[31].fn)((char*)p->object+p->object->vt[31].delta);
  U direction,position,scratch,negative;
  *(M3*)&p->matrix=*(M3*)&m;
- M4*current=func_001A6318(p);
+ M4*current=MatJtLo(p);
  CLOCK*clock=&g_clock;
  float factor=0.5f;
  unsigned samplePage=SmoothSamplePage();M3*receiver,*optional;SMP*sample;float smoothDt=SmoothInputs(current,clock,factor,samplePage,receiver,optional,sample);

@@ -8,7 +8,7 @@ struct P *func_001C4840(void *g);
 int IsSwHandsOff__FP2SW(void *g);
 int func_001F07E8(int a);
 int func_001F07C8(int a);
-int func_001C46C0(int a, int b, float f);
+int GrfPadctlTakePressed__FP6PADCTL(int a, int b, float f);
 void SetSmaGoal__FP3SMA3OID(int a, int b);
 // name: SafeHouse port (UpdateMurrayHold)
 void UpdateMurrayHold__FP6MURRAY(struct P *p)
@@ -21,7 +21,7 @@ void UpdateMurrayHold__FP6MURRAY(struct P *p)
     if (a >= 0x1D0) return;
     if (a < 0x1CB) return;
     p->f1524 -= g_clock.dt;
-    if (func_001C46C0(p->x150, 0xF0, 0.0f)) {
+    if (GrfPadctlTakePressed__FP6PADCTL(p->x150, 0xF0, 0.0f)) {
         p->x152C--;
         p->f1528 = p->f1524;
     }

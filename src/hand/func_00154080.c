@@ -7,7 +7,8 @@ struct O { int a[3]; struct VTE *vt; void *p10; };
 struct ARGS { struct E *pe; int *pn; int *pnNew; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
-void func_00154080(struct O *o, struct E *pe, int nNew)
+// name: SafeHouse port (SetDetentryState)
+void SetDetentryState__FP8DETECTORP8DETENTRYi(struct O *o, struct E *pe, int nNew)
 {
     struct ARGS args;
     struct VTE *e;

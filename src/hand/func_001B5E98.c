@@ -13,7 +13,7 @@ int func_00184380(void *a, struct O *po);
 float func_002458F0(float y, float x);
 float RadStepHeading__FP4STEP(struct P *p);
 float RadNormalize__Ff(float g);
-qword func_0011E1A0(float a, float b, float c);
+qword SetVectorCylind__Ffff(float a, float b, float c);
 static __inline__ float GetZ2(qword t) { __asm__("pextuw %0,$0,%0" : "+r"(t)); return GetX(t); }
 static __inline__ float GetY2(qword t) { __asm__("prot3w %0,%0" : "+r"(t)); return GetX(t); }
 static inline qword ToGpr(qword v) { qword r; __asm__ __volatile__("qmfc2.ni %0, %1" : "=r"(r) : "j"(v)); return r; }
@@ -56,7 +56,7 @@ void ChooseMurrayThrowTarget__FP6MURRAY(struct P *p)
     if (!poBest) {
         qword a, b, r;
         a = func_001A62E8(p);
-        b = func_0011E1A0(p->g1A8, p->g1410, 0.0f);
+        b = SetVectorCylind__Ffff(p->g1A8, p->g1410, 0.0f);
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b));
         p->v1420 = r;
     }

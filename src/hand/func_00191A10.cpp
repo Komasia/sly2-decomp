@@ -53,7 +53,7 @@ qword func_001A62E8(ACTOR *);
 void func_00182CD8(void *, ACTOR *, float *, U *, float *);
 qword func_0011F088(qword, qword, float, SMP *, U *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-qword func_0011E1A0(float, float, float);
+qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 float SMinCrv(FOCUS *) asm("SMinCrv__FP3CRV");
 float SMaxCrv(FOCUS *) asm("SMaxCrv__FP3CRV");
 float GMinCrv(FOCUS *) asm("GMinCrv__FP3CRV");
@@ -64,17 +64,17 @@ void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");
-void func_0020BB58(PROGRAM *, float);
-void func_0020BC08(PROGRAM *);
+void SetGaitMix(PROGRAM *, float) asm("SetGaitMix__FP4GAITf");
+void UpdateGaitFeet(PROGRAM *) asm("UpdateGaitFeet__FP4GAIT");
 void func_001441E8(ACTOR *, float);
 void NearestCrv(FOCUS *, qword, void *, U *, U *, float *, float *, float) asm("NearestCrv__FP3CRV");
-void func_00195A00(void *, int, int, int);
+void SetJumpKind(void *, int, int, int) asm("SetJumpKind__FP4JUMPiiP2LO");
 float func_002458F0(float, float);
-void func_001E6F60(FOCUS *, qword, void *, void *, U *, void *, void *);
+void NearestCrvAll(FOCUS *, qword, void *, void *, U *, void *, void *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 void func_001CC2E8(void *);
 void SteerRootBlend(ACTOR *, ENTRY *, void *) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 void FitStepToFloor(ACTOR *, HEIGHT *, int, U *) asm("FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR");
-BINDING *func_0012FF10(void *, ACTOR *, int, int);
+BINDING *PchnFindAseg(void *, ACTOR *, int, int) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 void FaceObject(ACTOR *, FOCUS *) asm("FaceObject__FP5ACTORP2LO");
 void TurnActorNow(ACTOR *) asm("TurnActorNow__FP5ACTOR");
 void func_00189C40(ACTOR *, void *, void *, void *, float, void *);
@@ -178,9 +178,9 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
                 angle = heading - 1.5707964f;
             else
                 angle = heading + 1.5707964f;
-            side.q = func_0011E1A0(angle, 1.0f, 0.0f);
+            side.q = SetVectorCylind(angle, 1.0f, 0.0f);
             U input;
-            input.q = func_0011E1A0(pjoy->heading, 1.0f, 0.0f);
+            input.q = SetVectorCylind(pjoy->heading, 1.0f, 0.0f);
             float g = GClamp(D_002BF5BC * GFromVf(QwDot(side.q, input.q)), -1.0f, 1.0f);
             g *= pjoy->amount;
             if (__builtin_fabsf(g) < 0.2f)
@@ -241,9 +241,9 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
     case 1:
         if (ctx->focus->enabled && 0.0f < pjoy->amount && ctx->program180.clip) {
             SetInteractState(ctx, 4);
-            func_0020BB58(&ctx->program180, pjoy->amount);
+            SetGaitMix(&ctx->program180, pjoy->amount);
             SetStepPhysHeading(ctx->actor, ctx->actor->pjoy->heading);
-            func_0020BC08(&ctx->program180);
+            UpdateGaitFeet(&ctx->program180);
         } else {
             SetInteractState(ctx, 0);
         }
@@ -252,7 +252,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         func_001441E8(ctx->actor, D_002BF5C0);
         if (ctx->step == 0 ? 0.1f < pjoy->amount : 0.0f < pjoy->amount) {
             SetInteractState(ctx, 4);
-            func_0020BB58((PROGRAM *)((char *)ctx->actor + 0x1C30), pjoy->amount * D_002BF5C4);
+            SetGaitMix((PROGRAM *)((char *)ctx->actor + 0x1C30), pjoy->amount * D_002BF5C4);
         } else {
             SetInteractState(ctx, 0);
             break;
@@ -267,7 +267,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         NearestCrv(focus, *ctx->actor->ppos, 0, &point, &tangent, &ctx->parameter, &ctx->value, ctx->parameter);
         if (focus->flags && !focus->cyclic &&
             (ctx->parameter < GMinCrv(focus) + 0.01f || GMaxCrv(focus) - 0.01f < ctx->parameter)) {
-            func_00195A00(ctx->actor->control, 0, 0, 0);
+            SetJumpKind(ctx->actor->control, 0, 0, 0);
             break;
         }
         tangent.f[2] = 0.0f;
@@ -275,11 +275,11 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         float heading = func_002458F0(tangent.f[1], tangent.f[0]);
         U dir;
         U input;
-        input.q = func_0011E1A0(pjoy->heading, 1.0f, 0.0f);
+        input.q = SetVectorCylind(pjoy->heading, 1.0f, 0.0f);
         if (!focus->other)
             dir = tangent;
         else
-            func_001E6F60(focus->other, *ctx->actor->ppos, 0, 0, &dir, 0, 0);
+            NearestCrvAll(focus->other, *ctx->actor->ppos, 0, 0, &dir, 0, 0);
         dir.f[2] = 0.0f;
         dir.q = QwNormalize(dir.q, D_002A2DA0);
         float g = GFromVf(QwDot(input.q, dir.q));
@@ -342,9 +342,9 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
             heading = RadNormalize(heading + 3.1415927f);
         if (0.0f < g) {
             SetInteractState(ctx, 4);
-            func_0020BB58(&ctx->program240, g);
+            SetGaitMix(&ctx->program240, g);
             SetStepPhysHeading(ctx->actor, heading);
-            func_0020BC08(&ctx->program240);
+            UpdateGaitFeet(&ctx->program240);
         } else {
             SetInteractState(ctx, 0);
             SetStepPhysHeading(ctx->actor, heading);
@@ -390,7 +390,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         ACTOR *actor = ctx->actor;
         ANIM *anim = actor->anim;
         if (anim) {
-            BINDING *b = func_0012FF10(anim->table, actor, 1, 1);
+            BINDING *b = PchnFindAseg(anim->table, actor, 1, 1);
             if (b) {
                 ReadBinding(b, anim, &v);
                 v.q = QwScale(v.q, VuFloat(-1.0f));

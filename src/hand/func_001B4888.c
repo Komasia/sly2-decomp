@@ -2,7 +2,7 @@ struct REQ { int cb; int align; };
 struct T { int x0; void *x4; void *x8; void *xC; };
 struct P { char pad[0x15F0]; void *x15F0; void *x15F4; void *x15F8; void *x15FC; char pad2[0x1610 - 0x1600]; struct T *x1610; struct T *x1614; };
 extern char D_002C0270[];
-void func_002039C0(struct P *p);
+void LoadPoFromBrx__FP2POP18CBinaryInputStream(struct P *p);
 void BindLoParts__FP3ALOiPv(struct P *p, int n, void *q);
 struct T *PvAllocSwClearImpl__Fi(struct REQ *r);
 void *func_001F4C58(struct P *p, int a, int b);
@@ -10,7 +10,7 @@ void func_00186930(struct T *t);
 static __inline__ struct T *NewT(void) { struct REQ req; req.cb = 0xE0; req.align = 0x10; return PvAllocSwClearImpl__Fi(&req); }
 void func_001B4888(struct P *p)
 {
-    func_002039C0(p);
+    LoadPoFromBrx__FP2POP18CBinaryInputStream(p);
     BindLoParts__FP3ALOiPv(p, 0x89, D_002C0270);
     p->x1610 = NewT();
     p->x1610->x4 = func_001F4C58(p, 0x200, 6);

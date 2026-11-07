@@ -20,9 +20,9 @@ qword PosSafeEntry__FP5ACTORPvf(struct P *p, E *e, float g);
 float TJumpTo__FG9VU_VECTORT0ffff(qword a, qword b, float c, float d, float e, float f);
 void func_002046B0(struct P *p, qword q);
 void func_0014D8C0(struct D *d);
-void func_00195A00(void *p, int a, int b, int c);
+void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int a, int b);
-void func_00148300(struct G *g, int a);
+void CheckLoRoot__FP2SWP2LO(struct G *g, int a);
 void func_0019B110(void *p, int a);
 void func_0015E1D8(int a);
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -43,12 +43,12 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
                 func_002046B0(p, g_cm.x60);
                 ((void (*)(void *, void *))p->vt[30].pfn)((char *)p + p->vt[30].d, p->x1b0);
                 func_0014D8C0(&g_cm);
-                func_00195A00(p->x2c0, 0xB, 0, 0);
+                SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xB, 0, 0);
                 if (e.x4) {
                     if (FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xB) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xD) ||
                         FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x27) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xC) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x22) ||
                         FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x26)) {
-                        func_00148300(&g_sw, e.x0);
+                        CheckLoRoot__FP2SWP2LO(&g_sw, e.x0);
                         func_0019B110(p->x2c0, e.x0);
                     }
                 }
@@ -59,5 +59,5 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
     }
     p->x490 = *(qword *)q;
     p->x4a0 = q->x10;
-    func_00195A00(p->x2c0, 0xA, 0, 0);
+    SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xA, 0, 0);
 }

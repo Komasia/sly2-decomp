@@ -1,5 +1,5 @@
 // func_0018FC60 MATCH (Claude agent lane H15), from laneH15v4 + a "memory" clobber on the dt empty asm with base assigned after it (orders the point/spin loads after the dt spill store). laneH15v4: laneH14v1 + "0V" on the dt empty asm (input stays a MEM, reload lw goes straight into the output reg), allocation-only 2nd "j" on the radius scale, QwDivideBy(g first) for the final divide, and the 2nd clamp written out in the body (g=g0; g+=...; lo/hi locals; if/else-if in place): aligned 1.
-// func_0018FC60 laneH14v1 (Claude agent lane H14): laneH11v1 with `state.rotation=func_0011B570(...)` assigned directly (no M3 rotation local) and QwRotateVec(&state.rotation,...): the 11B570 return temp at 0x190 is then freed and reused by the later VU_FLOAT temps like the target (0x1C0 before). Still aligned 30 (those stores still differ in vf number: rotation rows vf9/8/7 vs target vf10/9/8).
+// func_0018FC60 laneH14v1 (Claude agent lane H14): laneH11v1 with `state.rotation=BuildRotateMatrixVector(...)` assigned directly (no M3 rotation local) and QwRotateVec(&state.rotation,...): the 11B570 return temp at 0x190 is then freed and reused by the later VU_FLOAT temps like the target (0x1C0 before). Still aligned 30 (those stores still differ in vf number: rotation rows vf9/8/7 vs target vf10/9/8).
 // func_0018FC60 laneH11v1 (Claude agent lane H11): laneH10v3 + `speed*0.5f*speed`, p->other block dt as a GPR qword via an empty asm, QwAddScaled2Q(qword k) with allocation-only extra "j"(k), base declared before dt (47 -> 30).
 // func_0018FC60 laneH10v3 (Claude agent lane H10): laneH10v2 + GMinOf/GMaxOf written (b<a)?b:a / (b>a)?b:a (min.s/max.s operand order): aligned 47.
 // func_0018FC60 laneH9v1 (Claude agent lane H9): laneH8v1 + const-ref QwDivide, QwSub, QwProjectOut and QwCombo(a) (134 -> 75).
@@ -22,11 +22,11 @@ struct STATE{U direction,position,velocity;M3 rotation;};
 struct VU_FLOAT{qword qw;};
 extern "C"{
 qword func_001A62E8(void*);
-M4*func_001A6318(void*);
+M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword func_0022D348(void*,void*,qword);
 float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 float func_0011D1C0(float,float,float,float,SMPA*,float*);
-M3 func_0011B570(qword);
+M3 BuildRotateMatrixVector(qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
 void func_0018F958(P*,NODE*,qword*,qword*,DELTA*);
 extern U g_normalZ,D_002A2DA0,D_002A2DB0,D_002A2DD0;
 extern CLQ D_002BF4F0,D_002BF520;
@@ -67,7 +67,7 @@ static inline qword QwAddScaled2Q(qword base,qword a,qword b,qword k){qword r;__
 extern "C" void func_0018FC60(P*p){
  U anchor,displacement,anchorVelocity,axis;
  anchor.q=func_001A62E8(p->target);
- M3 anchorBasis=*(M3*)func_001A6318(p->target);
+ M3 anchorBasis=*(M3*)MatJtLo(p->target);
  anchorVelocity.q=func_0022D348(Space(p->target),0,anchor.q);
  axis.q=QwSub(func_001A62E8(p),anchor.q);
  displacement=axis;
@@ -117,7 +117,7 @@ extern "C" void func_0018FC60(P*p){
   qword arm=QwSub(point,func_001A62E8(object));
   velocity.q=QwAddScaled2Q(base,spin,QwCross(spin,arm),dt);
  }else velocity=anchorVelocity;
- state.rotation=func_0011B570(QwScaleX(QwAdd(angularFirst.q,angular.q),VuFloat(Addr(&g_clock)->dt*0.5f)));
+ state.rotation=BuildRotateMatrixVector(QwScaleX(QwAdd(angularFirst.q,angular.q),VuFloat(Addr(&g_clock)->dt*0.5f)));
  state.direction.q=QwRotateVec(&state.rotation,axis.q);
  qword radius=QwScaleXK(state.direction.q,VuFloat(next));
  state.position.q=QwAdd(anchor.q,radius);

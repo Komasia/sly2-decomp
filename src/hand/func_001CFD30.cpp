@@ -13,9 +13,9 @@ struct S {
 };
 extern "C" {
 qword func_001A62E8(LO *plo);
-MAT3 *func_001A6318(LO *plo);
+MAT3 *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 void func_002309E8(void *p, int n, MAT4 *pm, int k, float g);
-MAT3 func_0011BC00(MAT4 *pm, MAT3 *pm2);
+MAT3 MulMat3TransposeA(MAT4 *pm, MAT3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(MAT3 *pm, float *pg, qword *pv);
 void func_001CFD30(S *p);
 }
@@ -33,14 +33,14 @@ void func_001CFD30(S *p)
     MAT3 m;
     qword d, s1, s2;
     p->pos = func_001A62E8(p->plo);
-    p->mat = *func_001A6318(p->plo);
+    p->mat = *MatJtLo(p->plo);
     func_002309E8(p->px->p60, 0, &m4, 0, p->dt);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(m4.a[3]), "j"(p->pos));
     s1 = Bc(1.0f / p->dt);
     s2 = Bc(p->dt * -0.5f);
     __asm__("vmulax.xyzw $ACC, %1, %2x\n\tvmaddx.xyzw %0, %3, %4x" : "=j"(d) : "j"(d), "j"(s1), "j"(p->a), "j"(s2));
     p->v = d;
-    m = func_0011BC00(&m4, &p->mat);
+    m = MulMat3TransposeA(&m4, &p->mat);
     func_0011BCF8(&m, &p->rad, &p->axis);
     if (0.0f < p->rad)
         p->rad += 6.28318548f;

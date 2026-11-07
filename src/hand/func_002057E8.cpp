@@ -3,7 +3,7 @@ struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(
 struct M3 { qword r[3]; };
 struct S { char pad[0x218]; qword *origin; int pad21C; float radius; };
 extern "C" {
-M3 *func_001A6318(S *p);
+M3 *MatJtLo(S *p) asm("MatJtLo__FP2LO");
 qword func_001A62E8(S *p);
 extern int D_002C3CC8[2][3];
 }
@@ -14,8 +14,8 @@ extern "C" void func_002057E8(S *p, qword out[2][3])
 {
     qword point[5];
     qword origin = *p->origin;
-    qword right = func_001A6318(p)->r[0];
-    qword forward = LoadVf(&func_001A6318(p)->r[1]);
+    qword right = MatJtLo(p)->r[0];
+    qword forward = LoadVf(&MatJtLo(p)->r[1]);
     point[0] = func_001A62E8(p);
     float radius = p->radius;
     point[1] = Add(origin, MulX(right, VU_FLOAT(radius)));

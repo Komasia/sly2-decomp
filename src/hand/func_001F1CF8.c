@@ -6,9 +6,10 @@ struct G;
 extern struct G g_sw;
 struct O *func_0015E938(struct G *, int, int, int);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
-int func_001C2DC8(int, struct O *, int, int);
-void func_001F1900(struct P *);
-void func_001F1CF8(struct P *p)
+int NReadyReward__FP2LOT0iPv(int, struct O *, int, int);
+void UpdatePocketMode__FP2LO(struct P *);
+// name: SafeHouse port (NextPocketPrize)
+void NextPocketPrize__FP2LO(struct P *p)
 {
     p->n48C = 0;
     for (; p->n488 < p->n484; p->n488++) {
@@ -27,8 +28,8 @@ void func_001F1CF8(struct P *p)
             }
             k = 0x2B1;
         }
-        if (func_001C2DC8(p->n494, po, a8, k) == 1) p->n48C = 1;
+        if (NReadyReward__FP2LOT0iPv(p->n494, po, a8, k) == 1) p->n48C = 1;
         break;
     }
-    func_001F1900(p);
+    UpdatePocketMode__FP2LO(p);
 }

@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
 
-void func_001E9828(void *arg0) {
+// name: SafeHouse port (CopyRopeDistances)
+void CopyRopeDistances__FP4ROPE(void *arg0) {
     void *temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, void **, 0x48);

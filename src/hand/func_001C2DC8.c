@@ -2,16 +2,17 @@ struct VTE { short d; short pad; void (*pf)(); };
 struct LO { char pad[0xC]; struct VTE *vt; };
 struct S { char pad[0x150]; int x150; struct LO *x154; struct LO *x158; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
-struct LO *func_001CB250(struct LO *plo, int n);
+struct LO *PloAcquireProxyObject__FP2SWi(struct LO *plo, int n);
 void SetPickupLootKind__FP2LOi(struct LO *plo, int id);
 int func_001F4C58(struct S *p, void *pv, int n);
-int func_001C2DC8(struct S *p, struct LO *plo, int id, void *pv)
+// name: SafeHouse port (NReadyReward)
+int NReadyReward__FP2LOT0iPv(struct S *p, struct LO *plo, int id, void *pv)
 {
     if (p->x158) return 0;
     p->x154 = 0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 6)) {
         p->x154 = plo;
-        p->x158 = func_001CB250(plo, 0);
+        p->x158 = PloAcquireProxyObject__FP2SWi(plo, 0);
         if (!p->x158) {
             p->x154 = 0;
             return 1;

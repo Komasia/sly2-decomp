@@ -29,18 +29,18 @@ extern struct POLY D_002BC950;
 extern float D_002BC960;
 extern float D_002BC934;
 void func_001403D0(struct P *p);
-void func_00194A40(void *pv, struct P *p, int n);
+void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(void *pv, struct P *p, int n);
 void UpdateBentleyBinoc__FP7BENTLEY(struct P *p);
 void UpdateBentleyTransitions__FP7BENTLEY(struct P *p);
 void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 int GrfActorLookMask__FP5ACTOR(struct P *p);
 void SetSmaMask__FP3SMAUi(int a, int b);
-void func_0020BB58(void *pv, float g);
-void func_0020BC08(void *pv);
-void func_00197F98(void *pv);
+void SetGaitMix__FP4GAITf(void *pv, float g);
+void UpdateGaitFeet__FP4GAIT(void *pv);
+void UpdateJumpInput__FP4JUMP(void *pv);
 void UpdateInteract__FP5ACTOR(void *pv);
 void FaceObject__FP5ACTORP2LO(struct P *p, int n);
-qword func_0011E1A0(float a, float b, float c);
+qword SetVectorCylind__Ffff(float a, float b, float c);
 void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(struct P *p, void *pv, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct S1030 *px, float g);
 void func_00131A00(struct S1030 *px, float g);
@@ -113,8 +113,8 @@ static __inline__ void PullB(struct P *p)
 }
 static __inline__ void Kick(void *pv, float g)
 {
-    func_0020BB58(pv, g);
-    func_0020BC08(pv);
+    SetGaitMix__FP4GAITf(pv, g);
+    UpdateGaitFeet__FP4GAIT(pv);
 }
 
 // name: SafeHouse port (UpdateBentley)
@@ -123,7 +123,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
     func_001403D0(p);
     if (((p->ul28 >> 60) & 1) == 0)
         return;
-    func_00194A40(g_sw, p, 0xF8FE);
+    UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(g_sw, p, 0xF8FE);
     UpdateBentleyBinoc__FP7BENTLEY(p);
     UpdateBentleyTransitions__FP7BENTLEY(p);
     switch (p->x13D0) {
@@ -143,7 +143,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
         Kick(p->x1600, p->p150->g1C);
         break;
     case 2:
-        func_00197F98(p->x2C0);
+        UpdateJumpInput__FP4JUMP(p->x2C0);
         break;
     case 3:
         UpdateInteract__FP5ACTOR(p->x4C0);
@@ -159,7 +159,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
         {
             struct S150 *pa = p->p150;
             struct S1030 *pb = p->p1030;
-            SetVel(p, func_0011E1A0(pa->g18 + 3.1415927f, pa->g1C * LenXY5(p->v1410, pa, pb) * pb->g40, 0.0f), p->x13E0, p->x14E0);
+            SetVel(p, SetVectorCylind__Ffff(pa->g18 + 3.1415927f, pa->g1C * LenXY5(p->v1410, pa, pb) * pb->g40, 0.0f), p->x13E0, p->x14E0);
         }
         break;
     case 6:
@@ -171,7 +171,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
                 float d = RadNormalize__Ff(p->p150->g18 - p->g1A8);
                 SetStepPhysHeading__FP3ALOf(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * g_clock.dt));
             }
-            SetVel(p, func_0011E1A0(p->p150->g18 + 3.1415927f, g0 * LenXY(p->v1520) * p->p1030->g40, z), p->x14F0, p->x15F0);
+            SetVel(p, SetVectorCylind__Ffff(p->p150->g18 + 3.1415927f, g0 * LenXY(p->v1520) * p->p1030->g40, z), p->x14F0, p->x15F0);
         }
         break;
     case 10:

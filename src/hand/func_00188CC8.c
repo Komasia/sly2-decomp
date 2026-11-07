@@ -9,7 +9,7 @@ extern struct CLOCK g_clock;
 extern float D_002BF298;
 extern float D_002BF29C;
 extern void OnStepXpNew__FP3ALOP2XPi(struct O *p, struct A *pa, void *pv);
-extern void func_0019E9C8(void *p, struct A *pa, void *pv);
+extern void AdjustClimbXp__FP2XPPv(void *p, struct A *pa, void *pv);
 extern void AdjustDamageXp__FP5ACTORP2XP(void *p, struct A *pa, void *pv);
 extern void func_001374E0(void *p, struct A *pa, void *pv);
 static __inline__ float GClamp(float g, float lo, float hi)
@@ -29,7 +29,7 @@ void OnSlyXpNew__FP3ALOP2XPPv(struct O *p, struct A *pa, void *pv)
     OnStepXpNew__FP3ALOP2XPi(p, pa, pv);
     switch (p->n18C8) {
     case 8:
-        func_0019E9C8(p->aF50, pa, pv);
+        AdjustClimbXp__FP2XPPv(p->aF50, pa, pv);
         break;
     case 7:
         if (pa->n9C == 0xE && p->x4C8 == 3 && p->p4D4->x1BC) {

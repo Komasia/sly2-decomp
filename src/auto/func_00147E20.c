@@ -31,7 +31,8 @@ extern M2C_UNK g_sw;
 extern s32 D_003E0E70;
 extern s32 D_003E134C;
 
-void func_00147E20(s32 arg0, s32 arg1) {
+// name: SafeHouse port (DequeueLoRoot)
+void DequeueLoRoot__FP2SWP2LO(s32 arg0, s32 arg1) {
     s32 temp_s2;
 
     temp_s2 = arg0 + 0x20;

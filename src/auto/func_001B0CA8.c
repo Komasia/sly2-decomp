@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001B1BF0(void *);                      /* extern */
+M2C_UNK BindStepSegs__FP8STEPSEGS(void *);                      /* extern */
 M2C_UNK LoadSoFromBrx__FP2SOP18CBinaryInputStream();                            /* extern */
 M2C_UNK SetXfMode__FP3ALOP2XFi(void *, void *, M2C_UNK);     /* extern */
 
@@ -15,5 +15,5 @@ void func_001B0CA8(void *arg0) {
     M2C_FIELD(temp_v0, s32 *, 4) = 0;
     M2C_FIELD(temp_v1, s32 *, 0xF0) = 0;
     M2C_FIELD(arg0, s32 *, 0x1D4) = (s32) M2C_FIELD(M2C_FIELD(arg0, void **, 0x5C), s16 *, 0x98);
-    func_001B1BF0(arg0);
+    BindStepSegs__FP8STEPSEGS(arg0);
 }

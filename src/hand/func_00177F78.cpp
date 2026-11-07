@@ -9,7 +9,7 @@
 //  - dirNow length through QwLength2 (the vmul.xyz reads its input as two "j" operands, allocation only): the extra
 //    refs give the VLength copy a higher global.c priority than the projected dpos, so the copy takes vf5 and dpos vf7.
 // Earlier keys (lilly15):
-//  - func_001E7380 takes the float right after the position (pcrv, pos, s, pv, ...): arg-move order f12 before a2.
+//  - NearestCrvS takes the float right after the position (pcrv, pos, s, pv, ...): arg-move order f12 before a2.
 //  - Top and dirNow normalizes as `NormalizeSafeN(VV v, VV fallback)` / `DivSafe(v, len, fallback)` (return style,
 //    by-value VV fallback): the fallback lq/qmtc2 lands in the branch delay slots with the target registers.
 //  - "rV" on the VU_FLOAT(const float *) qmtc2 input: the lw reuses the dying lui register (reload-made load).
@@ -114,10 +114,10 @@ extern LM D_002BE650, g_lmZeroOne;
 qword func_001A62E8(void *pobj);
 float SWrapCrv(CURVE *pcrv, float s) asm("SWrapCrv__FP3CRVf");
 float SMaxCrv(CURVE *pcrv) asm("SMaxCrv__FP3CRV");
-void func_001E7380(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps);
+void NearestCrvS(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
 void func_001E6F10(CURVE *pcrv, float s, VEC *ppos, VEC *pdir);
 int FArrived(S *p) asm("FArrived__9JOBFOLLOW");
-void func_0011EE08(qword a, qword b, qword c, VEC *pv, float *pg0, float *pg1);
+void PosNearestSegment(qword a, qword b, qword c, VEC *pv, float *pg0, float *pg1) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 int FKeepOnNav(CONTEXT *pctx, qword pos, VEC *pv) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
 }
 struct VU_FLOAT
@@ -333,7 +333,7 @@ extern "C" void func_00177F78(S *p)
     else
         s = p->s + D_002BE634;
     float sCurve = SWrapCrv(p->pcrv, s);
-    func_001E7380(p->pcrv, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->s);
+    NearestCrvS(p->pcrv, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->s);
     if (p->mode == 1 || p->mode == 4)
     {
         fReverse = p->modeExtra != 2;
@@ -342,7 +342,7 @@ extern "C" void func_00177F78(S *p)
         else
             s = p->sExtra + D_002BE634;
         float sCurve = SWrapCrv(p->pcrvExtra, s);
-        func_001E7380(p->pcrvExtra, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->sExtra);
+        NearestCrvS(p->pcrvExtra, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->sExtra);
     }
     dir.qw = NormalizeSafeN(QwProjectOut(dir.qw, g_normalZ), D_002A2DA0);
     p->sSeparation = GXOfQw(QwLengthXY(QwSub(point.qw, posActor)));
@@ -439,7 +439,7 @@ extern "C" void func_00177F78(S *p)
             qword dposLater = VProjectOut(VSub(p->pos, posPredict), g_normalZ);
 
             VEC normal;
-            func_0011EE08(D_002A2DD0, dpos, dposLater, &normal, 0, 0);
+            PosNearestSegment(D_002A2DD0, dpos, dposLater, &normal, 0, 0);
             const qword *pqwZeroHere = &D_002A2DA0;
             qword normalCopy;
             qword qwLen;

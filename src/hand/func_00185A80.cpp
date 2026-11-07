@@ -1,4 +1,4 @@
-// func_00185A80 (Claude agent, lane G16, 2026-10-24): MATCH, no register pins, VU helper asms only.
+// VecProjectClimbSurfPlanes__FPvP6VECTORG9VU_VECTOR (Claude agent, lane G16, 2026-10-24): MATCH, no register pins, VU helper asms only.
 // From laneG13v1 (12). Keys: (1) loop 2: the plane.w read before a qmfc2 helper with a "memory" clobber, then an
 // mtc1 helper with allocation-only "f"(w) operands (12 -> 9). (2) loop 3 as a fresh block-scoped `int k`/`int m`
 // with the weights read through Lilly's VuFloatFromMemWord ("rV": reload makes the lw) (9 -> 1). (3) an early
@@ -47,7 +47,8 @@ static inline float FloatFromBitsW(int b, float w)
     __asm__("mtc1 %1, %0" : "=f"(x) : "r"(b), "f"(w), "f"(w), "f"(w));
     return x;
 }
-extern "C" qword func_00185A80(void *unused, P *p, qword v)
+// name: SafeHouse port (VecProjectClimbSurfPlanes)
+extern "C" qword VecProjectClimbSurfPlanes__FPvP6VECTORG9VU_VECTOR(void *unused, P *p, qword v)
 {
     int matrix[36];
     float rhs[8];

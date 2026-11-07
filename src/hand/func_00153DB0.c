@@ -1,12 +1,13 @@
-/* func_00153DB0: Update (virtual slot 15) of class 16, derived from class 3 (XFM): the LO Update (func_001A5E28), then the class's
+/* UpdateDetectorObject__FP2LOf: Update (virtual slot 15) of class 16, derived from class 3 (XFM): the LO Update (func_001A5E28), then the class's
  * own part. */
 #include "so.h"
 
 void func_001A5E28(LO *p, float dt);
-void func_00153DE0(void *);
+void UpdateDetector__FP8DETECTOR(void *);
 
-void func_00153DB0(LO *p, float dt)
+// name: SafeHouse port (UpdateDetectorObject)
+void UpdateDetectorObject__FP2LOf(LO *p, float dt)
 {
     func_001A5E28(p, dt);
-    func_00153DE0(p);
+    UpdateDetector__FP8DETECTOR(p);
 }

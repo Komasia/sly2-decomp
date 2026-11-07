@@ -4,10 +4,11 @@ struct O { char pad[0x100]; struct T *pt; float r; };
 struct S { char pad[0x30]; int c; struct O *a[1]; };
 extern struct { char pad[0x90]; qword pos; } g_cm;
 qword func_001A62E8(void *p);
-void func_001F7C68(struct T *pt, float f);
-void func_001F7BF8(struct T *pt, float f);
+void FadeAloIn__FP3ALOf(struct T *pt, float f);
+void FadeAloOut__FP3ALOf(struct T *pt, float f);
 
-void func_002020C8(struct S *p)
+// name: SafeHouse port (DistanceModels)
+void DistanceModels__FP11PHOTOPROMPT(struct S *p)
 {
     int i;
     for (i = 0; i < p->c; i++) {
@@ -21,8 +22,8 @@ void func_002020C8(struct S *p)
         __asm__("vsub.xyzw %0, %1, %2\n\tvmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y\n\tvsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "=j"(d) : "j"(a), "j"(g_cm.pos));
         __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
         if (o->r < f && !((o->pt->fl28 >> 60) & 1))
-            func_001F7C68(o->pt, 0.25f);
+            FadeAloIn__FP3ALOf(o->pt, 0.25f);
         else if (f <= o->r && !!((o->pt->fl28 >> 60) & 1))
-            func_001F7BF8(o->pt, 0.25f);
+            FadeAloOut__FP3ALOf(o->pt, 0.25f);
     }
 }

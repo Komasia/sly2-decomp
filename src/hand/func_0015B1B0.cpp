@@ -53,7 +53,7 @@ void func_001333C0(SO *pso, void *p);
 PART *FLaunchHudRip(void *p, int n, SO *pso) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 void func_0015BF40(void *p, EMITTER *pemit);
-MATRIX3 *func_001A6318(void *p);
+MATRIX3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 int FIsDlEmpty(void *p) asm("FIsDlEmpty__FP2DL");
 }
 // name: SafeHouse port (EmitParticleObjects)
@@ -89,7 +89,7 @@ extern "C" void EmitParticleObjects__FP8EMITTERNP6VECTORiT1PfN24(EMITTER *pemit,
         func_0015BF40(ppart->abA0, pemit);
         ppart->x1C = pemit->pshd->x8;
         if (pemit->pshd->p0)
-            ppart->mat40 = *func_001A6318(pemit->pshd->p0);
+            ppart->mat40 = *MatJtLo(pemit->pshd->p0);
         ppart->Init(pemit);
     }
     if (FIsDlEmpty((char *)pso + 0x15C))

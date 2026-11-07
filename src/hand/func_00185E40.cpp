@@ -1,17 +1,17 @@
-// func_00185E40 laneH20v1 (Claude agent lane H20): MATCH. laneH19v2 + loop 2 through an inline StoreAddRot(&samples[i],target,&p->basis,&p->points[i].q) that rotates inside its body. A nested inline call argument is expanded before the other arguments, so in H19v2 the points address came first in the loop body; now the samples address does, the giv list (prepended) is reversed, and loop.c emits the points init `addiu v1,s1,0x1F30` before `addiu v0,sp,0x160` like the target. One register pin (direction vf2), allocation-only operands commented.
-// func_00185E40 laneH19v2 (Claude agent lane H19): v1 + loop 2 stores through an inline StoreAddM(&samples[i],a,b) (operator=-style, the address is an inline param) with an allocation-only "m"(d->q) input. gcse no longer shares the loop base with the 1856C0 arg, so loop.c builds a fresh `addiu v0,sp,0x160` (no lw 0x250), the loop is still reversed, and the "m" ref keeps samples v0 / points v1. Left: the two giv inits come out samples-then-points (target points first), aligned 1 / 2 lines.
-// func_00185E40 laneH19v1 (Claude agent lane H19): laneH18v3 + MulM3 through QwRotateVecR, a rotate helper with the matrix rows as operands %1..%3 and the vector last (like QwTransformPos). local-alloc ties an asm output to its operand 1 when it dies there, so c1 now reuses inv r0 (vf5) and the movement load schedules before c1 (13 -> 1). Only the loop-2 `lw 0x250` reload is left.
-// func_00185E40 laneH18v3 (Claude agent lane H18): v2 + MulM3 c1 through QwRotateVecJ with allocation-only extra "j"(v),"j"(v),"j"(m->r[1].q) inputs: D1 and inv r1 get more refs, so local-alloc gives inv r0 vf5 / D1 vf4 like the target (14 -> 13; c1 output is now vf4, target vf5).
-// func_00185E40 laneH17v3 (Claude agent lane H17): v2 + BuildM4L(m,pos,d) takes the frame pointer LAST, so pd=&frame is evaluated after the 11B830 call (addiu s0,sp,0x20 after the call like the target) (27 -> 25).
-// func_00185E40 laneH16v5 (Claude agent lane H16): v4 + speed-block fallback as a qword value whose allocation-only "r" operand sits on the else-branch divide (QwDivideR) instead of the compare mtc1, so its lq is no longer forced before the compare (38 -> 36).
-// func_00185E40 laneH16v4 (Claude agent lane H16): v3 + BuildM4 rows written through a caller-side pointer pd=&frame (a pseudo, so rows 1/2 stay s0-based like the target), the .i[3] zeros through frame and f[3]=1 through pd (41 -> 38).
-// func_00185E40 laneH16v3 (Claude agent lane H16): v2 + movement rotated with QwRotateVec(&rotation,..) and a dead `M3 copy=rotation;` after the speed load (the 0x1F0 stores then follow the speed load like the target) (45 -> 41).
-// func_00185E40 laneH16v2 (Claude agent lane H16): v1 + multiplier read as a float struct member through "rV"(float) (VuFloatFromMemF): the load is MEM_IN_STRUCT, so the 0xC0 temp stores no longer alias it and sched delays them like the target (50 -> 45).
-// func_00185E40 laneH16v1 (Claude agent lane H16): laneH15v1 + speed written straight into a VU_FLOAT local through an inline LoadVuFloatFromMemWord(VU_FLOAT&,int) helper (no return temp pseudo, so global alloc gives len/dir vf1 and speed vf2 and the vmove is gone): 59 -> 50.
-// func_00185E40 laneH15v1 (Claude agent lane H15): laneH13v3 with MulM3 in natural c0,c1,c2 order (the D_002DDFA0 address dies on the r2 load, so sched1 picks r2 first, then r0, r1 like the target): 62 -> 59.
-// func_00185E40 laneH13v3 (Claude agent lane H13): v2 + one pseudo for len/dir in the movement normalize and allocation-only "r"(fallback) on its mtc1 (66 -> 62).
-// func_00185E40 laneH9v1 (Claude agent lane H9): laneH7v5 + const-ref QwAdd and BuildM4 pos (78 -> 75).
-/* laneH7v5 (Claude agent): fresh Lilly-style rewrite of func_00185E40, no pins, VU helper asms only. */
+// UpdateSlyClimbSurf__FP3SLY laneH20v1 (Claude agent lane H20): MATCH. laneH19v2 + loop 2 through an inline StoreAddRot(&samples[i],target,&p->basis,&p->points[i].q) that rotates inside its body. A nested inline call argument is expanded before the other arguments, so in H19v2 the points address came first in the loop body; now the samples address does, the giv list (prepended) is reversed, and loop.c emits the points init `addiu v1,s1,0x1F30` before `addiu v0,sp,0x160` like the target. One register pin (direction vf2), allocation-only operands commented.
+// UpdateSlyClimbSurf__FP3SLY laneH19v2 (Claude agent lane H19): v1 + loop 2 stores through an inline StoreAddM(&samples[i],a,b) (operator=-style, the address is an inline param) with an allocation-only "m"(d->q) input. gcse no longer shares the loop base with the 1856C0 arg, so loop.c builds a fresh `addiu v0,sp,0x160` (no lw 0x250), the loop is still reversed, and the "m" ref keeps samples v0 / points v1. Left: the two giv inits come out samples-then-points (target points first), aligned 1 / 2 lines.
+// UpdateSlyClimbSurf__FP3SLY laneH19v1 (Claude agent lane H19): laneH18v3 + MulM3 through QwRotateVecR, a rotate helper with the matrix rows as operands %1..%3 and the vector last (like QwTransformPos). local-alloc ties an asm output to its operand 1 when it dies there, so c1 now reuses inv r0 (vf5) and the movement load schedules before c1 (13 -> 1). Only the loop-2 `lw 0x250` reload is left.
+// UpdateSlyClimbSurf__FP3SLY laneH18v3 (Claude agent lane H18): v2 + MulM3 c1 through QwRotateVecJ with allocation-only extra "j"(v),"j"(v),"j"(m->r[1].q) inputs: D1 and inv r1 get more refs, so local-alloc gives inv r0 vf5 / D1 vf4 like the target (14 -> 13; c1 output is now vf4, target vf5).
+// UpdateSlyClimbSurf__FP3SLY laneH17v3 (Claude agent lane H17): v2 + BuildM4L(m,pos,d) takes the frame pointer LAST, so pd=&frame is evaluated after the 11B830 call (addiu s0,sp,0x20 after the call like the target) (27 -> 25).
+// UpdateSlyClimbSurf__FP3SLY laneH16v5 (Claude agent lane H16): v4 + speed-block fallback as a qword value whose allocation-only "r" operand sits on the else-branch divide (QwDivideR) instead of the compare mtc1, so its lq is no longer forced before the compare (38 -> 36).
+// UpdateSlyClimbSurf__FP3SLY laneH16v4 (Claude agent lane H16): v3 + BuildM4 rows written through a caller-side pointer pd=&frame (a pseudo, so rows 1/2 stay s0-based like the target), the .i[3] zeros through frame and f[3]=1 through pd (41 -> 38).
+// UpdateSlyClimbSurf__FP3SLY laneH16v3 (Claude agent lane H16): v2 + movement rotated with QwRotateVec(&rotation,..) and a dead `M3 copy=rotation;` after the speed load (the 0x1F0 stores then follow the speed load like the target) (45 -> 41).
+// UpdateSlyClimbSurf__FP3SLY laneH16v2 (Claude agent lane H16): v1 + multiplier read as a float struct member through "rV"(float) (VuFloatFromMemF): the load is MEM_IN_STRUCT, so the 0xC0 temp stores no longer alias it and sched delays them like the target (50 -> 45).
+// UpdateSlyClimbSurf__FP3SLY laneH16v1 (Claude agent lane H16): laneH15v1 + speed written straight into a VU_FLOAT local through an inline LoadVuFloatFromMemWord(VU_FLOAT&,int) helper (no return temp pseudo, so global alloc gives len/dir vf1 and speed vf2 and the vmove is gone): 59 -> 50.
+// UpdateSlyClimbSurf__FP3SLY laneH15v1 (Claude agent lane H15): laneH13v3 with MulM3 in natural c0,c1,c2 order (the D_002DDFA0 address dies on the r2 load, so sched1 picks r2 first, then r0, r1 like the target): 62 -> 59.
+// UpdateSlyClimbSurf__FP3SLY laneH13v3 (Claude agent lane H13): v2 + one pseudo for len/dir in the movement normalize and allocation-only "r"(fallback) on its mtc1 (66 -> 62).
+// UpdateSlyClimbSurf__FP3SLY laneH9v1 (Claude agent lane H9): laneH7v5 + const-ref QwAdd and BuildM4 pos (78 -> 75).
+/* laneH7v5 (Claude agent): fresh Lilly-style rewrite of UpdateSlyClimbSurf__FP3SLY, no pins, VU helper asms only. */
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{U r[3];M3(){}M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return*this;}};
@@ -28,14 +28,14 @@ struct CLOCK{float time,dt;};
 struct VU_FLOAT{qword qw;VU_FLOAT(){}VU_FLOAT(float f){__asm__("mfc1 %0,%1":"=r"(qw):"f"(f));}};
 extern "C"{
 extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002BE920,D_002BE930,D_002BE940;
-qword func_001A62E8(P*);M4*func_001A6318(P*);
-void func_00185310(void*,qword,TRIREF*,TRIREF*,qword*,qword*);
+qword func_001A62E8(P*);M4*MatJtLo(P*) asm("MatJtLo__FP2LO");
+void FindClimbSurfClosestPoint(void*,qword,TRIREF*,TRIREF*,qword*,qword*) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");M3 func_0011B340(M3*);qword*func_00256D18(qword*,qword);
 void func_0011C950(M4*,M3*,PARAMS*,M3*,qword*,float);
 void func_0011F088(qword,qword,PARAMS*,qword*,float);
-void func_001856B8(void*,LIST*);void func_001856C0(void*,LIST*,int,U*,PARAMS*,float);
-qword func_00185A80(void*,LIST*,qword);
-void func_0018C250(P*,int,int);void SteerRootBlend(P*,AXIS*,REQUEST*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
+void func_001856B8(void*,LIST*);void AddClimbSurfEdgePlanes(void*,LIST*,int,U*,PARAMS*,float) asm("AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf");
+qword VecProjectClimbSurfPlanes(void*,LIST*,qword) asm("VecProjectClimbSurfPlanes__FPvP6VECTORG9VU_VECTOR");
+void SetJtJts(P*,int,int) asm("SetJtJts__FP2JT3JTS4JTBS");void SteerRootBlend(P*,AXIS*,REQUEST*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 }
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"rV"(n));return v;}
@@ -74,10 +74,11 @@ static inline qword QwRotateVecRJ(const M3*m,qword v){qword r;__asm__("vmulax.xy
 static inline void MulM3(M3*r,const M3*a,const M3*b){qword c0=QwRotateVecR(a,b->r[0].q),c1=QwRotateVecR(a,b->r[1].q),c2=QwRotateVecR(a,b->r[2].q);r->r[0].q=c0;r->r[1].q=c1;r->r[2].q=c2;}
 static inline qword QwRotateVecV(qword v,M3 m){return QwRotateVec(&m,v);}
 static inline void SetVec(P*p,int slot,qword q){VTE*e=&p->vt[slot];((void(*)(void*,qword))e->fn)((char*)p+e->delta,q);}
-extern "C" void func_00185E40(P*p){
+// name: SafeHouse port (UpdateSlyClimbSurf)
+extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  U closest,normal;
  qword position=func_001A62E8(p);
- func_00185310(p->mesh,position,&p->triangle,&p->triangle,&closest.q,&normal.q);
+ FindClimbSurfClosestPoint(p->mesh,position,&p->triangle,&p->triangle,&closest.q,&normal.q);
  M4 frame;U contacts[3];
  qword difference=QwSub(closest.q,position);
  qword len=QwSqrt(QwDot(difference,difference));
@@ -86,18 +87,18 @@ extern "C" void func_00185E40(P*p){
  qword target=QwAddScaled(closest.q,direction,VuFloat(-p->points[0].f[0]));
  M4*pd;BuildM4L(BuildLookAtMatrix(direction,g_normalZ.q),target,pd=&frame);frame.r[0].i[3]=frame.r[1].i[3]=frame.r[2].i[3]=0;pd->r[3].f[3]=1.0f;
  int i;
- for(i=0;i<3;i++)func_00185310(p->mesh,QwTransformPos(&frame,p->points[i].q),&p->triangle,0,&contacts[i].q,0);
+ for(i=0;i<3;i++)FindClimbSurfClosestPoint(p->mesh,QwTransformPos(&frame,p->points[i].q),&p->triangle,0,&contacts[i].q,0);
  qword surface=QwCross(QwSub(contacts[2].q,contacts[0].q),QwSub(contacts[1].q,contacts[0].q));
  qword unit=QwDivide(surface,QwSqrt(QwDot(surface,surface)));
  {M3 m=BuildLookAtMatrix(unit,g_normalZ.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
  U angular,linear;
- func_0011C950(func_001A6318(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
+ func_0011C950(MatJtLo(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
  SetVec(p,36,angular.q);
  func_0011F088(position,target,&D_002BE930,&linear.q,g_clock.dt*0.5f);
  LIST planes;U samples[3];
  for(i=0;i<3;i++)StoreAddRot(&samples[i],target,&p->basis,&p->points[i].q);
  func_001856B8(p->mesh,&planes);
- func_001856C0(p->mesh,&planes,3,samples,&D_002BE940,10.0f);
+ AddClimbSurfEdgePlanes(p->mesh,&planes,3,samples,&D_002BE940,10.0f);
  if(0.0f<p->control->speed){
   U movement;
   {float y=p->control->y,z=p->control->z;movement.f[0]=0.0f;movement.f[1]=-y;movement.f[2]=z;}
@@ -113,7 +114,7 @@ extern "C" void func_00185E40(P*p){
   p->acceleration.q=QwScaleX(p->acceleration.q,VuFloatFromMemF(p->request->multiplier));
  }else ClearXyz(&p->acceleration);
  if(planes.count>0){
-  qword projected=func_00185A80(p->mesh,&planes,QwRotateVec(&p->basis,QwScaleX(p->acceleration.q,VU_FLOAT(-1.0f))));
+  qword projected=VecProjectClimbSurfPlanes(p->mesh,&planes,QwRotateVec(&p->basis,QwScaleX(p->acceleration.q,VU_FLOAT(-1.0f))));
   M3 inverse=func_0011B340(&p->basis);
   p->acceleration.q=QwRotateVec(&inverse,QwScaleX(projected,VU_FLOAT(-1.0f)));
  }
@@ -121,7 +122,7 @@ extern "C" void func_00185E40(P*p){
  if(GXOfQw(QwDot(p->acceleration.q,p->acceleration.q))>1.0f)active=1;
  else if(p->control->speed!=0.0f)active=1;
  if(active){
-  func_0018C250(p,21,11);SteerRootBlend(p,p->axes,p->request);
+  SetJtJts(p,21,11);SteerRootBlend(p,p->axes,p->request);
   SetVec(p,35,QwAdd(linear.q,QwRotateVec(&p->basis,QwScaleX(p->acceleration.q,VuFloatC1(-1.0f)))));
- }else{func_0018C250(p,21,10);SetVec(p,35,linear.q);}
+ }else{SetJtJts(p,21,10);SetVec(p,35,linear.q);}
 }

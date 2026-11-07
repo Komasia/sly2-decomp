@@ -16,7 +16,7 @@ void RefreshGuardTargets__FP5GUARD(struct S *p);
 int FKindeDone__FP5KINDE(void *pc);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct O *po, int n, qword v);
 void UpdateGuardActionAim__FP5GUARD(struct S *p);
-void func_001F1CF8(struct S *p);
+void NextPocketPrize__FP2LO(struct S *p);
 void UpdateWatchA__FP6WATCHA(void *p);
 void UpdateWatchB__FP6WATCHB(void *p);
 void UpdateJobs__FP5ACTOR(void *p);
@@ -38,7 +38,7 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
     if (p->hF0C)
         UpdateGuardActionAim__FP5GUARD(p);
     if (p->n48C)
-        func_001F1CF8(p);
+        NextPocketPrize__FP2LO(p);
     UpdateWatchA__FP6WATCHA(p->p498);
     UpdateWatchB__FP6WATCHB(p->p49C);
     UpdateJobs__FP5ACTOR(p->x26C);

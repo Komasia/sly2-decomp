@@ -50,8 +50,8 @@ extern M2C_UNK D_004435F0;
 
 void func_0019C828(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     if (M2C_FIELD(arg0, s32 *, 0x1C) == 0x11) {
-        func_00195A00(arg0, 3, 0, 0);
+        SetJumpKind__FP4JUMPiiP2LO(arg0, 3, 0, 0);
         return;
     }
-    func_00195FB8(arg0, 4, 0);
+    SetJumpAnimState__FP4JUMPiP2LO(arg0, 4, 0);
 }

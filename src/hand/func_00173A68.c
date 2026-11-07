@@ -13,19 +13,20 @@ struct CRef{int tag;void*value;};
 extern char g_sw[];
 struct CLOCK{float t,dt;};extern struct CLOCK g_clock;extern float D_002BE5CC,D_002BE5D0,D_002BE5D4,D_002BE5D8;
 void func_001A5E28(struct P*);
-qword func_00173A18(struct P*);
-void func_00173D18(struct P*,qword);
+qword PosCenter__Fv(struct P*);
+void CheckSlots__FP7SPAWNERG9VU_VECTOR(struct P*,qword);
 struct LO*func_001C4840(void*);
 struct EVENT*func_001F8240(struct LO*);
-struct ENTRY*func_00173E78(struct P*,struct LO*);
-struct SELECTOR*func_00173F18(struct P*,qword,qword*,struct M3*,int*);
-void func_00173928(struct P*,struct ENTRY*,int,int);
-struct LO*func_00174490(struct P*,struct SELECTOR*,qword*,struct M3*,int);
+struct ENTRY*PslotChoose__FP7SPAWNERi(struct P*,struct LO*);
+struct SELECTOR*PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(struct P*,qword,qword*,struct M3*,int*);
+void ReleaseSlot__FP7SPAWNERP4SLOTii(struct P*,struct ENTRY*,int,int);
+struct LO*PloSpawn__FP7SPAWNERP6SOURCEP6VECTORii(struct P*,struct SELECTOR*,qword*,struct M3*,int);
 void func_001F7D10(struct LO*,float);
-void func_001F7C68(struct LO*,float);
+void FadeAloIn__FP3ALOf(struct LO*,float);
 void func_00154038(void*,struct LO*,int);
 static inline float DistanceXY(qword a,qword b){qword d;float f;__asm__("vsub.xyzw %0,%1,%2":"=j"(d):"j"(a),"j"(b));__asm__("vmul.xy %0,%0,%0\n\tvaddy.x %0,%0,%0y":"+j"(d));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
-void func_00173A68(struct P*p){
+// name: SafeHouse port (UpdateSpawner)
+void UpdateSpawner__FP2LO(struct P*p){
  U point;
  struct M3 rotation;
  int flag;
@@ -37,8 +38,8 @@ void func_00173A68(struct P*p){
  struct SELECTOR*selector;
  struct LO*context;
  func_001A5E28(p);
- pos=func_00173A18(p);
- func_00173D18(p,pos);
+ pos=PosCenter__Fv(p);
+ CheckSlots__FP7SPAWNERG9VU_VECTOR(p,pos);
  if(g_clock.t<p->next)return;
  p->next=g_clock.t+D_002BE5D0;
  if(p->count==p->capacity){int close=DistanceXY(pos,p->last)<D_002BE5D4;if(close)return;}
@@ -56,16 +57,16 @@ void func_00173A68(struct P*p){
   }
  }
  }
- entry=func_00173E78(p,event&&event->kind==1?event->previous:0);
+ entry=PslotChoose__FP7SPAWNERi(p,event&&event->kind==1?event->previous:0);
  if(!entry)return;
- selector=func_00173F18(p,pos,&point.q,&rotation,&flag);
+ selector=PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(p,pos,&point.q,&rotation,&flag);
  if(!selector)return;
  p->last=pos;
- if(entry->object)func_00173928(p,entry,0,1);
- object=func_00174490(p,selector,&point.q,&rotation,flag);
+ if(entry->object)ReleaseSlot__FP7SPAWNERP4SLOTii(p,entry,0,1);
+ object=PloSpawn__FP7SPAWNERP6SOURCEP6VECTORii(p,selector,&point.q,&rotation,flag);
  if(!object)return;
  func_001F7D10(object,0.01f);
- func_001F7C68(object,0.5f);
+ FadeAloIn__FP3ALOf(object,0.5f);
  if(event)func_00154038(object->xF64,event->tag,2);
  entry->object=object;
  entry->time=g_clock.t;

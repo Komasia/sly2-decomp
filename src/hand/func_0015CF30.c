@@ -1,4 +1,4 @@
-// (Claude agent) UpdateEpMenu__FP6EPMENU: UI menu state machine. func_002121E8 takes (p, r) with r = IdPartCur__FP6EPMENU(p); the n12C==0 flag uses a shared "setf: f = 1" block (reorg fills both beql/bnel slots from it).
+// (Claude agent) UpdateEpMenu__FP6EPMENU: UI menu state machine. FSpriteAnimPlaying__FP2LOi takes (p, r) with r = IdPartCur__FP6EPMENU(p); the n12C==0 flag uses a shared "setf: f = 1" block (reorg fills both beql/bnel slots from it).
 struct CRef { int m_tagk; int m_n; };
 struct CRefG { int m_tagk; float m_g; };
 struct X {
@@ -28,11 +28,11 @@ void NProgress(void *pref, void *p, void *q);
 void func_00129EC8(void *pref);
 void SetHint__FP6EPMENUi(struct X *p, int n);
 void QueueMovie__FPUcPv(void *p, int n);
-void func_0022B490(struct G *pg, int a, int b, int c, int d, int e);
+void RequestTransition__FP2SWPUc3OIDT2iT2(struct G *pg, int a, int b, int c, int d, int e);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 int CmovieOpen__FP6EPMENU(struct X *p);
-int func_002121E8(struct X *p, int n);
+int FSpriteAnimPlaying__FP2LOi(struct X *p, int n);
 void *func_0015E938(struct G *pg, int kind, int oid, int n);
 void SetExitState__FP2LOi(void *p, int n);
 void TriggerExit__FP4EXIT(void *p);
@@ -110,7 +110,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
         case 1:
             if (func_00187D80(g_joy, 0x80)) {
                 QueueMovie__FPUcPv(D_002F66B0, D_002BE248[p->n110]);
-                func_0022B490(&g_sw, 0, 0x189, -1, 0, -1);
+                RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
                 return;
             }
@@ -133,7 +133,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
             if (func_00187D80(g_joy, 0x40)) {
                 D_002BE270 = p->n128;
                 QueueMovie__FPUcPv(D_002F66B0, D_002BE200[p->n128]);
-                func_0022B490(&g_sw, 0, 0x189, -1, 0, -1);
+                RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
                 return;
             }
@@ -161,13 +161,13 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
         }
         case 1:
         case 2:
-            if (!func_002121E8(p, r))
+            if (!FSpriteAnimPlaying__FP2LOi(p, r))
                 SetEpMode__FP6EPMENUii(p, 8, 0);
             return;
         }
         return;
     case 10:
-        if (!func_002121E8(p, r)) {
+        if (!FSpriteAnimPlaying__FP2LOi(p, r)) {
             int f = 0;
             void *pv = g_sw.a3B58[p->n110];
             if (pv) {
@@ -190,13 +190,13 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
             }
             if (!f) {
                 int s = func_00210B98(p->n110);
-                func_0022B490(&g_sw, s, 0x189, -1, 0, 0x30A);
+                RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, s, 0x189, -1, 0, 0x30A);
             }
             SetEpMode__FP6EPMENUii(p, -1, -1);
         }
         return;
     default:
-        if (!func_002121E8(p, r)) {
+        if (!FSpriteAnimPlaying__FP2LOi(p, r)) {
             int k = D_002BE278[p->n11C];
             int n = -1;
             if (k == 8 && p->n110 == 0) {

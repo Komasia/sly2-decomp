@@ -17,7 +17,7 @@ struct P { char pad[0x190]; union V3 v190; char pad1[0x1030 - 0x1A0]; struct ANI
 void func_0020C080(struct O *o);
 void func_0020BF80(struct SCRIPT *a, struct P *p, int n, struct O *b);
 qword func_001A62E8(struct P *p);
-struct M3 *func_001A6318(struct P *p);
+struct M3 *MatJtLo__FP2LO(struct P *p);
 void ClearSmaHandle__FPP3SMA(struct COMPONENT *p);
 void func_001305B8(struct CLIP *a, struct P *p, float time, float rate, int n, struct ANIMATION **q);
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
@@ -90,7 +90,7 @@ void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
         __asm__("mfc1 %0, %1" : "=r"(b) : "f"(-p->f186C));
         u.q = b;
         u2.q = u.q;
-        px = func_001A6318(p);
+        px = MatJtLo__FP2LO(p);
         {
             register qword axis __asm__("vf1") = px->row[0];
             register qword origin __asm__("vf2") = uv.q;

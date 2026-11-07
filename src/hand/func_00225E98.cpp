@@ -12,7 +12,7 @@ struct S {char pad[0x150];CONTROL *control;char pad154[0x2C];O *target;int aim,f
 struct CLOCK {float t,dt;};
 extern "C" {
 qword func_001A62E8(void *);
-M3 *func_001A6318(void *);
+M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void func_002309E8(void *,void *,M4 *,M4 *,float);
 float func_00244B68(float);
 float func_0011D948(void *,float);
@@ -61,7 +61,7 @@ extern "C" void func_00225E98(S *p){
         float extent=radius+OffsetLength(offset.q);
         saved.q=future.q;
         local.q=Difference(func_001A62E8(p),saved.q);
-        local.q=InverseRotate(*func_001A6318(p),local.q);
+        local.q=InverseRotate(*MatJtLo(p),local.q);
         swapped.f[0]=-local.f[1];swapped.f[1]=local.f[2];swapped.f[2]=local.f[0];
         float desired;
         if(local.f[0]>0.0001f){

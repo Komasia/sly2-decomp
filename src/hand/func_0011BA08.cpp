@@ -1,4 +1,4 @@
-// func_0011BA08 (Claude agent, lane A25, 2026-10-23): MATCH, fresh rewrite (old best fresh2 = 47).
+// BuildRotateVectorsMatrix (Claude agent, lane A25, 2026-10-23): MATCH, fresh rewrite (old best fresh2 = 47).
 // Rotation matrix taking direction a onto b (Sly 1 LoadRotateVectorMatrix-like): identity if either length < 1e-4,
 // else axis = normalized a x b (func_0011E390(a) fallback), cos = clamp(dot / (|a||b|)), sin = sqrt(1 - cos^2).
 // Matching notes:
@@ -42,8 +42,9 @@ static inline qword Dot(qword a, qword b)
     return d;
 }
 struct MAT3 { float m[3][4]; };
-extern "C" M3 *func_0011BA08(M3 *pm, qword a, qword b);
-M3 *func_0011BA08(M3 *pm, qword a, qword b)
+extern "C" M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
+// name: SafeHouse port (BuildRotateVectorsMatrix)
+M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b)
 {
     VU_FLOAT la, lb;
     la.q = Len(a);

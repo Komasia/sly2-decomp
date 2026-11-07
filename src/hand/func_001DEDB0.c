@@ -3,10 +3,10 @@ typedef struct { int pad; int x4; } R;
 typedef struct { void *o; Q *q; void *r; int xC; } ENT;
 typedef struct { char pad[0x1A0]; ENT a[2]; } OBJ;
 extern struct G g_sw;
-void func_0015E9C8(struct G *, int, int, void *, int, Q **);
+void CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *, int, int, void *, int, Q **);
 void *func_001F6788(void *, int);
 void *PasegaApplyAseg__Fiiiff(Q *, void *, int, float, float);
-R *func_0012FF10(Q *, void *, int, int);
+R *PchnFindAseg__FP4ASEGP3ALOPvi(Q *, void *, int, int);
 void func_001DEDB0(OBJ *p)
 {
     unsigned int i;
@@ -17,7 +17,7 @@ void func_001DEDB0(OBJ *p)
         R *r;
         if (o == 0)
             continue;
-        func_0015E9C8(&g_sw, 2, 0x6D, o, 1, &e->q);
+        CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 2, 0x6D, o, 1, &e->q);
         q = e->q;
         if (q == 0)
             continue;
@@ -27,7 +27,7 @@ void func_001DEDB0(OBJ *p)
             if (e->r == 0)
                 continue;
         }
-        r = func_0012FF10(q, o, 0xC, 1);
+        r = PchnFindAseg__FP4ASEGP3ALOPvi(q, o, 0xC, 1);
         if (r)
             e->xC = r->x4;
     }

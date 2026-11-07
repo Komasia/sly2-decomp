@@ -36,20 +36,20 @@ typedef char P_kind_Offset[FIELD_OFFSET(P,kind)==6208?1:-1];
 typedef char P_extra_Offset[FIELD_OFFSET(P,extra)==6416?1:-1];
 extern "C" CLOCK g_clock;
 extern "C" float D_002C08DC,D_002C08E0;
-extern "C" void func_00195A00(void*,int,void*,void*);
-extern "C" void func_0019CC50(void*,int,void*,void*);
+extern "C" void SetJumpKind(void*,int,void*,void*) asm("SetJumpKind__FP4JUMPiiP2LO");
+extern "C" void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");
 extern "C" int FActorTargetInReach(P*,int) asm("FActorTargetInReach__FP5ACTORi");
 extern "C" void func_001B6078(P*,int);
-extern "C" unsigned func_001C46C0(PL*,unsigned,float);
-extern "C" unsigned func_001C4660(PL*,unsigned,float);
-extern "C" void func_001C4738(PL*,int);
+extern "C" unsigned GrfPadctlTakePressed(PL*,unsigned,float) asm("GrfPadctlTakePressed__FP6PADCTL");
+extern "C" unsigned GrfPadctlPressedWithin(PL*,unsigned,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");
+extern "C" void ForgetPadctlPresses(PL*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
 extern "C" int func_001B84E0(P*);
 extern "C" void func_001B85D0(P*);
 extern "C" void StartMurrayPunch(P*) asm("StartMurrayPunch__FP6MURRAY");
 extern "C" int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
 extern "C" int FInteractCircle(void*,unsigned,int) asm("FInteractCircle__FP5ACTOR");
-extern "C" void func_00197500(void*);
-extern "C" int func_00143D20(P*,float);
+extern "C" void UpdateJumpTransitions(void*) asm("UpdateJumpTransitions__FP4JUMP");
+extern "C" int FActorBelowFloorSoon(P*,float) asm("FActorBelowFloorSoon__FP5ACTORf");
 extern "C" void UpdateInteractTransitions(void*) asm("UpdateInteractTransitions__FP5ACTOR");
 extern "C" void UpdateDamageTransitions(void*) asm("UpdateDamageTransitions__FP5ACTOR");
 extern "C" void UpdateMurrayFlop(P*) asm("UpdateMurrayFlop__FP6MURRAY");
@@ -61,8 +61,8 @@ extern "C" int func_001F0638(void*);
 extern "C" void UpdateMurrayPunchTransitions(P*) asm("UpdateMurrayPunchTransitions__FP6MURRAY");
 extern "C" void UpdateMurrayBehavior(P*) asm("UpdateMurrayBehavior__FP6MURRAY");
 extern "C" void UpdateMurrayBerserkTransitions(P*) asm("UpdateMurrayBerserkTransitions__FP6MURRAY");
-extern "C" void func_0021F418(void*);
-extern "C" void func_0019E1E0(void*);
+extern "C" void UpdateJtThrow(void*) asm("UpdateJtThrow__FP7JTTHROW");
+extern "C" void UpdateClimbTransitions(void*) asm("UpdateClimbTransitions__FP5ACTOR");
 extern "C" int func_00141EA8(P*,int);
 static inline PL*CopyPL(PL*source){PL*result;__asm__("daddu %0,%1,$zero":"=r"(result):"r"(source));return result;}
 static inline int Can(P*p,int kind){return ((int(*)(void*,int))p->vt[99].fn)((char*)p+p->vt[99].delta,kind);}
@@ -76,10 +76,10 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
   default:
    if(g_clock.time-p->changed>0.1f){
     switch(p->state){
-    case 5:func_00195A00(&p->control,16,0,0);break;
-    case 12:if(p->kind==3)func_00195A00(&p->control,11,0,0);break;
-    case 13:if(p->gate.mode!=1&&p->gate.mode!=12)func_00195A00(&p->control,0,0,0);break;
-    default:func_00195A00(&p->control,0,0,0);break;
+    case 5:SetJumpKind(&p->control,16,0,0);break;
+    case 12:if(p->kind==3)SetJumpKind(&p->control,11,0,0);break;
+    case 13:if(p->gate.mode!=1&&p->gate.mode!=12)SetJumpKind(&p->control,0,0,0);break;
+    default:SetJumpKind(&p->control,0,0,0);break;
     }
    }
   }
@@ -87,19 +87,19 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
   switch(p->state){
   case 0:case 1:case 10:{
    if(!(p->input->flags&8)&&FActorTargetInReach(p,0)){func_001B6078(p,9);break;}
-   if(func_001C46C0(p->input,0x40,0.1f)){func_00195A00(&p->control,1,0,0);break;}
-   if(func_001C4660(p->input,0x400,0.15f)&&Can(p,3)){
-    func_001C4738(p->input,0x400);
-    func_0019CC50(p->altAction,0,0,0);
+   if(GrfPadctlTakePressed(p->input,0x40,0.1f)){SetJumpKind(&p->control,1,0,0);break;}
+   if(GrfPadctlPressedWithin(p->input,0x400,0.15f)&&Can(p,3)){
+    ForgetPadctlPresses(p->input,0x400);
+    OpenBinoc(p->altAction,0,0,0);
     break;
    }
-   if(func_001B84E0(p)&&func_001C46C0(p->input,0x10,D_002C08DC)){func_001B85D0(p);break;}
+   if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x10,D_002C08DC)){func_001B85D0(p);break;}
    if(FMurrayGrab(p))break;
-   if(func_001C46C0(p->input,0x20,0.2f)){
+   if(GrfPadctlTakePressed(p->input,0x20,0.2f)){
     if(!FInteractCircle(&p->gate,0xF8FA,0)&&p->root){p->flag=0;func_001B6078(p,4);}
     break;
    }
-   if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC)){StartMurrayPunch(p);break;}
+   if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x80,D_002C08DC)){StartMurrayPunch(p);break;}
    PL*input=p->input;PL*flagsInput=CopyPL(input);register int current __asm__("$3")=p->state;
    if(current==0){if(input->amount>0.1f)goto moving;}
    else if(input->amount>0.0f)goto moving;
@@ -109,11 +109,11 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
    break;
   }
   case 2:
-   func_00197500(&p->control);
+   UpdateJumpTransitions(&p->control);
    switch(p->control.state){case 0:case 11:case 15:case 16:break;
    default:
-    if(func_001C4660(p->input,0x90,D_002C08DC)&&Can(p,2)&&p->control.count<6&&p->control.count>0&&!func_00143D20(p,D_002C08E0)){
-     func_001C4738(p->input,0x90);
+    if(GrfPadctlPressedWithin(p->input,0x90,D_002C08DC)&&Can(p,2)&&p->control.count<6&&p->control.count>0&&!FActorBelowFloorSoon(p,D_002C08E0)){
+     ForgetPadctlPresses(p->input,0x90);
      p->pending=0;
      func_001B6078(p,3);
     }
@@ -129,8 +129,8 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
   case 11:UpdateMurrayPunchTransitions(p);break;
   case 9:UpdateMurrayBehavior(p);break;
   case 12:UpdateMurrayBerserkTransitions(p);break;
-  case 15:func_0021F418(p->extra);break;
-  case 20:func_0019E1E0(p->physics);break;
+  case 15:UpdateJtThrow(p->extra);break;
+  case 20:UpdateClimbTransitions(p->physics);break;
   case 17:
    if(p->animation&&func_00131968(p->animation))goto idle;
    if(!p->other)break;
@@ -141,7 +141,7 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
    func_001B6078(p,0);
    break;
   case 21:
-   if(func_001C46C0(p->input,0x40,0.0f))func_00195A00(&p->control,13,0,0);
+   if(GrfPadctlTakePressed(p->input,0x40,0.0f))SetJumpKind(&p->control,13,0,0);
    else if(!(p->input->flags&func_00141EA8(p,0x10)))func_001B6078(p,0);
    break;
   default:break;

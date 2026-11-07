@@ -1,5 +1,6 @@
 struct O { char pad[0x10]; struct O *x10; };
-int func_001A6AF8(struct O *a, struct O *b)
+// name: SafeHouse port (FLoInParentChain)
+int FLoInParentChain__FP2LOT0(struct O *a, struct O *b)
 {
     while (a) {
         if (a == b) break;

@@ -8,7 +8,7 @@ struct S {
 };
 extern char D_003DD040[];
 extern char g_game[];
-int func_001C4660(void *, int, float);
+int GrfPadctlPressedWithin__FP6PADCTLUif(void *, int, float);
 int func_001C4700(void *, int);
 float TMusicTop__FPv(void *);
 void PlayDancerMove__FP2LOiii(struct O *, int, int, int);
@@ -23,7 +23,7 @@ void CheckDancerBeat__FP2LOP5DANCE(struct S *p, struct O *po)
     void *pv = po->p150;
     int i, j;
     struct E *pe;
-    p->n230 = func_001C4660(pv, 0xF0, 0.0f);
+    p->n230 = GrfPadctlPressedWithin__FP6PADCTLUif(pv, 0xF0, 0.0f);
     if (!p->n230)
         return;
     for (i = 0; i < p->c1C0; i++) {

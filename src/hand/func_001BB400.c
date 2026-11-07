@@ -22,12 +22,13 @@ int func_001BBE48(P *p);
 int func_001BBE18(P *p);
 void *func_001C4840(void *g);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
-void func_001BB648(P *p, E *pe);
+void RunItems__FP2LOP3BRK(P *p, E *pe);
 qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, void *x);
 void BroadcastTaskEvent__FP2SWiP2LO(void *g, int k, P *p);
 
-void func_001BB400(P *p)
+// name: SafeHouse port (RunHit)
+void RunHit__FP2LO(P *p)
 {
     E *pe;
     int v;
@@ -44,8 +45,8 @@ void func_001BB400(P *p)
     ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 0x10, 0, 0, 0, 0);
     if (p->x168 & 1) return;
     pe = &p->ae[p->i];
-    func_001BB648(p, p->ae - 1);
-    func_001BB648(p, pe);
+    RunItems__FP2LOP3BRK(p, p->ae - 1);
+    RunItems__FP2LOP3BRK(p, pe);
     if (!p->x16C || !FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x38) || FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x3C)) {
         func_00156B98(g_sw, 0, func_001A62E8(p), p->x16C);
     }

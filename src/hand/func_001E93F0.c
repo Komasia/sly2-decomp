@@ -7,7 +7,8 @@ extern char D_002C44F0[];
 float GMinCrv__FP3CRV(int);
 float GMaxCrv__FP3CRV(int);
 void EvalCrv__FP3CRVfP6VECTORT2(int, qword *, int, float);
-void func_001E93F0(struct P *p, int i, struct LO *po)
+// name: SafeHouse port (SetRopeEnd)
+void SetRopeEnd__FP4ROPEiP2LO(struct P *p, int i, struct LO *po)
 {
     p->apo[i] = po;
     if (po) {

@@ -6,7 +6,8 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 void SetCmPolicy__FP2CM3CPPP5CPLCYii(void *a, int b, void *c, void *d, struct S *p);
 void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(void *a, int b, int c, int d, int e, struct S *p);
-void func_00221178(struct S *p, int k)
+// name: SafeHouse port (UpdateZoneCamera)
+void UpdateZoneCamera__FP2LOi(struct S *p, int k)
 {
     if (k == p->k) return;
     switch (k) {

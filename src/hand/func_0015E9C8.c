@@ -26,7 +26,8 @@ extern int FIsBasicDerivedFrom__FP5BASIC3CID(LO *plo, int cid);
 extern CE *func_0015E3A8(void *psw, int k);
 extern int func_0015E988(int k, int cid);
 extern void func_0015E3E8(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
-int func_0015E9C8(void *psw, int grf, int cid, LO *ploCtx, int cMax, LO **aplo)
+// name: SafeHouse port (CFindObjectsByClass)
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, LO *ploCtx, int cMax, LO **aplo)
 {
     volatile int unused;
     int cplo;

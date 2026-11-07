@@ -4,7 +4,8 @@ struct A { int x0; int x4; int x8; };
 struct S { char pad[0xE0]; struct T *pt; };
 int func_001CA930(struct S *p, struct A *pa);
 int func_001A61A0(struct LO *plo);
-int func_001CA978(struct S *p, struct A *pa)
+// name: SafeHouse port (NScoreRow)
+int NScoreRow__FP2WEPv(struct S *p, struct A *pa)
 {
     int r, i, j, v;
     if (pa->x8) return 0;

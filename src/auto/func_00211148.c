@@ -75,7 +75,8 @@ extern M2C_UNK D_00452170;
 extern M2C_UNK D_100;
 extern M2C_UNK D_C0;
 
-void func_00211148(s32 arg0, s32 arg1) {
+// name: SafeHouse port (StrPhotoScript)
+void StrPhotoScript__FPci(s32 arg0, s32 arg1) {
     s32 temp_a0;
     s32 temp_v0;
     s32 var_a1;

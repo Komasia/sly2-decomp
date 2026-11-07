@@ -1,4 +1,4 @@
-// func_0014A4D0 (Claude agent, lane D16). From v4: the vsub reads q (the pinned Add result) with `posT = q` after it, and its posMe operand is repeated as an allocation-only operand (reload then puts posMe in vf4 like the target).
+// Aim (Claude agent, lane D16). From v4: the vsub reads q (the pinned Add result) with `posT = q` after it, and its posMe operand is repeated as an allocation-only operand (reload then puts posMe in vf4 like the target).
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VTE { short d; short pad; void *pfn; };
@@ -25,13 +25,13 @@ int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
 int FIsBasicDerivedFrom(PSO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void SetGuardPursued(W *pw, void *p) asm("SetGuardPursued__FP5GUARDP2LO");
 int func_001BBE48(SO *p);
-int func_0015E9C8(G *pg, int a, int b, void *c, int d, SO **apso);
+int CFindObjectsByClass(G *pg, int a, int b, void *c, int d, SO **apso) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 qword SetVectorSphere(float a, float b, float c) asm("SetVectorSphere__Ffff");
 float func_0011E4B0(qword a, qword b, void *p);
 float func_002458F0(float y, float x);
-qword func_0011E1A0(float a, float b, float c);
-void func_0014A4D0(P *p);
+qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
+void Aim(P *p) asm("Aim__8JOBCHASE");
 }
 static inline int FLess(float a, float b) { return a < b; }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -73,7 +73,8 @@ static inline qword AddScaledNorm(qword a, qword v, VU_FLOAT s)
     return r;
 }
 
-void func_0014A4D0(P *p)
+// name: SafeHouse port (JOBCHASE::Aim)
+void Aim(P *p)
 {
     G *pg = &g_sw;
     PSO *pso = func_001C4840(pg);
@@ -112,7 +113,7 @@ void func_0014A4D0(P *p)
                 posT = ps->pxEC->pos;
                 r = ps->pxEC->g30;
             }
-            int c = func_0015E9C8(&g_sw, 1, 0x12, ps, 8, apso);
+            int c = CFindObjectsByClass(&g_sw, 1, 0x12, ps, 8, apso);
             int k = 0;
             for (int i = 0; i < c; i++) {
                 if (apso[i]->grfE8 & 0x17E)
@@ -146,7 +147,7 @@ void func_0014A4D0(P *p)
         qword e = Sub(posMe, posPlayer);
         float rad = func_002458F0(GetY(e), GetX(e));
         qword pp = func_001A62E8(pso);
-        pos = Add(pp, func_0011E1A0(GRandInRange(rad - 1.5707964f, rad + 1.5707964f), D_002BD470, D_002BD474));
+        pos = Add(pp, SetVectorCylind(GRandInRange(rad - 1.5707964f, rad + 1.5707964f), D_002BD470, D_002BD474));
     } else {
         pos = AddScaledNorm(posPlayer, v, VU_FLOAT(-D_002BD470));
     }

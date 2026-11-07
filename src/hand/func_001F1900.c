@@ -7,8 +7,9 @@ extern struct G g_sw;
 extern int D_002E1E40;
 ulong func_00207A20(int);
 int func_001C4840(struct G *);
-void func_001F17F8(struct P *, int);
-void func_001F1900(struct P *p)
+void SetPocketMode__FP2LOi(struct P *, int);
+// name: SafeHouse port (UpdatePocketMode)
+void UpdatePocketMode__FP2LO(struct P *p)
 {
     ulong m;
     int k;
@@ -21,5 +22,5 @@ void func_001F1900(struct P *p)
         else if (!p->n484 || p->a[p->n484 - 1].a0 == 0x2B3 || !func_001C4840(&g_sw) || func_001C4840(&g_sw) != D_002E1E40) k = 1;
         else k = 2;
     }
-    func_001F17F8(p, k);
+    SetPocketMode__FP2LOi(p, k);
 }

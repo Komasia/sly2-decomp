@@ -15,8 +15,8 @@ extern "C" {
 extern char g_cm[];
 extern char g_joy[];
 void *func_00131270(struct P *);
-void func_00210740(void *, int, int, int, int, void *, void *, struct Q *, void *, float, float, float);
-void func_002108E8(void *, void *, struct Q *, void *);
+void PlayAsegaSound(void *, int, int, int, int, void *, void *, struct Q *, void *, float, float, float) asm("PlayAsegaSound__FfffPviiiiN33PPv");
+void StopAsegaSound(void *, void *, struct Q *, void *) asm("StopAsegaSound__FP5ASEGAiPvT2");
 void JoltCm(void *, void *) asm("JoltCm__FP2CMi");
 void TriggerJoyRumbleRumk(void *, void *, float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
 void *func_0015E938(void *, int, void *, void *);
@@ -26,13 +26,13 @@ void StartScptImpl(void *, int) asm("StartScptImpl__FP2LOi");
 void SetAsegaTime(struct P *, int, float, float) asm("SetAsegaTime__FP5ASEGAiff");
 void RetractAsega(struct P *) asm("RetractAsega__FP5ASEGA");
 void SetAsegaEventSound(struct P *, int) asm("SetAsegaEventSound__FP5ASEGAi");
-void func_00210338(void *, int, void *, void *, struct Q *, float);
+void AddRemoveByOid(void *, int, void *, void *, struct Q *, float) asm("AddRemoveByOid__FPv3OIDif");
 void func_00210538(void *, int, int, int, void *, struct Q *, float);
 void func_00210408(void *, int, void *, int, void *, void *, struct Q *);
 void func_002104A0(void *, int, void *, int, void *, void *, struct Q *);
 void StartHudTimer(void *, float) asm("StartHudTimer__FPvf");
 void StopHudTimer(void *) asm("StopHudTimer__FPv");
-void func_00210678(void *, int, int, void *, struct Q *, float);
+void SetEyesClosedOf(void *, int, int, void *, struct Q *, float) asm("SetEyesClosedOf__FP2LOiif");
 void SnapAsegaXfs(struct P *, void *) asm("SnapAsegaXfs__FP5ASEGAi");
 void func_001F81E0(void *, int);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -55,11 +55,11 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
     case 0: {
         void *v = func_00131270(p);
         struct A0 *pa = (struct A0 *)pev->pv;
-        func_00210740(g_sw, pa->x0, pa->x4, pa->x8, pa->xC, p->po, v, pq, p->a5C, pa->g10, pa->g14, pa->g18);
+        PlayAsegaSound(g_sw, pa->x0, pa->x4, pa->x8, pa->xC, p->po, v, pq, p->a5C, pa->g10, pa->g14, pa->g18);
         break;
     }
     case 1:
-        func_002108E8(g_sw, pev->pv, pq, p->a5C);
+        StopAsegaSound(g_sw, pev->pv, pq, p->a5C);
         break;
     case 2:
         JoltCm(g_cm, pev->pv);
@@ -99,7 +99,7 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
     case 8: {
         int fT = (pev->k == 7);
         fT ^= f;
-        func_00210338(g_sw, fT, pev->pv, func_00131270(p), pq, pev->uC.g);
+        AddRemoveByOid(g_sw, fT, pev->pv, func_00131270(p), pq, pev->uC.g);
         break;
     }
     case 11: {
@@ -140,7 +140,7 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
         break;
     case 20: {
         struct A20 *pa = (struct A20 *)pev->pv;
-        func_00210678(g_sw, pa->x0, pa->x4, func_00131270(p), pq, pa->g8);
+        SetEyesClosedOf(g_sw, pa->x0, pa->x4, func_00131270(p), pq, pa->g8);
         break;
     }
     case 21:

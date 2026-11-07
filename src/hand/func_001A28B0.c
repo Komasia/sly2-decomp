@@ -18,7 +18,7 @@ struct CLOCK { float t,dt; };
 extern struct CLOCK g_clock;
 int FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(struct P *p,void *o,qword *pos);
 void func_00228C18(void *o,qword pos,qword *dir,qword *v);
-void func_002297F8(struct P *p,void *o);
+void ApplyWaterToAlo__FP3ALOT0(struct P *p,void *o);
 qword func_001A62E8(struct P *p);
 float func_0011D1C0(float pos,float vel,float target,float dt,struct SMP *s,float *result);
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p,qword v);
@@ -40,7 +40,7 @@ void ApplyWaterToActor__FP3ALOT0(struct P *p,void *o)
  case 7:
  vertical:
   origin.q=GetVel(p);
-  if(origin.f[2]<0.0f) func_002297F8(p,o);
+  if(origin.f[2]<0.0f) ApplyWaterToAlo__FP3ALOT0(p,o);
   break;
  case 3:case 10:
   if(!FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(p,o,&pos.q)) break;
@@ -62,7 +62,7 @@ void ApplyWaterToActor__FP3ALOT0(struct P *p,void *o)
   AccelAloPos__FP3ALOG9VU_VECTOR(p,accel.q);
   break;
  default:
-  func_002297F8(p,o);
+  ApplyWaterToAlo__FP3ALOT0(p,o);
   break;
  }
 }

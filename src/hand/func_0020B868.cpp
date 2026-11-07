@@ -1,4 +1,4 @@
-// func_0020B868: ported from Lilly's personal Sly 2 decomp (src/P2/jt.c), reduced to the declarations it needs.
+// BindGait__FP4GAIT: ported from Lilly's personal Sly 2 decomp (src/P2/jt.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002C3DC0 (D_002C3DC0), D_002C3DC8 (D_002C3DC8), D_002C3DD0 (D_002C3DD0), D_002C3DD8 (D_002C3DD8)
 // 0x0020B868 PostJtLoadGait__FP4GAIT  (our name)
@@ -381,7 +381,8 @@ extern OID D_002C3DC0[2];
 extern OID D_002C3DC8[2];
 extern int D_002C3DD0[2];
 extern int D_002C3DD8[2];
-void PostJtLoadGait(GAIT *pgait) __asm__("func_0020B868");
+void PostJtLoadGait(GAIT *pgait) __asm__("BindGait__FP4GAIT");
+// name: SafeHouse port (BindGait)
 void PostJtLoadGait(GAIT *pgait)
 {
     if (pgait->abl[0].paseg == 0)

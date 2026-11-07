@@ -17,8 +17,9 @@ struct O {
 struct E { KEYID k; int x; };
 struct T { char pad[0x5C]; int c; E *ae; };
 struct O2 : O { };
-extern "C" E *func_0012FF10(T *t, O *po, void *pv, int fCheck);
-E *func_0012FF10(T *t, O *po, void *pv, int fCheck)
+extern "C" E *PchnFindAseg(T *t, O *po, void *pv, int fCheck) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
+// name: SafeHouse port (PchnFindAseg)
+E *PchnFindAseg(T *t, O *po, void *pv, int fCheck)
 {
     int i;
     for (i = 0; i < t->c; i++) {

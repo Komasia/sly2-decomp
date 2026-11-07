@@ -8,7 +8,7 @@
 //  * "rV" on the dt word keeps the load as an asm memory operand (qmtc2 source gets its own reload register, which decides
 //    v0/v1 and the lqc2/qmtc2 order of the first VU block).
 //  * The locals sit in the innermost block so that the VU_FLOAT temporaries share the first stack slot (sp+0) and the
-//    positions/frame follow it; BuildLookAtMatrix/func_0011B628 return M3 by value (hidden pointer) and are assigned to locals.
+//    positions/frame follow it; BuildLookAtMatrix/BuildEulerMatrix return M3 by value (hidden pointer) and are assigned to locals.
 //  * operator* is the usual inline matrix product with a named return value plus a dead local copy `t`; each row is stored to
 //    `t` and `mat` right after its asm (the order of those stores decides the vf numbering of the loaded rows).
 //  * `spin` is a second variable for p->orientation so that `current` and the later reload get different registers.
@@ -41,7 +41,7 @@ extern qword g_normalZ;
 void ProjectSoTransform(P *) asm("ProjectSoTransform__FP2SOfi");
 qword *func_00256D18(qword *, qword);
 M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-M3 func_0011B628(qword);
+M3 BuildEulerMatrix(qword) asm("BuildEulerMatrix__FP6VECTORG9VU_VECTOR");
 }
 
 struct VU_FLOAT {
@@ -158,7 +158,7 @@ extern "C" void UpdatePickupMotion__FP2LO(P *p)
             }
             if (orientationMotion) {
                 Sample(orientationMotion, animation, &angles.q, &angularVelocity.q);
-                rot = func_0011B628(angles.q);
+                rot = BuildEulerMatrix(angles.q);
                 CHANNEL *current = p->orientation;
                 current->matrix = frame * rot;
                 current->matrix.values[3] = 0.0f; current->matrix.values[7] = 0.0f; current->matrix.values[11] = 0.0f;

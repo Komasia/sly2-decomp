@@ -6,7 +6,8 @@ struct G;
 extern struct G g_sw;
 void *func_002333B4(void *p, int c, int n);
 void func_0020DF80(struct G *pg, void *p);
-void func_0022B090(struct S *p, int k)
+// name: SafeHouse port (SetWipeState)
+void SetWipeState__FPv5WIPES(struct S *p, int k)
 {
     struct O *po;
     if (p->k == k) return;

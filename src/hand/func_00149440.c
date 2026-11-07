@@ -15,10 +15,10 @@ void func_00149718(struct P *, int);
 struct CTX *__10STACKSCOPE(struct CTX *);
 void _$_10STACKSCOPE(struct CTX *, int);
 void func_001AE5A0(void *, void *, int);
-int func_0015E9C8(struct G *, int, int, int, int, void **);
+int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *, int, int, int, int, void **);
 int func_001A61A0(void *);
 qword func_001A62E8(void *);
-int func_00227C90(struct P *, qword);
+int FPointInShape__FP2LOG9VU_VECTOR(struct P *, qword);
 void func_002338C0(void *, int, int, int (*)(const void *, const void *));
 int func_00149420(const void *, const void *);
 
@@ -43,7 +43,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
         func_001AE5A0(apo, p->a28C, p->c288 * 4);
         c = p->c288;
         for (; i < p->c2AC; i++)
-            c += func_0015E9C8(&g_sw, 0x505, p->a2B0[i], 0, 0x40 - c, &apo[c]);
+            c += CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 0x505, p->a2B0[i], 0, 0x40 - c, &apo[c]);
         if (p->c288 == 0 && p->c2AC == 0) {
             func_001AE5A0(&apo[c], g_sw.apo, g_sw.c * 4);
             c += g_sw.c;
@@ -53,7 +53,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
         j = 0;
         if (j < c) do {
             void *po = apo[j];
-            if (po && func_001A61A0(po) && func_00227C90(p, func_001A62E8(po))) {
+            if (po && func_001A61A0(po) && FPointInShape__FP2LOG9VU_VECTOR(p, func_001A62E8(po))) {
                 fFound = 1;
                 if (!p->x1D8)
                     p->x1D8 = po;

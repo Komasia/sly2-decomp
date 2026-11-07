@@ -2,7 +2,8 @@ typedef struct LM { float gMin; float gMax; } LM;
 float RadNormalize__Ff(float rad);
 float GLimitAbs__Fff(float g, float gLimit);
 
-float func_0011D978(LM *plm, float rad)
+// name: SafeHouse port (RadLimitLm)
+float RadLimitLm__FP2LMf(LM *plm, float rad)
 {
     float radMid = (plm->gMax + plm->gMin) * 0.5f;
     float radHalf = (plm->gMax - plm->gMin) * 0.5f;

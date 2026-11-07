@@ -4,7 +4,8 @@ typedef struct T {
     float x108, x10c, x110, x114, x118, x11c; char pad3[0x164-0x120]; float x164;
 } T;
 extern qword D_002BF740;
-void func_00195950(T *t, int a)
+// name: SafeHouse port (InitJump)
+void InitJump__FP4JUMPi(T *t, int a)
 {
     t->x0 = a;
     t->x4 = -1;

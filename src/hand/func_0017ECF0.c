@@ -8,8 +8,8 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 float SMinCrv__FP3CRV(struct B *b);
 float SMaxCrv__FP3CRV(struct B *b);
 float SWrapCrv__FP3CRVf(struct B *b, float f);
-void func_001EA000(void *p);
-struct R *func_001EA3B0(void *p, float f);
+void UpdatePathrec__FP7PATHREC(void *p);
+struct R *FInPathSpan__FP7PATHRECf(void *p, float f);
 void func_001E6F10(struct B *b, float f, qword *pv, int n);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
@@ -30,8 +30,8 @@ void Step__11JOBPATHSTEPi(struct S *p, int force) {
     }
     if (p->n58 == 0) {
         struct R *r;
-        func_001EA000(p->p30->p180);
-        r = func_001EA3B0(p->p30->p180, t);
+        UpdatePathrec__FP7PATHREC(p->p30->p180);
+        r = FInPathSpan__FP7PATHRECf(p->p30->p180, t);
         if (r) t = SWrapCrv__FP3CRVf(p->p30, p->n34 != 0 ? r->f4 : r->f0);
     }
     if (force == 0 && __builtin_fabsf(p->f38 - t) < D_002BE7C4) return;

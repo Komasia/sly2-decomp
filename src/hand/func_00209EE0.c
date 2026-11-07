@@ -7,8 +7,9 @@ int func_00209A68(struct S *p, int n);
 struct O *func_00205458(struct S *p, int n);
 void SetState__5JOBB0i(struct O *o, int n);
 void SetState__5JOBB1i(struct O *o, int n);
-qword func_0011E9F8(qword v, float g);
-void func_00209EE0(struct S *p)
+qword LimitVectorLength__FG9VU_VECTORf(qword v, float g);
+// name: SafeHouse port (ReleaseGuardHeld)
+void ReleaseGuardHeld__FP2LO(struct S *p)
 {
     if (func_00209A68(p, 0x12) || func_00209A68(p, 0x13)) {
         SetState__5JOBB0i(func_00205458(p, 0xB0), 2);
@@ -22,7 +23,7 @@ void func_00209EE0(struct S *p)
     }
     {
         qword v = ((qword (*)(void *))p->vt[33].pfn)((char *)p + p->vt[33].d);
-        v = func_0011E9F8(v, D_002C3DA8);
+        v = LimitVectorLength__FG9VU_VECTORf(v, D_002C3DA8);
         ((void (*)(void *, qword))p->vt[35].pfn)((char *)p + p->vt[35].d, v);
     }
 }

@@ -20,7 +20,7 @@ int IsSwHandsOff__FP2SW(void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *, int);
 struct R *func_00205458(void *, int);
 void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct T *);
-void func_001F7BF8(struct T *, float);
+void FadeAloOut__FP3ALOf(struct T *, float);
 qword func_001A62E8(void *p);
 int FDropOnGround__FP6VECTORffiPv(float, float, qword *, int, int);
 int FSnapPosToSurfaceAbove__FP6VECTOR(qword *);
@@ -73,7 +73,7 @@ void UpdateActorWatch__FP5ACTOR(struct P *p)
                     if (!pr || !pr->x4C) {
                         if (0.0f <= po->x130)
                             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x17, po);
-                        func_001F7BF8(po, 0.5f);
+                        FadeAloOut__FP3ALOf(po, 0.5f);
                         fAny = 1;
                     }
                 }

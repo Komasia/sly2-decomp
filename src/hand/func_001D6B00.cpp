@@ -2,7 +2,7 @@
 // the source's frame, optionally advanced by a predicted time (clqPredict over the distance, clamped to lmPredict), then
 // moved by clqOffset(distance) along the direction to it. Depending on the object's class it gets a speed vector (0x52),
 // a velocity toward that point at its own launch speed plus a matching orientation (0x51), or a ballistic launch velocity
-// (func_001D6848); a random spin from lmSpin; and class 0x50 objects are told their target.
+// (VecBallisticVelocity); a random spin from lmSpin; and class 0x50 objects are told their target.
 // Matching notes (all found on the -da dumps):
 //  * matParent / mat / matPredict reproduce the frame; mat and matPredict live in an inner block, so their slots are freed and
 //    every later temporary (VU_FLOAT, VECTOR, VECTOR4) lands at sp+0x40 like the game's dead stores. posStart, posOrigin,
@@ -69,18 +69,18 @@ extern qword D_002A2DA0;        // default direction
 extern char g_sw[];
 extern "C" {
 qword func_001A62E8(SO *);                                       // PosLoWorld
-MATRIX4 *func_0011C168(MATRIX4 *, MATRIX4 *, MATRIX4 *);
+MATRIX4 *MulMatrix4(MATRIX4 *, MATRIX4 *, MATRIX4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void *func_002333B4(void *, int, int);                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");                                    // FIsBasicDerivedFrom
 void SetProjectileLauncher(SO *, LAUNCH *) asm("SetProjectileLauncher__FP3ALOP2LO");
-void func_00134320(void *, SO *);
+void RecalcSwOxfFilterForObject(void *, SO *) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
 void SetAloCnstrLin(SO *, void *) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(SO *, void *) asm("SetAloCnstrAng__FP3ALOi");
 void ReparentBooty(SO *, int, int) asm("ReparentBooty__FP3ALOii");
 void SetAloVelocity(SO *, qword) asm("SetAloVelocity__FP3ALOG9VU_VECTOR");
 qword func_001F5860(SO *);
-qword func_001D6848(float, qword, qword, qword);                 // CalculateLaunchVelocity
+qword VecBallisticVelocity(float, qword, qword, qword) asm("VecBallisticVelocity__FfG9VU_VECTORN21");                 // CalculateLaunchVelocity
 void func_0011B7E0(MATRIX3 *, qword);
 float GRandInRange(float, float) asm("GRandInRange__Fff");                               // GRandInRange
 }
@@ -193,14 +193,14 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     float dist;
     {
         MATRIX4 mat;
-        func_0011C168(&mat, &pxf->matWorld, &matParent);
+        MulMatrix4(&mat, &pxf->matWorld, &matParent);
         dpos = Sub(Point(mat, plaunch->posTarget), posStart);
         dist = GFromVf(Length(dpos));
         float t = GClamp(GFromClq(plaunch->clqPredict, dist), plaunch->lmPredict.gMin, plaunch->lmPredict.gMax);
         if (t != 0.0f) {
             MATRIX4 matPredict;
             func_002309E8(pxf, 0, &mat, 0, t);
-            func_0011C168(&matPredict, &mat, &matParent);
+            MulMatrix4(&matPredict, &mat, &matParent);
             dpos = Sub(Point(matPredict, plaunch->posTarget), posStart);
         }
     }
@@ -211,7 +211,7 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     posAim = QwFromVf(posLaunch);
     if (FIsBasicDerivedFrom(pso, 0x4F)) {
         SetProjectileLauncher(pso, plaunch);
-        func_00134320(g_sw, pso);
+        RecalcSwOxfFilterForObject(g_sw, pso);
     }
     pso->Add();
     SetAloCnstrLin(pso, 0);
@@ -227,7 +227,7 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
         pso->RotateToMat(&mat);
     } else {
         qword vAccel = func_001F5860(pso);
-        qword v = func_001D6848(plaunch->pitch, posStart, posLaunch, vAccel);
+        qword v = VecBallisticVelocity(plaunch->pitch, posStart, posLaunch, vAccel);
         pso->SetVelocity(v);
     }
     if (plaunch->lmSpin.gMax > 0.0f) {

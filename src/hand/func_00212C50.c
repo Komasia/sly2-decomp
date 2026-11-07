@@ -7,7 +7,7 @@ struct Clock { char pad[0x3C]; float time; float dt; };
 extern struct Clock g_clock;
 extern float D_002DDF10;
 void func_001A5E28(struct S *);
-int func_002121E8(struct S *,int);
+int FSpriteAnimPlaying__FP2LOi(struct S *,int);
 void func_00212A50(struct S *,int);
 void SetState__FP8SCREENRTi(struct S *,int);
 void func_00218220(void *,float);
@@ -20,12 +20,12 @@ void func_00212C50(struct S *p) {
     } else if(p->update != g_clock.time) {
         switch(state) {
         case 2:
-            if(!func_002121E8(p,p->selected)) func_00212A50(p,1);
+            if(!FSpriteAnimPlaying__FP2LOi(p,p->selected)) func_00212A50(p,1);
             if(p->duration>0.0f && p->duration<g_clock.time-p->time) func_00212A50(p,1);
             if(p->mode==1) state=p->id2==-1 ? 1:4;
             break;
         case 3:
-            if(!func_002121E8(p,p->id1)) {
+            if(!FSpriteAnimPlaying__FP2LOi(p,p->id1)) {
                 switch(p->mode) {
                 case 1: state=p->id2==-1 ? 1:4; break;
                 case 2: state=2; break;
@@ -33,7 +33,7 @@ void func_00212C50(struct S *p) {
             }
             break;
         case 4:
-            if(!func_002121E8(p,p->id2)) {
+            if(!FSpriteAnimPlaying__FP2LOi(p,p->id2)) {
                 switch(p->mode) {
                 case 1: state=1; break;
                 case 2: state=p->id1==-1 ? 2:3; break;

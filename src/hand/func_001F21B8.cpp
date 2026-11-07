@@ -12,7 +12,7 @@ struct LO {
 };
 extern "C" {
 void func_002333B4(void *, int, int);
-void func_0011C168(struct MAT *, struct ALO *, struct MAT *);
+void MulMatrix4(struct MAT *, struct ALO *, struct MAT *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void func_001A5900(struct LO *, struct LO *, struct LO *, int);
 void UpdateAloXfWorlds(struct LO *) asm("UpdateAloXfWorlds__FP3ALO");
 void func_001F2468(struct LO *);
@@ -22,7 +22,8 @@ void SetAloIced(struct LO *, int) asm("SetAloIced__FP3ALOl");
 
 #define VCALL(po, slot, T) ((T)(po)->pvt[slot].pfn)((void *)((char *)(po) + (po)->pvt[slot].d)
 
-extern "C" void func_001F21B8(struct LO *plo, struct LO *pa, struct LO *pb, int grf)
+// name: SafeHouse port (SetAloParent)
+extern "C" void SetAloParent__FP3ALOT0P2XFi(struct LO *plo, struct LO *pa, struct LO *pb, int grf)
 {
     struct MAT mat;
     qword q1, q2;
@@ -38,7 +39,7 @@ extern "C" void func_001F21B8(struct LO *plo, struct LO *pa, struct LO *pb, int 
             mat.m[0][0] = mat.m[1][1] = mat.m[2][2] = mat.m[3][3] = 1.0f;
             for (palo = plo->palo; palo; palo = palo->pNext) {
                 struct MAT t;
-                func_0011C168(&t, palo, &mat);
+                MulMatrix4(&t, palo, &mat);
                 mat = t;
             }
         }

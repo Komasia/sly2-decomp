@@ -8,7 +8,8 @@ struct Q *func_001E94B0(int k, int c);
 void *func_0015E938(void *p, int k, int oid, void *q);
 qword func_001A62E8(void *p);
 void RecalcCrv__FP3CRV(struct Q *q);
-void func_0014A0A8(struct P *p)
+// name: SafeHouse port (PostLoadChasegraph)
+void PostLoadChasegraph__FP2LO(struct P *p)
 {
     int i;
     PostLoLoad__FP2LO(p);

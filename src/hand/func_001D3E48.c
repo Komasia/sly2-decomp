@@ -11,8 +11,9 @@ typedef struct {
     ENT ae[8];
 } OBJ;
 void func_001F5990(void);
-void func_001D3450(OBJ *, ENT *, A *, int, int, int, void *);
-void func_001D3E48(OBJ *p, A *pa, int x, int y, int z)
+void MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(OBJ *, ENT *, A *, int, int, int, void *);
+// name: SafeHouse port (VehicleOwnContacts)
+void VehicleOwnContacts__FP3ALOP3SOEiii(OBJ *p, A *pa, int x, int y, int z)
 {
     int i;
     VOBJ *po;
@@ -20,6 +21,6 @@ void func_001D3E48(OBJ *p, A *pa, int x, int y, int z)
     po = pa->pb->pc->p;
     if (po->vt->a[62].pfn((char *)po + po->vt->a[62].d)) {
         for (i = 0; i < p->c; i++)
-            func_001D3450(p, &p->ae[i], pa, x, y, z, p->ae[i].b);
+            MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(p, &p->ae[i], pa, x, y, z, p->ae[i].b);
     }
 }

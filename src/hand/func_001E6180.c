@@ -7,9 +7,9 @@ struct S {
  float *dist; qword *v; char padF8[8]; struct M mat;
  char pad140[0x174-0x140]; float duration; int pad178; void *sub;
 };
-void func_001E6330(struct S*);
+void RefreshCrv__FP3CRV(struct S*);
 void CacheSegCrv__FP3CRVi(struct S*,int);
-void func_001E9828(void*);
+void CopyRopeDistances__FP4ROPE(void*);
 static inline qword Point(struct M *m,qword a) {
  qword r;
  __asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m->a),"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));
@@ -27,7 +27,7 @@ static inline qword LenVec(qword a) {
 void RecalcCrv__FP3CRV(struct S *p)
 {
  int i;
- func_001E6330(p);
+ RefreshCrv__FP3CRV(p);
  p->mat=*((struct M*(*)(void*))p->vt[31].pf)((char*)p+p->vt[31].d);
  if (p->mode==0) {
   float *d0=p->dist; float total=0.0f;
@@ -51,5 +51,5 @@ void RecalcCrv__FP3CRV(struct S *p)
    p->dist[j+1]=p->dist[j]+p->duration;
   }
  }
- if(p->sub)func_001E9828(p->sub);
+ if(p->sub)CopyRopeDistances__FP4ROPE(p->sub);
 }

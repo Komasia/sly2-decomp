@@ -12,7 +12,7 @@ typedef struct {
 } OBJ;
 void func_001DA5C8(OBJ *, int);
 int FVisible__FP8SCREENRT(W *);
-int func_002121E8(W *, int);
+int FSpriteAnimPlaying__FP2LOi(W *, int);
 void func_001DA350(OBJ *p)
 {
     if (p->pw == 0)
@@ -39,7 +39,7 @@ void func_001DA350(OBJ *p)
             func_001DA5C8(p, 0);
         break;
     case 4:
-        if (func_002121E8(p->pw, 0x312))
+        if (FSpriteAnimPlaying__FP2LOi(p->pw, 0x312))
             break;
         if (p->x20 == -1)
             func_001DA5C8(p, 0);

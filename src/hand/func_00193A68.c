@@ -1,4 +1,4 @@
-/* func_00193A68 (Claude agent): func_0011E1A0's qword result assigned plainly so gcc emits the qmtc2 itself; Dot's float via an mtc1 asm fed by gcc's own qmfc2. */
+/* func_00193A68 (Claude agent): SetVectorCylind__Ffff's qword result assigned plainly so gcc emits the qmtc2 itself; Dot's float via an mtc1 asm fed by gcc's own qmfc2. */
 
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];int i[4];} U;
@@ -12,7 +12,7 @@ extern struct CLOCK g_clock;
 extern float D_002BF668;
 extern qword g_normalZ,D_002A2DD0;
 void EvalCrv__FP3CRVfP6VECTORT2(struct CURVE*,float,qword*,qword*);
-qword func_0011E1A0(float,float,float);
+qword SetVectorCylind__Ffff(float,float,float);
 float SFromCrvG__FP3CRV(struct CURVE*,float);
 float SMaxCrv__FP3CRV(struct CURVE*);
 float GSmooth__FfffP3SMPPf(float,float,float,struct SMP*,float*);
@@ -26,7 +26,7 @@ void func_00193A68(struct P*p,struct CURVE*curve,qword*outPos,qword*outVel,float
  struct T*shape=p->o->x150;
  EvalCrv__FP3CRVfP6VECTORT2(curve,t,&pos.q,&dir.q);
  dir.q=Normal(Reject(dir.q,g_normalZ),D_002A2DD0);
- {register float width __asm__("$f0")=shape->x1C;register float factor __asm__("$f13")=p->x2A0;v=func_0011E1A0(p->o->x150->x18,factor*width,0.0f);}
+ {register float width __asm__("$f0")=shape->x1C;register float factor __asm__("$f13")=p->x2A0;v=SetVectorCylind__Ffff(p->o->x150->x18,factor*width,0.0f);}
  dot=Dot(v,dir.q);dead.q=v;
  current=SFromCrvG__FP3CRV(curve,t);
  smp.g1=p->x260;smp.g0=p->x2A0;smp.g2=D_002BF668;

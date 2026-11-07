@@ -13,17 +13,17 @@ struct A { char pad[0x1A8]; float f1A8; char pad2[0x334 - 0x1AC]; int n334; char
 struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; char pad3[0xC]; struct E *p40; char pad4[0xC]; int n50; char pad5[8]; int n5C; char pad6[0x20]; union { qword v; float f[4]; } v80; char pad7[0x20]; float fB0; float fB4; };
 void Enter__7JOBMOVE(struct S *p);
 float func_002458F0(float y, float x);
-float *func_001A6318(struct A *a);
+float *MatJtLo__FP2LO(struct A *a);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
 float RadNormalize__Ff(float f);
-qword func_0011E1A0(float a, float b, float c);
+qword SetVectorCylind__Ffff(float a, float b, float c);
 qword func_001A62E8(void *p);
 void func_0020C6F8(void *p, qword v);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct A *a, int b, int c, qword v);
 void LockJob__FP5AIJOB(struct S *p);
 void func_00156C80(struct G *g, int n, qword v, struct A *a, void *q);
 void *func_001C4840(struct G *g);
-int func_001A6AF8(int n, void *o);
+int FLoInParentChain__FP2LOT0(int n, void *o);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 // name: SafeHouse port (JOBHIT::Enter)
 void Enter__6JOBHIT(struct S *p) {
@@ -43,13 +43,13 @@ void Enter__6JOBHIT(struct S *p) {
     if (f) {
         a = func_002458F0(-p->v80.f[1], -p->v80.f[0]);
     } else {
-        float *m = func_001A6318(p->p10);
-        a = func_002458F0(m[1], func_001A6318(p->p10)[0]);
+        float *m = MatJtLo__FP2LO(p->p10);
+        a = func_002458F0(m[1], MatJtLo__FP2LO(p->p10)[0]);
     }
     SetMoveHeading__FP7MOVEREF(p->p10->aFD0, a);
     e = p->p40;
     if (e && e->n0 == 2) {
-        qword r = func_0011E1A0(RadNormalize__Ff(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);
+        qword r = SetVectorCylind__Ffff(RadNormalize__Ff(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);
         qword pos = func_001A62E8(p->p10);
         qword s;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(pos), "j"(r));
@@ -62,7 +62,7 @@ void Enter__6JOBHIT(struct S *p) {
     p->p10->nF04 = 0;
     if (p->p10->n334) {
         void *o = func_001C4840(&g_sw);
-        if (o && func_001A6AF8(p->n50, o) && (o == D_002F7900 || (p->n5C & 0x40000))) {
+        if (o && FLoInParentChain__FP2LOT0(p->n50, o) && (o == D_002F7900 || (p->n5C & 0x40000))) {
             TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 3, 1.50000005960464477539e-01f);
             p->fB0 = g_clock.t + 5.00000044703483581543e-02f;
         }

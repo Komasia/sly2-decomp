@@ -1,4 +1,4 @@
-// func_0019A750: ported from Lilly's personal Sly 2 decomp (src/P2/jtair.c), reduced to the declarations it needs.
+// VelJumpLaunch__FP4JUMPi: ported from Lilly's personal Sly 2 decomp (src/P2/jtair.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF8B0 (D_002BF8B0), D_002BF8C0 (D_002BF8C0), D_002BF8C8 (D_002BF8C8), D_002BF8CC (D_002BF8CC), D_002BF8D0 (D_002BF8D0), D_002BF8D4 (D_002BF8D4), D_002BF8D8 (D_002BF8D8), D_002BF8DC (D_002BF8DC), D_002BF73C (g_SheetMovementMiscDoubleJumpHeight), D_002BF738 (g_SheetMovementMiscJumpHeight)
 // 0x0019A750 JtPlanLaunchVz (MATCH, T1312): the velocity the hero gets when a flight of this kind starts. It is the current velocity with its z raised:
@@ -1045,7 +1045,8 @@ static inline float SqrtfEarly(float g)
     __asm__ volatile("sqrt.s %0, %1" : "=&f"(r) : "f"(g));
     return r;
 }
-qword JtPlanLaunchVz(JTAIR *pjtair, int nKind) __asm__("func_0019A750");
+qword JtPlanLaunchVz(JTAIR *pjtair, int nKind) __asm__("VelJumpLaunch__FP4JUMPi");
+// name: SafeHouse port (VelJumpLaunch)
 qword JtPlanLaunchVz(JTAIR *pjtair, int nKind)
 {
     VECTOR4 pos;

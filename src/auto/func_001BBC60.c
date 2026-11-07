@@ -22,7 +22,7 @@ extern s32 D_003E1A4C;
 extern M2C_UNK D_003E1A78;
 
 /*
-Decompilation failure in function func_001BB648:
+Decompilation failure in function RunItems__FP2LOP3BRK:
 
 Found jr instruction at chunk.s line 67, but the corresponding jump table is not provided.
 
@@ -37,5 +37,5 @@ void func_001BBC60(s32 arg0, s32 arg1) {
     if (var_s0 == -1) {
         var_s0 = M2C_FIELD(arg0, s32 *, 0x18);
     }
-    M2C_FIELD(func_001BBDB0(arg0, 1), s32 *, 4) = var_s0;
+    M2C_FIELD(PitemNew__FP2LOi(arg0, 1), s32 *, 4) = var_s0;
 }

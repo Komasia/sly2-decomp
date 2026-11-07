@@ -4,7 +4,8 @@ extern struct G g_cm;
 extern int D_002F7900;
 void SetCmPolicy__FP2CM3CPPP5CPLCYii(struct G *pg, int n, void *pv, int m, void *p);
 void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(struct G *pg, int a, int b, void *c, void *d, int e);
-void func_001CBF90(struct S *p, int n)
+// name: SafeHouse port (SetPairCamera)
+void SetPairCamera__FP2LOi(struct S *p, int n)
 {
     if (p->n == n) return;
     p->n = n;

@@ -1,6 +1,6 @@
 struct S { char pad[0xB0]; int fb0; int fb4; void *fb8; void *fbc; void *fc0; int fc4; char pad2[0xCC - 0xC8]; void *fcc; };
 void func_001A5E28(struct S *p);
-int func_002121E8(void *p, int n);
+int FSpriteAnimPlaying__FP2LOi(void *p, int n);
 void JobCompleteClose__FP3JOB(struct S *p);
 void func_00162FD0(struct S *p);
 void SetJobSeq__FP3JOBi(struct S *p, int n);
@@ -10,7 +10,7 @@ void UpdateJob__FP2LO(struct S *p)
     func_001A5E28(p);
     switch (p->fc4) {
     case 1:
-        if (!func_002121E8(p->fb8, p->fb0)) {
+        if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb0)) {
             JobCompleteClose__FP3JOB(p);
             if (p->fc0 || p->fcc)
                 SetJobSeq__FP3JOBi(p, 3);
@@ -19,13 +19,13 @@ void UpdateJob__FP2LO(struct S *p)
         }
         break;
     case 2:
-        if (!func_002121E8(p->fb8, p->fb4)) {
+        if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb4)) {
             func_00162FD0(p);
             SetJobSeq__FP3JOBi(p, 0);
         }
         break;
     case 3:
-        if (!func_002121E8(p->fbc, 0x30F))
+        if (!FSpriteAnimPlaying__FP2LOi(p->fbc, 0x30F))
             func_00162FD0(p);
         break;
     }

@@ -19,11 +19,11 @@ extern "C"{
 extern float D_002C08DC;
 int FActorTargetInReach(P*,int) asm("FActorTargetInReach__FP5ACTORi");
 void func_001B6078(P*,int);
-int func_001C46C0(PL*,int,float);
-int func_001C4660(PL*,uint,float);
-void func_001C4738(PL*,int);
-void func_00195A00(void*,int,int,void*);
-void func_0019CC50(void*,int,P*,void*);
+int GrfPadctlTakePressed(PL*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
+int GrfPadctlPressedWithin(PL*,uint,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");
+void ForgetPadctlPresses(PL*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
+void SetJumpKind(void*,int,int,void*) asm("SetJumpKind__FP4JUMPiiP2LO");
+void OpenBinoc(void*,int,P*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");
 int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
 int FInteractCircle(void*,int,int) asm("FInteractCircle__FP5ACTOR");
 int func_001B84E0(P*);
@@ -32,9 +32,9 @@ void func_001B85D0(P*);
 void SetMurrayBehaviorAnim(P*,int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
 void FaceObject(P*,void*) asm("FaceObject__FP5ACTORP2LO");
 void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");
-void func_0020BB58(void*,float);
-void func_0020BC08(void*);
-qword func_0011E1A0(float,float,float);
+void SetGaitMix(void*,float) asm("SetGaitMix__FP4GAITf");
+void UpdateGaitFeet(void*) asm("UpdateGaitFeet__FP4GAIT");
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 void SteerRootBlend(P*,ENTRY*,void*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 }
 static inline qword Load(const U*p){qword q;__asm__("lqc2 %0,%1":"=j"(q):"m"(*p));return q;}
@@ -83,16 +83,16 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
   before=p->state;
   switch(before){case 0:case 1:case 2:{
    if((p->input->flags&8)||!FActorTargetInReach(p,1))func_001B6078(p,0);
-   else if(func_001C46C0(p->input,0x40,0.1f))func_00195A00(p->controller,1,0,0);
+   else if(GrfPadctlTakePressed(p->input,0x40,0.1f))SetJumpKind(p->controller,1,0,0);
    else if(FMurrayGrab(p)){}
-   else if(func_001C46C0(p->input,0x20,0.2f)){
+   else if(GrfPadctlTakePressed(p->input,0x20,0.2f)){
     if(!FInteractCircle(p->context,0x80,0)&&p->root){p->reset=0;func_001B6078(p,4);}
    }
-   else if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC))StartMurrayPunch(p);
-   else if(func_001C4660(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].fn)((P*)((char*)p+p->vt[99].delta),3)){
-    func_001C4738(p->input,0x400);func_0019CC50(p->requestF00,0,0,0);
+   else if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x80,D_002C08DC))StartMurrayPunch(p);
+   else if(GrfPadctlPressedWithin(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].fn)((P*)((char*)p+p->vt[99].delta),3)){
+    ForgetPadctlPresses(p->input,0x400);OpenBinoc(p->requestF00,0,0,0);
    }
-   else if(func_001B84E0(p)&&func_001C46C0(p->input,0x10,D_002C08DC))func_001B85D0(p);
+   else if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x10,D_002C08DC))func_001B85D0(p);
    else {PL*pl=p->input;float strength=pl->strength;if(p->mainState==0?0.1f<strength:0.0f<strength)SetMurrayBehaviorAnim(p,2);else SetMurrayBehaviorAnim(p,0);}
   }break;
   }
@@ -104,13 +104,13 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
   FaceObject(p,p->target);
   float length=LengthXY(p->axes[1].direction.q);
   PL*input=p->input;
-  qword direction=Vector(func_0011E1A0(input->angle+3.1415927f,(input->strength*length)*p->animation->rate,0.0f));
+  qword direction=Vector(SetVectorCylind(input->angle+3.1415927f,(input->strength*length)*p->animation->rate,0.0f));
   p->acceleration.q=direction;
   qword world=Rotate(&p->orientation,direction);
   p->side=-1;p->acceleration.q=world;
   SteerRootBlend(p,p->axes,p->request);
   break;
  }
- case 1:SetStepPhysHeading(p,p->input->angle);func_0020BB58(p->motion,p->input->strength);func_0020BC08(p->motion);break;
+ case 1:SetStepPhysHeading(p,p->input->angle);SetGaitMix(p->motion,p->input->strength);UpdateGaitFeet(p->motion);break;
  }
 }

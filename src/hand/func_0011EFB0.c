@@ -5,7 +5,8 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%0" : "=r"(y
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%0" : "=r"(z) : "0"(q)); return z; }
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
-void func_0011EFB0(qword v, float *pradPan, float *pradTilt, float *pr)
+// name: SafeHouse port (ConvertVectorToSphere)
+void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *pradPan, float *pradTilt, float *pr)
 {
     if (pradPan) {
         *pradPan = RadNormalize__Ff(func_002458F0(GetY(v), GetX(v)));

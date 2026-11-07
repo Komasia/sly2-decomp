@@ -31,7 +31,8 @@ static inline M3 MulM3(M3 *pa, M3 *pb, M3 *pd)
     m.r[2] = v8;
     return m;
 }
-M3 *func_0011BC00(M3 *pm, M3 *pa, M3 *pb)
+// name: SafeHouse port (MulMat3TransposeA)
+M3 *MulMat3TransposeA__FP7MATRIX3T0Pv(M3 *pm, M3 *pa, M3 *pb)
 {
     M3 m;
     register M3 *pt __asm__("$5") = &m; /* pin */

@@ -29,7 +29,7 @@ int func_00131968(A *);
 int FFirst__4CTRL(C *);
 void RefreshXf__FP3ALOP2XF(LO *, P *);
 qword VecXfValue__FP2XFP7MATRIX4(P *, P *);
-qword func_0011BFF0(qword *);
+qword DecomposeEulerMatrix__FP7MATRIX3(qword *);
 M4 MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR(P *, qword);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float, float, float, qword, qword, qword, qword, qword *, int, int);
 
@@ -80,7 +80,7 @@ void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
             v = p->xC0[0];
             break;
         case 5:
-            v = func_0011BFF0(p->xC0);
+            v = DecomposeEulerMatrix__FP7MATRIX3(p->xC0);
             break;
         default:
             v = D_002A2DD0;

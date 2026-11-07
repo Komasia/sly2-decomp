@@ -6,8 +6,8 @@ struct S { char pad[0x10C]; void *curve; char pad1[0x12C-0x110]; int arc; char p
 extern "C" {
 void func_001E6F10(void *, float, qword *, qword *);
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-qword func_0011E1A0(float,float,float);
-M3 *func_001A6318(struct S *);
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
+M3 *MatJtLo(struct S *) asm("MatJtLo__FP2LO");
 qword ConvertPos(void *,void *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 }
 extern qword g_normalZ;
@@ -39,13 +39,13 @@ extern "C" void ConvertZonePos__FP6ZONECMG9VU_VECTORP6VECTORT2(S *p,qword v,qwor
         *out=InverseRotate(m,Sub(v,pos.q));
     } else if(p->arc) {
         U a;
-        a.q=func_0011E1A0(p->time/p->radius,p->radius,0.0f);
+        a.q=SetVectorCylind(p->time/p->radius,p->radius,0.0f);
         pos.q=Add(p->origin,a.q);
         *normal=Normalize(Cross(g_normalZ,a.q));
         m=BuildLookAtMatrix(*normal,g_normalZ);
         *out=InverseRotate(m,Sub(v,pos.q));
     } else {
-        *normal=Normalize(func_001A6318(p)->r[0]);
+        *normal=Normalize(MatJtLo(p)->r[0]);
         *out=ConvertPos(0,p,v);
     }
 }

@@ -1,6 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
-M4 *func_0011C168(M4 *pm, const M4 *a, const M4 *b)
+// name: SafeHouse port (MulMatrix4)
+M4 *MulMatrix4__FP7MATRIX4T0Pv(M4 *pm, const M4 *a, const M4 *b)
 {
     register qword v1 __asm__("vf1") = a->r[0];
     register qword v2 __asm__("vf2") = a->r[1];

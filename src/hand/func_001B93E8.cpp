@@ -86,7 +86,7 @@ extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 func_001A71B0(void*,void*,M4*);
 extern "C" void func_001B72B0(P*,NODE*,const M4*,qword*,qword*);
 extern "C" int FIsBasicDerivedFrom(OWNER*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-extern "C" void func_00209E28(OWNER*,int);
+extern "C" void ReactGuardHeld(OWNER*,int) asm("ReactGuardHeld__FP2LOi");
 extern "C" void func_00209E88(OWNER*);
 extern "C" void PickupVelocities(P*,qword,float*,float*,qword*,qword*) asm("PickupVelocities__FP6MURRAYG9VU_VECTORPfT2P7VECTOR4T4");
 extern "C" MOTION*PctrlNewTarget(void*,void*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
@@ -124,7 +124,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   M4 work=func_001A71B0(p,0,&predicted);
   predicted=work;
   func_001B72B0(p,0,&predicted,&work.row[0].q,&work.row[1].q);
-  if(FIsBasicDerivedFrom(owner,0x38))func_00209E28(owner,(int)p);
+  if(FIsBasicDerivedFrom(owner,0x38))ReactGuardHeld(owner,(int)p);
   PickupVelocities(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
   p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
   VTE*entry=&owner->vt[35];

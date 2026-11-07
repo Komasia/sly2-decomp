@@ -9,10 +9,10 @@ struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct 
 extern "C"{
 extern CLOCK g_clock;extern U D_002A2DD0,g_normalZ;extern SMP D_002BF928;
 qword func_0011F088(qword,qword,float,SMP*,U*);
-void func_00195A00(void*,int,void*,void*);int func_001C46C0(INPUT*,int,float);int func_001C4660(INPUT*,int,float);void func_001C4738(INPUT*,int);
-void func_0019CC50(void*,int,void*,void*);int func_00131968(ASEGA*);void func_0019EAB0(C*,int);
-float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
-void func_0019E110(C*,LM*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void func_001384C0(ANIMATION*);
+void SetJumpKind(void*,int,void*,void*) asm("SetJumpKind__FP4JUMPiiP2LO");int GrfPadctlTakePressed(INPUT*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");int GrfPadctlPressedWithin(INPUT*,int,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(INPUT*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
+void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");int func_00131968(ASEGA*);void SetClimbState(C*,int) asm("SetClimbState__FP5ACTORi");
+float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
+void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void func_001384C0(ANIMATION*);
 float fabsf(float);
 }
 static inline ulong Eligible(PATH*p){return (p->flags>>60)&1;}
@@ -83,17 +83,18 @@ typedef char WORK_reuse_Offset[FIELD_OFFSET(WORK,reuse)==32?1:-1];
 typedef char WORK_limit_Offset[FIELD_OFFSET(WORK,limit)==48?1:-1];
 typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
-extern "C" void func_0019E1E0(C*p){
+// name: SafeHouse port (UpdateClimbTransitions)
+extern "C" void UpdateClimbTransitions__FP5ACTOR(C*p){
  WORK w;float lowSpeed,highSpeed;P*actor=p->actor;actor->offset.q=func_0011F088(actor->offset.q,D_002A2DD0.q,g_clock.dt,&D_002BF928,0);
  register float amount __asm__("$f4"),dot __asm__("$f3"),zero __asm__("$f2");register int previous __asm__("$5");
  {register INPUT*input __asm__("$18")=p->actor->input;
- if(!Eligible(p->path)){func_00195A00(p->actor->controller,0,0,0);return;}
- if(p->state&&func_001C46C0(input,0x40,0.25f)){func_00195A00(p->actor->controller,2,0,0);return;}
- if(func_001C4660(input,0x400,0.15f)&&CanAct(p->actor,3)){func_001C4738(input,0x400);func_0019CC50(p->actor->action,0,0,0);}
- int old;do{old=p->state;if((old==0||old==4)&&func_00131968(p->actor->asega))func_0019EAB0(p,1);}while(p->state!=old);
+ if(!Eligible(p->path)){SetJumpKind(p->actor->controller,0,0,0);return;}
+ if(p->state&&GrfPadctlTakePressed(input,0x40,0.25f)){SetJumpKind(p->actor->controller,2,0,0);return;}
+ if(GrfPadctlPressedWithin(input,0x400,0.15f)&&CanAct(p->actor,3)){ForgetPadctlPresses(input,0x400);OpenBinoc(p->actor->action,0,0,0);}
+ int old;do{old=p->state;if((old==0||old==4)&&func_00131968(p->actor->asega))SetClimbState(p,1);}while(p->state!=old);
  if(p->state==0||p->state==4)return;
- func_001E6F10(p->path,func_001E6728(p->path,p->distance+50.0f),&w.ahead,0);
- func_001E6F10(p->path,func_001E6728(p->path,p->distance-50.0f),&w.behind,0);
+ func_001E6F10(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
+ func_001E6F10(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
  U*axis;qword direction=Direction(&w.ahead,&w.behind,axis);qword normalized=Normal(direction,axis);float z=Z(normalized);
  if(fabsf(z)>0.5f){
   if(z>0.0f){if(!p->descending)goto checkMemory;goto turn;}
@@ -103,7 +104,7 @@ extern "C" void func_0019E1E0(C*p){
  if(p->reset>0.4f&&p->descending&&Z(normalized)>-0.3f)goto turn;
  if(p->reset<-0.4f&&!p->descending&&Z(normalized)<0.3f)goto turn;
  goto proceed;
- turn:func_0019EAB0(p,4);return;
+ turn:SetClimbState(p,4);return;
  proceed:;
  register qword tangent __asm__("$2")=func_001C4768(input,Sub(w.ahead.q,w.behind.q));
  __asm__("lwc1 $f1,0x10(%6)\n\tqmtc2.ni %5,$vf4\n\tlwc1 $f0,0x14(%6)\n\tmtc1 $zero,%2\n\tmfc1 $3,$f1\n\tmfc1 $4,$f0\n\tpextlw $3,$4,$3\n\tmfc1 $4,%2\n\tpcpyld $3,$4,$3\n\tlwc1 %0,0x1c(%6)\n\tqmtc2.ni $3,$vf3\n\tlw %1,0x20(%7)\n\tvmul.xyz $vf1,$vf4,$vf3\n\tvaddw.x $vf2,$vf0,$vf0w\n\tvadday.x ACC,$vf1,$vf1y\n\tvmaddz.x $vf1,$vf2,$vf1z\n\tsq $3,%3\n\tqmfc2.ni $2,$vf1\n\tmtc1 $2,%4":"=f"(amount),"=r"(previous),"=f"(zero),"=m"(w.reuse.input.q),"=f"(dot):"r"(tangent),"r"(input),"r"(p):"$2","$3","$4","$f0","$f1","vf1","vf2","vf3","vf4","memory");
@@ -131,7 +132,7 @@ extern "C" void func_0019E1E0(C*p){
  register float nextMemory __asm__("$f0");register PATH*path __asm__("$3");
  __asm__("abs.s $f5,%2\n\tlwc1 $f2,4(%7)\n\t.set noat\n\tlui $1,0x3f80\n\tmtc1 $1,%2\n\t.set at\n\tneg.s %0,$f2\n\tlwc1 $f4,0x1c(%8)\n\tsub.s %2,%2,$f2\n\t.set noat\n\tlui $1,0x3e4c\n\tori $1,$1,0xcccd\n\tmtc1 $1,$f3\n\t.set at\n\tswc1 $f5,%3\n\tmul.s %0,%0,%6\n\tswc1 $f3,%4\n\tmul.s %2,%2,$f4\n\tsw $zero,%5\n\tdiv.s %0,%0,$f5\n\tlw %1,0xc(%8)\n\tadd.s %0,%0,%2":"=f"(nextMemory),"=r"(path),"+f"(maximumInput),"=m"(w.reuse.smooth.maximum),"=m"(w.reuse.smooth.duration),"=m"(w.reuse.smooth.minimum):"f"(speed),"r"(clock),"r"(p):"$1","$f2","$f3","$f4","$f5","memory");
  p->reset=nextMemory;
- if(!path->cyclic){func_0019E110(p,&w.limit);(void)GSmooth(p->distance,w.limit.low,clock->dt,&w.reuse.smooth,&lowSpeed);(void)GSmooth(p->distance,w.limit.high,clock->dt,&w.reuse.smooth,&highSpeed);float low=-highSpeed,high=-lowSpeed;if(speed<low)speed=low;else if(high<speed)speed=high;}
+ if(!path->cyclic){LmClimb(p,&w.limit);(void)GSmooth(p->distance,w.limit.low,clock->dt,&w.reuse.smooth,&lowSpeed);(void)GSmooth(p->distance,w.limit.high,clock->dt,&w.reuse.smooth,&highSpeed);float low=-highSpeed,high=-lowSpeed;if(speed<low)speed=low;else if(high<speed)speed=high;}
  register float stopped __asm__("$f21")=0.0f;
  p->speed=-speed;
  if(speed!=stopped){p->distance+=p->speed*g_clock.dt;MarkAloDirty(p->actor);}
@@ -147,5 +148,5 @@ extern "C" void func_0019E1E0(C*p){
   p->weight0=complement;
   func_001384C0(animation);
  }
- func_0019EAB0(p,mode);
+ SetClimbState(p,mode);
 }

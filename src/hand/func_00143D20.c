@@ -6,7 +6,8 @@ struct G { char pad[0x88]; float g; };
 struct SO { int x0, x4, x8; VT *vt; char pad[0xE8 - 0x10]; struct G *pg; char pad2[0x248 - 0xEC]; float z; };
 qword func_001A62E8(struct SO *p);
 int FDropOnGround__FP6VECTORffiPv(qword *ppos, int a, int b, float f, float g);
-int func_00143D20(struct SO *p, float dt)
+// name: SafeHouse port (FActorBelowFloorSoon)
+int FActorBelowFloorSoon__FP5ACTORf(struct SO *p, float dt)
 {
     union { qword q; float f[4]; } pos;
     float h = p->z;

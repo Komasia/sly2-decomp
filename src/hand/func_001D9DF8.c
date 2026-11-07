@@ -34,7 +34,7 @@ void func_001D9B60(OBJ *, int);
 int func_001441A0(Q *);
 int func_0011D4D0(float, float, float);
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
-int func_002121E8(SUB *, int);
+int FSpriteAnimPlaying__FP2LOi(SUB *, int);
 void func_00212E40(SUB *, int, float);
 void func_001D9DF8(OBJ *p)
 {
@@ -92,11 +92,11 @@ void func_001D9DF8(OBJ *p)
         }
         break;
     case 2:
-        if (!func_002121E8(p->x38, p->x40))
+        if (!FSpriteAnimPlaying__FP2LOi(p->x38, p->x40))
             func_001D9B60(p, 3);
         break;
     case 5:
-        if (!func_002121E8(p->x38, p->x44))
+        if (!FSpriteAnimPlaying__FP2LOi(p->x38, p->x44))
             func_001D9B60(p, 1);
         break;
     case 0:

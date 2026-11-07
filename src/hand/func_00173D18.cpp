@@ -1,4 +1,4 @@
-// func_00173D18 (Claude agent, 2026-10-25): MATCH. Updates the per-entry state of an array of 0x30-byte records (e->po object,
+// CheckSlots__FP7SPAWNERG9VU_VECTOR (Claude agent, 2026-10-25): MATCH. Updates the per-entry state of an array of 0x30-byte records (e->po object,
 // e->k state, g4 max, g8 clock stamp). The VU helper layers (VsubXyzw, operator-, LengthXY, DistXYImpl, DistXY) pass VU_VECTORs
 // by value; they add ~30 RTL insns to the loop (pass 1: 90, pass 2: 81 > threshold) so loop.c hoists the clock's %hi only in
 // the second pass, giving the target's preheader order (1, hi BE5DC, giv 0, hi clock). Fewer layers (86) or more (94+) differ.
@@ -11,7 +11,7 @@ struct O { char pad[0x28]; unsigned long fl; char pad2[0x84 - 0x30]; float g84; 
 struct X { char pad[8]; struct O *po; };
 struct E { struct O *po; float g4; float g8; struct X *px; int k; int pad[3]; qword pos; };
 struct S { char pad[0x5C]; int c; struct E *ae; };
-void func_00173928(struct S *p, struct E *pe, int k, int f);
+void ReleaseSlot(struct S *p, struct E *pe, int k, int f) asm("ReleaseSlot__FP7SPAWNERP4SLOTii");
 }
 struct VU_VECTOR { qword q; VU_VECTOR() {} VU_VECTOR(qword a) { q = a; } };
 static inline VU_VECTOR VsubXyzw(VU_VECTOR a, VU_VECTOR b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a.q), "j"(b.q)); return VU_VECTOR(d); }
@@ -23,7 +23,8 @@ static inline VU_VECTOR LengthXYV(VU_VECTOR a) { return Sqrt(SumXY(a)); }
 static inline float LengthXY(VU_VECTOR a) { return GetX(LengthXYV(a)); }
 static inline float DistXYImpl(VU_VECTOR a, VU_VECTOR b) { return LengthXY(a - b); }
 static inline float DistXY(VU_VECTOR a, VU_VECTOR b) { return DistXYImpl(a, b); }
-extern "C" void func_00173D18(struct S *p, qword pos) {
+// name: SafeHouse port (CheckSlots)
+extern "C" void CheckSlots__FP7SPAWNERG9VU_VECTOR(struct S *p, qword pos) {
     int i;
     for (i = 0; i < p->c; i++) {
         struct E *e = &p->ae[i];
@@ -37,9 +38,9 @@ extern "C" void func_00173D18(struct S *p, qword pos) {
                 }
             }
         } else if (o->n330) {
-            func_00173928(p, e, 1, 0);
+            ReleaseSlot(p, e, 1, 0);
         } else if (((int)(o->fl >> 60) & 1) == 0 || ((int)(e->px->po->fl >> 60) & 1) == 0) {
-            func_00173928(p, e, 0, 0);
+            ReleaseSlot(p, e, 0, 0);
         } else {
             e->g4 = (e->g4 > o->g84) ? e->g4 : o->g84;
         }

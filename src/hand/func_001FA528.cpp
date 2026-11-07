@@ -11,7 +11,7 @@ extern "C" int func_0011D4D0(float,float,float);
 extern "C" void HoldXfMode(P *,LO *);
 extern "C" qword func_0022FCC8(void *,LO *,qword);
 extern "C" qword *func_00256D18(qword *,qword);
-extern "C" M3 func_0011B570(qword);
+extern "C" M3 BuildRotateMatrixVector(qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
 extern "C" void MarkAloDirty(P *) asm("MarkAloDirty__FP3ALO");
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
@@ -48,7 +48,7 @@ extern "C" void ApplyAloDisplacement__FP3ALO(P*p)
             changed=1;
             qword turn=Consume(p,object,p->turn);
             p->turn.i[0]=0;
-            final=Mul(func_0011B570(turn),object->matrix);
+            final=Mul(BuildRotateMatrixVector(turn),object->matrix);
             object->matrix=final;
             ((int*)&object->matrix.r[1])[3]=0;
             ((int*)&object->matrix.r[2])[3]=0;

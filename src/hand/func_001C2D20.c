@@ -3,7 +3,8 @@ extern char D_002C0CB0[];
 void func_001F36A8(struct S *p);
 void BindLoParts__FP3ALOiPv(struct S *p, int n, void *q);
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(void *a, struct S *p, int b, int c, int *pn);
-void func_001C2D20(struct S *p)
+// name: SafeHouse port (PpsmaPocket)
+void PpsmaPocket__FP2LO(struct S *p)
 {
     func_001F36A8(p);
     BindLoParts__FP3ALOiPv(p, 4, D_002C0CB0);

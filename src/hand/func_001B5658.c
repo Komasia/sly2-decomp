@@ -43,7 +43,7 @@ typedef char P_x1510_Offset[FIELD_OFFSET(P,x1510)==5392?1:-1];
 typedef char P_x151C_Offset[FIELD_OFFSET(P,x151C)==5404?1:-1];
 extern qword D_002A2DD0;
 void SetXfMode__FP3ALOP2XFi(P *p, void *x, int k);
-void func_0020BD68(void *p);
+void ResetGaitFeet__FP4GAIT(void *p);
 void RetractAsegaPp__FPP5ASEGA(A *pa);
 void ClearSmaHandle__FPP3SMA(C *pc);
 void ApplyAsegCur(R *pr, P *p, float f, float g, int k, A *pa) __asm__("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
@@ -86,7 +86,7 @@ state0:
 state1:
     pr=p->x1464;
     f=p->x1A0*pr->x74;
-    func_0020BD68(p->x1320);
+    ResetGaitFeet__FP4GAIT(p->x1320);
     n=9;
     goto done;
 state2:

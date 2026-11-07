@@ -12,7 +12,7 @@ float func_00244E10(float g);
 float func_002458F0(float y, float x);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
 void SetStepPhysHeading__FP3ALOf(struct LO *po, float g);
-int func_0019A098(struct LO *po, int n, float g);
+int FActorStuckOnContacts__FP5ACTORfPf(struct LO *po, int n, float g);
 void EndDamageReaction__FP5ACTOR(struct S *s);
 static inline float GClamp(float g, float lo, float hi)
 {
@@ -57,7 +57,7 @@ done:
         SetStepPhysHeading__FP3ALOf(s->po, func_0011D2D0(D_002BFAC0, 0, s->po->x1A8, g, g_clock.dt));
         if (0.25f < g_clock.t - s->x8 && s->po->x208)
             EndDamageReaction__FP5ACTOR(s);
-        else if (func_0019A098(s->po, 0, s->x8))
+        else if (FActorStuckOnContacts__FP5ACTORfPf(s->po, 0, s->x8))
             EndDamageReaction__FP5ACTOR(s);
         break;
     }

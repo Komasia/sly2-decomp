@@ -16,7 +16,8 @@ struct OBJECT *func_0015E938(void *,int,int,void *);
 int FTaskDone(void *) asm("FTaskDone__FP4TASK");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
 int NRandInRange(int,int) asm("NRandInRange__Fii");
-void func_001F1A40(struct P *p)
+// name: SafeHouse port (FillPocket)
+void FillPocket__FP2LO(struct P *p)
 {
     struct TABLE *table;
     struct ITEM reward;

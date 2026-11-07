@@ -6,9 +6,10 @@ struct PATH {char pad[0xC];struct VTE *vt;char pad10[0xE8-0x10];int n;int padEC;
 struct S {int a,b;float g8;char padC[0x20-0xC];qword start,end;void *fn40,*fn44;struct PATH *path;int n4C;int pad50;qword *v54,*v58;float *dist;float g60;char pad64[8];float g6C,g70;char pad74[0x84-0x74];int n84;float g88;};
 extern char D_002C44F0[];
 void *PvAllocSwClearImpl__Fi(struct AL*);
-void func_001E9828(struct S*);
+void CopyRopeDistances__FP4ROPE(struct S*);
 static inline qword Point(struct M4 *m,qword a) {qword r;__asm__("vmulax.xyz $ACC,%1,%5x\n\tvmadday.xyz $ACC,%2,%5y\n\tvmaddaz.xyz $ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(r):"j"(m->a),"j"(m->b),"j"(m->c),"j"(m->d),"j"(a));return r;}
-struct S *func_001E81C0(struct S *p,struct PATH *path) {
+// name: SafeHouse port (InitRope)
+struct S *InitRope__FP4ROPEP2LO(struct S *p,struct PATH *path) {
  struct AL size;struct M4 *m;int i;
  p->path=path;p->n4C=-1;
  size.cb=path->n*16;size.align=16;p->v54=PvAllocSwClearImpl__Fi(&size);
@@ -23,6 +24,6 @@ struct S *func_001E81C0(struct S *p,struct PATH *path) {
  if(p->path->n>0) {
   p->start=p->v54[0];p->end=p->v54[p->path->n-1];
  }
- func_001E9828(p);
+ CopyRopeDistances__FP4ROPE(p);
  return p;
 }

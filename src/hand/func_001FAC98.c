@@ -3,7 +3,8 @@ struct O { char pad[0x98]; short k; char pad2[0xA0 - 0x9A]; int nA0; char pad3[0
 struct P { char pad[0x5C]; struct O *po; };
 int func_00230380(int);
 qword func_0022FCC8(int, int, qword);
-void func_001FAC98(struct P *p, qword v)
+// name: SafeHouse port (AccelRotation)
+void AccelRotation__FP3ALOG9VU_VECTOR(struct P *p, qword v)
 {
     if (func_00230380(p->po->k)) {
         struct O *po = p->po;

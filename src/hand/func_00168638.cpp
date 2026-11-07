@@ -36,7 +36,7 @@
 //   because sched1 issues the i+1 PRE addiu at t14, two cycles before the swc1).
 // lilly1 (Claude agent, T1687, 2026-10-25): aligned 14 (728 instructions, frame 0x290; laneH21v2 30). Policy-clean: no register pins, VU helper asms only.
 //   From laneH21v2: (1) cull 2 radius loaded by a `lw` asm straight into the qword (VU_FLOATM, as SetSlyDodgeState): real-load timing, target order (30 -> 28).
-//   (2) case-3 SqDist: the compiler moves the length out of vf (qmfc2) and an `mtc1` asm makes the float (GetX idiom, func_001D2490): mtc1 before add.s (28 -> 26).
+//   (2) case-3 SqDist: the compiler moves the length out of vf (qmfc2) and an `mtc1` asm makes the float (GetX idiom, FollowVehiclePath): mtc1 before add.s (28 -> 26).
 //   (3) cull-2 result: qmfc2 asm into an int (dead-$3 clobber kept) + separate `mtc1` asm: c.eq.s/swc1 one cycle earlier, the hazard nop and the 1-insn shift are gone (26 -> 15).
 //   (4) UnpackWords copy as `for (k = 0; k < cw; k++)`: loop.c creates the counter init after gcse's &matModel PRE insn, as func_00169198 (15 -> 14).
 //   Left: cull 1 load/sq order + registers (target: radius lw after gain, regs v1/a0/v0/a2), cull 2 radius/range registers swapped (target radius v1, range a0),
@@ -196,8 +196,8 @@ void func_001681F8(MODEL *pmodel);
 int func_001EDA20(OBJ *pobj);
 void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
 void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
-void func_0011C168(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB);
-void func_0011C318(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc);
+void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
+void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 float func_0011CAB0(const MATRIX4 *pmat);
 qword func_00167DA0(const MATRIX4 *pmat, qword qwPos, float *psRadius);
 int FInsideCmMrd(VIEW *pview, qword qwDpos, float sRange, float *pgVis) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
@@ -206,7 +206,7 @@ RPL *func_001CD998(void);
 }
 static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return mat
 {
-    func_0011C168(&mat, &matA, &matB);
+    MulMatrix4(&mat, &matA, &matB);
 }
 static inline void CopyMat(MATRIX4 &matDst, const MATRIX4 &matSrc)
 {
@@ -519,7 +519,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
         if (pskin)
         {
             MATRIX4 matInv;
-            func_0011C318(&matInv, &matModel);
+            InverseAffineMatrix4(&matInv, &matModel);
             uint ib = pskin->ib;
             for (int imat = 0; imat < pskin->cmat; imat++)
             {

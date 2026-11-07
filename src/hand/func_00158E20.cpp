@@ -10,7 +10,7 @@ extern "C" {
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
-qword func_0011E9F8(qword v, float g);
+qword LimitVectorLength(qword v, float g) asm("LimitVectorLength__FG9VU_VECTORf");
 void func_00158E20(S *p, float g1, float g2);
 }
 struct VUF { qword q; VUF(const float &g) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(*(const int *)&g)); } };
@@ -44,7 +44,7 @@ void func_00158E20(S *p, float g1, float g2)
     }
     for (int k = 0; k < p->cso; k++) {
         pso = p->apso[k];
-        pso->xF0 = func_0011E9F8(pso->xF0, g1);
-        pso->x100 = func_0011E9F8(pso->x100, g2);
+        pso->xF0 = LimitVectorLength(pso->xF0, g1);
+        pso->x100 = LimitVectorLength(pso->x100, g2);
     }
 }

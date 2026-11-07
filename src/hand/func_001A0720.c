@@ -10,8 +10,8 @@ struct AXES{char pad[0x10];qword a;char pad20[0x10];qword b;char pad40[0x10];qwo
 extern float D_002BF9F0;
 void FaceObject__FP5ACTORP2LO(struct P*,struct O*);
 float RadNormalize__Ff(float);
-qword func_0011E1A0(float,float,float);
-struct M4*func_001A6318(struct P*);
+qword SetVectorCylind__Ffff(float,float,float);
+struct M4*MatJtLo__FP2LO(struct P*);
 static inline qword GetVel(struct P*p){return ((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);}
 static inline void SetVel(struct P*p,qword v){((void(*)(void*,qword))p->vt[35].fn)((char*)p+p->vt[35].delta,v);}
 static inline qword ScaleAndSetSide(struct P*p,qword v,qword k,int side){qword r;__asm__("vmulx.xyzw %0,%2,%3x\n\tsw %4,%1":"=j"(r),"=m"(p->side):"j"(v),"j"(k),"r"(side));return r;}
@@ -28,7 +28,7 @@ static inline void RemoveSide(struct P*p,U*result,U*old){
  struct M4*basis;
  qword value;
  old->q=ToVu(GetVel(p));
- basis=func_001A6318(p);
+ basis=MatJtLo__FP2LO(p);
  value=ProjectOut(basis->r[1],old->q);
  result->q=value;
  SetVel(p,value);
@@ -75,7 +75,7 @@ void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*p,struct AXES*axes,int enab
  if(target){if(p->targetMode==3)target=target->anchor;
  FaceObject__FP5ACTORP2LO(p,target);}
  zero=0.0f;
- input.q=func_0011E1A0(RadNormalize__Ff(heading-p->heading),magnitude,zero);
+ input.q=SetVectorCylind__Ffff(RadNormalize__Ff(heading-p->heading),magnitude,zero);
  if(D_002BF9F0<input.f[1]){
   if(p->side==0){input.f[1]=zero;RemoveSide(p,&scalar,&old);}
   side=1;

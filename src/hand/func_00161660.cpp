@@ -9,7 +9,7 @@ struct X { char pad[0x54]; int n; char pad2[0xA0 - 0x58]; int fA0; };
 struct G { char pad[0x3AFC]; int c; };
 extern G g_sw;
 extern "C" void *PvAllocStackClearImpl(ALLOCREQ *preq) asm("PvAllocStackClearImpl__Fi");
-extern "C" int func_0015E9C8(G *pg, int kind, int n, int m, int c, void **apv);
+extern "C" int CFindObjectsByClass(G *pg, int kind, int n, int m, int c, void **apv) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
@@ -26,7 +26,7 @@ extern "C" int NTasksPercentDone__Fv()
     ALLOCREQ req;
     G *pg = &g_sw;
     X **apx = (X **)PvAllocReq(&req, pg->c * 4, 0x10);
-    int n = func_0015E9C8(pg, 5, 0x85, 0, pg->c, (void **)apx);
+    int n = CFindObjectsByClass(pg, 5, 0x85, 0, pg->c, (void **)apx);
     for (int i = 0; i < n; i++) {
         X *px = apx[i];
         if (px->fA0) {

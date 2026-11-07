@@ -9,7 +9,7 @@ int func_0017D188(struct S *p);
 void SetLadderState__9JOBLADDERi(struct S *p, int n);
 float GSmooth__FfffP3SMPPf(float a, float b, float dt, struct L *pl, int n);
 float SWrapCrv__FP3CRVf(int n, float g);
-void func_001C3500(int a, float g, int b, void *pv);
+void MatPipeFrame__FP2LOfiPv(int a, float g, int b, void *pv);
 // name: SafeHouse port (JOBLADDER::Update)
 void Update__9JOBLADDER(struct S *p) {
     int s;
@@ -39,6 +39,6 @@ void Update__9JOBLADDER(struct S *p) {
     } while (p->n30 != s);
     {
         struct O *o = p->p10;
-        func_001C3500(o->nF84, o->gF88, o->nF8C, o->a1B0);
+        MatPipeFrame__FP2LOfiPv(o->nF84, o->gF88, o->nF8C, o->a1B0);
     }
 }

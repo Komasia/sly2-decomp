@@ -3,7 +3,7 @@ struct H { char pad[8]; short h; char pada[0xE]; };
 struct A { unsigned short c; unsigned short c2; struct E *ae; struct H *ah; char padc[0x24]; };
 struct S { char pad[0x80]; unsigned short c80; short pad82; struct A *aa; };
 void func_00218038(struct A *pa, float g);
-void func_00218060(struct A *pa, int l, float g, int z);
+void SeekEntry__13CScreenPlayeriPvf(struct A *pa, int l, float g, int z);
 // name: SafeHouse port (SetScreenObjTime)
 void SetScreenObjTime__FP2LOif(struct S *p, int k, float g)
 {
@@ -23,7 +23,7 @@ void SetScreenObjTime__FP2LOif(struct S *p, int k, float g)
                     if (a->ah[m].h != -1)
                         l = m;
                 if (l >= 0)
-                    func_00218060(a, l, g, 0);
+                    SeekEntry__13CScreenPlayeriPvf(a, l, g, 0);
             }
         }
     }

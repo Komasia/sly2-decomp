@@ -1,6 +1,6 @@
 // PosNearestTri: closest point of a navigation triangle to p (wave-3 lane 4). T holds pointers to the three corners.
 // If p lies outside an edge in the XY plane (z of cross(p - v0, v1 - v0) > 0, tested a-b, b-c, c-a in turn), the result
-// is the closest point on that edge (func_0011EE08); otherwise p is projected along g_normalZ (world up) onto the
+// is the closest point on that edge (PosNearestSegment); otherwise p is projected along g_normalZ (world up) onto the
 // triangle's plane.
 // Keys:
 //  * The inside block works on VU_VECTOR copies of the first and third corners made right after the loads. The
@@ -16,7 +16,7 @@ struct T { qword *a, *b, *c; };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 extern "C" {
 extern qword g_normalZ; // (0, 0, 1, 0)
-void func_0011EE08(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist);
+void PosNearestSegment(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 qword PosNearestTri(T *t, qword p) asm("PosNearestTri__FP9NAVREGIONG9VU_VECTOR");
 }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -46,9 +46,9 @@ qword PosNearestTri(T *t, qword p)
     qword a = *t->a, b = *t->b, c = *t->c;
     qword ab = Sub(b, a);
     VU_VECTOR va(a), vc(c);
-    if (0.0f < Z(Cross(Sub(p, a), ab))) func_0011EE08(p, a, b, &result.q, 0, 0);
-    else if (0.0f < Z(Cross(Sub(p, b), Sub(c, b)))) func_0011EE08(p, b, c, &result.q, 0, 0);
-    else if (0.0f < Z(Cross(Sub(p, c), Sub(a, c)))) func_0011EE08(p, c, a, &result.q, 0, 0);
+    if (0.0f < Z(Cross(Sub(p, a), ab))) PosNearestSegment(p, a, b, &result.q, 0, 0);
+    else if (0.0f < Z(Cross(Sub(p, b), Sub(c, b)))) PosNearestSegment(p, b, c, &result.q, 0, 0);
+    else if (0.0f < Z(Cross(Sub(p, c), Sub(a, c)))) PosNearestSegment(p, c, a, &result.q, 0, 0);
     else {
         qword n = Cross(ab, Sub(vc.q, va.q));
         qword dv = Dot(Sub(va.q, p), n);

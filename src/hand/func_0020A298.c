@@ -4,7 +4,7 @@ struct X { int pad; int n4; int pad2; float tC; };
 struct S { char pad[0x2C0]; long fl; char pad2[0x3D0 - 0x2C8]; int n3D0; char pad3[0xF64 - 0x3D4]; void *pF64; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 long func_00207A20(int n);
-struct X *func_00154180(void *p, void *q);
+struct X *PdetentryFind__FP8DETECTORi(void *p, void *q);
 // name: SafeHouse port (FGuardSurprised)
 int FGuardSurprised__FP5GUARDP2LOUl(struct S *p, void *q, long mask)
 {
@@ -13,7 +13,7 @@ int FGuardSurprised__FP5GUARDP2LOUl(struct S *p, void *q, long mask)
         goto ret0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x36) && !FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3A) && !(p->fl & func_00207A20(6)))
         goto ret1;
-    x = func_00154180(p->pF64, q);
+    x = PdetentryFind__FP8DETECTORi(p->pF64, q);
     if (!x)
         goto ret1;
     if (!x->n4 || g_clock.t - x->tC < D_002C3DAC)

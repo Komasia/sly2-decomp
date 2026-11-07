@@ -11,9 +11,9 @@ struct S{
 };
 extern struct S *D_002F7900;
 void InitActorFields__FP5ACTOR(struct S *p);
-void func_0020B840(struct BIND*a,void*owner,int word90);
+void InitGait__FP4GAITii(struct BIND*a,void*owner,int word90);
 void func_0020BD78(struct RESET*a);
-void func_0021F2E0(struct CONTEXT*a,void*owner);
+void InitJtThrow__FP5ACTORUi(struct CONTEXT*a,void*owner);
 static inline void Init(struct SUB *ps, float f, float g) { ps->f2 = g; ps->f1 = f; ps->i = 0; }
 void InitMurray__FP6MURRAY(struct S *p)
 {
@@ -31,10 +31,10 @@ void InitMurray__FP6MURRAY(struct S *p)
     p->x1414 = 3500.0f;
     p->x103C = 60.0f;
     p->x1048 = 125.0f;
-    func_0020B840(&p->bind1320, p, 0x15);
-    func_0020B840(&p->bind1460, p, 0x15);
-    func_0020B840(&p->bind1630, p, 0x15);
-    func_0020B840(&p->bind1540, p, 0x15);
+    InitGait__FP4GAITii(&p->bind1320, p, 0x15);
+    InitGait__FP4GAITii(&p->bind1460, p, 0x15);
+    InitGait__FP4GAITii(&p->bind1630, p, 0x15);
+    InitGait__FP4GAITii(&p->bind1540, p, 0x15);
     func_0020BD78(&p->reset1850);
     {
     register float a __asm__("$f6") = -60.0f;
@@ -47,7 +47,7 @@ void InitMurray__FP6MURRAY(struct S *p)
     p->x1AC8=a; p->x1434=a; p->x1098=b; p->x109C=c; p->x10A0=50.0f; p->x10A4=d; p->sub.f0=e;
     Init(&p->sub, f, g);
     }
-    func_0021F2E0(&p->context1910, p);
+    InitJtThrow__FP5ACTORUi(&p->context1910, p);
     p->x1000 = 4;
     D_002F7900 = p;
 }

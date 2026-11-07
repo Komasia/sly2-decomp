@@ -1,5 +1,5 @@
-// func_00195368 = EmitJtGrabSparkles(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
-// (name and JTGRABCAND layout from src/hand/func_00194A40.cpp / func_00194F70.cpp; psw is unused).
+// SprayJtSparkles = EmitJtGrabSparkles(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
+// (name and JTGRABCAND layout from src/hand/UpdateJtCandidates.cpp / TrackJt.cpp; psw is unused).
 // For every grab candidate that has a spot, emits a random number of sparkles (emitter rate * dt, the fraction
 // rounded up with that probability): each one samples a position and velocity from the grab spot, scales the
 // velocity, picks a birth time in the past and optionally pushes the position along the velocity. At most ten are
@@ -78,7 +78,7 @@ float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");            
 void *func_002333B4(void *pv, int b, unsigned int cb);          // memset
 void InsertPsysParticles(EMITB *pemitb, EMITX *pemitx, int cpart, VECTOR *apos, VECTOR *av, float *atBirth, float *atDeath,
                    void *pv1, void *pv2) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");
-void func_00195368(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand);
+void SprayJtSparkles(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand) asm("SprayJtSparkles__FP5ACTORP5JTENTiP10JTGRABCAND");
 }
 void OnEmitterValuesChanged(EMITTER *pemitter);
 
@@ -99,7 +99,8 @@ static inline void GetSparkle(JTGRABCAND *pcand, VECTOR *ppos, VECTOR *pv)
     pcand->pspot->GetSparkle(ppos, pv, pcand->sParam);
 }
 
-void func_00195368(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
+// name: SafeHouse port (SprayJtSparkles)
+void SprayJtSparkles(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand)
 {
     VECTOR apos[10], av[10];
     float atBirth[10], atDeath[10];

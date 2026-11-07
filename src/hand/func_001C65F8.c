@@ -19,7 +19,7 @@ extern char g_game[];
 float GRandInRange__Fff(float a, float b);
 struct X *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(void *pg, int a, int b);
 qword func_001A62E8(struct S *p);
-struct MAT *func_001A6318(struct S *p);
+struct MAT *MatJtLo__FP2LO(struct S *p);
 void func_001C67A0(struct S *p, int n);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
@@ -45,7 +45,7 @@ void SetCoinState__FP2LOi(struct S *p, int n)
             e = &px->vt[1];
             ((void (*)(void *, qword, int, float))e->pf)((char *)px + e->d, func_001A62E8(p), 0, 1.0f);
             px->x1C = p;
-            px->mat = *func_001A6318(p);
+            px->mat = *MatJtLo__FP2LO(p);
         } else {
             func_001C67A0(p, 0);
         }

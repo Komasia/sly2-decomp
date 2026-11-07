@@ -22,19 +22,19 @@ extern qword D_002A2DD0;
 void SetXfMode__FP3ALOP2XFi(struct P *, void *, int);
 void func_00142880(struct P *);
 void ExplodeExpl__FP4EXPL(struct VO *);
-void func_00195FB8(void *, int, int);
+void SetJumpAnimState__FP4JUMPiP2LO(void *, int, int);
 void SetInteractState__FP5ACTORi(void *, int);
 void SetDamageState__FP5ACTORi(void *, int);
-void func_0019EAB0(void *, int);
+void SetClimbState__FP5ACTORi(void *, int);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *);
 void SetBentleyHold__FP7BENTLEYi(struct P *, int);
 void SetBentleyCarried__FP7BENTLEYi(struct P *, int);
-void func_002206C8(void *, int);
+void SetJtThrowState__FP7JTTHROWi(void *, int);
 int func_001F0400(void *, int);
 int GrfActorLookMask__FP5ACTOR(struct P *);
 void ActorSetLookFlag__FP5ACTORi(struct P *, int);
-void func_0020BD68(struct ASEGP *);
-void func_0019CD38(void *, int);
+void ResetGaitFeet__FP4GAIT(struct ASEGP *);
+void SetBinocState__FP5ACTORi(void *, int);
 void RetractAsegaPp__FPP5ASEGA(void *);
 void ClearSmaHandle__FPP3SMA(void *);
 void func_001305B8(struct ASEG *, struct P *, int, void *, float, float);
@@ -96,7 +96,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
                 VCALL0(po, 9);
             }
         }
-        func_00195FB8(p->a2C0, -1, 0);
+        SetJumpAnimState__FP4JUMPiP2LO(p->a2C0, -1, 0);
         break;
     case 3:
         SetInteractState__FP5ACTORi(p->a4C0, -1);
@@ -105,7 +105,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
         SetDamageState__FP5ACTORi(p->aDF0, -1);
         break;
     case 13:
-        func_0019EAB0(p->aF50, -1);
+        SetClimbState__FP5ACTORi(p->aF50, -1);
         break;
     case 6:
         if (p->p186C) {
@@ -123,7 +123,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
         p->g1A0 = p->p1030->g1C / p->p1030->pasega->g74;
         break;
     case 12:
-        func_002206C8(p->a11B0, -1);
+        SetJtThrowState__FP7JTTHROWi(p->a11B0, -1);
         break;
     }
     kOld = p->state;
@@ -166,17 +166,17 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
     L1:
         n = 9;
         g = p->g1A0 * pasega->g74;
-        func_0020BD68(pa);
+        ResetGaitFeet__FP4GAIT(pa);
         break;
     case 4:
-        func_0019CD38(p->aF00, -1);
+        SetBinocState__FP5ACTORi(p->aF00, -1);
         break;
     case 5:
         pasega = p->p14E0;
         n = 9;
         break;
     case 13:
-        func_0019EAB0(p->aF50, 0);
+        SetClimbState__FP5ACTORi(p->aF50, 0);
         return;
     case 6:
         SetBentleyHold__FP7BENTLEYi(p, 0);

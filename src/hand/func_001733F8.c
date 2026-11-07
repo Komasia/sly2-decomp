@@ -10,7 +10,8 @@ struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_00170C50(struct O *o, int a, int b, int c);
 void *PvAllocSwClearImpl__Fi(struct AL *a);
 void func_001A6CA8(struct S *p, int n);
-void func_001733F8(struct S *p) {
+// name: SafeHouse port (StartSpawner)
+void StartSpawner__FP2SW(struct S *p) {
     int i;
     struct AL al;
     unsigned int f;

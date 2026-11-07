@@ -157,6 +157,6 @@ extern M2C_UNK D_00452170;
 
 void func_00218638(s32 arg0, s32 arg1) {
     if (M2C_FIELD(arg0, s32 *, 0x28) != 0) {
-        func_00218660(arg0, 0);
+        StopEntrySound__FP8SENTRYRTi(arg0, 0);
     }
 }

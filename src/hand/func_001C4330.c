@@ -3,7 +3,8 @@ void CalculateSinCos__FfPfT1(float g, float *ps, float *pc);
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
 static inline float GMax(float a, float b) { return a < b ? b : a; }
-void func_001C4330(void *p, float g, float *px, float *py, float *pang, float *pr, float *pr2)
+// name: SafeHouse port (TurnPadctlStick)
+void TurnPadctlStick__FPffN50(void *p, float g, float *px, float *py, float *pang, float *pr, float *pr2)
 {
     float s, c;
     *pr = sqrtf_(*px * *px + *py * *py);

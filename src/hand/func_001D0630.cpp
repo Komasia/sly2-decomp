@@ -8,7 +8,7 @@ extern G g_cm;
 extern struct CLOCK {float t,dt;} g_clock;
 extern "C" {
 qword ConvertCmScreenToWorld(G*,qword) asm("ConvertCmScreenToWorld__FP2CMG9VU_VECTOR");
-M3 func_0011BC00(const M3&,const M3&);
+M3 MulMat3TransposeA(const M3&,const M3&) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3*,float*,qword*);
 M3 func_0011B500(qword,float);
 int CollectRipDraws(S*,qword,const M3&) asm("CollectRipDraws__FP2CMG9VU_VECTORPv");
@@ -24,7 +24,7 @@ void func_001D0630(S *p) {
  U axis;float angle;
  G *pg=&g_cm;
  qword view=ConvertCmScreenToWorld(pg,p->pos);
- camera=func_0011BC00(p->mat,pg->mat);
+ camera=MulMat3TransposeA(p->mat,pg->mat);
  func_0011BCF8(&camera,&angle,&axis.q);
  float t=(g_clock.t-p->start)/p->duration;
  fade=func_0011B500(axis.q,angle*t);

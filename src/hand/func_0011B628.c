@@ -5,7 +5,8 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 typedef struct { VECTOR r[3]; } MATRIX3;
 void CalculateSinCos__FfPfT1(float g, float *ps, float *pc);
-MATRIX3 *func_0011B628(MATRIX3 *pmat, qword v)
+// name: SafeHouse port (BuildEulerMatrix)
+MATRIX3 *BuildEulerMatrix__FP6VECTORG9VU_VECTOR(MATRIX3 *pmat, qword v)
 {
     float sx, cx, sy, cy, sz, cz;
     float sxsy, cxsy;

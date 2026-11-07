@@ -10,7 +10,8 @@ extern float D_002C4108;
 extern F32 D_002C410C;
 extern qword D_002A2DD0;
 
-extern "C" void func_00220388(S *owner,Q *value){
+// name: SafeHouse port (GetJtThrowCpdefi)
+extern "C" void GetJtThrowCpdefi__FP7JTTHROWP6CPDEFI(S *owner,Q *value){
  VU plane,scratch;
  register float gain asm("$f1");register G *movementAddress asm("$3");register qword prior asm("vf2"),position asm("vf5");
  asm("lui $2,%%hi(%3)\n\tlui %1,%%hi(%4)\n\tlwc1 %0,%%lo(%3)($2)\n\taddiu %1,%1,%%lo(%4)\n\tlqc2 %2,%5":"=f"(gain),"=&r"(movementAddress),"=j"(prior):"i"(&D_002C4108),"i"(&D_002DDFA0),"m"(value->v):"$2","memory");

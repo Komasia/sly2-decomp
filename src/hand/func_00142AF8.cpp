@@ -35,12 +35,12 @@ void EnsureCtrlRemoved(Q *pq) asm("EnsureCtrlRemoved__FP4CTRL");
 qword func_001A62E8(void *p);
 qword ConvertPos(int n, P *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0011E958(qword v, float *pa, float *pb);
-float func_0011D978(LM *plm, float g);
+float RadLimitLm(LM *plm, float g) asm("RadLimitLm__FP2LMf");
 M3 func_0011B720(float a, float b);
 M3 func_0011B500(qword v, float g);
 M3 func_0022FD38(void *pvFrom, void *pvTo, M3 *pm);
 M3 func_0011B340(const M3 *pm);
-qword func_0011BFF0(M3 *pm);
+qword DecomposeEulerMatrix(M3 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void SetCtrlPos(Q *pq, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void UpdateActorLook(P *p) asm("UpdateActorLook__FP5ACTOR");
 }
@@ -142,8 +142,8 @@ void UpdateActorLook(P *p)
         }
         EnsureCtrlAdded(p->pq);
         func_0011E958(ConvertPos(0, p, func_001A62E8(p->p10F8)), &pan, &tilt);
-        pan = func_0011D978(&p->lmPan, pan);
-        tilt = func_0011D978(&p->lmTilt, tilt);
+        pan = RadLimitLm(&p->lmPan, pan);
+        tilt = RadLimitLm(&p->lmTilt, tilt);
         {
             float t;
             if (p->lmPan.gMax == p->lmPan.gMin)
@@ -164,5 +164,5 @@ void UpdateActorLook(P *p)
     else
         m2 = m0 * p->m1150;
     m2 = func_0022FD38(p->p60, p->pq->p8->pA0, &m2);
-    SetCtrlPos(p->pq, func_0011BFF0(&m2));
+    SetCtrlPos(p->pq, DecomposeEulerMatrix(&m2));
 }

@@ -2,8 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 extern "C" {
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-void *func_00154180(void *a, void *b);
-void func_00154080(void *a, void *b, int c);
+void *PdetentryFind(void *a, void *b) asm("PdetentryFind__FP8DETECTORi");
+void SetDetentryState(void *a, void *b, int c) asm("SetDetentryState__FP8DETECTORP8DETENTRYi");
 qword func_001A62E8(void *p);
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
 int func_0014CC58(int z, qword a, qword b, int i, int j, int k);
@@ -17,12 +17,13 @@ struct F { char pad[0xF8]; int xf8; };
 struct O { char pad[0xF64]; F *xf64; char pad2[0xFE0 - 0xF68]; O *xfe0; };
 extern "C" O *D_003E1444;
 struct P { void *x0; };
-extern "C" void func_00192A28(P *p);
-void func_00192A28(P *p)
+extern "C" void ForgetGuardsInteract(P *p) asm("ForgetGuardsInteract__FP5ACTOR");
+// name: SafeHouse port (ForgetGuardsInteract)
+void ForgetGuardsInteract(P *p)
 {
     O *o;
     for (o = D_003E1444; o; o = o->xfe0) {
-        E *e = (E *)func_00154180(o->xf64, p->x0);
+        E *e = (E *)PdetentryFind(o->xf64, p->x0);
         if (!e || !e->x4 || (o->xf64->xf8 & 1)) continue;
         qword a = func_001A62E8(o);
         qword b = func_001A62E8(p->x0);
@@ -33,13 +34,13 @@ void func_00192A28(P *p)
         __asm__("qmfc2.ni %0, %1" : "=r"(dist) : "j"(d));
         bool far = D_002BF638 < dist;
         if (far) {
-            func_00154080(o->xf64, e, 0);
+            SetDetentryState(o->xf64, e, 0);
             continue;
         }
         struct { char c; FRAME frame; int i, j; } x;
 
         func_0020FAA0(g_sw, a, b, (void *)func_00154568, o, &x.i, &x.j);
         if (!func_0014CC58(0, a, b, x.i, x.j, 0)) continue;
-        func_00154080(o->xf64, e, 0);
+        SetDetentryState(o->xf64, e, 0);
     }
 }

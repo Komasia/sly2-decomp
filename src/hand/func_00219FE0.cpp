@@ -72,12 +72,12 @@ struct ANIM { ushort count, pad2; KEY *keys; float duration; void *owner; GROUP 
 
 extern "C" {
 void func_0011A058(int *);
-void func_00219190(ANIM *, int, int);
+void RunScreenKeyEvents(ANIM *, int, int) asm("RunScreenKeyEvents__FP8SENTRYRTii");
 void func_002190F8(ANIM *, int, int);
 void func_00219348(ANIM *, int, int);
 void func_00219400(float, float, ANIM *, int, int, M23 *, const RGBA *, const RGBA *);
 void func_002158C0(SPRITE *, ITEM *);
-void func_00218790(RGBA *, RGBA *, RGBA *, RGBA *, RGBA *, RGBA *);
+void CombineColors(RGBA *, RGBA *, RGBA *, RGBA *, RGBA *, RGBA *) asm("CombineColors__FPUcN50");
 void func_00215850(float, SPRITE *, ITEM *, M23 *, RGBA, RGBA);
 }
 
@@ -138,7 +138,7 @@ extern "C" void func_00219FE0(float duration, ANIM *animation, int index, M23 *p
     do {
         if (phase < animation->count && animation->keys[phase].time <= time) {
             processed = animation->keys[phase].time;
-            func_00219190(animation, phase, index);
+            RunScreenKeyEvents(animation, phase, index);
             func_002190F8(animation, phase, index);
             func_00219348(animation, phase, index);
             currentAdditive = additive;
@@ -168,7 +168,7 @@ extern "C" void func_00219FE0(float duration, ANIM *animation, int index, M23 *p
                     matrix = Mul(matrix, *parent);
                     {
                         RGBA inputMultiply(multiply), inputAdditive(additive), localMultiply(currentMultiply), localAdditive(currentAdditive);
-                        func_00218790(&inputMultiply, &inputAdditive, &localMultiply, &localAdditive, &outputMultiply, &outputAdditive);
+                        CombineColors(&inputMultiply, &inputAdditive, &localMultiply, &localAdditive, &outputMultiply, &outputAdditive);
                     }
                     func_00215850(duration, item->sprite, item, &matrix, outputAdditive, outputMultiply);
                     item->cachedTime = processed;

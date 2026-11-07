@@ -6,7 +6,8 @@ struct B { int pad[2]; struct C *pc; };
 struct A { char pad[0xD0]; struct B *pb; };
 struct E { float w; int pad[3]; qword v; int pad2; float t; char pad3[0x40 - 0x28]; };
 struct S { int pad; struct A *pa; int pad2[2]; struct E ae[2]; };
-qword func_0020BAD8(struct S *p)
+// name: SafeHouse port (VecGaitVelocity)
+qword VecGaitVelocity__FP4GAIT(struct S *p)
 {
     struct B *pb = p->pa->pb;
     float denominator=pb->pc->g;

@@ -1,5 +1,5 @@
 /* MATCH (Claude agent laneB13, 2026-10-23), from v4 (4). One register pin (f in v1) plus commented empty asms that emulate the original toolchain's reorg/cross-jump state: case 12 has its own `return 0` (with an empty asm so it isn't merged with the shared fail), the shared fail has one too, the 1CADE0 path ends in `return 0`, and an empty asm using pe in the pv != 0 block keeps v0 live so reorg annuls the beql slot. */
-/* v4 (Claude agent laneB12, 2026-10-23): aligned 10 -> 4. f pinned to v1 (one commented pin) and used for case 12's x15C and the func_001CADE0 result; cases 2/3/13 test their call results directly; an empty volatile asm "+r"(f) after the 1CADE0 call keeps the target's `daddu v1,v0; bnez v1` (cse otherwise tests v0). Left: reorg fill choices: case 12 beq slot (target steals li v0,1 from `one`, ours takes li v0,0 from the fallthrough; `if (f != k) goto fail` flips the layout: 4), and the pv == 0 test (target beql, ours beqz). */
+/* v4 (Claude agent laneB12, 2026-10-23): aligned 10 -> 4. f pinned to v1 (one commented pin) and used for case 12's x15C and the IrowProxyChoose__FP2SWi result; cases 2/3/13 test their call results directly; an empty volatile asm "+r"(f) after the 1CADE0 call keeps the target's `daddu v1,v0; bnez v1` (cse otherwise tests v0). Left: reorg fill choices: case 12 beq slot (target steals li v0,1 from `one`, ours takes li v0,0 from the fallthrough; `if (f != k) goto fail` flips the layout: 4), and the pv == 0 test (target beql, ours beqz). */
 /* v3 (Claude agent, 2026-10-17): aligned 10. Shared function-scope `void *pv` for case 12 pa11C0 and pe->p4 puts pa in a0 like the target. Left: target loads x15C into v1 and copies the 1CADE0 result to v1 (daddu v1,v0; bnez v1). */
 struct A { char pad[0x15C]; int x15C; };
 struct E { int x0; void *p4; void *p8; };
@@ -14,12 +14,12 @@ int FInteractCanDo__FP5ACTORi(void *pv, int k);
 int func_0019EEF0(void *pv, int k);
 struct E *func_00136A28(struct P *p, int k);
 int func_00224590(void *pv);
-int func_001CADE0(void *pv, int n);
+int IrowProxyChoose__FP2SWi(void *pv, int n);
 int func_0014FD50(void *pv);
 // name: SafeHouse port (FBentleyAbilityOk)
 int FBentleyAbilityOk__FP7BENTLEYi(struct P *p, int k)
 {
-    register int f __asm__("$3");  /* register pin: target keeps x15C and the func_001CADE0 result in v1 */
+    register int f __asm__("$3");  /* register pin: target keeps x15C and the IrowProxyChoose__FP2SWi result in v1 */
     void *pv;
     if (p->x1818 != 0)
         goto fail;
@@ -66,7 +66,7 @@ int FBentleyAbilityOk__FP7BENTLEYi(struct P *p, int k)
             }
             if ((pv = pe->p4)) {
                 __asm__ __volatile__("" : : "r"(pe));  /* keeps pe (v0) live into this block, so reorg annuls the beql slot */
-                f = func_001CADE0(pv, 2);
+                f = IrowProxyChoose__FP2SWi(pv, 2);
                 __asm__ __volatile__("" : "+r"(f));  /* keeps the copy in v1 that the target tests */
                 if (f)
                     goto one;

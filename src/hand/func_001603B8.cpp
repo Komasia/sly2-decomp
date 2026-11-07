@@ -22,7 +22,8 @@ public:
 };
 extern "C" void *PvAllocSwClearImpl(ALLOCREQ *preq) asm("PvAllocSwClearImpl__Fi");
 extern "C" void SetXfMode(LOBase *p, LOX *plo, int n) asm("SetXfMode__FP3ALOP2XFi");
-extern "C" void func_001603B8(LOBase *p, CBinaryInputStream *pbis)
+// name: SafeHouse port (LoadAloLinksFromBrx)
+extern "C" void LoadAloLinksFromBrx__FP3ALOP18CBinaryInputStream(LOBase *p, CBinaryInputStream *pbis)
 {
     int c = pbis->S8Read();
     for (int i = 0; i < c; i++) {

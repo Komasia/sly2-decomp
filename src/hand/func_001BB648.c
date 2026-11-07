@@ -18,9 +18,9 @@ extern char g_joy[];
 extern char D_002DE578[];
 extern char g_game[];
 SO *func_0015E938(void *g, int k, int v, P *p);
-void func_001F6978(P *p, int v);
+void ShowAloGlobs__FP3ALOi(P *p, int v);
 void func_001F69F8(P *p, int v);
-void func_001F6AC8(P *p, int v);
+void SetAloSoesByTag__FP3ALOi(P *p, int v);
 void func_001F6B48(P *p, int v);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void JoltCm__FP2CMi(void *g, int v);
@@ -29,7 +29,8 @@ qword func_001A62E8(void *p);
 void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(void *g, qword q, int v, int a, P *p);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int k, int v, P *p);
 
-void func_001BB648(P *p, E *pe)
+// name: SafeHouse port (RunItems)
+void RunItems__FP2LOP3BRK(P *p, E *pe)
 {
     int i;
     SO *psPrev = 0;
@@ -53,13 +54,13 @@ void func_001BB648(P *p, E *pe)
             ((void (*)(void *))ps->vt[9].pfn)((char *)ps + ps->vt[9].d);
             break;
         case 2:
-            func_001F6978(p, pi->v);
+            ShowAloGlobs__FP3ALOi(p, pi->v);
             break;
         case 3:
             func_001F69F8(p, pi->v);
             break;
         case 4:
-            func_001F6AC8(p, pi->v);
+            SetAloSoesByTag__FP3ALOi(p, pi->v);
             break;
         case 5:
             func_001F6B48(p, pi->v);

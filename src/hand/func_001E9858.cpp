@@ -1,9 +1,9 @@
-/* func_001E9858: rebuild every mesh entry's sample array in path-local coordinates.
+/* PostLoadRopeMesh: rebuild every mesh entry's sample array in path-local coordinates.
  *
  * For each mesh node and each of its entries: copy the entry's vertices to a scratch array, allocate the
  * output sample array, then for every vertex
  *   world = vertex * owner->mat                         (point transform)
- *   func_001E6F60 finds the closest hit/direction/distance on the path for `world`
+ *   NearestCrvAll finds the closest hit/direction/distance on the path for `world`
  *   BuildLookAtMatrix builds a basis from (direction, axis); it is transposed (= inverted)
  *   sample = (world - hit) * inverse basis, with .w = distance.
  *
@@ -34,13 +34,13 @@ extern char D_002C44F0;
 
 extern "C" {
 void func_001F36A8(S *);
-M3 *func_001A6318(S *);
+M3 *MatJtLo(S *) asm("MatJtLo__FP2LO");
 void func_0016EF00(CONFIG *, int);
 void func_001AE5A0(void *, const void *, unsigned);   /* memcpy */
 void *PvAllocSwImpl(AL *) asm("PvAllocSwImpl__Fi");                            /* allocate (size, align) */
-void func_001E6F60(void *, qword, void *, qword *, qword *, float *, float *);
+void NearestCrvAll(void *, qword, void *, qword *, qword *, float *, float *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 M3 *BuildLookAtMatrix(M3 *, qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-void func_001E9858(S *);
+void PostLoadRopeMesh(S *) asm("PostLoadRopeMesh__FP2LO");
 }
 
 /* v * 4x4 (translation row applied through vf0.w) */
@@ -76,13 +76,14 @@ static inline void TransposeInto(M3 &r, const M3 &m)
     r.a.q = a; r.b.q = b; r.c.q = d;
 }
 
-void func_001E9858(S *p)
+// name: SafeHouse port (PostLoadRopeMesh)
+void PostLoadRopeMesh(S *p)
 {
     U vertices[128];
     WORK w;
     func_001F36A8(p);
     if (!p->path || !p->head) return;
-    qword axis = func_001A6318(p)->c.q;
+    qword axis = MatJtLo(p)->c.q;
     NODE *head = p->head;
     for (NODE *node = head; node; node = node->next) {
         int index = node->mesh - p->config.meshes;
@@ -104,7 +105,7 @@ void func_001E9858(S *p)
                 e->samples = out;
                 for (k = 0; k < e->n; k++) {
                     qword world = Point(&object->mat, vertices[k].q);
-                    func_001E6F60(p->path, world, 0, &phase->hit.q, &w.direction.q, &w.distance, 0);
+                    NearestCrvAll(p->path, world, 0, &phase->hit.q, &w.direction.q, &w.distance, 0);
                     BuildLookAtMatrix(&w.temporary, w.direction.q, axis);
                     qword difference = PointDifference(world, w.phase.hit.q);
                     w.basis = w.temporary;

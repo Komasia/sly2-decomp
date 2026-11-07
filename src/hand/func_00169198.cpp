@@ -124,14 +124,14 @@ void func_001A4AD8(G *pg, int c, void **apv, SHD *pshd);
 int func_001EDA20(OBJ *pobj);
 int func_001BEE10(ALO *palo, int n);
 void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
-void func_0011C168(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB);
-void func_0011C318(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc);
+void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
+void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 qword func_001A62E8(ALO *palo);
 RPL *func_001CD998(void);
 }
 static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return mat
 {
-    func_0011C168(&mat, &matA, &matB);
+    MulMatrix4(&mat, &matA, &matB);
 }
 static inline void CopyMat(MATRIX4 &matDst, const MATRIX4 &matSrc)
 {
@@ -300,7 +300,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
         if (pskin)
         {
             MATRIX4 matInv;
-            func_0011C318(&matInv, &matModel);
+            InverseAffineMatrix4(&matInv, &matModel);
             uint ib = pskin->ib;
             for (int imat = 0; imat < pskin->cmat; imat++)
             {

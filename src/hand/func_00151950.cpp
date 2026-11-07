@@ -16,7 +16,7 @@ struct Y { char pad[0x1BC]; float g1BC; char pad1[0x1D0 - 0x1C0]; LO *plo; int n
 struct X { Y *py; };
 extern "C" {
 void func_0014FD40(X *p);
-M3 func_0011BC00(M4 *pm, M3 *pm2);
+M3 MulMat3TransposeA(M4 *pm, M3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3 *pm, float *pg, qword *pv);
 float GSmooth(float gCur, float gTarget, float dt, void *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf"); /* GSmooth */
 M3 func_0011B500(qword v, float g);
@@ -66,7 +66,7 @@ void Update(X *p)
         M3 mNew;
         union { qword q; } axis;
         float rad;
-        mRel = func_0011BC00(&m, &g_cm.mat);
+        mRel = MulMat3TransposeA(&m, &g_cm.mat);
         func_0011BCF8(&mRel, &rad, &axis.q);
         if (rad < 0.0001f) {
             mNew = m.m3;

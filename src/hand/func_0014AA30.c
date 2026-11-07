@@ -14,7 +14,7 @@ struct O { char pad[0x50]; int x50; int x54; struct E *x58; struct Q *x5C; };
 struct P { char pad[0x38]; struct O *p38; };
 void *func_001C4840(void *);
 qword func_001A62E8(void *);
-void func_001E6F60(struct Q *, qword, int, int, int, int, float *);
+void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct Q *, qword, int, int, int, int, float *);
 int func_0011D910(struct RANGE *, float);
 qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(void *, qword);
 float sqrtf(float);
@@ -26,14 +26,15 @@ static inline float GRemap(struct RANGE *pr, float g)
     return (g - pr->a) / (pr->b - pr->a);
 }
 
-int func_0014AA30(struct P *p)
+// name: SafeHouse port (JOBCHASE::IBest)
+int IBest__8JOBCHASE(struct P *p)
 {
     int iBest = -1;
     int i = 0;
     float ag[1];
     void *pv = func_001C4840(g_sw);
     float gBest = -1.0f;
-    func_001E6F60(p->p38->x5C, func_001A62E8(pv), 0, 0, 0, 0, ag);
+    NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(p->p38->x5C, func_001A62E8(pv), 0, 0, 0, 0, ag);
     for (; i < p->p38->x54; i++) {
         float g, u1, u2, u3, s;
         VU v;

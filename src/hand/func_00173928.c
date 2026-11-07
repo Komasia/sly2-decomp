@@ -6,8 +6,9 @@ struct O { char pad[0xC]; struct VTE *vt; };
 struct X { char pad[0x14]; int n14; float g18; };
 struct E { struct O *po; int pad; float g8; struct X *px; int k; int pad2[3]; qword q; };
 struct S { char pad[0x58]; int c58; char pad2[0xA0 - 0x5C]; float gA0; float gA4; };
-qword func_00173A18(struct S *p);
-void func_00173928(struct S *p, struct E *pe, int k, int f) {
+qword PosCenter__Fv(struct S *p);
+// name: SafeHouse port (ReleaseSlot)
+void ReleaseSlot__FP7SPAWNERP4SLOTii(struct S *p, struct E *pe, int k, int f) {
     pe->k = k;
     switch (k) {
     case 0:
@@ -16,7 +17,7 @@ void func_00173928(struct S *p, struct E *pe, int k, int f) {
         break;
     case 1:
         pe->g8 = g_clock.t + p->gA0;
-        pe->q = func_00173A18(p);
+        pe->q = PosCenter__Fv(p);
         if ((f ^ 1) & 1) pe->px->g18 = g_clock.t + p->gA4;
         break;
     }

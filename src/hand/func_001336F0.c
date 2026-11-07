@@ -7,7 +7,8 @@ struct N *func_0011CCC0(void *);
 void InitDl__FP2DLi(void *, int);
 void AppendDlEntry__FP2DLPv(void *, struct N *);
 int FFindDlEntry__FP2DLPv(void *, void *);
-struct N *func_001336F0(struct G *pg, struct P *p) {
+// name: SafeHouse port (PoxaAddSw)
+struct N *PoxaAddSw__FP2SWP3ALO(struct G *pg, struct P *p) {
     int i;
     struct N *pn = func_0011CCC0(&pg->pool3ce0);
     InitDl__FP2DLi(pn->dl34, 0x60);

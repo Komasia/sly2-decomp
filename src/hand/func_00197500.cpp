@@ -1,4 +1,4 @@
-// func_00197500: ported from Lilly's personal Sly 2 decomp (src/P2/jtair_update.c), reduced to the declarations it needs.
+// UpdateJumpTransitions__FP4JUMP: ported from Lilly's personal Sly 2 decomp (src/P2/jtair_update.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF818 (D_002BF818), D_002BF81C (D_002BF81C), D_002BF820 (D_002BF820), D_002BF82C (D_002BF82C), D_002F7900 (g_SheetGangMurray), D_002E1E40 (g_SheetGangSly), D_002BF830 (g_SheetMovementMiscHoverPackDuration), g_clock, D_002A2DD0 (g_qwZero)
 // 0x00197500 UpdateJtAirInput (our name; KB FUN_00197500)
@@ -1573,7 +1573,8 @@ static inline qword QwScale(qword qwVec, VU_FLOAT gScale)
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(qw) : "j"(gScale.qw), "j"(qwVec));
     return qw;
 }
-void UpdateJtAirInput(JTAIR *pjtair) __asm__("func_00197500");
+void UpdateJtAirInput(JTAIR *pjtair) __asm__("UpdateJumpTransitions__FP4JUMP");
+// name: SafeHouse port (UpdateJumpTransitions)
 void UpdateJtAirInput(JTAIR *pjtair)
 {
     VECTOR4 posHero;

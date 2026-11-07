@@ -14,9 +14,9 @@ struct CLOCK{float t,dt;};
 extern "C"{
  extern CLOCK g_clock;extern U D_002A2DD0,D_002A2DA0;extern char g_sw[],D_002DE578[];
  void SetXfMode(P*,void*,int) asm("SetXfMode__FP3ALOP2XFi");void InvalidateXfParams(P*,void*) asm("InvalidateXfParams__FP3ALOP2XF");void ResetXfParams(P*,void*) asm("ResetXfParams__FP2XFPv");
- float GRandInRange(float,float) asm("GRandInRange__Fff");void func_0011EFB0(qword,float*,float*,float*);
+ float GRandInRange(float,float) asm("GRandInRange__Fff");void ConvertVectorToSphere(qword,float*,float*,float*) asm("ConvertVectorToSphere__FG9VU_VECTORPfN21");
  void SetBirdHeading(P*,float) asm("SetBirdHeading__FP4BIRDf");void func_001B17B8(P*,float);
- qword func_001A62E8(P*);void func_001E6F60(PATH*,qword,void*,U*,U*,float*,float*);
+ qword func_001A62E8(P*);void NearestCrvAll(PATH*,qword,void*,U*,U*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
  float DgStepCrv(PATH*) asm("DgStepCrv__FP3CRV");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");P*PloNearestPlayer(void*,qword) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
  EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
  qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");void DropPickups(void*,qword,int,int,P*) asm("DropPickups__FP6VECTORG9VU_VECTORiiP2LO");
@@ -72,7 +72,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
  case 2:{
   p->phase=-p->phase;float negative=-1.0f;M4*m=GetMatrix(p);
   qword row=m->row[0].q;qword factor=SplatInto(negative,&w.first);qword scaled=ScaleX(row,factor);
-  func_0011EFB0(scaled,&w.angle,0,0);SetBirdHeading(p,w.angle);SetZeroVelocity(p);SetXfMode(p,p->group,1);InvalidateXfParams(p,p->group);break;
+  ConvertVectorToSphere(scaled,&w.angle,0,0);SetBirdHeading(p,w.angle);SetZeroVelocity(p);SetXfMode(p,p->group,1);InvalidateXfParams(p,p->group);break;
  }
  case 3:
   SetZeroVelocity(p);func_001B17B8(p,p->ratio+p->ratio);
@@ -80,7 +80,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
  case 4:{
   w.first.q=func_001A62E8(p);
   if(p->path){
-   func_001E6F60(p->path,w.first.q,0,&w.second,0,&p->parameter,&w.parameter);
+   NearestCrvAll(p->path,w.first.q,0,&w.second,0,&p->parameter,&w.parameter);
    float phase=DgStepCrv(p->path);
    qword delta=Sub(w.first.q,w.second.q);
    float speed=p->speed.value;

@@ -44,10 +44,10 @@ public:
     char pad[0xE8 - 0x10];
     void *pE8;
 };
-extern "C" void func_001A6B88(X *, X *);
+extern "C" void TeleportLo(X *, X *) asm("TeleportLo__FP2LOT0");
 extern "C" void func_001F49C8(X *p, X *q)
 {
-    func_001A6B88(p, q);
+    TeleportLo(p, q);
     if (p->pE8) {
         p->Set35(q->Get33());
         p->Set36(q->Get34());

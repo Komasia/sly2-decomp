@@ -15,7 +15,7 @@ extern "C" void func_00129EC8(void*);
 struct CRef{int tag;union{int n;float f;};CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){func_00129EC8(this);}};
 extern "C"{
 void func_001D9870();
-int func_002121E8(POOL*,int);
+int FSpriteAnimPlaying(POOL*,int) asm("FSpriteAnimPlaying__FP2LOi");
 void SetMenuState(P*,int) asm("SetMenuState__FP4MENUi");
 int func_001880D8(INPUT*);
 uint func_00187D80(INPUT*,uint);
@@ -74,37 +74,37 @@ extern "C" void func_001AEEE0(P*p){
  switch(p->state){
  case 0:break;
  case 1:
-  if(func_002121E8(group->pool,0x314))break;
+  if(FSpriteAnimPlaying(group->pool,0x314))break;
   if(p->pending!=-1){p->depth=p->pending;p->pending=-1;}
   goto resumed;
  case 2:
-  if(func_002121E8(group->pool,0x314))break;
+  if(FSpriteAnimPlaying(group->pool,0x314))break;
   if(p->pending!=-1)p->pending=-1;else p->depth--;
   if(p->depth==0)goto close;
   goto resumed;
  case 3:
-  if(func_002121E8(group->pool,group->meta->back))break;
+  if(FSpriteAnimPlaying(group->pool,group->meta->back))break;
   p->depth=p->pending;p->pending=-1;
   SetMenuState(p,4);
   break;
  case 4:
-  if(func_002121E8(group->pool,group->meta->ready))break;
+  if(FSpriteAnimPlaying(group->pool,group->meta->ready))break;
   goto resumed;
  case 8:{
-  if(func_002121E8(group->pool,0x314))break;
+  if(FSpriteAnimPlaying(group->pool,0x314))break;
  close:
   POOL*pool=group->pool;VTE*method=&pool->vt[50];method->fn((POOL*)((char*)pool+method->delta));
   SetMenuState(p,0);
   break;
  }
  case 5:
-  if(func_002121E8(group->pool,group->meta->forward))break;
+  if(FSpriteAnimPlaying(group->pool,group->meta->forward))break;
  activate:
   SetMenuState(p,7);
   if(!p->input)break;
   {INPUT*input=p->input;direction=func_001880D8(input);if(direction<0)goto up;goto positive;}
  case 6:
-  if(func_002121E8(group->pool,group->meta->reverse))break;goto activate;
+  if(FSpriteAnimPlaying(group->pool,group->meta->reverse))break;goto activate;
  case 7:{
   if(!p->input)break;
   uint flags;flags=func_00187D80(p->input,0x870);
@@ -137,10 +137,10 @@ extern "C" void func_001AEEE0(P*p){
   }
  }
  case 11:
-  if(func_002121E8(group->pool,0x331))break;
+  if(FSpriteAnimPlaying(group->pool,0x331))break;
   SetMenuState(p,10);break;
  case 9:
-  if(func_002121E8(group->pool,0x332))break;
+  if(FSpriteAnimPlaying(group->pool,0x332))break;
  resumed:
   SetMenuState(p,7);break;
  case 10:{

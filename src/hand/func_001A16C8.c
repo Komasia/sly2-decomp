@@ -9,9 +9,9 @@ struct P{struct O*self;char pad4[0x30-4];struct O*target;char pad34[8];int mode;
 extern F D_002BFACC,D_002BFAD0,D_002BFAD4,D_002BFB00,D_002BFB04;
 extern U D_002BFAE0,D_002BFAF0,D_002A2DA0,g_normalZ;
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O*,int);
-qword func_0011E9F8(qword,float);
+qword LimitVectorLength__FG9VU_VECTORf(qword,float);
 qword func_001A62E8(struct O*);
-struct M3*func_001A6318(struct O*);
+struct M3*MatJtLo__FP2LO(struct O*);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct O*,struct O*,qword);
 void SetDamageState__FP5ACTORi(struct P*,int);
 static inline float Max(float a,float b){return a>b?a:b;}
@@ -61,7 +61,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
             qword v=Scale(p->velocity.q,k);
             scratch.q=k;
             output.q=v;
-            output.q=func_0011E9F8(v,D_002BFAD4.value);
+            output.q=LimitVectorLength__FG9VU_VECTORf(v,D_002BFAD4.value);
             output.f[2]=Max(output.f[2],D_002BFAD0.value);
         }
         break;
@@ -73,7 +73,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
             selfPosition.q=func_001A62E8(p->self);
             targetPosition.q=func_001A62E8(target);
             {qword k=Word(-150.0f);scratch.q=k;negative.q=k;}
-            basis=func_001A6318(target);
+            basis=MatJtLo__FP2LO(target);
             delta=Intercept(&selfPosition,&targetPosition,basis,&negative);
             local=ConvertVec__FP2LOT0G9VU_VECTOR(0,target,delta);
             if(Z(local)>0.0f)output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,D_002BFAE0.q);

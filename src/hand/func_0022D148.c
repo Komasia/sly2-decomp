@@ -1,8 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct O { char pad[0x40]; M4 mat; char pad1[0x98 - 0x80]; short k; char pad2[0xA0 - 0x9A]; struct O *pParent; };
-void func_0011C318(M4 *pmDst, M4 *pmSrc);
-void func_0011C168(M4 *pmDst, M4 *pmA, M4 *pmB);
+void InverseAffineMatrix4__FP7MATRIX4(M4 *pmDst, M4 *pmSrc);
+void MulMatrix4__FP7MATRIX4T0Pv(M4 *pmDst, M4 *pmA, M4 *pmB);
 void *func_0023320C(void *d, void *s, int n);
 void *func_002333B4(void *p, int c, int n);
 M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po);
@@ -33,16 +33,16 @@ M4 *func_0022D148(M4 *pm, struct O *po, struct O *poStop)
                 M4 *pmE = &mE;
                 
                 
-                func_0011C168(&mC, &p->pParent->mat, &mB);
+                MulMatrix4__FP7MATRIX4T0Pv(&mC, &p->pParent->mat, &mB);
                 
-                func_0011C318(&mD, &p->mat);
-                func_0011C168(pmE, &mC, &mD);
+                InverseAffineMatrix4__FP7MATRIX4(&mD, &p->mat);
+                MulMatrix4__FP7MATRIX4T0Pv(pmE, &mC, &mD);
                 AddM4(&mA, pm, pmE);
                 func_0023320C(pm, &mA, 0x40);
             } else {
                 M4 *pmE = &mE;
-                func_0011C318(&mC, &p->mat);
-                func_0011C168(pmE, &mB, &mC);
+                InverseAffineMatrix4__FP7MATRIX4(&mC, &p->mat);
+                MulMatrix4__FP7MATRIX4T0Pv(pmE, &mB, &mC);
                 AddM4(&mA, pm, pmE);
                 func_0023320C(pm, &mA, 0x40);
             }
@@ -53,8 +53,8 @@ M4 *func_0022D148(M4 *pm, struct O *po, struct O *poStop)
     if (poStop) {
         M4 *pmE = &mE;
         M4 *pmA = &mA;
-        func_0011C318(pmE, &poStop->mat);
-        func_0011C168(pmA, pmE, pm);
+        InverseAffineMatrix4__FP7MATRIX4(pmE, &poStop->mat);
+        MulMatrix4__FP7MATRIX4T0Pv(pmA, pmE, pm);
         func_0023320C(pm, pmA, 0x40);
     }
     return pm;

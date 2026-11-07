@@ -8,7 +8,7 @@ extern char g_sw[];
 int FAbsorbSoWkr__FP2SOP3WKR(struct S *p, struct Q *q);
 qword func_001A62E8(struct S *p);
 void func_00156B98(void *g, int n, qword pos, struct S *p);
-void func_0019CD38(void *p, int n);
+void SetBinocState__FP5ACTORi(void *p, int n);
 void func_00183B80(struct S *p, int n);
 int func_00183E08(struct S *p, struct Q *q)
 {
@@ -20,7 +20,7 @@ int func_00183E08(struct S *p, struct Q *q)
     func_00156B98(g_sw, 0, func_001A62E8(p), p);
     if (p->x190) {
         struct O *o;
-        func_0019CD38(p->x190->xf00, -1);
+        SetBinocState__FP5ACTORi(p->x190->xf00, -1);
         o = p->x190;
         e = &o->vt[88];
         ((void (*)(void *, int))e->pfn)((char *)o + e->d, 0);

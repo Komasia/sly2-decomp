@@ -16,7 +16,7 @@ qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom(struct J *pj, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_00229D60(void *,void *);
 int CsoeCollect(struct S *p,int (*pfn)(void *,void *),void *context,void **apv) asm("CsoeCollect__FP3ALOPvN21");
-int func_0014CDB0(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg);
+int CClipSegmentEntries(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg) asm("CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3");
 int func_0011D4D0(float a, float b, float eps);
 }
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -36,7 +36,8 @@ struct WORK {
  MSG msg __attribute__((aligned(16)));
  LSG alsg[0x10];
 };
-extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pnormal)
+// name: SafeHouse port (GWaterDepth)
+extern "C" float GWaterDepth__FP3ALOT0P6VECTORT2(struct S *p, struct J *pj, qword *ppos, qword *pnormal)
 {
     WORK work;
     void **apv;
@@ -59,7 +60,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
         apv = (void **)PvAllocStackImpl(pm);
     }
     c = CsoeCollect(p, func_00229D60, 0, apv);
-    if (!func_0014CDB0(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {
+    if (!CClipSegmentEntries(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {
         if (pnormal)
             *pnormal = g_normalZ;
         _$_10STACKSCOPE(&work.mark, 2);

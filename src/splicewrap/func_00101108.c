@@ -1,5 +1,5 @@
 #include "splicewrap.h"
-void func_001F7BF8(s32, f32);                    /* extern */
+void FadeAloOut__FP3ALOf(s32, f32);                    /* extern */
 CRef *func_00101108(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
@@ -9,7 +9,7 @@ CRef *func_00101108(CRef *ret, void *pbasic, s32 cref, CRef *aref)
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 1, aref, aotyp, &arg0_v);
     Decref__4CRef(&ref);
     InitTag__4CRef(&ref, 0x24);
-    func_001F7BF8(pbasic, arg0_v);
+    FadeAloOut__FP3ALOf(pbasic, arg0_v);
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

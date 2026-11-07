@@ -11,10 +11,10 @@ struct P { struct O *x0; int x4; int x8; struct CURVE *xc; float x10; int x14; i
 struct CLOCK { float t; float dt; };
 extern "C" struct CLOCK g_clock;
 extern "C" qword D_002A2DD0;
-extern "C" void func_001C3500(struct CURVE *a, int b, M3 *pm, float g);
-extern "C" M3 *func_001A6318(struct O *o);
-extern "C" void func_00117308(M3 *a, float g, float dt, float one, qword v, M3 *pm, qword z, M3 *pm2, qword *derivative);
-extern "C" M3 func_0011BC00(M3 *a, M3 *b);
+extern "C" void MatPipeFrame(struct CURVE *a, int b, M3 *pm, float g) asm("MatPipeFrame__FP2LOfiPv");
+extern "C" M3 *MatJtLo(struct O *o) asm("MatJtLo__FP2LO");
+extern "C" void MatHermiteRotation(M3 *a, float g, float dt, float one, qword v, M3 *pm, qword z, M3 *pm2, qword *derivative) asm("MatHermiteRotation__FfffPvG9VU_VECTORT3T4T3PG9VU_VECTOR");
+extern "C" M3 MulMat3TransposeA(M3 *a, M3 *b) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 extern "C" void func_0011BCF8(M3 *pm, float *pg, U *pv);
 static inline qword Scale(qword v,float g){U u;register qword s __asm__("vf2");qword r;__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(g));u.q=s;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(u.q));return r;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
@@ -42,26 +42,27 @@ typedef char M3_Size[sizeof(M3)==48?1:-1];
 typedef char VT_d_Offset[((unsigned int)&(((VT*)0x10000)->d)-0x10000)==0?1:-1];
 typedef char VT_fn_Offset[((unsigned int)&(((VT*)0x10000)->pfn)-0x10000)==4?1:-1];
 typedef char M3_mat_Offset[((unsigned int)&(((M3*)0x10000)->mat)-0x10000)==0?1:-1];
-extern "C" void func_0019DF70(struct P *p)
+// name: SafeHouse port (UpdateClimbMotion)
+extern "C" void UpdateClimbMotion__FP5ACTOR(struct P *p)
 {
     M3 m, m2, m4;
     U vec;
     float f;
     M3 *pm;
-    func_001C3500(p->xc, p->x18 == 0, &m, p->x10);
+    MatPipeFrame(p->xc, p->x18 == 0, &m, p->x10);
     if (p->x4 == 0 || p->x4 == 4) {
         struct O *o = p->x0;
         float dt = g_clock.dt;
         float g = o->x1030->x14->x74 - o->x1030->x1c;
         M3 *pa;
         g = g > dt ? g : dt;
-        pa = func_001A6318(o);
-        func_00117308(pa, g, dt, 1.0f, p->x0->vt[34].pfn((char *)p->x0 + p->x0->vt[34].d), &m, D_002A2DD0, &m2, 0);
+        pa = MatJtLo(o);
+        MatHermiteRotation(pa, g, dt, 1.0f, p->x0->vt[34].pfn((char *)p->x0 + p->x0->vt[34].d), &m, D_002A2DD0, &m2, 0);
     } else {
         m2 = m;
     }
     pm = &m2;
-    m4 = func_0011BC00(func_001A6318(p->x0), pm);
+    m4 = MulMat3TransposeA(MatJtLo(p->x0), pm);
     func_0011BCF8(&m4, &f, &vec);
     {O *o=p->x0;VT *vt=o->vt;void (*call)(void *,qword)=(void(*)(void*,qword))vt[36].pfn;void *thisp=(char*)o+vt[36].d;call(thisp,Scale(vec.q,f/g_clock.dt));}
 }

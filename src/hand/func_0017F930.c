@@ -17,7 +17,7 @@ struct S {
 void UpdateSo__FP2SOf(struct S *p);
 int FShipSegmentDone__FP2LO(struct S *p);
 void SetShipState__FP2LOi(struct S *p, int n);
-qword func_0011E1A0(float a, float b, float c);
+qword SetVectorCylind__Ffff(float a, float b, float c);
 void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword q);
 void SetSmaGoal__FP3SMA3OID(void *p, int n);
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
@@ -46,7 +46,7 @@ void UpdateShip__FP2LO(struct S *p) {
         union { qword q; } u; qword v;
         int i;
         p->g218 = t->g18;
-        p->v220 = func_0011E1A0(t->g18, t->g1C * D_002BE7E8, 0.0f);
+        p->v220 = SetVectorCylind__Ffff(t->g18, t->g1C * D_002BE7E8, 0.0f);
         v = Make(0.0f, 0.0f, p->p150->g28); u.q = v;
         for (i = 0; i < p->n230; i++) {
             struct E *e = &p->a234[i];

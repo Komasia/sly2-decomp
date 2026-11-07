@@ -8,7 +8,7 @@ struct A { VT *vt; };
 struct O { int x0; struct A *x4; };
 struct K { char pad[0x74]; WORD x74; };
 struct E { float x0; struct K *x4; int pad[2]; qword x10; };
-struct O *func_0012FF10(struct K *k, struct ACTOR *p, void *a, int b);
+struct O *PchnFindAseg__FP4ASEGP3ALOPvi(struct K *k, struct ACTOR *p, void *a, int b);
 void func_00137A30(struct ACTOR *p, int cb, int c, struct E *ae, int count, int *keys, int *counts, struct MULTI **pn);
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char A_vt_Offset[FIELD_OFFSET(A,vt)==0?1:-1];
@@ -27,7 +27,8 @@ typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char VT_Size[sizeof(VT)==8?1:-1];
 typedef char VT_d_Offset[((unsigned int)&(((VT*)0x10000)->d)-0x10000)==0?1:-1];
 typedef char VT_fn_Offset[((unsigned int)&(((VT*)0x10000)->pfn)-0x10000)==4?1:-1];
-void func_001A0300(struct ACTOR *p, struct E *ae, struct MULTI **pn)
+// name: SafeHouse port (BindRootBlend)
+void BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(struct ACTOR *p, struct E *ae, struct MULTI **pn)
 {
     struct E *e = ae;
     int i;
@@ -35,7 +36,7 @@ void func_001A0300(struct ACTOR *p, struct E *ae, struct MULTI **pn)
     struct MULTI *n;
     for (i = 0; i < 8; i++, e++) {
         if (e->x4) {
-            struct O *o = func_0012FF10(e->x4, p, (void *)1, 1);
+            struct O *o = PchnFindAseg__FP4ASEGP3ALOPvi(e->x4, p, (void *)1, 1);
             if (o) {
                 o->x4->vt[3].pfn((struct A *)((char *)o->x4 + o->x4->vt[3].d), 0.0f, 1.0f, &v0.q, 0);
                 o->x4->vt[3].pfn((struct A *)((char *)o->x4 + o->x4->vt[3].d), e->x4->x74.value, 1.0f, &v1.q, 0);

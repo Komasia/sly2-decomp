@@ -55,8 +55,8 @@ int func_001DAEA8(int ipuk);
 int func_00163400(void *pcond);
 void func_0022A220(WAYPT *pwaypt);
 qword func_001A62E8(LO *plo);
-void func_0011EE08(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist);
-MATRIX4 *func_001A6318(SO *pso);
+void PosNearestSegment(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
+MATRIX4 *MatJtLo(SO *pso) asm("MatJtLo__FP2LO");
 VECTOR *func_00256D18(VECTOR *pv, qword qw);
 void AppendAloExtraDraws(SO *pso, MATRIX4 *pmat, float a, float b) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 void func_001A5FB8(SO *pso, qword pos0, qword pos1, float s, float a);
@@ -150,14 +150,14 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
     qword pos = func_001A62E8(pwaypt->ploSource);
     qword posTop = QwAddScaled(pos, g_normalZ, VuFloatFromMemWord(*(int *)&pwaypt->sHeight));
     float sDist;
-    func_0011EE08(posCam, pos, posTop, 0, 0, &sDist);
+    PosNearestSegment(posCam, pos, posTop, 0, 0, &sDist);
     float rScale = GLimitG(GEvaluateClq(&D_002C44C0, sDist), D_002C44D0.gMin, D_002C44D0.gMax);
     qword posEnd = QwAddScaled(posTop, g_normalZ, VuFloat(rScale * D_002C44D8));
 
     MATRIX4 mat;
     if (pwaypt->psoMarker)
     {
-        MATRIX3 matScaled = *(MATRIX3 *)func_001A6318(pwaypt->psoMarker) * VuFloat(rScale);
+        MATRIX3 matScaled = *(MATRIX3 *)MatJtLo(pwaypt->psoMarker) * VuFloat(rScale);
         MATRIX4 *pmat = &mat;
         func_00256D18(&mat.pos, posEnd);
         *(MATRIX3 *)pmat = matScaled;
@@ -171,7 +171,7 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
         func_001A5FB8(pwaypt->psoBeam, pos, posEnd, rScale, uShow);
     if (pwaypt->psoBase)
     {
-        MATRIX3 matScaled = *(MATRIX3 *)func_001A6318(pwaypt->psoBase) * VuFloat(rScale);
+        MATRIX3 matScaled = *(MATRIX3 *)MatJtLo(pwaypt->psoBase) * VuFloat(rScale);
         MATRIX4 *pmat = &mat;
         func_00256D18(&mat.pos, pos);
         *(MATRIX3 *)pmat = matScaled;

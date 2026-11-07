@@ -5,7 +5,8 @@ struct S { struct O *o; int pad[2]; int c; float g; int pad2[7]; qword q30; };
 void func_001E6F10(int, qword *, qword *, float);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct O *, int, qword);
 typedef union { qword q; float f[4]; } V;
-void func_0019E950(struct S *p) {
+// name: SafeHouse port (AddClimbContacts)
+void AddClimbContacts__FP5ACTOR(struct S *p) {
     V a, b, u;
     func_001E6F10(p->c, &a.q, &b.q, p->g);
     u.q = ConvertPos__FP2LOT0G9VU_VECTOR(p->o, 0, p->q30);

@@ -13,7 +13,7 @@ struct GROUP {ushort animCount,reuseCount;ANIM *animations;REUSE *reuse;char pad
 struct ANIM {ushort count,pad2;void *keys;float duration;void *owner;GROUP *group;int id;};
 extern "C" {
 void func_0011A058(int *);
-void func_00218790(RGBA *,RGBA *,RGBA *,RGBA *,RGBA *,RGBA *);
+void CombineColors(RGBA *,RGBA *,RGBA *,RGBA *,RGBA *,RGBA *) asm("CombineColors__FPUcN50");
 void func_00215850(SPRITE *,ITEM *,float,M23 *,RGBA,RGBA);
 }
 static inline int NLerp(float t,int previous,int next){
@@ -53,7 +53,7 @@ extern "C" void func_002188B0(float duration,ANIM *animation,int index,M23 *pare
   matrix=Mul(matrix,*parent);
   {
    RGBA inputMultiply(multiply),inputAdditive(additive),localMultiply(currentMultiply),localAdditive(currentAdditive);
-   func_00218790(&inputMultiply,&inputAdditive,&localMultiply,&localAdditive,&outputMultiply,&outputAdditive);
+   CombineColors(&inputMultiply,&inputAdditive,&localMultiply,&localAdditive,&outputMultiply,&outputAdditive);
   }
   if(item->sprite)func_00215850(item->sprite,item,duration,&matrix,outputAdditive,outputMultiply);
   item->cachedTime=time;item->matrix=matrix;

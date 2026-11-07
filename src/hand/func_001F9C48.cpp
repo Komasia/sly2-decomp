@@ -12,8 +12,8 @@ extern CLOCK g_clock;
 extern G g_sw;
 extern "C" void ReleaseXfMode(P *,OWNER *) asm("ReleaseXfMode__FP3ALOP2XF");
 extern "C" qword *func_00256D18(qword *,qword);
-extern "C" M3 *func_0011B570(M3 *,qword);
-static inline M3 BuildRotation(qword vector) return matrix {func_0011B570(&matrix,vector);}
+extern "C" M3 *BuildRotateMatrixVector(M3 *,qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
+static inline M3 BuildRotation(qword vector) return matrix {BuildRotateMatrixVector(&matrix,vector);}
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void CopyAloSoeMatrices(P *) asm("CopyAloSoeMatrices__FP3ALO");
 extern "C" void UpdateSoeWorld(NODE *) asm("UpdateSoeWorld__FP3SOE");

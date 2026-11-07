@@ -26,12 +26,12 @@ extern CAMERA g_cm;
 extern qword g_normalZ;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
-void func_001B44D8(int *, void ***);
+void ApsoeOccluders(int *, void ***) asm("ApsoeOccluders__FPiPPP3SOE");
 qword func_001A62E8(LO *);
-M4 *func_001A6318(LO *);
+M4 *MatJtLo(LO *) asm("MatJtLo__FP2LO");
 int func_00173768(SET *, qword, int, void **, float);
 float SMaxCrv(LO *) asm("SMaxCrv__FP3CRV");
-int func_001EA3B0(void *, float);
+int FInPathSpan(void *, float) asm("FInPathSpan__FP7PATHRECf");
 void func_001E6F10(LO *, qword *, qword *, float);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 float func_002458F0(float, float);
@@ -99,7 +99,8 @@ static inline float SLengthXY(qword qw)
     return GXOfQw(qwT);
 }
 
-extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut, int *pfFlip)
+// name: SafeHouse port (PsrcChoose)
+extern "C" SEL *PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(SET *pset, qword pos, qword *pposOut, M3 *pmatOut, int *pfFlip)
 {
     FRAME frame;
     union { VECTOR4 v; qword q; } posBest;
@@ -116,7 +117,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
     SEL *pselBest;
     int fFlip = 0;
     __10STACKSCOPE(&frame);
-    func_001B44D8(&cplo, &aplo);
+    ApsoeOccluders(&cplo, &aplo);
     pselBest = 0;
     float sBest = D_002A53E0;
 
@@ -148,13 +149,13 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
             {
             case 0:
                 posObj = func_001A62E8(psel->plo);
-                mat = *(M3 *)func_001A6318(psel->plo);
+                mat = *(M3 *)MatJtLo(psel->plo);
                 sRadius = psel->plo->sRadius;
                 break;
             case 2:
                 sRadius = sRadiusMin;
                 posObj = func_001A62E8(psel->plo);
-                mat = *(M3 *)func_001A6318(psel->plo);
+                mat = *(M3 *)MatJtLo(psel->plo);
                 break;
             }
             float sDist = SLengthXY(QwSubFrom(pos, posObj));
@@ -179,7 +180,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
             {
                 int kNext = k + 1;
                 float u = D_002BE5E8 * ((float)k + GRandInRange(g_lmZeroOne.gMin, g_lmZeroOne.gMax));
-                if (func_001EA3B0(plo->pv180, u))
+                if (FInPathSpan(plo->pv180, u))
                     goto nextSample;
                 {
                     func_001E6F10(plo, &posCurve.q, &dirCurve.q, u);

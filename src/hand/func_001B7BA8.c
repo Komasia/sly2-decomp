@@ -7,7 +7,7 @@ extern qword D_002C09E0, D_002A2DD0;
 void SetSmaGoal__FP3SMA3OID(int a, int b);
 void func_001B7D20(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct X *x, int n);
-void func_00209EE0(struct X *x);
+void ReleaseGuardHeld__FP2LO(struct X *x);
 void SetAloEntryMode__FP3ALOi(struct X *x, int n);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct P *p, int n, qword q);
 // name: SafeHouse port (CancelMurrayCarry)
@@ -28,7 +28,7 @@ void CancelMurrayCarry__FP6MURRAY(struct P *p)
     }
     func_001B7D20(p);
     x = p->x13F0->x180;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x38)) func_00209EE0(x);
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x38)) ReleaseGuardHeld__FP2LO(x);
     else SetAloEntryMode__FP3ALOi(x, 1);
     switch (p->x13D0) {
     case 5: {

@@ -38,7 +38,8 @@ typedef char Alignment_2[__alignof__(X)==4?1:-1];
 typedef char Alignment_3[__alignof__(T)==4?1:-1];
 typedef char Alignment_4[__alignof__(P)==4?1:-1];
 typedef char Alignment_5[__alignof__(G)==4?1:-1];
-extern "C" void func_0019D948(P*p){
+// name: SafeHouse port (SetBinocWindowArgs)
+extern "C" void SetBinocWindowArgs__FP8BINOCWIN(P*p){
  T*pt=p->t;
  if(!pt)return;
  pt->tags[0]=pt->tags[1]=-1;

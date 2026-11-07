@@ -11,7 +11,7 @@ extern "C" {
 void *PvAllocStackImpl(const AREQ &req) asm("PvAllocStackImpl__Fi");
 void *func_002333B4(void *pv, int b, int cb);
 void GetAsegChannelTarget(X *px, void *p, ENT *pent, int *pa, Y **ppy) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
-M4 func_0011C168(M4 *pa, M4 *pb);
+M4 MulMatrix4(M4 *pa, M4 *pb) asm("MulMatrix4__FP7MATRIX4T0Pv");
 M4 MatXfWithValue(Y *py, qword q) asm("MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR");
 M4 func_0022CB90(Y *py, M4 *pm, qword q1, qword q2);
 M4 DmatOfValue(Y *py, qword q) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
@@ -77,8 +77,8 @@ void CalculateAsegMatrices(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float
         ClearM4(&mB);
     found:
         {
-            m2 = AddM4(func_0011C168(&mA, &m2), func_0011C168(&mB, &m1));
-            m1 = func_0011C168(&mA, &m1);
+            m2 = AddM4(MulMatrix4(&mA, &m2), MulMatrix4(&mB, &m1));
+            m1 = MulMatrix4(&mA, &m1);
         }
     }
     if (pm1) *pm1 = m1;

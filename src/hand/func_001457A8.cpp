@@ -21,7 +21,7 @@ struct P {
 extern "C" {
 extern qword g_normalZ;
 qword func_001A62E8(void *p);
-M3 *func_001A6318(void *p);
+M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 M3 func_0011B500(qword axis, float g);
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 E *func_00145AA8(P *p);
@@ -74,7 +74,7 @@ void PlanFollow(P *p)
         u.s.pos = AddScaled(p->q50, VU_FLOAT(-p->g68), MulM3(u.s.m, po->q190));
     } else {
         O *po;
-        u.s.m = *func_001A6318(p->po);
+        u.s.m = *MatJtLo(p->po);
         po = p->po;
         u.s.pos = AddScaled(p->q50, VU_FLOATM(p->g68), po->pvt->pfn((O *)((char *)po + po->pvt->d)));
     }

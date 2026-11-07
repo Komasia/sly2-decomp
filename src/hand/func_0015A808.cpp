@@ -34,7 +34,7 @@ struct EMITB {
 extern "C" {
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void func_001E6F10(MESHO *pmesh, float g, qword *ppos, qword *pnormal);
-MATRIX3 *func_001A6318(void *palo);
+MATRIX3 *MatJtLo(void *palo) asm("MatJtLo__FP2LO");
 }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -182,7 +182,7 @@ extern "C" void ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3(EMITB *p, int i, int
     case 4: {
         void *palo = p->pemito->palo;
         if (palo) {
-            MATRIX3 *pm = func_001A6318(palo);
+            MATRIX3 *pm = MatJtLo(palo);
             *pv = MulTMat(*pm, MulCam(&g_cm, pep->v40));
         } else {
             *pv = MulCam(&g_cm, pep->v40);

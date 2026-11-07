@@ -12,7 +12,7 @@
 //  * The box corners: posMin first (its VU_FLOAT temporary is stored to sp+0x50 first); AddScaled takes (VV base, scalar,
 //    vector), so the scalar is converted before the Normalize branch and the base is a separate pseudo (the vmove).
 //  * Scale lists the dot product first (local-alloc ties the projection to it); GClamp passes both bounds by value.
-//  * posBase is read before the func_0011E1A0 call, so it is a spilled pseudo at sp+0x80 like the game.
+//  * posBase is read before the SetVectorCylind call, so it is a spilled pseudo at sp+0x80 like the game.
 typedef int qword __attribute__((mode(TI)));
 union VECTOR4 { qword q; float f[4]; };
 struct CLQ { float g0, g1, g2, gUnused; };
@@ -66,7 +66,7 @@ int func_001C5570(void *, CANDIDATE *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, CANDIDATE *), void *, int *, CANDIDATE ***);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 float RadNormalize(float) asm("RadNormalize__Ff");
-qword func_0011E1A0(float, float, float);
+qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 float TJumpTo(qword, qword, float, float, float, float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 void func_001C6BD0(LO *, qword, qword, float, float);
 }
@@ -180,7 +180,7 @@ extern "C" void SpawnPickups__FP6VECTORiG9VU_VECTORPvi(void *pworld, int kind, q
     for (int iAttempt = 0; cLaunched < clo;) {
         float g = GClamp(GFromClq(D_002C0EA0, iAttempt * 0.02f), D_002C0EB0);
         qword posBase = posSnap.q;
-        qword posTrial = Add(posBase, func_0011E1A0(gAngle, gRadius, 0.0f));
+        qword posTrial = Add(posBase, SetVectorCylind(gAngle, gRadius, 0.0f));
         qword dpos = Sub(posTrial, posOrig.q);
         qword dposPerp = Sub(dpos, Scale(Dot(dpos, g_normalZ), g_normalZ));
         qword posAdjust = AddScaled(posTrial, VU_FLOAT(g), Normalize(dposPerp));

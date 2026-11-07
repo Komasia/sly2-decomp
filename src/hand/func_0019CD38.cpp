@@ -1,4 +1,4 @@
-// func_0019CD38: ported from Lilly's personal Sly 2 decomp (src/P2/jtmode.c), reduced to the declarations it needs.
+// SetBinocState__FP5ACTORi: ported from Lilly's personal Sly 2 decomp (src/P2/jtmode.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: g_clock, g_cm, D_002A2DD0 (g_qwZero), D_003DD040 (g_sndmgr), g_sw
 // 0x0019CD38 SetJtModeState__FP6JTMODEi  (our name)
@@ -1498,7 +1498,8 @@ static inline void ClearXyz(VECTOR *pvec)
     pvec->y = 0.0f;
     pvec->x = 0.0f;
 }
-void SetJtModeState(JTMODE *pjtmode, int nState) __asm__("func_0019CD38");
+void SetJtModeState(JTMODE *pjtmode, int nState) __asm__("SetBinocState__FP5ACTORi");
+// name: SafeHouse port (SetBinocState)
 void SetJtModeState(JTMODE *pjtmode, int nState)
 {
     ASEG *paseg;

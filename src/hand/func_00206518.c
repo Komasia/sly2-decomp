@@ -24,12 +24,13 @@ void SetStepPhysHeading__FP3ALOf(struct S *p, float f);
 unsigned long func_00207A20(int n);
 void *PkindeBest__FP5GUARDUl(struct S *p, unsigned long m);
 void func_00153EF8(struct F64 *pf, struct S *p, int n);
-void func_001F1A40(struct S *p);
-void func_001F1CF8(struct S *p);
+void FillPocket__FP2LO(struct S *p);
+void NextPocketPrize__FP2LO(struct S *p);
 struct O *func_00205438(struct S *p, int n);
 void ReparentBooty__FP3ALOii(struct F64 *pf, struct S *p, int n);
 
-void func_00206518(struct S *p)
+// name: SafeHouse port (ResetGuard)
+void ResetGuard__FP2LO(struct S *p)
 {
     struct O *o;
     qword *pq;
@@ -65,8 +66,8 @@ void func_00206518(struct S *p)
     func_00153EF8(p->pF64, p, D_002DD5BC);
     func_00153EF8(p->pF64, p, D_002DD648);
     if (p->n494) {
-        func_001F1A40(p);
-        func_001F1CF8(p);
+        FillPocket__FP2LO(p);
+        NextPocketPrize__FP2LO(p);
     }
     if (p->pFEC)
         p->pFEC->vt[9].pf((char *)p->pFEC + p->pFEC->vt[9].d);

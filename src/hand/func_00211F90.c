@@ -12,7 +12,7 @@ extern char D_002C3EC0[0x90];
 extern char D_002A8AA0[];
 void func_00212C50(struct S *);
 int FTaskDone__FP4TASK(struct O *);
-int func_002121E8(struct S *,int);
+int FSpriteAnimPlaying__FP2LOi(struct S *,int);
 int func_0021ECD8(char *,char *,...);
 // name: SafeHouse port (UpdateTaskCounter)
 void UpdateTaskCounter__FP8SCREENRT(struct S *p)
@@ -39,7 +39,7 @@ void UpdateTaskCounter__FP8SCREENRT(struct S *p)
             else if(FTaskDone__FP4TASK(o)) ready++;
         }
     }
-    if(func_002121E8(p,0x314)) {
+    if(FSpriteAnimPlaying__FP2LOi(p,0x314)) {
         func_0021ECD8(D_002C3EC0,D_002A8AA0,readyB);
         func_0021ECD8(D_002C3EC0+0x30,D_002A8AA0,p->countB);
         func_0021ECD8(D_002C3EC0+0x60,D_002A8AA0,p->countB-readyB);

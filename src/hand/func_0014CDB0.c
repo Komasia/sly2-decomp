@@ -2,7 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 struct LSG { char pad[0x60]; };
 int ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG(void *pso, qword a, qword b, int c, struct LSG *plsg);
 int CMergeAlsg__FiP3LSGiT1iT1i(int c, struct LSG *alsg, int n, struct LSG *plsg, int cMax, struct LSG *alsg2, int f);
-int func_0014CDB0(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg)
+// name: SafeHouse port (CClipSegmentEntries)
+int CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg)
 {
     int c = 0;
     int i;

@@ -57,7 +57,8 @@ typedef char P_Size[sizeof(P)==524?1:-1];
 typedef char WORK_request_Offset[FIELD_OFFSET(WORK,request)==0?1:-1];
 typedef char WORK_scalar_Offset[FIELD_OFFSET(WORK,scalar)==0?1:-1];
 typedef char U_q_Offset[FIELD_OFFSET(U,q)==0?1:-1];
-extern "C" int func_0019A098(P*p,float previous,float*stamp){
+// name: SafeHouse port (FActorStuckOnContacts)
+extern "C" int FActorStuckOnContacts__FP5ACTORfPf(P*p,float previous,float*stamp){
  float now=g_clock.time;
  if(now-previous<1.0f)return 0;
  if(stamp){if(now-*stamp<1.0f)return 0;*stamp=now;}

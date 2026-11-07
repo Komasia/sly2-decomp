@@ -4,7 +4,8 @@ extern struct G g_cm;
 struct V { float x, y, z; } __attribute__((aligned(16)));
 void func_0019E9D8(void *p, struct V *v);
 qword func_001A62E8(void *p);
-void func_00141588(char *p, struct V *v)
+// name: SafeHouse port (PosActorFocus)
+void PosActorFocus__FP5ACTORP9ACTORPOSE(char *p, struct V *v)
 {
     float z;
     if (*(int *)(p + 0xF54) != -1) {

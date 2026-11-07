@@ -11,7 +11,7 @@ struct P { char pad[0x10]; struct R *p10; char pad2[0x30 - 0x14]; int x30; float
 void Update__5AIJOB(struct P *);
 int func_001A61A0(struct Q *);
 qword func_001A62E8(void *);
-qword *func_001A6318(void *);
+qword *MatJtLo__FP2LO(void *);
 void SetState__16JOBBENTLEYATTACKi(struct P *, int);
 
 // name: SafeHouse port (JOBBENTLEYATTACK::Update)
@@ -56,7 +56,7 @@ void Update__16JOBBENTLEYATTACK(struct P *p)
         switch (state) {
         case 0:
             if (g < D_002BD350) {
-                qword *pm = func_001A6318(p->p10);
+                qword *pm = MatJtLo__FP2LO(p->p10);
                 register qword t __asm__("vf2");
                 qword one2;
                 float dot;

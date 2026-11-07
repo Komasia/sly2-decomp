@@ -17,8 +17,8 @@ int FXfmMoving(int);
 int func_00230348(int);
 int func_00230380(int);
 M4 DmatXf__FP2XFPv(P *);
-M4 func_0011C318(P *);
-M4 func_0011C168(M4 *, M4 *);
+M4 InverseAffineMatrix4__FP7MATRIX4(P *);
+M4 MulMatrix4__FP7MATRIX4T0Pv(M4 *, M4 *);
 void ResetXfParams__FP2XFPv(S *, P *);
 
 // name: SafeHouse port (SetXfMode)
@@ -42,8 +42,8 @@ void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
             SetV(&p->xB0, m.mat[0][0], m.mat[1][1], m.mat[2][2]);
             break;
         case 6: case 7: {
-            M4 r = func_0011C318(p);
-            t = func_0011C168(&m, &r);
+            M4 r = InverseAffineMatrix4__FP7MATRIX4(p);
+            t = MulMatrix4__FP7MATRIX4T0Pv(&m, &r);
             m = t;
             SetV(&p->xB0, m.mat[1][2], m.mat[2][0], m.mat[0][1]);
             break;

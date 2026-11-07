@@ -1,6 +1,6 @@
 struct E { int a, b, c, d; };
-void func_00207EB8(void *p, int mask, int b, int d, struct E *records);
+void SetArrayKindes__FPvUi3OIDiT0(void *p, int mask, int b, int d, struct E *records);
 void func_00208038(char *p, int mask, int b, int d)
 {
-    func_00207EB8(p, mask, b, d, (struct E *)(p + 0xA70));
+    SetArrayKindes__FPvUi3OIDiT0(p, mask, b, d, (struct E *)(p + 0xA70));
 }

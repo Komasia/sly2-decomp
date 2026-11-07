@@ -1,9 +1,9 @@
-// func_001D2E18 (Claude agent, wave-3 lane 7): MATCH, no register pins, VU helper asms only.
+// VehicleForces__FP3ALO (Claude agent, wave-3 lane 7): MATCH, no register pins, VU helper asms only.
 // Vehicle contact/traction update: correct the orientation every 3 s, sum the impulses of the wheel contacts
 // (entries 0x1A0, stride 0x60), then turn and drive the body within the remaining impulse budget.
 // How it matches (on top of w2lane4's v13 draft, which had the right instruction stream):
 // - Min and Abs are plain C (`b < a ? b : a`, __builtin_fabsf). As asm statements they were cost-1 "no unit"
-//   insns, which changed sched1 priorities of the whole post-loop block and the abs.s/sub.s order before func_001FAC98.
+//   insns, which changed sched1 priorities of the whole post-loop block and the abs.s/sub.s order before AccelRotation.
 // - Both dt-word qmtc2 helpers take the int through an "rV" constraint: the lw is then a reload emitted next to the
 //   qmtc2, so it is not a sched1 insn and reload picks $v0 (`lw v0,4(s0)` / `lw v0,4(v0)`) as in the target.
 // - The primary velocity is copied to a local before the dt vector is stored: target order is V load, dt store, A load.
@@ -37,17 +37,17 @@ extern POLY D_002C2100, D_002C2120, D_002C2130;
 extern float D_002C2110, D_002C2114, D_002C2140, D_002C2144, D_002C2148;
 extern "C" {
 void ApplyAloGravity(P *) asm("ApplyAloGravity__FP3ALO");
-M3 *func_001A6318(P *);
+M3 *MatJtLo(P *) asm("MatJtLo__FP2LO");
 void func_0011B938(const M3 *, M3 *, M3 *);
 void AccelAloTowardRotation(P *, const M3 *, const POLY *, qword, const POLY *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
-CONTACT *func_001D2DD0(P *, ENTRY *);
+CONTACT *BestContact(P *, ENTRY *) asm("BestContact__FP12VEHICLEWHEELi");
 qword func_0022D348(MOTION *, MOTION *, qword);
-void func_001FAB78(P *, qword, qword);
+void ForceAt(P *, qword, qword) asm("ForceAt__FP3ALOG9VU_VECTORT1");
 qword func_0022FCC8(MOTION *, MOTION *, qword);
 float func_0011CFE0(float, float);
-void func_001FAC98(P *, qword);
+void AccelRotation(P *, qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
 M3 *func_0011B500(M3 *, qword, float);
-qword func_0011E9F8(float, qword);
+qword LimitVectorLength(float, qword) asm("LimitVectorLength__FG9VU_VECTORf");
 void AccelAloPos(P *, qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
 static inline VV ScalarBits(int b) { qword r; __asm__("qmtc2 %1,%0" : "=j"(r) : "rV"(b)); return r; }
@@ -92,12 +92,13 @@ static inline float ClampTo(float v, const LIMITS &l) { return Clamp(v, l.low, l
 static inline float Min(float a, float b) { return b < a ? b : a; }
 static inline float Abs(float f) { return __builtin_fabsf(f); }
 
-extern "C" void func_001D2E18(P *p)
+// name: SafeHouse port (VehicleForces)
+extern "C" void VehicleForces__FP3ALO(P *p)
 {
     ApplyAloGravity(p);
     if (g_clock.time - p->lastCorrection > 3.0f) {
         M3 reset;
-        func_0011B938(func_001A6318(p), 0, &reset);
+        func_0011B938(MatJtLo(p), 0, &reset);
         AccelAloTowardRotation(p, &reset, &D_002C2100, D_002A2DD0, 0);
     }
     U scalar, velocity, localVelocity, torque, worldTorque;
@@ -110,10 +111,10 @@ extern "C" void func_001D2E18(P *p)
     if (p->count > 0) {
         do {
             ENTRY *entry = &p->entries[i];
-            CONTACT *hit = func_001D2DD0(p, entry);
+            CONTACT *hit = BestContact(p, entry);
             if (hit) {
                 qword point = hit->point.q;
-                VV normal = func_001A6318(p)->rows[2].q;
+                VV normal = MatJtLo(p)->rows[2].q;
                 qword previous = func_0022D348(p->space, 0, point);
                 VV other = func_0022D348(hit->motion, 0, point);
                 float ratio = hit->depth / (entry->maximum - entry->minimum);
@@ -124,7 +125,7 @@ extern "C" void func_001D2E18(P *p)
                 if (response < 0.0f) goto contactDone;
                 scalar.q = Scalar(response * p->physics->mass);
                 qword force = Scale(normal, scalar.q);
-                func_001FAB78(p, point, force);
+                ForceAt(p, point, force);
                 total += Dot(force, normal);
             }
         contactDone:;
@@ -143,7 +144,7 @@ extern "C" void func_001D2E18(P *p)
     torque.f[2] = turnImpulse;
     worldTorque.q = Rotate(p->secondary->world.basis, torque.q);
     budget -= Abs(D_002C2148 * turnImpulse / acceleration);
-    func_001FAC98(p, worldTorque.q);
+    AccelRotation(p, worldTorque.q);
     float dt = clock->dt;
     float half = dt * 0.5f;
     func_0011B500(&phase.rotation, g_normalZ, (localVelocity.f[2] + torque.f[2] * half) * dt);
@@ -164,7 +165,7 @@ extern "C" void func_001D2E18(P *p)
     phase.impulse.acceleration.q = Divide(Subtract(desired.q, velocity.q), dtv.q);
     phase.impulse.acceleration.bits[2] = 0;
     phase.impulse.acceleration.f[0] = Clamp(phase.impulse.acceleration.f[0], minimum, maximum);
-    phase.impulse.limited.q = func_0011E9F8(budget, phase.impulse.acceleration.q);
+    phase.impulse.limited.q = LimitVectorLength(budget, phase.impulse.acceleration.q);
     phase.impulse.world.q = func_0022FCC8(p->secondary, 0, phase.impulse.limited.q);
     AccelAloPos(p, phase.impulse.world.q);
 }

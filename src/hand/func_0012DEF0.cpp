@@ -5,9 +5,9 @@ struct Y { char pad[0x9A]; short s9A; char pad2[0xA0 - 0x9C]; BONE *pA0; char pa
 struct XX { char pad[8]; Y *py; char pad2[0x1C - 0xC]; BONE *p1C; MATRIX4 mat; };
 extern qword D_002A2DD0;
 extern "C" {
-MATRIX4 func_0011C318(const MATRIX4 &mat);
-MATRIX4 func_0011C168(const MATRIX4 &a, const MATRIX4 &b);
+MATRIX4 InverseAffineMatrix4(const MATRIX4 &mat) asm("InverseAffineMatrix4__FP7MATRIX4");
+MATRIX4 MulMatrix4(const MATRIX4 &a, const MATRIX4 &b) asm("MulMatrix4__FP7MATRIX4T0Pv");
 qword VecXfValue(Y *py, MATRIX4 mat) asm("VecXfValue__FP2XFP7MATRIX4");
 void func_0012DEF0(XX *x);
 }
-void func_0012DEF0(XX *x) { MATRIX4 m; if (x->py->pA0) m = func_0011C168(func_0011C168(func_0011C318(x->py->pA0->mat), x->p1C->mat), x->mat); else m = func_0011C168(x->p1C->mat, x->mat); Y *py = x->py; py->qC0 = VecXfValue(py, m); x->py->qD0 = D_002A2DD0; x->py->s9A = 3; }
+void func_0012DEF0(XX *x) { MATRIX4 m; if (x->py->pA0) m = MulMatrix4(MulMatrix4(InverseAffineMatrix4(x->py->pA0->mat), x->p1C->mat), x->mat); else m = MulMatrix4(x->p1C->mat, x->mat); Y *py = x->py; py->qC0 = VecXfValue(py, m); x->py->qD0 = D_002A2DD0; x->py->s9A = 3; }

@@ -15,13 +15,13 @@ struct P {
 extern char D_002BC9F0[];
 void PostStepLoad__FP4STEP(struct P *);
 void BindLoParts__FP3ALOiPv(struct P *, int, void *);
-void func_001959C0(void *);
+void PostLoadJump__FP4JUMP(void *);
 void PostLoadInteract__FP5ACTOR(void *);
 void func_0019F3F0(void *);
 void func_001A1098(void *);
-void func_0019CC30(void *);
-void func_0021F388(void *);
-void func_0019DE58(void *);
+void PostLoadBinoc__FP5ACTOR(void *);
+void PostLoadJtThrow__FP7JTTHROW(void *);
+void BindSlopeBlend__FP10SLOPEBLEND(void *);
 int func_0015E650(struct G *, int, int, struct P *, int, void **);
 void *PvAllocSwClearImpl__Fi(struct AREQ *);
 void func_00141EF8(struct P *);
@@ -29,7 +29,7 @@ void StartPlayerCounters__FP5ACTORi(struct P *, int);
 int PtargetrecOf__FP2LO(struct P *);
 void SetSoMass__FP2SOf(struct P *, float);
 qword func_001A62E8(struct P *);
-struct M3 *func_001A6318(struct P *);
+struct M3 *MatJtLo__FP2LO(struct P *);
 void *func_002333B4(void *, int, int);
 void func_00149A50(struct G *, struct P *, struct K, int);
 
@@ -41,13 +41,13 @@ void func_001400B8(struct P *p)
 
     PostStepLoad__FP4STEP(p);
     BindLoParts__FP3ALOiPv(p, 0x35, D_002BC9F0);
-    func_001959C0((char *)p + 0x2C0);
+    PostLoadJump__FP4JUMP((char *)p + 0x2C0);
     PostLoadInteract__FP5ACTOR((char *)p + 0x4C0);
     func_0019F3F0((char *)p + 0x9E0);
     func_001A1098((char *)p + 0xDF0);
-    func_0019CC30((char *)p + 0xF00);
-    func_0021F388((char *)p + 0x11B0);
-    func_0019DE58((char *)p + 0xF50);
+    PostLoadBinoc__FP5ACTOR((char *)p + 0xF00);
+    PostLoadJtThrow__FP7JTTHROW((char *)p + 0x11B0);
+    BindSlopeBlend__FP10SLOPEBLEND((char *)p + 0xF50);
     c = func_0015E650(&g_sw, 0x401, 0x2AB, p, 0x10, apv);
     if (c) {
         struct AREQ req;
@@ -79,7 +79,7 @@ void func_001400B8(struct P *p)
     SetSoMass__FP2SOf(p, 0.25f);
     if (p->pso->x94 == 0) {
         qword q = func_001A62E8(p);
-        struct M3 m = *func_001A6318(p);
+        struct M3 m = *MatJtLo__FP2LO(p);
         struct SO *pso = p->pso;
         func_002333B4(pso, 0, 0x40);
         pso->m[0] = pso->m[5] = pso->m[10] = pso->m[15] = 1.0f;

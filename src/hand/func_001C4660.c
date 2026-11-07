@@ -1,6 +1,7 @@
 struct S { char pad[0x88]; float a[32]; };
 extern float g_clock;
-int func_001C4660(struct S *p, unsigned int grf, float dt)
+// name: SafeHouse port (GrfPadctlPressedWithin)
+int GrfPadctlPressedWithin__FP6PADCTLUif(struct S *p, unsigned int grf, float dt)
 {
     int grfRet = 0;
     int i = 0;

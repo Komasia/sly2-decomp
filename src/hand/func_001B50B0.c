@@ -22,24 +22,24 @@ struct P {
 void func_001403D0(struct P *p);
 int func_00131968(struct O *p);
 void func_001306A8(struct O **pp);
-void func_00194A40(struct G *pg, struct P *p, int n);
+void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(struct G *pg, struct P *p, int n);
 void UpdateMurrayBinoc__FP6MURRAY(struct P *p);
 void UpdateMurrayTransitions__FP6MURRAY(struct P *p);
 int GrfActorLookMask__FP5ACTOR(struct P *p);
 void SetSmaMask__FP3SMAUi(void *p, int n);
 void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct ASEGA *pl, float g);
-void func_0020BB58(void *p, float g);
-void func_0020BC08(void *p);
-void func_00197F98(void *p);
+void SetGaitMix__FP4GAITf(void *p, float g);
+void UpdateGaitFeet__FP4GAIT(void *p);
+void UpdateJumpInput__FP4JUMP(void *p);
 void UpdateInteract__FP5ACTOR(void *p);
 void UpdateMurrayPunch__FP6MURRAY(struct P *p);
 void UpdateMurrayBerserk__FP6MURRAY(struct P *p);
 void func_00131A00(struct ASEGA *p,float g);
 void func_001B82A0(struct P *p);
 void UpdateDamage__FP5ACTOR(void *p);
-int func_00133D08(struct G *pg,struct BBOX *a,struct BBOX *b);
-void func_00134320(struct G *pg, struct P *p);
+int FOverlapOxa__FP3OXAT0Pv(struct G *pg,struct BBOX *a,struct BBOX *b);
+void RecalcSwOxfFilterForObject__FP2SWP2SO(struct G *pg, struct P *p);
 void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword v);
 static inline qword Bcast(float g) { qword a; __asm__("qmtc2.ni %1, %0" : "=j"(a) : "r"(g)); return a; }
 static inline void Neg(struct P *p, qword v)
@@ -111,7 +111,7 @@ void UpdateMurray__FP2LO(struct P *p)
         return;
     if (p->x190C && func_00131968(p->x190C))
         func_001306A8(&p->x190C);
-    func_00194A40(&g_sw, p, 0xF8FA);
+    UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(&g_sw, p, 0xF8FA);
     UpdateMurrayBinoc__FP6MURRAY(p);
     UpdateMurrayTransitions__FP6MURRAY(p);
     switch (p->x13D0) {
@@ -120,16 +120,16 @@ void UpdateMurray__FP2LO(struct P *p)
         break;
     case 1:
         SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
-        func_0020BB58(p->x1320, 1.0f);
-        func_0020BC08(p->x1320);
+        SetGaitMix__FP4GAITf(p->x1320, 1.0f);
+        UpdateGaitFeet__FP4GAIT(p->x1320);
         break;
     case 10:
         SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
-        func_0020BB58(p->x1540, p->pl->g1C);
-        func_0020BC08(p->x1540);
+        SetGaitMix__FP4GAITf(p->x1540, p->pl->g1C);
+        UpdateGaitFeet__FP4GAIT(p->x1540);
         break;
     case 2:
-        func_00197F98(p->x2C0);
+        UpdateJumpInput__FP4JUMP(p->x2C0);
         break;
     case 13:
         UpdateInteract__FP5ACTOR(p->x4C0);
@@ -151,10 +151,10 @@ void UpdateMurray__FP2LO(struct P *p)
     func_001B82A0(p);
     UpdateDamage__FP5ACTOR(p->xDF0);
     if (p->p1430 && p->g1434 + 0.1f < g_clock.t) {
-        if (!p->p1430->xEC || !func_00133D08(&g_sw, p->xEC, p->p1430->xEC))
+        if (!p->p1430->xEC || !FOverlapOxa__FP3OXAT0Pv(&g_sw, p->xEC, p->p1430->xEC))
             p->p1430 = 0;
         if (!p->p1430)
-            func_00134320(&g_sw, p);
+            RecalcSwOxfFilterForObject__FP2SWP2SO(&g_sw, p);
     }
     if (p->x1ACC) {
         if (g_clock.t - p->g1AC8 < D_002C08E4)

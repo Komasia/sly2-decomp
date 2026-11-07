@@ -4,7 +4,8 @@ struct S { char pad[0x26C]; char x26C[0x2DC - 0x26C]; int a2DC[3]; int n2E8; };
 void *func_002333B4(void *p, int c, int n);
 struct O *PjobFind__FP5GUARDPv(void *p, int n);
 void React__8JOBREACTP5AIMSG(struct O *po, struct L *pl);
-void func_0020A540(struct S *p, int n)
+// name: SafeHouse port (SetGuardPatrol)
+void SetGuardPatrol__FP5GUARDi(struct S *p, int n)
 {
     if (p->n2E8 != n) {
         struct O *po;

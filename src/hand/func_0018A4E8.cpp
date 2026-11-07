@@ -24,7 +24,7 @@ extern "C" float SMaxCrv(B *p) asm("SMaxCrv__FP3CRV");
 extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
 extern "C" void func_001E6F10(B *p, qword *pv, qword *direction, float g);
 extern "C" qword func_001A62E8(A *p);
-extern "C" M *func_001A6318(A *p);
+extern "C" M *MatJtLo(A *p) asm("MatJtLo__FP2LO");
 extern "C" float GSmooth(SMP *p, float a, float b, float c, float *output) asm("GSmooth__FfffP3SMPPf");
 
 static __inline__ float GMin(float a,float b){return a<b?a:b;}
@@ -38,7 +38,8 @@ static __inline__ qword OffsetSub(const M*m,const VU*scalar,const VU*base){
  register qword value __asm__("vf1"),row __asm__("vf2");
  __asm__("lqc2 %1,%2\n\tlqc2 %0,%3\n\tvmulx.xyzw %0,%1,%0x\n\tlqc2 %1,%4\n\tvsub.xyzw %0,%1,%0":"=&j"(value),"=&j"(row):"m"(m->r[1]),"m"(scalar->q),"m"(base->q));return value;
 }
-extern "C" void func_0018A4E8(S *ps, R *pr)
+// name: SafeHouse port (GetInteractCpdefi)
+extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
 {
     float g;register float lift __asm__("$f1"),height __asm__("$f0");
     WORK w;
@@ -81,7 +82,7 @@ extern "C" void func_0018A4E8(S *ps, R *pr)
              __asm__("lwc1 $f1,%5\n\tli.s $f0,125.0\n\tsq %0,%2\n\tmul.s $f0,$f1,$f0\n\tlw %3,%6\n\tmul.s $f1,$f1,$f0\n\tmfc1 %0,$f1\n\tqmtc2.ni %0,%1\n\tsqc2 %1,%4"
               :"+r"(position),"=j"(scalar),"=m"(w.forward.q),"=r"(receiver),"=m"(w.scalar.q):"m"(ps->g50),"m"(ps->p0):"$f0","$f1");
              w.kept.q=scalar;
-             ps->v40=OffsetAdd(func_001A6318(receiver),&w.kept,&w.forward);
+             ps->v40=OffsetAdd(MatJtLo(receiver),&w.kept,&w.forward);
             }
             goto lift50;
         } else {
@@ -89,7 +90,7 @@ extern "C" void func_0018A4E8(S *ps, R *pr)
              __asm__("lwc1 $f1,%5\n\tli.s $f0,125.0\n\tsq %0,%2\n\tmul.s $f0,$f1,$f0\n\tlw %3,%6\n\tmul.s $f1,$f1,$f0\n\tmfc1 %0,$f1\n\tqmtc2.ni %0,%1\n\tsqc2 %1,%4"
               :"+r"(position),"=j"(scalar),"=m"(w.reverse.q),"=r"(receiver),"=m"(w.scalar.q):"m"(ps->g50),"m"(ps->p0):"$f0","$f1");
              w.kept.q=scalar;
-             ps->v40=OffsetSub(func_001A6318(receiver),&w.kept,&w.reverse);
+             ps->v40=OffsetSub(MatJtLo(receiver),&w.kept,&w.reverse);
             }
             goto lift50;
         }

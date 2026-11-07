@@ -1,6 +1,6 @@
 void *func_0015E938(void *pv, int k, int id, void *ctx);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
-void func_001F6978(void *p, void *q);
+void ShowAloGlobs__FP3ALOi(void *p, void *q);
 void func_001F69F8(void *p, void *q);
 void func_00210408(void *pv, int f, int id, void *q, void *pdef, void *ctx)
 {
@@ -11,7 +11,7 @@ void func_00210408(void *pv, int f, int id, void *q, void *pdef, void *ctx)
         p = func_0015E938(pv, 4, id, ctx);
     if (p && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x30)) {
         if (f)
-            func_001F6978(p, q);
+            ShowAloGlobs__FP3ALOi(p, q);
         else
             func_001F69F8(p, q);
     }

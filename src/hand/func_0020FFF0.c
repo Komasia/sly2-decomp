@@ -3,7 +3,7 @@ struct Y { char pad[0xC]; VTE *vt; };
 struct D { int a; int b; int c; int d; };
 int func_0015E650(void *p, int k, int a, int b, int c, void **ppo);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
-struct Y *func_001F67E0(void *o, int b);
+struct Y *PsmaFindAloSm__Fi3OID(void *o, int b);
 void func_001333C0(struct Y *y, int x);
 void SnapSmaGoal__FP3SMA3OID(struct Y *y, int id);
 void SetSmaGoal__FP3SMA3OID(struct Y *y, int id);
@@ -18,7 +18,7 @@ void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
         return;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x30))
         return;
-    y = func_001F67E0(o, pd->b);
+    y = PsmaFindAloSm__Fi3OID(o, pd->b);
     if (!y)
         return;
     if (fl & 1)

@@ -33,9 +33,9 @@ qword VecXfValue(E *,E *) asm("VecXfValue__FP2XFP7MATRIX4");
 void ResetXfParams(S *,E *) asm("ResetXfParams__FP2XFPv");
 void AddXfCtrl(S *,E *,JOB *) asm("AddXfCtrl__FP3ALOP2XFP4CTRL");
 void UpdateAloXfWorlds(S *) asm("UpdateAloXfWorlds__FP3ALO");
-void func_00186670(S *,void *);
-void func_001603B8(S *,void *);
-void func_0021C888(S *,void *);
+void LoadAloPairsFromBrx(S *,void *) asm("LoadAloPairsFromBrx__FP3ALOP18CBinaryInputStream");
+void LoadAloLinksFromBrx(S *,void *) asm("LoadAloLinksFromBrx__FP3ALOP18CBinaryInputStream");
+void LoadAloChainsFromBrx(S *,void *) asm("LoadAloChainsFromBrx__FP3ALOP18CBinaryInputStream");
 }
 static inline J1 *CreateJ1(){J1 *j;j=(J1 *)func_0012E1F0(sizeof(J1));j->h.vt=D_002CA820;j->h.kind=1;j->selector=2;return j;}
 static inline J2 *CreateJ2(){J2 *j;j=(J2 *)func_0012E1F0(sizeof(J2));j->h.kind=2;j->h.vt=D_002CA7E0;return j;}
@@ -45,7 +45,8 @@ static inline RESOURCE *Lookup(S *p,int id){VE *ve=&p->vt[51];return ve->get((ch
 static inline int ToInt(float f){return (int)f;}
 static inline void Identity(M4 *m){func_002333B4(m,0,sizeof(*m));m->r[3].f[3]=1.0f;m->r[2].f[2]=1.0f;m->r[1].f[1]=1.0f;m->r[0].f[0]=1.0f;}
 static inline void ClearFlag(S *p){int f=p->flags;if((f^1)&1)*(int *)f&=~0x20;else p->flags=f&~0x20;}
-extern "C" void func_0022D7A0(S *p,void *stream){
+// name: SafeHouse port (LoadAloXfsFromBrx)
+extern "C" void LoadAloXfsFromBrx__FP3ALOP18CBinaryInputStream(S *p,void *stream){
  int i=0;
  p->count=func_00117D50(stream);
  REQ request;request.size=p->count*sizeof(E);request.kind=16;
@@ -81,9 +82,9 @@ extern "C" void func_0022D7A0(S *p,void *stream){
   if(flags){j9->h.owner=p;j9->h.entry=e;j9->h.order=-1;AddXfCtrl(p,e,&j9->h);}
  }
  UpdateAloXfWorlds(p);
- func_00186670(p,stream);
- func_001603B8(p,stream);
- func_0021C888(p,stream);
+ LoadAloPairsFromBrx(p,stream);
+ LoadAloLinksFromBrx(p,stream);
+ LoadAloChainsFromBrx(p,stream);
  p->a=Lookup(p,func_00117D50(stream));p->b=Lookup(p,func_00117D50(stream));p->c=Lookup(p,func_00117D50(stream));
  if(p->count>0)ClearFlag(p);
 }

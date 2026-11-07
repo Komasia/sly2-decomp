@@ -1,4 +1,4 @@
-// func_001EA000 (lane 5): matched. Samples an object's path over [tStart, tEnd] and collects the time segments where
+// UpdatePathrec__FP7PATHREC (lane 5): matched. Samples an object's path over [tStart, tEnd] and collects the time segments where
 // PpolyAtPoint__FG9VU_VECTOR finds a valid position into ps->aseg10 (NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff == 3 means "no bound found", so tStart/tEnd are
 // used), intersects them with ps->aseg through CMergeAlsg__FiP3LSGiT1iT1i and fixes up a wrap-around pair at the end.
 // Notes for whoever touches this again:
@@ -34,7 +34,8 @@ int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int,
 void *func_002333B4(void *, int, unsigned int);
 int CMergeAlsg__FiP3LSGiT1iT1i(int, struct X *, int, struct X *, int, struct X *, int);
 
-void func_001EA000(struct S *ps)
+// name: SafeHouse port (UpdatePathrec)
+void UpdatePathrec__FP7PATHREC(struct S *ps)
 {
     struct VEC pos;
     struct X ax[16];

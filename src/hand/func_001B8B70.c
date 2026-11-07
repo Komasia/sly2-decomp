@@ -16,7 +16,7 @@ extern struct POLY D_002C0A20;
 extern struct LIMIT g_lmZeroOne;
 qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct Q*,float);
 struct PARAM *PeventLaunch__FP5KINDEi(void*,int);
-qword func_0011E1A0(float,float,float);
+qword SetVectorCylind__Ffff(float,float,float);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 void FaceObject__FP5ACTORP2LO(struct P*,void*);
 static inline float Clamp(float f,float lo,float hi){if(f<lo)return lo;if(hi<f)return hi;return f;}
@@ -62,7 +62,7 @@ static inline qword OrbitVector(struct P*p){
     __asm__("qmfc2.ni %0,%1":"=r"(bits):"j"(d));
     zero=0.0f;
     __asm__("mtc1 %1,%0":"=f"(radius):"r"(bits));
-    return func_0011E1A0(angle,magnitude*radius,zero);
+    return SetVectorCylind__Ffff(angle,magnitude*radius,zero);
 }
 // name: SafeHouse port (UpdateMurrayPunch)
 void UpdateMurrayPunch__FP6MURRAY(struct P*p){

@@ -6,8 +6,8 @@ struct O { char pad[0x60]; void *p60; char pad1[0x19A4 - 0x64]; struct X *p19A4;
 struct X { char pad[0x60]; void *p60; };
 extern float GEventAseg11__Fv(void *p, int n);
 extern void CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(void *a, float g, struct O *p, float h, void *b, void *c, MATRIX4 *pm, int n);
-extern qword func_0011BFF0(MATRIX4 *pm);
-extern void func_0011C318(MATRIX4 *pmOut, MATRIX4 *pm);
+extern qword DecomposeEulerMatrix__FP7MATRIX3(MATRIX4 *pm);
+extern void InverseAffineMatrix4__FP7MATRIX4(MATRIX4 *pmOut, MATRIX4 *pm);
 static __inline__ qword Mul(MATRIX4 *pm, qword v)
 {
     qword o;
@@ -15,7 +15,8 @@ static __inline__ qword Mul(MATRIX4 *pm, qword v)
             : "=j"(o) : "j"(pm->r[0]), "j"(pm->r[1]), "j"(pm->r[2]), "j"(pm->r[3]), "j"(v));
     return o;
 }
-void func_0018B348(struct O *p)
+// name: SafeHouse port (LoadPickpocket)
+void LoadPickpocket__FP3SLY(struct O *p)
 {
     MATRIX4 m0, m1, m2, mi;
     float z;
@@ -28,8 +29,8 @@ void func_0018B348(struct O *p)
         p->v1BF0 = m1.r[3];
         CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(p->p1BC8, p->g1BD8, p, z, p->p19C0, p->p60, &m2, 0);
         p->v1C00 = m2.r[3];
-        p->v1C10 = func_0011BFF0(&m2);
-        func_0011C318(&mi, &m2);
+        p->v1C10 = DecomposeEulerMatrix__FP7MATRIX3(&m2);
+        InverseAffineMatrix4__FP7MATRIX4(&mi, &m2);
         p->v1C20 = Mul(&mi, p->v1BE0);
     }
 }

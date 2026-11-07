@@ -2,7 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 struct S { char pad[0xEC]; int k; char pad2[0x20]; qword pos; float r; };
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *p, qword q);
 int func_00118FB0(int a, int b, qword q);
-int func_00227C90(struct S *p, qword q)
+// name: SafeHouse port (FPointInShape)
+int FPointInShape__FP2LOG9VU_VECTOR(struct S *p, qword q)
 {
     qword a = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, q), d, r, t;
     float f;

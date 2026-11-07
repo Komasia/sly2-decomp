@@ -1,7 +1,8 @@
 struct B { char pad[0x18]; int n; };
 struct N { char pad[0x1C]; struct N *next; int pad2; struct B *pb; int n; };
 extern struct N *D_003E126C;
-struct N *func_001F67E0(int n, int m)
+// name: SafeHouse port (PsmaFindAloSm)
+struct N *PsmaFindAloSm__Fi3OID(int n, int m)
 {
     struct N *p;
     int unused[4];

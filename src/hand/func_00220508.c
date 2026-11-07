@@ -7,7 +7,8 @@ static inline float DivideBits(int bits,float denominator){register float value 
 static inline float ClockNow(void){float value;__asm__ __volatile__ ("lwc1 %0,%1":"=f"(value):"m"(g_clock.t));return value;}
 static inline void PublishStart(struct S *p,int active,float now,float span){asm("sw %3,%0\n\tswc1 %4,%1\n\tswc1 %5,%2":"=m"(p->g),"=m"(p->t),"=m"(p->f):"r"(active),"f"(now),"f"(span));}
 static inline int Enabled(void){register int value asm("$3");asm("addiu %0,$zero,1":"=r"(value));return value;}
-void func_00220508(struct S *p, void *q)
+// name: SafeHouse port (SetJtThrowTarget)
+void SetJtThrowTarget__FP7JTTHROWP2LO(struct S *p, void *q)
 {
     int k = p->k;
     if (k < 7) if (k >= 4) {

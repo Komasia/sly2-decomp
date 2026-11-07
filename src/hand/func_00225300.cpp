@@ -30,7 +30,7 @@ extern GAME g_game;
 void UpdateCarry(struct S *) asm("UpdateCarry__FP2LO");
 struct R *func_00205458(void *,int);
 int func_0017A9C0(struct R *);
-struct M4 *func_001A6318(void *);
+struct M4 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void func_00209840(struct CONTROL *,const struct M3 *);
 qword func_001A62E8(void *);
 void SetState(struct R *,int) asm("SetState__5JOBB0i");
@@ -65,7 +65,7 @@ extern "C" void UpdateExtractor__FP2LO(struct S *p) {
             } else if(!(r=func_00205458(p->actor,0xB0)) || func_0017A9C0(r)) {
                 p->vt[76].fn((char*)p+p->vt[76].d,2);
             } else {
-                M3 m((p->source?func_001A6318(p->source):func_001A6318(p))->basis);
+                M3 m((p->source?MatJtLo(p->source):MatJtLo(p))->basis);
                 func_00209840(&p->actor->basis,&m);
                 if(r->state!=4) {
                     qword pos=p->source?func_001A62E8(p->source):func_001A62E8(p);

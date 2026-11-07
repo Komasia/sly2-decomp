@@ -3,7 +3,7 @@ union U{qword q;float f[4];int i[4];};struct P;
 struct CONTACT{char pad0[8];P*owner;char padC[0x80-12];U normal;char pad90[0x1C];CONTACT*next;};
 struct GROUP{CONTACT*first;GROUP*next;};struct COLLISION{char pad0[0x64];GROUP*groups;CONTACT*single;};struct P{char pad0[0xEC];COLLISION*collision;};struct MOVE{P*actor;char pad4[0x18];int mode;};
 struct FRAME{};struct REQ{int bytes,alignment;};union SCRATCH{U scalar;REQ request;};struct WORK{U normals[64];SCRATCH scratch;FRAME frame;U residual,original;};
-extern "C"{extern U g_normalZ;extern float D_002A63B0;FRAME*__10STACKSCOPE(FRAME*);void _$_10STACKSCOPE(FRAME*,int);void*PvAllocStackImpl(REQ*) asm("PvAllocStackImpl__Fi");void func_0011AD30(int,float*,float*,float*,float);void func_00195FB8(MOVE*,int,void*);}
+extern "C"{extern U g_normalZ;extern float D_002A63B0;FRAME*__10STACKSCOPE(FRAME*);void _$_10STACKSCOPE(FRAME*,int);void*PvAllocStackImpl(REQ*) asm("PvAllocStackImpl__Fi");void func_0011AD30(int,float*,float*,float*,float);void SetJumpAnimState(MOVE*,int,void*) asm("SetJumpAnimState__FP4JUMPiP2LO");}
 static inline void Publish(U*home,qword q){__asm__ volatile("sqc2 %1,%0":"=m"(home->q):"j"(q));}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword v,qword k){__asm__("vmulx.xyzw %0,%1,%2x":"=j"(v):"j"(v),"j"(k));return v;}
@@ -57,7 +57,8 @@ typedef char U_q_Offset[FIELD_OFFSET(U,q)==0?1:-1];
 typedef char U_float_Offset[FIELD_OFFSET(U,f)==0?1:-1];
 typedef char Normal_Count[sizeof(((WORK*)0)->normals)/sizeof(U)==64?1:-1];
 typedef char Normal_Stride[(FIELD_OFFSET(WORK,normals[1])-FIELD_OFFSET(WORK,normals[0]))==16?1:-1];
-extern "C" void func_00196AA8(MOVE*p,U*out){
+// name: SafeHouse port (PushJumpOffWalls)
+extern "C" void PushJumpOffWalls__FP4JUMPP6VECTOR(MOVE*p,U*out){
  WORK w;unsigned base=(unsigned)w.normals-16;int count=0;CONTACT*c;GROUP*group=p->actor->collision->groups;
  for(;;){c=group?group->first:p->actor->collision->single;
   if(c){unsigned write=base+count*16;do{if((uint)count>=64)goto collected;qword normal=c->normal.q;if(p->actor!=c->owner){qword negative=Scalar(-1.0f);Publish(&w.scratch.scalar,negative);normal=Scale(normal,negative);}if(Z(normal)>0.7f)continue;write+=16;*(qword*)write=Reject(normal,g_normalZ.q);count++;}while((c=c->next)!=0);}
@@ -73,6 +74,6 @@ extern "C" void func_00196AA8(MOVE*p,U*out){
  if(count>0){register qword value __asm__("vf3");register int remaining __asm__("$3");register U*normal __asm__("$2");__asm__("qmtc2.ni %3,%0\n\tdaddu %1,%4,$zero\n\tdaddu %2,%5,$zero":"=j"(value),"=&r"(remaining),"=r"(normal):"r"(original),"r"(count),"r"(w.normals));do{VectorDot(write,value,normal->q);write++;normal++;}while(--remaining!=0);}}
  func_0011AD30(count,matrix,rhs,weights,D_002A63B0);
  if(count>0){register float*read __asm__("$2")=weights;register U*normal __asm__("$4")=w.normals;for(register int remaining __asm__("$3")=count;remaining!=0;){register int bits __asm__("$5");__asm__("lw %0,%1":"=r"(bits):"m"(*read));--remaining;register qword scalar __asm__("vf2"),sum __asm__("vf3"),axis __asm__("vf1");__asm__ volatile("qmtc2.ni %5,%0\n\tlqc2 %1,%6\n\tsqc2 %0,%2\n\taddiu %3,%3,4\n\tlqc2 %4,%7":"=j"(scalar),"=j"(sum),"=m"(w.scratch.scalar.q),"+&r"(read),"=j"(axis):"r"(bits),"m"(w.residual.q),"m"(normal->q));w.residual.q=AddScaled(sum,axis,scalar);normal++;}}
- if(Square(Sub(w.original.q,w.residual.q))>1.0f){switch(p->mode){case 0:func_00195FB8(p,1,0);break;case 2:func_00195FB8(p,3,0);break;}}
+ if(Square(Sub(w.original.q,w.residual.q))>1.0f){switch(p->mode){case 0:SetJumpAnimState(p,1,0);break;case 2:SetJumpAnimState(p,3,0);break;}}
  {register qword result __asm__("$4")=w.residual.q;out->q=result;}_$_10STACKSCOPE(&w.frame,2);
 }

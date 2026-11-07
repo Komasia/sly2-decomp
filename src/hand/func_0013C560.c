@@ -32,11 +32,11 @@ extern char g_game[];
 extern qword D_002A2DD0;
 extern qword D_002A4B60;
 void func_001CB4B8(void *pv, struct O *p);
-void func_001CB488(void *pv, struct O *p);
+void LockProxyRowOf__Fv(void *pv, struct O *p);
 void func_001F6A68(struct O *p);
-void func_001F6978(struct O *p, int n);
+void ShowAloGlobs__FP3ALOi(struct O *p, int n);
 void SetSoeOff__FP3ALOP3SOE(struct O *p, void *pv);
-void func_001F6AC8(struct O *p, int n);
+void SetAloSoesByTag__FP3ALOi(struct O *p, int n);
 void func_001F6B48(struct O *p, int n);
 void StartHudTimer__FPvf(struct GS *pgs, float g);
 qword func_001A62E8(void *p);
@@ -48,7 +48,7 @@ void SetAloCnstrAng__FP3ALOi(struct O *p, int n);
 void SetAloGravity__FP3ALOG9VU_VECTOR(struct O *p, qword v);
 void ReparentBooty__FP3ALOii(struct O *p, void *pv, int n);
 void PlaceAloAt__FP3ALOP7MATRIX4(struct O *p, void *pv);
-void func_001F7C68(struct O *p, float g);
+void FadeAloIn__FP3ALOf(struct O *p, float g);
 struct E *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct GS *pgs, int n, int m);
 void func_001CF578(struct E *pe, struct O *p);
 void func_001CFD30(struct E *pe);
@@ -141,7 +141,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
             if (!fNew)
                 func_001CB4B8(g_sw.p4638, p);
         } else if (fNew) {
-            func_001CB488(g_sw.p4638, p);
+            LockProxyRowOf__Fv(g_sw.p4638, p);
         }
     }
     stOld = p->st;
@@ -152,11 +152,11 @@ void SetBootyState__FP2LOi(struct O *p, int st)
     case 0:
         func_001F6A68(p);
         for (i = 0; i < p->pst->c1C; i++)
-            func_001F6978(p, p->pst->a20[i]);
+            ShowAloGlobs__FP3ALOi(p, p->pst->a20[i]);
         for (i = 0; i < p->cE0; i++)
             SetSoeOff__FP3ALOP3SOE(p, p->aE4 + i * 0xB0);
         if (p->pst->x18 != -1)
-            func_001F6AC8(p, p->pst->x18);
+            SetAloSoesByTag__FP3ALOi(p, p->pst->x18);
         break;
     case 1:
         if (p->pst->xC)
@@ -182,7 +182,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
         VCALL(pot4->pr, 9, PFNV));
         pot4->p11A8 = 0;
         if (p->pst->x18 != -1)
-            func_001F6AC8(p, p->pst->x18);
+            SetAloSoesByTag__FP3ALOi(p, p->pst->x18);
         if (p->pst->xC)
             StopHudTimer__FPv(&g_sw);
         break;
@@ -218,7 +218,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
         p->pq->p194 = p;
         if (stOld != 3) {
             VCALL(p, 9, PFNV));
-            func_001F7C68(p, 0.5f);
+            FadeAloIn__FP3ALOf(p, 0.5f);
         }
         VCALL(p, 3, PFN3), 6, 0, 0, 0, 0);
         break;

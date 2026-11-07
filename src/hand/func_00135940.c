@@ -6,10 +6,10 @@ struct P { char pad[0xC]; struct VT *pvt; char pad1[0x2C0 - 0x10]; char a2C0[0x2
 extern float D_002BC990;
 void ApplyAloGravity__FP3ALO(struct P *p);
 void UpdateStepPhysMotion__FP3ALO(struct P *p);
-void func_00196DF8(void *p);
+void UpdateJumpMotion__FP4JUMP(void *p);
 void func_00194170(void *p);
 void UpdateDamageMotion__FP5ACTOR(void *p);
-void func_0019DF70(void *p);
+void UpdateClimbMotion__FP5ACTOR(void *p);
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v);
 // name: SafeHouse port (UpdateBentleyMotion)
 void UpdateBentleyMotion__FP3ALO(struct P *p)
@@ -19,10 +19,10 @@ void UpdateBentleyMotion__FP3ALO(struct P *p)
     else
         UpdateStepPhysMotion__FP3ALO(p);
     switch (p->k) {
-    case 2: func_00196DF8(p->a2C0); break;
+    case 2: UpdateJumpMotion__FP4JUMP(p->a2C0); break;
     case 3: func_00194170(p->a4C0); break;
     case 4: UpdateDamageMotion__FP5ACTOR(p->aDF0); break;
-    case 13: func_0019DF70(p->aF50); break;
+    case 13: UpdateClimbMotion__FP5ACTOR(p->aF50); break;
     case 6:
         if (p->x16B0 == 2) {
             register struct VT *vt __asm__("$3") = p->pvt;

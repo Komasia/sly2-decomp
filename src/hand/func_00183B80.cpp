@@ -21,10 +21,10 @@ void SetAloCnstrLin(struct O *p, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(struct O *p, int n) asm("SetAloCnstrAng__FP3ALOi");
 void SetAloSensors(struct O *p, int n) asm("SetAloSensors__FP3ALOi");
 void func_00147F40(void *p);
-void *func_001A6318(struct O *p);
+void *MatJtLo(struct O *p) asm("MatJtLo__FP2LO");
 void func_0011B938(void *pv, int n, MATRIX3 *pm);
 MATRIX3 func_0022FD38(void *pv, void *pvA0, MATRIX3 *pm);
-qword func_0011BFF0(MATRIX3 *pm);
+qword DecomposeEulerMatrix(MATRIX3 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
 qword func_0022FC48(void *pv, void *pvA0, qword v);
 void func_00183B80(struct O *p, int n);
 }
@@ -63,10 +63,10 @@ void func_00183B80(struct O *p, int n)
             if (!ps)
                 ps = (struct S2 *)p->p190->p60;
             { struct VTE *e = &p->pvt[10]; ((void (*)(void *, struct T *, void *, int))e->pfn)((char *)p + e->d, p->p190, ps, 3); }
-            func_0011B938(func_001A6318(p), 0, &m);
+            func_0011B938(MatJtLo(p), 0, &m);
             m = func_0022FD38(0, p->p5C->pA0, &m);
 
-            q = func_0011BFF0(&m);
+            q = DecomposeEulerMatrix(&m);
             SetXfMode(p, p->p5C, 7);
             {
 

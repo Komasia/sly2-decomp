@@ -23,7 +23,8 @@ extern M2C_UNK g_sw;
 extern M2C_UNK D_003E10D0;
 extern M2C_UNK D_00443740;
 
-void func_00229710(s32 arg0, s32 arg1) {
+// name: SafeHouse port (LinkObjNode)
+void LinkObjNode__FP5WNODEi(s32 arg0, s32 arg1) {
     M2C_FIELD(arg1, s32 *, 8) = (s32) M2C_FIELD(arg0, s32 *, 0x138);
     M2C_FIELD(arg0, s32 *, 0x138) = arg1;
     WakeAlo__FP3ALO(arg0);

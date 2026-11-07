@@ -17,7 +17,8 @@ static inline void Word(struct R *r,uint word){*(uint *)r->cur=word;r->cur+=4;}
 static inline void Align(struct R *r){while((uint)r->cur&15){*(uint *)r->cur=0;r->cur+=4;}}
 static inline void CopyWords(int *d,const int *s,int n){int rem=n&3,cBulk=n-rem,i;for(i=0;i<rem;i++)*d++=*s++;for(i=0;i<cBulk;i+=4){int a=s[0],b=s[1],c=s[2],e=s[3];s+=4;d[0]=a;d[1]=b;d[2]=c;d[3]=e;d+=4;}}
 static inline void Unpack(struct R *r,const int *s,int n,uint header){Word(r,header);CopyWords((int *)r->cur,s,n);r->cur+=n*4;}
-void func_002174C8(struct S *p,struct T *t,struct D *data,int fade){
+// name: SafeHouse port (StateOfSlot)
+void StateOfSlot__FPvP7VECTOR2T0i(struct S *p,struct T *t,struct D *data,int fade){
     struct M4 m;
     unsigned char *tag;
     struct E *e;

@@ -4,7 +4,7 @@ extern struct G g_sw;
 int func_00210A88(void);
 int func_0015E650(struct G *pg, int kind, int oid, int a, int c, void **apv);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pv, int n);
-void *func_001F67E0(void *pv, int n);
+void *PsmaFindAloSm__Fi3OID(void *pv, int n);
 void SnapSmaGoal__FP3SMA3OID(void *p, int id);
 void SetSmaGoal__FP3SMA3OID(void *p, int id);
 void func_00162250(void *pvUnused, struct E *pe, int n, int k)
@@ -17,7 +17,7 @@ void func_00162250(void *pvUnused, struct E *pe, int n, int k)
     if (pe->f14 != -1 && pe->f14 != func_00210A88()) return;
     if (func_0015E650(&g_sw, 0x205, pe->oid, 0, 1, &pv) != 1) return;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x30)) return;
-    ps = func_001F67E0(pv, pe->n8);
+    ps = PsmaFindAloSm__Fi3OID(pv, pe->n8);
     if (!ps) return;
     id = pe->id;
     if (pe->n0 == -1) {

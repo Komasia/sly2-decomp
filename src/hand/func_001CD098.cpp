@@ -49,17 +49,17 @@ struct S { void *x0; char p0[0x34 - 4]; LO *x34; char p1[0x94 - 0x38]; int x94; 
 extern "C" {
 void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
 LO *func_001CCA40(void *pw, LO *po);
-void func_0011C168(MAT4 *pd, MAT4 *pa, MAT4 *pb);
+void MulMatrix4(MAT4 *pd, MAT4 *pa, MAT4 *pb) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void PlaceAloAt(LO *po, MAT4 *pm) asm("PlaceAloAt__FP3ALOP7MATRIX4");
 void SetAloCnstrLin(LO *po, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(LO *po, int n) asm("SetAloCnstrAng__FP3ALOi");
 qword VecXfValue(void *a, void *b) asm("VecXfValue__FP2XFP7MATRIX4");
 int PctrlNewPos(LO *p, Q *q, int a, int b, int c, qword d) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
-void func_001F7C68(LO *po, float g);
+void FadeAloIn(LO *po, float g) asm("FadeAloIn__FP3ALOf");
 void func_001CD098(S *p, LO *po);
 }
 MAT4 func_001A71B0(int n, LO *po, MAT4 *pm);
-MAT4 func_0011C318(MAT4 m);
+MAT4 InverseAffineMatrix4(MAT4 m) asm("InverseAffineMatrix4__FP7MATRIX4");
 void func_001CD098(S *p, LO *po)
 {
     MAT4 buf;
@@ -76,8 +76,8 @@ void func_001CD098(S *p, LO *po)
         MAT4 u;
         MAT4 t = func_001A71B0(0, po, r->V31());
         u = t;
-        MAT4 w = func_0011C318(u);
-        func_0011C168(&t, &m, &w);
+        MAT4 w = InverseAffineMatrix4(u);
+        MulMatrix4(&t, &m, &w);
         m = t;
     }
     PlaceAloAt(po, &m);
@@ -89,6 +89,6 @@ void func_001CD098(S *p, LO *po)
     p->x98 = PctrlNewPos(po, q, 5, 0, 2, VecXfValue(q, q));
     q = po->x5C;
     p->x9C = PctrlNewPos(po, q, 5, 0, 2, VecXfValue(q, q));
-    func_001F7C68(po, 0.25f);
+    FadeAloIn(po, 0.25f);
     p->xA0 = po;
 }

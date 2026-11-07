@@ -26,7 +26,7 @@ int func_00184D60(STREAM *,KEY *);
 void func_00184950(STREAM *,int);
 void SetDecompress(STREAM *,int,void *) asm("SetDecompress__18CBinaryInputStreamiPUc");
 void func_00184CA0(STREAM *);
-void func_0020E068(SW *);
+void UnloadWorld(SW *) asm("UnloadWorld__FPv");
 void func_0014D068(void *);
 void AddGrfusr(int) asm("AddGrfusr__Fi");
 void *func_002333B4(void *,int,uint);
@@ -39,14 +39,14 @@ void func_00184CF0(STREAM *);
 void func_0020E740(SW *);
 void StartHudTimer(SW *,float) asm("StartHudTimer__FPvf");
 void func_0014C258(void);
-CONTEXT *func_00227FE8(SW *,int,int);
-void func_00228750(CONTEXT *);
+CONTEXT *PloFindCheckpoint(SW *,int,int) asm("PloFindCheckpoint__FP2SW3OIDT1");
+void ApplyCheckpoint(CONTEXT *) asm("ApplyCheckpoint__FP2SW");
 ACTOR *func_001C4840(SW *);
 ACTOR *func_001C4A48(SW *);
 void func_00129EC8(REF *);
 ACTOR *func_0015E938(SW *,int,int,void *);
 int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_001C4080(ACTOR *);
+int NPoEnabled(ACTOR *) asm("NPoEnabled__FP2LO");
 int func_00210AE0(void);
 void SetState(WIDGET *,int) asm("SetState__FP8SCREENRTi");
 void UpdateCm(void *) asm("UpdateCm__FP2CM");
@@ -69,7 +69,8 @@ static inline void Attach(ACTOR *actor,CONTEXT *context){VT *entry=&actor->vtabl
 static inline void Hide(ACTOR *actor){VT *entry=&actor->vtable[9];((void (*)(void *))entry->function)((char *)actor+entry->delta);}
 static inline int NonZero(int v){int r; __asm__("sltu %0,$zero,%1":"=r"(r):"r"(v));return r;}
 static inline STREAM *StreamHome(STREAM *home){register STREAM *result __asm__("$4");__asm__("la %0,%a1":"=r"(result):"p"(home));return result;}
-extern "C" void func_0020E890(SW *p)
+// name: SafeHouse port (PswUpdateTransition)
+extern "C" void PswUpdateTransition__FP2SW(SW *p)
 {
     if(!p->pending)return;
     func_00160E68(1);
@@ -98,7 +99,7 @@ extern "C" void func_0020E890(SW *p)
     if(hasFile&&!func_00184D60(reader,&key)){func_00184950(reader,2);_$_10STACKSCOPE(scope,2);return;}
     SetDecompress(reader,0x4000,(void *)0x70000000);
     func_00184CA0(reader);
-    func_0020E068(p);
+    UnloadWorld(p);
     func_0014D068(g_clock);
     AddGrfusr(8);
     func_002333B4(&g_sw,0,0x4790);
@@ -113,8 +114,8 @@ extern "C" void func_0020E890(SW *p)
     func_0020E740(p);
     if(resume>0.0f)StartHudTimer(p,resume);
     if(changed||(p->request.flags&0x40))func_0014C258();
-    CONTEXT *context=func_00227FE8(p,p->request.objectId,p->request.objectKey);
-    if(context){func_00228750(context);p->objectId=p->request.objectId;p->objectKey=p->request.objectKey;}
+    CONTEXT *context=PloFindCheckpoint(p,p->request.objectId,p->request.objectKey);
+    if(context){ApplyCheckpoint(context);p->objectId=p->request.objectId;p->objectKey=p->request.objectKey;}
     if(!func_001C4840(p)&&!func_001C4A48(p)&&p->actorCount>0){
         ACTOR *selected=0;
         int actorId;
@@ -133,7 +134,7 @@ extern "C" void func_0020E890(SW *p)
             }
             for(int i=0;i<p->actorCount;i++){
                 ACTOR *actor=p->actors[i];
-                if(actor!=selected&&FIsBasicDerivedFrom(actor,0x34)&&!func_001C4080(actor))Hide(actor);
+                if(actor!=selected&&FIsBasicDerivedFrom(actor,0x34)&&!NPoEnabled(actor))Hide(actor);
             }
         }
     }

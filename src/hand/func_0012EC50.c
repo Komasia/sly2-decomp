@@ -7,7 +7,8 @@ void PostLoLoad__FP2LO(T *t);
 void **PvAllocSwClearImpl__Fi(AREQ *preq);
 void *IvoiceFromTarget__FP8SOUNDMGRi(G *pg, int id);
 void AddVoiceFalloff__9CSndVoiceiiPvf(float g, void *p, void *q, T *t, float *pv);
-void func_0012EC50(T *t)
+// name: SafeHouse port (AddAmbientFalloffs)
+void AddAmbientFalloffs__FP2LO(T *t)
 {
     AREQ req;
     void *p;

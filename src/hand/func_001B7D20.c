@@ -9,7 +9,7 @@ void DeleteCtrl__FPP4CTRL(int *p);
 void SetXfMode__FP3ALOP2XFi(struct X *x, int a, int b);
 void SetAloContactsOff__FP3ALOi(struct X *x, int a);
 void ReparentBooty__FP3ALOii(struct X *x, int a, int b);
-void func_00134320(void *g, struct P *p);
+void RecalcSwOxfFilterForObject__FP2SWP2SO(void *g, struct P *p);
 void func_001B7D20(struct P *p)
 {
     struct O *o;
@@ -36,5 +36,5 @@ void func_001B7D20(struct P *p)
     ReparentBooty__FP3ALOii(x, 0, 0xF);
     p->x1430 = x;
     p->f1434 = g_clock.t;
-    func_00134320(g_sw, p);
+    RecalcSwOxfFilterForObject__FP2SWP2SO(g_sw, p);
 }

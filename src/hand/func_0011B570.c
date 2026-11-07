@@ -4,7 +4,8 @@ typedef struct { qword r[3]; } M3;
 extern M3 D_002A2D00;
 M3 *func_0011B500(M3 *pm, float g, qword axis);
 void *func_0023320C(void *pvDst, void *pvSrc, int cb);
-M3 *func_0011B570(M3 *pm, qword v)
+// name: SafeHouse port (BuildRotateMatrixVector)
+M3 *BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR(M3 *pm, qword v)
 {
     qword d, one, l;
     float g;
