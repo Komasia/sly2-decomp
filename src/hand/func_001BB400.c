@@ -25,7 +25,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void func_001BB648(P *p, E *pe);
 qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, void *x);
-void func_001619A0(void *g, int k, P *p);
+void BroadcastTaskEvent__FP2SWiP2LO(void *g, int k, P *p);
 
 void func_001BB400(P *p)
 {
@@ -55,7 +55,7 @@ void func_001BB400(P *p)
             if (++p->i >= p->c) {
                 ((void (*)(void *, int, P *))p->vt[4].pfn)((char *)p + p->vt[4].d, 0x10, p);
                 ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
-                func_001619A0(g_game, 0x11, p);
+                BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x11, p);
             }
         }
     }

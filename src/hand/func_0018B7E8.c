@@ -28,13 +28,13 @@ extern qword D_002A2DD0;extern char g_sw[];
 extern float D_002BF3C0,D_002BF3C4,D_002BF3C8,D_002BF3CC,D_002BF35C;
 float func_00204740(struct P*);float RadNormalize__Ff(float);
 void func_00194A40(void*,struct P*,unsigned int);
-void func_0018B2C0(struct P*);void func_0018A8C8(struct P*);void func_0018F0A8(struct P*);
+void func_0018B2C0(struct P*);void func_0018A8C8(struct P*);void UpdateSlyButtons__FP3SLY(struct P*);
 struct BINDING*func_0012FF10(void*,struct P*,void*,int);
-void func_00190520(struct P*);void func_00197F98(void*);void func_00191A10(void*);void func_00137218(void*);
-void func_001A0720(struct P*,void*,int,float,float);void func_0018B460(struct P*);
+void func_00190520(struct P*);void func_00197F98(void*);void func_00191A10(void*);void UpdateSlyDodgeInput__FP3SLY(void*);
+void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*,void*,int,float,float);void func_0018B460(struct P*);
 void func_0020BB58(void*,float);void func_002046F0(struct P*,void*);
-qword func_0011E1A0(float,float,float);qword func_001A6FC0(void*,void*,qword);
-int func_001DAEA8(int);void func_0018E1E0(struct P*);qword func_00204E38(struct P*,struct MODEL*,float);
+qword func_0011E1A0(float,float,float);qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
+int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct MODEL*,float);
 void func_00131A00(struct MODEL*,float);void func_00204660(struct P*,float);
 void func_001441E8(struct P*,float);void func_0018C250(struct P*,int,int);
 float func_0011CFE0(float,float);void func_001384C0(void*);
@@ -48,17 +48,17 @@ static inline qword ScaleIn(qword a,qword b){__asm__("vmulx.xyzw %0,%0,%1x":"+j"
 static inline qword FirstNegative(const qword*input,U*out,float g){qword a,s;register qword bits __asm__("$2");__asm__("lqc2 %0,%3\n\tmfc1 %1,%4\n\tqmtc2.ni %1,%2":"=j"(a),"=&r"(bits),"=j"(s):"m"(*input),"f"(g));out->q=s;return ScaleIn(a,out->q);}
 static inline qword SecondNegative(const qword*input,U*out,float g){qword a,s;register qword bits __asm__("$3");__asm__("lqc2 %0,%3\n\tmfc1 %1,%4\n\tqmtc2.ni %1,%2":"=j"(a),"=&r"(bits),"=j"(s):"m"(*input),"f"(g));out->q=s;return ScaleIn(a,out->q);}
 static inline qword Scale(qword a,qword b){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(b));return r;}
-static inline qword NegativeModelNative(struct P*p,U*u){qword v=func_00204E38(p,p->model,p->model->base),s;register qword bits __asm__("$4");__asm__("mfc1 %0,%1":"=r"(bits):"f"(-1.0f));__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(bits));u->q=s;return Scale(v,u->q);}
+static inline qword NegativeModelNative(struct P*p,U*u){qword v=VelActorAnimRoot__FP5ACTORPvf(p,p->model,p->model->base),s;register qword bits __asm__("$4");__asm__("mfc1 %0,%1":"=r"(bits):"f"(-1.0f));__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(bits));u->q=s;return Scale(v,u->q);}
 
 static inline qword NegativeWithState(struct P*p,U*u,struct STATE**stateOut,float*zeroOut){
- qword input=func_00204E38(p,p->model,p->model->base);register qword v __asm__("vf3");register qword s __asm__("vf1");register qword result __asm__("vf2");register float zero __asm__("$f1");register qword bits __asm__("$4");register struct STATE*state __asm__("$3");
+ qword input=VelActorAnimRoot__FP5ACTORPvf(p,p->model,p->model->base);register qword v __asm__("vf3");register qword s __asm__("vf1");register qword result __asm__("vf2");register float zero __asm__("$f1");register qword bits __asm__("$4");register struct STATE*state __asm__("$3");
  __asm__("qmtc2.ni %3,%0\n\tlw %1,%4\n\tmfc1 %2,%5":"=j"(v),"=r"(state),"=&r"(bits):"r"(input),"m"(p->state),"f"(-1.0f));
  __asm__("qmtc2.ni %2,%0\n\tmtc1 $zero,%1":"=j"(s),"=f"(zero):"r"(bits));u->q=s;*stateOut=state;*zeroOut=zero;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(result):"j"(v),"j"(u->q));return result;
 }
 
 static inline void WriteVectorPair(qword value,qword*destination,qword scalar,qword*scalarOut){__asm__("sqc2 %2,%0\n\tsqc2 %3,%1":"=m"(*destination),"=m"(*scalarOut):"j"(value),"j"(scalar));}
 static inline void PrepareAnimation(struct P*p,U*u,struct MODEL**modelOut,struct STATE**stateOut){
- qword input=func_00204E38(p,p->model,p->model->base);register qword v __asm__("vf3");register qword scalar __asm__("vf2");register qword result __asm__("vf1");
+ qword input=VelActorAnimRoot__FP5ACTORPvf(p,p->model,p->model->base);register qword v __asm__("vf3");register qword scalar __asm__("vf2");register qword result __asm__("vf1");
  register qword bits __asm__("$3");register struct MODEL*model __asm__("$4");register struct STATE*state __asm__("$3");
  __asm__("qmtc2.ni %3,%0\n\tlw %1,%4\n\tmfc1 %2,%5":"=j"(v),"=r"(model),"=&r"(bits):"r"(input),"m"(p->model),"f"(-1.0f));
  __asm__("qmtc2.ni %1,%0":"=j"(scalar):"r"(bits));
@@ -67,11 +67,12 @@ static inline void PrepareAnimation(struct P*p,U*u,struct MODEL**modelOut,struct
 }
 
 static inline float Z(qword q){float r;__asm__("pextuw %0,$zero,%1":"=r"(r):"r"(q));return r;}
-void func_0018B7E8(struct P*p){
+// name: SafeHouse port (UpdateSlyInput)
+void UpdateSlyInput__FP3SLY(struct P*p){
  union PHASE phase;U scalar;float initialHeading;
  initialHeading=func_00204740(p);(void)RadNormalize__Ff(p->state->heading-initialHeading);
  func_00194A40(g_sw,p,0xFFFF);
- func_0018B2C0(p);func_0018A8C8(p);func_0018F0A8(p);
+ func_0018B2C0(p);func_0018A8C8(p);UpdateSlyButtons__FP3SLY(p);
  switch(p->mode){
  case 4:case 9:{
   struct MODEL*m=p->model;struct BINDING*b;p->velocity=D_002A2DD0;
@@ -82,17 +83,17 @@ void func_0018B7E8(struct P*p){
  case 3:func_00190520(p);break;
  case 2:func_00197F98(At(p,0x2C0));break;
  case 7:func_00191A10(At(p,0x4C0));break;
- case 6:func_00137218(At(p,0x1FF0));break;
- case 10:func_001A0720(p,At(p,0x1AC0),p->axesBEnabled,p->state->heading,p->state->amount);break;
+ case 6:UpdateSlyDodgeInput__FP3SLY(At(p,0x1FF0));break;
+ case 10:MoveAroundTarget__FP3SLYP9ROOTBLENDiff(p,At(p,0x1AC0),p->axesBEnabled,p->state->heading,p->state->amount);break;
  case 11:func_0018B460(p);break;
  case 12:func_0020BB58(At(p,0x1C30),p->state->amount);func_00204660(p,p->state->heading);break;
  case 5:switch(p->submode){
   case 4:if(p->owner)func_002046F0(p,p->owner);break;
-  case 5:func_001A0720(p,At(p,0x13D0),p->axesAEnabled,p->state->heading,p->state->amount);break;
-  case 8:case 9:phase.direction=func_0011E1A0(p->state->heading+3.14159265f,p->state->amount*D_002BF3C0,0.0f);p->velocity=func_001A6FC0(0,p,phase.direction);break;
+  case 5:MoveAroundTarget__FP3SLYP9ROOTBLENDiff(p,At(p,0x13D0),p->axesAEnabled,p->state->heading,p->state->amount);break;
+  case 8:case 9:phase.direction=func_0011E1A0(p->state->heading+3.14159265f,p->state->amount*D_002BF3C0,0.0f);p->velocity=ConvertVec__FP2LOT0G9VU_VECTOR(0,p,phase.direction);break;
  }break;
  case 16:
-  if(func_001DAEA8(0x1C))func_0018E1E0(p);
+  if(func_001DAEA8(0x1C))UpdateSlyJuggleVelocity__FP3SLY(p);
   else if(p->enabled){struct BINDING*b=func_0012FF10(p->table,p,(void*)1,1);if(b){ReadBinding(b,p->model,&phase.direction);p->velocity=SecondNegative(&phase.direction,&scalar,-1.0f);}}
   break;
  case 19:p->velocity=NegativeModelNative(p,&phase.scalar);break;

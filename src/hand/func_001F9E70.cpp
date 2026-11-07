@@ -12,7 +12,7 @@ extern "C" void func_00230598(P *,OWNER *);
 extern "C" qword func_0022FCC8(void *,OWNER *,qword);
 extern "C" int func_0011D4D0(float,float,float);
 extern qword D_002A2DD0;
-extern "C" void func_001F4BF8(P *);
+extern "C" void MarkAloDirty(P *) asm("MarkAloDirty__FP3ALO");
 extern "C" qword *func_00256D18(qword *,qword);
 extern "C" M3 *func_0011B570(M3 *,qword);
 static inline M3 BuildRotation(qword vector) return matrix {func_0011B570(&matrix,vector);}
@@ -71,7 +71,7 @@ extern "C" void func_001F9E70(P *input)
             AddVector(&rotation->velocity,turn);
         }else turn=Zero();
         if(changed){
-            func_001F4BF8(p);
+            MarkAloDirty(p);
             int incrementNear=0;NearVector(&incrementNear,D_002A2DD0,shift);
             if(!incrementNear){
                 qword point;qword *positionAddress=PointAddress(position,&point);

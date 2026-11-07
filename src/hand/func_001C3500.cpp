@@ -8,7 +8,7 @@ struct M3 { qword r[3]; };
 struct PATH { char pad0[0xE4]; int cyclic; char padE8[0xD8]; qword axis; };
 extern "C" {
 extern qword D_002A2DA0, g_normalZ;   // fallback unit vectors
-float func_001E6620(PATH *);           // low distance bound
+float SMinCrv(PATH *) asm("SMinCrv__FP3CRV");           // low distance bound
 float func_001E6648(PATH *);           // high distance bound
 float func_001E6610(PATH *);           // start distance
 void func_001E67B8(PATH *, float, qword *, qword *);
@@ -16,7 +16,7 @@ float GModPositive(float, float) asm("GModPositive__Fff");     // wrap into rang
 float func_001E6728(PATH *, float);
 void func_001E6F10(PATH *, float, qword *, qword *);
 M3 func_0011BA08(qword, qword);
-qword func_001A6FC0(PATH *, PATH *, qword);
+qword ConvertVec(PATH *, PATH *, qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword func_0011E390(qword);
 }
 
@@ -77,7 +77,7 @@ extern "C" void func_001C3500(PATH *p, float distance, int forward, M3 *out)
     WORK w;
     U fwd;   // declared outside the inner block on purpose: the stack slot of `back` (declared inside) is freed at the
              // end of that block and is reused by the VU_FLOAT temporary of the final negate, like the original.
-    float low = func_001E6620(p), high = func_001E6648(p);
+    float low = SMinCrv(p), high = func_001E6648(p);
     float t0 = func_001E6610(p);
     func_001E67B8(p, t0, 0, &w.tangent);
     w.tangent = Normalize(w.tangent, D_002A2DA0);
@@ -102,7 +102,7 @@ extern "C" void func_001C3500(PATH *p, float distance, int forward, M3 *out)
                 break;
         }
         rot = func_0011BA08(w.tangent, w.direction);
-        qword ref = func_001A6FC0(p, 0, p->axis);
+        qword ref = ConvertVec(p, 0, p->axis);
         fwd.q = Transform(rot, ref);
         qword up = Normalize(w.first, g_normalZ);
         w.basis.r[2] = up;

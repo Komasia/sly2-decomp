@@ -2,17 +2,18 @@ struct S { char pad[0x64]; void *f64; };
 struct T { char pad[0x7C]; struct S *ps; };
 extern struct T *D_003E0FA0;
 extern char g_game[];
-void func_00162940(struct S *p);
-void func_00164DF0(void *p, int n);
+void ResetJob__FP3JOB(struct S *p);
+void ChangeTaskState__FP4TASKi(void *p, int n);
 void func_00163CE0(struct T *p);
-void func_001619A0(void *p, int n, struct S *ps);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, struct S *ps);
 void func_00162908(struct S *p);
-void func_00162EA0(struct S *p)
+// name: SafeHouse port (RestartJob)
+void RestartJob__FP3JOB(struct S *p)
 {
-    func_00162940(p);
-    func_00164DF0(p->f64, 1);
+    ResetJob__FP3JOB(p);
+    ChangeTaskState__FP4TASKi(p->f64, 1);
     if (D_003E0FA0 && D_003E0FA0->ps == p)
         func_00163CE0(D_003E0FA0);
-    func_001619A0(g_game, 0x1F, p);
+    BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x1F, p);
     func_00162908(p);
 }

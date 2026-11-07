@@ -4,7 +4,7 @@ struct A { char pad[0x2c]; struct A *pnext; int f30; struct C *pcFirst; };
 struct S { char pad[0x50]; struct A *paFirst; char pad2[0xd4 - 0x54]; int fd4; };
 extern const float D_002A4AF0;
 extern char D_002C44E0[];
-int func_0012CEE0(struct C *);
+int FFirst__4CTRL(struct C *);
 void func_001383F0(struct S *p, int n) {
     struct A *pa;
     struct C *pc;
@@ -12,7 +12,7 @@ void func_001383F0(struct S *p, int n) {
     p->fd4 = n;
     for (pa = p->paFirst; pa; pa = pa->pnext) {
         for (pc = pa->pcFirst; pc; pc = pc->pnext) {
-            if (pc->f1c && func_0012CEE0(pc)) {
+            if (pc->f1c && FFirst__4CTRL(pc)) {
                 struct X *px = pc->px;
                 px->f80 = px->f84 = D_002A4AF0; px->f88 = px->f8c = D_002C44E0; px->f9a = 0;
             }

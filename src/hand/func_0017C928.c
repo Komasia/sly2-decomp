@@ -8,7 +8,7 @@ struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; void *p30; char 
 void func_001EF0D8(void *p);
 struct O *func_00205438(void *p, int n);
 qword func_001A62E8(void *p);
-qword func_001A6F00(void *p, int n, qword v);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(void *p, int n, qword v);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 // name: SafeHouse port (JOBSTATION::SetState)
@@ -48,7 +48,7 @@ void SetState__10JOBSTATIONi(struct S *p, int n) {
             qword v;
             struct VTE *e;
             p->v60 = func_001A62E8(p->p30);
-            v = func_001A6F00(p->p30, 0, p->v40);
+            v = ConvertPos__FP2LOT0G9VU_VECTOR(p->p30, 0, p->v40);
             o->nC0 = 1;
             func_002562A8(&x);
             x.v = v;

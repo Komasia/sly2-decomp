@@ -13,8 +13,9 @@ void func_0019CBF8(void *pv, struct P *p);
 void func_0021F2E0(void *pv, struct P *p);
 void func_0019DE10(void *pv, struct P *p);
 void func_00144638(void *pv, struct P *p);
-void func_001F7918(struct P *p, int mask, int n);
-void func_0013FF70(struct P *p)
+void SetAloXpBytes__FP3ALOUiUc(struct P *p, int mask, int n);
+// name: SafeHouse port (InitActorFields)
+void InitActorFields__FP5ACTOR(struct P *p)
 {
     InitStep__FP4STEP(p);
     func_00195950((char *)p + 0x2C0, p);
@@ -44,6 +45,6 @@ void func_0013FF70(struct P *p)
     p->x1318 = -1;
     p->x10C8 = -1;
 
-    func_001F7918(p, 0x3FFFFFF, 0);
-    func_001F7918(p, 0x10FF00, 8);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x3FFFFFF, 0);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x10FF00, 8);
 }

@@ -3,7 +3,8 @@ M2C_UNK func_00141640(void *, s32 *);               /* extern */
 M2C_UNK func_0019EA00(void *, s32 *);               /* extern */
 extern f32 g_clock;
 
-void func_001358A8(void *arg0, s32 *arg1) {
+// name: SafeHouse port (GetBentleyCpdefi)
+void GetBentleyCpdefi__FP7BENTLEYP9ACTORPOSE(void *arg0, s32 *arg1) {
     s32 temp_v1;
     s32 temp_v1_2;
 

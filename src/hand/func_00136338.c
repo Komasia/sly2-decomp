@@ -5,13 +5,14 @@ struct P { char pad[0x150]; void *p150; char pad0[0xF20 - 0x154]; int xF20; char
 extern struct CLOCK g_clock;
 extern float D_002BC994;
 int func_001443D8(struct P *p);
-void func_001362F8(struct P *p, int n);
+void SetBentleyState2__FP7BENTLEYi(struct P *p, int n);
 int func_001C46C0(void *pv, int n, float g);
 void func_001357C0(struct P *p, int n);
-void func_00136DC0(void *pv, int n);
+void UpdateBentleySub__FP7BENTLEYi(void *pv, int n);
 int func_001F0400(void *pv, int n);
 void func_001F09D8(void *pv, int n);
-void func_00136338(struct P *p)
+// name: SafeHouse port (UpdateBentleyState2)
+void UpdateBentleyState2__FP7BENTLEY(struct P *p)
 {
     int s;
     do {
@@ -20,10 +21,10 @@ void func_00136338(struct P *p)
         case 0:
         case 1:
             if (!func_001443D8(p)) {
-                func_001362F8(p, -1);
+                SetBentleyState2__FP7BENTLEYi(p, -1);
             } else if (p->x16BC == 1) {
                 if (D_002BC994 < g_clock.t - p->g1700)
-                    func_001362F8(p, 0);
+                    SetBentleyState2__FP7BENTLEYi(p, 0);
             } else if (func_001C46C0(p->p150, 8, 0.25f)) {
                 func_001357C0(p, 0x80000);
             }
@@ -31,24 +32,24 @@ void func_00136338(struct P *p)
         case -1:
             if (func_001443D8(p) && p->xF20 != 2) {
                 if (D_002BC994 < g_clock.t - p->g1700)
-                    func_001362F8(p, 0);
+                    SetBentleyState2__FP7BENTLEYi(p, 0);
                 else
-                    func_001362F8(p, 1);
+                    SetBentleyState2__FP7BENTLEYi(p, 1);
             }
             switch (p->x13D0) {
             case 0:
-                func_00136DC0(p->a1710, 0);
+                UpdateBentleySub__FP7BENTLEYi(p->a1710, 0);
                 if (p->x181C && p->x1714 != -1 && p->p1034 && func_001F0400(p->p1028, 0x17B) >= 0)
                     func_001F09D8(p->p1034, 0x17B);
                 break;
             case 1: case 2: case 3: case 7:
-                func_00136DC0(p->a1710, 1);
+                UpdateBentleySub__FP7BENTLEYi(p->a1710, 1);
                 break;
             case 5:
-                func_00136DC0(p->a1710, 2);
+                UpdateBentleySub__FP7BENTLEYi(p->a1710, 2);
                 break;
             default:
-                func_00136DC0(p->a1710, -1);
+                UpdateBentleySub__FP7BENTLEYi(p->a1710, -1);
                 break;
             }
             break;

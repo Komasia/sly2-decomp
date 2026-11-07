@@ -4,7 +4,8 @@ struct S { char pad[0x4CC]; int x4CC; char pad1[0x1080 - 0x4D0]; float t1080; ch
 void func_00141640(struct S *p, int *pf);
 void func_00220388(void *p, int *pf);
 void func_0019EA00(void *p, int *pf);
-void func_001B6728(struct S *p, int *pf)
+// name: SafeHouse port (GetMurrayCpdefi)
+void GetMurrayCpdefi__FP6MURRAYP9ACTORPOSE(struct S *p, int *pf)
 {
     if (p->k != 0 && p->k != 16 && p->x4CC) p->t1080 = g_clock.t;
     func_00141640(p, pf);

@@ -7,15 +7,15 @@ struct S {
     char p6[0xD0]; float x19ac; char p7[0x280]; char x1c30[0x380]; int x1fb0; int p8[2]; int x1fbc; int p9[2]; int x1fc8; int p10[2]; int x1fd4; int p11[6]; char x1ff0[4];
 };
 extern struct S *D_002E1E40;
-void func_0013FF70(struct S *p);
+void InitActorFields__FP5ACTOR(struct S *p);
 void func_0020B840(void *pv, struct S *p, int n);
 void func_00204D48(struct S *p, float g);
-void func_001371B8(void *pv, struct S *p);
+void InitSlyDodge__FP3SLYi(void *pv, struct S *p);
 void func_001CC158(void *pv);
 static __inline__ void InitLm(struct LM4 *plm, float g8, float gc) { plm->g8 = g8; plm->gc = gc; plm->n = 0; }
 void InitJt__FP2JT(struct S *p)
 {
-    func_0013FF70(p);
+    InitActorFields__FP5ACTOR(p);
     p->x19ac = 15.0f;
     p->x18c8 = -1;
     p->x18d8 = -1;
@@ -37,7 +37,7 @@ void InitJt__FP2JT(struct S *p)
     p->x1fbc = 0x25;
     p->x1fc8 = 0x26;
     p->x1fd4 = 0x29;
-    func_001371B8(p->x1ff0, p);
+    InitSlyDodge__FP3SLYi(p->x1ff0, p);
     p->x1000 = 1;
     p->x1020 = 200.0f;
     p->x264 = 0xC7;

@@ -7,7 +7,7 @@ struct CLOCK { float t, dt; };
 extern struct CLOCK g_clock;
 extern float D_002BFAA0[3], D_002BFAB0[3], D_002BFAC0[];
 extern float g_lmZeroOne[2];
-void func_001F4BF8(struct LO *po);
+void MarkAloDirty__FP3ALO(struct LO *po);
 float func_00244E10(float g);
 float func_002458F0(float y, float x);
 float func_0011D2D0(void *p, int n, float a, float b, float c);
@@ -33,7 +33,7 @@ void func_001A1358(struct S *s)
             if (s->x9C < dt) {
                 s->x90 = -1;
                 s->po->xD0 = 0.0f;
-                func_001F4BF8(s->po);
+                MarkAloDirty__FP3ALO(s->po);
                 goto done;
             }
             u = dt / s->x9C;

@@ -32,8 +32,8 @@ qword *func_00256D18(qword *p, qword v);
 void func_0014E168(struct CM *p, M4 *m);
 void SetCmFov__FP2CMf(struct CM *p, float g);
 void func_0011BC88(M4 *pm, float *pa, float *pb);
-qword func_001507F8(struct X *p);
-qword func_00150780(struct X *p);
+qword PosEye__6CPFREE(struct X *p);
+qword PosFocus__6CPFREE(struct X *p);
 void func_0014E1A8(struct CM *p, qword a, qword b, float c, float d);
 
 static __inline__ float GClamp(float g, float gMin, float gMax)
@@ -49,7 +49,8 @@ static __inline__ float GFrac(float g, float a, float b)
     return (g - a) / (b - a);
 }
 
-void func_00150A28(struct X *p)
+// name: SafeHouse port (CPFREE::Update)
+void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
 {
     func_0014FD40(p);
     if (g_clock.dt == 0.0f)
@@ -102,11 +103,11 @@ void func_00150A28(struct X *p)
         SetCmFov__FP2CMf(&g_cm, (1.0f - u) * p->gB8 + u * p->gBC);
         {
             qword a = p->q30;
-            p->q30 = func_0011F088(a, func_001507F8(p), g_clock.dt, D_002BD9F8, 0);
+            p->q30 = func_0011F088(a, PosEye__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
         }
         {
             qword a = p->q20;
-            p->q20 = func_0011F088(a, func_00150780(p), g_clock.dt, D_002BD9F8, 0);
+            p->q20 = func_0011F088(a, PosFocus__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
         }
         func_0014E1A8(&g_cm, p->q30, p->q20, 0.0f, 0.0f);
     }

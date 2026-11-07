@@ -21,10 +21,10 @@ struct X *func_001CE888(void *pg, int a, int b);
 qword func_001A62E8(struct S *p);
 struct MAT *func_001A6318(struct S *p);
 void func_001C67A0(struct S *p, int n);
-void *func_001FBB90(int n);
+void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 void func_00161868(void *pg);
-void func_001619A0(void *p, int n, struct S *ps);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, struct S *ps);
 void func_001C60B8(struct S *p, int n);
 void func_001C65F8(struct S *p, int n)
 {
@@ -48,7 +48,7 @@ void func_001C65F8(struct S *p, int n)
         } else {
             func_001C67A0(p, 0);
         }
-        SetSource__4CSndPv(func_001FBB90(0x29), 0);
+        SetSource__4CSndPv(PsndNewPlain__Fi(0x29), 0);
         plo = p->x210;
         if (plo) {
             struct M m;
@@ -59,7 +59,7 @@ void func_001C65F8(struct S *p, int n)
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
         func_00161868(g_sw);
-        func_001619A0(g_game, 0x12, p);
+        BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x12, p);
         break;
     }
     }

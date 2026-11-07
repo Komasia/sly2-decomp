@@ -8,12 +8,12 @@ extern qword g_normalZ;
 void func_001EEF70(struct S *p);
 struct O *func_00205438(void *p, int n);
 qword *func_001A6318(void *p);
-struct M3 func_0011B830(qword a, qword b);
+struct M3 BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(qword a, qword b);
 // name: SafeHouse port (JOBHOLD::Enter)
 void Enter__7JOBHOLD(struct S *p) {
     struct O *o; struct VTE *e; struct T *t;
     func_001EEF70(p);
     o = func_00205438(p->pt, 0x9D); o->n3C = 2; e = &o->vt[8]; e->pfn((char *)o + e->d);
     t = p->pt;
-    t->m1B0 = func_0011B830(*func_001A6318(t->pF84), g_normalZ);
+    t->m1B0 = BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(*func_001A6318(t->pF84), g_normalZ);
 }

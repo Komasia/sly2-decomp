@@ -2,8 +2,8 @@ struct S { char p0[0x40]; int x40; char p1[0x148 - 0x44]; unsigned long x148; in
 void InitSo__FP2SO(struct S *p);
 void InitDl__FP2DLi(void *pdl, int n);
 void func_001A6CA8(struct S *p, int n);
-void func_001F27F0(struct S *p);
-void func_001F6860(struct S *p, int n);
+void PoxaEnsure__FP3ALO(struct S *p);
+void SetAloContactsOff__FP3ALOi(struct S *p, int n);
 static inline int FPtr(int v) { return !(v & 1); }
 void InitRipg__FP4RIPG(struct S *p)
 {
@@ -15,7 +15,7 @@ void InitRipg__FP4RIPG(struct S *p)
     if (FPtr(v)) *(int *)v = (*(int *)v & 1) | 0xE; else p->x40 = (v & 1) | 0xE;
     p->x148 &= ~(1UL << 35);
     if (p->x150 == 1) {
-        func_001F27F0(p);
-        func_001F6860(p, 1);
+        PoxaEnsure__FP3ALO(p);
+        SetAloContactsOff__FP3ALOi(p, 1);
     }
 }

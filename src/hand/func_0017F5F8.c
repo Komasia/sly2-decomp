@@ -4,9 +4,10 @@ struct S { char pad[0xC]; struct VTE *vt; char pad2[0x178]; int n188; int pad3; 
 struct F { struct S *p0; int n4; int n8; int nC; int n10; int pad[3]; qword q20; qword q30; qword pad2[2]; };
 void *func_002333B4(void *p, int c, int n);
 qword func_001A62E8(void *p);
-void func_001F7598(struct F *pf);
+void PaloAcceptContact__FP5CTMSG(struct F *pf);
 void ExplodeExpl__FP4EXPL(void *p);
-void func_0017F5F8(struct S *p, int n) {
+// name: SafeHouse port (KillHackSo)
+void KillHackSo__FP2LOi(struct S *p, int n) {
     if (n && p->n188) {
         struct F f;
         struct VTE *e;
@@ -18,7 +19,7 @@ void func_0017F5F8(struct S *p, int n) {
         f.q30 = ((qword (*)(void *))e->pfn)((char *)p + e->d);
         f.nC = 0x100;
         f.n10 = -p->n188;
-        func_001F7598(&f);
+        PaloAcceptContact__FP5CTMSG(&f);
     }
     if (p->p190) ExplodeExpl__FP4EXPL(p->p190);
     { struct VTE *e = &p->vt[9]; ((void (*)(void *))e->pfn)((char *)p + e->d); }

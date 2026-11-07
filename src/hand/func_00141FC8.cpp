@@ -16,7 +16,7 @@ extern char D_002A4D58[];
 void func_00141C08(P *p, E *pe, int n);
 int func_0021ECD8(char *pch, const char *fmt, ...);
 }
-CRef func_001D8B20(const CRef &ref, void *o, const char *fmt, ...);
+CRef SetProgressPoCurrent(const CRef &ref, void *o, const char *fmt, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 extern "C" void func_00141FC8(P *p, unsigned int i, int id)
 {
     if (i < 3) {
@@ -34,7 +34,7 @@ extern "C" void func_00141FC8(P *p, unsigned int i, int id)
             }
             func_0021ECD8(ach, D_002A4D50, j);
             VTE *e = &p->vt[103];
-            func_001D8B20(CRef(0x15, p->ae[j].id), e->pfn((char *)p + e->d), D_002A4D58, ach, 0);
+            SetProgressPoCurrent(CRef(0x15, p->ae[j].id), e->pfn((char *)p + e->d), D_002A4D58, ach, 0);
         }
         VTE *e = &p->vt[105];
         ((void (*)(void *))e->pfn)((char *)p + e->d);

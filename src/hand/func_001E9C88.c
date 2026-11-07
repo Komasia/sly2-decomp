@@ -11,7 +11,7 @@ struct SEG { float a, b; };
 struct O { char padC[0xC]; void *vt; char pad10[0xE0-0x10]; int curved; int fE4; int count; float *parameters; float *distances; qword *points; };
 struct S { struct O *po; int c4; struct SEG *aseg; int cC; struct SEG aseg10[16]; int c90; void **apv; int n98; };
 extern float D_002C367C;
-float func_001E6620(struct O *);
+float SMinCrv__FP3CRV(struct O *);
 float func_001E6648(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
 void *func_001C0D70(qword, int);
@@ -32,7 +32,7 @@ void func_001E9C88(struct S *ps, struct O *po)
     void *pPrev;
 
     ps->po = po;
-    tStart = func_001E6620(po);
+    tStart = SMinCrv__FP3CRV(po);
     tPrev = tStart;
     t = tStart;
     tEnd = func_001E6648(ps->po);

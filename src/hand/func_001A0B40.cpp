@@ -30,7 +30,7 @@ extern "C"{
  void func_002046B0(P*,qword);
  qword func_001A62E8(P*);
  float func_00204740(P*);
- void func_001F4BF8(P*);
+ void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");
  void func_00130658(ASEGA**);
  void func_001F15B8(COMPONENT**);
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
@@ -175,7 +175,7 @@ extern "C" void func_001A0B40(C*p,int next){
   func_00204660(p->actor,func_00204740(p->actor));
   p->actor->control->yaw=p->actor->yaw;clip=p->clips[next];break;
  }
- func_001F4BF8(p->actor);
+ MarkAloDirty(p->actor);
  p->mode=next;p->time=g_clock.time;
  if(next!=-1){
   if(!clip)clip=p->Default(next);

@@ -30,12 +30,12 @@ extern "C"{
 extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002BE920,D_002BE930,D_002BE940;
 qword func_001A62E8(P*);M4*func_001A6318(P*);
 void func_00185310(void*,qword,TRIREF*,TRIREF*,qword*,qword*);
-M3 func_0011B830(qword,qword);M3 func_0011B340(M3*);qword*func_00256D18(qword*,qword);
+M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");M3 func_0011B340(M3*);qword*func_00256D18(qword*,qword);
 void func_0011C950(M4*,M3*,PARAMS*,M3*,qword*,float);
 void func_0011F088(qword,qword,PARAMS*,qword*,float);
 void func_001856B8(void*,LIST*);void func_001856C0(void*,LIST*,int,U*,PARAMS*,float);
 qword func_00185A80(void*,LIST*,qword);
-void func_0018C250(P*,int,int);void func_001A0450(P*,AXIS*,REQUEST*);
+void func_0018C250(P*,int,int);void SteerRootBlend(P*,AXIS*,REQUEST*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 }
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"rV"(n));return v;}
@@ -84,12 +84,12 @@ extern "C" void func_00185E40(P*p){
  qword fallback=QwScaleX(normal.q,VuFloat(-1.0f));register qword direction asm("vf2"); // the one register pin: direction vf2
  if(GXOfQw(len)<0.0001f)direction=fallback;else direction=QwDivide(difference,len);
  qword target=QwAddScaled(closest.q,direction,VuFloat(-p->points[0].f[0]));
- M4*pd;BuildM4L(func_0011B830(direction,g_normalZ.q),target,pd=&frame);frame.r[0].i[3]=frame.r[1].i[3]=frame.r[2].i[3]=0;pd->r[3].f[3]=1.0f;
+ M4*pd;BuildM4L(BuildLookAtMatrix(direction,g_normalZ.q),target,pd=&frame);frame.r[0].i[3]=frame.r[1].i[3]=frame.r[2].i[3]=0;pd->r[3].f[3]=1.0f;
  int i;
  for(i=0;i<3;i++)func_00185310(p->mesh,QwTransformPos(&frame,p->points[i].q),&p->triangle,0,&contacts[i].q,0);
  qword surface=QwCross(QwSub(contacts[2].q,contacts[0].q),QwSub(contacts[1].q,contacts[0].q));
  qword unit=QwDivide(surface,QwSqrt(QwDot(surface,surface)));
- {M3 m=func_0011B830(unit,g_normalZ.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
+ {M3 m=BuildLookAtMatrix(unit,g_normalZ.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
  U angular,linear;
  func_0011C950(func_001A6318(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
  SetVec(p,36,angular.q);
@@ -121,7 +121,7 @@ extern "C" void func_00185E40(P*p){
  if(GXOfQw(QwDot(p->acceleration.q,p->acceleration.q))>1.0f)active=1;
  else if(p->control->speed!=0.0f)active=1;
  if(active){
-  func_0018C250(p,21,11);func_001A0450(p,p->axes,p->request);
+  func_0018C250(p,21,11);SteerRootBlend(p,p->axes,p->request);
   SetVec(p,35,QwAdd(linear.q,QwRotateVec(&p->basis,QwScaleX(p->acceleration.q,VuFloatC1(-1.0f)))));
  }else{func_0018C250(p,21,10);SetVec(p,35,linear.q);}
 }

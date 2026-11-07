@@ -10,12 +10,13 @@ extern struct T *func_001EEEE0(void *p, int n);
 extern void func_0018C250(struct O *p, int n, int m);
 extern float func_002458F0(float y, float x);
 extern float RadNormalize__Ff(float g);
-extern int func_0018ED98(struct O *p);
+extern int FSlyAnchorsAhead__FP3SLY(struct O *p);
 extern float D_002BF4AC;
 extern char D_002BF4B0[];
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); return z; }
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
-int func_0018EE38(struct O *p)
+// name: SafeHouse port (NSlyNextSwing)
+int NSlyNextSwing__FP3SLY(struct O *p)
 {
     int n;
     if (p->p10DC) {
@@ -67,7 +68,7 @@ int func_0018EE38(struct O *p)
     case 0xD: case 0xF: case 0x11: case 0x13: case 0x15:
         break;
     default:
-        if (func_0018ED98(p))
+        if (FSlyAnchorsAhead__FP3SLY(p))
             n++;
         break;
     }

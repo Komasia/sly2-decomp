@@ -11,7 +11,7 @@ struct S {
 };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-int func_001430C8(struct S *p);
+int GrfActorLookMask__FP5ACTOR(struct S *p);
 void func_001F1350(void *p, int n);
 float func_0011CFE0(float g, float h);
 void func_00204660(struct S *p, float g);
@@ -19,10 +19,11 @@ void func_00189C40(struct S *p, int a, int b, int c, float g, void *pv);
 int func_00189EC8(struct S *p, void *pv, int n);
 int func_001F0400(void *p, int n);
 void func_001F09D8(void *p, int n);
-void func_0018A0C8(struct S *p)
+// name: SafeHouse port (UpdateSlyStanding)
+void UpdateSlyStanding__FP3SLY(struct S *p)
 {
     struct VTE *e;
-    func_001F1350(p->x1034, func_001430C8(p));
+    func_001F1350(p->x1034, GrfActorLookMask__FP5ACTOR(p));
     e = &p->vt[92];
     if (!((int (*)(void *))e->pfn)((char *)p + e->d) && p->pt208) {
         struct O *o = p->pt208->po;

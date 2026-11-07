@@ -17,15 +17,15 @@ extern GS g_sw;
 extern char D_003DD040[];
 extern int D_003DD050;
 extern GSR D_002DEB80;
-CRef func_002581C0(KEY *, char *);
+CRef NProgress(KEY *, char *);
 int func_001A2C98(void);
 void func_001A2BD0(int);
 void SetSoundPlaybackMode(void *, int) asm("SetSoundPlaybackMode__FP8SOUNDMGRi");
 void SetSoundChannelVolume(void *, int, int, float) asm("SetSoundChannelVolume__FP8SOUNDMGRiif");
 unsigned int func_0023E1C8(float);
 }
-static inline int GetInt(KEY *k, char *pb) { return func_002581C0(k, pb).m_tag; }
-static inline float GetFloat(KEY *k, char *pb) { return func_002581C0(k, pb).m_g; }
+static inline int GetInt(KEY *k, char *pb) { return NProgress(k, pb).m_tag; }
+static inline float GetFloat(KEY *k, char *pb) { return NProgress(k, pb).m_g; }
 extern "C" void func_001D8FF8(char *pb)
 {
     if (g_sw.k[0] && func_001A2C98() >= 2)

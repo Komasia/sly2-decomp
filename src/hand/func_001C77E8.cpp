@@ -27,7 +27,7 @@ extern char D_002A7768[];
 extern char D_002A7770[];
 extern char D_002A7778[];
 CRef func_001D8A38(char *a, char *b, char *c, int n);
-CRef func_001D8B20(const CRef &r, char *a, char *b, char *c, int n);
+CRef SetProgressPoCurrent(const CRef &r, char *a, char *b, char *c, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 extern "C" void func_001C77E8(S *p, int n);
 void func_001C77E8(S *p, int n)
 {
@@ -41,7 +41,7 @@ void func_001C77E8(S *p, int n)
         char buf[0x10];
         func_0021ECD8(buf, D_002A7768, p->x244->x4);
         ref = func_001D8A38(D_002A7770, D_002A7778, buf, 0);
-        func_001D8B20(CRef(0x15, ref.m_tag + 1), D_002A7770, D_002A7778, buf, 0);
+        SetProgressPoCurrent(CRef(0x15, ref.m_tag + 1), D_002A7770, D_002A7778, buf, 0);
         LO *plo = p->x210;
         if (plo) {
             M m;

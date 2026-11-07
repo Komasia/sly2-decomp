@@ -21,7 +21,7 @@ void func_001D9520(void *p);
 void func_00149C80(struct S *p);
 void func_001C1260(void *p);
 void func_0014D470(void *p);
-void func_001619A0(void *p, int a, int b);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 
 void func_0020E740(struct S *p)
 {
@@ -52,5 +52,5 @@ void func_0020E740(struct S *p)
     p->n39D0 = 0;
     func_001C1260(p->p45CC);
     func_0014D470(g_cm);
-    func_001619A0(g_game, 4, 0);
+    BroadcastTaskEvent__FP2SWiP2LO(g_game, 4, 0);
 }

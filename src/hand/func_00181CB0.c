@@ -8,7 +8,8 @@ static __inline__ float GClamp(float g, float lo, float hi)
     if (g > hi) return hi;
     return g;
 }
-void func_00181CB0(struct S *p, struct E *pe)
+// name: SafeHouse port (TargetSwarmEnt)
+void TargetSwarmEnt__FP5SWENTPv(struct S *p, struct E *pe)
 {
     float g = func_001E6648(pe->x24);
     float r0 = g * 0.5f / (float)pe->d;

@@ -19,20 +19,20 @@ struct P {
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
-void func_002303A0(struct P *, void *, int);
+void SetXfMode__FP3ALOP2XFi(struct P *, void *, int);
 void func_00142880(struct P *);
 void ExplodeExpl__FP4EXPL(struct VO *);
 void func_00195FB8(void *, int, int);
 void func_00192BD8(void *, int);
 void func_001A0B40(void *, int);
 void func_0019EAB0(void *, int);
-void func_00136298(struct P *);
-void func_00136040(struct P *, int);
-void func_00136530(struct P *, int);
+void ReleaseBentleyCarried__FP7BENTLEY(struct P *);
+void SetBentleyHold__FP7BENTLEYi(struct P *, int);
+void SetBentleyCarried__FP7BENTLEYi(struct P *, int);
 void func_002206C8(void *, int);
 int func_001F0400(void *, int);
-int func_001430C8(struct P *);
-void func_00142868(struct P *, int);
+int GrfActorLookMask__FP5ACTOR(struct P *);
+void ActorSetLookFlag__FP5ACTORi(struct P *, int);
 void func_0020BD68(struct ASEGP *);
 void func_0019CD38(void *, int);
 void func_00130658(void *);
@@ -43,7 +43,8 @@ void func_001F14F8(void *, struct P *, int, int, int, void *);
 #define VCALL0(p, n) ((void (*)(void *))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d)
 #define VCALL1(p, n, a) ((void (*)(void *, int))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d, a)
 
-void func_00135248(struct P *p, int k)
+// name: SafeHouse port (SetBentleyState)
+void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
 {
     int kOld;
     struct ASEG *pasega;
@@ -59,15 +60,15 @@ void func_00135248(struct P *p, int k)
         return;
     switch (p->state) {
     case 0:
-        func_002303A0(p, p->p58, 2);
-        func_002303A0(p, p->p5C, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
         func_00142880(p);
         break;
     case 9:
     case 10:
     case 11:
-        func_002303A0(p, p->p58, 2);
-        func_002303A0(p, p->p5C, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
         break;
     case 2:
         if (p->x108C == 0) {
@@ -109,12 +110,12 @@ void func_00135248(struct P *p, int k)
     case 6:
         if (p->p186C) {
             VCALL1(p->p186C, 76, 1);
-            func_00136298(p);
+            ReleaseBentleyCarried__FP7BENTLEY(p);
         }
-        func_00136040(p, -1);
+        SetBentleyHold__FP7BENTLEYi(p, -1);
         break;
     case 8:
-        func_00136530(p, -1);
+        SetBentleyCarried__FP7BENTLEYi(p, -1);
         VCALL1(p, 79, 1);
         break;
     case 1:
@@ -137,8 +138,8 @@ void func_00135248(struct P *p, int k)
     p->t13D4 = g_clock.t;
     switch (k) {
     case 0:
-        func_002303A0(p, p->p58, 1);
-        func_002303A0(p, p->p5C, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 1);
         if (p->x181C) {
             pasega = p->p1820;
             n = 9;
@@ -152,8 +153,8 @@ void func_00135248(struct P *p, int k)
                 anim = -1;
         }
         p->q190 = D_002A2DD0;
-        c = func_001430C8(p);
-        func_00142868(p, 1);
+        c = GrfActorLookMask__FP5ACTOR(p);
+        ActorSetLookFlag__FP5ACTORi(p, 1);
         break;
     case 1:
         pasega = p->x1320.pasega;
@@ -178,17 +179,17 @@ void func_00135248(struct P *p, int k)
         func_0019EAB0(p->aF50, 0);
         return;
     case 6:
-        func_00136040(p, 0);
+        SetBentleyHold__FP7BENTLEYi(p, 0);
         return;
     case 8:
-        func_00136530(p, 0);
+        SetBentleyCarried__FP7BENTLEYi(p, 0);
         return;
     case 9:
         pjt = p->p102C;
     case 10:
     case 11:
-        func_002303A0(p, p->p58, 1);
-        func_002303A0(p, p->p5C, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 1);
         p->q190 = D_002A2DD0;
         break;
     case 14:

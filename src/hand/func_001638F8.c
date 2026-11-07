@@ -16,14 +16,15 @@ extern char g_sw[];
 void PostLoLoad__FP2LO(struct S *p);
 void func_0011A070(struct SL *psl, struct S *p);
 void *func_0015E938(void *pg, int kind, int oid, void *owner);
-int func_00164018(struct S *p);
+int FTaskCur__FP4TASK(struct S *p);
 int func_001637E8(struct S *p);
-void func_001620B0(struct S *p, int n, int c, struct E16 *a);
-void func_001623D0(struct S *p, int n, int c, struct E24 *a, int b);
-CRef *func_002581C0(CRef *pref, void *a, void *b);
+void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, struct E16 *a);
+void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, struct E24 *a, int b);
+CRef *NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 void func_001A6CA8(struct S *p, int n);
-void func_001638F8(struct S *p)
+// name: SafeHouse port (StartTask)
+void StartTask__FP2SW(struct S *p)
 {
     CRef ref;
     int i;
@@ -52,20 +53,20 @@ void func_001638F8(struct S *p)
             p->aA4[j++] = pv;
     }
     p->cA0 = j;
-    if (!func_00164018(p) && func_001637E8(p)) {
-        func_001620B0(p, 5, p->fa8, p->fac);
-        func_001623D0(p, 5, p->fb0, p->fb4, 1);
+    if (!FTaskCur__FP4TASK(p) && func_001637E8(p)) {
+        ApplyTaskObjects__FPviiT0(p, 5, p->fa8, p->fac);
+        ApplyTaskSms__FPvT0iT0i(p, 5, p->fb0, p->fb4, 1);
     }
     if (p->fc8) {
         int n;
-        func_002581C0(&ref, pnC8, D_003D4A60);
+        NProgress(&ref, pnC8, D_003D4A60);
         n = ref.m_tag;
         func_00129EC8(&ref);
         p->f64 = n;
     }
     if (p->fd0) {
         int n;
-        func_002581C0(&ref, pnD0, D_003D4A60);
+        NProgress(&ref, pnD0, D_003D4A60);
         n = ref.m_tag;
         func_00129EC8(&ref);
         p->f68 = n;

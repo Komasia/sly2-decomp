@@ -17,7 +17,7 @@ struct M3 { struct K *pk; };
 extern struct N *D_003E15C0;
 extern char D_003E15A8[];
 extern float g_clock;
-struct O *func_001A5BF0(void *);
+struct O *PaloOrParent__FPv(void *);
 int func_001F78D8(struct O *, int);
 struct K *func_0011CCC0(void *);
 void ClearDle__FP3DLE(void *);
@@ -25,13 +25,14 @@ void AppendDlEntry__FP2DLPv(void *, void *);
 
 #define VCALL(po, slot, T) ((T)(po)->pvt[slot].pfn)((void *)((char *)(po) + (po)->pvt[slot].d)
 
-struct O *func_001F7598(struct K *pk)
+// name: SafeHouse port (PaloAcceptContact)
+struct O *PaloAcceptContact__FP5CTMSG(struct K *pk)
 {
     int unused[4];
     struct M m;
     struct M2 m2;
     struct O *po;
-    for (po = func_001A5BF0(pk->p8); po; po = po->pNext) {
+    for (po = PaloOrParent__FPv(pk->p8); po; po = po->pNext) {
         struct N *pn;
         for (pn = D_003E15C0; pn; pn = pn->pNext) {
             if (pn->n0 == (int)pk->p0 && pn->n4 == pk->n4 && pn->nC == pk->nC && pn->p48 == po) return 0;

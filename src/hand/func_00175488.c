@@ -9,7 +9,7 @@ struct P { char pad[0xA0]; int nA0; char pad2[0x1C]; int nC0; };
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; struct Q *q30; int n34; float g38; struct P *p3C; };
 void func_00133448(struct Q *q, void *p);
 void func_001333C0(struct Q *q, void *p);
-void func_0020AC28(void *p, void *po, int n, qword v);
+void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(void *p, void *po, int n, qword v);
 void func_001EF0D8(void *p);
 void func_001EF038(struct S *p);
 struct O *func_00205438(void *p, int n);
@@ -19,7 +19,7 @@ void SetActState__6JOBACTi(struct S *p, int n) {
     if (p->n34 == 0) {
         func_00133448(p->q30, p->p10);
         p->q30 = 0;
-        func_0020AC28(p->p10, 0, 0, D_002A2DD0);
+        SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, 0, 0, D_002A2DD0);
     }
     func_001EF0D8(p->a18);
     p->n34 = n;
@@ -37,7 +37,7 @@ void SetActState__6JOBACTi(struct S *p, int n) {
                 struct B { char pad[0x30]; qword v; } b;
                 struct Q *q = p->q30;
                 struct VTE *f = &q->vt[0x20];
-                func_0020AC28(p->p10, p->p3C, f->pfn((char *)q + f->d, &b), b.v);
+                SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, p->p3C, f->pfn((char *)q + f->d, &b), b.v);
             }
             e = &o->vt[8]; ((void (*)(void *))e->pfn)((char *)o + e->d);
         }

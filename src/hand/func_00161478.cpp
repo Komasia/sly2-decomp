@@ -13,11 +13,11 @@ extern G g_sw;
 extern CLOCK g_clock;
 extern int D_002E0C20;
 extern char D_003D4A60[],D_002DE578[];
-extern "C" CRef func_002581C0(OPT*,void*);
+extern "C" CRef NProgress(OPT*,void*);
 extern "C" CRef func_00258200(OPT*,const CRefData&,void*);
 extern "C" int func_00210AE0();
 extern "C" void func_00154D88(void*,float);
-static inline float GetFloat(OPT*p,void*context){const CRef&r=func_002581C0(p,context);return r.g;}
+static inline float GetFloat(OPT*p,void*context){const CRef&r=NProgress(p,context);return r.g;}
 static inline void SetPv(OPT*p,const CRef&r,void*context){CRef arg(r);const CRef&ret=func_00258200(p,arg,context);}
 static inline void SetFloat(OPT*p,float x,void*context){CRef r(x);SetPv(p,r,context);}
 struct CRefCopy:CRefData{

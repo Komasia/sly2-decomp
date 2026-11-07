@@ -2,13 +2,13 @@
  * given SO. */
 #include "step.h"
 
-void func_001F5988(SO *pso);   /* SO slot 53 (empty) */
+void SetAloOverlapNothing__FP3ALOT0(SO *pso);   /* SO slot 53 (empty) */
 
 void func_00204C60(STEP *pstep, SO *pso)
 {
     XP *pxp;
 
-    func_001F5988(&pstep->po.so);
+    SetAloOverlapNothing__FP3ALOT0(&pstep->po.so);
     pxp = pstep->pxpFloor;
     if (pxp != NULL && pxp->psoOther == pso)
         pstep->pxpFloor = NULL;

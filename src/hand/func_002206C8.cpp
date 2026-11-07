@@ -27,11 +27,11 @@ float func_00204740(O *);
 void func_00204660(O *,float);
 qword func_001A62E8(O *);
 void func_002046B0(O *,qword);
-void func_00136530(O *,int);
+void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 void func_001A58D0(O *,int,int);
 void func_001F7BF8(O *,float);
 void func_001384C0(ASEG *);
-qword func_001A6F00(O *,O *,qword);
+qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0021FB70(S *,int);
 void func_00141CD0(O *,int);
 void func_001F15B8(HANDLE *);
@@ -145,7 +145,7 @@ extern "C" void func_002206C8(S *s,int state){
     direction=ProjectUnit(direction,up);
     float liftHeight;qword liftUp=LiftInputs(savedUpper,liftHeight),speed;O *receiver;int flag;qword height=LaunchOperands(liftHeight,w.coefficient,speed,receiver,flag);
     qword velocity=Launch(direction,speed,liftUp,height);asm volatile("sqc2 %1,%0":"=m"(w.velocity.q):"j"(velocity));w.scalar.q=height;
-    func_00136530(receiver,flag);
+    SetBentleyCarried(receiver,flag);
     VectorCall(D_002DD5BC,35,w.velocity.q);
   }
   else if(s->selected->id==s->peer->id){
@@ -164,7 +164,7 @@ extern "C" void func_002206C8(S *s,int state){
  case 3:animation=s->animation3;IntCall(s->owner,79,1);break;
  case 4:
   if(s->effect){s->effect->active=1;s->effect->reset=0;EffectCall(s->effect,8);}
-  if(previous!=5&&previous!=6){s->distance=0.0f;s->targetWorld.q=func_001A6F00(s->owner,0,s->targetLocal.q);func_0021FB70(s,0);}
+  if(previous!=5&&previous!=6){s->distance=0.0f;s->targetWorld.q=ConvertPos(s->owner,0,s->targetLocal.q);func_0021FB70(s,0);}
   animation=s->animation4;flags=9;s->field128=0;break;
  case 5:animation=s->animation5;break;
  case 6:animation=s->animation6;break;

@@ -51,7 +51,7 @@ int func_00210AE0(void);
 void func_00212A70(WIDGET *,int);
 void func_0014D478(void *);
 void func_0014D8C0(void *);
-void func_001619A0(void *,int,void *);
+void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 void func_001C2BA8(int);
 void func_0022B420(void *);
 void func_001A4E80(void *);
@@ -143,7 +143,7 @@ extern "C" void func_0020E890(SW *p)
     }
     func_0014D478(g_cm);
     func_0014D8C0(g_cm);
-    func_001619A0(g_game,5,0);
+    BroadcastTaskEvent(g_game,5,0);
     func_001C2BA8(2);
     func_0022B420(D_00443740);
     if(!hasFile)func_001A4E80(D_002E1E88);

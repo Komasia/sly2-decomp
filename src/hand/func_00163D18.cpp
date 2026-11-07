@@ -27,29 +27,30 @@ extern char g_game[];
 extern char D_003DA0C0[];
 extern "C" void func_00165DE8(G *pg, O *p);
 extern "C" void func_00165E10(G *pg, O *p);
-extern "C" int func_001633E8(O *p);
-extern "C" void func_00162D50(O *p);
+extern "C" int FJobCur(O *p) asm("FJobCur__FP3JOB");
+extern "C" void JobBegin(O *p) asm("JobBegin__FP3JOB");
 extern "C" int func_001637E8(O *p);
 extern "C" void func_001643B0(O *p);
-extern "C" void func_001619A0(void *pv, int n, O *p);
-extern "C" void func_001620B0(O *p, int n, int c, int a);
-extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
+extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
+extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
+extern "C" void ApplyTaskSms(O *p, int n, int c, int a, int b) asm("ApplyTaskSms__FPvT0iT0i");
 extern "C" void func_001DA4B8(void *pv, int n, float g);
 extern "C" void func_002283D0(LO *plo);
-extern "C" void func_00163D18(O *p)
+// name: SafeHouse port (ActivateTaskNow)
+extern "C" void ActivateTaskNow__FP4TASK(O *p)
 {
     G *pg = &g_sw;
     func_00165DE8(pg, p);
     if (p->fb8 != -1)
         func_00165E10(pg, p);
-    if (p->f7c && !func_001633E8(p->f7c))
-        func_00162D50(p->f7c);
+    if (p->f7c && !FJobCur(p->f7c))
+        JobBegin(p->f7c);
     if (func_001637E8(p)) {
         p->f64++;
         func_001643B0(p);
-        func_001619A0(g_game, 0x23, p);
-        func_001620B0(p, 4, p->fa8, p->fac);
-        func_001623D0(p, 4, p->fb0, p->fb4, p->ff4);
+        BroadcastTaskEvent(g_game, 0x23, p);
+        ApplyTaskObjects(p, 4, p->fa8, p->fac);
+        ApplyTaskSms(p, 4, p->fb0, p->fb4, p->ff4);
         if (p->f5c != -1 && p->f60)
             func_001DA4B8(D_003DA0C0, p->f5c, -1.0f);
         p->Msg(0x13, 0, 0, 0, 0);

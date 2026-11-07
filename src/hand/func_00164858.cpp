@@ -47,11 +47,12 @@ inline CSave::~CSave()
         m_p4->fF8 = m_nC;
     }
 }
-extern "C" int func_001645D0(X *p);
-extern "C" void func_00164DF0(X *p, int n);
+extern "C" int FTaskPrereqs(X *p) asm("FTaskPrereqs__FP4TASK");
+extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
 extern "C" void func_00163C28(X *p);
 extern "C" void func_00163CE0(X *p);
-extern "C" void func_00164858(X *p, int n, int nF8)
+// name: SafeHouse port (ForceTaskState)
+extern "C" void ForceTaskState__FP4TASKii(X *p, int n, int nF8)
 {
     CSave save(p, p->fF4, nF8);
     CSave saveOwner(p->f7c, p->fF4, nF8, 1);
@@ -60,8 +61,8 @@ extern "C" void func_00164858(X *p, int n, int nF8)
     if (p->n54 != -1) {
         switch (n) {
         case 4:
-            if (p->n54 == 0 && func_001645D0(p))
-                func_00164DF0(p, 1);
+            if (p->n54 == 0 && FTaskPrereqs(p))
+                ChangeTaskState(p, 1);
             func_00163C28(p);
             break;
         case 5:
@@ -71,7 +72,7 @@ extern "C" void func_00164858(X *p, int n, int nF8)
         case 1:
         case 2:
         case 3:
-            func_00164DF0(p, n);
+            ChangeTaskState(p, n);
             break;
         }
     }

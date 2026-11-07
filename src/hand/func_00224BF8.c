@@ -16,7 +16,7 @@ void func_0020FC60(struct G *pg, qword pos, void (*pfn)(), void *pv, float r, in
 qword func_0011E208(float a, float b, float c);
 qword func_0011E9F8(qword v, float r);
 void func_00224820(struct S *p, int a, int b, qword pos, qword posT, int c, struct A **apa, int cMax, int *pcx, struct X *ax);
-void func_001F7598(struct X *px);
+void PaloAcceptContact__FP5CTMSG(struct X *px);
 struct R *func_00156698(void *pv, qword pos, struct S *p);
 static __inline__ qword VAdd(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -42,7 +42,7 @@ void func_00224BF8(struct S *p, int a, int b, qword pos, float r)
         func_00224820(p, a, b, pos, VAdd(pos, v), c, apa, 0x20, &cx, ax);
     }
     for (m = 0; m < cx; m++)
-        func_001F7598(&ax[m]);
+        PaloAcceptContact__FP5CTMSG(&ax[m]);
     func_00156698(g_sw.x402C, pos, p)->x54 = 1;
     _$_10STACKSCOPE(&mark, 2);
 }

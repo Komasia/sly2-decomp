@@ -17,9 +17,9 @@ struct O9E { int pad[3]; struct VTE *vt; char pad1[0x38 - 0x10]; void *x38; int 
 struct OA7 { int pad[3]; struct VTE *vt; char pad1[0x40 - 0x10]; int x40; char pad2[0x64 - 0x44]; float x64; char pad3[0xC0 - 0x68]; int xC0; char pad4[4]; void *xC8; };
 struct OAC { int pad[3]; struct VTE *vt; char padx[0x50 - 0x10]; qword x50; char pad1[0x68 - 0x60]; int x68; };
 struct OA4 { int pad[3]; struct VTE *vt; char pad1[0x30 - 0x10]; int x30; char pad2[8]; struct R *x3C; };
-void func_0020AC28(struct X *, int, int, qword);
-void func_001F5720(struct X *, int);
-void func_001F57C0(struct X *, int);
+void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct X *, int, int, qword);
+void SetAloCnstrLin__FP3ALOi(struct X *, int);
+void SetAloCnstrAng__FP3ALOi(struct X *, int);
 float GRandInRange__Fff(float, float);
 void func_001EF0D8(void *);
 void *func_00205438(struct X *, int);
@@ -37,12 +37,12 @@ void func_0014AE38(struct P *p, int state)
         return;
     switch (p->x30) {
     case 0:
-        func_0020AC28(p->p10, 0, 0, D_002A2DD0);
+        SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, 0, 0, D_002A2DD0);
         break;
     case -1:
     case 1:
-        func_001F5720(p->p10, 1);
-        func_001F57C0(p->p10, 1);
+        SetAloCnstrLin__FP3ALOi(p->p10, 1);
+        SetAloCnstrAng__FP3ALOi(p->p10, 1);
         break;
     case 3: {
         float t = g_clock.t;
@@ -94,8 +94,8 @@ void func_0014AE38(struct P *p, int state)
         po->xC8 = func_001C4840(g_sw);
         VCALL0(po, 8);
         p->p10->xF04 = g_clock.t;
-        func_001F5720(p->p10, 0);
-        func_001F57C0(p->p10, 0);
+        SetAloCnstrLin__FP3ALOi(p->p10, 0);
+        SetAloCnstrAng__FP3ALOi(p->p10, 0);
         break;
     }
     case 2: {
@@ -121,8 +121,8 @@ void func_0014AE38(struct P *p, int state)
         break;
     }
     case -1:
-        func_001F5720(p->p10, 0);
-        func_001F57C0(p->p10, 0);
+        SetAloCnstrLin__FP3ALOi(p->p10, 0);
+        SetAloCnstrAng__FP3ALOi(p->p10, 0);
         break;
     }
 }

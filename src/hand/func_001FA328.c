@@ -7,7 +7,7 @@ extern qword D_002A2DD0;
 int func_0011D4D0(float,float,float);
 void func_00230598(struct P *,struct B *);
 qword func_0022FCC8(struct LO *,struct LO *,qword);
-void func_001F4BF8(struct P *);
+void MarkAloDirty__FP3ALO(struct P *);
 static __inline__ float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static __inline__ float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static __inline__ float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
@@ -39,7 +39,7 @@ void func_001FA328(struct P *p)
             increment=func_0022FCC8(0,b->parent,p->force0.q);
             force->f[2]=0;force->f[1]=0;force->f[0]=0;
             AddTo(&b->velocity,increment);
-            func_001F4BF8(p);
+            MarkAloDirty__FP3ALO(p);
         }
         value=p->force1.q;
         reference=D_002A2DD0;
@@ -51,7 +51,7 @@ void func_001FA328(struct P *p)
             increment=func_0022FCC8(0,b->parent,p->force1.q);
             force->f[2]=0;force->f[1]=0;force->f[0]=0;
             AddTo(&b->velocity,increment);
-            func_001F4BF8(p);
+            MarkAloDirty__FP3ALO(p);
         }
     }
 }

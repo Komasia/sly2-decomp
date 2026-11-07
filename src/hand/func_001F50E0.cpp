@@ -48,8 +48,8 @@ struct SW {char pad[0x3CCC];int fUnk3CCC;};
 struct VU_FLOAT {qword qw;};
 extern qword D_002A2DE0,D_002A2DF0,D_002A2E00;
 extern SW g_sw;
-extern "C" void func_001F38A8(SOPART *);
-extern "C" void func_001F4BA8(SO *);
+extern "C" void UpdateSoeWorld(SOPART *) asm("UpdateSoeWorld__FP3SOE");
+extern "C" void UnmarkOxaDirty1(SO *) asm("UnmarkOxaDirty1__FP3ALO");
 
 static inline VU_FLOAT VuFloat(float g)
 {
@@ -137,7 +137,7 @@ extern "C" void UpdateSoBounds__FP2SO(SO *pso)
     {
         if (ppart->fHidden)
             continue;
-        func_001F38A8(ppart);
+        UpdateSoeWorld(ppart);
         if (ppart->fUnk49)
         {
             float gRadius = ppart->gUnk08;
@@ -201,7 +201,7 @@ extern "C" void UpdateSoBounds__FP2SO(SO *pso)
     pso->ptree->qwCenter = qwCenter;
     pso->ptree->sRadius = sRadius;
     g_sw.fUnk3CCC = 1;
-    func_001F4BA8(pso);
+    UnmarkOxaDirty1(pso);
 }
 
 typedef char layout_part_size[(sizeof(SOPART)==0xB0)?1:-1];

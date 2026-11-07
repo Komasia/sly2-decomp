@@ -3,7 +3,8 @@ int func_001443D8(struct S *);
 int func_001C46C0(void *, int, float);
 void func_0019CCE8(void *);
 void func_0019D330(void *);
-void func_00134D30(struct S *p) {
+// name: SafeHouse port (UpdateBentleyBinoc)
+void UpdateBentleyBinoc__FP7BENTLEY(struct S *p) {
     if (func_001443D8(p)) {
         void *pv = &p->ff00;
         if (p->ff04 == 1 && p->ff20 == 0 && func_001C46C0(p->f150, 0x4f0, 0.25f)) func_0019CCE8(pv);

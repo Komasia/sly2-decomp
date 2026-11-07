@@ -9,7 +9,7 @@ struct PP {
 extern "C" {
 qword func_001A62E8(void *p);
 void func_001FAC30(PP *p, qword q);
-void func_001F59A0(PP *p, M3 *pm, float *pg);
+void BrakeAloRotation(PP *p, M3 *pm, float *pg) asm("BrakeAloRotation__FP3ALOP7MATRIX3Pf");
 void func_001903B8(PP *p);
 }
 M3 func_0011BA08(qword a, qword b);
@@ -44,5 +44,5 @@ void func_001903B8(PP *p)
     m1 = func_0011BA08(g_normalZ, a);
     m2 = func_0011B500(g_normalZ, p->x1A8);
     m = Mul(m1, m2);
-    func_001F59A0(p, &m, D_002BF548);
+    BrakeAloRotation(p, &m, D_002BF548);
 }

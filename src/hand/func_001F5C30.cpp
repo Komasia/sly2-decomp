@@ -18,7 +18,8 @@ __asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(d):"0"(d));
 __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword AddScaled(qword old,qword v,qword s){__asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(old):"j"(v),"j"(s));return old;}
-extern "C" void func_001F5C30(P*p,const M3*orientation,const COEF*c,qword velocity,const COEF*d)
+// name: SafeHouse port (AccelAloTowardRotation)
+extern "C" void AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2(P*p,const M3*orientation,const COEF*c,qword velocity,const COEF*d)
 {
     OWNER *owner=p->owner;
     if(c){

@@ -21,17 +21,18 @@ extern char g_game[];
 extern char D_003DA0C0[];
 extern "C" void func_00165DE8(G *pg, O *p);
 extern "C" int func_001637E8(O *p);
-extern "C" void func_001619A0(void *pv, int n, O *p);
-extern "C" void func_001620B0(O *p, int n, int c, int a);
-extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
+extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
+extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
+extern "C" void ApplyTaskSms(O *p, int n, int c, int a, int b) asm("ApplyTaskSms__FPvT0iT0i");
 extern "C" void func_001DA578(void *pv, int n);
-extern "C" void func_00163F48(O *p)
+// name: SafeHouse port (DeactivateTask)
+extern "C" void DeactivateTask__FP4TASK(O *p)
 {
     func_00165DE8(&g_sw, 0);
     if (func_001637E8(p)) {
-        func_001619A0(g_game, 0x24, p);
-        func_001620B0(p, 5, p->fa8, p->fac);
-        func_001623D0(p, 5, p->fb0, p->fb4, p->ff4);
+        BroadcastTaskEvent(g_game, 0x24, p);
+        ApplyTaskObjects(p, 5, p->fa8, p->fac);
+        ApplyTaskSms(p, 5, p->fb0, p->fb4, p->ff4);
         if (p->f5c != -1 && p->f60)
             func_001DA578(D_003DA0C0, p->f5c);
         p->Msg(0x14, 0, 0, 0, 0);

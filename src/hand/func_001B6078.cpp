@@ -72,24 +72,24 @@ struct CLOCK { float t, dt; };
 extern CLOCK g_clock;
 extern U D_002A2DD0;
 extern int D_002DD5BC;
-void func_002303A0(P *, void *, int);
+void SetXfMode(P *, void *, int) asm("SetXfMode__FP3ALOP2XFi");
 void func_00142880(P *);
-void func_001B6DA8(P *, int);
+void SetMurrayFlopPhase(P *, int) asm("SetMurrayFlopPhase__FP6MURRAYi");
 void ExplodeExpl(OBJ *) asm("ExplodeExpl__FP4EXPL");
 void func_00195FB8(void *, int, int);
 void func_00192BD8(void *, int);
 void func_001A0B40(void *, int);
-void func_001B86B0(P *, int);
-void func_001B8D30(P *, int);
+void SetMurrayPunch(P *, int) asm("SetMurrayPunch__FP6MURRAYi");
+void SetMurrayBerserk(P *, int) asm("SetMurrayBerserk__FP6MURRAYi");
 void func_001B93E8(P *, int);
 void func_001B5658(P *, int);
-void func_001B5D30(P *, int);
+void SetMurrayBehaviorAnim(P *, int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
 void func_002206C8(void *, int);
-void func_001F5720(P *, int);
+void SetAloCnstrLin(P *, int) asm("SetAloCnstrLin__FP3ALOi");
 void func_0019EAB0(void *, int);
 int func_001F0400(void *, int);
-int func_001430C8(P *);
-void func_00142868(P *, int);
+int GrfActorLookMask(P *) asm("GrfActorLookMask__FP5ACTOR");
+void ActorSetLookFlag(P *, int) asm("ActorSetLookFlag__FP5ACTORi");
 void func_0020BD68(void *);
 void func_0019CD38(void *, int);
 int func_001DAEA8(int);
@@ -114,10 +114,10 @@ extern "C" void func_001B6078(P *p, int next)
     // leave the old state
     switch (p->state) {
     case 0:
-        func_002303A0(p, p->first, 2); func_002303A0(p, p->second, 2); func_00142880(p); break;
+        SetXfMode(p, p->first, 2); SetXfMode(p, p->second, 2); func_00142880(p); break;
     case 16: case 17: case 18:
-        func_002303A0(p, p->first, 2); func_002303A0(p, p->second, 2); break;
-    case 3: func_001B6DA8(p, -1); break;
+        SetXfMode(p, p->first, 2); SetXfMode(p, p->second, 2); break;
+    case 3: SetMurrayFlopPhase(p, -1); break;
     case 2: {
         if (!p->retain) {
             OBJ *object = 0;
@@ -135,12 +135,12 @@ extern "C" void func_001B6078(P *p, int next)
     }
     case 13: func_00192BD8(Block(p, 0x4C0), -1); break;
     case 14: func_001A0B40(Block(p, 0xDF0), -1); break;
-    case 11: func_001B86B0(p, -1); break;
-    case 12: func_001B8D30(p, -1); break;
+    case 11: SetMurrayPunch(p, -1); break;
+    case 12: SetMurrayBerserk(p, -1); break;
     case 4: func_001B93E8(p, -1); break;
     case 5: func_001B5658(p, -1); break;
-    case 9: func_001B5D30(p, -1); break;
-    case 15: Call(p->object15, 9); func_002206C8(Block(p, 0x1910), -1); func_001F5720(p, 0); break;
+    case 9: SetMurrayBehaviorAnim(p, -1); break;
+    case 15: Call(p->object15, 9); func_002206C8(Block(p, 0x1910), -1); SetAloCnstrLin(p, 0); break;
     case 1: case 10: p->phase = p->asega->time / p->asega->clip->duration; break;
     case 6: p->marker = 0; break;
     case 20: func_0019EAB0(Block(p, 0xF50), -1); break;
@@ -154,14 +154,14 @@ extern "C" void func_001B6078(P *p, int next)
     // enter the new state
     switch (next) {
     case 0:
-        func_002303A0(p, p->first, 1); func_002303A0(p, p->second, 1);
+        SetXfMode(p, p->first, 1); SetXfMode(p, p->second, 1);
         source = p->template0; p->velocity = D_002A2DD0;
         if (old != 2) { id = (old != 10) ? 0x175 : 0x176; } else id = 0x178;
         if (func_001F0400(source, id) < 0) id = -1;
-        mode = func_001430C8(p); func_00142868(p, 1); break;
+        mode = GrfActorLookMask(p); ActorSetLookFlag(p, 1); break;
     case 1: clip = p->clip1; activation = Block(p, 0x1320); goto activate;
     case 14: func_0019CD38(Block(p, 0xF00), -1); break;
-    case 3: { func_001B6DA8(p, 0); ASEG *a = p->extra3; if (a && p->alternate3) clip = a; else clip = p->clip3; break; }
+    case 3: { SetMurrayFlopPhase(p, 0); ASEG *a = p->extra3; if (a && p->alternate3) clip = a; else clip = p->clip3; break; }
     case 5: func_001B5658(p, 0); Call((OBJ *)p, 90); return;
     case 6: source = p->template6; break;
     case 4:
@@ -178,14 +178,14 @@ extern "C" void func_001B6078(P *p, int next)
         func_002046B0(p, difference); break;
     }
     case 8: { ASEG *a = p->extra8; if (a && p->alternate8) clip = a; else clip = p->clip8; goto clear_velocity; }
-    case 9: func_001B5D30(p, 0); Call((OBJ *)p, 90); return;
+    case 9: SetMurrayBehaviorAnim(p, 0); Call((OBJ *)p, 90); return;
     case 10: clip = p->clip10; activation = Block(p, 0x1540);
     activate: flags = 9; func_0020BD68(activation); break;
     case 15:
-        Call(p->object15, 8); p->stamp15 = D_002DD5BC; func_002206C8(Block(p, 0x1910), 0); func_001F5720(p, 1); SetVelocity(p, D_002A2DD0.q); return;
+        Call(p->object15, 8); p->stamp15 = D_002DD5BC; func_002206C8(Block(p, 0x1910), 0); SetAloCnstrLin(p, 1); SetVelocity(p, D_002A2DD0.q); return;
     case 16: source = p->template16;
     case 17: case 18:
-        func_002303A0(p, p->first, 1); func_002303A0(p, p->second, 1);
+        SetXfMode(p, p->first, 1); SetXfMode(p, p->second, 1);
     clear_velocity: p->velocity = D_002A2DD0; break;
     case 20: func_0019EAB0(Block(p, 0xF50), 0); return;
     case 21: { clip = p->clip21; U *velocity = &p->velocity; velocity->i[2] = 0; flags = 9; velocity->i[1] = 0; p->velocity.i[0] = 0; break; }

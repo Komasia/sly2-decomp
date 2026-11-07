@@ -15,13 +15,14 @@ qword *func_00256D18(qword *, qword);
 M4 *func_0011C318(M4 *,const M4 *);
 M4 *func_0011C168(M4 *, const M4 *, const M4 *);
 void *func_002333B4(void *, int, int);
-void func_001F4E28(struct P *);
+void DetachAloContacts(struct P *) asm("DetachAloContacts__FP3ALO");
 void func_00230598(struct P *, struct LO *);
-void func_001F3900(struct P *);
+void CopyAloSoeMatrices(struct P *) asm("CopyAloSoeMatrices__FP3ALO");
 qword func_001A62E8(struct P *);
 struct REGION *func_001C0D70(qword, int);
 void func_001F37C8(struct P *, struct REGION *);
-void func_001F40A0(struct P *p, qword v)
+// name: SafeHouse port (SetAloPos)
+void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
 {
     M4 m0, m40, m80, mC0, m100, m140, m180, m1C0;
     struct LO *plo;
@@ -63,9 +64,9 @@ void func_001F40A0(struct P *p, qword v)
     plo->v30.f[3] = 1.0f;
     { int stamp=++g_sw.n3D58;p->p58->nA4=stamp; }
     p->pvt[18].pfn((char *)p + p->pvt[18].d);
-    func_001F4E28(p);
+    DetachAloContacts(p);
     func_00230598(p, p->p58);
-    func_001F3900(p);
+    CopyAloSoeMatrices(p);
     {
         struct REGION_LINK *link = 0;
         if (p->pe) link = p->pe->regionLink;

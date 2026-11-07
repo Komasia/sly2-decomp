@@ -13,11 +13,12 @@ int func_00131968(void *p);
 void func_001B6078(P *p, int s);
 int func_001B84E0(P *p);
 int func_001C46C0(T *t, int k, float f);
-void func_001B86B0(P *p, int k);
-int func_001B70A0(P *p);
-void func_001B8938(P *p);
+void SetMurrayPunch__FP6MURRAYi(P *p, int k);
+int FMurrayGrab__FP6MURRAY(P *p);
+void EndMurrayPunch__FP6MURRAY(P *p);
 
-void func_001B8988(P *p)
+// name: SafeHouse port (UpdateMurrayPunchTransitions)
+void UpdateMurrayPunchTransitions__FP6MURRAY(P *p)
 {
     int s;
     for (;;) {
@@ -29,17 +30,17 @@ void func_001B8988(P *p)
             case 0:
             case 1:
                 if (func_001B84E0(p) && func_001C46C0(p->x150, 0x80, 0.25f)) {
-                    func_001B86B0(p, p->x1810 == 0);
-                } else if (!func_001B84E0(p) || !func_001B70A0(p)) {
-                    if (p->x181C && 0.0f < p->x150->x1C) func_001B8938(p);
+                    SetMurrayPunch__FP6MURRAYi(p, p->x1810 == 0);
+                } else if (!func_001B84E0(p) || !FMurrayGrab__FP6MURRAY(p)) {
+                    if (p->x181C && 0.0f < p->x150->x1C) EndMurrayPunch__FP6MURRAY(p);
                 }
                 break;
             case 2:
             case 3:
                 if (func_001B84E0(p) && func_001C46C0(p->x150, 0x10, 0.25f)) {
-                    func_001B86B0(p, (p->x1810 == 2) ? 3 : 2);
-                } else if (!func_001B84E0(p) || !func_001B70A0(p)) {
-                    if (p->x181C && 0.0f < p->x150->x1C) func_001B8938(p);
+                    SetMurrayPunch__FP6MURRAYi(p, (p->x1810 == 2) ? 3 : 2);
+                } else if (!func_001B84E0(p) || !FMurrayGrab__FP6MURRAY(p)) {
+                    if (p->x181C && 0.0f < p->x150->x1C) EndMurrayPunch__FP6MURRAY(p);
                 }
                 break;
             }

@@ -7,8 +7,8 @@ extern struct G g_sw;
 extern char g_game[];
 extern char g_cm[];
 struct O *func_0015E938(struct G *pg, int k, int id, struct S *p);
-void func_0020FF70(struct G *pg, int a, void *b, struct S *p, int c);
-void func_00161F48(void *a, int b, void *c, struct S *p);
+void ApplyRsmg__FP2LOiP4RSMGii(struct G *pg, int a, void *b, struct S *p, int c);
+void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);
 int func_0015E9C8(struct G *pg, int a, int b, int c, int n, struct O **apo);
 void func_00228358(struct O *po, int k);
 void func_0014D8C0(void *p);
@@ -24,8 +24,8 @@ void func_00228750(struct S *p)
             if (po2) po->vt[38].pfn((char *)po + po->vt[38].d, po2);
         }
     }
-    func_0020FF70(&g_sw, p->xE0, p->aE4, p, 1);
-    func_00161F48(g_game, p->x124, p->a128, p);
+    ApplyRsmg__FP2LOiP4RSMGii(&g_sw, p->xE0, p->aE4, p, 1);
+    ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x124, p->a128, p);
     for (j = func_0015E9C8(&g_sw, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
         if (apo[j]->k != 2) func_00228358(apo[j], 0);
     }

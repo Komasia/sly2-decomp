@@ -78,9 +78,9 @@ extern "C" CLOCK g_clock;
 extern "C" M4 D_002A2D30;
 extern "C" float D_002C0A3C,D_002C0A40;
 extern "C" void func_0012E460(MOTION**);
-extern "C" void func_001F5720(OWNER*,int);
+extern "C" void SetAloCnstrLin(OWNER*,int) asm("SetAloCnstrLin__FP3ALOi");
 extern "C" void func_001A58D0(OWNER*,int,int);
-extern "C" void func_001F6860(OWNER*,int);
+extern "C" void SetAloContactsOff(OWNER*,int) asm("SetAloContactsOff__FP3ALOi");
 extern "C" EVENT*func_0012F938(ASEG*,int);
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 func_001A71B0(void*,void*,M4*);
@@ -110,11 +110,11 @@ extern "C" void func_001B93E8(P*p,int state) {
   owner=p->link->owner;
   if((int)(owner->flags>>60)&1)goto attach;else goto failed;
  attach:
-  func_001F5720(owner,0);
+  SetAloCnstrLin(owner,0);
   p->oldLeft=owner->left->state;
   p->oldRight=owner->right->state;
   func_001A58D0(owner,0,15);
-  func_001F6860(owner,1);
+  SetAloContactsOff(owner,1);
   M4 predicted;
   float duration;
   EVENT*event=func_0012F938(p->anim->clip,0x1C7);
@@ -145,7 +145,7 @@ extern "C" void func_001B93E8(P*p,int state) {
  valid:
   ROOT*root=p->root;
   func_001A58D0(owner,(int)root,15);
-  func_001F6860(owner,1);
+  SetAloContactsOff(owner,1);
   U position,rotation;
   M4 frame;
   func_001B72B0(p,root->node,&D_002A2D30,&rotation.q,&position.q);

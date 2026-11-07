@@ -16,7 +16,7 @@ struct P { char pad[0x3CD0]; int c; struct E *aae[3]; char a3CE0[0x3CF8 - 0x3CE0
     char a3D10[0xC]; char a3D1C[0xC]; char a3D28[0xC]; char a3D34[0xC]; };
 struct L *func_00133CB8(struct P *, struct X *, struct X *);
 void func_001A7E10(struct P *, void *);
-void func_001F5078(struct LO *);
+void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 int FFindDlEntry__FP2DLPv(void *, struct X *);
@@ -33,7 +33,7 @@ void func_001337D0(struct P *p, struct X *px)
         pl2 = func_00133CB8(p, ((struct LX *)pl->po)->px, px);
         if (pl->pv) {
             if (!VCALL(pl->po, 62, int (*)(void *))))
-                func_001F5078(pl->po);
+                WakeAlo__FP3ALO(pl->po);
             func_001A7E10(p, pl->pv);
         }
         plNext = pl->pnext;

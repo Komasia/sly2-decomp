@@ -1,4 +1,4 @@
-// func_00151700 (Claude agent): camera path keyframe lerp. VU_FLOAT is a qmtc2 asm fed by a gcc mfc1, and Dot ends
+// Update__7CPTIMEDP6CPDEFIP5CMJOY (Claude agent): camera path keyframe lerp. VU_FLOAT is a qmtc2 asm fed by a gcc mfc1, and Dot ends
 // with separate qmfc2/mtc1 asms, so the float t lives only in an FPR and sub.s schedules like the original.
 extern "C" {
 typedef int qword __attribute__((mode(TI)));
@@ -48,7 +48,8 @@ static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v
 }
 
 }
-extern "C" void func_00151700(struct X *p)
+// name: SafeHouse port (CPTIMED::Update)
+extern "C" void Update__7CPTIMEDP6CPDEFIP5CMJOY(struct X *p)
 {
     float u, t, t1, fov;
     U pos, rot;

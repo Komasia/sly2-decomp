@@ -552,7 +552,7 @@ struct CHAIN
       undefined4 unk_0x08[18];
 };
 extern XF D_002C44F0;
-void func_001F2B20(SO *pso);
+void AddAloSoes(SO *pso) asm("AddAloSoes__FP3ALO");
 void CloneGlobset(GLOBSET *pglobset, SO *pso, LO *ploBase);
 void CloneBspc(BSPC *pbspcBase, GEOM *pgeomBase, BSPC *pbspc, GEOM *pgeom);
 inline void *PvAllocSwCopy(int cb, void *pvBase)
@@ -695,7 +695,7 @@ void SO::Clone(LO *ploBase)
     }
     if (FIsLoInWorld(this))
     {
-        func_001F2B20(this);
+        AddAloSoes(this);
     }
     func_001F2500(this);
 }

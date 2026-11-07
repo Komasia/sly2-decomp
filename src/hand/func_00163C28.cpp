@@ -28,15 +28,15 @@ public:
 };
 struct G { char pad[0x3B10]; X *f3b10; };
 extern G g_sw;
-extern "C" int func_00164018(X *px);
+extern "C" int FTaskCur(X *px) asm("FTaskCur__FP4TASK");
 extern "C" void func_00163CE0(X *px);
-extern "C" void func_00163D18(X *px);
+extern "C" void ActivateTaskNow(X *px) asm("ActivateTaskNow__FP4TASK");
 extern "C" void func_00163C28(X *px)
 {
-    if (func_00164018(px)) return;
+    if (FTaskCur(px)) return;
     if (g_sw.f3b10) {
         CSave save(g_sw.f3b10, px->fF4, px->fF8);
         func_00163CE0(g_sw.f3b10);
     }
-    func_00163D18(px);
+    ActivateTaskNow(px);
 }

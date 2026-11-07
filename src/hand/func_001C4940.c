@@ -4,7 +4,7 @@ struct G { char pad[0x3EFC]; struct LO *plo3EFC; struct LO *plo3F00; };
 struct CRef { int m_tagk; int m_tag; int pad[2]; };
 struct LO *func_001C4A48(struct G *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
-struct CRef *func_001D8B20(struct CRef *pret, struct CRef *pref, const char *s, int n);
+struct CRef *SetProgressPoCurrent__FP4CRefPci(struct CRef *pret, struct CRef *pref, const char *s, int n);
 void func_00129EC8(struct CRef *p);
 void func_00194F70(struct G *p, int a, int b, int c);
 void func_001C48C0(struct G *p);
@@ -21,7 +21,7 @@ void func_001C4940(struct G *p, struct LO *plo)
         struct CRef ret, ref;
         ref.m_tagk = 0x15;
         ref.m_tag = plo->oid;
-        func_001D8B20(&ret, &ref, "oidPoCurrent", 0);
+        SetProgressPoCurrent__FP4CRefPci(&ret, &ref, "oidPoCurrent", 0);
         func_00129EC8(&ret);
         func_00129EC8(&ref);
     }

@@ -8,7 +8,8 @@ int func_001F4C58(struct S *p, int a, int b);
 int func_0015E938(struct G *pg, int k, int b, struct S *p);
 int func_0012DC18(struct S *p, int c, int a, int b, int d, qword q);
 int func_001F0380(int e, struct S *p, int a, int b);
-void func_0017F770(struct S *p) {
+// name: SafeHouse port (BindShipGuns)
+void BindShipGuns__FP2LO(struct S *p) {
     int i;
     for (i = 0; i < p->c; i++) {
         struct E *pe = &p->ae[i];

@@ -7,7 +7,7 @@ extern qword D_002A2DD0;
 extern char D_002C43D0[], D_002C43E0[];
 void func_001FAC30(struct O *o, qword v);
 qword func_001A62E8(void *p);
-void func_001F5E10(struct O *o, qword v, void *a, qword b, void *c);
+void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct O *o, qword v, void *a, qword b, void *c);
 void func_002255C8(struct S *p, struct Q *q)
 {
     struct O *o = q->o;
@@ -21,5 +21,5 @@ void func_002255C8(struct S *p, struct Q *q)
     u.q = s;
     func_001FAC30(o, r);
     if (p->x) v = func_001A62E8(p->x); else v = func_001A62E8(p);
-    func_001F5E10(o, v, D_002C43D0, D_002A2DD0, D_002C43E0);
+    AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(o, v, D_002C43D0, D_002A2DD0, D_002C43E0);
 }

@@ -51,8 +51,8 @@ void func_0012E460(int *p);
 LO *func_001CCA40(void *pw, LO *po);
 void func_0011C168(MAT4 *pd, MAT4 *pa, MAT4 *pb);
 void func_001A6BE8(LO *po, MAT4 *pm);
-void func_001F5720(LO *po, int n);
-void func_001F57C0(LO *po, int n);
+void SetAloCnstrLin(LO *po, int n) asm("SetAloCnstrLin__FP3ALOi");
+void SetAloCnstrAng(LO *po, int n) asm("SetAloCnstrAng__FP3ALOi");
 qword func_0022CA18(void *a, void *b);
 int func_0012DC18(LO *p, Q *q, int a, int b, int c, qword d);
 void func_001F7C68(LO *po, float g);
@@ -82,8 +82,8 @@ void func_001CD098(S *p, LO *po)
     }
     func_001A6BE8(po, &m);
     if (po->xE8) {
-        func_001F5720(po, 1);
-        func_001F57C0(po, 1);
+        SetAloCnstrLin(po, 1);
+        SetAloCnstrAng(po, 1);
     }
     Q *q = po->x58;
     p->x98 = func_0012DC18(po, q, 5, 0, 2, func_0022CA18(q, q));

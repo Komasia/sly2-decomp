@@ -10,7 +10,7 @@ struct G { char pad[0x3AFC]; int c; };
 extern G g_sw;
 extern "C" void *PvAllocStackClearImpl(ALLOCREQ *preq) asm("PvAllocStackClearImpl__Fi");
 extern "C" int func_0015E9C8(G *pg, int kind, int n, int m, int c, void **apv);
-extern "C" void func_00164100(X *px, int *pc, void *pv, int a, int b);
+extern "C" void VisitTask(X *px, int *pc, void *pv, int a, int b) asm("VisitTask__FP4TASKPiPvii");
 extern "C" void func_00165C98(int *pc, void **ppv)
 {
     ALLOCREQ req;
@@ -29,6 +29,6 @@ extern "C" void func_00165C98(int *pc, void **ppv)
         apx[i]->fFC = 0;
     for (int j = 0; j < c; j++) {
         if (!apx[j]->f94)
-            func_00164100(apx[j], pc, *ppv, 0, 0);
+            VisitTask(apx[j], pc, *ppv, 0, 0);
     }
 }

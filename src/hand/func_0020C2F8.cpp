@@ -24,7 +24,7 @@ qword func_0022FC48(SPACE *,SPACE *,qword);
 qword func_0022FCC8(SPACE *,SPACE *,qword);
 void *func_0012DE58(ALO *,SPACE *,int,qword,qword,float);
 void func_00134320(GAME *,ALO *);
-void func_001F5880(ALO *,qword);
+void SetAloGravity(ALO *,qword) asm("SetAloGravity__FP3ALOG9VU_VECTOR");
 void func_00130D30(ASEGA *,int,float,float);
 void func_0020B2A8(ALO *,ALO *,int);
 void func_0020C760(P *);
@@ -118,7 +118,7 @@ extern "C" void func_0020C2F8(P *p,int state)
             p->subject->flags|=0x04000000ul;
             func_00134320(&g_sw,p->subject);
         }
-        func_001F5880(p->subject,acceleration.q);
+        SetAloGravity(p->subject,acceleration.q);
         break;
     }
     case 2:func_00130D30(p->job,0,p->tuning->afterStart,1.0f);break;
@@ -128,7 +128,7 @@ extern "C" void func_0020C2F8(P *p,int state)
         break;
     case 4:
         if(p->ballistic)func_0020C760(p);
-        func_001F5880(p->subject,p->previousVelocity.q);
+        SetAloGravity(p->subject,p->previousVelocity.q);
         if(FIsBasicDerivedFrom(p->subject,0x38))func_0020D1A0(p->subject->control);
         break;
     }

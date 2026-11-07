@@ -1,11 +1,12 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00165538(s32);                         /* extern */
+M2C_UNK RestartTask__FP4TASK(s32);                         /* extern */
 extern s32 D_003E0FA4;
 
-void func_00162DF8(void *arg0) {
+// name: SafeHouse port (RestartJobAtCheckpoint)
+void RestartJobAtCheckpoint__FP2SW(void *arg0) {
     if (D_003E0FA4 != 0) {
-        func_00165538(D_003E0FA4);
+        RestartTask__FP4TASK(D_003E0FA4);
         return;
     }
-    func_00165538(M2C_FIELD(arg0, s32 *, 0x64));
+    RestartTask__FP4TASK(M2C_FIELD(arg0, s32 *, 0x64));
 }

@@ -15,7 +15,7 @@ struct O { char pad[0x30]; void *p30; char pad2[0x1C]; void *parent; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; void *p40; };
 struct M { struct ANIMATION *animation; float f4; int n8; };
 struct ANIMATION *PasegaOfKinde__FP5KINDE(void *p);
-qword func_00204E38(struct A *a, struct ANIMATION *animation, float f);
+qword VelActorAnimRoot__FP5ACTORPvf(struct A *a, struct ANIMATION *animation, float f);
 void func_002097C8(void *p, struct S *s);
 void func_002097D8(void *p, struct S *s);
 void func_001EEFC0(struct S *p);
@@ -25,7 +25,7 @@ void *func_001C4840(struct G *g);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 int func_001A6AF8(void *n, void *o);
 void func_0014F750(void *p, int n);
-void func_001F7A68(struct A *a, int n);
+void SetAloEntryMode__FP3ALOi(struct A *a, int n);
 // name: SafeHouse port (JOBMOVE::Message)
 int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
     struct ANIMATION *animation;
@@ -36,7 +36,7 @@ int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
     switch (pm->n8) {
     case 0x15E:
         {
-            qword v = func_00204E38(p->p10, animation, pm->f4);
+            qword v = VelActorAnimRoot__FP5ACTORPvf(p->p10, animation, pm->f4);
             qword n, r;
             U u;
             struct A *a;
@@ -90,7 +90,7 @@ int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
         }
         return 0;
     case 0x36:
-        func_001F7A68(p->p10, 2);
+        SetAloEntryMode__FP3ALOi(p->p10, 2);
         return 0;
     }
     return 0;

@@ -10,8 +10,9 @@ struct O *func_001CB250(void *pv, int n);
 void func_001CB488(void *pv, struct O *po);
 void func_001357C0(struct P *p, int n);
 void func_00136ED0(void *pv, int k, struct M *pm);
-void func_0018D698(struct P *p, struct E *pe, int n);
-void func_00135AD8(struct P *p, int k, struct M *pm)
+void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, int n);
+// name: SafeHouse port (OnBentleyMessage)
+void OnBentleyMessage__FP2LO5MSGIDPv(struct P *p, int k, struct M *pm)
 {
     func_00140F90(p, k, pm);
     switch (k) {
@@ -37,7 +38,7 @@ void func_00135AD8(struct P *p, int k, struct M *pm)
         int i;
         for (i = 0; i < 6; i++, pe++) {
             if (pe->pm == pm)
-                func_0018D698(p, pe, 0);
+                SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(p, pe, 0);
         }
         break;
     }

@@ -23,18 +23,18 @@ void func_001403D0(struct P *p);
 int func_00131968(struct O *p);
 void func_001306A8(struct O **pp);
 void func_00194A40(struct G *pg, struct P *p, int n);
-void func_001B5038(struct P *p);
-void func_001B4AA0(struct P *p);
-int func_001430C8(struct P *p);
+void UpdateMurrayBinoc__FP6MURRAY(struct P *p);
+void UpdateMurrayTransitions__FP6MURRAY(struct P *p);
+int GrfActorLookMask__FP5ACTOR(struct P *p);
 void func_001F1350(void *p, int n);
 void func_00204660(struct P *p, float g);
-qword func_00204E38(struct P *p, struct ASEGA *pl, float g);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct ASEGA *pl, float g);
 void func_0020BB58(void *p, float g);
 void func_0020BC08(void *p);
 void func_00197F98(void *p);
 void func_00191A10(void *p);
-void func_001B8B70(struct P *p);
-void func_001B90B8(struct P *p);
+void UpdateMurrayPunch__FP6MURRAY(struct P *p);
+void UpdateMurrayBerserk__FP6MURRAY(struct P *p);
 void func_00131A00(struct ASEGA *p,float g);
 void func_001B82A0(struct P *p);
 void func_001A1358(void *p);
@@ -103,7 +103,8 @@ typedef char Size_7[sizeof(unsigned long)==8?1:-1];
 typedef char Size_8[sizeof(float)==4?1:-1];
 typedef char Size_9[sizeof(int)==4?1:-1];
 typedef char Size_10[sizeof(void*)==4?1:-1];
-void func_001B50B0(struct P *p)
+// name: SafeHouse port (UpdateMurray)
+void UpdateMurray__FP2LO(struct P *p)
 {
     func_001403D0(p);
     if (!((int)(p->x28 >> 60) & 1))
@@ -111,11 +112,11 @@ void func_001B50B0(struct P *p)
     if (p->x190C && func_00131968(p->x190C))
         func_001306A8(&p->x190C);
     func_00194A40(&g_sw, p, 0xF8FA);
-    func_001B5038(p);
-    func_001B4AA0(p);
+    UpdateMurrayBinoc__FP6MURRAY(p);
+    UpdateMurrayTransitions__FP6MURRAY(p);
     switch (p->x13D0) {
     case 0:
-        func_001F1350(p->p1034, func_001430C8(p));
+        func_001F1350(p->p1034, GrfActorLookMask__FP5ACTOR(p));
         break;
     case 1:
         func_00204660(p, p->pl->g18);
@@ -134,16 +135,16 @@ void func_001B50B0(struct P *p)
         func_00191A10(p->x4C0);
         break;
     case 11:
-        func_001B8B70(p);
+        UpdateMurrayPunch__FP6MURRAY(p);
         break;
     case 12:
-        func_001B90B8(p);
+        UpdateMurrayBerserk__FP6MURRAY(p);
         break;
     case 17:
-        Neg(p, func_00204E38(p, p->p1030, p->p1030->time));
+        Neg(p, VelActorAnimRoot__FP5ACTORPvf(p, p->p1030, p->p1030->time));
         break;
     case 18:
-        Neg2(p, func_00204E38(p, p->p1030, p->p1030->time));
+        Neg2(p, VelActorAnimRoot__FP5ACTORPvf(p, p->p1030, p->p1030->time));
         func_00204660(p, p->pl->g18);
         break;
     }

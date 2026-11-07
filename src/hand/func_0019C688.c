@@ -6,7 +6,7 @@ struct P { struct O *x0; int x4; int x8; struct C *xc; int x10; float x14; int x
 extern int D_002DD5BC;
 void func_001928F8(void *p, int n, struct C *c, void *b);
 void func_0018C250(struct O *o, int a, int b);
-void func_00135248(int a, int b);
+void SetBentleyState__FP7BENTLEYi(int a, int b);
 void func_00195FB8(struct P *p, int a, int b);
 #define B(c, off) ((c) ? (void *)((char *)(c) + (off)) : (void *)0)
 void func_0019C688(struct P *p)
@@ -54,7 +54,7 @@ void func_0019C688(struct P *p)
     }
         break;
     case 18:
-        func_00135248(D_002DD5BC, 8);
+        SetBentleyState__FP7BENTLEYi(D_002DD5BC, 8);
         break;
     default:
         func_00195FB8(p, 4, 0);

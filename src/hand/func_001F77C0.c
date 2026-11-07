@@ -21,7 +21,8 @@ static inline void *PvNextDli(struct DLI *pdli)
     pdli->ppv = (void **)((char *)pv + pdli->ibDle);
     return pv;
 }
-void func_001F77C0(struct P *p)
+// name: SafeHouse port (AgeSwContacts)
+void AgeSwContacts__FPv(struct P *p)
 {
     struct DLI dli;
     struct E *pe;

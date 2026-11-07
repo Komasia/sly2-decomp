@@ -3,7 +3,8 @@ s32 FIsBasicDerivedFrom__FP5BASIC3CID(s32, M2C_UNK);                    /* exter
 s32 func_0015E938(M2C_UNK *, M2C_UNK, s32, s32);    /* extern */
 extern M2C_UNK g_sw;
 
-void func_0017F408(s32 arg0, s32 arg1, void *arg2) {
+// name: SafeHouse port (BindHackSegs)
+void BindHackSegs__FP2LOP6HACKSOPv(s32 arg0, s32 arg1, void *arg2) {
     s32 temp_a2;
     s32 temp_v0;
     s32 var_s2;

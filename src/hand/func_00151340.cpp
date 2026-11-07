@@ -1,5 +1,5 @@
-// func_00151340 (Lilly's agent, T1649): joystick / random-target camera spring. MATCH.
-// Keys: the sibling helper style of func_00151700 / func_0014EB70 (by-value VU_FLOAT temps -> the sqc2 0(sp) after each qmtc2,
+// Update (Lilly's agent, T1649): joystick / random-target camera spring. MATCH.
+// Keys: the sibling helper style of Update__7CPTIMEDP6CPDEFIP5CMJOY / func_0014EB70 (by-value VU_FLOAT temps -> the sqc2 0(sp) after each qmtc2,
 // VU_VECTOR(const qword &) wrappers, VecCombo(f1, v1, f2, v2)); Sub taking VU_VECTORs makes both p14->pos reads plain MEMs,
 // so cse2 keeps the target's two lqc2 0x20(v0); k is read through a VU_FLOAT(const float *) ctor whose word input has a
 // never-chosen "V" alternative (the func_0014F110 trick: lw instead of lwc1+mfc1).
@@ -29,7 +29,7 @@ void func_0014FD40(X *p, void *pv, JOY *pjoy);
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void func_0012D108(TGT *p, qword pos);
 void func_0014E168(CM *p, int *pm);
-void func_00151340(X *p, void *pv, JOY *pjoy);
+void Update(X *p, void *pv, JOY *pjoy) asm("Update__10CPACTUATEDP6CPDEFIP5CMJOY");
 }
 static inline float GFromClq(const CLQ &c, float g) { return c.g0 + g * (c.g1 + g * c.g2); }
 static inline float GClampR(float g, float lo, float hi) { if (g < lo) return lo; if (hi < g) return hi; return g; }
@@ -65,7 +65,8 @@ static inline qword AddScaled2(VU_VECTOR a, VU_VECTOR b, VU_VECTOR c, VU_FLOAT s
     return r;
 }
 
-void func_00151340(X *p, void *pv, JOY *pjoy)
+// name: SafeHouse port (CPACTUATED::Update)
+void Update(X *p, void *pv, JOY *pjoy)
 {
     qword pos, v;
     func_0014FD40(p, pv, pjoy);

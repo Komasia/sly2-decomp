@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 extern qword D_002A2DA0;
-void func_0011E630(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal);
+void ClosestLineParams__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal);
 static inline float GClamp(float g, float lo, float hi)
 {
     if (g < lo)
@@ -24,12 +24,13 @@ static inline qword Len(qword v)
     return l;
 }
 static __inline__ float F(qword q) { float g; __asm__("mtc1 %1, %0" : "=f"(g) : "r"(q)); return g; }
-void func_0011E7C8(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal)
+// name: SafeHouse port (DistSegments)
+void DistSegments__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal)
 {
     float v;
     qword w0, w1, w2, w3, n, l;
     qword *pdef;
-    func_0011E630(a, b, c, pos, puv, pdist, pnormal);
+    ClosestLineParams__FG9VU_VECTORN30P6VECTORN24(a, b, c, pos, puv, pdist, pnormal);
     puv[0] = GClamp(puv[0], 0.0f, 1.0f);
     v = GClamp(puv[1], 0.0f, 1.0f);
     puv[1] = v;

@@ -12,9 +12,9 @@ extern char g_sw[];
 extern char g_game[];
 struct OID *func_0015E938(void *g, int k, int oid, struct OID *po);
 void func_00130598(struct SO *pso, struct OID *po, int n, int x, float g, float h);
-void func_0020FF70(void *g, int a, void *b, struct OID *po, int f);
+void ApplyRsmg__FP2LOiP4RSMGii(void *g, int a, void *b, struct OID *po, int f);
 void func_001DFD58(void *p, int a);
-void func_00161F48(void *g, int a, void *b, struct OID *po);
+void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int a, void *b, struct OID *po);
 void func_001488D8(struct P *p, int i)
 {
     int j;
@@ -37,9 +37,9 @@ void func_001488D8(struct P *p, int i)
             func_00130598(pso, po, 1, x, 0.0f, p->g8C);
         }
     }
-    func_0020FF70(g_sw, p->xB0, p->mB4, p->po, i == 0);
+    ApplyRsmg__FP2LOiP4RSMGii(g_sw, p->xB0, p->mB4, p->po, i == 0);
     if (i == 0) {
         if (p->pAC) func_001DFD58(p->pAC, p->xA8);
-        func_00161F48(g_game, p->x134, p->m138, p->po);
+        ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x134, p->m138, p->po);
     }
 }

@@ -10,7 +10,7 @@ extern struct G g_sw;
 extern struct S8 D_002A8270;
 void OnLoAdd__FP2LO(struct L *);
 void func_0022FAA0(struct L *);
-void func_001F2B20(struct L *);
+void AddAloSoes__FP3ALO(struct L *);
 qword func_001A62E8(struct L *);
 void *func_001C0D70(qword, int);
 void func_001F37C8(struct L *, void *);
@@ -23,7 +23,7 @@ void OnSoAdd__FP2SO(struct L *p)
     int v;
     OnLoAdd__FP2LO(p);
     func_0022FAA0(p);
-    func_001F2B20(p);
+    AddAloSoes__FP3ALO(p);
     v = p->v40;
     if ((v ^ 1) & 1) *(int *)v |= 0x14;
     else p->v40 = v | 0x14;

@@ -6,21 +6,21 @@ extern char g_game[], D_003D4A60[];
 extern struct G1 D_002E6550;
 extern struct G2 D_002E65E0;
 extern int D_003E0FE4;
-void func_001619A0(void *p, int a, int b);
-void func_002581C0(struct R *r, int a, void *b);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
+void NProgress(struct R *r, int a, void *b);
 void func_00129EC8(struct R *r);
 void func_001ACB58(struct G1 *p, int n);
 void func_001ABD40(struct G2 *p);
 void func_001660F8(void);
 void func_001B0878(struct S *p)
 {
-    func_001619A0(g_game, 0x2D, 0);
-    func_001619A0(g_game, 0x2E, 0);
+    BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2D, 0);
+    BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2E, 0);
     if (D_002E65E0.xFD50) {
         struct R r;
         int v;
         D_002E6550.x4C = 1;
-        func_002581C0(&r, D_003E0FE4, D_003D4A60);
+        NProgress(&r, D_003E0FE4, D_003D4A60);
         v = r.tag;
         func_00129EC8(&r);
         if (v == 0) {

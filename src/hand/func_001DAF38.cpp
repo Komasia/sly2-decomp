@@ -14,16 +14,16 @@ extern char D_002A79A0[];
 extern char D_002A79A8[];
 extern char D_002A79B8[];
 int func_0021ECD8(char *, const char *, ...);
-CRef func_001D8B20(const CRef &, const char *, ...);
-void func_001619A0(G *, int, int);
+CRef SetProgressPoCurrent(const CRef &, const char *, ...) asm("SetProgressPoCurrent__FP4CRefPci");
+void BroadcastTaskEvent(G *, int, int) asm("BroadcastTaskEvent__FP2SWiP2LO");
 extern "C" void func_001DAF38(int n, int f)
 {
     CRef ref;
     char buf[0x20];
     func_0021ECD8(buf, D_002A79A0, n);
-    ref = func_001D8B20(CRef(f != 0), D_002A79A8, D_002A79B8, buf, 0);
+    ref = SetProgressPoCurrent(CRef(f != 0), D_002A79A8, D_002A79B8, buf, 0);
     if (f) {
         g_game.n = n;
-        func_001619A0(&g_game, 0x3B, 0);
+        BroadcastTaskEvent(&g_game, 0x3B, 0);
     }
 }

@@ -4,7 +4,8 @@ extern char D_002C41B0[];
 static inline float sqrtf_(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 float func_002458F0(float y, float x);
 float func_0011D948(void *p, float f);
-void func_00220D40(struct S *p)
+// name: SafeHouse port (InitCmeTilt)
+void InitCmeTilt__FP7ZONECME(struct S *p)
 {
     if (p->i == D_002A96E0 && p->j == D_002A96E4) {
         float a = p->b + p->d;

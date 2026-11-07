@@ -1,6 +1,7 @@
 struct S { char pad[0x204]; int x204; char p1[0x16C0]; int n; };
-int func_00143C78(struct S *p);
-int func_0018DEE0(struct S *p)
+int GrfActorStance__FP5ACTOR(struct S *p);
+// name: SafeHouse port (GrfSlyXp)
+int GrfSlyXp__FP3ALO(struct S *p)
 {
     if (p->x204) return 0;
     switch (p->n) {
@@ -11,5 +12,5 @@ int func_0018DEE0(struct S *p)
     case 24:
         return 0xF;
     }
-    return func_00143C78(p);
+    return GrfActorStance__FP5ACTOR(p);
 }

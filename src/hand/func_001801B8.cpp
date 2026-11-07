@@ -28,7 +28,8 @@ static inline M3 Mul(const M3&a,const M3&b) return r
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1].q));
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2].q));
 }
-extern "C" void func_001801B8(P*p){
+// name: SafeHouse port (UpdatePiece)
+extern "C" void UpdatePiece__FP2LO(P*p){
  UpdateSo(p);
  if(!p->flag&&p->time<=g_clock.time)((void(*)(void*,P*))p->vt[82].fn)((char*)p+p->vt[82].delta,0);
  if(!p->target||p->turnRate==0.0f)return;

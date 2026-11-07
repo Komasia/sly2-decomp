@@ -13,7 +13,7 @@ extern "C" G g_sw;
 extern "C" float D_002BF4B8;
 extern "C" M3 func_0011B500(qword,float);
 extern "C" qword func_001A62E8(P*);
-extern "C" qword func_001A6F00(P*,void*,qword);
+extern "C" qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,float,M4*);
 extern "C" void func_0011EE08(qword,qword,qword,qword*,float*,float*);
 extern "C" int func_0015ED78(G*,int,int,P*);
@@ -45,7 +45,7 @@ extern "C" void func_0018F2B0(P*p,float headingInput,int mask,float dtInput,U*of
  position=func_001A62E8(p);
  VU_FLOAT scalar=VuFloatBits(dt);
  origin.q=AddScaled(position,GetVelocity(p),scalar);
- reference.q=func_001A6F00(p,0,offset->q);
+ reference.q=ConvertPos(p,0,offset->q);
  target.q=Add(Rotate(rotation,offset->q),origin.q);
  delta.q=Sub(target.q,reference.q);
  for(P*node=D_003E13B4;node;node=node->next){

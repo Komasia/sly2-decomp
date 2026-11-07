@@ -28,7 +28,7 @@ extern char g_sw[];
 extern float D_002C0990[];
 extern float D_002C099C;
 void func_00140F90(P *p, int msg, MSG *pm);
-void func_001B6DA8(P *p, int k);
+void SetMurrayFlopPhase__FP6MURRAYi(P *p, int k);
 qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, P *p);
 void func_001B7970(P *p);
@@ -45,7 +45,7 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
         if (pm->x0 != p->x1030 && pm->x0 != p->x190C) return;
         switch (pm->x8) {
         case 0x1A4:
-            func_001B6DA8(p, 1);
+            SetMurrayFlopPhase__FP6MURRAYi(p, 1);
             break;
         case 0x1A5:
             func_00156B98(g_sw, 0, func_001A62E8(p), p);

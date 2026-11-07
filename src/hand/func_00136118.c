@@ -6,13 +6,14 @@ struct P { char pad[0x150]; void *p150; char pad0[0x20C - 0x154]; float g20C; ch
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 int func_00131968(void *pv);
-void func_00136040(struct P *p, int n);
+void SetBentleyHold__FP7BENTLEYi(struct P *p, int n);
 void func_00224258(struct O *po, int n);
 int func_00141EA8(struct P *p, int n);
 int func_001C4728(void *pv, int n);
-void func_00136298(struct P *p);
+void ReleaseBentleyCarried__FP7BENTLEY(struct P *p);
 void func_00195A00(void *pv, int a, int b, int c);
-void func_00136118(struct P *p)
+// name: SafeHouse port (UpdateBentleyHold)
+void UpdateBentleyHold__FP7BENTLEY(struct P *p)
 {
     int s;
     for (;;) {
@@ -20,7 +21,7 @@ void func_00136118(struct P *p)
         switch (s) {
         case 0:
             if (func_00131968(p->p1030))
-                func_00136040(p, 1);
+                SetBentleyHold__FP7BENTLEYi(p, 1);
             break;
         case 1:
         case 2: {
@@ -32,12 +33,12 @@ void func_00136118(struct P *p)
             if (po->x158 == 4 || !func_001C4728(p->p150, func_00141EA8(p, p->pq->x0) | 0x10)) {
                 ((void (*)(void *, int))po->vt[76].pfn)((char *)po + po->vt[76].d, 1);
             common:
-                func_00136298(p);
+                ReleaseBentleyCarried__FP7BENTLEY(p);
                 func_00195A00(p->a2C0, 0xB, 0, 0);
             } else if (0.1f < g_clock.t - p->g20C) {
-                func_00136040(p, 2);
+                SetBentleyHold__FP7BENTLEYi(p, 2);
             } else {
-                func_00136040(p, 1);
+                SetBentleyHold__FP7BENTLEYi(p, 1);
             }
             break;
         }

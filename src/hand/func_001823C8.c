@@ -1,4 +1,4 @@
-// func_001823C8: contact generator. From lane H3v1 (no pins); the plane distance's scalar leaves the VU via gcc's qmfc2 plus an mtc1 asm (GX), as in Lilly's GXOfQw.
+// AddSwarmXps__FP3ALOP3SOEiiiPP2XP: contact generator. From lane H3v1 (no pins); the plane distance's scalar leaves the VU via gcc's qmfc2 plus an mtc1 asm (GX), as in Lilly's GXOfQw.
 
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int i[4];}U;
@@ -40,7 +40,8 @@ static inline float Distance(U*dot,U*one,qword plane,qword point){
  __asm__("vmul.xyz %0,%2,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddaz.x ACC,%1,%0z\n\tvmsubw.x %0,%1,%2w":"+j"(d),"=&j"(o):"j"(plane));
  one->q=o;dot->q=d;return GX(d);
 }
-void func_001823C8(P*p,REQUEST*q,int unused2,int unused3,int unused4,CONTACT**pout){
+// name: SafeHouse port (AddSwarmXps)
+void AddSwarmXps__FP3ALOP3SOEiiiPP2XP(P*p,REQUEST*q,int unused2,int unused3,int unused4,CONTACT**pout){
  WORK w;int i,count;qword center;CONTACT**out=pout;
  func_001F5990(p,q,unused2,unused3,unused4,pout);
  if(!(q->flags&0x2000000000000L))return;

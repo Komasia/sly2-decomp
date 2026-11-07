@@ -4,7 +4,8 @@ struct M { qword a[4]; };
 struct O { char pad[0x40]; struct M m; char pad2[0xA4 - 0x80]; int nA4; };
 struct E { struct O *po; int pad[3]; ulong fl; int pad2[2]; struct M m; char pad3[0xAC - 0x60]; int nAC; };
 struct P { char pad[0xE0]; int c; struct E *ae; };
-void func_001F3900(struct P *p)
+// name: SafeHouse port (CopyAloSoeMatrices)
+void CopyAloSoeMatrices__FP3ALO(struct P *p)
 {
     int i;
     for (i = 0; i < p->c; i++) {

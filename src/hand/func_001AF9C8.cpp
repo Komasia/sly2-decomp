@@ -7,7 +7,7 @@ extern int D_003DD050;
 extern int D_002C2D8C;
 extern char D_003D4A60[];
 }
-CRef Eval(int a, void *b) __asm__("func_002581C0");
+CRef Eval(int a, void *b) __asm__("NProgress");
 static inline int GetTag(int id) { return Eval(id, D_003D4A60).m_tag; }
 extern "C" void func_001AF9C8(int *s)
 {

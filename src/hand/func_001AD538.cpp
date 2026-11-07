@@ -16,7 +16,7 @@ extern struct E D_003D9EDC[];
 void func_001ACC38(void *p, int n);
 int func_001B0078(void *g);
 }
-CRef Eval(int a, void *b) __asm__("func_002581C0");
+CRef Eval(int a, void *b) __asm__("NProgress");
 static inline float F(int x, void *pb) { return Eval(x, pb).m_tag; }
 extern "C" void func_001AD538(void)
 {

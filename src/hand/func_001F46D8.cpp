@@ -15,22 +15,23 @@ static inline M3 Mul(const M3 &a,const M3 &b) return r
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1].q));
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2].q));
 }
-extern "C" int func_00230310(int);
-extern "C" void func_002303A0(P *,LO *,int);
+extern "C" int FXfmMoving(int);
+extern "C" void SetXfMode(P *,LO *,int) asm("SetXfMode__FP3ALOP2XFi");
 extern "C" qword func_0022FCC8(LO *,LO *,qword);
-extern "C" void func_001F4BF8(P *);
-extern "C" void func_001F5078(P *);
-extern "C" void func_001F8668(P *,long);
+extern "C" void MarkAloDirty(P *) asm("MarkAloDirty__FP3ALO");
+extern "C" void WakeAlo(P *) asm("WakeAlo__FP3ALO");
+extern "C" void SetAloIced(P *,long) asm("SetAloIced__FP3ALOl");
 static inline qword Sub(qword a,const qword *pb) { qword r,b; __asm__("lqc2 %1,%3\n\tvsub.xyzw %0,%2,%1":"=j"(r),"=&j"(b):"j"(a),"m"(*pb));return r; }
 static inline qword Transform(const M3 &m,qword v) { qword r;
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m.r[0].q),"j"(m.r[1].q),"j"(m.r[2].q),"j"(v));return r;
 }
 static inline void Clear(U *v) { v->i[2]=0;v->i[1]=0;v->i[0]=0; }
-extern "C" void func_001F46D8(P *p,qword position)
+// name: SafeHouse port (SetAloAngVelocityToLoad)
+extern "C" void SetAloAngVelocityToLoad__FP3ALOG9VU_VECTOR(P *p,qword position)
 {
     LO *object=p->object;
     if(!object || object->kind!=6)return;
-    if(!func_00230310(object->state))func_002303A0(p,object,1);
+    if(!FXfmMoving(object->state))SetXfMode(p,object,1);
     const M3 *rotation=&object->rotation;
     Clear(&object->velocity);
     M3 normalized;
@@ -40,7 +41,7 @@ extern "C" void func_001F46D8(P *p,qword position)
     M3 relative=Mul(*rotation,func_0011B340(&normalized));
     object->velocity.q=func_0022FCC8(0,object->parent,Transform(relative,Sub(position,&origin)));
     func_00230598(p,object);
-    func_001F4BF8(p);
-    func_001F5078(p);
-    func_001F8668(p,0);
+    MarkAloDirty(p);
+    WakeAlo(p);
+    SetAloIced(p,0);
 }

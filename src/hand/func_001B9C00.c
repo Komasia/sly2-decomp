@@ -2,7 +2,8 @@ struct S { char pad[0x1034]; void *p1034; char pad1[0x1530 - 0x1038]; void *p153
 void func_001B6078(struct S *p, int n);
 void func_001F0948(void *p, int n);
 void func_001F0660(void *p, int n);
-void func_001B9C00(struct S *p, void *pv, int n, int m, int f)
+// name: SafeHouse port (StartMurrayHold)
+void StartMurrayHold__FP6MURRAYP3SMAiii(struct S *p, void *pv, int n, int m, int f)
 {
     p->p1530 = pv;
     p->n1534 = m;

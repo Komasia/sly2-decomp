@@ -23,7 +23,8 @@ static __inline__ float GLimLo(float g, float lo, float v)
     if (g < lo) return v;
     return g;
 }
-void func_00188CC8(struct O *p, struct A *pa, void *pv)
+// name: SafeHouse port (OnSlyXpNew)
+void OnSlyXpNew__FP3ALOP2XPPv(struct O *p, struct A *pa, void *pv)
 {
     func_00204250(p, pa, pv);
     switch (p->n18C8) {

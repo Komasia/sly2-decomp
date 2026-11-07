@@ -25,12 +25,12 @@ extern VTE D_002CAF08[];
 extern char D_002DE578[];
 P *func_0011CCC0(void *);
 void *func_002333B4(void *, int, int);
-float func_00154C90(void *);
+float GSuck(void *) asm("GSuck__FPv");
 void func_00131A00(P *, float);
 void AppendDlEntry(void *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(P *, int);
 void func_0012FE58(struct T *, int, struct E60 *, int *, int *);
-void func_001F8668(int, long);
+void SetAloIced(int, long) asm("SetAloIced__FP3ALOl");
 void *func_0012E1F0(unsigned int);
 void func_00230018(int, int, void *);
 void func_00130010(struct T *, int, struct E68 *, int *, int *);
@@ -59,7 +59,7 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
     p->x3C = grf;
     p->g48 = pt->g78;
     {
-        p->g4C = GClamp(GEval(&pt->poly, func_00154C90(D_002DE578)), pt->g90, pt->g94);
+        p->g4C = GClamp(GEval(&pt->poly, GSuck(D_002DE578)), pt->g90, pt->g94);
     }
     func_00131A00(p, g1);
     AppendDlEntry(D_003E1218, p);
@@ -75,7 +75,7 @@ extern "C" void func_0012F9B8(struct T *pt, int x, int grf, float g0, float g1, 
             int a, b;
             func_0012FE58(pt, x, pe, &a, &b);
             if (b) {
-                func_001F8668(a, 0);
+                SetAloIced(a, 0);
                 struct N34 *pn = (struct N34 *)func_0012E1F0(0x2C);
                 pn->pvt = D_002CAF08;
                 pn->x0 = 0;

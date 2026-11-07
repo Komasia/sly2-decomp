@@ -1,4 +1,4 @@
-// func_00188960 (Claude agent, lane G9, 2026-10-24): MATCH, no register pins, VU helper asms only (Lilly style).
+// UpdateSlyMotion__FP3SLY (Claude agent, lane G9, 2026-10-24): MATCH, no register pins, VU helper asms only (Lilly style).
 // Keys: the 0x20 stack slot is the by-value VU_FLOAT temporary (not a WORK field); WORK = {a, b} at 0x0/0x10 shared by cases 14 and 24; Reject = QwProjectOut.
 
 typedef int qword __attribute__((mode(TI)));
@@ -14,8 +14,8 @@ extern CLOCK g_clock;extern qword g_normalZ;
 extern float D_002BF288,D_002BF28C,D_002BF290,D_002BF294;
 void func_001F9B20(P*);void func_00204108(P*);
 void func_001903B8(P*);void func_0019DF70(void*);void func_00196DF8(void*);
-void func_001A1148(void*);void func_00194170(void*);void func_00137248(void*);
-qword func_00204E38(P*,MODEL*,float);float func_0012F990(void*,int);
+void func_001A1148(void*);void func_00194170(void*);void UpdateSlyDodgeMotion(void*) asm("UpdateSlyDodgeMotion__FP3SLY");
+qword VelActorAnimRoot(P*,MODEL*,float) asm("VelActorAnimRoot__FP5ACTORPvf");float GEventAseg11(void*,int) asm("GEventAseg11__Fv");
 void func_001FAC30(P*,qword);qword func_0011E9F8(qword,float);
 M4*func_001A6318(P*);float func_0011E290(qword,qword,qword*,qword*);
 M3 func_0011B500(qword,float);
@@ -31,7 +31,8 @@ static inline float GZOfQw(qword a){float f;__asm__("pextuw %0,$zero,%1":"=r"(f)
 static inline qword QwRotateVecAt(M3*m,qword*pv){qword r;__asm__("vmulax.xyz ACC,%2,%1x\n\tvmadday.xyz ACC,%3,%1y\n\tvmaddz.xyz %0,%4,%1z":"=j"(r):"j"(*pv),"j"(m->r[0].q),"j"(m->r[1].q),"j"(m->r[2].q));return r;}
 static inline qword QwDot(qword a,qword b){qword r,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=j"(one):"j"(a),"j"(b));return r;}
 static inline qword QwProjectOut(qword v,qword n){qword d=QwDot(v,n);qword al,ac;__asm__("vmulx.xyzw %0,%2,%1x":"=j"(al):"j"(d),"j"(n));__asm__("vsub.xyzw %0,%1,%2":"=j"(ac):"j"(v),"j"(al));return ac;}
-extern "C" void func_00188960(P*p){
+// name: SafeHouse port (UpdateSlyMotion)
+extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  WORK w;
  switch(p->mode){case 3:case 8:func_001F9B20(p);break;case 21:case 22:break;default:func_00204108(p);break;}
  switch(p->mode){
@@ -40,12 +41,12 @@ extern "C" void func_00188960(P*p){
  case 2:func_00196DF8((char*)p+0x2C0);break;
  case 4:func_001A1148((char*)p+0xDF0);break;
  case 7:func_00194170((char*)p+0x4C0);break;
- case 6:func_00137248((char*)p+0x1FF0);break;
+ case 6:UpdateSlyDodgeMotion((char*)p+0x1FF0);break;
  case 14:{
   VTE*e=&p->vt[33];
   w.a.q=((qword(*)(void*))e->fn)((char*)p+e->delta);
-  w.b.q=func_00204E38(p,p->model,p->model->base);
-  float cap=func_0012F990(p->lookup,0x16D);
+  w.b.q=VelActorAnimRoot(p,p->model,p->model->base);
+  float cap=GEventAseg11(p->lookup,0x16D);
   if(p->model->base<cap){
    qword resp=p->actor->response;
    func_001FAC30(p,QwScaleX(resp,VuFloat(-1.0f)));

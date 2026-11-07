@@ -24,7 +24,7 @@ extern struct GG *D_002E1E40;
 extern float D_002BCC94;
 void func_001A15D0(void *p);
 void func_002206C8(void *p, int n);
-qword func_00204E38(void *p, struct SO *pso, float g);
+qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct SO *pso, float g);
 qword func_001A62E8(void *p);
 void func_002205A8(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
@@ -95,7 +95,7 @@ void func_00140F90(void *p, int msg, void *pv)
             break;
         switch (pmsg->k) {
         case 0x15E: {
-            qword v = func_00204E38(p, pmsg->pso, pmsg->g);
+            qword v = VelActorAnimRoot__FP5ACTORPvf(p, pmsg->pso, pmsg->g);
             qword *pm = &F(qword, p, 0x1B0);
             union { qword q; float f[4]; } s; /* home of the -1.0f VU_FLOAT: stored, never read */
             qword sv, r;

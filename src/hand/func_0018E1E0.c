@@ -19,7 +19,8 @@ static __inline__ qword VLen(qword c)
     __asm__("vsqrt Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, Q" : "=j"(l) : "j"(l));
     return l;
 }
-void func_0018E1E0(struct O *p)
+// name: SafeHouse port (UpdateSlyJuggleVelocity)
+void UpdateSlyJuggleVelocity__FP3SLY(struct O *p)
 {
     VU n;
     M3 ms, m;

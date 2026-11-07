@@ -45,14 +45,14 @@ MARK *__10STACKSCOPE(MARK *);
 void _$_10STACKSCOPE(MARK *,int);
 void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");
 int func_00229D60(void *,COLL *);
-int func_001F7E08(O *,int (*)(void *,COLL *),void *,COLL **);
+int CsoeCollect(O *,int (*)(void *,COLL *),void *,COLL **) asm("CsoeCollect__FP3ALOPvN21");
 int func_001F6838(O *);
 int func_00230380(int);
 float func_00229468(O *,O *,qword *,qword *);
 N *func_002296A0(WORLD *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_0014CDB0(qword,qword,int,COLL **,int,LSG *);
-void *func_001FBB90(int);
+void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,O *) asm("SetSource__4CSndPv");
 void SetFalloff(void *,float,float) asm("SetFalloff__4CSndff");
 void SetVolume(void *,float) asm("SetVolume__4CSndf");
@@ -78,7 +78,7 @@ extern "C" void func_00228E50(O *p){
  __10STACKSCOPE(&work.mark);
  {register int size __asm__("$3")=p->count;register int alignment __asm__("$2")=16;register REQ*req __asm__("$4")=work.request;size*=4;work.scratch.request.size=size;Fields(req)->alignment=alignment;
  objects=(COLL **)PvAllocStackImpl(req);}
- work.count=func_001F7E08(p,func_00229D60,0,objects);
+ work.count=CsoeCollect(p,func_00229D60,0,objects);
  for(link=p->state->first;link;link=link->next){
   O *o=link->object;
   if(!o->physics||o->physics->scale<1e-4f||func_001F6838(o)||!func_00230380(o->body->kind))continue;
@@ -103,7 +103,7 @@ extern "C" void func_00228E50(O *p){
     qword normal;
     float fall=Min(-work.scratch.velocity.f[2],600.0f)*(1.0f/600.0f);
     float radius=((o->state->maximum.f[0]-o->state->minimum.f[0])+(o->state->maximum.f[1]-o->state->minimum.f[1]))*0.5f;
-    void *effect=func_001FBB90(0x13);
+    void *effect=PsndNewPlain(0x13);
     SetSource(effect,o);
     SetFalloff(effect,100.0f,1000.0f);
     SetVolume(effect,fall);

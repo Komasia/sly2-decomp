@@ -10,7 +10,7 @@ void func_00212C50(struct S *p);
 int func_001D9880(void *);
 int func_00187D80(void *, int);
 void func_0020F030(struct G *, int);
-void func_00162DF8(void *);
+void RestartJobAtCheckpoint__FP2SW(void *);
 void func_00211D38(struct S *p)
 {
     int r = func_002121C8(p);
@@ -22,7 +22,7 @@ void func_00211D38(struct S *p)
         func_0020F030(&g_sw, 0);
         if (p->x114 == 0 && g_sw.x3B0C) {
             D_002DD318++;
-            func_00162DF8(g_sw.x3B0C);
+            RestartJobAtCheckpoint__FP2SW(g_sw.x3B0C);
         }
         p->pvt->pf((char *)p + p->pvt->d);
     }

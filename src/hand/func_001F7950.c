@@ -7,12 +7,13 @@ struct P { char pad[0xC]; struct VT *pvt; char pad2[0xEC - 0x10]; struct E *pe; 
 struct M { void *p0; int n4; void *p8; int nC; int n10; int pad[3]; qword q20; qword q30; char pad2[0x60 - 0x40]; };
 struct G2 { void *p; };
 extern struct G2 D_002F7900;
-void func_001F7A68(struct P *, int);
+void SetAloEntryMode__FP3ALOi(struct P *, int);
 void func_002333B4(void *, int, int);
 qword func_001A62E8(struct P *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-void func_001F7598(struct M *);
-void func_001F7950(struct P *p)
+void PaloAcceptContact__FP5CTMSG(struct M *);
+// name: SafeHouse port (EmitAloContact)
+void EmitAloContact__FP3ALO(struct P *p)
 {
     int k;
     struct M m;
@@ -21,7 +22,7 @@ void func_001F7950(struct P *p)
     if (!p->pe) return;
     k = (int)(p->u.l >> 24) & 3;
     if (!k) return;
-    func_001F7A68(p, 0);
+    SetAloEntryMode__FP3ALOi(p, 0);
     func_002333B4(&m, 0, 0x60);
     m.p8 = p;
     m.q20 = func_001A62E8(p);
@@ -31,5 +32,5 @@ void func_001F7950(struct P *p)
     } else {
         m.p0 = p; m.nC = 0x20000; m.n10 = p->u.c.b1;
     }
-    func_001F7598(&m);
+    PaloAcceptContact__FP5CTMSG(&m);
 }

@@ -8,7 +8,7 @@ union FLOATWORD { float value; int bits; };
 struct Param { int pad[2]; union FLOATWORD *value; };
 struct S { char pad[0x190]; qword v190; char pad2[0x1E0 - 0x1A0]; qword v1E0; char pad3[0xFC4 - 0x1F0]; struct Param *param; };
 extern qword D_002A2DD0;
-qword func_00204E38(struct S *, struct E *, float);
+qword VelActorAnimRoot__FP5ACTORPvf(struct S *, struct E *, float);
 qword func_00204ED8(struct S *, struct E *, float);
 void func_0020C0E8(struct B *);
 void func_00209618(struct Entry *entry, struct S *s)
@@ -32,7 +32,7 @@ void func_00209618(struct Entry *entry, struct S *s)
             if (kind == 0) e = (struct E *)entry->object;
             else e = ((struct A *)entry->object)->pe30;
             if (e) {
-                value.q = func_00204E38(s, e, e->radius);
+                value.q = VelActorAnimRoot__FP5ACTORPvf(s, e, e->radius);
                 extra = func_00204ED8(s, e, e->radius);
             }
         }
@@ -43,7 +43,7 @@ void func_00209618(struct Entry *entry, struct S *s)
             func_0020C0E8((struct B *)entry->object);
             b = (struct B *)entry->object;
             if (b->state > 0 && (b->state < 3 || b->state == 4)) break;
-            value.q = func_00204E38(s, b->pe38, b->pe38->radius);
+            value.q = VelActorAnimRoot__FP5ACTORPvf(s, b->pe38, b->pe38->radius);
         }
         break;
     case 3: {

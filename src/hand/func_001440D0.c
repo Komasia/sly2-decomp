@@ -5,7 +5,8 @@ extern char D_002A4E20[];
 int *func_001D8C10(void *p, char *name, int n);
 void func_00144188(struct P *p, int n);
 void func_001441C0(struct P *p, int n);
-void func_001440D0(struct P *p, int f)
+// name: SafeHouse port (StartPlayerCounters)
+void StartPlayerCounters__FP5ACTORi(struct P *p, int f)
 {
     struct VTE *e = &p->vt[103];
     p->pnE00 = func_001D8C10(((void *(*)(void *))e->pfn)((char *)p + e->d), D_002A4E18, 0);

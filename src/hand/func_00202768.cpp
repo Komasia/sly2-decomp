@@ -15,17 +15,17 @@ void func_00213B00(X *,int);
 void func_00214300(X *,int);
 void func_0014D1D0(void *,int,float);
 void SetSoundMgrFlags(void *,int,int) asm("SetSoundMgrFlags__FP8SOUNDMGRUii");
-void func_0014FE28(void *);
+void ResetZoom(void *) asm("ResetZoom__7CPRECON");
 void *PsndStartDialog(void *,int,int) asm("PsndStartDialog__FP8SOUNDMGRii");
 void func_00147C20(void *,int,int);
 void func_002036E8(ACTOR *,int);
-void func_001619A0(void *,int,void *);
+void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 int func_002022D8(P *);
 void func_002022A0(P *);
 void func_00201E88(P *);
 void func_00201F90(P *);
 void func_00201F00(P *);
-void *func_001FBB90(int);
+void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,void *) asm("SetSource__4CSndPv");
 void func_00212E40(X *,int,float);
 void func_00212A70(X *,int);
@@ -82,7 +82,7 @@ extern "C" void func_00202768(P *p,int nextState)
         func_00213928(p->primary,0x358);
         break;
     case 9:
-        func_0014FE28(D_002DE390);
+        ResetZoom(D_002DE390);
         func_00214300(p->primary,-1);
         Post(p->primary,0x310);
         if(p->resource){
@@ -90,7 +90,7 @@ extern "C" void func_00202768(P *p,int nextState)
             func_00147C20(p->resource,0x608,p->actor->key);
         }
         func_002036E8(p->actor,1);
-        func_001619A0(g_game,10,0);
+        BroadcastTaskEvent(g_game,10,0);
         p->actor=0;
         if(func_002022D8(p)){
             func_00213B00(p->primary,0x35D);
@@ -108,7 +108,7 @@ extern "C" void func_00202768(P *p,int nextState)
         Post(p->primary,-1);
         func_00201E88(p);
         func_00201F90(p);
-        func_001619A0(g_game,9,0);
+        BroadcastTaskEvent(g_game,9,0);
         break;
     case 1:
         func_00213928(p->primary,0x35D);
@@ -123,7 +123,7 @@ extern "C" void func_00202768(P *p,int nextState)
         func_00212E40(p->secondary,0x35A,0.0f);
         break;
     case 7:
-        SetSource(func_001FBB90(0x52),0);
+        SetSource(PsndNewPlain(0x52),0);
         p->selected=p->actor->id;
         func_00213B00(p->primary,0x356);
         func_00213B00(p->secondary,0x356);
@@ -172,11 +172,11 @@ extern "C" void func_00202768(P *p,int nextState)
         Clear(p->secondary);
         Clear(p->primary);
         func_00201F00(p);
-        func_001619A0(g_game,11,0);
+        BroadcastTaskEvent(g_game,11,0);
         break;
     case -1:
         if(previous!=10){
-            func_001619A0(g_game,11,0);
+            BroadcastTaskEvent(g_game,11,0);
             if(p->primary->shown){func_00212A70(p->primary,1);func_00212A50(p->primary,1);}
             if(p->secondary->shown){func_00212A70(p->secondary,1);func_00212A50(p->secondary,1);}
         }

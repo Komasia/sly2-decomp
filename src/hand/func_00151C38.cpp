@@ -1,4 +1,4 @@
-// func_00151C38 (Claude agent, lane D12): matched from the v7 draft. Normalize's sqrt and divide are two asms (sqrt into a
+// Update (Claude agent, lane D12): matched from the v7 draft. Normalize's sqrt and divide are two asms (sqrt into a
 // separate length temp), which lengthens the VU chain so the scheduler orders the block like the target; Cross lists `a`
 // twice (allocation-only operand) so the VF numbering matches.
 typedef int qword __attribute__((mode(TI)));
@@ -22,7 +22,7 @@ M3 *func_0011B7E0(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
 void func_0014E168(CM *p, M4 *m);
 void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
-void func_00151C38(X *p);
+void Update(X *p) asm("Update__6CPPAIRP6CPDEFIP5CMJOY");
 }
 static inline float GFromClq(const CLQ &c, float g) { return c.g0 + g * (c.g1 + g * c.g2); }
 static inline float GClampR(float g, float lo, float hi) { if (g < lo) return lo; if (hi < g) return hi; return g; }
@@ -68,7 +68,8 @@ static inline qword Scale(qword a, VU_FLOATJ s) { qword r; __asm__("vmulx.xyzw %
 
 static inline void Cm1(M4 *pm) { func_0014E168(&g_cm, pm); }
 static inline void Cm2(float g) { SetCmFov(&g_cm, g); }
-void func_00151C38(X *p)
+// name: SafeHouse port (CPPAIR::Update)
+void Update(X *p)
 {
     U d;
     func_0014FD40(p);

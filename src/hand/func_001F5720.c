@@ -1,24 +1,25 @@
-/* func_001F5720 (0x1F5720): re-apply the force constraint (SOPHYS::vecNormalForce) from the first attachment
- * transform (SO::pxfUnk58); func_001F57C0 is the torque twin using SO::pxfUnk5c. Unless the force constraint is
- * locked, func_001F8668(pso, 0) runs afterwards. */
+/* SetAloCnstrLin__FP3ALOi (0x1F5720): re-apply the force constraint (SOPHYS::vecNormalForce) from the first attachment
+ * transform (SO::pxfUnk58); SetAloCnstrAng__FP3ALOi is the torque twin using SO::pxfUnk5c. Unless the force constraint is
+ * locked, SetAloIced__FP3ALOl(pso, 0) runs afterwards. */
 #include "so.h"
 
-void func_002303A0(SO *pso, XF *pxf, int n);
-void func_001F5510(SO *pso, XF *pxf, int n, qword *pqwNormal);
-void func_001F55C8(SO *pso);
-void func_001F8668(SO *pso, int n);
+void SetXfMode__FP3ALOP2XFi(SO *pso, XF *pxf, int n);
+void SetCnstrAxis__FP2XFP6CNSTRSiP3OUT(SO *pso, XF *pxf, int n, qword *pqwNormal);
+void ReRootAlo__FP3ALO(SO *pso);
+void SetAloIced__FP3ALOl(SO *pso, int n);
 
-void func_001F5720(SO *pso, int n)
+// name: SafeHouse port (SetAloCnstrLin)
+void SetAloCnstrLin__FP3ALOi(SO *pso, int n)
 {
     XF *pxf;
 
     if (pso->psophys != NULL) {
         pxf = pso->pxfUnk58;
         if (pxf->nUnk90 == 0 && pxf->nKindUnk98 != 2)
-            func_002303A0(pso, pxf, 1);
-        func_001F5510(pso, pxf, n, &pso->psophys->vecNormalForce);
-        func_001F55C8(pso);
+            SetXfMode__FP3ALOP2XFi(pso, pxf, 1);
+        SetCnstrAxis__FP2XFP6CNSTRSiP3OUT(pso, pxf, n, &pso->psophys->vecNormalForce);
+        ReRootAlo__FP3ALO(pso);
         if (pso->psophys->nKindForce != 3)
-            func_001F8668(pso, 0);
+            SetAloIced__FP3ALOl(pso, 0);
     }
 }

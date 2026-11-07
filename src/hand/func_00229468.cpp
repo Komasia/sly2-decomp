@@ -15,7 +15,7 @@ void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom(struct J *pj, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_00229D60(void *,void *);
-int func_001F7E08(struct S *p,int (*pfn)(void *,void *),void *context,void **apv);
+int CsoeCollect(struct S *p,int (*pfn)(void *,void *),void *context,void **apv) asm("CsoeCollect__FP3ALOPvN21");
 int func_0014CDB0(qword a, qword b, int cso, void **apso, int cMax, struct LSG *alsg);
 int func_0011D4D0(float a, float b, float eps);
 }
@@ -58,7 +58,7 @@ extern "C" float func_00229468(struct S *p, struct J *pj, qword *ppos, qword *pn
         pm->cbAlign = 0x10;
         apv = (void **)PvAllocStackImpl(pm);
     }
-    c = func_001F7E08(p, func_00229D60, 0, apv);
+    c = CsoeCollect(p, func_00229D60, 0, apv);
     if (!func_0014CDB0(work.a.q, work.b.q, c, apv, 0x10, work.alsg)) {
         if (pnormal)
             *pnormal = g_normalZ;

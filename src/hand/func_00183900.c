@@ -4,7 +4,7 @@
 
 void InitSo__FP2SO(SO *p);
 void func_00182C70(void *);
-void func_001F7918(void *, int, int);
+void SetAloXpBytes__FP3ALOUiUc(void *, int, int);
 
 typedef struct C88 {
     /* 0x000 */ SO so;
@@ -23,6 +23,6 @@ void func_00183900(C88 *p)
     p->nUnk17c = 0;
     p->gUnk158 = 300.0f;
     p->nUnk18c = 1;
-    func_001F7918(p, 0x03FFFFFF, 8);
-    func_001F7918(p, 0x03188001, 0);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x03FFFFFF, 8);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x03188001, 0);
 }

@@ -1,5 +1,5 @@
 // func_00191A10: per-frame update of a hero's movement/action context (the struct at actor+0x4C0; called from the
-// actor's mode handler, see func_0018B7E8 / func_00134DA8). Dispatches on the context's action, then commits the
+// actor's mode handler, see UpdateSlyInput / UpdateBentley). Dispatches on the context's action, then commits the
 // animation / axis weights for the resulting step.
 //
 // Matched from w5lane7's near-miss (3/953). Notes on the forms that matter (each verified against the target):
@@ -54,7 +54,7 @@ void func_00182CD8(void *, ACTOR *, float *, U *, float *);
 qword func_0011F088(qword, qword, float, SMP *, U *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 qword func_0011E1A0(float, float, float);
-float func_001E6620(FOCUS *);
+float SMinCrv(FOCUS *) asm("SMinCrv__FP3CRV");
 float func_001E6648(FOCUS *);
 float func_001E6610(FOCUS *);
 float func_001E6630(FOCUS *);
@@ -72,7 +72,7 @@ void func_00195A00(void *, int, int, int);
 float func_002458F0(float, float);
 void func_001E6F60(FOCUS *, qword, void *, void *, U *, void *, void *);
 void func_001CC2E8(void *);
-void func_001A0450(ACTOR *, ENTRY *, void *);
+void SteerRootBlend(ACTOR *, ENTRY *, void *) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 void func_00205910(ACTOR *, HEIGHT *, int, U *);
 BINDING *func_0012FF10(void *, ACTOR *, int, int);
 void func_002046F0(ACTOR *, FOCUS *);
@@ -190,7 +190,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             FOCUS *focus;
             if (FIsBasicDerivedFrom(ctx->focus, 12) && !(focus = ctx->focus)->cyclic) {
                 float lo, hi;
-                GSmooth(ctx->value, func_001E6620(focus) + 30.0f, g_clock.dt, &smp, &lo);
+                GSmooth(ctx->value, SMinCrv(focus) + 30.0f, g_clock.dt, &smp, &lo);
                 GSmooth(ctx->value, func_001E6648(focus) - 30.0f, g_clock.dt, &smp, &hi);
                 s = GClamp(lateral, lo, hi);
             } else {
@@ -366,7 +366,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 if (!e->active)
                     e = &ctx->axes2[2];
                 SetXYZ(&ctx->actor->velocity, -pjoy->y * GLengthXY(e->direction.q), pjoy->x * GLengthXY(ctx->axes2[1].direction.q), 0.0f);
-                func_001A0450(ctx->actor, ctx->axes2, ctx->request2);
+                SteerRootBlend(ctx->actor, ctx->axes2, ctx->request2);
                 ACTOR *actor = ctx->actor;
                 float turn = -actor->velocity.f[1] / D_002BF5CC;
                 actor->velocity.q = QwScaleX(D_002A2DA0, QwDot(actor->velocity.q, D_002A2DA0));
@@ -408,7 +408,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
 
     switch (ctx->step) {
     case 1:
-        func_001A0450(ctx->actor, ctx->axes, ctx->request);
+        SteerRootBlend(ctx->actor, ctx->axes, ctx->request);
         if (ctx->actor->x1024 == ctx->x68) {
             switch (ctx->x2C) {
             case 1:

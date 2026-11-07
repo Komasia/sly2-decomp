@@ -1,6 +1,7 @@
 struct E { char pad[0xB0]; };
 struct P { char pad[0xE0]; int c; struct E *ae; };
-int func_001F7E08(struct P *p, int (*pfn)(void *, struct E *), void *pv, struct E **ape)
+// name: SafeHouse port (CsoeCollect)
+int CsoeCollect__FP3ALOPvN21(struct P *p, int (*pfn)(void *, struct E *), void *pv, struct E **ape)
 {
     int n = 0;
     int i;

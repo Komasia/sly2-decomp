@@ -22,7 +22,8 @@ extern H D_003E0EA8;
 void func_001D87C0(const char *p, va_list ap, V *pv);
 CRef func_001D80C8(H *, V *, const CRef &, G *);
 static inline CRef Eval(V *pv, const CRef &r, G *pg) { return func_001D80C8(&D_003E0EA8, pv, r, pg); }
-extern "C" CRef func_001D8B20(const CRef &refArg, const char *fmt, ...)
+// name: SafeHouse port (SetProgressPoCurrent)
+extern "C" CRef SetProgressPoCurrent__FP4CRefPci(const CRef &refArg, const char *fmt, ...)
 {
     CRef ref;
     FRAME frame;

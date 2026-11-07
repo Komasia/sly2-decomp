@@ -23,7 +23,8 @@ static inline qword NormalizeOr(qword value,qword fallback) {
     else __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q" : "=j"(result) : "j"(length),"j"(value));
     return result;
 }
-void func_001F5510(void *unused,M3 *matrix,int index,struct OUT *out) {
+// name: SafeHouse port (SetCnstrAxis)
+void SetCnstrAxis__FP2XFP6CNSTRSiP3OUT(void *unused,M3 *matrix,int index,struct OUT *out) {
     out->mode=D_002C3C20[index];
     out->axis=NormalizeOr(Transform(matrix,D_002C3BA0[index]),D_002A2DD0);
 }

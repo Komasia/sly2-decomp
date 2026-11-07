@@ -29,7 +29,8 @@ static inline void Set(V *k, CRef r) { func_00258200(k, r, &D_003D4A60); }
 static inline void SetG(V *k, float g) { CRef r(g); Set(k, r); }
 static inline CRef Get(V *k) { G *pg = &D_003D4A60; return func_001D7ED8(&D_003E0EA8, k, pg); }
 
-extern "C" void func_00154A90(S *p, int msgk, M *pm)
+// name: SafeHouse port (SuckOnEvent)
+extern "C" void SuckOnEvent__FP2LOiPv(S *p, int msgk, M *pm)
 {
     switch (msgk) {
     case 3:

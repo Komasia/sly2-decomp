@@ -9,7 +9,7 @@ void Save__9JOBSCRIPTP11SAVEDSCRIPT(int a, int b);
 void func_001EF0D8(void *p);
 struct O *func_00205438(int a, int b);
 void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, int c);
-void func_001619A0(void *p, int a, int b);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 #define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
 // name: SafeHouse port (JOBPROX::SetProxState)
 void SetProxState__7JOBPROXi(struct S *p, int st)
@@ -36,7 +36,7 @@ void SetProxState__7JOBPROXi(struct S *p, int st)
         struct O *o = func_00205438(p->x10, 0x9D);
         o->x40 = p->x10 + 0x1060;
         VCALL0(o, 8);
-        func_001619A0(g_game, 0x33, p->x10);
+        BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x33, p->x10);
         break;
     }
     }

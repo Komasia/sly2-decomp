@@ -14,7 +14,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 int func_0020F1B8(void *p);
 qword func_001A62E8(struct SO *p);
 qword func_00153E60(struct T *p);
-qword func_001A6F00(int z, struct W *pw, qword v);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(int z, struct W *pw, qword v);
 int func_00118668(void *p, int mask, qword a, qword b, int n, struct BUF *pbuf);
 int func_00227C90(void *p, qword v);
 int func_00154770(struct T *p, struct SO *pso);
@@ -40,8 +40,8 @@ int func_001541D8(struct T *p, struct SO *pso, int k)
     else
         v = func_001A62E8(pso);
     for (pw = D_003E1480; pw; pw = pw->pNext) {
-        qword a = func_001A6F00(0, pw, func_00153E60(p));
-        qword b = func_001A6F00(0, pw, v);
+        qword a = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, func_00153E60(p));
+        qword b = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, v);
         if (func_00118668(pw->xEC, 0x7FFFFFFF, a, b, 4, &buf) > 0) { k = 0; goto done; }
     }
     switch (k) {

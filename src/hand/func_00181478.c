@@ -2,8 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0x1C0]; int n1C0; int x1C4; void *p1C8; void *p1CC; };
 extern void UpdateSo__FP2SOf(struct O *p);
 extern qword func_001A62E8(void *p);
-extern int func_0017F550(struct O *p);
-extern void func_001815E8(struct O *p, int n);
+extern int FShipSegmentDone__FP2LO(struct O *p);
+extern void SetDockState__FP2LOi(struct O *p, int n);
 extern void *D_002DFB80;
 extern float D_002BE880;
 static __inline__ float GDist(qword a, qword b)
@@ -23,7 +23,8 @@ static __inline__ int FClose(float g)
     if (g < D_002BE880) {} else f = 0;
     return f;
 }
-void func_00181478(struct O *p)
+// name: SafeHouse port (UpdateDock)
+void UpdateDock__FP2LO(struct O *p)
 {
     int s;
     UpdateSo__FP2SOf(p);
@@ -34,13 +35,13 @@ void func_00181478(struct O *p)
             if (D_002DFB80) {
                 if (FClose(GDist(func_001A62E8(D_002DFB80), func_001A62E8(p->p1CC)))) {
                     p->p1C8 = D_002DFB80;
-                    func_001815E8(p, 1);
+                    SetDockState__FP2LOi(p, 1);
                 }
             }
             break;
         case 1:
-            if (func_0017F550(p))
-                func_001815E8(p, 2);
+            if (FShipSegmentDone__FP2LO(p))
+                SetDockState__FP2LOi(p, 2);
             break;
         }
     } while (p->n1C0 != s);

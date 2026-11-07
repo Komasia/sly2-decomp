@@ -1,7 +1,8 @@
 struct P { char pad[0x2C4]; int x2C4; char pad2[0x13F0 - 0x2C8]; void *x13F0; };
 void func_001B6078(struct P *p, int n);
 void func_001B7BA8(struct P *p);
-void func_001B7E40(struct P *p, unsigned int k)
+// name: SafeHouse port (SetMurrayJumpState)
+void SetMurrayJumpState__FP2LOi(struct P *p, unsigned int k)
 {
     switch (k) {
     case 0:

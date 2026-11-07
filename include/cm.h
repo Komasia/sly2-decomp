@@ -7,7 +7,7 @@
  * The game's one camera object is g_cm (Lilly: g_cm).
  *
  * A camera policy is a g++ class whose data (CPLCYDATA) comes before its vtable pointer (+0x0C). Virtual slots
- * seen so far: 0 (all policies share func_0014FCC0), 1 (func_0014FCC8 in CPLCY), 2 (func_0014FCE8 in CPLCY: leave
+ * seen so far: 0 (all policies share func_0014FCC0), 1 (Activate__5CPLCYP2LOPv in CPLCY), 2 (Deactivate__5CPLCYP2LOPv in CPLCY: leave
  * the policy, restoring the near clip and target FOV kept in CPLCYDATA; it takes two more arguments), 5, 6 (CPLOOK / CPZOOM release their
  * sound references there).
  */

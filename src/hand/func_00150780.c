@@ -6,7 +6,8 @@ extern char g_sw[];
 struct S { int pad[4]; void *p10; };
 qword func_001A62E8(void *p);
 void *func_001C4A48(void *p);
-qword func_00150780(struct S *p)
+// name: SafeHouse port (CPFREE::PosFocus)
+qword PosFocus__6CPFREE(struct S *p)
 {
     VU v;
     if (p->p10) {

@@ -14,7 +14,8 @@ static inline float Float3(qword q){register int bits __asm__("$7");float f;__as
 static inline qword ScalarBits(int bits){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 
 static inline float Float1(qword q){register int bits __asm__("$7");register float f __asm__("$f1");__asm__("qmfc2.ni %0,%1":"=r"(bits):"j"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(bits));return f;}
-void func_001A0450(struct P*p,struct ENTRY*axes,void*request){
+// name: SafeHouse port (SteerRootBlend)
+void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(struct P*p,struct ENTRY*axes,void*request){
  int indices[5];
  U total,scalar;
  int i,count,clear,accum;

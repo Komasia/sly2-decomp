@@ -5,7 +5,8 @@ struct CB { int cb; int n; };
 void *PvAllocSwClearImpl__Fi(struct CB *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 static inline void *PvAllocMsg(struct CB *pcb, int cb, int n) { pcb->cb = cb; pcb->n = n; return PvAllocSwClearImpl__Fi(pcb); }
-struct Q *func_001F8300(struct P *p)
+// name: SafeHouse port (PregentEnsure)
+struct Q *PregentEnsure__FP3ALO(struct P *p)
 {
     if (!p->pe) return 0;
     if (!p->pe->pq) {

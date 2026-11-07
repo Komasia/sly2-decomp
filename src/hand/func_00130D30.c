@@ -7,7 +7,7 @@ struct P { int pad[5]; struct Q *pq; int x18; float g1C; float g20; char pad1[0x
 int func_00131968(struct P *p);
 void func_001317D8(struct P *p, float *pg, float *pg2);
 void func_00130EB0(struct P *p);
-int func_0012CEE0(struct S *ps);
+int FFirst__4CTRL(struct S *ps);
 void func_00230598(void *p4, struct R *pr);
 void func_00230CF0(struct P *p, int n);
 void func_00130D30(struct P *p, int k, float g, float s)
@@ -28,7 +28,7 @@ void func_00130D30(struct P *p, int k, float g, float s)
         func_001317D8(p, &p->g1C, &p->g40);
         func_00130EB0(p);
         for (ps = p->ps; ps; ps = ps->pnext) {
-            if (func_0012CEE0(ps)) {
+            if (FFirst__4CTRL(ps)) {
                 struct R *pr = ps->pr;
                 float v = *pr->pg;
                 if (v < pr->gMin || pr->gMax < v)

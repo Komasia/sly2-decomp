@@ -16,13 +16,13 @@ extern int D_002C4398[];
 extern "C" {
 void func_0012E460(void **);
 void func_00134320(WORLD *,S *);
-void func_001F5720(S *,int);
-void func_001F57C0(S *,int);
+void SetAloCnstrLin(S *,int) asm("SetAloCnstrLin__FP3ALOi");
+void SetAloCnstrAng(S *,int) asm("SetAloCnstrAng__FP3ALOi");
 qword func_0011BFF0(const void *);
 void *func_0012DC18(S *,NODE *,int,int,int,qword);
 int func_00224688(S *);
 qword func_0022FCC8(NODE *,NODE *,qword);
-M3 *func_0011B830(M3 *,qword,qword);
+M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_001A58D0(S *,int,int);
 int func_0015E9C8(WORLD *,int,int,int,int,O **);
 qword func_001A62E8(void *);
@@ -58,7 +58,7 @@ static inline M3 MakeBasis(qword direction,qword rawUp) return result;{
  qword first=direction;
  __asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(len));
  __asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=&j"(normalized):"j"(v),"j"(len));
- func_0011B830(&result,first,normalized);
+ BuildLookAtMatrix(&result,first,normalized);
 }
 extern "C" void func_00224EC8(S *p,int state){
  int old=p->state;
@@ -69,7 +69,7 @@ extern "C" void func_00224EC8(S *p,int state){
  if(old==0||old==4)func_00134320(&g_sw,p);
  switch(p->state){
  case 0:{
-  func_001F5720(p,0);func_001F57C0(p,0);
+  SetAloCnstrLin(p,0);SetAloCnstrAng(p,0);
   ZeroVelocity(p->positionNode);ZeroVelocity(p->rotationNode);
   qword position=p->positionNode->orientation;
   qword rotation=func_0011BFF0(p->rotationNode);
@@ -79,7 +79,7 @@ extern "C" void func_00224EC8(S *p,int state){
   break;
  }
  case 2:{
-  func_001F5720(p,1);func_001F57C0(p,1);
+  SetAloCnstrLin(p,1);SetAloCnstrAng(p,1);
   ZeroVelocity(p->positionNode);ZeroVelocity(p->rotationNode);
   if(func_00224688(p)&&p->rotationNode){
    qword direction=Normalize(ToVF(func_0022FCC8(0,p->rotationNode->parent,p->direction)));
@@ -90,9 +90,9 @@ extern "C" void func_00224EC8(S *p,int state){
   break;
  }
  case 1:{
-  func_001A58D0(p,0,15);func_001F5720(p,0);
-  if(p->kind!=0x29){func_001F57C0(p,0);break;}
-  func_001F57C0(p,1);
+  func_001A58D0(p,0,15);SetAloCnstrLin(p,0);
+  if(p->kind!=0x29){SetAloCnstrAng(p,0);break;}
+  SetAloCnstrAng(p,1);
   O *objects[32];
   int count=func_0015E9C8(&g_sw,0x105,0x38,0,32,objects);
   p->nearest=FindNearest(p,count,objects,D_002E1E40,D_002A97A8);

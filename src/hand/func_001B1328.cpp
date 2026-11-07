@@ -13,13 +13,13 @@ struct WORK{U first,second,direction,velocity,scalar;float angle,parameter;};
 struct CLOCK{float t,dt;};
 extern "C"{
  extern CLOCK g_clock;extern U D_002A2DD0,D_002A2DA0;extern char g_sw[],D_002DE578[];
- void func_002303A0(P*,void*,int);void func_0022C840(P*,void*);void func_0022C818(P*,void*);
+ void SetXfMode(P*,void*,int) asm("SetXfMode__FP3ALOP2XFi");void func_0022C840(P*,void*);void func_0022C818(P*,void*);
  float GRandInRange(float,float) asm("GRandInRange__Fff");void func_0011EFB0(qword,float*,float*,float*);
  void func_001B1818(P*,float);void func_001B17B8(P*,float);
  qword func_001A62E8(P*);void func_001E6F60(PATH*,qword,void*,U*,U*,float*,float*);
  float func_001E77E8(PATH*);float func_001E6648(PATH*);P*func_001C4AF8(void*,qword);
- EFFECT*func_001FBB90(int);void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
- qword func_001A6F00(P*,P*,qword);void func_00154E10(void*,qword,int,int,P*);
+ EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
+ qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");void func_00154E10(void*,qword,int,int,P*);
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
 static inline void SetVelocity(P*p,qword q){VE&v=p->vt[35];((void(*)(void*,qword))v.fn)((char*)p+v.delta,q);}
@@ -62,7 +62,7 @@ typedef char P_amount_Offset[FIELD_OFFSET(P,amount)==560?1:-1];
 typedef char P_damageOffset_Offset[FIELD_OFFSET(P,damageOffset)==576?1:-1];
 extern "C" void func_001B1328(P*p,int next){
  int old=p->state;if(old==next)return;WORK w;
- switch(old){case -1:case 0:case 2:case 3:func_002303A0(p,p->group,p->oldMode);func_0022C840(p,p->group);break;}
+ switch(old){case -1:case 0:case 2:case 3:SetXfMode(p,p->group,p->oldMode);func_0022C840(p,p->group);break;}
  switch(next){
  case 0:
   SetVelocity(p,D_002A2DD0.q);func_0022C818(p,p->group);{float now=g_clock.t;p->randomDeadline=now+GRandInRange(p->low0,p->high0);}break;
@@ -71,11 +71,11 @@ extern "C" void func_001B1328(P*p,int next){
  case 2:{
   p->phase=-p->phase;float negative=-1.0f;M4*m=GetMatrix(p);
   qword row=m->row[0].q;qword factor=SplatInto(negative,&w.first);qword scaled=ScaleX(row,factor);
-  func_0011EFB0(scaled,&w.angle,0,0);func_001B1818(p,w.angle);SetZeroVelocity(p);func_002303A0(p,p->group,1);func_0022C840(p,p->group);break;
+  func_0011EFB0(scaled,&w.angle,0,0);func_001B1818(p,w.angle);SetZeroVelocity(p);SetXfMode(p,p->group,1);func_0022C840(p,p->group);break;
  }
  case 3:
   SetZeroVelocity(p);func_001B17B8(p,p->ratio+p->ratio);
-  func_002303A0(p,p->group,1);func_0022C840(p,p->group);break;
+  SetXfMode(p,p->group,1);func_0022C840(p,p->group);break;
  case 4:{
   w.first.q=func_001A62E8(p);
   if(p->path){
@@ -104,8 +104,8 @@ extern "C" void func_001B1328(P*p,int next){
   w.velocity.q=velocity;SetVelocity(p,velocity);SetMode(p);break;
  }
  case 5:{
-  EFFECT*e=func_001FBB90(0x14);SetSource(e,0);SetPosition(e,func_001A62E8(p));
-  func_00154E10(D_002DE578,func_001A6F00(p,0,p->damageOffset.q),p->amount,-100,p);Call(p,9);break;
+  EFFECT*e=PsndNewPlain(0x14);SetSource(e,0);SetPosition(e,func_001A62E8(p));
+  func_00154E10(D_002DE578,ConvertPos(p,0,p->damageOffset.q),p->amount,-100,p);Call(p,9);break;
  }
  }
  p->state=next;p->changed=g_clock.t;

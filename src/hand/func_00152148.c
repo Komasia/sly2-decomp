@@ -5,11 +5,11 @@ struct P { char pad[0x58]; void *p58; void *p5C; char pad2[0x190 - 0x60]; qword 
 extern struct A *D_002DE570;
 void UpdateStep__FP4STEPf(struct P *p);
 int func_00131968(struct A *pa);
-void func_002303A0(struct P *p, void *pv, int n);
+void SetXfMode__FP3ALOP2XFi(struct P *p, void *pv, int n);
 void func_001524A0(struct P *p, int n, int m);
 void func_00152390(struct P *p, int a, int b, int c);
 void func_001533B0(struct A *pa, struct P *p);
-qword func_00204E38(struct P *p, struct A *pa, float g);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct A *pa, float g);
 static inline qword VecMul(qword v, float g)
 {
     qword r;
@@ -23,8 +23,8 @@ void func_00152148(struct P *p)
     int k;
     UpdateStep__FP4STEPf(p);
     if (!p->pa408 || func_00131968(p->pa408)) {
-        func_002303A0(p, p->p58, 1);
-        func_002303A0(p, p->p5C, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 1);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 1);
         p->f40C = 0;
         func_001524A0(p, p->n2C0, 8);
     }
@@ -39,5 +39,5 @@ void func_00152148(struct P *p)
         break;
     }
     if (p->pa408)
-        p->v190 = VecMul(func_00204E38(p, p->pa408, p->pa408->g1C), -1.0f);
+        p->v190 = VecMul(VelActorAnimRoot__FP5ACTORPvf(p, p->pa408, p->pa408->g1C), -1.0f);
 }

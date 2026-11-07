@@ -8,10 +8,11 @@ struct O { char pad[0xC]; struct VT *pvt; char pad1[0x194 - 0x10]; ANIMATION *x1
 struct MSG { ANIMATION *animation; float time; int kind; };
 extern "C" void HandlePoMessage(struct O *p, int msg, struct MSG *pm) asm("HandlePoMessage__FP2PO5MSGIDPv");
 extern "C" MATRIX3 func_0011B500(qword v, float g);
-extern "C" qword func_00204E38(struct O *p, ANIMATION *animation, float time);
+extern "C" qword VelActorAnimRoot(struct O *p, ANIMATION *animation, float time) asm("VelActorAnimRoot__FP5ACTORPvf");
 extern "C" qword g_normalZ;
-extern "C" void func_00181060(struct O *p, int msg, struct MSG *pm);
-void func_00181060(struct O *p, int msg, struct MSG *pm)
+extern "C" void OnEnemyMessage(struct O *p, int msg, struct MSG *pm) asm("OnEnemyMessage__FP2LO5MSGIDPv");
+// name: SafeHouse port (OnEnemyMessage)
+void OnEnemyMessage(struct O *p, int msg, struct MSG *pm)
 {
     HandlePoMessage(p, msg, pm);
     if (msg == 9) {
@@ -21,7 +22,7 @@ void func_00181060(struct O *p, int msg, struct MSG *pm)
                 MATRIX3 m;
                 qword v, r;
                 m = func_0011B500(g_normalZ, p->g204);
-                v = func_00204E38(p, pm->animation, pm->time);
+                v = VelActorAnimRoot(p, pm->animation, pm->time);
                 __asm__("vmulax.xyz ACC, %1, %4x\n\tvmadday.xyz ACC, %2, %4y\n\tvmaddz.xyz %0, %3, %4z"
                     : "=&j"(r) : "j"(m.r[0]), "j"(m.r[1]), "j"(m.r[2]), "j"(v));
                 p->v210 = r;

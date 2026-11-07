@@ -4,12 +4,13 @@ struct S {
     qword q20; qword q30; qword q40; qword q50; qword q60; float g70; int pad74[3];
     qword q80; qword q90; float gA0; int padA4[2]; float gAC;
 };
-qword func_00150780(struct S *p);
-qword func_001507F8(struct S *p);
-void func_00150EF0(struct S *p)
+qword PosFocus__6CPFREE(struct S *p);
+qword PosEye__6CPFREE(struct S *p);
+// name: SafeHouse port (CPFREE::Snap)
+void Snap__6CPFREE(struct S *p)
 {
-    p->q20 = func_00150780(p);
-    p->q30 = func_001507F8(p);
+    p->q20 = PosFocus__6CPFREE(p);
+    p->q30 = PosEye__6CPFREE(p);
     if (0.0f <= p->g18)
         p->gAC = p->g18;
     p->q50 = p->q80;

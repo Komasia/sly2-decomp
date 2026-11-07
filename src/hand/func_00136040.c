@@ -5,7 +5,8 @@ struct S { int pad[3]; struct VTE *vt; char pad1[0x190 - 0x10]; float v190[3]; c
     char pad5[0x15f0 - 0x15d8]; struct ASEG *f15f0; char pad6[0x16b0 - 0x15f4]; int f16b0; };
 void func_001F15B8(void *);
 void ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA(struct ASEG *, struct S *, float, float, int, void **);
-void func_00136040(struct S *p, int n) {
+// name: SafeHouse port (SetBentleyHold)
+void SetBentleyHold__FP7BENTLEYi(struct S *p, int n) {
     struct ASEG *paseg;
     int grfapl;
     if (n == p->f16b0) return;

@@ -17,21 +17,21 @@ public:
 struct G;
 extern G g_sw;
 extern char g_game[];
-extern "C" void func_00165DC0(G *pg, O *p);
+extern "C" void SetJobCur(G *pg, O *p) asm("SetJobCur__FP7TASKMGRP3JOB");
 extern "C" int func_00162670(O *p);
 extern "C" void func_00163460(O *p);
-extern "C" void func_001619A0(void *pv, int n, O *p);
-extern "C" void func_001620B0(O *p, int n, int c, int a);
-extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
+extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
+extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
+extern "C" void ApplyTaskSms(O *p, int n, int c, int a, int b) asm("ApplyTaskSms__FPvT0iT0i");
 extern "C" void func_001629A0(O *p)
 {
-    func_00165DC0(&g_sw, p);
+    SetJobCur(&g_sw, p);
     if (func_00162670(p)) {
         p->f7c++;
         func_00163460(p);
-        func_001619A0(g_game, 0x21, p);
-        func_001620B0(p, 4, p->f8c, p->f90);
-        func_001623D0(p, 4, p->f94, p->f98, p->ff0);
+        BroadcastTaskEvent(g_game, 0x21, p);
+        ApplyTaskObjects(p, 4, p->f8c, p->f90);
+        ApplyTaskSms(p, 4, p->f94, p->f98, p->ff0);
         p->Msg(0x13, 0, 0, 0, 0);
     }
 }

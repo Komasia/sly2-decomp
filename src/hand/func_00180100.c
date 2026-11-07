@@ -1,6 +1,7 @@
 struct S { char pad[0x180]; int c; int n; char p1[0x118]; void *p2a0; };
 void func_00212E40(void *p, int n, float g);
-void func_00180100(struct S *p)
+// name: SafeHouse port (UpdateHackHud)
+void UpdateHackHud__FP2LO(struct S *p)
 {
     if (p->p2a0) {
         int n = p->n;

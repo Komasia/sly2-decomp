@@ -36,13 +36,13 @@ extern CLOCK g_clock;extern float D_002BE620;
 void*func_002333B4(void*,int,unsigned);
 void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
 qword func_001A62E8(void*);M4*func_001A6318(void*);
-qword func_001A6FC0(void*,void*,qword);
+qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001B9DB8(OBJECT*,qword);
 void func_001B9D28(OBJECT*,qword);
 OBJECT*func_00156698(void*,qword,OBJECT*);
 void func_00207030(OBJECT*,int);
-void func_001F7A68(OBJECT*,int);
+void SetAloEntryMode(OBJECT*,int) asm("SetAloEntryMode__FP3ALOi");
 unsigned func_001F78D8(OBJECT*,unsigned);
 int func_001F78A0(unsigned);
 void SetTargetrecTimer(TUNE*,int) asm("SetTargetrecTimer__FP9TARGETRECi");
@@ -83,7 +83,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
  switch(p->actor->mode){case 14:func_00207030(p->actor,-1);break;case 8:case 13:msg->data.amount<<=2;break;}
  if(p->actor->suppressAmount)msg->data.amount=0;
  if(p->actor->extraGate&&p->current.kind!=11&&p->current.kind!=5&&(msg->data.kind==0x4000||msg->data.kind==0x2000)){
-  func_001F7A68(p->actor,0);Clear(&w.next);w.next.kind=19;React(p,&w.next);return 1;
+  SetAloEntryMode(p->actor,0);Clear(&w.next);w.next.kind=19;React(p,&w.next);return 1;
  }
  switch((KINDENUM)p->current.kind){
  case 9:
@@ -178,8 +178,8 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
    qword direction=w.delta.q;
    if(special&&selected->data.object->state==12){
     OBJECT*object=selected->data.object;
-    *(qword*)&w.scalar=func_001A6FC0(0,object,direction);w.scalar.f[0]*=0.25f;
-    direction=func_001A6FC0(object,0,w.scalar.q);
+    *(qword*)&w.scalar=ConvertVec(0,object,direction);w.scalar.f[0]*=0.25f;
+    direction=ConvertVec(object,0,w.scalar.q);
    }
    qword normalized=Normalize(direction);*(qword*)&w.scalar=Scalar(500.0f);
    selected->data.direction=ScaleInPlace(normalized,w.scalar.q);

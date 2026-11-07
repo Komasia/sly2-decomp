@@ -10,14 +10,14 @@ struct S{
  char pad10B8[0x268];struct BIND bind1320;char pad13BC[0x14];int x13D0;char pad13D4[4];int x13D8;char pad13DC[0x34];float x1410,x1414;char pad1418[0x1C];float x1434;char pad1438[0x14];int x144C,x1450;char pad1454[4];int x1458;char pad145C[4];struct BIND bind1460;char pad14FC[0x44];struct BIND bind1540;char pad15DC[0x54];struct BIND bind1630;char pad16CC[0x128];int x17F4;char pad17F8[0x18];int x1810;char pad1814[0x2C];int x1840;char pad1844[0xC];struct RESET reset1850;char pad1854[0xBC];struct CONTEXT context1910;char pad19EC[0xDC];float x1AC8;
 };
 extern struct S *D_002F7900;
-void func_0013FF70(struct S *p);
+void InitActorFields__FP5ACTOR(struct S *p);
 void func_0020B840(struct BIND*a,void*owner,int word90);
 void func_0020BD78(struct RESET*a);
 void func_0021F2E0(struct CONTEXT*a,void*owner);
 static inline void Init(struct SUB *ps, float f, float g) { ps->f2 = g; ps->f1 = f; ps->i = 0; }
 void InitMurray__FP6MURRAY(struct S *p)
 {
-    func_0013FF70(p);
+    InitActorFields__FP5ACTOR(p);
     p->x220 = 50.0f;
     p->x13D8 = -1;
     p->x1810 = -1;

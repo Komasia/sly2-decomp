@@ -4,7 +4,7 @@ struct LO { char pad[0xC]; struct VTE *vt; char p1[0x24 - 0x10]; struct LO *x24;
 struct Q { char pad[0xDC]; int xDC; };
 struct S { char pad[0x64]; struct LO *x64; char p1[0xCC - 0x68]; int xCC; char p2[0xE8 - 0xD0]; struct Q *xE8; };
 void func_001CB4E0(struct S *p, int n);
-void func_001F7A68(struct S *p, int n);
+void SetAloEntryMode__FP3ALOi(struct S *p, int n);
 qword func_001A62E8(void *p);
 void *func_001C0D70(qword q, int n);
 void func_001F37C8(struct S *p, void *pv);
@@ -13,7 +13,7 @@ void func_001CB518(struct S *p, int n)
     struct LO *plo;
     int f;
     func_001CB4E0(p, n);
-    func_001F7A68(p, 0);
+    SetAloEntryMode__FP3ALOi(p, 0);
     p->xCC = -1;
     f = 0;
     if (p->xE8) f = p->xE8->xDC;

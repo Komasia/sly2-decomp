@@ -30,8 +30,8 @@ qword func_001A62E8(O *);
 void func_00228C18(O *,qword,qword *,qword *);
 float func_0011E290(qword,qword,qword *,qword *);
 int func_00230380(int);
-void func_001F5E10(O *,qword,const COEF *,qword,const COEF *);
-void func_001F5C30(O *,const M3 *,const COEF *,qword,const COEF *);
+void AccelAloTowardPosition(O *,qword,const COEF *,qword,const COEF *) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
+void AccelAloTowardRotation(O *,const M3 *,const COEF *,qword,const COEF *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 M4 *func_001A6318(O *);
 void func_0011B938(const M3 *,M3 *,M3 *);
 void func_0011BCF8(const M3 *,float *,qword *);
@@ -79,9 +79,9 @@ extern "C" void func_002297F8(O *a,O *b){
   if(func_00230380(a->body->kind)){
    COEF *coefficients=&w.axis.coefficients;
    GAIN2(D_002C4470,factor,friction);
-   func_001F5E10(a,D_002A2DD0,0,AddNormal(linear,w.phase.vectors[1]),coefficients);
+   AccelAloTowardPosition(a,D_002A2DD0,0,AddNormal(linear,w.phase.vectors[1]),coefficients);
    GAIN2(D_002C4470,span,friction);
-   func_001F5E10(a,D_002A2DD0,0,AddTangent(linear,w.phase.vectors[2]),coefficients);
+   AccelAloTowardPosition(a,D_002A2DD0,0,AddTangent(linear,w.phase.vectors[2]),coefficients);
   }
   if(func_00230380(a->rotation->kind)){
    qword angular=Get(a,34);
@@ -90,9 +90,9 @@ extern "C" void func_002297F8(O *a,O *b){
    w.scalar.q=k;func_0011E290(negative,w.normal.q,&w.angularNormal.q,&w.angularTangent.q);
    COEF *coefficients=&w.axis.coefficients;
    GAIN2(D_002C4480,span,friction);
-   func_001F5C30(a,&D_002A2D00,0,AddNormal(angular,w.angularNormal),coefficients);
+   AccelAloTowardRotation(a,&D_002A2D00,0,AddNormal(angular,w.angularNormal),coefficients);
    GAIN1(D_002C4480,friction);
-   func_001F5C30(a,&D_002A2D00,0,AddTangent(angular,w.angularTangent),coefficients);
+   AccelAloTowardRotation(a,&D_002A2D00,0,AddTangent(angular,w.angularTangent),coefficients);
   }
  }
  else Zero(w.velocity,0.0f);

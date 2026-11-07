@@ -19,7 +19,7 @@ struct P {
 void func_001A7E10(void *pg, struct LINK *pl);
 void *func_001F7530(void *p, int n);
 void *func_002333B4(void *p, int c, int cb);
-void *func_001F7598(struct MSG *pmsg);
+void *PaloAcceptContact__FP5CTMSG(struct MSG *pmsg);
 float *func_0012F938(void *p, int n);
 void func_00130D30(struct Q *p, int n, float g, float h);
 void func_00130B18(struct Q *p);
@@ -65,7 +65,8 @@ typedef char P_g131C_Offset[FIELD_OFFSET(P,g131C)==4892?1:-1];
 typedef char P_x13D8_Offset[FIELD_OFFSET(P,x13D8)==5080?1:-1];
 typedef char P_g13DC_Offset[FIELD_OFFSET(P,g13DC)==5084?1:-1];
 typedef char P_plink_Offset[FIELD_OFFSET(P,plink)==5092?1:-1];
-void func_001B6DA8(struct P *p, int s)
+// name: SafeHouse port (SetMurrayFlopPhase)
+void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
 {
     if (p->x13D8 == s)
         return;
@@ -116,7 +117,7 @@ void func_001B6DA8(struct P *p, int s)
                 msg.x10 = -20;
                 msg.v20 = pso->v10;
                 msg.v30 = psm->v30;
-                (void)func_001F7598(&msg);
+                (void)PaloAcceptContact__FP5CTMSG(&msg);
             }
         }
         func_001A7E10(g_sw, p->plink);

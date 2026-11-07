@@ -5,13 +5,14 @@ extern "C" {
 extern qword g_normalZ, D_002A2DD0;
 extern char D_002BE800[], D_002BE810[];
 MATRIX3 func_0011B500(qword q, float g);
-void func_001F59A0(S *p, MATRIX3 *pm, void *pv);
-void func_001F5E10(S *p, qword a, int b, qword c, void *pv);
-void func_0017FB50(S *p);
+void BrakeAloRotation(S *p, MATRIX3 *pm, void *pv) asm("BrakeAloRotation__FP3ALOP7MATRIX3Pf");
+void AccelAloTowardPosition(S *p, qword a, int b, qword c, void *pv) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
+void MoveShip(S *p) asm("MoveShip__FP3ALO");
 }
-void func_0017FB50(S *p) {
+// name: SafeHouse port (MoveShip)
+void MoveShip(S *p) {
     if (p->n1C0 == 3) return;
     MATRIX3 m; m = func_0011B500(g_normalZ, p->g218);
-    func_001F59A0(p, &m, D_002BE800);
-    func_001F5E10(p, D_002A2DD0, 0, p->q220, D_002BE810);
+    BrakeAloRotation(p, &m, D_002BE800);
+    AccelAloTowardPosition(p, D_002A2DD0, 0, p->q220, D_002BE810);
 }

@@ -10,7 +10,7 @@ struct S { char pad[0x5C]; struct O *po; char pad2[0x1A4 - 0x60]; int k; char pa
 void func_001F9B20(struct S *p);
 static inline int ClockWord(char*page){int word;__asm__ volatile("lw %0,%%lo(%2)(%1)":"=r"(word):"r"(page),"i"(&g_clock.delta.bits),"m"(*(const int*)(page-0x212C)));return word;}
 static inline char*ClockPage(){register char*page __asm__("$2");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&g_clock.delta.bits));return page;}
-void func_001F59A0(struct S *,M3 *,VECTOR3 *);
+void BrakeAloRotation__FP3ALOP7MATRIX3Pf(struct S *,M3 *,VECTOR3 *);
 static inline void InitScalar(U *value,int bits) {
     register qword scalar __asm__("vf4");
     __asm__("qmtc2.ni %1,%0" : "=j"(scalar) : "r"(bits));
@@ -26,7 +26,7 @@ void func_00204108(struct S *p)
         v.z = p->f1FC;
         v.x = p->f1F4 * s;
         v.y = p->f1F8 * s;
-        func_001F59A0(p, &p->desired, &v);
+        BrakeAloRotation__FP3ALOP7MATRIX3Pf(p, &p->desired, &v);
         break;
     }
     case 1: {

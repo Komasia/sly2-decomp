@@ -5,7 +5,8 @@ struct O { int pad[3]; struct VTE *vt; };
 struct S { int k; float g4; float g8; int pad; qword pos; qword dir; };
 extern qword g_normalZ;
 qword func_001A62E8(struct O *p);
-void func_00143220(struct O *p, struct S *ps, float g)
+// name: SafeHouse port (GetSlyLaunchTarget)
+void GetSlyLaunchTarget__FP3SLYPvf(struct O *p, struct S *ps, float g)
 {
     struct VTE *e = &p->vt[33];
     qword v, h, pos, s, r;

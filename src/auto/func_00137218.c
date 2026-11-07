@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 M2C_UNK func_002046F0(void *, s32);                 /* extern */
 
-void func_00137218(void **arg0) {
+// name: SafeHouse port (UpdateSlyDodgeInput)
+void UpdateSlyDodgeInput__FP3SLY(void **arg0) {
     s32 temp_a1;
     void *temp_a0;
 

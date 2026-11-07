@@ -11,17 +11,18 @@ int FFindDlEntry__FP2DLPv(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, void *);
 int FIsDlEmpty__FP2DL(void *);
 void func_001A00D0(struct G *, int, struct E *);
-void func_001F4E28(struct P *);
+void DetachAloContacts__FP3ALO(struct P *);
 void func_001337D0(struct G *, struct Q *);
-void func_001F5078(struct P *);
-void func_001F2930(struct P *p, struct E *pe)
+void WakeAlo__FP3ALO(struct P *);
+// name: SafeHouse port (RemoveSoeFromOxa)
+void RemoveSoeFromOxa__FP3ALOP3SOE(struct P *p, struct E *pe)
 {
     int i;
     if (!p->pq) return;
     if (!FFindDlEntry__FP2DLPv(p->pq->dl, pe)) return;
     RemoveDlEntry__FP2DLPv(p->pq->dl, pe);
     if (pe->fl & (1L << 51)) func_001A00D0(&g_sw, 0, pe);
-    func_001F4E28(p);
+    DetachAloContacts__FP3ALO(p);
     if (FIsDlEmpty__FP2DL(p->pq->dl)) {
         struct Q *pq = p->pq;
         ((struct Q2 *)pq->p60)->pq = 0;
@@ -35,5 +36,5 @@ void func_001F2930(struct P *p, struct E *pe)
         if (i < 0) p->pq = 0;
     }
 done:
-    if (!p->pvt[62].pfn((char *)p + p->pvt[62].d)) func_001F5078(p);
+    if (!p->pvt[62].pfn((char *)p + p->pvt[62].d)) WakeAlo__FP3ALO(p);
 }

@@ -4,7 +4,7 @@ struct P { char pad[0x20]; void *p20; struct Q *pq; };
 void func_00230100(void *, struct Q *, struct E *);
 void func_0012E210(struct E *);
 void func_002301D0(void *, struct Q *);
-void func_002303A0(void *, struct Q *, int);
+void SetXfMode__FP3ALOP2XFi(void *, struct Q *, int);
 void func_00230598(void *, struct Q *);
 struct E *func_001F8910(struct P *p, int k, int n, int m)
 {
@@ -21,7 +21,7 @@ struct E *func_001F8910(struct P *p, int k, int n, int m)
             func_002301D0(p->p20, p->pq);
         }
         if (pe == p->pq->pe) {
-            func_002303A0(p->p20, p->pq, n);
+            SetXfMode__FP3ALOP2XFi(p->p20, p->pq, n);
             func_00230598(p->p20, p->pq);
         }
         return pe;

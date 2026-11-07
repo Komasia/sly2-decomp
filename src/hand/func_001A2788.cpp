@@ -9,7 +9,7 @@ extern "C" {
 extern qword D_002A2DD0;
 qword func_001A62E8(void *p);
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
-int func_001F7E08(L *pl, void *pfn, int n, void *pv);
+int CsoeCollect(L *pl, void *pfn, int n, void *pv) asm("CsoeCollect__FP3ALOPvN21");
 int func_0014CDB0(qword a, qword b, int n, void *pv, int c, HIT *phit);
 void func_00229D60(void);
 int func_001A2788(O *po, L *pl, qword *pv);
@@ -34,7 +34,7 @@ int func_001A2788(O *po, L *pl, qword *pv)
     pmsg->cb = pl->xE0 * 4;
     pmsg->nKind = 0x10;
     void *pbuf = PvAllocStackImpl(pmsg);
-    int n = func_001F7E08(pl, (void *)func_00229D60, 0, pbuf);
+    int n = CsoeCollect(pl, (void *)func_00229D60, 0, pbuf);
     if (!func_0014CDB0(a.q, b.q, n, pbuf, 0x10, &hit))
         return 0;
     qword r;

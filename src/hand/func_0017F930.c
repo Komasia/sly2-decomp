@@ -15,8 +15,8 @@ struct S {
     char pad4[0x2A4 - 0x234 - 0x18]; struct M *p2A4; int pad5; float g2AC;
 };
 void UpdateSo__FP2SOf(struct S *p);
-int func_0017F550(struct S *p);
-void func_0017FD08(struct S *p, int n);
+int FShipSegmentDone__FP2LO(struct S *p);
+void SetShipState__FP2LOi(struct S *p, int n);
 qword func_0011E1A0(float a, float b, float c);
 void func_0012D108(void *p, qword q);
 void func_001F0660(void *p, int n);
@@ -28,12 +28,13 @@ struct V3 { float x, y, z; };
 static __inline__ qword Make(float x, float y, float z) { qword q, t;
     __asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0"
             : "=&r"(q), "=&r"(t) : "f"(x), "f"(y), "f"(z)); return q; }
-void func_0017F930(struct S *p) {
+// name: SafeHouse port (UpdateShip)
+void UpdateShip__FP2LO(struct S *p) {
     int s;
     UpdateSo__FP2SOf(p);
     do {
         s = p->n1C0;
-        if (s == 2 && func_0017F550(p)) func_0017FD08(p, 1);
+        if (s == 2 && FShipSegmentDone__FP2LO(p)) SetShipState__FP2LOi(p, 1);
     } while (p->n1C0 != s);
     switch (p->n1C0) {
     case 0: { struct V3 *pv = (struct V3 *)&p->v220; pv->z = 0; pv->y = 0; pv->x = 0; break; }

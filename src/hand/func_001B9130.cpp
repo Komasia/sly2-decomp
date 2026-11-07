@@ -35,7 +35,8 @@ extern "C" qword func_0011F198(qword a, qword b);
 extern "C" int func_001AA020(void *g, X *px);
 extern "C" void func_001A9FE0(void *g, int r, void *p);
 
-extern "C" void func_001B9130(P *p, X *px, int i)
+// name: SafeHouse port (OnMurrayXpNew)
+extern "C" void OnMurrayXpNew__FP3ALOP2XPi(P *p, X *px, int i)
 {
     int n;
     func_00204250(p, px, i);

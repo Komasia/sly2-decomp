@@ -13,7 +13,7 @@ extern qword D_002A2DB0;
 qword func_001A62E8(void *p);
 M4 *func_001A6318(struct LO *p);
 void func_001E6ED8(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
-float func_001E6620(struct T *t);
+float SMinCrv__FP3CRV(struct T *t);
 float func_001E6648(struct T *t);
 void func_001E6F10(struct T *t, float g, qword *point, qword *direction);
 static __inline__ float Dot(qword a, qword b)
@@ -58,9 +58,9 @@ void func_00193DE8(struct S *p)
             w=p->x0->x190;
             __asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(w):"j"(m->row[0]),"j"(m->row[1]),"j"(m->row[2]));
             d1 = -Dot2(w, v1.q);
-            if ((d0 < -2.0f || d1 < 2.0f) && p->x20 < func_001E6620(t) + 50.0f) {
+            if ((d0 < -2.0f || d1 < 2.0f) && p->x20 < SMinCrv__FP3CRV(t) + 50.0f) {
                 k = 0x2A;
-                func_001E6F10(t, func_001E6620(t) + 50.0f, &v0.q, 0);
+                func_001E6F10(t, SMinCrv__FP3CRV(t) + 50.0f, &v0.q, 0);
             } else if ((2.0f < d0 || -2.0f < d1) && func_001E6648(t) - 50.0f < p->x20) {
                 U s;
                 k = 0x2A;

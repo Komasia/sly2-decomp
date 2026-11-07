@@ -20,7 +20,7 @@ qword func_001A62E8(void *p);
 void func_0013B428(P *p, qword a, qword b);
 void func_0013B5E8(P *p, int *pc, PO ***papo);
 void *func_002333B4(void *pv, int b, int cb);
-int func_001F7598(MSG *pmsg);
+int PaloAcceptContact(MSG *pmsg) asm("PaloAcceptContact__FP5CTMSG");
 int FIsBasicDerivedFrom(PO *po, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int *func_00156698(int n, qword pos, void *pv);
 }
@@ -73,7 +73,7 @@ extern "C" void func_0013B860(P *p)
                 __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v) : "j"(n), "j"(g.q));
                 msg.v30 = v;
             }
-            func_001F7598(&msg);
+            PaloAcceptContact(&msg);
         }
         FrameFree(&frame, 2);
     }

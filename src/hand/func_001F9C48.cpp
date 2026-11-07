@@ -15,9 +15,9 @@ extern "C" qword *func_00256D18(qword *,qword);
 extern "C" M3 *func_0011B570(M3 *,qword);
 static inline M3 BuildRotation(qword vector) return matrix {func_0011B570(&matrix,vector);}
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
-extern "C" void func_001F3900(P *);
-extern "C" void func_001F38A8(NODE *);
-extern "C" void func_001F4D50(P *);
+extern "C" void CopyAloSoeMatrices(P *) asm("CopyAloSoeMatrices__FP3ALO");
+extern "C" void UpdateSoeWorld(NODE *) asm("UpdateSoeWorld__FP3SOE");
+extern "C" void UnmarkAloDirty(P *) asm("UnmarkAloDirty__FP3ALO");
 static inline qword Scalar(float f,U *out){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));out->q=q;return out->q;}
 static inline qword AddScaled(qword p,qword v,qword k){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=&j"(r):"j"(p),"j"(v),"j"(k));return r;}
 static inline qword Scale(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=&j"(r):"j"(v),"j"(k));return r;}
@@ -55,11 +55,11 @@ extern "C" void func_001F9C48(P *p)
     rotation->stamp=++global->stamp;
     Clear(rotationVelocity);
     p->vt[18].fn((char*)p+p->vt[18].delta);
-    func_001F3900(p);
+    CopyAloSoeMatrices(p);
     if(p->e){
         for(node=p->e->first;node;node=node->next){
-            if(!(node->flags&(1UL<<50)))func_001F38A8(node);
+            if(!(node->flags&(1UL<<50)))UpdateSoeWorld(node);
         }
     }
-    func_001F4D50(p);
+    UnmarkAloDirty(p);
 }

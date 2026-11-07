@@ -17,7 +17,8 @@ static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
     return PvAllocStackClearImpl(preq);
 }
 static inline int Min(int a, int b) { return a > b ? b : a; }
-extern "C" int func_00161660()
+// name: SafeHouse port (NTasksPercentDone)
+extern "C" int NTasksPercentDone__Fv()
 {
     int c = 0;
     int cDone = 0;

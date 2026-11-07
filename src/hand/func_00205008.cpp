@@ -14,8 +14,8 @@ struct SO { char pad0[0x10]; SO *psoParent; char pad14[0xEC - 0x14]; ATT *patt; 
 extern char g_sw[];
 extern qword g_normalZ;
 extern "C" {
-SO *func_001A5BF0(LO *);                 // PsoZapTarget
-M3 func_0011B830(qword, qword);          // BuildOrthonormalMatrixZ
+SO *PaloOrParent(LO *) asm("PaloOrParent__FPv");                 // PsoZapTarget
+M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");          // BuildOrthonormalMatrixZ
 void func_001A7C18(void *, SOPART *, SOPART *, qword, qword, float, int, void *, void *, XP **);  // PxpAdd
 }
 static inline qword Sub(const qword &a, const qword &b) {
@@ -38,7 +38,7 @@ extern "C" void func_00205008(SO *pso, int grf, LO *plo, qword posOther, qword d
 {
     XP **ppxpFirst, **ppxpOut;
     SOPART *psopartOther;
-    SO *psoTarget = func_001A5BF0(plo);
+    SO *psoTarget = PaloOrParent(plo);
     ATT *patt, *pattThis;
     if (psoTarget) {
         patt = psoTarget->patt;
@@ -61,7 +61,7 @@ extern "C" void func_00205008(SO *pso, int grf, LO *plo, qword posOther, qword d
         psopartOther = 0;
         ppxpFirst = ppxpOut = &pso->patt->pxpFirst;
     }
-    M3 mat = func_0011B830(direction, g_normalZ);
+    M3 mat = BuildLookAtMatrix(direction, g_normalZ);
     qword posLocal = Rotate(mat, Sub(pos, posOther));
     if ((grf & 1) || ((grf & 8) && X(posLocal) < 0.0001f))
         func_001A7C18(g_sw, pso->psopart, psopartOther, pos, mat.r[0], X(posLocal), (grf & 1) ? 11 : 10, 0, 0, ppxpFirst);

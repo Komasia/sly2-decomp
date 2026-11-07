@@ -1,5 +1,6 @@
 struct S { char pad[0x13D0]; int n; };
-int func_001B7F90(struct S *p)
+// name: SafeHouse port (MurrayJumpKind)
+int MurrayJumpKind__FP6MURRAY(struct S *p)
 {
     switch (p->n) {
     case 0: case 5: return 0;

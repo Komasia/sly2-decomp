@@ -16,7 +16,8 @@ __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
 static inline float Root(float x){float r;__asm__ __volatile__("sqrt.s %0,%1":"=f"(r):"f"(x));return r;}
 static inline qword *VelocityCursor(qword *p){register qword *initial __asm__("$2")=p;register qword *r __asm__("$4");__asm__("daddu %0,%1,$zero":"=r"(r):"r"(initial));return r;}
 static inline int PlaneLess(int a,int b){register int r __asm__("$2");__asm__("slt %0,%1,%2":"=r"(r):"r"(a),"r"(b));return r;}
-void func_001F6EF8(struct P*p,float dt)
+// name: SafeHouse port (IntegrateSoeMesh)
+void IntegrateSoeMesh__FP3SOEf(struct P*p,float dt)
 {
  V scalar;
  register int vertexIndex __asm__("a2")=0;

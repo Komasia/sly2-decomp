@@ -12,7 +12,7 @@ extern "C" void func_00230598(P *,LO *);
 extern "C" qword func_0022FCC8(void *,LO *,qword);
 extern "C" qword *func_00256D18(qword *,qword);
 extern "C" M3 func_0011B570(qword);
-extern "C" void func_001F4BF8(P *);
+extern "C" void MarkAloDirty(P *) asm("MarkAloDirty__FP3ALO");
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
@@ -54,6 +54,6 @@ extern "C" void func_001FA528(P*p)
             ((int*)&object->matrix.r[0])[3]=0;
             object->stamp=++g_sw.stamp;
         }
-        if(changed){p->vt[18].fn((char*)p+p->vt[18].delta);func_001F4BF8(p);}
+        if(changed){p->vt[18].fn((char*)p+p->vt[18].delta);MarkAloDirty(p);}
     }
 }

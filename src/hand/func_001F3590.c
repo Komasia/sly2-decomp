@@ -1,8 +1,9 @@
-/* func_001F3590 (0x1F3590): reset an SO's physics defaults: gravity (0, 0, -1750) and constraint kind 3 for
+/* RestAloSost__FP3ALO (0x1F3590): reset an SO's physics defaults: gravity (0, 0, -1750) and constraint kind 3 for
  * both the force and the torque constraint. */
 #include "so.h"
 
-SOPHYS *func_001F3590(SO *pso)
+// name: SafeHouse port (RestAloSost)
+SOPHYS *RestAloSost__FP3ALO(SO *pso)
 {
     SOPHYS *psophys;
     float *pdvGravity = pso->psophys->dvGravity;

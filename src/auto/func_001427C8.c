@@ -2,7 +2,8 @@
 M2C_UNK func_00142860(void *);                      /* extern */
 extern f32 D_002A4D60;
 
-void func_001427C8(void *arg0, s32 arg1, s32 arg2) {
+// name: SafeHouse port (SetActorLookTarget)
+void SetActorLookTarget__FP5ACTORiP2LO(void *arg0, s32 arg1, s32 arg2) {
     if ((arg2 != M2C_FIELD(arg0, s32 *, 0x10F8)) || (arg1 != M2C_FIELD(arg0, s32 *, 0x10FC))) {
         M2C_FIELD(arg0, s32 *, 0x10FC) = arg1;
         M2C_FIELD(arg0, s32 *, 0x10F8) = arg2;

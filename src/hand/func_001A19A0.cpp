@@ -26,12 +26,12 @@ extern "C"{
  void func_001305B8(void*,P*,float,float,int,void**);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
  void func_00143380(P*);
- void func_001619A0(void*,int,P*);
+ void BroadcastTaskEvent(void*,int,P*) asm("BroadcastTaskEvent__FP2SWiP2LO");
  void func_001A15B0(C*,ACTION);
  void func_001A16C8(C*);
  void func_001A0B40(C*,int);
  int func_00132EA0(P*);
- void*func_001FBB90(int);
+ void*PsndNewPlain(int) asm("PsndNewPlain__Fi");
  void SetSource(void*,P*) asm("SetSource__4CSndPv");
  qword func_001A62E8(P*);
  void*func_00156698(int,qword,P*);
@@ -117,7 +117,7 @@ notify:
   Notify(p->actor,3);
   W*widget=p->actor->widget;
   if(widget&&(widget->count->c||Add32(*p->counter,delta)<=0))func_00143380(p->actor);
-  func_001619A0(g_game,0xF,input->object);
+  BroadcastTaskEvent(g_game,0xF,input->object);
   p->record=*input;p->record.delta=delta;func_001A15B0(p,0);
   int n=Add32(*p->counter,p->record.delta);*p->counter=n>=0?n:0;
   if(*p->counter>0){p->mode=1;p->time=g_clock.time;}
@@ -127,7 +127,7 @@ notify:
    if(Z(Vector(p->actor,33))>400.0f){
     int effect=-1;
     switch(func_00132EA0(p->actor)){case 0x35:effect=0x69;break;case 0x36:effect=0x84;break;case 0x37:effect=0x83;break;}
-    P*actor=p->actor;void*created=func_001FBB90(effect);SetSource(created,actor);
+    P*actor=p->actor;void*created=PsndNewPlain(effect);SetSource(created,actor);
    }
    func_001A15B0(p,&C::Reaction);break;
   }

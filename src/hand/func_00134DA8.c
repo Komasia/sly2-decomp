@@ -30,10 +30,10 @@ extern float D_002BC960;
 extern float D_002BC934;
 void func_001403D0(struct P *p);
 void func_00194A40(void *pv, struct P *p, int n);
-void func_00134D30(struct P *p);
-void func_00134850(struct P *p);
+void UpdateBentleyBinoc__FP7BENTLEY(struct P *p);
+void UpdateBentleyTransitions__FP7BENTLEY(struct P *p);
 void func_00204660(struct P *p, float g);
-int func_001430C8(struct P *p);
+int GrfActorLookMask__FP5ACTOR(struct P *p);
 void func_001F1350(int a, int b);
 void func_0020BB58(void *pv, float g);
 void func_0020BC08(void *pv);
@@ -41,12 +41,12 @@ void func_00197F98(void *pv);
 void func_00191A10(void *pv);
 void func_002046F0(struct P *p, int n);
 qword func_0011E1A0(float a, float b, float c);
-void func_001A0450(struct P *p, void *pv, int n);
-qword func_00204E38(struct P *p, struct S1030 *px, float g);
+void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(struct P *p, void *pv, int n);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct S1030 *px, float g);
 void func_00131A00(struct S1030 *px, float g);
 float RadNormalize__Ff(float g);
 float func_0011CFE0(float g, float dg);
-void func_00135EB0(struct P *p);
+void UpdateActorSupport__FP5ACTOR(struct P *p);
 void func_001A1358(void *pv);
 
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
@@ -90,12 +90,12 @@ static __inline__ void SetVel(struct P *p, qword v, void *pv, int n)
     p->v190 = v;
     p->v190 = MulT(&p->m1B0, v);
     p->x1038 = -1;
-    func_001A0450(p, pv, n);
+    SteerRootBlend__FP5ACTORP9ROOTBLENDPv(p, pv, n);
 }
 static __inline__ void Pull(struct P *p)
 {
     VUF u;
-    qword v = func_00204E38(p, p->p1030, p->p1030->g1C);
+    qword v = VelActorAnimRoot__FP5ACTORPvf(p, p->p1030, p->p1030->g1C);
     qword r;
     __asm__("qmtc2.ni %1, %0" : "=j"(u.q) : "r"(-1.0f));
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(u.q));
@@ -104,7 +104,7 @@ static __inline__ void Pull(struct P *p)
 static __inline__ void PullB(struct P *p)
 {
     VUF u;
-    qword v = func_00204E38(p, p->p1030, p->p1030->g1C);
+    qword v = VelActorAnimRoot__FP5ACTORPvf(p, p->p1030, p->p1030->g1C);
     qword r, t;
     __asm__("qmtc2.ni %1, %0" : "=j"(t) : "r"(-1.0f));
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(t));
@@ -117,21 +117,22 @@ static __inline__ void Kick(void *pv, float g)
     func_0020BC08(pv);
 }
 
-void func_00134DA8(struct P *p)
+// name: SafeHouse port (UpdateBentley)
+void UpdateBentley__FP7BENTLEY(struct P *p)
 {
     func_001403D0(p);
     if (((p->ul28 >> 60) & 1) == 0)
         return;
     func_00194A40(g_sw, p, 0xF8FE);
-    func_00134D30(p);
-    func_00134850(p);
+    UpdateBentleyBinoc__FP7BENTLEY(p);
+    UpdateBentleyTransitions__FP7BENTLEY(p);
     switch (p->x13D0) {
     case 0:
         if (p->x181C) {
             func_00204660(p, D_002BC934);
             break;
         }
-        func_001F1350(p->x1034, func_001430C8(p));
+        func_001F1350(p->x1034, GrfActorLookMask__FP5ACTOR(p));
         break;
     case 1:
         func_00204660(p, p->p150->g18);
@@ -186,6 +187,6 @@ void func_00134DA8(struct P *p)
         func_00204660(p, p->p150->g18);
         break;
     }
-    func_00135EB0(p);
+    UpdateActorSupport__FP5ACTOR(p);
     func_001A1358(p->xDF0);
 }

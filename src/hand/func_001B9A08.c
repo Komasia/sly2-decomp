@@ -1,22 +1,23 @@
 struct G { char pad[0xC]; int xC; };
 extern struct G g_game;
 struct P { char pad[0x9BC]; int x9BC; char pad1[0x10DC - 0x9C0]; int x10DC; char pad2[0x130C - 0x10E0]; int x130C; char pad3[0x13E8 - 0x1310]; int x13E8; char pad4[0x143C - 0x13EC]; int x143C; char pad5[0x1AC4 - 0x1440]; int x1AC4; };
-void func_001619A0(void *p, int a, struct P *b);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, struct P *b);
 void func_00141CD0(struct P *p, int k);
 void func_00141D38(struct P *p, int k);
 void func_001B6078(struct P *p, int n);
-void func_001B8D30(struct P *p, int n);
+void SetMurrayBerserk__FP6MURRAYi(struct P *p, int n);
 void func_001928F8(void *p, int a, int b, int c);
-void func_001B9A08(struct P *p, int k)
+// name: SafeHouse port (StartMurrayAbility)
+void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
 {
     g_game.xC = k;
-    func_001619A0(&g_game, 0x3C, p);
+    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, p);
     switch (k) {
     case 20:
         func_00141CD0(p, k);
         func_001B6078(p, 0xC);
-        func_001B8D30(p, 0);
-        func_001B8D30(p, 1);
+        SetMurrayBerserk__FP6MURRAYi(p, 0);
+        SetMurrayBerserk__FP6MURRAYi(p, 1);
         break;
     case 15:
         p->x9BC = k;

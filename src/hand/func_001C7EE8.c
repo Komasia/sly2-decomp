@@ -8,7 +8,7 @@ struct S {
 };
 struct M { int n; struct S *p; int pad[14]; };
 extern char g_sw[];
-void *func_001FBB90(int n);
+void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 qword func_001A62E8(struct S *p);
 void *func_00156B98(void *pg, int n, qword q, struct S *p);
@@ -32,7 +32,7 @@ void func_001C7EE8(struct S *p, int n)
             m.p = p;
             ((void (*)(void *, struct M *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &m);
         } else {
-            SetSource__4CSndPv(func_001FBB90(0x29), 0);
+            SetSource__4CSndPv(PsndNewPlain__Fi(0x29), 0);
         }
         pg = g_sw;
         n = 2;

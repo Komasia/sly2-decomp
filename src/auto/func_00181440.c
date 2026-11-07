@@ -1,8 +1,9 @@
 #include "m2c_prelude.h"
-M2C_UNK func_0017F138();                            /* extern */
-M2C_UNK func_0017F408(s32, M2C_UNK, s32);           /* extern */
+M2C_UNK PostLoadHackSoBase__FP2LO();                            /* extern */
+M2C_UNK BindHackSegs__FP2LOP6HACKSOPv(s32, M2C_UNK, s32);           /* extern */
 
-void func_00181440(s32 arg0) {
-    func_0017F138();
-    func_0017F408(arg0, 3, arg0 + 0x1D0);
+// name: SafeHouse port (PostLoadDock)
+void PostLoadDock__FP2LO(s32 arg0) {
+    PostLoadHackSoBase__FP2LO();
+    BindHackSegs__FP2LOP6HACKSOPv(arg0, 3, arg0 + 0x1D0);
 }

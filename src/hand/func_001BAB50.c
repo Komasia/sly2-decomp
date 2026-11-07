@@ -3,11 +3,11 @@
 #include "so.h"
 
 void InitSo__FP2SO(SO *p);
-void func_001F7918(void *, int, int);
+void SetAloXpBytes__FP3ALOUiUc(void *, int, int);
 
 void func_001BAB50(SO *p)
 {
     InitSo__FP2SO(p);
-    func_001F7918(p, 0x03FFFFFF, 8);
-    func_001F7918(p, 0x80001, 0);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x03FFFFFF, 8);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x80001, 0);
 }

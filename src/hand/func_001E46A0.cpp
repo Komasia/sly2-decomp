@@ -22,7 +22,7 @@ void func_001E4D40(P*,ACTOR*,qword*,float*);
 void func_00204660(ACTOR*,float);
 void func_001E67B8(PATH*,float,qword*,qword*);
 qword func_001A62E8(ACTOR*);
-qword func_001A6FC0(void*,ACTOR*,qword);
+qword ConvertVec(void*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 void func_001C45A8(OUTPUT*);
 int func_0011D4D0(float,float,float);
 }
@@ -177,7 +177,7 @@ extern "C" void func_001E46A0(P *p,OUTPUT *out){
     :"m"(work.second),"r"(actorPosition),"r"(actor),"rJ"(sourceSpace));
    work.to.f[2]=0.0f;
    float speed;
-   work.normal.q=NormalizeDirection(func_001A6FC0(sourceInput,targetInput,work.to.q),speed,out->speed);
+   work.normal.q=NormalizeDirection(ConvertVec(sourceInput,targetInput,work.to.q),speed,out->speed);
    out->y=work.normal.f[0]*speed;out->x=-work.normal.f[1]*speed;
   }
   break;

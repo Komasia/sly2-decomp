@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001F5078(void *);                      /* extern */
+M2C_UNK WakeAlo__FP3ALO(void *);                      /* extern */
 
 void func_00209790(void *arg0) {
     void *temp_v0;
@@ -12,5 +12,5 @@ void func_00209790(void *arg0) {
     M2C_FIELD(temp_v0, s32 *, 8) = 0;
     M2C_FIELD(temp_v0, s32 *, 4) = 0;
     M2C_FIELD(temp_v1, s32 *, 0x190) = 0;
-    func_001F5078(M2C_FIELD(arg0, void **, 0xC));
+    WakeAlo__FP3ALO(M2C_FIELD(arg0, void **, 0xC));
 }

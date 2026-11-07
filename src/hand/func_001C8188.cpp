@@ -19,8 +19,8 @@ extern char D_002E65E0[];
 
 extern "C" CRef func_00258200(void *pv, const CRef &ref, void *p);
 struct RAW { int m_tagk; int m_tag; };
-extern "C" RAW *func_002581C0(RAW *pr, void *pv, void *p);
-static inline int NFromPv(void *pv,RAW &ref) { int n; func_002581C0(&ref,pv,D_003D4A60);n=ref.m_tag;func_00129EC8(&ref);return n; }
+extern "C" RAW *NProgress(RAW *pr, void *pv, void *p);
+static inline int NFromPv(void *pv,RAW &ref) { int n; NProgress(&ref,pv,D_003D4A60);n=ref.m_tag;func_00129EC8(&ref);return n; }
 static inline void SetPv(void *pv,const CRef&r) { CRef arg(r); const CRef &ret=func_00258200(pv,arg,D_003D4A60); }
 extern "C" void func_001C8188(int f);
 void func_001C8188(int f)

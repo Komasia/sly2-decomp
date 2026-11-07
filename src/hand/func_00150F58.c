@@ -1,6 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 struct S { int pad[8]; qword q20; qword q30; };
-qword func_00150780(struct S *p);
+qword PosFocus__6CPFREE(struct S *p);
 int func_0011D4D0(float a, float b, float eps);
 static __inline__ float GetX(qword q)
 {
@@ -25,7 +25,7 @@ int func_00150F58(struct S *p)
 {
     int f = 0;
     qword a = p->q20;
-    qword b = func_00150780(p);
+    qword b = PosFocus__6CPFREE(p);
     if (FNear(GetX(a), GetX(b)))
         if (FNear(GetY(a), GetY(b)))
             if (FNear(GetZ(a), GetZ(b)))

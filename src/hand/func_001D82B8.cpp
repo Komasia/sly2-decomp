@@ -19,11 +19,11 @@ struct G { char pad[0x3B7C]; void *apv[9]; };
 extern G g_sw;
 extern int D_002C2DC0[];
 extern char D_002A78F0[];
-CRef func_002581C0(void *, unsigned char *);
+CRef NProgress(void *, unsigned char *) asm("NProgress");
 extern "C" int func_001D8720(void *, char *);
 static inline int NGet(void *pv, unsigned char *pb)
 {
-    CRef ref = func_002581C0(pv, pb);
+    CRef ref = NProgress(pv, pb);
     return ref.m_tag;
 }
 static inline int Clamp(int n, int lo, int hi)

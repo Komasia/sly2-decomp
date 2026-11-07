@@ -23,7 +23,8 @@ static inline qword Normalize(qword v) {
  __asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(l):"0"(l));
  __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(l),"j"(v));return r;
 }
-void func_00166270(struct Geom *src,const struct M4 *transform,struct Geom *dest)
+// name: SafeHouse port (CopyTransformGeom)
+void CopyTransformGeom__FP4GEOMP7MATRIX4T0(struct Geom *src,const struct M4 *transform,struct Geom *dest)
 {
  struct REQ req;
  struct M4 m;

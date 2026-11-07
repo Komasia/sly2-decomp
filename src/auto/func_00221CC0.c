@@ -56,8 +56,9 @@ extern M2C_UNK g_sw;
 extern M2C_UNK D_004425D0;
 extern M2C_UNK D_004425F0;
 
-void func_00221CC0(s32 arg0) {
+// name: SafeHouse port (CPFOLLOW::Deactivate)
+void Deactivate__8CPFOLLOWP2LOPv(s32 arg0) {
     M2C_FIELD(arg0, s32 *, 0x10) = 0;
     M2C_FIELD(arg0, s32 *, 0x14) = 0;
-    func_0014FCE8(arg0);
+    Deactivate__5CPLCYP2LOPv(arg0);
 }

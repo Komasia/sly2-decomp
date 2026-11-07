@@ -20,7 +20,7 @@ void func_00195A00(void *p, int a, int b, int c);
 void func_0019CC50(void *p, int a, int b, int c);
 void func_001B5658(struct P *p, int n);
 void func_00204660(struct P *p, float g);
-qword func_00204E38(struct P *p,struct PL*pl,float g);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P *p,struct PL*pl,float g);
 void func_0020BB58(void *p, float g);
 void func_0020BC08(void *p);
 static inline void NegateSource(qword value,qword*velocity,U*scalar){
@@ -86,7 +86,7 @@ void func_001B5380(struct P *p)
         U u;
         qword v;
         func_00204660(p, p->pl->g18);
-        v = func_00204E38(p,p->p1030,p->p1030->g1C);
+        v = VelActorAnimRoot__FP5ACTORPvf(p,p->p1030,p->p1030->g1C);
         NegateSource(v,&p->v190,&u);
         break;
     }

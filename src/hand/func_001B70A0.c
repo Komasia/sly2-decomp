@@ -14,7 +14,7 @@ int func_0011D910(void *p, float g);
 void func_0017B1A8(struct S *p, int n);
 void func_001B7050(struct P *p, void *q);
 void func_001B6078(struct P *p, int n);
-void func_001B86B0(struct P *p, int n);
+void SetMurrayPunch__FP6MURRAYi(struct P *p, int n);
 static inline float LenXY(qword v) {
     qword d;
     float f;
@@ -26,7 +26,8 @@ static inline float LenXY(qword v) {
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetZ2(qword t) { __asm__("pextuw %0,$0,%0" : "+r"(t)); return GetX(t); }
 static inline qword ToGpr(qword v) { qword r; __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(v)); return r; }
-int func_001B70A0(struct P *p)
+// name: SafeHouse port (FMurrayGrab)
+int FMurrayGrab__FP6MURRAY(struct P *p)
 {
     union { qword q; float f[4]; } u;
     struct S *ps;
@@ -62,6 +63,6 @@ int func_001B70A0(struct P *p)
         goto ret0;
     }
     func_001B6078(p, 0xB);
-    func_001B86B0(p, 4);
+    SetMurrayPunch__FP6MURRAYi(p, 4);
     return 1;
 }

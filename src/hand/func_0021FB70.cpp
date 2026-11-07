@@ -4,7 +4,7 @@
 // apex and the end point after tPredict seconds bound a box for FindSwObjectsInBox (func_0020FAA0). 28 samples along the
 // arc are line-tested (func_0014CC58); at the first hit the flight time is the closest non-negative root of the vertical
 // motion (CSolveQuadratic). The flight time may change by at most 3 * dt per frame; up to 30 points of the arc are written
-// back to front into the marker's ring of frames (matrix along the arc, func_0011B830), and the four-clip / two-clip
+// back to front into the marker's ring of frames (matrix along the arc, BuildLookAtMatrix), and the four-clip / two-clip
 // blends get the distance (lmAim) and heading-error (radTurnAim) weights, rate limited by 2 * dt when fUpdateBlends.
 // How it matched (Lilly's agent, T1604): fresh8's stack layout plus
 // - the scope is an empty STACKSCOPE with its real out-of-line ctor/dtor (a sized FRAME takes the freed 0x0 home slot);
@@ -52,7 +52,7 @@ extern float D_002C4100,D_002C4104;            // 3.0 / 2.0: flight time / blend
 extern float D_002A96A0;                       // FLT_MAX
 extern V g_normalZ;                           // (0, 0, 1)
 extern "C" {
- qword func_001A6F00(LO *,LO *,qword);         // ConvertLoPos
+ qword ConvertPos(LO *,LO *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");         // ConvertLoPos
  qword func_001A62E8(LO *);                    // PosLoWorld
  qword func_001D6848(qword,qword,qword,float); // CalculateLaunchVelocity
  int func_001DAEA8(int);                       // FPowerUpAcquired
@@ -60,7 +60,7 @@ extern "C" {
  int func_0021FB18(void *,SO *);
  SO *func_0014CC58(int,qword,qword,int,SO **,HIT *);
  int CSolveQuadratic(float,float,float,float *) asm("CSolveQuadratic__FfffPf");
- M3 *func_0011B830(M3 *,qword,qword);
+ M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
  V *func_00256D18(V *,qword);
  void func_0021C5F8(MARKER *,qword);
  float func_002458F0(float,float);
@@ -103,7 +103,7 @@ static inline float GFromClq(const CLQ &clq,float x){return clq.g0+x*(clq.g1+x*c
 
 extern "C" void func_0021FB70(JTTHROW *pjtthrow,int fUpdateBlends)
 {
- qword posLaunch=func_001A6F00(pjtthrow->pstepplayer,0,pjtthrow->vLaunchLocal.q);
+ qword posLaunch=ConvertPos(pjtthrow->pstepplayer,0,pjtthrow->vLaunchLocal.q);
  qword posHold=pjtthrow->posHold.q;
  qword vAccel=pjtthrow->ploCarried->pgravity->vAccel.q;
  qword posHero=func_001A62E8(pjtthrow->pstepplayer);
@@ -170,7 +170,7 @@ extern "C" void func_0021FB70(JTTHROW *pjtthrow,int fUpdateBlends)
     V *pposCur=ppos++;
     qword pos=pposCur->q;
     qword dpos=QwSub(pos,posBefore);
-    func_0011B830(&matRot,dpos,g_normalZ.q);
+    BuildLookAtMatrix(&matRot,dpos,g_normalZ.q);
     M4 *pmat=&mat;
     func_00256D18(&mat.position,pos);
     pmat->basis=matRot;

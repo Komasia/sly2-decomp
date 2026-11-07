@@ -7,7 +7,8 @@ struct TABLE;
 struct Q { char pad[0x14]; struct TABLE *table; char pad2[0x40 - 0x18]; float g40; };
 int func_00131968(struct Q *q);
 struct X *func_0012FF10(struct TABLE *table, void *owner, int kind, int check);
-qword func_00204E38(void *p, struct Q *q, float g)
+// name: SafeHouse port (VelActorAnimRoot)
+qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct Q *q, float g)
 {
     qword r = D_002A2DD0;
     if (q && !func_00131968(q)) {

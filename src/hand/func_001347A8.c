@@ -6,17 +6,18 @@ void func_001400B8(struct S *);
 int func_001F4C58(struct S *, int, int);
 void func_001A0300(struct S *, void *, void *);
 void func_0020B868(void *);
-void func_00136D28(void *, struct S *, ti128, float, float);
-void func_001426E8(struct S *, int);
-void func_00135248(struct S *, int);
-void func_001347A8(struct S *p) {
+void InitBentleySub__FP10BENTLEYSUBP3ALOG9VU_VECTORff(void *, struct S *, ti128, float, float);
+void AttachActorLook__FP5ACTORi(struct S *, int);
+void SetBentleyState__FP7BENTLEYi(struct S *, int);
+// name: SafeHouse port (PostLoadBentley)
+void PostLoadBentley__FP7BENTLEY(struct S *p) {
     func_001400B8(p);
     p->f10b8 = func_001F4C58(p, 0xb, 1);
     func_001A0300(p, p->a13e0, p->a14e0);
     func_001A0300(p, p->a14f0, p->a15f0);
     func_0020B868(p->a1320);
     func_0020B868(p->a1600);
-    func_00136D28(p->a1710, p, D_002BC920, -50.0f, 50.0f);
-    func_001426E8(p, 0x16);
-    func_00135248(p, 0);
+    InitBentleySub__FP10BENTLEYSUBP3ALOG9VU_VECTORff(p->a1710, p, D_002BC920, -50.0f, 50.0f);
+    AttachActorLook__FP5ACTORi(p, 0x16);
+    SetBentleyState__FP7BENTLEYi(p, 0);
 }

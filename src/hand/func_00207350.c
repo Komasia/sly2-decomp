@@ -14,7 +14,7 @@ void UpdateStep__FP4STEPf(struct S *p);
 void func_00207288(struct S *p);
 void func_00206900(struct S *p);
 int func_00209430(void *pc);
-void func_0020AB68(struct S *p, struct O *po, int n, qword v);
+void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct O *po, int n, qword v);
 void UpdateGuardActionAim__FP5GUARD(struct S *p);
 void func_001F1CF8(struct S *p);
 void func_0020CE70(void *p);
@@ -34,7 +34,7 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
     func_00207288(p);
     func_00206900(p);
     if (p->po && func_00209430(p->po->pc))
-        func_0020AB68(p, 0, 0, D_002A2DD0);
+        SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p, 0, 0, D_002A2DD0);
     if (p->hF0C)
         UpdateGuardActionAim__FP5GUARD(p);
     if (p->n48C)

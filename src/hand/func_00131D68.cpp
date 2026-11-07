@@ -7,7 +7,7 @@ public:
 struct O { char pad[0x1c]; float f1c; char pad2[0x40 - 0x20]; float f40; };
 struct S { int pad[7]; C *pc; int f20; O *po; };
 extern "C" void func_001317D8(O *, float *, float *);
-extern "C" void func_0012CF30(S *, int, int);
+extern "C" void Query(S *, int, int) asm("Query__4CTRLP7VECTOR4T1f");
 extern "C" void func_00131D68(S *p, int a, int b, float g) {
     if (p->pc) {
         O *po = p->po;
@@ -17,6 +17,6 @@ extern "C" void func_00131D68(S *p, int a, int b, float g) {
         func_001317D8(po, &t, &dt);
         p->pc->V3(a, b, t, dt);
     } else {
-        func_0012CF30(p, a, b);
+        Query(p, a, b);
     }
 }

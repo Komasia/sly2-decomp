@@ -8,7 +8,7 @@ struct A { int kind; int id; };
 struct F { char pad[0x18]; unsigned char count; char pad1[3]; struct A *aa; };
 struct S { char pad[4]; struct F *af; char pad1[8]; struct R *r; };
 extern char D_003DD040[];
-extern "C" struct M *func_001FBB90(int id);
+extern "C" struct M *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
 extern "C" void SetSource(struct M *, struct O *) asm("SetSource__4CSndPv");
 extern "C" void Stop(struct M *, float) asm("Stop__4CSndf");
 extern "C" void func_00258040(struct M **pp, struct M *m);
@@ -34,7 +34,7 @@ extern "C" void func_00219190(struct S *p,int fi,int i) {
         struct A *a=(struct A *)(j*sizeof(A)+(int)f->aa);
         switch(ActionKind(*a)) {
         case 0: {
-            struct M *m=func_001FBB90(a->id);
+            struct M *m=PsndNewPlain(a->id);
             SetSource(m,0);
             if(m->vt->kind((char *)m+m->vt->d)==2)
                 func_00258040(&((E *)(createOffset+(int)p->r->ae))->pm,m);

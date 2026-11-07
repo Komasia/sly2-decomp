@@ -36,7 +36,7 @@ int func_0014C748(qword point, qword start, qword end, int flags, HIT *hit, floa
 void func_0011EE08(qword point, qword start, qword end, qword *unused, float *along, float *distance);
 void func_001DB390(SELECTOR *sel, int id);
 void func_001DA9E8(SELECTOR *sel);
-void *func_001FBB90(int id);
+void *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
 void SetSource(void *sound, int flags) asm("SetSource__4CSndPv");
 void func_001DB0C8(SELECTOR *sel, int mode);
 }
@@ -124,6 +124,6 @@ void func_001DB0C8(SELECTOR *sel, int mode)
     if (bestId != -1) {
         func_001DB390(sel, bestId);
         func_001DA9E8(sel);
-        SetSource(func_001FBB90(0x35), 0);
+        SetSource(PsndNewPlain(0x35), 0);
     }
 }

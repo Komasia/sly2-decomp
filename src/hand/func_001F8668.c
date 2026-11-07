@@ -5,7 +5,8 @@ extern struct G g_sw;
 void func_001D6378(struct L *);
 void func_001D6310(struct L *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-void func_001F8668(struct L *p, long f)
+// name: SafeHouse port (SetAloIced)
+void SetAloIced__FP3ALOl(struct L *p, long f)
 {
     struct L *q;
     if (f != p->b35) {
@@ -15,6 +16,6 @@ void func_001F8668(struct L *p, long f)
             else func_001D6310(p);
         }
         for (q = p->first; q; q = q->next)
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30)) func_001F8668(q, f);
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30)) SetAloIced__FP3ALOl(q, f);
     }
 }

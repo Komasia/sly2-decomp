@@ -19,31 +19,32 @@ extern float D_002C0A30;
 extern float D_002C0A34;
 int func_00131968(void *p);
 void func_001B6078(P *p, int s);
-void func_001B8D30(P *p, int s);
+void SetMurrayBerserk__FP6MURRAYi(P *p, int s);
 int func_0020C0D8(void *p);
 void func_0020C0E8(void *p);
 
-void func_001B8EC0(P *p)
+// name: SafeHouse port (UpdateMurrayBerserkTransitions)
+void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
 {
     int s;
     for (;;) {
         s = p->x1840;
         switch (s) {
         case 0:
-            if (!p->x1030 || func_00131968(p->x1030)) func_001B8D30(p, 1);
+            if (!p->x1030 || func_00131968(p->x1030)) SetMurrayBerserk__FP6MURRAYi(p, 1);
             break;
         case 1:
             if (!p->x1030 || func_00131968(p->x1030)) {
                 func_001B6078(p, 0);
             } else if (p->x1908) {
-                func_001B8D30(p, 2);
+                SetMurrayBerserk__FP6MURRAYi(p, 2);
             } else if (!p->x1AC0 && g_clock - p->x1844 > D_002C0A30) {
-                func_001B8D30(p, 3);
+                SetMurrayBerserk__FP6MURRAYi(p, 3);
             }
             break;
         case 2:
             if (!p->x1900 || func_0020C0D8(p->x1900)) {
-                if (p->x1AC0) func_001B8D30(p, 0);
+                if (p->x1AC0) SetMurrayBerserk__FP6MURRAYi(p, 0);
                 else func_001B6078(p, 0);
             } else {
                 func_0020C0E8(p->x1900);

@@ -7,7 +7,7 @@ struct P {
     qword x1C0; qword x1D0;
 };
 M3 *func_001A6318(struct P *);
-void func_0011B830(M3 *, qword, qword);
+void BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(M3 *, qword, qword);
 void func_0011BA08(M3 *, qword, qword);
 static __inline__ qword MulV(M3 *pm, qword v)
 {
@@ -46,7 +46,7 @@ void func_0013B428(struct P *p, qword pos, qword q)
         MulStore(p, &m);
         break;
     case 1:
-        func_0011B830(&m, p->x1C0, g_normalZ);
+        BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(&m, p->x1C0, g_normalZ);
         p->mat = m;
         break;
     case 2:

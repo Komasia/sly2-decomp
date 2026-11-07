@@ -2,16 +2,16 @@
 // After the generic update (RenderSoSelf) and a camera visibility test of the connector's bounding sphere
 // (func_0014F850), each link is queried for its two end points and its length (func_001DEF98). A link longer than its
 // maximum is pulled back toward the first point, then the line object, the stretched middle object and the two end caps
-// (func_001A5FB8 / func_001A5EE8) are placed along the segment, in a basis built from the segment direction (func_0011B830).
+// (func_001A5FB8 / func_001A5EE8) are placed along the segment, in a basis built from the segment direction (BuildLookAtMatrix).
 // Matching notes (all found by reading the sched1/local-alloc/reload dumps):
 //  * The radius temporary VU_FLOAT(const float *, int) is a volatile empty asm (word load into a 128-bit GPR value); it acts as the
 //    scheduler barrier that keeps the camera/bound loads before the call arguments, which is what puts the camera address
 //    straight into $a0 and the bound pointer in $v1.
 //  * g_normalZ must NOT be const: a const global would be an unchanging load that sched2 moves above the spill store of `dir`.
-//  * `dir` is a plain qword that lives across func_0011B830, so it is spilled (store right after the vsub, reload for the
+//  * `dir` is a plain qword that lives across BuildLookAtMatrix, so it is spilled (store right after the vsub, reload for the
 //    argument and for Length). Length lists its input twice (as in the other matched Length/Dot helpers), which decides the
 //    reload register.
-//  * func_0011B830 / func_0011C210 return M3 / M4 by value (hidden result pointer), assigned to locals.
+//  * BuildLookAtMatrix / func_0011C210 return M3 / M4 by value (hidden result pointer), assigned to locals.
 //  * `matrix` is declared at link-loop scope and the facing branch writes rows 1/2 and the corner through a pointer
 //    (pm), rows 0 and the w words directly: that is the mixed sp / s2 addressing of the original.
 typedef int qword __attribute__((mode(TI)));
@@ -42,7 +42,7 @@ void RenderSoSelf(P *) asm("RenderSoSelf__FP2SOP2CMP2RO");
 int func_0014F850(CAMERA *, qword, VU_FLOAT);
 void func_001DEF98(P *, ENTRY *, qword *, float *);
 void func_001A5FB8(void *, qword, qword, float, float);
-M3 func_0011B830(qword, qword);
+M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M4 func_0011C210(qword, const M3 *, const U *);
 qword *func_00256D18(qword *, qword);
 void func_001A5EE8(void *, const M4 *, float, float);
@@ -104,7 +104,7 @@ extern "C" void func_001DF5B0(P *p)
         qword dir;
         if (p->stretch || p->endpoints[0].object || p->endpoints[1].object) {
             dir = Subtract(points[1].q, points[0].q);
-            basis = func_0011B830(dir, g_normalZ);
+            basis = BuildLookAtMatrix(dir, g_normalZ);
         }
         if (p->stretch) {
             float length = Length(dir);

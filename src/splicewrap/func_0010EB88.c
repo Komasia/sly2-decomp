@@ -1,12 +1,12 @@
 #include "splicewrap.h"
-void func_00162940(s32);                         /* extern */
+void ResetJob__FP3JOB(s32);                         /* extern */
 CRef *func_0010EB88(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 0, aref, NULL);
     Decref__4CRef(&ref);
     InitTag__4CRef(&ref, 0x24);
-    func_00162940(pbasic);
+    ResetJob__FP3JOB(pbasic);
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

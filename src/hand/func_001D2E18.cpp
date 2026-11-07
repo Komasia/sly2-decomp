@@ -39,7 +39,7 @@ extern "C" {
 void func_001F9B20(P *);
 M3 *func_001A6318(P *);
 void func_0011B938(const M3 *, M3 *, M3 *);
-void func_001F5C30(P *, const M3 *, const POLY *, qword, const POLY *);
+void AccelAloTowardRotation(P *, const M3 *, const POLY *, qword, const POLY *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 CONTACT *func_001D2DD0(P *, ENTRY *);
 qword func_0022D348(MOTION *, MOTION *, qword);
 void func_001FAB78(P *, qword, qword);
@@ -98,7 +98,7 @@ extern "C" void func_001D2E18(P *p)
     if (g_clock.time - p->lastCorrection > 3.0f) {
         M3 reset;
         func_0011B938(func_001A6318(p), 0, &reset);
-        func_001F5C30(p, &reset, &D_002C2100, D_002A2DD0, 0);
+        AccelAloTowardRotation(p, &reset, &D_002C2100, D_002A2DD0, 0);
     }
     U scalar, velocity, localVelocity, torque, worldTorque;
     M3 basis;

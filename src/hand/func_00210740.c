@@ -9,7 +9,7 @@ extern float D_002C3EA0[3];
 extern float D_002C3EB0[2];
 struct O *func_0015E938(struct G *, int, int, void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
-struct M *func_001FBB90(int);
+struct M *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(struct M *, struct O *);
 void SetFalloff__4CSndff(struct M *, float, float);
 void SetVolume__4CSndf(struct M *, float);
@@ -33,7 +33,7 @@ void func_00210740(float offset, float fade, float scale, struct G *p, int id, i
         offset += f;
     }
     offset += p->offset;
-    m = func_001FBB90(id);
+    m = PsndNewPlain__Fi(id);
     SetSource__4CSndPv(m, o);
     SetFalloff__4CSndff(m, (float)x, (float)y);
     SetVolume__4CSndf(m, scale);

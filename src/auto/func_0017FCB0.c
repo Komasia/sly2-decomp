@@ -1,15 +1,16 @@
 #include "m2c_prelude.h"
-M2C_UNK func_0017F6B0();                            /* extern */
-M2C_UNK func_0017FD08(s32, M2C_UNK);                /* extern */
-M2C_UNK func_00180100(s32);                         /* extern */
+M2C_UNK ResetHackSoBase__FP2LO();                            /* extern */
+M2C_UNK SetShipState__FP2LOi(s32, M2C_UNK);                /* extern */
+M2C_UNK UpdateHackHud__FP2LO(s32);                         /* extern */
 s32 func_001C40F8(s32);                             /* extern */
 
-void func_0017FCB0(s32 arg0) {
-    func_0017F6B0();
+// name: SafeHouse port (ResetShip)
+void ResetShip__FP2LO(s32 arg0) {
+    ResetHackSoBase__FP2LO();
     if (func_001C40F8(arg0) != 0) {
-        func_0017FD08(arg0, 1);
+        SetShipState__FP2LOi(arg0, 1);
     } else {
-        func_0017FD08(arg0, 0);
+        SetShipState__FP2LOi(arg0, 0);
     }
-    func_00180100(arg0);
+    UpdateHackHud__FP2LO(arg0);
 }

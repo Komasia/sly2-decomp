@@ -9,7 +9,7 @@ extern "C" float D_002BFA90[];
 struct CLOCK { float t,dt; };
 extern "C" struct CLOCK g_clock;
 
-extern "C" void func_001F5E10(struct O *p,qword a,int n,qword b,float *c);
+extern "C" void AccelAloTowardPosition(struct O *p,qword a,int n,qword b,float *c) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
 static inline qword Broadcast(float g) { qword q; __asm__("qmtc2.ni %1,%0" : "=j"(q) : "r"(g));return q; }
 static inline qword BroadcastTo(float g,U *u) { qword q=Broadcast(g); u->q=q;return q; }
 static inline qword Scale(qword a,qword b) { qword q; __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(q) : "j"(a),"j"(b));return q; }
@@ -23,7 +23,7 @@ extern "C" void func_001A1148(struct P *p)
  switch(p->state) {
  case 1:case 2:
   p->o->Negate(u);
-  func_001F5E10(p->o,D_002A2DD0,0,D_002A2DD0,D_002BFA90);
+  AccelAloTowardPosition(p->o,D_002A2DD0,0,D_002A2DD0,D_002BFA90);
   break;
  case 5:case 11:
   p->o->Negate(u2);
@@ -31,7 +31,7 @@ extern "C" void func_001A1148(struct P *p)
   zero=v.f[2];
   if(p->o->f198!=zero)
    v.f[2]=GetZ(((qword (*)(void *))p->o->vt[33].pfn)((char *)p->o+p->o->vt[33].d));
-  func_001F5E10(p->o,D_002A2DD0,0,v.q,D_002BFA90);
+  AccelAloTowardPosition(p->o,D_002A2DD0,0,v.q,D_002BFA90);
   if(p->o->f198!=zero) {
    u.f[2]=zero;u.f[1]=zero;u.f[0]=zero;
    u.f[2]=(-p->o->f198-v.f[2])/g_clock.dt;

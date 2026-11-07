@@ -10,7 +10,7 @@ void RenderSoSelf(S*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 float func_001E6630(void*);
 M3 *func_001A6318(S*);
 void func_001E67B8(void*,float,qword*,qword*);
-M3 func_0011B830(qword,qword);
+M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_001E9AC0(S*);
 }
 static inline qword Transform(M3 *m,qword a) { __asm__("vmulax.xyz $ACC,%1,%0x\n\tvmadday.xyz $ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(a):"j"(m->a),"j"(m->b),"j"(m->c));return a; }
@@ -36,7 +36,7 @@ void func_001E9AC0(S *p)
     U pos,dir;
     func_001E67B8(p->path,Min(end,src->f[3]),&pos.q,&dir.q);
     M3 m;
-    M3 tmp=func_0011B830(dir.q,axis);
+    M3 tmp=BuildLookAtMatrix(dir.q,axis);
     m=tmp;
     qword result=Add(Transform(&m,src->q),pos.q);
     src++;

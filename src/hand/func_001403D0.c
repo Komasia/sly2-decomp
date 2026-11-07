@@ -23,8 +23,8 @@ int func_001449C8(int *pl);
 void func_001E46A0(void *p, struct Q *q);
 void func_00140558(struct P *p);
 void func_001A2460(struct P *p);
-void func_00140750(struct P *p);
-void func_00142AF8(struct P *p);
+void UpdateActorNoise__FP5ACTOR(struct P *p);
+void UpdateActorLook__FP5ACTOR(struct P *p);
 int func_00131968(int x);
 void func_001306A8(int *px);
 int func_0014FD50(void *p);
@@ -53,8 +53,8 @@ void func_001403D0(struct P *p)
     }
     func_00140558(p);
     func_001A2460(p);
-    func_00140750(p);
-    func_00142AF8(p);
+    UpdateActorNoise__FP5ACTOR(p);
+    UpdateActorLook__FP5ACTOR(p);
     if (p->xEFC && func_00131968(p->xEFC))
         func_001306A8(&p->xEFC);
     if (!func_0014FD50(D_002DE2E0) && p->x150->x80 == 1 && func_001C4660(p->x150, 0.0f, 0x100)) {

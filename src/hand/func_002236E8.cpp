@@ -1,4 +1,4 @@
-// func_002236E8 = UpdateCmLineOfSight__FP7CMPART2 (Sly2Port KB name): the follow camera's line-of-sight test.
+// CheckFocusVisible__FP8CPFOLLOW = UpdateCmLineOfSight__FP7CMPART2 (Sly2Port KB name): the follow camera's line-of-sight test.
 // Every D_002C4110 (0.5) seconds it looks at five points around the hero (PosLoWorld + back * x + side * y + up * z
 // for the five offsets in D_002C4290; side = normalize(up x (hero - eye)) or (1, 0, 0) when the hero is straight
 // above). Each point is projected onto the screen, moved to the near clip depth and the segment between the two is
@@ -105,7 +105,8 @@ static inline qword QwAxesXyz(qword qwV, qword qwBack, qword qwSide, qword qwUp)
     return qw;
 }
 
-extern "C" void func_002236E8(CMPART2 *pcmpart)
+// name: SafeHouse port (CheckFocusVisible)
+extern "C" void CheckFocusVisible__FP8CPFOLLOW(CMPART2 *pcmpart)
 {
     LO *plo = pcmpart->pvHero;
     if (g_grfusr & 2)

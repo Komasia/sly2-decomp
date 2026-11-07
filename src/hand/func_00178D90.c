@@ -6,7 +6,7 @@ struct S { char pad[0x10]; void *p10; char pad2[0x1C]; struct O *po; float g34; 
 qword func_001A62E8(void *p);
 void func_001E7380(struct O *po, float g, qword q, struct G *pg, void *pv, int b, int c, float *pf);
 void func_001E6F60(struct O *po, qword q, struct G *pg, void *pv, int b, int c, float *pf);
-float func_001E6620(struct O *po);
+float SMinCrv__FP3CRV(struct O *po);
 float func_001E6648(struct O *po);
 void func_001E6F10(struct O *po, float g, void *pv, int n);
 // name: SafeHouse port (JOBFOLLOW::Follow)
@@ -23,7 +23,7 @@ void Follow__9JOBFOLLOWP3CRVi(struct S *p, struct O *po, int n) {
         p->n3C = 0;
     } else {
         p->n3C = 1;
-        if (p->n38) p->g44 = func_001E6620(po);
+        if (p->n38) p->g44 = SMinCrv__FP3CRV(po);
         else p->g44 = func_001E6648(po);
         func_001E6F10(po, p->g44, p->aB0, 0);
     }

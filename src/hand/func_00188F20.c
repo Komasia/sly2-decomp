@@ -15,7 +15,7 @@ extern char D_002BF2A0[];
 extern char D_002BF2B8[];
 
 extern void func_00140F90(void *p, int msg, void *pv);
-extern void func_0018E540(void *p, int n);
+extern void SetSlyMode__FP3SLYi(void *p, int n);
 extern void func_0018C250(void *p, int a, int b);
 extern void func_00131B10(void *a, void *p, int c);
 extern void func_00131B60(void *a, void *p, int c, void *d);
@@ -28,7 +28,7 @@ extern void *func_00205458(void *p, int n);
 extern void func_0017B1A8(void *p, int n);
 extern void func_00156B98(void *p, int a, qword q, void *c);
 extern void func_00195A00(void *p, int a, int b, int c);
-extern void func_0018D698(void *p, E *pe, void *c);
+extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, E *pe, void *c);
 
 
 static __inline__ void ClearX(CLR *px) { px->a = px->b = px->c = 0; }
@@ -41,9 +41,9 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
     case 3:
         if (pv == F(void *, 0x18E0)) {
             if (F(int, 0x18D8) == 10)
-                func_0018E540(p, 2);
+                SetSlyMode__FP3SLYi(p, 2);
             else
-                func_0018E540(p, -1);
+                SetSlyMode__FP3SLYi(p, -1);
             break;
         }
         if (pv != F(void *, 0x1030))
@@ -149,7 +149,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
         pe = (E *)A(0x1FB0);
         for (i = 0; i < 4; i++, pe++) {
             if (pe->x8 == pv)
-                func_0018D698(p, pe, 0);
+                SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(p, pe, 0);
         }
         break;
     }
@@ -165,16 +165,16 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
             switch (F(int, 0x18D8)) {
             case 4: case 6: case 0xC: case 0xE: case 0x10: case 0x12: case 0x14:
                 func_0018C250(p, 0, -1);
-                func_0018E540(p, 8);
+                SetSlyMode__FP3SLYi(p, 8);
                 break;
             case 5: case 7: case 0xD: case 0xF: case 0x11: case 0x13: case 0x15:
                 func_0018C250(p, 0, -1);
-                func_0018E540(p, 9);
+                SetSlyMode__FP3SLYi(p, 9);
                 break;
             }
         } else if (k & 4) {
             func_0018C250(p, 0, -1);
-            func_0018E540(p, 8);
+            SetSlyMode__FP3SLYi(p, 8);
         }
         break;
     }

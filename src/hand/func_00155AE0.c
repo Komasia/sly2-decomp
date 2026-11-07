@@ -13,7 +13,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 extern float D_002A5138;
-void func_0020AC28(struct SO *pso, int a, int b, qword q);
+void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct SO *pso, int a, int b, qword q);
 float GRandInRange__Fff(float a, float b);
 void func_001EF0D8(int *p);
 void *PloEnd__5JOBB5(struct X *p);
@@ -44,7 +44,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
     if (k == p->state) return;
     switch (p->state) {
     case 1:
-        func_0020AC28(p->pso, 0, 0, D_002A2DD0);
+        SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pso, 0, 0, D_002A2DD0);
         break;
     case 3:
         {

@@ -26,7 +26,7 @@ struct X { char pad[0x40]; float a; float b; char pad2[0x18]; } __attribute__((a
 struct G { char pad[0x3D70]; int n3D70; };
 extern struct G g_sw;
 extern float D_002C367C;
-float func_001E6620(struct O *);
+float SMinCrv__FP3CRV(struct O *);
 float func_001E6648(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
 void *func_001E9F50(qword);
@@ -55,7 +55,7 @@ void func_001EA000(struct S *ps)
     }
     aseg = ps->aseg10;
     cseg = 0;
-    tStart = func_001E6620(ps->po);
+    tStart = SMinCrv__FP3CRV(ps->po);
     t = tStart;
     tEnd = func_001E6648(ps->po);
     asegSrc = ps->aseg;

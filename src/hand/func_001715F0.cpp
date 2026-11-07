@@ -22,7 +22,7 @@ void PlaceGuard(struct S *p, qword q, float g) asm("PlaceGuard__FP5GUARDG9VU_VEC
 void *func_00205438(struct A *a, int k);
 void func_001E9C30(void *o);
 void SetDirection(void *o, int n) asm("SetDirection__7JOBRAILi");
-void func_0017D110(void *o, int n);
+void SetDirectionLadder(void *o, int n) asm("SetDirection__9JOBLADDERi");   /* JOBLADDER::SetDirection */
 void func_002562A8(struct X *x);
 inline X::X() { func_002562A8(this); }
 int FIsBasicDerivedFrom(void *o, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -114,7 +114,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         }
         case 1: {
             struct O *o2 = (struct O *)func_00205438(a, 0xB9);
-            func_0017D110(o2, (int)p->p38->p8);
+            SetDirectionLadder(o2, (int)p->p38->p8);
             VCALL8(o2);
             break;
         }

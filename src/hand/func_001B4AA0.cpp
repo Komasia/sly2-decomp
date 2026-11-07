@@ -38,35 +38,36 @@ extern "C" CLOCK g_clock;
 extern "C" float D_002C08DC,D_002C08E0;
 extern "C" void func_00195A00(void*,int,void*,void*);
 extern "C" void func_0019CC50(void*,int,void*,void*);
-extern "C" int func_00140AF8(P*,int);
+extern "C" int FActorTargetInReach(P*,int) asm("FActorTargetInReach__FP5ACTORi");
 extern "C" void func_001B6078(P*,int);
 extern "C" unsigned func_001C46C0(PL*,unsigned,float);
 extern "C" unsigned func_001C4660(PL*,unsigned,float);
 extern "C" void func_001C4738(PL*,int);
 extern "C" int func_001B84E0(P*);
 extern "C" void func_001B85D0(P*);
-extern "C" void func_001B8508(P*);
-extern "C" int func_001B70A0(P*);
+extern "C" void StartMurrayPunch(P*) asm("StartMurrayPunch__FP6MURRAY");
+extern "C" int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
 extern "C" int func_001938C0(void*,unsigned,int);
 extern "C" void func_00197500(void*);
 extern "C" int func_00143D20(P*,float);
 extern "C" void func_001911A8(void*);
 extern "C" void func_001A12F0(void*);
-extern "C" void func_001B6BA8(P*);
+extern "C" void UpdateMurrayFlop(P*) asm("UpdateMurrayFlop__FP6MURRAY");
 extern "C" void func_001B5380(P*);
-extern "C" void func_001B5820(P*);
+extern "C" void UpdateMurrayHold(P*) asm("UpdateMurrayHold__FP6MURRAY");
 extern "C" void func_001B92F8(P*);
 extern "C" int func_00131968(void*);
 extern "C" int func_001F0638(void*);
-extern "C" void func_001B8988(P*);
-extern "C" void func_001B5990(P*);
-extern "C" void func_001B8EC0(P*);
+extern "C" void UpdateMurrayPunchTransitions(P*) asm("UpdateMurrayPunchTransitions__FP6MURRAY");
+extern "C" void UpdateMurrayBehavior(P*) asm("UpdateMurrayBehavior__FP6MURRAY");
+extern "C" void UpdateMurrayBerserkTransitions(P*) asm("UpdateMurrayBerserkTransitions__FP6MURRAY");
 extern "C" void func_0021F418(void*);
 extern "C" void func_0019E1E0(void*);
 extern "C" int func_00141EA8(P*,int);
 static inline PL*CopyPL(PL*source){PL*result;__asm__("daddu %0,%1,$zero":"=r"(result):"r"(source));return result;}
 static inline int Can(P*p,int kind){return ((int(*)(void*,int))p->vt[99].fn)((char*)p+p->vt[99].delta,kind);}
-extern "C" void func_001B4AA0(P*p){
+// name: SafeHouse port (UpdateMurrayTransitions)
+extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
  int state;
  do{
   state=p->state;
@@ -85,7 +86,7 @@ extern "C" void func_001B4AA0(P*p){
   int finished;
   switch(p->state){
   case 0:case 1:case 10:{
-   if(!(p->input->flags&8)&&func_00140AF8(p,0)){func_001B6078(p,9);break;}
+   if(!(p->input->flags&8)&&FActorTargetInReach(p,0)){func_001B6078(p,9);break;}
    if(func_001C46C0(p->input,0x40,0.1f)){func_00195A00(&p->control,1,0,0);break;}
    if(func_001C4660(p->input,0x400,0.15f)&&Can(p,3)){
     func_001C4738(p->input,0x400);
@@ -93,12 +94,12 @@ extern "C" void func_001B4AA0(P*p){
     break;
    }
    if(func_001B84E0(p)&&func_001C46C0(p->input,0x10,D_002C08DC)){func_001B85D0(p);break;}
-   if(func_001B70A0(p))break;
+   if(FMurrayGrab(p))break;
    if(func_001C46C0(p->input,0x20,0.2f)){
     if(!func_001938C0(&p->gate,0xF8FA,0)&&p->root){p->flag=0;func_001B6078(p,4);}
     break;
    }
-   if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC)){func_001B8508(p);break;}
+   if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC)){StartMurrayPunch(p);break;}
    PL*input=p->input;PL*flagsInput=CopyPL(input);register int current __asm__("$3")=p->state;
    if(current==0){if(input->amount>0.1f)goto moving;}
    else if(input->amount>0.0f)goto moving;
@@ -120,14 +121,14 @@ extern "C" void func_001B4AA0(P*p){
    break;
   case 13:func_001911A8(&p->gate);break;
   case 14:func_001A12F0(p->action);break;
-  case 3:func_001B6BA8(p);break;
+  case 3:UpdateMurrayFlop(p);break;
   case 5:func_001B5380(p);break;
-  case 6:func_001B5820(p);break;
+  case 6:UpdateMurrayHold(p);break;
   case 4:func_001B92F8(p);break;
   case 7:case 8:finished=func_00131968(p->animation);goto checkIdle;
-  case 11:func_001B8988(p);break;
-  case 9:func_001B5990(p);break;
-  case 12:func_001B8EC0(p);break;
+  case 11:UpdateMurrayPunchTransitions(p);break;
+  case 9:UpdateMurrayBehavior(p);break;
+  case 12:UpdateMurrayBerserkTransitions(p);break;
   case 15:func_0021F418(p->extra);break;
   case 20:func_0019E1E0(p->physics);break;
   case 17:

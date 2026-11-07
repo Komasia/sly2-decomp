@@ -49,7 +49,7 @@ extern const qword D_002C2150[5];
 /* -FLT_MAX / FLT_MAX below are constant-pool literals (0x2A7838/0x2A783C), not globals: their REG_EQUAL sets order f24/f26 */
 
 extern "C" {
-qword func_001A6F00(OWNER *, OWNER *, qword);
+qword ConvertPos(OWNER *, OWNER *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 qword *func_00256D18(qword *, qword);
 M4 func_0011C318(const M4 *);
 void func_00119390(VECTOR4 *, qword, qword);
@@ -156,7 +156,7 @@ extern "C" void func_001D3450(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unu
     M4 *pmat = GetMatrix(owner);
     M4 frame;
     M4 *pframe = &frame;
-    BuildFrame(pframe, pmat, func_001A6F00(owner, 0, wheel->pos));
+    BuildFrame(pframe, pmat, ConvertPos(owner, 0, wheel->pos));
     M4 inverse;
     inverse = func_0011C318(pframe);
     float height = wheel->top - wheel->bottom;

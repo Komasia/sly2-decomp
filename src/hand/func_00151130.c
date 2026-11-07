@@ -3,7 +3,7 @@ extern char g_cm[];
 void Stop__4CSndf(void *p, float g);
 void func_00258040(void **pp, int n);
 void func_0014D8C0(void *p);
-void func_0014FCE8(struct A *a, int n, void *b);
+void Deactivate__5CPLCYP2LOPv(struct A *a, int n, void *b);
 static inline void Release(void **pp, float g)
 {
     if (pp && *pp) {
@@ -11,7 +11,8 @@ static inline void Release(void **pp, float g)
         func_00258040(pp, 0);
     }
 }
-void func_00151130(struct A *a, int n, void *b)
+// name: SafeHouse port (CPFREE::Deactivate)
+void Deactivate__6CPFREEP2LOPv(struct A *a, int n, void *b)
 {
     Release(&a->pC0, 0.0f);
     Release(&a->pC4, 0.5f);
@@ -20,5 +21,5 @@ void func_00151130(struct A *a, int n, void *b)
     a->n40 = 0;
     a->g18 = -1.0f;
     func_0014D8C0(g_cm);
-    func_0014FCE8(a, n, b);
+    Deactivate__5CPLCYP2LOPv(a, n, b);
 }

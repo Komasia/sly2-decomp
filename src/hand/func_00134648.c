@@ -11,11 +11,12 @@ struct P {
     int padC[2]; int x1854; int padD[2]; int x1860; int padE[3]; int x1870;
 };
 extern struct P *D_002DD5BC;
-void func_0013FF70(struct P *p);
+void InitActorFields__FP5ACTOR(struct P *p);
 void func_0020B840(void *pv, struct P *p, int n);
-void func_00134648(struct P *p)
+// name: SafeHouse port (InitBentley)
+void InitBentley__FP7BENTLEY(struct P *p)
 {
-    func_0013FF70(p);
+    InitActorFields__FP5ACTOR(p);
 //{
     p->x1040 = 0;
     p->x13D0 = -1;

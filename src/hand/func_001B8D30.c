@@ -52,7 +52,8 @@ typedef char O_Size[sizeof(struct O)==112?1:-1];
 typedef char P_Size[sizeof(struct P)==6416?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char V3_Size[sizeof(union V3)==16?1:-1];
-void func_001B8D30(struct P *p, int st)
+// name: SafeHouse port (SetMurrayBerserk)
+void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
 {
     struct CLIP *o;
     int n;

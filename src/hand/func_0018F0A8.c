@@ -6,10 +6,11 @@ struct S {
 int func_001C46C0(struct T *p, int n, float g);
 void func_00195A00(void *p, int a, int b, int c);
 void func_0018C250(struct S *p, int a, int b);
-void func_0018E540(struct S *p, int n);
-int func_0018F050(struct S *p);
-int func_0018EE38(struct S *p);
-void func_0018F0A8(struct S *p)
+void SetSlyMode__FP3SLYi(struct S *p, int n);
+int NSlyNextTriangle__FP3SLY(struct S *p);
+int NSlyNextSwing__FP3SLY(struct S *p);
+// name: SafeHouse port (UpdateSlyButtons)
+void UpdateSlyButtons__FP3SLY(struct S *p)
 {
     int f;
     switch (p->x18d8) {
@@ -51,11 +52,11 @@ void func_0018F0A8(struct S *p)
         if (!p->x18e4) return;
     case -1:
         if (func_001C46C0(p->pt, 0x10, 0.35f)) {
-            func_0018E540(p, -1);
-            func_0018E540(p, func_0018F050(p));
+            SetSlyMode__FP3SLYi(p, -1);
+            SetSlyMode__FP3SLYi(p, NSlyNextTriangle__FP3SLY(p));
         } else if (func_001C46C0(p->pt, 0x80, 0.35f)) {
-            func_0018E540(p, -1);
-            func_0018E540(p, func_0018EE38(p));
+            SetSlyMode__FP3SLYi(p, -1);
+            SetSlyMode__FP3SLYi(p, NSlyNextSwing__FP3SLY(p));
         }
         break;
     }

@@ -7,8 +7,9 @@ struct S { char pad[0xF00]; struct O *po; float t; };
 void func_00209360(struct C *pc);
 float GRandInRange__Fff(float a, float b);
 void func_00209278(struct C *pc, struct S *p, int fl, float g);
-void func_0020AC28(struct S *p, struct O *po, int n, qword v);
-void func_0020AB68(struct S *p, struct O *po, int n, qword v)
+void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct O *po, int n, qword v);
+// name: SafeHouse port (SetGuardResponse)
+void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct S *p, struct O *po, int n, qword v)
 {
     if (p->po) {
         float t;
@@ -23,5 +24,5 @@ void func_0020AB68(struct S *p, struct O *po, int n, qword v)
         func_00209278(po->pc, p, po->pc->fl | 1, 0.0f);
         p->t = D_002A88C4;
     }
-    func_0020AC28(p, po, n, v);
+    SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p, po, n, v);
 }

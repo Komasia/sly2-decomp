@@ -3,13 +3,13 @@ struct S { char pad[0x40]; int x40; char p1[0x150 - 0x44]; int x150; int x154; i
     char p4[0x204 - 0x1D0]; int x204; int x208; int x20C; int x210; int x214; int x218; float x21C; int x220; int x224; };
 extern float D_002A7710;
 void InitSo__FP2SO(struct S *p);
-void func_001F7918(struct S *p, int a, int b);
+void SetAloXpBytes__FP3ALOUiUc(struct S *p, int a, int b);
 static inline int FPtr(int v) { return !(v & 1); }
 void func_001C4E50(struct S *p)
 {
     int v;
     InitSo__FP2SO(p);
-    func_001F7918(p, 0x17E, 8);
+    SetAloXpBytes__FP3ALOUiUc(p, 0x17E, 8);
     v = p->x40;
     p->x21C = 30.0f;
     p->x1C8 = 1;

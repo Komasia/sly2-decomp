@@ -17,7 +17,7 @@ extern "C" char *func_0021ED58(char *, const char *);
 extern "C" char *func_0021EDA0(char *, const char *);
 extern "C" int func_001A2C98(void);
 char *func_0013E368(G *, int);
-CRef func_002581C0(void *, void *);
+CRef NProgress(void *, void *) asm("NProgress");
 extern "C" void func_001DDBF0(char *pch)
 {
     float g;
@@ -29,7 +29,7 @@ extern "C" void func_001DDBF0(char *pch)
     g = 0.0f;
     pv = D_002E65E0.xFD54;
     if (pv) {
-        CRef ref = func_002581C0(g_sw.x3B1C, pv);
+        CRef ref = NProgress(g_sw.x3B1C, pv);
         g = ref.m_g;
     }
     {

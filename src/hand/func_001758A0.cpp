@@ -63,12 +63,12 @@ int FTargetrecAllows(void *, P *) asm("FTargetrecAllows__FP9TARGETRECP5GUARD");
 qword func_001A62E8(P *);
 unsigned func_001C9950(unsigned);
 int func_0011D910(LM *, float);
-qword func_001A6F00(P *, P *, qword);
+qword ConvertPos(P *, P *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 float func_002458F0(float, float);
 int func_00175820(void *, void *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, void *), void *, int *, void ***);
 int func_0014CC58(int, qword, qword, int, void **, LSG *);
-void func_0020AB68(P *, ENTRY *, void *, qword);
+void SetGuardResponse(P *, ENTRY *, void *, qword) asm("SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR");
 void SetTargetrecTimer(void *, int) asm("SetTargetrecTimer__FP9TARGETRECi");
 }
 static inline qword QwSub(qword qw0, qword qw1)
@@ -181,7 +181,7 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
         if (!func_0011D910(&entry->height, height))
             continue;
         {
-            qword local = func_001A6F00(0, p, to);
+            qword local = ConvertPos(0, p, to);
             angle = __builtin_fabsf(func_002458F0(GYOfQw(local), GXOfQw(local)));
         }
         gain = D_002BE600.a + distance * (D_002BE600.b + distance * D_002BE600.c);
@@ -216,7 +216,7 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
                 M4 frame;
                 VTE *e = &target->vt[32];
                 void *owner = ((void *(*)(void *, M4 *))e->fn)((char *)target + e->delta, &frame);
-                func_0020AB68(p, entry, owner, frame.row[3].q);
+                SetGuardResponse(p, entry, owner, frame.row[3].q);
                 entry = 0;
                 if (gate)
                     SetTargetrecTimer(gate, 3);

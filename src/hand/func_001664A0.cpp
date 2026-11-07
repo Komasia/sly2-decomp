@@ -42,7 +42,8 @@ static inline PLANE *FinalPlane(PLANE *base,int count){
  return last;
 }
 
-extern "C" void func_001664A0(const M4*matrix,GEOMETRY*source,GEOMETRY*dest){
+// name: SafeHouse port (TransformGeom)
+extern "C" void TransformGeom__FP7MATRIX4P4GEOMT1(const M4*matrix,GEOMETRY*source,GEOMETRY*dest){
  register const M4 *inverseSource asm("$16")=matrix;
  if(source->points!=dest->points){
   func_00166428(matrix,source->pointCount,source->points,dest->points);

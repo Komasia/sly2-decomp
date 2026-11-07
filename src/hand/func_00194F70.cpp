@@ -49,7 +49,7 @@ void func_002338C0(void *base, uint c, uint cb, int (*pfnCmp)(const void *, cons
 void *func_002332B8(void *dst, const void *src, uint cb);   // memmove
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf");   // GSmooth
 void func_001F7BF8(LO *plo, float g);
-void func_001619A0(void *pv, int msg, LO *plo);
+void BroadcastTaskEvent(void *pv, int msg, LO *plo) asm("BroadcastTaskEvent__FP2SWiP2LO");
 LO *func_001956D0(SW *psw, int id, JTGRABCAND *pcand);
 void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand);
 }
@@ -143,7 +143,7 @@ void func_00194F70(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtg
             pcand->ploUnk10 = plo;
         }
         psw->ajtgrabcand[psw->cjtgrabcand++] = *pcand;
-        func_001619A0(g_game, 0x3D, pcand->plo);
+        BroadcastTaskEvent(g_game, 0x3D, pcand->plo);
     }
     func_002338C0(ajtgrabcandOld, psw->cjtgrabcand, sizeof(JTGRABCAND), func_00194F48);
 }

@@ -2,10 +2,11 @@ typedef struct CRef { int m_tagk; int m_tag; } CRef;
 struct Y;
 struct X { char pad[0x54]; int n; char pad1[0x64 - 0x58]; struct X *f64; char pad2[0x7C - 0x68]; struct X *f7c; char pad3[0x94 - 0x80]; int c; struct X **apx; char pad4[0xE0 - 0x9C]; int fe0; int pad5; int fe8; };
 extern char D_003D4A60[];
-void func_002581C0(CRef *pref, void *a, void *b);
+void NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
-void func_001657D0(struct X *p, int n);
-void func_00164270(struct X *p)
+void SetTaskState__FP4TASKi(struct X *p, int n);
+// name: SafeHouse port (RestoreTask)
+void RestoreTask__FP4TASK(struct X *p)
 {
     CRef ref;
     int *pn;
@@ -15,7 +16,7 @@ void func_00164270(struct X *p)
     f = 0;
     if (*pn) {
         int nT;
-        func_002581C0(&ref, pn, D_003D4A60);
+        NProgress(&ref, pn, D_003D4A60);
         nT = ref.m_tag;
         func_00129EC8(&ref);
         n = nT;
@@ -23,7 +24,7 @@ void func_00164270(struct X *p)
     pn = &p->fe8;
     if (*pn) {
         int nT;
-        func_002581C0(&ref, pn, D_003D4A60);
+        NProgress(&ref, pn, D_003D4A60);
         nT = ref.m_tag;
         func_00129EC8(&ref);
         f = nT;
@@ -44,5 +45,5 @@ void func_00164270(struct X *p)
     }
     if (!n)
         n = p->c == 0;
-    func_001657D0(p, n);
+    SetTaskState__FP4TASKi(p, n);
 }

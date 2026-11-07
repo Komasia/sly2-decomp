@@ -13,7 +13,7 @@ typedef struct P {
     V xF0;
 } P;
 static inline void SetV(V *pv, float x, float y, float z) { pv->x = x; pv->y = y; pv->z = z; }
-int func_00230310(int);
+int FXfmMoving(int);
 int func_00230348(int);
 int func_00230380(int);
 M4 func_0022CDC0(P *);
@@ -21,11 +21,12 @@ M4 func_0011C318(P *);
 M4 func_0011C168(M4 *, M4 *);
 void func_0022C818(S *, P *);
 
-void func_002303A0(S *s, P *p, int n)
+// name: SafeHouse port (SetXfMode)
+void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
 {
     if (n == p->x98)
         return;
-    if (func_00230310(n) && !func_00230310(p->x98)) {
+    if (FXfmMoving(n) && !FXfmMoving(p->x98)) {
         M4 m;
         M4 t;
         t = func_0022CDC0(p);

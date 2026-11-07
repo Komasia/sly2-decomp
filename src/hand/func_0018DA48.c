@@ -10,10 +10,10 @@ extern float D_002BF3EC;
 extern float D_002BF3F0;
 extern float D_003E1BEC;
 
-extern void func_001619A0(void *p, int n, void *pv);
+extern void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *pv);
 extern void func_00141CD0(void *p, int n);
 extern void func_0014D1D0(void *p, int n, float g);
-extern void *func_001FBB90(int n);
+extern void *PsndNewPlain__Fi(int n);
 extern void SetSource__4CSndPv(void *p, int n);
 extern void func_00258040(void *p, void *pv);
 extern void func_0018C250(void *p, int a, int b);
@@ -23,7 +23,7 @@ extern void func_002206C8(void *p, int n);
 extern void func_001928F8(void *p, int a, int b, int c);
 extern OBJ *func_001CB250(int oid, int n);
 extern int func_00224610(OBJ *p);
-extern void func_0018D698(void *p, REC *prec, OBJ *pobj);
+extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, REC *prec, OBJ *pobj);
 extern void func_00141EA8(void *p, int n);
 extern void ExplodeExpl__FP4EXPL(int x);
 extern void func_00195A00(void *p, int a, int b, int c);
@@ -32,14 +32,14 @@ extern void func_00141D38(void *p, int n);
 void func_0018DA48(char *p, int n)
 {
     g_game.xC = n;
-    func_001619A0(&g_game, 0x3C, p);
+    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, p);
     switch (n) {
     case 0x1D: {
         void *pv;
         func_00141CD0(p, n);
         func_0014D1D0(g_clock, 1, D_002BF3EC);
         D_003E1BEC = -1.0f;
-        pv = func_001FBB90(0x67);
+        pv = PsndNewPlain__Fi(0x67);
         SetSource__4CSndPv(pv, 0);
         func_00258040(A(0x2044), pv);
         break;
@@ -49,7 +49,7 @@ void func_0018DA48(char *p, int n)
         func_00141CD0(p, n);
         func_0014D1D0(g_clock, 1, D_002BF3F0);
         D_003E1BEC = 0.7f;
-        pv = func_001FBB90(0x66);
+        pv = PsndNewPlain__Fi(0x66);
         SetSource__4CSndPv(pv, 0);
         func_00258040(A(0x2044), pv);
         break;
@@ -82,7 +82,7 @@ void func_0018DA48(char *p, int n)
         pobj->x15C = prec->x0;
         if (func_00224610(pobj)) {
             pobj->x16C = p;
-            func_0018D698(p, prec, pobj);
+            SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(p, prec, pobj);
         }
         F(OBJ *, 0x11C0) = pobj;
         func_00141EA8(p, n);

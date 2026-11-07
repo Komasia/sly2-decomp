@@ -4,7 +4,8 @@ struct O { char pad[0x150]; struct Q *pq; char pad2[0x10DC - 0x154]; void *p10DC
 struct P { struct O *po; int x4; int x8; int xC; };
 qword func_0011E1A0(float a, float b, float c);
 qword func_001A62E8(void *p);
-int func_001374F0(struct P *p)
+// name: SafeHouse port (SelectSlyDodgeSide)
+int SelectSlyDodgeSide__FP3SLY(struct P *p)
 {
     float zero = 0.0f;
     struct Q *pq = p->po->pq;

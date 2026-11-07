@@ -4,7 +4,7 @@ void Stop__4CSndf(void *p, float g);
 void func_00258040(void **pp, int n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 void func_0014D8D8(void *p, float a, float b);
-void func_0014FCE8(struct A *a, int n, void *b);
+void Deactivate__5CPLCYP2LOPv(struct A *a, int n, void *b);
 static inline void Release(void **pp, float g)
 {
     if (pp && *pp) {
@@ -12,7 +12,8 @@ static inline void Release(void **pp, float g)
         func_00258040(pp, 0);
     }
 }
-void func_00150610(struct A *a, int n, void *b)
+// name: SafeHouse port (CPRECON::Deactivate)
+void Deactivate__7CPRECONP2LOPv(struct A *a, int n, void *b)
 {
     Release(&a->p34, 0.0f);
     Release(&a->p38, 0.5f);
@@ -20,5 +21,5 @@ void func_00150610(struct A *a, int n, void *b)
         func_0014D8D8(g_cm, a->g10 + 3.1415927f, -a->g14);
     else
         func_0014D8D8(g_cm, a->g4C + 3.1415927f, -a->g50);
-    func_0014FCE8(a, n, b);
+    Deactivate__5CPLCYP2LOPv(a, n, b);
 }

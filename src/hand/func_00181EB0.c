@@ -6,9 +6,10 @@ extern struct CLOCK g_clock;
 extern char g_game[];
 void RemoveDlEntry__FP2DLPv(void *pdl, void *pv);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
-void func_001619A0(void *g, int n, struct S *p);
-void func_00181B60(struct S *p, struct R *r);
-void func_00181EB0(struct S *p, struct Q *q, int n)
+void BroadcastTaskEvent__FP2SWiP2LO(void *g, int n, struct S *p);
+void LayoutSwarmEnt__FP5SWENTPv(struct S *p, struct R *r);
+// name: SafeHouse port (SetSwarmQState)
+void SetSwarmQState__FP2LOP3SWQi(struct S *p, struct Q *q, int n)
 {
     struct R *r;
     if (n == q->n) return;
@@ -19,6 +20,6 @@ void func_00181EB0(struct S *p, struct Q *q, int n)
     r->c--;
     RemoveDlEntry__FP2DLPv(r->dl, q);
     AppendDlEntry__FP2DLPv(p->dl, q);
-    if (!r->c) func_001619A0(g_game, 0x3A, p);
-    func_00181B60(p, r);
+    if (!r->c) BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x3A, p);
+    LayoutSwarmEnt__FP5SWENTPv(p, r);
 }

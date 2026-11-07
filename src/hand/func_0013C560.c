@@ -35,17 +35,17 @@ void func_001CB4B8(void *pv, struct O *p);
 void func_001CB488(void *pv, struct O *p);
 void func_001F6A68(struct O *p);
 void func_001F6978(struct O *p, int n);
-void func_001F2AD0(struct O *p, void *pv);
+void SetSoeOff__FP3ALOP3SOE(struct O *p, void *pv);
 void func_001F6AC8(struct O *p, int n);
 void func_001F6B48(struct O *p, int n);
 void func_001618F8(struct GS *pgs, float g);
 qword func_001A62E8(void *p);
 void func_00156C80(struct GS *pgs, int n, qword v, struct Q *pq, void *pv);
-void func_001619A0(void *pv, int n, struct O *p);
+void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, struct O *p);
 void func_00161958(struct GS *pgs);
-void func_001F5720(struct O *p, int n);
-void func_001F57C0(struct O *p, int n);
-void func_001F5880(struct O *p, qword v);
+void SetAloCnstrLin__FP3ALOi(struct O *p, int n);
+void SetAloCnstrAng__FP3ALOi(struct O *p, int n);
+void SetAloGravity__FP3ALOG9VU_VECTOR(struct O *p, qword v);
 void func_001A58D0(struct O *p, void *pv, int n);
 void func_001A6BE8(struct O *p, void *pv);
 void func_001F7C68(struct O *p, float g);
@@ -153,7 +153,7 @@ void func_0013C560(struct O *p, int st)
         for (i = 0; i < p->pst->c1C; i++)
             func_001F6978(p, p->pst->a20[i]);
         for (i = 0; i < p->cE0; i++)
-            func_001F2AD0(p, p->aE4 + i * 0xB0);
+            SetSoeOff__FP3ALOP3SOE(p, p->aE4 + i * 0xB0);
         if (p->pst->x18 != -1)
             func_001F6AC8(p, p->pst->x18);
         break;
@@ -162,7 +162,7 @@ void func_0013C560(struct O *p, int st)
             func_001618F8(&g_sw, p->pq->g18C + 0.99f);
         func_00156C80(&g_sw, 1, func_001A62E8(p->pq), p->pq, (char *)p->pq + 0x198);
         if (st == 2)
-            func_001619A0(g_game, 0x2F, p);
+            BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2F, p);
         p->pq->p194 = 0;
         p->pq = 0;
         VCALL(p, 3, PFN3), 5, 0, 0, 0, 0);
@@ -189,11 +189,11 @@ void func_0013C560(struct O *p, int st)
         struct R *pr = p->p164;
         if (pr)
             Notify(pr, 1);
-        func_001F5720(p, 1);
-        func_001F57C0(p, 1);
+        SetAloCnstrLin__FP3ALOi(p, 1);
+        SetAloCnstrAng__FP3ALOi(p, 1);
         VCALL(p, 35, PFNQ), D_002A2DD0);
         VCALL(p, 36, PFNQ), D_002A2DD0);
-        func_001F5880(p, D_002A2DD0);
+        SetAloGravity__FP3ALOG9VU_VECTOR(p, D_002A2DD0);
         break;
     }
     case 6:
@@ -266,8 +266,8 @@ void func_0013C560(struct O *p, int st)
         float lo = -6.2831855f, hi = 6.2831855f;
         (void)&w;
         func_001A58D0(p, 0, 3);
-        func_001F5720(p, 0);
-        func_001F57C0(p, 0);
+        SetAloCnstrLin__FP3ALOi(p, 0);
+        SetAloCnstrAng__FP3ALOi(p, 0);
         {
             qword *pv = (qword *)VCALL(p, 31, PFNP));
             qword vv = *pv;
@@ -287,8 +287,8 @@ void func_0013C560(struct O *p, int st)
         u.f[1] = b;
         u.f[2] = c;
         VCALL(p, 36, PFNQ), u.q);
-        func_001F5880(p, D_002A4B60);
-        func_001619A0(g_game, 0x30, p);
+        SetAloGravity__FP3ALOG9VU_VECTOR(p, D_002A4B60);
+        BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x30, p);
         break;
     }
     }

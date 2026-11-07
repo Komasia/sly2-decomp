@@ -1,4 +1,4 @@
-/* func_00140750 (Claude agent): matched. GMin/GMax as `b < a ? b : a`, block-local dt per case, and the x10C8 state as `if (xDF4 != -1 || (g = x10CC) == 0) -1; else if (g == 1 || (x10C8 == 1 && 0 < g)) 1; else 0`. */
+/* UpdateActorNoise__FP5ACTOR (Claude agent): matched. GMin/GMax as `b < a ? b : a`, block-local dt per case, and the x10C8 state as `if (xDF4 != -1 || (g = x10CC) == 0) -1; else if (g == 1 || (x10C8 == 1 && 0 < g)) 1; else 0`. */
 typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; int (*pfn)(void *); };
 struct P {
@@ -7,7 +7,7 @@ struct P {
 };
 extern struct { float t; float dt; } g_clock;
 extern float D_002BCC6C, D_002BCC70, D_002BCC74, D_002BCC78;
-int func_001409E8(struct P *p);
+int NActorPerceived__FP5ACTOR(struct P *p);
 qword func_001A62E8(struct P *p);
 void func_00156548(void *a, qword pos, struct P *p, int n);
 
@@ -23,12 +23,13 @@ static inline float GClamp(float g, float lo, float hi)
 static inline float GMin(float a, float b) { return b < a ? b : a; }
 static inline float GMax(float a, float b) { return b > a ? b : a; }
 
-void func_00140750(struct P *p)
+// name: SafeHouse port (UpdateActorNoise)
+void UpdateActorNoise__FP5ACTOR(struct P *p)
 {
     int k;
     float g;
     if (!p->p10C4) return;
-    switch (func_001409E8(p)) {
+    switch (NActorPerceived__FP5ACTOR(p)) {
     case 1:
         { float dt = g_clock.dt; p->x10CC = GMin(p->x10CC + D_002BCC6C * dt, 1.0f); }
         break;

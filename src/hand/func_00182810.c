@@ -2,7 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 struct Q { qword pos; char pad[0x50]; struct Q *next; };
 struct E { int oid; int c; int c8; int d; struct Q *pqFirst; struct Q *pqLast; int ib; int x1c; float g20; int x24; float g28; float g2c; };
 struct O { char pad[0x1C8]; int ce; struct E ae[4]; };
-struct Q *func_00182810(struct O *po, qword pos)
+// name: SafeHouse port (PqNearestSwarm)
+struct Q *PqNearestSwarm__FP2LOG9VU_VECTOR(struct O *po, qword pos)
 {
     int i;
     struct Q *pqBest = 0;

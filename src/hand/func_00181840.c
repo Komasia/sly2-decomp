@@ -8,9 +8,10 @@ void *func_0015E938(void *g, int n, int oid, struct S *p);
 void InitDl__FP2DLi(void *pdl, int ib);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
-void func_0017F138(struct S *p);
-void func_001F2B20(struct S *p);
-void func_00181840(struct S *p)
+void PostLoadHackSoBase__FP2LO(struct S *p);
+void AddAloSoes__FP3ALO(struct S *p);
+// name: SafeHouse port (PostLoadHackSwarm)
+void PostLoadHackSwarm__FP2LO(struct S *p)
 {
     int i, j;
     struct E *pe;
@@ -35,12 +36,12 @@ void func_00181840(struct S *p)
             AppendDlEntry__FP2DLPv(pe->dl, q);
         }
     }
-    func_0017F138(p);
+    PostLoadHackSoBase__FP2LO(p);
     pr = &p->ar[p->ce0++];
     pr->a = p->x60;
     pr->n = -1;
     pr->p = p;
     pr->fl |= 1UL << 48;
     pr->fl |= 1UL << 49;
-    if ((int)(p->fl >> 60) & 1) func_001F2B20(p);
+    if ((int)(p->fl >> 60) & 1) AddAloSoes__FP3ALO(p);
 }

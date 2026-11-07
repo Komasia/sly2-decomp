@@ -12,27 +12,28 @@ extern char D_003D4A60[];
 struct G { char pad[0x3A18]; char m3a18[0x10]; };
 extern struct G g_sw;
 void PostLoLoad__FP2LO(struct S *p);
-int func_001633E8(struct S *p);
+int FJobCur__FP3JOB(struct S *p);
 int func_00162670(struct S *p);
-void func_001620B0(struct S *p, int n, int c, int a);
-void func_001623D0(struct S *p, int n, int c, int a, int b);
-void func_002581C0(CRef *pref, void *a, void *b);
+void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, int a);
+void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, int a, int b);
+void NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 void *func_001D7E80(void *p, void *q, void *r);
 void *func_0015E938(void *pg, int kind, int oid, void *owner);
-void func_00162780(struct S *p)
+// name: SafeHouse port (StartJob)
+void StartJob__FP2SW(struct S *p)
 {
     CRef ref;
     int *pn;
     PostLoLoad__FP2LO(p);
-    if (!func_001633E8(p) && func_00162670(p)) {
-        func_001620B0(p, 5, p->f8c, p->f90);
-        func_001623D0(p, 5, p->f94, p->f98, 1);
+    if (!FJobCur__FP3JOB(p) && func_00162670(p)) {
+        ApplyTaskObjects__FPviiT0(p, 5, p->f8c, p->f90);
+        ApplyTaskSms__FPvT0iT0i(p, 5, p->f94, p->f98, 1);
     }
     pn = &p->fd0;
     if (*pn) {
         int n;
-        func_002581C0(&ref, pn, D_003D4A60);
+        NProgress(&ref, pn, D_003D4A60);
         n = ref.m_tag;
         func_00129EC8(&ref);
         p->f7c = n;
@@ -40,7 +41,7 @@ void func_00162780(struct S *p)
     pn = &p->fe0;
     if (*pn) {
         float g;
-        func_002581C0(&ref, pn, D_003D4A60);
+        NProgress(&ref, pn, D_003D4A60);
         g = *(float *)&ref.m_tag;
         func_00129EC8(&ref);
         p->fa4 = g;

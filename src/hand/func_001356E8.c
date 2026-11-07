@@ -12,7 +12,8 @@ void _$_10STACKSCOPE(struct C *, int);
 void func_0020FA10();
 void func_0020FAA0(void *, ti128, ti128, void (*)(), int, int *, int *);
 int func_0014CC58(int, ti128, ti128, int, int, struct LSG *);
-void func_001356E8(struct S *p) {
+// name: SafeHouse port (FireBentleyDart)
+void FireBentleyDart__FP7BENTLEY(struct S *p) {
     struct C ctx;
     struct LSG lsg;
     int cso;

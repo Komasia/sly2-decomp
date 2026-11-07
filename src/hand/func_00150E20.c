@@ -1,13 +1,14 @@
-/* func_00150E20: CPZOOM: sets the owner; a pose set with func_00150EA0 is dropped (func_00150EF0). */
+/* SetFocusObject__6CPFREEP2LO: CPZOOM: sets the owner; a pose set with SetTargets__6CPFREEG9VU_VECTORT1f is dropped (Snap__6CPFREE). */
 #include "cm.h"
 
-void func_00150EF0(CPZOOM *pcpzoom);
+void Snap__6CPFREE(CPZOOM *pcpzoom);
 
-void func_00150E20(CPZOOM *pcpzoom, LO *plo)
+// name: SafeHouse port (CPFREE::SetFocusObject)
+void SetFocusObject__6CPFREEP2LO(CPZOOM *pcpzoom, LO *plo)
 {
     pcpzoom->ploOwner = plo;
     if (pcpzoom->fPose != 0) {
-        func_00150EF0(pcpzoom);
+        Snap__6CPFREE(pcpzoom);
     }
     pcpzoom->fPose = 0;
 }

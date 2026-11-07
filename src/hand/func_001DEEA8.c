@@ -16,14 +16,14 @@ struct OBJ {
 };
 extern struct G g_sw;
 extern PAIR D_002A7AC0;
-void func_001F5988(void);
+void SetAloOverlapNothing__FP3ALOT0(void);
 void func_001A7E10(struct G *, LNK *);
 void func_00149AB8(struct G *, OBJ *, PAIR, int);
 void func_001DEEA8(OBJ *p, void *x)
 {
     LNK *list = 0;
     int i;
-    func_001F5988();
+    SetAloOverlapNothing__FP3ALOT0();
     for (i = 0; i < p->c; i++) {
         LNK **pp = &p->ae[i].pHead;
         LNK *q;

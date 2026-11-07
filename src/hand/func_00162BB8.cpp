@@ -20,8 +20,9 @@ extern "C" int func_00162670(O *p);
 extern "C" int func_0020E040(G *pg);
 extern "C" void func_00162DD0(O *p);
 extern "C" void func_00162E38(O *p);
-extern "C" void func_00162DF8(O *p);
-extern "C" void func_00162BB8(O *p, int n, int m)
+extern "C" void RestartJobAtCheckpoint(O *p) asm("RestartJobAtCheckpoint__FP2SW");
+// name: SafeHouse port (JobOnEvent)
+extern "C" void JobOnEvent__FP3JOBii(O *p, int n, int m)
 {
     if (func_00162670(p)) {
         void *apv[2];
@@ -42,6 +43,6 @@ extern "C" void func_00162BB8(O *p, int n, int m)
             }
         }
     } else if (n == 0x10 && p->f50 && !func_0020E040(&g_sw)) {
-        func_00162DF8(p);
+        RestartJobAtCheckpoint(p);
     }
 }

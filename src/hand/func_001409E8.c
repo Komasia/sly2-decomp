@@ -11,7 +11,8 @@ void *func_00156698(void *a, qword pos, struct P *p);
 int func_00209A68(struct SO *pso, int n);
 int func_00156FE8(struct X *px, void *q);
 void func_00156780(void *q);
-int func_001409E8(struct P *p)
+// name: SafeHouse port (NActorPerceived)
+int NActorPerceived__FP5ACTOR(struct P *p)
 {
     int unused[4];
     void *q;

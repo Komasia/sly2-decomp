@@ -26,8 +26,8 @@ void func_00118220(void *,GEO *,TREE *);
 void ReadMatrix(void *,STATE *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
 void LoadGlobsetFromBrx(DATA *,P *,void *) asm("LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream");
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
-void func_00166270(GEO *,const M4 *,GEO *);
-void func_001F2B20(P *);
+void CopyTransformGeom(GEO *,const M4 *,GEO *) asm("CopyTransformGeom__FP4GEOMP7MATRIX4T0");
+void AddAloSoes(P *) asm("AddAloSoes__FP3ALO");
 void AdjustSoMomint(P *,float) asm("AdjustSoMomint__FP2SOf");
 void LoadOptionsFromBrx(P *,void *) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
 void func_001F2500(P *);
@@ -62,7 +62,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         e->radius=func_00117E38(stream);
         func_00117FD0(stream,local);
         if(!e->object){e->object=D_002C44F0;e->world=e->local;}
-        else func_00166270(local,0,&e->world);
+        else CopyTransformGeom(local,0,&e->world);
         func_00118220(stream,&e->world,&e->tree);
         e->id=func_00117C80(stream);
         e->flags.fields.state=func_00117D50(stream);
@@ -71,7 +71,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         e->flags.raw=(e->flags.raw&~(1UL<<50))|((ulong)(f&1)<<50);
     }
     for(i=p->count;i<p->count+extra;i++){e=&p->entries[i];e->flags.fields.state=-10;}
-    func_001F2B20(p);
+    AddAloSoes(p);
     if(p->count>0){
         request.bytes=sizeof(STATE);request.alignment=16;
         STATE *state=(STATE *)PvAllocSwClearImpl(&request);

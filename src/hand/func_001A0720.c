@@ -64,7 +64,8 @@ static inline void BlendNegative(struct P*p,struct AXES*axes,float xin,const U*i
  __asm__("vmulax.xyzw ACC,%1,%4x\n\tvmaddax.xyzw ACC,%2,%5x\n\tvmaddx.xyzw %0,%3,%6x":"=j"(ka):"j"(a),"j"(b),"j"(c),"0"(ka),"j"(kb),"j"(kc));
  __asm__("sqc2 %2,%0\n\tsqc2 %3,%1":"=m"(p->acceleration.q),"=m"(out->q):"j"(ka),"j"(kc));
 }
-void func_001A0720(struct P*p,struct AXES*axes,int enabled,float heading,float magnitude){
+// name: SafeHouse port (MoveAroundTarget)
+void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*p,struct AXES*axes,int enabled,float heading,float magnitude){
  U input,scalar,old;
  register int side __asm__("$3");
  float zero;

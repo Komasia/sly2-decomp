@@ -2,7 +2,8 @@
 M2C_UNK func_0012CFE0(s32);                         /* extern */
 M2C_UNK func_0012D020(s32);                         /* extern */
 
-void func_0018C120(void *arg0, s32 arg1) {
+// name: SafeHouse port (SetSlyHandles)
+void SetSlyHandles__FP3SLYUi(void *arg0, s32 arg1) {
     s32 temp_a0;
 
     temp_a0 = M2C_FIELD(arg0, s32 *, 0x19E4);

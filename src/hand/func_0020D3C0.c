@@ -6,7 +6,7 @@ struct L { struct O *pc; int pad; struct O *po; int a; int b; int pad2[3]; qword
 extern struct { float t; float dt; } g_clock;
 void func_002333B4(void *p, int c, int n);
 qword func_001A62E8(struct O *po);
-void func_001F7598(struct L *pl);
+void PaloAcceptContact__FP5CTMSG(struct L *pl);
 void func_0020D3C0(struct S *p, int state)
 {
     if (state != p->state) {
@@ -21,7 +21,7 @@ void func_0020D3C0(struct S *p, int state)
             l.b = p->pc->n184;
             l.v20 = func_001A62E8(p->po);
             l.v30 = ((qword (*)(void *))p->po->vt[33].pfn)((char *)p->po + p->po->vt[33].d);
-            func_001F7598(&l);
+            PaloAcceptContact__FP5CTMSG(&l);
         }
     }
 }

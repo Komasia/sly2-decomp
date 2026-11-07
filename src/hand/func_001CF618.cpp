@@ -5,7 +5,7 @@ struct G { char pad[0x60]; qword q60; };
 extern G g_cm;
 extern qword g_normalZ;
 extern "C" {
-M func_0011B830(qword a, qword b);
+M BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 int func_001CF338(S *p, qword q, M m);
 void func_001CF618(S *p);
 }
@@ -21,6 +21,6 @@ void func_001CF618(S *p)
     } else {
         v = g_normalZ;
     }
-    m = func_0011B830(p->q90, v);
+    m = BuildLookAtMatrix(p->q90, v);
     func_001CF338(p, p->q70, m);
 }

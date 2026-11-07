@@ -1,7 +1,7 @@
 struct N { int pad[2]; void *p8; char pad2[0xAC - 0xC]; struct N *next; };
 struct G;
 extern struct G g_sw;
-void func_001F5078(void *);
+void WakeAlo__FP3ALO(void *);
 void func_001A7E10(struct G *, struct N *);
 void func_001F4DA8(void *pa, void *pb, struct N **ppn)
 {
@@ -21,7 +21,7 @@ loop:
         goto loop;
     }
     if (pfree) {
-        func_001F5078(pa);
+        WakeAlo__FP3ALO(pa);
         func_001A7E10(&g_sw, pfree);
     }
 }

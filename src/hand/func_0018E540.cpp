@@ -69,23 +69,24 @@ struct P{
 extern "C"{
 extern CLOCK g_clock;extern int D_002BF448[];extern float D_002BF430,D_002BF434,D_002BF438,D_002BF43C,D_002BF440;
 extern void*D_002E1E44;extern void*D_002E1E48;
-void func_001F2AD0(P*,ACTION*);void func_001F4BF8(P*);void func_001CCAC0(void*,int);
-EFFECT*func_001FBB90(int);void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
-qword func_001A62E8(void*);qword func_001A6F00(void*,void*,qword);
+void SetSoeOff(P*,ACTION*) asm("SetSoeOff__FP3ALOP3SOE");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");void func_001CCAC0(void*,int);
+EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
+qword func_001A62E8(void*);qword ConvertPos(void*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0018F560(P*,BLEND*,ASEG*);int func_001F0400(SM*,int);void func_001F09D8(COMPONENT*,int);
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);void func_00131A90(ASEGA*,float);
 }
-static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=func_001FBB90(id);SetSource(effect,0);SetPosition(effect,func_001A62E8(p));}}
+static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,func_001A62E8(p));}}
 static __inline__ void Active(NODE*p){VE&v=p->vt[8];((void(*)(void*))v.fn)((char*)p+v.delta);}
 static __inline__ void Link(NODE*p,NODE*other){VE&v=p->vt[38];((void(*)(void*,NODE*))v.fn)((char*)p+v.delta,other);}
 static __inline__ void Inactive(NODE*p){VE&v=p->vt[9];((void(*)(void*))v.fn)((char*)p+v.delta);}
-extern "C" void func_0018E540(P*p,int state){
+// name: SafeHouse port (SetSlyMode)
+extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  if(p->state==state)return;
  int compatible=0;
  if(state!=-1&&p->state!=-1)compatible=state==D_002BF448[p->state];
- if(!compatible)func_001F2AD0(p,p->action);
+ if(!compatible)SetSoeOff(p,p->action);
  int exitEffect=-1;
- switch(p->state){case 1:exitEffect=p->target->exitEffect;func_001F4BF8(p);break;case 2:func_001F4BF8(p);break;case 0:func_001CCAC0(p->track,-1);break;case -1:break;}
+ switch(p->state){case 1:exitEffect=p->target->exitEffect;MarkAloDirty(p);break;case 2:MarkAloDirty(p);break;case 0:func_001CCAC0(p->track,-1);break;case -1:break;}
  Emit(p,exitEffect);
  register float start __asm__("$f22")=0.0f;
  ASEG*clip=0;
@@ -93,21 +94,21 @@ extern "C" void func_0018E540(P*p,int state){
  int enterEffect=-1;register float sharedDeadline __asm__("$f0"),sharedDelay __asm__("$f1");register int sharedMode __asm__("$2");register char*clockHigh __asm__("$3");
  switch(state){
  case -1:p->surface=0;break;
- case 1:case 2:func_001F4BF8(p);break;
- case 10:func_001F4BF8(p);clip=p->alternate10;break;
- case 11:func_001F4BF8(p);clip=p->alternate11;break;
+ case 1:case 2:MarkAloDirty(p);break;
+ case 10:MarkAloDirty(p);clip=p->alternate10;break;
+ case 11:MarkAloDirty(p);clip=p->alternate11;break;
  case 0:{func_001CCAC0(p->track,0);clip=p->idle;rate=0.0f;
   register P*receiver __asm__("$4");register float half __asm__("$f1"),duration __asm__("$f0");
   __asm__("daddu %0,%3,$zero\n\t.set noat\n\tlui $1,0x3f00\n\tmtc1 $1,%1\n\t.set at\n\taddiu %2,$zero,15":"=r"(receiver),"=f"(half),"=r"(enterEffect):"r"(p):"$1");
   __asm__("lwc1 %0,%1":"=f"(duration):"m"(clip->duration));start=duration*half;
-  func_001F4BF8(receiver);sharedDelay=0.1f;sharedDeadline=g_clock.t;goto deadline_add;}
+  MarkAloDirty(receiver);sharedDelay=0.1f;sharedDeadline=g_clock.t;goto deadline_add;}
 
  case 3:{
   WORK work;
-  register qword first __asm__("$2")=func_001A6F00(0,p,func_001A62E8(p->pointObject));
+  register qword first __asm__("$2")=ConvertPos(0,p,func_001A62E8(p->pointObject));
   register POINT*point __asm__("$3");register void*world __asm__("$4");register P*receiver __asm__("$5");
   __asm__("lw %0,%4\n\tdaddu %1,$zero,$zero\n\tsq %5,%3\n\tdaddu %2,%6,$zero":"=r"(point),"=r"(world),"=r"(receiver),"=m"(work.first.q):"m"(p->point),"r"(first),"r"(p));
-  register qword second __asm__("$2")=func_001A6F00(world,receiver,point->position.q);
+  register qword second __asm__("$2")=ConvertPos(world,receiver,point->position.q);
   register qword average __asm__("vf2");register int mode __asm__("$3");
   __asm__(".set noat\n\tlui $1,0x3f00\n\tmtc1 $1,$f0\n\t.set at\n\tqmtc2.ni %3,$vf4\n\tlqc2 $vf3,%4\n\tmfc1 $3,$f0\n\tqmtc2.ni $3,$vf1\n\tlw %1,%5\n\tvmulax.xyzw ACC,$vf3,$vf1x\n\tvmaddx.xyzw %0,$vf4,$vf1x\n\tsqc2 $vf1,%2":"=j"(average),"=r"(mode),"=m"(work.half.q):"r"(second),"m"(work.first.q),"m"(p->mode):"$1","$f0","vf1","vf3","vf4");
   work.average.q=average;

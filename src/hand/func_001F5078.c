@@ -1,10 +1,11 @@
-/* func_001F5078 (0x1F5078): if the SO has a tree, call its virtual slot 46 with 4 and, for a physical SO,
+/* WakeAlo__FP3ALO (0x1F5078): if the SO has a tree, call its virtual slot 46 with 4 and, for a physical SO,
  * refresh both attachment transforms (func_00230598). */
 #include "so.h"
 
 void func_00230598(SO *pso, XF *pxf);
 
-void func_001F5078(SO *pso)
+// name: SafeHouse port (WakeAlo)
+void WakeAlo__FP3ALO(SO *pso)
 {
     VTE *pvte;
 

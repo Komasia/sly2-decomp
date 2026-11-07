@@ -6,7 +6,7 @@ struct P { char pad[0xC]; struct VT *pvt; char pad1[0x190 - 0x10]; qword v190; c
 struct SO { char pad[0x18]; struct P *p18; };
 struct MSG { struct SO *pso; float g; int k; };
 void HandlePoMessage__FP2PO5MSGIDPv(struct P *p, int msgk, struct MSG *pmsg);
-qword func_00204E38(struct P *p, struct SO *pso, float g);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct SO *pso, float g);
 static inline qword VecMul(qword v, float g)
 {
     qword r;
@@ -29,7 +29,7 @@ void func_00152250(struct P *p, int msgk, struct MSG *pmsg)
                 pp->f40C = 0;
                 break;
             case 0x15E: {
-                qword v = func_00204E38(pp, pmsg->pso, pmsg->g);
+                qword v = VelActorAnimRoot__FP5ACTORPvf(pp, pmsg->pso, pmsg->g);
                 struct VT *pvt = pp->pvt;
                 qword *pm = pp->mat;
                 qword r;

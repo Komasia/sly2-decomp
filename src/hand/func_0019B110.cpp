@@ -156,7 +156,7 @@ void func_0019C300(JTAIR *pjtair, void *plo, qword pos, float *pg, VECTOR *ppos,
 void func_00185310(MESH *pmesh, qword pos, void *pv, TRI *ptri, VECTOR *ppos, VECTOR *pnormal);
 int func_00185D18(MESH *pmesh, qword pos, qword v, qword dv, float s, float t, TRI *ptri, VECTOR *ppos, VECTOR *pv);
 void func_001E6F10(CURVE *pcurve, float s, VECTOR *ppos, VECTOR *pnormal);
-qword func_001A6F00(void *pvFrom, void *pvTo, qword pos);
+qword ConvertPos(void *pvFrom, void *pvTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 float func_002458F0(float y, float x);                                 // atan2f
 void func_00195FB8(JTAIR *pjtair, int nKind, void *plo);
 }
@@ -404,7 +404,7 @@ LPartnerDone:
         ctx.pjtair = pjtair;
         ctx.plo = pcurve;
         func_001E6F10(pcurve, s, &posTarget, 0);
-        ctx.v = func_001A6F00(0, pcurve, posTarget.q);
+        ctx.v = ConvertPos(0, pcurve, posTarget.q);
         func_0011D9E0(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, 0);
         func_0019C300(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
         if (pcurve != ploForce &&

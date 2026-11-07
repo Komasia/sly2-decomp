@@ -17,25 +17,25 @@ struct P{
 };
 extern "C"{
 extern float D_002C08DC;
-int func_00140AF8(P*,int);
+int FActorTargetInReach(P*,int) asm("FActorTargetInReach__FP5ACTORi");
 void func_001B6078(P*,int);
 int func_001C46C0(PL*,int,float);
 int func_001C4660(PL*,uint,float);
 void func_001C4738(PL*,int);
 void func_00195A00(void*,int,int,void*);
 void func_0019CC50(void*,int,P*,void*);
-int func_001B70A0(P*);
+int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
 int func_001938C0(void*,int,int);
 int func_001B84E0(P*);
-void func_001B8508(P*);
+void StartMurrayPunch(P*) asm("StartMurrayPunch__FP6MURRAY");
 void func_001B85D0(P*);
-void func_001B5D30(P*,int);
+void SetMurrayBehaviorAnim(P*,int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
 void func_002046F0(P*,void*);
 void func_00204660(P*,float);
 void func_0020BB58(void*,float);
 void func_0020BC08(void*);
 qword func_0011E1A0(float,float,float);
-void func_001A0450(P*,ENTRY*,void*);
+void SteerRootBlend(P*,ENTRY*,void*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 }
 static inline qword Load(const U*p){qword q;__asm__("lqc2 %0,%1":"=j"(q):"m"(*p));return q;}
 static inline float LengthXY(qword v){qword q;float f;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(q):"j"(v));__asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
@@ -76,23 +76,24 @@ typedef char P_axes_Offset[FIELD_OFFSET(P,axes)==5872?1:-1];
 typedef char P_request_Offset[FIELD_OFFSET(P,request)==6128?1:-1];
 typedef char P_state_Offset[FIELD_OFFSET(P,state)==6132?1:-1];
 typedef char Axis1Direction_Offset[(FIELD_OFFSET(P,axes)+sizeof(ENTRY)+FIELD_OFFSET(ENTRY,direction))==0x1720?1:-1];
-extern "C" void func_001B5990(P*p){
+// name: SafeHouse port (UpdateMurrayBehavior)
+extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
  int before;
  for(;;){
   before=p->state;
   switch(before){case 0:case 1:case 2:{
-   if((p->input->flags&8)||!func_00140AF8(p,1))func_001B6078(p,0);
+   if((p->input->flags&8)||!FActorTargetInReach(p,1))func_001B6078(p,0);
    else if(func_001C46C0(p->input,0x40,0.1f))func_00195A00(p->controller,1,0,0);
-   else if(func_001B70A0(p)){}
+   else if(FMurrayGrab(p)){}
    else if(func_001C46C0(p->input,0x20,0.2f)){
     if(!func_001938C0(p->context,0x80,0)&&p->root){p->reset=0;func_001B6078(p,4);}
    }
-   else if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC))func_001B8508(p);
+   else if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC))StartMurrayPunch(p);
    else if(func_001C4660(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].fn)((P*)((char*)p+p->vt[99].delta),3)){
     func_001C4738(p->input,0x400);func_0019CC50(p->requestF00,0,0,0);
    }
    else if(func_001B84E0(p)&&func_001C46C0(p->input,0x10,D_002C08DC))func_001B85D0(p);
-   else {PL*pl=p->input;float strength=pl->strength;if(p->mainState==0?0.1f<strength:0.0f<strength)func_001B5D30(p,2);else func_001B5D30(p,0);}
+   else {PL*pl=p->input;float strength=pl->strength;if(p->mainState==0?0.1f<strength:0.0f<strength)SetMurrayBehaviorAnim(p,2);else SetMurrayBehaviorAnim(p,0);}
   }break;
   }
   if(p->state==before||p->mainState!=9)break;
@@ -107,7 +108,7 @@ extern "C" void func_001B5990(P*p){
   p->acceleration.q=direction;
   qword world=Rotate(&p->orientation,direction);
   p->side=-1;p->acceleration.q=world;
-  func_001A0450(p,p->axes,p->request);
+  SteerRootBlend(p,p->axes,p->request);
   break;
  }
  case 1:func_00204660(p,p->input->angle);func_0020BB58(p->motion,p->input->strength);func_0020BC08(p->motion);break;

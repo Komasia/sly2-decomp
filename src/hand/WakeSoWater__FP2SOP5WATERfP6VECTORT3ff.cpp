@@ -72,7 +72,7 @@ int NRandInRange(int lo, int hi) asm("NRandInRange__Fii");
 int FIsBasicDerivedFrom(SO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void SetVolume(void *p, float g) asm("SetVolume__4CSndf");
 void Stop(void *p, float g) asm("Stop__4CSndf");
-void *func_001FBB90(int id);
+void *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
 void SetSource(void *p, SO *pso) asm("SetSource__4CSndPv");
 void SetFalloff(void *p, float a, float b) asm("SetFalloff__4CSndff");
 void func_00258040(void *pp, void *p);
@@ -131,7 +131,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
             if (psnd->psnd) {
                 SetVolume(psnd->psnd, g);
             } else {
-                void *ps = func_001FBB90(D_002BDEB0[NRandInRange(0, 3)]);
+                void *ps = PsndNewPlain(D_002BDEB0[NRandInRange(0, 3)]);
                 SetSource(ps, (SO *)psnd);
                 SetFalloff(ps, 100.0f, 1000.0f);
                 SetVolume(ps, g);

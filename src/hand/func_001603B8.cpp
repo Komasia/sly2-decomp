@@ -21,7 +21,7 @@ public:
     virtual LOX *PloFind(int n);
 };
 extern "C" void *PvAllocSwClearImpl(ALLOCREQ *preq) asm("PvAllocSwClearImpl__Fi");
-extern "C" void func_002303A0(LOBase *p, LOX *plo, int n);
+extern "C" void SetXfMode(LOBase *p, LOX *plo, int n) asm("SetXfMode__FP3ALOP2XFi");
 extern "C" void func_001603B8(LOBase *p, CBinaryInputStream *pbis)
 {
     int c = pbis->S8Read();
@@ -37,6 +37,6 @@ extern "C" void func_001603B8(LOBase *p, CBinaryInputStream *pbis)
         pe->n8 = pbis->S8Read();
         pe->nC = pbis->S8Read();
         pe->p4->pe = pe;
-        func_002303A0(p, pe->p4, 0xF);
+        SetXfMode(p, pe->p4, 0xF);
     }
 }

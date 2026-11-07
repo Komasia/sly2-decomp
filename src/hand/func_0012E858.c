@@ -21,7 +21,8 @@ static __inline__ void LoadM4(M4 *pm, M3 *pmat)
 }
 static __inline__ float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
 
-void func_0012E858(struct P *p)
+// name: SafeHouse port (CPLOOKAT::Update)
+void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
 {
     struct SO *pso = p->pso;
     if (pso->psoE0) {

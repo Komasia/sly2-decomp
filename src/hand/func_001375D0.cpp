@@ -71,7 +71,8 @@ void func_001305B8(X *px, P *p, int n, void *pv, float g0, float g1);
 }
 #define PXOF(p) ((PX *)(p))
 
-extern "C" void func_001375D0(S *s, int k)
+// name: SafeHouse port (SetSlyDodgeState)
+extern "C" void SetSlyDodgeState__FP3SLYi(S *s, int k)
 {
     X *px;
     if (k == s->k)

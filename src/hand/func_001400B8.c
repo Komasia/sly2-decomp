@@ -25,7 +25,7 @@ void func_0019DE58(void *);
 int func_0015E650(struct G *, int, int, struct P *, int, void **);
 void *PvAllocSwClearImpl__Fi(struct AREQ *);
 void func_00141EF8(struct P *);
-void func_001440D0(struct P *, int);
+void StartPlayerCounters__FP5ACTORi(struct P *, int);
 int PtargetrecOf__FP2LO(struct P *);
 void SetSoMass__FP2SOf(struct P *, float);
 qword func_001A62E8(struct P *);
@@ -74,7 +74,7 @@ void func_001400B8(struct P *p)
         ((void (*)(void *))e->pfn)((char *)p + e->d);
     }
     func_00141EF8(p);
-    func_001440D0(p, g_sw.grf & 4);
+    StartPlayerCounters__FP5ACTORi(p, g_sw.grf & 4);
     p->x1088 = PtargetrecOf__FP2LO(p);
     SetSoMass__FP2SOf(p, 0.25f);
     if (p->pso->x94 == 0) {

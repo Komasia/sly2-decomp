@@ -5,10 +5,10 @@ struct M3 { qword r[3]; };
 struct S { char pad[0x10C]; void *curve; char pad1[0x120-0x110]; int polar; char pad120[0x12C-0x124]; int arc; char pad2[0x140-0x130]; float time; char pad3[0x150-0x144]; qword origin; float radius; };
 extern "C" {
 void func_001E6F10(void *, float, qword *, qword *);
-M3 func_0011B830(qword,qword);
+M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 qword func_0011E1A0(float,float,float);
 M3 *func_001A6318(struct S *);
-qword func_001A6F00(void *,void *,qword);
+qword ConvertPos(void *,void *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 }
 extern qword g_normalZ;
 extern "C" float func_00245A18(float,float);
@@ -30,7 +30,8 @@ return r; }
 static inline qword Rotate(const M3 &m,qword v) {
     __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z" : "+j"(v) : "j"(m.r[0]),"j"(m.r[1]),"j"(m.r[2])); return v;
 }
-extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mode,qword *out,float time,float delta) {
+// name: SafeHouse port (PosZoneSample)
+extern "C" void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(S *p,float *times,COEF *coef,BOUND *bounds,int mode,qword *out,float time,float delta) {
     U pos,normal,center;
     M3 m;
     U rotated;
@@ -48,7 +49,7 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
     if(p->polar) pos.q=func_0011E1A0(pos.f[0],pos.f[1],pos.f[2]);
     if(p->curve) {
         func_001E6F10(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
-        m=func_0011B830(normal.q,g_normalZ);
+        m=BuildLookAtMatrix(normal.q,g_normalZ);
         rotated.q=Rotate(m,pos.q);
     } else if(p->arc) {
         float period=p->radius*6.2831855f;
@@ -58,12 +59,12 @@ extern "C" void func_002215C0(S *p,float *times,COEF *coef,BOUND *bounds,int mod
         qword arc=center.q;
         center.q=Add(arc,p->origin);
         normal.q=Normalize(Cross(g_normalZ,arc));
-        m=func_0011B830(normal.q,g_normalZ);
+        m=BuildLookAtMatrix(normal.q,g_normalZ);
         rotated.q=Rotate(m,pos.q);
     } else {
         center.i[0]=center.i[1]=center.i[2]=0;
         pos.f[0]+=delta;
-        rotated.q=func_001A6F00(p,0,pos.q);
+        rotated.q=ConvertPos(p,0,pos.q);
     }
     *out=Add(center.q,rotated.q);
 }

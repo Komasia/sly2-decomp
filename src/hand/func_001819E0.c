@@ -3,16 +3,17 @@ struct R { char pad[0x10]; char dl[0xC]; };
 struct Q { char pad[0x20]; struct R *pr; char p1[0x3C]; struct DLE dle; };
 struct E { int a; int b; int c; int d; char p[0xC]; int x1c; float g; int x24; int x28; float h; };
 struct S { char pad[0x1C8]; int c; struct E ae[4]; struct Q *pqFirst; };
-void func_0017F6B0(struct S *p);
+void ResetHackSoBase__FP2LO(struct S *p);
 void ClearDle__FP3DLE(struct DLE *pdle);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
 void ClearDl__FP2DL(void *pdl);
-void func_00181A90(struct S *p, struct E *pe);
-void func_001819E0(struct S *p)
+void ResetSwarmEnt__FP2LOP5SWENT(struct S *p, struct E *pe);
+// name: SafeHouse port (ResetSwarm)
+void ResetSwarm__FP2LO(struct S *p)
 {
     struct Q *q;
     int i;
-    func_0017F6B0(p);
+    ResetHackSoBase__FP2LO(p);
     q = p->pqFirst;
     while (q) {
         struct Q *qNext = (struct Q *)q->dle.next;
@@ -24,6 +25,6 @@ void func_001819E0(struct S *p)
     for (i = 0; i < p->c; i++) {
         struct E *pe = &p->ae[i];
         pe->d = pe->b;
-        func_00181A90(p, pe);
+        ResetSwarmEnt__FP2LOP5SWENT(p, pe);
     }
 }

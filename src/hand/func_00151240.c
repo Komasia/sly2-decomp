@@ -2,14 +2,15 @@ typedef int qword __attribute__((mode(TI)));
 extern qword D_002A2DD0;
 extern char g_cm[];
 struct A { int n0; int pad[3]; void *pb; int n14; float g18; };
-void func_0014FCC8(struct A *a, int n, void *b);
+void Activate__5CPLCYP2LOPv(struct A *a, int n, void *b);
 void SetCmNearClip__FP2CMf(void *pg, float g);
 void SetCmFov__FP2CMf(void *pg, float g);
 int func_0012DC18(int n, void *pb, int a, int b, int c, qword q);
-void func_00151240(struct A *a, int n, void *b)
+// name: SafeHouse port (CPACTUATED::Activate)
+void Activate__10CPACTUATEDP2LOPv(struct A *a, int n, void *b)
 {
     void *pg;
-    func_0014FCC8(a, n, b);
+    Activate__5CPLCYP2LOPv(a, n, b);
     a->pb = b;
     pg = g_cm;
     SetCmNearClip__FP2CMf(pg, 25.0f);

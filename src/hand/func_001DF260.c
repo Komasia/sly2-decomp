@@ -29,7 +29,7 @@ typedef struct {
 typedef struct { qword a[2]; } VPAIR;
 void func_001DEF98(OBJ *, ENT *, VPAIR *, float *);
 void *func_002333B4(void *, int, int);
-void func_001F7598(MSG *);
+void PaloAcceptContact__FP5CTMSG(MSG *);
 void func_001DF260(OBJ *p)
 {
     int i;
@@ -58,7 +58,7 @@ void func_001DF260(OBJ *p)
             msg.xC = 0x1000;
             msg.x10 = -10;
             msg.x20 = pMin->x10;
-            func_001F7598(&msg);
+            PaloAcceptContact__FP5CTMSG(&msg);
             e->x144 = gMin;
         }
     }

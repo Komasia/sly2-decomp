@@ -7,11 +7,11 @@ struct R { char pad[0x60]; qword v60; qword v70; };
 struct P { char pad[0xC]; struct VTE *pvt; char pad2[0x58 - 0x10]; struct Q *p58; struct Q *p5C; char pad3[0xE0 - 0x60]; int nE0; struct E *aE4; struct R *pE8; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void func_001F3900(struct P *);
-void func_001F6EF8(struct E *, float);
+void CopyAloSoeMatrices__FP3ALO(struct P *);
+void IntegrateSoeMesh__FP3SOEf(struct E *, float);
 int func_00230380(int);
 void func_0022DE88(struct P *);
-void func_001F38A8(struct E *);
+void UpdateSoeWorld__FP3SOE(struct E *);
 static inline void Clear(int *a)
 {
     a[2] = 0;
@@ -21,10 +21,10 @@ static inline void Clear(int *a)
 void ProjectSoTransform__FP2SOfi(struct P *p)
 {
     int i;
-    func_001F3900(p);
+    CopyAloSoeMatrices__FP3ALO(p);
     for (i = 0; i < p->nE0; i++) {
         struct E *pe = &p->aE4[i];
-        if (*(int *)&pe->fl) func_001F6EF8(pe, g_clock.dt);
+        if (*(int *)&pe->fl) IntegrateSoeMesh__FP3SOEf(pe, g_clock.dt);
     }
     if (p->pE8) {
         if (p->p58) p->pE8->v60 = p->p58->vB0;
@@ -42,6 +42,6 @@ void ProjectSoTransform__FP2SOfi(struct P *p)
     func_0022DE88(p);
     for (i = 0; i < p->nE0; i++) {
         struct E *pe = &p->aE4[i];
-        if (!(pe->fl & (1L << 50))) func_001F38A8(pe);
+        if (!(pe->fl & (1L << 50))) UpdateSoeWorld__FP3SOE(pe);
     }
 }

@@ -1,4 +1,4 @@
-// func_001821C0 (Claude agent, lane G4): laneG3v1 with the outer loop as `do { if (count<=0) goto done; top: ... if (i<count) goto top; } while (0);`.
+// CollectHackSwarmDraws__FP5SCENE (Claude agent, lane G4): laneG3v1 with the outer loop as `do { if (count<=0) goto done; top: ... if (i<count) goto top; } while (0);`.
 // The do/while(0) gives the real loop notes (alignment nop, fall-in entry) while the goto back edge keeps loop.c from hoisting the 0x30 stride.
 // One pin (epsilon in $f1).
 
@@ -11,7 +11,7 @@ struct E {char pad[0x10];N*first;char pad14[0x1C];};
 struct P {char pad[0x1C4];void*model;int count;E entries[1];};
 extern qword g_normalZ;
 extern "C" void RenderSoSelf(P*) asm("RenderSoSelf__FP2SOP2CMP2RO");
-extern "C" M3 func_0011B830(qword,qword);
+extern "C" M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 extern "C" M3 func_0011B500(qword,float);
 extern "C" qword*func_00256D18(qword*,qword);
 extern "C" void func_001A5EE8(void*,M4*,float,float);
@@ -30,7 +30,8 @@ static inline M3 Mul(const M3 &a, const M3 &b) return r
         : "=j"(r.r[2]) : "j"(a0), "j"(a1), "j"(a2), "j"(b.r[2]));
 }
 
-extern "C" void func_001821C0(P*p){
+// name: SafeHouse port (CollectHackSwarmDraws)
+extern "C" void CollectHackSwarmDraws__FP5SCENE(P*p){
  int i,count;M3 m;M4 mm;qword pos;
  RenderSoSelf(p);
  if(!p->model)return;
@@ -42,7 +43,7 @@ extern "C" void func_001821C0(P*p){
   N*n=((N**)((int)p+i*0x30))[0x1DC/4];
   while(n){M4*pm=&mm;
    pos=Load(&n->pos);
-   m=func_0011B830(n->dir,g_normalZ);
+   m=BuildLookAtMatrix(n->dir,g_normalZ);
    if(1.0f<fabsf(n->lateral))pos=AddLateral(pos,n,n->lateral);
    {float roll=n->roll;register float epsilon __asm__("$f1")=0.01f; /* the one pin */if(epsilon<fabsf(roll))m=Mul(m,func_0011B500(g_normalZ,roll));}
    func_00256D18(&mm.r[3].q,pos);

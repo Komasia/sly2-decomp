@@ -19,7 +19,7 @@ int func_00144068(struct PO *);
 int IsSwHandsOff__FP2SW(void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *, int);
 struct R *func_00205458(void *, int);
-void func_001619A0(void *, int, struct T *);
+void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct T *);
 void func_001F7BF8(struct T *, float);
 qword func_001A62E8(void *p);
 int FDropOnGround__FP6VECTORffiPv(float, float, qword *, int, int);
@@ -71,7 +71,7 @@ void func_00144640(struct P *p)
                     struct R *pr = func_00205458(po, 0xA9);
                     if (!pr || !pr->x4C) {
                         if (0.0f <= po->x130)
-                            func_001619A0(g_game, 0x17, po);
+                            BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x17, po);
                         func_001F7BF8(po, 0.5f);
                         fAny = 1;
                     }

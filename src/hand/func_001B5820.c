@@ -10,7 +10,8 @@ int func_001F07E8(int a);
 int func_001F07C8(int a);
 int func_001C46C0(int a, int b, float f);
 void func_001F0660(int a, int b);
-void func_001B5820(struct P *p)
+// name: SafeHouse port (UpdateMurrayHold)
+void UpdateMurrayHold__FP6MURRAY(struct P *p)
 {
     int a;
     if (func_001C4840(g_sw) != p) return;

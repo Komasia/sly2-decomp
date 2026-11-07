@@ -15,12 +15,12 @@ extern float D_002BF3D8;
 extern float D_002BF3DC;
 
 extern void func_001403D0(void *p);
-extern void func_0018B7E8(void *p);
+extern void UpdateSlyInput__FP3SLY(void *p);
 extern void func_00204660(void *p, float g);
 extern void func_0020BB58(void *p, float g);
 extern void func_0020BC08(void *p);
-extern void func_001A0450(void *p, void *a, void *animation);
-extern void func_0018A0C8(void *p);
+extern void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(void *p, void *a, void *animation);
+extern void UpdateSlyStanding__FP3SLY(void *p);
 extern void func_00190E18(void *p);
 extern void func_00185E40(void *p);
 extern void func_0018DF60(void *p);
@@ -34,7 +34,7 @@ extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 extern void func_001E7380(void *p, qword q, void *metric, qword *point, qword *direction, float *normalized, float *distance, float g);
 extern void func_0018C250(void *p, int a, int b);
 extern qword func_001A62E8(void *p);
-extern void func_0011E7C8(qword a, qword b, qword c, qword d, float *parameters, float *distance, qword *direction);
+extern void DistSegments__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword d, float *parameters, float *distance, qword *direction);
 extern void func_00189618(void *p);
 
 static __inline__ qword VMulX(qword a, qword s) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(a), "j"(s)); return r; }
@@ -52,7 +52,7 @@ void UpdateJt__FP2JTf(char *p)
     if (!((struct LO *)p)->f)
         return;
     if (F(void *, 0x150))
-        func_0018B7E8(p);
+        UpdateSlyInput__FP3SLY(p);
     switch (F(int, 0x18C8)) {
     case 1: {
         qword s, motion;
@@ -76,7 +76,7 @@ void UpdateJt__FP2JTf(char *p)
     case 5:
         if (F(int, 0x18D0) == 5) {
             qword s, motion;
-            func_001A0450(p, A(0x13D0), F(void *, 0x14D0));
+            SteerRootBlend__FP5ACTORP9ROOTBLENDPv(p, A(0x13D0), F(void *, 0x14D0));
             {
                 unsigned page;
                 __asm__("lui %0,%%hi(%3)\n\tlqc2 %1,%4\n\tlw %0,%%lo(%3)(%0)\n\tqmtc2.ni %0,%2"
@@ -90,10 +90,10 @@ void UpdateJt__FP2JTf(char *p)
         }
         break;
     case 0xA:
-        func_001A0450(p, A(0x1AC0), F(void *, 0x1BC0));
+        SteerRootBlend__FP5ACTORP9ROOTBLENDPv(p, A(0x1AC0), F(void *, 0x1BC0));
         break;
     case 0:
-        func_0018A0C8(p);
+        UpdateSlyStanding__FP3SLY(p);
         break;
     case 3:
         func_00190E18(p);
@@ -139,7 +139,7 @@ void UpdateJt__FP2JTf(char *p)
 
         for (i = 1; i < F(int, 0x1880); i++) {
             qword *aq = (qword *)A(0x1890);
-            func_0011E7C8(aq[i - 1], aq[i], av[i - 1], av[i], u.f, ag, &w.q);
+            DistSegments__FG9VU_VECTORN30P6VECTORN24(aq[i - 1], aq[i], av[i - 1], av[i], u.f, ag, &w.q);
 
             if (ag[0] < F(float, 0x19AC)) {
                 if (FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), 0x13)) {

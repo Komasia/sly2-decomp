@@ -22,10 +22,10 @@ struct LO *func_001C4840(void *pg);
 qword func_001A62E8(struct S *p);
 struct MAT *func_001A6318(struct S *p);
 void func_001C6AB0(struct S *p, int n);
-void *func_001FBB90(int n);
+void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 void func_00161868(void *pg);
-void func_001619A0(void *p, int n, struct S *ps);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, struct S *ps);
 void func_001C60B8(struct S *p, int n);
 void func_001C68F0(struct S *p, int n)
 {

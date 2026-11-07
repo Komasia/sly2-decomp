@@ -18,7 +18,8 @@ extern "C" int func_00161FC8(int n);
 extern "C" int func_00161FF0(int c, int *ai);
 extern "C" int func_00210A88();
 extern "C" void *func_0015E938(G *pg, int kind, int oid, void *owner);
-extern "C" void func_001620B0(void *p, int nState, int c, E *ae)
+// name: SafeHouse port (ApplyTaskObjects)
+extern "C" void ApplyTaskObjects__FPviiT0(void *p, int nState, int c, E *ae)
 {
     int i;
     int grfState = func_00161FC8(nState);

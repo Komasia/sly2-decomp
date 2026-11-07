@@ -3,7 +3,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct Y { char pad[0xB0]; qword vB0; qword vC0; int nD0; char pad2[0xE0 - 0xD4]; int nE0; } Y;
 typedef struct X { char pad[8]; Y *py; char pad2[0x20 - 0xC]; qword v20; } X;
 extern qword D_002A2DA0;
-void func_0012CE98(X *x);
+void Start__4CTRL(X *x);
 static __inline__ qword VLen(qword c)
 {
     qword l, one;
@@ -31,7 +31,7 @@ static __inline__ qword Normalize1(qword *pv, qword *pdef)
 void func_0012E120(X *x)
 {
     qword l;
-    func_0012CE98(x);
+    Start__4CTRL(x);
     x->py->vB0 = x->v20;
     x->py->vC0 = x->v20;
     l = Normalize1(&x->py->vC0, &D_002A2DA0);

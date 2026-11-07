@@ -29,18 +29,18 @@ extern "C"{
  void func_001AB630(BANK*);
  int func_00210AE0();
  void func_001D8FF8(void*);
- void func_00165280(P*);
+ void StartQueuedTask(P*) asm("StartQueuedTask__FP2SS");
  LEASE*__10STACKSCOPE(LEASE*);
  void _$_10STACKSCOPE(LEASE*,int);
  void func_00165C98(int*,P***);
- void func_00164270(P*);
+ void RestoreTask(P*) asm("RestoreTask__FP4TASK");
  void func_001643B0(P*);
  P*func_0015E938(G*,int,int,P*);
- void func_00165DC0(G*,P*);
+ void SetJobCur(G*,P*) asm("SetJobCur__FP7TASKMGRP3JOB");
  void func_00165DE8(G*,P*);
  void func_00165E10(G*,P*);
  void func_001629A0(P*);
- void func_00163D18(P*);
+ void ActivateTaskNow(P*) asm("ActivateTaskNow__FP4TASK");
  void func_001657A8(P*);
  void func_0022B490(G*,CHECK*,int,int,int,int);
  CRef*func_001291A8(CRef*,const CRef*);
@@ -52,8 +52,8 @@ struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
  ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}
 };
 struct CRef{int kind;union{int n;float g;};CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){func_00129EC8(this);}};
-extern "C" CRef func_002581C0(void*,void*);
-static inline float GetFloat(void*p,void*context){const CRef&r=func_002581C0(p,context);return r.g;}
+extern "C" CRef NProgress(void*,void*);
+static inline float GetFloat(void*p,void*context){const CRef&r=NProgress(p,context);return r.g;}
 static inline int Same(CHECK*a,CHECK*b){
  if(a==b)return 1;
  if(!a||!b)return 0;
@@ -108,20 +108,20 @@ extern "C" void func_00161A58(P*p,int action){
   if(GetFloat(g_sw.primary,D_002E65E0.current)!=0.0f)func_001D8FF8(D_002E65E0.current);
   break;
  }
- case 4:func_00165280(p);break;
+ case 4:StartQueuedTask(p);break;
  case 5:{
   int i=0;
   LEASE mark;
   int count;
   P**objects;
   func_00165C98(&count,&objects);
-  for(;i<count;i++){P*object=objects[i];OVERRIDE temp(object,1,0);func_00164270(object);}
+  for(;i<count;i++){P*object=objects[i];OVERRIDE temp(object,1,0);RestoreTask(object);}
   G*g=&g_sw;
-  func_00165DC0(g,func_0015E938(g,0x105,p->selections[0],0));
+  SetJobCur(g,func_0015E938(g,0x105,p->selections[0],0));
   func_00165DE8(g,func_0015E938(g,0x105,p->selections[1],0));
   func_00165E10(g,func_0015E938(g,0x105,p->selections[2],0));
   if(g->first)func_001629A0(g->first);
-  if(g->second)func_00163D18(g->second);
+  if(g->second)ActivateTaskNow(g->second);
   if(g->flags&4){if(g->third)func_001657A8(g->third);else if(g->first)func_001657A8(g->first->child);}
   for(int j=0;j<count;j++){P*object=objects[j];OVERRIDE temp(object,0,0);func_001643B0(object);}
   mark.Release();

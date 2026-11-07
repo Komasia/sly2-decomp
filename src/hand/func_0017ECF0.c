@@ -5,7 +5,7 @@ struct B { char pad[0xE4]; int nE4; char pad2[0x180 - 0xE8]; void *p180; };
 struct X { qword a; qword v; };
 struct S { char pad[0x10]; void *p10; int pad2; void *p18; char pad3[0x14]; struct B *p30; int n34; float f38; int pad4; qword v40; char pad5[8]; int n58; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-float func_001E6620(struct B *b);
+float SMinCrv__FP3CRV(struct B *b);
 float func_001E6648(struct B *b);
 float func_001E66C8(struct B *b, float f);
 void func_001EA000(void *p);
@@ -21,7 +21,7 @@ void Step__11JOBPATHSTEPi(struct S *p, int force) {
     if (p->n34 == 0) d = -d;
     t = p->f38 + d;
     if (p->p30->nE4 == 0) {
-        float lo = func_001E6620(p->p30);
+        float lo = SMinCrv__FP3CRV(p->p30);
         float hi = func_001E6648(p->p30);
         if (t < lo) t = lo;
         else if (hi < t) t = hi;

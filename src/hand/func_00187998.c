@@ -63,7 +63,7 @@ extern void func_00187768(JOY *p, unsigned char bX, unsigned char bY, float *px,
                           unsigned char *pbX, unsigned char *pbY, int *pf, LM *alm);
 extern void func_0014BF48(void *p, JOY *pjoy, int grfbtn);
 extern int func_001C4840(void *p);
-extern void func_001619A0(SND *p, int n, int a);
+extern void BroadcastTaskEvent__FP2SWiP2LO(SND *p, int n, int a);
 
 int FReadJoy__FP3JOY(JOY *p)
 {
@@ -135,7 +135,7 @@ int FReadJoy__FP3JOY(JOY *p)
             p->x1020 = 0;
 
             if (g_clock.tReal - g_game.t > 15.0f) {
-                func_001619A0(&g_game, 0xE, func_001C4840(g_sw));
+                BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0xE, func_001C4840(g_sw));
                 g_game.t = g_clock.tReal;
             }
         } else {

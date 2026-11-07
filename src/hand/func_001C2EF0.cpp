@@ -1,7 +1,7 @@
 // func_001C2EF0 (w3lane8, wave 3): launches `count` objects from an owner's source object towards the player.
 // The first object is the owner's existing one (+0x158), the others come from its factory (func_001CB250); new
 // objects of class 0x5A are put into state 2.  Each launch aims at a random point around the target: a random
-// offset (func_0011E1A0 from two random angles and -75) is expressed in a basis built (func_0011B830) from the
+// offset (func_0011E1A0 from two random angles and -75) is expressed in a basis built (BuildLookAtMatrix) from the
 // horizontal part of the start->target direction and the up axis, and func_001D69F0 computes the launch velocity.
 // Class 0x5A objects are launched through func_001C6BD0 with an index-scaled delay; others are reset, parented to the
 // source and given the velocity through virtual calls.  func_001C2DB8 cleans up the owner on every exit.
@@ -28,7 +28,7 @@ void *func_001C4840(GAME *);
 qword func_001A62E8(void *);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 qword func_0011E1A0(float, float, float);
-M3 func_0011B830(qword, qword);
+M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 qword func_001D69F0(qword, qword, qword, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001C6BD0(SO *, qword, qword, float, float);
@@ -103,7 +103,7 @@ extern "C" SO *func_001C2EF0(OWNER *p, int count)
         qword delta = Sub(target, start);
         qword side = Sub(delta, Scale(Dot(delta, g_normalZ), g_normalZ));
         M3 mat;
-        mat = func_0011B830(Normalize(side, D_002A2DA0), g_normalZ);
+        mat = BuildLookAtMatrix(Normalize(side, D_002A2DA0), g_normalZ);
         qword dest = Add(target, Transform(mat, offset));
         qword velocity = func_001D69F0(start, dest, D_002C0D60, Rand(D_002C0CE0));
         if (FIsBasicDerivedFrom(node, 0x5A)) {

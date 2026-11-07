@@ -35,12 +35,12 @@ void func_001617E0(void *, int);
 void func_001DA950(OBJ *, int, int);
 void func_001DAF38(int, int);
 void func_001DBD10(OBJ *);
-void *func_001FBB90(int);
+void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *, int) asm("SetSource__4CSndPv");
 void func_0019F0A8(void *);
 void func_0021ECD8(char *, const char *, ...);
 CRef func_001D8A38(const char *, ...);
-CRef func_001D8B20(const CRef &, const char *, ...);
+CRef SetProgressPoCurrent(const CRef &, const char *, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 void func_001DA858(OBJ *);
 void func_001DBEF0(OBJ *);
 }
@@ -66,7 +66,7 @@ extern "C" void func_001DB870(OBJ *p)
                     func_001617E0(g_game, have - cost);
                     func_001DAF38(p->x254, 1);
                     func_001DBD10(p);
-                    SetSource(func_001FBB90(0x29), 0);
+                    SetSource(PsndNewPlain(0x29), 0);
                     func_0019F0A8(g_sw);
                 } else if (have >= cost) {
                     func_001DA950(p, 0, 0x34);
@@ -74,24 +74,24 @@ extern "C" void func_001DB870(OBJ *p)
                     func_001DA950(p, 1, 0x35);
                 }
             } else {
-                SetSource(func_001FBB90(0x36), 0);
+                SetSource(PsndNewPlain(0x36), 0);
             }
         }
         break;
     case 1:
         if (func_00187D80(p->x10, 0x40)) {
             if (p->x258 == -1) {
-                SetSource(func_001FBB90(0x36), 0);
+                SetSource(PsndNewPlain(0x36), 0);
             } else {
                 CRef r;
                 char buf[32];
                 func_0021ECD8(buf, D_002A79A0, p->x258);
                 r = func_001D8A38(D_002A79D0, D_002A79D8, buf, 0);
                 if (r.m_tag > 0) {
-                    func_001D8B20(CRef(r.m_tag - 1), D_002A79D0, D_002A79D8, buf, 0);
+                    SetProgressPoCurrent(CRef(r.m_tag - 1), D_002A79D0, D_002A79D8, buf, 0);
                     func_001617E0(g_game, func_00161798(g_game) + D_002C3288[p->x258].x0);
                     func_001DBD10(p);
-                    SetSource(func_001FBB90(0x29), 0);
+                    SetSource(PsndNewPlain(0x29), 0);
                 }
             }
         }

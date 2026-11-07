@@ -19,7 +19,7 @@ float RadNormalize__Ff(float f);
 qword func_0011E1A0(float a, float b, float c);
 qword func_001A62E8(void *p);
 void func_0020C6F8(void *p, qword v);
-void func_0020AB68(struct A *a, int b, int c, qword v);
+void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct A *a, int b, int c, qword v);
 void func_001EEFC0(struct S *p);
 void func_00156C80(struct G *g, int n, qword v, struct A *a, void *q);
 void *func_001C4840(struct G *g);
@@ -54,7 +54,7 @@ void func_00179328(struct S *p) {
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(pos), "j"(r));
         func_0020C6F8(p->p40->p8, s);
     }
-    func_0020AB68(p->p10, 0, 0, D_002A2DD0);
+    SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, 0, 0, D_002A2DD0);
     if (p->n30 == 0) func_001EEFC0(p);
     func_00156C80(&g_sw, 1, func_001A62E8(p->p10), p->p10, p->p10->a35C);
     p->fB0 = p->fB4 = D_002A5584;

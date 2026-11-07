@@ -21,7 +21,7 @@ extern qword D_002C1EE0;
 extern float D_002C1EF0;
 extern CLOCK g_clock;
 void func_0012E460(JOB **);
-float func_0012F990(MOTION *,int);
+float GEventAseg11(MOTION *,int) asm("GEventAseg11__Fv");
 void func_001300B8(MOTION *,float,float,LO *,SPACE *,SPACE *,M4 *,M4 *);
 qword func_001A62E8(LO *);
 qword *func_00256D18(qword *,qword);
@@ -38,7 +38,7 @@ JOB *func_0012DE58(LO *,CHANNEL *,int,float,qword,qword);
 M3 *func_0022FD38(M3 *,SPACE *,SPACE *,const M3 *);
 qword func_0011BFF0(const M3 *);
 JOB *func_0012DC18(LO *,CHANNEL *,int,int,int,qword);
-void func_001F6860(LO *,int);
+void SetAloContactsOff(LO *,int) asm("SetAloContactsOff__FP3ALOi");
 }
 static inline void*operator new(unsigned size,void*destination){return destination;}
 static inline SPACE *SourceMatrix(SOURCE *p,M4 *out){VTE &v=p->vt[32];return ((SPACE*(*)(SOURCE *,M4 *))v.fn)((SOURCE *)((char *)p+v.delta),out);}
@@ -60,7 +60,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  WORK work;
  func_0012E460(&p->positionJob);register float zero __asm__("$f21")=0.0f;func_0012E460(&p->otherJob);func_0012E460(&p->orientationJob);
  ANIM *anim=p->owner->playing;MOTION *motion=anim->motion;
- float time=func_0012F990(motion,0x1C7),phase=(time-anim->start)/anim->duration;
+ float time=GEventAseg11(motion,0x1C7),phase=(time-anim->start)/anim->duration;
  SPACE *space=SourceMatrix(p->source,&work.original);register M4*workingBase __asm__("$19")=&work.sample;
  func_001300B8(motion,time,zero,p->owner,space,p->owner->space,SampleOutput(workingBase),0);
  LO *owner=p->owner;
@@ -152,7 +152,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  __asm__("lw %0,%3\n\tdaddu %1,%4,$zero\n\tpor %2,$zero,%5":"=&r"(orientationChannel),"=&r"(orientationOwner),"=r"(anglesArgument):"m"(object->orientation),"r"(object),"r"(angles));
  JOB *job=func_0012DC18(orientationOwner,orientationChannel,5,9,2,anglesArgument);p->orientationJob=job;
  if(object->orientation->current==job)object->orientation->endTime=endTime;
- func_001F6860(object,1);
+ SetAloContactsOff(object,1);
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)

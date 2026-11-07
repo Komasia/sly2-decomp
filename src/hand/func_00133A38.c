@@ -7,7 +7,7 @@ int func_00133D08(struct P *, struct X *, struct X *);
 struct L *func_00133C68(struct P *, struct X *, struct X *);
 struct L *func_00133CB8(struct P *, struct X *, struct X *);
 void func_001A7E10(struct P *, void *);
-void func_001F5078(struct LO *);
+void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, struct L *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
 void func_00133A38(struct P *p, struct X *px1, struct X *px2, int k)
@@ -51,9 +51,9 @@ void func_00133A38(struct P *p, struct X *px1, struct X *px2, int k)
         if (pl1->pv) {
             func_001A7E10(p, pl1->pv);
             if (!VCALL(pl1->po, 62, int (*)(void *))))
-                func_001F5078(pl1->po);
+                WakeAlo__FP3ALO(pl1->po);
             if (!VCALL(pl2->po, 62, int (*)(void *))))
-                func_001F5078(pl2->po);
+                WakeAlo__FP3ALO(pl2->po);
         }
         func_0011CD98(p->aCF8, pl1);
         func_0011CD98(p->aCF8, pl2);

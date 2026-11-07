@@ -22,7 +22,7 @@ qword func_001A62E8(LO*);
 void func_001E7380(void*,qword,void*,qword*,qword*,float*,float*,float);
 M4 func_0011C318(const M4*);
 M4 *func_0011C168(M4*,const M4*,const M4*);
-qword func_001A6F00(LO*,LO*,qword);
+qword ConvertPos(LO*,LO*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void Minimize(float(*)(void*,float),void*,float,float,float,float,float*,float*) __asm__("MinimizeRange__FPFPvf_fPvffffPfT6");
 float func_001CC2B8(void*,float);
 float func_001CC288(void*,float);
@@ -62,9 +62,9 @@ void func_001CC2E8(P*p){
  }
  }
  w.stage.late.context.p=p;
- {qword raw=func_001A6F00(0,p->owner,w.position.q);register qword point __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(point):"r"(raw));qword length=LengthXY(point);w.stage.late.local.q=point;w.stage.late.local.f[1]=0.0f;StoreX(&w.stage.late.local.f[0],length);}
+ {qword raw=ConvertPos(0,p->owner,w.position.q);register qword point __asm__("vf1");__asm__("qmtc2.ni %1,%0":"=j"(point):"r"(raw));qword length=LengthXY(point);w.stage.late.local.q=point;w.stage.late.local.f[1]=0.0f;StoreX(&w.stage.late.local.f[0],length);}
 
- w.stage.late.context.position=func_001A6F00(p->owner,0,w.stage.late.local.q);
+ w.stage.late.context.position=ConvertPos(p->owner,0,w.stage.late.local.q);
  if(p->mode==2){
   Minimize(func_001CC2B8,cursor,0.5f,0.1f,0.0f,1.0f,&w.t,&w.result);
   func_001CC1F8(p,w.stage.late.context.position,&w.projection,0,w.t);

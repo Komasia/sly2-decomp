@@ -11,7 +11,7 @@ extern char g_game[];
 void func_001A5E28(struct S *);
 float TMusicTop__FPv(void *);
 void func_00152390(int, int, int, int);
-void func_001619A0(void *, int, struct S *);
+void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct S *);
 void func_00153640(struct S *, float);
 float GSmooth__FfffP3SMPPf(void *, float, float, float, int);
 void func_00152B58(struct S *);
@@ -42,7 +42,7 @@ void func_00152970(struct S *p)
                 continue;
             if (!pe->n18 && pe->gC < t) {
                 p->n230 = pe->n4;
-                func_001619A0(g_game, 0x34, p);
+                BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x34, p);
                 pe->n18 = 1;
             }
             if (pe->gC + p->g5C < t) {

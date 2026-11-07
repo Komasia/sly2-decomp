@@ -17,7 +17,7 @@ void func_001A5900(struct LO *, struct LO *, struct LO *, int);
 void func_0022FAA0(struct LO *);
 void func_001F2468(struct LO *);
 void func_001F26A8(struct LO *);
-void func_001F8668(struct LO *, int);
+void SetAloIced(struct LO *, int) asm("SetAloIced__FP3ALOl");
 }
 
 #define VCALL(po, slot, T) ((T)(po)->pvt[slot].pfn)((void *)((char *)(po) + (po)->pvt[slot].d)
@@ -66,5 +66,5 @@ extern "C" void func_001F21B8(struct LO *plo, struct LO *pa, struct LO *pb, int 
     if (grf & 8) VCALL(plo, 36, void (*)(void *, qword)), q2);
     func_001F2468(plo);
     func_001F26A8(plo);
-    if (plo->p10 && !(plo->p10->fl & (1L << 35))) func_001F8668(plo, 0);
+    if (plo->p10 && !(plo->p10->fl & (1L << 35))) SetAloIced(plo, 0);
 }

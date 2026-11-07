@@ -17,7 +17,7 @@ void func_00149C80(struct S *p);
 void func_00147F40(struct S *p);
 void func_002267C0(struct S *p);
 void func_001C4468(struct L *pl);
-void func_001F77C0(struct S *p);
+void AgeSwContacts__FPv(struct S *p);
 void func_0019F120(struct S *p);
 void func_00130918(void *pv);
 void func_00156728(void *pv);
@@ -56,7 +56,7 @@ void func_00226550(struct S *p)
         void *pv;
         for (pl = p->pl; pl; pl = pl->pnext)
             func_001C4468(pl);
-        func_001F77C0(p);
+        AgeSwContacts__FPv(p);
         p->pi = &i;
         for (i = 0; i < p->c; i++) {
             struct E *pe = &p->ae[i];

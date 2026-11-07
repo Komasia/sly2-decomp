@@ -37,7 +37,8 @@ static inline qword Blend(qword a,qword b,qword left,qword right){__asm__("vmula
 static inline qword BlendToRight(qword a,qword b,qword left,qword right){__asm__("vmulax.xyzw ACC,%1,%2x\n\tvmaddx.xyzw %0,%0,%3x":"+j"(b):"j"(a),"j"(left),"j"(right));return b;}
 static inline void StoreVF(qword *p,qword q){__asm__("sqc2 %1,%0":"=m"(*p):"j"(q));}
 static inline float Abs(float f){return __builtin_fabsf(f);}
-extern "C" void func_00223A70(S *p,qword begin,qword end,qword *out){
+// name: SafeHouse port (PosEyeCut)
+extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qword end,qword *out){
     O *object=p->object;
     WORK w;
     qword final;

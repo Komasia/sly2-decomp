@@ -10,7 +10,8 @@ static __inline__ qword Make(float x, float y, float z)
     return q;
 }
 void CalculateSinCos__FfPfT1(float g, float *ps, float *pc);
-qword func_0022CAD0(qword a, qword b)
+// name: SafeHouse port (VecRotateTiltPan)
+qword VecRotateTiltPan__FG9VU_VECTORT0(qword a, qword b)
 {
     float s0, c0, s1, c1;
     union { qword q; float f[4]; } r;

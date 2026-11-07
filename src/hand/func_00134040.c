@@ -12,7 +12,7 @@ struct C *__10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void func_001A7E10(struct P *, void *);
 void *func_001AA1D8(struct P *, struct X *, struct X *);
-void func_001F5078(struct LO *);
+void WakeAlo__FP3ALO(struct LO *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
 void func_00134040(struct P *p)
@@ -55,9 +55,9 @@ void func_00134040(struct P *p)
             { void *pvNew = func_001AA1D8(p, px, px2); pl->pv = pvNew; pl->pother->pv = pvNew; }
             if (pv || pl->pv) {
                 if (!VCALL(px->plo, 62, int (*)(void *))))
-                    func_001F5078(px->plo);
+                    WakeAlo__FP3ALO(px->plo);
                 if (!VCALL(px2->plo, 62, int (*)(void *))))
-                    func_001F5078(px2->plo);
+                    WakeAlo__FP3ALO(px2->plo);
             }
         }
     }

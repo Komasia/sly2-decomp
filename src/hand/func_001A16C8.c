@@ -12,7 +12,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct O*,int);
 qword func_0011E9F8(qword,float);
 qword func_001A62E8(struct O*);
 struct M3*func_001A6318(struct O*);
-qword func_001A6FC0(struct O*,struct O*,qword);
+qword ConvertVec__FP2LOT0G9VU_VECTOR(struct O*,struct O*,qword);
 void func_001A0B40(struct P*,int);
 static inline float Max(float a,float b){return a>b?a:b;}
 static inline qword Scalar(float f){qword q;int bits;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
@@ -74,9 +74,9 @@ void func_001A16C8(struct P*p){
             {qword k=Word(-150.0f);scratch.q=k;negative.q=k;}
             basis=func_001A6318(target);
             delta=Intercept(&selfPosition,&targetPosition,basis,&negative);
-            local=func_001A6FC0(0,target,delta);
-            if(Z(local)>0.0f)output.q=func_001A6FC0(target,0,D_002BFAE0.q);
-            else output.q=func_001A6FC0(target,0,D_002BFAF0.q);
+            local=ConvertVec__FP2LOT0G9VU_VECTOR(0,target,delta);
+            if(Z(local)>0.0f)output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,D_002BFAE0.q);
+            else output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,D_002BFAF0.q);
         }
         break;
     case 0x100:

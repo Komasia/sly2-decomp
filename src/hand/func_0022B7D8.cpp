@@ -141,7 +141,7 @@ extern "C"
 {
 void *func_002333B4(void *pv, int b, uint cb);                       // memset
 void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);         // CopyAb
-qword func_001A6F00(SO *psoFrom, SO *psoTo, qword pos);              // ConvertLoPos
+qword ConvertPos(SO *psoFrom, SO *psoTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");              // ConvertLoPos
 float RadNormalize(float rad) asm("RadNormalize__Ff");                                      // RadNormalize
 void CalculateSinCos(float rad, float *pgSin, float *pgCos) asm("CalculateSinCos__FfPfT1");           // CalculateSinCos
 MATRIX4 func_0011C318(const MATRIX4 *pmat);                          // the inverse of a 4x4 matrix
@@ -365,7 +365,7 @@ extern "C" void func_0022B7D8(WR *pwr)
             MATRIX4 matWorld = pwrbg->pglob->pxf->matWorld;
             if (pwrbg->pglob->pmatUnk08)
                 matWorld = func_0011C168(matWorld, *pwrbg->pglob->pmatUnk08);
-            posWorldBend = func_001A6F00(pwrbg->pso, 0, posBend);
+            posWorldBend = ConvertPos(pwrbg->pso, 0, posBend);
 
             // the state vectors of every warp entry
             for (int iwre = 0; iwre < pwr->cwre; iwre++)

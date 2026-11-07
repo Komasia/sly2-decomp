@@ -34,27 +34,28 @@ extern DL D_003E0F90;
 extern char g_game[];
 extern int D_002DEB44;
 extern "C" int func_001637E8(O *p);
-extern "C" void func_001619A0(void *pv, int n, O *p);
+extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
 extern "C" void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 extern "C" void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
-extern "C" void func_001620B0(O *p, int n, int c, int a);
-extern "C" void func_001623D0(O *p, int n, int c, int a, int b);
+extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
+extern "C" void ApplyTaskSms(O *p, int n, int c, int a, int b) asm("ApplyTaskSms__FPvT0iT0i");
 extern "C" void func_001643B0(O *p);
 extern "C" void func_00163C28(O *p);
 extern "C" void func_00163CE0(O *p);
-extern "C" void func_001657D0(O *p, int n)
+// name: SafeHouse port (SetTaskState)
+extern "C" void SetTaskState__FP4TASKi(O *p, int n)
 {
     if (p->n54 == n)
         return;
     if (func_001637E8(p)) {
-        func_001619A0(g_game, 0x26, p);
+        BroadcastTaskEvent(g_game, 0x26, p);
         p->Msg(0x16, 0, 0, 0, 0);
     }
     if (p->n54 == 1)
         RemoveDlEntry(&D_003E0F90, p);
     if (func_001637E8(p)) {
-        func_001620B0(p, n, p->fa8, p->fac);
-        func_001623D0(p, n, p->fb0, p->fb4, p->ff4);
+        ApplyTaskObjects(p, n, p->fa8, p->fac);
+        ApplyTaskSms(p, n, p->fb0, p->fb4, p->ff4);
     }
     switch (n) {
     case 0:
@@ -77,7 +78,7 @@ extern "C" void func_001657D0(O *p, int n)
     p->f58 = g_clock.t;
     func_001643B0(p);
     if (func_001637E8(p)) {
-        func_001619A0(g_game, 0x25, p);
+        BroadcastTaskEvent(g_game, 0x25, p);
         p->Msg(0x15, 0, 0, 0, 0);
         p->V4(0x11, p);
     }

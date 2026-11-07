@@ -4,7 +4,8 @@ struct LO;
 typedef struct { short d; short pad; M4 *(*pfn)(struct LO *); } VT;
 struct LO { int x0, x4, x8; VT *vt; };
 void func_0011C318(M4 *pm, M4 *pn);
-qword func_001A6F00(struct LO *a, struct LO *b, qword v)
+// name: SafeHouse port (ConvertPos)
+qword ConvertPos__FP2LOT0G9VU_VECTOR(struct LO *a, struct LO *b, qword v)
 {
     if (a) {
         M4 *pm = a->vt[31].pfn((struct LO *)((char *)a + a->vt[31].d));

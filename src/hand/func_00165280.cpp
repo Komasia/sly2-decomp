@@ -61,13 +61,14 @@ struct SS { int pad[4]; int f10; int f14; int oid; };
 extern G g_sw;
 extern char D_002A5238[];
 extern "C" void func_00165C98(int *pc, X ***papx);
-extern "C" void func_00164270(X *p);
+extern "C" void RestoreTask(X *p) asm("RestoreTask__FP4TASK");
 extern "C" X *func_0015E938(G *pg, int kind, int oid, void *owner);
-extern "C" void func_00164DF0(X *p, int n);
-extern "C" void func_001D8B20(CRef *pref, CRef *parg, void *pv, int n);
+extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
+extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 extern "C" void func_00129EC8(CRef *pref);
-extern "C" void func_001657D0(X *p, int n);
-extern "C" void func_00165280(SS *ps)
+extern "C" void SetTaskState(X *p, int n) asm("SetTaskState__FP4TASKi");
+// name: SafeHouse port (StartQueuedTask)
+extern "C" void StartQueuedTask__FP2SS(SS *ps)
 {
     if (!(g_sw.f3bf4 & 8))
         return;
@@ -79,27 +80,27 @@ extern "C" void func_00165280(SS *ps)
     for (i = 0; i < c; i++) {
         X *pxT = apx[i];
         CSave save(pxT, 3, 0);
-        func_00164270(pxT);
+        RestoreTask(pxT);
     }
     X *px = func_0015E938(&g_sw, 0x105, ps->oid, 0);
     ps->f10 = px->f7c->f18;
     ps->f14 = px->f18;
     CSave save(px, 3, 0);
-    func_00164DF0(px, 1);
+    ChangeTaskState(px, 1);
     int nC0 = px->fC0;
     if (nC0 != -1) {
         CRef refRet;
         CRef ref;
         ref.m_tagk = 0x15;
         ref.m_tag = nC0;
-        func_001D8B20(&refRet, &ref, D_002A5238, 0);
+        SetProgressPoCurrent(&refRet, &ref, D_002A5238, 0);
         func_00129EC8(&refRet);
         func_00129EC8(&ref);
     }
     for (i = 0; i < c; i++) {
         X *pxT = apx[i];
         CSave save2(pxT, 3, 0);
-        func_001657D0(pxT, -1);
+        SetTaskState(pxT, -1);
     }
     g_sw.f3c38 = px->fB8;
     g_sw.f3c3c = -1;

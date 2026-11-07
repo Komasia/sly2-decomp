@@ -13,7 +13,7 @@ struct CLOCK {float time,dt;};
 extern "C" CLOCK g_clock;
 extern "C" qword func_001A62E8(P*);
 extern "C" void*func_002333B4(void*,int,int);
-extern "C" P*func_001F7598(HIT*);
+extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
 extern "C" int func_001A2788(P*,L*,qword*);
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 func_0011C168(const M4*,const M4*);
@@ -42,7 +42,7 @@ extern "C" void func_001A2460(P*p){
    hit.kind=p->link->kind;
    hit.point.q=func_001A62E8(p);
    hit.direction.q=Direction(p);
-   (void)func_001F7598(&hit);
+   (void)PaloAcceptContact(&hit);
   }
  }
  if(!p->link->effect)return;

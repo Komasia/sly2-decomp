@@ -4,7 +4,8 @@ struct X { void *po; };
 extern qword g_normalZ;
 qword func_001A62E8(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
-qword func_0014FE58(struct X *p)
+// name: SafeHouse port (CPRECON::PosFocus)
+qword PosFocus__7CPRECON(struct X *p)
 {
     U s;
     U pos;

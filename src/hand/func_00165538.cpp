@@ -52,35 +52,36 @@ struct CRef { int m_tagk; int m_tag; };
 struct G { char pad[0x3B0C]; X *f3b0c; char pad2[0x3E38 - 0x3B10]; int f3e38; };
 extern G g_sw;
 extern char D_002A5238[];
-extern "C" void func_00162EA0(X *p);
-extern "C" void func_001628B8(X *p);
-extern "C" void func_00164DF0(X *p, int n);
+extern "C" void RestartJob(X *p) asm("RestartJob__FP3JOB");
+extern "C" void JobSwitch(X *p) asm("JobSwitch__FP3JOB");
+extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
 extern "C" void func_00163C28(X *p);
-extern "C" void func_001D8B20(CRef *pref, CRef *parg, void *pv, int n);
+extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 extern "C" void func_00129EC8(CRef *pref);
 extern "C" int func_00210A88();
 extern "C" void *func_00210990(int n);
 extern "C" void func_0022B490(G *pg, void *p, int a, int b, int c, int d);
-extern "C" void func_00165538(X *p)
+// name: SafeHouse port (RestartTask)
+extern "C" void RestartTask__FP4TASK(X *p)
 {
     CSave save(p, 2, 0);
     CSave saveOwner(p->f7c, 2, 0, 1);
     if (p->f7c != g_sw.f3b0c) {
         if (g_sw.f3b0c) {
             CSave saveCur(g_sw.f3b0c, 2, 0, 1);
-            func_00162EA0(g_sw.f3b0c);
+            RestartJob(g_sw.f3b0c);
         }
         if (p->f7c)
-            func_001628B8(p->f7c);
+            JobSwitch(p->f7c);
     }
-    func_00164DF0(p, 1);
+    ChangeTaskState(p, 1);
     func_00163C28(p);
     if (p->fC0 != -1) {
         CRef refRet;
         CRef ref;
         ref.m_tagk = 0x15;
         ref.m_tag = p->fC0;
-        func_001D8B20(&refRet, &ref, D_002A5238, 0);
+        SetProgressPoCurrent(&refRet, &ref, D_002A5238, 0);
         func_00129EC8(&refRet);
         func_00129EC8(&ref);
     }

@@ -4,8 +4,9 @@ struct S { char pad[0x180]; int x180; int x184; char p1[0x38]; int n; float t; c
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 static __inline__ void ClearX(struct X *px) { px->a = px->b = px->c = 0; }
-void func_0017F4C0(struct S *p, struct E *pe);
-void func_00181268(struct S *p, int n)
+void PlayHackSeg__FP2LOP6HACKSO(struct S *p, struct E *pe);
+// name: SafeHouse port (SetEnemyState)
+void SetEnemyState__FP2LOi(struct S *p, int n)
 {
     if (p->n == n) return;
     if (p->n == -1) p->x184 = p->x180;
@@ -18,5 +19,5 @@ void func_00181268(struct S *p, int n)
     case 3:
         break;
     }
-    func_0017F4C0(p, n == -1 ? 0 : &p->ae[n]);
+    PlayHackSeg__FP2LOP6HACKSO(p, n == -1 ? 0 : &p->ae[n]);
 }

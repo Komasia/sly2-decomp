@@ -1,4 +1,4 @@
-// func_00164DF0: object state change (applies overrides to gathered children, then notifies)
+// ChangeTaskState__FP4TASKi: object state change (applies overrides to gathered children, then notifies)
 struct P{char pad[0x54];int state;char pad58[0x24];void*link;char pad80[0x14];int enabled;char pad98[8];int count;P**children;char padA8[0x48];int pending;int x,y;};
 struct CONTEXT{char pad[0xF0];int x,y;};
 struct REQUEST{int bytes,alignment;REQUEST(int cb,int a):bytes(cb),alignment(a){}};
@@ -12,12 +12,12 @@ extern G g_sw;
 HEAP_SCOPE*__10STACKSCOPE(HEAP_SCOPE*);
 void*PvAllocStackClearImpl(const REQUEST&) asm("PvAllocStackClearImpl__Fi");
 void _$_10STACKSCOPE(HEAP_SCOPE*,int);
-void func_00164CE8(P*,int,int*,P**);
+void CollectTasks(P*,int,int*,P**) asm("CollectTasks__FP4TASKiPiPv");
 void func_00165A60(P*,int);
 int func_00210AE0(void);
-int func_00161660(void*);
+int NTasksPercentDone(void*) asm("NTasksPercentDone__Fv");
 int func_001637E8(P*);
-void func_00162CD0(void*,P*);
+void JobTaskReached(void*,P*) asm("JobTaskReached__FP3JOBP4TASK");
 void func_001ABD98(void*,int);
 CRef*func_001291A8(CRef*,const CRef*);
 void func_00129EC8(CRef*);
@@ -32,7 +32,8 @@ struct CRef{int kind,value;CRef(int v){kind=0x15;value=v;}CRef(const CRef&r){fun
 extern "C" CRef func_00258200(void*,const CRef&,void*);
 static inline void SetPv(void*object,const CRef&ref,void*){CRef arg(ref);const CRef&result=func_00258200(object,arg,D_003D4A60);}
 static inline void SetValue(void*object,int n){CRef r(n);SetPv(object,r,D_003D4A60);}
-extern "C" void func_00164DF0(P*p,int state){
+// name: SafeHouse port (ChangeTaskState)
+extern "C" void ChangeTaskState__FP4TASKi(P*p,int state){
     int old=p->state;
     if(state==old)return;
     if(D_002DEB28)return;
@@ -46,7 +47,7 @@ extern "C" void func_00164DF0(P*p,int state){
         int count=0;
         list=(P**)Allocate(D_003E0F8C*4);
         p->pending=state;
-        func_00164CE8(p,filter,&count,list);
+        CollectTasks(p,filter,&count,list);
         for(;i<count;i++){
             P*object=list[i];
             OVERRIDE temporary(object,p->x,p->y);
@@ -60,10 +61,10 @@ extern "C" void func_00164DF0(P*p,int state){
     int mode=func_00210AE0();
     if((unsigned)mode<9){
         void*object=g_sw.players[mode];
-        if(object){SetValue(object,func_00161660(g_game));}
+        if(object){SetValue(object,NTasksPercentDone(g_game));}
     }
     if(func_001637E8(p)&&old!=-1&&old<2&&p->state>=2){
-        if(p->link){func_00162CD0(p->link,p);if(p->link)return;}
+        if(p->link){JobTaskReached(p->link,p);if(p->link)return;}
         if(p->enabled){
             int all=1;
             for(int i=0;i<p->count;i++){if(!p->children[i]->link){all=0;break;}}

@@ -34,7 +34,8 @@ static inline qword MulM3(qword *m, qword v)
     __asm__("vmulax.xyz $ACC, %1, %0x\n\tvmadday.xyz $ACC, %2, %0y\n\tvmaddz.xyz %0, %3, %0z" : "+j"(v) : "j"(m[0]), "j"(m[1]), "j"(m[2]));
     return v;
 }
-void func_001B86B0(struct P *p, int k)
+// name: SafeHouse port (SetMurrayPunch)
+void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
 {
     void *q;
     float g;

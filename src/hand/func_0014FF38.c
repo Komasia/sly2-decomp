@@ -8,8 +8,8 @@ struct X {
     int x0; char pad[0xC]; float x10; float x14; int x18; int x1C; int x20; int x24; float x28; float x2C; float x30;
     int x34; int x38; F2 x3C; F2 x44; float x4C; float x50; int x54;
 };
-void func_0014FCC8(struct X *p);
-void *func_001FBB90(int);
+void Activate__5CPLCYP2LOPv(struct X *p);
+void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void func_00258040(int *, void *);
 void Pause__4CSnd(int);
@@ -19,17 +19,18 @@ void *func_001A6318(int);
 float func_0011D948(F2 *, float);
 void SetCmNearClip__FP2CMf(struct G *, float);
 
-void func_0014FF38(struct X *p)
+// name: SafeHouse port (CPRECON::Activate)
+void Activate__7CPRECONP2LOPv(struct X *p)
 {
     struct G *pg;
     void *pv;
     float g;
-    func_0014FCC8(p);
-    pv = func_001FBB90(0x26);
+    Activate__5CPLCYP2LOPv(p);
+    pv = PsndNewPlain__Fi(0x26);
     SetSource__4CSndPv(pv, 0);
     func_00258040(&p->x34, pv);
     {
-        void *pv2 = func_001FBB90(0x25);
+        void *pv2 = PsndNewPlain__Fi(0x25);
         SetSource__4CSndPv(pv2, 0);
         func_00258040(&p->x38, pv2);
     }

@@ -23,7 +23,8 @@ static __inline__ M3 MulM3(M3 *pa, M3 *pb)
     m.r[2] = MulV(pa, pb->r[2]);
     return m;
 }
-void func_001426E8(struct P *p, int x)
+// name: SafeHouse port (AttachActorLook)
+void AttachActorLook__FP5ACTORi(struct P *p, int x)
 {
     struct SO *pso = func_001F4C58(p, x, 6);
     M3 m, a;

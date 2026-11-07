@@ -38,5 +38,5 @@ extern s32 D_003E0F9C;
 extern s32 D_003E0FE4;
 
 void func_001B10B0(s32 arg0, s32 arg1, s32 arg2) {
-    func_001F59A0(arg0, arg0 + 0x1E0, arg0 + 0x210);
+    BrakeAloRotation__FP3ALOP7MATRIX3Pf(arg0, arg0 + 0x1E0, arg0 + 0x210);
 }

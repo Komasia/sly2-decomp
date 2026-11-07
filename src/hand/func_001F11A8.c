@@ -7,7 +7,7 @@ extern char D_002DE578[];
 int func_001F0638(struct P *);
 int func_001F0438(void *, int);
 struct A *func_001F0B80(void *, int, int, int, int);
-float func_00154C90(void *);
+float GSuck__FPv(void *);
 static inline float Eval(struct V3 *pv, float t)
 {
     return pv->x + t * (pv->y + t * pv->z);
@@ -35,7 +35,7 @@ float func_001F11A8(struct P *p, int k)
     }
     while (cur != end && (pa = func_001F0B80(p->p24, p->n48, cur, end, 1)) != 0) {
         if (pa->pt) {
-            float t = func_00154C90(D_002DE578);
+            float t = GSuck__FPv(D_002DE578);
             float v = Eval(&pa->pt->v80, t);
             float mn = pa->pt->f90;
             float mx = pa->pt->f94;

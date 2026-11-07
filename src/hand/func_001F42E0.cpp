@@ -9,9 +9,9 @@ extern G g_sw;
 extern "C" M3 func_0011B340(const M3 *);
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void *func_002333B4(void *,int,int);
-extern "C" void func_001F4E28(P *);
+extern "C" void DetachAloContacts(P *) asm("DetachAloContacts__FP3ALO");
 extern "C" void func_00230598(P *,LO *);
-extern "C" void func_001F3900(P *);
+extern "C" void CopyAloSoeMatrices(P *) asm("CopyAloSoeMatrices__FP3ALO");
 static inline M3 Mul(const M3 &a,const M3 &b) return r
 {
     qword a0=a.r[0].q,a1=a.r[1].q,a2=a.r[2].q;
@@ -19,7 +19,8 @@ static inline M3 Mul(const M3 &a,const M3 &b) return r
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1].q));
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2].q):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2].q));
 }
-extern "C" void func_001F42E0(P *p,const M3 *basis)
+// name: SafeHouse port (SetAloRotation)
+extern "C" void SetAloRotation__FP3ALOP7MATRIX3(P *p,const M3 *basis)
 {
     LO *object=p->object;
     if(!object)return;
@@ -43,8 +44,8 @@ extern "C" void func_001F42E0(P *p,const M3 *basis)
         int stamp=++g_sw.stamp;
         p->object->stamp=stamp;
         p->vt[18].fn((char *)p+p->vt[18].delta);
-        func_001F4E28(p);
+        DetachAloContacts(p);
         func_00230598(p,p->object);
-        func_001F3900(p);
+        CopyAloSoeMatrices(p);
     }
 }

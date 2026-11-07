@@ -6,7 +6,8 @@ struct S { char pad[0x208]; struct A *pa; char pad1[0x4c0 - 0x20c]; int f4c0; ch
 void func_0019FEB0(void *, int, ti128);
 void func_001942F0(void *);
 void func_0019EA60(void *);
-void func_00135EB0(struct S *p) {
+// name: SafeHouse port (UpdateActorSupport)
+void UpdateActorSupport__FP5ACTOR(struct S *p) {
     struct A *pa;
     switch (p->st) {
     case 0: case 1: case 5: case 6: case 7: case 11: case 12: case 14:

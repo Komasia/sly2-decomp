@@ -14,7 +14,7 @@ void func_0012FE58(X *px, void *p, ENT *pent, int *pa, Y **ppy);
 M4 func_0011C168(M4 *pa, M4 *pb);
 M4 func_0022C8C0(Y *py, qword q);
 M4 func_0022CB90(Y *py, M4 *pm, qword q1, qword q2);
-M4 func_0022CC00(Y *py, qword q);
+M4 DmatOfValue(Y *py, qword q) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
 void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2);
 }
 static inline void ClearM4(M4 *pm) { func_002333B4(pm, 0, sizeof(M4)); }
@@ -66,7 +66,7 @@ void func_001300B8(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *
                     mB = func_0022CB90(py, &mA, aq[0], aq[1]);
                     break;
                 default:
-                    mB = func_0022CC00(py, aq[1]);
+                    mB = DmatOfValue(py, aq[1]);
                     break;
                 }
                 goto found;

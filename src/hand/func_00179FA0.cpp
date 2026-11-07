@@ -23,7 +23,7 @@ extern "C"{
  float func_002458F0(float,float);
  float RadNormalize(float) asm("RadNormalize__Ff");
  void func_0011B500(M3*,float,qword);
- M3*func_0011B830(M3*,qword,qword);
+ M3*BuildLookAtMatrix(M3*,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
  void func_001C3500(P*,int,M3*,float);
  void OffsetUseByHands(C*) asm("OffsetUseByHands__FP6JOBUSE");
  int FDropOnGround(qword*,float,float,int,int(*)(void)) asm("FDropOnGround__FP6VECTORffiPv");
@@ -114,7 +114,7 @@ extern "C" void Enter__6JOBUSE(C*p){
    active|=func_00207A20(0x28);
    p->basisValid=1;
    M3*m=func_001A6318(p->target);
-   (void)func_0011B830(&work.temp.basis,m->r[0],g_normalZ);
+   (void)BuildLookAtMatrix(&work.temp.basis,m->r[0],g_normalZ);
    p->matrix=work.temp.basis;
    OffsetUseByHands(p);
   }else{
@@ -142,7 +142,7 @@ extern "C" void Enter__6JOBUSE(C*p){
    qword current=func_001A62E8(p->actor);
    P*actor;direction.q=BasisInputs(p,&otherPoint,current,&actor);
    M3*m=func_001A6318(actor->linked);
-   (void)func_0011B830(&work.temp.basis,m->r[0],direction.q);
+   (void)BuildLookAtMatrix(&work.temp.basis,m->r[0],direction.q);
    func_00209840(Control(p->actor),&work.temp.basis);
    break;
   }

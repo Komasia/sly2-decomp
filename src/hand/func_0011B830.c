@@ -1,4 +1,4 @@
-/* func_0011B830 (Claude agent, 2026-10-23): matched from build/hand_wip/func_0011B830.v4.c. Separate l/l2 for the two
+/* BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1 (Claude agent, 2026-10-23): matched from build/hand_wip/BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1.v4.c. Separate l/l2 for the two
    lengths, plus allocation-only operands on the first Div and second Len. */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
@@ -39,7 +39,8 @@ static inline qword Div(qword v, qword l)
     return r;
 }
 static __inline__ float F(qword q) { float g; __asm__("mtc1 %1, %0" : "=f"(g) : "r"(q)); return g; }
-M3 *func_0011B830(M3 *pm, qword x, qword y)
+// name: SafeHouse port (BuildLookAtMatrix)
+M3 *BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(M3 *pm, qword x, qword y)
 {
     qword l, l2, z;
     register qword xn __asm__("vf4"); /* register pin: normalized x lives in vf4 on both paths */

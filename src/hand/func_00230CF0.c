@@ -26,7 +26,7 @@ typedef struct G { char pad[0x3D58]; int x3D58; } G;
 extern G g_sw;
 extern qword D_002A2DD0;
 int func_00131968(A *);
-int func_0012CEE0(C *);
+int FFirst__4CTRL(C *);
 void func_0022DD00(LO *, P *);
 qword func_0022CA18(P *, P *);
 qword func_0011BFF0(qword *);
@@ -48,7 +48,7 @@ void func_00230CF0(A *a, int flag)
         P *p;
         LO *q;
         qword v;
-        if (!func_0012CEE0(c))
+        if (!FFirst__4CTRL(c))
             continue;
         p = c->x8;
         q = c->x4;

@@ -1,4 +1,4 @@
-/* func_0011E630 (Claude agent, lane A23, 2026-10-23), from v6. The u/v dots (DotG) end with one `mtc1` asm from the qword
+/* ClosestLineParams__FG9VU_VECTORN30P6VECTORN24 (Claude agent, lane A23, 2026-10-23), from v6. The u/v dots (DotG) end with one `mtc1` asm from the qword
    so gcc emits the qmfc2 moves itself; the commented barrier sits after ba (not ca). One pin (d). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
@@ -31,7 +31,8 @@ static inline float DotG(qword a, qword b)
     __asm__("mtc1 %1, %0" : "=f"(f) : "r"(d));
     return f;
 }
-void func_0011E630(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal)
+// name: SafeHouse port (ClosestLineParams)
+void ClosestLineParams__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword pos, float *puv, float *pdist, qword *pnormal)
 {
     qword ca, ba, pc, n;
     float lenSq;

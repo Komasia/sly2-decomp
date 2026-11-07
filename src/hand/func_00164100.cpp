@@ -38,7 +38,8 @@ inline CSave::~CSave()
     }
 }
 static inline int Max(int a, int b) { return a < b ? b : a; }
-extern "C" void func_00164100(X *p, int *pc, X **apx, int nDepth, int n)
+// name: SafeHouse port (VisitTask)
+extern "C" void VisitTask__FP4TASKPiPvii(X *p, int *pc, X **apx, int nDepth, int n)
 {
     p->f100 = Max(nDepth, p->f100);
     p->f104 = Max(n, p->f104);
@@ -51,7 +52,7 @@ extern "C" void func_00164100(X *p, int *pc, X **apx, int nDepth, int n)
         for (int i = 0; i < p->cA0; i++) {
             X *px = p->apxA4[i];
             CSave save(px, p->fF4, p->fF8);
-            func_00164100(px, pc, apx, nDepth, n);
+            VisitTask__FP4TASKPiPvii(px, pc, apx, nDepth, n);
         }
     }
 }

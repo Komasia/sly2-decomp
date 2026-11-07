@@ -1,4 +1,4 @@
-// func_001F59A0: angular braking and bounded angular-velocity correction.
+// BrakeAloRotation__FP3ALOP7MATRIX3Pf: angular braking and bounded angular-velocity correction.
 // coef a = top angular speed, (a-b)/c = angular acceleration, a*a/(2*acceleration) = stopping angle.
 // Caps an overspeed, turns the owner toward `orientation` (expressed in its parent space) with a desired
 // speed taken from the predicted remaining angle, and adds a force change bounded by acceleration*dt.
@@ -32,7 +32,8 @@ static inline qword DotQ(qword value,qword normal){qword d=value,b=normal,one;__
 static inline float GetX(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Length(qword a){qword d,one;float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(a));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
 
-extern "C" void func_001F59A0(P *p,const M3 *orientation,const COEF *c)
+// name: SafeHouse port (BrakeAloRotation)
+extern "C" void BrakeAloRotation__FP3ALOP7MATRIX3Pf(P *p,const M3 *orientation,const COEF *c)
 {
     M3 frame,relative;
     U axis,wanted,change,predicted;

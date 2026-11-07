@@ -14,13 +14,14 @@ extern "C" void *PvAllocStackClearImpl(MSG *) asm("PvAllocStackClearImpl__Fi");
 extern "C" void func_001AE5A0(void *,const void *,unsigned int);
 extern "C" M4 *func_0011C318(M4 *,const M4 *);
 extern "C" M4 *func_0011C168(M4 *,const M4 *,const M4 *);
-extern "C" void func_00166270(GEO *,const M4 *,GEO *);
+extern "C" void CopyTransformGeom(GEO *,const M4 *,GEO *) asm("CopyTransformGeom__FP4GEOMP7MATRIX4T0");
 extern "C" void func_001191E8(TREE *,GEO *,TREE *,GEO *);
 
 static inline float SquaredLength(qword a){qword one;float f;__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(a),"=&j"(one));__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
 /* volatile: the game's sqrt.s is a barrier for the scheduler (the radius store must precede the next constant). */
 static inline float Sqrt(float f){float r;__asm__ volatile("sqrt.s %0,%1":"=f"(r):"f"(f));return r;}
-extern "C" void func_001F70C0(P *source,LO *space,int inserted,P *dest)
+// name: SafeHouse port (RebuildSoe)
+extern "C" void RebuildSoe__FP3SOEP2XFiT0(P *source,LO *space,int inserted,P *dest)
 {
     M4 transform;
     GEO temporary;
@@ -39,8 +40,8 @@ extern "C" void func_001F70C0(P *source,LO *space,int inserted,P *dest)
     func_001AE5A0(points+(pinned+inserted),temporary.points+pinned,(temporary.count-pinned)*16);
     temporary.count+=inserted;temporary.points=points;
     {M4 product,inverse;func_0011C168(&product,(func_0011C318(&inverse,&space->matrix),&inverse),&source->owner->matrix);transform=product;}
-    func_00166270(&temporary,&transform,&dest->local);
-    func_00166270(&dest->local,&space->matrix,&dest->world);
+    CopyTransformGeom(&temporary,&transform,&dest->local);
+    CopyTransformGeom(&dest->local,&space->matrix,&dest->world);
     func_001191E8(&source->tree,&source->world,&dest->tree,&dest->world);
     _$_10STACKSCOPE(&frame,2);
 }

@@ -6,7 +6,8 @@ extern struct CLOCK g_clock;
 extern int D_003E0F9C;
 void func_001A5E28(struct S *p);
 void func_00165118(struct S *p, int n);
-void func_00163B48(struct S *p)
+// name: SafeHouse port (UpdateTask)
+void UpdateTask__FP2LO(struct S *p)
 {
     struct O *po;
     func_001A5E28(p);

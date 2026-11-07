@@ -1,4 +1,4 @@
-/* func_001B98A0 (Claude agent, 2026-10-17): matched. The p/k s0/s1 swap came from declaring func_001443D8 with (p, k): it takes only p (as in func_0018D760), and the extra k use raised k's allocation priority. */
+/* FMurrayAbilityOk__FP6MURRAYi (Claude agent, 2026-10-17): matched. The p/k s0/s1 swap came from declaring func_001443D8 with (p, k): it takes only p (as in func_0018D760), and the extra k use raised k's allocation priority. */
 struct O { char pad[0x180]; void *x180; };
 struct P { char pad[0x2C4]; int x2C4; char pad1[0x12F0 - 0x2C8]; int x12F0; char pad2[0x13D0 - 0x12F4]; int x13D0; char pad3[0x13F0 - 0x13D4]; struct O *x13F0; };
 extern int g_grfjoyt;
@@ -9,7 +9,8 @@ int func_00194558(void *p, int k);
 int func_0019EEF0(void *p, int k);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_0014FD50(void *p);
-int func_001B98A0(struct P *p, int k)
+// name: SafeHouse port (FMurrayAbilityOk)
+int FMurrayAbilityOk__FP6MURRAYi(struct P *p, int k)
 {
     if (func_001443D8(p)) return 0;
     switch (p->x13D0) {

@@ -6,7 +6,7 @@ extern struct Q g_game;
 extern void *D_002DEB4C;
 extern char D_003DA530[];
 extern char D_002A3828[];
-CRef *func_002581C0(CRef *pref, void *a, void *b);
+CRef *NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 int func_001D9880(void *p);
 void func_001D54B8(void);
@@ -20,7 +20,7 @@ void func_00165E38(void *pv)
     register int n __asm__("$16"); /* register pin: n lives in s0 in the target */
     void *ps;
     void *prop;
-    func_002581C0(&ref, g_sw.f3b1c, pv);
+    NProgress(&ref, g_sw.f3b1c, pv);
     g = *(float *)&ref.m_tag;
     func_00129EC8(&ref);
     if (func_001D9880(D_003DA530) && g == 0.0f) {
@@ -42,7 +42,7 @@ void func_00165E38(void *pv)
         g_game.f10 = -1;
         g_game.f14 = -1;
         g_game.f18 = -1;
-        func_002581C0(&ref, pg->f3b28, pv);
+        NProgress(&ref, pg->f3b28, pv);
     }
     __asm__ __volatile__(""); /* ordering-only: ends the -1 constant's dependence chain at the call */
     n = ref.m_tag;
@@ -51,7 +51,7 @@ void func_00165E38(void *pv)
     prop = g_sw.a3b7c[n];
     n = 0;
     if (prop) {
-        func_002581C0(&ref, prop, pv);
+        NProgress(&ref, prop, pv);
         n = ref.m_tag;
         func_00129EC8(&ref);
     }

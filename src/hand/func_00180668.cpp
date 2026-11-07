@@ -1,5 +1,5 @@
-// func_00180668 (Claude agent, lane G19, 2026-10-24): MATCH, no register pins. From laneH9v5 (aligned 3): the case-3 first refresh subtract (target - previousTarget) uses QwSubC, the same vsub with a clobber of the dead vf3. Reload hands out spill regs round-robin over {v0,v1,vf1,vf2,vf3}; after the case 1/2 vsub (target vf1, self vf2) the next VF reload would get vf3; with vf3 clobbered (and prev in vf1) the target reload gets vf2 as in the target.
-// history: func_00180668 laneH9v5 (Claude agent lane H9, from laneH6v1): indexed for loop + const-ref loop helpers (R*): the loop has 96 RTL insns in loop pass 2, so loop.c no longer hoists the D_002A2DA0 high. aligned 3.
+// UpdateEnemy__FP2LO (Claude agent, lane G19, 2026-10-24): MATCH, no register pins. From laneH9v5 (aligned 3): the case-3 first refresh subtract (target - previousTarget) uses QwSubC, the same vsub with a clobber of the dead vf3. Reload hands out spill regs round-robin over {v0,v1,vf1,vf2,vf3}; after the case 1/2 vsub (target vf1, self vf2) the next VF reload would get vf3; with vf3 clobbered (and prev in vf1) the target reload gets vf2 as in the target.
+// history: UpdateEnemy__FP2LO laneH9v5 (Claude agent lane H9, from laneH6v1): indexed for loop + const-ref loop helpers (R*): the loop has 96 RTL insns in loop pass 2, so loop.c no longer hoists the D_002A2DA0 high. aligned 3.
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 typedef union U{qword q;float f[4];int i[4];}U;
@@ -20,10 +20,10 @@ extern LM D_002BE850,g_lmZeroOne;
 extern CLOCK g_clock;
 extern char D_002DE578[],g_sw[];
 void UpdateSo(P*) asm("UpdateSo__FP2SOf");
-int func_0017F550(P*);
-void func_00181268(P*,int);
+int FShipSegmentDone(P*) asm("FShipSegmentDone__FP2LO");
+void SetEnemyState(P*,int) asm("SetEnemyState__FP2LOi");
 qword func_001A62E8(void*);
-qword func_001A6FC0(void*,void*,qword);
+qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword func_0022FCC8(void*,void*,qword);
 float func_002458F0(float,float);
 float RadNormalize(float) asm("RadNormalize__Ff");
@@ -31,7 +31,7 @@ int func_0011D910(LM*,float);
 void func_001C02D0(void*,qword,qword,void*);
 void func_001E7380(void*,qword,void*,qword*,float,qword*,float*,float*);
 float func_001E6648(void*);
-float func_00154C90(void*);
+float GSuck(void*) asm("GSuck__FPv");
 int func_0015E9C8(void*,int,int,void*,int,NODE**);
 qword func_0011E9F8(qword,float);
 }
@@ -75,17 +75,18 @@ static inline float Evaluate(POLY*p,float t){return p->a+t*(p->b+t*p->c);}
 static inline float Limit(float f,LM*p){float low=p->low,high=p->high,r;if(f<low)r=low;else if(high<f)r=high;else r=f;return r;}
 static inline float Clamp(float f,LM*p){float low=p->low,high=p->high;if(f<low)f=low;else if(high<f)f=high;return f;}
 
-extern "C" void func_00180668(P*p){
+// name: SafeHouse port (UpdateEnemy)
+extern "C" void UpdateEnemy__FP2LO(P*p){
  U nearest,direction,unit;
  UpdateSo(p);
- if(p->state==2||p->state==4){if(func_0017F550(p))func_00181268(p,0);}
- if(p->state!=0&&p->state!=4){if(!p->target||!Alive(p->target))func_00181268(p,0);}
+ if(p->state==2||p->state==4){if(FShipSegmentDone(p))SetEnemyState(p,0);}
+ if(p->state!=0&&p->state!=4){if(!p->target||!Alive(p->target))SetEnemyState(p,0);}
  if(!p->active&&p->target&&Alive(p->target)){
   RULE*rule=&p->rules[p->state];
   qword target=func_001A62E8(p->target);
   qword delta=QwSub(target,func_001A62E8(p));
   float distance=Length(delta);
-  float heading=RadNormalize(Heading(func_001A6FC0(0,p,delta)));
+  float heading=RadNormalize(Heading(ConvertVec(0,p,delta)));
   int accept;
   if(!rule->distanceEnabled)accept=rule->angleEnabled;else accept=func_0011D910(&rule->stayDistance,distance);
   if(accept){
@@ -101,7 +102,7 @@ extern "C" void func_00180668(P*p){
     if(!rule->angleEnabled)break;
     if(func_0011D910(&rule->enterAngle,heading))break;
    }
-   func_00181268(p,state);
+   SetEnemyState(p,state);
   }
  }
 dispatch:
@@ -139,8 +140,8 @@ dispatch:
    unit.q=QwNormalizeSafe(d,D_002A2DD0,eps);
   }
   float remaining=func_001E6648(p->curve)-p->progress;
-  float turn=Heading(func_001A6FC0(0,p,unit.q));
-  float response=func_00154C90(D_002DE578);
+  float turn=Heading(ConvertVec(0,p,unit.q));
+  float response=GSuck(D_002DE578);
   float speed=Limit(Evaluate(&p->remaining,remaining),&g_lmZeroOne)*Limit(Evaluate(&p->angle,turn),&g_lmZeroOne)*Limit(Evaluate(&D_002BE830,response),&g_lmZeroOne)*p->scale;
   qword force=QwScaleX(unit.q,VuFloat(speed));
   NODE*objects[64];

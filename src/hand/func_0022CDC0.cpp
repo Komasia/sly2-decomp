@@ -14,9 +14,9 @@ struct O {
 extern qword D_002A2DD0;
 extern "C" void *func_0023320C(void *d, void *s, int n);
 extern "C" void *func_002333B4(void *p, int c, int n);
-extern "C" M4 *func_0022CCD0(M4 *pm, struct O *pa, const M3 *basis, qword v);
+extern "C" M4 *DmatSkew(M4 *pm, struct O *pa, const M3 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 extern "C" M4 *func_0022CB90(M4 *pr, struct O *pa, const M3 *basis, qword c, qword d);
-extern "C" M4 *func_0022CC00(M4 *pm, struct O *po, qword v);
+extern "C" M4 *DmatOfValue(M4 *pm, struct O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
 extern "C" qword func_0022CA18(struct O *pa, const M4 *matrix);
 extern "C" qword func_0011BFF0(const M3 *rotation);
 extern "C" void func_00117120(float g0, float g1, float g2, qword q0, qword q1, qword q2, qword q3, qword *pa, qword *pb, qword *pc);
@@ -48,7 +48,7 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
         case 6: case 7:
             switch (po->k98) {
             case 1: case 2: case 7: case 8: case 9: case 11: case 17: case 18: case 20: case 21: {
-                func_0022CCD0(&m, po, &po->local.basis, po->qB0);
+                DmatSkew(&m, po, &po->local.basis, po->qB0);
                 func_0023320C(pr, &m, 0x40);
                 break;
             }
@@ -118,7 +118,7 @@ extern "C" M4 *func_0022CDC0(M4 *pr, struct O *po)
                 }
                 break;
             }
-            func_0022CC00(&m2, po, m.r[0]);
+            DmatOfValue(&m2, po, m.r[0]);
             func_0023320C(pr, &m2, 0x40);
             break;
         }

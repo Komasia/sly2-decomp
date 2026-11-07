@@ -60,7 +60,7 @@ extern "C" {
 extern qword D_002A2DD0, g_normalZ, D_002BC380;
 void func_0022DD00(void *pv, X *px);
 void func_00117120(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n);
-M3 func_0011B830(qword a, qword b);
+M3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_0022FD38(M3 *pm, int n, X *px, M3 *pmSrc);
 }
 
@@ -132,7 +132,7 @@ extern "C" void func_0012D508(P *p)
     if (py->pxA0)
         v = MulM3(py->pxA0->m40, v);
     if (GetX(VLen(v)) < 100.0f) {
-        Fin(p, mT, func_0011B830(p->px8->m40.r[0], g_normalZ));
+        Fin(p, mT, BuildLookAtMatrix(p->px8->m40.r[0], g_normalZ));
     } else {
         qword u = D_002BC380;
         if (0.0f < p->g20 && 0.0f < p->g1C && py->po90) {
@@ -143,6 +143,6 @@ extern "C" void func_0012D508(P *p)
                 vT.q = MulM3(py->pxA0->m40, vT.q);
             u = AddScaledDiff(u, vT.q, v, VU_FLOAT(p->g1C / p->g20));
         }
-        Fin(p, mT, func_0011B830(v, u));
+        Fin(p, mT, BuildLookAtMatrix(v, u));
     }
 }

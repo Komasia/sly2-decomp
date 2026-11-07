@@ -13,7 +13,7 @@ typedef struct S {
 extern DLI *s_pdliFirst;
 extern struct { float t; } g_clock;
 extern const float D_002A77D0, D_002A77D4;
-void func_001F4B58(S *);
+void MarkOxaDirty1__FP3ALO(S *);
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
     pdli->pdl = pdl;
@@ -74,7 +74,7 @@ void ProjectRipgTransform__FP4RIPGfi(S *p)
         p->hi.q = hv;
         *(int *)&p->radius = r;
         p->center.q = mid;
-        func_001F4B58(p);
+        MarkOxaDirty1__FP3ALO(p);
     }
     s_pdliFirst = dli.pdliNext;
 }

@@ -8,8 +8,8 @@ void func_001F0660(int a, int b);
 void func_001B7D20(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct X *x, int n);
 void func_00209EE0(struct X *x);
-void func_001F7A68(struct X *x, int n);
-qword func_001A6FC0(struct P *p, int n, qword q);
+void SetAloEntryMode__FP3ALOi(struct X *x, int n);
+qword ConvertVec__FP2LOT0G9VU_VECTOR(struct P *p, int n, qword q);
 void func_001B7BA8(struct P *p)
 {
     struct O *o;
@@ -28,11 +28,11 @@ void func_001B7BA8(struct P *p)
     func_001B7D20(p);
     x = p->x13F0->x180;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x38)) func_00209EE0(x);
-    else func_001F7A68(x, 1);
+    else SetAloEntryMode__FP3ALOi(x, 1);
     switch (p->x13D0) {
     case 5: {
         struct VE *e = &x->vt[35];
-        ((void (*)(void *, qword))e->pfn)((char *)x + e->d, func_001A6FC0(p, 0, D_002C09E0));
+        ((void (*)(void *, qword))e->pfn)((char *)x + e->d, ConvertVec__FP2LOT0G9VU_VECTOR(p, 0, D_002C09E0));
         break;
     }
     case 2: case 4: case 7: case 8:

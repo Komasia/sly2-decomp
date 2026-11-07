@@ -4,8 +4,9 @@ extern struct G g_sw;
 int func_0015E9C8(struct G *pg, int kind, int n, int m, int c, void **apv);
 int func_00164030(void *p);
 void func_00162908(struct X *p);
-void func_001628B8(struct X *p);
-void func_001649D0(void)
+void JobSwitch__FP3JOB(struct X *p);
+// name: SafeHouse port (ChooseJob)
+void ChooseJob__Fv(void)
 {
     struct X *apx[256];
     struct X *pxFound = 0;
@@ -20,6 +21,6 @@ void func_001649D0(void)
         if (g_sw.f3b0c)
             func_00162908(g_sw.f3b0c);
         if (pxFound)
-            func_001628B8(pxFound);
+            JobSwitch__FP3JOB(pxFound);
     }
 }

@@ -6,7 +6,7 @@ struct ALO {char pad[0x50];int c;struct SUB*a;};
 struct E {int grf,id,ib;};
 extern char g_sw[];
 void*func_001F6030(struct ALO*,int);
-void func_001F2AD0(struct ALO*, void*);
+void SetSoeOff__FP3ALOP3SOE(struct ALO*, void*);
 void*func_001F5FF8(struct ALO*,int);
 void func_001F69F8(struct ALO*,int);
 struct LO*func_0015E938(void*,int,int,struct ALO*);
@@ -28,7 +28,7 @@ again:
 done:;
   }else if(grf&0x20){
    void*p=func_001F6030(palo,pe->id);
-   if(p){i++;*(void**)((char*)palo+pe->ib)=p;if(pe->grf&0x200)func_001F2AD0(palo,p);}else i++;
+   if(p){i++;*(void**)((char*)palo+pe->ib)=p;if(pe->grf&0x200)SetSoeOff__FP3ALOP3SOE(palo,p);}else i++;
   }else if(grf&0x40){
    void*p=func_001F5FF8(palo,pe->id);
    if(p){i++;*(void**)((char*)palo+pe->ib)=p;if(pe->grf&0x200)func_001F69F8(palo,pe->id);}else i++;

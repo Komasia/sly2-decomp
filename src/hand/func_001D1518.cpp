@@ -16,7 +16,7 @@ extern char g_sw[];
 void func_001F36A8(P *);
 REF *func_001F4C58(P *,int,int);
 void *func_002332B8(void *,const void *,int);
-qword func_001A6F00(void *,P *,qword);
+qword ConvertPos(void *,P *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void *func_0012DC18(P *,REF *,int,int,int,qword);
 void *func_0015E938(void *,int,int,P *);
 void *func_001F0380(void *,P *,int,int);
@@ -47,7 +47,7 @@ extern "C" void func_001D1518(P *p){
    func_002332B8(current.entry,source,bytes);
    --p->count;
   }else{
-   qword returned=func_001A6F00(0,p,reference->position);
+   qword returned=ConvertPos(0,p,reference->position);
    register qword position __asm__("vf2");register int upper __asm__("$2");
    asm("qmtc2.ni %3,%0\n\tsqc2 %0,%1\n\tlw %2,%4":"=j"(position),"=m"(current.entry->position.q),"=r"(upper):"r"(returned),"m"(current.entry->upper.bits));
    register qword high __asm__("vf3"),low __asm__("vf4");

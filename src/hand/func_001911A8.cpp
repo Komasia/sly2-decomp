@@ -1,4 +1,4 @@
-// func_001911A8: per-frame update of a hero's action context (the struct at actor+0x4C0; func_00134850 calls it in
+// func_001911A8: per-frame update of a hero's action context (the struct at actor+0x4C0; UpdateBentleyTransitions calls it in
 // its state 3). It dispatches on the context's action and loops while the action changed the step (and not to -1).
 // Action 8 / step "other" probes the ground below the actor: a box query along the actor's up axis, a line test
 // against every found object (any hit with a nonzero parameter aborts), then a sphere around the actor's world bounds
@@ -63,7 +63,7 @@ qword func_001A62E8(ACTOR *);                           // world position
 int func_0020F948(void *, SO *);
 void func_0020FAA0(SW *, qword, qword, int (*)(void *, SO *), void *, int *, SO ***);   // objects in a box
 int func_0014C6A0(SO *, qword, qword, int, LSG *);      // line test against an object
-void func_001F38A8(SO *);
+void UpdateSoeWorld(SO *) asm("UpdateSoeWorld__FP3SOE");
 qword func_0011F288(int, qword *);                      // min of points
 qword func_0011F2B8(int, qword *);                      // max of points
 void func_001A9B28(SW *, SO *, SO *, int, BSP *, XP **);
@@ -127,7 +127,7 @@ static inline void ProbeGround(CONTEXT *p)
     SO *psoSelf = p->pactor->pso;
     GEOM *pgeom = &psoSelf->geomWorld;
     int cbspMax = 0;
-    func_001F38A8(psoSelf);
+    UpdateSoeWorld(psoSelf);
     qword posMin = func_0011F288(pgeom->cpos, pgeom->apos);
     qword posMax = func_0011F2B8(pgeom->cpos, pgeom->apos);
     func_0020FAA0(&g_sw, posMin, posMax, func_0020F948, p->pactor->pvFilter, &cso, &apso);

@@ -27,8 +27,8 @@ extern V4 func_00256D08(qword *pv);
 extern qword func_00256D28(qword a, qword b);
 extern void func_00256D18(qword *pv, qword a);
 extern void func_0015BD20(int c, EMITB *pb, EMITR *pr);
-extern qword func_001A6F00(int x, int y, qword v);
-extern void *func_001FBB90(int id);
+extern qword ConvertPos__FP2LOT0G9VU_VECTOR(int x, int y, qword v);
+extern void *PsndNewPlain__Fi(int id);
 extern void SetSource__4CSndPv(void *p, void *pso);
 extern void SetPosition__4CSndG9VU_VECTOR(void *p, qword v);
 extern void SetFalloff__4CSndff(void *p, float a, float b);
@@ -145,8 +145,8 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
             }
             pos.q = v;
         }
-        pos.q = func_001A6F00(emitp.x0, 0, pos.q);
-        ps = func_001FBB90(p->psnd->id);
+        pos.q = ConvertPos__FP2LOT0G9VU_VECTOR(emitp.x0, 0, pos.q);
+        ps = PsndNewPlain__Fi(p->psnd->id);
         SetSource__4CSndPv(ps, 0);
         SetPosition__4CSndG9VU_VECTOR(ps, pos.q);
         SetFalloff__4CSndff(ps, p->psnd->g4, p->psnd->g8);

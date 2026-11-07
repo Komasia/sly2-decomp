@@ -35,7 +35,7 @@ void func_001384C0(ASEG *);
 int func_00131968(ASEGA *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001C46C0(CONTROL *,int,float);
-void func_00136530(O *,int);
+void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 TRACKREF *func_0012FF10(ASEG *,O *,void *,int);
 }
 static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
@@ -215,7 +215,7 @@ extern "C" void func_0021F418(S *s){
      qword speedValue,upValue; qword height=LiftFromUpper(600.0f,w.speed,savedUpper,speedValue,upValue);
      O *launchOwner;int launchFlag;LaunchPublication(LaunchVelocity(direction,speedValue,upValue,height),w.vector,launchOwner,launchFlag);
      w.scratch.vector.q=height;
-     func_00136530(launchOwner,launchFlag);LaunchVectorCall(D_002DD5BC,w.vector);
+     SetBentleyCarried(launchOwner,launchFlag);LaunchVectorCall(D_002DD5BC,w.vector);
     }
     if(s->effect)EffectCall(s->effect,9);
     return;

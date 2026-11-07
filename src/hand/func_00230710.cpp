@@ -1,4 +1,4 @@
-// (Claude agent, lane E17) MATCH from fresh19: func_0022CC00 declared void here. With the M4* return, the call sets $v0, so the
+// (Claude agent, lane E17) MATCH from fresh19: DmatOfValue declared void here. With the M4* return, the call sets $v0, so the
 // r3 store (v0) lost sched2's "more dependents" tie-break to the r2 store (v1, reused after the call). With void, plain *pm = t
 // matches and the old r1/$7 pin and qword temps are gone.
 // (Claude agent, lane E7) fresh18: aligned 2 (fresh17 3). SetM4 copies mat through explicit qword temps r0,r1,r2 stored r1,r2,r0.
@@ -16,11 +16,11 @@ struct O {
     M4 local; char pad40[0x90 - 0x40]; OB *pob; int k94; short k98; short k9A; char pad9C[0xB0 - 0x9C]; qword qB0;
 };
 extern "C" {
-int func_00230310(int);
+int FXfmMoving(int);
 M4 *func_0022C8C0(M4 *pm, O *po, qword v);
 M4 *func_0022CB90(M4 *pr, O *pa, const M4 *basis, qword c, qword d);
-void func_0022CC00(M4 *pm, O *po, qword v);
-M4 *func_0022CCD0(M4 *pm, O *pa, const M4 *basis, qword v);
+void DmatOfValue(M4 *pm, O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
+M4 *DmatSkew(M4 *pm, O *pa, const M4 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 M3 *func_0011B570(M3 *, qword);
 qword func_0022CA18(O *pa, const M4 *matrix);
 qword *func_00256D18(qword *, qword);
@@ -55,8 +55,8 @@ static inline void SetM4(M4 *pm, const M3 &mat, qword pos)
     pm->m[0][3] = 0.0f;
 }
 static inline M4 C8c0(O *po, const qword &v) return r { func_0022C8C0(&r, po, v); }
-static inline M4 Cc00(O *po, const qword &v) return r { func_0022CC00(&r, po, v); }
-static inline M4 Ccd0(O *po, const M4 *pm, qword v) return r { func_0022CCD0(&r, po, pm, v); }
+static inline M4 Cc00(O *po, const qword &v) return r { DmatOfValue(&r, po, v); }
+static inline M4 Ccd0(O *po, const M4 *pm, qword v) return r { DmatSkew(&r, po, pm, v); }
 static inline qword Scale(qword v, const VUF &f)
 {
     qword r;
@@ -85,11 +85,11 @@ void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
             *pm2 = t;
             break;
         default:
-            func_0022CC00(&t, po, q[1]);
+            DmatOfValue(&t, po, q[1]);
             *pm2 = t;
             break;
         }
-    } else if (func_00230310(po->k98)) {
+    } else if (FXfmMoving(po->k98)) {
         switch (po->k94) {
         case 6: case 7: {
             M3 mat;
@@ -104,7 +104,7 @@ void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
             M4 t;
             func_0022C8C0(&t, po, v[0]);
             *pm = t;
-            func_0022CC00(&t, po, po->qB0);
+            DmatOfValue(&t, po, po->qB0);
             *pm2 = t;
             break;
         }

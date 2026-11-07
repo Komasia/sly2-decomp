@@ -1,6 +1,7 @@
 struct X { char pad[0x54]; int n; char pad2[0x6C - 0x58]; int f6c; };
 struct S { char pad[0x94]; int c; struct X **apx; };
-int func_001645D0(struct S *p)
+// name: SafeHouse port (FTaskPrereqs)
+int FTaskPrereqs__FP4TASK(struct S *p)
 {
     int f = 1;
     int i;

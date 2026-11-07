@@ -6,7 +6,7 @@ struct E { int id; int n; float t; float tC; };
 struct O { int a[3]; struct VTE *vt; void *p10; };
 struct ARGS { struct E *pe; int *pn; int *pnNew; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-void func_001619A0(void *p, int n, void *q);
+void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
 void func_00154080(struct O *o, struct E *pe, int nNew)
 {
     struct ARGS args;
@@ -25,6 +25,6 @@ void func_00154080(struct O *o, struct E *pe, int nNew)
     if (nNew == 1) {
         void *q = o->p10;
         if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x33))
-            func_001619A0(g_game, 0x13, q);
+            BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x13, q);
     }
 }

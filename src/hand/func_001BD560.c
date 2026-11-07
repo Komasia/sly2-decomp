@@ -4,7 +4,7 @@ typedef struct S { char pad[0xE4]; int fWrap; } S;
 extern float D_002C0AC0;
 void func_001E6F10(S *p, qword *pv, int z, float t);
 float func_001E66C8(S *p, float t);
-float func_001E6620(S *p);
+float SMinCrv__FP3CRV(S *p);
 float func_001E6648(S *p);
 int func_001BC688(void *p, qword a, qword b, int c, HIT *ahit);
 
@@ -24,11 +24,11 @@ int func_001BD560(void *p, S *s, int fForward, qword *pq, float *pt, float t)
     for (;;) {
         av[0] = av[1];
         t += dt;
-        if (t <= func_001E6620(s)) {
+        if (t <= SMinCrv__FP3CRV(s)) {
             if (fWrapped) break;
             fWrapped = 1;
             if (s->fWrap) t = func_001E66C8(s, t);
-            else t = func_001E6620(s);
+            else t = SMinCrv__FP3CRV(s);
         } else if (func_001E6648(s) <= t) {
             if (fWrapped) break;
             fWrapped = 1;

@@ -4,18 +4,19 @@ struct P { char pad[0x150]; struct Q *x150; char pad0[0x190 - 0x154]; qword q190
 extern float D_002C09A0, D_002BF730;
 int func_00131968(int n);
 void func_001B6078(struct P *p, int n);
-void func_001B6DA8(struct P *p, int n);
+void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int n);
 int func_0019A098(struct P *p, void *q, float f);
 void func_0019F590(struct P *p, int n);
 qword func_0011E1A0(float a, float b, float c);
-void func_001B6BA8(struct P *p)
+// name: SafeHouse port (UpdateMurrayFlop)
+void UpdateMurrayFlop__FP6MURRAY(struct P *p)
 {
     int s;
     for (;;) {
         s = p->x13D8;
         if (!p->x1030 || func_00131968(p->x1030)) func_001B6078(p, 0);
         else if (p->x13D8 == 1) {
-            if (p->x13E4) func_001B6DA8(p, 2);
+            if (p->x13E4) SetMurrayFlopPhase__FP6MURRAYi(p, 2);
             else if (func_0019A098(p, p->x131C, p->f13DC)) func_0019F590(p, 0);
         }
         if (p->x13D8 == s || p->x13D8 == -1) break;

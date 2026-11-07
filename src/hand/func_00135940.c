@@ -11,7 +11,8 @@ void func_00194170(void *p);
 void func_001A1148(void *p);
 void func_0019DF70(void *p);
 void func_001FAC30(struct P *p, qword v);
-void func_00135940(struct P *p)
+// name: SafeHouse port (UpdateBentleyMotion)
+void UpdateBentleyMotion__FP3ALO(struct P *p)
 {
     if (p->k == 13)
         func_001F9B20(p);

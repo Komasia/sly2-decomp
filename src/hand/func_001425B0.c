@@ -14,7 +14,8 @@ extern char D_002BD270[];
 void func_001F3C10(struct P *p);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, int n);
 void func_00168638(void *p, int n, int m, float a, float b);
-void func_001425B0(struct P *p)
+// name: SafeHouse port (DrawActor)
+void DrawActor__FP5ACTOR(struct P *p)
 {
     float g0, g1;
     if (!(p->b2D & D_002DDF54)) return;

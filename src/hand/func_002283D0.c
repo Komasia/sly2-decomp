@@ -9,7 +9,7 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 void func_00228358(struct S *p, int k);
 struct S *func_002280D0(struct G *pg);
-void func_00161F48(void *a, int b, void *c, struct S *p);
+void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);
 void func_0014E4C8(void *a, int b, int c, void *d, int e, int f);
 void func_002283D0(struct S *p)
 {
@@ -21,7 +21,7 @@ void func_002283D0(struct S *p)
         if (q) func_002283D0(q);
         return;
     }
-    func_00161F48(g_game, p->x164, p->a168, p);
+    ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x164, p->a168, p);
     func_0014E4C8(g_cm, 2, -1, g_cm + 0x450, 0, 0);
     func_0014E4C8(g_cm, 2, -1, g_cm + 0x520, 0, 0);
     func_00228358(p, 4);

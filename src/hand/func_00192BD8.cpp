@@ -78,7 +78,7 @@ void func_001333C0(SOURCE *, ACTOR *);
 void func_00133448(SOURCE *, ACTOR *);
 void func_00204F78(ACTOR *, SOURCE *, int);
 void func_001E67B8(SOURCE *, float, qword *, qword *);
-EFFECT *func_001FBB90(int);
+EFFECT *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(EFFECT *, SOURCE *) asm("SetSource__4CSndPv");
 void func_00258040(EFFECT **, EFFECT *);
 void func_002046F0(ACTOR *, SOURCE *);
@@ -86,19 +86,19 @@ void func_00204CA8(ACTOR *);
 void func_002046B0(ACTOR *, qword);
 void func_0014E328(MANAGER *, int, CAMERA *, ACTOR *, void *);
 void func_0014E4C8(MANAGER *, int, int, CAMERA *, ACTOR *, void *);
-void func_0018E540(ACTOR *, int);
+void SetSlyMode(ACTOR *, int) asm("SetSlyMode__FP3SLYi");
 void func_001CCAC0(ATTACH *, int);
 void func_001CD2C0(void *);
 void Stop(EFFECT *, float) asm("Stop__4CSndf");
 void func_00140C88(ACTOR *, void *);
 void func_00194118(CONTEXT *);
-qword func_001A6F00(void *, void *, qword);
+qword ConvertPos(void *, void *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020BD68(PROGRAM_ITEM *);
 void func_00130658(ANIMATION **);
 void func_001F15B8(COMPONENT *);
 void func_001305B8(CLIP *, ACTOR *, float, float, int, ANIMATION **);
 void func_001F1448(PROGRAM *, ACTOR *, int, int, COMPONENT *);
-void func_0018C120(ACTOR *, int);
+void SetSlyHandles(ACTOR *, int) asm("SetSlyHandles__FP3SLYUi");
 }
 
 static inline void SourceState(SOURCE *p, int state)
@@ -227,7 +227,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             break;
         }
         case 2: {
-            EFFECT *effect = func_001FBB90(0x5C);
+            EFFECT *effect = PsndNewPlain(0x5C);
             SetSource(effect, 0);
             func_00258040(&D_002E1E40->effect, effect);
             break;
@@ -293,7 +293,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
         }
         case 6:
             if (!p->pactor->x18D8)
-                func_0018E540(p->pactor, -1);
+                SetSlyMode(p->pactor, -1);
             break;
         case 11:
             if (p->focus)
@@ -423,7 +423,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
                         func_00194118(p);
                         p->aux->enabled = 1;
                         AUX *aux = p->aux;
-                        aux->position = func_001A6F00(0, p->aux, func_001A62E8(source));
+                        aux->position = ConvertPos(0, p->aux, func_001A62E8(source));
                         p->aux->value = source->parameter;
                         func_00140C88(p->pactor, p->aux);
                     }
@@ -517,6 +517,6 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
         func_001F1448(script, p->pactor, -1, flags, &p->pactor->component);
         Notify(p->pactor, 90);
         if (FIsBasicDerivedFrom(p->pactor, 53))
-            func_0018C120(p->pactor, special);
+            SetSlyHandles(p->pactor, special);
     }
 }

@@ -1,4 +1,4 @@
-// func_001F6C08 (0x1F6C08): build the scratch mesh of P once (p->mesh at +0x10).
+// EnsureSoeMesh__FP3SOE (0x1F6C08): build the scratch mesh of P once (p->mesh at +0x10).
 // Allocates the MESH, per-point velocity/acceleration arrays and per-triangle vertex triples inside a
 // temporary allocator FRAME, collects each triangle's three vertices from the edge list (edge face ids
 // -> unique edge vertices, at most 3 per triangle), then orients every triple so that
@@ -25,7 +25,8 @@ static inline qword Cross(qword a,qword b){qword r;__asm__("vopmula.xyz $ACC,%1,
 static inline float Dot(qword a,qword b){qword r,one;float f;
 __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(r),"=&j"(one):"0"(a),"j"(b));
 __asm__("qmfc2.ni %0,%1":"=r"(f):"j"(r));return f;}
-extern "C" void func_001F6C08(P *p)
+// name: SafeHouse port (EnsureSoeMesh)
+extern "C" void EnsureSoeMesh__FP3SOE(P *p)
 {
     if(p->mesh)return;
     U first,second,cross;

@@ -19,7 +19,7 @@ void func_0014DB70(CM *p);
 void func_0014E1A8(CM *p, qword pos, qword tgt, float da, float db);
 void func_0014D8C0(CM *p);
 void func_0014FDA0(void *p);
-void func_002219C8(void *p);
+void Init(void *p) asm("Init__8CPFOLLOW");
 void func_0014FCC0(void *p);
 void func_0014E328(CM *p, int prio, void *po, int a, int b);
 }
@@ -50,7 +50,7 @@ extern "C" void func_0014D6D8(CM *p)
     func_0014D8C0(p);
     p->c30C = 0;
     func_0014FDA0(p->x3A0);
-    func_002219C8(p->x3B0);
+    Init(p->x3B0);
     func_0014FCC0(p->x450);
     func_0014FCC0(p->x4A8);
     func_0014FCC0(p->x4C0);

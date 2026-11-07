@@ -1,5 +1,5 @@
-// func_00142AF8 (Claude agent, laneC38 2026-10-24): MATCH from fresh5 (aligned 18). Every matrix product is written with Lilly's
-// MATRIX3 operator* (the NRV helper from src/hand/func_0021CB18.cpp / func_001F4558.cpp: rows read into qword locals, each
+// UpdateActorLook (Claude agent, laneC38 2026-10-24): MATCH from fresh5 (aligned 18). Every matrix product is written with Lilly's
+// MATRIX3 operator* (the NRV helper from src/hand/func_0021CB18.cpp / AngVelAlo.cpp: rows read into qword locals, each
 // result row stored through a VU_VECTOR4 copy), and the first func_0022FD38 call is a plain assignment (no dead-copy wrapper).
 // The one remaining trick is fresh3's commented clobber of the dead a0 in the c4678 block.
 typedef int qword __attribute__((mode(TI)));
@@ -27,13 +27,13 @@ extern qword D_002A2DA0;
 extern S *D_003E1474;
 extern GS g_sw;
 void func_00142880(P *p);
-void func_001427C8(P *p, int n, S *ps);
+void SetActorLookTarget(P *p, int n, S *ps) asm("SetActorLookTarget__FP5ACTORiP2LO");
 void func_001428D8(P *p, S *ps, void **ppv, float *pg, float *pg2);
 int func_0011D910(void *p, float g);
 void func_0012CFE0(Q *pq);
 void func_0012D020(Q *pq);
 qword func_001A62E8(void *p);
-qword func_001A6F00(int n, P *p, qword q);
+qword ConvertPos(int n, P *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0011E958(qword v, float *pa, float *pb);
 float func_0011D978(LM *plm, float g);
 M3 func_0011B720(float a, float b);
@@ -42,7 +42,7 @@ M3 func_0022FD38(void *pvFrom, void *pvTo, M3 *pm);
 M3 func_0011B340(const M3 *pm);
 qword func_0011BFF0(M3 *pm);
 void func_0012D108(Q *pq, qword q);
-void func_00142AF8(P *p);
+void UpdateActorLook(P *p) asm("UpdateActorLook__FP5ACTOR");
 }
 struct VU_VECTOR4 { qword qw; };
 inline M3 operator*(const M3 &matL, const M3 &matR) return mat
@@ -71,7 +71,8 @@ static inline float GFrac(float g, float a, float b)
 }
 static inline float X(const M3 &m, int i) { return ((float *)&m.r[0])[i]; }
 
-void func_00142AF8(P *p)
+// name: SafeHouse port (UpdateActorLook)
+void UpdateActorLook(P *p)
 {
     int f;
     float pan, tilt;
@@ -89,7 +90,7 @@ void func_00142AF8(P *p)
     }
     if (p->n1100 == 0) {
         if (D_002DD640 != 0) {
-            func_001427C8(p, -1, 0);
+            SetActorLookTarget(p, -1, 0);
         } else {
             S *psBest = p->ps10DC;
             int nBest = p->n10E4;
@@ -126,7 +127,7 @@ void func_00142AF8(P *p)
                     }
                 }
             }
-            func_001427C8(p, nBest, psBest);
+            SetActorLookTarget(p, nBest, psBest);
         }
     }
     if (p->n1104 != 0) {
@@ -140,7 +141,7 @@ void func_00142AF8(P *p)
             return;
         }
         func_0012CFE0(p->pq);
-        func_0011E958(func_001A6F00(0, p, func_001A62E8(p->p10F8)), &pan, &tilt);
+        func_0011E958(ConvertPos(0, p, func_001A62E8(p->p10F8)), &pan, &tilt);
         pan = func_0011D978(&p->lmPan, pan);
         tilt = func_0011D978(&p->lmTilt, tilt);
         {

@@ -9,9 +9,10 @@ struct G;
 extern struct G g_sw;
 void *func_001F7530(void *, int);
 void func_002333B4(void *, int, int);
-int func_001F7598(struct M *);
+int PaloAcceptContact__FP5CTMSG(struct M *);
 void func_001A7E10(struct G *, void *);
-void func_001F7410(struct P *p)
+// name: SafeHouse port (DispatchAloSensorContacts)
+void DispatchAloSensorContacts__FP3ALO(struct P *p)
 {
     struct N *pn;
     for (pn = p->pe->pn; pn; pn = pn->next) {
@@ -30,7 +31,7 @@ void func_001F7410(struct P *p)
                 m.n10 = ph->po->s14;
                 m.q20 = pot->q10;
                 m.q30 = ph->q30;
-                func_001F7598(&m);
+                PaloAcceptContact__FP5CTMSG(&m);
                 if (!p->pe) break;
             }
         }

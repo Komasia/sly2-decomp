@@ -16,7 +16,8 @@ struct E *func_00136A28(struct P *p, int k);
 int func_00224590(void *pv);
 int func_001CADE0(void *pv, int n);
 int func_0014FD50(void *pv);
-int func_00136870(struct P *p, int k)
+// name: SafeHouse port (FBentleyAbilityOk)
+int FBentleyAbilityOk__FP7BENTLEYi(struct P *p, int k)
 {
     register int f __asm__("$3");  /* register pin: target keeps x15C and the func_001CADE0 result in v1 */
     void *pv;

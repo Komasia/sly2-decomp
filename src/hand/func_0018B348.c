@@ -4,7 +4,7 @@ struct O { char pad[0x60]; void *p60; char pad1[0x19A4 - 0x64]; struct X *p19A4;
     char pad3[0x19CC - 0x19C4]; void *p19CC; char pad4[0x1BC8 - 0x19D0]; void *p1BC8; char pad5[0x1BD8 - 0x1BCC]; float g1BD8;
     char pad6[0x1BE0 - 0x1BDC]; qword v1BE0; qword v1BF0; qword v1C00; qword v1C10; qword v1C20; };
 struct X { char pad[0x60]; void *p60; };
-extern float func_0012F990(void *p, int n);
+extern float GEventAseg11__Fv(void *p, int n);
 extern void func_001300B8(void *a, float g, struct O *p, float h, void *b, void *c, MATRIX4 *pm, int n);
 extern qword func_0011BFF0(MATRIX4 *pm);
 extern void func_0011C318(MATRIX4 *pmOut, MATRIX4 *pm);
@@ -21,7 +21,7 @@ void func_0018B348(struct O *p)
     float z;
     if (p->p1BC8) {
         z = 0.0f;
-        p->g1BD8 = func_0012F990(p->p1BC8, 0x167);
+        p->g1BD8 = GEventAseg11__Fv(p->p1BC8, 0x167);
         func_001300B8(p->p1BC8, p->g1BD8, p, z, p->p19A4->p60, p->p60, &m0, 0);
         p->v1BE0 = m0.r[3];
         func_001300B8(p->p1BC8, p->g1BD8, p, z, p->p19CC, p->p60, &m1, 0);

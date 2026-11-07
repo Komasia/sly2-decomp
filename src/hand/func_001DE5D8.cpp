@@ -2,7 +2,7 @@
 // an endpoint names an object: a path (shape test 10) becomes a moving endpoint with a 1/2/6-segment motion profile
 // (mode 8 / 0 / 16, the last a trapezoidal accelerate-cruise-decelerate profile), shape 3/0x30 objects and missing
 // objects become fixed points. All points (or the whole transformed path) are accumulated into a min/max box that
-// becomes p's single bound (func_00166270 copies it to world space). Fresh rewrite (wave-4 lane 9).
+// becomes p's single bound (CopyTransformGeom copies it to world space). Fresh rewrite (wave-4 lane 9).
 // What mattered:
 //  - Min/Max take VU_VECTOR (const qword & conversion) parameters as in func_001DF0A0: the extra RTL copies keep the
 //    endpoint loop large enough that loop.c does not hoist 1.0f and 16 out of it;
@@ -72,7 +72,7 @@ extern G g_sw;
 extern qword D_002A2DF0, D_002A2E00;
 extern float D_002C3610;
 extern "C" {
-void func_001F2BA8(P *);
+void RemoveAloSoes(P *) asm("RemoveAloSoes__FP3ALO");
 void *func_0015E938(G *, int, int, P *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float func_001E6648(PATH *);
@@ -81,8 +81,8 @@ void *func_002333B4(void *, int, int);
 qword func_001A62E8(void *);
 qword func_0022FC48(void *, void *, qword);
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
-void func_00166270(GEO *, const M4 *, GEO *);
-void func_001F2B20(P *);
+void CopyTransformGeom(GEO *, const M4 *, GEO *) asm("CopyTransformGeom__FP4GEOMP7MATRIX4T0");
+void AddAloSoes(P *) asm("AddAloSoes__FP3ALO");
 }
 
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -103,7 +103,7 @@ extern "C" void func_001DE5D8(P *p)
 {
     int i;
     qword minimum, maximum;
-    func_001F2BA8(p);
+    RemoveAloSoes(p);
     minimum = D_002A2DF0;
     maximum = D_002A2E00;
     for (i = 0; i < p->count; i++) {
@@ -273,11 +273,11 @@ extern "C" void func_001DE5D8(P *p)
         request.alignment = 16;
         request.bytes = 2 * sizeof(qword);
         bound->local.points = (U *)PvAllocSwClearImpl(&request);
-        func_00166270(&bound->local, 0, &bound->world);
+        CopyTransformGeom(&bound->local, 0, &bound->world);
         bound->world.points[0].q = minimum;
         bound->world.points[1].q = maximum;
         { U *out = bound->local.points; out[0].q = func_0022FC48(0, p->space, minimum); }
         { U *out = bound->local.points; out[1].q = func_0022FC48(0, p->space, maximum); }
     }
-    if ((int)(p->flags28 >> 60) & 1) func_001F2B20(p);
+    if ((int)(p->flags28 >> 60) & 1) AddAloSoes(p);
 }

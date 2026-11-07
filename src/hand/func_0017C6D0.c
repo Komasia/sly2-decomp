@@ -6,7 +6,7 @@ struct P {char pad10[0x10];void*p10;int pad14;void*p18;char pad1C[4];int pending
 void func_001EEF98(struct P*);
 int func_001EF0A8(struct P*);
 qword func_001A62E8(void*);
-qword func_001A6F00(void*,void*,qword);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 int func_00209098(void*);
 void SetState__10JOBSTATIONi(struct P*,int);
 void func_002562A8(struct X*);
@@ -28,7 +28,7 @@ void Update__10JOBSTATION(struct P*p){
    if(func_00209098(p->p10))SetState__10JOBSTATIONi(p,2);
    else if(1000.0f<dist)SetState__10JOBSTATIONi(p,1);
    else if(lim<LenXY(SubIn(p->v60,pos))){
-    qword v;p->v60=pos;v=func_001A6F00(p->p30,0,p->v40);
+    qword v;p->v60=pos;v=ConvertPos__FP2LOT0G9VU_VECTOR(p->p30,0,p->v40);
     func_002562A8(&x);x.v=v;SetGoal__7JOBGOTOP4GOAL(p->p18,&x);
    }
    break;

@@ -29,7 +29,7 @@ void func_0020EFC0(void *, int);
 void func_0020F030(void *, int);
 void func_00212A70(SUB *, int);
 void func_00212A50(SUB *, int);
-void *func_001FBB90(int);
+void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void func_001DBD10(OBJ *);
 void func_001DBBE0(OBJ *, int);
@@ -72,7 +72,7 @@ void func_001DC260(OBJ *p, int s)
         } else {
             func_00212A50(p->x24, 2);
         }
-        SetSource__4CSndPv(func_001FBB90(0x35), 0);
+        SetSource__4CSndPv(PsndNewPlain__Fi(0x35), 0);
         break;
     case 1:
         p->x24->x74 = 0x49B;
@@ -84,7 +84,7 @@ void func_001DC260(OBJ *p, int s)
         } else {
             func_00212A50(p->x24, 2);
         }
-        SetSource__4CSndPv(func_001FBB90(0x35), 0);
+        SetSource__4CSndPv(PsndNewPlain__Fi(0x35), 0);
         break;
     }
     func_001DBD10(p);

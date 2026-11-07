@@ -1,4 +1,4 @@
-/* func_00140DB0 (Claude agent for Lilly, T1644): saves s->v, scales it by 0.01 when the
+/* FillActorDzResponse__FP3ALOP2DZP5DZENTPvi (Claude agent for Lilly, T1644): saves s->v, scales it by 0.01 when the
    other entry's k (s->ae[1 - i].k) is one of three known values and p allows it
    (p->p150->x80 != 1 or func_00144068(p)), calls func_001FAD00 with the same arguments,
    then restores s->v.
@@ -17,7 +17,8 @@ extern int D_002DD5BC;
 extern int D_002F7900;
 int func_00144068(struct P *p);
 void func_001FAD00(struct P *p, void *a, struct S *s, void *b, int i);
-void func_00140DB0(struct P *p, void *a, struct S *s, void *b, int i)
+// name: SafeHouse port (FillActorDzResponse)
+void FillActorDzResponse__FP3ALOP2DZP5DZENTPvi(struct P *p, void *a, struct S *s, void *b, int i)
 {
     U c;
     qword save;

@@ -15,10 +15,10 @@ void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
 void func_00204F78(P*,PATH*,int);
 float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
 void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
-qword func_001A6F00(P*,P*,qword);qword func_001A62E8(P*);
+qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword func_001A62E8(P*);
 void func_00140C88(P*,void*);
-EFFECT*func_001FBB90(int);void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
-void func_0018E540(P*,int);void func_001F15B8(COMPONENT**);
+EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
+void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void func_001F15B8(COMPONENT**);
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
 static inline void PathState(PATH*p,int state){VE&v=p->vt[3];((void(*)(void*,int,void*,void*,void*,void*))v.fn)((char*)p+v.delta,state,0,0,0,0);}
@@ -109,16 +109,16 @@ extern "C" void func_0019EAB0(C*p,int next){
   p->descending=Z(Normal(direction,axis))<-0.5f;
   func_0019E110(p,&w.limit);p->distance=func_0011D948(&w.limit,p->distance);
   func_001E6F10(p->path,p->distance,&w.point,0);
-  qword offset=Vector(func_001A6F00(p->actor,0,p->offset.q));P*owner;
+  qword offset=Vector(ConvertPos(p->actor,0,p->offset.q));P*owner;
   qword point=WorldInputs(p,&w.point,&w.world,offset,owner);
   owner->offset.q=Sub(point,offset);
   p->actor->motion.q=Sub(p->actor->goal.q,w.point.q);
   p->actor->motion.i[2]=0;
   func_00140C88(p->actor,p->path->focus);
-  if(p->path->attachEffectId){EFFECT*e=func_001FBB90(p->path->attachEffectId);SetSource(e,0);SetPosition(e,w.point.q);}
+  if(p->path->attachEffectId){EFFECT*e=PsndNewPlain(p->path->attachEffectId);SetSource(e,0);SetPosition(e,w.point.q);}
   break;
  }
- case 0:if(p->actor==D_002E1E40)func_0018E540(p->actor,p->actor->alternate?10:2);break;
+ case 0:if(p->actor==D_002E1E40)SetSlyMode(p->actor,p->actor->alternate?10:2);break;
  }
  p->state=next;p->time=g_clock.t;
  ASEG*clip=0;float position=0.0f,speed=1.0f;int flags=1;
@@ -128,7 +128,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
   p->actor->motion.i[2]=0;func_00140C88(p->actor,focus);
-  if(p->path->releaseEffectId){EFFECT*e=func_001FBB90(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,func_001A62E8(p->actor));}
+  if(p->path->releaseEffectId){EFFECT*e=PsndNewPlain(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,func_001A62E8(p->actor));}
   p->path=0;return;
  }
  case 0:

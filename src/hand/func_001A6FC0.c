@@ -2,7 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 M3 *func_001A6318(void *p);
 void func_0011B340(M3 *pm, M3 *pn);
-qword func_001A6FC0(void *a, void *b, qword v)
+// name: SafeHouse port (ConvertVec)
+qword ConvertVec__FP2LOT0G9VU_VECTOR(void *a, void *b, qword v)
 {
     if (a) {
         M3 *pm = func_001A6318(a);

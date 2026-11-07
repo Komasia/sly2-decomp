@@ -14,7 +14,7 @@ qword func_001A62E8(void *p);
 void func_001E6F60(int oid, qword q, int a, int b, struct V *pv, int c, float *pg);
 void func_001E7380(int oid, qword q, int a, int b, struct V *pv, int c, float *pg, float g);
 float GRandInRange__Fff(float lo, float hi);
-void func_00181CB0(struct S *p, struct E *pe);
+void TargetSwarmEnt__FP5SWENTPv(struct S *p, struct E *pe);
 float func_0011D1C0(void *pv, float *pg, float a, float b, float c, float dt);
 void func_001E6F10(int oid, struct Q *q, void *pv, float g);
 void func_00181E10(struct S *p, struct Q *q);
@@ -26,7 +26,8 @@ static __inline__ void Integrate(float *px, float *pv, float a, float dt)
     vAvg = (vOld + *pv) * 0.5f;
     *px += dt * vAvg;
 }
-void func_00181F60(struct S *p)
+// name: SafeHouse port (UpdateSwarm)
+void UpdateSwarm__FP2LO(struct S *p)
 {
     int i;
     struct V v;
@@ -45,7 +46,7 @@ void func_00181F60(struct S *p)
         } else {
             func_001E7380(oid, func_001A62E8(D_002DFB80), 0, 0, &v, 0, &pe->g28, pe->g28);
         }
-        func_00181CB0(p, pe);
+        TargetSwarmEnt__FP5SWENTPv(p, pe);
         for (q = pe->pqFirst; q; q = q->next) {
             float a, b;
             q->g3c = func_0011D1C0(D_002BE888, &q->g40, q->g3c, q->g40, q->g44, g_clock.dt);

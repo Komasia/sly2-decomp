@@ -1,4 +1,4 @@
-// func_001F4558: ported from Lilly's personal Sly 2 decomp (src/P2/so_motion.c), reduced to the declarations it needs.
+// AngVelAlo__Fv: ported from Lilly's personal Sly 2 decomp (src/P2/so_motion.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DD0 (g_qwZero)
 // 0x001F4558 GetAngularVelocity__2SO  (MATCHES Sly 2, T0906)
@@ -327,11 +327,12 @@ struct SO : public LO
                 ulong fTreeRoot : 1;
                 ulong fUnk35 : 1;
                 ulong fHasIkLimbs : 1;
-    virtual qword GetAngularVelocity() __asm__("func_001F4558");
+    virtual qword GetAngularVelocity() __asm__("AngVelAlo__Fv");
 };
 extern qword D_002A2DD0;
 void NormalizeRotateMatrix3(MATRIX3 *pmat);
 MATRIX4 MatDmatOfXfChain(XF *pxfFrom, XF *pxfTo);
+// name: SafeHouse port (AngVelAlo)
 qword SO::GetAngularVelocity()
 {
     XF *pxf = pxfUnk5c;

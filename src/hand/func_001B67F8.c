@@ -4,9 +4,10 @@ void func_00204108(struct S *p);
 void func_00196DF8(void *p);
 void func_00194170(void *p);
 void func_001A1148(void *p);
-void func_001B6CC0(struct S *p);
+void UpdateMurrayFlopMotion__FP6MURRAY(struct S *p);
 void func_0019DF70(void *p);
-void func_001B67F8(struct S *p)
+// name: SafeHouse port (UpdateMurrayMotion)
+void UpdateMurrayMotion__FP3ALO(struct S *p)
 {
     char *b = (char *)p;
     if (p->k == 20) func_001F9B20(p);
@@ -15,7 +16,7 @@ void func_001B67F8(struct S *p)
     case 2: func_00196DF8(b + 0x2C0); break;
     case 13: func_00194170(b + 0x4C0); break;
     case 14: func_001A1148(b + 0xDF0); break;
-    case 3: func_001B6CC0(p); break;
+    case 3: UpdateMurrayFlopMotion__FP6MURRAY(p); break;
     case 20: func_0019DF70(b + 0xF50); break;
     }
 }

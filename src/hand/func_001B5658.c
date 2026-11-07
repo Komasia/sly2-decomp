@@ -42,7 +42,7 @@ typedef char P_x1464_Offset[FIELD_OFFSET(P,x1464)==5220?1:-1];
 typedef char P_x1510_Offset[FIELD_OFFSET(P,x1510)==5392?1:-1];
 typedef char P_x151C_Offset[FIELD_OFFSET(P,x151C)==5404?1:-1];
 extern qword D_002A2DD0;
-void func_002303A0(P *p, void *x, int k);
+void SetXfMode__FP3ALOP2XFi(P *p, void *x, int k);
 void func_0020BD68(void *p);
 void func_00130658(A *pa);
 void func_001F15B8(C *pc);
@@ -59,8 +59,8 @@ void func_001B5658(P *p, int k)
     if (k == p->x1458) return;
     switch (p->x1458) {
     case 0:
-        func_002303A0(p, p->x58, 2);
-        func_002303A0(p, p->x5C, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->x58, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->x5C, 2);
         p->x1458 = k;
         break;
     case 1:
@@ -77,8 +77,8 @@ void func_001B5658(P *p, int k)
     if(k==2)goto state2;
     goto done;
 state0:
-    func_002303A0(p,p->x58,1);
-    func_002303A0(p,p->x5C,1);
+    SetXfMode__FP3ALOP2XFi(p,p->x58,1);
+    SetXfMode__FP3ALOP2XFi(p,p->x5C,1);
     pv=p->x1510;
     p->x190=D_002A2DD0;
     goto done;

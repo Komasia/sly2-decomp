@@ -1,7 +1,7 @@
 struct S { char pad[0x188]; int n; };
-void func_0017F090(struct S *p);
+void InitHackSo__FP2LO(struct S *p);
 void func_00180188(struct S *p)
 {
-    func_0017F090(p);
+    InitHackSo__FP2LO(p);
     p->n = 10;
 }

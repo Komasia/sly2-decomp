@@ -7,7 +7,7 @@ int func_00227C90(struct S *p, qword v, float g);
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
-qword func_001A6F00(int a, struct S *p, qword q);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *p, qword q);
 int func_00118A88(void *p, int n, qword v, int *pc, void **ppv, float g);
 int func_00227D20(struct S *p, qword v, float g)
 {
@@ -30,7 +30,7 @@ int func_00227D20(struct S *p, qword v, float g)
             pv = PvAllocStackImpl__Fi(pm);
         }
         {
-            int r = func_00118A88(p->pEC, 0x7FFFFFFF, func_001A6F00(0, p, v), &c, &pv, g);
+            int r = func_00118A88(p->pEC, 0x7FFFFFFF, ConvertPos__FP2LOT0G9VU_VECTOR(0, p, v), &c, &pv, g);
             if (r == 0 || r == 2) f = 1;
         }
         _$_10STACKSCOPE(&mark, 2);

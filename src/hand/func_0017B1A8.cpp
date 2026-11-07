@@ -23,9 +23,9 @@ extern "C"{
  void SetSoMass(P*,float) asm("SetSoMass__FP2SOf");
  void func_00130D30(ASEGA*,int,float,float);
  void func_0012E460(DELTA**);
- void func_002303A0(P*,GROUP*,int);
+ void SetXfMode(P*,GROUP*,int) asm("SetXfMode__FP3ALOP2XFi");
  void func_00134320(void*,P*);
- void func_001F4E28(P*);
+ void DetachAloContacts(P*) asm("DetachAloContacts__FP3ALO");
  void SetMoveState(C*,int) asm("SetMoveState__7JOBMOVEi");
  void func_0017AA78(C*,REQUEST*,U*,U*);
  qword func_001A62E8(P*);
@@ -121,7 +121,7 @@ extern "C" void func_0017B1A8(C*p,int next){
  case 3:if(next!=-1)func_00130D30(p->control->asega,0,0.0f,1.0f);break;
  }
  if((unsigned)p->mode<2&&(unsigned)next>=2){
-  func_0012E460(&p->delta);func_002303A0(p->actor,p->actor->first,2);func_002303A0(p->actor,p->actor->second,2);
+  func_0012E460(&p->delta);SetXfMode(p->actor,p->actor->first,2);SetXfMode(p->actor,p->actor->second,2);
  }
  int was=Still(p->mode),now=Still(next);
  p->mode=next;
@@ -132,7 +132,7 @@ extern "C" void func_0017B1A8(C*p,int next){
   __asm__("lui %0,%2\n\tlw %1,%3":"=&r"(gameBase),"=r"(callbackActor)
    :"i"((gameAddress+0x8000)>>16),"m"(p->actor));
   func_00134320(gameBase+(short)(gameAddress&0xffff),callbackActor);
-  func_001F4E28(p->actor);p->mode=next;
+  DetachAloContacts(p->actor);p->mode=next;
  }
  const unsigned clockAddress=0x2DDED0;
  char*clockHigh;

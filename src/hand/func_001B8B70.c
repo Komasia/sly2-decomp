@@ -14,10 +14,10 @@ struct P {
 };
 extern struct POLY D_002C0A20;
 extern struct LIMIT g_lmZeroOne;
-qword func_00204E38(struct P*,struct Q*,float);
+qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct Q*,float);
 struct PARAM *func_0012F938(void*,int);
 qword func_0011E1A0(float,float,float);
-qword func_001A6FC0(void*,void*,qword);
+qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 void func_002046F0(struct P*,void*);
 static inline float Clamp(float f,float lo,float hi){if(f<lo)return lo;if(hi<f)return hi;return f;}
 static inline float Polynomial(struct POLY*p,float t){return p->a+t*(p->b+t*p->c);}
@@ -64,10 +64,11 @@ static inline qword OrbitVector(struct P*p){
     __asm__("mtc1 %1,%0":"=f"(radius):"r"(bits));
     return func_0011E1A0(angle,magnitude*radius,zero);
 }
-void func_001B8B70(struct P*p){
+// name: SafeHouse port (UpdateMurrayPunch)
+void UpdateMurrayPunch__FP6MURRAY(struct P*p){
     U scalar;
     if(p->source){
-        qword value=func_00204E38(p,p->source,p->source->time);
+        qword value=VelActorAnimRoot__FP5ACTORPvf(p,p->source,p->source->time);
         NegateSource(value,&p->velocity,&scalar);
         {
             register int active __asm__("$3")=p->blend;
@@ -77,7 +78,7 @@ void func_001B8B70(struct P*p){
             float t=(p->source->time-start->value)/(end->value-start->value);
             float blend=Clamp(Polynomial(&D_002C0A20,t),g_lmZeroOne.lo,g_lmZeroOne.hi);
             qword desired=OrbitVector(p);
-            desired=func_001A6FC0(0,p,desired);
+            desired=ConvertVec__FP2LOT0G9VU_VECTOR(0,p,desired);
             Blend(desired,blend,&p->velocity,&scalar);
             }
         }

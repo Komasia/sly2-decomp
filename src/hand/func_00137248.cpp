@@ -1,4 +1,4 @@
-// func_00137248 (Claude agent laneB24, 2026-10-23): matched. len as an mtc1 asm from the qword (gcc emits the qmfc2), cz via a pextuw asm with a float "=r" output (gcc emits the mtc1).
+// UpdateSlyDodgeMotion__FP3SLY (Claude agent laneB24, 2026-10-23): matched. len as an mtc1 asm from the qword (gcc emits the qmfc2), cz via a pextuw asm with a float "=r" output (gcc emits the mtc1).
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 union UQ { qword q; };
@@ -118,7 +118,8 @@ qword func_0011E9F8(qword v, float g);
 void func_001FAC30(P *p, qword v);
 }
 
-extern "C" void func_00137248(S *s)
+// name: SafeHouse port (UpdateSlyDodgeMotion)
+extern "C" void UpdateSlyDodgeMotion__FP3SLY(S *s)
 {
     P *p = s->p;
     P *py = ((PX *)p)->py;

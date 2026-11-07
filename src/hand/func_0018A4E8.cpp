@@ -21,7 +21,7 @@ extern "C" SMP D_002BF348;
 extern "C" float func_00204740(A *p);
 extern "C" int FIsBasicDerivedFrom(B *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" float func_001E6648(B *p);
-extern "C" float func_001E6620(B *p);
+extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
 extern "C" void func_001E6F10(B *p, qword *pv, qword *direction, float g);
 extern "C" qword func_001A62E8(A *p);
 extern "C" M *func_001A6318(A *p);
@@ -68,7 +68,7 @@ extern "C" void func_0018A4E8(S *ps, R *pr)
             } else {
                 g = ps->g20 - (ps->g50*125.0f)*ps->g50;
                 if (pb->xE4 == 0) {
-                    float h = func_001E6620(pb);
+                    float h = SMinCrv(pb);
                     if (pb->x1BC & 1)
                         h -= 100.0f;
                     g = GMax(g, h);

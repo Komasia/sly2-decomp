@@ -26,7 +26,8 @@ static __inline__ void VCall49(struct O *po, int n)
     struct VTE *e = &po->vt[49];
     ((void (*)(void *, int))e->pfn)((char *)po + e->d, n);
 }
-void func_00163170(struct X *p, int n)
+// name: SafeHouse port (SetJobSeq)
+void SetJobSeq__FP3JOBi(struct X *p, int n)
 {
     int i;
     if (p->fC4 == n) return;

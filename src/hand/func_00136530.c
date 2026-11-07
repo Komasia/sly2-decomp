@@ -16,7 +16,7 @@ extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void func_001A58D0(struct P *, int, int);
 void func_0012E460(void *);
-void func_002303A0(struct P *, struct O *, int);
+void SetXfMode__FP3ALOP2XFi(struct P *, struct O *, int);
 float func_00204740(struct P *);
 void func_00204660(struct P *, float);
 void func_00204CA8(struct P *);
@@ -27,7 +27,8 @@ qword func_0011BFF0(M4 *pm);
 void func_001F15B8(void *);
 void func_001305B8(void *, struct P *, int, void *, float, float);
 
-void func_00136530(struct P *p, int k)
+// name: SafeHouse port (SetBentleyCarried)
+void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
 {
     void *pv;
     if (k == p->k1800)
@@ -39,8 +40,8 @@ void func_00136530(struct P *p, int k)
         p->x9E4 = save;
         func_0012E460(&p->pv1810);
         func_0012E460(&p->pv1814);
-        func_002303A0(p, p->p58, 2);
-        func_002303A0(p, p->p5C, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
+        SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
         break;
     }
     case 1:

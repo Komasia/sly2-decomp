@@ -4,7 +4,8 @@ struct S { char pad[0x1C8]; int c; struct E ae[4]; };
 void UpdateSoBounds__FP2SO(struct S *p);
 void func_001E7BB8(int n, qword *pa, qword *pb);
 void func_001F5480(struct S *p, qword q, float g);
-void func_00182780(struct S *p)
+// name: SafeHouse port (UpdateSwarmBounds)
+void UpdateSwarmBounds__FP3ALO(struct S *p)
 {
     int i;
     UpdateSoBounds__FP2SO(p);

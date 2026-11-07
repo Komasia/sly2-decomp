@@ -7,7 +7,7 @@ struct S { char pad[0x258]; struct M *pm0; struct M *pm1; };
 MATRIX4 func_0011C318(MATRIX4 *ps);
 void func_0011C168(MATRIX4 *pd, MATRIX4 *pa, MATRIX4 *pb);
 void *func_002333B4(void *p, int c, int n);
-void func_001F4BF8(struct S *p);
+void MarkAloDirty__FP3ALO(struct S *p);
 void func_00203D00(struct S *p, struct M *pm, int f)
 {
     p->pm1 = pm;
@@ -32,6 +32,6 @@ void func_00203D00(struct S *p, struct M *pm, int f)
             pd++;
         }
         func_002333B4(p->pm0->pb->p, 0, p->pm0->c * 16);
-        func_001F4BF8(p);
+        MarkAloDirty__FP3ALO(p);
     }
 }

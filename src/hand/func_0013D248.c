@@ -5,13 +5,13 @@ extern char D_003D4A60[];
 void __10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void *func_0013D1A8(struct S *);
-void func_002581C0(struct CRef *, void *, void *);
+void NProgress(struct CRef *, void *, void *);
 void func_00129EC8(struct CRef *);
 static inline int NFromRef(void *pv)
 {
     struct CRef ref;
     int n;
-    func_002581C0(&ref, pv, D_003D4A60);
+    NProgress(&ref, pv, D_003D4A60);
     n = ref.m_n;
     func_00129EC8(&ref);
     return n;

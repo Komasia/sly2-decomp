@@ -27,7 +27,7 @@ void func_0014F750(void *g, int v);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *g, int v, float f);
 qword func_001A62E8(void *p);
 void func_00154E10(void *g, qword q, int v, int a, P *p);
-void func_00161F48(void *g, int k, int v, P *p);
+void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int k, int v, P *p);
 
 void func_001BB648(P *p, E *pe)
 {
@@ -93,7 +93,7 @@ void func_001BB648(P *p, E *pe)
             break;
         }
         case 12:
-            func_00161F48(g_game, 1, pi->v, p);
+            ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, 1, pi->v, p);
             break;
         }
     }

@@ -39,7 +39,7 @@ float GSmooth(float,float,float,void *,float *) asm("GSmooth__FfffP3SMPPf");
 void SetVolume(SOUND *,float) asm("SetVolume__4CSndf");
 void SetPitch(SOUND *,float) asm("SetPitch__4CSndiif");
 void Resume(SOUND *) asm("Resume__4CSnd");
-void func_001F5078(P *);
+void WakeAlo(P *) asm("WakeAlo__FP3ALO");
 }
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){qword r;__asm__("prot3w %0,%1":"=r"(r):"r"(q));return X(r);}
@@ -201,7 +201,7 @@ extern "C" void func_001D19A8(P *p)
         SetPitch(p->sound,rate*0.2f);
         if(p->sound->references>0)Resume(p->sound);
     }
-    if(p->drive!=0.0f || p->turn!=0.0f)func_001F5078(p);
+    if(p->drive!=0.0f || p->turn!=0.0f)WakeAlo(p);
 }
 
 #define OFF(T,m) ((unsigned long)&((T*)0)->m)

@@ -19,7 +19,7 @@ typedef struct OBJ {
 extern int D_002C2208[];
 void func_00213B00(W *, int);
 void func_001D4C88(OBJ *);
-void *func_001FBB90(int);
+void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, OBJ *);
 void func_00258040(void **, void *);
 void SetFalloff__4CSndff(void *, float, float);
@@ -41,7 +41,7 @@ void func_001D4940(OBJ *p, int n)
             func_001D4C88(p);
         }
         if (p->x59C != -1) {
-            void *ps = func_001FBB90(p->x59C);
+            void *ps = PsndNewPlain__Fi(p->x59C);
             SetSource__4CSndPv(ps, p);
             func_00258040(&p->x598, ps);
             SetFalloff__4CSndff(p->x598, 500.0f, 1500.0f);

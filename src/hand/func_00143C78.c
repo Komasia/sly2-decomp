@@ -1,4 +1,5 @@
-int func_00143C78(char *p)
+// name: SafeHouse port (GrfActorStance)
+int GrfActorStance__FP5ACTOR(char *p)
 {
     if (*(int *)(p + 0x204)) return 0;
     switch (*(int *)(p + 0x4C8)) {

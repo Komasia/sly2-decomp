@@ -39,7 +39,8 @@ typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char int_Size[sizeof(int)==4?1:-1];
 typedef char U_q_Offset[((unsigned int)&(((U*)0x10000)->q)-0x10000)==0?1:-1];
 typedef char Factor_Address[FACTOR_ADDRESS==0x002C09A4?1:-1];
-extern "C" void func_001B6CC0(struct P *p)
+// name: SafeHouse port (UpdateMurrayFlopMotion)
+extern "C" void UpdateMurrayFlopMotion__FP6MURRAY(struct P *p)
 {
     switch (p->x13D8) {
     case 0:

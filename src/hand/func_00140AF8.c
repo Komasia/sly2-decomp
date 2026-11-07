@@ -4,7 +4,8 @@ struct P { char pad[0x10E4]; int x10E4; void *p10E8; int x10EC; };
 extern float D_002BCC7C, D_002BCC80, D_002BCC84, D_002BCC88, D_002BCC8C, D_002BCC90;
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 qword func_001A62E8(void *p);
-int func_00140AF8(struct P *p, int fX)
+// name: SafeHouse port (FActorTargetInReach)
+int FActorTargetInReach__FP5ACTORi(struct P *p, int fX)
 {
     float gDist, gMin, gMax;
     qword a, b, t;
