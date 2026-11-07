@@ -10,7 +10,7 @@ struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; int n30; flo
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 qword PosNoise__14JOBINVESTIGATE(struct S *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 float func_002458F0(float y, float x);
@@ -49,7 +49,7 @@ void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
     case 2:
         {
             qword a = PosNoise__14JOBINVESTIGATE(p);
-            qword b = func_001A62E8(p->p10);
+            qword b = PosOfLo__FP2LO(p->p10);
             qword d;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
             SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));

@@ -17,7 +17,7 @@ float SClampCrv(PATH *, float) asm("SClampCrv__FP3CRVf");
 void func_001E6F10(PATH *, float, qword *, qword *);
 M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 qword ConvertVec(PATH *, PATH *, qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
-qword func_0011E390(qword);
+qword PerpendicularVector(qword) asm("PerpendicularVector__FG9VU_VECTOR");
 }
 
 union U { qword q; float f[4]; };
@@ -112,7 +112,7 @@ extern "C" void MatPipeFrame__FP2LOfiPv(PATH *p, float distance, int forward, M3
         qword len = Length(back.q);
         w.basis.r[1] = Unit(back.q, len);
         if (X(len) < 0.0001f)
-            w.basis.r[1] = func_0011E390(up);
+            w.basis.r[1] = PerpendicularVector(up);
         w.basis.r[0] = Cross(w.basis.r[1], w.basis.r[2]);
     }
     if (!forward) {

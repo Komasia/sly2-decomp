@@ -8,7 +8,8 @@ static __inline__ float GClamp(float g, float lo, float hi)
     return g;
 }
 
-void func_0011DD90(VECTOR *phsv, VECTOR *prgb)
+// name: SafeHouse port (RgbFromHsv)
+void RgbFromHsv__FP6VECTORT0(VECTOR *phsv, VECTOR *prgb)
 {
     float h, s, v, f, p, q, t;
     int i;

@@ -8,10 +8,11 @@ struct O { char pad[0x74]; union FLOATWORD duration; };
 struct E { struct O *po; int pad[3]; qword vel; union FLOATWORD speed; int pad2[3]; };
 struct S { struct E ae[4]; int fInit; };
 extern char g_sw[];
-struct O *func_0015E938(void *,int,int,void *);
+struct O *PloFindSwNearest__FP2LO3OIDii(void *,int,int,void *);
 struct C *PchnFindAseg__FP4ASEGP3ALOPvi(struct O *,void *,int,int);
 
-void func_0020C7E0(struct S *p,void *arg)
+// name: SafeHouse port (ResolveK3)
+void ResolveK3__FP5KIND3P3ALO(struct S *p,void *arg)
 {
     struct E *e; unsigned int i;
     if (p->fInit)
@@ -28,7 +29,7 @@ void func_0020C7E0(struct S *p,void *arg)
         register qword scalar __asm__("vf1");
         int f;
         e = &p->ae[i];
-        o = func_0015E938(g_sw,4,(int)e->po,arg);
+        o = PloFindSwNearest__FP2LO3OIDii(g_sw,4,(int)e->po,arg);
         e->po = o;
         if (!o)
             continue;

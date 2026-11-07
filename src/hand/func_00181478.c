@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0x1C0]; int n1C0; int x1C4; void *p1C8; void *p1CC; };
 extern void UpdateSo__FP2SOf(struct O *p);
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 extern int FShipSegmentDone__FP2LO(struct O *p);
 extern void SetDockState__FP2LOi(struct O *p, int n);
 extern void *D_002DFB80;
@@ -33,7 +33,7 @@ void UpdateDock__FP2LO(struct O *p)
         switch (s) {
         case 0:
             if (D_002DFB80) {
-                if (FClose(GDist(func_001A62E8(D_002DFB80), func_001A62E8(p->p1CC)))) {
+                if (FClose(GDist(PosOfLo__FP2LO(D_002DFB80), PosOfLo__FP2LO(p->p1CC)))) {
                     p->p1C8 = D_002DFB80;
                     SetDockState__FP2LOi(p, 1);
                 }

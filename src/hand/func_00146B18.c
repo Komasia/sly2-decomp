@@ -10,7 +10,7 @@ struct CLQ { float g0, g1, g2, gPad; } __attribute__((aligned(16)));
 struct LM { float gMin, gMax; };
 extern struct CLOCK g_clock;
 void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 void StampPadctlState__FP6PADCTL(struct Q *q);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -35,7 +35,7 @@ static __inline__ float GLimitLm(struct LM *plm, float g)
 /* b: allocation-only "j" input (Claude agent). It keeps b live past the clamp, so b gets its own early qmtc2 instead of
    staying in v0 until the vsub (then the clq clear can use v0 like the target). */
 static __inline__ float GAtanXY2(qword d, qword b) { register qword r __asm__("v1"); /* register pin (Claude agent) */ float x; __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(d), "j"(b)); x = GetX(r); { float y; __asm__("prot3w %0,%1" : "=r"(y) : "0"(r)); return func_002458F0(y, x); } }
-/* y via an int + mtc1 (as in func_0011E958): no GPR output reload here, which keeps reload's round-robin on the target's v0 for case 3 */
+/* y via an int + mtc1 (as in PanTiltFromVector__FG9VU_VECTORPfT1): no GPR output reload here, which keeps reload's round-robin on the target's v0 for case 3 */
 static __inline__ float GAtanR(qword d)
 {
     int y;
@@ -50,13 +50,13 @@ void Drive__12JOBSLYATTACKP6PADCTL(struct P *p, struct Q *q)
     Drive__5AIJOBP6PADCTL(p, q);
     switch (p->x30) {
     case 1: {
-        qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));
+        qword d = Sub(PosOfLo__FP2LO(p->p38), PosOfLo__FP2LO(p->p10));
         q->x1C = 1.0f;
         q->x18 = GAtanR(d);
         break;
     }
     case 2: {
-        qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));
+        qword d = Sub(PosOfLo__FP2LO(p->p38), PosOfLo__FP2LO(p->p10));
         q->x1C = 1.0f;
         q->x18 = GAtanR(d);
         if (g_clock.t - p->x34 < 0.1f) {
@@ -66,8 +66,8 @@ void Drive__12JOBSLYATTACKP6PADCTL(struct P *p, struct Q *q)
         break;
     }
     case 3: {
-        qword a = func_001A62E8(p->p38);
-        qword b = func_001A62E8(p->p10);
+        qword a = PosOfLo__FP2LO(p->p38);
+        qword b = PosOfLo__FP2LO(p->p10);
         struct CLQ clq = {-0.25f, 0.00156249990686774f};
         qword d;
         float s;
@@ -90,7 +90,7 @@ void Drive__12JOBSLYATTACKP6PADCTL(struct P *p, struct Q *q)
         break;
     }
     case 4: {
-        qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));
+        qword d = Sub(PosOfLo__FP2LO(p->p38), PosOfLo__FP2LO(p->p10));
         q->x1C = 1.0f;
         q->x18 = GAtanR(d);
         if (g_clock.t - p->x34 < 0.1f) {

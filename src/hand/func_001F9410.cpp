@@ -1,7 +1,7 @@
 // SolveGroup__FPP3ALOiiPP2XPiT3: solve the contacts of a group of touching objects (Sly 1 SolveSwGroup).
-// Builds a DZG over the contacts (func_001585D8), turns every contact into a DZ row with its limits,
-// sets each row's target (bounce or separating speed), solves (func_00158B20) and applies the
-// impulses (func_00158E20), then tells the objects (vtable callbacks 65/66/67).
+// Builds a DZG over the contacts (InitDzg), turns every contact into a DZ row with its limits,
+// sets each row's target (bounce or separating speed), solves (SolveDzgContacts) and applies the
+// impulses (ApplyDzg), then tells the objects (vtable callbacks 65/66/67).
 // Args: (game, flags, objectCount, objects, contactCount, contacts). flags&1 = resting contacts,
 // flags&4 = position pass first (returns early when flags == 4).
 typedef int qword __attribute__((mode(TI)));
@@ -26,15 +26,15 @@ extern GAME g_sw;
 extern "C" {
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *,int);
-DZG *func_001585D8(DZG *,int,XP **,int,P **);
+DZG *InitDzg(DZG *,int,XP **,int,P **) asm("InitDzg__FP3DZGiiii");
 void func_00158668(DZG *,DZ *,DZS *);
 void func_00158988(DZG *,int);
-void func_00158E20(DZG *,float,float);
+void ApplyDzg(DZG *,float,float) asm("ApplyDzg__FP3DZGff");
 void func_0011A6B8(DZG *);
 void RecalcSwXpPos(GAME *,int,XP **) asm("RecalcSwXpPos__FP2SWiPP2XP");
 void RecalcSwXpMovement(GAME *,int,XP **) asm("RecalcSwXpMovement__FP2SWiPP2XP");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
-void func_00158B20(DZG *,int);
+void SolveDzgContacts(DZG *,int) asm("SolveDzgContacts__FP3DZGi");
 void StepAloBackHalfFrame(P *) asm("StepAloBackHalfFrame__FP3ALO");
 }
 // Stack frame mark: ctor 0x1AE478, dtor 0x1AE4A0 (called with the 2.95 in-charge flag 2).
@@ -57,7 +57,7 @@ extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCou
     FRAME frame;
     XP *contact;DZ *row;int i;
     DZG group;
-    func_001585D8(&group,contactCount,contacts,objectCount,objects);
+    InitDzg(&group,contactCount,contacts,objectCount,objects);
     for(i=0;i<contactCount;i++){
         contact=contacts[i];
         row=&group.rows[i];
@@ -101,7 +101,7 @@ extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCou
             if(maximum<magnitude)maximum=magnitude;
         }
         func_00158988(&group,4);
-        func_00158E20(&group,maximum+maximum,6.2831855f);
+        ApplyDzg(&group,maximum+maximum,6.2831855f);
         {int j;for(j=0;j<objectCount;j++){}
         for(j=0;j<objectCount;j++)Callback(objects[j],67);}
         if(flags==4)return;
@@ -131,9 +131,9 @@ extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCou
             if(maximum<magnitude)maximum=magnitude;
         }
     }
-    func_00158B20(&group,flags);
+    SolveDzgContacts(&group,flags);
     float magnitude=Sqrt(maximum);
-    func_00158E20(&group,magnitude+magnitude,50.0f);
+    ApplyDzg(&group,magnitude+magnitude,50.0f);
     int k;for(k=0;k<objectCount;k++){}
     if(fResting){
         for(k=0;k<objectCount;k++)Callback(objects[k],65);

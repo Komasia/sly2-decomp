@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0xE74]; struct O *pE74; int nE78; char pad2[0xFE8 - 0xE7C]; int nFE8; };
 struct S { char pad[0x10]; struct O *p10; };
-qword func_001A62E8(struct O *p);
+qword PosOfLo__FP2LO(struct O *p);
 qword PosNoise__14JOBINVESTIGATE(struct S *p);
 static inline float Dist(qword a, qword b) {
     qword d;
@@ -21,7 +21,7 @@ int FNear__14JOBINVESTIGATE(struct S *p) {
     if (!(o->nFE8 & 2) || o->nE78 == 2) return 1;
     t = o->pE74;
     if (!t) return 0;
-    d = Dist(func_001A62E8(t), func_001A62E8(p->p10));
-    if (Dist(PosNoise__14JOBINVESTIGATE(p), func_001A62E8(p->p10)) < d + 50.0f) return 1;
+    d = Dist(PosOfLo__FP2LO(t), PosOfLo__FP2LO(p->p10));
+    if (Dist(PosNoise__14JOBINVESTIGATE(p), PosOfLo__FP2LO(p->p10)) < d + 50.0f) return 1;
     return 0;
 }

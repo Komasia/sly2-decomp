@@ -15,7 +15,7 @@ struct FLOW{float polarAngle,polarLength,candidateAngle,candidateLength,distance
 struct SEGMENT{qword a,b;char data[0x40];};
 extern "C"{
 extern float D_002A5600;
-qword func_001A62E8(ACTOR*);
+qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");
 void ConvertVectorToCylind(qword,float*,float*,float*) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
 float RadNormalize(float) asm("RadNormalize__Ff");float func_0011CFE0(float,float);float func_0011D948(LM*,float);
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");int func_0011D910(LM*,float);
@@ -42,7 +42,7 @@ extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*regi
   if(scale){float factor=scale->value;first.low*=factor;first.high*=factor;second.low*=factor;second.high*=factor;}
  }
  tuning=p->actor->tuning;
- ConvertVectorToCylind(QwSub(func_001A62E8(p->actor),origin),&flow.polarAngle,&flow.polarLength,0);
+ ConvertVectorToCylind(QwSub(PosOfLo(p->actor),origin),&flow.polarAngle,&flow.polarLength,0);
  float angle=heading+func_0011CFE0(RadNormalize(flow.polarAngle-heading),tuning->narrow);
  float length=func_0011D948(&first,flow.polarLength);
  if(FKeepOnNav(region,QwAdd(origin,SetVectorCylind(angle,length,0.0f)),&closest.q)){

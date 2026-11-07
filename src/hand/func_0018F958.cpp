@@ -24,7 +24,7 @@ struct OBJ{P*p;};
 struct VE{short delta,pad;void(*fn)(P*,DELTA*,qword,U*);};
 struct P{char pad[12];VE*vt;};
 extern "C"{
-qword func_001A62E8(P*);
+qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 qword DvAloImpulse(P*,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
 qword func_001FAA48(P*,qword,qword);
 extern U D_002A2D00[3];
@@ -60,7 +60,7 @@ extern "C" void func_0018F958(P*p,P*other,qword*point,float*input,DELTA*out){
  DELTA effects[2][3];U velocity[2];U relative[3];
  float matrix[3][3],decomposed[3][3],rhs[3],weights[3];qword scalar;
  objects[0].p=p;objects[1].p=other;
- StoreQ(&points[0],func_001A62E8(p));StoreQ(&points[1],*point);
+ StoreQ(&points[0],PosOfLo(p));StoreQ(&points[1],*point);
  
  for(;axisIndex<3;axisIndex++){
   for(side=0;side<2;side++){

@@ -28,7 +28,7 @@ void SetExitState__FP2LOi(s32 arg0, s32 arg1) {
     if (arg1 != M2C_FIELD(arg0, s32 *, 0x13C)) {
         if (arg1 == 4) {
             func_001A6CA8(arg0, 1);
-            func_0020EFC0((s32) &g_sw, 3);
+            PauseGame__FP9GAMEPAUSEi((s32) &g_sw, 3);
             M2C_FIELD(&g_sw, s32 *, 0x3C84) = arg0;
         }
         M2C_FIELD(arg0, s32 *, 0x13C) = arg1;

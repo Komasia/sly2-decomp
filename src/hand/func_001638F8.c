@@ -15,7 +15,7 @@ extern char D_003D4A60[];
 extern char g_sw[];
 void PostLoLoad__FP2LO(struct S *p);
 void func_0011A070(struct SL *psl, struct S *p);
-void *func_0015E938(void *pg, int kind, int oid, void *owner);
+void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, void *owner);
 int FTaskCur__FP4TASK(struct S *p);
 int func_001637E8(struct S *p);
 void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, struct E16 *a);
@@ -40,7 +40,7 @@ void StartTask__FP2SW(struct S *p)
     pnD0 = &p->fd0;
     if (p->c94 > 0) {
         do {
-            void *pv = func_0015E938(g_sw, 0x105, p->a90[i], 0);
+            void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->a90[i], 0);
             if (pv)
                 p->a98[j++] = pv;
         } while (++i < p->c94);
@@ -48,7 +48,7 @@ void StartTask__FP2SW(struct S *p)
     p->c94 = j;
     j = 0;
     for (i = 0; i < p->cA0; i++) {
-        void *pv = func_0015E938(g_sw, 0x105, p->a9C[i], 0);
+        void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->a9C[i], 0);
         if (pv)
             p->aA4[j++] = pv;
     }

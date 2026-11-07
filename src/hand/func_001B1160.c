@@ -5,7 +5,7 @@ struct CURVE;
 struct P { char pad0[0xC]; struct VT *vt; char pad1[0x16C - 0x10]; struct CURVE *p16C; struct CURVE *p170; float g174; float g178;
     char pad2[0x1CC - 0x17C]; float g1CC; float g1D0; char pad3[0x220 - 0x1D4]; int x220; };
 extern qword D_002A2DA0;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 struct SPACE;
 void NearestCrv__FP3CRV(struct CURVE*,qword,struct SPACE*,qword*,qword*,float*,float*,float);
 float GWrapCrv__FP3CRVf(struct CURVE *p, float g);
@@ -61,7 +61,7 @@ void MoveBirdAlongPath__FP2LO(struct P *p)
     }
     if (!q)
         return;
-    upos.q = func_001A62E8(p);
+    upos.q = PosOfLo__FP2LO(p);
     NearestCrv__FP3CRV(q,upos.q,0,0,0,&p->g174,0,p->g174);
     t = GWrapCrv__FP3CRVf(q, p->g174 + p->g178);
     if (t < GMinCrv__FP3CRV(q) || GMaxCrv__FP3CRV(q) < t) {

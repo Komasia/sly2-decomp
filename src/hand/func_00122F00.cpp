@@ -16,7 +16,7 @@ struct CRef {
 extern "C" {
 M3 MulMat3TransposeA(M3 *pa, M3 *pb) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3 *pmat, float *prad, qword *pvec);
-M3 func_0011B500(float rad, qword axis);
+M3 BuildRotateMatrixAxis(float rad, qword axis) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 void *func_002333B4(void *pv, int n, int cb);
 }
 static inline M3 MulM3(const M3 &a, M3 *pb) return m
@@ -44,6 +44,6 @@ CRef RefOpMatrixInterpolateRotate(void *pv, CRef *aref)
     MATRIX4 *pm = (MATRIX4 *)ref.u.pv;
     func_002333B4(pm, 0, 0x40);
     pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f;
-    *(M3 *)ref.u.pv = MulM3(func_0011B500(rad * aref[2].u.g, normal.q), (M3 *)aref[0].u.pv);
+    *(M3 *)ref.u.pv = MulM3(BuildRotateMatrixAxis(rad * aref[2].u.g, normal.q), (M3 *)aref[0].u.pv);
     return ref;
 }

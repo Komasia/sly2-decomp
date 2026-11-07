@@ -30,14 +30,14 @@ float RadStepHeading__FP4STEP(struct P*);float RadNormalize__Ff(float);
 void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(void*,struct P*,unsigned int);
 void UpdateActorBinoc__FP5ACTOR(struct P*);void UpdateSlyTransitions__FP2JT(struct P*);void UpdateSlyButtons__FP3SLY(struct P*);
 struct BINDING*PchnFindAseg__FP4ASEGP3ALOPvi(void*,struct P*,void*,int);
-void func_00190520(struct P*);void UpdateJumpInput__FP4JUMP(void*);void UpdateInteract__FP5ACTOR(void*);void UpdateSlyDodgeInput__FP3SLY(void*);
+void UpdateSlyHangInput__FP3SLY(struct P*);void UpdateJumpInput__FP4JUMP(void*);void UpdateInteract__FP5ACTOR(void*);void UpdateSlyDodgeInput__FP3SLY(void*);
 void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*,void*,int,float,float);void UpdatePickpocketPose__FP3SLY(struct P*);
 void SetGaitMix__FP4GAITf(void*,float);void FaceObject__FP5ACTORP2LO(struct P*,void*);
 qword SetVectorCylind__Ffff(float,float,float);qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct MODEL*,float);
 void func_00131A00(struct MODEL*,float);void SetStepPhysHeading__FP3ALOf(struct P*,float);
 void func_001441E8(struct P*,float);void SetJtJts__FP2JT3JTS4JTBS(struct P*,int,int);
-float func_0011CFE0(float,float);void func_001384C0(void*);
+float func_0011CFE0(float,float);void RecalcBlend__FP6ASEGBL(void*);
 void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int func_00131968(void*);void func_001306A8(void**);
 static inline void*At(struct P*p,int offset){return(char*)p+offset;}
 static inline void ReadBinding(struct BINDING*b,struct MODEL*m,qword*out){
@@ -80,7 +80,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
    if(b){ReadBinding(b,m,&phase.direction);p->velocity=FirstNegative(&phase.direction,&scalar,-1.0f);}
   }break;
  }
- case 3:func_00190520(p);break;
+ case 3:UpdateSlyHangInput__FP3SLY(p);break;
  case 2:UpdateJumpInput__FP4JUMP(At(p,0x2C0));break;
  case 7:UpdateInteract__FP5ACTOR(At(p,0x4C0));break;
  case 6:UpdateSlyDodgeInput__FP3SLY(At(p,0x1FF0));break;
@@ -107,7 +107,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
   one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->fn)((char*)p+entry->delta);
   weight=D_002BF3CC*func_0011CFE0(Z(velocity)/(p->factor*D_002BF35C),one);
   {register float zero __asm__("$f2")=0.0f;register float magnitude __asm__("$f3");register float left __asm__("$f0");__asm__("abs.s %0,%2\n\tmax.s %1,%3,%2\n\tneg.s %2,%2":"=f"(magnitude),"=f"(left),"+f"(weight):"f"(zero));__asm__("swc1 %4,%0\n\tsub.s %1,%1,%5\n\tmax.s %2,%2,%6\n\tswc1 %2,%3":"=m"(p->left),"+f"(one),"+f"(zero),"=m"(p->right):"f"(left),"f"(magnitude),"f"(weight));p->middle=one;}
-  func_001384C0(p->blend);break;
+  RecalcBlend__FP6ASEGBL(p->blend);break;
  }
  case 0:case 1:break;
  }

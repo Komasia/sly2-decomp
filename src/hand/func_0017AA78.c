@@ -4,7 +4,7 @@ struct P{char pad0[0x10];void*actor;char pad14[0x5C-0x14];void*target;};
 struct REQUEST{int flag;float along,up;int padC;qword point,direction;};
 extern qword g_normalZ,D_002A2DA0;
 extern float D_002BE6C4;
-qword func_001A62E8(void*);
+qword PosOfLo__FP2LO(void*);
 static inline qword ToVU(qword word){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(word));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Reject(qword a,qword n){qword d,one;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a),"j"(n));__asm__("vmulx.xyzw %0,%1,%2x":"=j"(d):"j"(n),"j"(d));return Sub(a,d);}
@@ -16,8 +16,8 @@ static inline void PublishPoint(U*home,qword scalar,qword*out,qword point){__asm
 // name: SafeHouse port (JOBB1::GetTarget)
 void GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2(struct P*p,struct REQUEST*request,qword*outPoint,qword*outDirection){
 
- qword first=ToVU(func_001A62E8(p->actor));
- qword direction=Normal(Reject(Sub(first,func_001A62E8(p->target)),g_normalZ),D_002A2DA0);
+ qword first=ToVU(PosOfLo__FP2LO(p->actor));
+ qword direction=Normal(Reject(Sub(first,PosOfLo__FP2LO(p->target)),g_normalZ),D_002A2DA0);
  {U scalar;
  register unsigned int addressWord __asm__("$2")=(unsigned int)&g_normalZ;
  register qword along __asm__("vf4"),up __asm__("vf5"),point __asm__("vf2"),height __asm__("vf6");

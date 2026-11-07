@@ -1,5 +1,6 @@
 static inline float GDiv(float a, float b) { float r; __asm__ __volatile__("div.s %0, %1, %2" : "=f"(r) : "f"(a), "f"(b)); return r; }
-void func_00117030(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1)
+// name: SafeHouse port (EvalHermite)
+void EvalHermite__FPfT0fffffff(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1)
 {
     float dg;
     float v;

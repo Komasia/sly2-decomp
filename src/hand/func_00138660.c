@@ -44,7 +44,8 @@ static __inline__ qword MaddN(qword a, qword v, qword s)
     return r;
 }
 
-void func_00138660(struct P *p, struct Q *pq)
+// name: SafeHouse port (TRKPBL::Setup)
+void Setup__6TRKPBLP2XF(struct P *p, struct Q *pq)
 {
     VU c, d;
     struct Q q;

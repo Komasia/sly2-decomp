@@ -3,7 +3,7 @@ struct X { char pad[0x1044]; int n1044; float f1048; char pad2[0x1060 - 0x104C];
 struct P { char pad[0x24]; struct X *p24; char pad2[0x74 - 0x28]; void *p74; };
 extern qword D_002A2DD0;
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-qword func_001A62E8(struct X *);
+qword PosOfLo__FP2LO(struct X *);
 void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *, void *, qword *, int);
 void func_001E5000(struct P *p, void *pv)
 {
@@ -16,7 +16,7 @@ void func_001E5000(struct P *p, void *pv)
         if (px) {
             qword v = px->v1060, q, d;
             px->n1044 = 0;
-            q = func_001A62E8(px);
+            q = PosOfLo__FP2LO(px);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(v), "j"(q));
             px->v1070 = d;
             ((float *)&px->v1070)[2] = 0.0f;

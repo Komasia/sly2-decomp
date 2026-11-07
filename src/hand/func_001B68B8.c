@@ -29,7 +29,7 @@ extern float D_002C0990[];
 extern float D_002C099C;
 void HandleActorMessage__FP5ACTOR5MSGIDPv(P *p, int msg, MSG *pm);
 void SetMurrayFlopPhase__FP6MURRAYi(P *p, int k);
-qword func_001A62E8(P *p);
+qword PosOfLo__FP2LO(P *p);
 void func_00156B98(void *g, int z, qword q, P *p);
 void ReleaseMurrayThrow__FP6MURRAY(P *p);
 void PutDownMurrayCarry__FP6MURRAY(P *p);
@@ -48,7 +48,7 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
             SetMurrayFlopPhase__FP6MURRAYi(p, 1);
             break;
         case 0x1A5:
-            func_00156B98(g_sw, 0, func_001A62E8(p), p);
+            func_00156B98(g_sw, 0, PosOfLo__FP2LO(p), p);
             break;
         case 0x1EB:
             switch (p->x13D0) {
@@ -68,7 +68,7 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
             break;
         case 0x1C8:
             if (!p->x1450) {
-                func_00156B98(g_sw, 0, func_001A62E8(p), p);
+                func_00156B98(g_sw, 0, PosOfLo__FP2LO(p), p);
                 SetMurrayCarry__FP6MURRAYi(p, 1);
             }
             break;

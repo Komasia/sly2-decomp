@@ -9,8 +9,9 @@ struct CRef { int m_tagk; int m_tag; };
 extern char D_003D4A60[];
 extern "C" void NProgress(CRef *pref, void *pv, void *p);
 static inline int NFromPv(void *pv) { CRef ref; int n; NProgress(&ref, pv, D_003D4A60); n = ref.m_tag; func_00129EC8(&ref); return n; }
-extern "C" int func_001C8110(void);
-int func_001C8110(void)
+extern "C" int FVaultOpened(void) asm("FVaultOpened__Fv");
+// name: SafeHouse port (FVaultOpened)
+int FVaultOpened(void)
 {
     FRAME frame;
     void *pv = func_001C8090();

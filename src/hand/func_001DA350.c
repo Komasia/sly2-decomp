@@ -10,10 +10,11 @@ typedef struct {
     float x24;
     W *pw;
 } OBJ;
-void func_001DA5C8(OBJ *, int);
+void SetPromptState__FP6PROMPTi(OBJ *, int);
 int FVisible__FP8SCREENRT(W *);
 int FSpriteAnimPlaying__FP2LOi(W *, int);
-void func_001DA350(OBJ *p)
+// name: SafeHouse port (UpdatePrompt)
+void UpdatePrompt__FP6PROMPT(OBJ *p)
 {
     if (p->pw == 0)
         return;
@@ -22,13 +23,13 @@ void func_001DA350(OBJ *p)
         break;
     case 1:
         if (p->pw->x58 == 2)
-            func_001DA5C8(p, 2);
+            SetPromptState__FP6PROMPTi(p, 2);
         break;
     case 2:
         if (p->x20 != -1) {
-            func_001DA5C8(p, 4);
+            SetPromptState__FP6PROMPTi(p, 4);
         } else if (p->x1C == 0.0f) {
-            func_001DA5C8(p, 3);
+            SetPromptState__FP6PROMPTi(p, 3);
         } else if (0.0f < p->x1C) {
             if (p->pw && !FVisible__FP8SCREENRT(p->pw))
                 p->t += g_clock.dt;
@@ -36,15 +37,15 @@ void func_001DA350(OBJ *p)
         break;
     case 3:
         if (p->pw->x58 < 2)
-            func_001DA5C8(p, 0);
+            SetPromptState__FP6PROMPTi(p, 0);
         break;
     case 4:
         if (FSpriteAnimPlaying__FP2LOi(p->pw, 0x312))
             break;
         if (p->x20 == -1)
-            func_001DA5C8(p, 0);
+            SetPromptState__FP6PROMPTi(p, 0);
         else
-            func_001DA5C8(p, 2);
+            SetPromptState__FP6PROMPTi(p, 2);
         break;
     }
 }

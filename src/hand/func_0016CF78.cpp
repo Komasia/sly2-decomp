@@ -20,7 +20,7 @@ void*func_002333B4(void*,int,uint);
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);
-void func_001699E8(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*);
+void LoadGlobSubmeshesFromBrx(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*) asm("LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii");
 float func_002599D8(const U*);
 float func_002599E0(const U*);
 float func_002599E8(const U*);
@@ -80,7 +80,8 @@ static inline void WriteVertex(U *destination,U value){
  float z=func_002599E8(&value);
  destination->f[0]=x;destination->f[1]=y;destination->f[2]=z;
 }
-extern "C" void func_0016CF78(P*p,D*desc,E*entry,PARAM*param,SPHERE*sphere,int groups,CBinaryInputStream*stream){
+// name: SafeHouse port (LoadGlobMesh3FromBrx)
+extern "C" void LoadGlobMesh3FromBrx__FP7GLOBSETP18CBinaryInputStreamPvP5PARAMP6SPHEREiT1(P*p,D*desc,E*entry,PARAM*param,SPHERE*sphere,int groups,CBinaryInputStream*stream){
  register CBinaryInputStream *input asm("$23")=stream; // pin: the game keeps the stream in s7 for the whole function
  int i=0;
  int vertex;
@@ -167,5 +168,5 @@ extern "C" void func_0016CF78(P*p,D*desc,E*entry,PARAM*param,SPHERE*sphere,int g
  }
  vifs.EndDmaCnt();vifs.AddDmaRet();
  vifs.DetachCopySw(&desc->words,&data,&entry->chain);
- func_001699E8(p,desc,entry,sphere,groups,0,0,0,input);
+ LoadGlobSubmeshesFromBrx(p,desc,entry,sphere,groups,0,0,0,input);
 }

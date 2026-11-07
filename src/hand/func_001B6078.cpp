@@ -94,7 +94,7 @@ void ResetGaitFeet(void *) asm("ResetGaitFeet__FP4GAIT");
 void SetBinocState(void *, int) asm("SetBinocState__FP5ACTORi");
 int func_001DAEA8(int);
 void ChooseMurrayThrowTarget(P *) asm("ChooseMurrayThrowTarget__FP6MURRAY");
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 void func_002046B0(P *, qword);
 void RetractAsegaPp(ASEGA **) asm("RetractAsegaPp__FPP5ASEGA");
 void ClearSmaHandle(COMPONENT **) asm("ClearSmaHandle__FPP3SMA");
@@ -172,7 +172,7 @@ extern "C" void func_001B6078(P *p, int next)
         if (a && func_001DAEA8(0x11)) clip = p->extra7; else clip = p->clip7;
         { register qword zero __asm__("$3") = D_002A2DD0.q; p->velocity.q = zero; }   // pin: the zero vector goes through $v1 here
         ChooseMurrayThrowTarget(p);
-        U point = p->goal; qword current = func_001A62E8(p);
+        U point = p->goal; qword current = PosOfLo(p);
         qword difference;
         __asm__("vsub.xyzw %0,%0,%2" : "=j"(difference) : "0"(point.q), "j"(current));
         func_002046B0(p, difference); break;

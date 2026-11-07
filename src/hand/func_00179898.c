@@ -14,7 +14,7 @@ struct A {
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; int *p40; char pad3[0xC]; void *p50; char pad4[8]; int mask5C; };
 int IbitLow__FUi(int mask);
 void Enter__6JOBHIT(struct S *p);
-void *func_001C4840(struct G *g);
+void *PloPlayerPo__FP2SW(struct G *g);
 void BroadcastTaskEvent__FP2SWiP2LO(void *a, int n, struct A *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct A *source, void *target, qword v);
 void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(void *a, qword v, int n, int m, struct A *p);
@@ -43,7 +43,7 @@ void func_00179898(struct S *p) {
     a = p->p10;
     if (a->n330 == 0) {
         a->n330 = 1;
-        if (p->p50 == func_001C4840(&g_sw))
+        if (p->p50 == PloPlayerPo__FP2SW(&g_sw))
             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x18, p->p10);
         else
             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x17, p->p10);

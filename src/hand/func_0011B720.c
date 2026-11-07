@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 extern qword D_002A2DB0;
 extern qword g_normalZ;
-void func_0011B500(M3 *pm, float g, qword axis);
+void BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(M3 *pm, float g, qword axis);
 void *func_0023320C(void *pvDst, void *pvSrc, int cb);
 static inline M3 MulM3(M3 *pa, M3 *pb)
 {
@@ -15,13 +15,14 @@ static inline M3 MulM3(M3 *pa, M3 *pb)
             : "=j"(m.r[2]) : "j"(pa->r[0]), "j"(pa->r[1]), "j"(pa->r[2]), "j"(pb->r[2]));
     return m;
 }
-M3 *func_0011B720(M3 *pm, float g1, float g2)
+// name: SafeHouse port (BuildPanTiltMatrix)
+M3 *BuildPanTiltMatrix__FPvff(M3 *pm, float g1, float g2)
 {
     M3 c;
     M3 a;
     M3 b;
-    func_0011B500(&a, g1, g_normalZ);
-    func_0011B500(&b, -g2, D_002A2DB0);
+    BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(&a, g1, g_normalZ);
+    BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(&b, -g2, D_002A2DB0);
     c = MulM3(&a, &b);
     func_0023320C(pm, &c, sizeof(M3));
     return pm;

@@ -8,7 +8,7 @@ typedef struct {
     float x24;
 } OBJ;
 void func_001DA578(OBJ *, int);
-void func_001DA5C8(OBJ *, int);
+void SetPromptState__FP6PROMPTi(OBJ *, int);
 void func_001DA4B8(OBJ *p, int n, float g)
 {
     if (n == -1) {
@@ -17,12 +17,12 @@ void func_001DA4B8(OBJ *p, int n, float g)
     }
     switch (p->x10) {
     case 1:
-        func_001DA5C8(p, -1);
+        SetPromptState__FP6PROMPTi(p, -1);
     case 0:
     case 3:
         p->x18 = n;
         p->x1C = g;
-        func_001DA5C8(p, 1);
+        SetPromptState__FP6PROMPTi(p, 1);
         break;
     case 2:
         if (p->x18 == n) {

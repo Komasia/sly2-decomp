@@ -6,7 +6,8 @@ int func_00117C20(void *pbis);
 int func_00117BD0(void *pbis);
 float func_00117E38(void *pbis);
 void *PvAllocSwImpl__Fi(AREQ *preq);
-void func_0012BF30(T *t, void *pbis)
+// name: SafeHouse port (TRKPA::Load)
+void Load__5TRKPAP18CBinaryInputStream(T *t, void *pbis)
 {
     AREQ req;
     int i, j, mask, grf;

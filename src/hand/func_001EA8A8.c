@@ -3,7 +3,7 @@ struct X { int id; unsigned char b4; signed char cch; char pad[2]; unsigned shor
 struct Y { char pad[0xC]; int *pv; };
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, void *pv);
 void Skip__18CBinaryInputStreami(void *pbis, int cb);
-int func_0013FAD0(int cch, void *pw);
+int FFilterMatches__FiPs(int cch, void *pw);
 struct Y *func_001ED5D0(int id);
 void *PvAllocSwImpl__Fi(struct AR *par);
 void AdjustRgba__FPUi(int *p);
@@ -16,7 +16,7 @@ void LoadClutFromBrx__FP18CBinaryInputStreamP4CLUT(void *pbis, struct X *px)
     cb = px->c * sizeof(int);
     if (px->cch > 0) {
         Read__18CBinaryInputStreamiPv(pbis, px->cch * 2, u.aw);
-        if (!func_0013FAD0(px->cch, u.aw)) {
+        if (!FFilterMatches__FiPs(px->cch, u.aw)) {
             if (px->b4 != 1)
                 Skip__18CBinaryInputStreami(pbis, cb);
             px->b4 = 0;

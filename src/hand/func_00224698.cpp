@@ -6,10 +6,10 @@ extern qword g_normalZ,D_002A2DA0,D_002A2DD0;
 extern char D_002C4300[],D_002C4310[];
 extern "C" {
 void ApplyAloGravity(S *) asm("ApplyAloGravity__FP3ALO");
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M3 *MatJtLo(S *) asm("MatJtLo__FP2LO");
-void func_0011B938(M3 *,M3 *,M3 *);
+void LevelMatrix3(M3 *,M3 *,M3 *) asm("LevelMatrix3__FP7MATRIX3T0Pv");
 void AccelAloTowardRotation(S *,M3 *,void *,qword,void *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 }
 static inline qword ToVF(qword a) { qword r; __asm__ __volatile__("qmtc2.ni %1,%0" : "=j"(r) : "r"(a));return r; }
@@ -35,8 +35,8 @@ extern "C" void ApplyCarryGravity__FP3ALO(S *p) {
     ApplyAloGravity(p);
     if(p->x15C!=0x1A && p->x15C!=0x29)return;
     if(p->p160) {
-        qword a=ToVF(func_001A62E8(p->p160));
-        qword b=func_001A62E8(p);
+        qword a=ToVF(PosOfLo(p->p160));
+        qword b=PosOfLo(p);
         qword d=Flatten(Sub(a,b),Read(g_normalZ));
         register qword fallback __asm__("a1")=D_002A2DA0;
         qword len=Sqrt(Dot(d));
@@ -45,7 +45,7 @@ extern "C" void ApplyCarryGravity__FP3ALO(S *p) {
         else n=Scale(d,len);
         m=BuildLookAtMatrix(n,g_normalZ);
     } else {
-        func_0011B938(MatJtLo(p),0,&m);
+        LevelMatrix3(MatJtLo(p),0,&m);
     }
     AccelAloTowardRotation(p,&m,D_002C4300,D_002A2DD0,D_002C4310);
 }

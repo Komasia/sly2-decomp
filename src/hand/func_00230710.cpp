@@ -25,7 +25,7 @@ M3 *BuildRotateMatrixVector(M3 *, qword) asm("BuildRotateMatrixVector__FP6VECTOR
 qword VecXfValue(O *pa, const M4 *matrix) asm("VecXfValue__FP2XFP7MATRIX4");
 qword *func_00256D18(qword *, qword);
 void *func_002333B4(void *, int, int);
-void func_00230710(O *po, M4 *pm, M4 *pm2, float g);
+void PredictXf(O *po, M4 *pm, M4 *pm2, float g) asm("PredictXf__FP2XFPvP7MATRIX4f");
 }
 struct VUF { qword q; VUF(float g) { float f = g; __asm__("" : "+f"(f)); __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VUF2 { qword q; VUF2(float g) { float f = g; __asm__ __volatile__("" : "+f"(f)); __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } operator const VUF &() const { return *(const VUF *)this; } };
@@ -70,7 +70,8 @@ static inline qword AddScale(qword a, qword v, const VUF &f)
     __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=&j"(r) : "j"(a), "j"(v), "j"(f.q));
     return r;
 }
-void func_00230710(O *po, M4 *pm, M4 *pm2, float g)
+// name: SafeHouse port (PredictXf)
+void PredictXf(O *po, M4 *pm, M4 *pm2, float g)
 {
     if (po->pob) {
         qword q[2];

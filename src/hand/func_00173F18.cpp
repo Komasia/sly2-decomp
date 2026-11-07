@@ -27,7 +27,7 @@ extern qword g_normalZ;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
 void ApsoeOccluders(int *, void ***) asm("ApsoeOccluders__FPiPPP3SOE");
-qword func_001A62E8(LO *);
+qword PosOfLo(LO *) asm("PosOfLo__FP2LO");
 M4 *MatJtLo(LO *) asm("MatJtLo__FP2LO");
 int func_00173768(SET *, qword, int, void **, float);
 float SMaxCrv(LO *) asm("SMaxCrv__FP3CRV");
@@ -35,7 +35,7 @@ int FInPathSpan(void *, float) asm("FInPathSpan__FP7PATHRECf");
 void func_001E6F10(LO *, qword *, qword *, float);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 float func_002458F0(float, float);
-M3 func_0011B500(float, qword);
+M3 BuildRotateMatrixAxis(float, qword) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 }
 
 static inline VU_FLOAT VuFloatFromMemWord(int n)
@@ -148,13 +148,13 @@ extern "C" SEL *PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(SET *pset, 
             switch (psel->kind)
             {
             case 0:
-                posObj = func_001A62E8(psel->plo);
+                posObj = PosOfLo(psel->plo);
                 mat = *(M3 *)MatJtLo(psel->plo);
                 sRadius = psel->plo->sRadius;
                 break;
             case 2:
                 sRadius = sRadiusMin;
-                posObj = func_001A62E8(psel->plo);
+                posObj = PosOfLo(psel->plo);
                 mat = *(M3 *)MatJtLo(psel->plo);
                 break;
             }
@@ -194,7 +194,7 @@ extern "C" SEL *PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(SET *pset, 
                             VU_FLOAT gNeg = VuFloatFromMemWord(0xBF800000);
                             dirCurve.q = QwScaleX(dirCurve.q, gNeg);
                         }
-                        M3 matCurve = func_0011B500(func_002458F0(dirCurve.v.y, dirCurve.v.x), g_normalZ);
+                        M3 matCurve = BuildRotateMatrixAxis(func_002458F0(dirCurve.v.y, dirCurve.v.x), g_normalZ);
                         int j;
                         for (j = 0; j < pset->cpos; j++)
                         {

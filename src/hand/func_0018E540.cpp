@@ -69,13 +69,13 @@ struct P{
 extern "C"{
 extern CLOCK g_clock;extern int D_002BF448[];extern float D_002BF430,D_002BF434,D_002BF438,D_002BF43C,D_002BF440;
 extern void*D_002E1E44;extern void*D_002E1E48;
-void SetSoeOff(P*,ACTION*) asm("SetSoeOff__FP3ALOP3SOE");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");void func_001CCAC0(void*,int);
+void SetSoeOff(P*,ACTION*) asm("SetSoeOff__FP3ALOP3SOE");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");void SetReachState(void*,int) asm("SetReachState__FP5REACHi");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
-qword func_001A62E8(void*);qword ConvertPos(void*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
+qword PosOfLo(void*) asm("PosOfLo__FP2LO");qword ConvertPos(void*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0018F560(P*,BLEND*,ASEG*);int func_001F0400(SM*,int);void SetSmaState(COMPONENT*,int) asm("SetSmaState__FP3SMA3OID");
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);void SetAsegaSeekTime(ASEGA*,float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
-static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,func_001A62E8(p));}}
+static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,PosOfLo(p));}}
 static __inline__ void Active(NODE*p){VE&v=p->vt[8];((void(*)(void*))v.fn)((char*)p+v.delta);}
 static __inline__ void Link(NODE*p,NODE*other){VE&v=p->vt[38];((void(*)(void*,NODE*))v.fn)((char*)p+v.delta,other);}
 static __inline__ void Inactive(NODE*p){VE&v=p->vt[9];((void(*)(void*))v.fn)((char*)p+v.delta);}
@@ -86,7 +86,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  if(state!=-1&&p->state!=-1)compatible=state==D_002BF448[p->state];
  if(!compatible)SetSoeOff(p,p->action);
  int exitEffect=-1;
- switch(p->state){case 1:exitEffect=p->target->exitEffect;MarkAloDirty(p);break;case 2:MarkAloDirty(p);break;case 0:func_001CCAC0(p->track,-1);break;case -1:break;}
+ switch(p->state){case 1:exitEffect=p->target->exitEffect;MarkAloDirty(p);break;case 2:MarkAloDirty(p);break;case 0:SetReachState(p->track,-1);break;case -1:break;}
  Emit(p,exitEffect);
  register float start __asm__("$f22")=0.0f;
  ASEG*clip=0;
@@ -97,7 +97,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  case 1:case 2:MarkAloDirty(p);break;
  case 10:MarkAloDirty(p);clip=p->alternate10;break;
  case 11:MarkAloDirty(p);clip=p->alternate11;break;
- case 0:{func_001CCAC0(p->track,0);clip=p->idle;rate=0.0f;
+ case 0:{SetReachState(p->track,0);clip=p->idle;rate=0.0f;
   register P*receiver __asm__("$4");register float half __asm__("$f1"),duration __asm__("$f0");
   __asm__("daddu %0,%3,$zero\n\t.set noat\n\tlui $1,0x3f00\n\tmtc1 $1,%1\n\t.set at\n\taddiu %2,$zero,15":"=r"(receiver),"=f"(half),"=r"(enterEffect):"r"(p):"$1");
   __asm__("lwc1 %0,%1":"=f"(duration):"m"(clip->duration));start=duration*half;
@@ -105,7 +105,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
 
  case 3:{
   WORK work;
-  register qword first __asm__("$2")=ConvertPos(0,p,func_001A62E8(p->pointObject));
+  register qword first __asm__("$2")=ConvertPos(0,p,PosOfLo(p->pointObject));
   register POINT*point __asm__("$3");register void*world __asm__("$4");register P*receiver __asm__("$5");
   __asm__("lw %0,%4\n\tdaddu %1,$zero,$zero\n\tsq %5,%3\n\tdaddu %2,%6,$zero":"=r"(point),"=r"(world),"=r"(receiver),"=m"(work.first.q):"m"(p->point),"r"(first),"r"(p));
   register qword second __asm__("$2")=ConvertPos(world,receiver,point->position.q);

@@ -15,9 +15,10 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
-extern "C" { void func_001F8AD8(void *p, int a, int b, void *ps); CRef func_0010E690(void *p, int c, void *aref); }
+extern "C" { void func_001F8AD8(void *p, int a, int b, void *ps); CRef RefXfhMoveRot(void *p, int c, void *aref) asm("RefXfhMoveRot__FP5BASICiP4CRef"); }
 struct BIG { qword aq[4]; };
-CRef func_0010E690(void *p, int c, void *aref)
+// name: SafeHouse port (RefXfhMoveRot)
+CRef RefXfhMoveRot(void *p, int c, void *aref)
 {
     int ak[3] = {0x100D, 5, 4};
     BIG s;

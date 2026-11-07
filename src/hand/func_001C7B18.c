@@ -7,10 +7,10 @@ extern struct X D_003E0EA8;
 extern const char D_002A7768[],D_002A7788[];
 int func_00210A88(void);
 int func_0021ECD8(char *buf,const char *fmt,...);
-int func_001D8720(struct HT *pt,const char *s);
+int SymFromName__FP6LAYOUTPc(struct HT *pt,const char *s);
 struct A *func_002109B8(int h);
 struct A *func_001D8CC8(struct A *p, struct A *pa);
-static inline int Find(struct X *px, const char *s) { return func_001D8720(&px->table,s); }
+static inline int Find(struct X *px, const char *s) { return SymFromName__FP6LAYOUTPc(&px->table,s); }
 struct A *func_001C7B18(int input)
 {
     register int n __asm__("$17")=input;

@@ -12,7 +12,7 @@ extern struct J D_002E0D00;
 extern char D_002DDFA0[];
 void ClearPadctl__FP6PADCTL(struct S *p);
 void func_0011BC88(void *pv, float *pa, float *pb);
-struct MATRIX3 func_0011B720(float a, float b);
+struct MATRIX3 BuildPanTiltMatrix__FPvff(float a, float b);
 void TurnPadctlStick__FPffN50(struct S *p, float g, float *px, float *py, float *pang, float *pr, float *pr2);
 void StampPadctlState__FP6PADCTL(struct S *p);
 // name: SafeHouse port (UpdatePadctl)
@@ -36,7 +36,7 @@ void UpdatePadctl__FP6PADCTL(struct S *p)
         func_0011BC88(D_002DDFA0, &a, &b);
         break;
     }
-    p->mat = func_0011B720(a, b);
+    p->mat = BuildPanTiltMatrix__FPvff(a, b);
     TurnPadctlStick__FPffN50(p, a, &p->g10, &p->g14, &p->g18, &p->g1c, &p->g70);
     TurnPadctlStick__FPffN50(p, a, &p->g20, &p->g24, &p->g28, &p->g2c, &p->g74);
     StampPadctlState__FP6PADCTL(p);

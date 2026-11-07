@@ -1,5 +1,5 @@
 /* Pick the best supporting contact of a probe object: walk its contact groups, skip contacts
-   whose other body sits under a kind-2 object, test the callback (func_001999D0), then probe a
+   whose other body sits under a kind-2 object, test the callback (FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR), then probe a
    point offset along the contact direction and reject it if it lies inside the other body's BSP.
    Returns the contact whose other endpoint is highest in Z; *outSide / *outNormal describe it. */
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
@@ -54,9 +54,9 @@ extern int D_002BF8A8;
 extern qword g_normalZ;
 extern char g_sw[];
 extern int func_00144068(LO *);
-extern int func_001999D0(P *,SHAPE *,qword,int,void *,U *);
+extern int FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(P *,SHAPE *,qword,int,void *,U *);
 extern void RecalcSwXpMovement__FP2SWiPP2XP(void *,int,CONTACT **);
-extern BSPNODE *func_00118FB0(BSPNODE *,BSPNODE *,qword);
+extern BSPNODE *IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(BSPNODE *,BSPNODE *,qword);
 static inline qword Scalar(float f)
 {
     qword q;
@@ -88,7 +88,8 @@ static inline ENDPOINT *Opposite2(CONTACT *contact,int side)
     int one=1;
     return (ENDPOINT *)(((one-side)<<6)+(uint)contact);
 }
-CONTACT *func_00199D48(P *p,int *outSide,qword *outNormal)
+// name: SafeHouse port (PxpFindJumpLedge)
+CONTACT *PxpFindJumpLedge__FP4JUMPPiP6VECTOR(P *p,int *outSide,qword *outNormal)
 {
     U direction,point,scalar;
     CONTACT *contact;
@@ -119,7 +120,7 @@ CONTACT *func_00199D48(P *p,int *outSide,qword *outNormal)
             case 2: if (side==1) continue; info=contact->info[1]; break;
             default: continue;
             }
-            if (!func_001999D0(p,shape,InputPosition(contact,side),contact->kind,info,&direction)) continue;
+            if (!FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(p,shape,InputPosition(contact,side),contact->kind,info,&direction)) continue;
             if ((p->self->ec->flags&2) || (shape->owner->ec->flags&2))
                 RecalcSwXpMovement__FP2SWiPP2XP(g_sw,1,&contact);
             if (0.0f < D_002C3C60[side]*contact->difference.f[2]) continue;
@@ -134,7 +135,7 @@ CONTACT *func_00199D48(P *p,int *outSide,qword *outNormal)
                 scalar=(U){back};       /* the original keeps both scalars in one 16-byte stack temporary */
                 point.q=value;
                 scalar=(U){lift};
-                if (func_00118FB0(shape->bsp,(BSPNODE *)0x7FFFFFFF,value)) continue;
+                if (IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(shape->bsp,(BSPNODE *)0x7FFFFFFF,value)) continue;
                 if (best && Opposite(contact,side)->position.f[2] < bestHeight) continue;
                 best=contact;
                 bestHeight=Opposite(best,side)->position.f[2];

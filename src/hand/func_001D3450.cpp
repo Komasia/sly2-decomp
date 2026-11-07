@@ -52,11 +52,11 @@ extern "C" {
 qword ConvertPos(OWNER *, OWNER *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 qword *func_00256D18(qword *, qword);
 M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
-void func_00119390(VECTOR4 *, qword, qword);
+void PlaneFromNormalPos(VECTOR4 *, qword, qword) asm("PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1");
 void *func_002333B4(void *, int, uint);
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");
-int func_00118A88(BSP *, BSP *, qword, float, int *, BSP **);
-int func_00118668(BSP *, BSP *, qword, qword, int, LSG *);
+int ClipBspPlane(BSP *, BSP *, qword, float, int *, BSP **) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
+int ClipSegmentBsp(BSP *, BSP *, qword, qword, int, LSG *) asm("ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG");
 qword func_001193D8(M4 *, qword);
 void PxpAddSw(GAME *, SHAPE *, SOPART *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 }
@@ -165,7 +165,7 @@ extern "C" void MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(OWNER
     qword plane;
     {
         VECTOR4 p;
-        func_00119390(&p, frame.r[1].q, frame.r[3].q);
+        PlaneFromNormalPos(&p, frame.r[1].q, frame.r[3].q);
         plane = *(qword *)&p;
     }
     SUPPORT asupport[64];
@@ -177,7 +177,7 @@ extern "C" void MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(OWNER
     BSP *absp;
     absp = pbsp = (BSP *)PvAllocStack(0x1555 * sizeof(BSP));
     cbspLeft = 0x1555;
-    if (func_00118A88(pbspRoot, (BSP *)0x7FFFFFFF, frame.r[3].q, Sqrt(radius * radius + height * height), &cbspLeft, &pbsp) != 2)
+    if (ClipBspPlane(pbspRoot, (BSP *)0x7FFFFFFF, frame.r[3].q, Sqrt(radius * radius + height * height), &cbspLeft, &pbsp) != 2)
         return;
     int cbsp = pbsp - absp;
     SURF *asurf = ppart->geomWorld.asurf;
@@ -243,7 +243,7 @@ extern "C" void MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(OWNER
             dir = Blend(D_002C2150[4], radius, g_normalZ, height);
         VU_VECTOR pos;
         pos = Transform(frame, dir);
-        int clsg = func_00118668(pbsp, (BSP *)0x7FFFFFFF, posPrev.q, pos.q, 16, alsg);
+        int clsg = ClipSegmentBsp(pbsp, (BSP *)0x7FFFFFFF, posPrev.q, pos.q, 16, alsg);
         for (int k = 0; k < clsg; k++) {
             LSG *plsg = &alsg[k];
             if (plsg->apsurf[0]) {

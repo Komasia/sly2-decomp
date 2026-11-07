@@ -5,7 +5,7 @@ struct X { char pad[0xC]; struct VE *vt; char pad2[0x188 - 0x10]; void *p188; };
 struct S { struct LO *po; int k; float t; struct X *x; int n; };
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3E58;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void SetWatchB__FP6WATCHBi(struct S *p, int k);
 
 // name: SafeHouse port (UpdateWatchB)
@@ -27,7 +27,7 @@ void UpdateWatchB__FP6WATCHB(struct S *p)
             f = 0;
             pe = &x->vt[73];
             pthis = (char *)x + pe->d;
-            if (((int (*)(void *, qword))pe->pf)(pthis, func_001A62E8(p->po))) {
+            if (((int (*)(void *, qword))pe->pf)(pthis, PosOfLo__FP2LO(p->po))) {
                 qword v = ((qword (*)(void *))p->po->vt[33].pf)((char *)p->po + p->po->vt[33].d);
                 float z;
                 __asm__("pextuw %0, $zero, %1" : "=r"(z) : "r"(v));

@@ -8,14 +8,14 @@ struct W { char pad[0xEC]; void *xEC; char pad1[0x130 - 0xF0]; struct W *pNext; 
 struct BUF { char a[0x180]; };
 extern char g_sw[];
 extern struct W *D_003E1480;
-void *func_001C4840(void *p);
+void *PloPlayerPo__FP2SW(void *p);
 int func_001A61A0(struct SO *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 int func_0020F1B8(void *p);
-qword func_001A62E8(struct SO *p);
+qword PosOfLo__FP2LO(struct SO *p);
 qword PosDetectorEye__FP8DETECTOR(struct T *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int z, struct W *pw, qword v);
-int func_00118668(void *p, int mask, qword a, qword b, int n, struct BUF *pbuf);
+int ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG(void *p, int mask, qword a, qword b, int n, struct BUF *pbuf);
 int FPointInShape__FP2LOG9VU_VECTOR(void *p, qword v);
 int FTargetHidden__FP8DETECTORP2LO(struct T *p, struct SO *pso);
 int FSightBlocked__FP8DETECTORP2LO(struct T *p, struct SO *pso);
@@ -27,7 +27,7 @@ int NDetectState__FP8DETECTORP2LOi(struct T *p, struct SO *pso, int k)
     struct BUF buf;
     qword v;
     struct W *pw;
-    struct SO *pme = func_001C4840(g_sw);
+    struct SO *pme = PloPlayerPo__FP2SW(g_sw);
     if (!pso) { k = 0; goto done; }
     if (!func_001A61A0(pso)) { k = 0; goto done; }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x32) && pso->vt[77].pfn((char *)pso + pso->vt[77].d) == 2) { k = 0; goto done; }
@@ -37,13 +37,13 @@ int NDetectState__FP8DETECTORP2LOi(struct T *p, struct SO *pso, int k)
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x34) && pso->x11AC) { k = 0; goto done; }
     if (p->xF0) { k = 1; goto done; }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x33))
-        v = Add(func_001A62E8(pso), pso->pos);
+        v = Add(PosOfLo__FP2LO(pso), pso->pos);
     else
-        v = func_001A62E8(pso);
+        v = PosOfLo__FP2LO(pso);
     for (pw = D_003E1480; pw; pw = pw->pNext) {
         qword a = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, PosDetectorEye__FP8DETECTOR(p));
         qword b = ConvertPos__FP2LOT0G9VU_VECTOR(0, pw, v);
-        if (func_00118668(pw->xEC, 0x7FFFFFFF, a, b, 4, &buf) > 0) { k = 0; goto done; }
+        if (ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG(pw->xEC, 0x7FFFFFFF, a, b, 4, &buf) > 0) { k = 0; goto done; }
     }
     switch (k) {
     case 0:

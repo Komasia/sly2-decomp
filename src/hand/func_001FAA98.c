@@ -5,7 +5,7 @@ struct S { qword v; int k; };
 struct E { char pad[0x30]; M3 m; char pad2[0x90 - 0x60]; struct S vector; };
 struct B { char pad[0x40]; M3 m; char pad2[0xA0 - 0x70]; struct LO *plo; };
 struct X { char pad[0x5C]; struct B *pb; char pad2[0xE8 - 0x60]; struct E *pe; };
-M3 *func_0011B340(M3 *pd, const M3 *ps);
+M3 *InverseMatrix3__FP7MATRIX3(M3 *pd, const M3 *ps);
 qword ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(const struct S *pv, const struct B *pb, qword v);
 static inline qword MulMV(M3 *pm, qword v, qword r)
 {
@@ -34,7 +34,7 @@ qword DwAloTorque__FP3ALOG9VU_VECTOR(struct X *p, qword v)
     struct B *pb = p->pb;
     M3 m;
     qword row;
-    func_0011B340(&m, &pb->m);
+    InverseMatrix3__FP7MATRIX3(&m, &pb->m);
     MulMVIn(&m, &v);
     row=MulMVRow(&p->pe->m,&v);
     return ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(&p->pe->vector, p->pb, MulMV(&pb->m, v, row));

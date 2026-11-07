@@ -9,16 +9,17 @@ qword ConvertPos(void *p, void *q, qword v) asm("ConvertPos__FP2LOT0G9VU_VECTOR"
 void func_0020FAA0(void *pv, qword vMin, qword vMax, void *pfn, int n, int *pn0, int *pn1);
 int func_0014CC58(int n, qword a, qword b, int n0, int n1, HIT *phit);
 void SetCtrlSourceOffset(void *p, qword v) asm("SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR");
-void func_0020F948();
+void NOverlapKind() asm("NOverlapKind__FP3ALOT0");
 extern char g_sw[];
 extern qword g_normalZ;
 extern qword D_002A2DD0;
-int func_00189EC8(O *p, M *pm, void *px);
+int MatchSlyFootProbe(O *p, M *pm, void *px) asm("MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE");
 }
 static inline qword VMin(qword a, qword b) { qword r; __asm__("vmini.xyz %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline qword VMax(qword a, qword b) { qword r; __asm__("vmax.xyz %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static inline qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
-int func_00189EC8(O *p, M *pm, void *px)
+// name: SafeHouse port (MatchSlyFootProbe)
+int MatchSlyFootProbe(O *p, M *pm, void *px)
 {
     if (pm->x4) {
         HIT hit;
@@ -29,7 +30,7 @@ int func_00189EC8(O *p, M *pm, void *px)
         a = ConvertPos(p, 0, pm->v30);
         b = ConvertPos(p, 0, pm->v40);
         c = ConvertPos(p, 0, pm->v50);
-        func_0020FAA0(g_sw, VMin(a, VMin(b, c)), VMax(a, VMax(b, c)), (void *)func_0020F948, p->xEC, &n0, &n1);
+        func_0020FAA0(g_sw, VMin(a, VMin(b, c)), VMax(a, VMax(b, c)), (void *)NOverlapKind, p->xEC, &n0, &n1);
         if ((func_0014CC58(0, a, b, n0, n1, &hit) || func_0014CC58(0, b, c, n0, n1, &hit)) &&
             hit.g40 != 0.0f && 0.7f < hit.g28) {
             qword w;

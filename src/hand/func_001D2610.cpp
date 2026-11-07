@@ -38,13 +38,13 @@ extern CLOCK g_clock;
 extern const qword D_002A2DA0, g_normalZ;
 extern float D_002C20E8, D_002C20EC, D_002C20F0, D_002C20F4, D_002C20F8;
 extern "C" {
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 ATTACH *FirstReadyAttachment(P *) asm("FirstReadyAttachment__FP7VEHICLE");
 P *BestVehiclePickup(P *) asm("BestVehiclePickup__FP7VEHICLE");
 int func_0011D910(LM *, float);
 void SetVehicleAiState(P *, int) asm("SetVehicleAiState__FP7VEHICLEi");
 float func_002456F0(float);
-M3 func_0011B500(qword, float);
+M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 int func_001C0960(void *, qword, qword, int, HIT *, int);
 void RecalcCrv(PATH *) asm("RecalcCrv__FP3CRV");
 void ResetVehiclePathHeight(P *) asm("ResetVehiclePathHeight__FP7VEHICLE");
@@ -106,8 +106,8 @@ static inline float Abs(float f) { return __builtin_fabsf(f); }
 // name: SafeHouse port (UpdateVehicleAi)
 extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
 {
-    VV position = func_001A62E8(p);
-    VV target = func_001A62E8(p->target);
+    VV position = PosOfLo(p);
+    VV target = PosOfLo(p->target);
     VV delta = Sub(target, position);
     float distance = Length2D(delta);
     p->selectedAttach = FirstReadyAttachment(p);
@@ -157,12 +157,12 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
             goal = target;
             break;
         case 2: {
-            M3 m = func_0011B500(g_normalZ, angle);
+            M3 m = BuildRotateMatrixAxis(g_normalZ, angle);
             goal = Add(target, Rotate(m, offset));
             break;
         }
         case 3: {
-            M3 m = func_0011B500(g_normalZ, -angle);
+            M3 m = BuildRotateMatrixAxis(g_normalZ, -angle);
             goal = Add(target, Rotate(m, offset));
             break;
         }
@@ -213,7 +213,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
         break;
     }
     case 2: {
-        VV object = func_001A62E8(p->selectedObject);
+        VV object = PosOfLo(p->selectedObject);
         if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, object)) {
             FNavPathCrv(p->navigator, position, object, p->path);
             ResetVehiclePathHeight(p);

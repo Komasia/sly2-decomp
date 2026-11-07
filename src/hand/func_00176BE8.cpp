@@ -35,7 +35,7 @@ extern void*D_003E14BC;extern void*D_003E14B0;extern void*D_003E14B8;struct GAME
 extern CLOCK g_clock;extern float D_002BE620;
 void*func_002333B4(void*,int,unsigned);
 void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
-qword func_001A62E8(void*);M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
+qword PosOfLo(void*) asm("PosOfLo__FP2LO");M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001B9DB8(OBJECT*,qword);
@@ -76,8 +76,8 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  MSG*selected=msg;
  if(Accept(p->actor,msg)){
   if(D_002F7900&&msg->data.object==D_002F7900&&msg->data.kind==0x40000&&msg->data.object->notifyEnabled)
-   func_001B9DB8(D_002F7900,func_001A62E8(p->actor));
-  if(msg->data.kind==0x40000){void*context=D_003E14BC;qword position=func_001A62E8(p->actor);(void)func_00156698(context,position,p->actor);}
+   func_001B9DB8(D_002F7900,PosOfLo(p->actor));
+  if(msg->data.kind==0x40000){void*context=D_003E14BC;qword position=PosOfLo(p->actor);(void)func_00156698(context,position,p->actor);}
   Clear(&w.next);w.next.kind=11;w.next.msg=*msg;w.next.msg.data.flags=0x40;
   React(p,&w.next);return 1;
  }
@@ -111,7 +111,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  if(msg->data.kind==0x200000&&(msg->data.flags&8)){
   if(FGuardLaunchAllowed(p->actor,msg->data.object,func_00207A20(6))){
    {int reserve=p->actor->reserve+msg->data.amount;int limited=4<reserve?reserve:5;p->actor->reserve=limited;}
-   (void)func_00156698(g_sw.context,func_001A62E8(p->actor),p->actor);
+   (void)func_00156698(g_sw.context,PosOfLo(p->actor),p->actor);
    Clear(&w.next);w.next.kind=7;w.next.msg.data.object=msg->data.object;React(p,&w.next);goto finish;
   }
  }
@@ -129,7 +129,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  Clear(&w.next);
  {
   void*context=msg->data.kind==0x40000?D_003E14BC:D_003E14B0;
-  qword position=func_001A62E8(p->actor);(void)func_00156698(context,position,p->actor);
+  qword position=PosOfLo(p->actor);(void)func_00156698(context,position,p->actor);
  }
  if(Below(p->current.kind,11)&&!Below(p->current.kind,8)&&FIsBasicDerivedFrom(msg->data.object,0x65)&&(originalFlags&0xB0))flags=originalFlags|0x40;
  if(FGuardSurprised(p->actor,msg->data.object,func_00207A20(0x17)))flags|=0x80;
@@ -160,7 +160,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  if(flags&0x40){w.next.kind=11;w.next.msg=*selected;selected=&w.next.msg;}
  if(flags&0xE0){
   if(FIsBasicDerivedFrom(selected->data.object,0x34)){
-   qword own=func_001A62E8(p->actor);OBJECT*otherObject=selected->data.object;w.own.q=own;w.other.q=func_001A62E8(otherObject);
+   qword own=PosOfLo(p->actor);OBJECT*otherObject=selected->data.object;w.own.q=own;w.other.q=PosOfLo(otherObject);
    qword scalar=Raw(-150.0f);w.copy.q=scalar;OBJECT*frameObject=selected->data.object;w.scalar.q=scalar;
    M4*frame=MatJtLo(frameObject);
    int special;
@@ -188,7 +188,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
   p->current.kind=-1;React(p,&w.next);
  }
 finish:
- if(D_002F7900&&selected->data.kind==0x20000)func_001B9D28(D_002F7900,func_001A62E8(p->actor));
+ if(D_002F7900&&selected->data.kind==0x20000)func_001B9D28(D_002F7900,PosOfLo(p->actor));
  return 1;
  }
  return Message__5AIJOBiPv(p,event,msg);

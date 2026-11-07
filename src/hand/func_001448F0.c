@@ -4,7 +4,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern float D_002BD2D8;
 extern float D_002BD2D0;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 static __inline__ float GDist(qword a, qword b)
 {
     qword d, t;
@@ -43,7 +43,7 @@ void SetActorWatchTarget__FP5ACTORG9VU_VECTOR(struct P *p, qword pos)
         int fNear = GDist(p->pos, pos) < D_002BD2D8;
         if (fNear) return;
         p->pos = pos;
-        r = func_001A62E8(p->p0);
+        r = PosOfLo__FP2LO(p->p0);
         p->d20 = IDist(r, p->pos);
         p->t24 = g_clock.t + D_002BD2D0;
     }

@@ -9,7 +9,7 @@ struct G2 { void *p; };
 extern struct G2 D_002F7900;
 void SetAloEntryMode__FP3ALOi(struct P *, int);
 void func_002333B4(void *, int, int);
-qword func_001A62E8(struct P *);
+qword PosOfLo__FP2LO(struct P *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void PaloAcceptContact__FP5CTMSG(struct M *);
 // name: SafeHouse port (EmitAloContact)
@@ -25,7 +25,7 @@ void EmitAloContact__FP3ALO(struct P *p)
     SetAloEntryMode__FP3ALOi(p, 0);
     func_002333B4(&m, 0, 0x60);
     m.p8 = p;
-    m.q20 = func_001A62E8(p);
+    m.q20 = PosOfLo__FP2LO(p);
     m.q30 = ((qword (*)(void *))p->pvt->a[33].pfn)((char *)p + p->pvt->a[33].d);
     if (k == 3 && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x38)) {
         m.nC = 0x40000; m.n10 = -50; m.p0 = D_002F7900.p;

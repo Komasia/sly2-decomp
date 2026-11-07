@@ -126,7 +126,7 @@ int func_001BEE10(ALO *palo, int n);
 void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
 void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
-qword func_001A62E8(ALO *palo);
+qword PosOfLo(ALO *palo) asm("PosOfLo__FP2LO");
 RPL *func_001CD998(void);
 }
 static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return mat
@@ -256,7 +256,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
         if (psub->ppos)
         {
             qword pos = *psub->ppos;
-            dpos = QwSub(pos, func_001A62E8(palo));
+            dpos = QwSub(pos, PosOfLo(palo));
         }
         else
         {

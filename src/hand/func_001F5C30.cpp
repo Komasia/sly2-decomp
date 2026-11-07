@@ -6,11 +6,11 @@ struct P {char pad5C[0x5C];OWNER *owner;};
 struct COEF {float a,b,c;};
 struct CLOCK {float time,dt;};
 extern CLOCK g_clock;
-extern "C" M3 func_0022FD38(OWNER *,OWNER *,const M3 *);
+extern "C" M3 MatConvertXfs(OWNER *,OWNER *,const M3 *) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" M3 MulMat3TransposeA(const M3 *,const M3 *) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 extern "C" void func_0011BCF8(const M3 *,float *,qword *);
-extern "C" qword func_0022FCC8(OWNER *,OWNER *,qword);
+extern "C" qword VecConvertXfs(OWNER *,OWNER *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a){qword d,one;float f;
 __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));
@@ -26,7 +26,7 @@ extern "C" void AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2(P*p,co
         M3 frame,relative;
         U axis;
         float angle;
-        frame=func_0022FD38(0,owner->parent,orientation);
+        frame=MatConvertXfs(0,owner->parent,orientation);
         NormalizeRotateMatrix3__FP7MATRIX3(&frame);
         relative=MulMat3TransposeA(&owner->matrix,&frame);
         func_0011BCF8(&relative,&angle,&axis.q);
@@ -38,7 +38,7 @@ extern "C" void AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2(P*p,co
         }
     }
     if(d){
-        qword transformed=func_0022FCC8(0,owner->parent,velocity);
+        qword transformed=VecConvertXfs(0,owner->parent,velocity);
         qword direction=Sub(transformed,owner->velocity);
         float length=Length(direction);
         if(0.0001f<length){

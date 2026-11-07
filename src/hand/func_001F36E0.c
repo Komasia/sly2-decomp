@@ -5,17 +5,17 @@ struct E { char pad[0xDC]; void *pDC; };
 struct P { char pad[0xC]; struct VT *pvt; char pad2[0xE8 - 0x10]; struct E *pe; char pad3[0x12C - 0xEC]; float g12C; float g130; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void func_001A5E28(struct P *);
-qword func_001A62E8(struct P *);
+void UpdateLo__FP2LO(struct P *);
+qword PosOfLo__FP2LO(struct P *);
 void *PregionAt__FG9VU_VECTORi(qword, int);
 void SetAloRegion__FP3ALOP9NAVREGION(struct P *, void *);
 void UpdateSo__FP2SOf(struct P *p)
 {
     void *q;
     float d;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     q = p->pe ? p->pe->pDC : 0;
-    if (q) SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(func_001A62E8(p), 1));
+    if (q) SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(PosOfLo__FP2LO(p), 1));
     d = p->g130;
     if (d != 0.0f) {
         float v = p->g12C + g_clock.dt * d;

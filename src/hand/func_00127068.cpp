@@ -27,7 +27,7 @@ struct Q { char pad[8]; int f; Y *py; Q *pnext; };
 struct R { char pad[0x10]; Q *pq; };
 struct P { char pad[0xC]; R *pr; };
 extern "C" {
-O *func_00256F48();
+O *PprocNew() asm("PprocNew__Fv");
 CRef RefEvalLambda(P *p, X *px) asm("RefEvalLambda__FP5CPairP6CFrame");
 }
 // name: SafeHouse port (RefEvalLambda)
@@ -35,7 +35,7 @@ CRef RefEvalLambda(P *p, X *px)
 {
     Q *pq = p->pr->pq;
     Y *py = (Y *)pq->pnext;
-    SPO sp(func_00256F48());
+    SPO sp(PprocNew());
     sp->spx = px;
     if (pq->f == 0)
         sp->spy14 = 0;

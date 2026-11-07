@@ -10,8 +10,8 @@ struct CM { char pad[0x14]; int x14; char pad2[0x90 - 0x18]; qword pos; };
 struct P { char pad[0x20]; DL dl; char pad2[0x2C - 0x2C]; char x2C[0x39A4 - 0x2C]; void *pvStop; int x39A8; qword q39B0; qword q39C0; };
 extern struct CM g_cm;
 extern float D_002BD450;
-void *func_001C4840(void);
-qword func_001A62E8(void *p);
+void *PloPlayerPo__FP2SW(void);
+qword PosOfLo__FP2LO(void *p);
 void func_00147EC8(struct P *p, void *pv);
 void func_00147EE8(struct P *p, void *pv);
 int FFindDlEntry__FP2DLPv(void *p, void *pv);
@@ -58,9 +58,9 @@ void func_00147F40(struct P *p)
     void *pv;
     pos = g_cm.pos;
     n = g_cm.x14;
-    pvB = func_001C4840();
+    pvB = PloPlayerPo__FP2SW();
     if (pvB)
-        posB = func_001A62E8(pvB);
+        posB = PosOfLo__FP2LO(pvB);
     else
         posB = pos;
     gA = GDist(pos, p->q39B0);
@@ -90,7 +90,7 @@ void func_00147F40(struct P *p)
                 goto leave;
             } else {
                 float d;
-                d = GDist(func_001A62E8(pso), pos) - pso->g38;
+                d = GDist(PosOfLo__FP2LO(pso), pos) - pso->g38;
                 fIn = d < 0.0f;
                 if (D_002BD450 < __builtin_fabsf(d) - gA) {
                 leave:
@@ -103,7 +103,7 @@ void func_00147F40(struct P *p)
                 fIn = 0;
             } else {
                 float d;
-                d = GDist(func_001A62E8(pso), posB) - pso->g38;
+                d = GDist(PosOfLo__FP2LO(pso), posB) - pso->g38;
                 fIn = d < 0.0f;
                 if (D_002BD450 < __builtin_fabsf(d) - gB)
                     func_00147EE8(p, pv);

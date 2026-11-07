@@ -14,7 +14,8 @@ struct O *func_00205458(struct S *p, int n);
 void SetStepPhysScale__FP3ALOf(struct S *p, float f);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(int a, struct S *p, int n, struct O **ppo, float f1, float f2);
 int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, int a, int b, int c, int d, qword q);
-void func_001BA408(struct S *p, int st)
+// name: SafeHouse port (SetStrikeState)
+void SetStrikeState__FP5GUARDi(struct S *p, int st)
 {
     if (st == p->x1018) return;
     if (p->x1018 == 1) {

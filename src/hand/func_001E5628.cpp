@@ -19,7 +19,7 @@ void func_001E5468(P *p);
 void func_001E54B0(P *p);
 void func_001E54E8(P *p);
 void func_001E5570(P *p);
-void func_0014D1D0(CLOCK *pclock, int n, float g);
+void SetClockFactor(CLOCK *pclock, int n, float g) asm("SetClockFactor__FP5CLOCKif");
 void SetRunPending(P *p, int a, int b) asm("SetRunPending__FP3RUNiP2LO");
 void func_001E4F20(P *p, void *po);
 void func_001E5000(P *p, int a);
@@ -43,7 +43,7 @@ void RetireRun(P *p)
     func_001E54B0(p);
     func_001E54E8(p);
     func_001E5570(p);
-    func_0014D1D0(&g_clock, 6, 1.0f);
+    SetClockFactor(&g_clock, 6, 1.0f);
     SetRunPending(p, 0, 0);
     func_001E4F20(p, 0);
     func_001E5000(p, 0);

@@ -17,7 +17,7 @@ extern G g_sw;
 extern "C" int func_00161FC8(int n);
 extern "C" int func_00161FF0(int c, int *ai);
 extern "C" int func_00210A88();
-extern "C" void *func_0015E938(G *pg, int kind, int oid, void *owner);
+extern "C" void *PloFindSwNearest(G *pg, int kind, int oid, void *owner) asm("PloFindSwNearest__FP2LO3OIDii");
 // name: SafeHouse port (ApplyTaskObjects)
 extern "C" void ApplyTaskObjects__FPviiT0(void *p, int nState, int c, E *ae)
 {
@@ -37,8 +37,8 @@ extern "C" void ApplyTaskObjects__FPviiT0(void *p, int nState, int c, E *ae)
             continue;
         if (pe->n != -1 && pe->n != func_00210A88())
             continue;
-        void *pOwner = func_0015E938(&g_sw, 5, pe->oidB, 0);
-        LO *plo = (LO *)func_0015E938(&g_sw, pOwner ? 4 : 5, pe->oidA, pOwner);
+        void *pOwner = PloFindSwNearest(&g_sw, 5, pe->oidB, 0);
+        LO *plo = (LO *)PloFindSwNearest(&g_sw, pOwner ? 4 : 5, pe->oidA, pOwner);
         if (!plo)
             continue;
         if (pe->grf & grfState)

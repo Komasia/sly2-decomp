@@ -1,4 +1,4 @@
-// func_0022B7D8 = Sly 1's UpdateWrStateVectors (Sly 1 0x1F2840): for every warp group (WRBG) of a space warp (WR), the
+// UpdateWrStateVectors__FP2WR = Sly 1's UpdateWrStateVectors (Sly 1 0x1F2840): for every warp group (WRBG) of a space warp (WR), the
 // weight of each vertex (the WEKI envelope: a linear CLQ of the distance along the warp axis, limited to an LM) and the state
 // vector every warp entry (WRE) keeps per vertex (circle: cos/sin of the wave phase at the vertex; bend: the vertex offset
 // from the bend centre, w = 1). Struct names/layouts follow Lilly's Sly 2 headers (wr.h, glob.h, alo.h); our names otherwise.
@@ -267,7 +267,8 @@ static inline float GFromVu(VU_FLOAT g)
     return gResult;
 }
 
-extern "C" void func_0022B7D8(WR *pwr)
+// name: SafeHouse port (UpdateWrStateVectors)
+extern "C" void UpdateWrStateVectors__FP2WR(WR *pwr)
 {
     MATRIX4 dmat;
     CLQ clq;

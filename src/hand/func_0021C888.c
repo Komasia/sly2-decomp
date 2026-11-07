@@ -19,8 +19,8 @@ int func_00117D50(void *);
 void *PvAllocSwClearImpl__Fi(struct Alloc *);
 struct Hook *func_0012E1F0(int);
 void AddXfCtrl__FP3ALOP2XFP4CTRL(struct S *,struct O *,struct Hook *);
-qword func_0022FC48(struct O *,struct O *,qword);
-qword func_0022FCC8(struct O *,struct O *,qword);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(struct O *,struct O *,qword);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(struct O *,struct O *,qword);
 static inline void *Alloc(int cb) { struct Alloc req; req.cb=cb; req.align=16; return PvAllocSwClearImpl__Fi(&req); }
 // name: SafeHouse port (LoadAloChainsFromBrx)
 void LoadAloChainsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p,void *stream) {
@@ -57,10 +57,10 @@ void LoadAloChainsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p,void *stream)
         }
         for(j=0;j<n->count;j++) {
             e=&n->entries[j];
-            if(j<n->count-1) e->pos=func_0022FC48(0,e->object,n->entries[j+1].object->pos);
-            else if(j>0) e->pos=func_0022FCC8(((struct E *)((char *)e-0x70))->object,e->object,((struct E *)((char *)e-0x70))->pos);
+            if(j<n->count-1) e->pos=PosConvertXfs__FP2XFT0G9VU_VECTOR(0,e->object,n->entries[j+1].object->pos);
+            else if(j>0) e->pos=VecConvertXfs__FP2XFT0G9VU_VECTOR(((struct E *)((char *)e-0x70))->object,e->object,((struct E *)((char *)e-0x70))->pos);
             else e->pos=n->q30;
-            e->world=func_0022FC48(e->object,0,e->pos);
+            e->world=PosConvertXfs__FP2XFT0G9VU_VECTOR(e->object,0,e->pos);
         }
     }
 }

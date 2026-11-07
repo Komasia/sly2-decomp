@@ -11,7 +11,7 @@ extern int D_003E0FE0;
 extern char D_003D4A60[];
 extern float D_002C4408[];
 extern "C" {
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 func_0011B7E0(qword);
 void func_0011BC88(const M3 *,float *,float *);
 float func_0011CFE0(float,float);
@@ -28,12 +28,13 @@ static inline qword Make(float x,float y,float z) {
     __asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(q),"=&r"(t):"f"(x),"f"(y),"f"(z));
     return q;
 }
-extern "C" void func_00225BA0(S *p){
+// name: SafeHouse port (UpdateTurretAim)
+extern "C" void UpdateTurretAim__FP6TURRET(S *p){
     if(p->target && p->aim) {
         M3 m;
         float pitch,yaw;
         qword target;
-        m=func_0011B7E0((target=func_001A62E8(p->target),Sub(target,func_001A62E8(p))));
+        m=func_0011B7E0((target=PosOfLo(p->target),Sub(target,PosOfLo(p))));
         func_0011BC88(&m,&pitch,&yaw);
         float dp=pitch-p->pitch;
         float dy=yaw-p->yaw;

@@ -28,9 +28,9 @@ struct CLOCK{float time,dt;};
 struct VU_FLOAT{qword qw;VU_FLOAT(){}VU_FLOAT(float f){__asm__("mfc1 %0,%1":"=r"(qw):"f"(f));}};
 extern "C"{
 extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002BE920,D_002BE930,D_002BE940;
-qword func_001A62E8(P*);M4*MatJtLo(P*) asm("MatJtLo__FP2LO");
+qword PosOfLo(P*) asm("PosOfLo__FP2LO");M4*MatJtLo(P*) asm("MatJtLo__FP2LO");
 void FindClimbSurfClosestPoint(void*,qword,TRIREF*,TRIREF*,qword*,qword*) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
-M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");M3 func_0011B340(M3*);qword*func_00256D18(qword*,qword);
+M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");M3 InverseMatrix3(M3*) asm("InverseMatrix3__FP7MATRIX3");qword*func_00256D18(qword*,qword);
 void func_0011C950(M4*,M3*,PARAMS*,M3*,qword*,float);
 void func_0011F088(qword,qword,PARAMS*,qword*,float);
 void func_001856B8(void*,LIST*);void AddClimbSurfEdgePlanes(void*,LIST*,int,U*,PARAMS*,float) asm("AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf");
@@ -77,7 +77,7 @@ static inline void SetVec(P*p,int slot,qword q){VTE*e=&p->vt[slot];((void(*)(voi
 // name: SafeHouse port (UpdateSlyClimbSurf)
 extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  U closest,normal;
- qword position=func_001A62E8(p);
+ qword position=PosOfLo(p);
  FindClimbSurfClosestPoint(p->mesh,position,&p->triangle,&p->triangle,&closest.q,&normal.q);
  M4 frame;U contacts[3];
  qword difference=QwSub(closest.q,position);
@@ -102,7 +102,7 @@ extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  if(0.0f<p->control->speed){
   U movement;
   {float y=p->control->y,z=p->control->z;movement.f[0]=0.0f;movement.f[1]=-y;movement.f[2]=z;}
-  M3 rotation;M3 inverse=func_0011B340(&p->basis);
+  M3 rotation;M3 inverse=InverseMatrix3(&p->basis);
   MulM3(&rotation,&inverse,&D_002DDFA0);
   movement.q=QwRotateVec(&rotation,movement.q);movement.f[0]=0.0f;
   qword dir=QwSqrt(QwDot(movement.q,movement.q));
@@ -115,7 +115,7 @@ extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  }else ClearXyz(&p->acceleration);
  if(planes.count>0){
   qword projected=VecProjectClimbSurfPlanes(p->mesh,&planes,QwRotateVec(&p->basis,QwScaleX(p->acceleration.q,VU_FLOAT(-1.0f))));
-  M3 inverse=func_0011B340(&p->basis);
+  M3 inverse=InverseMatrix3(&p->basis);
   p->acceleration.q=QwRotateVec(&inverse,QwScaleX(projected,VU_FLOAT(-1.0f)));
  }
  int active=0;

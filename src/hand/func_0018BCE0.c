@@ -21,19 +21,19 @@ extern void SetGaitMix__FP4GAITf(void *p, float g);
 extern void UpdateGaitFeet__FP4GAIT(void *p);
 extern void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(void *p, void *a, void *animation);
 extern void UpdateSlyStanding__FP3SLY(void *p);
-extern void func_00190E18(void *p);
+extern void UpdateSlyHangPlace__FP3SLY(void *p);
 extern void UpdateSlyClimbSurf__FP3SLY(void *p);
 extern void UpdateSlyHangFollow__FP3SLY(void *p);
 
-extern void func_00189C40(void *p, void *a, float g, void *geometry, void *response, void *d);
-#define C40(p,a,b,c,d,g) func_00189C40(p,a,g,b,c,d)
+extern void RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(void *p, void *a, float g, void *geometry, void *response, void *d);
+#define C40(p,a,b,c,d,g) RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(p,a,g,b,c,d)
 
-extern int func_00189EC8(void *p, void *a, void *response);
+extern int MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(void *p, void *a, void *response);
 extern void UpdateSlyReach__FP3SLY(void *p);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 extern void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, qword q, void *metric, qword *point, qword *direction, float *normalized, float *distance, float g);
 extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 extern void DistSegments__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword d, float *parameters, float *distance, qword *direction);
 extern void func_00189618(void *p);
 
@@ -96,7 +96,7 @@ void UpdateJt__FP2JTf(char *p)
         UpdateSlyStanding__FP3SLY(p);
         break;
     case 3:
-        func_00190E18(p);
+        UpdateSlyHangPlace__FP3SLY(p);
         break;
     case 0xC:
         UpdateGaitFeet__FP4GAIT(A(0x1C30));
@@ -111,8 +111,8 @@ void UpdateJt__FP2JTf(char *p)
         if (F(void *, 0x19F0)) {
             C40(p, F(void *, 0x19D8), F(void *, 0x19E0), F(void *, 0x19F0), A(0x1520), D_002BF3DC);
             C40(p, F(void *, 0x19D4), F(void *, 0x19DC), F(void *, 0x19F4), A(0x1620), D_002BF3DC);
-            (void)func_00189EC8(p, A(0x1520), F(void *, 0x19F0));
-            (void)func_00189EC8(p, A(0x1620), F(void *, 0x19F4));
+            (void)MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, A(0x1520), F(void *, 0x19F0));
+            (void)MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, A(0x1620), F(void *, 0x19F4));
         }
         break;
     }
@@ -130,7 +130,7 @@ void UpdateJt__FP2JTf(char *p)
             qword q;
             if (!FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), 0x13))
                 goto end;
-            q = func_001A62E8(F(void *, 0x1854));
+            q = PosOfLo__FP2LO(F(void *, 0x1854));
             av[2] = q;
             av[1] = q;
             av[0] = q;

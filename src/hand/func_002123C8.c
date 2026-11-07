@@ -6,7 +6,7 @@ struct S {
 };
 extern struct G { char pad[0x3BE8]; void *x3BE8; } g_sw;
 void PostLoLoad__FP2LO(struct S *p);
-void *func_0015E938(struct G *, int, int, struct S *);
+void *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, struct S *);
 void func_001A6CA8(struct S *p, int);
 void func_002123C8(struct S *p)
 {
@@ -17,7 +17,7 @@ void func_002123C8(struct S *p)
     if (p->xBC) {
         struct G *pg = &g_sw;
         if (!pg->x3BE8)
-            pg->x3BE8 = func_0015E938(pg, 0x405, 0x374, p);
+            pg->x3BE8 = PloFindSwNearest__FP2LO3OIDii(pg, 0x405, 0x374, p);
     }
     p->xC8 = p;
     p->xA8 = -1;

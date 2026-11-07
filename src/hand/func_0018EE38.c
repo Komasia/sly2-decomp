@@ -4,7 +4,7 @@ struct P { char pad[0x18]; float g18; };
 struct T { char pad[0x50]; int n50; char pad1[0x5C - 0x54]; void *p5C; };
 struct O { char pad[0xC]; struct VT *pvt; char pad1[0x150 - 0x10]; struct P *p150; char pad2[0x10DC - 0x154]; char *p10DC;
     char pad3[0x18C8 - 0x10E0]; int n18C8; int x18CC; int n18D0; int x18D4; int n18D8; };
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 extern int func_0011D910(void *p, float g);
 extern struct T *PjobFind__FP5GUARDPv(void *p, int n);
 extern void SetJtJts__FP2JT3JTS4JTBS(struct O *p, int n, int m);
@@ -23,7 +23,7 @@ int NSlyNextSwing__FP3SLY(struct O *p)
         qword d, l;
         float g;
         int f;
-        d = VSub(func_001A62E8(p->p10DC), func_001A62E8(p));
+        d = VSub(PosOfLo__FP2LO(p->p10DC), PosOfLo__FP2LO(p));
         __asm__("vmul.xy %0, %1, %1\n\tvaddy.x %0, %0, %0y" : "=j"(l) : "j"(d));
         __asm__("vsqrt Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, Q" : "=j"(l) : "j"(l));
         __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(l));

@@ -6,7 +6,7 @@ typedef struct { qword r[4]; } M4;
 struct SO { char pad[0xE0]; struct SO *psoE0; char pad2[0x128 - 0xE4]; float g128; int x12C; };
 struct P { char pad[0x10]; struct SO *pso; };
 extern char g_cm[];
-qword func_001A62E8(struct SO *pso);
+qword PosOfLo__FP2LO(struct SO *pso);
 M3 *MatJtLo__FP2LO(struct SO *pso);
 void SetCmLookAt__FP2CMG9VU_VECTORT1ff(void *pcm, qword a, qword b, float g, float h);
 void func_00256D18(qword *p, qword v);
@@ -26,8 +26,8 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
 {
     struct SO *pso = p->pso;
     if (pso->psoE0) {
-        qword a = func_001A62E8(pso);
-        qword b = func_001A62E8(pso->psoE0);
+        qword a = PosOfLo__FP2LO(pso);
+        qword b = PosOfLo__FP2LO(pso->psoE0);
         SetCmLookAt__FP2CMG9VU_VECTORT1ff(g_cm, a, b, 0.0f, 0.0f);
     } else {
         M3 m = *MatJtLo__FP2LO(pso);
@@ -48,7 +48,7 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
         mT.r[1] = t1;
         }
         mT.r[2] = m.r[1];
-        pos = func_001A62E8(pso);
+        pos = PosOfLo__FP2LO(pso);
         func_00256D18(&m4.r[3], pos);
         LoadM4(pm, &mT);
         ((int *)&m4.r[2])[3] = 0;

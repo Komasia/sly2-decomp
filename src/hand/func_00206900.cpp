@@ -15,7 +15,7 @@ extern float D_002A8614;
 extern float D_002C3D04,D_002C3D08,D_002C3D0C;
 ulong func_00207A20(int);
 int CFindObjectsByClass(struct GAME *,int,int,int,int,struct P **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
-qword func_001A62E8(struct P *);
+qword PosOfLo(struct P *) asm("PosOfLo__FP2LO");
 void func_002338C0(void *,unsigned int,unsigned int,int (*)(const void *,const void *));
 int func_002068D8(const void *,const void *);
 int func_002085D0(struct P *,struct P *,int);
@@ -70,8 +70,8 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
                     if(object!=p){
                         qword otherPosition;
                         float distance;
-                        ownerPosition=func_001A62E8(p);
-                        otherPosition=func_001A62E8(object);
+                        ownerPosition=PosOfLo(p);
+                        otherPosition=PosOfLo(object);
                         distance=LengthXY(Subtract(ownerPosition,otherPosition));
                         if(distance<D_002C3D04 && (unsigned int)candidateCount<64){
                             struct CANDIDATE *record;
@@ -124,8 +124,8 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
             switch(entry->mode){case 1:SetTargetrecTimer(p->anchor,1);break;
             case 2:{
                 qword ownPosition,difference;
-                anchorPosition=func_001A62E8(p->anchor->object);
-                ownPosition=func_001A62E8(p);
+                anchorPosition=PosOfLo(p->anchor->object);
+                ownPosition=PosOfLo(p);
                 difference=Subtract(anchorPosition,ownPosition);
                 if(Near(difference))SetTargetrecTimer(p->anchor,2);
             }break;

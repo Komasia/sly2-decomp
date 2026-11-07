@@ -21,13 +21,14 @@ struct ENT {
 struct TRIE;
 struct KEY;
 struct OUT { ENT *pe; int n; };
-extern "C" int func_001D7DA0(TRIE *, KEY *, OUT *);
-extern "C" CRef func_001D80C8(TRIE *p, KEY *key, const CRef &val, char *pb)
+extern "C" int FFindEntryKey(TRIE *, KEY *, OUT *) asm("FFindEntryKey__FP4TRIEPP4PENTPi");
+// name: SafeHouse port (FSetProgress)
+extern "C" CRef FSetProgress__FP4TRIEP4CRefT1Pc(TRIE *p, KEY *key, const CRef &val, char *pb)
 {
     CRef ref(0x24);
     OUT out;
     ENT *pe;
-    if (!func_001D7DA0(p, key, &out) || (pe = out.pe)->kind == -1)
+    if (!FFindEntryKey(p, key, &out) || (pe = out.pe)->kind == -1)
         return ref;
     {
         unsigned char *pv = (unsigned char *)pb + pe->ib;

@@ -1,4 +1,4 @@
-/* func_002041F8 (0x2041F8): STEP virtual slot 29 (rotate to matrix): SO version, then re-derive the target
+/* SetStepRotation__FP4STEPP7MATRIX3 (0x2041F8): STEP virtual slot 29 (rotate to matrix): SO version, then re-derive the target
  * heading (RadStepHeading__FP4STEP -> SetStepPhysHeading__FP3ALOf) and hand it to the controller (POCTL::radLeft). */
 #include "step.h"
 
@@ -6,7 +6,8 @@ void SetAloRotation__FP3ALOP7MATRIX3(SO *pso, struct MATRIX4 *pmat);   /* SO slo
 float RadStepHeading__FP4STEP(STEP *pstep);
 void SetStepPhysHeading__FP3ALOf(STEP *pstep, float rad);
 
-void func_002041F8(STEP *pstep, struct MATRIX4 *pmat)
+// name: SafeHouse port (SetStepRotation)
+void SetStepRotation__FP4STEPP7MATRIX3(STEP *pstep, struct MATRIX4 *pmat)
 {
     POCTL *pctl;
 

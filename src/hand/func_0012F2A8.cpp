@@ -13,13 +13,13 @@ int func_00117D00(BIS *pbis);
 int func_00117BD0(BIS *pbis);
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
-OBJ *func_0012B3B0(int id);
-OBJ *func_0012CB98(int id);
+OBJ *PtrkpNew(int id) asm("PtrkpNew__Fi");
+OBJ *PtrkgNew(int id) asm("PtrkgNew__Fi");
 void func_0012F590(X *px, BIS *pbis, int n, int *pa, int *pb);
 void LoadOptionsFromBrx(X *px, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
-void func_0012F2A8(X *px, BIS *pbis);
+void LoadAsegFromBrx(X *px, BIS *pbis) asm("LoadAsegFromBrx__FP4ASEGP18CBinaryInputStream");
 }
-void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
+void LoadAsegFromBrx(X *px, BIS *pbis) { int i; AREQ req;
  px->g74 = func_00117E38(pbis);
  px->c = func_00117D50(pbis);
  req.cbAlign = 0x10; req.cb = px->c * 8;
@@ -29,9 +29,9 @@ void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
    pe->n = func_00117DB8(pbis);
    pe->k = func_00117D50(pbis);
    int id = func_00117D00(pbis);
-   if (id != -1) { pe->pobj = func_0012B3B0(id); pe->pobj->Load(pbis); pe->f31 = 0; }
+   if (id != -1) { pe->pobj = PtrkpNew(id); pe->pobj->Load(pbis); pe->f31 = 0; }
    id = func_00117D00(pbis);
-   if (id != -1) { pe->pobj = func_0012CB98(id); pe->pobj->Load(pbis); pe->f31 = 1; }
+   if (id != -1) { pe->pobj = PtrkgNew(id); pe->pobj->Load(pbis); pe->f31 = 1; }
    pe->f30 = func_00117BD0(pbis) != 0;
  }
  px->c2 = func_00117BD0(pbis);
@@ -41,10 +41,12 @@ void func_0012F2A8(X *px, BIS *pbis) { int i; AREQ req;
    ENT2 *pe = &px->aent2[i];
    pe->a = func_00117BD0(pbis);
    pe->b = func_00117DB8(pbis);
-   pe->pobj = func_0012CB98(func_00117D00(pbis));
+   pe->pobj = PtrkgNew(func_00117D00(pbis));
    pe->pobj->Load(pbis);
  }
  func_0012F590(px, pbis, 0, &px->x98, &px->x9C);
  func_0012F590(px, pbis, 1, &px->xA0, &px->xA4);
  func_0012F590(px, pbis, 0, &px->xA8, &px->xAC);
  LoadOptionsFromBrx(px, pbis); }
+
+// name: SafeHouse port (LoadAsegFromBrx)

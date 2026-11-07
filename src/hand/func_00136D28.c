@@ -1,7 +1,7 @@
 typedef int ti128 __attribute__((mode(TI)));
 struct E { char pad[0x18]; int f18; };
 struct S { int f0; int f4; int pad[6]; ti128 v20; float f30; int f34; struct E ae[6]; };
-void func_00137A30(int, int, int, struct E *, int, int, int, int *);
+void NewBlend__FP3ALOiiP4ELEMiPiT5Pv(int, int, int, struct E *, int, int, int, int *);
 // name: SafeHouse port (InitBentleySub)
 void InitBentleySub__FP10BENTLEYSUBP3ALOG9VU_VECTORff(struct S *p, int a, ti128 v, float g0, float g1) {
     unsigned int i;
@@ -9,5 +9,5 @@ void InitBentleySub__FP10BENTLEYSUBP3ALOG9VU_VECTORff(struct S *p, int a, ti128 
     p->v20 = v;
     p->f30 = g1;
     p->f4 = -1;
-    for (i = 0; i < 6; i++) func_00137A30(p->f0, 0xc, 2, &p->ae[i], 0, 0, 0, &p->ae[i].f18);
+    for (i = 0; i < 6; i++) NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p->f0, 0xc, 2, &p->ae[i], 0, 0, 0, &p->ae[i].f18);
 }

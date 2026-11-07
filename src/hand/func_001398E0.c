@@ -1,9 +1,9 @@
-/* func_001398E0: Update (virtual slot 15) of class 28, derived from class 3 (XFM): only the LO Update (func_001A5E28). */
+/* func_001398E0: Update (virtual slot 15) of class 28, derived from class 3 (XFM): only the LO Update (UpdateLo__FP2LO). */
 #include "so.h"
 
-void func_001A5E28(LO *p, float dt);
+void UpdateLo__FP2LO(LO *p, float dt);
 
 void func_001398E0(LO *p, float dt)
 {
-    func_001A5E28(p, dt);
+    UpdateLo__FP2LO(p, dt);
 }

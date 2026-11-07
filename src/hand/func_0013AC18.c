@@ -11,7 +11,7 @@ struct G { char pad[0x3F24]; struct SO *psoFirst; };
 extern struct G g_sw;
 extern struct { struct SO *p; } D_003E13B4;
 void UpdateSwPox__FP2SWP3OXAT1Uc(struct G *pg, struct X *pa, struct X *pb, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(qword a, qword b, qword c, int n, struct HIT *phit, float g);
 // name: SafeHouse port (SweepProjectile)
 void SweepProjectile__FP3ALO(struct P *p)
@@ -42,10 +42,10 @@ void SweepProjectile__FP3ALO(struct P *p)
         if (!plo->f)
             continue;
         {
-            qword a = func_001A62E8(pso);
+            qword a = PosOfLo__FP2LO(pso);
             struct X *px = plo->px;
             qword b = p->pc->q50;
-            if (ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(a, b, func_001A62E8(p), 1, &hit, px->g30)) {
+            if (ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(a, b, PosOfLo__FP2LO(p), 1, &hit, px->g30)) {
                 struct E *pe;
                 qword d, t;
                 register qword vp __asm__("vf2");

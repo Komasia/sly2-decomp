@@ -20,18 +20,18 @@ struct SP {
 struct E { int a; O *b; };
 struct Q { int pad[2]; E *ae; };
 extern "C" {
-int func_00256DD0(void);
+int PframeNew(void) asm("PframeNew__Fv");
 SP func_00257058(int);
-void func_00259A88(O *);
+void AddRootFrame(O *) asm("AddRootFrame__3CGc");
 CRef RefEval(int, O *) asm("RefEval__FP5CPairP6CFrame");
 }
 extern "C" CRef func_001FFA70(void *p, Q *pq, int i)
 {
     CRef r;
     if (pq->ae[i].a && !pq->ae[i].b) {
-        int x = func_00256DD0();
+        int x = PframeNew();
         SP sp = func_00257058(x);
-        func_00259A88(sp.p);
+        AddRootFrame(sp.p);
         sp.p->n24 = 1;
         r = RefEval(pq->ae[i].a, sp.p);
         sp.p->cref++;

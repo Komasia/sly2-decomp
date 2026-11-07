@@ -9,7 +9,7 @@ void*func_001F6030(struct ALO*,int);
 void SetSoeOff__FP3ALOP3SOE(struct ALO*, void*);
 void*func_001F5FF8(struct ALO*,int);
 void func_001F69F8(struct ALO*,int);
-struct LO*func_0015E938(void*,int,int,struct ALO*);
+struct LO*PloFindSwNearest__FP2LO3OIDii(void*,int,int,struct ALO*);
 // name: SafeHouse port (BindLoParts)
 void BindLoParts__FP3ALOiPv(struct ALO*palo,
 int c,struct E*ae){
@@ -36,7 +36,7 @@ done:;
   }else{
    int k;struct LO*p;
    if(grf&2)k=4;else k=(grf&1)?5:1;
-   p=func_0015E938(g_sw,(pe->grf&0x400)?k|0x400:k,pe->id,palo);
+   p=PloFindSwNearest__FP2LO3OIDii(g_sw,(pe->grf&0x400)?k|0x400:k,pe->id,palo);
    if(!p){i++;continue;}
    if(pe->grf&0x200)p->vt[9].pfn((struct LO*)((char*)p+p->vt[9].d));
    i++;

@@ -6,7 +6,7 @@ struct VTE { short delta,pad; void (*fn)(void *); };
 struct P { char pad[0xC]; VTE *vt; char pad10[0x4C]; LO *object; };
 struct G { char pad[0x3D58]; int stamp; };
 extern G g_sw;
-extern "C" M3 func_0011B340(const M3 *);
+extern "C" M3 InverseMatrix3(const M3 *) asm("InverseMatrix3__FP7MATRIX3");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void *func_002333B4(void *,int,int);
 extern "C" void DetachAloContacts(P *) asm("DetachAloContacts__FP3ALO");
@@ -35,7 +35,7 @@ extern "C" void SetAloRotation__FP3ALOP7MATRIX3(P *p,const M3 *basis)
             m.r[1].f[1]=1.0f;
             m.r[0].f[0]=1.0f;
         }
-        M3 transformed=Mul(func_0011B340(&m),*basis);
+        M3 transformed=Mul(InverseMatrix3(&m),*basis);
         M3 *dest=&p->object->matrix;
         *dest=transformed;
         dest->r[0].i[3]=0;

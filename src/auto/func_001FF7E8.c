@@ -1,10 +1,11 @@
 #include "m2c_prelude.h"
-s32 func_00256DD0();                                /* extern */
+s32 PframeNew__Fv();                                /* extern */
 M2C_UNK func_00256EE0(void *, s32);                 /* extern */
-M2C_UNK func_00259A88(s32);                         /* extern */
+M2C_UNK AddRootFrame__3CGc(s32);                         /* extern */
 
-void func_001FF7E8(void *arg0) {
+// name: SafeHouse port (StartupSwSplice)
+void StartupSwSplice__FP2SW(void *arg0) {
     M2C_FIELD(arg0, s32 *, 0x3A14) = 1;
-    func_00256EE0(arg0, func_00256DD0());
-    func_00259A88(M2C_FIELD(arg0, s32 *, 0));
+    func_00256EE0(arg0, PframeNew__Fv());
+    AddRootFrame__3CGc(M2C_FIELD(arg0, s32 *, 0));
 }

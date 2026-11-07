@@ -13,8 +13,8 @@ extern struct CLOCK g_clock;
 extern char g_sw[];
 int FTaskDone__FP4TASK(struct X *p);
 void func_001A6CA8(struct X *p, int n);
-void func_0020EFC0(void *pg, int n);
-void func_0020F030(void *pg, int n);
+void PauseGame__FP9GAMEPAUSEi(void *pg, int n);
+void ResumeGame__FP9GAMEPAUSEi(void *pg, int n);
 void func_00213B00(struct O *po, int n);
 static __inline__ void VCall50(struct O *po)
 {
@@ -57,7 +57,7 @@ void SetJobSeq__FP3JOBi(struct X *p, int n)
             *(int *)v |= 0x102;
         else
             p->fl = v | 0x102;
-        func_0020EFC0(g_sw, 2);
+        PauseGame__FP9GAMEPAUSEi(g_sw, 2);
     }
     p->fC4 = n;
     p->fC8 = g_clock.t;
@@ -72,7 +72,7 @@ void SetJobSeq__FP3JOBi(struct X *p, int n)
             *(int *)v &= ~0x102;
         else
             p->fl = v & ~0x102;
-        func_0020F030(g_sw, 2);
+        ResumeGame__FP9GAMEPAUSEi(g_sw, 2);
         break;
     }
     case 1:

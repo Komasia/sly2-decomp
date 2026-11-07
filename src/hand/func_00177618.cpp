@@ -27,7 +27,7 @@ extern "C"{
  int func_00171458(H*);
  int func_00175810(H*);
  P*func_00174898(void*);
- qword func_001A62E8(P*);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  P*func_00156B98(void*,int,qword,P*);
  void RemoveNoise(P*) asm("RemoveNoise__FP5NOISE");
  void SendHit(C*,int,P*) asm("SendHit__8JOBREACTii");
@@ -134,7 +134,7 @@ extern "C" void Update__8JOBREACT(C*p){
   case 0:{STATE next;Clear(&next);next.kind=1;React(p,&next);break;}
   case 8:{
    if(func_00174FB8(p->helper)){
-    P*object=func_00156B98(g_sw,0,func_001A62E8(p->actor),p->actor);
+    P*object=func_00156B98(g_sw,0,PosOfLo(p->actor),p->actor);
     STATE next;Clear(&next);next.kind=2;next.payload.s.object=object;React(p,&next);RemoveNoise(object);
    }
    break;

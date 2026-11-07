@@ -5,8 +5,8 @@ struct T { char pad[0x180]; struct LO *po; };
 struct P { char pad[0x13F0]; struct T *p13F0; char pad2[0x1414 - 0x13F4]; float g1414; char pad3[0x1420 - 0x1418]; qword v1420; };
 void func_001B7D20(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *p, int k);
-void func_00209FB8(struct LO *p);
-qword func_001A62E8(struct LO *p);
+void ThrowGuardHeld__FP2LO(struct LO *p);
+qword PosOfLo__FP2LO(struct LO *p);
 qword func_001F5860(struct LO *p);
 qword func_001D69F0(qword a, qword b, qword c, float t);
 void SetAloEntryMode__FP3ALOi(struct LO *p, int n);
@@ -30,9 +30,9 @@ void ReleaseMurrayThrow__FP6MURRAY(struct P *p)
         float t;
         qword v;
         if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x38))
-            func_00209FB8(po);
-        t = Dist(func_001A62E8(po), p->v1420) / p->g1414;
-        v = func_001D69F0(func_001A62E8(po), p->v1420, func_001F5860(po), t);
+            ThrowGuardHeld__FP2LO(po);
+        t = Dist(PosOfLo__FP2LO(po), p->v1420) / p->g1414;
+        v = func_001D69F0(PosOfLo__FP2LO(po), p->v1420, func_001F5860(po), t);
         ((void (*)(void *, qword))po->vt[35].pfn)((char *)po + po->vt[35].d, v);
         SetAloEntryMode__FP3ALOi(po, 2);
     }

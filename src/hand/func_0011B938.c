@@ -21,7 +21,8 @@ static inline void MulM3q(qword a0, qword a1, qword a2, M3 *pb, M3 *pd)
     m.r[1] = r1; pd->r[1] = m.r[1];
     m.r[2] = r2; pd->r[2] = m.r[2];
 }
-void func_0011B938(M3 *pm, M3 *pmA, M3 *pmB)
+// name: SafeHouse port (LevelMatrix3)
+void LevelMatrix3__FP7MATRIX3T0Pv(M3 *pm, M3 *pmA, M3 *pmB)
 {
     M3 local;
     M3 t;

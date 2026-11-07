@@ -4,13 +4,13 @@ struct S { char pad[0x54]; int n; float t; char pad2[0x78 - 0x5C]; float dt; cha
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern int D_003E0F9C;
-void func_001A5E28(struct S *p);
+void UpdateLo__FP2LO(struct S *p);
 void func_00165118(struct S *p, int n);
 // name: SafeHouse port (UpdateTask)
 void UpdateTask__FP2LO(struct S *p)
 {
     struct O *po;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     if (p->n == 1 && p->dt > 0.0f) {
         float dt = g_clock.t - p->t;
         if (dt < p->dt && p->dt + g_clock.dt <= dt)

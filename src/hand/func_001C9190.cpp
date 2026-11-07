@@ -29,12 +29,12 @@ extern "C" int ReferSemaStatus(int,SEMA *);
 extern "C" float func_00245000(float);
 extern "C" void func_001C93E0(GIFS *,M2 *,float);
 extern "C" void func_00160A98(void);
-extern "C" void func_0014D0B8(CLOCK *,int);
+extern "C" void UpdateClock(CLOCK *,int) asm("UpdateClock__FP5CLOCKi");
 void OpenFrame(void);
 static inline void Clamp(float *value,const float *bounds){float low=bounds[0],high=bounds[1];if(*value<low)*value=low;else if(high<*value)*value=high;}
 static inline void BeginFrame()
 {
-    func_0014D0B8(&g_clock,1);
+    UpdateClock(&g_clock,1);
     OpenFrame();
     uchar *pb=D_002DEA28.m_pb;
     g_pfrmOpen->packet=pb;

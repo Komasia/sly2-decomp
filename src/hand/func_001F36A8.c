@@ -4,11 +4,11 @@
 
 void PostLoLoad__FP2LO(LO *plo);
 void UpdateAloXfWorlds__FP3ALO(SO *pso);
-void func_00167B68(void *pglobset);
+void BindAloBones__FP3ALO(void *pglobset);
 
 void func_001F36A8(SO *pso)
 {
     PostLoLoad__FP2LO(&pso->lo);
     UpdateAloXfWorlds__FP3ALO(pso);
-    func_00167B68(pso->globset);
+    BindAloBones__FP3ALO(pso->globset);
 }

@@ -23,8 +23,8 @@ void SetAloCnstrAng__FP3ALOi(struct X *, int);
 float GRandInRange__Fff(float, float);
 void EndChildJob__FPP5AIJOB(void *);
 void *func_00205438(struct X *, int);
-void *func_001C4840(void *);
-qword func_001A62E8(void *);
+void *PloPlayerPo__FP2SW(void *);
+qword PosOfLo__FP2LO(void *);
 void *PloEntry__8JOBCHASE(struct P *);
 void RecalcCrv__FP3CRV(struct SP *);
 void Follow__9JOBFOLLOWP3CRVi(struct OA7 *, struct SP *, int);
@@ -58,7 +58,7 @@ void SetState__8JOBCHASEi(struct P *p, int state)
     switch (state) {
     case 0: {
         struct O9E *po = func_00205438(p->p10, 0x9E);
-        po->x38 = func_001C4840(g_sw);
+        po->x38 = PloPlayerPo__FP2SW(g_sw);
         VCALL0(po, 8);
         {
             struct X *px = p->p10;
@@ -82,9 +82,9 @@ void SetState__8JOBCHASEi(struct P *p, int state)
         psp->xE8 = 2;
         {
             qword *pq = psp->xF4;
-            *pq = func_001A62E8(p->p10);
+            *pq = PosOfLo__FP2LO(p->p10);
             pq = psp->xF4;
-            pq[1] = func_001A62E8(PloEntry__8JOBCHASE(p));
+            pq[1] = PosOfLo__FP2LO(PloEntry__8JOBCHASE(p));
         }
         RecalcCrv__FP3CRV(psp);
         po = func_00205438(p->p10, 0xA7);
@@ -92,7 +92,7 @@ void SetState__8JOBCHASEi(struct P *p, int state)
         po->xC0 = 8;
         po->x40 = 1;
         po->x64 = 25.0f;
-        po->xC8 = func_001C4840(g_sw);
+        po->xC8 = PloPlayerPo__FP2SW(g_sw);
         VCALL0(po, 8);
         p->p10->xF04 = g_clock.t;
         SetAloCnstrLin__FP3ALOi(p->p10, 0);
@@ -101,7 +101,7 @@ void SetState__8JOBCHASEi(struct P *p, int state)
     }
     case 2: {
         struct OAC *po = func_00205438(p->p10, 0xAC);
-        po->x50 = func_001A62E8(PloEntry__8JOBCHASE(p));
+        po->x50 = PosOfLo__FP2LO(PloEntry__8JOBCHASE(p));
         po->x68 = 1;
         VCALL0(po, 8);
         break;
@@ -116,7 +116,7 @@ void SetState__8JOBCHASEi(struct P *p, int state)
     }
     case 4: {
         struct O9E *po = func_00205438(p->p10, 0x9E);
-        po->x38 = func_001C4840(g_sw);
+        po->x38 = PloPlayerPo__FP2SW(g_sw);
         po->x3C = 1;
         VCALL0(po, 8);
         break;

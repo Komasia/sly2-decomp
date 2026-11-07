@@ -53,7 +53,7 @@ extern float D_002A96A0;                       // FLT_MAX
 extern V g_normalZ;                           // (0, 0, 1)
 extern "C" {
  qword ConvertPos(LO *,LO *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");         // ConvertLoPos
- qword func_001A62E8(LO *);                    // PosLoWorld
+ qword PosOfLo(LO *) asm("PosOfLo__FP2LO");                    // PosLoWorld
  qword VecBallisticVelocity(qword,qword,qword,float) asm("VecBallisticVelocity__FfG9VU_VECTORN21"); // CalculateLaunchVelocity
  int func_001DAEA8(int);                       // FPowerUpAcquired
  void func_0020FAA0(SW *,qword,qword,int (*)(void *,SO *),void *,int *,SO ***); // FindSwObjectsInBox
@@ -62,11 +62,11 @@ extern "C" {
  int CSolveQuadratic(float,float,float,float *) asm("CSolveQuadratic__FfffPf");
  M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
  V *func_00256D18(V *,qword);
- void func_0021C5F8(MARKER *,qword);
+ void SetCenters(MARKER *,qword) asm("SetCenters__FP5TRAILG9VU_VECTOR");
  float func_002458F0(float,float);
  float RadStepHeading(LO *) asm("RadStepHeading__FP4STEP");                    // JtGetFacingAngle
  float RadNormalize(float) asm("RadNormalize__Ff");                   // RadNormalize
- void func_001384C0(ASEGBL *);
+ void RecalcBlend(ASEGBL *) asm("RecalcBlend__FP6ASEGBL");
 }
 // A vector in a VU0 register, passed by value
 struct VU_VECTOR {qword q;VU_VECTOR(){}VU_VECTOR(qword qw){q=qw;}};
@@ -107,7 +107,7 @@ extern "C" void UpdateJtThrowArc__FP7JTTHROWi(JTTHROW *pjtthrow,int fUpdateBlend
  qword posLaunch=ConvertPos(pjtthrow->pstepplayer,0,pjtthrow->vLaunchLocal.q);
  qword posHold=pjtthrow->posHold.q;
  qword vAccel=pjtthrow->ploCarried->pgravity->vAccel.q;
- qword posHero=func_001A62E8(pjtthrow->pstepplayer);
+ qword posHero=PosOfLo(pjtthrow->pstepplayer);
  float uFar=GClamp((GLengthXY(QwSub(posHold,posHero))-pjtthrow->lmAim.gMin)/(pjtthrow->lmAim.gMax-pjtthrow->lmAim.gMin),0.0f,1.0f);
  qword vLaunch=VecBallisticVelocity(posLaunch,pjtthrow->posHold.q,vAccel,GFromClq(D_002C40F0,uFar));
  float tApex=GMax(-GZOfQw(vLaunch)/GZOfQw(vAccel),0.0f);
@@ -186,10 +186,10 @@ extern "C" void UpdateJtThrowArc__FP7JTTHROWi(JTTHROW *pjtthrow,int fUpdateBlend
    pframe->s=0.0f;
    pframe->mat=mat;
   }
-  func_0021C5F8(pjtthrow->ploMarker,posLaunch);
+  SetCenters(pjtthrow->ploMarker,posLaunch);
  }
  qword posAim=pjtthrow->posHold.q;
- qword posHeroNow=func_001A62E8(pjtthrow->pstepplayer);
+ qword posHeroNow=PosOfLo(pjtthrow->pstepplayer);
  V dpos;
  dpos.q=QwSub(posAim,posHeroNow);
  float rad=func_002458F0(dpos.f[1],dpos.f[0]);
@@ -211,8 +211,8 @@ extern "C" void UpdateJtThrowArc__FP7JTTHROWi(JTTHROW *pjtthrow,int fUpdateBlend
  pjtthrow->ablB[1].gWeight=uTurn*uNear;
  pjtthrow->ablB[2].gWeight=uTurnOpp*uFar;
  pjtthrow->ablB[3].gWeight=uTurn*uFar;
- func_001384C0(pjtthrow->pasegblB);
+ RecalcBlend(pjtthrow->pasegblB);
  pjtthrow->ablC[0].gWeight=uNear;
  pjtthrow->ablC[1].gWeight=uFar;
- func_001384C0(pjtthrow->pasegblC);
+ RecalcBlend(pjtthrow->pasegblC);
 }

@@ -18,7 +18,7 @@ union STAGE {EARLY early; LATE late;};
 struct WORK {U position; M3 basis; STAGE stage; float t,result,projection; U saved;};
 
 extern "C" {
-qword func_001A62E8(LO*);
+qword PosOfLo(LO*) asm("PosOfLo__FP2LO");
 void NearestCrvS(void*,qword,void*,qword*,qword*,float*,float*,float) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
 M4 InverseAffineMatrix4(const M4*) asm("InverseAffineMatrix4__FP7MATRIX4");
 M4 *MulMatrix4(M4*,const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
@@ -27,15 +27,15 @@ void Minimize(float(*)(void*,float),void*,float,float,float,float,float*,float*)
 float func_001CC2B8(void*,float);
 float func_001CC288(void*,float);
 void func_001CC1F8(P*,qword,float*,float*,float);
-void func_001CC168(P*,qword,float*,float*,float);
-M3 *func_0022FD38(M3*,FRAME*,FRAME*,const M3*);
+void GReachDist(P*,qword,float*,float*,float) asm("GReachDist__FP5REACHG9VU_VECTORP6VECTORPff");
+M3 *MatConvertXfs(M3*,FRAME*,FRAME*,const M3*) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 qword DecomposeEulerMatrix(const M3*) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void SetCtrlPos(void*,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SetAsegaTime(void*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
-void func_001384C0(MOTION*);
+void RecalcBlend(MOTION*) asm("RecalcBlend__FP6ASEGBL");
 void func_002046B0(LO*,qword);
 void TurnActorNow(LO*) asm("TurnActorNow__FP5ACTOR");
-void func_001CC2E8(P*);
+void UpdateReach(P*) asm("UpdateReach__FP5REACH");
 }
 static inline void*operator new(unsigned size,void*destination){return destination;}
 struct COPYPREFIX {U position;M3 basis;M4 product;};
@@ -44,13 +44,14 @@ static inline qword LengthXY(qword v){register qword d __asm__("vf2");qword word
 static inline void StoreX(float*p,qword q){__asm__("sw %1,%0":"=m"(*p):"r"(q));}
 static inline qword DifferenceFromSaved(const U*saved,qword raw,P*p,LO*&receiver){register qword point __asm__("vf1"),current __asm__("vf2");register LO*owner __asm__("$4");__asm__("lqc2 %0,%3\n\tqmtc2.ni %4,%1\n\tlw %2,%5\n\tvsub.xyzw %0,%0,%1":"=&j"(point),"=&j"(current),"=r"(owner):"m"(*saved),"r"(raw),"m"(p->owner));receiver=owner;return point;}
 static inline const M4*InverseArgument(const M4*value){register const M4*arg __asm__("$6");__asm__("daddu %0,%1,$zero":"=r"(arg):"r"(value));return arg;}
-void func_001CC2E8(P*p){
+// name: SafeHouse port (UpdateReach)
+void UpdateReach(P*p){
  WORK w;register void*cursor __asm__("$16");
  if(p->active==-1)return;
  switch(p->mode){
  default:cursor=&w.stage.late.context;break;
- case 0:{cursor=p->path;NearestCrvS(cursor,func_001A62E8(p->owner),0,&w.position.q,0,0,&p->time,p->time);cursor=&w.stage.late.context;break;}
- case 1:{qword found=func_001A62E8(p->follow);__asm__("sq %1,%0":"=m"(w.position.q):"r"(found));cursor=&w.stage.late.context;break;}
+ case 0:{cursor=p->path;NearestCrvS(cursor,PosOfLo(p->owner),0,&w.position.q,0,0,&p->time,p->time);cursor=&w.stage.late.context;break;}
+ case 1:{qword found=PosOfLo(p->follow);__asm__("sq %1,%0":"=m"(w.position.q):"r"(found));cursor=&w.stage.late.context;break;}
  case 2:{
   M4*output=&w.stage.early.temporary;
   M4*world=p->follow->vt[31].matrix((char*)p->follow+p->follow->vt[31].delta);
@@ -68,18 +69,18 @@ void func_001CC2E8(P*p){
  if(p->mode==2){
   Minimize(func_001CC2B8,cursor,0.5f,0.1f,0.0f,1.0f,&w.t,&w.result);
   func_001CC1F8(p,w.stage.late.context.position,&w.projection,0,w.t);
-  func_0022FD38(&w.stage.late.temporary,0,p->space->frame,&w.basis);
+  MatConvertXfs(&w.stage.late.temporary,0,p->space->frame,&w.basis);
   w.stage.late.transformed=w.stage.late.temporary;
   SetCtrlPos(p->job,DecomposeEulerMatrix(&w.stage.late.transformed));
  }else{
   Minimize(func_001CC288,cursor,0.5f,0.1f,0.0f,1.0f,&w.t,&w.result);
-  func_001CC168(p,w.stage.late.context.position,&w.projection,0,w.t);
+  GReachDist(p,w.stage.late.context.position,&w.projection,0,w.t);
  }
  SetAsegaTime(p->animation->player,0,w.t*p->motion->duration,0.0f);
  p->fraction=w.projection;p->weight=1.0f-w.projection;
- func_001384C0(p->motion);
+ RecalcBlend(p->motion);
  w.saved.q=w.position.q;
- LO*receiver;qword delta=DifferenceFromSaved(&w.saved,func_001A62E8(p->owner),p,receiver);
+ LO*receiver;qword delta=DifferenceFromSaved(&w.saved,PosOfLo(p->owner),p,receiver);
  func_002046B0(receiver,delta);
  TurnActorNow(p->owner);
 }

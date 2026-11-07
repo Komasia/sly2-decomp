@@ -4,7 +4,7 @@ struct M4 {qword r[4];};
 struct X {M4 local,world;char pad80[0x20];X *parent;int priority;char pada8[0x58];};
 struct S {char pad[0x50];int count;X *array;};
 extern M4 D_002A2D30;
-extern "C" void func_0022FA20(S *);
+extern "C" void PostUpdateAloXfs(S *) asm("PostUpdateAloXfs__FP3ALO");
 // name: SafeHouse port (UpdateAloXfWorlds)
 extern "C" void UpdateAloXfWorlds__FP3ALO(S *p) {
     if(p->count>0) {
@@ -34,5 +34,5 @@ extern "C" void UpdateAloXfWorlds__FP3ALO(S *p) {
             v5=n0;v6=n1;v7=n2;v8=n3;
         }
     }
-    func_0022FA20(p);
+    PostUpdateAloXfs(p);
 }

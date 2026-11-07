@@ -15,8 +15,8 @@ int GrfActorLookMask__FP5ACTOR(struct S *p);
 void SetSmaMask__FP3SMAUi(void *p, int n);
 float func_0011CFE0(float g, float h);
 void SetStepPhysHeading__FP3ALOf(struct S *p, float g);
-void func_00189C40(struct S *p, int a, int b, int c, float g, void *pv);
-int func_00189EC8(struct S *p, void *pv, int n);
+void RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(struct S *p, int a, int b, int c, float g, void *pv);
+int MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(struct S *p, void *pv, int n);
 int func_001F0400(void *p, int n);
 void SetSmaState__FP3SMA3OID(void *p, int n);
 // name: SafeHouse port (UpdateSlyStanding)
@@ -34,9 +34,9 @@ void UpdateSlyStanding__FP3SLY(struct S *p)
         SetStepPhysHeading__FP3ALOf(p, p->g1a8 + u.v.z * g_clock.dt);
     }
     if (p->x19f0) {
-        func_00189C40(p, p->x19d8, p->x19e0, p->x19f0, 5.0f, p->x1520);
-        func_00189C40(p, p->x19d4, p->x19dc, p->x19f4, 5.0f, p->x1620);
-        if ((!func_00189EC8(p, p->x1520, p->x19f0) || !func_00189EC8(p, p->x1620, p->x19f4)) &&
+        RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(p, p->x19d8, p->x19e0, p->x19f0, 5.0f, p->x1520);
+        RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(p, p->x19d4, p->x19dc, p->x19f4, 5.0f, p->x1620);
+        if ((!MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, p->x1520, p->x19f0) || !MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, p->x1620, p->x19f4)) &&
             !p->x1514 && p->x1028) {
             if (func_001F0400(p->x1028, 0x17C) >= 0) SetSmaState__FP3SMA3OID(p->x1034, 0x17C);
             p->x1514 = 1;

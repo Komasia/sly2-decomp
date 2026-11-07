@@ -18,7 +18,7 @@ void SetGuardStateMask__FP5GUARDUl(struct S *p, int n);
 void func_0020CE40(void *p);
 void func_0020D1C8(void *p);
 void func_0020D1A0(void *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float RadStepHeading__FP4STEP(struct S *p);
 void SetStepPhysHeading__FP3ALOf(struct S *p, float f);
 unsigned long func_00207A20(int n);
@@ -45,7 +45,7 @@ void ResetGuard__FP2LO(struct S *p)
     func_0020CE40(p->p498);
     func_0020D1C8(p->p49C);
     func_0020D1A0(p->p498);
-    p->q300 = func_001A62E8(p);
+    p->q300 = PosOfLo__FP2LO(p);
     p->f310 = RadStepHeading__FP4STEP(p);
     p->p2F0->pq = pq;
     p->p2F0->f = p->f310;

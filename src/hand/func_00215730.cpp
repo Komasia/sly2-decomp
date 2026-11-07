@@ -8,8 +8,8 @@ struct S { int x0; int k; L *pl; int xc; int i; void *x14; };
 struct T { char pad[0x30]; S *x30; char pad34[0x24]; int x58; };
 extern "C" int func_00217EF8(void *p);
 extern "C" void func_00217CA8(void *p, int k, int z, void *q, RGBA c0, RGBA c1);
-extern "C" void *func_001BEED8(int);
-extern "C" void *func_001BEB28(void *);
+extern "C" void *PvRtgtOwnerOfId(int) asm("PvRtgtOwnerOfId__Fi");
+extern "C" void *TakeRtgt(void *) asm("TakeRtgt__FPv");
 extern "C" void func_00215730(S *p, T *t, void *q, RGBA c0, RGBA c1)
 {
     t->x30 = p;
@@ -20,9 +20,9 @@ extern "C" void func_00215730(S *p, T *t, void *q, RGBA c0, RGBA c1)
         break;
     case 6:
         if (p->i != -1) {
-            void *pv = func_001BEED8(p->i);
+            void *pv = PvRtgtOwnerOfId(p->i);
             if (pv)
-                p->x14 = func_001BEB28(pv);
+                p->x14 = TakeRtgt(pv);
         }
         break;
     }

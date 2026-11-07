@@ -1,16 +1,17 @@
 extern char g_sw[];
 struct P { char pad[0x160]; char asega[4]; int n164, n168, n16C, n170; };
-void *func_0015E938(void *p, int k, int oid, void *q);
+void *PloFindSwNearest__FP2LO3OIDii(void *p, int k, int oid, void *q);
 void ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA(void *aseg, void *alo, float t, float s, int n, void *pp);
 void func_00147410(struct P *p, int n);
-void func_00147C20(struct P *p, int oid, int n)
+// name: SafeHouse port (StartAnimatedOverlay)
+void StartAnimatedOverlay__FP2LOii(struct P *p, int oid, int n)
 {
     char *aseg;
     p->n170 = n;
     p->n16C = 1;
     p->n168 = 1;
     p->n164 = 1;
-    aseg = func_0015E938(g_sw, 1, oid, p);
+    aseg = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, oid, p);
     if (aseg) {
         unsigned int v = *(unsigned int *)(aseg + 0x40);
         if ((v ^ 1) & 1) *(int *)v |= 0x100;

@@ -8,7 +8,7 @@ struct S { Source *source; Dest *dest; int position,rotation; };
 struct G { char pad[0x3D58]; int counter; };
 extern G g_sw;
 extern "C" M4 InverseAffineMatrix4(const M4 *m) asm("InverseAffineMatrix4__FP7MATRIX4");
-extern "C" M3 func_0011B340(const M3 *m);
+extern "C" M3 InverseMatrix3(const M3 *m) asm("InverseMatrix3__FP7MATRIX3");
 extern "C" void func_0011B3D0(M3 *m);
 extern "C" qword *func_00256D18(qword *p,qword v);
 static inline qword Transform(const M4 &m,qword p) {
@@ -23,7 +23,8 @@ static inline M3 Mul(const M3 &a,const M3 &b) return r
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1]));
  __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
 }
-extern "C" void func_001604E8(void *,S *s)
+// name: SafeHouse port (UpdateXfLink)
+extern "C" void UpdateXfLink__FP3ALOPv(void *,S *s)
 {
  M3 m;
  if(s->position) {
@@ -33,7 +34,7 @@ extern "C" void func_001604E8(void *,S *s)
   dest->m.r[3].f[3]=1.0f;
  }
  if(s->rotation) {
-  m=Mul(func_0011B340((M3 *)&s->dest->parent->m40),*(M3 *)&s->source->m40);
+  m=Mul(InverseMatrix3((M3 *)&s->dest->parent->m40),*(M3 *)&s->source->m40);
   func_0011B3D0(&m);
   Dest *dest=s->dest;
   *(M3 *)&dest->m=m;

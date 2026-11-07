@@ -3,7 +3,8 @@ s32 FIsBasicDerivedFrom__FP5BASIC3CID(void *, M2C_UNK);                 /* exter
 M2C_UNK func_001490A0(void *, M2C_UNK);             /* extern */
 extern f32 g_clock;
 
-void func_00149010(void *arg0) {
+// name: SafeHouse port (PadTouched)
+void PadTouched__FP2LO(void *arg0) {
     void *temp_a0;
 
     if (FIsBasicDerivedFrom__FP5BASIC3CID(M2C_FIELD(arg0, void **, 0x2F8), 0x34) != 0) {

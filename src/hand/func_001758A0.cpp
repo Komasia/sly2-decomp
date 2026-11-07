@@ -60,7 +60,7 @@ extern LM g_lmZeroOne;
 extern char g_sw[];
 int FIsBasicDerivedFrom(P *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int FTargetrecAllows(void *, P *) asm("FTargetrecAllows__FP9TARGETRECP5GUARD");
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 unsigned func_001C9950(unsigned);
 int func_0011D910(LM *, float);
 qword ConvertPos(P *, P *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
@@ -77,7 +77,7 @@ static inline qword QwSub(qword qw0, qword qw1)
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(qw) : "j"(qw0), "j"(qw1));
     return qw;
 }
-/* the second "j"(v) is allocation-only (same helper as func_001428D8): it fixes the from/to lqc2 reloads */
+/* the second "j"(v) is allocation-only (same helper as LookScore): it fixes the from/to lqc2 reloads */
 static inline qword QwLengthXY(qword v)
 {
     qword qw;
@@ -157,8 +157,8 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
     }
     if (gate && !FTargetrecAllows(gate, p))
         return 0;
-    from = func_001A62E8(p);
-    to = func_001A62E8(target);
+    from = PosOfLo(p);
+    to = PosOfLo(target);
     {
         qword d = QwSub(to, from);
         distance = GLengthXY(d);

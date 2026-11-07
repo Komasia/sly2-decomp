@@ -12,7 +12,7 @@ extern "C" {
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 int FIsBasicDerivedFrom(struct J *pj, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_00229D60(void *,void *);
 int CsoeCollect(struct S *p,int (*pfn)(void *,void *),void *context,void **apv) asm("CsoeCollect__FP3ALOPvN21");
@@ -43,7 +43,7 @@ extern "C" float GWaterDepth__FP3ALOT0P6VECTORT2(struct S *p, struct J *pj, qwor
     void **apv;
     int c;
     float g;
-    work.a.q = work.b.q = func_001A62E8(pj);
+    work.a.q = work.b.q = PosOfLo(pj);
     if (FIsBasicDerivedFrom(pj, 0x33)) {
         work.a.f[2] = work.a.f[2] + pj->g248;
         if (pj->x208)

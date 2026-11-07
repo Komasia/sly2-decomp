@@ -7,7 +7,7 @@ struct A { char pad[0xF84]; void *pF84; float fF88; int nF8C; char pad2[0xFD0 - 
 struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; int pad4; float f38; float f3C; };
 union V { qword q; float f[4]; };
 void Update__5AIJOB(struct S *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float SWrapCrv__FP3CRVf(void *p, float f);
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
 int func_0017CE30(struct S *p);
@@ -28,7 +28,7 @@ void Update__7JOBRAIL(struct S *p) {
             qword pos;
             union V v;
             a->nF8C = t < p->f3C;
-            pos = func_001A62E8(p->p10);
+            pos = PosOfLo__FP2LO(p->p10);
             NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(q, SWrapCrv__FP3CRVf(q, p->p10->nF8C ? t + D_002BE74C : t - D_002BE74C), pos, 0, 0, &v, 0, &t);
             p->p10->fF88 = t;
             if (func_0017CE30(p)) {

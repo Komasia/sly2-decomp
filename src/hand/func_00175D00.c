@@ -17,13 +17,13 @@ struct R1 { char pad[0x14]; struct R2 *p14; };
 struct R { int pad; struct R1 *p4; };
 union V { qword q; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *t, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float RadStepHeading__FP4STEP(struct A *a);
 void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *a, float *b, float *c);
 int func_0011D910(void *p, float f);
 float RadNormalize__Ff(float f);
 qword *MatJtLo__FP2LO(struct A *a);
-void func_0011E958(qword v, int n, float *pf);
+void PanTiltFromVector__FG9VU_VECTORPfT1(qword v, int n, float *pf);
 void __10STACKSCOPE(struct X *x);
 void _$_10STACKSCOPE(struct X *x, int n);
 int func_0020FA10(void);
@@ -65,8 +65,8 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
             }
         }
     }
-    pa = func_001A62E8(p->p10);
-    pb = func_001A62E8(p->p30);
+    pa = PosOfLo__FP2LO(p->p10);
+    pb = PosOfLo__FP2LO(p->p30);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pb), "j"(pa));
     g = RadStepHeading__FP4STEP(p->p10);
     ConvertVectorToSphere__FG9VU_VECTORPfN21(d, &f[0], &f[1], &f[2]);
@@ -75,7 +75,7 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
         float h = RadNormalize__Ff(f[0] - g);
         if (!func_0011D910(p->p10->aF50, h)) return 0;
     }
-    func_0011E958(*MatJtLo__FP2LO(p->p10), 0, &f[3]);
+    PanTiltFromVector__FG9VU_VECTORPfT1(*MatJtLo__FP2LO(p->p10), 0, &f[3]);
     {
         float h = RadNormalize__Ff(f[1] - f[3]);
         if (!func_0011D910(p->p10->aF58, h)) return 0;

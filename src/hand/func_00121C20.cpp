@@ -15,7 +15,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew();
 }
 struct SPM {
     NODE *p;

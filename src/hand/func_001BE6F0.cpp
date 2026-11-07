@@ -10,7 +10,7 @@ struct P{int width,height;char pad8[8];int directCount;QW*directData;char pad18[
 struct V;
 extern "C" V3 D_002C1F00,D_002C1F10;
 extern "C" M3*MatJtLo(O*) asm("MatJtLo__FP2LO");
-extern "C" qword func_001A62E8(O*);
+extern "C" qword PosOfLo(O*) asm("PosOfLo__FP2LO");
 extern "C" qword*func_00256D18(qword*,qword);
 extern "C" float func_002450F0(float);
 extern "C" void func_0011C448(float,float,float,float,float,float,M4*);
@@ -51,7 +51,7 @@ extern "C" void func_001BE6F0(P*p,V*v){
   minus2.q=nz;
   minus0.q=nx;
  }
- {qword position=func_001A62E8(object);
+ {qword position=PosOfLo(object);
  func_00256D18(&view.r[3].q,position);}
  aspect=(float)p->width;
  aspect/=(float)p->height;

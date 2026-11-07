@@ -27,24 +27,24 @@ void func_00184950(STREAM *,int);
 void SetDecompress(STREAM *,int,void *) asm("SetDecompress__18CBinaryInputStreamiPUc");
 void func_00184CA0(STREAM *);
 void UnloadWorld(SW *) asm("UnloadWorld__FPv");
-void func_0014D068(void *);
+void ResetClock(void *) asm("ResetClock__FP5CLOCK");
 void AddGrfusr(int) asm("AddGrfusr__Fi");
 void *func_002333B4(void *,int,uint);
 SW *func_0020D9D0(SW *);
 int func_001B3B08(void *);
 void InitCm(void *) asm("InitCm__FP2CM");
 void func_0020E180(SW *);
-void func_0013DA18(SW *,STREAM *);
+void LoadSwFromBrx(SW *,STREAM *) asm("LoadSwFromBrx__FP2SWP18CBinaryInputStream");
 void func_00184CF0(STREAM *);
-void func_0020E740(SW *);
+void StartSw(SW *) asm("StartSw__FP2SW");
 void StartHudTimer(SW *,float) asm("StartHudTimer__FPvf");
-void func_0014C258(void);
+void RemoveMegaJump(void) asm("RemoveMegaJump__Fv");
 CONTEXT *PloFindCheckpoint(SW *,int,int) asm("PloFindCheckpoint__FP2SW3OIDT1");
 void ApplyCheckpoint(CONTEXT *) asm("ApplyCheckpoint__FP2SW");
-ACTOR *func_001C4840(SW *);
+ACTOR *PloPlayerPo(SW *) asm("PloPlayerPo__FP2SW");
 ACTOR *func_001C4A48(SW *);
 void func_00129EC8(REF *);
-ACTOR *func_0015E938(SW *,int,int,void *);
+ACTOR *PloFindSwNearest(SW *,int,int,void *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int NPoEnabled(ACTOR *) asm("NPoEnabled__FP2LO");
 int func_00210AE0(void);
@@ -100,7 +100,7 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
     SetDecompress(reader,0x4000,(void *)0x70000000);
     func_00184CA0(reader);
     UnloadWorld(p);
-    func_0014D068(g_clock);
+    ResetClock(g_clock);
     AddGrfusr(8);
     func_002333B4(&g_sw,0,0x4790);
     func_002333B4(&g_sw,0,0x4790);
@@ -110,17 +110,17 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
     p->current=request.header;
     *destination=request;
     func_0020E180(p);
-    if(hasFile){func_0013DA18(p,reader);func_00184CF0(reader);}
-    func_0020E740(p);
+    if(hasFile){LoadSwFromBrx(p,reader);func_00184CF0(reader);}
+    StartSw(p);
     if(resume>0.0f)StartHudTimer(p,resume);
-    if(changed||(p->request.flags&0x40))func_0014C258();
+    if(changed||(p->request.flags&0x40))RemoveMegaJump();
     CONTEXT *context=PloFindCheckpoint(p,p->request.objectId,p->request.objectKey);
     if(context){ApplyCheckpoint(context);p->objectId=p->request.objectId;p->objectKey=p->request.objectKey;}
-    if(!func_001C4840(p)&&!func_001C4A48(p)&&p->actorCount>0){
+    if(!PloPlayerPo(p)&&!func_001C4A48(p)&&p->actorCount>0){
         ACTOR *selected=0;
         int actorId;
         {REF value=func_001D8A38(D_002A8A88,0);actorId=value.value;}
-        if(actorId!=-1)selected=func_0015E938(p,5,actorId,0);
+        if(actorId!=-1)selected=PloFindSwNearest(p,5,actorId,0);
         if(!selected)selected=D_002E1E40;
         if(!selected)selected=D_002DD5BC;
         if(!selected)selected=D_002F7900;
@@ -139,7 +139,7 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
         }
     }
     if(!func_00210AE0()){
-        ACTOR *actor=func_001C4840(p);
+        ACTOR *actor=PloPlayerPo(p);
         if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)SetState(actor->widget,1);
     }
     UpdateCm(g_cm);

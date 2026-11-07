@@ -8,7 +8,7 @@ struct X { char pad[0x80]; qword v80; };
 struct O { char pad[0xE8]; struct X *xE8; char pad2[0x1F30-0xEC]; float f1F30; };
 struct A { struct O *p; };
 struct P { struct A *a; void *p4; int pad[2]; qword v10; };
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff(void *a, qword p, qword v, qword x, float f, float t, qword *r0, qword *r1, qword *r2);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float tMax, float t, float s, qword a, qword va, qword b, qword vb, int m, int n, qword *r);
 static inline float Len(qword v) {
@@ -27,7 +27,7 @@ float func_0019AC88(struct P *p, float t)
  float g,h;
  pv=p->p4;
  o=p->a->p;
- pos=func_001A62E8(o);
+ pos=PosOfLo__FP2LO(o);
  vel=p->v10;
  ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff(pv, pos, vel, o->xE8->v80, o->f1F30, t, &a.q, &b.q, &c.q);
  Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(t,0.0f,1.0f,pos,vel,b.q,c.q,0,0,&d.q);

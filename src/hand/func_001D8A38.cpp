@@ -20,8 +20,8 @@ struct H;
 extern G D_003D4A60;
 extern H D_003E0EA8;
 void func_001D87C0(const char *p, va_list ap, V *pv);
-CRef func_001D7ED8(H *, V *, G *);
-static inline CRef Eval(V *pv, G *pg) { return func_001D7ED8(&D_003E0EA8, pv, pg); }
+CRef RefGetProgress(H *, V *, G *) asm("RefGetProgress__FP4TRIEP3KEYPc");
+static inline CRef Eval(V *pv, G *pg) { return RefGetProgress(&D_003E0EA8, pv, pg); }
 extern "C" CRef func_001D8A38(const char *fmt, ...)
 {
     CRef ref;

@@ -9,7 +9,7 @@ struct O {
     char pad4[0xB0 - 0x68];
     qword vB0;
 };
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 static inline float Dist(qword a, qword b) {
     qword d;
     float f;
@@ -24,5 +24,5 @@ int FArrived__9JOBFOLLOW(struct O *p)
 {
     if (!p->f3C)
         return 0;
-    return Dist(func_001A62E8(p->p10), p->vB0) <= p->f64;
+    return Dist(PosOfLo__FP2LO(p->p10), p->vB0) <= p->f64;
 }

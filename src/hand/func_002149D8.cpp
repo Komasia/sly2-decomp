@@ -1,4 +1,4 @@
-// func_002149D8: reads one sprite descriptor from the stream into sprites[id] and builds its packet data.
+// LoadElemFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOTiP6SPRITE: reads one sprite descriptor from the stream into sprites[id] and builds its packet data.
 // Kinds: 4 index, 8 nested children + word/float tables, 3 shader, 2 polygon (2x3 matrix + vertices),
 // 6/7 textured rectangle (GIF packet; 7 also posts the owner's callback), 1 geometry records grouped
 // into VU1 packets (microprogram 0x140).
@@ -46,8 +46,8 @@ void ReadMatrix(BIS *,M3 *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
 void Read(BIS *,int,void *) asm("Read__18CBinaryInputStreamiPv");
 void *PvAllocClear(HEAP *,int,int) asm("PvAllocClear__FP4HEAPii");
 void *PvAllocStackClearImpl(ALLOCREQ *) asm("PvAllocStackClearImpl__Fi");
-void func_00214398(OWNER *,BIS *,ROOT *,int *,SPRITE **);
-void func_00149A50(WORLD *,OWNER *,PMF,SPRITE *);
+void LoadElemsFromBrx(OWNER *,BIS *,ROOT *,int *,SPRITE **) asm("LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3");
+void PostDeferredPointerCall(WORLD *,OWNER *,PMF,SPRITE *) asm("PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi");
 }
 // The current stack-allocation scope (out of line: 0x1AE478 / 0x1AE4A0)
 struct STACKSCOPE {STACKSCOPE();~STACKSCOPE();};
@@ -61,7 +61,8 @@ static inline void CopyXY(M23 &dst,const M3 &src){
  const float *a=(const float *)&src.r[0],*b=(const float *)&src.r[1],*c=(const float *)&src.r[2];
  dst.a[0]=a[0];dst.a[1]=a[1];dst.a[2]=b[0];dst.a[3]=b[1];dst.a[4]=c[0];dst.a[5]=c[1];
 }
-extern "C" void func_002149D8(OWNER *const owner,BIS *stream,ROOT *root,int,SPRITE *sprites){
+// name: SafeHouse port (LoadElemFromBrx)
+extern "C" void LoadElemFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOTiP6SPRITE(OWNER *const owner,BIS *stream,ROOT *root,int,SPRITE *sprites){
  STACKSCOPE outer;M3 raw;
  int id=func_00117C20(stream);SPRITE *sprite=&sprites[id];sprite->root=root;sprite->id=id;
  sprite->kind=func_00117C80(stream);
@@ -70,7 +71,7 @@ extern "C" void func_002149D8(OWNER *const owner,BIS *stream,ROOT *root,int,SPRI
  case 4:sprite->data.index=func_00117C20(stream);break;
  case 8:
   D_002C40A4=1;
-  func_00214398(owner,stream,root,&sprite->data.nested.count,&sprite->data.nested.children);
+  LoadElemsFromBrx(owner,stream,root,&sprite->data.nested.count,&sprite->data.nested.children);
   sprite->data.nested.wordCount=func_00117C80(stream);
   sprite->data.nested.words=(uint *)PvAllocClear(owner->heap,sprite->data.nested.wordCount*4,0x13);
   int i;
@@ -122,7 +123,7 @@ extern "C" void func_002149D8(OWNER *const owner,BIS *stream,ROOT *root,int,SPRI
   vif.AddVifUnpack(UPK_V4_32,((uint)gif.m_pb-(uint)gif.m_ab)>>4,gif.m_ab,7);
   vif.AddVifMscal(D_00000650);vif.EndDmaCnt();vif.AddDmaRet();
   if(sprite->kind==6)vif.DetachCopySw(owner->heap,&sprite->data.effect.count,0,&sprite->data.effect.packet);
-  else{vif.DetachCopySw(owner->heap,&sprite->data.picture.count,0,&sprite->data.picture.packet);func_00149A50(&g_sw,owner,D_002A8B08,sprite);}
+  else{vif.DetachCopySw(owner->heap,&sprite->data.picture.count,0,&sprite->data.picture.packet);PostDeferredPointerCall(&g_sw,owner,D_002A8B08,sprite);}
   break;
  }
  case 1:{

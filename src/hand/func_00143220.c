@@ -4,7 +4,7 @@ struct VTE { short d; short pad; qword (*pfn)(void *); };
 struct O { int pad[3]; struct VTE *vt; };
 struct S { int k; float g4; float g8; int pad; qword pos; qword dir; };
 extern qword g_normalZ;
-qword func_001A62E8(struct O *p);
+qword PosOfLo__FP2LO(struct O *p);
 // name: SafeHouse port (GetSlyLaunchTarget)
 void GetSlyLaunchTarget__FP3SLYPvf(struct O *p, struct S *ps, float g)
 {
@@ -18,7 +18,7 @@ void GetSlyLaunchTarget__FP3SLYPvf(struct O *p, struct S *ps, float g)
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(d) : "j"(up), "j"(d));
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(h) : "j"(v), "j"(d));
     }
-    pos = func_001A62E8(p);
+    pos = PosOfLo__FP2LO(p);
     __asm__("qmtc2.ni %1, %0" : "=j"(s) : "r"(g));
     __asm__("vadda.xyzw ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(pos), "j"(h), "j"(s));
     ps->dir = h;

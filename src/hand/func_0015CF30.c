@@ -33,7 +33,7 @@ void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 int CmovieOpen__FP6EPMENU(struct X *p);
 int FSpriteAnimPlaying__FP2LOi(struct X *p, int n);
-void *func_0015E938(struct G *pg, int kind, int oid, int n);
+void *PloFindSwNearest__FP2LO3OIDii(struct G *pg, int kind, int oid, int n);
 void SetExitState__FP2LOi(void *p, int n);
 void TriggerExit__FP4EXIT(void *p);
 int func_00210B98(int n);
@@ -181,7 +181,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
                     f = 0;
             }
             if (f) {
-                void *po = func_0015E938(&g_sw, 5, D_002BE2A8[p->n110], 0);
+                void *po = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, D_002BE2A8[p->n110], 0);
                 if (po) {
                     SetExitState__FP2LOi(po, 3);
                     TriggerExit__FP4EXIT(po);

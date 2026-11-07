@@ -2,7 +2,8 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VTE *vt; };
 void OnLoRemove__FP2LO(void *p);
 void func_00149718(void *p, int n);
-void func_00149880(char *p)
+// name: SafeHouse port (OnRemoveTrigger)
+void OnRemoveTrigger__FP2LO(char *p)
 {
     OnLoRemove__FP2LO(p);
     if ((unsigned int)(*(int *)(p + 0x1C0) - 1) < 2) {

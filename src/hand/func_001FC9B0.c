@@ -6,7 +6,7 @@ struct P {char pad1C[0x1C];struct LO *object;qword position;char pad30[0x70];int
 extern qword D_002A2DD0;
 int func_0011D4D0(float,float,float);
 void Update3D__4CSnd(struct P *);
-qword func_001A62E8(struct LO *);
+qword PosOfLo__FP2LO(struct LO *);
 void func_001FB778(struct P *,qword,const struct RANGE *,float *,int *);
 void SetVoicePan__9CSndVoiceii(struct P *,int,int);
 void SetVoiceVolume__9CSndVoiceif(struct P *,int,float);
@@ -35,7 +35,7 @@ void Update3D__9CSndVoice(struct P *p)
                 struct LO *object = entry->object;
                 if (object && ((object->flags >> 60) & 1) == 1) {
                     active++;
-                    func_001FB778(p, func_001A62E8(object), &entry->limits, &fade, pflags);
+                    func_001FB778(p, PosOfLo__FP2LO(object), &entry->limits, &fade, pflags);
                     pflags = 0;
                     { float gain = fade * entry->gain; maximum = maximum > gain ? maximum : gain; }
                 }

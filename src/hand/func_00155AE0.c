@@ -18,7 +18,7 @@ float GRandInRange__Fff(float a, float b);
 void EndChildJob__FPP5AIJOB(int *p);
 void *PloEnd__5JOBB5(struct X *p);
 struct ASEG *func_00205438(struct SO *pso, int id);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float g);
 void RecalcCrv__FP3CRV(struct ALO *p);
@@ -64,7 +64,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         p->x40 = PloEnd__5JOBB5(p);
         pa = func_00205438(p->pso, 0x9D);
         pa->x3C = 0xB;
-        d = Sub(func_001A62E8(p->x40), func_001A62E8(p->pso));
+        d = Sub(PosOfLo__FP2LO(p->x40), PosOfLo__FP2LO(p->pso));
         {
             float g = func_002458F0(GetY(d), GetX(d)) + 3.1415927f;
             SetMoveHeading__FP7MOVEREF(p->pso->xFD0, g);
@@ -88,11 +88,11 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         palo->xE8 = k;
         {
             qword *pq = palo->pq;
-            pq[0] = func_001A62E8(p->pso);
+            pq[0] = PosOfLo__FP2LO(p->pso);
         }
         {
             qword *pq = palo->pq;
-            pq[1] = func_001A62E8(p->x40);
+            pq[1] = PosOfLo__FP2LO(p->x40);
         }
         RecalcCrv__FP3CRV(palo);
         Follow__9JOBFOLLOWP3CRVi(pa, palo, 0);

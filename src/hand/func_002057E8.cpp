@@ -4,7 +4,7 @@ struct M3 { qword r[3]; };
 struct S { char pad[0x218]; qword *origin; int pad21C; float radius; };
 extern "C" {
 M3 *MatJtLo(S *p) asm("MatJtLo__FP2LO");
-qword func_001A62E8(S *p);
+qword PosOfLo(S *p) asm("PosOfLo__FP2LO");
 extern int D_002C3CC8[2][3];
 }
 static inline qword MulX(qword v, VU_FLOAT g) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(g.q)); return r; }
@@ -16,7 +16,7 @@ extern "C" void func_002057E8(S *p, qword out[2][3])
     qword origin = *p->origin;
     qword right = MatJtLo(p)->r[0];
     qword forward = LoadVf(&MatJtLo(p)->r[1]);
-    point[0] = func_001A62E8(p);
+    point[0] = PosOfLo(p);
     float radius = p->radius;
     point[1] = Add(origin, MulX(right, VU_FLOAT(radius)));
     point[2] = Add(origin, MulX(forward, VU_FLOAT(radius)));

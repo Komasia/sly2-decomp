@@ -5,8 +5,8 @@ typedef struct { int c; short *ash; } V;
 typedef struct { int a[2]; char ht[1]; } H;
 extern H D_003E0EA8;
 void *PvAllocStackImpl__Fi(struct MSG *);
-int func_001D8720(void *, char *);
-static inline int NFind(H *ph, char *pch) { return func_001D8720(ph->ht, pch); }
+int SymFromName__FP6LAYOUTPc(void *, char *);
+static inline int NFind(H *ph, char *pch) { return SymFromName__FP6LAYOUTPc(ph->ht, pch); }
 short func_00233800(char *);
 void func_001D87C0(char *pch, va_list ap, V *pv)
 {

@@ -26,7 +26,8 @@ extern char D_003DD4BC[];
 int func_001A61A0(O *o);
 void AppendDlEntry__FP2DLPv(void *pdl, void *p);
 
-R *func_001BEB28(P *p)
+// name: SafeHouse port (TakeRtgt)
+R *TakeRtgt__FPv(P *p)
 {
     unsigned int i;
     int j;

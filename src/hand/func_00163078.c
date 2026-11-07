@@ -1,5 +1,5 @@
 struct S { char pad[0xB0]; int fb0; int fb4; void *fb8; void *fbc; void *fc0; int fc4; char pad2[0xCC - 0xC8]; void *fcc; };
-void func_001A5E28(struct S *p);
+void UpdateLo__FP2LO(struct S *p);
 int FSpriteAnimPlaying__FP2LOi(void *p, int n);
 void JobCompleteClose__FP3JOB(struct S *p);
 void func_00162FD0(struct S *p);
@@ -7,7 +7,7 @@ void SetJobSeq__FP3JOBi(struct S *p, int n);
 // name: SafeHouse port (UpdateJob)
 void UpdateJob__FP2LO(struct S *p)
 {
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     switch (p->fc4) {
     case 1:
         if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb0)) {

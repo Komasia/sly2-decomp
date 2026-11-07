@@ -12,13 +12,13 @@ extern float D_003E1BEC;
 
 extern void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *pv);
 extern void func_00141CD0(void *p, int n);
-extern void func_0014D1D0(void *p, int n, float g);
+extern void SetClockFactor__FP5CLOCKif(void *p, int n, float g);
 extern void *PsndNewPlain__Fi(int n);
 extern void SetSource__4CSndPv(void *p, int n);
 extern void func_00258040(void *p, void *pv);
 extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern void SetJumpAnimState__FP4JUMPiP2LO(void *p, int a, int b);
-extern REC *func_0018D6F8(void *p, int n);
+extern REC *PpocketSly__FP3SLYi(void *p, int n);
 extern void SetJtThrowState__FP7JTTHROWi(void *p, int n);
 extern void StartInteract__FP5ACTORii3JTL(void *p, int a, int b, int c);
 extern OBJ *PloAcquireProxyObject__FP2SWi(int oid, int n);
@@ -37,7 +37,7 @@ void func_0018DA48(char *p, int n)
     case 0x1D: {
         void *pv;
         func_00141CD0(p, n);
-        func_0014D1D0(g_clock, 1, D_002BF3EC);
+        SetClockFactor__FP5CLOCKif(g_clock, 1, D_002BF3EC);
         D_003E1BEC = -1.0f;
         pv = PsndNewPlain__Fi(0x67);
         SetSource__4CSndPv(pv, 0);
@@ -47,7 +47,7 @@ void func_0018DA48(char *p, int n)
     case 0x2A: {
         void *pv;
         func_00141CD0(p, n);
-        func_0014D1D0(g_clock, 1, D_002BF3F0);
+        SetClockFactor__FP5CLOCKif(g_clock, 1, D_002BF3F0);
         D_003E1BEC = 0.7f;
         pv = PsndNewPlain__Fi(0x66);
         SetSource__4CSndPv(pv, 0);
@@ -66,7 +66,7 @@ void func_0018DA48(char *p, int n)
     case 0x25:
     case 0x26:
     case 0x29: {
-        REC *prec = func_0018D6F8(p, n);
+        REC *prec = PpocketSly__FP3SLYi(p, n);
         OBJ *pobj;
         if ((unsigned int)(F(int, 0x11B4) - 4) < 3) {
             SetJtThrowState__FP7JTTHROWi(A(0x11B0), 7);

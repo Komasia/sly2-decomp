@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct S { char pad[0xEC]; int k; char pad2[0x20]; qword pos; float r; };
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *p, qword q);
-int func_00118FB0(int a, int b, qword q);
+int IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(int a, int b, qword q);
 // name: SafeHouse port (FPointInShape)
 int FPointInShape__FP2LOG9VU_VECTOR(struct S *p, qword q)
 {
@@ -13,5 +13,5 @@ int FPointInShape__FP2LOG9VU_VECTOR(struct S *p, qword q)
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(r));
     fFar = p->r < f;
     if (fFar) return 0;
-    return func_00118FB0(p->k, 0x7FFFFFFF, a) != 0;
+    return IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(p->k, 0x7FFFFFFF, a) != 0;
 }

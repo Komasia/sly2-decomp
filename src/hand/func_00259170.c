@@ -9,7 +9,7 @@ extern char D_002CE4B8[];
 void PostLoLoad__FP2LO(SO *p);
 void *func_002333B4(void *p, int c, int n);
 int func_00233178(const void *a, const void *b, int n);
-void *func_0015E938(void *pg, int kind, int oid, SO *p);
+void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, SO *p);
 void func_002590F0(SO *p, int f);
 void *PvAllocSwCopyImpl__FiPv(AREQ *preq, void *pv);
 void func_00259170(SO *p)
@@ -30,9 +30,9 @@ void func_00259170(SO *p)
     }
     func_002333B4(a, 0, 0x14);
     if (o1 != -1)
-        a[0] = func_0015E938(g_sw, 4, o1, p);
+        a[0] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, o1, p);
     if (o2 != -1) {
-        void *q = func_0015E938(g_sw, 4, o2, p);
+        void *q = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, o2, p);
         a[0] = 0;
         a[1] = q;
     }
@@ -43,16 +43,16 @@ void func_00259170(SO *p)
         int cc = x->xCC;
         int d0 = x->xD0;
         if (c8 != -1)
-            a[2] = func_0015E938(g_sw, 4, c8, p);
+            a[2] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, c8, p);
         if (cc != -1)
-            a[3] = func_0015E938(g_sw, 4, cc, p);
+            a[3] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, cc, p);
         if (d0 != -1)
-            a[4] = func_0015E938(g_sw, 4, d0, p);
+            a[4] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, d0, p);
         break;
     }
     case 0:
         if (x->xD4 != -1)
-            a[2] = func_0015E938(g_sw, 4, x->xD4, p);
+            a[2] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, x->xD4, p);
         break;
     }
     if (p->px->x8 == 0)

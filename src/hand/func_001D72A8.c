@@ -18,7 +18,7 @@ int func_0014FD50(void *);
 int func_00187E88(void *);
 int func_00187D80(void *, int);
 void *func_001F07E8(void *);
-OBJ *func_0015E938(struct G *, int, int, OBJ *);
+OBJ *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, OBJ *);
 void func_001DC260(void *, int);
 void StartScptImpl__FP2LOi(OBJ *, int);
 void func_001D77D0(OBJ *, int);
@@ -59,7 +59,7 @@ void UpdateSafeHouse__FP2LO(OBJ *p)
                 func_001DC260(D_003DA150, 0);
                 break;
             }
-            q = func_0015E938(&g_sw, 4, pe->n, p);
+            q = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, pe->n, p);
             if (q) {
                 StartScptImpl__FP2LOi(q, 0);
                 return;

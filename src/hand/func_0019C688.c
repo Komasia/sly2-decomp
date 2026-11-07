@@ -9,7 +9,8 @@ void SetJtJts__FP2JT3JTS4JTBS(struct O *o, int a, int b);
 void SetBentleyState__FP7BENTLEYi(int a, int b);
 void SetJumpAnimState__FP4JUMPiP2LO(struct P *p, int a, int b);
 #define B(c, off) ((c) ? (void *)((char *)(c) + (off)) : (void *)0)
-void func_0019C688(struct P *p)
+// name: SafeHouse port (ArriveJumpTarget)
+void ArriveJumpTarget__FP4JUMP(struct P *p)
 {
     switch (p->x1c) {
     case 6:

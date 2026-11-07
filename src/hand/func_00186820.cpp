@@ -9,7 +9,8 @@ struct N { int k; char pad[0xC]; struct N *next; char pad2[8]; struct S *ps; };
 struct E { char pad[0x90]; struct N *pn; char pad2[0x100 - 0x94]; };
 struct O { char pad[0x50]; int c; struct E *ae; char pad2[0x148 - 0x58]; unsigned long grf; };
 static inline N*Entry(O*owner,int i){register E*entries asm("$2")=owner->ae;register int offset asm("$3")=i*256;entries=(E*)((int)entries+offset);return entries->pn;}
-extern "C" void func_00186820(O*owner){
+// name: SafeHouse port (RemeasureAloPairs)
+extern "C" void RemeasureAloPairs__FP3ALO(O*owner){
  if(!(owner->grf&(1UL<<36)))return;
  for(int i=0;i<owner->c;i++)for(N*node=Entry(owner,i);node;node=node->next)if(node->k==7){
   register S*p asm("$4")=node->ps;

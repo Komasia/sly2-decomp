@@ -11,7 +11,7 @@ struct CONTROL {char pad[0x24];float zoom;};
 struct S {char pad[0x150];CONTROL *control;char pad154[0x2C];O *target;int aim,follow;char pad18c[0x20];RANGE range;float blend,velocity,strength;};
 struct CLOCK {float t,dt;};
 extern "C" {
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void func_002309E8(void *,void *,M4 *,M4 *,float);
 float func_00244B68(float);
@@ -42,7 +42,8 @@ static inline float Min(float a,float b){return a<b?a:b;}
 static inline float Abs(float x){return __builtin_fabsf(x);}
 static inline float Fraction(RANGE *range,float f){if(range->lo==range->hi)return 0.0f;return (f-range->lo)/(range->hi-range->lo);}
 static inline float Blend(RANGE *range,float u){return (1.0f-u)*range->lo+u*range->hi;}
-extern "C" void func_00225E98(S *p){
+// name: SafeHouse port (UpdateTurretZoom)
+extern "C" void UpdateTurretZoom__FP3ALO(S *p){
     if(p->target && p->follow){
         M4 m;
         V future,offset,local,swapped;
@@ -50,17 +51,17 @@ extern "C" void func_00225E98(S *p){
         V saved;
         V scratch;
         float radius=p->target->shape?p->target->shape->radius:0.0f;
-        scratch.q=ToVF(func_001A62E8(p));
-        float angle=func_00244B68(radius/(Length(Sub(scratch.q,func_001A62E8(p->target)))*0.5f));
+        scratch.q=ToVF(PosOfLo(p));
+        float angle=func_00244B68(radius/(Length(Sub(scratch.q,PosOfLo(p->target)))*0.5f));
         angle=angle+angle;
         CLOCK *clock=&g_clock;
         angle=Max(angle,p->range.lo);
         func_002309E8(p->target->component,0,&m,0,clock->dt);
         scratch.q=LoadVF(m.r[3]);future.q=scratch.q;
-        offset.q=Sub(scratch.q,func_001A62E8(p->target));
+        offset.q=Sub(scratch.q,PosOfLo(p->target));
         float extent=radius+OffsetLength(offset.q);
         saved.q=future.q;
-        local.q=Difference(func_001A62E8(p),saved.q);
+        local.q=Difference(PosOfLo(p),saved.q);
         local.q=InverseRotate(*MatJtLo(p),local.q);
         swapped.f[0]=-local.f[1];swapped.f[1]=local.f[2];swapped.f[2]=local.f[0];
         float desired;

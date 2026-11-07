@@ -8,7 +8,7 @@ struct P { char pad[0x1A8]; float g1A8; char pad1[0x13F0 - 0x1AC]; void *p13F0; 
 struct G { char pad[0x13B4]; struct O *pFirst; };
 extern struct G D_003E0000;
 extern float D_002C0984, D_002C0988;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int func_00184380(void *a, struct O *po);
 float func_002458F0(float y, float x);
 float RadStepHeading__FP4STEP(struct P *p);
@@ -38,7 +38,7 @@ void ChooseMurrayThrowTarget__FP6MURRAY(struct P *p)
             continue;
         if (func_00184380(p->p13F0, po))
             continue;
-        __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(func_001A62E8(po)), "j"(func_001A62E8(p)));
+        __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(PosOfLo__FP2LO(po)), "j"(PosOfLo__FP2LO(p)));
         dist = LenXY(d);
         if (gMax < dist)
             continue;
@@ -51,11 +51,11 @@ void ChooseMurrayThrowTarget__FP6MURRAY(struct P *p)
             continue;
         poBest = po;
         gMax = dist;
-        p->v1420 = func_001A62E8(poBest);
+        p->v1420 = PosOfLo__FP2LO(poBest);
     }
     if (!poBest) {
         qword a, b, r;
-        a = func_001A62E8(p);
+        a = PosOfLo__FP2LO(p);
         b = SetVectorCylind__Ffff(p->g1A8, p->g1410, 0.0f);
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b));
         p->v1420 = r;

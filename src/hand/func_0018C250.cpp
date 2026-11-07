@@ -1620,7 +1620,7 @@ extern "C" {
 void UpdateJtHangPlace(JT *pjt);
 }
 extern "C" {
-qword func_00190C58(JT *pjt);
+qword PosSlyHangPoint(JT *pjt) asm("PosSlyHangPoint__FP3SLY");
 }
 extern "C" {
 void SetPosition(SND *psnd, qword qwPos) asm("SetPosition__4CSndG9VU_VECTOR");
@@ -1982,7 +1982,7 @@ void SetJtJts(JT *pjt, JTS jts, JTBS jtbs)
                 tStart = 0.5f;
                 InsertNodeBySlot(pjt, (XF *)pjt->precUnk19c0, (ACT *)pjt->nUnk1a00);
                 qword posHand = PosLoWorld(pjt->psoUnk19a4);
-                pjt->janim.dposHang = QwSub(posHand, func_00190C58(pjt));
+                pjt->janim.dposHang = QwSub(posHand, PosSlyHangPoint(pjt));
                 UpdateJtHangPlace(pjt);
                 pjt->phndUnk18c4->HandleSpliceEvent(5, 0, 0, 0, 0);
                 AddRefOidRef(pjt->phndUnk18c4, pjt);

@@ -7,11 +7,11 @@ struct S { struct PO *po; int state; int x8; int xC; int x10; int x14; float g18
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
-void func_0018F2B0(struct PO *, int, void *, int *, QF *, float, float, float);
+void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct PO *, int, void *, int *, QF *, float, float, float);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);
 void func_002046B0(struct PO *, qword);
 void TurnActorNow__FP5ACTOR(struct PO *);
-void func_001384C0(void *);
+void RecalcBlend__FP6ASEGBL(void *);
 void func_001305B8(void *, struct PO *, int, void **, float, float);
 void DemoteAsegaOnXf__FiiP2XF(void *, struct PO *, int);
 void SetAsegaSeekTime__FP5ASEGAf(void *, float);
@@ -42,7 +42,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
         g = 1.5f;
         if (state == 0)
             g = 3.15f;
-        func_0018F2B0(ps->po, 2, ps->a20, &f, &v, ps->po->g1A8, 0.15f, g);
+        ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(ps->po, 2, ps->a20, &f, &v, ps->po->g1A8, 0.15f, g);
         if (f) {
             ps->g1C = Clamp((v.a[2] - ps->g30) / (ps->g34 - ps->g30), 0.0f, 1.0f);
         } else {
@@ -69,7 +69,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
         pv = pe->p18;
         pe->fC = ps->g1C;
         dt = 0.06666667f;
-        func_001384C0(pv);
+        RecalcBlend__FP6ASEGBL(pv);
         break;
     }
     }

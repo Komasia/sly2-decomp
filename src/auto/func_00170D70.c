@@ -35,5 +35,5 @@ extern s32 D_003E1408;
 extern s32 D_003E1450;
 
 void func_00170D70(s32 arg0, s32 arg1, s32 arg2) {
-    M2C_FIELD(func_00170E00(arg0, 0xD, arg1), s32 *, 8) = arg2;
+    M2C_FIELD(PcmdAppend__FP7CMDLISTi3OID(arg0, 0xD, arg1), s32 *, 8) = arg2;
 }

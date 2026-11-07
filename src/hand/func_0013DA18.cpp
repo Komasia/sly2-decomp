@@ -1,4 +1,4 @@
-// func_0013DA18 = LoadSwFromBrx(SW *psw, CBinaryInputStream *pbis) (Claude agent for Lilly, T1681, from the v2/v3 drafts).
+// LoadSwFromBrx__FP2SWP18CBinaryInputStream = LoadSwFromBrx(SW *psw, CBinaryInputStream *pbis) (Claude agent for Lilly, T1681, from the v2/v3 drafts).
 // Reads the level body: the world-entry table (0x6C-byte WE records at psw+0x3F08, count psw+0x3F04), sound section, save vars,
 // level table, language strings, cells, options of g_sw / g_cm, then per world entry its objects (LoadSwObjectsFromBrx into a
 // CLoadCollectorArray) and the clones of them.
@@ -33,12 +33,12 @@ void func_001C9090(void *p, void *pv);
 void func_001C9098(void *p);
 void LoadMusicFromBrx(void *p, BIS *pbis) asm("LoadMusicFromBrx__FP8SOUNDMGRP18CBinaryInputStream");
 void LoadSoundBank(void *p) asm("LoadSoundBank__FP8SOUNDMGR");
-void func_001D7B88(void *p, BIS *pbis);
-void func_0020F318(void *psw, BIS *pbis);
-void func_0013DF80(void *psw, BIS *pbis);
-void func_0013E0E0(void *psw, BIS *pbis);
+void LoadProgressFromBrx(void *p, BIS *pbis) asm("LoadProgressFromBrx__FP2SWP18CBinaryInputStream");
+void LoadWorldRecordsFromBrx(void *psw, BIS *pbis) asm("LoadWorldRecordsFromBrx__FP2SWP18CBinaryInputStream");
+void LoadTextFromBrx(void *psw, BIS *pbis) asm("LoadTextFromBrx__FP2SWP18CBinaryInputStream");
+void LoadNodesFromBrx(void *psw, BIS *pbis) asm("LoadNodesFromBrx__FP2SWP18CBinaryInputStream");
 void LoadOptionsFromBrx(void *p, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
-void func_001FF7E8(void *psw);
+void StartupSwSplice(void *psw) asm("StartupSwSplice__FP2SW");
 void func_0020E3C0(void *psw);
 void func_0020F1C8(void *psw);
 void func_0016F960(void *p, void *pv, int c);
@@ -51,15 +51,15 @@ void *func_0014B690(void *p);
 void func_001848A8(void *p, int k, void *pv, int n);
 void func_00184950(void *p, int n);
 void LoadBulkHeaderFromBrx(int n, BIS *pbis) asm("LoadBulkHeaderFromBrx__FiPv");
-void func_001FF858(void *psw, int n, BIS *pbis);
+void LoadSwSpliceFromBrx(void *psw, int n, BIS *pbis) asm("LoadSwSpliceFromBrx__FP2SWiP18CBinaryInputStream");
 void LoadShadersFromBrx(void *pa, void *pb, BIS *pbis) asm("LoadShadersFromBrx__FP4SHDSiP18CBinaryInputStream");
-void func_001C0EC0(void *psw, BIS *pbis);
+void LoadCmeshFromBrx(void *psw, BIS *pbis) asm("LoadCmeshFromBrx__FP2SWP18CBinaryInputStream");
 struct LO;
 struct LOL { void *pvt; int x4; int c; LO **apo; };
 LOL *func_0013F888(LOL *p);
-void func_0013FB40(int n, BIS *pbis, LOL *p);
+void LoadSwObjsFromBrx(int n, BIS *pbis, LOL *p) asm("LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream");
 void EndShaderGroup(void) asm("EndShaderGroup__Fv");
-LO *func_0013E510(LO *po, int n);
+LO *PloCloneLo(LO *po, int n) asm("PloCloneLo__FP2LOi");
 extern char D_002A4BD0[];
 extern char D_003DD040[];
 extern char g_sw[];
@@ -87,7 +87,8 @@ static inline void *AllocZ(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; pre
 static inline void *Alloc(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocSwImpl(preq); }
 static inline void *AllocS(AREQ *preq, int cb, int cbAlign) { preq->cb = cb; preq->cbAlign = cbAlign; return PvAllocStackImpl(preq); }
 
-extern "C" void func_0013DA18(SW *psw, BIS *pbis)
+// name: SafeHouse port (LoadSwFromBrx)
+extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
 {
     union { AREQ req; RGBA rgba; struct { int pad[2]; int c; LO **apo; } lol; } u;
     int i;
@@ -126,14 +127,14 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
         Read(pbis, 0x40, psw);
     }
     LoadMusicFromBrx(D_003DD040, pbis);
-    func_001D7B88((char *)psw + 0x3A18, pbis);
-    func_0020F318(psw, pbis);
-    func_0013DF80(psw, pbis);
-    func_0013E0E0(psw, pbis);
+    LoadProgressFromBrx((char *)psw + 0x3A18, pbis);
+    LoadWorldRecordsFromBrx(psw, pbis);
+    LoadTextFromBrx(psw, pbis);
+    LoadNodesFromBrx(psw, pbis);
     LoadOptionsFromBrx(g_sw, pbis);
     LoadOptionsFromBrx(g_cm, pbis);
     func_00117988(pbis, 0x10);
-    func_001FF7E8(psw);
+    StartupSwSplice(psw);
     func_0020E3C0(psw);
     func_0020F1C8(psw);
     if (psw->x3E38)
@@ -163,16 +164,16 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
         OBJ obj(0x403F, ab, 0);
         LoadBulkHeaderFromBrx(1, pbis);
         D_003E1C34 = func_00117DB8(pbis);
-        func_001FF858(psw, pwe->x10, pbis);
+        LoadSwSpliceFromBrx(psw, pwe->x10, pbis);
         LoadShadersFromBrx(&zpr0, &zpr1, pbis);
-        func_001C0EC0(psw, pbis);
+        LoadCmeshFromBrx(psw, pbis);
         {
             FRAME frameT;
             int j, k;
             LO **ppo;
             AREQ req2;
             func_0013F888((LOL *)&u.lol);
-            func_0013FB40(0, pbis, (LOL *)&u.lol);
+            LoadSwObjsFromBrx(0, pbis, (LOL *)&u.lol);
             func_00117988(pbis, 0x10);
             func_0014B690(pwe->ab1C);
             EndShaderGroup();
@@ -183,7 +184,7 @@ extern "C" void func_0013DA18(SW *psw, BIS *pbis)
             ppo = &pwe->apo[pwe->c0];
             for (j = 1; j < pwe->c8; j++)
                 for (k = 0; k < pwe->c0; k++)
-                    *ppo++ = func_0013E510(pwe->apo[k], 0);
+                    *ppo++ = PloCloneLo(pwe->apo[k], 0);
             if (pwe->x5C) {
                 pwe->cC++;
             } else {

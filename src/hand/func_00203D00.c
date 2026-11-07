@@ -8,7 +8,8 @@ MATRIX4 InverseAffineMatrix4__FP7MATRIX4(MATRIX4 *ps);
 void MulMatrix4__FP7MATRIX4T0Pv(MATRIX4 *pd, MATRIX4 *pa, MATRIX4 *pb);
 void *func_002333B4(void *p, int c, int n);
 void MarkAloDirty__FP3ALO(struct S *p);
-void func_00203D00(struct S *p, struct M *pm, int f)
+// name: SafeHouse port (SetStepMesh)
+void SetStepMesh__FP3ALOPvi(struct S *p, struct M *pm, int f)
 {
     p->pm1 = pm;
     if (f) {

@@ -26,7 +26,7 @@ extern qword D_002A2DA0, g_normalZ, D_002A2DD0, D_002A2DE0;
 extern float D_002C0D74, D_002C0D78;
 void __10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 int func_001C5570(void *, SOPART *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, SOPART *), void *, int *, SOPART ***);
 int SphereBspContacts(qword, float, SOPART *, void *, int, void *, int, CMCONTACT *) asm("SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT");
@@ -104,9 +104,9 @@ extern "C" void UpdatePickupGround__FP2LO(P *p)
     FRAME frame;
     U vec;
     float gDeepest = 0.0f;
-    qword pos = func_001A62E8(p);
+    qword pos = PosOfLo(p);
     qword posMin = (vec.qw = VuFloat(-p->sRadius.g), QwAddScaled(pos, D_002A2DE0, vec.qw));
-    qword posMax = func_001A62E8(p);
+    qword posMax = PosOfLo(p);
     vec.qw = VuFloatBits(p->sRadius.bits);
     posMax = QwAddScaled(posMax, D_002A2DE0, vec.qw);
     int cpart;
@@ -118,7 +118,7 @@ extern "C" void UpdatePickupGround__FP2LO(P *p)
         SOPART *ppart = appart[i];
         if (ppart->grf & (1UL << 49)) {
             qword center = ppart->pxf->pos;
-            qword posCur = func_001A62E8(p);
+            qword posCur = PosOfLo(p);
             float g = GFromQw(QwLength(QwSub(center, posCur))) - ppart->sRadius - p->sRadius.g;
             if (g < gDeepest) {
                 vec.qw = QwNormalize(QwSub(p->pos, ppart->pxf->pos), D_002A2DA0);
@@ -128,7 +128,7 @@ extern "C" void UpdatePickupGround__FP2LO(P *p)
                 }
             }
         } else if (ppart->cplane) {
-            int ccontact = SphereBspContacts(func_001A62E8(p), p->sRadius.g, ppart, (void *)0x7FFFFFFF, 0, 0, 8, acontact);
+            int ccontact = SphereBspContacts(PosOfLo(p), p->sRadius.g, ppart, (void *)0x7FFFFFFF, 0, 0, 8, acontact);
             for (int j = 0; j < ccontact; j++) {
                 CMCONTACT *pcontact = &acontact[j];
                 float g = GDot(pcontact->pos, pcontact->plane.qw) - pcontact->plane.g[3];

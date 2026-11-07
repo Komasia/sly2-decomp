@@ -13,7 +13,7 @@ struct WORK{union{struct M4 predicted;U scalar;}phase;struct M4 transform;U axis
 extern float D_002BF380,D_002BF3A0,D_002BF3B8,D_002BF3BC;
 extern qword D_002BF390;extern struct LM D_002BF3A8,D_002BF3B0;extern struct CLOCK g_clock;
 void FaceObject__FP5ACTORP2LO(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struct SPACE*,struct M4*,struct M4*,float);
-qword func_0022FC48(struct SPACE*,struct SPACE*,qword);qword func_0022FCC8(struct SPACE*,struct SPACE*,qword);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(struct SPACE*,struct SPACE*,qword);qword VecConvertXfs__FP2XFT0G9VU_VECTOR(struct SPACE*,struct SPACE*,qword);
 float func_002458F0(float,float);float func_0011D948(struct LM*,float);
 struct M3*BuildEulerMatrix__FP6VECTORG9VU_VECTOR(struct M3*,qword);qword*func_00256D18(qword*,qword);void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(struct DV*,qword);
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -50,7 +50,7 @@ void UpdatePickpocketPose__FP3SLY(struct P*p){
    func_002309E8(aim->frame,sourceSpace,request,optionalOutput,capped);
   }
   {struct SPACE*sourceSpace;qword predictedPoint=Point(&w.phase.predicted,&D_002BF390,&sourceSpace);register unsigned page __asm__("$3");
-   __asm__("por %0,$zero,%2\n\tlui %1,%%hi(%3)":"=r"(mapped),"=r"(page):"r"(func_0022FC48(sourceSpace,p->space,predictedPoint)),"i"(&D_002BF3A0));
+   __asm__("por %0,$zero,%2\n\tlui %1,%%hi(%3)":"=r"(mapped),"=r"(page):"r"(PosConvertXfs__FP2XFT0G9VU_VECTOR(sourceSpace,p->space,predictedPoint)),"i"(&D_002BF3A0));
    {register int zBits __asm__("$2");register float z __asm__("$f12"),x __asm__("$f13"),coefficient __asm__("$f0");
     __asm__("pextuw %0,$zero,%4\n\tlwc1 %3,%%lo(%6)(%5)\n\tmtc1 %0,%1\n\tmtc1 %4,%2":"=&r"(zBits),"=f"(z),"=f"(x),"=f"(coefficient):"r"(mapped),"r"(page),"i"(&D_002BF3A0):"memory");
     heading=func_002458F0(-z,coefficient*x);}}
@@ -82,10 +82,10 @@ void UpdatePickpocketPose__FP3SLY(struct P*p){
     }
    }
   }
-  heading=X(func_0022FCC8(p->space,relativeDestination,w.relative.q));heading=func_0011D948(&D_002BF3B0,heading);
+  heading=X(VecConvertXfs__FP2XFT0G9VU_VECTOR(p->space,relativeDestination,w.relative.q));heading=func_0011D948(&D_002BF3B0,heading);
   axis=Pack(heading,zero,zero);w.axis.q=axis;
   {
-   register qword returned __asm__("vf2")=func_0022FCC8(space,p->space,w.axis.q),relative __asm__("vf1");register unsigned page __asm__("$2");
+   register qword returned __asm__("vf2")=VecConvertXfs__FP2XFT0G9VU_VECTOR(space,p->space,w.axis.q),relative __asm__("vf1");register unsigned page __asm__("$2");
    __asm__("lqc2 %0,%2\n\tlui %1,%%hi(%3)":"=j"(relative),"=r"(page):"m"(w.relative.q),"i"(&D_002BF3B8));
    __asm__("vsub.xyzw %0,%1,%0":"+j"(returned):"j"(relative));
    __asm__("lwc1 %0,%%lo(%4)(%2)\n\tsqc2 %3,%1":"=f"(limit),"=m"(w.residual.q):"r"(page),"j"(returned),"i"(&D_002BF3B8):"memory");

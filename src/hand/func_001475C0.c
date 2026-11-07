@@ -12,7 +12,8 @@ void func_001574B8(void *g);
 void func_00166C70(void *g, int rgba);
 void func_00166CE0(void *g, int a, int b);
 void func_00166DA0(void *g, int a, int b, int c);
-void func_001475C0(void)
+// name: SafeHouse port (CaptureOverlayFrame)
+void CaptureOverlayFrame__Fv(void)
 {
     void *g = D_002DEA00;
     struct G *pg = &D_002DECD0;

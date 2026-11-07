@@ -13,7 +13,8 @@ static inline NODE *PnodeCheck(NODE *p, NODE *pnodeMax)
         p = 0;
     return p;
 }
-extern "C" int func_00118A88(NODE *pnode, NODE *pnodeMax, qword pos, float eps, int *pcnode, NODE **ppnode)
+// name: SafeHouse port (ClipBspPlane)
+extern "C" int ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE(NODE *pnode, NODE *pnodeMax, qword pos, float eps, int *pcnode, NODE **ppnode)
 {
     float g;
     while (pnode) {
@@ -35,14 +36,14 @@ extern "C" int func_00118A88(NODE *pnode, NODE *pnodeMax, qword pos, float eps, 
             int nl, nr;
             NODE *pl = PnodeCheck(pnode->pnodeLeft, pnodeMax);
             if (pl) {
-                nl = func_00118A88(pl, pnodeMax, pos, eps, pcnode, ppnode);
+                nl = ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE(pl, pnodeMax, pos, eps, pcnode, ppnode);
                 pl = *ppnode - 1;
             } else {
                 nl = 0;
             }
             NODE *pr = PnodeCheck(pnode->pnodeRight, pnodeMax);
             if (pr) {
-                nr = func_00118A88(pr, pnodeMax, pos, eps, pcnode, ppnode);
+                nr = ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE(pr, pnodeMax, pos, eps, pcnode, ppnode);
                 pr = *ppnode - 1;
             } else {
                 nr = 1;

@@ -8,7 +8,8 @@ static inline ulong FrameFromDisp(ulong disp)
 {
     return ((disp & 0x1FF) << 5) | (((disp >> 16) & 0x3F) << 14);
 }
-extern "C" void func_0016FB78()
+// name: SafeHouse port (RememberOverlaySourceFrame)
+extern "C" void RememberOverlaySourceFrame__Fv()
 {
     char *pdisp;
     char *pdispOther;

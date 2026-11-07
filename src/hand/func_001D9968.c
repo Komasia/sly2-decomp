@@ -19,20 +19,21 @@ typedef struct {
     int ids[5];
 } OBJ;
 extern struct G g_sw;
-W *func_0015E938(struct G *, int, int, int);
-Q *func_001C4840(struct G *);
+W *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
+Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(Q *, int);
 int func_001441A0(Q *);
 void func_00213B00(W *, int);
 void func_00212E40(W *, int, float);
-void func_001D9968(OBJ *p)
+// name: SafeHouse port (InitGauge)
+void InitGauge__FP5GAUGE(OBJ *p)
 {
     Q *q;
     W *pw;
-    p->pw = func_0015E938(&g_sw, 0x405, 0x36B, 0);
+    p->pw = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x36B, 0);
     p->x30 = 0;
     p->q = 0;
-    q = func_001C4840(&g_sw);
+    q = PloPlayerPo__FP2SW(&g_sw);
     if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))
         p->q = q;
     if (p->q == 0) {

@@ -9,7 +9,7 @@ int FScreenObjDone__FP2LO(struct S *p);
 void func_00212C50(struct S *p);
 int func_001D9880(void *);
 int func_00187D80(void *, int);
-void func_0020F030(struct G *, int);
+void ResumeGame__FP9GAMEPAUSEi(struct G *, int);
 void RestartJobAtCheckpoint__FP2SW(void *);
 // name: SafeHouse port (UpdateFailureScreen)
 void UpdateFailureScreen__FP8SCREENRT(struct S *p)
@@ -20,7 +20,7 @@ void UpdateFailureScreen__FP8SCREENRT(struct S *p)
     func_00212C50(p);
     if (p->x58 == 2 && 0.5f < D_002DDF0C - p->x5C && !func_001D9880(D_002E6550)
         && !func_001D9880(D_003DA4F0) && func_00187D80(g_joy, 0xF0)) {
-        func_0020F030(&g_sw, 0);
+        ResumeGame__FP9GAMEPAUSEi(&g_sw, 0);
         if (p->x114 == 0 && g_sw.x3B0C) {
             D_002DD318++;
             RestartJobAtCheckpoint__FP2SW(g_sw.x3B0C);

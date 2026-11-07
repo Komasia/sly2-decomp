@@ -13,15 +13,15 @@ struct E { int grf; struct O *po; };
 struct L { char pad[0x84]; struct L *pnext; };
 struct S { char pad[0x3D88]; DL dl; char pad1[0x3EAC - 0x3D94]; struct L *pl; char pad2[0x3F14 - 0x3EB0]; int c; int x3F18; int *pi; struct E *ae;
     char pad3[0x3FFC - 0x3F24]; DL dl2; };
-void func_00149C80(struct S *p);
+void RunDeferredSpliceEvents__FP2SW(struct S *p);
 void func_00147F40(struct S *p);
 void func_002267C0(struct S *p);
 void UpdatePadctl__FP6PADCTL(struct L *pl);
 void AgeSwContacts__FPv(struct S *p);
-void func_0019F120(struct S *p);
+void UpdateGuardsFrozen__FP2SW(struct S *p);
 void UpdateAsega__FP5ASEGA(void *pv);
 void ExpireNoises__FPv(void *pv);
-void func_001F8DD8(struct S *p);
+void UpdateSwPhys__FP2SW(struct S *p);
 void UpdateNavPolys__Fv(void);
 void func_001EC968(void);
 void UpdateSave__FP4SAVE(void *pv);
@@ -46,7 +46,7 @@ static inline void *PvNextDli(DLI *pdli)
 // name: SafeHouse port (RegisterSwPass)
 void RegisterSwPass__FPv(struct S *p)
 {
-    func_00149C80(p);
+    RunDeferredSpliceEvents__FP2SW(p);
     func_00147F40(p);
     if (g_clock.dt <= 0.0f) {
         func_002267C0(p);
@@ -67,18 +67,18 @@ void RegisterSwPass__FPv(struct S *p)
             }
         }
         p->pi = 0;
-        func_0019F120(p);
+        UpdateGuardsFrozen__FP2SW(p);
         InitDli(&dli, &p->dl);
         while ((pv = PvNextDli(&dli)) != 0)
             UpdateAsega__FP5ASEGA(pv);
         InitDli(&dli2, &p->dl2);
         while ((pv = PvNextDli(&dli2)) != 0)
             ExpireNoises__FPv(pv);
-        func_00149C80(p);
-        func_001F8DD8(p);
+        RunDeferredSpliceEvents__FP2SW(p);
+        UpdateSwPhys__FP2SW(p);
         UpdateNavPolys__Fv();
         func_001EC968();
-        func_00149C80(p);
+        RunDeferredSpliceEvents__FP2SW(p);
         s_pdliFirst = dli.m_pdliNext;
     }
     UpdateSave__FP4SAVE(D_002E65E0);

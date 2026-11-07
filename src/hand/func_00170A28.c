@@ -3,10 +3,10 @@
 #include "so.h"
 
 void PostLoLoad__FP2LO(LO *p);
-void func_00170A58(void *);
+void PostLoadCmdlist__FP7CMDLIST(void *);
 
 void func_00170A28(LO *p)
 {
     PostLoLoad__FP2LO(p);
-    func_00170A58(p);
+    PostLoadCmdlist__FP7CMDLIST(p);
 }

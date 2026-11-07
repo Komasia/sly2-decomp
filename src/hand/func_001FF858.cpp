@@ -39,12 +39,13 @@ extern "C" {
 int func_00117C80(void *);
 T *PvAllocSwClearImpl(SZ *) asm("PvAllocSwClearImpl__Fi");
 E *PvAllocSwImpl(SZ *) asm("PvAllocSwImpl__Fi");
-SP func_0012A3D8(void *);
-void func_00118420(void *);
+SP PpairSerializeIn(void *) asm("PpairSerializeIn__FP18CBinaryInputStream");
+void ReadDebugString(void *) asm("ReadDebugString__FP18CBinaryInputStream");
 CRef func_001FFA70(void *, T *, int);
 void func_00128148(void *);
 }
-extern "C" void func_001FF858(G *pg, int a, void *px)
+// name: SafeHouse port (LoadSwSpliceFromBrx)
+extern "C" void LoadSwSpliceFromBrx__FP2SWiP18CBinaryInputStream(G *pg, int a, void *px)
 {
     int c = func_00117C80(px);
     int i;
@@ -63,15 +64,15 @@ extern "C" void func_001FF858(G *pg, int a, void *px)
     }
     for (i = 0; i < c; i++) {
         E *pe = &pt->ae[i];
-        SP sp = func_0012A3D8(px);
+        SP sp = PpairSerializeIn(px);
         O *q = sp.p;
         if (q) q->cref++;
         pe->p = sp.p;
         pe->n = 0;
         if (D_003E1C34) {
-            func_00118420(px);
-            func_00118420(px);
-            func_00118420(px);
+            ReadDebugString(px);
+            ReadDebugString(px);
+            ReadDebugString(px);
         }
     }
     for (i = 0; i < c; i++) {

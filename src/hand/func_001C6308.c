@@ -19,7 +19,7 @@ extern struct G g_sw;
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct S *,void *,qword);
 float GRandInRange__Fff(float,float);
 struct Q *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *,void *,void *);
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 static inline float Dot(qword a,qword b)
 {
     qword d,one;
@@ -57,7 +57,7 @@ void UpdatePickupGlint__FP2LO(struct S *p)
                 {
                     struct VTE *method=&q->vt[1];
                     void *ctx=(char *)q+method->delta;
-                    qword pos=func_001A62E8(emitter);
+                    qword pos=PosOfLo__FP2LO(emitter);
                     method->fn(ctx,pos,1,0);
                 }
                 {

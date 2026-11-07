@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 #define F(T, o) (*(T *)((char *)p + (o)))
 #define A(o) ((char *)p + (o))
 
-extern void func_001400B8(void *p);
+extern void PostLoadActorParts__FP5ACTOR(void *p);
 extern void BindLoParts__FP3ALOiPv(void *p, int n, void *pv);
 extern int func_001F4C58(void *p, int a, int b);
 extern void BindGait__FP4GAIT(void *p);
@@ -13,8 +13,8 @@ extern int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(void *p, int a, int b, int c, 
 extern void RemoveXfCtrl__FP3ALOP2XFP4CTRL(void *p, int a, int b);
 extern void AttachActorLook__FP5ACTORi(void *p, int a);
 extern void LoadPickpocket__FP3SLY(void *p);
-extern void func_00137A30(void *p, int a, int b, void *c, int d, int e, int f, void *g);
-extern void func_001CC5E8(void *a, void *p, void *b);
+extern void NewBlend__FP3ALOiiP4ELEMiPiT5Pv(void *p, int a, int b, void *c, int d, int e, int f, void *g);
+extern void BindReach__FP5REACHP5ACTORPP5ASEGA(void *a, void *p, void *b);
 extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern void func_001A6CA8(void *p, int a);
 extern int func_001F0380(int a, int b, int c, int d);
@@ -24,7 +24,7 @@ extern qword D_002A2DD0;
 void PostJtLoad__FP2JT(char *p)
 {
     int n;
-    func_001400B8(p);
+    PostLoadActorParts__FP5ACTOR(p);
     BindLoParts__FP3ALOiPv(p, 0x12, D_002BF1B0);
     F(int, 0x10B8) = func_001F4C58(p, 0x138, 1);
     F(int, 0x19E0) = func_001F4C58(p, 0x18, 6);
@@ -53,15 +53,15 @@ void PostJtLoad__FP2JT(char *p)
     RemoveXfCtrl__FP3ALOP2XFP4CTRL(p, F(int, 0x19C0), n);
     AttachActorLook__FP5ACTORi(p, 0x17);
     LoadPickpocket__FP3SLY(p);
-    func_00137A30(p, 0xC, 2, A(0x1A04), 0, 0, 0, A(0x1A1C));
-    func_00137A30(p, 0xC, 2, A(0x1A20), 0, 0, 0, A(0x1A38));
-    func_00137A30(p, 0xC, 2, A(0x1A3C), 0, 0, 0, A(0x1A54));
-    func_00137A30(p, 0xC, 2, A(0x1A58), 0, 0, 0, A(0x1A70));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 2, A(0x1A04), 0, 0, 0, A(0x1A1C));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 2, A(0x1A20), 0, 0, 0, A(0x1A38));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 2, A(0x1A3C), 0, 0, 0, A(0x1A54));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 2, A(0x1A58), 0, 0, 0, A(0x1A70));
     BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(p, A(0x13D0), A(0x14D0));
-    func_00137A30(p, 0xC, 4, A(0x1F60), 0, 0, 0, A(0x1F90));
-    func_00137A30(p, 0xC, 3, A(0x2014), 0, 0, 0, A(0x2038));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 4, A(0x1F60), 0, 0, 0, A(0x1F90));
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0xC, 3, A(0x2014), 0, 0, 0, A(0x2038));
     F(int, 0x1804) = F(int, 0x19A4);
-    func_001CC5E8(A(0x17D0), p, A(0x18E0));
+    BindReach__FP5REACHP5ACTORPP5ASEGA(A(0x17D0), p, A(0x18E0));
     SetJtJts__FP2JT3JTS4JTBS(p, 0, -1);
     func_001A6CA8(p, 1);
     if (F(int, 0x1D24))

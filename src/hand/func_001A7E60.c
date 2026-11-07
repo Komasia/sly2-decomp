@@ -4,7 +4,7 @@ struct E0 { int x0, x4; float x8; };
 struct LO { char pad[0x70]; qword x70; };
 struct E { struct E0 *x0; struct LO *x4; int x8; int xC; qword x10; qword x20; qword x30; };
 struct P { struct E e[2]; qword x80; float x90; int pad[2]; int x9C; };
-qword func_0022FC48(struct LO *p, struct LO *other, qword q);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(struct LO *p, struct LO *other, qword q);
 static __inline__ qword Lin(qword a, qword *pb, int f)
 {
     union { qword q; float f; } t;
@@ -48,7 +48,7 @@ void RecalcSwXpPos__FP2SWiPP2XP(void *unused, int n, struct P **ap)
             continue;
             }
         def:
-            e->x10 = func_0022FC48(o, 0, e->x20);
+            e->x10 = PosConvertXfs__FP2XFT0G9VU_VECTOR(o, 0, e->x20);
         }
         {
             qword d, r, one;

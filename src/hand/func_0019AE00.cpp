@@ -19,8 +19,9 @@ static inline float Dist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(r) : "j"(d));
     return r;
 }
-extern "C" int func_0019AE00(void *unused, void *p1, void *p2, float tMax, qword a, qword va, qword b, qword vb, qword *pc);
-int func_0019AE00(void *unused, void *p1, void *p2, float tMax, qword a, qword va, qword b, qword vb, qword *pc)
+extern "C" int FJumpPathBlocked(void *unused, void *p1, void *p2, float tMax, qword a, qword va, qword b, qword vb, qword *pc) asm("FJumpPathBlocked__FP5ACTORP6VECTORT1fG9VU_VECTORN34T1");
+// name: SafeHouse port (FJumpPathBlocked)
+int FJumpPathBlocked(void *unused, void *p1, void *p2, float tMax, qword a, qword va, qword b, qword vb, qword *pc)
 {
     struct V { float x, y, z; } __attribute__((aligned(16))) pos;
     HIT hit;

@@ -8,9 +8,9 @@ struct S { struct B *pb; };
 struct SPACE;
 typedef struct { short d; short pad; struct SPACE *(*pfn)(void *, void *); } VTE;
 struct O { char pad[0xC]; VTE *vt; };
-qword func_001A62E8(void *p);
-qword func_0022D348(struct SPACE *p, struct SPACE *stop, qword q);
-int func_0019A400(struct S *p, qword a, qword b, qword c, qword d, float *pg);
+qword PosOfLo__FP2LO(void *p);
+qword VelXfPoint__FP2XFT0G9VU_VECTOR(struct SPACE *p, struct SPACE *stop, qword q);
+int FJumpTimeToHeight__FP5ACTORG9VU_VECTORN31Pf(struct S *p, qword a, qword b, qword c, qword d, float *pg);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float tMax, float t, float s, qword a, qword va, qword b, qword vb, qword *pp, qword *pv, qword *pa);
 static __inline__ float LenXY0(qword v)
 {
@@ -29,7 +29,8 @@ static __inline__ unsigned LenXY1(qword v)
     return bits;
 }
 static inline float GMax(float a, float b) { return a > b ? a : b; }
-void func_0019A4A0(struct S *p, qword aInput, struct O *o, qword bInput, qword c, float *pt, float *pg, qword *pv, qword *pw)
+// name: SafeHouse port (FitJumpToPoint)
+void FitJumpToPoint__FP4JUMPG9VU_VECTORP2LON21PfT5P6VECTORT7(struct S *p, qword aInput, struct O *o, qword bInput, qword c, float *pt, float *pg, qword *pv, qword *pw)
 {
     struct WORK w;
     register qword q __asm__("$16");
@@ -41,16 +42,16 @@ void func_0019A4A0(struct S *p, qword aInput, struct O *o, qword bInput, qword c
     __asm__("por %0,$zero,%1":"=r"(b):"r"(bInput));
     __asm__("por %0,$zero,%1":"=r"(a):"r"(aInput));
     w.incoming=c;
-    __asm__("por %0,$zero,%1":"=r"(pos):"r"(func_001A62E8(p->pb)));
+    __asm__("por %0,$zero,%1":"=r"(pos):"r"(PosOfLo__FP2LO(p->pb)));
     x=o->vt[32].pfn((char*)o+o->vt[32].d,0);
-    { register qword got __asm__("$2")=func_0022D348(x, 0, b);
+    { register qword got __asm__("$2")=VelXfPoint__FP2XFT0G9VU_VECTOR(x, 0, b);
       register struct S*receiver __asm__("$4");
       register qword initial __asm__("$5"),velocity __asm__("$6");
       __asm__ volatile("sq %1,%0":"=m"(w.uq.q):"r"(got));
       __asm__("daddu %0,%4,$zero\n\tpor %1,$zero,%5\n\tpor %2,$zero,%6\n\tpor %3,$zero,%7"
        :"=&r"(receiver),"=&r"(initial),"=&r"(velocity),"=&r"(q)
        :"r"(p),"r"(pos),"r"(a),"r"(got));
-      solved=func_0019A400(receiver,initial,velocity,b,q,&w.at); }
+      solved=FJumpTimeToHeight__FP5ACTORG9VU_VECTORN31Pf(receiver,initial,velocity,b,q,&w.at); }
     if (!solved) {
         float dz = GetZ(a) - GetZ(q);
         float g = p->pb->pc->g88;

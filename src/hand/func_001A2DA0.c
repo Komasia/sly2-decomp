@@ -1,4 +1,4 @@
-void func_001A2C48(int *pn, int **pa);
+void FRegionLanguages__FPiPUi(int *pn, int **pa);
 void func_001A2BD0(int i);
 void func_001A2DA0(int key)
 {
@@ -8,7 +8,7 @@ void func_001A2DA0(int key)
     int *a;
     for (i = 0; i < 14; i++) {
         if (key == tbl[i]) {
-            func_001A2C48(&n, &a);
+            FRegionLanguages__FPiPUi(&n, &a);
             for (j = 0; j < n; j++) {
                 if (i == a[j]) {
                     func_001A2BD0(i);

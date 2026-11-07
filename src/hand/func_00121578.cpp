@@ -14,7 +14,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -42,21 +42,21 @@ extern "C" SPN func_00121578(CRef **ppref1, CRef **ppref2);
 SPN func_00121578(CRef **ppref1, CRef **ppref2)
 {
     SPN sp;
-    sp.Set(func_00256B48());
-    sp->ref = func_00256B48();
+    sp.Set(PpairNew());
+    sp->ref = PpairNew();
     NODE *pn1 = (NODE *)sp->ref.u.pv;
     CRef *pref1 = &pn1->ref;
-    *pref1 = func_00256B48();
-    pn1->SetNext(func_00256B48());
+    *pref1 = PpairNew();
+    pn1->SetNext(PpairNew());
     NODE *pn2 = (NODE *)pref1->u.pv;
     pn2->ref.SetTag(0x12);
-    pn2->SetNext(func_00256B48());
+    pn2->SetNext(PpairNew());
     *ppref1 = &pn2->pnext.p->ref;
     CRef *pref2 = &pn1->pnext.p->ref;
-    *pref2 = func_00256B48();
+    *pref2 = PpairNew();
     NODE *pn3 = (NODE *)pref2->u.pv;
     pn3->ref.SetTag(0x12);
-    pn3->SetNext(func_00256B48());
+    pn3->SetNext(PpairNew());
     *ppref2 = &pn3->pnext.p->ref;
     return SPN(sp.p);
 }

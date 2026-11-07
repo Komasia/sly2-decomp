@@ -1,4 +1,4 @@
-/* (Claude agent) func_001C84D8: VU nearest-of-9 selection state machine. The copy of p->index into a register
+/* (Claude agent) UpdateVaultDial__FP2LO: VU nearest-of-9 selection state machine. The copy of p->index into a register
    variable (a3) reproduces the target's daddu scheduling; register pins as in other VU files. */
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
@@ -11,7 +11,7 @@ extern qword D_002C0FF0[9];
 extern struct CLOCK {float t,dt;} g_clock;
 extern "C" int GrfPadctlTakePressed(void*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
 extern "C" void func_001E0020(SGG*,ALARM*);
-extern "C" void func_001C8918(struct S*,int);
+extern "C" void SetVaultSub(struct S*,int) asm("SetVaultSub__FP2LOi");
 extern "C" int func_00131968(void*);
 static inline qword Pack(float x,float y,float z){register qword result __asm__("$3");register unsigned word __asm__("$2");__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(result),"=&r"(word):"f"(x),"f"(y),"f"(z));return result;}
 static inline qword Sub(qword a,qword b){qword d;__asm__("vsub.xyzw %0,%1,%2":"=j"(d):"j"(a),"j"(b));return d;}
@@ -20,7 +20,8 @@ static inline float ClockTime(){float t;__asm__("lwc1 %0,%1":"=f"(t):"m"(g_clock
 static inline char*MinimumPage(){register char*page __asm__("$6");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(&D_002A7798));return page;}
 static inline char*SelectionTablePage(){register char*page __asm__("$5");__asm__("lui %0,%%hi(%1)":"=r"(page):"i"(D_002C0FF0));return page;}
 static inline qword*TableWithMinimum(char*minimumPage,char*tablePage,float*out){register float minimum __asm__("$f1");register qword*table __asm__("$5");__asm__ volatile("lwc1 %0,%%lo(%4)(%2)\n\taddiu %1,%3,%%lo(%5)":"=f"(minimum),"=r"(table):"r"(minimumPage),"r"(tablePage),"i"(&D_002A7798),"i"(D_002C0FF0),"m"(*(const float*)(minimumPage+0x7798)));*out=minimum;return table;}
-extern "C" void func_001C84D8(struct S*p){
+// name: SafeHouse port (UpdateVaultDial)
+extern "C" void UpdateVaultDial__FP2LO(struct S*p){
  union U point;
  int old;
  int divisor=1000;
@@ -28,11 +29,11 @@ extern "C" void func_001C84D8(struct S*p){
   old=p->state;
   if(GrfPadctlTakePressed(p->input,0x30,0)){
    func_001E0020(p->alarms,(ALARM*)0x655);
-   func_001C8918(p,3);
+   SetVaultSub(p,3);
   }
   switch(p->state){
   case 0:
-   if(GrfPadctlTakePressed(p->input,0xC0,0)){func_001C8918(p,2);break;}
+   if(GrfPadctlTakePressed(p->input,0xC0,0)){SetVaultSub(p,2);break;}
    {
     char*minimumPage=MinimumPage();char*tablePage=SelectionTablePage();int current=p->index,best;register int comparison __asm__("$7")=current;
     unsigned i;qword*table;
@@ -43,18 +44,18 @@ extern "C" void func_001C84D8(struct S*p){
      if(i==comparison)distance*=bias;
      if(distance<smallest){smallest=distance;best=i;}
     }
-    if(best!=current){p->index=best;func_001C8918(p,1);}
+    if(best!=current){p->index=best;SetVaultSub(p,1);}
    }
    break;
   case 1:
-   if(p->timer->end<=ClockTime())func_001C8918(p,0);
+   if(p->timer->end<=ClockTime())SetVaultSub(p,0);
    break;
   case 2:
    if(!p->pending||func_00131968(p->pending)){
     int next=(p->step*10)%divisor;next++;next+=p->index;
     p->step=next;
-    if(next==p->target){func_001E0020(p->alarms,(ALARM*)0x655);func_001C8918(p,3);}
-    else func_001C8918(p,0);
+    if(next==p->target){func_001E0020(p->alarms,(ALARM*)0x655);SetVaultSub(p,3);}
+    else SetVaultSub(p,0);
    }
    break;
   }

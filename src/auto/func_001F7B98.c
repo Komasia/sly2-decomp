@@ -1,10 +1,10 @@
 #include "m2c_prelude.h"
 M2C_UNK PloNew__F3CIDP2SW3OIDi(M2C_UNK, s32, M2C_UNK, M2C_UNK); /* extern */
-s32 func_0015E938(M2C_UNK *, M2C_UNK, M2C_UNK, s32); /* extern */
+s32 PloFindSwNearest__FP2LO3OIDii(M2C_UNK *, M2C_UNK, M2C_UNK, s32); /* extern */
 extern M2C_UNK g_sw;
 
 void func_001F7B98(s32 arg0) {
-    if (func_0015E938(&g_sw, 2, 0x187, arg0) == 0) {
+    if (PloFindSwNearest__FP2LO3OIDii(&g_sw, 2, 0x187, arg0) == 0) {
         PloNew__F3CIDP2SW3OIDi(0x12, arg0, 0x187, -1);
     }
 }

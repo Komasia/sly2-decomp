@@ -9,7 +9,7 @@ extern struct G g_sw;
 extern struct Clock g_clock;
 extern int D_002DD318;
 extern int D_002BE538;
-void func_0014D1D0(struct Clock *,int,float);
+void SetClockFactor__FP5CLOCKif(struct Clock *,int,float);
 void func_002124F0(struct S *);
 void func_00212780(struct S *);
 void func_00213898(struct S *);
@@ -23,9 +23,9 @@ void SetState__FP8SCREENRTi(struct S *p,int state) {
     }
     if(p->pauses) {
         if(p->state<2 && state>=2) {
-            if(++D_002DD318==1) func_0014D1D0(&g_clock,7,0.0f);
+            if(++D_002DD318==1) SetClockFactor__FP5CLOCKif(&g_clock,7,0.0f);
         } else if(state<2 && p->state>=2) {
-            if(--D_002DD318==0) func_0014D1D0(&g_clock,7,1.0f);
+            if(--D_002DD318==0) SetClockFactor__FP5CLOCKif(&g_clock,7,1.0f);
         }
     }
     if(p->state==0) func_002124F0(p);

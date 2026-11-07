@@ -48,8 +48,8 @@ struct SPO {
     ~SPO() { O *po = p; if (po && --po->cref == 0) delete po; }
 };
 extern "C" {
-SPN func_00128CB8(NODE *pn, void *a, void *b);
-SPO func_00128F70(O *po, void *a);
+SPN CloneTo__5CPairP5CPairP6CFrame(NODE *pn, void *a, void *b);
+SPO CloneTo__5CProcP5CProc(O *po, void *a);
 CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 }
 // name: SafeHouse port (CRef::CloneTo)
@@ -61,8 +61,8 @@ CRef CloneTo(CRef *pref, void *a, void *b)
     case 0x1C: return CRef((const V16 *)pref->u.pv);
     case 0x1D: return CRef((const V8 *)pref->u.pv);
     case 0x1E: return CRef((const V12 *)pref->u.pv);
-    case 0x1F: return CRef(func_00128CB8((NODE *)pref->u.pv, a, b).p);
-    case 0x20: return CRef(func_00128F70((O *)pref->u.pv, a).p);
+    case 0x1F: return CRef(CloneTo__5CPairP5CPairP6CFrame((NODE *)pref->u.pv, a, b).p);
+    case 0x20: return CRef(CloneTo__5CProcP5CProc((O *)pref->u.pv, a).p);
     case 0x21: return CRef((OBJ *)pref->u.pv);
     }
     return CRef(*pref);

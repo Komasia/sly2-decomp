@@ -24,9 +24,9 @@ typedef struct OBJ {
 } OBJ;
 extern struct CLOCK { float a[16]; } g_clock;
 extern char g_sw[];
-void func_0014D1D0(struct CLOCK *, float, int);
-void func_0020EFC0(void *, int);
-void func_0020F030(void *, int);
+void SetClockFactor__FP5CLOCKif(struct CLOCK *, float, int);
+void PauseGame__FP9GAMEPAUSEi(void *, int);
+void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
 void func_00212A50(SUB *, int);
 void *PsndNewPlain__Fi(int);
@@ -42,8 +42,8 @@ void func_001DC260(OBJ *p, int s)
     if (s == p->x40)
         return;
     if (p->x40 == -1) {
-        func_0014D1D0(&g_clock, 0.0f, 0);
-        func_0020EFC0(g_sw, 0);
+        SetClockFactor__FP5CLOCKif(&g_clock, 0.0f, 0);
+        PauseGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 10);
         SetState__FP8SCREENRTi(p->x24, 1);
     }
@@ -53,8 +53,8 @@ void func_001DC260(OBJ *p, int s)
     switch (s) {
     case -1:
         VCALL(p->x24, 50);
-        func_0014D1D0(&g_clock, 1.0f, 0);
-        func_0020F030(g_sw, 0);
+        SetClockFactor__FP5CLOCKif(&g_clock, 1.0f, 0);
+        ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 11);
         if (p->x24->x58 > 0)
             func_00212A50(p->x24, 1);

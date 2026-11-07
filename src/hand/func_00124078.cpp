@@ -14,7 +14,7 @@ struct CRef {
 struct O;
 struct NODE { int cref; int pad; CRef ref; NODE *pnext; };
 extern "C" {
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 void func_00256C58(NODE **pp, NODE *p);
 CRef func_00124078(int c, O **apo);
 }
@@ -26,7 +26,7 @@ CRef func_00124078(int c, O **apo)
     NODE *pprev = 0;
     int i;
     for (i = 0; i < c; i++) {
-        NODE *p = func_00256B48();
+        NODE *p = PpairNew();
         if (pprev)
             func_00256C58(&pprev->pnext, p);
         else

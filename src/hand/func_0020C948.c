@@ -4,7 +4,8 @@ struct O { int n0; int n4; int pad8; void *pC; char pad10[0x10]; int n20; int h2
 void *func_002333B4(void *p, int c, int n);
 void func_001305B8(int a, int b, int c, int *ph, float f, float g);
 void func_001333C0(int h, struct O *po);
-void func_0020C948(struct P *p, int a, int b, struct O *po)
+// name: SafeHouse port (StartK3)
+void StartK3__FP5KIND3iiP6K3PLAY(struct P *p, int a, int b, struct O *po)
 {
     func_002333B4(po, 0, sizeof(*po));
     func_002333B4(po, 0, sizeof(*po));

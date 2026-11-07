@@ -15,7 +15,7 @@ void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
 void PairActorWith(P*,PATH*,int) asm("PairActorWith__FP5ACTORP2LOi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);
 void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float func_0011D948(LM*,float);
-qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword func_001A62E8(P*);
+qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 void SetActorZone(P*,void*) asm("SetActorZone__FP5ACTORP2LO");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
 void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
@@ -127,9 +127,9 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  case -1:{
   PathState(p->path,6);func_00133448(p->path,p->actor);PairActorWith(p->actor,p->path,0);
   P*actor=p->actor;w.target=actor->goal;
-  void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
+  void*focus;actor->motion.q=GoalInputs(&w.target,PosOfLo(actor),focus);
   p->actor->motion.i[2]=0;SetActorZone(p->actor,focus);
-  if(p->path->releaseEffectId){EFFECT*e=PsndNewPlain(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,func_001A62E8(p->actor));}
+  if(p->path->releaseEffectId){EFFECT*e=PsndNewPlain(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,PosOfLo(p->actor));}
   p->path=0;return;
  }
  case 0:

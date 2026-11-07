@@ -20,9 +20,9 @@ struct P {
 };
 extern "C" {
 extern qword g_normalZ;
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
-M3 func_0011B500(qword axis, float g);
+M3 BuildRotateMatrixAxis(qword axis, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 E *func_00145AA8(P *p);
 int FNavPathCrv(E *pe, qword r, qword v, B *pb) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
@@ -67,10 +67,10 @@ static inline qword Add(qword a, qword b)
 void PlanFollow(P *p)
 {
     union { M4 m4; struct { M3 m; qword pos; } s; } u;
-    p->q50 = func_001A62E8(p->po);
+    p->q50 = PosOfLo(p->po);
     if (FIsBasicDerivedFrom(p->po, 0x33)) {
         O *po = p->po;
-        u.s.m = func_0011B500(g_normalZ, po->g1A8);
+        u.s.m = BuildRotateMatrixAxis(g_normalZ, po->g1A8);
         u.s.pos = AddScaled(p->q50, VU_FLOAT(-p->g68), MulM3(u.s.m, po->q190));
     } else {
         O *po;
@@ -84,7 +84,7 @@ void PlanFollow(P *p)
         B *pb = pa->pb;
         D *pd = pa->pc ? pa->pc->pd : 0;
         E *pe = pd ? pd->pe : 0;
-        qword r = func_001A62E8(pa);
+        qword r = PosOfLo(pa);
         if (!pe) {
             pb->k = 2;
             pb->pq[0] = r;

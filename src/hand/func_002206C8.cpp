@@ -19,18 +19,18 @@ extern WORLD g_sw;
 extern CLOCK g_clock;
 extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
-void func_001CD098(CONTROL *,O *);
-void func_001CD2C0(CONTROL *);
+void AttachReachObject(CONTROL *,O *) asm("AttachReachObject__FP5REACHP2LO");
+void ReleaseReachObject(CONTROL *) asm("ReleaseReachObject__FP5REACH");
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void RecalcSwOxfFilterForObject(WORLD *,O *) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 void SetStepPhysHeading(O *,float) asm("SetStepPhysHeading__FP3ALOf");
-qword func_001A62E8(O *);
+qword PosOfLo(O *) asm("PosOfLo__FP2LO");
 void func_002046B0(O *,qword);
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 void ReparentBooty(O *,int,int) asm("ReparentBooty__FP3ALOii");
 void FadeAloOut(O *,float) asm("FadeAloOut__FP3ALOf");
-void func_001384C0(ASEG *);
+void RecalcBlend(ASEG *) asm("RecalcBlend__FP6ASEGBL");
 qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
 void func_00141CD0(O *,int);
@@ -114,7 +114,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  if(state==old)return;
  switch(old){
  case -1:
-  if(s->selected!=D_002DD5BC)func_001CD098(&s->owner->controller,s->selected);
+  if(s->selected!=D_002DD5BC)AttachReachObject(&s->owner->controller,s->selected);
   if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,0);
   ZeroXYZ(s->owner->target);
   break;
@@ -129,7 +129,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  case -1:SetStepPhysHeading(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
  case 7:
   {O*getterOwner;w.saved.q=SavedTargetAndOwner(s,getterOwner);
-   qword position=func_001A62E8(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);func_002046B0(receiver,Sub(target,current));}
+   qword position=PosOfLo(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);func_002046B0(receiver,Sub(target,current));}
   s->owner->movement=0;
   break;
  default:s->owner->direction.q=D_002A2DD0.q;s->owner->movement=1;break;
@@ -140,8 +140,8 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
   if(s->selected==D_002DD5BC&&!s->selected->playerState){
     O*chosen=s->selected;
     w.scalar.q=CPUFloat(400.0f);w.coefficient.q=w.scalar.q;
-    O*getterOwner;w.point.q=SavedPlayerAndOwner(func_001A62E8(PositionReceiver(chosen)),s,getterOwner);
-    qword position=func_001A62E8(getterOwner),direction;V*savedUpper;
+    O*getterOwner;w.point.q=SavedPlayerAndOwner(PosOfLo(PositionReceiver(chosen)),s,getterOwner);
+    qword position=PosOfLo(getterOwner),direction;V*savedUpper;
     qword up=ProjectionStart(position,w.point,direction,savedUpper);
     direction=ProjectUnit(direction,up);
     float liftHeight;qword liftUp=LiftInputs(savedUpper,liftHeight),speed;O *receiver;int flag;qword height=LaunchOperands(liftHeight,w.coefficient,speed,receiver,flag);
@@ -153,12 +153,12 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
    if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,4);
    else{ReparentBooty(s->selected,0,0xF);FadeAloOut(s->selected,0.25f);}
   }
-  func_001CD2C0(&s->owner->controller);
+  ReleaseReachObject(&s->owner->controller);
   if(s->effect)EffectCall(s->effect,9);
   s->selected=0;
   return;
  case 0:
-  if(previous!=1&&previous!=2){s->blend0=s->blend1=0.5f;func_001384C0(s->animation0);}
+  if(previous!=1&&previous!=2){s->blend0=s->blend1=0.5f;RecalcBlend(s->animation0);}
   animation=s->animation0;flags=9;break;
  case 1:animation=s->animation1;break;
  case 2:animation=s->animation2;break;

@@ -9,8 +9,8 @@ struct W { char pad[0xA0]; int nA0; };
 struct T { char pad[0x58]; struct W *p58; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x48]; struct O *p5C; int n60; struct U *p64; };
 void GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2(struct S *p, struct R *r, qword *a, qword *b);
-qword func_0022FC48(int a, int b, qword q);
-qword func_0022FCC8(int a, int b, qword q);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(int a, int b, qword q);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(int a, int b, qword q);
 void SetGoal__10CTRLTARGETG9VU_VECTORT1(struct U *u, qword a, qword b);
 // name: SafeHouse port (JOBB1::UpdateTarget)
 void UpdateTarget__5JOBB1(struct S *p) {
@@ -23,6 +23,6 @@ void UpdateTarget__5JOBB1(struct S *p) {
     if (!r.n0) { p->n60 = 0; return; }
     w = p->pt->p58;
     GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2(p, &r, &q30, &q40);
-    a = func_0022FC48(0, w->nA0, q30);
-    SetGoal__10CTRLTARGETG9VU_VECTORT1(p->p64, a, func_0022FCC8(0, w->nA0, q40));
+    a = PosConvertXfs__FP2XFT0G9VU_VECTOR(0, w->nA0, q30);
+    SetGoal__10CTRLTARGETG9VU_VECTORT1(p->p64, a, VecConvertXfs__FP2XFT0G9VU_VECTOR(0, w->nA0, q40));
 }

@@ -3,7 +3,8 @@ typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 typedef struct NODE { int pad[2]; CRef ref; struct NODE *pnext; } NODE;
 typedef struct ARR { int c; short *a; } ARR;
 short *PvAllocStackImpl__Fi(AREQ *preq);
-void func_001252D0(NODE *pnode, ARR *parr)
+// name: SafeHouse port (AkeyFromList)
+void AkeyFromList__FP4CRefP3ARR(NODE *pnode, ARR *parr)
 {
     NODE *p;
     int i;

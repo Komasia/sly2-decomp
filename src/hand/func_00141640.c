@@ -19,7 +19,7 @@ extern struct { float a, b, c; } D_002BCCF0;
 extern struct { float lo, hi; } g_lmZeroOne;
 extern qword D_002A2DD0;
 void GetSoCpdefi__FP2SOP6CPDEFI(struct JT *, struct XP *);
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, int n);
 qword func_0011F088(qword a, qword b, float dt, void *pv, int n);
 void func_0019C8B0(void *, struct XP *);
@@ -50,7 +50,7 @@ void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct JT *pjt, struct XP *pxp)
         VU v;
         float z, lo, hi, g;
         struct VTE *e;
-        { qword q = func_001A62E8(pjt); __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); }
+        { qword q = PosOfLo__FP2LO(pjt); __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); }
         e = &pjt->vt[97];
         ((void (*)(void *, VU *))e->pfn)((char *)pjt + e->d, &v);
         if (pjt->x434) {

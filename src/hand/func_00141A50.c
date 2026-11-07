@@ -14,7 +14,7 @@ int GrfPadctlTakePressed__FP6PADCTL(struct X150 *p, int mask, float g);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 int func_001441A0(struct P *p);
-void func_00141C08(struct P *p, struct E *pe, int n);
+void SetAbilityState__FP5ACTORP6ABSLOTi(struct P *p, struct E *pe, int n);
 void func_00141A50(struct P *p)
 {
     int i;
@@ -37,14 +37,14 @@ void func_00141A50(struct P *p)
                         SetSource__4CSndPv(PsndNewPlain__Fi(0x2E), 0);
                         p->t1304 = g_clock.t;
                     } else {
-                        func_00141C08(p, pe, D_002BCD00[id].x0);
+                        SetAbilityState__FP5ACTORP6ABSLOTi(p, pe, D_002BCD00[id].x0);
                     }
                 }
             }
             break;
         case 1:
             if (!(p->p150->grf & mask) || !((int (*)(void *, int))p->vt[99].pfn)((char *)p + p->vt[99].d, id))
-                func_00141C08(p, pe, 0);
+                SetAbilityState__FP5ACTORP6ABSLOTi(p, pe, 0);
             else
                 ((void (*)(void *, struct E *))p->vt[101].pfn)((char *)p + p->vt[101].d, pe);
             break;

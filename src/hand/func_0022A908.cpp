@@ -3,7 +3,7 @@
 // What decided the match: tStart reused for both fade times (one pseudo -> the game's f4/f3 registers), clamp
 // with a single result variable and by-value limits, `dz = p ? .. : 0.0f` (splits cse so g_normalZ's hi part is
 // copied into s4), the name plate drawn through a by-value RGBA inline (copy addresses in s0/s1), and the
-// float argument of func_001CD780 second (invisible in the callee, decides the f12 move's slot).
+// float argument of DrawMarkerLabel second (invisible in the callee, decides the f12 move's slot).
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 typedef unsigned char uchar;
@@ -53,17 +53,17 @@ extern "C" {
 void RenderSoSelf(WAYPT *pwaypt) asm("RenderSoSelf__FP2SOP2CMP2RO");
 int func_001DAEA8(int ipuk);
 int func_00163400(void *pcond);
-void func_0022A220(WAYPT *pwaypt);
-qword func_001A62E8(LO *plo);
+void PlaceMarker(WAYPT *pwaypt) asm("PlaceMarker__FP2LO");
+qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 void PosNearestSegment(qword pos, qword p0, qword p1, qword *ppos, float *pt, float *pdist) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 MATRIX4 *MatJtLo(SO *pso) asm("MatJtLo__FP2LO");
 VECTOR *func_00256D18(VECTOR *pv, qword qw);
 void AppendAloExtraDraws(SO *pso, MATRIX4 *pmat, float a, float b) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
-void func_001A5FB8(SO *pso, qword pos0, qword pos1, float s, float a);
+void AppendLaserLine(SO *pso, qword pos0, qword pos1, float s, float a) asm("AppendLaserLine__FP5SCENEG9VU_VECTORT1ff");
 char *func_0013E368(SW *psw, int id);
-void func_001CD780(qword pos, float s, char *pchz, const RGBA *prgba0, const RGBA *prgba1);
+void DrawMarkerLabel(qword pos, float s, char *pchz, const RGBA *prgba0, const RGBA *prgba1) asm("DrawMarkerLabel__FG9VU_VECTORPcP4RGBAT2f");
 }
-static inline void DrawLabel(qword pos, RGBA rgba0, RGBA rgba1, int id, float s) { func_001CD780(pos, s, func_0013E368(&g_sw, id), &rgba0, &rgba1); }
+static inline void DrawLabel(qword pos, RGBA rgba0, RGBA rgba1, int id, float s) { DrawMarkerLabel(pos, s, func_0013E368(&g_sw, id), &rgba0, &rgba1); }
 
 static inline float GEvaluateClq(CLQ *pclq, float x) { return pclq->g0 + x * (pclq->g1 + x * pclq->g2); }
 static inline float GLimitG(float g, float gMin, float gMax)
@@ -118,7 +118,8 @@ inline MATRIX3 operator*(const MATRIX3 &mat, VU_FLOAT g) return matRes
     matRes = matT;
 }
 
-extern "C" void func_0022A908(WAYPT *pwaypt)
+// name: SafeHouse port (CollectMarkerDraws)
+extern "C" void CollectMarkerDraws__FP2LO(WAYPT *pwaypt)
 {
     RenderSoSelf(pwaypt);
     float tStart = GMax(g_sw.tUnk4750 + D_002C4494, g_sw.tUnk4754 + D_002C4498);
@@ -145,9 +146,9 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
     if (uShow == 0.0f)
         return;
 
-    func_0022A220(pwaypt);
+    PlaceMarker(pwaypt);
     qword posCam = g_cm.pos;
-    qword pos = func_001A62E8(pwaypt->ploSource);
+    qword pos = PosOfLo(pwaypt->ploSource);
     qword posTop = QwAddScaled(pos, g_normalZ, VuFloatFromMemWord(*(int *)&pwaypt->sHeight));
     float sDist;
     PosNearestSegment(posCam, pos, posTop, 0, 0, &sDist);
@@ -168,7 +169,7 @@ extern "C" void func_0022A908(WAYPT *pwaypt)
         AppendAloExtraDraws(pwaypt->psoMarker, pmat, uShow, uShow);
     }
     if (pwaypt->psoBeam)
-        func_001A5FB8(pwaypt->psoBeam, pos, posEnd, rScale, uShow);
+        AppendLaserLine(pwaypt->psoBeam, pos, posEnd, rScale, uShow);
     if (pwaypt->psoBase)
     {
         MATRIX3 matScaled = *(MATRIX3 *)MatJtLo(pwaypt->psoBase) * VuFloat(rScale);

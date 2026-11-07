@@ -20,8 +20,8 @@ struct H;
 extern G D_003D4A60;
 extern H D_003E0EA8;
 void func_001D87C0(const char *p, va_list ap, V *pv);
-CRef func_001D80C8(H *, V *, const CRef &, G *);
-static inline CRef Eval(V *pv, const CRef &r, G *pg) { return func_001D80C8(&D_003E0EA8, pv, r, pg); }
+CRef FSetProgress(H *, V *, const CRef &, G *) asm("FSetProgress__FP4TRIEP4CRefT1Pc");
+static inline CRef Eval(V *pv, const CRef &r, G *pg) { return FSetProgress(&D_003E0EA8, pv, r, pg); }
 // name: SafeHouse port (SetProgressPoCurrent)
 extern "C" CRef SetProgressPoCurrent__FP4CRefPci(const CRef &refArg, const char *fmt, ...)
 {

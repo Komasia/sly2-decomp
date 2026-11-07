@@ -8,7 +8,7 @@ extern char D_003D9ED0[], D_003DA150[], D_003DA0F0[], D_002DDEC0[], D_00443740[]
 extern char D_003DA0C0[], D_003DA3C0[], D_002E6550[], D_002E65A0[], D_003DA4F0[], D_003DA530[];
 void RemoveGrfusr__Fi(int);
 int func_00187D80(PAD *, int);
-void func_00187E08(PAD *, int);
+void ClearJoyBtns__FP6JOYPS2Ui(PAD *, int);
 int AentPause__FPv(int);
 int FIsDlEmpty__FP2DL(void *);
 void func_001AEEE0(void *);
@@ -16,8 +16,8 @@ void UpdateShop__FP2SW(void *);
 void UpdateGadgetMenu__FP2SW(void *);
 void func_0014BFF8(void *);
 void UpdateWipe__FP4WIPE(void *);
-void func_001D9DF8(void *);
-void func_001DA350(void *);
+void UpdateGauge__FP5GAUGE(void *);
+void UpdatePrompt__FP6PROMPT(void *);
 void UpdateJobHelp__FP2SW(void *);
 void func_001ACCC8(void *);
 void func_001ADEE8(void *);
@@ -36,7 +36,7 @@ void func_001D9648(void *pdl)
         pad = &D_002E0D00;
     if (func_00187D80(pad, 0x800)) {
         if (!AentPause__FPv(0))
-            func_00187E08(pad, 0x800);
+            ClearJoyBtns__FP6JOYPS2Ui(pad, 0x800);
     } else if (g_grfjoyt & 2) {
         int r = FIsDlEmpty__FP2DL(pdl);
         int f = 0;
@@ -50,8 +50,8 @@ void func_001D9648(void *pdl)
     UpdateGadgetMenu__FP2SW(D_003DA0F0);
     func_0014BFF8(D_002DDEC0);
     UpdateWipe__FP4WIPE(D_00443740);
-    func_001D9DF8(D_003D9E80);
-    func_001DA350(D_003DA0C0);
+    UpdateGauge__FP5GAUGE(D_003D9E80);
+    UpdatePrompt__FP6PROMPT(D_003DA0C0);
     UpdateJobHelp__FP2SW(D_003DA3C0);
     func_001ACCC8(D_002E6550);
     func_001ADEE8(D_002E65A0);

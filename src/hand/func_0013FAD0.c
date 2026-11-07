@@ -1,5 +1,6 @@
 int func_00210A88(void);
-int func_0013FAD0(int c, short *a) {
+// name: SafeHouse port (FFilterMatches)
+int FFilterMatches__FiPs(int c, short *a) {
     int x = func_00210A88();
     int i;
     short *ps;

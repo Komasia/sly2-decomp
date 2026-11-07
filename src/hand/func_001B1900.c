@@ -4,7 +4,7 @@ struct VT { short d; short pad; void *pfn; };
 struct LO { char pad[0xC]; struct VT *vt; };
 struct P { char pad[0x150]; float g150; float g154; char pad2[0x220 - 0x158]; int n220; };
 extern char g_sw[];
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 struct LO *PloNearestPlayer__FP6VECTORG9VU_VECTOR(void *pg, qword pos);
 float func_002458F0(float y, float x);
 void SetBirdHeading__FP4BIRDf(struct P *p, float g);
@@ -21,13 +21,13 @@ static inline float Length(qword v)
 int StBirdSees__FP2LO(struct P *p)
 {
     int r = p->n220;
-    qword pos = func_001A62E8(p);
+    qword pos = PosOfLo__FP2LO(p);
     struct LO *po = PloNearestPlayer__FP6VECTORG9VU_VECTOR(g_sw, pos);
     U d;
     float len;
     if (!po)
         return r;
-    __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(func_001A62E8(po)), "j"(pos));
+    __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(PosOfLo__FP2LO(po)), "j"(pos));
     len = Length(d.q);
     if (p->g154 < len)
         return r;

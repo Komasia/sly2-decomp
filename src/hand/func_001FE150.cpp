@@ -20,7 +20,7 @@ extern int D_002E1E40;
 extern "C" {
 Ref RefTakeMusic(P *, int) asm("RefTakeMusic__FP8SOUNDMGRi");
 void Stop(X *, float) asm("Stop__4CSndf");
-X *func_001FCFF8(P *, int);
+X *PstreamFindMusic(P *, int) asm("PstreamFindMusic__FP8SOUNDMGRi");
 X *PsndNewVoice(X *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 void AddVoiceFalloff(X *, int, int, float, float *) asm("AddVoiceFalloff__9CSndVoiceiiPvf");
 }
@@ -35,7 +35,7 @@ extern "C" X *PsndPushMusic__FP8SOUNDMGRi(P *p, int n)
     if (r.px) {
         r.px->pvt->a[7].pfn((char *)r.px + r.px->pvt->a[7].d);
     } else {
-        X *v = func_001FCFF8(p, n);
+        X *v = PstreamFindMusic(p, n);
         if (!v || p->s.c == 8) return 0;
         float f = 1.0f;
         r = PsndNewVoice(v, 4);

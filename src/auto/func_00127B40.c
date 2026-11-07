@@ -23,7 +23,8 @@ extern M2C_UNK D_004521B8;
 extern M2C_UNK D_004521D0;
 extern M2C_UNK D_004521E8;
 
-void func_00127B40(s32 arg0, s32 arg1) {
+// name: SafeHouse port (CFrame::AddParent)
+void AddParent__6CFrameP6CFrame(s32 arg0, s32 arg1) {
     s32 temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, s32 *, 8);

@@ -3,7 +3,7 @@ struct T { char pad[0x28]; unsigned long fl28; };
 struct O { char pad[0x100]; struct T *pt; float r; };
 struct S { char pad[0x30]; int c; struct O *a[1]; };
 extern struct { char pad[0x90]; qword pos; } g_cm;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void FadeAloIn__FP3ALOf(struct T *pt, float f);
 void FadeAloOut__FP3ALOf(struct T *pt, float f);
 
@@ -17,7 +17,7 @@ void DistanceModels__FP11PHOTOPROMPT(struct S *p)
         float f, r;
         if (!o->pt)
             continue;
-        a = func_001A62E8(o);
+        a = PosOfLo__FP2LO(o);
 
         __asm__("vsub.xyzw %0, %1, %2\n\tvmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y\n\tvsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "=j"(d) : "j"(a), "j"(g_cm.pos));
         __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));

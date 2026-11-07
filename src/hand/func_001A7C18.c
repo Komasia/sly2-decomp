@@ -11,7 +11,7 @@ struct C { struct E ae[2]; qword dir; float g; float x94, x98; int x9C, xA0, xA4
 struct W { char pad[0x3D40]; char pool[1]; };
 extern float D_002BFD30, D_002BFD34;
 struct C *func_0011CCC0(void *pool);
-qword func_0022FC48(int n, void *p, qword pos);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(int n, void *p, qword pos);
 void RecalcSwXpMovement__FP2SWiPP2XP(struct W *pw, int n, struct C **ppc);
 // name: SafeHouse port (PxpAddSw)
 void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct W *pw, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct C **ppc, float g)
@@ -42,7 +42,7 @@ void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct W *pw, struct S *a, st
             e->plo = e->ps->x4;
             e->x8 = e->plo->xEC->x60;
         }
-        e->x20 = func_0022FC48(0, e->x4, e->pos);
+        e->x20 = PosConvertXfs__FP2XFT0G9VU_VECTOR(0, e->x4, e->pos);
     }
     c->g = g;
     c->x9C = k;

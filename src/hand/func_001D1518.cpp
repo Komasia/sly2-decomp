@@ -18,7 +18,7 @@ REF *func_001F4C58(P *,int,int);
 void *func_002332B8(void *,const void *,int);
 qword ConvertPos(void *,P *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void *PctrlNewPos(P *,REF *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
-void *func_0015E938(void *,int,int,P *);
+void *PloFindSwNearest(void *,int,int,P *) asm("PloFindSwNearest__FP2LO3OIDii");
 void *func_001F0380(void *,P *,int,int);
 void *func_001E94B0(int,int);
 void ReplaceSmaHandle(void *,P *,int,int,void **) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
@@ -115,11 +115,11 @@ extern "C" void PostLoadVehicle__FP2LO(P *p){
  ATTACH **cursor=p->attachments;int byteOffset=0;
  do {
   current.attachment=*cursor;
-  current.attachment->object=func_0015E938(g_sw,1,current.attachment->id,p);
+  current.attachment->object=PloFindSwNearest(g_sw,1,current.attachment->id,p);
   if(current.attachment->object){
    current.attachment->mesh=func_001F4C58(p,current.attachment->meshId,6);
    if(current.attachment->mesh || current.attachment->meshId==invalid){
-    current.attachment->extra=func_0015E938(g_sw,1,current.attachment->extraId,p);
+    current.attachment->extra=PloFindSwNearest(g_sw,1,current.attachment->extraId,p);
     if(current.attachment->extra || current.attachment->extraId==invalid){
      current.attachment->binding=func_001F0380(current.attachment->object,p,-1,0);
      if(current.attachment->mesh)current.attachment->meshBinding=PctrlNewPos(p,current.attachment->mesh,1,7,3,D_002A2DD0);

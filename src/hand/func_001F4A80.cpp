@@ -5,8 +5,8 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct A { char pad[0x70]; qword pos; };
 struct P { char pad[0xC]; struct VTE *pvt; char pad2[0xE8 - 0x10]; void *pe; };
 extern "C" void func_001A6BC8(struct P *p, struct A *pa);
-extern "C" M4 *func_0022D148(M4 *,A *,A *);
-static inline M4 BuildVelocity(A *owner) return result { func_0022D148(&result,owner,0); }
+extern "C" M4 *DmatXfChain(M4 *,A *,A *) asm("DmatXfChain__FP2XFT0Pv");
+static inline M4 BuildVelocity(A *owner) return result { DmatXfChain(&result,owner,0); }
 static __inline__ qword Make(float x, float y, float z)
 {
     qword q, t;

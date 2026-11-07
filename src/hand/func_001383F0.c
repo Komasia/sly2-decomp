@@ -5,7 +5,8 @@ struct S { char pad[0x50]; struct A *paFirst; char pad2[0xd4 - 0x54]; int fd4; }
 extern const float D_002A4AF0;
 extern char D_002C44E0[];
 int FFirst__4CTRL(struct C *);
-void func_001383F0(struct S *p, int n) {
+// name: SafeHouse port (SetBlendDominant)
+void SetBlendDominant__FP6ASEGBLi(struct S *p, int n) {
     struct A *pa;
     struct C *pc;
     if (n == p->fd4) return;

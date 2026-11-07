@@ -3,14 +3,14 @@ extern struct G g_sw;
 struct Z { char pad[0xF8]; int xF8; };
 struct Y { char pad[0x74]; int c; struct Z *a[1]; };
 struct X { char pad[0xF38]; struct Y *py; };
-struct X *func_001C4840(struct G *g);
+struct X *PloPlayerPo__FP2SW(struct G *g);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 char *func_0013E368(struct G *g, int id);
 void func_0021ED58(char *dst, char *src);
 void func_002111F0(char *dst, int i)
 {
     struct G *g = &g_sw;
-    struct X *p = func_001C4840(g);
+    struct X *p = PloPlayerPo__FP2SW(g);
     if (p && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x34)) {
         struct Y *y = p->py;
         if (y && i < y->c)

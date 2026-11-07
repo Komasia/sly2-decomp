@@ -7,7 +7,7 @@ struct ENTRY {O *object;int available;int x8,xC;};
 struct GROUP {char padFC[0xFC];int count;ENTRY entries[1];};
 struct P {char pad38C[0x38C];O *previous,*current;char pad394[0xBD0];GROUP *group;char padF68[0x54];int mode;};
 extern float D_002A886C,D_002C3D70[3],D_002C3D80[3];
-extern "C" qword func_001A62E8(void *);
+extern "C" qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 extern "C" int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" int func_002089F0(P *,O *);
 extern "C" int func_00208B38(P *,O *);
@@ -34,7 +34,7 @@ extern "C" O *PloGuardTarget__FP5GUARD(P*p)
     if(p->current&&(((unsigned int)(p->current->flags>>60))&1)){best=p->current;goto done;}
     {
         float bestDistance=D_002A886C;
-        U origin;origin.q=func_001A62E8(p);
+        U origin;origin.q=PosOfLo(p);
         for(int i=0;i<p->group->count;i++){
             ENTRY *entry=&p->group->entries[i];
             O *candidate=entry->object;
@@ -42,7 +42,7 @@ extern "C" O *PloGuardTarget__FP5GUARD(P*p)
             if(!entry->available&&(!(p->mode==0x22||p->mode==0x25)||!FIsBasicDerivedFrom(candidate,0x38)))continue;
             if(func_002089F0(p,candidate))continue;
             if(func_00208B38(p,candidate))return candidate;
-            qword delta=Sub(origin.q,func_001A62E8(candidate));O *previous=p->previous;
+            qword delta=Sub(origin.q,PosOfLo(candidate));O *previous=p->previous;
             float distance=Length(delta);
             if(candidate==previous)distance=Weight(distance,D_002C3D70);
             if((p->mode==0x22||p->mode==0x25)&&FIsBasicDerivedFrom(candidate,0x38))distance=Weight(distance,D_002C3D80);

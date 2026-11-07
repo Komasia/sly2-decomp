@@ -3,7 +3,7 @@ struct VT { struct { short d; short pad; qword (*pfn)(void *); } a[40]; };
 struct PO { char pad[0xC]; struct VT *pvt; };
 struct E { char pad[0xC]; struct PO *po; qword v10; qword v20; qword v30; };
 extern void OnStepXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i);
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword VCross(qword a, qword b)
 {
@@ -23,6 +23,6 @@ void OnSlyXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i)
         qword v = pe->v30;
         qword w = po->pvt->a[34].pfn((char *)po + po->pvt->a[34].d);
         qword x = pe->v10;
-        pe->v30 = VSub(v, VCross(w, VSub(x, func_001A62E8(po))));
+        pe->v30 = VSub(v, VCross(w, VSub(x, PosOfLo__FP2LO(po))));
     }
 }

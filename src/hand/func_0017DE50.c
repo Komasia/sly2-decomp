@@ -14,7 +14,7 @@ int func_00209098(void *p);
 void SetState__5JOBBDi(struct S *p, int n);
 int func_00208B38(struct A *a, void *o);
 float func_00208BB0(struct A *a);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
 void ChooseAway__5JOBBD(struct S *p);
 static __inline__ float Dist(qword a, qword b) {
@@ -62,12 +62,12 @@ void Update__5JOBBD(struct S *p) {
         struct T *t = p->p18;
         if (g_clock.t - p->f3C > D_002BE760) {
         struct X *x = &t->x40;
-        qword pos = func_001A62E8(p->p10);
+        qword pos = PosOfLo__FP2LO(p->p10);
         int f = 0;
         qword q = PosGoal__FP4GOALG9VU_VECTOR(x, pos);
-        if (Dist(func_001A62E8(p->p10), q) < D_002BE764) {
+        if (Dist(PosOfLo__FP2LO(p->p10), q) < D_002BE764) {
             f = 1;
-        } else if (Dist(func_001A62E8(p->p10), func_001A62E8(p->p38)) < D_002BE768) {
+        } else if (Dist(PosOfLo__FP2LO(p->p10), PosOfLo__FP2LO(p->p38)) < D_002BE768) {
             f = 1;
         }
         if (f) ChooseAway__5JOBBD(p);

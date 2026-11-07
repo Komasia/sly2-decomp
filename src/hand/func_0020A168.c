@@ -2,11 +2,11 @@ typedef int qword __attribute__((mode(TI)));
 struct K { char pad[0x50]; int n50; };
 struct E { char pad[0x14]; struct K *pk; char pad2[0x20 - 0x18]; qword pos; char pad3[0x4C - 0x30]; float f4C; int n54x; };
 struct E2 { char pad[0x14]; struct K *pk; char pad2[0x20 - 0x18]; qword pos; char pad3[0x4C - 0x30]; float f4C; char pad4[4]; int n54; char pad5[0x60 - 0x58]; };
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 
 static inline float DistSq(void *p, qword *pq)
 {
-    qword a = func_001A62E8(p), d, r, t;
+    qword a = PosOfLo__FP2LO(p), d, r, t;
     float f;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(*pq));
     __asm__("vmul.xyz %0, %0, %0\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=j"(r), "=&j"(t) : "0"(d));

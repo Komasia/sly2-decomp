@@ -2,12 +2,12 @@ typedef struct S8 { int a, b; } S8;
 extern S8 D_002A46C8;
 extern char g_sw[];
 void PostLoLoad__FP2LO(void *p);
-void func_00149A50(void *a, void *b, S8 c, int d);
+void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(void *a, void *b, S8 c, int d);
 typedef struct T { char pad[0xB0]; int f; } T;
 // name: SafeHouse port (PostAsegLoad)
 void PostAsegLoad__FP4ASEG(T *t)
 {
     PostLoLoad__FP2LO(t);
     if (t->f)
-        func_00149A50(g_sw, t, D_002A46C8, t->f);
+        PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(g_sw, t, D_002A46C8, t->f);
 }

@@ -10,18 +10,19 @@ struct P {
 };
 extern qword D_002A2DB0;
 extern qword g_normalZ;
-qword func_001A62E8(void *p);
-qword func_0022FC48(int n, int m, qword q);
+qword PosOfLo__FP2LO(void *p);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(int n, int m, qword q);
 void BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR(qword a, qword b, qword c, qword *pm);
-void func_001991A0(struct P *p)
+// name: SafeHouse port (AddJumpLedgeContacts)
+void AddJumpLedgeContacts__FP5ACTOR(struct P *p)
 {
     if (p->x1c == 0x11) {
         U q, r;
         M3 m;
         U s;
         qword neg, v;
-        q.q = func_001A62E8(p->x0);
-        r.q = func_0022FC48(p->xc8->x0, 0, p->xd0);
+        q.q = PosOfLo__FP2LO(p->x0);
+        r.q = PosConvertXfs__FP2XFT0G9VU_VECTOR(p->xc8->x0, 0, p->xd0);
         __asm__("qmtc2.ni %1, %0" : "=j"(s.q) : "r"(-1.0f));
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(neg) : "j"(p->xe0), "j"(s.q));
         m.r[0] = neg;

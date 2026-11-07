@@ -3,10 +3,10 @@ typedef union { qword q; float f[4]; } U;
 typedef struct { qword r[3]; } M3;
 struct X { char pad[0x14]; void *p14; char pad1[0xA4 - 0x18]; float gA4; float gA8; };
 extern qword D_002A5000;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword PosFocus__6CPFREE(struct X *p);
 float func_002458F0(float y, float x);
-void func_0011B720(M3 *pm, float a, float b);
+void BuildPanTiltMatrix__FPvff(M3 *pm, float a, float b);
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
 static inline qword Len(qword v)
@@ -43,14 +43,14 @@ qword PosEye__6CPFREE(struct X *p)
     qword r;
     if (p->p14) {
         U n;
-        qword a = func_001A62E8(p->p14);
+        qword a = PosOfLo__FP2LO(p->p14);
         n.q = Normalize(Sub(a, PosFocus__6CPFREE(p)));
         p->gA4 = func_002458F0(n.f[1], n.f[0]);
         r = Add(PosFocus__6CPFREE(p), VecMul(n.q, -GFromQ(Len(D_002A5000))));
     } else {
         M3 m;
         qword v = D_002A5000;
-        func_0011B720(&m, p->gA4, p->gA8);
+        BuildPanTiltMatrix__FPvff(&m, p->gA4, p->gA8);
         r = Add(PosFocus__6CPFREE(p), MulM3(&m, v));
     }
     return r;

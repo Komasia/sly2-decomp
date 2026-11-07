@@ -10,8 +10,8 @@ struct S {
 };
 extern struct CLOCK { float t; float dt; } g_clock;
 void ProjectSoTransform__FP2SOfi(struct S *);
-qword func_001A62E8(void *);
-void func_0021C5F8(struct S *, qword);
+qword PosOfLo__FP2LO(void *);
+void SetCenters__FP5TRAILG9VU_VECTOR(struct S *, qword);
 static inline qword VSub(qword a, qword b)
 {
     qword d;
@@ -29,7 +29,8 @@ static inline float Sqrt(qword d) {
     __asm__("qmfc2.ni %0,%1" : "=r"(f) : "j"(d));
     return f;
 }
-void func_0021C1C8(struct S *p)
+// name: SafeHouse port (UpdatePhysics)
+void UpdatePhysics__FP2LO(struct S *p)
 {
     ProjectSoTransform__FP2SOfi(p);
     if (!p->state) {
@@ -47,7 +48,7 @@ void func_0021C1C8(struct S *p)
             float length;
             if (p->g == 0.0f)
                 p->distance = -4.0f;
-            pos = func_001A62E8(p->follow);
+            pos = PosOfLo__FP2LO(p->follow);
             {
                 float rate = p->rate;
                 qword d = VSub(p->previous, pos);
@@ -59,6 +60,6 @@ void func_0021C1C8(struct S *p)
             }
             e->length = p->distance;
         }
-        func_0021C5F8(p, func_001A62E8(p));
+        SetCenters__FP5TRAILG9VU_VECTOR(p, PosOfLo__FP2LO(p));
     }
 }

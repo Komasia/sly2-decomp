@@ -25,11 +25,12 @@ struct S {
 void func_001A38A8(float a, float b, float c, float d, float *pa, float *pb);
 void func_0011DFA0(void *p, V3 *pv);
 void func_001ED2D8(V3 *pv);
-qword func_001A62E8(struct S *p);
+qword PosOfLo__FP2LO(struct S *p);
 void FitLinearFunction__FffffPfT4(float a, float b, float c, float d, float *pa, float *pb);
 void func_001A3B38(struct S *p);
 static inline float Max1(float a, float b) { return (a > b) ? a : b; }
-void func_001A3968(struct S *p)
+// name: SafeHouse port (ComputeLight)
+void ComputeLight__FP11LIGHTPARAMS(struct S *p)
 {
     V3 v;
     float g;
@@ -63,7 +64,7 @@ void func_001A3968(struct S *p)
         p->x140 = *p->vt[31].pfn((struct S *)((char *)p + p->vt[31].d));
         break;
     case 1:
-        p->x100.q = func_001A62E8(p);
+        p->x100.q = PosOfLo__FP2LO(p);
         p->x140 = *(V3 *)&p->x100;
         FitLinearFunction__FffffPfT4(p->x164, 1.0f, p->x168, 0.0f, &p->x12C, &p->x14C);
         p->x110 = p->x12C;

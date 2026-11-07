@@ -18,7 +18,7 @@ void *func_002333B4(void *, int, int);
 void DetachAloContacts(struct P *) asm("DetachAloContacts__FP3ALO");
 void HoldXfMode(struct P *, struct LO *);
 void CopyAloSoeMatrices(struct P *) asm("CopyAloSoeMatrices__FP3ALO");
-qword func_001A62E8(struct P *);
+qword PosOfLo(struct P *) asm("PosOfLo__FP2LO");
 struct REGION *PregionAt(qword, int) asm("PregionAt__FG9VU_VECTORi");
 void SetAloRegion(struct P *, struct REGION *) asm("SetAloRegion__FP3ALOP9NAVREGION");
 // name: SafeHouse port (SetAloPos)
@@ -70,7 +70,7 @@ void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
     {
         struct REGION_LINK *link = 0;
         if (p->pe) link = p->pe->regionLink;
-        if (link) SetAloRegion(p, PregionAt(func_001A62E8(p), 1));
+        if (link) SetAloRegion(p, PregionAt(PosOfLo(p), 1));
     }
 }
 

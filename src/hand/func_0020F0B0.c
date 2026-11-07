@@ -1,4 +1,4 @@
-/* IsSwHandsOff (Sly 1 sw.c; same body, right after the hands-off decrement func_0020F030): whether the player
+/* IsSwHandsOff (Sly 1 sw.c; same body, right after the hands-off decrement ResumeGame__FP9GAMEPAUSEi): whether the player
  * currently has no control. */
 #include "sw.h"
 

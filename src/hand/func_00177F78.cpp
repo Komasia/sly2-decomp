@@ -111,7 +111,7 @@ extern qword D_002A2DA0, g_normalZ, D_002A2DD0;
 extern float D_002BE630, D_002BE634, D_002BE658, D_002BE65C, D_002BE660, D_002BE664, D_002BE668, D_002BE66C, D_002BE670, D_002BE674, D_002BE690;
 extern CLQ D_002BE640, D_002BE680;
 extern LM D_002BE650, g_lmZeroOne;
-qword func_001A62E8(void *pobj);
+qword PosOfLo(void *pobj) asm("PosOfLo__FP2LO");
 float SWrapCrv(CURVE *pcrv, float s) asm("SWrapCrv__FP3CRVf");
 float SMaxCrv(CURVE *pcrv) asm("SMaxCrv__FP3CRV");
 void NearestCrvS(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
@@ -317,7 +317,7 @@ extern "C" void func_00177F78(S *p)
 {
     VEC point, dir, next, nextDir;
     const qword *pqwZero;
-    qword posActor = func_001A62E8(p->pactor);
+    qword posActor = PosOfLo(p->pactor);
     register qword qwActor asm("$18") = posActor; /* the one register pin: the target reloads the spilled posActor into s2 (lq in a delay slot) */
 
     BODY *pbody = 0;
@@ -427,7 +427,7 @@ extern "C" void func_00177F78(S *p)
                 continue;
             VEC posOther;
             VEC vecUnused;
-            posOther.qw = func_001A62E8(pobj);
+            posOther.qw = PosOfLo(pobj);
             posOther.f[2] += pbodyOther->dz;
             qword dpos = QwSub(posActor, posOther.qw);
             if (__builtin_fabsf(GZOfQw(dpos)) > D_002BE660)

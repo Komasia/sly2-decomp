@@ -1,7 +1,7 @@
 typedef struct { short d; short pad; void *pfn; } VTE;
 struct Y { char pad[0xC]; VTE *vt; };
 struct D { int a; int b; int c; int d; };
-int func_0015E650(void *p, int k, int a, int b, int c, void **ppo);
+int CploFindSwNearest__FP2LO3OIDiiii(void *p, int k, int a, int b, int c, void **ppo);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
 struct Y *PsmaFindAloSm__Fi3OID(void *o, int b);
 void func_001333C0(struct Y *y, int x);
@@ -14,7 +14,7 @@ void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
     int id;
     if (ppy)
         *ppy = 0;
-    if (func_0015E650(p, 0x204, pd->a, b, 1, &o) != 1)
+    if (CploFindSwNearest__FP2LO3OIDiiii(p, 0x204, pd->a, b, 1, &o) != 1)
         return;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x30))
         return;

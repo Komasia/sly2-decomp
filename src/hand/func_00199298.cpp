@@ -74,7 +74,8 @@ struct P { P0 *x0; char pad[0x1C-4]; int x1c; char pad2[0xC8-0x20]; C8 *xc8; };
 struct G;
 extern G g_sw;
 extern "C" void func_001A7E10(G *g, X *x);
-extern "C" void func_00199298(P *p)
+// name: SafeHouse port (PruneJumpLedgeXps)
+extern "C" void PruneJumpLedgeXps__FP5ACTOR(P *p)
 {
     EC *ec;
     if (p->x1c != 0x11 || !(ec = p->xc8->x4->xec))

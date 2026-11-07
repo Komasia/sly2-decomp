@@ -6,7 +6,7 @@ extern float D_002C3690, D_002C3694, D_002C3698;
 extern char g_lmZeroOne[];
 float func_00245B58(float, float);
 float func_0011D948(void *, float);
-void func_0011DD90(struct G3 *, VEC *);
+void RgbFromHsv__FP6VECTORT0(struct G3 *, VEC *);
 void func_001ED2D8(VEC *p)
 {
     struct G3 c;
@@ -24,5 +24,5 @@ void func_001ED2D8(VEC *p)
     __asm__("vmul.xyz %0, %2, %3\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=j"(d), "=&j"(one) : "j"(*(qword *)p), "j"(*(qword *)&w));
     __asm__("mtc1 %1, %0" : "=f"(dot) : "r"(d));
     c.z = func_0011D948(g_lmZeroOne, func_00245B58(dot, D_002C3698));
-    func_0011DD90(&c, p);
+    RgbFromHsv__FP6VECTORT0(&c, p);
 }

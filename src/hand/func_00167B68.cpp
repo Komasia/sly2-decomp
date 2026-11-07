@@ -20,12 +20,13 @@ struct S { void *pvOwner; char pad[0x38 - 4]; int cgrp; HDR *ahdr; GRP *agrp; ch
 struct G;
 extern G g_sw;
 extern int D_003E11EC;
-extern "C" LO *func_0015E938(G *pg, int kind, int oid, void *owner);
+extern "C" LO *PloFindSwNearest(G *pg, int kind, int oid, void *owner) asm("PloFindSwNearest__FP2LO3OIDii");
 extern "C" void InverseAffineMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 extern "C" void MulMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatA, MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 extern "C" void *func_002333B4(void *pv, int n, int cb);
 extern "C" void func_0022B7A0(LO *plo, X *px);
-extern "C" void func_00167B68(S *p)
+// name: SafeHouse port (BindAloBones)
+extern "C" void BindAloBones__FP3ALO(S *p)
 {
     if (p->f4C != -1)
         p->f4C = D_003E11EC;
@@ -34,7 +35,7 @@ extern "C" void func_00167B68(S *p)
         GRP *pgrp = &p->agrp[i];
         for (int j = 0; j < phdr->citem; j++) {
             ITEM *pitem = &pgrp->aitem[j];
-            pitem->plo = func_0015E938(&g_sw, 4, pitem->oid, p->pvOwner);
+            pitem->plo = PloFindSwNearest(&g_sw, 4, pitem->oid, p->pvOwner);
             if (pitem->plo)
                 pitem->pbone = pitem->plo->PboneFind(pitem->n8);
             if (pitem->pbone) {
@@ -57,7 +58,7 @@ extern "C" void func_00167B68(S *p)
         }
     }
     for (X *px = p->pxFirst; px; px = px->pxNext) {
-        LO *plo = func_0015E938(&g_sw, 4, px->oid, p->pvOwner);
+        LO *plo = PloFindSwNearest(&g_sw, 4, px->oid, p->pvOwner);
         if (plo)
             func_0022B7A0(plo, px);
     }

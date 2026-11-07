@@ -4,7 +4,7 @@ struct SO { char pad[0x40]; M3 mat; };
 struct X60 { char pad[0x40]; M3 mat; };
 struct P { char pad[0x60]; struct X60 *p60; char pad2[0x10F4 - 0x64]; void *p10F4; char pad3[0x1150 - 0x10F8]; M3 mat; };
 struct SO *func_001F4C58(struct P *p, int x, int n);
-M3 func_0011B340(M3 *pm);
+M3 InverseMatrix3__FP7MATRIX3(M3 *pm);
 qword DecomposeEulerMatrix__FP7MATRIX3(M3 *pm);
 void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct P *p, struct SO *pso, int a, int b, int c, qword q);
 void EnsureCtrlRemoved__FP4CTRL(void *pv);
@@ -29,7 +29,7 @@ void AttachActorLook__FP5ACTORi(struct P *p, int x)
     struct SO *pso = func_001F4C58(p, x, 6);
     M3 m, a;
     if (pso) {
-        a = func_0011B340(&p->p60->mat);
+        a = InverseMatrix3__FP7MATRIX3(&p->p60->mat);
         {
             M3 t;
             M3 *pb = &pso->mat;

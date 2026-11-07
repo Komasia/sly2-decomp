@@ -22,7 +22,7 @@ extern float D_002BD39C[];
 extern struct VECTOR4F D_002BD3B0[4];
 extern float D_002BD3F0[8];
 extern struct M4 D_002BD410;
-void func_001475C0(struct P *p);
+void CaptureOverlayFrame(struct P *p) asm("CaptureOverlayFrame__Fv");
 void func_00147410(struct P *p, int n);
 void func_001576F0(struct GIFS *pgifs);
 void func_00157500(struct GIFS *pgifs, int n, void *pv);
@@ -54,7 +54,8 @@ static inline void SetXyz(GIFS *pgifs, const int &x, const int &y, const int &z)
 static inline int IFix(const float &g, const int &off) { return ((int)g + off) << 4; }
 static inline float Screen(const float &g, const float &s) { return (g + 0.5f) * s + 0.5f; }
 
-extern "C" void func_001477D8(struct P *p)
+// name: SafeHouse port (DrawAnimatedOverlayFrame)
+extern "C" void DrawAnimatedOverlayFrame__FPv(struct P *p)
 {
     struct M4 am[2];
     float rw;
@@ -62,7 +63,7 @@ extern "C" void func_001477D8(struct P *p)
     int state, stateNext;
     switch (p->x150) {
     case 1:
-        func_001475C0(p);
+        CaptureOverlayFrame(p);
         func_00147410(p, 2);
         break;
     case 2:

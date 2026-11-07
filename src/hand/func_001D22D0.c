@@ -10,14 +10,14 @@ typedef struct {
 extern char g_sw[];
 extern float D_002A7810;
 extern float D_002C20C0[3];
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *, int, int, int, int, SO **);
 // name: SafeHouse port (BestVehiclePickup)
 SO *BestVehiclePickup__FP7VEHICLE(OBJ *p)
 {
     SO *best = 0;
     SO *aso[16];
-    qword pos = func_001A62E8(p);
+    qword pos = PosOfLo__FP2LO(p);
     int n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x105, 0x6C, 0, 0x10, aso);
     float fMin = D_002A7810;
     int i;
@@ -25,7 +25,7 @@ SO *BestVehiclePickup__FP7VEHICLE(OBJ *p)
         SO *so = aso[i];
         qword d;
         float f;
-        qword q = func_001A62E8(so);
+        qword q = PosOfLo__FP2LO(so);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(q), "j"(pos));
         __asm__("vmul.xy %0, %0, %0\n\tvaddy.x %0, %0, %0y\n\tvsqrt $Q, %0x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "+j"(d));
         __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));

@@ -5,7 +5,8 @@ struct E { int fl; struct X *px; };
 struct P { char pad[0x3F14]; int c; int pad2; int *pi; struct E *ae; };
 void UpdateSwXps__FP2SW(struct P *);
 void SolvePassSw__FP2SWi(struct P *, int);
-void func_001F8DD8(struct P *p)
+// name: SafeHouse port (UpdateSwPhys)
+void UpdateSwPhys__FP2SW(struct P *p)
 {
     int i;
     UpdateSwXps__FP2SW(p);

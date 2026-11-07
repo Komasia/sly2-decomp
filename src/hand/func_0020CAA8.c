@@ -1,7 +1,8 @@
 struct M { int a, b, n; };
 struct S { char pad[0x34]; int f34; int f38; };
 void func_00133590(struct S *p, int msg, struct M *pm);
-void func_0020CAA8(struct S *p, int msg, struct M *pm)
+// name: SafeHouse port (OnK3Event)
+void OnK3Event__FP6K3PLAYiP8ASEGMSG9(struct S *p, int msg, struct M *pm)
 {
     if (msg == 9) {
         switch (pm->n) {

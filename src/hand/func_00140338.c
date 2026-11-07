@@ -9,7 +9,8 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *p, int a, int b, int c, 
 void func_001618B0(void *p);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-void func_00140338(void)
+// name: SafeHouse port (ShowWorldStats)
+void ShowWorldStats__Fv(void)
 {
     if (func_00210AE0()) {
         ShowCoinCounter__FP2SW(g_sw);

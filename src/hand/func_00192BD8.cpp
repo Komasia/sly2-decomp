@@ -4,7 +4,7 @@
 //
 // Matching notes (wave-5 lane 5, fresh rewrite):
 // - p ends up in s2 only because two block-local call-crossing pointers take s0/s1 while p is live (old action 4:
-//   `ACTOR *actor = p->pactor` before the position call; action 34: `AUX *aux = p->aux` before func_001A62E8).
+//   `ACTOR *actor = p->pactor` before the position call; action 34: `AUX *aux = p->aux` before PosOfLo).
 // - Normalize: return-style inline plus a split vdiv / vmulq (see Unit) keeps the fallback lq/qmtc2 of the target.
 // - old step 7: VuFloat's "r,V" alternative (UpdateInteractTransitions idiom) fixes the vt/fn and actor/height registers.
 // - step -1 reset: the zeros are a chained `param = value = 0.0f` (0.0f in f0) and sched1 puts the stores that kill
@@ -70,10 +70,10 @@ extern MANAGER g_cm;
 extern qword D_002A2DA0, g_normalZ, D_002A2DD0, D_002BF650;
 extern float D_002BF63C, D_002BF640;
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void NearestCrvAll(SOURCE *, qword, void *, void *, void *, float *, float *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
-void func_00183B80(SOURCE *, int);
+void SetHideState(SOURCE *, int) asm("SetHideState__FP2LOi");
 void func_001333C0(SOURCE *, ACTOR *);
 void func_00133448(SOURCE *, ACTOR *);
 void PairActorWith(ACTOR *, SOURCE *, int) asm("PairActorWith__FP5ACTORP2LOi");
@@ -87,8 +87,8 @@ void func_002046B0(ACTOR *, qword);
 void SetCmPolicy(MANAGER *, int, CAMERA *, ACTOR *, void *) asm("SetCmPolicy__FP2CM3CPPP5CPLCYii");
 void RevokeCmPolicy(MANAGER *, int, int, CAMERA *, ACTOR *, void *) asm("RevokeCmPolicy__FP2CMi3CPPP5CPLCYii");
 void SetSlyMode(ACTOR *, int) asm("SetSlyMode__FP3SLYi");
-void func_001CCAC0(ATTACH *, int);
-void func_001CD2C0(void *);
+void SetReachState(ATTACH *, int) asm("SetReachState__FP5REACHi");
+void ReleaseReachObject(void *) asm("ReleaseReachObject__FP5REACH");
 void Stop(EFFECT *, float) asm("Stop__4CSndf");
 void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
 void ResetZoneInteract(CONTEXT *) asm("ResetZoneInteract__FP2LO");
@@ -193,13 +193,13 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
     case -1:
         if (p->focus && FIsBasicDerivedFrom(p->focus, 10)) {
             SOURCE *source = p->focus;
-            NearestCrvAll(source, func_001A62E8(p->pactor), 0, 0, 0, &p->param, &p->value);
+            NearestCrvAll(source, PosOfLo(p->pactor), 0, 0, 0, &p->param, &p->value);
         }
         switch (p->action) {
         case 1: {
             SOURCE *source = p->focus;
             source->actor = p->pactor;
-            func_00183B80(source, 2);
+            SetHideState(source, 2);
             if (p->pactor == D_002E1E40)
                 Notify(p->pactor->first, 9);
             break;
@@ -210,7 +210,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             func_001333C0(source, p->pactor);
             PairActorWith(p->pactor, source, 1);
             ACTOR *actor = p->pactor;
-            actor->position = func_001A62E8(source);
+            actor->position = PosOfLo(source);
             break;
         }
         case 3: {
@@ -250,7 +250,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         if (Less(step, 11) && !Less(step, 9)) {
             SOURCE *source = p->focus;
             if (source->other) {
-                qword pos = func_001A62E8(source->other);
+                qword pos = PosOfLo(source->other);
                 SetVector(p->pactor, 29, Sub(pos, p->pactor->posOffset));
                 p->pactor->motion = AddScaled(pos, g_normalZ, VuFloat(p->pactor->height));
                 func_002046B0(p->pactor, MatJtLo(source->other)->row[0]);
@@ -280,7 +280,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         p->fInhibit = 0;
         switch (p->action) {
         case 1:
-            func_00183B80(p->focus, 0);
+            SetHideState(p->focus, 0);
             if (p->pactor == D_002E1E40)
                 Notify(p->pactor->first, 8);
             break;
@@ -304,11 +304,11 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             break;
         case 5:
         case 9:
-            func_001CCAC0(&p->attach, -1);
+            SetReachState(&p->attach, -1);
             break;
         case 12:
             p->pactor->x1318 = -1;
-            func_001CD2C0(p->pactor->secondary);
+            ReleaseReachObject(p->pactor->secondary);
             if (p->pactor == D_002E1E40)
                 p->pactor->x1BCC = 0;
             break;
@@ -381,7 +381,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         case 9:
             p->attach.focus = p->focus;
             speed = 0.0f;
-            func_001CCAC0(&p->attach, 0);
+            SetReachState(&p->attach, 0);
             clip = p->attach.clip;
             blend = clip->duration * 0.5f;
             break;
@@ -424,7 +424,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                         ResetZoneInteract(p);
                         p->aux->enabled = 1;
                         AUX *aux = p->aux;
-                        aux->position = ConvertPos(0, p->aux, func_001A62E8(source));
+                        aux->position = ConvertPos(0, p->aux, PosOfLo(source));
                         p->aux->value = source->parameter;
                         SetActorZone(p->pactor, p->aux);
                     }

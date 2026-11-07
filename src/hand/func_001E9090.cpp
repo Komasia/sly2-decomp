@@ -1,7 +1,7 @@
 /* StepRopeTrail: one simulation step of a rope-like path chain (wave-4 lane 2, from w3lane9's rewrite).
  *
  * The first point is the start offset transformed by the first space's matrix; its velocity comes from
- * func_0022D348. Every later point is integrated (accel = force - damping * v, v += accel * dt,
+ * VelXfPoint. Every later point is integrated (accel = force - damping * v, v += accel * dt,
  * pos += (v_old + v_new) * dt/2), then pulled back to the rest distance |dist[i] - dist[i-1]| from the previous
  * point along the normalized displacement (fallback direction D_002A2DA0 when shorter than 0.0001), and the
  * part of the relative velocity along that direction is removed. With mode 2 the last point is pinned to the
@@ -44,7 +44,7 @@ struct CLOCK { float t, dt; };
 extern CLOCK g_clock;
 extern qword D_002A2DA0;    // fallback direction
 extern "C" {
-qword func_0022D348(SPACE *, SPACE *, qword);
+qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");   // invert
 void SetRopeLength(CHAIN *, float) asm("SetRopeLength__FP4ROPEf");
 void RefreshCrv(PATH *) asm("RefreshCrv__FP3CRV");
@@ -112,7 +112,7 @@ void StepRopeTrail(CHAIN *p)
     int n = p->path->count;
     p->position[0].q = prev;
     U *velocity = p->velocity;
-    VV prevVel = func_0022D348(p->first, 0, prev);
+    VV prevVel = VelXfPoint(p->first, 0, prev);
     velocity[0].q = prevVel;
     int i;
     for (i = 1; i < n; i++)

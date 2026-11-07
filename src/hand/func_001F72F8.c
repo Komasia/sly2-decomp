@@ -3,7 +3,7 @@ typedef unsigned long ulong;
 struct O { char pad[0x70]; qword pos; };
 struct E { struct O *po; int pad; float r; int pad2; ulong fl; char pad3[0x74 - 0x18]; void *p74; char pad4[0xB0 - 0x78]; };
 struct P { char pad[0xE0]; int c; struct E *ae; };
-int func_00118FB0(void *, int, qword);
+int IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(void *, int, qword);
 // name: SafeHouse port (FAloContainsPoint)
 int FAloContainsPoint__FP3ALOG9VU_VECTOR(struct P *p, qword pos)
 {
@@ -22,7 +22,7 @@ int FAloContainsPoint__FP3ALOG9VU_VECTOR(struct P *p, qword pos)
             __asm__("mtc1 %1, %0" : "=f"(d2) : "r"(t));
             { int f = d2 < r2; if (f) return 1; }
         }
-        if (pe->p74 && func_00118FB0(pe->p74, 0x7FFFFFFF, pos)) return 1;
+        if (pe->p74 && IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(pe->p74, 0x7FFFFFFF, pos)) return 1;
     }
     return 0;
 }

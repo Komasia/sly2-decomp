@@ -4,7 +4,7 @@ void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PdetentryFind(void *a, void *b) asm("PdetentryFind__FP8DETECTORi");
 void SetDetentryState(void *a, void *b, int c) asm("SetDetentryState__FP8DETECTORP8DETENTRYi");
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
 int func_0014CC58(int z, qword a, qword b, int i, int j, int k);
 void func_00154568(void);
@@ -25,8 +25,8 @@ void ForgetGuardsInteract(P *p)
     for (o = D_003E1444; o; o = o->xfe0) {
         E *e = (E *)PdetentryFind(o->xf64, p->x0);
         if (!e || !e->x4 || (o->xf64->xf8 & 1)) continue;
-        qword a = func_001A62E8(o);
-        qword b = func_001A62E8(p->x0);
+        qword a = PosOfLo(o);
+        qword b = PosOfLo(p->x0);
         qword d, t;
         float dist;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));

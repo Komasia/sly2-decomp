@@ -2,7 +2,8 @@ struct S { char pad[0x150]; int c150; int a154[4]; int c164; int a168[4]; int f1
 int func_001A6290(void *, int);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 int OverlapKindAlo__FP3ALOT0(struct S *, void *);
-int func_00132140(struct S *p, void *pv) {
+// name: SafeHouse port (OverlapKindBarrier)
+int OverlapKindBarrier__FP3ALOT0(struct S *p, void *pv) {
     int i, j;
     int f;
     i = 0;

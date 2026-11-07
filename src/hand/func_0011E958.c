@@ -5,7 +5,8 @@ static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r
 static inline float sqrtf_(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
-void func_0011E958(qword v, float *pradPan, float *pradTilt)
+// name: SafeHouse port (PanTiltFromVector)
+void PanTiltFromVector__FG9VU_VECTORPfT1(qword v, float *pradPan, float *pradTilt)
 {
     if (pradPan)
         *pradPan = RadNormalize__Ff(func_002458F0(GetY(v), GetX(v)));

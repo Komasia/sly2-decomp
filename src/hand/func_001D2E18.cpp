@@ -38,15 +38,15 @@ extern float D_002C2110, D_002C2114, D_002C2140, D_002C2144, D_002C2148;
 extern "C" {
 void ApplyAloGravity(P *) asm("ApplyAloGravity__FP3ALO");
 M3 *MatJtLo(P *) asm("MatJtLo__FP2LO");
-void func_0011B938(const M3 *, M3 *, M3 *);
+void LevelMatrix3(const M3 *, M3 *, M3 *) asm("LevelMatrix3__FP7MATRIX3T0Pv");
 void AccelAloTowardRotation(P *, const M3 *, const POLY *, qword, const POLY *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 CONTACT *BestContact(P *, ENTRY *) asm("BestContact__FP12VEHICLEWHEELi");
-qword func_0022D348(MOTION *, MOTION *, qword);
+qword VelXfPoint(MOTION *, MOTION *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 void ForceAt(P *, qword, qword) asm("ForceAt__FP3ALOG9VU_VECTORT1");
-qword func_0022FCC8(MOTION *, MOTION *, qword);
+qword VecConvertXfs(MOTION *, MOTION *, qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 float func_0011CFE0(float, float);
 void AccelRotation(P *, qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
-M3 *func_0011B500(M3 *, qword, float);
+M3 *BuildRotateMatrixAxis(M3 *, qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword LimitVectorLength(float, qword) asm("LimitVectorLength__FG9VU_VECTORf");
 void AccelAloPos(P *, qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
@@ -98,7 +98,7 @@ extern "C" void VehicleForces__FP3ALO(P *p)
     ApplyAloGravity(p);
     if (g_clock.time - p->lastCorrection > 3.0f) {
         M3 reset;
-        func_0011B938(MatJtLo(p), 0, &reset);
+        LevelMatrix3(MatJtLo(p), 0, &reset);
         AccelAloTowardRotation(p, &reset, &D_002C2100, D_002A2DD0, 0);
     }
     U scalar, velocity, localVelocity, torque, worldTorque;
@@ -115,8 +115,8 @@ extern "C" void VehicleForces__FP3ALO(P *p)
             if (hit) {
                 qword point = hit->point.q;
                 VV normal = MatJtLo(p)->rows[2].q;
-                qword previous = func_0022D348(p->space, 0, point);
-                VV other = func_0022D348(hit->motion, 0, point);
+                qword previous = VelXfPoint(p->space, 0, point);
+                VV other = VelXfPoint(hit->motion, 0, point);
                 float ratio = hit->depth / (entry->maximum - entry->minimum);
                 float fraction = Clamp(ratio, 0.0f, 1.0f);
                 float velocityCurve = Evaluate(D_002C2120, fraction);
@@ -136,7 +136,7 @@ extern "C" void VehicleForces__FP3ALO(P *p)
     qword origin = p->primary->velocity.q;
     velocity.q = ScalarBits(*(const int *)&clock->dt);
     scalar.q = AddScaled(origin, p->primary->acceleration.q, velocity.q);
-    velocity.q = func_0022FCC8(p->primary->space, p->secondary, scalar.q);
+    velocity.q = VecConvertXfs(p->primary->space, p->secondary, scalar.q);
     localVelocity.q = InverseRotate(p->secondary->local.basis, p->secondary->velocity.q);
     float acceleration = D_002C2144 * p->physics->mass * p->width / p->physics->inertia;
     torque.f[0] = torque.f[1] = 0.0f;
@@ -147,7 +147,7 @@ extern "C" void VehicleForces__FP3ALO(P *p)
     AccelRotation(p, worldTorque.q);
     float dt = clock->dt;
     float half = dt * 0.5f;
-    func_0011B500(&phase.rotation, g_normalZ, (localVelocity.f[2] + torque.f[2] * half) * dt);
+    BuildRotateMatrixAxis(&phase.rotation, g_normalZ, (localVelocity.f[2] + torque.f[2] * half) * dt);
     desired.f[0] = p->acceleration * p->drive;
     desired.f[2] = desired.f[1] = 0.0f;
     basis = phase.rotation;
@@ -166,6 +166,6 @@ extern "C" void VehicleForces__FP3ALO(P *p)
     phase.impulse.acceleration.bits[2] = 0;
     phase.impulse.acceleration.f[0] = Clamp(phase.impulse.acceleration.f[0], minimum, maximum);
     phase.impulse.limited.q = LimitVectorLength(budget, phase.impulse.acceleration.q);
-    phase.impulse.world.q = func_0022FCC8(p->secondary, 0, phase.impulse.limited.q);
+    phase.impulse.world.q = VecConvertXfs(p->secondary, 0, phase.impulse.limited.q);
     AccelAloPos(p, phase.impulse.world.q);
 }

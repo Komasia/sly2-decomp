@@ -4,7 +4,7 @@ struct E { int oid; int c; int x8; int xc; char dl[0xC]; int x1c; float g; void 
 struct R { int a; void *p; int x8; int n; unsigned long fl; char pad[0x98]; };
 struct S { char pad[0x28]; unsigned long fl; char p0[0x30]; int x60; char p1[0x7C]; int ce0; struct R *ar; char p2[0xE0]; int c; struct E ae[4]; };
 extern char g_sw[];
-void *func_0015E938(void *g, int n, int oid, struct S *p);
+void *PloFindSwNearest__FP2LO3OIDii(void *g, int n, int oid, struct S *p);
 void InitDl__FP2DLi(void *pdl, int ib);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
@@ -18,7 +18,7 @@ void PostLoadHackSwarm__FP2LO(struct S *p)
     struct R *pr;
     for (i = 0; i < p->c; i++) {
         pe = &p->ae[i];
-        pe->pv = func_0015E938(g_sw, 4, pe->oid, p);
+        pe->pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, pe->oid, p);
         if (!pe->pv) {
             i--;
             p->c--;

@@ -12,10 +12,10 @@ struct LINK{struct LO**pp;};
 struct CRef{int tag;void*value;};
 extern char g_sw[];
 struct CLOCK{float t,dt;};extern struct CLOCK g_clock;extern float D_002BE5CC,D_002BE5D0,D_002BE5D4,D_002BE5D8;
-void func_001A5E28(struct P*);
+void UpdateLo__FP2LO(struct P*);
 qword PosCenter__Fv(struct P*);
 void CheckSlots__FP7SPAWNERG9VU_VECTOR(struct P*,qword);
-struct LO*func_001C4840(void*);
+struct LO*PloPlayerPo__FP2SW(void*);
 struct EVENT*func_001F8240(struct LO*);
 struct ENTRY*PslotChoose__FP7SPAWNERi(struct P*,struct LO*);
 struct SELECTOR*PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(struct P*,qword,qword*,struct M3*,int*);
@@ -37,13 +37,13 @@ void UpdateSpawner__FP2LO(struct P*p){
  struct ENTRY*entry;
  struct SELECTOR*selector;
  struct LO*context;
- func_001A5E28(p);
+ UpdateLo__FP2LO(p);
  pos=PosCenter__Fv(p);
  CheckSlots__FP7SPAWNERG9VU_VECTOR(p,pos);
  if(g_clock.t<p->next)return;
  p->next=g_clock.t+D_002BE5D0;
  if(p->count==p->capacity){int close=DistanceXY(pos,p->last)<D_002BE5D4;if(close)return;}
- event=0;context=func_001C4840(g_sw);
+ event=0;context=PloPlayerPo__FP2SW(g_sw);
  {
  if(context){
   event=func_001F8240(context);

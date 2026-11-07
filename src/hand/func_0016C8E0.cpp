@@ -16,7 +16,8 @@ static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
     preq->nKind = nKind;
     return PvAllocStackClearImpl(preq);
 }
-extern "C" T *func_0016C8E0(void *pv, CBinaryInputStream *pbis)
+// name: SafeHouse port (LoadIdxTabFromBrx)
+extern "C" T *LoadIdxTabFromBrx__FP18CBinaryInputStreamT0(void *pv, CBinaryInputStream *pbis)
 {
     T *pt = 0;
     int c = pbis->U16Read();

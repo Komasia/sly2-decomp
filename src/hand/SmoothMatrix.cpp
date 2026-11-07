@@ -8,7 +8,7 @@ extern "C" {
 M3 MulMat3TransposeA(M3 *pa, M3 *pb) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3 *pmat, float *prad, qword *pvec);
 float GSmooth(float g, float gGoal, float dt, struct SMP *psmp, float *pdv) asm("GSmooth__FfffP3SMPPf");
-M3 func_0011B500(float rad, qword axis);
+M3 BuildRotateMatrixAxis(float rad, qword axis) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 }
 static inline M3 MulM3(const M3 &a, M3 *pb) return m
 {
@@ -38,7 +38,7 @@ void SmoothMatrix(M3 *pmatPrev, M3 *pmatGoal, struct SMP *psmp, float dt, M3 *pm
         if (radNew == rad) {
             *pmatNext = *pmatGoal;
         } else {
-            *pmatNext = MulM3(func_0011B500(radNew, normal.q), pmatPrev);
+            *pmatNext = MulM3(BuildRotateMatrixAxis(radNew, normal.q), pmatPrev);
         }
     }
     if (pw) {

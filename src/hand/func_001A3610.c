@@ -4,5 +4,5 @@
 void func_001A3610(LIGHT *plight, float g)
 {
     plight->gUnk150 = g;
-    func_001A3968(plight);
+    ComputeLight__FP11LIGHTPARAMS(plight);
 }

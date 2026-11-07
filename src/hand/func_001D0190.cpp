@@ -26,7 +26,7 @@ extern "C" {
 void func_001CE980(RIP *);
 int FInsideCmPlanes(CAMERA *,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-M3 func_0011B500(qword,float);
+M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 M4 func_0011C288(qword,const M3 &,float);
 void AppendAloExtraDraws(void *,const M4 &,float,float) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 }
@@ -63,7 +63,7 @@ extern "C" void func_001D0190(RIP *p)
     if(v<opacity){}else if(hi<v)opacity=hi;else opacity=v;
     opacity*=Clamp(Evaluate(D_002C1FD0,distance),D_002C1FE0[0],D_002C1FE0[1]);
     basis=BuildLookAtMatrix(direction,g_normalZ);
-    rotation=func_0011B500(D_002A2DA0,Evaluate(D_002C1FF0,time));
+    rotation=BuildRotateMatrixAxis(D_002A2DA0,Evaluate(D_002C1FF0,time));
     product=Multiply(basis,rotation);
     transform=func_0011C288(p->position,product,size);
     AppendAloExtraDraws(p->material,transform,opacity,1.0f);

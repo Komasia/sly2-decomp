@@ -11,9 +11,9 @@ struct WORK{FRAME frame;SCR scratch;HIT hits[16];int count;ENTRY*end;U position,
 extern "C" FRAME*__10STACKSCOPE(FRAME*);
 extern "C" void _$_10STACKSCOPE(FRAME*,int);
 extern "C" void*PvAllocStackImpl(REQ*) asm("PvAllocStackImpl__Fi");
-extern "C" int func_00118A88(ENTRY*,int,qword,float,int*,ENTRY**);
-extern "C" int func_00118668(ENTRY*,int,qword,qword,int,HIT*);
-extern "C" void func_00119390(qword*,qword,qword);
+extern "C" int ClipBspPlane(ENTRY*,int,qword,float,int*,ENTRY**) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
+extern "C" int ClipSegmentBsp(ENTRY*,int,qword,qword,int,HIT*) asm("ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG");
+extern "C" void PlaneFromNormalPos(qword*,qword,qword) asm("PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1");
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline qword Normal(qword v){register qword d __asm__("vf2"),one __asm__("vf3"),r __asm__("vf3");__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(d),"j"(v));return r;}
@@ -28,7 +28,7 @@ extern "C" void SphereInsideContacts__FP3SOEiPvG9VU_VECTORP3OUTf(ENTRY*tree,int 
  int limit=0x1555;
  if(radius<52000.0f)do {
   work.end=first;work.count=limit;
-  int status=func_00118A88(tree,mask,work.position.q,radius,&work.count,&work.end);
+  int status=ClipBspPlane(tree,mask,work.position.q,radius,&work.count,&work.end);
   if(status<0)goto more;
   if(status<2)goto more;
   if(status!=2)goto more;
@@ -45,14 +45,14 @@ extern "C" void SphereInsideContacts__FP3SOEiPvG9VU_VECTORP3OUTf(ENTRY*tree,int 
    __asm__("qmtc2.ni %1,%0":"=j"(factor):"r"(radius+1.0f));
    __asm__("lq %0,%5\n\tsqc2 %8,%4\n\tlw %1,%6\n\tqmtc2.ni %0,%2\n\tlqc2 %3,%7\n\taddiu %1,%1,-12\n\tvadda.xyzw ACC,%2,$vf0\n\tvmaddx.xyzw %3,%3,%8x":"=&r"(argument),"=&r"(last),"=j"(positionVector),"=&j"(to),"=m"(work.scratch.u.q):"m"(work.position.q),"m"(work.end),"m"(poly->plane),"j"(factor));
    work.endpoint.q=to;
-   int found=func_00118668(last,0x7FFFFFFF,to,argument,16,work.hits);
+   int found=ClipSegmentBsp(last,0x7FFFFFFF,to,argument,16,work.hits);
    register qword snapshot __asm__("vf1")=work.endpoint.q;
    if(found>0){
     if(work.hits[0].time>best){
      best=work.hits[0].time;
      qword normal=Normal(Sub(snapshot,work.position.q));
      out->p=work.hits[0].p;
-     func_00119390(&out->plane,normal,work.hits[0].p);
+     PlaneFromNormalPos(&out->plane,normal,work.hits[0].p);
      out->kind=12;
     }
    }

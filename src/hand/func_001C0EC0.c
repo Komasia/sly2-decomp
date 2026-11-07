@@ -3,7 +3,8 @@ struct G { char pad[0x45CC]; void *p45cc; };
 int func_00117C80(void *pbis);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void func_001C0F30(void *p, int n, void *pbis);
-void func_001C0EC0(struct G *p, void *pbis)
+// name: SafeHouse port (LoadCmeshFromBrx)
+void LoadCmeshFromBrx__FP2SWP18CBinaryInputStream(struct G *p, void *pbis)
 {
     int n = func_00117C80(pbis);
     if (n) {

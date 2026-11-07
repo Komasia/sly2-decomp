@@ -1,7 +1,8 @@
 struct VTE { short d; short p; void (*pfn)(void *, int); };
 struct VT { struct VTE a[48]; };
 struct L { char pad[0xC]; struct VT *pvt; char pad1[0x24 - 0x10]; struct L *next; char pad1b[0x40 - 0x28]; int v40; char pad2[0x64 - 0x44]; struct L *first; char pad3[0x70 - 0x68]; struct L *end; };
-void func_001F2FE0(struct L *p, int f)
+// name: SafeHouse port (MarkAloXfs)
+void MarkAloXfs__FP3ALOUi(struct L *p, int f)
 {
     struct L *q;
     int unused[4];

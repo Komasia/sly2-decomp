@@ -3,7 +3,7 @@ typedef union { qword q; float f[4]; } U;
 struct P { char pad[0x10E4]; int x10E4; void *p10E8; int x10EC; };
 extern float D_002BCC7C, D_002BCC80, D_002BCC84, D_002BCC88, D_002BCC8C, D_002BCC90;
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 // name: SafeHouse port (FActorTargetInReach)
 int FActorTargetInReach__FP5ACTORi(struct P *p, int fX)
 {
@@ -22,8 +22,8 @@ int FActorTargetInReach__FP5ACTORi(struct P *p, int fX)
         gMin -= D_002BCC90;
         gMax += D_002BCC90;
     }
-    a = func_001A62E8(p->p10E8);
-    b = func_001A62E8(p);
+    a = PosOfLo__FP2LO(p->p10E8);
+    b = PosOfLo__FP2LO(p);
     f = 0;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(a), "j"(b));
     __asm__("vmul.xy %0, %1, %1\n\tvaddy.x %0, %0, %0y" : "=j"(t) : "j"(d.q));

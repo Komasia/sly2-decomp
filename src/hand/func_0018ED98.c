@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct T { char pad[0x70]; qword pos; };
 struct O { char pad[0x19A4]; void *p19A4; char pad2[0x19C0 - 0x19A8]; struct T *p19C0; };
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 extern qword ConvertPos__FP2LOT0G9VU_VECTOR(int n, struct O *p, qword v);
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0, %1" : "=r"(y) : "r"(q)); return y; }
 // name: SafeHouse port (FSlyAnchorsAhead)
@@ -11,7 +11,7 @@ int FSlyAnchorsAhead__FP3SLY(struct O *p)
     qword a, b, s, d;
     float t;
     int f;
-    a = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, func_001A62E8(p->p19A4));
+    a = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, PosOfLo__FP2LO(p->p19A4));
     b = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, p->p19C0->pos);
     t = 0.5f;
     __asm__("qmtc2.ni %1, %0" : "=j"(s) : "r"(t));

@@ -9,7 +9,8 @@ struct P { int x0; struct L *pl; struct S8 *ps; struct V **apv; float g10; };
 
 extern int func_00138370(int, int, float, float, float *);
 
-void func_00138BA0(struct P *p, float t, float r, float *pa, float *pb)
+// name: SafeHouse port (TRKGBL::Eval)
+void Eval__6TRKGBLPfT1ff(struct P *p, float t, float r, float *pa, float *pb)
 {
     float g0;
     float g4;

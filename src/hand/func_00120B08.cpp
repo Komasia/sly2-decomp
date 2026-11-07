@@ -15,7 +15,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -39,7 +39,7 @@ extern "C" CRef RefOpCons(void *pbasic, CRef *aref) asm("RefOpCons__FiP4CRefP6CF
 CRef RefOpCons(void *pbasic, CRef *aref)
 {
     SPN sp;
-    sp.Set(func_00256B48());
+    sp.Set(PpairNew());
     sp->ref = aref[0];
     CRef *pref = &aref[1];
     if (pref->m_tagk == 0x1F)

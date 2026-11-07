@@ -17,18 +17,18 @@ void UpdateStep__FP4STEPf(struct P *p);
 void func_00141A50(struct P *p);
 int GrfPadctlTakePressed__FP6PADCTL(struct Q *q, float g, int n);
 int GrfPadctlPressedWithin__FP6PADCTLUif(struct Q *q, float g, int n);
-void func_00140338(struct P *p);
+void ShowWorldStats__Fv(struct P *p);
 void UpdateActorWatch__FP5ACTOR(int *pl);
 int func_001449C8(int *pl);
 void DriveScptActor__FPvP6PADCTL(void *p, struct Q *q);
-void func_00140558(struct P *p);
+void PickActorTargets__FP5ACTOR(struct P *p);
 void UpdateActorWater__FP5ACTOR(struct P *p);
 void UpdateActorNoise__FP5ACTOR(struct P *p);
 void UpdateActorLook__FP5ACTOR(struct P *p);
 int func_00131968(int x);
 void func_001306A8(int *px);
 int func_0014FD50(void *p);
-void func_00187DE0(struct G *pg, int n);
+void SetJoyPs2BtnHandled__FP6JOYPS2Ui(struct G *pg, int n);
 void OpenGadgetMenu__FP2SW(void *p);
 void UpdateJobs__FP5ACTOR(int *p);
 void func_001403D0(struct P *p)
@@ -37,7 +37,7 @@ void func_001403D0(struct P *p)
     UpdateStep__FP4STEPf(p);
     func_00141A50(p);
     if (GrfPadctlTakePressed__FP6PADCTL(p->x150, 0.0f, 0x200))
-        func_00140338(p);
+        ShowWorldStats__Fv(p);
     pl = &p->xFD0;
     if (p->xDF4 == -1) {
         UpdateActorWatch__FP5ACTOR(pl);
@@ -51,7 +51,7 @@ void func_001403D0(struct P *p)
             }
         }
     }
-    func_00140558(p);
+    PickActorTargets__FP5ACTOR(p);
     UpdateActorWater__FP5ACTOR(p);
     UpdateActorNoise__FP5ACTOR(p);
     UpdateActorLook__FP5ACTOR(p);
@@ -60,7 +60,7 @@ void func_001403D0(struct P *p)
     if (!func_0014FD50(D_002DE2E0) && p->x150->x80 == 1 && GrfPadctlPressedWithin__FP6PADCTLUif(p->x150, 0.0f, 0x100)) {
         struct G *pg = &g_joy;
         if ((pg->x10B4 & 0x108) == 0x100) {
-            func_00187DE0(pg, 0x100);
+            SetJoyPs2BtnHandled__FP6JOYPS2Ui(pg, 0x100);
             OpenGadgetMenu__FP2SW(D_003DA0F0);
         }
     }

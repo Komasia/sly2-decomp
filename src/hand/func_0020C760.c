@@ -5,7 +5,8 @@ struct S { char pad[0x34]; struct O *o; char p2[0x28]; int f60; int p64; char x6
 void DeleteCtrl__FPP4CTRL(void *pv);
 void SetXfMode__FP3ALOP2XFi(struct O *o, int n, int m);
 void RecalcSwOxfFilterForObject__FP2SWP2SO(struct G *pg, struct O *o);
-void func_0020C760(struct S *p)
+// name: SafeHouse port (ReleaseK2Ballistic)
+void ReleaseK2Ballistic__FP6K2PLAY(struct S *p)
 {
     if (p->f60) {
         p->f60 = 0;

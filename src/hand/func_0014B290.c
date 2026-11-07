@@ -7,7 +7,7 @@ extern float D_002A4EE8;
 extern float D_002BD4B0[3];
 int func_00209A68(struct P *p, int k);
 struct O *PloGuardTarget__FP5GUARD(struct P *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int k);
 static __inline__ float GDist(qword a, qword b)
 {
@@ -42,7 +42,7 @@ struct O *PloGuardTarget3F__FP5GUARD(struct P *p)
     } else {
     gBest = D_002A4EE8;
     kBest = 999;
-    pos = func_001A62E8(p);
+    pos = PosOfLo__FP2LO(p);
     for (i = 0; i < p->pl->c; i++) {
         struct E *pe = &p->pl->ae[i];
         int k;
@@ -55,7 +55,7 @@ struct O *PloGuardTarget3F__FP5GUARD(struct P *p)
             k = 1;
         else
             k = 2;
-        g = GDist(pos, func_001A62E8(pe->po));
+        g = GDist(pos, PosOfLo__FP2LO(pe->po));
         if (pe->po == p->x38C)
             g = D_002BD4B0[0] + g * (D_002BD4B0[1] + g * D_002BD4B0[2]);
         if (k < kBest || (k == kBest && g < gBest)) {

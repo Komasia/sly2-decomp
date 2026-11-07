@@ -8,7 +8,7 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern char D_003DD040[];
 extern char g_game[];
-void func_001A5E28(struct S *);
+void UpdateLo__FP2LO(struct S *);
 float TMusicTop__FPv(void *);
 void PlayDancerMove__FP2LOiii(int, int, int, int);
 void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct S *);
@@ -21,7 +21,7 @@ void UpdateDance__FP2LO(struct S *p)
     float t;
     int i, j;
     struct E *pe;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     t = TMusicTop__FPv(D_003DD040);
     switch (p->n50) {
     case 1:

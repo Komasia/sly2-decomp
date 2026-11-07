@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct PLANE { float x, y, z, d; } __attribute__((aligned(16))) PLANE;
 
-void func_00119390(PLANE *pplane, qword vecNormal, qword vecPos)
+// name: SafeHouse port (PlaneFromNormalPos)
+void PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(PLANE *pplane, qword vecNormal, qword vecPos)
 {
     __asm__ __volatile__(
         "qmtc2.ni %1, $vf1\n"

@@ -17,7 +17,7 @@ struct ALO;
 struct X { char pad[0x10]; ALO *p10; ALO *p14; };
 extern "C" {
 void func_0014FD40(X *p);
-qword func_001A62E8(ALO *p);
+qword PosOfLo(ALO *p) asm("PosOfLo__FP2LO");
 M3 *func_0011B7E0(M3 *pm, qword v);
 qword *func_00256D18(qword *p, qword v);
 void SetCmPosMat(CM *p, M4 *m) asm("SetCmPosMat__FP2CMP6VECTOR");
@@ -73,11 +73,11 @@ void Update(X *p)
 {
     U d;
     func_0014FD40(p);
-    d.q = Sub(func_001A62E8(p->p10), func_001A62E8(p->p14));
+    d.q = Sub(PosOfLo(p->p10), PosOfLo(p->p14));
     d.f[2] = 0.0f;
     float dist = Length(d.q);
     U focus;
-    focus.q = VecCombo(VU_FLOAT(D_002BDACC, 0), VU_VECTOR(func_001A62E8(p->p10)), VU_FLOAT(1.0f - D_002BDACC), VU_VECTOR(func_001A62E8(p->p14)));
+    focus.q = VecCombo(VU_FLOAT(D_002BDACC, 0), VU_VECTOR(PosOfLo(p->p10)), VU_FLOAT(1.0f - D_002BDACC), VU_VECTOR(PosOfLo(p->p14)));
     focus.f[2] = 150.0f;
     U pos;
     pos.q = focus.q;

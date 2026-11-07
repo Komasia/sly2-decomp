@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-void func_00210268(void *arg0, void *arg1) {
+// name: SafeHouse port (RemoveLoFromUpdateTable)
+void RemoveLoFromUpdateTable__FP2SWP2LO(void *arg0, void *arg1) {
     s32 temp_v1;
 
     temp_v1 = M2C_FIELD(arg1, s32 *, 0x40);

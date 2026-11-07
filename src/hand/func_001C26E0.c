@@ -1,6 +1,7 @@
 struct LO { char pad[0x28]; unsigned long x28; char p1[0x120 - 0x30]; int x120; int x124; int x128; };
 struct G { char pad[0xE94]; int c; int a[84]; int xFE8; };
-int func_001C26E0(void *p, struct LO *plo, struct G *g)
+// name: SafeHouse port (FNavLinkAllowed)
+int FNavLinkAllowed__FP7NAVLINKP5GUARDPv(void *p, struct LO *plo, struct G *g)
 {
     int m, i, f1, f2, c;
     if (!((plo->x28 >> 60) & 1)) return 0;

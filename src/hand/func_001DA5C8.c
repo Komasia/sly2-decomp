@@ -13,7 +13,8 @@ typedef struct {
 } OBJ;
 void StartPart__FP8SCREENRTi(LO *, int);
 void func_00212880(LO *, int, int *);
-void func_001DA5C8(OBJ *p, int n)
+// name: SafeHouse port (SetPromptState)
+void SetPromptState__FP6PROMPTi(OBJ *p, int n)
 {
     LO *plo;
     if (n == p->state)

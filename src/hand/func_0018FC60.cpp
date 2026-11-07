@@ -1,9 +1,9 @@
-// func_0018FC60 MATCH (Claude agent lane H15), from laneH15v4 + a "memory" clobber on the dt empty asm with base assigned after it (orders the point/spin loads after the dt spill store). laneH15v4: laneH14v1 + "0V" on the dt empty asm (input stays a MEM, reload lw goes straight into the output reg), allocation-only 2nd "j" on the radius scale, QwDivideBy(g first) for the final divide, and the 2nd clamp written out in the body (g=g0; g+=...; lo/hi locals; if/else-if in place): aligned 1.
-// func_0018FC60 laneH14v1 (Claude agent lane H14): laneH11v1 with `state.rotation=BuildRotateMatrixVector(...)` assigned directly (no M3 rotation local) and QwRotateVec(&state.rotation,...): the 11B570 return temp at 0x190 is then freed and reused by the later VU_FLOAT temps like the target (0x1C0 before). Still aligned 30 (those stores still differ in vf number: rotation rows vf9/8/7 vs target vf10/9/8).
-// func_0018FC60 laneH11v1 (Claude agent lane H11): laneH10v3 + `speed*0.5f*speed`, p->other block dt as a GPR qword via an empty asm, QwAddScaled2Q(qword k) with allocation-only extra "j"(k), base declared before dt (47 -> 30).
-// func_0018FC60 laneH10v3 (Claude agent lane H10): laneH10v2 + GMinOf/GMaxOf written (b<a)?b:a / (b>a)?b:a (min.s/max.s operand order): aligned 47.
-// func_0018FC60 laneH9v1 (Claude agent lane H9): laneH8v1 + const-ref QwDivide, QwSub, QwProjectOut and QwCombo(a) (134 -> 75).
-/* laneH8v1 (Claude agent): fresh Lilly-style rewrite of func_0018FC60, aligned 134 (old .cpp 162), frame 0x2A0 exact, no pins, VU helper asms only. */
+// CalculateSlyHangAccel__FP3SLY MATCH (Claude agent lane H15), from laneH15v4 + a "memory" clobber on the dt empty asm with base assigned after it (orders the point/spin loads after the dt spill store). laneH15v4: laneH14v1 + "0V" on the dt empty asm (input stays a MEM, reload lw goes straight into the output reg), allocation-only 2nd "j" on the radius scale, QwDivideBy(g first) for the final divide, and the 2nd clamp written out in the body (g=g0; g+=...; lo/hi locals; if/else-if in place): aligned 1.
+// CalculateSlyHangAccel__FP3SLY laneH14v1 (Claude agent lane H14): laneH11v1 with `state.rotation=BuildRotateMatrixVector(...)` assigned directly (no M3 rotation local) and QwRotateVec(&state.rotation,...): the 11B570 return temp at 0x190 is then freed and reused by the later VU_FLOAT temps like the target (0x1C0 before). Still aligned 30 (those stores still differ in vf number: rotation rows vf9/8/7 vs target vf10/9/8).
+// CalculateSlyHangAccel__FP3SLY laneH11v1 (Claude agent lane H11): laneH10v3 + `speed*0.5f*speed`, p->other block dt as a GPR qword via an empty asm, QwAddScaled2Q(qword k) with allocation-only extra "j"(k), base declared before dt (47 -> 30).
+// CalculateSlyHangAccel__FP3SLY laneH10v3 (Claude agent lane H10): laneH10v2 + GMinOf/GMaxOf written (b<a)?b:a / (b>a)?b:a (min.s/max.s operand order): aligned 47.
+// CalculateSlyHangAccel__FP3SLY laneH9v1 (Claude agent lane H9): laneH8v1 + const-ref QwDivide, QwSub, QwProjectOut and QwCombo(a) (134 -> 75).
+/* laneH8v1 (Claude agent): fresh Lilly-style rewrite of CalculateSlyHangAccel__FP3SLY, aligned 134 (old .cpp 162), frame 0x2A0 exact, no pins, VU helper asms only. */
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{U r[3];M3(){}M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return*this;}};
@@ -21,9 +21,9 @@ struct CLOCK{float t,dt;};
 struct STATE{U direction,position,velocity;M3 rotation;};
 struct VU_FLOAT{qword qw;};
 extern "C"{
-qword func_001A62E8(void*);
+qword PosOfLo(void*) asm("PosOfLo__FP2LO");
 M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
-qword func_0022D348(void*,void*,qword);
+qword VelXfPoint(void*,void*,qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 float func_0011D1C0(float,float,float,float,SMPA*,float*);
 M3 BuildRotateMatrixVector(qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
@@ -64,12 +64,13 @@ static inline void*Space(NODE*p){VTE*e=&p->vt[32];return((void*(*)(void*,void*))
 static inline qword QwNormalize(qword v,qword fallback){qword len=QwSqrt(QwDot(v,v));qword r;if(GXOfQw(len)<0.0001f)r=fallback;else r=QwDivide(v,len);return r;}
 static inline CLOCK*Addr(CLOCK*p){return p;}
 static inline qword QwAddScaled2Q(qword base,qword a,qword b,qword k){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(base),"j"(a),"j"(b),"j"(k),"j"(k));return r;} /* second "j"(k) is allocation-only: makes k VF-preferred so it is spilled across the call (target 0x1F0) */
-extern "C" void func_0018FC60(P*p){
+// name: SafeHouse port (CalculateSlyHangAccel)
+extern "C" void CalculateSlyHangAccel__FP3SLY(P*p){
  U anchor,displacement,anchorVelocity,axis;
- anchor.q=func_001A62E8(p->target);
+ anchor.q=PosOfLo(p->target);
  M3 anchorBasis=*(M3*)MatJtLo(p->target);
- anchorVelocity.q=func_0022D348(Space(p->target),0,anchor.q);
- axis.q=QwSub(func_001A62E8(p),anchor.q);
+ anchorVelocity.q=VelXfPoint(Space(p->target),0,anchor.q);
+ axis.q=QwSub(PosOfLo(p),anchor.q);
  displacement=axis;
  qword length=NormalizeAt(&axis,&g_normalZ);
  float distance=GXOfVf(length);
@@ -114,7 +115,7 @@ extern "C" void func_0018FC60(P*p){
   base=anchorVelocity.q; /* empty asm: the dt bits as a GPR qword (target lw; sq, no qmtc2). The "V" alternative is allocation-only (never chosen: the operand is offsettable), it keeps the MEM in the asm so reload loads it straight into the output reg */
   qword point=anchor.q,spin=D_002A2DD0.q;
   state.direction=D_002A2DD0;state.position=D_002A2DD0;state.velocity.q=dt;
-  qword arm=QwSub(point,func_001A62E8(object));
+  qword arm=QwSub(point,PosOfLo(object));
   velocity.q=QwAddScaled2Q(base,spin,QwCross(spin,arm),dt);
  }else velocity=anchorVelocity;
  state.rotation=BuildRotateMatrixVector(QwScaleX(QwAdd(angularFirst.q,angular.q),VuFloat(Addr(&g_clock)->dt*0.5f)));

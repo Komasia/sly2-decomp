@@ -4,7 +4,7 @@ typedef union { qword q; VEC v; } UV;
 struct S { char pad[0x110]; qword q110; char p1[0x3C]; void *p15c; };
 extern int D_002DFB84;
 extern float D_002BE908;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct S *p, int n, qword q);
 static __inline__ float GetZ(qword q)
 {
@@ -17,11 +17,11 @@ void PosHookTarget__FP2LOiPv(struct S *p, int unused, UV *pv)
 {
     if (pv) {
         if (D_002DFB84) {
-            pv->q = func_001A62E8(p->p15c);
+            pv->q = PosOfLo__FP2LO(p->p15c);
             pv->v.z = pv->v.z + D_002BE908;
         } else {
             pv->q = ConvertPos__FP2LOT0G9VU_VECTOR(p, 0, p->q110);
-            pv->v.z = GetZ(func_001A62E8(p->p15c)) + D_002BE908;
+            pv->v.z = GetZ(PosOfLo__FP2LO(p->p15c)) + D_002BE908;
         }
     }
 }

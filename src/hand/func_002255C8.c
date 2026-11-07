@@ -6,7 +6,7 @@ struct S { char pad[0x1B0]; void *x; };
 extern qword D_002A2DD0;
 extern char D_002C43D0[], D_002C43E0[];
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct O *o, qword v);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct O *o, qword v, void *a, qword b, void *c);
 // name: SafeHouse port (ApplyExtractorHook)
 void ApplyExtractorHook__FP3ALOT0(struct S *p, struct Q *q)
@@ -21,6 +21,6 @@ void ApplyExtractorHook__FP3ALOT0(struct S *p, struct Q *q)
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(o->t->v), "j"(s));
     u.q = s;
     AccelAloPos__FP3ALOG9VU_VECTOR(o, r);
-    if (p->x) v = func_001A62E8(p->x); else v = func_001A62E8(p);
+    if (p->x) v = PosOfLo__FP2LO(p->x); else v = PosOfLo__FP2LO(p);
     AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(o, v, D_002C43D0, D_002A2DD0, D_002C43E0);
 }

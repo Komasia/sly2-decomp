@@ -10,7 +10,7 @@ struct Q2 { char pad[0x38]; float g38; };
 struct P { char pad[0x10]; struct O *po; char pad2[0x30 - 0x14]; int x30; float g34; };
 void Update__5AIJOB(struct P *p);
 int func_001EF0A8(struct P *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int FPointInShape__FP2LOG9VU_VECTOR(void *p, qword v);
 void SetProxState__7JOBPROXi(struct P *p, int n);
 int func_00209A68(struct O *po, int n);
@@ -38,13 +38,13 @@ void Update__7JOBPROX(struct P *p)
         switch (s) {
         case 0: {
             struct S *ps = p->po->pF64;
-            if (!FPointInShape__FP2LOG9VU_VECTOR(ps->xEC, func_001A62E8(D_002E1E40)))
+            if (!FPointInShape__FP2LOG9VU_VECTOR(ps->xEC, PosOfLo__FP2LO(D_002E1E40)))
                 SetProxState__7JOBPROXi(p, 1);
             break;
         }
         case 1: {
             struct S *ps = p->po->pF64;
-            if (FPointInShape__FP2LOG9VU_VECTOR(ps->xE8, func_001A62E8(D_002E1E40)))
+            if (FPointInShape__FP2LOG9VU_VECTOR(ps->xE8, PosOfLo__FP2LO(D_002E1E40)))
                 SetProxState__7JOBPROXi(p, 0);
             else if (p->po->poly.dt < g_clock.t - p->g34)
                 SetProxState__7JOBPROXi(p, 2);
@@ -57,7 +57,7 @@ void Update__7JOBPROX(struct P *p)
             break;
     }
     if (p->x30 == 0 && func_00209A68(p->po, 9)) {
-        float d = Dist(func_001A62E8(p->po), func_001A62E8(D_002E1E40));
+        float d = Dist(PosOfLo__FP2LO(p->po), PosOfLo__FP2LO(D_002E1E40));
         struct O *po = p->po;
         float r = GClamp(GEval(&po->poly, d), po->poly.gMin, po->poly.gMax);
         struct Q1 *q1 = func_00205458(p->po, 0xA7);

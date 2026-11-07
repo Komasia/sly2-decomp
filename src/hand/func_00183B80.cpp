@@ -22,16 +22,17 @@ void SetAloCnstrAng(struct O *p, int n) asm("SetAloCnstrAng__FP3ALOi");
 void SetAloSensors(struct O *p, int n) asm("SetAloSensors__FP3ALOi");
 void func_00147F40(void *p);
 void *MatJtLo(struct O *p) asm("MatJtLo__FP2LO");
-void func_0011B938(void *pv, int n, MATRIX3 *pm);
-MATRIX3 func_0022FD38(void *pv, void *pvA0, MATRIX3 *pm);
+void LevelMatrix3(void *pv, int n, MATRIX3 *pm) asm("LevelMatrix3__FP7MATRIX3T0Pv");
+MATRIX3 MatConvertXfs(void *pv, void *pvA0, MATRIX3 *pm) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 qword DecomposeEulerMatrix(MATRIX3 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
-qword func_0022FC48(void *pv, void *pvA0, qword v);
-void func_00183B80(struct O *p, int n);
+qword PosConvertXfs(void *pv, void *pvA0, qword v) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
+void SetHideState(struct O *p, int n) asm("SetHideState__FP2LOi");
 }
 static inline float GetZ(qword q) { float z; __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); return z; }
 static inline qword VAdd(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 
-void func_00183B80(struct O *p, int n)
+// name: SafeHouse port (SetHideState)
+void SetHideState(struct O *p, int n)
 {
 
     if (p->n17C == n)
@@ -63,8 +64,8 @@ void func_00183B80(struct O *p, int n)
             if (!ps)
                 ps = (struct S2 *)p->p190->p60;
             { struct VTE *e = &p->pvt[10]; ((void (*)(void *, struct T *, void *, int))e->pfn)((char *)p + e->d, p->p190, ps, 3); }
-            func_0011B938(MatJtLo(p), 0, &m);
-            m = func_0022FD38(0, p->p5C->pA0, &m);
+            LevelMatrix3(MatJtLo(p), 0, &m);
+            m = MatConvertXfs(0, p->p5C->pA0, &m);
 
             q = DecomposeEulerMatrix(&m);
             SetXfMode(p, p->p5C, 7);
@@ -78,7 +79,7 @@ void func_00183B80(struct O *p, int n)
             p->p5C->n9A = n;
 
             {
-            qword q2 = func_0022FC48(0, p->p58->pA0, VAdd(ps->v70, D_002BE8F0));
+            qword q2 = PosConvertXfs(0, p->p58->pA0, VAdd(ps->v70, D_002BE8F0));
             SetXfMode(p, p->p58, 7);
             p->p58->vC0 = q2;
             }

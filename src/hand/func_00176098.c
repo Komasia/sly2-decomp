@@ -19,7 +19,7 @@ int FLost__9JOBPURSUE(C*);
 int FTryAction__9JOBPURSUE(C*);
 int FCanShoot__9JOBPURSUE(C*);
 void SetPursueState__9JOBPURSUEi(C*,int);
-qword func_001A62E8(P*);
+qword PosOfLo__FP2LO(P*);
 void*PregionAt__FG9VU_VECTORi(qword,int);
 void func_002562A8(X*);
 void SetGoal__7JOBGOTOP4GOAL(void*,X*);
@@ -95,8 +95,8 @@ void Update__9JOBPURSUE(C*p){
    if(FLost__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,4);break;}
    if(FTryAction__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,1);break;}
    if(FCanShoot__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,2);break;}
-   StorePoint(&work.point,func_001A62E8(p->target));
-   current=func_001A62E8(p->actor);
+   StorePoint(&work.point,PosOfLo__FP2LO(p->target));
+   current=PosOfLo__FP2LO(p->actor);
    distance=DistanceXY(p,&work.point,current,&actor,&mode);
    if(mode==8 ||mode==13){SCALE*scale=actor->scale;if(scale)distance/=scale->value;}
    region=PregionAt__FG9VU_VECTORi(work.point.q,1);

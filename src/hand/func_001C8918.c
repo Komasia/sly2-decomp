@@ -11,9 +11,9 @@ extern qword D_002C1090;
 void func_001306A8(void *p);
 void SetActorInteractObject__FP5ACTORi(void *p, void *q);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(void *p, void *frame, qword q);
-qword func_0022FCC8(void *frame, void *p, qword q);
-qword func_001A62E8(void *p);
-qword func_0022FC48(void *frame, void *p, qword q);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(void *frame, void *p, qword q);
+qword PosOfLo__FP2LO(void *p);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(void *frame, void *p, qword q);
 void SetXfMode__FP3ALOP2XFi(struct S *p, struct X *px, int n);
 void func_001305B8(void *clip, struct S *owner, float position, float speed, int flags, void *output);
 static inline void Selection(const struct S*p,int*index,struct X**timer){
@@ -21,7 +21,8 @@ static inline void Selection(const struct S*p,int*index,struct X**timer){
  __asm__("lw %0,0x194(%2)\n\tlw %1,0x204(%2)":"=&r"(selected),"=r"(receiver):"r"(p),"m"(p->x194),"m"(p->x204));
  *index=selected;*timer=receiver;
 }
-void func_001C8918(struct S *p, int n)
+// name: SafeHouse port (SetVaultSub)
+void SetVaultSub__FP2LOi(struct S *p, int n)
 {
     struct X *px;
     qword q;
@@ -41,13 +42,13 @@ void func_001C8918(struct S *p, int n)
         SetActorInteractObject__FP5ACTORi(p->x190, p->x208);
         p->x204->xA8 = g_clock.t + 0.25f;
         px = p->x204;
-        q = func_0022FCC8(0, px->xA0, ConvertVec__FP2LOT0G9VU_VECTOR(p->x190, 0, D_002C1080));
+        q = VecConvertXfs__FP2XFT0G9VU_VECTOR(0, px->xA0, ConvertVec__FP2LOT0G9VU_VECTOR(p->x190, 0, D_002C1080));
         px->xB0 = q;
         {int selected;Selection(p,&selected,&px);
-        q=func_0022FC48(0,px->xA0,func_001A62E8(p->a1A8[selected]));}
+        q=PosConvertXfs__FP2XFT0G9VU_VECTOR(0,px->xA0,PosOfLo__FP2LO(p->a1A8[selected]));}
         px->xC0 = q;
         px = p->x204;
-        q = func_0022FCC8(0, px->xA0, ConvertVec__FP2LOT0G9VU_VECTOR(p->x190, 0, D_002C1090));
+        q = VecConvertXfs__FP2XFT0G9VU_VECTOR(0, px->xA0, ConvertVec__FP2LOT0G9VU_VECTOR(p->x190, 0, D_002C1090));
         px->xD0 = q;
         SetXfMode__FP3ALOP2XFi(p, p->x204, 0x11);
         break;

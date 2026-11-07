@@ -98,7 +98,7 @@ extern "C" {
 void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
 void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
 M4 *MulMatrix4(M4 *pmatDst, const M4 *pmatA, const M4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
-float func_0011CAB0(const M3 *pmat);
+float GMaxRowLengthMatrix3(const M3 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");
 RPL *func_001CD998(void);
 }
 static inline qword QwTransformPos(M4 *pmat, qword qwPos)
@@ -179,7 +179,7 @@ extern "C" void func_001681F8(PACKETS *p)
             U center;
             func_001AE5A0(&center, &sphere->sphere.center, sizeof(V3));
             packet.sphere.q = QwTransformPos(&packet.matrix, center.q);
-            packet.sphere.f[3] = func_0011CAB0((const M3 *)&packet.matrix) * sphere->sphere.radius;
+            packet.sphere.f[3] = GMaxRowLengthMatrix3((const M3 *)&packet.matrix) * sphere->sphere.radius;
         }
         ulong *ptag = (ulong *)D_002DEA28.pb;
         *ptag = 0x10000000;

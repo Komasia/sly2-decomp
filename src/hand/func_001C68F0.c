@@ -18,8 +18,8 @@ extern char D_002C0E10[];
 extern char g_game[];
 float GRandInRange__Fff(float a, float b);
 struct X *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(void *pg, int a, int b);
-struct LO *func_001C4840(void *pg);
-qword func_001A62E8(struct S *p);
+struct LO *PloPlayerPo__FP2SW(void *pg);
+qword PosOfLo__FP2LO(struct S *p);
 struct MAT *MatJtLo__FP2LO(struct S *p);
 void func_001C6AB0(struct S *p, int n);
 void *PsndNewPlain__Fi(int n);
@@ -36,7 +36,7 @@ void SetCharmState__FP2LOi(struct S *p, int n)
         p->x238 = GRandInRange__Fff(p->x230, p->x234);
         break;
     case 1: {
-        struct LO *q = func_001C4840(g_sw);
+        struct LO *q = PloPlayerPo__FP2SW(g_sw);
         struct X *px;
         struct LO *plo;
         if (!((int (*)(void *))q->vt[80].pf)((char *)q + q->vt[80].d)) {
@@ -50,7 +50,7 @@ void SetCharmState__FP2LOi(struct S *p, int n)
             px->xF0 = D_002C0E10;
             px->xF8 = 0;
             e = &px->vt[1];
-            ((void (*)(void *, qword, int, float))e->pf)((char *)px + e->d, func_001A62E8(p), 0, 1.0f);
+            ((void (*)(void *, qword, int, float))e->pf)((char *)px + e->d, PosOfLo__FP2LO(p), 0, 1.0f);
             px->x1C = p;
             px->mat = *MatJtLo__FP2LO(p);
         } else {

@@ -4,7 +4,7 @@ struct N { qword normal; char pad[0xC]; int index; };
 struct Geom { int count; qword *points; int countN; struct N *normals; int x10,x14; };
 struct REQ { int cb,kind; };
 void *PvAllocSwCopyImpl__FiPv(struct REQ *r,void *src);
-void func_00119390(struct N *n,qword v,qword p);
+void PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(struct N *n,qword v,qword p);
 static inline qword Transform(const struct M4 *m,qword p) {
  qword r;
  __asm__("vmulax.xyz ACC,%1,%5x\n\tvmadday.xyz ACC,%2,%5y\n\tvmaddaz.xyz ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
@@ -42,7 +42,7 @@ void CopyTransformGeom__FP4GEOMP7MATRIX4T0(struct Geom *src,const struct M4 *tra
   for(j=0;j<dest->countN;j++) {
    struct N *n=&dest->normals[j];
    register const struct M4 *pm __asm__("$17")=&m;
-   func_00119390(n,Normalize(Rotate(pm,n->normal)),dest->points[n->index]);
+   PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(n,Normalize(Rotate(pm,n->normal)),dest->points[n->index]);
   }
  }
 }

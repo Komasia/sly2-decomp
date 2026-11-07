@@ -6,12 +6,12 @@
  * probe point is placed with matCur and snapped to the floor by the line test FDropOnGround (height->max / height->min); a probe
  * that finds no floor is dropped by D_002C3CE0 along matCur's up row.  The plane through the three probes gives a normal (cross of
  * the two edges, g_normalZ if shorter than 0.0001), BuildRotateVectorsMatrix builds the rotation from matOrig's up row to it, func_0011BCF8
- * measures its angle, which is limited to D_002C3CE8 (func_0011B500 rebuilds the rotation about the same axis with the limit),
+ * measures its angle, which is limited to D_002C3CE8 (BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR rebuilds the rotation about the same axis with the limit),
  * and matCur = adjustment * matOrig.  The final rotation is stored at p+0x1B0.
  * How it matches (everything came from the personal decomp's recipes, nothing from register pins):
  *  - M3 * M3 is the game's inline NRV operator* (three dead VU_VECTOR4 homes at +0x140), `pmatOrig` is a pointer declared in the loop
  *    so rows 1/2 of matOrig are read through a hoisted pointer register while row 0 is `0x40(sp)`.
- *  - the first rotation is an NRV wrapper over func_0011B500 (hidden pointer = plain `addiu a0,sp,0x80`); the loop's calls return
+ *  - the first rotation is an NRV wrapper over BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR (hidden pointer = plain `addiu a0,sp,0x80`); the loop's calls return
  *    the matrix by value (hidden pointer = a hoisted pseudo, s7).  `adjustment`/`angle` are declared after the probe loop so their
  *    frame slots come after the VU_FLOAT home of the drop scale (0xD0).
  *  - normalise-or-fallback = QwLengthUntied form (the fallback is a pointer computed before the cross product, `lq` after it);
@@ -41,10 +41,10 @@ extern float D_002C3CE0;
 extern float D_002C3CE8;
 extern int D_002C3CE4;
 extern "C" {
-MATRIX3 func_0011B500(qword,float);
-MATRIX3 *func_0011B500r(MATRIX3 *,qword,float) __asm__("func_0011B500");
+MATRIX3 BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(qword,float);
+MATRIX3 *func_0011B500r(MATRIX3 *,qword,float) __asm__("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 MATRIX3 BuildRotateVectorsMatrix(qword,qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 qword *func_00256D18(qword *,qword);
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *,int);
@@ -96,7 +96,7 @@ static inline void InitMat(MATRIX4 *pm,const MATRIX3 &rot,qword pos)
 extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,int pointCount,const qword *localPoints)
 {
     MATRIX4 matCur,matOrig;
-    InitMat(&matCur,Rotation(g_normalZ,p->heading),func_001A62E8(p));
+    InitMat(&matCur,Rotation(g_normalZ,p->heading),PosOfLo(p));
     matOrig=matCur;
     float radius=D_002A85F8;
     for(int i=0;i<pointCount;i++){float length=GLength(localPoints[i]);radius=(radius>length)?radius:length;}
@@ -128,7 +128,7 @@ extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,
         else{__asm__("vdiv $Q, $vf0w, %0x\n\tvwaitq": :"j"(qwLen));__asm__("vmulq.xyzw %0, %1, $Q":"=j"(normal):"j"(qwCross));}
         adjustment=BuildRotateVectorsMatrix(*(qword *)matOrig.mat[2],normal);
         func_0011BCF8(&adjustment,&angle,&point.q);
-        if(D_002C3CE8<angle)adjustment=func_0011B500(point.q,D_002C3CE8);
+        if(D_002C3CE8<angle)adjustment=BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(point.q,D_002C3CE8);
         const MATRIX3 *pmatOrig=(MATRIX3 *)&matOrig;
         *(MATRIX3 *)&matCur=adjustment**pmatOrig;
         matCur.mat[2][3]=0;matCur.mat[1][3]=0;matCur.mat[0][3]=0;

@@ -7,7 +7,7 @@ extern char g_sw[],g_lmZeroOne[];
 extern struct CAMERA g_cm;
 extern struct M3 D_002DDFA0;
 void *func_001C4A48(void*);
-qword func_001A62E8(void*);
+qword PosOfLo__FP2LO(void*);
 qword func_001A7348(const struct M3*,const struct M3*,qword);
 float func_0011D948(void*,float);
 float func_002458F0(float,float);
@@ -30,7 +30,7 @@ void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outV
  register qword difference __asm__("vf3");
  source.q=point;
  player=func_001C4A48(g_sw);
- if(player)reference=func_001A62E8(player);
+ if(player)reference=PosOfLo__FP2LO(player);
  else reference=g_cm.position;
  high=limits->high;low=limits->low;
  {register qword input __asm__("vf2")=source.q;

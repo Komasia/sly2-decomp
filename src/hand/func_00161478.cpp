@@ -27,7 +27,8 @@ struct CRefCopy:CRefData{
 static inline void SetPrimaryFloat(OPT*p,float value,void*context){
  CRef r(value);CRefCopy arg(r);const CRef&ret=func_00258200(p,arg,context);
 }
-extern "C" void func_00161478(){
+// name: SafeHouse port (UpdateGameTimers)
+extern "C" void UpdateGameTimers__Fv(){
  if(!g_sw.primary)return;
  float x=GetFloat(g_sw.primary,D_003D4A60);
  SetPrimaryFloat(g_sw.primary,x+g_clock.dt,D_003D4A60);

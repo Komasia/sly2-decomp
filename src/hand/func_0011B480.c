@@ -1,6 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
-M3 func_0011B480(qword s, qword c, qword axis)
+// name: SafeHouse port (BuildRotateMatrixSinCos)
+M3 BuildRotateMatrixSinCos__FG9VU_VECTORN20(qword s, qword c, qword axis)
 {
     M3 m;
     register qword v1 __asm__("vf1");

@@ -5,9 +5,9 @@ struct P { char pad[0xC]; struct VTE *vt; char pad1[0x150 - 0x10]; int x150; int
 struct G { char pad[0x3B0C]; int x3B0C; };
 extern struct G g_sw;
 void UpdateSo__FP2SOf(struct P *p);
-struct J *func_001C4840(struct G *pg);
+struct J *PloPlayerPo__FP2SW(struct G *pg);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct J *pj, int k);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 static __inline__ float GDist(qword a, qword b)
 {
     qword d, t;
@@ -23,16 +23,17 @@ static __inline__ float GDist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-void func_0022A060(struct P *p)
+// name: SafeHouse port (UpdateMarker)
+void UpdateMarker__FP2LO(struct P *p)
 {
     struct J *pj;
     int f;
     float r;
     UpdateSo__FP2SOf(p);
-    pj = func_001C4840(&g_sw);
+    pj = PloPlayerPo__FP2SW(&g_sw);
     if (pj && FIsBasicDerivedFrom__FP5BASIC3CID(pj, p->x154)) {
         r = p->x164 ? p->g15C : p->g158;
-        f = GDist(func_001A62E8(pj), func_001A62E8(p)) < r;
+        f = GDist(PosOfLo__FP2LO(pj), PosOfLo__FP2LO(p)) < r;
     } else f = 0;
     if ((p->x150 == 0 || p->x150 == 2) && g_sw.x3B0C)
         f = 0;

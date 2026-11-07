@@ -15,7 +15,7 @@ struct OUT { char pad[0x30]; qword v; };
 void Update__7JOBMOVE(struct S *p);
 void SetState__5JOBB1i(struct S *p, int n);
 void UpdateTarget__5JOBB1(struct S *p);
-qword func_001A62E8(struct A *a);
+qword PosOfLo__FP2LO(struct A *a);
 void func_002309E8(void *a, void *b, struct OUT *pm, struct OUT *other, float g);
 static inline void*Frame(struct X*x){register struct Y*y __asm__("$2")=x->p19A4;return y->p60;}
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
@@ -59,7 +59,7 @@ void Update__5JOBB1(struct S *p) {
             register void*nullOutput __asm__("$7");
             register struct X*frameLink __asm__("$3");
             struct CLOCK *clock=&g_clock;
-            a.q = func_001A62E8(p->p10);
+            a.q = PosOfLo__FP2LO(p->p10);
             {
                 struct A *pa = p->p10;
                 struct VTE *e = &pa->vt[33];
@@ -72,7 +72,7 @@ void Update__5JOBB1(struct S *p) {
             t.q = out.v;
             t.f[2] += D_002BE6C8;
             tq = t.q;
-            c = func_001A62E8(p->p10);
+            c = PosOfLo__FP2LO(p->p10);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(c) : "j"(tq), "j"(c));
             clock=(struct CLOCK*)*(int*)&clock->dt;
             __asm__("qmtc2.ni %1, %0" : "=j"(ud.q) : "r"(clock));

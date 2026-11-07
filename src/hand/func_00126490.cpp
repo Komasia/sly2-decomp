@@ -12,8 +12,8 @@ typedef struct R { char pad[0x10]; Q *pq; } R;
 typedef struct P { char pad[0xC]; R *pr; } P;
 extern "C" {
 CRef RefEval(void *pv, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
-CRef func_00127CF0(CRef *aref, void *pv, CRef *pref);
+CRef RefSetBinding(CRef *aref, void *pv, CRef *pref) asm("RefSetBinding__6CFramePvP4CRef");
 CRef RefEvalSet(P *p, CRef *aref) asm("RefEvalSet__FP5CPairP6CFrame");
 }
 // name: SafeHouse port (RefEvalSet)
-CRef RefEvalSet(P *p, CRef *aref) { CRef ref; Q *pq = p->pr->pq; ref = RefEval(pq->pv10, aref); ref = func_00127CF0(aref, pq->pv0C, &ref); return ref; }
+CRef RefEvalSet(P *p, CRef *aref) { CRef ref; Q *pq = p->pr->pq; ref = RefEval(pq->pv10, aref); ref = RefSetBinding(aref, pq->pv0C, &ref); return ref; }

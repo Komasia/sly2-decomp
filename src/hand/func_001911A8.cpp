@@ -59,17 +59,17 @@ void OpenBinoc(void *, int, int, int) asm("OpenBinoc__FP5ACTORiP2LOT2");
 int func_00131968(ASEGA *);
 void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");                     // set the step
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");                         // stack allocation in the current STACKSCOPE
-qword func_001A62E8(ACTOR *);                           // world position
-int func_0020F948(void *, SO *);
+qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");                           // world position
+int NOverlapKind(void *, SO *) asm("NOverlapKind__FP3ALOT0");
 void func_0020FAA0(SW *, qword, qword, int (*)(void *, SO *), void *, int *, SO ***);   // objects in a box
 int ClipSegmentSoe(SO *, qword, qword, int, LSG *) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");      // line test against an object
 void UpdateSoeWorld(SO *) asm("UpdateSoeWorld__FP3SOE");
 qword func_0011F288(int, qword *);                      // min of points
 qword func_0011F2B8(int, qword *);                      // max of points
 void MarkSphereBsp(SW *, SO *, SO *, int, BSP *, XP **) asm("MarkSphereBsp__FP3SOET0PviPP2XPPP7CONTACT");
-int func_00118A88(BSP *, BSP *, float, qword, int *, BSP **);   // prune a BSP to a sphere
+int ClipBspPlane(BSP *, BSP *, float, qword, int *, BSP **) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");   // prune a BSP to a sphere
 void MarkBspBsp(SW *, SO *, SO *, int, BSP *, BSP *, XP **) asm("MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT");
-void func_001CD098(ATTACH *, ACTOR *);
+void AttachReachObject(ATTACH *, ACTOR *) asm("AttachReachObject__FP5REACHP2LO");
 int FIsBasicDerivedFrom(ACTOR *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int FActorPoseDone(ACTOR *) asm("FActorPoseDone__FP5ACTOR");
 int func_001441A0(ACTOR *);
@@ -111,12 +111,12 @@ static inline void ProbeGround(CONTEXT *p)
     STACKSCOPE scope;
     LSG alsg[8];
     int i;
-    qword pos = func_001A62E8(p->pactor);
+    qword pos = PosOfLo(p->pactor);
     qword posBase = QwAdd(pos, p->pactor->posOffset);
     qword posEnd = QwAdd(posBase, QwScale(g_normalZ, VuFloat(&D_002BF5B0)));
     int cso;
     SO **apso;
-    func_0020FAA0(&g_sw, posEnd, posBase, func_0020F948, p->pactor->pvFilter, &cso, &apso);
+    func_0020FAA0(&g_sw, posEnd, posBase, NOverlapKind, p->pactor->pvFilter, &cso, &apso);
     for (i = 0; i < cso; i++) {
         int clsg = ClipSegmentSoe(apso[i], posBase, posEnd, 8, alsg);
         LSG *plsg = alsg;
@@ -130,7 +130,7 @@ static inline void ProbeGround(CONTEXT *p)
     UpdateSoeWorld(psoSelf);
     qword posMin = func_0011F288(pgeom->cpos, pgeom->apos);
     qword posMax = func_0011F2B8(pgeom->cpos, pgeom->apos);
-    func_0020FAA0(&g_sw, posMin, posMax, func_0020F948, p->pactor->pvFilter, &cso, &apso);
+    func_0020FAA0(&g_sw, posMin, posMax, NOverlapKind, p->pactor->pvFilter, &cso, &apso);
     for (i = 0; i < cso; i++)
         if (cbspMax <= apso[i]->cbsp)
             cbspMax = apso[i]->cbsp;
@@ -146,7 +146,7 @@ static inline void ProbeGround(CONTEXT *p)
         } else {
             int cbspLeft = cbspMax;
             BSP *pbsp = absp;
-            if (func_00118A88(pso->absp, (BSP *)0x7FFFFFFF, sRadius, posMid, &cbspLeft, &pbsp) == 2) {
+            if (ClipBspPlane(pso->absp, (BSP *)0x7FFFFFFF, sRadius, posMid, &cbspLeft, &pbsp) == 2) {
                 int cbsp = pbsp - absp;
                 pbsp--;
                 MarkBspBsp(&g_sw, psoSelf, pso, cbsp, pso->absp, pbsp, &pxp);
@@ -211,8 +211,8 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             }
             break;
         case 9:
-            if (FWithin(func_001A62E8(p->pactorFocus), func_001A62E8(p->attach.pactor), D_002BF5B4)) {
-                func_001CD098(&p->attach, p->pactorFocus);
+            if (FWithin(PosOfLo(p->pactorFocus), PosOfLo(p->attach.pactor), D_002BF5B4)) {
+                AttachReachObject(&p->attach, p->pactorFocus);
                 SetControl(p->pactor, 0);
             }
             break;

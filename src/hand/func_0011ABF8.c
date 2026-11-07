@@ -42,7 +42,8 @@ static inline void *PvNextDli(DLI *pdli)
     return pv;
 }
 
-void func_0011ABF8(DZG *pdzg)
+// name: SafeHouse port (EnforceDzgConstraints)
+void EnforceDzgConstraints__FP3DZG(DZG *pdzg)
 {
     DLI dli;
     DZ *pdz;

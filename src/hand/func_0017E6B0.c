@@ -11,7 +11,7 @@ struct P { char pad[0x60]; struct SEG a60[(0x120 - 0x60) / 32]; int n120; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct P *p30; int n34; int n38; float f3C; float f40; };
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct SEG *s, qword v);
 void RecalcCrv__FP3CRV(struct B *b);
 void Follow__9JOBFOLLOWP3CRVi(struct O *o, struct B *b, int n);
@@ -29,7 +29,7 @@ void SetState__7JOBLINKi(struct S *p, int n) {
             {
                 struct O *o = func_00205438(p->p10, 0xA7);
                 struct B *b = p->p10->p294;
-                qword pos = func_001A62E8(p->p10);
+                qword pos = PosOfLo__FP2LO(p->p10);
                 qword q = PosGoal__FP4GOALG9VU_VECTOR(&p->p30->a60[p->n34], pos);
                 qword d;
                 float len;

@@ -18,10 +18,10 @@ struct EMITTER {
 };
 struct EMITX { PRG **ppprg; RIPG **ppripg; EMITTER *pemitter; };
 extern "C" {
-void func_001A5E28(EMITTER *p);
+void UpdateLo(EMITTER *p) asm("UpdateLo__FP2LO");
 int FIsDlEmpty(int *pdl) asm("FIsDlEmpty__FP2DL");
 int func_001A61A0(EMITTER *p);
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 int func_0011A3C0(int *pdl);
 void *func_002333B4(void *pv, int b, int cb);
@@ -48,7 +48,7 @@ void UpdateEmitter(EMITTER *p, float dt)
 {
     if (p->fChanged)
         OnEmitterValuesChanged(p);
-    func_001A5E28(p);
+    UpdateLo(p);
     if (p->x118 != -1)
         return;
     if (!FIsDlEmpty(&p->dl11C)) {
@@ -59,7 +59,7 @@ void UpdateEmitter(EMITTER *p, float dt)
             if (!pe->x10)
                 goto LActive;
             float r = pe->g38 * g_cm.g1C;
-            qword pos = func_001A62E8(pe);
+            qword pos = PosOfLo(pe);
             r = r * r;
             if (FLess(Dist2(pos, g_cm.pos), r))
                 goto LActive;
@@ -67,7 +67,7 @@ void UpdateEmitter(EMITTER *p, float dt)
         return;
     } else if (p->x10) {
         float r = p->g38 * g_cm.g1C;
-        qword pos = func_001A62E8(p);
+        qword pos = PosOfLo(p);
         r = r * r;
         if (FLess(r, Dist2(pos, g_cm.pos)))
             return;

@@ -6,8 +6,8 @@ struct G { char pad[0x14]; int grf; char pad2[0x90 - 0x18]; qword pos; };
 struct P { char pad[0x2C]; char m2C[4]; };
 extern int D_003E0E70;
 extern struct G g_cm;
-void *func_001C4840(void);
-qword func_001A62E8(void *p);
+void *PloPlayerPo__FP2SW(void);
+qword PosOfLo__FP2LO(void *p);
 int FFindDlEntry__FP2DLPv(void *p, int id);
 void AppendDlEntry__FP2DLPv(void *p, int id);
 void RemoveDlEntry__FP2DLPv(void *p, int id);
@@ -33,8 +33,8 @@ void CheckLoRoot__FP2SWP2LO(struct P *p, struct SO *pso)
     if (D_003E0E70) return;
     posA = g_cm.pos;
     grf = g_cm.grf;
-    po = func_001C4840();
-    if (po) posB = func_001A62E8(po);
+    po = PloPlayerPo__FP2SW();
+    if (po) posB = PosOfLo__FP2LO(po);
     else posB = posA;
     id = pso->id;
     switch ((int)((pso->x28 << 8) >> 60)) {
@@ -49,7 +49,7 @@ void CheckLoRoot__FP2SWP2LO(struct P *p, struct SO *pso)
             float r;
             fIn = 1;
             r = pso->g38 * pso->g38;
-            fIn = GDistSq(func_001A62E8(pso), posA) < r;
+            fIn = GDistSq(PosOfLo__FP2LO(pso), posA) < r;
         } else {
             fIn = 0;
         }
@@ -59,7 +59,7 @@ void CheckLoRoot__FP2SWP2LO(struct P *p, struct SO *pso)
             float r;
             fIn = 1;
             r = pso->g38 * pso->g38;
-            fIn = GDistSq(func_001A62E8(pso), posB) < r;
+            fIn = GDistSq(PosOfLo__FP2LO(pso), posB) < r;
         } else {
             fIn = 0;
         }

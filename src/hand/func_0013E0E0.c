@@ -5,7 +5,8 @@ int func_00117C20(void *pbs);
 void ReadVector4__18CBinaryInputStreamP7VECTOR4(void *pbs, struct E *pe);
 int func_00117D50(void *pbs);
 void *PvAllocSwClearImpl__Fi(struct AREQ *preq);
-void func_0013E0E0(struct P *p, void *pbs)
+// name: SafeHouse port (LoadNodesFromBrx)
+void LoadNodesFromBrx__FP2SWP18CBinaryInputStream(struct P *p, void *pbs)
 {
     struct AREQ req;
     int i;

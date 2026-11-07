@@ -21,7 +21,7 @@ void func_002097D8(void *p, struct S *s);
 void LockJob__FP5AIJOB(struct S *p);
 void UnlockJob__FP5AIJOB(struct S *p);
 struct O *func_00205458(struct A *a, int n);
-void *func_001C4840(struct G *g);
+void *PloPlayerPo__FP2SW(struct G *g);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 int FLoInParentChain__FP2LOT0(void *n, void *o);
 void JoltCm__FP2CMi(void *p, int n);
@@ -73,13 +73,13 @@ int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
     case 0x2F:
         {
             struct O *o = func_00205458(p->p10, 0xA5);
-            if (o && o->p30 == func_001C4840(&g_sw)) TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 8, 1.0f);
+            if (o && o->p30 == PloPlayerPo__FP2SW(&g_sw)) TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 8, 1.0f);
         }
         return 0;
     case 0x34:
     case 0x35:
         {
-            void *g = func_001C4840(&g_sw);
+            void *g = PloPlayerPo__FP2SW(&g_sw);
             struct O *o = func_00205458(p->p10, 0xA0);
             if (o && FLoInParentChain__FP2LOT0(o->parent, g) && g == D_002F7900) {
                 switch (pm->n8) {

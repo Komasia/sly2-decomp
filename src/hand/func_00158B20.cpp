@@ -1,4 +1,4 @@
-// func_00158B20 (Claude agent, T1655): DZG constraint-add loop. Each pass re-solves (func_00158988), picks the free
+// SolveDzgContacts (Claude agent, T1655): DZG constraint-add loop. Each pass re-solves (func_00158988), picks the free
 // contact row whose projected push (the rows' gC-weighted af[j].av[i] vectors minus the normal part) is largest, then
 // appends a new row paired with it: its g10 = -|v|, its F gets the push divided by g10 and the SO, its g8/g4 limits come from
 // the object's friction data, and func_00158668 (AppendDzgDz) gets the new row and its F.
@@ -18,7 +18,7 @@ extern CLOCK g_clock;
 extern float D_002BDDE8;
 void func_00158988(DZG *pdzg, int grf);
 void func_00158668(DZG *pdzg, DZ *pdz, F *pf);
-void func_00158B20(DZG *pdzg, int grf);
+void SolveDzgContacts(DZG *pdzg, int grf) asm("SolveDzgContacts__FP3DZGi");
 }
 struct VU_FLOAT { qword qw; };
 static inline VU_FLOAT VuFloat(float g)
@@ -70,7 +70,8 @@ static inline qword QwDivX(qword v, VU_FLOAT g)
 static inline float SqrtF(float g) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=f"(r) : "f"(g)); return r; }
 union VEC4 { qword q; float f[4]; };
 
-void func_00158B20(DZG *pdzg, int grf)
+// name: SafeHouse port (SolveDzgContacts)
+void SolveDzgContacts(DZG *pdzg, int grf)
 {
     for (;;) {
         func_00158988(pdzg, grf);

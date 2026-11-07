@@ -64,14 +64,15 @@ void*PvAllocSwImpl(const REQUEST&) asm("PvAllocSwImpl__Fi");
 void*PvAllocSwCopyImpl(const REQUEST&,void*) asm("PvAllocSwCopyImpl__FiPv");
 MARK*__10STACKSCOPE(MARK*);
 void _$_10STACKSCOPE(MARK*,int);
-BINDING*func_0016C8E0(P*,STREAM*);
+BINDING*LoadIdxTabFromBrx(P*,STREAM*) asm("LoadIdxTabFromBrx__FP18CBinaryInputStreamT0");
 M4*MulMatrix4(M4*,const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 }
 struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 static inline void*Allocate(int bytes){return PvAllocSwImpl(REQUEST(bytes,16));}
 static inline void*Reallocate(int bytes,void*old){return PvAllocSwCopyImpl(REQUEST(bytes,16),old);}
-extern "C" void func_00169AC8(P*p,const D*sourceD,const E*sourceE,const SPHERE*sourceSphere,D*desc,E*entry,SPHERE*sphere,int groups,const int*counts,FACE**faces,STREAM*stream){
+// name: SafeHouse port (LoadGlobSubmeshFromBrx)
+extern "C" void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHEREN22T3iPiPP4FACEP6STREAM(P*p,const D*sourceD,const E*sourceE,const SPHERE*sourceSphere,D*desc,E*entry,SPHERE*sphere,int groups,const int*counts,FACE**faces,STREAM*stream){
     M4 matrix;
     (void)func_00117D00(stream);
     *desc=*sourceD;*entry=*sourceE;
@@ -88,7 +89,7 @@ extern "C" void func_00169AC8(P*p,const D*sourceD,const E*sourceE,const SPHERE*s
     entry->value=func_00117DB8(stream);
     entry->flags.bits.feature=func_00117D00(stream);
     MARK scope;
-    BINDING*binding=func_0016C8E0(p,stream);
+    BINDING*binding=LoadIdxTabFromBrx(p,stream);
     if(!(desc->flags&1)&&desc->kind==0){
         char*old=entry->data;
         char*data=(char*)Reallocate(desc->words*16,old);

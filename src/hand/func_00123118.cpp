@@ -16,7 +16,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -43,8 +43,8 @@ CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref)
 {
     SPN sp;
     struct { float g, h, i; } g;
-    sp.Set(func_00256B48());
-    sp->SetNext(func_00256B48());
+    sp.Set(PpairNew());
+    sp->SetNext(PpairNew());
     CRef *pref = &sp->pnext.p->ref;
     pref->SetTag(0x1A);
     func_0011BCF8(aref[0].u.pv, &g.g, pref->u.pv);

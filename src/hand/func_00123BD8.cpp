@@ -24,7 +24,7 @@ struct R { char pad[0xC]; int n; };
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 R *func_00133040(G *pg, int n, NODE *pnode, float t);
 }
@@ -48,4 +48,4 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" CRef func_00123BD8(int c, CRef *aref);
-CRef func_00123BD8(int c, CRef *aref) { CRef res(-1, 0x15); SPN sp; OBJ *pobj = (OBJ *)aref[1].u.pv; NODE *pnNew = func_00256B48(); sp.Set(pnNew); sp->ref = func_00256B48(); NODE *pn = sp->ref.u.pnode; pn->ref = pobj; if (c >= 3) { NODE *pnT = pn; for (NODE *pw = aref[2].u.pnode; pw; pw = pw->pnext.p) { pnT->SetNext(func_00256B48()); pnT = pnT->pnext.p; CRef *pref = &pnT->ref; *pref = func_00256B48(); NODE *pc = pref->u.pnode; pc->ref.SetTag(0x12); pc->SetNext(func_00256B48()); pc->pnext.p->ref = pw->ref; } } G *pg = &g_sw; float t = g_clock.t; R *pr = func_00133040(pg, 0, sp.p, t + RefCoerceF32(aref).u.g); res = pr->n; return res; }
+CRef func_00123BD8(int c, CRef *aref) { CRef res(-1, 0x15); SPN sp; OBJ *pobj = (OBJ *)aref[1].u.pv; NODE *pnNew = PpairNew(); sp.Set(pnNew); sp->ref = PpairNew(); NODE *pn = sp->ref.u.pnode; pn->ref = pobj; if (c >= 3) { NODE *pnT = pn; for (NODE *pw = aref[2].u.pnode; pw; pw = pw->pnext.p) { pnT->SetNext(PpairNew()); pnT = pnT->pnext.p; CRef *pref = &pnT->ref; *pref = PpairNew(); NODE *pc = pref->u.pnode; pc->ref.SetTag(0x12); pc->SetNext(PpairNew()); pc->pnext.p->ref = pw->ref; } } G *pg = &g_sw; float t = g_clock.t; R *pr = func_00133040(pg, 0, sp.p, t + RefCoerceF32(aref).u.g); res = pr->n; return res; }

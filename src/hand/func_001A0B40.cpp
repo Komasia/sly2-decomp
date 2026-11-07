@@ -28,7 +28,7 @@ extern "C"{
  void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");
  void TurnActorNow(P*) asm("TurnActorNow__FP5ACTOR");
  void func_002046B0(P*,qword);
- qword func_001A62E8(P*);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  float RadStepHeading(P*) asm("RadStepHeading__FP4STEP");
  void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");
  void RetractAsegaPp(ASEGA**) asm("RetractAsegaPp__FPP5ASEGA");
@@ -153,7 +153,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
  case 9:clip=p->clips[next];flags=0x21;break;
  case 10:
   camera0.q=Position();
-  {P*owner;qword direction=Difference(&camera0,func_001A62E8(p->actor),p,owner);func_002046B0(owner,direction);}
+  {P*owner;qword direction=Difference(&camera0,PosOfLo(p->actor),p,owner);func_002046B0(owner,direction);}
   flags=0x21;
  case 3:
   clip=p->clips[next];
@@ -161,7 +161,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
   break;
  case 5:case 11:
   camera1.q=Position();
-  {P*owner;qword direction=Difference1(&camera1,func_001A62E8(p->actor),p,owner);func_002046B0(owner,direction);}
+  {P*owner;qword direction=Difference1(&camera1,PosOfLo(p->actor),p,owner);func_002046B0(owner,direction);}
   if(next==11)flags=0x21;
   clip=p->clips[next];break;
  case 0:case 6:case 7:clip=p->clips[next];break;

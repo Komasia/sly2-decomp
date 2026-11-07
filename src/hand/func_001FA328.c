@@ -6,7 +6,7 @@ struct P {char pad58[0x58];struct B *b58,*b5C;char pad60[0x88];void *data;char p
 extern qword D_002A2DD0;
 int func_0011D4D0(float,float,float);
 void HoldXfMode(struct P *,struct B *);
-qword func_0022FCC8(struct LO *,struct LO *,qword);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(struct LO *,struct LO *,qword);
 void MarkAloDirty__FP3ALO(struct P *);
 static __inline__ float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static __inline__ float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
@@ -37,7 +37,7 @@ void ApplyAloVelocityChanges__FP3ALO(struct P *p)
             union V *force=&p->force0;
             qword increment;
             HoldXfMode(p,b);
-            increment=func_0022FCC8(0,b->parent,p->force0.q);
+            increment=VecConvertXfs__FP2XFT0G9VU_VECTOR(0,b->parent,p->force0.q);
             force->f[2]=0;force->f[1]=0;force->f[0]=0;
             AddTo(&b->velocity,increment);
             MarkAloDirty__FP3ALO(p);
@@ -49,7 +49,7 @@ void ApplyAloVelocityChanges__FP3ALO(struct P *p)
             union V *force=&p->force1;
             qword increment;
             HoldXfMode(p,b);
-            increment=func_0022FCC8(0,b->parent,p->force1.q);
+            increment=VecConvertXfs__FP2XFT0G9VU_VECTOR(0,b->parent,p->force1.q);
             force->f[2]=0;force->f[1]=0;force->f[0]=0;
             AddTo(&b->velocity,increment);
             MarkAloDirty__FP3ALO(p);

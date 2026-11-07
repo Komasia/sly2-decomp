@@ -26,7 +26,8 @@ extern M2C_UNK g_game;
 extern s32 D_002DFB80;
 extern M2C_UNK g_sw;
 
-s32 func_00183A50(s32 arg0, s32 arg1) {
+// name: SafeHouse port (OverlapKindHide)
+s32 OverlapKindHide__FP3ALOT0(s32 arg0, s32 arg1) {
     s32 var_s1;
     s32 var_v0;
 

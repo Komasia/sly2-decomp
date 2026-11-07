@@ -5,7 +5,7 @@ struct CLOCK {
 };
 extern char g_game[];
 ulong func_0014D240(struct CLOCK *p);
-void func_00161478(void *p);
+void UpdateGameTimers__Fv(void *p);
 static __inline__ float GClamp(float g, float gMin, float gMax)
 {
     float r;
@@ -14,7 +14,8 @@ static __inline__ float GClamp(float g, float gMin, float gMax)
     else r = g;
     return r;
 }
-void func_0014D0B8(struct CLOCK *p, int fPaused)
+// name: SafeHouse port (UpdateClock)
+void UpdateClock__FP5CLOCKi(struct CLOCK *p, int fPaused)
 {
     ulong tick = func_0014D240(p);
     float dt = GClamp((float)(tick - p->tick) * 3.3908420e-9f, 1.0f / 60.0f, 1.0f / 30.0f);
@@ -26,7 +27,7 @@ void func_0014D0B8(struct CLOCK *p, int fPaused)
     if (!fPaused) {
         p->dt = dt2 * p->rDt;
         p->t += p->dt;
-        func_00161478(g_game);
+        UpdateGameTimers__Fv(g_game);
     }
     }
     p->tick = tick;

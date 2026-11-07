@@ -12,7 +12,7 @@ struct S {
     char pad3[0xF0 - 0xB0]; qword axis; float rad; LO *plo;
 };
 extern "C" {
-qword func_001A62E8(LO *plo);
+qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 MAT3 *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 void func_002309E8(void *p, int n, MAT4 *pm, int k, float g);
 MAT3 MulMat3TransposeA(MAT4 *pm, MAT3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
@@ -32,7 +32,7 @@ void func_001CFD30(S *p)
     MAT4 m4;
     MAT3 m;
     qword d, s1, s2;
-    p->pos = func_001A62E8(p->plo);
+    p->pos = PosOfLo(p->plo);
     p->mat = *MatJtLo(p->plo);
     func_002309E8(p->px->p60, 0, &m4, 0, p->dt);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(m4.a[3]), "j"(p->pos));

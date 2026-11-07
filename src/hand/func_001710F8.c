@@ -5,7 +5,7 @@ struct O { char pad[0xC]; struct VTE *vt; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct O *po, qword pos, int a, qword *pq, struct VEC *pv, int b, int c);
 float func_002458F0(float y, float x);
-qword func_001A62E8(struct O *po);
+qword PosOfLo__FP2LO(struct O *po);
 // name: SafeHouse port (GetCmdAim)
 void GetCmdAim__FP5GUARDG9VU_VECTORP2LOP6VECTORPf(void *pv, qword pos, struct O *po, qword *ppos, float *pg) {
     union { qword q; } u;
@@ -18,7 +18,7 @@ void GetCmdAim__FP5GUARDG9VU_VECTORP2LOP6VECTORPf(void *pv, qword pos, struct O 
             f = func_002458F0(v.y, v.x);
         } else {
             float *a, *b;
-            q = func_001A62E8(po);
+            q = PosOfLo__FP2LO(po);
             a = po->vt[31].pfn((char *)po + po->vt[31].d);
             b = po->vt[31].pfn((char *)po + po->vt[31].d);
             f = func_002458F0(a[1], b[0]);

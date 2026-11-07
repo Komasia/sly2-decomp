@@ -20,8 +20,8 @@ extern "C" unsigned char func_00117BD0(BIS *);
 extern "C" unsigned short func_00117C20(BIS *);
 extern "C" int func_00233470(const void *,const void *,unsigned int);
 extern "C" void SetState(S *,int) asm("SetState__FP8SCREENRTi");
-extern "C" void func_00214398(S *,BIS *,S *,int *,void **);
-extern "C" void func_00214460(S *,BIS *,S *);
+extern "C" void LoadElemsFromBrx(S *,BIS *,S *,int *,void **) asm("LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3");
+extern "C" void LoadGroupsFromBrx(S *,BIS *,S *) asm("LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT");
 extern N *D_003E106C;
 extern POOL D_003E1C70;
 extern int D_002BE538;
@@ -81,8 +81,8 @@ fail:
     return;
 load:
     p->file->priority=D_003E1C70.priority;
-    func_00214398(p,bs,p,&p->count,&p->data);
-    func_00214460(p,bs,p);
+    LoadElemsFromBrx(p,bs,p,&p->count,&p->data);
+    LoadGroupsFromBrx(p,bs,p);
     p->file->last=D_003E1C70.priority;
     func_00184950(bs,2);
     _$_10STACKSCOPE(&work.frame,2);

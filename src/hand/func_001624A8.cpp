@@ -10,7 +10,7 @@ struct S { char pad[0x54]; int c54; void *a58; int c5C; void *a60; char pad2[0x8
 extern "C" void *PvAllocStackImpl(ALLOCREQ *preq) asm("PvAllocStackImpl__Fi");
 extern "C" void *PvAllocSwCopyImpl(ALLOCREQ *preq, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 extern "C" void LoadLoFromBrx(S *p, CBinaryInputStream *pbis) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
-extern "C" void func_00118420(CBinaryInputStream *pbis);
+extern "C" void ReadDebugString(CBinaryInputStream *pbis) asm("ReadDebugString__FP18CBinaryInputStream");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
@@ -37,5 +37,5 @@ extern "C" void LoadMissionFromBrx__FP2LOP18CBinaryInputStream(S *p, CBinaryInpu
     p->a98 = PvShrinkReq(&req, p->c94 * 0x18, 0x10, p->a98);
     p->a58 = PvShrinkReq(&req, p->c54 * 4, 0x10, p->a58);
     p->a60 = PvShrinkReq(&req, p->c5C * 4, 0x10, p->a60);
-    func_00118420(pbis);
+    ReadDebugString(pbis);
 }

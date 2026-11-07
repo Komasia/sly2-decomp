@@ -8,7 +8,7 @@ struct P { struct O *x0; int x4; int x8; int pad[2]; struct T *x14; void *x18; i
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *t, int n);
 void RecordSafeTarget__FP5ACTORP2LOf(void *p, void *s, float g);
 void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(void *p, int a, qword q);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 // name: SafeHouse port (UpdateSafeInteract)
 void UpdateSafeInteract__FP5ACTOR(struct P *p)
@@ -52,8 +52,8 @@ void UpdateSafeInteract__FP5ACTOR(struct P *p)
         {
             qword a;
             U d;
-            a = func_001A62E8(p->x0);
-            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(a), "j"(func_001A62E8(p->x14)));
+            a = PosOfLo__FP2LO(p->x0);
+            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(a), "j"(PosOfLo__FP2LO(p->x14)));
             g = func_002458F0(d.f[1], d.f[0]) * s;
         }
         RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);

@@ -2,7 +2,8 @@ struct VTE { short d; short pad; void *(*pfn)(); };
 struct O { int pad[3]; struct VTE *vt; int pad2[2]; int f18; };
 struct R { int f0; int f4; };
 struct O *PloNew__F3CIDP2SW3OIDi(int, int, int, int);
-struct O *func_0013E510(struct O *po, int a) {
+// name: SafeHouse port (PloCloneLo)
+struct O *PloCloneLo__FP2LOi(struct O *po, int a) {
     struct R *pr;
     struct O *pn;
     if (!po) return 0;

@@ -40,7 +40,7 @@ int func_001C4098(P *p);
 int FStickyProjectileParent__FP3ALOPv(P *p, void *x);
 void RecordHit__FP3ALOG9VU_VECTORT1(P *p, qword pos, qword dir);
 void ExpireIn__FP3ALOf(P *p, float g);
-void func_00149A50(void *pg, P *p, K k, void *x);
+void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(void *pg, P *p, K k, void *x);
 
 static inline qword Length(qword a)
 {
@@ -167,7 +167,7 @@ void ProjectileContacts__FP3ALO(P *p)
         break;
     }
     case 1:
-        func_00149A50(g_sw, p, D_002A4B10, AE(pqBest)[IOther(pqBest, p)].x);
+        PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(g_sw, p, D_002A4B10, AE(pqBest)[IOther(pqBest, p)].x);
         break;
     }
 }

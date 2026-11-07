@@ -14,7 +14,7 @@ extern const float D_002A53D0;
 extern LM D_002BE5A8,D_002BE5B0;
 
 extern "C" {
-extern qword func_001A62E8(NODE*);extern float RadStepHeading(NODE*) asm("RadStepHeading__FP4STEP");
+extern qword PosOfLo(NODE*) asm("PosOfLo__FP2LO");extern float RadStepHeading(NODE*) asm("RadStepHeading__FP4STEP");
 extern int AddSearchPlace(QUERY*) asm("AddSearchPlace__FP8WAYQUERY");
 extern void NearestCrvAll(NODE*,qword,void*,qword*,qword*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 extern int FIsBasicDerivedFrom(NODE*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -55,10 +55,10 @@ static inline qword VuFloatVolatile(float g){qword v;
 // name: SafeHouse port (JOBINVESTIGATE::FindSearchPlaces)
 extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
  WORK w;NODE*object;NODE**cursor;int remaining,i;unsigned accepted;float lastAngle;
- w.query.point.q=func_001A62E8(p->actor);
+ w.query.point.q=PosOfLo(p->actor);
  w.query.heading=RadStepHeading(p->actor);w.query.count=0;
  for(object=D_003E13FC;object;object=object->next104){
-  qword posObj=func_001A62E8(object);
+  qword posObj=PosOfLo(object);
   qword qwFallback=D_002A2DA0;
   w.query.delta.q=QwSubFrom(w.query.point.q,posObj);
   w.query.delta.i[2]=0;
@@ -71,21 +71,21 @@ extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
   AddSearchPlace(&w.query);
  }
  for(object=D_003E13F0;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
- for(object=D_003E1408;object;object=object->next104){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
- for(object=D_003E13E4;object;object=object->next174){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
+ for(object=D_003E1408;object;object=object->next104){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
+ for(object=D_003E13E4;object;object=object->next174){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  for(object=D_003E13C0;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
- for(object=D_003E13D8;object;object=object->next104){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
+ for(object=D_003E13D8;object;object=object->next104){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  for(object=D_003E13CC;object;object=object->next1B4){NearestCrvAll(object,w.query.point.q,0,&w.query.candidate.q,0,0,0);AddSearchPlace(&w.query);}
  for(object=D_003E13B4;object;object=object->nextE0){
-  if((object->flags&1)&&FIsBasicDerivedFrom(object,0x13)){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
+  if((object->flags&1)&&FIsBasicDerivedFrom(object,0x13)){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  }
  {int count=CFindObjectsByClass(&g_sw,0x505,0x23,0,0x100,w.result256);
- if(count>0){cursor=w.result256;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
+ if(count>0){cursor=w.result256;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
  {int count=CFindObjectsByClass(&g_sw,0x505,0x67,0,0x20,w.result32);
- if(count>0){cursor=w.result32;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
+ if(count>0){cursor=w.result32;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
  {int count=CFindObjectsByClass(&g_sw,0x505,0x1B,0,0x80,w.result128);
- if(count>0){cursor=w.result128;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=func_001A62E8(item);AddSearchPlace(&w.query);}while(remaining);}}
- for(object=D_003E1450;object;object=object->next174){w.query.candidate.q=func_001A62E8(object);AddSearchPlace(&w.query);}
+ if(count>0){cursor=w.result128;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
+ for(object=D_003E1450;object;object=object->next174){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  lastAngle=0.0f;
  func_002338C0(w.query.row,w.query.count,sizeof(ROW),func_00172888);
  accepted=0;

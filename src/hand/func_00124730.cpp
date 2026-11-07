@@ -10,9 +10,10 @@ extern char g_sw[];
 extern "C" {
 int CFindObjectsByClass(void *pg, int k, void *a, int b, int c, void **ap) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 CRef func_00124078(int c, void **ap);
-CRef func_00124730(void *pbasic, CRef *aref);
+CRef RefOpFindObjects(void *pbasic, CRef *aref) asm("RefOpFindObjects__FiP4CRefP6CFrame");
 }
-CRef func_00124730(void *pbasic, CRef *aref)
+// name: SafeHouse port (RefOpFindObjects)
+CRef RefOpFindObjects(void *pbasic, CRef *aref)
 {
     CRef ref;
     void *ap[0x180];

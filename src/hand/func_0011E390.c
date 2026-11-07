@@ -1,4 +1,4 @@
-// func_0011E390 MATCH (Claude agent, lane A10, 2026-10-23), from v3: y/z extracts are asm prot3w/pextuw into a plain int, then a
+// PerpendicularVector__FG9VU_VECTOR MATCH (Claude agent, lane A10, 2026-10-23), from v3: y/z extracts are asm prot3w/pextuw into a plain int, then a
 // union int->float so gcc emits the mtc1 itself (its latency gives the target schedule). x stays an asm mtc1 from the qword. One pin (|y| in $f0).
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
@@ -27,7 +27,8 @@ static inline qword Normalize(qword v)
     return r;
 }
 float fabsf(float);
-qword func_0011E390(qword v)
+// name: SafeHouse port (PerpendicularVector)
+qword PerpendicularVector__FG9VU_VECTOR(qword v)
 {
     float x, y, z;
     float ax;

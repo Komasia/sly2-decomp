@@ -6,7 +6,7 @@ int func_00117BD0(void *pbis);
 int func_00117D50(void *pbis);
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *pbis, void *pv);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
-void func_00186930(struct Q *q);
+void InitAloPairRest__FP7ALOPAIR(struct Q *q);
 void func_0012DD28(struct S *p, void *pv, int n, struct Q *q);
 static __inline__ void *PvLookup(struct S *p, void *pbis)
 {
@@ -32,7 +32,7 @@ void LoadAloPairsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p, void *pbis)
         ReadVector__18CBinaryInputStreamP6VECTOR(pbis, q->xb0);
         q->p0 = PvLookup(p, pbis);
         ReadVector__18CBinaryInputStreamP6VECTOR(pbis, q->xa0);
-        func_00186930(q);
+        InitAloPairRest__FP7ALOPAIR(q);
         func_0012DD28(p, q->p4, -1, q);
         func_0012DD28(p, q->p8, -1, q);
     }

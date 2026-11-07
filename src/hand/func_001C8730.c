@@ -11,7 +11,7 @@ extern char D_003DD040[];
 extern char g_sw[];
 void StopDialog__FP8SOUNDMGR(void *p);
 void StopScptImpl__FP2LO(void *p);
-void func_001C8918(struct S *p, int n);
+void SetVaultSub__FP2LOi(struct S *p, int n);
 void func_0020F160(void *p);
 void func_001DAF38(int n, int f);
 int PsndStartDialog__FP8SOUNDMGRii(void *p, void *q, int f);
@@ -19,7 +19,8 @@ void func_0020F198(void *p);
 void func_0020F128(void *p);
 void func_0020F1A8(void *p);
 void StartScptImpl__FP2LOi(void *p, struct LO *q);
-void func_001C8730(struct S *p, int n)
+// name: SafeHouse port (SetVaultState)
+void SetVaultState__FP2LOi(struct S *p, int n)
 {
     void *pv;
     if (n == p->x180) return;
@@ -31,7 +32,7 @@ void func_001C8730(struct S *p, int n)
         StopScptImpl__FP2LO(p->x19C);
     switch (p->x180) {
     case 2:
-        func_001C8918(p, -1);
+        SetVaultSub__FP2LOi(p, -1);
         func_0020F160(g_sw);
         break;
     case 3:
@@ -52,7 +53,7 @@ void func_001C8730(struct S *p, int n)
         return;
     case 2:
         p->x194 = 5;
-        func_001C8918(p, 1);
+        SetVaultSub__FP2LOi(p, 1);
         func_0020F128(g_sw);
         if (p->x1F4)
             p->x1A4 = PsndStartDialog__FP8SOUNDMGRii(D_003DD040, p->x1F4, 0);

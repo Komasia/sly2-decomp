@@ -1,4 +1,4 @@
-// func_001C21D8: A* path search over the navigation polygons (lilly5, T1831; = lilly4 with the minimal probe).
+// CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE: A* path search over the navigation polygons (lilly5, T1831; = lilly4 with the minimal probe).
 // BYTE-IDENTICAL (matchtool MATCH), but NOT promotable under AGENT_GUIDE "Not accepted": the target's never-touched
 // object at sp+0x30 is still an invented `EMPTY e` (without it every SImode home is 4 bytes low: 18/321, aligned 0).
 // T1831: the probe only needs a user-declared DESTRUCTOR (the cleanup makes it addressable -> slot at its declaration):
@@ -20,7 +20,7 @@ void _$_10STACKSCOPE(void *pframe, int n);
 void *PvAllocStackClearImpl(MSG *pmsg) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 void *func_002333B4(void *pv, int b, unsigned int cb);
-qword func_001A62E8(void *pv);
+qword PosOfLo(void *pv) asm("PosOfLo__FP2LO");
 NAV *PregionAt(qword pos, int f) asm("PregionAt__FG9VU_VECTORi");
 void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
 void InitDl(DL *pdl, int ibDle) asm("InitDl__FP2DLi");
@@ -28,7 +28,7 @@ void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
 void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 void InsertDlEntryBefore(DL *pdl, void *pvNext, void *pv) asm("InsertDlEntryBefore__FP2DLPvT1");
 int FIsDlEmpty(DL *pdl) asm("FIsDlEmpty__FP2DL");
-int func_001C26E0(GRAPH *pgraph, EDGE *pedge, void *pvActor);
+int FNavLinkAllowed(GRAPH *pgraph, EDGE *pedge, void *pvActor) asm("FNavLinkAllowed__FP7NAVLINKP5GUARDPv");
 int func_001C0920(NAV *pnav, qword pos, int f);
 }
 
@@ -56,7 +56,8 @@ static inline float GXOfQw(qword qw) { float x; __asm__("mtc1 %1, %0" : "=f"(x) 
 static inline float GDistX(const qword &a, const qword &b) { return GXOfQw(QwLength(QwSub(a, b))); }
 
 static inline void StoreX(float *p, qword q) { __asm__("sw %1,%0" : "=m"(*p) : "r"(q)); }
-extern "C" int func_001C21D8(GRAPH *pgraph, void *pvActor, qword posGoal, int fExact, int cpedgeMax, EDGE **apedge)
+// name: SafeHouse port (CNavLinkPath)
+extern "C" int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(GRAPH *pgraph, void *pvActor, qword posGoal, int fExact, int cpedgeMax, EDGE **apedge)
 {
     STACKSCOPE scope;
     NODE *anode;
@@ -64,7 +65,7 @@ extern "C" int func_001C21D8(GRAPH *pgraph, void *pvActor, qword posGoal, int fE
     anode = (NODE *)PvAllocClear(pgraph->cnav * sizeof(NODE));
     afAllowed = (int *)PvAlloc(pgraph->cedge * sizeof(int));
     func_002333B4(afAllowed, 0xFF, pgraph->cedge * sizeof(int));
-    qword posStart = func_001A62E8(pvActor);
+    qword posStart = PosOfLo(pvActor);
     NAV *pnavStart = PnavFind(posStart);
     NAV *pnavGoal = PnavFind(posGoal);
 
@@ -106,7 +107,7 @@ extern "C" int func_001C21D8(GRAPH *pgraph, void *pvActor, qword posGoal, int fE
             int iedge = padj->aiedge[i];
             EDGE *pedge = pgraph->apedge[iedge];
             if (afAllowed[iedge] == -1)
-                afAllowed[iedge] = func_001C26E0(pgraph, pedge, pvActor);
+                afAllowed[iedge] = FNavLinkAllowed(pgraph, pedge, pvActor);
             if (!afAllowed[iedge])
                 continue;
 

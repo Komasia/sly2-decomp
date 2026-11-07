@@ -23,7 +23,7 @@ extern "C" int FIsBasicDerivedFrom(B *p, int n) asm("FIsBasicDerivedFrom__FP5BAS
 extern "C" float SMaxCrv(B *p) asm("SMaxCrv__FP3CRV");
 extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
 extern "C" void func_001E6F10(B *p, qword *pv, qword *direction, float g);
-extern "C" qword func_001A62E8(A *p);
+extern "C" qword PosOfLo(A *p) asm("PosOfLo__FP2LO");
 extern "C" M *MatJtLo(A *p) asm("MatJtLo__FP2LO");
 extern "C" float GSmooth(SMP *p, float a, float b, float c, float *output) asm("GSmooth__FfffP3SMPPf");
 
@@ -78,7 +78,7 @@ extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
             func_001E6F10(pb, &ps->v40, 0, g);
             lift=125.0f;height=((float*)&ps->v40)[2];goto liftValue;
         } else if (ps->x2C == 1) {
-            {register qword position __asm__("$2")=func_001A62E8(ps->p0),scalar __asm__("vf1");register A*receiver __asm__("$4");
+            {register qword position __asm__("$2")=PosOfLo(ps->p0),scalar __asm__("vf1");register A*receiver __asm__("$4");
              __asm__("lwc1 $f1,%5\n\tli.s $f0,125.0\n\tsq %0,%2\n\tmul.s $f0,$f1,$f0\n\tlw %3,%6\n\tmul.s $f1,$f1,$f0\n\tmfc1 %0,$f1\n\tqmtc2.ni %0,%1\n\tsqc2 %1,%4"
               :"+r"(position),"=j"(scalar),"=m"(w.forward.q),"=r"(receiver),"=m"(w.scalar.q):"m"(ps->g50),"m"(ps->p0):"$f0","$f1");
              w.kept.q=scalar;
@@ -86,7 +86,7 @@ extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
             }
             goto lift50;
         } else {
-            {register qword position __asm__("$2")=func_001A62E8(ps->p0),scalar __asm__("vf1");register A*receiver __asm__("$4");
+            {register qword position __asm__("$2")=PosOfLo(ps->p0),scalar __asm__("vf1");register A*receiver __asm__("$4");
              __asm__("lwc1 $f1,%5\n\tli.s $f0,125.0\n\tsq %0,%2\n\tmul.s $f0,$f1,$f0\n\tlw %3,%6\n\tmul.s $f1,$f1,$f0\n\tmfc1 %0,$f1\n\tqmtc2.ni %0,%1\n\tsqc2 %1,%4"
               :"+r"(position),"=j"(scalar),"=m"(w.reverse.q),"=r"(receiver),"=m"(w.scalar.q):"m"(ps->g50),"m"(ps->p0):"$f0","$f1");
              w.kept.q=scalar;
@@ -99,7 +99,7 @@ extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
 lift50:
         lift=50.0f;height=((float*)&ps->v40)[2];goto liftValue;
 c0:
-        ps->v40=func_001A62E8(ps->p0);
+        ps->v40=PosOfLo(ps->p0);
         lift=50.0f;__asm__("lwc1 %0,%1":"=f"(height):"m"(((float*)&ps->v40)[2]));
         liftValue:((float*)&ps->v40)[2]=height+lift;
 tail:

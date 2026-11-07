@@ -1,4 +1,4 @@
-// func_0021CB18: ported from Lilly's personal Sly 2 decomp (src/P2/chain.c), reduced to the declarations it needs.
+// UpdateXfChain__FP3ALOPv: ported from Lilly's personal Sly 2 decomp (src/P2/chain.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002A2DA0 (D_002A2DA0), g_clock, g_sw
 // 0x0021CB18 UpdateChainLink__FP2SOP9CHAINLINK (our name; role 0x10 of UpdateSoSlots 0x22DE88)
@@ -796,8 +796,8 @@ static inline qword QwCross(qword a, qword b)
     __asm__("vopmula.xyz $ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(qw) : "j"(a), "j"(b));
     return qw;
 }
-qword func_0022D348(XF *pxfFrom, XF *pxfTo, qword qwPos);
-float func_0011E4B0(qword qwVec0, qword qwVec1, qword *pqwNormal);
+qword VelXfPoint(XF *pxfFrom, XF *pxfTo, qword qwPos) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
+float RadBetweenVectors(qword qwVec0, qword qwVec1, qword *pqwNormal) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
 MATRIX3 LoadRotateMatrixRad(float rad, qword normal);
 extern qword D_002A2DA0;
 static inline qword QwAddScaledA(qword qwBase, qword qwVec, VU_FLOAT gScale)
@@ -835,7 +835,8 @@ static inline float GMaxOf(float a, float b)
 {
     return (a > b) ? a : b;
 }
-void UpdateChainLink(SO *pso, CHAINLINK *plink) __asm__("func_0021CB18");
+void UpdateChainLink(SO *pso, CHAINLINK *plink) __asm__("UpdateXfChain__FP3ALOPv");
+// name: SafeHouse port (UpdateXfChain)
 void UpdateChainLink(SO *pso, CHAINLINK *plink)
 {
     CHAIN *pchain = plink->pchain;
@@ -855,7 +856,7 @@ void UpdateChainLink(SO *pso, CHAINLINK *plink)
             qwPos = posAnchor;
             if (grf & 0x10)
             {
-                *(qword *)&vecVel = func_0022D348(pxfParent, 0, posAnchor);
+                *(qword *)&vecVel = VelXfPoint(pxfParent, 0, posAnchor);
             }
             else
             {
@@ -871,7 +872,7 @@ void UpdateChainLink(SO *pso, CHAINLINK *plink)
             {
                 plinkCur = &pchain->alink[i];
                 plinkCur->posTip = ConvertXfPos(plinkCur->pxf, 0, plinkCur->qwSeg);
-                plinkCur->velTip = func_0022D348(plinkCur->pxf, 0, plinkCur->posTip);
+                plinkCur->velTip = VelXfPoint(plinkCur->pxf, 0, plinkCur->posTip);
             }
             *(qword *)&vecVel = plink[-1].velTip;
             qword *pqwPosPrev = &plink[-1].posTip;
@@ -904,7 +905,7 @@ void UpdateChainLink(SO *pso, CHAINLINK *plink)
                 qword qwVelTip = plinkCur->velTip;
                 qword qwD = QwSub(qwTip, posBase);
                 qword qwVelRel = QwSub(qwVelTip, velBase);
-                float rad = func_0011E4B0(qwD, qwDPrev, (qword *)&vecDir);
+                float rad = RadBetweenVectors(qwD, qwDPrev, (qword *)&vecDir);
                 if (pchain->radBendMax < rad)
                 {
                     mat = LoadRotateMatrixRad(rad - pchain->radBendMax, *(qword *)&vecDir);

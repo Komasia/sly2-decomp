@@ -4,7 +4,7 @@
 //   are VU helper inlines (lw/qmfc2/mtc1 VU_FLOAT-style, as in Lilly's files) or commented empty asms; globals are D_ names only.
 // lilly5 (Claude agent, T1703, 2026-10-26): MATCH (728/728, frame 0x290). NOT in src/hand only because of the team's one-pin rule:
 //   the microprogram 0x1C0 inputs/outputs are register variables bound to vf10..vf19 (20 `register ... __asm__("vfN")`, as in
-//   func_001684D0.c / func_00139950 lilly1.c); the orchestrator counts each as a pin. No GPR/FPU pins.
+//   FGlobBoneMatrices.c / func_00139950 lilly1.c); the orchestrator counts each as a pin. No GPR/FPU pins.
 //   From lilly3 (aligned 2), cull 2 (GCullSphereSync) only: (1) qmfc2 straight into a float "=r" (the qmfc2 output becomes a reload
 //   in v0, reload's copy is the mtc1 v0,f0, so the i+1 reload after it gets v1 by round robin); (2) cfc2 outputs only vf19, an empty
 //   `"=j"(qwDpos)` asm declares vf18, and one empty `"+j"(qwDpos)` asm with a dead "$3" clobber: two no-code insns ready right after
@@ -198,10 +198,10 @@ void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
 void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
 void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
-float func_0011CAB0(const MATRIX4 *pmat);
+float GMaxRowLengthMatrix3(const MATRIX4 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");
 qword func_00167DA0(const MATRIX4 *pmat, qword qwPos, float *psRadius);
 int FInsideCmMrd(VIEW *pview, qword qwDpos, float sRange, float *pgVis) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
-void func_001684D0(MODEL *pmodel, SUBDESC *pdesc, SUB *psub);
+void FGlobBoneMatrices(MODEL *pmodel, SUBDESC *pdesc, SUB *psub) asm("FGlobBoneMatrices__FP3ALOP4DESCP5ENTRY");
 RPL *func_001CD998(void);
 }
 static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return mat
@@ -382,7 +382,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
     if (pmatWorld)
     {
         pos = QwXfm(*pmatWorld, pos);
-        sRadius *= func_0011CAB0(pmatWorld);
+        sRadius *= GMaxRowLengthMatrix3(pmatWorld);
     }
     if ((pmodel->grf & 0x200000000UL) && pshd->pmatClip)
         pos = func_00167DA0(pshd->pmatClip, pos, &sRadius);
@@ -434,7 +434,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
         }
         func_001AE5A0(&posSph, psph, 12);
         qword posSub = QwXfm(matModel, *(qword *)&posSph);
-        float sRadiusSub = func_0011CAB0(&matModel) * psph->rad;
+        float sRadiusSub = GMaxRowLengthMatrix3(&matModel) * psph->rad;
         if ((psub->grf & 7) == 2 && pshd->pmatClip)
             posSub = func_00167DA0(pshd->pmatClip, posSub, &sRadiusSub);
         float gVisSub;
@@ -514,7 +514,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
         *(uint *)&vecParams.w = (psub->grf & 0x200) ? pmodel->grfMode : 0;
         UnpackQws<0x6C01C008>(&vecParams, 4);
         if (psub->abone)
-            func_001684D0(pmodel, pdesc, psub);
+            FGlobBoneMatrices(pmodel, pdesc, psub);
         SKIN *pskin = psub->pskin;
         if (pskin)
         {

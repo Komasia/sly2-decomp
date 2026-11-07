@@ -41,7 +41,7 @@ struct ALLOCREQ { int cb, cbAlign; ALLOCREQ(int c, int a) { cb = c; cbAlign = a;
 extern NODE D_002BBB20;
 extern "C" {
 void *PvAllocStackImpl(const ALLOCREQ &req) asm("PvAllocStackImpl__Fi");
-int func_00118A88(NODE *pnode, int cnodeMax, qword pos, float sRadius, int *pcnode, NODE **ppnode);
+int ClipBspPlane(NODE *pnode, int cnodeMax, qword pos, float sRadius, int *pcnode, NODE **ppnode) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
 int PaloXpFilter(FILTER *pfilter, int grf) asm("PaloXpFilter__FP3ALOUi");
 void MarkSweptVertices(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact) asm("MarkSweptVertices__FP3SOET0PP2XPPv");
 void MarkSphereSphere(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact) asm("MarkSphereSphere__FP3SOET0PP2XPPP7CONTACT");
@@ -99,7 +99,7 @@ extern "C" CONTACT *PxpMarkOxaContacts__FP3OXAT0P2SO(WORLD *pworld, SO *psoSmall
             query.c = cnodeMax;
             pnodeLast = anode;
             pnodeFirst = anode;
-            status = func_00118A88(pshape->pnodeRoot, 0x7FFFFFFF, psoSmall->pos, psoSmall->sRadius, &query.c, &pnodeLast);
+            status = ClipBspPlane(pshape->pnodeRoot, 0x7FFFFFFF, psoSmall->pos, psoSmall->sRadius, &query.c, &pnodeLast);
             if (status == 1)
                 continue;
             if (status == 0) {

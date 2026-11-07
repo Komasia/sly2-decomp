@@ -111,5 +111,5 @@ Please include it in the input .s file(s), or in an additional file.
 */
 
 void func_00170BE0(s32 arg0, s32 arg1) {
-    func_00170E00(arg0, 3, arg1);
+    PcmdAppend__FP7CMDLISTi3OID(arg0, 3, arg1);
 }

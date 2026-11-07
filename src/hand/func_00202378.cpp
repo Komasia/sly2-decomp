@@ -16,7 +16,7 @@ struct FRAME;
 extern "C" FRAME *__10STACKSCOPE(FRAME *);
 extern "C" void _$_10STACKSCOPE(FRAME *,int);
 struct FRAME {FRAME(){__10STACKSCOPE(this);}~FRAME(){_$_10STACKSCOPE(this,2);}};
-extern "C" qword func_001A62E8(LO *);
+extern "C" qword PosOfLo(LO *) asm("PosOfLo__FP2LO");
 extern "C" int func_00202350(void *,LO *);
 extern "C" void func_0020FAA0(void *,qword,qword,int (*)(void *,LO *),void *,int *,LO ***);
 extern "C" LO *func_0014CC58(int,qword,qword,int,LO **,void *);
@@ -46,7 +46,7 @@ extern "C" void func_00202378(P *p,LO *other)
     QUERY query;
     float radius;
     V *point;
-    qword origin=func_001A62E8(other);
+    qword origin=PosOfLo(other);
     radius=other->radius;
     func_0020FAA0(g_sw,origin,p->position,func_00202350,0,&query.count,&query.objects);
     {

@@ -1,6 +1,6 @@
 // BuildRotateVectorsMatrix (Claude agent, lane A25, 2026-10-23): MATCH, fresh rewrite (old best fresh2 = 47).
 // Rotation matrix taking direction a onto b (Sly 1 LoadRotateVectorMatrix-like): identity if either length < 1e-4,
-// else axis = normalized a x b (func_0011E390(a) fallback), cos = clamp(dot / (|a||b|)), sin = sqrt(1 - cos^2).
+// else axis = normalized a x b (PerpendicularVector(a) fallback), cos = clamp(dot / (|a||b|)), sin = sqrt(1 - cos^2).
 // Matching notes:
 //  - la/lb are VU pseudos that get no hard register (spill slots 0x40/0x50). For that their reads must not pull
 //    the regclass toward GPRs: H() lists a second, never-chosen "j" alternative (allocation-only; reload always
@@ -22,9 +22,9 @@ struct VU_FLOAT {
 extern "C" {
 void *func_002333B4(void *pv, int n, int cb);
 void *func_0023320C(void *pvDst, const void *pvSrc, int cb);
-qword func_0011E390(qword v);
+qword PerpendicularVector(qword v) asm("PerpendicularVector__FG9VU_VECTOR");
 float func_0011CFE0(float g, float gMax);
-M3 func_0011B480(VU_FLOAT s, VU_FLOAT c, qword axis);
+M3 BuildRotateMatrixSinCos(VU_FLOAT s, VU_FLOAT c, qword axis) asm("BuildRotateMatrixSinCos__FG9VU_VECTORN20");
 }
 static inline qword Len(qword a)
 {
@@ -61,7 +61,7 @@ M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b)
         if (l.F() > 1e-8f) {
             __asm__("vdiv $Q, $vf0w, %2x\n\tvwaitq\n\tvmulq.xyzw %0, %1, $Q" : "=j"(axis) : "j"(axis), "j"(l.q));
         } else {
-            axis = func_0011E390(a);
+            axis = PerpendicularVector(a);
         }
         VU_FLOAT d;
         d.q = Dot(a, b);
@@ -71,7 +71,7 @@ M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b)
         float sn;
         /* volatile: emulates the original schedule, see header */
         __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(sn) : "f"(1.0f - cc * cc));
-        M3 m = func_0011B480(VU_FLOAT(sn), c, axis);
+        M3 m = BuildRotateMatrixSinCos(VU_FLOAT(sn), c, axis);
         func_0023320C(pm, &m, sizeof(M3));
     }
     return pm;

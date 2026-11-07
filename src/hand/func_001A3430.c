@@ -7,5 +7,5 @@ void OnLoAdd__FP2LO(LO *plo);
 void OnLightAdd__FP5LIGHT(LIGHT *plight)
 {
     OnLoAdd__FP2LO(&plight->xfm.lo);
-    func_001A3968(plight);
+    ComputeLight__FP11LIGHTPARAMS(plight);
 }

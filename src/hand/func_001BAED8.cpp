@@ -5,11 +5,11 @@ struct S {
 struct G;
 extern G g_sw;
 typedef void (S::*PMF)();
-extern "C" void func_00149AB8(G *, S *, PMF, int);
+extern "C" void PostDeferredCall(G *, S *, PMF, int) asm("PostDeferredCall__FPvUi15PFNDEFERREDCALLi");
 // name: SafeHouse port (PostHit)
 extern "C" void PostHit__FP2LOii(S *p, int a, int b)
 {
     p->b = b;
     p->a = a;
-    func_00149AB8(&g_sw, p, &S::Action, 0);
+    PostDeferredCall(&g_sw, p, &S::Action, 0);
 }

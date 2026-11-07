@@ -10,7 +10,7 @@ struct R { char pad[0xDF4]; int xDF4; char pad2[0x1714 - 0xDF8]; int x1714; };
 struct P { char pad[0x10]; struct R *p10; char pad2[0x30 - 0x14]; int x30; float x34; struct Q *p38; };
 void Update__5AIJOB(struct P *);
 int func_001A61A0(struct Q *);
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 qword *MatJtLo__FP2LO(void *);
 void SetState__16JOBBENTLEYATTACKi(struct P *, int);
 
@@ -27,8 +27,8 @@ void Update__16JOBBENTLEYATTACK(struct P *p)
         SetState__16JOBBENTLEYATTACKi(p, -1);
         return;
     }
-    a = func_001A62E8(p->p38);
-    b = func_001A62E8(p->p10);
+    a = PosOfLo__FP2LO(p->p38);
+    b = PosOfLo__FP2LO(p->p10);
     { qword *pk = &D_002A2DA0;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(c) : "j"(a), "j"(b));
     d.q = c;

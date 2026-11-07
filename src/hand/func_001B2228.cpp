@@ -15,7 +15,7 @@ struct LO;
 extern "C" void SetMissileTarget(P*,LO*,V*) asm("SetMissileTarget__FP3ALOP2LOP6VECTOR");
 extern "C" V*PredictProjectileAim(V*,P*,float) asm("PredictProjectileAim__FP2LOf");
 extern "C" qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");
-extern "C" qword func_001A62E8(P*);
+extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 extern "C" int ClipSegmentSphere(qword,qword,qword,int,HIT*,float) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 inline qword Scale(qword a,qword k){__asm__("vmulx.xyzw %0,%1,%2x":"=j"(k):"j"(a),"0"(k));return k;}
 struct WORK{U pos;V dir;U velocity,tmp;V factor;HIT hit;V scalar;U direction,spill;};
@@ -42,7 +42,7 @@ extern "C" void SetHomingMissileTarget__FP3ALOP2LOP6VECTOR(P*p,LO*source,V*point
   register P*owner __asm__("$4");
   __asm__("daddu %0,%4,$zero\n\tlq %1,%5\n\tsqc2 %6,%2\n\tsq %1,%3\n\tlq %1,%7":"=r"(owner),"=&r"(scalarWord),"=m"(w.spill.q),"=m"(w.direction.q):"r"(p),"m"(w.dir),"j"(velocity),"m"(w.scalar));
   *(qword*)&w.factor=scalarWord;
-  qword fresh=func_001A62E8(owner);
+  qword fresh=PosOfLo(owner);
   register qword direction __asm__("vf3"),position __asm__("vf4");register qword*zero __asm__("$3");
   __asm__("lqc2 %0,%3\n\tlui %1,%%hi(%5)\n\tqmtc2.ni %4,%2\n\taddiu %1,%1,%%lo(%5)":"=j"(direction),"=&r"(zero),"=j"(position):"m"(w.direction.q),"r"(fresh),"i"(&D_002A2DD0));
   register qword d __asm__("vf2"),acc __asm__("vf1"),amount __asm__("vf3");register int count __asm__("$7");

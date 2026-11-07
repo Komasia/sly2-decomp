@@ -5,7 +5,7 @@ union WORD { int bits; float value; };
 struct S { char pad[0x134]; union WORD x134; };
 struct P { char pad[0x18C4]; struct S *x18c4; char pad2[0x19CC-0x18C8]; struct T *x19cc; };
 extern qword g_normalZ;
-qword func_001A62E8(struct S *p);
+qword PosOfLo__FP2LO(struct S *p);
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)
 typedef char T_x70_Offset[FIELD_OFFSET(struct T,x70)==112?1:-1];
 typedef char S_x134_Offset[FIELD_OFFSET(struct S,x134)==308?1:-1];
@@ -19,7 +19,8 @@ typedef char Size_4[sizeof(struct S)==312?1:-1];
 typedef char Size_5[sizeof(struct P)==6608?1:-1];
 typedef char LengthBits_Size[sizeof(int)==4?1:-1];
 typedef char DataPointer_Size[sizeof(struct S*)==4?1:-1];
-qword func_00190C58(struct P *p)
+// name: SafeHouse port (PosSlyHangPoint)
+qword PosSlyHangPoint__FP3SLY(struct P *p)
 {
     qword q, d, dir, r;
     register qword fallback __asm__("$2");
@@ -28,7 +29,7 @@ qword func_00190C58(struct P *p)
     register int lengthBits __asm__("$3");
     U s;
     float g;
-    q = func_001A62E8(p->x18c4);
+    q = PosOfLo__FP2LO(p->x18c4);
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(q), "j"(p->x19cc->x70));
     {
         register const qword *address __asm__("$2") = &g_normalZ;

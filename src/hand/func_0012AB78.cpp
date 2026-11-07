@@ -43,14 +43,15 @@ struct SPS {
     SB *operator->() { return p; }
 };
 extern "C" {
-SB *func_00257D80();
+SB *PsidebagNew() asm("PsidebagNew__Fv");
 SPB func_0012B0E8(BINDING *pb, void *p, void *q);
-SPS func_0012AB78(SB *psbSrc, void *q);
+SPS CloneTo(SB *psbSrc, void *q) asm("CloneTo__8CSidebagP8CSidebag");
 }
-SPS func_0012AB78(SB *psbSrc, void *q)
+// name: SafeHouse port (CSidebag::CloneTo)
+SPS CloneTo(SB *psbSrc, void *q)
 {
     SPS sp;
-    sp.Set(func_00257D80());
+    sp.Set(PsidebagNew());
     if (psbSrc->pbinding.p)
         sp->SetBinding(func_0012B0E8(psbSrc->pbinding.p, 0, q).p);
     return SPS(sp.p);

@@ -4,7 +4,7 @@ typedef struct { short d; short pad; int (*pfn)(); } VT;
 struct S { int x0, x4, x8; VT *vt; char pad[0x150 - 0x10]; int k; int x154; int x158; char pad2[0x16C - 0x15C]; struct S *pt; float r; char pad3[0x1A0 - 0x174]; int x1A0; };
 void UpdateSo__FP2SOf(struct S *p);
 void LandCarry__FP2LOT0(struct S *p, int a);
-qword func_001A62E8(struct S *p);
+qword PosOfLo__FP2LO(struct S *p);
 // name: SafeHouse port (UpdateCarry)
 void UpdateCarry__FP2LO(struct S *p)
 {
@@ -12,8 +12,8 @@ void UpdateCarry__FP2LO(struct S *p)
     if (p->k == 1 && p->x158 != -1)
         LandCarry__FP2LOT0(p, p->x1A0);
     if (p->pt) {
-        qword a = func_001A62E8(p);
-        qword b = func_001A62E8(p->pt);
+        qword a = PosOfLo__FP2LO(p);
+        qword b = PosOfLo__FP2LO(p->pt);
         qword d, t, l;
         float g;
         int f;

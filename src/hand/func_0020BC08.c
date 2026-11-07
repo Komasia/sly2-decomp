@@ -7,7 +7,7 @@ struct S { int pad0; struct Y *py; char pad1[0x50 - 8]; float t50; char pad2[0x9
 float GModPositive__Fff(float a, float b);
 void *PsndNewPlain__Fi(int h);
 void SetSource__4CSndPv(void *p, void *source);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void SetPosition__4CSndG9VU_VECTOR(void *p, qword q);
 void SetFalloff__4CSndff(void *p, float a, float b);
 void SetVolume__4CSndf(void *p, float t);
@@ -30,7 +30,7 @@ void UpdateGaitFeet__FP4GAIT(struct S *p)
             { float u = 1.0f - t; t *= p->f98; t += u * p->f94; }
             h = PsndNewPlain__Fi(p->h90);
             SetSource__4CSndPv(h, 0);
-            SetPosition__4CSndG9VU_VECTOR(h, func_001A62E8(x->p18));
+            SetPosition__4CSndG9VU_VECTOR(h, PosOfLo__FP2LO(x->p18));
             SetFalloff__4CSndff(h, 500.0f, 2000.0f);
             SetVolume__4CSndf(h, t);
         }

@@ -1,9 +1,9 @@
 // MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT: edge/edge and vertex/face contacts between two clipped shapes.
 // ClsgClipSoAllEdges + ClsgClipSoBspEdges clip each shape's edges against the other, CategorizeAlsg sorts each side's LSGs, MarkEmbeddedVertices adds the
 // vertex contacts of both sides; then every free LSG of side 0 either follows the CPathAlsg edge path of side 1 (closest points of the
-// two edges via func_0011EA60, kind 3) or, when no side-1 LSG shares a surface with its edge, contacts the nearer endpoint against the
+// two edges via FClosestPointsLines, kind 3) or, when no side-1 LSG shares a surface with its edge, contacts the nearer endpoint against the
 // farther plane (kind 1). With no new contact and one side empty, a kind-13 contact at the shape position is added.
-// LSG / EDGE / SURF layouts and names as in Lilly's matched ClsgClipEdgeToBsp port (src/hand/func_00118668.cpp).
+// LSG / EDGE / SURF layouts and names as in Lilly's matched ClsgClipEdgeToBsp port (src/hand/ClipSegmentBsp.cpp).
 // How it matched (w4lane4 -> w5lane2):
 //  - Separate Sly-1-style local arrays (one frame base each, shared by gcse with the call arguments); the side-1 loop indexes &aalsg[1][i].
 //  - Lilly's QwMix(VuFloat(1 - t), a, VuFloat(t), b) lerps reproduce the dead VU_FLOAT stores at 0x6900.
@@ -33,7 +33,7 @@ int ClsgClipSoBspEdges(SCENE *, SHAPE *, SHAPE *, int, NODE *, int, LSG *) asm("
 void CategorizeAlsg(int, LSG *, int *, int *, LSG **, LSG **) __asm__("CategorizeAlsg__FiP3LSGPiT2PP3LSGT4");
 void MarkEmbeddedVertices(SCENE *, SHAPE *, SHAPE *, int, int *, LSG **, CONTACT **) asm("MarkEmbeddedVertices__FP3SOET0PiiPP3LSGPP2XPT5");
 int CPathAlsg(SURF *, int, int, LSG *, LSG **) asm("CPathAlsg__FP4GEOMiiP3LSGPP3LSG");
-int func_0011EA60(qword, qword, qword, qword, float *, U *);
+int FClosestPointsLines(qword, qword, qword, qword, float *, U *) asm("FClosestPointsLines__FG9VU_VECTORN30PfP6VECTOR");
 void PxpAddSw(SCENE *, SHAPE *, SHAPE *, VV, float, VV, int, void *, void *, CONTACT **) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 }
 
@@ -78,7 +78,7 @@ static inline float PlaneDist(VV point, VV plane)
 }
 static inline void Closest(VV a, VV b, VV c, VV d, float *au, U *normal)
 {
-    (void)func_0011EA60(a, b, c, d, au, normal);
+    (void)FClosestPointsLines(a, b, c, d, au, normal);
 }
 
 // name: SafeHouse port (MarkBspBsp)

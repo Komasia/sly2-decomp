@@ -10,14 +10,14 @@ struct P {
     char pad4[0x1A00 - 0x19D0]; void *x1A00;
 };
 extern "C" {
-qword func_001A62E8(void *p);
-qword func_0022FCC8(int a, int b, qword v);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
+qword VecConvertXfs(int a, int b, qword v) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 void SetCtrlPos(void *p, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 qword func_0011F088(qword a, qword b, float g, float *p, int n);
-void func_00190E18(P *p);
+void UpdateSlyHangPlace(P *p) asm("UpdateSlyHangPlace__FP3SLY");
 }
 M3 BuildRotateVectorsMatrix(qword a, qword b) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
-M3 func_0011B500(qword a, float g);
+M3 BuildRotateMatrixAxis(qword a, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword DecomposeEulerMatrix(M3 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
 extern qword D_002A2DA0;
 extern qword D_002A2DD0;
@@ -39,12 +39,13 @@ static inline M3 Mul(const M3 &a, const M3 &b) return r
     __asm__("vmulax.xyz ACC, %1, %4x\n\tvmadday.xyz ACC, %2, %4y\n\tvmaddz.xyz %0, %3, %4z"
         : "=j"(r.r[2]) : "j"(a.r[0]), "j"(a.r[1]), "j"(a.r[2]), "j"(b.r[2]));
 }
-void func_00190E18(P *p)
+// name: SafeHouse port (UpdateSlyHangPlace)
+void UpdateSlyHangPlace(P *p)
 {
     M3 m;
-    qword d = Sub(func_001A62E8(p->x18C4), p->x19CC->x70);
-    qword q = func_0022FCC8(0, p->x19C0->xA0, d);
-    m = Mul(BuildRotateVectorsMatrix(D_002A2DA0, q), func_0011B500(D_002A2DA0, D_002BF594));
+    qword d = Sub(PosOfLo(p->x18C4), p->x19CC->x70);
+    qword q = VecConvertXfs(0, p->x19C0->xA0, d);
+    m = Mul(BuildRotateVectorsMatrix(D_002A2DA0, q), BuildRotateMatrixAxis(D_002A2DA0, D_002BF594));
     SetCtrlPos(p->x1A00, DecomposeEulerMatrix(&m));
     p->x1960 = func_0011F088(p->x1960, D_002A2DD0, D_002DDED4, D_002BF598, 0);
 }

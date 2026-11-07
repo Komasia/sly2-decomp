@@ -9,7 +9,7 @@ struct X { int x0, x4, x8; VT *vt; char pad[0xE8 - 0x10]; int c; char pad2[0xF4 
            char pad3[0x1A0 - 0xF8]; U vmin; U vmax; };
 extern "C" {
 void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
-qword func_001A62E8(X *p);
+qword PosOfLo(X *p) asm("PosOfLo__FP2LO");
 void *PregionAt(qword pos, int n) asm("PregionAt__FG9VU_VECTORi");
 void AddPolyToRegion(void *r, X *p) asm("AddPolyToRegion__FP9NAVREGIONP7NAVPOLY");
 }
@@ -42,7 +42,7 @@ extern "C" void func_001BD040(X *p)
     }
     p->vmin.f[2] = D_002A76D0;
     p->vmax.f[2] = D_002A76D4;
-    r = PregionAt(func_001A62E8(p), 0);
+    r = PregionAt(PosOfLo(p), 0);
     if (!r)
         return;
     AddPolyToRegion(r, p);

@@ -20,12 +20,12 @@ extern "C" {
 extern GS g_sw;
 extern TRIE D_003E0EA8;
 int func_001D7D30(TRIE *, char *);
-CRef func_001D7ED8(TRIE *, KEY *, char *);
+CRef RefGetProgress(TRIE *, KEY *, char *) asm("RefGetProgress__FP4TRIEP3KEYPc");
 CRef func_00258200(KEY *, CRef *, char *);
 void func_002333B4(void *, int, unsigned int);
-void func_001D54B8(void);
+void ApplyVibrationSetting(void) asm("ApplyVibrationSetting__Fv");
 }
-static inline CRef Get(KEY *k, char *pb) { return func_001D7ED8(&D_003E0EA8, k, pb); }
+static inline CRef Get(KEY *k, char *pb) { return RefGetProgress(&D_003E0EA8, k, pb); }
 static inline CRef Set(KEY *k, CRef *r, char *pb) { return func_00258200(k, r, pb); }
 // name: SafeHouse port (ResetSlotKeepSettings)
 extern "C" void ResetSlotKeepSettings__FPci(char *pb, int f)
@@ -41,7 +41,7 @@ extern "C" void ResetSlotKeepSettings__FPci(char *pb, int f)
             aref[i] = Get(keys[i], pb);
     }
     func_002333B4(pb, 0, 0x5400);
-    func_001D54B8();
+    ApplyVibrationSetting();
     if (f) {
         for (i = 0; i < 11; i++)
         {

@@ -1,4 +1,4 @@
-// func_0020F318: ported from Lilly's personal Sly 2 decomp (src/P2/sw.c), reduced to the declarations it needs.
+// LoadWorldRecordsFromBrx__FP2SWP18CBinaryInputStream: ported from Lilly's personal Sly 2 decomp (src/P2/sw.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_003E1C4C (g_alevellist), D_003E1C48 (g_anEpisodeOfLevel), D_003E1C44 (g_anWorldOfLevel), D_003E1C3C (g_nUnk3E1C3C), D_003E1C38 (g_cLevelTable), D_003E1C40 (g_aLevelRecord), D_003E1C50 (g_aWorldEntryRecord)
 // 0x0020F318 LoadLevelTableFromBrx  (T1038)
@@ -87,7 +87,8 @@ extern int *D_003E1C44;
 extern int *D_003E1C48;
 extern LEVELLIST *D_003E1C4C;
 extern FILEREC *D_003E1C50;
-extern "C" void LoadLevelTableFromBrx(SW *psw, CBinaryInputStream *pbis) __asm__("func_0020F318");
+extern "C" void LoadLevelTableFromBrx(SW *psw, CBinaryInputStream *pbis) __asm__("LoadWorldRecordsFromBrx__FP2SWP18CBinaryInputStream");
+// name: SafeHouse port (LoadWorldRecordsFromBrx)
 extern "C" void LoadLevelTableFromBrx(SW *psw, CBinaryInputStream *pbis)
 {
     D_003E1C38 = pbis->U32Read();

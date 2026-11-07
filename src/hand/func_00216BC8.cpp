@@ -22,14 +22,14 @@ extern "C" void *func_0013E368(WORLD *,int);
 extern "C" char *func_0021ED58(char *,const char *);
 extern "C" char *func_0021EDA0(char *,const char *);
 extern "C" RT *func_00215BA8(RT *,char *,S *,DATA *);
-extern "C" int func_00215F40(RT *);
+extern "C" int StrWrapped(RT *) asm("StrWrapped__FP7FONTBRX");
 extern "C" void StrDialogSubtitleTyped(void *,RT *) asm("StrDialogSubtitleTyped__FP9DIALOGSUBPv");
 extern "C" void func_00215CA8(RT *,char *);
 extern "C" int func_00215D40(RT *);
 extern "C" void func_00215D00(RT *,RGBA *);
 extern "C" float DxTextUi(RT *) asm("DxTextUi__FP7FONTBRX");
 extern "C" float GModPositive(float,float) asm("GModPositive__Fff");
-extern "C" void func_001DA5C8(SCROLL *,int);
+extern "C" void SetPromptState(SCROLL *,int) asm("SetPromptState__FP6PROMPTi");
 extern "C" void func_002166B0(RT *,T *,DATA *);
 static inline float Max(float a,float b){return a<b?b:a;}
 
@@ -53,7 +53,7 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         unsigned char *first;
         style=*data;
         func_00215BA8(&rt,text,p,&style);
-        func_00215F40(&rt);
+        StrWrapped(&rt);
         StrDialogSubtitleTyped(D_004435F0,&rt);
         func_00215CA8(&rt,0);
         while((ch=func_00215D40(&rt))!=0)if(ch=='\n')lines++;
@@ -91,7 +91,7 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
             position=GModPositive(elapsed,period);
             if(D_003DA0C0.finish>=0.0f){
                 float finish=Max(D_003DA0C0.finish,(textWidth+Max(0.0f,textWidth-p->width*scale)+paddingWidth)*0.01f);
-                if(elapsed>=finish)func_001DA5C8(&D_003DA0C0,3);
+                if(elapsed>=finish)SetPromptState(&D_003DA0C0,3);
             }
             t->a[4]-=position/period*textWidth;
         }
@@ -99,7 +99,7 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
     }else{
         style=*data;
         func_00215BA8(&rt,text,p,&style);
-        func_00215F40(&rt);
+        StrWrapped(&rt);
         func_002166B0(&rt,t,data);
     }
 }

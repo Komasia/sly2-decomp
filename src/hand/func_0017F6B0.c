@@ -2,6 +2,6 @@ struct K { short x; short y; int i; };
 extern struct K D_002A5638;
 extern char g_sw[];
 struct S { char pad[0x180]; int n180; int n184; int pad2; int n18C; };
-void func_00149B58(void *g, int a, void *p, struct K k, int n);
+void CancelDeferredCalls__FPvUiiii(void *g, int a, void *p, struct K k, int n);
 // name: SafeHouse port (ResetHackSoBase)
-void ResetHackSoBase__FP2LO(struct S *p) { p->n184 = p->n180; if (p->n18C) func_00149B58(g_sw, 1, p, D_002A5638, 0); }
+void ResetHackSoBase__FP2LO(struct S *p) { p->n184 = p->n180; if (p->n18C) CancelDeferredCalls__FPvUiiii(g_sw, 1, p, D_002A5638, 0); }

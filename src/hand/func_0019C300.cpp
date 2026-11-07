@@ -12,7 +12,7 @@ struct OBJECT {
 struct CONTEXT { OBJECT *owner; };
 struct SPACE;
 extern "C" {
-    qword func_001A62E8(OBJECT *);
+    qword PosOfLo(OBJECT *) asm("PosOfLo__FP2LO");
     void func_002309E8(SPACE *,SPACE *,M4 *,M4 *,float);
     M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
     extern qword D_002A2DD0;
@@ -58,14 +58,15 @@ typedef char M4_row0_Offset[((unsigned)&((M4*)0)->row[0])==0?1:-1];
 typedef char M4_row1_Offset[((unsigned)&((M4*)0)->row[1])==16?1:-1];
 typedef char M4_row2_Offset[((unsigned)&((M4*)0)->row[2])==32?1:-1];
 typedef char M4_row3_Offset[((unsigned)&((M4*)0)->row[3])==48?1:-1];
-extern "C" void func_0019C300(CONTEXT *context,OBJECT *target,qword localPoint,
+// name: SafeHouse port (GFitJump)
+extern "C" void GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f(CONTEXT *context,OBJECT *target,qword localPoint,
                              float *score,qword *point,qword *velocity,float duration) {
     V delta;
     M4 predicted,inverse;
     V scalar;
     M4 product;
     V future,position,oldVelocity,comparison,prediction;
-    position.q=func_001A62E8(context->owner);
+    position.q=PosOfLo(context->owner);
     OBJECT *owner=context->owner;
     VTE *vt=owner->vt;
     oldVelocity.q=((VECTOR_GETTER)vt[33].fn)((OBJECT*)((char*)owner+vt[33].delta));

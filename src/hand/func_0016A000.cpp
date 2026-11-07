@@ -1,4 +1,4 @@
-// func_0016A000 = LoadSubglobType0FromBrx (name from Lilly's personal decomp, decomp/src/P2/glob.c T1082 draft). MATCH (T1701).
+// LoadGlobMesh0FromBrx__FP7GLOBSETP18CBinaryInputStreamP4GLOBP11SUBGLOBLOADP8SUBGLOBXiT1 = LoadSubglobType0FromBrx (name from Lilly's personal decomp, decomp/src/P2/glob.c T1082 draft). MATCH (T1701).
 // Built on lilly4 (T1697) / lilly3 (T1693); see notes/160000.md for the tricks that matched it, the last ones being:
 //  - the header flags word (BATCHHDR0 +0x8) is a one-member struct, set from an aggregate initializer in the ibatch
 //    switch: the clear-then-set keeps loop.c from hoisting the constant with the other 1s;
@@ -522,7 +522,7 @@ struct WRBG
 };
 extern char D_00000000[];
 extern "C" {
-void LoadSubglobType0FromBrx(GLOBSET *pglobset, SUBGLOB *psubglob, GLOB *pglob, SUBGLOBLOAD *psgl, SUBGLOBX *psubglobx, int cSubExtra, CBinaryInputStream *pbis) __asm__("func_0016A000");
+void LoadSubglobType0FromBrx(GLOBSET *pglobset, SUBGLOB *psubglob, GLOB *pglob, SUBGLOBLOAD *psgl, SUBGLOBX *psubglobx, int cSubExtra, CBinaryInputStream *pbis) __asm__("LoadGlobMesh0FromBrx__FP7GLOBSETP18CBinaryInputStreamP4GLOBP11SUBGLOBLOADP8SUBGLOBXiT1");
 }
 static inline void *PvAllocSw(int cb)
 {
@@ -632,6 +632,7 @@ static inline char *PbReloc(char *pbOld, int cb, char *pbNew, char *pb)
 struct RGBA5551 { ushort r : 5; ushort g : 5; ushort b : 5; ushort a : 1; };
 struct UVLINK { short u, v; ushort link; } __attribute__((packed));
 static inline int Min(int a, int b) { return a < b ? a : b; }
+// name: SafeHouse port (LoadGlobMesh0FromBrx)
 void LoadSubglobType0FromBrx(GLOBSET *const pglobset, SUBGLOB *psubglob, GLOB *pglob, SUBGLOBLOAD *psgl, SUBGLOBX *psubglobx, int cSubExtra, CBinaryInputStream *pbis)
 {
     psubglob->bUnk02 = pbis->U8Read();

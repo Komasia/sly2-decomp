@@ -6,7 +6,7 @@ struct S { char pad[0x10]; void *p10; int pad2; char a18[0x34]; int n4C; char pa
 void func_00178CD8(struct S *p, int n);
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void func_001791C8(struct S *p, int n) {
     int old = p->n4C;
     if (n == old) return;
@@ -22,7 +22,7 @@ void func_001791C8(struct S *p, int n) {
             if (p->nC0 == 8) o->n38 = p->nC8;
             e = &o->vt[8]; e->pfn((char *)o + e->d);
         }
-        p->qD0 = func_001A62E8(p->p10);
+        p->qD0 = PosOfLo__FP2LO(p->p10);
         p->gE0 = D_002BE694;
         break;
     case 2: case 3: case 4:

@@ -12,16 +12,16 @@ struct S {
     union { struct V2 v60; struct { int n60; int n64; char pad[8]; qword v70; } s; } u;
     char pad3[0xB4 - 0x80]; int nB4; struct I *aB8[1]; int nBC; int nC0;
 };
-qword func_001A62E8(struct A *p);
+qword PosOfLo__FP2LO(struct A *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct V2 *p, qword v);
 void *PregionAt__FG9VU_VECTORi(qword v, int n);
-int func_001C21D8(void *a, struct A *b, qword v, int c, int d, struct I **pp);
+int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(void *a, struct A *b, qword v, int c, int d, struct I **pp);
 void func_001C0940(void *a, qword v, qword *pv, int n);
 void func_0017D8A8(struct S *p) {
     p->nB4 = 0;
     p->u.v60 = p->v40;
     if (p->nBC == 0) {
-        qword pos = func_001A62E8(p->p10);
+        qword pos = PosOfLo__FP2LO(p->p10);
         qword v = PosGoal__FP4GOALG9VU_VECTOR(&p->v40, pos);
         struct C *c = p->p10->pE8;
         struct D *d = c ? c->pDC : 0;
@@ -35,11 +35,11 @@ void func_0017D8A8(struct S *p) {
         } else if (r != q) {
             struct G *g = &g_sw;
             int n;
-            if ((p->nB4 = func_001C21D8(g->p45CC, p->p10, v, 1, 1, p->aB8)) <= 0) {
+            if ((p->nB4 = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(g->p45CC, p->p10, v, 1, 1, p->aB8)) <= 0) {
                 if (p->nC0 == 0) {
                     fail = 1;
                 } else {
-                    n = func_001C21D8(g->p45CC, p->p10, v, 0, 1, p->aB8);
+                    n = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(g->p45CC, p->p10, v, 0, 1, p->aB8);
                     p->nB4 = n;
                     if (n == 0) {
                         fail = 1;

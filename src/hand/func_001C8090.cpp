@@ -6,9 +6,9 @@ int func_00210A88(void);
 void *func_002109B8(int n);
 int func_001D8CC8(void *p, X *px);
 int func_001C8090(void);
-short func_001D8720(int *p, char *s);
+short SymFromName(int *p, char *s) asm("SymFromName__FP6LAYOUTPc");
 }
-inline short B::Find(char *s) { return func_001D8720(&c, s); }
+inline short B::Find(char *s) { return SymFromName(&c, s); }
 int func_001C8090(void)
 {
     int n = func_00210A88();

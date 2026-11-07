@@ -1,4 +1,4 @@
-// func_00137A30 (Claude agent laneBE2, 2026-10-23): MATCH. Built from build/hand_wip/func_00137A30.fresh14.cpp:
+// NewBlend (Claude agent laneBE2, 2026-10-23): MATCH. Built from build/hand_wip/NewBlend.fresh14.cpp:
 // the E3-loop "r"(0x10) asm removed, one allocation-only empty asm on the i*4 giv, one register pin (mF31 in s5),
 // and the not-found slot written as `pentNew = &pxNew->aent[pxNew->c++];`.
 typedef int qword __attribute__((mode(TI)));
@@ -28,16 +28,17 @@ void *PvAllocSwImpl(const AREQ &req) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwCopyImpl(const AREQ &req, void *pv) asm("PvAllocSwCopyImpl__FiPv");
 void *PvAllocStackClearImpl(const AREQ &req) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocSwClearImpl(const AREQ &req) asm("PvAllocSwClearImpl__Fi");
-OBJ *func_0012B3B0(int id);
-OBJ *func_0012CB98(int id);
+OBJ *PtrkpNew(int id) asm("PtrkpNew__Fi");
+OBJ *PtrkgNew(int id) asm("PtrkgNew__Fi");
 void GetAsegChannelTarget(X *px, void *p, ENT *pent, int *pa, void **ppb) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 qword VecXfValue(void *pa, void *pb) asm("VecXfValue__FP2XFP7MATRIX4");
 void func_00256EE0(X *px, int n);
-void func_001384C0(X *px);
-void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **ppx);
+void RecalcBlend(X *px) asm("RecalcBlend__FP6ASEGBL");
+void NewBlend(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **ppx) asm("NewBlend__FP3ALOiiP4ELEMiPiT5Pv");
 }
 #define PELEM(i) ((ELEM *)((char *)aelem + (i) * cb))
-void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **ppx)
+// name: SafeHouse port (NewBlend)
+void NewBlend(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **ppx)
 {
     ELEM *pe;
     ELEM *pel;
@@ -115,7 +116,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
                 if (pent->f31 >= 0) {
             if (!pentNew->pobj) {
             int a; void *pv;
-            pobj = func_0012B3B0(5);
+            pobj = PtrkpNew(5);
             GetAsegChannelTarget(pxNew, p, pentNew, &a, &pv);
             pobj->q10 = VecXfValue(pv, pv);
             pobj->px = pxNew;
@@ -125,7 +126,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             } else pobj = pentNew->pobj;
                 } else {
             if (!pentNew->pobj) {
-            pobj = func_0012CB98(2);
+            pobj = PtrkgNew(2);
             pobj->px = pxNew;
             pobj->ae3 = pxNew->ae3;
             pobj->apobj = (OBJ **)PvAllocSwClearImpl(AREQ(c * 4));
@@ -147,7 +148,7 @@ void func_00137A30(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb,
             pe->g = (pe->px == pxFirst) ? 1.0f : 0.0f;
             pe = (ELEM *)((char *)pe + cb);
         }
-        func_001384C0(pxNew);
+        RecalcBlend(pxNew);
         *ppx = pxNew;
     }
 }

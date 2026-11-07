@@ -2,7 +2,8 @@ struct E;
 struct O { char pad[0x40]; struct E *e; };
 struct E { unsigned int grf; struct O *o; };
 struct G { char pad[0x3F14]; int count; int dead; int *index; struct E *array; };
-void func_00210140(struct G *g, struct O *o)
+// name: SafeHouse port (AddLoToUpdateTable)
+void AddLoToUpdateTable__FP2SWP2LO(struct G *g, struct O *o)
 {
     struct E *e;
     if ((unsigned int)o->e & 0x40)

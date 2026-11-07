@@ -49,7 +49,7 @@ extern float D_002C3668[4];
 extern qword D_002A2DA0;
 extern qword g_normalZ;
 extern "C" {
-qword func_0022D348(SPACE *, SPACE *, qword);
+qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 void func_001AE5A0(void *, const void *, unsigned);
 int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
@@ -179,9 +179,9 @@ void StepRopeSpring(CHAIN *p)
     int i;
     int count = p->path->count;
     VV start = TransformPoint(p->first->matrix, p->start);
-    VV startVel = func_0022D348(p->first, 0, start);
+    VV startVel = VelXfPoint(p->first, 0, start);
     VV end = TransformPoint(p->last->matrix, p->end);
-    VV endVel = func_0022D348(p->last, 0, end);
+    VV endVel = VelXfPoint(p->last, 0, end);
     if ((unsigned)count > 64)
         return;
     func_001AE5A0(accP, p->position, count * 16);

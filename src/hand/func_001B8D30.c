@@ -14,9 +14,9 @@ static __inline__ void Zero(union V3 *pv) { pv->value.z = 0; pv->value.y = 0; pv
 struct P { char pad[0x190]; union V3 v190; char pad1[0x1030 - 0x1A0]; struct ANIMATION *x1030; struct COMPONENT x1034;
     char pad2[0x1840 - 0x1038]; int x1840; float f1844; struct CLIP *x1848; struct CLIP *x184C; struct SCRIPT x1850; float f186C;
     char pad3[0x1890 - 0x1870]; struct O x1890; struct O *x1900; struct CLIP *x1904; int x1908; };
-void func_0020C080(struct O *o);
-void func_0020BF80(struct SCRIPT *a, struct P *p, int n, struct O *b);
-qword func_001A62E8(struct P *p);
+void StopK2__FP6K2PLAY(struct O *o);
+void StartK2__FP5KIND2P3ALOiP6K2PLAY(struct SCRIPT *a, struct P *p, int n, struct O *b);
+qword PosOfLo__FP2LO(struct P *p);
 struct M3 *MatJtLo__FP2LO(struct P *p);
 void ClearSmaHandle__FPP3SMA(struct COMPONENT *p);
 void func_001305B8(struct CLIP *a, struct P *p, float time, float rate, int n, struct ANIMATION **q);
@@ -59,7 +59,7 @@ void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
     int n;
     if (st == p->x1840) return;
     if (p->x1840 == 2) {
-        func_0020C080(p->x1900);
+        StopK2__FP6K2PLAY(p->x1900);
         ((void (*)())p->x1900->vt[2].pfn)((char *)p->x1900 + p->x1900->vt[2].d);
         p->x1900 = 0;
     }
@@ -84,9 +84,9 @@ void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
         union { qword q; float f[4]; } u, uv, u2;
         p->x1908 = 0;
         p->x1900 = &p->x1890;
-        func_0020BF80(&p->x1850, p, 1, &p->x1890);
+        StartK2__FP5KIND2P3ALOiP6K2PLAY(&p->x1850, p, 1, &p->x1890);
         q = p->x1900;
-        uv.q = func_001A62E8(p);
+        uv.q = PosOfLo__FP2LO(p);
         __asm__("mfc1 %0, %1" : "=r"(b) : "f"(-p->f186C));
         u.q = b;
         u2.q = u.q;

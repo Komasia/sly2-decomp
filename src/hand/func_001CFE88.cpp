@@ -14,11 +14,11 @@ extern struct CLOCK { float t, dt; } g_clock;
 extern "C" {
 void func_002309E8(void *, int, M4 *, M4 *, float);
 void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
-M3 *func_0011B500(M3 *, qword, float);
+M3 *BuildRotateMatrixAxis(M3 *, qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 void func_001CFE88(S *);
 }
-// returns an M3 built by func_0011B500 straight into the (named) return slot
-static inline M3 Rotation(qword axis, float angle) return result { func_0011B500(&result, axis, angle); }
+// returns an M3 built by BuildRotateMatrixAxis straight into the (named) return slot
+static inline M3 Rotation(qword axis, float angle) return result { BuildRotateMatrixAxis(&result, axis, angle); }
 // broadcast a float into a VU register; the union local is the dead scratch store the original left on the stack
 static inline qword Splat(float f) { U u; qword q; __asm__("qmtc2.ni %1,%0" : "=j"(q) : "r"(f)); u.q = q; return q; }
 static inline qword Sub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }

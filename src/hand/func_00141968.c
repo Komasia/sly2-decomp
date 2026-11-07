@@ -8,14 +8,15 @@ struct P {
     float g2F4; char pad5[0x300 - 0x2F8]; int k300; char pad6[0x360 - 0x304]; UQ v360;
     char pad7[0xDF4 - 0x370]; int xDF4;
 };
-qword func_001A62E8(struct P *p);
+qword PosOfLo__FP2LO(struct P *p);
 qword VecBallisticVelocity__FfG9VU_VECTORN21(qword a, qword b, float g, qword c);
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
-void func_00141968(struct P *p, qword v, float g, float h)
+// name: SafeHouse port (LaunchActorTo)
+void LaunchActorTo__FP5ACTORG9VU_VECTORff(struct P *p, qword v, float g, float h)
 {
     UQ pos;
     UQ r;
-    pos.q = func_001A62E8(p);
+    pos.q = PosOfLo__FP2LO(p);
     pos.f[2] += p->dz;
     r.q = VecBallisticVelocity__FfG9VU_VECTORN21(pos.q, v, g, p->pE8->q);
     p->vt[35].pfn((char *)p + p->vt[35].d, r.q);

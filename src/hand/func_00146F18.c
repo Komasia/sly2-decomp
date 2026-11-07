@@ -6,7 +6,7 @@ extern struct CLOCK g_clock;
 extern void *D_002E1E40;
 extern float D_002BD374, D_002BD378;
 void Update__5AIJOB(struct P *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void func_002046B0(struct X *px, qword v);
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
@@ -23,8 +23,8 @@ void Update__13JOBMURRAYRAGE(struct P *p)
     case 0:
         if (D_002E1E40) {
             qword a, b, d;
-            a = func_001A62E8(D_002E1E40);
-            b = func_001A62E8(p->px);
+            a = PosOfLo__FP2LO(D_002E1E40);
+            b = PosOfLo__FP2LO(p->px);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
             func_002046B0(p->px, d);
         }
@@ -34,8 +34,8 @@ void Update__13JOBMURRAYRAGE(struct P *p)
         if (D_002E1E40) {
             qword a, b, d;
             float g, gCur;
-            a = func_001A62E8(D_002E1E40);
-            b = func_001A62E8(p->px);
+            a = PosOfLo__FP2LO(D_002E1E40);
+            b = PosOfLo__FP2LO(p->px);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
             g = func_002458F0(GetY(d), GetX(d));
             if (__builtin_fabsf(RadNormalize__Ff(g - p->g30)) < D_002BD374) {

@@ -30,7 +30,7 @@ struct SP {
 };
 struct OSP { O *p; };
 extern "C" {
-int func_00256DD0(void);
+int PframeNew(void) asm("PframeNew__Fv");
 SP func_00257058(int);
 void func_00133000(void *pv, NODE *pn, O *po, int n);
 }
@@ -64,10 +64,11 @@ extern "C" {
 void func_0011A060(LIST *pl);
 int func_0011A1E8(LIST *pl);
 void func_0011A118(LIST *pl, void *pv);
-void func_00149C80(MGR *p);
+void RunDeferredSpliceEvents(MGR *p) asm("RunDeferredSpliceEvents__FP2SW");
 }
 
-void func_00149C80(MGR *p)
+// name: SafeHouse port (RunDeferredSpliceEvents)
+void RunDeferredSpliceEvents(MGR *p)
 {
     while (!func_0011A1E8(&p->lcbs)) {
         CB *pcb = (CB *)p->lcbs.pvFirst;
@@ -90,7 +91,7 @@ void func_00149C80(MGR *p)
         if (posp) {
             func_00133000(posp, pev->pnode, posp->p, 0);
         } else {
-            int x = func_00256DD0();
+            int x = PframeNew();
             SP sp = func_00257058(x);
             func_00133000(p, pev->pnode, sp.p, 0);
         }

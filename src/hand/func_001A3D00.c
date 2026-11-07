@@ -27,7 +27,7 @@ struct SLOTS {
     unsigned int free[8];         // 0x4590, bit per free slot
 };
 
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void func_001A3B80(struct SLOTS *s, struct NODE *node, qword pos, float radius, int slot);
 
 static __inline__ void SetBit(int *a, int bit)
@@ -72,5 +72,5 @@ void func_001A3D00(struct SLOTS *s, struct OBJ *o)
     if (!o->xE0 || o->x160 || !s->root)
         SetBit(s->pending, o->slot);
     else
-        func_001A3B80(s, s->root, func_001A62E8(o), o->radius, o->slot);
+        func_001A3B80(s, s->root, PosOfLo__FP2LO(o), o->radius, o->slot);
 }

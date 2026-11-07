@@ -9,7 +9,7 @@ extern float D_002A4E30;
 extern struct CLQ D_002BD300;
 extern struct CLQ D_002BD310;
 extern struct CLQ D_002BD320;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 ulong func_00207A20(int n);
 int func_00209A68(struct SO *p, int n);
 struct LIST *func_001F8240(void *p);
@@ -40,8 +40,8 @@ struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
     ulong grf;
     struct LIST *plist;
     int i;
-    func_001A62E8(p->p10);
-    pos = func_001A62E8(p->p30);
+    PosOfLo__FP2LO(p->p10);
+    pos = PosOfLo__FP2LO(p->p30);
     grf = func_00207A20(7) | func_00207A20(0x10) | func_00207A20(0x16) | func_00207A20(0x17) |
           func_00207A20(0x2A) | func_00207A20(0x2B);
     plist = p->p10->plist;
@@ -50,7 +50,7 @@ struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
         float g;
         if (grf & pso->grf)
             continue;
-        g = GDist(pos, func_001A62E8(pso));
+        g = GDist(pos, PosOfLo__FP2LO(pso));
         if (pso == p->p90)
             g = GFromClq(g, &D_002BD300);
         if (func_00209A68(pso, 3))
@@ -67,7 +67,7 @@ struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
             float g;
             if (grf & pso->grf)
                 continue;
-            g = GDist(pos, func_001A62E8(pso));
+            g = GDist(pos, PosOfLo__FP2LO(pso));
             g = GFromClq(g, &D_002BD310);
             if (pso == p->p90)
                 g = GFromClq(g, &D_002BD300);

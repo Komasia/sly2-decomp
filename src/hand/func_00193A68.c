@@ -1,4 +1,4 @@
-/* func_00193A68 (Claude agent): SetVectorCylind__Ffff's qword result assigned plainly so gcc emits the qmtc2 itself; Dot's float via an mtc1 asm fed by gcc's own qmfc2. */
+/* RailPointVelocity__FP5ACTORP2LOPG9VU_VECTORP6VECTORf (Claude agent): SetVectorCylind__Ffff's qword result assigned plainly so gcc emits the qmtc2 itself; Dot's float via an mtc1 asm fed by gcc's own qmfc2. */
 
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];int i[4];} U;
@@ -21,7 +21,8 @@ static inline qword Reject(qword a,qword n){register qword d __asm__("vf2");qwor
 static inline qword Normal(qword a,qword fallback){register qword d __asm__("vf1");register qword one __asm__("vf4");float len;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));__asm__("vsqrt $Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"=j"(d):"j"(d));__asm__("qmfc2.ni %0,%1":"=r"(len):"j"(d));if(len<0.0001f){d=fallback;}else{__asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(d):"j"(d),"j"(a));}return d;}
 static inline float Dot(qword a,qword b){qword d=b,one;float f;__asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(a),"0"(d));__asm__("mtc1 %1,%0":"=f"(f):"r"(d));return f;}
 static inline qword Scale(qword a,float g){U u;qword s,r;__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(g));u.q=s;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
-void func_00193A68(struct P*p,struct CURVE*curve,qword*outPos,qword*outVel,float t){
+// name: SafeHouse port (RailPointVelocity)
+void RailPointVelocity__FP5ACTORP2LOPG9VU_VECTORP6VECTORf(struct P*p,struct CURVE*curve,qword*outPos,qword*outVel,float t){
  U pos,dir,dead;struct SMP smp;float low,high;qword v;float dot,current;
  struct T*shape=p->o->x150;
  EvalCrv__FP3CRVfP6VECTORT2(curve,t,&pos.q,&dir.q);

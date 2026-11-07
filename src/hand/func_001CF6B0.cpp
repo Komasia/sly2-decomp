@@ -14,7 +14,7 @@ extern char g_sw[];
 extern qword D_002A2DA0,D_002A2DB0,g_normalZ;
 extern "C" {
 O *FLaunchHudRip(void*,void*,void*) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
-qword func_0022FC48(void*,LO*,qword);
+qword PosConvertXfs(void*,LO*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
 void BuildOrthonormalVectors(qword,qword,qword,qword*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");
 M3 BuildEulerMatrix(qword) asm("BuildEulerMatrix__FP6VECTORG9VU_VECTOR");
@@ -38,7 +38,7 @@ O *PripDecal(EMIT*p,LO*visual,LO*space,qword position,qword direction){
   object=FLaunchHudRip(g_sw,(void*)10,0);
   if(object){
    float zero=0.0f;
-   U local;local.q=func_0022FC48(0,space,position);
+   U local;local.q=PosConvertXfs(0,space,position);
    float size=Polynomial(&p->size,(g_clock.t-p->start)/p->duration);
    size*=GRandInRange(0.8f,1.4f);
    object->vt[1].fn((char*)object+object->vt[1].delta,local.q,0,size);

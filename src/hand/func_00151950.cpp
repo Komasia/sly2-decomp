@@ -19,7 +19,7 @@ void func_0014FD40(X *p);
 M3 MulMat3TransposeA(M4 *pm, M3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void func_0011BCF8(M3 *pm, float *pg, qword *pv);
 float GSmooth(float gCur, float gTarget, float dt, void *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf"); /* GSmooth */
-M3 func_0011B500(qword v, float g);
+M3 BuildRotateMatrixAxis(qword v, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword *func_00256D18(qword *p, qword v);
 void SetCmPosMat(CM *p, M4 *m) asm("SetCmPosMat__FP2CMP6VECTOR");
 void SetCmFov(CM *p, float g) asm("SetCmFov__FP2CMf");
@@ -72,7 +72,7 @@ void Update(X *p)
             mNew = m.m3;
         } else {
             float g = GSmooth(rad, 0.0f, g_clock.dt, D_002BDAB0, 0);
-            mNew = Mul(func_0011B500(axis.q, g), m.m3);
+            mNew = Mul(BuildRotateMatrixAxis(axis.q, g), m.m3);
         }
         qword d = Sub(g_cm.pos, m.q.r[3]);
         float dist = Length(d);

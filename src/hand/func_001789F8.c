@@ -14,7 +14,7 @@ struct S {
 };
 void Update__5AIJOB(struct S *p);
 void func_00177F78(struct S *p);
-qword func_001A62E8(struct A *a);
+qword PosOfLo__FP2LO(struct A *a);
 int NNavWay__FG9VU_VECTORP6VECTORP9NAVREGIONP3CRViPP7NAVPOLYPff(qword q, void *a1, void *a2, void *obj, int dir, struct T **pp, float *pf, float g);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct T *po, qword q, struct G *pg, void *pv, int b, int c, float *pf);
 float func_001E7B38(struct T *p, float a, float b);
@@ -37,7 +37,7 @@ void func_001789F8(struct S *p) {
     int s;
     Update__5AIJOB(p);
     func_00177F78(p);
-    pos = func_001A62E8(p->p10);
+    pos = PosOfLo__FP2LO(p->p10);
     do {
         s = p->n4C;
         switch (s) {

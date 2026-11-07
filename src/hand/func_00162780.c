@@ -19,7 +19,7 @@ void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, int a, int b);
 void NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 void *func_001D7E80(void *p, void *q, void *r);
-void *func_0015E938(void *pg, int kind, int oid, void *owner);
+void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, void *owner);
 // name: SafeHouse port (StartJob)
 void StartJob__FP2SW(struct S *p)
 {
@@ -48,6 +48,6 @@ void StartJob__FP2SW(struct S *p)
     }
     p->fa8 = func_001D7E80(g_sw.m3a18, &p->fe8, D_003D4A60);
     if (p->fac != -1)
-        p->fb8 = func_0015E938(&g_sw, 0x405, p->fac, 0);
-    p->fbc = func_0015E938(&g_sw, 0x405, 0x379, 0);
+        p->fb8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, p->fac, 0);
+    p->fbc = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x379, 0);
 }

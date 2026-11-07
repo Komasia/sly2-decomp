@@ -1,5 +1,5 @@
 #include "splicewrap.h"
-void func_0020EFC0(s32, s32);                    /* extern */
+void PauseGame__FP9GAMEPAUSEi(s32, s32);                    /* extern */
 CRef *func_0010C1D8(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
@@ -9,7 +9,7 @@ CRef *func_0010C1D8(CRef *ret, void *pbasic, s32 cref, CRef *aref)
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 1, aref, aotyp, &arg0_v);
     Decref__4CRef(&ref);
     InitTag__4CRef(&ref, 0x24);
-    func_0020EFC0(pbasic, arg0_v);
+    PauseGame__FP9GAMEPAUSEi(pbasic, arg0_v);
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

@@ -6,14 +6,14 @@ struct S {
 struct Clock { char pad[0x3C]; float time; float dt; };
 extern struct Clock g_clock;
 extern float D_002DDF10;
-void func_001A5E28(struct S *);
+void UpdateLo__FP2LO(struct S *);
 int FSpriteAnimPlaying__FP2LOi(struct S *,int);
 void func_00212A50(struct S *,int);
 void SetState__FP8SCREENRTi(struct S *,int);
 void func_00218220(void *,float);
 void func_00212C50(struct S *p) {
     int state;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     state=p->state;
     if(state==1) {
         if(p->mode==2) state=p->id1==-1 ? 2:3;

@@ -4,7 +4,7 @@ struct S { char pad[0x10]; struct A *p10; char pad2[0x30 - 0x14]; int n30; int p
 extern qword D_002A2DD0;
 void Steer__5AIJOB(struct S *p);
 void SteerByKinde__FP5KINDEP5GUARD(void *a, struct A *b);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -18,8 +18,8 @@ void Steer__7JOBMOVE(struct S *p)
     else
         p->p10->q190 = D_002A2DD0;
     if (p->p38) {
-        qword a = func_001A62E8(p->p38);
-        qword b = func_001A62E8(p->p10);
+        qword a = PosOfLo__FP2LO(p->p38);
+        qword b = PosOfLo__FP2LO(p->p10);
         qword d;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
         SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));

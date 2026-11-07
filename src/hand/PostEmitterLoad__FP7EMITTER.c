@@ -15,11 +15,11 @@ extern char g_sw[];
 extern const struct K D_002A5140;
 extern float D_002A5148;
 void ResolveEmits__FP8EMITTERN(struct EMITTER *p);
-void func_00149A50(void *pg, struct EMITTER *p, struct K k, int n);
+void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(void *pg, struct EMITTER *p, struct K k, int n);
 float GRandInRange__Fff(float gMin, float gMax);
 void func_0015A150(struct EMITTER *p);
 void func_0015A138(struct EMITTER *p, float g);
-struct EMITTER *func_0015E938(void *pg, int kind, int oid, int n);
+struct EMITTER *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, int n);
 struct EMITTER *PloNew__F3CIDP2SW3OIDi(int cid, void *p, int oid, int n);
 void *PvAllocSwCopyImpl__FiPv(struct ALLOCREQ *preq, void *pv);
 void func_001A6CA8(struct EMITTER *p, int n);
@@ -40,7 +40,7 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
 {
     ResolveEmits__FP8EMITTERN(pemitter);
     if (pemitter->pemitb->pemito->palo)
-        func_00149A50(g_sw, pemitter, D_002A5140, 0);
+        PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(g_sw, pemitter, D_002A5140, 0);
     if (pemitter->kind == -1) {
         if (pemitter->g104 != 0.0f || pemitter->n114)
             pemitter->kind = 3;
@@ -96,7 +96,7 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
         }
     }
     if (pemitter->oid118 != -1) {
-        struct EMITTER *pemitterNew = func_0015E938(g_sw, 5, pemitter->oid118, 0);
+        struct EMITTER *pemitterNew = PloFindSwNearest__FP2LO3OIDii(g_sw, 5, pemitter->oid118, 0);
         if (!pemitterNew) {
             struct VTE *pvte;
             void *pthis;

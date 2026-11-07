@@ -15,7 +15,8 @@ typedef struct S {
     int x54;
 } S;
 
-void func_002313F0(S *p)
+// name: SafeHouse port (TouchLox)
+void TouchLox__FP3LOX(S *p)
 {
     p->x54 = -1;
     if (p->x10 == 0 && p->f)

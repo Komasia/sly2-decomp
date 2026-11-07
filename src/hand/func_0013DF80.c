@@ -8,9 +8,10 @@ int func_00117BD0(void *pbs);
 int func_00117D50(void *pbs);
 void *PvAllocSwImpl__Fi(struct AREQ *preq);
 void func_00118380(void *pbs, int *pn, void *pv, int n);
-void func_00118420(void *pbs);
+void ReadDebugString__FP18CBinaryInputStream(void *pbs);
 void func_00210BE0(void *pv);
-void func_0013DF80(struct P *p, void *pbs)
+// name: SafeHouse port (LoadTextFromBrx)
+void LoadTextFromBrx__FP2SWP18CBinaryInputStream(struct P *p, void *pbs)
 {
     struct AREQ req;
     int i;
@@ -36,7 +37,7 @@ void func_0013DF80(struct P *p, void *pbs)
             if (j == iMatch)
                 func_00118380(pbs, &pe->x4, g_heapSw, 0x2E);
             else
-                func_00118420(pbs);
+                ReadDebugString__FP18CBinaryInputStream(pbs);
         }
     }
     func_00210BE0(D_003E1C20);

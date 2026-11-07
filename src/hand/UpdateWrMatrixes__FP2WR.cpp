@@ -13,12 +13,12 @@ struct WR {char pad[0x50];float time;int count,count58,index5C;WRE entries[8];in
 struct CLOCK {float t,dt;};
 extern CLOCK g_clock;
 extern "C" {
-void func_001A5E28(WR *);
-void func_0022B7D8(WR *);
+void UpdateLo(WR *) asm("UpdateLo__FP2LO");
+void UpdateWrStateVectors(WR *) asm("UpdateWrStateVectors__FP2WR");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void CalculateSinCos(float,float *,float *) asm("CalculateSinCos__FfPfT1");
 float func_0022BF70(ONZ *);
-M3 func_0011B500(qword,float);
+M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 }
 static inline qword ScalarLoad(const float &f){int bits;qword q;__asm__("lw %0,%1":"=r"(bits):"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
@@ -32,9 +32,9 @@ static inline qword Unit(qword v){qword len,one,r;__asm__("vmul.xyz %0,%2,%2\n\t
 static inline qword UnitFresh(qword v){qword len,one,r;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(len),"=&j"(one):"j"(v));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(len));__asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=&j"(r):"j"(v),"j"(len));return r;}
 static inline qword Rotate(const M3 &m,qword v){__asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(*(const qword *)m.f[0]),"j"(*(const qword *)m.f[1]),"j"(*(const qword *)m.f[2]));return v;}
 void UpdateWrMatrixes(WR *p){
- func_001A5E28(p);
+ UpdateLo(p);
  if(g_clock.t==p->time)return;
- if(p->source)func_0022B7D8(p);
+ if(p->source)UpdateWrStateVectors(p);
  for(int i=0;i<p->count;i++){
   WRE *entry=&p->entries[i];
   M4 *matrix=&p->matrices[entry->index];
@@ -64,9 +64,9 @@ void UpdateWrMatrixes(WR *p){
    V rotated;
    float bend=func_0022BF70(&entry->data.bend.bend);
    float swivel=func_0022BF70(&entry->data.bend.swivel);
-   first=func_0011B500(UnitFresh(entry->vectorA.q),swivel);
+   first=BuildRotateMatrixAxis(UnitFresh(entry->vectorA.q),swivel);
    rotated.q=Rotate(first,Unit(entry->axis.q));
-   result=func_0011B500(UnitFresh(rotated.q),bend);
+   result=BuildRotateMatrixAxis(UnitFresh(rotated.q),bend);
 
    matrix->r[0].f[0]=result.f[0][0]-1.0f;matrix->r[0].f[1]=result.f[0][1];matrix->r[0].f[2]=result.f[0][2];matrix->r[1].f[0]=result.f[1][0];matrix->r[1].f[1]=result.f[1][1]-1.0f;matrix->r[1].f[2]=result.f[1][2];matrix->r[2].f[0]=result.f[2][0];matrix->r[2].f[1]=result.f[2][1];matrix->r[2].f[2]=result.f[2][2]-1.0f;
    break;

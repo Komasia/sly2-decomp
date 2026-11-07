@@ -63,9 +63,9 @@ void func_00257078(ROOT*,int);
 void func_002580A8(FIELD**,FIELD*);
 void func_00256EE0(ROOT**,ROOT*);
 int func_00258178(FIELD*);
-int func_00259A88(ROOT*);
-RF func_0012AB78(FIELD*,P*);
-RR func_00127E90(ROOT*,P*);
+int AddRootFrame(ROOT*) asm("AddRootFrame__3CGc");
+RF CloneTo__8CSidebagP8CSidebag(FIELD*,P*);
+RR CloneTo(ROOT*,P*) asm("CloneTo__6CFrameP6CFrame");
 void*PvAllocSwCopyImpl(REQUEST*,void*) asm("PvAllocSwCopyImpl__FiPv");
 void func_0011A058(int*);
 void func_0011A060(void*);
@@ -82,12 +82,12 @@ static inline META*Type(P*p){VE*v=&p->vt[6];return v->type((P*)((char*)p+v->delt
 extern "C" void CloneLo__FP2LOT0(P*p,const P*source){
     func_00128148(D_002DD598);
     if(source->field){
-        {RF r=func_0012AB78(source->field,p);func_002580A8(&p->field,r.p);}
+        {RF r=CloneTo__8CSidebagP8CSidebag(source->field,p);func_002580A8(&p->field,r.p);}
         (void)func_00258178(p->field);
     }
     if(source->root){
-        {RR r=func_00127E90(source->root,p);func_00256EE0(&p->root,r.p);}
-        (void)func_00259A88(p->root);
+        {RR r=CloneTo(source->root,p);func_00256EE0(&p->root,r.p);}
+        (void)AddRootFrame(p->root);
     }
     p->scale=source->scale;
     p->flags.bits.mode=source->flags.bits.mode;

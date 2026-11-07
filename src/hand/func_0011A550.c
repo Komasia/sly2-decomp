@@ -20,7 +20,8 @@ void *PvAllocStackImpl__Fi(MSG *pmsg);
 void *func_002333B4(void *pv, int b, unsigned int cb);
 void InitDl__FP2DLi(DL *pdl, int ibDle);
 
-DZG *func_0011A550(DZG *pdzg, int cpsoMax)
+// name: SafeHouse port (InitDzgRows)
+DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cpsoMax)
 {
     MSG msg;
 

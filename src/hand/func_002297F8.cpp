@@ -26,14 +26,14 @@ float GWaterDepth(O *,O *,qword *,qword *) asm("GWaterDepth__FP3ALOT0P6VECTORT2"
 int func_0011D4D0(float,float,float);
 qword ProjectCnstr(CONSTRAINT *,NODE *,qword) asm("ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR");
 void AccelAloPos(O *,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
-qword func_001A62E8(O *);
+qword PosOfLo(O *) asm("PosOfLo__FP2LO");
 void func_00228C18(O *,qword,qword *,qword *);
 float GSplitVector(qword,qword,qword *,qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 int func_00230380(int);
 void AccelAloTowardPosition(O *,qword,const COEF *,qword,const COEF *) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
 void AccelAloTowardRotation(O *,const M3 *,const COEF *,qword,const COEF *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 M4 *MatJtLo(O *) asm("MatJtLo__FP2LO");
-void func_0011B938(const M3 *,M3 *,M3 *);
+void LevelMatrix3(const M3 *,M3 *,M3 *) asm("LevelMatrix3__FP7MATRIX3T0Pv");
 void func_0011BCF8(const M3 *,float *,qword *);
 void AccelRotation(O *,qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
 void func_0015A2C0(O *,WATER *,float,qword,qword,float,float);
@@ -73,7 +73,7 @@ extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
   AccelAloPos(a,ProjectCnstr(&a->physics->constraint,a->motion,Scale(a->physics->direction.q,k)));
  }
  if(friction!=0.0f){
-  func_00228C18(b,func_001A62E8(a),&w.velocity.q,&w.phase.vectors[0].q);
+  func_00228C18(b,PosOfLo(a),&w.velocity.q,&w.phase.vectors[0].q);
   qword linear=Get(a,33);qword relative=Sub(w.velocity.q,linear);
   float dot=GSplitVector(relative,w.normal.q,&w.phase.vectors[1].q,&w.phase.vectors[2].q);
   if(span==1.0f||0.0f<dot)factor=1.0f;else factor=span*0.5f+0.5f;
@@ -98,7 +98,7 @@ extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
  }
  else Zero(w.velocity,0.0f);
  if(spring!=0.0f){
-  func_0011B938(&MatJtLo(a)->basis,&w.phase.basis,0);
+  LevelMatrix3(&MatJtLo(a)->basis,&w.phase.basis,0);
   func_0011BCF8(&w.phase.basis,&w.angle,&w.axis.vector.q);
   float gain=spring*3.0f;qword k=Scalar(w.angle*gain*span);
   qword rotation=Scale(w.axis.vector.q,k);w.angularNormal.q=k;

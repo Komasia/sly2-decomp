@@ -19,10 +19,10 @@ extern void SetSlyMode__FP3SLYi(void *p, int n);
 extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern void DemoteAsegaOnXf__FiiP2XF(void *a, void *p, int c);
 extern void DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv(void *a, void *p, int c, void *d);
-extern qword func_001A62E8(void *p);
+extern qword PosOfLo__FP2LO(void *p);
 extern void *PloTakePocket__FP2LO(void *a, qword q);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-extern int func_0015E938(void *p, int a, int b, void *c);
+extern int PloFindSwNearest__FP2LO3OIDii(void *p, int a, int b, void *c);
 extern void StartPrizeInteract__FP5ACTORP4ASEGP2LOi(void *p, int oid, void *pv, int n);
 extern void *func_00205458(void *p, int n);
 extern void SetState__5JOBB1i(void *p, int n);
@@ -99,9 +99,9 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                 break;
             case 0x167:
                 if (F(void *, 0x10DC) && F(int, 0x1BD4)) {
-                    void *po = PloTakePocket__FP2LO(F(void *, 0x10DC), func_001A62E8(p));
+                    void *po = PloTakePocket__FP2LO(F(void *, 0x10DC), PosOfLo__FP2LO(p));
                     if (po && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5B) && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5D)) {
-                        int oid = func_0015E938(g_sw, 1, 0x282, p);
+                        int oid = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, 0x282, p);
                         F(void *, 0x1BCC) = po;
                         StartPrizeInteract__FP5ACTORP4ASEGP2LOi(p, oid, po, -1);
                     }
@@ -126,7 +126,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                 break;
             }
             case 0x16D:
-                func_00156B98(g_sw, 0, func_001A62E8(p), p);
+                func_00156B98(g_sw, 0, PosOfLo__FP2LO(p), p);
                 break;
             }
         }

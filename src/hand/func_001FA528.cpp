@@ -9,7 +9,7 @@ extern qword D_002A2DD0;
 extern struct GAME {char pad3D58[0x3D58];int stamp;} g_sw;
 extern "C" int func_0011D4D0(float,float,float);
 extern "C" void HoldXfMode(P *,LO *);
-extern "C" qword func_0022FCC8(void *,LO *,qword);
+extern "C" qword VecConvertXfs(void *,LO *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 extern "C" qword *func_00256D18(qword *,qword);
 extern "C" M3 BuildRotateMatrixVector(qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
 extern "C" void MarkAloDirty(P *) asm("MarkAloDirty__FP3ALO");
@@ -24,7 +24,7 @@ static inline M3 Mul(const M3&a,const M3&b) return r {
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[1]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[1]));
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
 }
-static inline qword Consume(P*p,LO*object,U&pending){HoldXfMode(p,object);qword world=func_0022FCC8(0,object->parent,pending.q);pending.i[2]=0;pending.i[1]=0;return world;}
+static inline qword Consume(P*p,LO*object,U&pending){HoldXfMode(p,object);qword world=VecConvertXfs(0,object->parent,pending.q);pending.i[2]=0;pending.i[1]=0;return world;}
 // name: SafeHouse port (ApplyAloDisplacement)
 extern "C" void ApplyAloDisplacement__FP3ALO(P*p)
 {

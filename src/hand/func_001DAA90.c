@@ -15,7 +15,7 @@ extern struct G g_sw;
 extern int D_002C3258[];
 void func_001DA808(OBJ *);
 int func_00187D80(void *, int);
-void *func_001C4840(struct G *);
+void *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void SetGadgetMenu__FPvi(OBJ *, int);
 void UpdateShopStick__FP4SHOP(OBJ *);
@@ -23,7 +23,7 @@ R *func_001DAE20(OBJ *, int);
 void SetShopMsg__FP4SHOPii(OBJ *, int, int);
 void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
-void func_00141FC8(void *, int, int);
+void SetActorAbilitySlot__FP5ACTORii(void *, int, int);
 // name: SafeHouse port (UpdateGadgetMenu)
 void UpdateGadgetMenu__FP2SW(OBJ *p)
 {
@@ -41,7 +41,7 @@ void UpdateGadgetMenu__FP2SW(OBJ *p)
         SetGadgetMenu__FPvi(p, -1);
         return;
     }
-    pv = func_001C4840(&g_sw);
+    pv = PloPlayerPo__FP2SW(&g_sw);
     if (pv == 0 || !FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x34)) {
         SetGadgetMenu__FPvi(p, -1);
         return;
@@ -64,7 +64,7 @@ void UpdateGadgetMenu__FP2SW(OBJ *p)
             SetShopMsg__FP4SHOPii(p, 1, 0x33);
         } else {
             SetSource__4CSndPv(PsndNewPlain__Fi(0x34), 0);
-            func_00141FC8(pv, i, p->x48);
+            SetActorAbilitySlot__FP5ACTORii(pv, i, p->x48);
         }
     }
 }

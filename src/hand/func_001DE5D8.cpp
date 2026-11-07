@@ -73,13 +73,13 @@ extern qword D_002A2DF0, D_002A2E00;
 extern float D_002C3610;
 extern "C" {
 void RemoveAloSoes(P *) asm("RemoveAloSoes__FP3ALO");
-void *func_0015E938(G *, int, int, P *);
+void *PloFindSwNearest(G *, int, int, P *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");
 void func_001E6F10(PATH *, qword *, qword *, float);
 void *func_002333B4(void *, int, int);
-qword func_001A62E8(void *);
-qword func_0022FC48(void *, void *, qword);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
+qword PosConvertXfs(void *, void *, qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
 void CopyTransformGeom(GEO *, const M4 *, GEO *) asm("CopyTransformGeom__FP4GEOMP7MATRIX4T0");
 void AddAloSoes(P *) asm("AddAloSoes__FP3ALO");
@@ -114,7 +114,7 @@ extern "C" void BindEnd__FP3ALO(P *p)
             ENDPOINT *endpoint = &entry->endpoints[j];
             endpoint->kind = -1;
             if (endpoint->id != -1) {
-                void *object = func_0015E938(&g_sw, 1, endpoint->id, p);
+                void *object = PloFindSwNearest(&g_sw, 1, endpoint->id, p);
                 if (object) {
                     if (FIsBasicDerivedFrom(object, 10)) {
                         PATH *path = (PATH *)object;
@@ -231,19 +231,19 @@ extern "C" void BindEnd__FP3ALO(P *p)
                         }
                     } else if (FIsBasicDerivedFrom(object, 3) || FIsBasicDerivedFrom(object, 0x30)) {
                         endpoint->kind = 0;
-                        endpoint->point = func_001A62E8(object);
+                        endpoint->point = PosOfLo(object);
                     }
                 }
             }
             if (endpoint->kind == -1) {
                 endpoint->kind = 0;
-                endpoint->point = func_001A62E8(p);
+                endpoint->point = PosOfLo(p);
             }
             switch (endpoint->kind) {
             case 0:
                 minimum = Min(minimum, endpoint->point);
                 maximum = Max(maximum, endpoint->point);
-                endpoint->point = func_0022FC48(0, p->space, endpoint->point);
+                endpoint->point = PosConvertXfs(0, p->space, endpoint->point);
                 break;
             case 1: {
                 // the matrix callback may change the endpoint's path, so it is re-read
@@ -277,8 +277,8 @@ extern "C" void BindEnd__FP3ALO(P *p)
         CopyTransformGeom(&bound->local, 0, &bound->world);
         bound->world.points[0].q = minimum;
         bound->world.points[1].q = maximum;
-        { U *out = bound->local.points; out[0].q = func_0022FC48(0, p->space, minimum); }
-        { U *out = bound->local.points; out[1].q = func_0022FC48(0, p->space, maximum); }
+        { U *out = bound->local.points; out[0].q = PosConvertXfs(0, p->space, minimum); }
+        { U *out = bound->local.points; out[1].q = PosConvertXfs(0, p->space, maximum); }
     }
     if ((int)(p->flags28 >> 60) & 1) AddAloSoes(p);
 }

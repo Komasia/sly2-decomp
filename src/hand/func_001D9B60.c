@@ -25,7 +25,8 @@ void func_00213B00(SUB *, int);
 void func_00213928(SUB *, int);
 void func_00212E40(SUB *, int, float);
 #define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d, a)
-void func_001D9B60(OBJ *p, int s)
+// name: SafeHouse port (SetGaugeState)
+void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
 {
     int old = p->x30;
     if (old == s)

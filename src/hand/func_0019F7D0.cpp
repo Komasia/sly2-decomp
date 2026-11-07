@@ -13,7 +13,7 @@ void _$_10STACKSCOPE(void *p, int n);
 qword PosSafeEntry(O *p, Q *q, float g) asm("PosSafeEntry__FP5ACTORPvf");
 void func_0020FC60(void *g, qword pos, void *pfn, void *x, int *pi, int *pj, float r);
 int func_0014CC58(int z, qword a, qword b, int i, int j, HIT *phit);
-void func_0020F948(void);
+void NOverlapKind(void) asm("NOverlapKind__FP3ALOT0");
 extern char g_sw[];
 extern float D_002BF944;
 extern qword D_002BF950[8];
@@ -35,7 +35,7 @@ float GCostSafeEntry(S *p, Q *q, int n, LO2 **apo)
         U a, b;
         HIT hit;
         int i0, i1;
-        func_0020FC60(g_sw, pos, (void *)func_0020F948, p->x0->xec, &i0, &i1, D_002BF944);
+        func_0020FC60(g_sw, pos, (void *)NOverlapKind, p->x0->xec, &i0, &i1, D_002BF944);
         a.q = pos;
         b.q = pos;
         a.f[2] += 125.0f;

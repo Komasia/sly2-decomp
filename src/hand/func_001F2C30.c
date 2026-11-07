@@ -11,10 +11,10 @@ extern struct S8 D_002A8270;
 void OnLoAdd__FP2LO(struct L *);
 void UpdateAloXfWorlds__FP3ALO(struct L *);
 void AddAloSoes__FP3ALO(struct L *);
-qword func_001A62E8(struct L *);
+qword PosOfLo__FP2LO(struct L *);
 void *PregionAt__FG9VU_VECTORi(qword, int);
 void SetAloRegion__FP3ALOP9NAVREGION(struct L *, void *);
-void func_00149A50(struct G *, struct L *, struct S8, int);
+void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(struct G *, struct L *, struct S8, int);
 void OnSoAdd__FP2SO(struct L *p)
 {
     struct L *q;
@@ -30,9 +30,9 @@ void OnSoAdd__FP2SO(struct L *p)
     pv = p->pe ? p->pe->pDC : 0;
     if (pv) {
         if (g_sw.ph && g_sw.ph->n2C)
-            SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(func_001A62E8(p), 1));
+            SetAloRegion__FP3ALOP9NAVREGION(p, PregionAt__FG9VU_VECTORi(PosOfLo__FP2LO(p), 1));
         else
-            func_00149A50(&g_sw, p, D_002A8270, 0);
+            PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(&g_sw, p, D_002A8270, 0);
     }
     for (q = p->first; q != p->end; q = q->next)
         q->pvt->a[11].pfn((char *)q + q->pvt->a[11].d);

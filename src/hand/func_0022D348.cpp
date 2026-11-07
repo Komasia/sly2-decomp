@@ -30,7 +30,8 @@ static inline qword ParentRotate(const M4 &m,qword v) {register qword row0 __asm
 static inline qword RotateRow(const M4 &m,qword v) {qword r=m.r[0];
     __asm__("vmulax.xyz ACC,%0,%3x\n\tvmadday.xyz ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(v));return r;}
 static inline void Eval(O *p,qword *v) {Hermite(p->t1-p->t0,*p->time-p->t0,*p->dt,p->v0,p->v1,p->v2,p->v3,0,v,0);}
-extern "C" qword func_0022D348(O *p,O *stop,qword in) {
+// name: SafeHouse port (VelXfPoint)
+extern "C" qword VelXfPoint__FP2XFT0G9VU_VECTOR(O *p,O *stop,qword in) {
     qword sum;
     qword delta;
     M4 m;

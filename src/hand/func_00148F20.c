@@ -3,12 +3,12 @@ struct P { char pad[0x1E0]; int x1E0; float x1E4; float x1E8; char pad2[0x2A8 - 
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 void *FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct Q *q);
-int func_00149100(struct P *p, int x);
+int FPadAccepts__FP3PADi(struct P *p, int x);
 void func_001490A0(struct P *p, int f);
 void *FAbsorbButtonWkr__FP6BUTTONP3WKR(struct P *p, struct Q *q)
 {
     void *r = FAbsorbSoWkr__FP2SOP3WKR(p, q);
-    if (r && !(q->x44 & 4) && func_00149100(p, q->x0)) {
+    if (r && !(q->x44 & 4) && FPadAccepts__FP3PADi(p, q->x0)) {
         switch (p->x2A8) {
         case 1:
             if (p->x1E0 == 0) func_001490A0(p, 1);

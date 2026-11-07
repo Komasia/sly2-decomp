@@ -3,7 +3,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 extern qword D_002A2DA0;
-qword func_0011E390(qword v);
+qword PerpendicularVector__FG9VU_VECTOR(qword v);
 static inline qword Cross(qword a, qword b)
 {
     qword r;
@@ -58,7 +58,7 @@ M3 *BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(M3 *pm, qword x, qword y)
     { qword t[1]; t[0] = z; } /* dead stack copy of z (the target's sqc2 vf1,0(sp)) */
     pm->r[1] = Div(z, l2);
     if (F(l2) < 1.0e-4f)
-        pm->r[1] = func_0011E390(xn);
+        pm->r[1] = PerpendicularVector__FG9VU_VECTOR(xn);
     pm->r[2] = Cross(pm->r[0], pm->r[1]);
     return pm;
 }

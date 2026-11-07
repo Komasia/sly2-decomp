@@ -3,7 +3,7 @@ struct G { int a; };
 extern struct G g_sw;
 struct H { char pad[0x90]; qword q90; };
 extern struct H g_cm;
-void *func_001C4840(struct G *g);
-qword func_001A62E8(void *p);
+void *PloPlayerPo__FP2SW(struct G *g);
+qword PosOfLo__FP2LO(void *p);
 // name: SafeHouse port (PosCenter)
-qword PosCenter__Fv(void) { struct G *g = &g_sw; if (func_001C4840(g)) return func_001A62E8(func_001C4840(g)); return g_cm.q90; }
+qword PosCenter__Fv(void) { struct G *g = &g_sw; if (PloPlayerPo__FP2SW(g)) return PosOfLo__FP2LO(PloPlayerPo__FP2SW(g)); return g_cm.q90; }

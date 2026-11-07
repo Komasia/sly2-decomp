@@ -26,7 +26,8 @@ extern void *D_003E139C;
 extern LO **func_0015E380(void *psw, int oid);
 extern ENT **func_0015E3C0(void *psw, int oid);
 extern void func_0015E3E8(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
-int func_0015E678(void *psw, int grf, int oid, LO *ploCtx, void *pchList, int cMax, LO **aplo)
+// name: SafeHouse port (CFindObjects)
+int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx, void *pchList, int cMax, LO **aplo)
 {
     volatile int unused; /* unreferenced stack slot at 0x10 in the original */
     int cplo;

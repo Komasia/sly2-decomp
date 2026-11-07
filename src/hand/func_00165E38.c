@@ -9,7 +9,7 @@ extern char D_002A3828[];
 CRef *NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
 int func_001D9880(void *p);
-void func_001D54B8(void);
+void ApplyVibrationSetting__Fv(void);
 void func_001DD888(void *p);
 void *func_00210B98(int n);
 void RequestTransition__FP2SWPUc3OIDT2iT2(struct G *pg, void *p, int a, int b, int c, int d);
@@ -25,7 +25,7 @@ void StartGameFromSave__FP2SW(void *pv)
     g = *(float *)&ref.m_tag;
     func_00129EC8(&ref);
     if (func_001D9880(D_003DA530) && g == 0.0f) {
-        func_001D54B8();
+        ApplyVibrationSetting__Fv();
         func_001DD888(D_003DA530);
         return;
     }

@@ -8,7 +8,8 @@ void func_00129330(CRef *ret, float *ag);
 void func_00129398(CRef *ret, float *ag);
 void func_001291E0(CRef *ret, float *ag);
 void func_0012A0B0(CRef *ret, int tagk);
-CRef *func_0013E690(CRef *ret, int k, void *pbs)
+// name: SafeHouse port (RefReadOption)
+CRef *RefReadOption__FiP18CBinaryInputStream(CRef *ret, int k, void *pbs)
 {
     float ag[3];
     switch (k) {

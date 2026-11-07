@@ -1,4 +1,4 @@
-// func_0018F2B0 (Claude agent, lane G14, 2026-10-24): MATCH. laneG12v1 (aligned 2, s4/s5 swap of the hoisted D_002BF4B8 / g_sw highs) plus const-ref helpers that add RTL insns which vanish after loop opt: Sub(const qword&,const qword&), AbsF(const float&), IsBonus(P*const&), and a `qword pred` copy. The node loop now has 96 real insns in loop pass 1 (> threshold 95, so only the life-2 bonus high is hoisted) and 91 in pass 2 (the g_sw high is hoisted then), which gives the target's s5/s4 order. One commented register pin (heading in f21).
+// ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf (Claude agent, lane G14, 2026-10-24): MATCH. laneG12v1 (aligned 2, s4/s5 swap of the hoisted D_002BF4B8 / g_sw highs) plus const-ref helpers that add RTL insns which vanish after loop opt: Sub(const qword&,const qword&), AbsF(const float&), IsBonus(P*const&), and a `qword pred` copy. The node loop now has 96 real insns in loop pass 1 (> threshold 95, so only the life-2 bonus high is hoisted) and 91 in pass 2 (the g_sw high is hoisted then), which gives the target's s5/s4 order. One commented register pin (heading in f21).
 // history, laneG12v1: laneG11v1 with the abs.s asm replaced by __builtin_fabsf (same aligned 2). Was laneG11v1 (Claude agent, 2026-10-24): laneG10v1 (4) + an early `qword early=QwFromF(dt)` before the 11B500 call. QwFromF's mfc1 has a "memory" clobber so sched1 keeps it ahead of the call (the call depends on it), and it is defined on the SAME source line as VuFloatBits so cse treats the two asm_operands as equal (the line number is part of ASM_OPERANDS) and the later VuFloatBits reuses the early value, leaving only its dead store into the inline's v (0xD0) like the target. g_normalZ is const (keeps its lq ahead of the memory clobber) and M3::operator= copies r[0],r[2],r[1]. aligned 2, ONE pin (heading f21). Left: s4/s5 swap of the hoisted g_sw/D_002BF4B8 high parts (target loop.c hoists the D_002BF4B8 hi first, so it lives one insn longer and is allocated second).
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int bits[4];};
@@ -11,8 +11,8 @@ extern "C" const qword g_normalZ;
 extern "C" P*D_003E13B4;
 extern "C" G g_sw;
 extern "C" float D_002BF4B8;
-extern "C" M3 func_0011B500(qword,float);
-extern "C" qword func_001A62E8(P*);
+extern "C" M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
+extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 extern "C" qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,float,M4*);
 extern "C" void PosNearestSegment(qword,qword,qword,qword*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
@@ -31,7 +31,8 @@ static inline qword GetVelocity(P*p){VTE*e=&p->vt[33];qword(*f)(void*)=(qword(*)
 static inline void*GetFrame(P*p,M4*out){return ((void*(*)(void*,M4*))p->vt[32].fn)((char*)p+p->vt[32].delta,out);}
 static inline float AbsF(const float &f){return __builtin_fabsf(f);}
 static inline int IsBonus(P*const &n){return func_0015ED78(&g_sw,3,0x33,n);}
-extern "C" void func_0018F2B0(P*p,float headingInput,int mask,float dtInput,U*offset,P**out,qword*outvector,float cone){
+// name: SafeHouse port (ChooseAttackTarget)
+extern "C" void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(P*p,float headingInput,int mask,float dtInput,U*offset,P**out,qword*outvector,float cone){
  register float heading __asm__("$f21")=headingInput; float dt=dtInput; // the one pin: heading in f21 (else f20/f21 swap)
  M3 rotation;
  U origin,reference,target,delta,candidate;
@@ -41,8 +42,8 @@ extern "C" void func_0018F2B0(P*p,float headingInput,int mask,float dtInput,U*of
  float nearest=300.0f;
  qword position;
  qword early=QwFromF(dt); // computed before the 11B500 call; cse merges the VuFloatBits(dt) below into it
- rotation=func_0011B500(g_normalZ,headingInput);
- position=func_001A62E8(p);
+ rotation=BuildRotateMatrixAxis(g_normalZ,headingInput);
+ position=PosOfLo(p);
  VU_FLOAT scalar=VuFloatBits(dt);
  origin.q=AddScaled(position,GetVelocity(p),scalar);
  reference.q=ConvertPos(p,0,offset->q);
@@ -52,14 +53,14 @@ extern "C" void func_0018F2B0(P*p,float headingInput,int mask,float dtInput,U*of
   struct{U hdr;M4 m;}fx;
   float t,distance;
   if(!(node->flags&mask))continue;
-  candidate.q=func_001A62E8(node);
+  candidate.q=PosOfLo(node);
   void*owner=GetFrame(node,&fx.m);
   func_002309E8(owner,0,&prediction,dt,0);
   PosNearestSegment(target.q,candidate.q,Transform(prediction,fx.m.r[3].q),0,&t,&distance);
   if(IsBonus(node))distance+=D_002BF4B8;
   if(distance<nearest){
    qword other=candidate.q;
-   U scratch;scratch.q=Sub(other,func_001A62E8(p));
+   U scratch;scratch.q=Sub(other,PosOfLo(p));
    float angle=AbsF(RadNormalize(func_002458F0(scratch.f[1],scratch.f[0])-heading));
    if(cone<angle)continue;
    best=node;nearest=distance;

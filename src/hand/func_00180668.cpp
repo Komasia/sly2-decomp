@@ -22,9 +22,9 @@ extern char D_002DE578[],g_sw[];
 void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 int FShipSegmentDone(P*) asm("FShipSegmentDone__FP2LO");
 void SetEnemyState(P*,int) asm("SetEnemyState__FP2LOi");
-qword func_001A62E8(void*);
+qword PosOfLo(void*) asm("PosOfLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
-qword func_0022FCC8(void*,void*,qword);
+qword VecConvertXfs(void*,void*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 float func_002458F0(float,float);
 float RadNormalize(float) asm("RadNormalize__Ff");
 int func_0011D910(LM*,float);
@@ -83,8 +83,8 @@ extern "C" void UpdateEnemy__FP2LO(P*p){
  if(p->state!=0&&p->state!=4){if(!p->target||!Alive(p->target))SetEnemyState(p,0);}
  if(!p->active&&p->target&&Alive(p->target)){
   RULE*rule=&p->rules[p->state];
-  qword target=func_001A62E8(p->target);
-  qword delta=QwSub(target,func_001A62E8(p));
+  qword target=PosOfLo(p->target);
+  qword delta=QwSub(target,PosOfLo(p));
   float distance=Length(delta);
   float heading=RadNormalize(Heading(ConvertVec(0,p,delta)));
   int accept;
@@ -111,15 +111,15 @@ dispatch:
  case 1:case 2:{
   if(p->cooldown)break;
   FRAME*frame=p->node.frame;
-  qword target=func_001A62E8(p->target);
-  qword self=func_001A62E8(p);
-  float heading=RadNormalize(Heading(func_0022FCC8(0,frame->space,QwSub(target,self))));
+  qword target=PosOfLo(p->target);
+  qword self=PosOfLo(p);
+  float heading=RadNormalize(Heading(VecConvertXfs(0,frame->space,QwSub(target,self))));
   p->heading=Clamp(Evaluate(&p->simpleAngle,heading),&p->simpleClamp);
   break;
  }
  case 3:{
-  qword target=func_001A62E8(p->target);
-  qword self=func_001A62E8(p);
+  qword target=PosOfLo(p->target);
+  qword self=PosOfLo(p);
   VTE*vte=&p->node.vt[33];
   vte->fn((char*)p+vte->delta);
   int refresh=0;
@@ -150,7 +150,7 @@ dispatch:
    NODE*object=objects[i];
    if(object!=&p->node&&object->group!=p->node.group){
     U scalar;
-    scalar.q=RSub(self,func_001A62E8(object));
+    scalar.q=RSub(self,PosOfLo(object));
     scalar.f[2]=0.0f;
     qword len=NormalizeInPlace(&scalar,&D_002A2DA0,p);
     float weight=Limit(REvaluate(D_002BE840,RGXOfVf(len)),&D_002BE850);

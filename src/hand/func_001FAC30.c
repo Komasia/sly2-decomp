@@ -2,14 +2,14 @@ typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0x98]; short k; char pad2[0xA0 - 0x9A]; int nA0; char pad3[0xF0 - 0xA4]; qword pos; };
 struct P { char pad[0x58]; struct O *po; };
 int func_00230380(int);
-qword func_0022FCC8(int, int, qword);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(int, int, qword);
 // name: SafeHouse port (AccelAloPos)
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
 {
     if (func_00230380(p->po->k)) {
         struct O *po = p->po;
         qword a = po->pos;
-        qword r = func_0022FCC8(0, po->nA0, v);
+        qword r = VecConvertXfs__FP2XFT0G9VU_VECTOR(0, po->nA0, v);
         qword s;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(a), "j"(r));
         po->pos = s;

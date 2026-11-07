@@ -1,5 +1,6 @@
 struct X { char pad[8]; float g; float g2; char pad2[8]; float af[9]; };
-void func_0014D1F8(struct X *p)
+// name: SafeHouse port (UpdateClockRate)
+void UpdateClockRate__FP5CLOCK(struct X *p)
 {
     unsigned int i;
     p->g = 1.0f;

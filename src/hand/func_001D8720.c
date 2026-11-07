@@ -2,7 +2,8 @@ struct E { unsigned int h; char *s; int n; struct E *next; };
 struct S { struct E *ap[0x35]; int c; struct E *ae; };
 unsigned int func_001D8640(char *s);
 int func_002342D0(char *a, char *b);
-int func_001D8720(struct S *p, char *s)
+// name: SafeHouse port (SymFromName)
+int SymFromName__FP6LAYOUTPc(struct S *p, char *s)
 {
     unsigned int h = func_001D8640(s);
     struct E *pe;

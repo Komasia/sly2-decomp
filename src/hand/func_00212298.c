@@ -12,9 +12,10 @@ int func_00117C80(void *pbis);
 struct O *PvAllocSwClearImpl__Fi(AREQ *preq);
 void func_00118458(void *pbis, struct O *po);
 void func_0011A070(void *, struct O *po);
-void func_00214398(struct S *p, void *pbis, struct S *p2, int *pa, int *pb);
-void func_00214460(struct S *p, void *pbis, struct S *p2);
-void func_00212298(struct S *p, void *pbis)
+void LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3(struct S *p, void *pbis, struct S *p2, int *pa, int *pb);
+void LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT(struct S *p, void *pbis, struct S *p2);
+// name: SafeHouse port (LoadScreenObjFromBrx)
+void LoadScreenObjFromBrx__FP9SCREENOBJP18CBinaryInputStream(struct S *p, void *pbis)
 {
     int f;
     p->x70 = 0x310;
@@ -39,8 +40,8 @@ void func_00212298(struct S *p, void *pbis)
     } else {
         p->x58 = 1;
         p->xC4 = D_003E1C80;
-        func_00214398(p, pbis, p, &p->x50, &p->x54);
-        func_00214460(p, pbis, p);
+        LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3(p, pbis, p, &p->x50, &p->x54);
+        LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT(p, pbis, p);
     }
     p->x7C = -1;
 }

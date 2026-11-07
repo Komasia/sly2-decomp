@@ -10,7 +10,8 @@ void _$_10STACKSCOPE(FRAME *, int);
 void func_00129EC8(CREF *);
 void func_001D87C0(void *p, va_list ap, LIST *pv);
 int func_001D7E80(void *, LIST *, void *);
-int func_001D8C10(void *p, ...)
+// name: SafeHouse port (PnProgressSlot)
+int PnProgressSlot__FPvi(void *p, ...)
 {
     CREF ref;
     FRAME fr;

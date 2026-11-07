@@ -7,7 +7,7 @@ struct O { char pad[0xFC4]; struct C *curve; };
 struct G { char pad[0x475C]; float offset; };
 extern float D_002C3EA0[3];
 extern float D_002C3EB0[2];
-struct O *func_0015E938(struct G *, int, int, void *);
+struct O *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
 struct M *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(struct M *, struct O *);
@@ -25,7 +25,7 @@ void PlayAsegaSound__FfffPviiiiN33PPv(float offset, float fade, float scale, str
     if (id == -1)
         return;
     __asm__ volatile("" ::: "$4");
-    if(oid!=-1)fallback=func_0015E938(p,4,oid,owner);
+    if(oid!=-1)fallback=PloFindSwNearest__FP2LO3OIDii(p,4,oid,owner);
     o=SelectedValue(fallback);
     if (o && FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x38) && o->curve) {
         float v = o->curve->value;

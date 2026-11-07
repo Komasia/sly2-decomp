@@ -37,8 +37,9 @@ struct SPB {
     operator BINDING *() { return p; }
 };
 struct FRAME { char pad[0x1C]; SPM pbinding; };
-extern "C" CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
-CRef func_00127C00(FRAME *pframe, int sym, CRef *pref)
+extern "C" CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref) asm("RefAddBinding__6CFrameUiP4CRef");
+// name: SafeHouse port (CFrame::RefAddBinding)
+CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref)
 {
     SPM *ppbFirst = &pframe->pbinding;
     SPB sp;

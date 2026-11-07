@@ -3,7 +3,7 @@ struct Q { char pad[0x18]; float g18; float g1C; };
 struct O { char pad[0x150]; struct Q *pq; char pad2[0x10DC - 0x154]; void *p10DC; };
 struct P { struct O *po; int x4; int x8; int xC; };
 qword SetVectorCylind__Ffff(float a, float b, float c);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 // name: SafeHouse port (SelectSlyDodgeSide)
 int SelectSlyDodgeSide__FP3SLY(struct P *p)
 {
@@ -11,11 +11,11 @@ int SelectSlyDodgeSide__FP3SLY(struct P *p)
     struct Q *pq = p->po->pq;
     if (zero < pq->g1C && p->po->p10DC) {
         qword v = SetVectorCylind__Ffff(pq->g18 - 1.5707964f, 1.0f, zero);
-        qword a = func_001A62E8(p->po->p10DC);
+        qword a = PosOfLo__FP2LO(p->po->p10DC);
         qword b, d, t;
         float g;
         __asm__("" : "+j"(a));
-        b = func_001A62E8(p->po);
+        b = PosOfLo__FP2LO(p->po);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
         __asm__("vmul.xyz %0, %2, %3\n"
             "vaddw.x %1, $vf0, $vf0w\n"

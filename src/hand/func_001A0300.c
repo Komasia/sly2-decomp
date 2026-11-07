@@ -9,7 +9,7 @@ struct O { int x0; struct A *x4; };
 struct K { char pad[0x74]; WORD x74; };
 struct E { float x0; struct K *x4; int pad[2]; qword x10; };
 struct O *PchnFindAseg__FP4ASEGP3ALOPvi(struct K *k, struct ACTOR *p, void *a, int b);
-void func_00137A30(struct ACTOR *p, int cb, int c, struct E *ae, int count, int *keys, int *counts, struct MULTI **pn);
+void NewBlend__FP3ALOiiP4ELEMiPiT5Pv(struct ACTOR *p, int cb, int c, struct E *ae, int count, int *keys, int *counts, struct MULTI **pn);
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char A_vt_Offset[FIELD_OFFSET(A,vt)==0?1:-1];
 typedef char O_x4_Offset[FIELD_OFFSET(O,x4)==4?1:-1];
@@ -55,6 +55,6 @@ void BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(struct ACTOR *p, struct E *ae, str
             }
         }
     }
-    func_00137A30(p, 0x20, 8, ae, 0, 0, 0, &n);
+    NewBlend__FP3ALOiiP4ELEMiPiT5Pv(p, 0x20, 8, ae, 0, 0, 0, &n);
     *pn = n;
 }

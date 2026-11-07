@@ -87,10 +87,10 @@ extern "C" M4 func_001A71B0(void*,void*,M4*);
 extern "C" void func_001B72B0(P*,NODE*,const M4*,qword*,qword*);
 extern "C" int FIsBasicDerivedFrom(OWNER*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" void ReactGuardHeld(OWNER*,int) asm("ReactGuardHeld__FP2LOi");
-extern "C" void func_00209E88(OWNER*);
+extern "C" void CarryGuardHeld(OWNER*) asm("CarryGuardHeld__FP2LO");
 extern "C" void PickupVelocities(P*,qword,float*,float*,qword*,qword*) asm("PickupVelocities__FP6MURRAYG9VU_VECTORPfT2P7VECTOR4T4");
 extern "C" MOTION*PctrlNewTarget(void*,void*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
-extern "C" qword func_0022FCC8(NODE*,NODE*,qword);
+extern "C" qword VecConvertXfs(NODE*,NODE*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 extern "C" MOTION*PctrlNewPos(void*,void*,void*,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 extern "C" MOTION*func_0012DD28(void*,void*,void*,STRETCH*);
 extern "C" MOTION*func_0012DDB0(void*,void*,void*,void*,int,M4*);
@@ -129,7 +129,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
   VTE*entry=&owner->vt[35];
   void*receiver=(char*)owner+entry->delta;
-  qword velocity=func_0022FCC8(owner->left->parent,0,work.row[2].q);
+  qword velocity=VecConvertXfs(owner->left->parent,0,work.row[2].q);
   ((void(*)(void*,qword))entry->fn)(receiver,velocity);
   p->m1400=PctrlNewPos(owner,owner->right,(void*)5,7,2,work.row[0].q);
   break;
@@ -172,7 +172,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
    p->m1624=func_0012DD28(p,stretch->second,(void*)5,stretch);
    p->m160C=func_0012DDB0(p,p->targetSecond,(void*)5,(void*)5,(int)stretch->frame,&frame);
   }
-  if(FIsBasicDerivedFrom(owner,0x38))func_00209E88(owner);
+  if(FIsBasicDerivedFrom(owner,0x38))CarryGuardHeld(owner);
   ClearXYZ(&p->velocity);
   break;
  }

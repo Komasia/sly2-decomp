@@ -4,7 +4,8 @@ typedef struct AREQ { int cb; int cbAlign; } AREQ;
 int func_00117C20(void *pbis);
 float func_00117E38(void *pbis);
 KEY *PvAllocSwClearImpl__Fi(AREQ *preq);
-void func_0012CCB8(T *t, void *pbis)
+// name: SafeHouse port (TRKGK::Load)
+void Load__5TRKGKP18CBinaryInputStream(T *t, void *pbis)
 {
     int i;
     int c = func_00117C20(pbis);

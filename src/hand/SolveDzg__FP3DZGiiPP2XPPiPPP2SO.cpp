@@ -5,8 +5,8 @@ struct DZ { int n0; int pad4[3]; float g10; int pad14; int f18; int pad1C; DZ *p
 struct DZG { int pad0[3]; DL dlC; int pad18[6]; DL dl30; int c3C; };
 struct XP; struct SO;
 extern "C" {
-int func_00158958(DZG *, DZ *);
-void func_00158728(DZG *, int, DZ *, int);
+int PentFromDz(DZG *, DZ *) asm("PentFromDz__FP3DZGP2DZ");
+void CalculateDzResponses(DZG *, int, DZ *, int) asm("CalculateDzResponses__FP3DZGiP2DZP5DZENT");
 void RemoveDlEntry(DL *, void *) asm("RemoveDlEntry__FP2DLPv");
 void AppendDlEntry(DL *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_0011A770(DZG *, DZ *);
@@ -34,7 +34,7 @@ void SolveDzg(DZG *pdzg, int a, int b, XP **ppxp, int *pn, SO ***pppso)
     while ((pdz = (DZ *)PvNextDli(&dli)) != 0) {
         if (pdz->n0 == 1) {
             if (!pdz->f18)
-                func_00158728(pdzg, a, pdz, func_00158958(pdzg, pdz));
+                CalculateDzResponses(pdzg, a, pdz, PentFromDz(pdzg, pdz));
             RemoveDlEntry(&pdzg->dl30, pdz);
             AppendDlEntry(&pdzg->dlC, pdz);
             pdzg->c3C++;
@@ -54,7 +54,7 @@ void SolveDzg(DZG *pdzg, int a, int b, XP **ppxp, int *pn, SO ***pppso)
         if (!pdzBest)
             break;
         if (!pdzBest->f18)
-            func_00158728(pdzg, a, pdzBest, func_00158958(pdzg, pdzBest));
+            CalculateDzResponses(pdzg, a, pdzBest, PentFromDz(pdzg, pdzBest));
         func_0011A770(pdzg, pdzBest);
     }
 }

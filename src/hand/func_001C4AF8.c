@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct LO { char pad[0x28]; unsigned long flags; };
 struct S { char pad[0x3EB8]; int c; struct LO *list[1]; };
 extern float D_002A7708;
-qword func_001A62E8(struct LO*);
+qword PosOfLo__FP2LO(struct LO*);
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b)); return r; }
 static inline float LenSq(qword a) {
     qword d,one; float f;
@@ -17,7 +17,7 @@ struct LO *PloNearestPlayer__FP6VECTORG9VU_VECTOR(struct S*p,qword v) {
     for(;i<p->c;++i) {
         struct LO *lo=p->list[i];
         if((int)(lo->flags>>60)&1) {
-            float dist=LenSq(Sub(v,func_001A62E8(lo)));
+            float dist=LenSq(Sub(v,PosOfLo__FP2LO(lo)));
             if(dist<minimum) { minimum=dist; best=lo; }
         }
     }

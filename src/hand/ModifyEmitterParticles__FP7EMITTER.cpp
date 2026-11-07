@@ -7,7 +7,7 @@ struct EMITO { ALO *palo; };
 struct EMITB { int pad0; int f4; EMITO *pemito; };
 struct EMITTER { char pad[0xE4]; EMITB *pemitb; char pad1[0x140 - 0xE8]; float sBox; char pad2[0x150 - 0x144]; PRG *pprg; };
 extern "C" {
-qword func_001A62E8(ALO *palo);
+qword PosOfLo(ALO *palo) asm("PosOfLo__FP2LO");
 float GModPositive(float g, float gMod) asm("GModPositive__Fff");
 }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -27,8 +27,8 @@ void ModifyEmitterParticles(EMITTER *pemitter)
         volatile int unused;
         vecBox.v.z = sBox; vecBox.v.y = sBox; vecBox.v.x = sBox;
         if (pemitter->pemitb->pemito->palo) {
-            posMin.q = Sub(func_001A62E8(pemitter->pemitb->pemito->palo), vecBox.q);
-            posMax.q = Add(func_001A62E8(pemitter->pemitb->pemito->palo), vecBox.q);
+            posMin.q = Sub(PosOfLo(pemitter->pemitb->pemito->palo), vecBox.q);
+            posMax.q = Add(PosOfLo(pemitter->pemitb->pemito->palo), vecBox.q);
         } else {
             qword m, k;
             __asm__("qmtc2.ni %1, %0" : "=j"(k) : "r"(-1.0f));

@@ -21,10 +21,10 @@ struct SPF {
     void operator=(FRAME *pf);
 };
 extern "C" {
-FRAME *func_00256DD0();
+FRAME *PframeNew() asm("PframeNew__Fv");
 CRef RefEval(NODE *p, FRAME *pframe) asm("RefEval__FP5CPairP6CFrame");
-CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
-void func_00127B18(FRAME *pframe, FRAME *pframeParent);
+CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref) asm("RefAddBinding__6CFrameUiP4CRef");
+void SetSingleParent(FRAME *pframe, FRAME *pframeParent) asm("SetSingleParent__6CFrame");
 CRef RefEvalLet(P *p, FRAME *pframe) asm("RefEvalLet__FP5CPairP6CFrame");
 }
 // name: SafeHouse port (RefEvalLet)
@@ -37,14 +37,14 @@ CRef RefEvalLet(P *p, FRAME *pframe)
     NODE *pargs = p->pv->pargs;
     NODE *pn;
     if (pargs->ref.m_tagk == 0x1F) {
-        FRAME *pfNew = func_00256DD0();
+        FRAME *pfNew = PframeNew();
         spf = pfNew;
         for (pn = (NODE *)pargs->ref.u.pv; pn; pn = pn->pnext) {
             NODE *pb = (NODE *)pn->ref.u.pv;
             refVal = RefEval(pb->pnext, pframe);
-            refT = func_00127C00(spf.p, pb->ref.u.n, &refVal);
+            refT = RefAddBinding(spf.p, pb->ref.u.n, &refVal);
         }
-        func_00127B18(spf.p, pframe);
+        SetSingleParent(spf.p, pframe);
     } else {
         spf = pframe;
     }

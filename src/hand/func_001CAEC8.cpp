@@ -20,12 +20,12 @@ void DetachProxy(P *,NODE *) asm("DetachProxy__FP5PROXYP10PROXYSPARE");
 int func_001CA930(P *,NODE *);
 int func_001C9940(int,int);
 TREE *func_001C99D8(TREE *,int,int *);
-int func_0015E678(SW *,int,int,P *,void *,int,P **);
+int CFindObjects(SW *,int,int,P *,void *,int,P **) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
 STREAM *func_00118480(STREAM *);
 void func_00118500(STREAM *,void *,void *,int);
 short func_00117D50(STREAM *);
 void LoadOptionFromBrx(P *,DESC *,int,STREAM *) asm("LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream");
-void func_00127B40(void *,void *);
+void AddParent(void *,void *) asm("AddParent__6CFrameP6CFrame");
 void func_00256EE0(void **,void *);
 void func_001184B8(STREAM *,int);
 }
@@ -51,14 +51,14 @@ extern "C" NODE *func_001CAEC8(P *p,int minimum){
   BIND *bind=&p->binds[i];
   if(bind->kind==5)continue;
   if(bind->kind==6){work.found=tree->owner;if(!work.found)continue;}
-  else if(func_0015E678(&g_sw,0xA05,bind->kind,0,tree,1,&work.found)!=1)continue;
+  else if(CFindObjects(&g_sw,0xA05,bind->kind,0,tree,1,&work.found)!=1)continue;
   bind->object=work.found;
   func_00118480(&stream);
   func_00118500(&stream,bind->begin,bind->end,0);
   int index;
   while((index=func_00117D50(&stream))>=0){DESC *desc=&D_002AC880[index];LoadOptionFromBrx(work.found,desc,desc->flags&0x2031,&stream);}
   if(bind->resource && !p->disabled){
-   if(work.found->resource)func_00127B40(bind->resource,work.found->resource);
+   if(work.found->resource)AddParent(bind->resource,work.found->resource);
    func_00256EE0(&work.found->resource,bind->resource);
   }
   func_001184B8(&stream,2);

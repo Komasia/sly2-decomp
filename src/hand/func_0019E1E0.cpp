@@ -12,7 +12,7 @@ qword func_0011F088(qword,qword,float,SMP*,U*);
 void SetJumpKind(void*,int,void*,void*) asm("SetJumpKind__FP4JUMPiiP2LO");int GrfPadctlTakePressed(INPUT*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");int GrfPadctlPressedWithin(INPUT*,int,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(INPUT*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
 void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");int func_00131968(ASEGA*);void SetClimbState(C*,int) asm("SetClimbState__FP5ACTORi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
-void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void func_001384C0(ANIMATION*);
+void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void RecalcBlend(ANIMATION*) asm("RecalcBlend__FP6ASEGBL");
 float fabsf(float);
 }
 static inline ulong Eligible(PATH*p){return (p->flags>>60)&1;}
@@ -146,7 +146,7 @@ extern "C" void UpdateClimbTransitions__FP5ACTOR(C*p){
   register ANIMATION*animation __asm__("$4");register float complement __asm__("$f0");
   __asm__(".set noat\n\tlui $1,0x3f80\n\tmtc1 $1,%0\n\t.set at\n\tlw %1,0x70(%3)\n\tsub.s %0,%0,%4\n\tswc1 %4,%2":"=f"(complement),"=r"(animation),"=m"(p->weight1):"r"(p),"f"(weight):"$1","memory");
   p->weight0=complement;
-  func_001384C0(animation);
+  RecalcBlend(animation);
  }
  SetClimbState(p,mode);
 }

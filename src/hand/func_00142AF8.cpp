@@ -1,6 +1,6 @@
 // UpdateActorLook (Claude agent, laneC38 2026-10-24): MATCH from fresh5 (aligned 18). Every matrix product is written with Lilly's
-// MATRIX3 operator* (the NRV helper from src/hand/func_0021CB18.cpp / AngVelAlo.cpp: rows read into qword locals, each
-// result row stored through a VU_VECTOR4 copy), and the first func_0022FD38 call is a plain assignment (no dead-copy wrapper).
+// MATRIX3 operator* (the NRV helper from src/hand/UpdateXfChain.cpp / AngVelAlo.cpp: rows read into qword locals, each
+// result row stored through a VU_VECTOR4 copy), and the first MatConvertXfs call is a plain assignment (no dead-copy wrapper).
 // The one remaining trick is fresh3's commented clobber of the dead a0 in the c4678 block.
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
@@ -28,18 +28,18 @@ extern S *D_003E1474;
 extern GS g_sw;
 void func_00142880(P *p);
 void SetActorLookTarget(P *p, int n, S *ps) asm("SetActorLookTarget__FP5ACTORiP2LO");
-void func_001428D8(P *p, S *ps, void **ppv, float *pg, float *pg2);
+void LookScore(P *p, S *ps, void **ppv, float *pg, float *pg2) asm("LookScore__FP5ACTORP2LOPP2LOPfT3");
 int func_0011D910(void *p, float g);
 void EnsureCtrlAdded(Q *pq) asm("EnsureCtrlAdded__FP4CTRL");
 void EnsureCtrlRemoved(Q *pq) asm("EnsureCtrlRemoved__FP4CTRL");
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 qword ConvertPos(int n, P *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-void func_0011E958(qword v, float *pa, float *pb);
+void PanTiltFromVector(qword v, float *pa, float *pb) asm("PanTiltFromVector__FG9VU_VECTORPfT1");
 float RadLimitLm(LM *plm, float g) asm("RadLimitLm__FP2LMf");
-M3 func_0011B720(float a, float b);
-M3 func_0011B500(qword v, float g);
-M3 func_0022FD38(void *pvFrom, void *pvTo, M3 *pm);
-M3 func_0011B340(const M3 *pm);
+M3 BuildPanTiltMatrix(float a, float b) asm("BuildPanTiltMatrix__FPvff");
+M3 BuildRotateMatrixAxis(qword v, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
+M3 MatConvertXfs(void *pvFrom, void *pvTo, M3 *pm) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
+M3 InverseMatrix3(const M3 *pm) asm("InverseMatrix3__FP7MATRIX3");
 qword DecomposeEulerMatrix(M3 *pm) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void SetCtrlPos(Q *pq, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void UpdateActorLook(P *p) asm("UpdateActorLook__FP5ACTOR");
@@ -97,13 +97,13 @@ void UpdateActorLook(P *p)
             float gBest, g1, g2;
             S *ps;
             if (psBest)
-                func_001428D8(p, psBest, &p->p10F8, &gBest, 0);
+                LookScore(p, psBest, &p->p10F8, &gBest, 0);
             else
                 gBest = D_002A4D68;
             for (ps = D_003E1474; ps; ps = ps->pNext) {
                 if (ps->nF4 < nBest)
                     continue;
-                func_001428D8(p, ps, &p->p10F8, &g1, &g2);
+                LookScore(p, ps, &p->p10F8, &g1, &g2);
                 if (g1 > ps->gE8)
                     continue;
                 if (!func_0011D910(ps->rng, g2))
@@ -119,7 +119,7 @@ void UpdateActorLook(P *p)
                 ps = g_sw.ps4690;
                 if (ps) {
                     float g3, g4;
-                    func_001428D8(p, ps, &p->p10F8, &g3, &g4);
+                    LookScore(p, ps, &p->p10F8, &g3, &g4);
                     if (nBest < 2 || (nBest == 2 && g3 < gBest)) {
                         psBest = ps;
                         nBest = 2;
@@ -141,7 +141,7 @@ void UpdateActorLook(P *p)
             return;
         }
         EnsureCtrlAdded(p->pq);
-        func_0011E958(ConvertPos(0, p, func_001A62E8(p->p10F8)), &pan, &tilt);
+        PanTiltFromVector(ConvertPos(0, p, PosOfLo(p->p10F8)), &pan, &tilt);
         pan = RadLimitLm(&p->lmPan, pan);
         tilt = RadLimitLm(&p->lmTilt, tilt);
         {
@@ -155,14 +155,14 @@ void UpdateActorLook(P *p)
         }
     }
     M3 m0, m1;
-    m0 = func_0011B720(pan, tilt) * func_0011B500(D_002A2DA0, g);
-    m1 = func_0022FD38(0, p->p60, &p->pq->p8->m40);
-    m1 = m1 * func_0011B340(&p->m1150);
+    m0 = BuildPanTiltMatrix(pan, tilt) * BuildRotateMatrixAxis(D_002A2DA0, g);
+    m1 = MatConvertXfs(0, p->p60, &p->pq->p8->m40);
+    m1 = m1 * InverseMatrix3(&p->m1150);
     M3 m2;
     if (X(m0, 0) + X(m1, 0) < 0.0f && X(m0, 1) * X(m1, 1) < 0.0f)
         m2 = p->m1150;
     else
         m2 = m0 * p->m1150;
-    m2 = func_0022FD38(p->p60, p->pq->p8->pA0, &m2);
+    m2 = MatConvertXfs(p->p60, p->pq->p8->pA0, &m2);
     SetCtrlPos(p->pq, DecomposeEulerMatrix(&m2));
 }

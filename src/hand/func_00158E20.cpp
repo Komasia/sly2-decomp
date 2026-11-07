@@ -11,7 +11,7 @@ void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
 qword LimitVectorLength(qword v, float g) asm("LimitVectorLength__FG9VU_VECTORf");
-void func_00158E20(S *p, float g1, float g2);
+void ApplyDzg(S *p, float g1, float g2) asm("ApplyDzg__FP3DZGff");
 }
 struct VUF { qword q; VUF(const float &g) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(*(const int *)&g)); } };
 static inline qword AddScale(qword a, qword b, const VUF &t)
@@ -20,7 +20,8 @@ static inline qword AddScale(qword a, qword b, const VUF &t)
     return a;
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
-void func_00158E20(S *p, float g1, float g2)
+// name: SafeHouse port (ApplyDzg)
+void ApplyDzg(S *p, float g1, float g2)
 {
     FRAME frame;
     int i;

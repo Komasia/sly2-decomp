@@ -18,9 +18,9 @@ void PlayKinde__FP5KINDEP5GUARDif(struct C *c, struct A *a, int fl, float g);
 float *PeventLaunch__FP5KINDEi(void *p, void *q);
 void SetAsegaTime__FP5ASEGAiff(void *p, float a, float b, int n);
 void SetState__5JOBB1i(struct S *p, int n);
-struct O *func_0015E938(struct G *g, int a, int b, int c);
+struct O *PloFindSwNearest__FP2LO3OIDii(struct G *g, int a, int b, int c);
 void *func_002333B4(void *p, int c, int n);
-qword func_001A62E8(struct A *a);
+qword PosOfLo__FP2LO(struct A *a);
 void func_00156698(void *p, qword v, struct A *a);
 // name: SafeHouse port (JOBB1::Message)
 int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
@@ -55,13 +55,13 @@ int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
             }
             SetAsegaTime__FP5ASEGAiff(p->p40->p8, g, 1.0f, 0);
             SetState__5JOBB1i(p, 0);
-            o = func_0015E938(&g_sw, 5, D_002BE6E8[i], 0);
+            o = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, D_002BE6E8[i], 0);
             if (o) {
                 struct X x;
                 struct VTE *e;
                 func_002333B4(&x, 0, sizeof x);
                 x.a = 5;
-                x.v = func_001A62E8(p->p10);
+                x.v = PosOfLo__FP2LO(p->p10);
                 e = &o->vt[0x33];
                 ((void (*)(void *, struct X *))e->pfn)((char *)o + e->d, &x);
             }
@@ -70,7 +70,7 @@ int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
                 int m = a->n33C + pm->n10;
                 a->n33C = m < 5 ? 5 : m;
             }
-            func_00156698(g_sw.p4028, func_001A62E8(p->p10), p->p10);
+            func_00156698(g_sw.p4028, PosOfLo__FP2LO(p->p10), p->p10);
             return 1;
         }
     }

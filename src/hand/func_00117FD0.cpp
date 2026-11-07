@@ -11,7 +11,7 @@ int func_00117BD0(BIS *pbis);
 void ReadVector(BIS *pbis, qword *pv) asm("ReadVector__18CBinaryInputStreamP6VECTOR");
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
-void func_00119308(FACE *pface, qword a, qword b, qword c);
+void PlaneFromPoints(FACE *pface, qword a, qword b, qword c) asm("PlaneFromPoints__FP6VECTORG9VU_VECTORN21");
 void func_00117FD0(BIS *pbis, GEOM *pg);
 }
 static inline void *PvAlloc1D0(int cb) { AREQ req; req.cbAlign = 0x10; req.cb = cb; return PvAllocSwImpl(&req); }
@@ -28,7 +28,7 @@ void func_00117FD0(BIS *pbis, GEOM *pg) { int i;
    FACE *pf = &pg->aface[iface];
    int ai[3];
    ai[0] = func_00117C20(pbis); ai[1] = func_00117C20(pbis); ai[2] = func_00117C20(pbis);
-   func_00119308(pf, pg->apos[ai[0]], pg->apos[ai[1]], pg->apos[ai[2]]);
+   PlaneFromPoints(pf, pg->apos[ai[0]], pg->apos[ai[1]], pg->apos[ai[2]]);
    pf->ipos = ai[0];
    for (int j = 0; j < 4; j++) func_00117E38(pbis);
    int cedge = func_00117BD0(pbis);

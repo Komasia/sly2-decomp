@@ -2,7 +2,8 @@ struct VTE { short d; short pad; void (*pf)(void *); };
 struct O { int a[3]; struct VTE *vt; char pad[0x14]; struct O *next; };
 struct S { char pad[0x64]; struct O *first; int a[2]; struct O *end; };
 void UpdateAloXfWorlds__FP3ALO(struct S *p);
-void func_0022FBE0(struct S *p)
+// name: SafeHouse port (UpdateAloXfWorldsHierarchy)
+void UpdateAloXfWorldsHierarchy__FP3ALO(struct S *p)
 {
     struct O *o;
     UpdateAloXfWorlds__FP3ALO(p);

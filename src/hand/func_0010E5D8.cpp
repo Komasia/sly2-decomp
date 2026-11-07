@@ -15,8 +15,9 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
-extern "C" { void func_001F8A78(void *p, int, int, qword); CRef func_0010E5D8(void *p, int c, void *aref); }
-CRef func_0010E5D8(void *p, int c, void *aref)
+extern "C" { void func_001F8A78(void *p, int, int, qword); CRef RefXfhMovePos(void *p, int c, void *aref) asm("RefXfhMovePos__FP5BASICiP4CRef"); }
+// name: SafeHouse port (RefXfhMovePos)
+CRef RefXfhMovePos(void *p, int c, void *aref)
 {
     int ak[3] = {0x100d, 0x5, 0x2};
     union { qword q; } v2;

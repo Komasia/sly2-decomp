@@ -4,7 +4,7 @@ struct SO { char pad[0x4C8]; int x4C8; int x4CC; char pad1[0x4D4 - 0x4D0]; Z *x4
 struct VECTOR { qword q; VECTOR() {} VECTOR(const VECTOR &v) : q(v.q) {} };
 extern "C" {
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 VECTOR *MatJtLo(SO *p) asm("MatJtLo__FP2LO");
 int FTargetHidden(void *p, SO *pso) asm("FTargetHidden__FP8DETECTORP2LO");
 }
@@ -23,7 +23,7 @@ int FTargetHidden(void *p, SO *pso)
 {
     if (!FIsBasicDerivedFrom(pso, 0x34)) return 0;
     if (pso->x4CC == -1) return 0;
-    VECTOR d; d.q = Sub(func_001A62E8(pso), func_001A62E8(p));
+    VECTOR d; d.q = Sub(PosOfLo(pso), PosOfLo(p));
     switch (pso->x4C8) {
     case 0:
     case 13:

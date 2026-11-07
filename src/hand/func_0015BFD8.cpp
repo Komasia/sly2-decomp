@@ -6,7 +6,7 @@ struct CLOCK { float t; float dt; };
 extern CLOCK g_clock;
 extern MATRIX4 D_002A2D30;
 struct X { float x, y, z, w; qword axis; float gRot; float gScale; };
-void func_0011B500(MATRIX3 *pm, float g, qword axis);
+void BuildRotateMatrixAxis(MATRIX3 *pm, float g, qword axis) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 MATRIX4 operator*(const MATRIX4 &a, const MATRIX4 &b);
 MATRIX4 operator*(const MATRIX4 &m, VU_FLOAT s);
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -31,7 +31,7 @@ MATRIX4 UpdatePsys(X *p)
     MATRIX4 *pmRot = &mRot;
     if (p->gRot != 0.0f) {
         MATRIX3 m3;
-        func_0011B500(&m3, p->gRot * g_clock.dt, p->axis);
+        BuildRotateMatrixAxis(&m3, p->gRot * g_clock.dt, p->axis);
         *(MATRIX3 *)pmRot = m3;
     }
     MATRIX4 mD;

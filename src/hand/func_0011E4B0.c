@@ -1,8 +1,8 @@
-/* func_0011E4B0 (Claude agent): angle between vectors + optional normalized axis. Length's float comes from an mtc1 asm fed by gcc's own qmfc2 ("r"(qword)), and the axis length vector (pinned vf1) is passed as a GPR qword to the qmtc2, so the move is shared like the original. */
+/* RadBetweenVectors__FG9VU_VECTORT0P6VECTOR (Claude agent): angle between vectors + optional normalized axis. Length's float comes from an mtc1 asm fed by gcc's own qmfc2 ("r"(qword)), and the axis length vector (pinned vf1) is passed as a GPR qword to the qmtc2, so the move is shared like the original. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 extern qword D_002A2DA0;
-qword func_0011E390(qword v);
+qword PerpendicularVector__FG9VU_VECTOR(qword v);
 float func_002456F0(float g);
 static inline float Length(qword v)
 {
@@ -43,7 +43,8 @@ static inline qword Scale(qword v, qword g)
     __asm__("vdiv $Q, $vf0w, %2x\n\tvwaitq\n\tvmulq.xyzw %0, %1, $Q" : "=j"(r) : "j"(v), "j"(u.q));
     return r;
 }
-float func_0011E4B0(qword a, qword b, qword *paxis)
+// name: SafeHouse port (RadBetweenVectors)
+float RadBetweenVectors__FG9VU_VECTORT0P6VECTOR(qword a, qword b, qword *paxis)
 {
     float la = Length(a);
     float lb = Length(b);
@@ -60,7 +61,7 @@ float func_0011E4B0(qword a, qword b, qword *paxis)
         if (l > 1e-8f)
             axis = Scale(axis, dl);
         else
-            axis = func_0011E390(a);
+            axis = PerpendicularVector__FG9VU_VECTOR(a);
         *paxis = axis;
     }
     return func_002456F0(Dot(a, b) / (la * lb));

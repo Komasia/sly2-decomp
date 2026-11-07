@@ -61,14 +61,15 @@ struct SPO {
     O *operator->() { return p; }
 };
 extern "C" {
-O *func_00256DD0();
-SPO func_00127E90(O *src, void *a);
+O *PframeNew() asm("PframeNew__Fv");
+SPO CloneTo__6CFrameP6CFrame(O *src, void *a);
 }
-SPO func_00127E90(O *src, void *a)
+// name: SafeHouse port (CFrame::CloneTo)
+SPO CloneTo__6CFrameP6CFrame(O *src, void *a)
 {
     SPO sp;
     int i;
-    sp.Set(func_00256DD0());
+    sp.Set(PframeNew());
     sp->c = src->c;
     for (i = 0; i < src->c; i++)
         (*(SPZ *)((int)(i * 4) + (int)sp.p + 0xC)) = src->apz[i].p;

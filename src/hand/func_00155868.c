@@ -5,7 +5,7 @@ struct L { char pad[0x1010]; int c; struct E *ae; };
 struct X { char pad[0x10]; struct L *pl; char pad1[0x38 - 0x14]; void *p38; };
 extern int D_002BDC50;
 extern float D_002A5130;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 static inline qword Dot(qword v)
 {
     qword d, one;
@@ -20,13 +20,13 @@ struct E *PrecFarthest__FP5GUARD(struct X *p)
 {
     struct E *peBest = 0;
     int i;
-    qword pos = func_001A62E8(p->p38);
+    qword pos = PosOfLo__FP2LO(p->p38);
     float gBest = D_002A5130;
     for (i = 0; i < p->pl->c; i++) {
         struct E *pe = &p->pl->ae[i];
         if (D_002BDC50 || !pe->x20) {
-            qword a = func_001A62E8(pe->p4);
-            qword b = func_001A62E8(pe->p14);
+            qword a = PosOfLo__FP2LO(pe->p4);
+            qword b = PosOfLo__FP2LO(pe->p14);
             qword da, db, la, lb;
             float g;
             {

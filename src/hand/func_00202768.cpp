@@ -5,19 +5,19 @@ struct X {char pad0[0xC];VT *vtable;char pad10[0x30];uint flags;char pad44[0x14]
 struct P {int state;char pad4[0x70];int specialCount;char pad78[0x14];ACTOR *actor;char pad90[0x10];uint savedFlags;void *resource;X **model;X *primary,*secondary;char padB4[8];int selected,pending;};
 extern char g_sw[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
 extern "C" {
-void func_0020EFC0(void *,int);
-void func_0020F030(void *,int);
+void PauseGame(void *,int) asm("PauseGame__FP9GAMEPAUSEi");
+void ResumeGame(void *,int) asm("ResumeGame__FP9GAMEPAUSEi");
 void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 void func_00202030(P *);
 void ListMarks(P *) asm("ListMarks__FP11PHOTOPROMPT");
 void func_00213928(X *,int);
 void func_00213B00(X *,int);
 void SetScreenObjListed(X *,int) asm("SetScreenObjListed__FP2LOi");
-void func_0014D1D0(void *,int,float);
+void SetClockFactor(void *,int,float) asm("SetClockFactor__FP5CLOCKif");
 void SetSoundMgrFlags(void *,int,int) asm("SetSoundMgrFlags__FP8SOUNDMGRUii");
 void ResetZoom(void *) asm("ResetZoom__7CPRECON");
 void *PsndStartDialog(void *,int,int) asm("PsndStartDialog__FP8SOUNDMGRii");
-void func_00147C20(void *,int,int);
+void StartAnimatedOverlay(void *,int,int) asm("StartAnimatedOverlay__FP2LOii");
 void func_002036E8(ACTOR *,int);
 void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 int func_002022D8(P *);
@@ -53,8 +53,8 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
     if(!p->primary)return;
     if(!p->secondary)return;
     if(((uint)(p->state-8)<2)!=((uint)(nextState-8)<2)){
-        if((uint)(nextState-8)<2)func_0020EFC0(g_sw,0);
-        else func_0020F030(g_sw,0);
+        if((uint)(nextState-8)<2)PauseGame(g_sw,0);
+        else ResumeGame(g_sw,0);
     }
     switch(p->state){
     case -1:case 0:case 2:case 3:case 10:break;
@@ -78,7 +78,7 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
         break;
     case 8:
         Restore(*p->model,p->savedFlags);
-        func_0014D1D0(g_clock,0,1.0f);
+        SetClockFactor(g_clock,0,1.0f);
         SetSoundMgrFlags(D_003DD040,1,1);
         func_00213928(p->primary,0x358);
         break;
@@ -88,7 +88,7 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
         Post(p->primary,0x310);
         if(p->resource){
             if(p->actor->key!=-1)PsndStartDialog(D_003DD040,p->actor->key,0);
-            func_00147C20(p->resource,0x608,p->actor->key);
+            StartAnimatedOverlay(p->resource,0x608,p->actor->key);
         }
         func_002036E8(p->actor,1);
         BroadcastTaskEvent(g_game,10,0);
@@ -151,7 +151,7 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
             __asm__("sw %1,%0" : "=m"(updated->flags) : "r"(inlineWord));
         }
         SetSoundMgrFlags(D_003DD040,1,0);
-        func_0014D1D0(g_clock,0,0.0f);
+        SetClockFactor(g_clock,0,0.0f);
         break;
     }
     case 9:

@@ -1,4 +1,4 @@
-// func_0022A220 (0x22A220, 441 instructions): query the camera->source "curtain" (corners posSrc, posSrc+up*k,
+// PlaceMarker__FP2LO (0x22A220, 441 instructions): query the camera->source "curtain" (corners posSrc, posSrc+up*k,
 // posCam+up*k, posCam; k = D_002C4490) against the BSPs of the objects found by func_0020FAA0, clip each face edge that
 // crosses the curtain plane against its four side planes and store the largest added slope (scaled by the
 // camera->source XY distance) as po->dz. Matched by Lilly's agent (T1643); history of the drafts in notes/220000.md.
@@ -24,9 +24,9 @@ extern int D_002C4490;
 extern qword g_normalZ;
 extern WORLD g_sw;
 extern "C" {
-qword func_001A62E8(O *);
-void func_00119308(UQ *, qword, qword, qword);
-void func_00119390(UQ *, qword, qword);
+qword PosOfLo(O *) asm("PosOfLo__FP2LO");
+void PlaneFromPoints(UQ *, qword, qword, qword) asm("PlaneFromPoints__FP6VECTORG9VU_VECTORN21");
+void PlaneFromNormalPos(UQ *, qword, qword) asm("PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1");
 UQ *func_002564C0(UQ *);
 UQ *func_002564B8(UQ *);
 FRAME *__10STACKSCOPE(FRAME *);
@@ -129,7 +129,8 @@ static inline float LenXYFN(qword v, int n)
     return f;
 }
 
-extern "C" void func_0022A220(O *po)
+// name: SafeHouse port (PlaceMarker)
+extern "C" void PlaceMarker__FP2LO(O *po)
 {
     UQ corner[4];
     UQ side[4];
@@ -148,11 +149,11 @@ extern "C" void func_0022A220(O *po)
     po->frame = pcam->frame;
     qword posCam = pcam->pos;
     O *psrc = po->psrc;
-    register qword rr asm("$6");   // pin: PosLoWorld result lives in a2 (3rd arg of func_00119308); later uses reload from the 0x190 slot
+    register qword rr asm("$6");   // pin: PosLoWorld result lives in a2 (3rd arg of PlaneFromPoints); later uses reload from the 0x190 slot
     if (psrc)
-        rr = func_001A62E8(psrc);
+        rr = PosOfLo(psrc);
     else
-        rr = func_001A62E8(po);
+        rr = PosOfLo(po);
     qword posSrc = rr;
     UQ *pplane = &tmp;   // &tmp taken here, not at the call: it (and its gcse copy for preq) then issues before the corner stores
     po->fHit = 0;
@@ -168,7 +169,7 @@ extern "C" void func_0022A220(O *po)
     corner[2].q = v2;
     corner[1].q = v1;
     corner[3].q = posCam;
-    func_00119308(pplane, posCam, posSrc, corner[1].q);
+    PlaneFromPoints(pplane, posCam, posSrc, corner[1].q);
     qword plane = tmp.q;
     P4 pvA, pvB;
 
@@ -183,7 +184,7 @@ extern "C" void func_0022A220(O *po)
         qword edge = Sub(pc[(i + 1) % 4].q, pc[i].q);
         func_002564C0(&nrm);
         nrm.q = plane;
-        func_00119390(&side[i], Normalize(Cross(edge, plane)), pc[i].q);
+        PlaneFromNormalPos(&side[i], Normalize(Cross(edge, plane)), pc[i].q);
     }
     ipso = 0;
     __10STACKSCOPE(&frame);

@@ -15,7 +15,8 @@ static __inline__ void AddM4(M4 *pmDst, M4 *pmA, M4 *pmB)
         pmDst->r[i] = r;
     }
 }
-M4 *func_0022D148(M4 *pm, struct O *po, struct O *poStop)
+// name: SafeHouse port (DmatXfChain)
+M4 *DmatXfChain__FP2XFT0Pv(M4 *pm, struct O *po, struct O *poStop)
 {
     M4 mB, mA, mE, mC, mD;
     struct O *p;

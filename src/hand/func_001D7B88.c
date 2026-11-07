@@ -9,8 +9,9 @@ void func_00118380(BIS *, char **, void *, int);
 void func_001D8600(void *, int);
 void func_001D8690(void *, char *, int);
 void *PvAllocSwImpl__Fi(struct MSG *);
-void func_001D7C80(OBJ *, struct G *);
-void func_001D7B88(OBJ *p, BIS *pbis)
+void ValidateGameSave__FPvT0(OBJ *, struct G *);
+// name: SafeHouse port (LoadProgressFromBrx)
+void LoadProgressFromBrx__FP2SWP18CBinaryInputStream(OBJ *p, BIS *pbis)
 {
     struct MSG msg;
     char *pchz;
@@ -30,5 +31,5 @@ void func_001D7B88(OBJ *p, BIS *pbis)
     msg.nKind = 0x10;
     p->pv = PvAllocSwImpl__Fi(&msg);
     Read__18CBinaryInputStreamiPv(pbis, c * 10, p->pv);
-    func_001D7C80(p, &D_003D4A60);
+    ValidateGameSave__FPvT0(p, &D_003D4A60);
 }

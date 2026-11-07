@@ -4,7 +4,7 @@ struct Ent { int a0; int a4; int a8; int aC; };
 struct P { char pad[0x404]; struct Ent a[8]; int n484; int n488; int n48C; int n490; int n494; };
 struct G;
 extern struct G g_sw;
-struct O *func_0015E938(struct G *, int, int, int);
+struct O *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *, int);
 int NReadyReward__FP2LOT0iPv(int, struct O *, int, int);
 void UpdatePocketMode__FP2LO(struct P *);
@@ -14,7 +14,7 @@ void NextPocketPrize__FP2LO(struct P *p)
     p->n48C = 0;
     for (; p->n488 < p->n484; p->n488++) {
         struct Ent *pe = &p->a[p->n488];
-        struct O *po = func_0015E938(&g_sw, 4, pe->a0, p->n494);
+        struct O *po = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, pe->a0, p->n494);
         int a8, k;
         if (!po) continue;
         a8 = pe->a8;

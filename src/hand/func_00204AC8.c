@@ -9,7 +9,7 @@ extern qword g_normalZ;
 extern char g_sw[];
 void func_001F5990(void);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int func_0014C6D8(struct X *x, int a, qword pos, qword v, int n, struct HIT *phit);
 int FStepFloorNear__FP3ALOG9VU_VECTORP3SOEP4POLY(struct S *p, qword v, struct X *x, int n);
 void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *g, void *p, struct X *x, qword a, qword b, int k, int c, int d, int e, float f);
@@ -27,7 +27,7 @@ void AddStepFloorXps__FP3ALOP3SOEiiii(struct S *p, struct X *x, int a2, int a3, 
         return;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(x->p4->pec->p60, 0x33))
         return;
-    pos = func_001A62E8(p);
+    pos = PosOfLo__FP2LO(p);
     if (func_0014C6D8(x, a4, pos, *((fl & 2) ? p->p21C : p->p218), 1, &hit) <= 0)
         return;
     if (0.0f < hit.t) {

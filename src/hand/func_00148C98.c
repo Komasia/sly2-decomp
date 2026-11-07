@@ -15,8 +15,8 @@ struct P {
 };
 void UpdateSo__FP2SOf(struct P *);
 void func_001490A0(struct P *, int);
-int func_00149100(struct P *, int);
-void func_00149AB8(void *, void *, struct K, int);
+int FPadAccepts__FP3PADi(struct P *, int);
+void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(void *, void *, struct K, int);
 
 static inline int IOther(struct X *px, struct SO *pso)
 {
@@ -70,7 +70,7 @@ void UpdateButton__FP6BUTTONf(struct P *p)
         }
         found:
             p->x2F8 = oid;
-            func_00149AB8(g_sw, p, D_002A4E80, 0);
+            PostDeferredCall__FPvUi15PFNDEFERREDCALLi(g_sw, p, D_002A4E80, 0);
             k = p->x1E0;
             break;
         case 0: {
@@ -84,7 +84,7 @@ void UpdateButton__FP6BUTTONf(struct P *p)
                         int j = 1 - i;
                         struct E *pe = &pso->ae[i];
                         oid = pso->ae[j].x8;
-                        if (pe->pxC == p && func_00149100(p, oid))
+                        if (pe->pxC == p && FPadAccepts__FP3PADi(p, oid))
                             goto found;
                     }
                 }

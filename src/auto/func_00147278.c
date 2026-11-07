@@ -5,7 +5,8 @@ M2C_UNK func_00147410(void *, M2C_UNK);             /* extern */
 s32 FDialogPlaying__FP8SOUNDMGRi(M2C_UNK *, s32);                  /* extern */
 extern M2C_UNK D_003DD040;
 
-void func_00147278(void *arg0) {
+// name: SafeHouse port (UpdateOverlay)
+void UpdateOverlay__FP2LO(void *arg0) {
     s32 temp_a0;
     s32 temp_v1;
 

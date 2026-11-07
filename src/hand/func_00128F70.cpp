@@ -22,13 +22,14 @@ struct SPO {
     O *operator->() { return p; }
 };
 extern "C" {
-O *func_00256F48();
-SPO func_00128F70(O *poSrc, X *px);
+O *PprocNew() asm("PprocNew__Fv");
+SPO CloneTo(O *poSrc, X *px) asm("CloneTo__5CProcP5CProc");
 }
-SPO func_00128F70(O *poSrc, X *px)
+// name: SafeHouse port (CProc::CloneTo)
+SPO CloneTo(O *poSrc, X *px)
 {
     SPO sp;
-    sp.Set(func_00256F48());
+    sp.Set(PprocNew());
     if (px)
         sp->spx = px;
     else

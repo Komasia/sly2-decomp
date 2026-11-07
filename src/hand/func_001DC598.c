@@ -10,7 +10,7 @@ char *func_0013E368(void *, int);
 char *func_0021ED58(char *, char *);
 int func_0021ECD8(char *, char *, ...);
 OBJ *func_001DAE20(GS *,int);
-void *func_001C4840(void *);
+void *PloPlayerPo__FP2SW(void *);
 int func_00141E78(void *, int);
 void func_001DC598(char *out)
 {
@@ -22,7 +22,7 @@ void func_001DC598(char *out)
         func_0021ED58(out, func_0013E368(g_sw, 0xDD));
     } else {
         OBJ *po = func_001DAE20(&D_003DA0F0,D_003DA0F0.x48);
-        int v = func_00141E78(func_001C4840(g_sw), D_003DA0F0.x48);
+        int v = func_00141E78(PloPlayerPo__FP2SW(g_sw), D_003DA0F0.x48);
         if ((po->x1C & 1) && v < 0) {
             func_0021ED58(buf, func_0013E368(g_sw, 0xE1));
             s = (unsigned char *)D_002A7A10;

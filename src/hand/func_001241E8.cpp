@@ -12,7 +12,7 @@ struct W { char pad[0xC]; Q *pq; };
 struct G { char pad[0x3F0C]; void *pv; };
 extern G g_sw;
 extern "C" {
-int func_0015E678(G *pg, int k, void *a, Q *b, void *c, int n, void **ap);
+int CFindObjects(G *pg, int k, void *a, Q *b, void *c, int n, void **ap) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
 CRef func_00124078(int c, void **ap);
 CRef func_001241E8(void *pbasic, CRef *aref);
 }
@@ -34,7 +34,7 @@ CRef func_001241E8(void *pbasic, CRef *aref)
         pv = pqT->pv;
     else
         pv = pg->pv;
-    int c = func_0015E678(pg, k, p0, pq, pv, 0x40, ap);
+    int c = CFindObjects(pg, k, p0, pq, pv, 0x40, ap);
     ref = func_00124078(c, ap);
     return ref;
 }

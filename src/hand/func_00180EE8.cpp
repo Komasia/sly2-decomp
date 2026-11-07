@@ -5,8 +5,8 @@ struct X { char pad[0xA0]; void *pA0; };
 struct O { char pad[0xC]; struct VT *pvt; char pad1[0x5C - 0x10]; struct X *p5C; char pad2[0x1C0 - 0x60]; int n1C0;
     char pad3[0x204 - 0x1C4]; float g204; char pad4[0x210 - 0x208]; qword v210; char pad5[0x378 - 0x220]; char a378[0xC]; float g384; };
 extern qword g_normalZ;
-extern "C" MATRIX3 func_0011B500(qword v, float g);
-extern "C" MATRIX3 func_0022FD38(void *pv, int n, MATRIX3 *pm);
+extern "C" MATRIX3 BuildRotateMatrixAxis(qword v, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
+extern "C" MATRIX3 MatConvertXfs(void *pv, int n, MATRIX3 *pm) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 extern "C" void BrakeAloRotation(struct O *p, MATRIX3 *pm, void *pv) asm("BrakeAloRotation__FP3ALOP7MATRIX3Pf");
 extern "C" void AccelAloPos(struct O *p, qword v) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 static inline qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b) : "memory"); return r; }
@@ -17,9 +17,9 @@ void MoveEnemy(struct O *p)
 {
     if (p->n1C0 != 4) {
         MATRIX3 mat;
-        mat = func_0011B500(g_normalZ, p->g204);
+        mat = BuildRotateMatrixAxis(g_normalZ, p->g204);
         if (p->n1C0 != 3)
-            mat = func_0022FD38(p->p5C->pA0, 0, &mat);
+            mat = MatConvertXfs(p->p5C->pA0, 0, &mat);
         BrakeAloRotation(p, &mat, p->a378);
     }
     if (p->n1C0 == 3) {

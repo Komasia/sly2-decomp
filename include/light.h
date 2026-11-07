@@ -21,7 +21,7 @@ typedef struct LIGHT {
     /* 0x168 */ float gFalloffMax;     /* 2000 after init */
 } LIGHT;
 
-void func_001A3968(LIGHT *plight);   /* rebuild the light's derived values (calls ConvertAngleStrength etc.) */
+void ComputeLight__FP11LIGHTPARAMS(LIGHT *plight);   /* rebuild the light's derived values (calls ConvertAngleStrength etc.) */
 void func_001A3B38(LIGHT *plight);
 
 #endif

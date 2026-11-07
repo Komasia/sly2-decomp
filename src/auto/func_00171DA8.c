@@ -34,7 +34,8 @@ extern s32 D_003E13FC;
 extern s32 D_003E1408;
 extern s32 D_003E1450;
 
-s32 func_00171DA8(s32 arg0, s32 arg1) {
+// name: SafeHouse port (FGuardRunsCommands)
+s32 FGuardRunsCommands__FP2LOT0(s32 arg0, s32 arg1) {
     s32 temp_v0;
     s32 var_a1;
 

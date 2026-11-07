@@ -15,16 +15,16 @@ struct O {
 };
 extern char g_sw[];
 extern "C" {
-O *func_0015E938(void *pg, int k, int id, void *p);
+O *PloFindSwNearest(void *pg, int k, int id, void *p) asm("PloFindSwNearest__FP2LO3OIDii");
 void GetAsegChannelTarget(void *a, void *b, KEYID *pk, O **ppo, int *pn) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 }
 // name: SafeHouse port (GetAsegChannelTarget)
 void GetAsegChannelTarget(void *a, void *b, KEYID *pk, O **ppo, int *pn)
 {
     if (b)
-        *ppo = func_0015E938(g_sw, 1, pk->id, b);
+        *ppo = PloFindSwNearest(g_sw, 1, pk->id, b);
     else
-        *ppo = func_0015E938(g_sw, 4, pk->id, a);
+        *ppo = PloFindSwNearest(g_sw, 4, pk->id, a);
     if (!*ppo)
         *pn = 0;
     else

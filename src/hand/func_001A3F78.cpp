@@ -1,4 +1,4 @@
-/* func_001A3F78: collect the best-ranked objects for a query position.
+/* SelectStrongest__FP8LIGHTSETG9VU_VECTORiP6VECTOR: collect the best-ranked objects for a query position.
  *
  * Walks the world's plane tree (BSP) down to one leaf using the sign of
  * dot(plane.xyz, pos) - plane.w, ORs that leaf's 256-bit object mask into a local copy of the
@@ -101,7 +101,8 @@ typedef char Offset_sphere[FIELD_OFFSET(OBJ, sphere) == 0x100 ? 1 : -1];
 typedef char Size_NODE[sizeof(NODE) == 32 ? 1 : -1];
 typedef char Size_RESULT[sizeof(RESULT) == 8 ? 1 : -1];
 
-extern "C" void func_001A3F78(WORLD *p, qword pos, int capacity, RESULT *results)
+// name: SafeHouse port (SelectStrongest)
+extern "C" void SelectStrongest__FP8LIGHTSETG9VU_VECTORiP6VECTOR(WORLD *p, qword pos, int capacity, RESULT *results)
 {
     WORK w;
     NODE *n;

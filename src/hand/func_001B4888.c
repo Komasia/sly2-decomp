@@ -6,7 +6,7 @@ void LoadPoFromBrx__FP2POP18CBinaryInputStream(struct P *p);
 void BindLoParts__FP3ALOiPv(struct P *p, int n, void *q);
 struct T *PvAllocSwClearImpl__Fi(struct REQ *r);
 void *func_001F4C58(struct P *p, int a, int b);
-void func_00186930(struct T *t);
+void InitAloPairRest__FP7ALOPAIR(struct T *t);
 static __inline__ struct T *NewT(void) { struct REQ req; req.cb = 0xE0; req.align = 0x10; return PvAllocSwClearImpl__Fi(&req); }
 void func_001B4888(struct P *p)
 {
@@ -16,12 +16,12 @@ void func_001B4888(struct P *p)
     p->x1610->x4 = func_001F4C58(p, 0x200, 6);
     p->x1610->x8 = func_001F4C58(p, 0x201, 6);
     p->x1610->xC = func_001F4C58(p, 0x202, 1);
-    func_00186930(p->x1610);
+    InitAloPairRest__FP7ALOPAIR(p->x1610);
     p->x1614 = NewT();
     p->x1614->x4 = func_001F4C58(p, 0x203, 6);
     p->x1614->x8 = func_001F4C58(p, 0x204, 6);
     p->x1614->xC = func_001F4C58(p, 0x205, 1);
-    func_00186930(p->x1614);
+    InitAloPairRest__FP7ALOPAIR(p->x1614);
     p->x15F0 = p->x1610->xC;
     p->x15F4 = func_001F4C58(p, 0x202, 6);
     p->x15F8 = p->x1614->xC;

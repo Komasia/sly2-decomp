@@ -9,7 +9,7 @@ struct T { char pad[0x70]; float f70; };
 struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; };
 void Update__5AIJOB(struct S *p);
 float RadTargetrec__FP9TARGETREC(struct K *k);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword v, float *a, float *b, int n);
 float RadNormalize__Ff(float f);
 int func_0011D910(void *p, float f);
@@ -40,7 +40,7 @@ void Update__11JOBSURROUND(struct S *p) {
     k = a->p3CC;
     o = k->pC;
     g = RadTargetrec__FP9TARGETREC(k);
-    pos = func_001A62E8(o);
+    pos = PosOfLo__FP2LO(o);
     t = p->p18;
     if (t->f70 > D_002BE748) goto doit;
     {
@@ -52,7 +52,7 @@ void Update__11JOBSURROUND(struct S *p) {
     if (func_0011D910(p->p10->a324, out[1])) return;
 doit:
     {
-        qword v = func_001A62E8(p->p10);
+        qword v = PosOfLo__FP2LO(p->p10);
         FNavPathCrv__FP9NAVREGIONiiP3CRV(q, v, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(p, q, g, pos), b);
     }
     Follow__9JOBFOLLOWP3CRVi(t, b, 0);

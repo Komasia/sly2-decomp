@@ -59,7 +59,8 @@ static inline ENV *PtrEnv(unsigned idx, unsigned pg)
 }
 static inline ENV *NextEnv(ENV *p) { return PtrEnv(p->next, p->nextpg); }
 
-void func_001286E0(GC *pgc)
+// name: SafeHouse port (CGc::Collect)
+void Collect__3CGc(GC *pgc)
 {
     CTX ctx;
     N *pn;

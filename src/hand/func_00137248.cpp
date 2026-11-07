@@ -110,10 +110,10 @@ extern CLOCK g_clock;
 extern float D_002BC998, D_002BC99C, D_002BC9A0;
 extern SMP D_002BC9A8;
 extern qword g_normalZ, D_002A2DA0;
-qword func_001A62E8(P *p);
+qword PosOfLo(P *p) asm("PosOfLo__FP2LO");
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf");
 float func_0011CFE0(float g, float gMax);
-M3 func_0011B500(qword axis, float g);
+M3 BuildRotateMatrixAxis(qword axis, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword LimitVectorLength(qword v, float g) asm("LimitVectorLength__FG9VU_VECTORf");
 void AccelAloPos(P *p, qword v) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
@@ -128,7 +128,7 @@ extern "C" void UpdateSlyDodgeMotion__FP3SLY(S *s)
     float gMax = D_002BC99C * D_002BC99C / D_002BC998 + D_002BC9A0;
     qword dv = Sub(p->GetVel(), py->GetVel());
     UQ n;
-    qword d0 = Sub(func_001A62E8(s->p), func_001A62E8(py));
+    qword d0 = Sub(PosOfLo(s->p), PosOfLo(py));
     n.q = Sub(d0, Scale(g_normalZ, Dot(d0, g_normalZ)));
     qword qlen = Length(n.q);
     SafeDiv(n, qlen, D_002A2DA0);
@@ -142,7 +142,7 @@ extern "C" void UpdateSlyDodgeMotion__FP3SLY(S *s)
     float g = func_0011CFE0(dgNext - dot, D_002BC9A0 * g_clock.dt);
     qword t = AddScaled(dv, n.q, VU_FLOAT(g));
     M3 mc;
-    M3 m = func_0011B500(g_normalZ, w * g_clock.dt);
+    M3 m = BuildRotateMatrixAxis(g_normalZ, w * g_clock.dt);
     mc = m;
     qword r = DivF(Sub(MulM3(mc, t), dv), VU_FLOATM(g_clock.dt));
     AccelAloPos(s->p, LimitVectorLength(r, gMax));

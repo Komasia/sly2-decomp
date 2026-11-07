@@ -4,7 +4,7 @@ void func_00129EC8(void *p);
 void *func_001291A8(void *p, const void *q); /* CRef copy ctor: returns this */
 extern void *D_003E0FD8;
 extern int D_002C2D8C;
-void func_001D54B8(void);
+void ApplyVibrationSetting(void) asm("ApplyVibrationSetting__Fv");
 }
 struct RAW { int m_tagk; int m_tag; };
 static inline void SetBool(RAW *p, int f) { p->m_tagk = 0x17; p->m_tag = f; }
@@ -29,7 +29,8 @@ static inline void SetPv2(void *pv, const RAW &r)
     CRef arg(r);
     const CRef &ret = func_00258200(pv, arg, D_003D4A60);
 }
-void func_001D54B8(void)
+// name: SafeHouse port (ApplyVibrationSetting)
+void ApplyVibrationSetting(void)
 {
     RAW ref;
     switch (D_002C2D8C) {

@@ -10,7 +10,7 @@ struct LO { char pad[0xC]; VTE *vt; char pad2[0x190 - 0x10]; qword x190; char pa
 struct T { char pad[0xE4]; int xe4; char pad2[0x1BC - 0xE8]; int x1bc; };
 struct S { struct LO *x0; int x4; int x8; int xc; int x10; struct T *x14; int x18; float x1c; float x20; };
 extern qword D_002A2DB0;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 M4 *MatJtLo__FP2LO(struct LO *p);
 void NearestCrv__FP3CRV(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
 float SMinCrv__FP3CRV(struct T *t);
@@ -38,7 +38,7 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
     switch (p->x8) {
     case 4: {
         U pos;
-        pos.q = func_001A62E8(p->x14);
+        pos.q = PosOfLo__FP2LO(p->x14);
         p->x0->vt[82].v82.pfn((char *)p->x0 + p->x0->vt[82].v82.d, 0x23, p->x14, pos.q, D_002A2DB0, *p->x0->x218);
         break;
     }

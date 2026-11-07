@@ -9,7 +9,8 @@ static inline float Dot(qword v)
     __asm__("mtc1 %1, %0" : "=f"(g) : "r"(d));
     return g;
 }
-float func_0011CAB0(M3 *pm)
+// name: SafeHouse port (GMaxRowLengthMatrix3)
+float GMaxRowLengthMatrix3__FP7MATRIX3(M3 *pm)
 {
     float d0 = Dot(pm->r[0]);
     float d1 = Dot(pm->r[1]);

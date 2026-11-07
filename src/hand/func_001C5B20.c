@@ -9,7 +9,7 @@ struct SO { char pad[0xE0]; int count; struct SHAPE *shapes; };
 struct S { char pad[0xC]; struct VTE *vt; char pad10[0x1DC-0x10]; float radius; };
 struct Q { int enabled,pad4; float radius; struct SO *so; };
 extern float D_002C0D7C;
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword,struct SHAPE *,int mask,int triangleCount,void *triangles,int capacity,void *contacts,float radius);
 static inline void Trigger(struct S *p)
 {
@@ -44,8 +44,8 @@ int FPickupTouched__FP2LOP6PICKUP(struct S *p,struct Q *q)
     int i;
     float distance,maximum;
     if(!q->enabled||!q->so)return 0;
-    pos=ToVu(func_001A62E8(p));
-    distance=LenSq(Sub(pos,func_001A62E8(q->so)));
+    pos=ToVu(PosOfLo__FP2LO(p));
+    distance=LenSq(Sub(pos,PosOfLo__FP2LO(q->so)));
     maximum=D_002C0D7C;
     if(maximum*maximum<distance)return 0;
     if(distance<q->radius*q->radius) {
@@ -57,13 +57,13 @@ int FPickupTouched__FP2LOP6PICKUP(struct S *p,struct Q *q)
         if(s->flags&(1UL<<50))continue;
         if(s->flags&(1UL<<49)) {
             float r=p->radius+s->radius;
-            qword here=func_001A62E8(p);
+            qword here=PosOfLo__FP2LO(p);
             if(LenSq(Sub(here,s->pos->pos))<r*r) {
                 Trigger(p);
                 return 1;
             }
         } else {
-            qword here=func_001A62E8(p);
+            qword here=PosOfLo__FP2LO(p);
             if(SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(here,s,0x7FFFFFFF,0,0,1,scratch,p->radius)) {
                 Trigger(p);
                 return 1;

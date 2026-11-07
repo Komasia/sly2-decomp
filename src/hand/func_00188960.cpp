@@ -13,12 +13,12 @@ extern "C"{
 extern CLOCK g_clock;extern qword g_normalZ;
 extern float D_002BF288,D_002BF28C,D_002BF290,D_002BF294;
 void ApplyAloGravity(P*) asm("ApplyAloGravity__FP3ALO");void UpdateStepPhysMotion(P*) asm("UpdateStepPhysMotion__FP3ALO");
-void func_001903B8(P*);void UpdateClimbMotion(void*) asm("UpdateClimbMotion__FP5ACTOR");void UpdateJumpMotion(void*) asm("UpdateJumpMotion__FP4JUMP");
+void UpdateSlyHangMotion(P*) asm("UpdateSlyHangMotion__FP3SLY");void UpdateClimbMotion(void*) asm("UpdateClimbMotion__FP5ACTOR");void UpdateJumpMotion(void*) asm("UpdateJumpMotion__FP4JUMP");
 void UpdateDamageMotion(void*) asm("UpdateDamageMotion__FP5ACTOR");void func_00194170(void*);void UpdateSlyDodgeMotion(void*) asm("UpdateSlyDodgeMotion__FP3SLY");
 qword VelActorAnimRoot(P*,MODEL*,float) asm("VelActorAnimRoot__FP5ACTORPvf");float GEventAseg11(void*,int) asm("GEventAseg11__Fv");
 void AccelAloPos(P*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");
 M4*MatJtLo(P*) asm("MatJtLo__FP2LO");float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
-M3 func_0011B500(qword,float);
+M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 }
 struct VU_FLOAT{qword qw;};
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
@@ -36,7 +36,7 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  WORK w;
  switch(p->mode){case 3:case 8:ApplyAloGravity(p);break;case 21:case 22:break;default:UpdateStepPhysMotion(p);break;}
  switch(p->mode){
- case 3:func_001903B8(p);break;
+ case 3:UpdateSlyHangMotion(p);break;
  case 8:UpdateClimbMotion((char*)p+0xF50);break;
  case 2:UpdateJumpMotion((char*)p+0x2C0);break;
  case 4:UpdateDamageMotion((char*)p+0xDF0);break;
@@ -67,7 +67,7 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
    w.a.q=QwScaleX(basis.r[0].q,VuFloat(gAlong));
    w.b.q=QwScaleX(w.b.q,VuFloat(gPerp));
    M3 rotation;
-   rotation=func_0011B500(g_normalZ,angle);
+   rotation=BuildRotateMatrixAxis(g_normalZ,angle);
    qword sum=QwAdd(w.a.q,w.b.q);
    qword moved=QwSub(QwRotateVecAt(&rotation,&sum),position);
    qword velocity=QwDivide(moved,VuFloatFromMemWord(*(int*)&g_clock.dt));

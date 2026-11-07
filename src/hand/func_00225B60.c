@@ -1,16 +1,17 @@
-/* func_00225B60: Update (virtual slot 15) of class 69, derived from class 50 (PO): the SO Update, then the class's
+/* UpdateTurret__FP6TURRETf: Update (virtual slot 15) of class 69, derived from class 50 (PO): the SO Update, then the class's
  * own part. */
 #include "so.h"
 
 void UpdateSo__FP2SOf(SO *p, float dt);
-void func_00225BA0(void *);
-void func_00225E98(void *);
-void func_00226250(void *);
+void UpdateTurretAim__FP6TURRET(void *);
+void UpdateTurretZoom__FP3ALO(void *);
+void UpdateTurretFire__FP3ALO(void *);
 
-void func_00225B60(SO *p, float dt)
+// name: SafeHouse port (UpdateTurret)
+void UpdateTurret__FP6TURRETf(SO *p, float dt)
 {
     UpdateSo__FP2SOf(p, dt);
-    func_00225BA0(p);
-    func_00225E98(p);
-    func_00226250(p);
+    UpdateTurretAim__FP6TURRET(p);
+    UpdateTurretZoom__FP3ALO(p);
+    UpdateTurretFire__FP3ALO(p);
 }

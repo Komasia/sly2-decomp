@@ -10,7 +10,8 @@ extern s32 D_003E0EA4;
 extern M2C_UNK D_00452160;
 extern M2C_UNK D_00452170;
 
-s32 func_00259A88(s32 arg0) {
+// name: SafeHouse port (CGc::AddRootFrame)
+s32 AddRootFrame__3CGc(s32 arg0) {
     s32 temp_v0;
 
     func_00255770(arg0);

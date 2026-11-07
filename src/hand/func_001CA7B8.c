@@ -5,9 +5,9 @@ struct AL { int cb; int cbAlign; };
 struct SP { struct RC *p; };
 void func_002311B0(struct S *p, struct S *q);
 struct E *PvAllocSwCopyImpl__FiPv(struct AL *pal, struct E *pv);
-void func_00127E90(struct SP *pret, struct RC *p, struct S *ps);
+void CloneTo__6CFrameP6CFrame(struct SP *pret, struct RC *p, struct S *ps);
 void func_00257078(struct RC *p, int n);
-void func_00259A88(struct RC *p);
+void AddRootFrame__3CGc(struct RC *p);
 void func_001CA7B8(struct S *p, struct S *q)
 {
     int i;
@@ -23,10 +23,10 @@ void func_001CA7B8(struct S *p, struct S *q)
             p->ae = PvAllocSwCopyImpl__FiPv(&u.al, p->ae);
             pe = &p->ae[i];
         }
-        func_00127E90(&u.sp, pe->x8, p);
+        CloneTo__6CFrameP6CFrame(&u.sp, pe->x8, p);
         pe->x8 = u.sp.p;
         prc = u.sp.p;
         if (prc && --prc->cRef == 0) func_00257078(prc, 3);
-        func_00259A88(pe->x8);
+        AddRootFrame__3CGc(pe->x8);
     }
 }

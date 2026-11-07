@@ -13,7 +13,8 @@ static inline NODE *PnodeCheck(NODE *p, NODE *pnodeMax)
         p = 0;
     return p;
 }
-extern "C" NODE *func_00119090(NODE *pnode, NODE *pnodeMax, qword pos)
+// name: SafeHouse port (IbspFindPointEps)
+extern "C" NODE *IbspFindPointEps__FP6BSPREFP6VECTORG9VU_VECTOR(NODE *pnode, NODE *pnodeMax, qword pos)
 {
     while (pnode) {
         qword plane = *pnode->pplane;
@@ -40,7 +41,7 @@ extern "C" NODE *func_00119090(NODE *pnode, NODE *pnodeMax, qword pos)
         } else {
             NODE *p = PnodeCheck(pnode->pnodeRight, pnodeMax);
             if (p) {
-                p = func_00119090(p, pnodeMax, pos);
+                p = IbspFindPointEps__FP6BSPREFP6VECTORG9VU_VECTOR(p, pnodeMax, pos);
                 if (p)
                     return p;
             }

@@ -1,5 +1,5 @@
 struct O { char pad[0x18]; int id; char pad1[0x16C - 0x1C]; int c; int aid[1]; };
-struct O *func_0015E938(void *pg, int k, int id, struct O *p);
+struct O *PloFindSwNearest__FP2LO3OIDii(void *pg, int k, int id, struct O *p);
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *pg, int a, int b, struct O *po, int n, struct O **apo);
 // name: SafeHouse port (PloFindCheckpoint)
 struct O *PloFindCheckpoint__FP2SW3OIDT1(void *pg, int id, int k)
@@ -10,7 +10,7 @@ struct O *PloFindCheckpoint__FP2SW3OIDT1(void *pg, int id, int k)
     int n, i;
     int a = 5;
     if (k != -1) {
-        po = func_0015E938(pg, 5, k, 0);
+        po = PloFindSwNearest__FP2LO3OIDii(pg, 5, k, 0);
         if (po) a = 1;
     }
     poRet = 0;

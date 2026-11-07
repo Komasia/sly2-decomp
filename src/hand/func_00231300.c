@@ -3,7 +3,7 @@
 typedef struct { float x, y, z, w; } V4;
 typedef struct { V4 r[3]; } M3 __attribute__((aligned(16)));
 typedef struct { char pad[0x50]; int x50; char pad2[0xC]; M3 m; } S;
-M3 func_0022FD38(int, int, int); void func_002313F0(S *);
+M3 MatConvertXfs__FP2XFT0P7MATRIX3Pv(int, int, int); void TouchLox__FP3LOX(S *);
 static inline void SetM(M3 *pm, M3 m)
 {
     *pm = m;
@@ -11,8 +11,9 @@ static inline void SetM(M3 *pm, M3 m)
     pm->r[1].w = 0;
     pm->r[2].w = 0;
 }
-void func_00231300(S *p, int x)
+// name: SafeHouse port (SetLoxRotation)
+void SetLoxRotation(S *p, int x)
 {
-    SetM(&p->m, func_0022FD38(0, p->x50, x));
-    func_002313F0(p);
+    SetM(&p->m, MatConvertXfs__FP2XFT0P7MATRIX3Pv(0, p->x50, x));
+    TouchLox__FP3LOX(p);
 }

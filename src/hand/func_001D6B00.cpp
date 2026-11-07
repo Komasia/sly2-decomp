@@ -68,7 +68,7 @@ extern XF D_002C44F0;           // identity frame
 extern qword D_002A2DA0;        // default direction
 extern char g_sw[];
 extern "C" {
-qword func_001A62E8(SO *);                                       // PosLoWorld
+qword PosOfLo(SO *) asm("PosOfLo__FP2LO");                                       // PosLoWorld
 MATRIX4 *MulMatrix4(MATRIX4 *, MATRIX4 *, MATRIX4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void *func_002333B4(void *, int, int);                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
@@ -179,7 +179,7 @@ static inline void LoadIdentity(MATRIX4 *pm) { func_002333B4(pm, 0, sizeof(*pm))
 extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
 {
     MATRIX4 matParent;
-    qword posStart = func_001A62E8(pso);
+    qword posStart = PosOfLo(pso);
     VV posOrigin(posStart);
     SO *psoSource = plaunch->psoSource;
     XF *pxf;

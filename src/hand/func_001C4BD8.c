@@ -1,7 +1,7 @@
 struct LO { char pad[0x28]; unsigned long x28; char p1[0x15C - 0x30]; char x15C[0x110]; char x26C[4]; };
 extern struct LO **D_002C0D28[3];
 extern char D_002C0D18[];
-struct LO *func_001C4840(void *p);
+struct LO *PloPlayerPo__FP2SW(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
 int PjobFind__FP5GUARDPv(void *p, int n);
 int func_001C4BD8(void *p, int cMax, void **ap)
@@ -11,7 +11,7 @@ int func_001C4BD8(void *p, int cMax, void **ap)
     struct LO *plo, *plo2;
     if (cMax <= 0) return 0;
     c = 1;
-    plo = func_001C4840(p);
+    plo = PloPlayerPo__FP2SW(p);
     if (plo) {
     *ap = plo->x15C;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x34)) {

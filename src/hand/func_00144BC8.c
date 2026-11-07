@@ -15,7 +15,7 @@ extern float D_002BD2E0[3];
 extern float g_lmZeroOne[2];
 extern float D_002BD2F0;
 void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int k);
 void StampPadctlState__FP6PADCTL(struct Q *q);
@@ -64,7 +64,7 @@ void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
         qword d, v, t, axis;
         float g, s;
         __asm__("lqc2 %0, %1" : "=j"(pos) : "m"(p->q80));
-        v = func_001A62E8(p->p10);
+        v = PosOfLo__FP2LO(p->p10);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(v));
         axis = g_normalZ;
         v = Perp(d, axis);
@@ -80,8 +80,8 @@ void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
             int f = 1;
             struct O *po = p->xC0->x7C;
             qword a, b;
-            __asm__("qmtc2.ni %1, %0" : "=j"(a) : "r"(func_001A62E8(p->p10)));
-            __asm__("qmtc2.ni %1, %0" : "=j"(b) : "r"(func_001A62E8(po)));
+            __asm__("qmtc2.ni %1, %0" : "=j"(a) : "r"(PosOfLo__FP2LO(p->p10)));
+            __asm__("qmtc2.ni %1, %0" : "=j"(b) : "r"(PosOfLo__FP2LO(po)));
             if (FFar(a, b))
                 q->x30 |= 8;
             if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x34))

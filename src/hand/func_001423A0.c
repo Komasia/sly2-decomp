@@ -11,7 +11,7 @@ struct P {
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 void func_002309E8(void *a, int b, M4 *pm, int c, float g);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 static __inline__ qword Mul(M4 *pm, qword v)
 {
     qword o;
@@ -43,7 +43,7 @@ int FActorPoseDone__FP5ACTOR(struct P *p)
     if (p->x4C8 != 5 || !p->x4D4) return 1;
     func_002309E8(p->po->vt[32].pfn((char *)p->po + p->po->vt[32].d, &buf), 0, &m, 0, 0.0f);
     v = Mul(&m, buf.pos);
-    if (5.0f < GDist(func_001A62E8(p->po), v)) return 0;
+    if (5.0f < GDist(PosOfLo__FP2LO(p->po), v)) return 0;
     if (p->x9A4 != 1) return 1;
     if (g_clock.t < p->p994->t) return 0;
     return 1;

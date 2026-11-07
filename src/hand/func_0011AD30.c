@@ -34,12 +34,13 @@ void __10STACKSCOPE(FRAME *pframe);
 void _$_10STACKSCOPE(FRAME *pframe, int n);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
 void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
-DZG *func_0011A550(DZG *pdzg, int cdzsMax);
+DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cdzsMax);
 void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
-void func_0011ABF8(DZG *pdzg);
+void EnforceDzgConstraints__FP3DZG(DZG *pdzg);
 
 static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocStackImpl__Fi(pmsg); }
-void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
+// name: SafeHouse port (SolveDzgConstraints)
+void SolveDzgConstraints__FiPfN21f(int c, float *agA, float *agB, float *agX, float g)
 {
     FRAME frame;
     DZG dzg;
@@ -47,7 +48,7 @@ void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
     int i;
 
     __10STACKSCOPE(&frame);
-    func_0011A550(&dzg, c);
+    InitDzgRows__FP3DZGi(&dzg, c);
     for (i = 0; i < c; i++) {
         DZ *pdz = &dzg.adzs[i];
         pdz->g8 = g;
@@ -57,7 +58,7 @@ void func_0011AD30(int c, float *agA, float *agB, float *agX, float g)
         AppendDlEntry__FP2DLPv(&dzg.dlD, pdz);
     }
     dzg.cdzs = c;
-    func_0011ABF8(&dzg);
+    EnforceDzgConstraints__FP3DZG(&dzg);
     for (i = 0; i < c; i++) {
         agX[i] = dzg.adzs[i].gC;
     }

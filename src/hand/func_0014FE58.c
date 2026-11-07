@@ -2,14 +2,14 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct X { void *po; };
 extern qword g_normalZ;
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 // name: SafeHouse port (CPRECON::PosFocus)
 qword PosFocus__7CPRECON(struct X *p)
 {
     U s;
     U pos;
-    pos.q = func_001A62E8(p->po);
+    pos.q = PosOfLo__FP2LO(p->po);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, 0x34)) {
         register qword rs __asm__("vf2");
         register qword rp __asm__("vf3");

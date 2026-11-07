@@ -62,7 +62,7 @@ extern G g_sw;
 extern char D_002A5238[];
 extern "C" void func_00165C98(int *pc, X ***papx);
 extern "C" void RestoreTask(X *p) asm("RestoreTask__FP4TASK");
-extern "C" X *func_0015E938(G *pg, int kind, int oid, void *owner);
+extern "C" X *PloFindSwNearest(G *pg, int kind, int oid, void *owner) asm("PloFindSwNearest__FP2LO3OIDii");
 extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
 extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 extern "C" void func_00129EC8(CRef *pref);
@@ -82,7 +82,7 @@ extern "C" void StartQueuedTask__FP2SS(SS *ps)
         CSave save(pxT, 3, 0);
         RestoreTask(pxT);
     }
-    X *px = func_0015E938(&g_sw, 0x105, ps->oid, 0);
+    X *px = PloFindSwNearest(&g_sw, 0x105, ps->oid, 0);
     ps->f10 = px->f7c->f18;
     ps->f14 = px->f18;
     CSave save(px, 3, 0);

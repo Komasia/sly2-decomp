@@ -21,7 +21,8 @@ struct LO {
 M4 MulMatrix4__FP7MATRIX4T0Pv(void *, M4 *);
 void func_001A5900(LO *, LO *, LO *, int);
 
-void func_002315F0(LO *p, LO *pNew, LO *pParent, int grf)
+// name: SafeHouse port (SetLoxParent)
+void SetLoxParent__FP3LOXP3ALOP2XFi(LO *p, LO *pNew, LO *pParent, int grf)
 {
     M4 m;
     if (grf & 3) {

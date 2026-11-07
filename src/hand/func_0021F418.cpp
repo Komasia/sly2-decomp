@@ -21,7 +21,7 @@ extern CLOCK g_clock;
 extern float D_002C40E0;
 extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
-qword func_001A62E8(O *);
+qword PosOfLo(O *) asm("PosOfLo__FP2LO");
 int func_001DAEA8(int);
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
@@ -31,7 +31,7 @@ float func_002458F0(float,float);
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void SetJtThrowState(S *,int) asm("SetJtThrowState__FP7JTTHROWi");
-void func_001384C0(ASEG *);
+void RecalcBlend(ASEG *) asm("RecalcBlend__FP6ASEGBL");
 int func_00131968(ASEGA *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int GrfPadctlTakePressed(CONTROL *,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
@@ -140,7 +140,7 @@ static inline void CopyRange(RANGE &destination,const RANGE &source){
 extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
  WORK w;
  register CONTROL *control asm("$19")=s->owner->control;
- qword initial=func_001A62E8(s->owner);
+ qword initial=PosOfLo(s->owner);
  int initialState=SaveOwnerPosition(w.ownerPosition,initial,s);
  if(initialState<7){
  if(initialState>=4){
@@ -187,13 +187,13 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
   ASEGA *animation=s->owner->animation;
   switch(previous){
   case 0:{
-   w.scratch.vector.q=IdleDifference(func_001A62E8(s->selected),w.ownerPosition);
+   w.scratch.vector.q=IdleDifference(PosOfLo(s->selected),w.ownerPosition);
    float heading=func_002458F0(w.scratch.vector.f[1],w.scratch.vector.f[0]);
    float angle=RadNormalize(heading-RadStepHeading(s->owner));
    float threshold=s->idleThreshold;
    if(threshold<angle)SetJtThrowState(s,2);
    else if(angle<-threshold)SetJtThrowState(s,1);
-   else{s->blend1=angle/threshold*0.5f+0.5f;s->blend0=1.0f-s->blend1;func_001384C0(s->animation0);}
+   else{s->blend1=angle/threshold*0.5f+0.5f;s->blend0=1.0f-s->blend1;RecalcBlend(s->animation0);}
    break;
   }
   case 1:case 2:
@@ -210,8 +210,8 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
     if(s->animation0)SetJtThrowState(s,0);else IntCall(s->owner,88,0);
     O *selected=s->selected;if(selected==D_002DD5BC&&selected->mode==8){
      w.speed.q=ScalarHome(w.scratch.vector,CPUFloat(400.0f));
-     O *positionOwner;w.playerPosition.q=SavedPlayerAndOwner(func_001A62E8(selected),s,positionOwner);
-     qword position=func_001A62E8(positionOwner),currentVF,playerVF;V *upper,*savedUpper;ProjectionInputs(position,w.playerPosition,currentVF,playerVF,upper,savedUpper);
+     O *positionOwner;w.playerPosition.q=SavedPlayerAndOwner(PosOfLo(selected),s,positionOwner);
+     qword position=PosOfLo(positionOwner),currentVF,playerVF;V *upper,*savedUpper;ProjectionInputs(position,w.playerPosition,currentVF,playerVF,upper,savedUpper);
      qword direction=PointDifference(playerVF,currentVF);qword up=LoadVF(*InitialUpAddress(upper));direction=PlanarUnit(direction,up);
      qword speedValue,upValue; qword height=LiftFromUpper(600.0f,w.speed,savedUpper,speedValue,upValue);
      O *launchOwner;int launchFlag;LaunchPublication(LaunchVelocity(direction,speedValue,upValue,height),w.vector,launchOwner,launchFlag);

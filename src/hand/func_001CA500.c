@@ -11,7 +11,7 @@ struct R { int n; struct LO **ap; int x8; int c; int x10; void *x14; void **ap18
 struct G { char pad[0x3F04]; int c3F04; struct R *ar; };
 void *func_001C9940(int i, int c);
 void *PvAllocSwClearImpl__Fi(struct A *pa);
-qword func_001A62E8(struct LO *p);
+qword PosOfLo__FP2LO(struct LO *p);
 struct MAT3 *MatJtLo__FP2LO(struct LO *p);
 void func_0011B3D0(struct MAT3 *pm);
 void *func_002333B4(void *p, int c, int cb);
@@ -40,7 +40,7 @@ void func_001CA500(struct G *pg)
         for (k = 0; k < pr->n; k++) {
             px = &pr->x64[k];
             plo = pr->ap[pr->c * pr->n + k];
-            px->q = func_001A62E8(plo);
+            px->q = PosOfLo__FP2LO(plo);
             px->mat = *MatJtLo__FP2LO(plo);
             func_0011B3D0(&px->mat);
         }

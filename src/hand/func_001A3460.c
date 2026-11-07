@@ -16,6 +16,6 @@ void func_001A3460(LIGHT *plight)
         nStamp = pxf->nStamp;
     if (plight->nStampXf < nStamp) {
         plight->nStampXf = nStamp;
-        func_001A3968(plight);
+        ComputeLight__FP11LIGHTPARAMS(plight);
     }
 }

@@ -1,4 +1,4 @@
-// func_00189C40: ported from Lilly's personal Sly 2 decomp (src/P2/jt.c), reduced to the declarations it needs.
+// RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG: ported from Lilly's personal Sly 2 decomp (src/P2/jt.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF340 (D_002BF340), D_002BF344 (D_002BF344), g_normalZ
 // 0x00189C40 RebuildJtXmg__FP2JTP3ALOfT1P4ACT5P3XMG  (T1460 MATCH; T0983 had it at 77 %)  Sly 1's RebuildJtXmg (JT.c): Sly's foot placement for one foot. When the clip his feet follow
@@ -1374,7 +1374,8 @@ extern qword g_normalZ;
 extern int D_002BF340;
 extern int D_002BF344;
 extern "C" void PredictAsegEffect(ASEG *paseg, SO *psoRoot, float tLocal, float svt, XF *pxfEffect, XF *pxfRef, MATRIX4 *pmatOut, int f);
-void RebuildJtXmg(JT *pjt, ALO *paloExtrem, float sRadius, ALO *paloHip, ACT5 *pact5, XMG *pxmg) __asm__("func_00189C40");
+void RebuildJtXmg(JT *pjt, ALO *paloExtrem, float sRadius, ALO *paloHip, ACT5 *pact5, XMG *pxmg) __asm__("RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG");
+// name: SafeHouse port (RebuildSlyFootProbe)
 void RebuildJtXmg(JT *pjt, ALO *paloExtrem, float sRadius, ALO *paloHip, ACT5 *pact5, XMG *pxmg)
 {
     ASEGA *pasega;

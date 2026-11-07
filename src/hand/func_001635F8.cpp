@@ -16,7 +16,7 @@ extern "C" void *PvAllocSwCopyImpl(ALLOCREQ *preq, void *pv) asm("PvAllocSwCopyI
 extern "C" void *PvAllocSwClearImpl(ALLOCREQ *preq) asm("PvAllocSwClearImpl__Fi");
 extern "C" void *PvAllocSwImpl(ALLOCREQ *preq) asm("PvAllocSwImpl__Fi");
 extern "C" void LoadLoFromBrx(S *p, CBinaryInputStream *pbis) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
-extern "C" void func_00118420(CBinaryInputStream *pbis);
+extern "C" void ReadDebugString(CBinaryInputStream *pbis) asm("ReadDebugString__FP18CBinaryInputStream");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
@@ -62,5 +62,5 @@ extern "C" void LoadTaskFromBrx__FP2LOP18CBinaryInputStream(S *p, CBinaryInputSt
     p->a9C = (int *)PvAllocB(&req, p->cA0 * 4, 0x10);
     for (int j = 0; j < p->cA0; j++)
         p->a9C[j] = pbis->S32Read();
-    func_00118420(pbis);
+    ReadDebugString(pbis);
 }

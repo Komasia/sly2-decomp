@@ -5,7 +5,7 @@ extern "C" {
 extern char D_004520A8[];
 CRef *func_0012A0B0(CRef *pref, int tagk);
 void *func_002333B4(void *p, int c, int n);
-OBJ *func_00256B48(void);
+OBJ *PpairNew(void) asm("PpairNew__Fv");
 void RefGetPeopid(CRef *ret, void *b, PRM *prm) asm("RefGetPeopid__FP5BASICP5EOPID");
 CRef *func_00129658(CRef *pref, CRef *prefSrc); /* CRef::operator= returns *this */
 void func_00129EC8(CRef *pref);
@@ -60,7 +60,7 @@ CRef *func_00200F58(CRef *ret, int c, int x, void *pb)
     SP *ppTail = &list;
     for (int i = 0; i < c; i++) {
         prm.rest[0] = i * 4;
-        SP nw(func_00256B48());
+        SP nw(PpairNew());
         CRef *pr = &nw.p->ref;
         CREFA ref;
         RefGetPeopid(&ref.r, pb, &prm);

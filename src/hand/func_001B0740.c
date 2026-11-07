@@ -2,14 +2,14 @@ struct S { char pad[0x1C]; int f; };
 extern char g_game[], g_sw[], D_003D9ED0[];
 extern char D_002C01D0[], D_002C01F0[], D_002C0210[];
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
-void *func_001C4840(void *p);
+void *PloPlayerPo__FP2SW(void *p);
 int func_00132EA0(void *p);
 void PushPage__FP4MENUiPviUi(void *p, int a, int b, int c, char *s);
 void func_001B0740(struct S *p)
 {
     char *s;
     BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x29, 0);
-    switch (func_00132EA0(func_001C4840(g_sw))) {
+    switch (func_00132EA0(PloPlayerPo__FP2SW(g_sw))) {
     case 0x35: s = D_002C01D0; break;
     case 0x37: s = D_002C01F0; break;
     case 0x36: s = D_002C0210; break;

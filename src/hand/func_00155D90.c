@@ -14,7 +14,7 @@ int func_00174FB8(void *p);
 int FArrived__9JOBFOLLOW(void *p);
 int func_00175748(void *p);
 int PactionSelect__FP5GUARDP2LOP9TARGETREC(struct SO *p, int n, int z);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void SetB5State__5JOBB5i(struct X *p, int k);
 void *PloEnd__5JOBB5(struct X *p);
 
@@ -29,7 +29,7 @@ void Update__5JOBB5(struct X *p)
         case 0:
             if (func_00174FB8(p->x18)) {
                 struct SO *pso;
-                qword d = Sub(func_001A62E8(p->x40), p->pso->pos);
+                qword d = Sub(PosOfLo__FP2LO(p->x40), p->pso->pos);
                 pso = p->pso;
                 ((void (*)(void *, qword))pso->vt[29].pfn)((char *)pso + pso->vt[29].d, d);
                 pso = p->pso;

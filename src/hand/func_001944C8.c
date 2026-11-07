@@ -1,5 +1,6 @@
 struct S { int a, b, k, c; char pad[0x54-0x10]; int x54, x58, x5c, x60, x64; };
-int func_001944C8(struct S *p, int *pf) {
+// name: SafeHouse port (IsoeInteractMesh)
+int IsoeInteractMesh__FP5ACTORPi(struct S *p, int *pf) {
     int f = 0;
     int v;
     switch (p->k) {

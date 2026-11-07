@@ -9,15 +9,15 @@ void PswUpdateTransition__FP2SW(void *);
 void func_001871C0(void *);
 void func_0014BA38(void);
 void func_0014D470(void *);
-void func_0014D0B8(void *, int);
+void UpdateClock__FP5CLOCKi(void *, int);
 void RegisterSwPass__FPv(void *);
 void func_001D9648(void *);
 void func_00160828(void);
-int func_001477B0(void *);
+int FAnimatedOverlayDrawNormal__FPc(void *);
 void func_001CDA80(void *);
 void func_00157FA0(void *);
 void func_001D9820(void *);
-void func_001477D8(void *);
+void DrawAnimatedOverlayFrame__FPv(void *);
 void func_00160A98(void);
 void func_001A7518(int a, int b)
 {
@@ -31,17 +31,17 @@ void func_001A7518(int a, int b)
         func_001871C0(g_joy);
         func_0014BA38();
         func_0014D470(g_cm);
-        func_0014D0B8(g_clock, 0);
+        UpdateClock__FP5CLOCKi(g_clock, 0);
         RegisterSwPass__FPv(g_sw);
         func_001D9648(D_003D9E70);
         func_00160828();
-        if (!D_002DD644 || func_001477B0(D_002DD644)) {
+        if (!D_002DD644 || FAnimatedOverlayDrawNormal__FPc(D_002DD644)) {
             func_001CDA80(g_sw);
             func_00157FA0(g_sw);
             func_001D9820(D_003D9E70);
         }
         if (D_002DD644)
-            func_001477D8(D_002DD644);
+            DrawAnimatedOverlayFrame__FPv(D_002DD644);
         func_00160A98();
         D_002BE538++;
     }

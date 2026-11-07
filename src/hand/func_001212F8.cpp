@@ -15,7 +15,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -37,15 +37,15 @@ struct SP {
     void operator=(NODE *pn);
     NODE *operator->() { return p; }
 };
-extern "C" SP func_00128CB8(NODE *src, void *a, void *b);
+extern "C" SP CloneTo(NODE *src, void *a, void *b) asm("CloneTo__5CPairP5CPairP6CFrame");
 extern "C" CRef RefOpAppend(void *pbasic, CRef *aref) asm("RefOpAppend__FiP4CRefP6CFrame");
 CRef RefOpAppend(void *pbasic, CRef *aref) { if (aref[0].m_tagk == 0) return aref[0];
  SP spRes; NODE *pTail;
  for (NODE *pn = aref[0].u.pnode; pn; pn = pn->pnext.p) {
    if (pn->ref.m_tagk != 0x1F) continue;
    SP spCopy;
-   if (pn->pnext.p) { SP t = func_00128CB8(pn->ref.u.pnode, 0, 0); spCopy = t.p; } else spCopy = pn->ref.u.pnode;
-   if (!spRes.p) { spRes = func_00256B48(); spRes->ref = spCopy.p; } else pTail->pnext = spCopy.p;
+   if (pn->pnext.p) { SP t = CloneTo(pn->ref.u.pnode, 0, 0); spCopy = t.p; } else spCopy = pn->ref.u.pnode;
+   if (!spRes.p) { spRes = PpairNew(); spRes->ref = spCopy.p; } else pTail->pnext = spCopy.p;
    pTail = spCopy.p;
    while (pTail->pnext.p) pTail = pTail->pnext.p;
  }

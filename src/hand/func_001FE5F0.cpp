@@ -14,7 +14,7 @@ extern G g_sw;
 extern char D_004435F0[];
 extern "C" {
 void StopDialog(P *, int) asm("StopDialog__FP8SOUNDMGR");
-D *func_001FCFA0(P *, int);
+D *PstreamFindDialog(P *, int) asm("PstreamFindDialog__FP8SOUNDMGRi");
 X *PsndNewVoice(D *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 void SetDialogSubtitle(void *, int, int) asm("SetDialogSubtitle__FP9DIALOGSUBii");
 X *func_0015ED78(G *, int, int, int);
@@ -26,7 +26,7 @@ extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
 {
     D *pd;
     StopDialog(p, k);
-    pd = func_001FCFA0(p, k);
+    pd = PstreamFindDialog(p, k);
     if (!pd) return 0;
     p->r200 = PsndNewVoice(pd, 0);
     p->n244 = 0;

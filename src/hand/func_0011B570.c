@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
 extern M3 D_002A2D00;
-M3 *func_0011B500(M3 *pm, float g, qword axis);
+M3 *BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(M3 *pm, float g, qword axis);
 void *func_0023320C(void *pvDst, void *pvSrc, int cb);
 // name: SafeHouse port (BuildRotateMatrixVector)
 M3 *BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR(M3 *pm, qword v)
@@ -20,7 +20,7 @@ M3 *BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR(M3 *pm, qword v)
         qword n;
         __asm__("qmtc2.ni %1, %0" : "=j"(s.q) : "r"(g));
         __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(n) : "j"(s.q), "j"(v));
-        func_0011B500(&m, g, n);
+        BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(&m, g, n);
         func_0023320C(pm, &m, sizeof(M3));
     }
     return pm;

@@ -1,5 +1,5 @@
 // MATCH (Claude agent, laneB6, 2026-10-23), from v4: the case 0x20 loop reuses i with &aref[i] (no pref pointer), and the empty rest list is aref[i].SetNil(), an inline CRef member { Decref(); InitTag(0); }.
-// v4 (Claude agent, laneB5, 2026-10-23): aligned 37 -> 12. (1) `int dummy[2]` declared right after SPF spf in case 0x20 fixes the frame (0x240); (2) separate pnFn = p->ref.u.pnode for the refOp call and a new `NODE *pn = pnFn->pnext.p` gives pn s0 like the target; (3) named `CRef r = func_00127C00(...)` in the case 0x20 loop (temp dies after pparam advance). Left: spList arm (target computes i*8+sp separately in each arm), case 0x20 `addiu s2,sp,0x20` (pref) placed in preheader after blez + loop alignment nop.
+// v4 (Claude agent, laneB5, 2026-10-23): aligned 37 -> 12. (1) `int dummy[2]` declared right after SPF spf in case 0x20 fixes the frame (0x240); (2) separate pnFn = p->ref.u.pnode for the refOp call and a new `NODE *pn = pnFn->pnext.p` gives pn s0 like the target; (3) named `CRef r = RefAddBinding(...)` in the case 0x20 loop (temp dies after pparam advance). Left: spList arm (target computes i*8+sp separately in each arm), case 0x20 `addiu s2,sp,0x20` (pref) placed in preheader after blez + loop alignment nop.
 // v3 (Claude agent, laneB4, 2026-10-23): from the .cpp draft (38, closer than v2's 54): SPN::operator= as an inline 'SPN &operator=(NODE *pn) { Assign(pn); return *this; }' -> 37. Frame still 0x10 short.
 struct NODE;
 struct CRef {
@@ -17,7 +17,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -74,10 +74,10 @@ struct LAMBDA {
 };
 extern BIF g_mpbifkbif[];
 extern "C" {
-FRAME *func_00256DD0();
+FRAME *PframeNew() asm("PframeNew__Fv");
 CRef RefEval(NODE *p, FRAME *pframe) asm("RefEval__FP5CPairP6CFrame");
-CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
-void func_00127B18(FRAME *pframe, FRAME *pframeParent);
+CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref) asm("RefAddBinding__6CFrameUiP4CRef");
+void SetSingleParent(FRAME *pframe, FRAME *pframeParent) asm("SetSingleParent__6CFrame");
 CRef func_00127190(LAMBDA *plambda, FRAME *pframe);
 CRef RefEvalApply(NODE *p, FRAME *pframe) asm("RefEvalApply__FP5CPairP6CFrame");
 }
@@ -120,7 +120,7 @@ CRef RefEvalApply(NODE *p, FRAME *pframe)
         SPN spLast;
         SPN spList;
         while (spCur.p) {
-            SPN spNew(func_00256B48());
+            SPN spNew(PpairNew());
             spNew->ref = RefEval(spCur.p, pframe);
             if (spLast.p) {
                 spLast->pnext = spNew.p;
@@ -143,14 +143,14 @@ CRef RefEvalApply(NODE *p, FRAME *pframe)
         ref = pbif->pfn(c, aref, pframe);
         break;
     case 0x20: {
-        SPF spf(func_00256DD0());
+        SPF spf(PframeNew());
     int dummy[2];
-        func_00127B18(spf.p, plambda->pframe);
+        SetSingleParent(spf.p, plambda->pframe);
         NODE *pparam = plambda->pparams;
         for (i = 0; i < carg; i++) {
             if (pparam->ref.m_tagk == 0x14)
                 pparam = pparam->pnext.p;
-            CRef r = func_00127C00(spf.p, pparam->ref.u.n, &aref[i]);
+            CRef r = RefAddBinding(spf.p, pparam->ref.u.n, &aref[i]);
             pparam = pparam->pnext.p;
         }
         ref = func_00127190(plambda, spf.p);

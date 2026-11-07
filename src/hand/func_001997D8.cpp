@@ -1,4 +1,4 @@
-// Collision sweep: builds a MATRIX4 from the incoming basis row/point, asks func_001995D8 for 22 sample points
+// Collision sweep: builds a MATRIX4 from the incoming basis row/point, asks BuildEdgeProbes for 22 sample points
 // (11 segments) and tests every segment against the shapes of every layer; returns whether at least 2 hits
 // had a plane normal with Z > 0.7 (any hit before the 3rd segment, or with parameter 0, fails at once).
 //
@@ -29,7 +29,7 @@ extern qword D_002A2DB0;
 extern "C" {
 void BuildOrthonormalVectors(qword a, qword b, qword c, qword *pm) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");
 qword *func_00256D18(qword *pq, qword q);
-void func_001995D8(struct P *p, const M4 *pm, int n, U *apt);
+void BuildEdgeProbes(struct P *p, const M4 *pm, int n, U *apt) asm("BuildEdgeProbes__FP4JUMPP7MATRIX4iP6VECTOR");
 int ClipSegmentSoe(struct S0 *s, qword a, qword b, int n, HIT *ph) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
 }
 
@@ -38,7 +38,8 @@ static inline int HitSegment(struct S0 *s, const qword *a, const qword *b, HIT *
     return ClipSegmentSoe(s, *a, *b, 1, h);
 }
 
-extern "C" int func_001997D8(struct P *p, qword q1, qword q2)
+// name: SafeHouse port (FCheckEdgeNormal)
+extern "C" int FCheckEdgeNormal__FP4JUMPG9VU_VECTORT1(struct P *p, qword q1, qword q2)
 {
     M3 m;
     M4 m4;
@@ -53,7 +54,7 @@ extern "C" int func_001997D8(struct P *p, qword q1, qword q2)
     pm->m = m;
     m4.m.r[0].i[3] = m4.m.r[1].i[3] = m4.m.r[2].i[3] = 0;
     pm->pos.f[3] = 1.0f;
-    func_001995D8(p, &m4, 22, (U *)apt);
+    BuildEdgeProbes(p, &m4, 22, (U *)apt);
     for (l = p->x0->xec->x64; l; l = l->x4) {
         int i;
         if (l->xc->xec->x70 & 4)

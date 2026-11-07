@@ -19,7 +19,7 @@ void PlayAsegaSound(void *, int, int, int, int, void *, void *, struct Q *, void
 void StopAsegaSound(void *, void *, struct Q *, void *) asm("StopAsegaSound__FP5ASEGAiPvT2");
 void JoltCm(void *, void *) asm("JoltCm__FP2CMi");
 void TriggerJoyRumbleRumk(void *, void *, float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
-void *func_0015E938(void *, int, void *, void *);
+void *PloFindSwNearest(void *, int, void *, void *) asm("PloFindSwNearest__FP2LO3OIDii");
 int func_00132EA0(void *);
 void ApplyAseg(void *, int, int, int, float, float) asm("ApplyAseg__FP4ASEGiiffPP5ASEGA");
 void StartScptImpl(void *, int) asm("StartScptImpl__FP2LOi");
@@ -68,7 +68,7 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
         TriggerJoyRumbleRumk(g_joy, pev->pv, pev->uC.g);
         break;
     case 4: {
-        void *po = func_0015E938(g_sw, 4, pev->pv, func_00131270(p));
+        void *po = PloFindSwNearest(g_sw, 4, pev->pv, func_00131270(p));
         if (po) {
             switch (func_00132EA0(po)) {
             case 0x6D:

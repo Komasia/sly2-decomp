@@ -9,7 +9,7 @@ struct R { char pad[0x30]; Q *x30; };
 struct LO { char pad[0x12C]; float x12C; char p1[0x150 - 0x130]; int x150; char p2[0x168 - 0x154]; R *x168; };
 extern "C" {
 H *PchnFindAseg(void *p, LO *plo, int a, int b) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
-qword func_001A62E8(LO *plo);
+qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 void *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 void RenderSoSelf(LO *plo) asm("RenderSoSelf__FP2SOP2CMP2RO");
 void func_001C5FA0(LO *p);
@@ -28,7 +28,7 @@ void func_001C5FA0(LO *p)
             OBJ *pobj = ph->pobj;
             ((void (*)(void *, V *, int, float, float))pobj->vt[3].pf)((char *)pobj + pobj->vt[3].d, &v, 0, q->x1C, q->x40);
             M4 m;
-            m = func_0011C210(func_001A62E8(p), MatJtLo(p), &v);
+            m = func_0011C210(PosOfLo(p), MatJtLo(p), &v);
             AppendAloExtraDraws(p, m, p->x12C, p->x12C);
         } else {
             RenderSoSelf(p);

@@ -10,7 +10,7 @@ typedef struct P {
     E *events;
 } P;
 extern char g_sw[];
-SO *func_0015E938(void *g, int k, int v, P *p);
+SO *PloFindSwNearest__FP2LO3OIDii(void *g, int k, int v, P *p);
 void ShowAloGlobs__FP3ALOi(P *p, int v);
 void func_001F69F8(P *p, int v);
 void SetAloSoesByTag__FP3ALOi(P *p, int v);
@@ -46,7 +46,7 @@ void GotoEvent__FP2LOi(P *p, int id)
                 I *pi = &pe->actions[k];
                 SO *ps = 0;
                 if ((0xC3 >> pi->kind) & 1) {
-                    ps = func_0015E938(g_sw, 1, pi->value, p);
+                    ps = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, pi->value, p);
                     if (!ps) continue;
                 }
                 switch ((unsigned int)pi->kind) {
@@ -88,7 +88,7 @@ void GotoEvent__FP2LOi(P *p, int id)
                 I *pi = &pe->actions[k];
                 SO *ps = 0;
                 if ((0xC3 >> pi->kind) & 1) {
-                    ps = func_0015E938(g_sw, 1, pi->value, p);
+                    ps = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, pi->value, p);
                     if (!ps) continue;
                 }
                 switch ((unsigned int)pi->kind) {

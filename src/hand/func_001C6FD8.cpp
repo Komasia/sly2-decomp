@@ -55,11 +55,11 @@ extern LM D_002C0EB0;
 extern float D_002C0EB8, D_002C0EBC, D_002C0EC0, D_002C0EC4;
 extern "C" {
 int FFindPickupFloor(float, float, float, qword, int, CANDIDATE **, qword *) asm("FFindPickupFloor__FfffG9VU_VECTORiP6VECTORPG9VU_VECTOR");
-LO *func_001C4840(void *);
+LO *PloPlayerPo(void *) asm("PloPlayerPo__FP2SW");
 REGION *PregionAt(qword, int) asm("PregionAt__FG9VU_VECTORi");
 int func_001C0940(REGION *, qword, qword *, int);
 int func_001C0980(REGION *, qword, qword, int);
-qword func_001A62E8(LO *);
+qword PosOfLo(LO *) asm("PosOfLo__FP2LO");
 void *PvAllocStackImpl(ALLOCREQ *) asm("PvAllocStackImpl__Fi");
 int CpickupInstances(void *, int, int, LO **) asm("CpickupInstances__FPviiPP2LO");
 int func_001C5570(void *, CANDIDATE *);
@@ -143,7 +143,7 @@ extern "C" void SpawnPickups__FP6VECTORiG9VU_VECTORPvi(void *pworld, int kind, q
     VECTOR4 posOrig;
     if (!FFindPickupFloor(0.0f, 300.0f, D_002A775C, posSeed, 0, 0, &posOrig.q))
         return;
-    LO *plo = func_001C4840(pworld);
+    LO *plo = PloPlayerPo(pworld);
     REGION *pregion = 0;
     if (plo)
         pregion = PregionFromLo(plo);
@@ -153,7 +153,7 @@ extern "C" void SpawnPickups__FP6VECTORiG9VU_VECTORPvi(void *pworld, int kind, q
     if (func_001C0940(pregion, posOrig.q, &posSnap.q, 1))
         posSnap.f[2] = posOrig.f[2];
     else {
-        qword pos = func_001A62E8(plo);
+        qword pos = PosOfLo(plo);
         if (!func_001C0940(pregion, pos, &posSnap.q, 1))
             return;
         posSnap.f[2] = GetZ(pos);

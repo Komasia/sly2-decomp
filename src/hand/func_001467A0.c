@@ -12,7 +12,7 @@ extern float D_002BD36C;
 extern float D_002BD370;
 void Update__5AIJOB(struct P *p);
 int func_001A61A0(struct T *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 struct M3 *MatJtLo__FP2LO(void *p);
 void SetState__12JOBSLYATTACKi(struct P *p, int n);
 float GRandInRange__Fff(float gMin, float gMax);
@@ -62,8 +62,8 @@ void Update__12JOBSLYATTACK(struct P *p)
         return;
     }
     {
-        qword a = func_001A62E8(p->p38);
-        qword b = func_001A62E8(p->p10);
+        qword a = PosOfLo__FP2LO(p->p38);
+        qword b = PosOfLo__FP2LO(p->p10);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d.q) : "j"(a), "j"(b));
         d.f[2] = 0.0f;
         g = SafeNormalize(&d.q, &D_002A2DA0);

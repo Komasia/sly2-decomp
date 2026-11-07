@@ -35,5 +35,5 @@ extern s32 D_003E1408;
 extern s32 D_003E1450;
 
 void func_00170C00(s32 arg0, s32 arg1) {
-    func_00170E00(arg0, 4, arg1);
+    PcmdAppend__FP7CMDLISTi3OID(arg0, 4, arg1);
 }

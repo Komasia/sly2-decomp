@@ -1,7 +1,8 @@
 #include "m2c_prelude.h"
 void *PjobFind__FP5GUARDPv(s32, M2C_UNK);                  /* extern */
 
-void func_001431D0(void *arg0) {
+// name: SafeHouse port (StopNearestLaunchTracking)
+void StopNearestLaunchTracking__FP5ACTOR(void *arg0) {
     s32 temp_a0;
     void *temp_v0;
 

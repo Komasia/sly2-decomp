@@ -49,7 +49,7 @@ extern qword D_002A2DA0;                    // (1, 0, 0, 0)
 extern float D_002BF5BC, D_002BF5C0, D_002BF5C4, D_002BF5C8, D_002BF5CC;
 extern HEIGHT D_002BF630;
 extern U D_002BF5D0[3], D_002BF600[3];
-qword func_001A62E8(ACTOR *);
+qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 void func_00182CD8(void *, ACTOR *, float *, U *, float *);
 qword func_0011F088(qword, qword, float, SMP *, U *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -71,13 +71,13 @@ void NearestCrv(FOCUS *, qword, void *, U *, U *, float *, float *, float) asm("
 void SetJumpKind(void *, int, int, int) asm("SetJumpKind__FP4JUMPiiP2LO");
 float func_002458F0(float, float);
 void NearestCrvAll(FOCUS *, qword, void *, void *, U *, void *, void *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
-void func_001CC2E8(void *);
+void UpdateReach(void *) asm("UpdateReach__FP5REACH");
 void SteerRootBlend(ACTOR *, ENTRY *, void *) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
 void FitStepToFloor(ACTOR *, HEIGHT *, int, U *) asm("FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR");
 BINDING *PchnFindAseg(void *, ACTOR *, int, int) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 void FaceObject(ACTOR *, FOCUS *) asm("FaceObject__FP5ACTORP2LO");
 void TurnActorNow(ACTOR *) asm("TurnActorNow__FP5ACTOR");
-void func_00189C40(ACTOR *, void *, void *, void *, float, void *);
+void RebuildSlyFootProbe(ACTOR *, void *, void *, void *, float, void *) asm("RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG");
 void func_00193C98(ACTOR *, void *, void *);
 }
 
@@ -144,7 +144,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
 {
     U pos;
     U velOld;
-    pos.q = func_001A62E8(ctx->actor);
+    pos.q = PosOfLo(ctx->actor);
     velOld.q = GetVelocity(ctx->actor);
     JOY *pjoy = ctx->actor->pjoy;
 
@@ -353,7 +353,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
     }
     case 5:
     case 9:
-        func_001CC2E8(ctx->sub);
+        UpdateReach(ctx->sub);
         break;
     case 8:
         switch (ctx->step) {
@@ -425,8 +425,8 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
     case 0:
         if (ctx->action == 3) {
             ACTOR *actor = ctx->actor;
-            func_00189C40(actor, actor->x19D8, actor->x19E0, actor->x19F0, 5.0f, actor->x1520);
-            func_00189C40(actor, actor->x19D4, actor->x19DC, actor->x19F4, 5.0f, actor->x1620);
+            RebuildSlyFootProbe(actor, actor->x19D8, actor->x19E0, actor->x19F0, 5.0f, actor->x1520);
+            RebuildSlyFootProbe(actor, actor->x19D4, actor->x19DC, actor->x19F4, 5.0f, actor->x1620);
             func_00193C98(actor, actor->x1520, actor->x19F0);
             func_00193C98(actor, actor->x1620, actor->x19F4);
         }

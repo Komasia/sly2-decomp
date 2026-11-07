@@ -24,7 +24,8 @@ __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q":"=j"(length):"0"(le
 static inline float Float(qword v){float f;__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(v));return f;}
 static inline qword Scalar(const FLOATWORD*p){register qword v __asm__("vf1");register int w __asm__("$2")=p->word;__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(w));return v;}
 static inline qword Scale(qword v,qword s){register qword r __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(s));return r;}
-extern "C" void func_0020CB28(struct P*p,qword v)
+// name: SafeHouse port (SelectK3)
+extern "C" void SelectK3__FP6K3PLAYG9VU_VECTOR(struct P*p,qword v)
 {
  V scalar,direction;
  register qword finalDirection __asm__("vf3");

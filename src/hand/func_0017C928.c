@@ -7,7 +7,7 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x28]; int n38; int n3C; cha
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; void *p30; char pad3[0xC]; qword v40; int n50; float f54; char pad4[8]; qword v60; };
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *p, int n, qword v);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
@@ -22,7 +22,7 @@ void SetState__10JOBSTATIONi(struct S *p, int n) {
     case 1:
         {
             struct O *o = func_00205438(p->p10, 0xBA);
-            qword v = func_001A62E8(p->p30);
+            qword v = PosOfLo__FP2LO(p->p30);
             struct VTE *e;
             p->v60 = v;
             o->nC0 = 1; o->pA8 = p->p30; o->nAC = 1;
@@ -47,7 +47,7 @@ void SetState__10JOBSTATIONi(struct S *p, int n) {
             struct O *o = func_00205438(p->p10, 0xBA);
             qword v;
             struct VTE *e;
-            p->v60 = func_001A62E8(p->p30);
+            p->v60 = PosOfLo__FP2LO(p->p30);
             v = ConvertPos__FP2LOT0G9VU_VECTOR(p->p30, 0, p->v40);
             o->nC0 = 1;
             func_002562A8(&x);

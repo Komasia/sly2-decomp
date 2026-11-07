@@ -2,7 +2,7 @@ struct S { char pad[0x2044]; void *p2044; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern int D_003E1BEC;
-void func_0014D1D0(struct CLOCK *pclock, int n, float g);
+void SetClockFactor__FP5CLOCKif(struct CLOCK *pclock, int n, float g);
 void Stop__4CSndf(void *p, float g);
 void func_00258040(void **pp, int n);
 void func_00141E28(struct S *p, int n);
@@ -10,7 +10,7 @@ void func_0018DD78(struct S *p, int n)
 {
     if (n == 0x1D || n == 0x2A) {
         void **pp;
-        func_0014D1D0(&g_clock, 1, 1.0f);
+        SetClockFactor__FP5CLOCKif(&g_clock, 1, 1.0f);
         pp = &p->p2044;
         if (*pp) {
             Stop__4CSndf(*pp, 0.0f);

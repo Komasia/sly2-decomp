@@ -28,11 +28,11 @@ extern "C"{
  void DetachAloContacts(P*) asm("DetachAloContacts__FP3ALO");
  void SetMoveState(C*,int) asm("SetMoveState__7JOBMOVEi");
  void GetTarget(C*,REQUEST*,U*,U*) asm("GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2");
- qword func_001A62E8(P*);
- qword func_0022FC48(void*,void*,qword);
- qword func_0022FCC8(void*,void*,qword);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
+ qword PosConvertXfs(void*,void*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
+ qword VecConvertXfs(void*,void*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
  DELTA*PctrlNewTarget(P*,GROUP*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
- P*func_001C4840(void*);
+ P*PloPlayerPo(void*) asm("PloPlayerPo__FP2SW");
  void TriggerJoyRumbleRumk(void*,int,float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
  ENTRY*PeventLaunch(void*,int) asm("PeventLaunch__FP5KINDEi");
 }
@@ -156,17 +156,17 @@ extern "C" void SetState__5JOBB1i(C*p,int next){
    :"=&r"(scalar),"=&r"(beforeActor),"+f"(factor),"=m"(cached.q)
    :"m"(point.q),"m"(p->actor),"f"(duration));
   scratch.q=scalar;scale=scratch;
-  qword current=func_001A62E8(beforeActor);
+  qword current=PosOfLo(beforeActor);
   BlendSet(p,current,&cached,&scale,&scratch);
   GROUP*first=p->actor->first;
   if(!p->delta){
    float end=*(float*)(clockCarrier+(short)(clockAddress&0xffff))+D_002BE700;
-   qword localPoint=func_0022FC48(0,first->space,point.q);
-   qword localDirection=func_0022FCC8(0,first->space,direction.q);
+   qword localPoint=PosConvertXfs(0,first->space,point.q);
+   qword localDirection=VecConvertXfs(0,first->space,direction.q);
    p->delta=PctrlNewTarget(p->actor,first,0,end,localPoint,localDirection);
   }
   int owned=0;if(request.flag)owned=p->target->owner==p->actor;p->owned=owned;
-  if(p->actor->attention){P*focus=func_001C4840(g_sw);if(focus&&p->target==focus)TriggerJoyRumbleRumk(g_joy,3,0.15f);}
+  if(p->actor->attention){P*focus=PloPlayerPo(g_sw);if(focus&&p->target==focus)TriggerJoyRumbleRumk(g_joy,3,0.15f);}
   break;
  }
  case 3:{ENTRY*entry=PeventLaunch(p->control->curves,0x3C);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);break;}

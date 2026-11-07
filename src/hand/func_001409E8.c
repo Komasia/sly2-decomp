@@ -6,7 +6,7 @@ struct P { char pad[0x10C4]; void *p10C4; };
 extern struct SO *D_003E1444;
 extern struct X *D_003E1468;
 int func_001443D8(struct P *p);
-qword func_001A62E8(struct P *p);
+qword PosOfLo__FP2LO(struct P *p);
 void *func_00156698(void *a, qword pos, struct P *p);
 int func_00209A68(struct SO *pso, int n);
 int FListenerHearsNoise__FP2LOP5NOISE(struct X *px, void *q);
@@ -21,7 +21,7 @@ int NActorPerceived__FP5ACTOR(struct P *p)
     struct X *px;
     if (func_001443D8(p)) return 2;
     q = 0;
-    if (p->p10C4) q = func_00156698(p->p10C4, func_001A62E8(p), p);
+    if (p->p10C4) q = func_00156698(p->p10C4, PosOfLo__FP2LO(p), p);
     if (!q) return 2;
     r = 0;
     pso = D_003E1444;

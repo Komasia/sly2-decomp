@@ -8,7 +8,7 @@ struct X30 { char pad[0x2DC]; int x2DC; };
 struct P { char pad[0x10]; struct A *pa; char pad2[0x30 - 0x14]; struct X30 *p30; char pad3[0x80 - 0x34]; qword pos; };
 struct SO *func_00145AA8(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int func_001C09A0(struct SO *pso, qword pos, int n);
 int FDropOnGround__FP6VECTORffiPv(qword *ppos, float a, float b, int c, int d);
 // name: SafeHouse port (JOBCOMPANION::FNeedRecover)
@@ -24,7 +24,7 @@ int FNeedRecover__12JOBCOMPANION(struct P *p)
     if ((struct E *)pso == pe) return 0;
     if (pso->k == 0x2CA) return 0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x34) && p->p30->x2DC != -1) return 0;
-    pos = func_001A62E8(p->p30);
+    pos = PosOfLo__FP2LO(p->p30);
     if (!func_001C09A0(pso, pos, 0)) return 0;
     if (!FDropOnGround__FP6VECTORffiPv(&pos, 100.0f, -150.0f, 0, 0)) return 0;
     p->pos = pos;

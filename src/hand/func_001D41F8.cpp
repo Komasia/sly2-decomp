@@ -18,17 +18,17 @@ extern char D_002C21A0[],D_002C21B0[],D_002C21C0[];
 extern float D_002C21CC;
 extern "C" {
 qword ConvertVec(P*,P*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
-qword func_0022FC48(P*,NODE*,qword);
+qword PosConvertXfs(P*,NODE*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 CONTACT*BestContact(P*,ENTRY*) asm("BestContact__FP12VEHICLEWHEELi");
 float GSmooth(float,float,float,void*,float*) asm("GSmooth__FfffP3SMPPf");
 float RadNormalize(float) asm("RadNormalize__Ff");
-M3*func_0011B500(M3*,qword,float);
+M3*BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword*func_00256D18(qword*,qword);
 void UpdateAloXfWorlds(P*) asm("UpdateAloXfWorlds__FP3ALO");
 void RenderSoSelf(P*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 }
 static inline float Abs(float f){float r;__asm__("abs.s %0,%1":"=f"(r):"f"(f));return r;}
-static inline M3 Rotation(qword axis,float angle) return r{func_0011B500(&r,axis,angle);}
+static inline M3 Rotation(qword axis,float angle) return r{BuildRotateMatrixAxis(&r,axis,angle);}
 static inline M3 Mul(const M3&a,const M3&b) return r{
  qword x=a.r[0].q,y=a.r[1].q,z=a.r[2].q;
  __asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[0].q):"j"(x),"j"(y),"j"(z),"j"(b.r[0].q));
@@ -42,7 +42,7 @@ extern "C" void DrawVehiclePose__FP3ALO(P*p){
  velocity.q=ConvertVec(0,p,method->fn((P*)((char*)p+method->delta)));
  for(int i=0;i<p->count;i++){
   ENTRY*e=&p->entries[i];
-  point.q=func_0022FC48(0,(NODE*)p->space,e->node->local.position.q);
+  point.q=PosConvertXfs(0,(NODE*)p->space,e->node->local.position.q);
   point.f[0]=e->x;point.f[1]=e->y;
   CONTACT*hit=BestContact(p,e);
   {
@@ -52,7 +52,7 @@ extern "C" void DrawVehiclePose__FP3ALO(P*p){
    (void)GSmooth(point.f[2],height,g_clock.dt,D_002C21A0,0);point.f[2]=height;
   }
   heightDone:;
-  point.q=func_0022FC48(p->space,e->node->parent,point.q);
+  point.q=PosConvertXfs(p->space,e->node->parent,point.q);
   float desired;if(i<2)desired=0.0f;else desired=p->drive/e->radius;
   if(hit){
    float current=velocity.f[0]/e->radius;

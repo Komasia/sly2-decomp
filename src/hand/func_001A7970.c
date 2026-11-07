@@ -8,7 +8,7 @@ struct B *__5CProgP4RGBAN31(struct B *b, struct C *c0, struct C *c1, struct C *c
 int kprintf(char *format, ...);
 void func_001C2A78(int n);
 void Begin__5CProg(struct B *b);
-void func_0014D0B8(void *p, int n);
+void UpdateClock__FP5CLOCKi(void *p, int n);
 void SetRemain__5CProgi(struct B *b, int n);
 void End__5CProg(struct B *b);
 void func_001C2BA8(int n);
@@ -34,7 +34,7 @@ void func_001A7970(void)
     Begin__5CProg(&b);
     f = 0;
     for (i = 0; i < 19; i++) {
-        func_0014D0B8(g_clock, 1);
+        UpdateClock__FP5CLOCKi(g_clock, 1);
         if (f)
             SetRemain__5CProgi(&b, 19 - i);
         else if (D_002BFCE0[i] == func_001700D0)

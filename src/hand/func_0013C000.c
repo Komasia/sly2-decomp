@@ -8,7 +8,7 @@ struct RANGE { float a; float b; };
 extern struct RANGE g_lmZeroOne;
 struct P { char pad[0x170]; VU v170; float x180; int x184; float x188; };
 void RenderSoSelf__FP2SOP2CMP2RO(struct P *);
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 void *MatJtLo__FP2LO(void *);
 M4 func_0011C210(qword, void *, VU *);
 void AppendAloExtraDraws__FP5SCENEP3ALOff(struct P *, M4 *, float, float);
@@ -43,7 +43,7 @@ void FBootyDrawDelta__FP3ALO(struct P *p)
             for (i = 0; i < 3; i++)
                 v.f[i] = (1.0f - g) + g * p->v170.f[i];
         }
-        mT = func_0011C210(func_001A62E8(p), MatJtLo__FP2LO(p), &v);
+        mT = func_0011C210(PosOfLo__FP2LO(p), MatJtLo__FP2LO(p), &v);
         m = mT;
         AppendAloExtraDraws__FP5SCENEP3ALOff(p, &m, 1.0f, 1.0f);
         break;

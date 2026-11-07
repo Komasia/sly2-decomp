@@ -17,7 +17,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -38,15 +38,15 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" float func_0011E4B0(qword a, qword b, void *pvec);
+extern "C" float RadBetweenVectors(qword a, qword b, void *pvec) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
 extern "C" CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref) asm("RefOpVectorRadianNormal__FiP4CRefP6CFrame");
 CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref)
 {
     SPN sp;
-    sp.Set(func_00256B48());
-    sp->SetNext(func_00256B48());
+    sp.Set(PpairNew());
+    sp->SetNext(PpairNew());
     CRef *pref = &sp->pnext.p->ref;
     pref->SetTag(0x1A);
-    sp->ref = func_0011E4B0(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, pref->u.pv);
+    sp->ref = RadBetweenVectors(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, pref->u.pv);
     return CRef(sp.p);
 }

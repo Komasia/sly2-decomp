@@ -11,7 +11,7 @@ struct HIT {L*target;int pad4;P*source;int tag,kind;char pad14[0xC];U point,dire
 struct MSG {int type;char pad4[0x1C];U position;};
 struct CLOCK {float time,dt;};
 extern "C" CLOCK g_clock;
-extern "C" qword func_001A62E8(P*);
+extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 extern "C" void*func_002333B4(void*,int,int);
 extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
 extern "C" int FWaterSurfaceUnder(P*,L*,qword*) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
@@ -24,7 +24,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
  U point;
  int valid;
  if(p->link){
-  point.q=func_001A62E8(p);
+  point.q=PosOfLo(p);
   point.f[2]+=p->height;
   if(p->mode==3||p->mode==10)point.f[2]-=10.0f;
   L*link=p->link;
@@ -41,7 +41,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
    hit.source=p;
    hit.tag=p->link->tag;
    hit.kind=p->link->kind;
-   hit.point.q=func_001A62E8(p);
+   hit.point.q=PosOfLo(p);
    hit.direction.q=Direction(p);
    (void)PaloAcceptContact(&hit);
   }
@@ -60,7 +60,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
   ENTRY*entry=&p->entries[i];
   if(g_clock.time-entry->time<0.05f)continue;
   P*object=entry->object;
-  position.q=func_001A62E8(object);
+  position.q=PosOfLo(object);
   void*frame=((void*(*)(void*,M4*))object->vt[32].fn)((char*)object+object->vt[32].delta,pbase);
   func_002309E8(frame,0,ppred,0,g_clock.dt);
   predicted=MulMatrix4(ppred,pbase);

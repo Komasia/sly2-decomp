@@ -4,8 +4,9 @@ extern char g_sw[];
 struct S { void *pframe; };
 void func_001F4FB0(struct S *);
 void *func_00127DB8(void *, int, int);
-void func_00149AB8(void *, void *, struct K, int);
-void func_00132238(struct S *p) {
+void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(void *, void *, struct K, int);
+// name: SafeHouse port (OnBarrierXpNew)
+void OnBarrierXpNew__FP3ALO(struct S *p) {
     func_001F4FB0(p);
-    if (p->pframe && func_00127DB8(p->pframe, 5, 1)) func_00149AB8(g_sw, p, D_002A4790, 0);
+    if (p->pframe && func_00127DB8(p->pframe, 5, 1)) PostDeferredCall__FPvUi15PFNDEFERREDCALLi(g_sw, p, D_002A4790, 0);
 }

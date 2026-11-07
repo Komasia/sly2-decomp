@@ -6,8 +6,8 @@ struct OWNER {char pad[0xA0];void *parent;char padA4[0x4C];qword force;};
 struct S {char pad[0xC];struct VE *vt;char pad10[0x48];struct OWNER *owner;};
 struct CLOCK {float time,dt;};
 extern struct CLOCK g_clock;
-qword func_001A62E8(struct S*);
-qword func_0022FCC8(void*,void*,qword);
+qword PosOfLo__FP2LO(struct S*);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(void*,void*,qword);
 static inline qword Sub(qword x,qword y){register qword a __asm__("vf1")=x,b __asm__("vf2")=y,r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword value){register qword a __asm__("vf3")=value,r __asm__("vf1"),one __asm__("vf2");float f;
 __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(r),"=&j"(one):"j"(a));
@@ -26,7 +26,7 @@ void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct S*input,qword pos
  register struct OWNER *owner __asm__("$19");
  point.q=position;owner=p->owner;speed.q=velocity;
  if(c){
-   qword difference=Sub(point.q,func_001A62E8(p));
+   qword difference=Sub(point.q,PosOfLo__FP2LO(p));
    float distance=Length(difference);
    if(1.0e-4f<distance){
      float inverse=c->a/distance;
@@ -34,7 +34,7 @@ void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct S*input,qword pos
      register void *parent __asm__("$5");
      old1.q=owner->force;parent=owner->parent;value+=inverse;
      argument.q=Scalar(value);scale1=argument;
-     owner->force=AddScaled(old1.q,func_0022FCC8(0,parent,difference),scale1.q);
+     owner->force=AddScaled(old1.q,VecConvertXfs__FP2XFT0G9VU_VECTOR(0,parent,difference),scale1.q);
    }
  }
  if(d){
@@ -47,7 +47,7 @@ void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct S*input,qword pos
      if(limit<value)value=limit;
      scale2.q=Scalar(value);
      {register qword oldValue asm("v0")=owner->force;old2.q=oldValue;}parent=owner->parent;argument.q=LoadVector(&scale2);
-     owner->force=AddScaled(old2.q,func_0022FCC8(0,parent,difference),scale2.q);
+     owner->force=AddScaled(old2.q,VecConvertXfs__FP2XFT0G9VU_VECTOR(0,parent,difference),scale2.q);
    }
  }
 }

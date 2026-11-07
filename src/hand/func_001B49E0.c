@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct S { char pad[0x18]; int x18; };
 extern qword D_002A2DE0;
-void func_001400B8(struct S *p);
+void PostLoadActorParts__FP5ACTOR(struct S *p);
 void BindGait__FP4GAIT(void *p);
 void BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(struct S *p, void *a, void *b);
 void func_0020BD88(void *p, struct S *s);
@@ -14,7 +14,7 @@ void PostMurrayLoad__FP6MURRAY(struct S *p)
 {
     char *b = (char *)p;
     void *v;
-    func_001400B8(p);
+    PostLoadActorParts__FP5ACTOR(p);
     BindGait__FP4GAIT(b + 0x1320);
     BindGait__FP4GAIT(b + 0x1460);
     BindGait__FP4GAIT(b + 0x1630);

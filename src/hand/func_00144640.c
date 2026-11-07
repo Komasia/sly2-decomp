@@ -21,7 +21,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *, int);
 struct R *func_00205458(void *, int);
 void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct T *);
 void FadeAloOut__FP3ALOf(struct T *, float);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int FDropOnGround__FP6VECTORffiPv(float, float, qword *, int, int);
 int FSnapPosToSurfaceAbove__FP6VECTOR(qword *);
 void RecoverTo__FP5ACTORG9VU_VECTOR(struct PO *, qword);
@@ -98,7 +98,7 @@ void UpdateActorWatch__FP5ACTOR(struct P *p)
         }
     }
     {
-        qword r = func_001A62E8(p->p0);
+        qword r = PosOfLo__FP2LO(p->p0);
         float g = GDist(r, p->pos);
         if (p->d20 - g < D_002BD2D4 * D_002BD2D0) {
             qword v = p->pos;

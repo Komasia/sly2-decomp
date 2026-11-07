@@ -1,9 +1,10 @@
-// func_00118FB0 (Claude agent, lane A8, 2026-10-23): BSP-style plane walk. From v6: one asm doing qmfc2.ni + mtc1 (scratch "=&r"), and the left child clipped into a block-scoped `q = 0; if (p < pnodeMax) q = p;` (gives the target v1->v0 copy). oq pinned to vf2.
+// IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR (Claude agent, lane A8, 2026-10-23): BSP-style plane walk. From v6: one asm doing qmfc2.ni + mtc1 (scratch "=&r"), and the left child clipped into a block-scoped `q = 0; if (p < pnodeMax) q = p;` (gives the target v1->v0 copy). oq pinned to vf2.
 typedef int qword __attribute__((mode(TI)));
 union VUF { qword q; float f[4]; };
 struct NODE { NODE *pnodeLeft; NODE *pnodeRight; qword *pplane; };
 extern "C" void *func_002564B8(void *p);
-extern "C" NODE *func_00118FB0(NODE *pnode, NODE *pnodeMax, qword pos)
+// name: SafeHouse port (IbspFindPoint)
+extern "C" NODE *IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(NODE *pnode, NODE *pnodeMax, qword pos)
 {
     NODE *p;
     VUF d;

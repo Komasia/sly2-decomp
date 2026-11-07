@@ -16,7 +16,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -41,8 +41,8 @@ extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 extern "C" CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpMap__FiP4CRefP6CFrame");
 CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
- SPN spRes; spRes.Set(func_00256B48());
+ SPN spRes; spRes.Set(PpairNew());
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
- *pa = aref[0]; NODE *pTail; NODE *pn; pn = (NODE *)aref[1].u.pv; while (pn) { *pb = pn->ref; SPN spNew; NODE *pnNew = func_00256B48(); spNew.Set(pnNew); spNew->ref = RefEval(sp.p, arefCall);
+ *pa = aref[0]; NODE *pTail; NODE *pn; pn = (NODE *)aref[1].u.pv; while (pn) { *pb = pn->ref; SPN spNew; NODE *pnNew = PpairNew(); spNew.Set(pnNew); spNew->ref = RefEval(sp.p, arefCall);
    if (spRes->ref.m_tagk != 0x1F) spRes->ref = spNew.p; else pTail->pnext = spNew.p;
    NODE *p = spNew.p; pn = pn->pnext.p; pTail = p; } return CRef((NODE *)spRes->ref.u.pv); }

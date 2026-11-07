@@ -27,7 +27,7 @@ extern int D_003E1C34;
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 int func_00117BD0(BIS *pbis);
 int func_00117DB8(BIS *pbis);
 int func_00117D50(BIS *pbis);
@@ -55,10 +55,10 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" SPN func_0012A3D8(BIS *pbis);
-SPN func_0012A3D8(BIS *pbis) { unsigned int b = func_00117BD0(pbis);
+extern "C" SPN PpairSerializeIn(BIS *pbis) asm("PpairSerializeIn__FP18CBinaryInputStream");
+SPN PpairSerializeIn(BIS *pbis) { unsigned int b = func_00117BD0(pbis);
  if (b == 0xFF) return SPN(0);
- SPN sp; NODE *pnNew = func_00256B48(); sp.Set(pnNew);
+ SPN sp; NODE *pnNew = PpairNew(); sp.Set(pnNew);
  if (D_003E1C34) { func_00117DB8(pbis); func_00117D50(pbis); func_00117D50(pbis); func_00117D50(pbis); func_00117D50(pbis); func_00117D50(pbis); func_00117D50(pbis); }
  CRef *pref = &sp->ref; int fNext = (b >> 7) & 0xFF; int tagk = b & 0x7F;
  switch (tagk) {
@@ -75,5 +75,7 @@ SPN func_0012A3D8(BIS *pbis) { unsigned int b = func_00117BD0(pbis);
  case 28: pref->SetTag(0x1C); for (int i = 0; i < 3; i++) { float *ag = pref->u.ag; float g = func_00117E38(pbis); ag += i; *ag = g; } break;
  case 29: pref->SetTag(0x1D); for (int i = 0; i < 2; i++) { float *ag = pref->u.ag; float g = func_00117E38(pbis); ag += i; *ag = g; } break;
  case 30: pref->SetTag(0x1E); for (int i = 0; i < 3; i++) { float *ag = pref->u.ag; float g = func_00117E38(pbis); ag += i; *ag = g; } break;
- case 31: *pref = func_0012A3D8(pbis).p; break;
- } if (fNext) { NODE *pn = sp.p; SPN next = func_0012A3D8(pbis); pn->pnext = next.p; } return SPN(sp.p); }
+ case 31: *pref = PpairSerializeIn(pbis).p; break;
+ } if (fNext) { NODE *pn = sp.p; SPN next = PpairSerializeIn(pbis); pn->pnext = next.p; } return SPN(sp.p); }
+
+// name: SafeHouse port (PpairSerializeIn)

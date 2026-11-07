@@ -1,6 +1,6 @@
 typedef struct KEY { float t; float g; float dgIn; float dgOut; } KEY;
 typedef struct T { int pad; int c; KEY *a; } T;
-void func_00117030(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1);
+void EvalHermite__FPfT0fffffff(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1);
 // name: SafeHouse port (TRKGK::Eval)
 void Eval__5TRKGKPfT1ff(T *t, float *pg, float *pdg, float g, float dtScale)
 {
@@ -12,5 +12,5 @@ void Eval__5TRKGKPfT1ff(T *t, float *pg, float *pdg, float g, float dtScale)
     }
     k1 = (KEY *)(i * 16 + (int)t->a);
     k0 = k1 - 1;
-    func_00117030(pg, pdg, k1->t - k0->t, g - k0->t, dtScale, k0->g, k0->dgOut, k1->g, k1->dgIn);
+    EvalHermite__FPfT0fffffff(pg, pdg, k1->t - k0->t, g - k0->t, dtScale, k0->g, k0->dgOut, k1->g, k1->dgIn);
 }

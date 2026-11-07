@@ -1,7 +1,8 @@
 struct CLK { char pad[0x18]; float af[9]; };
 extern struct CLK g_clock;
-void func_0014D1F8(void *p);
-void func_0014D068(int *p)
+void UpdateClockRate__FP5CLOCK(void *p);
+// name: SafeHouse port (ResetClock)
+void ResetClock__FP5CLOCK(int *p)
 {
     *p = 0;
     g_clock.af[0] = 1.0f;
@@ -12,5 +13,5 @@ void func_0014D068(int *p)
     g_clock.af[8] = 1.0f;
     g_clock.af[7] = 1.0f;
     g_clock.af[4] = 1.0f;
-    func_0014D1F8(p);
+    UpdateClockRate__FP5CLOCK(p);
 }

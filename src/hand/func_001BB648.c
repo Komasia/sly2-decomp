@@ -17,7 +17,7 @@ extern char g_cm[];
 extern char g_joy[];
 extern char D_002DE578[];
 extern char g_game[];
-SO *func_0015E938(void *g, int k, int v, P *p);
+SO *PloFindSwNearest__FP2LO3OIDii(void *g, int k, int v, P *p);
 void ShowAloGlobs__FP3ALOi(P *p, int v);
 void func_001F69F8(P *p, int v);
 void SetAloSoesByTag__FP3ALOi(P *p, int v);
@@ -25,7 +25,7 @@ void func_001F6B48(P *p, int v);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void JoltCm__FP2CMi(void *g, int v);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *g, int v, float f);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(void *g, qword q, int v, int a, P *p);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int k, int v, P *p);
 
@@ -40,7 +40,7 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
         if ((p->x158 > 0 || pe->n <= 0) && ((0x3F >> pi->k) & 1)) continue;
         ps = 0;
         if ((0xC3 >> pi->k) & 1) {
-            ps = func_0015E938(g_sw, 1, pi->v, p);
+            ps = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, pi->v, p);
             if (!ps) continue;
         }
         switch ((unsigned int)pi->k) {
@@ -82,8 +82,8 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
         case 10:
             if (p->x168 & 8) {
                 qword q;
-                if (psPrev) q = func_001A62E8(psPrev);
-                else q = func_001A62E8(p);
+                if (psPrev) q = PosOfLo__FP2LO(psPrev);
+                else q = PosOfLo__FP2LO(p);
                 DropPickups__FP6VECTORG9VU_VECTORiiP2LO(D_002DE578, q, pi->v, -100, p);
             }
             break;

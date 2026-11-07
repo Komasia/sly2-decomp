@@ -8,7 +8,7 @@ struct P { struct O *x0; int x4; int pad[2]; struct E ae[1]; };
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *g, int k, int n, int m, int c, void **apv);
 float GCostSafeEntry__FP5ACTORPviPP3LO2(struct P *p, struct E *e, int c, void **apv);
 void func_002333B4(void *p, int v, int cb);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 // name: SafeHouse port (EntryBestSafe)
 void EntryBestSafe__FP5ACTORPv(struct P *p, struct E *pe)
 {
@@ -32,7 +32,7 @@ void EntryBestSafe__FP5ACTORPv(struct P *p, struct E *pe)
     if (best == D_002A66A0) {
         qword r;
         func_002333B4(pe, 0, 0x20);
-        __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(func_001A62E8(p->x0)), "j"(p->x0->x240));
+        __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(PosOfLo__FP2LO(p->x0)), "j"(p->x0->x240));
         pe->b = r;
     }
 }

@@ -6,7 +6,8 @@ void func_0012E210(struct E *);
 void SortXfCtrls__FP3ALOP2XF(void *, struct Q *);
 void SetXfMode__FP3ALOP2XFi(void *, struct Q *, int);
 void HoldXfMode(void *, struct Q *);
-struct E *func_001F8910(struct P *p, int k, int n, int m)
+// name: SafeHouse port (PctrlFindXfh)
+struct E *PctrlFindXfh__FP7XFBASICiii(struct P *p, int k, int n, int m)
 {
     struct E *pe;
     for (pe = p->pq->pe; pe; pe = pe->next) {

@@ -1,4 +1,4 @@
-/* func_001488D8 (Claude agent, 2026-10-17): matched. The p/pso s0/s1 swap went away when the po selection reads p->po in each branch (`if (p->po->oid == oid) po = p->po; else if (oid != -1) po = f(..., p->po); else po = 0;`) instead of a po = p->po copy first. */
+/* RunTriggerList__FP2LOi (Claude agent, 2026-10-17): matched. The p/pso s0/s1 swap went away when the po selection reads p->po in each branch (`if (p->po->oid == oid) po = p->po; else if (oid != -1) po = f(..., p->po); else po = 0;`) instead of a po = p->po copy first. */
 struct OID { char pad[0x18]; int oid; };
 struct X14 { struct OID *po; };
 struct SO { char pad[0x14]; struct X14 *px14; };
@@ -10,12 +10,13 @@ struct P {
 };
 extern char g_sw[];
 extern char g_game[];
-struct OID *func_0015E938(void *g, int k, int oid, struct OID *po);
+struct OID *PloFindSwNearest__FP2LO3OIDii(void *g, int k, int oid, struct OID *po);
 void func_00130598(struct SO *pso, struct OID *po, int n, int x, float g, float h);
 void ApplyRsmg__FP2LOiP4RSMGii(void *g, int a, void *b, struct OID *po, int f);
 void StartScptImpl__FP2LOi(void *p, int a);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int a, void *b, struct OID *po);
-void func_001488D8(struct P *p, int i)
+// name: SafeHouse port (RunTriggerList)
+void RunTriggerList__FP2LOi(struct P *p, int i)
 {
     int j;
     struct SO *pso;
@@ -27,7 +28,7 @@ void func_001488D8(struct P *p, int i)
         oid = pso->px14->po->oid;
         x = p->ae[i].a[j].x;
         if (p->po->oid == oid) po = p->po;
-        else if (oid != -1) po = func_0015E938(g_sw, 4, oid, p->po);
+        else if (oid != -1) po = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, oid, p->po);
         else po = 0;
         if (p->xA0) {
             int n = 0;

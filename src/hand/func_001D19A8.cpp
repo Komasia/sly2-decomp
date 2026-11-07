@@ -29,11 +29,11 @@ void UpdateVehiclePlayer(P *) asm("UpdateVehiclePlayer__FP7VEHICLE");
 void UpdateVehicleAi(P *) asm("UpdateVehicleAi__FP7VEHICLE");
 float RadNormalize(float) asm("RadNormalize__Ff");
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
-qword func_0022FCC8(FRAME *,FRAME *,qword);
+qword VecConvertXfs(FRAME *,FRAME *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 float func_0011D948(const LIMITS *,float);
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 float func_0011D2D0(float,float,float,void *,float *);
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 int func_0011D4D0(float,float,float);
 float GSmooth(float,float,float,void *,float *) asm("GSmooth__FfffP3SMPPf");
 void SetVolume(SOUND *,float) asm("SetVolume__4CSndf");
@@ -115,7 +115,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
         do {
             ++i;
             qword direction=SetVectorCylind(p->wheelAngle,1.0f,0.0f);
-            direction=func_0022FCC8(0,side->reference->parent,direction);
+            direction=VecConvertXfs(0,side->reference->parent,direction);
             float orientation=func_002458F0(Y(direction),X(direction));
             scalar.q=Pack(0.0f,0.0f,func_0011D948(limits,orientation));
             limits=(LIMITS*)((char*)limits+sizeof(SIDE));
@@ -130,9 +130,9 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
         entry->tilt=func_0011D2D0(entry->tilt,desired,g_clock.dt,D_002C2098,0);
     }
     i=0;
-    qword currentPosition=func_001A62E8(p);
+    qword currentPosition=PosOfLo(p);
     asm("sq %1,%0":"=m"(position.q):"r"(currentPosition):"memory");
-    targetPosition.q=func_001A62E8(p->target);
+    targetPosition.q=PosOfLo(p->target);
     qword returnedSpeed=GetVelocity(p->target);
     register qword targetSpeed __asm__("$3");int attachmentCount;
     {register int loadedCount __asm__("$2");
@@ -155,7 +155,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
             }else{
                 float time=Clamp(Evaluate(attach->flightTime,distance),attach->flightLimits.low,attach->flightLimits.high);
                 register qword origin __asm__("vf1");
-                if(attach->anchor)origin=func_001A62E8(attach->anchor);else origin=attach->mesh->position.q;
+                if(attach->anchor)origin=PosOfLo(attach->anchor);else origin=attach->mesh->position.q;
                 register float half __asm__("$f2")=-0.5f,inverse __asm__("$f1")=1.0f,gravity __asm__("$f0");
                 register qword target __asm__("vf2"),axis __asm__("vf3"),delta __asm__("vf5"),velocity __asm__("vf4");
                 asm("mul.s %0,%4,%0\n\tlwc1 %2,%5\n\tdiv.s %1,%1,%4\n\tlqc2 %3,%6"

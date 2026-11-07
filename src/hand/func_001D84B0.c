@@ -10,9 +10,10 @@ typedef struct {
 typedef struct { int c; ENT *ae; char ht[1]; } OBJ;
 extern BIG D_003D4A60;
 extern char D_002A78F8[];
-int func_001D8720(void *, char *);
-static inline int NFind(OBJ *ph, char *pch) { return func_001D8720(ph->ht, pch); }
-void func_001D84B0(OBJ *p, BIG *pbig)
+int SymFromName__FP6LAYOUTPc(void *, char *);
+static inline int NFind(OBJ *ph, char *pch) { return SymFromName__FP6LAYOUTPc(ph->ht, pch); }
+// name: SafeHouse port (CopyGameSaveForSlot)
+void CopyGameSaveForSlot__FP6LAYOUTP8GAMESAVE(OBJ *p, BIG *pbig)
 {
     int n;
     int i;

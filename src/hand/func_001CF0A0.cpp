@@ -6,7 +6,7 @@ struct S {char pad[0x40];M3 mat;qword pos,prev,vel;PHYS phys;qword omega;float g
 extern struct CLOCK {float time;union{float dt;int dtbits;};} g_clock;
 extern "C" {
 int func_001CF010(qword);int func_001CEFC8(qword);int func_001CF058(qword);
-M3*func_0011B500(M3*,qword,float);M4 *UpdatePsys(M4*,PHYS*) asm("UpdatePsys__FP4PSYS");
+M3*BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");M4 *UpdatePsys(M4*,PHYS*) asm("UpdatePsys__FP4PSYS");
 void MoveRip(S*) asm("MoveRip__FP4RIPN");
 }
 static inline qword Scale(qword a,qword s){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(s));return r;}
@@ -46,7 +46,7 @@ void MoveRip(S*p){
   float length=Float(Sqrt(Sq(omega)));
   if(0.0001f<length){
    w.shared.math.first.q=Normalize(omega,length,&w.shared.math.second);
-   func_0011B500((M3*)&w.rotation,w.shared.math.first.q,length*g_clock.dt);
+   BuildRotateMatrixAxis((M3*)&w.rotation,w.shared.math.first.q,length*g_clock.dt);
    Multiply(&w.shared.math.scratch,&w.product,&w.rotation,p->mat);
    PublishBasisStart(p,w.product.r[0].q,w.product.r[1].q);p->mat.r[2]=w.shared.math.scratch.r[2];
   }

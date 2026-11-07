@@ -1,4 +1,4 @@
-/* func_0013FB40 (Claude agent, laneC11 2026-10-23): matched from wip v3. One commented register pin (pbis in s5). The plo1->x50 = 1 store is written in both arms of `if (cid == 0x84)`: gcc cross-jumps them and leaves the dead `li v1,0x84` the target has. */
+/* LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream (Claude agent, laneC11 2026-10-23): matched from wip v3. One commented register pin (pbis in s5). The plo1->x50 = 1 store is written in both arms of `if (cid == 0x84)`: gcc cross-jumps them and leaves the dead `li v1,0x84` the target has. */
 struct VT { short d; short pad; void *f; };
 struct IF { struct VT *vt; int x4; int x8; };
 struct LO { char pad[0xC]; struct VT *vt; char pad2[0x50 - 0x10]; int x50; };
@@ -12,9 +12,9 @@ void Read__18CBinaryInputStreamiPv(void *pbis, int cb, void *pv);
 void Skip__18CBinaryInputStreami(void *pbis, int cb);
 int func_001C9940(int, int);
 int func_001C99D8(int, int, int *);
-int func_0015E938(struct G *, int, int, int, int);
+int PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int, int);
 int func_0015E958(struct G *, int, int, int, int);
-int func_0013FAD0(int c, short *a);
+int FFilterMatches__FiPs(int c, short *a);
 int func_0015E988(int, int);
 struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
 void LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
@@ -24,7 +24,8 @@ void LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(struct G
 
 static inline int FList(int k) { return k > 0 || k < -2; }
 
-void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
+// name: SafeHouse port (LoadSwObjsFromBrx)
+void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg, struct IF *pifParent)
 {
     register void *pbis asm("$21") = pbisArg; /* register pin (Claude agent): target keeps pbis in s5 */
     struct IF obj;
@@ -66,7 +67,7 @@ void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
             t = func_001C9940(pg->x3F10, -1);
             r = func_001C99D8(pg->x3F0C, 1, &t);
             if (k == -2) {
-                if (func_0015E938(pg, 0x405, oid, 0, r)) {
+                if (PloFindSwNearest__FP2LO3OIDii(pg, 0x405, oid, 0, r)) {
                     goto skip;
                 }
                 obj.x4 = 1;
@@ -82,7 +83,7 @@ void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
         }
         {
         filter:
-            if (func_0013FAD0(k, as) == 0) {
+            if (FFilterMatches__FiPs(k, as) == 0) {
                 if (cid == 0x84 || cid == 0x85) {
                     plo1 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, -1);
                     if (cid == 0x84)

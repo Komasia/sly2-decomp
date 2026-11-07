@@ -37,7 +37,8 @@ static __inline__ void Align(uint align)
     }
 }
 
-void func_001684D0(void *context, DESC *descriptor, ENTRY *entry)
+// name: SafeHouse port (FGlobBoneMatrices)
+void FGlobBoneMatrices__FP3ALOP4DESCP5ENTRY(void *context, DESC *descriptor, ENTRY *entry)
 {
     uint opcode;
     BONE *bone, *last;

@@ -5,8 +5,8 @@ struct P { char pad[0x54]; int c; struct E *ae; struct Q *q; };
 extern char g_sw[];
 void PostLoLoad__FP2LO(struct P *p);
 struct Q *func_001E94B0(int k, int c);
-void *func_0015E938(void *p, int k, int oid, void *q);
-qword func_001A62E8(void *p);
+void *PloFindSwNearest__FP2LO3OIDii(void *p, int k, int oid, void *q);
+qword PosOfLo__FP2LO(void *p);
 void RecalcCrv__FP3CRV(struct Q *q);
 // name: SafeHouse port (PostLoadChasegraph)
 void PostLoadChasegraph__FP2LO(struct P *p)
@@ -17,11 +17,11 @@ void PostLoadChasegraph__FP2LO(struct P *p)
     p->q->c = p->c;
     for (i = 0; i < p->c; i++) {
         struct E *e = &p->ae[i];
-        void *o = func_0015E938(g_sw, 4, e->oid, p);
+        void *o = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, e->oid, p);
         e->p = o;
         if (o) {
             qword *pq = (qword *)((i << 4) + (int)p->q->aq);
-            *pq = func_001A62E8(o);
+            *pq = PosOfLo__FP2LO(o);
         }
     }
     RecalcCrv__FP3CRV(p->q);

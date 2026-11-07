@@ -13,7 +13,7 @@ struct Node {
  char pad140[8];ulong state;
 };
 struct Stats *func_0011CCC0(void *);
-qword func_001A62E8(struct Node *);
+qword PosOfLo__FP2LO(struct Node *);
 static inline float Distance(qword a,qword b) {
  qword d,one;
  float result;
@@ -64,7 +64,7 @@ count:
 position:
 
  {
-   qword position=func_001A62E8(p);
+   qword position=PosOfLo__FP2LO(p);
    float radius=p->radius+Distance(position,*p->stats->origin);
    if(p->flags&(1UL<<32)) {
      if(p->stats->low<radius) p->stats->low=radius;

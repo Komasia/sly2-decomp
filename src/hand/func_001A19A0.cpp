@@ -33,7 +33,7 @@ extern "C"{
  int func_00132EA0(P*);
  void*PsndNewPlain(int) asm("PsndNewPlain__Fi");
  void SetSource(void*,P*) asm("SetSource__4CSndPv");
- qword func_001A62E8(P*);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  void*func_00156698(int,qword,P*);
 }
 static inline int Add32(int a,int b){return (int)((unsigned)a+(unsigned)b);}
@@ -145,7 +145,7 @@ notify:
  }
 sound:
  register G*game __asm__("$16")=&g_sw;
- qword point=func_001A62E8(p->actor);int channel=game->channel;
+ qword point=PosOfLo(p->actor);int channel=game->channel;
  (void)func_00156698(channel,point,p->actor);
  return 1;
 }

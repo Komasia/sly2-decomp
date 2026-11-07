@@ -3,7 +3,8 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x150 - 0x10]; int n150; };
 extern char D_002BD380[];
 void func_001F36A8(void *p);
 void BindLoParts__FP3ALOiPv(void *p, int n, void *q);
-void func_00147220(struct O *p)
+// name: SafeHouse port (PostLoadAnimatedOverlay)
+void PostLoadAnimatedOverlay__FP2LO(struct O *p)
 {
     struct VTE *e;
     func_001F36A8(p);

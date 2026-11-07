@@ -5,7 +5,7 @@ struct S { char pad[0xC]; struct VE *vt; char pad2[0x218 - 0x10]; qword *p218; c
 extern qword D_002A2DA0;
 void func_001F4FA8(struct S *p);
 void func_001E6F10(void *po, qword *pa, qword *pb, float f);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword *MatJtLo__FP2LO(void *p);
 
 // name: SafeHouse port (AddGuardRailContacts)
@@ -24,19 +24,19 @@ void AddGuardRailContacts__FP3ALO(struct S *p)
         func_001E6F10(p->pF84, &a, &b, p->fF88);
         pe = &p->vt[82];
         pthis = (char *)p + pe->d;
-        pe->pf(pthis, 7, p->pF84, a, b, func_001A62E8(p->pF90));
+        pe->pf(pthis, 7, p->pF84, a, b, PosOfLo__FP2LO(p->pF90));
         break;
     }
     case 2: {
         struct VE *pe = &p->vt[82];
         void *pthis = (char *)p + pe->d;
-        pe->pf(pthis, 7, p->pF84, func_001A62E8(p->pF84), *MatJtLo__FP2LO(p->pF84), func_001A62E8(p->pF90));
+        pe->pf(pthis, 7, p->pF84, PosOfLo__FP2LO(p->pF84), *MatJtLo__FP2LO(p->pF84), PosOfLo__FP2LO(p->pF90));
         break;
     }
     case 3: {
         struct VE *pe = &p->vt[82];
         void *pthis = (char *)p + pe->d;
-        pe->pf(pthis, 7, p->pF84, func_001A62E8(p->pF84), D_002A2DA0, *p->p218);
+        pe->pf(pthis, 7, p->pF84, PosOfLo__FP2LO(p->pF84), D_002A2DA0, *p->p218);
         break;
     }
     }

@@ -31,7 +31,7 @@ void AddAloSoes(P *) asm("AddAloSoes__FP3ALO");
 void AdjustSoMomint(P *,float) asm("AdjustSoMomint__FP2SOf");
 void LoadOptionsFromBrx(P *,void *) asm("LoadOptionsFromBrx__FPvP18CBinaryInputStream");
 void func_001F2500(P *);
-void func_0013FB40(P *,void *,void *);
+void LoadSwObjsFromBrx(P *,void *,void *) asm("LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream");
 void func_001A6D28(P *,int);
 }
 static inline int Extra(P *p){VE *v=&p->vt[63];return ((int (*)(P *))v->fn)((P *)((char *)p+v->delta));}
@@ -84,6 +84,6 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
     LoadOptionsFromBrx(p,stream);
     if(p->data.guard)SetActive(p);
     func_001F2500(p);
-    func_0013FB40(p,stream,0);
+    LoadSwObjsFromBrx(p,stream,0);
     func_001A6D28(p,metadata);
 }

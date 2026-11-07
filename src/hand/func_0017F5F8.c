@@ -3,7 +3,7 @@ struct VTE { short d; short pad; void *pfn; };
 struct S { char pad[0xC]; struct VTE *vt; char pad2[0x178]; int n188; int pad3; void *p190; };
 struct F { struct S *p0; int n4; int n8; int nC; int n10; int pad[3]; qword q20; qword q30; qword pad2[2]; };
 void *func_002333B4(void *p, int c, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void PaloAcceptContact__FP5CTMSG(struct F *pf);
 void ExplodeExpl__FP4EXPL(void *p);
 // name: SafeHouse port (KillHackSo)
@@ -14,7 +14,7 @@ void KillHackSo__FP2LOi(struct S *p, int n) {
         func_002333B4(&f, 0, sizeof(f));
         f.n8 = n;
         f.p0 = p;
-        f.q20 = func_001A62E8(p);
+        f.q20 = PosOfLo__FP2LO(p);
         e = &p->vt[0x21];
         f.q30 = ((qword (*)(void *))e->pfn)((char *)p + e->d);
         f.nC = 0x100;

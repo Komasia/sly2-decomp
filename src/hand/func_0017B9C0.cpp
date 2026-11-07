@@ -12,7 +12,7 @@ extern "C"{
  extern RANGE D_002BE740;
  extern POLY D_002BE720,D_002BE730;
  float GRandInRange(float,float) asm("GRandInRange__Fff");
- qword func_001A62E8(P*);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  void ParamSegPoint(qword,qword,qword,qword*,float*,float*) asm("ParamSegPoint__FG9VU_VECTORN20P6VECTORN23");
 }
 static inline unsigned long Eligible(unsigned long flags){return (flags>>60)&1;}
@@ -70,7 +70,7 @@ extern "C" void Choose__5JOBB2(C*p){
    :"=m"(work.bestPoint.q),"=f"(lower),"=&r"(best),"+r"(randomAddress)
    :"j"(zero),"J"(0),"m"(*(float*)(randomAddress-0x18f0)));
  p->time=now+GRandInRange(lower,((RANGE*)randomAddress)->hi);
- work.origin.q=func_001A62E8(p->actor);
+ work.origin.q=PosOfLo(p->actor);
  // D_002A55FC supplies the initial selection cost.
  int i;P*actor;unsigned int limitHigh;
  {register int firstIndex __asm__("$5");register P*firstActor __asm__("$4");register unsigned int high __asm__("$3");
@@ -82,11 +82,11 @@ extern "C" void Choose__5JOBB2(C*p){
  if(actor->count>0)do{
   P*choice=actor->Choice(i);
   if(Eligible(choice->flags)){
-  qword candidate=From(func_001A62E8(choice));
+  qword candidate=From(PosOfLo(choice));
   float cost=Distance(&work.origin,candidate);
   if(choice==p->preferred)cost=D_002BE720.a+cost*(D_002BE720.b+cost*D_002BE720.c);
   for(int j=0;j<p->actor->nearCount;j++){
-   qword position=func_001A62E8(p->actor->near[j]);
+   qword position=PosOfLo(p->actor->near[j]);
    ParamSegPoint(position,work.origin.q,To(candidate),0,&work.t,&work.d);
    if(work.t<0.0f)continue;
    if(work.t>1.0f)continue;
@@ -101,7 +101,7 @@ extern "C" void Choose__5JOBB2(C*p){
  P*nearest=0;float distance=800.0f;
  for(int k=0;k<p->actor->nearCount;k++){
   P*choice=p->actor->near[k];
-  qword position=From(func_001A62E8(choice));
+  qword position=From(PosOfLo(choice));
   float f=DistanceFrom(position,&work.origin);
   if(f>distance)continue;
   if(best){

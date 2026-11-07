@@ -14,7 +14,7 @@ void *func_002333B4(void *, int, int);
 void func_001FBAF8(void);
 void func_00232320(struct M *, void (*)(void), struct P *);
 void func_002322F0(struct M *);
-int func_001C4840(void *);
+int PloPlayerPo__FP2SW(void *);
 void StepSoundMood__FP8SOUNDMGR(struct G *);
 // name: SafeHouse port (CSndPlain::StartIop)
 void StartIop__9CSndPlain(struct P *p)
@@ -62,5 +62,5 @@ void StartIop__9CSndPlain(struct P *p)
     case 0x73: id = D_002DD5BC; break;
     case 0x15: id = D_002F7900; break;
     }
-    if (id == func_001C4840(g_sw)) StepSoundMood__FP8SOUNDMGR(&D_003DD040);
+    if (id == PloPlayerPo__FP2SW(g_sw)) StepSoundMood__FP8SOUNDMGR(&D_003DD040);
 }

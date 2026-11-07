@@ -9,7 +9,7 @@ struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(
 struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; };
 extern "C" {
 extern qword D_002A2DA0;
-void func_00119390(qword *pnormal, qword normal, qword pos);
+void PlaneFromNormalPos(qword *pnormal, qword normal, qword pos) asm("PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1");
 int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 }
 
@@ -86,7 +86,7 @@ int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, in
         qword pos = Combo(VU_FLOAT(u), pos1, VU_FLOAT(1.0f - u), pos0);
         qword d = Sub(pos, posCenter);
         alsg->apos[i] = pos;
-        func_00119390(&alsg->anormal[i], Normalize(d), pos);
+        PlaneFromNormalPos(&alsg->anormal[i], Normalize(d), pos);
     }
     alsg->lsgk = 1;
     return 1;

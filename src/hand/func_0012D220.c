@@ -24,12 +24,12 @@ extern float D_002A45A8;
 struct CLOCK { float t; int dt; };
 extern struct CLOCK g_clock;
 extern int D_002DDED4;  /* g_clock.dt */
-void *func_0015E938(void *pg, int k, int n, void *pv);
+void *PloFindSwNearest__FP2LO3OIDii(void *pg, int k, int n, void *pv);
 void *PloNearestPlayer__FP6VECTORG9VU_VECTOR(void *pg, qword pos);
-qword func_001A62E8(void *po);
+qword PosOfLo__FP2LO(void *po);
 void SortXfCtrls__FP3ALOP2XF(void *a, struct X *b);
-qword func_0022FCC8(int n, int k, qword v);
-void func_0011E958(qword q, float *pa, float *pb);
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(int n, int k, qword v);
+void PanTiltFromVector__FG9VU_VECTORPfT1(qword q, float *pa, float *pb);
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
 static __inline__ float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
 static __inline__ float GLength(U *pv, qword a)
@@ -42,7 +42,8 @@ static __inline__ float GLength(U *pv, qword a)
     return g;
 }
 
-void func_0012D220(struct P *p)
+// name: SafeHouse port (CTRLLOOKAT::Fetch)
+void Fetch__10CTRLLOOKAT(struct P *p)
 {
     struct { qword pos; qword vel; } s;
     U dt;
@@ -55,7 +56,7 @@ void func_0012D220(struct P *p)
     qword vel;
 
     if (p->x70 == 0 && p->x6C != -1)
-        p->x70 = func_0015E938(g_sw, 0x104, p->x6C, p->x4);
+        p->x70 = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x104, p->x6C, p->x4);
     {
         struct X *x8 = p->x8;
         int z;
@@ -68,7 +69,7 @@ void func_0012D220(struct P *p)
         po = PloNearestPlayer__FP6VECTORG9VU_VECTOR(g_sw, posT);
     if (po) {
         qword d, t;
-        d = func_001A62E8(po);
+        d = PosOfLo__FP2LO(po);
         __asm__("vsub.xyzw %0, %0, %1" : "+j"(d) : "j"(posT));
         dv = d;
         __asm__("" : "+j"(d));  /* empty asm: keeps d and dv separate pseudos */
@@ -95,7 +96,7 @@ void func_0012D220(struct P *p)
         s.vel = D_002A2DD0;
         p->x74 = 0;
     } else {
-        func_0011E958(func_0022FCC8(0, p->x8->xA0, dv), &ag[0], &ag[1]);
+        PanTiltFromVector__FG9VU_VECTORPfT1(VecConvertXfs__FP2XFT0G9VU_VECTOR(0, p->x8->xA0, dv), &ag[0], &ag[1]);
         ag[0] = GClamp(GEval(&p->poly30, ag[0]), p->g50, p->g54);
         ag[1] = GClamp(GEval(&p->poly40, ag[1]), p->g58, p->g5C);
         ((float *)&s.pos)[2] = ag[0];

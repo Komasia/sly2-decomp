@@ -21,7 +21,7 @@ ACTOR *PloFind(P*,int) asm("PloFind__FP3RUNi");
 void GetRunAim(P*,ACTOR*,qword*,float*) asm("GetRunAim__FP3RUNP2LOP6VECTORPf");
 void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");
 void EvalCrv(PATH*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
-qword func_001A62E8(ACTOR*);
+qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");
 qword ConvertVec(void*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 void StampPadctlState(OUTPUT*) asm("StampPadctlState__FP6PADCTL");
 int func_0011D4D0(float,float,float);
@@ -147,7 +147,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   }else{
    GetRunAim(p,target,&work.from.q,0);
    work.first=work.from.q;
-   TargetDisplacement(work.to,work.first,func_001A62E8(actor));
+   TargetDisplacement(work.to,work.first,PosOfLo(actor));
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    float distance=LengthXY(work.to.q);
    float gain=D_002C3630[0]+distance*(D_002C3630[1]+distance*D_002C3630[2]);
@@ -166,7 +166,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   GetRunAim(p,target,&work.from.q,0);
   {register qword captured __asm__("$3")=work.from.q;work.second=captured;}
   {
-   qword actorPosition=func_001A62E8(actor);
+   qword actorPosition=PosOfLo(actor);
    register qword targetPoint __asm__("vf2");
    register qword currentPoint __asm__("vf3");
    register qword displacement __asm__("vf1");

@@ -47,7 +47,7 @@ int FIsDlEmpty(void *pdl) asm("FIsDlEmpty__FP2DL");
 int func_0011A3C0(void *pdl);
 void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
 int func_001A61A0(LO *plo);
-qword func_001A62E8(LO *plo);
+qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 int FInsideCmPlanes(CM *pcm, qword d, VU_FLOAT r) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 int FInsideCmMrd(CM *pcm, qword d, float g, float *pg) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
@@ -100,10 +100,10 @@ void func_0013A1E8(P *p)
             qword pos;
             M3 mat;
             if (*pplo) {
-                pos = func_001A62E8(*pplo);
+                pos = PosOfLo(*pplo);
                 mat = *MatJtLo(*pplo);
             } else {
-                pos = func_001A62E8(plo);
+                pos = PosOfLo(plo);
                 if (plo->x10)
                     mat = *MatJtLo(plo->x10);
                 else

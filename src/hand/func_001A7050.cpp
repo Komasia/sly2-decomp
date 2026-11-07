@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 extern "C" M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
-extern "C" M3 func_0011B340(const M3 *b);
+extern "C" M3 InverseMatrix3(const M3 *b) asm("InverseMatrix3__FP7MATRIX3");
 static inline M3 Mul(const M3 &a, const M3 &b) return r
 {
     qword a0 = a.r[0], a1 = a.r[1], a2 = a.r[2];
@@ -18,7 +18,7 @@ extern "C" M3 func_001A7050(void *a, void *b, const M3 *m)
     if (a) result = Mul(*MatJtLo(a), *m);
     else result = *m;
     if (b) {
-        result = Mul(func_0011B340(MatJtLo(b)), result);
+        result = Mul(InverseMatrix3(MatJtLo(b)), result);
     }
     return result;
 }

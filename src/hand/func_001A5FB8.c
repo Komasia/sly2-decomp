@@ -12,7 +12,8 @@ static inline float GetX(qword v) { float g; __asm__("qmfc2.ni %0,%1" : "=r"(g) 
 static inline qword Normalize(qword v) { qword l=LenV(v),r; __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q" : "=j"(r) : "j"(l),"j"(v));return r; }
 static inline qword Broadcast(float g) { qword r; __asm__("qmtc2.ni %1,%0" : "=j"(r) : "r"(g));return r; }
 static inline qword Scale(qword v,qword k) { qword r; __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(r) : "j"(v),"j"(k));return r; }
-void func_001A5FB8(void *p,qword a,qword b,float width,float scale)
+// name: SafeHouse port (AppendLaserLine)
+void AppendLaserLine__FP5SCENEG9VU_VECTORT1ff(void *p,qword a,qword b,float width,float scale)
 {
  U x,y,z;
  struct M4 m; struct M4 *pm;

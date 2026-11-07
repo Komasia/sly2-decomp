@@ -12,7 +12,7 @@ extern char g_sw[];
 extern S8 D_002A7840;
 void func_001F4FB0(void *, OBJ *, int);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-void func_00149AB8(void *, void *, S8, void *);
+void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(void *, void *, S8, void *);
 static inline float GetZ(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
 void func_001D4050(void *a, OBJ *p, int n)
 {
@@ -35,5 +35,5 @@ void func_001D4050(void *a, OBJ *p, int n)
         p->x98 = 0.1f;
     }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(e, 0x6C))
-        func_00149AB8(g_sw, a, D_002A7840, e);
+        PostDeferredCall__FPvUi15PFNDEFERREDCALLi(g_sw, a, D_002A7840, e);
 }

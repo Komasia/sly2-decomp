@@ -7,9 +7,9 @@ extern struct G g_sw;
 extern int D_002DE240;
 extern "C" struct O *func_001C4A48(struct G *pg);
 extern "C" void UpdateZoneCamera(struct S *p, int k) asm("UpdateZoneCamera__FP2LOi");
-extern "C" qword func_001A62E8(struct O *po);
+extern "C" qword PosOfLo(struct O *po) asm("PosOfLo__FP2LO");
 extern "C" qword ConvertPos(void *source, struct S *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-extern "C" struct BSP *func_00118FB0(struct BSP *p, unsigned int limit, qword v);
+extern "C" struct BSP *IbspFindPoint(struct BSP *p, unsigned int limit, qword v) asm("IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR");
 extern "C" int FIsBasicDerivedFrom(struct O *po, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 static inline int AutomaticSentinel(){int value;__asm__("addiu %0,$zero,-1":"=r"(value));return value;}
 // name: SafeHouse port (EvaluateZone)
@@ -24,7 +24,7 @@ extern "C" void EvaluateZone__FP2LO(struct S *p)
     }
     int initial=p->x13C;
     int sentinel=AutomaticSentinel();
-    if(initial==sentinel) f=func_00118FB0(p->p108, 0x7FFFFFFF, ConvertPos(0, p, func_001A62E8(po))) != 0;
+    if(initial==sentinel) f=IbspFindPoint(p->p108, 0x7FFFFFFF, ConvertPos(0, p, PosOfLo(po))) != 0;
     else f=initial;
     if (p->x124) goto set;
     if (!FIsBasicDerivedFrom(po, 0x34)) goto set;

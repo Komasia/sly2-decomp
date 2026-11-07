@@ -10,8 +10,8 @@ union PAYLOAD {
 struct E { int kind; union PAYLOAD value; int n8, nC; };
 extern char g_sw[];
 void func_0020BD88(struct H *, void *);
-void func_0020C7E0(struct DIRECTION_STATE *, void *);
-void *func_0015E938(void *, int, int, void *);
+void ResolveK3__FP5KIND3P3ALO(struct DIRECTION_STATE *, void *);
+void *PloFindSwNearest__FP2LO3OIDii(void *, int, int, void *);
 int func_00132EA0(void *);
 struct MARKER *PeventLaunch__FP5KINDEi(void *, int);
 struct H *func_0020C010(int);
@@ -23,14 +23,14 @@ void ResolveKinde__FP5KINDEP5GUARD(struct E *e, void *context)
     void *resource;
     if (e->kind != 2) {
         if (e->kind == 3) {
-            func_0020C7E0(e->value.direction, context);
+            ResolveK3__FP5KIND3P3ALO(e->value.direction, context);
             return;
         }
     } else {
         func_0020BD88(e->value.curvature, context);
         return;
     }
-    resource = func_0015E938(g_sw, 4, e->value.oid, context);
+    resource = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, e->value.oid, context);
     if (!resource) {
         e->kind = -1;
         return;

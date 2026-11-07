@@ -17,7 +17,7 @@
 //   role 0x12   spring-damper to the rest value (xfk 1: kp = nUnkAc * 0.015, kd = nUnkAe * 0.0025; xfk 6 the same on the angle); settled (phase 2, small speed + distance) -> role 0x13
 //   role 0x15   only keeps the SO awake
 // After the switch the XF's world matrix is parent->matWorld * mat (VU0 microprogram 0x60, the T1025 recipe; the stamp is lifted to the parent's) or a copy of mat without a parent.
-// The SO's flag 4 (grfUnk40) is cleared when no XF kept it awake (and the parent is not awake), flag 0x10 (snap: no smoothing this frame) is cleared, then func_0022FA20.
+// The SO's flag 4 (grfUnk40) is cleared when no XF kept it awake (and the parent is not awake), flag 0x10 (snap: no smoothing this frame) is cleared, then PostUpdateAloXfs.
 // HOW IT IS WRITTEN (T1113, each point verified on the diff; scratch decomp/build/scratch/t1113/, cmp.py = aligned diff + sp-offset score):
 //  - every 128-bit read through a cast (`*(qword *)&pxf->vUnkB0`, `*(qword *)&pxf->qwUnkF0`, the position row) is an alias-everything load that cannot move
 //    across the VU_FLOAT home stores: the game reads vUnkB0 / the position row BEFORE the VuFloat and qwUnkF0 after it (hence the qwV0 / qwPos0 locals);
@@ -786,8 +786,8 @@ void SlotRefresh(SO *pso, XF *pxf);
 void SlotSetRole(SO *pso, XF *pxf, int nRole);
 MATRIX4 SlotStoreValue(XF *pxf, qword qwVal);
 qword QwRotRateFromEulerRate(qword qwEuler, qword qwEulerRate);
-extern "C" void func_0022FA20(SO *pso);
-extern "C" void func_00186A50(SO *pso, void *pv);
+extern "C" void PostUpdateAloXfs(SO *pso) asm("PostUpdateAloXfs__FP3ALO");
+extern "C" void SolveAloPair(SO *pso, void *pv) asm("SolveAloPair__FP3ALOP7ALOPAIR");
 void UpdateXflock(SO *pso, struct XFLOCK *pxflock);
 void UpdateChainLink(SO *pso, struct CHAINLINK *plink);
 extern "C" float *func_00256D18(float *pg, qword qw);
@@ -1355,7 +1355,7 @@ void UpdateSoSlots(SO *pso)
                 break;
             }
             case 0xd:
-                func_00186A50(pso, pxf->pxfRef);
+                SolveAloPair(pso, pxf->pxfRef);
                 break;
             case 0xf:
                 UpdateXflock(pso, (struct XFLOCK *)pxf->pxfRef);
@@ -1539,5 +1539,5 @@ void UpdateSoSlots(SO *pso)
             pso->grfUnk40 &= ~0x10;
         }
     }
-    func_0022FA20(pso);
+    PostUpdateAloXfs(pso);
 }

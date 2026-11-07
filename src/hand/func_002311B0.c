@@ -1,10 +1,10 @@
 /* func_002311B0 (0x2311B0): XFM virtual slot 40: clone the LO part, then re-point the copied transform link at the
  * matching XF of this XFM's own hierarchy (virtual slot 49, func_00231220 for XFM) and invalidate the cached world
- * matrix (func_002313F0). */
+ * matrix (TouchLox__FP3LOX). */
 #include "so.h"
 
 void CloneLo__FP2LOT0(LO *plo, LO *ploBase);
-void func_002313F0(XFM *pxfm);
+void TouchLox__FP3LOX(XFM *pxfm);
 
 void func_002311B0(XFM *pxfm, XFM *pxfmBase)
 {
@@ -15,5 +15,5 @@ void func_002311B0(XFM *pxfm, XFM *pxfmBase)
     ((void (*)(void *, XFM *, XF **))pvte->pfn)((char *)pxfmBase + pvte->d, pxfmBase, &pxfmBase->pxf);
     pvte = &pxfm->lo.pvt[50];
     ((void (*)(void *, XFM *, XF **))pvte->pfn)((char *)pxfm + pvte->d, pxfmBase, &pxfm->pxf);
-    func_002313F0(pxfm);
+    TouchLox__FP3LOX(pxfm);
 }

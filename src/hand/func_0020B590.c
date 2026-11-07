@@ -8,7 +8,7 @@ struct L { int k; int rest[27]; };
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3DBC;
 extern const float D_002A88CC;
-void func_001A5E28(struct S *p);
+void UpdateLo__FP2LO(struct S *p);
 void *func_00205458(struct O *po, int n);
 void *func_002333B4(void *p, int c, int n);
 void React__8JOBREACTP5AIMSG(void *p, struct L *pl);
@@ -19,7 +19,7 @@ void UpdateGuardManager__FP2LO(struct S *p)
 {
     int i, c;
     struct O **apo;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     c = p->c;
     apo = p->apo;
     for (i = 0; i < c; i++) {

@@ -36,7 +36,7 @@ void *PvAllocStackClearImpl(const AREQ &r) asm("PvAllocStackClearImpl__Fi");
 int FOpenFile__18CBinaryAsyncStreamP13CFileLocation(CBinaryAsyncStream *ps, X *px);
 void func_001B3EC0(P *p, CBinaryAsyncStream *ps);
 int func_0024B610(MPEG *p);
-void func_0014D0B8(CLOCK *p, int k);
+void UpdateClock(CLOCK *p, int k) asm("UpdateClock__FP5CLOCKi");
 void func_001871C0(JOY *p);
 void UpdateSave(G *g) asm("UpdateSave__FP4SAVE");
 uint func_00187D80(JOY *p, uint k);
@@ -107,7 +107,7 @@ extern "C" void func_001B3BD0(P *p, K *k)
         func_001B3EC0(p, &strm);
         while (!func_0024B610(&p->x118)) {
             int f;
-            func_0014D0B8(&g_clock, 1);
+            UpdateClock(&g_clock, 1);
             func_001871C0(&g_joy);
             if (!D_002E65E0.xFD50) UpdateSave(&D_002E65E0);
             f = 0;

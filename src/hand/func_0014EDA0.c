@@ -9,7 +9,7 @@ void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocStackImpl__Fi(struct AL *pal);
 int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword pos, struct LO *po, struct E *pe, float g, int a, int b, int cMax, struct X *ax);
-void func_0011AD30(int c, float *aDot, float *aW, float *aZ, float g);
+void SolveDzgConstraints__FiPfN21f(int c, float *aDot, float *aW, float *aZ, float g);
 qword LimitVectorLength__FG9VU_VECTORf(qword v, float g);
 
 static inline int Dot(qword *pa, qword *pb)
@@ -67,7 +67,7 @@ qword SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff(void *p, int c
         pg = aW;
         for (i = 0; i < n; i++)
             *pg++ = pfn(p, pos, v, &ax[i]);
-        func_0011AD30(n, aDot, aW, aZ, D_002BD8D4 * h);
+        SolveDzgConstraints__FiPfN21f(n, aDot, aW, aZ, D_002BD8D4 * h);
         pg = aZ;
         sum = z;
         for (i = 0; i < n; i++) {

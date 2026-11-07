@@ -1,6 +1,6 @@
 // AddLaserContacts__FP3ALOP3SOEiiiPP2XP: for every segment entry of p, find where the segment's two endpoints hit the request (first
 // ClipSegmentSoe, else the shape test FIsBasicDerivedFrom + HitStepSupport) and add a kind-10 contact there with PxpAdd
-// (PxpAddSw), then post the OBJ::Notify (ApplyLaserContacts__FP3ALO) message through func_00149AB8.
+// (PxpAddSw), then post the OBJ::Notify (ApplyLaserContacts__FP3ALO) message through PostDeferredCall.
 // What mattered (w3lane2):
 //  - the same 6-argument virtual signature as AddSwarmXps / MarkProjectileSweep, with every argument passed through to
 //    the empty base stub func_001F5990 (no code, but the call's argument uses fix the prologue schedule);
@@ -34,7 +34,7 @@ int ClipSegmentSoe(REQUEST *, qword, qword, int, HIT *) asm("ClipSegmentSoe__FP3
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int HitStepSupport(void *, qword, qword, qword *) asm("HitStepSupport__FP3ALOG9VU_VECTORT1P6VECTOR");
 void PxpAddSw(G *, void *, REQUEST *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");   // PxpAdd
-void func_00149AB8(G *, OBJ *, PMF, int);
+void PostDeferredCall(G *, OBJ *, PMF, int) asm("PostDeferredCall__FPvUi15PFNDEFERREDCALLi");
 }
 
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -95,7 +95,7 @@ extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(OBJ *p, REQUEST *q, int a2
             qword dir = Sub(seg[1], seg[0]);
             dir = Div(dir, Len(dir));
             PxpAddSw(&g_sw, p->shape, q, pos.q, dir, 10, *(int *)&dist, 0, &e->head, 0.0f);
-            func_00149AB8(&g_sw, p, &OBJ::Notify, 0);
+            PostDeferredCall(&g_sw, p, &OBJ::Notify, 0);
         }
     }
 }

@@ -17,12 +17,12 @@ extern "C"{
  extern LIMIT D_002BE6B8;
  unsigned long func_00207A20(int);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
- qword func_001A62E8(P*);
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  M3*MatJtLo(P*) asm("MatJtLo__FP2LO");
  void NearestCrvAll(P*,qword,void*,qword*,qword*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
  float func_002458F0(float,float);
  float RadNormalize(float) asm("RadNormalize__Ff");
- void func_0011B500(M3*,float,qword);
+ void BuildRotateMatrixAxis(M3*,float,qword) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
  M3*BuildLookAtMatrix(M3*,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
  void MatPipeFrame(P*,int,M3*,float) asm("MatPipeFrame__FP2LOfiPv");
  void OffsetUseByHands(C*) asm("OffsetUseByHands__FP6JOBUSE");
@@ -30,7 +30,7 @@ extern "C"{
  void Enter(C*) asm("Enter__7JOBMOVE");
  void SetMoveHeading(CONTROL*,float) asm("SetMoveHeading__FP7MOVEREF");
  void func_00209840(CONTROL*,M3*);
- void func_0020C6F8(INFO*,qword);
+ void SetK2Target(INFO*,qword) asm("SetK2Target__FP6K2PLAYG9VU_VECTOR");
  void LockJob(C*) asm("LockJob__FP5AIJOB");
 }
 static inline CONTROL*Control(P*p){return (CONTROL*)((char*)p+0xFD0);}
@@ -88,11 +88,11 @@ extern "C" void Enter__6JOBUSE(C*p){
   float heading;
   if(FIsBasicDerivedFrom(p->target,10)){
    P*target=p->target;
-   qword position=func_001A62E8(p->actor);
+   qword position=PosOfLo(p->actor);
    NearestCrvAll(target,position,0,&p->point.q,&work.temp.first.direction.q,0,&work.curve);
    heading=func_002458F0(work.temp.first.direction.f[1],work.temp.first.direction.f[0]);
   }else{
-   p->point.q=func_001A62E8(p->target);
+   p->point.q=PosOfLo(p->target);
    M3*a=MatJtLo(p->target);
    M3*b=MatJtLo(p->target);
    heading=func_002458F0(((U*)a->r)->f[1],((U*)b->r)->f[0]);
@@ -101,7 +101,7 @@ extern "C" void Enter__6JOBUSE(C*p){
    active|=func_00207A20(0x1B);
    if(!p->reverse)heading=RadNormalize(heading+3.1415927410125732421875f);
    p->basisValid=1;
-   func_0011B500(&work.temp.first.rotation,heading,g_normalZ);
+   BuildRotateMatrixAxis(&work.temp.first.rotation,heading,g_normalZ);
    p->matrix=work.temp.first.rotation;
   }else if(FIsBasicDerivedFrom(p->target,0x27)){
    active|=func_00207A20(0x29);
@@ -130,7 +130,7 @@ extern "C" void Enter__6JOBUSE(C*p){
   switch(p->actor->mode){
   case -1:case 0:case 3:{
    point=p->point;
-   qword current=func_001A62E8(p->actor);
+   qword current=PosOfLo(p->actor);
    P*actor; qword delta=HeadingInputs(p,&point,current,&actor);
    CONTROL*control=Control(actor);
    float angle=Angle(delta);
@@ -139,7 +139,7 @@ extern "C" void Enter__6JOBUSE(C*p){
   }
   case 2:{
    otherPoint=p->point;
-   qword current=func_001A62E8(p->actor);
+   qword current=PosOfLo(p->actor);
    P*actor;direction.q=BasisInputs(p,&otherPoint,current,&actor);
    M3*m=MatJtLo(actor->linked);
    (void)BuildLookAtMatrix(&work.temp.basis,m->r[0],direction.q);
@@ -150,7 +150,7 @@ extern "C" void Enter__6JOBUSE(C*p){
   p->driver->info->extra=p->extra;
   p->driver->info->target=p->target;
   p->driver->info->reverse=p->reverse;
-  func_0020C6F8(p->driver->info,p->point.q);
+  SetK2Target(p->driver->info,p->point.q);
  }
  LockJob(p);
 }

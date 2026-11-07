@@ -17,12 +17,12 @@ float *MatJtLo__FP2LO(struct A *a);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
 float RadNormalize__Ff(float f);
 qword SetVectorCylind__Ffff(float a, float b, float c);
-qword func_001A62E8(void *p);
-void func_0020C6F8(void *p, qword v);
+qword PosOfLo__FP2LO(void *p);
+void SetK2Target__FP6K2PLAYG9VU_VECTOR(void *p, qword v);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct A *a, int b, int c, qword v);
 void LockJob__FP5AIJOB(struct S *p);
 void func_00156C80(struct G *g, int n, qword v, struct A *a, void *q);
-void *func_001C4840(struct G *g);
+void *PloPlayerPo__FP2SW(struct G *g);
 int FLoInParentChain__FP2LOT0(int n, void *o);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
 // name: SafeHouse port (JOBHIT::Enter)
@@ -50,18 +50,18 @@ void Enter__6JOBHIT(struct S *p) {
     e = p->p40;
     if (e && e->n0 == 2) {
         qword r = SetVectorCylind__Ffff(RadNormalize__Ff(p->p10->f1A8 + 3.14159274101257324219e+00f), p->p40->p4->f1C, 0.0f);
-        qword pos = func_001A62E8(p->p10);
+        qword pos = PosOfLo__FP2LO(p->p10);
         qword s;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(s) : "j"(pos), "j"(r));
-        func_0020C6F8(p->p40->p8, s);
+        SetK2Target__FP6K2PLAYG9VU_VECTOR(p->p40->p8, s);
     }
     SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, 0, 0, D_002A2DD0);
     if (p->n30 == 0) LockJob__FP5AIJOB(p);
-    func_00156C80(&g_sw, 1, func_001A62E8(p->p10), p->p10, p->p10->a35C);
+    func_00156C80(&g_sw, 1, PosOfLo__FP2LO(p->p10), p->p10, p->p10->a35C);
     p->fB0 = p->fB4 = D_002A5584;
     p->p10->nF04 = 0;
     if (p->p10->n334) {
-        void *o = func_001C4840(&g_sw);
+        void *o = PloPlayerPo__FP2SW(&g_sw);
         if (o && FLoInParentChain__FP2LOT0(p->n50, o) && (o == D_002F7900 || (p->n5C & 0x40000))) {
             TriggerJoyRumbleRumk__FP3JOY4RUMKf(g_joy, 3, 1.50000005960464477539e-01f);
             p->fB0 = g_clock.t + 5.00000044703483581543e-02f;

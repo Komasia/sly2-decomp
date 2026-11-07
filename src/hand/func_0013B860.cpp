@@ -16,7 +16,7 @@ extern qword g_normalZ;
 extern int D_002BC9E0;
 extern float D_002A4B1C;
 extern G g_sw;
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void RecordHit(P *p, qword a, qword b) asm("RecordHit__FP3ALOG9VU_VECTORT1");
 void AploVictims(P *p, int *pc, PO ***papo) asm("AploVictims__FP3ALOP6VECTORPv");
 void *func_002333B4(void *pv, int b, int cb);
@@ -32,7 +32,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
 {
     if (((p->ul28 >> 60) & 1) == 0)
         return;
-    RecordHit(p, func_001A62E8(p), g_normalZ);
+    RecordHit(p, PosOfLo(p), g_normalZ);
     FRAME frame;
     if (p->x164 == 0) {
         FrameInit(&frame);
@@ -52,7 +52,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
             msg.v20 = p->v180;
             msg.p = p;
             msg.po = po;
-            qword pos = func_001A62E8(po);
+            qword pos = PosOfLo(po);
             qword def = g_normalZ;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(p->v180));
             {
@@ -98,7 +98,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
             PO *pT = *po->pp14;
             if (pT != po) pv = pT;
         }
-        func_00156698(g_sw.x402C, func_001A62E8(p), pv)[0x54 / 4] = 1;
+        func_00156698(g_sw.x402C, PosOfLo(p), pv)[0x54 / 4] = 1;
     }
     ((void (*)(P *))p->pvt[9].pfn)((P *)((char *)p + p->pvt[9].d));
     p->x174 = 0;

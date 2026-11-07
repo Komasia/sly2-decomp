@@ -6,7 +6,7 @@ int func_001EF0A8(struct P *p);
 int func_00209098(void *p);
 int FAirborne__8JOBCHASE(struct P *p);
 int IBest__8JOBCHASE(struct P *p);
-int func_001C4840(void *p);
+int PloPlayerPo__FP2SW(void *p);
 int PactionSelect__FP5GUARDP2LOP9TARGETREC(void *p, int n, int m);
 void SetState__8JOBCHASEi(struct P *p, int k);
 void Step__8JOBCHASE(struct P *p);
@@ -33,7 +33,7 @@ void Update__8JOBCHASE(struct P *p)
                 int v = IBest__8JOBCHASE(p);
                 p->x40 = v;
                 if (v == p->x3C) {
-                    int r = PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
+                    int r = PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, PloPlayerPo__FP2SW(g_sw), 0);
                     p->x44 = r;
                     if (r)
                         SetState__8JOBCHASEi(p, 3);
@@ -50,7 +50,7 @@ void Update__8JOBCHASE(struct P *p)
             else if (FArrived__9JOBFOLLOW(p->x18))
                 SetState__8JOBCHASEi(p, 0);
             else
-                PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, func_001C4840(g_sw), 0);
+                PactionSelect__FP5GUARDP2LOP9TARGETREC(p->x10, PloPlayerPo__FP2SW(g_sw), 0);
             break;
         case 2:
             if (func_00209098(p->x10))

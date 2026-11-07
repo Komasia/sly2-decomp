@@ -20,10 +20,10 @@ extern char g_sw[];
 extern char g_game[];
 int func_001BBE48(P *p);
 int func_001BBE18(P *p);
-void *func_001C4840(void *g);
+void *PloPlayerPo__FP2SW(void *g);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 void RunItems__FP2LOP3BRK(P *p, E *pe);
-qword func_001A62E8(P *p);
+qword PosOfLo__FP2LO(P *p);
 void func_00156B98(void *g, int z, qword q, void *x);
 void BroadcastTaskEvent__FP2SWiP2LO(void *g, int k, P *p);
 
@@ -33,7 +33,7 @@ void RunHit__FP2LO(P *p)
     E *pe;
     int v;
     if (func_001BBE48(p)) return;
-    if (p->x16C == func_001C4840(g_sw)) {
+    if (p->x16C == PloPlayerPo__FP2SW(g_sw)) {
         p->x168 = 0xE;
     } else {
         v = p->x170;
@@ -48,7 +48,7 @@ void RunHit__FP2LO(P *p)
     RunItems__FP2LOP3BRK(p, p->ae - 1);
     RunItems__FP2LOP3BRK(p, pe);
     if (!p->x16C || !FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x38) || FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x3C)) {
-        func_00156B98(g_sw, 0, func_001A62E8(p), p->x16C);
+        func_00156B98(g_sw, 0, PosOfLo__FP2LO(p), p->x16C);
     }
     if (pe->n > 0) {
         if (++p->x158 >= pe->n) {

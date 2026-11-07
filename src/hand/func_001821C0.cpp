@@ -12,7 +12,7 @@ struct P {char pad[0x1C4];void*model;int count;E entries[1];};
 extern qword g_normalZ;
 extern "C" void RenderSoSelf(P*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 extern "C" M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-extern "C" M3 func_0011B500(qword,float);
+extern "C" M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 extern "C" qword*func_00256D18(qword*,qword);
 extern "C" void AppendAloExtraDraws(void*,M4*,float,float) asm("AppendAloExtraDraws__FP5SCENEP3ALOff");
 extern "C" float fabsf(float);
@@ -45,7 +45,7 @@ extern "C" void CollectHackSwarmDraws__FP5SCENE(P*p){
    pos=Load(&n->pos);
    m=BuildLookAtMatrix(n->dir,g_normalZ);
    if(1.0f<fabsf(n->lateral))pos=AddLateral(pos,n,n->lateral);
-   {float roll=n->roll;register float epsilon __asm__("$f1")=0.01f; /* the one pin */if(epsilon<fabsf(roll))m=Mul(m,func_0011B500(g_normalZ,roll));}
+   {float roll=n->roll;register float epsilon __asm__("$f1")=0.01f; /* the one pin */if(epsilon<fabsf(roll))m=Mul(m,BuildRotateMatrixAxis(g_normalZ,roll));}
    func_00256D18(&mm.r[3].q,pos);
    pm->r[0].q=m.r[0];pm->r[1].q=m.r[1];pm->r[2].q=m.r[2];
    mm.r[0].i[3]=mm.r[1].i[3]=mm.r[2].i[3]=0;

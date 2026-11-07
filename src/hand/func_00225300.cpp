@@ -32,7 +32,7 @@ struct R *func_00205458(void *,int);
 int func_0017A9C0(struct R *);
 struct M4 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void func_00209840(struct CONTROL *,const struct M3 *);
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 void SetState(struct R *,int) asm("SetState__5JOBB0i");
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SpawnPickups(void *,int,qword,void *,int) asm("SpawnPickups__FP6VECTORiG9VU_VECTORPvi");
@@ -68,9 +68,9 @@ extern "C" void UpdateExtractor__FP2LO(struct S *p) {
                 M3 m((p->source?MatJtLo(p->source):MatJtLo(p))->basis);
                 func_00209840(&p->actor->basis,&m);
                 if(r->state!=4) {
-                    qword pos=p->source?func_001A62E8(p->source):func_001A62E8(p);
+                    qword pos=p->source?PosOfLo(p->source):PosOfLo(p);
                     qword other;
-                    other=func_001A62E8(p->actor);
+                    other=PosOfLo(p->actor);
                     if(Length(Sub(pos,other))<100.0f)SetState(r,4);
                 }
                 if(p->actor->color) {
@@ -80,7 +80,7 @@ extern "C" void UpdateExtractor__FP2LO(struct S *p) {
                     SetCtrlPos(p->actor->color,Splat(g));
                 }
                 if(D_002C43B0<g_clock.t-p->time) {
-                    SpawnPickups(g_sw,0x5D,func_001A62E8(p->source),p,1);
+                    SpawnPickups(g_sw,0x5D,PosOfLo(p->source),p,1);
                     p->actor->vt[9].fn((char*)p->actor+p->actor->vt[9].d);
                     // PIN: &g_game straight into $a0 keeps %hi(g_game) inside the loop (see the header).
                     register GAME *pgame asm("$4")=&g_game;

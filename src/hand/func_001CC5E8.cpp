@@ -1,4 +1,4 @@
-// func_001CC5E8: ported from Lilly's personal Sly 2 decomp (src/P2/jthands.c), reduced to the declarations it needs.
+// BindReach__FP5REACHP5ACTORPP5ASEGA: ported from Lilly's personal Sly 2 decomp (src/P2/jthands.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002C1ED0 (D_002C1ED0)
 // 0x001CC5E8 InitJtHands__FP7JTHANDSP2SOPP5ASEGA
@@ -584,7 +584,8 @@ inline void *PvAllocSw(int cb, int cbAlign)
     pswalloc->cbAlign = cbAlign;
     return PvAllocSwImpl(pswalloc);
 }
-void InitJtHands(JTHANDS *phands, SO *pso, ASEGA **ppasega) __asm__("func_001CC5E8");
+void InitJtHands(JTHANDS *phands, SO *pso, ASEGA **ppasega) __asm__("BindReach__FP5REACHP5ACTORPP5ASEGA");
+// name: SafeHouse port (BindReach)
 void InitJtHands(JTHANDS *phands, SO *pso, ASEGA **ppasega)
 {
     phands->pso = pso;

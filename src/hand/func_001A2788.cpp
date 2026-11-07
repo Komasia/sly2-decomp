@@ -7,7 +7,7 @@ struct O { char pad[0x1098]; float x1098; float x109C; };
 struct L { char pad[0xE0]; int xE0; };
 extern "C" {
 extern qword D_002A2DD0;
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
 int CsoeCollect(L *pl, void *pfn, int n, void *pv) asm("CsoeCollect__FP3ALOPvN21");
 int CClipSegmentEntries(qword a, qword b, int n, void *pv, int c, HIT *phit) asm("CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3");
@@ -21,7 +21,7 @@ int FWaterSurfaceUnder(O *po, L *pl, qword *pv)
     HIT hit;
     off.q = D_002A2DD0;
     {
-        qword p = func_001A62E8(po);
+        qword p = PosOfLo(po);
         qword d;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(p), "j"(off.q));
         a.q = d;

@@ -5,7 +5,8 @@ extern char g_sw[];
 void func_001D6310(struct S *p);
 void func_001D6378(struct S *p);
 void func_00147E88(void *g, int b);
-void func_0022FA20(struct S *p)
+// name: SafeHouse port (PostUpdateAloXfs)
+void PostUpdateAloXfs__FP3ALO(struct S *p)
 {
     if (!!((p->f >> 60) & 1)) {
         int k = p->k;

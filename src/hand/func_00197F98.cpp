@@ -1,11 +1,11 @@
 // UpdateJumpInput__FP4JUMP: per-frame movement / jump-target update of a player context (MATCH; T1870, Lilly's agent; = lilly30 + FloatUse + EMPTY).
 // Joystick combo timers, a search over the two jump-target lists (D_003E13E4 sources / D_003E1420 objects) that picks the best
-// intercept (func_0019A4A0 + PosNearestSegment) and switches to mode 6/8, goal prediction for modes 6..18 (func_002309E8 forecast +
+// intercept (FitJumpToPoint + PosNearestSegment) and switches to mode 6/8, goal prediction for modes 6..18 (func_002309E8 forecast +
 // derivative matrices), an acceleration-cost check, the heading switch (modes 0, 11-15, 20, 22, default) and the basic-move
 // velocity (modes 0-5, 7).
 // Two allocation/frame probes (no register pins):
 //  1. `EMPTY e;` (user-declared dtor) in the default arm = the target's never-touched object at sp+0x70 (a <=4 byte non-BLK slot made
-//     at its declaration; every later offset and the 0x250 frame depend on it). Same situation as func_001C21D8 / PxpMarkOxaContacts: the
+//     at its declaration; every later offset and the 0x250 frame depend on it). Same situation as CNavLinkPath / PxpMarkOxaContacts: the
 //     real object is unknown.
 //  2. FloatUse(vel.f[2], actor): empty asm giving the `actor` pseudo of the post-search Make argument a 3rd reference, so local-alloc
 //     gives it v0 and the physics pointer v1 like the target (physics = 2 refs over a shorter life would otherwise be allocated first).
@@ -59,12 +59,12 @@ extern float D_002BF730, D_002BF734, D_002BF834, D_002BF838, D_002BF83C, D_002BF
 extern float D_002BF878, D_002BF87C, D_002BF880, D_002BF8A0;
 extern LM D_002BF798, D_002BF850, D_002BF858, D_002BF870;
 extern SMP D_002BF860;
-qword func_001A62E8(void *);
-void func_0019A4A0(CONTEXT *, qword, void *, qword, qword, float *, float *, qword *, qword *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
+void FitJumpToPoint(CONTEXT *, qword, void *, qword, qword, float *, float *, qword *, qword *) asm("FitJumpToPoint__FP4JUMPG9VU_VECTORP2LON21PfT5P6VECTORT7");
 void PosNearestSegment(qword, qword, qword, qword *, float *, float *) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
-qword func_0022D348(SPACE *, SPACE *, qword);
-qword func_0022FC48(SPACE *, SPACE *, qword);
-qword func_0022FCC8(SPACE *, SPACE *, qword);
+qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
+qword PosConvertXfs(SPACE *, SPACE *, qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
+qword VecConvertXfs(SPACE *, SPACE *, qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 void SetJumpAnimState(CONTEXT *, int, void *) asm("SetJumpAnimState__FP4JUMPiP2LO");
 void func_002309E8(SPACE *, SPACE *, M4 *, float, M4 *);
 void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
@@ -72,15 +72,15 @@ float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void CalculateSinCos(float, float *, float *) asm("CalculateSinCos__FfPfT1");
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
-void func_001384C0(CLIP *);
+void RecalcBlend(CLIP *) asm("RecalcBlend__FP6ASEGBL");
 void EvalCrv(void *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
-void func_001CC2E8(void *);
+void UpdateReach(void *) asm("UpdateReach__FP5REACH");
 void func_002046B0(ACTOR *, qword);
 void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 void func_001441E8(ACTOR *, float);
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
-M3 func_0011B500(qword, float);
+M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 float func_002458F0(float, float);
 float func_00244E10(float);
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
@@ -190,7 +190,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
     }
 
     U pos;
-    pos.q = func_001A62E8(p->actor);
+    pos.q = PosOfLo(p->actor);
     U vel;
     vel.q = GetVelocity(p->actor);
     U point;
@@ -210,12 +210,12 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         for (SOURCE *src = D_003E13E4; src; src = src->next) {
             if (src->state != 0)
                 continue;
-            qword posSrc = func_001A62E8(src);
+            qword posSrc = PosOfLo(src);
             if (360000.0f < GLengthSqXY(QwSub(posSrc, pos.q)))
                 continue;
             if (GetZ(posSrc) + src->height < pos.f[2])
                 continue;
-            func_0019A4A0(p, vel.q, src, QwSub(posSrc, p->actor->offset.q), D_002A2DD0, &t, &score, &point.q, &velHit.q);
+            FitJumpToPoint(p, vel.q, src, QwSub(posSrc, p->actor->offset.q), D_002A2DD0, &t, &score, &point.q, &velHit.q);
             if (scoreBest < score)
                 continue;
             float alpha, dist;
@@ -241,15 +241,15 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         }
         for (OBJECT *obj = D_003E1420; obj; obj = obj->next) {
             U posObj;
-            posObj.q = func_001A62E8(obj);
+            posObj.q = PosOfLo(obj);
             if (D_002BF840 * D_002BF840 < GLengthSqXYQ(QwSub(pos.q, posObj.q)))
                 continue;
-            func_0019A4A0(p, vel.q, obj, QwSub(posObj.q, p->actor->offset.q), D_002A2DD0, &t, &score, &point.q, &velHit.q);
+            FitJumpToPoint(p, vel.q, obj, QwSub(posObj.q, p->actor->offset.q), D_002A2DD0, &t, &score, &point.q, &velHit.q);
             if (scoreBest < score)
                 continue;
             float alpha, dist;
             U velObj;
-            velObj.q = func_0022D348(GetFrame(obj), 0, posObj.q);
+            velObj.q = VelXfPoint(GetFrame(obj), 0, posObj.q);
             U delta;
             delta.q = QwSub(pos.q, posObj.q);
             U rel;
@@ -272,12 +272,12 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         if (srcBest || objBest) {
             BODY *body = p->actor->body;
             body->deadline = g_clock.t + tBest;
-            body->goal.q = func_0022FC48(0, body->frame, posBest.q);
+            body->goal.q = PosConvertXfs(0, body->frame, posBest.q);
             SPACE *frame = body->frame;
             U v;
             ACTOR *actor = p->actor;
             v.q = Make(velBest.f[0], velBest.f[1], FloatUse(vel.f[2], actor) + tBest * actor->physics->gravity.f[2]);
-            body->velocityGoal.q = func_0022FCC8(0, frame, v.q);
+            body->velocityGoal.q = VecConvertXfs(0, frame, v.q);
             if (srcBest)
                 SetJumpAnimState(p, 6, srcBest);
             else
@@ -292,20 +292,20 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
 
     switch (p->mode) {
     case 6: case 8:
-        point.q = QwSub(func_001A62E8(p->source), p->actor->offset.q);
+        point.q = QwSub(PosOfLo(p->source), p->actor->offset.q);
     predict: {
         BODY *body = p->actor->body;
         float dt = body->deadline - g_clock.t;
         SPACE *frame = GetFrame(p->source);
         M4 forecast, derivative;
         func_002309E8(frame, 0, &forecast, dt, &derivative);
-        qword local = func_0022FC48(0, frame, point.q);
-        body->goal.q = func_0022FC48(0, body->frame, Transform(forecast, local));
+        qword local = PosConvertXfs(0, frame, point.q);
+        body->goal.q = PosConvertXfs(0, body->frame, Transform(forecast, local));
         if (p->mode != 10) {
             U v;
             v.q = Transform(derivative, local);
             v.f[2] = vel.f[2] + dt * p->actor->physics->gravity.f[2];
-            body->velocityGoal.q = func_0022FCC8(0, body->frame, v.q);
+            body->velocityGoal.q = VecConvertXfs(0, body->frame, v.q);
         }
         break;
     }
@@ -324,7 +324,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         psampler = (PATH *)p->source;
         goto sample;
     case 18:
-        point.q = func_001A62E8(p->source);
+        point.q = PosOfLo(p->source);
         goto predict;
     }
 
@@ -391,7 +391,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
             p->tracks[2].weight = 0.0f;
             p->tracks[3].weight = 0.0f;
         }
-        func_001384C0(p->multi);
+        RecalcBlend(p->multi);
         break;
     }
     case 14: case 15: {
@@ -399,9 +399,9 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         if (p->mode == 15)
             EvalCrv(p->source, p->parameter, &target.q, 0);
         else
-            target.q = func_001A62E8(p->source);
+            target.q = PosOfLo(p->source);
         if (p->actor != D_002E1E40)
-            func_001CC2E8((char *)p->actor + 0x900);
+            UpdateReach((char *)p->actor + 0x900);
         func_002046B0(p->actor, QwSub(target.q, pos.q));
         heading = p->actor->heading;
         break;
@@ -425,7 +425,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         basis = BuildRotateVectorsMatrix(g_normalZ, QwCombine(D_002BF890, a, half, b, halfNeg));
 
         ACTOR *actor = p->actor;
-        actor->local = MulM3(basis, func_0011B500(g_normalZ, actor->heading));
+        actor->local = MulM3(basis, BuildRotateMatrixAxis(g_normalZ, actor->heading));
         break;
     }
     case 17: case 19:

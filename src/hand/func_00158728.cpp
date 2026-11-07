@@ -32,7 +32,7 @@ struct DZG { int x0; int c4; char pad[0x50 - 8]; int c50; C **apc; int pad58[2];
 struct DZ { char pad[0x18]; int *ag; };
 extern "C" {
 void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
-void func_00158728(DZG *pdzg, int a, DZ *pdz, X *px);
+void CalculateDzResponses(DZG *pdzg, int a, DZ *pdz, X *px) asm("CalculateDzResponses__FP3DZGiP2DZP5DZENT");
 }
 static inline void *PvAlloc(int cb, int cbAlign) { AL al(cb, cbAlign); return PvAllocStackImpl(&al); }
 static __inline__ int Dot(qword a, qword b)
@@ -43,7 +43,8 @@ static __inline__ int Dot(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(r));
     return g;
 }
-void func_00158728(DZG *pdzg, int a, DZ *pdz, X *px)
+// name: SafeHouse port (CalculateDzResponses)
+void CalculateDzResponses(DZG *pdzg, int a, DZ *pdz, X *px)
 {
     int i;
     B *pb = px->pb;

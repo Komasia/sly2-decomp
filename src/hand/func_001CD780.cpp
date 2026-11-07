@@ -25,7 +25,8 @@ static inline float SavedHeight(float value){register float height __asm__("$f20
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){float f;__asm__("prot3w %0,%1":"=r"(f):"r"(q));return f;}
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
-extern "C" void func_001CD780(qword position,const char *text,const RGBA *unusedColor,const RGBA *color,float inputHeight)
+// name: SafeHouse port (DrawMarkerLabel)
+extern "C" void DrawMarkerLabel__FG9VU_VECTORPcP4RGBAT2f(qword position,const char *text,const RGBA *unusedColor,const RGBA *color,float inputHeight)
 {
     float height=SavedHeight(inputHeight);
     CM *camera=&g_cm;

@@ -16,7 +16,7 @@ extern "C"{
  void SetXfMode(P*,void*,int) asm("SetXfMode__FP3ALOP2XFi");void InvalidateXfParams(P*,void*) asm("InvalidateXfParams__FP3ALOP2XF");void ResetXfParams(P*,void*) asm("ResetXfParams__FP2XFPv");
  float GRandInRange(float,float) asm("GRandInRange__Fff");void ConvertVectorToSphere(qword,float*,float*,float*) asm("ConvertVectorToSphere__FG9VU_VECTORPfN21");
  void SetBirdHeading(P*,float) asm("SetBirdHeading__FP4BIRDf");void func_001B17B8(P*,float);
- qword func_001A62E8(P*);void NearestCrvAll(PATH*,qword,void*,U*,U*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
+ qword PosOfLo(P*) asm("PosOfLo__FP2LO");void NearestCrvAll(PATH*,qword,void*,U*,U*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
  float DgStepCrv(PATH*) asm("DgStepCrv__FP3CRV");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");P*PloNearestPlayer(void*,qword) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
  EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
  qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");void DropPickups(void*,qword,int,int,P*) asm("DropPickups__FP6VECTORG9VU_VECTORiiP2LO");
@@ -78,7 +78,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
   SetZeroVelocity(p);func_001B17B8(p,p->ratio+p->ratio);
   SetXfMode(p,p->group,1);InvalidateXfParams(p,p->group);break;
  case 4:{
-  w.first.q=func_001A62E8(p);
+  w.first.q=PosOfLo(p);
   if(p->path){
    NearestCrvAll(p->path,w.first.q,0,&w.second,0,&p->parameter,&w.parameter);
    float phase=DgStepCrv(p->path);
@@ -90,7 +90,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
    float end=SMaxCrv(p->path);
    p->deadline=g_clock.t+travel+(end-w.parameter)/p->speed.value-p->lead;
   }else{
-   P*near=PloNearestPlayer(g_sw,w.first.q);w.second=w.first;w.first.q=func_001A62E8(near);p->deadline=g_clock.t+2.0f;
+   P*near=PloNearestPlayer(g_sw,w.first.q);w.second=w.first;w.first.q=PosOfLo(near);p->deadline=g_clock.t+2.0f;
   }
   qword ff=w.first.q;qword ss=w.second.q;qword gap=Sub(ss,ff);
   w.direction.q=gap;w.direction.i[2]=0;
@@ -105,7 +105,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
   w.velocity.q=velocity;SetVelocity(p,velocity);SetMode(p);break;
  }
  case 5:{
-  EFFECT*e=PsndNewPlain(0x14);SetSource(e,0);SetPosition(e,func_001A62E8(p));
+  EFFECT*e=PsndNewPlain(0x14);SetSource(e,0);SetPosition(e,PosOfLo(p));
   DropPickups(D_002DE578,ConvertPos(p,0,p->damageOffset.q),p->amount,-100,p);Call(p,9);break;
  }
  }

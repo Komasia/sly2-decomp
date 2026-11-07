@@ -9,7 +9,7 @@
  *  - the rip loop is a real for loop (loop depth weights the rip/hit allocation priorities);
  *  - the tree origin is read through a const-reference accessor: that load is not a struct-member MEM any more, so it may alias the
  *    `entries` store, which sched1 then issues right after the allocation call (the target's store order and $v0 for p->state);
- *  - func_00118A88 uses the matched callee's argument order (pos, eps, count, entries).
+ *  - ClipBspPlane uses the matched callee's argument order (pos, eps, count, entries).
  */
 typedef int qword __attribute__((mode(TI)));
 struct DL { void *head, *tail; int offset; };
@@ -35,7 +35,7 @@ extern CLOCK g_clock;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
 void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");
-int func_00118A88(void *, int, qword, float, int *, ENTRY **);
+int ClipBspPlane(void *, int, qword, float, int *, ENTRY **) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
 int func_0014C6D8(SHAPE *, ENTRY *, qword, qword, int, XP *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int FIsDlEmpty(DL *) asm("FIsDlEmpty__FP2DL");
@@ -73,7 +73,7 @@ void BounceRipgRips(P *p)
                         phase.request.cb = remaining * 12;
                         SetAlign(&phase.request, 16);
                         entries = (ENTRY *)PvAllocStackImpl(&phase.request);
-                        if (func_00118A88(shape->tree, 0x7FFFFFFF, Origin(p->state), p->state->radius, &remaining, &entries) != 2) {
+                        if (ClipBspPlane(shape->tree, 0x7FFFFFFF, Origin(p->state), p->state->radius, &remaining, &entries) != 2) {
                             _$_10STACKSCOPE(&frame, 2);
                             continue;
                         }

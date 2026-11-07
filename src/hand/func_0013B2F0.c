@@ -4,7 +4,7 @@ struct M { int x0; char pad[0x2C]; qword v30; char pad2[4]; int x44; };
 struct P { char pad[0x150]; int x150; };
 extern qword g_normalZ;
 int FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct M *pm);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int n, int k);
 void ExpireIn__FP3ALOf(struct P *p, float g);
@@ -42,7 +42,7 @@ int FAcceptContactProjectile__FP3ALOP5CTMSG(struct P *p, struct M *pm)
             n = rn;
         }
         pu->q = n;
-        RecordHit__FP3ALOG9VU_VECTORT1(p, func_001A62E8(p), u.q);
+        RecordHit__FP3ALOG9VU_VECTORT1(p, PosOfLo__FP2LO(p), u.q);
         if (FIsBasicDerivedFrom__FP5BASIC3CID(pm->x0, 0x4F))
             ExpireIn__FP3ALOf(p, 0.25f);
         else

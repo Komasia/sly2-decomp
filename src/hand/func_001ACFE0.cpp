@@ -1,7 +1,7 @@
 // Game-state transition handler: switch on the new state id (x40) and run the menu/HUD hooks for it.
 // State 34 sends an option message (CRef true) to the global option object D_003E0FE4.
 //
-// Match notes: the three-argument call to func_00258200 uses the same idiom as SetStandBooty / func_001D54B8:
+// Match notes: the three-argument call to func_00258200 uses the same idiom as SetStandBooty / ApplyVibrationSetting:
 // SetPv receives the context at the call site (evaluated before the CRef copy) but its body names
 // D_003D4A60 again after the copy. That is what puts `lui a3` after the copy ctor yet keeps a3's low half
 // ahead of the a2 setup (the scheduler boosts insns that set a register exactly once in the function).

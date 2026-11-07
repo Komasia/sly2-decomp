@@ -11,8 +11,8 @@ extern char D_002A7788[];
 int func_00210A88(void);
 struct { int a; int b; } *func_002109B8(int n);
 void func_001AE5A0(struct K *pk, int a, int b);
-void *func_001D7DA0(void *a, void *b, struct T *pt);
-short func_001D8720(void *a, char *s);
+void *FFindEntryKey__FP4TRIEPP4PENTPi(void *a, void *b, struct T *pt);
+short SymFromName__FP6LAYOUTPc(void *a, char *s);
 unsigned int *func_001D7E80(void *a, void *b, void *c);
 int func_001C7D08(void)
 {
@@ -31,9 +31,9 @@ int func_001C7D08(void)
     func_001AE5A0(&k, func_002109B8(n)->b, 6);
     s.pk = &k;
     s.k = 3;
-    func_001D7DA0(&g_sw.m, &s, &t);
+    FFindEntryKey__FP4TRIEPP4PENTPi(&g_sw.m, &s, &t);
     s.k = 5;
-    k.d = func_001D8720(g_sw.m.m8, D_002A7788);
+    k.d = SymFromName__FP6LAYOUTPc(g_sw.m.m8, D_002A7788);
     for (i = t.px->h; i; i = pe->next) {
         pe = &g_sw.m.pe[i];
         k.c = pe->id;

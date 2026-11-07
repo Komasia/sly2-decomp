@@ -2,7 +2,7 @@
 // After the generic update (RenderSoSelf) and a camera visibility test of the connector's bounding sphere
 // (FInsideCmPlanes), each link is queried for its two end points and its length (func_001DEF98). A link longer than its
 // maximum is pulled back toward the first point, then the line object, the stretched middle object and the two end caps
-// (func_001A5FB8 / AppendAloExtraDraws) are placed along the segment, in a basis built from the segment direction (BuildLookAtMatrix).
+// (AppendLaserLine / AppendAloExtraDraws) are placed along the segment, in a basis built from the segment direction (BuildLookAtMatrix).
 // Matching notes (all found by reading the sched1/local-alloc/reload dumps):
 //  * The radius temporary VU_FLOAT(const float *, int) is a volatile empty asm (word load into a 128-bit GPR value); it acts as the
 //    scheduler barrier that keeps the camera/bound loads before the call arguments, which is what puts the camera address
@@ -41,7 +41,7 @@ extern "C" {
 void RenderSoSelf(P *) asm("RenderSoSelf__FP2SOP2CMP2RO");
 int FInsideCmPlanes(CAMERA *, qword, VU_FLOAT) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 void func_001DEF98(P *, ENTRY *, qword *, float *);
-void func_001A5FB8(void *, qword, qword, float, float);
+void AppendLaserLine(void *, qword, qword, float, float) asm("AppendLaserLine__FP5SCENEG9VU_VECTORT1ff");
 M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M4 func_0011C210(qword, const M3 *, const U *);
 qword *func_00256D18(qword *, qword);
@@ -101,7 +101,7 @@ extern "C" void CollectLaserDraws__FP3ALO(P *p)
             float ratio = entry->maximumLength / dist;
             points[1].q = Add(Scale(points[0].q, VU_FLOAT(1.0f - ratio)), Scale(points[1].q, VU_FLOAT(ratio)));
         }
-        if (p->line) func_001A5FB8(p->line, points[0].q, points[1].q, 1.0f, 1.0f);
+        if (p->line) AppendLaserLine(p->line, points[0].q, points[1].q, 1.0f, 1.0f);
         qword dir;
         if (p->stretch || p->endpoints[0].object || p->endpoints[1].object) {
             dir = Subtract(points[1].q, points[0].q);

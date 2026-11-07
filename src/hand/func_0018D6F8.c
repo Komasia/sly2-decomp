@@ -1,4 +1,5 @@
-void *func_0018D6F8(char *p, int n)
+// name: SafeHouse port (PpocketSly)
+void *PpocketSly__FP3SLYi(char *p, int n)
 {
     switch (n) {
     case 0x1A: return p + 0x1FB0;

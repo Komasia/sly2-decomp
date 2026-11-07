@@ -12,7 +12,7 @@ struct CLOCK {
 };
 extern struct CLOCK g_clock;
 unsigned long func_0014D240(struct CLOCK *p);
-void func_0014D068(struct CLOCK *p);
+void ResetClock__FP5CLOCK(struct CLOCK *p);
 void func_0014CFE0(void)
 {
     unsigned long c[2];
@@ -24,5 +24,5 @@ void func_0014CFE0(void)
     for (i = 0; i < 9; i++) g_clock.af[i] = 1.0f;
     g_clock.rDt = 1.0f;
     g_clock.rDtPrev = 1.0f;
-    func_0014D068(&g_clock);
+    ResetClock__FP5CLOCK(&g_clock);
 }

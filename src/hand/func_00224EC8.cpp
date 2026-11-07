@@ -21,11 +21,11 @@ void SetAloCnstrAng(S *,int) asm("SetAloCnstrAng__FP3ALOi");
 qword DecomposeEulerMatrix(const void *) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void *PctrlNewPos(S *,NODE *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 int func_00224688(S *);
-qword func_0022FCC8(NODE *,NODE *,qword);
+qword VecConvertXfs(NODE *,NODE *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void ReparentBooty(S *,int,int) asm("ReparentBooty__FP3ALOii");
 int CFindObjectsByClass(WORLD *,int,int,int,int,O **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 void FadeAloOut(S *,float) asm("FadeAloOut__FP3ALOf");
 void SeekSma(void *,int) asm("SeekSma__FP3SMA3OID");
 }
@@ -43,8 +43,8 @@ static inline void Zero(float *v){v[0]=v[1]=v[2]=0.0f;}static inline void ZeroVe
 static inline O *FindNearest(S *p,int count,O **objects,O *nearest,float best){
   for(int i=0;i<count;i++){
    O *object=objects[i];
-   qword position=ToVF(func_001A62E8(object));
-   qword origin=func_001A62E8(p);
+   qword position=ToVF(PosOfLo(object));
+   qword origin=PosOfLo(p);
    V delta;
    delta.q=Sub(position,origin);
    delta.f[2]+=delta.f[2];
@@ -83,8 +83,8 @@ extern "C" void SetCarryStateBase__FP2LOi(S *p,int state){
   SetAloCnstrLin(p,1);SetAloCnstrAng(p,1);
   ZeroVelocity(p->positionNode);ZeroVelocity(p->rotationNode);
   if(func_00224688(p)&&p->rotationNode){
-   qword direction=Normalize(ToVF(func_0022FCC8(0,p->rotationNode->parent,p->direction)));
-   qword rawUp=func_0022FCC8(0,p->rotationNode->parent,g_normalZ);
+   qword direction=Normalize(ToVF(VecConvertXfs(0,p->rotationNode->parent,p->direction)));
+   qword rawUp=VecConvertXfs(0,p->rotationNode->parent,g_normalZ);
    M3 basis;basis=MakeBasis(direction,rawUp);
    p->rotationJob=PctrlNewPos(p,p->rotationNode,0,7,2,DecomposeEulerMatrix(&basis));
   }

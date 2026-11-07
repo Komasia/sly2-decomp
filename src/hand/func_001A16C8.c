@@ -10,7 +10,7 @@ extern F D_002BFACC,D_002BFAD0,D_002BFAD4,D_002BFB00,D_002BFB04;
 extern U D_002BFAE0,D_002BFAF0,D_002A2DA0,g_normalZ;
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O*,int);
 qword LimitVectorLength__FG9VU_VECTORf(qword,float);
-qword func_001A62E8(struct O*);
+qword PosOfLo__FP2LO(struct O*);
 struct M3*MatJtLo__FP2LO(struct O*);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct O*,struct O*,qword);
 void SetDamageState__FP5ACTORi(struct P*,int);
@@ -70,8 +70,8 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
             struct O*target=p->target;
             struct M3*basis;
             qword delta,local;
-            selfPosition.q=func_001A62E8(p->self);
-            targetPosition.q=func_001A62E8(target);
+            selfPosition.q=PosOfLo__FP2LO(p->self);
+            targetPosition.q=PosOfLo__FP2LO(target);
             {qword k=Word(-150.0f);scratch.q=k;negative.q=k;}
             basis=MatJtLo__FP2LO(target);
             delta=Intercept(&selfPosition,&targetPosition,basis,&negative);
@@ -90,8 +90,8 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
                 scratch=basis->row[0];
             }else{
                 qword targetPoint;
-                otherPosition.q=func_001A62E8(p->self);
-                targetPoint=func_001A62E8(target);
+                otherPosition.q=PosOfLo__FP2LO(p->self);
+                targetPoint=PosOfLo__FP2LO(target);
                 scratch.q=Difference(&otherPosition,targetPoint);
             }
             scratch.bits[2]=0;

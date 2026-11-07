@@ -23,7 +23,7 @@ typedef struct OBJ {
     struct E *x144;
 } OBJ;
 extern char g_sw[];
-float func_0011CAB0(MATRIX4 *);
+float GMaxRowLengthMatrix3__FP7MATRIX3(MATRIX4 *);
 struct E *func_001D6508(void *, qword, float, float, int);
 void func_001D6378(OBJ *p)
 {
@@ -33,7 +33,7 @@ void func_001D6378(OBJ *p)
     __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w"
             : "=j"(v) : "j"(m.r[0]), "j"(m.r[1]), "j"(m.r[2]), "j"(m.r[3]), "j"(p->x90));
     {
-        float r = func_0011CAB0(&m) * p->xA0;
+        float r = GMaxRowLengthMatrix3__FP7MATRIX3(&m) * p->xA0;
         e = func_001D6508(g_sw, v, r, p->x38, p->x2D);
     }
     p->x144 = e;

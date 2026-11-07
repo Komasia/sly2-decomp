@@ -32,7 +32,8 @@ static inline qword Normalize(qword v)
     __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(r) : "j"(l), "j"(v));
     return r;
 }
-void func_00119308(PLANE *pplane, qword a, qword b, qword c)
+// name: SafeHouse port (PlaneFromPoints)
+void PlaneFromPoints__FP6VECTORG9VU_VECTORN21(PLANE *pplane, qword a, qword b, qword c)
 {
     UV u;
     qword d;

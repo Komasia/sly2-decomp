@@ -15,7 +15,7 @@ struct D { char pad[0x60]; qword x60; };
 extern struct D g_cm;
 extern float D_002BF940;
 void EntryBestSafe__FP5ACTORPv(void *p, E *e);
-struct P *func_001C4840(struct G *g);
+struct P *PloPlayerPo__FP2SW(struct G *g);
 qword PosSafeEntry__FP5ACTORPvf(struct P *p, E *e, float g);
 float TJumpTo__FG9VU_VECTORT0ffff(qword a, qword b, float c, float d, float e, float f);
 void func_002046B0(struct P *p, qword q);
@@ -23,8 +23,8 @@ void func_0014D8C0(struct D *d);
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int a, int b);
 void CheckLoRoot__FP2SWP2LO(struct G *g, int a);
-void func_0019B110(void *p, int a);
-void func_0015E1D8(int a);
+void ChooseJumpTarget__FP4JUMPP2LO(void *p, int a);
+void StartFadeLo__FP2LO(int a);
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 // name: SafeHouse port (RecoverActorTo)
 void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
@@ -33,7 +33,7 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
     if (!q) {
         EntryBestSafe__FP5ACTORPv(p->x9e0, &e);
         q = &e;
-        if (p == func_001C4840(&g_sw)) {
+        if (p == PloPlayerPo__FP2SW(&g_sw)) {
             qword r = PosSafeEntry__FP5ACTORPvf(p, &e, 0.0f);
             float g = TJumpTo__FG9VU_VECTORT0ffff(VSub(r, p->x58->x70), p->xe8->x80, 1000.0f, -1000.0f, 1.0f, -1.0f);
             if (D_002BF940 < g) {
@@ -49,10 +49,10 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
                         FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x27) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xC) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x22) ||
                         FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x26)) {
                         CheckLoRoot__FP2SWP2LO(&g_sw, e.x0);
-                        func_0019B110(p->x2c0, e.x0);
+                        ChooseJumpTarget__FP4JUMPP2LO(p->x2c0, e.x0);
                     }
                 }
-                func_0015E1D8(g_sw.x3e60);
+                StartFadeLo__FP2LO(g_sw.x3e60);
                 return;
             }
         }

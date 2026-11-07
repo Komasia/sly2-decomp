@@ -27,13 +27,13 @@ extern char D_002A4D88[];
 extern char D_002A4D90[];
 extern char D_002A4D98[];
 extern char D_002A4DA0[];
-short func_001D8720(void *, char *);
-int func_001D7DA0(TRIE *, KEY *, OUT *);
-CRef func_001D7ED8(TRIE *p, KEY *key, char *pb);
+short SymFromName(void *, char *) asm("SymFromName__FP6LAYOUTPc");
+int FFindEntryKey(TRIE *, KEY *, OUT *) asm("FFindEntryKey__FP4TRIEPP4PENTPi");
+CRef RefGetProgress(TRIE *p, KEY *key, char *pb) asm("RefGetProgress__FP4TRIEP3KEYPc");
 void *PvAllocStackImpl(const AREQ &) asm("PvAllocStackImpl__Fi");
 void func_001AE5A0(void *, void *, int);
 }
-static inline CRef Lookup(KEY &k) { return func_001D7ED8(&D_003E0EA8, &k, D_003D4A60); }
+static inline CRef Lookup(KEY &k) { return RefGetProgress(&D_003E0EA8, &k, D_003D4A60); }
 static inline void *Alloc(int cb)
 {
     AREQ req(cb, 0x10);
@@ -49,18 +49,18 @@ extern "C" KEY *AkeyStandHeldBy__Fi(int id)
     TRIE *pt = &g_sw.trie;
     key.c = 0;
     key.a = as;
-    as[0] = func_001D8720(pt->x8, D_002A4D88);
-    as[2] = func_001D8720(pt->x8, D_002A4D90);
-    as[4] = func_001D8720(pt->x8, D_002A4D98);
-    as[5] = func_001D8720(pt->x8, D_002A4DA0);
+    as[0] = SymFromName(pt->x8, D_002A4D88);
+    as[2] = SymFromName(pt->x8, D_002A4D90);
+    as[4] = SymFromName(pt->x8, D_002A4D98);
+    as[5] = SymFromName(pt->x8, D_002A4DA0);
     key.c = 1;
-    func_001D7DA0(pt, &key, &out);
+    FFindEntryKey(pt, &key, &out);
     ENT *pe1;
     for (int n = out.pe->iChild; n != 0; n = pe1->iSibling) {
         pe1 = &g_sw.trie.ae[n];
         key.c = 3;
         as[1] = pe1->ch;
-        if (func_001D7DA0(&g_sw.trie, &key, &out2)) {
+        if (FFindEntryKey(&g_sw.trie, &key, &out2)) {
             ENT *pe2;
             for (int n2 = out2.pe->iChild; n2 != 0; n2 = pe2->iSibling) {
                 pe2 = &g_sw.trie.ae[n2];

@@ -37,7 +37,8 @@ static inline void CopyXY(M23 *dst,const M3 &src){
  dst->a[2]=src.row[1].x;dst->a[3]=src.row[1].y;
  dst->a[4]=src.row[2].x;dst->a[5]=src.row[2].y;
 }
-extern "C" void func_00214460(OWNER *owner,BIS *stream,ROOT *root){
+// name: SafeHouse port (LoadGroupsFromBrx)
+extern "C" void LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT(OWNER *owner,BIS *stream,ROOT *root){
  int i,j,k,m;
  root->groupCount=func_00117C20(stream);
  root->groups=(GROUP *)PvAllocClear(owner->heap,(int)root->groupCount*0x30,0x12);

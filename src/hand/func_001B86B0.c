@@ -18,7 +18,7 @@ struct P {
     char pad7[0x1830 - 0x1824]; qword v1830; char pad8[0x190C - 0x1840]; void *x190C;
 };
 void RetractAsegaPp__FPP5ASEGA(void *pp);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float g);
 void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
@@ -28,7 +28,7 @@ void func_001305B8(void *q, struct P *p, float g, float h, int n, struct ANIM **
 float *PeventLaunch__FP5KINDEi(void *q, int n);
 void SetAsegaSeekTime__FP5ASEGAf(struct ANIM *pa, float t);
 struct R *PchnFindAseg__FP4ASEGP3ALOPvi(struct S14 *p, struct P *pp, int a, int b);
-void func_001431D0(struct P *p);
+void StopNearestLaunchTracking__FP5ACTOR(struct P *p);
 static inline qword MulM3(qword *m, qword v)
 {
     __asm__("vmulax.xyz $ACC, %1, %0x\n\tvmadday.xyz $ACC, %2, %0y\n\tvmaddz.xyz %0, %3, %0z" : "+j"(v) : "j"(m[0]), "j"(m[1]), "j"(m[2]));
@@ -54,7 +54,7 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
     p->v190 = D_002A2DD0;
     if (p->p10DC && p->x10E4 >= 2 && !(p->pl->x30 & 8)) {
         qword d;
-        __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(func_001A62E8(p->p10DC)), "j"(func_001A62E8(p)));
+        __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(PosOfLo__FP2LO(p->p10DC)), "j"(PosOfLo__FP2LO(p)));
         g = func_002458F0(GetY(d), GetX(d));
         if (__builtin_fabsf(RadNormalize__Ff(g - p->g1A8)) < D_002C09F0) {
             SetStepPhysHeading__FP3ALOf(p, g);
@@ -77,14 +77,14 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
             qword a, b, pos, t, v;
             ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)((char *)r->po + r->po->vt[3].d, &a, 0.0f, 0.0f, 0);
             ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)((char *)r->po + r->po->vt[3].d, &b, p->panim->p14->g74, 0.0f, 0);
-            pos = func_001A62E8(p);
+            pos = PosOfLo__FP2LO(p);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(t) : "j"(b), "j"(a));
             t = MulM3(p->m1B0, t);
             __asm__("vadd.xyzw %0, %1, %2" : "=j"(v) : "j"(pos), "j"(t));
             p->v1830 = v;
         } else {
-            p->v1830 = func_001A62E8(p);
+            p->v1830 = PosOfLo__FP2LO(p);
         }
     }
-    func_001431D0(p);
+    StopNearestLaunchTracking__FP5ACTOR(p);
 }

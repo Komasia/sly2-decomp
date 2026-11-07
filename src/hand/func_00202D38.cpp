@@ -24,7 +24,7 @@ void func_00202540(P *);
 void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 int func_002022D8(P *);
 void SetPhotoPromptState(P *,int) asm("SetPhotoPromptState__FPvi");
-qword func_001A62E8(ACTOR *);
+qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 qword ConvertCmWorldToScreen(CM *,qword) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
 void func_00212E40(DISPLAY *,int,float);
 int FSpriteAnimPlaying(DISPLAY *,int) asm("FSpriteAnimPlaying__FP2LOi");
@@ -70,7 +70,7 @@ extern "C" void UpdatePhotoPrompt__FPv(P *p)
         if(!func_002022D8(p))SetPhotoPromptState(p,1);
     }
     if(p->actor){
-        qword world=func_001A62E8(p->actor);
+        qword world=PosOfLo(p->actor);
         VU_FLOAT offset=VuFloatFromMemWord(*(int *)&p->actor->headOffset);
         qword head=QwAdd(world,QwScaleX(QwUp(&g_cm.mat),offset.qw));
         qword base=ConvertCmWorldToScreen(&g_cm,world);

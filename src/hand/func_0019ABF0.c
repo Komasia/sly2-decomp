@@ -16,7 +16,8 @@ typedef char S_Object_Offset[FIELD_OFFSET(struct S,b)==4?1:-1];
 typedef char T_Context_Offset[FIELD_OFFSET(struct T,a)==0?1:-1];
 typedef char T_Object_Offset[FIELD_OFFSET(struct T,b)==4?1:-1];
 typedef char T_Point_Offset[FIELD_OFFSET(struct T,q)==16?1:-1];
-float func_0019ABF0(struct S *s, float parameter) {
+// name: SafeHouse port (GScorePipeS)
+float GScorePipeS__FP5ACTORf(struct S *s, float parameter) {
     V v; struct T t; float r;
     struct OBJECT *b = s->b;
     func_001E6F10(b, parameter, &v, 0);

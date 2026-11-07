@@ -3,7 +3,7 @@ struct X { int id; unsigned char b4; signed char cch; char pad[0x10 - 6]; unsign
 struct Y { char pad[0x14]; void *pv; };
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, void *pv);
 void Skip__18CBinaryInputStreami(void *pbis, int cb);
-int func_0013FAD0(int cch, void *pw);
+int FFilterMatches__FiPs(int cch, void *pw);
 struct Y *func_001ED4E0(int id);
 void *PvAllocSwImpl__Fi(struct AR *par);
 // name: SafeHouse port (LoadBmpFromBrx)
@@ -13,7 +13,7 @@ void LoadBmpFromBrx__FP18CBinaryInputStreamP3BMP(void *pbis, struct X *px)
     Read__18CBinaryInputStreamiPv(pbis, 0x18, px);
     if (px->cch > 0) {
         Read__18CBinaryInputStreamiPv(pbis, px->cch * 2, u.aw);
-        if (!func_0013FAD0(px->cch, u.aw)) {
+        if (!FFilterMatches__FiPs(px->cch, u.aw)) {
             if (px->b4 != 1) {
                 Skip__18CBinaryInputStreami(pbis, px->cb);
                 px->pv = 0;

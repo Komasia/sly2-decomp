@@ -10,7 +10,7 @@ struct M { int n; struct S *p; int pad[14]; };
 extern char g_sw[];
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-qword func_001A62E8(struct S *p);
+qword PosOfLo__FP2LO(struct S *p);
 void *func_00156B98(void *pg, int n, qword q, struct S *p);
 struct LO *PproxyOfInstance__FP2LO(struct S *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *p, int n);
@@ -37,7 +37,7 @@ void SetClueState__FP2LOi(struct S *p, int n)
         }
         pg = g_sw;
         n = 2;
-        qv = func_001A62E8(p);
+        qv = PosOfLo__FP2LO(p);
         func_00156B98(pg, 0, qv, p);
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
         q = PproxyOfInstance__FP2LO(p);

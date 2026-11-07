@@ -4,18 +4,18 @@ struct G { char pad[0x90]; qword q90; };
 extern struct G g_cm;
 extern char g_sw[];
 struct S { int pad[4]; void *p10; };
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void *func_001C4A48(void *p);
 // name: SafeHouse port (CPFREE::PosFocus)
 qword PosFocus__6CPFREE(struct S *p)
 {
     VU v;
     if (p->p10) {
-        v.q = func_001A62E8(p->p10);
+        v.q = PosOfLo__FP2LO(p->p10);
     } else {
         void *o = func_001C4A48(g_sw);
         if (o) {
-            v.q = func_001A62E8(o);
+            v.q = PosOfLo__FP2LO(o);
             v.f[2] += 150.0f;
         } else {
             v.q = g_cm.q90;

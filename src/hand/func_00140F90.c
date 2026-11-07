@@ -25,7 +25,7 @@ extern float D_002BCC94;
 void EndDamageReaction__FP5ACTOR(void *p);
 void SetJtThrowState__FP7JTTHROWi(void *p, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct SO *pso, float g);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void ReleaseJtThrow__FP7JTTHROW(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_00224590(void *p);
@@ -38,9 +38,9 @@ void func_0019F220(void *p, int n);
 void *PloAcquireProxyObject__FP2SWi(void *p, int n);
 void ReparentBooty__FP3ALOii(void *p, int a, int b);
 void RemoveNoise__FP5NOISE(void *p);
-void func_001CCC88(void *p, void *q);
+void StartReachGrab__FP5REACHP2LO(void *p, void *q);
 void func_00131A00(void *p, float g);
-void func_001CD098(void *p, void *q);
+void AttachReachObject__FP5REACHP2LO(void *p, void *q);
 void func_00133448(void *p, void *q);
 void OfferJobMessage__FP5GUARDii(void *p, int msg, void *pmsg);
 void HandlePoMessage__FP2PO5MSGIDPv(void *p, int msg, void *pmsg);
@@ -120,7 +120,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
         case 0x162: {
             qword v = F(qword, p, 0x1060);
             F(int, p, 0x1044) = 0;
-            F(qword, p, 0x1070) = VecSub(v, func_001A62E8(p));
+            F(qword, p, 0x1070) = VecSub(v, PosOfLo__FP2LO(p));
             F(int, p, 0x1078) = 0;
             break;
         }
@@ -180,12 +180,12 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             break;
         case 0x1C8:
             if (F(int, p, 0x4C8) == 0xC)
-                func_001CCC88((char *)p + 0x900, F(void *, p, 0x4D4));
+                StartReachGrab__FP5REACHP2LO((char *)p + 0x900, F(void *, p, 0x4D4));
             break;
         case 0x1C7:
             if (F(int, p, 0x4C8) == 0xC) {
                 func_00131A00(F(void *, p, 0x1030), 1.0f);
-                func_001CD098((char *)p + 0x900, F(void *, p, 0x4D4));
+                AttachReachObject__FP5REACHP2LO((char *)p + 0x900, F(void *, p, 0x4D4));
             }
             break;
         }

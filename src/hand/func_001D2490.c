@@ -14,7 +14,7 @@ typedef struct {
 } OBJ;
 extern float D_002C20D0[3];
 extern float D_002C20E0[2];
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *,qword,void *,qword *,qword *,float *,float *,float);
 float func_002458F0(float, float);
 static inline float GetX(qword q) { float f; __asm__("mtc1 %1, %0" : "=f"(f) : "r"(q)); return f; }
@@ -71,7 +71,7 @@ void FollowVehiclePath__FP7VEHICLE(OBJ *p)
     register qword w __asm__("vf4");
     register qword fallback __asm__("vf5");
     float f;
-    pos = func_001A62E8(p);
+    pos = PosOfLo__FP2LO(p);
     NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(p->path,pos,0,(qword *)&va,(qword *)&vb,0,&p->cursor,p->cursor);
     {
         float dist = Dist2D(pos, *(qword *)&va);

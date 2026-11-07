@@ -9,7 +9,7 @@ struct MARKER {union FLOATWORD value;int kind,id,unused;};
 struct V3 { float x, y, z; };
 struct S { int h; void *po; float a; float b; float c; float ca; float cb; union FLOATWORD dist; struct V3 v; int pad; int f; };
 extern char g_sw[];
-void *func_0015E938(void *p, int n, int h, void *arg);
+void *PloFindSwNearest__FP2LO3OIDii(void *p, int n, int h, void *arg);
 struct MARKER *PeventLaunch__FP5KINDEi(void *po, int n);
 struct C *PchnFindAseg__FP4ASEGP3ALOPvi(void *po, void *arg, int kind, int check);
 
@@ -27,7 +27,7 @@ void func_0020BD88(struct S *p, void *arg)
     if (p->f)
         return;
     if (!p->po) {
-        p->po = func_0015E938(g_sw, 4, p->h, arg);
+        p->po = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->h, arg);
         if (!p->po)
             return;
     }

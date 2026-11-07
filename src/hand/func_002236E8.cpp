@@ -31,7 +31,7 @@ extern qword g_normalZ;
 extern qword D_002A2DA0;
 extern qword D_002C4290[5];
 extern "C" {
-qword func_001A62E8(LO *plo);
+qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 int func_0014F030(void *pv, SO *pso);
 void func_0020FAA0(SW *psw, qword posMin, qword posMax, int (*pfnFilter)(void *, SO *), int nUnk, int *pcpso, SOPART ***papso);
 qword ConvertCmWorldToScreen(CM *pcm, qword pos) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
@@ -127,7 +127,7 @@ extern "C" void CheckFocusVisible__FP8CPFOLLOW(CMPART2 *pcmpart)
     aqw[0] = aqw[1] = g_cm.pos;
     qword qwUp = g_normalZ;
     aqw[10] = qwUp;
-    qword qwToHero = QwSub(func_001A62E8(plo), g_cm.pos);
+    qword qwToHero = QwSub(PosOfLo(plo), g_cm.pos);
     qword qwCross = QwCross(qwUp, qwToHero);
     qword qwFallback = D_002A2DA0;
     qword qwLen = QwLengthUntied(qwCross);
@@ -145,7 +145,7 @@ extern "C" void CheckFocusVisible__FP8CPFOLLOW(CMPART2 *pcmpart)
     qword *pqw; // the current sample
     for (i = 0; i < 5; i++)
     {
-        qword pos = QwAdd(func_001A62E8(plo), QwAxesXyz(D_002C4290[i], aqw[8], aqw[9], aqw[10]));
+        qword pos = QwAdd(PosOfLo(plo), QwAxesXyz(D_002C4290[i], aqw[8], aqw[9], aqw[10]));
         aqw[0] = QwMiniXyz(aqw[0], pos);
         aqw[1] = QwMaxXyz(aqw[0], pos);
         pqw = &aqw[3 + i];

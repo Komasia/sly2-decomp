@@ -8,9 +8,9 @@ extern struct P *D_002DD644;
 extern char D_003DD040[];
 extern char g_sw[];
 void SetSoundMgrFlags__FP8SOUNDMGRUii(void *p, int a, int b);
-void func_0014D1D0(struct CLOCK *p, int a, float g);
-void func_0020EFC0(void *p, int a);
-void func_0020F030(void *p, int a);
+void SetClockFactor__FP5CLOCKif(struct CLOCK *p, int a, float g);
+void PauseGame__FP9GAMEPAUSEi(void *p, int a);
+void ResumeGame__FP9GAMEPAUSEi(void *p, int a);
 int func_001A61A0(struct P *p);
 void AppendDlEntry__FP2DLPv(void *p, struct X14 *px);
 void SetAsegaAsegSpeed__FP5ASEGAf(void *p, float g);
@@ -21,8 +21,8 @@ void func_00147410(struct P *p, int state)
     case -1:
         D_002DD644 = p;
         SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 0);
-        func_0014D1D0(&g_clock, 8, 0.0f);
-        func_0020EFC0(g_sw, 0);
+        SetClockFactor__FP5CLOCKif(&g_clock, 8, 0.0f);
+        PauseGame__FP9GAMEPAUSEi(g_sw, 0);
         p->vt[8].pfn((char *)p + p->vt[8].d);
         if (!func_001A61A0(p)) {
             struct LO *plo;
@@ -40,9 +40,9 @@ void func_00147410(struct P *p, int state)
     switch (state) {
     case -1:
         D_002DD644 = 0;
-        func_0014D1D0(&g_clock, 8, 1.0f);
+        SetClockFactor__FP5CLOCKif(&g_clock, 8, 1.0f);
         SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 1);
-        func_0020F030(g_sw, 0);
+        ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
         p->vt[9].pfn((char *)p + p->vt[9].d);
         break;
     case 3:

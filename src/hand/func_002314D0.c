@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct { float m[16]; } __attribute__((aligned(16))) M4;
 typedef struct X { char pad[0x50]; void *x50; } X;
 extern qword D_002A2DD0;
-M4 func_0022D148(void *, int);
+M4 DmatXfChain__FP2XFT0Pv(void *, int);
 
 static __inline__ qword Make(float x, float y, float z)
 {
@@ -18,7 +18,7 @@ qword func_002314D0(X *p)
     {
         M4 m;
         {
-            M4 t = func_0022D148(p->x50, 0);
+            M4 t = DmatXfChain__FP2XFT0Pv(p->x50, 0);
             m = t;
         }
         {

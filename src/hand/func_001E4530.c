@@ -9,7 +9,7 @@ struct C { char pad[0x18]; int x18; };
 struct O { char pad[0x74]; float g74; float g78; char pad2[0x80 - 0x7C]; float a[3]; int pad3; float gMin; float gMax; };
 struct O *PloFind__FP3RUNi(struct C *pc, int n);
 float GSuck__FPv(struct G *pg);
-void *func_0015E938(struct G *pg, int k, int a, int b);
+void *PloFindSwNearest__FP2LO3OIDii(struct G *pg, int k, int a, int b);
 void *PsmaFindAloSm__Fi3OID(void *p, int n);
 float func_001F11A8(void *p, int n);
 float func_001FCFD0(struct G *pg, int n);
@@ -31,7 +31,7 @@ float GCmdDuration__FP3RUNP7SCPTCMD(struct C *pc, struct P *p)
     }
     case 0xD:
         if (p->x18 != -1) {
-            void *px = func_0015E938(&g_sw, 4, p->u10.n, pc->x18);
+            void *px = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, p->u10.n, pc->x18);
             if (px) {
                 void *py = PsmaFindAloSm__Fi3OID(px, p->u14.n);
                 if (py) g = func_001F11A8(py, p->x18);

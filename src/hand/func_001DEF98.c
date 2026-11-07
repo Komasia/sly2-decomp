@@ -7,7 +7,7 @@ typedef struct {
     char pad20[0xA0 - 0x20];
 } E;
 typedef struct { char pad[0x60]; void *x60; } OBJ;
-qword func_0022FC48(void *, int, qword);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(void *, int, qword);
 void func_001E6F10(void *, qword *, int, float);
 void func_001DEF98(OBJ *p, E *e, qword *out, float *pdist)
 {
@@ -15,7 +15,7 @@ void func_001DEF98(OBJ *p, E *e, qword *out, float *pdist)
     for (i = 0; i < 2; i++, e++) {
         switch (e->kind) {
         case 0:
-            out[i] = func_0022FC48(p->x60, 0, e->u.q);
+            out[i] = PosConvertXfs__FP2XFT0G9VU_VECTOR(p->x60, 0, e->u.q);
             break;
         case 1:
             func_001E6F10(e->u.s.pv, &out[i], 0, e->u.s.f);

@@ -9,7 +9,7 @@ int func_00209A68(struct O *po, int n);
 int GrfPadctlPressedWithin__FP6PADCTLUif(void *pl, int k, float g);
 int GrfPadctlTakePressed__FP6PADCTL(void *pl, int k, float g);
 struct S *PjobFind__FP5GUARDPv(void *p, int n);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 int func_0011D910(void *p, float g);
 void SetState__5JOBB1i(struct S *p, int n);
 void func_001B7050(struct P *p, void *q);
@@ -44,8 +44,8 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
     }
     {
             int f = 0, g;
-            qword a = func_001A62E8(p->p10DC);
-            qword d = func_001A62E8(p);
+            qword a = PosOfLo__FP2LO(p->p10DC);
+            qword d = PosOfLo__FP2LO(p);
             __asm__("vsub.xyzw %0, %1, %0" : "+j"(d) : "j"(a));
             u.q = d;
             if (LenXY(d) < D_002C09AC && func_0011D910(D_002C09B0, GetZ(d)) && p->p10DC->xFEC)

@@ -3,7 +3,8 @@ struct S { int a[3]; struct VTE *vt; char pad[0x140]; void *x; char pad2[0x6C]; 
 int func_001C4700(void *x, int a);
 void *PloAcquireProxyObject__FP2SWi(void *y, int a);
 void func_001D6B00(void *z, void *v);
-void func_00226250(struct S *p)
+// name: SafeHouse port (UpdateTurretFire)
+void UpdateTurretFire__FP3ALO(struct S *p)
 {
     if (p->x && func_001C4700(p->x, 0xFF)) {
         if (p->y) {

@@ -29,7 +29,7 @@ void UpdateVehicleHealth(P *) asm("UpdateVehicleHealth__FP7VEHICLE");
 void SetVehicleMode(P *, int) asm("SetVehicleMode__FP7VEHICLEi");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 int AcceptVehicleContact(P *, EVENT *) asm("AcceptVehicleContact__FP3ALOP5CTMSG");
 }
 static inline VV Zero() { qword r; __asm__("vsub.xyzw %0, $vf0, $vf0" : "=j"(r)); return r; }
@@ -106,8 +106,8 @@ int AcceptVehicleContact(P *p, EVENT *event)
     }
     case 0x1000:
     {
-        VV position = func_001A62E8(p);
-        VV delta = Sub(position, func_001A62E8(event->sender));
+        VV position = PosOfLo(p);
+        VV delta = Sub(position, PosOfLo(event->sender));
         VU_VECTOR4 direction;
         direction.q = NormalizeSafe(Sub(delta, ScaleV(Dot(delta, g_normalZ), g_normalZ)), D_002A2DA0);
         VU_FLOAT first(Random(D_002C21E8));

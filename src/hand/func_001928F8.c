@@ -9,7 +9,7 @@ extern struct CLOCK g_clock;
 void SetInteractState__FP5ACTORi(struct P *p, int n);
 void SetSlyMode__FP3SLYi(struct O *o, int n);
 void UpdateSlyReach__FP3SLY(struct O *o);
-void func_001CCAC0(void *p, int n);
+void SetReachState__FP5REACHi(void *p, int n);
 void ForgetGuardsInteract__FP5ACTOR(struct P *p);
 // name: SafeHouse port (StartInteract)
 void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
@@ -35,7 +35,7 @@ void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
     }
     case 5: case 9:
         p->x4c4 = p->x14;
-        func_001CCAC0(p->x440, 0);
+        SetReachState__FP5REACHi(p->x440, 0);
         n = 0;
         break;
     case 8:

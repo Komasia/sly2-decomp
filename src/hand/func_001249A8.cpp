@@ -18,7 +18,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 }
 struct SPM {
     NODE *p;
@@ -85,13 +85,13 @@ extern "C" CRef func_001249A8(int pv, int c, CRef *aref)
                 if (ClipSegmentSoe(pso, *prefFrom->u.pq, *prefTo->u.pq, 1, &hit) <= 0)
                     continue;
                 {
-                    SPN spLo(func_00256B48());
-                    SPN spPos(func_00256B48());
+                    SPN spLo(PpairNew());
+                    SPN spPos(PpairNew());
                     spLo->ref = plo;
                     spLo->pnext = spPos.p;
                     if (pv == 0x7B) {
-                        SPN spNormal(func_00256B48());
-                        SPN spItem(func_00256B48());
+                        SPN spNormal(PpairNew());
+                        SPN spItem(PpairNew());
                         spPos->ref = &hit.pos;
                         spPos->pnext = spNormal.p;
                         spNormal->ref = &hit.normal;

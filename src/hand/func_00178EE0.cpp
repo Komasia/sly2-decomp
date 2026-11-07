@@ -22,12 +22,12 @@ extern float D_002BE694, D_002BE6B0;
 extern CLOCK g_clock;
 extern qword g_normalZ, D_002A2DD0;
 void func_001789F8(P *);
-qword func_001A62E8(ACTOR *);
+qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 MATRIX3 *MatJtLo(ACTOR *) asm("MatJtLo__FP2LO");
 void func_00131A00(void *, float);
 float func_002458F0(float, float);
 void SetMoveHeading(void *, float) asm("SetMoveHeading__FP7MOVEREF");
-void func_0020CB28(CONTROL *, qword);
+void SelectK3(CONTROL *, qword) asm("SelectK3__FP6K3PLAYG9VU_VECTOR");
 }
 static inline VU_FLOAT VuFloat(float g)
 {
@@ -146,7 +146,7 @@ extern "C" void Update__9JOBFOLLOW(P *p)
     func_001789F8(p);
     if (p->mode < 2)
     {
-        qword pos = func_001A62E8(p->actor);
+        qword pos = PosOfLo(p->actor);
         qword dpos = QwProjectOut(QwSub(p->target, pos), g_normalZ);
         float g = GEvaluateClqLm(&D_002BE6A0, &g_lmZeroOne, GXOfQw(QwLengthXY(dpos)));
         CHOICE *pchoice = p->driver->choice;
@@ -174,7 +174,7 @@ extern "C" void Update__9JOBFOLLOW(P *p)
                 __asm__("vdiv $Q, $vf0w, %0x\n\tvwaitq" : : "j"(qwLen));
                 __asm__("vmulq.xyzw %0, %1, $Q" : "=j"(qwDir) : "j"(qwLocal));
             }
-            func_0020CB28(pchoice->control, QwScaleX(qwDir, vuSpeed));
+            SelectK3(pchoice->control, QwScaleX(qwDir, vuSpeed));
             func_00131A00(pchoice->control->animation, g);
             break;
         }

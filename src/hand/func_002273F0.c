@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 struct S { char pad[0xF4]; int x; };
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *p, qword q);
-int func_00118FB0(int a, int b, qword q);
+int IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(int a, int b, qword q);
 void func_00227440(struct S *p, int f);
 void func_002273F0(struct S *p, qword q)
 {
-    func_00227440(p, func_00118FB0(p->x, 0x7FFFFFFF, ConvertPos__FP2LOT0G9VU_VECTOR(0, p, q)) != 0);
+    func_00227440(p, IbspFindPoint__FP6BSPREFP6VECTORG9VU_VECTOR(p->x, 0x7FFFFFFF, ConvertPos__FP2LOT0G9VU_VECTOR(0, p, q)) != 0);
 }

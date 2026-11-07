@@ -13,15 +13,16 @@ extern "C" {
 extern CLOCK g_clock;
 extern char D_002A4D50[];
 extern char D_002A4D58[];
-void func_00141C08(P *p, E *pe, int n);
+void SetAbilityState(P *p, E *pe, int n) asm("SetAbilityState__FP5ACTORP6ABSLOTi");
 int func_0021ECD8(char *pch, const char *fmt, ...);
 }
 CRef SetProgressPoCurrent(const CRef &ref, void *o, const char *fmt, ...) asm("SetProgressPoCurrent__FP4CRefPci");
-extern "C" void func_00141FC8(P *p, unsigned int i, int id)
+// name: SafeHouse port (SetActorAbilitySlot)
+extern "C" void SetActorAbilitySlot__FP5ACTORii(P *p, unsigned int i, int id)
 {
     if (i < 3) {
         E *pe = &p->ae[i];
-        func_00141C08(p, pe, -1);
+        SetAbilityState(p, pe, -1);
         pe->id = id;
         pe->a = 0;
         pe->g = g_clock.t;
@@ -29,7 +30,7 @@ extern "C" void func_00141FC8(P *p, unsigned int i, int id)
             char ach[16];
             E *pe2 = &p->ae[j];
             if (j != i && pe2->id == id) {
-                func_00141C08(p, pe2, -1);
+                SetAbilityState(p, pe2, -1);
                 pe2->id = -1;
             }
             func_0021ECD8(ach, D_002A4D50, j);

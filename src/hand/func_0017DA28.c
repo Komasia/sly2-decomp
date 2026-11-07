@@ -18,7 +18,7 @@ int func_001EF0A8(struct S *p);
 void SetState__7JOBGOTOi(struct S *p, int n);
 void func_0017D8A8(struct S *p);
 void func_002562A8(struct X *x);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
 void PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(qword p, qword a, qword b, qword *pc, float *pt, int n);
 void RecalcCrv__FP3CRV(struct B *b);
@@ -44,7 +44,7 @@ void Search__7JOBGOTO(struct S *p) {
         if (q->n120 == 0) {
             union { qword q; float f[4]; } c;
             float t;
-            qword pos = func_001A62E8(p->p10);
+            qword pos = PosOfLo__FP2LO(p->p10);
             qword a = PosGoal__FP4GOALG9VU_VECTOR(&q->x60, pos);
             qword b = PosGoal__FP4GOALG9VU_VECTOR(&q->x80, pos);
             int f;
@@ -66,7 +66,7 @@ void Search__7JOBGOTO(struct S *p) {
     }
     if (k > 0) if (k < 3) {
         struct B *b = p->p10->p294;
-        qword pos = func_001A62E8(p->p10);
+        qword pos = PosOfLo__FP2LO(p->p10);
         qword q = PosGoal__FP4GOALG9VU_VECTOR(&x, pos);
         if (p->nBC) {
             b->nE8 = 2;

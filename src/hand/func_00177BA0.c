@@ -8,12 +8,12 @@ struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; };
 struct F { int a; int pad[3]; void *p10; float f14; int rest[0x16]; };
 void *func_002333B4(void *p, int c, int n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct A *p, int n);
-void *func_001C4840(struct G *g);
+void *PloPlayerPo__FP2SW(struct G *g);
 int func_00177D20(struct S *p);
 int func_00177D70(struct S *p);
 int func_00208B38(struct A *p, void *q);
 float func_00208BB0(struct A *p);
-qword func_001A62E8(struct A *p);
+qword PosOfLo__FP2LO(struct A *p);
 void *func_00156B98(struct G *g, int n, qword v, struct A *p);
 void React__8JOBREACTP5AIMSG(struct S *p, struct F *f);
 // name: SafeHouse port (JOBREACT::NextReaction)
@@ -22,10 +22,10 @@ void NextReaction__8JOBREACT(struct S *p) {
     func_002333B4(&f, 0, sizeof f);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, 0x3B) && p->p10->n1010 > 0) {
         f.a = 0xD;
-        f.p10 = func_001C4840(&g_sw);
+        f.p10 = PloPlayerPo__FP2SW(&g_sw);
     } else if (p->p10->nFBC == 0x15) {
         f.a = 0x12;
-        f.p10 = func_001C4840(&g_sw);
+        f.p10 = PloPlayerPo__FP2SW(&g_sw);
         f.f14 = D_002A54D0;
     } else if (func_00177D20(p)) {
         f.a = 0xC;
@@ -48,7 +48,7 @@ void NextReaction__8JOBREACT(struct S *p) {
             if (n < 11) {
                 if (n >= 6) {
                     f.a = 2;
-                    f.p10 = func_00156B98(&g_sw, 0, func_001A62E8(p->p10), p->p10);
+                    f.p10 = func_00156B98(&g_sw, 0, PosOfLo__FP2LO(p->p10), p->p10);
                 } else {
                     f.a = 1;
                 }

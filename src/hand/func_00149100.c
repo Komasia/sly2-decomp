@@ -1,6 +1,7 @@
 struct P { char pad[0x2AC]; int c; int a[8]; int c2; int a2[8]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(int x, int y);
-int func_00149100(struct P *p, int x)
+// name: SafeHouse port (FPadAccepts)
+int FPadAccepts__FP3PADi(struct P *p, int x)
 {
     int i, j;
     if (p->c > 0) {

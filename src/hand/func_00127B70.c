@@ -1,7 +1,8 @@
 typedef struct T { int a; int b; int c; void *ap[1]; } T;
 void func_00256EE0(void *pp, int n);
 void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
-void func_00127B70(T *p, void *pv)
+// name: SafeHouse port (CFrame::RemoveParent)
+void RemoveParent__6CFrameP6CFrame(T *p, void *pv)
 {
     int i;
     for (i = 0; i < p->c; i++) {

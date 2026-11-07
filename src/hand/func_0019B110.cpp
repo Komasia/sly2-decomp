@@ -1,14 +1,14 @@
-// func_0019B110: chooses the jump target of the player (JTAIR, the family of Lilly's jtair.c: VelJumpLaunch is
+// ChooseJumpTarget__FP4JUMPP2LO: chooses the jump target of the player (JTAIR, the family of Lilly's jtair.c: VelJumpLaunch is
 // JtPlanLaunchVz). Every candidate list (D_003E13B4..D_003E142C are 12-byte DL heads) is scanned; a candidate is
 // scored with func_0011D9E0 (a 1-D minimizer over the matched func_0019AA58/ABB8/ABF0/AC88/AAB8/AB38 callbacks),
-// biased by FUN_001cf138 and checked for a clear path with func_0019AE00 unless it is the forced target. The best one
+// biased by FUN_001cf138 and checked for a clear path with FJumpPathBlocked unless it is the forced target. The best one
 // is published in pstepplayer->pxf (+0xA8 landing time, +0xC0 position, +0xD0 velocity) and SetJumpAnimState starts the
 // jump of that kind (9 shapes, 10 curves, 14 hooks, 16 meshes, 18 the partner's target, 15/11 curves, 12/13 shapes).
 //
 // Notes on the shape of the source (each was needed for the match):
 //  - The VECTOR locals are declared together at the top (the frame is in declaration order); the callback contexts are
 //    per-loop locals that share 0xA0..0xDF; the address-taken floats get their slots when their address is first taken.
-//  - func_0019A4A0 takes VU_VECTOR by value (constructed from the VECTOR locals): the conversion copies make the two
+//  - FitJumpToPoint takes VU_VECTOR by value (constructed from the VECTOR locals): the conversion copies make the two
 //    small shape loops big enough that loop.c leaves sp+0x50 and the hi of D_002BF8E0 inside them.
 //  - `g >= D_002BF8E0` (not `D_002BF8E0 <= g`) everywhere except the 13C0 curves: the operand order decides whether
 //    the hi of D_002BF8E0 is hoisted (and later rematerialized by reload in round-robin registers).
@@ -51,14 +51,14 @@ struct STEPPLAYER : LO
     XF *pxf;                    // 0x58
     char pad5C[0xE8 - 0x5C];
     SOPHYS *psophys;            // 0xE8
-    void *psoCollide;           // 0xEC (filter argument of func_0019AE00)
+    void *psoCollide;           // 0xEC (filter argument of FJumpPathBlocked)
     char padF0[0x218 - 0xF0];
     qword *pqwUnk218;           // 0x218
     char pad21C[0x240 - 0x21C];
     qword qwUnk240;             // 0x240 offset between the targets' frame and the goal
     char pad250[0x2C0 - 0x250];
     char jtair[0x200];          // 0x2C0
-    char jtcontrol[0xB40];      // 0x4C0 (first argument of func_00193A68)
+    char jtcontrol[0xB40];      // 0x4C0 (first argument of RailPointVelocity)
     uint grfTarget;             // 0x1000 target kinds this player can use
     char pad1004[0x13D0 - 0x1004];
     int nPartnerState;          // 0x13D0
@@ -109,7 +109,7 @@ struct MESH { char pad0[0x100]; MESH *pmeshNext; int pad104; float sHeight; };
 // Callback contexts (layouts from the matched callbacks).
 struct CURVECTX { void *pjtcontrol; void *pjtair; CURVE *pcurve; int pad; qword v; };    // func_0019AA58
 struct OBJCTX { JTAIR *pjtair; void *plo; int pad[2]; qword v; };                         // ABB8, AC88, AAB8, AB38
-struct PAIR { JTAIR *pjtair; void *plo; };                                               // func_0019ABF0
+struct PAIR { JTAIR *pjtair; void *plo; };                                               // GScorePipeS
 struct SOLIST { int cpso; void **apso; };                                                // func_0019B0A8
 
 struct CLOCK { float t, dt; };
@@ -127,16 +127,16 @@ extern float D_002BF8E0;            // score limit
 extern float D_002BF8E4, D_002BF8E8, D_002BF8EC, D_002BF8F0, D_002BF8F4, D_002BF8F8, D_002BF8FC, D_002BF904, D_002BF908;
 extern float D_002BF90C, D_002BF914, D_002BF918;
 
-qword func_001A62E8(void *plo);                                         // PosLoWorld
+qword PosOfLo(void *plo) asm("PosOfLo__FP2LO");                                         // PosLoWorld
 void *func_002333B4(void *pv, int b, uint cb);                         // memset
 qword VelJumpLaunch(JTAIR *pjtair, int nKind) asm("VelJumpLaunch__FP4JUMPi");                         // JtPlanLaunchVz
 int FIsBasicDerivedFrom(void *plo, int cid) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void func_0019A4A0(JTAIR *pjtair, VU_VECTOR v, void *plo, VU_VECTOR pos, VU_VECTOR dpos, float *pt, float *pg,
-                   VECTOR *ppos, VECTOR *pv);
+void FitJumpToPoint(JTAIR *pjtair, VU_VECTOR v, void *plo, VU_VECTOR pos, VU_VECTOR dpos, float *pt, float *pg,
+                   VECTOR *ppos, VECTOR *pv) asm("FitJumpToPoint__FP4JUMPG9VU_VECTORP2LON21PfT5P6VECTORT7");
 float FUN_001cf138(JTAIR *pjtair, void *plo, float g, float dg);
-int func_0019AE00(JTAIR *pjtair, void *pfnFilter, void *pvFilter, float t, qword pos, qword v, qword posEnd, qword vEnd,
-                  VECTOR *ppos);
-void func_0020F948();
+int FJumpPathBlocked(JTAIR *pjtair, void *pfnFilter, void *pvFilter, float t, qword pos, qword v, qword posEnd, qword vEnd,
+                  VECTOR *ppos) asm("FJumpPathBlocked__FP5ACTORP6VECTORT1fG9VU_VECTORN34T1");
+void NOverlapKind() asm("NOverlapKind__FP3ALOT0");
 void func_0019B0A8();
 void NearestCrvAll(CURVE *pcurve, qword pos, void *pv, VECTOR *ppos, VECTOR *pdir, float *pu, float *ps) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 void func_001E7410(CURVE *pcurve, PFNSCORE pfn, void *pv, int a, int b, float *pg, float *pgOut);
@@ -147,12 +147,12 @@ float SFromCrvG(CURVE *pcurve, float u) asm("SFromCrvG__FP3CRV");
 void func_0011D9E0(PFNSCORE pfn, void *pv, float g0, float g1, float gMin, float gMax, float *px, float *pg);
 float func_0019AA58(void *pv, float u);
 float func_0019ABB8(void *pv, float u);
-float func_0019ABF0(void *pv, float u);
+float GScorePipeS(void *pv, float u) asm("GScorePipeS__FP5ACTORf");
 float func_0019AC88(void *pv, float u);
 float func_0019AAB8(void *pv, float u);
 float func_0019AB38(void *pv, float u);
-void func_00193A68(void *pjtcontrol, CURVE *pcurve, VECTOR *ppos, VECTOR *pv, float u);
-void func_0019C300(JTAIR *pjtair, void *plo, qword pos, float *pg, VECTOR *ppos, VECTOR *pv, float t);
+void RailPointVelocity(void *pjtcontrol, CURVE *pcurve, VECTOR *ppos, VECTOR *pv, float u) asm("RailPointVelocity__FP5ACTORP2LOPG9VU_VECTORP6VECTORf");
+void GFitJump(JTAIR *pjtair, void *plo, qword pos, float *pg, VECTOR *ppos, VECTOR *pv, float t) asm("GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f");
 void FindClimbSurfClosestPoint(MESH *pmesh, qword pos, void *pv, TRI *ptri, VECTOR *ppos, VECTOR *pnormal) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
 int ClimbSurfLanding(MESH *pmesh, qword pos, qword v, qword dv, float s, float t, TRI *ptri, VECTOR *ppos, VECTOR *pv) asm("ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff");
 void func_001E6F10(CURVE *pcurve, float s, VECTOR *ppos, VECTOR *pnormal);
@@ -180,7 +180,8 @@ static inline float Length(qword v)
 }
 static inline float GMinOf(float a, float b) { return a < b ? a : b; }
 
-extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
+// name: SafeHouse port (ChooseJumpTarget)
+extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
 {
     void *ploBest = 0;
     int nKind = -1;
@@ -190,7 +191,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
     VECTOR vLaunch, posTarget;
     float t, g;
 
-    pos.q = func_001A62E8(pjtair->pstepplayer);
+    pos.q = PosOfLo(pjtair->pstepplayer);
     v.q = pjtair->pstepplayer->GetVelocity();
     uint grf = pjtair->pstepplayer->grfTarget;
     func_002333B4(&tri, 0, sizeof(tri));
@@ -205,7 +206,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             pshape->GetPoint(pjtair->pstepplayer, &posTarget, 0, 0.0f);
             if (pshape != ploForce && pshape->sHeight < pos.f[2] - posTarget.f[2])
                 continue;
-            func_0019A4A0(pjtair, vLaunch, pshape, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
+            FitJumpToPoint(pjtair, vLaunch, pshape, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
             vHit.f[2] = vLaunch.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
             if (pshape != ploForce) {
                 if (g >= D_002BF8E0)
@@ -213,7 +214,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
                 g = FUN_001cf138(pjtair, pshape, g, D_002BF8E4);
                 if (gBest <= g)
                     continue;
-                if (func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, vLaunch.q,
+                if (FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, vLaunch.q,
                                   posHit.q, vHit.q, 0))
                     continue;
             }
@@ -250,11 +251,11 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
                     continue;
             }
             VECTOR dpos;
-            func_00193A68(ctx.pjtcontrol, pcurve, &posTarget, &dpos, u);
-            func_0019A4A0(pjtair, vLaunch, pcurve, posTarget, dpos, &t, 0, &posHit, &vHit);
+            RailPointVelocity(ctx.pjtcontrol, pcurve, &posTarget, &dpos, u);
+            FitJumpToPoint(pjtair, vLaunch, pcurve, posTarget, dpos, &t, 0, &posHit, &vHit);
             vHit.f[2] = vLaunch.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
             if (pcurve != ploForce &&
-                func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, vLaunch.q,
+                FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, vLaunch.q,
                               posHit.q, vHit.q, 0))
                 continue;
             ploBest = pcurve;
@@ -278,7 +279,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             }
             if (!(phook->grf & grf))
                 continue;
-            qword posHook = func_001A62E8(phook);
+            qword posHook = PosOfLo(phook);
             posTarget.q = posHook;
             if (phook != ploForce) {
                 if (phook->sHeight < pos.f[2] - posTarget.f[2])
@@ -291,14 +292,14 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             ctx.pjtair = pjtair;
             ctx.plo = phook;
             func_0011D9E0(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, &g);
-            func_0019C300(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
+            GFitJump(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
             if (phook != ploForce) {
                 if (g >= D_002BF8E0)
                     continue;
                 g = FUN_001cf138(pjtair, phook, g, D_002BF8EC);
                 if (gBest <= g)
                     continue;
-                if (func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q,
+                if (FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q,
                                   posHit.q, vHit.q, &posTarget))
                     continue;
             }
@@ -335,7 +336,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             ClimbSurfLanding(pmesh, pos.q, vLaunch.q, pjtair->pstepplayer->psophys->dvGravity.q, pjtair->pstepplayer->sRadius,
                           t, &triHit, &posHit, &vHit);
             if (pmesh != ploForce &&
-                func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
+                FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
                               vHit.q, 0))
                 continue;
             nKind = 16;
@@ -350,8 +351,8 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
 
     if (FIsBasicDerivedFrom(pjtair->pstepplayer, 0x37) && D_002F7900 && D_002F7900->nPartnerState == 15 &&
         !D_002F7900->fPartnerBusy) {
-        posTarget.q = func_001A62E8(D_002F7900->ploPartnerTarget);
-        func_0019A4A0(pjtair, vLaunch, D_002F7900->ploPartnerTarget, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
+        posTarget.q = PosOfLo(D_002F7900->ploPartnerTarget);
+        FitJumpToPoint(pjtair, vLaunch, D_002F7900->ploPartnerTarget, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
         vHit.f[2] = vLaunch.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
         if (D_002F7900->ploPartnerTarget != ploForce) {
             if (g >= D_002BF8E0)
@@ -365,7 +366,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             apso[1] = D_002F7900->psoCollide;
             solist.cpso = 2;
             solist.apso = apso;
-            if (func_0019AE00(pjtair, (void *)func_0019B0A8, &solist, t, pos.q, vLaunch.q, posHit.q, vHit.q, 0))
+            if (FJumpPathBlocked(pjtair, (void *)func_0019B0A8, &solist, t, pos.q, vLaunch.q, posHit.q, vHit.q, 0))
                 goto LPartnerDone;
         }
         posBest = posHit;
@@ -392,7 +393,7 @@ LPartnerDone:
         float s, gCurve;
         pair.pjtair = pjtair;
         pair.plo = pcurve;
-        func_0011D9E0(func_0019ABF0, &pair, sCur, 100.0f, 50.0f, SMaxCrv(pcurve) - 50.0f, &s, &gCurve);
+        func_0011D9E0(GScorePipeS, &pair, sCur, 100.0f, 50.0f, SMaxCrv(pcurve) - 50.0f, &s, &gCurve);
         if (pcurve != ploForce) {
             if (D_002BF8E0 <= gCurve)
                 continue;
@@ -406,9 +407,9 @@ LPartnerDone:
         func_001E6F10(pcurve, s, &posTarget, 0);
         ctx.v = ConvertPos(0, pcurve, posTarget.q);
         func_0011D9E0(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, 0);
-        func_0019C300(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
+        GFitJump(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
         if (pcurve != ploForce &&
-            func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
+            FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
                           vHit.q, &posTarget))
             continue;
         nKind = 15;
@@ -423,7 +424,7 @@ LPartnerDone:
     for (SHAPE *pshape = D_003E13FC; pshape; pshape = pshape->pshapeNext) {
         if (!(pshape->grf & grf))
             continue;
-        qword posShape = func_001A62E8(pshape);
+        qword posShape = PosOfLo(pshape);
         posTarget.q = posShape;
         if (pshape->sHeight < pos.f[2] - posTarget.f[2])
             continue;
@@ -446,10 +447,10 @@ LPartnerDone:
         }
         VECTOR posPoint;
         pshape->GetPoint(pjtair->pstepplayer, &posPoint, 0, u);
-        func_0019A4A0(pjtair, v, pshape, posPoint, D_002A2DD0, &t, 0, &posHit, &vHit);
+        FitJumpToPoint(pjtair, v, pshape, posPoint, D_002A2DD0, &t, 0, &posHit, &vHit);
         vHit.f[2] = v.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
         if (pshape != ploForce &&
-            func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
+            FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
                           vHit.q, 0))
             continue;
         nKind = 12;
@@ -484,10 +485,10 @@ LPartnerDone:
         }
         VECTOR posPoint;
         pcurve->GetPoint(pjtair->pstepplayer, &posPoint, 0, u);
-        func_0019A4A0(pjtair, v, pcurve, posPoint, D_002A2DD0, &t, 0, &posHit, &vHit);
+        FitJumpToPoint(pjtair, v, pcurve, posPoint, D_002A2DD0, &t, 0, &posHit, &vHit);
         vHit.f[2] = v.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
         if (pcurve != ploForce &&
-            func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
+            FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
                           vHit.q, 0))
             continue;
         nKind = 11;
@@ -505,7 +506,7 @@ LPartnerDone:
         pshape->GetPoint(pjtair->pstepplayer, &posTarget, 0, 0.0f);
         if (pshape != ploForce && pshape->sHeight < pos.f[2] - posTarget.f[2])
             continue;
-        func_0019A4A0(pjtair, v, pshape, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
+        FitJumpToPoint(pjtair, v, pshape, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
         vHit.f[2] = v.f[2] + t * pjtair->pstepplayer->psophys->dvGravity.f[2];
         if (pshape != ploForce) {
             if (g >= D_002BF8E0)
@@ -513,7 +514,7 @@ LPartnerDone:
             g = FUN_001cf138(pjtair, pshape, g, D_002BF8FC);
             if (gBest <= g)
                 continue;
-            if (func_0019AE00(pjtair, (void *)func_0020F948, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
+            if (FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
                               vHit.q, 0))
                 continue;
         }

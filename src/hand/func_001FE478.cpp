@@ -13,11 +13,11 @@ struct Ref {
 };
 struct S { int c; Ref a[8]; };
 struct P { char pad[0x204]; S s; };
-extern "C" X *func_001FCFF8(P *, int);
+extern "C" X *PstreamFindMusic(P *, int) asm("PstreamFindMusic__FP8SOUNDMGRi");
 // name: SafeHouse port (RefTakeMusic)
 extern "C" Ref RefTakeMusic__FP8SOUNDMGRi(P *p, int n)
 {
-    X *v = func_001FCFF8(p, n);
+    X *v = PstreamFindMusic(p, n);
     int i;
     for (i = 0; i < p->s.c; i++)
         if (p->s.a[i].px->p60 == v) break;

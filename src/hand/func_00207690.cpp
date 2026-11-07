@@ -18,7 +18,7 @@ void func_001F3C10(P *);
 int func_0014FD50(void *);
 void func_00168638(EFFECT *,const M4 *,void *,float,float);
 void *func_002333B4(void *,int,unsigned int);
-qword func_001A62E8(P *);
+qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 float func_00245000(float);
 qword *func_00256D18(qword *,qword);
 M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
@@ -42,7 +42,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             local.rows[2].f[2]=1.0f;
             local.rows[1].f[1]=1.0f;
             local.rows[0].f[0]=1.0f;
-            float distance=Length(Subtract(func_001A62E8(p),camera->position.q));
+            float distance=Length(Subtract(PosOfLo(p),camera->position.q));
             PROFILE *profile=&D_003E1A60;
             float gain=profile->a+distance*(profile->b+distance*profile->c);
             float min=profile->min,max=profile->max;

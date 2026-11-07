@@ -6,7 +6,7 @@ struct P { char pad[0xC]; Actor *target; int kind; float unused,tolerance; int d
 struct Camera { char pad[0x90]; qword position; };
 extern Camera g_cm;
 extern "C" {
-qword func_001A62E8(Actor *);
+qword PosOfLo(Actor *) asm("PosOfLo__FP2LO");
 int FInsideCmPlanes(Camera *,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
 void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
 float RadTargetrec(P *) asm("RadTargetrec__FP9TARGETREC");
@@ -35,20 +35,20 @@ extern "C" int FTargetrecAllows__FP9TARGETRECP5GUARD(P*p,Actor*a)
     switch(p->kind){
     case 0:{
         if(a->ready)return 1;
-        qword returned;returned=func_001A62E8(a);
+        qword returned;returned=PosOfLo(a);
         register Camera *camera __asm__("$4");
         __asm__("sq %2,%0\n\tla %1,%3":"=m"(position0.q),"=r"(camera):"r"(returned),"i"(&g_cm));
         qword threshold,point;
         PlaneArguments(&threshold,&point,&scalar,0.0f,&camera->position,&position0.q);
         if(!FInsideCmPlanes(camera,point,threshold))goto fail;
-        qword other;other=func_001A62E8(p->target);
+        qword other;other=PosOfLo(p->target);
         ConvertVectorToCylind(Sub(position0.q,other),&angle[0],0,0);
         if(p->tolerance<__builtin_fabsf(RadNormalize(angle[0]-RadTargetrec(p)))){fail:return 0;}
         return 1;
     }
     case 1:{
-        position1.q=func_001A62E8(a);
-        qword other;other=func_001A62E8(p->target);
+        position1.q=PosOfLo(a);
+        qword other;other=PosOfLo(p->target);
         ConvertVectorToCylind(Sub(position1.q,other),&angle[1],0,0);
         if(p->tolerance<__builtin_fabsf(RadNormalize(angle[1]-RadTargetrec(p))))return 0;
         return 1;

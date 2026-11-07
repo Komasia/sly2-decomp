@@ -7,8 +7,9 @@ struct CBase {
 struct C0 : CBase { int a; virtual void F(); };
 struct C1 : CBase { int a, b; virtual void F(); };
 struct C2 : CBase { int a, b, c, d; virtual void F(); };
-extern "C" CBase *func_0012CB98(int k);
-CBase *func_0012CB98(int k)
+extern "C" CBase *PtrkgNew(int k) asm("PtrkgNew__Fi");
+// name: SafeHouse port (PtrkgNew)
+CBase *PtrkgNew(int k)
 {
     switch (k) {
     case 0: return new C0;

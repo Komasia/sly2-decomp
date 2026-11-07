@@ -8,7 +8,7 @@ extern "C" {
 extern CLOCK g_clock;
 extern qword D_002A2DD0;
 V*PredictProjectileAim(V*,P*,float) asm("PredictProjectileAim__FP2LOf");
-qword func_001A62E8(P*);
+qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 void Hermite(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 void AccelAloPos(P*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
@@ -39,7 +39,7 @@ extern "C" void UpdateHomingMissileAccel__FP3ALO(P*p){
   register qword scaleWord __asm__("$2");
   __asm__("mfc1 %0,%2\n\tsq %0,%1":"=r"(scaleWord),"=m"(w.scale.q):"f"(1.5f/remaining));
   w.integrated.q=scaleWord;
-  qword position=func_001A62E8(p);
+  qword position=PosOfLo(p);
   register qword destination __asm__("vf1"),delta __asm__("vf2");register VT*table __asm__("$3");register float negative __asm__("$f0");
   __asm__("lqc2 %0,%5\n\tqmtc2.ni %6,%1\n\tlw %2,%7\n\tvsub.xyzw %1,%0,%1\n\tli.s %3,%8\n\tsqc2 %1,%4":"=j"(destination),"=j"(delta),"=r"(table),"=f"(negative),"=m"(w.delta.q):"m"(w.destination),"r"(position),"m"(p->vt),"F"(-0.5f));
   register qword(*method)(void*) __asm__("$2");register void*receiver __asm__("$4");register qword copiedNegative __asm__("$3");
@@ -52,7 +52,7 @@ extern "C" void UpdateHomingMissileAccel__FP3ALO(P*p){
  }else *(qword*)&w.output=p->targetVelocity;
  register CLOCK*clock __asm__("$17")=&g_clock;
  float frameDt=clock->dt;
- qword position=func_001A62E8(p);
+ qword position=PosOfLo(p);
  qword velocity=Velocity(p);
  register float tension __asm__("$f14");
  register qword startPosition __asm__("$4"),startVelocity __asm__("$5"),endPosition __asm__("$6"),endVelocity __asm__("$7");

@@ -18,8 +18,8 @@ extern CLOCK g_clock;
 extern float D_002BD460;
 extern float D_002BD468[2];
 extern float D_002BD470, D_002BD474, D_002BD478, D_002BD47C;
-PSO *func_001C4840(G *pg);
-qword func_001A62E8(void *p);
+PSO *PloPlayerPo(G *pg) asm("PloPlayerPo__FP2SW");
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
 int FIsBasicDerivedFrom(PSO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -28,7 +28,7 @@ int func_001BBE48(SO *p);
 int CFindObjectsByClass(G *pg, int a, int b, void *c, int d, SO **apso) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 qword SetVectorSphere(float a, float b, float c) asm("SetVectorSphere__Ffff");
-float func_0011E4B0(qword a, qword b, void *p);
+float RadBetweenVectors(qword a, qword b, void *p) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
 float func_002458F0(float y, float x);
 qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
 void Aim(P *p) asm("Aim__8JOBCHASE");
@@ -77,9 +77,9 @@ static inline qword AddScaledNorm(qword a, qword v, VU_FLOAT s)
 void Aim(P *p)
 {
     G *pg = &g_sw;
-    PSO *pso = func_001C4840(pg);
-    qword posPlayer = func_001A62E8(pso);
-    qword posMe = func_001A62E8(p->pw);
+    PSO *pso = PloPlayerPo(pg);
+    qword posPlayer = PosOfLo(pso);
+    qword posMe = PosOfLo(p->pw);
     qword d = Sub(posPlayer, posMe);
     qword v;
     qword pos;
@@ -93,7 +93,7 @@ void Aim(P *p)
     if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !IsSwHandsOff(pg)) {
         if (FIsBasicDerivedFrom(pso, 0x34) && pso->x2DC == 0x11) {
             PATH *ppath = pso->ppath;
-            pos = func_001A62E8(pso);
+            pos = PosOfLo(pso);
             int c = ppath->c;
             for (int i = 0; i < c; i++) {
                 if (GetZ(pos) < GetZ(ppath->av[i]))
@@ -107,7 +107,7 @@ void Aim(P *p)
     for (SO *ps = D_003E1450; ps; ps = ps->pnext) {
         if (!func_001BBE48(ps)) {
             SO *apso[8];
-            qword posT = func_001A62E8(ps);
+            qword posT = PosOfLo(ps);
             float r = D_002BD478;
             if (ps->pxEC) {
                 posT = ps->pxEC->pos;
@@ -121,7 +121,7 @@ void Aim(P *p)
             }
             if (k) {
                 SO *pt = apso[NRandInRange(0, k - 1)];
-                posT = func_001A62E8(pt);
+                posT = PosOfLo(pt);
                 r = *(float *)&pt->pxEC;
             }
             if (!FLess(D_002BD478 * D_002BD478, LenSq(Sub(posT, posPlayer)))) {
@@ -135,7 +135,7 @@ void Aim(P *p)
                     pos = posT;
                     goto done;
                 }
-                float g = func_0011E4B0(d, e, 0);
+                float g = RadBetweenVectors(d, e, 0);
                 if (!(__builtin_fabsf(g) * 57.295776f <= D_002BD47C)) {
                     pos = posT;
                     goto done;
@@ -146,7 +146,7 @@ void Aim(P *p)
     if (FLess(Len2(v), D_002BD460)) {
         qword e = Sub(posMe, posPlayer);
         float rad = func_002458F0(GetY(e), GetX(e));
-        qword pp = func_001A62E8(pso);
+        qword pp = PosOfLo(pso);
         pos = Add(pp, SetVectorCylind(GRandInRange(rad - 1.5707964f, rad + 1.5707964f), D_002BD470, D_002BD474));
     } else {
         pos = AddScaledNorm(posPlayer, v, VU_FLOAT(-D_002BD470));

@@ -14,7 +14,7 @@ extern struct G g_sw;
 extern float D_002C3264;
 extern int D_002C3268[];
 int FVisible__FP8SCREENRT(void *);
-Q *func_001C4840(struct G *);
+Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void func_00258438(TXT *, float, float);
 void func_00258448(TXT *, float, float);
@@ -33,7 +33,7 @@ void DrawGadgetIcons__FP7FONTBRX(OBJ *p)
         return;
     if (!FVisible__FP8SCREENRT(p->x24))
         return;
-    q = func_001C4840(&g_sw);
+    q = PloPlayerPo__FP2SW(&g_sw);
     if (q == 0)
         return;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))

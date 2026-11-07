@@ -23,9 +23,9 @@ extern float D_002BDC70[2];
 extern float D_002BDC90[2];
 extern float D_002BDCA0[11];
 extern float D_002A513C;
-SO *func_001C4840(void *p);
+SO *PloPlayerPo(void *p) asm("PloPlayerPo__FP2SW");
 extern char D_002DE578[];
-qword func_001A62E8(void *p);
+qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 float GSuck(void *p) asm("GSuck__FPv");
 VUV func_00256CE8(float g);
@@ -71,10 +71,10 @@ static inline int FFast(qword v) { return D_002BDC98 < Len(v); }
 
 qword func_00155FB0(void *p, qword pos)
 {
-    SO *pso = func_001C4840(g_sw);
-    float dist = Len(Sub(func_001A62E8(pso), pos));
+    SO *pso = PloPlayerPo(g_sw);
+    float dist = Len(Sub(PosOfLo(pso), pos));
     float u = GSuck(D_002DE578);
-    qword posTarget = AddScaled(func_001A62E8(pso), g_normalZ, VU_FLOAT(50.0f));
+    qword posTarget = AddScaled(PosOfLo(pso), g_normalZ, VU_FLOAT(50.0f));
     VUV off;
     VECTOR clq;
     LM lm;

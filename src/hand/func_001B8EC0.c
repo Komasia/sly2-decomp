@@ -21,7 +21,7 @@ int func_00131968(void *p);
 void func_001B6078(P *p, int s);
 void SetMurrayBerserk__FP6MURRAYi(P *p, int s);
 int func_0020C0D8(void *p);
-void func_0020C0E8(void *p);
+void UpdateK2__FP6K2PLAY(void *p);
 
 // name: SafeHouse port (UpdateMurrayBerserkTransitions)
 void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
@@ -47,7 +47,7 @@ void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
                 if (p->x1AC0) SetMurrayBerserk__FP6MURRAYi(p, 0);
                 else func_001B6078(p, 0);
             } else {
-                func_0020C0E8(p->x1900);
+                UpdateK2__FP6K2PLAY(p->x1900);
             }
             break;
         case 3:

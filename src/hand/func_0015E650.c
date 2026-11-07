@@ -1,5 +1,6 @@
-int func_0015E678(void *a, int b, int c, int d, int e, int f, int g);
-int func_0015E650(void *a, int b, int c, int d, int f, int g)
+int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *a, int b, int c, int d, int e, int f, int g);
+// name: SafeHouse port (CploFindSwNearest)
+int CploFindSwNearest__FP2LO3OIDiiii(void *a, int b, int c, int d, int f, int g)
 {
-    return func_0015E678(a, b, c, d, 0, f, g);
+    return CFindObjects__FP2SWi3OIDP2LOPviPP2LO(a, b, c, d, 0, f, g);
 }

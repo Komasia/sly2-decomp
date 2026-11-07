@@ -7,7 +7,8 @@ struct S { char pad[0xBC]; struct T *aBC; char padc0[4]; struct V *aC4; char pad
 float func_00259D98(qword *pq);
 float func_00259DA8(qword *pq);
 float func_00259DC0(qword *pq);
-void func_0021C5F8(struct S *p, qword q)
+// name: SafeHouse port (SetCenters)
+void SetCenters__FP5TRAILG9VU_VECTOR(struct S *p, qword q)
 {
     struct N *n;
     for (n = p->xDC; n; n = n->next) {

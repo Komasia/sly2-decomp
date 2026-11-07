@@ -16,7 +16,7 @@ extern struct LM D_002BD338;
 extern float D_002BD340;
 void Update__5AIJOB(struct P *p);
 int func_001EF0A8(struct P *p);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
 int FNeedRecover__12JOBCOMPANION(struct P *p);
 int func_0011D910(struct LM *plm, float g);
@@ -61,12 +61,12 @@ void Update__12JOBCOMPANION(struct P *p)
     Update__5AIJOB(p);
     po = p->p10;
     pv30 = p->p30;
-    a = func_001A62E8(po);
-    b = func_001A62E8(pv30);
+    a = PosOfLo__FP2LO(po);
+    b = PosOfLo__FP2LO(pv30);
     gXY = LenXY(Sub(a, b));
     pso = FindEnemy__12JOBCOMPANION(p);
     if (pso) {
-        qword c = func_001A62E8(pso);
+        qword c = PosOfLo__FP2LO(pso);
         float dA = Len(Sub(c, a));
         float dB = Len(Sub(c, b));
         g = dA < dB ? dA : dB;

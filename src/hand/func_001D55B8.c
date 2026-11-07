@@ -4,7 +4,8 @@ extern void *D_003E0FD8;
 extern char D_003D4A60[];
 void NProgress(CRef *pref, void *a, char *b);
 void func_00129EC8(CRef *pref);
-int func_001D55B8(void) {
+// name: SafeHouse port (FVibrationEnabled)
+int FVibrationEnabled__Fv(void) {
     switch (D_002C2D8C) {
     case 2:
         return 1;

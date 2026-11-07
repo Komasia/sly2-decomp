@@ -9,7 +9,8 @@ typedef struct {
 typedef struct { int pad; ENT *ae; } TRIE;
 typedef struct { int c; unsigned short *a; } KEY;
 typedef struct { ENT *pe; int n; } OUT;
-int func_001D7DA0(TRIE *p, KEY *key, OUT *out)
+// name: SafeHouse port (FFindEntryKey)
+int FFindEntryKey__FP4TRIEPP4PENTPi(TRIE *p, KEY *key, OUT *out)
 {
     ENT *ae = p->ae;
     ENT *e;

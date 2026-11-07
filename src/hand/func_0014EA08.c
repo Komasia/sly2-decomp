@@ -3,7 +3,7 @@ typedef int qword __attribute__((mode(TI)));
 struct T { int a, b, c; };
 struct O { char pad[0x70]; int c; struct T *at; };
 struct HIT { char pad[0x40]; float g40; float g44; char pad2[0x18]; };
-int func_00118668(struct T *pBegin, struct T *pEnd, qword pos, qword dir, int c, struct HIT *ahit);
+int ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG(struct T *pBegin, struct T *pEnd, qword pos, qword dir, int c, struct HIT *ahit);
 int CMergeAlsg__FiP3LSGiT1iT1i(int c, struct HIT *ahit, int cNew, struct HIT *ahitNew, int cMax, struct HIT *ahitOut, int f);
 // name: SafeHouse port (FFindCmClearInterval)
 int FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f(int n, struct O **apo, qword pos, qword dir, float *pgMin, float *pgMax, float g)
@@ -15,7 +15,7 @@ int FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f(int n, struct O *
     float g0, g1;
     for (i = 0; i < n; i++) {
         struct O *po = apo[i];
-        int cNew = func_00118668(po->at, po->at + po->c, pos, dir, 0x40 - c, &ahit[c]);
+        int cNew = ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG(po->at, po->at + po->c, pos, dir, 0x40 - c, &ahit[c]);
         if (cNew)
             c = CMergeAlsg__FiP3LSGiT1iT1i(c, ahit, cNew, &ahit[c], 0x40, ahit, 0);
     }

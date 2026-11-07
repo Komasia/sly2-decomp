@@ -20,14 +20,14 @@ int FIsBasicDerivedFrom(ALO *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void DetachGuardMove(ALO *) asm("DetachGuardMove__FP5GUARD");
 void func_0020D178(void *);
 float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
-qword func_0022FC48(SPACE *,SPACE *,qword);
-qword func_0022FCC8(SPACE *,SPACE *,qword);
+qword PosConvertXfs(SPACE *,SPACE *,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
+qword VecConvertXfs(SPACE *,SPACE *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 void *PctrlNewTarget(ALO *,SPACE *,int,qword,qword,float) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
 void RecalcSwOxfFilterForObject(GAME *,ALO *) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");
 void SetAloGravity(ALO *,qword) asm("SetAloGravity__FP3ALOG9VU_VECTOR");
 void SetAsegaTime(ASEGA *,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void AttachGuardMove(ALO *,ALO *,int) asm("AttachGuardMove__FP5GUARDP2LOi");
-void func_0020C760(P *);
+void ReleaseK2Ballistic(P *) asm("ReleaseK2Ballistic__FP6K2PLAY");
 void func_0020D1A0(void *);
 }
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
@@ -42,7 +42,8 @@ static inline qword MotionScalar(U *home,float value){
     return home->q;
 }
 static inline qword MotionAcceleration(qword value,qword scalar){register qword result __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(result):"j"(value),"j"(scalar));return result;}
-extern "C" void func_0020C2F8(P *p,int state)
+// name: SafeHouse port (SetK2State)
+extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
 {
     U scalar,delta,acceleration,velocity,finalVelocity;
     if(state==p->state)return;
@@ -112,8 +113,8 @@ extern "C" void func_0020C2F8(P *p,int state)
             __asm__("sqc2 %4,%0\n\tlw %1,%5\n\tsqc2 %3,%2"
               :"=m"(finalVelocity.q),"=r"(parentSpace),"=m"(scalar.q)
               :"j"(timeScalar),"j"(motionVelocity),"m"(launchSubject->space));
-            qword position=func_0022FC48(0,parentSpace->parent,target);
-            qword speed=func_0022FCC8(0,p->subject->space->parent,finalVelocity.q);
+            qword position=PosConvertXfs(0,parentSpace->parent,target);
+            qword speed=VecConvertXfs(0,p->subject->space->parent,finalVelocity.q);
             p->constraint=PctrlNewTarget(p->subject,p->subject->space,5,position,speed,p->arrival);
             p->subject->flags|=0x04000000ul;
             RecalcSwOxfFilterForObject(&g_sw,p->subject);
@@ -127,7 +128,7 @@ extern "C" void func_0020C2F8(P *p,int state)
         if(p->related)AttachGuardMove(p->subject,p->related,p->kind);
         break;
     case 4:
-        if(p->ballistic)func_0020C760(p);
+        if(p->ballistic)ReleaseK2Ballistic(p);
         SetAloGravity(p->subject,p->previousVelocity.q);
         if(FIsBasicDerivedFrom(p->subject,0x38))func_0020D1A0(p->subject->control);
         break;

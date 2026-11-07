@@ -1,4 +1,4 @@
-// func_001428D8: ported from Lilly's personal Sly 2 decomp (src/P2/stepplayer_raw.c), reduced to the declarations it needs.
+// LookScore__FP5ACTORP2LOPP2LOPfT3: ported from Lilly's personal Sly 2 decomp (src/P2/stepplayer_raw.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BD280 (D_002BD280), D_002BD290 (D_002BD290), D_002BD2A0 (D_002BD2A0), D_002BD2B0 (D_002BD2B0), g_lmZeroOne
 // 0x001428D8 HeroInteractDistance  (T1414, our name)
@@ -1047,7 +1047,8 @@ static inline float GEvaluateClqLm(CLQ *pclq, LM *plm, float x)
     return g;
 }
 extern "C" qword MakeVecFromAngle(float rad, float sXY, float sZ);
-extern "C" void HeroInteractDistance(STEPPLAYER *pstepplayer, LO *plo, LO **pploCur, float *psDist, float *pdz) __asm__("func_001428D8");
+extern "C" void HeroInteractDistance(STEPPLAYER *pstepplayer, LO *plo, LO **pploCur, float *psDist, float *pdz) __asm__("LookScore__FP5ACTORP2LOPP2LOPfT3");
+// name: SafeHouse port (LookScore)
 extern "C" void HeroInteractDistance(STEPPLAYER *pstepplayer, LO *plo, LO **pploCur, float *psDist, float *pdz)
 {
     float sBias = 0.0f;

@@ -16,8 +16,8 @@ extern "C" void *func_00205458(struct O *po, int k);
 extern "C" void SetState(void *pv, int k) asm("SetState__5JOBB0i");
 extern "C" void SetCtrlPos(void *pv, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 extern "C" void SetCarryStateBase(struct P *p, int k) asm("SetCarryStateBase__FP2LOi");
-extern "C" qword func_001A62E8(void *p);
-extern "C" qword SourcePosition(void * source) __asm__("func_001A62E8");
+extern "C" qword PosOfLo__FP2LO(void *p);
+extern "C" qword SourcePosition(void * source) __asm__("PosOfLo__FP2LO");
 
 extern "C" int CFindObjectsByClass(struct G *pg, int a, int b, int c, int cMax, struct O **apo) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 extern "C" int FGuardModeAllowed(struct O *po, int k) asm("FGuardModeAllowed__FP5GUARDi");
@@ -70,14 +70,14 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
         int c, i;
         float gBest;
         struct O *poBest;
-        Vec pos(p->x1B0?SourcePosition(p->x1B0):func_001A62E8(p));
+        Vec pos(p->x1B0?SourcePosition(p->x1B0):PosOfLo__FP2LO(p));
         c = CFindObjectsByClass(&g_sw, 0x105, 0x38, 0, 0x20, apo);
         gBest = 400.0f;
         poBest = 0;
         for (i = 0; i < c; i++) {
             struct O *po = apo[i];
             if (FGuardModeAllowed(po, 0xB)) {
-                float g = GDist(func_001A62E8(po), pos);
+                float g = GDist(PosOfLo__FP2LO(po), pos);
                 if (g < gBest) {
                     gBest = g;
                     poBest = po;

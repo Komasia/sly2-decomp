@@ -9,7 +9,8 @@ static __inline__ qword Make(float x, float y, float z)
 struct S { char pad[0x5C]; int x5C; char pad2[0x18C - 0x60]; float f18C; float f190; char pad3[0x1CC - 0x194]; int k; char pad4[8]; int h; };
 int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, int c, int a, int b, int d, qword q);
 void DeleteCtrl__FPP4CTRL(int *ph);
-void func_00226370(struct S *p, int k)
+// name: SafeHouse port (SetTurretRotate)
+void SetTurretRotate__FP3ALOi(struct S *p, int k)
 {
     if (p->k != k) {
         p->k = k;

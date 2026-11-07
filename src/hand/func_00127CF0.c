@@ -4,7 +4,8 @@ CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129658(CRef *pref, CRef *prefSrc);
 CRef *func_00127DB8(void *a, void *b, int c);
-CRef *func_00127CF0(CRef *ret, void *a, void *b, CRef *pref)
+// name: SafeHouse port (CFrame::RefSetBinding)
+CRef *RefSetBinding__6CFramePvP4CRef(CRef *ret, void *a, void *b, CRef *pref)
 {
     CRef ref;
     CRef *p;

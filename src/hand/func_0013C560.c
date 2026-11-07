@@ -39,7 +39,7 @@ void SetSoeOff__FP3ALOP3SOE(struct O *p, void *pv);
 void SetAloSoesByTag__FP3ALOi(struct O *p, int n);
 void func_001F6B48(struct O *p, int n);
 void StartHudTimer__FPvf(struct GS *pgs, float g);
-qword func_001A62E8(void *p);
+qword PosOfLo__FP2LO(void *p);
 void func_00156C80(struct GS *pgs, int n, qword v, struct Q *pq, void *pv);
 void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, struct O *p);
 void StopHudTimer__FPv(struct GS *pgs);
@@ -92,9 +92,9 @@ static inline float GMax(float a, float b) { return a < b ? b : a; }
 #define LINKE(PE, PA, PB) { \
     struct VTE *pvte = &(PE)->pvt->a[1]; \
     float g; \
-    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, func_001A62E8(PA), 0, 1.0f); \
+    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, PosOfLo__FP2LO(PA), 0, 1.0f); \
     func_001CF578(p->pe, p); \
-    g = Dist(func_001A62E8(PA), func_001A62E8(PB)); \
+    g = Dist(PosOfLo__FP2LO(PA), PosOfLo__FP2LO(PB)); \
     p->pe->p1C = (PB); \
     p->pe->g18 = GMax(250.0f, g) * 0.002f; \
     { struct SA0 *ps = &p->pe->sA0; ps->x0 = 0; ps->g8 = -3000.0f; ps->x4 = 0; } \
@@ -105,9 +105,9 @@ static inline float GMax(float a, float b) { return a < b ? b : a; }
 #define LINKE3(PE, PA, PB) { \
     struct VTE *pvte = &(PE)->pvt->a[1]; \
     float g; \
-    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, func_001A62E8(PA), 0, 1.0f); \
+    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, PosOfLo__FP2LO(PA), 0, 1.0f); \
     func_001CF578(p->pe, p); \
-    g = Dist3(func_001A62E8(PA), func_001A62E8(PB), 250.0f); \
+    g = Dist3(PosOfLo__FP2LO(PA), PosOfLo__FP2LO(PB), 250.0f); \
     p->pe->p1C = (PB); \
     p->pe->g18 = GMax(250.0f, g) * 0.002f; \
     { struct SA0 *ps = &p->pe->sA0; ps->x0 = 0; ps->g8 = -3000.0f; ps->x4 = 0; } \
@@ -161,7 +161,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
     case 1:
         if (p->pst->xC)
             StartHudTimer__FPvf(&g_sw, p->pq->g18C + 0.99f);
-        func_00156C80(&g_sw, 1, func_001A62E8(p->pq), p->pq, (char *)p->pq + 0x198);
+        func_00156C80(&g_sw, 1, PosOfLo__FP2LO(p->pq), p->pq, (char *)p->pq + 0x198);
         if (st == 2)
             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2F, p);
         p->pq->p194 = 0;

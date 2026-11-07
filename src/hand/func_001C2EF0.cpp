@@ -24,8 +24,8 @@ extern GAME g_sw;
 extern qword g_normalZ, D_002A2DA0, D_002C0D60;    // up axis, fallback X axis, launch acceleration
 extern LM D_002C0CF0, D_002C0CF8, D_002C0CE0;       // random ranges: two offset angles, flight time
 extern float D_002C0CE8, D_002C0CEC, D_002A76E8;
-void *func_001C4840(GAME *);
-qword func_001A62E8(void *);
+void *PloPlayerPo(GAME *) asm("PloPlayerPo__FP2SW");
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
@@ -98,7 +98,7 @@ extern "C" SO *PloLaunchReward__FP2LOi(OWNER *p, int count)
         if (!first)
             first = node;
         qword start = p->source->position;
-        qword target = func_001A62E8(func_001C4840(game));
+        qword target = PosOfLo(PloPlayerPo(game));
         float pan = Rand(D_002C0CF0);
         qword offset = SetVectorCylind(pan, Rand(D_002C0CF8), -75.0f);
         qword delta = Sub(target, start);

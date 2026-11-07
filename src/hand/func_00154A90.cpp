@@ -22,12 +22,12 @@ extern char D_002A5060[], D_002A5070[], D_002A5080[], D_002A5090[];
 V *func_001D88D0(void *p, ...);
 void func_00154D88(S *p, float g);
 }
-CRef func_001D7ED8(H *, V *, G *);
+CRef RefGetProgress(H *, V *, G *) asm("RefGetProgress__FP4TRIEP3KEYPc");
 CRef func_00258200(V *, const CRef &, G *);
 static inline CRef RefG(float g) { CRef r; r.m_tagk = 0x16; *(float *)&r.m_tag = g; return r; }
 static inline void Set(V *k, CRef r) { func_00258200(k, r, &D_003D4A60); }
 static inline void SetG(V *k, float g) { CRef r(g); Set(k, r); }
-static inline CRef Get(V *k) { G *pg = &D_003D4A60; return func_001D7ED8(&D_003E0EA8, k, pg); }
+static inline CRef Get(V *k) { G *pg = &D_003D4A60; return RefGetProgress(&D_003E0EA8, k, pg); }
 
 // name: SafeHouse port (SuckOnEvent)
 extern "C" void SuckOnEvent__FP2LOiPv(S *p, int msgk, M *pm)

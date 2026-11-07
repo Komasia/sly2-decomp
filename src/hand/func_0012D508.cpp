@@ -1,4 +1,4 @@
-// func_0012D508 (Claude agent, 2026-10-23): MATCH. From hand_wip v5; the virtual at vtable slot 5 takes a float 4th
+// Fetch__14CTRLLOOKMOTION (Claude agent, 2026-10-23): MATCH. From hand_wip v5; the virtual at vtable slot 5 takes a float 4th
 // argument, and the caller passes p->g20 (that is why the target loads g20 into $f12 for the 0 < g20 test).
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
@@ -61,7 +61,7 @@ extern qword D_002A2DD0, g_normalZ, D_002BC380;
 void RefreshXf(void *pv, X *px) asm("RefreshXf__FP3ALOP2XF");
 void Hermite(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 M3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-void func_0022FD38(M3 *pm, int n, X *px, M3 *pmSrc);
+void MatConvertXfs(M3 *pm, int n, X *px, M3 *pmSrc) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 }
 
 static inline void SetMat(X *px, const M3 &m)
@@ -75,12 +75,13 @@ static inline void Fin(P *p, M3 &mT, M3 m)
     mT = m;
     X *px = p->px8;
     M3 *pm = &px->mC0;
-    func_0022FD38(&m, 0, px->pxA0, &mT);
+    MatConvertXfs(&m, 0, px->pxA0, &mT);
     *pm = m;
     p->px8->s9A = 5;
 }
 
-extern "C" void func_0012D508(P *p)
+// name: SafeHouse port (CTRLLOOKMOTION::Fetch)
+extern "C" void Fetch__14CTRLLOOKMOTION(P *p)
 {
     X *py;
     union { qword q; } vT;

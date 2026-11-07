@@ -1,9 +1,9 @@
-/* func_001C40C0 (0x1C40C0): is this PO the world's current player (func_001C4840)? */
+/* func_001C40C0 (0x1C40C0): is this PO the world's current player (PloPlayerPo__FP2SW)? */
 #include "po.h"
 
-PO *func_001C4840(SW *psw);
+PO *PloPlayerPo__FP2SW(SW *psw);
 
 int func_001C40C0(PO *ppo)
 {
-    return ppo == func_001C4840(&g_sw);
+    return ppo == PloPlayerPo__FP2SW(&g_sw);
 }

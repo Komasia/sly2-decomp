@@ -21,7 +21,7 @@ extern "C" {
 extern CLOCK g_clock;
 extern float D_002C2010[3], D_002C2020[2], D_002C2028, D_002C202C;
 extern qword D_002A2DA0;
-M3 func_0011B500(qword, float);
+M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 void MoveRip(P *) asm("MoveRip__FP4RIPN");
 }
@@ -97,7 +97,7 @@ extern "C" void MoveRipFlutter__FP4RIPN(P *p)
     qword axis = p->matrix.r[1];
     float g = Dot(p->vel, row0);
     float t = GClamp(D_002C2010[0] + g * (D_002C2010[1] + g * D_002C2010[2]), D_002C2020);
-    M3 rot = func_0011B500(axis, t * g_clock.dt);
+    M3 rot = BuildRotateMatrixAxis(axis, t * g_clock.dt);
     p->vel = Rotate(rot, p->vel);
     p->matrix = Multiply(rot, p->matrix);
     float drag = p->drag;

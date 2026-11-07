@@ -14,7 +14,7 @@ extern float D_002A9700;
 extern "C" {
 void *__10STACKSCOPE(void *);
 void _$_10STACKSCOPE(void *,int);
-qword func_001A62E8(void *);
+qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 int func_0014F030(void *,SO *);
 void func_0020FAA0(WORLD *,qword,qword,int (*)(void *,SO *),void *,int *,SO ***);
 qword FindCmClosestClearPos(int,SO **,qword,float) asm("FindCmClosestClearPos__FP8CMSOLIDSP6VECTORG9VU_VECTORf");
@@ -44,11 +44,11 @@ extern "C" void PosEyeCut__FP8CPFOLLOWG9VU_VECTORT1P6VECTOR(S *p,qword begin,qwo
     qword final;
     float initialAngle=0.0f;
     float one=1.0f;
-    w.minimum.q=Min(begin,Min(end,func_001A62E8(object)));
-    w.maximum.q=Max(begin,Max(end,func_001A62E8(object)));
+    w.minimum.q=Min(begin,Min(end,PosOfLo(object)));
+    w.maximum.q=Max(begin,Max(end,PosOfLo(object)));
     func_0020FAA0(&g_sw,w.minimum.q,w.maximum.q,func_0014F030,0,&w.count,&w.objects);
     int count=w.count; SO **objects=w.objects;
-    w.origin.q=FindCmClosestClearPos(count,objects,func_001A62E8(object),500.0f);
+    w.origin.q=FindCmClosestClearPos(count,objects,PosOfLo(object),500.0f);
     FFindCmClearInterval(w.count,w.objects,w.origin.q,end,initialAngle,&w.low,&w.high);
     if(w.high<one){
         float angle=initialAngle;

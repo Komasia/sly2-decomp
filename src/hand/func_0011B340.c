@@ -1,6 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
-M3 func_0011B340(M3 *pm)
+// name: SafeHouse port (InverseMatrix3)
+M3 InverseMatrix3__FP7MATRIX3(M3 *pm)
 {
     M3 m;
     register qword v1 __asm__("vf1") = pm->r[1];

@@ -10,8 +10,8 @@ struct CONTEXT{ACTOR*actor;int state,variant;SOURCE*source;char pad10[8];float s
 struct CLOCK{float time,dt;};struct RANGE{float low,high;};struct TWO_ROWS{U row[2];};
 struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,velocity,endVelocity,duration;};
 extern "C"{extern SCENE g_sw;extern CLOCK g_clock;extern ACTOR*D_002E1E40;extern U D_002A2DB0,g_normalZ,D_002A2DD0;extern float D_002BF780[],D_002BF7A0;extern RANGE D_002BF798;
-void PairActorWith(ACTOR*,void*,int) asm("PairActorWith__FP5ACTORP2LOi");void RecalcSwOxfFilterForObject(SCENE*,void*) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");void func_00183B80(SOURCE*,int);void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void func_001CCAC0(SECONDARY*,int);void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void SetSmaGoal(EFFECT*,int) asm("SetSmaGoal__FP3SMA3OID");void SetActorZone(ACTOR*,void*) asm("SetActorZone__FP5ACTORP2LO");void DeleteCtrl(EVENT**) asm("DeleteCtrl__FPP4CTRL");void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
-qword func_0022FC48(SPACE*,SPACE*,qword);qword func_0022FCC8(SPACE*,SPACE*,qword);void BuildOrthonormalVectors(qword,qword,qword,TWO_ROWS*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");qword func_001A62E8(ACTOR*);void SetStepPhysSize(ACTOR*,float) asm("SetStepPhysSize__FP3ALOf");qword VelJumpLaunch(CONTEXT*,int) asm("VelJumpLaunch__FP4JUMPi");void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");void func_001384C0(CLIP*);int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword PosSafeEntry(ACTOR*,QUERY*,float) asm("PosSafeEntry__FP5ACTORPvf");float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");EVENT*PctrlNewTarget(ACTOR*,BODY*,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");void func_002046B0(ACTOR*,qword);void ClearSmaHandle(COMPONENT*) asm("ClearSmaHandle__FPP3SMA");void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
+void PairActorWith(ACTOR*,void*,int) asm("PairActorWith__FP5ACTORP2LOi");void RecalcSwOxfFilterForObject(SCENE*,void*) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");void SetHideState(SOURCE*,int) asm("SetHideState__FP2LOi");void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void SetReachState(SECONDARY*,int) asm("SetReachState__FP5REACHi");void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void SetSmaGoal(EFFECT*,int) asm("SetSmaGoal__FP3SMA3OID");void SetActorZone(ACTOR*,void*) asm("SetActorZone__FP5ACTORP2LO");void DeleteCtrl(EVENT**) asm("DeleteCtrl__FPP4CTRL");void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
+qword PosConvertXfs(SPACE*,SPACE*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");qword VecConvertXfs(SPACE*,SPACE*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");void BuildOrthonormalVectors(qword,qword,qword,TWO_ROWS*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");void SetStepPhysSize(ACTOR*,float) asm("SetStepPhysSize__FP3ALOf");qword VelJumpLaunch(CONTEXT*,int) asm("VelJumpLaunch__FP4JUMPi");void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");void RecalcBlend(CLIP*) asm("RecalcBlend__FP6ASEGBL");int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword PosSafeEntry(ACTOR*,QUERY*,float) asm("PosSafeEntry__FP5ACTORPvf");float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");EVENT*PctrlNewTarget(ACTOR*,BODY*,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");void func_002046B0(ACTOR*,qword);void ClearSmaHandle(COMPONENT*) asm("ClearSmaHandle__FPP3SMA");void func_001305B8(CLIP*,ACTOR*,float,float,int,ANIMATION**);}
 static inline void Notify(ACTOR*p,int slot){VTE&v=p->vt[slot];((void(*)(void*))v.fn)((char*)p+v.delta);}
 static inline void ClearXYZ(U*v){v->i[2]=0;v->i[1]=0;v->i[0]=0;}
 static inline void ClearVelocity(ACTOR*p){ClearXYZ(&p->velocity);}
@@ -148,10 +148,10 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
  switch(p->mode){
  case 17:PairActorWith(p->actor,p->link->target,0);p->link=0;break;
  case 7:{SOURCE*old=p->source;p->source=0;RecalcSwOxfFilterForObject(&g_sw,old);break;}
- case 6:{SOURCE*old=p->source;p->source=0;if(p->actor->category!=1){RecalcSwOxfFilterForObject(&g_sw,old);if(old->state==1)func_00183B80(old,0);}SetXfMode(p->actor,p->actor->body,2);p->actor->velocity.q=D_002A2DD0.q;break;}
+ case 6:{SOURCE*old=p->source;p->source=0;if(p->actor->category!=1){RecalcSwOxfFilterForObject(&g_sw,old);if(old->state==1)SetHideState(old,0);}SetXfMode(p->actor,p->actor->body,2);p->actor->velocity.q=D_002A2DD0.q;break;}
  case 8:case 9:case 10:case 11:case 12:case 13:case 14:case 15:case 16:case 18:
   SetXfMode(p->actor,p->actor->body,2);p->actor->velocity.q=D_002A2DD0.q;
-  if(Less(p->mode,16)&&!Less(p->mode,14)){if(p->actor!=D_002E1E40)func_001CCAC0((SECONDARY*)p->actor->secondary,-1);else SetSlyMode(p->actor,-1);}break;
+  if(Less(p->mode,16)&&!Less(p->mode,14)){if(p->actor!=D_002E1E40)SetReachState((SECONDARY*)p->actor->secondary,-1);else SetSlyMode(p->actor,-1);}break;
  case 19:case 20:if(Less(newMode,21)&&!Less(newMode,19))break;if(p->actor->effect)SetSmaGoal(p->actor->effect,0x5F8);SetActorZone(p->actor,0);break;
  case 21:DeleteCtrl(&p->event);SetXfMode(p->actor,p->actor->body,2);SetAloContactsOff(p->actor,0);break;
  }
@@ -161,7 +161,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
  ANIMATION*active=p->actor->animation;CLIP*clip=0;p->mode=newMode;p->source=source;
  float entryTime,blend;__asm__("mtc1 $zero,%1\n\tlwc1 %0,%%lo(%3)(%2)":"=f"(entryTime),"=f"(blend):"r"(clockHigh),"i"(&g_clock):"memory");p->time=entryTime;int flags=1;float weight=1.0f;
  switch(newMode){
- case 17:{flags=9;Notify(p->actor,91);PairActorWith(p->actor,p->link->target,1);qword point=func_0022FC48(p->link->space,0,p->relative.q);
+ case 17:{flags=9;Notify(p->actor,91);PairActorWith(p->actor,p->link->target,1);qword point=PosConvertXfs(p->link->space,0,p->relative.q);
   register qword direction __asm__("vf1"),negative __asm__("vf2"),upArg __asm__("$5");register U*axisAddress __asm__("$4");
   float negativeScalar=-1.0f;
   __asm__("lui $3,%%hi(%6)\n\tlui %3,%%hi(%7)\n\tlqc2 %0,%4\n\tmfc1 %2,%5\n\taddiu $3,$3,%%lo(%6)\n\tqmtc2.ni %2,%1\n\taddiu %3,%3,%%lo(%7)\n\tlq %2,0($3)\n\tvmulx.xyzw %0,%0,%1x"
@@ -180,7 +180,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
    actor=owner;delta=value;}
   register ACTOR*pointOwner __asm__("$4");
   __asm__ volatile("daddu %0,%2,$zero\n\tsqc2 %3,%1":"=r"(pointOwner),"=m"(w.temp.q):"r"(actor),"j"(delta));
-  {qword point=func_001A62E8(pointOwner);register qword position __asm__("vf1");
+  {qword point=PosOfLo(pointOwner);register qword position __asm__("vf1");
    __asm__("qmtc2.ni %1,%0":"=j"(position):"r"(point));
    __asm__("vsub.xyzw %0,%0,%1":"+j"(delta):"j"(position));actor->offset.q=delta;}
   ClearVelocity(p->actor);p->flags28=0;clip=p->special154;
@@ -189,15 +189,15 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
   switch(p->state){case 13:clip=p->special148;break;case 14:clip=p->special158;break;case 16:clip=p->actor->clip1514;break;case 15:clip=p->actor->clip1518;break;}
   if(!clip)clip=p->base[p->variant];if(!clip)clip=p->base[0];break;
  case 2:case 3:if(p->state==14)clip=p->special15C;if(!clip)clip=p->alternate[p->variant];if(!clip)clip=p->alternate[0];if(!clip)clip=p->base[0];p->flags28=0;break;
- case 6:SetXfMode(p->actor,p->actor->body,17);RecalcSwOxfFilterForObject(&g_sw,source);func_00183B80(source,1);ClearVelocity(p->actor);clip=p->actor->animation->clip;break;
+ case 6:SetXfMode(p->actor,p->actor->body,17);RecalcSwOxfFilterForObject(&g_sw,source);SetHideState(source,1);ClearVelocity(p->actor);clip=p->actor->animation->clip;break;
  case 8:SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);clip=active->clip;break;
  case 11:case 12:case 13:case 14:case 15:
   SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;p->variant=0;clip=p->base[0];
-  if(Less(p->mode,16)&&!Less(p->mode,14)){ACTOR*actor=p->actor;if(actor==D_002E1E40){actor->primaryFocus=p->source;SetSlyMode(actor,0);}else{actor->secondaryFocus=p->source;weight=0.0f;func_001CCAC0((SECONDARY*)p->actor->secondary,0);clip=p->actor->secondaryClip;blend=clip->duration*0.5f;}}break;
+  if(Less(p->mode,16)&&!Less(p->mode,14)){ACTOR*actor=p->actor;if(actor==D_002E1E40){actor->primaryFocus=p->source;SetSlyMode(actor,0);}else{actor->secondaryFocus=p->source;weight=0.0f;SetReachState((SECONDARY*)p->actor->secondary,0);clip=p->actor->secondaryClip;blend=clip->duration*0.5f;}}break;
  case 9:case 10:case 16:case 18:{SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;ACTOR*actor=p->actor;VTE&v=actor->vt[35];void*receiver=(char*)actor+v.delta;qword velocity=VelJumpLaunch(p,4);((void(*)(void*,qword))v.fn)(receiver,velocity);p->variant=0;if(p->mode==16)clip=p->special14C;else clip=p->special148;active=0;break;}
  case -1:if(p->focused){SetStepPhysSize(p->actor,p->oldScale);SetActorZone(p->actor,0);p->focused=0;}p->fieldBC=0;p->state=-1;break;
  case 19:SetStepPhysHeading(p->actor,p->actor->heading-D_002BF780[p->variant]);p->flags28=0;clip=p->scripted;SetActorZone(p->actor,p->scriptFocus);p->scriptFocus->data->amount=D_002BF798.low*0.5f+D_002BF798.high*0.5f;if(p->actor->effect)SetSmaGoal(p->actor->effect,0x5F7);break;
- case 20:p->tracks[0].control.bits=0;p->tracks[1].control.bits=0;p->tracks[2].control.bits=0;p->tracks[3].control.bits=0;p->scriptedGain=1.0f;func_001384C0(p->multi);clip=p->multi;flags=9;break;
+ case 20:p->tracks[0].control.bits=0;p->tracks[1].control.bits=0;p->tracks[2].control.bits=0;p->tracks[3].control.bits=0;p->scriptedGain=1.0f;RecalcBlend(p->multi);clip=p->multi;flags=9;break;
  case 21:{register float minimum __asm__("$f21"),maximum __asm__("$f20");register qword bodyPosition __asm__("$3");register OBJECT*queryObject __asm__("$4");
   __asm__("lw $2,0(%4)\n\tlw %1,0x1D0(%4)\n\tlw %0,0x58($2)\n\tli.s %2,-1.00000000000000000000e3\n\tlq %0,0x70(%0)\n\tli.s %3,-1.00000000000000000000e0"
    :"=&r"(bodyPosition),"=r"(queryObject),"=f"(minimum),"=f"(maximum):"r"(p),"m"(p->actor),"m"(p->query.object):"$2","at","memory");
@@ -244,7 +244,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
    :"=&f"(deadline),"=m"(w.endVelocity.q),"=r"(goalArg):"r"(savedClockHigh),"i"(&g_clock),"j"(endVelocity),"m"(w.goal.q),"f"(maximum):"memory");
   register BODY*coordinateBody __asm__("$2");
   __asm__ volatile("lw $3,%2\n\tlw %0,0x58($3)\n\tsqc2 %3,%1":"=&r"(coordinateBody),"=m"(w.temp.q):"m"(p->actor),"j"(fullAfter):"$3","memory");
-  qword localGoal=func_0022FC48(coordinateSpace,coordinateBody->frame,goalArg);qword localEnd=func_0022FCC8(0,p->actor->body->frame,w.endVelocity.q);
+  qword localGoal=PosConvertXfs(coordinateSpace,coordinateBody->frame,goalArg);qword localEnd=VecConvertXfs(0,p->actor->body->frame,w.endVelocity.q);
   p->event=PctrlNewTarget(p->actor,p->actor->body,5,deadline,localGoal,localEnd);SetAloContactsOff(p->actor,1);
   {register ACTOR*cleared __asm__("$3");register qword directionArg __asm__("$5");
    __asm__("lw %0,%2\n\tlq %1,%3":"=&r"(cleared),"=r"(directionArg):"m"(p->actor),"m"(w.delta.q));

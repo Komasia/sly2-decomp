@@ -6,7 +6,8 @@ unsigned char func_00215D40(struct S *);
 float func_00216B80(void *,unsigned char);
 static inline int NewlineValue(){int value;__asm__("addiu %0,$zero,10":"=r"(value));return value;}
 static inline void StoreByte(unsigned char *p,int c){*p=c;}
-int func_00215F40(struct S *p) {
+// name: SafeHouse port (StrWrapped)
+int StrWrapped__FP7FONTBRX(struct S *p) {
     float width=0.0f;
     int lines=1;
     unsigned char c;

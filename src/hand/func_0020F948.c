@@ -5,7 +5,8 @@ struct B { char pad[0xEC]; struct S *ps; };
 struct E { int pad; struct B *pb; int pad2[2]; long fl; };
 int func_00134310(int a, int b);
 #define VC61(o, a) ((int (*)(void *, struct O *))(o)->vt[61].pfn)((char *)(o) + (o)->vt[61].d, a)
-int func_0020F948(struct S *p, struct E *e)
+// name: SafeHouse port (NOverlapKind)
+int NOverlapKind__FP3ALOT0(struct S *p, struct E *e)
 {
     struct S *ps = e->pb->ps;
     int a, b, r;

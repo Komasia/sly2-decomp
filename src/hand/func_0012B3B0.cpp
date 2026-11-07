@@ -10,8 +10,9 @@ struct C2 : CBase { int a[2]; virtual void F(); };
 struct C3 : CBase { int a[11]; virtual void F(); };
 struct C4 : CBase { int a[11]; virtual void F(); };
 struct C5 : CBase { int a[7]; virtual void F(); };
-extern "C" CBase *func_0012B3B0(int k);
-CBase *func_0012B3B0(int k)
+extern "C" CBase *PtrkpNew(int k) asm("PtrkpNew__Fi");
+// name: SafeHouse port (PtrkpNew)
+CBase *PtrkpNew(int k)
 {
     switch (k) {
     case 0: return new C0;

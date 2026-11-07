@@ -20,7 +20,7 @@ extern G g_sw;
 extern int D_002C2DC0[];
 extern char D_002A78F0[];
 CRef NProgress(void *, unsigned char *) asm("NProgress");
-extern "C" int func_001D8720(void *, char *);
+extern "C" int SymFromName(void *, char *) asm("SymFromName__FP6LAYOUTPc");
 static inline int NGet(void *pv, unsigned char *pb)
 {
     CRef ref = NProgress(pv, pb);
@@ -34,7 +34,7 @@ static inline int Clamp(int n, int lo, int hi)
         return hi;
     return n;
 }
-static inline int NFind(OBJ *p, char *pch) { return func_001D8720(p->ht, pch); }
+static inline int NFind(OBJ *p, char *pch) { return SymFromName(p->ht, pch); }
 extern "C" int func_001D82B8(OBJ *p, unsigned char *pb)
 {
     int sum = 0;

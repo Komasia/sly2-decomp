@@ -10,14 +10,14 @@ struct P {
     int pad[3]; struct VTE *vt; char pad1[0x1C0 - 0x10]; int x1C0; float x1C4; float x1C8; char pad2[0x1D8 - 0x1CC]; void *x1D8;
     char pad3[0x288 - 0x1DC]; int c288; void *a28C[8]; int c2AC; int a2B0[4]; int c2C0; void **p2C4; int x2C8;
 };
-void func_001A5E28(struct P *);
+void UpdateLo__FP2LO(struct P *);
 void func_00149718(struct P *, int);
 struct CTX *__10STACKSCOPE(struct CTX *);
 void _$_10STACKSCOPE(struct CTX *, int);
 void func_001AE5A0(void *, void *, int);
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *, int, int, int, int, void **);
 int func_001A61A0(void *);
-qword func_001A62E8(void *);
+qword PosOfLo__FP2LO(void *);
 int FPointInShape__FP2LOG9VU_VECTOR(struct P *, qword);
 void func_002338C0(void *, int, int, int (*)(const void *, const void *));
 int func_00149420(const void *, const void *);
@@ -25,7 +25,7 @@ int func_00149420(const void *, const void *);
 void UpdateVolbtn__FP6VOLBTNf(struct P *p)
 {
     int k;
-    func_001A5E28(p);
+    UpdateLo__FP2LO(p);
     k = p->x1C0;
     if (k == 2) {
         if (0.0f <= p->x1C8 && p->x1C8 < g_clock.t - p->x1C4)
@@ -53,7 +53,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
         j = 0;
         if (j < c) do {
             void *po = apo[j];
-            if (po && func_001A61A0(po) && FPointInShape__FP2LOG9VU_VECTOR(p, func_001A62E8(po))) {
+            if (po && func_001A61A0(po) && FPointInShape__FP2LOG9VU_VECTOR(p, PosOfLo__FP2LO(po))) {
                 fFound = 1;
                 if (!p->x1D8)
                     p->x1D8 = po;

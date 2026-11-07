@@ -22,7 +22,7 @@ void func_0020AAA8(struct S *p);
 void *__builtin_new(int cb);
 void func_0020CE28(void *pv, struct S *p);
 void func_0020D1B0(void *pv, struct S *p);
-void func_00149A50(void *g, struct S *p, struct K k, int n);
+void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(void *g, struct S *p, struct K k, int n);
 struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_00170C90(struct O *po, int a, int b, float f);
 void *func_001F4C58(struct S *p, int n, int m);
@@ -43,7 +43,7 @@ void PostStepguardLoad__FP9STEPGUARD(struct S *p)
     p->p49C = __builtin_new(0x14);
     func_0020D1B0(p->p49C, p);
     if (!p->p3C->n24)
-        func_00149A50(g_sw, p, D_002A8608, 0);
+        PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(g_sw, p, D_002A8608, 0);
     p->p2EC = PloNew__F3CIDP2SW3OIDi(0x71, 0, 0x2CB, -1);
     func_00170C90(p->p2EC, -1, -1, 40.0f);
     p->n2F0 = p->p2EC->n50;

@@ -44,7 +44,8 @@ static inline void SampleInputs(qword *buffer,float maximum,float minimum,qword 
  asm("sub.s %0,%3,%4\n\tli.s %1,1.0\n\tdaddu %2,%5,$zero":"=&f"(span),"=&f"(unit),"=r"(v):"f"(maximum),"f"(minimum),"r"(buffer));
  cursor=v;range=span;one=unit;
 }
-extern "C" void func_0021BD18(S *p){
+// name: SafeHouse port (PostLoadTrail)
+extern "C" void PostLoadTrail__FP2LO(S *p){
     func_001F36A8(p);
     if(!p->count && p->fade==0.0f)p->fade=0.5f;
     if(p->fade!=0.0f)p->count=(int)(p->fade*60.0f+0.5f)+2;

@@ -1,4 +1,4 @@
-void *func_0015E938(void *pv, int k, int id);
+void *PloFindSwNearest__FP2LO3OIDii(void *pv, int k, int id);
 void *func_001EC918(int id);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void SetAloEyesClosed__FP3ALOf(void *p, float f);
@@ -9,7 +9,7 @@ void SetEyesClosedOf__FP2LOiif(void *pv, int id1, int id2, float f)
     void *p1 = 0;
     void *p2 = 0;
     if (id1 != -1) {
-        void *q = func_0015E938(pv, 4, id1);
+        void *q = PloFindSwNearest__FP2LO3OIDii(pv, 4, id1);
         if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30))
             p1 = q;
     }

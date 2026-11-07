@@ -60,7 +60,8 @@ extern s32 D_003E1468;
 extern M2C_UNK D_003E1C20;
 extern s32 D_003E1C34;
 
-void func_00141C08(s32 arg0, s32 arg1, s32 arg2) {
+// name: SafeHouse port (SetAbilityState)
+void SetAbilityState__FP5ACTORP6ABSLOTi(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_v0;
     void *temp_v0_2;
     void *temp_v0_3;

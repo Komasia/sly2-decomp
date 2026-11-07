@@ -18,14 +18,14 @@ void func_001DD8E0(void);
 void func_001DA808(OBJ *);
 int func_00187D80(PAD *, int);
 int func_00187DD0(PAD *, int);
-void func_00187DE0(PAD *, int);
+void SetJoyPs2BtnHandled__FP6JOYPS2Ui(PAD *, int);
 void AentOptions__FPv(int);
 void func_001ACC38(void *, int);
 void StartGameFromSave__FP2SW(void *);
 void StartNewGameFromTitle__Fv(OBJ *);
 int func_001A2C98(void);
-void *func_0015E938(struct G *, int, int, int);
-void func_001A2C48(int *, int **);
+void *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
+void FRegionLanguages__FPiPUi(int *, int **);
 void *func_002333B4(void *, int, int);
 void PushPage__FP4MENUiPviUi(void *, int, ITEM *, void *, void *);
 void func_001DD920(OBJ *p)
@@ -49,7 +49,7 @@ void func_001DD920(OBJ *p)
         return;
     }
     if (func_00187DD0(p->pad10, 0x100) && (p->pad10->fl & 0x108) == 0x100) {
-        func_00187DE0(p->pad10, 0x100);
+        SetJoyPs2BtnHandled__FP6JOYPS2Ui(p->pad10, 0x100);
         AentOptions__FPv(0);
         return;
     }
@@ -57,10 +57,10 @@ void func_001DD920(OBJ *p)
         return;
     if (!func_00187D80(p->pad10, 0x10))
         return;
-    pv = func_0015E938(&g_sw, 5, 0x5D6, 0);
+    pv = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, 0x5D6, 0);
     if (pv == 0)
         return;
-    func_001A2C48(&c, &ak);
+    FRegionLanguages__FPiPUi(&c, &ak);
     for (i = 0; i < c; i++) {
         int k = ak[i];
         ITEM *pi = &D_003DA578[i];

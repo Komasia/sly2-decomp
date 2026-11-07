@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 struct O { char pad[0x40]; M3 mat; };
-void func_0011B340(M3 *pd, M3 *ps);
+void InverseMatrix3__FP7MATRIX3(M3 *pd, M3 *ps);
 static inline qword Mul3(const M3 *m, qword v)
 {
     qword r;
@@ -9,12 +9,13 @@ static inline qword Mul3(const M3 *m, qword v)
             : "=j"(r) : "j"(v), "j"(m->r[0]), "j"(m->r[1]), "j"(m->r[2]));
     return r;
 }
-qword func_0022FCC8(struct O *a, struct O *b, qword v)
+// name: SafeHouse port (VecConvertXfs)
+qword VecConvertXfs__FP2XFT0G9VU_VECTOR(struct O *a, struct O *b, qword v)
 {
     if (a) v = Mul3(&a->mat, v);
     if (b) {
         M3 m;
-        func_0011B340(&m, &b->mat);
+        InverseMatrix3__FP7MATRIX3(&m, &b->mat);
         v = Mul3(&m, v);
     }
     return v;

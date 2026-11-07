@@ -5,7 +5,7 @@ struct E { int n0; int n4; void *p8; struct O *pC; int n10; int pad[2]; };
 struct S { char pad[0x40]; unsigned int u40; char pad2[0xC]; int n50; struct E *a54; int pad3; int n5C; void *p60; };
 struct AL { int cb; int n; };
 void PostLoLoad__FP2LO(struct S *p);
-void *func_0015E938(struct G *g, int a, int b, int c);
+void *PloFindSwNearest__FP2LO3OIDii(struct G *g, int a, int b, int c);
 struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
 void func_00170C50(struct O *o, int a, int b, int c);
 void *PvAllocSwClearImpl__Fi(struct AL *a);
@@ -22,7 +22,7 @@ void StartSpawner__FP2SW(struct S *p) {
         case 1:
             {
                 struct O *o;
-                e->p8 = func_0015E938(&g_sw, 5, e->n4, 0);
+                e->p8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, e->n4, 0);
                 o = PloNew__F3CIDP2SW3OIDi(0x71, 0, 0x2CB, -1);
                 func_00170C50(o, e->n4, 1, -1);
                 e->n10 = o->n54;
@@ -31,7 +31,7 @@ void StartSpawner__FP2SW(struct S *p) {
             break;
         case 0:
         case 2:
-            e->p8 = func_0015E938(&g_sw, 5, e->n4, 0);
+            e->p8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, e->n4, 0);
             break;
         }
     }

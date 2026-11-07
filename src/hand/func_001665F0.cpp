@@ -9,7 +9,7 @@ struct FRAME {int pad[4];};
 extern "C" struct FRAME *__10STACKSCOPE(struct FRAME*);
 extern "C" void _$_10STACKSCOPE(struct FRAME*,int);
 extern "C" void *PvAllocStackImpl(struct REQ*) asm("PvAllocStackImpl__Fi");
-extern "C" int func_00118A88(void*,int,qword,int*,struct Entry**,float);
+extern "C" int ClipBspPlane(void*,int,qword,int*,struct Entry**,float) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
 static inline int Min(int a,int b){return a<b?a:b;}
 // Collect unique edges incident to a geometry point.
 extern "C" int func_001665F0(struct P*p,struct G*g,int index,int max,struct E**out){
@@ -17,7 +17,7 @@ extern "C" int func_001665F0(struct P*p,struct G*g,int index,int max,struct E**o
  __10STACKSCOPE(&frame);
  capacity=Min(g->count,0x1555);limit=capacity;struct REQ req(capacity*12,16);
  end=first=(struct Entry*)PvAllocStackImpl(&req);
- if(func_00118A88(g->tree,0x7FFFFFFF,p->points[index],&limit,&end,1.0f)!=2){_$_10STACKSCOPE(&frame,2);return 0;}
+ if(ClipBspPlane(g->tree,0x7FFFFFFF,p->points[index],&limit,&end,1.0f)!=2){_$_10STACKSCOPE(&frame,2);return 0;}
  int ne=end-first;
  count=0;
  for(i=0;i<ne;i++){

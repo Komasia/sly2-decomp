@@ -9,7 +9,8 @@ static inline qword MulPos(const M4 *m, qword v)
             : "=j"(r) : "j"(v), "j"(m->r[0]), "j"(m->r[1]), "j"(m->r[2]), "j"(m->r[3]));
     return r;
 }
-qword func_0022FC48(struct O *a, struct O *b, qword v)
+// name: SafeHouse port (PosConvertXfs)
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(struct O *a, struct O *b, qword v)
 {
     if (a) v = MulPos(&a->mat, v);
     if (b) {

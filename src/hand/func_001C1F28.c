@@ -2,14 +2,15 @@ typedef int qword __attribute__((mode(TI)));
 struct S { void *p0; void *p4; int pad[2]; qword q10; };
 float SMaxCrv__FP3CRV(void *p);
 void func_001E6F10(void *p, qword *pq, int n, float g);
-qword func_001A62E8(void *p);
-qword func_001C1F28(struct S *p)
+qword PosOfLo__FP2LO(void *p);
+// name: SafeHouse port (PosRecord)
+qword PosRecord__FP4GOAL(struct S *p)
 {
     qword q;
     if (p->p0) {
         func_001E6F10(p->p0, &q, 0, SMaxCrv__FP3CRV(p->p0) * 0.5f);
     } else if (p->p4) {
-        q = func_001A62E8(p->p4);
+        q = PosOfLo__FP2LO(p->p4);
     } else {
         q = p->q10;
     }

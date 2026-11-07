@@ -19,7 +19,8 @@ float func_00117E38(struct STREAM*) __asm__("F32Read__18CBinaryInputStream");
 unsigned char func_00117BD0(struct STREAM*) __asm__("U8Read__18CBinaryInputStream");
 void*PvAllocSwClearImpl__Fi(struct REQUEST*);
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
-void func_00167870(struct P*p,struct STREAM*stream){
+// name: SafeHouse port (LoadGlobSpheresFromBrx)
+void LoadGlobSpheresFromBrx__FP7GLOBSETP18CBinaryInputStream(struct P*p,struct STREAM*stream){
     int count=func_00117D50(stream);
     if(count){
         struct REQUEST request;

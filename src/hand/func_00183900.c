@@ -1,4 +1,4 @@
-/* func_00183900: Init (virtual slot 6) of class 88, derived from class 48 (SO): the SO Init, then the class's own
+/* InitHide__FP2LO: Init (virtual slot 6) of class 88, derived from class 48 (SO): the SO Init, then the class's own
  * part. Field names are offsets (meaning unknown). */
 #include "so.h"
 
@@ -16,7 +16,8 @@ typedef struct C88 {
     /* 0x18c */ int nUnk18c;
 } C88;
 
-void func_00183900(C88 *p)
+// name: SafeHouse port (InitHide)
+void InitHide__FP2LO(C88 *p)
 {
     InitSo__FP2SO(&p->so);
     func_00182C70(p->unk_0x150);

@@ -15,7 +15,7 @@ void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);
-void func_001699E8(OWNER*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*);
+void LoadGlobSubmeshesFromBrx(OWNER*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*) asm("LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii");
 void*memset(void*,int,uint);
 extern QW D_002DEB60;
 extern uint D_002BE540[];
@@ -57,7 +57,8 @@ typedef char HEADER_segments_Offset[FIELD_OFFSET(HEADER,segments)==20?1:-1];
 typedef char HEADER_bones_Offset[FIELD_OFFSET(HEADER,bones)==24?1:-1];
 typedef char REQUEST_bytes_Offset[FIELD_OFFSET(REQUEST,bytes)==0?1:-1];
 typedef char REQUEST_alignment_Offset[FIELD_OFFSET(REQUEST,alignment)==4?1:-1];
-extern "C" void func_0016CAA0(OWNER*p,D*desc,E*entry,void*,SPHERE*sphere,int groups,CBinaryInputStream*stream){
+// name: SafeHouse port (LoadGlobMesh2FromBrx)
+extern "C" void LoadGlobMesh2FromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2P6SPHEREiT1(OWNER*p,D*desc,E*entry,void*,SPHERE*sphere,int groups,CBinaryInputStream*stream){
  int i=0;
  p->flags|=1UL<<33;
  VIFS vifs;
@@ -111,5 +112,5 @@ extern "C" void func_0016CAA0(OWNER*p,D*desc,E*entry,void*,SPHERE*sphere,int gro
  }
  vifs.EndDmaCnt();vifs.AddDmaRet();
  vifs.DetachCopySw(&desc->words,&data,&entry->chain);
- func_001699E8(p,desc,entry,sphere,groups,0,0,0,stream);
+ LoadGlobSubmeshesFromBrx(p,desc,entry,sphere,groups,0,0,0,stream);
 }

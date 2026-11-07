@@ -1,4 +1,5 @@
-int func_001477B0(char *p)
+// name: SafeHouse port (FAnimatedOverlayDrawNormal)
+int FAnimatedOverlayDrawNormal__FPc(char *p)
 {
     switch (*(int *)(p + 0x150)) {
     case 2:

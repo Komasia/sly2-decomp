@@ -17,7 +17,7 @@ extern float D_002A656C;
 MARK*__10STACKSCOPE(MARK*);
 void _$_10STACKSCOPE(MARK*,int);
 void*PvAllocStackImpl(REQUEST*) asm("PvAllocStackImpl__Fi");
-void func_0011AD30(int,float*,float*,float*,float);
+void SolveDzgConstraints(int,float*,float*,float*,float) asm("SolveDzgConstraints__FiPfN21f");
 }
 struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
@@ -103,7 +103,7 @@ extern "C" int FActorStuckOnContacts__FP5ACTORfPf(P*p,float previous,float*stamp
  }
  cursor=rhs;
  for(group=p->collision->groups;group;group=group->next){c=group->first;if(!c)continue;qword downvalue=down.q;do{StoreDot(cursor,Normal(p,c,&work),downvalue);cursor++;}while((c=c->next)!=0);}
- func_0011AD30(count,matrix,rhs,weights,D_002A656C);
+ SolveDzgConstraints(count,matrix,rhs,weights,D_002A656C);
  qword sum=down.q;
  cursor=weights;
  for(group=p->collision->groups;group;group=group->next){c=group->first;if(!c)continue;do{qword normal=Normal(p,c,&work);float weight=*cursor;c=c->next;cursor++;sum=AddScaled(sum,normal,weight,&work);}while(c);}

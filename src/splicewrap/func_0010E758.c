@@ -1,6 +1,7 @@
 #include "splicewrap.h"
 void func_001F8B58(s32, s32, s32, f32, f32);     /* extern */
-CRef *func_0010E758(CRef *ret, void *pbasic, s32 cref, CRef *aref)
+// name: SafeHouse port (RefXfhLook)
+CRef *RefXfhLook__FP5BASICiP4CRef(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     OTYP aotyp[4] = { 4109, 5, 1, 1 };
     CRef ref;

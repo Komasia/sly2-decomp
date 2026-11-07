@@ -32,8 +32,8 @@ typedef struct OBJ {
 extern struct CLOCK { float a[16]; } g_clock;
 extern char g_sw[];
 extern int D_003E0F9C;
-void func_0020EFC0(void *, int);
-void func_0020F030(void *, int);
+void PauseGame__FP9GAMEPAUSEi(void *, int);
+void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
 void func_00212A50(SUB *, int);
 void BuildJobHelp__FPv(OBJ *);
@@ -47,7 +47,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
     if (s == p->x40)
         return;
     if (p->x40 == -1) {
-        func_0020EFC0(g_sw, 0);
+        PauseGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 10);
     }
     old = p->x40;
@@ -55,7 +55,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
     p->x44 = g_clock.a[15];
     switch (s) {
     case -1:
-        func_0020F030(g_sw, 0);
+        ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 11);
         if (p->x24->x58 > 0)
             func_00212A50(p->x24, 1);

@@ -8,7 +8,8 @@ static __inline__ int FMatchK(K *pa, K *pb)
     if (pa->y != -1 && pa->u.s == pb->u.s) return 1;
     return pa->u.i == pb->u.i;
 }
-void func_00149B58(struct P *p, unsigned int grf, int a, K k, int d)
+// name: SafeHouse port (CancelDeferredCalls)
+void CancelDeferredCalls__FPvUiiii(struct P *p, unsigned int grf, int a, K k, int d)
 {
     N **ppn = &p->pnHead;
     N *pn;

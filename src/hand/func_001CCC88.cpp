@@ -23,19 +23,19 @@ extern CLOCK g_clock;
 void DeleteCtrl(JOB **) asm("DeleteCtrl__FPP4CTRL");
 float GEventAseg11(MOTION *,int) asm("GEventAseg11__Fv");
 void CalculateAsegMatrices(MOTION *,float,float,LO *,SPACE *,SPACE *,M4 *,M4 *) asm("CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6");
-qword func_001A62E8(LO *);
+qword PosOfLo(LO *) asm("PosOfLo__FP2LO");
 qword *func_00256D18(qword *,qword);
 M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
-LO *func_001CCA40(LO *,LO *);
+LO *PloReachGrip(LO *,LO *) asm("PloReachGrip__FP5ACTORi");
 M4 func_001A71B0(LO *,LO *,const M4 *);
 M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 void ReparentBooty(LO *,int,int) asm("ReparentBooty__FP3ALOii");
 float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 void func_00131A00(ANIM *,float);
-qword func_0022FC48(SPACE *,SPACE *,qword);
-qword func_0022FCC8(SPACE *,SPACE *,qword);
+qword PosConvertXfs(SPACE *,SPACE *,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
+qword VecConvertXfs(SPACE *,SPACE *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 JOB *PctrlNewTarget(LO *,CHANNEL *,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
-M3 *func_0022FD38(M3 *,SPACE *,SPACE *,const M3 *);
+M3 *MatConvertXfs(M3 *,SPACE *,SPACE *,const M3 *) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 qword DecomposeEulerMatrix(const M3 *) asm("DecomposeEulerMatrix__FP7MATRIX3");
 JOB *PctrlNewPos(LO *,CHANNEL *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void SetAloContactsOff(LO *,int) asm("SetAloContactsOff__FP3ALOi");
@@ -53,7 +53,8 @@ static inline void DeltaForDuration(WORK&w,qword raw,float&bound,qword&speed){re
  bound=limit;speed=velocity;
 }
 struct __attribute__((packed)) BASIS_TAIL {float firstW;qword row1,row2;};
-extern "C" void func_001CCC88(P *input,LO *other){
+// name: SafeHouse port (StartReachGrab)
+extern "C" void StartReachGrab__FP5REACHP2LO(P *input,LO *other){
  register P*p __asm__("$22");register LO*object __asm__("$20");
  __asm__("daddu %0,%1,$zero":"=r"(p):"r"(input));
  __asm__("daddu %0,%1,$zero":"=r"(object):"r"(other));
@@ -65,7 +66,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  CalculateAsegMatrices(motion,time,zero,p->owner,space,p->owner->space,SampleOutput(workingBase),0);
  LO *owner=p->owner;
  M4 *start=&work.start;M3 *basis=&owner->basis;register M4*product __asm__("$21");
- qword location=func_001A62E8(owner);
+ qword location=PosOfLo(owner);
  func_00256D18(TranslationSlot(work),location);
  {
  register qword firstRow __asm__("$2");register M4*intermediate __asm__("$16");register float homogeneous __asm__("$f0");
@@ -87,7 +88,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  __asm__("lq %0,%2\n\tdaddu %1,%3,$zero":"=&r"(first),"=r"(objectArgument):"m"(work.views.matrices.intermediate.rows[0]),"r"(object));
  __asm__("lq %0,%6\n\tlq %1,%7\n\tlq %2,%8\n\tlw %3,%9\n\tsq %5,%4\n\tsq %0,16+%4\n\tsq %1,32+%4"
   :"=&r"(row1),"=&r"(row2),"=&r"(row3),"=&r"(ownerArgument),"=m"(*(M3*)&work.final):"r"(first),"m"(work.views.matrices.intermediate.rows[1]),"m"(work.views.matrices.intermediate.rows[2]),"m"(work.views.matrices.intermediate.rows[3]),"m"(p->owner));
- work.final.rows[3]=row3;counterpart=func_001CCA40(ownerArgument,objectArgument);
+ work.final.rows[3]=row3;counterpart=PloReachGrip(ownerArgument,objectArgument);
  }
  register M4*finalMatrix __asm__("$17")=&work.final;
  if(counterpart){
@@ -113,7 +114,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
  const qword*velocityAddress=object->follow?&object->follow->velocity:&D_002C1EE0;register float unit __asm__("$f20");register LO*initialOwner __asm__("$4");{register qword initialVelocity __asm__("$2");
  __asm__("lq %0,%4\n\tdaddu %1,%5,$zero\n\t.set noat\n\tlui $at,0x3F80\n\tmtc1 $at,%2\n\t.set at\n\tsq %0,%3":"=r"(initialVelocity),"=r"(initialOwner),"=f"(unit),"=m"(work.velocity):"m"(*velocityAddress),"r"(object):"$1");}
  {register qword destination __asm__("$2");__asm__("lq %0,%1":"=r"(destination):"m"(work.final.rows[3]));work.destination=destination;}
- float limit;qword initialSpeed;DeltaForDuration(work,func_001A62E8(initialOwner),limit,initialSpeed);
+ float limit;qword initialSpeed;DeltaForDuration(work,PosOfLo(initialOwner),limit,initialSpeed);
  register float negativeLimit __asm__("$f13"),minimum __asm__("$f15"),maximum __asm__("$f14");
  __asm__("neg.s %0,%3\n\t.set noat\n\tlui $at,0xBF80\n\tmtc1 $at,%1\n\t.set at\n\tmov.s %2,%4":"=f"(negativeLimit),"=f"(minimum),"=f"(maximum):"f"(limit),"f"(unit):"$1");
  float duration=Max(phase,TJumpTo(work.delta,initialSpeed,limit,negativeLimit,maximum,minimum));
@@ -137,15 +138,15 @@ extern "C" void func_001CCC88(P *input,LO *other){
  work.views.scalar.q=positive;apply(receiver,callbackVelocity);
  }
  float endTime=g_clock.time+phase;
- qword position=func_0022FC48(0,object->position->space,work.final.rows[3]);
- qword endVelocity=func_0022FCC8(0,object->position->space,work.endVelocity);
+ qword position=PosConvertXfs(0,object->position->space,work.final.rows[3]);
+ qword endVelocity=VecConvertXfs(0,object->position->space,work.endVelocity);
  {
  register CHANNEL*channel __asm__("$5");register qword velocityArgument __asm__("$8"),positionArgument __asm__("$7");register float timeArgument __asm__("$f12");register LO*receiver __asm__("$4");
  __asm__("lw %0,%5\n\tpor %1,$zero,%6\n\tmov.s %2,%7\n\tpor %3,$zero,%8\n\tdaddu %4,%9,$zero"
   :"=&r"(channel),"=&r"(velocityArgument),"=f"(timeArgument),"=&r"(positionArgument),"=r"(receiver):"m"(object->position),"r"(endVelocity),"f"(endTime),"r"(position),"r"(object));
  p->positionJob=PctrlNewTarget(receiver,channel,5,timeArgument,positionArgument,velocityArgument);
  }
- func_0022FD38(&work.views.basis.converted,0,object->orientation->space,(M3*)finalMatrix);
+ MatConvertXfs(&work.views.basis.converted,0,object->orientation->space,(M3*)finalMatrix);
  work.views.basis.angles=work.views.basis.converted;
  qword angles=DecomposeEulerMatrix((M3*)workingBase);
  register CHANNEL*orientationChannel __asm__("$5");register LO*orientationOwner __asm__("$4");register qword anglesArgument __asm__("$9");

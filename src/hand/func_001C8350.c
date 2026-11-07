@@ -1,10 +1,11 @@
 struct S { char pad[0x180]; int x180; char p1[0x198 - 0x184]; int x198; void *x19C; char p2[0x1F0 - 0x1A0]; int x1F0; };
 void UpdateSo__FP2SOf(struct S *p);
 int func_001DFFD8(void *p);
-void func_001C8730(struct S *p, int n);
-void func_001C84D8(struct S *p);
+void SetVaultState__FP2LOi(struct S *p, int n);
+void UpdateVaultDial__FP2LO(struct S *p);
 void func_001C8188(int f);
-void func_001C8350(struct S *p)
+// name: SafeHouse port (UpdateVault)
+void UpdateVault__FP2LO(struct S *p)
 {
     int s;
     UpdateSo__FP2SOf(p);
@@ -13,26 +14,26 @@ void func_001C8350(struct S *p)
         switch (s) {
         case 1:
             if (!p->x19C || !func_001DFFD8(p->x19C))
-                func_001C8730(p, 2);
+                SetVaultState__FP2LOi(p, 2);
             break;
         case 2:
             if (!p->x19C || !func_001DFFD8(p->x19C)) {
                 if (p->x198 == p->x1F0)
-                    func_001C8730(p, 3);
+                    SetVaultState__FP2LOi(p, 3);
                 else
-                    func_001C8730(p, 4);
+                    SetVaultState__FP2LOi(p, 4);
             } else {
-                func_001C84D8(p);
+                UpdateVaultDial__FP2LO(p);
             }
             break;
         case 4:
             if (!p->x19C || !func_001DFFD8(p->x19C))
-                func_001C8730(p, 0);
+                SetVaultState__FP2LOi(p, 0);
             break;
         case 3:
             if (!p->x19C || !func_001DFFD8(p->x19C)) {
                 func_001C8188(1);
-                func_001C8730(p, 5);
+                SetVaultState__FP2LOi(p, 5);
             }
             break;
         }

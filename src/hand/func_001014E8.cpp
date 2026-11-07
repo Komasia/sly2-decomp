@@ -11,9 +11,10 @@ struct CRef {
 extern "C" {
 CRef func_00201360(int c, void *aref, int *ak, void *a0, void *a1);
 void *func_001F8510(void *p, int a, int b);
-CRef func_001014E8(void *p, int c, void *aref);
+CRef RefXfHandle(void *p, int c, void *aref) asm("RefXfHandle__FP2LOiPv");
 }
-CRef func_001014E8(void *p, int c, void *aref)
+// name: SafeHouse port (RefXfHandle)
+CRef RefXfHandle(void *p, int c, void *aref)
 {
     int ak[2] = {6, 0x104c};
     int a, b;

@@ -5,7 +5,8 @@ typedef struct AREQ { int cb; int cbAlign; } AREQ;
 int func_00117C20(void *pbis);
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *pbis, VECTOR3 *pv);
 KEY *PvAllocSwClearImpl__Fi(AREQ *preq);
-void func_0012B5E0(T *t, void *pbis)
+// name: SafeHouse port (TRKPK::Load)
+void Load__5TRKPKP18CBinaryInputStream(T *t, void *pbis)
 {
     int i;
     int c = func_00117C20(pbis);

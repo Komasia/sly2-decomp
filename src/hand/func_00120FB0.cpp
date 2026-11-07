@@ -15,7 +15,7 @@ extern char D_004520A8[];
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_002550F8(void *pv);
-NODE *func_00256B48();
+NODE *PpairNew() asm("PpairNew__Fv");
 int NRandInRange(int nLo, int nHi) asm("NRandInRange__Fii");
 }
 struct SPM {
@@ -38,10 +38,11 @@ struct SPN {
     NODE *operator->() { return p; }
     int pad[3];
 };
-extern "C" CRef func_00120FB0(void *pbasic, CRef *aref);
+extern "C" CRef RefOpShuffle(void *pbasic, CRef *aref) asm("RefOpShuffle__FiP4CRefP6CFrame");
 static inline void SetSpn(SPN *psp, NODE *pn) { *psp = pn; }
 static inline void InsertAfter(SPM *psp, SPN &sp) { sp->pnext = psp->p; *psp = sp.p; }
-CRef func_00120FB0(void *pbasic, CRef *aref)
+// name: SafeHouse port (RefOpShuffle)
+CRef RefOpShuffle(void *pbasic, CRef *aref)
 {
     if (aref[0].m_tagk == 0) return CRef(0);
     if (aref[0].m_tagk != 0x1F) return CRef(0);
@@ -76,7 +77,7 @@ CRef func_00120FB0(void *pbasic, CRef *aref)
     SPM *psp = pspHead;
     int i;
     for (i = 0; i < c; i++) {
-        *psp = func_00256B48();
+        *psp = PpairNew();
         NODE *pnNew = psp->p;
         pnNew->ref = *apref[i];
         psp = &pnNew->pnext;
@@ -91,7 +92,7 @@ CRef func_00120FB0(void *pbasic, CRef *aref)
         }
         if (spRes.p != pnLast) {
             SPN sp;
-            NODE *pnNew = func_00256B48();
+            NODE *pnNew = PpairNew();
             sp.Set(pnNew);
             sp->ref = CRef(0);
             InsertAfter(&pnLast->pnext, sp);
