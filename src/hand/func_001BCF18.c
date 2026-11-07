@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } V;
 extern float D_002C0ABC;
-float func_001E66C8(void *a, float g);
+float SWrapCrv__FP3CRVf(void *a, float g);
 void func_001E6F10(void *a, float t, V *pv, int n);
 int func_001C0920(void *b, qword v, void *c);
 // name: SafeHouse port (FPolyPointOnRegion)
@@ -10,13 +10,13 @@ int FPolyPointOnRegion__FP7NAVPOLYP9NAVREGIONffPfPv(void *a, void *b, float g, f
     float d, t;
     V v0, v1;
     for (d = 0.0f; d < range; d += D_002C0ABC) {
-        t = func_001E66C8(a, g - d);
+        t = SWrapCrv__FP3CRVf(a, g - d);
         func_001E6F10(a, t, &v0, 0);
         if (func_001C0920(b, v0.q, c)) {
             if (pf) *pf = t;
             return 1;
         }
-        t = func_001E66C8(a, g + d);
+        t = SWrapCrv__FP3CRVf(a, g + d);
         func_001E6F10(a, t, &v1, 0);
         if (func_001C0920(b, v1.q, c)) {
             if (pf) *pf = t;

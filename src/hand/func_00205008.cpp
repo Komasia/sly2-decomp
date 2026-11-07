@@ -16,7 +16,7 @@ extern qword g_normalZ;
 extern "C" {
 SO *PaloOrParent(LO *) asm("PaloOrParent__FPv");                 // PsoZapTarget
 M3 BuildLookAtMatrix(qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");          // BuildOrthonormalMatrixZ
-void func_001A7C18(void *, SOPART *, SOPART *, qword, qword, float, int, void *, void *, XP **);  // PxpAdd
+void PxpAddSw(void *, SOPART *, SOPART *, qword, qword, float, int, void *, void *, XP **) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");  // PxpAdd
 }
 static inline qword Sub(const qword &a, const qword &b) {
     qword r;
@@ -64,10 +64,10 @@ extern "C" void func_00205008(SO *pso, int grf, LO *plo, qword posOther, qword d
     M3 mat = BuildLookAtMatrix(direction, g_normalZ);
     qword posLocal = Rotate(mat, Sub(pos, posOther));
     if ((grf & 1) || ((grf & 8) && X(posLocal) < 0.0001f))
-        func_001A7C18(g_sw, pso->psopart, psopartOther, pos, mat.r[0], X(posLocal), (grf & 1) ? 11 : 10, 0, 0, ppxpFirst);
+        PxpAddSw(g_sw, pso->psopart, psopartOther, pos, mat.r[0], X(posLocal), (grf & 1) ? 11 : 10, 0, 0, ppxpFirst);
     if ((grf & 2) || ((grf & 0x10) && Y(posLocal) < 0.0001f))
-        func_001A7C18(g_sw, pso->psopart, psopartOther, pos, mat.r[1], Y(posLocal), (grf & 2) ? 11 : 10, 0, 0, ppxpFirst);
+        PxpAddSw(g_sw, pso->psopart, psopartOther, pos, mat.r[1], Y(posLocal), (grf & 2) ? 11 : 10, 0, 0, ppxpFirst);
     if ((grf & 4) || ((grf & 0x20) && Z(posLocal) < 0.0001f))
-        func_001A7C18(g_sw, pso->psopart, psopartOther, pos, mat.r[2], Z(posLocal), (grf & 4) ? 11 : 14, 0, 0, ppxpFirst);
+        PxpAddSw(g_sw, pso->psopart, psopartOther, pos, mat.r[2], Z(posLocal), (grf & 4) ? 11 : 14, 0, 0, ppxpFirst);
     *ppxpOut = *ppxpFirst;
 }

@@ -26,7 +26,7 @@ M3 func_0011B500(qword axis, float g);
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 E *func_00145AA8(P *p);
 int FNavPathCrv(E *pe, qword r, qword v, B *pb) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
-void func_001E6180(B *pb);
+void RecalcCrv(B *pb) asm("RecalcCrv__FP3CRV");
 void Follow(void *p, B *pb, int n) asm("Follow__9JOBFOLLOWP3CRVi");
 void PlanFollow(P *p) asm("PlanFollow__12JOBCOMPANION");
 }
@@ -89,7 +89,7 @@ void PlanFollow(P *p)
             pb->k = 2;
             pb->pq[0] = r;
             pb->pq[1] = u.s.pos;
-            func_001E6180(pb);
+            RecalcCrv(pb);
         } else if (func_00145AA8(p) != pe) {
             FNavPathCrv(pe, r, r, pb);
         } else if (!FNavPathCrv(pe, r, u.s.pos, pb)) {

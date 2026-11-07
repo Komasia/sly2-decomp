@@ -13,7 +13,7 @@ extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_00255438(void *pv);
 W *func_00257340();
-CRef func_00129BC8(CRef *pref, void *a, void *b);
+CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 }
 struct SPM {
     W *p;

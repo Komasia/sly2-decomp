@@ -4,7 +4,7 @@ extern char D_002E1E88[];
 int func_001A4E70(void *p);
 void func_001A4E80(void *p);
 void RequestTaskState__FP4TASKii(void *p, int n, struct S *ps);
-void func_002283D0(struct LO *plo);
+void TriggerExit__FP4EXIT(struct LO *plo);
 void func_00162FD0(struct S *p)
 {
     char *pv = D_002E1E88;
@@ -19,6 +19,6 @@ void func_00162FD0(struct S *p)
             *(int *)v |= 0x100;
         else
             plo->fl = v | 0x100;
-        func_002283D0(p->pcc);
+        TriggerExit__FP4EXIT(p->pcc);
     }
 }

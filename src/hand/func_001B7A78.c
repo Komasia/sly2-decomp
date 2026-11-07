@@ -3,7 +3,8 @@ struct P { char pad[0x1420]; qword q1420; };
 void func_001B6078(struct P *p, int n);
 qword func_001A62E8(void *p);
 void func_002046B0(struct P *p, qword q);
-void func_001B7A78(struct P *p, void *pv)
+// name: SafeHouse port (StartMurrayThrow)
+void StartMurrayThrow__FP6MURRAYP2LO(struct P *p, void *pv)
 {
     qword a, b, d;
     func_001B6078(p, 7);

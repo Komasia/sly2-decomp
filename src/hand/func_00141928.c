@@ -4,7 +4,7 @@
 
 void OnSoRemove__FP2SO(SO *p);
 void RetractAsegaPp__FPP5ASEGA(void *);
-void func_001EECD0(void *);
+void ClearJobs__FP5ACTOR(void *);
 
 typedef struct OBJ {
     /* 0x000 */ SO so;
@@ -19,5 +19,5 @@ void func_00141928(OBJ *p)
     OnSoRemove__FP2SO(&p->so);
     RetractAsegaPp__FPP5ASEGA(p->unk_0xefc);
     RetractAsegaPp__FPP5ASEGA(p->unk_0xf14);
-    func_001EECD0(p->unk_0x26c);
+    ClearJobs__FP5ACTOR(p->unk_0x26c);
 }

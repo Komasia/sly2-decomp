@@ -7,7 +7,8 @@ struct LO { int x0, x4, x8; VT *vt; };
 struct P { char pad[0x210]; struct LO *plo; char pad2[0xC]; qword pos; };
 void func_002309E8(void *p, int a, M4 *pm, int b, float g);
 static inline qword MulPt(M4 *m, qword v) { qword r; __asm__("vmulax.xyz $ACC, %1, %2x\n\tvmadday.xyz $ACC, %3, %2y\n\tvmaddaz.xyz $ACC, %4, %2z\n\tvmaddw.xyz %0, %5, $vf0w" : "=j"(r) : "j"(m->r[0]), "j"(v), "j"(m->r[1]), "j"(m->r[2]), "j"(m->r[3])); return r; }
-VEC func_001B2398(struct P *p, float g)
+// name: SafeHouse port (PredictProjectileAim)
+VEC PredictProjectileAim__FP2LOf(struct P *p, float g)
 {
     VEC r;
     if (p->plo) {

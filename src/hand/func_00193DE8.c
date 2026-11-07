@@ -12,9 +12,9 @@ struct S { struct LO *x0; int x4; int x8; int xc; int x10; struct T *x14; int x1
 extern qword D_002A2DB0;
 qword func_001A62E8(void *p);
 M4 *func_001A6318(struct LO *p);
-void func_001E6ED8(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
+void NearestCrv__FP3CRV(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
 float SMinCrv__FP3CRV(struct T *t);
-float func_001E6648(struct T *t);
+float SMaxCrv__FP3CRV(struct T *t);
 void func_001E6F10(struct T *t, float g, qword *point, qword *direction);
 static __inline__ float Dot(qword a, qword b)
 {
@@ -32,7 +32,8 @@ static __inline__ float Dot2(qword a, qword b)
     __asm__("qmfc2.ni %0,%2\n\tmtc1 %0,%1":"=&r"(bits),"=f"(r):"j"(d));
     return r;
 }
-void func_00193DE8(struct S *p)
+// name: SafeHouse port (AddInteractContacts)
+void AddInteractContacts__FP5ACTOR(struct S *p)
 {
     switch (p->x8) {
     case 4: {
@@ -45,7 +46,7 @@ void func_00193DE8(struct S *p)
         U v0, v1;
         struct T *t = p->x14;
         int k;
-        func_001E6ED8(t, *p->x0->x218, 0, &v0.q, &v1.q, &p->x1c, &p->x20, p->x1c);
+        NearestCrv__FP3CRV(t, *p->x0->x218, 0, &v0.q, &v1.q, &p->x1c, &p->x20, p->x1c);
         k = 0x22;
         if (!t->x1bc && !t->xe4) {
             U vel;
@@ -61,10 +62,10 @@ void func_00193DE8(struct S *p)
             if ((d0 < -2.0f || d1 < 2.0f) && p->x20 < SMinCrv__FP3CRV(t) + 50.0f) {
                 k = 0x2A;
                 func_001E6F10(t, SMinCrv__FP3CRV(t) + 50.0f, &v0.q, 0);
-            } else if ((2.0f < d0 || -2.0f < d1) && func_001E6648(t) - 50.0f < p->x20) {
+            } else if ((2.0f < d0 || -2.0f < d1) && SMaxCrv__FP3CRV(t) - 50.0f < p->x20) {
                 U s;
                 k = 0x2A;
-                func_001E6F10(t, func_001E6648(t) - 50.0f, &v0.q, 0);
+                func_001E6F10(t, SMaxCrv__FP3CRV(t) - 50.0f, &v0.q, 0);
                 __asm__("qmtc2.ni %1, %0" : "=j"(s.q) : "r"(-1.0f));
                 __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v1.q) : "j"(v1.q), "j"(s.q));
             }

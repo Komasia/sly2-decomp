@@ -19,15 +19,15 @@ void func_001DA808(OBJ *);
 int func_00187D80(PAD *, int);
 int func_00187DD0(PAD *, int);
 void func_00187DE0(PAD *, int);
-void func_001B04E0(int);
+void AentOptions__FPv(int);
 void func_001ACC38(void *, int);
-void func_00165E38(void *);
-void func_001DDB08(OBJ *);
+void StartGameFromSave__FP2SW(void *);
+void StartNewGameFromTitle__Fv(OBJ *);
 int func_001A2C98(void);
 void *func_0015E938(struct G *, int, int, int);
 void func_001A2C48(int *, int **);
 void *func_002333B4(void *, int, int);
-void func_001AF4D8(void *, int, ITEM *, void *, void *);
+void PushPage__FP4MENUiPviUi(void *, int, ITEM *, void *, void *);
 void func_001DD920(OBJ *p)
 {
     void *pv;
@@ -42,15 +42,15 @@ void func_001DD920(OBJ *p)
     if (func_00187D80(p->pad10, 0x800)) {
         if ((D_002E65E0.xFD50 = D_002E65E0.xFD54) != 0) {
             func_001ACC38(D_002E6550, 1);
-            func_00165E38(D_002E65E0.xFD50);
+            StartGameFromSave__FP2SW(D_002E65E0.xFD50);
         } else {
-            func_001DDB08(p);
+            StartNewGameFromTitle__Fv(p);
         }
         return;
     }
     if (func_00187DD0(p->pad10, 0x100) && (p->pad10->fl & 0x108) == 0x100) {
         func_00187DE0(p->pad10, 0x100);
-        func_001B04E0(0);
+        AentOptions__FPv(0);
         return;
     }
     if (func_001A2C98() < 2)
@@ -69,5 +69,5 @@ void func_001DD920(OBJ *p)
         pi->ids = D_002C35B8[k];
         pi->pfn = func_001DD8E0;
     }
-    func_001AF4D8(D_003D9ED0, c, D_003DA578, pv, D_002C35F0);
+    PushPage__FP4MENUiPviUi(D_003D9ED0, c, D_003DA578, pv, D_002C35F0);
 }

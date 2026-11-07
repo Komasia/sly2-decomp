@@ -16,9 +16,9 @@ void func_00204F78(P*,PATH*,int);
 float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);
 void func_0019E110(C*,LM*);float func_0011D948(LM*,float);
 qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword func_001A62E8(P*);
-void func_00140C88(P*,void*);
+void SetActorZone(P*,void*) asm("SetActorZone__FP5ACTORP2LO");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
-void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void func_001F15B8(COMPONENT**);
+void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
 }
 static inline void PathState(PATH*p,int state){VE&v=p->vt[3];((void(*)(void*,int,void*,void*,void*,void*))v.fn)((char*)p+v.delta,state,0,0,0,0);}
@@ -114,7 +114,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   owner->offset.q=Sub(point,offset);
   p->actor->motion.q=Sub(p->actor->goal.q,w.point.q);
   p->actor->motion.i[2]=0;
-  func_00140C88(p->actor,p->path->focus);
+  SetActorZone(p->actor,p->path->focus);
   if(p->path->attachEffectId){EFFECT*e=PsndNewPlain(p->path->attachEffectId);SetSource(e,0);SetPosition(e,w.point.q);}
   break;
  }
@@ -127,7 +127,7 @@ extern "C" void func_0019EAB0(C*p,int next){
   PathState(p->path,6);func_00133448(p->path,p->actor);func_00204F78(p->actor,p->path,0);
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,func_001A62E8(actor),focus);
-  p->actor->motion.i[2]=0;func_00140C88(p->actor,focus);
+  p->actor->motion.i[2]=0;SetActorZone(p->actor,focus);
   if(p->path->releaseEffectId){EFFECT*e=PsndNewPlain(p->path->releaseEffectId);SetSource(e,0);SetPosition(e,func_001A62E8(p->actor));}
   p->path=0;return;
  }
@@ -140,7 +140,7 @@ extern "C" void func_0019EAB0(C*p,int next){
  case 3:clip=p->clip2;speed=-1.0f;flags=9;break;
  case 4:p->descending=!p->descending;clip=p->fallback;break;
  }
- func_001F15B8(&p->actor->component);
+ ClearSmaHandle(&p->actor->component);
  func_001305B8(clip,p->actor,position,speed,flags,&p->actor->asega);
  Clear(&p->actor->velocity);
 }

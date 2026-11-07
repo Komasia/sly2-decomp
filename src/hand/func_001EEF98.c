@@ -1,5 +1,6 @@
-/* func_001EEF98 (0x1EEF98): empty function. */
+/* Update__5AIJOB (0x1EEF98): empty function. */
 
-void func_001EEF98(void)
+// name: SafeHouse port (AIJOB::Update)
+void Update__5AIJOB(void)
 {
 }

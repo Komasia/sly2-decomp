@@ -3,7 +3,8 @@ extern float D_002A7984, D_002C3254;
 struct S { char p0[0x30]; int n30; float g34; int n38; };
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-void func_001DA950(struct S *p, int n, int m) {
+// name: SafeHouse port (SetShopMsg)
+void SetShopMsg__FP4SHOPii(struct S *p, int n, int m) {
     p->n38 = m;
     p->n30 = n;
     switch (n) {

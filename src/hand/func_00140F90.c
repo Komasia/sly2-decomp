@@ -1,6 +1,6 @@
 // HandleActorMessage__FP5ACTOR5MSGIDPv (0x140F90): message handler (p, msg, pv): msg 3 resets x1038 and stops the 0xDF0/0x11B0 actions, msg 9 (pso->p18 == p)
 // switches on pmsg->k (0x15E: x190 = -v and virtual slot 35 called with the 0x1B0 rows times v; 0x161/0x162; 0x27B/0x27C; 0x1C7/0x1C8),
-// msgs 4/5 call virtual slots 8/9 on the 0x1090 entries, msg 1 / msg 11 release 0x4D4 / 0x1310; then forwards to func_001EED78/HandlePoMessage__FP2PO5MSGIDPv.
+// msgs 4/5 call virtual slots 8/9 on the 0x1090 entries, msg 1 / msg 11 release 0x4D4 / 0x1310; then forwards to OfferJobMessage__FP5GUARDii/HandlePoMessage__FP2PO5MSGIDPv.
 // MATCH (Claude agent for Lilly, T1682, 2026-10-25), no pins: from v6 (aligned 2), case 0x15E written with NO volatile asm and no vf6 pin.
 // The -1.0f VU_FLOAT's home store (s.q = sv) goes last, so sv stays live in vf5 across the transform and the earlyclobber output lands
 // in vf6 by itself; with the plain asms sched2 orders lh / lqc2 / lqc2 / addu / lw like the target.
@@ -36,13 +36,13 @@ void func_001305B8(void *pa, void *p, float g, int n, float h, void *pb);
 void func_0019F170(void *p, int n);
 void func_0019F220(void *p, int n);
 void *func_001CB250(void *p, int n);
-void func_001A58D0(void *p, int a, int b);
+void ReparentBooty__FP3ALOii(void *p, int a, int b);
 void RemoveNoise__FP5NOISE(void *p);
 void func_001CCC88(void *p, void *q);
 void func_00131A00(void *p, float g);
 void func_001CD098(void *p, void *q);
 void func_00133448(void *p, void *q);
-void func_001EED78(void *p, int msg, void *pmsg);
+void OfferJobMessage__FP5GUARDii(void *p, int msg, void *pmsg);
 void HandlePoMessage__FP2PO5MSGIDPv(void *p, int msg, void *pmsg);
 
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -162,7 +162,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
                         void *po2;
                         void *pa = func_001CB250(D_002E1E40->p2010, 0);
                         if (pa)
-                            func_001A58D0(pa, 0, 3);
+                            ReparentBooty__FP3ALOii(pa, 0, 3);
                         InitDli(&dli, &D_003E148C);
                         while ((po2 = PvNextDli(&dli)) != 0) {
                             if (F(int, po2, 0x54) == 4 && F(void *, po2, 0x44) == p)
@@ -231,6 +231,6 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
         }
         break;
     }
-    func_001EED78((char *)p + 0x26C, msg, pv);
+    OfferJobMessage__FP5GUARDii((char *)p + 0x26C, msg, pv);
     HandlePoMessage__FP2PO5MSGIDPv(p, msg, pv);
 }

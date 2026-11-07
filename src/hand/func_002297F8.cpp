@@ -24,8 +24,8 @@ extern float D_002DDED4;
 extern "C" {
 float func_00229468(O *,O *,qword *,qword *);
 int func_0011D4D0(float,float,float);
-qword func_001FA810(CONSTRAINT *,NODE *,qword);
-void func_001FAC30(O *,qword);
+qword ProjectCnstr(CONSTRAINT *,NODE *,qword) asm("ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR");
+void AccelAloPos(O *,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 qword func_001A62E8(O *);
 void func_00228C18(O *,qword,qword *,qword *);
 float GSplitVector(qword,qword,qword *,qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
@@ -69,7 +69,7 @@ extern "C" void func_002297F8(O *a,O *b){
  if(spring!=0.0f){
   asm volatile("": : :"memory"); // the original re-reads a->physics here instead of reusing the pointer loaded above
   qword k=Scalar(-spring*span);w.velocity.q=k;
-  func_001FAC30(a,func_001FA810(&a->physics->constraint,a->motion,Scale(a->physics->direction.q,k)));
+  AccelAloPos(a,ProjectCnstr(&a->physics->constraint,a->motion,Scale(a->physics->direction.q,k)));
  }
  if(friction!=0.0f){
   func_00228C18(b,func_001A62E8(a),&w.velocity.q,&w.phase.vectors[0].q);

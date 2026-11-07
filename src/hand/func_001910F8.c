@@ -6,7 +6,8 @@ void func_001A0300(char *, void *, void *);
 void func_0020B868(void *);
 void func_00137A30(char *, int, int, void *, int, int, int, void *);
 void func_001CC5E8(void *, char *, char *);
-void func_001910F8(struct S *p) {
+// name: SafeHouse port (PostLoadInteract)
+void PostLoadInteract__FP5ACTOR(struct S *p) {
     char *pb = (char *)p;
     p->x68 = PloNew__F3CIDP2SW3OIDi(0xF, 0, 0x148, -1);
     func_00221268(p->x68, 0);

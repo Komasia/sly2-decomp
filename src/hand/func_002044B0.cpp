@@ -1,4 +1,4 @@
-// func_002044B0: a STEP's contact-velocity adjustment (vtable slot 56; Sly 1 has AdjustStepXpVelocity(STEP *, XP *, int)).
+// OnStepXpUpdate__FP3ALOP2XPi: a STEP's contact-velocity adjustment (vtable slot 56; Sly 1 has AdjustStepXpVelocity(STEP *, XP *, int)).
 // After the base version (func_001F4FC0), for a kind-0xE contact: the closing speed along the contact normal is smoothed
 // with GSmooth (GSmooth) toward two limits (SMPs D_002C3C98 / D_002C3CA8), the change is limited to dt * 9000 up and
 // dt * -4500 down, and this side's velocity gets normal * -speed plus (matTarget * vUnk190 without its part along the
@@ -120,7 +120,8 @@ static inline qword QwAddScaled2(qword v, qword a, qword sa, qword b, qword sb)
     return qw;
 }
 
-extern "C" void func_002044B0(struct STEP *pstep, struct XP *pxp, int ixpd)
+// name: SafeHouse port (OnStepXpUpdate)
+extern "C" void OnStepXpUpdate__FP3ALOP2XPi(struct STEP *pstep, struct XP *pxp, int ixpd)
 {
     func_001F4FC0(pstep, pxp, ixpd);
     if (pxp->xpk != 0xE)

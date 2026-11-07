@@ -1,4 +1,4 @@
-// func_00126A18: walks a clause list; first clause whose test is not false (tagk 0x17 with value 0) wins
+// RefEvalCond: walks a clause list; first clause whose test is not false (tagk 0x17 with value 0) wins
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -11,10 +11,11 @@ struct CRef {
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 struct P { char pad[0xC]; struct { char pad[0x10]; NODE *pcl; } *pv; };
 extern "C" {
-CRef func_00127838(NODE *p, void *penv);
-CRef func_00126A18(P *p, void *penv);
+CRef RefEval(NODE *p, void *penv) asm("RefEval__FP5CPairP6CFrame");
+CRef RefEvalCond(P *p, void *penv) asm("RefEvalCond__FP5CPairP6CFrame");
 }
-CRef func_00126A18(P *p, void *penv)
+// name: SafeHouse port (RefEvalCond)
+CRef RefEvalCond(P *p, void *penv)
 {
     CRef ref;
     CRef test;
@@ -28,7 +29,7 @@ CRef func_00126A18(P *p, void *penv)
         if (pc->ref.m_tagk == 0xB) {
             f = 1;
         } else {
-            test = func_00127838(pc, penv);
+            test = RefEval(pc, penv);
             f = 0;
             if (test.m_tagk != 0x17 || test.u.n)
                 f = 1;
@@ -37,7 +38,7 @@ CRef func_00126A18(P *p, void *penv)
         }
         if (f) {
             for (pc = pc->pnext; pc; pc = pc->pnext)
-                ref = func_00127838(pc, penv);
+                ref = RefEval(pc, penv);
             pcl = 0;
         } else {
             pcl = pcl->pnext;

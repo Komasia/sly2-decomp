@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
-M2C_UNK func_00204660();                            /* extern */
+M2C_UNK SetStepPhysHeading__FP3ALOf();                            /* extern */
 
 void func_00259D18(void) {
-    func_00204660();
+    SetStepPhysHeading__FP3ALOf();
 }

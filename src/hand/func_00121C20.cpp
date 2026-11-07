@@ -36,7 +36,7 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
-extern "C" CRef func_00127838(NODE *pn, CRef *aref);
+extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 extern "C" CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpForEach__FiP4CRefP6CFrame");
 CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall)
 {
@@ -50,7 +50,7 @@ CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall)
         pn = (NODE *)aref[1].u.pv;
         while (pn) {
             *pb = pn->ref;
-            CRef ref = func_00127838(sp.p, arefCall);
+            CRef ref = RefEval(sp.p, arefCall);
             pn = pn->pnext.p;
         }
     }

@@ -6,9 +6,9 @@ struct P { char pad[0x58]; int x58; int x5C; char pad0[0x190 - 0x60]; qword q190
 void SetXfMode__FP3ALOP2XFi(struct P *p, int a, int b);
 void func_0020BD68(void *p);
 void RetractAsegaPp__FPP5ASEGA(void *p);
-void func_001F15B8(void *p);
+void ClearSmaHandle__FPP3SMA(void *p);
 void func_001305B8(void *a, struct P *p, int n, void *q, float f1, float f2);
-void func_001F1448(int a, struct P *p, int b, int n, void *q);
+void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int a, struct P *p, int b, int n, void *q);
 // name: SafeHouse port (SetMurrayBehaviorAnim)
 void SetMurrayBehaviorAnim__FP6MURRAYi(struct P *p, int st)
 {
@@ -42,7 +42,7 @@ void SetMurrayBehaviorAnim__FP6MURRAYi(struct P *p, int st)
         break;
     }
     RetractAsegaPp__FPP5ASEGA(p->x1030);
-    func_001F15B8(p->x1034);
+    ClearSmaHandle__FPP3SMA(p->x1034);
     func_001305B8(o, p, n, p->x1030, 0.0f, 1.0f);
-    func_001F1448(x, p, -1, n, p->x1034);
+    ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(x, p, -1, n, p->x1034);
 }

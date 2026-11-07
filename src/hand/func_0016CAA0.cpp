@@ -13,7 +13,7 @@ extern "C"{
 void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
-OBJECT*func_001EC8F8(int);
+OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);
 void func_001699E8(OWNER*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*);
 void*memset(void*,int,uint);
@@ -84,7 +84,7 @@ extern "C" void func_0016CAA0(OWNER*p,D*desc,E*entry,void*,SPHERE*sphere,int gro
   if(desc->count)header[0]|=4;
   int current=base;
   header[1]=current;
-  OBJECT*object=func_001EC8F8(stream->U16Read());
+  OBJECT*object=PshdFromIndex(stream->U16Read());
   for(int segment=0;segment<object->count;segment++){
    HEADER*slot=(HEADER*)((uint)header+segment*2);slot->segments[0]=current;
    current+=func_001EC688(object,segment,current,&vifs);

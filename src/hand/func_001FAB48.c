@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 struct B { char pad[0x70]; qword pos; };
 struct A { char pad[0x5C]; struct B *pb; };
-qword func_001FAB48(struct A *p, qword *pv, qword q)
+// name: SafeHouse port (VelAloPoint)
+qword VelAloPoint__FP3ALOP6VECTORG9VU_VECTOR(struct A *p, qword *pv, qword q)
 {
     qword r, c, s;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(q), "j"(p->pb->pos));

@@ -3,8 +3,8 @@ struct M { qword a,b,c,d; };
 struct VTE { short d; short pad; void (*pf)(); };
 struct S { char pad[0xC]; struct VTE *vt; char pad2[0xE0-0x10]; int e0; char pad3[0xF4-0xE4]; qword *v; char pad4[0x140-0xF8]; qword *v140,*v144; };
 union U { qword q; float f; };
-int func_001E7538(struct S*,float,float*,float*);
-void func_00117120(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*);
+int ISegCrvG__FP3CRVPfT1f(struct S*,float,float*,float*);
+void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*);
 static inline qword ReadTangent(const qword*p){register qword a __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(a):"m"(*p));return a;}
 static inline qword ReadLinearSecond(const qword*p){register qword value __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(value):"m"(*p));return value;}
 static inline qword Sub(qword next,qword first){register qword a __asm__("vf2")=next,b __asm__("vf1")=first;__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
@@ -17,13 +17,14 @@ static inline qword FirstPointAndWeight(const qword*first,qword weight,union U*h
 static inline unsigned PointOffset(int i){register unsigned bytes __asm__("$3");__asm__("sll %0,%1,4":"=r"(bytes):"r"(i));return bytes;}
 static inline qword TangentFirst(const qword*p){register qword point __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(point):"m"(*p));return point;}
 static inline int SegmentIndex(int value){register int index __asm__("$18");__asm__("daddu %0,%1,$zero":"=r"(index):"r"(value));return index;}
-void func_001E67B8(struct S *p,float g,qword *pos,qword *dir)
+// name: SafeHouse port (EvalCrv)
+void EvalCrv__FP3CRVfP6VECTORT2(struct S *p,float g,qword *pos,qword *dir)
 {
     struct M m;
     float elapsed,duration;
     register qword row0 __asm__("vf5"),row1 __asm__("vf4"),row2 __asm__("vf3");
     register qword tangent __asm__("vf2");
-    int i=SegmentIndex(func_001E7538(p,g,&elapsed,&duration));
+    int i=SegmentIndex(ISegCrvG__FP3CRVPfT1f(p,g,&elapsed,&duration));
     m=* ((struct M *(*)(void*))p->vt[31].pf)((char*)p+p->vt[31].d);
     if (p->e0==0) {
         if (pos) {
@@ -40,7 +41,7 @@ void func_001E67B8(struct S *p,float g,qword *pos,qword *dir)
         __asm__("lqc2 %0,%2\n\tdaddu %1,%3,$zero":"=j"(row1),"=r"(second):"m"(m.b),"r"(first));
         tangent=Sub(ReadTangent(second+1),TangentFirst(first));}
     } else {
-        func_00117120(duration,elapsed,1.0f,p->v[i],p->v144[i],p->v[i+1],p->v140[i+1],pos,dir,0);
+        Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(duration,elapsed,1.0f,p->v[i],p->v144[i],p->v[i+1],p->v140[i+1],pos,dir,0);
         if (pos) *pos=HermitePoint(&m,*pos);
         if (!dir) return;
         row0=m.a;

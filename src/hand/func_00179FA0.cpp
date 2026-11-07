@@ -31,7 +31,7 @@ extern "C"{
  void SetMoveHeading(CONTROL*,float) asm("SetMoveHeading__FP7MOVEREF");
  void func_00209840(CONTROL*,M3*);
  void func_0020C6F8(INFO*,qword);
- void func_001EEFC0(C*);
+ void LockJob(C*) asm("LockJob__FP5AIJOB");
 }
 static inline CONTROL*Control(P*p){return (CONTROL*)((char*)p+0xFD0);}
 static inline float Angle(qword delta){qword x;int y;float fx,fy;__asm__("qmfc2.ni %0,%1":"=r"(x):"j"(delta));__asm__("prot3w %0,%1":"=r"(y):"r"(x));__asm__("mtc1 %1,%0":"=f"(fx):"r"(x));__asm__("mtc1 %1,%0":"=f"(fy):"r"(y));return func_002458F0(fy,fx);}
@@ -152,5 +152,5 @@ extern "C" void Enter__6JOBUSE(C*p){
   p->driver->info->reverse=p->reverse;
   func_0020C6F8(p->driver->info,p->point.q);
  }
- func_001EEFC0(p);
+ LockJob(p);
 }

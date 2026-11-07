@@ -5,7 +5,7 @@ struct VTE { short d; short pad; void (*pfn)(void *); };
 struct X { qword a; qword v; };
 struct O { char pad[0xC]; struct VTE *vt; char pad2[0x28]; int n38; int n3C; char pad3[0xA8 - 0x40]; void *pA8; int nAC; char pad4[0x10]; int nC0; };
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; void *p30; char pad3[0xC]; qword v40; int n50; float f54; char pad4[8]; qword v60; };
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 qword func_001A62E8(void *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *p, int n, qword v);
@@ -15,7 +15,7 @@ void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 void SetState__10JOBSTATIONi(struct S *p, int n) {
     struct X x;
     if (n == p->n50) return;
-    func_001EF0D8(p->a18);
+    EndChildJob__FPP5AIJOB(p->a18);
     p->n50 = n;
     p->f54 = g_clock.t;
     switch (n) {

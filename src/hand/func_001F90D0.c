@@ -7,7 +7,8 @@ struct L { struct S *ps; struct L *pNext; char pad[4]; struct X *px; };
 struct E { char pad[0x64]; struct L *pl; struct S *ps; };
 struct X { char pad[0xEC]; struct E *pe; char pad2[0x148 - 0xF0]; ulong fl; };
 
-int func_001F90D0(int a, int b, int c, struct X **apx, int cMax, struct S **aps)
+// name: SafeHouse port (CollectGroupXps)
+int CollectGroupXps__FiiiPviT3(int a, int b, int c, struct X **apx, int cMax, struct S **aps)
 {
     int i;
     int cs = 0;

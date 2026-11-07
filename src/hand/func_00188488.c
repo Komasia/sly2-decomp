@@ -9,7 +9,7 @@ struct S {
 extern struct S *D_002E1E40;
 void InitActorFields__FP5ACTOR(struct S *p);
 void func_0020B840(void *pv, struct S *p, int n);
-void func_00204D48(struct S *p, float g);
+void SetStepPhysScale__FP3ALOf(struct S *p, float g);
 void InitSlyDodge__FP3SLYi(void *pv, struct S *p);
 void func_001CC158(void *pv);
 static __inline__ void InitLm(struct LM4 *plm, float g8, float gc) { plm->g8 = g8; plm->gc = gc; plm->n = 0; }
@@ -32,7 +32,7 @@ void InitJt__FP2JT(struct S *p)
     register float g __asm__("$f0")=4500.0f;
     p->x1098=a; p->x109c=b; p->x10a0=c; p->x10a4=d; p->lm.g0=e; InitLm(&p->lm,f,g);
     }
-    func_00204D48(p, 1.6f);
+    SetStepPhysScale__FP3ALOf(p, 1.6f);
     p->x1fb0 = 0x1A;
     p->x1fbc = 0x25;
     p->x1fc8 = 0x26;

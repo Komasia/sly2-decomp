@@ -2,7 +2,8 @@ struct M { int a, b; };
 struct B { int a; int b; char pad[0x34]; int c; };
 void Read__18CBinaryInputStreamiPv(void *p, int cb, struct B *pb);
 void *PvAllocSwCopyImpl__FiPv(struct M *pm, struct B *pb);
-void func_00228250(void *p, void **pq)
+// name: SafeHouse port (LoadKeyRecordFromBrx)
+void LoadKeyRecordFromBrx__FP18CBinaryInputStreamPUc(void *p, void **pq)
 {
     struct B b;
     struct M m;

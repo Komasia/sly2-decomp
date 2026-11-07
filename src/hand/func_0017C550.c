@@ -3,13 +3,13 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x28]; int n38; char pad3[0x
 struct X { char pad[0xC]; int nC; };
 struct T { char pad[0x294]; int n294; char pad2[0x3CC - 0x298]; struct X *px; };
 struct S { char pad[0x10]; struct T *p10; int pad2; char a18[0x18]; int n30; };
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 void Follow__9JOBFOLLOWP3CRVi(struct O *o, int a, int b);
 // name: SafeHouse port (JOBSURROUND::SetSurroundState)
 void SetSurroundState__11JOBSURROUNDi(struct S *p, int n) {
     if (n == p->n30) return;
-    func_001EF0D8(p->a18);
+    EndChildJob__FPP5AIJOB(p->a18);
     p->n30 = n;
     switch (n) {
     case 0:

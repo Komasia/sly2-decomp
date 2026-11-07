@@ -9,7 +9,7 @@ extern int D_003E0FAC;
 void NProgress(struct CRef *ret, int a, void *b);
 void func_00129EC8(struct CRef *);
 void func_001ACB58(struct H *h, int n);
-void func_001AD3E0(void);
+void SaveToTarget__Fv(void);
 void func_001AD480(struct S *s)
 {
     struct CRef ref;
@@ -20,7 +20,7 @@ void func_001AD480(struct S *s)
     func_00129EC8(&ref);
     D_002E65E0.xFD58 = p;
     if (f == 0.0f)
-        func_001AD3E0();
+        SaveToTarget__Fv();
     else
         func_001ACB58(&D_002E6550, 0x1C);
     if (s)

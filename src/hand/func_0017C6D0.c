@@ -3,7 +3,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} U;
 struct X {qword header,v;};
 struct P {char pad10[0x10];void*p10;int pad14;void*p18;char pad1C[4];int pending;char pad24[12];void*p30;char pad34[0x40-0x34];qword v40;int state;float time;int pad58[2];qword v60;};
-void func_001EEF98(struct P*);
+void Update__5AIJOB(struct P*);
 int func_001EF0A8(struct P*);
 qword func_001A62E8(void*);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void*,void*,qword);
@@ -17,7 +17,7 @@ static inline float LenXY(qword v){float r;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x 
 // name: SafeHouse port (JOBSTATION::Update)
 void Update__10JOBSTATION(struct P*p){
  struct X x;qword pos;float dist;int state;float lim=250.0f;
- func_001EEF98(p);
+ Update__5AIJOB(p);
  pos=func_001A62E8(p->p30);
  dist=LenXY(Sub(pos,func_001A62E8(p->p10)));
  goto test;

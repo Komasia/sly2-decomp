@@ -14,16 +14,17 @@ struct Q { char pad[0x10]; Q *pnext; };
 struct R { char pad[0x10]; Q *pq; };
 struct P { char pad[0xC]; R *pr; };
 extern "C" {
-CRef func_00127838(Q *pq, CRef *aref);
-CRef func_00126928(P *p, CRef *aref);
+CRef RefEval(Q *pq, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
+CRef RefEvalAnd(P *p, CRef *aref) asm("RefEvalAnd__FP5CPairP6CFrame");
 }
-CRef func_00126928(P *p, CRef *aref)
+// name: SafeHouse port (RefEvalAnd)
+CRef RefEvalAnd(P *p, CRef *aref)
 {
     CRef ref;
     Q *pq;
     ref = true;
     for (pq = p->pr->pq; pq; pq = pq->pnext) {
-        ref = func_00127838(pq, aref);
+        ref = RefEval(pq, aref);
         if (ref.m_tagk == 0x17 && ref.u.n == 0)
             return ref;
     }

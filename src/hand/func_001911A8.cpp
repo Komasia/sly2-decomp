@@ -1,4 +1,4 @@
-// func_001911A8: per-frame update of a hero's action context (the struct at actor+0x4C0; UpdateBentleyTransitions calls it in
+// UpdateInteractTransitions__FP5ACTOR: per-frame update of a hero's action context (the struct at actor+0x4C0; UpdateBentleyTransitions calls it in
 // its state 3). It dispatches on the context's action and loops while the action changed the step (and not to -1).
 // Action 8 / step "other" probes the ground below the actor: a box query along the actor's up axis, a line test
 // against every found object (any hit with a nonzero parameter aborts), then a sphere around the actor's world bounds
@@ -28,7 +28,7 @@ struct SO {
     char pad0[0xC]; VTE *vt; ulong flags; char pad18[0x6C - 0x18]; int cbsp; char pad70[4]; BSP *absp;
     char pad78[0x90 - 0x78]; GEOM geomWorld;
 };
-// Line segment hit (0x60 bytes, as in func_001A93C8)
+// Line segment hit (0x60 bytes, as in SphereBspContacts)
 struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; void *apsurf[2]; void *pedge; int iiposSwap; LSG *plsgNext; };
 struct ACTOR {
     char pad0[0xC]; VTE *vt; char pad10[0xEC - 0x10]; void *pvFilter; char padF0[0x150 - 0xF0]; JOY *pjoy;
@@ -57,21 +57,21 @@ void func_001C4738(JOY *, uint);
 void func_00195A00(void *, int, int, ACTOR *);
 void func_0019CC50(void *, int, int, int);
 int func_00131968(ASEGA *);
-void func_00192BD8(CONTEXT *, int);                     // set the step
+void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");                     // set the step
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");                         // stack allocation in the current STACKSCOPE
 qword func_001A62E8(ACTOR *);                           // world position
 int func_0020F948(void *, SO *);
 void func_0020FAA0(SW *, qword, qword, int (*)(void *, SO *), void *, int *, SO ***);   // objects in a box
-int func_0014C6A0(SO *, qword, qword, int, LSG *);      // line test against an object
+int ClipSegmentSoe(SO *, qword, qword, int, LSG *) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");      // line test against an object
 void UpdateSoeWorld(SO *) asm("UpdateSoeWorld__FP3SOE");
 qword func_0011F288(int, qword *);                      // min of points
 qword func_0011F2B8(int, qword *);                      // max of points
-void func_001A9B28(SW *, SO *, SO *, int, BSP *, XP **);
+void MarkSphereBsp(SW *, SO *, SO *, int, BSP *, XP **) asm("MarkSphereBsp__FP3SOET0PviPP2XPPP7CONTACT");
 int func_00118A88(BSP *, BSP *, float, qword, int *, BSP **);   // prune a BSP to a sphere
-void func_001A8B50(SW *, SO *, SO *, int, BSP *, BSP *, XP **);
+void MarkBspBsp(SW *, SO *, SO *, int, BSP *, BSP *, XP **) asm("MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT");
 void func_001CD098(ATTACH *, ACTOR *);
 int FIsBasicDerivedFrom(ACTOR *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_001423A0(ACTOR *);
+int FActorPoseDone(ACTOR *) asm("FActorPoseDone__FP5ACTOR");
 int func_001441A0(ACTOR *);
 uint func_00141EA8(ACTOR *, int);
 }
@@ -118,7 +118,7 @@ static inline void ProbeGround(CONTEXT *p)
     SO **apso;
     func_0020FAA0(&g_sw, posEnd, posBase, func_0020F948, p->pactor->pvFilter, &cso, &apso);
     for (i = 0; i < cso; i++) {
-        int clsg = func_0014C6A0(apso[i], posBase, posEnd, 8, alsg);
+        int clsg = ClipSegmentSoe(apso[i], posBase, posEnd, 8, alsg);
         LSG *plsg = alsg;
         for (int j = 0; j < clsg; j++)
             if (plsg[j].au[0] != 0.0f)
@@ -142,14 +142,14 @@ static inline void ProbeGround(CONTEXT *p)
         SO *pso = apso[i];
         XP *pxp = 0;
         if (pso->flags & (1UL << 49)) {
-            func_001A9B28(&g_sw, pso, psoSelf, 0, 0, &pxp);
+            MarkSphereBsp(&g_sw, pso, psoSelf, 0, 0, &pxp);
         } else {
             int cbspLeft = cbspMax;
             BSP *pbsp = absp;
             if (func_00118A88(pso->absp, (BSP *)0x7FFFFFFF, sRadius, posMid, &cbspLeft, &pbsp) == 2) {
                 int cbsp = pbsp - absp;
                 pbsp--;
-                func_001A8B50(&g_sw, psoSelf, pso, cbsp, pso->absp, pbsp, &pxp);
+                MarkBspBsp(&g_sw, psoSelf, pso, cbsp, pso->absp, pbsp, &pxp);
             }
         }
         if (pxp) {
@@ -157,10 +157,11 @@ static inline void ProbeGround(CONTEXT *p)
             return;
         }
     }
-    func_00192BD8(p, 8);
+    SetInteractState(p, 8);
 }
 
-extern "C" void func_001911A8(CONTEXT *p)
+// name: SafeHouse port (UpdateInteractTransitions)
+extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
 {
     JOY *pjoy = p->pactor->pjoy;
     int step;
@@ -198,7 +199,7 @@ extern "C" void func_001911A8(CONTEXT *p)
             switch (p->step) {
             case 7:
                 if (func_00131968(p->pactor->pasega))
-                    func_00192BD8(p, 9);
+                    SetInteractState(p, 9);
                 break;
             case 8:
                 if (func_00131968(p->pactor->pasega))
@@ -231,7 +232,7 @@ extern "C" void func_001911A8(CONTEXT *p)
                 SetControl(p->pactor, 0);
             break;
         case 5:
-            if (FIsBasicDerivedFrom(p->pactorFocus, 11) && func_001423A0(p->pactor)) {
+            if (FIsBasicDerivedFrom(p->pactorFocus, 11) && FActorPoseDone(p->pactor)) {
                 p->pactor->ptarget = p->pactorFocus;
                 p->pactor->gTarget = p->gParam;
                 SetControl(p->pactor, 8);

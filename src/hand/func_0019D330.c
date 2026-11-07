@@ -7,7 +7,7 @@ extern struct D g_cm;
 extern qword D_002A2DD0;
 int func_00131968(void *p);
 void func_0019CD38(struct P *p, int n);
-void func_00204660(struct O *o, float g);
+void SetStepPhysHeading__FP3ALOf(struct O *o, float g);
 void func_0019DA78(void *p);
 void func_0019D330(struct P *p)
 {
@@ -24,12 +24,12 @@ void func_0019D330(struct P *p)
             p->x0->x190 = D_002A2DD0;
             switch (p->x20) {
             case 0:
-                func_00204660(p->x0, g_cm.x460);
+                SetStepPhysHeading__FP3ALOf(p->x0, g_cm.x460);
                 p->x3c = g_cm.x470;
                 func_0019DA78(p->x24);
                 break;
             case 1:
-                func_00204660(p->x0, g_cm.x5c4);
+                SetStepPhysHeading__FP3ALOf(p->x0, g_cm.x5c4);
                 p->x3c = g_cm.x5cc;
                 func_0019DA78(p->x24);
                 break;

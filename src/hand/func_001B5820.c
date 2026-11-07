@@ -9,7 +9,7 @@ int IsSwHandsOff__FP2SW(void *g);
 int func_001F07E8(int a);
 int func_001F07C8(int a);
 int func_001C46C0(int a, int b, float f);
-void func_001F0660(int a, int b);
+void SetSmaGoal__FP3SMA3OID(int a, int b);
 // name: SafeHouse port (UpdateMurrayHold)
 void UpdateMurrayHold__FP6MURRAY(struct P *p)
 {
@@ -31,6 +31,6 @@ void UpdateMurrayHold__FP6MURRAY(struct P *p)
     } else if (p->f1528 - p->f1524 > D_002C0900) {
         a = 0x1CA;
     }
-    if (p->x1530) func_001F0660(p->x1530, a);
-    func_001F0660(p->x1034, a);
+    if (p->x1530) SetSmaGoal__FP3SMA3OID(p->x1530, a);
+    SetSmaGoal__FP3SMA3OID(p->x1034, a);
 }

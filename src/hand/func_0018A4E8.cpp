@@ -20,7 +20,7 @@ extern "C" SMP D_002BF348;
 
 extern "C" float RadStepHeading(A *p) asm("RadStepHeading__FP4STEP");
 extern "C" int FIsBasicDerivedFrom(B *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-extern "C" float func_001E6648(B *p);
+extern "C" float SMaxCrv(B *p) asm("SMaxCrv__FP3CRV");
 extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
 extern "C" void func_001E6F10(B *p, qword *pv, qword *direction, float g);
 extern "C" qword func_001A62E8(A *p);
@@ -60,7 +60,7 @@ extern "C" void func_0018A4E8(S *ps, R *pr)
             if (ps->x2C == 1) {
                 g = ps->g20 + (ps->g50*125.0f)*ps->g50;
                 if (pb->xE4 == 0) {
-                    float h = func_001E6648(pb);
+                    float h = SMaxCrv(pb);
                     if (pb->x1BC & 2)
                         h += 100.0f;
                     g = GMin(g, h);
@@ -105,7 +105,7 @@ tail:
     if (FIsBasicDerivedFrom(ps->p14, 0xC) && ps->p14->xE4 == 0) {
         float k;
         float c = 30.0f;
-        register float h __asm__("$f0")=func_001E6648(ps->p14)-c;
+        register float h __asm__("$f0")=SMaxCrv(ps->p14)-c;
         register float half __asm__("$f3")=0.5f,width __asm__("$f1")=h-c,d __asm__("$f2")=300.0f;
         __asm__("mul.s %0,%0,%1":"+f"(width):"f"(half));
         __asm__("min.s %0,%1,%0":"+f"(d):"f"(width));

@@ -1,14 +1,14 @@
 #include "m2c_prelude.h"
 s32 func_00174FB8(s32);                             /* extern */
 M2C_UNK SetShootState__8JOBSHOOTi(void *, M2C_UNK);             /* extern */
-M2C_UNK func_001EEF98();                            /* extern */
+M2C_UNK Update__5AIJOB();                            /* extern */
 s32 func_001EF0A8(void *);                          /* extern */
 
 // name: SafeHouse port (JOBSHOOT::Update)
 void Update__8JOBSHOOT(void *arg0) {
     s32 temp_s1;
 
-    func_001EEF98();
+    Update__5AIJOB();
 loop_1:
     if (func_001EF0A8(arg0) == 0) {
         temp_s1 = M2C_FIELD(arg0, s32 *, 0x30);

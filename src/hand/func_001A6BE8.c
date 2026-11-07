@@ -1,8 +1,9 @@
-/* func_001A6BE8 (0x1A6BE8): move the LO to a world matrix: virtual slot 28 with its translation row, then
+/* PlaceAloAt__FP3ALOP7MATRIX4 (0x1A6BE8): move the LO to a world matrix: virtual slot 28 with its translation row, then
  * virtual slot 29 with the whole matrix (TranslateToPos / RotateToMat in Sly 1's vtable order). */
 #include "so.h"
 
-void func_001A6BE8(LO *plo, struct MATRIX4 *pmat)
+// name: SafeHouse port (PlaceAloAt)
+void PlaceAloAt__FP3ALOP7MATRIX4(LO *plo, struct MATRIX4 *pmat)
 {
     VTE *pvte;
 

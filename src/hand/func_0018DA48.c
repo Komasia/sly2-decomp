@@ -20,7 +20,7 @@ extern void func_0018C250(void *p, int a, int b);
 extern void func_00195FB8(void *p, int a, int b);
 extern REC *func_0018D6F8(void *p, int n);
 extern void func_002206C8(void *p, int n);
-extern void func_001928F8(void *p, int a, int b, int c);
+extern void StartInteract__FP5ACTORii3JTL(void *p, int a, int b, int c);
 extern OBJ *func_001CB250(int oid, int n);
 extern int func_00224610(OBJ *p);
 extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, REC *prec, OBJ *pobj);
@@ -73,7 +73,7 @@ void func_0018DA48(char *p, int n)
             break;
         }
         if (prec->x8) {
-            func_001928F8(A(0x4C0), 0xB, prec->x8, 0);
+            StartInteract__FP5ACTORii3JTL(A(0x4C0), 0xB, prec->x8, 0);
             break;
         }
         pobj = func_001CB250(prec->x4, 0);
@@ -97,7 +97,7 @@ void func_0018DA48(char *p, int n)
             F(int, 0x130C) = F(int, 0x1FE0);
         else
             F(int, 0x130C) = F(int, 0x1FE4);
-        func_001928F8(A(0x4C0), 0xB, 0, 0);
+        StartInteract__FP5ACTORii3JTL(A(0x4C0), 0xB, 0, 0);
         break;
     case 0x18:
         func_00141CD0(p, n);
@@ -113,7 +113,7 @@ void func_0018DA48(char *p, int n)
         break;
     case 0x28:
         func_00141CD0(p, n);
-        func_001928F8(A(0x4C0), 2, 0, 0);
+        StartInteract__FP5ACTORii3JTL(A(0x4C0), 2, 0, 0);
         break;
     case 0x1F:
         if (F(int, 0x204C))

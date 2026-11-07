@@ -11,7 +11,7 @@ typedef struct {
     W *pw;
 } OBJ;
 void func_001DA5C8(OBJ *, int);
-int func_002132D0(W *);
+int FVisible__FP8SCREENRT(W *);
 int func_002121E8(W *, int);
 void func_001DA350(OBJ *p)
 {
@@ -30,7 +30,7 @@ void func_001DA350(OBJ *p)
         } else if (p->x1C == 0.0f) {
             func_001DA5C8(p, 3);
         } else if (0.0f < p->x1C) {
-            if (p->pw && !func_002132D0(p->pw))
+            if (p->pw && !FVisible__FP8SCREENRT(p->pw))
                 p->t += g_clock.dt;
         }
         break;

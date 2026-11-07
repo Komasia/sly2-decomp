@@ -18,10 +18,10 @@ int func_001C46C0(struct PO *po, int grf, float g);
 int func_001C4660(struct PO *po, int grf, float g);
 void func_001C4738(struct PO *po, int grf);
 void func_00197500(void *pv);
-void func_001911A8(void *pv);
+void UpdateInteractTransitions__FP5ACTOR(void *pv);
 void UpdateDamageTransitions__FP5ACTOR(void *pv);
 void func_0019CC50(void *pv, int a, int b, int c);
-void func_001938C0(void *pv, int a, int b);
+void FInteractCircle__FP5ACTOR(void *pv, int a, int b);
 int func_00136A28(struct P *p, int n);
 void func_0019E1E0(void *pv);
 void UpdateBentleyHold__FP7BENTLEY(struct P *p);
@@ -80,7 +80,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
                 p->x16B4 = func_00136A28(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             } else if (func_001C46C0(p->p150, 0x20, 0.2f)) {
-                func_001938C0(&p->x4C0, 0xF8FE, 0);
+                FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
             } else {
                 float g = p->p150->g1C;
                 if ((p->state == 0 && 0.1f < g) || (p->state != 0 && 0.0f < g)) {
@@ -102,7 +102,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             }
             break;
         case 3:
-            func_001911A8(&p->x4C0);
+            UpdateInteractTransitions__FP5ACTOR(&p->x4C0);
             break;
         case 4:
             UpdateDamageTransitions__FP5ACTOR(p->aDF0);
@@ -116,7 +116,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
                 func_001C4738(p->p150, 0x400);
                 func_0019CC50(p->aF00, 0, 0, 0);
             } else if (func_001C46C0(p->p150, 0x20, 0.2f)) {
-                func_001938C0(&p->x4C0, 0xF8FE, 0);
+                FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
             } else if (func_001C4660(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
                 func_001C4738(p->p150, 0x10);
                 p->x16B4 = func_00136A28(p, p->x1870);

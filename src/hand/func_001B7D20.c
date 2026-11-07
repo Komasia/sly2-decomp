@@ -8,7 +8,7 @@ struct P { char pad[0x13F0]; struct O *x13F0; int a13F4[4]; int x1404; int x1408
 void DeleteCtrl__FPP4CTRL(int *p);
 void SetXfMode__FP3ALOP2XFi(struct X *x, int a, int b);
 void SetAloContactsOff__FP3ALOi(struct X *x, int a);
-void func_001A58D0(struct X *x, int a, int b);
+void ReparentBooty__FP3ALOii(struct X *x, int a, int b);
 void func_00134320(void *g, struct P *p);
 void func_001B7D20(struct P *p)
 {
@@ -33,7 +33,7 @@ void func_001B7D20(struct P *p)
     SetXfMode__FP3ALOP2XFi(x, x->x58, p->x1404);
     SetXfMode__FP3ALOP2XFi(x, x->x5C, p->x1408);
     SetAloContactsOff__FP3ALOi(x, 0);
-    func_001A58D0(x, 0, 0xF);
+    ReparentBooty__FP3ALOii(x, 0, 0xF);
     p->x1430 = x;
     p->f1434 = g_clock.t;
     func_00134320(g_sw, p);

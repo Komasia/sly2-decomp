@@ -17,8 +17,8 @@ extern int D_002BC9E0;
 extern float D_002A4B1C;
 extern G g_sw;
 qword func_001A62E8(void *p);
-void func_0013B428(P *p, qword a, qword b);
-void func_0013B5E8(P *p, int *pc, PO ***papo);
+void RecordHit(P *p, qword a, qword b) asm("RecordHit__FP3ALOG9VU_VECTORT1");
+void AploVictims(P *p, int *pc, PO ***papo) asm("AploVictims__FP3ALOP6VECTORPv");
 void *func_002333B4(void *pv, int b, int cb);
 int PaloAcceptContact(MSG *pmsg) asm("PaloAcceptContact__FP5CTMSG");
 int FIsBasicDerivedFrom(PO *po, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -27,18 +27,19 @@ int *func_00156698(int n, qword pos, void *pv);
 struct FRAME { int a[2]; }; // FrameInit = ctor, FrameFree = dtor(this, 2)
 extern "C" void *FrameInit(FRAME *); extern "C" void FrameFree(FRAME *, int);
 
-extern "C" void func_0013B860(P *p)
+// name: SafeHouse port (EndProjectile)
+extern "C" void EndProjectile__FP3ALO(P *p)
 {
     if (((p->ul28 >> 60) & 1) == 0)
         return;
-    func_0013B428(p, func_001A62E8(p), g_normalZ);
+    RecordHit(p, func_001A62E8(p), g_normalZ);
     FRAME frame;
     if (p->x164 == 0) {
         FrameInit(&frame);
         int c;
         PO **apo;
         int i;
-        func_0013B5E8(p, &c, &apo);
+        AploVictims(p, &c, &apo);
         for (i = 0; i < c; i++) {
             PO *po = apo[i];
             MSG msg;

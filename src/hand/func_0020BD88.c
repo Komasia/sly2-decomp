@@ -10,7 +10,7 @@ struct V3 { float x, y, z; };
 struct S { int h; void *po; float a; float b; float c; float ca; float cb; union FLOATWORD dist; struct V3 v; int pad; int f; };
 extern char g_sw[];
 void *func_0015E938(void *p, int n, int h, void *arg);
-struct MARKER *func_0012F938(void *po, int n);
+struct MARKER *PeventLaunch__FP5KINDEi(void *po, int n);
 struct C *func_0012FF10(void *po, void *arg, int kind, int check);
 
 void func_0020BD88(struct S *p, void *arg)
@@ -31,13 +31,13 @@ void func_0020BD88(struct S *p, void *arg)
         if (!p->po)
             return;
     }
-    pa = func_0012F938(p->po, 0x22);
+    pa = PeventLaunch__FP5KINDEi(p->po, 0x22);
     if (!pa)
         return;
-    pb = func_0012F938(p->po, 0x23);
+    pb = PeventLaunch__FP5KINDEi(p->po, 0x23);
     if (!pb)
         return;
-    pc = func_0012F938(p->po, 0x24);
+    pc = PeventLaunch__FP5KINDEi(p->po, 0x24);
     if (!pc)
         return;
     p->a = pa->value.value;

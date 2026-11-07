@@ -1,7 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 qword func_001A62E8(void *p);
 void func_002046B0(void *p, qword v);
-void func_002046F0(void *p, void *q)
+// name: SafeHouse port (FaceObject)
+void FaceObject__FP5ACTORP2LO(void *p, void *q)
 {
     qword a, b, d;
     a = func_001A62E8(q);

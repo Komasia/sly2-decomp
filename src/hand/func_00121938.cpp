@@ -45,7 +45,7 @@ struct SPN {
     int pad[3];
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
-extern "C" CRef func_00127838(NODE *pn, CRef *aref);
+extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 extern "C" CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpFilter__FiP4CRefP6CFrame");
 CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
@@ -53,7 +53,7 @@ CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk 
  SP spRes; NODE *pTail; NODE *pn = aref[1].u.pnode;
  while (pn) {
    *pb = pn->ref;
-   CRef r = func_00127838(sp.p, arefCall);
+   CRef r = RefEval(sp.p, arefCall);
    if (r.m_tagk == 0x17 && r.u.n) {
      SPN spNew; NODE *pnNew = func_00256B48(); spNew.Set(pnNew);
      spNew->ref = pn->ref;

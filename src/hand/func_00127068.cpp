@@ -28,9 +28,10 @@ struct R { char pad[0x10]; Q *pq; };
 struct P { char pad[0xC]; R *pr; };
 extern "C" {
 O *func_00256F48();
-CRef func_00127068(P *p, X *px);
+CRef RefEvalLambda(P *p, X *px) asm("RefEvalLambda__FP5CPairP6CFrame");
 }
-CRef func_00127068(P *p, X *px)
+// name: SafeHouse port (RefEvalLambda)
+CRef RefEvalLambda(P *p, X *px)
 {
     Q *pq = p->pr->pq;
     Y *py = (Y *)pq->pnext;

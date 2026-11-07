@@ -11,7 +11,7 @@ void RetractAsega__FP5ASEGA(struct O *o);
 void DeleteCtrl__FPP4CTRL(int *p);
 int func_00209A68(struct S *p, int n);
 struct O *func_00205458(struct S *p, int n);
-void func_00204D48(struct S *p, float f);
+void SetStepPhysScale__FP3ALOf(struct S *p, float f);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(int a, struct S *p, int n, struct O **ppo, float f1, float f2);
 int PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct S *p, int a, int b, int c, int d, qword q);
 void func_001BA408(struct S *p, int st)
@@ -25,7 +25,7 @@ void func_001BA408(struct S *p, int st)
         p->x102C = 0;
         p->x1028 = 0;
         if (func_00209A68(p, 2)) func_00205458(p, 0x9E)->x38 = D_002E1E40;
-        func_00204D48(p, 1.0f);
+        SetStepPhysScale__FP3ALOf(p, 1.0f);
     }
     p->x1018 = st;
     p->f101C = g_clock.t;
@@ -35,6 +35,6 @@ void func_001BA408(struct S *p, int st)
     p->x102C = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->x1034, 5, 8, 3, D_002A2DD0);
     if (func_00209A68(p, 2)) {
         func_00205458(p, 0x9E)->x38 = p->x1028;
-        func_00204D48(p, 4.0f);
+        SetStepPhysScale__FP3ALOf(p, 4.0f);
     }
 }

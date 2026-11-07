@@ -20,7 +20,7 @@ void *AkeyStandHeldBy(void *p) asm("AkeyStandHeldBy__Fi");
 CRef func_00258200(void *p, const CRef &ref, G *pv);
 CRef SetProgressPoCurrent(const CRef &ref, void *o, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
 }
-/* Same SetPv form as func_0013D328: the unused dummy param makes gcc set up %hi(D_003D4A60)
+/* Same SetPv form as SetStandBooty: the unused dummy param makes gcc set up %hi(D_003D4A60)
    before the copy (lui in the copy-ctor jal slot). The copy is made in a raw struct with explicit
    copy/dtor calls: an inlined ~CRef would put &arg in a pseudo that gcse PRE then shares with
    the second CRef temp at the same stack slot. */

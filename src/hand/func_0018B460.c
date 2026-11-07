@@ -12,7 +12,7 @@ struct P{char pad[0x60];struct SPACE*space;char pad64[0x1030-0x64];struct MODEL*
 struct WORK{union{struct M4 predicted;U scalar;}phase;struct M4 transform;U axis;struct M3 rotation;U relative,residual,gain;};
 extern float D_002BF380,D_002BF3A0,D_002BF3B8,D_002BF3BC;
 extern qword D_002BF390;extern struct LM D_002BF3A8,D_002BF3B0;extern struct CLOCK g_clock;
-void func_002046F0(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struct SPACE*,struct M4*,struct M4*,float);
+void FaceObject__FP5ACTORP2LO(struct P*,struct AIM*);void func_002309E8(struct SPACE*,struct SPACE*,struct M4*,struct M4*,float);
 qword func_0022FC48(struct SPACE*,struct SPACE*,qword);qword func_0022FCC8(struct SPACE*,struct SPACE*,qword);
 float func_002458F0(float,float);float func_0011D948(struct LM*,float);
 struct M3*func_0011B628(struct M3*,qword);qword*func_00256D18(qword*,qword);void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(struct DV*,qword);
@@ -39,7 +39,7 @@ void func_0018B460(struct P*p){
  float zero=0.0f;
  if(zero<ratio){
   register qword mapped __asm__("$17");qword tilt,axis,residual;register float limit __asm__("$f1");struct SPACE*space;register struct SPACE*relativeDestination __asm__("$5");struct M4*frame;float heading;
-  func_002046F0(p,p->owner->aim);
+  FaceObject__FP5ACTORP2LO(p,p->owner->aim);
   {register struct OWNER*predictionOwner __asm__("$2")=p->owner;
    register float capped __asm__("$f12");register struct M4*request __asm__("$6"),*optionalOutput __asm__("$7");
    register struct AIM*aim __asm__("$3");register struct SPACE*sourceSpace __asm__("$5");const int nullValue=0;

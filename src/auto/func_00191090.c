@@ -44,7 +44,8 @@ extern M2C_UNK g_sw;
 extern void *D_003E13B4;
 extern s32 D_003E1BEC;
 
-void func_00191090(s32 arg0, s32 arg1) {
+// name: SafeHouse port (InitInteract)
+void InitInteract__FP5ACTORi(s32 arg0, s32 arg1) {
     M2C_FIELD(arg0, s32 *, 0) = arg1;
     M2C_FIELD(arg0, s32 *, 8) = -1;
     M2C_FIELD(arg0, s32 *, 0xC) = -1;

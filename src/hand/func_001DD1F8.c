@@ -10,10 +10,11 @@ typedef struct {
     ENT ae[17];
     int sel;
 } OBJ;
-void func_00213DB0(W *, int, int *);
+void SelectScreenObjPartHandle__FP2LOiPi(W *, int, int *);
 int func_00163400(void *);
-int func_00164030(void *);
-void func_001DD1F8(OBJ *p)
+int FTaskDone__FP4TASK(void *);
+// name: SafeHouse port (UpdateJobHelpLook)
+void UpdateJobHelpLook__FPv(OBJ *p)
 {
     int i;
     if (p->pw->x58 != 2)
@@ -21,16 +22,16 @@ void func_001DD1F8(OBJ *p)
     for (i = 0; i < p->c; i++) {
         int f;
         ENT *pe = &p->ae[i];
-        func_00213DB0(p->pw, i == p->sel ? i + 0x4FD : i + 0x4E9, &pe->a);
+        SelectScreenObjPartHandle__FP2LOiPi(p->pw, i == p->sel ? i + 0x4FD : i + 0x4E9, &pe->a);
         f = 0;
         switch (p->kind) {
         case 0:
             f = func_00163400(pe->p);
             break;
         case 1:
-            f = func_00164030(pe->p);
+            f = FTaskDone__FP4TASK(pe->p);
             break;
         }
-        func_00213DB0(p->pw, f ? i + 0x507 : -1, &pe->b);
+        SelectScreenObjPartHandle__FP2LOiPi(p->pw, f ? i + 0x507 : -1, &pe->b);
     }
 }

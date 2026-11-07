@@ -7,7 +7,8 @@ void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
 qword func_0011F288(int c, qword *points);
 qword func_0011F2B8(int c, qword *points);
-void func_00227BB8(struct S *p, void *pbis)
+// name: SafeHouse port (LoadShapeFromBrx)
+void LoadShapeFromBrx__FP5SHAPEP18CBinaryInputStream(struct S *p, void *pbis)
 {
     LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(p, pbis);
     func_00117FD0(pbis, &p->c);

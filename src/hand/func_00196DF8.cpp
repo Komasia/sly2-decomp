@@ -7,7 +7,7 @@ struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct 
 union BASE_PHASE{M3 returned;struct{U local,acceleration,corrected,scalar;}vectors;};
 union WORK{struct{U local,scalar;M3 basis,rotation,returned;U original;}turn;struct{U direction;M3 basis;BASE_PHASE phase;}move;U scalar;};
 extern "C"{extern CLOCK g_clock;extern U D_002A2DA0,g_normalZ,D_002A2DD0;extern SMP D_002BF7A8,D_002BF7B8,D_002BF7C8;extern float D_002BF7D4,D_002BF7F0,D_002BF7F4,D_002BF7F8,D_002BF810,D_002BF814;extern PARAMS D_002BF7E0;extern POLY D_002BF800;extern RANGE g_lmZeroOne;
-qword ConvertVec(ACTOR*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");M3*func_0011B570(M3*,qword);M3*func_0011B7E0(M3*,qword);M4*func_001A6318(ACTOR*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");qword func_0011E9F8(qword,float);void func_001FAC30(ACTOR*,qword);void AccelAloTowardPosition(ACTOR*,qword,PARAMS*,qword,PARAMS*) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");void func_00196AA8(CONTEXT*,U*);}
+qword ConvertVec(ACTOR*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");M3*func_0011B570(M3*,qword);M3*func_0011B7E0(M3*,qword);M4*func_001A6318(ACTOR*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");qword func_0011E9F8(qword,float);void AccelAloPos(ACTOR*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");void AccelAloTowardPosition(ACTOR*,qword,PARAMS*,qword,PARAMS*) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");void func_00196AA8(CONTEXT*,U*);}
 static inline qword Velocity(ACTOR*p){VTE&v=p->vt[33];return ((qword(*)(void*))v.fn)((char*)p+v.delta);}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword a,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(k));return r;}
@@ -124,7 +124,7 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
    __asm__("prot3w $3,%0\n\tmtc1 %0,$f0\n\tmtc1 $3,$f1\n\tmfc1 %0,$f0\n\tmfc1 $3,$f1\n\tpextlw %0,$3,%0\n\tmfc1 $3,%2\n\tpcpyld %0,$3,%0\n\tsq %0,%1"
     :"+r"(acceleration),"=m"(w.turn.scalar.q):"f"(zero):"$3","$f0","$f1");
   }
-  func_001FAC30(p->actor,acceleration);break;
+  AccelAloPos(p->actor,acceleration);break;
  }
  case 22:{
   register PARAMS*parameters __asm__("$8"),*empty __asm__("$6");register ACTOR*actor __asm__("$4");
@@ -197,7 +197,7 @@ extern "C" void func_00196DF8(CONTEXT*p){WORK w;
      :"+m"(w.move.phase.vectors.corrected.q),"=m"(w.move.phase.vectors.scalar.q),"+f"(threshold):"f"(z),"i"(&g_normalZ):"$3","vf1","vf2","vf3","memory");
    }
   }
-  func_001FAC30(p->actor,w.move.phase.vectors.corrected.q);break;
+  AccelAloPos(p->actor,w.move.phase.vectors.corrected.q);break;
  }
  }
 }

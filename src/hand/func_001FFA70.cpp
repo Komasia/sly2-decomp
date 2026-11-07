@@ -23,7 +23,7 @@ extern "C" {
 int func_00256DD0(void);
 SP func_00257058(int);
 void func_00259A88(O *);
-CRef func_00127838(int, O *);
+CRef RefEval(int, O *) asm("RefEval__FP5CPairP6CFrame");
 }
 extern "C" CRef func_001FFA70(void *p, Q *pq, int i)
 {
@@ -33,7 +33,7 @@ extern "C" CRef func_001FFA70(void *p, Q *pq, int i)
         SP sp = func_00257058(x);
         func_00259A88(sp.p);
         sp.p->n24 = 1;
-        r = func_00127838(pq->ae[i].a, sp.p);
+        r = RefEval(pq->ae[i].a, sp.p);
         sp.p->cref++;
         pq->ae[i].b = sp.p;
     }

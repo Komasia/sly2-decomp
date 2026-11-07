@@ -30,8 +30,8 @@ void func_00210338(void *, int, void *, void *, struct Q *, float);
 void func_00210538(void *, int, int, int, void *, struct Q *, float);
 void func_00210408(void *, int, void *, int, void *, void *, struct Q *);
 void func_002104A0(void *, int, void *, int, void *, void *, struct Q *);
-void func_001618F8(void *, float);
-void func_00161958(void *);
+void StartHudTimer(void *, float) asm("StartHudTimer__FPvf");
+void StopHudTimer(void *) asm("StopHudTimer__FPv");
 void func_00210678(void *, int, int, void *, struct Q *, float);
 void SnapAsegaXfs(struct P *, void *) asm("SnapAsegaXfs__FP5ASEGAi");
 void func_001F81E0(void *, int);
@@ -133,10 +133,10 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
         break;
     }
     case 18:
-        func_001618F8(g_sw, p->g1C);
+        StartHudTimer(g_sw, p->g1C);
         break;
     case 19:
-        func_00161958(g_sw);
+        StopHudTimer(g_sw);
         break;
     case 20: {
         struct A20 *pa = (struct A20 *)pev->pv;

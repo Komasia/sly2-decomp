@@ -14,8 +14,8 @@ typedef struct WORK{U direction,newEndpoint,oldEndpoint;SEGMENT segments[2];U sc
 extern qword D_002A2DA0;extern int g_sw;
 extern void func_001F5990(P*,REQUEST*,int,int,int,CONTACT**);
 extern qword*func_002564B8(qword*);
-extern int func_0014C748(qword,float,qword,qword,int,SEGMENT*);
-extern void func_001A7C18(void*,CONTACT*,REQUEST*,qword,qword,int,NODE*,int,CONTACT**,float);
+extern int ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(qword,float,qword,qword,int,SEGMENT*);
+extern void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void*,CONTACT*,REQUEST*,qword,qword,int,NODE*,int,CONTACT**,float);
 
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline qword Broadcast(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
@@ -58,20 +58,20 @@ void AddSwarmXps__FP3ALOP3SOEiiiPP2XP(P*p,REQUEST*q,int unused2,int unused3,int 
    distance=Planar(&w.direction);
    if(distance<radius){
     w.newEndpoint.q=Broadcast(-q->radius);
-    func_001A7C18(&g_sw,&p->contacts[p->contactCount-1],q,MAdd(center,w.direction.q,w.newEndpoint.q),w.direction.q,10,n,0,out,distance-radius);
+    PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(&g_sw,&p->contacts[p->contactCount-1],q,MAdd(center,w.direction.q,w.newEndpoint.q),w.direction.q,10,n,0,out,distance-radius);
    }else{
     int j;
     for(j=q->start;j<q->count;j++){
      w.newEndpoint.q=Point(&q->matrix,q->vertices[j]);w.oldEndpoint.q=q->world[j];
      w.newEndpoint.f[2]=w.oldEndpoint.f[2]=n->position.f[2];
-     if(func_0014C748(n->position.q,radius,w.newEndpoint.q,w.oldEndpoint.q,2,w.segments)>0){
+     if(ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(n->position.q,radius,w.newEndpoint.q,w.oldEndpoint.q,2,w.segments)>0){
       qword plane,point,result;
       w.scale.q=BroadcastBits(*(int*)&q->radius);
       plane=w.segments[0].plane;point=w.oldEndpoint.q;
       result=MAdd2(point,plane,w.scale.q);
       func_002564B8(&w.dot.q);func_002564B8(&w.one.q);
       distance=Distance(&w.dot,&w.one,plane,point)-q->radius;
-      func_001A7C18(&g_sw,&p->contacts[p->contactCount-1],q,result,plane,10,n,0,out,distance);
+      PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(&g_sw,&p->contacts[p->contactCount-1],q,result,plane,10,n,0,out,distance);
       break;
      }
     }

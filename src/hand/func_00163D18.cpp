@@ -35,7 +35,7 @@ extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEven
 extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
 extern "C" void ApplyTaskSms(O *p, int n, int c, int a, int b) asm("ApplyTaskSms__FPvT0iT0i");
 extern "C" void func_001DA4B8(void *pv, int n, float g);
-extern "C" void func_002283D0(LO *plo);
+extern "C" void TriggerExit(LO *plo) asm("TriggerExit__FP4EXIT");
 // name: SafeHouse port (ActivateTaskNow)
 extern "C" void ActivateTaskNow__FP4TASK(O *p)
 {
@@ -61,7 +61,7 @@ extern "C" void ActivateTaskNow__FP4TASK(O *p)
                 *(int *)v |= 0x100;
             else
                 plo->fl = v | 0x100;
-            func_002283D0(p->fc4);
+            TriggerExit(p->fc4);
         }
     }
 }

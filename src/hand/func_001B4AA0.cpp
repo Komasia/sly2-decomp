@@ -47,15 +47,15 @@ extern "C" int func_001B84E0(P*);
 extern "C" void func_001B85D0(P*);
 extern "C" void StartMurrayPunch(P*) asm("StartMurrayPunch__FP6MURRAY");
 extern "C" int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
-extern "C" int func_001938C0(void*,unsigned,int);
+extern "C" int FInteractCircle(void*,unsigned,int) asm("FInteractCircle__FP5ACTOR");
 extern "C" void func_00197500(void*);
 extern "C" int func_00143D20(P*,float);
-extern "C" void func_001911A8(void*);
+extern "C" void UpdateInteractTransitions(void*) asm("UpdateInteractTransitions__FP5ACTOR");
 extern "C" void UpdateDamageTransitions(void*) asm("UpdateDamageTransitions__FP5ACTOR");
 extern "C" void UpdateMurrayFlop(P*) asm("UpdateMurrayFlop__FP6MURRAY");
-extern "C" void func_001B5380(P*);
+extern "C" void UpdateMurrayCarryHeld(P*) asm("UpdateMurrayCarryHeld__FP6MURRAY");
 extern "C" void UpdateMurrayHold(P*) asm("UpdateMurrayHold__FP6MURRAY");
-extern "C" void func_001B92F8(P*);
+extern "C" void UpdateMurrayCarryTransitions(P*) asm("UpdateMurrayCarryTransitions__FP6MURRAY");
 extern "C" int func_00131968(void*);
 extern "C" int func_001F0638(void*);
 extern "C" void UpdateMurrayPunchTransitions(P*) asm("UpdateMurrayPunchTransitions__FP6MURRAY");
@@ -96,7 +96,7 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
    if(func_001B84E0(p)&&func_001C46C0(p->input,0x10,D_002C08DC)){func_001B85D0(p);break;}
    if(FMurrayGrab(p))break;
    if(func_001C46C0(p->input,0x20,0.2f)){
-    if(!func_001938C0(&p->gate,0xF8FA,0)&&p->root){p->flag=0;func_001B6078(p,4);}
+    if(!FInteractCircle(&p->gate,0xF8FA,0)&&p->root){p->flag=0;func_001B6078(p,4);}
     break;
    }
    if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC)){StartMurrayPunch(p);break;}
@@ -119,12 +119,12 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
     }
    }
    break;
-  case 13:func_001911A8(&p->gate);break;
+  case 13:UpdateInteractTransitions(&p->gate);break;
   case 14:UpdateDamageTransitions(p->action);break;
   case 3:UpdateMurrayFlop(p);break;
-  case 5:func_001B5380(p);break;
+  case 5:UpdateMurrayCarryHeld(p);break;
   case 6:UpdateMurrayHold(p);break;
-  case 4:func_001B92F8(p);break;
+  case 4:UpdateMurrayCarryTransitions(p);break;
   case 7:case 8:finished=func_00131968(p->animation);goto checkIdle;
   case 11:UpdateMurrayPunchTransitions(p);break;
   case 9:UpdateMurrayBehavior(p);break;

@@ -1,6 +1,7 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 void Decref__4CRef(CRef *pref);
-CRef *func_00129970(CRef *pref, int *p)
+// name: SafeHouse port (CRef::SetPair)
+CRef *SetPair__4CRefP5CPair(CRef *pref, int *p)
 {
     (*p)++;
     Decref__4CRef(pref);

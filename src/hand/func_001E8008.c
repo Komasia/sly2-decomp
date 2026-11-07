@@ -8,9 +8,9 @@ static inline float StoreEndpointAndUpperBits(float *endpoint,float upper,unsign
 }
 struct P { char pad[0xE4]; int fE4; };
 extern int D_002C3650;
-float func_001E6648(struct P *);
+float SMaxCrv__FP3CRV(struct P *);
 float GRandInRange__Fff(float, float);
-float func_001E66C8(struct P *, float);
+float SWrapCrv__FP3CRVf(struct P *, float);
 static inline float sqrtf_(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 static inline float GClamp(float x, float lo, float hi)
 {
@@ -29,7 +29,7 @@ float func_001E8008(struct P *p, float a, float b)
         lower = a - b;
         upper = a + b;
     } else {
-        float m = func_001E6648(p);
+        float m = SMaxCrv__FP3CRV(p);
         float c = GClamp(a, b, m - b);
         lower = GMax(c - b, 0.0f);
         upper = GMin(c + b, m);
@@ -58,7 +58,7 @@ float func_001E8008(struct P *p, float a, float b)
     t = t * 0.5f + 0.5f;
     u = (1.0f - t) * r[0] + t * r[1];
     if (p->fE4)
-        u = func_001E66C8(p, u);
+        u = SWrapCrv__FP3CRVf(p, u);
     return u;
 }
 

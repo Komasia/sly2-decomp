@@ -11,7 +11,7 @@ extern struct CLOCK g_clock;
 extern float D_002C42E0;
 extern float D_002C3C60[];
 extern "C" void func_001F4F10(struct S *p);
-extern "C" int func_00224638(struct S *p);
+extern "C" int FCarryLands(struct S *p) asm("FCarryLands__FP7CARRYRT");
 extern "C" int func_00224508(struct S *p, struct S *q);
 struct SCALAR {qword q;};
 static inline void InitScalar(SCALAR &home,const float &f){int bits;asm("lw %0,0(%1)":"=r"(bits):"0"(&f),"m"(f));__asm__("qmtc2.ni %1,%0":"=j"(home.q):"r"(bits));}
@@ -19,7 +19,8 @@ static inline qword Scale(const qword &direction,const SCALAR &scalar){qword res
 static inline S *Neighbor(const SIDE &side){register S *value asm("$16");asm("lw %0,%1":"=r"(value):"m"(side.pOther));return value;}
 static inline const SIDE *SideAt(const EDGE *edge,int index){const SIDE *side;int bytes=index*sizeof(SIDE);asm("addu %0,%1,%2":"=r"(side):"r"(edge),"r"(bytes));return side;}
 static inline const float *CoefficientAt(const float *table,int index){const float *value;asm("sll %0,%1,2\n\taddu %0,%0,%2":"=&r"(value):"r"(index),"r"(table));return value;}
-extern "C" void func_00224380(struct S *p)
+// name: SafeHouse port (UpdateCarryContacts)
+extern "C" void UpdateCarryContacts__FP3ALO(struct S *p)
 {
     struct S *q;
     struct EDGE *pe;
@@ -38,7 +39,7 @@ extern "C" void func_00224380(struct S *p)
                 continue;
             }
             q = Neighbor(*SideAt(pe,1-i));
-            if (pe->k9C != 8 && func_00224638(p) && func_00224508(p, q)) {
+            if (pe->k9C != 8 && FCarryLands(p) && func_00224508(p, q)) {
                 SCALAR home;
                 p->x1A0=q;
                 p->x158=2;

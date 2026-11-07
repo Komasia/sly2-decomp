@@ -1,4 +1,4 @@
-// func_00192BD8: set the step of a hero action context (the struct at actor+0x4C0; func_001911A8 calls it).
+// SetInteractState__FP5ACTORi: set the step of a hero action context (the struct at actor+0x4C0; UpdateInteractTransitions calls it).
 // Leaves the old step (cleanup per step / per action), then enters the new one: picks the animation clip, the
 // script, the flags and the blend for the new step and starts them on the actor.
 //
@@ -6,7 +6,7 @@
 // - p ends up in s2 only because two block-local call-crossing pointers take s0/s1 while p is live (old action 4:
 //   `ACTOR *actor = p->pactor` before the position call; action 34: `AUX *aux = p->aux` before func_001A62E8).
 // - Normalize: return-style inline plus a split vdiv / vmulq (see Unit) keeps the fallback lq/qmtc2 of the target.
-// - old step 7: VuFloat's "r,V" alternative (func_001911A8 idiom) fixes the vt/fn and actor/height registers.
+// - old step 7: VuFloat's "r,V" alternative (UpdateInteractTransitions idiom) fixes the vt/fn and actor/height registers.
 // - step -1 reset: the zeros are a chained `param = value = 0.0f` (0.0f in f0) and sched1 puts the stores that kill
 //   -1 / 0.0f first, so their statement order is chosen to give the target's store order.
 
@@ -77,12 +77,12 @@ void func_00183B80(SOURCE *, int);
 void func_001333C0(SOURCE *, ACTOR *);
 void func_00133448(SOURCE *, ACTOR *);
 void func_00204F78(ACTOR *, SOURCE *, int);
-void func_001E67B8(SOURCE *, float, qword *, qword *);
+void EvalCrv(SOURCE *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 EFFECT *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(EFFECT *, SOURCE *) asm("SetSource__4CSndPv");
 void func_00258040(EFFECT **, EFFECT *);
-void func_002046F0(ACTOR *, SOURCE *);
-void func_00204CA8(ACTOR *);
+void FaceObject(ACTOR *, SOURCE *) asm("FaceObject__FP5ACTORP2LO");
+void TurnActorNow(ACTOR *) asm("TurnActorNow__FP5ACTOR");
 void func_002046B0(ACTOR *, qword);
 void SetCmPolicy(MANAGER *, int, CAMERA *, ACTOR *, void *) asm("SetCmPolicy__FP2CM3CPPP5CPLCYii");
 void RevokeCmPolicy(MANAGER *, int, int, CAMERA *, ACTOR *, void *) asm("RevokeCmPolicy__FP2CMi3CPPP5CPLCYii");
@@ -90,14 +90,14 @@ void SetSlyMode(ACTOR *, int) asm("SetSlyMode__FP3SLYi");
 void func_001CCAC0(ATTACH *, int);
 void func_001CD2C0(void *);
 void Stop(EFFECT *, float) asm("Stop__4CSndf");
-void func_00140C88(ACTOR *, void *);
+void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
 void func_00194118(CONTEXT *);
 qword ConvertPos(void *, void *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020BD68(PROGRAM_ITEM *);
 void RetractAsegaPp(ANIMATION **) asm("RetractAsegaPp__FPP5ASEGA");
-void func_001F15B8(COMPONENT *);
+void ClearSmaHandle(COMPONENT *) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(CLIP *, ACTOR *, float, float, int, ANIMATION **);
-void func_001F1448(PROGRAM *, ACTOR *, int, int, COMPONENT *);
+void ReplaceSmaHandle(PROGRAM *, ACTOR *, int, int, COMPONENT *) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 void SetSlyHandles(ACTOR *, int) asm("SetSlyHandles__FP3SLYUi");
 }
 
@@ -120,7 +120,7 @@ static inline void AddFlags(uint *pflags, uint bits)
         *pflags = w | bits;
 }
 
-// The never-chosen "V" alternative is allocation-only: the word stays a MEM until reload (as in func_001911A8).
+// The never-chosen "V" alternative is allocation-only: the word stays a MEM until reload (as in UpdateInteractTransitions).
 static inline VU_FLOAT VuFloat(const float &g) { VU_FLOAT v; __asm__("qmtc2.ni %1,%0" : "=j,j"(v.q) : "r,V"(*(const int *)&g)); return v; }
 
 static inline bool Less(int n, int limit) { return n < limit; }   // as in func_00195FB8: keeps the two range tests apart
@@ -179,7 +179,8 @@ static inline qword Transform(const M3 &m, qword q)
     return r;
 }
 
-extern "C" void func_00192BD8(CONTEXT *p, int step)
+// name: SafeHouse port (SetInteractState)
+extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
 {
     if (step == p->step)
         return;
@@ -219,7 +220,7 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             func_001333C0(source, p->pactor);
             func_00204F78(p->pactor, source, 1);
             p->index = -1;
-            func_001E67B8(source, p->param, &p->pactor->position, &tangent.q);
+            EvalCrv(source, p->param, &p->pactor->position, &tangent.q);
             dir.i[2] = 0;
             Normalize(&dir.q);
             qword normal = dir.q;   // read before the call: a VU pseudo spilled to 0x50
@@ -238,8 +239,8 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
             break;
         case 12:
             if (p->focus)
-                func_002046F0(p->pactor, p->focus);
-            func_00204CA8(p->pactor);
+                FaceObject(p->pactor, p->focus);
+            TurnActorNow(p->pactor);
             break;
         }
         p->previous = -1;
@@ -320,9 +321,9 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
         }
         if (p->pactor->focus) {
             if (p->pactor->focus == p->aux)
-                func_00140C88(p->pactor, 0);
+                SetActorZone(p->pactor, 0);
             else if (p->pactor->focus == p->setting->focus)
-                func_00140C88(p->pactor, 0);
+                SetActorZone(p->pactor, 0);
         }
         // store order: the last uses of -1 and 0.0f (tag, param) are scheduled first, the rest stay in this order
         p->pactor->x1038 = -1;
@@ -409,35 +410,35 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
                 if (FIsBasicDerivedFrom(p->focus, 12)) {
                     SOURCE *source = p->focus;
                     if (source->actor)
-                        func_00140C88(p->pactor, source->actor);
+                        SetActorZone(p->pactor, source->actor);
                     else {
                         func_00194118(p);
                         p->aux->target = source;
-                        func_00140C88(p->pactor, p->aux);
+                        SetActorZone(p->pactor, p->aux);
                     }
                 } else if (FIsBasicDerivedFrom(p->focus, 34)) {
                     SOURCE *source = p->focus;
                     if (source->owner)
-                        func_00140C88(p->pactor, source->owner);
+                        SetActorZone(p->pactor, source->owner);
                     else {
                         func_00194118(p);
                         p->aux->enabled = 1;
                         AUX *aux = p->aux;
                         aux->position = ConvertPos(0, p->aux, func_001A62E8(source));
                         p->aux->value = source->parameter;
-                        func_00140C88(p->pactor, p->aux);
+                        SetActorZone(p->pactor, p->aux);
                     }
                 } else if (FIsBasicDerivedFrom(p->focus, 38)) {
                     SOURCE *source = p->focus;
                     if (source->owner)
-                        func_00140C88(p->pactor, source->owner);
+                        SetActorZone(p->pactor, source->owner);
                     else {
                         func_00194118(p);
                         qword v = Transform(*func_001A6318(source), D_002BF650);
                         SetX(&p->aux->data->x, v);
                         p->aux->data->y = GetY(v);
                         p->aux->data->z = GetZ(v);
-                        func_00140C88(p->pactor, p->aux);
+                        SetActorZone(p->pactor, p->aux);
                     }
                 }
             }
@@ -512,9 +513,9 @@ extern "C" void func_00192BD8(CONTEXT *p, int step)
     p->tStep = g_clock.t;
     if (step != -1) {
         RetractAsegaPp(&p->pactor->animation);
-        func_001F15B8(&p->pactor->component);
+        ClearSmaHandle(&p->pactor->component);
         func_001305B8(clip, p->pactor, blend, speed, flags, &p->pactor->animation);
-        func_001F1448(script, p->pactor, -1, flags, &p->pactor->component);
+        ReplaceSmaHandle(script, p->pactor, -1, flags, &p->pactor->component);
         Notify(p->pactor, 90);
         if (FIsBasicDerivedFrom(p->pactor, 53))
             SetSlyHandles(p->pactor, special);

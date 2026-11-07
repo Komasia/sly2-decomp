@@ -9,7 +9,8 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
 void func_00209FB8(struct O *p);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct S *p, int n, qword q);
 void SetAloEntryMode__FP3ALOi(struct O *p, int n);
-void func_001B7AE8(struct S *p)
+// name: SafeHouse port (PutDownMurrayCarry)
+void PutDownMurrayCarry__FP6MURRAY(struct S *p)
 {
     struct O *po;
     qword q;

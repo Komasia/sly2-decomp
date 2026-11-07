@@ -2,7 +2,7 @@ typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
 void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
-void func_00129DA8(CRef *pref, CRef *prefSrc);
+void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float g);
 extern char g_joy[];
 CRef *func_00125248(CRef *ret, void *pbasic, CRef *aref)
@@ -10,7 +10,7 @@ CRef *func_00125248(CRef *ret, void *pbasic, CRef *aref)
     void *p = g_joy;
     int n = aref[0].u.n;
     CRef ref;
-    func_00129DA8(&ref, &aref[1]);
+    RefCoerceF32__4CRef(&ref, &aref[1]);
     TriggerJoyRumbleRumk__FP3JOY4RUMKf(p, n, ref.u.g);
     Decref__4CRef(&ref);
     InitTag__4CRef(&ref, 0x24);

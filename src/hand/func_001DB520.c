@@ -30,13 +30,14 @@ extern float D_002A79CC;
 void func_0014D1D0(struct CLOCK *, float, int);
 void func_0020EFC0(void *, int);
 void func_0020F030(void *, int);
-void func_001DB390(OBJ *, int);
-void func_001DA950(OBJ *, int, int);
-void func_001DB010(OBJ *);
+void SelectGadget__FPvi(OBJ *, int);
+void SetShopMsg__FP4SHOPii(OBJ *, int, int);
+void UpdateGadgetFlags__FPv(OBJ *);
 SUB *func_0015E938(void *, int, int, int);
-void func_001DB520(OBJ *p, int s);
+void SetGadgetMenu__FPvi(OBJ *p, int s);
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
-void func_001DB520(OBJ *p, int s)
+// name: SafeHouse port (SetGadgetMenu)
+void SetGadgetMenu__FPvi(OBJ *p, int s)
 {
     if (s == p->x40)
         return;
@@ -45,7 +46,7 @@ void func_001DB520(OBJ *p, int s)
         func_0020EFC0(g_sw, 0);
         VCALL(p, 10);
     }
-    func_001DB390(p, -1);
+    SelectGadget__FPvi(p, -1);
     p->x40 = s;
     p->x44 = g_clock.a[15];
     switch (s) {
@@ -60,7 +61,7 @@ void func_001DB520(OBJ *p, int s)
         func_0014D1D0(&g_clock, 1.0f, 0);
         func_0020F030(g_sw, 0);
         VCALL(p, 11);
-        func_001DA950(p, -1, -1);
+        SetShopMsg__FP4SHOPii(p, -1, -1);
         p->x24 = 0;
         p->x20 = -1;
         break;
@@ -83,11 +84,11 @@ void func_001DB520(OBJ *p, int s)
     }
     if (p->x40 != -1) {
         SUB *e;
-        func_001DB010(p);
+        UpdateGadgetFlags__FPv(p);
         e = func_0015E938(g_sw, 5, p->x20, 0);
         p->x24 = e;
         if (!e) {
-            func_001DB520(p, -1);
+            SetGadgetMenu__FPvi(p, -1);
         } else {
             float best;
             int key;
@@ -105,7 +106,7 @@ void func_001DB520(OBJ *p, int s)
                     }
                 }
             }
-            func_001DB390(p, key);
+            SelectGadget__FPvi(p, key);
         }
     }
 }

@@ -1,7 +1,7 @@
 typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 void Decref__4CRef(CRef *pref);
 void InitTag__4CRef(CRef *pref, int tagk);
-void func_00129DA8(CRef *pref, CRef *prefSrc);
+void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
 CRef *RefOpSmp__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
@@ -12,7 +12,7 @@ CRef *RefOpSmp__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
     pg = (float *)ref.u.pv;
     for (i = 0; i < 3; i++) {
         CRef tmp;
-        func_00129DA8(&tmp, &aref[i]);
+        RefCoerceF32__4CRef(&tmp, &aref[i]);
         pg[i] = tmp.u.g;
         Decref__4CRef(&tmp);
     }

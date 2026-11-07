@@ -13,9 +13,9 @@ extern float D_002C43F0;
 extern float D_002C43F4;
 extern "C" void func_00229738(struct O *po, struct N *node);
 extern "C" void *func_00205458(struct O *po, int k);
-extern "C" void func_0017A8C8(void *pv, int k);
+extern "C" void SetState(void *pv, int k) asm("SetState__5JOBB0i");
 extern "C" void SetCtrlPos(void *pv, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
-extern "C" void func_00224EC8(struct P *p, int k);
+extern "C" void SetCarryStateBase(struct P *p, int k) asm("SetCarryStateBase__FP2LOi");
 extern "C" qword func_001A62E8(void *p);
 extern "C" qword SourcePosition(void * source) __asm__("func_001A62E8");
 
@@ -48,7 +48,8 @@ static inline qword LoadCoefficient(){
     return scalar;
 }
 struct Vec {qword q;Vec(const qword &v):q(v){}operator qword()const{return q;}};
-extern "C" void func_00225660(struct P *p, int k)
+// name: SafeHouse port (SetExtractorState)
+extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
 {
     if (k == p->k)
         return;
@@ -57,12 +58,12 @@ extern "C" void func_00225660(struct P *p, int k)
         func_00229738(p->po, &p->hook);
         pv = func_00205458(p->po, 0xB0);
         if (pv)
-            func_0017A8C8(pv, 2);
+            SetState(pv, 2);
         if (p->po->xFC4)
             SetCtrlPos(p->po->xFC4, D_002A2DE0);
         p->po = 0;
     }
-    func_00224EC8(p, k);
+    SetCarryStateBase(p, k);
     if (k == 5) {
 
         struct O *apo[0x20];

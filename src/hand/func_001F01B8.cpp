@@ -13,15 +13,16 @@ void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 int func_001F0638(S *);
 int func_001F0438(P *, int);
-void func_001F13A8(S *, int, int);
-void func_001F0D88(S *, int);
+void NotifySmaState(S *, int, int) asm("NotifySmaState__FP3SMAii");
+void ChooseSmaTransition(S *, int) asm("ChooseSmaTransition__FP3SMAi");
 }
 struct Lock {
     P *p;
     Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
     ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
 };
-extern "C" void func_001F01B8(P *p, int a, int b, int c, int d, S **pps)
+// name: SafeHouse port (PsmaApplySm)
+extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S **pps)
 {
     S *ps = func_0011CCC0(g_sw.pool);
     *pps = ps;
@@ -46,7 +47,7 @@ extern "C" void func_001F01B8(P *p, int a, int b, int c, int d, S **pps)
         int v = func_001F0438(p, b);
         ps->n34 = v;
         ps->n3C = v;
-        func_001F13A8(ps, -1, v);
+        NotifySmaState(ps, -1, v);
     }
-    func_001F0D88(ps, 0);
+    ChooseSmaTransition(ps, 0);
 }

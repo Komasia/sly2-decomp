@@ -4,7 +4,8 @@ struct REG { int a[4]; struct O *(*pfnNew)(void); };
 extern struct REG D_002BAAE8[];
 int func_00117C20(void *pbis);
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, char *buf);
-struct O *func_001ED7A8(void *pv, void *pbis)
+// name: SafeHouse port (PsaaLoadFromBrx)
+struct O *PsaaLoadFromBrx__FPvP18CBinaryInputStream(void *pv, void *pbis)
 {
     char buf[0x20];
     int i = func_00117C20(pbis);

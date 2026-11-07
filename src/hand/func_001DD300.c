@@ -34,11 +34,12 @@ extern char g_sw[];
 extern int D_003E0F9C;
 void func_0020EFC0(void *, int);
 void func_0020F030(void *, int);
-void func_00212A70(SUB *, int);
+void SetState__FP8SCREENRTi(SUB *, int);
 void func_00212A50(SUB *, int);
-void func_001DCED8(OBJ *);
+void BuildJobHelp__FPv(OBJ *);
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
-void func_001DD300(OBJ *p, int s)
+// name: SafeHouse port (SetJobHelpPage)
+void SetJobHelpPage__FPvi(OBJ *p, int s)
 {
     int old;
     if (!p->x24)
@@ -71,7 +72,7 @@ void func_001DD300(OBJ *p, int s)
         else
             p->x24->x74 = 0x4E1;
         if (p->x24->x58) {
-            func_00212A70(p->x24, 1);
+            SetState__FP8SCREENRTi(p->x24, 1);
             func_00212A50(p->x24, 2);
             VCALL(p->x24, 16);
         }
@@ -91,13 +92,13 @@ void func_001DD300(OBJ *p, int s)
         else
             p->x24->x74 = 0x4E4;
         if (p->x24->x58) {
-            func_00212A70(p->x24, 1);
+            SetState__FP8SCREENRTi(p->x24, 1);
             func_00212A50(p->x24, 2);
             VCALL(p->x24, 16);
         }
         break;
     }
     }
-    func_001DCED8(p);
+    BuildJobHelp__FPv(p);
     ((void (*)(void *, int))p->vt[14].pfn)((char *)p + p->vt[14].d, -1);
 }

@@ -6,7 +6,7 @@ void func_00141CD0(struct P *p, int k);
 void func_00141D38(struct P *p, int k);
 void func_001B6078(struct P *p, int n);
 void SetMurrayBerserk__FP6MURRAYi(struct P *p, int n);
-void func_001928F8(void *p, int a, int b, int c);
+void StartInteract__FP5ACTORii3JTL(void *p, int a, int b, int c);
 // name: SafeHouse port (StartMurrayAbility)
 void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
 {
@@ -22,7 +22,7 @@ void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
     case 15:
         p->x9BC = k;
         p->x130C = p->x1AC4;
-        func_001928F8((char *)p + 0x4C0, 0xB, 0, 0);
+        StartInteract__FP5ACTORii3JTL((char *)p + 0x4C0, 0xB, 0, 0);
         break;
     case 19:
         func_00141CD0(p, k);
@@ -36,7 +36,7 @@ void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
         break;
     case 21:
         p->x9BC = 0x15;
-        func_001928F8((char *)p + 0x4C0, 0xB, p->x10DC, 0);
+        StartInteract__FP5ACTORii3JTL((char *)p + 0x4C0, 0xB, p->x10DC, 0);
         break;
     case 16:
         func_001B6078(p, 0x15);

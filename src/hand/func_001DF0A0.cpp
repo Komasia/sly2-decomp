@@ -1,8 +1,8 @@
-// func_001DF0A0: for every segment entry of p, find where the segment's two endpoints hit the request (first
-// func_0014C6A0, else the shape test FIsBasicDerivedFrom + func_00205670) and add a kind-10 contact there with PxpAdd
-// (func_001A7C18), then post the OBJ::Notify (func_001DF260) message through func_00149AB8.
+// AddLaserContacts__FP3ALOP3SOEiiiPP2XP: for every segment entry of p, find where the segment's two endpoints hit the request (first
+// ClipSegmentSoe, else the shape test FIsBasicDerivedFrom + HitStepSupport) and add a kind-10 contact there with PxpAdd
+// (PxpAddSw), then post the OBJ::Notify (ApplyLaserContacts__FP3ALO) message through func_00149AB8.
 // What mattered (w3lane2):
-//  - the same 6-argument virtual signature as AddSwarmXps / func_0013ADE8, with every argument passed through to
+//  - the same 6-argument virtual signature as AddSwarmXps / MarkProjectileSweep, with every argument passed through to
 //    the empty base stub func_001F5990 (no code, but the call's argument uses fix the prologue schedule);
 //  - VU helpers taking VU_VECTOR parameters (const qword & conversion): the extra RTL copies keep the loop above
 //    loop.c's ~95-insn limit, so i * sizeof(ENTRY) stays a mult inside the loop as in the target;
@@ -18,7 +18,7 @@ struct OBJ {
     char padE8[0x198 - 0xE8];
     int entryCount;
     ENTRY *entries;
-    void Notify() __asm__("func_001DF260");
+    void Notify() __asm__("ApplyLaserContacts__FP3ALO");
 };
 struct SUB { char pad[0x14]; void **x14; };
 struct REQUEST { int x0; SUB *x4; };
@@ -30,10 +30,10 @@ typedef void (OBJ::*PMF)();
 extern "C" {
 void func_001F5990(OBJ *, REQUEST *, int, int, int, CONTACT **);
 void func_001DEF98(OBJ *, ENDPOINT *, qword *, float *);
-int func_0014C6A0(REQUEST *, qword, qword, int, HIT *);
+int ClipSegmentSoe(REQUEST *, qword, qword, int, HIT *) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-int func_00205670(void *, qword, qword, qword *);
-void func_001A7C18(G *, void *, REQUEST *, qword, qword, int, int, int, CONTACT **, float);   // PxpAdd
+int HitStepSupport(void *, qword, qword, qword *) asm("HitStepSupport__FP3ALOG9VU_VECTORT1P6VECTOR");
+void PxpAddSw(G *, void *, REQUEST *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");   // PxpAdd
 void func_00149AB8(G *, OBJ *, PMF, int);
 }
 
@@ -70,7 +70,8 @@ static inline float Scalar(VU_VECTOR v)
     return f;
 }
 
-extern "C" void func_001DF0A0(OBJ *p, REQUEST *q, int a2, int a3, int a4, CONTACT **pout)
+// name: SafeHouse port (AddLaserContacts)
+extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(OBJ *p, REQUEST *q, int a2, int a3, int a4, CONTACT **pout)
 {
     int i;
     func_001F5990(p, q, a2, a3, a4, pout);
@@ -81,10 +82,10 @@ extern "C" void func_001DF0A0(OBJ *p, REQUEST *q, int a2, int a3, int a4, CONTAC
         HIT hit;
         int found = 0;
         func_001DEF98(p, e->endpoint, seg, 0);
-        if (!func_0014C6A0(q, seg[0], seg[1], 1, &hit)) {
+        if (!ClipSegmentSoe(q, seg[0], seg[1], 1, &hit)) {
             void *so = *q->x4->x14;
             if (FIsBasicDerivedFrom(so, 0x33))
-                found = func_00205670(so, seg[0], seg[1], &pos.q);
+                found = HitStepSupport(so, seg[0], seg[1], &pos.q);
         } else {
             found = 1;
             pos.q = hit.pos;
@@ -93,7 +94,7 @@ extern "C" void func_001DF0A0(OBJ *p, REQUEST *q, int a2, int a3, int a4, CONTAC
             float dist = Scalar(Len(Sub(seg[0], pos.q)));
             qword dir = Sub(seg[1], seg[0]);
             dir = Div(dir, Len(dir));
-            func_001A7C18(&g_sw, p->shape, q, pos.q, dir, 10, *(int *)&dist, 0, &e->head, 0.0f);
+            PxpAddSw(&g_sw, p->shape, q, pos.q, dir, 10, *(int *)&dist, 0, &e->head, 0.0f);
             func_00149AB8(&g_sw, p, &OBJ::Notify, 0);
         }
     }

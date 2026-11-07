@@ -4,7 +4,7 @@
 /* v6 (Claude agent laneB15, 2026-10-23): aligned 9 -> 8. dv is a plain qword (spilled across the calls, so the dot reads its reload: lqc2 vf3) kept apart from d by a commented empty asm on d; posT a plain qword too (spill slots dv 0x40 / posT 0x50 in pseudo order). Left: posT load lq v0 + por a1 (target lq a1 directly), second block lw x8/dt regs. */
 /* v5 (Claude agent laneB11, 2026-10-23): aligned 11 -> 9. One commented pin: d (second-block vsub output) to vf2. Left: first block dot VF numbers (dv reload vf3 / one vf2 swapped; output-order swap 16, =&j same), second block lw x8 -> v1 and lw dt scheduled before the lqc2s (target after). */
 /* v4 (Claude agent laneB8, 2026-10-23): aligned 12 -> 11. Second block: vsub and the dt qmtc2 fused in ONE asm (vC0 as first input), plus a "memory" clobber on the vdiv asm (keeps the dt sqc2 before it, out of the b delay slot). Left: pos/vC0 VF regs swapped and lw dt scheduled early; first block unchanged. */
-/* v3 (Claude agent laneB7, 2026-10-23): aligned 13 -> 12. func_001C4AF8 takes a 2nd qword arg (posT; it sq a1 to its stack); posT as a U memory local so the load goes straight into a1. */
+/* v3 (Claude agent laneB7, 2026-10-23): aligned 13 -> 12. PloNearestPlayer__FP6VECTORG9VU_VECTOR takes a 2nd qword arg (posT; it sq a1 to its stack); posT as a U memory local so the load goes straight into a1. */
 /* v2 (Claude agent, 2026-10-23): aligned 15 -> 13: qmtc2 asm before the vsub, vsub as "=j"(d) : s.pos, vC0 (gets dt vf3). Left: target schedules vsub before qmtc2 with s.pos vf2/vC0 vf1, output vf2. */
 // WIP (Claude agent): 15 diffs - VU reg numbering only: dv reload should be vf3 / one-vector vf2 (ours swapped), second block wants lw of g_clock.dt after the lqc2s and vsub in vf2; posT lq via $a1.
 typedef int qword __attribute__((mode(TI)));
@@ -25,7 +25,7 @@ struct CLOCK { float t; int dt; };
 extern struct CLOCK g_clock;
 extern int D_002DDED4;  /* g_clock.dt */
 void *func_0015E938(void *pg, int k, int n, void *pv);
-void *func_001C4AF8(void *pg, qword pos);
+void *PloNearestPlayer__FP6VECTORG9VU_VECTOR(void *pg, qword pos);
 qword func_001A62E8(void *po);
 void SortXfCtrls__FP3ALOP2XF(void *a, struct X *b);
 qword func_0022FCC8(int n, int k, qword v);
@@ -65,7 +65,7 @@ void func_0012D220(struct P *p)
         __asm__("" : "+r"(po) : "r"(x8), "r"(z));  /* empty asm, allocation only: x8 ($v0) and z ($v1) stay live past the posT load, so reload picks $a1 for it (non-volatile: has an output, so reload_cse can drop the later a1 reload) */
     }
     if (!po)
-        po = func_001C4AF8(g_sw, posT);
+        po = PloNearestPlayer__FP6VECTORG9VU_VECTOR(g_sw, posT);
     if (po) {
         qword d, t;
         d = func_001A62E8(po);

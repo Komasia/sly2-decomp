@@ -5,15 +5,16 @@ struct E8 { int n0; int n4; };
 struct G { char pad[0x54]; struct E8 *a54; };
 struct P { char pad[0x24]; struct G *pg; int n28; int n2C; struct ANIMATION *n30; int n34; int n38; int n3C; struct A *p40; float f44; int n48; };
 int func_001F0638(struct P *);
-struct A *func_001F0CF0(struct G *, int, int, int);
-struct A *func_001F0B80(struct G *, int, int, int, int);
+struct A *PsmtLeaving__FP2SMUii(struct G *, int, int, int);
+struct A *PsmtPath__FP2SMUiii(struct G *, int, int, int, int);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *, int, float, float, int, struct ANIMATION **);
 void func_001333C0(struct ANIMATION *, struct P *);
 void RetractAsega__FP5ASEGA(struct ANIMATION *);
-void func_001F13A8(struct P *, int, int);
+void NotifySmaState__FP3SMAii(struct P *, int, int);
 static inline struct P *Receiver(struct P *p){register struct P *r __asm__("$4");__asm__("daddu %0,%1,$zero":"=r"(r):"r"(p));return r;}
 static inline unsigned EntryOffset(int index){register unsigned bytes __asm__("$3");__asm__("sll %0,%1,3":"=r"(bytes):"r"(index));return bytes;}
-void func_001F0D88(struct P *p, int k)
+// name: SafeHouse port (ChooseSmaTransition)
+void ChooseSmaTransition__FP3SMAi(struct P *p, int k)
 {
     struct A *pa;
     int nx;
@@ -24,11 +25,11 @@ void func_001F0D88(struct P *p, int k)
     goto test;
 select:
     if(nx==random){
-        pa=func_001F0CF0(p->pg,p->n48,p->n34,0);
+        pa=PsmtLeaving__FP2SMUii(p->pg,p->n48,p->n34,0);
         if(pa)p->n3C=(pa->n4!=p->n34)?pa->n4:pa->n8;
     }else{
         p->n3C=nx;
-        pa=func_001F0B80(p->pg,p->n48,p->n34,nx,1);
+        pa=PsmtPath__FP2SMUiii(p->pg,p->n48,p->n34,nx,1);
     }
     k=0;
 apply:
@@ -82,13 +83,13 @@ apply:
                 newArgument=fl;
                 pArgument=Receiver(p);
             }
-            func_001F13A8(pArgument,oldArgument,newArgument);
+            NotifySmaState__FP3SMAii(pArgument,oldArgument,newArgument);
         }
     if(func_001F0638(p))return;
     if(p->n30)return;
 test:
     if(p->n34!=p->n3C){
-        pa=func_001F0B80(p->pg,p->n48,p->n34,p->n3C,1);
+        pa=PsmtPath__FP2SMUiii(p->pg,p->n48,p->n34,p->n3C,1);
         goto apply;
     }
     nx=((struct E8*)((unsigned)p->pg->a54+EntryOffset(p->n34)))->n4;

@@ -66,6 +66,6 @@ void ShowCoinCounter__FP2SW(s32 arg0) {
     if (temp_s0 != NULL) {
         temp_v0 = M2C_FIELD(temp_s0, void **, 0xC);
         M2C_FIELD(temp_v0, void (**)(void *, M2C_UNK), 0x18C)(temp_s0 + M2C_FIELD(temp_v0, s16 *, 0x188), -1);
-        func_00212A30((s32) temp_s0);
+        RefreshScreenObj__FP2LO((s32) temp_s0);
     }
 }

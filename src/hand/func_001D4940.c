@@ -26,7 +26,7 @@ void SetFalloff__4CSndff(void *, float, float);
 void Pause__4CSnd(void *);
 void Stop__4CSndf(void *, float);
 void func_001D4B28(OBJ *, int);
-void func_001F0730(void *, int);
+void SeekSma__FP3SMA3OID(void *, int);
 void func_001D4940(OBJ *p, int n)
 {
     W *pw;
@@ -76,5 +76,5 @@ void func_001D4940(OBJ *p, int n)
         break;
     }
     if (p->x570 && p->state != -1)
-        func_001F0730(p->x570, D_002C2208[p->state]);
+        SeekSma__FP3SMA3OID(p->x570, D_002C2208[p->state]);
 }

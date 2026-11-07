@@ -12,7 +12,7 @@ void func_00202030(P *);
 void func_002021F8(P *);
 void func_00213928(X *,int);
 void func_00213B00(X *,int);
-void func_00214300(X *,int);
+void SetScreenObjListed(X *,int) asm("SetScreenObjListed__FP2LOi");
 void func_0014D1D0(void *,int,float);
 void SetSoundMgrFlags(void *,int,int) asm("SetSoundMgrFlags__FP8SOUNDMGRUii");
 void ResetZoom(void *) asm("ResetZoom__7CPRECON");
@@ -28,7 +28,7 @@ void func_00201F00(P *);
 void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,void *) asm("SetSource__4CSndPv");
 void func_00212E40(X *,int,float);
-void func_00212A70(X *,int);
+void SetState(X *,int) asm("SetState__FP8SCREENRTi");
 void func_00212A50(X *,int);
 }
 static inline void Post(X *x,int n){VT *entry=&x->vtable[49];((void (*)(void *,int))entry->function)((char *)x+entry->adjustment,n);}
@@ -83,7 +83,7 @@ extern "C" void func_00202768(P *p,int nextState)
         break;
     case 9:
         ResetZoom(D_002DE390);
-        func_00214300(p->primary,-1);
+        SetScreenObjListed(p->primary,-1);
         Post(p->primary,0x310);
         if(p->resource){
             if(p->actor->key!=-1)PsndStartDialog(D_003DD040,p->actor->key,0);
@@ -156,7 +156,7 @@ extern "C" void func_00202768(P *p,int nextState)
     case 9:
         Post(p->secondary,0x339);
         Post(p->primary,0x35C);
-        func_00214300(p->primary,0);
+        SetScreenObjListed(p->primary,0);
         break;
     case 3:case 4:
         p->secondary->actor=p->actor;
@@ -177,8 +177,8 @@ extern "C" void func_00202768(P *p,int nextState)
     case -1:
         if(previous!=10){
             BroadcastTaskEvent(g_game,11,0);
-            if(p->primary->shown){func_00212A70(p->primary,1);func_00212A50(p->primary,1);}
-            if(p->secondary->shown){func_00212A70(p->secondary,1);func_00212A50(p->secondary,1);}
+            if(p->primary->shown){SetState(p->primary,1);func_00212A50(p->primary,1);}
+            if(p->secondary->shown){SetState(p->secondary,1);func_00212A50(p->secondary,1);}
         }
         break;
     }

@@ -11,7 +11,7 @@ struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];PL*input;char pad154[0x1A8-0
 struct CLOCK{float time,dt;};struct LM{float values[3];};
 struct WORK{U reference,direction,local;M3 matrix,returned;float heading;U target;};
 extern "C"{
- void func_00190BE0(P*,float*);float RadNormalize(float) asm("RadNormalize__Ff");void func_00204660(P*,float);qword func_001A62E8(P*);M3* func_0011B500(M3*,qword,float);float func_002458F0(float,float);
+ void func_00190BE0(P*,float*);float RadNormalize(float) asm("RadNormalize__Ff");void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");qword func_001A62E8(P*);M3* func_0011B500(M3*,qword,float);float func_002458F0(float,float);
  void func_0018C250(P*,int,int);void func_0018FC60(P*);void WakeAlo(P*) asm("WakeAlo__FP3ALO");int func_001C4660(PL*,uint,float);void func_001C4738(PL*,int);void func_0019CC50(void*,int,P*,void*);
  float GSmooth(float,float,float,LM*,float*) asm("GSmooth__FfffP3SMPPf");void func_001384C0(ANIMATION*);float func_0011CFE0(float,float);
  extern CLOCK g_clock;extern qword g_normalZ;
@@ -75,7 +75,7 @@ extern "C" void func_00190520(P*p){
  WORK w;int near=0,far=0;
  func_00190BE0(p,&w.heading);
  if(p->flipped)w.heading=RadNormalize(w.heading+3.1415927410125732421875f);
- func_00204660(p,w.heading);
+ SetStepPhysHeading(p,w.heading);
  float inputDifference=RadNormalize(p->input->angle-p->angle);
  if(p->input->amount>0.3f){float d=Abs(inputDifference);if(d<1.0471975803375244140625f){near=1;p->farTime=g_clock.time;}else if(d>2.094395160675048828125f){far=1;p->farTime=g_clock.time;}}
  else p->previous=-1;

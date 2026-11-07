@@ -1,6 +1,6 @@
 struct P { char pad[0x10]; void *x10; int pad1; void *x18; char pad2[0x30 - 0x1C]; int x30; int pad3[2]; int x3C; int x40; int x44; };
 extern char g_sw[];
-void func_001EEF98(struct P *p);
+void Update__5AIJOB(struct P *p);
 void func_0014A4D0(struct P *p);
 int func_001EF0A8(struct P *p);
 int func_00209098(void *p);
@@ -16,7 +16,7 @@ int func_00175748(void *p);
 void func_0014A2A0(struct P *p)
 {
     int s;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     func_0014A4D0(p);
     for (;;) {
         if (func_001EF0A8(p))

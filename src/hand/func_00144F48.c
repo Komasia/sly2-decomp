@@ -7,7 +7,7 @@ struct A { char pad[0xE8]; struct C *pc; char pad2[0x294 - 0xEC]; struct B *pb; 
 struct P { char pad[0x10]; struct A *pa; char pad1[4]; void *p18; char pad2[0x30 - 0x1C]; int f30; char pad3[0x40 - 0x34]; qword v; };
 qword func_001A62E8(struct A *pa);
 void FNavPathCrv__FP9NAVREGIONiiP3CRV(struct E *pe, qword r, qword v, struct B *pb);
-void func_001E6180(struct B *pb);
+void RecalcCrv__FP3CRV(struct B *pb);
 void Follow__9JOBFOLLOWP3CRVi(void *p, struct B *pb, int n);
 // name: SafeHouse port (JOBACTORWALK::SetGoal)
 void SetGoal__12JOBACTORWALKG9VU_VECTOR(struct P *p, qword v)
@@ -23,7 +23,7 @@ void SetGoal__12JOBACTORWALKG9VU_VECTOR(struct P *p, qword v)
             pb->k = 2;
             pb->pq[0] = r;
             pb->pq[1] = p->v;
-            func_001E6180(pb);
+            RecalcCrv__FP3CRV(pb);
         } else {
             FNavPathCrv__FP9NAVREGIONiiP3CRV(pe, r, p->v, pb);
         }

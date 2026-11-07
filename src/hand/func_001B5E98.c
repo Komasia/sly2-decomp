@@ -25,7 +25,8 @@ static inline float LenXY(qword v) {
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-void func_001B5E98(struct P *p)
+// name: SafeHouse port (ChooseMurrayThrowTarget)
+void ChooseMurrayThrowTarget__FP6MURRAY(struct P *p)
 {
     struct { int a[4]; } unused;
     struct O *po, *poBest = 0;

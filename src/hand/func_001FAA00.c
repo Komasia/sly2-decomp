@@ -5,9 +5,10 @@ struct PROJECTION { qword axis; int mode; };
 struct LO;
 struct B { char pad[0xB0]; struct PROJECTION projection; union FLOATWORD mass; };
 struct A { char pad[0x58]; struct LO *space; char pad2[0xE8-0x5C]; struct B *state; };
-qword func_001FA810(struct PROJECTION *,struct LO *,qword);
+qword ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(struct PROJECTION *,struct LO *,qword);
 static inline qword Get(qword r){qword a; __asm__("qmfc2.ni %0,%1" : "=r"(a) : "j"(r)); return a;}
-qword func_001FAA00(struct A *input,qword v) {
+// name: SafeHouse port (DvAloImpulse)
+qword DvAloImpulse__FP3ALOG9VU_VECTOR(struct A *input,qword v) {
     register struct A *p __asm__("$2")=input;
     register struct PROJECTION *projection __asm__("$4");
     union SCALAR scalar;
@@ -17,5 +18,5 @@ qword func_001FAA00(struct A *input,qword v) {
     projection=&p->state->projection;
     __asm__ __volatile__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q" : "=j"(r) : "j"(t),"j"(vv));
     scalar.q=t;
-    return func_001FA810(projection,p->space,Get(r));
+    return ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(projection,p->space,Get(r));
 }

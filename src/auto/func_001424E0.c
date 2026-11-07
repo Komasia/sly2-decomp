@@ -51,7 +51,8 @@ extern s32 D_003E1084;
 extern void *D_003E1474;
 extern s32 D_003E1AC8;
 
-void func_001424E0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+// name: SafeHouse port (StartPrizeInteract)
+void StartPrizeInteract__FP5ACTORP4ASEGP2LOi(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 var_a1;
 
     var_a1 = arg1;
@@ -59,6 +60,6 @@ void func_001424E0(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         var_a1 = M2C_FIELD(arg0, s32 *, 0x9C8);
     }
     M2C_FIELD(arg0, s32 *, 0x9CC) = var_a1;
-    func_001928F8(arg0 + 0x4C0, 0xC, arg2, 0);
+    StartInteract__FP5ACTORii3JTL(arg0 + 0x4C0, 0xC, arg2, 0);
     M2C_FIELD(arg0, s32 *, 0x1318) = arg3;
 }

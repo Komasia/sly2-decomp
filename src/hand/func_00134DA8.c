@@ -32,14 +32,14 @@ void func_001403D0(struct P *p);
 void func_00194A40(void *pv, struct P *p, int n);
 void UpdateBentleyBinoc__FP7BENTLEY(struct P *p);
 void UpdateBentleyTransitions__FP7BENTLEY(struct P *p);
-void func_00204660(struct P *p, float g);
+void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 int GrfActorLookMask__FP5ACTOR(struct P *p);
-void func_001F1350(int a, int b);
+void SetSmaMask__FP3SMAUi(int a, int b);
 void func_0020BB58(void *pv, float g);
 void func_0020BC08(void *pv);
 void func_00197F98(void *pv);
-void func_00191A10(void *pv);
-void func_002046F0(struct P *p, int n);
+void UpdateInteract__FP5ACTOR(void *pv);
+void FaceObject__FP5ACTORP2LO(struct P *p, int n);
 qword func_0011E1A0(float a, float b, float c);
 void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(struct P *p, void *pv, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct S1030 *px, float g);
@@ -129,24 +129,24 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
     switch (p->x13D0) {
     case 0:
         if (p->x181C) {
-            func_00204660(p, D_002BC934);
+            SetStepPhysHeading__FP3ALOf(p, D_002BC934);
             break;
         }
-        func_001F1350(p->x1034, GrfActorLookMask__FP5ACTOR(p));
+        SetSmaMask__FP3SMAUi(p->x1034, GrfActorLookMask__FP5ACTOR(p));
         break;
     case 1:
-        func_00204660(p, p->p150->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->p150->g18);
         Kick(p->x1320, 1.0f);
         break;
     case 7:
-        func_00204660(p, p->p150->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->p150->g18);
         Kick(p->x1600, p->p150->g1C);
         break;
     case 2:
         func_00197F98(p->x2C0);
         break;
     case 3:
-        func_00191A10(p->x4C0);
+        UpdateInteract__FP5ACTOR(p->x4C0);
         break;
     case 4:
     case 8:
@@ -155,7 +155,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
     case 13:
         break;
     case 5:
-        func_002046F0(p, p->x10DC);
+        FaceObject__FP5ACTORP2LO(p, p->x10DC);
         {
             struct S150 *pa = p->p150;
             struct S1030 *pb = p->p1030;
@@ -169,7 +169,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
             float z = 0.0f;
             if (z < p->p150->g1C) {
                 float d = RadNormalize__Ff(p->p150->g18 - p->g1A8);
-                func_00204660(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * g_clock.dt));
+                SetStepPhysHeading__FP3ALOf(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * g_clock.dt));
             }
             SetVel(p, func_0011E1A0(p->p150->g18 + 3.1415927f, g0 * LenXY(p->v1520) * p->p1030->g40, z), p->x14F0, p->x15F0);
         }
@@ -180,11 +180,11 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
     case 11:
         PullB(p);
         func_00131A00(p->p1030, p->p150->g1C);
-        func_00204660(p, p->p150->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->p150->g18);
         break;
     case 14:
         Pull(p);
-        func_00204660(p, p->p150->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->p150->g18);
         break;
     }
     UpdateActorSupport__FP5ACTOR(p);

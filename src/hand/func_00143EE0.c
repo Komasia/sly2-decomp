@@ -4,10 +4,10 @@ extern char g_sw[];
 void EndActorScriptAnim__FP5ACTOR(struct P *p);
 void *func_0015E938(void *g, int k, int oid, struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
-void func_001F15B8(void *p);
+void ClearSmaHandle__FPP3SMA(void *p);
 void func_001305B8(void *o, struct P *p, int a, void *b, float f, float g);
 void RetractAsegaPp__FPP5ASEGA(void *p);
-void func_001F1448(void *o, struct P *p, int n, int a, void *b);
+void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(void *o, struct P *p, int n, int a, void *b);
 // name: SafeHouse port (PlayActorScriptAnim)
 void PlayActorScriptAnim__FP2LOiii(struct P *p, int oid, int a, int b)
 {
@@ -20,11 +20,11 @@ void PlayActorScriptAnim__FP2LOiii(struct P *p, int oid, int a, int b)
     if (!o) return;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x6D)) {
         p->vt[88].pfn((char *)p + p->vt[88].d, b);
-        func_001F15B8(p->m1034);
+        ClearSmaHandle__FPP3SMA(p->m1034);
         func_001305B8(o, p, a, p->m1030, 0.0f, 1.0f);
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x6F)) {
         p->vt[88].pfn((char *)p + p->vt[88].d, b);
         RetractAsegaPp__FPP5ASEGA(p->m1030);
-        func_001F1448(o, p, -1, a, p->m1034);
+        ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(o, p, -1, a, p->m1034);
     }
 }

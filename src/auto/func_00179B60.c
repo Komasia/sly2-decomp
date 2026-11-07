@@ -29,6 +29,6 @@ extern M2C_UNK g_sw;
 // name: SafeHouse port (JOBWAIT::Exit)
 void Exit__7JOBWAIT(s32 arg0) {
     SetWaitState__7JOBWAITi(arg0, -1);
-    func_001EEF78(arg0);
+    Exit__5AIJOB(arg0);
     RemoveGuardState__FP5GUARDi(M2C_FIELD(arg0, s32 *, 0x10), 0x1E);
 }

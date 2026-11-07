@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
 M2C_UNK SetState__7JOBLINKi(void *, M2C_UNK);             /* extern */
-M2C_UNK func_001EF038(void *);                      /* extern */
+M2C_UNK UnlockJob__FP5AIJOB(void *);                      /* extern */
 
 // name: SafeHouse port (JOBLINK::NextRecord)
 void NextRecord__7JOBLINK(void *arg0) {
@@ -14,5 +14,5 @@ void NextRecord__7JOBLINK(void *arg0) {
         return;
     }
     SetState__7JOBLINKi(arg0, -1);
-    func_001EF038(arg0);
+    UnlockJob__FP5AIJOB(arg0);
 }

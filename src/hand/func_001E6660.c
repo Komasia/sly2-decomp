@@ -1,6 +1,7 @@
 struct S { char pad[0xE4]; int f; int c; float *ag; };
 float GModPositive__Fff(float g, float gMax);
-float func_001E6660(struct S *p, float g)
+// name: SafeHouse port (GWrapCrv)
+float GWrapCrv__FP3CRVf(struct S *p, float g)
 {
     float gMin, gMax;
     if (!p->f) return g;

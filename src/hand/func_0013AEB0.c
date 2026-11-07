@@ -37,9 +37,9 @@ extern char g_sw[];
 void func_001F4F10(P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(P *p, int n);
 int func_001C4098(P *p);
-int func_0013B1C8(P *p, void *x);
-void func_0013B428(P *p, qword pos, qword dir);
-void func_0013B5C8(P *p, float g);
+int FStickyProjectileParent__FP3ALOPv(P *p, void *x);
+void RecordHit__FP3ALOG9VU_VECTORT1(P *p, qword pos, qword dir);
+void ExpireIn__FP3ALOf(P *p, float g);
 void func_00149A50(void *pg, P *p, K k, void *x);
 
 static inline qword Length(qword a)
@@ -83,7 +83,8 @@ static inline qword NormalizeSafe(qword v, qword def)
         return def;
     return DivQ(v, len);
 }
-void func_0013AEB0(P *p)
+// name: SafeHouse port (ProjectileContacts)
+void ProjectileContacts__FP3ALO(P *p)
 {
     qword pos;
     float gBest;
@@ -129,7 +130,7 @@ void func_0013AEB0(P *p)
                 break;
             }
             case 1:
-                if (func_0013B1C8(p, AE(pq)[IOther(pq, p)].x))
+                if (FStickyProjectileParent__FP3ALOPv(p, AE(pq)[IOther(pq, p)].x))
                     f = 1;
                 break;
             }
@@ -161,8 +162,8 @@ void func_0013AEB0(P *p)
             __asm__("vdiv Q, $vf0w, %2x\n\tvwaitq\n\tvmulq.xyzw %0, %1, Q" : "=j"(rn) : "j"(v), "j"(l));
             n = rn;
         }
-        func_0013B428(p, posT, n);
-        func_0013B5C8(p, 0.0f);
+        RecordHit__FP3ALOG9VU_VECTORT1(p, posT, n);
+        ExpireIn__FP3ALOf(p, 0.0f);
         break;
     }
     case 1:

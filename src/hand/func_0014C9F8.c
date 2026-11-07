@@ -7,7 +7,8 @@ void _$_10STACKSCOPE(struct CTX *, int);
 void *PvAllocStackImpl__Fi(struct AREQ *);
 void func_001AE5A0(void *, void *, int);
 
-int func_0014C9F8(int c1, struct LSG *alsg1, int c2, struct LSG *alsg2_, int cMax, struct LSG *alsgOut, int k)
+// name: SafeHouse port (CMergeAlsg)
+int CMergeAlsg__FiP3LSGiT1iT1i(int c1, struct LSG *alsg1, int c2, struct LSG *alsg2_, int cMax, struct LSG *alsgOut, int k)
 {
     /* hard-register local: fixes the s2/s3 assignment of alsg2 vs c2 */
     register struct LSG *alsg2 __asm__("$18") = alsg2_;

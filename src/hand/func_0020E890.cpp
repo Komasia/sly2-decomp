@@ -37,7 +37,7 @@ void func_0020E180(SW *);
 void func_0013DA18(SW *,STREAM *);
 void func_00184CF0(STREAM *);
 void func_0020E740(SW *);
-void func_001618F8(SW *,float);
+void StartHudTimer(SW *,float) asm("StartHudTimer__FPvf");
 void func_0014C258(void);
 CONTEXT *func_00227FE8(SW *,int,int);
 void func_00228750(CONTEXT *);
@@ -48,7 +48,7 @@ ACTOR *func_0015E938(SW *,int,int,void *);
 int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int func_001C4080(ACTOR *);
 int func_00210AE0(void);
-void func_00212A70(WIDGET *,int);
+void SetState(WIDGET *,int) asm("SetState__FP8SCREENRTi");
 void UpdateCm(void *) asm("UpdateCm__FP2CM");
 void func_0014D8C0(void *);
 void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
@@ -111,7 +111,7 @@ extern "C" void func_0020E890(SW *p)
     func_0020E180(p);
     if(hasFile){func_0013DA18(p,reader);func_00184CF0(reader);}
     func_0020E740(p);
-    if(resume>0.0f)func_001618F8(p,resume);
+    if(resume>0.0f)StartHudTimer(p,resume);
     if(changed||(p->request.flags&0x40))func_0014C258();
     CONTEXT *context=func_00227FE8(p,p->request.objectId,p->request.objectKey);
     if(context){func_00228750(context);p->objectId=p->request.objectId;p->objectKey=p->request.objectKey;}
@@ -139,7 +139,7 @@ extern "C" void func_0020E890(SW *p)
     }
     if(!func_00210AE0()){
         ACTOR *actor=func_001C4840(p);
-        if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)func_00212A70(actor->widget,1);
+        if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)SetState(actor->widget,1);
     }
     UpdateCm(g_cm);
     func_0014D8C0(g_cm);

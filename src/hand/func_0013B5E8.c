@@ -1,4 +1,4 @@
-// (Claude agent) func_001A93C8 takes its float before the HIT* (see AGENT_GUIDE "Float vs. int parameter order").
+// (Claude agent) SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT takes its float before the HIT* (see AGENT_GUIDE "Float vs. int parameter order").
 // Radius: fold turns `b >= a ? b : a` into MAX(b, a) only with both values in locals (a loaded first).
 typedef int qword __attribute__((mode(TI)));
 struct AREQ { int cb; int cbAlign; };
@@ -12,9 +12,10 @@ void func_0020FA10();
 void func_0020FC60(void *pg, qword q, void (*pfn)(), struct X *px, float g, int *pc, struct S ***paps);
 void *PvAllocStackImpl__Fi(struct AREQ *preq);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int n, int k);
-int func_001A93C8(qword q, struct S *ps, int n, int a, int b, int c, float g, struct HIT *phit);
+int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword q, struct S *ps, int n, int a, int b, int c, float g, struct HIT *phit);
 void func_0013B7B8(struct P *p, int *pn, struct O **apo);
-void func_0013B5E8(struct P *p, int *pc, struct O ***papo)
+// name: SafeHouse port (AploVictims)
+void AploVictims__FP3ALOP6VECTORPv(struct P *p, int *pc, struct O ***papo)
 {
     struct AREQ req;
     int c;
@@ -40,7 +41,7 @@ void func_0013B5E8(struct P *p, int *pc, struct O ***papo)
             continue;
         if (x60 == p->px->x60)
             continue;
-        if (ps->x74 && !func_001A93C8(p->q180, ps, 0x7FFFFFFF, 0, 0, 1, FIsBasicDerivedFrom__FP5BASIC3CID(x60, 0x34) ? p->g160 : p->g15C, &hit))
+        if (ps->x74 && !SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(p->q180, ps, 0x7FFFFFFF, 0, 0, 1, FIsBasicDerivedFrom__FP5BASIC3CID(x60, 0x34) ? p->g160 : p->g15C, &hit))
             continue;
         apo[n] = ps->po;
         n++;

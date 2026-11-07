@@ -8,7 +8,7 @@ struct B { char pad[0xC];
 };
 struct S : B {
   char pad10[0x6C]; int x7C; char pad80[4]; void *x84; int x88; char pad8C[0x20]; int xAC;
-  void F(int) __asm__("func_00214300");
+  void F(int) __asm__("SetScreenObjListed__FP2LOi");
   void M() __asm__("func_00213898");
 };
 void S::M()

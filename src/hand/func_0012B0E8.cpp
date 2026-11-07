@@ -13,7 +13,7 @@ extern "C" {
 void func_0011CD98(void *pheap, void *pv);
 void func_00255438(void *pv);
 W *func_00257340();
-CRef func_00129BC8(CRef *pref, void *a, void *b);
+CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 }
 struct SPM {
     W *p;
@@ -44,7 +44,7 @@ SPW func_0012B0E8(W *src, void *a, void *b)
     SPW sp;
     sp.Set(func_00257340());
     sp->x8 = src->x8;
-    sp->ref = func_00129BC8(&src->ref, a, b);
+    sp->ref = CloneTo(&src->ref, a, b);
     if (src->pnext.p)
         sp->SetNext(func_0012B0E8(src->pnext.p, a, b).p);
     return SPW(sp.p);

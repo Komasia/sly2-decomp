@@ -30,12 +30,12 @@ extern "C" {
 void BuildOrthonormalVectors(qword a, qword b, qword c, qword *pm) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");
 qword *func_00256D18(qword *pq, qword q);
 void func_001995D8(struct P *p, const M4 *pm, int n, U *apt);
-int func_0014C6A0(struct S0 *s, qword a, qword b, int n, HIT *ph);
+int ClipSegmentSoe(struct S0 *s, qword a, qword b, int n, HIT *ph) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
 }
 
 static inline int HitSegment(struct S0 *s, const qword *a, const qword *b, HIT *h)
 {
-    return func_0014C6A0(s, *a, *b, 1, h);
+    return ClipSegmentSoe(s, *a, *b, 1, h);
 }
 
 extern "C" int func_001997D8(struct P *p, qword q1, qword q2)

@@ -6,12 +6,13 @@ void func_00117988(void *q, int n);
 void __10STACKSCOPE(struct L *pl);
 void *PvAllocStackImpl__Fi(struct M *pm);
 void Read__18CBinaryInputStreamiPv(void *q, int a, void *x);
-void func_001EA568(void *x);
+void RelocateBulkRecords__Fi(void *x);
 void func_00170730(void *p);
 void _$_10STACKSCOPE(struct L *pl, int n);
 void Skip__18CBinaryInputStreami(void *q, int a);
 void func_00170828(void *p);
-void func_0020F640(void *p, void *q)
+// name: SafeHouse port (LoadBulkFromBrx)
+void LoadBulkFromBrx__FP4SHDSP18CBinaryInputStream(void *p, void *q)
 {
     func_00117988(q, 0x10);
     if (D_003E1C54) {
@@ -24,7 +25,7 @@ void func_0020F640(void *p, void *q)
         pm->b = 0x10;
         x = PvAllocStackImpl__Fi(pm); }
         Read__18CBinaryInputStreamiPv(q, D_003E1C30, x);
-        func_001EA568(x);
+        RelocateBulkRecords__Fi(x);
         func_00170730(p);
         _$_10STACKSCOPE(&l, 2);
     } else {

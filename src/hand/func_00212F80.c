@@ -4,7 +4,8 @@ struct A { unsigned short c; unsigned short c2; struct E *ae; struct H *ah; char
 struct S { char pad[0x80]; unsigned short c80; short pad82; struct A *aa; };
 void func_00218038(struct A *pa, float g);
 void func_00218060(struct A *pa, int l, float g, int z);
-void func_00212F80(struct S *p, int k, float g)
+// name: SafeHouse port (SetScreenObjTime)
+void SetScreenObjTime__FP2LOif(struct S *p, int k, float g)
 {
     int i, j;
     if (k == 0x314) {

@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; int i[4]; } U;
 struct VE { short d; short pad; void *pfn; };
 struct X { char pad[0x80]; qword v80; };
-struct O { char pad[0xC]; struct VE *vt; char pad1[0xE8-0x10]; struct X *xE8; char pad2[0x198-0xEC]; float f198; void Set(qword v) __asm__("func_001FAC30"); void Negate(U &u); };
+struct O { char pad[0xC]; struct VE *vt; char pad1[0xE8-0x10]; struct X *xE8; char pad2[0x198-0xEC]; float f198; void Set(qword v) __asm__("AccelAloPos__FP3ALOG9VU_VECTOR"); void Negate(U &u); };
 struct P { struct O *o; int state; };
 extern "C" qword D_002A2DD0;
 extern "C" float D_002BFA90[];

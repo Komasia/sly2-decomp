@@ -7,24 +7,25 @@ extern char g_cm[];
 extern char g_game[];
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void func_00228358(struct S *p, int k);
+void SetExitState__FP2LOi(struct S *p, int k);
 struct S *func_002280D0(struct G *pg);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);
 void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(void *a, int b, int c, void *d, int e, int f);
-void func_002283D0(struct S *p)
+// name: SafeHouse port (TriggerExit)
+void TriggerExit__FP4EXIT(struct S *p)
 {
     if (p->k != 3) return;
     if (p->x134) {
         struct S *q;
-        func_00228358(p, 0);
+        SetExitState__FP2LOi(p, 0);
         q = func_002280D0(&g_sw);
-        if (q) func_002283D0(q);
+        if (q) TriggerExit__FP4EXIT(q);
         return;
     }
     ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x164, p->a168, p);
     RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(g_cm, 2, -1, g_cm + 0x450, 0, 0);
     RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(g_cm, 2, -1, g_cm + 0x520, 0, 0);
-    func_00228358(p, 4);
+    SetExitState__FP2LOi(p, 4);
     p->t = g_clock.t + p->dt;
     p->vt[3].pfn((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
 }

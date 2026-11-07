@@ -6,7 +6,7 @@ struct P { char pad[0x24]; void *p24; char pad2[0x30 - 0x28]; struct Q *pq; int 
 extern char D_002DE578[];
 int func_001F0638(struct P *);
 int func_001F0438(void *, int);
-struct A *func_001F0B80(void *, int, int, int, int);
+struct A *PsmtPath__FP2SMUiii(void *, int, int, int, int);
 float GSuck__FPv(void *);
 static inline float Eval(struct V3 *pv, float t)
 {
@@ -33,7 +33,7 @@ float func_001F11A8(struct P *p, int k)
         }
         if (p->pa->n4 != p->n34) cur = p->pa->n4; else cur = p->pa->n8;
     }
-    while (cur != end && (pa = func_001F0B80(p->p24, p->n48, cur, end, 1)) != 0) {
+    while (cur != end && (pa = PsmtPath__FP2SMUiii(p->p24, p->n48, cur, end, 1)) != 0) {
         if (pa->pt) {
             float t = GSuck__FPv(D_002DE578);
             float v = Eval(&pa->pt->v80, t);

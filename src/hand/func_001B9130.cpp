@@ -28,18 +28,18 @@ typedef struct P {
 extern "C" float D_002C3C60[];
 extern "C" float D_002C0A38;
 extern "C" char g_sw[];
-extern "C" void func_00204250(P *p, X *px, int i);
+extern "C" void OnStepXpNew(P *p, X *px, int i) asm("OnStepXpNew__FP3ALOP2XPi");
 extern "C" void AdjustDamageXp(void *p, X *px, int i) asm("AdjustDamageXp__FP5ACTORP2XP");
 extern "C" void func_0019E9C8(void *p, X *px, int i);
 extern "C" qword func_0011F198(qword a, qword b);
-extern "C" int func_001AA020(void *g, X *px);
-extern "C" void func_001A9FE0(void *g, int r, void *p);
+extern "C" int PxpCloneList(void *g, X *px) asm("PxpCloneList__FP2XPPv");
+extern "C" void PrependXpList(void *g, int r, void *p) asm("PrependXpList__FP2XPPP2XPPv");
 
 // name: SafeHouse port (OnMurrayXpNew)
 extern "C" void OnMurrayXpNew__FP3ALOP2XPi(P *p, X *px, int i)
 {
     int n;
-    func_00204250(p, px, i);
+    OnStepXpNew(p, px, i);
     switch (p->x13D0) {
     case 14:
         AdjustDamageXp(p->xDF0, px, i);
@@ -62,7 +62,7 @@ extern "C" void OnMurrayXpNew__FP3ALOP2XPi(P *p, X *px, int i)
     case 3:
         if (p->x13D8 == 1) {
             if (D_002C3C60[i] * *(float *)((char *)px + 0x88) > 0.7f) {
-                func_001A9FE0(g_sw, func_001AA020(g_sw, px), p->x13E4);
+                PrependXpList(g_sw, PxpCloneList(g_sw, px), p->x13E4);
             }
         }
         break;

@@ -13,7 +13,8 @@ void func_001D54B8(void);
 void func_001DD888(void *p);
 void *func_00210B98(int n);
 void func_0022B490(struct G *pg, void *p, int a, int b, int c, int d);
-void func_00165E38(void *pv)
+// name: SafeHouse port (StartGameFromSave)
+void StartGameFromSave__FP2SW(void *pv)
 {
     CRef ref;
     float g;

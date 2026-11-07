@@ -4,18 +4,19 @@ struct X { char pad[0xC]; struct VE *vt; };
 struct O { char pad[0xC]; struct VE *vt; char pad1[0x180 - 0x10]; struct X *x180; };
 struct P { char pad[0x13D0]; int x13D0; char pad1[0x13F0 - 0x13D4]; struct O *x13F0; char pad2[0x1450 - 0x13F4]; int x1450; char pad3[0x1530 - 0x1454]; int x1530; };
 extern qword D_002C09E0, D_002A2DD0;
-void func_001F0660(int a, int b);
+void SetSmaGoal__FP3SMA3OID(int a, int b);
 void func_001B7D20(struct P *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct X *x, int n);
 void func_00209EE0(struct X *x);
 void SetAloEntryMode__FP3ALOi(struct X *x, int n);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct P *p, int n, qword q);
-void func_001B7BA8(struct P *p)
+// name: SafeHouse port (CancelMurrayCarry)
+void CancelMurrayCarry__FP6MURRAY(struct P *p)
 {
     struct O *o;
     struct X *x;
     if (p->x13D0 == 6) {
-        if (p->x1530) func_001F0660(p->x1530, 0x1CA);
+        if (p->x1530) SetSmaGoal__FP3SMA3OID(p->x1530, 0x1CA);
         return;
     }
     o = p->x13F0;

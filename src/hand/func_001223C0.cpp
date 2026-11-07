@@ -11,7 +11,7 @@ struct CRef {
     CRef &operator=(int n);
 };
 extern "C" {
-CRef func_00129DA8(CRef *pref);
+CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 CRef RefOpRandom(void *pbasic, CRef *aref) asm("RefOpRandom__FiP4CRefP6CFrame");
@@ -22,8 +22,8 @@ CRef RefOpRandom(void *pbasic, CRef *aref)
     if (aref[0].m_tagk == 0x15 && aref[1].m_tagk == aref[0].m_tagk) {
         ref = NRandInRange(aref[0].u.n, aref[1].u.n);
     } else {
-        float g0 = func_00129DA8(&aref[0]).u.g;
-        float g1 = func_00129DA8(&aref[1]).u.g;
+        float g0 = RefCoerceF32(&aref[0]).u.g;
+        float g1 = RefCoerceF32(&aref[1]).u.g;
         ref = GRandInRange(g0, g1);
     }
     return ref;

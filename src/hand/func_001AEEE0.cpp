@@ -16,16 +16,16 @@ struct CRef{int tag;union{int n;float f;};CRef(const CRef&r){func_001291A8(this,
 extern "C"{
 void func_001D9870();
 int func_002121E8(POOL*,int);
-void func_001AEAA8(P*,int);
+void SetMenuState(P*,int) asm("SetMenuState__FP4MENUi");
 int func_001880D8(INPUT*);
 uint func_00187D80(INPUT*,uint);
-void func_001AF490(P*);
+void BackReplaced(P*) asm("BackReplaced__FP4MENU");
 void func_001AF608(P*);
-void func_001AF660(P*);
+void CloseMenu(P*) asm("CloseMenu__Fii");
 void func_001AFF88(P*,ITEM*);
-void func_001AFB88(P*,ITEM*);
-void func_001AF6D0(P*,GROUP*,ITEM*);
-int func_001B0078(P*);
+void ApplyOption(P*,ITEM*) asm("ApplyOption__FP7MENUENTP3MSG");
+void UpdateSlider(P*,GROUP*,ITEM*) asm("UpdateSlider__FP4PAGEP7MENUENTPi");
+int KindDataAccess(P*) asm("KindDataAccess__FP4MENU");
 CRef NProgress(OPT*,CONTEXT*);
 void func_001ACB58(MENU*,int);
 extern OPT*D_003E0FAC;
@@ -85,7 +85,7 @@ extern "C" void func_001AEEE0(P*p){
  case 3:
   if(func_002121E8(group->pool,group->meta->back))break;
   p->depth=p->pending;p->pending=-1;
-  func_001AEAA8(p,4);
+  SetMenuState(p,4);
   break;
  case 4:
   if(func_002121E8(group->pool,group->meta->ready))break;
@@ -94,13 +94,13 @@ extern "C" void func_001AEEE0(P*p){
   if(func_002121E8(group->pool,0x314))break;
  close:
   POOL*pool=group->pool;VTE*method=&pool->vt[50];method->fn((POOL*)((char*)pool+method->delta));
-  func_001AEAA8(p,0);
+  SetMenuState(p,0);
   break;
  }
  case 5:
   if(func_002121E8(group->pool,group->meta->forward))break;
  activate:
-  func_001AEAA8(p,7);
+  SetMenuState(p,7);
   if(!p->input)break;
   {INPUT*input=p->input;direction=func_001880D8(input);if(direction<0)goto up;goto positive;}
  case 6:
@@ -108,19 +108,19 @@ extern "C" void func_001AEEE0(P*p){
  case 7:{
   if(!p->input)break;
   uint flags;flags=func_00187D80(p->input,0x870);
-  if(flags&0x800){func_001AF660(p);break;}
-  if((flags&0x10)||(group->count==0&&flags)){if(group->back)func_001AF490(p);else func_001AF608(p);break;}
+  if(flags&0x800){CloseMenu(p);break;}
+  if((flags&0x10)||(group->count==0&&flags)){if(group->back)BackReplaced(p);else func_001AF608(p);break;}
   if(p->depth>0&&(flags&0x40)){
    ITEM*item;item=&group->items[group->index];
    if(item->select)item->select(item);
    if(item->flags&2)break;
-   if(item->flags&1)goto back;func_001AF660(p);break;
+   if(item->flags&1)goto back;CloseMenu(p);break;
  back:
-   if(group->back)func_001AF490(p);else func_001AF608(p);
+   if(group->back)BackReplaced(p);else func_001AF608(p);
    break;
   }
   if(flags&0x20){
-   int kind=func_001B0078(p);
+   int kind=KindDataAccess(p);
    if(kind!=0x19&&kind!=0x1E)break;
    CONTEXT*contexts=D_002E6604;CONTEXT*context=contexts+group->index;
    if(Value(D_003E0FAC,context)==0.0f)break;
@@ -132,26 +132,26 @@ extern "C" void func_001AEEE0(P*p){
  {
    direction=func_001880D8(p->input);
    if(direction>=0)goto positive;
- up:func_001AEAA8(p,6);break;
- positive:if(direction<=0)break;func_001AEAA8(p,5);break;
+ up:SetMenuState(p,6);break;
+ positive:if(direction<=0)break;SetMenuState(p,5);break;
   }
  }
  case 11:
   if(func_002121E8(group->pool,0x331))break;
-  func_001AEAA8(p,10);break;
+  SetMenuState(p,10);break;
  case 9:
   if(func_002121E8(group->pool,0x332))break;
  resumed:
-  func_001AEAA8(p,7);break;
+  SetMenuState(p,7);break;
  case 10:{
   if(!p->input)break;
   ITEM*item;item=&group->items[group->index];
   uint flags;flags=func_00187D80(p->input,0x850);
   if(flags&0x800){func_001AFF88(p,item);
-func_001AF660(p);break;}
+CloseMenu(p);break;}
   if(flags&0x10)func_001AFF88(p,item);
-  else if(flags&0x40)func_001AFB88(p,item);
-  else func_001AF6D0(p,group,item);
+  else if(flags&0x40)ApplyOption(p,item);
+  else UpdateSlider(p,group,item);
   break;
  }
  default:break;

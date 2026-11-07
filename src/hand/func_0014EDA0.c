@@ -8,7 +8,7 @@ extern float D_002BD8D4;
 void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocStackImpl__Fi(struct AL *pal);
-int func_001A93C8(qword pos, struct LO *po, struct E *pe, float g, int a, int b, int cMax, struct X *ax);
+int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword pos, struct LO *po, struct E *pe, float g, int a, int b, int cMax, struct X *ax);
 void func_0011AD30(int c, float *aDot, float *aW, float *aZ, float g);
 qword func_0011E9F8(qword v, float g);
 
@@ -44,7 +44,7 @@ qword SquishCmEye__FP2CM14PFNCMHITWEIGHTP6VECTORT2G9VU_VECTORT4ff(void *p, int c
     int k;
     for (k = 0; k < c; k++) {
         struct LO *po = apo[k];
-        n += func_001A93C8(pos, po, &po->ae74[po->c70], g, 0, 0, 64 - n, &ax[n]);
+        n += SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(pos, po, &po->ae74[po->c70], g, 0, 0, 64 - n, &ax[n]);
     }
     }
     if (n == 0)

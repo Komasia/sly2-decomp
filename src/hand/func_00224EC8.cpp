@@ -23,11 +23,11 @@ void *PctrlNewPos(S *,NODE *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPvii
 int func_00224688(S *);
 qword func_0022FCC8(NODE *,NODE *,qword);
 M3 *BuildLookAtMatrix(M3 *,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-void func_001A58D0(S *,int,int);
+void ReparentBooty(S *,int,int) asm("ReparentBooty__FP3ALOii");
 int func_0015E9C8(WORLD *,int,int,int,int,O **);
 qword func_001A62E8(void *);
 void func_001F7BF8(S *,float);
-void func_001F0730(void *,int);
+void SeekSma(void *,int) asm("SeekSma__FP3SMA3OID");
 }
 static inline qword ToVF(qword v){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(v));return r;}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
@@ -60,7 +60,8 @@ static inline M3 MakeBasis(qword direction,qword rawUp) return result;{
  __asm__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q":"=&j"(normalized):"j"(v),"j"(len));
  BuildLookAtMatrix(&result,first,normalized);
 }
-extern "C" void func_00224EC8(S *p,int state){
+// name: SafeHouse port (SetCarryStateBase)
+extern "C" void SetCarryStateBase__FP2LOi(S *p,int state){
  int old=p->state;
  if(state==old)return;
  p->state=state;p->time=g_clock.t;p->sentinel=-1;
@@ -90,7 +91,7 @@ extern "C" void func_00224EC8(S *p,int state){
   break;
  }
  case 1:{
-  func_001A58D0(p,0,15);SetAloCnstrLin(p,0);
+  ReparentBooty(p,0,15);SetAloCnstrLin(p,0);
   if(p->kind!=0x29){SetAloCnstrAng(p,0);break;}
   SetAloCnstrAng(p,1);
   O *objects[32];
@@ -103,5 +104,5 @@ extern "C" void func_00224EC8(S *p,int state){
   func_001F7BF8(p,0.25f);
   break;
  }
- if(p->animation&&p->state>=0)func_001F0730(p->animation,D_002C4398[p->state]);
+ if(p->animation&&p->state>=0)SeekSma(p->animation,D_002C4398[p->state]);
 }

@@ -13,7 +13,7 @@ int func_00210AE0(void);
 int FIsBasicDerivedFrom(void *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void *func_002333B4(void *,int,int);
 struct OBJECT *func_0015E938(void *,int,int,void *);
-int func_00164030(void *);
+int FTaskDone(void *) asm("FTaskDone__FP4TASK");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
 int NRandInRange(int,int) asm("NRandInRange__Fii");
 void func_001F1A40(struct P *p)
@@ -28,7 +28,7 @@ void func_001F1A40(struct P *p)
     func_002333B4(&reward,0,sizeof(reward));
     if(p->count>0){
         struct OBJECT *object=func_0015E938(g_sw,4,p->items[0].kind,p->owner);
-        if(object && FIsBasicDerivedFrom(object,0x5C) && object->state && func_00164030(object->state))p->count=0;
+        if(object && FIsBasicDerivedFrom(object,0x5C) && object->state && FTaskDone(object->state))p->count=0;
         if(p->count>0){reward=p->items[0];}
         else goto choose_reward;
     }else{

@@ -2841,7 +2841,7 @@ extern char D_003DA530[];
 LO *PloFindJsgObject(JSG *pjsg, OID oid);
 extern "C" BHV *PbhvFindStep(STEP *pstep, int cid);
 extern "C" int FObjHasTarget(LO *plo, OID oid);
-extern "C" int func_002121C8(LO *plo);
+extern "C" int FScreenObjDone(LO *plo) asm("FScreenObjDone__FP2LO");
 extern "C" void func_001E5468(JSG *pjsg);
 extern "C" int func_00187D80(JOY *pjoy, uint grfbtn);
 extern "C" int func_001D9880(void *pv);
@@ -2926,7 +2926,7 @@ int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd)
         fComplete = pjsg->psmaCur == 0;
         break;
     case RELAYCK_WidgetShow:
-        if (pjsg->ploWidget && func_002121C8(pjsg->ploWidget))
+        if (pjsg->ploWidget && FScreenObjDone(pjsg->ploWidget))
         {
             func_001E5468(pjsg);
         }

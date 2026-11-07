@@ -1,11 +1,11 @@
 extern char D_003D9ED0[], g_sw[], D_002A6EB8[];
-int func_001B0078(void *p);
+int KindDataAccess__FP4MENU(void *p);
 void *func_0013E368(void *p, int n);
 void func_0021ED58(void *s, void *q);
 void func_0021EDA0(void *s, void *q);
 void func_001ADBB8(void *s)
 {
-    switch (func_001B0078(D_003D9ED0)) {
+    switch (KindDataAccess__FP4MENU(D_003D9ED0)) {
     case 0x19:
     case 0x1E:
     case 0x1F:

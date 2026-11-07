@@ -5,7 +5,7 @@ struct O { int a[3]; struct VTE *vt; char pad[0x20]; int n30; int pad34; void *p
 struct T { char pad[0x33C]; int n33C; char pad2[0x1018 - 0x340]; int n1018; };
 struct Q { char pad[0x20]; int n20; };
 struct S { int pad[4]; struct T *pt; int pad2; char ab18[0x18]; int k30; float t34; int n38; struct Q *pq; };
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(struct T *pt, int n);
 // name: SafeHouse port (JOBB4::SetB4State)
 void SetB4State__5JOBB4i(struct S *p, int k)
@@ -14,7 +14,7 @@ void SetB4State__5JOBB4i(struct S *p, int k)
         return;
     if (p->k30 == 0)
         p->pq->n20 = 1;
-    func_001EF0D8(p->ab18);
+    EndChildJob__FPP5AIJOB(p->ab18);
     p->k30 = k;
     p->t34 = g_clock.t;
     switch (k) {

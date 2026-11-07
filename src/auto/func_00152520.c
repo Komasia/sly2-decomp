@@ -40,7 +40,8 @@ extern M2C_UNK g_sw;
 extern void *D_003E0F9C;
 extern s32 D_003E1480;
 
-s32 func_00152520(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+// name: SafeHouse port (PloDanceAseg)
+s32 PloDanceAseg__FP2LO3OIDiiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     s32 temp_v0;
     void *temp_v0_2;
 

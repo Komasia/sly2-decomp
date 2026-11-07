@@ -3,7 +3,8 @@ int func_00144388(struct P *p, void *pv);
 int func_001A6AF8(void *pv, void *p1);
 int func_00134310(int n, int k);
 int func_00220498(int *pn, void *pv, int n);
-int func_001B8450(struct P *p, void *pv)
+// name: SafeHouse port (MurrayCarryOverlapKind)
+int MurrayCarryOverlapKind__FP3ALOT0(struct P *p, void *pv)
 {
     int n = func_00144388(p, pv);
     if (p->p1430 && func_001A6AF8(pv, p->p1430))

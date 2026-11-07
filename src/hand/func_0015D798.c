@@ -7,7 +7,8 @@ extern int D_002BE2D0[];
 struct S { char pad[0x118]; int i; };
 void NProgress(CRef *pref, void *p, void *q);
 void func_00129EC8(CRef *pref);
-int func_0015D798(struct S *p)
+// name: SafeHouse port (CmovieOpen)
+int CmovieOpen__FP6EPMENU(struct S *p)
 {
     void *pA, *pB;
     int n;

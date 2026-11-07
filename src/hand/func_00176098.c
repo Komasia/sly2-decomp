@@ -12,7 +12,7 @@ typedef struct WORK{X frame;U point;}WORK;
 typedef struct CLOCK{float time,dt;}CLOCK;
 extern CLOCK g_clock;
 extern float D_002BE614,D_003E1BE8;
-void func_001EEF98(C*);
+void Update__5AIJOB(C*);
 int func_001EF0A8(C*);
 int func_00209098(P*);
 int FLost__9JOBPURSUE(C*);
@@ -84,7 +84,7 @@ typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (JOBPURSUE::Update)
 void Update__9JOBPURSUE(C*p){
  WORK work;int old;
- func_001EEF98(p);
+ Update__5AIJOB(p);
  do{
   old=p->state;
   switch(old){

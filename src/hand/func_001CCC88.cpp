@@ -29,7 +29,7 @@ M4 *func_0011C168(M4 *,const M4 *,const M4 *);
 LO *func_001CCA40(LO *,LO *);
 M4 func_001A71B0(LO *,LO *,const M4 *);
 M4 func_0011C318(const M4 *);
-void func_001A58D0(LO *,int,int);
+void ReparentBooty(LO *,int,int) asm("ReparentBooty__FP3ALOii");
 float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
 void func_00131A00(ANIM *,float);
 qword func_0022FC48(SPACE *,SPACE *,qword);
@@ -109,7 +109,7 @@ extern "C" void func_001CCC88(P *input,LO *other){
    :"=&r"(row0),"=&r"(row1),"=&r"(row2),"=&r"(row3),"=m"(work.final):"m"(work.views.matrices.product.rows[0]),"m"(work.views.matrices.product.rows[1]),"m"(work.views.matrices.product.rows[2]),"m"(work.views.matrices.product.rows[3]));
   }
  }
- func_001A58D0(object,0,15);
+ ReparentBooty(object,0,15);
  const qword*velocityAddress=object->follow?&object->follow->velocity:&D_002C1EE0;register float unit __asm__("$f20");register LO*initialOwner __asm__("$4");{register qword initialVelocity __asm__("$2");
  __asm__("lq %0,%4\n\tdaddu %1,%5,$zero\n\t.set noat\n\tlui $at,0x3F80\n\tmtc1 $at,%2\n\t.set at\n\tsq %0,%3":"=r"(initialVelocity),"=r"(initialOwner),"=f"(unit),"=m"(work.velocity):"m"(*velocityAddress),"r"(object):"$1");}
  {register qword destination __asm__("$2");__asm__("lq %0,%1":"=r"(destination):"m"(work.final.rows[3]));work.destination=destination;}

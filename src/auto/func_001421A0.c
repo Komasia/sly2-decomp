@@ -61,7 +61,7 @@ extern M2C_UNK D_003E1C20;
 extern s32 D_003E1C34;
 
 void func_001421A0(s32 arg0, s32 arg1) {
-    func_00142140(arg0, 0);
+    SetActorInteractObject__FP5ACTORi(arg0, 0);
     if (arg1 != 0) {
         func_001CD098(arg0 + 0x900, arg1);
         return;

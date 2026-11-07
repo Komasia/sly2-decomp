@@ -14,7 +14,7 @@ extern float D_002A4E34;
 extern struct LM D_002BD330;
 extern struct LM D_002BD338;
 extern float D_002BD340;
-void func_001EEF98(struct P *p);
+void Update__5AIJOB(struct P *p);
 int func_001EF0A8(struct P *p);
 qword func_001A62E8(void *p);
 struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
@@ -58,7 +58,7 @@ void Update__12JOBCOMPANION(struct P *p)
     float gXY, g;
     struct SO *pso;
     void *pv30;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     po = p->p10;
     pv30 = p->p30;
     a = func_001A62E8(po);

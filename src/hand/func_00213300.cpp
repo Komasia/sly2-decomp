@@ -13,7 +13,7 @@ struct R {unsigned char *base;int pad[2];unsigned char *cur;};
 extern R D_002DEA28;
 extern "C" {
 void func_001A5ED8(S *);
-int func_002132D0(S *);
+int FVisible(S *) asm("FVisible__FP8SCREENRT");
 void func_002185D0(void *);
 void func_002130C0(S *);
 void func_00217298(S *,int,float);
@@ -32,7 +32,7 @@ static inline Q *Begin(S *p,R *r){Align(r);uint c=(uint)r->cur,b=(uint)r->base;c
 static inline void Finish(R *r,S *p){Align(r);uint c=(uint)r->cur,b=(uint)r->base;c&=0x0FFFFFFF;b&=0x0FFFFFFF;r->cur=(unsigned char *)c;r->base=(unsigned char *)b;Q *q=p->queue.first;while(q){Q *old=q;q=q->next;old->next=0;}func_0011A060(&p->queue);}
 extern "C" void func_00213300(S *p){
     func_001A5ED8(p);
-    if(!func_002132D0(p))return;
+    if(!FVisible(p))return;
     func_002185D0(p->sprites);
     float priority=16.0f;
     Q *pending=Begin(p,&D_002DEA28);

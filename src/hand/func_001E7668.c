@@ -1,5 +1,5 @@
 struct X { char pad[0xE8]; int c; float *agEC; float *ag; char pad2[0x178 - 0xF4]; int i; };
-float func_001E66C8(struct X *p, float g);
+float SWrapCrv__FP3CRVf(struct X *p, float g);
 
 static inline int Before(int a, int b)
 {
@@ -22,10 +22,11 @@ static inline int Count(struct X *p)
     return value;
 }
 
-int func_001E7668(struct X *p, float *pdg, float *pdgSeg, float g)
+// name: SafeHouse port (ISegCrvS)
+int ISegCrvS__FP3CRVPfT1f(struct X *p, float *pdg, float *pdgSeg, float g)
 {
     int i;
-    g = func_001E66C8(p, g);
+    g = SWrapCrv__FP3CRVf(p, g);
     i = p->i;
     if (p->ag[i] < g) {
         int limit = Count(p) - 1;

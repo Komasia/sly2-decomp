@@ -58,5 +58,5 @@ extern M2C_UNK D_00443740;
 void func_001DA7D0(s32 arg0) {
     M2C_FIELD(arg0, s32 *, 0x28) = -1;
     M2C_FIELD(arg0, f32 *, 0x2C) = (f32) D_002DDF0C;
-    func_001DA950(arg0, -1, -1);
+    SetShopMsg__FP4SHOPii(arg0, -1, -1);
 }

@@ -23,8 +23,9 @@ extern "C" int func_0021ECD8(char *, const char *, ...);
 extern "C" CRef func_001D8A38(const char *, ...);
 extern "C" int func_001DAE58(int);
 extern "C" int func_001DAEA8(int);
-extern "C" void func_001DBBE0(OBJ *, int);
-extern "C" void func_001DBD10(OBJ *p)
+extern "C" void SelectShopRow(OBJ *, int) asm("SelectShopRow__FP4SHOPi");
+// name: SafeHouse port (BuildShopList)
+extern "C" void BuildShopList__FP4SHOP(OBJ *p)
 {
     {
         int j;
@@ -62,5 +63,5 @@ extern "C" void func_001DBD10(OBJ *p)
         break;
     }
     }
-    func_001DBBE0(p, p->i);
+    SelectShopRow(p, p->i);
 }

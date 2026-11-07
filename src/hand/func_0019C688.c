@@ -4,7 +4,7 @@ struct O { char pad[0xC]; VT *vt; char pad2[0x4C0-0x10]; char x4c0[0xF5C-0x4C0];
     char pad3[0x18C4-0xF64]; struct C *x18c4; char pad4[0x1F18-0x18C8]; struct C *x1f18; };
 struct P { struct O *x0; int x4; int x8; struct C *xc; int x10; float x14; int x18; int x1c; };
 extern int D_002DD5BC;
-void func_001928F8(void *p, int n, struct C *c, void *b);
+void StartInteract__FP5ACTORii3JTL(void *p, int n, struct C *c, void *b);
 void func_0018C250(struct O *o, int a, int b);
 void SetBentleyState__FP7BENTLEYi(int a, int b);
 void func_00195FB8(struct P *p, int a, int b);
@@ -13,22 +13,22 @@ void func_0019C688(struct P *p)
 {
     switch (p->x1c) {
     case 6:
-        func_001928F8(p->x0->x4c0, 1, p->xc, B(p->xc, 0x150));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, 1, p->xc, B(p->xc, 0x150));
         break;
     case 11:
-        func_001928F8(p->x0->x4c0, 0, p->xc, B(p->xc, 0x190));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, 0, p->xc, B(p->xc, 0x190));
         break;
     case 12:
-        func_001928F8(p->x0->x4c0, 0, p->xc, B(p->xc, 0xE0));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, 0, p->xc, B(p->xc, 0xE0));
         break;
     case 13:
-        func_001928F8(p->x0->x4c0, p->xc->x10c, p->xc, B(p->xc, 0xE0));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, p->xc->x10c, p->xc, B(p->xc, 0xE0));
         break;
     case 9:
-        func_001928F8(p->x0->x4c0, 4, p->xc, B(p->xc, 0xE0));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, 4, p->xc, B(p->xc, 0xE0));
         break;
     case 10:
-        func_001928F8(p->x0->x4c0, 3, p->xc, B(p->xc, 0x190));
+        StartInteract__FP5ACTORii3JTL(p->x0->x4c0, 3, p->xc, B(p->xc, 0x190));
         break;
     case 14:
     {

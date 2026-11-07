@@ -15,10 +15,10 @@ struct P {
 extern struct POLY D_002C0A20;
 extern struct LIMIT g_lmZeroOne;
 qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct Q*,float);
-struct PARAM *func_0012F938(void*,int);
+struct PARAM *PeventLaunch__FP5KINDEi(void*,int);
 qword func_0011E1A0(float,float,float);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
-void func_002046F0(struct P*,void*);
+void FaceObject__FP5ACTORP2LO(struct P*,void*);
 static inline float Clamp(float f,float lo,float hi){if(f<lo)return lo;if(hi<f)return hi;return f;}
 static inline float Polynomial(struct POLY*p,float t){return p->a+t*(p->b+t*p->c);}
 static inline void Blend(qword value,float g,qword*velocity,U*scalar){
@@ -73,8 +73,8 @@ void UpdateMurrayPunch__FP6MURRAY(struct P*p){
         {
             register int active __asm__("$3")=p->blend;
             if(active){
-            struct PARAM *start=func_0012F938(p->source->table,0x240);
-            struct PARAM *end=func_0012F938(p->source->table,0x242);
+            struct PARAM *start=PeventLaunch__FP5KINDEi(p->source->table,0x240);
+            struct PARAM *end=PeventLaunch__FP5KINDEi(p->source->table,0x242);
             float t=(p->source->time-start->value)/(end->value-start->value);
             float blend=Clamp(Polynomial(&D_002C0A20,t),g_lmZeroOne.lo,g_lmZeroOne.hi);
             qword desired=OrbitVector(p);
@@ -83,5 +83,5 @@ void UpdateMurrayPunch__FP6MURRAY(struct P*p){
             }
         }
     }
-    if(p->focus&&p->mode==4)func_002046F0(p,p->focus);
+    if(p->focus&&p->mode==4)FaceObject__FP5ACTORP2LO(p,p->focus);
 }

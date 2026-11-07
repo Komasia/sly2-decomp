@@ -3,7 +3,8 @@ void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 int FFindBinding__6CFrameUiiP4CRef(void *a, void *b, int c, CRef *d);
 typedef struct BASIC { int pad[3]; void *p; } BASIC;
-CRef *func_00126438(CRef *ret, BASIC *pbasic, void *aref)
+// name: SafeHouse port (RefEvalSymbol)
+CRef *RefEvalSymbol__FP5CPairP6CFrame(CRef *ret, BASIC *pbasic, void *aref)
 {
     CRef ref;
     ref.m_tagk = -1;

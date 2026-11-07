@@ -12,7 +12,7 @@ struct CRef {
 struct VECTOR { float x, y, z; };
 struct NODE { int cref; int x4; CRef ref; NODE *pnext; };
 extern "C" {
-CRef func_00129DA8(CRef *pref);
+CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 CRef RefOpVector(int c, CRef *pref) asm("RefOpVector__FiP4CRefP6CFrame");
 }
 CRef RefOpVector(int c, CRef *pref)
@@ -29,7 +29,7 @@ CRef RefOpVector(int c, CRef *pref)
         pv->x = 0.0f;
         break;
     case 1: {
-        CRef r = func_00129DA8(&pn->ref);
+        CRef r = RefCoerceF32(&pn->ref);
         float g = r.u.g;
         pv->z = g;
         pv->y = g;
@@ -40,7 +40,7 @@ CRef RefOpVector(int c, CRef *pref)
         float *pg = &pv->x;
         int i;
         for (i = 0; i < 3; i++) {
-            CRef r = func_00129DA8(&pn->ref);
+            CRef r = RefCoerceF32(&pn->ref);
             *pg = r.u.g;
             pg++;
             pn = pn->pnext;

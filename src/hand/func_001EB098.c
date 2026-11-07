@@ -5,8 +5,9 @@ extern struct E *D_003DCFF4;
 extern int D_003DCF98;
 int func_00117C20(void *pbis);
 void *PvAllocStackClearImpl__Fi(struct AR *par);
-void func_001EAF50(void *pbis, struct E *pe);
-void func_001EB098(void *pbis)
+void LoadBmpFromBrx__FP18CBinaryInputStreamP3BMP(void *pbis, struct E *pe);
+// name: SafeHouse port (LoadBmpsFromBrx)
+void LoadBmpsFromBrx__FP18CBinaryInputStream(void *pbis)
 {
     struct AR ar;
     int i = 0;
@@ -16,7 +17,7 @@ void func_001EB098(void *pbis)
     D_003DCFF4 = PvAllocStackClearImpl__Fi(&ar);
     D_003DCF98 = 0;
     for (; i < D_003DCFF0; i++) {
-        func_001EAF50(pbis, &D_003DCFF4[i]);
+        LoadBmpFromBrx__FP18CBinaryInputStreamP3BMP(pbis, &D_003DCFF4[i]);
         if (D_003DCFF4[i].b4 == 1) D_003DCF98++;
     }
     if (D_003DCF98 < D_003DCFF0 - D_003DCF98) D_003DCF98 = D_003DCFF0 - D_003DCF98;

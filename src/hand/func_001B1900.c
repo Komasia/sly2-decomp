@@ -5,9 +5,9 @@ struct LO { char pad[0xC]; struct VT *vt; };
 struct P { char pad[0x150]; float g150; float g154; char pad2[0x220 - 0x158]; int n220; };
 extern char g_sw[];
 qword func_001A62E8(void *p);
-struct LO *func_001C4AF8(void *pg, qword pos);
+struct LO *PloNearestPlayer__FP6VECTORG9VU_VECTOR(void *pg, qword pos);
 float func_002458F0(float y, float x);
-void func_001B1818(struct P *p, float g);
+void SetBirdHeading__FP4BIRDf(struct P *p, float g);
 static inline float Length(qword v)
 {
     qword d, one;
@@ -17,11 +17,12 @@ static inline float Length(qword v)
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-int func_001B1900(struct P *p)
+// name: SafeHouse port (StBirdSees)
+int StBirdSees__FP2LO(struct P *p)
 {
     int r = p->n220;
     qword pos = func_001A62E8(p);
-    struct LO *po = func_001C4AF8(g_sw, pos);
+    struct LO *po = PloNearestPlayer__FP6VECTORG9VU_VECTOR(g_sw, pos);
     U d;
     float len;
     if (!po)
@@ -35,6 +36,6 @@ int func_001B1900(struct P *p)
         if (Length(v) < 150.0f)
             return r;
     }
-    func_001B1818(p, func_002458F0(d.f[1], d.f[0]));
+    SetBirdHeading__FP4BIRDf(p, func_002458F0(d.f[1], d.f[0]));
     return 3;
 }

@@ -13,7 +13,7 @@ typedef struct {
 extern struct G g_sw;
 extern float D_002C3264;
 extern int D_002C3268[];
-int func_002132D0(void *);
+int FVisible__FP8SCREENRT(void *);
 Q *func_001C4840(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void func_00258438(TXT *, float, float);
@@ -24,13 +24,14 @@ void func_00258478(TXT *, int);
 FONT *func_00215AC0(FONT *, int, float);
 void func_002163B0(FONT *, TXT *, int);
 static inline float Zero(void){float z;__asm__ volatile("mtc1 $zero,%0":"=f"(z));return z;}
-void func_001DAC58(OBJ *p)
+// name: SafeHouse port (DrawGadgetIcons)
+void DrawGadgetIcons__FP7FONTBRX(OBJ *p)
 {
     Q *q;
     int i;
     if (p->x24 == 0)
         return;
-    if (!func_002132D0(p->x24))
+    if (!FVisible__FP8SCREENRT(p->x24))
         return;
     q = func_001C4840(&g_sw);
     if (q == 0)

@@ -14,7 +14,7 @@ extern struct GD g_sw;
 extern struct H D_003D9ED0;
 extern struct E D_003D9EDC[];
 void func_001ACC38(void *p, int n);
-int func_001B0078(void *g);
+int KindDataAccess(void *g) asm("KindDataAccess__FP4MENU");
 }
 CRef Eval(int a, void *b) __asm__("NProgress");
 static inline float F(int x, void *pb) { return Eval(x, pb).m_tag; }
@@ -33,7 +33,7 @@ extern "C" void func_001AD538(void)
             a[i] = F(g_sw.x3B1C, pb);
         }
     }
-    switch (func_001B0078(&D_003D9ED0)) {
+    switch (KindDataAccess(&D_003D9ED0)) {
     case 0x1E:
         {
             int j;

@@ -7,7 +7,7 @@
 typedef struct BOMB {
     /* 0x000 */ SO so;
     /* 0x150 */ char unk_0x150[0xB0];
-    /* 0x200 */ SO *psoOwner;          /* set through func_0013BC60, which re-registers the bomb with the world */
+    /* 0x200 */ SO *psoOwner;          /* set through SetProjectileLauncher__FP3ALOP2LO, which re-registers the bomb with the world */
     /* 0x204 */ char unk_0x204[0xC];
 } BOMB;   /* 0x210 bytes */
 

@@ -2,7 +2,8 @@ struct E { int a; void *pv; int pad[5]; };
 struct P { int pad[10]; struct E ae[1]; };
 extern char D_002BFDA8[], D_002BFE08[], D_002BFE68[];
 int func_001D9880(struct P *p);
-int func_001B0078(struct P *p)
+// name: SafeHouse port (KindDataAccess)
+int KindDataAccess__FP4MENU(struct P *p)
 {
     int n;
     void *pv;

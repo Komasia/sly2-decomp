@@ -5,7 +5,7 @@ struct S { char pad[0x150]; int k; char pad1[8]; int x15C; void *p160; };
 extern qword g_normalZ,D_002A2DA0,D_002A2DD0;
 extern char D_002C4300[],D_002C4310[];
 extern "C" {
-void func_001F9B20(S *);
+void ApplyAloGravity(S *) asm("ApplyAloGravity__FP3ALO");
 qword func_001A62E8(void *);
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 M3 *func_001A6318(S *);
@@ -28,10 +28,11 @@ static inline qword Sqrt(qword len) {
 static inline float X(qword v) { float f;__asm__("qmfc2.ni %0,%1" : "=r"(f) : "j"(v));return f; }
 static inline qword Scale(qword d,qword len) { qword r;
     __asm__ __volatile__("vdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%1,Q" : "=j"(r) : "j"(d),"0"(len));return r; }
-extern "C" void func_00224698(S *p) {
+// name: SafeHouse port (ApplyCarryGravity)
+extern "C" void ApplyCarryGravity__FP3ALO(S *p) {
     M3 m;
     if(p->k==0 || p->k==4)return;
-    func_001F9B20(p);
+    ApplyAloGravity(p);
     if(p->x15C!=0x1A && p->x15C!=0x29)return;
     if(p->p160) {
         qword a=ToVF(func_001A62E8(p->p160));

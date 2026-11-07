@@ -43,20 +43,20 @@ void func_001B9D28(OBJECT*,qword);
 OBJECT*func_00156698(void*,qword,OBJECT*);
 void SetGuardMode(OBJECT*,int) asm("SetGuardMode__FP5GUARDi");
 void SetAloEntryMode(OBJECT*,int) asm("SetAloEntryMode__FP3ALOi");
-unsigned func_001F78D8(OBJECT*,unsigned);
-int func_001F78A0(unsigned);
+unsigned GrfAloXpBytes(OBJECT*,unsigned) asm("GrfAloXpBytes__FP3ALOUi");
+int IbitLow(unsigned) asm("IbitLow__FUi");
 void SetTargetrecTimer(TUNE*,int) asm("SetTargetrecTimer__FP9TARGETRECi");
 void SetSleepState(HELPER*,int) asm("SetSleepState__8JOBSLEEPi");
 void func_001305B8(ASEG*,OBJECT*,float,float,int,ASEGA**);
 unsigned long func_00207A20(int);
-int func_0020A378(OBJECT*,OBJECT*,unsigned long);
-int func_0020A298(OBJECT*,OBJECT*,unsigned long);
+int FGuardLaunchAllowed(OBJECT*,OBJECT*,unsigned long) asm("FGuardLaunchAllowed__FP5GUARDP2LOi");
+int FGuardSurprised(OBJECT*,OBJECT*,unsigned long) asm("FGuardSurprised__FP5GUARDP2LOUl");
 void*PkindeBest(OBJECT*,unsigned long) asm("PkindeBest__FP5GUARDUl");
-int func_001EF0B8(S*,int,MSG*);
+int Message__5AIJOBiPv(S*,int,MSG*);
 }
 static __inline__ void Clear(STATE*s){(void)func_002333B4(s,0,sizeof(*s));}
 static __inline__ int Accept(OBJECT*p,MSG*m){VE&v=p->vt[86];return((int(*)(void*,MSG*))v.fn)((char*)p+v.delta,m);}
-static __inline__ SLOT*Slot(OBJECT*p,unsigned kind,int offset){int index=func_001F78A0(kind);return(SLOT*)((char*)p+offset+index*sizeof(SLOT));}
+static __inline__ SLOT*Slot(OBJECT*p,unsigned kind,int offset){int index=IbitLow(kind);return(SLOT*)((char*)p+offset+index*sizeof(SLOT));}
 static __inline__ float Max(float a,float b){register float right __asm__("$f1")=b;__asm__("max.s %0,%0,%1":"+f"(a):"f"(right));return a;}
 static __inline__ qword Raw(float value){register qword bits __asm__("$10");__asm__("mfc1 %0,%1":"=r"(bits):"f"(value));return bits;}
 static __inline__ qword Scalar(float value){int bits;qword result;__asm__("mfc1 %0,%1":"=r"(bits):"f"(value));__asm__("qmtc2.ni %1,%0":"=j"(result):"r"(bits));return result;}
@@ -69,7 +69,8 @@ static __inline__ qword Normalize(qword input){
 static __inline__ qword ScaleInPlace(qword a,qword s){__asm__("vmulx.xyzw %0,%1,%0x":"+j"(s):"j"(a));return s;}
 static __inline__ int Below(int a,int b){return a<b;}
 enum KINDENUM{KIND_NONE=-1,KIND_MAX=0x7fffffff};
-extern "C" int func_00176BE8(S*p,int event,MSG*msg){
+// name: SafeHouse port (JOBREACT::Message)
+extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  WORK w;int flags;int originalFlags;
  if(event==12){
  MSG*selected=msg;
@@ -87,7 +88,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
  }
  switch((KINDENUM)p->current.kind){
  case 9:
-  if(!(func_001F78D8(p->actor,msg->data.kind)&0x40)){
+  if(!(GrfAloXpBytes(p->actor,msg->data.kind)&0x40)){
    if(!(msg->data.kind&p->actor->mask9)||(p->helper->flags&p->actor->mask9))return 1;
   }break;
  case 10:if(!(msg->data.kind&p->actor->mask10))return 1;break;
@@ -108,18 +109,18 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   }goto finish;
  }
  if(msg->data.kind==0x200000&&(msg->data.flags&8)){
-  if(func_0020A378(p->actor,msg->data.object,func_00207A20(6))){
+  if(FGuardLaunchAllowed(p->actor,msg->data.object,func_00207A20(6))){
    {int reserve=p->actor->reserve+msg->data.amount;int limited=4<reserve?reserve:5;p->actor->reserve=limited;}
    (void)func_00156698(g_sw.context,func_001A62E8(p->actor),p->actor);
    Clear(&w.next);w.next.kind=7;w.next.msg.data.object=msg->data.object;React(p,&w.next);goto finish;
   }
  }
  if(msg->data.kind==0x1000000&&(msg->data.flags&8)){
-  Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
+  Clear(&w.next);if(FGuardSurprised(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
   w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);SetGuardMode(p->actor,8);goto finish;
  }
  if(msg->data.kind==0x2000000&&(msg->data.flags&8)){
-  Clear(&w.next);if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
+  Clear(&w.next);if(FGuardSurprised(p->actor,msg->data.object,func_00207A20(0x17)))w.next.kind=10;else w.next.kind=9;
   w.next.msg=*msg;p->current.kind=-1;React(p,&w.next);SetGuardMode(p->actor,0x22);goto finish;
  }
  originalFlags=msg->data.flags;
@@ -131,7 +132,7 @@ extern "C" int func_00176BE8(S*p,int event,MSG*msg){
   qword position=func_001A62E8(p->actor);(void)func_00156698(context,position,p->actor);
  }
  if(Below(p->current.kind,11)&&!Below(p->current.kind,8)&&FIsBasicDerivedFrom(msg->data.object,0x65)&&(originalFlags&0xB0))flags=originalFlags|0x40;
- if(func_0020A298(p->actor,msg->data.object,func_00207A20(0x17)))flags|=0x80;
+ if(FGuardSurprised(p->actor,msg->data.object,func_00207A20(0x17)))flags|=0x80;
  if(flags&0x40)flags&=~0xB0;
  if(flags&0xA0)flags&=~0x10;
  if(flags&0x80){
@@ -190,7 +191,7 @@ finish:
  if(D_002F7900&&selected->data.kind==0x20000)func_001B9D28(D_002F7900,func_001A62E8(p->actor));
  return 1;
  }
- return func_001EF0B8(p,event,msg);
+ return Message__5AIJOBiPv(p,event,msg);
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];

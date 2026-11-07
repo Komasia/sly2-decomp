@@ -27,12 +27,12 @@ extern char g_sw[];
 void func_0014D1D0(struct CLOCK *, float, int);
 void func_0020EFC0(void *, int);
 void func_0020F030(void *, int);
-void func_00212A70(SUB *, int);
+void SetState__FP8SCREENRTi(SUB *, int);
 void func_00212A50(SUB *, int);
 void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
-void func_001DBD10(OBJ *);
-void func_001DBBE0(OBJ *, int);
+void BuildShopList__FP4SHOP(OBJ *);
+void SelectShopRow__FP4SHOPi(OBJ *, int);
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
 void func_001DC260(OBJ *p, int s)
 {
@@ -45,7 +45,7 @@ void func_001DC260(OBJ *p, int s)
         func_0014D1D0(&g_clock, 0.0f, 0);
         func_0020EFC0(g_sw, 0);
         VCALL(p, 10);
-        func_00212A70(p->x24, 1);
+        SetState__FP8SCREENRTi(p->x24, 1);
     }
     old = p->x40;
     p->x40 = s;
@@ -67,8 +67,8 @@ void func_001DC260(OBJ *p, int s)
         p->x24->x70 = 0x4D5;
         p->x24->x78 = 0x4D6;
         if (old == 1) {
-            func_00212A70(p->x24, 1);
-            func_00212A70(p->x24, 2);
+            SetState__FP8SCREENRTi(p->x24, 1);
+            SetState__FP8SCREENRTi(p->x24, 2);
         } else {
             func_00212A50(p->x24, 2);
         }
@@ -79,15 +79,15 @@ void func_001DC260(OBJ *p, int s)
         p->x24->x70 = 0x49C;
         p->x24->x78 = 0x49D;
         if (old == 0) {
-            func_00212A70(p->x24, 1);
-            func_00212A70(p->x24, 2);
+            SetState__FP8SCREENRTi(p->x24, 1);
+            SetState__FP8SCREENRTi(p->x24, 2);
         } else {
             func_00212A50(p->x24, 2);
         }
         SetSource__4CSndPv(PsndNewPlain__Fi(0x35), 0);
         break;
     }
-    func_001DBD10(p);
-    func_001DBBE0(p, 0);
+    BuildShopList__FP4SHOP(p);
+    SelectShopRow__FP4SHOPi(p, 0);
     ((void (*)(void *, int))p->vt[14].pfn)((char *)p + p->vt[14].d, -1);
 }

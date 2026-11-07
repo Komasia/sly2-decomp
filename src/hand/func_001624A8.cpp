@@ -23,7 +23,8 @@ static inline void *PvShrinkReq(ALLOCREQ *preq, int cb, int nKind, void *pv)
     preq->nKind = nKind;
     return PvAllocSwCopyImpl(preq, pv);
 }
-extern "C" void func_001624A8(S *p, CBinaryInputStream *pbis)
+// name: SafeHouse port (LoadMissionFromBrx)
+extern "C" void LoadMissionFromBrx__FP2LOP18CBinaryInputStream(S *p, CBinaryInputStream *pbis)
 {
     FRAME fr;
     ALLOCREQ req;

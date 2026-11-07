@@ -5,13 +5,14 @@ struct P { char pad[0xC]; VT *pvt; char pad2[0x24 - 0x10]; void *p24; char pad3[
 extern "C" int func_001F0638(P *);
 extern "C" int func_001F0438(void *, int);
 extern "C" void RetractAsega(void *) asm("RetractAsega__FP5ASEGA");
-extern "C" void func_001F0D88(P *, int);
+extern "C" void ChooseSmaTransition(P *, int) asm("ChooseSmaTransition__FP3SMAi");
 struct Lock {
     P *p;
     Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
     ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
 };
-extern "C" void func_001F0660(P *p, int n)
+// name: SafeHouse port (SetSmaGoal)
+extern "C" void SetSmaGoal__FP3SMA3OID(P *p, int n)
 {
     if (func_001F0638(p)) return;
     n = n == -1 ? -1 : func_001F0438(p->p24, n);
@@ -20,6 +21,6 @@ extern "C" void func_001F0660(P *p, int n)
         p->n3C = n;
         if (p->p30) {
             if (p->pf->fl & 2) RetractAsega(p->p30);
-        } else func_001F0D88(p, 0);
+        } else ChooseSmaTransition(p, 0);
     }
 }

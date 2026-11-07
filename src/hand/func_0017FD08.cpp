@@ -23,11 +23,11 @@ void func_00258040(void **pp, void *q);
 void Pause(void *p) asm("Pause__4CSnd");
 void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
 void SetXfMode(struct S *p, struct N *n, int k) asm("SetXfMode__FP3ALOP2XFi");
-void func_001A58D0(struct S *p, int a, int b);
+void ReparentBooty(struct S *p, int a, int b) asm("ReparentBooty__FP3ALOii");
 void SetAloCnstrLin(struct S *p, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(struct S *p, int n) asm("SetAloCnstrAng__FP3ALOi");
 void SetAloSensors(struct S *p, int n) asm("SetAloSensors__FP3ALOi");
-void func_001F0660(void *p, int n);
+void SetSmaGoal(void *p, int n) asm("SetSmaGoal__FP3SMA3OID");
 void Stop(void *p, float f) asm("Stop__4CSndf");
 struct M4 func_0022FF40(int a, int b, struct M4 *pm);
 int PctrlNewPos(struct S *p, struct N *n, int a, int b, int c, qword v) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
@@ -62,7 +62,7 @@ void SetShipState(struct S *p, int n) {
         DeleteCtrl(&p->n29C);
         SetXfMode(p, p->p58, 2);
         SetXfMode(p, p->p5C, 2);
-        func_001A58D0(p, 0, 0xF);
+        ReparentBooty(p, 0, 0xF);
         SetAloCnstrLin(p, 5);
         SetAloCnstrAng(p, 4);
         SetAloSensors(p, 0);
@@ -72,7 +72,7 @@ void SetShipState(struct S *p, int n) {
         {
             int i;
             for (i = 0; i < p->n230; i++) {
-                if (p->a248[i].p0) func_001F0660(p->a248[i].p0, 0x66);
+                if (p->a248[i].p0) SetSmaGoal(p->a248[i].p0, 0x66);
             }
         }
         break;

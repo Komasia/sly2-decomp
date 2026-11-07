@@ -77,12 +77,12 @@ void func_00142880(P *);
 void SetMurrayFlopPhase(P *, int) asm("SetMurrayFlopPhase__FP6MURRAYi");
 void ExplodeExpl(OBJ *) asm("ExplodeExpl__FP4EXPL");
 void func_00195FB8(void *, int, int);
-void func_00192BD8(void *, int);
+void SetInteractState(void *, int) asm("SetInteractState__FP5ACTORi");
 void SetDamageState(void *, int) asm("SetDamageState__FP5ACTORi");
 void SetMurrayPunch(P *, int) asm("SetMurrayPunch__FP6MURRAYi");
 void SetMurrayBerserk(P *, int) asm("SetMurrayBerserk__FP6MURRAYi");
-void func_001B93E8(P *, int);
-void func_001B5658(P *, int);
+void SetMurrayCarry(P *, int) asm("SetMurrayCarry__FP6MURRAYi");
+void SetMurrayCarryMove(P *, int) asm("SetMurrayCarryMove__FP6MURRAYi");
 void SetMurrayBehaviorAnim(P *, int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
 void func_002206C8(void *, int);
 void SetAloCnstrLin(P *, int) asm("SetAloCnstrLin__FP3ALOi");
@@ -93,14 +93,14 @@ void ActorSetLookFlag(P *, int) asm("ActorSetLookFlag__FP5ACTORi");
 void func_0020BD68(void *);
 void func_0019CD38(void *, int);
 int func_001DAEA8(int);
-void func_001B5E98(P *);
+void ChooseMurrayThrowTarget(P *) asm("ChooseMurrayThrowTarget__FP6MURRAY");
 qword func_001A62E8(P *);
 void func_002046B0(P *, qword);
 void RetractAsegaPp(ASEGA **) asm("RetractAsegaPp__FPP5ASEGA");
-void func_001F15B8(COMPONENT **);
+void ClearSmaHandle(COMPONENT **) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(ASEG *, P *, float, float, int, ASEGA **);
-void func_001F14F8(void *, P *, int, int, int, COMPONENT **);
-ENTRY *func_0012F938(ASEG *, int);
+void ReplaceSmaHandleMask(void *, P *, int, int, int, COMPONENT **) asm("ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA");
+ENTRY *PeventLaunch(ASEG *, int) asm("PeventLaunch__FP5KINDEi");
 void SetAsegaSeekTime(ASEGA *, float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static inline void *Block(P *p, int offset) { return (void *)((char *)p + offset); }
@@ -133,12 +133,12 @@ extern "C" void func_001B6078(P *p, int next)
         }
         func_00195FB8(Block(p, 0x2C0), -1, 0); break;
     }
-    case 13: func_00192BD8(Block(p, 0x4C0), -1); break;
+    case 13: SetInteractState(Block(p, 0x4C0), -1); break;
     case 14: SetDamageState(Block(p, 0xDF0), -1); break;
     case 11: SetMurrayPunch(p, -1); break;
     case 12: SetMurrayBerserk(p, -1); break;
-    case 4: func_001B93E8(p, -1); break;
-    case 5: func_001B5658(p, -1); break;
+    case 4: SetMurrayCarry(p, -1); break;
+    case 5: SetMurrayCarryMove(p, -1); break;
     case 9: SetMurrayBehaviorAnim(p, -1); break;
     case 15: Call(p->object15, 9); func_002206C8(Block(p, 0x1910), -1); SetAloCnstrLin(p, 0); break;
     case 1: case 10: p->phase = p->asega->time / p->asega->clip->duration; break;
@@ -162,16 +162,16 @@ extern "C" void func_001B6078(P *p, int next)
     case 1: clip = p->clip1; activation = Block(p, 0x1320); goto activate;
     case 14: func_0019CD38(Block(p, 0xF00), -1); break;
     case 3: { SetMurrayFlopPhase(p, 0); ASEG *a = p->extra3; if (a && p->alternate3) clip = a; else clip = p->clip3; break; }
-    case 5: func_001B5658(p, 0); Call((OBJ *)p, 90); return;
+    case 5: SetMurrayCarryMove(p, 0); Call((OBJ *)p, 90); return;
     case 6: source = p->template6; break;
     case 4:
         switch (p->clipKind) { case 0: clip = p->clip4a; break; case 1: clip = p->clip4b; break; }
-        p->velocity = D_002A2DD0; func_001B93E8(p, 0); break;
+        p->velocity = D_002A2DD0; SetMurrayCarry(p, 0); break;
     case 7: {
         ASEG *a = p->extra7;
         if (a && func_001DAEA8(0x11)) clip = p->extra7; else clip = p->clip7;
         { register qword zero __asm__("$3") = D_002A2DD0.q; p->velocity.q = zero; }   // pin: the zero vector goes through $v1 here
-        func_001B5E98(p);
+        ChooseMurrayThrowTarget(p);
         U point = p->goal; qword current = func_001A62E8(p);
         qword difference;
         __asm__("vsub.xyzw %0,%0,%2" : "=j"(difference) : "0"(point.q), "j"(current));
@@ -193,11 +193,11 @@ extern "C" void func_001B6078(P *p, int next)
     }
     {
         ASEGA **animation = &p->asega; COMPONENT **component = &p->component; float position = 0.0f;
-        RetractAsegaPp(animation); func_001F15B8(component);
+        RetractAsegaPp(animation); ClearSmaHandle(component);
         func_001305B8(clip, p, position, 1.0f, flags, animation);
-        func_001F14F8(source, p, id, flags, mode, component);
+        ReplaceSmaHandleMask(source, p, id, flags, mode, component);
         if (clip || source) {
-            if (clip) { if (duration == position) { ENTRY *e = func_0012F938(clip, 0x1AC); if (e) duration = e->value; } }
+            if (clip) { if (duration == position) { ENTRY *e = PeventLaunch(clip, 0x1AC); if (e) duration = e->value; } }
             if (duration != 0.0f) SetAsegaSeekTime(p->asega, g_clock.t + duration / p->asega->rate);
         }
     }

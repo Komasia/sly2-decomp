@@ -3,7 +3,7 @@ typedef struct M4 { qword aq[4]; } M4;
 typedef struct B7 { qword aq[7]; } B7;
 struct X { int a; int b; int c; int pad; M4 m; B7 b7; M4 m2; };
 struct Y { int a; int b; int c; };
-void func_00159118(struct X *px);
+void InitEmitb__FP5EMITB(struct X *px);
 void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(void *p, struct X *px, struct Y *py);
 void func_002333B4(void *pv, int b, int cb);
 // name: SafeHouse port (LaunchWaterSpray)
@@ -11,7 +11,7 @@ void LaunchWaterSpray__FG9VU_VECTORT0P2LON22iii(qword q0, qword q1, void *p, M4 
 {
     struct X x;
     struct Y y;
-    func_00159118(&x);
+    InitEmitb__FP5EMITB(&x);
     func_002333B4(&y, 0, sizeof(y));
     x.m.aq[2] = q0;
     x.m.aq[3] = q1;

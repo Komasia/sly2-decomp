@@ -4,7 +4,8 @@ typedef struct TR { CLT v; int cref; } TR;
 extern char D_004521E8[];
 TR *func_0011CCC0(void *pslotheap);
 void Decref__4CRef(CRef *pref);
-CRef *func_001298F0(CRef *pref, CLT *pv)
+// name: SafeHouse port (CRef::SetSmp)
+CRef *SetSmp__4CRefP3SMP(CRef *pref, CLT *pv)
 {
     TR *p;
     Decref__4CRef(pref);

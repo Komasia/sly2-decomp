@@ -4,7 +4,8 @@ M2C_UNK RemoveDlEntry__FP2DLPv(M2C_UNK *, void *);           /* extern */
 s32 FFindDlEntry__FP2DLPv(M2C_UNK *, void *);               /* extern */
 extern M2C_UNK D_003E1060;
 
-void func_00214300(void *arg0, s32 arg1) {
+// name: SafeHouse port (SetScreenObjListed)
+void SetScreenObjListed__FP2LOi(void *arg0, s32 arg1) {
     s32 temp_v0;
 
     temp_v0 = M2C_FIELD(arg0, s32 *, 0xA8);

@@ -6,8 +6,9 @@ extern int D_003E1084;
 void func_001D8A38(struct CRef *r, void *a, void *b, int c);
 void func_00129EC8(struct CRef *r);
 void AkeyReturnBooty__FP5ACTORi(struct O *p, int n);
-void func_001432E0(struct O *p, int n);
-void func_00143BD8(struct O *p)
+void GiveActorBooty__FP5ACTORi(struct O *p, int n);
+// name: SafeHouse port (PostLoadActorBooty)
+void PostLoadActorBooty__FP5ACTOR(struct O *p)
 {
     struct CRef r;
     int n;
@@ -17,5 +18,5 @@ void func_00143BD8(struct O *p)
     func_00129EC8(&r);
     if ((unsigned int)(n + 1) < 2) return;
     if (D_003E1084 & 0x40) AkeyReturnBooty__FP5ACTORi(p, n);
-    else func_001432E0(p, n);
+    else GiveActorBooty__FP5ACTORi(p, n);
 }

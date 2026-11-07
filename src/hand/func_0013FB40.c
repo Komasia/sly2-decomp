@@ -17,7 +17,7 @@ int func_0015E958(struct G *, int, int, int, int);
 int func_0013FAD0(int c, short *a);
 int func_0015E988(int, int);
 struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
-void func_001C9B08(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
+void LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
 
 #define VCALL1(p, n, a) ((void (*)(void *, void *))(void*)(p)->vt[n].f)((char *)(p) + (p)->vt[n].d, a)
 #define VCALL2(p, n, a, b) ((void (*)(void *, int, void *))(void*)(p)->vt[n].f)((char *)(p) + (p)->vt[n].d, a, b)
@@ -99,7 +99,7 @@ void func_0013FB40(void *psw, void *pbisArg, struct IF *pifParent)
         }
     create:
         if (func_0015E988(cid, 6)) {
-            func_001C9B08(&g_sw, psw, cid, oid, n, pbis, pif);
+            LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(&g_sw, psw, cid, oid, n, pbis, pif);
         } else {
             plo2 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, n);
             VCALL1(plo2, 14, pbis);

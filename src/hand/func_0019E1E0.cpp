@@ -12,7 +12,7 @@ qword func_0011F088(qword,qword,float,SMP*,U*);
 void func_00195A00(void*,int,void*,void*);int func_001C46C0(INPUT*,int,float);int func_001C4660(INPUT*,int,float);void func_001C4738(INPUT*,int);
 void func_0019CC50(void*,int,void*,void*);int func_00131968(ASEGA*);void func_0019EAB0(C*,int);
 float func_001E6728(PATH*,float);void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
-void func_0019E110(C*,LM*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float func_001E6648(PATH*);float GModPositive(float,float) asm("GModPositive__Fff");void func_001384C0(ANIMATION*);
+void func_0019E110(C*,LM*);float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void func_001384C0(ANIMATION*);
 float fabsf(float);
 }
 static inline ulong Eligible(PATH*p){return (p->flags>>60)&1;}
@@ -135,7 +135,7 @@ extern "C" void func_0019E1E0(C*p){
  register float stopped __asm__("$f21")=0.0f;
  p->speed=-speed;
  if(speed!=stopped){p->distance+=p->speed*g_clock.dt;MarkAloDirty(p->actor);}
- if(p->path->cyclic)p->distance=GModPositive(p->distance,func_001E6648(p->path));
+ if(p->path->cyclic)p->distance=GModPositive(p->distance,SMaxCrv(p->path));
  register float magnitude __asm__("$f2")=fabsf(speed);
  if(magnitude<0.01f)mode=1;
  else{

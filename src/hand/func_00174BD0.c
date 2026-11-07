@@ -18,8 +18,8 @@ struct ANIMATION *PasegaOfKinde__FP5KINDE(void *p);
 qword VelActorAnimRoot__FP5ACTORPvf(struct A *a, struct ANIMATION *animation, float f);
 void func_002097C8(void *p, struct S *s);
 void func_002097D8(void *p, struct S *s);
-void func_001EEFC0(struct S *p);
-void func_001EF038(struct S *p);
+void LockJob__FP5AIJOB(struct S *p);
+void UnlockJob__FP5AIJOB(struct S *p);
 struct O *func_00205458(struct A *a, int n);
 void *func_001C4840(struct G *g);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float f);
@@ -65,10 +65,10 @@ int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm) {
         p->p10->n1A4 = 0;
         return 1;
     case 0x27:
-        func_001EEFC0(p);
+        LockJob__FP5AIJOB(p);
         return 1;
     case 0x28:
-        func_001EF038(p);
+        UnlockJob__FP5AIJOB(p);
         return 1;
     case 0x2F:
         {

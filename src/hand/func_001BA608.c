@@ -8,7 +8,7 @@ struct O { char pad[0xF64]; struct S *pF64; char pad2[0x1070 - 0xF68]; struct PO
 struct Q1 { char pad[0xC4]; float gC4; };
 struct Q2 { char pad[0x38]; float g38; };
 struct P { char pad[0x10]; struct O *po; char pad2[0x30 - 0x14]; int x30; float g34; };
-void func_001EEF98(struct P *p);
+void Update__5AIJOB(struct P *p);
 int func_001EF0A8(struct P *p);
 qword func_001A62E8(void *p);
 int func_00227C90(void *p, qword v);
@@ -30,7 +30,7 @@ static inline float GClamp(float g, float lo, float hi) { float r; if (g < lo) r
 void Update__7JOBPROX(struct P *p)
 {
     int s;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     for (;;) {
         if (func_001EF0A8(p))
             break;

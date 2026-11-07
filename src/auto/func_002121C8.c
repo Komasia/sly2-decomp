@@ -1,5 +1,6 @@
 #include "m2c_prelude.h"
-s32 func_002121C8(void *arg0) {
+// name: SafeHouse port (FScreenObjDone)
+s32 FScreenObjDone__FP2LO(void *arg0) {
     s32 var_v1;
 
     var_v1 = 0;

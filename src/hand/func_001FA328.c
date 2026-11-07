@@ -26,7 +26,8 @@ static __inline__ void AddTo(union V *out,qword q)
     __asm__("vadd.xyzw %0,%0,%1":"+j"(r):"j"(q));
     out->q=r;
 }
-void func_001FA328(struct P *p)
+// name: SafeHouse port (ApplyAloVelocityChanges)
+void ApplyAloVelocityChanges__FP3ALO(struct P *p)
 {
     if(p->data){
         qword value=p->force0.q;

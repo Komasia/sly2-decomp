@@ -1,7 +1,7 @@
 // func_001E6F60 (w2lane4, wave 2): closest point of a path (a chain of control points, transformed by the path's
 // own matrix) to a query point. mode 0 walks every segment, projects the point on it (clamped to the segment), keeps the
 // nearest candidate and reports its position, direction, interpolated time and the path value at that time. mode 1 only
-// measures the distances to the control points and hands the nearest vertex time to func_001E6ED8.
+// measures the distances to the control points and hands the nearest vertex time to NearestCrv.
 // Matching notes (found by reading the local-alloc / global-alloc / reload dumps):
 //  * Spill slots of start / end / point follow the order in which the three pseudos get their stack home, i.e. the order in which
 //    they are first address-wrapped while expanding the loop head: `Sub(end=TransformPoint(..), start)` then `Sub(point, start)`
@@ -24,9 +24,9 @@ struct PATH {
 };
 extern "C" {
 extern float D_002A8138;
-qword func_001FA970(SPACE *, qword);
-float func_001E63C0(PATH *, float);
-void func_001E6ED8(PATH *, qword, SPACE *, qword *, qword *, float *, float *, float);
+qword ProjectCnstrLocal(SPACE *, qword) asm("ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR");
+float SFromCrvG(PATH *, float) asm("SFromCrvG__FP3CRV");
+void NearestCrv(PATH *, qword, SPACE *, qword *, qword *, float *, float *, float) asm("NearestCrv__FP3CRV");
 }
 struct VU_FLOAT {
     qword q;
@@ -99,15 +99,15 @@ extern "C" void func_001E6F60(PATH *p, qword point, SPACE *space, qword *outPosi
             qword direction = Sub(end = TransformPoint(matrix, p->points[index]), start);
             qword offset = Sub(point, start);
             if (space) {
-                direction = func_001FA970(space, direction);
-                offset = func_001FA970(space, offset);
+                direction = ProjectCnstrLocal(space, direction);
+                offset = ProjectCnstrLocal(space, offset);
             }
             float t = ToFloat(Dot(offset, direction)) / ToFloat(Dot(direction, direction));
             t = Clamp(t, 0.0f, 1.0f);
             float u = 1.0f - t;
             closest.q = VecCombo(VU_FLOAT(u), start, VU_FLOAT(t), end);
             qword delta = Sub(point, closest.q);
-            if (space) delta = func_001FA970(space, delta);
+            if (space) delta = ProjectCnstrLocal(space, delta);
             float distance = Length(delta);
             if (distance < best) {
                 best = distance;
@@ -118,7 +118,7 @@ extern "C" void func_001E6F60(PATH *p, qword point, SPACE *space, qword *outPosi
             start = end;
         }
         if (outTime) *outTime = time;
-        if (outValue) *outValue = func_001E63C0(p, time);
+        if (outValue) *outValue = SFromCrvG(p, time);
         break;
     }
     case 1: {
@@ -126,11 +126,11 @@ extern "C" void func_001E6F60(PATH *p, qword point, SPACE *space, qword *outPosi
         int closestIndex = -1;
         for (int index = 0; index < p->count; index++) {
             qword displacement = Sub(point, TransformPoint(matrix, p->points[index]));
-            if (space) displacement = func_001FA970(space, displacement);
+            if (space) displacement = ProjectCnstrLocal(space, displacement);
             float distance = Length(displacement);
             if (distance < best) { best = distance; closestIndex = index; }
         }
-        func_001E6ED8(p, point, space, outPosition, outDirection, outTime, outValue, p->times[closestIndex]);
+        NearestCrv(p, point, space, outPosition, outDirection, outTime, outValue, p->times[closestIndex]);
         break;
     }
     }

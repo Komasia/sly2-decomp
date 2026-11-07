@@ -112,8 +112,8 @@ extern float D_002BE630, D_002BE634, D_002BE658, D_002BE65C, D_002BE660, D_002BE
 extern CLQ D_002BE640, D_002BE680;
 extern LM D_002BE650, g_lmZeroOne;
 qword func_001A62E8(void *pobj);
-float func_001E66C8(CURVE *pcrv, float s);
-float func_001E6648(CURVE *pcrv);
+float SWrapCrv(CURVE *pcrv, float s) asm("SWrapCrv__FP3CRVf");
+float SMaxCrv(CURVE *pcrv) asm("SMaxCrv__FP3CRV");
 void func_001E7380(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps);
 void func_001E6F10(CURVE *pcrv, float s, VEC *ppos, VEC *pdir);
 int FArrived(S *p) asm("FArrived__9JOBFOLLOW");
@@ -332,7 +332,7 @@ extern "C" void func_00177F78(S *p)
         s = p->s - D_002BE634;
     else
         s = p->s + D_002BE634;
-    float sCurve = func_001E66C8(p->pcrv, s);
+    float sCurve = SWrapCrv(p->pcrv, s);
     func_001E7380(p->pcrv, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->s);
     if (p->mode == 1 || p->mode == 4)
     {
@@ -341,7 +341,7 @@ extern "C" void func_00177F78(S *p)
             s = p->sExtra - D_002BE634;
         else
             s = p->sExtra + D_002BE634;
-        float sCurve = func_001E66C8(p->pcrvExtra, s);
+        float sCurve = SWrapCrv(p->pcrvExtra, s);
         func_001E7380(p->pcrvExtra, qwActor, sCurve, D_003DD020, &point, &dir, 0, &p->sExtra);
     }
     dir.qw = NormalizeSafeN(QwProjectOut(dir.qw, g_normalZ), D_002A2DA0);
@@ -367,7 +367,7 @@ extern "C" void func_00177F78(S *p)
             if (p->pcrv == p->pactor->pcrvPrimary)
             {
                 float sMin = -p->s;
-                float sMax = func_001E6648(p->pcrv) - p->s;
+                float sMax = SMaxCrv(p->pcrv) - p->s;
                 float dsClamp = GClamp(ds, sMin, sMax);
                 if (ds != dsClamp)
                     gSpeed = 0.0f;
@@ -379,12 +379,12 @@ extern "C" void func_00177F78(S *p)
                 float sNext;
                 if (p->pcrv->fWrap)
                 {
-                    sNext = func_001E66C8(p->pcrv, p->s + ds);
+                    sNext = SWrapCrv(p->pcrv, p->s + ds);
                 }
                 else
                 {
                     float sMin = -p->s;
-                    float sMax = func_001E6648(p->pcrv) - p->s;
+                    float sMax = SMaxCrv(p->pcrv) - p->s;
                     float dsClamp = GClamp(ds, sMin, sMax);
                     if (ds != dsClamp)
                         gSpeed = 0.0f;

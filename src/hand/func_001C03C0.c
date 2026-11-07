@@ -15,7 +15,8 @@ float func_00117E38(void *pbis);
 void *PvAllocSwClearImpl__Fi(struct A *pa);
 void *PvAllocSwImpl__Fi(struct A *pa);
 void func_001C0880(int *p);
-void func_001C03C0(struct S *p, void *pbis)
+// name: SafeHouse port (LoadMeshZoneFromBrx)
+void LoadMeshZoneFromBrx__FP2LOP18CBinaryInputStream(struct S *p, void *pbis)
 {
     struct A a;
     int i, j, k;

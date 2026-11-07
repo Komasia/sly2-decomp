@@ -32,13 +32,13 @@ extern float D_002C3280, D_002C3274, D_002C3278, D_002C327C, D_002A79C8;
 
 extern "C" {
 ITEM *func_001DAE20(SELECTOR *sel, int id);
-int func_0014C748(qword point, qword start, qword end, int flags, HIT *hit, float radius);
+int ClipSegmentSphere(qword point, qword start, qword end, int flags, HIT *hit, float radius) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 void func_0011EE08(qword point, qword start, qword end, qword *unused, float *along, float *distance);
-void func_001DB390(SELECTOR *sel, int id);
+void SelectGadget(SELECTOR *sel, int id) asm("SelectGadget__FPvi");
 void func_001DA9E8(SELECTOR *sel);
 void *PsndNewPlain(int id) asm("PsndNewPlain__Fi");
 void SetSource(void *sound, int flags) asm("SetSource__4CSndPv");
-void func_001DB0C8(SELECTOR *sel, int mode);
+void StepGadget(SELECTOR *sel, int mode) asm("StepGadget__FP8SELECTORi");
 }
 
 static inline qword XYZ(float x, float y, float z, U &home)
@@ -73,7 +73,8 @@ static inline qword Scale(qword a, qword s) { qword r; __asm__("vmulx.xyzw %0,%1
 // reloads it into the register the result goes to.
 static inline qword Add(qword a, const qword &b) { qword r; __asm__("vadd.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 
-void func_001DB0C8(SELECTOR *sel, int mode)
+// name: SafeHouse port (StepGadget)
+void StepGadget(SELECTOR *sel, int mode)
 {
     U home;
     HIT hit;
@@ -104,7 +105,7 @@ void func_001DB0C8(SELECTOR *sel, int mode)
         float zero = 0.0f;
         qword point = XYZ(item->x, item->y * D_002C3280, zero, home);
         float score;
-        if (func_0014C748(point, origin, Add(origin, ray), 1, &hit, D_002C3278) > 0) {
+        if (ClipSegmentSphere(point, origin, Add(origin, ray), 1, &hit, D_002C3278) > 0) {
             score = hit.fraction * D_002C3274;
         } else {
             func_0011EE08(point, origin, Add(origin, ray), 0, &proximity.along, &proximity.distance);
@@ -122,7 +123,7 @@ void func_001DB0C8(SELECTOR *sel, int mode)
         }
     }
     if (bestId != -1) {
-        func_001DB390(sel, bestId);
+        SelectGadget(sel, bestId);
         func_001DA9E8(sel);
         SetSource(PsndNewPlain(0x35), 0);
     }

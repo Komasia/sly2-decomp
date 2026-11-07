@@ -4,20 +4,20 @@ struct VT { short d; short pad; void *pfn; };
 struct P { char pad[0xC]; struct VT *pvt; char pad1[0x2C0 - 0x10]; char a2C0[0x200]; char a4C0[0xDF0 - 0x4C0];
     char aDF0[0x160]; char aF50[0x13D0 - 0xF50]; int k; char pad3[0x16B0 - 0x13D4]; int x16B0; };
 extern float D_002BC990;
-void func_001F9B20(struct P *p);
-void func_00204108(struct P *p);
+void ApplyAloGravity__FP3ALO(struct P *p);
+void UpdateStepPhysMotion__FP3ALO(struct P *p);
 void func_00196DF8(void *p);
 void func_00194170(void *p);
 void UpdateDamageMotion__FP5ACTOR(void *p);
 void func_0019DF70(void *p);
-void func_001FAC30(struct P *p, qword v);
+void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v);
 // name: SafeHouse port (UpdateBentleyMotion)
 void UpdateBentleyMotion__FP3ALO(struct P *p)
 {
     if (p->k == 13)
-        func_001F9B20(p);
+        ApplyAloGravity__FP3ALO(p);
     else
-        func_00204108(p);
+        UpdateStepPhysMotion__FP3ALO(p);
     switch (p->k) {
     case 2: func_00196DF8(p->a2C0); break;
     case 3: func_00194170(p->a4C0); break;
@@ -35,7 +35,7 @@ void UpdateBentleyMotion__FP3ALO(struct P *p)
             u.q = q;
             v = pfn((char *)p + d);
             __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r) : "0"(u.q), "j"(v));
-            func_001FAC30(p, r);
+            AccelAloPos__FP3ALOG9VU_VECTOR(p, r);
         }
         break;
     }

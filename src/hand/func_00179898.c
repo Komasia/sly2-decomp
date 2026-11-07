@@ -12,8 +12,8 @@ struct A {
     char pad5[0xF64 - 0x48C]; void *pF64;
 };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; int *p40; char pad3[0xC]; void *p50; char pad4[8]; int mask5C; };
-int func_001F78A0(int mask);
-void func_00179328(struct S *p);
+int IbitLow__FUi(int mask);
+void Enter__6JOBHIT(struct S *p);
 void *func_001C4840(struct G *g);
 void BroadcastTaskEvent__FP2SWiP2LO(void *a, int n, struct A *p);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct A *source, void *target, qword v);
@@ -36,10 +36,10 @@ static inline int Count(struct A *a) {
 void func_00179898(struct S *p) {
     int n;
     struct A *a;
-    int *pe = (int *)((char *)p->p10 + (func_001F78A0(p->mask5C) * 16 + 0xC10));
+    int *pe = (int *)((char *)p->p10 + (IbitLow__FUi(p->mask5C) * 16 + 0xC10));
     p->p40 = pe;
     if (*pe == -1) p->p40 = 0;
-    func_00179328(p);
+    Enter__6JOBHIT(p);
     a = p->p10;
     if (a->n330 == 0) {
         a->n330 = 1;

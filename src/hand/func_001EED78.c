@@ -1,7 +1,8 @@
 struct VTE { short d; short pad; int (*pfn)(); };
 struct O { int a, b, c; struct VTE *vt; };
 struct L { int x; int c; struct O *ap[1]; };
-void func_001EED78(struct L *pl, int a, int b)
+// name: SafeHouse port (OfferJobMessage)
+void OfferJobMessage__FP5GUARDii(struct L *pl, int a, int b)
 {
     int i = pl->c;
     while (--i >= 0) {

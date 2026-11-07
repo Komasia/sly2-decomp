@@ -27,7 +27,8 @@ void func_001D54B8(void);
 }
 static inline CRef Get(KEY *k, char *pb) { return func_001D7ED8(&D_003E0EA8, k, pb); }
 static inline CRef Set(KEY *k, CRef *r, char *pb) { return func_00258200(k, r, pb); }
-extern "C" void func_001D8D80(char *pb, int f)
+// name: SafeHouse port (ResetSlotKeepSettings)
+extern "C" void ResetSlotKeepSettings__FPci(char *pb, int f)
 {
     FRAME frame;
     KEY *keys[11] = { g_sw.k[0], g_sw.k[7], g_sw.k[10], g_sw.k[8], g_sw.k[9], g_sw.k[1], g_sw.k[2], g_sw.k[3], g_sw.k[4], g_sw.k[5], g_sw.k[6] };

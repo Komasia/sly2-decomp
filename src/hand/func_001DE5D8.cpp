@@ -1,10 +1,10 @@
-// func_001DE5D8: (re)build the endpoint state of every entry of p and its bounding box. Each entry has two endpoints;
+// BindEnd__FP3ALO: (re)build the endpoint state of every entry of p and its bounding box. Each entry has two endpoints;
 // an endpoint names an object: a path (shape test 10) becomes a moving endpoint with a 1/2/6-segment motion profile
 // (mode 8 / 0 / 16, the last a trapezoidal accelerate-cruise-decelerate profile), shape 3/0x30 objects and missing
 // objects become fixed points. All points (or the whole transformed path) are accumulated into a min/max box that
 // becomes p's single bound (CopyTransformGeom copies it to world space). Fresh rewrite (wave-4 lane 9).
 // What mattered:
-//  - Min/Max take VU_VECTOR (const qword & conversion) parameters as in func_001DF0A0: the extra RTL copies keep the
+//  - Min/Max take VU_VECTOR (const qword & conversion) parameters as in AddLaserContacts: the extra RTL copies keep the
 //    endpoint loop large enough that loop.c does not hoist 1.0f and 16 out of it;
 //  - the min/max initializers are non-const globals (const loads may be scheduled above the spill stores);
 //  - every segment is addressed as seg = &endpoint->track.motion.segments[k] (the store to the first field folds to
@@ -75,7 +75,7 @@ extern "C" {
 void RemoveAloSoes(P *) asm("RemoveAloSoes__FP3ALO");
 void *func_0015E938(G *, int, int, P *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-float func_001E6648(PATH *);
+float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");
 void func_001E6F10(PATH *, qword *, qword *, float);
 void *func_002333B4(void *, int, int);
 qword func_001A62E8(void *);
@@ -99,7 +99,8 @@ static inline float Clamp(float f, float low, float high) { if (f < low) return 
 static inline M4 *GetMatrix(PATH *path) { VTE *v = &path->vt[31]; return ((M4 * (*)(void *))v->fn)((char *)path + v->delta); }
 static inline void SetDirty(P *p) { uint f = p->flags; if ((f ^ 1) & 1) *(uint *)f |= 2; else p->flags = f | 2; }
 
-extern "C" void func_001DE5D8(P *p)
+// name: SafeHouse port (BindEnd)
+extern "C" void BindEnd__FP3ALO(P *p)
 {
     int i;
     qword minimum, maximum;
@@ -123,7 +124,7 @@ extern "C" void func_001DE5D8(P *p)
                         if (params.speed < 0.0f) { reverse = 1; params.speed = -params.speed; }
                         params.duration = __builtin_fabsf(params.duration);
                         if (params.mode != 8 && params.mode != 16 && params.mode != 0) params.mode = 8;
-                        float length = func_001E6648(path);
+                        float length = SMaxCrv(path);
                         if (0.0f < params.duration) params.speed = length / params.duration;
                         else if (0.0f < params.speed) params.duration = length / params.speed;
                         float start = params.fraction * length;

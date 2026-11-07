@@ -13,7 +13,8 @@ extern float D_002BFD30, D_002BFD34;
 struct C *func_0011CCC0(void *pool);
 qword func_0022FC48(int n, void *p, qword pos);
 void RecalcSwXpMovement__FP2SWiPP2XP(struct W *pw, int n, struct C **ppc);
-void func_001A7C18(struct W *pw, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct C **ppc, float g)
+// name: SafeHouse port (PxpAddSw)
+void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct W *pw, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct C **ppc, float g)
 {
     U u;
     struct C *c;

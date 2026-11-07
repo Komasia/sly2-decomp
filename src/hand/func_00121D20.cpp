@@ -35,12 +35,12 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" CRef func_00127838(NODE *pn, CRef *aref);
+extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 extern "C" CRef RefOpEval(void *pbasic, CRef *pref, CRef *aref) asm("RefOpEval__FiP4CRefP6CFrame");
 CRef RefOpEval(void *pbasic, CRef *pref, CRef *aref)
 {
     SPN sp;
     sp.Set(func_00256B48());
     sp->ref = *pref;
-    return func_00127838(sp.p, aref);
+    return RefEval(sp.p, aref);
 }

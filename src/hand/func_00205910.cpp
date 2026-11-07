@@ -1,4 +1,4 @@
-/* func_00205910 (Lilly / Claude agent, T1593): terrain-fit of the crawl probes (our name UpdateCrawlCollide, 0x205910; see
+/* FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR (Lilly / Claude agent, T1593): terrain-fit of the crawl probes (our name UpdateCrawlCollide, 0x205910; see
  * re/symbols: the 3-probe floor follower of the vent crawl, called from UpdateJtGrab case 8).  MATCH, no register pins.
  * What it does: the actor's orientation is turned about the up axis (g_normalZ) by its heading (p+0x1A8) into a position+rotation
  * matrix matCur (copied to matOrig); the largest probe radius (length of the local probe points, start -FLT_MAX D_002A85F8) is the
@@ -92,7 +92,8 @@ static inline void InitMat(MATRIX4 *pm,const MATRIX3 &rot,qword pos)
 }
 // 10 empty asm volatile (see the header: gcse hash-table size)
 #define GCSE_PAD10 __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile("");
-extern "C" void func_00205910(P *p,HEIGHT *height,int pointCount,const qword *localPoints)
+// name: SafeHouse port (FitStepToFloor)
+extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,int pointCount,const qword *localPoints)
 {
     MATRIX4 matCur,matOrig;
     InitMat(&matCur,Rotation(g_normalZ,p->heading),func_001A62E8(p));

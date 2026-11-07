@@ -12,19 +12,20 @@ struct P {
     qword *a140;
     qword *a144;
 };
-void func_00231768(struct P *, void *);
+void LoadLoxBaseFromBrx(struct P *, void *);
 int func_00117D00(void *);
 int func_00117C20(void *);
 void *PvAllocSwImpl__Fi(struct MSG *);
 void Read__18CBinaryInputStreamiPv(void *, int, void *);
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *, qword *);
 void LoadOptionsFromBrx__FPvP18CBinaryInputStream(struct P *, void *);
-void func_001E6180(struct P *);
-void func_001E5DF8(struct P *p, void *pbis)
+void RecalcCrv__FP3CRV(struct P *);
+// name: SafeHouse port (LoadPathFromBrx)
+void LoadPathFromBrx__FP2LOP18CBinaryInputStream(struct P *p, void *pbis)
 {
     struct MSG msg;
     int i;
-    func_00231768(p, pbis);
+    LoadLoxBaseFromBrx(p, pbis);
     p->fE0 = func_00117D00(pbis);
     p->nE4 = func_00117D00(pbis);
     p->c = func_00117C20(pbis);
@@ -53,5 +54,5 @@ void func_001E5DF8(struct P *p, void *pbis)
             ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->a144[i]);
     }
     LoadOptionsFromBrx__FPvP18CBinaryInputStream(p, pbis);
-    func_001E6180(p);
+    RecalcCrv__FP3CRV(p);
 }

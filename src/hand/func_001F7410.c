@@ -7,7 +7,7 @@ struct P { char pad[0xEC]; struct E *pe; };
 struct M { void *p0; void *p4; void *p8; int nC; int n10; int pad[3]; qword q20; qword q30; char pad2[0x60 - 0x40]; };
 struct G;
 extern struct G g_sw;
-void *func_001F7530(void *, int);
+void *PaloXpFilter__FP3ALOUi(void *, int);
 void func_002333B4(void *, int, int);
 int PaloAcceptContact__FP5CTMSG(struct M *);
 void func_001A7E10(struct G *, void *);
@@ -20,7 +20,7 @@ void DispatchAloSensorContacts__FP3ALO(struct P *p)
         struct H *ph = (struct H *)((char *)pn + (i << 6));
         if (ph->po->n18) {
             struct H *pot = (struct H *)((char *)pn + ((1 - i) << 6));
-            void *r = func_001F7530(pot->pC, ph->po->n18);
+            void *r = PaloXpFilter__FP3ALOUi(pot->pC, ph->po->n18);
             if (r) {
                 struct M m;
                 func_002333B4(&m, 0, 0x60);

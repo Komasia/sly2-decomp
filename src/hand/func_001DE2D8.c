@@ -8,7 +8,8 @@ typedef struct {
 int func_001A6290(void *, void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, void *);
 int func_00134310(int, int);
-int func_001DE2D8(OBJ *p, void *x)
+// name: SafeHouse port (LaserOverlapKind)
+int LaserOverlapKind__FP3ALOT0(OBJ *p, void *x)
 {
     int i, j;
     int r = 1;

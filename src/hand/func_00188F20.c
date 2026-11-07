@@ -23,9 +23,9 @@ extern qword func_001A62E8(void *p);
 extern void *func_001F1E20(void *a, qword q);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 extern int func_0015E938(void *p, int a, int b, void *c);
-extern void func_001424E0(void *p, int oid, void *pv, int n);
+extern void StartPrizeInteract__FP5ACTORP4ASEGP2LOi(void *p, int oid, void *pv, int n);
 extern void *func_00205458(void *p, int n);
-extern void func_0017B1A8(void *p, int n);
+extern void SetState__5JOBB1i(void *p, int n);
 extern void func_00156B98(void *p, int a, qword q, void *c);
 extern void func_00195A00(void *p, int a, int b, int c);
 extern void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(void *p, E *pe, void *c);
@@ -103,7 +103,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                     if (po && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5B) && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5D)) {
                         int oid = func_0015E938(g_sw, 1, 0x282, p);
                         F(void *, 0x1BCC) = po;
-                        func_001424E0(p, oid, po, -1);
+                        StartPrizeInteract__FP5ACTORP4ASEGP2LOi(p, oid, po, -1);
                     }
                 }
                 break;
@@ -116,13 +116,13 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                 { struct VTE *e = &F(struct VTE *, 0xC)[35]; ((void (*)(void *, qword))e->pfn)(p + e->d, F(qword, 0x190)); }
                 px = func_00205458(F(void *, 0x10DC), 0xB1);
                 if (px)
-                    func_0017B1A8(px, 4);
+                    SetState__5JOBB1i(px, 4);
                 break;
             }
             case 0x174: {
                 void *px = func_00205458(F(void *, 0x10DC), 0xB1);
                 if (px)
-                    func_0017B1A8(px, 6);
+                    SetState__5JOBB1i(px, 6);
                 break;
             }
             case 0x16D:

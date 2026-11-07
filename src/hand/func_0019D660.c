@@ -12,7 +12,7 @@ void func_00213B00(struct O *p, int n);
 void func_00212E40(struct O *p, int n, float f);
 void func_00227788(void *p);
 void func_00202768(void *p, int n);
-void func_00212A70(struct O *p, int n);
+void SetState__FP8SCREENRTi(struct O *p, int n);
 void func_00212A50(struct O *p, int n);
 void func_0019D660(struct S *p, int st)
 {
@@ -51,11 +51,11 @@ void func_0019D660(struct S *p, int st)
             else BroadcastTaskEvent__FP2SWiP2LO(g_game, 8, 0);
         }
         if (p->x8 && p->x8->x58) {
-            func_00212A70(p->x8, 1);
+            SetState__FP8SCREENRTi(p->x8, 1);
             func_00212A50(p->x8, 1);
         }
         if (p->x10 && p->x10->x58) {
-            func_00212A70(p->x10, 1);
+            SetState__FP8SCREENRTi(p->x10, 1);
             func_00212A50(p->x10, 1);
         }
         if (p->x14) func_00202768(p->x14, -1);

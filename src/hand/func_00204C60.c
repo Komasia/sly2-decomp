@@ -1,10 +1,11 @@
-/* func_00204C60 (0x204C60): STEP virtual slot 53: after the SO hook, forget the floor contact if it is with the
+/* SetStepOverlap__FP3ALOT0 (0x204C60): STEP virtual slot 53: after the SO hook, forget the floor contact if it is with the
  * given SO. */
 #include "step.h"
 
 void SetAloOverlapNothing__FP3ALOT0(SO *pso);   /* SO slot 53 (empty) */
 
-void func_00204C60(STEP *pstep, SO *pso)
+// name: SafeHouse port (SetStepOverlap)
+void SetStepOverlap__FP3ALOT0(STEP *pstep, SO *pso)
 {
     XP *pxp;
 

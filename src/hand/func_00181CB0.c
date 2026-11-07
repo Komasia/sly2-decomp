@@ -1,7 +1,7 @@
 struct Q { char pad[0x2C]; float g2c; float g30; float g34; float g38; char p1[8]; float g44; float g48; char p2[0x14]; struct Q *next; };
 struct E { int a; int b; int c; int d; struct Q *pqFirst; void *pqLast; int ib; int x1c; float g; int x24; float g28; float h; };
 struct S;
-float func_001E6648(int n);
+float SMaxCrv__FP3CRV(int n);
 static __inline__ float GClamp(float g, float lo, float hi)
 {
     if (g < lo) return lo;
@@ -11,7 +11,7 @@ static __inline__ float GClamp(float g, float lo, float hi)
 // name: SafeHouse port (TargetSwarmEnt)
 void TargetSwarmEnt__FP5SWENTPv(struct S *p, struct E *pe)
 {
-    float g = func_001E6648(pe->x24);
+    float g = SMaxCrv__FP3CRV(pe->x24);
     float r0 = g * 0.5f / (float)pe->d;
     struct Q *q;
     int i;

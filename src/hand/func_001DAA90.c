@@ -17,14 +17,15 @@ void func_001DA808(OBJ *);
 int func_00187D80(void *, int);
 void *func_001C4840(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-void func_001DB520(OBJ *, int);
-void func_001DA858(OBJ *);
+void SetGadgetMenu__FPvi(OBJ *, int);
+void UpdateShopStick__FP4SHOP(OBJ *);
 R *func_001DAE20(OBJ *, int);
-void func_001DA950(OBJ *, int, int);
+void SetShopMsg__FP4SHOPii(OBJ *, int, int);
 void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void func_00141FC8(void *, int, int);
-void func_001DAA90(OBJ *p)
+// name: SafeHouse port (UpdateGadgetMenu)
+void UpdateGadgetMenu__FP2SW(OBJ *p)
 {
     void *pv;
     R *r;
@@ -37,30 +38,30 @@ void func_001DAA90(OBJ *p)
     if (p->x10 == 0)
         return;
     if (p->x30 && func_00187D80(p->x10, 0x10)) {
-        func_001DB520(p, -1);
+        SetGadgetMenu__FPvi(p, -1);
         return;
     }
     pv = func_001C4840(&g_sw);
     if (pv == 0 || !FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x34)) {
-        func_001DB520(p, -1);
+        SetGadgetMenu__FPvi(p, -1);
         return;
     }
-    func_001DA858(p);
+    UpdateShopStick__FP4SHOP(p);
     if (func_00187D80(p->x10, 0x7E8)) {
         r = func_001DAE20(p, p->x48);
         if (r == 0 || !(r->fl & 1))
-            func_001DA950(p, 1, 0xE2);
+            SetShopMsg__FP4SHOPii(p, 1, 0xE2);
         else
-            func_001DA950(p, 1, 0x31);
+            SetShopMsg__FP4SHOPii(p, 1, 0x31);
     }
     for (i = 0; i < 3; i++) {
         if (!func_00187D80(p->x10, D_002C3258[i]))
             continue;
         r = func_001DAE20(p, p->x48);
         if (r == 0 || !(r->fl & 4)) {
-            func_001DA950(p, 1, 0x32);
+            SetShopMsg__FP4SHOPii(p, 1, 0x32);
         } else if (!(r->fl & 1)) {
-            func_001DA950(p, 1, 0x33);
+            SetShopMsg__FP4SHOPii(p, 1, 0x33);
         } else {
             SetSource__4CSndPv(PsndNewPlain__Fi(0x34), 0);
             func_00141FC8(pv, i, p->x48);

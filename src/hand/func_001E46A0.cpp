@@ -15,12 +15,12 @@ float func_001E6728(PATH*,float);
 void func_001E6F10(PATH*,qword*,qword*,float);
 qword func_001C4768(OUTPUT*,qword);
 float func_002458F0(float,float);
-float func_001E6648(PATH*),func_001E6630(PATH*);
+float SMaxCrv__FP3CRV(PATH*),GMaxCrv__FP3CRV(PATH*);
 float RadNormalize(float) asm("RadNormalize__Ff");
 ACTOR *PloFind(P*,int) asm("PloFind__FP3RUNi");
 void GetRunAim(P*,ACTOR*,qword*,float*) asm("GetRunAim__FP3RUNP2LOP6VECTORPf");
-void func_00204660(ACTOR*,float);
-void func_001E67B8(PATH*,float,qword*,qword*);
+void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");
+void EvalCrv(PATH*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
 qword func_001A62E8(ACTOR*);
 qword ConvertVec(void*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 void func_001C45A8(OUTPUT*);
@@ -109,8 +109,8 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   out->heading=func_002458F0(y,x);out->x=x;out->y=y;
   if(actor->curve->cyclic){
    float forward,backward;
-   if(p->previousCurve<actor->curveTime){forward=actor->curveTime-p->previousCurve;backward=func_001E6648(actor->curve)+p->previousCurve-actor->curveTime;}
-   else {backward=p->previousCurve-actor->curveTime;forward=func_001E6648(actor->curve)+actor->curveTime-p->previousCurve;}
+   if(p->previousCurve<actor->curveTime){forward=actor->curveTime-p->previousCurve;backward=SMaxCrv__FP3CRV(actor->curve)+p->previousCurve-actor->curveTime;}
+   else {backward=p->previousCurve-actor->curveTime;forward=SMaxCrv__FP3CRV(actor->curve)+actor->curveTime-p->previousCurve;}
    if(forward<backward)reverse=1;
   }else if(p->previousCurve<actor->curveTime)reverse=1;
   if(reverse){out->heading=RadNormalize(out->heading+3.1415927f);out->x=-out->x;out->y=-out->y;}
@@ -123,7 +123,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   ACTOR *target=PloFind(p,param->value.id);
   if(!target)goto stopped;
   GetRunAim(p,target,0,&work.heading);
-  func_00204660(actor,work.heading);out->heading=work.heading;
+  SetStepPhysHeading(actor,work.heading);out->heading=work.heading;
   goto stopped;
  }
  case 0x24:{
@@ -133,14 +133,14 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   if(!target)goto activityFlags;
   if(actor->active!=-1&&actor->mode==3){
    PATH *motion=actor->motion;
-   func_001E67B8(motion,actor->motionTime,&work.from.q,&work.to.q);
+   EvalCrv(motion,actor->motionTime,&work.from.q,&work.to.q);
    NormalizeTangent(work.to);
    int reverse=0;
    out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
    if(motion->cyclic){
     float forward,backward;
-    if(p->previousMotion<actor->motionTime){forward=actor->motionTime-p->previousMotion;backward=func_001E6630(motion)+p->previousMotion-actor->motionTime;}
-    else {backward=p->previousMotion-actor->motionTime;forward=func_001E6630(motion)+actor->motionTime-p->previousMotion;}
+    if(p->previousMotion<actor->motionTime){forward=actor->motionTime-p->previousMotion;backward=GMaxCrv__FP3CRV(motion)+p->previousMotion-actor->motionTime;}
+    else {backward=p->previousMotion-actor->motionTime;forward=GMaxCrv__FP3CRV(motion)+actor->motionTime-p->previousMotion;}
     if(forward<backward)reverse=1;
    }else if(p->previousMotion<actor->motionTime)reverse=1;
    if(reverse)out->heading=RadNormalize(out->heading+3.1415927f);

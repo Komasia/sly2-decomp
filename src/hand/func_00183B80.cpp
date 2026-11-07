@@ -15,7 +15,7 @@ extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 extern qword D_002BE8F0;
 extern char g_sw[];
-void func_001A58D0(struct O *p, int a, int b);
+void ReparentBooty(struct O *p, int a, int b) asm("ReparentBooty__FP3ALOii");
 void SetXfMode(struct O *p, struct X *px, int n) asm("SetXfMode__FP3ALOP2XFi");
 void SetAloCnstrLin(struct O *p, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(struct O *p, int n) asm("SetAloCnstrAng__FP3ALOi");
@@ -38,7 +38,7 @@ void func_00183B80(struct O *p, int n)
         return;
     if (p->n17C == 2) {
         if (p->n18C != 0) {
-            func_001A58D0(p, 0, 0xF);
+            ReparentBooty(p, 0, 0xF);
             SetXfMode(p, p->p58, 1);
             p->p58->n9A = 0;
             SetXfMode(p, p->p5C, 1);

@@ -10,7 +10,8 @@ static inline float LenSq(qword a) {
     __asm__("qmfc2.ni %0,%1" : "=r"(f) : "j"(d));
     return f;
 }
-struct LO *func_001C4AF8(struct S*p,qword v) {
+// name: SafeHouse port (PloNearestPlayer)
+struct LO *PloNearestPlayer__FP6VECTORG9VU_VECTOR(struct S*p,qword v) {
     struct LO *best=0; int i=0;
     float minimum=D_002A7708;
     for(;i<p->c;++i) {

@@ -8,7 +8,7 @@ struct X {
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
-void func_001EEF98(struct X *p);
+void Update__5AIJOB(struct X *p);
 int func_001EF0A8(struct X *p);
 int func_00174FB8(void *p);
 int FArrived__9JOBFOLLOW(void *p);
@@ -22,7 +22,7 @@ static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, 
 // name: SafeHouse port (JOBB5::Update)
 void Update__5JOBB5(struct X *p)
 {
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     while (!func_001EF0A8(p)) {
         int s = p->state;
         switch (s) {

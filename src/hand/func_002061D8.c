@@ -14,8 +14,8 @@ extern char g_sw[];
 extern struct K D_002A8608;
 extern qword D_002A2DE0;
 void PostStepLoad__FP4STEP(struct S *p);
-void func_001A64E8(struct S *p, int n, void *pv);
-void func_00204DA8(struct S *p, float f);
+void BindLoParts__FP3ALOiPv(struct S *p, int n, void *pv);
+void SetStepPhysSize__FP3ALOf(struct S *p, float f);
 void SetXfMode__FP3ALOP2XFi(struct S *p, int n, int m);
 void func_002080F0(struct S *p);
 void func_0020AAA8(struct S *p);
@@ -32,8 +32,8 @@ void PostStepguardLoad__FP9STEPGUARD(struct S *p)
 {
     void *x;
     PostStepLoad__FP4STEP(p);
-    func_001A64E8(p, 1, D_002C3CF8);
-    func_00204DA8(p, p->f260);
+    BindLoParts__FP3ALOiPv(p, 1, D_002C3CF8);
+    SetStepPhysSize__FP3ALOf(p, p->f260);
     SetXfMode__FP3ALOP2XFi(p, p->n58, 2);
     SetXfMode__FP3ALOP2XFi(p, p->n5C, 2);
     func_002080F0(p);

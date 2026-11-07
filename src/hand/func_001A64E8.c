@@ -10,7 +10,8 @@ void SetSoeOff__FP3ALOP3SOE(struct ALO*, void*);
 void*func_001F5FF8(struct ALO*,int);
 void func_001F69F8(struct ALO*,int);
 struct LO*func_0015E938(void*,int,int,struct ALO*);
-void func_001A64E8(struct ALO*palo,
+// name: SafeHouse port (BindLoParts)
+void BindLoParts__FP3ALOiPv(struct ALO*palo,
 int c,struct E*ae){
 int i=0;
  while(i<c){

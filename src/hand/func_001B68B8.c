@@ -31,10 +31,10 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(P *p, int msg, MSG *pm);
 void SetMurrayFlopPhase__FP6MURRAYi(P *p, int k);
 qword func_001A62E8(P *p);
 void func_00156B98(void *g, int z, qword q, P *p);
-void func_001B7970(P *p);
-void func_001B7AE8(P *p);
+void ReleaseMurrayThrow__FP6MURRAY(P *p);
+void PutDownMurrayCarry__FP6MURRAY(P *p);
 void func_002205A8(void *p);
-void func_001B93E8(P *p, int k);
+void SetMurrayCarry__FP6MURRAYi(P *p, int k);
 void func_001B6078(P *p, int s);
 
 void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
@@ -53,10 +53,10 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
         case 0x1EB:
             switch (p->x13D0) {
             case 7:
-                func_001B7970(p);
+                ReleaseMurrayThrow__FP6MURRAY(p);
                 break;
             case 8:
-                func_001B7AE8(p);
+                PutDownMurrayCarry__FP6MURRAY(p);
                 break;
             case 15:
                 func_002205A8(p->x1910);
@@ -69,11 +69,11 @@ void HandleMurrayMessage__FP6MURRAY5MSGIDPv(P *p, int msg, MSG *pm)
         case 0x1C8:
             if (!p->x1450) {
                 func_00156B98(g_sw, 0, func_001A62E8(p), p);
-                func_001B93E8(p, 1);
+                SetMurrayCarry__FP6MURRAYi(p, 1);
             }
             break;
         case 0x1C7:
-            if (p->x1450 == 1) func_001B93E8(p, 2);
+            if (p->x1450 == 1) SetMurrayCarry__FP6MURRAYi(p, 2);
             break;
         case 0x240:
             p->x1818 = 1;

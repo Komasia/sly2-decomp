@@ -10,7 +10,7 @@ struct CLOCK{float time,dt;};
 extern "C"{
  extern CLOCK g_clock;
  extern char g_sw[];
- void func_001EEF98(C*);
+ void Update__5AIJOB(C*);
  int func_001EF0A8(C*);
  int func_00177D20(C*);
  int func_00177D48(C*);
@@ -30,11 +30,11 @@ extern "C"{
  qword func_001A62E8(P*);
  P*func_00156B98(void*,int,qword,P*);
  void RemoveNoise(P*) asm("RemoveNoise__FP5NOISE");
- void func_00176B80(C*,int,P*);
+ void SendHit(C*,int,P*) asm("SendHit__8JOBREACTii");
  int func_0017A9C0(H*);
  int FDone(H*) asm("FDone__11JOBNAVPOINT");
  int func_0017DE40(H*);
- void func_00177BA0(C*);
+ void NextReaction(C*) asm("NextReaction__8JOBREACT");
 }
 static inline P*Target(P*p){VE*v=&p->vt[88];return ((P*(*)(P*))v->fn)((P*)((char*)p+v->delta));}
 static inline int Mode(P*p){VE*v=&p->vt[77];return ((int(*)(P*))v->fn)((P*)((char*)p+v->delta));}
@@ -69,7 +69,7 @@ typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (JOBREACT::Update)
 extern "C" void Update__8JOBREACT(C*p){
- func_001EEF98(p);
+ Update__5AIJOB(p);
  while(!func_001EF0A8(p)){
   STATE previous=p->state;
   STATE*current=&p->state;
@@ -108,7 +108,7 @@ extern "C" void Update__8JOBREACT(C*p){
    }
    break;
   }
-  case 5:if(func_00171458(p->helper))func_00177BA0(p);break;
+  case 5:if(func_00171458(p->helper))NextReaction(p);break;
   case 4:{
    H*h=p->helper;
    if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;React(p,&next);}
@@ -142,16 +142,16 @@ extern "C" void Update__8JOBREACT(C*p){
   case 7:{
    H*h=p->helper;
    if(func_00174FB8(h)){
-    if(h->mode!=-1){if(h->mode==3)func_00177BA0(p);}
-    else{func_00176B80(p,-50,h->extra);if(p->state.kind==7)func_00177BA0(p);}
+    if(h->mode!=-1){if(h->mode==3)NextReaction(p);}
+    else{SendHit(p,-50,h->extra);if(p->state.kind==7)NextReaction(p);}
    }
    break;
   }
-  case 6:if(func_0017A9C0(p->helper))func_00177BA0(p);break;
-  case 9:if(func_00174FB8(p->helper))func_00177BA0(p);break;
-  case 10:if(func_00174FB8(p->helper))func_00177BA0(p);break;
-  case 19:if(FDone(p->helper))func_00177BA0(p);break;
-  case 18:if(func_0017DE40(p->helper))func_00177BA0(p);break;
+  case 6:if(func_0017A9C0(p->helper))NextReaction(p);break;
+  case 9:if(func_00174FB8(p->helper))NextReaction(p);break;
+  case 10:if(func_00174FB8(p->helper))NextReaction(p);break;
+  case 19:if(FDone(p->helper))NextReaction(p);break;
+  case 18:if(func_0017DE40(p->helper))NextReaction(p);break;
   }
   if(FSameMsg(current,&previous))break;
  }

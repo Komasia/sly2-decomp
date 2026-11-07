@@ -10,7 +10,7 @@ typedef struct {
 } OBJ;
 extern int D_003DA570;
 extern int D_002C35B4;
-int func_001DBBA0(OBJ *);
+int IRowEnd__FP4SHOP(OBJ *);
 void func_001DA9E8(OBJ *);
 static inline int Max(int a, int b) { return a < b ? b : a; }
 static inline int Clamp(int n, int lo, int hi)
@@ -21,7 +21,8 @@ static inline int Clamp(int n, int lo, int hi)
         return hi;
     return n;
 }
-void func_001DBBE0(OBJ *p, int i)
+// name: SafeHouse port (SelectShopRow)
+void SelectShopRow__FP4SHOPi(OBJ *p, int i)
 {
     if (p->c == 0) {
         p->first = 0;
@@ -35,7 +36,7 @@ void func_001DBBE0(OBJ *p, int i)
             if (i < p->first) {
                 p->first = i;
             } else {
-                while (func_001DBBA0(p) - 1 < p->i)
+                while (IRowEnd__FP4SHOP(p) - 1 < p->i)
                     p->first++;
             }
             if (p->first == 1)

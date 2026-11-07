@@ -115,7 +115,7 @@ float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) as
 float func_0011CFE0(float g, float gMax);
 M3 func_0011B500(qword axis, float g);
 qword func_0011E9F8(qword v, float g);
-void func_001FAC30(P *p, qword v);
+void AccelAloPos(P *p, qword v) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
 
 // name: SafeHouse port (UpdateSlyDodgeMotion)
@@ -145,5 +145,5 @@ extern "C" void UpdateSlyDodgeMotion__FP3SLY(S *s)
     M3 m = func_0011B500(g_normalZ, w * g_clock.dt);
     mc = m;
     qword r = DivF(Sub(MulM3(mc, t), dv), VU_FLOATM(g_clock.dt));
-    func_001FAC30(s->p, func_0011E9F8(r, gMax));
+    AccelAloPos(s->p, func_0011E9F8(r, gMax));
 }

@@ -12,7 +12,7 @@ struct S {
 };
 extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648;
 void func_001CB518(struct S *p);
-void func_001EECD0(void *p);
+void ClearJobs__FP5ACTOR(void *p);
 void func_00209778(void *p);
 void SetGuardStateMask__FP5GUARDUl(struct S *p, int n);
 void func_0020CE40(void *p);
@@ -20,14 +20,14 @@ void func_0020D1C8(void *p);
 void func_0020D1A0(void *p);
 qword func_001A62E8(void *p);
 float RadStepHeading__FP4STEP(struct S *p);
-void func_00204660(struct S *p, float f);
+void SetStepPhysHeading__FP3ALOf(struct S *p, float f);
 unsigned long func_00207A20(int n);
 void *PkindeBest__FP5GUARDUl(struct S *p, unsigned long m);
 void func_00153EF8(struct F64 *pf, struct S *p, int n);
 void func_001F1A40(struct S *p);
 void func_001F1CF8(struct S *p);
 struct O *func_00205438(struct S *p, int n);
-void func_001A58D0(struct F64 *pf, struct S *p, int n);
+void ReparentBooty__FP3ALOii(struct F64 *pf, struct S *p, int n);
 
 void func_00206518(struct S *p)
 {
@@ -38,7 +38,7 @@ void func_00206518(struct S *p)
     p->n33C = p->n338;
     p->nE88 = p->nE84;
     p->n344 = p->n340;
-    func_001EECD0(p->a26C);
+    ClearJobs__FP5ACTOR(p->a26C);
     func_00209778(p->aFD0);
     SetGuardStateMask__FP5GUARDUl(p, 0);
     func_0020CE40(p->p498);
@@ -48,7 +48,7 @@ void func_00206518(struct S *p)
     p->f310 = RadStepHeading__FP4STEP(p);
     p->p2F0->pq = pq;
     p->p2F0->f = p->f310;
-    func_00204660(p, p->f310);
+    SetStepPhysHeading__FP3ALOf(p, p->f310);
     p->flFE8 = 0;
     if (PkindeBest__FP5GUARDUl(p, func_00207A20(9)))
         p->flFE8 |= 2;
@@ -72,7 +72,7 @@ void func_00206518(struct S *p)
         p->pFEC->vt[9].pf((char *)p->pFEC + p->pFEC->vt[9].d);
     o = func_00205438(p, 0x9C);
     o->vt[8].pf((char *)o + o->vt[8].d);
-    func_001A58D0(p->pF64, p, 0xF);
+    ReparentBooty__FP3ALOii(p->pF64, p, 0xF);
     p->pF64->pE0 = p;
     p->pF64->pE4 = p->pEC;
 }

@@ -5,7 +5,7 @@ struct Q { struct A *pa; int pad[2]; int nC; };
 struct S { char pad[0xC]; VTE *vt; char pad2[4]; int n14; char pad3[0x26C - 0x18]; char x26C[4]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct A *pa, int n);
 int FAbsorbSoWkr__FP2SOP3WKR(struct S *p, struct Q *q);
-void func_001EED78(void *p, int k, struct Q *q);
+void OfferJobMessage__FP5GUARDii(void *p, int k, struct Q *q);
 int func_00207468(struct S *p, struct Q *q)
 {
     if (!((int (*)(void *))p->vt[86].pfn)((char *)p + p->vt[86].d)) {
@@ -16,6 +16,6 @@ int func_00207468(struct S *p, struct Q *q)
         if (!FAbsorbSoWkr__FP2SOP3WKR(p, q))
             return 0;
     }
-    func_001EED78(p->x26C, 0xC, q);
+    OfferJobMessage__FP5GUARDii(p->x26C, 0xC, q);
     return 1;
 }

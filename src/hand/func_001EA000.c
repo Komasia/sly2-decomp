@@ -1,6 +1,6 @@
 // func_001EA000 (lane 5): matched. Samples an object's path over [tStart, tEnd] and collects the time segments where
 // PpolyAtPoint__FG9VU_VECTOR finds a valid position into ps->aseg10 (NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff == 3 means "no bound found", so tStart/tEnd are
-// used), intersects them with ps->aseg through func_0014C9F8 and fixes up a wrap-around pair at the end.
+// used), intersects them with ps->aseg through CMergeAlsg__FiP3LSGiT1iT1i and fixes up a wrap-around pair at the end.
 // Notes for whoever touches this again:
 //  - `pseg` (the aseg10 pointer used by the wrap-around fix-up) must be assigned after the copy loops, outside the block
 //    that uses it, so cse does not fold pseg[0] into 0x10(ps); gcse then keeps it as a separate spilled copy.
@@ -27,12 +27,12 @@ struct G { char pad[0x3D70]; int n3D70; };
 extern struct G g_sw;
 extern float D_002C367C;
 float SMinCrv__FP3CRV(struct O *);
-float func_001E6648(struct O *);
+float SMaxCrv__FP3CRV(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
 void *PpolyAtPoint__FG9VU_VECTOR(qword);
 int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int, qword *, float *);
 void *func_002333B4(void *, int, unsigned int);
-int func_0014C9F8(int, struct X *, int, struct X *, int, struct X *, int);
+int CMergeAlsg__FiP3LSGiT1iT1i(int, struct X *, int, struct X *, int, struct X *, int);
 
 void func_001EA000(struct S *ps)
 {
@@ -57,7 +57,7 @@ void func_001EA000(struct S *ps)
     cseg = 0;
     tStart = SMinCrv__FP3CRV(ps->po);
     t = tStart;
-    tEnd = func_001E6648(ps->po);
+    tEnd = SMaxCrv__FP3CRV(ps->po);
     asegSrc = ps->aseg;
     c = ps->c4;
     while (t < tEnd) {
@@ -110,7 +110,7 @@ void func_001EA000(struct S *ps)
         ay[j].b = aseg[j].b;
     }
     pseg = ps->aseg10;
-    n = func_0014C9F8(cseg, ay, c, ax, 0x10, ay, 0);
+    n = CMergeAlsg__FiP3LSGiT1iT1i(cseg, ay, c, ax, 0x10, ay, 0);
     for (k = 0; k < n; k++) {
         aseg[k].a = ay[k].a;
         aseg[k].b = ay[k].b;

@@ -36,7 +36,8 @@ extern s32 D_003E0F9C;
 extern M2C_UNK D_003E1C20;
 extern s32 D_003E1C34;
 
-s32 func_0013BBF8(s32 arg0, s32 arg1) {
+// name: SafeHouse port (OverlapKindProjectile)
+s32 OverlapKindProjectile__FP3ALOT0(s32 arg0, s32 arg1) {
     s32 var_a3;
 
     var_a3 = func_001F4FC8(arg0, arg1);

@@ -4,7 +4,7 @@ struct Q { char pad[0x18]; float x18; float x1C; char pad2[0x30 - 0x20]; int x30
 struct P { char pad[0x10]; void *p10; char pad2[0x30 - 0x14]; int x30; float x34; void *p38; };
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
-void func_001EF0C0(struct P *p, struct Q *q);
+void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 void func_001C45A8(struct Q *q);
@@ -13,7 +13,7 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y
 // name: SafeHouse port (JOBBENTLEYATTACK::Drive)
 void Drive__16JOBBENTLEYATTACKP6PADCTL(struct P *p, struct Q *q)
 {
-    func_001EF0C0(p, q);
+    Drive__5AIJOBP6PADCTL(p, q);
     if (p->x30 < 3) if (p->x30 >= 0) {
         qword a, b, d;
         float g;

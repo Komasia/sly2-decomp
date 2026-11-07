@@ -10,16 +10,16 @@ extern char D_003D9ED0[];
 extern char D_002F633C[];
 extern const struct PMF D_002A6D88;
 int func_0020E040(void *g);
-int func_001ACC80(struct S *s);
+int NCardPrompt__FPv(struct S *s);
 int func_00187D80(void *p, int n);
-void func_001AD168(struct S *s);
-void func_001ACFE0(struct S *s);
+void CardYes__FP7CARDDLG(struct S *s);
+void CardNo__FP7CARDDLG(struct S *s);
 int func_001AB088(void *p);
 void CreateMemcardThread__FP7MEMCARDii(void *p, struct PMF pmf);
 void func_001ACB58(struct S *s, int n);
 void func_001ACBB8(struct S *s);
 void func_001660F8(void);
-void func_001AF660(void *p);
+void CloseMenu__Fii(void *p);
 void func_001ACCC8(struct S *s)
 {
     struct P *p = s->x24;
@@ -36,21 +36,21 @@ void func_001ACCC8(struct S *s)
         return;
     if (g_clock.t3c - s->x24->x5C <= 0.1f)
         return;
-    r = func_001ACC80(s);
+    r = NCardPrompt__FPv(s);
     if (r != 1) {
         if (r == c) {
             if (s->x10 && func_00187D80(s->x10, 0x80)) {
-                func_001AD168(s);
+                CardYes__FP7CARDDLG(s);
                 return;
             }
             if (s->x10 && func_00187D80(s->x10, 0x10)) {
-                func_001ACFE0(s);
+                CardNo__FP7CARDDLG(s);
                 return;
             }
         }
     } else {
         if (s->x10 && func_00187D80(s->x10, 0x80)) {
-            func_001ACFE0(s);
+            CardNo__FP7CARDDLG(s);
             return;
         }
     }
@@ -98,7 +98,7 @@ void func_001ACCC8(struct S *s)
                 func_001660F8();
                 return;
             case 2:
-                func_001AF660(D_003D9ED0);
+                CloseMenu__Fii(D_003D9ED0);
                 return;
             }
             return;

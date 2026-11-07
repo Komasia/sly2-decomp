@@ -1,10 +1,10 @@
-void func_001EEF68(void *p);
+void Init__5AIJOB(void *p);
 void func_001FEE90(void *p);
 void AddGuardState__FP5GUARDi(void *p, int n);
 extern char D_003DD040[];
 void func_0014A1B0(char *p)
 {
-    func_001EEF68(p);
+    Init__5AIJOB(p);
     func_001FEE90(D_003DD040);
     AddGuardState__FP5GUARDi(*(void **)(p + 0x10), 0x24);
     *(int *)(p + 0x30) = -1;

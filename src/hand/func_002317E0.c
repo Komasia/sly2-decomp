@@ -6,7 +6,8 @@ void func_0022D670(void *);
 void func_0022D698(void *);
 void func_0013FB40(void *, void *, L *);
 
-void func_002317E0(X *p, void *pv, L *pl)
+// name: SafeHouse port (LoadLoxChildrenFromBrx)
+void LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(X *p, void *pv, L *pl)
 {
     int i;
     func_0022D670(p->x50);

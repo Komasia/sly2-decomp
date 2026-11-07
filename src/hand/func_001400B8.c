@@ -14,9 +14,9 @@ struct P {
 };
 extern char D_002BC9F0[];
 void PostStepLoad__FP4STEP(struct P *);
-void func_001A64E8(struct P *, int, void *);
+void BindLoParts__FP3ALOiPv(struct P *, int, void *);
 void func_001959C0(void *);
-void func_001910F8(void *);
+void PostLoadInteract__FP5ACTOR(void *);
 void func_0019F3F0(void *);
 void func_001A1098(void *);
 void func_0019CC30(void *);
@@ -40,9 +40,9 @@ void func_001400B8(struct P *p)
     int i;
 
     PostStepLoad__FP4STEP(p);
-    func_001A64E8(p, 0x35, D_002BC9F0);
+    BindLoParts__FP3ALOiPv(p, 0x35, D_002BC9F0);
     func_001959C0((char *)p + 0x2C0);
-    func_001910F8((char *)p + 0x4C0);
+    PostLoadInteract__FP5ACTOR((char *)p + 0x4C0);
     func_0019F3F0((char *)p + 0x9E0);
     func_001A1098((char *)p + 0xDF0);
     func_0019CC30((char *)p + 0xF00);

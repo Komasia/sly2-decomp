@@ -21,7 +21,7 @@ void *PctrlNewPos(P *,REF *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG
 void *func_0015E938(void *,int,int,P *);
 void *func_001F0380(void *,P *,int,int);
 void *func_001E94B0(int,int);
-void func_001F1448(void *,P *,int,int,void **);
+void ReplaceSmaHandle(void *,P *,int,int,void **) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 void func_001D14C0(P *);
 }
 static inline qword Zero(){qword r;asm("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
@@ -140,7 +140,7 @@ extern "C" void func_001D1518(P *p){
  }while(j<p->attachCount);}
 
  p->path=func_001E94B0(0x2C9,16);
- func_001F1448(p->asset,p,-1,0,binding);
+ ReplaceSmaHandle(p->asset,p,-1,0,binding);
  func_001D14C0(p);
 }
 

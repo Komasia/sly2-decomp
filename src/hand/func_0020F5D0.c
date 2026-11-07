@@ -2,7 +2,8 @@ extern int D_003E1C30;
 extern int D_003E1C54;
 extern int D_003E1C58;
 int func_00117DB8(void *pbis);
-void func_0020F5D0(int a, void *pbis)
+// name: SafeHouse port (LoadBulkHeaderFromBrx)
+void LoadBulkHeaderFromBrx__FiPv(int a, void *pbis)
 {
     int x = func_00117DB8(pbis);
     int y = func_00117DB8(pbis);

@@ -27,14 +27,14 @@ extern "C"{
  void func_00134320(void*,P*);
  void DetachAloContacts(P*) asm("DetachAloContacts__FP3ALO");
  void SetMoveState(C*,int) asm("SetMoveState__7JOBMOVEi");
- void func_0017AA78(C*,REQUEST*,U*,U*);
+ void GetTarget(C*,REQUEST*,U*,U*) asm("GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2");
  qword func_001A62E8(P*);
  qword func_0022FC48(void*,void*,qword);
  qword func_0022FCC8(void*,void*,qword);
  DELTA*PctrlNewTarget(P*,GROUP*,void*,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
  P*func_001C4840(void*);
  void TriggerJoyRumbleRumk(void*,int,float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
- ENTRY*func_0012F938(void*,int);
+ ENTRY*PeventLaunch(void*,int) asm("PeventLaunch__FP5KINDEi");
 }
 static inline void Request(P*p,REQUEST*r,float duration){VE*v=&p->vt[96];((void(*)(P*,REQUEST*,float))v->fn)((P*)((char*)p+v->delta),r,duration);}
 static inline void BlendSet(C*p,qword current,U*desired,U*scale,U*scratch){
@@ -112,7 +112,8 @@ typedef char ENTRY_key_Offset[FIELD_OFFSET(ENTRY,key)==8?1:-1];
 typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 static inline int Still(int m){int f=0;if(m==4||m==5||m==0)f=1;return f;}
-extern "C" void func_0017B1A8(C*p,int next){
+// name: SafeHouse port (JOBB1::SetState)
+extern "C" void SetState__5JOBB1i(C*p,int next){
  REQUEST request;
  U point,direction,scratch,scale,cached;
  if(next==p->mode)return;
@@ -146,7 +147,7 @@ extern "C" void func_0017B1A8(C*p,int next){
  case -1:SetSoMass(p->actor,p->actor->tuning->speed/D_002BE6FC);SetMoveState(p,1);break;
  case 0:{
   Request(p->target,&request,D_002BE700);
-  func_0017AA78(p,&request,&point,&direction);
+  GetTarget(p,&request,&point,&direction);
   register qword scalar __asm__("$2");
   register P*beforeActor __asm__("$4");
   register float duration __asm__("$f1")=D_002BE700;
@@ -168,9 +169,9 @@ extern "C" void func_0017B1A8(C*p,int next){
   if(p->actor->attention){P*focus=func_001C4840(g_sw);if(focus&&p->target==focus)TriggerJoyRumbleRumk(g_joy,3,0.15f);}
   break;
  }
- case 3:{ENTRY*entry=func_0012F938(p->control->curves,0x3C);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);break;}
+ case 3:{ENTRY*entry=PeventLaunch(p->control->curves,0x3C);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);break;}
  case 4:case 5:
-  if(p->mode==4){ENTRY*entry=func_0012F938(p->control->curves,0x173);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);}
+  if(p->mode==4){ENTRY*entry=PeventLaunch(p->control->curves,0x173);if(entry)SetAsegaTime(p->control->asega,0,entry->value,1.0f);}
   break;
  case 1:case 2:break;
  }

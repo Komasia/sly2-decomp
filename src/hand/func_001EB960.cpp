@@ -7,7 +7,7 @@ extern int D_003DCFE8;
 extern ENTRY *D_003DCFEC;
 extern uint D_002DE18C;
 extern "C" void func_001EA750(TEXTURE*,int,GIFS*);
-extern "C" void func_001EB960();
+extern "C" void BuildShdPasses() asm("BuildShdPasses__Fv");
 static inline ulong ColorWord(const RGBA&color,const ENTRY*entry){ulong value=(ulong)color.r|((ulong)color.g<<8)|((ulong)color.b<<16);if(entry->flags&2)return (value|((ulong)color.a<<24))|(1UL<<32);return value|(1UL<<32);}
 static inline void Pair(GIFS&q,int first,ulong regs){q.AddPrimBulk(first,0,4,regs,0);q.AddPrimBulk(first+1,0,4,regs,0);}
 static inline void Packed(GIFS&q){q.AddPrimPack(0,1,0xE);}
@@ -29,7 +29,8 @@ static inline ulong TestBaseAndKind(const ENTRY *entry,uint flags,uint &depthKin
   :"+r"(base),"+r"(marked),"+r"(retained):"r"(rawKind));
  depthKind=retained;flags4=marked;return base;
 }
-void func_001EB960(){
+// name: SafeHouse port (BuildShdPasses)
+void BuildShdPasses(){
  int i;
  for(i=0;i<D_003DCFE8;i++){
   ENTRY*e=D_003DCFEC+i;

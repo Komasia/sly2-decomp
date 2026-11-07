@@ -51,7 +51,8 @@ extern M2C_UNK D_00452120;
 extern M2C_UNK D_00452148;
 extern M2C_UNK D_00452170;
 
-void func_0015D880(s32 arg0, s32 arg1) {
+// name: SafeHouse port (SetHint)
+void SetHint__FP6EPMENUi(s32 arg0, s32 arg1) {
     if (M2C_FIELD(arg0, s32 *, 0x12C) != arg1) {
         if (arg1 != 0) {
             if (arg1 == 1) {

@@ -9,7 +9,7 @@ extern char D_002DEA00[];
 extern char D_002DEA28[];
 void func_001A3EE8(struct G *p);
 void func_001CD9E0(struct G *p);
-void func_001DAC58(void *p);
+void DrawGadgetIcons__FP7FONTBRX(void *p);
 void Flush__4DMAS(void *p);
 void func_001CDA80(struct G *p)
 {
@@ -28,7 +28,7 @@ void func_001CDA80(struct G *p)
             ((void (*)(void *))pe->plo->vt[19].pf)((char *)pe->plo + pe->plo->vt[19].d);
     }
     p->pi = 0;
-    func_001DAC58(D_003DA0F0);
+    DrawGadgetIcons__FP7FONTBRX(D_003DA0F0);
     Flush__4DMAS(D_002DEA00);
     Flush__4DMAS(D_002DEA28);
 }

@@ -6,7 +6,8 @@ extern "C" void *PvAllocSwCopyImpl(MSG *pmsg, void *pv) asm("PvAllocSwCopyImpl__
 extern "C" void LoadSoFromBrx(S *p, void *q) asm("LoadSoFromBrx__FP2SOP18CBinaryInputStream");
 static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocStackClearImpl(pmsg); }
 static inline void *PvReallocMsg(MSG *pmsg, int cb, int nKind, void *pv) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwCopyImpl(pmsg, pv); }
-extern "C" void func_001DE478(S *p, void *q)
+// name: SafeHouse port (LoadLaserFromBrx)
+extern "C" void LoadLaserFromBrx__FP2LOP18CBinaryInputStream(S *p, void *q)
 {
     FRAME frame;
     MSG msg;

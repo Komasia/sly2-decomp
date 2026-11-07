@@ -5,7 +5,7 @@ extern int g_grfjoyt;
 extern char D_002DE2E0[];
 int func_001443D8(struct P *p);
 int func_0019C8D0(void *p, int k);
-int func_00194558(void *p, int k);
+int FInteractCanDo__FP5ACTORi(void *p, int k);
 int func_0019EEF0(void *p, int k);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 int func_0014FD50(void *p);
@@ -20,7 +20,7 @@ int FMurrayAbilityOk__FP6MURRAYi(struct P *p, int k)
         if (!func_0019C8D0((char *)p + 0x2C0, k)) return 0;
         break;
     case 13:
-        if (!func_00194558((char *)p + 0x4C0, k)) return 0;
+        if (!FInteractCanDo__FP5ACTORi((char *)p + 0x4C0, k)) return 0;
         break;
     case 20:
         if (!func_0019EEF0((char *)p + 0xF50, k)) return 0;

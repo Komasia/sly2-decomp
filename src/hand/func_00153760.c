@@ -2,7 +2,8 @@ typedef struct LM { float gMin; float gMax; } LM;
 struct S { char pad[0x234]; LM lm; int i23C; float ag[16]; int c280; };
 float GLimitLm__FP2LMf(LM *plm, float g);
 static inline int Max(int a, int b) { return a < b ? b : a; }
-float func_00153760(struct S *p)
+// name: SafeHouse port (GScoreMean)
+float GScoreMean__FP5DANCE(struct S *p)
 {
     float sum;
     int i, iMin;

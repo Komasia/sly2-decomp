@@ -13,7 +13,8 @@ extern float D_002F6468, D_002F646C;
 extern float D_003DD190, D_003DD18C;
 void func_00213B00(struct LO *, int);
 void func_00212E40(struct LO *, int, float);
-void func_001AEAA8(S *s, int st)
+// name: SafeHouse port (SetMenuState)
+void SetMenuState__FP4MENUi(S *s, int st)
 {
     E *pe;
     if (s->x1E8 == st)

@@ -20,7 +20,7 @@ void *func_00205458(struct S *p, int n);
 struct Y *PasegaOfKinde__FP5KINDE(void *p);
 void SetAsegaAsegSpeed__FP5ASEGAf(struct Y *y, float f);
 int func_001C4840(void *p);
-void func_00177BA0(struct Z *z);
+void NextReaction__8JOBREACT(struct Z *z);
 
 // name: SafeHouse port (SetGuardMode)
 void SetGuardMode__FP5GUARDi(struct S *p, int k)
@@ -56,7 +56,7 @@ void SetGuardMode__FP5GUARDi(struct S *p, int k)
     case 0x15: {
         struct Z *z = func_00205458(p, 0x9C);
         if (z && z->k30 == 0x12 && z->n40 == func_001C4840(g_sw) && z->f44 == D_002A8698)
-            func_00177BA0(z);
+            NextReaction__8JOBREACT(z);
         break;
     }
     }
@@ -92,7 +92,7 @@ void SetGuardMode__FP5GUARDi(struct S *p, int k)
             switch (z->k30) {
             case 1: case 2: case 3: case 4:
             case 0xC: case 0x10: case 0x11: case 0x12:
-                func_00177BA0(z);
+                NextReaction__8JOBREACT(z);
                 break;
             }
         }

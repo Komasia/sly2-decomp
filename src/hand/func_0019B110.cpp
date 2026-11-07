@@ -140,10 +140,10 @@ void func_0020F948();
 void func_0019B0A8();
 void func_001E6F60(CURVE *pcurve, qword pos, void *pv, VECTOR *ppos, VECTOR *pdir, float *pu, float *ps);
 void func_001E7410(CURVE *pcurve, PFNSCORE pfn, void *pv, int a, int b, float *pg, float *pgOut);
-float func_001E77E8(CURVE *pcurve);
-float func_001E64C8(CURVE *pcurve, float s);
-float func_001E6648(CURVE *pcurve);
-float func_001E63C0(CURVE *pcurve, float u);
+float DgStepCrv(CURVE *pcurve) asm("DgStepCrv__FP3CRV");
+float GFromCrvS(CURVE *pcurve, float s) asm("GFromCrvS__FP3CRVf");
+float SMaxCrv(CURVE *pcurve) asm("SMaxCrv__FP3CRV");
+float SFromCrvG(CURVE *pcurve, float u) asm("SFromCrvG__FP3CRV");
 void func_0011D9E0(PFNSCORE pfn, void *pv, float g0, float g1, float gMin, float gMax, float *px, float *pg);
 float func_0019AA58(void *pv, float u);
 float func_0019ABB8(void *pv, float u);
@@ -240,8 +240,8 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             ctx.pcurve = pcurve;
             ctx.v = vLaunch.q;
             func_001E7410(pcurve, func_0019AA58, &ctx, 0, 0, &uStart, 0);
-            func_0011D9E0(func_0019AA58, &ctx, uStart, func_001E77E8(pcurve), func_001E64C8(pcurve, 50.0f),
-                          func_001E64C8(pcurve, func_001E6648(pcurve) - 50.0f), &u, &g);
+            func_0011D9E0(func_0019AA58, &ctx, uStart, DgStepCrv(pcurve), GFromCrvS(pcurve, 50.0f),
+                          GFromCrvS(pcurve, SMaxCrv(pcurve) - 50.0f), &u, &g);
             if (pcurve != ploForce) {
                 if (g >= D_002BF8E0)
                     continue;
@@ -264,7 +264,7 @@ extern "C" void func_0019B110(JTAIR *pjtair, void *ploForce)
             vBest = vHit;
             uBest = u;
             tBest = t;
-            sBest = func_001E63C0(pcurve, uBest);
+            sBest = SFromCrvG(pcurve, uBest);
         }
 
         for (HOOK *phook = D_003E13B4; phook; phook = phook->phookNext) {
@@ -392,7 +392,7 @@ LPartnerDone:
         float s, gCurve;
         pair.pjtair = pjtair;
         pair.plo = pcurve;
-        func_0011D9E0(func_0019ABF0, &pair, sCur, 100.0f, 50.0f, func_001E6648(pcurve) - 50.0f, &s, &gCurve);
+        func_0011D9E0(func_0019ABF0, &pair, sCur, 100.0f, 50.0f, SMaxCrv(pcurve) - 50.0f, &s, &gCurve);
         if (pcurve != ploForce) {
             if (D_002BF8E0 <= gCurve)
                 continue;
@@ -473,7 +473,7 @@ LPartnerDone:
         ctx.v = v.q;
         ctx.pjtair = pjtair;
         ctx.plo = pcurve;
-        func_0011D9E0(func_0019AB38, &ctx, sCur, D_002BF918, 30.0f, func_001E6648(pcurve) - 30.0f, &u, &g);
+        func_0011D9E0(func_0019AB38, &ctx, sCur, D_002BF918, 30.0f, SMaxCrv(pcurve) - 30.0f, &u, &g);
         g = g * D_002BF90C;
         if (pcurve != ploForce) {
             if (g >= D_002BF8E0)

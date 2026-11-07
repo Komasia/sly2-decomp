@@ -16,12 +16,13 @@ extern void *D_002F7900;
 extern "C" {
 CRef func_00258200(void *, const CRef &, G *);
 void StartPlayerCounters(void *, int) asm("StartPlayerCounters__FP5ACTORi");
-void func_00165E38(G *);
+void StartGameFromSave(G *) asm("StartGameFromSave__FP2SW");
 }
-/* The unused third parameter is deliberate: it is the same SetPv form as func_0013D328 / AkeyReturnBooty,
+/* The unused third parameter is deliberate: it is the same SetPv form as SetStandBooty / AkeyReturnBooty,
    and the dummy makes gcc keep the %hi/%lo of D_003D4A60 in s0 across the whole function. */
 static inline void SetPv(void *pv, const CRef &r, void *) { CRef arg(r); const CRef &ret = func_00258200(pv, arg, &D_003D4A60); }
-extern "C" void func_001DDB08(void)
+// name: SafeHouse port (StartNewGameFromTitle)
+extern "C" void StartNewGameFromTitle__Fv(void)
 {
     {
         CRef ref(0x16, 0);
@@ -33,5 +34,5 @@ extern "C" void func_001DDB08(void)
         StartPlayerCounters(D_002DD5BC, 1);
     if (D_002F7900)
         StartPlayerCounters(D_002F7900, 1);
-    func_00165E38(&D_003D4A60);
+    StartGameFromSave(&D_003D4A60);
 }

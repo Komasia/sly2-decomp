@@ -18,7 +18,7 @@ void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void*PvAllocStackImpl(const REQUEST&) asm("PvAllocStackImpl__Fi");
 void*func_002333B4(void*,int,uint);
 void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
-OBJECT*func_001EC8F8(int);
+OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);
 void func_001699E8(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*);
 float func_002599D8(const U*);
@@ -118,7 +118,7 @@ extern "C" void func_0016CF78(P*p,D*desc,E*entry,PARAM*param,SPHERE*sphere,int g
    break;
   }
   header->base=base;
-  OBJECT*object=func_001EC8F8(input->U16Read());
+  OBJECT*object=PshdFromIndex(input->U16Read());
   vertices=input->U8Read();
   int vectorCount=input->U8Read();
   vectors=(U*)PvAllocStackImpl(REQUEST(vectorCount*sizeof(U),16));

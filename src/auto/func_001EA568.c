@@ -1,11 +1,12 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001ED278(u32);                         /* extern */
+M2C_UNK AdjustRgba__FPUi(u32);                         /* extern */
 extern s32 D_003DCFF0;
 extern void *D_003DCFF4;
 extern s32 D_003DCFF8;
 extern s32 D_003DCFFC;
 
-void func_001EA568(s32 arg0) {
+// name: SafeHouse port (RelocateBulkRecords)
+void RelocateBulkRecords__Fi(s32 arg0) {
     s32 var_a0;
     s32 var_a1;
     u32 temp_v1;
@@ -23,7 +24,7 @@ void func_001EA568(s32 arg0) {
                 var_s0 = temp_v1;
                 if (var_s0 < (u32) (var_s0 + (M2C_FIELD(temp_s1, u16 *, 8) * 4))) {
                     do {
-                        func_001ED278(var_s0);
+                        AdjustRgba__FPUi(var_s0);
                         var_s0 += 4;
                     } while (var_s0 < (u32) (M2C_FIELD(temp_s1, u32 *, 0xC) + (M2C_FIELD(temp_s1, u16 *, 8) * 4)));
                 }

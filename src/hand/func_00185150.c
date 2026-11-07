@@ -2,18 +2,19 @@ struct MSG { int cb; int nKind; };
 struct X { int a; int b; int c; };
 struct V { int a[4]; };
 struct S { char pad[0xE0]; int cv; struct V *av; int cx; struct X *ax1; struct X *ax2; };
-void func_00231768(struct S *p, void *pbis);
+void LoadLoxBaseFromBrx(struct S *p, void *pbis);
 int func_00117D50(void *pbis);
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *pbis, void *pv);
 void *PvAllocSwImpl__Fi(struct MSG *pmsg);
 void LoadOptionsFromBrx__FPvP18CBinaryInputStream(struct S *p, void *pbis);
 static __inline__ void *PvAllocMsg(struct MSG *pmsg, int cb, int nKind) { pmsg->nKind = nKind; pmsg->cb = cb; return PvAllocSwImpl__Fi(pmsg); }
-void func_00185150(struct S *p, void *pbis)
+// name: SafeHouse port (LoadPntsFromBrx)
+void LoadPntsFromBrx__FP2LOP18CBinaryInputStream(struct S *p, void *pbis)
 {
     struct MSG msg;
     int i, j;
     int n;
-    func_00231768(p, pbis);
+    LoadLoxBaseFromBrx(p, pbis);
     p->cv = func_00117D50(pbis);
     p->av = (struct V *)PvAllocMsg(&msg, p->cv << 4, 0x10);
     for (i = 0; i < p->cv; i++)

@@ -8,13 +8,13 @@ struct S {
     char pad[0x10]; struct A *p10; int pad2; struct O *p18; char pad3[0x14]; int n30; float f34;
     char pad4[0x80 - 0x38]; qword v80; qword v90; char pad5[0xA8 - 0xA0]; int nA8; int nAC; char pad6[8]; int nB8; int nBC;
 };
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 void Follow__9JOBFOLLOWP3CRVi(struct O *o, int a, int b);
 // name: SafeHouse port (JOBGOTO::SetState)
 void SetState__7JOBGOTOi(struct S *p, int n) {
     if (n == p->n30) return;
-    if (!((unsigned)n < 3 && p->n30 >= 0 && p->n30 < 3)) func_001EF0D8((char *)p + 0x18);
+    if (!((unsigned)n < 3 && p->n30 >= 0 && p->n30 < 3)) EndChildJob__FPP5AIJOB((char *)p + 0x18);
     p->n30 = n;
     p->f34 = g_clock.t;
     switch (n) {

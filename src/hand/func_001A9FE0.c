@@ -1,5 +1,6 @@
 struct O { char pad[0xAC]; struct O *next; };
-void func_001A9FE0(void *unused, struct O *b, struct O **pp)
+// name: SafeHouse port (PrependXpList)
+void PrependXpList__FP2XPPP2XPPv(void *unused, struct O *b, struct O **pp)
 {
     if (b) {
         struct O *last = b;

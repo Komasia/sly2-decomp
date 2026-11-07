@@ -10,7 +10,7 @@ extern qword D_002A2DD0;
 void func_0018F2B0(struct PO *, int, void *, int *, QF *, float, float, float);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);
 void func_002046B0(struct PO *, qword);
-void func_00204CA8(struct PO *);
+void TurnActorNow__FP5ACTOR(struct PO *);
 void func_001384C0(void *);
 void func_001305B8(void *, struct PO *, int, void **, float, float);
 void DemoteAsegaOnXf__FiiP2XF(void *, struct PO *, int);
@@ -52,7 +52,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
         ps->x8 = 0.0f < r.a[1] ? 1 : 0;
         if (state == 0 && f) {
             func_002046B0(ps->po, v.q);
-            func_00204CA8(ps->po);
+            TurnActorNow__FP5ACTOR(ps->po);
         }
     }
     ps->state = state;

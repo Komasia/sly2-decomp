@@ -10,12 +10,13 @@ extern char D_003DD040[];
 extern char g_game[];
 void func_001A5E28(struct S *);
 float TMusicTop__FPv(void *);
-void func_00152390(int, int, int, int);
+void PlayDancerMove__FP2LOiii(int, int, int, int);
 void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct S *);
-void func_00153640(struct S *, float);
+void AddDanceScore__FP2LOiif(struct S *, float);
 float GSmooth__FfffP3SMPPf(void *, float, float, float, int);
-void func_00152B58(struct S *);
-void func_00152970(struct S *p)
+void UpdateDanceCrowd__FP5DANCE(struct S *);
+// name: SafeHouse port (UpdateDance)
+void UpdateDance__FP2LO(struct S *p)
 {
     float t;
     int i, j;
@@ -29,7 +30,7 @@ void func_00152970(struct S *p)
             if (pe->n14)
                 continue;
             if (pe->gC < t) {
-                func_00152390(pe->n0, pe->n4, pe->n8, 0);
+                PlayDancerMove__FP2LOiii(pe->n0, pe->n4, pe->n8, 0);
                 pe->n14 = 1;
                 break;
             }
@@ -48,8 +49,8 @@ void func_00152970(struct S *p)
             if (pe->gC + p->g5C < t) {
                 pe->n20 = 1;
                 if (!pe->n1C) {
-                    func_00152390(pe->n0, pe->n4, pe->n8, 2);
-                    func_00153640(p, p->g2A4);
+                    PlayDancerMove__FP2LOiii(pe->n0, pe->n4, pe->n8, 2);
+                    AddDanceScore__FP2LOiif(p, p->g2A4);
                 }
                 break;
             }
@@ -57,5 +58,5 @@ void func_00152970(struct S *p)
         break;
     }
     { float dt = g_clock.dt; p->g288 = GSmooth__FfffP3SMPPf(p->x28C, p->g288, p->g284, dt, 0); }
-    func_00152B58(p);
+    UpdateDanceCrowd__FP5DANCE(p);
 }

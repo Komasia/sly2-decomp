@@ -41,7 +41,8 @@ static inline void *PvAllocB(ALLOCREQ *preq, int cb, int nKind)
     preq->nKind = nKind;
     return PvAllocSwImpl(preq);
 }
-extern "C" void func_001635F8(S *p, CBinaryInputStream *pbis)
+// name: SafeHouse port (LoadTaskFromBrx)
+extern "C" void LoadTaskFromBrx__FP2LOP18CBinaryInputStream(S *p, CBinaryInputStream *pbis)
 {
     int i = 0;
     FRAME fr;

@@ -26,7 +26,8 @@ unsigned int func_0023E1C8(float);
 }
 static inline int GetInt(KEY *k, char *pb) { return NProgress(k, pb).m_tag; }
 static inline float GetFloat(KEY *k, char *pb) { return NProgress(k, pb).m_g; }
-extern "C" void func_001D8FF8(char *pb)
+// name: SafeHouse port (ApplyGameSettings)
+extern "C" void ApplyGameSettings__FP8GAMESAVE(char *pb)
 {
     if (g_sw.k[0] && func_001A2C98() >= 2)
         func_001A2BD0(GetInt(g_sw.k[0], pb));

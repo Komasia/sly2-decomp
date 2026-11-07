@@ -22,7 +22,8 @@ static __inline__ void CopyMatrix(M4 *destination,const M4 *source) {
     destination->a[1]=row1;destination->a[2]=row2;
     destination->a[3]=row3;destination->a[0]=row0;
 }
-void func_00203E08(struct S *input)
+// name: SafeHouse port (UpdateStepMesh)
+void UpdateStepMesh__FP3ALO(struct S *input)
 {
     void *context=input;
     M4 m;

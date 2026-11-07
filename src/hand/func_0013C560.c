@@ -38,22 +38,22 @@ void func_001F6978(struct O *p, int n);
 void SetSoeOff__FP3ALOP3SOE(struct O *p, void *pv);
 void func_001F6AC8(struct O *p, int n);
 void func_001F6B48(struct O *p, int n);
-void func_001618F8(struct GS *pgs, float g);
+void StartHudTimer__FPvf(struct GS *pgs, float g);
 qword func_001A62E8(void *p);
 void func_00156C80(struct GS *pgs, int n, qword v, struct Q *pq, void *pv);
 void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, struct O *p);
-void func_00161958(struct GS *pgs);
+void StopHudTimer__FPv(struct GS *pgs);
 void SetAloCnstrLin__FP3ALOi(struct O *p, int n);
 void SetAloCnstrAng__FP3ALOi(struct O *p, int n);
 void SetAloGravity__FP3ALOG9VU_VECTOR(struct O *p, qword v);
-void func_001A58D0(struct O *p, void *pv, int n);
-void func_001A6BE8(struct O *p, void *pv);
+void ReparentBooty__FP3ALOii(struct O *p, void *pv, int n);
+void PlaceAloAt__FP3ALOP7MATRIX4(struct O *p, void *pv);
 void func_001F7C68(struct O *p, float g);
 struct E *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct GS *pgs, int n, int m);
 void func_001CF578(struct E *pe, struct O *p);
 void func_001CFD30(struct E *pe);
 float GRandInRange__Fff(float a, float b);
-void func_0013C560(struct O *p, int st);
+void SetBootyState__FP2LOi(struct O *p, int st);
 
 #define VCALL(po, slot, T) ((T)(po)->pvt->a[slot].pfn)((char *)(po) + (po)->pvt->a[slot].d
 typedef void (*PFN3)(void *, int, int, int, int, int);
@@ -124,7 +124,8 @@ static inline void Notify(struct R *pr, int k)
     VCALL(pr, 51, PFNM), &msg);
 }
 
-void func_0013C560(struct O *p, int st)
+// name: SafeHouse port (SetBootyState)
+void SetBootyState__FP2LOi(struct O *p, int st)
 {
     int stOld;
     struct OT *pot;
@@ -159,7 +160,7 @@ void func_0013C560(struct O *p, int st)
         break;
     case 1:
         if (p->pst->xC)
-            func_001618F8(&g_sw, p->pq->g18C + 0.99f);
+            StartHudTimer__FPvf(&g_sw, p->pq->g18C + 0.99f);
         func_00156C80(&g_sw, 1, func_001A62E8(p->pq), p->pq, (char *)p->pq + 0x198);
         if (st == 2)
             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2F, p);
@@ -183,7 +184,7 @@ void func_0013C560(struct O *p, int st)
         if (p->pst->x18 != -1)
             func_001F6AC8(p, p->pst->x18);
         if (p->pst->xC)
-            func_00161958(&g_sw);
+            StopHudTimer__FPv(&g_sw);
         break;
     case 5: {
         struct R *pr = p->p164;
@@ -207,13 +208,13 @@ void func_0013C560(struct O *p, int st)
     switch (st) {
     case 0:
         p->pst = 0;
-        func_001A58D0(p, 0, 0);
+        ReparentBooty__FP3ALOii(p, 0, 0);
         VCALL(p, 9, PFNV));
         break;
     case 1:
         func_00156C80(&g_sw, -1, D_002A2DD0, 0, (char *)p->pq + 0x198);
-        func_001A6BE8(p, VCALL(p->pq, 31, PFNP)));
-        func_001A58D0(p, (void *)p->pq->x10, 3);
+        PlaceAloAt__FP3ALOP7MATRIX4(p, VCALL(p->pq, 31, PFNP)));
+        ReparentBooty__FP3ALOii(p, (void *)p->pq->x10, 3);
         p->pq->p194 = p;
         if (stOld != 3) {
             VCALL(p, 9, PFNV));
@@ -236,20 +237,20 @@ void func_0013C560(struct O *p, int st)
             if (pe)
                 LINKE(pe, p, p->pot->pr);
         }
-        func_001A6BE8(p, VCALL(p->pot->pr, 31, PFNP)));
-        func_001A58D0(p, p->pot->pr, 3);
+        PlaceAloAt__FP3ALOP7MATRIX4(p, VCALL(p->pot->pr, 31, PFNP)));
+        ReparentBooty__FP3ALOii(p, p->pot->pr, 3);
         if (!p->pe)
-            func_0013C560(p, 4);
+            SetBootyState__FP2LOi(p, 4);
         break;
     case 3: {
         struct E *pe;
-        func_001A6BE8(p, VCALL(p->pq, 31, PFNP)));
-        func_001A58D0(p, (void *)p->pq->x10, 3);
+        PlaceAloAt__FP3ALOP7MATRIX4(p, VCALL(p->pq, 31, PFNP)));
+        ReparentBooty__FP3ALOii(p, (void *)p->pq->x10, 3);
         p->pe = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(&g_sw, 6, 0);
         if (p->pe)
             LINKE3(p->pe, pot->pr, p);
         if (!p->pe)
-            func_0013C560(p, 1);
+            SetBootyState__FP2LOi(p, 1);
         break;
     }
     case 4:
@@ -265,7 +266,7 @@ void func_0013C560(struct O *p, int st)
         float a, b, c;
         float lo = -6.2831855f, hi = 6.2831855f;
         (void)&w;
-        func_001A58D0(p, 0, 3);
+        ReparentBooty__FP3ALOii(p, 0, 3);
         SetAloCnstrLin__FP3ALOi(p, 0);
         SetAloCnstrAng__FP3ALOi(p, 0);
         {

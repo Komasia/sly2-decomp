@@ -21,7 +21,7 @@ typedef struct {
 } OBJ;
 extern struct G g_sw;
 typedef struct { qword pos; char rest[0x50]; } HIT;
-int func_0014C6A0(void *, qword, qword, int, HIT *);
+int ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG(void *, qword, qword, int, HIT *);
 EMIT *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *, int, int);
 void func_001CEA88(OBJ *, int);
 // name: SafeHouse port (TouchRipKind1)
@@ -34,7 +34,7 @@ void TouchRipKind1__FP4RIPNi(OBJ *p, int n)
         goto done;
     hit.pos = p->x70;
     for (i = 0; i < p->q->c; i++) {
-        if (func_0014C6A0(p->q->a + i * 0xB0, p->x80, p->x70, 1, &hit))
+        if (ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG(p->q->a + i * 0xB0, p->x80, p->x70, 1, &hit))
             goto found;
     }
 found:

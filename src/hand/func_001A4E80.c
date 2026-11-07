@@ -6,7 +6,7 @@ extern struct P D_002F66B0;
 extern struct H D_002E6550;
 extern char g_sw[], D_002BFCA0[], g_game[];
 int func_001A4E70(struct S *s);
-void func_001B3A48(struct P *p, int n);
+void QueueMovie__FPUcPv(struct P *p, int n);
 void func_0022B490(void *g, void *a, int b, int c, int d, int e);
 void RequestTaskStartByOid__FP2SWi3OID(void *g, int a, int b);
 void func_001ACC38(struct H *h, int n);
@@ -21,7 +21,7 @@ void func_001A4E80(struct S *s)
     case 0:
     case 1:
         p = &D_002F66B0;
-        func_001B3A48(p, e->x4);
+        QueueMovie__FPUcPv(p, e->x4);
         if (e->x0 == 1)
             p->x108 = e->x0;
         func_0022B490(g_sw, D_002BFCA0, 0x189, -1, 0, -1);

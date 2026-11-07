@@ -37,11 +37,12 @@ extern M2C_UNK g_sw;
 extern s32 D_003E0F9C;
 extern s32 D_003E0FE4;
 
-void func_001AF660(s32 arg0, s32 arg1) {
+// name: SafeHouse port (CloseMenu)
+void CloseMenu__Fii(s32 arg0, s32 arg1) {
     if (M2C_FIELD(arg0, s32 *, 0x1E8) == 7) {
         if (M2C_FIELD(arg0, s32 *, 0x24) >= 2) {
             M2C_FIELD(arg0, s32 *, 0x24) = 1;
         }
-        func_001AEAA8(arg0, 8);
+        SetMenuState__FP4MENUi(arg0, 8);
     }
 }

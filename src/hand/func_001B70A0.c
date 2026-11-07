@@ -8,10 +8,10 @@ extern char D_002C09B0[], D_002C09C0[];
 int func_00209A68(struct O *po, int n);
 int func_001C4660(void *pl, int k, float g);
 int func_001C46C0(void *pl, int k, float g);
-struct S *func_001EEEE0(void *p, int n);
+struct S *PjobFind__FP5GUARDPv(void *p, int n);
 qword func_001A62E8(void *p);
 int func_0011D910(void *p, float g);
-void func_0017B1A8(struct S *p, int n);
+void SetState__5JOBB1i(struct S *p, int n);
 void func_001B7050(struct P *p, void *q);
 void func_001B6078(struct P *p, int n);
 void SetMurrayPunch__FP6MURRAYi(struct P *p, int n);
@@ -35,7 +35,7 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
         return 0;
     if (!func_00209A68(p->p10DC, 0x17) || !func_001C4660(p->pl, 0xA0, 0.15f))
         goto ret0;
-    ps = func_001EEEE0(p->p10DC->x26C, 0xB1);
+    ps = PjobFind__FP5GUARDPv(p->p10DC->x26C, 0xB1);
     if (ps->x50 >= 3)
         return 0;
     if (ps->x5C != p) {
@@ -51,7 +51,7 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
             if (LenXY(d) < D_002C09AC && func_0011D910(D_002C09B0, GetZ(d)) && p->p10DC->xFEC)
                 f = func_001C46C0(p->pl, 0x20, 0.15f) != 0;
             if (f) {
-                func_0017B1A8(ps, 2);
+                SetState__5JOBB1i(ps, 2);
                 func_001B7050(p, p->p10DC->xFEC);
                 return 1;
             }

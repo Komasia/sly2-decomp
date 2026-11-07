@@ -4,7 +4,7 @@ struct Q { struct A *pa; void *p; };
 struct S { char pad[0x26C]; char x26C[0x49C - 0x26C]; struct B *pb; };
 void HandlePoMessage__FP2PO5MSGIDPv(struct S *p, int k, struct Q *q);
 void func_0020D460(struct B *pb, struct A *pa);
-void func_001EED78(void *p, int k, struct Q *q);
+void OfferJobMessage__FP5GUARDii(void *p, int k, struct Q *q);
 void HandleStepguardMessage__FP9STEPGUARD5MSGIDPv(struct S *p, int k, struct Q *q)
 {
     HandlePoMessage__FP2PO5MSGIDPv(p, k, q);
@@ -18,5 +18,5 @@ void HandleStepguardMessage__FP9STEPGUARD5MSGIDPv(struct S *p, int k, struct Q *
             func_0020D460(p->pb, 0);
         break;
     }
-    func_001EED78(p->x26C, k, q);
+    OfferJobMessage__FP5GUARDii(p->x26C, k, q);
 }

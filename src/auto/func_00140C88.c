@@ -3,7 +3,8 @@ void *func_001C4840(M2C_UNK *);                     /* extern */
 M2C_UNK func_00221268(s32, M2C_UNK);                /* extern */
 extern M2C_UNK g_sw;
 
-void func_00140C88(s32 arg0, s32 arg1) {
+// name: SafeHouse port (SetActorZone)
+void SetActorZone__FP5ACTORP2LO(s32 arg0, s32 arg1) {
     s32 temp_a0;
     void *temp_v0;
 

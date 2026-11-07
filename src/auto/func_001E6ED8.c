@@ -2,7 +2,8 @@
 M2C_UNK func_001E6A30();                            /* extern */
 M2C_UNK func_001E6DB8();                            /* extern */
 
-void func_001E6ED8(void *arg0) {
+// name: SafeHouse port (NearestCrv)
+void NearestCrv__FP3CRV(void *arg0) {
     if (M2C_FIELD(arg0, s32 *, 0xE0) == 0) {
         func_001E6A30();
         return;

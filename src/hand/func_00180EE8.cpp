@@ -8,7 +8,7 @@ extern qword g_normalZ;
 extern "C" MATRIX3 func_0011B500(qword v, float g);
 extern "C" MATRIX3 func_0022FD38(void *pv, int n, MATRIX3 *pm);
 extern "C" void BrakeAloRotation(struct O *p, MATRIX3 *pm, void *pv) asm("BrakeAloRotation__FP3ALOP7MATRIX3Pf");
-extern "C" void func_001FAC30(struct O *p, qword v);
+extern "C" void AccelAloPos(struct O *p, qword v) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 static inline qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b) : "memory"); return r; }
 static inline qword Bc(int g) { qword r; __asm__("qmtc2.ni %1, %0" : "=j"(r) : "r"(g)); return r; }
 extern "C" void MoveEnemy(struct O *p) asm("MoveEnemy__FP3ALO");
@@ -33,6 +33,6 @@ void MoveEnemy(struct O *p)
         }
         u.q = s;
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(d), "j"(s));
-        func_001FAC30(p, r);
+        AccelAloPos(p, r);
     }
 }

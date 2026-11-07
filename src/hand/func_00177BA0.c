@@ -16,7 +16,8 @@ float func_00208BB0(struct A *p);
 qword func_001A62E8(struct A *p);
 void *func_00156B98(struct G *g, int n, qword v, struct A *p);
 void React__8JOBREACTP5AIMSG(struct S *p, struct F *f);
-void func_00177BA0(struct S *p) {
+// name: SafeHouse port (JOBREACT::NextReaction)
+void NextReaction__8JOBREACT(struct S *p) {
     struct F f;
     func_002333B4(&f, 0, sizeof f);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, 0x3B) && p->p10->n1010 > 0) {

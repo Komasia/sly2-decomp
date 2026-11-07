@@ -13,7 +13,7 @@ void func_0020BD88(struct H *, void *);
 void func_0020C7E0(struct DIRECTION_STATE *, void *);
 void *func_0015E938(void *, int, int, void *);
 int func_00132EA0(void *);
-struct MARKER *func_0012F938(void *, int);
+struct MARKER *PeventLaunch__FP5KINDEi(void *, int);
 struct H *func_0020C010(int);
 void func_0020BD78(struct H *);
 
@@ -37,7 +37,7 @@ void ResolveKinde__FP5KINDEP5GUARD(struct E *e, void *context)
     }
     switch (func_00132EA0(resource)) {
     case 0x6D:
-        if (func_0012F938(resource, 0x22)) {
+        if (PeventLaunch__FP5KINDEi(resource, 0x22)) {
             e->kind = 2;
             e->value.curvature = func_0020C010(0x40);
             func_0020BD78(e->value.curvature);

@@ -2,7 +2,8 @@
 s32 FIsBasicDerivedFrom__FP5BASIC3CID(s32, M2C_UNK);                    /* extern */
 M2C_UNK UnlockGuardActivation__FP5GUARDi(s32);                         /* extern */
 
-void func_001EF038(void *arg0) {
+// name: SafeHouse port (UnlockJob)
+void UnlockJob__FP5AIJOB(void *arg0) {
     void *var_a0;
 
     if (M2C_FIELD(arg0, s32 *, 0x1C) != 0) {

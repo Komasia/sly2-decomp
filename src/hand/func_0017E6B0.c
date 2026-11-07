@@ -9,17 +9,17 @@ struct B { char pad[0xE8]; int nE8; char pad2[8]; qword *pF4; };
 struct A { char pad[0x294]; struct B *p294; };
 struct P { char pad[0x60]; struct SEG a60[(0x120 - 0x60) / 32]; int n120; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct P *p30; int n34; int n38; float f3C; float f40; };
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 qword func_001A62E8(void *p);
 qword PosGoal__FP4GOALG9VU_VECTOR(struct SEG *s, qword v);
-void func_001E6180(struct B *b);
+void RecalcCrv__FP3CRV(struct B *b);
 void Follow__9JOBFOLLOWP3CRVi(struct O *o, struct B *b, int n);
 void func_0017E628(struct S *p);
 // name: SafeHouse port (JOBLINK::SetState)
 void SetState__7JOBLINKi(struct S *p, int n) {
     if (n == p->n38) return;
-    func_001EF0D8(p->a18);
+    EndChildJob__FPP5AIJOB(p->a18);
     p->n38 = n;
     p->f3C = g_clock.t;
     switch (n) {
@@ -45,7 +45,7 @@ void SetState__7JOBLINKi(struct S *p, int n) {
                 b->nE8 = 2;
                 b->pF4[0] = pos;
                 b->pF4[1] = q;
-                func_001E6180(b);
+                RecalcCrv__FP3CRV(b);
                 o->u40.n40 = 1;
                 o->f64 = 10.0f;
                 Follow__9JOBFOLLOWP3CRVi(o, b, 0);

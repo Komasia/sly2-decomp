@@ -16,7 +16,7 @@ extern float D_002BF3DC;
 
 extern void func_001403D0(void *p);
 extern void UpdateSlyInput__FP3SLY(void *p);
-extern void func_00204660(void *p, float g);
+extern void SetStepPhysHeading__FP3ALOf(void *p, float g);
 extern void func_0020BB58(void *p, float g);
 extern void func_0020BC08(void *p);
 extern void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(void *p, void *a, void *animation);
@@ -29,7 +29,7 @@ extern void func_00189C40(void *p, void *a, float g, void *geometry, void *respo
 #define C40(p,a,b,c,d,g) func_00189C40(p,a,g,b,c,d)
 
 extern int func_00189EC8(void *p, void *a, void *response);
-extern void func_0018ED70(void *p);
+extern void UpdateSlyReach__FP3SLY(void *p);
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 extern void func_001E7380(void *p, qword q, void *metric, qword *point, qword *direction, float *normalized, float *distance, float g);
 extern void func_0018C250(void *p, int a, int b);
@@ -56,7 +56,7 @@ void UpdateJt__FP2JTf(char *p)
     switch (F(int, 0x18C8)) {
     case 1: {
         qword s, motion;
-        func_00204660(p, F(struct X150 *, 0x150)->g18);
+        SetStepPhysHeading__FP3ALOf(p, F(struct X150 *, 0x150)->g18);
         func_0020BB58(A(0x1320), 1.0f);
         func_0020BC08(A(0x1320));
         {
@@ -116,7 +116,7 @@ void UpdateJt__FP2JTf(char *p)
         }
         break;
     }
-    func_0018ED70(p);
+    UpdateSlyReach__FP3SLY(p);
     if (F(int, 0x18D8) == 0) {
         if (FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), 0xB)) {
             void *po2 = F(void *, 0x1854);

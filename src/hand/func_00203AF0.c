@@ -20,7 +20,8 @@ void RebuildSoe__FP3SOEP2XFiT0(struct M *m, void *p, int k, struct Q *q);
 void EnsureSoeMesh__FP3SOE(struct Q *q);
 void TransformGeom__FP7MATRIX4P4GEOMT1(void *a, void *b, void *c);
 
-void func_00203AF0(struct S *p, struct M *m)
+// name: SafeHouse port (MakeStepCustomEntry)
+void MakeStepCustomEntry__FP3ALOP3SOE(struct S *p, struct M *m)
 {
     int n, fl, i, c;
     float mn;

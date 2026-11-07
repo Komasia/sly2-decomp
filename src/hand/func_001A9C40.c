@@ -9,9 +9,10 @@ struct S { struct X *px; int x4; float r; };
 
 extern qword g_normalZ;
 
-void func_001A7C18(void *p, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct CONTACT **out, float g);
+void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *p, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct CONTACT **out, float g);
 
-void func_001A9C40(void *p, struct S *a, struct S *b, struct CONTACT **out)
+// name: SafeHouse port (MarkSphereSphere)
+void MarkSphereSphere__FP3SOET0PP2XPPP7CONTACT(void *p, struct S *a, struct S *b, struct CONTACT **out)
 
 {
 
@@ -79,7 +80,7 @@ void func_001A9C40(void *p, struct S *a, struct S *b, struct CONTACT **out)
 
     }
 
-    func_001A7C18(p, a, b, pos, dir, 7, 0, 0, out, g - rsum);
+    PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(p, a, b, pos, dir, 7, 0, 0, out, g - rsum);
 
 }
 

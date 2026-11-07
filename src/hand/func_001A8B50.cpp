@@ -1,6 +1,6 @@
-// func_001A8B50: edge/edge and vertex/face contacts between two clipped shapes.
-// ClsgClipSoAllEdges + ClsgClipSoBspEdges clip each shape's edges against the other, CategorizeAlsg sorts each side's LSGs, func_001A87F0 adds the
-// vertex contacts of both sides; then every free LSG of side 0 either follows the func_001A86B8 edge path of side 1 (closest points of the
+// MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT: edge/edge and vertex/face contacts between two clipped shapes.
+// ClsgClipSoAllEdges + ClsgClipSoBspEdges clip each shape's edges against the other, CategorizeAlsg sorts each side's LSGs, MarkEmbeddedVertices adds the
+// vertex contacts of both sides; then every free LSG of side 0 either follows the CPathAlsg edge path of side 1 (closest points of the
 // two edges via func_0011EA60, kind 3) or, when no side-1 LSG shares a surface with its edge, contacts the nearer endpoint against the
 // farther plane (kind 1). With no new contact and one side empty, a kind-13 contact at the shape position is added.
 // LSG / EDGE / SURF layouts and names as in Lilly's matched ClsgClipEdgeToBsp port (src/hand/func_00118668.cpp).
@@ -31,10 +31,10 @@ extern U g_normalZ;
 int ClsgClipSoAllEdges(SCENE *, SHAPE *, SHAPE *, NODE *, int, LSG *) __asm__("ClsgClipSoAllEdges__FP2SOT0P3BSPiP3LSG");
 int ClsgClipSoBspEdges(SCENE *, SHAPE *, SHAPE *, int, NODE *, int, LSG *) asm("ClsgClipSoBspEdges__FP2SOT0iP3BSPiP3LSG");
 void CategorizeAlsg(int, LSG *, int *, int *, LSG **, LSG **) __asm__("CategorizeAlsg__FiP3LSGPiT2PP3LSGT4");
-void func_001A87F0(SCENE *, SHAPE *, SHAPE *, int, int *, LSG **, CONTACT **);
-int func_001A86B8(SURF *, int, int, LSG *, LSG **);
+void MarkEmbeddedVertices(SCENE *, SHAPE *, SHAPE *, int, int *, LSG **, CONTACT **) asm("MarkEmbeddedVertices__FP3SOET0PiiPP3LSGPP2XPT5");
+int CPathAlsg(SURF *, int, int, LSG *, LSG **) asm("CPathAlsg__FP4GEOMiiP3LSGPP3LSG");
 int func_0011EA60(qword, qword, qword, qword, float *, U *);
-void func_001A7C18(SCENE *, SHAPE *, SHAPE *, VV, float, VV, int, void *, void *, CONTACT **);
+void PxpAddSw(SCENE *, SHAPE *, SHAPE *, VV, float, VV, int, void *, void *, CONTACT **) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 }
 
 static inline VV Sub(VV a, VV b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a), "j"(b)); return r; }
@@ -81,7 +81,8 @@ static inline void Closest(VV a, VV b, VV c, VV d, float *au, U *normal)
     (void)func_0011EA60(a, b, c, d, au, normal);
 }
 
-extern "C" void func_001A8B50(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, NODE *nodes, NODE *last, CONTACT **out)
+// name: SafeHouse port (MarkBspBsp)
+extern "C" void MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, NODE *nodes, NODE *last, CONTACT **out)
 {
     int aclsg[2];
     LSG aalsg[2][128];
@@ -104,12 +105,12 @@ extern "C" void func_001A8B50(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, N
         for (i = 0; i < 2; i++)
             CategorizeAlsg(aclsg[i], aalsg[i], &acpos[i], aaipos[i], aaplsg[i], &aplsgBoth[i]);
     }
-    func_001A87F0(scene, a, b, acpos[0], aaipos[0], aaplsg[0], out);
-    func_001A87F0(scene, b, a, acpos[1], aaipos[1], aaplsg[1], out);
+    MarkEmbeddedVertices(scene, a, b, acpos[0], aaipos[0], aaplsg[0], out);
+    MarkEmbeddedVertices(scene, b, a, acpos[1], aaipos[1], aaplsg[1], out);
     for (LSG *plsg = aplsgBoth[0]; plsg; plsg = plsg->plsgNext) {
         if (!plsg->apsurf[0] || !plsg->apsurf[1])
             continue;
-        int clsgPath = func_001A86B8(b->asurf, plsg->apsurf[0] - b->asurf, plsg->apsurf[1] - b->asurf, aplsgBoth[1], aplsgPath);
+        int clsgPath = CPathAlsg(b->asurf, plsg->apsurf[0] - b->asurf, plsg->apsurf[1] - b->asurf, aplsgBoth[1], aplsgPath);
         if (clsgPath > 0) {
             int j;
             for (j = 0; j < clsgPath; j++) {
@@ -120,7 +121,7 @@ extern "C" void func_001A8B50(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, N
                 apos[0].q = QwMix(VuFloat(1.0f - au[0]), left0, VuFloat(au[0]), left1);
                 apos[1].q = QwMix(VuFloat(1.0f - au[1]), right0, VuFloat(au[1]), right1);
                 float g = -Length(Sub(apos[0].q, apos[1].q));
-                func_001A7C18(scene, a, b, apos[0].q, g, normal.q, 3, plsg->pedge, plsgOther->pedge, out);
+                PxpAddSw(scene, a, b, apos[0].q, g, normal.q, 3, plsg->pedge, plsgOther->pedge, out);
             }
             continue;
         }
@@ -154,10 +155,10 @@ extern "C" void func_001A8B50(SCENE *scene, SHAPE *a, SHAPE *b, int nodeCount, N
                 continue;
             qword pos = ppos->q, plane = psurf->plane.q;
             float g = PlaneDist(pos, plane);
-            func_001A7C18(scene, a, b, pos, g, plane, 1, ppos, psurf, out);
+            PxpAddSw(scene, a, b, pos, g, plane, 1, ppos, psurf, out);
         }
     next:;
     }
     if (old == *out && (!aclsg[0] || !aclsg[1]))
-        func_001A7C18(scene, a, b, a->space->position.q, 0.0f, g_normalZ.q, 13, 0, 0, out);
+        PxpAddSw(scene, a, b, a->space->position.q, 0.0f, g_normalZ.q, 13, 0, 0, out);
 }

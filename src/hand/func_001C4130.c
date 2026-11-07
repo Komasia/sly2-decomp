@@ -8,7 +8,7 @@ typedef struct TN {
 } TN;
 
 void func_00221268(TN *ptn, int fActive);
-void func_001A58D0(TN *ptn, int n0, int n1);
+void ReparentBooty__FP3ALOii(TN *ptn, int n0, int n1);
 PO *func_001C4A48(SW *psw);
 
 void func_001C4130(PO *ppo, TN *ptn)
@@ -21,7 +21,7 @@ void func_001C4130(PO *ppo, TN *ptn)
         ppo->ptnCam = ptn;
         if (ptn != NULL) {
             ptn->nUnk128 = -1;
-            func_001A58D0((TN *)ppo->ptnCam, 0, 0);
+            ReparentBooty__FP3ALOii((TN *)ppo->ptnCam, 0, 0);
             if (func_001C4A48(&g_sw) == ppo)
                 func_00221268((TN *)ppo->ptnCam, 1);
         }

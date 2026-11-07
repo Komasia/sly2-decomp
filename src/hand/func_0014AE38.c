@@ -21,12 +21,12 @@ void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct X *, int, int, qw
 void SetAloCnstrLin__FP3ALOi(struct X *, int);
 void SetAloCnstrAng__FP3ALOi(struct X *, int);
 float GRandInRange__Fff(float, float);
-void func_001EF0D8(void *);
+void EndChildJob__FPP5AIJOB(void *);
 void *func_00205438(struct X *, int);
 void *func_001C4840(void *);
 qword func_001A62E8(void *);
 void *func_0014AE18(struct P *);
-void func_001E6180(struct SP *);
+void RecalcCrv__FP3CRV(struct SP *);
 void Follow__9JOBFOLLOWP3CRVi(struct OA7 *, struct SP *, int);
 
 #define VCALL0(po, n) { struct VTE *e = &(po)->vt[n]; ((void (*)(void *))e->pfn)((char *)(po) + e->d); }
@@ -51,7 +51,7 @@ void func_0014AE38(struct P *p, int state)
         break;
     }
     }
-    func_001EF0D8(p->x18);
+    EndChildJob__FPP5AIJOB(p->x18);
     p->x30 = state;
     p->x34 = g_clock.t;
     switch (state) {
@@ -85,7 +85,7 @@ void func_0014AE38(struct P *p, int state)
             pq = psp->xF4;
             pq[1] = func_001A62E8(func_0014AE18(p));
         }
-        func_001E6180(psp);
+        RecalcCrv__FP3CRV(psp);
         po = func_00205438(p->p10, 0xA7);
         Follow__9JOBFOLLOWP3CRVi(po, psp, 0);
         po->xC0 = 8;

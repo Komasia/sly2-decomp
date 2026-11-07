@@ -5,7 +5,7 @@ struct S3 { char pad[6]; unsigned char c6; };
 struct Src { int x0; char pad4; unsigned char b5; unsigned char b6; char pad7; struct B4 b8; char padc[0xC]; struct S3 *p18; };
 struct Dst { int x0; int x4; int x8; struct B4 bc; int c; ulong *a; };
 void *PvAllocSwClearImpl__Fi(struct MSG *);
-ulong func_001EA6C8(struct S3 *, int, int);
+ulong TexselFromShd__FP3SHDii(struct S3 *, int, int);
 void func_001EB678(struct Src *ps, struct Dst *pd)
 {
     struct S3 *p;
@@ -26,6 +26,6 @@ void func_001EB678(struct Src *ps, struct Dst *pd)
     for (i = 0; i < pd->c; i++)
     {
         ulong *pe = (ulong *)((i << 3) + (int)pd->a);
-        *pe = func_001EA6C8(p, i, 0);
+        *pe = TexselFromShd__FP3SHDii(p, i, 0);
     }
 }

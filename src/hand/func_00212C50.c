@@ -9,7 +9,7 @@ extern float D_002DDF10;
 void func_001A5E28(struct S *);
 int func_002121E8(struct S *,int);
 void func_00212A50(struct S *,int);
-void func_00212A70(struct S *,int);
+void SetState__FP8SCREENRTi(struct S *,int);
 void func_00218220(void *,float);
 void func_00212C50(struct S *p) {
     int state;
@@ -42,7 +42,7 @@ void func_00212C50(struct S *p) {
             break;
         }
     }
-    func_00212A70(p,state);
+    SetState__FP8SCREENRTi(p,state);
     if(p->selected!=-1) {
         float dt=D_002DDF10;
         p->animtime+=dt;

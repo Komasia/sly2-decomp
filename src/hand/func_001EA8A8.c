@@ -6,8 +6,9 @@ void Skip__18CBinaryInputStreami(void *pbis, int cb);
 int func_0013FAD0(int cch, void *pw);
 struct Y *func_001ED5D0(int id);
 void *PvAllocSwImpl__Fi(struct AR *par);
-void func_001ED278(int *p);
-void func_001EA8A8(void *pbis, struct X *px)
+void AdjustRgba__FPUi(int *p);
+// name: SafeHouse port (LoadClutFromBrx)
+void LoadClutFromBrx__FP18CBinaryInputStreamP4CLUT(void *pbis, struct X *px)
 {
     union { short aw[0x80]; struct AR ar; } u;
     unsigned int cb;
@@ -34,7 +35,7 @@ void func_001EA8A8(void *pbis, struct X *px)
             px->pv = PvAllocSwImpl__Fi(&u.ar);
             Read__18CBinaryInputStreamiPv(pbis, cb, px->pv);
             for (pn = px->pv; pn < px->pv + px->c; pn++)
-                func_001ED278(pn);
+                AdjustRgba__FPUi(pn);
         }
     }
     px->cqw = (cb + 15) >> 4;

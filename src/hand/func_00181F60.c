@@ -9,7 +9,7 @@ extern void *D_002DFB80;
 extern char D_002BE888[];
 extern float D_002BE898, D_002BE89C, D_002BE8A0, D_002BE8A4;
 void UpdateSo__FP2SOf(struct S *p);
-float func_001E6648(int oid);
+float SMaxCrv__FP3CRV(int oid);
 qword func_001A62E8(void *p);
 void func_001E6F60(int oid, qword q, int a, int b, struct V *pv, int c, float *pg);
 void func_001E7380(int oid, qword q, int a, int b, struct V *pv, int c, float *pg, float g);
@@ -37,7 +37,7 @@ void UpdateSwarm__FP2LO(struct S *p)
         struct E *pe = &p->ae[i];
         int oid = pe->oid;
         struct Q *q;
-        func_001E6648(oid);
+        SMaxCrv__FP3CRV(oid);
         if (!(g_clock.t <= pe->g2c)) {
             float t;
             func_001E6F60(oid, func_001A62E8(D_002DFB80), 0, 0, &v, 0, &pe->g28);

@@ -2,7 +2,7 @@ typedef struct MARK { int a[4]; } MARK;
 typedef struct MSG { int cb; int nKind; int k; int **pp; } MSG;
 struct O { char pad[0x28]; long bits; };
 struct S { char pad[0xE4]; char aE4[0x18]; char aFC[0x10]; struct O *p10C; int c; void *a; void *cur; int x11C; char pad2[0x164 - 0x120]; int flags; };
-void func_00231768(struct S *p, void *pbis);
+void LoadLoxBaseFromBrx(struct S *p, void *pbis);
 void func_00117FD0(void *pbis, void *pv);
 void func_00118220(void *pbis, void *pv, void *pv2);
 MARK *__10STACKSCOPE(MARK *pm);
@@ -13,13 +13,14 @@ void func_00221818(struct S *p, int id);
 void LoadOptionsFromBrx__FPvP18CBinaryInputStream(struct S *p, void *pbis);
 void func_00221940(struct S *p);
 void func_0013F888(MSG *pmsg);
-void func_002317E0(struct S *p, void *pbis, MSG *pmsg);
-void func_00220FD0(struct S *p, void *pbis)
+void LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(struct S *p, void *pbis, MSG *pmsg);
+// name: SafeHouse port (LoadZoneFromBrx)
+void LoadZoneFromBrx__FP2LOP18CBinaryInputStream(struct S *p, void *pbis)
 {
     MARK mark;
     MSG msg;
     void *pv;
-    func_00231768(p, pbis);
+    LoadLoxBaseFromBrx(p, pbis);
     func_00117FD0(pbis, p->aE4);
     func_00118220(pbis, p->aE4, p->aFC);
     __10STACKSCOPE(&mark);
@@ -42,7 +43,7 @@ void func_00220FD0(struct S *p, void *pbis)
     p->a = pv;
     p->cur = pv;
     func_0013F888(&msg);
-    func_002317E0(p, pbis, &msg);
+    LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(p, pbis, &msg);
     switch (msg.k) {
     case 0:
         break;

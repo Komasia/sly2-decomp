@@ -11,7 +11,7 @@ typedef struct {
     float x24;
     LO *x28;
 } OBJ;
-void func_00213830(LO *, int);
+void StartPart__FP8SCREENRTi(LO *, int);
 void func_00212880(LO *, int, int *);
 void func_001DA5C8(OBJ *p, int n)
 {
@@ -35,10 +35,10 @@ void func_001DA5C8(OBJ *p, int n)
     plo = p->x28;
     if (plo) {
         if (p->state == 4 && n == 2)
-            func_00213830(plo, 0x310);
+            StartPart__FP8SCREENRTi(plo, 0x310);
         switch (n) {
         case 4:
-            func_00213830(p->x28, 0x312);
+            StartPart__FP8SCREENRTi(p->x28, 0x312);
             break;
         case 3:
             p->x28->vt->a[50].pfn((char *)p->x28 + p->x28->vt->a[50].d);

@@ -1,7 +1,7 @@
 struct X { char pad[0xE8]; int c; float *ag; };
 extern float D_002A813C;
-void func_001E67B8(struct X *p, int a, int b, float g);
-float func_001E63C0(struct X *p, float g);
+void EvalCrv__FP3CRVfP6VECTORT2(struct X *p, int a, int b, float g);
+float SFromCrvG__FP3CRV(struct X *p, float g);
 void func_001E7410(struct X *p, float (*pfn)(float, void *), void *pv, int a, int b, float *pg, float *pgOut)
 {
     int i;
@@ -15,7 +15,7 @@ void func_001E7410(struct X *p, float (*pfn)(float, void *), void *pv, int a, in
             gBest = g;
         }
     }
-    if (a || b) func_001E67B8(p, a, b, gBest);
+    if (a || b) EvalCrv__FP3CRVfP6VECTORT2(p, a, b, gBest);
     if (pg) *pg = gBest;
-    if (pgOut) *pgOut = func_001E63C0(p, gBest);
+    if (pgOut) *pgOut = SFromCrvG__FP3CRV(p, gBest);
 }

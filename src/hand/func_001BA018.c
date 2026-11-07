@@ -5,8 +5,8 @@ struct S { char pad[0x1020]; void *p1020; char pad1[0x1030 - 0x1024]; void *p103
            char pad2[0x1040 - 0x1038]; qword q1040; char pad3[0x1060 - 0x1050]; int n1060; int pad4[2]; int n106C; };
 extern char D_002C0A50[];
 void PostStepguardLoad__FP9STEPGUARD(struct S *p);
-void func_001A64E8(struct S *p, int n, void *pv);
-float *func_0012F938(void *p, int n);
+void BindLoParts__FP3ALOiPv(struct S *p, int n, void *pv);
+float *PeventLaunch__FP5KINDEi(void *p, int n);
 void CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(void *p, struct S *ps, void *p1, int n, struct L *pl, int m, float a, float b);
 void SetSoMass__FP2SOf(struct S *p, float g);
 void func_001BA018(struct S *p)
@@ -15,8 +15,8 @@ void func_001BA018(struct S *p)
     qword a, b, d;
     float *pg;
     PostStepguardLoad__FP9STEPGUARD(p);
-    func_001A64E8(p, 3, D_002C0A50);
-    pg = func_0012F938(p->p1020, 0x5DB);
+    BindLoParts__FP3ALOiPv(p, 3, D_002C0A50);
+    pg = PeventLaunch__FP5KINDEi(p->p1020, 0x5DB);
     CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(p->p1020, p, p->p1030, p->p1034->nA0, &l, 0, *pg, 1.0f);
     a = l.q30;
     b = p->p1034->q30;

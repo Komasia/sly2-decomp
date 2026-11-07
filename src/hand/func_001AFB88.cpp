@@ -27,8 +27,8 @@ typedef char MessageKind[FIELD_OFFSET(MSG,kind)==0?1:-1];
 typedef char GameFirst[FIELD_OFFSET(GAME,first)==0x3B40?1:-1];
 typedef char GameSecond[FIELD_OFFSET(GAME,second)==0x3B44?1:-1];
 extern "C" CRef func_00258200(OPT*,const CRef&,void*);
-extern "C" void func_001AEAA8(void*,int);
-extern "C" void func_001D8FF8(void*);
+extern "C" void SetMenuState(void*,int) asm("SetMenuState__FP4MENUi");
+extern "C" void ApplyGameSettings(void*) asm("ApplyGameSettings__FP8GAMESAVE");
 static inline void SetPv(OPT*key,CRef r,void*context){func_00258200(key,r,context);}
 static inline void SetInt(OPT*key,int x){CRef r(x);SetPv(key,r,D_003D4A60);}
 static inline void SetBool(OPT*key,bool x){CRef r(x);SetPv(key,r,D_003D4A60);}
@@ -39,21 +39,22 @@ typedef char Final_Size_3[sizeof(int)==4?1:-1];
 typedef char Final_Size_4[sizeof(float)==4?1:-1];
 typedef char Final_Size_5[sizeof(bool)==4?1:-1];
 typedef char Final_Size_6[sizeof(void*)==4?1:-1];
-extern "C" void func_001AFB88(void*owner,MSG*msg){
+// name: SafeHouse port (ApplyOption)
+extern "C" void ApplyOption__FP7MENUENTP3MSG(void*owner,MSG*msg){
  switch(msg->kind){
  case 103:
   SetFloat(D_003E0FC4,1.0f-D_003DD190);
-  func_001AEAA8(owner,9);
+  SetMenuState(owner,9);
   break;
  case 104:
   SetFloat(D_003E0FC8,1.0f-D_003DD18C);
-  func_001AEAA8(owner,9);
+  SetMenuState(owner,9);
   break;
  case 63:{
   GAME*game=&g_sw;
   SetFloat(game->first,D_002F6468-636.0f);
   SetFloat(game->second,D_002F646C-50.0f);
-  func_001AEAA8(owner,9);
+  SetMenuState(owner,9);
   break;
  }
  case 78:SetInt(D_003E0FC0,0);break;
@@ -70,5 +71,5 @@ extern "C" void func_001AFB88(void*owner,MSG*msg){
  case 83:case 84:SetBool(D_003E0FE0,msg->kind==84);break;
  default:break;
  }
- func_001D8FF8(D_003D4A60);
+ ApplyGameSettings(D_003D4A60);
 }

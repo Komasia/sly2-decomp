@@ -13,7 +13,8 @@ static inline qword Normal(qword a,qword fallback){register qword d __asm__("vf1
 static inline qword NativePoint(qword point,qword direction,qword along,qword up,qword height,unsigned int*high){register unsigned int h __asm__("$2");__asm__("vadda.xyzw ACC,%0,$vf0\n\tvmaddax.xyzw ACC,%2,%3x\n\tvmaddx.xyzw %0,%4,%5x\n\tlui %1,%%hi(%6)":"+j"(point),"=r"(h):"j"(direction),"j"(along),"j"(up),"j"(height),"i"(&D_002BE6C4));*high=h;return point;}
 static inline qword NativeHeading(qword point,qword up,qword height){__asm__("vadda.xyzw ACC,%0,$vf0\n\tvmaddx.xyzw %0,%1,%2x":"+j"(point):"j"(up),"j"(height));return point;}
 static inline void PublishPoint(U*home,qword scalar,qword*out,qword point){__asm__ volatile("sqc2 %2,%0\n\tsqc2 %3,%1":"=m"(home->q),"=m"(*out):"j"(scalar),"j"(point));}
-void func_0017AA78(struct P*p,struct REQUEST*request,qword*outPoint,qword*outDirection){
+// name: SafeHouse port (JOBB1::GetTarget)
+void GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2(struct P*p,struct REQUEST*request,qword*outPoint,qword*outDirection){
 
  qword first=ToVU(func_001A62E8(p->actor));
  qword direction=Normal(Reject(Sub(first,func_001A62E8(p->target)),g_normalZ),D_002A2DA0);

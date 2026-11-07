@@ -3,7 +3,8 @@
 typedef struct { char pad[0x188]; short d; short p; int (*f)(void *, int); } VT;
 typedef struct { char pad[0xC]; VT *vt; char pad2[0x40]; int x50; char pad3[0xC]; char x60[1]; } S;
 int func_00117D50(void *); void ReadMatrix4__18CBinaryInputStreamP7MATRIX4(void *, void *); void func_002313F0(S *); int func_00117C80(void *); void func_001A6D28(S *, int);
-void func_00231768(S *p, void *q)
+// name: SafeHouse port (LoadLoxBaseFromBrx)
+void LoadLoxBaseFromBrx(S *p, void *q)
 {
     int v = func_00117D50(q);
     p->x50 = p->vt->f((char *)p + p->vt->d, v);

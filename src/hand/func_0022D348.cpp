@@ -9,7 +9,7 @@ extern "C" {
 M4 func_0011C318(const M4 *);
 M4 DmatXf(O *) asm("DmatXf__FP2XFPv");
 void RefreshXf(void *,O *) asm("RefreshXf__FP3ALOP2XF");
-void func_00117120(float,float,float,qword,qword,qword,qword,qword *,qword *,qword *);
+void Hermite(float,float,float,qword,qword,qword,qword,qword *,qword *,qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 }
 static inline qword Zero() {qword r;__asm__("vsub.xyzw %0,$vf0,$vf0":"=j"(r));return r;}
 static inline qword Add(qword a,qword b) {qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -29,7 +29,7 @@ static inline qword ParentRotate(const M4 &m,qword v) {register qword row0 __asm
     __asm__("vmulax.xyz ACC,%1,%0x\n\tvmadday.xyz ACC,%2,%0y\n\tvmaddz.xyz %0,%3,%0z":"+j"(v):"j"(row0),"j"(m.r[1]),"j"(m.r[2]));return v;}
 static inline qword RotateRow(const M4 &m,qword v) {qword r=m.r[0];
     __asm__("vmulax.xyz ACC,%0,%3x\n\tvmadday.xyz ACC,%1,%3y\n\tvmaddz.xyz %0,%2,%3z":"+j"(r):"j"(m.r[1]),"j"(m.r[2]),"j"(v));return r;}
-static inline void Eval(O *p,qword *v) {func_00117120(p->t1-p->t0,*p->time-p->t0,*p->dt,p->v0,p->v1,p->v2,p->v3,0,v,0);}
+static inline void Eval(O *p,qword *v) {Hermite(p->t1-p->t0,*p->time-p->t0,*p->dt,p->v0,p->v1,p->v2,p->v3,0,v,0);}
 extern "C" qword func_0022D348(O *p,O *stop,qword in) {
     qword sum;
     qword delta;

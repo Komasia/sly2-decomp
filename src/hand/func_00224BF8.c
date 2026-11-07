@@ -20,7 +20,8 @@ void PaloAcceptContact__FP5CTMSG(struct X *px);
 struct R *func_00156698(void *pv, qword pos, struct S *p);
 static __inline__ qword VAdd(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
-void func_00224BF8(struct S *p, int a, int b, qword pos, float r)
+// name: SafeHouse port (BlastCarry)
+void BlastCarry__FP2LOiiG9VU_VECTORf(struct S *p, int a, int b, qword pos, float r)
 {
     MARK mark;
     struct X ax[0x20];

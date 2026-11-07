@@ -1,9 +1,9 @@
 // func_00224820: trace a probe segment, record the contact in the caller's HIT list, and push the touched body.
-// - Segment start..end goes through func_0014CC58; the hit object's eligible actor comes from func_001F7530.
+// - Segment start..end goes through func_0014CC58; the hit object's eligible actor comes from PaloXpFilter.
 // - A new HIT record (deduplicated by object, up to capacity) gets owner/object/filter/channel/point and
 //   impulse = normal * D_002C4334 (the target speed).
 // - If the body has physics: project its point velocity (func_0022D348) on the normal, evaluate the quadratic
-//   D_002C4320 at along / D_002C4334 clamped to g_lmZeroOne, scale by D_002C4330, get the linear (func_001FAA00)
+//   D_002C4320 at along / D_002C4334 clamped to g_lmZeroOne, scale by D_002C4330, get the linear (DvAloImpulse)
 //   and angular (func_001FAA48) responses and, when they speed the point up along the normal, add the fraction
 //   (target - along) / change (clamped to 0..1) of them to the body's velocity (virtuals 33/34 -> 35/36).
 // Matching notes (T1586 lilly28 -> T1591 MATCH):
@@ -32,10 +32,10 @@ extern POLY D_002C4320;
 extern RANGE g_lmZeroOne;
 extern "C" {
 COLL *func_0014CC58(int,qword,qword,int,COLL **,LSG *);
-O *func_001F7530(O *,int);
+O *PaloXpFilter(O *,int) asm("PaloXpFilter__FP3ALOUi");
 void *func_002333B4(void *,int,unsigned int);
 qword func_0022D348(NODE *,NODE *,qword);
-qword func_001FAA00(O *,qword);
+qword DvAloImpulse(O *,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
 qword func_001FAA48(O *,qword,qword);
 }
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -65,7 +65,7 @@ extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qwor
  O *chain=collider->object;
  {qword len,one;qword d=Sub(end,start);
  __asm__("vmul.xyz %2,%3,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%2,%2y\n\tvmaddz.x %2,%1,%2z\n\tvsqrt Q,%2x\n\tvwaitq\n\tvaddq.x %2,$vf0,Q\n\tvdiv Q,$vf0w,%2x\n\tvwaitq\n\tvmulq.xyzw %0,%3,Q":"=&j"(normal),"=&j"(one),"=&j"(len):"j"(d));}
- O *object=func_001F7530(chain,filter);
+ O *object=PaloXpFilter(chain,filter);
  if(!object)return;
  O *body=object->state->owner;
  int i;
@@ -89,7 +89,7 @@ extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qwor
  if(fz<response){
  bits=BitsOfFloat(response*D_002C4330);
  qword impulse=ScaleK(normal,MkVukBits(bits));
- qword linear=func_001FAA00(body,impulse);
+ qword linear=DvAloImpulse(body,impulse);
  qword angular=func_001FAA48(body,hit.point,impulse);
  qword delta=Sub(hit.point,body->rotation->position.q);
  float change=Dot(Add(linear,CrossXYZ(angular,delta)),normal);

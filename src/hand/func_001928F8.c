@@ -6,14 +6,15 @@ struct P {
 };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void func_00192BD8(struct P *p, int n);
+void SetInteractState__FP5ACTORi(struct P *p, int n);
 void SetSlyMode__FP3SLYi(struct O *o, int n);
-void func_0018ED70(struct O *o);
+void UpdateSlyReach__FP3SLY(struct O *o);
 void func_001CCAC0(void *p, int n);
 void func_00192A28(struct P *p);
-void func_001928F8(struct P *p, int n, int a, int b)
+// name: SafeHouse port (StartInteract)
+void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
 {
-    func_00192BD8(p, -1);
+    SetInteractState__FP5ACTORi(p, -1);
     p->x8 = n;
     p->x4 = g_clock.t;
     p->x18 = b;
@@ -29,7 +30,7 @@ void func_001928F8(struct P *p, int n, int a, int b)
         n = 0;
         o->x1854 = a;
         SetSlyMode__FP3SLYi(o, 0);
-        func_0018ED70(o);
+        UpdateSlyReach__FP3SLY(o);
         break;
     }
     case 5: case 9:
@@ -53,5 +54,5 @@ void func_001928F8(struct P *p, int n, int a, int b)
         n = 0;
         break;
     }
-    func_00192BD8(p, n);
+    SetInteractState__FP5ACTORi(p, n);
 }

@@ -4,7 +4,8 @@ extern int D_003E12C8;
 void func_0011DCD8(struct RGBA *prgba, struct VECTOR *pv);
 void func_001ED2D8(struct VECTOR *pv);
 void func_0011DD30(struct VECTOR *pv, int a, struct RGBA *prgba);
-void func_001ED278(struct RGBA *prgba)
+// name: SafeHouse port (AdjustRgba)
+void AdjustRgba__FPUi(struct RGBA *prgba)
 {
     struct VECTOR v;
     struct RGBA rgba;

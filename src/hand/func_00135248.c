@@ -23,7 +23,7 @@ void SetXfMode__FP3ALOP2XFi(struct P *, void *, int);
 void func_00142880(struct P *);
 void ExplodeExpl__FP4EXPL(struct VO *);
 void func_00195FB8(void *, int, int);
-void func_00192BD8(void *, int);
+void SetInteractState__FP5ACTORi(void *, int);
 void SetDamageState__FP5ACTORi(void *, int);
 void func_0019EAB0(void *, int);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *);
@@ -36,9 +36,9 @@ void ActorSetLookFlag__FP5ACTORi(struct P *, int);
 void func_0020BD68(struct ASEGP *);
 void func_0019CD38(void *, int);
 void RetractAsegaPp__FPP5ASEGA(void *);
-void func_001F15B8(void *);
+void ClearSmaHandle__FPP3SMA(void *);
 void func_001305B8(struct ASEG *, struct P *, int, void *, float, float);
-void func_001F14F8(void *, struct P *, int, int, int, void *);
+void ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA(void *, struct P *, int, int, int, void *);
 
 #define VCALL0(p, n) ((void (*)(void *))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d)
 #define VCALL1(p, n, a) ((void (*)(void *, int))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d, a)
@@ -99,7 +99,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
         func_00195FB8(p->a2C0, -1, 0);
         break;
     case 3:
-        func_00192BD8(p->a4C0, -1);
+        SetInteractState__FP5ACTORi(p->a4C0, -1);
         break;
     case 4:
         SetDamageState__FP5ACTORi(p->aDF0, -1);
@@ -204,8 +204,8 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
         return;
     }
     RetractAsegaPp__FPP5ASEGA(&p->p1030);
-    func_001F15B8(&p->x1034);
+    ClearSmaHandle__FPP3SMA(&p->x1034);
     func_001305B8(pasega, p, n, &p->p1030, g, rate);
-    func_001F14F8(pjt, p, anim, n, c, &p->x1034);
+    ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA(pjt, p, anim, n, c, &p->x1034);
     VCALL0(p, 90);
 }

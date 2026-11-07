@@ -25,7 +25,8 @@ static __inline__ void MulStore(struct P *p, M3 *pm)
     t.r[2] = u.r[2] = MulV(pm, pb->r[2]);
     p->mat = t;
 }
-void func_0013B428(struct P *p, qword pos, qword q)
+// name: SafeHouse port (RecordHit)
+void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword q)
 {
     M3 m;
     if (p->x174)

@@ -7,9 +7,9 @@ struct NODE { int pad; int n; E *entries; NODE *next; };
 struct S { char pad[0xDC]; NODE *head; char padE0[0x150-0xE0]; void *path; };
 extern "C" {
 void RenderSoSelf(S*) asm("RenderSoSelf__FP2SOP2CMP2RO");
-float func_001E6630(void*);
+float GMaxCrv(void*) asm("GMaxCrv__FP3CRV");
 M3 *func_001A6318(S*);
-void func_001E67B8(void*,float,qword*,qword*);
+void EvalCrv(void*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_001E9AC0(S*);
 }
@@ -23,7 +23,7 @@ static inline float Min(float a,float b) {return b<a?b:a;}
 void func_001E9AC0(S *p)
 {
  RenderSoSelf(p);
- float end=func_001E6630(p->path);
+ float end=GMaxCrv(p->path);
  qword axis=func_001A6318(p)->c;
  NODE *node;
  for(node=p->head;node;node=node->next) {
@@ -34,7 +34,7 @@ void func_001E9AC0(S *p)
    int k;
    for(k=0;k<e->n;k++) {
     U pos,dir;
-    func_001E67B8(p->path,Min(end,src->f[3]),&pos.q,&dir.q);
+    EvalCrv(p->path,Min(end,src->f[3]),&pos.q,&dir.q);
     M3 m;
     M3 tmp=BuildLookAtMatrix(dir.q,axis);
     m=tmp;

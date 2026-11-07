@@ -2731,9 +2731,9 @@ void PopJsgCamBlend(JSG *pjsg, int n);
 float DtJsgCommand(JSG *pjsg, RELAYCMD *prelaycmd);
 extern "C" void func_0020FFF0(SW *psw, OID *aoid, LO *ploContext, int grf, JSG *pjsg, SMA **ppsma);
 extern "C" int func_00210B68();
-extern "C" void func_001DD820(void *pv);
-extern "C" void func_001531A8(LO *plo, int n, int cent, void *aent);
-extern "C" void func_001532D8(LO *plo, LO *ploActor, int n5, int n6, float g);
+extern "C" void ShowTitle(void *pv) asm("ShowTitle__FPv");
+extern "C" void SetDancePrompts(LO *plo, int n, int cent, void *aent) asm("SetDancePrompts__FPvT0iT0");
+extern "C" void AddDanceBeat(LO *plo, LO *ploActor, int n5, int n6, float g) asm("AddDanceBeat__FP2LOiiif");
 extern "C" void StartMurrayHold(MURRAY *pmurray, SMA *psma, int n7, int n6, int n8) asm("StartMurrayHold__FP6MURRAYP3SMAiii");
 extern "C" void func_001B9880(MURRAY *pmurray);
 void ReleaseJsgSma(JSG *pjsg);
@@ -3642,7 +3642,7 @@ void NextJsgCommand(JSG *pjsg)
         D_004435F0.grfbtnPrompt = prelaycmd->buttonPrompt.grfbtn & 0xF0;
         break;
     case RELAYCK_StopLine:
-        func_001DD820(D_003DA530);
+        ShowTitle(D_003DA530);
         break;
     case RELAYCK_Line:
         StartDialogueLine(&D_003DD040, prelaycmd->line.idLine, prelaycmd->line.fWait);
@@ -3695,7 +3695,7 @@ void NextJsgCommand(JSG *pjsg)
                     break;
                 }
             }
-            func_001531A8(D_002DE570, prelaycmd->unk49.nUnk4, cent, aent);
+            SetDancePrompts(D_002DE570, prelaycmd->unk49.nUnk4, cent, aent);
         }
         break;
     case RELAYCK_Unk4A:
@@ -3707,7 +3707,7 @@ void NextJsgCommand(JSG *pjsg)
         {
             if (D_002DE570)
             {
-                func_001532D8(D_002DE570, pjsg->ploActor, prelaycmd->unk4A.nUnk5, prelaycmd->unk4A.nUnk6, prelaycmd->unk4A.gUnk4);
+                AddDanceBeat(D_002DE570, pjsg->ploActor, prelaycmd->unk4A.nUnk5, prelaycmd->unk4A.nUnk6, prelaycmd->unk4A.gUnk4);
             }
         }
         break;

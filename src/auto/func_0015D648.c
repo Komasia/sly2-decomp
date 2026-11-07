@@ -51,7 +51,8 @@ extern M2C_UNK D_00452120;
 extern M2C_UNK D_00452148;
 extern M2C_UNK D_00452170;
 
-void func_0015D648(s32 arg0, s32 arg1, s32 arg2) {
+// name: SafeHouse port (SetEpMode)
+void SetEpMode__FP6EPMENUii(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_v0;
     s32 temp_v1;
     s32 temp_v1_2;
@@ -70,22 +71,22 @@ void func_0015D648(s32 arg0, s32 arg1, s32 arg2) {
             M2C_FIELD(arg0, s32 *, 0x110) = temp_v1_2;
             break;
         case 2:
-            func_0015D880(arg0, 0);
+            SetHint__FP6EPMENUi(arg0, 0);
             break;
         }
         if (arg1 == 2) {
-            func_0015D880(arg0, -1);
-            func_0015D880(arg0, 0);
+            SetHint__FP6EPMENUi(arg0, -1);
+            SetHint__FP6EPMENUi(arg0, 0);
         }
         M2C_FIELD(arg0, s32 *, 0x74) = -1;
         M2C_FIELD(arg0, s32 *, 0x70) = -1;
         M2C_FIELD(arg0, s32 *, 0x78) = -1;
         SetTimerTimers__FP5TIMER6TIMERS(arg0, 1);
-        func_00212A70(arg0, 1);
+        SetState__FP8SCREENRTi(arg0, 1);
         M2C_FIELD(arg0, s32 *, 0x11C) = arg1;
         M2C_FIELD(arg0, s32 *, 0x120) = arg2;
         M2C_FIELD(arg0, f32 *, 0x124) = (f32) D_002DDF0C;
-        temp_v0 = func_0015D5C8(arg0);
+        temp_v0 = IdPartCur__FP6EPMENU(arg0);
         if (temp_v0 != -1) {
             temp_v0_2 = M2C_FIELD(arg0, void **, 0xC);
             M2C_FIELD(temp_v0_2, void (**)(s32, s32), 0x18C)(arg0 + M2C_FIELD(temp_v0_2, s16 *, 0x188), temp_v0);

@@ -9,7 +9,8 @@ void Update__7JOBMOVE(struct S *p);
 qword func_001A62E8(void *p);
 void JoltCm__FP2CMi(void *p, int n);
 void SetAloEntryMode__FP3ALOi(struct T *t, int n);
-void func_001795E8(struct S *p) {
+// name: SafeHouse port (JOBHIT::Update)
+void Update__6JOBHIT(struct S *p) {
     float t;
     Update__7JOBMOVE(p);
     { struct T *pt = p->pt; struct V *v = pt->p35C; v->q20 = func_001A62E8(pt); }

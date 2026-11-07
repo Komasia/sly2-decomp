@@ -25,13 +25,13 @@ void func_001C4738(PL*,int);
 void func_00195A00(void*,int,int,void*);
 void func_0019CC50(void*,int,P*,void*);
 int FMurrayGrab(P*) asm("FMurrayGrab__FP6MURRAY");
-int func_001938C0(void*,int,int);
+int FInteractCircle(void*,int,int) asm("FInteractCircle__FP5ACTOR");
 int func_001B84E0(P*);
 void StartMurrayPunch(P*) asm("StartMurrayPunch__FP6MURRAY");
 void func_001B85D0(P*);
 void SetMurrayBehaviorAnim(P*,int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
-void func_002046F0(P*,void*);
-void func_00204660(P*,float);
+void FaceObject(P*,void*) asm("FaceObject__FP5ACTORP2LO");
+void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");
 void func_0020BB58(void*,float);
 void func_0020BC08(void*);
 qword func_0011E1A0(float,float,float);
@@ -86,7 +86,7 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
    else if(func_001C46C0(p->input,0x40,0.1f))func_00195A00(p->controller,1,0,0);
    else if(FMurrayGrab(p)){}
    else if(func_001C46C0(p->input,0x20,0.2f)){
-    if(!func_001938C0(p->context,0x80,0)&&p->root){p->reset=0;func_001B6078(p,4);}
+    if(!FInteractCircle(p->context,0x80,0)&&p->root){p->reset=0;func_001B6078(p,4);}
    }
    else if(func_001B84E0(p)&&func_001C46C0(p->input,0x80,D_002C08DC))StartMurrayPunch(p);
    else if(func_001C4660(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].fn)((P*)((char*)p+p->vt[99].delta),3)){
@@ -99,9 +99,9 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
   if(p->state==before||p->mainState!=9)break;
  }
  switch(p->state){
- case 0:func_002046F0(p,p->target);break;
+ case 0:FaceObject(p,p->target);break;
  case 2:{
-  func_002046F0(p,p->target);
+  FaceObject(p,p->target);
   float length=LengthXY(p->axes[1].direction.q);
   PL*input=p->input;
   qword direction=Vector(func_0011E1A0(input->angle+3.1415927f,(input->strength*length)*p->animation->rate,0.0f));
@@ -111,6 +111,6 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
   SteerRootBlend(p,p->axes,p->request);
   break;
  }
- case 1:func_00204660(p,p->input->angle);func_0020BB58(p->motion,p->input->strength);func_0020BC08(p->motion);break;
+ case 1:SetStepPhysHeading(p,p->input->angle);func_0020BB58(p->motion,p->input->strength);func_0020BC08(p->motion);break;
  }
 }

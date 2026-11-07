@@ -1,4 +1,4 @@
-// func_001B20B8: ported from Lilly's personal Sly 2 decomp (src/P2/accmiss.c), reduced to the declarations it needs.
+// UpdateAccmissAccel__Fv: ported from Lilly's personal Sly 2 decomp (src/P2/accmiss.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: g_clock
 // 0x001B20B8 VUnk69__6ACCMISS  vtable slot 69
@@ -366,7 +366,7 @@ struct ACCMISS : public MISSILE
       float svTarget;
       float svFast;
       undefined4 unk_0x278[2];
-    virtual void VUnk69() __asm__("func_001B20B8");
+    virtual void VUnk69() __asm__("UpdateAccmissAccel__Fv");
 };
 struct VU_FLOAT
 {
@@ -430,6 +430,7 @@ static inline qword QwMulX(qword qwRow, VU_FLOAT gScale)
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(qw) : "j"(qwRow), "j"(gScale.qw));
     return qw;
 }
+// name: SafeHouse port (UpdateAccmissAccel)
 void ACCMISS::VUnk69()
 {
     if (nUnk1e8 == 0)

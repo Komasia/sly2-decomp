@@ -5,9 +5,10 @@ struct Q2 { qword pad; qword v; char pad2[0x20]; };
 struct S2 { struct Pr ap[2]; qword v40; struct Q2 *aq; };
 struct E { char pad[0xA0]; int nA0; char pad2[0x1C]; int nC0; };
 struct P { char pad[0xE8]; struct E *pe; };
-qword func_001FAA00(struct P *p, qword v);
+qword DvAloImpulse__FP3ALOG9VU_VECTOR(struct P *p, qword v);
 qword func_001FAA48(struct P *p, qword a, qword v);
-void func_001FAD00(struct P *p, int a1, struct S2 *ps, int a3, int k)
+// name: SafeHouse port (FillAloDzResponse)
+void FillAloDzResponse__FP3ALOiP5DZENTii(struct P *p, int a1, struct S2 *ps, int a3, int k)
 {
     struct E *pe = p->pe;
     qword v;
@@ -20,6 +21,6 @@ void func_001FAD00(struct P *p, int a1, struct S2 *ps, int a3, int k)
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v) : "j"(v), "j"(u.q));
     }
     pr = &ps->ap[k];
-    if (pe->nC0 != 3) pr->a = func_001FAA00(p, v);
+    if (pe->nC0 != 3) pr->a = DvAloImpulse__FP3ALOG9VU_VECTOR(p, v);
     if (pe->nA0 != 3) pr->b = func_001FAA48(p, ps->aq[k].v, v);
 }

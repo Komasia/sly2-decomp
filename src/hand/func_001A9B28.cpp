@@ -5,9 +5,9 @@ struct LO;struct CONTACT;struct NODE;
 struct S { struct S0 *x0; struct LO *x4; float x8; };
 union DETAIL {void*pointer;int word;};
 struct E {qword x0,x10;int x20;DETAIL detail;};
-extern "C" int func_001A93C8(qword pos, struct S*b,int c,int d,struct NODE*e,int n, struct E *buf, float f);
+extern "C" int SphereBspContacts(qword pos, struct S*b,int c,int d,struct NODE*e,int n, struct E *buf, float f) asm("SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT");
 extern "C" U*func_002564B8(U*p);
-extern "C" void func_001A7C18(void *a, struct S*s,struct S*b,qword p, qword q, int x20, void*z, void*x24,struct CONTACT**g,float f);
+extern "C" void PxpAddSw(void *a, struct S*s,struct S*b,qword p, qword q, int x20, void*z, void*x24,struct CONTACT**g,float f) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 inline U::U() { (void)func_002564B8(this); }
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)
 typedef char Offset_0[FIELD_OFFSET(U,q)==0?1:-1];
@@ -31,7 +31,8 @@ typedef char Size_5[sizeof(qword)==16?1:-1];
 typedef char Size_6[sizeof(void*)==4?1:-1];
 typedef char Size_7[sizeof(int)==4?1:-1];
 typedef char Size_8[sizeof(float)==4?1:-1];
-extern "C" void func_001A9B28(void *a, struct S*s,struct S*b,int d,struct NODE*e,struct CONTACT**g)
+// name: SafeHouse port (MarkSphereBsp)
+extern "C" void MarkSphereBsp__FP3SOET0PviPP2XPPP7CONTACT(void *a, struct S*s,struct S*b,int d,struct NODE*e,struct CONTACT**g)
 {
     register S*bodyOwner __asm__("$19")=b;
     register void*worldOwner __asm__("$21")=a;
@@ -39,7 +40,7 @@ extern "C" void func_001A9B28(void *a, struct S*s,struct S*b,int d,struct NODE*e
 
     int i;
     struct E *pe;
-    i = func_001A93C8(s->x0->x70, bodyOwner, 0x7FFFFFFF, d, e, 0x40, buf, s->x8) - 1;
+    i = SphereBspContacts(s->x0->x70, bodyOwner, 0x7FFFFFFF, d, e, 0x40, buf, s->x8) - 1;
     if (i >= 0) {
         pe = &buf[i];
         do {
@@ -73,7 +74,7 @@ extern "C" void func_001A9B28(void *a, struct S*s,struct S*b,int d,struct NODE*e
                     "mtc1 $2,%4"
                     : "=&r"(bodyArgument),"=&r"(emptyFeature),"=&r"(pointArgument),"=r"(planeArgument),"=f"(separation),"=m"(r.q)
                     : "r"(bodyOwner),"j"(product),"m"(A),"m"(B) : "$2");
-            func_001A7C18(worldArgument, shapeArgument, bodyArgument, pointArgument, planeArgument, pe->x20, emptyFeature, pe->detail.pointer, g, separation);
+            PxpAddSw(worldArgument, shapeArgument, bodyArgument, pointArgument, planeArgument, pe->x20, emptyFeature, pe->detail.pointer, g, separation);
             pe=(E*)((unsigned)pe-sizeof(E));
         } while (i >= 0);
     }

@@ -4,7 +4,7 @@ struct S { char pad[0x2A0]; int a[6]; };
 int func_001FD0C0(void *p, int i);
 void *func_0015E938(void *p, int a, int b, struct S *ps);
 void *func_001F03C8(void *x, struct S *ps);
-void func_001F0598(void *y);
+void RetractSma__FP3SMA(void *y);
 void func_00205588(struct S *p, int mask)
 {
     int i;
@@ -20,7 +20,7 @@ void func_00205588(struct S *p, int mask)
                     if (x) {
                         void *y = func_001F03C8(x, p);
                         if (y)
-                            func_001F0598(y);
+                            RetractSma__FP3SMA(y);
                     }
                 }
             }

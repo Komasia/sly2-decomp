@@ -8,7 +8,8 @@ struct Lock {
     Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
     ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
 };
-extern "C" void func_001F0850(P *p, float g)
+// name: SafeHouse port (SetSmaSpeed)
+extern "C" void SetSmaSpeed__FP3SMAf(P *p, float g)
 {
     if (!func_001F0638(p)) {
         Lock l(p);

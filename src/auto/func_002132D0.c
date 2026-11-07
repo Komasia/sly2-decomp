@@ -75,7 +75,8 @@ extern M2C_UNK D_00452170;
 extern M2C_UNK D_100;
 extern M2C_UNK D_C0;
 
-s32 func_002132D0(s32 arg0) {
+// name: SafeHouse port (FVisible)
+s32 FVisible__FP8SCREENRT(s32 arg0) {
     if (M2C_FIELD(arg0, s32 *, 0x7C) == -1) {
         return 0;
     }

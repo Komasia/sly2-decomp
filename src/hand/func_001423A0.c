@@ -34,7 +34,8 @@ static __inline__ float GDist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-int func_001423A0(struct P *p)
+// name: SafeHouse port (FActorPoseDone)
+int FActorPoseDone__FP5ACTOR(struct P *p)
 {
     struct BUF buf;
     M4 m;

@@ -1,6 +1,7 @@
 struct L { int x; int c; void *a[1]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, void *key);
-void *func_001EEEE0(struct L *pl, void *key)
+// name: SafeHouse port (PjobFind)
+void *PjobFind__FP5GUARDPv(struct L *pl, void *key)
 {
     int i;
     for (i = 0; i < pl->c; i++) {

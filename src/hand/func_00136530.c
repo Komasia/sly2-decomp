@@ -14,17 +14,17 @@ extern struct G *D_002F7900;
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
-void func_001A58D0(struct P *, int, int);
+void ReparentBooty__FP3ALOii(struct P *, int, int);
 void DeleteCtrl__FPP4CTRL(void *);
 void SetXfMode__FP3ALOP2XFi(struct P *, struct O *, int);
 float RadStepHeading__FP4STEP(struct P *);
-void func_00204660(struct P *, float);
-void func_00204CA8(struct P *);
+void SetStepPhysHeading__FP3ALOf(struct P *, float);
+void TurnActorNow__FP5ACTOR(struct P *);
 void func_002206C8(void *, int);
 M4 func_0022FF40(void *, void *, M4 *);
 void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct P *p, struct O *pso, int a, int b, int c, qword q);
 qword func_0011BFF0(M4 *pm);
-void func_001F15B8(void *);
+void ClearSmaHandle__FPP3SMA(void *);
 void func_001305B8(void *, struct P *, int, void *, float, float);
 
 // name: SafeHouse port (SetBentleyCarried)
@@ -36,7 +36,7 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
     switch (p->k1800) {
     case 0: {
         int save = p->x9E4;
-        func_001A58D0(p, 0, 0xF);
+        ReparentBooty__FP3ALOii(p, 0, 0xF);
         p->x9E4 = save;
         DeleteCtrl__FPP4CTRL(&p->pv1810);
         DeleteCtrl__FPP4CTRL(&p->pv1814);
@@ -45,9 +45,9 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         break;
     }
     case 1:
-        func_00204660(p, RadStepHeading__FP4STEP(p));
+        SetStepPhysHeading__FP3ALOf(p, RadStepHeading__FP4STEP(p));
         p->x1A4 = 0;
-        func_00204CA8(p);
+        TurnActorNow__FP5ACTOR(p);
         break;
     }
     p->k1800 = k;
@@ -84,7 +84,7 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         p->x1A4 = -1;
         break;
     }
-    func_001F15B8(&p->x1034);
+    ClearSmaHandle__FPP3SMA(&p->x1034);
     func_001305B8(pv, p, 9, &p->x1030, 0.0f, 1.0f);
     ((void (*)(void *))p->vt[90].f)((char *)p + p->vt[90].d);
 }

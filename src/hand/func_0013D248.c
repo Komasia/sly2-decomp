@@ -16,7 +16,8 @@ static inline int NFromRef(void *pv)
     func_00129EC8(&ref);
     return n;
 }
-int func_0013D248(struct S *p) {
+// name: SafeHouse port (IdStandSaved)
+int IdStandSaved__FP2LO(struct S *p) {
     struct C ctx;
     int n;
     __10STACKSCOPE(&ctx);

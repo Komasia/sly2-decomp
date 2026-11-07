@@ -7,7 +7,8 @@ struct S { char pad[0x40]; unsigned int fl; char pad2[0x14]; float g58; float g5
 extern struct S *D_002DE570;
 void InitLo__FP2LO(struct S *p);
 void func_001A6CA8(struct S *p, int n);
-void func_001526D8(struct S *p)
+// name: SafeHouse port (InitDance)
+void InitDance__FP2LO(struct S *p)
 {
     unsigned int v;
     struct R *pr;

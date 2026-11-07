@@ -24,17 +24,17 @@ void func_001CD2C0(CONTROL *);
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00134320(WORLD *,O *);
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
-void func_00204660(O *,float);
+void SetStepPhysHeading(O *,float) asm("SetStepPhysHeading__FP3ALOf");
 qword func_001A62E8(O *);
 void func_002046B0(O *,qword);
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
-void func_001A58D0(O *,int,int);
+void ReparentBooty(O *,int,int) asm("ReparentBooty__FP3ALOii");
 void func_001F7BF8(O *,float);
 void func_001384C0(ASEG *);
 qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0021FB70(S *,int);
 void func_00141CD0(O *,int);
-void func_001F15B8(HANDLE *);
+void ClearSmaHandle(HANDLE *) asm("ClearSmaHandle__FPP3SMA");
 void func_001305B8(ASEG *,O *,float,float,int,ASEGA **);
 }
 static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
@@ -125,7 +125,7 @@ extern "C" void func_002206C8(S *s,int state){
  s->state=state;s->time=g_clock.t;
  func_00134320(&g_sw,s->owner);
  switch(s->state){
- case -1:func_00204660(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
+ case -1:SetStepPhysHeading(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
  case 7:
   {O*getterOwner;w.saved.q=SavedTargetAndOwner(s,getterOwner);
    qword position=func_001A62E8(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);func_002046B0(receiver,Sub(target,current));}
@@ -150,7 +150,7 @@ extern "C" void func_002206C8(S *s,int state){
   }
   else if(s->selected->id==s->peer->id){
    if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,4);
-   else{func_001A58D0(s->selected,0,0xF);func_001F7BF8(s->selected,0.25f);}
+   else{ReparentBooty(s->selected,0,0xF);func_001F7BF8(s->selected,0.25f);}
   }
   func_001CD2C0(&s->owner->controller);
   if(s->effect)EffectCall(s->effect,9);
@@ -173,7 +173,7 @@ extern "C" void func_002206C8(S *s,int state){
   if(FIsBasicDerivedFrom(s->selected,0x64))func_00141CD0(s->owner,s->selected->actorId);
   break;
  }
- func_001F15B8(&s->owner->extra);
+ ClearSmaHandle(&s->owner->extra);
  func_001305B8(animation,s->owner,0.0f,1.0f,flags,&s->owner->animation);
  PlainCall(s->owner,90);
  func_00134320(&g_sw,s->owner);

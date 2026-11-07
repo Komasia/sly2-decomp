@@ -8,7 +8,8 @@ struct SOPHYS { char pad[0x80]; struct VU_VECTOR4 dvGravity; char pad90[0x40]; f
 struct STEP { char pad[0xE8]; struct SOPHYS *psophys; char padEC[0x260 - 0xEC]; float rUnk260; };
 extern "C" void SetSoMass(struct STEP *pso, float m) asm("SetSoMass__FP2SOf");   /* SetSoMass */
 
-extern "C" void func_00204DA8(struct STEP *pstep, float rGravity)
+// name: SafeHouse port (SetStepPhysSize)
+extern "C" void SetStepPhysSize__FP3ALOf(struct STEP *pstep, float rGravity)
 {
     float r = 0.1f;
     qword qwScaled;

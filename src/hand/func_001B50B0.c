@@ -26,13 +26,13 @@ void func_00194A40(struct G *pg, struct P *p, int n);
 void UpdateMurrayBinoc__FP6MURRAY(struct P *p);
 void UpdateMurrayTransitions__FP6MURRAY(struct P *p);
 int GrfActorLookMask__FP5ACTOR(struct P *p);
-void func_001F1350(void *p, int n);
-void func_00204660(struct P *p, float g);
+void SetSmaMask__FP3SMAUi(void *p, int n);
+void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct ASEGA *pl, float g);
 void func_0020BB58(void *p, float g);
 void func_0020BC08(void *p);
 void func_00197F98(void *p);
-void func_00191A10(void *p);
+void UpdateInteract__FP5ACTOR(void *p);
 void UpdateMurrayPunch__FP6MURRAY(struct P *p);
 void UpdateMurrayBerserk__FP6MURRAY(struct P *p);
 void func_00131A00(struct ASEGA *p,float g);
@@ -116,15 +116,15 @@ void UpdateMurray__FP2LO(struct P *p)
     UpdateMurrayTransitions__FP6MURRAY(p);
     switch (p->x13D0) {
     case 0:
-        func_001F1350(p->p1034, GrfActorLookMask__FP5ACTOR(p));
+        SetSmaMask__FP3SMAUi(p->p1034, GrfActorLookMask__FP5ACTOR(p));
         break;
     case 1:
-        func_00204660(p, p->pl->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
         func_0020BB58(p->x1320, 1.0f);
         func_0020BC08(p->x1320);
         break;
     case 10:
-        func_00204660(p, p->pl->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
         func_0020BB58(p->x1540, p->pl->g1C);
         func_0020BC08(p->x1540);
         break;
@@ -132,7 +132,7 @@ void UpdateMurray__FP2LO(struct P *p)
         func_00197F98(p->x2C0);
         break;
     case 13:
-        func_00191A10(p->x4C0);
+        UpdateInteract__FP5ACTOR(p->x4C0);
         break;
     case 11:
         UpdateMurrayPunch__FP6MURRAY(p);
@@ -145,7 +145,7 @@ void UpdateMurray__FP2LO(struct P *p)
         break;
     case 18:
         Neg2(p, VelActorAnimRoot__FP5ACTORPvf(p, p->p1030, p->p1030->time));
-        func_00204660(p, p->pl->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
         break;
     }
     func_001B82A0(p);

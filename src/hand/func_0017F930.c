@@ -19,7 +19,7 @@ int FShipSegmentDone__FP2LO(struct S *p);
 void SetShipState__FP2LOi(struct S *p, int n);
 qword func_0011E1A0(float a, float b, float c);
 void SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(void *p, qword q);
-void func_001F0660(void *p, int n);
+void SetSmaGoal__FP3SMA3OID(void *p, int n);
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 void SetVolume__4CSndf(struct M *p, float g);
 void Resume__4CSnd(struct M *p);
@@ -52,8 +52,8 @@ void UpdateShip__FP2LO(struct S *p) {
             struct E *e = &p->a234[i];
             if (e->pC) SetCtrlPos__FP7CTRLPOSG9VU_VECTOR(e->pC, v);
             if (e->p14) {
-                if (0.0f < p->p150->g2C) func_001F0660(e->p14, 0x68);
-                else func_001F0660(e->p14, 0x66);
+                if (0.0f < p->p150->g2C) SetSmaGoal__FP3SMA3OID(e->p14, 0x68);
+                else SetSmaGoal__FP3SMA3OID(e->p14, 0x66);
             }
         }
         break;

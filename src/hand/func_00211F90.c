@@ -11,10 +11,11 @@ struct S {
 extern char D_002C3EC0[0x90];
 extern char D_002A8AA0[];
 void func_00212C50(struct S *);
-int func_00164030(struct O *);
+int FTaskDone__FP4TASK(struct O *);
 int func_002121E8(struct S *,int);
 int func_0021ECD8(char *,char *,...);
-void func_00211F90(struct S *p)
+// name: SafeHouse port (UpdateTaskCounter)
+void UpdateTaskCounter__FP8SCREENRT(struct S *p)
 {
     int i;
     int ready=0;
@@ -25,7 +26,7 @@ void func_00211F90(struct S *p)
         struct O *o=p->b[i].o;
         if(o) {
             if(o->state==1)loading++;
-            else if(func_00164030(o)) {
+            else if(FTaskDone__FP4TASK(o)) {
                 ready++;
                 readyB++;
             }
@@ -35,7 +36,7 @@ void func_00211F90(struct S *p)
         struct O *o=p->a[i].o;
         if(o) {
             if(o->state==1)loading++;
-            else if(func_00164030(o)) ready++;
+            else if(FTaskDone__FP4TASK(o)) ready++;
         }
     }
     if(func_002121E8(p,0x314)) {

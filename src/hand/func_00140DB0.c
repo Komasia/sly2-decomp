@@ -1,6 +1,6 @@
 /* FillActorDzResponse__FP3ALOP2DZP5DZENTPvi (Claude agent for Lilly, T1644): saves s->v, scales it by 0.01 when the
    other entry's k (s->ae[1 - i].k) is one of three known values and p allows it
-   (p->p150->x80 != 1 or func_00144068(p)), calls func_001FAD00 with the same arguments,
+   (p->p150->x80 != 1 or func_00144068(p)), calls FillAloDzResponse__FP3ALOiP5DZENTii with the same arguments,
    then restores s->v.
    Matching notes: `save` is a plain qword that is only read by "j" asm operands, so it
    becomes a VU-class pseudo that is spilled across the call (the game's lq/sq v1 + lqc2
@@ -16,7 +16,7 @@ extern int D_002E1E40;
 extern int D_002DD5BC;
 extern int D_002F7900;
 int func_00144068(struct P *p);
-void func_001FAD00(struct P *p, void *a, struct S *s, void *b, int i);
+void FillAloDzResponse__FP3ALOiP5DZENTii(struct P *p, void *a, struct S *s, void *b, int i);
 // name: SafeHouse port (FillActorDzResponse)
 void FillActorDzResponse__FP3ALOP2DZP5DZENTPvi(struct P *p, void *a, struct S *s, void *b, int i)
 {
@@ -34,6 +34,6 @@ void FillActorDzResponse__FP3ALOP2DZP5DZENTPvi(struct P *p, void *a, struct S *s
             s->v = vo;
         }
     }
-    func_001FAD00(p, a, s, b, i);
+    FillAloDzResponse__FP3ALOiP5DZENTii(p, a, s, b, i);
     s->v = save;
 }

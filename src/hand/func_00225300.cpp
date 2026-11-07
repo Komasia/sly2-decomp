@@ -27,13 +27,13 @@ extern LM g_lmZeroOne;
 extern char g_sw[];
 struct GAME;
 extern GAME g_game;
-void func_002240B0(struct S *);
+void UpdateCarry(struct S *) asm("UpdateCarry__FP2LO");
 struct R *func_00205458(void *,int);
 int func_0017A9C0(struct R *);
 struct M4 *func_001A6318(void *);
 void func_00209840(struct CONTROL *,const struct M3 *);
 qword func_001A62E8(void *);
-void func_0017A8C8(struct R *,int);
+void SetState(struct R *,int) asm("SetState__5JOBB0i");
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SpawnPickups(void *,int,qword,void *,int) asm("SpawnPickups__FP6VECTORiG9VU_VECTORPvi");
 void BroadcastTaskEvent(GAME *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
@@ -52,9 +52,10 @@ static inline qword Splat(float f) {
     __asm__("pextlw %0,%2,%2\n\tpextlw %1,%0,%0" : "=r"(t),"=r"(r) : "r"(b));
     return r;
 }
-extern "C" void func_00225300(struct S *p) {
+// name: SafeHouse port (UpdateExtractor)
+extern "C" void UpdateExtractor__FP2LO(struct S *p) {
     int old;
-    func_002240B0(p);
+    UpdateCarry(p);
     do {
         old=p->state;
         if(old==5) {
@@ -70,7 +71,7 @@ extern "C" void func_00225300(struct S *p) {
                     qword pos=p->source?func_001A62E8(p->source):func_001A62E8(p);
                     qword other;
                     other=func_001A62E8(p->actor);
-                    if(Length(Sub(pos,other))<100.0f)func_0017A8C8(r,4);
+                    if(Length(Sub(pos,other))<100.0f)SetState(r,4);
                 }
                 if(p->actor->color) {
                     float t=(g_clock.t-p->time)/D_002C43B0;

@@ -17,10 +17,10 @@ struct P {
     struct LINK *plink;
 };
 void func_001A7E10(void *pg, struct LINK *pl);
-void *func_001F7530(void *p, int n);
+void *PaloXpFilter__FP3ALOUi(void *p, int n);
 void *func_002333B4(void *p, int c, int cb);
 void *PaloAcceptContact__FP5CTMSG(struct MSG *pmsg);
-float *func_0012F938(void *p, int n);
+float *PeventLaunch__FP5KINDEi(void *p, int n);
 void SetAsegaTime__FP5ASEGAiff(struct Q *p, int n, float g, float h);
 void RetractAsega__FP5ASEGA(struct Q *p);
 static inline void Zero(struct V3 *pv) { pv->z = 0.0f; pv->y = 0.0f; pv->x = 0.0f; }
@@ -106,7 +106,7 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
             int i = pl->as[0].x8 != p;
             struct SIDE *pso = &pl->as[1 - i];
             struct SIDE *psm = &pl->as[i];
-            void *po = func_001F7530(pso->xC, 4);
+            void *po = PaloXpFilter__FP3ALOUi(pso->xC, 4);
             if (po) {
                 struct MSG msg;
                 func_002333B4(&msg, 0, sizeof(msg));
@@ -123,7 +123,7 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
         func_001A7E10(g_sw, p->plink);
         p->plink = 0;
         {
-            float *pg = func_0012F938(p->p1030->x14, 0x1A5);
+            float *pg = PeventLaunch__FP5KINDEi(p->p1030->x14, 0x1A5);
             if (pg)
                 SetAsegaTime__FP5ASEGAiff(p->p1030, 0, *pg, 1.0f);
             else

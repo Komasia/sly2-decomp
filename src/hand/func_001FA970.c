@@ -12,7 +12,8 @@ static inline qword Rej(qword a, qword n)
     __asm__("vmul.xyz %2, %3, %4\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %2, %2y\n\tvmaddz.x %2, %1, %2z\n\tvmulx.xyzw %2, %4, %2x\n\tvsub.xyzw %0, %3, %2" : "=j"(r), "=&j"(one), "=&j"(d) : "j"(a), "j"(n));
     return r;
 }
-qword func_001FA970(struct S *p, qword v)
+// name: SafeHouse port (ProjectCnstrLocal)
+qword ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR(struct S *p, qword v)
 {
     switch (p->k) {
     case 3:

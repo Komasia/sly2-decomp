@@ -42,7 +42,8 @@ typedef char O_PrefixSize[sizeof(struct O)==236?1:-1];
 typedef char X_PrefixSize[sizeof(struct X)==388?1:-1];
 typedef char ANIM_PrefixSize[sizeof(struct ANIM)==68?1:-1];
 typedef char P_PrefixSize[sizeof(struct P)==5200?1:-1];
-void func_001B7700(struct P*p,qword goal,float*animation,float*duration,qword*outStart,qword*outEnd){
+// name: SafeHouse port (PickupVelocities)
+void PickupVelocities__FP6MURRAYG9VU_VECTORPfT2P7VECTOR4T4(struct P*p,qword goal,float*animation,float*duration,qword*outStart,qword*outEnd){
  struct P*owner=CaptureActor(p);
  U roots;U u;U start;
  qword end;

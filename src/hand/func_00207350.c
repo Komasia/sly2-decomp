@@ -19,7 +19,7 @@ void UpdateGuardActionAim__FP5GUARD(struct S *p);
 void func_001F1CF8(struct S *p);
 void UpdateWatchA__FP6WATCHA(void *p);
 void UpdateWatchB__FP6WATCHB(void *p);
-void func_001EED10(void *p);
+void UpdateJobs__FP5ACTOR(void *p);
 void func_002097E0(void *p);
 int func_00131968(int h);
 void func_001306A8(int *ph);
@@ -41,7 +41,7 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
         func_001F1CF8(p);
     UpdateWatchA__FP6WATCHA(p->p498);
     UpdateWatchB__FP6WATCHB(p->p49C);
-    func_001EED10(p->x26C);
+    UpdateJobs__FP5ACTOR(p->x26C);
     func_002097E0(p->xFD0);
     if (p->h34C && func_00131968(p->h34C))
         func_001306A8(&p->h34C);

@@ -19,7 +19,7 @@ extern "C" void SetDecompress(BIS *,int,void *) asm("SetDecompress__18CBinaryInp
 extern "C" unsigned char func_00117BD0(BIS *);
 extern "C" unsigned short func_00117C20(BIS *);
 extern "C" int func_00233470(const void *,const void *,unsigned int);
-extern "C" void func_00212A70(S *,int);
+extern "C" void SetState(S *,int) asm("SetState__FP8SCREENRTi");
 extern "C" void func_00214398(S *,BIS *,S *,int *,void **);
 extern "C" void func_00214460(S *,BIS *,S *);
 extern N *D_003E106C;
@@ -56,7 +56,7 @@ extern "C" void func_002124F0(S *p) {
     }
     for(n=D_003E106C;n;n=n->next) {
         owner=n->owner;
-        if(n->priority>=priority && owner->state!=0)func_00212A70(owner,0);
+        if(n->priority>=priority && owner->state!=0)SetState(owner,0);
     }
     D_003E1C70.priority=priority;
     __10STACKSCOPE(&work.frame);

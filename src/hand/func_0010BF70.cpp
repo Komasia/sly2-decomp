@@ -10,7 +10,7 @@ struct CRef {
 };
 extern "C" {
 CRef func_00201360(int c, void *aref, int *ak, void *an);
-void *func_001C4AF8(void *p, qword q);
+void *PloNearestPlayer(void *p, qword q) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
 CRef func_0010BF70(void *p, int c, void *aref);
 }
 CRef func_0010BF70(void *p, int c, void *aref)
@@ -18,6 +18,6 @@ CRef func_0010BF70(void *p, int c, void *aref)
     union { qword q; } u;
     int k = 2;
     CRef ref = func_00201360(1, aref, &k, &u);
-    ref = func_001C4AF8(p, u.q);
+    ref = PloNearestPlayer(p, u.q);
     return ref;
 }

@@ -31,7 +31,7 @@ void RefreshXf__FP3ALOP2XF(LO *, P *);
 qword VecXfValue__FP2XFP7MATRIX4(P *, P *);
 qword func_0011BFF0(qword *);
 M4 MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR(P *, qword);
-void func_00117120(float, float, float, qword, qword, qword, qword, qword *, int, int);
+void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float, float, float, qword, qword, qword, qword, qword *, int, int);
 
 // name: SafeHouse port (SnapAsegaXfs)
 void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
@@ -72,7 +72,7 @@ void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
             v = VecXfValue__FP2XFP7MATRIX4(p, p);
             break;
         case 1: {
-            func_00117120(p->x84 - p->x80, *p->x88 - p->x80, *p->x8C, p->xC0[0], p->xC0[1], p->xC0[2], p->xC0[3], (qword *)&out, 0, 0);
+            Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(p->x84 - p->x80, *p->x88 - p->x80, *p->x8C, p->xC0[0], p->xC0[1], p->xC0[2], p->xC0[3], (qword *)&out, 0, 0);
             v = *(qword *)&out;
             break;
         }

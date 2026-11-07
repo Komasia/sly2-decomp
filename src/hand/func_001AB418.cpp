@@ -26,7 +26,7 @@ int func_001ADEA8(void *);
 void func_001ACB58(ST *, int);
 void func_001ADE70(void *);
 int func_001AB398(char *, char *);
-void func_001D8D80(SLOT *, int);
+void ResetSlotKeepSettings(SLOT *, int) asm("ResetSlotKeepSettings__FPci");
 void func_001AB418(MC *p, int state);
 }
 CRef Eval(int, SLOT *) __asm__("NProgress");
@@ -71,7 +71,7 @@ void func_001AB418(MC *p, int state)
                 if (func_001AB398(p->pslotCur->x5408, pslot->x5408) < 0)
                     p->pslotCur = pslot;
             } else {
-                func_001D8D80(pslot, 0);
+                ResetSlotKeepSettings(pslot, 0);
             }
         }
         break;

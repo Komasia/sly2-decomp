@@ -5,15 +5,16 @@ extern struct G { char pad[0x3B0C]; void *x3B0C; } g_sw;
 extern float D_002DDF0C;
 extern int D_002DD318;
 extern char D_002E6550[], D_003DA4F0[], g_joy[];
-int func_002121C8(struct S *p);
+int FScreenObjDone__FP2LO(struct S *p);
 void func_00212C50(struct S *p);
 int func_001D9880(void *);
 int func_00187D80(void *, int);
 void func_0020F030(struct G *, int);
 void RestartJobAtCheckpoint__FP2SW(void *);
-void func_00211D38(struct S *p)
+// name: SafeHouse port (UpdateFailureScreen)
+void UpdateFailureScreen__FP8SCREENRT(struct S *p)
 {
-    int r = func_002121C8(p);
+    int r = FScreenObjDone__FP2LO(p);
     if (r)
         return;
     func_00212C50(p);

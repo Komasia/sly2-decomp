@@ -26,7 +26,8 @@ extern s64 D_002DFB70;
 extern s32 D_002DFB78;
 extern M2C_UNK g_sw;
 
-void func_0017B178(s32 arg0) {
-    func_0017B1A8(arg0, -1);
+// name: SafeHouse port (JOBB1::Exit)
+void Exit__5JOBB1(s32 arg0) {
+    SetState__5JOBB1i(arg0, -1);
     Exit__7JOBMOVE(arg0);
 }

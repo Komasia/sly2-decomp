@@ -7,7 +7,8 @@ struct S { int x0, x4; char *x8; };
 void func_001AF608(struct G *g);
 int func_001B0108(struct G *g);
 void func_00213B00(void *a, char *b);
-void func_001AD740(struct S *s)
+// name: SafeHouse port (UpdateSlotEntry)
+void UpdateSlotEntry__FP4PAGE(struct S *s)
 {
     struct E *e;
     if (D_002E6594 != 1) {

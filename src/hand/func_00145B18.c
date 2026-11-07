@@ -8,7 +8,7 @@ struct P {
 };
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int oid);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 float GRandInRange__Fff(float a, float b);
@@ -25,7 +25,7 @@ static __inline__ void Activate(struct P *p, int oid)
 void SetState__12JOBCOMPANIONi(struct P *p, int state)
 {
     if (state == p->state) return;
-    func_001EF0D8(p->m18);
+    EndChildJob__FPP5AIJOB(p->m18);
     p->state = state;
     p->tState = g_clock.t;
     switch (state) {

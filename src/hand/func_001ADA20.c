@@ -8,7 +8,7 @@ extern struct E D_003D9EDC[];
 extern struct GD g_sw;
 extern struct B D_002E6604[];
 int func_001B0108(struct G *g);
-int func_001B0078(struct G *g);
+int KindDataAccess__FP4MENU(struct G *g);
 void NProgress(struct CRef *ret, int a, void *b);
 void func_00129EC8(struct CRef *);
 char *func_0013E368(void *p, int n);
@@ -29,7 +29,7 @@ void func_001ADA20(char *buf)
     }
     f = ref.m_tag;
     func_00129EC8(&ref);
-    switch (func_001B0078(g)) {
+    switch (KindDataAccess__FP4MENU(g)) {
     case 0x1E:
         if (f != 0.0f)
             func_0021ED58(buf, func_0013E368(gd, 0x25));

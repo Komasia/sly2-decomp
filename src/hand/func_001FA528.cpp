@@ -25,7 +25,8 @@ static inline M3 Mul(const M3&a,const M3&b) return r {
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r.r[2]):"j"(a0),"j"(a1),"j"(a2),"j"(b.r[2]));
 }
 static inline qword Consume(P*p,LO*object,U&pending){HoldXfMode(p,object);qword world=func_0022FCC8(0,object->parent,pending.q);pending.i[2]=0;pending.i[1]=0;return world;}
-extern "C" void func_001FA528(P*p)
+// name: SafeHouse port (ApplyAloDisplacement)
+extern "C" void ApplyAloDisplacement__FP3ALO(P*p)
 {
     M3 final;
     int changed=0;

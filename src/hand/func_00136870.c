@@ -10,7 +10,7 @@ extern int g_grfjoyt;
 extern char D_002DE2E0[];
 int func_001443D8();
 int func_0019C8D0(void *pv, int k);
-int func_00194558(void *pv, int k);
+int FInteractCanDo__FP5ACTORi(void *pv, int k);
 int func_0019EEF0(void *pv, int k);
 struct E *func_00136A28(struct P *p, int k);
 int func_00224590(void *pv);
@@ -31,7 +31,7 @@ int FBentleyAbilityOk__FP7BENTLEYi(struct P *p, int k)
             goto inner;
         goto fail;
     case 3:
-        if (func_00194558(p->a4C0, k))
+        if (FInteractCanDo__FP5ACTORi(p->a4C0, k))
             goto inner;
         goto fail;
     case 13:

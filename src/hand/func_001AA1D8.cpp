@@ -42,14 +42,14 @@ extern NODE D_002BBB20;
 extern "C" {
 void *PvAllocStackImpl(const ALLOCREQ &req) asm("PvAllocStackImpl__Fi");
 int func_00118A88(NODE *pnode, int cnodeMax, qword pos, float sRadius, int *pcnode, NODE **ppnode);
-int func_001F7530(FILTER *pfilter, int grf);
-void func_001A9D38(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact);
-void func_001A9C40(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact);
-void func_001A9B28(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, int cnode, NODE *pnode, CONTACT **ppcontact);
-void func_001A8B50(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, int cnode, NODE *pnode, NODE *pnodeLast, CONTACT **ppcontact);
-void func_001A9FE0(WORLD *pworld, CONTACT *pcontact, CONTACT **ppcontact);
-CONTACT *func_001AA020(WORLD *pworld, CONTACT *pcontact);
-void func_001AA0B0(WORLD *pworld, SO *pso, SO *psoOther, SHAPE *pshape, int cnodeMax, NODE *pnode, NODE *pnodeRoot, CONTACT **ppcontact);
+int PaloXpFilter(FILTER *pfilter, int grf) asm("PaloXpFilter__FP3ALOUi");
+void MarkSweptVertices(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact) asm("MarkSweptVertices__FP3SOET0PP2XPPv");
+void MarkSphereSphere(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, CONTACT **ppcontact) asm("MarkSphereSphere__FP3SOET0PP2XPPP7CONTACT");
+void MarkSphereBsp(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, int cnode, NODE *pnode, CONTACT **ppcontact) asm("MarkSphereBsp__FP3SOET0PviPP2XPPP7CONTACT");
+void MarkBspBsp(WORLD *pworld, SHAPE *pshape, SHAPE *pshapeOther, int cnode, NODE *pnode, NODE *pnodeLast, CONTACT **ppcontact) asm("MarkBspBsp__FP3SOET0P5SHAPEiP6BSPSELPP2XPPP7CONTACT");
+void PrependXpList(WORLD *pworld, CONTACT *pcontact, CONTACT **ppcontact) asm("PrependXpList__FP2XPPP2XPPv");
+CONTACT *PxpCloneList(WORLD *pworld, CONTACT *pcontact) asm("PxpCloneList__FP2XPPv");
+void MarkOwnContacts(WORLD *pworld, SO *pso, SO *psoOther, SHAPE *pshape, int cnodeMax, NODE *pnode, NODE *pnodeRoot, CONTACT **ppcontact) asm("MarkOwnContacts__FP3OXAT0P3SOEPP2XPiPvN25");
 }
 static inline float LengthSq(qword v)
 {
@@ -64,7 +64,8 @@ static inline int NMin(int a, int b) { return (a < b) ? a : b; }
 #define SHAPE_FILTERED (1UL << 48)
 #define SHAPE_SPHERE (1UL << 49)
 
-extern "C" CONTACT *func_001AA1D8(WORLD *pworld, SO *psoSmall, SO *psoLarge)
+// name: SafeHouse port (PxpMarkOxaContacts)
+extern "C" CONTACT *PxpMarkOxaContacts__FP3OXAT0P2SO(WORLD *pworld, SO *psoSmall, SO *psoLarge)
 {
     CONTACT *pcontactFirst = 0;
     SO *psoT = psoSmall;
@@ -119,7 +120,7 @@ extern "C" CONTACT *func_001AA1D8(WORLD *pworld, SO *psoSmall, SO *psoLarge)
             CONTACT *pcontactTemp = 0;
             CONTACT **ppcontact = &pcontactFirst;
             if (fFilter) {
-                int fMatch = func_001F7530(pshapeOther->pfilter, pshape->grfFilter) != 0;
+                int fMatch = PaloXpFilter(pshapeOther->pfilter, pshape->grfFilter) != 0;
                 if (pshape->grf & SHAPE_FILTERED) {
                     if (!fMatch)
                         continue;
@@ -130,7 +131,7 @@ extern "C" CONTACT *func_001AA1D8(WORLD *pworld, SO *psoSmall, SO *psoLarge)
                 }
             }
             if (fFilterOther) {
-                int fMatch = func_001F7530(pshape->pfilter, pshapeOther->grfFilter) != 0;
+                int fMatch = PaloXpFilter(pshape->pfilter, pshapeOther->grfFilter) != 0;
                 if (pshapeOther->grf & SHAPE_FILTERED) {
                     if (!fMatch)
                         continue;
@@ -142,53 +143,53 @@ extern "C" CONTACT *func_001AA1D8(WORLD *pworld, SO *psoSmall, SO *psoLarge)
             CONTACT *pcontactPrev = *ppcontact;
             if (pshapeOther->gen != pshapeOther->genOld || pshape->gen != pshape->genOld) {
                 if (pshapeOther->iFirst < pshapeOther->c)
-                    func_001A9D38(pworld, pshapeOther, pshape, ppcontact);
+                    MarkSweptVertices(pworld, pshapeOther, pshape, ppcontact);
                 if (pshape->iFirst < pshape->c)
-                    func_001A9D38(pworld, pshape, pshapeOther, ppcontact);
+                    MarkSweptVertices(pworld, pshape, pshapeOther, ppcontact);
             }
             if (*ppcontact == pcontactPrev) {
                 if (pshape->grf & SHAPE_SPHERE) {
                     if (pshapeOther->grf & SHAPE_SPHERE)
-                        func_001A9C40(pworld, pshapeOther, pshape, ppcontact);
+                        MarkSphereSphere(pworld, pshapeOther, pshape, ppcontact);
                     else
-                        func_001A9B28(pworld, pshape, pshapeOther, 0, 0, ppcontact);
+                        MarkSphereBsp(pworld, pshape, pshapeOther, 0, 0, ppcontact);
                 } else if (pshapeOther->grf & SHAPE_SPHERE) {
                     int fFar = 0;
                     if (!status || 1.0f < LengthSq(Sub(pshape->plo->pos, psoSmall->pos)) ||
                         1.0f < __builtin_fabsf(pshape->sRadius - psoSmall->sRadius))
                         fFar = 1;
-                    func_001A9B28(pworld, pshapeOther, pshape, fFar ? 0 : cnode, fFar ? 0 : pnodeFirst, ppcontact);
+                    MarkSphereBsp(pworld, pshapeOther, pshape, fFar ? 0 : cnode, fFar ? 0 : pnodeFirst, ppcontact);
                 } else {
-                    func_001A8B50(pworld, pshapeOther, pshape, cnode, pnodeFirst, pnodeLast, ppcontact);
+                    MarkBspBsp(pworld, pshapeOther, pshape, cnode, pnodeFirst, pnodeLast, ppcontact);
                 }
             }
             if (pcontactTemp) {
                 int fCopied = 0;
                 if (fFilter) {
                     if (pshape->grf & SHAPE_FILTERED)
-                        func_001A9FE0(pworld, pcontactTemp, &psoLarge->pcontactFirst);
+                        PrependXpList(pworld, pcontactTemp, &psoLarge->pcontactFirst);
                     else if (!(pshapeOther->grf & SHAPE_FILTERED)) {
                         fCopied = 1;
-                        func_001A9FE0(pworld, func_001AA020(pworld, pcontactTemp), &psoLarge->pcontactFirst);
+                        PrependXpList(pworld, PxpCloneList(pworld, pcontactTemp), &psoLarge->pcontactFirst);
                     }
                 }
                 if (fFilterOther) {
                     if (pshapeOther->grf & SHAPE_FILTERED)
-                        func_001A9FE0(pworld, pcontactTemp, &psoSmall->pcontactFirst);
+                        PrependXpList(pworld, pcontactTemp, &psoSmall->pcontactFirst);
                     else if (!(pshape->grf & SHAPE_FILTERED)) {
                         fCopied = 1;
-                        func_001A9FE0(pworld, func_001AA020(pworld, pcontactTemp), &psoSmall->pcontactFirst);
+                        PrependXpList(pworld, PxpCloneList(pworld, pcontactTemp), &psoSmall->pcontactFirst);
                     }
                 }
                 if (fCopied)
-                    func_001A9FE0(pworld, pcontactTemp, &pcontactFirst);
+                    PrependXpList(pworld, pcontactTemp, &pcontactFirst);
             }
         }
         if (!(pshape->grf & SHAPE_FILTERED))
-            func_001AA0B0(pworld, psoSmall, psoLarge, pshape, pshape->cnodeMax, pshape->pnodeRoot, pshape->pnodeRoot, &pcontactFirst);
+            MarkOwnContacts(pworld, psoSmall, psoLarge, pshape, pshape->cnodeMax, pshape->pnodeRoot, pshape->pnodeRoot, &pcontactFirst);
     }
     for (pshapeOther = psoSmall->pshapeFirst; pshapeOther; pshapeOther = pshapeOther->pshapeNext)
         if (!(pshapeOther->grf & SHAPE_FILTERED))
-            func_001AA0B0(pworld, psoLarge, psoSmall, pshapeOther, pshapeOther->cnodeMax, pshapeOther->pnodeRoot, pshapeOther->pnodeRoot, &pcontactFirst);
+            MarkOwnContacts(pworld, psoLarge, psoSmall, pshapeOther, pshapeOther->cnodeMax, pshapeOther->pnodeRoot, pshapeOther->pnodeRoot, &pcontactFirst);
     return pcontactFirst;
 }

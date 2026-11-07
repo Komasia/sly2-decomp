@@ -2,23 +2,24 @@ struct R { int id; int res; int x; };
 struct E { int a; struct R ar[3]; };
 struct S { char pad[0x58]; void *p58; void *p5C; char pad2[0x150 - 0x60]; void *p150; char pad3[0x2C4 - 0x154]; int c; struct E a[8]; };
 int func_001C4700(void *p, int a);
-int func_00152520(struct S *p, int id);
+int PloDanceAseg__FP2LO3OIDiiiii(struct S *p, int id);
 void SetXfMode__FP3ALOP2XFi(struct S *p, void *q, int n);
-void func_001524A0(struct S *p, int a, int b);
-void func_00152390(struct S *p, int id, int idNew, int j)
+void PlayDancerAseg__FP2LOT0i(struct S *p, int a, int b);
+// name: SafeHouse port (PlayDancerMove)
+void PlayDancerMove__FP2LOiii(struct S *p, int id, int idNew, int j)
 {
     int i;
     for (i = 0; i < p->c; i++) {
         struct E *pe = &p->a[i];
         if ((id == -1 && func_001C4700(p->p150, pe->a)) || pe->a == id) {
             if (idNew != -1) {
-                int r = func_00152520(p, idNew);
+                int r = PloDanceAseg__FP2LO3OIDiiiii(p, idNew);
                 if (r)
                     pe->ar[0].res = r;
             }
             SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
             SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
-            func_001524A0(p, pe->ar[j].res, pe->ar[j].x);
+            PlayDancerAseg__FP2LOT0i(p, pe->ar[j].res, pe->ar[j].x);
             return;
         }
     }

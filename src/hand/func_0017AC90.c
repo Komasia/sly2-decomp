@@ -13,13 +13,14 @@ struct X { char pad[0x19A4]; struct Y *p19A4; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x50 - 0x14]; int n50; float g54; int pad3; struct X *p5C; int pad4; struct C *p64; };
 struct OUT { char pad[0x30]; qword v; };
 void Update__7JOBMOVE(struct S *p);
-void func_0017B1A8(struct S *p, int n);
-void func_0017ABC8(struct S *p);
+void SetState__5JOBB1i(struct S *p, int n);
+void UpdateTarget__5JOBB1(struct S *p);
 qword func_001A62E8(struct A *a);
 void func_002309E8(void *a, void *b, struct OUT *pm, struct OUT *other, float g);
 static inline void*Frame(struct X*x){register struct Y*y __asm__("$2")=x->p19A4;return y->p60;}
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
-void func_0017AC90(struct S *p) {
+// name: SafeHouse port (JOBB1::Update)
+void Update__5JOBB1(struct S *p) {
     qword v;
     int s;
     Update__7JOBMOVE(p);
@@ -34,17 +35,17 @@ void func_0017AC90(struct S *p) {
         case 0:
         case 1:
             if (p->n50 == 1 && p->p10->n208) {
-                func_0017B1A8(p, 3);
+                SetState__5JOBB1i(p, 3);
             } else if (p->p10->p58->p90 != p->p64 || p->p10->p58->p90->g1C < g_clock.t) {
-                func_0017B1A8(p, 2);
+                SetState__5JOBB1i(p, 2);
             } else if (GetZ(v) < 0.0f && p->n50 == 0) {
-                func_0017B1A8(p, 1);
+                SetState__5JOBB1i(p, 1);
             } else {
-                func_0017ABC8(p);
+                UpdateTarget__5JOBB1(p);
             }
             break;
         case 2:
-            if (p->p10->n208) func_0017B1A8(p, 3);
+            if (p->p10->n208) SetState__5JOBB1i(p, 3);
             break;
         case 3:
             break;
@@ -78,7 +79,7 @@ void func_0017AC90(struct S *p) {
             __asm__("vdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %2, $Q" : "=j"(vel.q) : "j"(ud.q), "j"(c));
             if (p->n50 == 4) {
                 if (a.f[2] < t.f[2] || D_002BE6CC < g_clock.t - p->g54) {
-                    func_0017B1A8(p, 5);
+                    SetState__5JOBB1i(p, 5);
                     break;
                 }
                 vel.f[2] = b.f[2];
@@ -91,7 +92,7 @@ void func_0017AC90(struct S *p) {
             break;
         }
         case 6:
-            if (p->p10->n208) func_0017B1A8(p, -1);
+            if (p->p10->n208) SetState__5JOBB1i(p, -1);
             break;
         }
     } while (p->n50 != s);

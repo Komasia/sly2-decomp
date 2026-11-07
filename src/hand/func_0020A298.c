@@ -5,7 +5,8 @@ struct S { char pad[0x2C0]; long fl; char pad2[0x3D0 - 0x2C8]; int n3D0; char pa
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 long func_00207A20(int n);
 struct X *func_00154180(void *p, void *q);
-int func_0020A298(struct S *p, void *q, long mask)
+// name: SafeHouse port (FGuardSurprised)
+int FGuardSurprised__FP5GUARDP2LOUl(struct S *p, void *q, long mask)
 {
     struct X *x;
     if (p->n3D0)

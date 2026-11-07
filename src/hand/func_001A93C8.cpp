@@ -1,4 +1,4 @@
-// func_001A93C8: ported from Lilly's personal Sly 2 decomp (src/P2/cplane.c), reduced to the declarations it needs.
+// SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT: ported from Lilly's personal Sly 2 decomp (src/P2/cplane.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // ---- CplaneFromSphere 0x1A93C8 (MATCH, 472 instructions; T1304 draft 48%, T1341 99.4%, T1396 the last mtc1) ----
 // The contacts of a sphere (centre pos, radius sRadius) with the camera hull of a collision part: the first pbspLimit nodes of ppart->bspc.absp. At most
@@ -260,7 +260,8 @@ static inline VU_VECTOR4 VecAddScaled(qword qwBase, VU_FLOAT gScale, qword qwVec
     v.qw = QwAddScaled(qwBase, gScale, qwVec);
     return v;
 }
-int CplaneFromSphere(qword pos, float sRadius, SOPART *ppart, BSP *pbspLimit, int cbsp, BSP *absp, int ccontactMax, CMCONTACT *acontact) __asm__("func_001A93C8");
+int CplaneFromSphere(qword pos, float sRadius, SOPART *ppart, BSP *pbspLimit, int cbsp, BSP *absp, int ccontactMax, CMCONTACT *acontact) __asm__("SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT");
+// name: SafeHouse port (SphereBspContacts)
 int CplaneFromSphere(qword pos, float sRadius, SOPART *ppart, BSP *pbspLimit, int cbsp, BSP *absp, int ccontactMax, CMCONTACT *acontact)
 {
     int ccontact;

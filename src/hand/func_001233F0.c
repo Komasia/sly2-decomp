@@ -1,7 +1,7 @@
 typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 typedef struct LM { float gMin; float gMax; } LM;
 void Decref__4CRef(CRef *pref);
-void func_00129DA8(CRef *pref, CRef *prefSrc);
+void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 static __inline__ float GLimit(float g, float gMin, float gMax)
 {
     if (g < gMin)
@@ -16,7 +16,7 @@ CRef *RefOpClqEvaluateLm__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
     LM *plm = (LM *)aref[1].u.pv;
     CRef ref;
     float g;
-    func_00129DA8(&ref, &aref[2]);
+    RefCoerceF32__4CRef(&ref, &aref[2]);
     g = ref.u.g;
     ret->u.g = GLimit(c[0] + g * (c[1] + g * c[2]), plm->gMin, plm->gMax);
     ret->m_tagk = 0x16;

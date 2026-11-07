@@ -8,7 +8,7 @@ struct S {
  char pad140[0x174-0x140]; float duration; int pad178; void *sub;
 };
 void func_001E6330(struct S*);
-void func_001E5FC8(struct S*,int);
+void CacheSegCrv__FP3CRVi(struct S*,int);
 void func_001E9828(void*);
 static inline qword Point(struct M *m,qword a) {
  qword r;
@@ -23,7 +23,8 @@ static inline qword LenVec(qword a) {
  __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d));
  return d;
 }
-void func_001E6180(struct S *p)
+// name: SafeHouse port (RecalcCrv)
+void RecalcCrv__FP3CRV(struct S *p)
 {
  int i;
  func_001E6330(p);
@@ -46,7 +47,7 @@ void func_001E6180(struct S *p)
   int j;
   p->dist[0]=0;
   for(j=0;j<p->n-1;j++) {
-   func_001E5FC8(p,j);
+   CacheSegCrv__FP3CRVi(p,j);
    p->dist[j+1]=p->dist[j]+p->duration;
   }
  }

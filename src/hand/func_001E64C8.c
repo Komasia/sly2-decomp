@@ -7,8 +7,8 @@ struct X {
     float agSub[11];
 };
 
-int func_001E7668(struct X *p, float *pa, float *pb, float time);
-void func_001E5FC8(struct X *p, int i);
+int ISegCrvS__FP3CRVPfT1f(struct X *p, float *pa, float *pb, float time);
+void CacheSegCrv__FP3CRVi(struct X *p, int i);
 
 static __inline__ float GLerp(float a, float b, float t)
 {
@@ -23,11 +23,12 @@ static inline float ReturnValue(float value)
     return result;
 }
 
-float func_001E64C8(struct X *p, float time)
+// name: SafeHouse port (GFromCrvS)
+float GFromCrvS__FP3CRVf(struct X *p, float time)
 {
     float a, b;
     float g;
-    int i = func_001E7668(p, &a, &b, time);
+    int i = ISegCrvS__FP3CRVPfT1f(p, &a, &b, time);
 
     if (p->xE0 == 0) {
         {
@@ -38,7 +39,7 @@ float func_001E64C8(struct X *p, float time)
         }
     } else {
         int j;
-        func_001E5FC8(p, i);
+        CacheSegCrv__FP3CRVi(p, i);
         for (j = 1; j < 10; j++)
             if (a < p->agSub[j]) break;
         j--;

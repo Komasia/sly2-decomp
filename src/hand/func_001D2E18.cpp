@@ -36,7 +36,7 @@ extern const qword g_normalZ, D_002A2DD0;
 extern POLY D_002C2100, D_002C2120, D_002C2130;
 extern float D_002C2110, D_002C2114, D_002C2140, D_002C2144, D_002C2148;
 extern "C" {
-void func_001F9B20(P *);
+void ApplyAloGravity(P *) asm("ApplyAloGravity__FP3ALO");
 M3 *func_001A6318(P *);
 void func_0011B938(const M3 *, M3 *, M3 *);
 void AccelAloTowardRotation(P *, const M3 *, const POLY *, qword, const POLY *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
@@ -48,7 +48,7 @@ float func_0011CFE0(float, float);
 void func_001FAC98(P *, qword);
 M3 *func_0011B500(M3 *, qword, float);
 qword func_0011E9F8(float, qword);
-void func_001FAC30(P *, qword);
+void AccelAloPos(P *, qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 }
 static inline VV ScalarBits(int b) { qword r; __asm__("qmtc2 %1,%0" : "=j"(r) : "rV"(b)); return r; }
 static inline VV TimeStep(const CLOCK &c) { qword r; __asm__("qmtc2 %1,%0" : "=j"(r) : "rV"(*(const int *)&c.dt)); return r; }
@@ -94,7 +94,7 @@ static inline float Abs(float f) { return __builtin_fabsf(f); }
 
 extern "C" void func_001D2E18(P *p)
 {
-    func_001F9B20(p);
+    ApplyAloGravity(p);
     if (g_clock.time - p->lastCorrection > 3.0f) {
         M3 reset;
         func_0011B938(func_001A6318(p), 0, &reset);
@@ -166,5 +166,5 @@ extern "C" void func_001D2E18(P *p)
     phase.impulse.acceleration.f[0] = Clamp(phase.impulse.acceleration.f[0], minimum, maximum);
     phase.impulse.limited.q = func_0011E9F8(budget, phase.impulse.acceleration.q);
     phase.impulse.world.q = func_0022FCC8(p->secondary, 0, phase.impulse.limited.q);
-    func_001FAC30(p, phase.impulse.world.q);
+    AccelAloPos(p, phase.impulse.world.q);
 }

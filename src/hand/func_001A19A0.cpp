@@ -25,7 +25,7 @@ extern "C"{
  int NScaleDamage(void*,int) asm("NScaleDamage__FPvi");
  void func_001305B8(void*,P*,float,float,int,void**);
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
- void func_00143380(P*);
+ void DropActorBooty(P*) asm("DropActorBooty__FP5ACTORii");
  void BroadcastTaskEvent(void*,int,P*) asm("BroadcastTaskEvent__FP2SWiP2LO");
  void func_001A15B0(C*,ACTION);
  void ApplyDamageVelocity(C*) asm("ApplyDamageVelocity__FP5ACTOR");
@@ -117,7 +117,7 @@ notify:
  {
   Notify(p->actor,3);
   W*widget=p->actor->widget;
-  if(widget&&(widget->count->c||Add32(*p->counter,delta)<=0))func_00143380(p->actor);
+  if(widget&&(widget->count->c||Add32(*p->counter,delta)<=0))DropActorBooty(p->actor);
   BroadcastTaskEvent(g_game,0xF,input->object);
   p->record=*input;p->record.delta=delta;func_001A15B0(p,0);
   int n=Add32(*p->counter,p->record.delta);*p->counter=n>=0?n:0;

@@ -1,6 +1,7 @@
-/* func_001EF0B8 (0x1EF0B8): returns 0. */
+/* Message__5AIJOBiPv (0x1EF0B8): returns 0. */
 
-int func_001EF0B8(void)
+// name: SafeHouse port (AIJOB::Message)
+int Message__5AIJOBiPv(void)
 {
     return 0;
 }

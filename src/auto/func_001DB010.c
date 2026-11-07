@@ -2,7 +2,8 @@
 s32 func_001DAE58(s32);                             /* extern */
 s32 func_001DAEA8(s32);                             /* extern */
 
-void func_001DB010(void *arg0) {
+// name: SafeHouse port (UpdateGadgetFlags)
+void UpdateGadgetFlags__FPv(void *arg0) {
     s32 temp_v0;
     s32 var_s1;
     void *temp_s0;

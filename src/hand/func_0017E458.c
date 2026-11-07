@@ -5,7 +5,7 @@ struct C { char pad[0xDC]; struct D *pDC; };
 struct O { char pad[0xE8]; struct C *pE8; };
 struct T { char pad[0x120]; int n120; int pad2; int n128; };
 struct S { char pad[0x10]; struct O *p10; int pad2; void *p18; char pad3[0x14]; struct T *p30; int pad4; int n38; int pad5; float g40; };
-void func_001EEF98(struct S *p);
+void Update__5AIJOB(struct S *p);
 int func_0017E570(struct S *p);
 int FDone__11JOBNAVPOINT(void *p);
 int func_00174FB8(void *p);
@@ -15,7 +15,7 @@ void SetState__7JOBLINKi(struct S *p, int n);
 int FArrived__9JOBFOLLOW(void *p);
 // name: SafeHouse port (JOBLINK::Update)
 void Update__7JOBLINK(struct S *p) {
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     if (func_0017E570(p)) return;
     switch (p->n38) {
     case 1:

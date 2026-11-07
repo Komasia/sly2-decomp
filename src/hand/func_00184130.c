@@ -4,7 +4,8 @@ extern char g_sw[], g_game[];
 void ApplyRsmg__FP2LOiP4RSMGii(void *g, int a, int *pb, struct S *p, int n);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *g, int a, int *pb, struct S *p);
 void StartScptImpl__FP2LOi(void *p, int n);
-void func_00184130(struct S *p, int n)
+// name: SafeHouse port (UseObjectBase)
+void UseObjectBase__FP2LOi(struct S *p, int n)
 {
     struct VTE *e;
     p->x10c = n;

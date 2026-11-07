@@ -9,7 +9,7 @@ extern float g_clock;
 void FireBentleyDart__FP7BENTLEY(struct S *);
 struct O *func_001CB250(void *, int);
 void func_001D6B00(struct Q *, struct O *);
-void func_0013B5C8(struct O *, float);
+void ExpireIn__FP3ALOf(struct O *, float);
 void SetBentleyState2__FP7BENTLEYi(struct S *, int);
 void func_001357C0(struct S *p, int a) {
     void *pv;
@@ -30,7 +30,7 @@ void func_001357C0(struct S *p, int a) {
     pq->v50 = p->v16f0;
     func_001D6B00(pq, po);
     ((void (*)(void *, ti128))po->vt[36].pfn)((char *)po + po->vt[36].d, D_002A2DD0);
-    func_0013B5C8(po, 4.0f);
+    ExpireIn__FP3ALOf(po, 4.0f);
     SetBentleyState2__FP7BENTLEYi(p, 1);
     p->f1700 = g_clock;
 }

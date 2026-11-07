@@ -9,7 +9,7 @@ struct S { char pad[0x110]; int i110; char pad2[4]; int i118; char pad3[0xC]; in
 void NProgress(CRef *pref, void *p, void *q);
 void func_00129EC8(CRef *pref);
 void func_002123C8(struct S *p);
-void func_0015D648(struct S *p, int a, int b);
+void SetEpMode__FP6EPMENUii(struct S *p, int a, int b);
 void func_00187E78(void *p);
 static inline float GFromP(void *pv)
 {
@@ -29,7 +29,8 @@ static inline int NFromP(void *pv)
     func_00129EC8(&ref);
     return n;
 }
-void func_0015CDA8(struct S *p)
+// name: SafeHouse port (StartEpMenu)
+void StartEpMenu__FP6EPMENU(struct S *p)
 {
     func_002123C8(p);
     p->i118 = 8;
@@ -52,12 +53,12 @@ void func_0015CDA8(struct S *p)
     }
     if (D_002BE270 == -1) {
         p->i110 = p->i118;
-        func_0015D648(p, 0, -1);
+        SetEpMode__FP6EPMENUii(p, 0, -1);
     } else {
         p->n128 = D_002BE270;
         p->i110 = 0;
         D_002BE270 = -1;
-        func_0015D648(p, 8, 0);
+        SetEpMode__FP6EPMENUii(p, 8, 0);
     }
     func_00187E78(g_joy);
 }

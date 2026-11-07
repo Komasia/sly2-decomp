@@ -3,7 +3,7 @@ struct S { int a[0x30]; };
 void *func_001C0960(void *p, qword a, qword b, int c, int d, int e);
 int CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(void *p, int z, qword a, qword b, int c, void **ap);
 void *ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(void *p, qword a, qword b, int n, struct S *ps);
-void *func_0014C9F8(void *p, int d, void *r, struct S *ps, int c, int d2, int one);
+void *CMergeAlsg__FiP3LSGiT1iT1i(void *p, int d, void *r, struct S *ps, int c, int d2, int one);
 // name: SafeHouse port (AtFreeNav)
 void *AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii(void *p, qword a, qword b, int c, int d)
 {
@@ -16,7 +16,7 @@ void *AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii(void *p, qword a, qword b, int c, i
     n = CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(p, 0, a, b, 0x80, ap);
     for (i = 0; i < n; i++) {
         void *r = ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(ap[i], a, b, 2, &s);
-        pv = func_0014C9F8(pv, d, r, &s, c, d, 1);
+        pv = CMergeAlsg__FiP3LSGiT1iT1i(pv, d, r, &s, c, d, 1);
         if (!pv) goto out;
     }
 out:

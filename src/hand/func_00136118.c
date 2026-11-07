@@ -7,7 +7,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 int func_00131968(void *pv);
 void SetBentleyHold__FP7BENTLEYi(struct P *p, int n);
-void func_00224258(struct O *po, int n);
+void LandCarry__FP2LOT0(struct O *po, int n);
 int func_00141EA8(struct P *p, int n);
 int func_001C4728(void *pv, int n);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *p);
@@ -27,7 +27,7 @@ void UpdateBentleyHold__FP7BENTLEY(struct P *p)
         case 2: {
             struct O *po = p->po;
             if (po->x158 == 2) {
-                func_00224258(po, po->x1A0);
+                LandCarry__FP2LOT0(po, po->x1A0);
                 goto common;
             }
             if (po->x158 == 4 || !func_001C4728(p->p150, func_00141EA8(p, p->pq->x0) | 0x10)) {

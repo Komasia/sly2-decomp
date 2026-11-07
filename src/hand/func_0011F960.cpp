@@ -45,7 +45,7 @@ struct CRef {
     CRef &operator=(const MATRIX4 &m);
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
-CRef func_00129BC8(CRef *pref, void *a, void *b);
+CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 extern "C" CRef RefOpMult(void *pv, CRef *aref) asm("RefOpMult__FiP4CRefP6CFrame");
 
 static inline qword MulVF(const qword *pv, float g)
@@ -123,7 +123,7 @@ CRef RefOpMult(void *pv, CRef *aref)
     case 0x1B:
     case 0x1C:
     case 0x1D:
-        ref = func_00129BC8(&aref[0], 0, 0);
+        ref = CloneTo(&aref[0], 0, 0);
         break;
     }
     NODE *pn = 0;

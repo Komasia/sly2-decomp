@@ -7,7 +7,8 @@ extern struct DL D_003E126C;
 int func_001F0638(struct P *);
 void RetractAsega__FP5ASEGA(void *);
 void RemoveDlEntry__FP2DLPv(void *, void *);
-void func_001F0598(struct P *p)
+// name: SafeHouse port (RetractSma)
+void RetractSma__FP3SMA(struct P *p)
 {
     if (!func_001F0638(p)) {
         void *pv = p->p30;

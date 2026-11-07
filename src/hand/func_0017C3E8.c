@@ -7,7 +7,7 @@ struct K { char pad[0xC]; void *pC; char pad2[8]; float f18; };
 struct A { char pad[0xE8]; struct C *pE8; char pad2[0x294 - 0xEC]; struct B *p294; char pad3[0x324 - 0x298]; char a324[0xA8]; struct K *p3CC; };
 struct T { char pad[0x70]; float f70; };
 struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; };
-void func_001EEF98(struct S *p);
+void Update__5AIJOB(struct S *p);
 float RadTargetrec__FP9TARGETREC(struct K *k);
 qword func_001A62E8(void *p);
 void func_0011EF08(qword v, float *a, float *b, int n);
@@ -29,7 +29,7 @@ void Update__11JOBSURROUND(struct S *p) {
     struct T *t;
     float out[2];
     qword pos;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     d = 0;
     if (p->n30 != 0) {
     a = p->p10;

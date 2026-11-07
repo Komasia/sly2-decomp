@@ -9,7 +9,7 @@ struct CLOCK { float t; };
 struct CLQ { float g0, g1, g2, gPad; } __attribute__((aligned(16)));
 struct LM { float gMin, gMax; };
 extern struct CLOCK g_clock;
-void func_001EF0C0(struct P *p, struct Q *q);
+void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 void func_001C45A8(struct Q *q);
@@ -47,7 +47,7 @@ static __inline__ float GAtanR(qword d)
 // name: SafeHouse port (JOBSLYATTACK::Drive)
 void Drive__12JOBSLYATTACKP6PADCTL(struct P *p, struct Q *q)
 {
-    func_001EF0C0(p, q);
+    Drive__5AIJOBP6PADCTL(p, q);
     switch (p->x30) {
     case 1: {
         qword d = Sub(func_001A62E8(p->p38), func_001A62E8(p->p10));

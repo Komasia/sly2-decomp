@@ -1,7 +1,7 @@
 // Game-state transition handler: switch on the new state id (x40) and run the menu/HUD hooks for it.
 // State 34 sends an option message (CRef true) to the global option object D_003E0FE4.
 //
-// Match notes: the three-argument call to func_00258200 uses the same idiom as func_0013D328 / func_001D54B8:
+// Match notes: the three-argument call to func_00258200 uses the same idiom as SetStandBooty / func_001D54B8:
 // SetPv receives the context at the call site (evaluated before the CRef copy) but its body names
 // D_003D4A60 again after the copy. That is what puts `lui a3` after the copy ctor yet keeps a3's low half
 // ahead of the a2 setup (the scheduler boosts insns that set a register exactly once in the function).
@@ -25,17 +25,18 @@ int func_001D9880(void *p);
 int func_001B0160(void *p);
 void func_001ACBB8(S *s);
 void func_001ACC38(S *s, int n);
-void func_001AF660(void *p);
-void func_001DDB08(void *p);
+void CloseMenu(void *p) asm("CloseMenu__Fii");
+void StartNewGameFromTitle(void *p) asm("StartNewGameFromTitle__Fv");
 int func_001B0108(void *p);
 void func_001AF608(void *p);
 void func_001ACB58(S *s, int n);
 void func_001ABD40(void *p);
-void func_001ACFE0(S *s);
+void CardNo(S *s) asm("CardNo__FP7CARDDLG");
 CRef func_00258200(O *, const CRef &, void *);                   // O::Set(const CRef &, context), returns a CRef
 }
 static inline void SetPv(O *po, const CRef &r, void *) { CRef arg(r); const CRef &ret = func_00258200(po, arg, D_003D4A60); }
-void func_001ACFE0(S *s)
+// name: SafeHouse port (CardNo)
+void CardNo(S *s)
 {
     switch (s->x40) {
     case 17: case 18: case 21: case 24:
@@ -44,8 +45,8 @@ void func_001ACFE0(S *s)
             if (func_001D9880(g) && func_001B0160(D_003D9ED0)) {
                 func_001ACBB8(s);
                 func_001ACC38(s, 2);
-                func_001AF660(D_003D9ED0);
-                func_001DDB08(g);
+                CloseMenu(D_003D9ED0);
+                StartNewGameFromTitle(g);
                 break;
             }
         }

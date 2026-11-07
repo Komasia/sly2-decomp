@@ -8,7 +8,7 @@ extern struct G g_game;
 void BroadcastTaskEvent__FP2SWiP2LO(struct G *pg, int n, struct P *p);
 struct E *func_00136A28(struct P *p, int k);
 void func_002206C8(void *pv, int n);
-void func_001928F8(void *pv, int n, void *pv2, int m);
+void StartInteract__FP5ACTORii3JTL(void *pv, int n, void *pv2, int m);
 struct O *func_001CB250(void *pv, int n);
 int func_00224610(struct O *po);
 void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, struct O *po);
@@ -29,7 +29,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
             return;
         }
         if (pe->p8) {
-            func_001928F8(p->a4C0, 0xB, pe->p8, 0);
+            StartInteract__FP5ACTORii3JTL(p->a4C0, 0xB, pe->p8, 0);
             return;
         }
         p->pe16B4 = pe;
@@ -59,7 +59,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
     case 8:
         p->x9BC = k;
         p->x130C = p->x1874;
-        func_001928F8(p->a4C0, 0xB, 0, 0);
+        StartInteract__FP5ACTORii3JTL(p->a4C0, 0xB, 0, 0);
         return;
     default:
         func_00141D38(p, k);

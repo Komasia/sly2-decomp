@@ -9,7 +9,8 @@ struct OBJ {
     int n;
 };
 float func_002458F0(float, float);
-void func_001DA858(OBJ *p)
+// name: SafeHouse port (UpdateShopStick)
+void UpdateShopStick__FP4SHOP(OBJ *p)
 {
     Q *q = p->q;
     int n;

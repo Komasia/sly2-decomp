@@ -1,4 +1,4 @@
-// (Claude agent) func_0015CF30: UI menu state machine. func_002121E8 takes (p, r) with r = func_0015D5C8(p); the n12C==0 flag uses a shared "setf: f = 1" block (reorg fills both beql/bnel slots from it).
+// (Claude agent) UpdateEpMenu__FP6EPMENU: UI menu state machine. func_002121E8 takes (p, r) with r = IdPartCur__FP6EPMENU(p); the n12C==0 flag uses a shared "setf: f = 1" block (reorg fills both beql/bnel slots from it).
 struct CRef { int m_tagk; int m_n; };
 struct CRefG { int m_tagk; float m_g; };
 struct X {
@@ -19,23 +19,23 @@ extern int D_002BE278[];
 extern int D_002BE2A8[];
 void func_00212C50(struct X *p);
 int func_001D9880(void *p);
-int func_0015D5C8(struct X *p);
+int IdPartCur__FP6EPMENU(struct X *p);
 int func_001880D8(void *p);
 int func_00187D80(void *p, int n);
 int func_00187E88(void *p);
-void func_0015D648(struct X *p, int a, int b);
+void SetEpMode__FP6EPMENUii(struct X *p, int a, int b);
 void NProgress(void *pref, void *p, void *q);
 void func_00129EC8(void *pref);
-void func_0015D880(struct X *p, int n);
-void func_001B3A48(void *p, int n);
+void SetHint__FP6EPMENUi(struct X *p, int n);
+void QueueMovie__FPUcPv(void *p, int n);
 void func_0022B490(struct G *pg, int a, int b, int c, int d, int e);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-int func_0015D798(struct X *p);
+int CmovieOpen__FP6EPMENU(struct X *p);
 int func_002121E8(struct X *p, int n);
 void *func_0015E938(struct G *pg, int kind, int oid, int n);
-void func_00228358(void *p, int n);
-void func_002283D0(void *p);
+void SetExitState__FP2LOi(void *p, int n);
+void TriggerExit__FP4EXIT(void *p);
 int func_00210B98(int n);
 
 static __inline__ void PlaySound(int n)
@@ -43,7 +43,8 @@ static __inline__ void PlaySound(int n)
     SetSource__4CSndPv(PsndNewPlain__Fi(n), 0);
 }
 
-void func_0015CF30(struct X *p)
+// name: SafeHouse port (UpdateEpMenu)
+void UpdateEpMenu__FP6EPMENU(struct X *p)
 {
     int r;
     func_00212C50(p);
@@ -53,7 +54,7 @@ void func_0015CF30(struct X *p)
         return;
     if (func_001D9880(D_003DA4F0))
         return;
-    r = func_0015D5C8(p);
+    r = IdPartCur__FP6EPMENU(p);
     switch (p->n11C) {
     case -1:
         return;
@@ -72,16 +73,16 @@ void func_0015CF30(struct X *p)
                 p->n114 = p->n110 - 1;
             else
                 p->n114 = p->n110 + 1;
-            func_0015D648(p, 0.0f < g ? 4 : 6, -1);
+            SetEpMode__FP6EPMENUii(p, 0.0f < g ? 4 : 6, -1);
             return;
         }
         if (func_00187D80(g_joy, 0x40)) {
-            func_0015D648(p, 7, -1);
+            SetEpMode__FP6EPMENUii(p, 7, -1);
             return;
         }
         if (p->n110 && func_00187D80(g_joy, 0x10)) {
             p->n114 = 0;
-            func_0015D648(p, 6, -1);
+            SetEpMode__FP6EPMENUii(p, 6, -1);
             return;
         }
         switch (p->n12C) {
@@ -103,18 +104,18 @@ void func_0015CF30(struct X *p)
                 f = 1;
             }
             if (n && f && 10.0f < D_002DDF0C - p->g130)
-                func_0015D880(p, 1);
+                SetHint__FP6EPMENUi(p, 1);
             return;
         }
         case 1:
             if (func_00187D80(g_joy, 0x80)) {
-                func_001B3A48(D_002F66B0, D_002BE248[p->n110]);
+                QueueMovie__FPUcPv(D_002F66B0, D_002BE248[p->n110]);
                 func_0022B490(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
                 return;
             }
             if (2.0f < D_002DDF0C - p->g130)
-                func_0015D880(p, 0);
+                SetHint__FP6EPMENUi(p, 0);
             return;
         }
         return;
@@ -123,21 +124,21 @@ void func_0015CF30(struct X *p)
         switch (p->n120) {
         case -1:
             if (func_00187D80(g_joy, 0x40))
-                func_0015D648(p, 10, -1);
+                SetEpMode__FP6EPMENUii(p, 10, -1);
             else if (func_00187D80(g_joy, 0x10))
-                func_0015D648(p, 9, -1);
+                SetEpMode__FP6EPMENUii(p, 9, -1);
             return;
         case 0: {
             float g;
             if (func_00187D80(g_joy, 0x40)) {
                 D_002BE270 = p->n128;
-                func_001B3A48(D_002F66B0, D_002BE200[p->n128]);
+                QueueMovie__FPUcPv(D_002F66B0, D_002BE200[p->n128]);
                 func_0022B490(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
                 return;
             }
             if (func_00187D80(g_joy, 0x10)) {
-                func_0015D648(p, 9, -1);
+                SetEpMode__FP6EPMENUii(p, 9, -1);
                 return;
             }
             g = func_00187E88(g_joy);
@@ -145,7 +146,7 @@ void func_0015CF30(struct X *p)
                 PlaySound(0x36);
                 return;
             }
-            if (0.0f < g && p->n128 >= func_0015D798(p)) {
+            if (0.0f < g && p->n128 >= CmovieOpen__FP6EPMENU(p)) {
                 PlaySound(0x36);
                 return;
             }
@@ -154,14 +155,14 @@ void func_0015CF30(struct X *p)
                     p->n128 = p->n128 - 1;
                 else
                     p->n128 = p->n128 + 1;
-                func_0015D648(p, 8, 0.0f < g ? 2 : 1);
+                SetEpMode__FP6EPMENUii(p, 8, 0.0f < g ? 2 : 1);
             }
             return;
         }
         case 1:
         case 2:
             if (!func_002121E8(p, r))
-                func_0015D648(p, 8, 0);
+                SetEpMode__FP6EPMENUii(p, 8, 0);
             return;
         }
         return;
@@ -182,8 +183,8 @@ void func_0015CF30(struct X *p)
             if (f) {
                 void *po = func_0015E938(&g_sw, 5, D_002BE2A8[p->n110], 0);
                 if (po) {
-                    func_00228358(po, 3);
-                    func_002283D0(po);
+                    SetExitState__FP2LOi(po, 3);
+                    TriggerExit__FP4EXIT(po);
                 } else
                     f = 0;
             }
@@ -191,7 +192,7 @@ void func_0015CF30(struct X *p)
                 int s = func_00210B98(p->n110);
                 func_0022B490(&g_sw, s, 0x189, -1, 0, 0x30A);
             }
-            func_0015D648(p, -1, -1);
+            SetEpMode__FP6EPMENUii(p, -1, -1);
         }
         return;
     default:
@@ -202,7 +203,7 @@ void func_0015CF30(struct X *p)
                 p->n128 = 0;
                 n = 0;
             }
-            func_0015D648(p, k, n);
+            SetEpMode__FP6EPMENUii(p, k, n);
         }
         return;
     }

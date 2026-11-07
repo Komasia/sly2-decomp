@@ -30,7 +30,8 @@ typedef struct { qword a[2]; } VPAIR;
 void func_001DEF98(OBJ *, ENT *, VPAIR *, float *);
 void *func_002333B4(void *, int, int);
 void PaloAcceptContact__FP5CTMSG(MSG *);
-void func_001DF260(OBJ *p)
+// name: SafeHouse port (ApplyLaserContacts)
+void ApplyLaserContacts__FP3ALO(OBJ *p)
 {
     int i;
     for (i = 0; i < p->c; i++) {

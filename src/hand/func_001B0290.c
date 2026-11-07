@@ -18,9 +18,10 @@ void func_0019CD38(void *p, int k);
 int func_002127C8(void);
 int func_00210AE0(void);
 int func_00132EA0(void *p);
-void func_001AF4D8(MENU *pm, int c, M *am, int x, void *p);
+void PushPage__FP4MENUiPviUi(MENU *pm, int c, M *am, int x, void *p);
 
-int func_001B0290(X *px)
+// name: SafeHouse port (AentPause)
+int AentPause__FPv(X *px)
 {
     char *pl;
     M *psrc, *pdst;
@@ -71,7 +72,7 @@ int func_001B0290(X *px)
         }
         psrc++;
     }
-    func_001AF4D8(&D_003D9ED0, pdst - D_002F65D0, D_002F65D0, D_003D9ED0.x20, D_002BFD38);
+    PushPage__FP4MENUiPviUi(&D_003D9ED0, pdst - D_002F65D0, D_002F65D0, D_003D9ED0.x20, D_002BFD38);
     if (px) px->x1C |= 2;
     return 1;
 }

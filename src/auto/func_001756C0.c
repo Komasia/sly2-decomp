@@ -1,6 +1,6 @@
 #include "m2c_prelude.h"
 s32 func_00174898(s32);                             /* extern */
-s32 func_001EF0B8(void *, s32, void *);             /* extern */
+s32 Message__5AIJOBiPv(void *, s32, void *);             /* extern */
 
 // name: SafeHouse port (JOBACT::Message)
 s32 Message__6JOBACTiPv(void *arg0, s32 arg1, void *arg2) {
@@ -17,5 +17,5 @@ s32 Message__6JOBACTiPv(void *arg0, s32 arg1, void *arg2) {
         }
     }
 block_5:
-    return func_001EF0B8(arg0, arg1, arg2);
+    return Message__5AIJOBiPv(arg0, arg1, arg2);
 }

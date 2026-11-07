@@ -17,7 +17,8 @@ typedef struct {
 } OBJ;
 void func_00213928(void *, int);
 void func_00213B00(void *, int);
-void func_001DB390(OBJ *p, int key)
+// name: SafeHouse port (SelectGadget)
+void SelectGadget__FPvi(OBJ *p, int key)
 {
     int i;
     p->key = key;

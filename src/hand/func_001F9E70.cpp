@@ -40,7 +40,8 @@ static inline void NearVector(int *out,const qword &first,const qword &b){regist
 static inline void AddVector(U *out,const qword &q){qword r,v;__asm__("lqc2 %0,%2\n\tlqc2 %1,%3":"=j"(r),"=j"(v):"m"(*out),"m"(q));__asm__("vadd.xyzw %0,%0,%1":"+j"(r):"j"(v));out->q=r;}
 static inline qword*PointAddress(OWNER*p,qword*value){register qword*address __asm__("$4");register qword point __asm__("vf2");__asm__("addiu %0,%2,0x30\n\tlqc2 %1,%3":"=&r"(address),"=j"(point):"r"(p),"m"(p->position));*value=point;return address;}
 static inline float HalfAndDelta(float dt,float half,const qword&source,qword*delta){register float product __asm__("$f0");register qword d __asm__("vf3");__asm__("mul.s %0,%2,%3\n\tlqc2 %1,%4":"=f"(product),"=j"(d):"f"(dt),"f"(half),"m"(source));*delta=d;return product;}
-extern "C" void func_001F9E70(P *input)
+// name: SafeHouse port (ApplyAloVelocityChangesMoving)
+extern "C" void ApplyAloVelocityChangesMoving__FP3ALO(P *input)
 {
     register P *p __asm__("$18");
     __asm__("daddu %0,%1,$zero":"=r"(p):"r"(input));

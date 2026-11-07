@@ -5,9 +5,9 @@ struct B { char pad[0xC];
   virtual void v16(); };
 struct S : B {
   char pad10[0x48]; int x58; char pad5c[0x14]; int x70; int x74; int x78; char pad7c[8]; void *x84;
-  void A(int) __asm__("func_00212A70");
+  void A(int) __asm__("SetState__FP8SCREENRTi");
   void Bf(int) __asm__("func_00212A50");
-  int F(void *, int) __asm__("func_002142B0");
+  int F(void *, int) __asm__("FRootHasPart__FP8SCREENRTPvi");
   void M(int) __asm__("func_002128E8");
 };
 void S::M(int k)

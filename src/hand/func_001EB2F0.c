@@ -20,10 +20,10 @@ struct L {
 };
 extern void **D_003DD004;
 void Read__18CBinaryInputStreamiPv(void *, int, void *);
-void func_001ED278(int *);
+void AdjustRgba__FPUi(int *);
 int func_00117D50(void *);
 void *PvAllocSwClearImpl__Fi(struct MSG *);
-void func_001EB1A8(void *, struct C *);
+void LoadTexFromBrx__FP18CBinaryInputStreamP3TEX(void *, struct C *);
 static inline void InitEnt(struct ENT *pe, int n, struct MSG *pmsg)
 {
     pe->n = n;
@@ -31,15 +31,16 @@ static inline void InitEnt(struct ENT *pe, int n, struct MSG *pmsg)
     pmsg->nKind = 0x10;
     pe->p = PvAllocSwClearImpl__Fi(pmsg);
 }
-void func_001EB2F0(void *pbis, struct L *p)
+// name: SafeHouse port (LoadShdFromBrx)
+void LoadShdFromBrx__FP3SHDP18CBinaryInputStream(void *pbis, struct L *p)
 {
     struct MSG msg;
     int i, j;
     struct ENT *ae, *pe;
     Read__18CBinaryInputStreamiPv(pbis, 0x18, p);
-    func_001ED278(&p->c8);
-    func_001ED278(&p->cC);
-    func_001ED278(&p->c10);
+    AdjustRgba__FPUi(&p->c8);
+    AdjustRgba__FPUi(&p->cC);
+    AdjustRgba__FPUi(&p->c10);
     i = func_00117D50(pbis);
     if (i >= 0)
         p->p28 = D_003DD004[i];
@@ -48,7 +49,7 @@ void func_001EB2F0(void *pbis, struct L *p)
     p->ac = PvAllocSwClearImpl__Fi(&msg);
     for (j = 0; j < p->b17; j++) {
         struct C *pc = &p->ac[j];
-        func_001EB1A8(pbis, pc);
+        LoadTexFromBrx__FP18CBinaryInputStreamP3TEX(pbis, pc);
         pc->p8 = p;
     }
     p->n24 = p->ac->b6;

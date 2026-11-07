@@ -1,6 +1,7 @@
 typedef struct E { int a; int k; int n; int b; } E;
 typedef struct T { char pad[0xA0]; int c; E *a; } T;
-E *func_0012F938(T *t, int n)
+// name: SafeHouse port (PeventLaunch)
+E *PeventLaunch__FP5KINDEi(T *t, int n)
 {
     int i;
     E *e;

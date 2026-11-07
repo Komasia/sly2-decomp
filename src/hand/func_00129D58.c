@@ -1,6 +1,7 @@
 typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
-CRef *func_00129D58(CRef *pref, CRef *prefSrc)
+// name: SafeHouse port (CRef::RefCoerceS32)
+CRef *RefCoerceS32__4CRef(CRef *pref, CRef *prefSrc)
 {
     if (prefSrc->m_tagk == 0x15) {
         __4CRefRC4CRef(pref, prefSrc);

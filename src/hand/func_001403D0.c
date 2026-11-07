@@ -29,8 +29,8 @@ int func_00131968(int x);
 void func_001306A8(int *px);
 int func_0014FD50(void *p);
 void func_00187DE0(struct G *pg, int n);
-void func_001DB490(void *p);
-void func_001EED10(int *p);
+void OpenGadgetMenu__FP2SW(void *p);
+void UpdateJobs__FP5ACTOR(int *p);
 void func_001403D0(struct P *p)
 {
     int *pl;
@@ -61,9 +61,9 @@ void func_001403D0(struct P *p)
         struct G *pg = &g_joy;
         if ((pg->x10B4 & 0x108) == 0x100) {
             func_00187DE0(pg, 0x100);
-            func_001DB490(D_003DA0F0);
+            OpenGadgetMenu__FP2SW(D_003DA0F0);
         }
     }
     if (!func_001449C8(pl))
-        func_001EED10(&p->x26C);
+        UpdateJobs__FP5ACTOR(&p->x26C);
 }

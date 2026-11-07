@@ -16,20 +16,21 @@ struct S { char pad[0x194]; void *f194; };
 struct O;
 extern char D_003D4A60[];
 extern "C" {
-void func_0013C560(void *, int);
+void SetBootyState(void *, int) asm("SetBootyState__FP2LOi");
 O *AkeyStand(S *) asm("AkeyStand__FP2LO");
-void func_0013CF38(S *, int);
+void AttachStandBooty(S *, int) asm("AttachStandBooty__FP2LO");
 CRef func_00258200(O *, const CRef &, void *);
 }
 static inline void SetPv(O *pv, const CRef &r, void *) { CRef arg(r); const CRef &ret = func_00258200(pv, arg, D_003D4A60); }
-extern "C" void func_0013D328(S *p, int n)
+// name: SafeHouse port (SetStandBooty)
+extern "C" void SetStandBooty__FP2LOi(S *p, int n)
 {
-    if (p->f194) func_0013C560(p->f194, 0);
+    if (p->f194) SetBootyState(p->f194, 0);
     FRAME frame;
     {
         O *po = AkeyStand(p);
         CRef ref(0x15, n);
         SetPv(po, ref, D_003D4A60);
     }
-    if (n != -1) func_0013CF38(p, 0);
+    if (n != -1) AttachStandBooty(p, 0);
 }

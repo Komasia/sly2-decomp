@@ -1,4 +1,4 @@
-// func_001C9B08: ported from Lilly's personal Sly 2 decomp (src/P2/proxy.c), reduced to the declarations it needs.
+// LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK: ported from Lilly's personal Sly 2 decomp (src/P2/proxy.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // 0x001C9B08 LoadProxyFromBrx__FP2SWP2SO3CID3OIDiP18CBinaryInputStreamP14CLoadCollector  (MATCHES Sly 2, T0925)
 // Reads one proxy of an object list (LoadSwObjectsFromBrx calls it for class 6 and its subclasses):
@@ -683,7 +683,8 @@ inline void *PvAllocSw(int cb, int cbAlign)
     pswalloc->cbAlign = cbAlign;
     return PvAllocSwImpl(pswalloc);
 }
-void LoadProxyFromBrx(SW *psw, SO *psoParent, CID cid, OID oid, int isplice, CBinaryInputStream *pbis, CLoadCollector *pcollector) __asm__("func_001C9B08");
+void LoadProxyFromBrx(SW *psw, SO *psoParent, CID cid, OID oid, int isplice, CBinaryInputStream *pbis, CLoadCollector *pcollector) __asm__("LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK");
+// name: SafeHouse port (LoadProxyFromBrx)
 void LoadProxyFromBrx(SW *psw, SO *psoParent, CID cid, OID oid, int isplice, CBinaryInputStream *pbis, CLoadCollector *pcollector)
 {
     int idSource = pbis->S32Read();

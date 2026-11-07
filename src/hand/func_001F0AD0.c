@@ -1,6 +1,7 @@
 struct E { int pad[5]; float g; };
 float GRandInRange__Fff(float, float);
-struct E *func_001F0AD0(void *p, int n, struct E **ape)
+// name: SafeHouse port (PsmtChoose)
+struct E *PsmtChoose__FPviT0(void *p, int n, struct E **ape)
 {
     float sum = 0.0f;
 

@@ -7,7 +7,8 @@ extern struct E20 *D_003DCFFC;
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, void *pv);
 int func_00117C20(void *pbis);
 void *PvAllocSwImpl__Fi(struct AR *par);
-void func_001EB1A8(void *pbis, struct Z *pz)
+// name: SafeHouse port (LoadTexFromBrx)
+void LoadTexFromBrx__FP18CBinaryInputStreamP3TEX(void *pbis, struct Z *pz)
 {
     struct AR ar;
     int i;

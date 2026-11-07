@@ -4,7 +4,7 @@ extern char D_002C01D0[], D_002C01F0[], D_002C0210[];
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 void *func_001C4840(void *p);
 int func_00132EA0(void *p);
-void func_001AF4D8(void *p, int a, int b, int c, char *s);
+void PushPage__FP4MENUiPviUi(void *p, int a, int b, int c, char *s);
 void func_001B0740(struct S *p)
 {
     char *s;
@@ -15,6 +15,6 @@ void func_001B0740(struct S *p)
     case 0x36: s = D_002C0210; break;
     default: return;
     }
-    func_001AF4D8(D_003D9ED0, 0, 0, 0, s);
+    PushPage__FP4MENUiPviUi(D_003D9ED0, 0, 0, 0, s);
     if (p) p->f |= 2;
 }

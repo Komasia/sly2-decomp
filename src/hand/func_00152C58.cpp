@@ -1,4 +1,4 @@
-// func_00152C58 (Claude agent, lane D17): MATCH. The last diff was the daddu a0/sb order in the key loop: in sched1 the f12 = scale arg move
+// DrawDancePrompts (Claude agent, lane D17): MATCH. The last diff was the daddu a0/sb order in the key loop: in sched1 the f12 = scale arg move
 // (reg weight 0) took the t=1 alu slot ahead of a0 = &fontBig (weight +1), so a0 got a later luid than the a[0] store. Pinning scale to $f12 removes that move.
 typedef int qword __attribute__((mode(TI)));
 struct FONT { char ab[0x84]; float dy; char pad[0xA0 - 0x88]; };
@@ -45,12 +45,13 @@ float TMusicTop(void *p) asm("TMusicTop__FPv");
 FONT *func_00215AC0(FONT *pf, const char *sz, float scale);
 float func_00215ED8(FONT *pf);
 void func_002163B0(FONT *pf, TB *ptb, int grf);
-void func_00117120(float dt, float t, float dtScale, qword p0, qword v0, qword p1, qword v1, qword *ppos, qword *pvel, qword *pacc);
-void func_00152C58(P *p);
+void Hermite(float dt, float t, float dtScale, qword p0, qword v0, qword p1, qword v1, qword *ppos, qword *pvel, qword *pacc) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
+void DrawDancePrompts(P *p) asm("DrawDancePrompts__FP7FONTBRX");
 }
 
 static inline float GMax(float a, float b) { return a < b ? b : a; }
-void func_00152C58(P *p)
+// name: SafeHouse port (DrawDancePrompts)
+void DrawDancePrompts(P *p)
 {
     func_001A5ED8(p);
     float t = TMusicTop(D_003DD040);
@@ -127,7 +128,7 @@ void func_00152C58(P *p)
                 break;
             }
             if (p->stateHint == 1) {
-                func_00117120(GMax(pe->t - t, g_clock.dt), g_clock.dt, 1.0f, p->pos, p->vel, pe->pos, D_002BDBD0, &p->pos, &p->vel, 0);
+                Hermite(GMax(pe->t - t, g_clock.dt), g_clock.dt, 1.0f, p->pos, p->vel, pe->pos, D_002BDBD0, &p->pos, &p->vel, 0);
             }
         }
         tb.x = ((float *)&p->pos)[0] - dxB * 0.5f;

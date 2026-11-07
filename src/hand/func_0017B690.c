@@ -3,7 +3,7 @@ struct U { char pad[0x40]; void *p40; };
 struct T { char pad[0xF60]; int nF60; };
 struct S { char pad[0x10]; struct T *pt; int pad2; struct U *p18; char pad3[0x14]; int n30; };
 int PasegaOfKinde__FP5KINDE(void *p);
-int func_001EF0B8(struct S *p, int msg, struct M *pm);
+int Message__5AIJOBiPv(struct S *p, int msg, struct M *pm);
 // name: SafeHouse port (JOBSHOOT::Message)
 int Message__8JOBSHOOTiPv(struct S *p, int msg, struct M *pm) {
     if (msg == 9 && !p->n30 && p->p18->p40 && PasegaOfKinde__FP5KINDE(p->p18->p40) == pm->n0) {
@@ -12,5 +12,5 @@ int Message__8JOBSHOOTiPv(struct S *p, int msg, struct M *pm) {
         case 0x32: p->pt->nF60 = 0; return 1;
         }
     }
-    return func_001EF0B8(p, msg, pm);
+    return Message__5AIJOBiPv(p, msg, pm);
 }

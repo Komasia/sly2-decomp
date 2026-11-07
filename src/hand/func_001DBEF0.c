@@ -26,14 +26,15 @@ extern float D_002C35B0;
 extern int D_002C3588[];
 extern REC D_002BCD00[];
 void *func_002333B4(void *, int, unsigned int);
-int func_001DBBA0(OBJ *);
+int IRowEnd__FP4SHOP(OBJ *);
 void func_00213CD8(SUB *, int, M2 *);
-void func_00213DB0(SUB *, int, int *);
+void SelectScreenObjPartHandle__FP2LOiPi(SUB *, int, int *);
 void func_00213BD8(SUB *, int, int);
 void func_00213A08(SUB *, int, int);
 void func_00213B00(SUB *, int);
 void func_00213928(SUB *, int);
-void func_001DBEF0(OBJ *p)
+// name: SafeHouse port (UpdateShopLook)
+void UpdateShopLook__FP4SHOP(OBJ *p)
 {
     M2 m;
     int end;
@@ -43,16 +44,16 @@ void func_001DBEF0(OBJ *p)
     func_002333B4(&m, 0, sizeof(m));
     m.a[3] = 1.0f;
     m.a[0] = 1.0f;
-    end = func_001DBBA0(p);
+    end = IRowEnd__FP4SHOP(p);
     if (p->x250 > 0) {
         int id = p->x40 == 0 ? 0x4DA : 0x4A1;
         if (D_003DA570) {
             func_00213CD8(p->x24, id, &m);
             m.a[5] += D_002C35B0;
         }
-        func_00213DB0(p->x24, id, &p->x260);
+        SelectScreenObjPartHandle__FP2LOiPi(p->x24, id, &p->x260);
     } else {
-        func_00213DB0(p->x24, -1, &p->x260);
+        SelectScreenObjPartHandle__FP2LOiPi(p->x24, -1, &p->x260);
     }
     for (i = p->x250; i < end; i++) {
         E8 *e = &p->ae[i];
@@ -103,9 +104,9 @@ void func_001DBEF0(OBJ *p)
             func_00213CD8(p->x24, id, &m);
             m.a[5] += D_002C35B0;
         }
-        func_00213DB0(p->x24, id, &p->x264);
+        SelectScreenObjPartHandle__FP2LOiPi(p->x24, id, &p->x264);
     } else {
-        func_00213DB0(p->x24, -1, &p->x264);
+        SelectScreenObjPartHandle__FP2LOiPi(p->x24, -1, &p->x264);
     }
-    func_00213DB0(p->x24, (p->x30 != -1) ? 0x43B : 0x439, &p->x25C);
+    SelectScreenObjPartHandle__FP2LOiPi(p->x24, (p->x30 != -1) ? 0x43B : 0x439, &p->x25C);
 }

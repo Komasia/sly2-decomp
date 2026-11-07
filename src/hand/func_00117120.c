@@ -1,7 +1,7 @@
 /* (Claude agent) BODY IS EXACT: identical to the target except the 2 leading nops the build adds before the
    function-entry div.s. Those nops ARE in the original binary at 0x117120-0x117127, but config/junk.csv lists
    0x117120..0x117128 as a dead-code scrap and functions.csv starts this function at 0x117128. Fix: make the function
-   start at 0x117120 (drop the junk.csv entry) and this file should match as-is (rename to func_00117120). */
+   start at 0x117120 (drop the junk.csv entry) and this file should match as-is (rename to Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 static inline qword VF(float g)
@@ -10,7 +10,8 @@ static inline qword VF(float g)
     __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(g));
     return q;
 }
-void func_00117120(qword p0, qword v0, qword p1, qword v1, float dt, float t, float dtScale, qword *ppos, qword *pvel, qword *pacc)
+// name: SafeHouse port (Hermite)
+void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(qword p0, qword v0, qword p1, qword v1, float dt, float t, float dtScale, qword *ppos, qword *pvel, qword *pacc)
 {
     float v;
     U tmp;

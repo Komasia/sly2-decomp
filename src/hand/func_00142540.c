@@ -1,14 +1,14 @@
 typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VTE *vt; char pad2[0x30 - 0x10]; int n30; char pad3[0x40 - 0x34]; qword q40; };
-void func_001EECD0(void *p);
+void ClearJobs__FP5ACTOR(void *p);
 struct O *func_00205438(void *p, int n);
 // name: SafeHouse port (SetActorFollow)
 void SetActorFollow__FP5ACTORiG9VU_VECTOR(char *p, int a, qword q)
 {
     struct O *o;
     struct VTE *e;
-    func_001EECD0(p + 0x26C);
+    ClearJobs__FP5ACTOR(p + 0x26C);
     if (a) {
         o = func_00205438(p, 0xC2);
         o->n30 = a;

@@ -56,7 +56,8 @@ static inline void NormalizeIn(qword *pv)
     qword l, one;
     __asm__("vmul.xyz %1, %0, %0\n\tvaddw.x %2, $vf0, $vf0w\n\tvadday.x $ACC, %1, %1y\n\tvmaddz.x %1, %2, %1z\n\tvsqrt $Q, %1x\n\tvwaitq\n\tvaddq.x %1, $vf0, $Q\n\tvdiv $Q, $vf0w, %1x\n\tvwaitq\n\tvmulq.xyzw %0, %0, $Q" : "+j"(*pv), "=&j"(l), "=&j"(one));
 }
-qword func_001FA810(struct S *ps, struct O *po, qword v)
+// name: SafeHouse port (ProjectCnstr)
+qword ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR(struct S *ps, struct O *po, qword v)
 {
     switch (ps->k) {
     case 3:

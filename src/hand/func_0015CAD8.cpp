@@ -2,7 +2,7 @@
 // Static initialization (g++ __static_initialization_and_destruction_0) of the emitter defaults and six slot heaps.
 // (Lilly's agent, T1656) MATCH, no register pins, no stand-ins.
 //
-// D_002DE5B0 / D_002DE5F0 are the EMITO / EMITV defaults that func_00159118 (InitEmitb) copies into EMITB+0x10 /
+// D_002DE5B0 / D_002DE5F0 are the EMITO / EMITV defaults that InitEmitb (InitEmitb) copies into EMITB+0x10 /
 // +0x50 (Sly 1's InitEmitb builds the same two objects as guarded local statics). Their initializers hold the
 // non-constant vectors D_002A2DD0 (0,0,0), D_002A2DA0 (1,0,0) and g_normalZ (0,0,1), so g++ builds each one in a
 // memset stack temp and block-copies it.

@@ -46,14 +46,14 @@ void func_001D4B28(P *, int);
 float func_002456F0(float);
 M3 func_0011B500(qword, float);
 int func_001C0960(void *, qword, qword, int, HIT *, int);
-void func_001E6180(PATH *);
+void RecalcCrv(PATH *) asm("RecalcCrv__FP3CRV");
 void func_001D2420(P *);
 void FNavPathCrv(void *, qword, qword, PATH *) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 float func_002458F0(float, float);
 M3 *func_001A6318(P *);
 qword VecXfValue(void *, void *) asm("VecXfValue__FP2XFP7MATRIX4");
 float RadNormalize(float) asm("RadNormalize__Ff");
-void func_001F0660(void *, int);
+void SetSmaGoal(void *, int) asm("SetSmaGoal__FP3SMA3OID");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 void func_001D2490(P *);
 int func_001D4E08(ATTACH *);
@@ -175,7 +175,7 @@ extern "C" void func_001D2610(P *p)
             p->path->points[0].q = position;
             p->path->points[1].q = goal;
             p->path->count = 2;
-            func_001E6180(p->path);
+            RecalcCrv(p->path);
             func_001D2420(p);
         } else if (p->path->count < 2 || 50.0f < Dist2D(p->path->points[p->path->count - 1].q, target)) {
             FNavPathCrv(p->navigator, position, target, p->path);
@@ -204,7 +204,7 @@ extern "C" void func_001D2610(P *p)
                     break;
                 }
             fire:
-                func_001F0660(attach->binding, 0x68);
+                SetSmaGoal(attach->binding, 0x68);
                 float t = g_clock.t;
                 p->nextAttack = t + GRandInRange(1.0f, 1.5f);
             }
@@ -246,7 +246,7 @@ extern "C" void func_001D2610(P *p)
                 if (D_002C20F4 < error || D_002C20F8 < Abs(pitch))
                     continue;
             }
-            func_001F0660(attach->binding, 0x68);
+            SetSmaGoal(attach->binding, 0x68);
             float t = g_clock.t;
             p->nextAttack = t + GRandInRange(attach->fireInterval.min, attach->fireInterval.max);
         }

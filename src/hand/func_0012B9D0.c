@@ -4,7 +4,7 @@ typedef union V3Q { VECTOR3 v; qword q; } V3Q;
 typedef struct KEY { VECTOR3 pos; float t; qword dposIn; qword dposOut; } KEY;
 typedef struct T { int pad; int c; KEY *a; } T;
 int IkeyFind__5TRKPKf(T *t, float g);
-void func_00117120(float tMax, float t, float s, qword a, qword va, qword b, qword vb, void *ppos, void *pv, int n);
+void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float tMax, float t, float s, qword a, qword va, qword b, qword vb, void *ppos, void *pv, int n);
 // name: SafeHouse port (TRKPK::Eval)
 void Eval__5TRKPKP7VECTOR4T1ff(T *t, void *pv, void *pdv, float g, float dtScale)
 {
@@ -12,5 +12,5 @@ void Eval__5TRKPKP7VECTOR4T1ff(T *t, void *pv, void *pdv, float g, float dtScale
     V3Q u0, u1;
     u0.v = t->a[i - 1].pos;
     u1.v = t->a[i].pos;
-    func_00117120(t->a[i].t - t->a[i - 1].t, g - t->a[i - 1].t, dtScale, u0.q, *(qword *)((char *)&t->a[i] - 0x10), u1.q, t->a[i].dposIn, pv, pdv, 0);
+    Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(t->a[i].t - t->a[i - 1].t, g - t->a[i - 1].t, dtScale, u0.q, *(qword *)((char *)&t->a[i] - 0x10), u1.q, t->a[i].dposIn, pv, pdv, 0);
 }

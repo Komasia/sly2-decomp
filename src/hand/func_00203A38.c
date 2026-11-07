@@ -4,7 +4,7 @@ void func_001F36A8(struct O *p);
 int func_001E94B0(int a, int b);
 void SetXfMode__FP3ALOP2XFi(struct O *p, int n, int f);
 void *func_001F6030(struct O *p, int oid);
-void func_00203AF0(struct O *p, void *pv);
+void MakeStepCustomEntry__FP3ALOP3SOE(struct O *p, void *pv);
 void SetSoeOff__FP3ALOP3SOE(struct O *p, void *pv);
 void func_001EEC70(void *pv);
 void PostStepLoad__FP4STEP(struct O *p)
@@ -16,7 +16,7 @@ void PostStepLoad__FP4STEP(struct O *p)
     if (p->oid != -1) {
         p->p268 = func_001F6030(p, p->oid);
         if (p->p268) {
-            func_00203AF0(p, p->p268);
+            MakeStepCustomEntry__FP3ALOP3SOE(p, p->p268);
             SetSoeOff__FP3ALOP3SOE(p, p->p268);
         }
     }

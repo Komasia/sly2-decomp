@@ -11,14 +11,14 @@ extern struct { float t; float dt; } g_clock;
 extern float D_002C3C80[3];
 extern float g_lmZeroOne[2];
 void UpdateSo__FP2SOf(struct S *p);
-void func_00203E08(struct S *p);
+void UpdateStepMesh__FP3ALO(struct S *p);
 float func_002458F0(float y, float x);
 float RadNormalize__Ff(float a);
 
 void UpdateStep__FP4STEPf(struct S *p)
 {
     UpdateSo__FP2SOf(p);
-    func_00203E08(p);
+    UpdateStepMesh__FP3ALO(p);
     switch (p->k1A4) {
     case 0: {
         float *a = p->vt->e[31].pf((char *)p + p->vt->e[31].d);

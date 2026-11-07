@@ -2,7 +2,8 @@ typedef struct EDGE { int x0; unsigned short ipos[2]; } EDGE;
 typedef struct LSG { char pad[0x54]; EDGE *pedge; int pad2; struct LSG *next; } LSG;
 typedef struct VTX { char pad[0x18]; int grf; int pad2[1]; } __attribute__((aligned(32))) VTX;
 typedef struct NODE { struct NODE *parent; LSG *plsg; int ipos; } NODE;
-int func_001A86B8(VTX *avtx, int iposStart, int iposEnd, LSG *plsgFirst, LSG **aplsg)
+// name: SafeHouse port (CPathAlsg)
+int CPathAlsg__FP4GEOMiiP3LSGPP3LSG(VTX *avtx, int iposStart, int iposEnd, LSG *plsgFirst, LSG **aplsg)
 {
     NODE anode[64];
     int inode;

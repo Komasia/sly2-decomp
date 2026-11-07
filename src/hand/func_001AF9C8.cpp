@@ -9,7 +9,8 @@ extern char D_003D4A60[];
 }
 CRef Eval(int a, void *b) __asm__("NProgress");
 static inline int GetTag(int id) { return Eval(id, D_003D4A60).m_tag; }
-extern "C" void func_001AF9C8(int *s)
+// name: SafeHouse port (InitOptionText)
+extern "C" void InitOptionText__FP7MENUENT(int *s)
 {
     int t;
     switch (*s) {

@@ -1,6 +1,6 @@
 struct S { char pad[0x13D0]; int k; };
-void func_001F9B20(struct S *p);
-void func_00204108(struct S *p);
+void ApplyAloGravity__FP3ALO(struct S *p);
+void UpdateStepPhysMotion__FP3ALO(struct S *p);
 void func_00196DF8(void *p);
 void func_00194170(void *p);
 void UpdateDamageMotion__FP5ACTOR(void *p);
@@ -10,8 +10,8 @@ void func_0019DF70(void *p);
 void UpdateMurrayMotion__FP3ALO(struct S *p)
 {
     char *b = (char *)p;
-    if (p->k == 20) func_001F9B20(p);
-    else func_00204108(p);
+    if (p->k == 20) ApplyAloGravity__FP3ALO(p);
+    else UpdateStepPhysMotion__FP3ALO(p);
     switch (p->k) {
     case 2: func_00196DF8(b + 0x2C0); break;
     case 13: func_00194170(b + 0x4C0); break;

@@ -25,7 +25,8 @@ typedef char P_parameter_Offset[FIELD_OFFSET(struct P,parameter)==620?1:-1];
 typedef char P_PrefixSize[sizeof(struct P)==0x270?1:-1];
 typedef char Vector_Size[sizeof(struct VECTOR)==16?1:-1];
 typedef char AsegaArray_Size[sizeof(((struct P*)0)->asega)==48?1:-1];
-void func_001B1E88(struct P *p,struct LO *source,struct VECTOR *point)
+// name: SafeHouse port (SetMissileTarget)
+void SetMissileTarget__FP3ALOP2LOP6VECTOR(struct P *p,struct LO *source,struct VECTOR *point)
 {
  struct VECTOR v;
  v=*point;

@@ -4,7 +4,8 @@ typedef struct VR { TI vec; int cref; } VR;
 extern char D_00452188[];
 VR *func_0011CCC0(void *pslotheap);
 void Decref__4CRef(CRef *pref);
-CRef *func_00129718(CRef *pref, TI vec)
+// name: SafeHouse port (CRef::SetVector)
+CRef *SetVector__4CRefG9VU_VECTOR(CRef *pref, TI vec)
 {
     VR *p;
     Decref__4CRef(pref);

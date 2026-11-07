@@ -9,7 +9,8 @@ static inline int Count(const int*p){
     __asm__("lw %0,%1":"=r"(value):"m"(*p));
     return value;
 }
-struct O *func_001EEE00(struct STK *stack,int selector){
+// name: SafeHouse port (PjobPush)
+struct O *PjobPush__FP5GUARD3CID(struct STK *stack,int selector){
     struct O *previous,*object;
     void *memory;
     if(stack->count==0)previous=0;

@@ -2,10 +2,11 @@ struct E { int oid; int k; void *o; int kk; float ag[3]; };
 struct S { char pad[0x234]; float g234; float g238; char pad2[0x2A8 - 0x23C]; int c; struct E ae[8]; };
 extern char g_sw[];
 void *func_0015E938(void *g, int k, int oid, void *p);
-void func_001F1448(void *o2, void *o, int k, int n, void **ppo);
+void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(void *o2, void *o, int k, int n, void **ppo);
 int func_00152628(int k);
 float GRandInRange__Fff(float a, float b);
-void func_00152810(struct S *p)
+// name: SafeHouse port (InitDanceCrowd)
+void InitDanceCrowd__FP2LO(struct S *p)
 {
     int i, j;
     float d = __builtin_fabsf(p->g238 - p->g234) / 3.0f;
@@ -20,7 +21,7 @@ void func_00152810(struct S *p)
         o2 = func_0015E938(g_sw, 1, 0x625, o);
         if (!o2)
             continue;
-        func_001F1448(o2, o, pe->k, 0, &pe->o);
+        ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(o2, o, pe->k, 0, &pe->o);
         pe->kk = func_00152628(pe->k);
         g = p->g238;
         for (j = 0; j < 2; j++) {

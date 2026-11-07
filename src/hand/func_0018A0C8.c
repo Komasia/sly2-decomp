@@ -12,18 +12,18 @@ struct S {
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 int GrfActorLookMask__FP5ACTOR(struct S *p);
-void func_001F1350(void *p, int n);
+void SetSmaMask__FP3SMAUi(void *p, int n);
 float func_0011CFE0(float g, float h);
-void func_00204660(struct S *p, float g);
+void SetStepPhysHeading__FP3ALOf(struct S *p, float g);
 void func_00189C40(struct S *p, int a, int b, int c, float g, void *pv);
 int func_00189EC8(struct S *p, void *pv, int n);
 int func_001F0400(void *p, int n);
-void func_001F09D8(void *p, int n);
+void SetSmaState__FP3SMA3OID(void *p, int n);
 // name: SafeHouse port (UpdateSlyStanding)
 void UpdateSlyStanding__FP3SLY(struct S *p)
 {
     struct VTE *e;
-    func_001F1350(p->x1034, GrfActorLookMask__FP5ACTOR(p));
+    SetSmaMask__FP3SMAUi(p->x1034, GrfActorLookMask__FP5ACTOR(p));
     e = &p->vt[92];
     if (!((int (*)(void *))e->pfn)((char *)p + e->d) && p->pt208) {
         struct O *o = p->pt208->po;
@@ -31,14 +31,14 @@ void UpdateSlyStanding__FP3SLY(struct S *p)
         e = &o->vt[34];
         u.q = ((qword (*)(void *))e->pfn)((char *)o + e->d);
         u.v.z = func_0011CFE0(u.v.z, 10.0f);
-        func_00204660(p, p->g1a8 + u.v.z * g_clock.dt);
+        SetStepPhysHeading__FP3ALOf(p, p->g1a8 + u.v.z * g_clock.dt);
     }
     if (p->x19f0) {
         func_00189C40(p, p->x19d8, p->x19e0, p->x19f0, 5.0f, p->x1520);
         func_00189C40(p, p->x19d4, p->x19dc, p->x19f4, 5.0f, p->x1620);
         if ((!func_00189EC8(p, p->x1520, p->x19f0) || !func_00189EC8(p, p->x1620, p->x19f4)) &&
             !p->x1514 && p->x1028) {
-            if (func_001F0400(p->x1028, 0x17C) >= 0) func_001F09D8(p->x1034, 0x17C);
+            if (func_001F0400(p->x1028, 0x17C) >= 0) SetSmaState__FP3SMA3OID(p->x1034, 0x17C);
             p->x1514 = 1;
         }
     }

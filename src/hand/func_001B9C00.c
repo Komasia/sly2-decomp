@@ -1,7 +1,7 @@
 struct S { char pad[0x1034]; void *p1034; char pad1[0x1530 - 0x1038]; void *p1530; int n1534; };
 void func_001B6078(struct S *p, int n);
-void func_001F0948(void *p, int n);
-void func_001F0660(void *p, int n);
+void SnapSmaGoal__FP3SMA3OID(void *p, int n);
+void SetSmaGoal__FP3SMA3OID(void *p, int n);
 // name: SafeHouse port (StartMurrayHold)
 void StartMurrayHold__FP6MURRAYP3SMAiii(struct S *p, void *pv, int n, int m, int f)
 {
@@ -12,12 +12,12 @@ void StartMurrayHold__FP6MURRAYP3SMAiii(struct S *p, void *pv, int n, int m, int
         return;
     if (p->p1530) {
         if (f)
-            func_001F0948(p->p1530, n);
+            SnapSmaGoal__FP3SMA3OID(p->p1530, n);
         else
-            func_001F0660(p->p1530, n);
+            SetSmaGoal__FP3SMA3OID(p->p1530, n);
     }
     if (f)
-        func_001F0948(p->p1034, n);
+        SnapSmaGoal__FP3SMA3OID(p->p1034, n);
     else
-        func_001F0660(p->p1034, n);
+        SetSmaGoal__FP3SMA3OID(p->p1034, n);
 }

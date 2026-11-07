@@ -50,7 +50,7 @@ extern "C" {
 void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
 LO *func_001CCA40(void *pw, LO *po);
 void func_0011C168(MAT4 *pd, MAT4 *pa, MAT4 *pb);
-void func_001A6BE8(LO *po, MAT4 *pm);
+void PlaceAloAt(LO *po, MAT4 *pm) asm("PlaceAloAt__FP3ALOP7MATRIX4");
 void SetAloCnstrLin(LO *po, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(LO *po, int n) asm("SetAloCnstrAng__FP3ALOi");
 qword VecXfValue(void *a, void *b) asm("VecXfValue__FP2XFP7MATRIX4");
@@ -80,7 +80,7 @@ void func_001CD098(S *p, LO *po)
         func_0011C168(&t, &m, &w);
         m = t;
     }
-    func_001A6BE8(po, &m);
+    PlaceAloAt(po, &m);
     if (po->xE8) {
         SetAloCnstrLin(po, 1);
         SetAloCnstrAng(po, 1);

@@ -5,14 +5,14 @@ struct O { char pad[0xC]; struct VTE *vt; char pad2[0x2C]; int n3C; };
 struct T { char pad[0x1B0]; struct M3 m1B0; char pad2[0xF84 - 0x1E0]; void *pF84; };
 struct S { char pad[0x10]; struct T *pt; };
 extern qword g_normalZ;
-void func_001EEF70(struct S *p);
+void Enter__5AIJOB(struct S *p);
 struct O *func_00205438(void *p, int n);
 qword *func_001A6318(void *p);
 struct M3 BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(qword a, qword b);
 // name: SafeHouse port (JOBHOLD::Enter)
 void Enter__7JOBHOLD(struct S *p) {
     struct O *o; struct VTE *e; struct T *t;
-    func_001EEF70(p);
+    Enter__5AIJOB(p);
     o = func_00205438(p->pt, 0x9D); o->n3C = 2; e = &o->vt[8]; e->pfn((char *)o + e->d);
     t = p->pt;
     t->m1B0 = BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(*func_001A6318(t->pF84), g_normalZ);

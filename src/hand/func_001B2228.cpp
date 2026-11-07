@@ -12,20 +12,21 @@ struct CLOCK {float t,dt;};
 extern "C" CLOCK g_clock;
 extern "C" qword D_002A2DD0;
 struct LO;
-extern "C" void func_001B1E88(P*,LO*,V*);
-extern "C" V*func_001B2398(V*,P*,float);
+extern "C" void SetMissileTarget(P*,LO*,V*) asm("SetMissileTarget__FP3ALOP2LOP6VECTOR");
+extern "C" V*PredictProjectileAim(V*,P*,float) asm("PredictProjectileAim__FP2LOf");
 extern "C" qword func_0011E9F8(qword,float);
 extern "C" qword func_001A62E8(P*);
-extern "C" int func_0014C748(qword,qword,qword,int,HIT*,float);
+extern "C" int ClipSegmentSphere(qword,qword,qword,int,HIT*,float) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 inline qword Scale(qword a,qword k){__asm__("vmulx.xyzw %0,%1,%2x":"=j"(k):"j"(a),"0"(k));return k;}
 struct WORK{U pos;V dir;U velocity,tmp;V factor;HIT hit;V scalar;U direction,spill;};
-extern "C" void func_001B2228(P*p,LO*source,V*point){
+// name: SafeHouse port (SetHomingMissileTarget)
+extern "C" void SetHomingMissileTarget__FP3ALOP2LOP6VECTOR(P*p,LO*source,V*point){
  WORK w;
  w.pos.q=*(qword*)point;
- func_001B1E88(p,source,(V*)&w.pos);
+ SetMissileTarget(p,source,(V*)&w.pos);
  if(p->g270>0.0f)p->g278=g_clock.t+p->g270;
  else{
-  func_001B2398((V*)&w.velocity,p,0.5f);
+  PredictProjectileAim((V*)&w.velocity,p,0.5f);
   register qword copied __asm__("$2");register VT*table __asm__("$3");register float negative __asm__("$f0");
   __asm__("lq %0,%4\n\tlw %1,%5\n\tli.s %2,%6\n\tsq %0,%3":"=&r"(copied),"=r"(table),"=f"(negative),"=m"(w.dir):"m"(w.velocity.q),"m"(p->vt),"F"(-0.5f));
   register qword k __asm__("vf1");register qword(*method)(void*) __asm__("$2");register void*receiver __asm__("$4");
@@ -50,7 +51,7 @@ extern "C" void func_001B2228(P*p,LO*source,V*point){
   register float radius __asm__("$f12");register HIT*output __asm__("$8");
   __asm__("lq %0,%5\n\tlwc1 %1,%6\n\tqmfc2.ni %2,%7\n\tlq %3,%8\n\tla %4,%a9":"=&r"(originArgument),"=f"(radius),"=&r"(endpointArgument),"=&r"(velocityArgument),"=r"(output):"m"(*zero),"m"(p->g274),"j"(acc),"m"(w.velocity.q),"p"(&w.hit));
   w.tmp.q=acc;
-  func_0014C748(originArgument,velocityArgument,endpointArgument,count,output,radius);
+  ClipSegmentSphere(originArgument,velocityArgument,endpointArgument,count,output,radius);
   register float max __asm__("$f1");
   register float lo __asm__("$f1")=0.25f;
   register float hi __asm__("$f3")=w.hit.t1;

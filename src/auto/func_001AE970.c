@@ -1,9 +1,9 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001AEAA8(void *, M2C_UNK);             /* extern */
-M2C_UNK func_001AF660();                            /* extern */
+M2C_UNK SetMenuState__FP4MENUi(void *, M2C_UNK);             /* extern */
+M2C_UNK CloseMenu__Fii();                            /* extern */
 
 void func_001AE970(void *arg0) {
-    func_001AF660();
-    func_001AEAA8(arg0, 0);
+    CloseMenu__Fii();
+    SetMenuState__FP4MENUi(arg0, 0);
     M2C_FIELD(arg0, s32 *, 0x20) = 0;
 }

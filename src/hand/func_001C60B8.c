@@ -14,13 +14,13 @@ extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 extern qword D_002C0D60;
 extern float D_002A773C;
-void func_001A58D0(struct S *p, int a, int b);
+void ReparentBooty__FP3ALOii(struct S *p, int a, int b);
 struct LO *PproxyOfInstance__FP2LO(struct S *p);
 void func_001CB4B8(struct LO *q, struct S *p);
 struct LO *func_001F0380(void *a, struct S *p, int anim, int z);
 void AdvanceSma__FP3SMAf(struct LO *q, float g);
-void func_001F0660(struct LO *q, int anim);
-void func_001F0598(struct LO *q);
+void SetSmaGoal__FP3SMA3OID(struct LO *q, int anim);
+void RetractSma__FP3SMA(struct LO *q);
 // name: SafeHouse port (SetPickupStateBase)
 void SetPickupStateBase__FP2LOi(struct S *p, int n)
 {
@@ -28,7 +28,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
     struct LO *q;
     if (p->x150 == n) return;
     if (n != 0 && n != 5)
-        func_001A58D0(p, 0, 0);
+        ReparentBooty__FP3ALOii(p, 0, 0);
     if (p->x150 == -1 || p->x150 == 2) {
         struct O *o = p->x58;
         p->q170 = o->q30;
@@ -75,10 +75,10 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
             if (p->x160 > 0.0f)
                 AdvanceSma__FP3SMAf(p->x168, p->x160);
         } else {
-            func_001F0660(p->x168, anim);
+            SetSmaGoal__FP3SMA3OID(p->x168, anim);
         }
     } else if (p->x168) {
-        func_001F0598(p->x168);
+        RetractSma__FP3SMA(p->x168);
         ((void (*)(void *))p->x168->vt[2].pf)((char *)p->x168 + p->x168->vt[2].d);
         p->x168 = 0;
     }

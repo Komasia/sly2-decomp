@@ -6,7 +6,7 @@
 
 typedef struct XP {
     /* 0x00 */ char unk_0x00[0x48];
-    /* 0x48 */ struct SO *psoOther;    /* compared against an SO in func_00204C60 */
+    /* 0x48 */ struct SO *psoOther;    /* compared against an SO in SetStepOverlap__FP3ALOT0 */
 } XP;
 
 typedef struct STEP {

@@ -6,7 +6,8 @@ void Skip__18CBinaryInputStreami(void *pbis, int cb);
 int func_0013FAD0(int cch, void *pw);
 struct Y *func_001ED4E0(int id);
 void *PvAllocSwImpl__Fi(struct AR *par);
-void func_001EAF50(void *pbis, struct X *px)
+// name: SafeHouse port (LoadBmpFromBrx)
+void LoadBmpFromBrx__FP18CBinaryInputStreamP3BMP(void *pbis, struct X *px)
 {
     union { short aw[0x80]; struct AR ar; } u;
     Read__18CBinaryInputStreamiPv(pbis, 0x18, px);

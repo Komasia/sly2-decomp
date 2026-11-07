@@ -31,7 +31,7 @@ void func_001BDBF0(X *p, int n, qword *pts);
 void AddPolyMember(X *p, X *pNew) asm("AddPolyMember__FP2LOT0");
 void RemoveDlEntry(DL *pdl, void *pv) asm("RemoveDlEntry__FP2DLPv");
 void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
-void func_001E6180(X *p);
+void RecalcCrv(X *p) asm("RecalcCrv__FP3CRV");
 int func_001BC2F8(X *p);
 }
 static inline void *Alloc(int cb) { return PvAllocStackImpl(AREQ(cb, 0x10)); }
@@ -118,6 +118,6 @@ extern "C" void MergePolys__FiPP7NAVPOLY(int n, X **ap)
         }
     }
     pNew->xE4 = 1;
-    func_001E6180(pNew);
+    RecalcCrv(pNew);
     pNew->x190 = func_001BC2F8(pNew);
 }

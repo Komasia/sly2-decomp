@@ -11,7 +11,7 @@ extern qword D_002A2DD0;
 extern "C" {
 void func_001CCAC0(S *p, int n);
 void DeleteCtrl(int *p) asm("DeleteCtrl__FPP4CTRL");
-void func_001A58D0(LO *p, int a, int b);
+void ReparentBooty(LO *p, int a, int b) asm("ReparentBooty__FP3ALOii");
 qword func_001A62E8(LO *p);
 qword func_0022FC48(int a, void *pv, qword q);
 int PctrlNewTarget(LO *p, Q *q, int n, qword a, qword b, float g) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
@@ -36,7 +36,7 @@ void func_001CD308(S *p, LO *po)
         LO *pa = p->xA0;
         ((void (*)(void *, int, void *, int))pa->vt[10].pf)((char *)pa + pa->vt[10].d, po->x10, pv, 0xF);
     } else {
-        func_001A58D0(p->xA0, 0, 0xF);
+        ReparentBooty(p->xA0, 0, 0xF);
     }
     Q *q = p->xA0->x58;
     p->x94 = PctrlNewTarget(p->xA0, q, 5, func_0022FC48(0, q->xA0, func_001A62E8(po)), D_002A2DD0, g_clock.t + D_002C1EF4);

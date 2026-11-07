@@ -17,7 +17,8 @@ extern "C" void func_00119390(qword*,qword,qword);
 static inline float Max(float a,float b){float r;__asm__("max.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 static inline qword Sub(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline qword Normal(qword v){register qword d __asm__("vf2"),one __asm__("vf3"),r __asm__("vf3");__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(d),"j"(v));return r;}
-extern "C" void func_001A9108(ENTRY*tree,int mask,void*geometry,qword pos,OUT*out,float radius0){
+// name: SafeHouse port (SphereInsideContacts)
+extern "C" void SphereInsideContacts__FP3SOEiPvG9VU_VECTORP3OUTf(ENTRY*tree,int mask,void*geometry,qword pos,OUT*out,float radius0){
  WORK work;
  work.position.q=pos;
  float radius=Max(radius0,100.0f);

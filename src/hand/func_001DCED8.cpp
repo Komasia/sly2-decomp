@@ -33,11 +33,12 @@ void func_002333B4(void *, int, unsigned int);
 void func_00165C98(int *, SO ***);
 void func_002338C0(void *, int, int, int (*)(const void *, const void *));
 int func_00165C28(const void *, const void *);
-int func_00163430(SO *);
+int NJobOpen(SO *) asm("NJobOpen__FP3JOB");
 void func_002332B8(void *, void *, unsigned int);
 void func_001DCE90(OBJ *, int);
 }
-extern "C" void func_001DCED8(OBJ *p)
+// name: SafeHouse port (BuildJobHelp)
+extern "C" void BuildJobHelp__FPv(OBJ *p)
 {
     for (int i = 0; i < p->n; i++) {
         E *e = &p->ae[i];
@@ -65,7 +66,7 @@ extern "C" void func_001DCED8(OBJ *p)
             SO *so = aso[i]->x7C;
             if (so && last != so) {
                 last = so;
-                if (func_00163430(so) > 0 && so->x6C != -1) {
+                if (NJobOpen(so) > 0 && so->x6C != -1) {
                     E *e = &p->ae[p->n++];
                     e->o = so;
                     e->b = -1;

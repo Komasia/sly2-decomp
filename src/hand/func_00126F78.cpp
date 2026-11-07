@@ -13,19 +13,20 @@ struct Q { char pad[0x10]; Q *pnext; };
 struct R { char pad[0x10]; Q *pq; };
 struct P { char pad[0xC]; R *pr; };
 extern "C" {
-CRef func_00127838(Q *pq, CRef *aref);
-CRef func_00126F78(P *p, CRef *aref);
+CRef RefEval(Q *pq, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
+CRef RefEvalWhile(P *p, CRef *aref) asm("RefEvalWhile__FP5CPairP6CFrame");
 }
-CRef func_00126F78(P *p, CRef *aref)
+// name: SafeHouse port (RefEvalWhile)
+CRef RefEvalWhile(P *p, CRef *aref)
 {
     CRef ref;
     Q *pqCond = p->pr->pq;
     Q *pqBody = pqCond->pnext;
     for (;;) {
-        ref = func_00127838(pqCond, aref);
+        ref = RefEval(pqCond, aref);
         if (ref.m_tagk == 0x17 && ref.u.n == 0)
             break;
-        ref = func_00127838(pqBody, aref);
+        ref = RefEval(pqBody, aref);
     }
     ref.Decref();
     ref.InitTag(0x24);

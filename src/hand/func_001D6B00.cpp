@@ -73,11 +73,11 @@ MATRIX4 *func_0011C168(MATRIX4 *, MATRIX4 *, MATRIX4 *);
 void *func_002333B4(void *, int, int);                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");                                    // FIsBasicDerivedFrom
-void func_0013BC60(SO *, LAUNCH *);
+void SetProjectileLauncher(SO *, LAUNCH *) asm("SetProjectileLauncher__FP3ALOP2LO");
 void func_00134320(void *, SO *);
 void SetAloCnstrLin(SO *, void *) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(SO *, void *) asm("SetAloCnstrAng__FP3ALOi");
-void func_001A58D0(SO *, int, int);
+void ReparentBooty(SO *, int, int) asm("ReparentBooty__FP3ALOii");
 void SetAloVelocity(SO *, qword) asm("SetAloVelocity__FP3ALOG9VU_VECTOR");
 qword func_001F5860(SO *);
 qword func_001D6848(float, qword, qword, qword);                 // CalculateLaunchVelocity
@@ -210,13 +210,13 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     qword posLaunch = AddScaled(posOrigin, VU_FLOAT(offset), Normalize(dpos));
     posAim = QwFromVf(posLaunch);
     if (FIsBasicDerivedFrom(pso, 0x4F)) {
-        func_0013BC60(pso, plaunch);
+        SetProjectileLauncher(pso, plaunch);
         func_00134320(g_sw, pso);
     }
     pso->Add();
     SetAloCnstrLin(pso, 0);
     SetAloCnstrAng(pso, 0);
-    func_001A58D0(pso, 0, 3);
+    ReparentBooty(pso, 0, 3);
     if (FIsBasicDerivedFrom(pso, 0x52)) {
         SetAloVelocity(pso, VECTOR(pso->svLaunch, 0.0f, 0.0f).q);
     } else if (FIsBasicDerivedFrom(pso, 0x51)) {

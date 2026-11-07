@@ -8,7 +8,8 @@ extern s32 D_003DCFFC;
 extern s32 D_003DD000;
 extern s32 D_003DD004;
 
-void func_001EC7A0(void) {
+// name: SafeHouse port (EndShaderGroup)
+void EndShaderGroup__Fv(void) {
     D_003DCFE8 = 0;
     D_003DCFEC = 0;
     D_003DCFF0 = 0;

@@ -1,6 +1,7 @@
 void func_00213928(void *p, int k);
 void func_00213B00(void *p, int k);
-void func_00213DB0(void *p, int k, int *pk)
+// name: SafeHouse port (SelectScreenObjPartHandle)
+void SelectScreenObjPartHandle__FP2LOiPi(void *p, int k, int *pk)
 {
     if (k == *pk)
         return;

@@ -8,7 +8,7 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern float D_002BF298;
 extern float D_002BF29C;
-extern void func_00204250(struct O *p, struct A *pa, void *pv);
+extern void OnStepXpNew__FP3ALOP2XPi(struct O *p, struct A *pa, void *pv);
 extern void func_0019E9C8(void *p, struct A *pa, void *pv);
 extern void AdjustDamageXp__FP5ACTORP2XP(void *p, struct A *pa, void *pv);
 extern void func_001374E0(void *p, struct A *pa, void *pv);
@@ -26,7 +26,7 @@ static __inline__ float GLimLo(float g, float lo, float v)
 // name: SafeHouse port (OnSlyXpNew)
 void OnSlyXpNew__FP3ALOP2XPPv(struct O *p, struct A *pa, void *pv)
 {
-    func_00204250(p, pa, pv);
+    OnStepXpNew__FP3ALOP2XPi(p, pa, pv);
     switch (p->n18C8) {
     case 8:
         func_0019E9C8(p->aF50, pa, pv);

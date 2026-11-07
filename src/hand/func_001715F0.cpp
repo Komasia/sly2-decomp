@@ -29,8 +29,8 @@ int FIsBasicDerivedFrom(void *o, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID")
 void SetGoal(void *o, struct X *x) asm("SetGoal__7JOBGOTOP4GOAL");
 void ApplyAseg(void *o, int a, int b, void *c, float f, float g) asm("ApplyAseg__FP4ASEGiiffPP5ASEGA");
 void *func_001711F0(void *p, int id);
-void func_001EEFC0(struct S *p);
-void func_001EF038(struct S *p);
+void LockJob(struct S *p) asm("LockJob__FP5AIJOB");
+void UnlockJob(struct S *p) asm("UnlockJob__FP5AIJOB");
 void func_002090D0(struct X50 *x, struct A *a);
 void ResolveKinde(struct X50 *x, struct A *a) asm("ResolveKinde__FP5KINDEP5GUARD");
 void func_001E0020(void *o, int n);
@@ -163,10 +163,10 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         break;
     }
     case 11:
-        func_001EEFC0(p);
+        LockJob(p);
         break;
     case 12:
-        func_001EF038(p);
+        UnlockJob(p);
         break;
     case 13: {
         void *o = PloNear(p, p->p38->n4);

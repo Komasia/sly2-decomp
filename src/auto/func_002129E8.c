@@ -78,6 +78,6 @@ extern M2C_UNK D_C0;
 void func_002129E8(s32 arg0) {
     SetTimerTimers__FP5TIMER6TIMERS(arg0, 1);
     if (M2C_FIELD(arg0, s32 *, 0x78) == -1) {
-        func_00212A70(arg0, 1);
+        SetState__FP8SCREENRTi(arg0, 1);
     }
 }

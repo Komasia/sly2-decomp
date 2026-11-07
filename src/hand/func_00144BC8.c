@@ -14,7 +14,7 @@ extern qword g_normalZ;
 extern float D_002BD2E0[3];
 extern float g_lmZeroOne[2];
 extern float D_002BD2F0;
-void func_001EF0C0(struct P *p, struct Q *q);
+void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int k);
@@ -58,7 +58,7 @@ static __inline__ float GPoly(float *a, float g) { return a[0] + g * (a[1] + g *
 // name: SafeHouse port (JOBACTORFOLLOW::Drive)
 void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
 {
-    func_001EF0C0(p, q);
+    Drive__5AIJOBP6PADCTL(p, q);
     if (p->x4C < 2) if (p->x4C >= 0) {
         qword pos;
         qword d, v, t, axis;

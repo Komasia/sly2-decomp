@@ -75,21 +75,22 @@ struct LAMBDA {
 extern BIF g_mpbifkbif[];
 extern "C" {
 FRAME *func_00256DD0();
-CRef func_00127838(NODE *p, FRAME *pframe);
+CRef RefEval(NODE *p, FRAME *pframe) asm("RefEval__FP5CPairP6CFrame");
 CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
 void func_00127B18(FRAME *pframe, FRAME *pframeParent);
 CRef func_00127190(LAMBDA *plambda, FRAME *pframe);
-CRef func_001272E0(NODE *p, FRAME *pframe);
+CRef RefEvalApply(NODE *p, FRAME *pframe) asm("RefEvalApply__FP5CPairP6CFrame");
 }
 
-CRef func_001272E0(NODE *p, FRAME *pframe)
+// name: SafeHouse port (RefEvalApply)
+CRef RefEvalApply(NODE *p, FRAME *pframe)
 {
     CRef ref;
     BIF *pbif = 0;
     LAMBDA *plambda = 0;
     METHOD *pmeth = 0;
     NODE *pnFn = p->ref.u.pnode;
-    CRef refOp = func_00127838(pnFn, pframe);
+    CRef refOp = RefEval(pnFn, pframe);
     int cargMin, fRest;
     if (refOp.m_tagk == 0x19) {
         pbif = &g_mpbifkbif[refOp.u.n];
@@ -110,7 +111,7 @@ CRef func_001272E0(NODE *p, FRAME *pframe)
     int c = cargMin;
     int i;
     for (i = 0; i < c; i++) {
-        ref = func_00127838(pn, pframe);
+        ref = RefEval(pn, pframe);
         aref[i] = ref;
         pn = pn->pnext.p;
     }
@@ -120,7 +121,7 @@ CRef func_001272E0(NODE *p, FRAME *pframe)
         SPN spList;
         while (spCur.p) {
             SPN spNew(func_00256B48());
-            spNew->ref = func_00127838(spCur.p, pframe);
+            spNew->ref = RefEval(spCur.p, pframe);
             if (spLast.p) {
                 spLast->pnext = spNew.p;
                 spLast = spNew.p;

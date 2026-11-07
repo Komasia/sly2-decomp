@@ -1,4 +1,4 @@
-// func_001F9410: solve the contacts of a group of touching objects (Sly 1 SolveSwGroup).
+// SolveGroup__FPP3ALOiiPP2XPiT3: solve the contacts of a group of touching objects (Sly 1 SolveSwGroup).
 // Builds a DZG over the contacts (func_001585D8), turns every contact into a DZ row with its limits,
 // sets each row's target (bounce or separating speed), solves (func_00158B20) and applies the
 // impulses (func_00158E20), then tells the objects (vtable callbacks 65/66/67).
@@ -35,7 +35,7 @@ void RecalcSwXpPos(GAME *,int,XP **) asm("RecalcSwXpPos__FP2SWiPP2XP");
 void RecalcSwXpMovement(GAME *,int,XP **) asm("RecalcSwXpMovement__FP2SWiPP2XP");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
 void func_00158B20(DZG *,int);
-void func_001F9C48(P *);
+void StepAloBackHalfFrame(P *) asm("StepAloBackHalfFrame__FP3ALO");
 }
 // Stack frame mark: ctor 0x1AE478, dtor 0x1AE4A0 (called with the 2.95 in-charge flag 2).
 struct FRAME {FRAME(){__10STACKSCOPE(this);}~FRAME(){_$_10STACKSCOPE(this,2);}};
@@ -51,7 +51,8 @@ static inline float Sqrt(float f){float r;__asm__ volatile("sqrt.s %0,%1":"=f"(r
 static inline float ClockDt(){return g_clock.dt;}
 static inline void Callback(P *p,int slot){VT *vt=p->vtable;vt[slot].function((char *)p+vt[slot].delta);}
 
-extern "C" void func_001F9410(GAME *game,int flags,int objectCount,P **objects,int contactCount,XP **contacts)
+// name: SafeHouse port (SolveGroup)
+extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCount,P **objects,int contactCount,XP **contacts)
 {
     FRAME frame;
     XP *contact;DZ *row;int i;
@@ -145,7 +146,7 @@ extern "C" void func_001F9410(GAME *game,int flags,int objectCount,P **objects,i
             if(moving)break;
         }
         if(k>=objectCount){
-            for(k=0;k<objectCount;k++)func_001F9C48(objects[k]);
+            for(k=0;k<objectCount;k++)StepAloBackHalfFrame(objects[k]);
             RecalcSwXpPos(&g_sw,contactCount,contacts);
             RecalcSwXpMovement(&g_sw,contactCount,contacts);
         }

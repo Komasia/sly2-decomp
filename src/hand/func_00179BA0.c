@@ -1,7 +1,7 @@
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 struct S { char pad[0x10]; void *p10; int pad2; void *p18; char pad3[0x14]; float f30; float f34; int n38; char pad4[4]; int n40; };
-void func_001EEF98(struct S *p);
+void Update__5AIJOB(struct S *p);
 int func_00209098(void *p);
 int func_001EF0A8(struct S *p);
 void SetWaitState__7JOBWAITi(struct S *p, int n);
@@ -9,7 +9,7 @@ int func_00171458(void *p);
 // name: SafeHouse port (JOBWAIT::Update)
 void Update__7JOBWAIT(struct S *p) {
     int f, s;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     f = func_00209098(p->p10);
     while (!func_001EF0A8(p)) {
         s = p->n38;

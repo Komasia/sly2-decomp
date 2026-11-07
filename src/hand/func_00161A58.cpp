@@ -28,7 +28,7 @@ extern "C"{
  void func_00166008();
  void func_001AB630(BANK*);
  int func_00210AE0();
- void func_001D8FF8(void*);
+ void ApplyGameSettings(void*) asm("ApplyGameSettings__FP8GAMESAVE");
  void StartQueuedTask(P*) asm("StartQueuedTask__FP2SS");
  LEASE*__10STACKSCOPE(LEASE*);
  void _$_10STACKSCOPE(LEASE*,int);
@@ -88,7 +88,8 @@ typedef char OVERRIDE_oldX_Offset[FIELD_OFFSET(OVERRIDE,oldX)==8?1:-1];
 typedef char OVERRIDE_oldY_Offset[FIELD_OFFSET(OVERRIDE,oldY)==12?1:-1];
 typedef char CRef_kind_Offset[FIELD_OFFSET(CRef,kind)==0?1:-1];
 typedef char CRef_g_Offset[FIELD_OFFSET(CRef,g)==4?1:-1];
-extern "C" void func_00161A58(P*p,int action){
+// name: SafeHouse port (OnGameRecordEvent)
+extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
  switch(action){
  case 1:{
   if(Same(&D_003E1088,&D_002A37E8)){
@@ -105,7 +106,7 @@ extern "C" void func_00161A58(P*p,int action){
   if(func_00210AE0())break;
   if(D_002E65E0.mode!=6||D_002E65E0.selected||!D_002E65E0.current)break;
   if(GetFloat(g_sw.primary,D_003D4A60)!=0.0f)break;
-  if(GetFloat(g_sw.primary,D_002E65E0.current)!=0.0f)func_001D8FF8(D_002E65E0.current);
+  if(GetFloat(g_sw.primary,D_002E65E0.current)!=0.0f)ApplyGameSettings(D_002E65E0.current);
   break;
  }
  case 4:StartQueuedTask(p);break;

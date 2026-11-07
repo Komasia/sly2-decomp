@@ -30,12 +30,12 @@ float RadStepHeading__FP4STEP(struct P*);float RadNormalize__Ff(float);
 void func_00194A40(void*,struct P*,unsigned int);
 void func_0018B2C0(struct P*);void func_0018A8C8(struct P*);void UpdateSlyButtons__FP3SLY(struct P*);
 struct BINDING*func_0012FF10(void*,struct P*,void*,int);
-void func_00190520(struct P*);void func_00197F98(void*);void func_00191A10(void*);void UpdateSlyDodgeInput__FP3SLY(void*);
+void func_00190520(struct P*);void func_00197F98(void*);void UpdateInteract__FP5ACTOR(void*);void UpdateSlyDodgeInput__FP3SLY(void*);
 void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*,void*,int,float,float);void func_0018B460(struct P*);
-void func_0020BB58(void*,float);void func_002046F0(struct P*,void*);
+void func_0020BB58(void*,float);void FaceObject__FP5ACTORP2LO(struct P*,void*);
 qword func_0011E1A0(float,float,float);qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct MODEL*,float);
-void func_00131A00(struct MODEL*,float);void func_00204660(struct P*,float);
+void func_00131A00(struct MODEL*,float);void SetStepPhysHeading__FP3ALOf(struct P*,float);
 void func_001441E8(struct P*,float);void func_0018C250(struct P*,int,int);
 float func_0011CFE0(float,float);void func_001384C0(void*);
 void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int func_00131968(void*);void func_001306A8(void**);
@@ -82,13 +82,13 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  }
  case 3:func_00190520(p);break;
  case 2:func_00197F98(At(p,0x2C0));break;
- case 7:func_00191A10(At(p,0x4C0));break;
+ case 7:UpdateInteract__FP5ACTOR(At(p,0x4C0));break;
  case 6:UpdateSlyDodgeInput__FP3SLY(At(p,0x1FF0));break;
  case 10:MoveAroundTarget__FP3SLYP9ROOTBLENDiff(p,At(p,0x1AC0),p->axesBEnabled,p->state->heading,p->state->amount);break;
  case 11:func_0018B460(p);break;
- case 12:func_0020BB58(At(p,0x1C30),p->state->amount);func_00204660(p,p->state->heading);break;
+ case 12:func_0020BB58(At(p,0x1C30),p->state->amount);SetStepPhysHeading__FP3ALOf(p,p->state->heading);break;
  case 5:switch(p->submode){
-  case 4:if(p->owner)func_002046F0(p,p->owner);break;
+  case 4:if(p->owner)FaceObject__FP5ACTORP2LO(p,p->owner);break;
   case 5:MoveAroundTarget__FP3SLYP9ROOTBLENDiff(p,At(p,0x13D0),p->axesAEnabled,p->state->heading,p->state->amount);break;
   case 8:case 9:phase.direction=func_0011E1A0(p->state->heading+3.14159265f,p->state->amount*D_002BF3C0,0.0f);p->velocity=ConvertVec__FP2LOT0G9VU_VECTOR(0,p,phase.direction);break;
  }break;
@@ -97,13 +97,13 @@ void UpdateSlyInput__FP3SLY(struct P*p){
   else if(p->enabled){struct BINDING*b=func_0012FF10(p->table,p,(void*)1,1);if(b){ReadBinding(b,p->model,&phase.direction);p->velocity=SecondNegative(&phase.direction,&scalar,-1.0f);}}
   break;
  case 19:p->velocity=NegativeModelNative(p,&phase.scalar);break;
- case 20:{struct MODEL*model;struct STATE*state;PrepareAnimation(p,&phase.scalar,&model,&state);func_00131A00(model,state->amount);func_00204660(p,p->state->heading);break;}
- case 17:{struct STATE*state;float zero;p->velocity=NegativeWithState(p,&phase.scalar,&state,&zero);if(zero<state->amount)func_00204660(p,state->heading);break;}
+ case 20:{struct MODEL*model;struct STATE*state;PrepareAnimation(p,&phase.scalar,&model,&state);func_00131A00(model,state->amount);SetStepPhysHeading__FP3ALOf(p,p->state->heading);break;}
+ case 17:{struct STATE*state;float zero;p->velocity=NegativeWithState(p,&phase.scalar,&state,&zero);if(zero<state->amount)SetStepPhysHeading__FP3ALOf(p,state->heading);break;}
  case 24:{
   register float one __asm__("$f20");register float weight __asm__("$f1");qword velocity;struct VTE*entry;
   func_001441E8(p,D_002BF3C4);
   if(p->submode==12){float angle=RadNormalize__Ff(RadStepHeading__FP4STEP(p)-p->heading);if(__builtin_fabsf(angle)<D_002BF3C8)func_0018C250(p,24,13);}
-  else func_00204660(p,p->state->heading);
+  else SetStepPhysHeading__FP3ALOf(p,p->state->heading);
   one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->fn)((char*)p+entry->delta);
   weight=D_002BF3CC*func_0011CFE0(Z(velocity)/(p->factor*D_002BF35C),one);
   {register float zero __asm__("$f2")=0.0f;register float magnitude __asm__("$f3");register float left __asm__("$f0");__asm__("abs.s %0,%2\n\tmax.s %1,%3,%2\n\tneg.s %2,%2":"=f"(magnitude),"=f"(left),"+f"(weight):"f"(zero));__asm__("swc1 %4,%0\n\tsub.s %1,%1,%5\n\tmax.s %2,%2,%6\n\tswc1 %2,%3":"=m"(p->left),"+f"(one),"+f"(zero),"=m"(p->right):"f"(left),"f"(magnitude),"f"(weight));p->middle=one;}

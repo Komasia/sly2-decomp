@@ -15,14 +15,15 @@ int PasegaOfKinde__FP5KINDE(struct C *c);
 int FKindeDone__FP5KINDE(struct C *c);
 void StopKinde__FP5KINDE(struct C *c);
 void PlayKinde__FP5KINDEP5GUARDif(struct C *c, struct A *a, int fl, float g);
-float *func_0012F938(void *p, void *q);
+float *PeventLaunch__FP5KINDEi(void *p, void *q);
 void SetAsegaTime__FP5ASEGAiff(void *p, float a, float b, int n);
-void func_0017B1A8(struct S *p, int n);
+void SetState__5JOBB1i(struct S *p, int n);
 struct O *func_0015E938(struct G *g, int a, int b, int c);
 void *func_002333B4(void *p, int c, int n);
 qword func_001A62E8(struct A *a);
 void func_00156698(void *p, qword v, struct A *a);
-int func_0017AF30(struct S *p, int msg, struct M *pm) {
+// name: SafeHouse port (JOBB1::Message)
+int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
     if (Message__7JOBMOVEiPv(p, msg, pm)) return 1;
     switch (msg) {
     case 9:
@@ -48,12 +49,12 @@ int func_0017AF30(struct S *p, int msg, struct M *pm) {
             g = 0.0f;
             i = 4; if (p->n58 <= 3) i = p->n58;
             while (i > 0) {
-                float *r = func_0012F938(p->p40->p4, D_002BE6D0[i]);
+                float *r = PeventLaunch__FP5KINDEi(p->p40->p4, D_002BE6D0[i]);
                 if (r) { g = *r; break; }
                 i--;
             }
             SetAsegaTime__FP5ASEGAiff(p->p40->p8, g, 1.0f, 0);
-            func_0017B1A8(p, 0);
+            SetState__5JOBB1i(p, 0);
             o = func_0015E938(&g_sw, 5, D_002BE6E8[i], 0);
             if (o) {
                 struct X x;

@@ -6,9 +6,9 @@ extern struct A *D_002DE570;
 void UpdateStep__FP4STEPf(struct P *p);
 int func_00131968(struct A *pa);
 void SetXfMode__FP3ALOP2XFi(struct P *p, void *pv, int n);
-void func_001524A0(struct P *p, int n, int m);
-void func_00152390(struct P *p, int a, int b, int c);
-void func_001533B0(struct A *pa, struct P *p);
+void PlayDancerAseg__FP2LOT0i(struct P *p, int n, int m);
+void PlayDancerMove__FP2LOiii(struct P *p, int a, int b, int c);
+void CheckDancerBeat__FP2LOP5DANCE(struct A *pa, struct P *p);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct A *pa, float g);
 static inline qword VecMul(qword v, float g)
 {
@@ -18,7 +18,8 @@ static inline qword VecMul(qword v, float g)
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(s.q));
     return r;
 }
-void func_00152148(struct P *p)
+// name: SafeHouse port (UpdateDancer)
+void UpdateDancer__FP2LO(struct P *p)
 {
     int k;
     UpdateStep__FP4STEPf(p);
@@ -26,16 +27,16 @@ void func_00152148(struct P *p)
         SetXfMode__FP3ALOP2XFi(p, p->p58, 1);
         SetXfMode__FP3ALOP2XFi(p, p->p5C, 1);
         p->f40C = 0;
-        func_001524A0(p, p->n2C0, 8);
+        PlayDancerAseg__FP2LOT0i(p, p->n2C0, 8);
     }
     k = D_002DE570 ? D_002DE570->k50 : 0;
     switch (k) {
     case 0:
         if (!p->f40C)
-            func_00152390(p, -1, -1, 0);
+            PlayDancerMove__FP2LOiii(p, -1, -1, 0);
         break;
     case 2:
-        func_001533B0(D_002DE570, p);
+        CheckDancerBeat__FP2LOP5DANCE(D_002DE570, p);
         break;
     }
     if (p->pa408)

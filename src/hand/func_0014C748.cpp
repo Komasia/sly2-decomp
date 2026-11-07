@@ -1,4 +1,4 @@
-// func_0014C748 MATCH (Claude agent, lane K2, 2026-10-24), no register pins, VU helper asms only. Fresh rewrite (old v12 draft 10).
+// ClipSegmentSphere MATCH (Claude agent, lane K2, 2026-10-24), no register pins, VU helper asms only. Fresh rewrite (old v12 draft 10).
 // Keys: (1) the three dots as mtc1-from-VF (GXOfVf with an allocation-only "j") instead of a qmfc2 "=r"(float) asm: gcc emits the
 // qmfc2 itself, which gives the target's prologue schedule and VF numbering; (2) `float a = Dot(dir, dir);` declared BEFORE b
 // (no function-top a/b): a's pseudo is then lower than b's, so global-alloc gives a f4 / b f5 (equal priority, lower number first);
@@ -10,7 +10,7 @@ struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; };
 extern "C" {
 extern qword D_002A2DA0;
 void func_00119390(qword *pnormal, qword normal, qword pos);
-int func_0014C748(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg);
+int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 }
 
 static inline float SqrtF(float g) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(g)); return r; }
@@ -47,7 +47,8 @@ static inline qword Normalize(const qword &v)
     return r;
 }
 
-int func_0014C748(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg)
+// name: SafeHouse port (ClipSegmentSphere)
+int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg)
 {
     float au[2];
     if (clsgMax <= 0)

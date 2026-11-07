@@ -3,7 +3,8 @@ struct S { char pad[0x54]; int n; char pad2[0xD8 - 0x58]; int fd8; };
 extern char D_003D4A60[];
 void NProgress(CRef *pref, void *a, void *b);
 void func_00129EC8(CRef *pref);
-int func_00164030(struct S *p)
+// name: SafeHouse port (FTaskDone)
+int FTaskDone__FP4TASK(struct S *p)
 {
     if (p->n == -1 && p->fd8) {
         CRef ref;

@@ -1,11 +1,11 @@
 extern char D_002E6550[], g_sw[];
-int func_001ACC80(void *p);
+int NCardPrompt__FPv(void *p);
 char *func_0013E368(void *p, int n);
 char *strcpy(char *, const char *);
 void func_0021EDA0(char *a, const char *b);
 void func_001AD820(char *buf)
 {
-    switch (func_001ACC80(D_002E6550)) {
+    switch (NCardPrompt__FPv(D_002E6550)) {
     case 1:
         strcpy(buf, "&2S&.: ");
         func_0021EDA0(buf, func_0013E368(g_sw, 0x38));

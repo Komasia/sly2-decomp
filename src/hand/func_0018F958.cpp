@@ -1,5 +1,5 @@
 // func_0018F958: paired-response solver. For each world axis (D_002A2D00 rows) and each of the two objects (p, other;
-// side 1 uses the reversed axis) it asks func_001FAA00 / func_001FAA48 for a pair of effects, then lets p's virtual
+// side 1 uses the reversed axis) it asks DvAloImpulse / func_001FAA48 for a pair of effects, then lets p's virtual
 // slot 69 turn that pair into a velocity response. The difference of the two responses per axis forms a 3x3 matrix
 // that CroutDecomp/CroutSolve solve against the three input floats; the out pairs are the weighted sums of the effects.
 // Claude agent, T1668 (from lilly1 / laneJ9v2, aligned 1). What finished it:
@@ -25,7 +25,7 @@ struct VE{short delta,pad;void(*fn)(P*,DELTA*,qword,U*);};
 struct P{char pad[12];VE*vt;};
 extern "C"{
 qword func_001A62E8(P*);
-qword func_001FAA00(P*,qword);
+qword DvAloImpulse(P*,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
 qword func_001FAA48(P*,qword,qword);
 extern U D_002A2D00[3];
 }
@@ -67,7 +67,7 @@ extern "C" void func_0018F958(P*p,P*other,qword*point,float*input,DELTA*out){
    /* fresh pointer form: cse1 must not reuse this address for call 1's objects[side].p (see header) */OBJ*fresh=&objects[side+1]-1;P*object=fresh->p;axis=D_002A2D00[axisIndex].q;
    if(side==1){VU_FLOAT minus=Scalar(-1.0f);axis=(VU_VECTOR(axis)*minus).q;scalar=minus.q;}
    U*second=Addr(&effects[side][axisIndex].second);DELTA*effect=&effects[side][axisIndex];
-   (second-1)->q=func_001FAA00(objects[side].p,axis);
+   (second-1)->q=DvAloImpulse(objects[side].p,axis);
    /* empty asm, allocation-only: two extra refs make the arg and .second store givs outrank objects/points in global-alloc (target s1 store, s2 arg, s3 objects, s4 points); "=m"(scalar) keeps it a non-barrier */__asm__("" : "=m"(scalar) : "r"(effect),"r"(second));
    second->q=func_001FAA48(object,Addr(&points[side])->q,Ref(axis));
    VE*method=&p->vt[69];method->fn((P*)((char*)p+method->delta),effect,*point,&velocity[side]);

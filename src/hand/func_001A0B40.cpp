@@ -25,16 +25,16 @@ extern "C"{
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
  float func_002458F0(float,float);
  float RadNormalize(float) asm("RadNormalize__Ff");
- void func_00204660(P*,float);
- void func_00204CA8(P*);
+ void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");
+ void TurnActorNow(P*) asm("TurnActorNow__FP5ACTOR");
  void func_002046B0(P*,qword);
  qword func_001A62E8(P*);
  float RadStepHeading(P*) asm("RadStepHeading__FP4STEP");
  void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");
  void RetractAsegaPp(ASEGA**) asm("RetractAsegaPp__FPP5ASEGA");
- void func_001F15B8(COMPONENT**);
+ void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
  void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
- void func_001F1448(void*,P*,int,void*,COMPONENT**);
+ void ReplaceSmaHandle(void*,P*,int,void*,COMPONENT**) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 }
 static inline qword Vector(P*p){VE*v=&p->vt[33];return ((qword(*)(P*))v->fn)((P*)((char*)p+v->delta));}
 static inline void SetVector(P*p,qword q){VE*v=&p->vt[36];((void(*)(P*,qword))v->fn)((P*)((char*)p+v->delta),q);}
@@ -147,8 +147,8 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
    float blend=ClampKnownLower(fraction,lower,range);
    float angle=func_002458F0(velocity.f[1],velocity.f[0])+3.1415927f;
    angle=RadNormalize(angle-p->actor->yaw);
-   func_00204660(p->actor,p->actor->yaw+angle*blend);
-   func_00204CA8(p->actor);
+   SetStepPhysHeading(p->actor,p->actor->yaw+angle*blend);
+   TurnActorNow(p->actor);
   }}
  case 9:clip=p->clips[next];flags=0x21;break;
  case 10:
@@ -167,22 +167,22 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
  case 0:case 6:case 7:clip=p->clips[next];break;
  case 4:case 12:
   SetVector(p->actor,D_002A2DD0.q);
-  func_00204660(p->actor,RadStepHeading(p->actor));
+  SetStepPhysHeading(p->actor,RadStepHeading(p->actor));
   p->actor->control->yaw=p->actor->yaw;
   if(next==12)flags=0x21;
   clip=p->clips[next];break;
  case 1:case 2:
   flags=0;
-  func_00204660(p->actor,RadStepHeading(p->actor));
+  SetStepPhysHeading(p->actor,RadStepHeading(p->actor));
   p->actor->control->yaw=p->actor->yaw;clip=p->clips[next];break;
  }
  MarkAloDirty(p->actor);
  p->mode=next;p->time=g_clock.time;
  if(next!=-1){
   if(!clip)clip=p->Default(next);
-  RetractAsegaPp(&p->actor->asega);func_001F15B8(&p->actor->component);
+  RetractAsegaPp(&p->actor->asega);ClearSmaHandle(&p->actor->component);
   func_001305B8(clip,p->actor,0.0f,1.0f,flags,&p->actor->asega);
-  func_001F1448(0,p->actor,-1,0,&p->actor->component);
+  ReplaceSmaHandle(0,p->actor,-1,0,&p->actor->component);
   Invoke(p->actor,90);
  }
 }

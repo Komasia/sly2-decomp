@@ -32,19 +32,20 @@ int func_00187D80(void *, int);
 void func_001DC260(OBJ *, int);
 int func_00161798(void *);
 void func_001617E0(void *, int);
-void func_001DA950(OBJ *, int, int);
+void SetShopMsg(OBJ *, int, int) asm("SetShopMsg__FP4SHOPii");
 void func_001DAF38(int, int);
-void func_001DBD10(OBJ *);
+void BuildShopList(OBJ *) asm("BuildShopList__FP4SHOP");
 void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *, int) asm("SetSource__4CSndPv");
-void func_0019F0A8(void *);
+void NotifyPlayersPowerups(void *) asm("NotifyPlayersPowerups__Fv");
 void func_0021ECD8(char *, const char *, ...);
 CRef func_001D8A38(const char *, ...);
 CRef SetProgressPoCurrent(const CRef &, const char *, ...) asm("SetProgressPoCurrent__FP4CRefPci");
-void func_001DA858(OBJ *);
-void func_001DBEF0(OBJ *);
+void UpdateShopStick(OBJ *) asm("UpdateShopStick__FP4SHOP");
+void UpdateShopLook(OBJ *) asm("UpdateShopLook__FP4SHOP");
 }
-extern "C" void func_001DB870(OBJ *p)
+// name: SafeHouse port (UpdateShop)
+extern "C" void UpdateShop__FP2SW(OBJ *p)
 {
     func_001DA808(p);
     if (p->x40 == -1)
@@ -62,16 +63,16 @@ extern "C" void func_001DB870(OBJ *p)
                 int cost = D_002BCD00[p->x254].x8;
                 int have = func_00161798(g_game);
                 if (!p->x30) {
-                    func_001DA950(p, -1, -1);
+                    SetShopMsg(p, -1, -1);
                     func_001617E0(g_game, have - cost);
                     func_001DAF38(p->x254, 1);
-                    func_001DBD10(p);
+                    BuildShopList(p);
                     SetSource(PsndNewPlain(0x29), 0);
-                    func_0019F0A8(g_sw);
+                    NotifyPlayersPowerups(g_sw);
                 } else if (have >= cost) {
-                    func_001DA950(p, 0, 0x34);
+                    SetShopMsg(p, 0, 0x34);
                 } else {
-                    func_001DA950(p, 1, 0x35);
+                    SetShopMsg(p, 1, 0x35);
                 }
             } else {
                 SetSource(PsndNewPlain(0x36), 0);
@@ -90,7 +91,7 @@ extern "C" void func_001DB870(OBJ *p)
                 if (r.m_tag > 0) {
                     SetProgressPoCurrent(CRef(r.m_tag - 1), D_002A79D0, D_002A79D8, buf, 0);
                     func_001617E0(g_game, func_00161798(g_game) + D_002C3288[p->x258].x0);
-                    func_001DBD10(p);
+                    BuildShopList(p);
                     SetSource(PsndNewPlain(0x29), 0);
                 }
             }
@@ -98,12 +99,12 @@ extern "C" void func_001DB870(OBJ *p)
         break;
     }
     if (!p->x30 && func_00187D80(p->x10, 0x10))
-        func_001DA950(p, -1, -1);
+        SetShopMsg(p, -1, -1);
     if (func_00187D80(p->x10, 0x80)) {
-        func_001DA950(p, -1, -1);
+        SetShopMsg(p, -1, -1);
         func_001DC260(p, p->x40 == 0);
     }
     if (p->x30)
-        func_001DA858(p);
-    func_001DBEF0(p);
+        UpdateShopStick(p);
+    UpdateShopLook(p);
 }

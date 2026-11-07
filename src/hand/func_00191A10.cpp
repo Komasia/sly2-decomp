@@ -1,4 +1,4 @@
-// func_00191A10: per-frame update of a hero's movement/action context (the struct at actor+0x4C0; called from the
+// UpdateInteract__FP5ACTOR: per-frame update of a hero's movement/action context (the struct at actor+0x4C0; called from the
 // actor's mode handler, see UpdateSlyInput / UpdateBentley). Dispatches on the context's action, then commits the
 // animation / axis weights for the resulting step.
 //
@@ -55,28 +55,28 @@ qword func_0011F088(qword, qword, float, SMP *, U *);
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 qword func_0011E1A0(float, float, float);
 float SMinCrv(FOCUS *) asm("SMinCrv__FP3CRV");
-float func_001E6648(FOCUS *);
-float func_001E6610(FOCUS *);
-float func_001E6630(FOCUS *);
+float SMaxCrv(FOCUS *) asm("SMaxCrv__FP3CRV");
+float GMinCrv(FOCUS *) asm("GMinCrv__FP3CRV");
+float GMaxCrv(FOCUS *) asm("GMaxCrv__FP3CRV");
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
 void func_001940B0(CONTEXT *, int);
-void func_00204660(ACTOR *, float);
+void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
-void func_00192BD8(CONTEXT *, int);
+void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");
 void func_0020BB58(PROGRAM *, float);
 void func_0020BC08(PROGRAM *);
 void func_001441E8(ACTOR *, float);
-void func_001E6ED8(FOCUS *, qword, void *, U *, U *, float *, float *, float);
+void NearestCrv(FOCUS *, qword, void *, U *, U *, float *, float *, float) asm("NearestCrv__FP3CRV");
 void func_00195A00(void *, int, int, int);
 float func_002458F0(float, float);
 void func_001E6F60(FOCUS *, qword, void *, void *, U *, void *, void *);
 void func_001CC2E8(void *);
 void SteerRootBlend(ACTOR *, ENTRY *, void *) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
-void func_00205910(ACTOR *, HEIGHT *, int, U *);
+void FitStepToFloor(ACTOR *, HEIGHT *, int, U *) asm("FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR");
 BINDING *func_0012FF10(void *, ACTOR *, int, int);
-void func_002046F0(ACTOR *, FOCUS *);
-void func_00204CA8(ACTOR *);
+void FaceObject(ACTOR *, FOCUS *) asm("FaceObject__FP5ACTORP2LO");
+void TurnActorNow(ACTOR *) asm("TurnActorNow__FP5ACTOR");
 void func_00189C40(ACTOR *, void *, void *, void *, float, void *);
 void func_00193C98(ACTOR *, void *, void *);
 }
@@ -139,7 +139,8 @@ static inline float GClamp(float g, float lo, float hi) { if (g < lo) return lo;
 static inline float GMin(float a, float b) { return b < a ? b : a; }
 static inline float GMax(float a, float b) { return a < b ? b : a; }
 
-extern "C" void func_00191A10(CONTEXT *ctx)
+// name: SafeHouse port (UpdateInteract)
+extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
 {
     U pos;
     U velOld;
@@ -191,7 +192,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             if (FIsBasicDerivedFrom(ctx->focus, 12) && !(focus = ctx->focus)->cyclic) {
                 float lo, hi;
                 GSmooth(ctx->value, SMinCrv(focus) + 30.0f, g_clock.dt, &smp, &lo);
-                GSmooth(ctx->value, func_001E6648(focus) - 30.0f, g_clock.dt, &smp, &hi);
+                GSmooth(ctx->value, SMaxCrv(focus) - 30.0f, g_clock.dt, &smp, &hi);
                 s = GClamp(lateral, lo, hi);
             } else {
                 s = lateral;
@@ -231,41 +232,41 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             if (ctx->action == 0)
                 func_001940B0(ctx, 3);
         }
-        func_00204660(ctx->actor, heading);
+        SetStepPhysHeading(ctx->actor, heading);
         if (ctx->step == 5 && 0.25f < __builtin_fabsf(RadNormalize(RadStepHeading(ctx->actor) - heading)))
             step = 5;
-        func_00192BD8(ctx, step);
+        SetInteractState(ctx, step);
         break;
     }
     case 1:
         if (ctx->focus->enabled && 0.0f < pjoy->amount && ctx->program180.clip) {
-            func_00192BD8(ctx, 4);
+            SetInteractState(ctx, 4);
             func_0020BB58(&ctx->program180, pjoy->amount);
-            func_00204660(ctx->actor, ctx->actor->pjoy->heading);
+            SetStepPhysHeading(ctx->actor, ctx->actor->pjoy->heading);
             func_0020BC08(&ctx->program180);
         } else {
-            func_00192BD8(ctx, 0);
+            SetInteractState(ctx, 0);
         }
         break;
     case 2:
         func_001441E8(ctx->actor, D_002BF5C0);
         if (ctx->step == 0 ? 0.1f < pjoy->amount : 0.0f < pjoy->amount) {
-            func_00192BD8(ctx, 4);
+            SetInteractState(ctx, 4);
             func_0020BB58((PROGRAM *)((char *)ctx->actor + 0x1C30), pjoy->amount * D_002BF5C4);
         } else {
-            func_00192BD8(ctx, 0);
+            SetInteractState(ctx, 0);
             break;
         }
         // fall through: face the stick
     case 4:
-        func_00204660(ctx->actor, pjoy->heading);
+        SetStepPhysHeading(ctx->actor, pjoy->heading);
         break;
     case 3: {
         FOCUS *focus = ctx->focus;
         U point, tangent;
-        func_001E6ED8(focus, *ctx->actor->ppos, 0, &point, &tangent, &ctx->parameter, &ctx->value, ctx->parameter);
+        NearestCrv(focus, *ctx->actor->ppos, 0, &point, &tangent, &ctx->parameter, &ctx->value, ctx->parameter);
         if (focus->flags && !focus->cyclic &&
-            (ctx->parameter < func_001E6610(focus) + 0.01f || func_001E6630(focus) - 0.01f < ctx->parameter)) {
+            (ctx->parameter < GMinCrv(focus) + 0.01f || GMaxCrv(focus) - 0.01f < ctx->parameter)) {
             func_00195A00(ctx->actor->control, 0, 0, 0);
             break;
         }
@@ -326,7 +327,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 GSmooth(ctx->value, 50.0f, g_clock.dt, &smp, &limit);
                 limit = -limit;
             } else {
-                GSmooth(ctx->value, func_001E6648(focus) - 50.0f, g_clock.dt, &smp, &limit);
+                GSmooth(ctx->value, SMaxCrv(focus) - 50.0f, g_clock.dt, &smp, &limit);
             }
             float ratio = (limit - smp.svSlow) / (smp.svFast - smp.svSlow);
             float amount = pjoy->amount;
@@ -340,13 +341,13 @@ extern "C" void func_00191A10(CONTEXT *ctx)
         if (ctx->reversed)
             heading = RadNormalize(heading + 3.1415927f);
         if (0.0f < g) {
-            func_00192BD8(ctx, 4);
+            SetInteractState(ctx, 4);
             func_0020BB58(&ctx->program240, g);
-            func_00204660(ctx->actor, heading);
+            SetStepPhysHeading(ctx->actor, heading);
             func_0020BC08(&ctx->program240);
         } else {
-            func_00192BD8(ctx, 0);
-            func_00204660(ctx->actor, heading);
+            SetInteractState(ctx, 0);
+            SetStepPhysHeading(ctx->actor, heading);
         }
         break;
     }
@@ -361,7 +362,7 @@ extern "C" void func_00191A10(CONTEXT *ctx)
             break;
         default:
             if (0.0f < pjoy->amount) {
-                func_00192BD8(ctx, 10);
+                SetInteractState(ctx, 10);
                 ENTRY *e = &ctx->axes2[3];
                 if (!e->active)
                     e = &ctx->axes2[2];
@@ -370,14 +371,14 @@ extern "C" void func_00191A10(CONTEXT *ctx)
                 ACTOR *actor = ctx->actor;
                 float turn = -actor->velocity.f[1] / D_002BF5CC;
                 actor->velocity.q = QwScaleX(D_002A2DA0, QwDot(actor->velocity.q, D_002A2DA0));
-                func_00204660(ctx->actor, ctx->actor->heading + turn * g_clock.dt);
+                SetStepPhysHeading(ctx->actor, ctx->actor->heading + turn * g_clock.dt);
             } else {
-                func_00192BD8(ctx, 9);
+                SetInteractState(ctx, 9);
             }
             if (ctx->actor == D_002E1E40)
-                func_00205910(ctx->actor, &D_002BF630, 3, D_002BF5D0);
+                FitStepToFloor(ctx->actor, &D_002BF630, 3, D_002BF5D0);
             else
-                func_00205910(ctx->actor, &D_002BF630, 3, D_002BF600);
+                FitStepToFloor(ctx->actor, &D_002BF630, 3, D_002BF600);
             break;
         }
         break;
@@ -400,8 +401,8 @@ extern "C" void func_00191A10(CONTEXT *ctx)
     }
     case 11:
         if (ctx->focus) {
-            func_002046F0(ctx->actor, ctx->focus);
-            func_00204CA8(ctx->actor);
+            FaceObject(ctx->actor, ctx->focus);
+            TurnActorNow(ctx->actor);
         }
         break;
     }

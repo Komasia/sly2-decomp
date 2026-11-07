@@ -11,9 +11,10 @@ void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *pv, int n);
 void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, struct P *p);
 void SaveBootyMove__FP5ACTORiP2LO(struct Q *q, int n, struct P *p);
-void func_0013C560(struct A *pa, int n);
-void func_00184130(struct P *p, struct Q *q);
-void func_0013D020(struct P *p, struct Q *q)
+void SetBootyState__FP2LOi(struct A *pa, int n);
+void UseObjectBase__FP2LOi(struct P *p, struct Q *q);
+// name: SafeHouse port (FUseBootyStand)
+void FUseBootyStand__FP2LOP5ACTOR(struct P *p, struct Q *q)
 {
     struct A *pqa, *ppa;
     if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))
@@ -36,15 +37,15 @@ void func_0013D020(struct P *p, struct Q *q)
     SaveBootyMove__FP5ACTORiP2LO(q, 0, p);
     if (q->pa && p->pa) {
         q->pa->p15C = p;
-        func_0013C560(q->pa, 3);
+        SetBootyState__FP2LOi(q->pa, 3);
         p->pa->p160 = q;
-        func_0013C560(p->pa, 2);
+        SetBootyState__FP2LOi(p->pa, 2);
     } else if (q->pa) {
         q->pa->p15C = p;
-        func_0013C560(q->pa, 3);
+        SetBootyState__FP2LOi(q->pa, 3);
     } else {
         p->pa->p160 = q;
-        func_0013C560(p->pa, 2);
+        SetBootyState__FP2LOi(p->pa, 2);
     }
-    func_00184130(p, q);
+    UseObjectBase__FP2LOi(p, q);
 }

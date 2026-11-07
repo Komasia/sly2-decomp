@@ -16,17 +16,18 @@ struct S { char pad[0xC]; R *pr; };
 struct P { char pad[0xC]; R *pr; };
 extern char D_002A43B0[];
 extern "C" {
-CRef func_00127838(Q *pq, CRef *aref);
+CRef RefEval(Q *pq, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 void func_0021EC18(char *psz);
 CRef RefOpPrint(int n, int *p, CRef *aref) asm("RefOpPrint__FiP4CRefP6CFrame");
-CRef func_001265F0(P *p, CRef *aref);
+CRef RefEvalAssert(P *p, CRef *aref) asm("RefEvalAssert__FP5CPairP6CFrame");
 }
-CRef func_001265F0(P *p, CRef *aref)
+// name: SafeHouse port (RefEvalAssert)
+CRef RefEvalAssert(P *p, CRef *aref)
 {
     CRef ref;
     Q *pq = p->pr->pq;
     S *ps = pq->ps;
-    ref = func_00127838(pq, aref);
+    ref = RefEval(pq, aref);
     if (ref.u.n == 0) {
         Q *pq2 = ps->pr->pq;
         func_0021EC18(D_002A43B0);

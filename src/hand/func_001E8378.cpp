@@ -51,7 +51,7 @@ extern qword g_normalZ;
 extern "C" {
 qword func_0022D348(SPACE *, SPACE *, qword);
 void func_001AE5A0(void *, const void *, unsigned);
-int func_0014C748(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg);
+int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 M4 *func_0011C318(M4 *, M4 *);
 void func_001E6330(PATH *);
 void func_001E8378(CHAIN *);
@@ -264,7 +264,7 @@ void func_001E8378(CHAIN *p)
                 break;
             for (int j = j0; j < count; j++) {
                 float t;
-                if (!func_0014C748(p->position[i - 1].q, step, Q(&accP[j - 1]), Q(&accP[j]), 1, &lsg)) {
+                if (!ClipSegmentSphere(p->position[i - 1].q, step, Q(&accP[j - 1]), Q(&accP[j]), 1, &lsg)) {
                     p->position[i] = accP[j - 1];
                     t = 0.0f;
                 } else if (lsg.au[1] < 1.0f) {

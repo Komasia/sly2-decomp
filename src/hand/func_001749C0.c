@@ -10,7 +10,7 @@ void func_00209790(void *p, struct S *ps);
 int func_00209A68(struct O *o, int n);
 void PlayKinde__FP5KINDEP5GUARDif(struct E *e, struct O *o, int n, float g);
 void StopKinde__FP5KINDE(struct E *e);
-void func_001EF038(struct S *p);
+void UnlockJob__FP5AIJOB(struct S *p);
 // name: SafeHouse port (JOBMOVE::SetMoveState)
 void SetMoveState__7JOBMOVEi(struct S *p, int n) {
     if (p->n30 == n) return;
@@ -28,7 +28,7 @@ void SetMoveState__7JOBMOVEi(struct S *p, int n) {
         break;
     }
     case 1:
-        func_001EF038(p);
+        UnlockJob__FP5AIJOB(p);
         if (p->pe) {
             if (p->pe->n0 == 0 && func_00209A68(p->p10, 9)) {
                 p->p10->gFF0 = p->pe->pb->g1C / p->pe->pa->g74;

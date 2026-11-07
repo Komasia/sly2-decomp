@@ -9,7 +9,7 @@ extern struct CLOCK g_clock;
 extern qword D_002C1080;
 extern qword D_002C1090;
 void func_001306A8(void *p);
-void func_00142140(void *p, void *q);
+void SetActorInteractObject__FP5ACTORi(void *p, void *q);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(void *p, void *frame, qword q);
 qword func_0022FCC8(void *frame, void *p, qword q);
 qword func_001A62E8(void *p);
@@ -32,13 +32,13 @@ void func_001C8918(struct S *p, int n)
     switch (n) {
     case -1:
         p->x194 = -1;
-        func_00142140(p->x190, 0);
+        SetActorInteractObject__FP5ACTORi(p->x190, 0);
         break;
     case 0:
-        func_00142140(p->x190, p->a1A8[p->x194]);
+        SetActorInteractObject__FP5ACTORi(p->x190, p->a1A8[p->x194]);
         break;
     case 1:
-        func_00142140(p->x190, p->x208);
+        SetActorInteractObject__FP5ACTORi(p->x190, p->x208);
         p->x204->xA8 = g_clock.t + 0.25f;
         px = p->x204;
         q = func_0022FCC8(0, px->xA0, ConvertVec__FP2LOT0G9VU_VECTOR(p->x190, 0, D_002C1080));
@@ -52,7 +52,7 @@ void func_001C8918(struct S *p, int n)
         SetXfMode__FP3ALOP2XFi(p, p->x204, 0x11);
         break;
     case 2:
-        func_00142140(p->x190, p->a1A8[p->x194]);
+        SetActorInteractObject__FP5ACTORi(p->x190, p->a1A8[p->x194]);
         func_001305B8(p->a1CC[p->x194], p, 0.0f, 1.0f, 0, p->x1A0);
         break;
     }

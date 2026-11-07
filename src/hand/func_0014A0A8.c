@@ -7,7 +7,7 @@ void PostLoLoad__FP2LO(struct P *p);
 struct Q *func_001E94B0(int k, int c);
 void *func_0015E938(void *p, int k, int oid, void *q);
 qword func_001A62E8(void *p);
-void func_001E6180(struct Q *q);
+void RecalcCrv__FP3CRV(struct Q *q);
 void func_0014A0A8(struct P *p)
 {
     int i;
@@ -23,5 +23,5 @@ void func_0014A0A8(struct P *p)
             *pq = func_001A62E8(o);
         }
     }
-    func_001E6180(p->q);
+    RecalcCrv__FP3CRV(p->q);
 }

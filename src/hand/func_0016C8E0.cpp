@@ -9,7 +9,7 @@ struct E6 { short a; short b; char c; char pad; };
 struct E8 { int c; E6 *a; };
 struct T { int c; E8 *a; int *ai; };
 extern "C" void *PvAllocStackClearImpl(ALLOCREQ *preq) asm("PvAllocStackClearImpl__Fi");
-extern "C" void func_001ED1A8(short *ps);
+extern "C" void AdjustRgba16(short *ps) asm("AdjustRgba16__FPUs");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
     preq->cb = cb;
@@ -35,8 +35,8 @@ extern "C" T *func_0016C8E0(void *pv, CBinaryInputStream *pbis)
                 p6->a = pbis->U16Read();
                 p6->b = pbis->U16Read();
                 p6->c = pbis->U8Read();
-                func_001ED1A8(&p6->a);
-                func_001ED1A8(pb);
+                AdjustRgba16(&p6->a);
+                AdjustRgba16(pb);
             }
         }
         int m = pbis->U16Read();

@@ -16,7 +16,7 @@ extern "C" {
  int func_001D82B8(void*,void*);
  int func_0021ECD8(char*,const char*,...);
  char*func_0021ED58(char*,const char*);
- int func_001B0078(void*);
+ int KindDataAccess(void*) asm("KindDataAccess__FP4MENU");
 }
 struct FRAME{FRAME()__asm__("__10STACKSCOPE");~FRAME(){_$_10STACKSCOPE(this,2);}};
 static inline float GetG(REF&r,void*a,B*b){NProgress(&r,a,b);float g=r.g;func_00129EC8(&r);return g;}
@@ -33,7 +33,7 @@ extern "C" void func_001ADC40(char*buf,int idx){
   func_0021ECD8(buf,D_002A6EC8,(char*)func_0013E368(&g_sw,func_001DDD40(tag)),func_001D82B8(g_sw.object,pb));
   _$_10STACKSCOPE(frame,2);
  }else{
-  switch(func_001B0078(D_003D9ED0)){
+  switch(KindDataAccess(D_003D9ED0)){
    case 0x1E:case 0x1F:func_0021ED58(buf,(char*)func_0013E368(pg,0x44));break;
    case 0x19:func_0021ED58(buf,(char*)func_0013E368(pg,0x45));break;
   }

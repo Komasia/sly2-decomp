@@ -1,8 +1,9 @@
-/* func_00129DA8: the reference coerced to a float (Sly 1 CRef::RefCoerceF32): a float is copied, an integer
+/* RefCoerceF32__4CRef: the reference coerced to a float (Sly 1 CRef::RefCoerceF32): a float is copied, an integer
  * converted. */
 #include "splice.h"
 
-CRef *func_00129DA8(CRef *pref, const CRef *prefSrc)
+// name: SafeHouse port (CRef::RefCoerceF32)
+CRef *RefCoerceF32__4CRef(CRef *pref, const CRef *prefSrc)
 {
     if (prefSrc->m_tagk == TAGK_F32) {
         __4CRefRC4CRef(pref, prefSrc);

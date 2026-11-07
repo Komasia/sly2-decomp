@@ -11,7 +11,7 @@ void func_00133E80(struct P *p);
 struct C *__10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void func_001A7E10(struct P *, void *);
-void *func_001AA1D8(struct P *, struct X *, struct X *);
+void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct P *, struct X *, struct X *);
 void WakeAlo__FP3ALO(struct LO *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
@@ -52,7 +52,7 @@ void func_00134040(struct P *p)
             VCALL(px2->plo, 54, void (*)(void *, struct LO *)), px->plo);
             pv = pl->pv;
             func_001A7E10(p, pv);
-            { void *pvNew = func_001AA1D8(p, px, px2); pl->pv = pvNew; pl->pother->pv = pvNew; }
+            { void *pvNew = PxpMarkOxaContacts__FP3OXAT0P2SO(p, px, px2); pl->pv = pvNew; pl->pother->pv = pvNew; }
             if (pv || pl->pv) {
                 if (!VCALL(px->plo, 62, int (*)(void *))))
                     WakeAlo__FP3ALO(px->plo);

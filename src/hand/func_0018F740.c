@@ -4,7 +4,7 @@ struct S { char pad[0x1A8]; float g; char p1[0x1714]; int n; };
 extern char D_002BF4E0[];
 void func_0018F2B0(struct S *p, int a, void *pv, int *pn, VEC *pq, float g, float h, float k);
 void func_002046B0(struct S *p, qword q);
-void func_00204CA8(struct S *p);
+void TurnActorNow__FP5ACTOR(struct S *p);
 void func_0018F740(struct S *p)
 {
     VEC v;
@@ -13,6 +13,6 @@ void func_0018F740(struct S *p)
     p->n = n;
     if (n) {
         func_002046B0(p, *(qword *)&v);
-        func_00204CA8(p);
+        TurnActorNow__FP5ACTOR(p);
     }
 }

@@ -8,7 +8,7 @@ void PostLoLoad__FP2LO(struct S *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *o, int n);
 void ResolveKinde__FP5KINDEP5GUARD(void *pe, struct O *o);
 void *func_001F4C58(struct O *o, int a, int b);
-float *func_0012F938(int h, int a);
+float *PeventLaunch__FP5KINDEi(int h, int a);
 void CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(int h, struct O *o, int a, int b, struct L *pl, int c, float f, float g);
 // name: SafeHouse port (PostLoadGuardAction)
 void PostLoadGuardAction__FP2LO(struct S *p)
@@ -28,7 +28,7 @@ void PostLoadGuardAction__FP2LO(struct S *p)
         p->pa = func_001F4C58(p->pAC, p->a, 6);
         p->nA4 = (int)func_001F4C58(p->pAC, p->b, 6);
         h = p->hB4;
-        pf = func_0012F938(h, p->c);
+        pf = PeventLaunch__FP5KINDEi(h, p->c);
         CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6(h, p->pAC, p->nA4, p->pa->nA0, &l, 0, *pf, 1.0f);
         p->v90 = l.v;
     }

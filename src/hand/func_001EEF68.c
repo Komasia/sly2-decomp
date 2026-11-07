@@ -1,5 +1,6 @@
-/* func_001EEF68 (0x1EEF68): empty function. */
+/* Init__5AIJOB (0x1EEF68): empty function. */
 
-void func_001EEF68(void)
+// name: SafeHouse port (AIJOB::Init)
+void Init__5AIJOB(void)
 {
 }

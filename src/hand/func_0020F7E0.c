@@ -5,12 +5,13 @@ struct S { char pad[0x3BA0]; struct E ae[4]; char pad2[0x476C - 0x3BD0]; float t
 extern struct { float t; float dt; } g_clock;
 extern char D_002C3E88[];
 extern float D_002C3E80;
-int func_002132D0(struct O *po);
+int FVisible__FP8SCREENRT(struct O *po);
 float func_0011D1C0(float a, float b, float c, void *p, float *pv, float dt);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, void *source);
 
-void func_0020F7E0(struct S *p)
+// name: SafeHouse port (StackCounters)
+void StackCounters__FP2SW(struct S *p)
 {
     float z;
     float t = 0.0f;
@@ -19,7 +20,7 @@ void func_0020F7E0(struct S *p)
     for (i = 0; i < 4; i++) {
         struct E *e = &p->ae[i];
         struct O *o = e->po;
-        if (!o || !func_002132D0(o)) {
+        if (!o || !FVisible__FP8SCREENRT(o)) {
             e->f = 1;
             continue;
         }

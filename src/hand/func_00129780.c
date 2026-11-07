@@ -4,7 +4,8 @@ typedef struct MR { MATRIX4 mat; int cref; } MR;
 extern char D_004521A0[];
 MR *func_0011CCC0(void *pslotheap);
 void Decref__4CRef(CRef *pref);
-CRef *func_00129780(CRef *pref, MATRIX4 *pmat)
+// name: SafeHouse port (CRef::SetMatrix)
+CRef *SetMatrix__4CRefP7MATRIX4(CRef *pref, MATRIX4 *pmat)
 {
     MR *p;
     Decref__4CRef(pref);

@@ -59,7 +59,7 @@ struct P { int x0; void *x4; X *px8; int xC; int pad10[3]; float g1C; float g20;
 extern "C" {
 extern qword D_002A2DD0, g_normalZ, D_002BC380;
 void RefreshXf(void *pv, X *px) asm("RefreshXf__FP3ALOP2XF");
-void func_00117120(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n);
+void Hermite(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 M3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 void func_0022FD38(M3 *pm, int n, X *px, M3 *pmSrc);
 }
@@ -113,7 +113,7 @@ extern "C" void func_0012D508(P *p)
             w = py->mC0.r[1];
             break;
         case 1:
-            func_00117120(py->mC0.r[0], py->mC0.r[1], py->mC0.r[2], py->vF0,
+            Hermite(py->mC0.r[0], py->mC0.r[1], py->mC0.r[2], py->vF0,
                 py->g84 - py->g80, *py->pg88 - py->g80, *py->pg8C, 0, &vT.q, 0);
             w = vT.q;
             break;

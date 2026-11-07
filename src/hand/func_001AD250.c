@@ -6,8 +6,8 @@ extern struct G D_002E65E0;
 extern int D_003E0FAC;
 void NProgress(struct CRef *ret, int a, void *b);
 void func_00129EC8(struct CRef *);
-void func_001D8D80(struct B *b, int n);
-void func_00165E38(struct B *b);
+void ResetSlotKeepSettings__FPci(struct B *b, int n);
+void StartGameFromSave__FP2SW(struct B *b);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 void func_001AD250(struct S *s)
@@ -20,8 +20,8 @@ void func_001AD250(struct S *s)
     func_00129EC8(&ref);
     if (f == 0.0f) {
         D_002E65E0.xFD50 = p;
-        func_001D8D80(p, 1);
-        func_00165E38(D_002E65E0.xFD50);
+        ResetSlotKeepSettings__FPci(p, 1);
+        StartGameFromSave__FP2SW(D_002E65E0.xFD50);
     } else {
         SetSource__4CSndPv(PsndNewPlain__Fi(0x36), 0);
         if (s)

@@ -30,7 +30,7 @@ void func_001B44D8(int *, void ***);
 qword func_001A62E8(LO *);
 M4 *func_001A6318(LO *);
 int func_00173768(SET *, qword, int, void **, float);
-float func_001E6648(LO *);
+float SMaxCrv(LO *) asm("SMaxCrv__FP3CRV");
 int func_001EA3B0(void *, float);
 void func_001E6F10(LO *, qword *, qword *, float);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
@@ -174,7 +174,7 @@ extern "C" SEL *func_00173F18(SET *pset, qword pos, qword *pposOut, M3 *pmatOut,
         case 1:
         {
             union { VECTOR4 v; qword q; } posCurve, dirCurve;
-            int c = (int)(func_001E6648(plo) / D_002BE5E8);
+            int c = (int)(SMaxCrv(plo) / D_002BE5E8);
             for (int k = 0; k < c; )
             {
                 int kNext = k + 1;

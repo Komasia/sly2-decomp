@@ -50,9 +50,10 @@ struct SPO {
 extern "C" {
 SPN func_00128CB8(NODE *pn, void *a, void *b);
 SPO func_00128F70(O *po, void *a);
-CRef func_00129BC8(CRef *pref, void *a, void *b);
+CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 }
-CRef func_00129BC8(CRef *pref, void *a, void *b)
+// name: SafeHouse port (CRef::CloneTo)
+CRef CloneTo(CRef *pref, void *a, void *b)
 {
     switch (pref->m_tagk) {
     case 0x1A: return CRef((const VECTOR *)pref->u.pv);

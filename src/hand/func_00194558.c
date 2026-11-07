@@ -8,7 +8,8 @@ static __inline__ int FX(struct S *p) {
     if (p->p->x12f0 && (g_grfjoyt & 2)) r = !func_0014FD50(D_002DE2E0);
     return r;
 }
-int func_00194558(struct S *p, int k) {
+// name: SafeHouse port (FInteractCanDo)
+int FInteractCanDo__FP5ACTORi(struct S *p, int k) {
     if (k == 3) {
         switch (p->k) {
         case 0: case 1: case 3: case 4: case 13:

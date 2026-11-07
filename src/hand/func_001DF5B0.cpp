@@ -1,4 +1,4 @@
-// func_001DF5B0 (w2lane4, wave 2): per-frame render of a "connector" (a chain of links drawn between pairs of points).
+// CollectLaserDraws__FP3ALO (w2lane4, wave 2): per-frame render of a "connector" (a chain of links drawn between pairs of points).
 // After the generic update (RenderSoSelf) and a camera visibility test of the connector's bounding sphere
 // (FInsideCmPlanes), each link is queried for its two end points and its length (func_001DEF98). A link longer than its
 // maximum is pulled back toward the first point, then the line object, the stretched middle object and the two end caps
@@ -80,7 +80,8 @@ static inline void Query(P *owner, ENTRY *entry, U (&points)[2], float &distance
     func_001DEF98(owner, entry, &points[0].q, &distance);
 }
 
-extern "C" void func_001DF5B0(P *p)
+// name: SafeHouse port (CollectLaserDraws)
+extern "C" void CollectLaserDraws__FP3ALO(P *p)
 {
     RenderSoSelf(p);
     BOUND *bound = p->bound;

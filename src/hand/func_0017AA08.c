@@ -5,7 +5,8 @@ struct S { char pad[0x10]; struct T *pt; char pad2[0x48]; int n5C; };
 void Enter__7JOBMOVE(struct S *p);
 void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct T *t, int a, int b, qword q);
 void DetachGuardMove__FP5GUARD(struct T *t);
-void func_0017B1A8(struct S *p, int n);
-void func_001EEFC0(struct S *p);
+void SetState__5JOBB1i(struct S *p, int n);
+void LockJob__FP5AIJOB(struct S *p);
 void func_00154038(void *p, int a, int b);
-void func_0017AA08(struct S *p) { Enter__7JOBMOVE(p); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0); DetachGuardMove__FP5GUARD(p->pt); func_0017B1A8(p, 0); func_001EEFC0(p); func_00154038(p->pt->pF64, p->n5C, 2); }
+// name: SafeHouse port (JOBB1::Enter)
+void Enter__5JOBB1(struct S *p) { Enter__7JOBMOVE(p); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0); DetachGuardMove__FP5GUARD(p->pt); SetState__5JOBB1i(p, 0); LockJob__FP5AIJOB(p); func_00154038(p->pt->pF64, p->n5C, 2); }

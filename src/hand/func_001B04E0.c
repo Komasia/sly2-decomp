@@ -5,9 +5,10 @@ extern struct E D_002BFEC8[11], D_002F6470[];
 extern char D_003DA530[], D_002BFD38[];
 extern struct G D_003D9ED0;
 int func_001D9880(void *p);
-void func_001AF390(struct G *g, int n, struct E *pe);
-void func_001AF4D8(struct G *g, int n, struct E *pe, int a, void *b);
-void func_001B04E0(struct S *p)
+void ReplacePage__FP4MENUiPv(struct G *g, int n, struct E *pe);
+void PushPage__FP4MENUiPviUi(struct G *g, int n, struct E *pe, int a, void *b);
+// name: SafeHouse port (AentOptions)
+void AentOptions__FPv(struct S *p)
 {
     struct E *src = D_002BFEC8;
     struct E *dst = D_002F6470;
@@ -22,9 +23,9 @@ void func_001B04E0(struct S *p)
         if (ok) *dst++ = *src;
     }
     if (p) {
-        func_001AF390(&D_003D9ED0, dst - D_002F6470, D_002F6470);
+        ReplacePage__FP4MENUiPv(&D_003D9ED0, dst - D_002F6470, D_002F6470);
         p->x1C |= 2;
     } else {
-        func_001AF4D8(&D_003D9ED0, dst - D_002F6470, D_002F6470, D_003D9ED0.x20, D_002BFD38);
+        PushPage__FP4MENUiPviUi(&D_003D9ED0, dst - D_002F6470, D_002F6470, D_003D9ED0.x20, D_002BFD38);
     }
 }

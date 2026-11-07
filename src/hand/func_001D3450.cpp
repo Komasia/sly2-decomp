@@ -6,7 +6,7 @@
 //     piece give support points;
 //  3. two support passes pair points by surface, find the deepest tangency of the wheel circle with each support plane,
 //     and post the best one as a kind-10 contact (PxpAdd 0x1A7C18).
-// Names follow Lilly's func_001A93C8 port (SURF/EDGE/BSP/LSG/GEOM/STACKSCOPE/PvAllocStack). Notes: notes/190000-1F0000_lanes.md.
+// Names follow Lilly's SphereBspContacts port (SURF/EDGE/BSP/LSG/GEOM/STACKSCOPE/PvAllocStack). Notes: notes/190000-1F0000_lanes.md.
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 typedef unsigned short ushort;
@@ -58,7 +58,7 @@ void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");
 int func_00118A88(BSP *, BSP *, qword, float, int *, BSP **);
 int func_00118668(BSP *, BSP *, qword, qword, int, LSG *);
 qword func_001193D8(M4 *, qword);
-void func_001A7C18(GAME *, SHAPE *, SOPART *, qword, qword, int, int, int, CONTACT **, float);
+void PxpAddSw(GAME *, SHAPE *, SOPART *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 }
 
 static inline M4 *GetMatrix(OWNER *p) { return p->vt[31].pfn((char *)p + p->vt[31].delta); }
@@ -325,6 +325,6 @@ extern "C" void func_001D3450(OWNER *owner, WHEEL *wheel, SOPART *ppart, int unu
         qword world = Transform(frame, bestPoint).q;
         VECTOR normal;
         normal.q = plane;
-        func_001A7C18(&g_sw, owner->shape, ppart, world, normal.q, 10, 0, 0, ppcontact, best);
+        PxpAddSw(&g_sw, owner->shape, ppart, world, normal.q, 10, 0, 0, ppcontact, best);
     }
 }

@@ -30,7 +30,7 @@ float RadNormalize(float) asm("RadNormalize__Ff");
 int func_0011D910(LM*,float);
 void FNavPathCrv(void*,qword,qword,void*) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 void func_001E7380(void*,qword,void*,qword*,float,qword*,float*,float*);
-float func_001E6648(void*);
+float SMaxCrv(void*) asm("SMaxCrv__FP3CRV");
 float GSuck(void*) asm("GSuck__FPv");
 int func_0015E9C8(void*,int,int,void*,int,NODE**);
 qword func_0011E9F8(qword,float);
@@ -139,7 +139,7 @@ dispatch:
    __asm__("vsub.xyzw %0,%1,%2":"=j"(d):"j"(QwAddScaled(nearest.q,direction.q,VuFloatFromMemWord(*(int*)&D_002BE828))),"j"(self),"f"(eps)); /* allocation-only "f"(eps): the epsilon is loaded before the subtract */
    unit.q=QwNormalizeSafe(d,D_002A2DD0,eps);
   }
-  float remaining=func_001E6648(p->curve)-p->progress;
+  float remaining=SMaxCrv(p->curve)-p->progress;
   float turn=Heading(ConvertVec(0,p,unit.q));
   float response=GSuck(D_002DE578);
   float speed=Limit(Evaluate(&p->remaining,remaining),&g_lmZeroOne)*Limit(Evaluate(&p->angle,turn),&g_lmZeroOne)*Limit(Evaluate(&D_002BE830,response),&g_lmZeroOne)*p->scale;

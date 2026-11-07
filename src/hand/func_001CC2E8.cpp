@@ -34,7 +34,7 @@ void SetCtrlPos(void*,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SetAsegaTime(void*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void func_001384C0(MOTION*);
 void func_002046B0(LO*,qword);
-void func_00204CA8(LO*);
+void TurnActorNow(LO*) asm("TurnActorNow__FP5ACTOR");
 void func_001CC2E8(P*);
 }
 static inline void*operator new(unsigned size,void*destination){return destination;}
@@ -81,7 +81,7 @@ void func_001CC2E8(P*p){
  w.saved.q=w.position.q;
  LO*receiver;qword delta=DifferenceFromSaved(&w.saved,func_001A62E8(p->owner),p,receiver);
  func_002046B0(receiver,delta);
- func_00204CA8(p->owner);
+ TurnActorNow(p->owner);
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)

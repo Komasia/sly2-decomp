@@ -18,7 +18,7 @@ extern struct N *D_003E15C0;
 extern char D_003E15A8[];
 extern float g_clock;
 struct O *PaloOrParent__FPv(void *);
-int func_001F78D8(struct O *, int);
+int GrfAloXpBytes__FP3ALOUi(struct O *, int);
 struct K *func_0011CCC0(void *);
 void ClearDle__FP3DLE(void *);
 void AppendDlEntry__FP2DLPv(void *, void *);
@@ -37,7 +37,7 @@ struct O *PaloAcceptContact__FP5CTMSG(struct K *pk)
         for (pn = D_003E15C0; pn; pn = pn->pNext) {
             if (pn->n0 == (int)pk->p0 && pn->n4 == pk->n4 && pn->nC == pk->nC && pn->p48 == po) return 0;
         }
-        pk->n44 = func_001F78D8(po, pk->nC);
+        pk->n44 = GrfAloXpBytes__FP3ALOUi(po, pk->nC);
         if (VCALL(po, 75, int (*)(void *, struct K *)), pk)) {
             struct K *pkNew;
             pk->p48 = po;

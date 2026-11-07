@@ -1,5 +1,6 @@
 struct S { int n0; unsigned char b4; unsigned char b5; };
-int func_001EA688(struct S *p)
+// name: SafeHouse port (CclutPass)
+int CclutPass__FP3SHD(struct S *p)
 {
     switch (p->b4) {
     case 1:

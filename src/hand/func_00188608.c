@@ -3,7 +3,7 @@ typedef int qword __attribute__((mode(TI)));
 #define A(o) ((char *)p + (o))
 
 extern void func_001400B8(void *p);
-extern void func_001A64E8(void *p, int n, void *pv);
+extern void BindLoParts__FP3ALOiPv(void *p, int n, void *pv);
 extern int func_001F4C58(void *p, int a, int b);
 extern void func_0020B868(void *p);
 extern void func_001A0300(void *p, void *a, void *b);
@@ -25,7 +25,7 @@ void PostJtLoad__FP2JT(char *p)
 {
     int n;
     func_001400B8(p);
-    func_001A64E8(p, 0x12, D_002BF1B0);
+    BindLoParts__FP3ALOiPv(p, 0x12, D_002BF1B0);
     F(int, 0x10B8) = func_001F4C58(p, 0x138, 1);
     F(int, 0x19E0) = func_001F4C58(p, 0x18, 6);
     F(int, 0x19DC) = func_001F4C58(p, 0x19, 6);

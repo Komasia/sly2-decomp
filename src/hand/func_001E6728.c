@@ -1,10 +1,10 @@
 struct S { char pad[0xE4]; int fWrap; };
 float SMinCrv__FP3CRV(struct S *p);
-float func_001E6648(struct S *p);
-float func_001E66C8(struct S *p, float g);
+float SMaxCrv__FP3CRV(struct S *p);
+float SWrapCrv__FP3CRVf(struct S *p, float g);
 static __inline__ float GClamp(float g, float lo, float hi) { if (g < lo) return lo; if (g > hi) return hi; return g; }
 float func_001E6728(struct S *p, float g)
 {
-    if (p->fWrap) return func_001E66C8(p, g);
-    return GClamp(g, SMinCrv__FP3CRV(p), func_001E6648(p));
+    if (p->fWrap) return SWrapCrv__FP3CRVf(p, g);
+    return GClamp(g, SMinCrv__FP3CRV(p), SMaxCrv__FP3CRV(p));
 }

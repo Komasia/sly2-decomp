@@ -4,8 +4,8 @@ struct P { char pad[0xC]; struct VT *pvt; char pad2[0x154 - 0x10]; float t154; f
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 void UpdateSo__FP2SOf(struct P *p);
-void func_0013B860(struct P *p);
-void func_0013AC18(struct P *p);
+void EndProjectile__FP3ALO(struct P *p);
+void SweepProjectile__FP3ALO(struct P *p);
 static __inline__ float GLength(qword v)
 {
     qword d, t;
@@ -31,9 +31,9 @@ void UpdateBomb__FP4BOMBf(struct P *p)
         int f = GLength(v) < p->g158;
         if (f) {
         out:
-            func_0013B860(p);
+            EndProjectile__FP3ALO(p);
         } else if (p->f1F4) {
-            func_0013AC18(p);
+            SweepProjectile__FP3ALO(p);
         }
     }
 }

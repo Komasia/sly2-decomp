@@ -27,7 +27,7 @@ void func_001EC968(void);
 void UpdateSave__FP4SAVE(void *pv);
 void UpdateSoundMgr__FPv(void *pv);
 void UpdateCm__FP2CM(void *pv);
-void func_0020F7E0(struct S *p);
+void StackCounters__FP2SW(struct S *p);
 void func_00128148(void *pv);
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
@@ -84,6 +84,6 @@ void func_00226550(struct S *p)
     UpdateSoundMgr__FPv(D_003DD040);
     if (0.0f < g_clock.g10)
         UpdateCm__FP2CM(g_cm);
-    func_0020F7E0(p);
+    StackCounters__FP2SW(p);
     func_00128148(D_002DD598);
 }

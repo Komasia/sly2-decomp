@@ -5,8 +5,8 @@ int func_00210A88(void);
 int func_0015E650(struct G *pg, int kind, int oid, int a, int c, void **apv);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pv, int n);
 void *func_001F67E0(void *pv, int n);
-void func_001F0948(void *p, int id);
-void func_001F0660(void *p, int id);
+void SnapSmaGoal__FP3SMA3OID(void *p, int id);
+void SetSmaGoal__FP3SMA3OID(void *p, int id);
 void func_00162250(void *pvUnused, struct E *pe, int n, int k)
 {
     void *pv;
@@ -30,8 +30,8 @@ void func_00162250(void *pvUnused, struct E *pe, int n, int k)
     }
     if (id != -1) {
         if (k == 1 || k == 4)
-            func_001F0948(ps, id);
+            SnapSmaGoal__FP3SMA3OID(ps, id);
         else
-            func_001F0660(ps, id);
+            SetSmaGoal__FP3SMA3OID(ps, id);
     }
 }

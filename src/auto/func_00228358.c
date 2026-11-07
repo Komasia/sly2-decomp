@@ -23,7 +23,8 @@ extern M2C_UNK g_sw;
 extern M2C_UNK D_003E10D0;
 extern M2C_UNK D_00443740;
 
-void func_00228358(s32 arg0, s32 arg1) {
+// name: SafeHouse port (SetExitState)
+void SetExitState__FP2LOi(s32 arg0, s32 arg1) {
     if (arg1 != M2C_FIELD(arg0, s32 *, 0x13C)) {
         if (arg1 == 4) {
             func_001A6CA8(arg0, 1);

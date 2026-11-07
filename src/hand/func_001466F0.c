@@ -1,12 +1,12 @@
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { char pad[0xC]; struct VTE *vt; };
-void func_001EEF70(void *p);
+void Enter__5AIJOB(void *p);
 void SetState__12JOBSLYATTACKi(void *p, int n);
 void func_001466F0(char *p)
 {
     struct O *o;
     struct VTE *e;
-    func_001EEF70(p);
+    Enter__5AIJOB(p);
     SetState__12JOBSLYATTACKi(p, 0);
     o = *(struct O **)(p + 0x10);
     e = &o->vt[95];

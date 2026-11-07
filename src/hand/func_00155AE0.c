@@ -15,13 +15,13 @@ extern qword D_002A2DD0;
 extern float D_002A5138;
 void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct SO *pso, int a, int b, qword q);
 float GRandInRange__Fff(float a, float b);
-void func_001EF0D8(int *p);
+void EndChildJob__FPP5AIJOB(int *p);
 void *PloEnd__5JOBB5(struct X *p);
 struct ASEG *func_00205438(struct SO *pso, int id);
 qword func_001A62E8(void *p);
 float func_002458F0(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float g);
-void func_001E6180(struct ALO *p);
+void RecalcCrv__FP3CRV(struct ALO *p);
 void Follow__9JOBFOLLOWP3CRVi(struct ASEG *a, struct ALO *b, int c);
 
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -54,7 +54,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         p->plm = 0;
         break;
     }
-    func_001EF0D8(&p->x18);
+    EndChildJob__FPP5AIJOB(&p->x18);
     p->state = k;
     p->t34 = g_clock.t;
     switch (k) {
@@ -94,7 +94,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
             qword *pq = palo->pq;
             pq[1] = func_001A62E8(p->x40);
         }
-        func_001E6180(palo);
+        RecalcCrv__FP3CRV(palo);
         Follow__9JOBFOLLOWP3CRVi(pa, palo, 0);
         pa->xC0 = 8;
         pa->xC8 = p->x4C;

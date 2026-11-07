@@ -11,13 +11,14 @@ extern char g_game[];
 int func_001C4660(void *, int, float);
 int func_001C4700(void *, int);
 float TMusicTop__FPv(void *);
-void func_00152390(struct O *, int, int, int);
+void PlayDancerMove__FP2LOiii(struct O *, int, int, int);
 void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct S *);
-void func_00153640(struct S *, float);
-float func_001535A0(struct S *, struct E *);
+void AddDanceScore__FP2LOiif(struct S *, float);
+float GBeatScore__FP5DANCEP4BEAT(struct S *, struct E *);
 float func_00153638(struct S *, float);
 int func_0011D4D0(float, float, float);
-void func_001533B0(struct S *p, struct O *po)
+// name: SafeHouse port (CheckDancerBeat)
+void CheckDancerBeat__FP2LOP5DANCE(struct S *p, struct O *po)
 {
     void *pv = po->p150;
     int i, j;
@@ -33,19 +34,19 @@ void func_001533B0(struct S *p, struct O *po)
             continue;
         BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x35, p);
         if (TMusicTop__FPv(D_003DD040) < pe->gC - p->g58) {
-            func_00152390(po, -1, -1, 1);
-            func_00153640(p, p->g298);
+            PlayDancerMove__FP2LOiii(po, -1, -1, 1);
+            AddDanceScore__FP2LOiif(p, p->g298);
             return;
         }
         if (pe->n1C) {
-            func_00152390(po, -1, -1, 1);
-            func_00153640(p, p->g2A0);
+            PlayDancerMove__FP2LOiii(po, -1, -1, 1);
+            AddDanceScore__FP2LOiif(p, p->g2A0);
             return;
         }
         pe->n1C = 1;
         if (func_001C4700(pv, pe->n4)) {
-            func_00152390(po, pe->n4, pe->n8, 0);
-            func_00153640(p, func_00153638(p, func_001535A0(p, pe)));
+            PlayDancerMove__FP2LOiii(po, pe->n4, pe->n8, 0);
+            AddDanceScore__FP2LOiif(p, func_00153638(p, GBeatScore__FP5DANCEP4BEAT(p, pe)));
             for (j = 0; j < p->n60; j++) {
                 struct Q *pq = &p->a70[j];
                 if (func_0011D4D0(pq->g0, pe->gC, 0.1f)) {
@@ -54,8 +55,8 @@ void func_001533B0(struct S *p, struct O *po)
                 }
             }
         } else {
-            func_00152390(po, -1, -1, 1);
-            func_00153640(p, p->g29C);
+            PlayDancerMove__FP2LOiii(po, -1, -1, 1);
+            AddDanceScore__FP2LOiif(p, p->g29C);
         }
         return;
     }

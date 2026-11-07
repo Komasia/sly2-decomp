@@ -45,11 +45,12 @@ extern qword D_002A2DD0;
 void SetXfMode__FP3ALOP2XFi(P *p, void *x, int k);
 void func_0020BD68(void *p);
 void RetractAsegaPp__FPP5ASEGA(A *pa);
-void func_001F15B8(C *pc);
+void ClearSmaHandle__FPP3SMA(C *pc);
 void ApplyAsegCur(R *pr, P *p, float f, float g, int k, A *pa) __asm__("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
-void func_001F1448(void *pv, P *p, int a, int k, C *pc);
+void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(void *pv, P *p, int a, int k, C *pc);
 
-void func_001B5658(P *p, int k)
+// name: SafeHouse port (SetMurrayCarryMove)
+void SetMurrayCarryMove__FP6MURRAYi(P *p, int k)
 {
     R *pr;
     void *pv;
@@ -94,7 +95,7 @@ state2:
     f=p->x1A0*pr->x74;
 done:
     RetractAsegaPp__FPP5ASEGA(&p->a);
-    func_001F15B8(&p->c);
+    ClearSmaHandle__FPP3SMA(&p->c);
     ApplyAsegCur(pr, p, f, 1.0f, n, &p->a);
-    func_001F1448(pv, p, -1, n, &p->c);
+    ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(pv, p, -1, n, &p->c);
 }

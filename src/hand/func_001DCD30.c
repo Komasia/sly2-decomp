@@ -14,13 +14,14 @@ typedef struct {
 } OBJ;
 void func_001DA808(OBJ *);
 int func_002127C8(void);
-void func_00212A70(W *, int);
+void SetState__FP8SCREENRTi(W *, int);
 void func_00212A50(W *, int);
 int func_00187D80(void *, int);
-void func_001DD300(OBJ *, int);
-void func_001DA858(OBJ *);
-void func_001DD1F8(OBJ *);
-void func_001DCD30(OBJ *p)
+void SetJobHelpPage__FPvi(OBJ *, int);
+void UpdateShopStick__FP4SHOP(OBJ *);
+void UpdateJobHelpLook__FPv(OBJ *);
+// name: SafeHouse port (UpdateJobHelp)
+void UpdateJobHelp__FP2SW(OBJ *p)
 {
     func_001DA808(p);
     if (p->x40 == -1)
@@ -30,36 +31,36 @@ void func_001DCD30(OBJ *p)
     if (p->pw->x58 == 0) {
         if (!func_002127C8())
             return;
-        func_00212A70(p->pw, 1);
+        SetState__FP8SCREENRTi(p->pw, 1);
         func_00212A50(p->pw, 2);
         p->pw->vt->a[16].pfn((char *)p->pw + p->pw->vt->a[16].d);
     }
     if (func_00187D80(p->x10, 0x800)) {
-        func_001DD300(p, -1);
+        SetJobHelpPage__FPvi(p, -1);
         return;
     }
     switch (p->x40) {
     case 0:
         if (func_00187D80(p->x10, 0x10)) {
-            func_001DD300(p, -1);
+            SetJobHelpPage__FPvi(p, -1);
             return;
         }
         if (p->c && func_00187D80(p->x10, 0xF0)) {
-            func_001DD300(p, 1);
+            SetJobHelpPage__FPvi(p, 1);
             return;
         }
         break;
     case 1:
         if (!p->x114 && func_00187D80(p->x10, 0x10)) {
-            func_001DD300(p, -1);
+            SetJobHelpPage__FPvi(p, -1);
             return;
         }
         if (func_00187D80(p->x10, 0xF0)) {
-            func_001DD300(p, 0);
+            SetJobHelpPage__FPvi(p, 0);
             return;
         }
         break;
     }
-    func_001DA858(p);
-    func_001DD1F8(p);
+    UpdateShopStick__FP4SHOP(p);
+    UpdateJobHelpLook__FPv(p);
 }

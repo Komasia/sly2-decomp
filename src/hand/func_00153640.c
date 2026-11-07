@@ -6,7 +6,7 @@ extern LM g_lmZeroOne;
 struct S { char pad[0x234]; LM lm; int c; float ag[16]; float g280; float g284; };
 float GSuck__FPv(void *p);
 float GLimitLm__FP2LMf(LM *plm, float g);
-float func_00153760(struct S *p);
+float GScoreMean__FP5DANCE(struct S *p);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
 void *func_002332B8(void *dst, void *src, int cb);
 static inline float GClampLm(LM *plm, float g)
@@ -33,7 +33,8 @@ static inline float GClamp(float g, float gMin, float gMax)
         return gMax;
     return g;
 }
-void func_00153640(struct S *p, int a, int b, float g)
+// name: SafeHouse port (AddDanceScore)
+void AddDanceScore__FP2LOiif(struct S *p, int a, int b, float g)
 {
     float *pg;
     if (g < 0.0f) {
@@ -47,6 +48,6 @@ void func_00153640(struct S *p, int a, int b, float g)
         pg = &p->ag[p->c++];
     }
     *pg = GLimitLm__FP2LMf(&p->lm, g);
-    p->g284 = func_00153760(p);
+    p->g284 = GScoreMean__FP5DANCE(p);
     BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x36, p);
 }

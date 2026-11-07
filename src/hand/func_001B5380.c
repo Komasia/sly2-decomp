@@ -18,8 +18,8 @@ void func_001C4738(struct PL *pl, int k);
 int func_001DAEA8(int n);
 void func_00195A00(void *p, int a, int b, int c);
 void func_0019CC50(void *p, int a, int b, int c);
-void func_001B5658(struct P *p, int n);
-void func_00204660(struct P *p, float g);
+void SetMurrayCarryMove__FP6MURRAYi(struct P *p, int n);
+void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p,struct PL*pl,float g);
 void func_0020BB58(void *p, float g);
 void func_0020BC08(void *p);
@@ -34,7 +34,8 @@ static inline void NegateSource(qword value,qword*velocity,U*scalar){
     *velocity=result;
 }
 static inline struct PL*CopyPL(struct PL*p){register struct PL*source __asm__("$2")=p;register struct PL*copy __asm__("$4");__asm__("daddu %0,%1,$zero":"=r"(copy):"r"(source));return copy;}
-void func_001B5380(struct P *p)
+// name: SafeHouse port (UpdateMurrayCarryHeld)
+void UpdateMurrayCarryHeld__FP6MURRAY(struct P *p)
 {
     int s;
     for (;;) {
@@ -62,11 +63,11 @@ void func_001B5380(struct P *p)
                 float g=source->g1C;
                 if (p->x1458 == 0 ? 0.1f < g : 0.0f < g) {
                     if ((pl->x30 & 8) && func_001DAEA8(0x12))
-                        func_001B5658(p, 2);
+                        SetMurrayCarryMove__FP6MURRAYi(p, 2);
                     else
-                        func_001B5658(p, 1);
+                        SetMurrayCarryMove__FP6MURRAYi(p, 1);
                 } else {
-                    func_001B5658(p, 0);
+                    SetMurrayCarryMove__FP6MURRAYi(p, 0);
                 }
             }
             break;
@@ -78,14 +79,14 @@ void func_001B5380(struct P *p)
     case 0:
         break;
     case 1:
-        func_00204660(p, p->pl->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
         func_0020BB58(p->x1460, p->pl->g1C);
         func_0020BC08(p->x1460);
         break;
     case 2: {
         U u;
         qword v;
-        func_00204660(p, p->pl->g18);
+        SetStepPhysHeading__FP3ALOf(p, p->pl->g18);
         v = VelActorAnimRoot__FP5ACTORPvf(p,p->p1030,p->p1030->g1C);
         NegateSource(v,&p->v190,&u);
         break;

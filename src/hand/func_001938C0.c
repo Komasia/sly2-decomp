@@ -6,8 +6,9 @@ extern float D_002BF660;
 extern int D_002E1E40;
 struct P { int x0; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *o, int n);
-void func_001928F8(struct P *p, int n, struct O *o, int a);
-int func_001938C0(struct P *p)
+void StartInteract__FP5ACTORii3JTL(struct P *p, int n, struct O *o, int a);
+// name: SafeHouse port (FInteractCircle)
+int FInteractCircle__FP5ACTOR(struct P *p)
 {
     struct G *g = &g_sw;
     int n = g->c;
@@ -31,7 +32,7 @@ int func_001938C0(struct P *p)
         else
             k = FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x23) ? 7 : -1;
         if (k != -1) {
-            func_001928F8(p, k, o, e->x4);
+            StartInteract__FP5ACTORii3JTL(p, k, o, e->x4);
             return 1;
         }
     }

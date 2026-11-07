@@ -11,7 +11,7 @@ struct OPT{int kind,value;};
 struct S{char pad[0x54];int state;char pad58[0xC];int a,b;char pad6C[0x10];void*next;char pad80[0x48];OPT c,d,e,f,h;int fF0,fF4;};
 extern char D_003D4A60[];
 extern "C" CRef func_00258200(OPT*,const CRef&,void*);
-extern "C" int func_00164030(S*);
+extern "C" int FTaskDone(S*) asm("FTaskDone__FP4TASK");
 extern "C" void func_00163460(void*);
 static inline void SetPv(OPT*p,const CRef&r,void*context=0){CRef arg(r);const CRef&ret=func_00258200(p,arg,D_003D4A60);}
 static inline void SetInt(OPT*p,int n){CRef r(n);SetPv(p,r);}
@@ -19,7 +19,7 @@ extern "C" void func_001643B0(S*p){
  if(p->fF4==1||p->state==-1)return;
  {OPT*opt=&p->c;if(opt->kind){SetInt(opt,p->a);}}
  {OPT*opt=&p->d;if(opt->kind){SetInt(opt,p->b);}}
- {OPT*opt=&p->e;if(opt->kind){void*key=D_003D4A60;int f=func_00164030(p);{CRef r(f!=0);SetPv(opt,r,key);}}}
+ {OPT*opt=&p->e;if(opt->kind){void*key=D_003D4A60;int f=FTaskDone(p);{CRef r(f!=0);SetPv(opt,r,key);}}}
  {OPT*opt=&p->f;if(opt->kind){SetInt(opt,p->state);}}
  {OPT*opt=&p->h;if(opt->kind){CRef r(false);SetPv(opt,r,D_003D4A60);}}
  if(p->next)func_00163460(p->next);

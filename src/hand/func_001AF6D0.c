@@ -17,7 +17,8 @@ float func_0011D948(void *, float);
 void SetSoundChannelVolume__FP8SOUNDMGRiif(struct G *, int, float, int);
 void func_00212E40(void *, int, float);
 static __inline__ float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
-void func_001AF6D0(struct S *s, struct P *p, int *pk)
+// name: SafeHouse port (UpdateSlider)
+void UpdateSlider__FP4PAGEP7MENUENTPi(struct S *s, struct P *p, int *pk)
 {
     switch (*pk) {
     case 0x67: {

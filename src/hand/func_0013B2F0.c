@@ -5,9 +5,9 @@ struct P { char pad[0x150]; int x150; };
 extern qword g_normalZ;
 int FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct M *pm);
 qword func_001A62E8(void *p);
-void func_0013B428(struct P *p, qword pos, qword n);
+void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int n, int k);
-void func_0013B5C8(struct P *p, float g);
+void ExpireIn__FP3ALOf(struct P *p, float g);
 static __inline__ qword VLen(qword c)
 {
     qword l, one;
@@ -15,7 +15,8 @@ static __inline__ qword VLen(qword c)
     __asm__("vsqrt Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, Q" : "=j"(l) : "j"(l));
     return l;
 }
-int func_0013B2F0(struct P *p, struct M *pm)
+// name: SafeHouse port (FAcceptContactProjectile)
+int FAcceptContactProjectile__FP3ALOP5CTMSG(struct P *p, struct M *pm)
 {
     int r;
     if (p->x150 == 1)
@@ -41,11 +42,11 @@ int func_0013B2F0(struct P *p, struct M *pm)
             n = rn;
         }
         pu->q = n;
-        func_0013B428(p, func_001A62E8(p), u.q);
+        RecordHit__FP3ALOG9VU_VECTORT1(p, func_001A62E8(p), u.q);
         if (FIsBasicDerivedFrom__FP5BASIC3CID(pm->x0, 0x4F))
-            func_0013B5C8(p, 0.25f);
+            ExpireIn__FP3ALOf(p, 0.25f);
         else
-            func_0013B5C8(p, 0.0f);
+            ExpireIn__FP3ALOf(p, 0.0f);
     }
     return r;
 }

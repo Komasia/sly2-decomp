@@ -7,12 +7,13 @@ typedef struct { int cb; int align; } DESC;
 int func_00117C20(void *);
 int func_00117BD0(void *);
 int func_00117C80(void *);
-void func_001ED278(RGBA *);
+void AdjustRgba__FPUi(RGBA *);
 void *PvAllocSwImpl__Fi(DESC *);
 
 static inline int Min(int a, int b) { return a < b ? a : b; }
 
-void func_002584A8(X *p, void *ps)
+// name: SafeHouse port (LoadEmitColorsFromBrx)
+void LoadEmitColorsFromBrx__FP7LOXEMITP18CBinaryInputStream(X *p, void *ps)
 {
     int n = func_00117C20(ps);
     int i;
@@ -30,7 +31,7 @@ void func_002584A8(X *p, void *ps)
     l->n = Min(n, 32);
     for (i = 0; i < n; i++) {
         *(int *)&u.c = func_00117C80(ps);
-        func_001ED278(&u.c);
+        AdjustRgba__FPUi(&u.c);
         if (i < l->n)
             l->ac[i] = u.c;
     }

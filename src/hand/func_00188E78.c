@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct VT { struct { short d; short pad; qword (*pfn)(void *); } a[40]; };
 struct PO { char pad[0xC]; struct VT *pvt; };
 struct E { char pad[0xC]; struct PO *po; qword v10; qword v20; qword v30; };
-extern void func_002044B0(void *p, struct E *ae, int i);
+extern void OnStepXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i);
 extern qword func_001A62E8(void *p);
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword VCross(qword a, qword b)
@@ -11,11 +11,12 @@ static __inline__ qword VCross(qword a, qword b)
     __asm__("vopmula.xyz ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(r) : "j"(a), "j"(b));
     return r;
 }
-void func_00188E78(void *p, struct E *ae, int i)
+// name: SafeHouse port (OnSlyXpUpdate)
+void OnSlyXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i)
 {
     struct E *pe;
     struct PO *po;
-    func_002044B0(p, ae, i);
+    OnStepXpUpdate__FP3ALOP2XPi(p, ae, i);
     pe = &ae[i];
     po = pe->po;
     if (po == p) {

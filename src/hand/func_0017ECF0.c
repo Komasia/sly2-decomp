@@ -6,8 +6,8 @@ struct X { qword a; qword v; };
 struct S { char pad[0x10]; void *p10; int pad2; void *p18; char pad3[0x14]; struct B *p30; int n34; float f38; int pad4; qword v40; char pad5[8]; int n58; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 float SMinCrv__FP3CRV(struct B *b);
-float func_001E6648(struct B *b);
-float func_001E66C8(struct B *b, float f);
+float SMaxCrv__FP3CRV(struct B *b);
+float SWrapCrv__FP3CRVf(struct B *b, float f);
 void func_001EA000(void *p);
 struct R *func_001EA3B0(void *p, float f);
 void func_001E6F10(struct B *b, float f, qword *pv, int n);
@@ -22,17 +22,17 @@ void Step__11JOBPATHSTEPi(struct S *p, int force) {
     t = p->f38 + d;
     if (p->p30->nE4 == 0) {
         float lo = SMinCrv__FP3CRV(p->p30);
-        float hi = func_001E6648(p->p30);
+        float hi = SMaxCrv__FP3CRV(p->p30);
         if (t < lo) t = lo;
         else if (hi < t) t = hi;
     } else {
-        t = func_001E66C8(p->p30, t);
+        t = SWrapCrv__FP3CRVf(p->p30, t);
     }
     if (p->n58 == 0) {
         struct R *r;
         func_001EA000(p->p30->p180);
         r = func_001EA3B0(p->p30->p180, t);
-        if (r) t = func_001E66C8(p->p30, p->n34 != 0 ? r->f4 : r->f0);
+        if (r) t = SWrapCrv__FP3CRVf(p->p30, p->n34 != 0 ? r->f4 : r->f0);
     }
     if (force == 0 && __builtin_fabsf(p->f38 - t) < D_002BE7C4) return;
     {

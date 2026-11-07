@@ -22,12 +22,13 @@ struct SPF {
 };
 extern "C" {
 FRAME *func_00256DD0();
-CRef func_00127838(NODE *p, FRAME *pframe);
+CRef RefEval(NODE *p, FRAME *pframe) asm("RefEval__FP5CPairP6CFrame");
 CRef func_00127C00(FRAME *pframe, int sym, CRef *pref);
 void func_00127B18(FRAME *pframe, FRAME *pframeParent);
-CRef func_00126DB8(P *p, FRAME *pframe);
+CRef RefEvalLet(P *p, FRAME *pframe) asm("RefEvalLet__FP5CPairP6CFrame");
 }
-CRef func_00126DB8(P *p, FRAME *pframe)
+// name: SafeHouse port (RefEvalLet)
+CRef RefEvalLet(P *p, FRAME *pframe)
 {
     CRef ref;
     CRef refVal;
@@ -40,7 +41,7 @@ CRef func_00126DB8(P *p, FRAME *pframe)
         spf = pfNew;
         for (pn = (NODE *)pargs->ref.u.pv; pn; pn = pn->pnext) {
             NODE *pb = (NODE *)pn->ref.u.pv;
-            refVal = func_00127838(pb->pnext, pframe);
+            refVal = RefEval(pb->pnext, pframe);
             refT = func_00127C00(spf.p, pb->ref.u.n, &refVal);
         }
         func_00127B18(spf.p, pframe);
@@ -49,6 +50,6 @@ CRef func_00126DB8(P *p, FRAME *pframe)
     }
     NODE *pq;
     for (pq = pargs->pnext; pq; pq = pq->pnext)
-        ref = func_00127838(pq, spf.p);
+        ref = RefEval(pq, spf.p);
     return ref;
 }

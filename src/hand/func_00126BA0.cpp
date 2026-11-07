@@ -10,11 +10,12 @@ struct CRef {
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 struct P { char pad[0xC]; struct { char pad[0x10]; NODE *pargs; } *pv; };
 extern "C" {
-CRef func_00127838(NODE *p, void *penv);
+CRef RefEval(NODE *p, void *penv) asm("RefEval__FP5CPairP6CFrame");
 CRef RefOpEqv(int carg, CRef *aref, void *penv) asm("RefOpEqv__FiP4CRefP6CFrame");
-CRef func_00126BA0(P *p, void *penv);
+CRef RefEvalCase(P *p, void *penv) asm("RefEvalCase__FP5CPairP6CFrame");
 }
-CRef func_00126BA0(P *p, void *penv)
+// name: SafeHouse port (RefEvalCase)
+CRef RefEvalCase(P *p, void *penv)
 {
     CRef ref;
     CRef arefT[2];
@@ -24,7 +25,7 @@ CRef func_00126BA0(P *p, void *penv)
     ref.Decref();
     ref.InitTag(0x24);
     pkey = p->pv->pargs;
-    arefT[0] = func_00127838(pkey, penv);
+    arefT[0] = RefEval(pkey, penv);
     pcl = pkey->pnext;
     while (pcl) {
         NODE *pc = (NODE *)pcl->ref.u.pv;
@@ -48,7 +49,7 @@ CRef func_00126BA0(P *p, void *penv)
         }
         if (f) {
             for (pc = pc->pnext; pc; pc = pc->pnext)
-                ref = func_00127838(pc, penv);
+                ref = RefEval(pc, penv);
             pcl = 0;
         } else {
             pcl = pcl->pnext;

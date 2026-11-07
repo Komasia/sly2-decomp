@@ -19,7 +19,8 @@ static inline float Dist(qword a, qword b) {
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-void func_001B7970(struct P *p)
+// name: SafeHouse port (ReleaseMurrayThrow)
+void ReleaseMurrayThrow__FP6MURRAY(struct P *p)
 {
     struct LO *po;
     func_001B7D20(p);

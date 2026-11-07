@@ -11,7 +11,8 @@ extern struct SW g_sw;
 void func_001F4F10(struct P *);
 void FreeSwXpList__FP2SWP2XP(struct SW *,struct N *);
 static inline struct P *Other(struct N*n,struct P*p){unsigned different=(unsigned)p^(unsigned)n->e[0].owner;int i=different>0;return ((struct Endpoint *)((char *)n+(i<<6)))->other;}
-void func_00204768(struct P *p)
+// name: SafeHouse port (FindStepFloor)
+void FindStepFloor__FP3ALO(struct P *p)
 {
     struct N *best;
     struct L *group;

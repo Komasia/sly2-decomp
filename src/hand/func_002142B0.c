@@ -1,6 +1,7 @@
 struct E { char pad[0x14]; int id; };
 struct S { unsigned short c; short pad; struct E *ae; };
-int func_002142B0(void *pv, struct S *p, int id)
+// name: SafeHouse port (FRootHasPart)
+int FRootHasPart__FP8SCREENRTPvi(void *pv, struct S *p, int id)
 {
     int i;
     if (id == -1)

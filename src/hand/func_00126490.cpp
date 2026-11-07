@@ -11,8 +11,9 @@ typedef struct Q { char pad[0xC]; void *pv0C; void *pv10; } Q;
 typedef struct R { char pad[0x10]; Q *pq; } R;
 typedef struct P { char pad[0xC]; R *pr; } P;
 extern "C" {
-CRef func_00127838(void *pv, CRef *aref);
+CRef RefEval(void *pv, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 CRef func_00127CF0(CRef *aref, void *pv, CRef *pref);
-CRef func_00126490(P *p, CRef *aref);
+CRef RefEvalSet(P *p, CRef *aref) asm("RefEvalSet__FP5CPairP6CFrame");
 }
-CRef func_00126490(P *p, CRef *aref) { CRef ref; Q *pq = p->pr->pq; ref = func_00127838(pq->pv10, aref); ref = func_00127CF0(aref, pq->pv0C, &ref); return ref; }
+// name: SafeHouse port (RefEvalSet)
+CRef RefEvalSet(P *p, CRef *aref) { CRef ref; Q *pq = p->pr->pq; ref = RefEval(pq->pv10, aref); ref = func_00127CF0(aref, pq->pv0C, &ref); return ref; }

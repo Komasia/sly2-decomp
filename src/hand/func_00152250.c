@@ -15,7 +15,8 @@ static inline qword VecMul(qword v, float g)
     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(v), "j"(s.q));
     return r;
 }
-void func_00152250(struct P *p, int msgk, struct MSG *pmsg)
+// name: SafeHouse port (OnDancerMessage)
+void OnDancerMessage__FP2LO5MSGIDPv(struct P *p, int msgk, struct MSG *pmsg)
 {
     HandlePoMessage__FP2PO5MSGIDPv(p, msgk, pmsg);
     if (msgk == 9) {

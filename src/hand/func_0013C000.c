@@ -25,7 +25,8 @@ static inline float GClamp(float g, float gMin, float gMax)
     return r;
 }
 
-void func_0013C000(struct P *p)
+// name: SafeHouse port (FBootyDrawDelta)
+void FBootyDrawDelta__FP3ALO(struct P *p)
 {
     switch (p->x184) {
     case 4: {

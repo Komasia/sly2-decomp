@@ -12,12 +12,12 @@ struct S {
     char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30;
     char pad4[0x80 - 0x34]; int n80; int n84; char pad5[8]; float a90[4]; float fA0; int nA4;
 };
-void func_001EEF98(struct S *p);
+void Update__5AIJOB(struct S *p);
 int func_001EF0A8(struct S *p);
 int FArrived__9JOBFOLLOW(struct T *t);
 void SetState__7JOBGOTOi(struct S *p, int n);
 int FStuck__9JOBFOLLOW(struct T *t);
-float func_001E6648(void *p);
+float SMaxCrv__FP3CRV(void *p);
 void func_001E6F10(void *p, float f, float *pv, int n);
 int func_0017E570(struct T *t);
 int FDone__11JOBNAVPOINT(struct T *t);
@@ -25,7 +25,7 @@ void Search__7JOBGOTO(struct S *p);
 // name: SafeHouse port (JOBGOTO::Update)
 void Update__7JOBGOTO(struct S *p) {
     int s;
-    func_001EEF98(p);
+    Update__5AIJOB(p);
     if (!(p->p10->nFE8 & 2)) return;
     while (!func_001EF0A8(p)) {
         s = p->n30;
@@ -40,7 +40,7 @@ void Update__7JOBGOTO(struct S *p) {
                     Search__7JOBGOTO(p);
                 } else if (FStuck__9JOBFOLLOW(t)) {
                     float f = t->f34 + D_002BE75C;
-                    float hi = func_001E6648(t->p30);
+                    float hi = SMaxCrv__FP3CRV(t->p30);
                     p->n80 = 0;
                     p->n84 = 0;
                     func_001E6F10(t->p30, f < hi ? f : hi, p->a90, 0);

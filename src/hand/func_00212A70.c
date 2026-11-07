@@ -13,8 +13,9 @@ void func_0014D1D0(struct Clock *,int,float);
 void func_002124F0(struct S *);
 void func_00212780(struct S *);
 void func_00213898(struct S *);
-void func_00213830(struct S *,int);
-void func_00212A70(struct S *p,int state) {
+void StartPart__FP8SCREENRTi(struct S *,int);
+// name: SafeHouse port (SetState)
+void SetState__FP8SCREENRTi(struct S *p,int state) {
     if(p->state==state) return;
     if(p->flag>=16) {
         if(p->state<2 && state>=2) g_sw.count++;
@@ -34,8 +35,8 @@ void func_00212A70(struct S *p,int state) {
     switch(state) {
     case 0: func_00212780(p); break;
     case 1: func_00213898(p); break;
-    case 2: func_00213830(p,p->id0); break;
-    case 3: func_00213830(p,p->id1); break;
-    case 4: func_00213830(p,p->id2); break;
+    case 2: StartPart__FP8SCREENRTi(p,p->id0); break;
+    case 3: StartPart__FP8SCREENRTi(p,p->id1); break;
+    case 4: StartPart__FP8SCREENRTi(p,p->id2); break;
     }
 }

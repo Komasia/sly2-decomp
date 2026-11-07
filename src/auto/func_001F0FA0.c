@@ -12,7 +12,8 @@ extern M2C_UNK g_sw;
 extern M2C_UNK D_003E126C;
 extern M2C_UNK D_003E1278;
 
-void func_001F0FA0(s32 arg0) {
+// name: SafeHouse port (EndSmaTransition)
+void EndSmaTransition__FP3SMA(s32 arg0) {
     s32 temp_a1;
     s32 temp_a3;
 
@@ -21,5 +22,5 @@ void func_001F0FA0(s32 arg0) {
     temp_a1 = M2C_FIELD(arg0, s32 *, 0x34);
     M2C_FIELD(arg0, s32 *, 0x38) = -1;
     M2C_FIELD(arg0, s32 *, 0x34) = temp_a3;
-    func_001F13A8(arg0, temp_a1, temp_a3);
+    NotifySmaState__FP3SMAii(arg0, temp_a1, temp_a3);
 }

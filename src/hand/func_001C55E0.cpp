@@ -29,7 +29,7 @@ void _$_10STACKSCOPE(FRAME *, int);
 qword func_001A62E8(P *);
 int func_001C5570(void *, SOPART *);
 void func_0020FAA0(void *, qword, qword, int (*)(void *, SOPART *), void *, int *, SOPART ***);
-int func_001A93C8(qword, float, SOPART *, void *, int, void *, int, CMCONTACT *);
+int SphereBspContacts(qword, float, SOPART *, void *, int, void *, int, CMCONTACT *) asm("SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT");
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
@@ -128,7 +128,7 @@ extern "C" void UpdatePickupGround__FP2LO(P *p)
                 }
             }
         } else if (ppart->cplane) {
-            int ccontact = func_001A93C8(func_001A62E8(p), p->sRadius.g, ppart, (void *)0x7FFFFFFF, 0, 0, 8, acontact);
+            int ccontact = SphereBspContacts(func_001A62E8(p), p->sRadius.g, ppart, (void *)0x7FFFFFFF, 0, 0, 8, acontact);
             for (int j = 0; j < ccontact; j++) {
                 CMCONTACT *pcontact = &acontact[j];
                 float g = GDot(pcontact->pos, pcontact->plane.qw) - pcontact->plane.g[3];

@@ -3,9 +3,9 @@ typedef struct HIT { qword q; char pad[0x50]; } HIT;
 typedef struct S { char pad[0xE4]; int fWrap; } S;
 extern float D_002C0AC0;
 void func_001E6F10(S *p, qword *pv, int z, float t);
-float func_001E66C8(S *p, float t);
+float SWrapCrv__FP3CRVf(S *p, float t);
 float SMinCrv__FP3CRV(S *p);
-float func_001E6648(S *p);
+float SMaxCrv__FP3CRV(S *p);
 int ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(void *p, qword a, qword b, int c, HIT *ahit);
 
 
@@ -28,13 +28,13 @@ int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *p, S *s, int fForward, qw
         if (t <= SMinCrv__FP3CRV(s)) {
             if (fWrapped) break;
             fWrapped = 1;
-            if (s->fWrap) t = func_001E66C8(s, t);
+            if (s->fWrap) t = SWrapCrv__FP3CRVf(s, t);
             else t = SMinCrv__FP3CRV(s);
-        } else if (func_001E6648(s) <= t) {
+        } else if (SMaxCrv__FP3CRV(s) <= t) {
             if (fWrapped) break;
             fWrapped = 1;
-            if (s->fWrap) t = func_001E66C8(s, t);
-            else t = func_001E6648(s);
+            if (s->fWrap) t = SWrapCrv__FP3CRVf(s, t);
+            else t = SMaxCrv__FP3CRV(s);
         }
         func_001E6F10(s, &av[1], 0, t);
         c = ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(p, av[0], av[1], 2, ahit);

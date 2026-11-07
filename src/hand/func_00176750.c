@@ -12,7 +12,7 @@ struct O {
 struct A { char pad[0x4B0]; qword v4B0; char pad2[0xF68 - 0x4C0]; int nF68; int pad3; qword vF70; char pad4[0x108C - 0xF80]; int n108C; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct F f30; float fA0; float fA4; };
 int FSameMsg__FP5AIMSGT0(struct F *a, struct F *b);
-void func_001EF0D8(void *p);
+void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int n);
 void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, int c);
 void SetNoise__14JOBINVESTIGATEP5NOISE(struct O *o, int n);
@@ -23,7 +23,7 @@ void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
 void React__8JOBREACTP5AIMSG(struct S *p, struct F *m) {
     int fl;
     if (FSameMsg__FP5AIMSGT0(m, &p->f30)) return;
-    func_001EF0D8(p->a18);
+    EndChildJob__FPP5AIJOB(p->a18);
     p->f30 = *m;
     p->fA0 = g_clock.t;
     fl = 0;

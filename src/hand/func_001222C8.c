@@ -6,7 +6,7 @@ typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 typedef struct IDX { int pad[3]; int i; struct IDX *pnext; } IDX;
 void Decref__4CRef(CRef *pref);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-CRef *func_00129558(CRef *pref, float g);
+CRef *SetF32__4CReff(CRef *pref, float g);
 CRef *func_001296A8(CRef *pref, VECTOR *pv);
 CRef *RefOpGetElement__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
@@ -28,7 +28,7 @@ CRef *RefOpGetElement__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
             pidx = pidx->pnext;
             j = pidx->i;
             pf += j;
-            func_00129558(&ref, *pf);
+            SetF32__4CReff(&ref, *pf);
         }
         break;
     }
@@ -36,13 +36,13 @@ CRef *RefOpGetElement__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
         pf = (float *)aref[0].u.pv;
         j = pidx->i;
         pf += j;
-            func_00129558(&ref, *pf);
+            SetF32__4CReff(&ref, *pf);
         break;
     case 0x1E:
         pf = (float *)aref[0].u.pv;
         j = pidx->i;
         pf += j;
-            func_00129558(&ref, *pf);
+            SetF32__4CReff(&ref, *pf);
         break;
     }
     func_001291A8(ret, &ref);

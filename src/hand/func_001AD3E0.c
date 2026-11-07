@@ -9,7 +9,8 @@ void NProgress(struct CRef *ret, int a, void *b);
 void func_00129EC8(struct CRef *);
 void func_001ACB58(struct H *h, int n);
 void func_001ABD40(struct G *g);
-void func_001AD3E0(void)
+// name: SafeHouse port (SaveToTarget)
+void SaveToTarget__Fv(void)
 {
     struct G *g = &D_002E65E0;
     struct H *h = &D_002E6550;

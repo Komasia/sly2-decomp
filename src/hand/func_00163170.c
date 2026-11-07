@@ -11,7 +11,7 @@ struct X {
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern char g_sw[];
-int func_00164030(struct X *p);
+int FTaskDone__FP4TASK(struct X *p);
 void func_001A6CA8(struct X *p, int n);
 void func_0020EFC0(void *pg, int n);
 void func_0020F030(void *pg, int n);
@@ -45,7 +45,7 @@ void SetJobSeq__FP3JOBi(struct X *p, int n)
             int j;
             for (j = 0; j < p->fC0->c94; j++) {
                 struct X *px = p->fC0->a98[j];
-                if (px != p->f68 && !func_00164030(px)) {
+                if (px != p->f68 && !FTaskDone__FP4TASK(px)) {
                     p->fC0 = 0;
                     break;
                 }

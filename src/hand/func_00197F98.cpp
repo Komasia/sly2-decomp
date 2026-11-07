@@ -5,7 +5,7 @@
 // velocity (modes 0-5, 7).
 // Two allocation/frame probes (no register pins):
 //  1. `EMPTY e;` (user-declared dtor) in the default arm = the target's never-touched object at sp+0x70 (a <=4 byte non-BLK slot made
-//     at its declaration; every later offset and the 0x250 frame depend on it). Same situation as func_001C21D8 / func_001AA1D8: the
+//     at its declaration; every later offset and the 0x250 frame depend on it). Same situation as func_001C21D8 / PxpMarkOxaContacts: the
 //     real object is unknown.
 //  2. FloatUse(vel.f[2], actor): empty asm giving the `actor` pseudo of the post-search Make argument a 3rd reference, so local-alloc
 //     gives it v0 and the physics pointer v1 like the target (physics = 2 refs over a shorter life would otherwise be allocated first).
@@ -67,16 +67,16 @@ qword func_0022FC48(SPACE *, SPACE *, qword);
 qword func_0022FCC8(SPACE *, SPACE *, qword);
 void func_00195FB8(CONTEXT *, int, void *);
 void func_002309E8(SPACE *, SPACE *, M4 *, float, M4 *);
-void func_00117120(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *);
+void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void CalculateSinCos(float, float *, float *) asm("CalculateSinCos__FfPfT1");
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
 void func_001384C0(CLIP *);
-void func_001E67B8(void *, float, qword *, qword *);
+void EvalCrv(void *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 void func_001CC2E8(void *);
 void func_002046B0(ACTOR *, qword);
-void func_00204660(ACTOR *, float);
+void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 void func_001441E8(ACTOR *, float);
 qword func_0011E1A0(float, float, float);
 M3 func_0011BA08(qword, qword);
@@ -85,7 +85,7 @@ float func_002458F0(float, float);
 float func_00244E10(float);
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 qword func_0011E9F8(qword, float);
-void func_00140C88(ACTOR *, void *);
+void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
 }
 
 static inline qword GetVelocity(void *p) { VTE &v = ((SOURCE *)p)->vt[33]; return ((qword (*)(void *))v.fn)((char *)p + v.delta); }
@@ -332,8 +332,8 @@ extern "C" void func_00197F98(CONTEXT *p)
         BODY *body = p->actor->body;
         float dt = body->deadline - g_clock.t + g_clock.dt;
         U accel0, accel1;
-        func_00117120(dt, 0.0f, 1.0f, body->position.q, body->velocity.q, body->goal.q, body->velocityGoal.q, 0, 0, &accel0.q);
-        func_00117120(dt, dt, 1.0f, body->position.q, body->velocity.q, body->goal.q, body->velocityGoal.q, 0, 0, &accel1.q);
+        Hermite(dt, 0.0f, 1.0f, body->position.q, body->velocity.q, body->goal.q, body->velocityGoal.q, 0, 0, &accel0.q);
+        Hermite(dt, dt, 1.0f, body->position.q, body->velocity.q, body->goal.q, body->velocityGoal.q, 0, 0, &accel1.q);
         if (D_002BF844 < (GLengthQ(accel0.q) + GLengthQ(accel1.q)) * 0.5f * dt)
 
             func_00195FB8(p, 4, 0);
@@ -396,7 +396,7 @@ extern "C" void func_00197F98(CONTEXT *p)
     case 14: case 15: {
         U target;
         if (p->mode == 15)
-            func_001E67B8(p->source, p->parameter, &target.q, 0);
+            EvalCrv(p->source, p->parameter, &target.q, 0);
         else
             target.q = func_001A62E8(p->source);
         if (p->actor != D_002E1E40)
@@ -438,7 +438,7 @@ extern "C" void func_00197F98(CONTEXT *p)
         break;
     }
     if (p->mode != 22)
-        func_00204660(p->actor, heading);
+        SetStepPhysHeading(p->actor, heading);
 
     switch (p->mode) {
     case 0 ... 5: case 7: {
@@ -492,5 +492,5 @@ extern "C" void func_00197F98(CONTEXT *p)
         p->height = pos.f[2];
 
     if (p->focused && p->focus && p->other && p->focus->state == 1 && vel.f[2] < D_002BF8A0)
-        func_00140C88(p->actor, p->other);
+        SetActorZone(p->actor, p->other);
 }
