@@ -2843,7 +2843,7 @@ extern "C" BHV *PbhvFindStep(STEP *pstep, int cid);
 extern "C" int FObjHasTarget(LO *plo, OID oid);
 extern "C" int FScreenObjDone(LO *plo) asm("FScreenObjDone__FP2LO");
 extern "C" void func_001E5468(JSG *pjsg);
-extern "C" int func_00187D80(JOY *pjoy, uint grfbtn);
+extern "C" int GrfbtnTakePressedJoy(JOY *pjoy, uint grfbtn) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 extern "C" int func_001D9880(void *pv);
 extern "C" int FCurrentIdMatches(SNDMGR *psndmgr, int idLine);
 extern "C" float TDialog(SNDMGR *psndmgr) asm("TDialog__FP8SOUNDMGR");
@@ -3226,7 +3226,7 @@ int FIsJsgCommandComplete(JSG *pjsg, RELAYCMD *prelaycmd)
     case RELAYCK_ButtonPrompt:
         if (prelaycmd->buttonPrompt.oidWho == -1)
         {
-            fComplete = func_00187D80(&g_joy, prelaycmd->buttonPrompt.grfbtn);
+            fComplete = GrfbtnTakePressedJoy(&g_joy, prelaycmd->buttonPrompt.grfbtn);
         }
         else
         {

@@ -14,7 +14,7 @@ void RegisterSwPass__FPv(void *);
 void func_001D9648(void *);
 void OpenFrame(void) asm("OpenFrame__Fv");
 int FAnimatedOverlayDrawNormal__FPc(void *);
-void func_001CDA80(void *);
+void RenderSw(void *) asm("RenderSw__FP2SW");
 void func_00157FA0(void *);
 void UpdateRecyclable(void *) asm("UpdateRecyclable__3CGc");
 void DrawAnimatedOverlayFrame__FPv(void *);
@@ -36,7 +36,7 @@ void func_001A7518(int a, int b)
         func_001D9648(D_003D9E70);
         OpenFrame();
         if (!D_002DD644 || FAnimatedOverlayDrawNormal__FPc(D_002DD644)) {
-            func_001CDA80(g_sw);
+            RenderSw(g_sw);
             func_00157FA0(g_sw);
             UpdateRecyclable(D_003D9E70);
         }

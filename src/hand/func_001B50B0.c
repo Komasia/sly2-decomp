@@ -19,7 +19,7 @@ struct P {
     int x13D0; char pad5[0x1430 - 0x13D4]; struct Q *p1430; float g1434; char pad6[0x1540 - 0x1438]; char x1540[0x190C - 0x1540];
     struct O *x190C; char pad7[0x1AC8 - 0x1910]; float g1AC8; void *x1ACC;
 };
-void func_001403D0(struct P *p);
+void UpdateActor(struct P *p) asm("UpdateActor__FP5ACTOR");
 int func_00131968(struct O *p);
 void func_001306A8(struct O **pp);
 void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(struct G *pg, struct P *p, int n);
@@ -106,7 +106,7 @@ typedef char Size_10[sizeof(void*)==4?1:-1];
 // name: SafeHouse port (UpdateMurray)
 void UpdateMurray__FP2LO(struct P *p)
 {
-    func_001403D0(p);
+    UpdateActor(p);
     if (!((int)(p->x28 >> 60) & 1))
         return;
     if (p->x190C && func_00131968(p->x190C))

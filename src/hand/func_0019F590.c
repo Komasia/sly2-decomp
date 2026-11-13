@@ -19,7 +19,7 @@ struct P *PloPlayerPo__FP2SW(struct G *g);
 qword PosSafeEntry__FP5ACTORPvf(struct P *p, E *e, float g);
 float TJumpTo__FG9VU_VECTORT0ffff(qword a, qword b, float c, float d, float e, float f);
 void func_002046B0(struct P *p, qword q);
-void func_0014D8C0(struct D *d);
+void CutCm(struct D *d) asm("CutCm__FP2CM");
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int a, int b);
 void CheckLoRoot__FP2SWP2LO(struct G *g, int a);
@@ -42,7 +42,7 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
                 p->x9e4 = save;
                 func_002046B0(p, g_cm.x60);
                 ((void (*)(void *, void *))p->vt[30].pfn)((char *)p + p->vt[30].d, p->x1b0);
-                func_0014D8C0(&g_cm);
+                CutCm(&g_cm);
                 SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xB, 0, 0);
                 if (e.x4) {
                     if (FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xB) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xD) ||

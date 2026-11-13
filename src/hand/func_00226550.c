@@ -14,7 +14,7 @@ struct L { char pad[0x84]; struct L *pnext; };
 struct S { char pad[0x3D88]; DL dl; char pad1[0x3EAC - 0x3D94]; struct L *pl; char pad2[0x3F14 - 0x3EB0]; int c; int x3F18; int *pi; struct E *ae;
     char pad3[0x3FFC - 0x3F24]; DL dl2; };
 void RunDeferredSpliceEvents__FP2SW(struct S *p);
-void func_00147F40(struct S *p);
+void UpdateSwActivation(struct S *p) asm("UpdateSwActivation__FP2SW");
 void func_002267C0(struct S *p);
 void UpdatePadctl__FP6PADCTL(struct L *pl);
 void AgeSwContacts__FPv(struct S *p);
@@ -47,7 +47,7 @@ static inline void *PvNextDli(DLI *pdli)
 void RegisterSwPass__FPv(struct S *p)
 {
     RunDeferredSpliceEvents__FP2SW(p);
-    func_00147F40(p);
+    UpdateSwActivation(p);
     if (g_clock.dt <= 0.0f) {
         func_002267C0(p);
     } else {

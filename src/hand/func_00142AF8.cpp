@@ -26,7 +26,7 @@ extern float D_002A4D68;
 extern qword D_002A2DA0;
 extern S *D_003E1474;
 extern GS g_sw;
-void func_00142880(P *p);
+void ActorNextLookTime(P *p) asm("ActorNextLookTime__FP5ACTOR");
 void SetActorLookTarget(P *p, int n, S *ps) asm("SetActorLookTarget__FP5ACTORiP2LO");
 void LookScore(P *p, S *ps, void **ppv, float *pg, float *pg2) asm("LookScore__FP5ACTORP2LOPP2LOPfT3");
 int FCheckLm(void *p, float g) asm("FCheckLm__FP2LMf");
@@ -86,7 +86,7 @@ void UpdateActorLook(P *p)
         f = 0;
     if (p->g114C < g_clock.t && (p->n1148 != 0 || f)) {
         p->n1148 = !p->n1148;
-        func_00142880(p);
+        ActorNextLookTime(p);
     }
     if (p->n1100 == 0) {
         if (D_002DD640 != 0) {

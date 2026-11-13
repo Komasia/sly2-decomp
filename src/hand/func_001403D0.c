@@ -31,7 +31,9 @@ int func_0014FD50(void *p);
 void SetJoyPs2BtnHandled__FP6JOYPS2Ui(struct G *pg, int n);
 void OpenGadgetMenu__FP2SW(void *p);
 void UpdateJobs__FP5ACTOR(int *p);
-void func_001403D0(struct P *p)
+// name: SafeHouse port (UpdateActor 0x1403D0)
+void UpdateActor(struct P *p) asm("UpdateActor__FP5ACTOR");
+void UpdateActor(struct P *p)
 {
     int *pl;
     UpdateStep__FP4STEPf(p);

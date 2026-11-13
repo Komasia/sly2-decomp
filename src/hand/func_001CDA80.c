@@ -11,7 +11,9 @@ void func_001A3EE8(struct G *p);
 void func_001CD9E0(struct G *p);
 void DrawGadgetIcons__FP7FONTBRX(void *p);
 void Flush__4DMAS(void *p);
-void func_001CDA80(struct G *p)
+// name: SafeHouse port (RenderSw 0x1CDA80; Sly 1 RenderSw also takes the CM)
+void RenderSw(struct G *p) asm("RenderSw__FP2SW");
+void RenderSw(struct G *p)
 {
     int i;
     func_001A3EE8(p);

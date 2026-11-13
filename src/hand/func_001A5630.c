@@ -6,7 +6,9 @@ void RemoveDlEntry__FP2DLPv(void *a, void *b);
 void DequeueLoRoot__FP2SWP2LO(void *a, int b);
 void func_001A5448(void *p, void **a, struct S ***b);
 void AppendDlEntry__FP2DLPv(void *a, struct S *s);
-void func_001A5630(struct S *s)
+// name: SafeHouse port (LO vt slot 9, RemoveLo 0x1A5630) + Sly 1 RemoveLo
+void RemoveLo(struct S *s) asm("RemoveLo__FP2LO");
+void RemoveLo(struct S *s)
 {
     struct VTE *e;
     unsigned long f;

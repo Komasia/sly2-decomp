@@ -21,7 +21,7 @@ void func_00212C50(struct X *p);
 int func_001D9880(void *p);
 int IdPartCur__FP6EPMENU(struct X *p);
 int func_001880D8(void *p);
-int func_00187D80(void *p, int n);
+int GrfbtnTakePressedJoy(void *p, int n) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 int func_00187E88(void *p);
 void SetEpMode__FP6EPMENUii(struct X *p, int a, int b);
 void NProgress(void *pref, void *p, void *q);
@@ -76,11 +76,11 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
             SetEpMode__FP6EPMENUii(p, 0.0f < g ? 4 : 6, -1);
             return;
         }
-        if (func_00187D80(g_joy, 0x40)) {
+        if (GrfbtnTakePressedJoy(g_joy, 0x40)) {
             SetEpMode__FP6EPMENUii(p, 7, -1);
             return;
         }
-        if (p->n110 && func_00187D80(g_joy, 0x10)) {
+        if (p->n110 && GrfbtnTakePressedJoy(g_joy, 0x10)) {
             p->n114 = 0;
             SetEpMode__FP6EPMENUii(p, 6, -1);
             return;
@@ -108,7 +108,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
             return;
         }
         case 1:
-            if (func_00187D80(g_joy, 0x80)) {
+            if (GrfbtnTakePressedJoy(g_joy, 0x80)) {
                 QueueMovie__FPUcPv(D_002F66B0, D_002BE248[p->n110]);
                 RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
@@ -123,21 +123,21 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
     case 8:
         switch (p->n120) {
         case -1:
-            if (func_00187D80(g_joy, 0x40))
+            if (GrfbtnTakePressedJoy(g_joy, 0x40))
                 SetEpMode__FP6EPMENUii(p, 10, -1);
-            else if (func_00187D80(g_joy, 0x10))
+            else if (GrfbtnTakePressedJoy(g_joy, 0x10))
                 SetEpMode__FP6EPMENUii(p, 9, -1);
             return;
         case 0: {
             float g;
-            if (func_00187D80(g_joy, 0x40)) {
+            if (GrfbtnTakePressedJoy(g_joy, 0x40)) {
                 D_002BE270 = p->n128;
                 QueueMovie__FPUcPv(D_002F66B0, D_002BE200[p->n128]);
                 RequestTransition__FP2SWPUc3OIDT2iT2(&g_sw, 0, 0x189, -1, 0, -1);
                 PlaySound(0x34);
                 return;
             }
-            if (func_00187D80(g_joy, 0x10)) {
+            if (GrfbtnTakePressedJoy(g_joy, 0x10)) {
                 SetEpMode__FP6EPMENUii(p, 9, -1);
                 return;
             }

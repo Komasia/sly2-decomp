@@ -37,7 +37,7 @@ void func_0020FAA0(SW *psw, qword posMin, qword posMax, int (*pfnFilter)(void *,
 qword ConvertCmWorldToScreen(CM *pcm, qword pos) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
 qword ConvertCmScreenToWorld(CM *pcm, qword ndc) asm("ConvertCmScreenToWorld__FP2CMG9VU_VECTOR");
 int FFindCmClearInterval(int cpsopart, SOPART **apsopart, qword posFrom, qword posTo, float duMin, float *puEnter, float *puExit) asm("FFindCmClearInterval__FiP8CMSOLIDSG9VU_VECTORT2P6VECTORT4f");
-void func_0014D8C0(CM *pcm);
+void CutCm(CM *pcm) asm("CutCm__FP2CM");
 }
 struct STACKSCOPE {
     STACKSCOPE();  // 0x1AE478
@@ -169,5 +169,5 @@ extern "C" void CheckFocusVisible__FP8CPFOLLOW(CMPART2 *pcmpart)
         }
     }
     if (g_clock.t - pcmpart->tLastSeen > D_002C4114)
-        func_0014D8C0(&g_cm);
+        CutCm(&g_cm);
 }

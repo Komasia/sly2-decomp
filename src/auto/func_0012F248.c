@@ -2,7 +2,9 @@
 M2C_UNK InitDl__FP2DLi(s32, M2C_UNK);                /* extern */
 M2C_UNK InitLo__FP2LO();                            /* extern */
 
-void func_0012F248(void *arg0) {
+// name: SafeHouse port (InitAseg 0x12F248) + Sly 1 InitAseg
+void InitAseg(void *arg0) asm("InitAseg__FP4ASEG");
+void InitAseg(void *arg0) {
     void *temp_v0;
 
     InitLo__FP2LO();

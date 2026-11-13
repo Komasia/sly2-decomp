@@ -11,7 +11,7 @@ void ApplyRsmg__FP2LOiP4RSMGii(struct G *pg, int a, void *b, struct S *p, int c)
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *pg, int a, int b, int c, int n, struct O **apo);
 void SetExitState__FP2LOi(struct O *po, int k);
-void func_0014D8C0(void *p);
+void CutCm(void *p) asm("CutCm__FP2CM");
 // name: SafeHouse port (ApplyCheckpoint)
 void ApplyCheckpoint__FP2SW(struct S *p)
 {
@@ -30,6 +30,6 @@ void ApplyCheckpoint__FP2SW(struct S *p)
     for (j = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
         if (apo[j]->k != 2) SetExitState__FP2LOi(apo[j], 0);
     }
-    func_0014D8C0(g_cm);
+    CutCm(g_cm);
     p->vt[3].pfn((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
 }

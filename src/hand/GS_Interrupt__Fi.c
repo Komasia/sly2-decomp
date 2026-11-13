@@ -17,7 +17,7 @@ extern char D_002DECD0[];    /* draw environment of even swaps */
 void ClearFrameBuffers(void) asm("ClearFrameBuffers__Fv");
 void SyncVBlank(void) asm("SyncVBlank__Fv");
 int sceGsResetGraph(short mode, short inter, short omode, short ffmd);
-void sceGsSetHalfOffset(void *pdraw, short centerx, short centery, short halfoff) asm("func_00240AE0");
+void sceGsSetHalfOffset(void *pdraw, short centerx, short centery, short halfoff);
 int sceGsSwapDBuff(void *pdb, int id);
 void FlushCache(int n);
 

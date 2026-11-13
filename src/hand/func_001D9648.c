@@ -7,7 +7,7 @@ extern PAD D_002E0D00;
 extern char D_003D9ED0[], D_003DA150[], D_003DA0F0[], D_002DDEC0[], D_00443740[], D_003D9E80[];
 extern char D_003DA0C0[], D_003DA3C0[], D_002E6550[], D_002E65A0[], D_003DA4F0[], D_003DA530[];
 void RemoveGrfusr__Fi(int);
-int func_00187D80(PAD *, int);
+int GrfbtnTakePressedJoy(PAD *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void ClearJoyBtns__FP6JOYPS2Ui(PAD *, int);
 int AentPause__FPv(int);
 int FIsDlEmpty__FP2DL(void *);
@@ -34,7 +34,7 @@ void func_001D9648(void *pdl)
         pad = &g_joy;
     else
         pad = &D_002E0D00;
-    if (func_00187D80(pad, 0x800)) {
+    if (GrfbtnTakePressedJoy(pad, 0x800)) {
         if (!AentPause__FPv(0))
             ClearJoyBtns__FP6JOYPS2Ui(pad, 0x800);
     } else if (g_grfjoyt & 2) {

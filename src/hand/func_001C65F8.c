@@ -20,7 +20,7 @@ float GRandInRange__Fff(float a, float b);
 struct X *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(void *pg, int a, int b);
 qword PosOfLo__FP2LO(struct S *p);
 struct MAT *MatJtLo__FP2LO(struct S *p);
-void func_001C67A0(struct S *p, int n);
+void AddCoin(struct S *p, int n) asm("AddCoin__Fv");
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
 void ShowCoinCounter__FP2SW(void *pg);
@@ -47,7 +47,7 @@ void SetCoinState__FP2LOi(struct S *p, int n)
             px->x1C = p;
             px->mat = *MatJtLo__FP2LO(p);
         } else {
-            func_001C67A0(p, 0);
+            AddCoin(p, 0);
         }
         SetSource__4CSndPv(PsndNewPlain__Fi(0x29), 0);
         plo = p->x210;

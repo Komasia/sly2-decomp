@@ -50,7 +50,7 @@ int NPoEnabled(ACTOR *) asm("NPoEnabled__FP2LO");
 int func_00210AE0(void);
 void SetState(WIDGET *,int) asm("SetState__FP8SCREENRTi");
 void UpdateCm(void *) asm("UpdateCm__FP2CM");
-void func_0014D8C0(void *);
+void CutCm(void *) asm("CutCm__FP2CM");
 void BroadcastTaskEvent(void *,int,void *) asm("BroadcastTaskEvent__FP2SWiP2LO");
 void func_001C2BA8(int);
 void func_0022B420(void *);
@@ -143,7 +143,7 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
         if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)SetState(actor->widget,1);
     }
     UpdateCm(g_cm);
-    func_0014D8C0(g_cm);
+    CutCm(g_cm);
     BroadcastTaskEvent(g_game,5,0);
     func_001C2BA8(2);
     func_0022B420(D_00443740);

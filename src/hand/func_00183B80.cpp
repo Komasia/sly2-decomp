@@ -20,7 +20,7 @@ void SetXfMode(struct O *p, struct X *px, int n) asm("SetXfMode__FP3ALOP2XFi");
 void SetAloCnstrLin(struct O *p, int n) asm("SetAloCnstrLin__FP3ALOi");
 void SetAloCnstrAng(struct O *p, int n) asm("SetAloCnstrAng__FP3ALOi");
 void SetAloSensors(struct O *p, int n) asm("SetAloSensors__FP3ALOi");
-void func_00147F40(void *p);
+void UpdateSwActivation(void *p) asm("UpdateSwActivation__FP2SW");
 void *MatJtLo(struct O *p) asm("MatJtLo__FP2LO");
 void LevelMatrix3(void *pv, int n, MATRIX3 *pm) asm("LevelMatrix3__FP7MATRIX3T0Pv");
 MATRIX3 MatConvertXfs(void *pv, void *pvA0, MATRIX3 *pm) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
@@ -50,7 +50,7 @@ void SetHideState(struct O *p, int n)
             SetAloSensors(p, 0);
         }
         { struct VTE *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 6, 0, 0, 0, 0); }
-        func_00147F40(g_sw);
+        UpdateSwActivation(g_sw);
         p->p190 = 0;
     }
     if (n == 2) {

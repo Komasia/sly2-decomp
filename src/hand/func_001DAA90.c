@@ -14,7 +14,7 @@ typedef struct {
 extern struct G g_sw;
 extern int D_002C3258[];
 void func_001DA808(OBJ *);
-int func_00187D80(void *, int);
+int GrfbtnTakePressedJoy(void *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void SetGadgetMenu__FPvi(OBJ *, int);
@@ -37,7 +37,7 @@ void UpdateGadgetMenu__FP2SW(OBJ *p)
         return;
     if (p->x10 == 0)
         return;
-    if (p->x30 && func_00187D80(p->x10, 0x10)) {
+    if (p->x30 && GrfbtnTakePressedJoy(p->x10, 0x10)) {
         SetGadgetMenu__FPvi(p, -1);
         return;
     }
@@ -47,7 +47,7 @@ void UpdateGadgetMenu__FP2SW(OBJ *p)
         return;
     }
     UpdateShopStick__FP4SHOP(p);
-    if (func_00187D80(p->x10, 0x7E8)) {
+    if (GrfbtnTakePressedJoy(p->x10, 0x7E8)) {
         r = func_001DAE20(p, p->x48);
         if (r == 0 || !(r->fl & 1))
             SetShopMsg__FP4SHOPii(p, 1, 0xE2);
@@ -55,7 +55,7 @@ void UpdateGadgetMenu__FP2SW(OBJ *p)
             SetShopMsg__FP4SHOPii(p, 1, 0x31);
     }
     for (i = 0; i < 3; i++) {
-        if (!func_00187D80(p->x10, D_002C3258[i]))
+        if (!GrfbtnTakePressedJoy(p->x10, D_002C3258[i]))
             continue;
         r = func_001DAE20(p, p->x48);
         if (r == 0 || !(r->fl & 4)) {

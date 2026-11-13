@@ -73,7 +73,7 @@ extern CLOCK g_clock;
 extern U D_002A2DD0;
 extern int D_002DD5BC;
 void SetXfMode(P *, void *, int) asm("SetXfMode__FP3ALOP2XFi");
-void func_00142880(P *);
+void ActorNextLookTime(P *) asm("ActorNextLookTime__FP5ACTOR");
 void SetMurrayFlopPhase(P *, int) asm("SetMurrayFlopPhase__FP6MURRAYi");
 void ExplodeExpl(OBJ *) asm("ExplodeExpl__FP4EXPL");
 void SetJumpAnimState(void *, int, int) asm("SetJumpAnimState__FP4JUMPiP2LO");
@@ -114,7 +114,7 @@ extern "C" void func_001B6078(P *p, int next)
     // leave the old state
     switch (p->state) {
     case 0:
-        SetXfMode(p, p->first, 2); SetXfMode(p, p->second, 2); func_00142880(p); break;
+        SetXfMode(p, p->first, 2); SetXfMode(p, p->second, 2); ActorNextLookTime(p); break;
     case 16: case 17: case 18:
         SetXfMode(p, p->first, 2); SetXfMode(p, p->second, 2); break;
     case 3: SetMurrayFlopPhase(p, -1); break;

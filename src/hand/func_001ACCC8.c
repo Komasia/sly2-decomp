@@ -11,7 +11,7 @@ extern char D_002F633C[];
 extern const struct PMF D_002A6D88;
 int func_0020E040(void *g);
 int NCardPrompt__FPv(struct S *s);
-int func_00187D80(void *p, int n);
+int GrfbtnTakePressedJoy(void *p, int n) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void CardYes__FP7CARDDLG(struct S *s);
 void CardNo__FP7CARDDLG(struct S *s);
 int FMemcardThreadValid(void *p) asm("FMemcardThreadValid__FP7MEMCARD");
@@ -39,17 +39,17 @@ void func_001ACCC8(struct S *s)
     r = NCardPrompt__FPv(s);
     if (r != 1) {
         if (r == c) {
-            if (s->x10 && func_00187D80(s->x10, 0x80)) {
+            if (s->x10 && GrfbtnTakePressedJoy(s->x10, 0x80)) {
                 CardYes__FP7CARDDLG(s);
                 return;
             }
-            if (s->x10 && func_00187D80(s->x10, 0x10)) {
+            if (s->x10 && GrfbtnTakePressedJoy(s->x10, 0x10)) {
                 CardNo__FP7CARDDLG(s);
                 return;
             }
         }
     } else {
-        if (s->x10 && func_00187D80(s->x10, 0x80)) {
+        if (s->x10 && GrfbtnTakePressedJoy(s->x10, 0x80)) {
             CardNo__FP7CARDDLG(s);
             return;
         }

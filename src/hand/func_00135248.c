@@ -20,7 +20,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void SetXfMode__FP3ALOP2XFi(struct P *, void *, int);
-void func_00142880(struct P *);
+void ActorNextLookTime(struct P *) asm("ActorNextLookTime__FP5ACTOR");
 void ExplodeExpl__FP4EXPL(struct VO *);
 void SetJumpAnimState__FP4JUMPiP2LO(void *, int, int);
 void SetInteractState__FP5ACTORi(void *, int);
@@ -62,7 +62,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
     case 0:
         SetXfMode__FP3ALOP2XFi(p, p->p58, 2);
         SetXfMode__FP3ALOP2XFi(p, p->p5C, 2);
-        func_00142880(p);
+        ActorNextLookTime(p);
         break;
     case 9:
     case 10:

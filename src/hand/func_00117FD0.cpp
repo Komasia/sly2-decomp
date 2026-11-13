@@ -12,11 +12,12 @@ void ReadVector(BIS *pbis, qword *pv) asm("ReadVector__18CBinaryInputStreamP6VEC
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 void PlaneFromPoints(FACE *pface, qword a, qword b, qword c) asm("PlaneFromPoints__FP6VECTORG9VU_VECTORN21");
-void func_00117FD0(BIS *pbis, GEOM *pg);
+void ReadGeom(BIS *pbis, GEOM *pg) asm("ReadGeom__18CBinaryInputStreamP4GEOM");
 }
 static inline void *PvAlloc1D0(int cb) { AREQ req; req.cbAlign = 0x10; req.cb = cb; return PvAllocSwImpl(&req); }
 static inline void *PvAlloc2A0(int cb) { AREQ req; req.cbAlign = 0x10; req.cb = cb; return PvAllocSwClearImpl(&req); }
-void func_00117FD0(BIS *pbis, GEOM *pg) { int i;
+// name: SafeHouse port (CBinaryInputStream::ReadGeom 0x117FD0) + Sly 1 ReadGeom
+void ReadGeom(BIS *pbis, GEOM *pg) { int i;
  pg->cpos = U16Read(pbis);
  pg->apos = (qword *)PvAlloc1D0(pg->cpos * 16);
  for (i = 0; i < pg->cpos; i++) ReadVector(pbis, &pg->apos[i]);

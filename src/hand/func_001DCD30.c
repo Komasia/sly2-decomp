@@ -16,7 +16,7 @@ void func_001DA808(OBJ *);
 int func_002127C8(void);
 void SetState__FP8SCREENRTi(W *, int);
 void SetTimerTimers(W *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
-int func_00187D80(void *, int);
+int GrfbtnTakePressedJoy(void *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void SetJobHelpPage__FPvi(OBJ *, int);
 void UpdateShopStick__FP4SHOP(OBJ *);
 void UpdateJobHelpLook__FPv(OBJ *);
@@ -35,27 +35,27 @@ void UpdateJobHelp__FP2SW(OBJ *p)
         SetTimerTimers(p->pw, 2);
         p->pw->vt->a[16].pfn((char *)p->pw + p->pw->vt->a[16].d);
     }
-    if (func_00187D80(p->x10, 0x800)) {
+    if (GrfbtnTakePressedJoy(p->x10, 0x800)) {
         SetJobHelpPage__FPvi(p, -1);
         return;
     }
     switch (p->x40) {
     case 0:
-        if (func_00187D80(p->x10, 0x10)) {
+        if (GrfbtnTakePressedJoy(p->x10, 0x10)) {
             SetJobHelpPage__FPvi(p, -1);
             return;
         }
-        if (p->c && func_00187D80(p->x10, 0xF0)) {
+        if (p->c && GrfbtnTakePressedJoy(p->x10, 0xF0)) {
             SetJobHelpPage__FPvi(p, 1);
             return;
         }
         break;
     case 1:
-        if (!p->x114 && func_00187D80(p->x10, 0x10)) {
+        if (!p->x114 && GrfbtnTakePressedJoy(p->x10, 0x10)) {
             SetJobHelpPage__FPvi(p, -1);
             return;
         }
-        if (func_00187D80(p->x10, 0xF0)) {
+        if (GrfbtnTakePressedJoy(p->x10, 0xF0)) {
             SetJobHelpPage__FPvi(p, 0);
             return;
         }

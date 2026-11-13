@@ -8,7 +8,7 @@ struct P { char pad[0xEC]; struct G *g; char padF0[0x118]; struct N *best; float
 extern float D_002A85F4,g_clock;
 struct SW;
 extern struct SW g_sw;
-void func_001F4F10(struct P *);
+void NotifyAloContacts(struct P *) asm("NotifyAloContacts__FP3ALO");
 void FreeSwXpList__FP2SWP2XP(struct SW *,struct N *);
 static inline struct P *Other(struct N*n,struct P*p){unsigned different=(unsigned)p^(unsigned)n->e[0].owner;int i=different>0;return ((struct Endpoint *)((char *)n+(i<<6)))->other;}
 // name: SafeHouse port (FindStepFloor)
@@ -16,7 +16,7 @@ void FindStepFloor__FP3ALO(struct P *p)
 {
     struct N *best;
     struct L *group;
-    func_001F4F10(p);
+    NotifyAloContacts(p);
     {
         float value=D_002A85F4;
         group=p->g->groups;

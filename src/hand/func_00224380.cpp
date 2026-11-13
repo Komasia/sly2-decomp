@@ -10,7 +10,7 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 extern float D_002C42E0;
 extern float D_002C3C60[];
-extern "C" void func_001F4F10(struct S *p);
+extern "C" void NotifyAloContacts(struct S *p) asm("NotifyAloContacts__FP3ALO");
 extern "C" int FCarryLands(struct S *p) asm("FCarryLands__FP7CARRYRT");
 extern "C" int func_00224508(struct S *p, struct S *q);
 struct SCALAR {qword q;};
@@ -26,7 +26,7 @@ extern "C" void UpdateCarryContacts__FP3ALO(struct S *p)
     struct EDGE *pe;
     struct LN *pln;
     int id;
-    func_001F4F10(p);
+    NotifyAloContacts(p);
     if (!p->x150 && g_clock.t - p->t154 < D_002C42E0) return;
     pln = p->pq->pln;
     id = p->pq->id;

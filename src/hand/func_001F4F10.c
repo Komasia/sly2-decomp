@@ -7,7 +7,9 @@ struct G;
 extern struct G g_sw;
 extern struct S8 D_002A8278;
 void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(struct G *, struct P *, struct S8, int);
-void func_001F4F10(struct P *p)
+// name: SafeHouse port (NotifyAloContacts 0x1F4F10, ALO vt slot 58)
+void NotifyAloContacts(struct P *p) asm("NotifyAloContacts__FP3ALO");
+void NotifyAloContacts(struct P *p)
 {
     struct E *pe = p->pe;
     struct N *pn;

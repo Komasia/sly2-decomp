@@ -48,7 +48,9 @@ static inline void *PvNextDli(DLI *pdli)
     return pv;
 }
 
-void func_00147F40(struct P *p)
+// name: SafeHouse port (UpdateSwActivation 0x147F40)
+void UpdateSwActivation(struct P *p) asm("UpdateSwActivation__FP2SW");
+void UpdateSwActivation(struct P *p)
 {
     DLI dli;
     qword pos, posB;

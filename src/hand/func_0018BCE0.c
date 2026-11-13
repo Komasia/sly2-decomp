@@ -14,7 +14,7 @@ extern float D_002BF3D8;
 
 extern float D_002BF3DC;
 
-extern void func_001403D0(void *p);
+extern void UpdateActor(void *p) asm("UpdateActor__FP5ACTOR");
 extern void UpdateSlyInput__FP3SLY(void *p);
 extern void SetStepPhysHeading__FP3ALOf(void *p, float g);
 extern void SetGaitMix__FP4GAITf(void *p, float g);
@@ -48,7 +48,7 @@ void UpdateJt__FP2JTf(char *p)
     int i;
     struct X1854 *po;
 
-    func_001403D0(p);
+    UpdateActor(p);
     if (!((struct LO *)p)->f)
         return;
     if (F(void *, 0x150))

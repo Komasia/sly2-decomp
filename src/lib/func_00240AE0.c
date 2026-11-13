@@ -10,7 +10,8 @@ typedef struct {
     char pad2[8];
     SCISSOR scissor;
 } ENV;
-void func_00240AE0(ENV *env, short x, short y, short half)
+// name: libgraph sceGsSetHalfOffset(draw env, centerx, centery, halfoff): offset from the scissor size, +8 (half a pixel) when halfoff
+void sceGsSetHalfOffset(ENV *env, short x, short y, short half)
 {
     long oy = (y - ((u_long)(env->scissor.SCAY1 + 1) >> 1)) << 4;
     long ox = (x - ((u_long)(env->scissor.SCAX1 + 1) >> 1)) << 4;

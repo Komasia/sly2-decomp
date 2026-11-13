@@ -21,7 +21,7 @@ int S16Read(void *) asm("S16Read__18CBinaryInputStream");
 int S32Read(void *) asm("S32Read__18CBinaryInputStream");
 int S8Read(void *) asm("S8Read__18CBinaryInputStream");
 float F32Read(void *) asm("F32Read__18CBinaryInputStream");
-void func_00117FD0(void *,GEO *);
+void ReadGeom(void *,GEO *) asm("ReadGeom__18CBinaryInputStreamP4GEOM");
 void func_00118220(void *,GEO *,TREE *);
 void ReadMatrix(void *,STATE *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
 void LoadGlobsetFromBrx(DATA *,P *,void *) asm("LoadGlobsetFromBrx__FP7GLOBSETP2SOP18CBinaryInputStream");
@@ -60,7 +60,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         f=S8Read(stream);
         e->flags.raw=(e->flags.raw&~(1UL<<49))|((ulong)(f&1)<<49);
         e->radius=F32Read(stream);
-        func_00117FD0(stream,local);
+        ReadGeom(stream,local);
         if(!e->object){e->object=D_002C44F0;e->world=e->local;}
         else CopyTransformGeom(local,0,&e->world);
         func_00118220(stream,&e->world,&e->tree);

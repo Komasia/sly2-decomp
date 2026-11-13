@@ -17,7 +17,7 @@ extern qword g_posCenterDefault;
 void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 void RecalcCmFrustrum(CM *p) asm("RecalcCmFrustrum__FP2CM");
 void SetCmLookAt(CM *p, qword pos, qword tgt, float da, float db) asm("SetCmLookAt__FP2CMG9VU_VECTORT1ff");
-void func_0014D8C0(CM *p);
+void CutCm(CM *p) asm("CutCm__FP2CM");
 void func_0014FDA0(void *p);
 void Init(void *p) asm("Init__8CPFOLLOW");
 void func_0014FCC0(void *p);
@@ -48,7 +48,7 @@ extern "C" void InitCm__FP2CM(CM *p)
     pm[0] = 1.0f;
     RecalcCmFrustrum(p);
     SetCmLookAt(p, g_posEyeDefault, g_posCenterDefault, 0.0f, 0.0f);
-    func_0014D8C0(p);
+    CutCm(p);
     p->c30C = 0;
     func_0014FDA0(p->x3A0);
     Init(p->x3B0);

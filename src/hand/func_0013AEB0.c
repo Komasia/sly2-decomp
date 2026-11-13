@@ -34,7 +34,7 @@ extern float D_002A4B18;
 extern qword D_002A2DA0;
 extern K D_002A4B10;
 extern char g_sw[];
-void func_001F4F10(P *p);
+void NotifyAloContacts(P *p) asm("NotifyAloContacts__FP3ALO");
 int FIsBasicDerivedFrom__FP5BASIC3CID(P *p, int n);
 int func_001C4098(P *p);
 int FStickyProjectileParent__FP3ALOPv(P *p, void *x);
@@ -92,7 +92,7 @@ void ProjectileContacts__FP3ALO(P *p)
     L *pl;
     Q *pq;
 
-    func_001F4F10(p);
+    NotifyAloContacts(p);
     switch (p->k) {
     case 0:
     case 2:

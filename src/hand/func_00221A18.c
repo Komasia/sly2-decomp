@@ -21,7 +21,7 @@ void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(void *p, qword q, int a, q
 void UpdateZonePath__FP8CPFOLLOWi(struct S *p, void *pq);
 void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *pa, float *pb, float *pc);
 qword SetVectorSphere__Ffff(float a, float b, float c);
-void func_0014D8C0(struct G *pg);
+void CutCm(struct G *pg) asm("CutCm__FP2CM");
 static __inline__ qword VAdd(qword a, qword b) { qword r; __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 static __inline__ qword VSub(qword a, qword b) { qword r; __asm__("vsub.xyzw %0, %1, %2" : "=j"(r) : "j"(a), "j"(b)); return r; }
 // name: SafeHouse port (CPFOLLOW::Activate)
@@ -64,7 +64,7 @@ void Activate__8CPFOLLOWP2LOPv(struct S *p, void *pj, struct T *pt)
     p->g24 = ((struct R *)p->pe)->g5C;
     p->x34 = 0;
     if (p->pt && p->pt->x184)
-        func_0014D8C0(&g_cm);
+        CutCm(&g_cm);
     p->g80 = g_clock.t;
     p->g60 = g_clock.t;
     p->g48 = g_clock.t - D_002C41DC;

@@ -2,7 +2,7 @@ struct A { int pad[4]; int n10; int n14; float g18; char pad2[0x40 - 0x1C]; int 
 extern char g_cm[];
 void Stop__4CSndf(void *p, float g);
 void func_00258040(void **pp, int n);
-void func_0014D8C0(void *p);
+void CutCm(void *p) asm("CutCm__FP2CM");
 void Deactivate__5CPLCYP2LOPv(struct A *a, int n, void *b);
 static inline void Release(void **pp, float g)
 {
@@ -20,6 +20,6 @@ void Deactivate__6CPFREEP2LOPv(struct A *a, int n, void *b)
     a->n14 = 0;
     a->n40 = 0;
     a->g18 = -1.0f;
-    func_0014D8C0(g_cm);
+    CutCm(g_cm);
     Deactivate__5CPLCYP2LOPv(a, n, b);
 }

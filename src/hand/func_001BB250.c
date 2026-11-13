@@ -13,7 +13,7 @@ typedef struct O {
 typedef struct L { int x0; struct L *next; int *px8; O *po; } L;
 typedef struct X { char pad[0x64]; L *pl; } X;
 extern char g_sw[];
-void func_001F4F10(O *p);
+void NotifyAloContacts(O *p) asm("NotifyAloContacts__FP3ALO");
 int func_001BBE48(O *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(O *p, int k);
 void PostHit__FP2LOii(O *p, O *q, int z);
@@ -24,7 +24,7 @@ void UpdateBreakableContacts__FP3ALO(O *p)
 {
     L *pl;
     int i, j;
-    func_001F4F10(p);
+    NotifyAloContacts(p);
     if (func_001BBE48(p)) return;
     for (pl = p->pxEC->pl; pl; pl = pl->next) {
         if (*pl->px8 == 0) continue;

@@ -18,7 +18,7 @@ void func_001D9870();
 int FSpriteAnimPlaying(POOL*,int) asm("FSpriteAnimPlaying__FP2LOi");
 void SetMenuState(P*,int) asm("SetMenuState__FP4MENUi");
 int func_001880D8(INPUT*);
-uint func_00187D80(INPUT*,uint);
+uint GrfbtnTakePressedJoy(INPUT*,uint) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void BackReplaced(P*) asm("BackReplaced__FP4MENU");
 void func_001AF608(P*);
 void CloseMenu(P*) asm("CloseMenu__Fii");
@@ -107,7 +107,7 @@ extern "C" void func_001AEEE0(P*p){
   if(FSpriteAnimPlaying(group->pool,group->meta->reverse))break;goto activate;
  case 7:{
   if(!p->input)break;
-  uint flags;flags=func_00187D80(p->input,0x870);
+  uint flags;flags=GrfbtnTakePressedJoy(p->input,0x870);
   if(flags&0x800){CloseMenu(p);break;}
   if((flags&0x10)||(group->count==0&&flags)){if(group->back)BackReplaced(p);else func_001AF608(p);break;}
   if(p->depth>0&&(flags&0x40)){
@@ -146,7 +146,7 @@ extern "C" void func_001AEEE0(P*p){
  case 10:{
   if(!p->input)break;
   ITEM*item;item=&group->items[group->index];
-  uint flags;flags=func_00187D80(p->input,0x850);
+  uint flags;flags=GrfbtnTakePressedJoy(p->input,0x850);
   if(flags&0x800){func_001AFF88(p,item);
 CloseMenu(p);break;}
   if(flags&0x10)func_001AFF88(p,item);

@@ -39,7 +39,7 @@ int func_0024B610(MPEG *p);
 void UpdateClock(CLOCK *p, int k) asm("UpdateClock__FP5CLOCKi");
 void UpdateJoy(JOY *p) asm("UpdateJoy__FP3JOY");
 void UpdateSave(G *g) asm("UpdateSave__FP4SAVE");
-uint func_00187D80(JOY *p, uint k);
+uint GrfbtnTakePressedJoy(JOY *p, uint k) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void UpdateCd(void) asm("UpdateCd__Fv");
 void func_001B4058(P *p);
 void func_001B4140(P *p);
@@ -115,7 +115,7 @@ extern "C" void func_001B3BD0(P *p, K *k)
             if (D_002C0268) f = 1;
             if (f) {
                 int fQuit = 0;
-                if (func_00187D80(&g_joy, 0x91F)) fQuit = 1;
+                if (GrfbtnTakePressedJoy(&g_joy, 0x91F)) fQuit = 1;
                 if (fQuit) {
                     p->x108 = 0;
                     break;

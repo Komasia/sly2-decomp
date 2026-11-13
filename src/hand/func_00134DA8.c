@@ -28,7 +28,7 @@ extern struct POLY D_002BC940;
 extern struct POLY D_002BC950;
 extern float D_002BC960;
 extern float D_002BC934;
-void func_001403D0(struct P *p);
+void UpdateActor(struct P *p) asm("UpdateActor__FP5ACTOR");
 void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(void *pv, struct P *p, int n);
 void UpdateBentleyBinoc__FP7BENTLEY(struct P *p);
 void UpdateBentleyTransitions__FP7BENTLEY(struct P *p);
@@ -120,7 +120,7 @@ static __inline__ void Kick(void *pv, float g)
 // name: SafeHouse port (UpdateBentley)
 void UpdateBentley__FP7BENTLEY(struct P *p)
 {
-    func_001403D0(p);
+    UpdateActor(p);
     if (((p->ul28 >> 60) & 1) == 0)
         return;
     UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(g_sw, p, 0xF8FE);

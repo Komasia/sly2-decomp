@@ -14,7 +14,7 @@ void SyncVBlank();
 void EnterCritSect(CRITSECT *pcs);
 void LeaveCritSect(CRITSECT *pcs);
 void BlendDisplayOnBufferMismatch();
-extern "C" void func_00240AE0(void *pdraw, short x, short y, short half);
+extern "C" void sceGsSetHalfOffset(void *pdraw, short x, short y, short half) asm("sceGsSetHalfOffset");
 extern "C" void FlushCache(int n) asm("FlushCache");
 extern "C" void sceGsSwapDBuff(void *pdb, int i) asm("sceGsSwapDBuff");
 extern "C" void func_002403D8(int a, int b);
@@ -32,7 +32,7 @@ void SwapGsBuffers()
         D_002DEDB4 = FField() == 0;
     }
     EnterCritSect(&D_002DFB40);
-    func_00240AE0((D_002DEDB0 & 1) ? D_002DEBE0 : D_002DECD0, 0x800, 0x800, D_002DEDB4);
+    sceGsSetHalfOffset((D_002DEDB0 & 1) ? D_002DEBE0 : D_002DECD0, 0x800, 0x800, D_002DEDB4);
     FlushCache(0);
     D_002DEDB0++;
     sceGsSwapDBuff(D_002DEB80, D_002DEDB0);

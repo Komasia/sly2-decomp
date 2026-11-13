@@ -16,7 +16,7 @@ extern char D_002E0D00[];
 void UpdateSo__FP2SOf(OBJ *);
 int func_0014FD50(void *);
 int func_00187E88(void *);
-int func_00187D80(void *, int);
+int GrfbtnTakePressedJoy(void *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void *func_001F07E8(void *);
 OBJ *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, OBJ *);
 void func_001DC260(void *, int);
@@ -51,7 +51,7 @@ void UpdateSafeHouse__FP2LO(OBJ *p)
                 return;
             if (pe->p != func_001F07E8(p->x188))
                 continue;
-            if (!func_00187D80(pad, pe->fl))
+            if (!GrfbtnTakePressedJoy(pad, pe->fl))
                 continue;
             if (pe->n == -1)
                 continue;

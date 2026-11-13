@@ -4,7 +4,7 @@ struct JOY {
 };
 struct CLOCK { char pad[0x3C]; float g3c; };
 extern struct CLOCK g_clock;
-int func_00187D80(struct JOY *p, int grf);
+int GrfbtnTakePressedJoy(struct JOY *p, int grf) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 static __inline__ float GClamp(float g, float lo, float hi)
 {
     if (g < lo) return lo;
@@ -15,7 +15,7 @@ int func_00187E88(struct JOY *p)
 {
     float g;
     if (!p->dirX) {
-        int grf = func_00187D80(p, 0xA000);
+        int grf = GrfbtnTakePressedJoy(p, 0xA000);
         if (grf & 0x8000) p->dirX = -1;
         else if (grf & 0x2000) p->dirX = 1;
         else if (p->gMag >= 0.8f && __builtin_fabsf(p->gX) > __builtin_fabsf(p->gY)) {
