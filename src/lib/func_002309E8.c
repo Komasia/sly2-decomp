@@ -1,12 +1,12 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0 -ffast-math -mvu0-use-vf0-vf31
-void *func_002333B4(void *, int, int); void PredictXfChain__FP2XFT0PvP7MATRIX4f(void *, void *, float, float *, float *);
+void *s1_memset(void *, int, int); void PredictXfChain__FP2XFT0PvP7MATRIX4f(void *, void *, float, float *, float *);
 void func_002309E8(void *a, void *b, float *m, float *n, float f)
 {
     if (m) {
-        func_002333B4(m, 0, 0x40);
+        s1_memset(m, 0, 0x40);
         m[0] = m[5] = m[10] = m[15] = 1.0f;
     }
-    if (n) func_002333B4(n, 0, 0x40);
+    if (n) s1_memset(n, 0, 0x40);
     PredictXfChain__FP2XFT0PvP7MATRIX4f(a, b, f, m, n);
 }

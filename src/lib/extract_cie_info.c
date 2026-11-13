@@ -12,12 +12,12 @@ struct cie_info { char *augmentation; void *eh_ptr; int code_align; int data_ali
 union unaligned { void *p; unsigned b2 __attribute__ ((mode (HI))); unsigned b4 __attribute__ ((mode (SI))); unsigned b8 __attribute__ ((mode (DI))); } __attribute__ ((packed));
 int func_002401D8(const char *, const char *);
 #define strcmp func_002401D8
-size_t func_0021ED28(const char *);
-#define strlen func_0021ED28
-void *func_0023F240(void *, unsigned *);
-#define decode_uleb128 func_0023F240
-void *func_0023F288(void *, int *);
-#define decode_sleb128 func_0023F288
+size_t s1_strlen(const char *);
+#define strlen s1_strlen
+void *decode_uleb128(void *, unsigned *);
+#define decode_uleb128 decode_uleb128
+void *decode_sleb128(void *, int *);
+#define decode_sleb128 decode_sleb128
 
 static inline dwarf_cie *
 get_cie (fde *f)

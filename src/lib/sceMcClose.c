@@ -10,8 +10,8 @@ extern int D_002C8354;
 extern int D_002C8350;
 void func_00243ED8(void *);
 int PollSema(int);
-int func_00234A40(int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcClose(int fd)
 {
     if (D_00450880.server == 0)
@@ -19,10 +19,10 @@ int sceMcClose(int fd)
     if (PollSema(D_002C8354) < 0)
         return -200;
     D_00450900[0] = fd;
-    if (func_00237288(&D_00450880, 3, 1, D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) == 0) {
+    if (sceSifCallRpc(&D_00450880, 3, 1, D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) == 0) {
         D_002C8350 = 3;
         return 0;
     }
-    func_00234A40(D_002C8354);
+    SignalSema(D_002C8354);
     return -91;
 }

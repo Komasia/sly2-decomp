@@ -8,23 +8,23 @@ extern int D_002C6760;
 extern int D_002C6768;
 extern int D_002C676C;
 extern int D_002C6770;
-int func_00234A40(int);
+int SignalSema(int);
 int DeleteSema(int);
 int DIntr(void);
 int EIntr(void);
-int func_0023AE20(unsigned int);
+int sceSifRemoveCmdHandler(unsigned int);
 void cdvd_exit(void)
 {
     int r;
     if (D_002C6754) {
         D_002C67A0 = -1;
-        func_00234A40(*(volatile int *)&D_002C6760);
+        SignalSema(*(volatile int *)&D_002C6760);
     }
     DeleteSema(D_002C6768);
     DeleteSema(D_002C676C);
     DeleteSema(D_002C6770);
     DeleteSema(D_002C6760);
     r = DIntr();
-    func_0023AE20(0x80000012);
+    sceSifRemoveCmdHandler(0x80000012);
     if (r) EIntr();
 }

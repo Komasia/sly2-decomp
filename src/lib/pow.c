@@ -15,7 +15,7 @@ extern const double __infinity_d;
 double func_00246300(double x, double y);
 int func_00249C80(double x);
 int func_00249C60(double x);
-double func_00249CE0(double x);
+double rint(double x);
 int matherr(struct exception *x);
 int *func_002401C8(void);
 #define _LIB_VERSION __fdlib_version
@@ -32,7 +32,7 @@ int *func_002401C8(void);
 #define HUGE_VAL __infinity_d
 #define isnan func_00249C80
 #define finite func_00249C60
-#define rint func_00249CE0
+#define rint rint
 double pow(double x, double y)
 {
 	double z;

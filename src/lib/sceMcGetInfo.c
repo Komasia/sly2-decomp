@@ -15,9 +15,9 @@ extern int D_002C8354;
 extern int D_002C8350;
 void mceGetInfoApdx(void *);
 int PollSema(int);
-int func_00234A40(int);
-void func_0023B170(void *, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
+void sceSifWriteBackDCache(void *, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcGetInfo(int port, int slot, int *type, int *free, int *format)
 {
     if (D_00450880.server == 0)
@@ -33,9 +33,9 @@ int sceMcGetInfo(int port, int slot, int *type, int *free, int *format)
     D_004508A8 = type;
     D_004508AC = free;
     D_004508B0 = format;
-    func_0023B170(D_00450D80, 0xC0);
-    if (func_00237288(&D_00450880, 1, 1, &D_00450900, 0x30, D_00451E40, 4, mceGetInfoApdx, D_00450D80) != 0) {
-        func_00234A40(D_002C8354);
+    sceSifWriteBackDCache(D_00450D80, 0xC0);
+    if (sceSifCallRpc(&D_00450880, 1, 1, &D_00450900, 0x30, D_00451E40, 4, mceGetInfoApdx, D_00450D80) != 0) {
+        SignalSema(D_002C8354);
         return -91;
     }
     D_002C8350 = 1;

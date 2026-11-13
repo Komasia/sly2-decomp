@@ -15,7 +15,7 @@ typedef struct {
     unsigned int mode;
 } sceSifDmaData;
 extern void *D_0044EDE0;
-void func_0023B170(void *, int);
+void sceSifWriteBackDCache(void *, int);
 unsigned int isceSifSetDma(sceSifDmaData *, int);
 unsigned int sceSifSetDma(sceSifDmaData *, int);
 unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void *dest, int size)
@@ -35,7 +35,7 @@ unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void
         p->dest = (unsigned int)dest;
         dma[0].size = size;
         dma[0].mode = 0;
-        if (mode & 4) func_0023B170(src, size);
+        if (mode & 4) sceSifWriteBackDCache(src, size);
     } else {
         p->dsize = 0;
         p->dest = 0;
@@ -47,7 +47,7 @@ unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void
     p->psize = ps;
     dma[count].mode = 0x44;
     count++;
-    func_0023B170(p, ps);
+    sceSifWriteBackDCache(p, ps);
     if (mode & 1) return isceSifSetDma(dma, count);
     return sceSifSetDma(dma, count);
 }

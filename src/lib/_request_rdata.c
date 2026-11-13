@@ -9,8 +9,8 @@ typedef struct {
 } Pkt;
 Pkt *func_00236CF0(void *data);
 Pkt *func_00236D20(void *data, int n);
-unsigned int func_0023AFE8(unsigned int cid, void *pkt, int size, int src, int dst, int n);
-int func_0023A7F8(unsigned short t, void (*h)(void *), void *arg);
+unsigned int isceSifSendCmd(unsigned int cid, void *pkt, int size, int src, int dst, int n);
+int iSetTimerAlarm(unsigned short t, void (*h)(void *), void *arg);
 void func_00236E30(void *);
 void _request_rdata(Pkt *r, void *data)
 {
@@ -28,6 +28,6 @@ void _request_rdata(Pkt *r, void *data)
     p->x24 = r->x20;
     p->x28 = r->x24;
     p->x2c = r->x28;
-    if (func_0023AFE8(0x80000008, p, 0x40, r->x20, r->x24, r->x28) == 0)
-        func_0023A7F8(0x800, func_00236E30, p);
+    if (isceSifSendCmd(0x80000008, p, 0x40, r->x20, r->x24, r->x28) == 0)
+        iSetTimerAlarm(0x800, func_00236E30, p);
 }

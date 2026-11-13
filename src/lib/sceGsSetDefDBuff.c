@@ -26,7 +26,7 @@ sceGsGParam *sceGsGetGParam(void);
 void sceGsSetDefDispEnv(sceGsDispEnv *, short, short, short, short, short);
 int sceGsSetDefDrawEnv(sceGsDrawEnv1 *, short, short, short, short, short);
 int sceGsSetDefClear(sceGsClear *, short, short, short, short, short, unsigned char, unsigned char, unsigned char, unsigned char, u_int);
-int func_00240FB0(short, short, short);
+int sceGszbufaddr(short, short, short);
 void sceGsSetDefDBuff(sceGsDBuff *dp, short psm, short w, short h, short ztest, short zpsm, short clear)
 {
     sceGsGParam *gp = sceGsGetGParam();
@@ -50,7 +50,7 @@ void sceGsSetDefDBuff(sceGsDBuff *dp, short psm, short w, short h, short ztest, 
     dp->giftag1.EOP = 1;
     dp->giftag1.NREG = 1;
     dp->giftag1.REGS0 = 0xE;
-    fbp = func_00240FB0(psm, w, h);
+    fbp = sceGszbufaddr(psm, w, h);
     if ((gp->sceGsInterMode == 1 && gp->sceGsFFMode == 1) || gp->sceGsInterMode == 0) {
         short s = fbp >> 1;
         dp->disp[1].dispfb.FBP = s;

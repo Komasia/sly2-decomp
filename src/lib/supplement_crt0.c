@@ -13,7 +13,7 @@ extern char D_002AAD00[];
 extern char D_002AAD10[];
 extern int D_002C4AB8;
 extern int D_002C4ABC;
-int func_00234A20(struct SemaParam *);
+int CreateSema(struct SemaParam *);
 
 void supplement_crt0(void)
 {
@@ -26,6 +26,6 @@ void supplement_crt0(void)
     s2.maxCount = 1;
     s2.initCount = 1;
     s2.option = (unsigned int)D_002AAD10;
-    D_002C4AB8 = func_00234A20(&s1);
-    D_002C4ABC = func_00234A20(&s2);
+    D_002C4AB8 = CreateSema(&s1);
+    D_002C4ABC = CreateSema(&s2);
 }

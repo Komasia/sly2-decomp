@@ -16,7 +16,7 @@ typedef struct {
     int x10, x14, x18, x1c, x20, x24, x28, x2c, x30;
     SD *sd;   /* 0x34 */
 } Req;
-void func_00235478(int);
+void iWakeupThread(int);
 void _request_call(Req *r)
 {
     SD *sd = r->sd;
@@ -38,5 +38,5 @@ void _request_call(Req *r)
     sd->x30 = r->x30;
     sd->x34 = r->x10;
     if (q->tid >= 0 && q->active == 0)
-        func_00235478(q->tid);
+        iWakeupThread(q->tid);
 }

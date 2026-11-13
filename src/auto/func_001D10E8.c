@@ -1,45 +1,4 @@
 #include "m2c_prelude.h"
-extern M2C_UNK D_002A2D00;
-extern s128 D_002A2DA0;
-extern s128 D_002A2DB0;
-extern s128 g_normalZ;
-extern s128 D_002A2DD0;
-extern f32 D_002A7810;
-extern s128 g_clqOne;
-extern M2C_UNK g_lmZeroOne;
-extern s128 D_002C1F50;
-extern f32 D_002C1F60;
-extern f32 D_002C1F68;
-extern f32 D_002C1F6C;
-extern s32 D_002C1F70;
-extern M2C_UNK D_002C1F78;
-extern M2C_UNK D_002C1F80;
-extern M2C_UNK D_002C1FB0;
-extern M2C_UNK D_002C1FC0;
-extern M2C_UNK D_002C1FD0;
-extern M2C_UNK D_002C1FE0;
-extern M2C_UNK D_002C1FF0;
-extern f32 D_002C2000;
-extern M2C_UNK D_002C2010;
-extern M2C_UNK D_002C2020;
-extern M2C_UNK D_002C2040;
-extern M2C_UNK D_002C2050;
-extern M2C_UNK D_002C2060;
-extern M2C_UNK D_002C2070;
-extern M2C_UNK D_002C2080;
-extern M2C_UNK D_002C2090;
-extern M2C_UNK D_002C2098;
-extern f32 D_002C20A4;
-extern M2C_UNK D_002C20A8;
-extern M2C_UNK D_002C20C0;
-extern M2C_UNK D_002C94A0;
-extern f32 g_clock;
-extern f32 D_002DDED4;
-extern M2C_UNK g_cm;
-extern M2C_UNK g_sw;
-extern M2C_UNK D_003E1144;
-extern M2C_UNK D_003E14E4;
-
 /*
 Decompilation failure in function func_001CE6D0:
 

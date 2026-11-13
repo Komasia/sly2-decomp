@@ -13,7 +13,7 @@ extern CB gLoadReturnDef;
 extern int gSyncBuffer[];
 extern unsigned int gLoadReturnValue;
 int snd_GotReturns__Fv(void);
-void func_00234CA0(int);
+void FlushCache(int);
 void snd_SendCurrentBatch__Fv(void);
 int snd_StreamSafeCdSync(int);
 
@@ -35,7 +35,7 @@ int snd_FlushSoundCommands(void)
         }
     }
     if (gLoadBusy) {
-        func_00234CA0(0);
+        FlushCache(0);
         if (gLoadReturnValue != 0xFFFFFFFF) {
             void (*fn)(int, long) = gLoadReturnDef.fn;
             if (fn) {

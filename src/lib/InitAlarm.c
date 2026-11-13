@@ -8,7 +8,7 @@ extern char D_002C5288[];
 extern char D_002C59C8[];
 void func_00239900(int, void *);
 void func_00239910(void *, void *, int);
-void func_00234CA0(int);
+void FlushCache(int);
 void *func_00239958(int);
 void InitAlarm(void)
 {
@@ -19,8 +19,8 @@ void InitAlarm(void)
         func_00239900(t[0].num, t[0].func);
         func_00239910((void *)0x80076000, D_002C5288, 0x740);
         func_00239910((void *)0x82000, D_002C59C8, 0x28);
-        func_00234CA0(0);
-        func_00234CA0(2);
+        FlushCache(0);
+        FlushCache(2);
         func_00239900(t[1].num, t[1].func);
         for (i = 2; i < 8; i++)
             func_00239900(t[i].num, func_00239958(t[i].num));

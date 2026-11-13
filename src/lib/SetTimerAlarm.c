@@ -8,10 +8,10 @@ typedef struct Alarm {
     void *arg;
 } Alarm;
 extern Alarm *D_0044E700;
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
-int func_0023A298(void);
-int func_0023A518(int, long, void *, void *);
+int AllocTimerCounter(void);
+int SetTimerHandler(int, long, void *, void *);
 int func_0023A3A0(int);
 int func_0023A668(int, int, int, Alarm *);
 static inline Alarm *AllocAlarm(void)
@@ -28,14 +28,14 @@ int SetTimerAlarm(long sched, void *func, void *arg)
     int st;
     if (func == 0)
         return 0x80000016;
-    st = func_00239450();
+    st = DIntr();
     p = AllocAlarm();
     if (p == 0) {
         if (st)
             EIntr();
         return 0x80008005;
     }
-    id = func_0023A298();
+    id = AllocTimerCounter();
     if (id < 0) {
         Alarm *h = D_0044E700;
         D_0044E700 = p;
@@ -48,7 +48,7 @@ int SetTimerAlarm(long sched, void *func, void *arg)
     p->func = func;
     p->arg = arg;
     p->id = id;
-    func_0023A518(id, sched, func_0023A668, p);
+    SetTimerHandler(id, sched, func_0023A668, p);
     func_0023A3A0(id);
     if (st)
         EIntr();

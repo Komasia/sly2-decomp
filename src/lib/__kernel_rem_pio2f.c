@@ -4,9 +4,9 @@
 // SLY2_ASM: gnu-reorg
 typedef int __int32_t;
 float func_0024A0E8(float x, int n);
-float func_00244F18(float x);
+float floorf(float x);
 #define scalbnf func_0024A0E8
-#define floorf func_00244F18
+#define floorf floorf
 
 static const int init_jk[] = {4,7,9};
 

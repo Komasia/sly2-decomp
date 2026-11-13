@@ -25,12 +25,12 @@ extern char D_002AAAF8[];
 struct iob *get_iob(int);
 int func_00237B50(int);
 void func_00237B80(void);
-void func_0023B170(void *, int);
-int func_00234A20(struct SemaParam *);
+void sceSifWriteBackDCache(void *, int);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A40(int);
-int func_00234A60(int);
-int func_002375E0(void *, int, int, void *, int, void *, int, void *, void *, int);
+int SignalSema(int);
+int WaitSema(int);
+int sceFsSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *, int);
 int sceRead(int fd, void *buf, int size)
 {
     struct SemaParam sp;
@@ -53,12 +53,12 @@ int sceRead(int fd, void *buf, int size)
     arg->buf = buf;
     arg->size = size;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     arg->res = &res;
     arg->rsize = 4;
     D_0044A680.sema = sema;
     if (flags & 0x8000) {
-        func_00234A60(D_002C4A8C);
+        WaitSema(D_002C4A8C);
         r = (int)D_002C49F8;
         i = 0;
         do { do { nowait = flags & 0x8000; } while (0); } while (0);
@@ -69,15 +69,15 @@ int sceRead(int fd, void *buf, int size)
                 break;
             }
         }
-        func_00234A40(D_002C4A8C);
+        SignalSema(D_002C4A8C);
     } else {
         r = (int)D_0044B2C0;
         nowait = 0;
     }
     if (!(flags & 0x20000000))
-        func_0023B170(buf, size);
-    func_0023B170(arg, 0x20);
-    if (func_002375E0(D_0044BD80, 2, 0, &D_0044A680, 0x20, D_0044B2C0, 4, 0, 0, nowait) < 0) {
+        sceSifWriteBackDCache(buf, size);
+    sceSifWriteBackDCache(arg, 0x20);
+    if (sceFsSifCallRpc(D_0044BD80, 2, 0, &D_0044A680, 0x20, D_0044B2C0, 4, 0, 0, nowait) < 0) {
         DeleteSema(sema);
         func_00237B80();
         return -11;
@@ -92,7 +92,7 @@ int sceRead(int fd, void *buf, int size)
         DeleteSema(sema);
         return 0;
     }
-    func_00234A60(sema);
+    WaitSema(sema);
     DeleteSema(sema);
     return res;
 }

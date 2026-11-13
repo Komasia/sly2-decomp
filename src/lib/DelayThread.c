@@ -4,11 +4,11 @@
 // SLY2_SAVES: sd
 typedef struct { int currentCount; int maxCount; int initCount; int numWaitThreads; unsigned int attr; unsigned int option; } SemaParam;
 extern char D_002AA7F0[];
-int func_00234A20(SemaParam *);
+int CreateSema(SemaParam *);
 int DeleteSema(int);
-int func_00234A60(int);
+int WaitSema(int);
 long func_0023A598(int, int);
-int func_0023A6C8(long, void *, int);
+int SetTimerAlarm(long, void *, int);
 int _DelayThreadHandler(int, unsigned short, void *);
 int DelayThread(int usec)
 {
@@ -22,12 +22,12 @@ int DelayThread(int usec)
     sp.maxCount = 1;
     sp.option = (unsigned int)D_002AA7F0;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     if (sema < 0)
         return 0x80008003;
-    al = func_0023A6C8(func_0023A598(0, usec), _DelayThreadHandler, sema);
+    al = SetTimerAlarm(func_0023A598(0, usec), _DelayThreadHandler, sema);
     if (al >= 0) {
-        func_00234A60(sema);
+        WaitSema(sema);
         DeleteSema(sema);
         return 0;
     }

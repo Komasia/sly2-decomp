@@ -7,15 +7,15 @@ extern int D_002C8354;
 extern int D_002C8358;
 extern int D_00451E40;
 int PollSema(int);
-int func_00234A60(int);
-int func_00234A40(int);
+int WaitSema(int);
+int SignalSema(int);
 int sceMcSync(int mode, int *cmd, int *result)
 {
     int r;
     if (!D_002C8350) return -1;
     if (PollSema(D_002C8358) < 0) r = 1; else r = 0;
     if (mode == 0 && r) {
-        func_00234A60(D_002C8358);
+        WaitSema(D_002C8358);
         r = 0;
     }
     r = !r;
@@ -23,7 +23,7 @@ int sceMcSync(int mode, int *cmd, int *result)
     if (r) {
         D_002C8350 = 0;
         if (result) *result = D_00451E40;
-        func_00234A40(D_002C8354);
+        SignalSema(D_002C8354);
     }
     return r;
 }

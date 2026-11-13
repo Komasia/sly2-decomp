@@ -11,11 +11,11 @@ extern int D_00451E40[];
 extern char D_00450D80[];
 extern int D_002C8354;
 extern int D_002C8350;
-void func_00244110(void *);
+void mceIntrReadFixAlign(void *);
 int PollSema(int);
-int func_00234A40(int);
-void func_0023B170(void *, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
+void sceSifWriteBackDCache(void *, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcRead(int fd, void *buf, int size)
 {
     if (D_00450880.server == 0)
@@ -26,12 +26,12 @@ int sceMcRead(int fd, void *buf, int size)
     D_00450900.buf = buf;
     D_00450900.size = size;
     D_00450900.param = D_00450D80;
-    func_0023B170(buf, size);
-    func_0023B170(D_00450D80, 0xC0);
-    if (func_00237288(&D_00450880, 5, 1, &D_00450900, 0x30, D_00451E40, 4, func_00244110, D_00450D80) == 0) {
+    sceSifWriteBackDCache(buf, size);
+    sceSifWriteBackDCache(D_00450D80, 0xC0);
+    if (sceSifCallRpc(&D_00450880, 5, 1, &D_00450900, 0x30, D_00451E40, 4, mceIntrReadFixAlign, D_00450D80) == 0) {
         D_002C8350 = 5;
         return 0;
     }
-    func_00234A40(D_002C8354);
+    SignalSema(D_002C8354);
     return -91;
 }

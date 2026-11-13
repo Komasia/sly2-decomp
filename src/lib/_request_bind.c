@@ -10,8 +10,8 @@ typedef struct {
 typedef struct { int x0, x4; int x8; } Srv;
 Pkt *func_00236CF0(void *data);
 Srv *func_00236F48(int sid, void *data);
-unsigned int func_0023AFE8(unsigned int cid, void *pkt, int size, int src, int dst, int n);
-int func_0023A7F8(unsigned short t, void (*h)(void *), void *arg);
+unsigned int isceSifSendCmd(unsigned int cid, void *pkt, int size, int src, int dst, int n);
+int iSetTimerAlarm(unsigned short t, void (*h)(void *), void *arg);
 void func_00236F98(void *);
 void _request_bind(Pkt *r, void *data)
 {
@@ -32,6 +32,6 @@ void _request_bind(Pkt *r, void *data)
         p->x24 = (int)s;
         p->x28 = s->x8;
     }
-    if (func_0023AFE8(0x80000008, p, 0x40, 0, 0, 0) == 0)
-        func_0023A7F8(0x800, func_00236F98, p);
+    if (isceSifSendCmd(0x80000008, p, 0x40, 0, 0, 0) == 0)
+        iSetTimerAlarm(0x800, func_00236F98, p);
 }

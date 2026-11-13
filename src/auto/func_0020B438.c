@@ -1,21 +1,4 @@
 #include "m2c_prelude.h"
-extern f32 D_002A88C4;
-extern f32 D_002A88C8;
-extern f32 D_002A88CC;
-extern f32 D_002A8904;
-extern f32 D_002C3DB0;
-extern f32 D_002C3DB4;
-extern f32 D_002C3DB8;
-extern f32 D_002C3DBC;
-extern f32 D_002C3DE0;
-extern f32 D_002C3DE4;
-extern M2C_UNK D_002DA9D0;
-extern M2C_UNK D_002DAA10;
-extern f32 g_clock;
-extern M2C_UNK g_cm;
-extern M2C_UNK g_sw;
-extern s32 D_003E148C;
-
 // name: SafeHouse port (LockGuardActivation)
 s32 LockGuardActivation__FP5GUARDi(s32 arg0, s32 arg1) {
     s32 temp_v0;

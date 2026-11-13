@@ -7,13 +7,13 @@ extern unsigned char D_0044388C[];
 extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA5A0[], D_002AA1C8[];
-void func_0021EC18(const char *, ...);
-void *func_0023320C(void *, void *, int);
-void func_00231C48(void);
-void func_00234CA0(int);
+void kprintf(const char *, ...);
+void *s1_memcpy(void *, void *, int);
+void snd_FlushSoundCommands(void);
+void FlushCache(int);
 void func_00231F38(void *, int);
-int func_00237488(void *);
-int func_00237288(void *, int, int, void *, int, void *, int, void *, void *);
+int sceSifCheckStatRpc(void *);
+int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 int snd_GotReturns__Fv(void);
 void snd_SendCurrentBatch__Fv(void);
 
@@ -26,29 +26,29 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
             D_00443880[i] = buf[i];
     } else {
         if ((unsigned int)(*(int *)(buf + 8) + 0xC) > 0x200) {
-            func_0021EC18(D_002AA5A0);
+            kprintf(D_002AA5A0);
             while (1)
                 ;
         }
         for (i = 0; i < 0xC; i++)
             D_00443880[i] = buf[i];
-        func_0023320C(D_0044388C, *(void **)(buf + 0xC), *(int *)(buf + 8));
+        s1_memcpy(D_0044388C, *(void **)(buf + 0xC), *(int *)(buf + 8));
     }
     while (gCommBusy) {
-        func_00231C48();
-        func_00234CA0(0);
+        snd_FlushSoundCommands();
+        FlushCache(0);
     }
     func_00231F38(gSyncBuffer, 1);
-    while (func_00237488(D_00443800)) {
+    while (sceSifCheckStatRpc(D_00443800)) {
         if (!D_002C46B8)
-            func_0021EC18(D_002AA1C8);
-        func_00231C48();
-        func_00234CA0(0);
+            kprintf(D_002AA1C8);
+        snd_FlushSoundCommands();
+        FlushCache(0);
     }
     if (size)
-        func_00237288(D_00443800, cmd, 1, D_00443880, size, gSyncBuffer, 0xC, 0, 0);
+        sceSifCallRpc(D_00443800, cmd, 1, D_00443880, size, gSyncBuffer, 0xC, 0, 0);
     else
-        func_00237288(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
+        sceSifCallRpc(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
     while (!snd_GotReturns__Fv())
         ;
     ret = gSyncBuffer[1];

@@ -4,9 +4,9 @@
 extern char D_002AACD0[];
 extern char D_002AACE0[];
 int func_00236960(const char *, ...);
-void func_00236A60(int);
+void sceSifInitRpc(int);
 void func_00236C00(void);
-int func_00239198(const char *, int);
+int sceSifResetIop(const char *, int);
 int sceSifRebootIop(const char *img)
 {
     char param[80];
@@ -26,7 +26,7 @@ int sceSifRebootIop(const char *img)
         func_00236960(D_002AACE0, img);
         return 0;
     }
-    func_00236A60(0);
+    sceSifInitRpc(0);
     func_00236C00();
     {
         register char *q asm("$3") = param;
@@ -41,5 +41,5 @@ int sceSifRebootIop(const char *img)
         byte = check;
     } while (check);
     *d = 0;
-    return func_00239198(param, 0);
+    return sceSifResetIop(param, 0);
 }

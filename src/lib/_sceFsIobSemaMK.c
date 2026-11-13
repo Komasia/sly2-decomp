@@ -8,7 +8,7 @@ extern int D_002C4A88;
 extern int D_002C4A8C;
 extern char D_002AAA10[];
 extern char D_002AAA20[];
-int func_00234A20(struct SemaParam *);
+int CreateSema(struct SemaParam *);
 void _sceFsIobSemaMK(void)
 {
     struct SemaParam p;
@@ -16,8 +16,8 @@ void _sceFsIobSemaMK(void)
         p.option = (unsigned int)D_002AAA10;
         p.initCount = 1;
         p.maxCount = 1;
-        D_002C4A88 = func_00234A20(&p);
+        D_002C4A88 = CreateSema(&p);
         p.option = (unsigned int)D_002AAA20;
-        D_002C4A8C = func_00234A20(&p);
+        D_002C4A8C = CreateSema(&p);
     }
 }

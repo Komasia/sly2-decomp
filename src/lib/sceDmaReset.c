@@ -17,7 +17,7 @@ typedef struct { u_int chcr; u_int p0[3]; u_int madr; u_int p1[3]; u_int qwc; u_
 #define D_STAT (*(volatile u_int *)0x1000E010)
 extern int D_002AB380[];
 extern sceDmaChan *D_002C6710[];
-void func_00241408(void *p, int n);
+void memclr(void *p, int n);
 int sceDmaPutEnv(sceDmaEnv *env);
 int sceDmaReset(int mode)
 {
@@ -37,7 +37,7 @@ int sceDmaReset(int mode)
     }
     D_STAT = 0xFF1F;
     D_STAT = D_STAT & 0xFF1F0000;
-    func_00241408(&env, sizeof(env));
+    memclr(&env, sizeof(env));
     sceDmaPutEnv(&env);
     if (mode == 1) D_CTRL |= 1;
     return ret;

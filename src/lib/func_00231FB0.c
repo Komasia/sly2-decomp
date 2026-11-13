@@ -6,43 +6,43 @@ extern unsigned int gLoadReturnValue[];
 extern int D_004484C0[];
 extern char D_00448440[];
 int snd_StreamSafeCdSync(int);
-void func_0021EC18(const char *, ...);
+void kprintf(const char *, ...);
 void func_00234F48(void *, void *);
-void func_00231C48(void);
-void func_00234CA0(int);
-int func_00237488(void *);
-int func_00237288(void *, int, int, void *, int, void *, int, void *, void *);
+void snd_FlushSoundCommands(void);
+void FlushCache(int);
+int sceSifCheckStatRpc(void *);
+int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 
 int func_00231FB0(int a, int b)
 {
     D_002C4648 = 0;
     if (gLoadBusy) {
         if (!D_002C46B8)
-            func_0021EC18(D_002AA250);
+            kprintf(D_002AA250);
         return 0;
     }
     if (snd_StreamSafeCdSync(1) == 1) {
         if (!D_002C46B8)
-            func_0021EC18(D_002AA280);
+            kprintf(D_002AA280);
         return 0;
     }
     gLoadReturnValue[0] = 0xFFFFFFFF;
     func_00234F48(gLoadReturnValue, gLoadReturnValue + 1);
     D_004484C0[0] = a;
     D_004484C0[1] = b;
-    while (func_00237488(D_00448440)) {
+    while (sceSifCheckStatRpc(D_00448440)) {
         if (!D_002C46B8)
-            func_0021EC18(D_002AA1C8);
-        func_00231C48();
-        func_00234CA0(0);
+            kprintf(D_002AA1C8);
+        snd_FlushSoundCommands();
+        FlushCache(0);
     }
-    if (func_00237288(D_00448440, 3, 1, D_004484C0, 8, gLoadReturnValue, 4, 0, 0) < 0) {
+    if (sceSifCallRpc(D_00448440, 3, 1, D_004484C0, 8, gLoadReturnValue, 4, 0, 0) < 0) {
         if (!D_002C46B8)
-            func_0021EC18(D_002AA2A0);
+            kprintf(D_002AA2A0);
         D_002C4648 = 0x106;
         return 0;
     }
     while (gLoadReturnValue[0] == 0xFFFFFFFF)
-        func_00234CA0(0);
+        FlushCache(0);
     return gLoadReturnValue[0];
 }

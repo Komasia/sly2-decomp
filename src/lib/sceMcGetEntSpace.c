@@ -10,9 +10,9 @@ extern int D_002C8354;
 extern int D_002C8350;
 void func_00243ED8(void *);
 int PollSema(int);
-int func_00234A40(int);
+int SignalSema(int);
 char *func_00233638(char *, const char *, unsigned int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcGetEntSpace(int port, int slot, const char *path)
 {
     if (D_00450880.server == 0)
@@ -20,15 +20,15 @@ int sceMcGetEntSpace(int port, int slot, const char *path)
     if (PollSema(D_002C8354) < 0)
         return -200;
     if (path == 0 || path[0] == 0) {
-        func_00234A40(D_002C8354);
+        SignalSema(D_002C8354);
         return -210;
     }
     D_00450930.port = port;
     D_00450930.slot = slot;
     func_00233638(D_00450930.name, path, 0x3FF);
     D_00450930.name[0x3FF] = 0;
-    if (func_00237288(&D_00450880, 0x12, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) != 0) {
-        func_00234A40(D_002C8354);
+    if (sceSifCallRpc(&D_00450880, 0x12, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) != 0) {
+        SignalSema(D_002C8354);
         return -91;
     }
     D_002C8350 = 0x12;

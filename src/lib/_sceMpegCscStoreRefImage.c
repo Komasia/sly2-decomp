@@ -20,7 +20,7 @@ int func_00234750(int ch, int id);
 int func_00235248(int ch);
 int func_002351E0(int ch);
 void FlushCache(int);
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
 int _sceMpegDispatchMpegCallback(void *mp, CB *cb);
 void _doCSC2(D *d, unsigned int out, int n);
@@ -48,7 +48,7 @@ static inline void cscStore(D *d, int n)
         qwc = n << 6;
         while (RS(0x10002010) < 0)
             ;
-        e = func_00239450();
+        e = DIntr();
         { volatile unsigned int *m = (void *)0x1000B010, *q = (void *)0x1000B020, *c = (void *)0x1000B000;
         *m = out & 0x0FFFFFFF;
         *q = qwc;
@@ -90,7 +90,7 @@ void _sceMpegCscStoreRefImage(D *d, P *p)
         id = func_00234740(4, _ch4dma, 0, &st);
         R(0x1000E010) = 0x10;
         func_00235248(4);
-        e = func_00239450();
+        e = DIntr();
         { volatile unsigned int *m = (void *)0x1000B410, *q = (void *)0x1000B420, *c = (void *)0x1000B400;
         *m = st.addr;
         *q = 0xFFFF;
@@ -103,7 +103,7 @@ void _sceMpegCscStoreRefImage(D *d, P *p)
         func_002351E0(4);
         func_00234750(4, id);
     } else {
-        e = func_00239450();
+        e = DIntr();
         { volatile unsigned int *m = (void *)0x1000B410, *q = (void *)0x1000B420, *c = (void *)0x1000B400;
         *m = p->addr & 0x0FFFFFFF;
         *q = st.size;

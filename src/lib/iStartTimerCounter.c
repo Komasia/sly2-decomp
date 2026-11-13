@@ -4,9 +4,9 @@
 typedef struct { int x0; int x4; int id; int mode; long base; } Counter;
 typedef struct { char pad[0x1C]; volatile int cur; } TimerSys;
 extern TimerSys D_002C5A30;
-long func_0023A1D0(void);
-void func_00239E68(Counter *);
-void func_00239CD8(long);
+long iGetTimerSystemTime(void);
+void InsertAlarm(Counter *);
+void SetNextComp(long);
 int iStartTimerCounter(int id)
 {
     Counter *p = (Counter *)(((unsigned int)id >> 10) << 6);
@@ -19,12 +19,12 @@ int iStartTimerCounter(int id)
         return 0x80000010;
     if (p->mode & 1)
         return 1;
-    t = func_0023A1D0();
+    t = iGetTimerSystemTime();
     p->base = t;
     p->mode |= 1;
     if (p->mode & 2) {
-        func_00239E68(p);
-        func_00239CD8(t);
+        InsertAlarm(p);
+        SetNextComp(t);
     }
     return 0;
 }

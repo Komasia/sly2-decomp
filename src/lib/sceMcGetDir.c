@@ -11,10 +11,10 @@ extern int D_002C8354;
 extern int D_002C8350;
 void func_00243ED8(void *);
 int PollSema(int);
-int func_00234A40(int);
+int SignalSema(int);
 char *func_00233638(char *, const char *, unsigned int);
-void func_0023B170(void *, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+void sceSifWriteBackDCache(void *, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcGetDir(int port, int slot, const char *name, unsigned int mode, int maxent, void *table)
 {
     if (D_00450880.server == 0)
@@ -22,7 +22,7 @@ int sceMcGetDir(int port, int slot, const char *name, unsigned int mode, int max
     if (PollSema(D_002C8354) < 0)
         return -200;
     if (name == 0 || name[0] == 0) {
-        func_00234A40(D_002C8354);
+        SignalSema(D_002C8354);
         return -210;
     }
     D_00450930.port = port;
@@ -32,11 +32,11 @@ int sceMcGetDir(int port, int slot, const char *name, unsigned int mode, int max
     D_00450930.offset = (int)table;
     func_00233638(D_00450930.name, name, 0x3FF);
     D_00450930.name[0x3FF] = 0;
-    if (maxent >= 0) func_0023B170(table, maxent << 6);
-    if (func_00237288(&D_00450880, 0xD, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) == 0) {
+    if (maxent >= 0) sceSifWriteBackDCache(table, maxent << 6);
+    if (sceSifCallRpc(&D_00450880, 0xD, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) == 0) {
         D_002C8350 = 0xD;
         return 0;
     }
-    func_00234A40(D_002C8354);
+    SignalSema(D_002C8354);
     return -91;
 }

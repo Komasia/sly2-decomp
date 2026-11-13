@@ -1,11 +1,11 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
 #define REG(a) (*(volatile unsigned int *)(a))
 void _sceMpegStopIpuDma(void)
 {
-  int s = func_00239450();
+  int s = DIntr();
   REG(0x1000F590) = REG(0x1000F520) | 0x10000;
   REG(0x1000B000) = 0;
   REG(0x1000B400) = 0;

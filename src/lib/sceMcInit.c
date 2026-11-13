@@ -16,18 +16,18 @@ extern int D_00451E40[];
 extern int D_002C8354;
 extern int D_002C8358;
 extern char D_002AB7B0[], D_002AB7C0[], D_002AB7D8[], D_002AB7F0[], D_002AB818[];
-int func_00234A20(struct SemaParam *);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A40(int);
-int func_00234A60(int);
-void func_00244450(int, int, int);
-void func_00236A60(int);
+int SignalSema(int);
+int WaitSema(int);
+void sceMcSync(int, int, int);
+void sceSifInitRpc(int);
 int func_00236960(const char *, ...);
-int func_002370A8(void *, unsigned int, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int sceSifBindRpc(void *, unsigned int, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 static inline int bindmc(void)
 {
-    if (func_002370A8(&D_00450880, 0x80000400, 0) < 0) {
+    if (sceSifBindRpc(&D_00450880, 0x80000400, 0) < 0) {
         func_00236960(D_002AB7D8);
         while (1) ;
     }
@@ -45,13 +45,13 @@ int sceMcInit(void)
         sp.initCount = 1;
         sp.option = (unsigned int)D_002AB7B0;
         sp.maxCount = 1;
-        D_002C8354 = func_00234A20(&sp);
+        D_002C8354 = CreateSema(&sp);
         if (D_002C8354 == m1)
             return -101;
         sp.maxCount = 1;
         sp.initCount = 0;
         sp.option = (unsigned int)D_002AB7C0;
-        r = func_00234A20(&sp);
+        r = CreateSema(&sp);
         D_002C8358 = r;
         if (r == m1) {
             DeleteSema(D_002C8354);
@@ -59,9 +59,9 @@ int sceMcInit(void)
             return -101;
         }
     }
-    func_00244450(0, 0, 0);
-    func_00234A60(D_002C8354);
-    func_00236A60(0);
+    sceMcSync(0, 0, 0);
+    WaitSema(D_002C8354);
+    sceSifInitRpc(0);
     while (bindmc() == 0) {
         j = 0x100000;
         while (--j) ;
@@ -70,8 +70,8 @@ int sceMcInit(void)
             return -91;
         }
     }
-    r = func_00237288(&D_00450880, 0xFE, 0, D_00450900, 0x30, D_00451E40, 0xC, 0, 0);
-    func_00234A40(D_002C8354);
+    r = sceSifCallRpc(&D_00450880, 0xFE, 0, D_00450900, 0x30, D_00451E40, 0xC, 0, 0);
+    SignalSema(D_002C8354);
     if (r < 0) {
         D_00450880.server = 0;
         return -91;

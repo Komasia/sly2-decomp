@@ -19,8 +19,8 @@ extern int D_002C830C;
 extern char D_002AB6F0[];
 extern char D_002AB720[];
 int func_00236960(const char *, ...);
-void *func_002333B4(void *, int, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+void *s1_memset(void *, int, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int scePadPortOpen(int port, int slot, void *addr)
 {
     int i;
@@ -41,7 +41,7 @@ int scePadPortOpen(int port, int slot, void *addr)
         p->state = 5;
         p->req = 2;
         p->x68[-1] = 0;
-        func_002333B4(p, 0xFF, 0x20);
+        s1_memset(p, 0xFF, 0x20);
         p->len = 0;
         p++;
     }
@@ -49,7 +49,7 @@ int scePadPortOpen(int port, int slot, void *addr)
     D_004507C0[1] = port;
     D_004507C0[2] = slot;
     D_004507C0[4] = (int)addr;
-    if (func_00237288(D_00450580, 1, 0, D_004507C0, 0x80, D_004507C0, 0x80, 0, 0) < 0)
+    if (sceSifCallRpc(D_00450580, 1, 0, D_004507C0, 0x80, D_004507C0, 0x80, 0, 0) < 0)
         return 0;
     c = &D_004506C0[port][slot];
     t = ((void **)D_004507C0)[5];

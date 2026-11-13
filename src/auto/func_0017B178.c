@@ -1,31 +1,4 @@
 #include "m2c_prelude.h"
-extern s128 g_normalZ;
-extern s128 D_002A2DD0;
-extern f32 D_002A5588;
-extern f32 D_002A558C;
-extern f32 D_002A5590;
-extern f32 D_002A5594;
-extern f32 D_002A5598;
-extern M2C_UNK D_002A55A0;
-extern f32 D_002A55FC;
-extern f32 D_002A5600;
-extern M2C_UNK D_002BE6B8;
-extern f32 D_002BE6C0;
-extern M2C_UNK D_002BE6D0;
-extern M2C_UNK D_002BE6E8;
-extern M2C_UNK D_002BE710;
-extern M2C_UNK D_002BE720;
-extern M2C_UNK D_002BE730;
-extern M2C_UNK D_002BE740;
-extern f32 D_002BE748;
-extern f32 g_clock;
-extern M2C_UNK g_cm;
-extern M2C_UNK D_002DE578;
-extern M2C_UNK g_game;
-extern s64 D_002DFB70;
-extern s32 D_002DFB78;
-extern M2C_UNK g_sw;
-
 // name: SafeHouse port (JOBB1::Exit)
 void Exit__5JOBB1(s32 arg0) {
     SetState__5JOBB1i(arg0, -1);

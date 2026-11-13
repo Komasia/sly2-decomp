@@ -10,9 +10,9 @@ extern int D_002C8354;
 extern int D_002C8350;
 void func_00243ED8(void *);
 int PollSema(int);
-int func_00234A40(int);
-void func_00234CA0(int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
+void FlushCache(int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcWrite(int fd, const void *buf, int size)
 {
     unsigned i;
@@ -34,9 +34,9 @@ int sceMcWrite(int fd, const void *buf, int size)
     }
     for (i = 0; i < D_00450900.head; i++)
         D_00450900.data[i] = ((unsigned char *)buf)[i];
-    func_00234CA0(0);
-    if (func_00237288(&D_00450880, 6, 1, &D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) != 0) {
-        func_00234A40(D_002C8354);
+    FlushCache(0);
+    if (sceSifCallRpc(&D_00450880, 6, 1, &D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) != 0) {
+        SignalSema(D_002C8354);
         return -91;
     }
     D_002C8350 = 6;

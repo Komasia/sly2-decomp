@@ -1,19 +1,4 @@
 #include "m2c_prelude.h"
-s32 *PvAllocStackImpl__Fi(s32 *, M2C_UNK);                 /* extern */
-extern s128 D_002A2DA0;
-extern s128 D_002A2DD0;
-extern M2C_UNK D_002CAF08;
-extern M2C_UNK D_002CAF48;
-extern f32 g_clock;
-extern f32 D_002DDED4;
-extern f32 D_002DDF10;
-extern M2C_UNK g_cm;
-extern M2C_UNK D_002DE578;
-extern M2C_UNK D_003DD040;
-extern M2C_UNK g_sw;
-extern M2C_UNK D_003E1218;
-extern M2C_UNK D_003E1224;
-
 // name: SafeHouse port (CTRLTARGET::Fetch)
 void Fetch__10CTRLTARGET(s32 arg0) {
     M2C_FIELD(M2C_FIELD(arg0, void **, 8), f32 *, 0xA8) = (f32) M2C_FIELD(arg0, f32 *, 0x1C);

@@ -4,13 +4,13 @@
 extern char D_0044BDA8[];
 extern char D_002C49E4[];
 extern void *D_002C4A90;
-int func_00233178(const void *, const void *, unsigned int);
+int memcmp(const void *, const void *, unsigned int);
 int func_00237DE0(void)
 {
     char *b = D_002C49E4;
     char *a = D_0044BDA8;
     int r = 0;
-    if (func_00233178(a, b, 4) && func_00233178(a, D_002C4A90, 4))
-        r = func_00233178(b, D_002C4A90, 4) != 0;
+    if (memcmp(a, b, 4) && memcmp(a, D_002C4A90, 4))
+        r = memcmp(b, D_002C4A90, 4) != 0;
     return r;
 }

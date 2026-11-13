@@ -12,7 +12,7 @@ extern LoadParam D_0044C040;
 extern ClientData D_0044C240;
 int _lf_bind(void);
 int func_00238E70(void);
-void *func_0023320C(void *, const void *, unsigned int);
+void *s1_memcpy(void *, const void *, unsigned int);
 int sceSifCallRpc(ClientData *, int, unsigned int, void *, int, void *, int, void *, void *);
 int _sceSifLoadModuleBuffer(void *addr, int args, const char *argp, int *result)
 {
@@ -24,7 +24,7 @@ int _sceSifLoadModuleBuffer(void *addr, int args, const char *argp, int *result)
             __builtin_memcpy(D_0044C040.args, argp, 0xFC);
             D_0044C040.arg_len = 0xFC;
         } else {
-            func_0023320C(D_0044C040.args, argp, args);
+            s1_memcpy(D_0044C040.args, argp, args);
             D_0044C040.arg_len = args;
         }
     } else {

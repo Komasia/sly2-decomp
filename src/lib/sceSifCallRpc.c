@@ -40,11 +40,11 @@ extern char D_0044A600[];
 extern char D_002AA9F8[];
 void *func_00236C28(void *);
 void func_00236CD0(void *);
-int func_00234A20(struct SemaParam *);
-int func_0023AFA8(unsigned int, void *, int, void *, void *, int);
+int CreateSema(struct SemaParam *);
+int sceSifSendCmd(unsigned int, void *, int, void *, void *, int);
 int DeleteSema(int);
-int func_00234A60(int);
-void func_0023B170(void *, int);
+int WaitSema(int);
+void sceSifWriteBackDCache(void *, int);
 int sceSifCallRpc(ClientData *bd, unsigned int fno, unsigned int mode, void *send, int ssize,
                   void *receive, int rsize, EndFunc end_function, void *end_param)
 {
@@ -76,10 +76,10 @@ int sceSifCallRpc(ClientData *bd, unsigned int fno, unsigned int mode, void *sen
 
     if (!(mode & 2)) {
         if (send == receive) {
-            func_0023B170(send, ssize < rsize ? rsize : ssize);
+            sceSifWriteBackDCache(send, ssize < rsize ? rsize : ssize);
         } else {
-            if (ssize > 0) func_0023B170(send, ssize);
-            if (rsize > 0) func_0023B170(receive, rsize);
+            if (ssize > 0) sceSifWriteBackDCache(send, ssize);
+            if (rsize > 0) sceSifWriteBackDCache(receive, rsize);
         }
     }
 
@@ -87,7 +87,7 @@ int sceSifCallRpc(ClientData *bd, unsigned int fno, unsigned int mode, void *sen
         if (end_function == 0) call->rmode = 0;
         else call->rmode = 1;
         bd->sema = -1;
-        if (func_0023AFA8(0x8000000A, call, 0x40, send, bd->cbuff, ssize) != 0)
+        if (sceSifSendCmd(0x8000000A, call, 0x40, send, bd->cbuff, ssize) != 0)
             return 0;
         func_00236CD0(call);
         return -2;
@@ -95,14 +95,14 @@ int sceSifCallRpc(ClientData *bd, unsigned int fno, unsigned int mode, void *sen
     sema.initCount = 0;
     sema.option = (unsigned int)D_002AA9F8;
     sema.maxCount = 1;
-    bd->sema = func_00234A20(&sema);
+    bd->sema = CreateSema(&sema);
     if (bd->sema < 0) {
         func_00236CD0(call);
         return -3;
     }
     call->rmode = 1;
-    if (func_0023AFA8(0x8000000A, call, 0x40, send, bd->cbuff, ssize) != 0) {
-        func_00234A60(bd->sema);
+    if (sceSifSendCmd(0x8000000A, call, 0x40, send, bd->cbuff, ssize) != 0) {
+        WaitSema(bd->sema);
         DeleteSema(bd->sema);
         return 0;
     }

@@ -1,19 +1,7 @@
 #include "m2c_prelude.h"
-M2C_UNK CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
-M2C_UNK ReadVector__18CBinaryInputStreamP6VECTOR(s32, void *);                 /* extern */
-M2C_UNK func_001291A8(s32, void *);                 /* extern */
-M2C_UNK func_00129EC8(s32, s32, s32);               /* static */
-M2C_UNK func_0012A0B0(s32, M2C_UNK);                /* static */
+M2C_UNK Decref(s32, s32, s32) asm("Decref__4CRef");               /* static */
+M2C_UNK InitTag(s32, M2C_UNK) asm("InitTag__4CRef");                /* static */
 extern s128 D_002A2DD0;
-extern f32 D_002A45A8;
-extern M2C_UNK D_002CA8A0;
-extern M2C_UNK D_002CA8C0;
-extern M2C_UNK D_002CB588;
-extern M2C_UNK g_sw;
-extern s32 D_003E123C;
-extern M2C_UNK D_004520D0;
-extern M2C_UNK D_00452148;
-extern M2C_UNK D_004521E8;
 
 // name: SafeHouse port (CTRLPOS::Fetch)
 void Fetch__7CTRLPOS(s32 arg0) {

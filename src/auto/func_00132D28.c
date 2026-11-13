@@ -1,13 +1,5 @@
 #include "m2c_prelude.h"
-void func_00129EC8(M2C_UNK *);                   /* extern */
-extern M2C_UNK D_0027A10C;
-extern M2C_UNK D_0027A1D8;
-extern M2C_UNK D_002BAAE8;
-extern f32 g_clock;
-extern M2C_UNK g_sw;
-extern f32 *D_003E0E80;
-extern M2C_UNK D_003E1144;
-extern M2C_UNK D_004520A8;
+void Decref(M2C_UNK *) asm("Decref__4CRef");                   /* extern */
 
 void func_00132D28(s32 arg0, s32 arg1, s32 arg2) {
     struct {
@@ -17,6 +9,6 @@ void func_00132D28(s32 arg0, s32 arg1, s32 arg2) {
     } fr;
     func_00129398((s32) (void *)&fr, arg2);
     RefEnsureOption__FP5BASICiP4CRef((s32) &fr.m10, arg0, arg1, (s32) (void *)&fr);
-    func_00129EC8(&fr.m10);
-    func_00129EC8((void *)&fr);
+    Decref(&fr.m10);
+    Decref((void *)&fr);
 }

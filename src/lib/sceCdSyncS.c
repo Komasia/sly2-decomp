@@ -5,14 +5,14 @@ extern int D_002C6750;
 extern char D_002AB520[];
 extern char D_002C82C0[];
 int func_00236960(const char *, ...);
-int func_00235518(int);
-int func_00237488(void *);
+int DelayThread(int);
+int sceSifCheckStatRpc(void *);
 int sceCdSyncS(int mode)
 {
     if (mode == 0) {
         if (D_002C6750 > 0) func_00236960(D_002AB520);
-        while (func_00237488(D_002C82C0)) func_00235518(0xFA0);
+        while (sceSifCheckStatRpc(D_002C82C0)) DelayThread(0xFA0);
         return 0;
     }
-    return func_00237488(D_002C82C0);
+    return sceSifCheckStatRpc(D_002C82C0);
 }

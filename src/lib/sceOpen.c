@@ -23,14 +23,14 @@ extern int D_0044B2C0[];
 extern char D_002AAAB0[];
 int func_00237B50(int);
 void func_00237B80(void);
-void func_00237BD8(void);
+void sceFsInit(void);
 int func_00237DE0(void);
-struct iob *func_00237558(void);
-int func_00234A20(struct SemaParam *);
+struct iob *new_iob(void);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A40(int);
-int func_00234A60(int);
-int func_002375E0(void *, int, int, void *, int, void *, int, void *, void *, int);
+int SignalSema(int);
+int WaitSema(int);
+int sceFsSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *, int);
 int sceOpen(const char *name, int flags, ...)
 {
     struct SemaParam sp;
@@ -44,12 +44,12 @@ int sceOpen(const char *name, int flags, ...)
     arg = &D_0044A680;
     func_00237B50(0);
     if (D_002C4A7C == 0)
-        func_00237BD8();
+        sceFsInit();
     if (func_00237DE0()) {
         func_00237B80();
         return -0x10004;
     }
-    io = func_00237558();
+    io = new_iob();
     if (io == 0) {
         func_00237B80();
         return -19;
@@ -67,11 +67,11 @@ int sceOpen(const char *name, int flags, ...)
     sp.option = (unsigned int)D_002AAAB0;
     arg->idx = idx;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     arg->res = &res;
     arg->sema = sema;
     arg->rsize = 4;
-    if (func_002375E0(D_0044BD80, 0, 0, &D_0044A680, 0x418, D_0044B2C0, 4, 0, 0, 0) < 0) {
+    if (sceFsSifCallRpc(D_0044BD80, 0, 0, &D_0044A680, 0x418, D_0044B2C0, 4, 0, 0, 0) < 0) {
         DeleteSema(sema);
         func_00237B80();
         return -11;
@@ -82,18 +82,18 @@ int sceOpen(const char *name, int flags, ...)
         DeleteSema(sema);
         return -11;
     }
-    func_00234A60(sema);
+    WaitSema(sema);
     DeleteSema(sema);
     if (res < 0) {
-        func_00234A60(D_002C4A88);
+        WaitSema(D_002C4A88);
         io->flags = 0;
-        func_00234A40(D_002C4A88);
+        SignalSema(D_002C4A88);
         return res;
     }
     r = idx;
-    func_00234A60(D_002C4A88);
+    WaitSema(D_002C4A88);
     io->fd = res;
     io->flags |= flags;
-    func_00234A40(D_002C4A88);
+    SignalSema(D_002C4A88);
     return r;
 }

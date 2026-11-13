@@ -12,14 +12,14 @@ typedef struct {
   unsigned int timezoneOffset:11;
 } sceOsdConfigParam;
 void func_00234AD0(sceOsdConfigParam *p);
-int func_0024A820(void);
+int IsT10K(void);
 extern unsigned char D_002C8374[];
 int sceScfGetLanguage(void)
 {
   sceOsdConfigParam cp;
   int r;
   func_00234AD0(&cp);
-  if (func_0024A820()) {
+  if (IsT10K()) {
     r = D_002C8374[0];
   } else {
     func_00234AD0(&cp);

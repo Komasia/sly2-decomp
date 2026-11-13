@@ -21,10 +21,10 @@ extern char D_002AAAC8[];
 struct iob *get_iob(int);
 int func_00237B50(int);
 void func_00237B80(void);
-int func_00234A20(struct SemaParam *);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A60(int);
-int func_002375E0(void *, int, int, void *, int, void *, int, void *, void *, int);
+int WaitSema(int);
+int sceFsSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *, int);
 int sceClose(int fd)
 {
     struct SemaParam sp;
@@ -45,11 +45,11 @@ int sceClose(int fd)
     sp.maxCount = 1;
     sp.option = (unsigned int)D_002AAAC8;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     D_0044A680.sema = sema;
     arg->res = &res;
     arg->rsize = 4;
-    if (func_002375E0(D_0044BD80, 1, 0, arg, 0x14, D_0044B2C0, 4, 0, 0, 0) < 0) {
+    if (sceFsSifCallRpc(D_0044BD80, 1, 0, arg, 0x14, D_0044B2C0, 4, 0, 0, 0) < 0) {
         DeleteSema(sema);
         func_00237B80();
         return -11;
@@ -61,7 +61,7 @@ int sceClose(int fd)
         DeleteSema(sema);
         return -11;
     }
-    func_00234A60(sema);
+    WaitSema(sema);
     DeleteSema(sema);
     if (res > -1) return 0;
     return res;

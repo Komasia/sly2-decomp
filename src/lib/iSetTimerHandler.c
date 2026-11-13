@@ -4,10 +4,10 @@
 typedef struct { int x0; int x4; int id; unsigned int mode; long base; long x18; long sched; void *handler; void *gp; void *arg; } Counter;
 typedef struct { char pad[0x1C]; volatile int cur; } TimerSys;
 extern TimerSys D_002C5A30;
-long func_0023A1D0(void);
-void func_00239E68(Counter *);
-void func_00239EF0(Counter *);
-void func_00239CD8(long);
+long iGetTimerSystemTime(void);
+void InsertAlarm(Counter *);
+void UnlinkAlarm(Counter *);
+void SetNextComp(long);
 int iSetTimerHandler(int id, long sched, void *handler, void *arg)
 {
     Counter *p = (Counter *)(((unsigned int)id >> 10) << 6);
@@ -20,7 +20,7 @@ int iSetTimerHandler(int id, long sched, void *handler, void *arg)
         return 0x80000010;
     mode = p->mode;
     if (mode & 2) {
-        func_00239EF0(p);
+        UnlinkAlarm(p);
         mode = p->mode;
     }
     p->handler = handler;
@@ -33,8 +33,8 @@ int iSetTimerHandler(int id, long sched, void *handler, void *arg)
         p->gp = gp;
         p->arg = arg;
         if (*(volatile unsigned int *)&p->mode & 1)
-            func_00239E68(p);
+            InsertAlarm(p);
     }
-    func_00239CD8(func_0023A1D0());
+    SetNextComp(iGetTimerSystemTime());
     return 0;
 }

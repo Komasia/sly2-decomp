@@ -1451,9 +1451,9 @@ func_00131738,0x131738,39,match,src/hand/func_00131738.c
 FWrapAsegaTime__FP5ASEGAPfT1,0x1317D8,99,match,src/hand/func_001317D8.c
 func_00131968,0x131968,10,match,src/auto/func_00131968.c
 SetAsegaEventSound__FP5ASEGAi,0x131990,28,match,src/auto/func_00131990.c
-SetAsegaSpeed__FP5ASEGAf,0x131A00,7,match,src/auto/SetAsegaSpeed__FP5ASEGAf.c
+SetAsegaSpeed__FP5ASEGAf,0x131A00,7,match,src/hand/SetAsegaSpeed__FP5ASEGAf.c
 SetAsegaAsegSpeed__FP5ASEGAf,0x131A20,7,match,src/auto/func_00131A20.c
-SetAsegaPriority__FP5ASEGAi,0x131A40,19,match,src/auto/SetAsegaPriority__FP5ASEGAi.c
+SetAsegaPriority__FP5ASEGAi,0x131A40,19,match,src/hand/SetAsegaPriority__FP5ASEGAi.c
 SetAsegaSeekTime__FP5ASEGAf,0x131A90,32,match,src/hand/func_00131A90.c
 DemoteAsegaOnXf__FiiP2XF,0x131B10,20,match,src/hand/func_00131B10.c
 DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv,0x131B60,55,match,src/hand/func_00131B60.c
@@ -2246,7 +2246,7 @@ PauseEmitter__FP7EMITTERf,0x15A138,5,match,src/hand/PauseEmitter__FP7EMITTERf.cp
 PauseEmitterIndefinite__FP7EMITTER,0x15A150,4,match,src/hand/PauseEmitterIndefinite__FP7EMITTER.cpp
 UnpauseEmitter__FP7EMITTER,0x15A160,4,match,src/hand/UnpauseEmitter__FP7EMITTER.cpp
 FPausedEmitter__FP7EMITTER,0x15A170,20,match,src/hand/FPausedEmitter__FP7EMITTER.cpp
-OnEmitterValuesChanged__FP7EMITTER,0x15A1C0,32,match,src/auto/OnEmitterValuesChanged__FP7EMITTER.c
+OnEmitterValuesChanged__FP7EMITTER,0x15A1C0,32,match,src/hand/OnEmitterValuesChanged__FP7EMITTER.c
 SetEmitterParticleCount__FP7EMITTERi,0x15A240,28,match,src/hand/SetEmitterParticleCount__FP7EMITTERi.cpp
 SetEmitterAutoPause__FP7EMITTERi,0x15A2B0,4,match,src/hand/SetEmitterAutoPause__FP7EMITTERi.cpp
 WakeSoWater__FP2SOP5WATERfP6VECTORT3ff,0x15A2C0,337,match,src/hand/WakeSoWater__FP2SOP5WATERfP6VECTORT3ff.cpp
@@ -2321,7 +2321,7 @@ DxDrawCh__8CFontBrxcffUiP4GIFS,0x15F480,160,match,src/hand/DxDrawCh__8CFontBrxcf
 func_0015F710,0x15F710,93,match,src/hand/func_0015F710.cpp
 func_0015F888,0x15F888,7,match,src/hand/func_0015F888.c
 func_0015F8A8,0x15F8A8,31,match,src/hand/func_0015F8A8.c
-__9CRichTextPcP5CFont,0x15F928,18,match,src/auto/__9CRichTextPcP5CFont.c
+__9CRichTextPcP5CFont,0x15F928,18,match,src/hand/__9CRichTextPcP5CFont.cpp
 Reset__9CRichText,0x15F970,14,match,src/hand/Reset__9CRichText.cpp
 SetBaseColor__9CRichTextP4RGBA,0x15F9A8,10,match,src/hand/SetBaseColor__9CRichTextP4RGBA.cpp
 ChNext__9CRichText,0x15F9D0,226,match,src/hand/ChNext__9CRichText.cpp
@@ -2339,7 +2339,7 @@ func_001607A0,0x1607A0,34,match,src/hand/func_001607A0.cpp
 OpenFrame__Fv,0x160828,59,match,src/hand/OpenFrame__Fv.cpp
 EnsureVu1Code__FP4VIFSPvT1,0x160918,10,match,src/hand/func_00160918.cpp
 FinalizeFrameVifs__FP4VIFSPiPP2QW,0x160940,55,match,src/hand/FinalizeFrameVifs__FP4VIFSPiPP2QW.cpp
-FinalizeFrameGifs__FP4GIFSPiPP2QW,0x160A20,30,match,src/auto/FinalizeFrameGifs__FP4GIFSPiPP2QW.c
+FinalizeFrameGifs__FP4GIFSPiPP2QW,0x160A20,30,match,src/hand/FinalizeFrameGifs__FP4GIFSPiPP2QW.cpp
 func_00160A98,0x160A98,53,match,src/hand/func_00160A98.cpp
 func_00160B70,0x160B70,68,match,src/hand/func_00160B70.cpp
 func_00160C80,0x160C80,23,match,src/hand/func_00160C80.c
@@ -2522,7 +2522,7 @@ VBlankS_Interrupt__Fi,0x16F468,61,match,src/hand/VBlankS_Interrupt__Fi.cpp
 SyncVBlank__Fv,0x16F560,11,match,src/hand/SyncVBlank__Fv.cpp
 SwapGsBuffers__Fv,0x16F590,74,match,src/hand/SwapGsBuffers__Fv.cpp
 RestoreGsBuffers__Fv,0x16F6B8,51,match,src/hand/RestoreGsBuffers__Fv.cpp
-GS_Interrupt__Fi,0x16F788,55,match,src/auto/GS_Interrupt__Fi.c
+GS_Interrupt__Fi,0x16F788,55,match,src/hand/GS_Interrupt__Fi.c
 ResetGs__Fv,0x16F868,20,match,src/hand/ResetGs__Fv.cpp
 SendDmaSyncGsFinish__FP10sceDmaChanP2QW,0x16F8B8,41,match,src/hand/SendDmaSyncGsFinish__FP10sceDmaChanP2QW.cpp
 BuildClearGifs__FP2QWG4RGBAi,0x16F960,102,match,src/hand/BuildClearGifs__FP2QWG4RGBAi.cpp
@@ -3142,7 +3142,7 @@ func_0019ABB8,0x19ABB8,14,match,src/hand/func_0019ABB8.c
 GScorePipeS__FP5ACTORf,0x19ABF0,37,match,src/hand/func_0019ABF0.c
 func_0019AC88,0x19AC88,93,match,src/hand/func_0019AC88.c
 FJumpPathBlocked__FP5ACTORP6VECTORT1fG9VU_VECTORN34T1,0x19AE00,161,match,src/hand/func_0019AE00.cpp
-FUN_001cf138,0x19B088,8,match,src/auto/FUN_001cf138.c
+FUN_001cf138,0x19B088,8,match,src/hand/FUN_001cf138.c
 func_0019B0A8,0x19B0A8,26,match,src/hand/func_0019B0A8.c
 ChooseJumpTarget__FP4JUMPP2LO,0x19B110,1147,match,src/hand/func_0019B110.cpp
 GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f,0x19C300,226,match,src/hand/func_0019C300.cpp
@@ -3397,7 +3397,7 @@ PxpMarkOxaContacts__FP3OXAT0P2SO,0x1AA1D8,402,match,src/hand/func_001AA1D8.cpp
 func_001AA820,0x1AA820,77,match,src/hand/func_001AA820.c
 func_001AA958,0x1AA958,8,match,src/hand/func_001AA958.c
 func_001AA978,0x1AA978,16,match,src/auto/func_001AA978.c
-FUN_0018b780,0x1AA9B8,100,match,src/auto/FUN_0018b780.c
+FUN_0018b780,0x1AA9B8,100,match,src/hand/FUN_0018b780.c
 FUN_0018b910__Fi,0x1AAB48,8,match,src/hand/FUN_0018b910__Fi.cpp
 FUN_0018b930__Fi,0x1AAB68,21,match,src/hand/FUN_0018b930__Fi.cpp
 FUN_0018b988,0x1AABC0,197,match,src/hand/FUN_0018b988.c
@@ -3409,7 +3409,7 @@ FMemcardThreadValid__FP7MEMCARD,0x1AB088,4,match,src/hand/FMemcardThreadValid__F
 FUN_0018bc90,0x1AB098,35,match,src/hand/FUN_0018bc90.c
 InitSave__FP4SAVEii,0x1AB128,29,match,src/hand/InitSave__FP4SAVEii.cpp
 UpdateSave__FP4SAVE,0x1AB1A0,126,match,src/hand/func_001AB1A0.c
-CompareSaves__FP4SAVET0,0x1AB398,31,match,src/auto/CompareSaves__FP4SAVET0.c
+CompareSaves__FP4SAVET0,0x1AB398,31,match,src/hand/CompareSaves__FP4SAVET0.c
 func_001AB418,0x1AB418,134,match,src/hand/func_001AB418.cpp
 func_001AB630,0x1AB630,35,match,src/auto/func_001AB630.c
 func_001AB6C0,0x1AB6C0,33,match,src/auto/func_001AB6C0.c
@@ -4157,7 +4157,7 @@ TriggerRumbleRumk__FP6RUMBLE4RUMKf,0x1D5310,11,match,src/hand/TriggerRumbleRumk_
 TriggerRumbleRumpat__FP6RUMBLEP6RUMPATf,0x1D5340,32,match,src/hand/TriggerRumbleRumpat__FP6RUMBLEP6RUMPATf.cpp
 SetRumbleRums__FP6RUMBLE4RUMS,0x1D53C0,42,match,src/hand/SetRumbleRums__FP6RUMBLE4RUMS.cpp
 StopRumbleActuators__FP6RUMBLE,0x1D5468,11,match,src/hand/StopRumbleActuators__FP6RUMBLE.cpp
-RumbleUnknown1__Fv,0x1D5498,7,match,src/auto/RumbleUnknown1__Fv.c
+RumbleUnknown1__Fv,0x1D5498,7,match,src/hand/RumbleUnknown1__Fv.c
 ApplyVibrationSetting__Fv,0x1D54B8,63,match,src/hand/func_001D54B8.cpp
 FVibrationEnabled__Fv,0x1D55B8,38,match,src/hand/func_001D55B8.c
 func_001D5650,0x1D5650,77,match,src/hand/func_001D5650.c

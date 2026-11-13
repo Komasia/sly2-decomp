@@ -1,16 +1,16 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 extern unsigned int *gCommBusy; extern int gAwaitingInts; extern int D_002C46B8; extern char D_00443800[]; extern char D_002AA140[];
-void func_00234CA0(int); int func_00237488(void *); void func_0021EC18(void *);
+void FlushCache(int); int sceSifCheckStatRpc(void *); void kprintf(void *);
 int snd_GotReturns__Fv(void)
 {
-    func_00234CA0(0);
+    FlushCache(0);
     if (gCommBusy == 0) return 1;
-    if (func_00237488(D_00443800)) return 0;
+    if (sceSifCheckStatRpc(D_00443800)) return 0;
     if (gCommBusy[0] == 0xFFFFFFFF && gCommBusy[gAwaitingInts + 1] == gCommBusy[0]) {
         gCommBusy = 0;
         return 1;
     }
-    if (D_002C46B8 == 0) func_0021EC18(D_002AA140);
+    if (D_002C46B8 == 0) kprintf(D_002AA140);
     return 0;
 }

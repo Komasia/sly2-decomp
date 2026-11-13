@@ -27,9 +27,9 @@ extern TimerSys D_002C5A30;
 #define T_COUNT (*(volatile unsigned int *)0x10001000)
 #define T_MODE  (*(volatile unsigned int *)0x10001010)
 void func_00239AC0(unsigned int);
-Counter *func_00239EF0(Counter *);
-void func_00239E68(Counter *);
-void func_00239CD8(unsigned long);
+Counter *UnlinkAlarm(Counter *);
+void InsertAlarm(Counter *);
+void SetNextComp(unsigned long);
 
 static inline unsigned long GetTime(void)
 {
@@ -56,7 +56,7 @@ int cbTimerHandler(int cause, void *arg, void *addr)
             now = GetTime();
             if (now < target)
                 break;
-            next = func_00239EF0(p);
+            next = UnlinkAlarm(p);
             {
                 unsigned long dt = now + p->x18 - p->base;
                 D_002C5A30.cur = ((unsigned int)p << 4) | p->id;
@@ -75,13 +75,13 @@ int cbTimerHandler(int cause, void *arg, void *addr)
                 if (r < 0x3999)
                     r = 0x3999;
                 p->sched += r;
-                func_00239E68(p);
+                InsertAlarm(p);
             }
             p = next;
         }
     }
     D_002C5A30.cur = -1;
-    func_00239CD8(GetTime());
+    SetNextComp(GetTime());
     GetTime();
     __asm__ __volatile__("sync\n\tei");
     return 0;

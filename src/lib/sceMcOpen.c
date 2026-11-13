@@ -11,9 +11,9 @@ extern int D_002C8354;
 extern int D_002C8350;
 void func_00243ED8(void *);
 int PollSema(int);
-int func_00234A40(int);
+int SignalSema(int);
 char *func_00233638(char *, const char *, unsigned int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int sceMcOpen(int port, int slot, const char *name, int mode)
 {
     if (D_00450880.server == 0)
@@ -21,7 +21,7 @@ int sceMcOpen(int port, int slot, const char *name, int mode)
     if (PollSema(D_002C8354) < 0)
         return -200;
     if (name == 0 || name[0] == 0) {
-        func_00234A40(D_002C8354);
+        SignalSema(D_002C8354);
         return -210;
     }
     func_00233638(D_00450930.name, name, 0x3FF);
@@ -29,10 +29,10 @@ int sceMcOpen(int port, int slot, const char *name, int mode)
     D_00450930.flags = mode;
     D_00450930.slot = slot;
     D_00450930.name[0x3FF] = 0;
-    if (func_00237288(&D_00450880, 2, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) == 0) {
+    if (sceSifCallRpc(&D_00450880, 2, 1, &D_00450930, 0x414, D_00451E40, 4, func_00243ED8, 0) == 0) {
         D_002C8350 = 2;
         return 0;
     }
-    func_00234A40(D_002C8354);
+    SignalSema(D_002C8354);
     return -91;
 }

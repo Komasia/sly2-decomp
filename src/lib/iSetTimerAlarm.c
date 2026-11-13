@@ -9,7 +9,7 @@ typedef struct Alarm {
     void *arg;
 } Alarm;
 extern Alarm *D_0044E700;
-int func_0023A228(void);
+int iAllocTimerCounter(void);
 int iSetTimerHandler(int, long, void *, void *);
 int iStartTimerCounter(int);
 int func_0023A668(int, int, int, Alarm *);
@@ -29,7 +29,7 @@ int iSetTimerAlarm(long sched, void *func, void *arg)
     p = AllocAlarm();
     if (p == 0)
         return 0x80008005;
-    id = func_0023A228();
+    id = iAllocTimerCounter();
     if (id >= 0) {
         p->func = func;
         p->arg = arg;

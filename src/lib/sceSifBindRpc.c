@@ -30,10 +30,10 @@ extern char D_0044A600[];
 extern char D_002AA9E8[];
 void *func_00236C28(void *);
 void func_00236CD0(void *);
-int func_00234A20(struct SemaParam *);
-int func_0023AFA8(unsigned int, void *, int, void *, void *, int);
+int CreateSema(struct SemaParam *);
+int sceSifSendCmd(unsigned int, void *, int, void *, void *, int);
 int DeleteSema(int);
-int func_00234A60(int);
+int WaitSema(int);
 int sceSifBindRpc(ClientData *bd, unsigned int request, unsigned int mode)
 {
     BindPkt *bind;
@@ -53,21 +53,21 @@ int sceSifBindRpc(ClientData *bd, unsigned int request, unsigned int mode)
         sema.maxCount = 1;
         sema.option = (unsigned int)D_002AA9E8;
         sema.initCount = 0;
-        bd->sema = func_00234A20(&sema);
+        bd->sema = CreateSema(&sema);
         if (bd->sema < 0) {
             func_00236CD0(bind);
             return -3;
         }
-        if (func_0023AFA8(0x80000009, bind, 0x40, 0, 0, 0) == 0) {
+        if (sceSifSendCmd(0x80000009, bind, 0x40, 0, 0, 0) == 0) {
             func_00236CD0(bind);
             DeleteSema(bd->sema);
             return -2;
         }
-        func_00234A60(bd->sema);
+        WaitSema(bd->sema);
         DeleteSema(bd->sema);
     } else {
         bd->sema = -1;
-        if (func_0023AFA8(0x80000009, bind, 0x40, 0, 0, 0) == 0) {
+        if (sceSifSendCmd(0x80000009, bind, 0x40, 0, 0, 0) == 0) {
             func_00236CD0(bind);
             return -2;
         }

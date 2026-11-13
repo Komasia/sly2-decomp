@@ -23,15 +23,15 @@ extern struct iob D_0044BB80[];
 extern char D_0044BD80[];
 extern int D_0044B2C0[];
 extern char D_002AAB10[];
-struct iob *func_002376D0(int);
+struct iob *get_iob(int);
 int func_00237B50(int);
 void func_00237B80(void);
-void func_0023B170(void *, int);
-int func_00234A20(struct SemaParam *);
+void sceSifWriteBackDCache(void *, int);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A40(int);
-int func_00234A60(int);
-int func_002375E0(void *, int, int, void *, int, void *, int, void *, void *, int);
+int SignalSema(int);
+int WaitSema(int);
+int sceFsSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *, int);
 int sceWrite(int fd, const void *buf, int size)
 {
     struct SemaParam sp;
@@ -41,7 +41,7 @@ int sceWrite(int fd, const void *buf, int size)
     int sema, r, flags, nowait, i, n, j;
 
     arg = &D_0044A680;
-    io = func_002376D0(fd);
+    io = get_iob(fd);
     func_00237B50(3);
     if (D_002C4A7C == 0 || io == 0 || (flags = io->flags) == 0) {
         func_00237B80();
@@ -54,12 +54,12 @@ int sceWrite(int fd, const void *buf, int size)
     arg->size = size;
     arg->buf = (void *)buf;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     arg->res = &res;
     arg->rsize = 4;
     D_0044A680.sema = sema;
     if (flags & 0x8000) {
-        func_00234A60(D_002C4A8C);
+        WaitSema(D_002C4A8C);
         r = (int)D_002C49F8;
         i = 0;
         do { do { nowait = flags & 0x8000; } while (0); } while (0);
@@ -70,7 +70,7 @@ int sceWrite(int fd, const void *buf, int size)
                 break;
             }
         }
-        func_00234A40(D_002C4A8C);
+        SignalSema(D_002C4A8C);
     } else {
         n = (unsigned int)buf & 0xF;
         nowait = 0;
@@ -82,12 +82,12 @@ int sceWrite(int fd, const void *buf, int size)
     if (size < n)
         n = size;
     if (!(flags & 0x20000000))
-        func_0023B170((void *)buf, size);
+        sceSifWriteBackDCache((void *)buf, size);
     buf = (void *)((unsigned int)buf | 0x20000000);
     arg->nhead = n;
     for (j = 0; j < n; j++)
         arg->head[j] = ((const char *)buf)[j];
-    if (func_002375E0(D_0044BD80, 3, 0, &D_0044A680, 0x30, D_0044B2C0, 4, 0, 0, nowait) < 0) {
+    if (sceFsSifCallRpc(D_0044BD80, 3, 0, &D_0044A680, 0x30, D_0044B2C0, 4, 0, 0, nowait) < 0) {
         DeleteSema(sema);
         func_00237B80();
         return -11;
@@ -102,7 +102,7 @@ int sceWrite(int fd, const void *buf, int size)
         DeleteSema(sema);
         return 0;
     }
-    func_00234A60(sema);
+    WaitSema(sema);
     DeleteSema(sema);
     return res;
 }

@@ -2,7 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 typedef char *va_list;
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
 int func_002368A0(void *, int);
 int func_00235B08(int (*)(void *, int), void *, unsigned int, const char *, va_list);
@@ -12,7 +12,7 @@ void func_002369E0(const char *fmt, ...)
     va_list ap;
     int st;
     buf[0] = 0;
-    st = func_00239450();
+    st = DIntr();
     ap = (char *)__builtin_next_arg(fmt) - (__builtin_args_info(2) >= 8 ? 0 : (8 - __builtin_args_info(2)) * 8);
     func_00235B08(func_002368A0, buf, 0xFFFFFFFF, fmt, ap);
     if (st) EIntr();

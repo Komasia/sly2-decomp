@@ -3,13 +3,13 @@ M2C_UNK BroadcastTaskEvent__FP2SWiP2LO(M2C_UNK *, M2C_UNK, M2C_UNK); /* extern *
 M2C_UNK func_001A2C20(M2C_UNK);                     /* extern */
 M2C_UNK func_001A2DA0(s32);                         /* extern */
 M2C_UNK func_001A4E08(M2C_UNK *);                   /* extern */
-s32 func_0024A860();                                /* extern */
+s32 sceScfGetLanguage();                                /* extern */
 extern M2C_UNK g_game;
 extern M2C_UNK D_002E1E88;
 
 void func_001613A8(void) {
     func_001A2C20(0);
-    func_001A2DA0(func_0024A860());
+    func_001A2DA0(sceScfGetLanguage());
     BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0, 0);
     func_001A4E08(&D_002E1E88);
 }

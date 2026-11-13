@@ -1,14 +1,5 @@
 #include "m2c_prelude.h"
-/* Warning: missing "jr $ra" in last block of func_00259D80 (initial). */
-
-/* Warning: missing "jr $ra" in last block of func_00259DD8 (initial). */
-
 extern M2C_UNK D_002DD2AC;
-extern u32 D_002DD2D4;
-extern M2C_UNK D_002DD598;
-extern s32 D_003E0EA4;
-extern M2C_UNK D_00452160;
-extern M2C_UNK D_00452170;
 
 // name: SafeHouse port (CGc::AddRootFrame)
 s32 AddRootFrame__3CGc(s32 arg0) {

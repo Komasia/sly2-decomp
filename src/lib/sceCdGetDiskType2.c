@@ -6,18 +6,18 @@ extern char D_002C82C0[];
 extern int D_002C7940[];
 extern int D_002C676C;
 int func_00241F98(int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
-int func_00234A40(int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
 int sceCdGetDiskType2(void)
 {
     int r;
     if (func_00241F98(1) == 0)
         return -1;
-    if (func_00237288(D_002C82C0, 3, 0, 0, 0, D_002C7940, 4, 0, 0) >= 0) {
+    if (sceSifCallRpc(D_002C82C0, 3, 0, 0, 0, D_002C7940, 4, 0, 0) >= 0) {
         r = *(int *)((unsigned int)D_002C7940 | 0x20000000);
-        func_00234A40(D_002C676C);
+        SignalSema(D_002C676C);
         return r;
     }
-    func_00234A40(D_002C676C);
+    SignalSema(D_002C676C);
     return -1;
 }

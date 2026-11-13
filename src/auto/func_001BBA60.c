@@ -1,26 +1,4 @@
 #include "m2c_prelude.h"
-M2C_UNK CopyAb__FPvT0Ui(s32 *, s32, s32);           /* extern */
-M2C_UNK DetachCopySw__4DMASPiPP2QWT2(void *, s32, M2C_UNK, s32);   /* extern */
-M2C_UNK __4GIFS(void *, s64);                 /* extern */
-s32 *PvAllocStackImpl__Fi(s32 *, s32, s32, s32);           /* extern */
-extern f32 D_002A76D0;
-extern f32 D_002A76D4;
-extern f32 D_002C0AB0;
-extern f32 D_002C0AB4;
-extern f32 D_002C0AB8;
-extern f32 D_002C0ABC;
-extern f32 D_002C0AC0;
-extern f32 D_002C0AC4;
-extern M2C_UNK D_002C0BF8;
-extern M2C_UNK D_002C1F00;
-extern M2C_UNK D_002C1F10;
-extern s32 *s_pdliFirst;
-extern M2C_UNK D_003DD020;
-extern M2C_UNK D_003DD4BC;
-extern s32 D_003E1A40;
-extern s32 D_003E1A4C;
-extern M2C_UNK D_003E1A78;
-
 /*
 Decompilation failure in function RunItems__FP2LOP3BRK:
 

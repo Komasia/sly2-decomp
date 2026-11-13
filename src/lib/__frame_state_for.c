@@ -32,7 +32,7 @@ struct cie_info {
 typedef struct dwarf_fde { uword length; sword CIE_delta; void *pc_begin; uword pc_range; } fde;
 fde *find_fde (void *pc);
 void *extract_cie_info (fde *f, struct cie_info *c);
-void *func_002333B4 (void *, int, size_t);
+void *s1_memset (void *, int, size_t);
 void *execute_cfa_insn (void *p, struct frame_state_internal *state, struct cie_info *info, void **pc);
 void *decode_uleb128 (unsigned char *buf, unsigned *r);
 static inline void *get_cie (fde *f) { return ((void *)&f->CIE_delta) - f->CIE_delta; }
@@ -54,7 +54,7 @@ __frame_state_for (void *pc_target, struct frame_state *state_in)
   if (insn == 0)
     return 0;
 
-  func_002333B4 (&state, 0, sizeof (state));
+  s1_memset (&state, 0, sizeof (state));
   state.s.retaddr_column = info.ra_regno;
   state.s.eh_ptr = info.eh_ptr;
 

@@ -4,7 +4,7 @@
 struct SemaParam { int currentCount; int maxCount; int initCount; int numWaitThreads; unsigned int attr; unsigned int option; };
 extern int D_002C4A84;
 extern char D_002AAA98[];
-int func_00234A20(struct SemaParam *);
+int CreateSema(struct SemaParam *);
 void _sceFsSemInit(void)
 {
     struct SemaParam p;
@@ -12,6 +12,6 @@ void _sceFsSemInit(void)
         p.option = (unsigned int)D_002AAA98;
         p.initCount = 1;
         p.maxCount = 1;
-        D_002C4A84 = func_00234A20(&p);
+        D_002C4A84 = CreateSema(&p);
     }
 }

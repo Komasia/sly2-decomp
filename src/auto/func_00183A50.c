@@ -1,31 +1,4 @@
 #include "m2c_prelude.h"
-extern s128 D_002A2DA0;
-extern s128 g_normalZ;
-extern s128 D_002A2DD0;
-extern f32 D_002A5674;
-extern f32 D_002A5680;
-extern M2C_UNK D_002BE888;
-extern f32 D_002BE898;
-extern f32 D_002BE89C;
-extern f32 D_002BE8A0;
-extern f32 D_002BE8A4;
-extern f32 D_002BE8A8;
-extern s32 D_002BE8AC;
-extern f32 D_002BE8B0;
-extern f32 D_002BE8B4;
-extern f32 D_002BE8B8;
-extern f32 D_002BE8BC;
-extern f32 D_002BE8C0;
-extern f32 D_002BE8C4;
-extern f32 D_002BE8C8;
-extern M2C_UNK D_002BE8D0;
-extern f32 D_002BE900;
-extern f32 D_002BE904;
-extern f32 g_clock;
-extern M2C_UNK g_game;
-extern s32 D_002DFB80;
-extern M2C_UNK g_sw;
-
 // name: SafeHouse port (OverlapKindHide)
 s32 OverlapKindHide__FP3ALOT0(s32 arg0, s32 arg1) {
     s32 var_s1;

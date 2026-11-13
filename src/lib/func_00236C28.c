@@ -14,13 +14,13 @@ typedef struct {
     Pkt *table;   /* 0x4 */
     int len;      /* 0x8 */
 } RpcData;
-void func_00239450(void);
+void DIntr(void);
 int EIntr(void);
 void *func_00236C28(RpcData *rd)
 {
     Pkt *p;
     int i, len;
-    func_00239450();
+    DIntr();
     len = rd->len;
     p = rd->table;
     for (i = 0; i < len; i++, p++) {

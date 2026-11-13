@@ -27,16 +27,16 @@ extern FsStat D_0044B310[];
 extern char D_0044BD80[];
 extern int D_0044B2C0[];
 extern char D_002AAB28[];
-struct iob *func_002376D0(int);
+struct iob *get_iob(int);
 int func_00237B50(int);
 void func_00237B80(void);
-void func_00237BD8(void);
-void func_0023B170(void *, int);
-int func_00234A20(struct SemaParam *);
+void sceFsInit(void);
+void sceSifWriteBackDCache(void *, int);
+int CreateSema(struct SemaParam *);
 int DeleteSema(int);
-int func_00234A40(int);
-int func_00234A60(int);
-int func_002375E0(void *, int, int, void *, int, void *, int, void *, void *, int);
+int SignalSema(int);
+int WaitSema(int);
+int sceFsSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *, int);
 
 int sceIoctl(int fd, int req, void *data)
 {
@@ -48,11 +48,11 @@ int sceIoctl(int fd, int req, void *data)
     int one = 1;    /* case value held in a register from the prologue, as in the target */
 
     arg = &D_0044A680;
-    io = func_002376D0(fd);
+    io = get_iob(fd);
     func_00237B50(5);
     D_0044A648 = data;
     if (D_002C4A7C == 0)
-        func_00237BD8();
+        sceFsInit();
     if (io == 0 || io->flags == 0) {
         func_00237B80();
         return -9;
@@ -64,7 +64,7 @@ int sceIoctl(int fd, int req, void *data)
     if (req == 3) goto c3;
     goto dflt;
     c1: {
-        func_00234A60(D_002C4A8C);
+        WaitSema(D_002C4A8C);
         for (i = 0; i < 32; i++) {
             if (D_002C49F8[i] != -1)
                 break;
@@ -73,7 +73,7 @@ int sceIoctl(int fd, int req, void *data)
             *(int *)D_0044A648 = 0;
         else
             *(int *)D_0044A648 = 1;
-        func_00234A40(D_002C4A8C);
+        SignalSema(D_002C4A8C);
         func_00237B80();
         return 0;
     }
@@ -99,12 +99,12 @@ int sceIoctl(int fd, int req, void *data)
     sp.maxCount = 1;
     sp.option = (unsigned int)D_002AAB28;
     sp.initCount = 0;
-    sema = func_00234A20(&sp);
+    sema = CreateSema(&sp);
     arg->sema = sema;
     arg->res = &res;
     arg->rsize = 4;
-    func_0023B170(&D_0044A680, 0x420);
-    if (func_002375E0(D_0044BD80, 5, 0, &D_0044A680, 0x420, D_0044B2C0, 4, 0, 0, 0) < 0) {
+    sceSifWriteBackDCache(&D_0044A680, 0x420);
+    if (sceFsSifCallRpc(D_0044BD80, 5, 0, &D_0044A680, 0x420, D_0044B2C0, 4, 0, 0, 0) < 0) {
         DeleteSema(sema);
         func_00237B80();
         return -11;
@@ -115,7 +115,7 @@ int sceIoctl(int fd, int req, void *data)
         DeleteSema(sema);
         return -11;
     }
-    func_00234A60(sema);
+    WaitSema(sema);
     DeleteSema(sema);
     return res;
 }

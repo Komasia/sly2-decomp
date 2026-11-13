@@ -11,16 +11,16 @@ extern sceSifClientData D_00450510;
 extern int D_00450550[];
 extern int D_002C7940[];
 int printf(const char *fmt, ...);
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
-void func_00241A30(void);
+void cmd_sem_init(void);
 int PollSema(int);
-int func_00241F28(int);
-void func_00236A60(int);
-int func_002370A8(sceSifClientData *, unsigned int, int);
-void func_0023B170(void *, int);
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
-int func_00234A40(int);
+int sceCdSyncS(int);
+void sceSifInitRpc(int);
+int sceSifBindRpc(sceSifClientData *, unsigned int, int);
+void sceSifWriteBackDCache(void *, int);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int SignalSema(int);
 
 static __inline__ void nopdelay(void)
 {
@@ -31,20 +31,20 @@ int sceCdDiskReady_old(int mode)
 {
     int r;
     if (D_002C6750 > 0) printf("DiskReady 0\n");
-    r = func_00239450();
+    r = DIntr();
     D_002C6780 = 1;
     if (r) EIntr();
-    func_00241A30();
+    cmd_sem_init();
     if (D_002C676C != PollSema(D_002C676C)) return 6;
-    if (func_00241F28(1)) {
-        func_00234A40(D_002C676C);
+    if (sceCdSyncS(1)) {
+        SignalSema(D_002C676C);
         if (mode == 8) return -1;
         return 6;
     }
-    func_00236A60(0);
+    sceSifInitRpc(0);
     if (D_002C6790 < 0) {
         while (1) {
-            if (func_002370A8(&D_00450510, 0x8000059A, 0) < 0) {
+            if (sceSifBindRpc(&D_00450510, 0x8000059A, 0) < 0) {
                 if (D_002C6750 > 0) printf("Bind error\n");
                 nopdelay();
                 continue;
@@ -54,14 +54,14 @@ int sceCdDiskReady_old(int mode)
         }
     }
     D_00450550[0] = mode;
-    func_0023B170(D_00450550, 4);
-    if (func_00237288(&D_00450510, 0, 0, D_00450550, 4, D_002C7940, 4, 0, 0) < 0) {
-        func_00234A40(D_002C676C);
+    sceSifWriteBackDCache(D_00450550, 4);
+    if (sceSifCallRpc(&D_00450510, 0, 0, D_00450550, 4, D_002C7940, 4, 0, 0) < 0) {
+        SignalSema(D_002C676C);
         if (mode == 8) return -1;
         return 6;
     }
     if (D_002C6750 > 0) printf("DiskReady ended\n");
     r = *(int *)((unsigned int)D_002C7940 | 0x20000000);
-    func_00234A40(D_002C676C);
+    SignalSema(D_002C676C);
     return r;
 }

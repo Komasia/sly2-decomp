@@ -7,20 +7,20 @@ struct iob { int x0, x4, x8, xC; };
 extern int D_002C4A88;
 extern struct iob D_0044BB80[];
 void _sceFsIobSemaMK(void);
-int func_00234A60(int);
-int func_00234A40(int);
+int WaitSema(int);
+int SignalSema(int);
 struct iob *new_iob(void)
 {
     struct iob *io;
     _sceFsIobSemaMK();
-    func_00234A60(D_002C4A88);
+    WaitSema(D_002C4A88);
     for (io = D_0044BB80; io < D_0044BB80 + 32; io++) {
         if (io->x4 == 0) {
             io->x4 = 0x10000000;
-            func_00234A40(D_002C4A88);
+            SignalSema(D_002C4A88);
             return io;
         }
     }
-    func_00234A40(D_002C4A88);
+    SignalSema(D_002C4A88);
     return 0;
 }

@@ -1,19 +1,4 @@
 #include "m2c_prelude.h"
-M2C_UNK CopyAb__FPvT0Ui(s32, s32, s32);             /* extern */
-M2C_UNK func_00129EC8(M2C_UNK *);                   /* extern */
-extern s128 D_002A2DD0;
-extern f32 D_002A886C;
-extern M2C_UNK D_002C3D70;
-extern M2C_UNK D_002C3D80;
-extern f32 D_002C3D90;
-extern f32 D_002C3D94;
-extern M2C_UNK D_002C3D98;
-extern f32 D_002C3DA8;
-extern f32 D_002C3DAC;
-extern f32 g_clock;
-extern M2C_UNK g_game;
-extern M2C_UNK g_sw;
-
 // name: SafeHouse port (CarryGuardHeld)
 void CarryGuardHeld__FP2LO(s32 arg0) {
     if ((func_00209A68(arg0, 0x16) != 0) || (func_00209A68(arg0, 0x12) != 0)) {

@@ -6,10 +6,10 @@ typedef struct { long time; int id; int pad; int x10; Counter *free; } TimerSys;
 extern TimerSys D_002C5A30;
 extern Counter D_0044C300[128];
 void cbTimerHandler(void);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void func_0023A618(void);
 int func_00234710(int, void *, int, void *);
-int func_00239450(void);
+int DIntr(void);
 void func_00239AB0(int);
 void func_00239AC0(int);
 void func_00239AD0(int);
@@ -25,7 +25,7 @@ int InitTimer(int mode)
         return 0x80008001;
     ts->time = 0;
     ts->x10 = 0;
-    func_002333B4(D_0044C300, 0, sizeof(D_0044C300));
+    s1_memset(D_0044C300, 0, sizeof(D_0044C300));
     ts->free = D_0044C300;
     {
         Counter *q;
@@ -44,7 +44,7 @@ int InitTimer(int mode)
     if (r < 0)
         return 0x80009021;
     D_002C5A30.id = r;
-    oldei = func_00239450();
+    oldei = DIntr();
     m = *(volatile unsigned int *)0x10001010;
     m = (m & ~3) | mode;
     m |= 0x300;

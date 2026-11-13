@@ -5,8 +5,8 @@
 typedef struct { int cmd; int port; int slot; unsigned char data[8]; int result; char pad[0x80 - 0x18]; } PadBuf;
 extern PadBuf D_004507C0;
 extern char D_00450580[];
-int func_00237288(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
-int func_00243458(int port, int slot, int state);
+int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
+int scePadSetReqState(int port, int slot, int state);
 int scePadSetActAlign(int port, int slot, const unsigned char *data)
 {
     int i;
@@ -17,11 +17,11 @@ int scePadSetActAlign(int port, int slot, const unsigned char *data)
     p->slot = slot;
     for (i = 0; i < 6; i++)
         p->data[i] = data[i];
-    if (func_00237288(D_00450580, 1, 0, p, 0x80, p, 0x80, 0, 0) < 0)
+    if (sceSifCallRpc(D_00450580, 1, 0, p, 0x80, p, 0x80, 0, 0) < 0)
         return 0;
     r = p->result;
     if (r == 1) {
-        func_00243458(port, slot, 2);
+        scePadSetReqState(port, slot, 2);
         r = p->result;
     }
     return r;

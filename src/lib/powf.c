@@ -17,7 +17,7 @@ int func_0024A0C0(float x);
 int func_0024A098(float x);
 int func_00249C80(double x);
 int func_00249C60(double x);
-double func_00249CE0(double x);
+double rint(double x);
 int matherr(struct exception *x);
 int *func_002401C8(void);
 #define _LIB_VERSION __fdlib_version
@@ -34,7 +34,7 @@ int *func_002401C8(void);
 #define HUGE_VAL __infinity_d
 #define isnanf func_0024A0C0
 #define finitef func_0024A098
-#define rint func_00249CE0
+#define rint rint
 float powf(float x, float y)
 {
 	float z;

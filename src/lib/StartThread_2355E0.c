@@ -9,7 +9,7 @@ typedef struct {
     unsigned option; int waitType; int waitId; int wakeupCount;
 } ThreadParam;
 int func_00235100(void);
-int func_00239450(void);
+int DIntr(void);
 int EIntr(void);
 int ReferThreadStatus(int tid, ThreadParam *info);
 int StartThread(int tid, void *arg);
@@ -21,7 +21,7 @@ int StartThread_2355E0(int tid, void *arg)
 
     if (func_00235100() != 0)
         return -1;
-    if (func_00239450() == 0)
+    if (DIntr() == 0)
         return -1;
     r = ReferThreadStatus(tid, &info);
     if (r < 0) {

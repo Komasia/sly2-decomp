@@ -1,20 +1,4 @@
 #include "m2c_prelude.h"
-M2C_UNK func_001291A8(M2C_UNK *, M2C_UNK *, s32, s32); /* extern */
-M2C_UNK func_00129EC8(M2C_UNK *);                   /* extern */
-s32 PvAllocStackImpl__Fi(s32 *);                           /* extern */
-extern f32 g_clock;
-extern M2C_UNK D_002DE578;
-extern M2C_UNK g_game;
-extern M2C_UNK D_002E1E88;
-extern M2C_UNK D_002E65E0;
-extern M2C_UNK D_003D4A60;
-extern M2C_UNK D_003DA0C0;
-extern M2C_UNK g_sw;
-extern M2C_UNK D_003E0EA8;
-extern void *D_003E0F90;
-extern s32 D_003E0F9C;
-extern void *D_003E0FA0;
-
 void func_00162F10(s32 arg0, s32 arg1) {
     if (M2C_FIELD(arg0, s32 *, 0xB8) != 0) {
         SetJobSeq__FP3JOBi(arg0, 1);

@@ -8,13 +8,13 @@ extern CB *gSndCommandReturnDefPtr[2];
 extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA1C8[], D_002AA5E8[], D_002AA610[], D_002AA670[];
-void func_0021EC18(const char *, ...);
-void *func_0023320C(void *, void *, int);
-int func_00231C48(void);
-void func_00234CA0(int);
+void kprintf(const char *, ...);
+void *s1_memcpy(void *, void *, int);
+int snd_FlushSoundCommands(void);
+void FlushCache(int);
 void func_00231F38(void *, int);
-int func_00237488(void *);
-int func_00237288(void *, int, int, void *, int, void *, int, void *, void *);
+int sceSifCheckStatRpc(void *);
+int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 void snd_PostMessage__Fv(void);
 
 void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long), long arg)
@@ -27,13 +27,13 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
 
     if (!gCaching && !gCommBusy && !size && !fn) {
         func_00231F38(gSyncBuffer, 1);
-        while (func_00237488(D_00443800)) {
+        while (sceSifCheckStatRpc(D_00443800)) {
             if (!D_002C46B8)
-                func_0021EC18(D_002AA1C8);
-            func_00231C48();
-            func_00234CA0(0);
+                kprintf(D_002AA1C8);
+            snd_FlushSoundCommands();
+            FlushCache(0);
         }
-        func_00237288(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
+        sceSifCallRpc(D_00443800, cmd, 1, 0, 0, gSyncBuffer, 0xC, 0, 0);
         return;
     }
     tries = 0;
@@ -41,7 +41,7 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
     if (len % 4)
         len += 4 - len % 4;
     if (len > 0x200) {
-        func_0021EC18(D_002AA5E8);
+        kprintf(D_002AA5E8);
         while (1)
             ;
     }
@@ -50,13 +50,13 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
             gCaching = 0;
             held = 1;
         }
-        func_00231C48();
+        snd_FlushSoundCommands();
         if (tries == 1 && !D_002C46B8)
-            func_0021EC18(D_002AA610, gCommandFillBuffer, *gSndCommandBuffePtr[gCommandFillBuffer]);
+            kprintf(D_002AA610, gCommandFillBuffer, *gSndCommandBuffePtr[gCommandFillBuffer]);
         tries++;
     }
     if (tries && !D_002C46B8)
-        func_0021EC18(D_002AA670, tries);
+        kprintf(D_002AA670, tries);
     if (held)
         gCaching = 1;
     p = (unsigned char *)gSndCommandBuffePtr[gCommandFillBuffer] - (gCommandBuffeBytesAvail[gCommandFillBuffer] - 0x1000);
@@ -70,7 +70,7 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
     } else {
         for (i = 0; i < 0xC; i++)
             p[i] = buf[i];
-        func_0023320C(p + 0xC, *(void **)(buf + 0xC), *(int *)(buf + 8));
+        s1_memcpy(p + 0xC, *(void **)(buf + 0xC), *(int *)(buf + 8));
     }
     gCommandBuffeBytesAvail[gCommandFillBuffer] -= len;
     gSndCommandReturnDefPtr[gCommandFillBuffer][*gSndCommandBuffePtr[gCommandFillBuffer]].fn = fn;

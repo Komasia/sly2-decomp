@@ -1,42 +1,4 @@
 #include "m2c_prelude.h"
-M2C_UNK CopyAb__FPvT0Ui(void *, void *, s32);       /* extern */
-s32 PvAllocStackImpl__Fi(s32 *);                           /* extern */
-extern M2C_UNK D_002A2D00;
-extern s128 D_002A2DB0;
-extern s128 g_normalZ;
-extern s128 D_002A2DD0;
-extern f32 D_002A63B0;
-extern f32 D_002A656C;
-extern f32 D_002BF638;
-extern f32 D_002BF660;
-extern f32 D_002BF664;
-extern f32 D_002BF668;
-extern M2C_UNK D_002BF670;
-extern M2C_UNK D_002BF700;
-extern f32 D_002BF70C;
-extern f32 D_002BF710;
-extern f32 D_002BF714;
-extern M2C_UNK D_002BF718;
-extern s128 D_002BF740;
-extern M2C_UNK D_002C3C60;
-extern f32 g_clock;
-extern M2C_UNK g_game;
-extern s32 D_002E1E40;
-extern s32 D_002E1E4C;
-extern s32 D_002E1E50;
-extern M2C_UNK D_003DA0C0;
-extern M2C_UNK g_sw;
-extern void *D_003E13B4;
-extern s32 D_003E13C0;
-extern s32 D_003E13CC;
-extern s32 D_003E13D8;
-extern s32 D_003E13F0;
-extern s32 D_003E13FC;
-extern s32 D_003E1408;
-extern s32 D_003E1414;
-extern s32 D_003E1438;
-extern void *D_003E1444;
-
 /*
 Decompilation failure in function StartInteract__FP5ACTORii3JTL:
 

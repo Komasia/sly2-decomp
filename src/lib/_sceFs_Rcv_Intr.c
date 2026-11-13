@@ -13,7 +13,7 @@ extern int D_002C4A80;
 extern int D_002C4A78;
 extern volatile int D_002C49F8[32];
 extern FsPkt D_0044B300[];
-void *func_0023320C(void *, const void *, unsigned int);
+void *s1_memcpy(void *, const void *, unsigned int);
 int iSignalSema(int);
 
 void _sceFs_Rcv_Intr(SifCmdHdr *cmd, void *userData)
@@ -45,7 +45,7 @@ void _sceFs_Rcv_Intr(SifCmdHdr *cmd, void *userData)
     *(W *)&h.dst = *(W *)(p + 8);
     *(W *)&h.size = *(W *)(p + 12);
     if (h.sema >= 0)
-        func_0023320C(h.dst, p + 0x10, h.size);
+        s1_memcpy(h.dst, p + 0x10, h.size);
     switch (h.cmd) {
     case 2:
         rd = (RdTail *)(p + 0x14);
@@ -83,7 +83,7 @@ void _sceFs_Rcv_Intr(SifCmdHdr *cmd, void *userData)
             d.size = 0x400;
             n = 0x400;
         }
-        func_0023320C(d.dst, p + 0x1C, n);
+        s1_memcpy(d.dst, p + 0x1C, n);
         break;
     }
     if (h.sema < 0) {

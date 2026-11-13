@@ -9,14 +9,14 @@ typedef struct dwarf_fde { uword length; sword CIE_delta; void *pc_begin; uword 
 struct object { void *pc_begin; void *pc_end; fde *fde_begin; fde **fde_array; size_t count; struct object *next; };
 typedef struct fde_vector { fde **array; size_t count; } fde_vector;
 typedef struct fde_accumulator { fde_vector linear; fde_vector erratic; } fde_accumulator;
-void *func_001AE4E8(size_t);
-#define malloc func_001AE4E8
-size_t func_0023F640(fde *);
-#define count_fdes func_0023F640
-void func_0023F688(fde *, fde_accumulator *, void **, void **);
-#define add_fdes func_0023F688
-fde **func_0023F3D8(fde_accumulator *, size_t);
-#define end_fde_sort func_0023F3D8
+void *s1_malloc(size_t);
+#define malloc s1_malloc
+size_t count_fdes(fde *);
+#define count_fdes count_fdes
+void add_fdes(fde *, fde_accumulator *, void **, void **);
+#define add_fdes add_fdes
+fde **end_fde_sort(fde_accumulator *, size_t);
+#define end_fde_sort end_fde_sort
 
 static inline void
 start_fde_sort (fde_accumulator *accu, size_t count)

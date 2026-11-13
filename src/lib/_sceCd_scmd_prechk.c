@@ -9,13 +9,13 @@ extern int D_002C6758;
 extern int D_002C6794;
 extern char D_002AB530[];
 extern char D_002AB558[];
-void func_00241A30(void);
+void cmd_sem_init(void);
 int PollSema(int);
-int func_00234A40(int);
+int SignalSema(int);
 int func_00236960(const char *, ...);
-int func_00241F28(int);
-void func_00236A60(int);
-int func_002370A8(void *, unsigned int, int);
+int sceCdSyncS(int);
+void sceSifInitRpc(int);
+int sceSifBindRpc(void *, unsigned int, int);
 static __inline__ void nopdelay(void)
 {
     int i = 0x100000;
@@ -24,20 +24,20 @@ static __inline__ void nopdelay(void)
 int _sceCd_scmd_prechk(int cmd)
 {
     int i;
-    func_00241A30();
+    cmd_sem_init();
     if (D_002C676C != PollSema(D_002C676C)) {
         if (D_002C6750 > 0) func_00236960(D_002AB530, cmd, D_002C6758);
         return 0;
     }
     D_002C6758 = cmd;
-    if (func_00241F28(1)) {
-        func_00234A40(D_002C676C);
+    if (sceCdSyncS(1)) {
+        SignalSema(D_002C676C);
         return 0;
     }
-    func_00236A60(0);
+    sceSifInitRpc(0);
     if (D_002C6794 < 0) {
         while (1) {
-            if (func_002370A8(&D_002C82C0, 0x80000593, 0) < 0) {
+            if (sceSifBindRpc(&D_002C82C0, 0x80000593, 0) < 0) {
                 if (D_002C6750 > 0) func_00236960(D_002AB558);
                 nopdelay();
                 continue;

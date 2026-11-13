@@ -6,7 +6,7 @@ extern PadSt D_004505D0[2][4];
 int DIntr(void);
 int EIntr(void);
 unsigned char *scePadGetDmaStr(int port, int slot);
-void *func_0023320C(void *, const void *, int);
+void *s1_memcpy(void *, const void *, int);
 int scePadRead(int port, int slot, unsigned char *rdata)
 {
     int r;
@@ -14,7 +14,7 @@ int scePadRead(int port, int slot, unsigned char *rdata)
     if (D_004505D0[port][slot].open == 0) return 0;
     r = DIntr();
     p = scePadGetDmaStr(port, slot);
-    func_0023320C(rdata, p, *(int *)(p + 0x60));
+    s1_memcpy(rdata, p, *(int *)(p + 0x60));
     if (r == 1) EIntr();
     return *(int *)(p + 0x60);
 }
