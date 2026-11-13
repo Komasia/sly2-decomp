@@ -27,8 +27,8 @@ typedef struct {
 } MP;
 extern char D_002AC598[];
 void _sceMpegErr(MP *, char *);
-void func_00252548(int, int);
-void func_00252458(int, int, int);
+void _copyRefImage(int, int);
+void _copyAddRefImage(int, int, int);
 void _doMC(MP *mp, int idx)
 {
     int i;
@@ -41,9 +41,9 @@ void _doMC(MP *mp, int idx)
     if (mp->refs[idx].flag && mp->refs[idx].flag2)
         _sceMpegErr(mp, D_002AC598);
     if (mp->refs[idx].flag)
-        func_00252548(mp->refs[idx].x128, mp->refs[idx].x4);
+        _copyRefImage(mp->refs[idx].x128, mp->refs[idx].x4);
     else if (mp->refs[idx].flag2)
-        func_00252548(mp->refs[idx].x128, mp->x830);
+        _copyRefImage(mp->refs[idx].x128, mp->x830);
     else
-        func_00252458(mp->refs[idx].x128, mp->x830, mp->refs[idx].x4);
+        _copyAddRefImage(mp->refs[idx].x128, mp->x830, mp->refs[idx].x4);
 }

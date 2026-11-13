@@ -6,13 +6,13 @@ extern char D_002C82C0[];
 extern int D_002C7940[];
 extern volatile int D_002C676C;
 extern volatile int D_002C67A0;
-int func_00241F98(int);
+int _sceCd_scmd_prechk(int);
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int SignalSema(int);
 int sceCdBreak(void)
 {
     int r;
-    if (func_00241F98(0x1E) == 0)
+    if (_sceCd_scmd_prechk(0x1E) == 0)
         return 0;
     D_002C67A0 = 8;
     if (sceSifCallRpc(D_002C82C0, 0x16, 0, 0, 0, D_002C7940, 4, 0, 0) >= 0) {

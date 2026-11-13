@@ -34,7 +34,7 @@ int _updateRefImage(D *d, int second);
 int _decPicture(D *d);
 void _sceMpegOutputFrame(D *d, int a, int b);
 int _sceMpegNextHeader(D *d);
-void func_0024C360(sceMpeg *mp);
+void _sceMpegFlush(sceMpeg *mp);
 int _decodeOrSkipField(sceMpeg *mp, int n, int limit)
 {
     D *d = mp->sys;
@@ -55,7 +55,7 @@ int _decodeOrSkipField(sceMpeg *mp, int n, int limit)
     one = 1;
     d->second_field = one;
     if (!_sceMpegNextHeader(d)) {
-        func_0024C360(mp);
+        _sceMpegFlush(mp);
         d->x0 = one;
         return 0;
     }

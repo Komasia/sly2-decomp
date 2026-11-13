@@ -15,11 +15,11 @@ typedef struct { int (*func)(); void *data; void *gp; } CB;
 #define L(o) (*(long *)((char *)d + (o)))
 #define P(o) (*(void **)((char *)d + (o)))
 void *s1_memset(void *, int, int);
-void func_0024FA38(void *, const char *, int);
-void func_0024FA90(void *, const char *, int);
+void _sceMpegError(void *, const char *, int);
+void _sceMpegError1(void *, const char *, int);
 void func_0024B8F8(void *, void *, int);
 int func_0024B930(void *, void *, int, int);
-void func_0024A908(void *);
+void _clearOnce(void *);
 void sceMpegReset(sceMpeg *);
 int sceMpegClearRefBuff(sceMpeg *);
 void func_0024B910(void *);
@@ -36,7 +36,7 @@ int sceMpegCreate(sceMpeg *mp, unsigned char *work, int size)
     d = (char *)((((unsigned int)work + 3) >> 2) << 2);
     rem = size - (d - (char *)work);
     if (rem < 0x19A0) {
-        func_0024FA38(d, D_002AC2F8, rem);
+        _sceMpegError(d, D_002AC2F8, rem);
         return 0;
     }
     bs = d + 0x118;
@@ -72,7 +72,7 @@ int sceMpegCreate(sceMpeg *mp, unsigned char *work, int size)
     P(0x868) = mp;
     W(0x60) = r;
     W(0xC4) = 1;
-    func_0024A908(d);
+    _clearOnce(d);
     sceMpegReset(mp);
     sceMpegClearRefBuff(mp);
     P(0x1C8) = d + 0x1F8;
@@ -89,11 +89,11 @@ int sceMpegCreate(sceMpeg *mp, unsigned char *work, int size)
     W(0x85C) = 0;
     W(0x864) = 0;
     if ((rem = (unsigned int)(d + 0x140) & 63)) {
-        func_0024FA90(d, D_002AC2A8, rem);
+        _sceMpegError1(d, D_002AC2A8, rem);
         return 0;
     }
     if ((unsigned int)(d + 0x880) & 63) {
-        func_0024FA90(d, D_002AC2D0, (unsigned int)(d + 0x880) & 63);
+        _sceMpegError1(d, D_002AC2D0, (unsigned int)(d + 0x880) & 63);
         return 0;
     }
     return 1;

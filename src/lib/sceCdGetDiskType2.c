@@ -5,13 +5,13 @@
 extern char D_002C82C0[];
 extern int D_002C7940[];
 extern int D_002C676C;
-int func_00241F98(int);
+int _sceCd_scmd_prechk(int);
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int SignalSema(int);
 int sceCdGetDiskType2(void)
 {
     int r;
-    if (func_00241F98(1) == 0)
+    if (_sceCd_scmd_prechk(1) == 0)
         return -1;
     if (sceSifCallRpc(D_002C82C0, 3, 0, 0, 0, D_002C7940, 4, 0, 0) >= 0) {
         r = *(int *)((unsigned int)D_002C7940 | 0x20000000);

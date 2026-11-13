@@ -30,7 +30,7 @@ void AddDmaCnt(struct GIFS *pgifs) asm("AddDmaCnt__4DMAS");
 void AddPrimPack(struct GIFS *pgifs, int a, int b, int c) asm("AddPrimPack__4GIFSiiUl");
 void PackAD(struct GIFS *pgifs, int reg, ulong val) asm("PackAD__4GIFSll");
 void func_0022FF40(struct M4 *pm, int n, void *p, void *q);
-qword func_0011C1A8(struct M4 *pm, qword v);
+qword __ml__FRC7MATRIX4G10VU_VECTOR4(struct M4 *pm, qword v);
 void Force(void *pv) asm("Force__FPv");
 void PackSTQ(struct GIFS *pgifs, float s, float t, float q) asm("PackSTQ__4GIFSfff");
 void PackRGBA(struct GIFS *pgifs, int rgba) asm("PackRGBA__4GIFSUi");

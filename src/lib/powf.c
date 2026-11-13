@@ -12,7 +12,7 @@ struct exception {
 };
 extern const int __fdlib_version;
 extern const double __infinity_d;
-float func_00248038(float x, float y);
+float __ieee754_powf(float x, float y);
 int func_0024A0C0(float x);
 int func_0024A098(float x);
 int func_00249C80(double x);
@@ -39,7 +39,7 @@ float powf(float x, float y)
 {
 	float z;
 	struct exception exc;
-	z=func_00248038(x,y);
+	z=__ieee754_powf(x,y);
 	if(_LIB_VERSION == _IEEE_|| isnanf(y)) return z;
 	if(isnanf(x)) {
 	    if(y==(float)0.0) { 

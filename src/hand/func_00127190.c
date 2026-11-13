@@ -2,8 +2,8 @@ typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 typedef struct LO { char pad[0x10]; struct LO *pnext; } LO;
 typedef struct BASIC { char pad[0x18]; LO *plo; } BASIC;
 void Decref__4CRef(CRef *pref);
-CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-CRef *func_00129658(CRef *pref, CRef *prefSrc);
+CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
+CRef *__as__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 CRef *RefEval__FP5CPairP6CFrame(CRef *ret, LO *plo, CRef *aref);
 CRef *func_00127190(CRef *ret, BASIC *pbasic, CRef *aref)
 {
@@ -14,11 +14,11 @@ CRef *func_00127190(CRef *ret, BASIC *pbasic, CRef *aref)
     plo = pbasic->plo;
     do {
         RefEval__FP5CPairP6CFrame(&refT, plo, aref);
-        func_00129658(&ref, &refT);
+        __as__4CRefRC4CRef(&ref, &refT);
         Decref__4CRef(&refT);
         plo = plo->pnext;
     } while (plo);
-    func_001291A8(ret, &ref);
+    __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;
 }

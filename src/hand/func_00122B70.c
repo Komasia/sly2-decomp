@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 CRef *func_00129248(CRef *pref, qword v);
-CRef *func_001291A8(CRef *pref, CRef *prefSrc);
+CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefOpVectorProjectTangent__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
@@ -17,7 +17,7 @@ CRef *RefOpVectorProjectTangent__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef 
         "vmulx.xyzw %0, %3, %0x\n"
         "vsub.xyzw %3, %2, %0" : "=&j"(t), "=&j"(u), "+j"(a), "+j"(b));
     func_00129248(&ref, b);
-    func_001291A8(ret, &ref);
+    __4CRefRC4CRef(ret, &ref);
     Decref(&ref);
     return ret;
 }

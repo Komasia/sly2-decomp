@@ -28,7 +28,7 @@ extern char D_0044BD80[];
 extern int D_0044B2C0[];
 extern char D_002AAB28[];
 struct iob *get_iob(int);
-int func_00237B50(int);
+int _sceFsWaitS(int);
 void func_00237B80(void);
 void sceFsInit(void);
 void sceSifWriteBackDCache(void *, int);
@@ -49,7 +49,7 @@ int sceIoctl(int fd, int req, void *data)
 
     arg = &D_0044A680;
     io = get_iob(fd);
-    func_00237B50(5);
+    _sceFsWaitS(5);
     D_0044A648 = data;
     if (D_002C4A7C == 0)
         sceFsInit();

@@ -12,7 +12,7 @@ struct exception {
 };
 extern const int __fdlib_version;
 extern const double __infinity_d;
-double func_00246300(double x, double y);
+double __ieee754_pow(double x, double y);
 int func_00249C80(double x);
 int func_00249C60(double x);
 double rint(double x);
@@ -37,7 +37,7 @@ double pow(double x, double y)
 {
 	double z;
 	struct exception exc;
-	z=func_00246300(x,y);
+	z=__ieee754_pow(x,y);
 	if(_LIB_VERSION == _IEEE_|| isnan(y)) return z;
 	if(isnan(x)) {
 	    if(y==0.0) { 

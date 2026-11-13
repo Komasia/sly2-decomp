@@ -19,7 +19,7 @@ extern char D_0044BD80[];
 extern int D_0044B2C0[];
 extern char D_002AAAC8[];
 struct iob *get_iob(int);
-int func_00237B50(int);
+int _sceFsWaitS(int);
 void func_00237B80(void);
 int CreateSema(struct SemaParam *);
 int DeleteSema(int);
@@ -35,7 +35,7 @@ int sceClose(int fd)
 
     arg = &D_0044A680;
     io = get_iob(fd);
-    func_00237B50(1);
+    _sceFsWaitS(1);
     if (D_002C4A7C == 0 || io == 0 || io->busy == 0) {
         func_00237B80();
         return -9;

@@ -6,7 +6,7 @@ extern int D_002C7940[];
 extern int D_002C7D80[];
 extern volatile int D_002C676C;
 extern int D_002C82E8, D_002C82EC, D_002C82F0;
-int func_00241F98(int);
+int _sceCd_scmd_prechk(int);
 void sceSifWriteBackDCache(void *, int);
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int SignalSema(int);
@@ -14,7 +14,7 @@ int sceCdMmode(int media)
 {
     int r;
     int *p = D_002C7D80;
-    if (func_00241F98(0x22) == 0)
+    if (_sceCd_scmd_prechk(0x22) == 0)
         return 0;
     D_002C7D80[0] = media;
     sceSifWriteBackDCache(p, 4);

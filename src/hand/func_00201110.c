@@ -5,7 +5,7 @@ typedef struct { qword a[3]; } M3;
 typedef struct { int a, b; } V2;
 typedef struct { int a, b, c; } V3;
 CRef *InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
-void func_00129658(CRef *pref, CRef *prefSrc);
+void __as__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefCoerceS32__4CRef(CRef *ret, CRef *pref);
 CRef *RefCoerceF32__4CRef(CRef *ret, CRef *pref);
@@ -19,7 +19,7 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
     for (i = 0; i < c; i++) {
         int ot;
         void *pv;
-        func_00129658(&ref.r, &aref[i]);
+        __as__4CRefRC4CRef(&ref.r, &aref[i]);
         ot = aotype[i];
         pv = apv[i];
         switch (ot) {
@@ -33,7 +33,7 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
                 CRef *pt = &t.r;
                 pt->tagk = -1;
                 RefCoerceS32__4CRef(&tmp.r, &ref.r);
-                func_00129658(pt, &tmp.r);
+                __as__4CRefRC4CRef(pt, &tmp.r);
                 Decref(&tmp.r);
                 *(int *)pv = t.r.u.n;
                 Decref(pt);
@@ -47,7 +47,7 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
                 CRef *pt = &t.r;
                 pt->tagk = -1;
                 RefCoerceF32__4CRef(&tmp.r, &ref.r);
-                func_00129658(pt, &tmp.r);
+                __as__4CRefRC4CRef(pt, &tmp.r);
                 Decref(&tmp.r);
                 *(float *)pv = t.r.u.g;
                 Decref(pt);
@@ -68,7 +68,7 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
             break;
         default:
             if (ot & 0x8000)
-                func_00129658((CRef *)pv, &ref.r);
+                __as__4CRefRC4CRef((CRef *)pv, &ref.r);
             else if (ot & 0x1000)
                 goto store;
             else if (ot & 0x2000)

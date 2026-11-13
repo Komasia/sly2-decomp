@@ -21,7 +21,7 @@ extern struct iob D_0044BB80[];
 extern char D_0044BD80[];
 extern int D_0044B2C0[];
 extern char D_002AAAB0[];
-int func_00237B50(int);
+int _sceFsWaitS(int);
 void func_00237B80(void);
 void sceFsInit(void);
 int func_00237DE0(void);
@@ -42,7 +42,7 @@ int sceOpen(const char *name, int flags, ...)
 
     va_start(ap, flags);
     arg = &D_0044A680;
-    func_00237B50(0);
+    _sceFsWaitS(0);
     if (D_002C4A7C == 0)
         sceFsInit();
     if (func_00237DE0()) {

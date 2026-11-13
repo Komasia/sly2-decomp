@@ -2,7 +2,7 @@ extern int D_002E2050, D_002E2054;
 extern void *D_002DD644;
 extern int D_002BE538;
 extern char g_sw[], D_003D9E70[], g_joy[], g_cm[], g_clock[];
-void func_0023B7D8(void);
+void __main__Fv(void);
 void func_001A7970(void);
 void func_001613A8(void);
 void PswUpdateTransition__FP2SW(void *);
@@ -21,7 +21,7 @@ void DrawAnimatedOverlayFrame__FPv(void *);
 void func_00160A98(void);
 void func_001A7518(int a, int b)
 {
-    func_0023B7D8();
+    __main__Fv();
     D_002E2050 = a;
     D_002E2054 = b;
     func_001A7970();

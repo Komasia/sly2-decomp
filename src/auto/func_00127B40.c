@@ -1,5 +1,5 @@
 #include "m2c_prelude.h"
-s32 *func_001291A8(s32 *arg0, s32 *arg1);           /* static */
+s32 *__4CRefRC4CRef(s32 *arg0, s32 *arg1);           /* static */
 
 // name: SafeHouse port (CFrame::AddParent)
 void AddParent__6CFrameP6CFrame(s32 arg0, s32 arg1) {

@@ -22,9 +22,9 @@ extern char D_002BDEC0[];
 extern float GRandInRange__Fff(float lo, float hi);
 extern float GLimitLm(void *p, float g) asm("GLimitLm__FP2LMf");
 typedef union V4 { qword q; float a[4]; } V4;
-extern V4 func_00256CE8(float g);
-extern V4 func_00256D08(qword *pv);
-extern qword func_00256D28(qword a, qword b);
+extern V4 __8VU_FLOATf(float g);
+extern V4 __9VU_VECTORRC6VECTOR(qword *pv);
+extern qword __ml__FG8VU_FLOATG9VU_VECTOR(qword a, qword b);
 extern void func_00256D18(qword *pv, qword a);
 extern void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(int c, EMITB *pb, EMITR *pr);
 extern qword ConvertPos__FP2LOT0G9VU_VECTOR(int x, int y, qword v);
@@ -81,7 +81,7 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
         b.g50 *= gs;
         b.g54 *= gs;
         { float h = 0.5f; g = (h < g) ? g : h; }
-        func_00256D18(b.vE0, func_00256D28(func_00256CE8(g).q, func_00256D08(b.vE0).q));
+        func_00256D18(b.vE0, __ml__FG8VU_FLOATG9VU_VECTOR(__8VU_FLOATf(g).q, __9VU_VECTORRC6VECTOR(b.vE0).q));
     }
     if (b.x4 == 1) {
         if (po->grf & 0x10)

@@ -35,7 +35,7 @@ unsigned int func_00234E20(unsigned int, unsigned int);
 void sceSifSendCmd(unsigned int, void *, unsigned int, void *, void *, unsigned int);
 void func_0023AAB8(void *, void *);
 void func_0023AA98(void *, void *);
-void func_0023B028(void);
+void _sceSifCmdIntrHdlr(void);
 
 void sceSifInitCmd(void)
 {
@@ -71,7 +71,7 @@ void sceSifInitCmd(void)
         *(volatile unsigned int *)0x1000E010 = 0x20;
     if (!(*(volatile unsigned int *)0x1000C000 & 0x100))
         sceSifSetDChain();
-    D_0044EDD4 = func_00234730(5, (void *)func_0023B028, 0);
+    D_0044EDD4 = func_00234730(5, (void *)_sceSifCmdIntrHdlr, 0);
     func_00235248(5);
     D_0044EDD8.iopbuf = (void *)sceSifGetReg(0x80000000);
     if (D_0044EDD8.iopbuf) {

@@ -23,7 +23,7 @@ extern char D_002AB608[];
 extern char D_002AB620[];
 void _sceCd_cd_read_intr(void *);
 int sceCdNcmdDiskReady(void);
-int func_00241C98(int);
+int _sceCd_ncmd_prechk(int);
 void sceSifWriteBackDCache(void *, int);
 int func_00236960(const char *, ...);
 int SignalSema(int);
@@ -36,7 +36,7 @@ int sceCdRead(unsigned int lbn, unsigned int sectors, void *buf, sceCdRMode *mod
         if (sceCdNcmdDiskReady() == 6)
             return 0;
     }
-    if (func_00241C98(4) == 0)
+    if (_sceCd_ncmd_prechk(4) == 0)
         return 0;
     rd->lbn = lbn;
     rd->sectors = sectors;

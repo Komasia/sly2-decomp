@@ -10,9 +10,9 @@ struct P{char pad[0x10];INPUT*input;char pad14[0x10];int depth;char pad28[0x1C0]
 struct CONTEXT{char bytes[0x5464];};
 struct BANK{char pad[0x24];CONTEXT contexts[3];char padFD50[8];CONTEXT*current;};
 struct MENU;
-extern "C" void*func_001291A8(void*,const void*);
+extern "C" void*__4CRefRC4CRef(void*,const void*);
 extern "C" void Decref(void*) asm("Decref__4CRef");
-struct CRef{int tag;union{int n;float f;};CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){Decref(this);}};
+struct CRef{int tag;union{int n;float f;};CRef(const CRef&r){__4CRefRC4CRef(this,&r);}~CRef(){Decref(this);}};
 extern "C"{
 void func_001D9870();
 int FSpriteAnimPlaying(POOL*,int) asm("FSpriteAnimPlaying__FP2LOi");

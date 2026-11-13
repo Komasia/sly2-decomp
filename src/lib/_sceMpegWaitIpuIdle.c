@@ -7,8 +7,8 @@ typedef struct {
     char p86C[0x878 - 0x86C]; int stop;
 } D;
 #define R(a) (*(volatile unsigned int *)(a))
-int func_0024B6E8(void *mp);
-void func_0024F8D0(void);
+int _sceMpegDispatchMpegCbNodata(void *mp);
+void _sceMpegStopIpuDma(void);
 void _sceMpegWaitIpuIdle(D *d)
 {
     int cnt = 0;
@@ -18,13 +18,13 @@ void _sceMpegWaitIpuIdle(D *d)
         unsigned int cmd = d->cmd;
         unsigned int n = ((bp & 0xFF00) >> 1) + ((bp & 0x30000) >> 9) - (bp & 0x7F);
         if ((cmd == 0x20000000 || cmd == 0x30000000 || cmd == 0x40000000) && n < 0x20 && R(0x1000B420) == 0) {
-            func_0024B6E8(d->mp);
-            if (d->stop) { func_0024F8D0(); break; }
+            _sceMpegDispatchMpegCbNodata(d->mp);
+            if (d->stop) { _sceMpegStopIpuDma(); break; }
             cnt = 0;
         }
         if (cnt++ > 5000) {
-            func_0024B6E8(d->mp);
-            if (d->stop) { func_0024F8D0(); break; }
+            _sceMpegDispatchMpegCbNodata(d->mp);
+            if (d->stop) { _sceMpegStopIpuDma(); break; }
             cnt = 0;
         }
     }

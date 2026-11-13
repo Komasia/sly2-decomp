@@ -14,7 +14,7 @@ struct X {
 };
 struct K { uint x0, x4, x8; char pad[0x34 - 0xC]; uint x34, x38, x3C; };
 struct CBinaryAsyncStream;
-extern "C" CBinaryAsyncStream *func_00132570(CBinaryAsyncStream *, int, void *);
+extern "C" CBinaryAsyncStream *__18CBinaryAsyncStreamiPv(CBinaryAsyncStream *, int, void *);
 extern "C" void func_001325B8(CBinaryAsyncStream *, int);
 struct CBinaryAsyncStream { char pad[0x30]; CBinaryAsyncStream(int cb, void *pv) __asm__("__18CBinaryAsyncStreamiPv"); ~CBinaryAsyncStream(); };
 struct SLOT;

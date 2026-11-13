@@ -4,7 +4,7 @@ typedef struct G { char pad[0x3F0C]; void *pv; } G;
 extern G g_sw;
 void *func_0015E958(G *pg, int k, int a, LO *b, void *c);
 void SetBasic__4CRefP5BASIC(CRef *pref, void *p);
-CRef *func_001291A8(CRef *pref, CRef *prefSrc);
+CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *func_001244E8(CRef *ret, void *pbasic, CRef *aref)
 {
@@ -24,7 +24,7 @@ CRef *func_001244E8(CRef *ret, void *pbasic, CRef *aref)
         int a = aref[0].m_tag;
         SetBasic__4CRefP5BASIC(&ref, func_0015E958(pg, 4, a, b, plo ? plo->pv : pg->pv));
     }
-    func_001291A8(ret, &ref);
+    __4CRefRC4CRef(ret, &ref);
     Decref(&ref);
     return ret;
 }

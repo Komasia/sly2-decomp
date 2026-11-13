@@ -11,7 +11,7 @@ typedef struct {
     char b0[0x300]; char b1[0x300]; char b2[0x300];
 } MpegD;
 extern char D_002AC290[];
-void func_0024FA38(MpegD *, const char *);
+void _sceMpegError(MpegD *, const char *);
 void _clearOnce(MpegD *d)
 {
     R(0x10002010) = (R(0x10002010) & ~0x800000) | 0x800000;
@@ -31,6 +31,6 @@ void _clearOnce(MpegD *d)
         d->x6E0 = 0;
         d->x820 = 0;
     } else {
-        func_0024FA38(d, D_002AC290);
+        _sceMpegError(d, D_002AC290);
     }
 }

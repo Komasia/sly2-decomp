@@ -22,7 +22,7 @@ typedef struct {
 int sceSnprintf(char *buf, unsigned int n, const char *fmt, ...);
 void _sceMpegError(D *d, const char *msg);
 void _sceMpegCscStoreRefImage(D *d, P *p);
-void func_0024B9F0(D *d, P *p);
+void _cpr8(D *d, P *p);
 extern char D_002AC438[];
 
 static inline void setField(D *d, P *p, long *pA, long *pB, long *pC)
@@ -100,7 +100,7 @@ void _dispRefImageField(D *d, P *p1, P *p2)
         if (d->xC4)
             _sceMpegCscStoreRefImage(d, p1);
         else
-            func_0024B9F0(d, p1);
+            _cpr8(d, p1);
         p1->x10 >>= 1;
         if (d->x8 != 2) {
             d->x8 = 2;

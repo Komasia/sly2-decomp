@@ -1,10 +1,10 @@
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
-extern "C" void func_001291A8(CRef *, const CRef *);
+extern "C" void __4CRefRC4CRef(CRef *, const CRef *);
 struct CRef {
     int tagk; int tag;
     CRef() { tagk = -1; }
-    CRef(const CRef &r) { func_001291A8(this, &r); }
+    CRef(const CRef &r) { __4CRefRC4CRef(this, &r); }
     ~CRef() { Decref(this); }
 };
 struct O { int cref; int pad; CRef ref; char sub[0x10]; };

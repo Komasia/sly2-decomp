@@ -1,7 +1,7 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 void SetS32__4CRefi(CRef *pref, int n);
 void SetF32__4CReff(CRef *pref, float g);
-CRef *func_001291A8(CRef *pref, CRef *prefSrc);
+CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefOpAbs__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
@@ -15,7 +15,7 @@ CRef *RefOpAbs__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
         if (g < 0.0f) g = -g;
         SetF32__4CReff(&ref, g);
     }
-    func_001291A8(ret, &ref);
+    __4CRefRC4CRef(ret, &ref);
     Decref(&ref);
     return ret;
 }

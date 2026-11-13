@@ -6,25 +6,25 @@ typedef struct {
 } MpegD;
 extern char D_002AC728[];
 extern char D_002AC750[];
-int func_00252148(MpegD *d, int n);
+int _sceMpegNextBit(MpegD *d, int n);
 void _waitIpuIdle_254488(MpegD *d);
-void func_0024FA38(MpegD *d, const char *msg);
+void _sceMpegError(MpegD *d, const char *msg);
 void _quantMatrixExtension(MpegD *d)
 {
-    if ((d->load_iq = func_00252148(d, 1)) != 0) {
+    if ((d->load_iq = _sceMpegNextBit(d, 1)) != 0) {
         _waitIpuIdle_254488(d);
         *(volatile unsigned int *)0x10002000 = 0x50000000;
         d->x82C = 0x50000000;
         d->x828 = 1;
         _waitIpuIdle_254488(d);
     }
-    if ((d->load_niq = func_00252148(d, 1)) != 0) {
+    if ((d->load_niq = _sceMpegNextBit(d, 1)) != 0) {
         _waitIpuIdle_254488(d);
         *(volatile unsigned int *)0x10002000 = 0x58000000;
         d->x82C = 0x50000000;
         d->x828 = 1;
         _waitIpuIdle_254488(d);
     }
-    if (func_00252148(d, 1)) func_0024FA38(d, D_002AC728);
-    if (func_00252148(d, 1)) func_0024FA38(d, D_002AC750);
+    if (_sceMpegNextBit(d, 1)) _sceMpegError(d, D_002AC728);
+    if (_sceMpegNextBit(d, 1)) _sceMpegError(d, D_002AC750);
 }
