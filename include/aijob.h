@@ -15,4 +15,20 @@ typedef struct AIJOB {
     /* 0x20 */ int cLock;                  /* field: SafeHouse port - the jobs above holding it */
 } AIJOB;
 
+struct LO;
+struct KINDE;
+
+/* JOBMOVE (0x9D): a move - an animation index of the guard's mask, its kind entry played; the base of JOBSTAND,
+ * JOBSLEEP, JOBB0, JOBB1, ... Layout: SafeHouse port (aijobs.h JOBMOVE). */
+typedef struct JOBMOVE {
+    /* 0x00 */ AIJOB aijob;
+    /* 0x24 */ char pad24[0x30 - 0x24];
+    /* 0x30 */ int st;                     /* field: SafeHouse port */
+    /* 0x34 */ float tSt;                  /* field: SafeHouse port */
+    /* 0x38 */ struct LO *ploFace;         /* field: SafeHouse port - an object to face at the end */
+    /* 0x3c */ int nAnim;                  /* field: SafeHouse port - the state index */
+    /* 0x40 */ struct KINDE *pkinde;       /* field: SafeHouse port - the entry (null: the best for the mask) */
+    /* 0x44 */ char pad44[0x50 - 0x44];
+} JOBMOVE;
+
 #endif
