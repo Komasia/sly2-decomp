@@ -1,8 +1,7 @@
-/* RemoveMegaJump (a reload of the same world with the transition's flag 0x40): the current player's (D_002E1E40)
- * Mega Jump (ability 0x1F) slot emptied, and the gadget no longer owned (0x1DAF38). Source: SafeHouse port
- * (gadget.cpp). */
+/* RemoveMegaJump (a reload of the same world with the transition's flag 0x40): Sly's (D_002E1E40) Mega Jump
+ * (ability 0x1F) slot emptied, and the gadget no longer owned (0x1DAF38). Source: SafeHouse port (gadget.cpp). */
 struct ACTOR;
-extern struct ACTOR *D_002E1E40;   /* the current player */
+extern struct ACTOR *D_002E1E40;   /* Sly (see OpenGadgetMenu) */
 int func_00141E78(struct ACTOR *pactor, int id);   /* the slot of an ability (-1 none) */
 void SetActorAbilitySlot__FP5ACTORii(struct ACTOR *pactor, int islot, int id);
 void func_001DAF38(int id, int fOwned);
