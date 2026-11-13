@@ -1321,7 +1321,7 @@ PtrkpNew__Fi,0x12B3B0,80,match,src/hand/func_0012B3B0.cpp
 func_0012B4F0,0x12B4F0,2,match,src/hand/func_0012B4F0.c
 Load__5TRKPCP18CBinaryInputStream,0x12B4F8,9,match,src/hand/Load__5TRKPCP18CBinaryInputStream.c
 Setup__5TRKPCP2XF,0x12B520,27,match,src/hand/func_0012B520.c
-Eval__5TRKPCP7VECTOR4T1ff,0x12B590,19,match,src/auto/func_0012B590.c
+Eval__5TRKPCP7VECTOR4T1ff,0x12B590,19,match,src/hand/Eval__5TRKPCP7VECTOR4T1ff.c
 Load__5TRKPKP18CBinaryInputStream,0x12B5E0,62,match,src/hand/func_0012B5E0.c
 IkeyFind__5TRKPKf,0x12B6D8,24,match,src/hand/func_0012B6D8.c
 Setup__5TRKPKP2XF,0x12B738,166,match,src/hand/func_0012B738.c
@@ -1351,7 +1351,7 @@ func_0012CED8,0x12CED8,2,match,src/hand/func_0012CED8.c
 FFirst__4CTRL,0x12CEE0,15,match,src/hand/func_0012CEE0.c
 func_0012CF20,0x12CF20,2,match,src/hand/func_0012CF20.c
 func_0012CF28,0x12CF28,2,match,src/hand/func_0012CF28.c
-Query__4CTRLP7VECTOR4T1f,0x12CF30,21,match,src/auto/func_0012CF30.c
+Query__4CTRLP7VECTOR4T1f,0x12CF30,21,match,src/hand/Query__4CTRLP7VECTOR4T1f.c
 func_0012CF88,0x12CF88,21,match,src/hand/func_0012CF88.c
 EnsureCtrlAdded__FP4CTRL,0x12CFE0,15,match,src/hand/EnsureCtrlAdded__FP4CTRL.c
 EnsureCtrlRemoved__FP4CTRL,0x12D020,14,match,src/hand/EnsureCtrlRemoved__FP4CTRL.c
@@ -1380,13 +1380,13 @@ func_0012DEF0,0x12DEF0,59,match,src/hand/func_0012DEF0.cpp
 func_0012DFE0,0x12DFE0,12,match,src/auto/func_0012DFE0.c
 Fetch__10CTRLTARGET,0x12E010,20,match,src/hand/Fetch__10CTRLTARGET.c
 func_0012E060,0x12E060,35,match,src/hand/func_0012E060.c
-SetGoal__10CTRLTARGETG9VU_VECTORT1,0x12E0F0,11,match,src/auto/func_0012E0F0.c
+SetGoal__10CTRLTARGETG9VU_VECTORT1,0x12E0F0,11,match,src/hand/SetGoal__10CTRLTARGETG9VU_VECTORT1.c
 func_0012E120,0x12E120,51,match,src/hand/func_0012E120.c
 func_0012E1F0,0x12E1F0,8,match,src/auto/func_0012E1F0.c
 func_0012E210,0x12E210,9,match,src/auto/func_0012E210.c
 func_0012E238,0x12E238,110,match,src/hand/func_0012E238.cpp
 func_0012E3F0,0x12E3F0,28,match,src/auto/func_0012E3F0.c
-DeleteCtrl__FPP4CTRL,0x12E460,18,match,src/auto/func_0012E460.c
+DeleteCtrl__FPP4CTRL,0x12E460,18,match,src/hand/DeleteCtrl__FPP4CTRL.c
 func_0012E4A8,0x12E4A8,77,match,src/hand/func_0012E4A8.c
 func_0012E5E0,0x12E5E0,8,match,src/hand/func_0012E5E0.c
 func_0012E600,0x12E600,17,match,src/hand/func_0012E600.c
@@ -1398,7 +1398,7 @@ func_0012E740,0x12E740,4,match,src/auto/func_0012E740.c
 func_0012E750,0x12E750,4,match,src/auto/func_0012E750.c
 func_0012E760,0x12E760,13,match,src/auto/func_0012E760.c
 Activate__8CPLOOKATP2LOPv,0x12E798,22,match,src/hand/func_0012E798.c
-Deactivate__8CPLOOKATP2LOPv,0x12E7F0,26,match,src/auto/func_0012E7F0.c
+Deactivate__8CPLOOKATP2LOPv,0x12E7F0,26,match,src/hand/Deactivate__8CPLOOKATP2LOPv.c
 Update__8CPLOOKATP6CPDEFIP5CMJOY,0x12E858,101,match,src/hand/func_0012E858.c
 func_0012E9F0,0x12E9F0,77,match,src/hand/func_0012E9F0.c
 func_0012EB28,0x12EB28,8,match,src/hand/func_0012EB28.c
@@ -1414,13 +1414,13 @@ func_0012EF98,0x12EF98,77,match,src/hand/func_0012EF98.c
 func_0012F0D0,0x12F0D0,8,match,src/hand/func_0012F0D0.c
 func_0012F0F0,0x12F0F0,77,match,src/hand/func_0012F0F0.c
 func_0012F228,0x12F228,8,match,src/hand/func_0012F228.c
-InitAseg__FP4ASEG,0x12F248,24,match,src/auto/func_0012F248.c
+InitAseg__FP4ASEG,0x12F248,24,match,src/hand/InitAseg.c
 LoadAsegFromBrx__FP4ASEGP18CBinaryInputStream,0x12F2A8,185,match,src/hand/func_0012F2A8.cpp
 func_0012F590,0x12F590,203,match,src/hand/func_0012F590.cpp
 ApplyAsegParams__FP4ASEGPv,0x12F8C0,12,match,src/hand/func_0012F8C0.c
 PostAsegLoad__FP4ASEG,0x12F8F0,18,match,src/hand/func_0012F8F0.c
 PeventLaunch__FP5KINDEi,0x12F938,21,match,src/hand/func_0012F938.c
-GEventAseg11__Fv,0x12F990,10,match,src/auto/func_0012F990.c
+GEventAseg11__Fv,0x12F990,10,match,src/hand/GEventAseg11__Fv.c
 ApplyAseg__FP4ASEGiiffPP5ASEGA,0x12F9B8,267,match,src/hand/func_0012F9B8.cpp
 func_0012FDE8,0x12FDE8,27,match,src/hand/func_0012FDE8.c
 GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF,0x12FE58,45,match,src/hand/func_0012FE58.cpp
@@ -1457,7 +1457,7 @@ SetAsegaPriority__FP5ASEGAi,0x131A40,19,match,src/hand/SetAsegaPriority__FP5ASEG
 SetAsegaSeekTime__FP5ASEGAf,0x131A90,32,match,src/hand/func_00131A90.c
 DemoteAsegaOnXf__FiiP2XF,0x131B10,20,match,src/hand/func_00131B10.c
 DemoteAsegaOnAlo__FP5ASEGAP3ALOiPv,0x131B60,55,match,src/hand/func_00131B60.c
-Start__8CTRLASEG,0x131C40,20,match,src/auto/func_00131C40.c
+Start__8CTRLASEG,0x131C40,20,match,src/hand/Start__8CTRLASEG.c
 End__8CTRLASEG,0x131C90,17,match,src/hand/End__8CTRLASEG.c
 Fetch__8CTRLASEG,0x131CD8,36,match,src/hand/func_00131CD8.c
 Query__8CTRLASEGP7VECTOR4T1f,0x131D68,43,match,src/hand/func_00131D68.cpp
@@ -1554,7 +1554,7 @@ func_00135F78,0x135F78,30,match,src/hand/func_00135F78.c
 func_00135FF0,0x135FF0,20,match,src/hand/func_00135FF0.c
 SetBentleyHold__FP7BENTLEYi,0x136040,54,match,src/hand/func_00136040.c
 UpdateBentleyHold__FP7BENTLEY,0x136118,96,match,src/hand/func_00136118.c
-ReleaseBentleyCarried__FP7BENTLEY,0x136298,23,match,src/auto/func_00136298.c
+ReleaseBentleyCarried__FP7BENTLEY,0x136298,23,match,src/hand/ReleaseBentleyCarried__FP7BENTLEY.c
 SetBentleyState2__FP7BENTLEYi,0x1362F8,15,match,src/hand/SetBentleyState2__FP7BENTLEYi.c
 UpdateBentleyState2__FP7BENTLEY,0x136338,125,match,src/hand/func_00136338.c
 SetBentleyCarried__FP7BENTLEYi,0x136530,169,match,src/hand/func_00136530.c
@@ -1650,7 +1650,7 @@ AddAlarmAlbrk__FP5ALARM3OID,0x13C448,11,match,src/hand/AddAlarmAlbrk__FP5ALARM3O
 IdBooty__FP2LO,0x13C478,6,match,src/hand/IdBooty__FP2LO.c
 SelectBootyRecord__FP2LOi,0x13C490,17,match,src/hand/func_0013C490.c
 func_0013C4D8,0x13C4D8,2,match,src/auto/func_0013C4D8.c
-ReturnThrownBooty__FP2LO,0x13C4E0,31,match,src/auto/func_0013C4E0.c
+ReturnThrownBooty__FP2LO,0x13C4E0,31,match,src/hand/ReturnThrownBooty__FP2LO.c
 SetBootyState__FP2LOi,0x13C560,598,match,src/hand/func_0013C560.c
 func_0013CEB8,0x13CEB8,16,match,src/auto/func_0013CEB8.c
 PostLoadBootyStand__FP2SW,0x13CEF8,15,match,src/hand/func_0013CEF8.c
@@ -1740,12 +1740,12 @@ func_00142340,0x142340,24,match,src/auto/func_00142340.c
 FActorPoseDone__FP5ACTOR,0x1423A0,71,match,src/hand/func_001423A0.c
 func_001424C0,0x1424C0,4,match,src/auto/func_001424C0.c
 func_001424D0,0x1424D0,4,match,src/auto/func_001424D0.c
-StartPrizeInteract__FP5ACTORP4ASEGP2LOi,0x1424E0,19,match,src/auto/func_001424E0.c
+StartPrizeInteract__FP5ACTORP4ASEGP2LOi,0x1424E0,19,match,src/hand/StartPrizeInteract__FP5ACTORP4ASEGP2LOi.c
 func_00142530,0x142530,4,match,src/auto/func_00142530.c
 SetActorFollow__FP5ACTORiG9VU_VECTOR,0x142540,28,match,src/hand/func_00142540.c
 DrawActor__FP5ACTOR,0x1425B0,78,match,src/hand/func_001425B0.c
 AttachActorLook__FP5ACTORi,0x1426E8,56,match,src/hand/func_001426E8.c
-SetActorLookTarget__FP5ACTORiP2LO,0x1427C8,26,match,src/auto/func_001427C8.c
+SetActorLookTarget__FP5ACTORiP2LO,0x1427C8,26,match,src/hand/SetActorLookTarget__FP5ACTORiP2LO.c
 func_00142830,0x142830,11,match,src/hand/func_00142830.c
 func_00142860,0x142860,2,match,src/auto/func_00142860.c
 ActorSetLookFlag__FP5ACTORi,0x142868,5,match,src/hand/func_00142868.c
@@ -1754,7 +1754,7 @@ LookScore__FP5ACTORP2LOPP2LOPfT3,0x1428D8,135,match,src/hand/func_001428D8.cpp
 UpdateActorLook__FP5ACTOR,0x142AF8,357,match,src/hand/func_00142AF8.cpp
 func_00143090,0x143090,14,match,src/hand/func_00143090.c
 GrfActorLookMask__FP5ACTOR,0x1430C8,65,match,src/hand/func_001430C8.c
-StopNearestLaunchTracking__FP5ACTOR,0x1431D0,19,match,src/auto/func_001431D0.c
+StopNearestLaunchTracking__FP5ACTOR,0x1431D0,19,match,src/hand/StopNearestLaunchTracking__FP5ACTOR.c
 GetSlyLaunchTarget__FP3SLYPvf,0x143220,48,match,src/hand/func_00143220.c
 GiveActorBooty__FP5ACTORi,0x1432E0,40,match,src/hand/func_001432E0.c
 DropActorBooty__FP5ACTORii,0x143380,17,match,src/hand/DropActorBooty__FP5ACTORii.c
@@ -1849,7 +1849,7 @@ DrawAnimatedOverlayFrame__FPv,0x1477D8,274,match,src/hand/func_001477D8.cpp
 StartAnimatedOverlay__FP2LOii,0x147C20,42,match,src/hand/func_00147C20.c
 func_00147CC8,0x147CC8,77,match,src/hand/func_00147CC8.c
 func_00147E00,0x147E00,8,match,src/hand/func_00147E00.c
-DequeueLoRoot__FP2SWP2LO,0x147E20,25,match,src/auto/func_00147E20.c
+DequeueLoRoot__FP2SWP2LO,0x147E20,25,match,src/hand/DequeueLoRoot__FP2SWP2LO.c
 func_00147E88,0x147E88,16,match,src/auto/func_00147E88.c
 func_00147EC8,0x147EC8,7,match,src/auto/func_00147EC8.c
 func_00147EE8,0x147EE8,22,match,src/hand/func_00147EE8.c
@@ -1918,7 +1918,7 @@ PostLoadChasegraph__FP2LO,0x14A0A8,51,match,src/hand/func_0014A0A8.c
 func_0014A178,0x14A178,14,match,src/auto/func_0014A178.c
 Init__8JOBCHASE,0x14A1B0,19,match,src/hand/func_0014A1B0.c
 Enter__8JOBCHASE,0x14A200,17,match,src/hand/func_0014A200.c
-Exit__8JOBCHASE,0x14A248,21,match,src/auto/func_0014A248.c
+Exit__8JOBCHASE,0x14A248,21,match,src/hand/Exit__8JOBCHASE.c
 Update__8JOBCHASE,0x14A2A0,118,match,src/hand/func_0014A2A0.c
 FAirborne__8JOBCHASE,0x14A478,21,match,src/hand/func_0014A478.c
 Aim__8JOBCHASE,0x14A4D0,344,match,src/hand/func_0014A4D0.cpp
@@ -1957,7 +1957,7 @@ func_0014C140,0x14C140,20,match,src/hand/func_0014C140.c
 func_0014C190,0x14C190,19,match,src/hand/func_0014C190.c
 func_0014C1F0,0x14C1F0,3,match,src/hand/func_0014C1F0.c
 func_0014C200,0x14C200,22,match,src/auto/func_0014C200.c
-RemoveMegaJump__Fv,0x14C258,22,match,src/auto/func_0014C258.c
+RemoveMegaJump__Fv,0x14C258,22,match,src/hand/RemoveMegaJump__Fv.c
 func_0014C2B0,0x14C2B0,10,match,src/hand/func_0014C2B0.c
 func_0014C2D8,0x14C2D8,70,match,src/auto/func_0014C2D8.c
 func_0014C3F0,0x14C3F0,77,match,src/hand/func_0014C3F0.c
@@ -2034,7 +2034,7 @@ func_0014F930,0x14F930,86,match,src/hand/func_0014F930.c
 func_0014FA88,0x14FA88,8,match,src/hand/func_0014FA88.c
 func_0014FAA8,0x14FAA8,8,match,src/hand/func_0014FAA8.c
 func_0014FAC8,0x14FAC8,11,match,src/hand/func_0014FAC8.c
-UpdateGuard40__FP2LO,0x14FAF8,22,match,src/auto/func_0014FAF8.c
+UpdateGuard40__FP2LO,0x14FAF8,22,match,src/hand/UpdateGuard40__FP2LO.c
 func_0014FB50,0x14FB50,77,match,src/hand/func_0014FB50.c
 func_0014FC88,0x14FC88,8,match,src/hand/func_0014FC88.c
 func_0014FCA8,0x14FCA8,5,match,src/hand/func_0014FCA8.c
@@ -2095,7 +2095,7 @@ func_00152350,0x152350,15,match,src/auto/func_00152350.c
 PlayDancerMove__FP2LOiii,0x152390,67,match,src/hand/func_00152390.c
 PlayDancerAseg__FP2LOT0i,0x1524A0,14,match,src/hand/func_001524A0.c
 func_001524D8,0x1524D8,18,match,src/hand/func_001524D8.c
-PloDanceAseg__FP2LO3OIDiiiii,0x152520,22,match,src/auto/func_00152520.c
+PloDanceAseg__FP2LO3OIDiiiii,0x152520,22,match,src/hand/PloDanceAseg__FP2LO3OIDiiiii.c
 InitDancer__FP2LO,0x152578,43,match,src/hand/func_00152578.c
 func_00152628,0x152628,22,match,src/hand/func_00152628.c
 func_00152680,0x152680,21,match,src/hand/func_00152680.c
@@ -2127,7 +2127,7 @@ UpdateDetectorObject__FP2LOf,0x153DB0,11,match,src/hand/func_00153DB0.c
 UpdateDetector__FP8DETECTOR,0x153DE0,31,match,src/hand/func_00153DE0.c
 PosDetectorEye__FP8DETECTOR,0x153E60,37,match,src/hand/func_00153E60.c
 func_00153EF8,0x153EF8,8,match,src/auto/func_00153EF8.c
-AddDetectorTarget__FP8DETECTORP2LO,0x153F18,26,match,src/auto/func_00153F18.c
+AddDetectorTarget__FP8DETECTORP2LO,0x153F18,26,match,src/hand/AddDetectorTarget__FP8DETECTORP2LO.c
 RemoveDetectorTarget__FP8DETECTORi,0x153F80,29,match,src/hand/func_00153F80.c
 func_00153FF8,0x153FF8,16,match,src/hand/func_00153FF8.c
 func_00154038,0x154038,17,match,src/auto/func_00154038.c
@@ -2174,7 +2174,7 @@ PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR,0x156548,84,match,src/hand/func_0015
 func_00156698,0x156698,8,match,src/hand/func_00156698.c
 AddRefNoise__FP5NOISE,0x1566B8,4,match,src/hand/AddRefNoise__FP5NOISE.c
 ReleaseNoise__FP5NOISEi,0x1566C8,23,match,src/hand/ReleaseNoise__FP5NOISEi.c
-ExpireNoises__FPv,0x156728,21,match,src/auto/func_00156728.c
+ExpireNoises__FPv,0x156728,21,match,src/hand/ExpireNoises__FPv.c
 RemoveNoise__FP5NOISE,0x156780,60,match,src/hand/func_00156780.cpp
 func_00156870,0x156870,10,match,src/auto/func_00156870.c
 SRadiusNoise__FP5NOISE,0x156898,31,match,src/hand/func_00156898.c
@@ -2282,7 +2282,7 @@ UpdateEpMenu__FP6EPMENU,0x15CF30,421,match,src/hand/func_0015CF30.c
 IdPartCur__FP6EPMENU,0x15D5C8,32,match,src/hand/func_0015D5C8.c
 SetEpMode__FP6EPMENUii,0x15D648,84,match,src/auto/func_0015D648.c
 CmovieOpen__FP6EPMENU,0x15D798,57,match,src/hand/func_0015D798.c
-SetHint__FP6EPMENUi,0x15D880,29,match,src/auto/func_0015D880.c
+SetHint__FP6EPMENUi,0x15D880,29,match,src/hand/SetHint__FP6EPMENUi.c
 func_0015D8F8,0x15D8F8,49,match,src/hand/func_0015D8F8.c
 func_0015D9C0,0x15D9C0,50,match,src/hand/func_0015D9C0.c
 func_0015DA88,0x15DA88,40,match,src/hand/func_0015DA88.c
@@ -2355,7 +2355,7 @@ UpdateGameTimers__Fv,0x161478,121,match,src/hand/func_00161478.cpp
 NTasksPercentDone__Fv,0x161660,78,match,src/hand/func_00161660.cpp
 func_00161798,0x161798,17,match,src/hand/func_00161798.c
 func_001617E0,0x1617E0,34,match,src/hand/func_001617E0.cpp
-ShowCoinCounter__FP2SW,0x161868,17,match,src/auto/func_00161868.c
+ShowCoinCounter__FP2SW,0x161868,17,match,src/hand/ShowCoinCounter__FP2SW.c
 ShowClueCounter__FP2SW,0x1618B0,17,match,src/hand/ShowClueCounter__FP2SW.c
 StartHudTimer__FPvf,0x1618F8,24,match,src/hand/func_001618F8.c
 StopHudTimer__FPv,0x161958,17,match,src/hand/func_00161958.c
@@ -2379,7 +2379,7 @@ func_001626C0,0x1626C0,26,match,src/hand/func_001626C0.c
 func_00162728,0x162728,21,match,src/hand/func_00162728.c
 StartJob__FP2SW,0x162780,75,match,src/hand/func_00162780.c
 func_001628B0,0x1628B0,2,match,src/hand/func_001628B0.c
-JobSwitch__FP3JOB,0x1628B8,19,match,src/auto/func_001628B8.c
+JobSwitch__FP3JOB,0x1628B8,19,match,src/hand/JobSwitch__FP3JOB.c
 func_00162908,0x162908,13,match,src/auto/func_00162908.c
 ResetJob__FP3JOB,0x162940,24,match,src/hand/func_00162940.c
 func_001629A0,0x1629A0,47,match,src/hand/func_001629A0.cpp
@@ -2563,14 +2563,14 @@ func_00170D50,0x170D50,8,match,src/auto/func_00170D50.c
 func_00170D70,0x170D70,12,match,src/auto/func_00170D70.c
 func_00170DA0,0x170DA0,12,match,src/auto/func_00170DA0.c
 func_00170DD0,0x170DD0,12,match,src/auto/func_00170DD0.c
-PcmdAppend__FP7CMDLISTi3OID,0x170E00,26,match,src/auto/func_00170E00.c
+PcmdAppend__FP7CMDLISTi3OID,0x170E00,26,match,src/hand/PcmdAppend__FP7CMDLISTi3OID.c
 func_00170E68,0x170E68,10,match,src/auto/func_00170E68.c
 RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT,0x170E90,154,match,src/hand/func_00170E90.c
 GetCmdAim__FP5GUARDG9VU_VECTORP2LOP6VECTORPf,0x1710F8,61,match,src/hand/func_001710F8.c
 func_001711F0,0x1711F0,14,match,src/hand/func_001711F0.c
 func_00171228,0x171228,12,match,src/auto/func_00171228.c
 SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT,0x171258,80,match,src/hand/func_00171258.c
-Exit__9JOBSCRIPT,0x171398,19,match,src/auto/func_00171398.c
+Exit__9JOBSCRIPT,0x171398,19,match,src/hand/Exit__9JOBSCRIPT.c
 Update__9JOBSCRIPT,0x1713E8,28,match,src/auto/func_001713E8.c
 func_00171458,0x171458,3,match,src/auto/func_00171458.c
 FRunning__9JOBSCRIPT,0x171468,84,match,src/hand/func_00171468.c
@@ -2579,10 +2579,10 @@ Execute__9JOBSCRIPTP3CMD,0x1715F0,321,match,src/hand/func_001715F0.cpp
 func_00171AF8,0x171AF8,25,match,src/hand/func_00171AF8.c
 PlaceGuard__FP5GUARDG9VU_VECTORf,0x171B60,45,match,src/hand/func_00171B60.c
 Save__9JOBSCRIPTP11SAVEDSCRIPT,0x171C18,31,match,src/hand/func_00171C18.c
-SeekMarker__9JOBSCRIPT3OID,0x171C98,23,match,src/auto/func_00171C98.c
+SeekMarker__9JOBSCRIPT3OID,0x171C98,23,match,src/hand/SeekMarker__9JOBSCRIPT3OID.c
 TellGuardCommands__FP2LOi,0x171CF8,24,match,src/hand/func_00171CF8.c
 func_00171D58,0x171D58,20,match,src/hand/func_00171D58.c
-FGuardRunsCommands__FP2LOT0,0x171DA8,21,match,src/auto/func_00171DA8.c
+FGuardRunsCommands__FP2LOT0,0x171DA8,21,match,src/hand/FGuardRunsCommands__FP2LOT0.c
 func_00171E00,0x171E00,77,match,src/hand/func_00171E00.c
 func_00171F38,0x171F38,8,match,src/hand/func_00171F38.c
 Init__14JOBINVESTIGATE,0x171F58,18,match,src/hand/func_00171F58.c
@@ -2637,7 +2637,7 @@ Enter__8JOBSTAND,0x174FF8,38,match,src/hand/func_00174FF8.c
 Exit__8JOBSTAND,0x175090,20,match,src/hand/func_00175090.c
 Message__8JOBSTANDiPv,0x1750E0,55,match,src/hand/func_001750E0.c
 Init__9JOBSTRIKE,0x1751C0,11,match,src/hand/func_001751C0.c
-Enter__9JOBSTRIKE,0x1751F0,25,match,src/auto/func_001751F0.c
+Enter__9JOBSTRIKE,0x1751F0,25,match,src/hand/Enter__9JOBSTRIKE.c
 Update__9JOBSTRIKE,0x175258,25,match,src/hand/func_00175258.c
 Exit__9JOBSTRIKE,0x1752C0,11,match,src/hand/func_001752C0.c
 Message__9JOBSTRIKEiPv,0x1752F0,57,match,src/hand/func_001752F0.c
@@ -2770,14 +2770,14 @@ func_0017D2B0,0x17D2B0,12,match,src/auto/func_0017D2B0.c
 func_0017D2E0,0x17D2E0,19,match,src/hand/func_0017D2E0.c
 func_0017D330,0x17D330,12,match,src/auto/func_0017D330.c
 Init__7JOBGOTO,0x17D360,19,match,src/hand/func_0017D360.c
-Enter__7JOBGOTO,0x17D3B0,21,match,src/auto/func_0017D3B0.c
-Exit__7JOBGOTO,0x17D408,18,match,src/auto/func_0017D408.c
+Enter__7JOBGOTO,0x17D3B0,21,match,src/hand/Enter__7JOBGOTO.c
+Exit__7JOBGOTO,0x17D408,18,match,src/hand/Exit__7JOBGOTO.c
 SetState__7JOBGOTOi,0x17D450,109,match,src/hand/func_0017D450.c
 FSnapPosToSurfaceAbove__FP6VECTOR,0x17D608,48,match,src/hand/func_0017D608.cpp
 Update__7JOBGOTO,0x17D6C8,119,match,src/hand/func_0017D6C8.c
 func_0017D8A8,0x17D8A8,95,match,src/hand/func_0017D8A8.c
 Search__7JOBGOTO,0x17DA28,164,match,src/hand/func_0017DA28.c
-NArrived__7JOBGOTO,0x17DCB8,16,match,src/auto/func_0017DCB8.c
+NArrived__7JOBGOTO,0x17DCB8,16,match,src/hand/NArrived__7JOBGOTO.c
 FStuck__7JOBGOTO,0x17DCF8,15,match,src/hand/func_0017DCF8.c
 SetGoal__7JOBGOTOP4GOAL,0x17DD38,14,match,src/hand/func_0017DD38.c
 Init__5JOBBD,0x17DD70,14,match,src/hand/func_0017DD70.c
@@ -2792,7 +2792,7 @@ Enter__7JOBLINK,0x17E3D8,13,match,src/hand/Enter__7JOBLINK.c
 Exit__7JOBLINK,0x17E410,17,match,src/hand/Exit__7JOBLINK.c
 Update__7JOBLINK,0x17E458,69,match,src/hand/func_0017E458.c
 func_0017E570,0x17E570,4,match,src/auto/func_0017E570.c
-NextRecord__7JOBLINK,0x17E580,27,match,src/auto/func_0017E580.c
+NextRecord__7JOBLINK,0x17E580,27,match,src/hand/NextRecord__7JOBLINK.c
 func_0017E5F0,0x17E5F0,14,match,src/hand/func_0017E5F0.c
 func_0017E628,0x17E628,34,match,src/hand/func_0017E628.c
 SetState__7JOBLINKi,0x17E6B0,118,match,src/hand/func_0017E6B0.c
@@ -2832,7 +2832,7 @@ SetHackShipFocus__FP2LOi,0x17F8C8,25,match,src/hand/func_0017F8C8.c
 UpdateShip__FP2LO,0x17F930,135,match,src/hand/func_0017F930.c
 MoveShip__FP3ALO,0x17FB50,37,match,src/hand/func_0017FB50.cpp
 FAcceptShipContact__FP3ALOP5CTMSG,0x17FBE8,50,match,src/hand/func_0017FBE8.c
-ResetShip__FP2LO,0x17FCB0,21,match,src/auto/func_0017FCB0.c
+ResetShip__FP2LO,0x17FCB0,21,match,src/hand/ResetShip__FP2LO.c
 SetShipState__FP2LOi,0x17FD08,230,match,src/hand/func_0017FD08.cpp
 func_001800A0,0x1800A0,13,match,src/hand/func_001800A0.c
 func_001800D8,0x1800D8,9,match,src/hand/func_001800D8.c
@@ -3044,7 +3044,7 @@ func_0018D500,0x18D500,17,match,src/hand/func_0018D500.c
 func_0018D548,0x18D548,7,match,src/auto/func_0018D548.c
 func_0018D568,0x18D568,46,match,src/hand/func_0018D568.c
 func_0018D620,0x18D620,30,match,src/hand/func_0018D620.c
-SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO,0x18D698,24,match,src/auto/func_0018D698.c
+SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO,0x18D698,24,match,src/hand/SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO.c
 PpocketSly__FP3SLYi,0x18D6F8,26,match,src/hand/func_0018D6F8.c
 func_0018D760,0x18D760,185,match,src/hand/func_0018D760.cpp
 func_0018DA48,0x18DA48,203,match,src/hand/func_0018DA48.c
@@ -3159,7 +3159,7 @@ func_0019CAA0,0x19CAA0,77,match,src/hand/func_0019CAA0.c
 func_0019CBD8,0x19CBD8,8,match,src/hand/func_0019CBD8.c
 InitBinoc__FP5BINOC5BLOTK,0x19CBF8,13,match,src/hand/InitBinoc__FP5BINOC5BLOTK.c
 PostLoadBinoc__FP5ACTOR,0x19CC30,7,match,src/hand/PostLoadBinoc__FP5ACTOR.c
-OpenBinoc__FP5ACTORiP2LOT2,0x19CC50,37,match,src/auto/func_0019CC50.c
+OpenBinoc__FP5ACTORiP2LOT2,0x19CC50,37,match,src/hand/OpenBinoc__FP5ACTORiP2LOT2.c
 CloseBinoc__FP5ACTOR,0x19CCE8,19,match,src/hand/func_0019CCE8.c
 SetBinocState__FP5ACTORi,0x19CD38,382,match,src/hand/func_0019CD38.cpp
 UpdateBinoc__FP5ACTOR,0x19D330,104,match,src/hand/func_0019D330.c
@@ -3171,7 +3171,7 @@ UpdateBinocWindow__FP5ACTOR,0x19DA78,137,match,src/hand/func_0019DA78.cpp
 func_0019DCA0,0x19DCA0,6,match,src/hand/func_0019DCA0.c
 func_0019DCB8,0x19DCB8,77,match,src/hand/func_0019DCB8.c
 func_0019DDF0,0x19DDF0,8,match,src/hand/func_0019DDF0.c
-InitClimb__FP5ACTORi,0x19DE10,18,match,src/auto/func_0019DE10.c
+InitClimb__FP5ACTORi,0x19DE10,18,match,src/hand/InitClimb__FP5ACTORi.c
 BindSlopeBlend__FP10SLOPEBLEND,0x19DE58,70,match,src/hand/func_0019DE58.c
 UpdateClimbMotion__FP5ACTOR,0x19DF70,104,match,src/hand/func_0019DF70.cpp
 LmClimb__FP5ACTORPf,0x19E110,51,match,src/hand/func_0019E110.c
@@ -3483,7 +3483,7 @@ PvAllocSwImpl__Fi,0x1AE1D0,26,match,src/hand/func_001AE1D0.c
 PvAllocSwCopyImpl__FiPv,0x1AE238,26,match,src/hand/func_001AE238.c
 PvAllocSwClearImpl__Fi,0x1AE2A0,23,match,src/hand/func_001AE2A0.c
 FreeSw__Fv,0x1AE300,5,match,src/hand/FreeSw__Fv.cpp
-PvAllocStackImpl__Fi,0x1AE318,24,match,src/auto/func_001AE318.c
+PvAllocStackImpl__Fi,0x1AE318,24,match,src/hand/PvAllocStackImpl__Fi.c
 PvAllocStackClearImpl__Fi,0x1AE378,23,match,src/hand/func_001AE378.c
 InitStackImpl__Fv,0x1AE3D8,19,match,src/hand/InitStackImpl__Fv.cpp
 FreeStackImpl__Fv,0x1AE428,19,match,src/hand/FreeStackImpl__Fv.cpp
@@ -3540,7 +3540,7 @@ func_001B0B58,0x1B0B58,8,match,src/hand/func_001B0B58.c
 InitBird__FP2LO,0x1B0B78,60,match,src/hand/func_001B0B78.c
 func_001B0C68,0x1B0C68,16,match,src/hand/func_001B0C68.c
 func_001B0CA8,0x1B0CA8,23,match,src/auto/func_001B0CA8.c
-StartBird__FP2LO,0x1B0D08,21,match,src/auto/func_001B0D08.c
+StartBird__FP2LO,0x1B0D08,21,match,src/hand/StartBird__FP2LO.c
 func_001B0D60,0x1B0D60,11,match,src/auto/func_001B0D60.c
 PlaceBird__FP2LO,0x1B0D90,38,match,src/hand/func_001B0D90.c
 UpdateBird__FP2LO,0x1B0E28,88,match,src/hand/func_001B0E28.c
@@ -3877,7 +3877,7 @@ UpdatePadctl__FP6PADCTL,0x1C4468,80,match,src/hand/func_001C4468.c
 StampPadctlState__FP6PADCTL,0x1C45A8,37,match,src/hand/func_001C45A8.c
 SetPadctlControl__FP6PADCTLi,0x1C4640,7,match,src/hand/func_001C4640.c
 GrfPadctlPressedWithin__FP6PADCTLUif,0x1C4660,24,match,src/hand/func_001C4660.c
-GrfPadctlTakePressed__FP6PADCTL,0x1C46C0,16,match,src/auto/func_001C46C0.c
+GrfPadctlTakePressed__FP6PADCTL,0x1C46C0,16,match,src/hand/GrfPadctlTakePressed__FP6PADCTL.c
 func_001C4700,0x1C4700,9,match,src/hand/func_001C4700.c
 func_001C4728,0x1C4728,4,match,src/hand/func_001C4728.c
 ForgetPadctlPresses__FP6PADCTLUi,0x1C4738,12,match,src/hand/func_001C4738.c
@@ -3992,7 +3992,7 @@ func_001CB2E0,0x1CB2E0,18,match,src/hand/func_001CB2E0.c
 func_001CB328,0x1CB328,14,match,src/auto/func_001CB328.c
 func_001CB360,0x1CB360,43,match,src/hand/func_001CB360.cpp
 IrowOfObject__FP2SWi,0x1CB410,30,match,src/hand/func_001CB410.c
-LockProxyRowOf__Fv,0x1CB488,11,match,src/auto/func_001CB488.c
+LockProxyRowOf__Fv,0x1CB488,11,match,src/hand/LockProxyRowOf__Fv.c
 func_001CB4B8,0x1CB4B8,9,match,src/auto/func_001CB4B8.c
 func_001CB4E0,0x1CB4E0,14,match,src/hand/func_001CB4E0.c
 func_001CB518,0x1CB518,43,match,src/hand/func_001CB518.c
@@ -4032,7 +4032,7 @@ PloReachGrip__FP5ACTORi,0x1CCA40,32,match,src/hand/func_001CCA40.c
 SetReachState__FP5REACHi,0x1CCAC0,113,match,src/hand/func_001CCAC0.c
 StartReachGrab__FP5REACHP2LO,0x1CCC88,260,match,src/hand/func_001CCC88.cpp
 AttachReachObject__FP5REACHP2LO,0x1CD098,137,match,src/hand/func_001CD098.cpp
-ReleaseReachObject__FP5REACH,0x1CD2C0,18,match,src/auto/func_001CD2C0.c
+ReleaseReachObject__FP5REACH,0x1CD2C0,18,match,src/hand/ReleaseReachObject__FP5REACH.c
 PlaceReachObject__FP5REACHP2LO,0x1CD308,100,match,src/hand/func_001CD308.cpp
 func_001CD498,0x1CD498,77,match,src/hand/func_001CD498.c
 func_001CD5D0,0x1CD5D0,8,match,src/hand/func_001CD5D0.c
@@ -4109,7 +4109,7 @@ func_001D1218,0x1D1218,77,match,src/hand/func_001D1218.c
 func_001D1350,0x1D1350,8,match,src/hand/func_001D1350.c
 func_001D1370,0x1D1370,39,match,src/hand/func_001D1370.c
 CloneVehicle__FP2LO,0x1D1410,44,match,src/hand/func_001D1410.cpp
-ResetVehicleState__FP2LO,0x1D14C0,21,match,src/auto/func_001D14C0.c
+ResetVehicleState__FP2LO,0x1D14C0,21,match,src/hand/ResetVehicleState__FP2LO.c
 PostLoadVehicle__FP2LO,0x1D1518,253,match,src/hand/func_001D1518.cpp
 ResetVehiclePlacement__FP2LO,0x1D1910,11,match,src/hand/ResetVehiclePlacement__FP2LO.c
 func_001D1940,0x1D1940,25,match,src/auto/func_001D1940.c
@@ -4219,7 +4219,7 @@ func_001D9408,0x1D9408,69,match,src/hand/func_001D9408.c
 func_001D9520,0x1D9520,38,match,src/auto/func_001D9520.c
 func_001D95B8,0x1D95B8,36,match,src/hand/func_001D95B8.c
 func_001D9648,0x1D9648,118,match,src/hand/func_001D9648.c
-UpdateRecyclable__3CGc,0x1D9820,20,match,src/auto/UpdateRecyclable__3CGc.c
+UpdateRecyclable__3CGc,0x1D9820,20,match,src/hand/UpdateRecyclable__3CGc.c
 func_001D9870,0x1D9870,2,match,src/hand/func_001D9870.c
 func_001D9878,0x1D9878,2,match,src/hand/func_001D9878.c
 func_001D9880,0x1D9880,9,match,src/auto/func_001D9880.c
@@ -4493,7 +4493,7 @@ EvalCrv__FP3CRVfP6VECTORT2,0x1E67B8,121,match,src/hand/func_001E67B8.c
 func_001E69A0,0x1E69A0,35,match,src/hand/func_001E69A0.c
 func_001E6A30,0x1E6A30,226,match,src/hand/func_001E6A30.cpp
 func_001E6DB8,0x1E6DB8,71,match,src/hand/func_001E6DB8.c
-NearestCrv__FP3CRV,0x1E6ED8,14,match,src/auto/func_001E6ED8.c
+NearestCrv__FP3CRV,0x1E6ED8,14,match,src/hand/NearestCrv__FP3CRV.c
 func_001E6F10,0x1E6F10,20,match,src/auto/func_001E6F10.c
 NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2,0x1E6F60,264,match,src/hand/func_001E6F60.cpp
 NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f,0x1E7380,36,match,src/hand/func_001E7380.c
@@ -4553,7 +4553,7 @@ EndShaderGroup__Fv,0x1EC7A0,17,match,src/auto/func_001EC7A0.c
 func_001EC7E8,0x1EC7E8,14,match,src/auto/func_001EC7E8.c
 PshdFindShader__F3OID,0x1EC820,23,match,src/hand/func_001EC820.c
 func_001EC880,0x1EC880,19,match,src/hand/func_001EC880.c
-PshdOfId__Fi,0x1EC8D0,10,match,src/auto/func_001EC8D0.c
+PshdOfId__Fi,0x1EC8D0,10,match,src/hand/PshdOfId__Fi.c
 PshdFromIndex__Fi,0x1EC8F8,6,match,src/hand/PshdFromIndex__Fi.c
 func_001EC918,0x1EC918,19,match,src/hand/func_001EC918.c
 func_001EC968,0x1EC968,25,match,src/hand/func_001EC968.c
@@ -4676,7 +4676,7 @@ func_001F0FD8,0x1F0FD8,39,match,src/hand/func_001F0FD8.cpp
 OnAsegaMsg__3SMAP5ASEGAi,0x1F1078,30,match,src/hand/func_001F1078.cpp
 AdvanceSma__FP3SMAf,0x1F10F0,46,match,src/hand/func_001F10F0.cpp
 func_001F11A8,0x1F11A8,106,match,src/hand/func_001F11A8.c
-SetSmaMask__FP3SMAUi,0x1F1350,22,match,src/auto/func_001F1350.c
+SetSmaMask__FP3SMAUi,0x1F1350,22,match,src/hand/SetSmaMask__FP3SMAUi.c
 NotifySmaState__FP3SMAii,0x1F13A8,40,match,src/hand/func_001F13A8.c
 ReplaceSmaHandle__FP2SMi3OIDiPP3SMA,0x1F1448,43,match,src/hand/func_001F1448.c
 ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA,0x1F14F8,47,match,src/hand/func_001F14F8.c
@@ -4899,7 +4899,7 @@ Resume__4CSnd,0x1FB060,13,match,src/hand/func_001FB060.c
 Stop__4CSndf,0x1FB098,9,match,src/hand/Stop__4CSndf.c
 Start__4CSnd,0x1FB0C0,78,match,src/hand/func_001FB0C0.c
 SetVolume__4CSndf,0x1FB1F8,27,match,src/hand/func_001FB1F8.c
-SetPan__4CSndi,0x1FB268,22,match,src/auto/func_001FB268.c
+SetPan__4CSndi,0x1FB268,22,match,src/hand/SetPan__4CSndi.c
 SetPitch__4CSndiif,0x1FB2C0,14,match,src/hand/SetPitch__4CSndiif.c
 SetSource__4CSndPv,0x1FB2F8,61,match,src/hand/func_001FB2F8.c
 SetPosition__4CSndG9VU_VECTOR,0x1FB3F0,64,match,src/hand/func_001FB3F0.c
@@ -5103,7 +5103,7 @@ func_00205D18,0x205D18,77,match,src/hand/func_00205D18.c
 func_00205E50,0x205E50,8,match,src/hand/func_00205E50.c
 func_00205E70,0x205E70,17,match,src/auto/func_00205E70.c
 InitStepguard__FP9STEPGUARD,0x205EB8,145,match,src/hand/func_00205EB8.c
-CloneStepguard__FP9STEPGUARDT0,0x206100,27,match,src/auto/func_00206100.c
+CloneStepguard__FP9STEPGUARDT0,0x206100,27,match,src/hand/CloneStepguard__FP9STEPGUARDT0.c
 func_00206170,0x206170,26,match,src/hand/func_00206170.cpp
 PostStepguardLoad__FP9STEPGUARD,0x2061D8,104,match,src/hand/func_002061D8.c
 func_00206378,0x206378,2,match,src/auto/func_00206378.c
@@ -5112,7 +5112,7 @@ func_00206458,0x206458,12,match,src/auto/func_00206458.c
 func_00206488,0x206488,5,match,src/auto/func_00206488.c
 func_002064A0,0x2064A0,7,match,src/auto/func_002064A0.c
 func_002064C0,0x2064C0,5,match,src/auto/func_002064C0.c
-OnStepguardRemove__FP9STEPGUARD,0x2064D8,16,match,src/auto/func_002064D8.c
+OnStepguardRemove__FP9STEPGUARD,0x2064D8,16,match,src/hand/OnStepguardRemove__FP9STEPGUARD.c
 ResetGuard__FP2LO,0x206518,140,match,src/hand/func_00206518.c
 func_00206748,0x206748,54,match,src/hand/func_00206748.c
 func_00206820,0x206820,45,match,src/hand/func_00206820.c
@@ -5136,7 +5136,7 @@ func_00207A20,0x207A20,7,match,src/hand/func_00207A20.c
 func_00207A40,0x207A40,23,match,src/hand/func_00207A40.c
 func_00207AA0,0x207AA0,28,match,src/hand/func_00207AA0.c
 MaskOfList__FPv,0x207B10,24,match,src/hand/func_00207B10.c
-SetGuardKinde__FP5GUARD3OIDii,0x207B70,21,match,src/auto/func_00207B70.c
+SetGuardKinde__FP5GUARD3OIDii,0x207B70,21,match,src/hand/SetGuardKinde__FP5GUARD3OIDii.c
 func_00207BC8,0x207BC8,31,match,src/auto/func_00207BC8.c
 SetGuardKind3__FP5GUARDiiiii,0x207C48,43,match,src/hand/func_00207C48.c
 func_00207CF8,0x207CF8,39,match,src/hand/func_00207CF8.c
@@ -5218,15 +5218,15 @@ func_0020A058,0x20A058,41,match,src/hand/func_0020A058.c
 func_0020A100,0x20A100,26,match,src/auto/func_0020A100.c
 NCompareNoises__FP5GUARDP5NOISET1,0x20A168,75,match,src/hand/func_0020A168.c
 FGuardSurprised__FP5GUARDP2LOUl,0x20A298,56,match,src/hand/func_0020A298.c
-FGuardLaunchAllowed__FP5GUARDP2LOi,0x20A378,36,match,src/auto/func_0020A378.c
+FGuardLaunchAllowed__FP5GUARDP2LOi,0x20A378,36,match,src/hand/FGuardLaunchAllowed__FP5GUARDP2LOi.c
 PloGuardInterest__FP5GUARDP2LO,0x20A408,68,match,src/hand/func_0020A408.c
 func_0020A518,0x20A518,10,match,src/hand/func_0020A518.c
 SetGuardPatrol__FP5GUARDi,0x20A540,46,match,src/hand/func_0020A540.c
 func_0020A5F8,0x20A5F8,23,match,src/auto/func_0020A5F8.c
 func_0020A658,0x20A658,14,match,src/hand/func_0020A658.c
 RadTargetrec__FP9TARGETREC,0x20A690,39,match,src/hand/func_0020A690.c
-AddTargetrecGuard__FP9TARGETRECP5GUARD,0x20A730,24,match,src/auto/func_0020A730.c
-RemoveTargetrecGuard__FP9TARGETREC,0x20A790,19,match,src/auto/func_0020A790.c
+AddTargetrecGuard__FP9TARGETRECP5GUARD,0x20A730,24,match,src/hand/AddTargetrecGuard__FP9TARGETRECP5GUARD.c
+RemoveTargetrecGuard__FP9TARGETREC,0x20A790,19,match,src/hand/RemoveTargetrecGuard__FP9TARGETREC.c
 func_0020A7E0,0x20A7E0,13,match,src/hand/func_0020A7E0.c
 FTargetrecAllows__FP9TARGETRECP5GUARD,0x20A818,100,match,src/hand/func_0020A818.cpp
 SetTargetrecTimer__FP9TARGETRECi,0x20A9A8,5,match,src/hand/func_0020A9A8.c
@@ -5252,7 +5252,7 @@ RaiseGuardAlarm__FP5GUARDP2LO,0x20B140,52,match,src/hand/func_0020B140.c
 DetachGuardMove__FP5GUARD,0x20B210,37,match,src/hand/func_0020B210.c
 AttachGuardMove__FP5GUARDP2LOi,0x20B2A8,74,match,src/hand/func_0020B2A8.c
 NGuardStatus__FP5GUARD,0x20B3D0,26,match,src/hand/func_0020B3D0.c
-LockGuardActivation__FP5GUARDi,0x20B438,16,match,src/auto/func_0020B438.c
+LockGuardActivation__FP5GUARDi,0x20B438,16,match,src/hand/LockGuardActivation__FP5GUARDi.c
 UnlockGuardActivation__FP5GUARDi,0x20B478,11,match,src/hand/UnlockGuardActivation__FP5GUARDi.c
 func_0020B4A8,0x20B4A8,22,match,src/hand/func_0020B4A8.c
 PostLoadGuardManager__FP2LO,0x20B500,35,match,src/hand/func_0020B500.c
@@ -5268,7 +5268,7 @@ UpdateGaitFeet__FP4GAIT,0x20BC08,87,match,src/hand/func_0020BC08.c
 ResetGaitFeet__FP4GAIT,0x20BD68,3,match,src/hand/func_0020BD68.c
 func_0020BD78,0x20BD78,3,match,src/auto/func_0020BD78.c
 func_0020BD88,0x20BD88,125,match,src/hand/func_0020BD88.c
-StartK2__FP5KIND2P3ALOiP6K2PLAY,0x20BF80,35,match,src/auto/func_0020BF80.c
+StartK2__FP5KIND2P3ALOiP6K2PLAY,0x20BF80,35,match,src/hand/StartK2__FP5KIND2P3ALOiP6K2PLAY.c
 func_0020C010,0x20C010,8,match,src/auto/func_0020C010.c
 func_0020C030,0x20C030,9,match,src/auto/func_0020C030.c
 func_0020C058,0x20C058,9,match,src/hand/func_0020C058.c
@@ -5680,7 +5680,7 @@ func_00227598,0x227598,8,match,src/hand/func_00227598.c
 RgbaDialogSpeaker__Fi,0x2275B8,91,match,src/hand/func_002275B8.cpp
 SetDialogSubtitle__FP9DIALOGSUBii,0x227728,23,match,src/hand/func_00227728.c
 func_00227788,0x227788,18,match,src/hand/func_00227788.c
-GetDialogSubtitleText__FP9DIALOGSUBPc,0x2277D0,20,match,src/auto/func_002277D0.c
+GetDialogSubtitleText__FP9DIALOGSUBPc,0x2277D0,20,match,src/hand/GetDialogSubtitleText__FP9DIALOGSUBPc.c
 StrDialogSubtitleTyped__FP9DIALOGSUBPv,0x227820,71,match,src/hand/func_00227820.c
 func_00227940,0x227940,72,match,src/hand/func_00227940.c
 func_00227A60,0x227A60,77,match,src/hand/func_00227A60.c
@@ -5699,7 +5699,7 @@ TriggerWarp__FP4WARP,0x228170,29,match,src/hand/func_00228170.c
 func_002281E8,0x2281E8,26,match,src/hand/func_002281E8.c
 LoadKeyRecordFromBrx__FP18CBinaryInputStreamPUc,0x228250,24,match,src/hand/func_00228250.c
 LoadShapeKeysFromBrx__FP2LOP18CBinaryInputStream,0x2282B0,41,match,src/hand/func_002282B0.c
-SetExitState__FP2LOi,0x228358,30,match,src/auto/func_00228358.c
+SetExitState__FP2LOi,0x228358,30,match,src/hand/SetExitState__FP2LOi.c
 TriggerExit__FP4EXIT,0x2283D0,67,match,src/hand/func_002283D0.c
 func_002284E0,0x2284E0,14,match,src/hand/func_002284E0.c
 func_00228518,0x228518,7,match,src/auto/func_00228518.c
@@ -6645,7 +6645,7 @@ func_00259A40,0x259A40,2,match,src/auto/func_00259A40.c
 func_00259A48,0x259A48,2,match,src/auto/func_00259A48.c
 func_00259A70,0x259A70,2,match,src/hand/func_00259A70.c
 func_00259A78,0x259A78,2,match,src/auto/func_00259A78.c
-AddRootFrame__3CGc,0x259A88,16,match,src/auto/func_00259A88.c
+AddRootFrame__3CGc,0x259A88,16,match,src/hand/AddRootFrame__3CGc.c
 func_00259AE8,0x259AE8,4,match,src/hand/func_00259AE8.c
 func_00259AF8,0x259AF8,2,match,src/auto/func_00259AF8.c
 func_00259B00,0x259B00,2,match,src/auto/func_00259B00.c
