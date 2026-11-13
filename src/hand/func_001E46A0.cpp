@@ -12,7 +12,7 @@ extern "C" {
 extern qword D_002A2DA0;
 extern float D_002C3630[3],g_lmZeroOne[2],D_002C3640;
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");
-void func_001E6F10(PATH*,qword*,qword*,float);
+void EvalCrvS(PATH*,qword*,qword*,float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 qword func_001C4768(OUTPUT*,qword);
 float atan2f(float,float) asm("atan2f");
 float SMaxCrv__FP3CRV(PATH*),GMaxCrv__FP3CRV(PATH*);
@@ -101,9 +101,9 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
  case 0x1A:{
   int reverse=0;
   float t=SClampCrv(actor->curve,actor->curveTime+50.0f);
-  func_001E6F10(actor->curve,&work.from.q,0,t);
+  EvalCrvS(actor->curve,&work.from.q,0,t);
   t=SClampCrv(actor->curve,actor->curveTime-50.0f);
-  func_001E6F10(actor->curve,&work.to.q,0,t);
+  EvalCrvS(actor->curve,&work.to.q,0,t);
   qword direction=func_001C4768(out,Sub(work.from.q,work.to.q));
   float x=X(direction),y=Y(direction);
   out->heading=atan2f(y,x);out->x=x;out->y=y;

@@ -1,6 +1,6 @@
 struct E { int a; int b; void *o; int k; float ag[3]; };
 struct S { char pad[0x288]; float g288; char pad2[0x2A8 - 0x28C]; int c; struct E ae[8]; };
-int func_001F0638(void *o);
+int FSmaRetracted(void *o) asm("FSmaRetracted__FP3SMA");
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int a, int b, int c, int d, void **ppo);
 int func_00152680(int j);
 void SetSmaGoal__FP3SMA3OID(void *o, int n);
@@ -12,7 +12,7 @@ void UpdateDanceCrowd__FP5DANCE(struct S *p)
         struct E *pe = &p->ae[i];
         if (!pe->o)
             continue;
-        if (func_001F0638(pe->o)) {
+        if (FSmaRetracted(pe->o)) {
             ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(0, 0, -1, 0, &pe->o);
             pe->k = -1;
         } else {

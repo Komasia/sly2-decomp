@@ -4,7 +4,7 @@ union U { qword q; float f[4]; int i[4]; };
 struct M3 { qword r[3]; };
 struct S { char pad[0x10C]; void *curve; char pad1[0x120-0x110]; int polar; char pad120[0x12C-0x124]; int arc; char pad2[0x140-0x130]; float time; char pad3[0x150-0x144]; qword origin; float radius; };
 extern "C" {
-void func_001E6F10(void *, float, qword *, qword *);
+void EvalCrvS(void *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 M3 *MatJtLo(struct S *);
@@ -48,7 +48,7 @@ extern "C" void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(S *
     if(mode==2) pos.f[0]=-pos.f[0];
     if(p->polar) pos.q=SetVectorCylind(pos.f[0],pos.f[1],pos.f[2]);
     if(p->curve) {
-        func_001E6F10(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
+        EvalCrvS(p->curve,mode!=1?time-delta:time+delta,&center.q,&normal.q);
         m=BuildLookAtMatrix(normal.q,g_normalZ);
         rotated.q=Rotate(m,pos.q);
     } else if(p->arc) {

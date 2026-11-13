@@ -9,11 +9,11 @@ struct Q1 { char pad[0xC4]; float gC4; };
 struct Q2 { char pad[0x38]; float g38; };
 struct P { char pad[0x10]; struct O *po; char pad2[0x30 - 0x14]; int x30; float g34; };
 void Update__5AIJOB(struct P *p);
-int func_001EF0A8(struct P *p);
+int FJobDone(struct P *p) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void *p);
 int FPointInShape__FP2LOG9VU_VECTOR(void *p, qword v);
 void SetProxState__7JOBPROXi(struct P *p, int n);
-int func_00209A68(struct O *po, int n);
+int FGuardState(struct O *po, int n) asm("FGuardState__FP5GUARDi");
 void *func_00205458(struct O *po, int n);
 static inline float Dist(qword a, qword b) {
     qword d;
@@ -32,7 +32,7 @@ void Update__7JOBPROX(struct P *p)
     int s;
     Update__5AIJOB(p);
     for (;;) {
-        if (func_001EF0A8(p))
+        if (FJobDone(p))
             break;
         s = p->x30;
         switch (s) {
@@ -56,7 +56,7 @@ void Update__7JOBPROX(struct P *p)
         if (s == p->x30)
             break;
     }
-    if (p->x30 == 0 && func_00209A68(p->po, 9)) {
+    if (p->x30 == 0 && FGuardState(p->po, 9)) {
         float d = Dist(PosOfLo__FP2LO(p->po), PosOfLo__FP2LO(D_002E1E40));
         struct O *po = p->po;
         float r = GClamp(GEval(&po->poly, d), po->poly.gMin, po->poly.gMax);

@@ -4,7 +4,7 @@ union U { qword q; float f[4]; };
 struct M3 { qword r[3]; };
 struct S { char pad[0x10C]; void *curve; char pad1[0x12C-0x110]; int arc; char pad2[0x140-0x130]; float time; char pad3[0x150-0x144]; qword origin; float radius; };
 extern "C" {
-void func_001E6F10(void *, float, qword *, qword *);
+void EvalCrvS(void *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 M3 *MatJtLo(struct S *) asm("MatJtLo__FP2LO");
@@ -34,7 +34,7 @@ extern "C" void ConvertZonePos__FP6ZONECMG9VU_VECTORP6VECTORT2(S *p,qword v,qwor
     U pos;
     M3 m;
     if(p->curve) {
-        func_001E6F10(p->curve,p->time,&pos.q,normal);
+        EvalCrvS(p->curve,p->time,&pos.q,normal);
         m=BuildLookAtMatrix(*normal,g_normalZ);
         *out=InverseRotate(m,Sub(v,pos.q));
     } else if(p->arc) {

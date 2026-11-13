@@ -8,7 +8,7 @@ extern struct X *D_003E1468;
 int func_001443D8(struct P *p);
 qword PosOfLo__FP2LO(struct P *p);
 void *func_00156698(void *a, qword pos, struct P *p);
-int func_00209A68(struct SO *pso, int n);
+int FGuardState(struct SO *pso, int n) asm("FGuardState__FP5GUARDi");
 int FListenerHearsNoise__FP2LOP5NOISE(struct X *px, void *q);
 void RemoveNoise__FP5NOISE(void *q);
 // name: SafeHouse port (NActorPerceived)
@@ -27,7 +27,7 @@ int NActorPerceived__FP5ACTOR(struct P *p)
     pso = D_003E1444;
     for (;;) {
         if (!pso) break;
-        if (func_00209A68(pso, 0x1D) || func_00209A68(pso, 0xB)) { r = 2; break; }
+        if (FGuardState(pso, 0x1D) || FGuardState(pso, 0xB)) { r = 2; break; }
         if (pso->vt[89].pfn((char *)pso + pso->vt[89].d, q)) { r = 1; break; }
         pso = pso->psoNext;
     }

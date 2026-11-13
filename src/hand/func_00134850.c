@@ -28,7 +28,7 @@ void UpdateBentleyHold__FP7BENTLEY(struct P *p);
 void func_001367D8(struct P *p);
 void UpdateJtThrow__FP7JTTHROW(void *pv);
 int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
-int func_001F0638(void *pv);
+int FSmaRetracted(void *pv) asm("FSmaRetracted__FP3SMA");
 void UpdateBentleyState2__FP7BENTLEY(struct P *p);
 
 #define VCALL99(p, a) ((int (*)(void *, int))(p)->vt[99].pfn)((char *)(p) + (p)->vt[99].d, a)
@@ -138,7 +138,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
         case 10:
             if (p->p1030 && FAsegaRetracted(p->p1030))
                 SetBentleyState__FP7BENTLEYi(p, 0);
-            else if (p->p1034 && func_001F0638(p->p1034))
+            else if (p->p1034 && FSmaRetracted(p->p1034))
                 SetBentleyState__FP7BENTLEYi(p, 0);
             break;
         case 14:

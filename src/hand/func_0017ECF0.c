@@ -10,7 +10,7 @@ float SMaxCrv__FP3CRV(struct B *b);
 float SWrapCrv__FP3CRVf(struct B *b, float f);
 void UpdatePathrec__FP7PATHREC(void *p);
 struct R *FInPathSpan__FP7PATHRECf(void *p, float f);
-void func_001E6F10(struct B *b, float f, qword *pv, int n);
+void EvalCrvS(struct B *b, float f, qword *pv, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 // name: SafeHouse port (JOBPATHSTEP::Step)
@@ -39,7 +39,7 @@ void Step__11JOBPATHSTEPi(struct S *p, int force) {
         void *q;
         struct X x;
         p->f38 = t;
-        func_001E6F10(p->p30, t, &p->v40, 0);
+        EvalCrvS(p->p30, t, &p->v40, 0);
         q = p->p18;
         func_002562A8(&x);
         x.v = p->v40;

@@ -22,7 +22,7 @@ extern "C" float RadStepHeading(A *p) asm("RadStepHeading__FP4STEP");
 extern "C" int FIsBasicDerivedFrom(B *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern "C" float SMaxCrv(B *p) asm("SMaxCrv__FP3CRV");
 extern "C" float SMinCrv(B *p) asm("SMinCrv__FP3CRV");
-extern "C" void func_001E6F10(B *p, qword *pv, qword *direction, float g);
+extern "C" void EvalCrvS(B *p, qword *pv, qword *direction, float g) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 extern "C" qword PosOfLo(A *p) asm("PosOfLo__FP2LO");
 extern "C" M *MatJtLo(A *p) asm("MatJtLo__FP2LO");
 extern "C" float GSmooth(SMP *p, float a, float b, float c, float *output) asm("GSmooth__FfffP3SMPPf");
@@ -75,7 +75,7 @@ extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
                     g = GMax(g, h);
                 }
             }
-            func_001E6F10(pb, &ps->v40, 0, g);
+            EvalCrvS(pb, &ps->v40, 0, g);
             lift=125.0f;height=((float*)&ps->v40)[2];goto liftValue;
         } else if (ps->x2C == 1) {
             {register qword position __asm__("$2")=PosOfLo(ps->p0),scalar __asm__("vf1");register A*receiver __asm__("$4");

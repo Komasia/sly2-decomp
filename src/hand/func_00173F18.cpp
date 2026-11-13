@@ -32,7 +32,7 @@ M4 *MatJtLo(LO *) asm("MatJtLo__FP2LO");
 int func_00173768(SET *, qword, int, void **, float);
 float SMaxCrv(LO *) asm("SMaxCrv__FP3CRV");
 int FInPathSpan(void *, float) asm("FInPathSpan__FP7PATHRECf");
-void func_001E6F10(LO *, qword *, qword *, float);
+void EvalCrvS(LO *, qword *, qword *, float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 float atan2f(float, float) asm("atan2f");
 M3 BuildRotateMatrixAxis(float, qword) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
@@ -183,7 +183,7 @@ extern "C" SEL *PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(SET *pset, 
                 if (FInPathSpan(plo->pv180, u))
                     goto nextSample;
                 {
-                    func_001E6F10(plo, &posCurve.q, &dirCurve.q, u);
+                    EvalCrvS(plo, &posCurve.q, &dirCurve.q, u);
                     float sDist = SLengthXY(QwSubFrom(pos, posCurve.q));
                     if (sDist < D_002BE5E4 || sBest < sDist)
                         goto nextSample;

@@ -5,7 +5,7 @@ struct S { char pad[0x50]; int x50; char pad2[0x5C - 0x54]; void *x5C; };
 struct P { char pad[0x150]; void *pl; char pad2[0x10DC - 0x154]; struct O *p10DC; char pad3[0x180C - 0x10E0]; int x180C; };
 extern float D_002C09AC, D_002C09B8;
 extern char D_002C09B0[], D_002C09C0[];
-int func_00209A68(struct O *po, int n);
+int FGuardState(struct O *po, int n) asm("FGuardState__FP5GUARDi");
 int GrfPadctlPressedWithin__FP6PADCTLUif(void *pl, int k, float g);
 int GrfPadctlTakePressed__FP6PADCTL(void *pl, int k, float g);
 struct S *PjobFind__FP5GUARDPv(void *p, int n);
@@ -33,7 +33,7 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
     struct S *ps;
     if (!p->p10DC)
         return 0;
-    if (!func_00209A68(p->p10DC, 0x17) || !GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0xA0, 0.15f))
+    if (!FGuardState(p->p10DC, 0x17) || !GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0xA0, 0.15f))
         goto ret0;
     ps = PjobFind__FP5GUARDPv(p->p10DC->x26C, 0xB1);
     if (ps->x50 >= 3)

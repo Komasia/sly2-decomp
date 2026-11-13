@@ -20,7 +20,7 @@ extern float D_002C0A34;
 int FAsegaRetracted(void *p) asm("FAsegaRetracted__FP5ASEGA");
 void func_001B6078(P *p, int s);
 void SetMurrayBerserk__FP6MURRAYi(P *p, int s);
-int func_0020C0D8(void *p);
+int FK2Done(void *p) asm("FK2Done__FP6K2PLAY");
 void UpdateK2__FP6K2PLAY(void *p);
 
 // name: SafeHouse port (UpdateMurrayBerserkTransitions)
@@ -43,7 +43,7 @@ void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
             }
             break;
         case 2:
-            if (!p->x1900 || func_0020C0D8(p->x1900)) {
+            if (!p->x1900 || FK2Done(p->x1900)) {
                 if (p->x1AC0) SetMurrayBerserk__FP6MURRAYi(p, 0);
                 else func_001B6078(p, 0);
             } else {

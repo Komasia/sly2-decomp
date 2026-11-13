@@ -3,7 +3,7 @@ struct VT { VTE a[3]; };
 struct A { char pad[0x74]; float g74; };
 struct Q { char pad[0x14]; A *pa; int pad2; float g1C; };
 struct P { char pad[0xC]; VT *pvt; char pad2[0x30 - 0x10]; Q *pq; };
-extern "C" int func_001F0638(P *);
+extern "C" int FSmaRetracted(P *) asm("FSmaRetracted__FP3SMA");
 extern "C" void RetractAsega(Q *) asm("RetractAsega__FP5ASEGA");
 extern "C" void SetAsegaTime(Q *, int, float, float) asm("SetAsegaTime__FP5ASEGAiff");
 struct Lock {
@@ -14,7 +14,7 @@ struct Lock {
 // name: SafeHouse port (AdvanceSma)
 extern "C" void AdvanceSma__FP3SMAf(P *p, float t)
 {
-    if (!func_001F0638(p)) {
+    if (!FSmaRetracted(p)) {
         Lock l(p);
         Q *q;
         while ((q = p->pq) != 0) {

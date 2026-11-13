@@ -9,7 +9,7 @@ int U8Read(void *pbis) asm("U8Read__18CBinaryInputStream");
 int S8Read(void *pbis) asm("S8Read__18CBinaryInputStream");
 int S32Read(void *pbis) asm("S32Read__18CBinaryInputStream");
 void func_00118380(void *pbis, char **ppchz, void *palloc, int nKind);
-void func_00118458(void *pbis, void *pv);
+void ReadRecord64(void *pbis, void *pv) asm("ReadRecord64__18CBinaryInputStreamPv");
 void func_00153B08(struct S *p, void *pbis)
 {
     MSG msg;
@@ -23,6 +23,6 @@ void func_00153B08(struct S *p, void *pbis)
         pe->n4 = S8Read(pbis);
         pe->n8 = S32Read(pbis);
         pe->nC = S32Read(pbis);
-        func_00118458(pbis, pe->ab);
+        ReadRecord64(pbis, pe->ab);
     }
 }

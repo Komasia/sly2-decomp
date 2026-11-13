@@ -6,8 +6,8 @@ extern float D_002C0900;
 struct P { char pad[0x150]; int x150; char pad1[0x1034 - 0x154]; int x1034; char pad2[0x1524 - 0x1038]; float f1524; float f1528; int x152C; int x1530; int x1534; };
 struct P *PloPlayerPo__FP2SW(void *g);
 int IsSwHandsOff__FP2SW(void *g);
-int func_001F07E8(int a);
-int func_001F07C8(int a);
+int OidSmaCur(int a) asm("OidSmaCur__FP3SMA");
+int OidSmaGoal(int a) asm("OidSmaGoal__FP3SMA");
 int GrfPadctlTakePressed__FP6PADCTL(int a, int b, float f);
 void SetSmaGoal__FP3SMA3OID(int a, int b);
 // name: SafeHouse port (UpdateMurrayHold)
@@ -16,8 +16,8 @@ void UpdateMurrayHold__FP6MURRAY(struct P *p)
     int a;
     if (PloPlayerPo__FP2SW(g_sw) != p) return;
     if (IsSwHandsOff__FP2SW(g_sw)) return;
-    a = func_001F07E8(p->x1034);
-    if (a != func_001F07C8(p->x1034)) return;
+    a = OidSmaCur(p->x1034);
+    if (a != OidSmaGoal(p->x1034)) return;
     if (a >= 0x1D0) return;
     if (a < 0x1CB) return;
     p->f1524 -= g_clock.dt;

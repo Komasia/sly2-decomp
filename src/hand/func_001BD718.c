@@ -3,7 +3,7 @@ typedef union { qword q; float f[4]; } V;
 extern float D_002C0AC4;
 extern char D_003DD020[];
 float SWrapCrv__FP3CRVf(void *a, float g);
-void func_001E6F10(void *a, float t, V *pv, int n);
+void EvalCrvS(void *a, float t, V *pv, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void *PpolyOnSegment__FP9NAVREGIONP6VECTORG9VU_VECTORT2(void *a, void *b, qword q2, qword q3);
 int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *x, void *a, float t, int dir, V *pv, int n);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(void *x, qword q, void *g, int a, int b, int c, float *pf);
@@ -18,7 +18,7 @@ int NNavWay__FG9VU_VECTORP6VECTORP9NAVREGIONP3CRViPP7NAVPOLYPff(qword q, void *a
     int r;
     if (dir) t = SWrapCrv__FP3CRVf(obj, g + D_002C0AC4);
     else t = SWrapCrv__FP3CRVf(obj, g - D_002C0AC4);
-    func_001E6F10(obj, t, &v, 0);
+    EvalCrvS(obj, t, &v, 0);
     x = PpolyOnSegment__FP9NAVREGIONP6VECTORG9VU_VECTORT2(a1, a2, q, v.q);
     if (pp) *pp = x;
     if (!x) return 0;

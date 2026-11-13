@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct Y { char pad[0x30]; int x30; };
 struct X { char pad[0x10]; void *p10; int x14; struct Y *p18; char pad1[0x30 - 0x1C]; int state; int x34; void *p38; };
 void Update__5AIJOB(struct X *p);
-int func_001EF0A8(struct X *p);
+int FJobDone(struct X *p) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void *p);
 void SetB4State__5JOBB4i(struct X *p, int k);
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); return z; }
@@ -10,7 +10,7 @@ static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0, $0, %1" : "
 void Update__5JOBB4(struct X *p)
 {
     Update__5AIJOB(p);
-    while (!func_001EF0A8(p)) {
+    while (!FJobDone(p)) {
         int s = p->state;
         switch (s) {
         case 0: {

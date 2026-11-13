@@ -5,7 +5,7 @@ struct X { qword a; qword v; };
 struct A { char pad[0xFD0]; char aFD0[4]; };
 struct S { char pad[0x10]; struct A *p10; int pad2; void *p18; char pad3[0x14]; int n30; float f34; float f38; float f3C; char pad4[8]; int n48; };
 void Update__5AIJOB(struct S *p);
-int func_001EF0A8(struct S *p);
+int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
 int func_00174FB8(void *p);
 int func_00209098(void *p);
 int FNear__14JOBINVESTIGATE(struct S *p);
@@ -26,7 +26,7 @@ static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y
 void Update__14JOBINVESTIGATE(struct S *p) {
     int s;
     Update__5AIJOB(p);
-    while (!func_001EF0A8(p)) {
+    while (!FJobDone(p)) {
         s = p->n30;
         switch (s) {
         case 0:

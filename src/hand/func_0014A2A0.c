@@ -2,7 +2,7 @@ struct P { char pad[0x10]; void *x10; int pad1; void *x18; char pad2[0x30 - 0x1C
 extern char g_sw[];
 void Update__5AIJOB(struct P *p);
 void Aim__8JOBCHASE(struct P *p);
-int func_001EF0A8(struct P *p);
+int FJobDone(struct P *p) asm("FJobDone__FP5AIJOB");
 int func_00209098(void *p);
 int FAirborne__8JOBCHASE(struct P *p);
 int IBest__8JOBCHASE(struct P *p);
@@ -20,7 +20,7 @@ void Update__8JOBCHASE(struct P *p)
     Update__5AIJOB(p);
     Aim__8JOBCHASE(p);
     for (;;) {
-        if (func_001EF0A8(p))
+        if (FJobDone(p))
             break;
         s = p->x30;
         switch (s) {

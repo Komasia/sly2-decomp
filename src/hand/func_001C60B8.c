@@ -16,7 +16,7 @@ extern qword D_002C0D60;
 extern float D_002A773C;
 void ReparentBooty__FP3ALOii(struct S *p, int a, int b);
 struct LO *PproxyOfInstance__FP2LO(struct S *p);
-void func_001CB4B8(struct LO *q, struct S *p);
+void UnlockProxyRowOf(struct LO *q, struct S *p) asm("UnlockProxyRowOf__FP2SWP2LOT1");
 struct LO *func_001F0380(void *a, struct S *p, int anim, int z);
 void AdvanceSma__FP3SMAf(struct LO *q, float g);
 void SetSmaGoal__FP3SMA3OID(struct LO *q, int anim);
@@ -50,7 +50,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
         {
             struct LO *r = PproxyOfInstance__FP2LO(p);
             if (r)
-                func_001CB4B8(r, p);
+                UnlockProxyRowOf(r, p);
         }
         break;
     case 5:

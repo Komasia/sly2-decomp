@@ -76,7 +76,7 @@ void RemoveAloSoes(P *) asm("RemoveAloSoes__FP3ALO");
 void *PloFindSwNearest(G *, int, int, P *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");
-void func_001E6F10(PATH *, qword *, qword *, float);
+void EvalCrvS(PATH *, qword *, qword *, float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void *s1_memset(void *, int, int) asm("s1_memset");
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 qword PosConvertXfs(void *, void *, qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
@@ -130,7 +130,7 @@ extern "C" void BindEnd__FP3ALO(P *p)
                         float start = params.fraction * length;
                         if (params.speed == 0.0f || params.duration == 0.0f) {
                             endpoint->kind = 0;
-                            func_001E6F10(path, &endpoint->point, 0, start);
+                            EvalCrvS(path, &endpoint->point, 0, start);
                         } else {
                             endpoint->track.path = path;
                             endpoint->kind = 1;

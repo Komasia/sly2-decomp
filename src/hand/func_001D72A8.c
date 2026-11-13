@@ -17,7 +17,7 @@ void UpdateSo__FP2SOf(OBJ *);
 int func_0014FD50(void *);
 int func_00187E88(void *);
 int GrfbtnTakePressedJoy(void *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
-void *func_001F07E8(void *);
+void *OidSmaCur(void *) asm("OidSmaCur__FP3SMA");
 OBJ *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, OBJ *);
 void func_001DC260(void *, int);
 void StartScptImpl__FP2LOi(OBJ *, int);
@@ -49,7 +49,7 @@ void UpdateSafeHouse__FP2LO(OBJ *p)
             pe = &p->ae[i];
             if (i >= p->c)
                 return;
-            if (pe->p != func_001F07E8(p->x188))
+            if (pe->p != OidSmaCur(p->x188))
                 continue;
             if (!GrfbtnTakePressedJoy(pad, pe->fl))
                 continue;

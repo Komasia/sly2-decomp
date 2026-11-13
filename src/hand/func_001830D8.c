@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
 struct J { char pad[0x240]; qword v240; char pad2[0x103C - 0x250]; float g103C; int n1040; };
-extern void func_001E6F10(void *p, float t, VU *ppos, VU *pdir);
+extern void EvalCrvS(void *p, float t, VU *ppos, VU *pdir) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 extern float atan2f(float y, float x);
 extern qword g_normalZ;
 extern qword D_002A2DA0;
@@ -43,7 +43,7 @@ void func_001830D8(void *p, float g, struct J *pj, qword *pv, float *pg)
     qword n;
     qword c, r;
     float gl;
-    func_001E6F10(p, g, &pos, &dir);
+    EvalCrvS(p, g, &pos, &dir);
     __asm__("vopmula.xyz ACC, %1, %2\n\tvopmsub.xyz %0, %2, %1" : "=j"(c) : "j"(dir.q), "j"(g_normalZ));
     n = VNormalize(c, D_002A2DA0);
     if (pv) {

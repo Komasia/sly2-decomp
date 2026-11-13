@@ -4,7 +4,7 @@ struct VT { short d; short pad; void *pfn; };
 struct X { char pad[0xC]; struct VT *vt; char pad2[0xF4 - 0x10]; qword *apos; };
 int ISegCrvS__FP3CRVPfT1f(struct X *p, float g, int a, int b);
 int IpolyWrap__FP7NAVPOLYi(struct X *p, int i);
-void func_001E6F10(struct X *p, qword *pv, float g, int n);
+void EvalCrvS(struct X *p, qword *pv, float g, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 int func_001C0980(void *pv, qword a, qword b, int k);
 static inline qword MulPos(M4 *pm, qword v)
 {
@@ -36,7 +36,7 @@ int NPolyClearSide__FP7NAVPOLYP9NAVREGIONiff(struct X *p, void *pv, int fRev, fl
         }
         i = a;
         m = *((M4 *(*)(void *))p->vt[31].pfn)((char *)p + p->vt[31].d);
-        func_001E6F10(p, &v0, g0, 0);
+        EvalCrvS(p, &v0, g0, 0);
         q = v0;
         while (i != iEnd) {
             v = MulPos(&m, p->apos[i]);
@@ -48,7 +48,7 @@ int NPolyClearSide__FP7NAVPOLYP9NAVREGIONiff(struct X *p, void *pv, int fRev, fl
                 i = IpolyWrap__FP7NAVPOLYi(p, i - 1);
             q = v;
         }
-        func_001E6F10(p, &v1, g1, 0);
+        EvalCrvS(p, &v1, g1, 0);
         if (!func_001C0980(pv, q, v1, k))
             return r;
     next:;

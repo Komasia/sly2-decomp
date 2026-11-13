@@ -17,7 +17,7 @@ void func_001A3260(struct S *p);
 void InitSwNav__FP2SW(struct S *p);
 void func_00210940(struct S *p);
 void func_001957C0(struct S *p);
-void func_001D9520(void *p);
+void InitHudWidgets(void *p) asm("InitHudWidgets__FP2SW");
 void RunDeferredSpliceEvents__FP2SW(struct S *p);
 void func_001C1260(void *p);
 void StartupCm(void *p) asm("StartupCm__Fv");
@@ -41,7 +41,7 @@ void StartSw__FP2SW(struct S *p)
     InitSwNav__FP2SW(p);
     func_00210940(p);
     func_001957C0(p);
-    func_001D9520(D_003D9E70);
+    InitHudWidgets(D_003D9E70);
     while (RunDeferredSpliceEvents__FP2SW(p), p->ppoLast != p->ppoFirst) {
         for (ppo = p->ppoFirst; ppo < p->ppoLast; ppo++)
             (*ppo)->vt[15].pf((char *)*ppo + (*ppo)->vt[15].d);

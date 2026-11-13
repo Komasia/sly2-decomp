@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct HIT { qword q; char pad[0x50]; } HIT;
 typedef struct S { char pad[0xE4]; int fWrap; } S;
 extern float D_002C0AC0;
-void func_001E6F10(S *p, qword *pv, int z, float t);
+void EvalCrvS(S *p, qword *pv, int z, float t) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 float SWrapCrv__FP3CRVf(S *p, float t);
 float SMinCrv__FP3CRV(S *p);
 float SMaxCrv__FP3CRV(S *p);
@@ -18,7 +18,7 @@ int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *p, S *s, int fForward, qw
     int fWrapped;
     int c;
 
-    func_001E6F10(s, &av[1], 0, t);
+    EvalCrvS(s, &av[1], 0, t);
     dt = D_002C0AC0;
     if (!fForward) dt = -dt;
     fWrapped = 0;
@@ -36,7 +36,7 @@ int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *p, S *s, int fForward, qw
             if (s->fWrap) t = SWrapCrv__FP3CRVf(s, t);
             else t = SMaxCrv__FP3CRV(s);
         }
-        func_001E6F10(s, &av[1], 0, t);
+        EvalCrvS(s, &av[1], 0, t);
         c = ChitPoly__FP7NAVPOLYG9VU_VECTORT1iP7POLYHIT(p, av[0], av[1], 2, ahit);
         if (c > 0) {
             if (pt) *pt = t;

@@ -15,7 +15,7 @@ extern struct LM D_002BD330;
 extern struct LM D_002BD338;
 extern float D_002BD340;
 void Update__5AIJOB(struct P *p);
-int func_001EF0A8(struct P *p);
+int FJobDone(struct P *p) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void *p);
 struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
 int FNeedRecover__12JOBCOMPANION(struct P *p);
@@ -73,7 +73,7 @@ void Update__12JOBCOMPANION(struct P *p)
     } else {
         g = D_002A4E34;
     }
-    while (!func_001EF0A8(p)) {
+    while (!FJobDone(p)) {
         int state = p->x60;
         int f;
         switch (state) {

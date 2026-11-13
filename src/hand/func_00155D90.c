@@ -9,7 +9,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 void Update__5AIJOB(struct X *p);
-int func_001EF0A8(struct X *p);
+int FJobDone(struct X *p) asm("FJobDone__FP5AIJOB");
 int func_00174FB8(void *p);
 int FArrived__9JOBFOLLOW(void *p);
 int func_00175748(void *p);
@@ -23,7 +23,7 @@ static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, 
 void Update__5JOBB5(struct X *p)
 {
     Update__5AIJOB(p);
-    while (!func_001EF0A8(p)) {
+    while (!FJobDone(p)) {
         int s = p->state;
         switch (s) {
         case 0:

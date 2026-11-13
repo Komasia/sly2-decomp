@@ -7,7 +7,7 @@ struct O { char pad[0x1A4]; int n1A4; char pad2[0xFD0 - 0x1A8]; char aFD0[0x20];
 struct S { char pad[0x10]; struct O *p10; char pad2[0x1C]; int n30; float g34; char pad3[8]; struct E *pe; };
 void func_00209788(void *p, struct S *ps);
 void func_00209790(void *p, struct S *ps);
-int func_00209A68(struct O *o, int n);
+int FGuardState(struct O *o, int n) asm("FGuardState__FP5GUARDi");
 void PlayKinde__FP5KINDEP5GUARDif(struct E *e, struct O *o, int n, float g);
 void StopKinde__FP5KINDE(struct E *e);
 void UnlockJob__FP5AIJOB(struct S *p);
@@ -20,7 +20,7 @@ void SetMoveState__7JOBMOVEi(struct S *p, int n) {
     case 0: {
         float f;
         func_00209788(p->p10->aFD0, p);
-        if (p->pe->n0 == 0 && func_00209A68(p->p10, 9) && g_clock.t == p->p10->gFF4)
+        if (p->pe->n0 == 0 && FGuardState(p->p10, 9) && g_clock.t == p->p10->gFF4)
             f = p->pe->pa->g74 * p->p10->gFF0;
         else
             f = 0.0f;
@@ -30,7 +30,7 @@ void SetMoveState__7JOBMOVEi(struct S *p, int n) {
     case 1:
         UnlockJob__FP5AIJOB(p);
         if (p->pe) {
-            if (p->pe->n0 == 0 && func_00209A68(p->p10, 9)) {
+            if (p->pe->n0 == 0 && FGuardState(p->p10, 9)) {
                 p->p10->gFF0 = p->pe->pb->g1C / p->pe->pa->g74;
                 p->p10->gFF4 = g_clock.t;
             }

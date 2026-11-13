@@ -12,7 +12,7 @@ struct START {qword q;START(const U&source,float zero,float*lowOut,float*highOut
 extern float D_002C1EC4,D_002C1EC8;
 extern qword g_normalZ,D_002A2DA0;
 extern "C" {
-float SRandCrvNear(S*,float,float) asm("SRandCrvNear__FP3CRVff");void func_001E6F10(S*,qword*,qword*,float);
+float SRandCrvNear(S*,float,float) asm("SRandCrvNear__FP3CRVff");void EvalCrvS(S*,qword*,qword*,float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 float GRandInRange(float,float) asm("GRandInRange__Fff");qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 void func_001CBBA8(S*,qword*,qword*,float);
 }
@@ -50,7 +50,7 @@ void func_001CBBA8(S*p,qword*posOut,qword*dirOut,float g){
  U scalar,moved,out;
  float x=SRandCrvNear(p,g,D_002C1EC4);
  S*sampleReceiver;float sampleTime;SamplerArguments(p,x,&sampleReceiver,&sampleTime);
- func_001E6F10(sampleReceiver,&pos.q,&basis.c,sampleTime);
+ EvalCrvS(sampleReceiver,&pos.q,&basis.c,sampleTime);
  const qword*fallbackAddress;float epsilon;
  qword cross=CrossAndFallbackAddress(basis.c,g_normalZ,&fallbackAddress,&epsilon);
  qword right=NormalizeOr(cross,fallbackAddress,epsilon);

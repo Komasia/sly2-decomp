@@ -115,7 +115,7 @@ qword PosOfLo(void *pobj) asm("PosOfLo__FP2LO");
 float SWrapCrv(CURVE *pcrv, float s) asm("SWrapCrv__FP3CRVf");
 float SMaxCrv(CURVE *pcrv) asm("SMaxCrv__FP3CRV");
 void NearestCrvS(CURVE *pcrv, qword pos, float s, void *pv, VEC *ppos, VEC *pdir, float *pg, float *ps) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
-void func_001E6F10(CURVE *pcrv, float s, VEC *ppos, VEC *pdir);
+void EvalCrvS(CURVE *pcrv, float s, VEC *ppos, VEC *pdir) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 int FArrived(S *p) asm("FArrived__9JOBFOLLOW");
 void PosNearestSegment(qword a, qword b, qword c, VEC *pv, float *pg0, float *pg1) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 int FKeepOnNav(CONTEXT *pctx, qword pos, VEC *pv) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
@@ -390,7 +390,7 @@ extern "C" void func_00177F78(S *p)
                         gSpeed = 0.0f;
                     sNext = p->s + dsClamp;
                 }
-                func_001E6F10(p->pcrv, sNext, &next, &nextDir);
+                EvalCrvS(p->pcrv, sNext, &next, &nextDir);
             }
             break;
         case 1:

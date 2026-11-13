@@ -11,7 +11,7 @@ extern struct CLQ D_002BD310;
 extern struct CLQ D_002BD320;
 qword PosOfLo__FP2LO(void *p);
 ulong func_00207A20(int n);
-int func_00209A68(struct SO *p, int n);
+int FGuardState(struct SO *p, int n) asm("FGuardState__FP5GUARDi");
 struct LIST *func_001F8240(void *p);
 
 static __inline__ float GDist(qword a, qword b)
@@ -53,7 +53,7 @@ struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
         g = GDist(pos, PosOfLo__FP2LO(pso));
         if (pso == p->p90)
             g = GFromClq(g, &D_002BD300);
-        if (func_00209A68(pso, 3))
+        if (FGuardState(pso, 3))
             g = GFromClq(g, &D_002BD320);
         if (g < gBest) {
             psoBest = pso;
@@ -71,7 +71,7 @@ struct SO *FindEnemy__12JOBCOMPANION(struct P *p)
             g = GFromClq(g, &D_002BD310);
             if (pso == p->p90)
                 g = GFromClq(g, &D_002BD300);
-            if (func_00209A68(pso, 3))
+            if (FGuardState(pso, 3))
                 g = GFromClq(g, &D_002BD320);
             if (g < gBest) {
                 psoBest = pso;

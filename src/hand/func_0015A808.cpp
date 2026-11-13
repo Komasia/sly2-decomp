@@ -33,7 +33,7 @@ struct EMITB {
 };
 extern "C" {
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
-void func_001E6F10(MESHO *pmesh, float g, qword *ppos, qword *pnormal);
+void EvalCrvS(MESHO *pmesh, float g, qword *ppos, qword *pnormal) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 MATRIX3 *MatJtLo(void *palo) asm("MatJtLo__FP2LO");
 }
 static inline qword Sub(qword a, qword b) { qword d; __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -129,13 +129,13 @@ extern "C" void ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3(EMITB *p, int i, int
         float g = GRandInRange(s, s + ds);
         switch (pep->kindDir) {
         default:
-            func_001E6F10(pmesh, g, ppos, 0);
+            EvalCrvS(pmesh, g, ppos, 0);
             break;
         case 2:
-            func_001E6F10(pmesh, g, ppos, pv);
+            EvalCrvS(pmesh, g, ppos, pv);
             goto normalize;
         case 3: {
-            func_001E6F10(pmesh, g, ppos, &av[0].q);
+            EvalCrvS(pmesh, g, ppos, &av[0].q);
             *pv = Cross(av[0].q, p->ep.v40);
             goto normalize;
         }

@@ -9,7 +9,7 @@ struct S { char pad[0x1018]; int x1018; float f101C; int x1020; struct O *x1024;
 #define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
 void RetractAsega__FP5ASEGA(struct O *o);
 void DeleteCtrl__FPP4CTRL(int *p);
-int func_00209A68(struct S *p, int n);
+int FGuardState(struct S *p, int n) asm("FGuardState__FP5GUARDi");
 struct O *func_00205458(struct S *p, int n);
 void SetStepPhysScale__FP3ALOf(struct S *p, float f);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(int a, struct S *p, int n, struct O **ppo, float f1, float f2);
@@ -25,7 +25,7 @@ void SetStrikeState__FP5GUARDi(struct S *p, int st)
         DeleteCtrl__FPP4CTRL(&p->x102C);
         p->x102C = 0;
         p->x1028 = 0;
-        if (func_00209A68(p, 2)) func_00205458(p, 0x9E)->x38 = D_002E1E40;
+        if (FGuardState(p, 2)) func_00205458(p, 0x9E)->x38 = D_002E1E40;
         SetStepPhysScale__FP3ALOf(p, 1.0f);
     }
     p->x1018 = st;
@@ -34,7 +34,7 @@ void SetStrikeState__FP5GUARDi(struct S *p, int st)
     ApplyAseg__FP4ASEGiiffPP5ASEGA(p->x1020, p, 1, &p->x1024, 0.0f, 1.0f);
     VCALL0(p->x1024, 1);
     p->x102C = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, p->x1034, 5, 8, 3, D_002A2DD0);
-    if (func_00209A68(p, 2)) {
+    if (FGuardState(p, 2)) {
         func_00205458(p, 0x9E)->x38 = p->x1028;
         SetStepPhysScale__FP3ALOf(p, 4.0f);
     }

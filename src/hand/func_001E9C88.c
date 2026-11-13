@@ -13,7 +13,7 @@ struct S { struct O *po; int c4; struct SEG *aseg; int cC; struct SEG aseg10[16]
 extern float D_002C367C;
 float SMinCrv__FP3CRV(struct O *);
 float SMaxCrv__FP3CRV(struct O *);
-void func_001E6F10(struct O *, float, qword *, qword *);
+void EvalCrvS(struct O *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void *PregionAt__FG9VU_VECTORi(qword, int);
 int func_001C0920(void *, qword, int);
 void *PvAllocSwCopyImpl__FiPv(struct MSG *, void *);
@@ -36,12 +36,12 @@ void func_001E9C88(struct S *ps, struct O *po)
     tPrev = tStart;
     t = tStart;
     tEnd = SMaxCrv__FP3CRV(ps->po);
-    func_001E6F10(ps->po, tStart, &pos, 0);
+    EvalCrvS(ps->po, tStart, &pos, 0);
     pPrev = PregionAt__FG9VU_VECTORi(pos, 0);
     for (; t < tEnd; t += D_002C367C) {
         void *pCur;
         int outside;
-        func_001E6F10(ps->po, t, &pos2, 0);
+        EvalCrvS(ps->po, t, &pos2, 0);
         pCur = PregionAt__FG9VU_VECTORi(pos2, 0);
         if (pCur) {
             int i;

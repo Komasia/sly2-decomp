@@ -13,7 +13,7 @@ typedef struct CLOCK{float time,dt;}CLOCK;
 extern CLOCK g_clock;
 extern float D_002BE614,D_003E1BE8;
 void Update__5AIJOB(C*);
-int func_001EF0A8(C*);
+int FJobDone(C*) asm("FJobDone__FP5AIJOB");
 int func_00209098(P*);
 int FLost__9JOBPURSUE(C*);
 int FTryAction__9JOBPURSUE(C*);
@@ -90,7 +90,7 @@ void Update__9JOBPURSUE(C*p){
   switch(old){
   case 0:case 3:{
    float distance;void*region;qword current;P*actor;int mode;
-   if(func_001EF0A8(p))break;
+   if(FJobDone(p))break;
    if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
    if(FLost__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,4);break;}
    if(FTryAction__9JOBPURSUE(p)){SetPursueState__9JOBPURSUEi(p,1);break;}
@@ -117,17 +117,17 @@ void Update__9JOBPURSUE(C*p){
   }
   case 1:
    if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
-   if(!func_001EF0A8(p)&&func_00175748(p->sub))SetPursueState__9JOBPURSUEi(p,0);
+   if(!FJobDone(p)&&func_00175748(p->sub))SetPursueState__9JOBPURSUEi(p,0);
    break;
   case 2:
    if(func_00209098(p->actor)){SetPursueState__9JOBPURSUEi(p,5);break;}
-   if(!func_001EF0A8(p)&&func_0017B7F8(p->sub))SetPursueState__9JOBPURSUEi(p,0);
+   if(!FJobDone(p)&&func_0017B7F8(p->sub))SetPursueState__9JOBPURSUEi(p,0);
    break;
   case 4:
-   if(!func_001EF0A8(p)&&func_00174FB8(p->sub))SetPursueState__9JOBPURSUEi(p,-1);
+   if(!FJobDone(p)&&func_00174FB8(p->sub))SetPursueState__9JOBPURSUEi(p,-1);
    break;
   case 5:
-   if(!func_001EF0A8(p)&&!func_00209098(p->actor))SetPursueState__9JOBPURSUEi(p,3);
+   if(!FJobDone(p)&&!func_00209098(p->actor))SetPursueState__9JOBPURSUEi(p,3);
    break;
   }
  }while(old!=p->state);

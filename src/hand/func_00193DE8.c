@@ -15,7 +15,7 @@ M4 *MatJtLo__FP2LO(struct LO *p);
 void NearestCrv__FP3CRV(struct T *t, qword a, struct PROJECTION *projection, qword *p0, qword *p1, float *pf0, float *pf1, float g);
 float SMinCrv__FP3CRV(struct T *t);
 float SMaxCrv__FP3CRV(struct T *t);
-void func_001E6F10(struct T *t, float g, qword *point, qword *direction);
+void EvalCrvS(struct T *t, float g, qword *point, qword *direction) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 static __inline__ float Dot(qword a, qword b)
 {
     qword d, t;
@@ -61,11 +61,11 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
             d1 = -Dot2(w, v1.q);
             if ((d0 < -2.0f || d1 < 2.0f) && p->x20 < SMinCrv__FP3CRV(t) + 50.0f) {
                 k = 0x2A;
-                func_001E6F10(t, SMinCrv__FP3CRV(t) + 50.0f, &v0.q, 0);
+                EvalCrvS(t, SMinCrv__FP3CRV(t) + 50.0f, &v0.q, 0);
             } else if ((2.0f < d0 || -2.0f < d1) && SMaxCrv__FP3CRV(t) - 50.0f < p->x20) {
                 U s;
                 k = 0x2A;
-                func_001E6F10(t, SMaxCrv__FP3CRV(t) - 50.0f, &v0.q, 0);
+                EvalCrvS(t, SMaxCrv__FP3CRV(t) - 50.0f, &v0.q, 0);
                 __asm__("qmtc2.ni %1, %0" : "=j"(s.q) : "r"(-1.0f));
                 __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v1.q) : "j"(v1.q), "j"(s.q));
             }

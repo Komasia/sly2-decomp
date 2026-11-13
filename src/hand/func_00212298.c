@@ -10,7 +10,7 @@ int S8Read(void *pbis) asm("S8Read__18CBinaryInputStream");
 float F32Read(void *pbis) asm("F32Read__18CBinaryInputStream");
 int U32Read(void *pbis) asm("U32Read__18CBinaryInputStream");
 struct O *PvAllocSwClearImpl__Fi(AREQ *preq);
-void func_00118458(void *pbis, struct O *po);
+void ReadRecord64(void *pbis, struct O *po) asm("ReadRecord64__18CBinaryInputStreamPv");
 void func_0011A070(void *, struct O *po);
 void LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3(struct S *p, void *pbis, struct S *p2, int *pa, int *pb);
 void LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT(struct S *p, void *pbis, struct S *p2);
@@ -35,7 +35,7 @@ void LoadScreenObjFromBrx__FP9SCREENOBJP18CBinaryInputStream(struct S *p, void *
         p->xC4 = D_003E1C70;
         p->xC0 = PvAllocSwClearImpl__Fi(&req);
         p->xC0->x40 = p;
-        func_00118458(pbis, p->xC0);
+        ReadRecord64(pbis, p->xC0);
         func_0011A070(D_003E106C, p->xC0);
     } else {
         p->x58 = 1;

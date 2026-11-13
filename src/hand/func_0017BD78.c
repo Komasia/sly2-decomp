@@ -3,7 +3,7 @@ struct S { char pad[0x10]; void *p10; int pad2; struct T *p18; char pad3[0x14]; 
 void Update__5AIJOB(struct S *p);
 int func_00209098(void *p);
 void Choose__5JOBB2(struct S *p);
-int func_001EF0A8(struct S *p);
+int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
 void SetB2State__5JOBB2i(struct S *p, int n);
 int func_00175810(struct T *p);
 // name: SafeHouse port (JOBB2::Update)
@@ -12,7 +12,7 @@ void Update__5JOBB2(struct S *p) {
     Update__5AIJOB(p);
     f = func_00209098(p->p10);
     Choose__5JOBB2(p);
-    while (!func_001EF0A8(p)) {
+    while (!FJobDone(p)) {
         s = p->n30;
         switch (s) {
         case 0:

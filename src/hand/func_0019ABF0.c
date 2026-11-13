@@ -3,7 +3,7 @@ typedef union { qword q; float f[4]; } V;
 struct CONTEXT; struct OBJECT;
 struct T { struct CONTEXT *a; struct OBJECT *b; int c, d; qword q; };
 struct S { struct CONTEXT *a; struct OBJECT *b; };
-void func_001E6F10(struct OBJECT *, float, V *, V *);
+void EvalCrvS(struct OBJECT *, float, V *, V *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 qword ConvertPos__FP2LOT0G9VU_VECTOR(struct OBJECT *, struct OBJECT *, qword);
 float func_0019ABB8(void *, float);
 void MinimizeRange(float (*)(void *, float), void *, float, float, float, float, float *, float *) asm("MinimizeRange__FPFPvf_fPvffffPfT6");
@@ -20,7 +20,7 @@ typedef char T_Point_Offset[FIELD_OFFSET(struct T,q)==16?1:-1];
 float GScorePipeS__FP5ACTORf(struct S *s, float parameter) {
     V v; struct T t; float r;
     struct OBJECT *b = s->b;
-    func_001E6F10(b, parameter, &v, 0);
+    EvalCrvS(b, parameter, &v, 0);
     t.a = s->a;
     t.b = b;
     t.q = ConvertPos__FP2LOT0G9VU_VECTOR(0, b, v.q);

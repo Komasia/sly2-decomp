@@ -14,7 +14,7 @@ struct S {
     char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; char pad3[0x2C]; struct X x60; struct X x80;
     float fA0; int nA4; char pad4[0xC]; int nB4; struct Q *pB8; int nBC;
 };
-int func_001EF0A8(struct S *p);
+int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
 void SetState__7JOBGOTOi(struct S *p, int n);
 void func_0017D8A8(struct S *p);
 void func_002562A8(struct X *x);
@@ -30,7 +30,7 @@ void Search__7JOBGOTO(struct S *p) {
     int k;
     if (p->n30 == -1) return;
     if (!(p->p10->nFE8 & 2)) return;
-    if (func_001EF0A8(p)) return;
+    if (FJobDone(p)) return;
     SetState__7JOBGOTOi(p, 0);
     func_0017D8A8(p);
     func_002562A8(&x);

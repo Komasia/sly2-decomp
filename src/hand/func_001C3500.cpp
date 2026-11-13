@@ -14,7 +14,7 @@ float GMinCrv(PATH *) asm("GMinCrv__FP3CRV");           // start distance
 void EvalCrv(PATH *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 float GModPositive(float, float) asm("GModPositive__Fff");     // wrap into range
 float SClampCrv(PATH *, float) asm("SClampCrv__FP3CRVf");
-void func_001E6F10(PATH *, float, qword *, qword *);
+void EvalCrvS(PATH *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 qword ConvertVec(PATH *, PATH *, qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword PerpendicularVector(qword) asm("PerpendicularVector__FG9VU_VECTOR");
@@ -94,8 +94,8 @@ extern "C" void MatPipeFrame__FP2LOfiPv(PATH *p, float distance, int forward, M3
             } else
                 sample = low + GModPositive(sample - low, high - low);
             float r = 50.0f;
-            func_001E6F10(p, SClampCrv(p, sample + r), &fwd.q, 0);
-            func_001E6F10(p, SClampCrv(p, sample - r), &back.q, 0);
+            EvalCrvS(p, SClampCrv(p, sample + r), &fwd.q, 0);
+            EvalCrvS(p, SClampCrv(p, sample - r), &back.q, 0);
             w.direction = Normalize(Sub(fwd.q, back.q), g_normalZ);
             if (i == 0)
                 w.first = w.direction;

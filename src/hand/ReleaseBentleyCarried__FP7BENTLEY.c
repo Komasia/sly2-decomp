@@ -18,7 +18,7 @@ struct BENTLEY {
 };
 int func_00224610(struct CARRY *pcarry);   /* SafeHouse: a carry object */
 void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct BENTLEY *pbentley, struct ABILITY *pabil, struct CARRY *plo);
-void func_001CB4B8(struct LO *pproxy, struct CARRY *plo);   /* SafeHouse: UnlockProxyRowOf */
+void UnlockProxyRowOf(struct LO *pproxy, struct CARRY *plo) asm("UnlockProxyRowOf__FP2SWP2LOT1");   /* SafeHouse: UnlockProxyRowOf */
 
 // name: SafeHouse port (ReleaseBentleyCarried)
 void ReleaseBentleyCarried__FP7BENTLEY(struct BENTLEY *pbentley)
@@ -27,7 +27,7 @@ void ReleaseBentleyCarried__FP7BENTLEY(struct BENTLEY *pbentley)
         pbentley->ploCarried->plo16C = pbentley;
         SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(pbentley, pbentley->pabil16B4, pbentley->ploCarried);
     }
-    func_001CB4B8(pbentley->pabil16B4->plo4, pbentley->ploCarried);
+    UnlockProxyRowOf(pbentley->pabil16B4->plo4, pbentley->ploCarried);
     pbentley->ploCarried = 0;
     pbentley->pabil16B4 = 0;
 }

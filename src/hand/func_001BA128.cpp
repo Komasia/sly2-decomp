@@ -12,7 +12,7 @@ struct ROW{int key;P*object;};
 struct GAME;
 extern "C"{
 void UpdateStepguard(P*) asm("UpdateStepguard__FP9STEPGUARDf");
-int func_00209A68(P*,int);
+int FGuardState(P*,int) asm("FGuardState__FP5GUARDi");
 qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 int FPointInShape(VOLUME*,qword) asm("FPointInShape__FP2LOG9VU_VECTOR");
@@ -55,20 +55,20 @@ extern "C" void func_001BA128(P*p){
  UpdateStepguard(p);
  switch(p->state){
  case 0:{
-  if(!func_00209A68(p,0x25))break;
+  if(!FGuardState(p,0x25))break;
   VOLUME*volume;
-  if(func_00209A68(p,9)){volume=p->first;p->target=0;}
-  else if(func_00209A68(p,2)){volume=p->second;p->target=0;}
+  if(FGuardState(p,9)){volume=p->first;p->target=0;}
+  else if(FGuardState(p,2)){volume=p->second;p->target=0;}
   else break;
   float nearest=D_002A7620;
   for(P*node=D_003E1444;node;node=node->next){
-   if(node==p||func_00209A68(node,7))continue;
+   if(node==p||FGuardState(node,7))continue;
    qword origin=Vector(PosOfLo(p));
    float distance=Square(Sub(origin,PosOfLo(node)));
    if(nearest<distance)continue;
    if(FPointInShape(volume,PosOfLo(node))){p->target=node;nearest=distance;}
   }
-  if(!p->target&&!func_00209A68(p,2)){
+  if(!p->target&&!FGuardState(p,2)){
    qword position=Vector(ConvertPos(p,0,D_002C0A80));
    qword low=Add(position,D_002C0A90);
    qword high=Add(position,D_002C0AA0);

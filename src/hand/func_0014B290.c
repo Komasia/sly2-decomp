@@ -5,7 +5,7 @@ struct L { char pad[0xFC]; int c; struct E ae[1]; };
 struct P { char pad[0x38C]; struct O *x38C; struct O *x390; char pad2[0xF64 - 0x394]; struct L *pl; };
 extern float D_002A4EE8;
 extern float D_002BD4B0[3];
-int func_00209A68(struct P *p, int k);
+int FGuardState(struct P *p, int k) asm("FGuardState__FP5GUARDi");
 struct O *PloGuardTarget__FP5GUARD(struct P *p);
 qword PosOfLo__FP2LO(void *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int k);
@@ -33,7 +33,7 @@ struct O *PloGuardTarget3F__FP5GUARD(struct P *p)
     int kBest;
     qword pos;
     int i;
-    if (func_00209A68(p, 0x24))
+    if (FGuardState(p, 0x24))
         return PloGuardTarget__FP5GUARD(p);
     poBest = 0;
     po = p->x390;

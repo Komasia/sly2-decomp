@@ -4,7 +4,7 @@ struct A { struct T *pt; int n4; int n8; };
 struct E8 { int n0; int n4; };
 struct G { char pad[0x54]; struct E8 *a54; };
 struct P { char pad[0x24]; struct G *pg; int n28; int n2C; struct ANIMATION *n30; int n34; int n38; int n3C; struct A *p40; float f44; int n48; };
-int func_001F0638(struct P *);
+int FSmaRetracted(struct P *) asm("FSmaRetracted__FP3SMA");
 struct A *PsmtLeaving__FP2SMUii(struct G *, int, int, int);
 struct A *PsmtPath__FP2SMUiii(struct G *, int, int, int, int);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *, int, float, float, int, struct ANIMATION **);
@@ -19,7 +19,7 @@ void ChooseSmaTransition__FP3SMAi(struct P *p, int k)
     struct A *pa;
     int nx;
     register int fl __asm__("$17");
-    if (func_001F0638(p)) return;
+    if (FSmaRetracted(p)) return;
     {int finished=-1;
     int random=-2;
     goto test;
@@ -85,7 +85,7 @@ apply:
             }
             NotifySmaState__FP3SMAii(pArgument,oldArgument,newArgument);
         }
-    if(func_001F0638(p))return;
+    if(FSmaRetracted(p))return;
     if(p->n30)return;
 test:
     if(p->n34!=p->n3C){

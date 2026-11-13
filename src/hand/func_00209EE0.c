@@ -3,7 +3,7 @@ typedef struct { short d; short pad; void *pfn; } VTE;
 extern float D_002C3DA8;
 struct O { char pad[0x50]; int k; };
 struct S { char pad[0xC]; VTE *vt; };
-int func_00209A68(struct S *p, int n);
+int FGuardState(struct S *p, int n) asm("FGuardState__FP5GUARDi");
 struct O *func_00205458(struct S *p, int n);
 void SetState__5JOBB0i(struct O *o, int n);
 void SetState__5JOBB1i(struct O *o, int n);
@@ -11,11 +11,11 @@ qword LimitVectorLength__FG9VU_VECTORf(qword v, float g);
 // name: SafeHouse port (ReleaseGuardHeld)
 void ReleaseGuardHeld__FP2LO(struct S *p)
 {
-    if (func_00209A68(p, 0x12) || func_00209A68(p, 0x13)) {
+    if (FGuardState(p, 0x12) || FGuardState(p, 0x13)) {
         SetState__5JOBB0i(func_00205458(p, 0xB0), 2);
     } else {
         struct O *o;
-        if (!func_00209A68(p, 0x17))
+        if (!FGuardState(p, 0x17))
             return;
         o = func_00205458(p, 0xB1);
         if (o->k != 3 && o->k != 6)

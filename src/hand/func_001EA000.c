@@ -28,7 +28,7 @@ extern struct G g_sw;
 extern float D_002C367C;
 float SMinCrv__FP3CRV(struct O *);
 float SMaxCrv__FP3CRV(struct O *);
-void func_001E6F10(struct O *, float, qword *, qword *);
+void EvalCrvS(struct O *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void *PpolyAtPoint__FG9VU_VECTOR(qword);
 int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int, qword *, float *);
 void *s1_memset(void *, int, unsigned int);
@@ -63,7 +63,7 @@ void UpdatePathrec__FP7PATHREC(struct S *ps)
     c = ps->c4;
     while (t < tEnd) {
         void *pv;
-        func_001E6F10(ps->po, t, (qword *)&pos, 0);
+        EvalCrvS(ps->po, t, (qword *)&pos, 0);
         pv = PpolyAtPoint__FG9VU_VECTOR(*(qword *)&pos);
         if (pv) {
             int fSave = ps->po->fE4;

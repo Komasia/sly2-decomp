@@ -9,7 +9,7 @@ struct JOBSHOOT {
     /* 0x30 */ int st;     /* field: SafeHouse port */
 };
 void Update__5AIJOB(AIJOB *pjob);
-int func_001EF0A8(struct JOBSHOOT *pjob);   /* SafeHouse: FJobDone */
+int FJobDone(struct JOBSHOOT *pjob) asm("FJobDone__FP5AIJOB");   /* SafeHouse: FJobDone */
 int func_00174FB8(AIJOB *pjob);             /* the move job's state is 1 */
 void SetShootState__8JOBSHOOTi(struct JOBSHOOT *pjob, int st);
 
@@ -18,7 +18,7 @@ void Update__8JOBSHOOT(struct JOBSHOOT *pjob)
 {
     int st;
     Update__5AIJOB(&pjob->aijob);
-    while (!func_001EF0A8(pjob)) {
+    while (!FJobDone(pjob)) {
         st = pjob->st;
         if (st == 0 && func_00174FB8(pjob->aijob.pchild))
             SetShootState__8JOBSHOOTi(pjob, -1);

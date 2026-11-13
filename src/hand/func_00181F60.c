@@ -16,7 +16,7 @@ void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(int oid, qword q, int a, in
 float GRandInRange__Fff(float lo, float hi);
 void TargetSwarmEnt__FP5SWENTPv(struct S *p, struct E *pe);
 float GSmoothA(void *pv, float *pg, float a, float b, float c, float dt) asm("GSmoothA__FffffP4SMPAPf");
-void func_001E6F10(int oid, struct Q *q, void *pv, float g);
+void EvalCrvS(int oid, struct Q *q, void *pv, float g) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void func_00181E10(struct S *p, struct Q *q);
 static __inline__ void Integrate(float *px, float *pv, float a, float dt)
 {
@@ -50,7 +50,7 @@ void UpdateSwarm__FP2LO(struct S *p)
         for (q = pe->pqFirst; q; q = q->next) {
             float a, b;
             q->g3c = GSmoothA(D_002BE888, &q->g40, q->g3c, q->g40, q->g44, g_clock.dt);
-            func_001E6F10(oid, q, q->x10, q->g3c);
+            EvalCrvS(oid, q, q->x10, q->g3c);
             a = D_002BE898 * q->g50 + D_002BE89C * q->g58;
             b = D_002BE8A0 * q->g54 + D_002BE8A4 * q->g5c;
             Integrate(&q->g50, &q->g58, a, g_clock.dt);

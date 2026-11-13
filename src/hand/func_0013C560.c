@@ -31,7 +31,7 @@ extern struct GS g_sw;
 extern char g_game[];
 extern qword D_002A2DD0;
 extern qword D_002A4B60;
-void func_001CB4B8(void *pv, struct O *p);
+void UnlockProxyRowOf(void *pv, struct O *p) asm("UnlockProxyRowOf__FP2SWP2LOT1");
 void LockProxyRowOf__Fv(void *pv, struct O *p);
 void func_001F6A68(struct O *p);
 void ShowAloGlobs__FP3ALOi(struct O *p, int n);
@@ -139,7 +139,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
         int fNew = st >= 2;
         if (fOld) {
             if (!fNew)
-                func_001CB4B8(g_sw.p4638, p);
+                UnlockProxyRowOf(g_sw.p4638, p);
         } else if (fNew) {
             LockProxyRowOf__Fv(g_sw.p4638, p);
         }

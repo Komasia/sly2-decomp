@@ -13,7 +13,7 @@ extern "C"{
 extern CLOCK g_clock;extern U g_normalZ;extern P*D_002E1E40;
 void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
 void PairActorWith(P*,PATH*,int) asm("PairActorWith__FP5ACTORP2LOi");
-float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);
+float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void EvalCrvS(PATH*,float,U*,U*) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GLimitLm(LM*,float) asm("GLimitLm__FP2LMf");
 qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 void SetActorZone(P*,void*) asm("SetActorZone__FP5ACTORP2LO");
@@ -104,12 +104,12 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  case -1:{
   PathState(p->path,5);func_001333C0(p->path,p->actor);PairActorWith(p->actor,p->path,1);
   p->previous=old;
-  func_001E6F10(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
-  func_001E6F10(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
+  EvalCrvS(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
+  EvalCrvS(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
   U*axis; qword direction=Direction(&w.ahead,&w.behind,axis);
   p->descending=Z(Normal(direction,axis))<-0.5f;
   LmClimb(p,&w.limit);p->distance=GLimitLm(&w.limit,p->distance);
-  func_001E6F10(p->path,p->distance,&w.point,0);
+  EvalCrvS(p->path,p->distance,&w.point,0);
   qword offset=Vector(ConvertPos(p->actor,0,p->offset.q));P*owner;
   qword point=WorldInputs(p,&w.point,&w.world,offset,owner);
   owner->offset.q=Sub(point,offset);

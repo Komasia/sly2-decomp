@@ -10,7 +10,7 @@ extern float D_002C3D90;
 extern float D_002C3D94;
 void LookScore__FP5ACTORP2LOPP2LOPfT3(struct X *x, struct S *p, void *pv, float *pd, float *pa);
 unsigned long func_00207A20(int n);
-int func_00209A68(struct S *p, int n);
+int FGuardState(struct S *p, int n) asm("FGuardState__FP5GUARDi");
 struct Y *func_00205458(struct S *p, int n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *po, int n);
 qword PosOfLo__FP2LO(void *p);
@@ -29,13 +29,13 @@ int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
         *pout = d;
     if (!(p->fl2C0 & func_00207A20(1))) {
         if (p->n364 && x->n10F0) {
-            if (func_00209A68(p, 0x1D))
+            if (FGuardState(p, 0x1D))
                 o = p->p38C;
-            else if (func_00209A68(p, 5))
+            else if (FGuardState(p, 5))
                 o = func_00205458(p, 0xA1)->p50;
-            else if (func_00209A68(p, 6))
+            else if (FGuardState(p, 6))
                 o = func_00205458(p, 0xA2)->p50;
-            else if (func_00209A68(p, 0x17)) {
+            else if (FGuardState(p, 0x17)) {
                 o = func_00205458(p, 0xB1)->p5C;
                 if (o == x)
                     *pout += D_002C3D90;
@@ -55,7 +55,7 @@ int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
         if (pl && !!((pl->fl28 >> 60) & 1) && FPointInShape__FP2LOG9VU_VECTOR(pl, PosOfLo__FP2LO(x)))
             return 3;
     }
-    pv = func_00209A68(p, 0x17) ? p->a368 : p->a370;
+    pv = FGuardState(p, 0x17) ? p->a368 : p->a370;
     if (d <= p->f378 * D_002C3D94 && FCheckLm(pv, ang) && p->n364)
         return 2;
     if (d <= p->f388 && FCheckLm(p->a380, ang) && p->n37C)

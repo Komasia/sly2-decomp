@@ -57,7 +57,7 @@ extern "C" void UpdateMurrayCarryHeld(P*) asm("UpdateMurrayCarryHeld__FP6MURRAY"
 extern "C" void UpdateMurrayHold(P*) asm("UpdateMurrayHold__FP6MURRAY");
 extern "C" void UpdateMurrayCarryTransitions(P*) asm("UpdateMurrayCarryTransitions__FP6MURRAY");
 extern "C" int FAsegaRetracted(void*) asm("FAsegaRetracted__FP5ASEGA");
-extern "C" int func_001F0638(void*);
+extern "C" int FSmaRetracted(void*) asm("FSmaRetracted__FP3SMA");
 extern "C" void UpdateMurrayPunchTransitions(P*) asm("UpdateMurrayPunchTransitions__FP6MURRAY");
 extern "C" void UpdateMurrayBehavior(P*) asm("UpdateMurrayBehavior__FP6MURRAY");
 extern "C" void UpdateMurrayBerserkTransitions(P*) asm("UpdateMurrayBerserkTransitions__FP6MURRAY");
@@ -134,7 +134,7 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
   case 17:
    if(p->animation&&FAsegaRetracted(p->animation))goto idle;
    if(!p->other)break;
-   finished=func_001F0638(p->other);
+   finished=FSmaRetracted(p->other);
   checkIdle:
    if(!finished)break;
   idle:

@@ -9,7 +9,7 @@ void SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(void *r, qword q);
 float SMinCrv__FP3CRV(struct O *o);
 float SMaxCrv__FP3CRV(struct O *o);
 float GModPositive__Fff(float g, float hi);
-void func_001E6F10(struct O *o, float g, U *pv, int n);
+void EvalCrvS(struct O *o, float g, U *pv, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int n, struct P *p, qword q);
 int ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(qword a, float g, qword b, qword c, int n, struct HIT *pv);
 static __inline__ float GClamp(float g, float lo, float hi)
@@ -41,7 +41,7 @@ void func_00193C98(struct P *p, struct Q *q, void *r)
         t = GModPositive__Fff(p->x4e0 + g, hi);
     else
         t = GClamp(p->x4e0 + g, lo, hi);
-    func_001E6F10(o, t, &v, 0);
+    EvalCrvS(o, t, &v, 0);
     v.q = ConvertPos__FP2LOT0G9VU_VECTOR(0, p, v.q);
     if (ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG(q->x20, q->x8, q->x10.q, v.q, 1, &hit) > 0) {
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(hit.b.q), "j"(q->x10.q));

@@ -155,7 +155,7 @@ void RailPointVelocity(void *pjtcontrol, CURVE *pcurve, VECTOR *ppos, VECTOR *pv
 void GFitJump(JTAIR *pjtair, void *plo, qword pos, float *pg, VECTOR *ppos, VECTOR *pv, float t) asm("GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f");
 void FindClimbSurfClosestPoint(MESH *pmesh, qword pos, void *pv, TRI *ptri, VECTOR *ppos, VECTOR *pnormal) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
 int ClimbSurfLanding(MESH *pmesh, qword pos, qword v, qword dv, float s, float t, TRI *ptri, VECTOR *ppos, VECTOR *pv) asm("ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff");
-void func_001E6F10(CURVE *pcurve, float s, VECTOR *ppos, VECTOR *pnormal);
+void EvalCrvS(CURVE *pcurve, float s, VECTOR *ppos, VECTOR *pnormal) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 qword ConvertPos(void *pvFrom, void *pvTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 float atan2f(float y, float x) asm("atan2f");                                 // atan2f
 void SetJumpAnimState(JTAIR *pjtair, int nKind, void *plo) asm("SetJumpAnimState__FP4JUMPiP2LO");
@@ -404,7 +404,7 @@ LPartnerDone:
         OBJCTX ctx;
         ctx.pjtair = pjtair;
         ctx.plo = pcurve;
-        func_001E6F10(pcurve, s, &posTarget, 0);
+        EvalCrvS(pcurve, s, &posTarget, 0);
         ctx.v = ConvertPos(0, pcurve, posTarget.q);
         MinimizeRange(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, 0);
         GFitJump(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);

@@ -4,7 +4,7 @@ typedef union {qword q;float f[4];} U;
 struct X {qword header,v;};
 struct P {char pad10[0x10];void*p10;int pad14;void*p18;char pad1C[4];int pending;char pad24[12];void*p30;char pad34[0x40-0x34];qword v40;int state;float time;int pad58[2];qword v60;};
 void Update__5AIJOB(struct P*);
-int func_001EF0A8(struct P*);
+int FJobDone(struct P*) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void*);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void*,void*,qword);
 int func_00209098(void*);
@@ -44,7 +44,7 @@ void Update__10JOBSTATION(struct P*p){
   if(state==p->state)return;
  }
  test:
- if(!func_001EF0A8(p))goto top;
+ if(!FJobDone(p))goto top;
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];

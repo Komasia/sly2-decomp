@@ -11,7 +11,7 @@ S *func_0011CCC0(void *);
 void *s1_memset(void *, int, int) asm("s1_memset");
 void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
-int func_001F0638(S *);
+int FSmaRetracted(S *) asm("FSmaRetracted__FP3SMA");
 int func_001F0438(P *, int);
 void NotifySmaState(S *, int, int) asm("NotifySmaState__FP3SMAii");
 void ChooseSmaTransition(S *, int) asm("ChooseSmaTransition__FP3SMAi");
@@ -42,7 +42,7 @@ extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S
     Lock l(p);
     func_00256EE0(ps, p->n0);
     ps->pvt->a3.pfn((char *)ps + ps->pvt->a3.d, 2, 0, 0, 0, 0);
-    if (func_001F0638(ps)) return;
+    if (FSmaRetracted(ps)) return;
     if (b != -1) {
         int v = func_001F0438(p, b);
         ps->n34 = v;

@@ -11,7 +11,7 @@ extern "C"{
  extern CLOCK g_clock;
  extern char g_sw[];
  void Update__5AIJOB(C*);
- int func_001EF0A8(C*);
+ int FJobDone(C*) asm("FJobDone__FP5AIJOB");
  int func_00177D20(C*);
  int func_00177D48(C*);
  int FSameMsg(const STATE*,const STATE*) asm("FSameMsg__FP5AIMSGT0");
@@ -70,7 +70,7 @@ typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (JOBREACT::Update)
 extern "C" void Update__8JOBREACT(C*p){
  Update__5AIJOB(p);
- while(!func_001EF0A8(p)){
+ while(!FJobDone(p)){
   STATE previous=p->state;
   STATE*current=&p->state;
   switch(p->state.kind){
