@@ -25,9 +25,9 @@ qword PosOfLo(O *) asm("PosOfLo__FP2LO");
 int func_001DAEA8(int);
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
-float func_0011D948(RANGE *,float);
+float GLimitLm(RANGE *,float) asm("GLimitLm__FP2LMf");
 void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
-float func_002458F0(float,float);
+float atan2f(float,float) asm("atan2f");
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void SetJtThrowState(S *,int) asm("SetJtThrowState__FP7JTTHROWi");
@@ -175,7 +175,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
    qword sum=PolarOperands(w.vector,movement,&w.angle,&w.radius,angleArgument,radiusArgument);
    w.delta.q=sum;
    ConvertVectorToCylind(sum,angleArgument,radiusArgument,0);
-   w.radius=func_0011D948(&w.scratch.range,w.radius);
+   w.radius=GLimitLm(&w.scratch.range,w.radius);
    qword polar=SetVectorCylind(w.angle,w.radius,elevation);
    StoreTarget(s->targetWorld,w.delta,w.ownerPosition,polar);
   }
@@ -188,7 +188,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
   switch(previous){
   case 0:{
    w.scratch.vector.q=IdleDifference(PosOfLo(s->selected),w.ownerPosition);
-   float heading=func_002458F0(w.scratch.vector.f[1],w.scratch.vector.f[0]);
+   float heading=atan2f(w.scratch.vector.f[1],w.scratch.vector.f[0]);
    float angle=RadNormalize(heading-RadStepHeading(s->owner));
    float threshold=s->idleThreshold;
    if(threshold<angle)SetJtThrowState(s,2);
@@ -224,7 +224,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
    if(!animation||func_00131968(animation))SetJtThrowState(s,4);
    else if(s->state==4){
     w.scratch.vector.q=ActiveDifference(s->targetWorld,w.ownerPosition);
-    float heading=func_002458F0(w.scratch.vector.f[1],w.scratch.vector.f[0]);
+    float heading=atan2f(w.scratch.vector.f[1],w.scratch.vector.f[0]);
     float angle=RadNormalize(heading-RadStepHeading(s->owner));
     float threshold=s->activeThreshold;
     if(threshold<angle)SetJtThrowState(s,6);else if(angle<-threshold)SetJtThrowState(s,5);

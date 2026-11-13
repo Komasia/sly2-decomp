@@ -11,7 +11,7 @@ struct LO {
     char pad3[0x50 - 0x30]; int c; struct E *ae; char pad4[0x60 - 0x58]; struct ALO *palo;
 };
 extern "C" {
-void func_002333B4(void *, int, int);
+void s1_memset(void *, int, int) asm("s1_memset");
 void MulMatrix4(struct MAT *, struct ALO *, struct MAT *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void func_001A5900(struct LO *, struct LO *, struct LO *, int);
 void UpdateAloXfWorlds(struct LO *) asm("UpdateAloXfWorlds__FP3ALO");
@@ -35,7 +35,7 @@ extern "C" void SetAloParent__FP3ALOT0P2XFi(struct LO *plo, struct LO *pa, struc
             mat = plo->palo->mat;
         } else {
             struct ALO *palo;
-            func_002333B4(&mat, 0, 0x40);
+            s1_memset(&mat, 0, 0x40);
             mat.m[0][0] = mat.m[1][1] = mat.m[2][2] = mat.m[3][3] = 1.0f;
             for (palo = plo->palo; palo; palo = palo->pNext) {
                 struct MAT t;

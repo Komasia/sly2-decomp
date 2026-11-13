@@ -6,7 +6,7 @@ typedef struct { char pad[0x1C]; void *x1C; } OBJ;
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 R *PripDecal__FP4RIPNP4RIPGP2LOG9VU_VECTORT3(OBJ *, void *, void *, qword, qword);
 void func_001A7050(M3 *, int, void *, M3 *);
-void func_001CE980(OBJ *);
+void RemoveRip(OBJ *) asm("RemoveRip__FP3RIP");
 int func_001D0BF8(OBJ *p, S *s, qword a, qword b)
 {
     R *r;
@@ -18,6 +18,6 @@ int func_001D0BF8(OBJ *p, S *s, qword a, qword b)
         func_001A7050(&m, 0, s->x4, &r->m);
         r->m = m;
     }
-    func_001CE980(p);
+    RemoveRip(p);
     return 1;
 }

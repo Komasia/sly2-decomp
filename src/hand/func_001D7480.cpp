@@ -30,7 +30,7 @@ int CFindObjectsByClass(GS *, int, int, int, int, SO **) asm("CFindObjectsByClas
 void ReturnActorBooty(SO *) asm("ReturnActorBooty__FP5ACTORii");
 void StartPlayerCounters(SO *, int) asm("StartPlayerCounters__FP5ACTORi");
 CRef func_001D8A38(const char *, ...);
-int func_001F0400(void *, int);
+int IsmsFindSmOptional(void *, int) asm("IsmsFindSmOptional__FP2SM3OID");
 int OidFromSmIsms(void *, int) asm("OidFromSmIsms__FP2SMi");
 void func_001D77D0(OBJ *, int);
 void func_00187E78(void *);
@@ -69,7 +69,7 @@ extern "C" void SetSafeHouseState__FP2SWi(OBJ *p, int s)
             VCALL(aso2[i2], 9);
         if (p->x184) {
             int v = func_001D8A38(D_002A7878, 0).m_tag;
-            if (func_001F0400(p->x184, v) == -1)
+            if (IsmsFindSmOptional(p->x184, v) == -1)
                 idx = OidFromSmIsms(p->x184, 0);
             else
                 idx = v;

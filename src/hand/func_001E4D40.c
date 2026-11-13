@@ -5,7 +5,7 @@ struct P { char pad[0x24]; struct O *po24; char pad2[0x44 - 0x28]; struct O *po4
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 qword PosOfLo__FP2LO(struct O *po);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct O *po, qword q, int a, qword *pv, float *pg, int b, int c);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 // name: SafeHouse port (GetRunAim)
 void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float *pg)
 {
@@ -17,13 +17,13 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
     if (po) {
         if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0xA)) {
             NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(po, PosOfLo__FP2LO(px), 0, &uv.q, ag, 0, 0);
-            g = func_002458F0(ag[1], ag[0]);
+            g = atan2f(ag[1], ag[0]);
         } else {
             float *p1, *p2;
             uv.q = PosOfLo__FP2LO(po);
             p1 = po->vt[0x1F].pfn((char *)po + po->vt[0x1F].d);
             p2 = po->vt[0x1F].pfn((char *)po + po->vt[0x1F].d);
-            g = func_002458F0(p1[1], p2[0]);
+            g = atan2f(p1[1], p2[0]);
         }
     } else {
         uv.q = PosOfLo__FP2LO(px);
@@ -34,7 +34,7 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
             float *p1, *p2;
             p1 = px->vt[0x1F].pfn((char *)px + px->vt[0x1F].d);
             p2 = px->vt[0x1F].pfn((char *)px + px->vt[0x1F].d);
-            g = func_002458F0(p1[1], p2[0]);
+            g = atan2f(p1[1], p2[0]);
         }
     }
     if (pv) *pv = uv.q;

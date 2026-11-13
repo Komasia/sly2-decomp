@@ -1,6 +1,6 @@
-// (Claude agent) matched: the CRef copy ctor (func_001291A8) must be declared returning this, not void.
+// (Claude agent) matched: the CRef copy ctor (__4CRefRC4CRef) must be declared returning this, not void.
 extern "C" {
-void func_00129EC8(void *p);
+void Decref(void *p) asm("Decref__4CRef");
 void *func_001291A8(void *p, const void *q); /* CRef copy ctor: returns this */
 extern void *D_003E0FD8;
 extern int D_002C2D8C;
@@ -15,7 +15,7 @@ struct CRef {
     CRef(int f) { m_tagk = 0x17; m_tag = f; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
     CRef(const RAW &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 extern char D_003D4A60[];
 extern "C" CRef func_00258200(void *pv, const CRef &ref, void *p);
@@ -35,7 +35,7 @@ void ApplyVibrationSetting(void)
     RAW ref;
     switch (D_002C2D8C) {
     case 1: break;
-    case 2: { void *pv = D_003E0FD8; ref.m_tagk = 0x17; ref.m_tag = 0; SetPv(pv, ref, D_003D4A60); } func_00129EC8(&ref); break;
-    case 3: { void *pv = D_003E0FD8; SetBool2(&ref, 1); SetPv2(pv, ref); } func_00129EC8(&ref); break;
+    case 2: { void *pv = D_003E0FD8; ref.m_tagk = 0x17; ref.m_tag = 0; SetPv(pv, ref, D_003D4A60); } Decref(&ref); break;
+    case 3: { void *pv = D_003E0FD8; SetBool2(&ref, 1); SetPv2(pv, ref); } Decref(&ref); break;
     }
 }

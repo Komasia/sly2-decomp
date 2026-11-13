@@ -4,8 +4,8 @@ typedef struct E { int x0; int x4; struct S *x8; float xc; qword x10; } E;
 struct P { int x0; int c; int pad[2]; E ae[32]; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void *func_002332B8(void *dst, void *src, int cb);
-void *func_002333B4(void *p, int v, int cb);
+void *s1_memmove(void *dst, void *src, int cb);
+void *s1_memset(void *p, int v, int cb);
 static __inline__ float Dist(qword a, qword b)
 {
     qword r, t;
@@ -26,7 +26,7 @@ void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(struct P *p, struct S *s, qword 
         if (s == e->x8 && Dist(q, e->x10) < 50.0f) {
             if (i != 1) {
                 E t = *e;
-                func_002332B8(&p->ae[2], &p->ae[1], (i - 1) * sizeof(E));
+                s1_memmove(&p->ae[2], &p->ae[1], (i - 1) * sizeof(E));
                 p->ae[1] = t;
             }
             break;
@@ -35,10 +35,10 @@ void RecordSafeGround__FP5ACTORP3SOEG9VU_VECTOR(struct P *p, struct S *s, qword 
     if (i >= p->c) {
         if ((unsigned int)p->c < 32)
             p->c++;
-        func_002332B8(&p->ae[1], &p->ae[0], p->c * sizeof(E) - sizeof(E));
+        s1_memmove(&p->ae[1], &p->ae[0], p->c * sizeof(E) - sizeof(E));
     }
     e = &p->ae[0];
-    func_002333B4(e, 0, sizeof(E));
+    s1_memset(e, 0, sizeof(E));
     if (s) {
         p->ae[0].x0 = s->x4;
         e->x8 = s;

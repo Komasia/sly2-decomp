@@ -38,7 +38,7 @@ void BuildShopList(OBJ *) asm("BuildShopList__FP4SHOP");
 void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *, int) asm("SetSource__4CSndPv");
 void NotifyPlayersPowerups(void *) asm("NotifyPlayersPowerups__Fv");
-void func_0021ECD8(char *, const char *, ...);
+void fiprintf(char *, const char *, ...) asm("fiprintf");
 CRef func_001D8A38(const char *, ...);
 CRef SetProgressPoCurrent(const CRef &, const char *, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 void UpdateShopStick(OBJ *) asm("UpdateShopStick__FP4SHOP");
@@ -86,7 +86,7 @@ extern "C" void UpdateShop__FP2SW(OBJ *p)
             } else {
                 CRef r;
                 char buf[32];
-                func_0021ECD8(buf, D_002A79A0, p->x258);
+                fiprintf(buf, D_002A79A0, p->x258);
                 r = func_001D8A38(D_002A79D0, D_002A79D8, buf, 0);
                 if (r.m_tag > 0) {
                     SetProgressPoCurrent(CRef(r.m_tag - 1), D_002A79D0, D_002A79D8, buf, 0);

@@ -15,7 +15,7 @@ struct Y *func_00205458(struct S *p, int n);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *po, int n);
 qword PosOfLo__FP2LO(void *p);
 int FPointInShape__FP2LOG9VU_VECTOR(struct L *pl, qword q);
-int func_0011D910(void *p, float f);
+int FCheckLm(void *p, float f) asm("FCheckLm__FP2LMf");
 
 // name: SafeHouse port (NRankGuard)
 int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
@@ -56,9 +56,9 @@ int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
             return 3;
     }
     pv = func_00209A68(p, 0x17) ? p->a368 : p->a370;
-    if (d <= p->f378 * D_002C3D94 && func_0011D910(pv, ang) && p->n364)
+    if (d <= p->f378 * D_002C3D94 && FCheckLm(pv, ang) && p->n364)
         return 2;
-    if (d <= p->f388 && func_0011D910(p->a380, ang) && p->n37C)
+    if (d <= p->f388 && FCheckLm(p->a380, ang) && p->n37C)
         return 1;
     return 0;
 }

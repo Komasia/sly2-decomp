@@ -17,7 +17,7 @@ void func_001F4F10(O *p);
 int func_001BBE48(O *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(O *p, int k);
 void PostHit__FP2LOii(O *p, O *q, int z);
-void func_001A7E10(void *g, int k);
+void FreeSwXpList(void *g, int k) asm("FreeSwXpList__FP2SWP2XP");
 
 // name: SafeHouse port (UpdateBreakableContacts)
 void UpdateBreakableContacts__FP3ALO(O *p)
@@ -45,7 +45,7 @@ void UpdateBreakableContacts__FP3ALO(O *p)
             }
             ((void (*)(void *, O *))p->vt[54].pfn)((char *)p + p->vt[54].d, pl->po);
             ((void (*)(void *, O *))pl->po->vt[54].pfn)((char *)pl->po + pl->po->vt[54].d, p);
-            func_001A7E10(g_sw, pl->x0);
+            FreeSwXpList(g_sw, pl->x0);
             *pl->px8 = 0;
             pl->x0 = 0;
             break;

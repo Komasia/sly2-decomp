@@ -7,7 +7,7 @@ void SetXfMode__FP3ALOP2XFi(struct P *p, int a, int b);
 void ResetGaitFeet__FP4GAIT(void *p);
 void RetractAsegaPp__FPP5ASEGA(void *p);
 void ClearSmaHandle__FPP3SMA(void *p);
-void func_001305B8(void *a, struct P *p, int n, void *q, float f1, float f2);
+void ApplyAsegCur(void *a, struct P *p, int n, void *q, float f1, float f2) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int a, struct P *p, int b, int n, void *q);
 // name: SafeHouse port (SetMurrayBehaviorAnim)
 void SetMurrayBehaviorAnim__FP6MURRAYi(struct P *p, int st)
@@ -43,6 +43,6 @@ void SetMurrayBehaviorAnim__FP6MURRAYi(struct P *p, int st)
     }
     RetractAsegaPp__FPP5ASEGA(p->x1030);
     ClearSmaHandle__FPP3SMA(p->x1034);
-    func_001305B8(o, p, n, p->x1030, 0.0f, 1.0f);
+    ApplyAsegCur(o, p, n, p->x1030, 0.0f, 1.0f);
     ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(x, p, -1, n, p->x1034);
 }

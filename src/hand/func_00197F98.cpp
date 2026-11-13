@@ -81,8 +81,8 @@ void func_001441E8(ACTOR *, float);
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
-float func_002458F0(float, float);
-float func_00244E10(float);
+float atan2f(float, float) asm("atan2f");
+float cosf(float);
 float GSplitVector(qword, qword, qword *, qword *) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
 qword LimitVectorLength(qword, float) asm("LimitVectorLength__FG9VU_VECTORf");
 void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
@@ -414,7 +414,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
             actor->velocity.q = SetVectorCylind(input->heading + 3.14159265f, input->amount * D_002BF87C, D_002BF880);
         }
         if (FMoving(vel.q))
-            p->actor->heading = func_002458F0(vel.f[1], vel.f[0]) + offset;
+            p->actor->heading = atan2f(vel.f[1], vel.f[0]) + offset;
         VU_FLOAT half = VuFloatHomed(0.5f);
         VU_FLOAT halfNeg = VuFloatHomed(-0.5f);
         qword up = g_normalZ;
@@ -434,7 +434,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
         if (FFacing(p->actor))
             heading = p->actor->heading;
         else if (FMoving(vel.q))
-            heading = func_002458F0(vel.f[1], vel.f[0]) + offset;
+            heading = atan2f(vel.f[1], vel.f[0]) + offset;
 
         break;
     }
@@ -450,7 +450,7 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
             break;
         case 5:
             if (0.2f < input->amount) {
-                p->blend = GClamp(func_00244E10(input->heading - p->lastHeading), 0.0f, p->blend);
+                p->blend = GClamp(cosf(input->heading - p->lastHeading), 0.0f, p->blend);
 
             }
             if (D_002BF730 < p->speedLimit)

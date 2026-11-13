@@ -9,9 +9,9 @@ extern qword D_002A2DD0;
 extern char D_004435F0[];
 void func_00232408(void);
 void func_00233048(int, int, int, int, int, int, int);
-int func_00231C48(void);
+int snd_FlushSoundCommands(void);
 void SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(int, qword, int, void *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void func_00227788(void *);
 void func_00259B48(void *, void *);
 void func_0011CDB8(void *);
@@ -22,7 +22,7 @@ void ResetSoundMgr__FP8SOUNDMGR(struct P *p)
 {
     func_00232408();
     func_00233048(0x524B5553, 10, 0, 0, 0, 0, 0);
-    while (func_00231C48())
+    while (snd_FlushSoundCommands())
         ;
     p->n14 = 0;
     p->n18 = -1;
@@ -37,13 +37,13 @@ void ResetSoundMgr__FP8SOUNDMGR(struct P *p)
     p->aEC[4] = 0;
     p->aEC[5] = 0;
     SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(0, D_002A2DD0, 0, p->s74);
-    func_002333B4(p->s108, 0, 0xC);
+    s1_memset(p->s108, 0, 0xC);
     func_00227788(D_004435F0);
     func_00259B48(&p->r200, 0);
     p->n204 = 0;
-    func_002333B4(p->s208, 0, 0x20);
+    s1_memset(p->s208, 0, 0x20);
     func_00259B48(&p->r228, 0);
-    func_002333B4(p->s22C, 0, 0x18);
+    s1_memset(p->s22C, 0, 0x18);
     p->n68 = 3;
     func_0011CDB8(p->s1C);
     func_0011CDB8(p->s34);

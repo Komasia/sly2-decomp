@@ -5,7 +5,7 @@ extern struct M g_sw;
 extern struct CHK D_003E10D0;
 struct S { int k; int x4; struct X x; void *po; int n; };
 void SetWipeState__FPv5WIPES(struct S *p, int k);
-void func_0020DF80(struct M *pm, struct X *px);
+void RestoreChkmgrFromCheckpoint(struct M *pm, struct X *px) asm("RestoreChkmgrFromCheckpoint__FP6CHKMGR");
 void *PloFindSwNearest__FP2LO3OIDii(struct M *pm, int k, int n, int z);
 static __inline__ int FSameChk(struct CHK *a, struct CHK *b)
 {
@@ -32,7 +32,7 @@ void func_0022B220(struct S *p, struct X *px, int n, int f)
         px->flags &= ~2;
     p->po = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, n, 0);
     if (!p->po) {
-        func_0020DF80(&g_sw, px);
+        RestoreChkmgrFromCheckpoint(&g_sw, px);
         return;
     }
     p->x4 = 1;

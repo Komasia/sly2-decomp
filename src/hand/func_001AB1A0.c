@@ -7,7 +7,7 @@ extern struct H D_002E6550;
 extern float D_002DDF0C;
 extern struct PMF D_002A6BA0;
 int func_0020E040(void *g);
-int func_001AB088(void *p);
+int FMemcardThreadValid(void *p) asm("FMemcardThreadValid__FP7MEMCARD");
 void CreateMemcardThread__FP7MEMCARDii(void *t, struct PMF pmf);
 void func_001AB630(struct S *s);
 void func_001AB418(struct S *s, int);
@@ -22,7 +22,7 @@ void UpdateSave__FP4SAVE(struct S *s)
         return;
     if (D_002E6550.x44 == 3)
         return;
-    if (func_001AB088(s->xFD5C))
+    if (FMemcardThreadValid(s->xFD5C))
         return;
     if (s->x8 == s->xC) {
         if (s->x14 <= D_002DDF0C)
@@ -32,7 +32,7 @@ void UpdateSave__FP4SAVE(struct S *s)
     } else {
         func_001AB418(s, s->xC);
     }
-    if (func_001AB088(s->xFD5C))
+    if (FMemcardThreadValid(s->xFD5C))
         return;
     if (func_001B42C0(D_002F66B0))
         return;

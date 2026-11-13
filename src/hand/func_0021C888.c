@@ -11,11 +11,11 @@ struct N { int count; struct E *entries; int x8; float xC; float x10; float x14;
 struct Hook { int kind; struct S *owner; struct O *object; int xC; int x10; int flags; void *vt; struct E *entry; };
 struct Alloc { int cb; int align; };
 extern char D_002DB338[];
-int func_00117D00(void *);
-int func_00117BD0(void *);
-float func_00117E38(void *);
+int S8Read(void *) asm("S8Read__18CBinaryInputStream");
+int U8Read(void *) asm("U8Read__18CBinaryInputStream");
+float F32Read(void *) asm("F32Read__18CBinaryInputStream");
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *,qword *);
-int func_00117D50(void *);
+int S16Read(void *) asm("S16Read__18CBinaryInputStream");
 void *PvAllocSwClearImpl__Fi(struct Alloc *);
 struct Hook *func_0012E1F0(int);
 void AddXfCtrl__FP3ALOP2XFP4CTRL(struct S *,struct O *,struct Hook *);
@@ -24,25 +24,25 @@ qword VecConvertXfs__FP2XFT0G9VU_VECTOR(struct O *,struct O *,qword);
 static inline void *Alloc(int cb) { struct Alloc req; req.cb=cb; req.align=16; return PvAllocSwClearImpl__Fi(&req); }
 // name: SafeHouse port (LoadAloChainsFromBrx)
 void LoadAloChainsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p,void *stream) {
-    int count=func_00117D00(stream);
+    int count=S8Read(stream);
     int i,j;
     struct E *e;
     for(i=0;i<count;i++) {
         struct N *n=(struct N *)Alloc(0x50);
-        n->x8=func_00117BD0(stream);
-        n->xC=func_00117E38(stream);
-        n->x10=func_00117E38(stream);
-        n->x14=func_00117E38(stream);
-        n->x18=func_00117E38(stream);
+        n->x8=U8Read(stream);
+        n->xC=F32Read(stream);
+        n->x10=F32Read(stream);
+        n->x14=F32Read(stream);
+        n->x18=F32Read(stream);
         ReadVector__18CBinaryInputStreamP6VECTOR(stream,&n->q20);
         ReadVector__18CBinaryInputStreamP6VECTOR(stream,&n->q30);
-        n->count=func_00117D00(stream);
+        n->count=S8Read(stream);
         n->entries=(struct E *)Alloc(n->count*sizeof(struct E));
         for(j=0;j<n->count;j++) {
             struct Hook *h;
             e=&n->entries[j];
             e->node=n;
-            { struct VE *ve=&p->vt[51]; e->object=ve->get((char *)p+ve->d,func_00117D50(stream)); }
+            { struct VE *ve=&p->vt[51]; e->object=ve->get((char *)p+ve->d,S16Read(stream)); }
             e->mat=e->object->mat;
             h=func_0012E1F0(0x20);
             h->vt=D_002DB338;

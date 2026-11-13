@@ -6,7 +6,7 @@ struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
 struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
 extern "C" CLOCK g_clock;
 extern "C" struct E *PdetentryFind(struct T *pt, struct S *object) asm("PdetentryFind__FP8DETECTORi");
-extern "C" void *func_002332B8(void *d, void *s, int n);
+extern "C" void *s1_memmove(void *d, void *s, int n) asm("s1_memmove");
 
 extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
 {
@@ -29,7 +29,7 @@ extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
                     p->c3A4 = c - 1;
                     n=8; n-=c; n*=16; n+=0x100;
                     e=(struct E*)((char*)pt+n);
-                    func_002332B8(e + 1, e, (c - 1) * 16);
+                    s1_memmove(e + 1, e, (c - 1) * 16);
                     goto fill;
                 }
             }
@@ -41,7 +41,7 @@ extern "C" int func_002085D0(struct S *p, struct S *object, int fFront)
                 int c = p->c3A4;
                 n-=c; n*=16; n+=0x100;
                 e=(struct E*)((char*)pt+n);
-                func_002332B8(e + 1, e, c * 16);
+                s1_memmove(e + 1, e, c * 16);
             }
         fill:
             new(e) E(object,g_clock);

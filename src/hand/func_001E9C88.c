@@ -17,7 +17,7 @@ void func_001E6F10(struct O *, float, qword *, qword *);
 void *PregionAt__FG9VU_VECTORi(qword, int);
 int func_001C0920(void *, qword, int);
 void *PvAllocSwCopyImpl__FiPv(struct MSG *, void *);
-void func_001AE5A0(void *, const void *, unsigned);
+void CopyAb(void *, const void *, unsigned) asm("CopyAb__FPvT0Ui");
 static inline void *PvReallocMsg(struct MSG *pmsg, int cb, int nKind, void *pv) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwCopyImpl__FiPv(pmsg, pv); }
 void func_001E9C88(struct S *ps, struct O *po)
 {
@@ -75,7 +75,7 @@ void func_001E9C88(struct S *ps, struct O *po)
     ps->c4 = cseg;
     ps->aseg = PvReallocMsg((struct MSG *)&pos2, cseg * 8, 0x10, aseg);
     ps->cC = cseg;
-    func_001AE5A0(ps->aseg10, aseg, cseg * 8);
+    CopyAb(ps->aseg10, aseg, cseg * 8);
     ps->c90 = cpv;
     ps->apv = PvReallocMsg((struct MSG *)&pos2, cpv * 4, 0x10, apv);
     ps->n98 = -1;

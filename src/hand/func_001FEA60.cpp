@@ -4,8 +4,8 @@ struct P {char pad0[0x13C];float weights[8][4];int pad1BC;float outputs[4];char 
 struct LM {float low,high;};
 extern LM g_lmZeroOne;
 extern PMF D_002A8298,D_002A82A0;
-extern "C" float func_0011D948(LM *,float);
-extern "C" void *func_002333B4(void *,int,unsigned int);
+extern "C" float GLimitLm(LM *,float) asm("GLimitLm__FP2LMf");
+extern "C" void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 extern "C" void func_002321E8(int,int);
 static inline X *ReadReceiver(X **pp)
 {
@@ -19,12 +19,12 @@ extern "C" void SetSoundChannelVolume__FP8SOUNDMGRiif(P *p,int channel,int categ
     if((unsigned int)category>=8)return;
     if(channel<0)return;
     if(channel>=4)return;
-    input=func_0011D948(&g_lmZeroOne,input);
+    input=GLimitLm(&g_lmZeroOne,input);
     float (*w)[4]=p->weights;
     if(p->weights[category][channel]==input)return;
     if(category==2){
         PMF action;
-        func_002333B4(&action,0,8);
+        s1_memset(&action,0,8);
         if(input==0.0f)action=D_002A8298;
         else if(w[2][channel]==0.0f)action=D_002A82A0;
         if(action!=0){

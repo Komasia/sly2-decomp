@@ -1,7 +1,7 @@
 struct MSG { int cb; int nKind; };
 typedef struct { int c; short *a; } SA;
 void *PvAllocStackImpl__Fi(struct MSG *pmsg);
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 SA *func_001D8CC8(SA *p1, SA *p2)
 {
     struct MSG msg;
@@ -15,7 +15,7 @@ SA *func_001D8CC8(SA *p1, SA *p2)
     msg.cb = c * 2;
     msg.nKind = 0x10;
     r->a = (short *)PvAllocStackImpl__Fi(&msg);
-    func_001AE5A0(r->a, p1->a, p1->c * 2);
-    func_001AE5A0(r->a + p1->c, p2->a, p2->c * 2);
+    CopyAb(r->a, p1->a, p1->c * 2);
+    CopyAb(r->a + p1->c, p2->a, p2->c * 2);
     return r;
 }

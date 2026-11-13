@@ -8,7 +8,7 @@ struct P {int a,b;T*t;};
 struct G {char pad[0x3B0C];X*x;};
 extern "C" G g_sw;
 extern "C" void func_00165C98(int*,X***);
-extern "C" void func_002338C0(void*,unsigned,unsigned,int(*)(const void*,const void*));
+extern "C" void qsort(void*,unsigned,unsigned,int(*)(const void*,const void*)) asm("qsort");
 extern "C" int func_00165C28(const void*,const void*);
 extern "C" int FTaskDone(X*) asm("FTaskDone__FP4TASK");
 struct LOCAL_LAYOUT{FRAME frame;int count;X**array;};
@@ -52,7 +52,7 @@ extern "C" void SetBinocWindowArgs__FP8BINOCWIN(P*p){
  int c;
  X**ap;
  func_00165C98(&c,&ap);
- func_002338C0(ap,c,4,func_00165C28);
+ qsort(ap,c,4,func_00165C28);
  for(;i<c;i++){
   X*x=ap[i];
   if(pgLoop->x==x->x7C && x->x5C!=-1 && !FTaskDone(x)){

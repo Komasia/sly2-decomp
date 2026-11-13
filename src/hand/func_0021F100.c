@@ -8,7 +8,7 @@ extern char D_002E5270[];
 void func_00160B70(void *);
 int GetThreadId(void);
 void ChangeThreadPriority(int tid, int prio);
-void *func_002333B4(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n);
 int CreateThread(struct ThreadParam *tp);
 
 void StartupThread__Fv(void)
@@ -17,7 +17,7 @@ void StartupThread__Fv(void)
     int *ptid = D_004425D0;
     *ptid = GetThreadId();
     ChangeThreadPriority(*ptid, 5);
-    func_002333B4(&tp, 0, sizeof(tp));
+    s1_memset(&tp, 0, sizeof(tp));
     tp.stackSize = 0x1000;
     tp.stack = D_004425F0;
     tp.initPriority = 2;

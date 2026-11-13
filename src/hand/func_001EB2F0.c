@@ -21,7 +21,7 @@ struct L {
 extern void **D_003DD004;
 void Read__18CBinaryInputStreamiPv(void *, int, void *);
 void AdjustRgba__FPUi(int *);
-int func_00117D50(void *);
+int S16Read(void *) asm("S16Read__18CBinaryInputStream");
 void *PvAllocSwClearImpl__Fi(struct MSG *);
 void LoadTexFromBrx__FP18CBinaryInputStreamP3TEX(void *, struct C *);
 static inline void InitEnt(struct ENT *pe, int n, struct MSG *pmsg)
@@ -41,7 +41,7 @@ void LoadShdFromBrx__FP3SHDP18CBinaryInputStream(void *pbis, struct L *p)
     AdjustRgba__FPUi(&p->c8);
     AdjustRgba__FPUi(&p->cC);
     AdjustRgba__FPUi(&p->c10);
-    i = func_00117D50(pbis);
+    i = S16Read(pbis);
     if (i >= 0)
         p->p28 = D_003DD004[i];
     msg.cb = p->b17 * 0x14;

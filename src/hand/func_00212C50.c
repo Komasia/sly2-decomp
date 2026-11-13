@@ -8,7 +8,7 @@ extern struct Clock g_clock;
 extern float D_002DDF10;
 void UpdateLo__FP2LO(struct S *);
 int FSpriteAnimPlaying__FP2LOi(struct S *,int);
-void func_00212A50(struct S *,int);
+void SetTimerTimers(struct S *,int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 void SetState__FP8SCREENRTi(struct S *,int);
 void func_00218220(void *,float);
 void func_00212C50(struct S *p) {
@@ -20,8 +20,8 @@ void func_00212C50(struct S *p) {
     } else if(p->update != g_clock.time) {
         switch(state) {
         case 2:
-            if(!FSpriteAnimPlaying__FP2LOi(p,p->selected)) func_00212A50(p,1);
-            if(p->duration>0.0f && p->duration<g_clock.time-p->time) func_00212A50(p,1);
+            if(!FSpriteAnimPlaying__FP2LOi(p,p->selected)) SetTimerTimers(p,1);
+            if(p->duration>0.0f && p->duration<g_clock.time-p->time) SetTimerTimers(p,1);
             if(p->mode==1) state=p->id2==-1 ? 1:4;
             break;
         case 3:

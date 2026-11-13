@@ -8,7 +8,7 @@ struct OBJ {
     char pad14[0x28 - 0x14];
     int n;
 };
-float func_002458F0(float, float);
+float atan2f(float, float);
 // name: SafeHouse port (UpdateShopStick)
 void UpdateShopStick__FP4SHOP(OBJ *p)
 {
@@ -21,7 +21,7 @@ void UpdateShopStick__FP4SHOP(OBJ *p)
     g = q->g;
     if (n == -1) {
         if (0.8f < g) {
-            int k = (int)(func_002458F0(q->y, q->x) * 1.2732395f + 8.5f);
+            int k = (int)(atan2f(q->y, q->x) * 1.2732395f + 8.5f);
             p->vt[14].pfn((char *)p + p->vt[14].d, k % 8);
         }
     } else if (g < 0.5f) {

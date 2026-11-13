@@ -17,7 +17,7 @@ extern float D_002C1F20;
 extern LM D_002C1F28;
 extern int D_002C1F30,D_002C1F34;
 extern "C" qword ConvertCmWorldToScreen(CM *,qword) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
-extern "C" float func_0011D948(LM *,float);
+extern "C" float GLimitLm(LM *,float) asm("GLimitLm__FP2LMf");
 extern "C" RT *func_00215AC0(RT *,const char *,float);
 extern "C" void func_00216260(RT *,float *,float *);
 extern "C" void func_002163B0(RT *,CONFIG *,int);
@@ -33,7 +33,7 @@ extern "C" void DrawMarkerLabel__FG9VU_VECTORPcP4RGBAT2f(qword position,const ch
     qword screen=ConvertCmWorldToScreen(camera,position);
     float depth=Z(screen);
     if(depth<camera->nearDepth)return;
-    float scale=func_0011D948(&D_002C1F28,height*(D_002C1F20/(camera->sx*depth)));
+    float scale=GLimitLm(&D_002C1F28,height*(D_002C1F20/(camera->sx*depth)));
     RT rt;func_00215AC0(&rt,text,scale);
     CONFIG config;
     float w,h;

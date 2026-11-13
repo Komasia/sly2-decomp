@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; int n[4]; } VU;
 typedef struct { qword r[3]; } M3;
-extern "C" void *func_002333B4(void *,int,int);
+extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
 enum Init { Uninitialized, Zero };
-struct M4 { VU r[4]; M4(Init mode) { if(mode==Zero)func_002333B4(this,0,0x40); } };
+struct M4 { VU r[4]; M4(Init mode) { if(mode==Zero)s1_memset(this,0,0x40); } };
 extern "C" M3 D_002A2D00;
 struct S { char pad[0x60]; void *p60; char pad1[0x160 - 0x64]; float x, y, z; };
 extern "C" qword ConvertPos(int a, struct S *p, qword q) asm("ConvertPos__FP2LOT0G9VU_VECTOR");

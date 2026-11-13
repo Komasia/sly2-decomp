@@ -20,7 +20,7 @@ int FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(struct P *p,void *o,qword *pos);
 void func_00228C18(void *o,qword pos,qword *dir,qword *v);
 void ApplyWaterToAlo__FP3ALOT0(struct P *p,void *o);
 qword PosOfLo__FP2LO(struct P *p);
-float func_0011D1C0(float pos,float vel,float target,float dt,struct SMP *s,float *result);
+float GSmoothA(float pos,float vel,float target,float dt,struct SMP *s,float *result) asm("GSmoothA__FffffP4SMPAPf");
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p,qword v);
 static inline qword GetVel(struct P *p) { return ((qword (*)(void *))p->vt[33].pfn)((char *)p+p->vt[33].d); }
 static inline qword Mul(struct M3 *m,const qword *v) { qword r; __asm__("vmulax.xyz ACC,%2,%1x\n\tvmadday.xyz ACC,%3,%1y\n\tvmaddz.xyz %0,%4,%1z" : "=j"(r) : "j"(*v),"j"(m->r[0]),"j"(m->r[1]),"j"(m->r[2]));return r; }
@@ -56,7 +56,7 @@ void ApplyWaterToActor__FP3ALOT0(struct P *p,void *o)
   accel.q=v;
   origin.q=PosOfLo__FP2LO(p);
   clock=&g_clock;
-  func_0011D1C0(origin.f[2]+p->height10A0,vel.f[2]-dir.f[2],pos.f[2],clock->dt,&p->smp10A8,&z);
+  GSmoothA(origin.f[2]+p->height10A0,vel.f[2]-dir.f[2],pos.f[2],clock->dt,&p->smp10A8,&z);
   g=(z-vel.f[2])/clock->dt-p->xE8->v80.f[2];
   accel.f[2]=accel.f[2]>g?accel.f[2]:g;
   AccelAloPos__FP3ALOG9VU_VECTOR(p,accel.q);

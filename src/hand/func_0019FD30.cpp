@@ -7,8 +7,8 @@ typedef struct E { struct F *x0; struct S *x4; int x8; float xc; float x10; int 
 struct P { int x0; int c; int pad[2]; E ae[32]; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-extern "C" void *func_002332B8(void *dst, void *src, int cb);
-extern "C" void *func_002333B4(void *p, int v, int cb);
+extern "C" void *s1_memmove(void *dst, void *src, int cb) asm("s1_memmove");
+extern "C" void *s1_memset(void *p, int v, int cb) asm("s1_memset");
 // name: SafeHouse port (RecordSafeTarget)
 extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float g)
 {
@@ -19,7 +19,7 @@ extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float 
         if (s == e->x4 && __builtin_fabsf(g - e->x10) < 50.0f) {
             if (i != 1) {
                 E t = *e;
-                func_002332B8(&p->ae[2], &p->ae[1], (i - 1) * sizeof(E));
+                s1_memmove(&p->ae[2], &p->ae[1], (i - 1) * sizeof(E));
                 p->ae[1] = t;
             }
             break;
@@ -28,10 +28,10 @@ extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float 
     if (i >= p->c) {
         if ((unsigned int)p->c < 32)
             p->c++;
-        func_002332B8(&p->ae[1], &p->ae[0], p->c * sizeof(E) - sizeof(E));
+        s1_memmove(&p->ae[1], &p->ae[0], p->c * sizeof(E) - sizeof(E));
     }
     e = &p->ae[0];
-    func_002333B4(e, 0, sizeof(E));
+    s1_memset(e, 0, sizeof(E));
     p->ae[0].x0 = s->vt[6].pfn((char *)s + s->vt[6].d);
     e->x4 = s;
     e->x10 = g;

@@ -2,13 +2,13 @@ struct VTE { short d; short pad; void (*pfn)(void *, char *); };
 struct O { int pad[3]; struct VTE *vt; char pad2[0x30 - 0x10]; void *p30; };
 struct REG { int a[4]; struct O *(*pfnNew)(void); };
 extern struct REG D_002BAAE8[];
-int func_00117C20(void *pbis);
+int U16Read(void *pbis) asm("U16Read__18CBinaryInputStream");
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, char *buf);
 // name: SafeHouse port (PsaaLoadFromBrx)
 struct O *PsaaLoadFromBrx__FPvP18CBinaryInputStream(void *pv, void *pbis)
 {
     char buf[0x20];
-    int i = func_00117C20(pbis);
+    int i = U16Read(pbis);
     struct O *p;
     if (i == -1) return 0;
     p = (D_002BAAE8 + i)->pfnNew();

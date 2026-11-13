@@ -1,6 +1,6 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
-struct CRef { int m_tagk; int m_tag; CRef(const CRef &) __asm__("func_001291A8"); ~CRef() { func_00129EC8(this); } };
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
+struct CRef { int m_tagk; int m_tag; CRef(const CRef &) __asm__("__4CRefRC4CRef"); ~CRef() { Decref(this); } };
 extern "C" {
 extern int D_003E0FC0, D_003E0FD8, D_003E0FDC, D_003E0FE0;
 extern int D_003DD050;

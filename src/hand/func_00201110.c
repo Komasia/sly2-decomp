@@ -4,9 +4,9 @@ typedef struct CREFA { CRef r; } __attribute__((aligned(16))) CREFA;
 typedef struct { qword a[3]; } M3;
 typedef struct { int a, b; } V2;
 typedef struct { int a, b, c; } V3;
-CRef *func_0012A0B0(CRef *pref, int tagk);
+CRef *InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
 void func_00129658(CRef *pref, CRef *prefSrc);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefCoerceS32__4CRef(CRef *ret, CRef *pref);
 CRef *RefCoerceF32__4CRef(CRef *ret, CRef *pref);
 
@@ -34,9 +34,9 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
                 pt->tagk = -1;
                 RefCoerceS32__4CRef(&tmp.r, &ref.r);
                 func_00129658(pt, &tmp.r);
-                func_00129EC8(&tmp.r);
+                Decref(&tmp.r);
                 *(int *)pv = t.r.u.n;
-                func_00129EC8(pt);
+                Decref(pt);
             }
             break;
         case 1:
@@ -48,9 +48,9 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
                 pt->tagk = -1;
                 RefCoerceF32__4CRef(&tmp.r, &ref.r);
                 func_00129658(pt, &tmp.r);
-                func_00129EC8(&tmp.r);
+                Decref(&tmp.r);
                 *(float *)pv = t.r.u.g;
-                func_00129EC8(pt);
+                Decref(pt);
             }
             break;
         case 4:
@@ -81,7 +81,7 @@ CRef *RefSetPvsFromSplice__FiP4CRefP4OTYPPPv(CRef *ret, int c, CRef *aref, int *
             break;
         }
     }
-    func_0012A0B0(ret, 0x24);
-    func_00129EC8(&ref.r);
+    InitTag(ret, 0x24);
+    Decref(&ref.r);
     return ret;
 }

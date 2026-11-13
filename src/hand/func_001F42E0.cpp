@@ -8,7 +8,7 @@ struct G { char pad[0x3D58]; int stamp; };
 extern G g_sw;
 extern "C" M3 InverseMatrix3(const M3 *) asm("InverseMatrix3__FP7MATRIX3");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
-extern "C" void *func_002333B4(void *,int,int);
+extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
 extern "C" void DetachAloContacts(P *) asm("DetachAloContacts__FP3ALO");
 extern "C" void HoldXfMode(P *,LO *);
 extern "C" void CopyAloSoeMatrices(P *) asm("CopyAloSoeMatrices__FP3ALO");
@@ -30,7 +30,7 @@ extern "C" void SetAloRotation__FP3ALOP7MATRIX3(P *p,const M3 *basis)
             m=object->parent->rotation;
             NormalizeRotateMatrix3__FP7MATRIX3(&m);
         } else {
-            func_002333B4(&m,0,sizeof(m));
+            s1_memset(&m,0,sizeof(m));
             m.r[2].f[2]=1.0f;
             m.r[1].f[1]=1.0f;
             m.r[0].f[0]=1.0f;

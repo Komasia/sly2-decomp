@@ -35,7 +35,7 @@ extern int D_003E0F9C;
 void PauseGame__FP9GAMEPAUSEi(void *, int);
 void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
-void func_00212A50(SUB *, int);
+void SetTimerTimers(SUB *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 void BuildJobHelp__FPv(OBJ *);
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
 // name: SafeHouse port (SetJobHelpPage)
@@ -58,7 +58,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
         ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 11);
         if (p->x24->x58 > 0)
-            func_00212A50(p->x24, 1);
+            SetTimerTimers(p->x24, 1);
         p->x11C = s;
         p->x120 = s;
         p->x124 = s;
@@ -73,7 +73,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
             p->x24->x74 = 0x4E1;
         if (p->x24->x58) {
             SetState__FP8SCREENRTi(p->x24, 1);
-            func_00212A50(p->x24, 2);
+            SetTimerTimers(p->x24, 2);
             VCALL(p->x24, 16);
         }
         break;
@@ -93,7 +93,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
             p->x24->x74 = 0x4E4;
         if (p->x24->x58) {
             SetState__FP8SCREENRTi(p->x24, 1);
-            func_00212A50(p->x24, 2);
+            SetTimerTimers(p->x24, 2);
             VCALL(p->x24, 16);
         }
         break;

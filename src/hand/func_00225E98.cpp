@@ -14,9 +14,9 @@ extern "C" {
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void func_002309E8(void *,void *,M4 *,M4 *,float);
-float func_00244B68(float);
-float func_0011D948(void *,float);
-float func_0011D1C0(float,float,float,float,SMP *,float *);
+float atanf(float) asm("atanf");
+float GLimitLm(void *,float) asm("GLimitLm__FP2LMf");
+float GSmoothA(float,float,float,float,SMP *,float *) asm("GSmoothA__FffffP4SMPAPf");
 extern CLOCK g_clock;
 extern float D_002DDF7C;
 extern char g_lmZeroOne[];
@@ -52,7 +52,7 @@ extern "C" void UpdateTurretZoom__FP3ALO(S *p){
         V scratch;
         float radius=p->target->shape?p->target->shape->radius:0.0f;
         scratch.q=ToVF(PosOfLo(p));
-        float angle=func_00244B68(radius/(Length(Sub(scratch.q,PosOfLo(p->target)))*0.5f));
+        float angle=atanf(radius/(Length(Sub(scratch.q,PosOfLo(p->target)))*0.5f));
         angle=angle+angle;
         CLOCK *clock=&g_clock;
         angle=Max(angle,p->range.lo);
@@ -66,24 +66,24 @@ extern "C" void UpdateTurretZoom__FP3ALO(S *p){
         swapped.f[0]=-local.f[1];swapped.f[1]=local.f[2];swapped.f[2]=local.f[0];
         float desired;
         if(local.f[0]>0.0001f){
-            float horizontal=func_00244B68((Abs(swapped.f[0])+extent)/(swapped.f[2]*D_002DDF7C));
+            float horizontal=atanf((Abs(swapped.f[0])+extent)/(swapped.f[2]*D_002DDF7C));
             horizontal=horizontal+horizontal;
-            float vertical=func_00244B68((Abs(swapped.f[1])+extent)/swapped.f[2]);
+            float vertical=atanf((Abs(swapped.f[1])+extent)/swapped.f[2]);
             vertical=vertical+vertical;
             desired=Min(Max(horizontal,vertical),p->range.hi);
         }else desired=p->range.hi;
         desired=Max(desired,angle);
-        float target=func_0011D948(g_lmZeroOne,1.0f-Fraction(&p->range,desired));
+        float target=GLimitLm(g_lmZeroOne,1.0f-Fraction(&p->range,desired));
         float delta=Abs(target-p->blend);
         spring=D_002A97B0;
         float rate=(1.0f-delta)*D_002C4418[0]+delta*D_002C4418[1];
         spring.d*=rate;spring.a*=rate;spring.b*=rate;
-        p->blend=func_0011D1C0(p->blend,p->velocity,target,g_clock.dt,&spring,&p->velocity);
+        p->blend=GSmoothA(p->blend,p->velocity,target,g_clock.dt,&spring,&p->velocity);
     }else {
         if(p->control){
             float blend=p->blend,zoom=p->control->zoom;
             p->velocity=(D_002C4420[0]+blend*(D_002C4420[1]+blend*D_002C4420[2]))*zoom*Abs(zoom);
-            p->blend=func_0011D948(g_lmZeroOne,blend+p->velocity*g_clock.dt);
+            p->blend=GLimitLm(g_lmZeroOne,blend+p->velocity*g_clock.dt);
         }
     }
     p->strength=Blend(&p->range,1.0f-p->blend);

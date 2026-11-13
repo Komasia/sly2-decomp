@@ -1,6 +1,6 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
-struct CRef { int m_tagk; float m_tag; CRef(const CRef &) __asm__("func_001291A8"); ~CRef() { func_00129EC8(this); } };
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
+struct CRef { int m_tagk; float m_tag; CRef(const CRef &) __asm__("__4CRefRC4CRef"); ~CRef() { Decref(this); } };
 struct B { char data[0x5464]; };
 struct G { char pad[0x24]; struct B a[3]; char pad2[0xFD50 - 0x24 - 3 * 0x5464]; struct B *xFD50; };
 struct GD { char pad[0x3B1C]; int x3B1C; };

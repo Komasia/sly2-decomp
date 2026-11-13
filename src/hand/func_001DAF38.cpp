@@ -13,14 +13,14 @@ extern G g_game;
 extern char D_002A79A0[];
 extern char D_002A79A8[];
 extern char D_002A79B8[];
-int func_0021ECD8(char *, const char *, ...);
+int fiprintf(char *, const char *, ...) asm("fiprintf");
 CRef SetProgressPoCurrent(const CRef &, const char *, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 void BroadcastTaskEvent(G *, int, int) asm("BroadcastTaskEvent__FP2SWiP2LO");
 extern "C" void func_001DAF38(int n, int f)
 {
     CRef ref;
     char buf[0x20];
-    func_0021ECD8(buf, D_002A79A0, n);
+    fiprintf(buf, D_002A79A0, n);
     ref = SetProgressPoCurrent(CRef(f != 0), D_002A79A8, D_002A79B8, buf, 0);
     if (f) {
         g_game.n = n;

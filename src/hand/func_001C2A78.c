@@ -4,13 +4,13 @@ extern int D_003D3980;
 extern char D_003CF980[];
 extern char D_002F7980[];
 extern char D_00303980[];
-void func_00234CA0(int n);
+void FlushCache(int n);
 void func_001C2A78(int mode)
 {
     struct BUF *pb;
     int i;
     if (mode == D_003D3980) return;
-    func_00234CA0(0);
+    FlushCache(0);
     D_003D3980 = mode;
     switch (mode) {
     case 3:

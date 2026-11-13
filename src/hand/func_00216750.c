@@ -10,7 +10,7 @@ struct R {char pad[0xC];unsigned char *cur;};
 struct E {int kind;float priority;uint address;int tag;};
 extern struct R D_002DEA28;
 extern float D_002C40A8,D_002C40AC,D_002C40B0,D_002C40B4;
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int);
 void func_00215CA8(struct RT *,char *);
 int func_00215D40(struct RT *);
 float func_00216B80(void *,int);
@@ -27,7 +27,7 @@ void func_00216750(struct RT *p,union M4 *matrix,struct DATA *style){
     float lineHeight=p->lineHeight*p->sy*0.45454547f;
     float startX=matrix->a[8];
     style->color=0;
-    func_002333B4(widths,0,sizeof(widths));
+    s1_memset(widths,0,sizeof(widths));
     func_00215CA8(p,0);
     {int ch;
     while((ch=func_00215D40(p))!=0){

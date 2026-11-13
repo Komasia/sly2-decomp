@@ -6,7 +6,7 @@ extern struct { float t; float dt; } g_clock;
 extern char D_002C3E88[];
 extern float D_002C3E80;
 int FVisible__FP8SCREENRT(struct O *po);
-float func_0011D1C0(float a, float b, float c, void *p, float *pv, float dt);
+float GSmoothA(float a, float b, float c, void *p, float *pv, float dt) asm("GSmoothA__FffffP4SMPAPf");
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, void *source);
 
@@ -29,7 +29,7 @@ void StackCounters__FP2SW(struct S *p)
             e->v = 0.0f;
             e->f = 0;
         } else {
-            o->pf8->v = func_0011D1C0(o->pf8->v, e->v, t, D_002C3E88, &e->v, g_clock.dt);
+            o->pf8->v = GSmoothA(o->pf8->v, e->v, t, D_002C3E88, &e->v, g_clock.dt);
         }
         t += D_002C3E80;
         if (i == 3) {

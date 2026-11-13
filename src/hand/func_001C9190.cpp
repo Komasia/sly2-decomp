@@ -9,8 +9,8 @@
 #include "gifs.h"
 struct SEMA {int count,maxCount,initialCount,waitThreads;uint attributes,option;};
 struct M2 {float a[8];M2(){}void Identity();};
-extern "C" void *func_002333B4(void *,int,int);
-inline void M2::Identity(){func_002333B4(this,0,sizeof(*this));a[0]=a[3]=1.0f;}
+extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
+inline void M2::Identity(){s1_memset(this,0,sizeof(*this));a[0]=a[3]=1.0f;}
 struct CLOCK {float t,dt,ratio,realRatio,realDt,realT;char pad18[0x24];float frameT,frameDt;ulong tick;};
 struct FR {int n0;void *p4;char pad8[0x1C];void *packet;char pad28[8];int flags;};
 extern VIFS D_002DEA28;
@@ -23,10 +23,10 @@ extern uint D_002BE538;
 extern int D_002C10A0,D_002C10A4,D_002C10A8,D_002C10AC;
 extern float D_002C10B0,D_002C10B4,D_002C10C0[3],g_lmZeroOne[2];
 extern QW D_002DF260[];
-extern "C" int func_00234A60(int);
-extern "C" int func_00234A40(int);
+extern "C" int WaitSema(int) asm("WaitSema");
+extern "C" int SignalSema(int) asm("SignalSema");
 extern "C" int ReferSemaStatus(int,SEMA *);
-extern "C" float func_00245000(float);
+extern "C" float sinf(float);
 extern "C" void func_001C93E0(GIFS *,M2 *,float);
 extern "C" void func_00160A98(void);
 extern "C" void UpdateClock(CLOCK *,int) asm("UpdateClock__FP5CLOCKi");
@@ -47,14 +47,14 @@ extern "C" void func_001C9190(void *)
 {
     SEMA status;M2 matrix;
     for(;;){
-        func_00234A60(D_003D3A3C);
+        WaitSema(D_003D3A3C);
         D_002DEDBC=0;
         for(;;){
             BeginFrame();
             ReferSemaStatus(D_003D3A40,&status);
             if(status.count!=0)break;
             float t=-*D_002DD314+g_clock.frameT;
-            float scale=1.0f+D_002C10B0*func_00245000(t*D_002C10B4);
+            float scale=1.0f+D_002C10B0*sinf(t*D_002C10B4);
             matrix.Identity();
             matrix.a[0]=D_002C10A0*scale;
             matrix.a[3]=D_002C10A4*scale;
@@ -67,7 +67,7 @@ extern "C" void func_001C9190(void *)
         do{g_pfrmOpen->flags&=-2;}while(0);
         func_00160A98();D_002BE538++;
         do {ReferSemaStatus(D_002DEB18,&status);}while(status.count==0);
-        func_00234A60(D_003D3A40);
-        func_00234A40(D_003D3A44);
+        WaitSema(D_003D3A40);
+        SignalSema(D_003D3A44);
     }
 }

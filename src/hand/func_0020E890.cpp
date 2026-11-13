@@ -29,7 +29,7 @@ void func_00184CA0(STREAM *);
 void UnloadWorld(SW *) asm("UnloadWorld__FPv");
 void ResetClock(void *) asm("ResetClock__FP5CLOCK");
 void AddGrfusr(int) asm("AddGrfusr__Fi");
-void *func_002333B4(void *,int,uint);
+void *s1_memset(void *,int,uint) asm("s1_memset");
 SW *func_0020D9D0(SW *);
 int func_001B3B08(void *);
 void InitCm(void *) asm("InitCm__FP2CM");
@@ -43,7 +43,7 @@ CONTEXT *PloFindCheckpoint(SW *,int,int) asm("PloFindCheckpoint__FP2SW3OIDT1");
 void ApplyCheckpoint(CONTEXT *) asm("ApplyCheckpoint__FP2SW");
 ACTOR *PloPlayerPo(SW *) asm("PloPlayerPo__FP2SW");
 ACTOR *func_001C4A48(SW *);
-void func_00129EC8(REF *);
+void Decref(REF *) asm("Decref__4CRef");
 ACTOR *PloFindSwNearest(SW *,int,int,void *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(ACTOR *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int NPoEnabled(ACTOR *) asm("NPoEnabled__FP2LO");
@@ -58,7 +58,7 @@ void func_001A4E80(void *);
 }
 struct FRAME {FRAME(){}~FRAME(){}};
 struct STREAM {int flags;char pad4[0x2C];void *vtable;int spoolBytes;char *spool;int fileHandle,position,writePosition,capacity,input,secondaryHandle,state54,state58,state5C,state60;};
-struct REF {int tag,value;REF(const REF &);~REF(){func_00129EC8(this);}};
+struct REF {int tag,value;REF(const REF &);~REF(){Decref(this);}};
 extern "C" REF func_001D8A38(const char *,...);
 static inline float Time(){return *(float *)g_clock;}
 static inline int Same(const HEADER *a,const HEADER *b){if(a==b)return true;if(!b)return false;return (a->words[2]^a->words[14])==(b->words[2]^b->words[14]);}
@@ -102,8 +102,8 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
     UnloadWorld(p);
     ResetClock(g_clock);
     AddGrfusr(8);
-    func_002333B4(&g_sw,0,0x4790);
-    func_002333B4(&g_sw,0,0x4790);
+    s1_memset(&g_sw,0,0x4790);
+    s1_memset(&g_sw,0,0x4790);
     func_0020D9D0(&g_sw);
     if(func_001B3B08(D_002F66B0))changed=1;
     InitCm(g_cm);

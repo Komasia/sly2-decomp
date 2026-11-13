@@ -31,7 +31,7 @@ float SMaxCrv__FP3CRV(struct O *);
 void func_001E6F10(struct O *, float, qword *, qword *);
 void *PpolyAtPoint__FG9VU_VECTOR(qword);
 int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int, qword *, float *);
-void *func_002333B4(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int);
 int CMergeAlsg__FiP3LSGiT1iT1i(int, struct X *, int, struct X *, int, struct X *, int);
 
 // name: SafeHouse port (UpdatePathrec)
@@ -101,12 +101,12 @@ void UpdatePathrec__FP7PATHREC(struct S *ps)
         t += D_002C367C;
     }
     for (i = 0; i < c; i++) {
-        func_002333B4(&ax[i], 0, 0x60);
+        s1_memset(&ax[i], 0, 0x60);
         ax[i].a = asegSrc[i].a;
         ax[i].b = asegSrc[i].b;
     }
     for (j = 0; j < cseg; j++) {
-        func_002333B4(&ay[j], 0, 0x60);
+        s1_memset(&ay[j], 0, 0x60);
         ay[j].a = aseg[j].a;
         ay[j].b = aseg[j].b;
     }

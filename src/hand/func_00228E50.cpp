@@ -56,7 +56,7 @@ void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,O *) asm("SetSource__4CSndPv");
 void SetFalloff(void *,float,float) asm("SetFalloff__4CSndff");
 void SetVolume(void *,float) asm("SetVolume__4CSndf");
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int) asm("s1_memset");
 void SettleWaterNodes(O *,N **) asm("SettleWaterNodes__FP3ALOPv");
 }
 struct MARK {};
@@ -108,7 +108,7 @@ extern "C" void UpdateWater__FP5WATER(O *p){
     SetSource(effect,o);
     SetFalloff(effect,100.0f,1000.0f);
     SetVolume(effect,fall);
-    func_002333B4(&work.event,0,sizeof(work.event));
+    s1_memset(&work.event,0,sizeof(work.event));
     normal=g_normalZ;
     work.event.position.q=Add(work.intervals[0].first.q,work.origin.q);
     work.event.kind=14;work.event.strength=radius*fall;work.event.normal=normal;

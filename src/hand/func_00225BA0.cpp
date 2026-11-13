@@ -13,14 +13,14 @@ extern float D_002C4408[];
 extern "C" {
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 func_0011B7E0(qword);
-void func_0011BC88(const M3 *,float *,float *);
-float func_0011CFE0(float,float);
+void DecomposeRotateMatrixPanTilt(const M3 *,float *,float *) asm("DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1");
+float GLimitAbs(float,float) asm("GLimitAbs__Fff");
 float GSmooth(float,float,float,const float *,float *) asm("GSmooth__FfffP3SMPPf");
-float func_0011D948(const BOUND *,float);
+float GLimitLm(const BOUND *,float) asm("GLimitLm__FP2LMf");
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
-void func_00129EC8(void *);
+void Decref(void *) asm("Decref__4CRef");
 }
-struct CRef {int kind,value;CRef(const CRef &) __asm__("func_001291A8");~CRef(){func_00129EC8(this);}};
+struct CRef {int kind,value;CRef(const CRef &) __asm__("__4CRefRC4CRef");~CRef(){Decref(this);}};
 extern "C" CRef NProgress(int,void *);
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Make(float x,float y,float z) {
@@ -35,15 +35,15 @@ extern "C" void UpdateTurretAim__FP6TURRET(S *p){
         float pitch,yaw;
         qword target;
         m=func_0011B7E0((target=PosOfLo(p->target),Sub(target,PosOfLo(p))));
-        func_0011BC88(&m,&pitch,&yaw);
+        DecomposeRotateMatrixPanTilt(&m,&pitch,&yaw);
         float dp=pitch-p->pitch;
         float dy=yaw-p->yaw;
         p->pitch=pitch;p->yaw=yaw;
         p->vpitch=dp;p->vyaw=dy;
     } else {
         if(p->control) {
-            float x=func_0011CFE0(p->control->x+p->control->z,1.0f);
-            float y=func_0011CFE0(p->control->y,1.0f);
+            float x=GLimitAbs(p->control->x+p->control->z,1.0f);
+            float y=GLimitAbs(p->control->y,1.0f);
             float strength=p->strength;
             float gain=(1.0f-strength)*0.5f+strength;
             float cubic=-x*x;
@@ -61,13 +61,13 @@ extern "C" void UpdateTurretAim__FP6TURRET(S *p){
             const float *damping=D_002C4408;
             p->vpitch=GSmooth(p->vpitch,0.0f,clock->dt,damping,0);
             p->vyaw=GSmooth(p->vyaw,0.0f,clock->dt,damping,0);
-            p->vpitch=func_0011CFE0(p->vpitch+ax*clock->dt,limit*0.9f);
-            p->vyaw=func_0011CFE0(p->vyaw+ay*clock->dt,limit*0.8f);
+            p->vpitch=GLimitAbs(p->vpitch+ax*clock->dt,limit*0.9f);
+            p->vyaw=GLimitAbs(p->vyaw+ay*clock->dt,limit*0.8f);
             p->pitch+=p->vpitch*clock->dt;
             p->yaw+=p->vyaw*clock->dt;
         }
     }
-    p->pitch=func_0011D948(&p->pitchRange,p->pitch);
-    p->yaw=func_0011D948(&p->yawRange,p->yaw);
+    p->pitch=GLimitLm(&p->pitchRange,p->pitch);
+    p->yaw=GLimitLm(&p->yawRange,p->yaw);
     if(p->output){V v;v.q=Make(0.0f,-p->yaw,p->pitch);SetCtrlPos(p->rotation,v.q);}
 }

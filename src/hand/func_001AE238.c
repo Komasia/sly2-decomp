@@ -1,10 +1,10 @@
 struct MSG { int cb; int nKind; };
 void *PvAllocSwImpl__Fi(struct MSG *pm);
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 void *PvAllocSwCopyImpl__FiPv(struct MSG *pm, void *pvSrc)
 {
     struct MSG m = *pm;
     void *p = PvAllocSwImpl__Fi(&m);
-    if (p) func_001AE5A0(p, pvSrc, pm->cb);
+    if (p) CopyAb(p, pvSrc, pm->cb);
     return p;
 }

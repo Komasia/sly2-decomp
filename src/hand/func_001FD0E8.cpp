@@ -116,8 +116,8 @@ struct SNDMGR
 };
 extern int D_002E1E54;
 extern "C" void func_002321B8(void *);
-extern "C" int func_00231C48(void);
-extern "C" void *func_002333B4(void *, int, uint);
+extern "C" int snd_FlushSoundCommands(void) asm("snd_FlushSoundCommands");
+extern "C" void *s1_memset(void *, int, uint) asm("s1_memset");
 extern "C" STREAMSND *PsndNewVoice(FILEREC *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 extern "C" void func_00259B48(void *, STREAMSND *);
 inline int FSameFileId(FILEREC *prec, FILEREC *precOther)
@@ -140,7 +140,7 @@ extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbi
         if (psndmgr->pbank)
         {
             func_002321B8(psndmgr->pbank);
-            while (func_00231C48())
+            while (snd_FlushSoundCommands())
                 ;
             psndmgr->pbank = 0;
         }
@@ -155,7 +155,7 @@ extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbi
     }
     psndmgr->csfx = pbis->S16Read();
     psndmgr->aisnd = (int *)PvAllocSwLoad(psndmgr->csfx * sizeof(int), 0x10);
-    func_002333B4(psndmgr->aisnd, -1, psndmgr->csfx * sizeof(int));
+    s1_memset(psndmgr->aisnd, -1, psndmgr->csfx * sizeof(int));
     int j;
     for (j = 0; j < psndmgr->csnd; j++)
         psndmgr->aisnd[pbis->S16Read()] = j;
@@ -167,7 +167,7 @@ extern "C" void LoadSoundSectionFromBrx(SNDMGR *psndmgr, CBinaryInputStream *pbi
         STREAMSND *psnd = PsndNewVoice(psndmgr->precAmbience, 4);
         func_00259B48(&psndmgr->psndAmbience, psnd);
     }
-    func_002333B4(psndmgr->anUnk1D4, -1, sizeof(psndmgr->anUnk1D4));
+    s1_memset(psndmgr->anUnk1D4, -1, sizeof(psndmgr->anUnk1D4));
     for (i = 0; i < psndmgr->cUnk1D0; i++)
         psndmgr->anUnk1D4[i] = pbis->S16Read();
     int clang = pbis->U8Read();

@@ -6,7 +6,7 @@ extern struct H D_002E6550;
 extern int D_003E0FE4;
 extern char D_003D4A60[];
 void NProgress(struct CRef *ret, int a, void *b);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 void func_001ACB58(struct H *h, int n);
 void func_001ABD40(struct G *g);
 // name: SafeHouse port (SaveToTarget)
@@ -20,7 +20,7 @@ void SaveToTarget__Fv(void)
     h->x4C = 2;
     NProgress(&ref, D_003E0FE4, D_003D4A60);
     t = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (!t) {
         func_001ACB58(h, 0x22);
     } else {

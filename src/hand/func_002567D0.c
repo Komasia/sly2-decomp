@@ -2,7 +2,7 @@ typedef struct VT { short d; short pad; void *pfn; } VT;
 typedef struct A { VT *vt; } A;
 typedef struct E { int key; int k; int v; struct E *next; } E;
 typedef struct H { int c; E **ap; int count; A *pa; } H;
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 
 #define FREE(pa, p) ((void (*)(void *, void *))(pa)->vt[3].pfn)((char *)(pa) + (pa)->vt[3].d, p)
 
@@ -17,7 +17,7 @@ void func_002567D0(H *h)
             e = next;
         }
     }
-    func_002333B4(h->ap, 0, h->c * 4);
+    s1_memset(h->ap, 0, h->c * 4);
     h->count = 0;
     FREE(h->pa, h->ap);
     h->c = 0;

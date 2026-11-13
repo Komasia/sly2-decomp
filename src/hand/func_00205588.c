@@ -3,7 +3,7 @@ extern char g_sw[];
 struct S { char pad[0x2A0]; int a[6]; };
 int func_001FD0C0(void *p, int i);
 void *PloFindSwNearest__FP2LO3OIDii(void *p, int a, int b, struct S *ps);
-void *func_001F03C8(void *x, struct S *ps);
+void *PsmaFindSm(void *x, struct S *ps) asm("PsmaFindSm__FP2SMP3ALO");
 void RetractSma__FP3SMA(void *y);
 void func_00205588(struct S *p, int mask)
 {
@@ -18,7 +18,7 @@ void func_00205588(struct S *p, int mask)
                     int id = func_001FD0C0(D_003DD040, i);
                     void *x = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, id, p);
                     if (x) {
-                        void *y = func_001F03C8(x, p);
+                        void *y = PsmaFindSm(x, p);
                         if (y)
                             RetractSma__FP3SMA(y);
                     }

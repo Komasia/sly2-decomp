@@ -6,7 +6,7 @@ void func_00232438(unsigned int m);
 void StopDialog__FP8SOUNDMGR(void *p);
 void func_00227788(void *p);
 void func_00232408(void);
-int func_00231C48(void);
+int snd_FlushSoundCommands(void);
 void func_00232D80(int n);
 void snd_StreamSafeCdSync(int n);
 int func_00232220(int n);
@@ -18,7 +18,7 @@ void func_001B3040(struct S *p)
     StopDialog__FP8SOUNDMGR(D_003DD040);
     func_00227788(D_004435F0);
     func_00232408();
-    while (func_00231C48()) ;
+    while (snd_FlushSoundCommands()) ;
     func_00232D80(1);
     snd_StreamSafeCdSync(0);
     p->xA0 = func_00232220(2);

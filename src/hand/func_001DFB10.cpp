@@ -15,7 +15,7 @@ struct OBJ {
 };
 void *PvAllocStackImpl(MSG *) asm("PvAllocStackImpl__Fi");
 void *PvAllocSwImpl(MSG *) asm("PvAllocSwImpl__Fi");
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 void func_001E0290(OBJ *, int);
 void LoadLoFromBrx(OBJ *, void *) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
 static inline int Max(int a, int b) { return a < b ? b : a; }
@@ -37,6 +37,6 @@ extern "C" void BeginScptLoad__FP2LOPv(OBJ *p, void *x)
         pmsg->cb = p->cMax * sizeof(ENT);
         pmsg->nKind = 0x10;
         p->ae = (ENT *)PvAllocSwImpl(pmsg);
-        func_001AE5A0(p->ae, aeOld, p->c * sizeof(ENT));
+        CopyAb(p->ae, aeOld, p->c * sizeof(ENT));
     }
 }

@@ -10,7 +10,7 @@ int GrfPadctlPressedWithin__FP6PADCTLUif(void *pl, int k, float g);
 int GrfPadctlTakePressed__FP6PADCTL(void *pl, int k, float g);
 struct S *PjobFind__FP5GUARDPv(void *p, int n);
 qword PosOfLo__FP2LO(void *p);
-int func_0011D910(void *p, float g);
+int FCheckLm(void *p, float g) asm("FCheckLm__FP2LMf");
 void SetState__5JOBB1i(struct S *p, int n);
 void func_001B7050(struct P *p, void *q);
 void func_001B6078(struct P *p, int n);
@@ -48,7 +48,7 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
             qword d = PosOfLo__FP2LO(p);
             __asm__("vsub.xyzw %0, %1, %0" : "+j"(d) : "j"(a));
             u.q = d;
-            if (LenXY(d) < D_002C09AC && func_0011D910(D_002C09B0, GetZ(d)) && p->p10DC->xFEC)
+            if (LenXY(d) < D_002C09AC && FCheckLm(D_002C09B0, GetZ(d)) && p->p10DC->xFEC)
                 f = GrfPadctlTakePressed__FP6PADCTL(p->pl, 0x20, 0.15f) != 0;
             if (f) {
                 SetState__5JOBB1i(ps, 2);
@@ -57,7 +57,7 @@ int FMurrayGrab__FP6MURRAY(struct P *p)
             }
             d = u.q;
             g = 0;
-            if (LenXY(d) < D_002C09B8 && func_0011D910(D_002C09C0, GetZ(d)) && p->x180C)
+            if (LenXY(d) < D_002C09B8 && FCheckLm(D_002C09C0, GetZ(d)) && p->x180C)
                 g = GrfPadctlTakePressed__FP6PADCTL(p->pl, 0x80, 0.15f) != 0;
     if (!g)
         goto ret0;

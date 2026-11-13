@@ -87,7 +87,7 @@ void SetMurrayBehaviorAnim(P *, int) asm("SetMurrayBehaviorAnim__FP6MURRAYi");
 void SetJtThrowState(void *, int) asm("SetJtThrowState__FP7JTTHROWi");
 void SetAloCnstrLin(P *, int) asm("SetAloCnstrLin__FP3ALOi");
 void SetClimbState(void *, int) asm("SetClimbState__FP5ACTORi");
-int func_001F0400(void *, int);
+int IsmsFindSmOptional(void *, int) asm("IsmsFindSmOptional__FP2SM3OID");
 int GrfActorLookMask(P *) asm("GrfActorLookMask__FP5ACTOR");
 void ActorSetLookFlag(P *, int) asm("ActorSetLookFlag__FP5ACTORi");
 void ResetGaitFeet(void *) asm("ResetGaitFeet__FP4GAIT");
@@ -98,7 +98,7 @@ qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 void func_002046B0(P *, qword);
 void RetractAsegaPp(ASEGA **) asm("RetractAsegaPp__FPP5ASEGA");
 void ClearSmaHandle(COMPONENT **) asm("ClearSmaHandle__FPP3SMA");
-void func_001305B8(ASEG *, P *, float, float, int, ASEGA **);
+void ApplyAsegCur(ASEG *, P *, float, float, int, ASEGA **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void ReplaceSmaHandleMask(void *, P *, int, int, int, COMPONENT **) asm("ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA");
 ENTRY *PeventLaunch(ASEG *, int) asm("PeventLaunch__FP5KINDEi");
 void SetAsegaSeekTime(ASEGA *, float) asm("SetAsegaSeekTime__FP5ASEGAf");
@@ -157,7 +157,7 @@ extern "C" void func_001B6078(P *p, int next)
         SetXfMode(p, p->first, 1); SetXfMode(p, p->second, 1);
         source = p->template0; p->velocity = D_002A2DD0;
         if (old != 2) { id = (old != 10) ? 0x175 : 0x176; } else id = 0x178;
-        if (func_001F0400(source, id) < 0) id = -1;
+        if (IsmsFindSmOptional(source, id) < 0) id = -1;
         mode = GrfActorLookMask(p); ActorSetLookFlag(p, 1); break;
     case 1: clip = p->clip1; activation = Block(p, 0x1320); goto activate;
     case 14: SetBinocState(Block(p, 0xF00), -1); break;
@@ -194,7 +194,7 @@ extern "C" void func_001B6078(P *p, int next)
     {
         ASEGA **animation = &p->asega; COMPONENT **component = &p->component; float position = 0.0f;
         RetractAsegaPp(animation); ClearSmaHandle(component);
-        func_001305B8(clip, p, position, 1.0f, flags, animation);
+        ApplyAsegCur(clip, p, position, 1.0f, flags, animation);
         ReplaceSmaHandleMask(source, p, id, flags, mode, component);
         if (clip || source) {
             if (clip) { if (duration == position) { ENTRY *e = PeventLaunch(clip, 0x1AC); if (e) duration = e->value; } }

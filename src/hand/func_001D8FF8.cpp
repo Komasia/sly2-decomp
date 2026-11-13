@@ -22,7 +22,7 @@ int func_001A2C98(void);
 void func_001A2BD0(int);
 void SetSoundPlaybackMode(void *, int) asm("SetSoundPlaybackMode__FP8SOUNDMGRi");
 void SetSoundChannelVolume(void *, int, int, float) asm("SetSoundChannelVolume__FP8SOUNDMGRiif");
-unsigned int func_0023E1C8(float);
+unsigned int fptoui(float) asm("fptoui");
 }
 static inline int GetInt(KEY *k, char *pb) { return NProgress(k, pb).m_tag; }
 static inline float GetFloat(KEY *k, char *pb) { return NProgress(k, pb).m_g; }
@@ -44,11 +44,11 @@ extern "C" void ApplyGameSettings__FP8GAMESAVE(char *pb)
     if (g_sw.k[5]) {
         float f = GetFloat(g_sw.k[5], pb);
         GSR *p = &D_002DEB80;
-        p->d1.dx = p->d2.dx = func_0023E1C8(f + 636.0f);
+        p->d1.dx = p->d2.dx = fptoui(f + 636.0f);
     }
     if (g_sw.k[6]) {
         float f = GetFloat(g_sw.k[6], pb);
         GSR *p = &D_002DEB80;
-        p->d1.dy = p->d2.dy = func_0023E1C8(f + 50.0f) & ~1;
+        p->d1.dy = p->d2.dy = fptoui(f + 50.0f) & ~1;
     }
 }

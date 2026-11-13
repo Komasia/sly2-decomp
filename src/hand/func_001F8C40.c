@@ -4,14 +4,14 @@ extern struct S D_003DD020;
 extern qword g_normalZ;
 extern int D_002DD2E0, D_002DD2E4, D_002DD2E8, D_002DD2EC, D_002DD2F0, D_002DD2F4;
 extern char D_004520A8[], D_004520D0[], D_004520F8[], D_00452120[], D_00452148[], D_00452170[];
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void func_0011CCA8(void *, int, int, int);
 void func_001F8C40(int init, int prio)
 {
     if (prio == 0xFFFF && init) {
         struct S *pg = &D_003DD020;
         struct S t;
-        func_002333B4(&t, 0, 0x20);
+        s1_memset(&t, 0, 0x20);
         t.q0 = g_normalZ;
         t.n10 = 1;
         *pg = t;

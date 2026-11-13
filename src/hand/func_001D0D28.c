@@ -23,7 +23,7 @@ extern struct G g_sw;
 typedef struct { qword pos; char rest[0x50]; } HIT;
 int ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG(void *, qword, qword, int, HIT *);
 EMIT *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *, int, int);
-void func_001CEA88(OBJ *, int);
+void TouchRip(OBJ *, int) asm("TouchRip__FP3RIPi");
 // name: SafeHouse port (TouchRipKind1)
 void TouchRipKind1__FP4RIPNi(OBJ *p, int n)
 {
@@ -47,5 +47,5 @@ found:
         pe->x1C = p->xF4;
     }
 done:
-    func_001CEA88(p, n);
+    TouchRip(p, n);
 }

@@ -28,7 +28,7 @@ void SetClockFactor__FP5CLOCKif(struct CLOCK *, float, int);
 void PauseGame__FP9GAMEPAUSEi(void *, int);
 void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
-void func_00212A50(SUB *, int);
+void SetTimerTimers(SUB *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void BuildShopList__FP4SHOP(OBJ *);
@@ -57,7 +57,7 @@ void func_001DC260(OBJ *p, int s)
         ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
         VCALL(p, 11);
         if (p->x24->x58 > 0)
-            func_00212A50(p->x24, 1);
+            SetTimerTimers(p->x24, 1);
         p->x25C = s;
         p->x260 = s;
         p->x264 = s;
@@ -70,7 +70,7 @@ void func_001DC260(OBJ *p, int s)
             SetState__FP8SCREENRTi(p->x24, 1);
             SetState__FP8SCREENRTi(p->x24, 2);
         } else {
-            func_00212A50(p->x24, 2);
+            SetTimerTimers(p->x24, 2);
         }
         SetSource__4CSndPv(PsndNewPlain__Fi(0x35), 0);
         break;
@@ -82,7 +82,7 @@ void func_001DC260(OBJ *p, int s)
             SetState__FP8SCREENRTi(p->x24, 1);
             SetState__FP8SCREENRTi(p->x24, 2);
         } else {
-            func_00212A50(p->x24, 2);
+            SetTimerTimers(p->x24, 2);
         }
         SetSource__4CSndPv(PsndNewPlain__Fi(0x35), 0);
         break;

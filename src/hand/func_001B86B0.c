@@ -19,12 +19,12 @@ struct P {
 };
 void RetractAsegaPp__FPP5ASEGA(void *pp);
 qword PosOfLo__FP2LO(void *p);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 float RadNormalize__Ff(float g);
 void SetStepPhysHeading__FP3ALOf(struct P *p, float g);
 void TurnActorNow__FP5ACTOR(struct P *p);
 void ClearSmaHandle__FPP3SMA(void *p);
-void func_001305B8(void *q, struct P *p, float g, float h, int n, struct ANIM **ppanim);
+void ApplyAsegCur(void *q, struct P *p, float g, float h, int n, struct ANIM **ppanim) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 float *PeventLaunch__FP5KINDEi(void *q, int n);
 void SetAsegaSeekTime__FP5ASEGAf(struct ANIM *pa, float t);
 struct R *PchnFindAseg__FP4ASEGP3ALOPvi(struct S14 *p, struct P *pp, int a, int b);
@@ -55,7 +55,7 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
     if (p->p10DC && p->x10E4 >= 2 && !(p->pl->x30 & 8)) {
         qword d;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(PosOfLo__FP2LO(p->p10DC)), "j"(PosOfLo__FP2LO(p)));
-        g = func_002458F0(GetY(d), GetX(d));
+        g = atan2f(GetY(d), GetX(d));
         if (__builtin_fabsf(RadNormalize__Ff(g - p->g1A8)) < D_002C09F0) {
             SetStepPhysHeading__FP3ALOf(p, g);
             TurnActorNow__FP5ACTOR(p);
@@ -63,7 +63,7 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
     }
     g = 0.0f;
     ClearSmaHandle__FPP3SMA(p->x1034);
-    func_001305B8(q, p, g, 1.0f, 1, &p->panim);
+    ApplyAsegCur(q, p, g, 1.0f, 1, &p->panim);
     if (q) {
         float *pg = PeventLaunch__FP5KINDEi(q, 0x1AC);
         if (pg)

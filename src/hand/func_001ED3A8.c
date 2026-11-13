@@ -1,6 +1,6 @@
 struct AR { int cb; int cbAlign; };
 void *PvAllocStackImpl__Fi(struct AR *par);
-void *func_002333B4(void *p, int b, int cb);
+void *s1_memset(void *p, int b, int cb);
 extern void *D_003DD010;
 extern void *D_003DD018;
 extern int D_003DD00C;
@@ -13,10 +13,10 @@ void func_001ED3A8(void)
     ar.cb = 0xFFF4;
     ar.cbAlign = 0x10;
     *pp1 = PvAllocStackImpl__Fi(&ar);
-    func_002333B4(*pp1, 0, 0xFFF4);
+    s1_memset(*pp1, 0, 0xFFF4);
     ar.cb = 0xFFF4;
     ar.cbAlign = 0x10;
     *pp2 = PvAllocStackImpl__Fi(&ar);
-    func_002333B4(*pp2, 0, 0xFFF4);
+    s1_memset(*pp2, 0, 0xFFF4);
     D_003DD00C = D_003DD014 = 0;
 }

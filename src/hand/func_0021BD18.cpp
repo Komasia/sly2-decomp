@@ -15,7 +15,7 @@ union REQUEST {ALLOC alloc;qword q;float f[4];};
 extern "C" {
 void func_001F36A8(S *);
 void *PvAllocSwClearImpl(ALLOC *) asm("PvAllocSwClearImpl__Fi");
-void func_001AE5A0(void *,const void *,unsigned int);
+void CopyAb(void *,const void *,unsigned int) asm("CopyAb__FPvT0Ui");
 void func_0016EF00(MODEL *,int);
 void func_0021BC08(S *);
 extern char D_002C44F0[];
@@ -61,7 +61,7 @@ extern "C" void PostLoadTrail__FP2LO(S *p){
         for(node=p->model.nodes;node;node=node->next){
             for(int i=0;i<node->count;i++){
                 Batch *batch=&node->batches[i];
-                func_001AE5A0(buffer,batch->positions,batch->count*16);
+                CopyAb(buffer,batch->positions,batch->count*16);
                 for(int n=batch->count;n>0;){
                     qword *v=BufferStart(buffer);
                     do{float dot=Dot(*v,p->axis);if(maximum<dot)maximum=dot;if(dot<minimum)minimum=dot;v++;}while(--n);
@@ -80,7 +80,7 @@ extern "C" void PostLoadTrail__FP2LO(S *p){
             func_0016EF00(&p->model,index);
             for(int i=0;i<node->count;i++){
                 Batch *batch=&node->batches[i];
-                func_001AE5A0(buffer,batch->positions,batch->count*16);
+                CopyAb(buffer,batch->positions,batch->count*16);
                 Sample *out=AllocateSamples(&req,batch->count);
                 batch->samples=out;
                 int j=0;if(batch->count>0){

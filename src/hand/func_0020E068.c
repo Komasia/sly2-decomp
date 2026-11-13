@@ -10,8 +10,8 @@ void func_00161458(void *p);
 void ResetCm__FP2CM(void *p);
 void ResetSoundMgr__FP8SOUNDMGR(void *p);
 void func_001EC7E8(void);
-void func_001D53C0(void *p, int n);
-void func_001AE300(void);
+void SetRumbleRums(void *p, int n) asm("SetRumbleRums__FP6RUMBLE4RUMS");
+void FreeSw(void) asm("FreeSw__Fv");
 
 // name: SafeHouse port (UnloadWorld)
 void UnloadWorld__FPv(struct S *p)
@@ -28,7 +28,7 @@ void UnloadWorld__FPv(struct S *p)
     ResetCm__FP2CM(g_cm);
     ResetSoundMgr__FP8SOUNDMGR(D_003DD040);
     func_001EC7E8();
-    func_001D53C0(D_002E0CCC, 3);
+    SetRumbleRums(D_002E0CCC, 3);
     D_002E1E40 = 0;
     D_002F7900 = 0;
     D_002DD5BC = 0;
@@ -43,5 +43,5 @@ void UnloadWorld__FPv(struct S *p)
     D_003E1C4C = 0;
     D_003E1C50 = 0;
     D_003DD48C = 0;
-    func_001AE300();
+    FreeSw();
 }

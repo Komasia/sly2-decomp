@@ -8,7 +8,7 @@ struct C{P*actor;int state;float time;PATH*path;float distance,speed;int descend
 struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct LM{float low,high;};struct WORK{U ahead,behind;union{U input;SMP smooth;}reuse;LM limit;};
 extern "C"{
 extern CLOCK g_clock;extern U D_002A2DD0,g_normalZ;extern SMP D_002BF928;
-qword func_0011F088(qword,qword,float,SMP*,U*);
+qword PosSmooth(qword,qword,float,SMP*,U*) asm("PosSmooth");
 void SetJumpKind(void*,int,void*,void*) asm("SetJumpKind__FP4JUMPiiP2LO");int GrfPadctlTakePressed(INPUT*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");int GrfPadctlPressedWithin(INPUT*,int,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(INPUT*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
 void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");int func_00131968(ASEGA*);void SetClimbState(C*,int) asm("SetClimbState__FP5ACTORi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
@@ -85,7 +85,7 @@ typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (UpdateClimbTransitions)
 extern "C" void UpdateClimbTransitions__FP5ACTOR(C*p){
- WORK w;float lowSpeed,highSpeed;P*actor=p->actor;actor->offset.q=func_0011F088(actor->offset.q,D_002A2DD0.q,g_clock.dt,&D_002BF928,0);
+ WORK w;float lowSpeed,highSpeed;P*actor=p->actor;actor->offset.q=PosSmooth(actor->offset.q,D_002A2DD0.q,g_clock.dt,&D_002BF928,0);
  register float amount __asm__("$f4"),dot __asm__("$f3"),zero __asm__("$f2");register int previous __asm__("$5");
  {register INPUT*input __asm__("$18")=p->actor->input;
  if(!Eligible(p->path)){SetJumpKind(p->actor->controller,0,0,0);return;}

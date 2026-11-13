@@ -19,7 +19,7 @@ void *__10STACKSCOPE(void *pframe);
 void _$_10STACKSCOPE(void *pframe, int n);
 void *PvAllocStackClearImpl(MSG *pmsg) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
-void *func_002333B4(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
 qword PosOfLo(void *pv) asm("PosOfLo__FP2LO");
 NAV *PregionAt(qword pos, int f) asm("PregionAt__FG9VU_VECTORi");
 void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
@@ -64,7 +64,7 @@ extern "C" int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(GRAPH *pgraph,
     int *afAllowed;
     anode = (NODE *)PvAllocClear(pgraph->cnav * sizeof(NODE));
     afAllowed = (int *)PvAlloc(pgraph->cedge * sizeof(int));
-    func_002333B4(afAllowed, 0xFF, pgraph->cedge * sizeof(int));
+    s1_memset(afAllowed, 0xFF, pgraph->cedge * sizeof(int));
     qword posStart = PosOfLo(pvActor);
     NAV *pnavStart = PnavFind(posStart);
     NAV *pnavGoal = PnavFind(posGoal);

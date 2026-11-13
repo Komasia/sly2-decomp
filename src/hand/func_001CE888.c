@@ -6,7 +6,7 @@ struct Q *PripgNew__FP2SW5RIPGT(void *pg, int n);
 void *func_0011CCC0(void *pool);
 struct R *func_001CE6D0(void *pv, void *a);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);
-void func_001CE9C0(struct R *r);
+void AddRipRef(struct R *r) asm("AddRipRef__FP3RIP");
 // name: SafeHouse port (FLaunchHudRip)
 struct R *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *p, void *a, struct Q *q)
 {
@@ -19,7 +19,7 @@ struct R *FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(struct G *p, void *a, struct Q *
     r = func_001CE6D0(pv, a);
     r->p8 = q;
     AppendDlEntry__FP2DLPv(q->dl, r);
-    func_001CE9C0(r);
+    AddRipRef(r);
     return r; }
     return 0;
 }

@@ -17,9 +17,9 @@ extern "C" {
 void func_001F3C10(P *);
 int func_0014FD50(void *);
 void func_00168638(EFFECT *,const M4 *,void *,float,float);
-void *func_002333B4(void *,int,unsigned int);
+void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
-float func_00245000(float);
+float sinf(float);
 qword *func_00256D18(qword *,qword);
 M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
@@ -37,7 +37,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
         if(!func_0014FD50((char *)camera+0x3B0)){
             func_00168638((EFFECT *)((char *)p+0x80),0,p->material,p->opacity,p->opacity);
         }else{
-            func_002333B4(&local,0,sizeof(M4));
+            s1_memset(&local,0,sizeof(M4));
             local.rows[3].f[3]=1.0f;
             local.rows[2].f[2]=1.0f;
             local.rows[1].f[1]=1.0f;
@@ -50,7 +50,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             float elapsed=g_clock.time-p->start;
             float along=gain,across=gain;
             if(elapsed<0.85f){
-                float wave=func_00245000(elapsed*D_002C3D4C);
+                float wave=sinf(elapsed*D_002C3D4C);
                 float u=elapsed*1.1764705f;
                 float mix=(wave+1.0f)*0.5f;
                 float magnitude=D_002C3D50[0]+u*(D_002C3D50[1]+u*D_002C3D50[2]);

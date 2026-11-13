@@ -3,7 +3,7 @@ struct E { int id; unsigned char b4; char pad[0x28 - 5]; };
 extern int D_003DCFF0;
 extern struct E *D_003DCFF4;
 extern int D_003DCF98;
-int func_00117C20(void *pbis);
+int U16Read(void *pbis) asm("U16Read__18CBinaryInputStream");
 void *PvAllocStackClearImpl__Fi(struct AR *par);
 void LoadBmpFromBrx__FP18CBinaryInputStreamP3BMP(void *pbis, struct E *pe);
 // name: SafeHouse port (LoadBmpsFromBrx)
@@ -11,7 +11,7 @@ void LoadBmpsFromBrx__FP18CBinaryInputStream(void *pbis)
 {
     struct AR ar;
     int i = 0;
-    D_003DCFF0 = func_00117C20(pbis);
+    D_003DCFF0 = U16Read(pbis);
     ar.cb = D_003DCFF0 * sizeof(struct E);
     ar.cbAlign = 0x10;
     D_003DCFF4 = PvAllocStackClearImpl__Fi(&ar);

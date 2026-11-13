@@ -4,7 +4,7 @@ struct G { char pad[0x403C]; char pool[0x30]; struct O *x406C; };
 extern struct VTE g_vtso[];
 extern struct VTE g_vtripg[];
 void *func_0011CCC0(void *pool);
-void *func_002333B4(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb);
 void *__7GLOBSET(void *p);
 void *func_0015E3A8(struct G *p, int n);
 void func_0011A070(void *pl, void *pv);
@@ -16,7 +16,7 @@ struct O *PripgNew__FP2SW5RIPGT(struct G *p, int a)
     if (!a && p->x406C) return p->x406C;
     po = func_0011CCC0(p->pool);
     if (!po) return 0;
-    func_002333B4(po, 0, 0x1B0);
+    s1_memset(po, 0, 0x1B0);
     po->x0 = 0;
     po->x4 = 0;
     po->vt = g_vtso;

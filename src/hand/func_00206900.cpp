@@ -16,7 +16,7 @@ extern float D_002C3D04,D_002C3D08,D_002C3D0C;
 ulong func_00207A20(int);
 int CFindObjectsByClass(struct GAME *,int,int,int,int,struct P **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 qword PosOfLo(struct P *) asm("PosOfLo__FP2LO");
-void func_002338C0(void *,unsigned int,unsigned int,int (*)(const void *,const void *));
+void qsort(void *,unsigned int,unsigned int,int (*)(const void *,const void *)) asm("qsort");
 int func_002068D8(const void *,const void *);
 int func_002085D0(struct P *,struct P *,int);
 void UpdateDetector(struct MANAGER *) asm("UpdateDetector__FP8DETECTOR");
@@ -98,7 +98,7 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
                 }while(++i<objectCount);
             }
         }
-        func_002338C0(candidates,candidateCount,sizeof(struct CANDIDATE),func_002068D8);
+        qsort(candidates,candidateCount,sizeof(struct CANDIDATE),func_002068D8);
         p->manager->count-=p->generated;
         p->generated=0;
         if(candidateCount>0){

@@ -4,9 +4,9 @@ typedef struct { char pad[0xC]; int xC; char pad2[0xC]; LIST *x1C; } Y;
 typedef struct { char pad[0xC0]; Y y; } T;
 typedef struct { char pad[0xE4]; T *xE4; } X;
 typedef struct { int cb; int align; } DESC;
-int func_00117C20(void *);
-int func_00117BD0(void *);
-int func_00117C80(void *);
+int U16Read(void *) asm("U16Read__18CBinaryInputStream");
+int U8Read(void *) asm("U8Read__18CBinaryInputStream");
+int U32Read(void *) asm("U32Read__18CBinaryInputStream");
 void AdjustRgba__FPUi(RGBA *);
 void *PvAllocSwImpl__Fi(DESC *);
 
@@ -15,7 +15,7 @@ static inline int Min(int a, int b) { return a < b ? a : b; }
 // name: SafeHouse port (LoadEmitColorsFromBrx)
 void LoadEmitColorsFromBrx__FP7LOXEMITP18CBinaryInputStream(X *p, void *ps)
 {
-    int n = func_00117C20(ps);
+    int n = U16Read(ps);
     int i;
     Y *y;
     LIST *l;
@@ -27,10 +27,10 @@ void LoadEmitColorsFromBrx__FP7LOXEMITP18CBinaryInputStream(X *p, void *ps)
     u.d.align = 0x10;
     l = PvAllocSwImpl__Fi(&u.d);
     y->x1C = l;
-    y->xC = func_00117BD0(ps);
+    y->xC = U8Read(ps);
     l->n = Min(n, 32);
     for (i = 0; i < n; i++) {
-        *(int *)&u.c = func_00117C80(ps);
+        *(int *)&u.c = U32Read(ps);
         AdjustRgba__FPUi(&u.c);
         if (i < l->n)
             l->ac[i] = u.c;

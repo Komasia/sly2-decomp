@@ -13,8 +13,8 @@ extern G g_sw;
 extern H g_joy;
 extern I D_002E65E0;
 extern char D_002A7A70[];
-extern "C" char *func_0021ED58(char *, const char *);
-extern "C" char *func_0021EDA0(char *, const char *);
+extern "C" char *s1_strcpy(char *, const char *) asm("s1_strcpy");
+extern "C" char *strcpy1(char *, const char *) asm("strcpy1");
 extern "C" int func_001A2C98(void);
 char *func_0013E368(G *, int);
 CRef NProgress(void *, void *) asm("NProgress");
@@ -23,7 +23,7 @@ extern "C" void func_001DDBF0(char *pch)
     float g;
     void *pv;
     if (g_joy.x100C == 1 && g_joy.x1010 == 0) {
-        func_0021ED58(pch, func_0013E368(&g_sw, 9));
+        s1_strcpy(pch, func_0013E368(&g_sw, 9));
         return;
     }
     g = 0.0f;
@@ -34,12 +34,12 @@ extern "C" void func_001DDBF0(char *pch)
     }
     {
         int ids = g != 0.0f ? 6 : 5;
-        func_0021ED58(pch, func_0013E368(&g_sw, ids));
+        s1_strcpy(pch, func_0013E368(&g_sw, ids));
     }
-    func_0021EDA0(pch, D_002A7A70);
-    func_0021EDA0(pch, func_0013E368(&g_sw, 8));
+    strcpy1(pch, D_002A7A70);
+    strcpy1(pch, func_0013E368(&g_sw, 8));
     if (func_001A2C98() >= 2) {
-        func_0021EDA0(pch, D_002A7A70);
-        func_0021EDA0(pch, func_0013E368(&g_sw, 0x56));
+        strcpy1(pch, D_002A7A70);
+        strcpy1(pch, func_0013E368(&g_sw, 0x56));
     }
 }

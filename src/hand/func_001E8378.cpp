@@ -50,7 +50,7 @@ extern qword D_002A2DA0;
 extern qword g_normalZ;
 extern "C" {
 qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
-void func_001AE5A0(void *, const void *, unsigned);
+void CopyAb(void *, const void *, unsigned) asm("CopyAb__FPvT0Ui");
 int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 void RefreshCrv(PATH *) asm("RefreshCrv__FP3CRV");
@@ -184,8 +184,8 @@ void StepRopeSpring(CHAIN *p)
     VV endVel = VelXfPoint(p->last, 0, end);
     if ((unsigned)count > 64)
         return;
-    func_001AE5A0(accP, p->position, count * 16);
-    func_001AE5A0(accV, p->velocity, count * 16);
+    CopyAb(accP, p->position, count * 16);
+    CopyAb(accV, p->velocity, count * 16);
     for (int pass = 0; pass < 4; pass++) {
         float w = D_002C3658[pass];
         float h = w * g_clock.dt;
@@ -290,8 +290,8 @@ void StepRopeSpring(CHAIN *p)
         p->velocity[0].q = startVel;
         p->position[count - 1].q = end;
         p->velocity[count - 1].q = endVel;
-        func_001AE5A0(&p->position[1], &accP[1], (count - 2) * 16);
-        func_001AE5A0(&p->velocity[1], &accV[1], (count - 2) * 16);
+        CopyAb(&p->position[1], &accP[1], (count - 2) * 16);
+        CopyAb(&p->velocity[1], &accV[1], (count - 2) * 16);
     }
     M4 inverse;
     {

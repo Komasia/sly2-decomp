@@ -6,9 +6,9 @@ struct S {
 };
 extern char D_003E1C70[], D_003E1C80[], D_003E106C[];
 void LoadLoFromBrx__FP2LOP18CBinaryInputStream(struct S *p, void *pbis);
-int func_00117D00(void *pbis);
-float func_00117E38(void *pbis);
-int func_00117C80(void *pbis);
+int S8Read(void *pbis) asm("S8Read__18CBinaryInputStream");
+float F32Read(void *pbis) asm("F32Read__18CBinaryInputStream");
+int U32Read(void *pbis) asm("U32Read__18CBinaryInputStream");
 struct O *PvAllocSwClearImpl__Fi(AREQ *preq);
 void func_00118458(void *pbis, struct O *po);
 void func_0011A070(void *, struct O *po);
@@ -22,11 +22,11 @@ void LoadScreenObjFromBrx__FP9SCREENOBJP18CBinaryInputStream(struct S *p, void *
     p->x74 = 0x30F;
     p->x78 = 0x311;
     LoadLoFromBrx__FP2LOP18CBinaryInputStream(p, pbis);
-    f = func_00117D00(pbis);
-    p->x90 = func_00117E38(pbis);
-    p->x94 = func_00117C80(pbis);
-    p->x98 = func_00117C80(pbis);
-    p->xBC = func_00117C80(pbis);
+    f = S8Read(pbis);
+    p->x90 = F32Read(pbis);
+    p->x94 = U32Read(pbis);
+    p->x98 = U32Read(pbis);
+    p->xBC = U32Read(pbis);
     if (f) {
         AREQ req;
         p->x58 = 0;

@@ -31,7 +31,7 @@ M4 func_001A71B0(LO *,LO *,const M4 *);
 M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 void ReparentBooty(LO *,int,int) asm("ReparentBooty__FP3ALOii");
 float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");
-void func_00131A00(ANIM *,float);
+void SetAsegaSpeed(ANIM *,float) asm("SetAsegaSpeed__FP5ASEGAf");
 qword PosConvertXfs(SPACE *,SPACE *,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 qword VecConvertXfs(SPACE *,SPACE *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 JOB *PctrlNewTarget(LO *,CHANNEL *,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");
@@ -119,7 +119,7 @@ extern "C" void StartReachGrab__FP5REACHP2LO(P *input,LO *other){
  __asm__("neg.s %0,%3\n\t.set noat\n\tlui $at,0xBF80\n\tmtc1 $at,%1\n\t.set at\n\tmov.s %2,%4":"=f"(negativeLimit),"=f"(minimum),"=f"(maximum):"f"(limit),"f"(unit):"$1");
  float duration=Max(phase,TJumpTo(work.delta,initialSpeed,limit,negativeLimit,maximum,minimum));
  float speed=phase/duration;phase=duration;
- func_00131A00(anim,speed);
+ SetAsegaSpeed(anim,speed);
  {
  register float negativeTime __asm__("$f0"),positiveTime __asm__("$f1");
  register qword first __asm__("vf4"),speedVector __asm__("vf5");

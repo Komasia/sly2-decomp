@@ -1,11 +1,11 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void func_001291A8(CRef *, const CRef *);
 struct CRef {
     int tagk; int tag;
     CRef() { tagk = -1; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 struct O { int cref; int pad; CRef ref; char sub[0x10]; };
 struct Pool;
@@ -22,7 +22,7 @@ struct SP {
         O *q = p;
         if (q && --q->cref == 0) {
             func_00256D40(q->sub, 2);
-            func_00129EC8(&q->ref);
+            Decref(&q->ref);
             func_002550F8(q);
             func_0011CD98(&D_004520A8, q);
         }
@@ -36,7 +36,7 @@ struct Q;
 extern int D_003E1C34;
 extern char D_002DD598[];
 extern "C" {
-int func_00117C80(void *);
+int U32Read(void *) asm("U32Read__18CBinaryInputStream");
 T *PvAllocSwClearImpl(SZ *) asm("PvAllocSwClearImpl__Fi");
 E *PvAllocSwImpl(SZ *) asm("PvAllocSwImpl__Fi");
 SP PpairSerializeIn(void *) asm("PpairSerializeIn__FP18CBinaryInputStream");
@@ -47,7 +47,7 @@ void func_00128148(void *);
 // name: SafeHouse port (LoadSwSpliceFromBrx)
 extern "C" void LoadSwSpliceFromBrx__FP2SWiP18CBinaryInputStream(G *pg, int a, void *px)
 {
-    int c = func_00117C80(px);
+    int c = U32Read(px);
     int i;
     T *pt;
     if (!c) return;

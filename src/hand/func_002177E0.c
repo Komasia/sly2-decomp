@@ -11,16 +11,16 @@ struct D {int a,mode;float priority;uint limit;char pad10[0x1C];float fade;};
 struct R {char pad[0xC];unsigned char *cur;};
 struct E {int kind;float priority;uint address;int tag;};
 extern struct R D_002DEA28;
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int);
 struct E *func_001CD998(void);
 static inline void Word(struct R *r,uint word){*(uint *)r->cur=word;r->cur+=4;}
 static inline void Align(struct R *r){while((uint)r->cur&15){*(uint *)r->cur=0;r->cur+=4;}}
 static inline void CopyWords(int *d,const int *s,int n){int rem=n&3,cBulk=n-rem,i;for(i=0;i<rem;i++)*d++=*s++;for(i=0;i<cBulk;i+=4){int a=s[0],b=s[1],c=s[2],e=s[3];s+=4;d[0]=a;d[1]=b;d[2]=c;d[3]=e;d+=4;}}
 static inline void Unpack(struct R *r,const int *s,int n,uint header){Word(r,header);CopyWords((int *)r->cur,s,n);r->cur+=n*4;}
 
-void func_001AE528(void *,void *,int);
+void CopyAqw(void *,void *,int) asm("CopyAqw__FPvT0i");
 static inline void AlignTo(struct R *r,int word){while(((uint)r->cur&15)!=4*word)Word(r,0);}
-static inline void Direct(struct R *r,int n,void *source){AlignTo(r,3);Word(r,0x50000000|n);func_001AE528(r->cur,source,n);r->cur+=n*16;}
+static inline void Direct(struct R *r,int n,void *source){AlignTo(r,3);Word(r,0x50000000|n);CopyAqw(r->cur,source,n);r->cur+=n*16;}
 void func_002177E0(struct S *p,struct T *t,struct D *data,int unused){
     struct M4 m;
     unsigned char *tag;
@@ -30,7 +30,7 @@ void func_002177E0(struct S *p,struct T *t,struct D *data,int unused){
     case 7:if(!p->count)return;break;
     default:return;
     }
-    func_002333B4(&m,0,0x40);
+    s1_memset(&m,0,0x40);
     m.a[0]=t->a*0.8f;m.a[1]=t->b*0.45454547f;
     m.a[4]=t->c*0.8f;m.a[5]=t->d*0.45454547f;
     m.a[8]=t->x*0.8f+p->owner->camera->x+786432.0f;

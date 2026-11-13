@@ -7,8 +7,8 @@ typedef struct { char p0[0xE4]; X *px; } SO;
 extern char g_sw[];
 extern char D_002CE4B8[];
 void PostLoLoad__FP2LO(SO *p);
-void *func_002333B4(void *p, int c, int n);
-int func_00233178(const void *a, const void *b, int n);
+void *s1_memset(void *p, int c, int n);
+int memcmp(const void *a, const void *b, int n);
 void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, SO *p);
 void func_002590F0(SO *p, int f);
 void *PvAllocSwCopyImpl__FiPv(AREQ *preq, void *pv);
@@ -28,7 +28,7 @@ void func_00259170(SO *p)
         if (x0->x10 == 2)
             o2 = x0->x30;
     }
-    func_002333B4(a, 0, 0x14);
+    s1_memset(a, 0, 0x14);
     if (o1 != -1)
         a[0] = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, o1, p);
     if (o2 != -1) {
@@ -57,7 +57,7 @@ void func_00259170(SO *p)
     }
     if (p->px->x8 == 0)
         p->px->x8 = D_002CE4B8;
-    if (func_00233178(p->px->x8, a, 0x14)) {
+    if (memcmp(p->px->x8, a, 0x14)) {
         func_002590F0(p, 1);
         preq = &req;
         req.cb = 0x14;

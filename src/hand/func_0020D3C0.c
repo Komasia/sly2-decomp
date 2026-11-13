@@ -4,7 +4,7 @@ struct O { char pad[0xC]; VTE *vt; char pad2[0x184 - 0x10]; int n184; int n188; 
 struct S { struct O *po; int state; float t; struct O *pc; };
 struct L { struct O *pc; int pad; struct O *po; int a; int b; int pad2[3]; qword v20; qword v30; char pad3[0x20]; };
 extern struct { float t; float dt; } g_clock;
-void func_002333B4(void *p, int c, int n);
+void s1_memset(void *p, int c, int n);
 qword PosOfLo__FP2LO(struct O *po);
 void PaloAcceptContact__FP5CTMSG(struct L *pl);
 // name: SafeHouse port (SetWatchB)
@@ -15,7 +15,7 @@ void SetWatchB__FP6WATCHBi(struct S *p, int state)
         p->t = g_clock.t;
         if (state == 2) {
             struct L l;
-            func_002333B4(&l, 0, sizeof(l));
+            s1_memset(&l, 0, sizeof(l));
             l.pc = p->pc;
             l.po = p->po;
             l.a = p->pc->n188;

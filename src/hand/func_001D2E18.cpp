@@ -44,7 +44,7 @@ CONTACT *BestContact(P *, ENTRY *) asm("BestContact__FP12VEHICLEWHEELi");
 qword VelXfPoint(MOTION *, MOTION *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 void ForceAt(P *, qword, qword) asm("ForceAt__FP3ALOG9VU_VECTORT1");
 qword VecConvertXfs(MOTION *, MOTION *, qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
-float func_0011CFE0(float, float);
+float GLimitAbs(float, float) asm("GLimitAbs__Fff");
 void AccelRotation(P *, qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
 M3 *BuildRotateMatrixAxis(M3 *, qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword LimitVectorLength(float, qword) asm("LimitVectorLength__FG9VU_VECTORf");
@@ -140,7 +140,7 @@ extern "C" void VehicleForces__FP3ALO(P *p)
     localVelocity.q = InverseRotate(p->secondary->local.basis, p->secondary->velocity.q);
     float acceleration = D_002C2144 * p->physics->mass * p->width / p->physics->inertia;
     torque.f[0] = torque.f[1] = 0.0f;
-    float turnImpulse = func_0011CFE0((p->turn - localVelocity.f[2]) / clock->dt, acceleration * budget);
+    float turnImpulse = GLimitAbs((p->turn - localVelocity.f[2]) / clock->dt, acceleration * budget);
     torque.f[2] = turnImpulse;
     worldTorque.q = Rotate(p->secondary->world.basis, torque.q);
     budget -= Abs(D_002C2148 * turnImpulse / acceleration);

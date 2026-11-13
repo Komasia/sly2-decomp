@@ -7,7 +7,7 @@ extern char g_sw[];
 struct X *PloPlayerPo__FP2SW(void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 char *func_0013E368(void *, int);
-void func_0021ED58(char *, char *);
+void s1_strcpy(char *, char *);
 void func_00211420(char *pch)
 {
     int id = -1;
@@ -27,7 +27,7 @@ void func_00211420(char *pch)
         }
     }
     if (id != -1)
-        func_0021ED58(pch, func_0013E368(g_sw, id));
+        s1_strcpy(pch, func_0013E368(g_sw, id));
     else
         *pch = 0;
 }

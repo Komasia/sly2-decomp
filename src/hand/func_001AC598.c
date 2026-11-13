@@ -1,13 +1,13 @@
 struct S { int x0; int x4; int x8; int xC; int x10; float x14; int x18; int x1C; int x20; char pad2[0xFD5C - 0x24]; char xFD5C[1]; };
 extern float D_002DDF0C;
-int func_00244570(int a, int b, int *c, int *d, int *e);
+int sceMcGetInfo(int a, int b, int *c, int *d, int *e);
 int func_001AB098(void *p, int a, int b, int c);
 int func_001AC598(struct S *s)
 {
     void *p = s->xFD5C;
     int h;
     int r;
-    h = func_00244570(s->x0, s->x4, &s->x18, &s->x1C, &s->x20);
+    h = sceMcGetInfo(s->x0, s->x4, &s->x18, &s->x1C, &s->x20);
     r = func_001AB098(p, h, 1, 0);
     switch (r) {
     case 11:

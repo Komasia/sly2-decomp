@@ -7,7 +7,7 @@ extern char D_003E0EA8[];
 extern char D_003D4A60[];
 void __10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
-void func_00129EC8(CREF *);
+void Decref(CREF *) asm("Decref__4CRef");
 void func_001D87C0(void *p, va_list ap, LIST *pv);
 int func_001D7E80(void *, LIST *, void *);
 // name: SafeHouse port (PnProgressSlot)
@@ -24,6 +24,6 @@ int PnProgressSlot__FPvi(void *p, ...)
     func_001D87C0(p, ap, &l);
     r = func_001D7E80(D_003E0EA8, &l, D_003D4A60);
     _$_10STACKSCOPE(&fr, 2);
-    func_00129EC8(&ref);
+    Decref(&ref);
     return r;
 }

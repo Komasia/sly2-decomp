@@ -10,7 +10,7 @@ extern float D_002C0FE8,D_002A7798;
 extern qword D_002C0FF0[9];
 extern struct CLOCK {float t,dt;} g_clock;
 extern "C" int GrfPadctlTakePressed(void*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
-extern "C" void func_001E0020(SGG*,ALARM*);
+extern "C" void EnsureSggAlarm(SGG*,ALARM*) asm("EnsureSggAlarm__FP3SGGP5ALARM");
 extern "C" void SetVaultSub(struct S*,int) asm("SetVaultSub__FP2LOi");
 extern "C" int func_00131968(void*);
 static inline qword Pack(float x,float y,float z){register qword result __asm__("$3");register unsigned word __asm__("$2");__asm__("mfc1 %0,%2\n\tmfc1 %1,%3\n\tpextlw %0,%1,%0\n\tmfc1 %1,%4\n\tpcpyld %0,%1,%0":"=&r"(result),"=&r"(word):"f"(x),"f"(y),"f"(z));return result;}
@@ -28,7 +28,7 @@ extern "C" void UpdateVaultDial__FP2LO(struct S*p){
  do{
   old=p->state;
   if(GrfPadctlTakePressed(p->input,0x30,0)){
-   func_001E0020(p->alarms,(ALARM*)0x655);
+   EnsureSggAlarm(p->alarms,(ALARM*)0x655);
    SetVaultSub(p,3);
   }
   switch(p->state){
@@ -54,7 +54,7 @@ extern "C" void UpdateVaultDial__FP2LO(struct S*p){
    if(!p->pending||func_00131968(p->pending)){
     int next=(p->step*10)%divisor;next++;next+=p->index;
     p->step=next;
-    if(next==p->target){func_001E0020(p->alarms,(ALARM*)0x655);SetVaultSub(p,3);}
+    if(next==p->target){EnsureSggAlarm(p->alarms,(ALARM*)0x655);SetVaultSub(p,3);}
     else SetVaultSub(p,0);
    }
    break;

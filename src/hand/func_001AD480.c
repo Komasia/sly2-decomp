@@ -7,7 +7,7 @@ extern struct G D_002E65E0;
 extern struct H D_002E6550;
 extern int D_003E0FAC;
 void NProgress(struct CRef *ret, int a, void *b);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 void func_001ACB58(struct H *h, int n);
 void SaveToTarget__Fv(void);
 void func_001AD480(struct S *s)
@@ -17,7 +17,7 @@ void func_001AD480(struct S *s)
     float f;
     NProgress(&ref, D_003E0FAC, p);
     f = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     D_002E65E0.xFD58 = p;
     if (f == 0.0f)
         SaveToTarget__Fv();

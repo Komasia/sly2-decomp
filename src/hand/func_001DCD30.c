@@ -15,7 +15,7 @@ typedef struct {
 void func_001DA808(OBJ *);
 int func_002127C8(void);
 void SetState__FP8SCREENRTi(W *, int);
-void func_00212A50(W *, int);
+void SetTimerTimers(W *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 int func_00187D80(void *, int);
 void SetJobHelpPage__FPvi(OBJ *, int);
 void UpdateShopStick__FP4SHOP(OBJ *);
@@ -32,7 +32,7 @@ void UpdateJobHelp__FP2SW(OBJ *p)
         if (!func_002127C8())
             return;
         SetState__FP8SCREENRTi(p->pw, 1);
-        func_00212A50(p->pw, 2);
+        SetTimerTimers(p->pw, 2);
         p->pw->vt->a[16].pfn((char *)p->pw + p->pw->vt->a[16].d);
     }
     if (func_00187D80(p->x10, 0x800)) {

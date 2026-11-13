@@ -13,8 +13,8 @@ struct P {
     qword *a144;
 };
 void LoadLoxBaseFromBrx(struct P *, void *);
-int func_00117D00(void *);
-int func_00117C20(void *);
+int S8Read(void *) asm("S8Read__18CBinaryInputStream");
+int U16Read(void *) asm("U16Read__18CBinaryInputStream");
 void *PvAllocSwImpl__Fi(struct MSG *);
 void Read__18CBinaryInputStreamiPv(void *, int, void *);
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *, qword *);
@@ -26,9 +26,9 @@ void LoadPathFromBrx__FP2LOP18CBinaryInputStream(struct P *p, void *pbis)
     struct MSG msg;
     int i;
     LoadLoxBaseFromBrx(p, pbis);
-    p->fE0 = func_00117D00(pbis);
-    p->nE4 = func_00117D00(pbis);
-    p->c = func_00117C20(pbis);
+    p->fE0 = S8Read(pbis);
+    p->nE4 = S8Read(pbis);
+    p->c = U16Read(pbis);
     msg.cb = p->c * 4;
     msg.nKind = 0x10;
     p->aE = PvAllocSwImpl__Fi(&msg);

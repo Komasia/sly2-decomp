@@ -14,7 +14,7 @@ extern float D_002C3630[3],g_lmZeroOne[2],D_002C3640;
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");
 void func_001E6F10(PATH*,qword*,qword*,float);
 qword func_001C4768(OUTPUT*,qword);
-float func_002458F0(float,float);
+float atan2f(float,float) asm("atan2f");
 float SMaxCrv__FP3CRV(PATH*),GMaxCrv__FP3CRV(PATH*);
 float RadNormalize(float) asm("RadNormalize__Ff");
 ACTOR *PloFind(P*,int) asm("PloFind__FP3RUNi");
@@ -24,7 +24,7 @@ void EvalCrv(PATH*,float,qword*,qword*) asm("EvalCrv__FP3CRVfP6VECTORT2");
 qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");
 qword ConvertVec(void*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 void StampPadctlState(OUTPUT*) asm("StampPadctlState__FP6PADCTL");
-int func_0011D4D0(float,float,float);
+int FFloatsNear(float,float,float) asm("FFloatsNear__Ffff");
 }
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword ToVU(qword a){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(a));return r;}
@@ -80,7 +80,7 @@ static inline int NearYInputs(qword previous,qword current,float tolerance){
  __asm__("prot3w %0,%1":"=r"(previousWord):"r"(previous));
  __asm__("mtc1 %1,%0":"=f"(currentInput):"r"(currentWord));
  __asm__("mtc1 %1,%0":"=f"(previousInput):"r"(previousWord));
- return func_0011D4D0(currentInput,previousInput,tolerance);
+ return FFloatsNear(currentInput,previousInput,tolerance);
 }
 static inline int NearZInputs(qword previous,qword current,float tolerance){
  register qword currentWord __asm__("$2"),previousWord __asm__("$3");
@@ -89,7 +89,7 @@ static inline int NearZInputs(qword previous,qword current,float tolerance){
  __asm__("pextuw %0,$zero,%1":"=r"(previousWord):"r"(previous));
  __asm__("mtc1 %1,%0":"=f"(currentInput):"r"(currentWord));
  __asm__("mtc1 %1,%0":"=f"(previousInput):"r"(previousWord));
- return func_0011D4D0(currentInput,previousInput,tolerance);
+ return FFloatsNear(currentInput,previousInput,tolerance);
 }
 // name: SafeHouse port (DriveScptActor)
 extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
@@ -106,7 +106,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   func_001E6F10(actor->curve,&work.to.q,0,t);
   qword direction=func_001C4768(out,Sub(work.from.q,work.to.q));
   float x=X(direction),y=Y(direction);
-  out->heading=func_002458F0(y,x);out->x=x;out->y=y;
+  out->heading=atan2f(y,x);out->x=x;out->y=y;
   if(actor->curve->cyclic){
    float forward,backward;
    if(p->previousCurve<actor->curveTime){forward=actor->curveTime-p->previousCurve;backward=SMaxCrv__FP3CRV(actor->curve)+p->previousCurve-actor->curveTime;}
@@ -136,7 +136,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
    EvalCrv(motion,actor->motionTime,&work.from.q,&work.to.q);
    NormalizeTangent(work.to);
    int reverse=0;
-   out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
+   out->heading=atan2f(work.to.f[1],work.to.f[0]);
    if(motion->cyclic){
     float forward,backward;
     if(p->previousMotion<actor->motionTime){forward=actor->motionTime-p->previousMotion;backward=GMaxCrv__FP3CRV(motion)+p->previousMotion-actor->motionTime;}
@@ -148,7 +148,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
    GetRunAim(p,target,&work.from.q,0);
    work.first=work.from.q;
    TargetDisplacement(work.to,work.first,PosOfLo(actor));
-   out->heading=func_002458F0(work.to.f[1],work.to.f[0]);
+   out->heading=atan2f(work.to.f[1],work.to.f[0]);
    float distance=LengthXY(work.to.q);
    float gain=D_002C3630[0]+distance*(D_002C3630[1]+distance*D_002C3630[2]);
    float low=g_lmZeroOne[0],high=g_lmZeroOne[1];
@@ -196,7 +196,7 @@ extern "C" void DriveScptActor__FPvP6PADCTL(P *p,OUTPUT *out){
   register float previousX __asm__("$f13"),currentX __asm__("$f12");
   __asm__("mtc1 %1,%0":"=f"(previousX):"r"(oldPosition));
   __asm__("mtc1 %1,%0":"=f"(currentX):"r"(position));
-  if(func_0011D4D0(currentX,previousX,tolerance)&&NearYInputs(oldPosition,position,tolerance))near=NearZInputs(oldPosition,position,tolerance)!=0;
+  if(FFloatsNear(currentX,previousX,tolerance)&&NearYInputs(oldPosition,position,tolerance))near=NearZInputs(oldPosition,position,tolerance)!=0;
   if(near)out->flags|=0x40;
   out->speed=0.0f;StampPadctlState(out);break;
  }

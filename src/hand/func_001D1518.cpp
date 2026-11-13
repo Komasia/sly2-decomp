@@ -15,7 +15,7 @@ extern qword g_normalZ,D_002A2DD0;
 extern char g_sw[];
 void func_001F36A8(P *);
 REF *func_001F4C58(P *,int,int);
-void *func_002332B8(void *,const void *,int);
+void *s1_memmove(void *,const void *,int) asm("s1_memmove");
 qword ConvertPos(void *,P *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void *PctrlNewPos(P *,REF *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void *PloFindSwNearest(void *,int,int,P *) asm("PloFindSwNearest__FP2LO3OIDii");
@@ -45,7 +45,7 @@ extern "C" void PostLoadVehicle__FP2LO(P *p){
    unsigned bytes=(p->count-i)*stride-sizeof(E);
    E*source=next;
    cursor=current.entry-1;--next;--i;
-   func_002332B8(current.entry,source,bytes);
+   s1_memmove(current.entry,source,bytes);
    --p->count;
   }else{
    qword returned=ConvertPos(0,p,reference->position);
@@ -102,7 +102,7 @@ extern "C" void PostLoadVehicle__FP2LO(P *p){
    unsigned bytes=(p->sideCount-i)*scale.stride-sizeof(SIDE);
    SIDE*destination=current.side;SIDE*source=next;
    --current.side;--next;--i;
-   func_002332B8(destination,source,bytes);
+   s1_memmove(destination,source,bytes);
    --p->sideCount;
   }else current.side->binding=PctrlNewPos(p,reference,1,7,3,D_002A2DD0);
   count=p->sideCount;
@@ -133,7 +133,7 @@ extern "C" void PostLoadVehicle__FP2LO(P *p){
   source+=0x500;
   int bytes=(p->attachCount-j)*4-4;
   --cursor;byteOffset-=4;--j;
-  func_002332B8(destination,source,bytes);
+  s1_memmove(destination,source,bytes);
   register int remaining __asm__("$3");
   asm("lw %0,%1\n\taddiu %0,%0,-1\n\tsw %0,%1":"=&r"(remaining),"+m"(p->attachCount));}
  attachment_next:

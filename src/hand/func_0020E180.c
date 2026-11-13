@@ -12,7 +12,7 @@ extern char g_game[];
 void *PvAllocSwImpl__Fi(struct MSG *pmsg);
 void *PvAllocSwClearImpl__Fi(struct MSG *pmsg);
 void func_0011A050(void *p, int n);
-void func_001703F8(struct ZPR *pz, int a, int b);
+void InitZpr(struct ZPR *pz, int a, int b) asm("InitZpr__FP3ZPR3ZPKP2LO");
 void func_001BE398(void *p, struct ZPR *pz);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 
@@ -36,7 +36,7 @@ void func_0020E180(struct S *p)
     p->ph->a = -1;
     p->ph->c = -1;
     func_0011A050(p->ph->dl, 0x14);
-    func_001703F8(&zpr, 0x1400, 0x1800);
+    InitZpr(&zpr, 0x1400, 0x1800);
     for (j = 0; j < 2; j++)
         func_001BE398(p->a45E8[j], &zpr);
     if (p->fl3BF4 & 0x20)

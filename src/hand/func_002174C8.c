@@ -10,7 +10,7 @@ struct D {int a,mode;float priority;uint limit;char pad10[0x1C];float fade;};
 struct R {char pad[0xC];unsigned char *cur;};
 struct E {int kind;float priority;uint address;int tag;};
 extern struct R D_002DEA28;
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int);
 struct E *func_001CD998(void);
 static inline int Min(int a,int b){return a<b?a:b;}
 static inline void Word(struct R *r,uint word){*(uint *)r->cur=word;r->cur+=4;}
@@ -22,7 +22,7 @@ void StateOfSlot__FPvP7VECTOR2T0i(struct S *p,struct T *t,struct D *data,int fad
     struct M4 m;
     unsigned char *tag;
     struct E *e;
-    func_002333B4(&m,0,0x40);
+    s1_memset(&m,0,0x40);
     m.a[0]=t->a*0.8f;m.a[1]=t->b*0.45454547f;
     m.a[4]=t->c*0.8f;m.a[5]=t->d*0.45454547f;
     m.a[8]=t->x*0.8f+p->owner->camera->x+786432.0f;

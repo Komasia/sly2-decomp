@@ -9,7 +9,7 @@ extern struct CLOCK {float t,dt;} g_clock;
 extern "C" {
 qword ConvertCmScreenToWorld(G*,qword) asm("ConvertCmScreenToWorld__FP2CMG9VU_VECTOR");
 M3 MulMat3TransposeA(const M3&,const M3&) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
-void func_0011BCF8(M3*,float*,qword*);
+void DecomposeRotateMatrixRad(M3*,float*,qword*) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 int CollectRipDraws(S*,qword,const M3&) asm("CollectRipDraws__FP2CMG9VU_VECTORPv");
 void func_001D0630(S*);
@@ -25,7 +25,7 @@ void func_001D0630(S *p) {
  G *pg=&g_cm;
  qword view=ConvertCmScreenToWorld(pg,p->pos);
  camera=MulMat3TransposeA(p->mat,pg->mat);
- func_0011BCF8(&camera,&angle,&axis.q);
+ DecomposeRotateMatrixRad(&camera,&angle,&axis.q);
  float t=(g_clock.t-p->start)/p->duration;
  fade=BuildRotateMatrixAxis(axis.q,angle*t);
  spin=BuildRotateMatrixAxis(p->spin->axis,(t+t)*3.14159274f);

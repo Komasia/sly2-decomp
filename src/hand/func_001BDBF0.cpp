@@ -4,9 +4,9 @@ struct AREQ { int cb; int align; AREQ(int c, int a) { cb = c; align = a; } };
 struct P { char pad[0xE8]; int c; char pad1[0xF4 - 0xEC]; qword *a; };
 extern "C" {
 void *PvAllocStackImpl(const AREQ &r) asm("PvAllocStackImpl__Fi");
-void func_002338C0(void *base, int n, int cb, int (*cmp)(const void *, const void *));
-void func_001AE5A0(void *dst, const void *src, int cb);
-int func_001BDBC8(const void *a, const void *b);
+void qsort(void *base, int n, int cb, int (*cmp)(const void *, const void *)) asm("qsort");
+void CopyAb(void *dst, const void *src, int cb) asm("CopyAb__FPvT0Ui");
+int NCmpWkr(const void *a, const void *b) asm("NCmpWkr__FP3WKRT0");
 }
 static inline void *Alloc(int cb) { return PvAllocStackImpl(AREQ(cb, 0x10)); }
 static inline float CrossZ(qword a, qword b, qword c)
@@ -22,12 +22,12 @@ extern "C" void func_001BDBF0(P *p, int n, qword *pts)
 {
     int i, k, t;
     qword *hull, *pv;
-    func_002338C0(pts, n, 0x10, func_001BDBC8);
+    qsort(pts, n, 0x10, NCmpWkr);
     k = 2;
     {
         CTX ctx;
         hull = (qword *)Alloc(0x800);
-        func_001AE5A0(hull, pts, 0x20);
+        CopyAb(hull, pts, 0x20);
         for (i = 2; i < n; i++) {
             hull[k++] = pts[i];
             while (k >= 3) {
@@ -55,6 +55,6 @@ extern "C" void func_001BDBF0(P *p, int n, qword *pts)
             LBL2:;
         }
         { int cMax = 32; p->c = (k > cMax - 1) ? cMax : k; }
-        func_001AE5A0(p->a, hull, p->c << 4);
+        CopyAb(p->a, hull, p->c << 4);
     }
 }

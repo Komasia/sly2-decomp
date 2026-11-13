@@ -10,7 +10,7 @@ extern float D_002A8124;
 extern struct { float t; float dt; } g_clock;
 extern struct G g_cm;
 extern struct G2 D_002DDFA0;
-int func_0011D4D0(float, float, float);
+int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 float RadNormalize__Ff(float);
 qword DecomposeEulerMatrix__FP7MATRIX3(void *);
 int func_0014FD50(void *);
@@ -21,7 +21,7 @@ static inline float Y(qword q) { float f; __asm__("prot3w %0, %1" : "=r"(f) : "r
 static inline float Z(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
 static inline int FNear(qword a, qword b)
 {
-    return func_0011D4D0(X(b), X(a), 0.0001f) && func_0011D4D0(Y(b), Y(a), 0.0001f) && func_0011D4D0(Z(b), Z(a), 0.0001f);
+    return FFloatsNear(X(b), X(a), 0.0001f) && FFloatsNear(Y(b), Y(a), 0.0001f) && FFloatsNear(Z(b), Z(a), 0.0001f);
 }
 // name: SafeHouse port (StartRunCamera)
 void StartRunCamera__FP3RUNP7SCPTCMDT1f(struct P *p, struct A *pa, struct A *pb, float t)

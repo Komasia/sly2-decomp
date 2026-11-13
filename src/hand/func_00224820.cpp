@@ -1,5 +1,5 @@
 // func_00224820: trace a probe segment, record the contact in the caller's HIT list, and push the touched body.
-// - Segment start..end goes through func_0014CC58; the hit object's eligible actor comes from PaloXpFilter.
+// - Segment start..end goes through PsoHitTestLineObjects; the hit object's eligible actor comes from PaloXpFilter.
 // - A new HIT record (deduplicated by object, up to capacity) gets owner/object/filter/channel/point and
 //   impulse = normal * D_002C4334 (the target speed).
 // - If the body has physics: project its point velocity (VelXfPoint) on the normal, evaluate the quadratic
@@ -31,9 +31,9 @@ extern float D_002C4330;
 extern POLY D_002C4320;
 extern RANGE g_lmZeroOne;
 extern "C" {
-COLL *func_0014CC58(int,qword,qword,int,COLL **,LSG *);
+COLL *PsoHitTestLineObjects(int,qword,qword,int,COLL **,LSG *) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 O *PaloXpFilter(O *,int) asm("PaloXpFilter__FP3ALOUi");
-void *func_002333B4(void *,int,unsigned int);
+void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 qword VelXfPoint(NODE *,NODE *,qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 qword DvAloImpulse(O *,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
 qword func_001FAA48(O *,qword,qword);
@@ -59,7 +59,7 @@ static inline void Set(O *o,int slot,qword q){VE *v=o->vt;v[slot].f.set((char *)
 static inline O *Pin(O *p){register O *r asm("$21");asm("daddu %0,%1,$zero":"=r"(r):"r"(p));return r;}
 extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qword end,int queryCount,COLL **objects,int capacity,int *count,HIT *records){
  O *owner=Pin(ownerIn);LSG hit;int bits;
- COLL *collider=func_0014CC58(0,start,end,queryCount,objects,&hit);
+ COLL *collider=PsoHitTestLineObjects(0,start,end,queryCount,objects,&hit);
  if(!collider)return;
  qword normal;
  O *chain=collider->object;
@@ -72,7 +72,7 @@ extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qwor
  for(i=0;i<*count;i++)if(records[i].object==object)break;
  if(i>=*count&&*count<capacity){
   HIT *record=&records[(*count)++];
-  func_002333B4(record,0,0x60);
+  s1_memset(record,0,0x60);
   bits=*(int *)&D_002C4334;
   record->impulse=ScaleK(normal,MkVukBits(bits));
   record->object=object;

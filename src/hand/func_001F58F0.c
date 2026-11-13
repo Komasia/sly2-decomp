@@ -7,7 +7,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 qword VelXfPoint__FP2XFT0G9VU_VECTOR(struct O *, int, qword);
 void LevelMatrix3__FP7MATRIX3T0Pv(void *, int, struct V *);
-float func_002458F0(float, float);
+float atan2f(float, float);
 // name: SafeHouse port (GetSoCpdefi)
 void GetSoCpdefi__FP2SOP6CPDEFI(struct P *p, struct Out *po)
 {
@@ -19,5 +19,5 @@ void GetSoCpdefi__FP2SOP6CPDEFI(struct P *p, struct Out *po)
     ps = o->sub;
     po->q20 = VelXfPoint__FP2XFT0G9VU_VECTOR(o, 0, q);
     LevelMatrix3__FP7MATRIX3T0Pv(ps, 0, &v);
-    po->g30 = func_002458F0(-v.y, -v.x); po->g34 = 100.0f; po->n0 = 0; po->g38 = g_clock.t; po->n3C = 0;
+    po->g30 = atan2f(-v.y, -v.x); po->g34 = 100.0f; po->n0 = 0; po->g38 = g_clock.t; po->n3C = 0;
 }

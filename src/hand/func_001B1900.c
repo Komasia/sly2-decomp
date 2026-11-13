@@ -6,7 +6,7 @@ struct P { char pad[0x150]; float g150; float g154; char pad2[0x220 - 0x158]; in
 extern char g_sw[];
 qword PosOfLo__FP2LO(void *p);
 struct LO *PloNearestPlayer__FP6VECTORG9VU_VECTOR(void *pg, qword pos);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 void SetBirdHeading__FP4BIRDf(struct P *p, float g);
 static inline float Length(qword v)
 {
@@ -36,6 +36,6 @@ int StBirdSees__FP2LO(struct P *p)
         if (Length(v) < 150.0f)
             return r;
     }
-    SetBirdHeading__FP4BIRDf(p, func_002458F0(d.f[1], d.f[0]));
+    SetBirdHeading__FP4BIRDf(p, atan2f(d.f[1], d.f[0]));
     return 3;
 }

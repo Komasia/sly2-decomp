@@ -5,7 +5,7 @@ struct S { int x0, x4, x8; char pad[0x10]; int x1C; };
 extern struct G D_002E65E0;
 extern int D_003E0FAC;
 void NProgress(struct CRef *ret, int a, void *b);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 void ResetSlotKeepSettings__FPci(struct B *b, int n);
 void StartGameFromSave__FP2SW(struct B *b);
 void *PsndNewPlain__Fi(int n);
@@ -17,7 +17,7 @@ void func_001AD250(struct S *s)
     float f;
     NProgress(&ref, D_003E0FAC, p);
     f = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (f == 0.0f) {
         D_002E65E0.xFD50 = p;
         ResetSlotKeepSettings__FPci(p, 1);

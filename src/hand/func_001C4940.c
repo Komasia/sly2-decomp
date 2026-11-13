@@ -5,7 +5,7 @@ struct CRef { int m_tagk; int m_tag; int pad[2]; };
 struct LO *func_001C4A48(struct G *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
 struct CRef *SetProgressPoCurrent__FP4CRefPci(struct CRef *pret, struct CRef *pref, const char *s, int n);
-void func_00129EC8(struct CRef *p);
+void Decref(struct CRef *p) asm("Decref__4CRef");
 void TrackJt__FP5ACTORP5JTENTiP10JTGRABCAND(struct G *p, int a, int b, int c);
 void func_001C48C0(struct G *p);
 #define VCALL(o, n, a) ((void (*)(void *, int))(o)->vt[n].pf)((char *)(o) + (o)->vt[n].d, a)
@@ -22,8 +22,8 @@ void func_001C4940(struct G *p, struct LO *plo)
         ref.m_tagk = 0x15;
         ref.m_tag = plo->oid;
         SetProgressPoCurrent__FP4CRefPci(&ret, &ref, "oidPoCurrent", 0);
-        func_00129EC8(&ret);
-        func_00129EC8(&ref);
+        Decref(&ret);
+        Decref(&ref);
     }
     TrackJt__FP5ACTORP5JTENTiP10JTGRABCAND(p, 0, 0, 0);
     func_001C48C0(p);

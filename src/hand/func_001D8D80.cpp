@@ -22,7 +22,7 @@ extern TRIE D_003E0EA8;
 int func_001D7D30(TRIE *, char *);
 CRef RefGetProgress(TRIE *, KEY *, char *) asm("RefGetProgress__FP4TRIEP3KEYPc");
 CRef func_00258200(KEY *, CRef *, char *);
-void func_002333B4(void *, int, unsigned int);
+void s1_memset(void *, int, unsigned int) asm("s1_memset");
 void ApplyVibrationSetting(void) asm("ApplyVibrationSetting__Fv");
 }
 static inline CRef Get(KEY *k, char *pb) { return RefGetProgress(&D_003E0EA8, k, pb); }
@@ -40,7 +40,7 @@ extern "C" void ResetSlotKeepSettings__FPci(char *pb, int f)
         for (i = 0; i < 11; i++)
             aref[i] = Get(keys[i], pb);
     }
-    func_002333B4(pb, 0, 0x5400);
+    s1_memset(pb, 0, 0x5400);
     ApplyVibrationSetting();
     if (f) {
         for (i = 0; i < 11; i++)

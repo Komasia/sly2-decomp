@@ -6,7 +6,7 @@ void *func_00210B28(void);
 int func_001DDD40(void *p);
 char *func_0013E368(void *p, int n);
 char *func_001D82B8(void *p, void *q);
-void func_0021ECD8(char *buf, char *fmt, ...);
+void fiprintf(char *buf, char *fmt, ...);
 void func_001AD980(char *buf)
 {
     char *a;
@@ -17,5 +17,5 @@ void func_001AD980(char *buf)
     fmt = D_002A6EC8;
     g = &g_sw;
     a = func_0013E368(g, func_001DDD40(func_00210B28()));
-    func_0021ECD8(buf, fmt, a, func_001D82B8(g->x3A18, D_003D4A60));
+    fiprintf(buf, fmt, a, func_001D82B8(g->x3A18, D_003D4A60));
 }

@@ -2,8 +2,8 @@
    (lane 10).  The memmove goes through an inline helper: its parameters get their own pseudos, which gives the
    target's "pointer copied into a0/a1, then a0 += 16" argument setup. */
 struct E { float t; unsigned short k; unsigned short bit; };
-void *func_002332B8(void *dst, const void *src, unsigned int cb);
-static inline void Move(void *pvDst, void *pvSrc, unsigned cb) { func_002332B8(pvDst, pvSrc, cb); }
+void *s1_memmove(void *dst, const void *src, unsigned int cb);
+static inline void Move(void *pvDst, void *pvSrc, unsigned cb) { s1_memmove(pvDst, pvSrc, cb); }
 void func_001C1A38(int c, struct E *ae, int bit, float g0, float g1)
 {
     int i, j;

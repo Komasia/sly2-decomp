@@ -13,7 +13,7 @@ void func_00212E40(struct O *p, int n, float f);
 void func_00227788(void *p);
 void SetPhotoPromptState__FPvi(void *p, int n);
 void SetState__FP8SCREENRTi(struct O *p, int n);
-void func_00212A50(struct O *p, int n);
+void SetTimerTimers(struct O *p, int n) asm("SetTimerTimers__FP5TIMER6TIMERS");
 // name: SafeHouse port (SetBinocWindowState)
 void SetBinocWindowState__FP5ACTORi(struct S *p, int st)
 {
@@ -53,11 +53,11 @@ void SetBinocWindowState__FP5ACTORi(struct S *p, int st)
         }
         if (p->x8 && p->x8->x58) {
             SetState__FP8SCREENRTi(p->x8, 1);
-            func_00212A50(p->x8, 1);
+            SetTimerTimers(p->x8, 1);
         }
         if (p->x10 && p->x10->x58) {
             SetState__FP8SCREENRTi(p->x10, 1);
-            func_00212A50(p->x10, 1);
+            SetTimerTimers(p->x10, 1);
         }
         if (p->x14) SetPhotoPromptState__FPvi(p->x14, -1);
         break;

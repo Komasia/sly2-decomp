@@ -1,6 +1,6 @@
 // ChooseJumpTarget__FP4JUMPP2LO: chooses the jump target of the player (JTAIR, the family of Lilly's jtair.c: VelJumpLaunch is
 // JtPlanLaunchVz). Every candidate list (D_003E13B4..D_003E142C are 12-byte DL heads) is scanned; a candidate is
-// scored with func_0011D9E0 (a 1-D minimizer over the matched func_0019AA58/ABB8/ABF0/AC88/AAB8/AB38 callbacks),
+// scored with MinimizeRange (a 1-D minimizer over the matched func_0019AA58/ABB8/ABF0/AC88/AAB8/AB38 callbacks),
 // biased by FUN_001cf138 and checked for a clear path with FJumpPathBlocked unless it is the forced target. The best one
 // is published in pstepplayer->pxf (+0xA8 landing time, +0xC0 position, +0xD0 velocity) and SetJumpAnimState starts the
 // jump of that kind (9 shapes, 10 curves, 14 hooks, 16 meshes, 18 the partner's target, 15/11 curves, 12/13 shapes).
@@ -128,7 +128,7 @@ extern float D_002BF8E4, D_002BF8E8, D_002BF8EC, D_002BF8F0, D_002BF8F4, D_002BF
 extern float D_002BF90C, D_002BF914, D_002BF918;
 
 qword PosOfLo(void *plo) asm("PosOfLo__FP2LO");                                         // PosLoWorld
-void *func_002333B4(void *pv, int b, uint cb);                         // memset
+void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");                         // memset
 qword VelJumpLaunch(JTAIR *pjtair, int nKind) asm("VelJumpLaunch__FP4JUMPi");                         // JtPlanLaunchVz
 int FIsBasicDerivedFrom(void *plo, int cid) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void FitJumpToPoint(JTAIR *pjtair, VU_VECTOR v, void *plo, VU_VECTOR pos, VU_VECTOR dpos, float *pt, float *pg,
@@ -144,7 +144,7 @@ float DgStepCrv(CURVE *pcurve) asm("DgStepCrv__FP3CRV");
 float GFromCrvS(CURVE *pcurve, float s) asm("GFromCrvS__FP3CRVf");
 float SMaxCrv(CURVE *pcurve) asm("SMaxCrv__FP3CRV");
 float SFromCrvG(CURVE *pcurve, float u) asm("SFromCrvG__FP3CRV");
-void func_0011D9E0(PFNSCORE pfn, void *pv, float g0, float g1, float gMin, float gMax, float *px, float *pg);
+void MinimizeRange(PFNSCORE pfn, void *pv, float g0, float g1, float gMin, float gMax, float *px, float *pg) asm("MinimizeRange__FPFPvf_fPvffffPfT6");
 float func_0019AA58(void *pv, float u);
 float func_0019ABB8(void *pv, float u);
 float GScorePipeS(void *pv, float u) asm("GScorePipeS__FP5ACTORf");
@@ -157,7 +157,7 @@ void FindClimbSurfClosestPoint(MESH *pmesh, qword pos, void *pv, TRI *ptri, VECT
 int ClimbSurfLanding(MESH *pmesh, qword pos, qword v, qword dv, float s, float t, TRI *ptri, VECTOR *ppos, VECTOR *pv) asm("ClimbSurfLanding__FP2LOG9VU_VECTORN21P6TRIREFPG9VU_VECTORP7SURFLOCff");
 void func_001E6F10(CURVE *pcurve, float s, VECTOR *ppos, VECTOR *pnormal);
 qword ConvertPos(void *pvFrom, void *pvTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-float func_002458F0(float y, float x);                                 // atan2f
+float atan2f(float y, float x) asm("atan2f");                                 // atan2f
 void SetJumpAnimState(JTAIR *pjtair, int nKind, void *plo) asm("SetJumpAnimState__FP4JUMPiP2LO");
 }
 
@@ -194,7 +194,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
     pos.q = PosOfLo(pjtair->pstepplayer);
     v.q = pjtair->pstepplayer->GetVelocity();
     uint grf = pjtair->pstepplayer->grfTarget;
-    func_002333B4(&tri, 0, sizeof(tri));
+    s1_memset(&tri, 0, sizeof(tri));
     float gBest = ploForce ? -FLT_MAX : FLT_MAX;
     vLaunch.q = VelJumpLaunch(pjtair, 4);
     float tBest = 0.0f;
@@ -241,7 +241,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
             ctx.pcurve = pcurve;
             ctx.v = vLaunch.q;
             func_001E7410(pcurve, func_0019AA58, &ctx, 0, 0, &uStart, 0);
-            func_0011D9E0(func_0019AA58, &ctx, uStart, DgStepCrv(pcurve), GFromCrvS(pcurve, 50.0f),
+            MinimizeRange(func_0019AA58, &ctx, uStart, DgStepCrv(pcurve), GFromCrvS(pcurve, 50.0f),
                           GFromCrvS(pcurve, SMaxCrv(pcurve) - 50.0f), &u, &g);
             if (pcurve != ploForce) {
                 if (g >= D_002BF8E0)
@@ -291,7 +291,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
             ctx.v = D_002A2DD0;
             ctx.pjtair = pjtair;
             ctx.plo = phook;
-            func_0011D9E0(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, &g);
+            MinimizeRange(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, &g);
             GFitJump(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
             if (phook != ploForce) {
                 if (g >= D_002BF8E0)
@@ -325,7 +325,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
             ctx.v = vLaunch.q;
             ctx.pjtair = pjtair;
             ctx.plo = pmesh;
-            func_0011D9E0(func_0019AC88, &ctx, 1.0f, 0.25f, 0.25f, 2.0f, &t, &gMesh);
+            MinimizeRange(func_0019AC88, &ctx, 1.0f, 0.25f, 0.25f, 2.0f, &t, &gMesh);
             if (pmesh != ploForce) {
                 if (gMesh >= D_002BF8E0)
                     continue;
@@ -393,7 +393,7 @@ LPartnerDone:
         float s, gCurve;
         pair.pjtair = pjtair;
         pair.plo = pcurve;
-        func_0011D9E0(GScorePipeS, &pair, sCur, 100.0f, 50.0f, SMaxCrv(pcurve) - 50.0f, &s, &gCurve);
+        MinimizeRange(GScorePipeS, &pair, sCur, 100.0f, 50.0f, SMaxCrv(pcurve) - 50.0f, &s, &gCurve);
         if (pcurve != ploForce) {
             if (D_002BF8E0 <= gCurve)
                 continue;
@@ -406,7 +406,7 @@ LPartnerDone:
         ctx.plo = pcurve;
         func_001E6F10(pcurve, s, &posTarget, 0);
         ctx.v = ConvertPos(0, pcurve, posTarget.q);
-        func_0011D9E0(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, 0);
+        MinimizeRange(func_0019ABB8, &ctx, 0.5f, 0.25f, 0.25f, 3.0f, &t, 0);
         GFitJump(ctx.pjtair, ctx.plo, ctx.v, 0, &posHit, &vHit, t);
         if (pcurve != ploForce &&
             FJumpPathBlocked(pjtair, (void *)NOverlapKind, pjtair->pstepplayer->psoCollide, t, pos.q, v.q, posHit.q,
@@ -435,7 +435,7 @@ LPartnerDone:
         ctx.v = v.q;
         ctx.pjtair = pjtair;
         ctx.plo = pshape;
-        func_0011D9E0(func_0019AAB8, &ctx, func_002458F0(dpos.f[1], dpos.f[0]) * pshape->rAngle, D_002BF914, -FLT_MAX,
+        MinimizeRange(func_0019AAB8, &ctx, atan2f(dpos.f[1], dpos.f[0]) * pshape->rAngle, D_002BF914, -FLT_MAX,
                       FLT_MAX, &u, &g);
         g = g * D_002BF90C;
         if (pshape != ploForce) {
@@ -474,7 +474,7 @@ LPartnerDone:
         ctx.v = v.q;
         ctx.pjtair = pjtair;
         ctx.plo = pcurve;
-        func_0011D9E0(func_0019AB38, &ctx, sCur, D_002BF918, 30.0f, SMaxCrv(pcurve) - 30.0f, &u, &g);
+        MinimizeRange(func_0019AB38, &ctx, sCur, D_002BF918, 30.0f, SMaxCrv(pcurve) - 30.0f, &u, &g);
         g = g * D_002BF90C;
         if (pcurve != ploForce) {
             if (g >= D_002BF8E0)

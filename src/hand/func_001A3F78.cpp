@@ -49,7 +49,7 @@ typedef struct {
     MASK mask;
 } WORLD;
 
-extern "C" void *func_002333B4(void *, int, uint);  /* memset */
+extern "C" void *s1_memset(void *, int, uint) asm("s1_memset");  /* memset */
 extern "C" U *func_002564B8(U *);                   /* vector init, returns its receiver */
 inline U::U() { (void)func_002564B8(this); }
 
@@ -109,7 +109,7 @@ extern "C" void SelectStrongest__FP8LIGHTSETG9VU_VECTORiP6VECTOR(WORLD *p, qword
     MASK *leaf;
     uint i;
     float score;
-    func_002333B4(results, 0, capacity * sizeof(RESULT));
+    s1_memset(results, 0, capacity * sizeof(RESULT));
     w.mask.q[0] = p->mask.q[0];
     w.mask.q[1] = p->mask.q[1];
     if (p->tree) {

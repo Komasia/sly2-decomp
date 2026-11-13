@@ -15,12 +15,12 @@ extern "C"{
  extern CLOCK g_clock;extern U D_002A2DD0,D_002A2DA0;extern char g_sw[],D_002DE578[];
  void SetXfMode(P*,void*,int) asm("SetXfMode__FP3ALOP2XFi");void InvalidateXfParams(P*,void*) asm("InvalidateXfParams__FP3ALOP2XF");void ResetXfParams(P*,void*) asm("ResetXfParams__FP2XFPv");
  float GRandInRange(float,float) asm("GRandInRange__Fff");void ConvertVectorToSphere(qword,float*,float*,float*) asm("ConvertVectorToSphere__FG9VU_VECTORPfN21");
- void SetBirdHeading(P*,float) asm("SetBirdHeading__FP4BIRDf");void func_001B17B8(P*,float);
+ void SetBirdHeading(P*,float) asm("SetBirdHeading__FP4BIRDf");void SetStepSpinRatio(P*,float) asm("SetStepSpinRatio__FP4STEPf");
  qword PosOfLo(P*) asm("PosOfLo__FP2LO");void NearestCrvAll(PATH*,qword,void*,U*,U*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
  float DgStepCrv(PATH*) asm("DgStepCrv__FP3CRV");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");P*PloNearestPlayer(void*,qword) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
  EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,SOURCE*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
  qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");void DropPickups(void*,qword,int,int,P*) asm("DropPickups__FP6VECTORG9VU_VECTORiiP2LO");
- void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
+ void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
 static inline void SetVelocity(P*p,qword q){VE&v=p->vt[35];((void(*)(void*,qword))v.fn)((char*)p+v.delta,q);}
 static inline void SetZeroVelocity(P*p){SetVelocity(p,D_002A2DD0.q);}
@@ -75,7 +75,7 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
   ConvertVectorToSphere(scaled,&w.angle,0,0);SetBirdHeading(p,w.angle);SetZeroVelocity(p);SetXfMode(p,p->group,1);InvalidateXfParams(p,p->group);break;
  }
  case 3:
-  SetZeroVelocity(p);func_001B17B8(p,p->ratio+p->ratio);
+  SetZeroVelocity(p);SetStepSpinRatio(p,p->ratio+p->ratio);
   SetXfMode(p,p->group,1);InvalidateXfParams(p,p->group);break;
  case 4:{
   w.first.q=PosOfLo(p);
@@ -111,6 +111,6 @@ extern "C" void SetBirdState__FP2LOi(P*p,int next){
  }
  p->state=next;p->changed=g_clock.t;
  if(next!=2){
-  func_001305B8(p->aseg[next].clip,p,0.0f,1.0f,p->aseg[next].flags|1,&p->animation);
+  ApplyAsegCur(p->aseg[next].clip,p,0.0f,1.0f,p->aseg[next].flags|1,&p->animation);
  }
 }

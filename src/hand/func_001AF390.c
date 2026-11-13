@@ -3,7 +3,7 @@ struct E { int n; struct F *af; int x8; int xC; int x10; int x14; int x18; };
 struct S { int pad[3]; struct E a[1]; };
 struct S1 { char pad[0x1EC]; int x1EC; };
 void SetMenuState__FP4MENUi(struct S *s, int n);
-void *func_002333B4(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n);
 // name: SafeHouse port (ReplacePage)
 void ReplacePage__FP4MENUiPv(struct S *s, int n, struct F *af)
 {
@@ -20,7 +20,7 @@ void ReplacePage__FP4MENUiPv(struct S *s, int n, struct F *af)
     }
     ((struct S1 *)s)->x1EC = k + 1;
     e = &s->a[k + 1];
-    func_002333B4(e, 0, sizeof(*e));
+    s1_memset(e, 0, sizeof(*e));
     e->af = af;
     e->x8 = x8;
     e->xC = 1;

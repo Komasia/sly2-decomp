@@ -22,7 +22,7 @@ extern float D_002C2030,D_002C20A4;
 extern char D_002C2098[],D_002C20A8[];
 extern "C" {
 void UpdateSo(P *) asm("UpdateSo__FP2SOf");
-float func_002458F0(float,float);
+float atan2f(float,float) asm("atan2f");
 int func_001D4E08(ATTACH *);
 void SetSmaGoal(void *,int) asm("SetSmaGoal__FP3SMA3OID");
 void UpdateVehiclePlayer(P *) asm("UpdateVehiclePlayer__FP7VEHICLE");
@@ -30,11 +30,11 @@ void UpdateVehicleAi(P *) asm("UpdateVehicleAi__FP7VEHICLE");
 float RadNormalize(float) asm("RadNormalize__Ff");
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 qword VecConvertXfs(FRAME *,FRAME *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
-float func_0011D948(const LIMITS *,float);
+float GLimitLm(const LIMITS *,float) asm("GLimitLm__FP2LMf");
 void SetCtrlPos(void *,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
-float func_0011D2D0(float,float,float,void *,float *);
+float RadSmooth(float,float,float,void *,float *) asm("RadSmooth__FfffP3SMPPf");
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
-int func_0011D4D0(float,float,float);
+int FFloatsNear(float,float,float) asm("FFloatsNear__Ffff");
 float GSmooth(float,float,float,void *,float *) asm("GSmooth__FfffP3SMPPf");
 void SetVolume(SOUND *,float) asm("SetVolume__4CSndf");
 void SetPitch(SOUND *,float) asm("SetPitch__4CSndiif");
@@ -69,7 +69,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
     U scalar,position,targetPosition,targetVelocity,shot;
     int i=0;
     UpdateSo(p);
-    p->heading=func_002458F0(p->space->world.basis.rows[0].f[1],p->space->world.basis.rows[0].f[0]);
+    p->heading=atan2f(p->space->world.basis.rows[0].f[1],p->space->world.basis.rows[0].f[0]);
     if(p->attachCount>0){
         ATTACH **current=p->attachments;
         do {
@@ -116,8 +116,8 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
             ++i;
             qword direction=SetVectorCylind(p->wheelAngle,1.0f,0.0f);
             direction=VecConvertXfs(0,side->reference->parent,direction);
-            float orientation=func_002458F0(Y(direction),X(direction));
-            scalar.q=Pack(0.0f,0.0f,func_0011D948(limits,orientation));
+            float orientation=atan2f(Y(direction),X(direction));
+            scalar.q=Pack(0.0f,0.0f,GLimitLm(limits,orientation));
             limits=(LIMITS*)((char*)limits+sizeof(SIDE));
             SetCtrlPos(side->binding,scalar.q);
             ++side;
@@ -127,7 +127,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
         ENTRY *entry=&p->entries[k];
         float desired;
         if(p->drive!=0.0f)desired=entry->steering*p->steering;else desired=0.0f;
-        entry->tilt=func_0011D2D0(entry->tilt,desired,g_clock.dt,D_002C2098,0);
+        entry->tilt=RadSmooth(entry->tilt,desired,g_clock.dt,D_002C2098,0);
     }
     i=0;
     qword currentPosition=PosOfLo(p);
@@ -179,11 +179,11 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
                     :"+j"(axis),"=&r"(pitchWord),"=r"(lengthWord),"=f"(pitchZ),"=f"(planarLength):"j"(ray));
                 shot.q=ray;
                 scalar.q=gravityScalar;
-                float pitch=func_002458F0(pitchZ,planarLength);
+                float pitch=atan2f(pitchZ,planarLength);
                 float speed=ShotLength(shot.q);
-                attach->angle=func_0011D948(&attach->angleLimits,pitch);
-                attach->speed=func_0011D948(&attach->speedLimits,speed);
-                int active=func_0011D4D0(attach->angle,pitch,0.01f) && func_0011D4D0(attach->speed,speed,0.01f);
+                attach->angle=GLimitLm(&attach->angleLimits,pitch);
+                attach->speed=GLimitLm(&attach->speedLimits,speed);
+                int active=FFloatsNear(attach->angle,pitch,0.01f) && FFloatsNear(attach->speed,speed,0.01f);
                 attach->active=active;
                 if(!active){attach->angle=0.0f;attach->speed=attach->speedLimits.low;}
             }

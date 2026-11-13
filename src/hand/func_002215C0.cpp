@@ -11,7 +11,7 @@ M3 *MatJtLo(struct S *);
 qword ConvertPos(void *,void *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 }
 extern qword g_normalZ;
-extern "C" float func_00245A18(float,float);
+extern "C" float fmodf(float,float) asm("fmodf");
 struct COEF { float a,b,c,d; };
 struct BOUND { float low,high; };
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }
@@ -54,7 +54,7 @@ extern "C" void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(S *
     } else if(p->arc) {
         float period=p->radius*6.2831855f;
         float phase=mode!=1?time-delta:time+delta;
-        float angle=func_00245A18(phase,period);
+        float angle=fmodf(phase,period);
         center.q=SetVectorCylind(angle/p->radius,p->radius,0.0f);
         qword arc=center.q;
         center.q=Add(arc,p->origin);

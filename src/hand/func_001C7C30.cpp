@@ -1,7 +1,7 @@
 extern "C" {
 void *__10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-void func_00129EC8(void *p);
+void Decref(void *p) asm("Decref__4CRef");
 void func_001291A8(void *p, const void *q);
 void *func_001C7B18(int n);
 int func_001C7D08(void);
@@ -13,7 +13,7 @@ struct CRef {
     CRef() {}
     CRef(int f) { m_tagk = 0x17; m_tag = f; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 extern char D_003D4A60[];
 extern int D_003E1BF4;

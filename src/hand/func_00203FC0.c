@@ -12,7 +12,7 @@ extern float D_002C3C80[3];
 extern float g_lmZeroOne[2];
 void UpdateSo__FP2SOf(struct S *p);
 void UpdateStepMesh__FP3ALO(struct S *p);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 float RadNormalize__Ff(float a);
 
 void UpdateStep__FP4STEPf(struct S *p)
@@ -23,7 +23,7 @@ void UpdateStep__FP4STEPf(struct S *p)
     case 0: {
         float *a = p->vt->e[31].pf((char *)p + p->vt->e[31].d);
         float *b = p->vt->e[31].pf((char *)p + p->vt->e[31].d);
-        float d = RadNormalize__Ff(p->f1A8 - func_002458F0(a[1], b[0]));
+        float d = RadNormalize__Ff(p->f1A8 - atan2f(a[1], b[0]));
         float f;
         d = __builtin_fabsf(d);
         f = D_002C3C80[0] + d * (D_002C3C80[1] + d * D_002C3C80[2]);

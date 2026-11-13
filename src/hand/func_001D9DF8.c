@@ -32,7 +32,7 @@ Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void SetGaugeState__FP5GAUGEi(OBJ *, int);
 int func_001441A0(Q *);
-int func_0011D4D0(float, float, float);
+int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 int FSpriteAnimPlaying__FP2LOi(SUB *, int);
 void func_00212E40(SUB *, int, float);
@@ -82,7 +82,7 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
             SetGaugeState__FP5GAUGEi(p, 2);
         } else if (p->x20 < p->x24) {
             SetGaugeState__FP5GAUGEi(p, 3);
-        } else if (!func_0011D4D0(p->x28, p->x2C, 0.0001f)) {
+        } else if (!FFloatsNear(p->x28, p->x2C, 0.0001f)) {
             SetGaugeState__FP5GAUGEi(p, 4);
         } else if (p->x34->x10EC == 4) {
             SetGaugeState__FP5GAUGEi(p, 7);
@@ -118,7 +118,7 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
         else
             p->x20 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x20, p->x24, g_clock.dt);
         func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
-        if (func_0011D4D0(p->x20, p->x24, 0.0001f))
+        if (FFloatsNear(p->x20, p->x24, 0.0001f))
             SetGaugeState__FP5GAUGEi(p, 1);
         break;
     case 4:
@@ -128,7 +128,7 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
         else
             p->x28 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x28, p->x2C, g_clock.dt);
         func_00212E40(p->x38, 0x350, 1.0f - p->x28);
-        if (func_0011D4D0(p->x28, p->x2C, 0.0001f))
+        if (FFloatsNear(p->x28, p->x2C, 0.0001f))
             SetGaugeState__FP5GAUGEi(p, 1);
         break;
     }

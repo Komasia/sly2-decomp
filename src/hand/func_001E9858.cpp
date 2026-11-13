@@ -36,7 +36,7 @@ extern "C" {
 void func_001F36A8(S *);
 M3 *MatJtLo(S *) asm("MatJtLo__FP2LO");
 void func_0016EF00(CONFIG *, int);
-void func_001AE5A0(void *, const void *, unsigned);   /* memcpy */
+void CopyAb(void *, const void *, unsigned) asm("CopyAb__FPvT0Ui");   /* memcpy */
 void *PvAllocSwImpl(AL *) asm("PvAllocSwImpl__Fi");                            /* allocate (size, align) */
 void NearestCrvAll(void *, qword, void *, qword *, qword *, float *, float *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 M3 *BuildLookAtMatrix(M3 *, qword, qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
@@ -98,7 +98,7 @@ void PostLoadRopeMesh(S *p)
                 E *e = &node->entries[j];
                 int next = j + 1;
                 int k = 0;
-                func_001AE5A0(vertices, e->vertices, e->n * 16);
+                CopyAb(vertices, e->vertices, e->n * 16);
                 w.phase.request.cb = e->n * 16;
                 phase->request.align = 16;
                 U *out = (U *)PvAllocSwImpl(&phase->request);

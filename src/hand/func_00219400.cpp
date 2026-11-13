@@ -81,7 +81,7 @@ struct ROOT { char pad[0x54]; SPRITE *sprites; };
 struct ANIM { ushort count, pad2; KEY *keys; float duration; ROOT *owner; GROUP *group; int id; };
 extern "C" {
 void func_0011A058(int *);
-void *func_002333B4(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int) asm("s1_memset");
 void func_00215730(SPRITE *, ITEM *, M23 *, RGBA, RGBA);
 void func_00219400(float, float, ANIM *, int, int, M23 *, const RGBA *, const RGBA *);
 void func_002158C0(SPRITE *, ITEM *);
@@ -208,7 +208,7 @@ extern "C" void func_00219400(float time, float duration, ANIM *animation, int p
             {
                 LM bounds;
                 LM *pb = &bounds;
-                func_002333B4(pb, 0, 8);
+                s1_memset(pb, 0, 8);
                 bounds.lo = item->previousTime;
                 bounds.hi = item->nextTime;
                 copy = bounds;

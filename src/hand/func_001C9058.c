@@ -1,7 +1,7 @@
 extern float D_002DDF0C;
 extern void *D_002DD314;
 extern int D_003D3A3C;
-int func_00234A40(int);
+int SignalSema(int);
 
 static inline float *Receiver(float *p)
 {
@@ -18,5 +18,5 @@ void func_001C9058(float *input)
     int sema = D_003D3A3C;
     *p = now;
     D_002DD314 = p;
-    func_00234A40(sema);
+    SignalSema(sema);
 }

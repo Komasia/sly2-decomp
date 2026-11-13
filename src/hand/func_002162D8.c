@@ -1,8 +1,8 @@
 struct S { char pad[0x64]; float f64; float f68; };
-void *func_002333B4(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n);
 void func_002162D8(struct S *p, float *m, float *v)
 {
-    func_002333B4(m, 0, 0x40);
+    s1_memset(m, 0, 0x40);
     m[0] = v[0] * 0.8f;
     m[1] = v[1] * 0.454545454545f;
     m[4] = v[2] * 0.8f;

@@ -14,12 +14,12 @@ extern CLOCK g_clock;extern U g_normalZ;extern P*D_002E1E40;
 void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
 void PairActorWith(P*,PATH*,int) asm("PairActorWith__FP5ACTORP2LOi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);
-void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float func_0011D948(LM*,float);
+void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GLimitLm(LM*,float) asm("GLimitLm__FP2LMf");
 qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 void SetActorZone(P*,void*) asm("SetActorZone__FP5ACTORP2LO");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
 void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
-void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
+void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
 static inline void PathState(PATH*p,int state){VE&v=p->vt[3];((void(*)(void*,int,void*,void*,void*,void*))v.fn)((char*)p+v.delta,state,0,0,0,0);}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -108,7 +108,7 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
   func_001E6F10(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
   U*axis; qword direction=Direction(&w.ahead,&w.behind,axis);
   p->descending=Z(Normal(direction,axis))<-0.5f;
-  LmClimb(p,&w.limit);p->distance=func_0011D948(&w.limit,p->distance);
+  LmClimb(p,&w.limit);p->distance=GLimitLm(&w.limit,p->distance);
   func_001E6F10(p->path,p->distance,&w.point,0);
   qword offset=Vector(ConvertPos(p->actor,0,p->offset.q));P*owner;
   qword point=WorldInputs(p,&w.point,&w.world,offset,owner);
@@ -142,6 +142,6 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  case 4:p->descending=!p->descending;clip=p->fallback;break;
  }
  ClearSmaHandle(&p->actor->component);
- func_001305B8(clip,p->actor,position,speed,flags,&p->actor->asega);
+ ApplyAsegCur(clip,p->actor,position,speed,flags,&p->actor->asega);
  Clear(&p->actor->velocity);
 }

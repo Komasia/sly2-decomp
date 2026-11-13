@@ -29,7 +29,7 @@ void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,void *) asm("SetSource__4CSndPv");
 void func_00212E40(X *,int,float);
 void SetState(X *,int) asm("SetState__FP8SCREENRTi");
-void func_00212A50(X *,int);
+void SetTimerTimers(X *,int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 }
 static inline void Post(X *x,int n){VT *entry=&x->vtable[49];((void (*)(void *,int))entry->function)((char *)x+entry->adjustment,n);}
 static inline void Clear(X *x){VT *entry=&x->vtable[50];((void (*)(void *))entry->function)((char *)x+entry->adjustment);}
@@ -178,8 +178,8 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
     case -1:
         if(previous!=10){
             BroadcastTaskEvent(g_game,11,0);
-            if(p->primary->shown){SetState(p->primary,1);func_00212A50(p->primary,1);}
-            if(p->secondary->shown){SetState(p->secondary,1);func_00212A50(p->secondary,1);}
+            if(p->primary->shown){SetState(p->primary,1);SetTimerTimers(p->primary,1);}
+            if(p->secondary->shown){SetState(p->secondary,1);SetTimerTimers(p->secondary,1);}
         }
         break;
     }

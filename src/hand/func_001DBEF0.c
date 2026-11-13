@@ -25,7 +25,7 @@ extern int D_003DA570;
 extern float D_002C35B0;
 extern int D_002C3588[];
 extern REC D_002BCD00[];
-void *func_002333B4(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int);
 int IRowEnd__FP4SHOP(OBJ *);
 void func_00213CD8(SUB *, int, M2 *);
 void SelectScreenObjPartHandle__FP2LOiPi(SUB *, int, int *);
@@ -41,7 +41,7 @@ void UpdateShopLook__FP4SHOP(OBJ *p)
     int i;
     if (p->x24->x58 != 2)
         return;
-    func_002333B4(&m, 0, sizeof(m));
+    s1_memset(&m, 0, sizeof(m));
     m.a[3] = 1.0f;
     m.a[0] = 1.0f;
     end = IRowEnd__FP4SHOP(p);
@@ -90,7 +90,7 @@ void UpdateShopLook__FP4SHOP(OBJ *p)
     }
     if (p->x24C >= 0) {
         func_00213B00(p->x24, 0x437);
-        func_002333B4(&m, 0, sizeof(m));
+        s1_memset(&m, 0, sizeof(m));
         m.a[3] = 1.0f;
         m.a[0] = 1.0f;
         m.a[5] = D_002C35B0 * (float)(p->x24C - p->x250);

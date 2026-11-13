@@ -4,8 +4,8 @@ extern float D_002DE3B8, D_002DE514;
 extern char D_002A8AB8[], D_002A8AC0[], D_002A8AC8[], D_002A8AD0[], D_002A8AD8[];
 struct X *PloPlayerPo__FP2SW(void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct X *, int);
-int func_0021ECD8(char *, char *, ...);
-int func_0023E290(float);
+int fiprintf(char *, char *, ...);
+int fptodp(float);
 void func_00210FE0(char *pch)
 {
     struct X *x = PloPlayerPo__FP2SW(g_sw);
@@ -21,16 +21,16 @@ void func_00210FE0(char *pch)
         break;
     }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x35)) {
-        func_0021ECD8(pch, D_002A8AB8, (int)g);
+        fiprintf(pch, D_002A8AB8, (int)g);
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x37)) {
-        func_0021ECD8(pch, D_002A8AC0, func_0023E290(g));
+        fiprintf(pch, D_002A8AC0, fptodp(g));
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x36)) {
         int n = (int)g;
         if (n < 4)
-            func_0021ECD8(pch, D_002A8AC8, n);
+            fiprintf(pch, D_002A8AC8, n);
         else if (n < 8)
-            func_0021ECD8(pch, D_002A8AD0, n);
+            fiprintf(pch, D_002A8AD0, n);
         else
-            func_0021ECD8(pch, D_002A8AD8, n);
+            fiprintf(pch, D_002A8AD8, n);
     }
 }

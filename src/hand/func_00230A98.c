@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct M4 { qword r[4]; } M4;
 typedef struct P { char pad[0xA0]; struct P *xA0; } P;
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void PredictXf__FP2XFPvP7MATRIX4f(P *, M4 *, M4 *, float);
 M4 MulMatrix4__FP7MATRIX4T0Pv(M4 *, M4 *);
 
@@ -24,12 +24,12 @@ void PredictXfChain__FP2XFT0PvP7MATRIX4f(P *first, P *end, M4 *pA, M4 *pB, float
     if (pB)
         b = *pB;
     else
-        func_002333B4(&b, 0, 0x40);
+        s1_memset(&b, 0, 0x40);
     if (pA)
         a = *pA;
     else {
         float *pf = (float *)&a;
-        func_002333B4(&a, 0, 0x40);
+        s1_memset(&a, 0, 0x40);
         pf[0] = pf[5] = pf[10] = pf[15] = 1.0f;
     }
     for (p = first; p != end; p = p->xA0) {

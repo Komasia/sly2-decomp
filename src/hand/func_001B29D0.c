@@ -1,7 +1,7 @@
 struct A { int pad[2]; int a, b, c, d; };
 struct S { int n0; int a, b, c, d; int n14; int n18; };
 int func_00232EE8(int a, int b, int c, int d, int e, int f);
-void func_001B2A80(struct S *p);
+void Reset(struct S *p) asm("Reset__15CQueueOutputIop");
 int func_001B29D0(struct S *p, struct A *pa)
 {
     p->a = pa->a;
@@ -17,6 +17,6 @@ int func_001B29D0(struct S *p, struct A *pa)
     }
     if (p->n14 < 0)
         return 0;
-    func_001B2A80(p);
+    Reset(p);
     return 1;
 }

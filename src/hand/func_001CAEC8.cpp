@@ -23,7 +23,7 @@ TREE *func_001C99D8(TREE *,int,int *);
 int CFindObjects(SW *,int,int,P *,void *,int,P **) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
 STREAM *func_00118480(STREAM *);
 void func_00118500(STREAM *,void *,void *,int);
-short func_00117D50(STREAM *);
+short S16Read(STREAM *) asm("S16Read__18CBinaryInputStream");
 void LoadOptionFromBrx(P *,DESC *,int,STREAM *) asm("LoadOptionFromBrx__FPvP5EOPIDiP18CBinaryInputStream");
 void AddParent(void *,void *) asm("AddParent__6CFrameP6CFrame");
 void func_00256EE0(void **,void *);
@@ -56,7 +56,7 @@ extern "C" NODE *func_001CAEC8(P *p,int minimum){
   func_00118480(&stream);
   func_00118500(&stream,bind->begin,bind->end,0);
   int index;
-  while((index=func_00117D50(&stream))>=0){DESC *desc=&D_002AC880[index];LoadOptionFromBrx(work.found,desc,desc->flags&0x2031,&stream);}
+  while((index=S16Read(&stream))>=0){DESC *desc=&D_002AC880[index];LoadOptionFromBrx(work.found,desc,desc->flags&0x2031,&stream);}
   if(bind->resource && !p->disabled){
    if(work.found->resource)AddParent(bind->resource,work.found->resource);
    func_00256EE0(&work.found->resource,bind->resource);

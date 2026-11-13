@@ -35,7 +35,7 @@ qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
 void func_00141CD0(O *,int);
 void ClearSmaHandle(HANDLE *) asm("ClearSmaHandle__FPP3SMA");
-void func_001305B8(ASEG *,O *,float,float,int,ASEGA **);
+void ApplyAsegCur(ASEG *,O *,float,float,int,ASEGA **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
 static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
 static inline void PlainCall(O *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
@@ -175,7 +175,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
   break;
  }
  ClearSmaHandle(&s->owner->extra);
- func_001305B8(animation,s->owner,0.0f,1.0f,flags,&s->owner->animation);
+ ApplyAsegCur(animation,s->owner,0.0f,1.0f,flags,&s->owner->animation);
  PlainCall(s->owner,90);
  RecalcSwOxfFilterForObject(&g_sw,s->owner);
 }

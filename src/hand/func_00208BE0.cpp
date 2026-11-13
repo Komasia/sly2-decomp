@@ -12,7 +12,7 @@ qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 int FNoiseReaches(O *o, qword q) asm("FNoiseReaches__FP5NOISEG9VU_VECTOR");
 int FPointInShape(L *pl, qword q) asm("FPointInShape__FP2LOG9VU_VECTOR");
 void func_0020FAA0(void *g, qword a, qword b, void *p1, void *p2, int *pi, int *pj);
-int func_0014CC58(int z, qword a, qword b, int i, int j, void *phit);
+int PsoHitTestLineObjects(int z, qword a, qword b, int i, int j, void *phit) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 void func_0020FA10();
 extern char g_sw[];
 int FGuardAcceptsNoise(S2 *p, O *o) asm("FGuardAcceptsNoise__FP5GUARDP5NOISE");
@@ -53,7 +53,7 @@ int FGuardAcceptsNoise(S2 *p, O *o)
             FRAME frame;
             int i, j;
             func_0020FAA0(g_sw, pos, tpos, (void *)func_0020FA10, p->pEC, &i, &j);
-            if (!func_0014CC58(0, pos, tpos, i, j, 0))
+            if (!PsoHitTestLineObjects(0, pos, tpos, i, j, 0))
                 return 1;
             return 0;
         }

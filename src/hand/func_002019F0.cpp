@@ -2,10 +2,10 @@
 // Static initialization of the scratch buffers and shared pool prefixes.
 typedef unsigned long ulong;
 struct SBE {int cb;char *pv;};
-extern "C" void *func_002333B4(void*,int,unsigned);
+extern "C" void *s1_memset(void*,int,unsigned) asm("s1_memset");
 struct SPRBUF {
     ulong *aqw;char *pv;SBE a[8];int c;int state;
-    SPRBUF(){func_002333B4(this,0,sizeof(*this));}
+    SPRBUF(){s1_memset(this,0,sizeof(*this));}
 };
 struct SLOTHEAP;
 extern "C" SLOTHEAP *func_0011CCA8(SLOTHEAP*,int,int,int);

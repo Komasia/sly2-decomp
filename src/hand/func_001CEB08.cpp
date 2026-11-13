@@ -13,7 +13,7 @@ extern qw D_002A2DA0,D_002A2DD0;
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_00228C18(void*,qw,qw*,qw*);
 qw VelXfPoint(void*,void*,qw) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
-void func_001CEAA8(RIP*,float);
+void ForceRipFade(RIP*,float) asm("ForceRipFade__FP3RIPf");
 void PosNearestSegment(qw,qw,qw,qw*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 int FBounceRip(RIP*,SHAPE*,qw,qw) asm("FBounceRip__FP3RIPP2SOG9VU_VECTORT2");
 }
@@ -58,7 +58,7 @@ int FBounceRip(RIP*p,SHAPE*incomingShape,qw point,qw normal){
   __asm__("mfc1 $2,%2\n\tqmtc2.ni $2,%0\n\tsqc2 %3,%1":"=j"(difference),"=m"(p->velocity.q):"f"(duration),"j"(original):"$2");
   __asm__("vdiv $Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%0,$Q":"+j"(sample):"j"(difference));
   p->acceleration.q=sample;w.scalar.q=difference;
-  func_001CEAA8(fadeArg,duration);
+  ForceRipFade(fadeArg,duration);
   return 1;
  }
  register void*frameArg __asm__("$4");register void*nullArg __asm__("$5");register qw pointArg __asm__("$6");register float negativeRadius __asm__("$f0");
@@ -164,7 +164,7 @@ int FBounceRip(RIP*p,SHAPE*incomingShape,qw point,qw normal){
   __asm__("lui %0,%%hi(D_002C1F6C)\n\tswc1 %2,%1":"=&r"(fadePage),"=m"(p->velocity.f[2]):"f"(minimum));
   register float duration __asm__("$f12");register RIP*receiver __asm__("$4");
   __asm__("lwc1 %0,%%lo(D_002C1F6C)(%2)\n\tdaddu %1,%3,$zero":"=f"(duration),"=r"(receiver):"r"(fadePage),"r"(p),"m"(*(float*)(fadePage+0x1F6C)));
-  w.normal.q=tailNormal;func_001CEAA8(receiver,duration);
+  w.normal.q=tailNormal;ForceRipFade(receiver,duration);
   __asm__("lqc2 %0,%1":"=j"(tailNormal):"m"(w.normal.q));
  }
  }

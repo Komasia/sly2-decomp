@@ -26,7 +26,7 @@ void StartNewGameFromTitle__Fv(OBJ *);
 int func_001A2C98(void);
 void *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 void FRegionLanguages__FPiPUi(int *, int **);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void PushPage__FP4MENUiPviUi(void *, int, ITEM *, void *, void *);
 void func_001DD920(OBJ *p)
 {
@@ -64,7 +64,7 @@ void func_001DD920(OBJ *p)
     for (i = 0; i < c; i++) {
         int k = ak[i];
         ITEM *pi = &D_003DA578[i];
-        func_002333B4(pi, 0, sizeof(ITEM));
+        s1_memset(pi, 0, sizeof(ITEM));
         pi->k = k;
         pi->ids = D_002C35B8[k];
         pi->pfn = func_001DD8E0;

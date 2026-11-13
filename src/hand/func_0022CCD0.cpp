@@ -10,7 +10,7 @@ static inline void MultiplyPublished(M4 &destination,const M3 &basis,M3 &first,M
  asm("vmulax.xyz ACC,%0,%2x\n\tvmadday.xyz ACC,%4,%2y\n\tvmaddz.xyz %2,%5,%2z\n\tvmulax.xyz ACC,%0,%1x\n\tvmadday.xyz ACC,%4,%1y\n\tvmaddz.xyz %1,%5,%1z\n\tsqc2 %2,32+%3\n\tvmulax.xyz ACC,%0,%6x\n\tvmadday.xyz ACC,%4,%6y\n\tvmaddz.xyz %0,%5,%6z\n\tsqc2 %1,%3\n\tsqc2 %0,16+%3":"+j"(a0),"+j"(b0),"+j"(b2),"=m"(*(M3 *)&destination):"j"(a1),"j"(a2),"j"(b1));
  asm volatile("sqc2 %6,%3\n\tsqc2 %6,%0\n\tsqc2 %7,%4\n\tsqc2 %7,%1\n\tsqc2 %8,%5\n\tsqc2 %8,%2":"=m"(first.r[0]),"=m"(first.r[1]),"=m"(first.r[2]),"=m"(second.r[0]),"=m"(second.r[1]),"=m"(second.r[2]):"j"(b0),"j"(a0),"j"(b2));
 }
-extern "C" void *func_002333B4(void *p, int c, unsigned int n);
+extern "C" void *s1_memset(void *p, int c, unsigned int n) asm("s1_memset");
 static inline M4 *PublishSkew(M4 &m,qword value){
  register M4 *result asm("$2");
  asm("pextuw %0,$zero,%7\n\tmtc1 %7,$f4\n\tmtc1 %0,$f1\n\tprot3w %0,%7\n\tneg.s $f3,$f4\n\tmtc1 %0,$f0\n\tneg.s $f2,$f1\n\tswc1 $f1,%1\n\tswc1 $f0,%2\n\tdaddu %0,%8,$zero\n\tneg.s $f0,$f0\n\tswc1 $f3,%3\n\tswc1 $f2,%4\n\tswc1 $f4,%5\n\tswc1 $f0,%6"
@@ -21,7 +21,7 @@ static inline void RetainMatrices(M4 *incomingDestination,const M3 *incomingBasi
 // name: SafeHouse port (DmatSkew)
 extern "C" M4 *DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR(M4 *destination, void *pv, const M3 *basis, qword v)
 {
-    M4 *pm;const M3 *pmB;RetainMatrices(destination,basis,pm,pmB);func_002333B4(destination, 0, 0x40);
+    M4 *pm;const M3 *pmB;RetainMatrices(destination,basis,pm,pmB);s1_memset(destination, 0, 0x40);
     M4 *result=PublishSkew(*pm,v);
     M3 first,second;MultiplyPublished(*pm,*pmB,first,second);
     pm->r[1].n[3] = 0;

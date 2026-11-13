@@ -1,7 +1,7 @@
 extern "C" {
 void *__10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
-void func_00129EC8(void *p);
+void Decref(void *p) asm("Decref__4CRef");
 void *func_001291A8(void *p, const void *q);
 void *func_001C8090(void);
 void func_001ABD98(void *p, int n);
@@ -12,7 +12,7 @@ struct CRef {
     CRef() {}
     CRef(int f) { m_tagk = 0x17; m_tag = f; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 extern char D_003D4A60[];
 extern char D_002E65E0[];
@@ -20,7 +20,7 @@ extern char D_002E65E0[];
 extern "C" CRef func_00258200(void *pv, const CRef &ref, void *p);
 struct RAW { int m_tagk; int m_tag; };
 extern "C" RAW *NProgress(RAW *pr, void *pv, void *p);
-static inline int NFromPv(void *pv,RAW &ref) { int n; NProgress(&ref,pv,D_003D4A60);n=ref.m_tag;func_00129EC8(&ref);return n; }
+static inline int NFromPv(void *pv,RAW &ref) { int n; NProgress(&ref,pv,D_003D4A60);n=ref.m_tag;Decref(&ref);return n; }
 static inline void SetPv(void *pv,const CRef&r) { CRef arg(r); const CRef &ret=func_00258200(pv,arg,D_003D4A60); }
 extern "C" void func_001C8188(int f);
 void func_001C8188(int f)

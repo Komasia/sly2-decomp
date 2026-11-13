@@ -23,7 +23,7 @@ typedef struct O {
 typedef struct DL { O *pvFirst; O *pvLast; int ibDle; } DL;
 extern DL D_003E1A40;
 O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
-void func_002333B4(void *p, int c, int n);
+void s1_memset(void *p, int c, int n);
 void *PvAllocSwImpl__Fi(AREQ *preq);
 void AppendDlEntry__FP2DLPv(DL *pdl, O *p);
 void RemoveDlEntry__FP2DLPv(DL *pdl, O *p);
@@ -44,7 +44,7 @@ O *PpathNewMerged__Fv(void)
             q->xE4 = 1;
             q->x1C0 = 1;
             pm = q->mat;
-            func_002333B4(pm, 0, 0x40);
+            s1_memset(pm, 0, 0x40);
             pm[15] = 1.0f;
             pm[10] = 1.0f;
             pm[5] = 1.0f;

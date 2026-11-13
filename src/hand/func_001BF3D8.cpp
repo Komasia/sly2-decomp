@@ -21,7 +21,7 @@ struct STATE { NODE *node; TRI *leaf; float t; U plane; };
 struct ROW { U a, b, planeA, planeB; float t0, t1; int flags; TRI *leaf; char tail[16]; };
 typedef char STATE_Size[sizeof(STATE) == 0x20 ? 1 : -1];
 typedef char ROW_Size[sizeof(ROW) == 0x60 ? 1 : -1];
-extern "C" void *func_002333B4(void *, int, unsigned int); // memset
+extern "C" void *s1_memset(void *, int, unsigned int) asm("s1_memset"); // memset
 extern "C" int func_001BF398(float);                      // 0: above +eps, 1: below -eps, 2: on the plane
 
 static inline float GetX(const qword &q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -69,10 +69,10 @@ extern "C" int CsegNav__FP9NAVREGIONG9VU_VECTORT1iP6NAVSEGi(GRAPH *g, qword from
     TRI *leaves = g->leaves;
     int mask = (flags & 1) ? 0x8000 : 0x4000;
 
-    func_002333B4(&st[0], 0, sizeof(STATE));
+    s1_memset(&st[0], 0, sizeof(STATE));
     st[0].node = nodes;
     top = &st[1];
-    func_002333B4(top, 0, sizeof(STATE));
+    s1_memset(top, 0, sizeof(STATE));
     top->t = 1.0f;
     VU_VECTOR fromPlane(GetX(from), GetY(from), -1.0f);
     VU_VECTOR toPlane(GetX(to), GetY(to), -1.0f);
@@ -90,7 +90,7 @@ extern "C" int CsegNav__FP9NAVREGIONG9VU_VECTORT1iP6NAVSEGi(GRAPH *g, qword from
                         if (cursor - out >= capacity)
                             return capacity;
                         prev = cursor++;
-                        func_002333B4(prev, 0, sizeof(ROW));
+                        s1_memset(prev, 0, sizeof(ROW));
                         lo = st[0].t;
                         hi = top->t;
                         prev->flags = 3;

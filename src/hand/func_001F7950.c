@@ -8,7 +8,7 @@ struct M { void *p0; int n4; void *p8; int nC; int n10; int pad[3]; qword q20; q
 struct G2 { void *p; };
 extern struct G2 D_002F7900;
 void SetAloEntryMode__FP3ALOi(struct P *, int);
-void func_002333B4(void *, int, int);
+void s1_memset(void *, int, int);
 qword PosOfLo__FP2LO(struct P *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void PaloAcceptContact__FP5CTMSG(struct M *);
@@ -23,7 +23,7 @@ void EmitAloContact__FP3ALO(struct P *p)
     k = (int)(p->u.l >> 24) & 3;
     if (!k) return;
     SetAloEntryMode__FP3ALOi(p, 0);
-    func_002333B4(&m, 0, 0x60);
+    s1_memset(&m, 0, 0x60);
     m.p8 = p;
     m.q20 = PosOfLo__FP2LO(p);
     m.q30 = ((qword (*)(void *))p->pvt->a[33].pfn)((char *)p + p->pvt->a[33].d);

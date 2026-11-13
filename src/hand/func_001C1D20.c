@@ -4,8 +4,8 @@ struct A { int cb; int align; };
 extern const float D_002A76E0;
 extern const float D_002A76E4;
 void *PvAllocSwImpl__Fi(struct A *pa);
-void func_001AE5A0(void *dst, void *src, int cb);
-void *func_002333B4(void *p, int c, int cb);
+void CopyAb(void *dst, void *src, int cb) asm("CopyAb__FPvT0Ui");
+void *s1_memset(void *p, int c, int cb);
 void func_001C1D20(struct S *p)
 {
     struct A a;
@@ -28,10 +28,10 @@ void func_001C1D20(struct S *p)
     a.cb = n * 4;
     a.align = 0x10;
     apv = PvAllocSwImpl__Fi(&a);
-    func_001AE5A0(ae1, p->x104, p->x100 * 8);
-    func_001AE5A0(ae2, p->x108, p->x100 * 8);
-    func_001AE5A0(apv, p->x10C, p->xFC * 4);
-    { int cz = (n - p->xFC) * 4; func_002333B4((void *)(p->xFC * 4 + (int)apv), 0, cz); }
+    CopyAb(ae1, p->x104, p->x100 * 8);
+    CopyAb(ae2, p->x108, p->x100 * 8);
+    CopyAb(apv, p->x10C, p->xFC * 4);
+    { int cz = (n - p->xFC) * 4; s1_memset((void *)(p->xFC * 4 + (int)apv), 0, cz); }
     p->x108 = ae2;
     p->x10C = apv;
     p->xFC = n;

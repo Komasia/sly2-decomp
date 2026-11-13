@@ -20,7 +20,7 @@ void func_001957C0(struct S *p);
 void func_001D9520(void *p);
 void RunDeferredSpliceEvents__FP2SW(struct S *p);
 void func_001C1260(void *p);
-void func_0014D470(void *p);
+void StartupCm(void *p) asm("StartupCm__Fv");
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 
 // name: SafeHouse port (StartSw)
@@ -52,6 +52,6 @@ void StartSw__FP2SW(struct S *p)
     p->n39D8 = 0;
     p->n39D0 = 0;
     func_001C1260(p->p45CC);
-    func_0014D470(g_cm);
+    StartupCm(g_cm);
     BroadcastTaskEvent__FP2SWiP2LO(g_game, 4, 0);
 }

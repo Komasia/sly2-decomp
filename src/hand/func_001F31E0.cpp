@@ -16,11 +16,11 @@ struct MSG {int bytes,alignment;};
 extern char D_002C44F0[];
 extern "C" {
 void LoadAloXfsFromBrx(P *,void *) asm("LoadAloXfsFromBrx__FP3ALOP18CBinaryInputStream");
-int func_00117C80(void *);
-int func_00117D50(void *);
-int func_00117DB8(void *);
-int func_00117D00(void *);
-float func_00117E38(void *);
+int U32Read(void *) asm("U32Read__18CBinaryInputStream");
+int S16Read(void *) asm("S16Read__18CBinaryInputStream");
+int S32Read(void *) asm("S32Read__18CBinaryInputStream");
+int S8Read(void *) asm("S8Read__18CBinaryInputStream");
+float F32Read(void *) asm("F32Read__18CBinaryInputStream");
 void func_00117FD0(void *,GEO *);
 void func_00118220(void *,GEO *,TREE *);
 void ReadMatrix(void *,STATE *) asm("ReadMatrix__18CBinaryInputStreamP7MATRIX3");
@@ -42,10 +42,10 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
 {
     int i=0;E *e;
     LoadAloXfsFromBrx(p,stream);
-    int metadata=func_00117C80(stream);
+    int metadata=U32Read(stream);
     LoadGlobsetFromBrx(&p->data,p,stream);
     int extra=Extra(p);
-    p->count=func_00117D50(stream);
+    p->count=S16Read(stream);
     MSG request;
     request.bytes=(p->count+extra)*sizeof(E);request.alignment=16;
     p->entries=(E *)PvAllocSwClearImpl(&request);
@@ -53,21 +53,21 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         e=&p->entries[i];
         GEO *local=&e->local;
         e->owner=p;
-        e->object=Lookup(p,func_00117D50(stream));
-        e->tag=func_00117DB8(stream);
-        int f=func_00117D00(stream);
+        e->object=Lookup(p,S16Read(stream));
+        e->tag=S32Read(stream);
+        int f=S8Read(stream);
         e->flags.raw=(e->flags.raw&~(1UL<<48))|((ulong)(f&1)<<48);
-        f=func_00117D00(stream);
+        f=S8Read(stream);
         e->flags.raw=(e->flags.raw&~(1UL<<49))|((ulong)(f&1)<<49);
-        e->radius=func_00117E38(stream);
+        e->radius=F32Read(stream);
         func_00117FD0(stream,local);
         if(!e->object){e->object=D_002C44F0;e->world=e->local;}
         else CopyTransformGeom(local,0,&e->world);
         func_00118220(stream,&e->world,&e->tree);
-        e->id=func_00117C80(stream);
-        e->flags.fields.state=func_00117D50(stream);
-        e->pinned=func_00117D50(stream);
-        f=func_00117D00(stream);
+        e->id=U32Read(stream);
+        e->flags.fields.state=S16Read(stream);
+        e->pinned=S16Read(stream);
+        f=S8Read(stream);
         e->flags.raw=(e->flags.raw&~(1UL<<50))|((ulong)(f&1)<<50);
     }
     for(i=p->count;i<p->count+extra;i++){e=&p->entries[i];e->flags.fields.state=-10;}
@@ -76,7 +76,7 @@ extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
         request.bytes=sizeof(STATE);request.alignment=16;
         STATE *state=(STATE *)PvAllocSwClearImpl(&request);
         p->state=state;
-        state->mass=func_00117E38(stream);
+        state->mass=F32Read(stream);
         ReadMatrix(stream,state);
         AdjustSoMomint(p,1.0f);
         Post(p);

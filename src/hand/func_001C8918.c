@@ -15,7 +15,7 @@ qword VecConvertXfs__FP2XFT0G9VU_VECTOR(void *frame, void *p, qword q);
 qword PosOfLo__FP2LO(void *p);
 qword PosConvertXfs__FP2XFT0G9VU_VECTOR(void *frame, void *p, qword q);
 void SetXfMode__FP3ALOP2XFi(struct S *p, struct X *px, int n);
-void func_001305B8(void *clip, struct S *owner, float position, float speed, int flags, void *output);
+void ApplyAsegCur(void *clip, struct S *owner, float position, float speed, int flags, void *output) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 static inline void Selection(const struct S*p,int*index,struct X**timer){
  register int selected __asm__("$2");register struct X*receiver __asm__("s0");
  __asm__("lw %0,0x194(%2)\n\tlw %1,0x204(%2)":"=&r"(selected),"=r"(receiver):"r"(p),"m"(p->x194),"m"(p->x204));
@@ -54,7 +54,7 @@ void SetVaultSub__FP2LOi(struct S *p, int n)
         break;
     case 2:
         SetActorInteractObject__FP5ACTORi(p->x190, p->a1A8[p->x194]);
-        func_001305B8(p->a1CC[p->x194], p, 0.0f, 1.0f, 0, p->x1A0);
+        ApplyAsegCur(p->a1CC[p->x194], p, 0.0f, 1.0f, 0, p->x1A0);
         break;
     }
 }

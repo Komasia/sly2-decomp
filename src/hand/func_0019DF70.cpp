@@ -15,7 +15,7 @@ extern "C" void MatPipeFrame(struct CURVE *a, int b, M3 *pm, float g) asm("MatPi
 extern "C" M3 *MatJtLo(struct O *o) asm("MatJtLo__FP2LO");
 extern "C" void MatHermiteRotation(M3 *a, float g, float dt, float one, qword v, M3 *pm, qword z, M3 *pm2, qword *derivative) asm("MatHermiteRotation__FfffPvG9VU_VECTORT3T4T3PG9VU_VECTOR");
 extern "C" M3 MulMat3TransposeA(M3 *a, M3 *b) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
-extern "C" void func_0011BCF8(M3 *pm, float *pg, U *pv);
+extern "C" void DecomposeRotateMatrixRad(M3 *pm, float *pg, U *pv) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 static inline qword Scale(qword v,float g){U u;register qword s __asm__("vf2");qword r;__asm__("qmtc2.ni %1,%0":"=j"(s):"r"(g));u.q=s;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(u.q));return r;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char S14_x74_Offset[FIELD_OFFSET(S14,x74)==116?1:-1];
@@ -63,6 +63,6 @@ extern "C" void UpdateClimbMotion__FP5ACTOR(struct P *p)
     }
     pm = &m2;
     m4 = MulMat3TransposeA(MatJtLo(p->x0), pm);
-    func_0011BCF8(&m4, &f, &vec);
+    DecomposeRotateMatrixRad(&m4, &f, &vec);
     {O *o=p->x0;VT *vt=o->vt;void (*call)(void *,qword)=(void(*)(void*,qword))vt[36].pfn;void *thisp=(char*)o+vt[36].d;call(thisp,Scale(vec.q,f/g_clock.dt));}
 }

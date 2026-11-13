@@ -10,7 +10,7 @@ extern float D_002C3DBC;
 extern const float D_002A88CC;
 void UpdateLo__FP2LO(struct S *p);
 void *func_00205458(struct O *po, int n);
-void *func_002333B4(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n);
 void React__8JOBREACTP5AIMSG(void *p, struct L *pl);
 void func_00153FF8(void *p);
 
@@ -35,7 +35,7 @@ void UpdateGuardManager__FP2LO(struct S *p)
                 void *x = func_00205458(o, 0x9C);
                 if (x) {
                     struct L l;
-                    func_002333B4(&l, 0, sizeof(l));
+                    s1_memset(&l, 0, sizeof(l));
                     l.k = 1;
                     React__8JOBREACTP5AIMSG(x, &l);
                 }

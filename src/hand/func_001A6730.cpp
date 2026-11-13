@@ -55,7 +55,7 @@ extern char D_002DD598[],D_004520D0[],D_00452148[];
 extern G g_sw;
 void func_00128148(void*);
 void func_00257250(void*,int);
-void func_00129EC8(void*);
+void Decref(void*) asm("Decref__4CRef");
 void func_00255438(void*);
 void func_00255DE8(void*);
 void func_0011CD98(void*,void*);
@@ -71,9 +71,9 @@ void func_0011A058(int*);
 void func_0011A060(void*);
 void func_0011A070(void*,NODE*);
 void*func_0015E3C0(G*,int);
-void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
+void CopyAb(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 }
-struct RF{FIELD*p;RF(){}RF(const RF&r):p(r.p){if(p)++p->refs;}~RF(){FIELD*f=p;if(f&&!--f->refs){BINDING*b=f->binding;if(b&&!--b->refs){func_00257250(&b->next,2);func_00129EC8(b->cref);func_00255438(b);func_0011CD98(D_004520D0,b);}func_00255DE8(f);func_0011CD98(D_00452148,f);}}};
+struct RF{FIELD*p;RF(){}RF(const RF&r):p(r.p){if(p)++p->refs;}~RF(){FIELD*f=p;if(f&&!--f->refs){BINDING*b=f->binding;if(b&&!--b->refs){func_00257250(&b->next,2);Decref(b->cref);func_00255438(b);func_0011CD98(D_004520D0,b);}func_00255DE8(f);func_0011CD98(D_00452148,f);}}};
 struct RR{ROOT*p;RR(){}RR(const RR&r):p(r.p){if(p)++p->refs;}~RR(){ROOT*r=p;if(r&&!--r->refs)func_00257078(r,3);}};
 typedef char FieldRefSize[sizeof(RF)==4?1:-1];
 typedef char RootRefSize[sizeof(RR)==4?1:-1];
@@ -111,5 +111,5 @@ extern "C" void CloneLo__FP2LOT0(P*p,const P*source){
             func_0011A070(list,copy);
         }
     }
-    func_001AE5A0(dst,src,Type(p)->bytes-0x50);
+    CopyAb(dst,src,Type(p)->bytes-0x50);
 }

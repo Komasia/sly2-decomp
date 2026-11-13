@@ -5,7 +5,7 @@ extern char D_002CA2C0[];
 struct Pool;
 extern struct Pool D_003E15CC;
 struct Q *func_0011CCC0(struct Pool *);
-void func_002333B4(void *, int, int);
+void s1_memset(void *, int, int);
 struct Q *func_001F8510(struct P *p, int k, int m)
 {
     int i;
@@ -13,7 +13,7 @@ struct Q *func_001F8510(struct P *p, int k, int m)
         struct E *pe = &p->ae[i];
         if (pe->n94 == m && (k == -1 || pe->n9C == k)) {
             struct Q *q = func_0011CCC0(&D_003E15CC);
-            func_002333B4(q, 0, 0x30);
+            s1_memset(q, 0, 0x30);
             q->pvt = D_002CA2C0;
             q->p20 = p;
             q->p24 = pe;

@@ -23,7 +23,7 @@ extern COEF D_002C4470,D_002C4480;
 extern float D_002DDED4;
 extern "C" {
 float GWaterDepth(O *,O *,qword *,qword *) asm("GWaterDepth__FP3ALOT0P6VECTORT2");
-int func_0011D4D0(float,float,float);
+int FFloatsNear(float,float,float) asm("FFloatsNear__Ffff");
 qword ProjectCnstr(CONSTRAINT *,NODE *,qword) asm("ProjectCnstr__FP6CNSTRSP2XFG9VU_VECTOR");
 void AccelAloPos(O *,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 qword PosOfLo(O *) asm("PosOfLo__FP2LO");
@@ -34,9 +34,9 @@ void AccelAloTowardPosition(O *,qword,const COEF *,qword,const COEF *) asm("Acce
 void AccelAloTowardRotation(O *,const M3 *,const COEF *,qword,const COEF *) asm("AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2");
 M4 *MatJtLo(O *) asm("MatJtLo__FP2LO");
 void LevelMatrix3(const M3 *,M3 *,M3 *) asm("LevelMatrix3__FP7MATRIX3T0Pv");
-void func_0011BCF8(const M3 *,float *,qword *);
+void DecomposeRotateMatrixRad(const M3 *,float *,qword *) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 void AccelRotation(O *,qword) asm("AccelRotation__FP3ALOG9VU_VECTOR");
-void func_0015A2C0(O *,WATER *,float,qword,qword,float,float);
+void WakeSoWater(O *,WATER *,float,qword,qword,float,float) asm("WakeSoWater__FP2SOP5WATERfP6VECTORT3ff");
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void Stop(EMITTER *,float) asm("Stop__4CSndf");
 void func_00258040(EMITTER **,EMITTER *);
@@ -44,7 +44,7 @@ void func_00258040(EMITTER **,EMITTER *);
 static inline float X(qword q){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(q));return f;}
 static inline float Y(qword q){qword v;float f;__asm__("prot3w %0,%1":"=r"(v):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(v));return f;}
 static inline float Z(qword q){qword v;float f;__asm__("pextuw %0,$zero,%1":"=r"(v):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(v));return f;}
-static inline bool Near(qword a,qword b,float epsilon){return func_0011D4D0(X(a),X(b),epsilon)&&func_0011D4D0(Y(a),Y(b),epsilon)&&func_0011D4D0(Z(a),Z(b),epsilon);}
+static inline bool Near(qword a,qword b,float epsilon){return FFloatsNear(X(a),X(b),epsilon)&&FFloatsNear(Y(a),Y(b),epsilon)&&FFloatsNear(Z(a),Z(b),epsilon);}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(k));return r;}
 static inline qword Get(O *o,int slot){VE *v=o->vt;return v[slot].get((char *)o+v[slot].delta);}
@@ -99,14 +99,14 @@ extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
  else Zero(w.velocity,0.0f);
  if(spring!=0.0f){
   LevelMatrix3(&MatJtLo(a)->basis,&w.phase.basis,0);
-  func_0011BCF8(&w.phase.basis,&w.angle,&w.axis.vector.q);
+  DecomposeRotateMatrixRad(&w.phase.basis,&w.angle,&w.axis.vector.q);
   float gain=spring*3.0f;qword k=Scalar(w.angle*gain*span);
   qword rotation=Scale(w.axis.vector.q,k);w.angularNormal.q=k;
   AccelRotation(a,rotation);
  }
  if(0.0f<span&&span<1.0f&&0.9f<w.normal.f[2]){
   float radius=((a->state->maximum.f[0]-a->state->minimum.f[0])+(a->state->maximum.f[1]-a->state->minimum.f[1]))*0.25f;
-  func_0015A2C0(a,(WATER *)b,D_002DDED4,w.velocity.q,w.point.q,0.1f,radius);
+  WakeSoWater(a,(WATER *)b,D_002DDED4,w.velocity.q,w.point.q,0.1f,radius);
  }
  else if(FIsBasicDerivedFrom(a,0x32))Clear(&a->emitter);
 }

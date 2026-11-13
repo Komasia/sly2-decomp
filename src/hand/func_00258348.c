@@ -3,7 +3,7 @@ typedef struct R2 { int cref; } R2;
 typedef struct R4 { int cref; int x4; R1 *p8; } R4;
 extern char D_004520D0[], D_00452148[];
 void func_00257250(void *, int);
-void func_00129EC8(void *);
+void Decref(void *) asm("Decref__4CRef");
 void func_00255438(void *);
 void func_00255DE8(void *);
 void func_0011CD98(void *, void *);
@@ -15,7 +15,7 @@ static inline void Release1(R1 *r)
     if (r) {
         if (--r->cref == 0) {
             func_00257250(r->x14, 2);
-            func_00129EC8(r->xC);
+            Decref(r->xC);
             func_00255438(r);
             func_0011CD98(D_004520D0, r);
         }

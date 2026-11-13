@@ -16,8 +16,8 @@ extern "C" void func_00258248(KEY *);
 extern "C" void *PvAllocStackImpl(MSG *) asm("PvAllocStackImpl__Fi");
 extern "C" int func_00184D60(BIS *,KEY *);
 extern "C" void SetDecompress(BIS *,int,void *) asm("SetDecompress__18CBinaryInputStreamiPUc");
-extern "C" unsigned char func_00117BD0(BIS *);
-extern "C" unsigned short func_00117C20(BIS *);
+extern "C" unsigned char U8Read(BIS *) asm("U8Read__18CBinaryInputStream");
+extern "C" unsigned short U16Read(BIS *) asm("U16Read__18CBinaryInputStream");
 extern "C" int func_00233470(const void *,const void *,unsigned int);
 extern "C" void SetState(S *,int) asm("SetState__FP8SCREENRTi");
 extern "C" void LoadElemsFromBrx(S *,BIS *,S *,int *,void **) asm("LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3");
@@ -69,11 +69,11 @@ extern "C" void func_002124F0(S *p) {
     func_00258248(pk);
     if(!SetKey(&work.key,p->file)||!func_00184D60(bs,pk))goto fail;
     SetDecompress(bs,0x4000,(void *)0x70000000);
-    work.tmp.magic[0]=func_00117BD0(bs);
-    work.tmp.magic[1]=func_00117BD0(bs);
-    work.tmp.magic[2]=func_00117BD0(bs);
-    work.tmp.magic[3]=func_00117BD0(bs);
-    version=func_00117C20(bs);
+    work.tmp.magic[0]=U8Read(bs);
+    work.tmp.magic[1]=U8Read(bs);
+    work.tmp.magic[2]=U8Read(bs);
+    work.tmp.magic[3]=U8Read(bs);
+    version=U16Read(bs);
     if(!func_00233470(work.tmp.magic,D_002A8AE8,4)&&version==6)goto load;
 fail:
     func_00184950(bs,2);

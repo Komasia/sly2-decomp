@@ -19,7 +19,7 @@ int func_001FE5E0(struct P *);
 float GSmooth__FfffP3SMPPf(float, float, float, struct K *, int);
 void SetSoundChannelVolume__FP8SOUNDMGRiif(struct P *, int, float, int);
 void UpdateFrame__4CSnd(struct Q *);
-int func_00231C48(void);
+int snd_FlushSoundCommands(void);
 // name: SafeHouse port (UpdateSoundMgr)
 void UpdateSoundMgr__FPv(struct P *p)
 {
@@ -60,5 +60,5 @@ void UpdateSoundMgr__FPv(struct P *p)
         UpdateFrame__4CSnd(q);
         q = n;
     }
-    func_00231C48();
+    snd_FlushSoundCommands();
 }

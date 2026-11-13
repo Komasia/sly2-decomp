@@ -29,12 +29,12 @@ struct OBJ {
 };
 extern "C" {
 void func_00213928(void *, int);
-void func_002333B4(void *, int, unsigned int);
+void s1_memset(void *, int, unsigned int) asm("s1_memset");
 void func_00165C98(int *, SO ***);
-void func_002338C0(void *, int, int, int (*)(const void *, const void *));
+void qsort(void *, int, int, int (*)(const void *, const void *)) asm("qsort");
 int func_00165C28(const void *, const void *);
 int NJobOpen(SO *) asm("NJobOpen__FP3JOB");
-void func_002332B8(void *, void *, unsigned int);
+void s1_memmove(void *, void *, unsigned int) asm("s1_memmove");
 void func_001DCE90(OBJ *, int);
 }
 // name: SafeHouse port (BuildJobHelp)
@@ -53,12 +53,12 @@ extern "C" void BuildJobHelp__FPv(OBJ *p)
     }
     p->x118 = 0;
     p->n = 0;
-    func_002333B4(p->ae, 0, p->n * sizeof(E));
+    s1_memset(p->ae, 0, p->n * sizeof(E));
     FRAME frame;
     int c;
     SO **aso;
     func_00165C98(&c, &aso);
-    func_002338C0(aso, c, 4, func_00165C28);
+    qsort(aso, c, 4, func_00165C28);
     switch (p->x40) {
     case 0: {
         SO *last = 0;
@@ -99,7 +99,7 @@ extern "C" void BuildJobHelp__FPv(OBJ *p)
     }
     }
     if (p->n > p->x10C) {
-        func_002332B8(p->ae, &p->ae[p->n - p->x10C], p->x10C * sizeof(E));
+        s1_memmove(p->ae, &p->ae[p->n - p->x10C], p->x10C * sizeof(E));
         int d = p->n - p->x10C;
         if (d < p->x118)
             p->x118 -= d;

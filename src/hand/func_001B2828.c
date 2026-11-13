@@ -7,29 +7,29 @@ struct DMA;
 struct QW { int q __attribute__((mode(TI))); };
 extern struct G D_002F66B0;
 extern struct DMA *g_pdcGif;
-int func_00234A60(int n);
-void func_0016F8B8(struct DMA *, struct QW *);
-void func_0016F6B8(void);
-int func_0011D910(const struct LM *, float);
-void func_0016F590(void);
+int WaitSema(int n);
+void SendDmaSyncGsFinish(struct DMA *, struct QW *) asm("SendDmaSyncGsFinish__FP10sceDmaChanP2QW");
+void RestoreGsBuffers(void) asm("RestoreGsBuffers__Fv");
+int FCheckLm(const struct LM *, float) asm("FCheckLm__FP2LMf");
+void SwapGsBuffers(void) asm("SwapGsBuffers__Fv");
 static __inline__ void Draw(struct QW *x, struct G *draw)
 {
-    func_0016F8B8(g_pdcGif, (struct QW *)(draw->packetOffset + 0x41BC00));
-    if (x) func_0016F8B8(g_pdcGif, x);
-    func_0016F590();
+    SendDmaSyncGsFinish(g_pdcGif, (struct QW *)(draw->packetOffset + 0x41BC00));
+    if (x) SendDmaSyncGsFinish(g_pdcGif, x);
+    SwapGsBuffers();
 }
 void func_001B2828(void)
 {
     struct QW *x;
     for (;;) {
         D_002F66B0.stage = 0;
-        func_00234A60(D_002F66B0.x23C);
+        WaitSema(D_002F66B0.x23C);
         D_002F66B0.stage = 1;
-        func_0016F8B8(g_pdcGif, (struct QW *)(D_002F66B0.packetOffset + 0x3F8E80));
+        SendDmaSyncGsFinish(g_pdcGif, (struct QW *)(D_002F66B0.packetOffset + 0x3F8E80));
         D_002F66B0.stage = 2;
-        func_0016F6B8();
+        RestoreGsBuffers();
         x = 0;
-        if (D_002F66B0.x104 && func_0011D910(&D_002F66B0.x104->window, g_clock.t3c - D_002F66B0.f10C))
+        if (D_002F66B0.x104 && FCheckLm(&D_002F66B0.x104->window, g_clock.t3c - D_002F66B0.f10C))
             x = (struct QW *)(D_002F66B0.packetOffset + 0x41DC00);
         Draw(x, &D_002F66B0);
         Draw(x, &D_002F66B0);

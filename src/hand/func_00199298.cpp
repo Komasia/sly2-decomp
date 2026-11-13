@@ -73,7 +73,7 @@ struct P0 { char pad[0xEC]; EC *xec; };
 struct P { P0 *x0; char pad[0x1C-4]; int x1c; char pad2[0xC8-0x20]; C8 *xc8; };
 struct G;
 extern G g_sw;
-extern "C" void func_001A7E10(G *g, X *x);
+extern "C" void FreeSwXpList(G *g, X *x) asm("FreeSwXpList__FP2SWP2XP");
 // name: SafeHouse port (PruneJumpLedgeXps)
 extern "C" void PruneJumpLedgeXps__FP5ACTOR(P *p)
 {
@@ -102,5 +102,5 @@ extern "C" void PruneJumpLedgeXps__FP5ACTOR(P *p)
         }
         *l->x8 = l->x0;
     }
-    func_001A7E10(&g_sw, head);
+    FreeSwXpList(&g_sw, head);
 }

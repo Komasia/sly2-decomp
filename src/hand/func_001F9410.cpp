@@ -27,10 +27,10 @@ extern "C" {
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *,int);
 DZG *InitDzg(DZG *,int,XP **,int,P **) asm("InitDzg__FP3DZGiiii");
-void func_00158668(DZG *,DZ *,DZS *);
-void func_00158988(DZG *,int);
+void AppendDzgDz(DZG *,DZ *,DZS *) asm("AppendDzgDz__FP3DZGP2DZ");
+void SolveDzg(DZG *,int) asm("SolveDzg__FP3DZGiiPP2XPPiPPP2SO");
 void ApplyDzg(DZG *,float,float) asm("ApplyDzg__FP3DZGff");
-void func_0011A6B8(DZG *);
+void ClearDzgSolution(DZG *) asm("ClearDzgSolution__FP3DZG");
 void RecalcSwXpPos(GAME *,int,XP **) asm("RecalcSwXpPos__FP2SWiPP2XP");
 void RecalcSwXpMovement(GAME *,int,XP **) asm("RecalcSwXpMovement__FP2SWiPP2XP");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
@@ -88,7 +88,7 @@ extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCou
             row->upper=FLT_MAX;
             break;
         }
-        func_00158668(&group,row,state);
+        AppendDzgDz(&group,row,state);
     }
     float maximum;
     if(flags&4){
@@ -100,12 +100,12 @@ extern "C" void SolveGroup__FPP3ALOiiPP2XPiT3(GAME *game,int flags,int objectCou
             float magnitude=__builtin_fabsf(contact->value);
             if(maximum<magnitude)maximum=magnitude;
         }
-        func_00158988(&group,4);
+        SolveDzg(&group,4);
         ApplyDzg(&group,maximum+maximum,6.2831855f);
         {int j;for(j=0;j<objectCount;j++){}
         for(j=0;j<objectCount;j++)Callback(objects[j],67);}
         if(flags==4)return;
-        func_0011A6B8(&group);
+        ClearDzgSolution(&group);
     }
     maximum=0.0f;
     // The else loop starts its counter from the flag (known 0 there): the game tests `flag < contactCount`.

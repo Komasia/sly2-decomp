@@ -12,19 +12,19 @@ struct SRC { float ag[3]; float aclr[3][4]; };
 extern struct SRC D_003E12F4;
 extern int D_002C3680[];
 extern int g_pdcGif;
-void func_0011DFA0(const float *, VEC3 *);
+void ConvertUserHsvToUserRgb(const float *, VEC3 *) asm("ConvertUserHsvToUserRgb__FP6VECTORT0");
 int func_00170548(void *, int);
 void __4GIFS(GIFS *);
-void func_00157330(GIFS *, int, void *);
-void func_001574B8(GIFS *);
-void func_00170650(int, int, int, int, int, int, GIFS *);
-void func_00157500(GIFS *, int, void *);
-void func_00166BD8(GIFS *, int, int, ulong);
-void func_00166E90(GIFS *, int, ulong);
-void func_00166968(GIFS *);
-void func_001576B0(GIFS *);
-void func_00157348(GIFS *, int *, qword **);
-void func_0016F8B8(int, qword *);
+void AllocStatic(GIFS *, int, void *) asm("AllocStatic__4DMASiP2QW");
+void AddDmaCnt(GIFS *) asm("AddDmaCnt__4DMAS");
+void BuildImageGifs(int, int, int, int, int, int, GIFS *) asm("BuildImageGifs__FiiiiiiP4GIFS");
+void AddDmaRefs(GIFS *, int, void *) asm("AddDmaRefs__4DMASiP2QW");
+void AddPrimPack(GIFS *, int, int, ulong) asm("AddPrimPack__4GIFSiiUl");
+void PackAD(GIFS *, int, ulong) asm("PackAD__4GIFSll");
+void AddPrimEnd(GIFS *) asm("AddPrimEnd__4GIFS");
+void AddDmaEnd(GIFS *) asm("AddDmaEnd__4DMAS");
+void Detach(GIFS *, int *, qword **) asm("Detach__4DMASPiPP2QW");
+void SendDmaSyncGsFinish(int, qword *) asm("SendDmaSyncGsFinish__FP10sceDmaChanP2QW");
 void func_001EA9F0(O *p, void *pbs);
 }
 static inline void ClearClr(CLR *pc)
@@ -52,7 +52,7 @@ void func_001EA9F0(O *p, void *pbs)
     int i;
     {
         for (i = 0; i < 3; i++) {
-            func_0011DFA0(D_003E12F4.aclr[i], &v);
+            ConvertUserHsvToUserRgb(D_003E12F4.aclr[i], &v);
             StoreColor(&argb[i],&ag[i],&D_003E12F4.ag[i],v);
         }
     }
@@ -98,16 +98,16 @@ void func_001EA9F0(O *p, void *pbs)
     if (pbs)
         p->tex0 = ((ulong)func_00170548(pbs, 4) << 37) | 0x2000000001B00000L;
     __4GIFS(&dmas);
-    func_00157330(&dmas, 0x80, aqw);
-    func_001574B8(&dmas);
-    func_00170650((int)((p->tex0 >> 37) & 0x3FFF), 1, 0, 0x10, 0x10, 0x40, &dmas);
-    func_00157500(&dmas, 0x40, aclr);
-    func_00166BD8(&dmas, 0, 1, 14);
-    func_00166E90(&dmas, 0x3F, 0);
-    func_00166E90(&dmas, 0x61, 0);
-    func_00166968(&dmas);
-    func_001576B0(&dmas);
-    func_00157348(&dmas, 0, &x);
-    func_0016F8B8(g_pdcGif, x);
+    AllocStatic(&dmas, 0x80, aqw);
+    AddDmaCnt(&dmas);
+    BuildImageGifs((int)((p->tex0 >> 37) & 0x3FFF), 1, 0, 0x10, 0x10, 0x40, &dmas);
+    AddDmaRefs(&dmas, 0x40, aclr);
+    AddPrimPack(&dmas, 0, 1, 14);
+    PackAD(&dmas, 0x3F, 0);
+    PackAD(&dmas, 0x61, 0);
+    AddPrimEnd(&dmas);
+    AddDmaEnd(&dmas);
+    Detach(&dmas, 0, &x);
+    SendDmaSyncGsFinish(g_pdcGif, x);
     }
 }

@@ -4,7 +4,7 @@ void __10STACKSCOPE(void *p);
 void _$_10STACKSCOPE(void *p, int n);
 void func_0020FAA0(void *g, qword a, qword b, void *p1, void *p2, int *pi, int *pj);
 struct HIT;
-int func_0014CC58(int z, qword a, qword b, int i, int j, HIT *phit);
+int PsoHitTestLineObjects(int z, qword a, qword b, int i, int j, HIT *phit) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 void Hermite(float tMax, float t, float s, qword a, qword va, qword b, qword vb, qword *ppos, int m, int n) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 extern char g_sw[];
 }
@@ -39,13 +39,13 @@ int FJumpPathBlocked(void *unused, void *p1, void *p2, float tMax, qword a, qwor
     func_0020FAA0(g_sw, mn, mx, p1, p2, &i, &j);
     for (t = 0.0f; ; t = t + 0.1f < tMax ? t + 0.1f : tMax) {
         Hermite(tMax, t, 1.0f, a, va, b, vb, (qword *)&pos, 0, 0);
-        if (t != 0.0f && func_0014CC58(0, prev, *(qword *)&pos, i, j, &hit)) {
+        if (t != 0.0f && PsoHitTestLineObjects(0, prev, *(qword *)&pos, i, j, &hit)) {
             if (100.0f < Dist(hit.pos, b)) return 1;
         }
         prev = *(qword *)&pos;
         if (t == tMax) break;
     }
-    if (pc && func_0014CC58(0, b, *pc, i, j, &hit) && hit.x44 != 1.0f && 50.0f < Dist(hit.pos, *pc))
+    if (pc && PsoHitTestLineObjects(0, b, *pc, i, j, &hit) && hit.x44 != 1.0f && 50.0f < Dist(hit.pos, *pc))
         return 1;
     return 0;
 }

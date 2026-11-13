@@ -28,7 +28,7 @@ typedef struct {
 } MSG;
 typedef struct { qword a[2]; } VPAIR;
 void func_001DEF98(OBJ *, ENT *, VPAIR *, float *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void PaloAcceptContact__FP5CTMSG(MSG *);
 // name: SafeHouse port (ApplyLaserContacts)
 void ApplyLaserContacts__FP3ALO(OBJ *p)
@@ -52,7 +52,7 @@ void ApplyLaserContacts__FP3ALO(OBJ *p)
                     pMin = q;
                 }
             }
-            func_002333B4(&msg, 0, sizeof(msg));
+            s1_memset(&msg, 0, sizeof(msg));
             msg.p = p;
             msg.x4 = pMin->x0;
             msg.x8 = pMin->x4C;

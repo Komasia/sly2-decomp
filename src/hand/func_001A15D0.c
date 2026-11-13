@@ -3,14 +3,14 @@ struct VTE { short d; short pad; void (*pfn)(void *); };
 struct O { int x0, x4, x8; struct VTE *vt; };
 struct B { char pad[0x148]; unsigned long x148; };
 struct S { struct O *x0; int x4; char pad[0x14]; struct PMF pmf; char pad2[0xC]; struct B *x30; };
-void *func_002333B4(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n);
 void func_001A16A8(struct S *p);
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 // name: SafeHouse port (EndDamageReaction)
 void EndDamageReaction__FP5ACTOR(struct S *s)
 {
     struct PMF pmf = s->pmf;
-    func_002333B4(&s->pmf, 0, sizeof(s->pmf));
+    s1_memset(&s->pmf, 0, sizeof(s->pmf));
     if (pmf.idx) {
         pmf.pfn((char *)s + pmf.delta);
     } else if ((unsigned int)(s->x4 - 8) < 5) {

@@ -17,7 +17,7 @@ struct OBJ {
 extern struct G g_sw;
 extern PAIR D_002A7AC0;
 void SetAloOverlapNothing__FP3ALOT0(void);
-void func_001A7E10(struct G *, LNK *);
+void FreeSwXpList(struct G *, LNK *) asm("FreeSwXpList__FP2SWP2XP");
 void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(struct G *, OBJ *, PAIR, int);
 // name: SafeHouse port (RemoveLaserContacts)
 void RemoveLaserContacts__FP3ALOT0(OBJ *p, void *x)
@@ -39,6 +39,6 @@ void RemoveLaserContacts__FP3ALOT0(OBJ *p, void *x)
             }
         }
     }
-    func_001A7E10(&g_sw, list);
+    FreeSwXpList(&g_sw, list);
     PostDeferredCall__FPvUi15PFNDEFERREDCALLi(&g_sw, p, D_002A7AC0, 0);
 }

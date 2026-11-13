@@ -70,7 +70,7 @@ extern char g_sw[];
 extern "C" {
 qword PosOfLo(SO *) asm("PosOfLo__FP2LO");                                       // PosLoWorld
 MATRIX4 *MulMatrix4(MATRIX4 *, MATRIX4 *, MATRIX4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
-void *func_002333B4(void *, int, int);                           // memset
+void *s1_memset(void *, int, int) asm("s1_memset");                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");                                    // FIsBasicDerivedFrom
 void SetProjectileLauncher(SO *, LAUNCH *) asm("SetProjectileLauncher__FP3ALOP2LO");
@@ -174,7 +174,7 @@ static inline qword operator*(VU_FLOAT g, qword v) { qword r; __asm__("vmulx.xyz
 static inline float GFromClq(const CLQ &clq, float g) { return clq.g0 + g * (clq.g1 + g * clq.g2); }
 static inline float GClamp(float g, float gMin, float gMax) { if (g < gMin) g = gMin; else if (gMax < g) g = gMax; return g; }
 static inline float GClampR(float g, float gMin, float gMax) { if (g < gMin) return gMin; if (gMax < g) return gMax; return g; }
-static inline void LoadIdentity(MATRIX4 *pm) { func_002333B4(pm, 0, sizeof(*pm)); pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f; }
+static inline void LoadIdentity(MATRIX4 *pm) { s1_memset(pm, 0, sizeof(*pm)); pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f; }
 
 extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
 {

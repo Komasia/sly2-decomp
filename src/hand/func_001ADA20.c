@@ -10,10 +10,10 @@ extern struct B D_002E6604[];
 int func_001B0108(struct G *g);
 int KindDataAccess__FP4MENU(struct G *g);
 void NProgress(struct CRef *ret, int a, void *b);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 char *func_0013E368(void *p, int n);
-char *func_0021ED58(char *d, const char *s);
-char *func_0021EDA0(char *d, const char *s);
+char *s1_strcpy(char *d, const char *s);
+char *strcpy1(char *d, const char *s);
 void func_001ADA20(char *buf)
 {
     struct G *g = &D_003D9ED0;
@@ -28,25 +28,25 @@ void func_001ADA20(char *buf)
     NProgress(&ref, gd->x3B1C, &D_002E6604[e->x14]);
     }
     f = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     switch (KindDataAccess__FP4MENU(g)) {
     case 0x1E:
         if (f != 0.0f)
-            func_0021ED58(buf, func_0013E368(gd, 0x25));
+            s1_strcpy(buf, func_0013E368(gd, 0x25));
         else
-            func_0021ED58(buf, func_0013E368(gd, 0x26));
+            s1_strcpy(buf, func_0013E368(gd, 0x26));
         break;
     case 0x1F:
         if (f != 0.0f)
-            func_0021ED58(buf, func_0013E368(gd, 0x27));
+            s1_strcpy(buf, func_0013E368(gd, 0x27));
         else
-            func_0021ED58(buf, func_0013E368(gd, 0x26));
+            s1_strcpy(buf, func_0013E368(gd, 0x26));
         break;
     case 0x19:
-        func_0021ED58(buf, func_0013E368(gd, 0x29));
+        s1_strcpy(buf, func_0013E368(gd, 0x29));
         if (f != 0.0f) {
-            func_0021EDA0(buf, "\n");
-            func_0021EDA0(buf, func_0013E368(gd, 0x25));
+            strcpy1(buf, "\n");
+            strcpy1(buf, func_0013E368(gd, 0x25));
         }
         break;
     }

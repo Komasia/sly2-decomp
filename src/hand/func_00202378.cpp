@@ -19,7 +19,7 @@ struct FRAME {FRAME(){__10STACKSCOPE(this);}~FRAME(){_$_10STACKSCOPE(this,2);}};
 extern "C" qword PosOfLo(LO *) asm("PosOfLo__FP2LO");
 extern "C" int func_00202350(void *,LO *);
 extern "C" void func_0020FAA0(void *,qword,qword,int (*)(void *,LO *),void *,int *,LO ***);
-extern "C" LO *func_0014CC58(int,qword,qword,int,LO **,void *);
+extern "C" LO *PsoHitTestLineObjects(int,qword,qword,int,LO **,void *) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 extern char g_sw[];
 extern qword D_002DDFA0[3];
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
@@ -66,7 +66,7 @@ extern "C" void func_00202378(P *p,LO *other)
     }
     point=points;
     for(;i<4;++i){
-        if(func_0014CC58(0,p->position,point->q,query.count,query.objects,0))++cHit;
+        if(PsoHitTestLineObjects(0,p->position,point->q,query.count,query.objects,0))++cHit;
         ++point;
     }
     {

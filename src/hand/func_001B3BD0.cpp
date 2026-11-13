@@ -37,13 +37,13 @@ int FOpenFile__18CBinaryAsyncStreamP13CFileLocation(CBinaryAsyncStream *ps, X *p
 void func_001B3EC0(P *p, CBinaryAsyncStream *ps);
 int func_0024B610(MPEG *p);
 void UpdateClock(CLOCK *p, int k) asm("UpdateClock__FP5CLOCKi");
-void func_001871C0(JOY *p);
+void UpdateJoy(JOY *p) asm("UpdateJoy__FP3JOY");
 void UpdateSave(G *g) asm("UpdateSave__FP4SAVE");
 uint func_00187D80(JOY *p, uint k);
-void func_0014BA38(void);
+void UpdateCd(void) asm("UpdateCd__Fv");
 void func_001B4058(P *p);
 void func_001B4140(P *p);
-void func_00132688(CBinaryAsyncStream *ps);
+void Close(CBinaryAsyncStream *ps) asm("Close__18CBinaryAsyncStream");
 }
 
 inline bool X::FSet(K *k)
@@ -108,7 +108,7 @@ extern "C" void func_001B3BD0(P *p, K *k)
         while (!func_0024B610(&p->x118)) {
             int f;
             UpdateClock(&g_clock, 1);
-            func_001871C0(&g_joy);
+            UpdateJoy(&g_joy);
             if (!D_002E65E0.xFD50) UpdateSave(&D_002E65E0);
             f = 0;
             if (FMatch(k, &D_002A3968) || FMatch(k, &D_002A39A8)) f = D_002F68F8 != 0;
@@ -122,14 +122,14 @@ extern "C" void func_001B3BD0(P *p, K *k)
                 }
             }
             if (x.x8 == 2) {
-                func_0014BA38();
+                UpdateCd();
                 if (g_cds != 3) break;
             }
             func_001B4058(p);
         }
         if (FMatch(k, &D_002A39A8)) D_002F68F8 = 1;
         func_001B4140(p);
-        func_00132688(&strm);
+        Close(&strm);
     }
     p->x110 = 0;
 }

@@ -53,7 +53,7 @@ qword ConvertPos(OWNER *, OWNER *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 qword *func_00256D18(qword *, qword);
 M4 InverseAffineMatrix4(const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 void PlaneFromNormalPos(VECTOR4 *, qword, qword) asm("PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1");
-void *func_002333B4(void *, int, uint);
+void *s1_memset(void *, int, uint) asm("s1_memset");
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");
 int ClipBspPlane(BSP *, BSP *, qword, float, int *, BSP **) asm("ClipBspPlane__FP6BSPREFP6VECTORG9VU_VECTORfPiPP4NODE");
 int ClipSegmentBsp(BSP *, BSP *, qword, qword, int, LSG *) asm("ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG");
@@ -63,7 +63,7 @@ void PxpAddSw(GAME *, SHAPE *, SOPART *, qword, qword, int, int, int, CONTACT **
 
 static inline M4 *GetMatrix(OWNER *p) { return p->vt[31].pfn((char *)p + p->vt[31].delta); }
 static inline void *PvAllocStack(int cb) { SWALLOC swalloc; swalloc.cb = cb; swalloc.cbAlign = 0x10; return PvAllocStackImpl(&swalloc); }
-static inline void ClearAb(void *pv, int cb) { func_002333B4(pv, 0, cb); }
+static inline void ClearAb(void *pv, int cb) { s1_memset(pv, 0, cb); }
 static inline float Sqrt(float f) { float r; __asm__ __volatile__("sqrt.s %0,%1" : "=&f"(r) : "f"(f)); return r; }
 
 static inline float PlaneDist(qword plane, qword pos)

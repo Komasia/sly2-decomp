@@ -1,13 +1,13 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void func_001291A8(CRef *, const CRef *);
 extern "C" void func_00129658(CRef *, const CRef *);
-extern "C" void func_0012A0B0(CRef *, int);
+extern "C" void InitTag(CRef *, int) asm("InitTag__4CRef");
 struct CRef {
     int tagk; int tag;
     CRef() { tagk = -1; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
     CRef &operator=(const CRef &r) { func_00129658(this, &r); return *this; }
 };
 struct O { int cref; char pad[0x24 - 4]; int n24; };
@@ -37,7 +37,7 @@ extern "C" CRef func_001FFA70(void *p, Q *pq, int i)
         sp.p->cref++;
         pq->ae[i].b = sp.p;
     }
-    func_00129EC8(&r);
-    func_0012A0B0(&r, 0x24);
+    Decref(&r);
+    InitTag(&r, 0x24);
     return r;
 }

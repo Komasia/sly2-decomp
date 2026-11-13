@@ -77,7 +77,7 @@ void *PloFindSwNearest(G *, int, int, P *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");
 void func_001E6F10(PATH *, qword *, qword *, float);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int) asm("s1_memset");
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 qword PosConvertXfs(void *, void *, qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");
@@ -135,7 +135,7 @@ extern "C" void BindEnd__FP3ALO(P *p)
                             endpoint->track.path = path;
                             endpoint->kind = 1;
                             endpoint->track.cursor = start;
-                            func_002333B4(endpoint->track.motion.segments, 0, sizeof(endpoint->track.motion.segments));
+                            s1_memset(endpoint->track.motion.segments, 0, sizeof(endpoint->track.motion.segments));
                             SEGMENT *seg;
                             switch (params.mode) {
                             case 8:

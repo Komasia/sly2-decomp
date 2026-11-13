@@ -11,12 +11,12 @@ struct OBJ {
     C *xF4;
     void *xF8;
 };
-extern "C" void func_001CE980(OBJ *);
+extern "C" void RemoveRip(OBJ *) asm("RemoveRip__FP3RIP");
 extern "C" void func_001D0800(OBJ *p)
 {
     if (p->x18 < g_clock.t - p->x14) {
         PMF pmf = p->xF0->pmf;
         (p->xF4->*pmf)(p->xF8);
-        func_001CE980(p);
+        RemoveRip(p);
     }
 }

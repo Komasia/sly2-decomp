@@ -1,10 +1,10 @@
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float a[4]; };
 extern qword g_normalZ, D_002A2DD0;
-float func_00245000(float);
-float func_002458F0(float,float);
-float func_002450F0(float);
-float func_00244E10(float);
+float sinf(float);
+float atan2f(float,float);
+float tanf(float);
+float cosf(float);
 static inline float Sqrt(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 static inline void Bc(union U *out,float f) {
     __asm__("qmtc2.ni %1, %0" : "=j"(out->q) : "r"(f));
@@ -36,7 +36,7 @@ qword VecBallisticVelocity__FfG9VU_VECTORN21(float g, qword start, qword end, qw
 {
     union U delta, vel, scalar;
     qword d, s, n, r;
-    float k=func_00245000(g);
+    float k=sinf(g);
     float z,len,q;
     register float numerator __asm__("$f20");
     register float angle __asm__("$f12");
@@ -45,17 +45,17 @@ qword VecBallisticVelocity__FfG9VU_VECTORN21(float g, qword start, qword end, qw
     z = delta.a[2];
     delta.a[2] = 0.0f;
     len = Len(delta.q);
-    angle=func_002458F0(z,len);
+    angle=atan2f(z,len);
     if (angle<0.0f) angle=0.0f;
     q=Dot(&acc,g_normalZ);
     k = angle + (1.57079637051f-angle)*k;
-    q=q/((z-len*func_002450F0(k))*2.0f);
+    q=q/((z-len*tanf(k))*2.0f);
     if (q<=0.0f) return D_002A2DD0;
     q=Sqrt(q);
     numerator=len*q;
-    q=numerator/func_00244E10(k);
+    q=numerator/cosf(k);
     vel.q=delta.q;
-    vel.a[2]=len*func_002450F0(k);
+    vel.a[2]=len*tanf(k);
     Bc(&scalar,q);
     s=scalar.q;
     n=Norm(vel.q);

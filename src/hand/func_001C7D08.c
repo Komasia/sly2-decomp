@@ -10,7 +10,7 @@ extern char D_003D4A60[];
 extern char D_002A7788[];
 int func_00210A88(void);
 struct { int a; int b; } *func_002109B8(int n);
-void func_001AE5A0(struct K *pk, int a, int b);
+void CopyAb(struct K *pk, int a, int b) asm("CopyAb__FPvT0Ui");
 void *FFindEntryKey__FP4TRIEPP4PENTPi(void *a, void *b, struct T *pt);
 short SymFromName__FP6LAYOUTPc(void *a, char *s);
 unsigned int *func_001D7E80(void *a, void *b, void *c);
@@ -28,7 +28,7 @@ int func_001C7D08(void)
     if (n == -1)
         return 0;
     c = 0;
-    func_001AE5A0(&k, func_002109B8(n)->b, 6);
+    CopyAb(&k, func_002109B8(n)->b, 6);
     s.pk = &k;
     s.k = 3;
     FFindEntryKey__FP4TRIEPP4PENTPi(&g_sw.m, &s, &t);

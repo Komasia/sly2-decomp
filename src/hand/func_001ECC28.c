@@ -12,10 +12,10 @@ struct T1 *func_001ED5D0(int);
 struct T2 *func_001ED4E0(int);
 int func_00170548(struct BS *, int);
 void func_001EC9D0(struct E1 *, int);
-void func_001ECAB0(struct E1 *, int, struct X *);
-void func_001ECB18(struct E2 *, int);
+void BuildClutGifs(struct E1 *, int, struct X *) asm("BuildClutGifs__FP4CLUTiP4GIFS");
+void BuildBmpTex0(struct E2 *, int) asm("BuildBmpTex0__FP3BMPi");
 void func_001ECBF0(struct E2 *, int, struct X *);
-void func_00157500(struct X *, int, int);
+void AddDmaRefs(struct X *, int, int) asm("AddDmaRefs__4DMASiP2QW");
 void func_001ED560(struct E1 *);
 void func_001ED470(struct E2 *);
 int func_001ECC28(int k, struct BS *pbs, struct X *px)
@@ -38,8 +38,8 @@ int func_001ECC28(int k, struct BS *pbs, struct X *px)
         v = func_00170548(pbs, pe->hA);
         func_001EC9D0(pe, v);
         if (px && pbs->n4 <= pbs->n8) {
-            func_001ECAB0(pe, v, px);
-            func_00157500(px, pe->n10, pe->nC);
+            BuildClutGifs(pe, v, px);
+            AddDmaRefs(px, pe->n10, pe->nC);
         }
         func_001ED560(pe);
     }
@@ -60,10 +60,10 @@ int func_001ECC28(int k, struct BS *pbs, struct X *px)
                 func_00170548(pbs, 32 - r);
         }
         v = func_00170548(pbs, pe->hE);
-        func_001ECB18(pe, v);
+        BuildBmpTex0(pe, v);
         if (px && pbs->n4 <= pbs->n8) {
             func_001ECBF0(pe, v, px);
-            func_00157500(px, pe->n18, pe->n14);
+            AddDmaRefs(px, pe->n18, pe->n14);
         }
         func_001ED470(pe);
     }

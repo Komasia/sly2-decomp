@@ -3,15 +3,15 @@
 extern int gStreamingInited;
 extern int gSSReadDone;
 extern int gStats[];
-int func_00241E88(void);
+int sceCdSync(void);
 void func_00235078(void *, void *);
-void func_00231C48(void);
+void snd_FlushSoundCommands(void);
 
 int snd_StreamSafeCdSync(int mode)
 {
     char *pe;
     if (!gStreamingInited)
-        return func_00241E88();
+        return sceCdSync();
     pe = (char *)gStats + 0x3F;
     func_00235078(gStats, pe);
     gSSReadDone = (gStats[0] == 0);
@@ -20,7 +20,7 @@ int snd_StreamSafeCdSync(int mode)
     if (mode == 1)
         return 1;
     while (!gSSReadDone) {
-        func_00231C48();
+        snd_FlushSoundCommands();
         func_00235078(gStats, pe);
         gSSReadDone = (gStats[0] == 0);
     }

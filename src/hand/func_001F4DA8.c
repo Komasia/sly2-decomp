@@ -2,7 +2,7 @@ struct N { int pad[2]; void *p8; char pad2[0xAC - 0xC]; struct N *next; };
 struct G;
 extern struct G g_sw;
 void WakeAlo__FP3ALO(void *);
-void func_001A7E10(struct G *, struct N *);
+void FreeSwXpList(struct G *, struct N *) asm("FreeSwXpList__FP2SWP2XP");
 void func_001F4DA8(void *pa, void *pb, struct N **ppn)
 {
     struct N *pfree = 0;
@@ -22,6 +22,6 @@ loop:
     }
     if (pfree) {
         WakeAlo__FP3ALO(pa);
-        func_001A7E10(&g_sw, pfree);
+        FreeSwXpList(&g_sw, pfree);
     }
 }

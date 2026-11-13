@@ -3,8 +3,8 @@ typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
 struct T { M3 m; qword v[3]; };
 struct X { char pad[0xE8]; struct T *pt; };
-void func_0023320C(void *d, const void *s, unsigned int cb);
-void *func_002333B4(void *d, int c, unsigned int cb);
+void s1_memcpy(void *d, const void *s, unsigned int cb);
+void *s1_memset(void *d, int c, unsigned int cb);
 int FInvertMatrix3__FP7MATRIX3T0(struct T *pt, qword *pv);
 void AdjustSoMomint__FP2SOf(struct X *p, float s)
 {
@@ -16,8 +16,8 @@ void AdjustSoMomint__FP2SOf(struct X *p, float s)
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r.r[0]) : "j"(u.q), "j"(pt->m.r[0]));
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r.r[1]) : "j"(u.q), "j"(pt->m.r[1]));
     __asm__("vmulx.xyzw %0, %2, %1x" : "=j"(r.r[2]) : "j"(u.q), "j"(pt->m.r[2]));
-    func_0023320C(&m, &r, sizeof(M3));
+    s1_memcpy(&m, &r, sizeof(M3));
     pt->m = m;
     if (!FInvertMatrix3__FP7MATRIX3T0(p->pt, p->pt->v))
-        func_002333B4(p->pt->v, 0, 0x30);
+        s1_memset(p->pt->v, 0, 0x30);
 }

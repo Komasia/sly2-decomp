@@ -19,7 +19,7 @@ void StartK2__FP5KIND2P3ALOiP6K2PLAY(struct SCRIPT *a, struct P *p, int n, struc
 qword PosOfLo__FP2LO(struct P *p);
 struct M3 *MatJtLo__FP2LO(struct P *p);
 void ClearSmaHandle__FPP3SMA(struct COMPONENT *p);
-void func_001305B8(struct CLIP *a, struct P *p, float time, float rate, int n, struct ANIMATION **q);
+void ApplyAsegCur(struct CLIP *a, struct P *p, float time, float rate, int n, struct ANIMATION **q) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char CLOCK_t_Offset[FIELD_OFFSET(CLOCK,t)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
@@ -110,5 +110,5 @@ void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
         return;
     }
     ClearSmaHandle__FPP3SMA(&p->x1034);
-    func_001305B8(o, p, 0.0f, 1.0f, n, &p->x1030);
+    ApplyAsegCur(o, p, 0.0f, 1.0f, n, &p->x1030);
 }

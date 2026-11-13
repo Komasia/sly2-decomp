@@ -16,7 +16,7 @@ qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 MAT3 *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 void func_002309E8(void *p, int n, MAT4 *pm, int k, float g);
 MAT3 MulMat3TransposeA(MAT4 *pm, MAT3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
-void func_0011BCF8(MAT3 *pm, float *pg, qword *pv);
+void DecomposeRotateMatrixRad(MAT3 *pm, float *pg, qword *pv) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 void func_001CFD30(S *p);
 }
 static inline qword Bc(float g)
@@ -41,7 +41,7 @@ void func_001CFD30(S *p)
     __asm__("vmulax.xyzw $ACC, %1, %2x\n\tvmaddx.xyzw %0, %3, %4x" : "=j"(d) : "j"(d), "j"(s1), "j"(p->a), "j"(s2));
     p->v = d;
     m = MulMat3TransposeA(&m4, &p->mat);
-    func_0011BCF8(&m, &p->rad, &p->axis);
+    DecomposeRotateMatrixRad(&m, &p->rad, &p->axis);
     if (0.0f < p->rad)
         p->rad += 6.28318548f;
     else

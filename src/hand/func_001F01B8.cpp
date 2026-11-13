@@ -8,7 +8,7 @@ extern SW g_sw;
 extern VT D_002D9768;
 extern "C" {
 S *func_0011CCC0(void *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int) asm("s1_memset");
 void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 int func_001F0638(S *);
@@ -26,7 +26,7 @@ extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S
 {
     S *ps = func_0011CCC0(g_sw.pool);
     *pps = ps;
-    func_002333B4(ps, 0, 0x50);
+    s1_memset(ps, 0, 0x50);
     ps->pvt = &D_002D9768;
     ps->n28 = a;
     ps->n2C = c;

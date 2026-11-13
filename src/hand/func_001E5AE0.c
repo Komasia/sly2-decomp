@@ -7,7 +7,7 @@ extern char D_003E1560[];
 extern char g_sw[];
 extern struct VTE D_002D8C08[];
 struct S *func_0011CCC0(void *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 int PloFindSwNearest__FP2LO3OIDii(void *, int, int, int);
 void PrependDlEntry__FP2DLPv(void *, void *);
 // name: SafeHouse port (PrunNew)
@@ -16,7 +16,7 @@ struct S *PrunNew__FP2LOPvP3RUN(struct A *pa, struct E *pe, struct C *pc)
     struct S *p = func_0011CCC0(D_003E1560);
     struct E *peLast, *pe2;
     int depth;
-    func_002333B4(p, 0, 0xF0);
+    s1_memset(p, 0, 0xF0);
     p->x0 = 0;
     p->x4 = 0;
     p->pvt = D_002D8C08;

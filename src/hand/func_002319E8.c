@@ -14,9 +14,9 @@ extern RPC D_00443800, D_00448440;
 extern int gStats[];
 extern unsigned int gLoadReturnValue;
 extern char D_002AA100[], D_002AA128[];
-void func_0021EC18(const char *, ...);
-void func_00236A60(int);
-int func_002370A8(void *, int, int);
+void kprintf(const char *, ...);
+void sceSifInitRpc(int);
+int sceSifBindRpc(void *, int, int);
 int func_002325E0(int, int, void *);
 
 void func_002319E8(int flags)
@@ -34,10 +34,10 @@ void func_002319E8(int flags)
         D_002C46B8 = 1;
     else
         D_002C46B8 = 0;
-    func_00236A60(0);
+    sceSifInitRpc(0);
     do {
-        if (func_002370A8(&D_00443800, 0x123456, 0) < 0) {
-            func_0021EC18(D_002AA100, D_002AA128, 0xB5);
+        if (sceSifBindRpc(&D_00443800, 0x123456, 0) < 0) {
+            kprintf(D_002AA100, D_002AA128, 0xB5);
             while (1)
                 ;
         }
@@ -50,8 +50,8 @@ void func_002319E8(int flags)
     gLoadReturnDef.arg = 0;
     gLoadReturnValue = 0;
     do {
-        if (func_002370A8(&D_00448440, 0x123457, 0) < 0) {
-            func_0021EC18(D_002AA100, D_002AA128, 0xCA);
+        if (sceSifBindRpc(&D_00448440, 0x123457, 0) < 0) {
+            kprintf(D_002AA100, D_002AA128, 0xCA);
             while (1)
                 ;
         }

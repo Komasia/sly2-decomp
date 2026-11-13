@@ -1,7 +1,7 @@
 struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a, b, c; struct VTE *vt; };
 struct S { int a, b, c; struct VTE *vt; char pad[0x14]; struct O *po; };
-void func_001D5498(void);
+void RumbleUnknown1(void) asm("RumbleUnknown1__Fv");
 // name: SafeHouse port (ShowTitle)
 void ShowTitle__FPv(struct S *p) {
     if (p->po) {
@@ -14,6 +14,6 @@ void ShowTitle__FPv(struct S *p) {
             struct VTE *e = &po->vt[49];
             ((void (*)(void *, int))e->pfn)((char *)po + e->d, -1);
         }
-        func_001D5498();
+        RumbleUnknown1();
     }
 }

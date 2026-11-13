@@ -41,15 +41,15 @@ extern "C" {
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 ATTACH *FirstReadyAttachment(P *) asm("FirstReadyAttachment__FP7VEHICLE");
 P *BestVehiclePickup(P *) asm("BestVehiclePickup__FP7VEHICLE");
-int func_0011D910(LM *, float);
+int FCheckLm(LM *, float) asm("FCheckLm__FP2LMf");
 void SetVehicleAiState(P *, int) asm("SetVehicleAiState__FP7VEHICLEi");
-float func_002456F0(float);
+float acosf(float) asm("acosf");
 M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 int func_001C0960(void *, qword, qword, int, HIT *, int);
 void RecalcCrv(PATH *) asm("RecalcCrv__FP3CRV");
 void ResetVehiclePathHeight(P *) asm("ResetVehiclePathHeight__FP7VEHICLE");
 void FNavPathCrv(void *, qword, qword, PATH *) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
-float func_002458F0(float, float);
+float atan2f(float, float) asm("atan2f");
 M3 *MatJtLo(P *) asm("MatJtLo__FP2LO");
 qword VecXfValue(void *, void *) asm("VecXfValue__FP2XFP7MATRIX4");
 float RadNormalize(float) asm("RadNormalize__Ff");
@@ -121,7 +121,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
         switch (state) {
         case 0:
             if (p->selectedAttach) {
-                if (func_0011D910(&p->selectedAttach->enterRange, distance))
+                if (FCheckLm(&p->selectedAttach->enterRange, distance))
                     SetVehicleAiState(p, 1);
             } else if (p->selectedObject) {
                 SetVehicleAiState(p, 2);
@@ -130,7 +130,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
             }
             break;
         case 1:
-            if (!p->selectedAttach || !func_0011D910(&p->selectedAttach->exitRange, distance))
+            if (!p->selectedAttach || !FCheckLm(&p->selectedAttach->exitRange, distance))
                 SetVehicleAiState(p, 0);
             break;
         case 2:
@@ -148,7 +148,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
     case 0: {
         // approach: a point at the attachment's radius from the target, rotated around it by the tactic
         float radius = p->selectedAttach->radius;
-        float angle = func_002456F0(radius / Max(radius * D_002C20E8, distance));
+        float angle = acosf(radius / Max(radius * D_002C20E8, distance));
         VV goal;
         VV offset = VuFloatFromMemWord(*(int *)&p->selectedAttach->radius) * NormalizeSafe(Sub(position, target), D_002A2DA0);
         switch (p->selectedAttach->tactic) {
@@ -190,13 +190,13 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
         // attack: stop, turn the wheels towards the target, fire when the selected attachment is aimed
         p->drive = 0.0f;
         p->goalHeading = p->heading;
-        p->wheelAngle = func_002458F0(GetY(delta), GetX(delta));
+        p->wheelAngle = atan2f(GetY(delta), GetX(delta));
         if (p->nextAttack < g_clock.t) {
             ATTACH *attach = FirstReadyAttachment(p);
             if (attach) {
                 if (attach->mesh) {
                     M3 m = *MatJtLo(attach->anchor);
-                    float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
+                    float aim = atan2f(m.rows[0].f[1], m.rows[0].f[0]);
                     qword packed = VecXfValue(attach->mesh, attach->mesh);
                     float error = Abs(RadNormalize(aim - p->wheelAngle));
                     float pitch = GetZ(packed) - attach->meshBinding->pitch;
@@ -223,7 +223,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
         break;
     }
     case 3:
-        p->goalHeading = func_002458F0(-GetY(delta), -GetX(delta));
+        p->goalHeading = atan2f(-GetY(delta), -GetX(delta));
         p->wheelAngle = p->heading;
         p->drive = p->slip * 0.85f;
         break;
@@ -240,7 +240,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
                 continue;
             if (attach->mesh) {
                 M3 m = *MatJtLo(attach->anchor);
-                float aim = func_002458F0(m.rows[0].f[1], m.rows[0].f[0]);
+                float aim = atan2f(m.rows[0].f[1], m.rows[0].f[0]);
                 qword packed = VecXfValue(attach->mesh, attach->mesh);
                 float error = Abs(RadNormalize(aim - p->wheelAngle));
                 float pitch = GetZ(packed) - attach->meshBinding->pitch;

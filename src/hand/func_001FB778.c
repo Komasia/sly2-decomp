@@ -9,8 +9,8 @@ extern struct M3 D_002DDFA0;
 void *func_001C4A48(void*);
 qword PosOfLo__FP2LO(void*);
 qword func_001A7348(const struct M3*,const struct M3*,qword);
-float func_0011D948(void*,float);
-float func_002458F0(float,float);
+float GLimitLm(void*,float) asm("GLimitLm__FP2LMf");
+float atan2f(float,float);
 static inline qword Sub(qword a,qword b){register qword r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=&j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a,V*save){qword d,one;float g;
 __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(d),"=&j"(one):"j"(a));
@@ -35,7 +35,7 @@ void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outV
  high=limits->high;low=limits->low;
  {register qword input __asm__("vf2")=source.q;
   distance=Length(Sub(input,reference),&delta);}
- value=func_0011D948(g_lmZeroOne,(high-distance)/(high-low));
+ value=GLimitLm(g_lmZeroOne,(high-distance)/(high-low));
  difference=delta.q;
  if(outValue)*outValue=value;
  if(outAngle){
@@ -43,7 +43,7 @@ void func_001FB778(void *unused,qword point,const struct RANGE*limits,float*outV
      qword direction;
      float angle;
      direction=func_001A7348(0,&D_002DDFA0,Bits(difference));
-     angle=func_002458F0(-Y(direction),X(direction));
+     angle=atan2f(-Y(direction),X(direction));
      if(limits->high<limits->low)angle+=3.1415927f;
      Rounded(outAngle,angle*57.295776f);return;
    }else *outAngle=0;

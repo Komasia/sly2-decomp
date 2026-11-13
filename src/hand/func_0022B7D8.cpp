@@ -139,8 +139,8 @@ extern VECTOR D_002A2DD0; // (0, 0, 0, 0)
 
 extern "C"
 {
-void *func_002333B4(void *pv, int b, uint cb);                       // memset
-void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);         // CopyAb
+void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");                       // memset
+void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");         // CopyAb
 qword ConvertPos(SO *psoFrom, SO *psoTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");              // ConvertLoPos
 float RadNormalize(float rad) asm("RadNormalize__Ff");                                      // RadNormalize
 void CalculateSinCos(float rad, float *pgSin, float *pgCos) asm("CalculateSinCos__FfPfT1");           // CalculateSinCos
@@ -281,7 +281,7 @@ extern "C" void UpdateWrStateVectors__FP2WR(WR *pwr)
         // the envelope's space and the bend centre in it
         if (pwrbg->weki.wek == -1)
         {
-            func_002333B4(&dmat, 0, sizeof(MATRIX4));
+            s1_memset(&dmat, 0, sizeof(MATRIX4));
             dmat.mat[0][0] = dmat.mat[1][1] = dmat.mat[2][2] = dmat.mat[3][3] = 1.0f;
             posBend = *(qword *)&D_002A2DD0;
         }
@@ -316,7 +316,7 @@ extern "C" void UpdateWrStateVectors__FP2WR(WR *pwr)
         {
             VECTOR apos[256];
             float au[256];
-            func_001AE5A0(apos, pwrbgbatch->apos, pwrbgbatch->cvtx * sizeof(VECTOR));
+            CopyAb(apos, pwrbgbatch->apos, pwrbgbatch->cvtx * sizeof(VECTOR));
             VECTOR *pposEnd = apos + pwrbgbatch->cvtx;
             VECTOR *ppos = apos;
             float *pu = au;

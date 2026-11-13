@@ -11,7 +11,7 @@ extern struct TABLE D_002C3968[],D_002C3748[];
 void func_001C2DB8(struct OWNER *);
 int func_00210AE0(void);
 int FIsBasicDerivedFrom(void *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int) asm("s1_memset");
 struct OBJECT *PloFindSwNearest(void *,int,int,void *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FTaskDone(void *) asm("FTaskDone__FP4TASK");
 float GRandInRange(float,float) asm("GRandInRange__Fff");
@@ -26,7 +26,7 @@ void FillPocket__FP2LO(struct P *p)
     if(p->busy)return;
     id=func_00210AE0();if(id==-1)id=1;
     if(FIsBasicDerivedFrom(p,0x3A))table=&D_002C3968[id];else table=&D_002C3748[id];
-    func_002333B4(&reward,0,sizeof(reward));
+    s1_memset(&reward,0,sizeof(reward));
     if(p->count>0){
         struct OBJECT *object=PloFindSwNearest(g_sw,4,p->items[0].kind,p->owner);
         if(object && FIsBasicDerivedFrom(object,0x5C) && object->state && FTaskDone(object->state))p->count=0;

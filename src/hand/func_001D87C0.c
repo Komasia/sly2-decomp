@@ -7,7 +7,7 @@ extern H D_003E0EA8;
 void *PvAllocStackImpl__Fi(struct MSG *);
 int SymFromName__FP6LAYOUTPc(void *, char *);
 static inline int NFind(H *ph, char *pch) { return SymFromName__FP6LAYOUTPc(ph->ht, pch); }
-short func_00233800(char *);
+short atoi(char *);
 void func_001D87C0(char *pch, va_list ap, V *pv)
 {
     va_list apSave = ap;
@@ -26,7 +26,7 @@ void func_001D87C0(char *pch, va_list ap, V *pv)
         for (pchT = pch, i = 0; pchT; pchT = va_arg_pch(ap), i++) {
             int n = NFind(&D_003E0EA8, pchT);
             if (n == -1)
-                pv->ash[i] = func_00233800(pchT);
+                pv->ash[i] = atoi(pchT);
             else
                 pv->ash[i] = n;
         }

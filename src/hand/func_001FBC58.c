@@ -10,7 +10,7 @@ struct S *IsoundFromSfxid__FP8SOUNDMGRi(struct G *, int);
 short func_001FD070(struct G *, struct S *);
 void SetDirty__4CSndUiUi(struct P *, int, int);
 void RemoveActive__4CSnd(struct P *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void func_001FBAF8(void);
 void func_00232320(struct M *, void (*)(void), struct P *);
 void func_002322F0(struct M *);
@@ -31,7 +31,7 @@ void StartIop__9CSndPlain(struct P *p)
         RemoveActive__4CSnd(p);
         return;
     }
-    func_002333B4(&m, 0, 0x30);
+    s1_memset(&m, 0, 0x30);
     m.n28 = 3;
     m.n0 = pg->nE8;
     m.h10 = func_001FD070(pg, ps);

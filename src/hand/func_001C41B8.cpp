@@ -1,4 +1,4 @@
-extern "C" void func_00129EC8(struct CRef *pref);
+extern "C" void Decref(struct CRef *pref) asm("Decref__4CRef");
 struct CRef {
     int tagk; int tag;
 };
@@ -12,6 +12,6 @@ int func_001C41B8(OBase *p)
     ref.tag = f;
     p->Msg(0xD, 0, 0, 0, &ref);
     if (ref.tagk == 0x17) f = ref.tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     return f;
 }

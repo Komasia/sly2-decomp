@@ -4,22 +4,22 @@ extern struct G D_002F66B0;
 extern char D_002F6900[];
 extern char D_002E5270[];
 extern int D_004425DC;
-int func_0021EFD0(int a, int b);
-void *func_002333B4(void *pv, int c, int cb);
+int SemaCreate(int a, int b) asm("SemaCreate__Fii");
+void *s1_memset(void *pv, int c, int cb);
 int CreateThread(struct ThreadParam *ptp);
-int func_002355E0(int id, void *arg);
+int StartThread_002355E0(int id, void *arg);
 void func_001B2828(void *);
 void func_001B2940(void)
 {
     struct ThreadParam tp;
-    D_002F66B0.n23C = func_0021EFD0(0, 1);
+    D_002F66B0.n23C = SemaCreate(0, 1);
     D_002F66B0.n114 = 0;
-    func_002333B4(&tp, 0, sizeof(tp));
+    s1_memset(&tp, 0, sizeof(tp));
     tp.entry = func_001B2828;
     tp.stack = D_002F6900;
     tp.gpReg = D_002E5270;
     tp.stackSize = 0x1000;
     tp.initPriority = 2;
     D_004425DC = CreateThread(&tp);
-    func_002355E0(D_004425DC, 0);
+    StartThread_002355E0(D_004425DC, 0);
 }

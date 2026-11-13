@@ -23,7 +23,7 @@ extern "C"{
  extern LIMIT g_lmZeroOne;
  extern float D_002A6720;
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
- float func_002458F0(float,float);
+ float atan2f(float,float) asm("atan2f");
  float RadNormalize(float) asm("RadNormalize__Ff");
  void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");
  void TurnActorNow(P*) asm("TurnActorNow__FP5ACTOR");
@@ -33,7 +33,7 @@ extern "C"{
  void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");
  void RetractAsegaPp(ASEGA**) asm("RetractAsegaPp__FPP5ASEGA");
  void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
- void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);
+ void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
  void ReplaceSmaHandle(void*,P*,int,void*,COMPONENT**) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 }
 static inline qword Vector(P*p){VE*v=&p->vt[33];return ((qword(*)(P*))v->fn)((P*)((char*)p+v->delta));}
@@ -145,7 +145,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
    float fraction,lower;register LIMIT*range __asm__("$2");
    __asm__("lui $3,%%hi(%5)\n\tvmul.xy $vf1,%4,%4\n\tvaddy.x $vf1,$vf1,$vf1y\n\taddiu %2,$3,%%lo(%5)\n\tvsqrt $Q,$vf1x\n\tvwaitq\n\tvaddq.x $vf1,$vf0,$Q\n\tlwc1 $f1,8(%2)\n\tqmfc2.ni $4,$vf1\n\tlwc1 $f2,4(%2)\n\tmtc1 $4,$f0\n\tlwc1 %0,%%lo(%5)($3)\n\tmul.s $f1,$f0,$f1\n\tlui %2,%%hi(%6)\n\tlwc1 %1,%%lo(%6)(%2)\n\tsqc2 %4,%3\n\taddiu %2,%2,%%lo(%6)\n\tadd.s $f2,$f2,$f1\n\tmul.s $f0,$f0,$f2\n\tadd.s %0,%0,$f0":"=&f"(fraction),"=&f"(lower),"=&r"(range),"=m"(velocity.q):"j"(v),"i"(&D_002BFA20),"i"(&g_lmZeroOne):"$3","$4","$f0","$f1","$f2","vf1","memory");
    float blend=ClampKnownLower(fraction,lower,range);
-   float angle=func_002458F0(velocity.f[1],velocity.f[0])+3.1415927f;
+   float angle=atan2f(velocity.f[1],velocity.f[0])+3.1415927f;
    angle=RadNormalize(angle-p->actor->yaw);
    SetStepPhysHeading(p->actor,p->actor->yaw+angle*blend);
    TurnActorNow(p->actor);
@@ -181,7 +181,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
  if(next!=-1){
   if(!clip)clip=p->Default(next);
   RetractAsegaPp(&p->actor->asega);ClearSmaHandle(&p->actor->component);
-  func_001305B8(clip,p->actor,0.0f,1.0f,flags,&p->actor->asega);
+  ApplyAsegCur(clip,p->actor,0.0f,1.0f,flags,&p->actor->asega);
   ReplaceSmaHandle(0,p->actor,-1,0,&p->actor->component);
   Invoke(p->actor,90);
  }

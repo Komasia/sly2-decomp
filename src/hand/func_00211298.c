@@ -6,7 +6,7 @@ struct E { int c; struct F *af; char pad[0xC]; int x14; char pad2[4]; };
 extern struct E D_003D9EDC[];
 extern int D_003D9EF4;
 const char *func_0013E368(struct G *g, int id);
-char *func_0021ED58(char *dst, const char *src);
+char *s1_strcpy(char *dst, const char *src);
 void func_00211298(char *dst, int k)
 {
     struct E *e = &D_003D9EDC[D_003D9EF4];
@@ -15,6 +15,6 @@ void func_00211298(char *dst, int k)
         int j = k + (long)(e->x14 - 3);
         while (j < 0)
             j += n;
-        (void)func_0021ED58(dst, func_0013E368(&g_sw, e->af[j % n].id));
+        (void)s1_strcpy(dst, func_0013E368(&g_sw, e->af[j % n].id));
     }
 }

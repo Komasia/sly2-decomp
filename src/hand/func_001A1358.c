@@ -8,9 +8,9 @@ extern struct CLOCK g_clock;
 extern float D_002BFAA0[3], D_002BFAB0[3], D_002BFAC0[];
 extern float g_lmZeroOne[2];
 void MarkAloDirty__FP3ALO(struct LO *po);
-float func_00244E10(float g);
-float func_002458F0(float y, float x);
-float func_0011D2D0(void *p, int n, float a, float b, float c);
+float cosf(float g);
+float atan2f(float y, float x);
+float RadSmooth(void *p, int n, float a, float b, float c) asm("RadSmooth__FfffP3SMPPf");
 void SetStepPhysHeading__FP3ALOf(struct LO *po, float g);
 int FActorStuckOnContacts__FP5ACTORfPf(struct LO *po, int n, float g);
 void EndDamageReaction__FP5ACTOR(struct S *s);
@@ -41,7 +41,7 @@ void UpdateDamage__FP5ACTOR(struct S *s)
         } else {
             u = 0.0f;
         }
-        w = func_00244E10((g_clock.t - s->x94) * 10.0f);
+        w = cosf((g_clock.t - s->x94) * 10.0f);
         a = GClamp(D_002BFAA0[0] + u * (D_002BFAA0[1] + u * D_002BFAA0[2]), g_lmZeroOne[0], g_lmZeroOne[1]);
         s->po->xD0 = a * GClamp(D_002BFAB0[0] + w * (D_002BFAB0[1] + w * D_002BFAB0[2]), g_lmZeroOne[0], g_lmZeroOne[1]);
     }
@@ -53,8 +53,8 @@ done:
         union { qword q; float f[4]; } v;
         float g;
         v.q = s->po->vt[33].pfn((struct LO *)((char *)s->po + s->po->vt[33].d));
-        g = func_002458F0(v.f[1], v.f[0]) + 3.1415927f;
-        SetStepPhysHeading__FP3ALOf(s->po, func_0011D2D0(D_002BFAC0, 0, s->po->x1A8, g, g_clock.dt));
+        g = atan2f(v.f[1], v.f[0]) + 3.1415927f;
+        SetStepPhysHeading__FP3ALOf(s->po, RadSmooth(D_002BFAC0, 0, s->po->x1A8, g, g_clock.dt));
         if (0.25f < g_clock.t - s->x8 && s->po->x208)
             EndDamageReaction__FP5ACTOR(s);
         else if (FActorStuckOnContacts__FP5ACTORfPf(s->po, 0, s->x8))

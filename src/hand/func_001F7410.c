@@ -8,9 +8,9 @@ struct M { void *p0; void *p4; void *p8; int nC; int n10; int pad[3]; qword q20;
 struct G;
 extern struct G g_sw;
 void *PaloXpFilter__FP3ALOUi(void *, int);
-void func_002333B4(void *, int, int);
+void s1_memset(void *, int, int);
 int PaloAcceptContact__FP5CTMSG(struct M *);
-void func_001A7E10(struct G *, void *);
+void FreeSwXpList(struct G *, void *) asm("FreeSwXpList__FP2SWP2XP");
 // name: SafeHouse port (DispatchAloSensorContacts)
 void DispatchAloSensorContacts__FP3ALO(struct P *p)
 {
@@ -23,7 +23,7 @@ void DispatchAloSensorContacts__FP3ALO(struct P *p)
             void *r = PaloXpFilter__FP3ALOUi(pot->pC, ph->po->n18);
             if (r) {
                 struct M m;
-                func_002333B4(&m, 0, 0x60);
+                s1_memset(&m, 0, 0x60);
                 m.p0 = p;
                 m.p4 = ph->po;
                 m.p8 = r;
@@ -37,7 +37,7 @@ void DispatchAloSensorContacts__FP3ALO(struct P *p)
         }
     }
     if (p->pe) {
-        func_001A7E10(&g_sw, p->pe->pn);
+        FreeSwXpList(&g_sw, p->pe->pn);
         p->pe->pn = 0;
     }
 }

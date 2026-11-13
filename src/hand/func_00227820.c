@@ -9,7 +9,7 @@ int func_00215E30(struct Q *q);
 int FDialogPlaying__FP8SOUNDMGRi(void *p, int id);
 float TDialog__FP8SOUNDMGR(void *p);
 void func_00215E80(struct Q *q, int n);
-void func_0021EDA0(void *p, void *s);
+void strcpy1(void *p, void *s);
 // name: SafeHouse port (StrDialogSubtitleTyped)
 void StrDialogSubtitleTyped__FP9DIALOGSUBPv(struct P *p, struct Q *q)
 {
@@ -30,5 +30,5 @@ void StrDialogSubtitleTyped__FP9DIALOGSUBPv(struct P *p, struct Q *q)
     } else {
         fShow = (int)(g_clock.t * 4.0f) & 1;
     }
-    if (fShow) func_0021EDA0(q->p0, D_002A97F0);
+    if (fShow) strcpy1(q->p0, D_002A97F0);
 }

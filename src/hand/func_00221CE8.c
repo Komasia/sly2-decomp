@@ -6,7 +6,7 @@ struct P { char pad[0x10]; struct S *ps; int x14; };
 void PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(int a, int b, qword *pq, int c);
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, qword q, float g, int a, int b, int c, int d, float *pg);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(int a, struct S *ps, qword q);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 // name: SafeHouse port (UpdateZonePath)
 void UpdateZonePath__FP8CPFOLLOWi(struct P *p, int b)
 {
@@ -21,7 +21,7 @@ void UpdateZonePath__FP8CPFOLLOWi(struct P *p, int b)
         qword v = ConvertPos__FP2LOT0G9VU_VECTOR(0, ps, q), d;
         float g;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(v), "j"(ps->v150));
-        g = func_002458F0(GetY(d), GetX(d));
+        g = atan2f(GetY(d), GetX(d));
         if (g < 0.0f) g += 6.2831855f;
         ps->g140 = g * ps->g160;
     }

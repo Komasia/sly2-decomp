@@ -23,7 +23,7 @@ struct SPAN { U first, last, firstPlane, lastPlane; float from, to; int flags; F
 extern "C" {
 extern U D_002A2DD0, D_002A2DA0;   // zero vector, fallback direction
 int func_001665F0(GEOMETRY *, QUERY *, int, int, EDGE **);
-int func_00199408(JT *, SHAPE *, EDGE *, U *);   // FCheckJtSingleEdge
+int FCheckJtSingleEdge(JT *, SHAPE *, EDGE *, U *) asm("FCheckJtSingleEdge__FP2JTP2SOP4EDGEP6VECTOR");   // FCheckJtSingleEdge
 int ClipSegmentBsp(NODE *, int, qword, qword, int, SPAN *) asm("ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG");
 int FCheckEdgeNormal(JT *, qword, qword) asm("FCheckEdgeNormal__FP4JUMPG9VU_VECTORT1");
 }
@@ -78,7 +78,7 @@ extern "C" int FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(JT *p, SHAPE *
         GEOMETRY *geometry = &shape->geometry;
         int count = func_001665F0(geometry, &shape->query, (U *)info - geometry->points, 64, edges);
         for (int i = 0; i < count; i++) {
-            if (func_00199408(p, shape, edges[i], &direction)) {
+            if (FCheckJtSingleEdge(p, shape, edges[i], &direction)) {
                 found = 1;
                 sum = Add(sum, direction.q);
             }
@@ -89,7 +89,7 @@ extern "C" int FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(JT *p, SHAPE *
         break;
     }
     case 3:
-        if (!func_00199408(p, shape, (EDGE *)info, out))
+        if (!FCheckJtSingleEdge(p, shape, (EDGE *)info, out))
             return 0;
         break;
     case 2: {
@@ -101,7 +101,7 @@ extern "C" int FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(JT *p, SHAPE *
         U direction;
         SPAN spans[2];
         for (EDGE *edge = face->first; edge; edge = edge->next) {
-            if (func_00199408(p, shape, edge, &direction)) {
+            if (FCheckJtSingleEdge(p, shape, edge, &direction)) {
                 U *points = shape->geometry.points;
                 if (ClipSegmentBsp(p->actor->shape->query.tree, 0x7FFFFFFF, points[edge->vertices[0]].q,
                                   points[edge->vertices[1]].q, 2, spans) > 0) {
@@ -111,7 +111,7 @@ extern "C" int FCheckEdgeGrab__FP4JUMPP3SOEG9VU_VECTORiPvP6VECTOR(JT *p, SHAPE *
             }
         }
         for (EDGE *edge = face->second; edge; edge = edge->nextOther) {
-            if (func_00199408(p, shape, edge, &direction)) {
+            if (FCheckJtSingleEdge(p, shape, edge, &direction)) {
                 U *points = shape->geometry.points;
                 if (ClipSegmentBsp(p->actor->shape->query.tree, 0x7FFFFFFF, points[edge->vertices[0]].q,
                                   points[edge->vertices[1]].q, 2, spans) > 0) {

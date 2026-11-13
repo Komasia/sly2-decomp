@@ -19,8 +19,8 @@ extern SCROLL D_003DA0C0;
 extern CLOCK g_clock;
 extern const float D_002C40B8;
 extern "C" void *func_0013E368(WORLD *,int);
-extern "C" char *func_0021ED58(char *,const char *);
-extern "C" char *func_0021EDA0(char *,const char *);
+extern "C" char *s1_strcpy(char *,const char *) asm("s1_strcpy");
+extern "C" char *strcpy1(char *,const char *) asm("strcpy1");
 extern "C" RT *func_00215BA8(RT *,char *,S *,DATA *);
 extern "C" int StrWrapped(RT *) asm("StrWrapped__FP7FONTBRX");
 extern "C" void StrDialogSubtitleTyped(void *,RT *) asm("StrDialogSubtitleTyped__FP9DIALOGSUBPv");
@@ -46,7 +46,7 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         if(i>=108)*(long *)text=*(const long *)D_002A8B80;
         else D_003E1C88[i].get(text,D_003E1C88[i].context,p->owner);
     }else if(p->kind==0){
-        func_0021ED58(text,(const char *)func_0013E368(&g_sw,p->id));
+        s1_strcpy(text,(const char *)func_0013E368(&g_sw,p->id));
     }
     if(p->kind==1 && p->id==0x2EF){
         int lines=1,ch,visible;
@@ -72,16 +72,16 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         float scale,paddingWidth,textWidth,elapsed,period,position;
         style=*data;
         func_00215BA8(&rt,text,p,&style);
-        func_0021ED58(marquee,D_002A8B88);
+        s1_strcpy(marquee,D_002A8B88);
         func_00215CA8(&rt,marquee);
         scale=t->a[0];
         paddingWidth=DxTextUi(&rt)*scale;
-        func_0021EDA0(marquee,text);
+        strcpy1(marquee,text);
         func_00215CA8(&rt,marquee);
         textWidth=DxTextUi(&rt)*scale;
-        func_0021EDA0(marquee,D_002A8B88);
-        func_0021EDA0(marquee,text);
-        func_0021EDA0(marquee,D_002A8B88);
+        strcpy1(marquee,D_002A8B88);
+        strcpy1(marquee,text);
+        strcpy1(marquee,D_002A8B88);
         elapsed=g_clock.t-D_003DA0C0.time;
         if(elapsed<D_002C40B8){
             data->fade*=elapsed/D_002C40B8;

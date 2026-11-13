@@ -11,7 +11,7 @@ extern struct J g_joy;
 extern struct J D_002E0D00;
 extern char D_002DDFA0[];
 void ClearPadctl__FP6PADCTL(struct S *p);
-void func_0011BC88(void *pv, float *pa, float *pb);
+void DecomposeRotateMatrixPanTilt(void *pv, float *pa, float *pb) asm("DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1");
 struct MATRIX3 BuildPanTiltMatrix__FPvff(float a, float b);
 void TurnPadctlStick__FPffN50(struct S *p, float g, float *px, float *py, float *pang, float *pr, float *pr2);
 void StampPadctlState__FP6PADCTL(struct S *p);
@@ -33,7 +33,7 @@ void UpdatePadctl__FP6PADCTL(struct S *p)
         p->g20 = pj->c;
         p->g24 = pj->d;
         p->n30 = (pj->x10B4 & ~pj->x10BC) | p->x7C->x154;
-        func_0011BC88(D_002DDFA0, &a, &b);
+        DecomposeRotateMatrixPanTilt(D_002DDFA0, &a, &b);
         break;
     }
     p->mat = BuildPanTiltMatrix__FPvff(a, b);

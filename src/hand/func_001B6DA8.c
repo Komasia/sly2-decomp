@@ -16,9 +16,9 @@ struct P {
     char pad3[0x131C - 0x1034]; float g131C; char pad4[0x13D8 - 0x1320]; int x13D8; float g13DC; char pad5[0x13E4 - 0x13E0];
     struct LINK *plink;
 };
-void func_001A7E10(void *pg, struct LINK *pl);
+void FreeSwXpList(void *pg, struct LINK *pl) asm("FreeSwXpList__FP2SWP2XP");
 void *PaloXpFilter__FP3ALOUi(void *p, int n);
-void *func_002333B4(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb);
 void *PaloAcceptContact__FP5CTMSG(struct MSG *pmsg);
 float *PeventLaunch__FP5KINDEi(void *p, int n);
 void SetAsegaTime__FP5ASEGAiff(struct Q *p, int n, float g, float h);
@@ -78,7 +78,7 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
     case 0:
         break;
     case -1:
-        func_001A7E10(g_sw, p->plink);
+        FreeSwXpList(g_sw, p->plink);
         p->plink = 0;
         break;
     case 1: {
@@ -109,7 +109,7 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
             void *po = PaloXpFilter__FP3ALOUi(pso->xC, 4);
             if (po) {
                 struct MSG msg;
-                func_002333B4(&msg, 0, sizeof(msg));
+                s1_memset(&msg, 0, sizeof(msg));
                 msg.x0 = p;
                 msg.x4 = psm->x0;
                 msg.x8 = po;
@@ -120,7 +120,7 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
                 (void)PaloAcceptContact__FP5CTMSG(&msg);
             }
         }
-        func_001A7E10(g_sw, p->plink);
+        FreeSwXpList(g_sw, p->plink);
         p->plink = 0;
         {
             float *pg = PeventLaunch__FP5KINDEi(p->p1030->x14, 0x1A5);

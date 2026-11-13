@@ -10,7 +10,7 @@ void FireDialogTarget__FP8SOUNDMGRPv(struct P *, struct A *);
 void SetSmaGoal__FP3SMA3OID(void *, int);
 void Stop__4CSndf(struct Y *, float);
 void func_00259B48(struct Ref *, void *);
-void func_002333B4(void *, int, int);
+void s1_memset(void *, int, int);
 static inline void Stop(struct Ref *pr)
 {
     if (pr && pr->px) {
@@ -38,5 +38,5 @@ void StopDialog__FP8SOUNDMGR(struct P *p)
         struct X *px = p->ap[i];
         if (px) px->pvt->a[2].pfn((char *)px + px->pvt->a[2].d);
     }
-    func_002333B4(p->ap, 0, 0x18);
+    s1_memset(p->ap, 0, 0x18);
 }

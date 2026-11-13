@@ -9,7 +9,7 @@ extern CLOCK g_clock;
 extern "C" M3 MatConvertXfs(OWNER *,OWNER *,const M3 *) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" M3 MulMat3TransposeA(const M3 *,const M3 *) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
-extern "C" void func_0011BCF8(const M3 *,float *,qword *);
+extern "C" void DecomposeRotateMatrixRad(const M3 *,float *,qword *) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 extern "C" qword VecConvertXfs(OWNER *,OWNER *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a){qword d,one;float f;
@@ -29,7 +29,7 @@ extern "C" void AccelAloTowardRotation__FP3ALOP7MATRIX3P3CLQG9VU_VECTORT2(P*p,co
         frame=MatConvertXfs(0,owner->parent,orientation);
         NormalizeRotateMatrix3__FP7MATRIX3(&frame);
         relative=MulMat3TransposeA(&owner->matrix,&frame);
-        func_0011BCF8(&relative,&angle,&axis.q);
+        DecomposeRotateMatrixRad(&relative,&angle,&axis.q);
         if(0.0001f<angle){
             float gain=c->c*angle*angle+c->b*angle+c->a;
             U scalar;

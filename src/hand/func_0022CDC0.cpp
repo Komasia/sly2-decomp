@@ -12,8 +12,8 @@ struct O {
  unsigned short force,damping;qword qB0;MOTIONDATA data;
 };
 extern qword D_002A2DD0;
-extern "C" void *func_0023320C(void *d, void *s, int n);
-extern "C" void *func_002333B4(void *p, int c, int n);
+extern "C" void *s1_memcpy(void *d, void *s, int n) asm("s1_memcpy");
+extern "C" void *s1_memset(void *p, int c, int n) asm("s1_memset");
 extern "C" M4 *DmatSkew(M4 *pm, struct O *pa, const M3 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 extern "C" M4 *func_0022CB90(M4 *pr, struct O *pa, const M3 *basis, qword c, qword d);
 extern "C" M4 *DmatOfValue(M4 *pm, struct O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
@@ -32,7 +32,7 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
     M4 m, m2;
     switch (po->k98) {
     case 0: case 3: case 10: case 12: case 13: case 14: case 15: case 16: case 19:
-        func_002333B4(pr, 0, 0x40);
+        s1_memset(pr, 0, 0x40);
         break;
     default:
         switch (po->k94) {
@@ -40,7 +40,7 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
             break;
         case 8: case 14: {
             DmatXf__FP2XFPv(&m, po->source.object);
-            func_0023320C(pr, &m, 0x40);
+            s1_memcpy(pr, &m, 0x40);
             pr->m[3][0] = -pr->m[3][0];
             pr->m[3][1] = -pr->m[3][1];
             pr->m[3][2] = -pr->m[3][2];
@@ -50,12 +50,12 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
             switch (po->k98) {
             case 1: case 2: case 7: case 8: case 9: case 11: case 17: case 18: case 20: case 21: {
                 DmatSkew(&m, po, &po->local.basis, po->qB0);
-                func_0023320C(pr, &m, 0x40);
+                s1_memcpy(pr, &m, 0x40);
                 break;
             }
             case 5: case 6:
                 if (po->k9A == 5) {
-                    func_002333B4(pr, 0, 0x40);
+                    s1_memset(pr, 0, 0x40);
                 } else {
                     qword q, t;
                     register qword initial __asm__("$2");
@@ -91,7 +91,7 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
                         break;
                     }
                     func_0022CB90(&m, po, &po->local.basis, q, t);
-                    func_0023320C(pr, &m, 0x40);
+                    s1_memcpy(pr, &m, 0x40);
                 }
                 break;
             }
@@ -120,7 +120,7 @@ extern "C" M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po)
                 break;
             }
             DmatOfValue(&m2, po, m.r[0]);
-            func_0023320C(pr, &m2, 0x40);
+            s1_memcpy(pr, &m2, 0x40);
             break;
         }
         }

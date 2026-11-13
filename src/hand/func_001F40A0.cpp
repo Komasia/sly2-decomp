@@ -14,7 +14,7 @@ extern struct SW g_sw;
 qword *func_00256D18(qword *, qword);
 M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 M4 *MulMatrix4(M4 *, const M4 *, const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int) asm("s1_memset");
 void DetachAloContacts(struct P *) asm("DetachAloContacts__FP3ALO");
 void HoldXfMode(struct P *, struct LO *);
 void CopyAloSoeMatrices(struct P *) asm("CopyAloSoeMatrices__FP3ALO");
@@ -47,7 +47,7 @@ void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
         m80 = p->p58->pA0->m40;
     } else {
         M4 *identity = &m80;
-        func_002333B4(identity, 0, 0x40);
+        s1_memset(identity, 0, 0x40);
         identity->f[3][3] = 1.0f;
         identity->f[2][2] = 1.0f;
         identity->f[1][1] = 1.0f;

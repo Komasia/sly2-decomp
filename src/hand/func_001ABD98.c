@@ -9,7 +9,7 @@ extern char D_003D4A60[], D_002E65A0[];
 int func_0020E040(struct G *g);
 int func_00210AE0(void);
 void NProgress(struct CRef *ret, int a, void *b);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 void func_001ACB58(struct H *h, int n);
 void func_001ABCE8(struct S *s);
 void func_001ADE38(void *p);
@@ -29,7 +29,7 @@ void func_001ABD98(struct S *s, int force)
         return;
     NProgress(&ref, g->x3B54, D_003D4A60);
     t = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (!t) {
         D_002E6550.x4C = 3;
         func_001ACB58(&D_002E6550, 0x22);

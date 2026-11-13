@@ -2,7 +2,7 @@ struct VE {short delta,pad;void (*init)(void *);};
 struct O {int pad[3];struct VE *vt;int tag;struct O *previous,*next;};
 struct STK {int tag,count;void *slots[1];};
 int func_001EF6F0(void);
-void *func_002333B4(void *,int,int);
+void *s1_memset(void *,int,int);
 struct O *PjobNew__F3CIDPv(int,void *);
 static inline int Count(const int*p){
     register int value __asm__("$2");
@@ -20,7 +20,7 @@ struct O *PjobPush__FP5GUARD3CID(struct STK *stack,int selector){
         memory=stack->slots[index];
         stack->count=index+1;
     }
-    func_002333B4(memory,0,func_001EF6F0());
+    s1_memset(memory,0,func_001EF6F0());
     object=PjobNew__F3CIDPv(selector,memory);
     {
         register int tag __asm__("$3")=stack->tag;

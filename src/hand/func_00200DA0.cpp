@@ -3,12 +3,12 @@ struct OBJ;
 struct PRM { int a; int k; int rest[8]; };
 extern "C" {
 extern char D_004520A8[];
-CRef *func_0012A0B0(CRef *pref, int tagk);
-void *func_002333B4(void *p, int c, int n);
+CRef *InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
+void *s1_memset(void *p, int c, int n) asm("s1_memset");
 OBJ *PpairNew(void) asm("PpairNew__Fv");
 void RefGetPeopid(CRef *ret, void *b, PRM *prm) asm("RefGetPeopid__FP5BASICP5EOPID");
 CRef *func_00129658(CRef *pref, CRef *prefSrc); /* CRef::operator= returns *this */
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 void func_002550F8(OBJ *p);
 void func_0011CD98(void *pool, OBJ *p);
 void func_00129480(CRef *pref, OBJ *p);
@@ -38,7 +38,7 @@ inline SP::~SP()
     if (q) {
         if (--q->cref == 0) {
             func_00256D40(&q->next, 2);
-            func_00129EC8(&q->ref);
+            Decref(&q->ref);
             func_002550F8(q);
             func_0011CD98(D_004520A8, q);
         }
@@ -48,12 +48,12 @@ inline SP::~SP()
 CRef *RefSetArgListFromPvs(CRef *ret, int c, int *a, void **b)
 {
     if (c == 0) {
-        func_0012A0B0(ret, 0);
+        InitTag(ret, 0);
         return ret;
     }
     PRM prm;
     SP list;
-    func_002333B4(&prm, 0, sizeof(prm));
+    s1_memset(&prm, 0, sizeof(prm));
     prm.k = 2;
     SP *ppTail = &list;
     for (int i = 0; i < c; i++) {
@@ -64,7 +64,7 @@ CRef *RefSetArgListFromPvs(CRef *ret, int c, int *a, void **b)
         CREFA ref;
         RefGetPeopid(&ref.r, pb, &prm);
         func_00129658(pr, &ref.r);
-        func_00129EC8(&ref.r);
+        Decref(&ref.r);
         ppTail->Set(nw.p);
         ppTail = &nw.p->next;
     }

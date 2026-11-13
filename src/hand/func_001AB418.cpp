@@ -1,9 +1,9 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
-    CRef(const CRef &) __asm__("func_001291A8");
-    ~CRef() { func_00129EC8(this); }
+    CRef(const CRef &) __asm__("__4CRefRC4CRef");
+    ~CRef() { Decref(this); }
 };
 struct PMF { short delta; short pad; int (*pfn)(void *); };
 struct SLOT { char pad[0x5408]; char x5408[0x5C]; };
@@ -25,7 +25,7 @@ void func_001ACC38(ST *, int);
 int func_001ADEA8(void *);
 void func_001ACB58(ST *, int);
 void func_001ADE70(void *);
-int func_001AB398(char *, char *);
+int CompareSaves(char *, char *) asm("CompareSaves__FP4SAVET0");
 void ResetSlotKeepSettings(SLOT *, int) asm("ResetSlotKeepSettings__FPci");
 void func_001AB418(MC *p, int state);
 }
@@ -68,7 +68,7 @@ void func_001AB418(MC *p, int state)
             SLOT *pslot = &p->aslot[i];
             float g = GetF(g_sw.x3B1C, pslot);
             if (g != 0.0f) {
-                if (func_001AB398(p->pslotCur->x5408, pslot->x5408) < 0)
+                if (CompareSaves(p->pslotCur->x5408, pslot->x5408) < 0)
                     p->pslotCur = pslot;
             } else {
                 ResetSlotKeepSettings(pslot, 0);

@@ -9,7 +9,7 @@ extern void *D_003DCFA8[16];
 extern char D_003E1590[];
 void LoadClutsFromBrx__FP18CBinaryInputStream(void *);
 void LoadBmpsFromBrx__FP18CBinaryInputStream(void *);
-int func_00117C20(void *);
+int U16Read(void *) asm("U16Read__18CBinaryInputStream");
 void *PvAllocStackClearImpl__Fi(struct MSG *);
 void *PvAllocSwClearImpl__Fi(struct MSG *);
 void *PsaaLoadFromBrx__FPvP18CBinaryInputStream(int, void *);
@@ -27,13 +27,13 @@ void LoadShadersFromBrx__FP4SHDSiP18CBinaryInputStream(void *p, int k, void *pbi
     void *pv;
     LoadClutsFromBrx__FP18CBinaryInputStream(pbis);
     LoadBmpsFromBrx__FP18CBinaryInputStream(pbis);
-    D_003DD000 = func_00117C20(pbis);
+    D_003DD000 = U16Read(pbis);
     msg.cb = D_003DD000 * 4;
     msg.nKind = 0x10;
     D_003DD004 = PvAllocStackClearImpl__Fi(&msg);
     for (i = 0; i < D_003DD000; i++)
         D_003DD004[i] = PsaaLoadFromBrx__FPvP18CBinaryInputStream(0, pbis);
-    D_003DCFE8 = func_00117C20(pbis);
+    D_003DCFE8 = U16Read(pbis);
     msg.cb = D_003DCFE8 * 0x2C;
     msg.nKind = 0x10;
     D_003DCFEC = PvAllocStackClearImpl__Fi(&msg);

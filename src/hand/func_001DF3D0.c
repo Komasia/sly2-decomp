@@ -23,7 +23,7 @@ typedef struct OBJ {
 } OBJ;
 typedef struct { int a[8]; } VPAIR;
 extern char D_003E11C4[];
-float func_00245A18(float, float);
+float fmodf(float, float);
 void AppendDlEntry__FP2DLPv(void *, W *);
 void func_001DEF98(OBJ *, ENT *, VPAIR *, float *);
 void func_001DF3D0(OBJ *p)
@@ -42,7 +42,7 @@ void func_001DF3D0(OBJ *p)
             ps = &q->aseg[q->i];
             ps->u = u = ps->u + p->speed * g_clock.dt;
             if (ps->max < u) {
-                float r = func_00245A18(u, ps->max);
+                float r = fmodf(u, ps->max);
                 q->i = (q->i + 1) % q->c;
                 ps = &q->aseg[q->i];
                 ps->u = r;

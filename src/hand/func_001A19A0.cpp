@@ -23,7 +23,7 @@ extern "C"{
  extern qword D_002A2DD0,D_002BFB10;
  int func_001A2358(C*,RECORD*);
  int NScaleDamage(void*,int) asm("NScaleDamage__FPvi");
- void func_001305B8(void*,P*,float,float,int,void**);
+ void ApplyAsegCur(void*,P*,float,float,int,void**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
  int FIsBasicDerivedFrom(P*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
  void DropActorBooty(P*) asm("DropActorBooty__FP5ACTORii");
  void BroadcastTaskEvent(void*,int,P*) asm("BroadcastTaskEvent__FP2SWiP2LO");
@@ -102,7 +102,7 @@ extern "C" int FAcceptDamage__FP5ACTORP5CTMSG(C*p,RECORD*input){
   if(Add32(*p->counter,delta)>0){
    if(p->mode!=1){p->mode=0;p->time=p->changed=g_clock.time;}
    *p->counter=Add32(*p->counter,delta);
-   if(p->effect)func_001305B8(p->effect,p->actor,0.0f,1.0f,1,&p->output);
+   if(p->effect)ApplyAsegCur(p->effect,p->actor,0.0f,1.0f,1,&p->output);
    goto sound;
   }
   register RECORD*destination __asm__("$2");__asm__("daddu %0,%1,$zero":"=r"(destination):"r"(&accepted));

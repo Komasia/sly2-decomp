@@ -123,7 +123,7 @@ extern "C" POOL *func_0011CCA8(POOL *,int,int,int);
 extern "C" void InitDl(DL *,int) asm("InitDl__FP2DLi");
 extern "C" void func_0011A050(DL *,int);
 extern "C" int func_001CF5C8(void);
-extern "C" void *func_002333B4(void *,int,unsigned int);
+extern "C" void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 extern "C" SW *func_0020D9D0(SW *p)
 {
     p->a=0;p->b=0;p->vt=D_002DC018;
@@ -231,6 +231,6 @@ extern "C" SW *func_0020D9D0(SW *p)
     p->f4750=-60.0f;
     p->f4754=-60.0f;
     p->n4554=1;
-    func_002333B4(tags,-1,0x20);
+    s1_memset(tags,-1,0x20);
     return p;
 }

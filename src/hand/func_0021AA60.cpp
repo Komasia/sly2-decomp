@@ -2,10 +2,10 @@
 struct LINEAR {void *vtable;int limit;void *buffer;int used;};
 struct HEAP {void *vtable;int field4;};
 struct POOL;
-extern "C" void *func_002333B4(void *,int,unsigned int);
+extern "C" void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 struct STRINGGEN {
  int id;void (*get)(char *,void *,void *);void *context;
- STRINGGEN(){func_002333B4(this,0,sizeof(*this));}
+ STRINGGEN(){s1_memset(this,0,sizeof(*this));}
 };
 extern "C" {
 LINEAR *__11CLinearHeapiPUc(LINEAR *,int,void *);
