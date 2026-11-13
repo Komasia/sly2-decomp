@@ -2,7 +2,7 @@ struct S { char pad[0x80]; char x80[0x48]; int fc8; };
 struct B { char ab[0x410]; };
 void func_001D57A8(struct B *pb);
 void func_001D5808(struct B *pb, void *p);
-void func_00168638(void *p, int a, int b, float f, float g);
+void RenderGlob(void *p, int a, int b, float f, float g) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
 void func_001B4478(struct S *p)
 {
     if (p->fc8) {
@@ -10,6 +10,6 @@ void func_001B4478(struct S *p)
         func_001D57A8(&b);
         func_001D5808(&b, p->x80);
     } else {
-        func_00168638(p->x80, 0, 0, 1.0f, 1.0f);
+        RenderGlob(p->x80, 0, 0, 1.0f, 1.0f);
     }
 }

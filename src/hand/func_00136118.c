@@ -5,7 +5,7 @@ struct P { char pad[0x150]; void *p150; char pad0[0x20C - 0x154]; float g20C; ch
     char pad1[0x13D0 - 0x1034]; int x13D0; char pad2[0x16B0 - 0x13D4]; int x16B0; struct Q *pq; char pad3[0x186C - 0x16B8]; struct O *po; };
 struct CLOCK { float t; };
 extern struct CLOCK g_clock;
-int func_00131968(void *pv);
+int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
 void SetBentleyHold__FP7BENTLEYi(struct P *p, int n);
 void LandCarry__FP2LOT0(struct O *po, int n);
 int func_00141EA8(struct P *p, int n);
@@ -20,7 +20,7 @@ void UpdateBentleyHold__FP7BENTLEY(struct P *p)
         s = p->x16B0;
         switch (s) {
         case 0:
-            if (func_00131968(p->p1030))
+            if (FAsegaRetracted(p->p1030))
                 SetBentleyHold__FP7BENTLEYi(p, 1);
             break;
         case 1:

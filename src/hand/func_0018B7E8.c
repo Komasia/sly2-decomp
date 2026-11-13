@@ -38,7 +38,7 @@ int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword Vel
 void SetAsegaSpeed(struct MODEL*,float) asm("SetAsegaSpeed__FP5ASEGAf");void SetStepPhysHeading__FP3ALOf(struct P*,float);
 void func_001441E8(struct P*,float);void SetJtJts__FP2JT3JTS4JTBS(struct P*,int,int);
 float GLimitAbs(float,float) asm("GLimitAbs__Fff");void RecalcBlend__FP6ASEGBL(void*);
-void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int func_00131968(void*);void func_001306A8(void**);
+void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int FAsegaRetracted(void*) asm("FAsegaRetracted__FP5ASEGA");void func_001306A8(void**);
 static inline void*At(struct P*p,int offset){return(char*)p+offset;}
 static inline void ReadBinding(struct BINDING*b,struct MODEL*m,qword*out){
  struct COMPONENT*c=b->component;struct VTE*entry=&c->vt[3];
@@ -112,7 +112,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  case 0:case 1:break;
  }
  UpdateDamage__FP5ACTOR(At(p,0xDF0));UpdateSafeGround__FP5ACTOR(p);
- if(p->animation&&func_00131968(p->animation)){func_001306A8(&p->animation);p->animationKind=-1;}
+ if(p->animation&&FAsegaRetracted(p->animation)){func_001306A8(&p->animation);p->animationKind=-1;}
 }
 
 typedef char qword_Size[(sizeof(qword)==16)?1:-1];

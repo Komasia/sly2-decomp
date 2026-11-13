@@ -20,7 +20,7 @@ struct P {
     struct O *x190C; char pad7[0x1AC8 - 0x1910]; float g1AC8; void *x1ACC;
 };
 void UpdateActor(struct P *p) asm("UpdateActor__FP5ACTOR");
-int func_00131968(struct O *p);
+int FAsegaRetracted(struct O *p) asm("FAsegaRetracted__FP5ASEGA");
 void func_001306A8(struct O **pp);
 void UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(struct G *pg, struct P *p, int n);
 void UpdateMurrayBinoc__FP6MURRAY(struct P *p);
@@ -109,7 +109,7 @@ void UpdateMurray__FP2LO(struct P *p)
     UpdateActor(p);
     if (!((int)(p->x28 >> 60) & 1))
         return;
-    if (p->x190C && func_00131968(p->x190C))
+    if (p->x190C && FAsegaRetracted(p->x190C))
         func_001306A8(&p->x190C);
     UpdateJtCandidates__FP5ACTORP10STEPPLAYERUi(&g_sw, p, 0xF8FA);
     UpdateMurrayBinoc__FP6MURRAY(p);

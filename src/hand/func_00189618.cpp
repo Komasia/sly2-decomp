@@ -1,7 +1,7 @@
 // func_00189618: ported from Lilly's personal Sly 2 decomp (src/P2/jtlean.c), reduced to the declarations it needs.
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: D_002BF2D0 (D_002BF2D0), D_002BF2D4 (D_002BF2D4), D_002BF2D8 (D_002BF2D8), D_002BF2DC (D_002BF2DC), D_002BF2E0 (D_002BF2E0), D_002BF300 (D_002BF300), D_002BF310 (D_002BF310), D_002BF320 (D_002BF320), D_002BF330 (D_002BF330), g_clock, g_lmZeroOne, g_normalZ, D_002A2DD0 (g_qwZero)
-// 0x00189618 UpdateJtLean__FP2JT  (our name; was func_00189618)
+// 0x00189618 UpdateSlyLean__FP2JT  (was func_00189618; Lilly's port called it UpdateJtLean)
 // The last step of the hero's per-frame update (JT::VUnk15). The three actuators at JT+0x19E4 / 0x19E8 / 0x19EC hold the lean offset of his body.
 //  - nothing happens before JT::VUnk14 made them, or while they are not in their owner's chain; in the look mode they go back to zero;
 //  - standing (jts 0) on an object (pxpFloor's part: the thing under his feet) or holding on to a curve (jts 7, grab record kind 0: state 3 a SHAPE he holds on at u, state 4 an object):
@@ -1571,8 +1571,9 @@ static inline qword QwFromXyzV(float gX, float gY, float gZ)
     *(qword *)&vecXyz = qwXYZ;
     return *(qword *)&vecXyz;
 }
-void UpdateJtLean(JT *pjt) __asm__("func_00189618");
-void UpdateJtLean(JT *pjt)
+// name: SafeHouse port (sly.cpp UpdateSlyLean, "UpdateSlyLean(p); // 0x189618"); called by UpdateJt__FP2JTf
+void UpdateSlyLean(JT *pjt) __asm__("UpdateSlyLean__FP2JT");
+void UpdateSlyLean(JT *pjt)
 {
     VECTOR4 vecDv;
     VECTOR4 vecPos;

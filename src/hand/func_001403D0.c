@@ -25,7 +25,7 @@ void PickActorTargets__FP5ACTOR(struct P *p);
 void UpdateActorWater__FP5ACTOR(struct P *p);
 void UpdateActorNoise__FP5ACTOR(struct P *p);
 void UpdateActorLook__FP5ACTOR(struct P *p);
-int func_00131968(int x);
+int FAsegaRetracted(int x) asm("FAsegaRetracted__FP5ASEGA");
 void func_001306A8(int *px);
 int func_0014FD50(void *p);
 void SetJoyPs2BtnHandled__FP6JOYPS2Ui(struct G *pg, int n);
@@ -57,7 +57,7 @@ void UpdateActor(struct P *p)
     UpdateActorWater__FP5ACTOR(p);
     UpdateActorNoise__FP5ACTOR(p);
     UpdateActorLook__FP5ACTOR(p);
-    if (p->xEFC && func_00131968(p->xEFC))
+    if (p->xEFC && FAsegaRetracted(p->xEFC))
         func_001306A8(&p->xEFC);
     if (!func_0014FD50(D_002DE2E0) && p->x150->x80 == 1 && GrfPadctlPressedWithin__FP6PADCTLUif(p->x150, 0.0f, 0x100)) {
         struct G *pg = &g_joy;

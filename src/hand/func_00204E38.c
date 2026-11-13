@@ -5,13 +5,13 @@ struct O { VTE *vt; };
 struct X { int a; struct O *po; };
 struct TABLE;
 struct Q { char pad[0x14]; struct TABLE *table; char pad2[0x40 - 0x18]; float g40; };
-int func_00131968(struct Q *q);
+int FAsegaRetracted(struct Q *q) asm("FAsegaRetracted__FP5ASEGA");
 struct X *PchnFindAseg__FP4ASEGP3ALOPvi(struct TABLE *table, void *owner, int kind, int check);
 // name: SafeHouse port (VelActorAnimRoot)
 qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct Q *q, float g)
 {
     qword r = D_002A2DD0;
-    if (q && !func_00131968(q)) {
+    if (q && !FAsegaRetracted(q)) {
         struct X *x = PchnFindAseg__FP4ASEGP3ALOPvi(q->table, p, 1, 1);
         if (x) {
             struct O *o = x->po;

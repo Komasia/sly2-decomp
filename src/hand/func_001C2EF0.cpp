@@ -4,7 +4,7 @@
 // offset (SetVectorCylind from two random angles and -75) is expressed in a basis built (BuildLookAtMatrix) from the
 // horizontal part of the start->target direction and the up axis, and func_001D69F0 computes the launch velocity.
 // Class 0x5A objects are launched through func_001C6BD0 with an index-scaled delay; others are reset, parented to the
-// source and given the velocity through virtual calls.  func_001C2DB8 cleans up the owner on every exit.
+// source and given the velocity through virtual calls.  ClearReward cleans up the owner on every exit.
 // Matching notes:
 //  * `game` is a plain local set before the loop: the address is then a spilled constant that reload rematerializes
 //    as `la a0` at the call (lui/addiu into a0).  Taking &g_sw inside the loop lets loop.c hoist only the HIGH part.
@@ -33,7 +33,7 @@ qword func_001D69F0(qword, qword, qword, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void func_001C6BD0(SO *, qword, qword, float, float);
 SO *PloAcquireProxyObject(void *, int) asm("PloAcquireProxyObject__FP2SWi");
-void func_001C2DB8(OWNER *);
+void ClearReward(OWNER *) asm("ClearReward__FP2LO");
 }
 
 static inline float X(qword q) { float f; __asm__("mtc1 %1,%0" : "=f"(f) : "r"(q)); return f; }
@@ -120,6 +120,6 @@ extern "C" SO *PloLaunchReward__FP2LOi(OWNER *p, int count)
             SetVelocity(node, velocity);
         }
     }
-    func_001C2DB8(p);
+    ClearReward(p);
     return first;
 }

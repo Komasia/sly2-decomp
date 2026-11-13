@@ -1,2 +1,4 @@
 struct S { char pad[0x150]; int a; int b; int c; };
-void func_001C2DB8(struct S *p) { p->c = 0; p->b = 0; p->a = 0; }
+// name: SafeHouse port (pocket.cpp "orig: 0x001C2DB8 ClearReward")
+void ClearReward(struct S *p) asm("ClearReward__FP2LO");
+void ClearReward(struct S *p) { p->c = 0; p->b = 0; p->a = 0; }

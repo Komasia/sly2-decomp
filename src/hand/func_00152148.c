@@ -4,7 +4,7 @@ struct P { char pad[0x58]; void *p58; void *p5C; char pad2[0x190 - 0x60]; qword 
     char pad4[0x408 - 0x2C4]; struct A *pa408; int f40C; };
 extern struct A *D_002DE570;
 void UpdateStep__FP4STEPf(struct P *p);
-int func_00131968(struct A *pa);
+int FAsegaRetracted(struct A *pa) asm("FAsegaRetracted__FP5ASEGA");
 void SetXfMode__FP3ALOP2XFi(struct P *p, void *pv, int n);
 void PlayDancerAseg__FP2LOT0i(struct P *p, int n, int m);
 void PlayDancerMove__FP2LOiii(struct P *p, int a, int b, int c);
@@ -23,7 +23,7 @@ void UpdateDancer__FP2LO(struct P *p)
 {
     int k;
     UpdateStep__FP4STEPf(p);
-    if (!p->pa408 || func_00131968(p->pa408)) {
+    if (!p->pa408 || FAsegaRetracted(p->pa408)) {
         SetXfMode__FP3ALOP2XFi(p, p->p58, 1);
         SetXfMode__FP3ALOP2XFi(p, p->p5C, 1);
         p->f40C = 0;

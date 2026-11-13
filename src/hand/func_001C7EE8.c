@@ -15,7 +15,7 @@ void *func_00156B98(void *pg, int n, qword q, struct S *p);
 struct LO *PproxyOfInstance__FP2LO(struct S *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *p, int n);
 void func_001C7C30(int n, int f);
-void func_001618B0(void *pg);
+void ShowClueCounter(void *pg) asm("ShowClueCounter__FP2SW");
 void SetPickupStateBase__FP2LOi(struct S *p, int n);
 static inline int FTest(struct S *p) { struct LO *q = PproxyOfInstance__FP2LO(p); return q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 7); }
 // name: SafeHouse port (SetClueState)
@@ -45,7 +45,7 @@ void SetClueState__FP2LOi(struct S *p, int n)
             struct LO *plo = PproxyOfInstance__FP2LO(p);
             func_001C7C30(plo->x100, 1);
             ((void (*)(void *))plo->vt[9].pf)((char *)plo + plo->vt[9].d);
-            func_001618B0(pg);
+            ShowClueCounter(pg);
         }
     }
     SetPickupStateBase__FP2LOi(p, n);

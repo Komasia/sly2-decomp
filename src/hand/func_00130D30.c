@@ -4,7 +4,7 @@ struct S { int x0; void *p4; struct R *pr; int xC; int x10; int x14; struct VTE 
 struct Q { char pad[0x74]; float g74; };
 struct P { int pad[5]; struct Q *pq; int x18; float g1C; float g20; char pad1[0x34 - 0x24]; struct S *ps; char pad2[0x40 - 0x38];
     float g40; float g44; float g48; float g4C; };
-int func_00131968(struct P *p);
+int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
 void FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pg, float *pg2);
 void UpdateAsegaIeaCur(struct P *p) asm("UpdateAsegaIeaCur__FP5ASEGA");
 int FFirst__4CTRL(struct S *ps);
@@ -14,7 +14,7 @@ void SnapAsegaXfs__FP5ASEGAi(struct P *p, int n);
 void SetAsegaTime__FP5ASEGAiff(struct P *p, int k, float g, float s)
 {
     float t;
-    if (func_00131968(p))
+    if (FAsegaRetracted(p))
         return;
     p->g44 = s;
     p->g40 = s * p->g48 * p->g4C;

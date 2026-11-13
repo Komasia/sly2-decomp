@@ -5,7 +5,7 @@ struct P { struct O *x0; int x4; int pad[3]; void *x14; int pad2[2]; int x20; ch
 struct D { char pad[0x460]; float x460; int p1[3]; float x470; char pad2[0x5C4-0x474]; float x5c4; int p2; float x5cc; };
 extern struct D g_cm;
 extern qword D_002A2DD0;
-int func_00131968(void *p);
+int FAsegaRetracted(void *p) asm("FAsegaRetracted__FP5ASEGA");
 void SetBinocState__FP5ACTORi(struct P *p, int n);
 void SetStepPhysHeading__FP3ALOf(struct O *o, float g);
 void UpdateBinocWindow__FP5ACTOR(void *p);
@@ -18,7 +18,7 @@ void UpdateBinoc__FP5ACTOR(struct P *p)
         switch (n) {
         case 0:
             p->x0->x190 = D_002A2DD0;
-            if (!p->x14 || func_00131968(p->x14))
+            if (!p->x14 || FAsegaRetracted(p->x14))
                 SetBinocState__FP5ACTORi(p, 1);
             break;
         case 1:
@@ -38,7 +38,7 @@ void UpdateBinoc__FP5ACTOR(struct P *p)
             break;
         case 2:
             p->x0->x190 = D_002A2DD0;
-            if (!p->x14 || func_00131968(p->x14))
+            if (!p->x14 || FAsegaRetracted(p->x14))
                 SetBinocState__FP5ACTORi(p, -1);
             break;
         }

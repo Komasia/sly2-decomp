@@ -18,7 +18,7 @@ int func_00210AE0(void);
 int NTasksPercentDone(void*) asm("NTasksPercentDone__Fv");
 int func_001637E8(P*);
 void JobTaskReached(void*,P*) asm("JobTaskReached__FP3JOBP4TASK");
-void func_001ABD98(void*,int);
+void HudAutoSave(void*,int) asm("HudAutoSave__FP4SAVEi");
 CRef*func_001291A8(CRef*,const CRef*);
 void Decref(CRef*) asm("Decref__4CRef");
 }
@@ -70,6 +70,6 @@ extern "C" void ChangeTaskState__FP4TASKi(P*p,int state){
             for(int i=0;i<p->count;i++){if(!p->children[i]->link){all=0;break;}}
             if(!all)return;
         }
-        func_001ABD98(D_002E65E0,0);
+        HudAutoSave(D_002E65E0,0);
     }
 }

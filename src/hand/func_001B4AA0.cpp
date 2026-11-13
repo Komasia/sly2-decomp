@@ -56,7 +56,7 @@ extern "C" void UpdateMurrayFlop(P*) asm("UpdateMurrayFlop__FP6MURRAY");
 extern "C" void UpdateMurrayCarryHeld(P*) asm("UpdateMurrayCarryHeld__FP6MURRAY");
 extern "C" void UpdateMurrayHold(P*) asm("UpdateMurrayHold__FP6MURRAY");
 extern "C" void UpdateMurrayCarryTransitions(P*) asm("UpdateMurrayCarryTransitions__FP6MURRAY");
-extern "C" int func_00131968(void*);
+extern "C" int FAsegaRetracted(void*) asm("FAsegaRetracted__FP5ASEGA");
 extern "C" int func_001F0638(void*);
 extern "C" void UpdateMurrayPunchTransitions(P*) asm("UpdateMurrayPunchTransitions__FP6MURRAY");
 extern "C" void UpdateMurrayBehavior(P*) asm("UpdateMurrayBehavior__FP6MURRAY");
@@ -125,14 +125,14 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
   case 5:UpdateMurrayCarryHeld(p);break;
   case 6:UpdateMurrayHold(p);break;
   case 4:UpdateMurrayCarryTransitions(p);break;
-  case 7:case 8:finished=func_00131968(p->animation);goto checkIdle;
+  case 7:case 8:finished=FAsegaRetracted(p->animation);goto checkIdle;
   case 11:UpdateMurrayPunchTransitions(p);break;
   case 9:UpdateMurrayBehavior(p);break;
   case 12:UpdateMurrayBerserkTransitions(p);break;
   case 15:UpdateJtThrow(p->extra);break;
   case 20:UpdateClimbTransitions(p->physics);break;
   case 17:
-   if(p->animation&&func_00131968(p->animation))goto idle;
+   if(p->animation&&FAsegaRetracted(p->animation))goto idle;
    if(!p->other)break;
    finished=func_001F0638(p->other);
   checkIdle:

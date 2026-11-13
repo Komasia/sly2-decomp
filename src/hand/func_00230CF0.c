@@ -25,7 +25,7 @@ typedef struct A { char pad0[0x1C]; float x1C; char pad20[0x34 - 0x20]; C *x34; 
 typedef struct G { char pad[0x3D58]; int x3D58; } G;
 extern G g_sw;
 extern qword D_002A2DD0;
-int func_00131968(A *);
+int FAsegaRetracted(A *) asm("FAsegaRetracted__FP5ASEGA");
 int FFirst__4CTRL(C *);
 void RefreshXf__FP3ALOP2XF(LO *, P *);
 qword VecXfValue__FP2XFP7MATRIX4(P *, P *);
@@ -42,7 +42,7 @@ void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
     int i;
     struct { float f[4]; } __attribute__((aligned(16))) out;
 
-    if (func_00131968(a))
+    if (FAsegaRetracted(a))
         return;
     n = 0;
     for (c = a->x34; c; c = c->x28) {

@@ -8,7 +8,7 @@ struct OWNER;
 struct P {char pad404[0x404];struct ITEM items[8];int count;char pad488[8];int busy;struct OWNER *owner;};
 extern char g_sw[];
 extern struct TABLE D_002C3968[],D_002C3748[];
-void func_001C2DB8(struct OWNER *);
+void ClearReward(struct OWNER *) asm("ClearReward__FP2LO");
 int func_00210AE0(void);
 int FIsBasicDerivedFrom(void *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void *s1_memset(void *,int,int) asm("s1_memset");
@@ -22,7 +22,7 @@ void FillPocket__FP2LO(struct P *p)
     struct TABLE *table;
     struct ITEM reward;
     int id,total,remaining,slots;unsigned int i;
-    func_001C2DB8(p->owner);
+    ClearReward(p->owner);
     if(p->busy)return;
     id=func_00210AE0();if(id==-1)id=1;
     if(FIsBasicDerivedFrom(p,0x3A))table=&D_002C3968[id];else table=&D_002C3748[id];

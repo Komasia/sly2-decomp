@@ -27,7 +27,7 @@ void UpdateClimbTransitions__FP5ACTOR(void *pv);
 void UpdateBentleyHold__FP7BENTLEY(struct P *p);
 void func_001367D8(struct P *p);
 void UpdateJtThrow__FP7JTTHROW(void *pv);
-int func_00131968(void *pv);
+int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
 int func_001F0638(void *pv);
 void UpdateBentleyState2__FP7BENTLEY(struct P *p);
 
@@ -136,7 +136,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             UpdateJtThrow__FP7JTTHROW(p->a11B0);
             break;
         case 10:
-            if (p->p1030 && func_00131968(p->p1030))
+            if (p->p1030 && FAsegaRetracted(p->p1030))
                 SetBentleyState__FP7BENTLEYi(p, 0);
             else if (p->p1034 && func_001F0638(p->p1034))
                 SetBentleyState__FP7BENTLEYi(p, 0);

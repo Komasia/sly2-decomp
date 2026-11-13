@@ -4,7 +4,7 @@ void _$_10STACKSCOPE(void *p, int n);
 void Decref(void *p) asm("Decref__4CRef");
 void *func_001291A8(void *p, const void *q);
 void *func_001C8090(void);
-void func_001ABD98(void *p, int n);
+void HudAutoSave(void *p, int n) asm("HudAutoSave__FP4SAVEi");
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
 struct CRef {
@@ -30,7 +30,7 @@ void func_001C8188(int f)
     if (!pv) return;
     if (f) {
         if (NFromPv(pv,ref) == 0)
-            func_001ABD98(D_002E65E0, 0);
+            HudAutoSave(D_002E65E0, 0);
     }
     { CRef r(f!=0);SetPv(pv,r); }
 }

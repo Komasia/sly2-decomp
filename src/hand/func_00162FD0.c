@@ -5,7 +5,9 @@ int func_001A4E70(void *p);
 void func_001A4E80(void *p);
 void RequestTaskState__FP4TASKii(void *p, int n, struct S *ps);
 void TriggerExit__FP4EXIT(struct LO *plo);
-void func_00162FD0(struct S *p)
+// name: SafeHouse port (task.cpp JobCompleteNext, "// 0x162FD0"; same body)
+void JobCompleteNext(struct S *p) asm("JobCompleteNext__FP3JOB");
+void JobCompleteNext(struct S *p)
 {
     char *pv = D_002E1E88;
     if (func_001A4E70(pv)) {

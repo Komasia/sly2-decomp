@@ -5,7 +5,7 @@ extern float D_002C3DE0;
 void SetK2State__FP6K2PLAYi(struct S *p, int k);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n);
 void func_0020D1A0(void *p);
-int func_00131968(int h);
+int FAsegaRetracted(int h) asm("FAsegaRetracted__FP5ASEGA");
 
 // name: SafeHouse port (UpdateK2)
 void UpdateK2__FP6K2PLAY(struct S *p)
@@ -31,7 +31,7 @@ void UpdateK2__FP6K2PLAY(struct S *p)
             }
             break;
         case 3:
-            if (func_00131968(p->h38))
+            if (FAsegaRetracted(p->h38))
                 SetK2State__FP6K2PLAYi(p, 4);
             break;
         }

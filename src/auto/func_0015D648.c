@@ -13,7 +13,7 @@ void SetEpMode__FP6EPMENUii(s32 arg0, s32 arg1, s32 arg2) {
     if ((temp_v1 != arg1) || (M2C_FIELD(arg0, s32 *, 0x120) != arg2)) {
         switch (temp_v1) {                          /* irregular */
         case 0:
-            func_001ABD98((s32) &D_002E65E0, 1);
+            HudAutoSave__FP4SAVEi((s32) &D_002E65E0, 1);
             break;
         case 4:
         case 6:

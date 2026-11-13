@@ -10,7 +10,7 @@ extern "C"{
 extern CLOCK g_clock;extern U D_002A2DD0,g_normalZ;extern SMP D_002BF928;
 qword PosSmooth(qword,qword,float,SMP*,U*) asm("PosSmooth");
 void SetJumpKind(void*,int,void*,void*) asm("SetJumpKind__FP4JUMPiiP2LO");int GrfPadctlTakePressed(INPUT*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");int GrfPadctlPressedWithin(INPUT*,int,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(INPUT*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");
-void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");int func_00131968(ASEGA*);void SetClimbState(C*,int) asm("SetClimbState__FP5ACTORi");
+void OpenBinoc(void*,int,void*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");int FAsegaRetracted(ASEGA*) asm("FAsegaRetracted__FP5ASEGA");void SetClimbState(C*,int) asm("SetClimbState__FP5ACTORi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void func_001E6F10(PATH*,float,U*,U*);qword func_001C4768(INPUT*,qword);
 void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");float SMaxCrv(PATH*) asm("SMaxCrv__FP3CRV");float GModPositive(float,float) asm("GModPositive__Fff");void RecalcBlend(ANIMATION*) asm("RecalcBlend__FP6ASEGBL");
 float fabsf(float);
@@ -91,7 +91,7 @@ extern "C" void UpdateClimbTransitions__FP5ACTOR(C*p){
  if(!Eligible(p->path)){SetJumpKind(p->actor->controller,0,0,0);return;}
  if(p->state&&GrfPadctlTakePressed(input,0x40,0.25f)){SetJumpKind(p->actor->controller,2,0,0);return;}
  if(GrfPadctlPressedWithin(input,0x400,0.15f)&&CanAct(p->actor,3)){ForgetPadctlPresses(input,0x400);OpenBinoc(p->actor->action,0,0,0);}
- int old;do{old=p->state;if((old==0||old==4)&&func_00131968(p->actor->asega))SetClimbState(p,1);}while(p->state!=old);
+ int old;do{old=p->state;if((old==0||old==4)&&FAsegaRetracted(p->actor->asega))SetClimbState(p,1);}while(p->state!=old);
  if(p->state==0||p->state==4)return;
  func_001E6F10(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
  func_001E6F10(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);

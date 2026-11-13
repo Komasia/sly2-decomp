@@ -17,7 +17,7 @@ typedef struct P {
 extern float g_clock;
 extern float D_002C0A30;
 extern float D_002C0A34;
-int func_00131968(void *p);
+int FAsegaRetracted(void *p) asm("FAsegaRetracted__FP5ASEGA");
 void func_001B6078(P *p, int s);
 void SetMurrayBerserk__FP6MURRAYi(P *p, int s);
 int func_0020C0D8(void *p);
@@ -31,10 +31,10 @@ void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
         s = p->x1840;
         switch (s) {
         case 0:
-            if (!p->x1030 || func_00131968(p->x1030)) SetMurrayBerserk__FP6MURRAYi(p, 1);
+            if (!p->x1030 || FAsegaRetracted(p->x1030)) SetMurrayBerserk__FP6MURRAYi(p, 1);
             break;
         case 1:
-            if (!p->x1030 || func_00131968(p->x1030)) {
+            if (!p->x1030 || FAsegaRetracted(p->x1030)) {
                 func_001B6078(p, 0);
             } else if (p->x1908) {
                 SetMurrayBerserk__FP6MURRAYi(p, 2);
@@ -51,7 +51,7 @@ void UpdateMurrayBerserkTransitions__FP6MURRAY(P *p)
             }
             break;
         case 3:
-            if (!p->x1030 || func_00131968(p->x1030)) {
+            if (!p->x1030 || FAsegaRetracted(p->x1030)) {
                 func_001B6078(p, 0);
             } else if (g_clock - p->x1844 > D_002C0A34 && p->x150->x80 == 1 && 0.0f < p->x150->x1C) {
                 func_001B6078(p, 0);

@@ -56,7 +56,7 @@ int GrfPadctlPressedWithin(JOY *, uint, float) asm("GrfPadctlPressedWithin__FP6P
 void ForgetPadctlPresses(JOY *, uint) asm("ForgetPadctlPresses__FP6PADCTLUi");
 void SetJumpKind(void *, int, int, ACTOR *) asm("SetJumpKind__FP4JUMPiiP2LO");
 void OpenBinoc(void *, int, int, int) asm("OpenBinoc__FP5ACTORiP2LOT2");
-int func_00131968(ASEGA *);
+int FAsegaRetracted(ASEGA *) asm("FAsegaRetracted__FP5ASEGA");
 void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");                     // set the step
 void *PvAllocStackImpl(SWALLOC *) asm("PvAllocStackImpl__Fi");                         // stack allocation in the current STACKSCOPE
 qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");                           // world position
@@ -198,11 +198,11 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
         case 8:
             switch (p->step) {
             case 7:
-                if (func_00131968(p->pactor->pasega))
+                if (FAsegaRetracted(p->pactor->pasega))
                     SetInteractState(p, 9);
                 break;
             case 8:
-                if (func_00131968(p->pactor->pasega))
+                if (FAsegaRetracted(p->pactor->pasega))
                     SetControl(p->pactor, 0);
                 break;
             default:
@@ -217,7 +217,7 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             }
             break;
         case 10:
-            if (!p->pactor->pasega || func_00131968(p->pactor->pasega)) {
+            if (!p->pactor->pasega || FAsegaRetracted(p->pactor->pasega)) {
                 SetControl(p->pactor, 0);
             } else if (D_002BF5B8 < g_clock.t - p->tStamp) {
                 if (0.0f < p->pactor->pjoy->amount || (p->pactor->pjoy->grfbtn & 0xD0)) {
@@ -228,7 +228,7 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             break;
         case 11:
         case 12:
-            if (!p->pactor->pasega || func_00131968(p->pactor->pasega))
+            if (!p->pactor->pasega || FAsegaRetracted(p->pactor->pasega))
                 SetControl(p->pactor, 0);
             break;
         case 5:

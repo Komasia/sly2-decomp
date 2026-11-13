@@ -5,5 +5,5 @@ void func_00162F10(s32 arg0, s32 arg1) {
         return;
     }
     JobCompleteClose__FP3JOB(arg0, arg1);
-    func_00162FD0(arg0);
+    JobCompleteNext__FP3JOB(arg0);
 }

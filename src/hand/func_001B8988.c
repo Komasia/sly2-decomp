@@ -9,7 +9,7 @@ typedef struct P {
     char pad1814[0x181C - 0x1814];
     int x181C;
 } P;
-int func_00131968(void *p);
+int FAsegaRetracted(void *p) asm("FAsegaRetracted__FP5ASEGA");
 void func_001B6078(P *p, int s);
 int func_001B84E0(P *p);
 int GrfPadctlTakePressed__FP6PADCTL(T *t, int k, float f);
@@ -23,7 +23,7 @@ void UpdateMurrayPunchTransitions__FP6MURRAY(P *p)
     int s;
     for (;;) {
         s = p->x1810;
-        if (!p->x1030 || func_00131968(p->x1030)) {
+        if (!p->x1030 || FAsegaRetracted(p->x1030)) {
             func_001B6078(p, 0);
         } else {
             switch (p->x1810) {

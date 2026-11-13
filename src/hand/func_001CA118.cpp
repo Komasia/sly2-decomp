@@ -2,6 +2,7 @@
 // Every global is named by its address; the function keeps its readable name and gets the team symbol through __asm__.
 // Globals: g_sw
 // 0x001CA118 SetIdProxy__2LOii  (MATCHES Sly 2, T0879)
+// name: SafeHouse port (lo.h "SetIdProxy 0x1CA118 (vt slot 25)"; Lilly's port has the same name)
 // Virtual 24: puts the object in the proxy copy tree under idProxy: the path is the ids from the root
 // down to the object's current node (at most 16, deepest last) with idProxy added at the end. The
 // nodes the object owned (PXR::plo == this) are let go, and the new path's nodes that belong to
@@ -194,7 +195,7 @@ struct LO : public BASIC
       virtual void Freeze();
       virtual void Unfreeze();
       virtual void VUnk23();
-      virtual void SetIdProxy(int idProxy, int fChildren) __asm__("func_001CA118");
+      virtual void SetIdProxy(int idProxy, int fChildren) __asm__("SetIdProxy__2LOii");
       virtual void VUnk25(LO *plo);
       virtual void VUnk26(LO *plo);
       virtual int CploChildren(LO ***paplo);

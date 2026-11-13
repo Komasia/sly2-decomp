@@ -2,7 +2,9 @@ typedef struct RPL { int k; float z; int a, b; } RPL;
 extern int NCmpPrplReverseZ(const void *, const void *) asm("NCmpPrplReverseZ__FPP3RPLT0");
 extern int func_00157A98(const void *, const void *);
 extern void qsort(void *, int, int, int (*)(const void *, const void *));
-int func_00157AE0(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac)
+// name: Sly 1 CprplPartitionArpl (counting sort of the RPLs by kind, called first by DrawSw; Sly 2 adds the aiFirst / ac outputs)
+int CprplPartitionArpl(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac) asm("CprplPartitionArpl__FiP3RPLPP3RPLPiT3");
+int CprplPartitionArpl(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac)
 {
     int ai[26];
     int i;

@@ -13,7 +13,7 @@ extern float D_002BD268, D_002BD26C;
 extern char D_002BD270[];
 void func_001F3C10(struct P *p);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, int n);
-void func_00168638(void *p, int n, int m, float a, float b);
+void RenderGlob(void *p, int n, int m, float a, float b) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
 // name: SafeHouse port (DrawActor)
 void DrawActor__FP5ACTOR(struct P *p)
 {
@@ -34,5 +34,5 @@ void DrawActor__FP5ACTOR(struct P *p)
         p->py0->g = p->g10D4;
         p->py1->g = p->g10D4;
     }
-    func_00168638(p->m80, 0, p->x134, p->g12C * p->g10D4, p->g12C * p->g10D8);
+    RenderGlob(p->m80, 0, p->x134, p->g12C * p->g10D4, p->g12C * p->g10D8);
 }

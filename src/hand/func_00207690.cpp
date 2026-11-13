@@ -16,7 +16,7 @@ extern float D_002C3D50[3],D_002C3D60[2],g_lmZeroOne[2];
 extern "C" {
 void func_001F3C10(P *);
 int func_0014FD50(void *);
-void func_00168638(EFFECT *,const M4 *,void *,float,float);
+void RenderGlob(EFFECT *,const M4 *,void *,float,float) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
 void *s1_memset(void *,int,unsigned int) asm("s1_memset");
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 float sinf(float);
@@ -35,7 +35,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
     if(p->flags.bytes[5]&camera->mask){
         func_001F3C10(p);
         if(!func_0014FD50((char *)camera+0x3B0)){
-            func_00168638((EFFECT *)((char *)p+0x80),0,p->material,p->opacity,p->opacity);
+            RenderGlob((EFFECT *)((char *)p+0x80),0,p->material,p->opacity,p->opacity);
         }else{
             s1_memset(&local,0,sizeof(M4));
             local.rows[3].f[3]=1.0f;
@@ -80,7 +80,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             M4 *inversePointer=&inverse;
             InverseAffineMatrix4(inversePointer,basisPointer);
             MulMatrix4(matrixPointer,productPointer,inversePointer);
-            func_00168638((EFFECT *)((char *)p+0x80),matrixPointer,p->material,p->opacity,p->opacity);
+            RenderGlob((EFFECT *)((char *)p+0x80),matrixPointer,p->material,p->opacity,p->opacity);
         }
     }
 }

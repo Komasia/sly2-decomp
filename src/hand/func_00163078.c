@@ -2,7 +2,7 @@ struct S { char pad[0xB0]; int fb0; int fb4; void *fb8; void *fbc; void *fc0; in
 void UpdateLo__FP2LO(struct S *p);
 int FSpriteAnimPlaying__FP2LOi(void *p, int n);
 void JobCompleteClose__FP3JOB(struct S *p);
-void func_00162FD0(struct S *p);
+void JobCompleteNext(struct S *p) asm("JobCompleteNext__FP3JOB");
 void SetJobSeq__FP3JOBi(struct S *p, int n);
 // name: SafeHouse port (UpdateJob)
 void UpdateJob__FP2LO(struct S *p)
@@ -20,13 +20,13 @@ void UpdateJob__FP2LO(struct S *p)
         break;
     case 2:
         if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb4)) {
-            func_00162FD0(p);
+            JobCompleteNext(p);
             SetJobSeq__FP3JOBi(p, 0);
         }
         break;
     case 3:
         if (!FSpriteAnimPlaying__FP2LOi(p->fbc, 0x30F))
-            func_00162FD0(p);
+            JobCompleteNext(p);
         break;
     }
 }

@@ -4,10 +4,10 @@
 class CBinaryInputStream;
 
 void LoadSoFromBrx(SO *pso, CBinaryInputStream *pbis);
-extern "C" void func_00148738(BTN *pbtn, BUTTON *pbutton);   /* Sly 1 LoadBtn(BTN *, ALO *paloOwner) */
+extern "C" void LoadBtn(BTN *pbtn, BUTTON *pbutton) asm("LoadBtn__FP3BTNP3ALO");   /* Sly 1 LoadBtn(BTN *, ALO *paloOwner) */
 
 void LoadButtonFromBrx(BUTTON *pbutton, CBinaryInputStream *pbis)
 {
     LoadSoFromBrx(&pbutton->so, pbis);
-    func_00148738(&pbutton->btn, pbutton);
+    LoadBtn(&pbutton->btn, pbutton);
 }

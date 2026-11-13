@@ -1,6 +1,6 @@
 struct O { char pad[0x30]; int n30; };
 struct E { int k; int h; struct O *po; };
-int func_00131968(struct O *po);
+int FAsegaRetracted(struct O *po) asm("FAsegaRetracted__FP5ASEGA");
 int func_001F0638(struct O *po);
 int func_0020C0D8(struct O *po);
 int func_0020CA98(struct O *po);
@@ -11,7 +11,7 @@ int FKindeDone__FP5KINDE(struct E *pe)
     switch (pe->k) {
     case 0:
         f = 0;
-        if (!pe->po || func_00131968(pe->po))
+        if (!pe->po || FAsegaRetracted(pe->po))
             f = 1;
         break;
     case 1:

@@ -8,7 +8,7 @@ struct P : B { int x10; struct Q *pq; int x18; float g1C; float g20; char pad2[0
 struct G { P *p; G(P *pp) : p(pp) { p->Begin(); } ~G() { p->End(); } };
 extern "C" {
 void FireAsegaEvent(struct P *p, struct E *pe) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
-int func_00131968(struct P *p);
+int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
 }
 static inline int FGe(float a, float b) { return b < a || a == b; }
 static inline int FGe2(float a, float b) { return b < a || (a == b); }
@@ -22,7 +22,7 @@ extern "C" void FireAsegaEvents__FP5ASEGA(struct P *p)
     if (p->pq->c) {
     G g(p);
     p->g20 = p->g1C;
-    while (!func_00131968(p)) {
+    while (!FAsegaRetracted(p)) {
         struct Q *pq = p->pq;
         int i = p->i50;
         float t = p->g20;

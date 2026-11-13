@@ -5,7 +5,7 @@ struct P { char pad[0x64]; struct O *pFirst; char pad2[0x70 - 0x68]; struct O *p
 struct G;
 extern struct G g_sw;
 void ShadowOfLightContext__FP8LIGHTSETP6VECTORT1(struct G *, int, struct B *);
-void func_00168638(void *, int, float, float, struct B *);
+void RenderGlob(void *, int, float, float, struct B *) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
 void func_001F3CC8(struct P *p, int a, struct B *pb, float f1, float f2)
 {
     struct B b;
@@ -16,7 +16,7 @@ void func_001F3CC8(struct P *p, int a, struct B *pb, float f1, float f2)
         pb = &b;
         ShadowOfLightContext__FP8LIGHTSETP6VECTORT1(&g_sw, a, &b);
     }
-    func_00168638(p->x80, a, f1, f2, pb);
+    RenderGlob(p->x80, a, f1, f2, pb);
     for (po = p->pFirst; po != p->pEnd; po = po->pNext)
         po->pvt[20].pfn((char *)po + po->pvt[20].d, a, f1, f2, pb);
 }

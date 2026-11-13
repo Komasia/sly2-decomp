@@ -1,4 +1,4 @@
-// func_00169198 (Claude agent, lanes I1-I9, H21): fresh rewrite in the style of Lilly's matched files.
+// RenderGlobCtx (Claude agent, lanes I1-I9, H21): fresh rewrite in the style of Lilly's matched files.
 // H21: the copy loop is a `for` counter loop (loop.c turns it into the target's 12/-4/bgez count) preceded by an
 // empty do-while(0), whose loop notes act as the scheduling barrier the target shows after `pb += 4`.
 // Builds the VIF packet for every submodel of a model: model matrix, optional bone matrices, optional skin matrices,
@@ -202,7 +202,9 @@ static inline void UnpackQws(uint tag, const void *pv, int cw)
     CopyQws((uint *)pdma->pb, (const uint *)pv, cw);
     pdma->pb += cw * 4;
 }
-extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
+// name: SafeHouse port (render.cpp "orig: 0x169198 RenderGlobCtx")
+extern "C" void RenderGlobCtx(MODEL *pmodel, ALO *palo) asm("RenderGlobCtx__FP4GLOBP3ALO");
+extern "C" void RenderGlobCtx(MODEL *pmodel, ALO *palo)
 {
     SHD shd;
     MATRIX4 matModel;

@@ -17,7 +17,7 @@ qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 int FPointInShape(VOLUME*,qword) asm("FPointInShape__FP2LOG9VU_VECTOR");
 void SetStrikeState(P*,int) asm("SetStrikeState__FP5GUARDi");
-int func_00131968(POOL*);
+int FAsegaRetracted(POOL*) asm("FAsegaRetracted__FP5ASEGA");
 qword PosConvertXfs(SPACE*,SPACE*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 M3*BuildRotateVectorsMatrix(M3*,qword,qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 qword DecomposeEulerMatrix(M3*) asm("DecomposeEulerMatrix__FP7MATRIX3");
@@ -84,7 +84,7 @@ extern "C" void func_001BA128(P*p){
   break;
  }
  case 1:{
-  if(func_00131968(p->animation)){SetStrikeState(p,0);break;}
+  if(FAsegaRetracted(p->animation)){SetStrikeState(p,0);break;}
   NODE*node=p->node;
   qword position=PosOfLo(p->target);
   qword local=PosConvertXfs(0,node->space,position);

@@ -13,7 +13,9 @@ void Decref(struct CRef *) asm("Decref__4CRef");
 void func_001ACB58(struct H *h, int n);
 void func_001ABCE8(struct S *s);
 void func_001ADE38(void *p);
-void func_001ABD98(struct S *s, int force)
+// name: SafeHouse port (hudwidget.cpp HudAutoSave(fForce), "// 0x1ABD98"; same body)
+void HudAutoSave(struct S *s, int force) asm("HudAutoSave__FP4SAVEi");
+void HudAutoSave(struct S *s, int force)
 {
     struct G *g;
     struct CRef ref;

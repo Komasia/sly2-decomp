@@ -32,7 +32,7 @@ float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
 void SetJtThrowState(S *,int) asm("SetJtThrowState__FP7JTTHROWi");
 void RecalcBlend(ASEG *) asm("RecalcBlend__FP6ASEGBL");
-int func_00131968(ASEGA *);
+int FAsegaRetracted(ASEGA *) asm("FAsegaRetracted__FP5ASEGA");
 int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int GrfPadctlTakePressed(CONTROL *,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
@@ -197,10 +197,10 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
    break;
   }
   case 1:case 2:
-   if(!animation||func_00131968(animation))SetJtThrowState(s,0);
+   if(!animation||FAsegaRetracted(animation))SetJtThrowState(s,0);
    break;
   case 3:
-   if(!animation||func_00131968(animation)){if(D_002DD5BC->mode==8)SetJtThrowState(s,4);else SetJtThrowState(s,0);}
+   if(!animation||FAsegaRetracted(animation)){if(D_002DD5BC->mode==8)SetJtThrowState(s,4);else SetJtThrowState(s,0);}
    break;
   case 4:case 5:case 6:{
    if(FIsBasicDerivedFrom(s->selected,0x64)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
@@ -221,7 +221,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
     if(s->effect)EffectCall(s->effect,9);
     return;
    }
-   if(!animation||func_00131968(animation))SetJtThrowState(s,4);
+   if(!animation||FAsegaRetracted(animation))SetJtThrowState(s,4);
    else if(s->state==4){
     w.scratch.vector.q=ActiveDifference(s->targetWorld,w.ownerPosition);
     float heading=atan2f(w.scratch.vector.f[1],w.scratch.vector.f[0]);
@@ -232,7 +232,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
    break;
   }
   case 7:
-   if(!animation||func_00131968(animation)){if(s->animation0)SetJtThrowState(s,0);else IntCall(s->owner,88,0);}
+   if(!animation||FAsegaRetracted(animation)){if(s->animation0)SetJtThrowState(s,0);else IntCall(s->owner,88,0);}
    break;
   }
   if(s->state==previous||s->state==-1)break;

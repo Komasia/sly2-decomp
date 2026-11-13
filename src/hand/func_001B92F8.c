@@ -2,7 +2,7 @@ struct O { char pad[0x28]; unsigned long f28; };
 struct T { char pad[0x180]; struct O *po; };
 struct P { char pad[0x1030]; int x1030; char pad1[0x13F0 - 0x1034]; struct T *x13F0; char pad2[0x1448 - 0x13F4]; int x1448; int x144C; int x1450; };
 void func_001B6078(struct P *p, int n);
-int func_00131968(int n);
+int FAsegaRetracted(int n) asm("FAsegaRetracted__FP5ASEGA");
 // name: SafeHouse port (UpdateMurrayCarryTransitions)
 void UpdateMurrayCarryTransitions__FP6MURRAY(struct P *p)
 {
@@ -21,7 +21,7 @@ void UpdateMurrayCarryTransitions__FP6MURRAY(struct P *p)
             }
             break;
         case 2:
-            if (func_00131968(p->x1030)) func_001B6078(p, 5);
+            if (FAsegaRetracted(p->x1030)) func_001B6078(p, 5);
             break;
         }
         if (p->x1450 == s || p->x1450 == -1) break;

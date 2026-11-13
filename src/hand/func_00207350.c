@@ -21,7 +21,7 @@ void UpdateWatchA__FP6WATCHA(void *p);
 void UpdateWatchB__FP6WATCHB(void *p);
 void UpdateJobs__FP5ACTOR(void *p);
 void func_002097E0(void *p);
-int func_00131968(int h);
+int FAsegaRetracted(int h) asm("FAsegaRetracted__FP5ASEGA");
 void func_001306A8(int *ph);
 
 void UpdateStepguard__FP9STEPGUARDf(struct S *p)
@@ -43,7 +43,7 @@ void UpdateStepguard__FP9STEPGUARDf(struct S *p)
     UpdateWatchB__FP6WATCHB(p->p49C);
     UpdateJobs__FP5ACTOR(p->x26C);
     func_002097E0(p->xFD0);
-    if (p->h34C && func_00131968(p->h34C))
+    if (p->h34C && FAsegaRetracted(p->h34C))
         func_001306A8(&p->h34C);
     if (p->n4A4 && p->n208)
         p->q4B0 = *p->pq218;

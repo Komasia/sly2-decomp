@@ -1,4 +1,4 @@
-// func_00168638 (Claude agent, lane Z1, 2026-10-30): MATCH, 728/728, frame 0x290. Source = build/hand_wip/func_00168638.lilly5.cpp unchanged.
+// RenderGlob (Claude agent, lane Z1, 2026-10-30): MATCH, 728/728, frame 0x290. Source = build/hand_wip/func_00168638.lilly5.cpp unchanged.
 //   Policy: no GPR/FPU pins. The only register bindings are the microprogram 0x1C0 I/O registers (vf10..vf19) inside the
 //   inline GCullSphere/GCullSphereSync helpers (allowed: VU microprogram registers bound inside an inline helper). All other asms
 //   are VU helper inlines (lw/qmfc2/mtc1 VU_FLOAT-style, as in Lilly's files) or commented empty asms; globals are D_ names only.
@@ -47,7 +47,7 @@
 // laneI7v2 (Claude agent): aligned 35. laneI6v2 + params (pmodel, pmatWorld, gFirst, gSecond, pshd) (entry pshd spill order, 51 -> 48) + case-3 SqDist returns float straight from qmfc2 (48 -> 35).
 // laneI6v2 (Claude agent): aligned 51. laneI5v4 + final GBitsSqLength with qwOne as operand 0, case 3 GBitsSqDist (old order), fAlt kind as (x != 1.0f) ? 23 : 22.
 // laneI5v4 (Claude agent): aligned 57. laneI4v5 + pad loop via `DMA *pdma` and a `pbPad` cursor, skin offset `int ibMat = imat*0x40 + 0x6F0`, commented empty volatile asm at the start of CopyQws.
-// func_00168638 (Claude agent, lane I3): fresh rewrite in the style of Lilly's matched files.
+// RenderGlob (Claude agent, lane I3): fresh rewrite in the style of Lilly's matched files.
 // laneI4v5 (Claude agent): aligned 120 (raw 179), frame 0x290. v4 + posCam, pos, sRadius declaration order.
 // Culls a model against the view (microprogram 0x1C0), then builds the VIF packet for every visible submodel
 // (optional reference, model matrix, params, bone matrices (0x1684D0), skin matrices) and queues it for rendering.
@@ -373,7 +373,9 @@ static inline int KindOf(SUB *psub)
 {
     return (ulong)(psub->grf & 0xF8) >> 3;
 }
-extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, float gSecond, SHD *pshd)
+// name: SafeHouse port (RenderGlob 0x168638: render.cpp, sly.cpp, spawner.cpp, game.cpp)
+extern "C" void RenderGlob(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, float gSecond, SHD *pshd) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
+extern "C" void RenderGlob(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, float gSecond, SHD *pshd)
 {
     SUBDESC *pdesc;
     qword posCam = g_cm.posCam;

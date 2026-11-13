@@ -7,7 +7,7 @@ struct G { struct P *p; };
 struct CLOCK { float t; float dt; char pad[0x38]; float g40; };
 extern struct CLOCK g_clock;
 void FireAsegaEvents__FP5ASEGA(struct P *p);
-int func_00131968(struct P *p);
+int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
 int FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pt, float *pdt);
 void RetractAsega__FP5ASEGA(struct P *p);
 static __inline__ unsigned int GrfQ(struct Q *pq) { unsigned int x = pq->x40; return ((x ^ 1) & 1) ? *(unsigned int *)x : x; }
@@ -30,7 +30,7 @@ void UpdateAsega__FP5ASEGA(struct P *p)
         else
             p->g1C = p->g1C + p->g40 * g_clock.dt;
         FireAsegaEvents__FP5ASEGA(p);
-        if (func_00131968(p))
+        if (FAsegaRetracted(p))
             { End(&g); return; }
         f = FWrapAsegaTime__FP5ASEGAPfT1(p, &p->g1C, &p->g40);
         if (f) {
@@ -39,11 +39,11 @@ void UpdateAsega__FP5ASEGA(struct P *p)
         }
         if (f) {
             ((void (*)(void *, int, struct P *))p->vt[4].pfn)((char *)p + p->vt[4].d, 3, p);
-            if (func_00131968(p))
+            if (FAsegaRetracted(p))
                 { End(&g); return; }
         }
         FireAsegaEvents__FP5ASEGA(p);
-        if (func_00131968(p))
+        if (FAsegaRetracted(p))
             { End(&g); return; }
         if (f && !(p->grf & 0x38))
             RetractAsega__FP5ASEGA(p);

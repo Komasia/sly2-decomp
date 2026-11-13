@@ -24,7 +24,7 @@ extern V3 D_002C1F00, D_002C1F10;
 extern int D_002DE5A4;
 extern int D_002BDD20[];
 extern RPLK D_002BDD88[];
-int func_00157AE0(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac);
+int CprplPartitionArpl(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac) asm("CprplPartitionArpl__FiP3RPLPP3RPLPiT3");
 void AddDmaCall(VIFS *p, void *pv) asm("AddDmaCall__4DMASP2QW");
 void AddDmaCnt(VIFS *p) asm("AddDmaCnt__4DMAS");
 void AddVifDirect(VIFS *p, int n, void *pv, int m) asm("AddVifDirect__4VIFSiP2QWi");
@@ -36,7 +36,9 @@ void EndDmaCnt(VIFS *p) asm("EndDmaCnt__4DMAS");
 void Flush__4DMAS(void *p);
 void func_001EA9F0(GAME *p, int n);
 
-void func_00157FA0(GAME *pgame)
+// name: Sly 1 DrawSw (called right after RenderSw in the main loop, partitions the RPLs with CprplPartitionArpl and draws them)
+void DrawSw(GAME *pgame) asm("DrawSw__FP2SW");
+void DrawSw(GAME *pgame)
 {
     M4 mat0;
     M4 mat1;
@@ -48,7 +50,7 @@ void func_00157FA0(GAME *pgame)
     int kPrev, kindPrev;
     int i;
 
-    c = func_00157AE0(D_003D4A50 - D_003B3980, D_003B3980, aprpl, aiFirst, ac);
+    c = CprplPartitionArpl(D_003D4A50 - D_003B3980, D_003B3980, aprpl, aiFirst, ac);
     {
         qword *pqw = D_002DEA28.pqw;
         g_pfrmOpen->pqw24 = pqw;

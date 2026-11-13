@@ -35,7 +35,7 @@ extern void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, qword q, vo
 extern void SetJtJts__FP2JT3JTS4JTBS(void *p, int a, int b);
 extern qword PosOfLo__FP2LO(void *p);
 extern void DistSegments__FG9VU_VECTORN30P6VECTORN24(qword a, qword b, qword c, qword d, float *parameters, float *distance, qword *direction);
-extern void func_00189618(void *p);
+extern void UpdateSlyLean(void *p) asm("UpdateSlyLean__FP2JT");
 
 static __inline__ qword VMulX(qword a, qword s) { qword r; __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(a), "j"(s)); return r; }
 
@@ -158,7 +158,7 @@ void UpdateJt__FP2JTf(char *p)
         }
     }
 end:
-    func_00189618(p);
+    UpdateSlyLean(p);
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];

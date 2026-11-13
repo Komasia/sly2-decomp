@@ -8,7 +8,7 @@ struct P { int pad[3]; struct VTE *vt; int x10; struct Q *pq; struct O *x18; flo
     char pad3[0x54 - 0x3C]; int i54; int x58; char a5C[4]; };
 struct G { struct P *p; };
 extern char D_003E1218[];
-int func_00131968(struct P *p);
+int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
 void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p);
 void SetAsegaEventSound__FP5ASEGAi(struct P *p, int);
 void RemoveDlEntry__FP2DLPv(void *, struct P *);
@@ -21,7 +21,7 @@ static __inline__ void End(struct G *pg) { struct P *po = pg->p; ((void (*)(void
 // name: SafeHouse port (RetractAsega)
 void RetractAsega__FP5ASEGA(struct P *p)
 {
-    if (func_00131968(p))
+    if (FAsegaRetracted(p))
         return;
     {
         struct G g;
@@ -33,7 +33,7 @@ void RetractAsega__FP5ASEGA(struct P *p)
         for (; p->i54 < p->pq->cA8; p->i54++) {
             { register struct E *pe __asm__("$5") = p->pq->aAC; pe += p->i54; pe->f = p->g1C; }
             FireAsegaEvent__FP5ASEGAP6ASEGEV(p);
-            if (func_00131968(p))
+            if (FAsegaRetracted(p))
                 { End(&g); return; }
         }
         SetAsegaEventSound__FP5ASEGAi(p, 0);
