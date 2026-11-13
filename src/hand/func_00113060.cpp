@@ -1,7 +1,7 @@
-extern "C" void *func_002333B4(void *pv, int b, int cb);
+extern "C" void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 class M {
 public:
-    M() { func_002333B4(this, 0, sizeof(*this)); }
+    M() { s1_memset(this, 0, sizeof(*this)); }
     int a[0x70 / 4];
 };
 class BASIC {

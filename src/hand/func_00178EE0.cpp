@@ -24,8 +24,8 @@ extern qword g_normalZ, D_002A2DD0;
 void func_001789F8(P *);
 qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 MATRIX3 *MatJtLo(ACTOR *) asm("MatJtLo__FP2LO");
-void func_00131A00(void *, float);
-float func_002458F0(float, float);
+void SetAsegaSpeed(void *, float) asm("SetAsegaSpeed__FP5ASEGAf");
+float atan2f(float, float) asm("atan2f");
 void SetMoveHeading(void *, float) asm("SetMoveHeading__FP7MOVEREF");
 void SelectK3(CONTROL *, qword) asm("SelectK3__FP6K3PLAYG9VU_VECTOR");
 }
@@ -153,8 +153,8 @@ extern "C" void Update__9JOBFOLLOW(P *p)
         switch (pchoice->kind)
         {
         case 0:
-            func_00131A00(pchoice->control, p->rate * g);
-            SetMoveHeading(p->actor->control, func_002458F0(GYOfQw(dpos), GXOfQw(dpos)));
+            SetAsegaSpeed(pchoice->control, p->rate * g);
+            SetMoveHeading(p->actor->control, atan2f(GYOfQw(dpos), GXOfQw(dpos)));
             break;
         case 3:
         {
@@ -175,7 +175,7 @@ extern "C" void Update__9JOBFOLLOW(P *p)
                 __asm__("vmulq.xyzw %0, %1, $Q" : "=j"(qwDir) : "j"(qwLocal));
             }
             SelectK3(pchoice->control, QwScaleX(qwDir, vuSpeed));
-            func_00131A00(pchoice->control->animation, g);
+            SetAsegaSpeed(pchoice->control->animation, g);
             break;
         }
         }

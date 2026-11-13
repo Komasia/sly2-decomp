@@ -37,7 +37,7 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" void func_0011BCF8(void *pv, float *pg, void *pvec);
+extern "C" void DecomposeRotateMatrixRad(void *pv, float *pg, void *pvec) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 extern "C" CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref) asm("RefOpMatrixDecomposeToRadianNormal__FiP4CRefP6CFrame");
 CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref)
 {
@@ -47,7 +47,7 @@ CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref)
     sp->SetNext(PpairNew());
     CRef *pref = &sp->pnext.p->ref;
     pref->SetTag(0x1A);
-    func_0011BCF8(aref[0].u.pv, &g.g, pref->u.pv);
+    DecomposeRotateMatrixRad(aref[0].u.pv, &g.g, pref->u.pv);
     sp->ref = g.g;
     return CRef(sp.p);
 }

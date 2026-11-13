@@ -11,7 +11,7 @@ struct C *__10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void func_0020FA10();
 void func_0020FAA0(void *, ti128, ti128, void (*)(), int, int *, int *);
-int func_0014CC58(int, ti128, ti128, int, int, struct LSG *);
+int PsoHitTestLineObjects(int, ti128, ti128, int, int, struct LSG *) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 // name: SafeHouse port (FireBentleyDart)
 void FireBentleyDart__FP7BENTLEY(struct S *p) {
     struct C ctx;
@@ -22,7 +22,7 @@ void FireBentleyDart__FP7BENTLEY(struct S *p) {
     ti128 v2 = ConvertCmScreenToWorld__FP2CMG9VU_VECTOR(g_cm, D_002BC980);
     __10STACKSCOPE(&ctx);
     func_0020FAA0(g_sw, v1, v2, func_0020FA10, p->fec, &cso, &aso);
-    if (func_0014CC58(1, v1, v2, cso, aso, &lsg)) p->v16f0 = lsg.pos;
+    if (PsoHitTestLineObjects(1, v1, v2, cso, aso, &lsg)) p->v16f0 = lsg.pos;
     else p->v16f0 = v2;
     _$_10STACKSCOPE(&ctx, 2);
 }

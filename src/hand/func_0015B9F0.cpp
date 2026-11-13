@@ -16,7 +16,7 @@ extern "C" {
 extern CLOCK g_clock;
 extern float D_002A5150;
 void ChooseEmitParticles(int c, EMITB *pemitb, BUF *pb) asm("ChooseEmitParticles__FiP7EMITTERP3BUF");
-int func_0011D4D0(float g1, float g2, float gEps);
+int FFloatsNear(float g1, float g2, float gEps) asm("FFloatsNear__Ffff");
 void func_002309E8(void *p, int n, M4 *pm0, float t, M4 *pm1);
 void MulMatrix4(M4 *pmOut, M4 *pmA, M4 *pmB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void func_0015B9F0(int c, EMITTER *pemit, TIMES *ptimes, BUF *pb);
@@ -64,7 +64,7 @@ void func_0015B9F0(int c, EMITTER *pemit, TIMES *ptimes, BUF *pb)
         float tNow = g_clock.t;
         float t = ptimes->at[i] - tNow;
         int k = palo->pemitb->k18;
-        if (!func_0011D4D0(t, tPrev, 0.0001f)) {
+        if (!FFloatsNear(t, tPrev, 0.0001f)) {
             M4 mT;
             tPrev = t;
             func_002309E8(pv, 0, &m, t, 0);

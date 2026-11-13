@@ -10,9 +10,9 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" {
-CRef func_00200CA8(void *a, void *b, CRef *pref);
-CRef func_00200D10(void *a, void *b, CRef *pref);
-CRef func_00200C28(void *a, void *b, CRef *pref);
+CRef RefAddOption(void *a, void *b, CRef *pref) asm("RefAddOption__FP5BASICiP4CRef");
+CRef RefEnsureOption(void *a, void *b, CRef *pref) asm("RefEnsureOption__FP5BASICiP4CRef");
+CRef RefSetOption(void *a, void *b, CRef *pref) asm("RefSetOption__FP5BASICiP4CRef");
 CRef RefGetOption(void *a, void *b) asm("RefGetOption__FP5BASICi");
 CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op);
 }
@@ -23,13 +23,13 @@ CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op)
     void *b = aref[1].u.pv;
     switch (op) {
     case 0x6C:
-        ref = func_00200CA8(a, b, &aref[2]);
+        ref = RefAddOption(a, b, &aref[2]);
         break;
     case 0x6D:
-        ref = func_00200D10(a, b, &aref[2]);
+        ref = RefEnsureOption(a, b, &aref[2]);
         break;
     case 0x6E:
-        ref = func_00200C28(a, b, &aref[2]);
+        ref = RefSetOption(a, b, &aref[2]);
         break;
     case 0x6F:
         ref = RefGetOption(a, b);

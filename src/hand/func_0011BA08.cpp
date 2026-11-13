@@ -20,10 +20,10 @@ struct VU_FLOAT {
     float G() const { register qword t __asm__("$2") = q; float g; __asm__("mtc1 %1, %0" : "=f"(g) : "r"(t)); return g; }
 };
 extern "C" {
-void *func_002333B4(void *pv, int n, int cb);
-void *func_0023320C(void *pvDst, const void *pvSrc, int cb);
+void *s1_memset(void *pv, int n, int cb) asm("s1_memset");
+void *s1_memcpy(void *pvDst, const void *pvSrc, int cb) asm("s1_memcpy");
 qword PerpendicularVector(qword v) asm("PerpendicularVector__FG9VU_VECTOR");
-float func_0011CFE0(float g, float gMax);
+float GLimitAbs(float g, float gMax) asm("GLimitAbs__Fff");
 M3 BuildRotateMatrixSinCos(VU_FLOAT s, VU_FLOAT c, qword axis) asm("BuildRotateMatrixSinCos__FG9VU_VECTORN20");
 }
 static inline qword Len(qword a)
@@ -51,7 +51,7 @@ M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b)
     lb.q = Len(b);
     if (la.H() < 1e-4f || lb.H() < 1e-4f) {
         MAT3 *p = (MAT3 *)pm;
-        func_002333B4(pm, 0, 0x30);
+        s1_memset(pm, 0, 0x30);
         p->m[0][0] = p->m[1][1] = p->m[2][2] = 1.0f;
     } else {
         qword axis;
@@ -66,13 +66,13 @@ M3 *BuildRotateVectorsMatrix(M3 *pm, qword a, qword b)
         VU_FLOAT d;
         d.q = Dot(a, b);
         float ll = la.H() * lb.H();
-        VU_FLOAT c = func_0011CFE0(VU_FLOAT(d.G() / ll).F(), 1.0f);
+        VU_FLOAT c = GLimitAbs(VU_FLOAT(d.G() / ll).F(), 1.0f);
         float cc = c.F();
         float sn;
         /* volatile: emulates the original schedule, see header */
         __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(sn) : "f"(1.0f - cc * cc));
         M3 m = BuildRotateMatrixSinCos(VU_FLOAT(sn), c, axis);
-        func_0023320C(pm, &m, sizeof(M3));
+        s1_memcpy(pm, &m, sizeof(M3));
     }
     return pm;
 }

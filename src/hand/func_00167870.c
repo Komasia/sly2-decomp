@@ -11,17 +11,17 @@ struct REQUEST{int bytes,alignment;};
 typedef char MetaSize[sizeof(struct META)==8?1:-1];
 typedef char RecordSize[sizeof(struct RECORD)==0x20?1:-1];
 typedef char EntrySize[sizeof(struct E)==0x28?1:-1];
-short func_00117D50(struct STREAM*) __asm__("S16Read__18CBinaryInputStream");
-char func_00117D00(struct STREAM*) __asm__("S8Read__18CBinaryInputStream");
+short S16Read(struct STREAM*) __asm__("S16Read__18CBinaryInputStream");
+char S8Read(struct STREAM*) __asm__("S8Read__18CBinaryInputStream");
 struct VECTOR;
 void ReadVector__18CBinaryInputStreamP6VECTOR(struct STREAM*,struct VECTOR*) __asm__("ReadVector__18CBinaryInputStreamP6VECTOR");
-float func_00117E38(struct STREAM*) __asm__("F32Read__18CBinaryInputStream");
-unsigned char func_00117BD0(struct STREAM*) __asm__("U8Read__18CBinaryInputStream");
+float F32Read(struct STREAM*) __asm__("F32Read__18CBinaryInputStream");
+unsigned char U8Read(struct STREAM*) __asm__("U8Read__18CBinaryInputStream");
 void*PvAllocSwClearImpl__Fi(struct REQUEST*);
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
 // name: SafeHouse port (LoadGlobSpheresFromBrx)
 void LoadGlobSpheresFromBrx__FP7GLOBSETP18CBinaryInputStream(struct P*p,struct STREAM*stream){
-    int count=func_00117D50(stream);
+    int count=S16Read(stream);
     if(count){
         struct REQUEST request;
         struct GROUP*groups;
@@ -33,19 +33,19 @@ void LoadGlobSpheresFromBrx__FP7GLOBSETP18CBinaryInputStream(struct P*p,struct S
             uint j;
             for(j=0;j<4;j++){
                 struct RECORD*record=&group->records[j];
-                record->meta.kind=func_00117D00(stream);
+                record->meta.kind=S8Read(stream);
                 if(record->meta.kind==-1){
                     for(;j<4;j++)group->records[j].meta.kind=-1;
                     break;
                 }
                 ReadVector__18CBinaryInputStreamP6VECTOR(stream,(struct VECTOR*)record->position);
-                record->radius=func_00117E38(stream);
-                record->meta.limit=func_00117E38(stream);
-                record->meta.count=func_00117BD0(stream);
+                record->radius=F32Read(stream);
+                record->meta.limit=F32Read(stream);
+                record->meta.count=U8Read(stream);
                 record->meta.limit=Min(1.0e10f,record->meta.limit);
                 switch(record->meta.kind){
                 case 0:{
-                    int index=func_00117D50(stream);
+                    int index=S16Read(stream);
                     struct D*descriptor=&p->descriptors[index];
                     struct E*entry=&p->entries[index];
                     if(entry->flags&0x1000){record->meta.kind=3;record->link=entry->matrix;}
@@ -56,7 +56,7 @@ void LoadGlobSpheresFromBrx__FP7GLOBSETP18CBinaryInputStream(struct P*p,struct S
                     break;
                 }
                 case 1:
-                    record->link=&groups[func_00117D50(stream)];
+                    record->link=&groups[S16Read(stream)];
                     break;
                 }
             }

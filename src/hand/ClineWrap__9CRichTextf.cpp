@@ -2,7 +2,7 @@
 struct CFont;
 extern "C" {
 extern const unsigned char D_002AA6A1[];
-float func_0015F0F0(CFont *pfont, int ch);
+float DxFromCh(CFont *pfont, int ch) asm("DxFromCh__8CFontBrxc");
 }
 class CRichText {
 public:
@@ -11,21 +11,21 @@ public:
     CFont *m_pfontCur;
     int ClineWrap(float dxMax);
 };
-extern "C" void func_0015F970(CRichText *p);
-extern "C" int func_0015F9D0(CRichText *p);
+extern "C" void Reset(CRichText *p) asm("Reset__9CRichText");
+extern "C" int ChNext(CRichText *p) asm("ChNext__9CRichText");
 int CRichText::ClineWrap(float dxMax)
 {
     int cline = 1;
     float dx = 0.0f;
     int ch;
     register int chNl __asm__("$18") = 10;
-    func_0015F970(this);
-    while ((ch = func_0015F9D0(this)) != 0) {
+    Reset(this);
+    while ((ch = ChNext(this)) != 0) {
         if (ch == '\n') {
             cline++;
             dx = 0.0f;
         } else {
-            dx += func_0015F0F0(m_pfontCur, ch);
+            dx += DxFromCh(m_pfontCur, ch);
         }
         if (dxMax != 0.0f && dx > dxMax) {
             unsigned char *pch;

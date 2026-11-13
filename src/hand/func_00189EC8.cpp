@@ -7,7 +7,7 @@ struct O { char pad[0xEC]; int xEC; char pad1[0x208 - 0xF0]; int x208; };
 extern "C" {
 qword ConvertPos(void *p, void *q, qword v) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020FAA0(void *pv, qword vMin, qword vMax, void *pfn, int n, int *pn0, int *pn1);
-int func_0014CC58(int n, qword a, qword b, int n0, int n1, HIT *phit);
+int PsoHitTestLineObjects(int n, qword a, qword b, int n0, int n1, HIT *phit) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 void SetCtrlSourceOffset(void *p, qword v) asm("SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR");
 void NOverlapKind() asm("NOverlapKind__FP3ALOT0");
 extern char g_sw[];
@@ -31,7 +31,7 @@ int MatchSlyFootProbe(O *p, M *pm, void *px)
         b = ConvertPos(p, 0, pm->v40);
         c = ConvertPos(p, 0, pm->v50);
         func_0020FAA0(g_sw, VMin(a, VMin(b, c)), VMax(a, VMax(b, c)), (void *)NOverlapKind, p->xEC, &n0, &n1);
-        if ((func_0014CC58(0, a, b, n0, n1, &hit) || func_0014CC58(0, b, c, n0, n1, &hit)) &&
+        if ((PsoHitTestLineObjects(0, a, b, n0, n1, &hit) || PsoHitTestLineObjects(0, b, c, n0, n1, &hit)) &&
             hit.g40 != 0.0f && 0.7f < hit.g28) {
             qword w;
             hit.v0 = VSub(hit.v0, g_normalZ);

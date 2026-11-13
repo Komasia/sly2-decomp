@@ -15,12 +15,12 @@ struct E { int f0; struct X *px; int x8; };
 struct P { char pad[0x3CD0]; int c; struct E *aae[3]; char a3CE0[0x3CF8 - 0x3CE0]; char aCF8[0x3D10 - 0x3CF8];
     char a3D10[0xC]; char a3D1C[0xC]; char a3D28[0xC]; char a3D34[0xC]; };
 struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
-void func_001A7E10(struct P *, void *);
+void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 int FFindDlEntry__FP2DLPv(void *, struct X *);
-void *func_002332B8(void *, void *, int);
+void *s1_memmove(void *, void *, int);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
 // name: SafeHouse port (RemoveSwOxa)
 void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
@@ -35,7 +35,7 @@ void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
         if (pl->pv) {
             if (!VCALL(pl->po, 62, int (*)(void *))))
                 WakeAlo__FP3ALO(pl->po);
-            func_001A7E10(p, pl->pv);
+            FreeSwXpList(p, pl->pv);
         }
         plNext = pl->pnext;
         func_0011CD98(p->aCF8, pl);
@@ -47,7 +47,7 @@ void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
     __asm__ __volatile__("");
     __asm__ __volatile__("");
     __asm__ __volatile__("");
-    func_001A7E10(p, px->pv6C);
+    FreeSwXpList(p, px->pv6C);
     RemoveDlEntry__FP2DLPv(p->a3D10, px);
     if (FFindDlEntry__FP2DLPv(p->a3D1C, px))
         RemoveDlEntry__FP2DLPv(p->a3D1C, px);
@@ -73,8 +73,8 @@ void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
                 break;
             peStart = pe++;
         }
-        func_002332B8(peStart, peStart + 1, ((int)(((char *)pe - (char *)peStart) * k3) >> 2) * sizeof(struct E) - sizeof(struct E));
-        func_002332B8(pe - 1, pe + 1, (p->c - ((int)(((char *)pe - (char *)ae) * k3) >> 2)) * sizeof(struct E) - sizeof(struct E));
+        s1_memmove(peStart, peStart + 1, ((int)(((char *)pe - (char *)peStart) * k3) >> 2) * sizeof(struct E) - sizeof(struct E));
+        s1_memmove(pe - 1, pe + 1, (p->c - ((int)(((char *)pe - (char *)ae) * k3) >> 2)) * sizeof(struct E) - sizeof(struct E));
     }
     }
     p->c -= 2;

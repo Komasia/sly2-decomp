@@ -4,9 +4,9 @@ struct CBinaryInputStream;
 struct TRI { int aipos[3]; float sArea; };
 struct EMITMESH { int cpos; qword *apos; int ctri; TRI *atri; qword *anormal; float sArea; int pad18[2]; qword v20; };
 extern "C" {
-int func_00117C20(CBinaryInputStream *pbis);
+int U16Read(CBinaryInputStream *pbis) asm("U16Read__18CBinaryInputStream");
 void ReadVector(CBinaryInputStream *pbis, qword *pv) asm("ReadVector__18CBinaryInputStreamP6VECTOR");
-float func_00117E38(CBinaryInputStream *pbis);
+float F32Read(CBinaryInputStream *pbis) asm("F32Read__18CBinaryInputStream");
 void *PvAllocSwImpl(AL *pal) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AL *pal) asm("PvAllocSwClearImpl__Fi");
 }
@@ -49,19 +49,19 @@ static __inline__ void VNormalize(qword *pr, qword c, qword k)
 void LoadEmitmeshFromBrx(EMITMESH *pemitmesh, CBinaryInputStream *pbis)
 {
     int i;
-    pemitmesh->cpos = func_00117C20(pbis);
+    pemitmesh->cpos = U16Read(pbis);
     pemitmesh->apos = (qword *)PvAlloc(pemitmesh->cpos * 16, 16);
     pemitmesh->anormal = (qword *)PvAllocClear(pemitmesh->cpos * 16, 16);
     for (i = 0; i < pemitmesh->cpos; i++)
         ReadVector(pbis, &pemitmesh->apos[i]);
-    pemitmesh->ctri = func_00117C20(pbis);
+    pemitmesh->ctri = U16Read(pbis);
     pemitmesh->atri = (TRI *)PvAlloc(pemitmesh->ctri * 16, 16);
     pemitmesh->sArea = 0.0f;
     for (int itri = 0; itri < pemitmesh->ctri; itri++) {
         TRI *ptri = &pemitmesh->atri[itri];
         for (i = 0; i < 3; i++)
-            ptri->aipos[i] = func_00117C20(pbis);
-        ptri->sArea = func_00117E38(pbis);
+            ptri->aipos[i] = U16Read(pbis);
+        ptri->sArea = F32Read(pbis);
         pemitmesh->sArea += ptri->sArea;
         qword *apos = pemitmesh->apos;
         qword p0 = apos[ptri->aipos[0]];

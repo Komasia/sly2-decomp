@@ -9,7 +9,7 @@ struct EMITTER { char pad[0x1C]; XF *pxf; char pad1[0x84 - 0x20]; int x84; char 
 struct BUF { qword *apos; qword *av; float *ag; float *an; int f10; };
 extern "C" {
 void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
-void func_0015AE38(int n, void *p, int c, EMITVX *pvx);
+void CalculateEmitvx(int n, void *p, int c, EMITVX *pvx) asm("CalculateEmitvx__FiP2LMiP6EMITVX");
 void ChooseEmitPosition(EMITTER *pemit, int i, int c, qword *ppos, qword *pnormal) asm("ChooseEmitPosition__FP8EMITTERNiiP6VECTORT3");
 void func_0015B0C8(void *p, EMITVX *pvx, void *q, int n, qword *ppos, qword *pnormal, qword *pvel, float *ptBirth, float *ptDeath);
 void func_0015AD48(EMITTER *pemit, qword *ppos, qword *pvel);
@@ -38,7 +38,7 @@ void ChooseEmitParticles(int c, EMITTER *pemit, BUF *pb)
     pb->ag = (float *)PvAlloc(c * 4, 16);
     pb->an = (float *)PvAlloc(c * 4, 16);
     EMITVX vx;
-    func_0015AE38(pemit->x84, pemit->x90, c, &vx);
+    CalculateEmitvx(pemit->x84, pemit->x90, c, &vx);
     for (int i = 0; i < c; i++) {
         union { qword q; float f[4]; } normal;
         ChooseEmitPosition(pemit, i, c, &pb->apos[i], &normal.q);

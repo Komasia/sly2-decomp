@@ -118,12 +118,12 @@ extern DMA D_002DEA28;
 extern G g_sw;
 extern MATRIX4 D_002A2D30;
 extern "C" {
-void *func_002333B4(void *pv, int b, uint cb);
-void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
+void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
 void func_001A4AD8(G *pg, int c, void **apv, SHD *pshd);
-int func_001EDA20(OBJ *pobj);
+int FUpdatableSaa(OBJ *pobj) asm("FUpdatableSaa__FP3SAA");
 int func_001BEE10(ALO *palo, int n);
-void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
+void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");
 void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 qword PosOfLo(ALO *palo) asm("PosOfLo__FP2LO");
@@ -135,7 +135,7 @@ static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return ma
 }
 static inline void CopyMat(MATRIX4 &matDst, const MATRIX4 &matSrc)
 {
-    func_0023320C(&matDst, &matSrc, sizeof(MATRIX4));
+    s1_memcpy(&matDst, &matSrc, sizeof(MATRIX4));
 }
 static inline qword QwSub(qword qw0, qword qw1)
 {
@@ -209,7 +209,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
     SHD *pshd;
     if (palo->cpshd)
     {
-        func_002333B4(&shd, 0, sizeof(SHD));
+        s1_memset(&shd, 0, sizeof(SHD));
         pshd = &shd;
         func_001A4AD8(&g_sw, palo->cpshd, palo->apshd, &shd);
     }
@@ -221,7 +221,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
     for (i = 0; i < pmodel->cobj; i++)
     {
         OBJ *pobj = pmodel->apobj[i];
-        if (func_001EDA20(pobj))
+        if (FUpdatableSaa(pobj))
         {
             VTENT *pvte = &pobj->pvt[8];
             pvte->pfn((char *)pobj + pvte->delta);
@@ -241,7 +241,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
             continue;
         if (psub->grf & 0x1000)
         {
-            func_001AE5A0(&matModel, psub->pb + 0x14, sizeof(MATRIX4));
+            CopyAb(&matModel, psub->pb + 0x14, sizeof(MATRIX4));
         }
         else
         {
@@ -261,7 +261,7 @@ extern "C" void func_00169198(MODEL *pmodel, ALO *palo)
         else
         {
             VECTOR4 pos;
-            func_001AE5A0(&pos, &pmodel->asph[i], 12);
+            CopyAb(&pos, &pmodel->asph[i], 12);
             dpos = QwXfm(matModel, *(qword *)&pos);
         }
         uchar *pbStart = D_002DEA28.pb;

@@ -1,6 +1,6 @@
 struct VECTOR { float x, y, z; };
 struct VECTOR2 { float x, y; };
-extern "C" int func_00233178(const void *a, const void *b, int cb);
+extern "C" int memcmp(const void *a, const void *b, int cb);
 struct CRef {
     int m_tagk;
     union { int n; void *pv; VECTOR *pvec; VECTOR2 *pvec2; } u;
@@ -15,7 +15,7 @@ bool CRef::operator==(const CRef &ref)
     case 0x1F: case 0x20: case 0x21: case 0x22: case 0x23:
         return u.n == ref.u.n;
     case 0x1B:
-        return func_00233178(u.pv, ref.u.pv, 0x40) == 0;
+        return memcmp(u.pv, ref.u.pv, 0x40) == 0;
     case 0x1D:
         return u.pvec2->x == ref.u.pvec2->x && u.pvec2->y == ref.u.pvec2->y;
     case 0x1A: case 0x1C: case 0x1E:

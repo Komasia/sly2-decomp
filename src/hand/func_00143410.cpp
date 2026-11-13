@@ -31,7 +31,7 @@ short SymFromName(void *, char *) asm("SymFromName__FP6LAYOUTPc");
 int FFindEntryKey(TRIE *, KEY *, OUT *) asm("FFindEntryKey__FP4TRIEPP4PENTPi");
 CRef RefGetProgress(TRIE *p, KEY *key, char *pb) asm("RefGetProgress__FP4TRIEP3KEYPc");
 void *PvAllocStackImpl(const AREQ &) asm("PvAllocStackImpl__Fi");
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 }
 static inline CRef Lookup(KEY &k) { return RefGetProgress(&D_003E0EA8, &k, D_003D4A60); }
 static inline void *Alloc(int cb)
@@ -72,9 +72,9 @@ extern "C" KEY *AkeyStandHeldBy__Fi(int id)
                     ref = Lookup(key);
                     if (ref.m_tag == id) {
                         KEY *pk = (KEY *)Alloc(8);
-                        func_001AE5A0(pk, &key, 8);
+                        CopyAb(pk, &key, 8);
                         pk->a = (unsigned short *)Alloc(key.c * 2);
-                        func_001AE5A0(pk->a, key.a, key.c * 2);
+                        CopyAb(pk->a, key.a, key.c * 2);
                         return pk;
                     }
                 }

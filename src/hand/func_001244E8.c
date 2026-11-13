@@ -5,7 +5,7 @@ extern G g_sw;
 void *func_0015E958(G *pg, int k, int a, LO *b, void *c);
 void SetBasic__4CRefP5BASIC(CRef *pref, void *p);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *func_001244E8(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
@@ -25,6 +25,6 @@ CRef *func_001244E8(CRef *ret, void *pbasic, CRef *aref)
         SetBasic__4CRefP5BASIC(&ref, func_0015E958(pg, 4, a, b, plo ? plo->pv : pg->pv));
     }
     func_001291A8(ret, &ref);
-    func_00129EC8(&ref);
+    Decref(&ref);
     return ret;
 }

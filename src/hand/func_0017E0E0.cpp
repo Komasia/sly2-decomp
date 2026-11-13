@@ -12,7 +12,7 @@ struct C { char pad[0xDC]; struct D *pDC; };
 struct A { char pad[0xE8]; struct C *pE8; };
 struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x1C]; void *p38; float f3C; };
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
-float func_002458F0(float y, float x);
+float atan2f(float y, float x) asm("atan2f");
 qword PosGoal(struct X *s, qword v) asm("PosGoal__FP4GOALG9VU_VECTOR");
 qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
 int FKeepOnNav(void *q, qword v, qword *out) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
@@ -43,7 +43,7 @@ extern "C" void ChooseAway__5JOBBD(struct S *p) {
     dd = c ? c->pDC : 0;
     q = dd ? dd->p10 : 0;
     best = 0.0f;
-    ang = func_002458F0(GetY(d), GetX(d));
+    ang = atan2f(GetY(d), GetX(d));
     r = PosGoal(&t->x40, b);
     for (i = 0; i < 16; i++) {
         qword o = SetVectorCylind(ang + D_002BE770[i], D_002BE76C, 0.0f);

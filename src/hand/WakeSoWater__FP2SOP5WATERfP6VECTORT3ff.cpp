@@ -77,7 +77,7 @@ void SetSource(void *p, SO *pso) asm("SetSource__4CSndPv");
 void SetFalloff(void *p, float a, float b) asm("SetFalloff__4CSndff");
 void func_00258040(void *pp, void *p);
 RIP *FLaunchHudRip(void *p, int k, int x) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
-void *func_002333B4(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("s1_memset");
 void LaunchWaterSpray(qword pos, qword dir, int n, EMITP emitp, EMITV emitv, E *pe, int x, int y) asm("LaunchWaterSpray__FG9VU_VECTORT0P2LON22iii");
 }
 
@@ -165,7 +165,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
                                     {{ 0.39269909f, 1.0471976f }}, { 0 }, {{ 1.0f, 0.0f, -1.0f }} };
                     E e;
                     V4 posSplash;
-                    func_002333B4(&e, 0, sizeof(e));
+                    s1_memset(&e, 0, sizeof(e));
                     posSplash.q = v;
                     posSplash.a[2] += 30.0f;
                     e.p8 = pwater->px178;

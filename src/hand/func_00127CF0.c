@@ -3,14 +3,14 @@ void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129658(CRef *pref, CRef *prefSrc);
-CRef *func_00127DB8(void *a, void *b, int c);
+CRef *PrefFindBinding(void *a, void *b, int c) asm("PrefFindBinding__6CFrameUii");
 // name: SafeHouse port (CFrame::RefSetBinding)
 CRef *RefSetBinding__6CFramePvP4CRef(CRef *ret, void *a, void *b, CRef *pref)
 {
     CRef ref;
     CRef *p;
     ref.m_tagk = -1;
-    p = func_00127DB8(a, b, 1);
+    p = PrefFindBinding(a, b, 1);
     if (p)
         func_00129658(p, pref);
     Decref__4CRef(&ref);

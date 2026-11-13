@@ -51,7 +51,7 @@ extern HEIGHT D_002BF630;
 extern U D_002BF5D0[3], D_002BF600[3];
 qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 void func_00182CD8(void *, ACTOR *, float *, U *, float *);
-qword func_0011F088(qword, qword, float, SMP *, U *);
+qword PosSmooth(qword, qword, float, SMP *, U *) asm("PosSmooth");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 float SMinCrv(FOCUS *) asm("SMinCrv__FP3CRV");
@@ -59,7 +59,7 @@ float SMaxCrv(FOCUS *) asm("SMaxCrv__FP3CRV");
 float GMinCrv(FOCUS *) asm("GMinCrv__FP3CRV");
 float GMaxCrv(FOCUS *) asm("GMaxCrv__FP3CRV");
 float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
-void func_001940B0(CONTEXT *, int);
+void SetJtHfdk(CONTEXT *, int) asm("SetJtHfdk__FP2JT4HFDK");
 void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
 float RadStepHeading(ACTOR *) asm("RadStepHeading__FP4STEP");
 float RadNormalize(float) asm("RadNormalize__Ff");
@@ -69,7 +69,7 @@ void UpdateGaitFeet(PROGRAM *) asm("UpdateGaitFeet__FP4GAIT");
 void func_001441E8(ACTOR *, float);
 void NearestCrv(FOCUS *, qword, void *, U *, U *, float *, float *, float) asm("NearestCrv__FP3CRV");
 void SetJumpKind(void *, int, int, int) asm("SetJumpKind__FP4JUMPiiP2LO");
-float func_002458F0(float, float);
+float atan2f(float, float) asm("atan2f");
 void NearestCrvAll(FOCUS *, qword, void *, void *, U *, void *, void *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 void UpdateReach(void *) asm("UpdateReach__FP5REACH");
 void SteerRootBlend(ACTOR *, ENTRY *, void *) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
@@ -165,7 +165,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         smp.svSlow = 0.0f;
         smp.dtFast = 0.3f;
         U vel;
-        func_0011F088(pos.q, goal.q, g_clock.dt, &smp, &vel);
+        PosSmooth(pos.q, goal.q, g_clock.dt, &smp, &vel);
         float lateral;
         qword offset;
         if (FIsBasicDerivedFrom(ctx->focus, 38)) {
@@ -206,17 +206,17 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
             step = 1;
             if (ctx->action == 0) {
                 if (45.0f < GLength(vel.q)) {
-                    func_001940B0(ctx, 0);
+                    SetJtHfdk(ctx, 0);
                 } else if (20.0f < ctx->actor->velocity.f[1]) {
                     if (ctx->actor->role == 1)
-                        func_001940B0(ctx, 1);
+                        SetJtHfdk(ctx, 1);
                     else
-                        func_001940B0(ctx, 2);
+                        SetJtHfdk(ctx, 2);
                 } else if (ctx->actor->velocity.f[1] < -20.0f) {
                     if (ctx->actor->role == 1)
-                        func_001940B0(ctx, 2);
+                        SetJtHfdk(ctx, 2);
                     else
-                        func_001940B0(ctx, 1);
+                        SetJtHfdk(ctx, 1);
                 }
             }
         } else {
@@ -230,7 +230,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
                 }
             }
             if (ctx->action == 0)
-                func_001940B0(ctx, 3);
+                SetJtHfdk(ctx, 3);
         }
         SetStepPhysHeading(ctx->actor, heading);
         if (ctx->step == 5 && 0.25f < __builtin_fabsf(RadNormalize(RadStepHeading(ctx->actor) - heading)))
@@ -272,7 +272,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         }
         tangent.f[2] = 0.0f;
         tangent.q = QwNormalize(tangent.q, D_002A2DA0);
-        float heading = func_002458F0(tangent.f[1], tangent.f[0]);
+        float heading = atan2f(tangent.f[1], tangent.f[0]);
         U dir;
         U input;
         input.q = SetVectorCylind(pjoy->heading, 1.0f, 0.0f);

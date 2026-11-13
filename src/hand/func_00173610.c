@@ -9,7 +9,7 @@ struct X *__10STACKSCOPE(struct X *x);
 void _$_10STACKSCOPE(struct X *x, int n);
 int func_0020FA50(void);
 void func_0020FAA0(struct G *g, qword a, qword b, int (*fn)(void), int z, int *pa, int *pb);
-int func_0014CC58(int n, qword a, qword b, int c, int d, struct Y *y);
+int PsoHitTestLineObjects(int n, qword a, qword b, int c, int d, struct Y *y) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 static __inline__ qword MAdd(qword p, qword up, float s) {
     U u;
     qword r;
@@ -29,7 +29,7 @@ int FDropOnGround__FP6VECTORffiPv(qword *pv, float a, float b, int k, int (*fn)(
     {
     struct Y y;
     func_0020FAA0(&g_sw, va, vb, fn, 0, &na, &nb);
-    if (!func_0014CC58(1, va, vb, na, nb, &y) || y.f40 == 0.0f || (!k && y.f28 < 0.7f)) {
+    if (!PsoHitTestLineObjects(1, va, vb, na, nb, &y) || y.f40 == 0.0f || (!k && y.f28 < 0.7f)) {
         _$_10STACKSCOPE(&x, 2);
         return 0;
     }

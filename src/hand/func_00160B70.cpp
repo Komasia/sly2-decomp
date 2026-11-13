@@ -15,12 +15,12 @@ extern int D_002DEB1C;
 extern int D_002DEDBC;
 extern sceDmaChan *g_pdcVif1;
 extern sceDmaChan *g_pdcGif;
-extern "C" void func_00234A60(int sid);
-extern "C" void func_00234A40(int sid);
+extern "C" void WaitSema(int sid) asm("WaitSema");
+extern "C" void SignalSema(int sid) asm("SignalSema");
 extern "C" void func_001EE7B0(FR *pfr);
 extern "C" void func_00170048();
 extern "C" void func_00160F98();
-extern "C" void func_002417F0(sceDmaChan *pch, int a, int b);
+extern "C" void sceDmaSync(sceDmaChan *pch, int a, int b) asm("sceDmaSync");
 void RestoreGsBuffers();
 void SwapGsBuffers();
 void SendDmaSyncGsFinish(sceDmaChan *pch, QW *pqw);
@@ -28,7 +28,7 @@ extern "C" void func_00160B70()
 {
     for (;;) {
         D_002DEB20 = 1;
-        func_00234A60(D_002DEB18);
+        WaitSema(D_002DEB18);
         D_002DEB20 = 0;
         register unsigned int n __asm__("$3") = D_002DEB0C;
         register FR *pfr __asm__("$4") = &D_002DEA50[n];
@@ -42,8 +42,8 @@ extern "C" void func_00160B70()
         SendDmaSyncGsFinish(g_pdcGif, D_002DEB14->aqwGifs);
         if (D_002DEB14->n30 & 1)
             func_00160F98();
-        func_002417F0(g_pdcVif1, 0, 0);
-        func_00234A40(D_002DEB1C);
+        sceDmaSync(g_pdcVif1, 0, 0);
+        SignalSema(D_002DEB1C);
         SwapGsBuffers();
         D_002DEDBC = 1;
     }

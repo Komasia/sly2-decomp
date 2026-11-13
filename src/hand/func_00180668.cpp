@@ -25,9 +25,9 @@ void SetEnemyState(P*,int) asm("SetEnemyState__FP2LOi");
 qword PosOfLo(void*) asm("PosOfLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
 qword VecConvertXfs(void*,void*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
-float func_002458F0(float,float);
+float atan2f(float,float) asm("atan2f");
 float RadNormalize(float) asm("RadNormalize__Ff");
-int func_0011D910(LM*,float);
+int FCheckLm(LM*,float) asm("FCheckLm__FP2LMf");
 void FNavPathCrv(void*,qword,qword,void*) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
 void NearestCrvS(void*,qword,void*,qword*,float,qword*,float*,float*) asm("NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f");
 float SMaxCrv(void*) asm("SMaxCrv__FP3CRV");
@@ -48,7 +48,7 @@ static inline float GXOfQw(qword qw){float x;__asm__("mtc1 %1,%0":"=f"(x):"r"(qw
 static inline float GXOfVf(qword qw){float x;__asm__("mtc1 %1,%0":"=f"(x):"r"(qw),"j"(qw));return x;} /* allocation-only "j": the value stays in a VF register */
 static inline float GYOfQw(qword qw){qword r;__asm__("prot3w %0,%1":"=r"(r):"r"(qw));return GXOfQw(r);}
 static inline float Length(qword v){return GXOfQw(QwSqrt(QwDot(v,v)));}
-static inline float Heading(qword v){return func_002458F0(GYOfQw(v),GXOfQw(v));}
+static inline float Heading(qword v){return atan2f(GYOfQw(v),GXOfQw(v));}
 static inline qword QwNormalizeSafe(qword v,qword fallback,float eps){
  qword r=QwSqrt(QwDot(v,v));float x;
  __asm__("mtc1 %1,%0":"=f"(x):"r"(r),"r"(fallback)); /* allocation-only "r"(fallback): the fallback is held in a GPR */
@@ -88,19 +88,19 @@ extern "C" void UpdateEnemy__FP2LO(P*p){
   float distance=Length(delta);
   float heading=RadNormalize(Heading(ConvertVec(0,p,delta)));
   int accept;
-  if(!rule->distanceEnabled)accept=rule->angleEnabled;else accept=func_0011D910(&rule->stayDistance,distance);
+  if(!rule->distanceEnabled)accept=rule->angleEnabled;else accept=FCheckLm(&rule->stayDistance,distance);
   if(accept){
    if(!rule->angleEnabled)goto dispatch;
-   if(func_0011D910(&rule->stayAngle,heading))goto dispatch;
+   if(FCheckLm(&rule->stayAngle,heading))goto dispatch;
   }
   {
    int state;
    for(state=4;state>0;state--){
     rule=&p->rules[state];
-    if(!rule->distanceEnabled)accept=rule->angleEnabled;else accept=func_0011D910(&rule->enterDistance,distance);
+    if(!rule->distanceEnabled)accept=rule->angleEnabled;else accept=FCheckLm(&rule->enterDistance,distance);
     if(!accept)continue;
     if(!rule->angleEnabled)break;
-    if(func_0011D910(&rule->enterAngle,heading))break;
+    if(FCheckLm(&rule->enterAngle,heading))break;
    }
    SetEnemyState(p,state);
   }
@@ -159,7 +159,7 @@ dispatch:
    }
   }
   p->output=LimitVectorLength(force,speed);
-  p->heading=func_002458F0(unit.f[1],unit.f[0]);
+  p->heading=atan2f(unit.f[1],unit.f[0]);
   break;
  }
  }

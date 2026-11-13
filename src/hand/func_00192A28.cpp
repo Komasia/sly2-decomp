@@ -6,7 +6,7 @@ void *PdetentryFind(void *a, void *b) asm("PdetentryFind__FP8DETECTORi");
 void SetDetentryState(void *a, void *b, int c) asm("SetDetentryState__FP8DETECTORP8DETENTRYi");
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
-int func_0014CC58(int z, qword a, qword b, int i, int j, int k);
+int PsoHitTestLineObjects(int z, qword a, qword b, int i, int j, int k) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 void func_00154568(void);
 extern char g_sw[];
 extern float D_002BF638;
@@ -40,7 +40,7 @@ void ForgetGuardsInteract(P *p)
         struct { char c; FRAME frame; int i, j; } x;
 
         func_0020FAA0(g_sw, a, b, (void *)func_00154568, o, &x.i, &x.j);
-        if (!func_0014CC58(0, a, b, x.i, x.j, 0)) continue;
+        if (!PsoHitTestLineObjects(0, a, b, x.i, x.j, 0)) continue;
         SetDetentryState(o->xf64, e, 0);
     }
 }

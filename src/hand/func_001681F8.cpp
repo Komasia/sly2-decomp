@@ -95,8 +95,8 @@ struct G
 extern DMA D_002DEA28;
 extern G g_sw;
 extern "C" {
-void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
-void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
+void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
 M4 *MulMatrix4(M4 *pmatDst, const M4 *pmatA, const M4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 float GMaxRowLengthMatrix3(const M3 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");
 RPL *func_001CD998(void);
@@ -142,12 +142,12 @@ template <uint TAG> static inline void UnpackQws(const void *pv, int cw, int fNe
 static inline M4 ModelMatrix(const ENTRY *entry) return model
 {
     const M4 *parent = entry->parent;
-    func_0023320C(&model, &entry->transform->matrix, sizeof(M4));
+    s1_memcpy(&model, &entry->transform->matrix, sizeof(M4));
     if (parent)
     {
         M4 product;
         MulMatrix4(&product, &model, parent);
-        func_0023320C(&model, &product, sizeof(M4));
+        s1_memcpy(&model, &product, sizeof(M4));
     }
 }
 extern "C" void func_001681F8(PACKETS *p)
@@ -163,7 +163,7 @@ extern "C" void func_001681F8(PACKETS *p)
             continue;
         packet.word = entry->word;
         if (entry->flags & 0x1000)
-            func_001AE5A0(&packet.matrix, entry->matrixData + 0x14, sizeof(M4));
+            CopyAb(&packet.matrix, entry->matrixData + 0x14, sizeof(M4));
         else
             packet.matrix = ModelMatrix(entry);
         if (entry->sphere)
@@ -177,7 +177,7 @@ extern "C" void func_001681F8(PACKETS *p)
             int sphereStride = sizeof(LOCAL_SPHERE);
             LOCAL_SPHERE *sphere = (LOCAL_SPHERE *)((char *)p->spheres + i * sphereStride);
             U center;
-            func_001AE5A0(&center, &sphere->sphere.center, sizeof(V3));
+            CopyAb(&center, &sphere->sphere.center, sizeof(V3));
             packet.sphere.q = QwTransformPos(&packet.matrix, center.q);
             packet.sphere.f[3] = GMaxRowLengthMatrix3((const M3 *)&packet.matrix) * sphere->sphere.radius;
         }

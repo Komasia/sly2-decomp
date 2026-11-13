@@ -15,7 +15,7 @@ struct P { char pad[0x38]; struct O *p38; };
 void *PloPlayerPo__FP2SW(void *);
 qword PosOfLo__FP2LO(void *);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct Q *, qword, int, int, int, int, float *);
-int func_0011D910(struct RANGE *, float);
+int FCheckLm(struct RANGE *, float) asm("FCheckLm__FP2LMf");
 qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(void *, qword);
 float sqrtf(float);
 
@@ -44,21 +44,21 @@ int IBest__8JOBCHASE(struct P *p)
         g = ag[0] - p->p38->x5C->xF0[i];
         if (p->p38->x50 == 1)
             g = -g;
-        if (func_0011D910(&D_002BD480, g))
+        if (FCheckLm(&D_002BD480, g))
             u1 = GRemap(&D_002BD480, g);
-        else if (func_0011D910(&D_002BD488, g))
+        else if (FCheckLm(&D_002BD488, g))
             u1 = 1.0f - GRemap(&D_002BD488, g);
         else
             u1 = 0.0f;
         v.q = ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(g_cm, p->p38->x5C->xF4[i]);
-        if (func_0011D910(&D_002BD490, v.f[2]))
+        if (FCheckLm(&D_002BD490, v.f[2]))
             u2 = GRemap(&D_002BD490, v.f[2]);
-        else if (func_0011D910(&D_002BD498, v.f[2]))
+        else if (FCheckLm(&D_002BD498, v.f[2]))
             u2 = 1.0f - GRemap(&D_002BD498, v.f[2]);
         else
             u2 = 0.0f;
         { float l2 = v.f[0] * v.f[0] + v.f[1] * v.f[1]; __asm__ __volatile__("sqrt.s %0, %1" : "=f"(g) : "f"(l2)); }
-        if (func_0011D910(&D_002BD4A0, g))
+        if (FCheckLm(&D_002BD4A0, g))
             u3 = 1.0f - GRemap(&D_002BD4A0, g);
         else
             u3 = 0.0f;

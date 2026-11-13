@@ -17,7 +17,7 @@ typedef struct DZG {
 
 void *PvAllocStackClearImpl__Fi(MSG *pmsg);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
-void *func_002333B4(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb);
 void InitDl__FP2DLi(DL *pdl, int ibDle);
 
 // name: SafeHouse port (InitDzgRows)
@@ -31,10 +31,10 @@ DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cpsoMax)
     msg.cb = cpsoMax * 0x28;
     msg.nKind = 0x10;
     pdzg->apso = PvAllocStackClearImpl__Fi(&msg);
-    func_002333B4(&pdzg->dlA, 0, sizeof(DL));
-    func_002333B4(&pdzg->dlB, 0, sizeof(DL));
-    func_002333B4(&pdzg->dlC, 0, sizeof(DL));
-    func_002333B4(&pdzg->dlD, 0, sizeof(DL));
+    s1_memset(&pdzg->dlA, 0, sizeof(DL));
+    s1_memset(&pdzg->dlB, 0, sizeof(DL));
+    s1_memset(&pdzg->dlC, 0, sizeof(DL));
+    s1_memset(&pdzg->dlD, 0, sizeof(DL));
     InitDl__FP2DLi(&pdzg->dlA, 0x20);
     InitDl__FP2DLi(&pdzg->dlB, 0x20);
     InitDl__FP2DLi(&pdzg->dlC, 0x20);

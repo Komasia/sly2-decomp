@@ -12,7 +12,7 @@ struct CRef {
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 extern "C" {
-void *func_002333B4(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 CRef RefOpMatrix(int carg, CRef *pref) asm("RefOpMatrix__FiP4CRefP6CFrame");
 }
@@ -23,7 +23,7 @@ CRef RefOpMatrix(int carg, CRef *pref)
     NODE *pn;
     if (carg > 0)
         pn = (NODE *)pref->u.pv;
-    func_002333B4(pm, 0, sizeof(*pm));
+    s1_memset(pm, 0, sizeof(*pm));
     pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f;
     switch (carg) {
     case 0:

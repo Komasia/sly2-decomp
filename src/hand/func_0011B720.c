@@ -3,7 +3,7 @@ typedef struct { qword r[3]; } M3;
 extern qword D_002A2DB0;
 extern qword g_normalZ;
 void BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(M3 *pm, float g, qword axis);
-void *func_0023320C(void *pvDst, void *pvSrc, int cb);
+void *s1_memcpy(void *pvDst, void *pvSrc, int cb);
 static inline M3 MulM3(M3 *pa, M3 *pb)
 {
     M3 m;
@@ -24,6 +24,6 @@ M3 *BuildPanTiltMatrix__FPvff(M3 *pm, float g1, float g2)
     BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(&a, g1, g_normalZ);
     BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(&b, -g2, D_002A2DB0);
     c = MulM3(&a, &b);
-    func_0023320C(pm, &c, sizeof(M3));
+    s1_memcpy(pm, &c, sizeof(M3));
     return pm;
 }

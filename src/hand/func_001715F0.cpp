@@ -33,7 +33,7 @@ void LockJob(struct S *p) asm("LockJob__FP5AIJOB");
 void UnlockJob(struct S *p) asm("UnlockJob__FP5AIJOB");
 void func_002090D0(struct X50 *x, struct A *a);
 void ResolveKinde(struct X50 *x, struct A *a) asm("ResolveKinde__FP5KINDEP5GUARD");
-void func_001E0020(void *o, int n);
+void EnsureSggAlarm(void *o, int n) asm("EnsureSggAlarm__FP3SGGP5ALARM");
 
 struct O2 : O { char pad1[0x30 - 0x10]; void *p30; int n34; float g38; char pad2[0x50-0x3C]; void *n50; int pad3; int n58; };
 struct O3 : O { char pad1[0xA8 - 0x10]; void *nA8; int pad2; float gB0; int pad3[2]; int nBC; };
@@ -191,7 +191,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         }
         break;
     case 15:
-        func_001E0020(PloNear(p, c->n4), c->u.s.n8);
+        EnsureSggAlarm(PloNear(p, c->n4), c->u.s.n8);
         break;
     }
     p->g3C = g_clock.t;

@@ -1,7 +1,7 @@
 // Claude agent, lane A19, 2026-10-23: matched from fresh7 (3). One pin ($5), one commented empty asm, allocation-only asm operands.
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
-void func_0023320C(void *pvDst, void *pvSrc, int cb);
+void s1_memcpy(void *pvDst, void *pvSrc, int cb);
 static inline M3 MulM3(M3 *pa, M3 *pb, M3 *pd)
 {
     M3 m;
@@ -38,6 +38,6 @@ M3 *MulMat3TransposeA__FP7MATRIX3T0Pv(M3 *pm, M3 *pa, M3 *pb)
     register M3 *pt __asm__("$5") = &m; /* pin */
     __asm__("" : "+r"(pa) : "r"(pt)); /* empty asm: keeps a1 = sp ahead of the MulM3 asm (emulates the original schedule) */
     m = MulM3(pa, pb, pm);
-    func_0023320C(pm, pt, sizeof(M3));
+    s1_memcpy(pm, pt, sizeof(M3));
     return pm;
 }

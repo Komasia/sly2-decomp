@@ -4,8 +4,8 @@ struct X { char pad[0xA8]; float *pg; };
 extern struct X *D_003E0F9C;
 struct S { int pad[2]; void *p8; void *pC; void *p10; };
 void NProgress(CRef *pref, void *p, void *q);
-void func_00129EC8(CRef *pref);
-static inline float GGet(void *p) { CRef ref; float g; NProgress(&ref, p, D_003D4A60); g = ref.m_g; func_00129EC8(&ref); return g; }
+void Decref(CRef *pref) asm("Decref__4CRef");
+static inline float GGet(void *p) { CRef ref; float g; NProgress(&ref, p, D_003D4A60); g = ref.m_g; Decref(&ref); return g; }
 // name: SafeHouse port (GSuck)
 float GSuck__FPv(struct S *p)
 { float g;

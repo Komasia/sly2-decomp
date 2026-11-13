@@ -55,10 +55,10 @@ typedef char BINDING_indices_Offset[FIELD_OFFSET(BINDING,indices)==8?1:-1];
 typedef char LINK_second_Offset[FIELD_OFFSET(LINK,second)==2?1:-1];
 typedef char LINK_kind_Offset[FIELD_OFFSET(LINK,kind)==4?1:-1];
 extern "C"{
-char func_00117D00(STREAM*) __asm__("S8Read__18CBinaryInputStream");
-uint func_00117C80(STREAM*) __asm__("U32Read__18CBinaryInputStream");
-short func_00117D50(STREAM*) __asm__("S16Read__18CBinaryInputStream");
-int func_00117DB8(STREAM*) __asm__("S32Read__18CBinaryInputStream");
+char S8Read(STREAM*) __asm__("S8Read__18CBinaryInputStream");
+uint U32Read(STREAM*) __asm__("U32Read__18CBinaryInputStream");
+short S16Read(STREAM*) __asm__("S16Read__18CBinaryInputStream");
+int S32Read(STREAM*) __asm__("S32Read__18CBinaryInputStream");
 void ReadMatrix4(STREAM*,M4*) asm("ReadMatrix4__18CBinaryInputStreamP7MATRIX4");
 void*PvAllocSwImpl(const REQUEST&) asm("PvAllocSwImpl__Fi");
 void*PvAllocSwCopyImpl(const REQUEST&,void*) asm("PvAllocSwCopyImpl__FiPv");
@@ -66,7 +66,7 @@ MARK*__10STACKSCOPE(MARK*);
 void _$_10STACKSCOPE(MARK*,int);
 BINDING*LoadIdxTabFromBrx(P*,STREAM*) asm("LoadIdxTabFromBrx__FP18CBinaryInputStreamT0");
 M4*MulMatrix4(M4*,const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
-void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
+void CopyAb(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 }
 struct MARK{MARK(){__10STACKSCOPE(this);}~MARK(){_$_10STACKSCOPE(this,2);}};
 static inline void*Allocate(int bytes){return PvAllocSwImpl(REQUEST(bytes,16));}
@@ -74,20 +74,20 @@ static inline void*Reallocate(int bytes,void*old){return PvAllocSwCopyImpl(REQUE
 // name: SafeHouse port (LoadGlobSubmeshFromBrx)
 extern "C" void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHEREN22T3iPiPP4FACEP6STREAM(P*p,const D*sourceD,const E*sourceE,const SPHERE*sourceSphere,D*desc,E*entry,SPHERE*sphere,int groups,const int*counts,FACE**faces,STREAM*stream){
     M4 matrix;
-    (void)func_00117D00(stream);
+    (void)S8Read(stream);
     *desc=*sourceD;*entry=*sourceE;
-    if(sphere){*sphere=*sourceSphere;sphere->metadata=func_00117C80(stream);}
+    if(sphere){*sphere=*sourceSphere;sphere->metadata=U32Read(stream);}
     {
         SO*object=p->owner;
         VE*method=&object->vt[51];
         SO*receiver=(SO*)((char*)object+method->delta);
-        int index=func_00117D50(stream);
+        int index=S16Read(stream);
         entry->transform=method->fn(receiver,index);
     }
     if(entry->flags.word&0x1000)ReadMatrix4(stream,&matrix);
     else{entry->parent=(M4*)Allocate(sizeof(M4));ReadMatrix4(stream,entry->parent);}
-    entry->value=func_00117DB8(stream);
-    entry->flags.bits.feature=func_00117D00(stream);
+    entry->value=S32Read(stream);
+    entry->flags.bits.feature=S8Read(stream);
     MARK scope;
     BINDING*binding=LoadIdxTabFromBrx(p,stream);
     if(!(desc->flags&1)&&desc->kind==0){
@@ -99,7 +99,7 @@ extern "C" void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHER
             M4 product,temp;
             MulMatrix4(&temp,&entry->transform->matrix,&matrix);
             product=temp;
-            func_001AE5A0(entry->data+0x14,&product,0x40);
+            CopyAb(entry->data+0x14,&product,0x40);
         }
         if(binding){
             for(int g=0;g<groups;g++){

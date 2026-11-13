@@ -9,7 +9,7 @@ qword PosDetectorEye(T *p) asm("PosDetectorEye__FP8DETECTOR");
 void *PvAllocStackImpl(AL *pal) asm("PvAllocStackImpl__Fi");
 qword ConvertPos(SO *pso, int z, qword v) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void func_0020FAA0(void *g, qword a, qword b, void *pfn, void *o, int *pi, int *pj);
-int func_0014CC58(int z, qword a, qword b, int i, int j, int k);
+int PsoHitTestLineObjects(int z, qword a, qword b, int i, int j, int k) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 void func_00154568(void);
 void func_00154528(void);
 extern char g_sw[];
@@ -42,6 +42,6 @@ int FSightBlocked(T *p, SO *pso)
     func_0020FAA0(g_sw, vmin, vmax, pfn, p, &ii, &jj);
     bool f;
     for (i = 0; (f = i < 1); i++)
-        if (!func_0014CC58(0, q, apos[i], ii, jj, 0)) break;
+        if (!PsoHitTestLineObjects(0, q, apos[i], ii, jj, 0)) break;
     return !f;
 }

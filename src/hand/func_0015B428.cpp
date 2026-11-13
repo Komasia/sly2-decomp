@@ -26,7 +26,7 @@ extern char g_sw[];
 PRG *func_001390D8(void *pv);
 void SetPsysFromEmitb(PRG *pprg, EMITTER *p) asm("SetPsysFromEmitb__FP4PSYSP8EMITTERN");
 BLK *func_00138FF8(void *pv, PRG *pprg);
-void *func_002333B4(void *pv, int b, int cb);
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 int NRandInRange(int nMin, int nMax) asm("NRandInRange__Fii");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void InsertPsysParticles(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");
@@ -72,7 +72,7 @@ void InsertPsysParticles(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, f
             pfr->av[i] = av[k];
             ((float *)&pfr->av[i])[3] = ag2[k];
 #define pd ((PD *)&pfr->apd[i])
-            func_002333B4(pd, 0, sizeof(PD));
+            s1_memset(pd, 0, sizeof(PD));
             pd->n0 = NRandInRange(0, pprg->c3B0 - 1);
             if (pprg->f434)
                 pd->n0 &= ~1u;

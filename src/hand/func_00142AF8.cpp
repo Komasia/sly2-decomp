@@ -29,7 +29,7 @@ extern GS g_sw;
 void func_00142880(P *p);
 void SetActorLookTarget(P *p, int n, S *ps) asm("SetActorLookTarget__FP5ACTORiP2LO");
 void LookScore(P *p, S *ps, void **ppv, float *pg, float *pg2) asm("LookScore__FP5ACTORP2LOPP2LOPfT3");
-int func_0011D910(void *p, float g);
+int FCheckLm(void *p, float g) asm("FCheckLm__FP2LMf");
 void EnsureCtrlAdded(Q *pq) asm("EnsureCtrlAdded__FP4CTRL");
 void EnsureCtrlRemoved(Q *pq) asm("EnsureCtrlRemoved__FP4CTRL");
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
@@ -106,7 +106,7 @@ void UpdateActorLook(P *p)
                 LookScore(p, ps, &p->p10F8, &g1, &g2);
                 if (g1 > ps->gE8)
                     continue;
-                if (!func_0011D910(ps->rng, g2))
+                if (!FCheckLm(ps->rng, g2))
                     continue;
                 if (nBest < ps->nF4 || (ps->nF4 == nBest && g1 < gBest)) {
                     psBest = ps;

@@ -13,9 +13,9 @@ extern "C" CLOCK g_clock;
 extern "C" qword g_normalZ;
 extern "C" void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
-extern "C" float func_002458F0(float,float);
+extern "C" float atan2f(float,float) asm("atan2f");
 extern "C" float RadNormalize(float) asm("RadNormalize__Ff");
-extern "C" float func_0011CFE0(float,float);
+extern "C" float GLimitAbs(float,float) asm("GLimitAbs__Fff");
 extern "C" M3 BuildRotateMatrixAxis(qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float X(qword v){float f;__asm__("mtc1 %1,%0":"=f"(f):"r"(v));return f;}
@@ -37,10 +37,10 @@ extern "C" void UpdatePiece__FP2LO(P*p){
  qword position;
  position=PosOfLo(p->target);
  qword displacement=Sub(position,PosOfLo(p));
- float desired=func_002458F0(Y(displacement),X(displacement));
+ float desired=atan2f(Y(displacement),X(displacement));
  qword direction=((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);
- float current=func_002458F0(Y(direction),X(direction));
- float angle=func_0011CFE0(RadNormalize(desired-current),p->turnRate*g_clock.dt);
+ float current=atan2f(Y(direction),X(direction));
+ float angle=GLimitAbs(RadNormalize(desired-current),p->turnRate*g_clock.dt);
  rotation=BuildRotateMatrixAxis(g_normalZ,angle);
  ((void(*)(void*,qword))p->vt[35].fn)((char*)p+p->vt[35].delta,Transform(rotation,direction));
  // The original reads this local matrix before initialization.

@@ -31,8 +31,8 @@ extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002
 qword PosOfLo(P*) asm("PosOfLo__FP2LO");M4*MatJtLo(P*) asm("MatJtLo__FP2LO");
 void FindClimbSurfClosestPoint(void*,qword,TRIREF*,TRIREF*,qword*,qword*) asm("FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22");
 M3 BuildLookAtMatrix(qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");M3 InverseMatrix3(M3*) asm("InverseMatrix3__FP7MATRIX3");qword*func_00256D18(qword*,qword);
-void func_0011C950(M4*,M3*,PARAMS*,M3*,qword*,float);
-void func_0011F088(qword,qword,PARAMS*,qword*,float);
+void SmoothMatrix(M4*,M3*,PARAMS*,M3*,qword*,float) asm("SmoothMatrix");
+void PosSmooth(qword,qword,PARAMS*,qword*,float) asm("PosSmooth");
 void func_001856B8(void*,LIST*);void AddClimbSurfEdgePlanes(void*,LIST*,int,U*,PARAMS*,float) asm("AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf");
 qword VecProjectClimbSurfPlanes(void*,LIST*,qword) asm("VecProjectClimbSurfPlanes__FPvP6VECTORG9VU_VECTOR");
 void SetJtJts(P*,int,int) asm("SetJtJts__FP2JT3JTS4JTBS");void SteerRootBlend(P*,AXIS*,REQUEST*) asm("SteerRootBlend__FP5ACTORP9ROOTBLENDPv");
@@ -92,9 +92,9 @@ extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  qword unit=QwDivide(surface,QwSqrt(QwDot(surface,surface)));
  {M3 m=BuildLookAtMatrix(unit,g_normalZ.q);p->basis.r[0]=m.r[0];p->basis.r[1]=m.r[1];p->basis.r[2]=m.r[2];}
  U angular,linear;
- func_0011C950(MatJtLo(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
+ SmoothMatrix(MatJtLo(p),&p->basis,&D_002BE920,0,&angular.q,g_clock.dt*0.5f);
  SetVec(p,36,angular.q);
- func_0011F088(position,target,&D_002BE930,&linear.q,g_clock.dt*0.5f);
+ PosSmooth(position,target,&D_002BE930,&linear.q,g_clock.dt*0.5f);
  LIST planes;U samples[3];
  for(i=0;i<3;i++)StoreAddRot(&samples[i],target,&p->basis,&p->points[i].q);
  func_001856B8(p->mesh,&planes);

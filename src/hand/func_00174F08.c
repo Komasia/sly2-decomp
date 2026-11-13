@@ -5,7 +5,7 @@ extern qword D_002A2DD0;
 void Steer__5AIJOB(struct S *p);
 void SteerByKinde__FP5KINDEP5GUARD(void *a, struct A *b);
 qword PosOfLo__FP2LO(void *p);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
@@ -22,6 +22,6 @@ void Steer__7JOBMOVE(struct S *p)
         qword b = PosOfLo__FP2LO(p->p10);
         qword d;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-        SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
+        SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(GetY(d), GetX(d)));
     }
 }

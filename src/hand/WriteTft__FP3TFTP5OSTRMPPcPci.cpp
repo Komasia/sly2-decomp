@@ -4,9 +4,9 @@ class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int count,bu
 void WriteTftPchz(TFT *,OSTRM *,char *);
 void WriteTftUl(TFT *,OSTRM *,unsigned long);
 void WriteTftDouble(TFT *,OSTRM *,double);
-extern "C" unsigned int func_0021ED28(const char *);
+extern "C" unsigned int s1_strlen(const char *) asm("s1_strlen");
 static inline char *Next(char **args){char *p=*args;*args=p+8;return p;}
-static inline void WritePchz(OSTRM *out,char *s){out->CbWrite(s,func_0021ED28(s));}
+static inline void WritePchz(OSTRM *out,char *s){out->CbWrite(s,s1_strlen(s));}
 static inline char *LiteralAddress(char *text){char *value;asm("la %0,%1":"=r"(value):"i"(text));return value;}
 static inline int CountWord(const OSTRM *out){register int value asm("$2");asm("lw %0,%1":"=r"(value):"m"(out->count));return value;}
 static inline short *ShortDestination(const char *slot){register short *value asm("$4");asm("lw %0,%1":"=r"(value):"m"(*(short *const *)slot));return value;}
@@ -29,7 +29,7 @@ void WriteTft(TFT *f,OSTRM *out,char **args,char *text,int count){
             float *p=*(float **)Next(args);
             char *newline="\n";
             char *rowSep=",\n",*rowOpen="{ ",*itemSep=", ",*rowClose=" }";
-            if(f->rowCount>1)out->CbWrite(newline,func_0021ED28(LiteralAddress(newline)));
+            if(f->rowCount>1)out->CbWrite(newline,s1_strlen(LiteralAddress(newline)));
             int i=0;
             while(i<f->rowCount){
                 if(i)WritePchz(out,rowSep);
@@ -42,7 +42,7 @@ void WriteTft(TFT *f,OSTRM *out,char **args,char *text,int count){
                 i=nextRow;
                 WritePchz(out,rowClose);
             }
-            if(f->rowCount>1)out->CbWrite(newline,func_0021ED28(LiteralAddress(newline)));
+            if(f->rowCount>1)out->CbWrite(newline,s1_strlen(LiteralAddress(newline)));
         }else WriteTftDouble(f,out,*(double *)Next(args));
         break;
     case 'n':

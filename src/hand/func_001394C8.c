@@ -3,11 +3,11 @@ typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
-int func_0011D4D0(float a, float b, float eps);
+int FFloatsNear(float a, float b, float eps) asm("FFloatsNear__Ffff");
 static __inline__ int FVecsNear(qword a, qword b)
 {
-    return func_0011D4D0(GetX(a), GetX(b), 1e-4f) && func_0011D4D0(GetY(a), GetY(b), 1e-4f) &&
-           func_0011D4D0(GetZ(a), GetZ(b), 1e-4f);
+    return FFloatsNear(GetX(a), GetX(b), 1e-4f) && FFloatsNear(GetY(a), GetY(b), 1e-4f) &&
+           FFloatsNear(GetZ(a), GetZ(b), 1e-4f);
 }
 extern qword D_002A2DD0;
 
@@ -31,11 +31,11 @@ struct P2 { char pad[0x1A0]; int n1A0; char pad1A4[0x3B0 - 0x1A4]; int c3B0; uns
 struct P3 { char pad[0x434]; int x434; int x438; int x43C; float g440; };
 
 void func_00139370(void *p, void *pv);
-void *func_002333B4(void *pv, int b, int cb);
+void *s1_memset(void *pv, int b, int cb);
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
 static __inline__ void InitS(float g, struct S150 *ps) { register float r asm("$f1") = 1.0f; /* register pin (Claude agent): f0/f1 tie */ ps->x0 = 0; ps->x8 = 0; ps->g4 = r / g; }
 static __inline__ float GMax3(float a, float b, float c) { if (b < a && c < a) return a; if (c < b) return b; return c; }
-void func_0011D5B0(float g, float h, void *pa, void *pb);
+void PrescaleClq(float g, float h, void *pa, void *pb) asm("PrescaleClq__FP3CLQffT0");
 void func_0015BF40(void *p, struct Q *q);
 
 // name: SafeHouse port (SetPsysFromEmitb)
@@ -65,7 +65,7 @@ void SetPsysFromEmitb__FP4PSYSP8EMITTERN(struct P *p, struct Q *q)
         ((struct P3 *)p)->x434 = q->xCC;
     }
     func_00139370(p, q->xD0);
-    func_002333B4(p->ab140, 0, 0x10);
+    s1_memset(p->ab140, 0, 0x10);
     if (((struct P2 *)p)->n1A0 >= 2) {
         int n = ((struct P2 *)p)->n1A0;
         if (q->gD8 != 0.0f)
@@ -73,8 +73,8 @@ void SetPsysFromEmitb__FP4PSYSP8EMITTERN(struct P *p, struct Q *q)
         else
             p->g144 = (float)n / q->g8C;
     }
-    func_0011D5B0(1.0f / q->g8C, 0.0f, q->abB0, p->ab130);
-    func_0011D5B0(1.0f / q->g8C, 0.0f, q->abE0, &p->poly);
+    PrescaleClq(1.0f / q->g8C, 0.0f, q->abB0, p->ab130);
+    PrescaleClq(1.0f / q->g8C, 0.0f, q->abE0, &p->poly);
     if (p->poly.b == 0.0f && p->poly.c == 0.0f) {
         p->g120 = __builtin_fabsf(p->poly.a);
     } else {
@@ -105,7 +105,7 @@ void SetPsysFromEmitb__FP4PSYSP8EMITTERN(struct P *p, struct Q *q)
     }
     if (f)
         p->x160 = 1;
-    func_002333B4(p->ab170, 0, 0x30);
+    s1_memset(p->ab170, 0, 0x30);
     if (!p->x160)
         func_0015BF40(p->ab170, q);
 }

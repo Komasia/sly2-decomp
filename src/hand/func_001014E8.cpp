@@ -9,7 +9,7 @@ struct CRef {
     CRef &operator=(void *pv);
 };
 extern "C" {
-CRef func_00201360(int c, void *aref, int *ak, void *a0, void *a1);
+CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *a0, void *a1) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 void *func_001F8510(void *p, int a, int b);
 CRef RefXfHandle(void *p, int c, void *aref) asm("RefXfHandle__FP2LOiPv");
 }
@@ -18,7 +18,7 @@ CRef RefXfHandle(void *p, int c, void *aref)
 {
     int ak[2] = {6, 0x104c};
     int a, b;
-    CRef ref = func_00201360(2, aref, ak, &a, &b);
+    CRef ref = RefSetArgsFromSplice(2, aref, ak, &a, &b);
     ref = func_001F8510(p, a, b);
     return ref;
 }

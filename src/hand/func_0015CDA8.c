@@ -7,7 +7,7 @@ extern int D_002BE26C;
 extern int D_002BE270;
 struct S { char pad[0x110]; int i110; char pad2[4]; int i118; char pad3[0xC]; int n128; };
 void NProgress(CRef *pref, void *p, void *q);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 void func_002123C8(struct S *p);
 void SetEpMode__FP6EPMENUii(struct S *p, int a, int b);
 void func_00187E78(void *p);
@@ -17,7 +17,7 @@ static inline float GFromP(void *pv)
     float g;
     NProgress(&ref, pv, D_003D4A60);
     g = ref.u.g;
-    func_00129EC8(&ref);
+    Decref(&ref);
     return g;
 }
 static inline int NFromP(void *pv)
@@ -26,7 +26,7 @@ static inline int NFromP(void *pv)
     int n;
     NProgress(&ref, pv, D_003D4A60);
     n = ref.u.n;
-    func_00129EC8(&ref);
+    Decref(&ref);
     return n;
 }
 // name: SafeHouse port (StartEpMenu)

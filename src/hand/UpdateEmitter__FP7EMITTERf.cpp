@@ -23,8 +23,8 @@ int FIsDlEmpty(int *pdl) asm("FIsDlEmpty__FP2DL");
 int func_001A61A0(EMITTER *p);
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
-int func_0011A3C0(int *pdl);
-void *func_002333B4(void *pv, int b, int cb);
+int CPvDl(int *pdl) asm("CPvDl__FP2DL");
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 void EmitParticles(int c, EMITB *pemitb, EMITX *px) asm("EmitParticles__FP8EMITTERNP5EMITBP5EMITG");
 }
 void OnEmitterValuesChanged(EMITTER *p);
@@ -134,7 +134,7 @@ LActive:
         if (!p->pemitb->f4)
             cCur = p->pprg ? p->pprg->cpart : 0;
         else
-            cCur = p->pripg ? func_0011A3C0(&p->pripg->dl) : 0;
+            cCur = p->pripg ? CPvDl(&p->pripg->dl) : 0;
         int d = cWant - cCur;
         c = 0;
         int f = 0 < d;
@@ -147,7 +147,7 @@ LActive:
     if (c) {
         int unused[4];
         EMITX x;
-        func_002333B4(&x, 0, sizeof(x));
+        s1_memset(&x, 0, sizeof(x));
         x.pemitter = p;
         x.ppprg = &p->pprg;
         x.ppripg = &p->pripg;

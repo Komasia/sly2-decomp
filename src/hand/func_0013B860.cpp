@@ -19,7 +19,7 @@ extern G g_sw;
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void RecordHit(P *p, qword a, qword b) asm("RecordHit__FP3ALOG9VU_VECTORT1");
 void AploVictims(P *p, int *pc, PO ***papo) asm("AploVictims__FP3ALOP6VECTORPv");
-void *func_002333B4(void *pv, int b, int cb);
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 int PaloAcceptContact(MSG *pmsg) asm("PaloAcceptContact__FP5CTMSG");
 int FIsBasicDerivedFrom(PO *po, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int *func_00156698(int n, qword pos, void *pv);
@@ -46,7 +46,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
             U g;
             qword d, n;
             float l;
-            func_002333B4(&msg, 0, 0x60);
+            s1_memset(&msg, 0, 0x60);
             msg.xC = p->x1EC;
             msg.x10 = p->x1F0;
             msg.v20 = p->v180;

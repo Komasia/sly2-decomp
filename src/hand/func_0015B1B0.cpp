@@ -48,7 +48,7 @@ struct EMITX { int x0; SO **ppso; void *p8; };
 extern "C" {
 extern char g_sw[];
 SO *PripgNew(void *p, int n) asm("PripgNew__FP2SW5RIPGT");
-void func_001CDE70(SO *pso, EMITTER *pemit);
+void SetRipgEmitb(SO *pso, EMITTER *pemit) asm("SetRipgEmitb__FP4RIPGP5EMITB");
 void func_001333C0(SO *pso, void *p);
 PART *FLaunchHudRip(void *p, int n, SO *pso) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
@@ -70,7 +70,7 @@ extern "C" void EmitParticleObjects__FP8EMITTERNP6VECTORiT1PfN24(EMITTER *pemit,
             return;
         if (px && px->ppso)
             *px->ppso = pso;
-        func_001CDE70(pso, pemit);
+        SetRipgEmitb(pso, pemit);
         if (px && px->p8)
             func_001333C0(pso, px->p8);
     }

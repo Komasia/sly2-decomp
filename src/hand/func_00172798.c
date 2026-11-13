@@ -4,7 +4,7 @@ struct S { qword pos; float g10; unsigned int c; int pad[2]; struct E ae[0x40]; 
 struct R { float a, b; };
 extern struct R D_002A53C0, D_002A53C8;
 void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *pa, float *pb, float *pc);
-int func_0011D910(struct R *pr, float g);
+int FCheckLm(struct R *pr, float g) asm("FCheckLm__FP2LMf");
 float RadNormalize__Ff(float g);
 // name: SafeHouse port (AddSearchPlace)
 int AddSearchPlace__FP8WAYQUERY(struct S *p) {
@@ -14,8 +14,8 @@ int AddSearchPlace__FP8WAYQUERY(struct S *p) {
     float f;
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(p->pos820), "j"(p->pos));
     ConvertVectorToSphere__FG9VU_VECTORPfN21(d, &a, &b, &c);
-    if (!func_0011D910(&D_002A53C0, c)) return 0;
-    if (!func_0011D910(&D_002A53C8, b)) return 0;
+    if (!FCheckLm(&D_002A53C0, c)) return 0;
+    if (!FCheckLm(&D_002A53C8, b)) return 0;
     if (p->c >= 0x40) return 0;
     pe = &p->ae[p->c++];
     pe->pos = p->pos820;

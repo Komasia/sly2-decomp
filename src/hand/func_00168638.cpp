@@ -193,9 +193,9 @@ extern CLOCK g_clock;
 extern MATRIX4 D_002A2D30;
 extern "C" {
 void func_001681F8(MODEL *pmodel);
-int func_001EDA20(OBJ *pobj);
-void func_001AE5A0(void *pvDst, const void *pvSrc, uint cb);
-void *func_0023320C(void *pvDst, const void *pvSrc, uint cb);
+int FUpdatableSaa(OBJ *pobj) asm("FUpdatableSaa__FP3SAA");
+void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
 void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 float GMaxRowLengthMatrix3(const MATRIX4 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");
@@ -210,7 +210,7 @@ static inline MATRIX4 MulMat(const MATRIX4 &matA, const MATRIX4 &matB) return ma
 }
 static inline void CopyMat(MATRIX4 &matDst, const MATRIX4 &matSrc)
 {
-    func_0023320C(&matDst, &matSrc, sizeof(MATRIX4));
+    s1_memcpy(&matDst, &matSrc, sizeof(MATRIX4));
 }
 static inline qword QwSub(qword qw0, qword qw1)
 {
@@ -397,7 +397,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
     for (i = 0; i < pmodel->cobj; i++)
     {
         OBJ *pobj = pmodel->apobj[i];
-        if (func_001EDA20(pobj))
+        if (FUpdatableSaa(pobj))
         {
             VTENT *pvte = &pobj->pvt[8];
             pvte->pfn((char *)pobj + pvte->delta);
@@ -417,7 +417,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
             continue;
         if (psub->grf & 0x1000)
         {
-            func_001AE5A0(&matModel, psub->pb + 0x14, sizeof(MATRIX4));
+            CopyAb(&matModel, psub->pb + 0x14, sizeof(MATRIX4));
             if (pmatWorld)
                 matModel = MulMat(*pmatWorld, matModel);
         }
@@ -432,7 +432,7 @@ extern "C" void func_00168638(MODEL *pmodel, MATRIX4 *pmatWorld, float gFirst, f
                 CopyMat(mat, MulMat(*pmatWorld, mat));
             matModel = mat;
         }
-        func_001AE5A0(&posSph, psph, 12);
+        CopyAb(&posSph, psph, 12);
         qword posSub = QwXfm(matModel, *(qword *)&posSph);
         float sRadiusSub = GMaxRowLengthMatrix3(&matModel) * psph->rad;
         if ((psub->grf & 7) == 2 && pshd->pmatClip)

@@ -9,8 +9,8 @@ extern FR D_002DEA50[2];
 extern volatile int D_002DEB20;
 extern int D_002DEB1C;
 extern int D_002DEDBC;
-extern "C" int func_00234A60(int sid);
-extern "C" int func_00234A40(int sid);
+extern "C" int WaitSema(int sid) asm("WaitSema");
+extern "C" int SignalSema(int sid) asm("SignalSema");
 extern "C" void func_00160C80(FR *pfr, int f);
 extern "C" void func_00160F98();
 extern "C" void func_00160CE0(FR *pfr);
@@ -20,9 +20,9 @@ extern "C" void func_00160E68(int fReset)
 {
     unsigned int i;
     for (i = 0; i < 2; i++)
-        func_00234A60(D_002DEB1C);
+        WaitSema(D_002DEB1C);
     for (i = 0; i < 2; i++)
-        func_00234A40(D_002DEB1C);
+        SignalSema(D_002DEB1C);
     while (!D_002DEB20)
         ;
     if (fReset && D_002DEB14) {

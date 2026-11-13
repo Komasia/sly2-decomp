@@ -1,5 +1,5 @@
 extern "C" {
-void func_001AE5A0(void *d, const void *s, unsigned int n) __asm__("CopyAb__FPvT0Ui");
+void CopyAb(void *d, const void *s, unsigned int n) __asm__("CopyAb__FPvT0Ui");
 }
 class OSTRM {
 public:
@@ -30,7 +30,7 @@ fail:
         return 0;
     }
     if (m_pbMem) {
-        func_001AE5A0(m_pbMem + m_cbMem, pv, cb);
+        CopyAb(m_pbMem + m_cbMem, pv, cb);
         cbWritten = cb;
         m_cbMem += cb;
     } else {
@@ -39,7 +39,7 @@ fail:
             int cbRem = cb - cbWritten;
             int cbCopy = cbFree < cbRem ? cbFree : cbRem;
             if (cbCopy) {
-                func_001AE5A0(m_ab + m_cbBuf, (char *)pv + cbWritten, cbCopy);
+                CopyAb(m_ab + m_cbBuf, (char *)pv + cbWritten, cbCopy);
                 cbWritten += cbCopy;
                 m_cbBuf += cbCopy;
             }

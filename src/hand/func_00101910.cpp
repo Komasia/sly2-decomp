@@ -14,7 +14,7 @@ struct CRef {
     CRef &operator=(int n);
     CRef &operator=(float g);
 };
-extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
+extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" { void * PasegaApplyAseg__Fiiiff(void *p, int, float, float, int); CRef func_00101910(void *p, int c, void *aref); }
 CRef func_00101910(void *p, int c, void *aref)
 {
@@ -23,7 +23,7 @@ CRef func_00101910(void *p, int c, void *aref)
     float v1;
     float v2;
     int v3;
-    CRef ref = func_00201360(4, aref, ak, &v0, &v1, &v2, &v3);
+    CRef ref = RefSetArgsFromSplice(4, aref, ak, &v0, &v1, &v2, &v3);
     ref = PasegaApplyAseg__Fiiiff(p, v0, v1, v2, v3);
     return ref;
 }

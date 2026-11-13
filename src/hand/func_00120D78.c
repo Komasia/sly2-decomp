@@ -1,13 +1,13 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 typedef struct PAIR { int a; int b; CRef ref; struct PAIR *pnext; } PAIR;
-void func_0012A0B0(CRef *pref, int tagk);
+void InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
 void func_00129658(CRef *pref, CRef *prefSrc);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefOpNth__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
-    func_0012A0B0(&ref, 0);
+    InitTag(&ref, 0);
     if (aref[0].m_tagk == 0x1F) {
         PAIR *p = (PAIR *)aref[0].m_tag;
         CRef *pn = &aref[1];
@@ -20,6 +20,6 @@ CRef *RefOpNth__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
         }
     }
     func_001291A8(ret, &ref);
-    func_00129EC8(&ref);
+    Decref(&ref);
     return ret;
 }

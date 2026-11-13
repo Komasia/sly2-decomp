@@ -20,7 +20,7 @@ typedef struct EMITR { int *p104; int *p100; EMITTER *p; } EMITR;
 
 extern char D_002BDEC0[];
 extern float GRandInRange__Fff(float lo, float hi);
-extern float func_0011D948(void *p, float g);
+extern float GLimitLm(void *p, float g) asm("GLimitLm__FP2LMf");
 typedef union V4 { qword q; float a[4]; } V4;
 extern V4 func_00256CE8(float g);
 extern V4 func_00256D08(qword *pv);
@@ -77,7 +77,7 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
         n = (int)p->gF8 / 2;
         if (!(n < c))
             c = n;
-        gs = func_0011D948(D_002BDEC0, g);
+        gs = GLimitLm(D_002BDEC0, g);
         b.g50 *= gs;
         b.g54 *= gs;
         { float h = 0.5f; g = (h < g) ? g : h; }

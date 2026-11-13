@@ -9,7 +9,7 @@ int PentFromDz(DZG *, DZ *) asm("PentFromDz__FP3DZGP2DZ");
 void CalculateDzResponses(DZG *, int, DZ *, int) asm("CalculateDzResponses__FP3DZGiP2DZP5DZENT");
 void RemoveDlEntry(DL *, void *) asm("RemoveDlEntry__FP2DLPv");
 void AppendDlEntry(DL *, void *) asm("AppendDlEntry__FP2DLPv");
-void func_0011A770(DZG *, DZ *);
+void EnforceDzgDz(DZG *, DZ *) asm("EnforceDzgDz__FP3DZGP2DZ");
 }
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
@@ -40,7 +40,7 @@ void SolveDzg(DZG *pdzg, int a, int b, XP **ppxp, int *pn, SO ***pppso)
             pdzg->c3C++;
         }
     }
-    func_0011A770(pdzg, 0);
+    EnforceDzgDz(pdzg, 0);
     s_pdliFirst = dli.m_pdliNext;
     for (;;) {
         DZ *pdzBest = 0;
@@ -55,6 +55,6 @@ void SolveDzg(DZG *pdzg, int a, int b, XP **ppxp, int *pn, SO ***pppso)
             break;
         if (!pdzBest->f18)
             CalculateDzResponses(pdzg, a, pdzBest, PentFromDz(pdzg, pdzBest));
-        func_0011A770(pdzg, pdzBest);
+        EnforceDzgDz(pdzg, pdzBest);
     }
 }

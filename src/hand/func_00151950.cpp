@@ -17,7 +17,7 @@ struct X { Y *py; };
 extern "C" {
 void func_0014FD40(X *p);
 M3 MulMat3TransposeA(M4 *pm, M3 *pm2) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
-void func_0011BCF8(M3 *pm, float *pg, qword *pv);
+void DecomposeRotateMatrixRad(M3 *pm, float *pg, qword *pv) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 float GSmooth(float gCur, float gTarget, float dt, void *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf"); /* GSmooth */
 M3 BuildRotateMatrixAxis(qword v, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 qword *func_00256D18(qword *p, qword v);
@@ -67,7 +67,7 @@ void Update(X *p)
         union { qword q; } axis;
         float rad;
         mRel = MulMat3TransposeA(&m, &g_cm.mat);
-        func_0011BCF8(&mRel, &rad, &axis.q);
+        DecomposeRotateMatrixRad(&mRel, &rad, &axis.q);
         if (rad < 0.0001f) {
             mNew = m.m3;
         } else {

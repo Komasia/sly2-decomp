@@ -20,7 +20,7 @@ extern void NearestCrvAll(NODE*,qword,void*,qword*,qword*,float*,float*) asm("Ne
 extern int FIsBasicDerivedFrom(NODE*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 extern int CFindObjectsByClass(void*,int,int,NODE*,int,NODE**) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 extern int func_00172888(ROW*,ROW*);
-extern void func_002338C0(void*,unsigned,unsigned,int(*)(ROW*,ROW*));
+extern void qsort(void*,unsigned,unsigned,int(*)(ROW*,ROW*)) asm("qsort");
 extern qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");extern float GRandInRange(float,float) asm("GRandInRange__Fff");
 }
 struct VU_FLOAT{qword qw;};
@@ -87,7 +87,7 @@ extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
  if(count>0){cursor=w.result128;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
  for(object=D_003E1450;object;object=object->next174){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  lastAngle=0.0f;
- func_002338C0(w.query.row,w.query.count,sizeof(ROW),func_00172888);
+ qsort(w.query.row,w.query.count,sizeof(ROW),func_00172888);
  accepted=0;
  {
   PAIR*previous=0;

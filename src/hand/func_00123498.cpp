@@ -11,7 +11,7 @@ struct CRef {
 };
 extern "C" {
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
-void func_0011D8D8(void *pv, float a, float b, float c, float d);
+void FitClq(void *pv, float a, float b, float c, float d) asm("FitClq__FffffP3CLQ");
 CRef RefOpClqFit(void *pbasic, CRef *aref) asm("RefOpClqFit__FiP4CRefP6CFrame");
 }
 CRef RefOpClqFit(void *pbasic, CRef *aref)
@@ -25,7 +25,7 @@ CRef RefOpClqFit(void *pbasic, CRef *aref)
         CRef r2 = RefCoerceF32(&aref[2]);
         float g2 = r2.u.g;
         CRef r3 = RefCoerceF32(&aref[3]);
-        func_0011D8D8(ref.u.pv, g0, g1, g2, r3.u.g);
+        FitClq(ref.u.pv, g0, g1, g2, r3.u.g);
     }
     return ref;
 }

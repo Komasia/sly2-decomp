@@ -6,7 +6,7 @@ extern int D_002BE26C;
 extern int D_002BE2D0[];
 struct S { char pad[0x118]; int i; };
 void NProgress(CRef *pref, void *p, void *q);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 // name: SafeHouse port (CmovieOpen)
 int CmovieOpen__FP6EPMENU(struct S *p)
 {
@@ -21,14 +21,14 @@ int CmovieOpen__FP6EPMENU(struct S *p)
     pB = g_sw.apB[p->i];
     NProgress(&ref, pA, D_003D4A60);
     g = ref.u.g;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (g == 0.0f) {
         n -= 2;
     } else {
         int c;
         NProgress(&ref, pB, D_003D4A60);
         c = ref.u.n;
-        func_00129EC8(&ref);
+        Decref(&ref);
         if (c <= 99)
             n--;
     }

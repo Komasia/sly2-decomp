@@ -34,7 +34,7 @@ float SMaxCrv(LO *) asm("SMaxCrv__FP3CRV");
 int FInPathSpan(void *, float) asm("FInPathSpan__FP7PATHRECf");
 void func_001E6F10(LO *, qword *, qword *, float);
 float GRandInRange(float, float) asm("GRandInRange__Fff");
-float func_002458F0(float, float);
+float atan2f(float, float) asm("atan2f");
 M3 BuildRotateMatrixAxis(float, qword) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 }
 
@@ -194,7 +194,7 @@ extern "C" SEL *PsrcChoose__FP7SPAWNERG9VU_VECTORP6VECTORP7MATRIX3Pi(SET *pset, 
                             VU_FLOAT gNeg = VuFloatFromMemWord(0xBF800000);
                             dirCurve.q = QwScaleX(dirCurve.q, gNeg);
                         }
-                        M3 matCurve = BuildRotateMatrixAxis(func_002458F0(dirCurve.v.y, dirCurve.v.x), g_normalZ);
+                        M3 matCurve = BuildRotateMatrixAxis(atan2f(dirCurve.v.y, dirCurve.v.x), g_normalZ);
                         int j;
                         for (j = 0; j < pset->cpos; j++)
                         {

@@ -22,15 +22,15 @@ struct X {
 };
 void func_0014FD40(struct X *p, void *pv, struct JOY *pjoy);
 float GSmooth__FfffP3SMPPf(float gCur, float gTarget, float dt, void *psmp, float *pdgNext);
-float func_0011D948(void *p, float g);
+float GLimitLm(void *p, float g) asm("GLimitLm__FP2LMf");
 void SetPitch__4CSndiif(struct SND *p, float g);
 void SetVolume__4CSndf(struct SND *p, float g);
 void Resume__4CSnd(struct SND *p);
 void Pause__4CSnd(struct SND *p);
 void SetCmFov__FP2CMf(struct CM *p, float g);
 void NProgress(struct CRef *, void *, void *);
-void func_00129EC8(struct CRef *);
-float func_0011CFE0(float g, float gMax);
+void Decref(struct CRef *) asm("Decref__4CRef");
+float GLimitAbs(float g, float gMax) asm("GLimitAbs__Fff");
 float RadNormalize__Ff(float g);
 qword PosEye__7CPRECON(struct X *p);
 qword PosFocus__7CPRECON(struct X *p);
@@ -63,9 +63,9 @@ void Update__7CPRECONP6CPDEFIP5CMJOY(struct X *p, void *pv, struct JOY *pjoy)
     p->g20 = x = GClamp2(x, 0.0f, 1.0f);
     if (p->g24 != 0.0f && 0.0f < x && x < 1.0f) {
         struct SND *ps = p->p34;
-        SetPitch__4CSndiif(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->g24)));
+        SetPitch__4CSndiif(ps, GLimitLm(g_lmNegOneOne, __builtin_fabsf(p->g24)));
         ps = p->p34;
-        SetVolume__4CSndf(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->g24) * 0.5f + 0.5f));
+        SetVolume__4CSndf(ps, GLimitLm(g_lmZeroOne, __builtin_fabsf(p->g24) * 0.5f + 0.5f));
         if (p->p34->c4E > 0)
             Resume__4CSnd(p->p34);
     } else {
@@ -78,11 +78,11 @@ void Update__7CPRECONP6CPDEFIP5CMJOY(struct X *p, void *pv, struct JOY *pjoy)
     gTilt = -__builtin_fabsf(pjoy->g1040) * pjoy->g1040 * D_002BD994;
     NProgress(&ref, g_sw.p3B4C, D_003D4A60);
     f = ref.m_n;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (f)
         gTilt = -gTilt;
-    gPan = p->g18 + func_0011CFE0(gPan - p->g18, D_002BD998 * g_clock.dt);
-    gTilt = p->g1C + func_0011CFE0(gTilt - p->g1C, D_002BD99C * g_clock.dt);
+    gPan = p->g18 + GLimitAbs(gPan - p->g18, D_002BD998 * g_clock.dt);
+    gTilt = p->g1C + GLimitAbs(gTilt - p->g1C, D_002BD99C * g_clock.dt);
     dt = g_clock.dt * 0.5f;
     {
         float gMin, gMax;

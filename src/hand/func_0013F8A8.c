@@ -1,7 +1,7 @@
 struct ALLOCREQ { int cb; int cbAlign; };
 struct A { int f0; int cMax; int c; int *a; };
 void *PvAllocStackImpl__Fi(struct ALLOCREQ *);
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 static inline int Max(int a, int b) { return a < b ? b : a; }
 void func_0013F8A8(struct A *pa, int cAdd, int *aAdd) {
     if (pa->cMax < pa->c + cAdd) {
@@ -14,10 +14,10 @@ void func_0013F8A8(struct A *pa, int cAdd, int *aAdd) {
         req.cb = cMax * 4;
         req.cbAlign = 0x10;
         a = PvAllocStackImpl__Fi(&req);
-        func_001AE5A0(a, pa->a, pa->c * 4);
+        CopyAb(a, pa->a, pa->c * 4);
         pa->cMax = cMax;
         pa->a = a;
     }
-    func_001AE5A0(pa->a + pa->c, aAdd, cAdd * 4);
+    CopyAb(pa->a + pa->c, aAdd, cAdd * 4);
     pa->c += cAdd;
 }

@@ -9,7 +9,7 @@ struct G { char pad[0x3D58]; int counter; };
 extern G g_sw;
 extern "C" M4 InverseAffineMatrix4(const M4 *m) asm("InverseAffineMatrix4__FP7MATRIX4");
 extern "C" M3 InverseMatrix3(const M3 *m) asm("InverseMatrix3__FP7MATRIX3");
-extern "C" void func_0011B3D0(M3 *m);
+extern "C" void NormalizeRotateMatrix3(M3 *m) asm("NormalizeRotateMatrix3__FP7MATRIX3");
 extern "C" qword *func_00256D18(qword *p,qword v);
 static inline qword Transform(const M4 &m,qword p) {
  qword r;
@@ -35,7 +35,7 @@ extern "C" void UpdateXfLink__FP3ALOPv(void *,S *s)
  }
  if(s->rotation) {
   m=Mul(InverseMatrix3((M3 *)&s->dest->parent->m40),*(M3 *)&s->source->m40);
-  func_0011B3D0(&m);
+  NormalizeRotateMatrix3(&m);
   Dest *dest=s->dest;
   *(M3 *)&dest->m=m;
   dest->m.r[0].i[3]=0;

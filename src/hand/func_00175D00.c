@@ -20,7 +20,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct T *t, int n);
 qword PosOfLo__FP2LO(void *p);
 float RadStepHeading__FP4STEP(struct A *a);
 void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *a, float *b, float *c);
-int func_0011D910(void *p, float f);
+int FCheckLm(void *p, float f) asm("FCheckLm__FP2LMf");
 float RadNormalize__Ff(float f);
 qword *MatJtLo__FP2LO(struct A *a);
 void PanTiltFromVector__FG9VU_VECTORPfT1(qword v, int n, float *pf);
@@ -28,7 +28,7 @@ void __10STACKSCOPE(struct X *x);
 void _$_10STACKSCOPE(struct X *x, int n);
 int func_0020FA10(void);
 void func_0020FAA0(struct G *g, qword a, qword b, int (*fn)(void), int z, int *pa, int *pb);
-struct R *func_0014CC58(int n, qword a, qword b, int c, int d, struct Y *y);
+struct R *PsoHitTestLineObjects(int n, qword a, qword b, int c, int d, struct Y *y) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 // name: SafeHouse port (JOBPURSUE::FCanShoot)
 int FCanShoot__9JOBPURSUE(struct S *p) {
     struct X x;
@@ -70,15 +70,15 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pb), "j"(pa));
     g = RadStepHeading__FP4STEP(p->p10);
     ConvertVectorToSphere__FG9VU_VECTORPfN21(d, &f[0], &f[1], &f[2]);
-    if (!func_0011D910(p->p10->aF48, f[2])) return 0;
+    if (!FCheckLm(p->p10->aF48, f[2])) return 0;
     {
         float h = RadNormalize__Ff(f[0] - g);
-        if (!func_0011D910(p->p10->aF50, h)) return 0;
+        if (!FCheckLm(p->p10->aF50, h)) return 0;
     }
     PanTiltFromVector__FG9VU_VECTORPfT1(*MatJtLo__FP2LO(p->p10), 0, &f[3]);
     {
         float h = RadNormalize__Ff(f[1] - f[3]);
-        if (!func_0011D910(p->p10->aF58, h)) return 0;
+        if (!FCheckLm(p->p10->aF58, h)) return 0;
     }
     if (!k) {
         if (p->n34 == 0) {
@@ -91,7 +91,7 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
         struct R *r;
         __10STACKSCOPE(&x);
         func_0020FAA0(&g_sw, pa, pb, func_0020FA10, p->p10->nEC, &na, &nb);
-        r = func_0014CC58(0, pa, pb, na, nb, &y);
+        r = PsoHitTestLineObjects(0, pa, pb, na, nb, &y);
         if (r && r->p4->p14->p0 != p->p30) {
             _$_10STACKSCOPE(&x, 2);
             return 0;

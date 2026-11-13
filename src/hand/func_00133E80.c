@@ -2,7 +2,7 @@ struct X;
 struct E { int f0; struct X *px; float *pg; };
 struct P { char pad[0x3CCC]; int fDirty; int c; struct E *aae[3]; };
 void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *, struct X *, struct X *, int);
-void *func_002332B8(void *, void *, unsigned int);
+void *s1_memmove(void *, void *, unsigned int);
 // name: SafeHouse port (UpdateSwAaox)
 void UpdateSwAaox__FP2SW(struct P *p)
 {
@@ -32,7 +32,7 @@ void UpdateSwAaox__FP2SW(struct P *p)
                 }
                 pe2++;
                 e = *pe;
-                func_002332B8(pe2 + 1, pe2, (pe - pe2) * sizeof(struct E));
+                s1_memmove(pe2 + 1, pe2, (pe - pe2) * sizeof(struct E));
                 *pe2 = e;
             }
         }

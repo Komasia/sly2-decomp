@@ -6,7 +6,7 @@ struct P { char pad[0x4C0]; char a4C0[0x9BC - 0x4C0]; int x9BC; char pad1[0x11B0
     char pad5[0x1874 - 0x16B8]; int x1874; };
 extern struct G g_game;
 void BroadcastTaskEvent__FP2SWiP2LO(struct G *pg, int n, struct P *p);
-struct E *func_00136A28(struct P *p, int k);
+struct E *CbFromSaak(struct P *p, int k) asm("CbFromSaak__F4SAAK");
 void SetJtThrowState__FP7JTTHROWi(void *pv, int n);
 void StartInteract__FP5ACTORii3JTL(void *pv, int n, void *pv2, int m);
 struct O *PloAcquireProxyObject__FP2SWi(void *pv, int n);
@@ -23,7 +23,7 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
     BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, p);
     switch (k) {
     case 4: case 5: case 7: case 9: case 11: case 13: {
-        struct E *pe = func_00136A28(p, k);
+        struct E *pe = CbFromSaak(p, k);
         if ((unsigned int)(p->x11B4 - 4) < 3) {
             SetJtThrowState__FP7JTTHROWi(p->a11B0, 7);
             return;

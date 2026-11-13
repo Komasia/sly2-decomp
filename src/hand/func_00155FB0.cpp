@@ -30,9 +30,9 @@ M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 float GSuck(void *p) asm("GSuck__FPv");
 VUV func_00256CE8(float g);
 VUV func_00256D08(VECTOR *pv);
-qword func_00258480(qword a, qword b, qword c, qword d);
+qword VecCombo(qword a, qword b, qword c, qword d) asm("VecCombo__FG8VU_FLOATG9VU_VECTORT0T1");
 void func_00256D18(VECTOR *pv, qword v);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x) asm("atan2f");
 qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
 void ConvertVectorToSphere(qword v, float *pa, float *pb, float *pc) asm("ConvertVectorToSphere__FG9VU_VECTORPfN21");
 FRAME *__10STACKSCOPE(FRAME *pf);
@@ -40,7 +40,7 @@ void _$_10STACKSCOPE(FRAME *pf, int n);
 void ApsoeOccluders(int *pc, void **pa) asm("ApsoeOccluders__FPiPPP3SOE");
 float RadNormalize(float g) asm("RadNormalize__Ff");
 qword SetVectorSphere(float pan, float tilt, float s) asm("SetVectorSphere__Ffff");
-int func_0014CC58(int n, qword a, qword b, int c, void *pv, qword *phit);
+int PsoHitTestLineObjects(int n, qword a, qword b, int c, void *pv, qword *phit) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 qword func_00155FB0(void *p, qword pos);
 }
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
@@ -92,7 +92,7 @@ qword func_00155FB0(void *p, qword pos)
         float g;
         VECTOR *pv0 = &D_002BDC60;
         VECTOR *pv1 = &D_002BDC80;
-        qword cq = func_00258480(func_00256CE8(u1).q, func_00256D08(pv0).q, func_00256CE8(u).q, func_00256D08(pv1).q);
+        qword cq = VecCombo(func_00256CE8(u1).q, func_00256D08(pv0).q, func_00256CE8(u).q, func_00256D08(pv1).q);
         func_00256D18(&clq, cq);
         g = clq.x + dist * (clq.y + dist * clq.z);
         lm.gMin = u1 * D_002BDC70[0] + u * D_002BDC90[0];
@@ -106,7 +106,7 @@ qword func_00155FB0(void *p, qword pos)
     } else {
         M3 *pm = MatJtLo(pso);
         M3 *pm2 = MatJtLo(pso);
-        off.q = SetVectorCylind(func_002458F0(((float *)pm)[1], ((float *)pm2)[0]), D_002BDC98, 0.0f);
+        off.q = SetVectorCylind(atan2f(((float *)pm)[1], ((float *)pm2)[0]), D_002BDC98, 0.0f);
     }
     ConvertVectorToSphere(Sub(Add(posTarget, off.q), pos), &pan, &tilt, &s);
     __10STACKSCOPE(&frame);
@@ -117,7 +117,7 @@ qword func_00155FB0(void *p, qword pos)
         float g;
         float panT = RadNormalize(pan + D_002BDCA0[i]);
         test = Add(pos, SetVectorSphere(panT, tilt, s));
-        int f = func_0014CC58(0, pos, test, c, av, &hit.q);
+        int f = PsoHitTestLineObjects(0, pos, test, c, av, &hit.q);
         if (f)
             test = hit.q;
         __asm__ __volatile__(""); /* emulates the original compiler not threading this jump */

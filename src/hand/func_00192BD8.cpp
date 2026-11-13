@@ -96,7 +96,7 @@ qword ConvertPos(void *, void *, qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void ResetGaitFeet(PROGRAM_ITEM *) asm("ResetGaitFeet__FP4GAIT");
 void RetractAsegaPp(ANIMATION **) asm("RetractAsegaPp__FPP5ASEGA");
 void ClearSmaHandle(COMPONENT *) asm("ClearSmaHandle__FPP3SMA");
-void func_001305B8(CLIP *, ACTOR *, float, float, int, ANIMATION **);
+void ApplyAsegCur(CLIP *, ACTOR *, float, float, int, ANIMATION **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void ReplaceSmaHandle(PROGRAM *, ACTOR *, int, int, COMPONENT *) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 void SetSlyHandles(ACTOR *, int) asm("SetSlyHandles__FP3SLYUi");
 }
@@ -514,7 +514,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
     if (step != -1) {
         RetractAsegaPp(&p->pactor->animation);
         ClearSmaHandle(&p->pactor->component);
-        func_001305B8(clip, p->pactor, blend, speed, flags, &p->pactor->animation);
+        ApplyAsegCur(clip, p->pactor, blend, speed, flags, &p->pactor->animation);
         ReplaceSmaHandle(script, p->pactor, -1, flags, &p->pactor->component);
         Notify(p->pactor, 90);
         if (FIsBasicDerivedFrom(p->pactor, 53))

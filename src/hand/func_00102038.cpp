@@ -14,13 +14,13 @@ struct CRef {
     CRef &operator=(int n);
     CRef &operator=(float g);
 };
-extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
+extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" { void *PsndStartDialog__FP8SOUNDMGRii(void *p, int a, int b); CRef func_00102038(void *p, int c, void *aref); }
 CRef func_00102038(void *p, int c, void *aref)
 {
     int ak[2] = {0x10, 0x105D};
     int a, b;
-    CRef ref = func_00201360(2, aref, ak, &a, &b);
+    CRef ref = RefSetArgsFromSplice(2, aref, ak, &a, &b);
     ref = PsndStartDialog__FP8SOUNDMGRii(p, a, b);
     return ref;
 }

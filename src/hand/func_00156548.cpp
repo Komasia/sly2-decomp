@@ -11,7 +11,7 @@ struct CLOCK { float t; float dt; };
 extern CLOCK g_clock;
 extern "C" {
 S *func_0011CCC0(void *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int) asm("s1_memset");
 void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 }
@@ -24,7 +24,7 @@ struct Lock {
 extern "C" void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(P *p, qword q, int b, S **pps)
 {
     S *ps = func_0011CCC0(g_sw.pool);
-    func_002333B4(ps, 0, 0x60);
+    s1_memset(ps, 0, 0x60);
     ps->n0 = 0;
     ps->n4 = 0;
     ps->p14 = p;

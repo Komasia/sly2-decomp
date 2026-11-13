@@ -11,7 +11,7 @@ M3 *MatJtLo__FP2LO(struct SO *pso);
 void SetCmLookAt__FP2CMG9VU_VECTORT1ff(void *pcm, qword a, qword b, float g, float h);
 void func_00256D18(qword *p, qword v);
 void SetCmPosMat__FP2CMP6VECTOR(void *pcm, M4 *pm);
-float func_00244B68(float g);
+float atanf(float g);
 void SetCmFov__FP2CMf(void *pcm, float g);
 static __inline__ void LoadM4(M4 *pm, M3 *pmat)
 {
@@ -58,7 +58,7 @@ void Update__8CPLOOKATP6CPDEFIP5CMJOY(struct P *p)
         SetCmPosMat__FP2CMP6VECTOR(g_cm, pm);
     }
     if (pso->x12C > 0) {
-        float g = func_00244B68(17.995901107788086f / pso->g128);
+        float g = atanf(17.995901107788086f / pso->g128);
         g = GClamp(g + g, 0.01f, 3.0f);
         SetCmFov__FP2CMf(g_cm, g);
     }

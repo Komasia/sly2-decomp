@@ -30,7 +30,7 @@ int PtargetrecOf__FP2LO(struct P *);
 void SetSoMass__FP2SOf(struct P *, float);
 qword PosOfLo__FP2LO(struct P *);
 struct M3 *MatJtLo__FP2LO(struct P *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int);
 void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(struct G *, struct P *, struct K, int);
 
 // name: SafeHouse port (PostLoadActorParts)
@@ -82,7 +82,7 @@ void PostLoadActorParts__FP5ACTOR(struct P *p)
         qword q = PosOfLo__FP2LO(p);
         struct M3 m = *MatJtLo__FP2LO(p);
         struct SO *pso = p->pso;
-        func_002333B4(pso, 0, 0x40);
+        s1_memset(pso, 0, 0x40);
         pso->m[0] = pso->m[5] = pso->m[10] = pso->m[15] = 1.0f;
         g_sw.cid++;
         p->pso->id = g_sw.cid;

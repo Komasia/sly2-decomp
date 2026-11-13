@@ -29,7 +29,7 @@ int CFindObjectsByClass(G *pg, int a, int b, void *c, int d, SO **apso) asm("CFi
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 qword SetVectorSphere(float a, float b, float c) asm("SetVectorSphere__Ffff");
 float RadBetweenVectors(qword a, qword b, void *p) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
-float func_002458F0(float y, float x);
+float atan2f(float y, float x) asm("atan2f");
 qword SetVectorCylind(float a, float b, float c) asm("SetVectorCylind__Ffff");
 void Aim(P *p) asm("Aim__8JOBCHASE");
 }
@@ -145,7 +145,7 @@ void Aim(P *p)
     }
     if (FLess(Len2(v), D_002BD460)) {
         qword e = Sub(posMe, posPlayer);
-        float rad = func_002458F0(GetY(e), GetX(e));
+        float rad = atan2f(GetY(e), GetX(e));
         qword pp = PosOfLo(pso);
         pos = Add(pp, SetVectorCylind(GRandInRange(rad - 1.5707964f, rad + 1.5707964f), D_002BD470, D_002BD474));
     } else {

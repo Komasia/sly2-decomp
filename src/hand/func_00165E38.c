@@ -7,7 +7,7 @@ extern void *D_002DEB4C;
 extern char D_003DA530[];
 extern char D_002A3828[];
 CRef *NProgress(CRef *pref, void *a, void *b);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 int func_001D9880(void *p);
 void ApplyVibrationSetting__Fv(void);
 void func_001DD888(void *p);
@@ -23,7 +23,7 @@ void StartGameFromSave__FP2SW(void *pv)
     void *prop;
     NProgress(&ref, g_sw.f3b1c, pv);
     g = *(float *)&ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     if (func_001D9880(D_003DA530) && g == 0.0f) {
         ApplyVibrationSetting__Fv();
         func_001DD888(D_003DA530);
@@ -47,14 +47,14 @@ void StartGameFromSave__FP2SW(void *pv)
     }
     __asm__ __volatile__(""); /* ordering-only: ends the -1 constant's dependence chain at the call */
     n = ref.m_tag;
-    func_00129EC8(&ref);
+    Decref(&ref);
     ps = func_00210B98(n);
     prop = g_sw.a3b7c[n];
     n = 0;
     if (prop) {
         NProgress(&ref, prop, pv);
         n = ref.m_tag;
-        func_00129EC8(&ref);
+        Decref(&ref);
     }
     if (n >= 100 || !ps) {
         ps = D_002A3828;

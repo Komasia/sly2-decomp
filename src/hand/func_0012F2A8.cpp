@@ -6,11 +6,11 @@ struct ENT2 { int a; int b; OBJ *pobj; };
 struct X { char pad[0x5C]; int c; ENT *aent; int c2; ENT2 *aent2; char pad2[0x74 - 0x6C]; float g74;
            char pad3[0x98 - 0x78]; int x98, x9C, xA0, xA4, xA8, xAC; };
 extern "C" {
-float func_00117E38(BIS *pbis);
-int func_00117D50(BIS *pbis);
-int func_00117DB8(BIS *pbis);
-int func_00117D00(BIS *pbis);
-int func_00117BD0(BIS *pbis);
+float F32Read(BIS *pbis) asm("F32Read__18CBinaryInputStream");
+int S16Read(BIS *pbis) asm("S16Read__18CBinaryInputStream");
+int S32Read(BIS *pbis) asm("S32Read__18CBinaryInputStream");
+int S8Read(BIS *pbis) asm("S8Read__18CBinaryInputStream");
+int U8Read(BIS *pbis) asm("U8Read__18CBinaryInputStream");
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 OBJ *PtrkpNew(int id) asm("PtrkpNew__Fi");
@@ -20,28 +20,28 @@ void LoadOptionsFromBrx(X *px, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBinary
 void LoadAsegFromBrx(X *px, BIS *pbis) asm("LoadAsegFromBrx__FP4ASEGP18CBinaryInputStream");
 }
 void LoadAsegFromBrx(X *px, BIS *pbis) { int i; AREQ req;
- px->g74 = func_00117E38(pbis);
- px->c = func_00117D50(pbis);
+ px->g74 = F32Read(pbis);
+ px->c = S16Read(pbis);
  req.cbAlign = 0x10; req.cb = px->c * 8;
  px->aent = (ENT *)PvAllocSwImpl(&req);
  for (i = 0; i < px->c; i++) {
    ENT *pe = &px->aent[i];
-   pe->n = func_00117DB8(pbis);
-   pe->k = func_00117D50(pbis);
-   int id = func_00117D00(pbis);
+   pe->n = S32Read(pbis);
+   pe->k = S16Read(pbis);
+   int id = S8Read(pbis);
    if (id != -1) { pe->pobj = PtrkpNew(id); pe->pobj->Load(pbis); pe->f31 = 0; }
-   id = func_00117D00(pbis);
+   id = S8Read(pbis);
    if (id != -1) { pe->pobj = PtrkgNew(id); pe->pobj->Load(pbis); pe->f31 = 1; }
-   pe->f30 = func_00117BD0(pbis) != 0;
+   pe->f30 = U8Read(pbis) != 0;
  }
- px->c2 = func_00117BD0(pbis);
+ px->c2 = U8Read(pbis);
  req.cbAlign = 0x10; req.cb = px->c2 * 12;
  px->aent2 = (ENT2 *)PvAllocSwClearImpl(&req);
  for (i = 0; i < px->c2; i++) {
    ENT2 *pe = &px->aent2[i];
-   pe->a = func_00117BD0(pbis);
-   pe->b = func_00117DB8(pbis);
-   pe->pobj = PtrkgNew(func_00117D00(pbis));
+   pe->a = U8Read(pbis);
+   pe->b = S32Read(pbis);
+   pe->pobj = PtrkgNew(S8Read(pbis));
    pe->pobj->Load(pbis);
  }
  func_0012F590(px, pbis, 0, &px->x98, &px->x9C);

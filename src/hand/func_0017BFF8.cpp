@@ -17,8 +17,8 @@ extern "C"{
 extern float D_002A5600;
 qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");
 void ConvertVectorToCylind(qword,float*,float*,float*) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
-float RadNormalize(float) asm("RadNormalize__Ff");float func_0011CFE0(float,float);float func_0011D948(LM*,float);
-qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");int func_0011D910(LM*,float);
+float RadNormalize(float) asm("RadNormalize__Ff");float GLimitAbs(float,float) asm("GLimitAbs__Fff");float GLimitLm(LM*,float) asm("GLimitLm__FP2LMf");
+qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");int FCheckLm(LM*,float) asm("FCheckLm__FP2LMf");
 int FKeepOnNav(void*,qword,qword*) asm("FKeepOnNav__FP9NAVREGIONG9VU_VECTORP6VECTOR");
 int AtFreeNav(void*,qword,qword,int,SEGMENT*) asm("AtFreeNav__FP9NAVREGIONG9VU_VECTORT1ii");
 void PosNearestSegment(qword,qword,qword,qword*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
@@ -43,11 +43,11 @@ extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*regi
  }
  tuning=p->actor->tuning;
  ConvertVectorToCylind(QwSub(PosOfLo(p->actor),origin),&flow.polarAngle,&flow.polarLength,0);
- float angle=heading+func_0011CFE0(RadNormalize(flow.polarAngle-heading),tuning->narrow);
- float length=func_0011D948(&first,flow.polarLength);
+ float angle=heading+GLimitAbs(RadNormalize(flow.polarAngle-heading),tuning->narrow);
+ float length=GLimitLm(&first,flow.polarLength);
  if(FKeepOnNav(region,QwAdd(origin,SetVectorCylind(angle,length,0.0f)),&closest.q)){
   ConvertVectorToCylind(QwSub(closest.q,origin),&flow.candidateAngle,&flow.candidateLength,0);
-  if(__builtin_fabsf(RadNormalize(flow.candidateAngle-heading))<tuning->wide&&func_0011D910(&second,flow.candidateLength))return closest.q;
+  if(__builtin_fabsf(RadNormalize(flow.candidateAngle-heading))<tuning->wide&&FCheckLm(&second,flow.candidateLength))return closest.q;
  }
  qword target,best;
  int mode;

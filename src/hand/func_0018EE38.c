@@ -5,10 +5,10 @@ struct T { char pad[0x50]; int n50; char pad1[0x5C - 0x54]; void *p5C; };
 struct O { char pad[0xC]; struct VT *pvt; char pad1[0x150 - 0x10]; struct P *p150; char pad2[0x10DC - 0x154]; char *p10DC;
     char pad3[0x18C8 - 0x10E0]; int n18C8; int x18CC; int n18D0; int x18D4; int n18D8; };
 extern qword PosOfLo__FP2LO(void *p);
-extern int func_0011D910(void *p, float g);
+extern int FCheckLm(void *p, float g) asm("FCheckLm__FP2LMf");
 extern struct T *PjobFind__FP5GUARDPv(void *p, int n);
 extern void SetJtJts__FP2JT3JTS4JTBS(struct O *p, int n, int m);
-extern float func_002458F0(float y, float x);
+extern float atan2f(float y, float x);
 extern float RadNormalize__Ff(float g);
 extern int FSlyAnchorsAhead__FP3SLY(struct O *p);
 extern float D_002BF4AC;
@@ -29,7 +29,7 @@ int NSlyNextSwing__FP3SLY(struct O *p)
         __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(l));
         f = 0;
         if (g < D_002BF4AC)
-            f = func_0011D910(D_002BF4B0, GetZ(d)) != 0;
+            f = FCheckLm(D_002BF4B0, GetZ(d)) != 0;
         if (f) {
             struct T *pt = PjobFind__FP5GUARDPv(p->p10DC + 0x26C, 0xB1);
             if (pt && pt->p5C == p) {
@@ -46,7 +46,7 @@ int NSlyNextSwing__FP3SLY(struct O *p)
     if (p->n18D0 == 5) {
         float *pa = p->pvt->a[31].pfn((char *)p + p->pvt->a[31].d);
         float *pb = p->pvt->a[31].pfn((char *)p + p->pvt->a[31].d);
-        float d = RadNormalize__Ff(p->p150->g18 - func_002458F0(pa[1], pb[0]));
+        float d = RadNormalize__Ff(p->p150->g18 - atan2f(pa[1], pb[0]));
         float ad = __builtin_fabsf(d);
         if (ad < 0.7853982f)
             n = 0xE;

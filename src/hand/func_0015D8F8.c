@@ -6,9 +6,9 @@ extern char D_003D4A60[];
 extern void *D_002BE2F8[];
 extern char D_002A5160[];
 void NProgress(CRef *pref, void *p, void *q);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 int func_001DAEA8(void *p);
-void func_0021ECD8(char *pch, char *fmt, ...);
+void fiprintf(char *pch, char *fmt, ...);
 void func_0015D8F8(char *pch)
 {
     struct G *pg = &g_sw;
@@ -18,10 +18,10 @@ void func_0015D8F8(char *pch)
         int n;
         NProgress(&ref, p, D_003D4A60);
         n = ref.m_tag;
-        func_00129EC8(&ref);
+        Decref(&ref);
         n = n * 95 / 100;
         if (func_001DAEA8(D_002BE2F8[pg->px->i]))
             n += 5;
-        func_0021ECD8(pch, D_002A5160, n);
+        fiprintf(pch, D_002A5160, n);
     }
 }

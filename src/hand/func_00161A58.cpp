@@ -44,14 +44,14 @@ extern "C"{
  void func_001657A8(P*);
  void RequestTransition(G*,CHECK*,int,int,int,int) asm("RequestTransition__FP2SWPUc3OIDT2iT2");
  CRef*func_001291A8(CRef*,const CRef*);
- void func_00129EC8(CRef*);
+ void Decref(CRef*) asm("Decref__4CRef");
 }
 struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
 struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
  OVERRIDE(P*p,int x,int y):context(0),object(p){if(object){oldX=object->x;object->x=x;oldY=object->y;object->y=y;}}
  ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}
 };
-struct CRef{int kind;union{int n;float g;};CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){func_00129EC8(this);}};
+struct CRef{int kind;union{int n;float g;};CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){Decref(this);}};
 extern "C" CRef NProgress(void*,void*);
 static inline float GetFloat(void*p,void*context){const CRef&r=NProgress(p,context);return r.g;}
 static inline int Same(CHECK*a,CHECK*b){

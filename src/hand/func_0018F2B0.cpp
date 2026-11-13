@@ -17,11 +17,11 @@ extern "C" qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR"
 extern "C" void func_002309E8(void*,void*,M4*,float,M4*);
 extern "C" void PosNearestSegment(qword,qword,qword,qword*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
 extern "C" int func_0015ED78(G*,int,int,P*);
-extern "C" float func_002458F0(float,float);
+extern "C" float atan2f(float,float) asm("atan2f");
 extern "C" float RadNormalize(float) asm("RadNormalize__Ff");
 struct VU_FLOAT{qword qw;};
 static inline VU_FLOAT VuFloatBits(float g){VU_FLOAT v;__asm__("mfc1 %0,%1":"=r"(v.qw):"f"(g));return v;} static inline qword QwFromF(float g){qword q;__asm__("mfc1 %0,%1":"=r"(q):"f"(g):"memory");return q;}
-static inline float AngleOf(U v){return func_002458F0(v.f[1],v.f[0]);}
+static inline float AngleOf(U v){return atan2f(v.f[1],v.f[0]);}
 static inline qword AddScaled(qword p,qword v,VU_FLOAT k){qword q;__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%3,%2x":"=j"(q):"j"(p),"j"(k.qw),"j"(v),"j"(k.qw)/*allocation-only: VU preference spills k like the target*/);return q;}
 static inline qword Rotate(const M3&m,qword v){qword q;__asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(q):"j"(m.r[0].q),"j"(m.r[1].q),"j"(m.r[2].q),"0"(v));return q;}
 static inline qword Transform(const M4&m,qword v){qword q;__asm__("vmulax.xyz ACC,%1,%5x\n\tvmadday.xyz ACC,%2,%5y\n\tvmaddaz.xyz ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w":"=j"(q):"j"(m.r[0].q),"j"(m.r[1].q),"j"(m.r[2].q),"j"(m.r[3].q),"j"(v));return q;}
@@ -61,7 +61,7 @@ extern "C" void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(P*p,floa
   if(distance<nearest){
    qword other=candidate.q;
    U scratch;scratch.q=Sub(other,PosOfLo(p));
-   float angle=AbsF(RadNormalize(func_002458F0(scratch.f[1],scratch.f[0])-heading));
+   float angle=AbsF(RadNormalize(atan2f(scratch.f[1],scratch.f[0])-heading));
    if(cone<angle)continue;
    best=node;nearest=distance;
    qword pred=prediction.r[3].q; answer.q=Sub(pred,origin.q);

@@ -32,14 +32,14 @@ int func_00224590(void *p);
 void func_002245B8(void *p);
 void RetractAsegaPp__FPP5ASEGA(void *p);
 void func_00141CD0(void *p);
-void func_001305B8(void *pa, void *p, float g, int n, float h, void *pb);
+void ApplyAsegCur(void *pa, void *p, float g, int n, float h, void *pb) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void func_0019F170(void *p, int n);
 void func_0019F220(void *p, int n);
 void *PloAcquireProxyObject__FP2SWi(void *p, int n);
 void ReparentBooty__FP3ALOii(void *p, int a, int b);
 void RemoveNoise__FP5NOISE(void *p);
 void StartReachGrab__FP5REACHP2LO(void *p, void *q);
-void func_00131A00(void *p, float g);
+void SetAsegaSpeed(void *p, float g) asm("SetAsegaSpeed__FP5ASEGAf");
 void AttachReachObject__FP5REACHP2LO(void *p, void *q);
 void func_00133448(void *p, void *q);
 void OfferJobMessage__FP5GUARDii(void *p, int msg, void *pmsg);
@@ -145,7 +145,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
                         F(int, p, 0x1314) = -1;
                     } else {
                         func_00141CD0(p);
-                        func_001305B8(F(void *, p, 0x130C), p, 0.0f, 8, 1.0f, (char *)p + 0x1310);
+                        ApplyAsegCur(F(void *, p, 0x130C), p, 0.0f, 8, 1.0f, (char *)p + 0x1310);
                         F(int, p, 0x1314) = F(int, p, 0x9BC);
                     }
                 } else if (n != -1) {
@@ -184,7 +184,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             break;
         case 0x1C7:
             if (F(int, p, 0x4C8) == 0xC) {
-                func_00131A00(F(void *, p, 0x1030), 1.0f);
+                SetAsegaSpeed(F(void *, p, 0x1030), 1.0f);
                 AttachReachObject__FP5REACHP2LO((char *)p + 0x900, F(void *, p, 0x4D4));
             }
             break;

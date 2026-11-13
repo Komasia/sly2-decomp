@@ -6,14 +6,14 @@ void __10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
 void *AkeyStand__FP2LO(struct S *);
 void NProgress(struct CRef *, void *, void *);
-void func_00129EC8(struct CRef *);
+void Decref(struct CRef *) asm("Decref__4CRef");
 static inline int NFromRef(void *pv)
 {
     struct CRef ref;
     int n;
     NProgress(&ref, pv, D_003D4A60);
     n = ref.m_n;
-    func_00129EC8(&ref);
+    Decref(&ref);
     return n;
 }
 // name: SafeHouse port (IdStandSaved)

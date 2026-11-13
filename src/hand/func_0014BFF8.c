@@ -6,7 +6,7 @@ extern float D_002DDF0C;
 void func_0011A118(struct H *ph, struct X *px);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-void func_0014BF18(struct H *ph);
+void UnmarkAll(struct H *ph) asm("UnmarkAll__10CSplotheap");
 static __inline__ void InitDli(DLI *pdli, struct H *pdl)
 {
     pdli->m_pdl = pdl;
@@ -45,7 +45,7 @@ void func_0014BFF8(struct H *ph)
             SetSource__4CSndPv(PsndNewPlain__Fi(0x34), 0);
             pxBest->pfn(pxBest->pv);
         }
-        func_0014BF18(ph);
+        UnmarkAll(ph);
         ph->gC = 0.0f;
         g_psliFirst = dli.m_pdliNext;
     }

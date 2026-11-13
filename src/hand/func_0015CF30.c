@@ -25,7 +25,7 @@ int func_00187D80(void *p, int n);
 int func_00187E88(void *p);
 void SetEpMode__FP6EPMENUii(struct X *p, int a, int b);
 void NProgress(void *pref, void *p, void *q);
-void func_00129EC8(void *pref);
+void Decref(void *pref) asm("Decref__4CRef");
 void SetHint__FP6EPMENUi(struct X *p, int n);
 void QueueMovie__FPUcPv(void *p, int n);
 void RequestTransition__FP2SWPUc3OIDT2iT2(struct G *pg, int a, int b, int c, int d, int e);
@@ -95,7 +95,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
                 struct CRef ref;
                 NProgress(&ref, pv, D_003D4A60);
                 c = ref.m_n;
-                func_00129EC8(&ref);
+                Decref(&ref);
                 if (c >= 100)
                     goto setf;
             }
@@ -176,7 +176,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
                 f = 1;
                 NProgress(&ref, pv, D_003D4A60);
                 g = ref.m_g;
-                func_00129EC8(&ref);
+                Decref(&ref);
                 if (g != 0.0f)
                     f = 0;
             }

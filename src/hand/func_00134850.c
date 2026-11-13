@@ -22,7 +22,7 @@ void UpdateInteractTransitions__FP5ACTOR(void *pv);
 void UpdateDamageTransitions__FP5ACTOR(void *pv);
 void OpenBinoc__FP5ACTORiP2LOT2(void *pv, int a, int b, int c);
 void FInteractCircle__FP5ACTOR(void *pv, int a, int b);
-int func_00136A28(struct P *p, int n);
+int CbFromSaak(struct P *p, int n) asm("CbFromSaak__F4SAAK");
 void UpdateClimbTransitions__FP5ACTOR(void *pv);
 void UpdateBentleyHold__FP7BENTLEY(struct P *p);
 void func_001367D8(struct P *p);
@@ -77,7 +77,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
                 OpenBinoc__FP5ACTORiP2LOT2(p->aF00, 0, 0, 0);
             } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
                 ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
-                p->x16B4 = func_00136A28(p, p->x1870);
+                p->x16B4 = CbFromSaak(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             } else if (GrfPadctlTakePressed__FP6PADCTL(p->p150, 0x20, 0.2f)) {
                 FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
@@ -97,7 +97,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
             UpdateJumpTransitions__FP4JUMP(p->a2C0);
             if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
                 ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
-                p->x16B4 = func_00136A28(p, p->x1870);
+                p->x16B4 = CbFromSaak(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             }
             break;
@@ -119,7 +119,7 @@ void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)
                 FInteractCircle__FP5ACTOR(&p->x4C0, 0xF8FE, 0);
             } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->p150, 0x10, 0.15f) && VCALL99(p, p->x1870)) {
                 ForgetPadctlPresses__FP6PADCTLUi(p->p150, 0x10);
-                p->x16B4 = func_00136A28(p, p->x1870);
+                p->x16B4 = CbFromSaak(p, p->x1870);
                 SetBentleyState__FP7BENTLEYi(p, 6);
             }
             break;

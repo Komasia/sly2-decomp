@@ -12,7 +12,7 @@ struct TEXBITS{
 union TEX{ulong word;TEXBITS bits;};
 extern int D_002DEDB0;
 extern DISPLAY D_002DEBE0,D_002DECD0;
-extern "C" void*func_002333B4(void*,int,uint);
+extern "C" void*s1_memset(void*,int,uint) asm("s1_memset");
 static inline ulong FrameBits(ulong frame){return (frame&0x1FFUL)|(((frame>>16)&0x3FUL)<<16)|(((frame>>24)&0x3FUL)<<24);}
 typedef char DISPLAY_Size[sizeof(DISPLAY)==240?1:-1];
 typedef char TEXBITS_Size[sizeof(TEXBITS)==8?1:-1];
@@ -48,7 +48,7 @@ extern "C" void func_0016FCA8(int gifCount,QW*gifBuffer,int vifCount,QW*vifBuffe
  gifs.PackAD(0x41,current->scissor);
  gifs.PackAD(0x48,current->test);
  gifs.AddPrimEnd();
- int values[8];func_002333B4(values,0,sizeof(values));
+ int values[8];s1_memset(values,0,sizeof(values));
  TEX texture;
  ulong frame=current->frame;
  TEX a=texture;

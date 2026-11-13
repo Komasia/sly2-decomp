@@ -13,11 +13,11 @@ struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
 int GrfActorLookMask__FP5ACTOR(struct S *p);
 void SetSmaMask__FP3SMAUi(void *p, int n);
-float func_0011CFE0(float g, float h);
+float GLimitAbs(float g, float h) asm("GLimitAbs__Fff");
 void SetStepPhysHeading__FP3ALOf(struct S *p, float g);
 void RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(struct S *p, int a, int b, int c, float g, void *pv);
 int MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(struct S *p, void *pv, int n);
-int func_001F0400(void *p, int n);
+int IsmsFindSmOptional(void *p, int n) asm("IsmsFindSmOptional__FP2SM3OID");
 void SetSmaState__FP3SMA3OID(void *p, int n);
 // name: SafeHouse port (UpdateSlyStanding)
 void UpdateSlyStanding__FP3SLY(struct S *p)
@@ -30,7 +30,7 @@ void UpdateSlyStanding__FP3SLY(struct S *p)
         UV u;
         e = &o->vt[34];
         u.q = ((qword (*)(void *))e->pfn)((char *)o + e->d);
-        u.v.z = func_0011CFE0(u.v.z, 10.0f);
+        u.v.z = GLimitAbs(u.v.z, 10.0f);
         SetStepPhysHeading__FP3ALOf(p, p->g1a8 + u.v.z * g_clock.dt);
     }
     if (p->x19f0) {
@@ -38,7 +38,7 @@ void UpdateSlyStanding__FP3SLY(struct S *p)
         RebuildSlyFootProbe__FP3SLYP2XFfT1P12SLYFOOTPROBEP3XMG(p, p->x19d4, p->x19dc, p->x19f4, 5.0f, p->x1620);
         if ((!MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, p->x1520, p->x19f0) || !MatchSlyFootProbe__FP3SLYP12SLYFOOTPROBEP10CTRLSOURCE(p, p->x1620, p->x19f4)) &&
             !p->x1514 && p->x1028) {
-            if (func_001F0400(p->x1028, 0x17C) >= 0) SetSmaState__FP3SMA3OID(p->x1034, 0x17C);
+            if (IsmsFindSmOptional(p->x1028, 0x17C) >= 0) SetSmaState__FP3SMA3OID(p->x1034, 0x17C);
             p->x1514 = 1;
         }
     }

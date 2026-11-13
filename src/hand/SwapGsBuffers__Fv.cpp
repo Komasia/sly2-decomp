@@ -15,8 +15,8 @@ void EnterCritSect(CRITSECT *pcs);
 void LeaveCritSect(CRITSECT *pcs);
 void BlendDisplayOnBufferMismatch();
 extern "C" void func_00240AE0(void *pdraw, short x, short y, short half);
-extern "C" void func_00234CA0(int n);
-extern "C" void func_00240A40(void *pdb, int i);
+extern "C" void FlushCache(int n) asm("FlushCache");
+extern "C" void sceGsSwapDBuff(void *pdb, int i) asm("sceGsSwapDBuff");
 extern "C" void func_002403D8(int a, int b);
 static inline int FField() { return ((CSR *)0x12001000)->FIELD; }
 void SwapGsBuffers()
@@ -33,9 +33,9 @@ void SwapGsBuffers()
     }
     EnterCritSect(&D_002DFB40);
     func_00240AE0((D_002DEDB0 & 1) ? D_002DEBE0 : D_002DECD0, 0x800, 0x800, D_002DEDB4);
-    func_00234CA0(0);
+    FlushCache(0);
     D_002DEDB0++;
-    func_00240A40(D_002DEB80, D_002DEDB0);
+    sceGsSwapDBuff(D_002DEB80, D_002DEDB0);
     if (D_002DEDBC == 1 || D_002DEDBC == 2)
         BlendDisplayOnBufferMismatch();
     func_002403D8(0, 0);

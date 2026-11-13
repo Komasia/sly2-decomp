@@ -14,7 +14,7 @@ struct CRef {
     CRef &operator=(int n);
     CRef &operator=(float g);
 };
-extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
+extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" { void func_001F8AD8(void *p, int a, int b, void *ps); CRef RefXfhMoveRot(void *p, int c, void *aref) asm("RefXfhMoveRot__FP5BASICiP4CRef"); }
 struct BIG { qword aq[4]; };
 // name: SafeHouse port (RefXfhMoveRot)
@@ -23,7 +23,7 @@ CRef RefXfhMoveRot(void *p, int c, void *aref)
     int ak[3] = {0x100D, 5, 4};
     BIG s;
     int a, b;
-    CRef ref = func_00201360(3, aref, ak, &a, &b, &s);
+    CRef ref = RefSetArgsFromSplice(3, aref, ak, &a, &b, &s);
     ref.Decref();
     ref.InitTag(0x24);
     func_001F8AD8(p, a, b, &s);

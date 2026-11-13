@@ -17,8 +17,8 @@ extern float D_002A5148;
 void ResolveEmits__FP8EMITTERN(struct EMITTER *p);
 void PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(void *pg, struct EMITTER *p, struct K k, int n);
 float GRandInRange__Fff(float gMin, float gMax);
-void func_0015A150(struct EMITTER *p);
-void func_0015A138(struct EMITTER *p, float g);
+void PauseEmitterIndefinite(struct EMITTER *p) asm("PauseEmitterIndefinite__FP7EMITTER");
+void PauseEmitter(struct EMITTER *p, float g) asm("PauseEmitter__FP7EMITTERf");
 struct EMITTER *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, int n);
 struct EMITTER *PloNew__F3CIDP2SW3OIDi(int cid, void *p, int oid, int n);
 void *PvAllocSwCopyImpl__FiPv(struct ALLOCREQ *preq, void *pv);
@@ -54,17 +54,17 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
         pemitter->g138 = D_002A5148;
         pemitter->g130 = GRandInRange__Fff(pemitter->lmF8.gMin, pemitter->lmF8.gMax);
         if (pemitter->n114)
-            func_0015A150(pemitter);
+            PauseEmitterIndefinite(pemitter);
         else if (GRandInRange__Fff(0.0f, 1.0f) <= pemitter->g104)
-            func_0015A138(pemitter, GRandInRange__Fff(pemitter->lm108.gMin, pemitter->lm108.gMax));
+            PauseEmitter(pemitter, GRandInRange__Fff(pemitter->lm108.gMin, pemitter->lm108.gMax));
         break;
     case 3:
         pemitter->g138 = D_002A5148;
         pemitter->g130 = GRandInRange__Fff(pemitter->lmF8.gMin, pemitter->lmF8.gMax) * 60.0f;
         if (pemitter->n114)
-            func_0015A150(pemitter);
+            PauseEmitterIndefinite(pemitter);
         else if (GRandInRange__Fff(0.0f, 1.0f) <= pemitter->g104)
-            func_0015A138(pemitter, GRandInRange__Fff(pemitter->lm108.gMin, pemitter->lm108.gMax));
+            PauseEmitter(pemitter, GRandInRange__Fff(pemitter->lm108.gMin, pemitter->lm108.gMax));
         break;
     case 0:
     case 1:

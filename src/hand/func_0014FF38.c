@@ -13,10 +13,10 @@ void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void func_00258040(int *, void *);
 void Pause__4CSnd(int);
-void func_0011BC88(void *, float *, float *);
+void DecomposeRotateMatrixPanTilt(void *, float *, float *) asm("DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1");
 int FIsBasicDerivedFrom__FP5BASIC3CID(int, int);
 void *MatJtLo__FP2LO(int);
-float func_0011D948(F2 *, float);
+float GLimitLm(F2 *, float) asm("GLimitLm__FP2LMf");
 void SetCmNearClip__FP2CMf(struct G *, float);
 
 // name: SafeHouse port (CPRECON::Activate)
@@ -36,7 +36,7 @@ void Activate__7CPRECONP2LOPv(struct X *p)
     }
     Pause__4CSnd(p->x34);
     pg = &g_cm;
-    func_0011BC88(&pg->x60, &p->x10, &p->x14);
+    DecomposeRotateMatrixPanTilt(&pg->x60, &p->x10, &p->x14);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0, 0x34)) {
         p->x3C = D_002BD950;
         p->x44 = D_002BD958;
@@ -45,15 +45,15 @@ void Activate__7CPRECONP2LOPv(struct X *p)
         p->x44 = D_002BD970;
         p->x4C = p->x10;
         p->x50 = p->x14;
-        func_0011BC88(MatJtLo__FP2LO(p->x0), &p->x10, &p->x14);
-        g = func_0011D948(&D_002BD960, p->x14);
+        DecomposeRotateMatrixPanTilt(MatJtLo__FP2LO(p->x0), &p->x10, &p->x14);
+        g = GLimitLm(&D_002BD960, p->x14);
         p->x14 = g;
         p->x3C.a += p->x10;
         p->x3C.b += p->x10;
         p->x44.a += g;
         p->x44.b += g;
-        p->x44.a = func_0011D948(&D_002BD960, p->x14);
-        p->x44.b = func_0011D948(&D_002BD960, p->x14);
+        p->x44.a = GLimitLm(&D_002BD960, p->x14);
+        p->x44.b = GLimitLm(&D_002BD960, p->x14);
     }
     p->x18 = 0;
     p->x1C = 0;

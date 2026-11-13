@@ -10,7 +10,7 @@ void FlushSwOxaDirty1__FP2SW(struct P *p);
 void UpdateSwAaox__FP2SW(struct P *p);
 struct C *__10STACKSCOPE(struct C *);
 void _$_10STACKSCOPE(struct C *, int);
-void func_001A7E10(struct P *, void *);
+void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct P *, struct X *, struct X *);
 void WakeAlo__FP3ALO(struct LO *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
@@ -52,7 +52,7 @@ void UpdateSwXps__FP2SW(struct P *p)
             VCALL(px->plo, 54, void (*)(void *, struct LO *)), px2->plo);
             VCALL(px2->plo, 54, void (*)(void *, struct LO *)), px->plo);
             pv = pl->pv;
-            func_001A7E10(p, pv);
+            FreeSwXpList(p, pv);
             { void *pvNew = PxpMarkOxaContacts__FP3OXAT0P2SO(p, px, px2); pl->pv = pvNew; pl->pother->pv = pvNew; }
             if (pv || pl->pv) {
                 if (!VCALL(px->plo, 62, int (*)(void *))))
@@ -65,7 +65,7 @@ void UpdateSwXps__FP2SW(struct P *p)
     for (px = p->pxFirst; px; px = p->pxFirst) {
         px->grf &= ~0x10L;
         VCALL(px->plo, 54, void (*)(void *, struct LO *)), 0);
-        func_001A7E10(p, px->pv68);
+        FreeSwXpList(p, px->pv68);
         px->pv68 = 0;
         VCALL(px->plo, 59, void (*)(void *)));
         px->grf &= ~2L;

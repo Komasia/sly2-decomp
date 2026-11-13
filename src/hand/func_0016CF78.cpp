@@ -16,8 +16,8 @@ void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void*PvAllocStackImpl(const REQUEST&) asm("PvAllocStackImpl__Fi");
-void*func_002333B4(void*,int,uint);
-void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
+void*s1_memset(void*,int,uint) asm("s1_memset");
+void CopyAb__FPvT0Ui(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);
 void LoadGlobSubmeshesFromBrx(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*) asm("LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii");
@@ -106,7 +106,7 @@ extern "C" void LoadGlobMesh3FromBrx__FP7GLOBSETP18CBinaryInputStreamPvP5PARAMP6
   char*weights;
   U*positions;
   vifs.UnpackHelper(UPK_V4_16,4,10,0,(uint**)&header);
-  func_002333B4(header,0,32);
+  s1_memset(header,0,32);
   switch(part){
   case 0:
    header->flags=Flags(1);
@@ -160,7 +160,7 @@ extern "C" void LoadGlobMesh3FromBrx__FP7GLOBSETP18CBinaryInputStreamPvP5PARAMP6
    mask<<=1;if(!mask){++flagCursor;mask=1;}
   }
   if(desc->count){
-   for(vertex=0;vertex<vertices;vertex++){index=indices[vertex];func_001AE5A0(weights+vertex*bones,boneWeights+index*bones,bones);}
+   for(vertex=0;vertex<vertices;vertex++){index=indices[vertex];CopyAb__FPvT0Ui(weights+vertex*bones,boneWeights+index*bones,bones);}
   }
   vifs.AddVifMscal(D_00000000);
   part++;

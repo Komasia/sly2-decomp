@@ -30,14 +30,14 @@ void ReleaseBentleyCarried__FP7BENTLEY(struct P *);
 void SetBentleyHold__FP7BENTLEYi(struct P *, int);
 void SetBentleyCarried__FP7BENTLEYi(struct P *, int);
 void SetJtThrowState__FP7JTTHROWi(void *, int);
-int func_001F0400(void *, int);
+int IsmsFindSmOptional(void *, int) asm("IsmsFindSmOptional__FP2SM3OID");
 int GrfActorLookMask__FP5ACTOR(struct P *);
 void ActorSetLookFlag__FP5ACTORi(struct P *, int);
 void ResetGaitFeet__FP4GAIT(struct ASEGP *);
 void SetBinocState__FP5ACTORi(void *, int);
 void RetractAsegaPp__FPP5ASEGA(void *);
 void ClearSmaHandle__FPP3SMA(void *);
-void func_001305B8(struct ASEG *, struct P *, int, void *, float, float);
+void ApplyAsegCur(struct ASEG *, struct P *, int, void *, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA(void *, struct P *, int, int, int, void *);
 
 #define VCALL0(p, n) ((void (*)(void *))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d)
@@ -149,7 +149,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
                 anim = kOld != 7 ? 0x175 : 0x176;
             else
                 anim = 0x178;
-            if (func_001F0400(pjt, anim) < 0)
+            if (IsmsFindSmOptional(pjt, anim) < 0)
                 anim = -1;
         }
         p->q190 = D_002A2DD0;
@@ -205,7 +205,7 @@ void SetBentleyState__FP7BENTLEYi(struct P *p, int k)
     }
     RetractAsegaPp__FPP5ASEGA(&p->p1030);
     ClearSmaHandle__FPP3SMA(&p->x1034);
-    func_001305B8(pasega, p, n, &p->p1030, g, rate);
+    ApplyAsegCur(pasega, p, n, &p->p1030, g, rate);
     ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA(pjt, p, anim, n, c, &p->x1034);
     VCALL0(p, 90);
 }

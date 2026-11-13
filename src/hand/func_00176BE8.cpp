@@ -33,7 +33,7 @@ extern "C"{
 extern OBJECT*D_002F7900;
 extern void*D_003E14BC;extern void*D_003E14B0;extern void*D_003E14B8;struct GAMESTATE{char pad[0x4028];void*context;};extern GAMESTATE g_sw;
 extern CLOCK g_clock;extern float D_002BE620;
-void*func_002333B4(void*,int,unsigned);
+void*s1_memset(void*,int,unsigned) asm("s1_memset");
 void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
 qword PosOfLo(void*) asm("PosOfLo__FP2LO");M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");
@@ -47,14 +47,14 @@ unsigned GrfAloXpBytes(OBJECT*,unsigned) asm("GrfAloXpBytes__FP3ALOUi");
 int IbitLow(unsigned) asm("IbitLow__FUi");
 void SetTargetrecTimer(TUNE*,int) asm("SetTargetrecTimer__FP9TARGETRECi");
 void SetSleepState(HELPER*,int) asm("SetSleepState__8JOBSLEEPi");
-void func_001305B8(ASEG*,OBJECT*,float,float,int,ASEGA**);
+void ApplyAsegCur(ASEG*,OBJECT*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 unsigned long func_00207A20(int);
 int FGuardLaunchAllowed(OBJECT*,OBJECT*,unsigned long) asm("FGuardLaunchAllowed__FP5GUARDP2LOi");
 int FGuardSurprised(OBJECT*,OBJECT*,unsigned long) asm("FGuardSurprised__FP5GUARDP2LOUl");
 void*PkindeBest(OBJECT*,unsigned long) asm("PkindeBest__FP5GUARDUl");
 int Message__5AIJOBiPv(S*,int,MSG*);
 }
-static __inline__ void Clear(STATE*s){(void)func_002333B4(s,0,sizeof(*s));}
+static __inline__ void Clear(STATE*s){(void)s1_memset(s,0,sizeof(*s));}
 static __inline__ int Accept(OBJECT*p,MSG*m){VE&v=p->vt[86];return((int(*)(void*,MSG*))v.fn)((char*)p+v.delta,m);}
 static __inline__ SLOT*Slot(OBJECT*p,unsigned kind,int offset){int index=IbitLow(kind);return(SLOT*)((char*)p+offset+index*sizeof(SLOT));}
 static __inline__ float Max(float a,float b){register float right __asm__("$f1")=b;__asm__("max.s %0,%0,%1":"+f"(a):"f"(right));return a;}
@@ -105,7 +105,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
    p->actor->otherProgress+=msg->data.amount;
    if(p->actor->otherProgress<=0){
     p->actor->otherProgress=p->actor->otherCapacity;Clear(&w.next);w.next.kind=8;React(p,&w.next);
-   }else func_001305B8(p->actor->otherClip,p->actor,0.0f,1.0f,1,&p->actor->otherAnimation);
+   }else ApplyAsegCur(p->actor->otherClip,p->actor,0.0f,1.0f,1,&p->actor->otherAnimation);
   }goto finish;
  }
  if(msg->data.kind==0x200000&&(msg->data.flags&8)){
@@ -145,7 +145,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
   if(p->actor->capacity>0){
    p->actor->progress+=msg->data.amount;
    if(p->actor->progress>0){
-    func_001305B8(p->actor->clip,p->actor,0.0f,1.0f,1,&p->actor->animation);
+    ApplyAsegCur(p->actor->clip,p->actor,0.0f,1.0f,1,&p->actor->animation);
     p->actor->animationTime=g_clock.t;
    }else flags|=0x20;
   }else flags|=0x20;

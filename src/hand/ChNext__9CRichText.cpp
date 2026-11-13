@@ -25,8 +25,8 @@ public:
 };
 extern "C" {
 CFont *func_0015EFA0(int ch);
-void func_0015F0C0(CFont *pfont);
-void func_0015F078(CFont *pfont, float rx, float ry);
+void PopScaling(CFont *pfont) asm("PopScaling__5CFont");
+void PushScaling(CFont *pfont, float rx, float ry) asm("PushScaling__5CFontff");
 }
 unsigned char CRichText::ChNext()
 {
@@ -108,11 +108,11 @@ unsigned char CRichText::ChNext()
                 m_pchCur = pch + 1;
                 fDone = 1;
             } else if (pch[1] == '.') {
-                func_0015F0C0(m_pfontCur);
+                PopScaling(m_pfontCur);
                 m_pchCur += 2;
             } else {
                 float s = (float)(pch[1] - '0') + (float)(pch[2] - '0') * 0.1f;
-                func_0015F078(m_pfontCur, s * m_pfontCur->m_rxScale, s * m_pfontCur->m_ryScale);
+                PushScaling(m_pfontCur, s * m_pfontCur->m_rxScale, s * m_pfontCur->m_ryScale);
                 m_pchCur += 3;
             }
             break;

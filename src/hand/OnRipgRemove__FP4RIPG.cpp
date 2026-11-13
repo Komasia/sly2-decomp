@@ -6,7 +6,7 @@ struct RIPG { char pad[0x10]; int x10; char p1[0xEC - 0x14]; void *xEC; char p2[
 struct SW { char pad[0x403C]; char pool[0x30]; RIPG *x406C; };
 extern SW g_sw;
 extern "C" {
-void func_001CE980(RIP *prip);
+void RemoveRip(RIP *prip) asm("RemoveRip__FP3RIP");
 void OnSoRemove(RIPG *p) asm("OnSoRemove__FP2SO");
 void RemoveSwOxa(SW *psw, void *pv) asm("RemoveSwOxa__FP2SWP3OXA");
 void func_001A57A8(RIPG *p);
@@ -35,7 +35,7 @@ void OnRipgRemove(RIPG *pripg)
     RIP *prip;
     SW *psw;
     InitDli(&dli, &pripg->dl);
-    while ((prip = (RIP *)PvNextDli(&dli)) != 0) func_001CE980(prip);
+    while ((prip = (RIP *)PvNextDli(&dli)) != 0) RemoveRip(prip);
     psw = &g_sw;
     if (pripg == psw->x406C) psw->x406C = 0;
     OnSoRemove(pripg);

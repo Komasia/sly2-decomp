@@ -12,7 +12,7 @@ qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);
 void func_002046B0(struct PO *, qword);
 void TurnActorNow__FP5ACTOR(struct PO *);
 void RecalcBlend__FP6ASEGBL(void *);
-void func_001305B8(void *, struct PO *, int, void **, float, float);
+void ApplyAsegCur(void *, struct PO *, int, void **, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void DemoteAsegaOnXf__FiiP2XF(void *, struct PO *, int);
 void SetAsegaSeekTime__FP5ASEGAf(void *, float);
 static __inline__ float Clamp(float g, float gMin, float gMax)
@@ -73,7 +73,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
         break;
     }
     }
-    func_001305B8(pv, ps->po, 1, &ps->pvE0, g_clock.t - ps->g18, 1.0f);
+    ApplyAsegCur(pv, ps->po, 1, &ps->pvE0, g_clock.t - ps->g18, 1.0f);
     if (!ps->pvE0)
         return;
     if (ps->x10)

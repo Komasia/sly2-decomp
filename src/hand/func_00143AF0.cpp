@@ -1,5 +1,5 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void func_001291A8(CRef *, const CRef *);
 struct CRef {
     int tagk; int tag;
@@ -7,7 +7,7 @@ struct CRef {
     CRef(int n, int k) { tag = n; tagk = k; }
     CRef(int k, int n, int) { tagk = k; tag = n; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 struct CRefRaw { int tagk; int tag; };  /* same layout, no ctor/dtor */
 struct VTE { short d; short pad; void *(*pfn)(void *); };
@@ -31,7 +31,7 @@ static inline void SetPv(void *pv, const CRef &r, void *)
     {
         const CRef &ret = func_00258200(pv, *(CRef *)&arg, &D_003D4A60);
     }
-    func_00129EC8((CRef *)&arg);
+    Decref((CRef *)&arg);
 }
 // name: SafeHouse port (AkeyReturnBooty)
 extern "C" void *AkeyReturnBooty__FP5ACTORi(LO *p, int x)

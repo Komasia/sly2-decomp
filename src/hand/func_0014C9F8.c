@@ -5,7 +5,7 @@ struct LSG { qword v0; qword v10; qword v20; qword v30; float at[2]; int x48; in
 struct CTX *__10STACKSCOPE(struct CTX *);
 void _$_10STACKSCOPE(struct CTX *, int);
 void *PvAllocStackImpl__Fi(struct AREQ *);
-void func_001AE5A0(void *, void *, int);
+void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 
 // name: SafeHouse port (CMergeAlsg)
 int CMergeAlsg__FiP3LSGiT1iT1i(int c1, struct LSG *alsg1, int c2, struct LSG *alsg2_, int cMax, struct LSG *alsgOut, int k)
@@ -85,7 +85,7 @@ int CMergeAlsg__FiP3LSGiT1iT1i(int c1, struct LSG *alsg1, int c2, struct LSG *al
             *ppl = pl + 1;
     }
     c = plsg - alsgT;
-    func_001AE5A0(alsgOut, alsgT, c * sizeof(struct LSG));
+    CopyAb(alsgOut, alsgT, c * sizeof(struct LSG));
     _$_10STACKSCOPE(&ctx, 2);
     return c;
 }

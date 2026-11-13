@@ -27,13 +27,13 @@ extern int D_002DEB1C;
 extern int D_002DDF54;
 extern QW D_002DF740[];
 extern "C" void func_001C2A78(int phase);
-extern "C" void func_00234A60(int sid);
+extern "C" void WaitSema(int sid) asm("WaitSema");
 extern "C" void func_00160CE0(FR *pfr);
 void OpenFrame()
 {
     if (!D_003D3980)
         func_001C2A78(3);
-    func_00234A60(D_002DEB1C);
+    WaitSema(D_002DEB1C);
     g_pfrmOpen = &D_002DEA50[D_002DEB10++];
     if (D_002DEB10 >= 2)
         D_002DEB10 = 0;

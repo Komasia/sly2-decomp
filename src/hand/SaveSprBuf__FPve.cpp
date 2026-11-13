@@ -10,8 +10,8 @@ extern "C" {
 extern int D_002C3C5C;
 extern SPRBUF D_003DD2C0[2];
 extern DMAC *g_pdcFromSpr;
-void func_002417F0(DMAC *pch, int a, int b);
-void func_002417A0(DMAC *pch);
+void sceDmaSync(DMAC *pch, int a, int b) asm("sceDmaSync");
+void sceDmaRecv(DMAC *pch) asm("sceDmaRecv");
 }
 
 void SaveSprBuf(void *pv, ...)
@@ -23,7 +23,7 @@ void SaveSprBuf(void *pv, ...)
     DMAC *pch;
     va_list ap;
     psb->state = 3;
-    func_002417F0(g_pdcFromSpr, 0, 0);
+    sceDmaSync(g_pdcFromSpr, 0, 0);
     va_start(ap, pv);
     while (pv) {
         apv[c++] = pv;
@@ -37,7 +37,7 @@ void SaveSprBuf(void *pv, ...)
     {
         pch->chcr &= ~0x40;
         pch->sadr = ((int)psb->pv & 0x0FFFFFFF) | 0x80000000;
-        func_002417A0(pch);
+        sceDmaRecv(pch);
     }
     psb = &D_003DD2C0[1 - D_002C3C5C];
     if (psb->state == 3)

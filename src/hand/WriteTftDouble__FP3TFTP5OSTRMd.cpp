@@ -1,8 +1,8 @@
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits;char pad24[8];unsigned char conversion;char pad2d[3];int fUpper;};
 class OSTRM {public:int CbWrite(void *,int);};
 int CchAchFromDouble(char *,int,TFT *,double);
-extern "C" unsigned int func_0021ED28(const char *);
-extern "C" void func_0021EE30(char *);
+extern "C" unsigned int s1_strlen(const char *) asm("s1_strlen");
+extern "C" void UpperizePchz(char *) asm("UpperizePchz__FPc");
 static inline void WritePad(OSTRM *out,char ch,int count){char b=ch;while(count-- >0)if(out->CbWrite(&b,1)!=1)break;}
 void WriteTftDouble(TFT *f,OSTRM *out,double value){
     char digits[0x1B6];
@@ -16,10 +16,10 @@ void WriteTftDouble(TFT *f,OSTRM *out,double value){
     if(negative)__builtin_memcpy(prefix,"-",2);
     else if(f->fPlus)__builtin_memcpy(prefix,"+",2);
     else if(f->fSpace)__builtin_memcpy(prefix," ",2);
-    int cPrefix=func_0021ED28(prefix);
+    int cPrefix=s1_strlen(prefix);
     int cDigits=CchAchFromDouble(digits,0x1B5,f,value);
     digits[cDigits]=0;
-    if(f->fUpper)func_0021EE30(digits);
+    if(f->fUpper)UpperizePchz(digits);
     int left=0,right=0;
     int total=cPrefix+cDigits;
     if(total<f->width){

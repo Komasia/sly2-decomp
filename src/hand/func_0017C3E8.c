@@ -12,7 +12,7 @@ float RadTargetrec__FP9TARGETREC(struct K *k);
 qword PosOfLo__FP2LO(void *p);
 void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword v, float *a, float *b, int n);
 float RadNormalize__Ff(float f);
-int func_0011D910(void *p, float f);
+int FCheckLm(void *p, float f) asm("FCheckLm__FP2LMf");
 qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(struct S *p, void *q, float f, qword v);
 void FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
 void Follow__9JOBFOLLOWP3CRVi(struct T *t, struct B *b, int n);
@@ -49,7 +49,7 @@ void Update__11JOBSURROUND(struct S *p) {
         ConvertVectorToCylind__FG9VU_VECTORPfN21(dv, &out[0], &out[1], 0);
     }
     if (__builtin_fabsf(RadNormalize__Ff(out[0] - g)) > k->f18) goto doit;
-    if (func_0011D910(p->p10->a324, out[1])) return;
+    if (FCheckLm(p->p10->a324, out[1])) return;
 doit:
     {
         qword v = PosOfLo__FP2LO(p->p10);

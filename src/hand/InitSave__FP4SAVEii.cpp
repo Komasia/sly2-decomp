@@ -9,11 +9,11 @@ struct SAVE {
     int n1C;
     int n20;
 };
-extern "C" void func_00243CB0(void);
+extern "C" void sceMcInit(void) asm("sceMcInit");
 extern "C" void InitMemcard(void *) asm("InitMemcard__FP7MEMCARD");
 void InitSave(SAVE *psave, int a, int b)
 {
-    func_00243CB0();
+    sceMcInit();
     InitMemcard((char *)psave + 0xFD5C);
     psave->a = a;
     psave->b = b;

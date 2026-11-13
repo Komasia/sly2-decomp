@@ -12,7 +12,7 @@ struct LSG {
     int iend;
     LSG *plsgNext;
 };
-extern "C" void *func_002332B8(void *dst, const void *src, int cb);
+extern "C" void *s1_memmove(void *dst, const void *src, int cb) asm("s1_memmove");
 
 // CategorizeAlsg (0x1A8410).  Keys: one function-scope plsg shared by both loops (its base becomes unknown to
 // alias analysis, so the VECTOR swap temp at 0(sp) is not forwarded and fA/fB are reloaded); plain block temps
@@ -72,9 +72,9 @@ void CategorizeAlsg(int clsg, LSG *alsg, int *pcpos, int *aipos, LSG **aplsg, LS
         }
         (*pplsg)->plsgNext = *pplsgBoth;
         *pplsgBoth = *pplsg;
-        func_002332B8(pplsg, pplsg + 1, (cpos - ipos) * 4 - 4);
+        s1_memmove(pplsg, pplsg + 1, (cpos - ipos) * 4 - 4);
         pipos = &aipos[ipos];
-        func_002332B8(pipos, pipos + 1, (cpos - ipos) * 4 - 4);
+        s1_memmove(pipos, pipos + 1, (cpos - ipos) * 4 - 4);
         ipos--;
         cpos--;
     next:;

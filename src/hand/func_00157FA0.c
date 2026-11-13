@@ -25,14 +25,14 @@ extern int D_002DE5A4;
 extern int D_002BDD20[];
 extern RPLK D_002BDD88[];
 int func_00157AE0(int c, RPL *arpl, RPL **aprpl, int *aiFirst, int *ac);
-void func_00157598(VIFS *p, void *pv);
-void func_001574B8(VIFS *p);
-void func_002270C8(VIFS *p, int n, void *pv, int m);
-void func_00226D10(VIFS *p);
-void func_00226CA8(VIFS *p, int a, int b);
-void func_00226F28(VIFS *p, int a, int b, void *pv, int n);
+void AddDmaCall(VIFS *p, void *pv) asm("AddDmaCall__4DMASP2QW");
+void AddDmaCnt(VIFS *p) asm("AddDmaCnt__4DMAS");
+void AddVifDirect(VIFS *p, int n, void *pv, int m) asm("AddVifDirect__4VIFSiP2QWi");
+void AddVifFlush(VIFS *p) asm("AddVifFlush__4VIFS");
+void AddVifBaseOffset(VIFS *p, int a, int b) asm("AddVifBaseOffset__4VIFSii");
+void AddVifUnpack(VIFS *p, int a, int b, void *pv, int n) asm("AddVifUnpack__4VIFS3UPKiPvi");
 void MatCmStereoEye__FP2CMiP7MATRIX4iPv(CM *p, int k, void *pv, M4 *pm0, M4 *pm1);
-void func_001576F0(VIFS *p);
+void EndDmaCnt(VIFS *p) asm("EndDmaCnt__4DMAS");
 void Flush__4DMAS(void *p);
 void func_001EA9F0(GAME *p, int n);
 
@@ -53,19 +53,19 @@ void func_00157FA0(GAME *pgame)
         qword *pqw = D_002DEA28.pqw;
         g_pfrmOpen->pqw24 = pqw;
     }
-    func_00157598(&D_002DEA28, D_002DF800);
+    AddDmaCall(&D_002DEA28, D_002DF800);
     D_002DEA28.f20 = 1;
-    func_001574B8(&D_002DEA28);
+    AddDmaCnt(&D_002DEA28);
     if (pgame->f3E3C || aiFirst[1] == ac[1])
-        func_002270C8(&D_002DEA28, 0x25, D_002DEDC0, 0);
+        AddVifDirect(&D_002DEA28, 0x25, D_002DEDC0, 0);
     if (g_sw.f3E38) {
-        func_00226D10(&D_002DEA28);
+        AddVifFlush(&D_002DEA28);
         if (g_pfrmOpen == &D_002DEA50)
-            func_00157598(&D_002DEA28, D_002DF940);
+            AddDmaCall(&D_002DEA28, D_002DF940);
         else
-            func_00157598(&D_002DEA28, D_002DFA80);
+            AddDmaCall(&D_002DEA28, D_002DFA80);
     }
-    func_00226CA8(&D_002DEA28, 0, 0);
+    AddVifBaseOffset(&D_002DEA28, 0, 0);
     {
         float sNear = g_cm.sNear;
         float sFar = g_cm.sFar;
@@ -76,8 +76,8 @@ void func_00157FA0(GAME *pgame)
         v1.v = D_002C1F10;
         v1.w = -k / g;
     }
-    func_00226F28(&D_002DEA28, 0xC, 2, &v0, 0);
-    func_00226F28(&D_002DEA28, 0, 1, &D_002DE5A4, 0xD);
+    AddVifUnpack(&D_002DEA28, 0xC, 2, &v0, 0);
+    AddVifUnpack(&D_002DEA28, 0, 1, &D_002DE5A4, 0xD);
     D_002DE5A4 = 0;
     if (g_sw.f3E38) {
         if (g_pfrmOpen == &D_002DEA50)
@@ -90,11 +90,11 @@ void func_00157FA0(GAME *pgame)
         mat0 = *pm0;
         mat1 = *pm1;
     }
-    func_00226F28(&D_002DEA28, 0xC, 4, &mat0, 2);
-    func_00226F28(&D_002DEA28, 0xC, 4, &mat1, 6);
-    func_00226F28(&D_002DEA28, 0xC, 1, pgame->a3E28, 0xA);
-    func_00226CA8(&D_002DEA28, 0x32, 0x1E7);
-    func_001576F0(&D_002DEA28);
+    AddVifUnpack(&D_002DEA28, 0xC, 4, &mat0, 2);
+    AddVifUnpack(&D_002DEA28, 0xC, 4, &mat1, 6);
+    AddVifUnpack(&D_002DEA28, 0xC, 1, pgame->a3E28, 0xA);
+    AddVifBaseOffset(&D_002DEA28, 0x32, 0x1E7);
+    EndDmaCnt(&D_002DEA28);
     kPrev = -1;
     kindPrev = -1;
     for (i = 0; i < c; i++) {

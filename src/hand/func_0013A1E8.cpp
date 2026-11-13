@@ -44,7 +44,7 @@ extern char D_00000870[];
 void __10STACKSCOPE(FRAME *pf);
 void _$_10STACKSCOPE(FRAME *pf, int n);
 int FIsDlEmpty(void *pdl) asm("FIsDlEmpty__FP2DL");
-int func_0011A3C0(void *pdl);
+int CPvDl(void *pdl) asm("CPvDl__FP2DL");
 void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
 int func_001A61A0(LO *plo);
 qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
@@ -53,15 +53,15 @@ int FInsideCmPlanes(CM *pcm, qword d, VU_FLOAT r) asm("FInsideCmPlanes__FP2CMG9V
 int FInsideCmMrd(CM *pcm, qword d, float g, float *pg) asm("FInsideCmMrd__FP2CMG9VU_VECTORfPf");
 void func_00256D18(void *pv, qword v);
 DMA *func_001CD998(void);
-void func_001574B8(VIFS *p);
+void AddDmaCnt(VIFS *p) asm("AddDmaCnt__4DMAS");
 void func_0013A688(P *p);
-void func_00226F28(VIFS *p, ...);
-void func_00226D40(VIFS *p, int a, int b);
-void func_00227010(VIFS *p, int a, int c, void *pv, int addr, int flag);
-void func_00226CE0(VIFS *p, void *pv);
-void func_00226D10(VIFS *p);
-void func_001576F0(VIFS *p);
-void func_00157620(VIFS *p);
+void AddVifUnpack(VIFS *p, ...) asm("AddVifUnpack__4VIFS3UPKiPvi");
+void AddVifStcycl(VIFS *p, int a, int b) asm("AddVifStcycl__4VIFSii");
+void AddVifUnpackRefs(VIFS *p, int a, int c, void *pv, int addr, int flag) asm("AddVifUnpackRefs__4VIFS3UPKiPviPPPv");
+void AddVifMscal(VIFS *p, void *pv) asm("AddVifMscal__4VIFSPv");
+void AddVifFlush(VIFS *p) asm("AddVifFlush__4VIFS");
+void EndDmaCnt(VIFS *p) asm("EndDmaCnt__4DMAS");
+void AddDmaRet(VIFS *p) asm("AddDmaRet__4DMAS");
 void func_0013A1E8(P *p);
 }
 static inline void *PvAllocStack(int cb) { return PvAllocStackImpl(AL(cb, 0x10)); }
@@ -86,7 +86,7 @@ void func_0013A1E8(P *p)
     M4 *aLight;
     if (p->xE0 != 0 && FIsDlEmpty(&p->xE0->x11C) == 0) {
         cLight = 0;
-        aLight = (M4 *)PvAllocStack(func_0011A3C0(&p->xE0->x11C) << 6);
+        aLight = (M4 *)PvAllocStack(CPvDl(&p->xE0->x11C) << 6);
         M4 *pl = aLight;
         LO *plo = p->xE0->x11C;
         M3 *pmId;
@@ -158,7 +158,7 @@ void func_0013A1E8(P *p)
     pdma->x0 = 0xC;
     pdma->x4 = 0;
     int save = D_002DEA28.xC;
-    func_001574B8(&D_002DEA28);
+    AddDmaCnt(&D_002DEA28);
     for (Q *pq = p->pqFirst; pq; pq = pq->pqNext) {
         BUF *pb = &pq->abuf[pq->i];
         for (int i = 0; i < cLight; i++) {
@@ -171,24 +171,24 @@ void func_0013A1E8(P *p)
             int ten = 10;
             as[1] = pq->c * ten + 0x34;
             as[2] = pq->c;
-            func_00226F28(&D_002DEA28, 9, 1, as, 0, ten);
-            func_00226F28(&D_002DEA28, 0xC, 4, &aLight[i], 7);
-            func_00226D40(&D_002DEA28, 1, 10);
+            AddVifUnpack(&D_002DEA28, 9, 1, as, 0, ten);
+            AddVifUnpack(&D_002DEA28, 0xC, 4, &aLight[i], 7);
+            AddVifStcycl(&D_002DEA28, 1, 10);
             if (p->x43C == 1)
-                func_00227010(&D_002DEA28, 0xC, pq->c, pb->b, as[0] + 1, 0);
-            func_00227010(&D_002DEA28, 0xC, pq->c, pb->c, as[0] + 2, 0);
-            func_00227010(&D_002DEA28, 0xC, pq->c, pb->a, as[0] + 3, 0);
-            func_00226D40(&D_002DEA28, 1, 1);
+                AddVifUnpackRefs(&D_002DEA28, 0xC, pq->c, pb->b, as[0] + 1, 0);
+            AddVifUnpackRefs(&D_002DEA28, 0xC, pq->c, pb->c, as[0] + 2, 0);
+            AddVifUnpackRefs(&D_002DEA28, 0xC, pq->c, pb->a, as[0] + 3, 0);
+            AddVifStcycl(&D_002DEA28, 1, 1);
             switch (p->x43C) {
-            case 0: func_00226CE0(&D_002DEA28, D_00000000); break;
-            case 1: func_00226CE0(&D_002DEA28, D_00000390); break;
-            case 2: func_00226CE0(&D_002DEA28, D_00000870); break;
+            case 0: AddVifMscal(&D_002DEA28, D_00000000); break;
+            case 1: AddVifMscal(&D_002DEA28, D_00000390); break;
+            case 2: AddVifMscal(&D_002DEA28, D_00000870); break;
             }
-            func_00226D10(&D_002DEA28);
+            AddVifFlush(&D_002DEA28);
         }
     }
-    func_001576F0(&D_002DEA28);
-    func_00157620(&D_002DEA28);
+    EndDmaCnt(&D_002DEA28);
+    AddDmaRet(&D_002DEA28);
     pdma->x8 = save;
     _$_10STACKSCOPE(&frame, 2);
 }

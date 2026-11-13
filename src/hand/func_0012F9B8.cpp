@@ -24,9 +24,9 @@ extern VTE D_002CAF48[];
 extern VTE D_002CAF08[];
 extern char D_002DE578[];
 P *func_0011CCC0(void *);
-void *func_002333B4(void *, int, int);
+void *s1_memset(void *, int, int) asm("s1_memset");
 float GSuck(void *) asm("GSuck__FPv");
-void func_00131A00(P *, float);
+void SetAsegaSpeed(P *, float) asm("SetAsegaSpeed__FP5ASEGAf");
 void AppendDlEntry(void *, void *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(P *, int);
 void GetAsegChannelTarget(struct T *, int, struct E60 *, int *, int *) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
@@ -39,7 +39,7 @@ void SetAsegaEventSound(P *, int) asm("SetAsegaEventSound__FP5ASEGAi");
 void FireAsegaEvent(P *, struct EV *) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
 void SnapAsegaXfs(P *, int) asm("SnapAsegaXfs__FP5ASEGAi");
 void FireAsegaStartEvents(P *) asm("FireAsegaStartEvents__FP5ASEGA");
-void func_00130EB0(P *);
+void UpdateAsegaIeaCur(P *) asm("UpdateAsegaIeaCur__FP5ASEGA");
 }
 static inline float GClamp(float g, float lo, float hi) { float r; if (g < lo) r = lo; else if (hi < g) r = hi; else r = g; return r; }
 static inline float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
@@ -49,7 +49,7 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
 {
     P *p = func_0011CCC0(D_003E1224);
     int i, j, k;
-    func_002333B4(p, 0, 0x60);
+    s1_memset(p, 0, 0x60);
     p->x0 = 0;
     p->x4 = 0;
     p->pvt = D_002CAF48;
@@ -62,7 +62,7 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
     {
         p->g4C = GClamp(GEval(&pt->poly, GSuck(D_002DE578)), pt->g90, pt->g94);
     }
-    func_00131A00(p, g1);
+    SetAsegaSpeed(p, g1);
     AppendDlEntry(D_003E1218, p);
     AppendDlEntry(&pt->dl50, p);
     ((void (*)(P *))p->pvt[1].pfn)((P *)((char *)p + p->pvt[1].d));
@@ -122,7 +122,7 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
             p->x50 = pt->xA0;
         FireAsegaStartEvents(p);
     } else {
-        func_00130EB0(p);
+        UpdateAsegaIeaCur(p);
     }
     ((void (*)(P *, int, int, int, int, int))p->pvt[3].pfn)((P *)((char *)p + p->pvt[3].d), 2, 0, 0, 0, 0);
 }

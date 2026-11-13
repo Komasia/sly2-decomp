@@ -5,9 +5,9 @@ struct LO { char pad[0xC]; struct VT *vt; char pad2[0x50 - 0x10]; int x50; };
 struct G { char pad[0x3F0C]; int x3F0C; int x3F10; };
 extern struct VT D_002CBE38[];
 extern struct G g_sw;
-int func_00117D50(void *pbis);
-int func_00117D00(void *pbis);
-int func_00117DB8(void *pbis);
+int S16Read(void *pbis) asm("S16Read__18CBinaryInputStream");
+int S8Read(void *pbis) asm("S8Read__18CBinaryInputStream");
+int S32Read(void *pbis) asm("S32Read__18CBinaryInputStream");
 void Read__18CBinaryInputStreamiPv(void *pbis, int cb, void *pv);
 void Skip__18CBinaryInputStreami(void *pbis, int cb);
 int func_001C9940(int, int);
@@ -39,9 +39,9 @@ void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg
     obj.vt = D_002CBE38;
     obj.x4 = -1;
     obj.x8 = -1;
-    c = func_00117D50(pbis);
+    c = S16Read(pbis);
     for (i = 0; i < c; i++) {
-        int k = func_00117D00(pbis);
+        int k = S8Read(pbis);
         struct IF *pif;
         if (k > 0)
             goto read;
@@ -50,10 +50,10 @@ void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg
             Read__18CBinaryInputStreamiPv(pbis, k * 2, as);
         }
         pif = pifParent;
-        cid = func_00117D50(pbis);
-        oid = func_00117DB8(pbis);
-        n = func_00117D50(pbis);
-        cb = func_00117DB8(pbis);
+        cid = S16Read(pbis);
+        oid = S32Read(pbis);
+        n = S16Read(pbis);
+        cb = S32Read(pbis);
         if (k < -2)
             goto filter;
         if (k >= 0) {

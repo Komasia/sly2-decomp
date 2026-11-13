@@ -2,7 +2,7 @@ typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct POOL { int cb; int c; int nKind; void *pvFree; int cAlloc; void *pvBlock; } POOL;
 
 void *PvAllocSwImpl__Fi(MSG *pmsg);
-void *func_002333B4(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb);
 
 void *func_0011CCC0(POOL *ppool)
 {
@@ -26,7 +26,7 @@ void *func_0011CCC0(POOL *ppool)
 
     pv = ppool->pvFree;
     ppool->pvFree = *(void **)pv;
-    func_002333B4(pv, 0, ppool->cb);
+    s1_memset(pv, 0, ppool->cb);
     ppool->cAlloc++;
     return pv;
 }

@@ -5,7 +5,7 @@ struct K { float t; int x4; int x8; int xC; };
 struct P { char pad[0x50]; struct L *pl; char pad1[0x74 - 0x54]; float g74; char pad2[0xA0 - 0x78]; int cA0; struct K *aA4;
     char pad3[0xC0 - 0xA8]; int cbC0; int cC4; char *pC8; int cCC; struct E *aD0; int xD4; struct P *pD8; };
 void SetBlendDominant__FP6ASEGBLi(struct P *p, int i);
-void func_001380F0(struct P *p, int a, int b, int c, float *pg);
+void CalculateBlendAmrsg(struct P *p, int a, int b, int c, float *pg) asm("CalculateBlendAmrsg__FiiPviiP4MRSGPf");
 // name: SafeHouse port (RecalcBlend)
 void RecalcBlend__FP6ASEGBL(struct P *p)
 {
@@ -27,10 +27,10 @@ void RecalcBlend__FP6ASEGBL(struct P *p)
         pl->g1C = pl->g1C / p->g74;
     for (i = 0; i < p->cCC; i++) {
         struct E *pe = &p->aD0[i];
-        func_001380F0(p, pe->x0, pe->x4, pe->x8, &p->g74);
+        CalculateBlendAmrsg(p, pe->x0, pe->x4, pe->x8, &p->g74);
     }
     if (p->cCC == 0)
-        func_001380F0(p, 0, 0, 0, &p->g74);
+        CalculateBlendAmrsg(p, 0, 0, 0, &p->g74);
     for (pl = p->pl; pl; pl = pl->pnext)
         pl->g1C = pl->g1C * p->g74;
     if (p->pD8) {

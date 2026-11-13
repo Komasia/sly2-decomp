@@ -54,7 +54,7 @@ extern LINK D_003DA798[];
 void*PvAllocSwCopyImpl(REQUEST*,void*) asm("PvAllocSwCopyImpl__FiPv");
 SO*func_001ED850(SO*);
 void func_00169EB8(D*,E*,int,void*,int,void*,void*);
-void func_001AE5A0(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
+void CopyAb(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 void func_0011A058(int*);
 void func_0011A098(void*,LINK*);
 void func_001EC740(int,int,int,uint,uint);
@@ -98,7 +98,7 @@ extern "C" void func_0016EA80(P*p,SO*owner,STREAM*stream){
         if(entry->object){
             bytes=count*16;
             int span=entry->flags.bits.last-entry->flags.bits.first;
-            func_001AE5A0(&D_003DA798[D_003DA790],&D_003DA798[entry->flags.bits.first],span*sizeof(LINK));
+            CopyAb(&D_003DA798[D_003DA790],&D_003DA798[entry->flags.bits.first],span*sizeof(LINK));
             entry->flags.bits.first=D_003DA790;
             D_003DA790+=span;
             entry->flags.bits.last=D_003DA790;

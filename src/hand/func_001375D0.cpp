@@ -67,7 +67,7 @@ extern float D_002BC9B8;
 void FaceObject(P *p, int n) asm("FaceObject__FP5ACTORP2LO");
 R *PchnFindAseg(X *px, P *p, int a, int b) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 void ClearSmaHandle(void *pv) asm("ClearSmaHandle__FPP3SMA");
-void func_001305B8(X *px, P *p, int n, void *pv, float g0, float g1);
+void ApplyAsegCur(X *px, P *p, int n, void *pv, float g0, float g1) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
 #define PXOF(p) ((PX *)(p))
 
@@ -100,5 +100,5 @@ extern "C" void SetSlyDodgeState__FP3SLYi(S *s, int k)
         s->kCur = k;
     }
     ClearSmaHandle(PXOF(s->p)->a1034);
-    func_001305B8(px, s->p, 1, &PXOF(s->p)->a1030, 0.0f, 1.0f);
+    ApplyAsegCur(px, s->p, 1, &PXOF(s->p)->a1030, 0.0f, 1.0f);
 }

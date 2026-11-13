@@ -16,7 +16,7 @@ extern "C"{
  int func_00177D48(C*);
  int FSameMsg(const STATE*,const STATE*) asm("FSameMsg__FP5AIMSGT0");
  void React(C*,const STATE*) asm("React__8JOBREACTP5AIMSG");
- void*func_002333B4(void*,int,unsigned int);
+ void*s1_memset(void*,int,unsigned int) asm("s1_memset");
  int func_00208B38(P*,P*);
  float func_00208BB0(P*);
  P*PloGuardInterest(P*,P*) asm("PloGuardInterest__FP5GUARDP2LO");
@@ -38,7 +38,7 @@ extern "C"{
 }
 static inline P*Target(P*p){VE*v=&p->vt[88];return ((P*(*)(P*))v->fn)((P*)((char*)p+v->delta));}
 static inline int Mode(P*p){VE*v=&p->vt[77];return ((int(*)(P*))v->fn)((P*)((char*)p+v->delta));}
-static inline void Clear(STATE*s){func_002333B4(s,0,sizeof(*s));}
+static inline void Clear(STATE*s){s1_memset(s,0,sizeof(*s));}
 static inline void Attack(C*p,STATE*s,P*object){
  if(func_00208B38(p->actor,object)){s->kind=18;s->payload.s.object=object;s->payload.s.amount=func_00208BB0(p->actor);}
  else{s->kind=3;s->payload.s.object=object;}

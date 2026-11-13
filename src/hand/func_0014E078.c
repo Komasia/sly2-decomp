@@ -4,7 +4,7 @@ struct CM { char pad[0x90]; qword pos; };
 extern char g_sw[];
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *g, int a, int b, int c, int n, struct O **ap);
 void func_002273F0(struct O *po, qword pos);
-void func_002338C0(void *base, int n, int cb, int (*cmp)(const void *, const void *));
+void qsort(void *base, int n, int cb, int (*cmp)(const void *, const void *));
 int func_0014E000(const void *a, const void *b);
 void SetCmCurObject__FP2CMP2LO(struct CM *p, struct O *po);
 // name: SafeHouse port (SortCmObjects)
@@ -16,7 +16,7 @@ void SortCmObjects__FP2CM(struct CM *p)
     int i;
     for (i = 0; i < n; i++)
         func_002273F0(apo[i], pos);
-    func_002338C0(apo, n, 4, func_0014E000);
+    qsort(apo, n, 4, func_0014E000);
     if (n > 0 && apo[0]->k == 1)
         SetCmCurObject__FP2CMP2LO(p, apo[0]);
 }

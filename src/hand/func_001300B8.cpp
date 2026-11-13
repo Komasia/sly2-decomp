@@ -9,7 +9,7 @@ struct ENT { unsigned n : 20; unsigned k : 10; unsigned f30 : 1; unsigned f31 : 
 struct X { char pad[0x5C]; int c; ENT *aent; };
 extern "C" {
 void *PvAllocStackImpl(const AREQ &req) asm("PvAllocStackImpl__Fi");
-void *func_002333B4(void *pv, int b, int cb);
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 void GetAsegChannelTarget(X *px, void *p, ENT *pent, int *pa, Y **ppy) asm("GetAsegChannelTarget__FP4ASEGP3ALOP7ASEGCHNPP3ALOPP2XF");
 M4 MulMatrix4(M4 *pa, M4 *pb) asm("MulMatrix4__FP7MATRIX4T0Pv");
 M4 MatXfWithValue(Y *py, qword q) asm("MatXfWithValue__FP2XFP7VECTOR4G9VU_VECTOR");
@@ -17,7 +17,7 @@ M4 func_0022CB90(Y *py, M4 *pm, qword q1, qword q2);
 M4 DmatOfValue(Y *py, qword q) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");
 void CalculateAsegMatrices(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float g, M4 *pm1, M4 *pm2) asm("CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6");
 }
-static inline void ClearM4(M4 *pm) { func_002333B4(pm, 0, sizeof(M4)); }
+static inline void ClearM4(M4 *pm) { s1_memset(pm, 0, sizeof(M4)); }
 static inline M4 AddM4(const M4 &a, const M4 &b) return m
 {
     int i;
@@ -43,7 +43,7 @@ void CalculateAsegMatrices(X *px, void *p, Y *pyFirst, Y *pyLast, float f, float
     ClearM4(&m2);
     {
         float *pg = (float *)&m1;
-        func_002333B4(pg, 0, sizeof(M4));
+        s1_memset(pg, 0, sizeof(M4));
         pg[15] = 1.0f; pg[10] = 1.0f; pg[5] = 1.0f; pg[0] = 1.0f;
     }
     apy = (Y **)PvAllocStackImpl(AREQ(px->c * 4, 0x10));

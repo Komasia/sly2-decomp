@@ -8,7 +8,7 @@ struct CRef {
     CRef &operator=(bool f);
 };
 extern "C" {
-CRef func_00201360(int c, void *aref, int *ak, int *an);
+CRef RefSetArgsFromSplice(int c, void *aref, int *ak, int *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 int FIsBasicDerivedFrom(void *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 CRef func_00100228(void *p, int c, void *aref);
 }
@@ -16,7 +16,7 @@ CRef func_00100228(void *p, int c, void *aref)
 {
     int k = 7;
     int n;
-    CRef ref = func_00201360(1, aref, &k, &n);
+    CRef ref = RefSetArgsFromSplice(1, aref, &k, &n);
     ref = FIsBasicDerivedFrom(p, n) != 0;
     return ref;
 }

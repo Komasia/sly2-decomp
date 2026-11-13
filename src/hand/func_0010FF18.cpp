@@ -14,7 +14,7 @@ struct CRef {
     CRef &operator=(int n);
     CRef &operator=(float g);
 };
-extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
+extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" { void func_00181330(void *p, int, void *, void *); CRef func_0010FF18(void *p, int c, void *aref); }
 CRef func_0010FF18(void *p, int c, void *aref)
 {
@@ -22,7 +22,7 @@ CRef func_0010FF18(void *p, int c, void *aref)
     union { qword q; } v1;
     union { qword q; } v2;
     int v0;
-    CRef ref = func_00201360(3, aref, ak, &v0, &v1, &v2);
+    CRef ref = RefSetArgsFromSplice(3, aref, ak, &v0, &v1, &v2);
     ref.Decref();
     ref.InitTag(0x24);
     func_00181330(p, v0, &v1, &v2);

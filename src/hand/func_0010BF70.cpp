@@ -9,7 +9,7 @@ struct CRef {
     CRef &operator=(void *pv);
 };
 extern "C" {
-CRef func_00201360(int c, void *aref, int *ak, void *an);
+CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 void *PloNearestPlayer(void *p, qword q) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
 CRef func_0010BF70(void *p, int c, void *aref);
 }
@@ -17,7 +17,7 @@ CRef func_0010BF70(void *p, int c, void *aref)
 {
     union { qword q; } u;
     int k = 2;
-    CRef ref = func_00201360(1, aref, &k, &u);
+    CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
     ref = PloNearestPlayer(p, u.q);
     return ref;
 }

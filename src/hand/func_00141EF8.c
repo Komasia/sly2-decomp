@@ -6,7 +6,7 @@ extern char D_002A4D50[];
 extern char D_002A4D58[];
 int sprintf(char *, const char *, ...);
 void func_001D8A38(struct CRef *r, void *a, void *b, char *c, int d);
-void func_00129EC8(struct CRef *r);
+void Decref(struct CRef *r) asm("Decref__4CRef");
 void func_00141EF8(struct P *p)
 {
     int i;
@@ -18,7 +18,7 @@ void func_00141EF8(struct P *p)
         e = &p->vt[103];
         func_001D8A38(&r, ((void *(*)(void *))e->pfn)((char *)p + e->d), D_002A4D58, ach, 0);
         p->ae[i].id = r.tag;
-        func_00129EC8(&r);
+        Decref(&r);
     }
     {
         struct VTE *e = &p->vt[105];

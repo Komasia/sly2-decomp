@@ -1,9 +1,9 @@
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 struct CRef {
     int tagk; int tag;
     CRef(int k, int n) { tagk = k; tag = n; }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
 };
 struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct E { int id; int a; float g; };
@@ -14,7 +14,7 @@ extern CLOCK g_clock;
 extern char D_002A4D50[];
 extern char D_002A4D58[];
 void SetAbilityState(P *p, E *pe, int n) asm("SetAbilityState__FP5ACTORP6ABSLOTi");
-int func_0021ECD8(char *pch, const char *fmt, ...);
+int fiprintf(char *pch, const char *fmt, ...) asm("fiprintf");
 }
 CRef SetProgressPoCurrent(const CRef &ref, void *o, const char *fmt, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 // name: SafeHouse port (SetActorAbilitySlot)
@@ -33,7 +33,7 @@ extern "C" void SetActorAbilitySlot__FP5ACTORii(P *p, unsigned int i, int id)
                 SetAbilityState(p, pe2, -1);
                 pe2->id = -1;
             }
-            func_0021ECD8(ach, D_002A4D50, j);
+            fiprintf(ach, D_002A4D50, j);
             VTE *e = &p->vt[103];
             SetProgressPoCurrent(CRef(0x15, p->ae[j].id), e->pfn((char *)p + e->d), D_002A4D58, ach, 0);
         }

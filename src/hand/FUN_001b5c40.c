@@ -1,9 +1,9 @@
-int func_0021ED28(char *s);
+int s1_strlen(char *s);
 unsigned short FUN_001b5b58(unsigned char ch);
 void FUN_001b5c40(char *s, unsigned short *pw)
 {
     int i;
-    int c = func_0021ED28(s);
+    int c = s1_strlen(s);
     for (i = 0; i < c; i++) {
         unsigned short w = FUN_001b5b58(s[i]);
         unsigned short lo = w & 0xFF;

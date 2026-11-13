@@ -9,7 +9,7 @@ struct CRef {
     CRef &operator=(qword q);
 };
 extern "C" {
-CRef func_00201360(int c, void *aref, int *ak, void *an);
+CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 qword func_001E77B0(void *p, qword q);
 CRef func_0010E550(void *p, int c, void *aref);
 }
@@ -17,7 +17,7 @@ CRef func_0010E550(void *p, int c, void *aref)
 {
     union { qword q; } u;
     int k = 2;
-    CRef ref = func_00201360(1, aref, &k, &u);
+    CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
     ref = func_001E77B0(p, u.q);
     return ref;
 }

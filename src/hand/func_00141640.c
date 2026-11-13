@@ -21,7 +21,7 @@ extern qword D_002A2DD0;
 void GetSoCpdefi__FP2SOP6CPDEFI(struct JT *, struct XP *);
 qword PosOfLo__FP2LO(void *);
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, int n);
-qword func_0011F088(qword a, qword b, float dt, void *pv, int n);
+qword PosSmooth(qword a, qword b, float dt, void *pv, int n);
 void func_0019C8B0(void *, struct XP *);
 void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(void *, struct XP *);
 void func_001A2160(void *, struct XP *);
@@ -76,7 +76,7 @@ void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct JT *pjt, struct XP *pxp)
         pxp->pos.f[1] = v.f[1];
     }
     {
-        qword vel = func_0011F088(pjt->x1070, D_002A2DD0, g_clock.dt, D_002BCCD8, 0);
+        qword vel = PosSmooth(pjt->x1070, D_002A2DD0, g_clock.dt, D_002BCCD8, 0);
         qword r;
         pjt->x1070 = vel;
         __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(pxp->pos.q), "j"(vel));

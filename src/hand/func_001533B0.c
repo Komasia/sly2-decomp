@@ -16,7 +16,7 @@ void BroadcastTaskEvent__FP2SWiP2LO(void *, int, struct S *);
 void AddDanceScore__FP2LOiif(struct S *, float);
 float GBeatScore__FP5DANCEP4BEAT(struct S *, struct E *);
 float func_00153638(struct S *, float);
-int func_0011D4D0(float, float, float);
+int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 // name: SafeHouse port (CheckDancerBeat)
 void CheckDancerBeat__FP2LOP5DANCE(struct S *p, struct O *po)
 {
@@ -49,7 +49,7 @@ void CheckDancerBeat__FP2LOP5DANCE(struct S *p, struct O *po)
             AddDanceScore__FP2LOiif(p, func_00153638(p, GBeatScore__FP5DANCEP4BEAT(p, pe)));
             for (j = 0; j < p->n60; j++) {
                 struct Q *pq = &p->a70[j];
-                if (func_0011D4D0(pq->g0, pe->gC, 0.1f)) {
+                if (FFloatsNear(pq->g0, pe->gC, 0.1f)) {
                     pq->n20 = 1;
                     break;
                 }

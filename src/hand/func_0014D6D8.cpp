@@ -14,8 +14,8 @@ extern "C" {
 extern float D_002BD81C, D_002BD820, D_002BD824;
 extern qword g_posEyeDefault;
 extern qword g_posCenterDefault;
-void *func_002333B4(void *pv, int b, int cb);
-void func_0014DB70(CM *p);
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void RecalcCmFrustrum(CM *p) asm("RecalcCmFrustrum__FP2CM");
 void SetCmLookAt(CM *p, qword pos, qword tgt, float da, float db) asm("SetCmLookAt__FP2CMG9VU_VECTORT1ff");
 void func_0014D8C0(CM *p);
 void func_0014FDA0(void *p);
@@ -41,12 +41,12 @@ extern "C" void InitCm__FP2CM(CM *p)
     p->rgba = s_rgba;
     InitLm((LM *)&p->g2C, 0.5f, 0.1f, 10.0f);
     float *pm = p->mat;
-    func_002333B4(pm, 0, 0x40);
+    s1_memset(pm, 0, 0x40);
     pm[15] = 1.0f;
     pm[10] = 1.0f;
     pm[5] = 1.0f;
     pm[0] = 1.0f;
-    func_0014DB70(p);
+    RecalcCmFrustrum(p);
     SetCmLookAt(p, g_posEyeDefault, g_posCenterDefault, 0.0f, 0.0f);
     func_0014D8C0(p);
     p->c30C = 0;

@@ -18,20 +18,20 @@ struct X {
 };
 void func_0014FD40(struct X *p);
 float GSmooth__FfffP3SMPPf(void *p, float *pdg, float g, float gTarget, float dt);
-float func_0011D948(void *p, float g);
+float GLimitLm(void *p, float g) asm("GLimitLm__FP2LMf");
 void SetPitch__4CSndiif(struct SND *p, float g);
 void SetVolume__4CSndf(struct SND *p, float g);
 void Resume__4CSnd(struct SND *p);
 void Pause__4CSnd(struct SND *p);
-qword func_0011F088(qword a, qword b, float g, void *p, int n);
+qword PosSmooth(qword a, qword b, float g, void *p, int n);
 void BuildEulerMatrix__FP6VECTORG9VU_VECTOR(M3 *pm, qword v);
-void func_0011C950(M3 *a, M3 *b, void *p, M3 *out, int n, float g);
+void SmoothMatrix(M3 *a, M3 *b, void *p, M3 *out, int n, float g);
 qword DecomposeEulerMatrix__FP7MATRIX3(M3 *pm);
-float func_0011D2D0(void *p, int n, float a, float b, float c);
+float RadSmooth(void *p, int n, float a, float b, float c) asm("RadSmooth__FfffP3SMPPf");
 qword *func_00256D18(qword *p, qword v);
 void SetCmPosMat__FP2CMP6VECTOR(struct CM *p, M4 *m);
 void SetCmFov__FP2CMf(struct CM *p, float g);
-void func_0011BC88(M4 *pm, float *pa, float *pb);
+void DecomposeRotateMatrixPanTilt(M4 *pm, float *pa, float *pb) asm("DecomposeRotateMatrixPanTilt__FP7MATRIX3PfT1");
 qword PosEye__6CPFREE(struct X *p);
 qword PosFocus__6CPFREE(struct X *p);
 void SetCmLookAt__FP2CMG9VU_VECTORT1ff(struct CM *p, qword a, qword b, float c, float d);
@@ -62,9 +62,9 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
     }
     if (p->gB0 != 0.0f) {
         struct SND *ps = p->pC0;
-        SetPitch__4CSndiif(ps, func_0011D948(g_lmNegOneOne, __builtin_fabsf(p->gB0)));
+        SetPitch__4CSndiif(ps, GLimitLm(g_lmNegOneOne, __builtin_fabsf(p->gB0)));
         ps = p->pC0;
-        SetVolume__4CSndf(ps, func_0011D948(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
+        SetVolume__4CSndf(ps, GLimitLm(g_lmZeroOne, __builtin_fabsf(p->gB0) * 0.5f + 0.5f));
         if (p->pC0->c4E > 0)
             Resume__4CSnd(p->pC0);
     } else {
@@ -75,14 +75,14 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
         M3 m0, m30, m60, m90;
         M4 m4;
         float u;
-        p->q50 = func_0011F088(p->q50, p->q80, g_clock.dt, D_002BD9C8, 0);
+        p->q50 = PosSmooth(p->q50, p->q80, g_clock.dt, D_002BD9C8, 0);
         BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&m90, p->q60);
         m0 = m90;
         BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&m90, p->q90);
         m30 = m90;
-        func_0011C950(&m0, &m30, D_002BD9D8, &m60, 0, g_clock.dt);
+        SmoothMatrix(&m0, &m30, D_002BD9D8, &m60, 0, g_clock.dt);
         p->q60 = DecomposeEulerMatrix__FP7MATRIX3(&m60);
-        p->g70 = func_0011D2D0(D_002BD9E8, 0, p->g70, p->gA0, g_clock.dt);
+        p->g70 = RadSmooth(D_002BD9E8, 0, p->g70, p->gA0, g_clock.dt);
         {
         M4 *pm4 = &m4;
         func_00256D18(&pm4->q.r[3], p->q50);
@@ -95,19 +95,19 @@ void Update__6CPFREEP6CPDEFIP5CMJOY(struct X *p)
         pm4->af[3][3] = 1.0f;
         SetCmPosMat__FP2CMP6VECTOR(&g_cm, pm4);
         SetCmFov__FP2CMf(&g_cm, p->g70);
-        func_0011BC88(pm4, &p->gA4, &p->gA8);
+        DecomposeRotateMatrixPanTilt(pm4, &p->gA4, &p->gA8);
         }
-        p->gAC = func_0011D948(g_lmZeroOne, GFrac(p->g70, p->gB8, p->gBC));
+        p->gAC = GLimitLm(g_lmZeroOne, GFrac(p->g70, p->gB8, p->gBC));
     } else {
         float u = 1.0f - p->gAC;
         SetCmFov__FP2CMf(&g_cm, (1.0f - u) * p->gB8 + u * p->gBC);
         {
             qword a = p->q30;
-            p->q30 = func_0011F088(a, PosEye__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
+            p->q30 = PosSmooth(a, PosEye__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
         }
         {
             qword a = p->q20;
-            p->q20 = func_0011F088(a, PosFocus__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
+            p->q20 = PosSmooth(a, PosFocus__6CPFREE(p), g_clock.dt, D_002BD9F8, 0);
         }
         SetCmLookAt__FP2CMG9VU_VECTORT1ff(&g_cm, p->q30, p->q20, 0.0f, 0.0f);
     }

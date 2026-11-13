@@ -65,7 +65,7 @@ extern "C" void RestoreTask(X *p) asm("RestoreTask__FP4TASK");
 extern "C" X *PloFindSwNearest(G *pg, int kind, int oid, void *owner) asm("PloFindSwNearest__FP2LO3OIDii");
 extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
 extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
-extern "C" void func_00129EC8(CRef *pref);
+extern "C" void Decref(CRef *pref) asm("Decref__4CRef");
 extern "C" void SetTaskState(X *p, int n) asm("SetTaskState__FP4TASKi");
 // name: SafeHouse port (StartQueuedTask)
 extern "C" void StartQueuedTask__FP2SS(SS *ps)
@@ -94,8 +94,8 @@ extern "C" void StartQueuedTask__FP2SS(SS *ps)
         ref.m_tagk = 0x15;
         ref.m_tag = nC0;
         SetProgressPoCurrent(&refRet, &ref, D_002A5238, 0);
-        func_00129EC8(&refRet);
-        func_00129EC8(&ref);
+        Decref(&refRet);
+        Decref(&ref);
     }
     for (i = 0; i < c; i++) {
         X *pxT = apx[i];

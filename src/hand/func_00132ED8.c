@@ -11,7 +11,7 @@ void func_00256D40(struct SP *psp, int n);
 struct CRef *SetPair__4CRefP5CPair(struct CRef *pref, struct N *pn);
 void SetSymid__4CRefUi(struct CRef *pref, int n);
 void SetBasic__4CRefP5BASIC(struct CRef *pref, int n);
-void func_00129EC8(struct CRef *pref);
+void Decref(struct CRef *pref) asm("Decref__4CRef");
 void func_002550F8(void *pv);
 void func_0011CD98(void *pool, void *pv);
 struct SP *func_00132ED8(struct SP *ret, int a1, int a2, struct X *px)
@@ -38,7 +38,7 @@ struct SP *func_00132ED8(struct SP *ret, int a1, int a2, struct X *px)
         struct N *pt = sp.p;
         if (pt && --pt->cref == 0) {
             func_00256D40(&pt->sp, 2);
-            func_00129EC8(&pt->ref);
+            Decref(&pt->ref);
             func_002550F8(pt);
             func_0011CD98(D_004520A8, pt);
         }

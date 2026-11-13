@@ -8,7 +8,7 @@ float GSuck__FPv(void *p);
 float GLimitLm__FP2LMf(LM *plm, float g);
 float GScoreMean__FP5DANCE(struct S *p);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
-void *func_002332B8(void *dst, void *src, int cb);
+void *s1_memmove(void *dst, void *src, int cb);
 static inline float GClampLm(LM *plm, float g)
 {
     if (g < plm->gMin)
@@ -42,7 +42,7 @@ void AddDanceScore__FP2LOiif(struct S *p, int a, int b, float g)
         g *= GClamp(D_002BDBE0[0] + t * (D_002BDBE0[1] + t * D_002BDBE0[2]), g_lmZeroOne.gMin, g_lmZeroOne.gMax);
     }
     if (p->c == 16) {
-        func_002332B8(&p->ag[0], &p->ag[1], 15 * sizeof(float));
+        s1_memmove(&p->ag[0], &p->ag[1], 15 * sizeof(float));
         pg = &p->ag[p->c - 1];
     } else {
         pg = &p->ag[p->c++];

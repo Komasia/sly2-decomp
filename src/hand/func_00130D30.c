@@ -6,7 +6,7 @@ struct P { int pad[5]; struct Q *pq; int x18; float g1C; float g20; char pad1[0x
     float g40; float g44; float g48; float g4C; };
 int func_00131968(struct P *p);
 void FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pg, float *pg2);
-void func_00130EB0(struct P *p);
+void UpdateAsegaIeaCur(struct P *p) asm("UpdateAsegaIeaCur__FP5ASEGA");
 int FFirst__4CTRL(struct S *ps);
 void HoldXfMode(void *p4, struct R *pr);
 void SnapAsegaXfs__FP5ASEGAi(struct P *p, int n);
@@ -27,7 +27,7 @@ void SetAsegaTime__FP5ASEGAiff(struct P *p, int k, float g, float s)
         struct S *ps;
         p->g1C = t;
         FWrapAsegaTime__FP5ASEGAPfT1(p, &p->g1C, &p->g40);
-        func_00130EB0(p);
+        UpdateAsegaIeaCur(p);
         for (ps = p->ps; ps; ps = ps->pnext) {
             if (FFirst__4CTRL(ps)) {
                 struct R *pr = ps->pr;

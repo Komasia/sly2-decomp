@@ -1,6 +1,6 @@
-// MATCH (Claude agent, laneC20 2026-10-23): v4 + func_001291A8 (CRef copy ctor) declared returning void * instead of void.
+// MATCH (Claude agent, laneC20 2026-10-23): v4 + __4CRefRC4CRef (CRef copy ctor) declared returning void * instead of void.
 struct CRef;
-extern "C" void func_00129EC8(CRef *);
+extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void *func_001291A8(CRef *, const CRef *); // CRef copy ctor returns this (void *); declaring it void scheduled the pv copy early
 extern "C" CRef *func_00129658(CRef *, const CRef *);
 struct CRef {
@@ -8,7 +8,7 @@ struct CRef {
     CRef() { tagk = -1; }
     CRef(int k, int n) { tagk = k; tag = n; }
     CRef(const CRef &r) { func_001291A8(this, &r); }
-    ~CRef() { func_00129EC8(this); }
+    ~CRef() { Decref(this); }
     CRef &operator=(const CRef &r) { func_00129658(this, &r); return *this; }
 };
 struct CRef16 : CRef { int pad[2]; CRef16(int k, int n) : CRef(k, n) {} };
@@ -33,9 +33,9 @@ void *AkeyStand(Q *p) asm("AkeyStand__FP2LO");
 S *AkeyReturnBooty(LO *p, int n) asm("AkeyReturnBooty__FP5ACTORi");
 int func_00210A88(void);
 BL *func_002109B8(int);
-int func_00233178(const void *a, const void *b, int n);
+int memcmp(const void *a, const void *b, int n);
 int CFindObjectsByClass(void *p, int a, int b, int c, int d, SO **apso) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
-int func_0021ECD8(char *, const char *, ...);
+int fiprintf(char *, const char *, ...) asm("fiprintf");
 CRef func_00258200(void *p, const CRef &ref, G *pv);
 }
 CRef SetProgressPoCurrent(const CRef &ref, const void *o, ...) asm("SetProgressPoCurrent__FP4CRefPci");
@@ -47,7 +47,7 @@ static inline void SetPv(void *pv, const CRef &r, void *)
     CRefRaw arg;
     func_001291A8((CRef *)&arg, &r);
     func_00258200(pv, *(CRef *)&arg, &D_003D4A60);
-    func_00129EC8((CRef *)&arg);
+    Decref((CRef *)&arg);
 }
 static inline void *Vcall103(LO *p) { VTE *e = &p->vt[103]; return e->pfn((char *)p + e->d); }
 
@@ -85,7 +85,7 @@ extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)
         Y *py = p->p11A8->p158;
         if (py->x4 != -1) {
             char ach[32];
-            func_0021ECD8(ach, D_002A4D50, py->x4);
+            fiprintf(ach, D_002A4D50, py->x4);
             ret = func_001D8A38(D_002A4DC0, D_002A4DC8, ach, 0);
             ret = SetProgressPoCurrent(CRef(0x15, ret.tag + 1), D_002A4DC0, D_002A4DC8, ach, 0);
         }
@@ -97,7 +97,7 @@ extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)
         if (ps && i != -1) {
             BL *pb = func_002109B8(i);
             int f = 0;
-            if (pb->c >= 4 && func_00233178(ps->pk, pb->pv, 8) == 0) f = 1;
+            if (pb->c >= 4 && memcmp(ps->pk, pb->pv, 8) == 0) f = 1;
             if (f) {
                 SO *apso[15];
                 int c = CFindObjectsByClass(g_sw, 5, 0x25, 0, 0xF, apso);

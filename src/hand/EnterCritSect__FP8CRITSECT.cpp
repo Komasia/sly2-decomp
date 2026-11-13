@@ -1,6 +1,6 @@
 struct CRITSECT { int cEnter; int thread; int sema; };
 extern "C" int GetThreadId(void);
-extern "C" int func_00234A60(int sema);
+extern "C" int WaitSema(int sema) asm("WaitSema");
 
 void EnterCritSect(CRITSECT *pcritsect)
 {
@@ -8,7 +8,7 @@ void EnterCritSect(CRITSECT *pcritsect)
 
     if (threadId != pcritsect->thread)
     {
-        func_00234A60(pcritsect->sema);
+        WaitSema(pcritsect->sema);
         pcritsect->thread = threadId;
         pcritsect->cEnter = 1;
     }

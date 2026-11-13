@@ -25,7 +25,7 @@ qword PosOfLo(void*) asm("PosOfLo__FP2LO");
 M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword VelXfPoint(void*,void*,qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 float GSplitVector(qword,qword,qword*,qword*) asm("GSplitVector__FG9VU_VECTORT0P6VECTORT2");
-float func_0011D1C0(float,float,float,float,SMPA*,float*);
+float GSmoothA(float,float,float,float,SMPA*,float*) asm("GSmoothA__FffffP4SMPAPf");
 M3 BuildRotateMatrixVector(qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
 void func_0018F958(P*,NODE*,qword*,qword*,DELTA*);
 extern U g_normalZ,D_002A2DA0,D_002A2DB0,D_002A2DD0;
@@ -104,7 +104,7 @@ extern "C" void CalculateSlyHangAccel__FP3SLY(P*p){
   angular.q=QwAddScaled(angular.q,anchorBasis.r[1].q,VuFloat(amount));
  }
  float speedOut;
- float next=func_0011D1C0(distance,radial,D_002BF544-p->target->property,Addr(&g_clock)->dt,&D_002BF530,&speedOut);
+ float next=GSmoothA(distance,radial,D_002BF544-p->target->property,Addr(&g_clock)->dt,&D_002BF530,&speedOut);
  angular.q=QwScaleX(angular.q,VuFloat(GMinOf(D_002BF544,distance)/GMaxOf(D_002BF540,next)));
  U velocity;
  STATE state;

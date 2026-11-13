@@ -6,7 +6,7 @@ struct P { char pad[0x3CF8]; char aCF8[4]; };
 int FOverlapOxa__FP3OXAT0Pv(struct P *, struct X *, struct X *);
 struct L *PoxAddSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
 struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
-void func_001A7E10(struct P *, void *);
+void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, struct L *);
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
@@ -50,7 +50,7 @@ void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *p, struct X *px1, struct X *px2, int 
         pl1 = PoxRemoveSw__FP2SWP3OXAT1(p, px1, px2);
         pl2 = PoxRemoveSw__FP2SWP3OXAT1(p, px2, px1);
         if (pl1->pv) {
-            func_001A7E10(p, pl1->pv);
+            FreeSwXpList(p, pl1->pv);
             if (!VCALL(pl1->po, 62, int (*)(void *))))
                 WakeAlo__FP3ALO(pl1->po);
             if (!VCALL(pl2->po, 62, int (*)(void *))))

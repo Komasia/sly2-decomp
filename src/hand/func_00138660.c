@@ -23,8 +23,8 @@ struct Q {
     VU xE0;
     VU xF0;
 };
-int func_00138370(void *, struct SEG *, float *, float, float);
-void *func_002333B4(void *, int, int);
+int ImrsgLookUp(void *, struct SEG *, float *, float, float) asm("ImrsgLookUp__FffiP4MRSGPf");
+void *s1_memset(void *, int, int);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float, float, float, qword, qword, qword, qword, VU *, VU *, int);
 
 static __inline__ qword Madd(qword a, qword v, qword s)
@@ -88,7 +88,7 @@ void Setup__6TRKPBLP2XF(struct P *p, struct Q *pq)
         if (!p->x8) {
             u = tCur / pa->x74;
         } else {
-            iSeg = func_00138370(p->x8->x4, p->x8->x8, &t[0], tCur, pa->x74);
+            iSeg = ImrsgLookUp(p->x8->x4, p->x8->x8, &t[0], tCur, pa->x74);
             u = t[0] / p->x8->x8[iSeg].g4;
         }
     }
@@ -121,7 +121,7 @@ void Setup__6TRKPBLP2XF(struct P *p, struct Q *pq)
                     t[1] -= gMax;
                 ratio = g4 / pb->x8[iSeg].g4;
             }
-            func_002333B4(&q, 0, 0x100);
+            s1_memset(&q, 0, 0x100);
             q.x88 = &t[1];
             {
                 struct VTE *e = &po->vt[2];

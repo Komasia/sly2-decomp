@@ -13,7 +13,7 @@ qword PosNoise__14JOBINVESTIGATE(struct S *p);
 qword PosOfLo__FP2LO(void *p);
 void func_002562A8(struct X *x);
 void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
 void SetDeadlines__14JOBINVESTIGATE(struct S *p);
 void FindSearchPlaces__14JOBINVESTIGATE(struct S *p);
@@ -52,7 +52,7 @@ void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
             qword b = PosOfLo__FP2LO(p->p10);
             qword d;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(GetY(d), GetX(d)));
+            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(GetY(d), GetX(d)));
             { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
             SetDeadlines__14JOBINVESTIGATE(p);
         }

@@ -11,9 +11,9 @@ struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];PL*input;char pad154[0x1A8-0
 struct CLOCK{float time,dt;};struct LM{float values[3];};
 struct WORK{U reference,direction,local;M3 matrix,returned;float heading;U target;};
 extern "C"{
- void RadHangFrame(P*,float*) asm("RadHangFrame__FP3SLYPf");float RadNormalize(float) asm("RadNormalize__Ff");void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");qword PosOfLo(P*) asm("PosOfLo__FP2LO");M3* BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");float func_002458F0(float,float);
+ void RadHangFrame(P*,float*) asm("RadHangFrame__FP3SLYPf");float RadNormalize(float) asm("RadNormalize__Ff");void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");qword PosOfLo(P*) asm("PosOfLo__FP2LO");M3* BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");float atan2f(float,float) asm("atan2f");
  void SetJtJts(P*,int,int) asm("SetJtJts__FP2JT3JTS4JTBS");void CalculateSlyHangAccel(P*) asm("CalculateSlyHangAccel__FP3SLY");void WakeAlo(P*) asm("WakeAlo__FP3ALO");int GrfPadctlPressedWithin(PL*,uint,float) asm("GrfPadctlPressedWithin__FP6PADCTLUif");void ForgetPadctlPresses(PL*,int) asm("ForgetPadctlPresses__FP6PADCTLUi");void OpenBinoc(void*,int,P*,void*) asm("OpenBinoc__FP5ACTORiP2LOT2");
- float GSmooth(float,float,float,LM*,float*) asm("GSmooth__FfffP3SMPPf");void RecalcBlend(ANIMATION*) asm("RecalcBlend__FP6ASEGBL");float func_0011CFE0(float,float);
+ float GSmooth(float,float,float,LM*,float*) asm("GSmooth__FfffP3SMPPf");void RecalcBlend(ANIMATION*) asm("RecalcBlend__FP6ASEGBL");float GLimitAbs(float,float) asm("GLimitAbs__Fff");
  extern CLOCK g_clock;extern qword g_normalZ;
  extern float D_002BF554,D_002BF558,D_002BF55C,D_002BF560,D_002BF564,D_002BF568,D_002BF56C,D_002BF58C,D_002BF590;
  extern LM D_002BF570,D_002BF580;
@@ -106,7 +106,7 @@ extern "C" void UpdateSlyHangInput__FP3SLY(P*p){
  __asm__("lwc1 %0,%3\n\tlq %1,%4\n\tla %2,%a5" : "=f"(yaw),"=r"(axis),"=r"(rotationOutput) : "m"(p->angle),"m"(*axisPointer),"p"(&w.returned));
  w.direction.q=normal;
  (void)BuildRotateMatrixAxis(rotationOutput,axis,yaw);w.matrix=w.returned;w.local.q=Local(w.matrix,w.direction.q);
- float angle=RadNormalize(func_002458F0(w.local.f[2],w.local.f[0])-1.57079637050628662109375f);
+ float angle=RadNormalize(atan2f(w.local.f[2],w.local.f[0])-1.57079637050628662109375f);
  int next=p->state;
  switch(next){
  case 0:
@@ -147,7 +147,7 @@ extern "C" void UpdateSlyHangInput__FP3SLY(P*p){
  float active=p->activeBlend,speed=p->speedBlend;float idle=1.0f-active;float combined=active*speed;float activeOnly=active*(1.0f-speed);p->combined=combined;p->idle=idle;p->activeOnly=activeOnly;RecalcBlend(p->animation);
  float steering=Clamp(angle/D_002BF58C,-1.0f,1.0f);
  float target=p->animation->gain*(steering+1.0f);target*=0.5f;
- p->curve->slope=func_0011CFE0((target-p->curve->value)/g_clock.dt,D_002BF590);
+ p->curve->slope=GLimitAbs((target-p->curve->value)/g_clock.dt,D_002BF590);
 }
 
 typedef char final_offset_0_0[FIELD_OFFSET(VE,delta)==0?1:-1];

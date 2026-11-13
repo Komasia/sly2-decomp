@@ -19,14 +19,14 @@ int func_001EF0A8(struct P *p);
 qword PosOfLo__FP2LO(void *p);
 struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
 int FNeedRecover__12JOBCOMPANION(struct P *p);
-int func_0011D910(struct LM *plm, float g);
+int FCheckLm(struct LM *plm, float g) asm("FCheckLm__FP2LMf");
 void SetState__12JOBCOMPANIONi(struct P *p, int n);
 int func_00132EA0(void *p);
 int func_00145DA0(struct X *px);
 int func_00146298(struct X *px);
 int func_00146790(struct X *px);
 void PlanFollow__12JOBCOMPANION(struct P *p);
-void func_00131A00(void *p, float g);
+void SetAsegaSpeed(void *p, float g) asm("SetAsegaSpeed__FP5ASEGAf");
 
 static __inline__ float LenXY(qword d)
 {
@@ -81,7 +81,7 @@ void Update__12JOBCOMPANION(struct P *p)
             f = FNeedRecover__12JOBCOMPANION(p) != 0;
             if (f)
                 SetState__12JOBCOMPANIONi(p, 1);
-            else if (func_0011D910(&D_002BD330, g)) {
+            else if (FCheckLm(&D_002BD330, g)) {
                 p->p90 = pso;
                 SetState__12JOBCOMPANIONi(p, 2);
             }
@@ -94,7 +94,7 @@ void Update__12JOBCOMPANION(struct P *p)
             f = FNeedRecover__12JOBCOMPANION(p) != 0;
             if (f)
                 SetState__12JOBCOMPANIONi(p, 1);
-            else if (!func_0011D910(&D_002BD338, g))
+            else if (!FCheckLm(&D_002BD338, g))
                 SetState__12JOBCOMPANIONi(p, 0);
             else {
                 switch (func_00132EA0(p->p10)) {
@@ -127,7 +127,7 @@ void Update__12JOBCOMPANION(struct P *p)
         if (po->p1030) {
             float t = (gXY - p->g6C) / (p->g70 - p->g6C);
             GClamp(&t, 0.0f, 1.0f);
-            func_00131A00(po->p1030, (1.0f - t) * p->g74 + t * p->g78);
+            SetAsegaSpeed(po->p1030, (1.0f - t) * p->g74 + t * p->g78);
         }
     }
 }

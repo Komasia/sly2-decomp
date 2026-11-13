@@ -16,7 +16,7 @@ extern float g_lmZeroOne[2];
 extern float D_002BD2F0;
 void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword PosOfLo__FP2LO(void *p);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int k);
 void StampPadctlState__FP6PADCTL(struct Q *q);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -72,7 +72,7 @@ void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
         s = GClampR(g, g_lmZeroOne[0], g_lmZeroOne[1]);
         if (0.0f < s) {
             q->x1C = s * p->xD0;
-            q->x18 = func_002458F0(GetY(v), GetX(v));
+            q->x18 = atan2f(GetY(v), GetX(v));
         }
         if (p->xCC)
             q->x30 |= 8;

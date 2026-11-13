@@ -57,7 +57,7 @@ extern "C" void JobSwitch(X *p) asm("JobSwitch__FP3JOB");
 extern "C" void ChangeTaskState(X *p, int n) asm("ChangeTaskState__FP4TASKi");
 extern "C" void func_00163C28(X *p);
 extern "C" void SetProgressPoCurrent(CRef *pref, CRef *parg, void *pv, int n) asm("SetProgressPoCurrent__FP4CRefPci");
-extern "C" void func_00129EC8(CRef *pref);
+extern "C" void Decref(CRef *pref) asm("Decref__4CRef");
 extern "C" int func_00210A88();
 extern "C" void *func_00210990(int n);
 extern "C" void RequestTransition(G *pg, void *p, int a, int b, int c, int d) asm("RequestTransition__FP2SWPUc3OIDT2iT2");
@@ -82,8 +82,8 @@ extern "C" void RestartTask__FP4TASK(X *p)
         ref.m_tagk = 0x15;
         ref.m_tag = p->fC0;
         SetProgressPoCurrent(&refRet, &ref, D_002A5238, 0);
-        func_00129EC8(&refRet);
-        func_00129EC8(&ref);
+        Decref(&refRet);
+        Decref(&ref);
     }
     int id = p->fB8 == -1 ? 0x189 : p->fB8;
     int k = 4;

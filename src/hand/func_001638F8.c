@@ -21,7 +21,7 @@ int func_001637E8(struct S *p);
 void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, struct E16 *a);
 void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, struct E24 *a, int b);
 CRef *NProgress(CRef *pref, void *a, void *b);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 void func_001A6CA8(struct S *p, int n);
 // name: SafeHouse port (StartTask)
 void StartTask__FP2SW(struct S *p)
@@ -61,14 +61,14 @@ void StartTask__FP2SW(struct S *p)
         int n;
         NProgress(&ref, pnC8, D_003D4A60);
         n = ref.m_tag;
-        func_00129EC8(&ref);
+        Decref(&ref);
         p->f64 = n;
     }
     if (p->fd0) {
         int n;
         NProgress(&ref, pnD0, D_003D4A60);
         n = ref.m_tag;
-        func_00129EC8(&ref);
+        Decref(&ref);
         p->f68 = n;
     }
     if (p->f78 != 0.0f || p->children.first) {

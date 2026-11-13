@@ -43,9 +43,9 @@ void FaceObject__FP5ACTORP2LO(struct P *p, int n);
 qword SetVectorCylind__Ffff(float a, float b, float c);
 void SteerRootBlend__FP5ACTORP9ROOTBLENDPv(struct P *p, void *pv, int n);
 qword VelActorAnimRoot__FP5ACTORPvf(struct P *p, struct S1030 *px, float g);
-void func_00131A00(struct S1030 *px, float g);
+void SetAsegaSpeed(struct S1030 *px, float g) asm("SetAsegaSpeed__FP5ASEGAf");
 float RadNormalize__Ff(float g);
-float func_0011CFE0(float g, float dg);
+float GLimitAbs(float g, float dg) asm("GLimitAbs__Fff");
 void UpdateActorSupport__FP5ACTOR(struct P *p);
 void UpdateDamage__FP5ACTOR(void *pv);
 
@@ -169,7 +169,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
             float z = 0.0f;
             if (z < p->p150->g1C) {
                 float d = RadNormalize__Ff(p->p150->g18 - p->g1A8);
-                SetStepPhysHeading__FP3ALOf(p, p->g1A8 + func_0011CFE0(d, g1 * D_002BC960 * g_clock.dt));
+                SetStepPhysHeading__FP3ALOf(p, p->g1A8 + GLimitAbs(d, g1 * D_002BC960 * g_clock.dt));
             }
             SetVel(p, SetVectorCylind__Ffff(p->p150->g18 + 3.1415927f, g0 * LenXY(p->v1520) * p->p1030->g40, z), p->x14F0, p->x15F0);
         }
@@ -179,7 +179,7 @@ void UpdateBentley__FP7BENTLEY(struct P *p)
         break;
     case 11:
         PullB(p);
-        func_00131A00(p->p1030, p->p150->g1C);
+        SetAsegaSpeed(p->p1030, p->p150->g1C);
         SetStepPhysHeading__FP3ALOf(p, p->p150->g18);
         break;
     case 14:

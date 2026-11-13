@@ -23,7 +23,7 @@ extern int D_002DEB18;
 void FinalizeFrameVifs(VIFS *pvifs, int *pcqw, QW **paqw);
 void FinalizeFrameGifs(GIFS *pgifs, int *pcqw, QW **paqw);
 extern "C" void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
-extern "C" void func_00234A40(int sid);
+extern "C" void SignalSema(int sid) asm("SignalSema");
 extern "C" void func_00160A98()
 {
     FinalizeFrameVifs(&D_002DEA28, &g_pfrmOpen->cqwVifs, &g_pfrmOpen->aqwVifs);
@@ -34,5 +34,5 @@ extern "C" void func_00160A98()
     g_pfrmOpen->dl40 = D_002DEB00;
     ClearDl(&D_002DEB00);
     g_pfrmOpen = 0;
-    func_00234A40(D_002DEB18);
+    SignalSema(D_002DEB18);
 }

@@ -14,14 +14,14 @@ struct CRef {
     CRef &operator=(int n);
     CRef &operator=(float g);
 };
-extern "C" CRef func_00201360(int c, void *aref, int *ak, ...);
+extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" { void func_0020A100(void *p, int n, qword q); CRef func_00103F40(void *p, int c, void *aref); }
 CRef func_00103F40(void *p, int c, void *aref)
 {
     int ak[2] = {0x2002, 2};
     union { qword q; } u;
     int n;
-    CRef ref = func_00201360(2, aref, ak, &n, &u);
+    CRef ref = RefSetArgsFromSplice(2, aref, ak, &n, &u);
     ref.Decref();
     ref.InitTag(0x24);
     func_0020A100(p, n, u.q);

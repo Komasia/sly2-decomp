@@ -72,8 +72,8 @@ extern void*D_002E1E44;extern void*D_002E1E48;
 void SetSoeOff(P*,ACTION*) asm("SetSoeOff__FP3ALOP3SOE");void MarkAloDirty(P*) asm("MarkAloDirty__FP3ALO");void SetReachState(void*,int) asm("SetReachState__FP5REACHi");
 EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) asm("SetSource__4CSndPv");void SetPosition(EFFECT*,qword) asm("SetPosition__4CSndG9VU_VECTOR");
 qword PosOfLo(void*) asm("PosOfLo__FP2LO");qword ConvertPos(void*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
-void func_0018F560(P*,BLEND*,ASEG*);int func_001F0400(SM*,int);void SetSmaState(COMPONENT*,int) asm("SetSmaState__FP3SMA3OID");
-void func_001305B8(ASEG*,P*,float,float,int,ASEGA**);void SetAsegaSeekTime(ASEGA*,float) asm("SetAsegaSeekTime__FP5ASEGAf");
+void func_0018F560(P*,BLEND*,ASEG*);int IsmsFindSmOptional(SM*,int) asm("IsmsFindSmOptional__FP2SM3OID");void SetSmaState(COMPONENT*,int) asm("SetSmaState__FP3SMA3OID");
+void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");void SetAsegaSeekTime(ASEGA*,float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,PosOfLo(p));}}
 static __inline__ void Active(NODE*p){VE&v=p->vt[8];((void(*)(void*))v.fn)((char*)p+v.delta);}
@@ -134,7 +134,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
   __asm__("add.s %0,%0,%2\n\tlw %1,%3":"+f"(deadline),"=r"(clip):"f"(delay),"m"(p->blend5.clip));
   p->deadline=deadline;break;}
  case 6:enter6:{func_0018F560(p,&p->blend6,p->blend6.clip);enterEffect=11;stopDelay=D_002BF430;clip=p->blend6.clip;
-  int found=func_001F0400(p->sm,0x17B);
+  int found=IsmsFindSmOptional(p->sm,0x17B);
   /* Native V1 is rebuilt after the cancellation callback. */
   clockHigh=(char*)0x002e0000;
   if(found>=0){SetSmaState(p->component,0x17B);clockHigh=(char*)0x002e0000;}
@@ -142,7 +142,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
   goto deadline_clock_read;
  }
  case 7:enter7:{func_0018F560(p,&p->blend7,p->blend7.clip);enterEffect=11;stopDelay=D_002BF430;clip=p->blend7.clip;
-  int found=func_001F0400(p->sm,0x17B);
+  int found=IsmsFindSmOptional(p->sm,0x17B);
   /* Native V1 is rebuilt after the cancellation callback. */
   clockHigh=(char*)0x002e0000;
   if(found>=0){SetSmaState(p->component,0x17B);clockHigh=(char*)0x002e0000;}
@@ -169,7 +169,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
   clip=p->clip13;
  }
  attack_ready:p->deadline=sharedDeadline;
- if(!sharedMode&&func_001F0400(p->sm,0x17B)>=0)SetSmaState(p->component,0x17B);break;
+ if(!sharedMode&&IsmsFindSmOptional(p->sm,0x17B)>=0)SetSmaState(p->component,0x17B);break;
  case 14:{
   register float deadline __asm__("$f0"),delay __asm__("$f1");register int attack __asm__("$2");
   __asm__ __volatile__("lui $2,%%hi(%4)\n\tlui $4,%%hi(%5)\n\tlwc1 %1,%%lo(%4)($2)\n\tlui $3,%%hi(%6)\n\tlwc1 %0,%%lo(%5)($4)\n\taddiu %3,$zero,1\n\tlwc1 %2,%%lo(%6)($3)":"=f"(deadline),"=f"(delay),"=f"(stopDelay),"=r"(attack):"i"(&D_002BF440),"i"(&g_clock),"i"(&D_002BF43C):"$3","$4","memory");
@@ -224,7 +224,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
   register int mode __asm__("$2");
   __asm__("add.s %0,%0,%3\n\tlw %1,%4\n\tsw $zero,%2":"+f"(deadline),"=r"(mode),"=m"(p->attack):"f"(delay),"m"(p->mode):"memory");
   p->deadline=deadline;
-  if(!mode&&func_001F0400(p->sm,0x17B)>=0)SetSmaState(p->component,0x17B);
+  if(!mode&&IsmsFindSmOptional(p->sm,0x17B)>=0)SetSmaState(p->component,0x17B);
   break;}
  }
  if(compatible){register ASEGA*current __asm__("$2")=p->current;enterEffect=-1;
@@ -243,7 +243,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  register ASEG*clipArgument __asm__("$4");register float startArgument __asm__("$f12"),rateArgument __asm__("$f13"),now __asm__("$f0");
  __asm__ __volatile__("lui $2,%%hi(%4)\n\tdaddu %0,%5,$zero\n\tmov.s %1,%6\n\tlwc1 %3,%%lo(%4)($2)\n\tmov.s %2,%7":"=r"(clipArgument),"=f"(startArgument),"=f"(rateArgument),"=f"(now):"i"(&g_clock),"r"(clip),"f"(start),"f"(rate):"$2","memory");
  p->reset=0;p->stateTime=now;
- func_001305B8(clipArgument,p,startArgument,rateArgument,1,&p->current);
+ ApplyAsegCur(clipArgument,p,startArgument,rateArgument,1,&p->current);
  if(stopDelay!=0.0f){register ASEGA*current __asm__("$4");register float stopTime __asm__("$f12");
   __asm__ __volatile__("lui $3,%%hi(%2)\n\tlw %0,%3\n\tlwc1 %1,%%lo(%2)($3)":"=r"(current),"=f"(stopTime):"i"(&g_clock),"m"(p->current):"$3","memory");
   SetAsegaSeekTime(current,stopTime+stopDelay);

@@ -1,7 +1,7 @@
-// SolveDzgContacts (Claude agent, T1655): DZG constraint-add loop. Each pass re-solves (func_00158988), picks the free
+// SolveDzgContacts (Claude agent, T1655): DZG constraint-add loop. Each pass re-solves (SolveDzg), picks the free
 // contact row whose projected push (the rows' gC-weighted af[j].av[i] vectors minus the normal part) is largest, then
 // appends a new row paired with it: its g10 = -|v|, its F gets the push divided by g10 and the SO, its g8/g4 limits come from
-// the object's friction data, and func_00158668 (AppendDzgDz) gets the new row and its F.
+// the object's friction data, and AppendDzgDz gets the new row and its F.
 // Keys to the match: (1) one gLimit variable assigned in both grf&1 arms (a multi-block pseudo, so local-alloc can't tie
 // it: the target's f2/f3 choices); (2) pf passed as AppendDzgDz's third argument (the callee reads px in a2, so pf is
 // live to the call and global-alloc puts it in a2); (3) the new row pdz computed before the paired row pdzA.
@@ -16,8 +16,8 @@ struct CLOCK { float t; float dt; };
 extern "C" {
 extern CLOCK g_clock;
 extern float D_002BDDE8;
-void func_00158988(DZG *pdzg, int grf);
-void func_00158668(DZG *pdzg, DZ *pdz, F *pf);
+void SolveDzg(DZG *pdzg, int grf) asm("SolveDzg__FP3DZGiiPP2XPPiPPP2SO");
+void AppendDzgDz(DZG *pdzg, DZ *pdz, F *pf) asm("AppendDzgDz__FP3DZGP2DZ");
 void SolveDzgContacts(DZG *pdzg, int grf) asm("SolveDzgContacts__FP3DZGi");
 }
 struct VU_FLOAT { qword qw; };
@@ -74,7 +74,7 @@ union VEC4 { qword q; float f[4]; };
 void SolveDzgContacts(DZG *pdzg, int grf)
 {
     for (;;) {
-        func_00158988(pdzg, grf);
+        SolveDzg(pdzg, grf);
         int iBest = -1;
         float gBest = 0.01f;
         SO *psoBest = 0;
@@ -137,6 +137,6 @@ void SolveDzgContacts(DZG *pdzg, int grf)
             pdz->g8 = __builtin_fabsf(pdz->pdzOther->gC) * psoBest->g94;
         }
         pdz->g4 = -pdz->g8;
-        func_00158668(pdzg, pdz, pf);
+        AppendDzgDz(pdzg, pdz, pf);
     }
 }

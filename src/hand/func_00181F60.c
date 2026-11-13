@@ -15,7 +15,7 @@ void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(int oid, qword q, int a, i
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(int oid, qword q, int a, int b, struct V *pv, int c, float *pg, float g);
 float GRandInRange__Fff(float lo, float hi);
 void TargetSwarmEnt__FP5SWENTPv(struct S *p, struct E *pe);
-float func_0011D1C0(void *pv, float *pg, float a, float b, float c, float dt);
+float GSmoothA(void *pv, float *pg, float a, float b, float c, float dt) asm("GSmoothA__FffffP4SMPAPf");
 void func_001E6F10(int oid, struct Q *q, void *pv, float g);
 void func_00181E10(struct S *p, struct Q *q);
 static __inline__ void Integrate(float *px, float *pv, float a, float dt)
@@ -49,7 +49,7 @@ void UpdateSwarm__FP2LO(struct S *p)
         TargetSwarmEnt__FP5SWENTPv(p, pe);
         for (q = pe->pqFirst; q; q = q->next) {
             float a, b;
-            q->g3c = func_0011D1C0(D_002BE888, &q->g40, q->g3c, q->g40, q->g44, g_clock.dt);
+            q->g3c = GSmoothA(D_002BE888, &q->g40, q->g3c, q->g40, q->g44, g_clock.dt);
             func_001E6F10(oid, q, q->x10, q->g3c);
             a = D_002BE898 * q->g50 + D_002BE89C * q->g58;
             b = D_002BE8A0 * q->g54 + D_002BE8A4 * q->g5c;

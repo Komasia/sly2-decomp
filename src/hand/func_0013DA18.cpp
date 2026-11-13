@@ -21,13 +21,13 @@ void _$_10STACKSCOPE(void *p, int n);
 void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 void *PvAllocStackImpl(AREQ *preq) asm("PvAllocStackImpl__Fi");
-void func_001AE5A0(void *pvDst, void *pvSrc, int cb);
-void *func_002333B4(void *pv, int b, int cb);
+void CopyAb(void *pvDst, void *pvSrc, int cb) asm("CopyAb__FPvT0Ui");
+void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
 void func_0012AE18(void);
-int func_00117D50(BIS *pbis);
-int func_00117DB8(BIS *pbis);
+int S16Read(BIS *pbis) asm("S16Read__18CBinaryInputStream");
+int S32Read(BIS *pbis) asm("S32Read__18CBinaryInputStream");
 void Read(BIS *pbis, int cb, void *pv) asm("Read__18CBinaryInputStreamiPv");
-void func_00117988(BIS *pbis, int cb);
+void Align(BIS *pbis, int cb) asm("Align__18CBinaryInputStreami");
 void func_001C9058(void *p);
 void func_001C9090(void *p, void *pv);
 void func_001C9098(void *p);
@@ -41,8 +41,8 @@ void LoadOptionsFromBrx(void *p, BIS *pbis) asm("LoadOptionsFromBrx__FPvP18CBina
 void StartupSwSplice(void *psw) asm("StartupSwSplice__FP2SW");
 void func_0020E3C0(void *psw);
 void func_0020F1C8(void *psw);
-void func_0016F960(void *p, void *pv, int c);
-void func_001703F8(void *pzpr, int a, int b);
+void BuildClearGifs(void *p, void *pv, int c) asm("BuildClearGifs__FP2QWG4RGBAi");
+void InitZpr(void *pzpr, int a, int b) asm("InitZpr__FP3ZPR3ZPKP2LO");
 void func_001ED3A8(void);
 void func_001ED448(void);
 void func_001EA9F0(void *psw, void *pzpr);
@@ -94,7 +94,7 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
     int i;
     int fNever = 0;
     func_0012AE18();
-    psw->cwe = func_00117D50(pbis);
+    psw->cwe = S16Read(pbis);
     psw->awe = (WE *)AllocZ(&u.req, psw->cwe * 0x6C, 0x10);
     int h;
     func_001C9058(&h);
@@ -102,13 +102,13 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
     for (i = 0; i < psw->cwe; i++) {
         WE *pwe = &psw->awe[i];
         Read(pbis, 0x40, pwe->ab1C);
-        pwe->x5C = func_00117DB8(pbis);
-        pwe->x60 = func_00117DB8(pbis);
-        pwe->x10 = func_00117DB8(pbis);
-        pwe->x14 = func_00117DB8(pbis);
-        pwe->c8 = func_00117DB8(pbis);
+        pwe->x5C = S32Read(pbis);
+        pwe->x60 = S32Read(pbis);
+        pwe->x10 = S32Read(pbis);
+        pwe->x14 = S32Read(pbis);
+        pwe->c8 = S32Read(pbis);
         pwe->pv18 = Alloc(&u.req, pwe->c8 * 4, 0x10);
-        func_002333B4(pwe->pv18, -1, pwe->c8 * 4);
+        s1_memset(pwe->pv18, -1, pwe->c8 * 4);
     }
     if (fNever) { // STAND-IN, see the header
         Read(pbis, 0x40, psw);
@@ -133,14 +133,14 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
     LoadNodesFromBrx(psw, pbis);
     LoadOptionsFromBrx(g_sw, pbis);
     LoadOptionsFromBrx(g_cm, pbis);
-    func_00117988(pbis, 0x10);
+    Align(pbis, 0x10);
     StartupSwSplice(psw);
     func_0020E3C0(psw);
     func_0020F1C8(psw);
     if (psw->x3E38)
         *(unsigned int *)&psw->rgba = 0x80000000;
     u.rgba = psw->rgba;
-    func_0016F960(D_002DEDC0, &u.rgba, 3);
+    BuildClearGifs(D_002DEDC0, &u.rgba, 3);
     psw->p39E4 = psw->p39E0 = AllocS(&u.req, 0x10000, 0x10);
     psw->p39D0 = AllocS(&u.req, 0x6000, 0x10);
     psw->x39D4 = 0;
@@ -149,9 +149,9 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
     FRAME frame;
     ZPR zpr0;
     ZPR zpr1;
-    func_001703F8(&zpr0, 0x1800, 0x4000);
+    InitZpr(&zpr0, 0x1800, 0x4000);
     func_001ED3A8();
-    func_001703F8(&zpr1, 0x1000, 0x1800);
+    InitZpr(&zpr1, 0x1000, 0x1800);
     func_001EA9F0(psw, &zpr0);
     for (i = 0; i < psw->cwe; ) {
         WE *pwe = &psw->awe[i];
@@ -163,7 +163,7 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
         psw->iwe = pwe->x5C ? -1 : i;
         OBJ obj(0x403F, ab, 0);
         LoadBulkHeaderFromBrx(1, pbis);
-        D_003E1C34 = func_00117DB8(pbis);
+        D_003E1C34 = S32Read(pbis);
         LoadSwSpliceFromBrx(psw, pwe->x10, pbis);
         LoadShadersFromBrx(&zpr0, &zpr1, pbis);
         LoadCmeshFromBrx(psw, pbis);
@@ -174,13 +174,13 @@ extern "C" void LoadSwFromBrx__FP2SWP18CBinaryInputStream(SW *psw, BIS *pbis)
             AREQ req2;
             func_0013F888((LOL *)&u.lol);
             LoadSwObjsFromBrx(0, pbis, (LOL *)&u.lol);
-            func_00117988(pbis, 0x10);
+            Align(pbis, 0x10);
             func_0014B690(pwe->ab1C);
             EndShaderGroup();
             psw->x39E8 = 0;
             pwe->c0 = u.lol.c;
             pwe->apo = (LO **)AllocZ(&req2, pwe->c0 * pwe->c8 * 4, 0x10);
-            func_001AE5A0(pwe->apo, u.lol.apo, pwe->c0 * 4);
+            CopyAb(pwe->apo, u.lol.apo, pwe->c0 * 4);
             ppo = &pwe->apo[pwe->c0];
             for (j = 1; j < pwe->c8; j++)
                 for (k = 0; k < pwe->c0; k++)

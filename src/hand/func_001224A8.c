@@ -3,7 +3,7 @@ typedef float (*PFNG)(float);
 extern PFNG D_002BBB70[];
 void SetF32__4CReff(CRef *pref, float g);
 CRef *func_001291A8(CRef *pref, CRef *prefSrc);
-void func_00129EC8(CRef *pref);
+void Decref(CRef *pref) asm("Decref__4CRef");
 CRef *RefUfo__FP4CRef4UFOK(CRef *ret, CRef *parg, int i)
 {
     CRef ref;
@@ -16,6 +16,6 @@ CRef *RefUfo__FP4CRef4UFOK(CRef *ret, CRef *parg, int i)
     }
     SetF32__4CReff(&ref, D_002BBB70[i](g));
     func_001291A8(ret, &ref);
-    func_00129EC8(&ref);
+    Decref(&ref);
     return ret;
 }

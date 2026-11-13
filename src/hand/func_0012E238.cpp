@@ -1,5 +1,5 @@
 extern "C" void *func_0012E1F0(unsigned int cb);
-extern "C" void *func_002333B4(void *pv, int b, unsigned int cb);
+extern "C" void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
 struct MATRIX4 { float m[4][4]; };
 struct CBase {
     int k;
@@ -14,7 +14,7 @@ struct C3 : CBase { int b[1]; C3() { k = 3; } virtual void F(); };
 struct C4 : CBase { int b[3]; C4() { k = 4; } virtual void F(); };
 struct C5 : CBase { int b[5]; C5() { k = 5; } virtual void F(); };
 struct C6 : CBase { int pad; MATRIX4 mat;
-    C6() { k = 6; MATRIX4 *pm = &mat; func_002333B4(pm, 0, sizeof(*pm)); pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f; }
+    C6() { k = 6; MATRIX4 *pm = &mat; s1_memset(pm, 0, sizeof(*pm)); pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f; }
     virtual void F(); };
 struct C7 : CBase { int b[1]; C7() { k = 7; } virtual void F(); };
 struct C8 : CBase { int b[9]; C8() { k = 8; } virtual void F(); };

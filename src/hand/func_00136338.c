@@ -9,7 +9,7 @@ void SetBentleyState2__FP7BENTLEYi(struct P *p, int n);
 int GrfPadctlTakePressed__FP6PADCTL(void *pv, int n, float g);
 void func_001357C0(struct P *p, int n);
 void UpdateBentleySub__FP7BENTLEYi(void *pv, int n);
-int func_001F0400(void *pv, int n);
+int IsmsFindSmOptional(void *pv, int n) asm("IsmsFindSmOptional__FP2SM3OID");
 void SetSmaState__FP3SMA3OID(void *pv, int n);
 // name: SafeHouse port (UpdateBentleyState2)
 void UpdateBentleyState2__FP7BENTLEY(struct P *p)
@@ -39,7 +39,7 @@ void UpdateBentleyState2__FP7BENTLEY(struct P *p)
             switch (p->x13D0) {
             case 0:
                 UpdateBentleySub__FP7BENTLEYi(p->a1710, 0);
-                if (p->x181C && p->x1714 != -1 && p->p1034 && func_001F0400(p->p1028, 0x17B) >= 0)
+                if (p->x181C && p->x1714 != -1 && p->p1034 && IsmsFindSmOptional(p->p1028, 0x17B) >= 0)
                     SetSmaState__FP3SMA3OID(p->p1034, 0x17B);
                 break;
             case 1: case 2: case 3: case 7:

@@ -33,7 +33,7 @@ typedef struct DZG {
 void __10STACKSCOPE(FRAME *pframe);
 void _$_10STACKSCOPE(FRAME *pframe, int n);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
-void func_001AE5A0(void *pvDst, void *pvSrc, unsigned int cb);
+void CopyAb(void *pvDst, void *pvSrc, unsigned int cb) asm("CopyAb__FPvT0Ui");
 DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cdzsMax);
 void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
 void EnforceDzgConstraints__FP3DZG(DZG *pdzg);
@@ -53,7 +53,7 @@ void SolveDzgConstraints__FiPfN21f(int c, float *agA, float *agB, float *agX, fl
         DZ *pdz = &dzg.adzs[i];
         pdz->g8 = g;
         pdz->ag = (float *)PvAllocMsg(&msg, c * sizeof(float), 0x10);
-        func_001AE5A0(pdz->ag, agA + i * c, c * sizeof(float));
+        CopyAb(pdz->ag, agA + i * c, c * sizeof(float));
         pdz->g10 = agB[i];
         AppendDlEntry__FP2DLPv(&dzg.dlD, pdz);
     }

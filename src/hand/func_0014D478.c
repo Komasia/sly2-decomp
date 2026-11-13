@@ -19,8 +19,8 @@ extern char D_002BD810[];
 void ResetCmAdjust__FP2CM(struct CM *p, void *pv);
 void AdjustCmCpdefi__FP2CMP2SOP6CPDEFI(struct CM *p, struct O *po, void *pv);
 void SetCmFov__FP2CMf(struct CM *p, float g);
-float func_0011D1C0(float g, float h, float i, float dt, float *pa, float *pb);
-void func_0014DB70(struct CM *p);
+float GSmoothA(float g, float h, float i, float dt, float *pa, float *pb) asm("GSmoothA__FffffP4SMPAPf");
+void RecalcCmFrustrum(struct CM *p) asm("RecalcCmFrustrum__FP2CM");
 float GSmooth__FfffP3SMPPf(float g, float gTarget, float dt, void *pv, float *pr);
 // name: SafeHouse port (UpdateCm)
 void UpdateCm__FP2CM(struct CM *p)
@@ -62,8 +62,8 @@ void UpdateCm__FP2CM(struct CM *p)
     if (p->x300) {
         SetCmFov__FP2CMf(p, p->g24);
     } else if (p->g24 != p->g20) {
-        p->g20 = func_0011D1C0(p->g20, p->g28, p->g24, g_clock.dt, &p->g2C, &p->g28);
-        func_0014DB70(p);
+        p->g20 = GSmoothA(p->g20, p->g28, p->g24, g_clock.dt, &p->g2C, &p->g28);
+        RecalcCmFrustrum(p);
     }
     p->x300 = 0;
     if (g_sw.x3E38)

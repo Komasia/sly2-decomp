@@ -5,8 +5,8 @@ class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int written,
 int FNegTftUl(TFT *,UL *);
 int CchAchFromUl(char *,int,unsigned long,unsigned int);
 int UnRadixFromChConversion(unsigned char) __asm__("UnRadixFromChConversion__Fc");
-extern "C" unsigned int func_0021ED28(const char *);
-extern "C" void func_0021EE30(char *);
+extern "C" unsigned int s1_strlen(const char *) asm("s1_strlen");
+extern "C" void UpperizePchz(char *) asm("UpperizePchz__FPc");
 static inline void WritePad(OSTRM *out,char ch,int count){char b=ch;while(count-- >0)if(out->CbWrite(&b,1)!=1)break;}
 void WriteTftUl(TFT *f,OSTRM *out,unsigned long n){
     char digits[65];
@@ -26,19 +26,19 @@ void WriteTftUl(TFT *f,OSTRM *out,unsigned long n){
             if(negative)__builtin_memcpy(prefix,"-",2);
             else if(f->fPlus)__builtin_memcpy(prefix,"+",2);
             else if(f->fSpace)__builtin_memcpy(prefix," ",2);
-            cZero-=func_0021ED28(prefix);
+            cZero-=s1_strlen(prefix);
             break;
         case 'b':if(f->fPrefix)__builtin_memcpy(prefix,"0b",3);break;
         case 'o':if(f->fPrefix)__builtin_memcpy(prefix,"0",2);break;
         case 'x':if(f->fPrefix)__builtin_memcpy(prefix,"0x",3);break;
         }
-        cPrefix=func_0021ED28(prefix);
+        cPrefix=s1_strlen(prefix);
         cDigits=CchAchFromUl(digits,0x40,n,UnRadixFromChConversion(f->conversion));
         cZero-=cDigits;
         if(cZero<0)cZero=0;
     }
     digits[cDigits]=0;
-    if(f->fUpper){func_0021EE30(prefix);func_0021EE30(digits);}
+    if(f->fUpper){UpperizePchz(prefix);UpperizePchz(digits);}
     int total=cPrefix+cZero+cDigits;
     int left=0,right=0;
     if(total<f->width){

@@ -8,8 +8,8 @@ extern char D_002DEBE0[];
 extern char D_002DECC0[];
 extern char D_002DEBD0[];
 extern "C" void func_00240AE0(void *pdraw, short x, short y, short half);
-extern "C" void func_00234CA0(int n);
-extern "C" void func_002406C0(void *p);
+extern "C" void FlushCache(int n) asm("FlushCache");
+extern "C" void sceGsPutDrawEnv(void *p) asm("sceGsPutDrawEnv");
 static inline int FField() { return ((CSR *)0x12001000)->FIELD; }
 void RestoreGsBuffers()
 {
@@ -19,7 +19,7 @@ void RestoreGsBuffers()
         D_002DFB60 = 0;
         D_002DEDB4 = FField() == 0;
         func_00240AE0((D_002DEDB0 & 1) ? D_002DECD0 : D_002DEBE0, 0x800, 0x800, D_002DEDB4);
-        func_00234CA0(0);
-        func_002406C0((D_002DEDB0 & 1) ? D_002DECC0 : D_002DEBD0);
+        FlushCache(0);
+        sceGsPutDrawEnv((D_002DEDB0 & 1) ? D_002DECC0 : D_002DEBD0);
     }
 }

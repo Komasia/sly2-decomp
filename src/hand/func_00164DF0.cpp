@@ -20,7 +20,7 @@ int func_001637E8(P*);
 void JobTaskReached(void*,P*) asm("JobTaskReached__FP3JOBP4TASK");
 void func_001ABD98(void*,int);
 CRef*func_001291A8(CRef*,const CRef*);
-void func_00129EC8(CRef*);
+void Decref(CRef*) asm("Decref__4CRef");
 }
 static inline void*Allocate(int n){return PvAllocStackClearImpl(REQUEST(n,16));}
 struct HEAP_SCOPE{HEAP_SCOPE(){__10STACKSCOPE(this);}~HEAP_SCOPE(){_$_10STACKSCOPE(this,2);}};
@@ -28,7 +28,7 @@ struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
     OVERRIDE(P*p,int x,int y):context(0),object(p){if(object){oldX=object->x;object->x=x;oldY=object->y;object->y=y;}}
     ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}
 };
-struct CRef{int kind,value;CRef(int v){kind=0x15;value=v;}CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){func_00129EC8(this);}};
+struct CRef{int kind,value;CRef(int v){kind=0x15;value=v;}CRef(const CRef&r){func_001291A8(this,&r);}~CRef(){Decref(this);}};
 extern "C" CRef func_00258200(void*,const CRef&,void*);
 static inline void SetPv(void*object,const CRef&ref,void*){CRef arg(ref);const CRef&result=func_00258200(object,arg,D_003D4A60);}
 static inline void SetValue(void*object,int n){CRef r(n);SetPv(object,r,D_003D4A60);}

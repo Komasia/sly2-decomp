@@ -4,7 +4,7 @@ struct S { char pad[0x39f0]; struct N *pfirst; int f39f4; int f39f8; int pool39f
 extern char D_004520A8[];
 void func_0011A118(void *, struct N *);
 void func_00256D40(void *, int);
-void func_00129EC8(void *);
+void Decref(void *) asm("Decref__4CRef");
 void func_002550F8(struct R *);
 void func_0011CD98(void *, void *);
 void func_00133130(struct S *p, int id) {
@@ -17,7 +17,7 @@ void func_00133130(struct S *p, int id) {
             pr = pn->pr;
             if (--pr->cref == 0 && pr) {
                 func_00256D40(&pr->f10, 2);
-                func_00129EC8(pr->ref8);
+                Decref(pr->ref8);
                 func_002550F8(pr);
                 func_0011CD98(D_004520A8, pr);
             }

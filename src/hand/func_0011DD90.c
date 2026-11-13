@@ -1,5 +1,5 @@
 typedef struct VECTOR { float x, y, z; } VECTOR;
-float func_00244F18(float g);
+float floorf(float g);
 
 static __inline__ float GClamp(float g, float lo, float hi)
 {
@@ -28,7 +28,7 @@ void RgbFromHsv__FP6VECTORT0(VECTOR *phsv, VECTOR *prgb)
     if (h == 360.0f)
         h = 0.0f;
     h *= 1.0f / 60.0f;
-    i = (int)func_00244F18(h);
+    i = (int)floorf(h);
     f = h - i;
     p = v * (1.0f - s);
     q = v * (1.0f - s * f);

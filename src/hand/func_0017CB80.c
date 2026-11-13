@@ -12,9 +12,9 @@ float SWrapCrv__FP3CRVf(void *p, float f);
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
 int func_0017CE30(struct S *p);
 void SetRailState__7JOBRAILi(struct S *p, int n);
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 void SetMoveHeading__FP7MOVEREF(void *p, float f);
-void func_00131A00(void *p, float f);
+void SetAsegaSpeed(void *p, float f) asm("SetAsegaSpeed__FP5ASEGAf");
 // name: SafeHouse port (JOBRAIL::Update)
 void Update__7JOBRAIL(struct S *p) {
     int s;
@@ -40,8 +40,8 @@ void Update__7JOBRAIL(struct S *p) {
                     __asm__("qmtc2.ni %1, %0" : "=j"(u.q) : "r"(-1.0f));
                     __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v.q) : "j"(w), "j"(u.q));
                 }
-                SetMoveHeading__FP7MOVEREF(p->p10->aFD0, func_002458F0(v.f[1], v.f[0]));
-                func_00131A00(p->p18->p40->p8, p->f38);
+                SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(v.f[1], v.f[0]));
+                SetAsegaSpeed(p->p18->p40->p8, p->f38);
             }
         }
     } while (p->n30 != s);

@@ -56,11 +56,11 @@ extern SND g_game;
 extern char D_002DDEC0[];
 extern char g_sw[];
 
-extern void *func_002333B4(void *pv, int b, int cb);
-extern int func_002432D0(int port, int slot, unsigned char *pb);
-extern void func_001AE5A0(void *dst, void *src, int cb);
-extern void func_00187768(JOY *p, unsigned char bX, unsigned char bY, float *px, float *py, float *pu,
-                          unsigned char *pbX, unsigned char *pbY, int *pf, LM *alm);
+extern void *s1_memset(void *pv, int b, int cb);
+extern int scePadRead(int port, int slot, unsigned char *pb);
+extern void CopyAb(void *dst, void *src, int cb) asm("CopyAb__FPvT0Ui");
+extern void GetJoyXYDeflection(JOY *p, unsigned char bX, unsigned char bY, float *px, float *py, float *pu,
+                          unsigned char *pbX, unsigned char *pbY, int *pf, LM *alm) asm("GetJoyXYDeflection__FP3JOYUcUcPfN23PUcT6PiP2LM");
 extern void func_0014BF48(void *p, JOY *pjoy, int grfbtn);
 extern int PloPlayerPo__FP2SW(void *p);
 extern void BroadcastTaskEvent__FP2SWiP2LO(SND *p, int n, int a);
@@ -73,8 +73,8 @@ int FReadJoy__FP3JOY(JOY *p)
     unsigned int btn;
     float x, y, x2, y2;
 
-    func_002333B4(ab, 0, 0x40);
-    if (func_002432D0(p->nPort, p->nSlot, ab) > 0) {
+    s1_memset(ab, 0, 0x40);
+    if (scePadRead(p->nPort, p->nSlot, ab) > 0) {
         btn = ((ab[2] << 8) | ab[3]) ^ 0xFFFF;
         old = p->grfbtn;
         p->grfbtnPressed = btn & ~old & ~p->grfbtnReleased;
@@ -84,14 +84,14 @@ int FReadJoy__FP3JOY(JOY *p)
             fRet = 0;
         p->x1008 = ab[1];
         if (p->joyk == 4)
-            func_001AE5A0(p->mpbtnpb, &ab[8], 0xC);
+            CopyAb(p->mpbtnpb, &ab[8], 0xC);
         x = p->x;
         y = p->y;
         x2 = p->x2;
         y2 = p->y2;
         if (p->joyk >= 2) {
-            func_00187768(p, ab[6], ab[7], &p->x, &p->y, &p->uDeflect, &p->bX, &p->bY, &p->fStickMoved, p->alm);
-            func_00187768(p, ab[4], ab[5], &p->x2, &p->y2, &p->uDeflect2, &p->bX2, &p->bY2, &p->fStickMoved2, p->alm2);
+            GetJoyXYDeflection(p, ab[6], ab[7], &p->x, &p->y, &p->uDeflect, &p->bX, &p->bY, &p->fStickMoved, p->alm);
+            GetJoyXYDeflection(p, ab[4], ab[5], &p->x2, &p->y2, &p->uDeflect2, &p->bX2, &p->bY2, &p->fStickMoved2, p->alm2);
         } else {
 
 

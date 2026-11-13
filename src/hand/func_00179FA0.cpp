@@ -20,7 +20,7 @@ extern "C"{
  qword PosOfLo(P*) asm("PosOfLo__FP2LO");
  M3*MatJtLo(P*) asm("MatJtLo__FP2LO");
  void NearestCrvAll(P*,qword,void*,qword*,qword*,float*,float*) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
- float func_002458F0(float,float);
+ float atan2f(float,float) asm("atan2f");
  float RadNormalize(float) asm("RadNormalize__Ff");
  void BuildRotateMatrixAxis(M3*,float,qword) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
  M3*BuildLookAtMatrix(M3*,qword,qword) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
@@ -34,7 +34,7 @@ extern "C"{
  void LockJob(C*) asm("LockJob__FP5AIJOB");
 }
 static inline CONTROL*Control(P*p){return (CONTROL*)((char*)p+0xFD0);}
-static inline float Angle(qword delta){qword x;int y;float fx,fy;__asm__("qmfc2.ni %0,%1":"=r"(x):"j"(delta));__asm__("prot3w %0,%1":"=r"(y):"r"(x));__asm__("mtc1 %1,%0":"=f"(fx):"r"(x));__asm__("mtc1 %1,%0":"=f"(fy):"r"(y));return func_002458F0(fy,fx);}
+static inline float Angle(qword delta){qword x;int y;float fx,fy;__asm__("qmfc2.ni %0,%1":"=r"(x):"j"(delta));__asm__("prot3w %0,%1":"=r"(y):"r"(x));__asm__("mtc1 %1,%0":"=f"(fx):"r"(x));__asm__("mtc1 %1,%0":"=f"(fy):"r"(y));return atan2f(fy,fx);}
 static inline qword HeadingInputs(C*p,U*home,qword current,P**actor){
  register qword a __asm__("vf1"),b __asm__("vf2");P*o;
  __asm__("qmtc2.ni %3,%1\n\tlw %2,%4\n\tlqc2 %0,%5":"=j"(a),"=j"(b),"=&r"(o):"r"(current),"m"(p->actor),"m"(home->q));
@@ -90,12 +90,12 @@ extern "C" void Enter__6JOBUSE(C*p){
    P*target=p->target;
    qword position=PosOfLo(p->actor);
    NearestCrvAll(target,position,0,&p->point.q,&work.temp.first.direction.q,0,&work.curve);
-   heading=func_002458F0(work.temp.first.direction.f[1],work.temp.first.direction.f[0]);
+   heading=atan2f(work.temp.first.direction.f[1],work.temp.first.direction.f[0]);
   }else{
    p->point.q=PosOfLo(p->target);
    M3*a=MatJtLo(p->target);
    M3*b=MatJtLo(p->target);
-   heading=func_002458F0(((U*)a->r)->f[1],((U*)b->r)->f[0]);
+   heading=atan2f(((U*)a->r)->f[1],((U*)b->r)->f[0]);
   }
   if(FIsBasicDerivedFrom(p->target,13)){
    active|=func_00207A20(0x1B);

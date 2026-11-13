@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; void *pfn; };
 struct S { char pad[0xC]; struct VTE *vt; char pad2[0x178]; int n188; int pad3; void *p190; };
 struct F { struct S *p0; int n4; int n8; int nC; int n10; int pad[3]; qword q20; qword q30; qword pad2[2]; };
-void *func_002333B4(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n);
 qword PosOfLo__FP2LO(void *p);
 void PaloAcceptContact__FP5CTMSG(struct F *pf);
 void ExplodeExpl__FP4EXPL(void *p);
@@ -11,7 +11,7 @@ void KillHackSo__FP2LOi(struct S *p, int n) {
     if (n && p->n188) {
         struct F f;
         struct VTE *e;
-        func_002333B4(&f, 0, sizeof(f));
+        s1_memset(&f, 0, sizeof(f));
         f.n8 = n;
         f.p0 = p;
         f.q20 = PosOfLo__FP2LO(p);

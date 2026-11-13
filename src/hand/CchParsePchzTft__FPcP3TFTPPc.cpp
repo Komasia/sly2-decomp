@@ -1,13 +1,13 @@
 // Parse one TFT specifier; all length modifiers advance to conversion.
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
-extern "C" {void *func_002333B4(void *,int,int);extern unsigned char D_002AA6A1[];}
+extern "C" {void *s1_memset(void *,int,int) asm("s1_memset");extern unsigned char D_002AA6A1[];}
 int CchParsePchzInt(char *,int *);
 static inline int Abs(int n){return n<0?-n:n;}
 static inline int Upper(unsigned char c){return D_002AA6A1[c]&1;}
 static inline int Lower(unsigned char c){int r=c+0x20;if(!Upper(c))r=c;return r;}
 int CchParsePchzTft(char *format,TFT *f,char **args){
     int state=0;
-    func_002333B4(f,0,0x34);
+    s1_memset(f,0,0x34);
     unsigned char *p=(unsigned char *)format;
     while(*p && state!=6){
         int consumed=0;

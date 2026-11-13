@@ -9,18 +9,18 @@ extern char g_sw[];
 extern char D_004520A8[];
 extern int D_0027A1D8[];
 extern int D_0027A10C[];
-int func_00127DB8(void *p, int k, int n);
+int PrefFindBinding(void *p, int k, int n) asm("PrefFindBinding__6CFrameUii");
 struct CRef *RefSetArgListFromPvs__FiP4OTYPPPv(struct CRef *ret, int x, int *pn, int y);
 struct SP *func_00132ED8(struct SP *ret, struct P *p, int k, struct CRef *pref);
 void func_00133040(void *pg, struct P *p, struct N *pn, float t);
 void func_00133000(struct P *p, struct N *pn, void *p0, int z);
 void func_00256D40(struct SP *psp, int n);
-void func_00129EC8(struct CRef *pref);
+void Decref(struct CRef *pref) asm("Decref__4CRef");
 void func_002550F8(void *pv);
 void func_0011CD98(void *pool, void *pv);
 void func_001331F8(struct P *p, int k, int f, int x, int y, int z)
 {
-    if (p->p0 && func_00127DB8(p->p0, k, 1)) {
+    if (p->p0 && PrefFindBinding(p->p0, k, 1)) {
         struct CRef ref;
         struct SP sp;
         RefSetArgListFromPvs__FiP4OTYPPPv(&ref, x, &D_0027A10C[D_0027A1D8[k]], y);
@@ -33,11 +33,11 @@ void func_001331F8(struct P *p, int k, int f, int x, int y, int z)
             struct N *pt = sp.p;
             if (pt && --pt->cref == 0) {
                 func_00256D40(&pt->sp, 2);
-                func_00129EC8(&pt->ref);
+                Decref(&pt->ref);
                 func_002550F8(pt);
                 func_0011CD98(D_004520A8, pt);
             }
         }
-        func_00129EC8(&ref);
+        Decref(&ref);
     }
 }

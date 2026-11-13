@@ -25,7 +25,7 @@ M4 func_0022FF40(void *, void *, M4 *);
 void *PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(struct P *p, struct O *pso, int a, int b, int c, qword q);
 qword DecomposeEulerMatrix__FP7MATRIX3(M4 *pm);
 void ClearSmaHandle__FPP3SMA(void *);
-void func_001305B8(void *, struct P *, int, void *, float, float);
+void ApplyAsegCur(void *, struct P *, int, void *, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 
 // name: SafeHouse port (SetBentleyCarried)
 void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
@@ -85,6 +85,6 @@ void SetBentleyCarried__FP7BENTLEYi(struct P *p, int k)
         break;
     }
     ClearSmaHandle__FPP3SMA(&p->x1034);
-    func_001305B8(pv, p, 9, &p->x1030, 0.0f, 1.0f);
+    ApplyAsegCur(pv, p, 9, &p->x1030, 0.0f, 1.0f);
     ((void (*)(void *))p->vt[90].f)((char *)p + p->vt[90].d);
 }

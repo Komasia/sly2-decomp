@@ -5,7 +5,7 @@ extern char D_002BF4D0[];
 
 void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct S *p, float g, int a, void *pv, int *pn, VEC *pq, float h, float k);
 
-float func_002458F0(float y, float x);
+float atan2f(float y, float x);
 void SetStepPhysHeading__FP3ALOf(struct S *p, float g);
 void TurnActorNow__FP5ACTOR(struct S *p);
 // name: SafeHouse port (ChooseSlyRushTarget)
@@ -19,7 +19,7 @@ void ChooseSlyRushTarget__FP3SLY(struct S *p)
     ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(p, g, 8, D_002BF4D0, &n, &v, 0.25f, 1.0f);
     p->n = n;
     if (n)
-        g = func_002458F0(v.y, v.x);
+        g = atan2f(v.y, v.x);
     SetStepPhysHeading__FP3ALOf(p, g);
     TurnActorNow__FP5ACTOR(p);
 }

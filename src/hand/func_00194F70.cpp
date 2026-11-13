@@ -45,8 +45,8 @@ extern float D_002BF710, D_002BF714;
 extern SMP D_002BF718;
 extern char g_game[];
 int func_00194F48(const void *, const void *);   // JTGRABCAND compare for qsort
-void func_002338C0(void *base, uint c, uint cb, int (*pfnCmp)(const void *, const void *));   // qsort
-void *func_002332B8(void *dst, const void *src, uint cb);   // memmove
+void qsort(void *base, uint c, uint cb, int (*pfnCmp)(const void *, const void *)) asm("qsort");   // qsort
+void *s1_memmove(void *dst, const void *src, uint cb) asm("s1_memmove");   // memmove
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf");   // GSmooth
 void FadeAloOut(LO *plo, float g) asm("FadeAloOut__FP3ALOf");
 void BroadcastTaskEvent(void *pv, int msg, LO *plo) asm("BroadcastTaskEvent__FP2SWiP2LO");
@@ -62,7 +62,7 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
     int i, j;
     JTGRABCAND *pcandOld, *pcand;
     if (ccand > 0) {
-        func_002338C0(ajtgrabcand, ccand, sizeof(JTGRABCAND), func_00194F48);
+        qsort(ajtgrabcand, ccand, sizeof(JTGRABCAND), func_00194F48);
         if (ajtgrabcand->pspot->nUnk14 != -1)
             ajtgrabcand->nPriority = 1;
     }
@@ -77,7 +77,7 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
                 // Not seen this frame: drop it.
                 if (pcandOld->ploUnk10)
                     FadeAloOut(pcandOld->ploUnk10, 0.5f);
-                func_002332B8(pcandOld, pcandOld + 1, (3 - i) * (int)sizeof(JTGRABCAND));
+                s1_memmove(pcandOld, pcandOld + 1, (3 - i) * (int)sizeof(JTGRABCAND));
                 psw->cjtgrabcand--;
                 break;
             }
@@ -128,7 +128,7 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
                     pspot->pvt[3].v3.pfn((char *)pspot + pspot->pvt[3].v3.d, pstepplayer, &qwPos, 0, pcandOld->sParam);
                     pcandOld->ploUnk10->pvt[29].pfn((char *)pcandOld->ploUnk10 + pcandOld->ploUnk10->pvt[29].d, qwPos);
                 }
-                func_002332B8(pcand, pcand + 1, (ccand - j) * (int)sizeof(JTGRABCAND) - (int)sizeof(JTGRABCAND));
+                s1_memmove(pcand, pcand + 1, (ccand - j) * (int)sizeof(JTGRABCAND) - (int)sizeof(JTGRABCAND));
                 ccand--;
                 break;
             }
@@ -146,5 +146,5 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
         psw->ajtgrabcand[psw->cjtgrabcand++] = *pcand;
         BroadcastTaskEvent(g_game, 0x3D, pcand->plo);
     }
-    func_002338C0(ajtgrabcandOld, psw->cjtgrabcand, sizeof(JTGRABCAND), func_00194F48);
+    qsort(ajtgrabcandOld, psw->cjtgrabcand, sizeof(JTGRABCAND), func_00194F48);
 }

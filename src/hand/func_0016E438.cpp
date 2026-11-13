@@ -15,7 +15,7 @@ void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void BuildCmFogRecip(ENV*,float*,float) asm("BuildCmFogRecip__FP2CMPff");
-void*func_002333B4(void*,int,uint);
+void*s1_memset(void*,int,uint) asm("s1_memset");
 void LoadGlobSubmeshesFromBrx(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*) asm("LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii");
 extern ENV g_cm;
 extern uint D_002DEB50;
@@ -101,7 +101,7 @@ extern "C" void LoadGlobMesh1FromBrx__FP7GLOBSETP18CBinaryInputStreamPvP5PARAMP6
   {LEASE*lease=&inner;lease->Acquire();}
   ushort*header;
   vifs.UnpackHelper(UPK_V4_16,3,10,0,(uint**)&header);
-  func_002333B4(header,0,24);
+  s1_memset(header,0,24);
   switch(part){case 0:header[0]|=1;break;case 1:header[0]|=2;break;}
   int current=base;
   header[1]=current;

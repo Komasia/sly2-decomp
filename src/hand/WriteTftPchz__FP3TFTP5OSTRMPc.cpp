@@ -3,7 +3,7 @@ class OSTRM {
 public:
     int CbWrite(void *pv, int cb);
 };
-extern "C" int func_0021ED28(char *pch);
+extern "C" int s1_strlen(char *pch) asm("s1_strlen");
 extern "C" char D_002A9370[];
 static inline void WritePad(OSTRM *postrm, char ch, int c)
 {
@@ -20,7 +20,7 @@ void WriteTftPchz(TFT *ptft, OSTRM *postrm, char *pchz)
     char ch;
     if (!pchz)
         pchz = D_002A9370;
-    cch = func_0021ED28(pchz);
+    cch = s1_strlen(pchz);
     cchRight = 0;
     cchLeft = 0;
     if (ptft->cchPrec && ptft->cchPrec < cch)

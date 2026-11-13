@@ -15,16 +15,16 @@ typedef struct {
     unsigned char Reserve3[512];
 } ICONSYS;
 char *strcpy(char *, const char *);
-void *func_002333B4(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int);
 void func_001EEA70(char *, unsigned char *);
-int func_0021ECD8(char *, const char *, ...);
+int fiprintf(char *, const char *, ...);
 int func_001AC900(void *s, char *name, void *b, int n);
 
 int FUN_0018ca10(void *p, char *dir, char *title)
 {
     ICONSYS icon;
     char name[0x50];
-    func_002333B4(&icon, 0, sizeof(icon));
+    s1_memset(&icon, 0, sizeof(icon));
     strcpy(icon.Head, "PS2D");
     icon.OffsLF = 0x20;
     icon.TransRate = 0x60;
@@ -65,6 +65,6 @@ int FUN_0018ca10(void *p, char *dir, char *title)
     strcpy((char *)icon.FnameView, "memcard_icon.ico");
     strcpy((char *)icon.FnameCopy, "memcard_icon.ico");
     strcpy((char *)icon.FnameDel, "memcard_icon.ico");
-    func_0021ECD8(name, "%s/%s", dir, "icon.sys");
+    fiprintf(name, "%s/%s", dir, "icon.sys");
     return func_001AC900(p, name, &icon, sizeof(icon));
 }

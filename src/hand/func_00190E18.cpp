@@ -13,7 +13,7 @@ extern "C" {
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 qword VecConvertXfs(int a, int b, qword v) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
 void SetCtrlPos(void *p, qword q) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
-qword func_0011F088(qword a, qword b, float g, float *p, int n);
+qword PosSmooth(qword a, qword b, float g, float *p, int n) asm("PosSmooth");
 void UpdateSlyHangPlace(P *p) asm("UpdateSlyHangPlace__FP3SLY");
 }
 M3 BuildRotateVectorsMatrix(qword a, qword b) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
@@ -47,5 +47,5 @@ void UpdateSlyHangPlace(P *p)
     qword q = VecConvertXfs(0, p->x19C0->xA0, d);
     m = Mul(BuildRotateVectorsMatrix(D_002A2DA0, q), BuildRotateMatrixAxis(D_002A2DA0, D_002BF594));
     SetCtrlPos(p->x1A00, DecomposeEulerMatrix(&m));
-    p->x1960 = func_0011F088(p->x1960, D_002A2DD0, D_002DDED4, D_002BF598, 0);
+    p->x1960 = PosSmooth(p->x1960, D_002A2DD0, D_002DDED4, D_002BF598, 0);
 }

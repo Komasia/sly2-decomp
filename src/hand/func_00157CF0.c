@@ -11,14 +11,14 @@ extern char D_002DF940[], D_002DFA80[], D_002DF800[], D_002DF010[];
 extern CM g_cm;
 extern K D_002C1F00, D_002C1F10;
 extern char D_003E12B8[];
-extern void func_00157598(P *, void *);
-extern void func_001574B8(P *);
-extern void func_00226D10(P *);
-extern void func_002270C8(P *, int, void *, int);
-extern void func_00226CA8(P *, int, int);
-extern void func_00226F28(P *, int, int, void *, int);
+extern void AddDmaCall(P *, void *) asm("AddDmaCall__4DMASP2QW");
+extern void AddDmaCnt(P *) asm("AddDmaCnt__4DMAS");
+extern void AddVifFlush(P *) asm("AddVifFlush__4VIFS");
+extern void AddVifDirect(P *, int, void *, int) asm("AddVifDirect__4VIFSiP2QWi");
+extern void AddVifBaseOffset(P *, int, int) asm("AddVifBaseOffset__4VIFSii");
+extern void AddVifUnpack(P *, int, int, void *, int) asm("AddVifUnpack__4VIFS3UPKiPvi");
 extern void MatCmStereoEye__FP2CMiP7MATRIX4iPv(CM *, int, int, MATRIX4 *, MATRIX4 *);
-extern void func_001576F0(P *);
+extern void EndDmaCnt(P *) asm("EndDmaCnt__4DMAS");
 extern void func_0016E1A8(P *, void *, void *);
 void func_00157CF0(P *p, void *a1, void *a2)
 {
@@ -26,17 +26,17 @@ void func_00157CF0(P *p, void *a1, void *a2)
     MATRIX4 m1, m2;
     if (g_sw.x3E38) {
         if (g_pfrmOpen == D_002DEA50)
-            func_00157598(p, D_002DF940);
+            AddDmaCall(p, D_002DF940);
         else
-            func_00157598(p, D_002DFA80);
+            AddDmaCall(p, D_002DFA80);
     } else {
-        func_00157598(p, D_002DF800);
+        AddDmaCall(p, D_002DF800);
     }
     p->x20 = 1;
-    func_001574B8(p);
-    func_00226D10(p);
-    func_002270C8(p, 0x25, D_002DF010, 0);
-    func_00226CA8(p, 0, 0);
+    AddDmaCnt(p);
+    AddVifFlush(p);
+    AddVifDirect(p, 0x25, D_002DF010, 0);
+    AddVifBaseOffset(p, 0, 0);
     {
         CM *pcm = &g_cm;
         float rNear = pcm->rNear;
@@ -47,7 +47,7 @@ void func_00157CF0(P *p, void *a1, void *a2)
         akg[0].g = 1.0f / s;
         akg[1].k = D_002C1F10;
         akg[1].g = -r / s;
-        func_00226F28(p, 0xC, 2, akg, 0);
+        AddVifUnpack(p, 0xC, 2, akg, 0);
         if (g_sw.x3E38) {
             if (g_pfrmOpen == D_002DEA50)
                 MatCmStereoEye__FP2CMiP7MATRIX4iPv(pcm, 1, 0, &m1, &m2);
@@ -60,10 +60,10 @@ void func_00157CF0(P *p, void *a1, void *a2)
             m2 = *pm2;
         }
     }
-    func_00226F28(p, 0xC, 4, &m1, 2);
-    func_00226F28(p, 0xC, 4, &m2, 6);
-    func_00226F28(p, 0xC, 1, D_003E12B8, 10);
-    func_00226CA8(p, 0x32, 0x1E7);
-    func_001576F0(p);
+    AddVifUnpack(p, 0xC, 4, &m1, 2);
+    AddVifUnpack(p, 0xC, 4, &m2, 6);
+    AddVifUnpack(p, 0xC, 1, D_003E12B8, 10);
+    AddVifBaseOffset(p, 0x32, 0x1E7);
+    EndDmaCnt(p);
     func_0016E1A8(p, a1, a2);
 }
