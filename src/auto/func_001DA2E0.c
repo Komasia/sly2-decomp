@@ -1,7 +1,0 @@
-#include "m2c_prelude.h"
-s32 PloFindSwNearest__FP2LO3OIDii(M2C_UNK *, M2C_UNK, M2C_UNK, M2C_UNK); /* extern */
-extern M2C_UNK g_sw;
-
-void func_001DA2E0(void *arg0) {
-    M2C_FIELD(arg0, s32 *, 0x28) = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x371, 0);
-}
