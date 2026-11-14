@@ -1,4 +1,0 @@
-#include "m2c_prelude.h"
-s32 func_002589F0(void *arg0) {
-    return M2C_FIELD(M2C_FIELD(arg0, void **, 0xE4), s32 *, 4);
-}
