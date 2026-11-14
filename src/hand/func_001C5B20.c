@@ -1,20 +1,20 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d,pad; void (*fn)(void *,int); };
 struct POS { char pad[0x70]; qword pos; };
 struct SHAPE {
     struct POS *pos; int pad4; float radius; int padC;
     unsigned long flags; char pad18[0xB0-0x18];
 };
 struct SO { char pad[0xE0]; int count; struct SHAPE *shapes; };
-struct S { char pad[0xC]; struct VTE *vt; char pad10[0x1DC-0x10]; float radius; };
+struct S { char pad[0xC]; VTENT *vt; char pad10[0x1DC-0x10]; float radius; };
 struct Q { int enabled,pad4; float radius; struct SO *so; };
 extern float D_002C0D7C;
 qword PosOfLo__FP2LO(void *);
 int SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT(qword,struct SHAPE *,int mask,int triangleCount,void *triangles,int capacity,void *contacts,float radius);
 static inline void Trigger(struct S *p)
 {
-    struct VTE *m=&p->vt[76];
-    m->fn((char *)p+m->d,1);
+    VTENT *m=&p->vt[76];
+    ((void (*)(void *,int))m->pfn)(VT_THIS(p, m),1);
 }
 static inline qword ToVu(qword a)
 {
@@ -74,4 +74,3 @@ int FPickupTouched__FP2LOP6PICKUP(struct S *p,struct Q *q)
 }
 
 #define OFF(t,m) ((unsigned int)&((t*)0)->m)
-typedef char trigger_layout[(sizeof(void*)==4 && sizeof(qword)==16 && __alignof__(qword)==16 && sizeof(unsigned long)==8 && sizeof(struct VTE)==8 && OFF(struct VTE,d)==0 && OFF(struct VTE,fn)==4 && OFF(struct POS,pos)==0x70 && sizeof(struct SHAPE)==0xB0 && OFF(struct SHAPE,pos)==0 && OFF(struct SHAPE,radius)==8 && OFF(struct SHAPE,flags)==0x10 && OFF(struct SO,count)==0xE0 && OFF(struct SO,shapes)==0xE4 && OFF(struct S,vt)==0xC && OFF(struct S,radius)==0x1DC && sizeof(struct Q)==0x10 && OFF(struct Q,enabled)==0 && OFF(struct Q,radius)==8 && OFF(struct Q,so)==0xC)?1:-1];

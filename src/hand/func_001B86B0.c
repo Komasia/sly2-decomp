@@ -2,10 +2,10 @@ typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 #include "clock.h"
+#include "vtbl.h"
 extern qword D_002A2DD0;
 extern float D_002C09F0;
-struct VT { short d; short pad; void *pfn; };
-struct OBJ { struct VT *vt; };
+struct OBJ { VTENT *vt; };
 struct R { int x0; struct OBJ *po; };
 struct S14 { char pad[0x74]; float g74; };
 struct ANIM { char pad[0x14]; struct S14 *p14; char pad2[0x40 - 0x18]; float g40; };
@@ -74,8 +74,8 @@ void SetMurrayPunch__FP6MURRAYi(struct P *p, int k)
         struct R *r = PchnFindAseg__FP4ASEGP3ALOPvi(p->panim->p14, p, 1, 1);
         if (r) {
             qword a, b, pos, t, v;
-            ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)((char *)r->po + r->po->vt[3].d, &a, 0.0f, 0.0f, 0);
-            ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)((char *)r->po + r->po->vt[3].d, &b, p->panim->p14->g74, 0.0f, 0);
+            ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)(VT_THIS(r->po, &r->po->vt[3]), &a, 0.0f, 0.0f, 0);
+            ((void (*)(void *, qword *, float, float, int))r->po->vt[3].pfn)(VT_THIS(r->po, &r->po->vt[3]), &b, p->panim->p14->g74, 0.0f, 0);
             pos = PosOfLo__FP2LO(p);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(t) : "j"(b), "j"(a));
             t = MulM3(p->m1B0, t);

@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct LO;
-typedef struct { short d; short pad; qword (*pfn)(struct LO *); } VTE;
-struct LO { int x0, x4, x8; VTE *vt; char pad10[0xD0 - 0x10]; float xD0; char padD4[0x1A8 - 0xD4]; float x1A8; char pad1AC[0x208 - 0x1AC]; int x208; };
+struct LO { int x0, x4, x8; VTENT *vt; char pad10[0xD0 - 0x10]; float xD0; char padD4[0x1A8 - 0xD4]; float x1A8; char pad1AC[0x208 - 0x1AC]; int x208; };
 struct S { struct LO *po; int x4; float x8; char pad[0x90 - 0xC]; int x90; float x94, x98, x9C; };
 #include "clock.h"
 extern float D_002BFAA0[3], D_002BFAB0[3], D_002BFAC0[];
@@ -51,7 +51,7 @@ done:
     case 7: {
         union { qword q; float f[4]; } v;
         float g;
-        v.q = s->po->vt[33].pfn((struct LO *)((char *)s->po + s->po->vt[33].d));
+        v.q = ((qword (*)(struct LO *))s->po->vt[33].pfn)((struct LO *)VT_THIS(s->po, &s->po->vt[33]));
         g = atan2f(v.f[1], v.f[0]) + 3.1415927f;
         SetStepPhysHeading__FP3ALOf(s->po, RadSmooth(D_002BFAC0, 0, s->po->x1A8, g, g_clock.dt));
         if (0.25f < g_clock.t - s->x8 && s->po->x208)

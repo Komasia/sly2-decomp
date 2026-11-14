@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
@@ -15,8 +16,7 @@ static __inline__ qword Make(float x, float y, float z)
     return q;
 }
 struct LO;
-typedef struct { short d; short pad; void (*pfn)(struct LO *, M3 *); } VT;
-struct LO { int x0, x4, x8; VT *vt; };
+struct LO { int x0, x4, x8; VTENT *vt; };
 void BuildEulerMatrix__FP6VECTORG9VU_VECTOR(M3 *pm, qword v);
 void func_001A63B0(struct LO *p, qword v)
 {
@@ -26,5 +26,5 @@ void func_001A63B0(struct LO *p, qword v)
     r.q = Make(GetX(v) * 0.017453294f, GetY(v) * 0.017453294f, GetZ(v) * 0.017453294f);
     BuildEulerMatrix__FP6VECTORG9VU_VECTOR(&m, r.q);
     c = m;
-    p->vt[30].pfn((struct LO *)((char *)p + p->vt[30].d), &c);
+    ((void (*)(struct LO *, M3 *))p->vt[30].pfn)((struct LO *)VT_THIS(p, &p->vt[30]), &c);
 }

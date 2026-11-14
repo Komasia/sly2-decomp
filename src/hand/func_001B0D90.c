@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(void *, qword); };
-struct S { char pad[0xC]; struct VTE *vt; char pad1[0x16C - 0x10]; void *p16C; int pad2; float f174; float f178; };
+struct S { char pad[0xC]; VTENT *vt; char pad1[0x16C - 0x10]; void *p16C; int pad2; float f174; float f178; };
 void SetStepSpinRatio(struct S *p, float g) asm("SetStepSpinRatio__FP4STEPf");
 void SetBirdState__FP2LOi(struct S *p, int f);
 float GMinCrv__FP3CRV(void *p);
@@ -16,7 +16,7 @@ void PlaceBird__FP2LO(struct S *p)
         p->f174 = GMinCrv__FP3CRV(p->p16C);
         p->f178 = DgStepCrv__FP3CRV(p->p16C);
         EvalCrv__FP3CRVfP6VECTORT2(p->p16C, p->f174, &v, 0);
-        p->vt[29].pfn((char *)p + p->vt[29].d, v);
+        ((void (*)(void *, qword))p->vt[29].pfn)(VT_THIS(p, &p->vt[29]), v);
     } else {
         SetBirdState__FP2LOi(p, 0);
     }

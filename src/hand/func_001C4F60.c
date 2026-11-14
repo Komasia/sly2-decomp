@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x158 - 0x10]; int x158;
     char p1[0x16C - 0x15C]; struct LO *x16C;
     char p2[0x1A4 - 0x170]; int x1A4; void *x1A8; int x1AC; void *x1B0; int x1B4; void *x1B8;
@@ -19,12 +19,12 @@ void PostLoadPickup__FP2LO(struct S *p)
     plo = func_0015ED78(g_sw, 1, 0x12, p);
     p->x16C = plo;
     if (plo)
-        ((void (*)(void *))plo->vt[9].pf)((char *)plo + plo->vt[9].d);
+        ((void (*)(void *))plo->vt[9].pfn)(VT_THIS(plo, &plo->vt[9]));
     if (p->x1A4 != -1) p->x1A8 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x1A4, p);
     if (p->x1AC != -1) p->x1B0 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x1AC, p);
     if (p->x1B4 != -1) p->x1B8 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x1B4, p);
     if (p->x204 != -1) p->x208 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x204, p);
     if (p->x20C != -1) p->x210 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x20C, p);
     if (p->x214 != -1) p->x218 = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, p->x214, p);
-    ((void (*)(void *, int))p->vt[76].pf)((char *)p + p->vt[76].d, p->x158);
+    ((void (*)(void *, int))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]), p->x158);
 }

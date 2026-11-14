@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct LO;
 struct C;
-typedef struct { short d; short pad; void (*pfn)(struct LO *, struct C *, int); } VTE;
 struct SUB { char pad[0x60]; void *x60; };
-struct LO { int x0, x4, x8; VTE *vt; char pad[0xEC - 0x10]; struct SUB *xEC; };
+struct LO { int x0, x4, x8; VTENT *vt; char pad[0xEC - 0x10]; struct SUB *xEC; };
 struct S { void *x0; struct LO *x4; };
 struct E { struct S *ps; void *x4; void *x8; struct LO *plo; qword pos; qword x20; int pad[4]; };
 struct C { struct E ae[2]; qword dir; float g; float x94, x98; int x9C, xA0, xA4; int xA8; struct C *next; };
@@ -55,7 +55,7 @@ void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct W *pw, struct S *a, st
         e = &c->ae[i];
         plo = e->plo;
         if (plo)
-            plo->vt[55].pfn((struct LO *)((char *)plo + plo->vt[55].d), c, i);
+            ((void (*)(struct LO *, struct C *, int))plo->vt[55].pfn)((struct LO *)VT_THIS(plo, &plo->vt[55]), c, i);
     }
     RecalcSwXpMovement__FP2SWiPP2XP(pw, 1, &c);
     {

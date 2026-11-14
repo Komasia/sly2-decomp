@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union WORD { unsigned int bits; float value; } WORD;
 typedef union U { qword q; float f[4]; } U;
 struct ACTOR; struct MULTI;
 struct A;
-typedef struct { short d; short pad; void (*pfn)(struct A *, float, float, qword *, void *); } VT;
-struct A { VT *vt; };
+struct A { VTENT *vt; };
 struct O { int x0; struct A *x4; };
 struct K { char pad[0x74]; WORD x74; };
 struct E { float x0; struct K *x4; int pad[2]; qword x10; };
@@ -24,9 +24,6 @@ typedef char E_PrefixSize[sizeof(struct E)==32?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char WORD_Size[sizeof(WORD)==4?1:-1];
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VT_Size[sizeof(VT)==8?1:-1];
-typedef char VT_d_Offset[((unsigned int)&(((VT*)0x10000)->d)-0x10000)==0?1:-1];
-typedef char VT_fn_Offset[((unsigned int)&(((VT*)0x10000)->pfn)-0x10000)==4?1:-1];
 // name: SafeHouse port (BindRootBlend)
 void BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(struct ACTOR *p, struct E *ae, struct MULTI **pn)
 {
@@ -38,8 +35,8 @@ void BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(struct ACTOR *p, struct E *ae, str
         if (e->x4) {
             struct O *o = PchnFindAseg__FP4ASEGP3ALOPvi(e->x4, p, (void *)1, 1);
             if (o) {
-                o->x4->vt[3].pfn((struct A *)((char *)o->x4 + o->x4->vt[3].d), 0.0f, 1.0f, &v0.q, 0);
-                o->x4->vt[3].pfn((struct A *)((char *)o->x4 + o->x4->vt[3].d), e->x4->x74.value, 1.0f, &v1.q, 0);
+                ((void (*)(struct A *, float, float, qword *, void *))o->x4->vt[3].pfn)((struct A *)VT_THIS(o->x4, &o->x4->vt[3]), 0.0f, 1.0f, &v0.q, 0);
+                ((void (*)(struct A *, float, float, qword *, void *))o->x4->vt[3].pfn)((struct A *)VT_THIS(o->x4, &o->x4->vt[3]), e->x4->x74.value, 1.0f, &v1.q, 0);
                 {
                     register qword d __asm__("vf2");
                     register qword scalar __asm__("vf1");

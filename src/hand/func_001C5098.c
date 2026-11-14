@@ -1,8 +1,8 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 struct A { int c; void *pv; int pad[14]; };
 struct M { int x0; int x4; int x8; };
-struct S { char pad[0xC]; struct VTE *vt; char p1[0x168 - 0x10]; int x168; char p2[0x218 - 0x16C]; struct LO *x218; };
+struct S { char pad[0xC]; VTENT *vt; char p1[0x168 - 0x10]; int x168; char p2[0x218 - 0x16C]; struct LO *x218; };
 void func_00133590(struct S *p, int n, struct M *pm);
 // name: SafeHouse port (OnPickupMessage)
 void OnPickupMessage__FP2LO5MSGIDPv(struct S *p, int n, struct M *pm)
@@ -14,8 +14,8 @@ void OnPickupMessage__FP2LO5MSGIDPv(struct S *p, int n, struct M *pm)
         if (plo) {
             a.c = 1;
             a.pv = p;
-            ((void (*)(void *, struct A *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &a);
+            ((void (*)(void *, struct A *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &a);
         }
-        ((void (*)(void *, int))p->vt[76].pf)((char *)p + p->vt[76].d, 2);
+        ((void (*)(void *, int))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]), 2);
     }
 }

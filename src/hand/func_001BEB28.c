@@ -1,9 +1,9 @@
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
-typedef struct VO { char pad[0xC]; VTE *vt; } VO;
+#include "vtbl.h"
+typedef struct VO { char pad[0xC]; VTENT *vt; } VO;
 typedef struct R { char pad[0x20]; struct P *owner; char pad2[4]; } R;
 typedef struct O {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[4];
     VO **x14;
     char pad18[0x28 - 0x18];
@@ -13,7 +13,7 @@ typedef struct O {
 } O;
 typedef struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0xE0 - 0x10];
     int c;
     O *ap[4];
@@ -47,23 +47,23 @@ R *TakeRtgt__FPv(P *p)
             p->af[j] = 0;
             if (!((int)(o->x28 >> 60) & 1)) {
                 p->af[j] = 1;
-                ((void (*)(void *))o->vt[8].pfn)((char *)o + o->vt[8].d);
+                ((void (*)(void *))o->vt[8].pfn)(VT_THIS(o, &o->vt[8]));
                 if (!func_001A61A0(o)) {
                     VO *q;
                     AppendDlEntry__FP2DLPv(D_003DD4BC, o->x14);
                     q = *o->x14;
-                    ((void (*)(void *))q->vt[23].pfn)((char *)q + q->vt[23].d);
+                    ((void (*)(void *))q->vt[23].pfn)(VT_THIS(q, &q->vt[23]));
                 }
             }
             x = o->x40;
             if ((x ^ 1) & 1) x = *(int *)x;
             if (x & 8) {
                 p->af[j] |= 2;
-                ((void (*)(void *, int))o->vt[21].pfn)((char *)o + o->vt[21].d, 0);
+                ((void (*)(void *, int))o->vt[21].pfn)(VT_THIS(o, &o->vt[21]), 0);
             }
         }
-        ((void (*)(void *, int))p->vt[21].pfn)((char *)p + p->vt[21].d, 1);
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 2, 0, 0, 0, 0);
+        ((void (*)(void *, int))p->vt[21].pfn)(VT_THIS(p, &p->vt[21]), 1);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 2, 0, 0, 0, 0);
     }
     return p->pr;
 }

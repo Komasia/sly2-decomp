@@ -1,4 +1,4 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int, int, int); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 // name: SafeHouse port (ReparentBooty)
-void ReparentBooty__FP3ALOii(struct O *p, int a, int b) { struct VTE *e = &p->vt[10]; e->pfn((char *)p + e->d, a, 0, b); }
+void ReparentBooty__FP3ALOii(struct O *p, int a, int b) { VTENT *e = &p->vt[10]; ((void (*)(void *, int, int, int))e->pfn)(VT_THIS(p, e), a, 0, b); }

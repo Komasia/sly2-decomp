@@ -1,4 +1,4 @@
-struct VTE { short d; short pad; void (*pfn)(); };
+#include "vtbl.h"
 struct ALO {
     char pad[0x28];
     unsigned long b0 : 52;
@@ -9,7 +9,7 @@ struct ALO {
 struct SW { struct ALO *palo; };
 struct O {
     char pad[0xC];
-    struct VTE *vt;
+    VTENT *vt;
     struct O *pNext;
     struct SW *psw;
     char pad2[0x15];
@@ -23,8 +23,8 @@ void func_001A6D28(struct O *p, int b)
     if (p->psw->palo->f60)
         func_00147E88(g_sw, p->psw);
     {
-        struct VTE *e = &p->vt[46];
-        ((void (*)(void *, int))e->pfn)((char *)p + e->d, b);
+        VTENT *e = &p->vt[46];
+        ((void (*)(void *, int))e->pfn)(VT_THIS(p, e), b);
     }
     for (q = p->pNext; q; q = q->pNext)
         q->b2D |= b;

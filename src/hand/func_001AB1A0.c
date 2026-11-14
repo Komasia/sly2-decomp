@@ -1,14 +1,14 @@
-struct PMF { short delta; short pad; int (*pfn)(void *); };
+#include "vtbl.h"
 struct H { char pad[0x44]; int x44; };
 struct S { int x0, x4; int x8; int xC; float x10; float x14; char pad[0xFD5C - 0x18]; char xFD5C[1]; };
 extern char g_sw[], D_002F66B0[], D_003D9ED0[];
 extern int D_002DEB4C;
 extern struct H D_002E6550;
 extern float D_002DDF0C;
-extern struct PMF D_002A6BA0;
+extern VTENT D_002A6BA0;
 int func_0020E040(void *g);
 int FMemcardThreadValid(void *p) asm("FMemcardThreadValid__FP7MEMCARD");
-void CreateMemcardThread__FP7MEMCARDii(void *t, struct PMF pmf);
+void CreateMemcardThread__FP7MEMCARDii(void *t, VTENT pmf);
 void func_001AB630(struct S *s);
 void func_001AB418(struct S *s, int);
 int func_001B42C0(void *p);

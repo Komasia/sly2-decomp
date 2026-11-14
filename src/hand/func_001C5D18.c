@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pf)(); };
+#include "vtbl.h"
 #include "clock.h"
 extern char g_sw[];
-struct S { char pad[0xC]; struct VTE *vt; char p1[0x1C8 - 0x10]; int x1C8; float x1CC; };
+struct S { char pad[0xC]; VTENT *vt; char p1[0x1C8 - 0x10]; int x1C8; float x1CC; };
 int func_001C4BD8(void *pg, int c, void **ap);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct S *p, int n);
 int FPickupTouched__FP2LOP6PICKUP(struct S *p, void *pv);
@@ -12,7 +12,7 @@ void TestPickupCollect__FP2LO(struct S *p)
     int i, n;
     if (!p->x1C8) return;
     if (p->x1CC < g_clock.t) {
-        ((void (*)(void *, int))p->vt[76].pf)((char *)p + p->vt[76].d, 1);
+        ((void (*)(void *, int))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]), 1);
         return;
     }
     n = func_001C4BD8(g_sw, 0x10, ap);

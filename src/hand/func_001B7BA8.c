@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VE { short d; short pad; void (*pfn)(); };
-struct X { char pad[0xC]; struct VE *vt; };
-struct O { char pad[0xC]; struct VE *vt; char pad1[0x180 - 0x10]; struct X *x180; };
+struct X { char pad[0xC]; VTENT *vt; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0x180 - 0x10]; struct X *x180; };
 struct P { char pad[0x13D0]; int x13D0; char pad1[0x13F0 - 0x13D4]; struct O *x13F0; char pad2[0x1450 - 0x13F4]; int x1450; char pad3[0x1530 - 0x1454]; int x1530; };
 extern qword D_002C09E0, D_002A2DD0;
 void SetSmaGoal__FP3SMA3OID(int a, int b);
@@ -22,7 +22,7 @@ void CancelMurrayCarry__FP6MURRAY(struct P *p)
     o = p->x13F0;
     if (!o) return;
     if (p->x13D0 == 4 && p->x1450 == 0) {
-        ((void (*)())o->vt[3].pfn)((char *)o + o->vt[3].d, 6, 0, 0, 0, 0);
+        ((void (*)())o->vt[3].pfn)(VT_THIS(o, &o->vt[3]), 6, 0, 0, 0, 0);
         p->x13F0 = 0;
         return;
     }
@@ -32,12 +32,12 @@ void CancelMurrayCarry__FP6MURRAY(struct P *p)
     else SetAloEntryMode__FP3ALOi(x, 1);
     switch (p->x13D0) {
     case 5: {
-        struct VE *e = &x->vt[35];
-        ((void (*)(void *, qword))e->pfn)((char *)x + e->d, ConvertVec__FP2LOT0G9VU_VECTOR(p, 0, D_002C09E0));
+        VTENT *e = &x->vt[35];
+        ((void (*)(void *, qword))e->pfn)(VT_THIS(x, e), ConvertVec__FP2LOT0G9VU_VECTOR(p, 0, D_002C09E0));
         break;
     }
     case 2: case 4: case 7: case 8:
-        ((void (*)(void *, qword))x->vt[35].pfn)((char *)x + x->vt[35].d, D_002A2DD0);
+        ((void (*)(void *, qword))x->vt[35].pfn)(VT_THIS(x, &x->vt[35]), D_002A2DD0);
         break;
     case 3: case 6:
         break;

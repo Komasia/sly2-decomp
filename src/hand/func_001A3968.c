@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { float x, y, z; } V3;
 struct S;
-typedef struct { short d; short pad; V3 *(*pfn)(struct S *); } VTE;
 struct S {
     int x0, x4, x8;
-    VTE *vt;
+    VTENT *vt;
     char pad10[0xE0 - 0x10];
     int xE0;
     char padE4[0xF0 - 0xE4];
@@ -61,7 +61,7 @@ void ComputeLight__FP11LIGHTPARAMS(struct S *p)
         }
         p->x110 = 1.0f;
         p->x114 = 0.0f;
-        p->x140 = *p->vt[31].pfn((struct S *)((char *)p + p->vt[31].d));
+        p->x140 = *((V3 * (*)(struct S *))p->vt[31].pfn)((struct S *)VT_THIS(p, &p->vt[31]));
         break;
     case 1:
         p->x100.q = PosOfLo__FP2LO(p);

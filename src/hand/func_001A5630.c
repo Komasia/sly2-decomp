@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void *pfn; };
-struct S { int x0, x4, x8; struct VTE *vt; void *x10; int x14; char pad[0x10]; unsigned long x28; };
+#include "vtbl.h"
+struct S { int x0, x4, x8; VTENT *vt; void *x10; int x14; char pad[0x10]; unsigned long x28; };
 extern char D_003DD4BC[], g_sw[];
 int func_001A61A0(struct S *s);
 void RemoveDlEntry__FP2DLPv(void *a, void *b);
@@ -10,7 +10,7 @@ void AppendDlEntry__FP2DLPv(void *a, struct S *s);
 void RemoveLo(struct S *s) asm("RemoveLo__FP2LO");
 void RemoveLo(struct S *s)
 {
-    struct VTE *e;
+    VTENT *e;
     unsigned long f;
     void *a;
     struct S **b;
@@ -20,7 +20,7 @@ void RemoveLo(struct S *s)
         return;
     if (func_001A61A0(s)) {
         e = &s->vt[0xB0 / 8];
-        ((void (*)(void *))e->pfn)((char *)s + e->d);
+        ((void (*)(void *))e->pfn)(VT_THIS(s, e));
         if (!s->x10)
             RemoveDlEntry__FP2DLPv(D_003DD4BC, (void *)s->x14);
     }
@@ -34,14 +34,14 @@ void RemoveLo(struct S *s)
         *b = s;
     s->x28 |= 0x0100000000000000UL;
     e = &s->vt[0xE0 / 8];
-    n = ((int (*)(void *, struct S ***))e->pfn)((char *)s + e->d, &list);
+    n = ((int (*)(void *, struct S ***))e->pfn)(VT_THIS(s, e), &list);
     for (i = 0; i < n; i++) {
         struct S *p = list[i];
-        struct VTE *g = &p->vt[0x48 / 8];
-        ((void (*)(void *))g->pfn)((char *)p + g->d);
+        VTENT *g = &p->vt[0x48 / 8];
+        ((void (*)(void *))g->pfn)(VT_THIS(p, g));
     }
     if (f) {
         e = &s->vt[0x60 / 8];
-        ((void (*)(void *))e->pfn)((char *)s + e->d);
+        ((void (*)(void *))e->pfn)(VT_THIS(s, e));
     }
 }

@@ -1,6 +1,6 @@
+#include "vtbl.h"
 struct LO;
-typedef struct {short d,pad;void(*pfn)(struct LO*);} VTE;
-struct LO {int x0,x4,x8;VTE*vt;};
+struct LO {int x0,x4,x8;VTENT*vt;};
 struct SUB {char pad[0x9C];int x9C;char pad2[0x100-0xA0];};
 struct ALO {char pad[0x50];int c;struct SUB*a;};
 struct E {int grf,id,ib;};
@@ -38,7 +38,7 @@ done:;
    if(grf&2)k=4;else k=(grf&1)?5:1;
    p=PloFindSwNearest__FP2LO3OIDii(g_sw,(pe->grf&0x400)?k|0x400:k,pe->id,palo);
    if(!p){i++;continue;}
-   if(pe->grf&0x200)p->vt[9].pfn((struct LO*)((char*)p+p->vt[9].d));
+   if(pe->grf&0x200)((void (*)(struct LO*))p->vt[9].pfn)((struct LO*)VT_THIS(p, &p->vt[9]));
    i++;
    *(void**)((char*)palo+pe->ib)=p;
   }
@@ -46,8 +46,6 @@ done:;
 }
 
 #define OFFSET(t,m) ((unsigned int)&(((t *)0x10000)->m)-0x10000)
-typedef char layout_vte_delta[OFFSET(VTE,d)==0?1:-1];
-typedef char layout_vte_function[OFFSET(VTE,pfn)==4?1:-1];
 typedef char layout_lo_vtable[OFFSET(struct LO,vt)==12?1:-1];
 typedef char layout_sub_id[OFFSET(struct SUB,x9C)==0x9C?1:-1];
 typedef char layout_alo_count[OFFSET(struct ALO,c)==0x50?1:-1];
@@ -55,7 +53,6 @@ typedef char layout_alo_array[OFFSET(struct ALO,a)==0x54?1:-1];
 typedef char layout_entry_flags[OFFSET(struct E,grf)==0?1:-1];
 typedef char layout_entry_id[OFFSET(struct E,id)==4?1:-1];
 typedef char layout_entry_offset[OFFSET(struct E,ib)==8?1:-1];
-typedef char layout_vte_size[sizeof(VTE)==8?1:-1];
 typedef char layout_lo_size[sizeof(struct LO)==16?1:-1];
 typedef char layout_sub_size[sizeof(struct SUB)==0x100?1:-1];
 typedef char layout_alo_size[sizeof(struct ALO)==0x58?1:-1];

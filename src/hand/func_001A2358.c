@@ -1,4 +1,4 @@
-struct VTE { short d; short pad; int (*pfn)(void *, int); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { struct O *po; };
-int func_001A2358(struct S *p, int a) { struct O *o = p->po; struct VTE *e = &o->vt[86]; return e->pfn((char *)o + e->d, a); }
+int func_001A2358(struct S *p, int a) { struct O *o = p->po; VTENT *e = &o->vt[86]; return ((int (*)(void *, int))e->pfn)(VT_THIS(o, e), a); }

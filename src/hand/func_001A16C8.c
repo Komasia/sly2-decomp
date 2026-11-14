@@ -1,9 +1,9 @@
 // Select and blend the movement vector for the active mode.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int bits[4];}U;
 typedef union F{float value;int bits;}F;
-struct VT{short delta,pad;void*fn;};
-struct O{char pad[0xC];struct VT*vt;};
+struct O{char pad[0xC];VTENT*vt;};
 struct M3{U row[3];};
 struct P{struct O*self;char pad4[0x30-4];struct O*target;char pad34[8];int mode;char pad40[0x20];U velocity;};
 extern F D_002BFACC,D_002BFAD0,D_002BFAD4,D_002BFB00,D_002BFB04;
@@ -85,8 +85,8 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
             struct O*target=p->target;
             qword n,a,b,mixed,z;
             if(FIsBasicDerivedFrom__FP5BASIC3CID(target,0x51)){
-                struct VT*vt=target->vt;
-                struct M3*basis=((struct M3*(*)(void*))vt[31].fn)((char*)target+vt[31].delta);
+                VTENT*vt=target->vt;
+                struct M3*basis=((struct M3*(*)(void*))vt[31].pfn)(VT_THIS(target, &vt[31]));
                 scratch=basis->row[0];
             }else{
                 qword targetPoint;
@@ -116,8 +116,8 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
     }
     {
         struct O*object=p->self;
-        struct VT*vt=object->vt;
-        ((void(*)(void*,qword))vt[35].fn)((char*)object+vt[35].delta,output.q);
+        VTENT*vt=object->vt;
+        ((void(*)(void*,qword))vt[35].pfn)(VT_THIS(object, &vt[35]),output.q);
     }
     SetDamageState__FP5ACTORi(p,7);
 }

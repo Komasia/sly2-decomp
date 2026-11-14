@@ -1,15 +1,15 @@
 #include "clock.h"
+#include "vtbl.h"
 extern int D_002E1E40;
 extern char g_game[];
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; char pad1[0x38 - 0x10]; int x38; char pad2[4]; int x40; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0x38 - 0x10]; int x38; char pad2[4]; int x40; };
 struct S { char pad[0x10]; int x10; char pad1[4]; int x18; char pad2[0x30 - 0x1C]; int x30; float f34; int x38; };
 void Save__9JOBSCRIPTP11SAVEDSCRIPT(int a, int b);
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(int a, int b);
 void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, int c);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
-#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (JOBPROX::SetProxState)
 void SetProxState__7JOBPROXi(struct S *p, int st)
 {

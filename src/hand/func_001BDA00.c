@@ -1,8 +1,8 @@
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
+#include "vtbl.h"
 typedef struct AREQ { int cb; int align; } AREQ;
 typedef struct O {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x60 - 0x10];
     float mat[16];
     int xA0[0x10];
@@ -62,14 +62,14 @@ O *PpathNewMerged__Fv(void)
             req.cb = 0x1F0;
             req.align = 0x10;
             q->x1EC = PvAllocSwImpl__Fi(&req);
-            ((void (*)(void *))q->vt[9].pfn)((char *)q + q->vt[9].d);
+            ((void (*)(void *))q->vt[9].pfn)(VT_THIS(q, &q->vt[9]));
             AppendDlEntry__FP2DLPv(&D_003E1A40, q);
         }
         p = D_003E1A40.pvFirst;
     }
     RemoveDlEntry__FP2DLPv(&D_003E1A40, p);
     p->x1E8 = -1;
-    ((void (*)(void *))p->vt[8].pfn)((char *)p + p->vt[8].d);
+    ((void (*)(void *))p->vt[8].pfn)(VT_THIS(p, &p->vt[8]));
     p->x1D8 = 0;
     return p;
 }

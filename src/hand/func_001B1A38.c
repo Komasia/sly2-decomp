@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef struct { float x, y, z, w; } __attribute__((aligned(16))) V;
-struct VE { short d; short pad; void (*pfn)(); };
-struct C { struct VE *vt; };
+struct C { VTENT *vt; };
 struct Y { int x0; struct C *pc; };
 struct X { char pad[0x74]; float f74; float f78; };
 struct Y *PchnFindAseg__FP4ASEGP3ALOPvi(struct X *px, void *p, int a, int b);
@@ -14,8 +14,8 @@ void FStepLength__FP4ASEGP3ALOPf(void *p, struct X *px, float *pf)
     py = PchnFindAseg__FP4ASEGP3ALOPvi(px, p, 1, 1);
     if (!py) return;
     pc = py->pc;
-    ((void (*)(void *, V *, int, float, float))pc->vt[3].pfn)((char *)pc + pc->vt[3].d, &v0, 0, 0.0f, 1.0f);
+    ((void (*)(void *, V *, int, float, float))pc->vt[3].pfn)(VT_THIS(pc, &pc->vt[3]), &v0, 0, 0.0f, 1.0f);
     pc = py->pc;
-    ((void (*)(void *, V *, int, float, float))pc->vt[3].pfn)((char *)pc + pc->vt[3].d, &v1, 0, px->f74, 1.0f);
+    ((void (*)(void *, V *, int, float, float))pc->vt[3].pfn)(VT_THIS(pc, &pc->vt[3]), &v1, 0, px->f74, 1.0f);
     *pf = __builtin_fabsf(v1.x - v0.x) / px->f74 * px->f78;
 }

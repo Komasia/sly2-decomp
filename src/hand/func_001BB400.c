@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
 typedef struct I { int a; int b; } I;
 typedef struct E { int id; int n; int c; void *a; } E;
 typedef struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x150 - 0x10];
     int c150;
     I *x154;
@@ -42,7 +42,7 @@ void RunHit__FP2LO(P *p)
         else
             p->x168 = 0;
     }
-    ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 0x10, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 0x10, 0, 0, 0, 0);
     if (p->x168 & 1) return;
     pe = &p->ae[p->i];
     RunItems__FP2LOP3BRK(p, p->ae - 1);
@@ -54,8 +54,8 @@ void RunHit__FP2LO(P *p)
         if (++p->x158 >= pe->n) {
             p->x158 = 0;
             if (++p->i >= p->c) {
-                ((void (*)(void *, int, P *))p->vt[4].pfn)((char *)p + p->vt[4].d, 0x10, p);
-                ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+                ((void (*)(void *, int, P *))p->vt[4].pfn)(VT_THIS(p, &p->vt[4]), 0x10, p);
+                ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
                 BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x11, p);
             }
         }

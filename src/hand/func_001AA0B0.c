@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct E { union { qword q[12]; struct { void *x0; int pad[2]; void *xC; char pad2[0xAC - 0x10]; struct E *next; } s; } u; } E;
-struct VTE { short d; short pad; void (*pfn)(void *, void *, int, void *, void *, E **); };
-struct VO { int x0, x4, x8; struct VTE *vt; };
+struct VO { int x0, x4, x8; VTENT *vt; };
 struct O { char pad[0x60]; struct VO *x60; };
 struct K { char pad[0x18]; int x18; };
 struct L { char pad[0x6C]; E *x6C; };
@@ -17,8 +17,8 @@ void MarkOwnContacts__FP3OXAT0P3SOEPP2XPiPvN25(struct S *s, struct O *o, struct 
     E *res = 0;
     E *e;
     struct VO *vo = o->x60;
-    struct VTE *v = &vo->vt[0x1E0 / 8];
-    v->pfn((char *)vo + v->d, k, a4, a5, a6, k->x18 ? &res : pp);
+    VTENT *v = &vo->vt[0x1E0 / 8];
+    ((void (*)(void *, void *, int, void *, void *, E **))v->pfn)(VT_THIS(vo, v), k, a4, a5, a6, k->x18 ? &res : pp);
     if(res) { e=res; do {
         if (PaloXpFilter__FP3ALOUi(((E *)((char *)e + (Index(e,k) << 6)))->u.s.xC, k->x18)) {
             E *n = func_0011CCC0(s->pool);

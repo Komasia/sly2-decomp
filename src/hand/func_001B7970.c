@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VT { short d; short pad; void *pfn; };
-struct LO { char pad[0xC]; struct VT *vt; char pad2[0x28 - 0x10]; unsigned long x28; };
+struct LO { char pad[0xC]; VTENT *vt; char pad2[0x28 - 0x10]; unsigned long x28; };
 struct T { char pad[0x180]; struct LO *po; };
 struct P { char pad[0x13F0]; struct T *p13F0; char pad2[0x1414 - 0x13F4]; float g1414; char pad3[0x1420 - 0x1418]; qword v1420; };
 void func_001B7D20(struct P *p);
@@ -33,7 +33,7 @@ void ReleaseMurrayThrow__FP6MURRAY(struct P *p)
             ThrowGuardHeld__FP2LO(po);
         t = Dist(PosOfLo__FP2LO(po), p->v1420) / p->g1414;
         v = func_001D69F0(PosOfLo__FP2LO(po), p->v1420, func_001F5860(po), t);
-        ((void (*)(void *, qword))po->vt[35].pfn)((char *)po + po->vt[35].d, v);
+        ((void (*)(void *, qword))po->vt[35].pfn)(VT_THIS(po, &po->vt[35]), v);
         SetAloEntryMode__FP3ALOi(po, 2);
     }
 }

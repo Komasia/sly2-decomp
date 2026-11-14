@@ -1,8 +1,8 @@
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
+#include "vtbl.h"
 typedef struct E { int a; int b; } E;
 typedef struct O {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0xEC - 0x10];
     struct X *pxEC;
     char padF0[0x148 - 0xF0];
@@ -43,8 +43,8 @@ void UpdateBreakableContacts__FP3ALO(O *p)
                     break;
                 }
             }
-            ((void (*)(void *, O *))p->vt[54].pfn)((char *)p + p->vt[54].d, pl->po);
-            ((void (*)(void *, O *))pl->po->vt[54].pfn)((char *)pl->po + pl->po->vt[54].d, p);
+            ((void (*)(void *, O *))p->vt[54].pfn)(VT_THIS(p, &p->vt[54]), pl->po);
+            ((void (*)(void *, O *))pl->po->vt[54].pfn)(VT_THIS(pl->po, &pl->po->vt[54]), p);
             FreeSwXpList(g_sw, pl->x0);
             *pl->px8 = 0;
             pl->x0 = 0;

@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 static __inline__ qword Make(float x, float y, float z)
@@ -12,8 +13,7 @@ static __inline__ qword Make(float x, float y, float z)
     return q;
 }
 struct LO;
-typedef struct { short d; short pad; void (*pfn)(struct LO *, M3 *); } VT;
-struct LO { int x0, x4, x8; VT *vt; char pad[0x20 - 0x10]; struct LO *x20; char pad2[0x160 - 0x24]; int x160; };
+struct LO { int x0, x4, x8; VTENT *vt; char pad[0x20 - 0x10]; struct LO *x20; char pad2[0x160 - 0x24]; int x160; };
 extern struct LO *D_003E04F8;
 extern qword g_normalZ;
 struct LO *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
@@ -34,7 +34,7 @@ void func_001A3260(void)
     r.q = Make(-0.2f, 0.3f, -1.0f);
     BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(&m, r.q, g_normalZ);
     c = m;
-    p->vt[30].pfn((struct LO *)((char *)p + p->vt[30].d), &c);
+    ((void (*)(struct LO *, M3 *))p->vt[30].pfn)((struct LO *)VT_THIS(p, &p->vt[30]), &c);
     func_001A3610(p, 255.0f);
     func_001A3630(p, 240.0f);
 }

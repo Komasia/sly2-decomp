@@ -1,16 +1,16 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
 struct MAT { qword a[3]; };
-struct LO { char pad[0xC]; struct VTE *vt; };
+struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
     char p1[0x210 - 0x154]; struct LO *x210;
     char p2[0x230 - 0x214]; float x230; float x234; float x238;
 };
 struct X {
     char pad[0x1C]; struct S *x1C; char p1[0x40 - 0x20]; struct MAT mat;
-    char p2[0xEC - 0x70]; struct VTE *vt; void *xF0; struct S *xF4; int xF8;
+    char p2[0xEC - 0x70]; VTENT *vt; void *xF0; struct S *xF4; int xF8;
 };
 struct M { int n; struct S *p; int pad[14]; };
 extern char g_sw[];
@@ -38,12 +38,12 @@ void SetCoinState__FP2LOi(struct S *p, int n)
         struct X *px = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(g_sw, 9, 0);
         struct LO *plo;
         if (px) {
-            struct VTE *e;
+            VTENT *e;
             px->xF4 = p;
             px->xF0 = D_002C0DA0;
             px->xF8 = 0;
             e = &px->vt[1];
-            ((void (*)(void *, qword, int, float))e->pf)((char *)px + e->d, PosOfLo__FP2LO(p), 0, 1.0f);
+            ((void (*)(void *, qword, int, float))e->pfn)(VT_THIS(px, e), PosOfLo__FP2LO(p), 0, 1.0f);
             px->x1C = p;
             px->mat = *MatJtLo__FP2LO(p);
         } else {
@@ -55,10 +55,10 @@ void SetCoinState__FP2LOi(struct S *p, int n)
             struct M m;
             m.n = 1;
             m.p = p;
-            ((void (*)(void *, struct M *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &m);
+            ((void (*)(void *, struct M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
         }
         n = 2;
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
         ShowCoinCounter__FP2SW(g_sw);
         BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x12, p);
         break;

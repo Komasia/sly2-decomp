@@ -1,9 +1,9 @@
-struct PMF { short delta; short pad; int (*pfn)(void *); };
+#include "vtbl.h"
 struct S { char pad[0x40]; int x40; };
-extern struct PMF D_002A6E88, D_002A6D88, D_002A6E90;
+extern VTENT D_002A6E88, D_002A6D88, D_002A6E90;
 extern char D_002F633C[];
 void SaveToTarget__Fv(void);
-void CreateMemcardThread__FP7MEMCARDii(void *t, struct PMF pmf);
+void CreateMemcardThread__FP7MEMCARDii(void *t, VTENT pmf);
 void func_001ACB58(struct S *s, int n);
 // name: SafeHouse port (CardYes)
 void CardYes__FP7CARDDLG(struct S *s)

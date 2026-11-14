@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; int i[4]; } U;
 struct M3 { qword r[3]; };
-struct VE { short d; short pad; void *pfn; };
 struct X { char pad[0x80]; U v80; };
 struct SMP { float a,b,c,d; };
 struct P {
- char pad[0xC]; struct VE *vt;
+ char pad[0xC]; VTENT *vt;
  char pad1[0xE8-0x10]; struct X *xE8;
  char pad2[0x190-0xEC]; qword v190;
  char pad3[0x1B0-0x1A0]; struct M3 m1B0;
@@ -21,7 +21,7 @@ void ApplyWaterToAlo__FP3ALOT0(struct P *p,void *o);
 qword PosOfLo__FP2LO(struct P *p);
 float GSmoothA(float pos,float vel,float target,float dt,struct SMP *s,float *result) asm("GSmoothA__FffffP4SMPAPf");
 void AccelAloPos__FP3ALOG9VU_VECTOR(struct P *p,qword v);
-static inline qword GetVel(struct P *p) { return ((qword (*)(void *))p->vt[33].pfn)((char *)p+p->vt[33].d); }
+static inline qword GetVel(struct P *p) { return ((qword (*)(void *))p->vt[33].pfn)(VT_THIS(p, &p->vt[33])); }
 static inline qword Mul(struct M3 *m,const qword *v) { qword r; __asm__("vmulax.xyz ACC,%2,%1x\n\tvmadday.xyz ACC,%3,%1y\n\tvmaddz.xyz %0,%4,%1z" : "=j"(r) : "j"(*v),"j"(m->r[0]),"j"(m->r[1]),"j"(m->r[2]));return r; }
 static inline qword Add(qword a,qword b) { qword r; __asm__("vadd.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }
 static inline qword Sub(qword a,qword b) { qword r; __asm__("vsub.xyzw %0,%1,%2" : "=j"(r) : "j"(a),"j"(b));return r; }

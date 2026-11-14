@@ -1,6 +1,6 @@
-struct VTE { short d; short pad; void *pfn; };
+#include "vtbl.h"
 struct S {
-    void *x0; int x4, x8; struct VTE *vt; char pad[0x18];
+    void *x0; int x4, x8; VTENT *vt; char pad[0x18];
     long b0 : 52; long st : 4; long b1 : 8;
     float x30; char pad2[0xC]; int x40;
 };
@@ -10,10 +10,10 @@ int PrefFindBinding(void *p, int a, int b) asm("PrefFindBinding__6CFrameUii");
 void func_001A6CA8(struct S *s, int n);
 void PostLoLoad__FP2LO(struct S *s)
 {
-    struct VTE *e;
+    VTENT *e;
     func_001A5D98(s);
     e = &s->vt[3];
-    ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)s + e->d, 0, 1, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))e->pfn)(VT_THIS(s, e), 0, 1, 0, 0, 0);
     if (s->x0 && PrefFindBinding(s->x0, 1, 1)) {
         int v;
         if (s->st == 2)

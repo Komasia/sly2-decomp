@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; char pad2[0x18]; unsigned long f28; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x18]; unsigned long f28; };
 struct T { char pad[0x180]; struct O *po; };
 struct S { char pad[0x13F0]; struct T *pt; };
 extern qword D_002C09D0, D_002A2DD0;
@@ -20,8 +20,8 @@ void PutDownMurrayCarry__FP6MURRAY(struct S *p)
     if ((int)(po->f28 >> 60) & 1) {
         if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x38)) ThrowGuardHeld__FP2LO(po);
         q = ConvertVec__FP2LOT0G9VU_VECTOR(p, 0, D_002C09D0);
-        ((void (*)(void *, qword))po->vt[35].pfn)((char *)po + po->vt[35].d, q);
-        ((void (*)(void *, qword))po->vt[36].pfn)((char *)po + po->vt[36].d, D_002A2DD0);
+        ((void (*)(void *, qword))po->vt[35].pfn)(VT_THIS(po, &po->vt[35]), q);
+        ((void (*)(void *, qword))po->vt[36].pfn)(VT_THIS(po, &po->vt[36]), D_002A2DD0);
         SetAloEntryMode__FP3ALOi(po, 3);
     }
 }

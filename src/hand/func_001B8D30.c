@@ -1,13 +1,13 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 struct CLIP; struct ANIMATION;
 struct COMPONENT_DATA;
 struct COMPONENT { struct COMPONENT_DATA *value; };
 struct SCRIPT { int opaque; struct CLIP *clip; char rest[0x14]; };
 struct M3 { qword row[3]; };
 extern qword D_002A2DD0;
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; char pad1[0x40 - 0x10]; qword v40; char rest[0x20]; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0x40 - 0x10]; qword v40; char rest[0x20]; };
 union V3 { qword q; struct { float x,y,z,w; } value; };
 static __inline__ void Zero(union V3 *pv) { pv->value.z = 0; pv->value.y = 0; pv->value.x = 0; }
 struct P { char pad[0x190]; union V3 v190; char pad1[0x1030 - 0x1A0]; struct ANIMATION *x1030; struct COMPONENT x1034;
@@ -25,8 +25,6 @@ typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char COMPONENT_value_Offset[FIELD_OFFSET(COMPONENT,value)==0?1:-1];
 typedef char SCRIPT_clip_Offset[FIELD_OFFSET(SCRIPT,clip)==4?1:-1];
 typedef char M3_row_Offset[FIELD_OFFSET(M3,row)==0?1:-1];
-typedef char VE_d_Offset[FIELD_OFFSET(VE,d)==0?1:-1];
-typedef char VE_pfn_Offset[FIELD_OFFSET(VE,pfn)==4?1:-1];
 typedef char O_vt_Offset[FIELD_OFFSET(O,vt)==12?1:-1];
 typedef char O_v40_Offset[FIELD_OFFSET(O,v40)==64?1:-1];
 typedef char P_v190_Offset[FIELD_OFFSET(P,v190)==400?1:-1];
@@ -45,7 +43,6 @@ typedef char P_x1908_Offset[FIELD_OFFSET(P,x1908)==6408?1:-1];
 typedef char COMPONENT_Size[sizeof(struct COMPONENT)==4?1:-1];
 typedef char SCRIPT_Size[sizeof(struct SCRIPT)==28?1:-1];
 typedef char M3_Size[sizeof(struct M3)==48?1:-1];
-typedef char VE_Size[sizeof(struct VE)==8?1:-1];
 typedef char O_Size[sizeof(struct O)==112?1:-1];
 typedef char P_Size[sizeof(struct P)==6416?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
@@ -58,7 +55,7 @@ void SetMurrayBerserk__FP6MURRAYi(struct P *p, int st)
     if (st == p->x1840) return;
     if (p->x1840 == 2) {
         StopK2__FP6K2PLAY(p->x1900);
-        ((void (*)())p->x1900->vt[2].pfn)((char *)p->x1900 + p->x1900->vt[2].d);
+        ((void (*)())p->x1900->vt[2].pfn)(VT_THIS(p->x1900, &p->x1900->vt[2]));
         p->x1900 = 0;
     }
     p->x1840 = st;

@@ -1,11 +1,11 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern int D_002E1E40;
 extern qword D_002A2DD0;
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; char pad1[0x38 - 0x10]; int x38; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0x38 - 0x10]; int x38; };
 struct S { char pad[0x1018]; int x1018; float f101C; int x1020; struct O *x1024; int x1028; int x102C; int x1030; int x1034; };
-#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 void RetractAsega__FP5ASEGA(struct O *o);
 void DeleteCtrl__FPP4CTRL(int *p);
 int FGuardState(struct S *p, int n) asm("FGuardState__FP5GUARDi");

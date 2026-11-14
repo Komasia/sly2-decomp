@@ -1,10 +1,10 @@
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct T { char pad[0x180]; struct O *po; };
 struct P { char pad[0xF1C]; struct O *xF1C; char pad2[0x13F0 - 0xF20]; struct T *x13F0; };
 void func_00205D10(struct P *p, int b);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
-#define VCALL(o, n, ...) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d, __VA_ARGS__)
+#define VCALL(o, n, ...) ((void (*)())(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), __VA_ARGS__)
 void func_001B81B8(struct P *p, int b)
 {
     struct O *o;

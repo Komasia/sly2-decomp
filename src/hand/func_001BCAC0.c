@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
-struct VT { short d; short pad; void *pfn; };
-struct X { char pad[0xC]; struct VT *vt; char pad2[0xF4 - 0x10]; qword *apos; };
+struct X { char pad[0xC]; VTENT *vt; char pad2[0xF4 - 0x10]; qword *apos; };
 int ISegCrvS__FP3CRVPfT1f(struct X *p, float g, int a, int b);
 int IpolyWrap__FP7NAVPOLYi(struct X *p, int i);
 void EvalCrvS(struct X *p, qword *pv, float g, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
@@ -35,7 +35,7 @@ int NPolyClearSide__FP7NAVPOLYP9NAVREGIONiff(struct X *p, void *pv, int fRev, fl
             iEnd = i1;
         }
         i = a;
-        m = *((M4 *(*)(void *))p->vt[31].pfn)((char *)p + p->vt[31].d);
+        m = *((M4 *(*)(void *))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
         EvalCrvS(p, &v0, g0, 0);
         q = v0;
         while (i != iEnd) {

@@ -1,14 +1,14 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
-struct VTE { short delta,pad; void (*fn)(void *,qword,float,int); };
 struct LO { char pad[0xB0]; qword scale; };
 struct S {
     char pad[0x5C]; struct LO *lo;
-    char pad60[0xEC-0x60]; struct VTE *vt; void *emit;
+    char pad60[0xEC-0x60]; VTENT *vt; void *emit;
     char padF4[0x1A0-0xF4]; float probability; int pad1A4; void *owner;
     int pad1AC; void *left; int pad1B4; void *right; int previous; float last;
 };
-struct Q { char pad[0x18]; float duration; void *owner; char pad20[0xEC-0x20]; struct VTE *vt; void *emit; };
+struct Q { char pad[0x18]; float duration; void *owner; char pad20[0xEC-0x20]; VTENT *vt; void *emit; };
 struct CAMERA { char pad[0x60]; qword a,b; };
 #include "clock.h"
 extern struct CAMERA g_cm;
@@ -54,10 +54,10 @@ void UpdatePickupGlint__FP2LO(struct S *p)
                 if(!q)goto changed;
                 p->last=g_clock.t;
                 {
-                    struct VTE *method=&q->vt[1];
-                    void *ctx=(char *)q+method->delta;
+                    VTENT *method=&q->vt[1];
+                    void *ctx=VT_THIS(q, method);
                     qword pos=PosOfLo__FP2LO(emitter);
-                    method->fn(ctx,pos,1,0);
+                    ((void (*)(void *,qword,float,int))method->pfn)(ctx,pos,1,0);
                 }
                 {
                     void *owner=p->owner;

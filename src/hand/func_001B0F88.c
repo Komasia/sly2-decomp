@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M { int k; int pad[3]; qword a; qword b; qword c; };
-struct VTE { short d; short pad; void (*pfn)(void *, struct M *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct A { char pad[0x20]; qword q20; qword q30; int pad1; int n44; };
 struct S { char pad[0x1C8]; struct O *p1C8; char pad1[0x220 - 0x1CC]; int n220; };
 int FAbsorbSoWkr__FP2SOP3WKR(struct S *p, struct A *pa);
@@ -17,7 +17,7 @@ int FAcceptBirdContact__FP3ALOP5CTMSG(struct S *p, struct A *pa)
             m.k = 6;
             m.b = pa->q20;
             m.a = pa->q30;
-            p->p1C8->vt[51].pfn((char *)p->p1C8 + p->p1C8->vt[51].d, &m);
+            ((void (*)(void *, struct M *))p->p1C8->vt[51].pfn)(VT_THIS(p->p1C8, &p->p1C8->vt[51]), &m);
         }
     }
     return r;

@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct P;
-typedef struct { short d; short pad; void (*pfn)(void *, ...); } VT;
 typedef struct E { int x0; int x4; int x8; int xc; qword x10; } E;
 struct S58 { char pad[0x70]; qword x70; };
 struct SE8 { char pad[0x80]; qword x80; };
 struct P {
-    char pad0[0xC]; VT *vt; char pad1[0x58-0x10]; struct S58 *x58; char pad2[0xE8-0x5C]; struct SE8 *xe8;
+    char pad0[0xC]; VTENT *vt; char pad1[0x58-0x10]; struct S58 *x58; char pad2[0xE8-0x5C]; struct SE8 *xe8;
     char pad3[0x1B0-0xEC]; char x1b0[0x240-0x1B0]; qword x240; char pad4[0x2C0-0x250]; char x2c0[0x490-0x2C0];
     qword x490; qword x4a0; char pad5[0x9E0-0x4B0]; char x9e0[4]; int x9e4;
 };
@@ -38,10 +38,10 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
             float g = TJumpTo__FG9VU_VECTORT0ffff(VSub(r, p->x58->x70), p->xe8->x80, 1000.0f, -1000.0f, 1.0f, -1.0f);
             if (D_002BF940 < g) {
                 int save = p->x9e4;
-                ((void (*)(void *, qword))p->vt[29].pfn)((char *)p + p->vt[29].d, VSub(r, p->x240));
+                ((void (*)(void *, qword))p->vt[29].pfn)(VT_THIS(p, &p->vt[29]), VSub(r, p->x240));
                 p->x9e4 = save;
                 func_002046B0(p, g_cm.x60);
-                ((void (*)(void *, void *))p->vt[30].pfn)((char *)p + p->vt[30].d, p->x1b0);
+                ((void (*)(void *, void *))p->vt[30].pfn)(VT_THIS(p, &p->vt[30]), p->x1b0);
                 CutCm(&g_cm);
                 SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xB, 0, 0);
                 if (e.x4) {

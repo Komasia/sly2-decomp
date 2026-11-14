@@ -1,4 +1,4 @@
-struct PMF { short delta; short index; void (*pfn)(void *); };
+#include "vtbl.h"
 struct P { char pad[0x58]; int x58; float x5C; int pad2; int x64; };
 struct S { char pad[0x10]; void *x10; char pad2[0x24 - 0x14]; struct P *x24; char pad3[0x40 - 0x28]; int x40; int x44; int pad4; int x4C; };
 struct MC { char pad[8]; int x8; char pad2[0xFD58 - 0xC]; int xFD58; char pad3[0xFD6C - 0xFD5C]; int xFD6C; };
@@ -7,14 +7,14 @@ extern struct MC D_002E65E0;
 extern char g_sw[];
 extern char D_003D9ED0[];
 extern char D_002F633C[];
-extern const struct PMF D_002A6D88;
+extern const VTENT D_002A6D88;
 int func_0020E040(void *g);
 int NCardPrompt__FPv(struct S *s);
 int GrfbtnTakePressedJoy(void *p, int n) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void CardYes__FP7CARDDLG(struct S *s);
 void CardNo__FP7CARDDLG(struct S *s);
 int FMemcardThreadValid(void *p) asm("FMemcardThreadValid__FP7MEMCARD");
-void CreateMemcardThread__FP7MEMCARDii(void *p, struct PMF pmf);
+void CreateMemcardThread__FP7MEMCARDii(void *p, VTENT pmf);
 void func_001ACB58(struct S *s, int n);
 void func_001ACBB8(struct S *s);
 void func_001660F8(void);

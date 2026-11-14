@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int, int, int, int, int); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x20]; float x30; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; float x30; };
 extern float g_clock;
 // name: SafeHouse port (UpdateLo)
 void UpdateLo__FP2LO(struct O *p)
 {
     if (p->x30 <= g_clock) {
-        struct VTE *e = &p->vt[3];
-        e->pfn((char *)p + e->d, 1, 1, 0, 0, 0);
+        VTENT *e = &p->vt[3];
+        ((void (*)(void *, int, int, int, int, int))e->pfn)(VT_THIS(p, e), 1, 1, 0, 0, 0);
     }
 }

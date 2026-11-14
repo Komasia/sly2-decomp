@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct VE { short d; short pad; void (*pfn)(); };
-struct S { char pad[0xC]; struct VE *vt; char pad1[0x1C4 - 0x10]; DL dl; char pad2[0x1D8 - 0x1D0]; int x1D8; };
+struct S { char pad[0xC]; VTENT *vt; char pad1[0x1C4 - 0x10]; DL dl; char pad2[0x1D8 - 0x1D0]; int x1D8; };
 extern char D_003E1A4C[], D_003E1A40[];
 void RemoveDlEntry__FP2DLPv(DL *pdl, struct S *pv);
 int FFindDlEntry__FP2DLPv(void *pdl, struct S *pv);
@@ -32,7 +32,7 @@ void DissolveMerged__FP2LO(struct S *p)
         pv->x1D8 = 0;
         if (!FFindDlEntry__FP2DLPv(D_003E1A4C, pv)) AppendDlEntry__FP2DLPv(D_003E1A4C, pv);
     }
-    ((void (*)(void *))p->vt[9].pfn)((char *)p + p->vt[9].d);
+    ((void (*)(void *))p->vt[9].pfn)(VT_THIS(p, &p->vt[9]));
     AppendDlEntry__FP2DLPv(D_003E1A40, p);
     s_pdliFirst = dli.m_pdliNext;
 }

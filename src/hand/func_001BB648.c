@@ -1,12 +1,12 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
-typedef struct SO { char pad[0xC]; VTE *vt; } SO;
+typedef struct SO { char pad[0xC]; VTENT *vt; } SO;
 typedef struct I { int k; int v; } I;
 typedef struct E { int id; int n; int c; I *a; } E;
 typedef struct MSG { int a; SO *ps; char pad[0x38]; } MSG;
 typedef struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x158 - 0x10];
     int x158;
     char pad15C[0x168 - 0x15C];
@@ -48,10 +48,10 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
             psPrev = ps;
             break;
         case 0:
-            ((void (*)(void *))ps->vt[8].pfn)((char *)ps + ps->vt[8].d);
+            ((void (*)(void *))ps->vt[8].pfn)(VT_THIS(ps, &ps->vt[8]));
             break;
         case 1:
-            ((void (*)(void *))ps->vt[9].pfn)((char *)ps + ps->vt[9].d);
+            ((void (*)(void *))ps->vt[9].pfn)(VT_THIS(ps, &ps->vt[9]));
             break;
         case 2:
             ShowAloGlobs__FP3ALOi(p, pi->v);
@@ -70,7 +70,7 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
                 MSG msg;
                 msg.a = 1;
                 msg.ps = psPrev ? psPrev : ps;
-                ((void (*)(void *, MSG *))ps->vt[51].pfn)((char *)ps + ps->vt[51].d, &msg);
+                ((void (*)(void *, MSG *))ps->vt[51].pfn)(VT_THIS(ps, &ps->vt[51]), &msg);
             }
             break;
         case 8:
@@ -90,7 +90,7 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
         case 11: {
             int *apv[1];
             apv[0] = &pi->v;
-            ((void (*)(void *, int, int, int, int **, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 4, 0, 1, apv, 0);
+            ((void (*)(void *, int, int, int, int **, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 4, 0, 1, apv, 0);
             break;
         }
         case 12:

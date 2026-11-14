@@ -1,9 +1,9 @@
-struct VE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct L { char pad[0x20]; int x20; };
-struct S { char pad[0xC]; struct VE *vt; char pad1[0xE0 - 0x10]; int c; struct O *ao[4]; int af[4]; char pad2[0x128 - 0x104]; struct L *x128; };
-#define VCALL(o, n, args...) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d, args)
-#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+struct S { char pad[0xC]; VTENT *vt; char pad1[0xE0 - 0x10]; int c; struct O *ao[4]; int af[4]; char pad2[0x128 - 0x104]; struct L *x128; };
+#define VCALL(o, n, args...) ((void (*)())(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), args)
+#define VCALL0(o, n) ((void (*)())(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (GiveRtgt)
 void GiveRtgt__FPv(struct S *p)
 {

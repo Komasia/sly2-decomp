@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct VT { short d; short pad; void *pfn; };
 struct CURVE;
-struct P { char pad0[0xC]; struct VT *vt; char pad1[0x16C - 0x10]; struct CURVE *p16C; struct CURVE *p170; float g174; float g178;
+struct P { char pad0[0xC]; VTENT *vt; char pad1[0x16C - 0x10]; struct CURVE *p16C; struct CURVE *p170; float g174; float g178;
     char pad2[0x1CC - 0x17C]; float g1CC; float g1D0; char pad3[0x220 - 0x1D4]; int x220; };
 extern qword D_002A2DA0;
 qword PosOfLo__FP2LO(void *p);
@@ -26,10 +26,7 @@ static __inline__ qword VLen(qword c)
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char VU_Size[sizeof(VU)==16?1:-1];
-typedef char VT_Size[sizeof(struct VT)==8?1:-1];
 typedef char P_PrefixSize[sizeof(struct P)==0x224?1:-1];
-typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
-typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_p16C_Offset[FIELD_OFFSET(P,p16C)==364?1:-1];
 typedef char P_p170_Offset[FIELD_OFFSET(P,p170)==368?1:-1];
@@ -92,6 +89,6 @@ void MoveBirdAlongPath__FP2LO(struct P *p)
         ub.q = b;
         __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(n), "j"(ub.q));
         ur.q = r;
-        ((void (*)(void *, qword))p->vt[35].pfn)((char *)p + p->vt[35].d, ur.q);
+        ((void (*)(void *, qword))p->vt[35].pfn)(VT_THIS(p, &p->vt[35]), ur.q);
     }
 }

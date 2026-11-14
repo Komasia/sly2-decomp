@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+struct LO { char pad[0xC]; VTENT *vt; };
 struct O { char pad[0x30]; qword q30; char p1[0xB0 - 0x40]; qword qB0; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x58 - 0x10]; struct O *x58;
     char p1[0x150 - 0x5C]; int x150; float x154; int p158; int x15C; float x160; void *x164; struct LO *x168; struct LO *x16C;
     qword q170; qword q180; qword q190;
@@ -45,7 +45,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
         break;
     case 2:
         p->x1CC = D_002A773C;
-        ((void (*)(void *))p->vt[9].pf)((char *)p + p->vt[9].d);
+        ((void (*)(void *))p->vt[9].pfn)(VT_THIS(p, &p->vt[9]));
         {
             struct LO *r = PproxyOfInstance__FP2LO(p);
             if (r)
@@ -59,10 +59,10 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
     }
     switch(n){
     case 0:case 4:case 5:
-        q=p->x16C;if(q)((void(*)(void*))q->vt[8].pf)((char*)q+q->vt[8].d);
+        q=p->x16C;if(q)((void(*)(void*))q->vt[8].pfn)(VT_THIS(q, &q->vt[8]));
         break;
     default:
-        q=p->x16C;if(q)((void(*)(void*))q->vt[9].pf)((char*)q+q->vt[9].d);
+        q=p->x16C;if(q)((void(*)(void*))q->vt[9].pfn)(VT_THIS(q, &q->vt[9]));
         break;
     }
     p->x150 = n;
@@ -70,7 +70,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
     if (anim != -1) {
         if (!p->x168) {
             p->x168 = func_001F0380(p->x164, p, anim, 0);
-            ((void (*)(void *))p->x168->vt[1].pf)((char *)p->x168 + p->x168->vt[1].d);
+            ((void (*)(void *))p->x168->vt[1].pfn)(VT_THIS(p->x168, &p->x168->vt[1]));
             if (p->x160 > 0.0f)
                 AdvanceSma__FP3SMAf(p->x168, p->x160);
         } else {
@@ -78,7 +78,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
         }
     } else if (p->x168) {
         RetractSma__FP3SMA(p->x168);
-        ((void (*)(void *))p->x168->vt[2].pf)((char *)p->x168 + p->x168->vt[2].d);
+        ((void (*)(void *))p->x168->vt[2].pfn)(VT_THIS(p->x168, &p->x168->vt[2]));
         p->x168 = 0;
     }
 }
