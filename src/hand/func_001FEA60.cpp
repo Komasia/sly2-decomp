@@ -6,7 +6,7 @@ extern LM g_lmZeroOne;
 extern PMF D_002A8298,D_002A82A0;
 extern "C" float GLimitLm(LM *,float) asm("GLimitLm__FP2LMf");
 extern "C" void *s1_memset(void *,int,unsigned int) asm("memset");
-extern "C" void func_002321E8(int,int);
+extern "C" void snd_SetMasterVolume(int,int);
 static inline X *ReadReceiver(X **pp)
 {
     register X *receiver __asm__("$4");
@@ -41,7 +41,7 @@ extern "C" void SetSoundChannelVolume__FP8SOUNDMGRiif(P *p,int channel,int categ
     int next=(int)(input*1024.0f);
     if((int)(p->outputs[channel]*1024.0f)!=next){
         p->outputs[channel]=input;
-        func_002321E8(channel,next);
+        snd_SetMasterVolume(channel,next);
     }
 }
 

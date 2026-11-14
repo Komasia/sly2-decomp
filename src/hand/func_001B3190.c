@@ -1,12 +1,12 @@
 struct S { int a; char pad[0x9C]; int xa0; int xa4; };
 void snd_CloseMovieSound(void);
-void func_002321E8(int n, int v);
-void func_00232468(unsigned int m);
+void snd_SetMasterVolume(int n, int v);
+void snd_ContinueAllSoundsInGroup(unsigned int m);
 void func_001B3190(struct S *p)
 {
     p->a = 0;
     snd_CloseMovieSound();
-    func_002321E8(2, p->xa0);
-    func_002321E8(0x10, p->xa4);
-    func_00232468(0xFFFFFFFF);
+    snd_SetMasterVolume(2, p->xa0);
+    snd_SetMasterVolume(0x10, p->xa4);
+    snd_ContinueAllSoundsInGroup(0xFFFFFFFF);
 }

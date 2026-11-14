@@ -1,4 +1,4 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
-void func_00232838(int, int, void *, int, int);
-void func_00232408(void) { func_00232838(0x18, 0, 0, 0, 0); }
+void snd_SendIOPCommandNoWait__FiiPcPFiUl_vUl(int, int, void *, int, int);
+void func_00232408(void) { snd_SendIOPCommandNoWait__FiiPcPFiUl_vUl(0x18, 0, 0, 0, 0); }

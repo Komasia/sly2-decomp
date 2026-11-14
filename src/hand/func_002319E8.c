@@ -17,7 +17,7 @@ extern char D_002AA100[], D_002AA128[];
 void printf(const char *, ...);
 void sceSifInitRpc(int);
 int sceSifBindRpc(void *, int, int);
-int func_002325E0(int, int, void *);
+int snd_SendIOPCommandAndWait__FiiPc(int, int, void *);
 
 void func_002319E8(int flags)
 {
@@ -67,5 +67,5 @@ void func_002319E8(int flags)
     buf[0] = (int)gStats;
     buf[1] = flags;
     gCommandBuffeBytesAvail[1] = 0xFFC;
-    func_002325E0(0, 8, buf);
+    snd_SendIOPCommandAndWait__FiiPc(0, 8, buf);
 }

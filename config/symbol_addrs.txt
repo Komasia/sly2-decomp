@@ -3171,3 +3171,24 @@ FindAddress = 0x239598; // type:func
 abort = 0x240328; // type:func
 _GetGsDxDyOffset = 0x240C28; // type:func
 _impure_ptr = 0x2C49D4; // type:data
+
+// ---- R12 batch 3: 989snd wrappers by IOP command number (Sly 1 989snd.c), newlib tolower / strcasecmp ----
+snd_SendIOPCommandAndWait__FiiPc = 0x2325E0; // type:func
+snd_SendIOPCommandNoWait__FiiPcPFiUl_vUl = 0x232838; // type:func
+snd_ResolveBankXREFS = 0x232188; // type:func
+snd_UnloadBank = 0x2321B8; // type:func
+snd_SetMasterVolume = 0x2321E8; // type:func
+snd_GetMasterVolume = 0x232220; // type:func
+snd_SetPlaybackMode = 0x232250; // type:func
+snd_IsSoundALooper = 0x2322A0; // type:func
+snd_StopSound = 0x232350; // type:func
+snd_PauseSound = 0x2323A8; // type:func
+snd_ContinueSound = 0x2323D8; // type:func
+snd_PauseAllSoundsInGroup = 0x232438; // type:func
+snd_ContinueAllSoundsInGroup = 0x232468; // type:func
+snd_SoundIsStillPlaying_CB = 0x232498; // type:func
+snd_AutoVol = 0x232568; // type:func
+snd_StreamSafeCheckCDIdle = 0x232D80; // type:func
+snd_StartMovieSound = 0x232F88; // type:func
+tolower = 0x2345B8; // type:func
+strcasecmp = 0x2342D0; // type:func

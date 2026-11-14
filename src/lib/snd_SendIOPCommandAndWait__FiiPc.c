@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// name: Sly 1 989snd.c (same mangled helper; called with (command, size, data) by the waited wrappers)
 extern int gCommBusy, gCommandFillBuffer, gCaching, D_002C46B8;
 extern int *gSndCommandBuffePtr[2];
 extern unsigned char D_00443880[];
@@ -17,7 +18,7 @@ int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 int snd_GotReturns__Fv(void);
 void snd_SendCurrentBatch__Fv(void);
 
-int func_002325E0(int cmd, int size, unsigned char *buf)
+int snd_SendIOPCommandAndWait__FiiPc(int cmd, int size, unsigned char *buf)
 {
     int i;
     int ret;

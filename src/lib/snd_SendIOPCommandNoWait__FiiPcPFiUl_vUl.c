@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+// name: Sly 1 989snd.c (same mangled helper; (command, size, data, done, u_data))
 typedef struct CB { void (*fn)(int, long); int pad; long arg; } CB;
 extern int gCommBusy, gCommandFillBuffer, gCaching, D_002C46B8;
 extern int *gSndCommandBuffePtr[2];
@@ -17,7 +18,7 @@ int sceSifCheckStatRpc(void *);
 int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 void snd_PostMessage__Fv(void);
 
-void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long), long arg)
+void snd_SendIOPCommandNoWait__FiiPcPFiUl_vUl(int cmd, int size, unsigned char *buf, void (*fn)(int, long), long arg)
 {
     int len;
     int tries;
