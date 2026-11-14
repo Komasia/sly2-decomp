@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VTE { short d; short pad; qword (*pfn)(void *); } VTE;
-typedef struct VT { VTE a[64]; } VT;
+typedef struct VT { VTENT a[64]; } VT;
 typedef struct E { struct P *p; void *x; int pad[14]; } E;
 typedef struct Q { int x0, x4; E ae[2]; char pad88[0x24]; struct Q *pqNext; } Q;
 #define AE(q) ((q)->ae)
@@ -146,8 +146,8 @@ void ProjectileContacts__FP3ALO(P *p)
     case 0:
     case 2: {
         qword posT = *(qword *)AE(pqBest)[0].pad;
-        VTE *pe = &p->pvt->a[33];
-        qword v = pe->pfn((char *)p + pe->d);
+        VTENT *pe = &p->pvt->a[33];
+        qword v = ((qword (*)(void *))pe->pfn)(VT_THIS(p, pe));
         register qword n __asm__("vf1");
         register qword kDef __asm__("$6");
         qword l;

@@ -1,9 +1,9 @@
 /* LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream (Claude agent, laneC11 2026-10-23): matched from wip v3. One commented register pin (pbis in s5). The plo1->x50 = 1 store is written in both arms of `if (cid == 0x84)`: gcc cross-jumps them and leaves the dead `li v1,0x84` the target has. */
-struct VT { short d; short pad; void *f; };
-struct IF { struct VT *vt; int x4; int x8; };
-struct LO { char pad[0xC]; struct VT *vt; char pad2[0x50 - 0x10]; int x50; };
+#include "vtbl.h"
+struct IF { VTENT *vt; int x4; int x8; };
+struct LO { char pad[0xC]; VTENT *vt; char pad2[0x50 - 0x10]; int x50; };
 struct G { char pad[0x3F0C]; int x3F0C; int x3F10; };
-extern struct VT D_002CBE38[];
+extern VTENT D_002CBE38[];
 extern struct G g_sw;
 int S16Read(void *pbis) asm("S16Read__18CBinaryInputStream");
 int S8Read(void *pbis) asm("S8Read__18CBinaryInputStream");
@@ -19,8 +19,8 @@ int func_0015E988(int, int);
 struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
 void LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
 
-#define VCALL1(p, n, a) ((void (*)(void *, void *))(void*)(p)->vt[n].f)((char *)(p) + (p)->vt[n].d, a)
-#define VCALL2(p, n, a, b) ((void (*)(void *, int, void *))(void*)(p)->vt[n].f)((char *)(p) + (p)->vt[n].d, a, b)
+#define VCALL1(p, n, a) ((void (*)(void *, void *))(void*)(p)->vt[n].pfn)(VT_THIS((p), &(p)->vt[n]), a)
+#define VCALL2(p, n, a, b) ((void (*)(void *, int, void *))(void*)(p)->vt[n].pfn)(VT_THIS((p), &(p)->vt[n]), a, b)
 
 static inline int FList(int k) { return k > 0 || k < -2; }
 

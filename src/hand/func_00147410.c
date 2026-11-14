@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 struct X14 { struct LO *plo; };
-struct P { char pad[0xC]; struct VTE *vt; char pad1[0x14 - 0x10]; struct X14 *px14; char pad2[0x150 - 0x18]; int state; float tState; char pad3[0x160 - 0x158]; void *p160; };
+struct P { char pad[0xC]; VTENT *vt; char pad1[0x14 - 0x10]; struct X14 *px14; char pad2[0x150 - 0x18]; int state; float tState; char pad3[0x160 - 0x158]; void *p160; };
 struct CLOCK { char pad[0x3C]; float t3C; };
 extern struct CLOCK g_clock;
 extern struct P *D_002DD644;
@@ -23,12 +23,12 @@ void func_00147410(struct P *p, int state)
         SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 0);
         SetClockFactor__FP5CLOCKif(&g_clock, 8, 0.0f);
         PauseGame__FP9GAMEPAUSEi(g_sw, 0);
-        p->vt[8].pfn((char *)p + p->vt[8].d);
+        ((void (*)(void *))p->vt[8].pfn)(VT_THIS(p, &p->vt[8]));
         if (!func_001A61A0(p)) {
             struct LO *plo;
             AppendDlEntry__FP2DLPv(g_sw + 0x2C, p->px14);
             plo = p->px14->plo;
-            plo->vt[23].pfn((char *)plo + plo->vt[23].d);
+            ((void (*)(void *))plo->vt[23].pfn)(VT_THIS(plo, &plo->vt[23]));
         }
         break;
     case 3:
@@ -43,7 +43,7 @@ void func_00147410(struct P *p, int state)
         SetClockFactor__FP5CLOCKif(&g_clock, 8, 1.0f);
         SetSoundMgrFlags__FP8SOUNDMGRUii(D_003DD040, 2, 1);
         ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
-        p->vt[9].pfn((char *)p + p->vt[9].d);
+        ((void (*)(void *))p->vt[9].pfn)(VT_THIS(p, &p->vt[9]));
         break;
     case 3:
         if (p->p160) SetAsegaAsegSpeed__FP5ASEGAf(p->p160, 0.0f);

@@ -1,15 +1,15 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 void Enter__5AIJOB(void *p);
 void SetState__16JOBBENTLEYATTACKi(void *p, int n);
 void func_001461F8(char *p)
 {
     struct O *o;
-    struct VTE *e;
+    VTENT *e;
     Enter__5AIJOB(p);
     SetState__16JOBBENTLEYATTACKi(p, 0);
     o = *(struct O **)(p + 0x10);
     e = &o->vt[95];
-    ((void (*)(void *, int, int, int, int))e->pfn)((char *)o + e->d, 4, *(int *)(p + 0x38), 4, *(int *)(p + 0x38));
+    ((void (*)(void *, int, int, int, int))e->pfn)(VT_THIS(o, e), 4, *(int *)(p + 0x38), 4, *(int *)(p + 0x38));
     *(int *)(*(char **)(p + 0x10) + 0x10E0) |= 1;
 }

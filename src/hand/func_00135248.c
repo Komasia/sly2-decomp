@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void *pfn; };
-struct VO { char pad[0xC]; struct VTE *vt; };
+struct VO { char pad[0xC]; VTENT *vt; };
 struct ASEG { char pad[0x74]; float g74; };
 struct ASEGP { int x0; struct ASEG *pasega; };
 struct X1030 { char pad[0x14]; struct ASEG *pasega; char pad1[0x1C - 0x18]; float g1C; };
 struct P {
-    char pad[0xC]; struct VTE *vt; char pad0[0x58 - 0x10]; void *p58; void *p5C;
+    char pad[0xC]; VTENT *vt; char pad0[0x58 - 0x10]; void *p58; void *p5C;
     char pad1[0x190 - 0x60]; qword q190; float g1A0; char pad2[0x2C0 - 0x1A4]; char a2C0[0x4C0 - 0x2C0];
     char a4C0[8]; int x4C8; char pad3[0xDF0 - 0x4CC]; char aDF0[0xF00 - 0xDF0]; char aF00[0xF50 - 0xF00];
     char aF50[0x1028 - 0xF50]; void *p1028; void *p102C; struct X1030 *p1030; int x1034;
@@ -39,8 +39,8 @@ void ClearSmaHandle__FPP3SMA(void *);
 void ApplyAsegCur(struct ASEG *, struct P *, int, void *, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 void ReplaceSmaHandleMask__FP2SMi3OIDiUiPP3SMA(void *, struct P *, int, int, int, void *);
 
-#define VCALL0(p, n) ((void (*)(void *))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d)
-#define VCALL1(p, n, a) ((void (*)(void *, int))(p)->vt[n].pfn)((char *)(p) + (p)->vt[n].d, a)
+#define VCALL0(p, n) ((void (*)(void *))(p)->vt[n].pfn)(VT_THIS((p), &(p)->vt[n]))
+#define VCALL1(p, n, a) ((void (*)(void *, int))(p)->vt[n].pfn)(VT_THIS((p), &(p)->vt[n]), a)
 
 // name: SafeHouse port (SetBentleyState)
 void SetBentleyState__FP7BENTLEYi(struct P *p, int k)

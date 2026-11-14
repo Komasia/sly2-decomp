@@ -1,6 +1,6 @@
-struct VTE { short d; short pad; void (*pfn)(); };
+#include "vtbl.h"
 struct R { char pad[0x80]; float gMin; float gMax; float *pg; };
-struct S { int x0; void *p4; struct R *pr; int xC; int x10; int x14; struct VTE *vt; int x1C; int x20; int x24; struct S *pnext; };
+struct S { int x0; void *p4; struct R *pr; int xC; int x10; int x14; VTENT *vt; int x1C; int x20; int x24; struct S *pnext; };
 struct Q { char pad[0x74]; float g74; };
 struct P { int pad[5]; struct Q *pq; int x18; float g1C; float g20; char pad1[0x34 - 0x24]; struct S *ps; char pad2[0x40 - 0x38];
     float g40; float g44; float g48; float g4C; };
@@ -33,7 +33,7 @@ void SetAsegaTime__FP5ASEGAiff(struct P *p, int k, float g, float s)
                 struct R *pr = ps->pr;
                 float v = *pr->pg;
                 if (v < pr->gMin || pr->gMax < v)
-                    ((void (*)(void *))ps->vt[4].pfn)((char *)ps + ps->vt[4].d);
+                    ((void (*)(void *))ps->vt[4].pfn)(VT_THIS(ps, &ps->vt[4]));
                 HoldXfMode(ps->p4, ps->pr);
             }
         }

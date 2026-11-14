@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VT { short d; short pad; void (*pfn)(void *); } VT;
-typedef struct O { char pad[0x18]; VT *vt; } O;
+typedef struct O { char pad[0x18]; VTENT *vt; } O;
 typedef struct SW { char pad[0xC0]; qword a; char pad2[0x10]; qword b; } SW;
 typedef struct T2 { char pad[8]; SW *psw; char pad1[0x10]; O *po; qword v; } T2;
 void func_0012CF28(T2 *p);
@@ -16,7 +16,7 @@ void Fetch__10CTRLSOURCE(T2 *p)
 {
     O *po = p->po;
     if (po) {
-        ((void (*)(void *))po->vt[4].pfn)((char *)po + po->vt[4].d);
+        ((void (*)(void *))po->vt[4].pfn)(VT_THIS(po, &po->vt[4]));
         AddV(&p->psw->a, &p->v);
         AddV(&p->psw->b, &p->v);
     } else {

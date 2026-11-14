@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void *pfn; };
+#include "vtbl.h"
 struct PO { char pad[0x1C]; float g1C; char pad1[0x30 - 0x20]; int x30; };
 struct P {
-    char pad[0xC]; struct VTE *vt; char pad0[0x150 - 0x10]; struct PO *p150;
+    char pad[0xC]; VTENT *vt; char pad0[0x150 - 0x10]; struct PO *p150;
     char pad1[0x20C - 0x154]; float g20C; char pad2[0x2C0 - 0x210]; char a2C0[0x4C0 - 0x2C0];
     int x4C0; char pad3[0x4C8 - 0x4C4]; int x4C8; char pad4[0xDF0 - 0x4CC]; char aDF0[0xF00 - 0xDF0];
     char aF00[0xF50 - 0xF00]; char aF50[0x1030 - 0xF50]; void *p1030; void *p1034; char pad5[0x11B0 - 0x1038];
@@ -30,7 +30,7 @@ int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
 int FSmaRetracted(void *pv) asm("FSmaRetracted__FP3SMA");
 void UpdateBentleyState2__FP7BENTLEY(struct P *p);
 
-#define VCALL99(p, a) ((int (*)(void *, int))(p)->vt[99].pfn)((char *)(p) + (p)->vt[99].d, a)
+#define VCALL99(p, a) ((int (*)(void *, int))(p)->vt[99].pfn)(VT_THIS((p), &(p)->vt[99]), a)
 
 // name: SafeHouse port (UpdateBentleyTransitions)
 void UpdateBentleyTransitions__FP7BENTLEY(struct P *p)

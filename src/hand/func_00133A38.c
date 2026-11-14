@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void *pfn; };
-struct LO { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { int pad[3]; VTENT *vt; };
 struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; int f; };
 struct X { char pad[0x60]; struct LO *plo; struct L *pl; };
 struct P { char pad[0x3CF8]; char aCF8[4]; };
@@ -9,7 +9,7 @@ struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
 void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, struct L *);
-#define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
+#define VCALL(po, n, T) ((T)(po)->vt[n].pfn)(VT_THIS((po), &(po)->vt[n])
 // name: SafeHouse port (UpdateSwPox)
 void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *p, struct X *px1, struct X *px2, int k)
 {

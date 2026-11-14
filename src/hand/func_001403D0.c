@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *, void *); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct Q { char pad[0x80]; int x80; };
 struct G { char pad[0x10B4]; int x10B4; };
 struct P {
@@ -46,8 +46,8 @@ void UpdateActor(struct P *p)
         if (!func_001449C8(pl)) {
             if (p->c270 > 0) {
                 struct O *po = p->a274[p->c270 - 1];
-                struct VTE *e = &po->vt[14];
-                e->pfn((char *)po + e->d, p->x150);
+                VTENT *e = &po->vt[14];
+                ((void (*)(void *, void *))e->pfn)(VT_THIS(po, e), p->x150);
             } else if (p->x1084) {
                 DriveScptActor__FPvP6PADCTL(p->x1084, p->x150);
             }

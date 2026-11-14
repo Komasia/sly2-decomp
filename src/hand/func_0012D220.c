@@ -7,11 +7,11 @@
 /* v3 (Claude agent laneB7, 2026-10-23): aligned 13 -> 12. PloNearestPlayer__FP6VECTORG9VU_VECTOR takes a 2nd qword arg (posT; it sq a1 to its stack); posT as a U memory local so the load goes straight into a1. */
 /* v2 (Claude agent, 2026-10-23): aligned 15 -> 13: qmtc2 asm before the vsub, vsub as "=j"(d) : s.pos, vC0 (gets dt vf3). Left: target schedules vsub before qmtc2 with s.pos vf2/vC0 vf1, output vf2. */
 // WIP (Claude agent): 15 diffs - VU reg numbering only: dv reload should be vf3 / one-vector vf2 (ours swapped), second block wants lw of g_clock.dt after the lqc2s and vsub in vf2; posT lq via $a1.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
-struct VTE { short d; short pad; void (*pfn)(); };
 struct POLY { float a, b, c; };
-struct O { int pad[6]; struct VTE *pvt; };
+struct O { int pad[6]; VTENT *pvt; };
 struct X { char pad[0x70]; qword v70; char pad80[0x90 - 0x80]; struct P *p90; short pad94[3]; short s9A; int pad9C; int xA0;
     char padA4[0xC0 - 0xA4]; qword vC0; qword vD0; };
 struct P {
@@ -87,7 +87,7 @@ void Fetch__10CTRLLOOKAT(struct P *p)
         p90 = p->x8->p90;
         if (p90 != p) {
             struct O *po2 = (struct O *)p90;
-            ((void (*)(struct O *))po2->pvt[4].pfn)((struct O *)((char *)po2 + po2->pvt[4].d));
+            ((void (*)(struct O *))po2->pvt[4].pfn)((struct O *)VT_THIS(po2, &po2->pvt[4]));
             return;
         }
     }

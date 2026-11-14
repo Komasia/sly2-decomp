@@ -1,5 +1,5 @@
-typedef struct VT { short d; short pad; void (*pfn)(void *); } VT;
-typedef struct O { char pad[0xC]; VT *vt; } O;
+#include "vtbl.h"
+typedef struct O { char pad[0xC]; VTENT *vt; } O;
 typedef struct CRef { int m_tagk; union { int *pn; char *pb; O *po; } u; } CRef;
 void Incref__4CRef(CRef *pref)
 {
@@ -20,7 +20,7 @@ void Incref__4CRef(CRef *pref)
     case 0x21: {
         O *po = pref->u.po;
         if (po)
-            po->vt[1].pfn((char *)po + po->vt[1].d);
+            ((void (*)(void *))po->vt[1].pfn)(VT_THIS(po, &po->vt[1]));
         break;
     }
     case 0x1F:

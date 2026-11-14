@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; int (*pfn)(void *, void *); };
-struct SO { char pad[0xC]; struct VTE *vt; char pad2[0xFE0 - 0x10]; struct SO *psoNext; };
+struct SO { char pad[0xC]; VTENT *vt; char pad2[0xFE0 - 0x10]; struct SO *psoNext; };
 struct X { char pad[0x104]; struct X *pxNext; };
 struct P { char pad[0x10C4]; void *p10C4; };
 extern struct SO *D_003E1444;
@@ -28,7 +28,7 @@ int NActorPerceived__FP5ACTOR(struct P *p)
     for (;;) {
         if (!pso) break;
         if (FGuardState(pso, 0x1D) || FGuardState(pso, 0xB)) { r = 2; break; }
-        if (pso->vt[89].pfn((char *)pso + pso->vt[89].d, q)) { r = 1; break; }
+        if (((int (*)(void *, void *))pso->vt[89].pfn)(VT_THIS(pso, &pso->vt[89]), q)) { r = 1; break; }
         pso = pso->psoNext;
     }
     if (r == 0) {

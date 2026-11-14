@@ -1,10 +1,10 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct E { float f; int pad[3]; };
 struct Q { char pad[0x50]; char a50[0xA8 - 0x50]; int cA8; struct E *aAC; };
 struct L1 { int x0; void *x4; void *x8; char pad[0x28 - 0xC]; struct L1 *pnext; };
 struct L2 { int x0; int x4; struct O *po; int xC; struct L2 *pnext; };
-struct P { int pad[3]; struct VTE *vt; int x10; struct Q *pq; struct O *x18; float g1C; char pad2[0x34 - 0x20]; struct L1 *pl1; struct L2 *pl2;
+struct P { int pad[3]; VTENT *vt; int x10; struct Q *pq; struct O *x18; float g1C; char pad2[0x34 - 0x20]; struct L1 *pl1; struct L2 *pl2;
     char pad3[0x54 - 0x3C]; int i54; int x58; char a5C[4]; };
 struct G { struct P *p; };
 extern char D_003E1218[];
@@ -17,7 +17,7 @@ void func_0012E210(struct L1 *);
 void func_0012CE70(struct L2 *);
 void func_00258040(void *, int);
 void func_00133508(struct P *, int, struct P *);
-static __inline__ void End(struct G *pg) { struct P *po = pg->p; ((void (*)(void *))po->vt[2].pfn)((char *)po + po->vt[2].d); }
+static __inline__ void End(struct G *pg) { struct P *po = pg->p; ((void (*)(void *))po->vt[2].pfn)(VT_THIS(po, &po->vt[2])); }
 // name: SafeHouse port (RetractAsega)
 void RetractAsega__FP5ASEGA(struct P *p)
 {
@@ -29,7 +29,7 @@ void RetractAsega__FP5ASEGA(struct P *p)
         struct L2 *pl2, *pl2Next;
         g.p = p;
         __asm__ __volatile__("" : : "r"(&g) : "memory");
-        ((void (*)(void *))p->vt[1].pfn)((char *)p + p->vt[1].d);
+        ((void (*)(void *))p->vt[1].pfn)(VT_THIS(p, &p->vt[1]));
         for (; p->i54 < p->pq->cA8; p->i54++) {
             { register struct E *pe __asm__("$5") = p->pq->aAC; pe += p->i54; pe->f = p->g1C; }
             FireAsegaEvent__FP5ASEGAP6ASEGEV(p);
@@ -48,16 +48,16 @@ void RetractAsega__FP5ASEGA(struct P *p)
         for (pl2 = p->pl2; pl2; pl2 = pl2Next) {
             struct O *po = pl2->po;
             pl2Next = pl2->pnext;
-            ((void (*)(void *, int))po->vt[45].pfn)((char *)po + po->vt[45].d, pl2->xC);
+            ((void (*)(void *, int))po->vt[45].pfn)(VT_THIS(po, &po->vt[45]), pl2->xC);
             func_0012CE70(pl2);
         }
         p->pl2 = 0;
         func_00258040(p->a5C, 0);
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 3, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 3, 0, 0, 0, 0);
         if (p->x18)
-            ((void (*)(void *, int, struct P *))p->x18->vt[5].pfn)((char *)p->x18 + p->x18->vt[5].d, 2, p);
+            ((void (*)(void *, int, struct P *))p->x18->vt[5].pfn)(VT_THIS(p->x18, &p->x18->vt[5]), 2, p);
         func_00133508(p, 2, p);
-        ((void (*)(void *))p->vt[2].pfn)((char *)p + p->vt[2].d);
+        ((void (*)(void *))p->vt[2].pfn)(VT_THIS(p, &p->vt[2]));
         End(&g);
     }
 }

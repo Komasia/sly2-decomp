@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; char pad1[0x38 - 0x10]; int x38; char pad2[0xC0 - 0x3C]; int xC0; int xC4; float gC8; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0x38 - 0x10]; int x38; char pad2[0xC0 - 0x3C]; int xC0; int xC4; float gC8; };
 struct X30 { char pad[0x150]; int x150; };
 struct P {
     char pad[0x10]; void *p10; char pad1[4]; char m18[0x30 - 0x18]; struct X30 *p30; char pad2[0x60 - 0x34];
@@ -18,7 +18,7 @@ static __inline__ void Activate(struct P *p, int oid)
 {
     struct O *po = func_00205438(p->p10, oid);
     po->x38 = p->x90;
-    po->vt[8].pfn((char *)po + po->vt[8].d);
+    ((void (*)(void *))po->vt[8].pfn)(VT_THIS(po, &po->vt[8]));
 }
 // name: SafeHouse port (JOBCOMPANION::SetState)
 void SetState__12JOBCOMPANIONi(struct P *p, int state)
@@ -36,7 +36,7 @@ void SetState__12JOBCOMPANIONi(struct P *p, int state)
             po->gC8 = GRandInRange__Fff(0.1f, 0.3f);
         }
         PlanFollow__12JOBCOMPANION(p);
-        po->vt[8].pfn((char *)po + po->vt[8].d);
+        ((void (*)(void *))po->vt[8].pfn)(VT_THIS(po, &po->vt[8]));
         break;
     }
     case 1:

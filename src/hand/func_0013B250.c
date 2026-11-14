@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int ti128 __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(); };
 struct Q { char pad[0x18]; int f18; };
-struct S { int pad[3]; struct VTE *vt; char pad2[0x1e8 - 0x10]; struct Q *f1e8; };
+struct S { int pad[3]; VTENT *vt; char pad2[0x1e8 - 0x10]; struct Q *f1e8; };
 extern ti128 D_002A2DD0;
 void ReparentBooty__FP3ALOii(struct S *, struct Q *, int);
 void SetAloVelocity__FP3ALOG9VU_VECTOR(struct S *, ti128);
@@ -16,5 +16,5 @@ void AttachStickyProjectile__FPvT0(struct S *p, struct Q *q) {
     SetAloAngVelocity__FP3ALOG9VU_VECTOR(p, D_002A2DD0);
     SetAloCnstrLin__FP3ALOi(p, 1);
     SetAloCnstrAng__FP3ALOi(p, 1);
-    ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 0x1b, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 0x1b, 0, 0, 0, 0);
 }

@@ -1,7 +1,7 @@
 /* Insert an entry into a priority-sorted array of 8 (Claude agent). memmove goes through an inline helper: its
    parameters get their own pseudos, giving the target's (p + i*16) base copied into a1 then +0x320 / +0x310. */
-struct VTE { short d; short pad; void (*pfn)(void *, ...); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct E { int prio; struct O *po; int a; int b; };
 struct P { char pad[0x30C]; int c; struct E ae[8]; char pad2[0x390 - 0x390]; float t; };
 #include "clock.h"
@@ -23,19 +23,19 @@ void SetCmPolicy__FP2CM3CPPP5CPLCYii(struct P *p, int prio, struct O *po, int a,
         p->ae[i].b = b;
         p->c++;
         {
-            struct VTE *e = &po->vt[4];
-            ((void (*)(void *, int))e->pfn)((char *)po + e->d, b);
+            VTENT *e = &po->vt[4];
+            ((void (*)(void *, int))e->pfn)(VT_THIS(po, e), b);
         }
         if (i == 0) {
             if (p->c >= 2) {
                 struct O *o = p->ae[1].po;
-                struct VTE *e = &o->vt[3];
-                ((void (*)(void *, int, int))e->pfn)((char *)o + e->d, p->ae[1].a, p->ae[1].b);
+                VTENT *e = &o->vt[3];
+                ((void (*)(void *, int, int))e->pfn)(VT_THIS(o, e), p->ae[1].a, p->ae[1].b);
             }
             p->t = g_clock.t;
             {
-                struct VTE *e = &po->vt[2];
-                ((void (*)(void *, int, int))e->pfn)((char *)po + e->d, a, b);
+                VTENT *e = &po->vt[2];
+                ((void (*)(void *, int, int))e->pfn)(VT_THIS(po, e), a, b);
             }
         }
     }

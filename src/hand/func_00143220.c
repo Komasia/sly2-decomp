@@ -1,17 +1,17 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct VTE { short d; short pad; qword (*pfn)(void *); };
-struct O { int pad[3]; struct VTE *vt; };
+struct O { int pad[3]; VTENT *vt; };
 struct S { int k; float g4; float g8; int pad; qword pos; qword dir; };
 extern qword g_normalZ;
 qword PosOfLo__FP2LO(struct O *p);
 // name: SafeHouse port (GetSlyLaunchTarget)
 void GetSlyLaunchTarget__FP3SLYPvf(struct O *p, struct S *ps, float g)
 {
-    struct VTE *e = &p->vt[33];
+    VTENT *e = &p->vt[33];
     qword v, h, pos, s, r;
     VU u;
-    v = e->pfn((char *)p + e->d);
+    v = ((qword (*)(void *))e->pfn)(VT_THIS(p, e));
     {
         qword d, one, up = g_normalZ;
         __asm__("vmul.xyz %0, %2, %3\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "=&j"(d), "=&j"(one) : "j"(v), "j"(up));

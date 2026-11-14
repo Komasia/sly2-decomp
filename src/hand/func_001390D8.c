@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int f0; int f4; int f8; struct VTE *vt; char pad[0x460 - 0x10]; };
+#include "vtbl.h"
+struct O { int f0; int f4; int f8; VTENT *vt; char pad[0x460 - 0x10]; };
 struct G { char pad[0x4070]; int pool4070; char pad2[0x407c - 0x4074]; int f407c; int f4080; int f4084; };
-extern struct VTE D_002CB5D8[];
+extern VTENT D_002CB5D8[];
 struct O *func_0011CCC0(void *);
 void s1_memset(void *, int, int) asm("memset");
 void *func_0015E3A8(struct G *, int);
@@ -18,8 +18,8 @@ struct O *func_001390D8(struct G *pg) {
     i = 31;
     while (--i != -1) ;   /* empty array-element ctor loop (31 elements) from inlined C++ ctor */
     func_0011A070(func_0015E3A8(pg, 0x1c), po);
-    ((void (*)(void *))po->vt[7].pfn)((char *)po + po->vt[7].d);
-    ((void (*)(void *))po->vt[11].pfn)((char *)po + po->vt[11].d);
-    ((void (*)(void *))po->vt[15].pfn)((char *)po + po->vt[15].d);
+    ((void (*)(void *))po->vt[7].pfn)(VT_THIS(po, &po->vt[7]));
+    ((void (*)(void *))po->vt[11].pfn)(VT_THIS(po, &po->vt[11]));
+    ((void (*)(void *))po->vt[15].pfn)(VT_THIS(po, &po->vt[15]));
     return po;
 }

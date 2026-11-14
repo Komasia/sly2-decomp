@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct E { union { int oid; struct O *po; } u; int pad; };
 struct L { int c; struct E ae[8]; };
 extern char g_sw[];
@@ -11,10 +11,10 @@ void RunTriggerAsegList__FP2LOPv(struct L *l, void *q)
     for (i = 0; i < l->c; i++) {
         struct O *o = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, l->ae[i].u.oid, q);
         if (o) {
-            struct VTE *e;
+            VTENT *e;
             l->ae[i].u.po = o;
             e = &o->vt[9];
-            ((void (*)(void *))e->pfn)((char *)o + e->d);
+            ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         } else {
             l->ae[i].u.po = 0;
         }

@@ -5,9 +5,9 @@
 // v4 (Claude agent, laneC6 2026-10-23): 13 -> 11: case 3 writes `p->pe = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(...); if (p->pe) LINKE(p->pe, pot->pr, p)` (no pe local). Left: case 3 mtc1->max.s hazard nop (our lw p->pe fills it).
 // v3 (Claude agent, laneC5 2026-10-23): aligned 46 -> 13: case-4 `pot4 = p->pot` read (gives the s0 copy), Dist sqrt asm split from its qmfc2, LINKE macro as a plain block (do/while(0) added a nop). Left: case 3 LINKE scheduling.
 // ~235/598 diffs, mostly offsets after a few small sched diffs (Dist/vsqrt scheduling, GMax regs, loop nops); frame 0x110 and layout match.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(); };
-struct VT { struct VTE a[64]; };
+struct VT { VTENT a[64]; };
 #include "clock.h"
 struct GS { char pad[0x4638]; void *p4638; };
 struct ST { char pad[0xC]; int xC; char pad1[0x18 - 0x10]; int x18; int c1C; int a20[1]; };
@@ -54,7 +54,7 @@ void func_001CFD30(struct E *pe);
 float GRandInRange__Fff(float a, float b);
 void SetBootyState__FP2LOi(struct O *p, int st);
 
-#define VCALL(po, slot, T) ((T)(po)->pvt->a[slot].pfn)((char *)(po) + (po)->pvt->a[slot].d
+#define VCALL(po, slot, T) ((T)(po)->pvt->a[slot].pfn)(VT_THIS((po), &(po)->pvt->a[slot])
 typedef void (*PFN3)(void *, int, int, int, int, int);
 typedef void (*PFNV)(void *);
 typedef void (*PFNQ)(void *, qword);
@@ -89,9 +89,9 @@ static inline float Dist3(qword a, qword b, float k)
 static inline float GMax(float a, float b) { return a < b ? b : a; }
 
 #define LINKE(PE, PA, PB) { \
-    struct VTE *pvte = &(PE)->pvt->a[1]; \
+    VTENT *pvte = &(PE)->pvt->a[1]; \
     float g; \
-    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, PosOfLo__FP2LO(PA), 0, 1.0f); \
+    ((PFNE)pvte->pfn)(VT_THIS((PE), pvte), PosOfLo__FP2LO(PA), 0, 1.0f); \
     func_001CF578(p->pe, p); \
     g = Dist(PosOfLo__FP2LO(PA), PosOfLo__FP2LO(PB)); \
     p->pe->p1C = (PB); \
@@ -102,9 +102,9 @@ static inline float GMax(float a, float b) { return a < b ? b : a; }
     VCALL(p, 8, PFNV)); \
 }
 #define LINKE3(PE, PA, PB) { \
-    struct VTE *pvte = &(PE)->pvt->a[1]; \
+    VTENT *pvte = &(PE)->pvt->a[1]; \
     float g; \
-    ((PFNE)pvte->pfn)((char *)(PE) + pvte->d, PosOfLo__FP2LO(PA), 0, 1.0f); \
+    ((PFNE)pvte->pfn)(VT_THIS((PE), pvte), PosOfLo__FP2LO(PA), 0, 1.0f); \
     func_001CF578(p->pe, p); \
     g = Dist3(PosOfLo__FP2LO(PA), PosOfLo__FP2LO(PB), 250.0f); \
     p->pe->p1C = (PB); \
@@ -278,7 +278,7 @@ void SetBootyState__FP2LOi(struct O *p, int st)
             __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(vq) : "j"(vv), "j"(sq), "r"(pvt) : "$2"); /* "r"(pvt): allocation-only (Claude agent), keeps the vtable load before the vmulx like the target; "$2": clobber of the dead v0 (Claude agent), so pvt takes v1 like the target */
             s.q = sq;
             v.q = vq;
-            ((PFNQ)pvt->a[35].pfn)((char *)p + pvt->a[35].d, v.q);
+            ((PFNQ)pvt->a[35].pfn)(VT_THIS(p, &pvt->a[35]), v.q);
         }
         a = GRandInRange__Fff(lo, hi);
         b = GRandInRange__Fff(lo, hi);

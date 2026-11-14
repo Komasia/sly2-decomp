@@ -2,9 +2,9 @@ typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 #include "clock.h"
-struct VTE { short d; short pad; void (*pf)(); };
-struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; struct VTE *vt; };
-struct RIPG { char pad[0xC]; struct VTE *vt; char p1[0x15C - 0x10]; DL dl; };
+#include "vtbl.h"
+struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; VTENT *vt; };
+struct RIPG { char pad[0xC]; VTENT *vt; char p1[0x15C - 0x10]; DL dl; };
 void AddRipRef(struct RIP *prip) asm("AddRipRef__FP3RIP");
 void ReleaseRip__FP3RIP(struct RIP *prip);
 int func_001A61A0(struct RIPG *p);
@@ -32,11 +32,11 @@ void FUN_0019e420(struct RIPG *pripg)
     while ((prip = (struct RIP *)PvNextDli(&dli)) != 0) {
         if (g_clock.t <= prip->tStart) continue;
         AddRipRef(prip);
-        ((void (*)(void *))prip->vt[5].pf)((char *)prip + prip->vt[5].d);
+        ((void (*)(void *))prip->vt[5].pfn)(VT_THIS(prip, &prip->vt[5]));
         ReleaseRip__FP3RIP(prip);
     }
     if (!func_001A61A0(pripg) || FIsDlEmpty__FP2DL(&pripg->dl))
-        ((void (*)(void *))pripg->vt[9].pf)((char *)pripg + pripg->vt[9].d);
+        ((void (*)(void *))pripg->vt[9].pfn)(VT_THIS(pripg, &pripg->vt[9]));
     else
         BounceRipgRips__FP4RIPG(pripg);
     s_pdliFirst = dli.m_pdliNext;

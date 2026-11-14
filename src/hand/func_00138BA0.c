@@ -1,10 +1,10 @@
+#include "vtbl.h"
 struct E { float g0; float g4; };
 struct S8 { int ib; int x4; struct E *ae; };
 struct L { char pad[0x74]; float g74; char pad2[0xC0 - 0x78]; int cb; int c; char *ab; };
 struct W { float w; struct L *pl; };
 struct V;
-struct VT { short d; short p; void (*f)(); };
-struct V { struct VT *vt; };
+struct V { VTENT *vt; };
 struct P { int x0; struct L *pl; struct S8 *ps; struct V **apv; float g10; };
 
 extern int ImrsgLookUp(int, int, float, float, float *) asm("ImrsgLookUp__FffiP4MRSGPf");
@@ -54,7 +54,7 @@ void Eval__6TRKGBLPfT1ff(struct P *p, float t, float r, float *pa, float *pb)
                 if (lim < u)
                     u -= lim;
             }
-            ((void (*)(void *, float, float, float *, float *))pv->vt[2].f)((char *)pv + pv->vt[2].d, u, s, &g4, &g8);
+            ((void (*)(void *, float, float, float *, float *))pv->vt[2].pfn)(VT_THIS(pv, &pv->vt[2]), u, s, &g4, &g8);
         }
         sa += pw->w * g4;
         sb += pw->w * g8;

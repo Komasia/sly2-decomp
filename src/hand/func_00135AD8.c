@@ -1,5 +1,5 @@
-struct VT { short d; short pad; void *pfn; };
-struct O { char pad[0xC]; struct VT *pvt; char pad2[0x15C - 0x10]; int x15C; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *pvt; char pad2[0x15C - 0x10]; int x15C; };
 struct Q { int x0; void *p4; };
 struct M { int x0; int x4; int x8; };
 struct E { int x0; int x4; struct M *pm; };
@@ -24,7 +24,7 @@ void OnBentleyMessage__FP2LO5MSGIDPv(struct P *p, int k, struct M *pm)
                 LockProxyRowOf__Fv(p->pq->p4, p->po);
                 p->po->x15C = p->pq->x0;
                 po = p->po;
-                ((void (*)(void *, int))po->pvt[76].pfn)((char *)po + po->pvt[76].d, 0);
+                ((void (*)(void *, int))po->pvt[76].pfn)(VT_THIS(po, &po->pvt[76]), 0);
             }
         } else if (pm->x0 == p->x16CC) {
             if (pm->x8 == 0x243)

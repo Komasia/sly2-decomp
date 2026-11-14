@@ -1,9 +1,9 @@
-struct VTE { short d; short pad; int (*pfn)(void *, ...); };
+#include "vtbl.h"
 struct E { int id; int state; int x; };
 struct X150 { char pad[0x30]; int grf; };
 struct T { int x0; int x4; int x8; int xC; char pad[0x10]; };
 struct P {
-    char pad[0xC]; struct VTE *vt; char pad1[0x150 - 0x10]; struct X150 *p150; char pad2[0x1180 - 0x154];
+    char pad[0xC]; VTENT *vt; char pad1[0x150 - 0x10]; struct X150 *p150; char pad2[0x1180 - 0x154];
     struct E ae[3]; char pad3[0x1304 - 0x11A4]; float t1304;
 };
 #include "clock.h"
@@ -28,7 +28,7 @@ void func_00141A50(struct P *p)
         switch (pe->state) {
         case 0:
             if (GrfPadctlTakePressed__FP6PADCTL(p->p150, mask, 0.15f)) {
-                if (!p->vt[99].pfn((char *)p + p->vt[99].d, id)) {
+                if (!((int (*)(void *, ...))p->vt[99].pfn)(VT_THIS(p, &p->vt[99]), id)) {
                     SetSource__4CSndPv(PsndNewPlain__Fi(0x2E), 0);
                 } else {
                     int n = func_001441A0(p);
@@ -42,10 +42,10 @@ void func_00141A50(struct P *p)
             }
             break;
         case 1:
-            if (!(p->p150->grf & mask) || !((int (*)(void *, int))p->vt[99].pfn)((char *)p + p->vt[99].d, id))
+            if (!(p->p150->grf & mask) || !((int (*)(void *, int))p->vt[99].pfn)(VT_THIS(p, &p->vt[99]), id))
                 SetAbilityState__FP5ACTORP6ABSLOTi(p, pe, 0);
             else
-                ((void (*)(void *, struct E *))p->vt[101].pfn)((char *)p + p->vt[101].d, pe);
+                ((void (*)(void *, struct E *))p->vt[101].pfn)(VT_THIS(p, &p->vt[101]), pe);
             break;
         }
         pmask++;

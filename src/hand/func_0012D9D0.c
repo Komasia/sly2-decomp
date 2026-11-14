@@ -1,12 +1,12 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VT { short d; short pad; void (*pfn)(void *); } VT;
-typedef struct O { char pad[0x18]; VT *vt; } O;
+typedef struct O { char pad[0x18]; VTENT *vt; } O;
 typedef struct T2 { char pad[0x1C]; O *po; qword v; } T2;
 // name: SafeHouse port (CTRLSOURCE::Query)
 void Query__10CTRLSOURCEP7VECTOR4T1f(T2 *p, qword *pv, void *x)
 {
     O *po = p->po;
-    ((void (*)(void *, qword *, void *))po->vt[5].pfn)((char *)po + po->vt[5].d, pv, x);
+    ((void (*)(void *, qword *, void *))po->vt[5].pfn)(VT_THIS(po, &po->vt[5]), pv, x);
     if (pv) {
         register qword b __asm__("vf2") = p->v;
         register qword a __asm__("vf1") = *pv;

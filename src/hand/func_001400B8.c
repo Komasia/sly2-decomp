@@ -1,15 +1,15 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct K { int a; int b; };
 extern struct K D_002A4D10;
 struct G { char pad[0x3BF4]; int grf; char pad2[0x3D58 - 0x3BF8]; int cid; };
 extern struct G g_sw;
-struct VTE { short d; short pad; void *pfn; };
 struct M3 { qword r[3]; };
 struct AREQ { int cb; int cbAlign; };
 struct SO { float m[0x40 / 4]; char pad[0x94 - 0x40]; int x94; char pad2[0xA4 - 0x98]; int id; };
-struct O { void *pad[3]; struct VTE *vt; };
+struct O { void *pad[3]; VTENT *vt; };
 struct P {
-    int pad[3]; struct VTE *vt; char pad1[0x54 - 0x10]; struct SO *pso;
+    int pad[3]; VTENT *vt; char pad1[0x54 - 0x10]; struct SO *pso;
     char pad2[0x1088 - 0x58]; int x1088; char pad3[4]; struct O **apo; int cpo;
 };
 extern char D_002BC9F0[];
@@ -59,20 +59,20 @@ void PostLoadActorParts__FP5ACTOR(struct P *p)
         p->apo = PvAllocSwClearImpl__Fi(preq);
         for (i = 0; i < c; i++) {
             struct O *po;
-            struct VTE *e;
+            VTENT *e;
             p->apo[i * 2] = apv[i];
             po = p->apo[i * 2];
             e = &po->vt[9];
-            ((void (*)(void *))e->pfn)((char *)po + e->d);
+            ((void (*)(void *))e->pfn)(VT_THIS(po, e));
         }
     }
     {
-        struct VTE *e = &p->vt[79];
-        ((void (*)(void *, int))e->pfn)((char *)p + e->d, 0);
+        VTENT *e = &p->vt[79];
+        ((void (*)(void *, int))e->pfn)(VT_THIS(p, e), 0);
     }
     {
-        struct VTE *e = &p->vt[104];
-        ((void (*)(void *))e->pfn)((char *)p + e->d);
+        VTENT *e = &p->vt[104];
+        ((void (*)(void *))e->pfn)(VT_THIS(p, e));
     }
     func_00141EF8(p);
     StartPlayerCounters__FP5ACTORi(p, g_sw.grf & 4);
@@ -87,16 +87,16 @@ void PostLoadActorParts__FP5ACTOR(struct P *p)
         g_sw.cid++;
         p->pso->id = g_sw.cid;
         {
-            struct VTE *e = &p->vt[18];
-            ((void (*)(void *))e->pfn)((char *)p + e->d);
+            VTENT *e = &p->vt[18];
+            ((void (*)(void *))e->pfn)(VT_THIS(p, e));
         }
         {
-            struct VTE *e = &p->vt[29];
-            ((void (*)(void *, qword))e->pfn)((char *)p + e->d, q);
+            VTENT *e = &p->vt[29];
+            ((void (*)(void *, qword))e->pfn)(VT_THIS(p, e), q);
         }
         {
-            struct VTE *e = &p->vt[30];
-            ((void (*)(void *, struct M3 *))e->pfn)((char *)p + e->d, &m);
+            VTENT *e = &p->vt[30];
+            ((void (*)(void *, struct M3 *))e->pfn)(VT_THIS(p, e), &m);
         }
     }
     PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(&g_sw, p, D_002A4D10, 0);

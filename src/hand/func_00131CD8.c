@@ -1,6 +1,6 @@
-struct VTE { short d; short pad; void (*pfn)(); };
+#include "vtbl.h"
 struct X { char pad[0x88]; int f88; int f8c; char pad2[0x9a - 0x90]; short f9a; };
-struct C { struct VTE *vt; };
+struct C { VTENT *vt; };
 struct S { int f0; int f4; struct X *px; int pad[4]; struct C *pc; int f20; int f24; };
 void SetXfMode__FP3ALOP2XFi(int, struct X *, int);
 void ResetXfParams__FP2XFPv(int, struct X *);
@@ -11,7 +11,7 @@ void Fetch__8CTRLASEG(struct S *p) {
         p->px->f88 = p->f24 + 0x1c;
         p->px->f8c = p->f24 + 0x40;
         pc = p->pc;
-        ((void (*)(void *, struct X *))pc->vt[2].pfn)((char *)pc + pc->vt[2].d, p->px);
+        ((void (*)(void *, struct X *))pc->vt[2].pfn)(VT_THIS(pc, &pc->vt[2]), p->px);
     } else {
         p->px->f9a = 0;
         SetXfMode__FP3ALOP2XFi(p->f4, p->px, 0);

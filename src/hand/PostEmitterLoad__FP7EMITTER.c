@@ -1,11 +1,11 @@
+#include "vtbl.h"
 struct K { short a; short b; int c; };
 struct LM { float gMin; float gMax; };
 struct BOX { float xMin, yMin, zMin, pad; float xMax, yMax, zMax; };
 struct EMITO { void *palo; };
 struct EMITB { int n0; int pad4; struct EMITO *pemito; int padC; int kind; char pad14[0x20 - 0x14]; int n20; char pad24[0x30 - 0x24]; struct BOX *pbox; };
-struct VTE { short delta; short pad; void (*pfn)(void *, void *); };
 struct EMITTER {
-    char pad0[0xC]; struct VTE *pvt; char pad10[0x40 - 0x10]; int grf40; char pad44[0xE0 - 0x44];
+    char pad0[0xC]; VTENT *pvt; char pad10[0x40 - 0x10]; int grf40; char pad44[0xE0 - 0x44];
     int nE0; struct EMITB *pemitb; char padE8[0xF0 - 0xE8];
     int kind; int nF4; struct LM lmF8; int n100; float g104; struct LM lm108; float g110; int n114; int oid118;
     char pad11C[0x130 - 0x11C]; float g130; float g134; float g138; float g13C; float g140;
@@ -98,7 +98,7 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
     if (pemitter->oid118 != -1) {
         struct EMITTER *pemitterNew = PloFindSwNearest__FP2LO3OIDii(g_sw, 5, pemitter->oid118, 0);
         if (!pemitterNew) {
-            struct VTE *pvte;
+            VTENT *pvte;
             void *pthis;
             pemitterNew = PloNew__F3CIDP2SW3OIDi(0x1D, 0, pemitter->oid118, -1);
             pemitterNew->pemitb = PvAllocCopy(0x100, pemitter->pemitb);
@@ -118,8 +118,8 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
             pemitterNew->n114 = pemitter->n114;
             func_001A6CA8(pemitterNew, 1);
             pvte = &pemitterNew->pvt[30];
-            pthis = (char *)pemitterNew + pvte->delta;
-            pvte->pfn(pthis, MatJtLo__FP2LO(pemitter));
+            pthis = VT_THIS(pemitterNew, pvte);
+            ((void (*)(void *, void *))pvte->pfn)(pthis, MatJtLo__FP2LO(pemitter));
         }
         pemitter->nE0 = 0;
         AppendDlEntry__FP2DLPv((char *)pemitterNew + 0x11C, pemitter);

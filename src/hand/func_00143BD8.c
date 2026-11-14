@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct CRef { int tagk; int tag; };
 extern char D_002A4DB0[];
 extern int D_003E1084;
@@ -12,8 +12,8 @@ void PostLoadActorBooty__FP5ACTOR(struct O *p)
 {
     struct CRef r;
     int n;
-    struct VTE *e = &p->vt[103];
-    func_001D8A38(&r, ((void *(*)(void *))e->pfn)((char *)p + e->d), D_002A4DB0, 0);
+    VTENT *e = &p->vt[103];
+    func_001D8A38(&r, ((void *(*)(void *))e->pfn)(VT_THIS(p, e)), D_002A4DB0, 0);
     n = r.tag;
     Decref(&r);
     if ((unsigned int)(n + 1) < 2) return;

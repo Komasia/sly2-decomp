@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct BUF { char pad[0x30]; qword pos; };
-struct VTE { short d; short pad; void *(*pfn)(void *, struct BUF *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct X994 { char pad[0x1C]; float t; };
 struct P {
     char pad[0x4C8]; int x4C8; char pad1[0x4D4 - 0x4CC]; int x4D4; char pad2[0x934 - 0x4D8]; struct O *po;
@@ -40,7 +40,7 @@ int FActorPoseDone__FP5ACTOR(struct P *p)
     M4 m;
     qword v;
     if (p->x4C8 != 5 || !p->x4D4) return 1;
-    func_002309E8(p->po->vt[32].pfn((char *)p->po + p->po->vt[32].d, &buf), 0, &m, 0, 0.0f);
+    func_002309E8(((void * (*)(void *, struct BUF *))p->po->vt[32].pfn)(VT_THIS(p->po, &p->po->vt[32]), &buf), 0, &m, 0, 0.0f);
     v = Mul(&m, buf.pos);
     if (5.0f < GDist(PosOfLo__FP2LO(p->po), v)) return 0;
     if (p->x9A4 != 1) return 1;

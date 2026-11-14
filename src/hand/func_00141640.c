@@ -1,10 +1,10 @@
 /* VU0 length via asm; qmfc2 into an int then explicit mtc1 (gives the original GPR/FPR allocation). */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct VTE { short d; short pad; void *pfn; };
 struct XP { char pad[0x10]; VU pos; char pad2[0x34 - 0x20]; float g34; };
 struct JT {
-    char pad[0xC]; struct VTE *vt; char pad1[0x2C0 - 0x10]; char ax2C0[0x2DC - 0x2C0]; int x2DC;
+    char pad[0xC]; VTENT *vt; char pad1[0x2C0 - 0x10]; char ax2C0[0x2DC - 0x2C0]; int x2DC;
     char pad2[0x434 - 0x2E0]; int x434; char pad3[0x4C0 - 0x438]; char ax4C0[0xC]; int x4CC;
     char pad4[0xDF0 - 0x4D0]; char axDF0[4]; int xDF4; char pad5[0x1044 - 0xDF8]; int x1044; int pad6;
     float x104C; float x1050; char pad7[0x1060 - 0x1054]; VU x1060; qword x1070;
@@ -48,10 +48,10 @@ void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct JT *pjt, struct XP *pxp)
     } else {
         VU v;
         float z, lo, hi, g;
-        struct VTE *e;
+        VTENT *e;
         { qword q = PosOfLo__FP2LO(pjt); __asm__("pextuw %0, $0, %1" : "=r"(z) : "r"(q)); }
         e = &pjt->vt[97];
-        ((void (*)(void *, VU *))e->pfn)((char *)pjt + e->d, &v);
+        ((void (*)(void *, VU *))e->pfn)(VT_THIS(pjt, e), &v);
         if (pjt->x434) {
             lo = D_002BCCA0;
             hi = D_002BCCA4;
@@ -90,8 +90,8 @@ void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct JT *pjt, struct XP *pxp)
     if (pjt->xDF4 != -1)
         func_001A2160(pjt->axDF0, pxp);
     {
-        struct VTE *e = &pjt->vt[34];
-        register qword w __asm__("vf3") = ((qword (*)(void *))e->pfn)((char *)pjt + e->d);
+        VTENT *e = &pjt->vt[34];
+        register qword w __asm__("vf3") = ((qword (*)(void *))e->pfn)(VT_THIS(pjt, e));
         register qword l1 __asm__("vf1");
         register qword r2 __asm__("vf2");
         float s, k;

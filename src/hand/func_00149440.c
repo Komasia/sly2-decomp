@@ -4,9 +4,9 @@ struct CTX { int a[4]; };
 struct G { char pad[0x3EB8]; int c; void *apo[1]; };
 extern struct G g_sw;
 #include "clock.h"
-struct VTE { short d; short pad; void *pfn; };
+#include "vtbl.h"
 struct P {
-    int pad[3]; struct VTE *vt; char pad1[0x1C0 - 0x10]; int x1C0; float x1C4; float x1C8; char pad2[0x1D8 - 0x1CC]; void *x1D8;
+    int pad[3]; VTENT *vt; char pad1[0x1C0 - 0x10]; int x1C0; float x1C4; float x1C8; char pad2[0x1D8 - 0x1CC]; void *x1D8;
     char pad3[0x288 - 0x1DC]; int c288; void *a28C[8]; int c2AC; int a2B0[4]; int c2C0; void **p2C4; int x2C8;
 };
 void UpdateLo__FP2LO(struct P *);
@@ -88,11 +88,11 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
                 }
             }
             if (fChanged) {
-                struct VTE *e;
+                VTENT *e;
                 p->c2C0 = cSel;
                 CopyAb(p->p2C4, apoSel, cSel * 4);
                 e = &p->vt[3];
-                ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 9, 0, 0, 0, 0);
+                ((void (*)(void *, int, int, int, int, int))e->pfn)(VT_THIS(p, e), 9, 0, 0, 0, 0);
             }
         }
         func_00149718(p, fFound);

@@ -1,5 +1,5 @@
-typedef struct VTE { short d; short pad; void *(*pfn)(void *, int, int); } VTE;
-typedef struct ALLOC { VTE *pvt; } ALLOC;
+#include "vtbl.h"
+typedef struct ALLOC { VTENT *pvt; } ALLOC;
 typedef struct CBinaryInputStream CBinaryInputStream;
 
 int U16Read(CBinaryInputStream *pbis) asm("U16Read__18CBinaryInputStream");
@@ -13,7 +13,7 @@ void func_00118380(CBinaryInputStream *pbis, char **ppchz, ALLOC *palloc, int nK
         *ppchz = 0;
         return;
     }
-    pchz = (char *)palloc->pvt[1].pfn((char *)palloc + palloc->pvt[1].d, cch + 1, nKind);
+    pchz = (char *)((void * (*)(void *, int, int))palloc->pvt[1].pfn)(VT_THIS(palloc, &palloc->pvt[1]), cch + 1, nKind);
     Read__18CBinaryInputStreamiPv(pbis, cch, pchz);
     pchz[cch] = 0;
     *ppchz = pchz;

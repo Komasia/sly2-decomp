@@ -1,8 +1,8 @@
 // MATCH (Claude agent, laneC2c 2026-10-23): v10 plus b copied through an empty volatile "+j" asm before the 2nd Madd (the b reload is issued before the d load).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct VTE { short d; short pad; void *pfn; };
-struct O { struct VTE *vt; };
+struct O { VTENT *vt; };
 struct SEG { float g0; float g4; };
 struct CL { char pad[0x74]; float x74; };
 struct E { float w; struct CL *p4; };
@@ -59,8 +59,8 @@ void Setup__6TRKPBLP2XF(struct P *p, struct Q *pq)
     if (pa->xD4 >= 0) {
         struct O *po = p->xC[pa->xD4];
         if (po) {
-            struct VTE *e = &po->vt[2];
-            ((void (*)(void *, struct Q *))e->pfn)((char *)po + e->d, pq);
+            VTENT *e = &po->vt[2];
+            ((void (*)(void *, struct Q *))e->pfn)(VT_THIS(po, e), pq);
         } else {
             qword v = p->x10;
             float *pv = pq->xD0.f;
@@ -124,8 +124,8 @@ void Setup__6TRKPBLP2XF(struct P *p, struct Q *pq)
             s1_memset(&q, 0, 0x100);
             q.x88 = &t[1];
             {
-                struct VTE *e = &po->vt[2];
-                ((void (*)(void *, struct Q *))e->pfn)((char *)po + e->d, &q);
+                VTENT *e = &po->vt[2];
+                ((void (*)(void *, struct Q *))e->pfn)(VT_THIS(po, e), &q);
             }
             Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(q.x84 - q.x80, t[1] - q.x80, ratio, q.xC0.q, q.xD0.q, q.xE0.q, q.xF0.q, &c, &d, 0);
         }

@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 extern qword g_normalZ;
-struct VTE { short d; short pad; void *pfn; };
 struct P {
-    int pad[3]; struct VTE *vt; char pad1[0x170 - 0x10]; int x170; int x174; int pad2[2]; qword x180; M3 mat;
+    int pad[3]; VTENT *vt; char pad1[0x170 - 0x10]; int x170; int x174; int pad2[2]; qword x180; M3 mat;
     qword x1C0; qword x1D0;
 };
 M3 *MatJtLo__FP2LO(struct P *);
@@ -34,12 +34,12 @@ void RecordHit__FP3ALOG9VU_VECTORT1(struct P *p, qword pos, qword q)
     p->x180 = pos;
     p->x174 = 1;
     {
-        struct VTE *e = &p->vt[33];
-        p->x1C0 = ((qword (*)(void *))e->pfn)((char *)p + e->d);
+        VTENT *e = &p->vt[33];
+        p->x1C0 = ((qword (*)(void *))e->pfn)(VT_THIS(p, e));
     }
     {
-        struct VTE *e = &p->vt[34];
-        p->x1D0 = ((qword (*)(void *))e->pfn)((char *)p + e->d);
+        VTENT *e = &p->vt[34];
+        p->x1D0 = ((qword (*)(void *))e->pfn)(VT_THIS(p, e));
     }
     switch (p->x170) {
     case 0:

@@ -1,7 +1,7 @@
 /* CheckLoRoot__FP2SWP2LO (Claude agent): case 2 before case 0, and a block-local r per case (so the g38 load ties to f20). */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct SO { char pad[0xC]; struct VTE *vt; char pad1[0x14 - 0x10]; int id; char pad2[0x28 - 0x18]; long x28; char pad3[8]; float g38; };
+struct SO { char pad[0xC]; VTENT *vt; char pad1[0x14 - 0x10]; int id; char pad2[0x28 - 0x18]; long x28; char pad3[8]; float g38; };
 struct G { char pad[0x14]; int grf; char pad2[0x90 - 0x18]; qword pos; };
 struct P { char pad[0x2C]; char m2C[4]; };
 extern int D_003E0E70;
@@ -68,9 +68,9 @@ void CheckLoRoot__FP2SWP2LO(struct P *p, struct SO *pso)
     if (fIn == FFindDlEntry__FP2DLPv(p->m2C, id)) return;
     if (fIn) {
         AppendDlEntry__FP2DLPv(p->m2C, id);
-        pso->vt[23].pfn((char *)pso + pso->vt[23].d);
+        ((void (*)(void *))pso->vt[23].pfn)(VT_THIS(pso, &pso->vt[23]));
     } else {
-        pso->vt[22].pfn((char *)pso + pso->vt[22].d);
+        ((void (*)(void *))pso->vt[22].pfn)(VT_THIS(pso, &pso->vt[22]));
         RemoveDlEntry__FP2DLPv(p->m2C, id);
     }
 }

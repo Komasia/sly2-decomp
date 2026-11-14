@@ -2,20 +2,20 @@ typedef int qword __attribute__((mode(TI)));
 extern qword D_002A2DD0;
 extern char g_sw[];
 #include "clock.h"
+#include "vtbl.h"
 struct V3 { int x; int y; int z; };
-struct VTE { short d; short pad; void *pfn; };
-struct LO { int pad[3]; struct VTE *vt; };
+struct LO { int pad[3]; VTENT *vt; };
 struct R { char pad[0x60]; float x60; float x64; };
 struct SP { char pad[0xE8]; int xE8; char pad2[0xF4 - 0xEC]; qword *xF4; };
 struct X {
-    int pad[3]; struct VTE *vt; char pad1[0x190 - 0x10]; struct V3 v190; char pad2[0x294 - 0x19C];
+    int pad[3]; VTENT *vt; char pad1[0x190 - 0x10]; struct V3 v190; char pad2[0x294 - 0x19C];
     struct SP *x294; char pad3[0x38C - 0x298]; int x38C; char pad4[0xF04 - 0x390]; float xF04;
 };
 struct P { char pad[0x10]; struct X *p10; char pad1[4]; char x18[0x18]; int x30; float x34; char pad2[0x44 - 0x38]; struct R *p44; };
-struct O9E { int pad[3]; struct VTE *vt; char pad1[0x38 - 0x10]; void *x38; int x3C; };
-struct OA7 { int pad[3]; struct VTE *vt; char pad1[0x40 - 0x10]; int x40; char pad2[0x64 - 0x44]; float x64; char pad3[0xC0 - 0x68]; int xC0; char pad4[4]; void *xC8; };
-struct OAC { int pad[3]; struct VTE *vt; char padx[0x50 - 0x10]; qword x50; char pad1[0x68 - 0x60]; int x68; };
-struct OA4 { int pad[3]; struct VTE *vt; char pad1[0x30 - 0x10]; int x30; char pad2[8]; struct R *x3C; };
+struct O9E { int pad[3]; VTENT *vt; char pad1[0x38 - 0x10]; void *x38; int x3C; };
+struct OA7 { int pad[3]; VTENT *vt; char pad1[0x40 - 0x10]; int x40; char pad2[0x64 - 0x44]; float x64; char pad3[0xC0 - 0x68]; int xC0; char pad4[4]; void *xC8; };
+struct OAC { int pad[3]; VTENT *vt; char padx[0x50 - 0x10]; qword x50; char pad1[0x68 - 0x60]; int x68; };
+struct OA4 { int pad[3]; VTENT *vt; char pad1[0x30 - 0x10]; int x30; char pad2[8]; struct R *x3C; };
 void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct X *, int, int, qword);
 void SetAloCnstrLin__FP3ALOi(struct X *, int);
 void SetAloCnstrAng__FP3ALOi(struct X *, int);
@@ -28,7 +28,7 @@ void *PloEntry__8JOBCHASE(struct P *);
 void RecalcCrv__FP3CRV(struct SP *);
 void Follow__9JOBFOLLOWP3CRVi(struct OA7 *, struct SP *, int);
 
-#define VCALL0(po, n) { struct VTE *e = &(po)->vt[n]; ((void (*)(void *))e->pfn)((char *)(po) + e->d); }
+#define VCALL0(po, n) { VTENT *e = &(po)->vt[n]; ((void (*)(void *))e->pfn)(VT_THIS((po), e)); }
 
 // name: SafeHouse port (JOBCHASE::SetState)
 void SetState__8JOBCHASEi(struct P *p, int state)
@@ -61,13 +61,13 @@ void SetState__8JOBCHASEi(struct P *p, int state)
         VCALL0(po, 8);
         {
             struct X *px = p->p10;
-            struct VTE *e = &px->vt[35];
-            ((void (*)(void *, qword))e->pfn)((char *)px + e->d, D_002A2DD0);
+            VTENT *e = &px->vt[35];
+            ((void (*)(void *, qword))e->pfn)(VT_THIS(px, e), D_002A2DD0);
         }
         {
             struct X *px = p->p10;
-            struct VTE *e = &px->vt[36];
-            ((void (*)(void *, qword))e->pfn)((char *)px + e->d, D_002A2DD0);
+            VTENT *e = &px->vt[36];
+            ((void (*)(void *, qword))e->pfn)(VT_THIS(px, e), D_002A2DD0);
         }
         {
             struct V3 *pv = &p->p10->v190;

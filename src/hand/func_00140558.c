@@ -1,6 +1,6 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int, void *, int, void *); };
+#include "vtbl.h"
 struct SO { char pad[0xFE0]; struct SO *psoNext; };
-struct P { char pad[0xC]; struct VTE *vt; char pad2[0x10E0 - 0x10]; int x10E0; };
+struct P { char pad[0xC]; VTENT *vt; char pad2[0x10E0 - 0x10]; int x10E0; };
 extern struct SO *D_003E1444;
 extern float D_002A4D18;
 int NRankGuard__FP5GUARDP5ACTORPf(struct SO *pso, struct P *p, float *pg);
@@ -32,5 +32,5 @@ void PickActorTargets__FP5ACTOR(struct P *p)
             pso1 = pso;
         }
     }
-    p->vt[95].pfn((char *)p + p->vt[95].d, n0, pso0, n1, pso1);
+    ((void (*)(void *, int, void *, int, void *))p->vt[95].pfn)(VT_THIS(p, &p->vt[95]), n0, pso0, n1, pso1);
 }

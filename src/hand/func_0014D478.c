@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *, ...); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct E { int prio; struct O *po; struct O *poTarget; int b; };
 struct CM {
     char pad[0x20]; float g20; float g24; float g28; float g2C;
@@ -36,8 +36,8 @@ void UpdateCm__FP2CM(struct CM *p)
         if (poT) {
             pv = p->x270;
             if (poT != poLast) {
-                struct VTE *e = &poT->vt[50];
-                e->pfn((char *)poT + e->d, pv);
+                VTENT *e = &poT->vt[50];
+                ((void (*)(void *, ...))e->pfn)(VT_THIS(poT, e), pv);
                 if (poPrev || poT != p->po260)
                     ResetCmAdjust__FP2CM(p, pv);
                 AdjustCmCpdefi__FP2CMP2SOP6CPDEFI(p, poT, pv);
@@ -50,8 +50,8 @@ void UpdateCm__FP2CM(struct CM *p)
             poLast = 0;
         }
         {
-            struct VTE *e = &po->vt[6];
-            e->pfn((char *)po + e->d, pv, (g_grfjoyt & 1) ? g_joy : D_002E0D00);
+            VTENT *e = &po->vt[6];
+            ((void (*)(void *, ...))e->pfn)(VT_THIS(po, e), pv, (g_grfjoyt & 1) ? g_joy : D_002E0D00);
         }
         poPrev = po;
         if (p->c <= 0)
