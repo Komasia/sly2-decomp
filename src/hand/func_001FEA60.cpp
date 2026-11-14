@@ -5,7 +5,7 @@ struct LM {float low,high;};
 extern LM g_lmZeroOne;
 extern PMF D_002A8298,D_002A82A0;
 extern "C" float GLimitLm(LM *,float) asm("GLimitLm__FP2LMf");
-extern "C" void *s1_memset(void *,int,unsigned int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,unsigned int) asm("memset");
 extern "C" void func_002321E8(int,int);
 static inline X *ReadReceiver(X **pp)
 {

@@ -11,7 +11,7 @@ struct CLOCK { float t; float dt; };
 extern CLOCK g_clock;
 extern "C" {
 S *func_0011CCC0(void *);
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 }

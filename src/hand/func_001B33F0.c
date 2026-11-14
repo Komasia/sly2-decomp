@@ -2,7 +2,7 @@ struct S { char pad[0x160]; char x160[0x14]; int x174; char pad2[8]; char x180[0
 extern char D_002D4220[];
 int func_001B41D0(struct S *p, int n);
 void func_001B32B8(void *p);
-void s1_memset(void *p, int c, int n);
+void s1_memset(void *p, int c, int n) asm("memset");
 void CbFill(void *p, int n, void *b) asm("CbFill__10CByteQueueiPUc");
 void FreeDrain(void *p, int n) asm("FreeDrain__10CByteQueuei");
 void CbDrain(void *p, int n, void *b) asm("CbDrain__10CByteQueueiP12CQueueOutput");

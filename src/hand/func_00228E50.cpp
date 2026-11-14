@@ -56,7 +56,7 @@ void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,O *) asm("SetSource__4CSndPv");
 void SetFalloff(void *,float,float) asm("SetFalloff__4CSndff");
 void SetVolume(void *,float) asm("SetVolume__4CSndf");
-void *s1_memset(void *,int,int) asm("s1_memset");
+void *s1_memset(void *,int,int) asm("memset");
 void SettleWaterNodes(O *,N **) asm("SettleWaterNodes__FP3ALOPv");
 }
 struct MARK {};

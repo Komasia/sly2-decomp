@@ -2,7 +2,7 @@ typedef struct VT { short d; short pad; void *pfn; } VT;
 typedef struct A { VT *vt; } A;
 typedef struct E { unsigned int key; int k; int v; struct E *next; } E;
 typedef struct H { unsigned int c; E **ap; int count; A *pa; } H;
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void func_002568C0(H *, int);
 unsigned int func_0011AFE0(int);
 

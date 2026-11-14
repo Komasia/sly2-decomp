@@ -14,7 +14,7 @@ void *PvAllocSwClearImpl__Fi(struct A *pa);
 qword PosOfLo__FP2LO(struct LO *p);
 struct MAT3 *MatJtLo__FP2LO(struct LO *p);
 void NormalizeRotateMatrix3(struct MAT3 *pm) asm("NormalizeRotateMatrix3__FP7MATRIX3");
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 static inline void SetIdent(struct MAT4 *pm) { s1_memset(pm, 0, 0x40); pm->m[0][0] = pm->m[1][1] = pm->m[2][2] = pm->m[3][3] = 1.0f; }
 void func_001CA500(struct G *pg)
 {

@@ -12,7 +12,7 @@ struct CRef {
 };
 struct NODE { int x0, x4; CRef ref; NODE *pnext; };
 extern "C" {
-void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 CRef RefOpMatrix(int carg, CRef *pref) asm("RefOpMatrix__FiP4CRefP6CFrame");
 }

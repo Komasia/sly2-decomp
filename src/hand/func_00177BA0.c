@@ -6,7 +6,7 @@ struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct A { char pad[0xC]; struct VTE *vt; char pad2[0xFBC - 0x10]; int nFBC; char pad3[0x1010 - 0xFC0]; int n1010; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; };
 struct F { int a; int pad[3]; void *p10; float f14; int rest[0x16]; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct A *p, int n);
 void *PloPlayerPo__FP2SW(struct G *g);
 int func_00177D20(struct S *p);

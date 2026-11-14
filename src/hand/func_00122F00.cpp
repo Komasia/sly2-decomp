@@ -17,7 +17,7 @@ extern "C" {
 M3 MulMat3TransposeA(M3 *pa, M3 *pb) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");
 void DecomposeRotateMatrixRad(M3 *pmat, float *prad, qword *pvec) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
 M3 BuildRotateMatrixAxis(float rad, qword axis) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
-void *s1_memset(void *pv, int n, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int n, int cb) asm("memset");
 }
 static inline M3 MulM3(const M3 &a, M3 *pb) return m
 {

@@ -24,7 +24,7 @@ int func_001A61A0(EMITTER *p);
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 int CPvDl(int *pdl) asm("CPvDl__FP2DL");
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 void EmitParticles(int c, EMITB *pemitb, EMITX *px) asm("EmitParticles__FP8EMITTERNP5EMITBP5EMITG");
 }
 void OnEmitterValuesChanged(EMITTER *p);

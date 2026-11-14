@@ -1,7 +1,7 @@
 extern int D_003DA180;
 extern struct G g_sw;
 void *func_0013E368(struct G *g, int n);
-void s1_strcpy(char *p, void *q);
+void s1_strcpy(char *p, void *q) asm("strcpy");
 void func_001DCA30(char *pch) {
     int id;
     switch (D_003DA180) {

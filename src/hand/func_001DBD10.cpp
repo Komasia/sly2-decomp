@@ -19,7 +19,7 @@ struct OBJ {
 extern char D_002A79A0[];
 extern char D_002A79D0[];
 extern char D_002A79D8[];
-extern "C" int fiprintf(char *, const char *, ...) asm("fiprintf");
+extern "C" int sprintf(char *, const char *, ...) asm("sprintf");
 extern "C" CRef func_001D8A38(const char *, ...);
 extern "C" int func_001DAE58(int);
 extern "C" int func_001DAEA8(int);
@@ -52,7 +52,7 @@ extern "C" void BuildShopList__FP4SHOP(OBJ *p)
         for (i = 0; i < 0x40; i++) {
             CRef ref;
             char ach[0x20];
-            fiprintf(ach, D_002A79A0, i);
+            sprintf(ach, D_002A79A0, i);
             ref = func_001D8A38(D_002A79D0, D_002A79D8, ach, 0);
             if (ref.m_tag == 0)
                 continue;

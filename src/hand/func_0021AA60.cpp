@@ -2,7 +2,7 @@
 struct LINEAR {void *vtable;int limit;void *buffer;int used;};
 struct HEAP {void *vtable;int field4;};
 struct POOL;
-extern "C" void *s1_memset(void *,int,unsigned int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,unsigned int) asm("memset");
 struct STRINGGEN {
  int id;void (*get)(char *,void *,void *);void *context;
  STRINGGEN(){s1_memset(this,0,sizeof(*this));}

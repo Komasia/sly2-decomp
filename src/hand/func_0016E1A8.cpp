@@ -1,5 +1,5 @@
 #include "vifs.h"
-extern "C" void *s1_memset(void *pv, int n, int cb) asm("s1_memset");
+extern "C" void *s1_memset(void *pv, int n, int cb) asm("memset");
 extern "C" void EnsureVu1Code(VIFS *pvifs, void *pvStart, void *pvEnd) asm("EnsureVu1Code__FP4VIFSPvT1");
 extern char D_0025E680[];
 extern char D_00262320[];

@@ -81,7 +81,7 @@ struct ROOT { char pad[0x54]; SPRITE *sprites; };
 struct ANIM { ushort count, pad2; KEY *keys; float duration; ROOT *owner; GROUP *group; int id; };
 extern "C" {
 void func_0011A058(int *);
-void *s1_memset(void *, int, unsigned int) asm("s1_memset");
+void *s1_memset(void *, int, unsigned int) asm("memset");
 void func_00215730(SPRITE *, ITEM *, M23 *, RGBA, RGBA);
 void func_00219400(float, float, ANIM *, int, int, M23 *, const RGBA *, const RGBA *);
 void func_002158C0(SPRITE *, ITEM *);

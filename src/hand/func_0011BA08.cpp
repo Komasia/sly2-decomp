@@ -20,8 +20,8 @@ struct VU_FLOAT {
     float G() const { register qword t __asm__("$2") = q; float g; __asm__("mtc1 %1, %0" : "=f"(g) : "r"(t)); return g; }
 };
 extern "C" {
-void *s1_memset(void *pv, int n, int cb) asm("s1_memset");
-void *s1_memcpy(void *pvDst, const void *pvSrc, int cb) asm("s1_memcpy");
+void *s1_memset(void *pv, int n, int cb) asm("memset");
+void *s1_memcpy(void *pvDst, const void *pvSrc, int cb) asm("memcpy");
 qword PerpendicularVector(qword v) asm("PerpendicularVector__FG9VU_VECTOR");
 float GLimitAbs(float g, float gMax) asm("GLimitAbs__Fff");
 M3 BuildRotateMatrixSinCos(VU_FLOAT s, VU_FLOAT c, qword axis) asm("BuildRotateMatrixSinCos__FG9VU_VECTORN20");

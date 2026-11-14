@@ -6,7 +6,7 @@ extern PadSt D_004505D0[2][4];
 int DIntr(void);
 int EIntr(void);
 unsigned char *scePadGetDmaStr(int port, int slot);
-int scePadGetState_243388(int port, int slot)
+int scePadGetState(int port, int slot)
 {
     int r;
     unsigned char *p;

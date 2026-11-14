@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct M4 { qword r[4]; } M4;
 typedef struct P { char pad[0xA0]; struct P *xA0; } P;
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void PredictXf__FP2XFPvP7MATRIX4f(P *, M4 *, M4 *, float);
 M4 MulMatrix4__FP7MATRIX4T0Pv(M4 *, M4 *);
 

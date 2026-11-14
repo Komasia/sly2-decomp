@@ -5,13 +5,13 @@ extern int D_002C6750;
 extern volatile int D_002C6774;
 extern char D_002AB510[];
 extern char D_002C7910[];
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int DelayThread(int);
 int sceSifCheckStatRpc(void *);
 int sceCdSync(int mode)
 {
     if (mode == 0) {
-        if (D_002C6750 > 0) func_00236960(D_002AB510);
+        if (D_002C6750 > 0) scePrintf(D_002AB510);
         while (D_002C6774 || sceSifCheckStatRpc(D_002C7910)) DelayThread(0xFA0);
         return 0;
     }

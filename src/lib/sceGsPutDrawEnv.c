@@ -3,7 +3,7 @@
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef struct { u_long NLOOP:15, EOP:1, pad16:16, id:14, PRE:1, PRIM:11, FLG:2, NREG:4; u_long REGS; } sceGifTag;
-int func_00236960(const char *fmt, ...);
+int scePrintf(const char *fmt, ...);
 extern char D_002AB2F0[];
 #define D2_CHCR ((volatile u_int *)0x1000A000)
 #define D2_MADR ((volatile u_int *)0x1000A010)
@@ -14,7 +14,7 @@ int sceGsPutDrawEnv(sceGifTag *giftag)
     if (*D2_CHCR & 0x100) {
         do {
             if (cnt++ > 0x1000000) {
-                func_00236960(D_002AB2F0) /* "sceGsPutDrawEnv: DMA Ch.2 does not terminate" */;
+                scePrintf(D_002AB2F0) /* "sceGsPutDrawEnv: DMA Ch.2 does not terminate" */;
                 return -1;
             }
         } while (*D2_CHCR & 0x100);

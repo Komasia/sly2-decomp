@@ -39,7 +39,7 @@ public:
     void Reserve(int c);
 };
 
-extern "C" void CopyAb(void *pvDst, void *pvSrc, uint cb);
+void CopyAb(void *pvDst, void *pvSrc, uint cb);   /* Sly 1 memory.h; C++ linkage (CopyAb__FPvT0Ui) */
 extern "C" void *memset(void *pv, int b, uint cb);
 extern "C" int strlen(const char *sz);
 void *PvAllocCopy(HEAP *pheap, int cb, void *pv, int n);

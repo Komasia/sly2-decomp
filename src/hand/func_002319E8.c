@@ -14,7 +14,7 @@ extern RPC D_00443800, D_00448440;
 extern int gStats[];
 extern unsigned int gLoadReturnValue;
 extern char D_002AA100[], D_002AA128[];
-void kprintf(const char *, ...);
+void printf(const char *, ...);
 void sceSifInitRpc(int);
 int sceSifBindRpc(void *, int, int);
 int func_002325E0(int, int, void *);
@@ -37,7 +37,7 @@ void func_002319E8(int flags)
     sceSifInitRpc(0);
     do {
         if (sceSifBindRpc(&D_00443800, 0x123456, 0) < 0) {
-            kprintf(D_002AA100, D_002AA128, 0xB5);
+            printf(D_002AA100, D_002AA128, 0xB5);
             while (1)
                 ;
         }
@@ -51,7 +51,7 @@ void func_002319E8(int flags)
     gLoadReturnValue = 0;
     do {
         if (sceSifBindRpc(&D_00448440, 0x123457, 0) < 0) {
-            kprintf(D_002AA100, D_002AA128, 0xCA);
+            printf(D_002AA100, D_002AA128, 0xCA);
             while (1)
                 ;
         }

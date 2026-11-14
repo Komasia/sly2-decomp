@@ -3,7 +3,7 @@
 // SLY2_ASM: gnu-reorder-db
 extern char D_002AACD0[];
 extern char D_002AACE0[];
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 void sceSifInitRpc(int);
 void func_00236C00(void);
 int sceSifResetIop(const char *, int);
@@ -23,7 +23,7 @@ int sceSifRebootIop(const char *img)
         origin = (unsigned int)img - 11;
     }
     if ((unsigned int)p - origin > 80) {
-        func_00236960(D_002AACE0, img);
+        scePrintf(D_002AACE0, img);
         return 0;
     }
     sceSifInitRpc(0);

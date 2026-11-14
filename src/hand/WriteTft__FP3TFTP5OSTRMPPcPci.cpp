@@ -4,7 +4,7 @@ class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int count,bu
 void WriteTftPchz(TFT *,OSTRM *,char *);
 void WriteTftUl(TFT *,OSTRM *,unsigned long);
 void WriteTftDouble(TFT *,OSTRM *,double);
-extern "C" unsigned int s1_strlen(const char *) asm("s1_strlen");
+extern "C" unsigned int s1_strlen(const char *) asm("strlen");
 static inline char *Next(char **args){char *p=*args;*args=p+8;return p;}
 static inline void WritePchz(OSTRM *out,char *s){out->CbWrite(s,s1_strlen(s));}
 static inline char *LiteralAddress(char *text){char *value;asm("la %0,%1":"=r"(value):"i"(text));return value;}

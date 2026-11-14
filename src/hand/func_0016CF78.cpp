@@ -16,7 +16,7 @@ void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void*PvAllocStackImpl(const REQUEST&) asm("PvAllocStackImpl__Fi");
-void*s1_memset(void*,int,uint) asm("s1_memset");
+void*s1_memset(void*,int,uint) asm("memset");
 void CopyAb__FPvT0Ui(void*,const void*,uint) __asm__("CopyAb__FPvT0Ui");
 OBJECT*PshdFromIndex(int) asm("PshdFromIndex__Fi");
 int func_001EC688(OBJECT*,int,int,VIFS*);

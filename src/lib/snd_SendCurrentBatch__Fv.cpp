@@ -8,7 +8,7 @@ extern void *gReturnValuesPtr[2];
 extern char D_00443800[];
 extern char D_002AA1C8[];
 void func_00231F38(void *, int, int *);
-void kprintf(const char *, ...) asm("kprintf");
+void printf(const char *, ...) asm("printf");
 void FlushCache(int) asm("FlushCache");
 int sceSifCheckStatRpc(void *) asm("sceSifCheckStatRpc");
 int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *) asm("sceSifCallRpc");
@@ -19,7 +19,7 @@ void snd_SendCurrentBatch()
     func_00231F38(gReturnValuesPtr[gCommandFillBuffer], *gSndCommandBuffePtr[gCommandFillBuffer], gSndCommandBuffePtr[gCommandFillBuffer]);
     while (sceSifCheckStatRpc(D_00443800)) {
         if (!D_002C46B8)
-            kprintf(D_002AA1C8);
+            printf(D_002AA1C8);
         FlushCache(0);
     }
     sceSifCallRpc(D_00443800, 0x4D, 1, gSndCommandBuffePtr[gCommandFillBuffer], 0x1000 - gCommandBuffeBytesAvail[gCommandFillBuffer],

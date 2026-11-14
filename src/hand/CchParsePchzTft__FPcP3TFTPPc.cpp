@@ -1,6 +1,6 @@
 // Parse one TFT specifier; all length modifiers advance to conversion.
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
-extern "C" {void *s1_memset(void *,int,int) asm("s1_memset");extern unsigned char D_002AA6A1[];}
+extern "C" {void *s1_memset(void *,int,int) asm("memset");extern unsigned char D_002AA6A1[];}
 int CchParsePchzInt(char *,int *);
 static inline int Abs(int n){return n<0?-n:n;}
 static inline int Upper(unsigned char c){return D_002AA6A1[c]&1;}

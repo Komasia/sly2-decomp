@@ -5,7 +5,7 @@ extern int D_004425D8[];
 void WaitSema(int);
 void SignalSema(int);
 void ExitDeleteThread(void);
-void *s1_memset(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int) asm("memset");
 void func_001AAF18(struct S *s)
 {
     WaitSema(s->x0);

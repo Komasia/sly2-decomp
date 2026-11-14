@@ -21,7 +21,7 @@ public:
     void Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs);
 };
 extern "C" {
-void *s1_memset(void *, int, unsigned int) asm("s1_memset");
+void *s1_memset(void *, int, unsigned int) asm("memset");
 void Reset(CRichText *p) asm("Reset__9CRichText");
 int ChNext(CRichText *p) asm("ChNext__9CRichText");
 float DxFromCh(CFont *pfont, int ch) asm("DxFromCh__8CFontBrxc");

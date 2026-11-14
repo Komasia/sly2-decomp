@@ -2,7 +2,7 @@ struct VE {short delta,pad;void (*init)(void *);};
 struct O {int pad[3];struct VE *vt;int tag;struct O *previous,*next;};
 struct STK {int tag,count;void *slots[1];};
 int func_001EF6F0(void);
-void *s1_memset(void *,int,int);
+void *s1_memset(void *,int,int) asm("memset");
 struct O *PjobNew__F3CIDPv(int,void *);
 static inline int Count(const int*p){
     register int value __asm__("$2");

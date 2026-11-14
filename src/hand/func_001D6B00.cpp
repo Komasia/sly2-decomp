@@ -70,7 +70,7 @@ extern char g_sw[];
 extern "C" {
 qword PosOfLo(SO *) asm("PosOfLo__FP2LO");                                       // PosLoWorld
 MATRIX4 *MulMatrix4(MATRIX4 *, MATRIX4 *, MATRIX4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
-void *s1_memset(void *, int, int) asm("s1_memset");                           // memset
+void *s1_memset(void *, int, int) asm("memset");                           // memset
 void func_002309E8(XF *, int, MATRIX4 *, MATRIX4 *, float);
 int FIsBasicDerivedFrom(SO *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");                                    // FIsBasicDerivedFrom
 void SetProjectileLauncher(SO *, LAUNCH *) asm("SetProjectileLauncher__FP3ALOP2LO");

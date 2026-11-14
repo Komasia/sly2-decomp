@@ -11,7 +11,7 @@ struct LO {
     char pad3[0x50 - 0x30]; int c; struct E *ae; char pad4[0x60 - 0x58]; struct ALO *palo;
 };
 extern "C" {
-void s1_memset(void *, int, int) asm("s1_memset");
+void s1_memset(void *, int, int) asm("memset");
 void MulMatrix4(struct MAT *, struct ALO *, struct MAT *) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void func_001A5900(struct LO *, struct LO *, struct LO *, int);
 void UpdateAloXfWorlds(struct LO *) asm("UpdateAloXfWorlds__FP3ALO");

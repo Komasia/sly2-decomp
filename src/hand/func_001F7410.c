@@ -8,7 +8,7 @@ struct M { void *p0; void *p4; void *p8; int nC; int n10; int pad[3]; qword q20;
 struct G;
 extern struct G g_sw;
 void *PaloXpFilter__FP3ALOUi(void *, int);
-void s1_memset(void *, int, int);
+void s1_memset(void *, int, int) asm("memset");
 int PaloAcceptContact__FP5CTMSG(struct M *);
 void FreeSwXpList(struct G *, void *) asm("FreeSwXpList__FP2SWP2XP");
 // name: SafeHouse port (DispatchAloSensorContacts)

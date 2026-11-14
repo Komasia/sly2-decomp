@@ -18,8 +18,8 @@ extern int D_004507C0[];
 extern int D_002C830C;
 extern char D_002AB6F0[];
 extern char D_002AB720[];
-int func_00236960(const char *, ...);
-void *s1_memset(void *, int, int);
+int scePrintf(const char *, ...);
+void *s1_memset(void *, int, int) asm("memset");
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int scePadPortOpen(int port, int slot, void *addr)
 {
@@ -28,11 +28,11 @@ int scePadPortOpen(int port, int slot, void *addr)
     PadCmd *c;
     void *t;
     if ((int)addr & 0x3F) {
-        if (D_002C830C) func_00236960(D_002AB6F0, addr);
+        if (D_002C830C) scePrintf(D_002AB6F0, addr);
         return 0;
     }
     if (D_004505D0[port][slot].open == 1) {
-        if (D_002C830C) func_00236960(D_002AB720, port, slot);
+        if (D_002C830C) scePrintf(D_002AB720, port, slot);
         return 0;
     }
     p = (PadData *)addr;

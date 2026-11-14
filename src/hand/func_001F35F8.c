@@ -3,8 +3,8 @@ typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
 struct T { M3 m; qword v[3]; };
 struct X { char pad[0xE8]; struct T *pt; };
-void s1_memcpy(void *d, const void *s, unsigned int cb);
-void *s1_memset(void *d, int c, unsigned int cb);
+void s1_memcpy(void *d, const void *s, unsigned int cb) asm("memcpy");
+void *s1_memset(void *d, int c, unsigned int cb) asm("memset");
 int FInvertMatrix3__FP7MATRIX3T0(struct T *pt, qword *pv);
 void AdjustSoMomint__FP2SOf(struct X *p, float s)
 {

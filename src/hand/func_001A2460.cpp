@@ -12,7 +12,7 @@ struct MSG {int type;char pad4[0x1C];U position;};
 struct CLOCK {float time,dt;};
 extern "C" CLOCK g_clock;
 extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
-extern "C" void*s1_memset(void*,int,int) asm("s1_memset");
+extern "C" void*s1_memset(void*,int,int) asm("memset");
 extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
 extern "C" int FWaterSurfaceUnder(P*,L*,qword*) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);

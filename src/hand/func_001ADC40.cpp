@@ -14,8 +14,8 @@ extern "C" {
  int func_001DDD40(int);
  void*func_0013E368(void*,int);
  int func_001D82B8(void*,void*);
- int fiprintf(char*,const char*,...) asm("fiprintf");
- char*s1_strcpy(char*,const char*) asm("s1_strcpy");
+ int sprintf(char*,const char*,...) asm("sprintf");
+ char*s1_strcpy(char*,const char*) asm("strcpy");
  int KindDataAccess(void*) asm("KindDataAccess__FP4MENU");
 }
 struct FRAME{FRAME()__asm__("__10STACKSCOPE");~FRAME(){_$_10STACKSCOPE(this,2);}};
@@ -30,7 +30,7 @@ extern "C" void func_001ADC40(char*buf,int idx){
   void*value=func_001D89A8(D_002A6EE0,0);
   int tag;
   if(value)tag=GetN(ref,value,pb);else tag=GetN(ref,pg->fallback,pb);
-  fiprintf(buf,D_002A6EC8,(char*)func_0013E368(&g_sw,func_001DDD40(tag)),func_001D82B8(g_sw.object,pb));
+  sprintf(buf,D_002A6EC8,(char*)func_0013E368(&g_sw,func_001DDD40(tag)),func_001D82B8(g_sw.object,pb));
   _$_10STACKSCOPE(frame,2);
  }else{
   switch(KindDataAccess(D_003D9ED0)){

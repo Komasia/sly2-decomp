@@ -7,7 +7,7 @@ extern char D_002A5168[];
 void NProgress(CRef *pref, void *p, void *q);
 void Decref(CRef *pref) asm("Decref__4CRef");
 float fmodf(float a, float b);
-void fiprintf(char *pch, char *fmt, ...);
+void sprintf(char *pch, char *fmt, ...);
 void func_0015D9C0(char *pch)
 {
     struct G *pg = &g_sw;
@@ -21,6 +21,6 @@ void func_0015D9C0(char *pch)
         Decref(&ref);
         h = (int)(g / 3600.0f);
         m = (int)(fmodf(g, 3600.0f) / 60.0f);
-        fiprintf(pch, D_002A5168, h, m);
+        sprintf(pch, D_002A5168, h, m);
     }
 }

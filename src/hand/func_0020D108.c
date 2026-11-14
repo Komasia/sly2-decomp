@@ -2,7 +2,7 @@ struct CLOCK { float t; };
 extern struct CLOCK g_clock;
 struct F { int a[0x18]; };
 struct S { int n0; int n; float t; };
-void *s1_memset(void *pv, int c, int cb);
+void *s1_memset(void *pv, int c, int cb) asm("memset");
 void PaloAcceptContact__FP5CTMSG(struct F *pf);
 // name: SafeHouse port (SetWatchA)
 void SetWatchA__FP6WATCHAi(struct S *p, int n)

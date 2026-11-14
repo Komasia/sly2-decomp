@@ -3,7 +3,7 @@
 // SLY2_ASM: gnu-reorder-db
 __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
 struct eh_context { void *handler_label; void **dynamic_handler_chain; void *info; void *table_index; };
-void *s1_memset(void *, int, unsigned long);
+void *s1_memset(void *, int, unsigned long) asm("memset");
 extern struct eh_context D_00450258;
 extern int D_00450268;
 extern void *D_00450270[2];

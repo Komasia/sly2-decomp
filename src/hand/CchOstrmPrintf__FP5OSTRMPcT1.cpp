@@ -2,7 +2,7 @@
 struct OSTRM { char pad[0x10]; int cchWritten; };
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits,matrixRows,vectorColumns;unsigned char conversion;int fUpper;};
 extern "C" char *strchr(char *p, int ch);
-extern "C" int s1_strlen(char *p) asm("s1_strlen");
+extern "C" int s1_strlen(char *p) asm("strlen");
 extern "C" int CbWrite(OSTRM *postrm, char *pb, int cb) asm("CbWrite__5OSTRMPvi");
 int CchParsePchzTft(char *pchz, TFT *ptft, char **ppv);
 void WriteTft(TFT *ptft, OSTRM *postrm, char **ppv, char *pchz, int cch);

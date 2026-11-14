@@ -1,6 +1,6 @@
 struct M { float a[16]; };
 extern struct M D_002C44F0;
-void s1_memset(void *p, int c, int n);
+void s1_memset(void *p, int c, int n) asm("memset");
 struct M *func_001A6B30(void *unused, struct M *pm)
 {
     if (pm) {

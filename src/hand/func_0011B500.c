@@ -3,7 +3,7 @@ typedef union { qword q; int n; } U;
 typedef struct { qword r[3]; } M3;
 void CalculateSinCos__FfPfT1(float g, int *ps, int *pc);
 M3 BuildRotateMatrixSinCos__FG9VU_VECTORN20(qword s, qword c, qword axis);
-void s1_memcpy(void *pvDst, void *pvSrc, int cb);
+void s1_memcpy(void *pvDst, void *pvSrc, int cb) asm("memcpy");
 static inline qword QwFromN(int n) { U u; __asm__("" : "=r"(u.q) : "0"(n)); return u.q; }
 /* c's conversion. "+r"(a) is allocation-only and the "$4" clobber (a dead argument register) is scheduling-only:
    they put the axis copy (a3) and the hidden return pointer (a0) after this asm, as in the target. */

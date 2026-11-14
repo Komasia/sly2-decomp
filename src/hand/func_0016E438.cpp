@@ -15,7 +15,7 @@ void*__10STACKSCOPE(void*);
 void _$_10STACKSCOPE(void*,int);
 void*PvAllocSwClearImpl(const REQUEST&) asm("PvAllocSwClearImpl__Fi");
 void BuildCmFogRecip(ENV*,float*,float) asm("BuildCmFogRecip__FP2CMPff");
-void*s1_memset(void*,int,uint) asm("s1_memset");
+void*s1_memset(void*,int,uint) asm("memset");
 void LoadGlobSubmeshesFromBrx(P*,D*,E*,SPHERE*,int,int,const int*,FACE**,CBinaryInputStream*) asm("LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii");
 extern ENV g_cm;
 extern uint D_002DEB50;

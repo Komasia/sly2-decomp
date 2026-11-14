@@ -8,7 +8,7 @@ float GSuck__FPv(void *p);
 float GLimitLm__FP2LMf(LM *plm, float g);
 float GScoreMean__FP5DANCE(struct S *p);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
-void *s1_memmove(void *dst, void *src, int cb);
+void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 static inline float GClampLm(LM *plm, float g)
 {
     if (g < plm->gMin)

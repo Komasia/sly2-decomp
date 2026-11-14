@@ -8,7 +8,7 @@ extern char D_002E5270[];
 void func_00160B70(void *);
 int GetThreadId(void);
 void ChangeThreadPriority(int tid, int prio);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 int CreateThread(struct ThreadParam *tp);
 
 void StartupThread__Fv(void)

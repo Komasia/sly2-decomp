@@ -20,7 +20,7 @@ void WakeAlo__FP3ALO(struct LO *);
 void func_0011CD98(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 int FFindDlEntry__FP2DLPv(void *, struct X *);
-void *s1_memmove(void *, void *, int);
+void *s1_memmove(void *, void *, int) asm("memmove");
 #define VCALL(po, n, T) ((T)(po)->vt[n].pfn)((char *)(po) + (po)->vt[n].d
 // name: SafeHouse port (RemoveSwOxa)
 void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)

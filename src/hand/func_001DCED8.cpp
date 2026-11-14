@@ -29,12 +29,12 @@ struct OBJ {
 };
 extern "C" {
 void func_00213928(void *, int);
-void s1_memset(void *, int, unsigned int) asm("s1_memset");
+void s1_memset(void *, int, unsigned int) asm("memset");
 void func_00165C98(int *, SO ***);
 void qsort(void *, int, int, int (*)(const void *, const void *)) asm("qsort");
 int func_00165C28(const void *, const void *);
 int NJobOpen(SO *) asm("NJobOpen__FP3JOB");
-void s1_memmove(void *, void *, unsigned int) asm("s1_memmove");
+void s1_memmove(void *, void *, unsigned int) asm("memmove");
 void func_001DCE90(OBJ *, int);
 }
 // name: SafeHouse port (BuildJobHelp)

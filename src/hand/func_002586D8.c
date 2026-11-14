@@ -7,7 +7,7 @@ typedef struct { char p0[0xE4]; X *px; } SO;
 extern char g_sw[];
 extern char D_002CE4A0[];
 void PostLoLoad__FP2LO(SO *p);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 int memcmp(const void *a, const void *b, int n);
 void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, SO *p);
 void PimgEmitb(SO *p, int f);

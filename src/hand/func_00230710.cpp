@@ -24,7 +24,7 @@ M4 *DmatSkew(M4 *pm, O *pa, const M4 *basis, qword v) asm("DmatSkew__FP7MATRIX4P
 M3 *BuildRotateMatrixVector(M3 *, qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");
 qword VecXfValue(O *pa, const M4 *matrix) asm("VecXfValue__FP2XFP7MATRIX4");
 qword *func_00256D18(qword *, qword);
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 void PredictXf(O *po, M4 *pm, M4 *pm2, float g) asm("PredictXf__FP2XFPvP7MATRIX4f");
 }
 struct VUF { qword q; VUF(float g) { float f = g; __asm__("" : "+f"(f)); __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };

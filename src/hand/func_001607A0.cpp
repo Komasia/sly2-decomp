@@ -2,7 +2,7 @@ struct DL { void *pvFirst; void *pvLast; int ibDle; };
 extern "C" void func_00234700(int n, int (*pfn)(), int m);
 extern "C" void func_00235178(int n);
 extern "C" void InitDl(DL *pdl, int ib) asm("InitDl__FP2DLi");
-extern "C" void StartThread_002355E0(int n, int m) asm("StartThread_002355E0");
+extern "C" void StartThread_2355E0(int n, int m) asm("StartThread_2355E0");
 extern "C" int func_00167F78();
 int SemaCreate(int n, int m);
 extern int D_002DEB18;
@@ -18,5 +18,5 @@ extern "C" void func_001607A0()
     D_002DEB1C = SemaCreate(2, 2);
     InitDl(&D_002DEAF0, 0x454);
     InitDl(&D_002DEB00, 0x1090);
-    StartThread_002355E0(D_004425D4, 0);
+    StartThread_2355E0(D_004425D4, 0);
 }

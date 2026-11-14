@@ -5,7 +5,7 @@ typedef struct { VU r[4]; } M4;
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 struct S { M4 m; char pad[0x94 - 0x40]; int k; };
-void *s1_memcpy(void *d, void *s, int n);
+void *s1_memcpy(void *d, void *s, int n) asm("memcpy");
 M3 *BuildEulerMatrix__FP6VECTORG9VU_VECTOR(M3 *pm, qword v);
 VU *func_00256D18(VU *pv, qword q);
 // name: SafeHouse port (MatXfWithValue)

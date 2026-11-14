@@ -14,7 +14,7 @@ typedef struct { int (*func)(); void *data; void *gp; } CB;
 #define W(o) (*(int *)((char *)d + (o)))
 #define L(o) (*(long *)((char *)d + (o)))
 #define P(o) (*(void **)((char *)d + (o)))
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void _sceMpegError(void *, const char *, int);
 void _sceMpegError1(void *, const char *, int);
 void func_0024B8F8(void *, void *, int);

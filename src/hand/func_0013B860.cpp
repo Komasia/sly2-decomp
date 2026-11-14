@@ -19,7 +19,7 @@ extern G g_sw;
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 void RecordHit(P *p, qword a, qword b) asm("RecordHit__FP3ALOG9VU_VECTORT1");
 void AploVictims(P *p, int *pc, PO ***papo) asm("AploVictims__FP3ALOP6VECTORPv");
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 int PaloAcceptContact(MSG *pmsg) asm("PaloAcceptContact__FP5CTMSG");
 int FIsBasicDerivedFrom(PO *po, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int *func_00156698(int n, qword pos, void *pv);

@@ -19,7 +19,7 @@ int sceSifInitIopHeap(void);
 void *sceSifAllocIopHeap(int cb);
 void FlushCache(int n);
 int sceSifSetDma(struct DMA *p, int n);
-int s1_sceSifLoadModule(void *h, int argumentBytes, const char *arguments);
+int sceSifLoadModuleBuffer(void *h, int argumentBytes, const char *arguments);
 int func_00238D40(void *h);
 static inline int CopyLimit(int value)
 {
@@ -93,7 +93,7 @@ void func_001A7630(void)
             cb -= c;
             off += c;
         }
-        while (s1_sceSifLoadModule(h, pe->argumentBytes, pe->arguments) < 0)
+        while (sceSifLoadModuleBuffer(h, pe->argumentBytes, pe->arguments) < 0)
             ;
     }
     func_00238D40(h);

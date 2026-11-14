@@ -19,7 +19,7 @@ void *__10STACKSCOPE(void *pframe);
 void _$_10STACKSCOPE(void *pframe, int n);
 void *PvAllocStackClearImpl(MSG *pmsg) asm("PvAllocStackClearImpl__Fi");
 void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
-void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 qword PosOfLo(void *pv) asm("PosOfLo__FP2LO");
 NAV *PregionAt(qword pos, int f) asm("PregionAt__FG9VU_VECTORi");
 void ClearDl(DL *pdl) asm("ClearDl__FP2DL");

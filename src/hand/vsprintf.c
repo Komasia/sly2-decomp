@@ -2,7 +2,7 @@ struct OSTRM { char *pbMem; int cbMemMax; int cbMem; int fd; int cbTotal; int cb
 void __5OSTRMPvi(struct OSTRM *p, char *pb, int cb);
 int CchOstrmPrintf(struct OSTRM *p, char *fmt, char *ap) asm("CchOstrmPrintf__FP5OSTRMPcT1");
 void func_0020D618(struct OSTRM *p, int f);
-int s1_vsprintf(char *pchzDest, char *fmt, char *ap)
+int vsprintf(char *pchzDest, char *fmt, char *ap)
 {
     struct OSTRM s;
     int len;

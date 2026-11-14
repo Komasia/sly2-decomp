@@ -24,7 +24,7 @@ struct Q {
     VU xF0;
 };
 int ImrsgLookUp(void *, struct SEG *, float *, float, float) asm("ImrsgLookUp__FffiP4MRSGPf");
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float, float, float, qword, qword, qword, qword, VU *, VU *, int);
 
 static __inline__ qword Madd(qword a, qword v, qword s)

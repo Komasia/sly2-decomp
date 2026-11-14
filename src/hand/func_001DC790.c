@@ -5,7 +5,7 @@ struct T { int a[5]; int id; int b[2]; };
 extern struct T D_002BCD00[];
 extern struct G g_sw;
 void *func_0013E368(struct G *g, int n);
-void s1_strcpy(char *p, void *q);
+void s1_strcpy(char *p, void *q) asm("strcpy");
 void func_001DC790(char *pch, int i) {
     struct G2 *pg = &D_003DA150;
     unsigned int n = pg->ae[pg->i + i].n;

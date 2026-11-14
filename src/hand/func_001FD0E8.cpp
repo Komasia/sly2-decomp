@@ -117,7 +117,7 @@ struct SNDMGR
 extern int D_002E1E54;
 extern "C" void func_002321B8(void *);
 extern "C" int snd_FlushSoundCommands(void) asm("snd_FlushSoundCommands");
-extern "C" void *s1_memset(void *, int, uint) asm("s1_memset");
+extern "C" void *s1_memset(void *, int, uint) asm("memset");
 extern "C" STREAMSND *PsndNewVoice(FILEREC *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 extern "C" void func_00259B48(void *, STREAMSND *);
 inline int FSameFileId(FILEREC *prec, FILEREC *precOther)

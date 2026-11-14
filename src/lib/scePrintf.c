@@ -6,7 +6,10 @@ int DIntr(void);
 int EIntr(void);
 int func_00236878(void *, int);
 int _sceSnprintf(int (*)(void *, int), void *, unsigned int, const char *, va_list);
-void func_00236960(const char *fmt, ...)
+/* libkernel scePrintf: interrupt-safe console printf (formats with _sceSnprintf through the character output
+   helper 0x236878, interrupts disabled meanwhile).  The Sony libraries call it for their debug messages and the
+   game's own printf ends in it (OSTRM::Flush on fd -1). */
+void scePrintf(const char *fmt, ...)
 {
     int buf[4];
     va_list ap;

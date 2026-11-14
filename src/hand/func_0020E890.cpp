@@ -29,7 +29,7 @@ void func_00184CA0(STREAM *);
 void UnloadWorld(SW *) asm("UnloadWorld__FPv");
 void ResetClock(void *) asm("ResetClock__FP5CLOCK");
 void AddGrfusr(int) asm("AddGrfusr__Fi");
-void *s1_memset(void *,int,uint) asm("s1_memset");
+void *s1_memset(void *,int,uint) asm("memset");
 SW *func_0020D9D0(SW *);
 int func_001B3B08(void *);
 void InitCm(void *) asm("InitCm__FP2CM");

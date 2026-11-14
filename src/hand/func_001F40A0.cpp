@@ -14,7 +14,7 @@ extern struct SW g_sw;
 qword *func_00256D18(qword *, qword);
 M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
 M4 *MulMatrix4(M4 *, const M4 *, const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 void DetachAloContacts(struct P *) asm("DetachAloContacts__FP3ALO");
 void HoldXfMode(struct P *, struct LO *);
 void CopyAloSoeMatrices(struct P *) asm("CopyAloSoeMatrices__FP3ALO");

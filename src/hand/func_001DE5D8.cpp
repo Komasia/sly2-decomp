@@ -77,7 +77,7 @@ void *PloFindSwNearest(G *, int, int, P *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 float SMaxCrv(PATH *) asm("SMaxCrv__FP3CRV");
 void EvalCrvS(PATH *, qword *, qword *, float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 qword PosConvertXfs(void *, void *, qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");
 void *PvAllocSwClearImpl(MSG *) asm("PvAllocSwClearImpl__Fi");

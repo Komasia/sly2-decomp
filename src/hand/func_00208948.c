@@ -1,5 +1,5 @@
 struct S { char pad[0x3A8]; int n; int a[1]; };
-void *s1_memmove(void *d, void *s, int n);
+void *s1_memmove(void *d, void *s, int n) asm("memmove");
 void func_00208948(struct S *p, int x)
 {
     int i;

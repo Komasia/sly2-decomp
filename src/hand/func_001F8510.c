@@ -5,7 +5,7 @@ extern char D_002CA2C0[];
 struct Pool;
 extern struct Pool D_003E15CC;
 struct Q *func_0011CCC0(struct Pool *);
-void s1_memset(void *, int, int);
+void s1_memset(void *, int, int) asm("memset");
 struct Q *func_001F8510(struct P *p, int k, int m)
 {
     int i;

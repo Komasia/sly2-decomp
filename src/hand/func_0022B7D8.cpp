@@ -139,7 +139,7 @@ extern VECTOR D_002A2DD0; // (0, 0, 0, 0)
 
 extern "C"
 {
-void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");                       // memset
+void *s1_memset(void *pv, int b, uint cb) asm("memset");                       // memset
 void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");         // CopyAb
 qword ConvertPos(SO *psoFrom, SO *psoTo, qword pos) asm("ConvertPos__FP2LOT0G9VU_VECTOR");              // ConvertLoPos
 float RadNormalize(float rad) asm("RadNormalize__Ff");                                      // RadNormalize

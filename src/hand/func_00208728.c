@@ -1,5 +1,5 @@
 struct S { char pad[0x394]; int n; int a[1]; };
-void *s1_memmove(void *d, void *s, int n);
+void *s1_memmove(void *d, void *s, int n) asm("memmove");
 // name: SafeHouse port (RemoveTargetClass)
 void RemoveTargetClass__FPvi(struct S *p, int x)
 {

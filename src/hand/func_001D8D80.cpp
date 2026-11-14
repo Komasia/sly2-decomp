@@ -22,7 +22,7 @@ extern TRIE D_003E0EA8;
 int func_001D7D30(TRIE *, char *);
 CRef RefGetProgress(TRIE *, KEY *, char *) asm("RefGetProgress__FP4TRIEP3KEYPc");
 CRef func_00258200(KEY *, CRef *, char *);
-void s1_memset(void *, int, unsigned int) asm("s1_memset");
+void s1_memset(void *, int, unsigned int) asm("memset");
 void ApplyVibrationSetting(void) asm("ApplyVibrationSetting__Fv");
 }
 static inline CRef Get(KEY *k, char *pb) { return RefGetProgress(&D_003E0EA8, k, pb); }

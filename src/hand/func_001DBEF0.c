@@ -25,7 +25,7 @@ extern int D_003DA570;
 extern float D_002C35B0;
 extern int D_002C3588[];
 extern REC D_002BCD00[];
-void *s1_memset(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int) asm("memset");
 int IRowEnd__FP4SHOP(OBJ *);
 void func_00213CD8(SUB *, int, M2 *);
 void SelectScreenObjPartHandle__FP2LOiPi(SUB *, int, int *);

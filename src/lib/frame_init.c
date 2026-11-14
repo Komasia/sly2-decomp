@@ -9,8 +9,7 @@ typedef struct dwarf_fde { uword length; sword CIE_delta; void *pc_begin; uword 
 struct object { void *pc_begin; void *pc_end; fde *fde_begin; fde **fde_array; size_t count; struct object *next; };
 typedef struct fde_vector { fde **array; size_t count; } fde_vector;
 typedef struct fde_accumulator { fde_vector linear; fde_vector erratic; } fde_accumulator;
-void *s1_malloc(size_t);
-#define malloc s1_malloc
+void *malloc(size_t);
 size_t count_fdes(fde *);
 #define count_fdes count_fdes
 void add_fdes(fde *, fde_accumulator *, void **, void **);

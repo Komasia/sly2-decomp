@@ -10,7 +10,7 @@ extern char D_002D7558[];
 extern char D_002D7508[];
 extern char D_002D7788[];
 extern char D_002D7468[];
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 struct X *func_001CE6D0(struct X *p, unsigned int k)
 {
     struct X *px;

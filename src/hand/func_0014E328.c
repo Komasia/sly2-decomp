@@ -6,7 +6,7 @@ struct E { int prio; struct O *po; int a; int b; };
 struct P { char pad[0x30C]; int c; struct E ae[8]; char pad2[0x390 - 0x390]; float t; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-void *s1_memmove(void *dst, void *src, int cb);
+void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 static inline void Move(void *pvDst, void *pvSrc, int cb) { s1_memmove(pvDst, pvSrc, cb); }
 // name: SafeHouse port (SetCmPolicy)
 void SetCmPolicy__FP2CM3CPPP5CPLCYii(struct P *p, int prio, struct O *po, int a, int b)

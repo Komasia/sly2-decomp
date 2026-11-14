@@ -12,7 +12,7 @@ struct cie_info { char *augmentation; void *eh_ptr; int code_align; int data_ali
 union unaligned { void *p; unsigned b2 __attribute__ ((mode (HI))); unsigned b4 __attribute__ ((mode (SI))); unsigned b8 __attribute__ ((mode (DI))); } __attribute__ ((packed));
 int func_002401D8(const char *, const char *);
 #define strcmp func_002401D8
-size_t s1_strlen(const char *);
+size_t s1_strlen(const char *) asm("strlen");
 #define strlen s1_strlen
 void *decode_uleb128(void *, unsigned *);
 #define decode_uleb128 decode_uleb128

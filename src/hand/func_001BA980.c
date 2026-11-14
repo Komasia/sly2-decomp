@@ -1,6 +1,6 @@
 struct F { int a[0x1C]; };
 struct S { char pad[0x108C]; int n; char ab[0xC]; };
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void *func_00205458(struct S *p, int oid);
 void React__8JOBREACTP5AIMSG(void *p, struct F *pf);
 void func_001BA980(struct S *p, int n)

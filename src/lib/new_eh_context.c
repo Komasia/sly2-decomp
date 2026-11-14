@@ -3,7 +3,7 @@
 // SLY2_ASM: gnu-reorder-db
 struct eh_context { void *handler_label; void **dynamic_handler_chain; void *info; void *table_index; };
 void *malloc(unsigned long);
-void *s1_memset(void *, int, unsigned long);
+void *s1_memset(void *, int, unsigned long) asm("memset");
 void __terminate(void);
 struct eh_context *new_eh_context(void)
 {

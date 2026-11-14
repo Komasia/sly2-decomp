@@ -5,10 +5,10 @@ extern char D_003D3A50[];
 extern char D_002E5270[];
 extern int D_003D3A3C, D_003D3A40, D_003D3A44;
 void func_001C9190(void *);
-void s1_memset(void *p, int c, int cb);
+void s1_memset(void *p, int c, int cb) asm("memset");
 int CreateThread(struct TP *ptp);
 int SemaCreate(int a, int b) asm("SemaCreate__Fii");
-int StartThread_002355E0(int tid, void *arg);
+int StartThread_2355E0(int tid, void *arg);
 void func_001C90D0(void)
 {
     struct TP tp;
@@ -22,5 +22,5 @@ void func_001C90D0(void)
     D_003D3A3C = SemaCreate(0, 1);
     D_003D3A40 = SemaCreate(0, 1);
     D_003D3A44 = SemaCreate(0, 1);
-    StartThread_002355E0(D_004425D0.tid, 0);
+    StartThread_2355E0(D_004425D0.tid, 0);
 }

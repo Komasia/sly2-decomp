@@ -4,7 +4,7 @@
 extern int D_002C5A50;
 extern int D_002C5A54;
 extern char D_0044E708[];
-void *s1_memset(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n) asm("memset");
 void func_0023A8E8(void)
 {
     D_002C5A50 = 0;

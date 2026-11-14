@@ -18,7 +18,7 @@ struct P {
 };
 void FreeSwXpList(void *pg, struct LINK *pl) asm("FreeSwXpList__FP2SWP2XP");
 void *PaloXpFilter__FP3ALOUi(void *p, int n);
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void *PaloAcceptContact__FP5CTMSG(struct MSG *pmsg);
 float *PeventLaunch__FP5KINDEi(void *p, int n);
 void SetAsegaTime__FP5ASEGAiff(struct Q *p, int n, float g, float h);

@@ -1,6 +1,6 @@
 extern "C" {
 void *CopyAb(void *d, const void *s, int n) asm("CopyAb__FPvT0Ui");
-int func_00236960(const char *fmt, ...);
+int scePrintf(const char *fmt, ...);
 int sceWrite(int fd, const void *pv, int cb) asm("sceWrite");
 }
 extern char D_002A8910[];
@@ -33,7 +33,7 @@ void OSTRM::Flush()
             ib += cb;
             pb += cb;
             ach[cb] = 0;
-            func_00236960(D_002A8910, ach);
+            scePrintf(D_002A8910, ach);
         }
     } else {
         sceWrite(m_fd, m_ab, m_cbBuf);

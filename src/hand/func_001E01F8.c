@@ -1,7 +1,7 @@
 struct CMD { int kind; int b; char pad[0x48]; };
 struct Q { char pad[0x50]; int c; struct CMD *a; int cMax; };
 extern struct CMD D_003DA740;
-void s1_memset(void *p, int b, int cb);
+void s1_memset(void *p, int b, int cb) asm("memset");
 // name: SafeHouse port (PcmdNew)
 struct CMD *PcmdNew__FP4SCPTii(struct Q *pq, int kind, int b)
 {

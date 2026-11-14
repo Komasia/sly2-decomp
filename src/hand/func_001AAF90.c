@@ -5,9 +5,9 @@ extern char D_002E5270[], D_002E2080[];
 extern int D_004425D8[];
 void func_001AAF18(struct S *s);
 void SetMemcardThreadHighPrio__FP7MEMCARD(struct S *s);
-void *s1_memset(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n) asm("memset");
 int CreateThread(struct ThreadParam *tp);
-void StartThread_002355E0(int id, void *arg);
+void StartThread_2355E0(int id, void *arg);
 void CreateMemcardThread__FP7MEMCARDii(struct S *s, struct PMF pmf)
 {
     struct ThreadParam tp;
@@ -22,5 +22,5 @@ void CreateMemcardThread__FP7MEMCARDii(struct S *s, struct PMF pmf)
     tp.initPriority = 3;
     s->x4 = CreateThread(&tp);
     D_004425D8[0] = s->x4;
-    StartThread_002355E0(s->x4, s);
+    StartThread_2355E0(s->x4, s);
 }

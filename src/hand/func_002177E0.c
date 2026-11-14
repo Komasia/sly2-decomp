@@ -11,7 +11,7 @@ struct D {int a,mode;float priority;uint limit;char pad10[0x1C];float fade;};
 struct R {char pad[0xC];unsigned char *cur;};
 struct E {int kind;float priority;uint address;int tag;};
 extern struct R D_002DEA28;
-void *s1_memset(void *,int,int);
+void *s1_memset(void *,int,int) asm("memset");
 struct E *func_001CD998(void);
 static inline void Word(struct R *r,uint word){*(uint *)r->cur=word;r->cur+=4;}
 static inline void Align(struct R *r){while((uint)r->cur&15){*(uint *)r->cur=0;r->cur+=4;}}

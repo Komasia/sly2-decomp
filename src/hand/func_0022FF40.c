@@ -3,7 +3,7 @@ typedef struct { qword r[4]; } M4;
 struct O { char pad[0x40]; M4 mat; };
 void InverseAffineMatrix4__FP7MATRIX4(M4 *pmDst, M4 *pmSrc);
 void MulMatrix4__FP7MATRIX4T0Pv(M4 *pmDst, M4 *pmA, M4 *pmB);
-void *s1_memcpy(void *d, void *s, int n);
+void *s1_memcpy(void *d, void *s, int n) asm("memcpy");
 M4 *func_0022FF40(M4 *pr, struct O *pa, struct O *pb, M4 *pm)
 {
     M4 m, mT, mInv;

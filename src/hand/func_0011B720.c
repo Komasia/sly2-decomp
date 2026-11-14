@@ -3,7 +3,7 @@ typedef struct { qword r[3]; } M3;
 extern qword D_002A2DB0;
 extern qword g_normalZ;
 void BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(M3 *pm, float g, qword axis);
-void *s1_memcpy(void *pvDst, void *pvSrc, int cb);
+void *s1_memcpy(void *pvDst, void *pvSrc, int cb) asm("memcpy");
 static inline M3 MulM3(M3 *pa, M3 *pb)
 {
     M3 m;

@@ -2,7 +2,7 @@ struct F { int pad[5]; void (*pfn)(struct F *); int pad2[2]; };
 struct E { int n; struct F *af; int x8; int xC; int x10; int x14; int x18; };
 struct S { int pad[9]; int x24; struct E a[16]; int x1E8; int x1EC; };
 void SetMenuState__FP4MENUi(struct S *s, int n);
-void *s1_memset(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n) asm("memset");
 int func_001B0108(struct S *s);
 // name: SafeHouse port (PushPage)
 void PushPage__FP4MENUiPviUi(struct S *s, int n, struct F *af, int x8, int x18)

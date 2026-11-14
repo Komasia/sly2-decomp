@@ -75,7 +75,7 @@ struct CLOCK { float t, dt; };
 extern "C" {
 extern CLOCK g_clock;
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");                    // GRandInRange
-void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");          // memset
+void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");          // memset
 void InsertPsysParticles(EMITB *pemitb, EMITX *pemitx, int cpart, VECTOR *apos, VECTOR *av, float *atBirth, float *atDeath,
                    void *pv1, void *pv2) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");
 void SprayJtSparkles(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcand) asm("SprayJtSparkles__FP5ACTORP5JTENTiP10JTGRABCAND");

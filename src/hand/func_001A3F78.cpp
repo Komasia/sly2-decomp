@@ -49,7 +49,7 @@ typedef struct {
     MASK mask;
 } WORLD;
 
-extern "C" void *s1_memset(void *, int, uint) asm("s1_memset");  /* memset */
+extern "C" void *s1_memset(void *, int, uint) asm("memset");  /* memset */
 extern "C" U *func_002564B8(U *);                   /* vector init, returns its receiver */
 inline U::U() { (void)func_002564B8(this); }
 

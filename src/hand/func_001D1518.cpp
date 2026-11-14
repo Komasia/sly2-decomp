@@ -15,7 +15,7 @@ extern qword g_normalZ,D_002A2DD0;
 extern char g_sw[];
 void func_001F36A8(P *);
 REF *func_001F4C58(P *,int,int);
-void *s1_memmove(void *,const void *,int) asm("s1_memmove");
+void *s1_memmove(void *,const void *,int) asm("memmove");
 qword ConvertPos(void *,P *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void *PctrlNewPos(P *,REF *,int,int,int,qword) asm("PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR");
 void *PloFindSwNearest(void *,int,int,P *) asm("PloFindSwNearest__FP2LO3OIDii");

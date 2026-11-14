@@ -11,7 +11,7 @@ void func_00232408(void);
 void func_00233048(int, int, int, int, int, int, int);
 int snd_FlushSoundCommands(void);
 void SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(int, qword, int, void *);
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void func_00227788(void *);
 void func_00259B48(void *, void *);
 void func_0011CDB8(void *);

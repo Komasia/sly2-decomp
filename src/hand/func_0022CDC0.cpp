@@ -12,8 +12,8 @@ struct O {
  unsigned short force,damping;qword qB0;MOTIONDATA data;
 };
 extern qword D_002A2DD0;
-extern "C" void *s1_memcpy(void *d, void *s, int n) asm("s1_memcpy");
-extern "C" void *s1_memset(void *p, int c, int n) asm("s1_memset");
+extern "C" void *s1_memcpy(void *d, void *s, int n) asm("memcpy");
+extern "C" void *s1_memset(void *p, int c, int n) asm("memset");
 extern "C" M4 *DmatSkew(M4 *pm, struct O *pa, const M3 *basis, qword v) asm("DmatSkew__FP7MATRIX4P7VECTOR4PvG9VU_VECTOR");
 extern "C" M4 *func_0022CB90(M4 *pr, struct O *pa, const M3 *basis, qword c, qword d);
 extern "C" M4 *DmatOfValue(M4 *pm, struct O *po, qword v) asm("DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR");

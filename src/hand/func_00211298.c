@@ -6,7 +6,7 @@ struct E { int c; struct F *af; char pad[0xC]; int x14; char pad2[4]; };
 extern struct E D_003D9EDC[];
 extern int D_003D9EF4;
 const char *func_0013E368(struct G *g, int id);
-char *s1_strcpy(char *dst, const char *src);
+char *s1_strcpy(char *dst, const char *src) asm("strcpy");
 void func_00211298(char *dst, int k)
 {
     struct E *e = &D_003D9EDC[D_003D9EF4];

@@ -25,7 +25,7 @@ extern int D_00450540[];
 extern int D_002C7940[];
 extern char D_002AB570[];   // "Libcdvd bind err %d CD_Init %d\n"
 extern char D_002AB590[];   // "Libcdvd Exit\n"
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int sceCdSyncS(int);
 void sceSifInitRpc(unsigned int);
 int sceSifBindRpc(sceSifClientData *, unsigned int, unsigned int);
@@ -59,7 +59,7 @@ int sceCdInit(int mode)
     while (1) {
         int b = sceSifBindRpc(&D_004504E8, 0x80000592, 0);
         if (b < 0) {
-            if (D_002C6750 > 0) func_00236960(D_002AB570, b, D_002C679C);
+            if (D_002C6750 > 0) scePrintf(D_002AB570, b, D_002C679C);
             nopdelay();
             continue;
         }
@@ -92,7 +92,7 @@ int sceCdInit(int mode)
     D_002C6764 = 0;
     switch (mode) {
     case 5:
-        if (D_002C6750 > 0) func_00236960(D_002AB590);
+        if (D_002C6750 > 0) scePrintf(D_002AB590);
         cdvd_exit();
         D_002C6768 = -1;
         D_002C676C = -1;

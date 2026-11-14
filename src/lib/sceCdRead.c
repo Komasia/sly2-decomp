@@ -25,7 +25,7 @@ void _sceCd_cd_read_intr(void *);
 int sceCdNcmdDiskReady(void);
 int _sceCd_ncmd_prechk(int);
 void sceSifWriteBackDCache(void *, int);
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int SignalSema(int);
 int sceSifCallRpc(void *, int, unsigned int, void *, int, void *, int, void *, void *);
 int sceCdRead(unsigned int lbn, unsigned int sectors, void *buf, sceCdRMode *mode)
@@ -65,7 +65,7 @@ int sceCdRead(unsigned int lbn, unsigned int sectors, void *buf, sceCdRMode *mod
     sceSifWriteBackDCache(rd, 0x18);
     sceSifWriteBackDCache(&D_002C7900, 4);
     if (D_002C6750 > 0)
-        func_00236960(D_002AB608);
+        scePrintf(D_002AB608);
     D_002C67A0 = 1;
     D_002C6774 = 1;
     if (sceSifCallRpc(D_002C7910, 1, 1, rd, 0x18, 0, 0, _sceCd_cd_read_intr, D_002C7840) < 0) {
@@ -75,6 +75,6 @@ int sceCdRead(unsigned int lbn, unsigned int sectors, void *buf, sceCdRMode *mod
         return 0;
     }
     if (D_002C6750 > 0)
-        func_00236960(D_002AB620);
+        scePrintf(D_002AB620);
     return 1;
 }

@@ -1,7 +1,7 @@
 struct O { char pad[0x30]; int n30; };
 struct L { int k; int rest[27]; };
 struct S { char pad[0x26C]; char x26C[0x2DC - 0x26C]; int a2DC[3]; int n2E8; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 struct O *PjobFind__FP5GUARDPv(void *p, int n);
 void React__8JOBREACTP5AIMSG(struct O *po, struct L *pl);
 // name: SafeHouse port (SetGuardPatrol)

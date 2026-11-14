@@ -23,8 +23,8 @@ extern char D_002A79A0[];
 extern char D_002A79D0[];
 extern char D_002A79D8[];
 extern char D_002A7A30[];
-extern "C" int fiprintf(char *, const char *, ...) asm("fiprintf");
-extern "C" char *s1_strcpy(char *, const char *) asm("s1_strcpy");
+extern "C" int sprintf(char *, const char *, ...) asm("sprintf");
+extern "C" char *s1_strcpy(char *, const char *) asm("strcpy");
 extern "C" CRef func_001D8A38(const char *, ...);
 char *func_0013E368(G *, int);
 extern "C" void func_001DC890(char *pch, int k)
@@ -35,7 +35,7 @@ extern "C" void func_001DC890(char *pch, int k)
     if (i < 0x40) {
         CRef ref;
         char ach[0x20];
-        fiprintf(ach, D_002A79A0, i);
+        sprintf(ach, D_002A79A0, i);
         ref = func_001D8A38(D_002A79D0, D_002A79D8, ach, 0);
         c = ref.m_tag;
         ids = D_002C3288[i].ids;
@@ -43,7 +43,7 @@ extern "C" void func_001DC890(char *pch, int k)
     if (ids != -1) {
         s1_strcpy(pch, func_0013E368(&g_sw, ids));
         if (c >= 2)
-            fiprintf(pch, D_002A7A30, pch, c);
+            sprintf(pch, D_002A7A30, pch, c);
     } else {
         *pch = 0;
     }

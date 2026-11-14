@@ -1,4 +1,4 @@
-unsigned int s1_strlen(char *s);
+unsigned int s1_strlen(char *s) asm("strlen");
 void CopyAb(void *dst, void *src, int cb) asm("CopyAb__FPvT0Ui");
 char *strcpy1(char *pchzDst, char *pchzSrc)
 {

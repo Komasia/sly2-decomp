@@ -35,7 +35,7 @@ int func_00210A88(void);
 BL *func_002109B8(int);
 int memcmp(const void *a, const void *b, int n);
 int CFindObjectsByClass(void *p, int a, int b, int c, int d, SO **apso) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
-int fiprintf(char *, const char *, ...) asm("fiprintf");
+int sprintf(char *, const char *, ...) asm("sprintf");
 CRef func_00258200(void *p, const CRef &ref, G *pv);
 }
 CRef SetProgressPoCurrent(const CRef &ref, const void *o, ...) asm("SetProgressPoCurrent__FP4CRefPci");
@@ -85,7 +85,7 @@ extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)
         Y *py = p->p11A8->p158;
         if (py->x4 != -1) {
             char ach[32];
-            fiprintf(ach, D_002A4D50, py->x4);
+            sprintf(ach, D_002A4D50, py->x4);
             ret = func_001D8A38(D_002A4DC0, D_002A4DC8, ach, 0);
             ret = SetProgressPoCurrent(CRef(0x15, ret.tag + 1), D_002A4DC0, D_002A4DC8, ach, 0);
         }

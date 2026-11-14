@@ -1,5 +1,5 @@
 struct SGG { char pad[0x84]; int calarm; void *apalarm[8]; };
-void *s1_memmove(void *d, void *s, int cb);
+void *s1_memmove(void *d, void *s, int cb) asm("memmove");
 void func_001E0070(struct SGG *psgg, void *palarm)
 {
     int i;

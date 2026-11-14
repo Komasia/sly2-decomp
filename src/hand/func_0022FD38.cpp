@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 struct O { char pad[0x40]; M3 mat; };
 extern "C" M3 InverseMatrix3(const M3 *pm) asm("InverseMatrix3__FP7MATRIX3");
-extern "C" void *s1_memcpy(void *d, const void *s, int n) asm("s1_memcpy");
+extern "C" void *s1_memcpy(void *d, const void *s, int n) asm("memcpy");
 static inline M3 Mul(const M3 &a, const M3 &b) return r
 {
     qword a0 = a.r[0], a1 = a.r[1], a2 = a.r[2];

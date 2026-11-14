@@ -8,7 +8,7 @@ extern char D_002A5160[];
 void NProgress(CRef *pref, void *p, void *q);
 void Decref(CRef *pref) asm("Decref__4CRef");
 int func_001DAEA8(void *p);
-void fiprintf(char *pch, char *fmt, ...);
+void sprintf(char *pch, char *fmt, ...);
 void func_0015D8F8(char *pch)
 {
     struct G *pg = &g_sw;
@@ -22,6 +22,6 @@ void func_0015D8F8(char *pch)
         n = n * 95 / 100;
         if (func_001DAEA8(D_002BE2F8[pg->px->i]))
             n += 5;
-        fiprintf(pch, D_002A5160, n);
+        sprintf(pch, D_002A5160, n);
     }
 }

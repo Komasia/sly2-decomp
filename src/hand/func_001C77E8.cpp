@@ -3,7 +3,7 @@ extern "C" {
 void Decref(void *p) asm("Decref__4CRef");
 void func_00129658(void *p, const void *q);
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
-void fiprintf(char *buf, const char *fmt, ...) asm("fiprintf");
+void sprintf(char *buf, const char *fmt, ...) asm("sprintf");
 void SetPickupStateBase(void *p, int n) asm("SetPickupStateBase__FP2LOi");
 }
 struct CRef {
@@ -40,7 +40,7 @@ void SetLootState(S *p, int n)
     case 1: {
         CRef ref;
         char buf[0x10];
-        fiprintf(buf, D_002A7768, p->x244->x4);
+        sprintf(buf, D_002A7768, p->x244->x4);
         ref = func_001D8A38(D_002A7770, D_002A7778, buf, 0);
         SetProgressPoCurrent(CRef(0x15, ref.m_tag + 1), D_002A7770, D_002A7778, buf, 0);
         LO *plo = p->x210;

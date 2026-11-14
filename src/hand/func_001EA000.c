@@ -31,7 +31,7 @@ float SMaxCrv__FP3CRV(struct O *);
 void EvalCrvS(struct O *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void *PpolyAtPoint__FG9VU_VECTOR(qword);
 int NPathLeavesPoly__FP7NAVPOLYP3CRViP6VECTORPff(void *, struct O *, float, int, qword *, float *);
-void *s1_memset(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int) asm("memset");
 int CMergeAlsg__FiP3LSGiT1iT1i(int, struct X *, int, struct X *, int, struct X *, int);
 
 // name: SafeHouse port (UpdatePathrec)

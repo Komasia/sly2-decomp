@@ -46,7 +46,7 @@ extern SMP D_002BF718;
 extern char g_game[];
 int func_00194F48(const void *, const void *);   // JTGRABCAND compare for qsort
 void qsort(void *base, uint c, uint cb, int (*pfnCmp)(const void *, const void *)) asm("qsort");   // qsort
-void *s1_memmove(void *dst, const void *src, uint cb) asm("s1_memmove");   // memmove
+void *s1_memmove(void *dst, const void *src, uint cb) asm("memmove");   // memmove
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext) asm("GSmooth__FfffP3SMPPf");   // GSmooth
 void FadeAloOut(LO *plo, float g) asm("FadeAloOut__FP3ALOf");
 void BroadcastTaskEvent(void *pv, int msg, LO *plo) asm("BroadcastTaskEvent__FP2SWiP2LO");

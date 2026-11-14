@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { float m[4][4]; } M4F;
 typedef struct { qword r[4]; } M4;
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void InverseAffineMatrix4__FP7MATRIX4(M4F *pmOut, M4F *pm);
 void MulMatrix4__FP7MATRIX4T0Pv(M4 *pmOut, M4F *pa, M4F *pb);
 // name: SafeHouse port (CombineEyeLookAtProj)

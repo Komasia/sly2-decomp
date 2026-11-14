@@ -5,7 +5,7 @@ extern const float D_002A76E0;
 extern const float D_002A76E4;
 void *PvAllocSwImpl__Fi(struct A *pa);
 void CopyAb(void *dst, void *src, int cb) asm("CopyAb__FPvT0Ui");
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void func_001C1D20(struct S *p)
 {
     struct A a;

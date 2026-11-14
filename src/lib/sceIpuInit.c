@@ -6,11 +6,11 @@ typedef int qword __attribute__((mode(TI)));
 #define FIFO (*(volatile qword *)0x10007010)
 extern volatile qword D_002C8550[5];
 extern qword D_002C85A0[2];
-void setD4_CHCR_00254C28(int);
+void setD4_CHCR_254C28(int);
 #define SYNC() while ((int)REG(0x10002010) < 0)
 void sceIpuInit(void)
 {
-    setD4_CHCR_00254C28(1);
+    setD4_CHCR_254C28(1);
     REG(0x10002010) = 0x40000000;
     SYNC();
     REG(0x10002000) = 0;

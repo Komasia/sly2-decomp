@@ -10,7 +10,7 @@ struct S {
 };
 void func_001CB5D0(struct S *p);
 void DetachGuardMove__FP5GUARD(struct S *p);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void SetGuardPursued__FP5GUARDP2LO(struct S *p, int n);
 void func_002088E0(struct S *p);
 void SetPocketMode__FP2LOi(struct S *p, int a);

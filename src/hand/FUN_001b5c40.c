@@ -1,4 +1,4 @@
-int s1_strlen(char *s);
+int s1_strlen(char *s) asm("strlen");
 unsigned short FUN_001b5b58(unsigned char ch);
 void FUN_001b5c40(char *s, unsigned short *pw)
 {

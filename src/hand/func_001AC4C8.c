@@ -1,5 +1,5 @@
 struct B { char pad[0x5408]; char x5408[0x44]; int x544C; int x5450; };
-void s1_memset(void *p, int c, int n);
+void s1_memset(void *p, int c, int n) asm("memset");
 void func_001ABB10(void *s, void *b, char *name);
 int func_001ABFC0(void *s, char *name, void *p);
 int func_001AC9A0(void *s, char *name, void *b, int n);

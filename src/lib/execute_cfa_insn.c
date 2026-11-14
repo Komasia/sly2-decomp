@@ -67,11 +67,9 @@ static inline unsigned read_1byte (void *p) { return *(unsigned char *)p; }
 static inline unsigned read_2byte (void *p) { union unaligned *up = p; return up->b2; }
 static inline unsigned read_4byte (void *p) { union unaligned *up = p; return up->b4; }
 void *memcpy (void *, const void *, size_t);
-void *s1_malloc (size_t);
-void s1_free (void *);
+void *malloc (size_t);
+void free (void *);
 void func_00240328 (void) __attribute__ ((noreturn));
-#define malloc s1_malloc
-#define free s1_free
 #define abort func_00240328
 void *decode_uleb128 (unsigned char *buf, unsigned *r);
 

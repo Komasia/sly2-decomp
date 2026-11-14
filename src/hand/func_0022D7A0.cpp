@@ -28,7 +28,7 @@ void ReadVector(void *,V *) asm("ReadVector__18CBinaryInputStreamP6VECTOR");
 void ReadMatrix4(void *,M4 *) asm("ReadMatrix4__18CBinaryInputStreamP7MATRIX4");
 void *PvAllocSwClearImpl(REQ *) asm("PvAllocSwClearImpl__Fi");
 void *func_0012E1F0(int);
-void *s1_memset(void *,int,int) asm("s1_memset");
+void *s1_memset(void *,int,int) asm("memset");
 qword VecXfValue(E *,E *) asm("VecXfValue__FP2XFP7MATRIX4");
 void ResetXfParams(S *,E *) asm("ResetXfParams__FP2XFPv");
 void AddXfCtrl(S *,E *,JOB *) asm("AddXfCtrl__FP3ALOP2XFP4CTRL");

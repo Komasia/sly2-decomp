@@ -9,7 +9,7 @@ extern char D_002AB680[];
 extern char D_002AB6A8[];
 int sceSifBindRpc(void *, unsigned int, int);
 int scePadGetModVersion(void);
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int scePadInit2(int);
 int scePadInit(int mode)
 {
@@ -27,8 +27,8 @@ int scePadInit(int mode)
     ver = scePadGetModVersion();
     if ((ver >> 8) != 4) {
         if (D_002C830C) {
-            func_00236960(D_002AB680);
-            func_00236960(D_002AB6A8, 4, 0, ver >> 8, ver & 0xFF);
+            scePrintf(D_002AB680);
+            scePrintf(D_002AB6A8, 4, 0, ver >> 8, ver & 0xFF);
         }
         return 0;
     }

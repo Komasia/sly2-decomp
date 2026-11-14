@@ -4,7 +4,7 @@ typedef struct { VU r[3]; } M3;
 struct A { char pad[0x10]; qword p0; char pad1[0x20]; qword p1; };
 struct P { char pad[0x40]; char a40[0x20]; float t; char pad1[0xC]; float x, y, z; };
 struct S { char pad[0x120]; int x120; char pad1[0x1C]; float g140; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void ConvertZonePos__FP6ZONECMG9VU_VECTORP6VECTORT2(struct S *ps, qword v, qword *pq, void *pv);
 void PosZoneSample__FP6ZONECMP6VECTORP4COEFP5BOUNDiPG9VU_VECTORff(struct S *ps, qword *pq, M3 *pm, void *pv, float g, float h, int f, qword *ppos);
 // name: SafeHouse port (PosCmeFocus)

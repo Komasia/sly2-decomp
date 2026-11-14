@@ -3,7 +3,7 @@ typedef union { qword q; float f[4]; } VU;
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
 struct S { char pad[0x94]; int k; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 // name: SafeHouse port (DmatOfValue)
 float *DmatOfValue__FP2XFP7VECTOR4G9VU_VECTOR(float *m, struct S *p, qword v)
 {

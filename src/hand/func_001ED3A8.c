@@ -1,6 +1,6 @@
 struct AR { int cb; int cbAlign; };
 void *PvAllocStackImpl__Fi(struct AR *par);
-void *s1_memset(void *p, int b, int cb);
+void *s1_memset(void *p, int b, int cb) asm("memset");
 extern void *D_003DD010;
 extern void *D_003DD018;
 extern int D_003DD00C;

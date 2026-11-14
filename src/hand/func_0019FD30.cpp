@@ -7,8 +7,8 @@ typedef struct E { struct F *x0; struct S *x4; int x8; float xc; float x10; int 
 struct P { int x0; int c; int pad[2]; E ae[32]; };
 struct CLOCK { float t; float dt; };
 extern struct CLOCK g_clock;
-extern "C" void *s1_memmove(void *dst, void *src, int cb) asm("s1_memmove");
-extern "C" void *s1_memset(void *p, int v, int cb) asm("s1_memset");
+extern "C" void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
+extern "C" void *s1_memset(void *p, int v, int cb) asm("memset");
 // name: SafeHouse port (RecordSafeTarget)
 extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float g)
 {

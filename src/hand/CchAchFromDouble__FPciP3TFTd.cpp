@@ -1,7 +1,7 @@
 struct TFT {int fLeft,fPlus,fSpace,fPrefix,fZero,fPrec0,width,precision,cbits;char pad24[8];unsigned char conversion;char pad2d[3];int fUpper;};
 extern "C" {
-char *s1_strcpy(char *,const char *) asm("s1_strcpy");
-unsigned int s1_strlen(const char *) asm("s1_strlen");
+char *s1_strcpy(char *,const char *) asm("strcpy");
+unsigned int s1_strlen(const char *) asm("strlen");
 int ExpFirstFromG(double) asm("ExpFirstFromG__Fd");
 unsigned char ChDigitFromG(double,int,int) asm("ChDigitFromG__Fdii");
 double pow(double,double) asm("pow");

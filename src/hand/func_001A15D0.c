@@ -3,7 +3,7 @@ struct VTE { short d; short pad; void (*pfn)(void *); };
 struct O { int x0, x4, x8; struct VTE *vt; };
 struct B { char pad[0x148]; unsigned long x148; };
 struct S { struct O *x0; int x4; char pad[0x14]; struct PMF pmf; char pad2[0xC]; struct B *x30; };
-void *s1_memset(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n) asm("memset");
 void NextRecover(struct S *p) asm("NextRecover__FP5ACTOR");
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 // name: SafeHouse port (EndDamageReaction)

@@ -2,7 +2,7 @@ struct E { int a; int b; int c; float g; float t; int z14; int z18; int z1C; int
 struct S { char pad[0x1C0]; int c; struct E a[3]; };
 extern char D_003DD040[];
 float TMusicTop__FPv(void *p);
-void *s1_memmove(void *dst, void *src, int cb);
+void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 // name: SafeHouse port (AddDanceBeat)
 void AddDanceBeat__FP2LOiiif(struct S *p, int a, int b, int c, float g)
 {

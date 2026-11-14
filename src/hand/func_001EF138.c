@@ -1,6 +1,6 @@
 struct P {int tag,value,word8;void *vtable;};
 struct REF {int tag,value;};
-void *s1_memset(void*,int,unsigned int);
+void *s1_memset(void*,int,unsigned int) asm("memset");
 void func_002562A8(struct REF*);
 extern char D_002D04A0[];
 extern char D_002D0AB0[];

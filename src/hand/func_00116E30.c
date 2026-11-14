@@ -1,7 +1,7 @@
 typedef struct DYNA { char *ab; int c; int cMax; int cb; } DYNA;
 
 void Reserve__9CDynArrayi(DYNA *pdyna, int c);
-void *s1_memcpy(void *pvDst, const void *pvSrc, unsigned int cb);
+void *s1_memcpy(void *pvDst, const void *pvSrc, unsigned int cb) asm("memcpy");
 
 void func_00116E30(DYNA *pdyna, void *pv, int c)
 {

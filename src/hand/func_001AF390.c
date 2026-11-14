@@ -3,7 +3,7 @@ struct E { int n; struct F *af; int x8; int xC; int x10; int x14; int x18; };
 struct S { int pad[3]; struct E a[1]; };
 struct S1 { char pad[0x1EC]; int x1EC; };
 void SetMenuState__FP4MENUi(struct S *s, int n);
-void *s1_memset(void *p, int c, unsigned int n);
+void *s1_memset(void *p, int c, unsigned int n) asm("memset");
 // name: SafeHouse port (ReplacePage)
 void ReplacePage__FP4MENUiPv(struct S *s, int n, struct F *af)
 {

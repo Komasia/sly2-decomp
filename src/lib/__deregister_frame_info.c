@@ -8,8 +8,7 @@ typedef struct dwarf_fde { uword length; sword CIE_delta; void *pc_begin; uword 
 struct object { void *pc_begin; void *pc_end; fde *fde_begin; fde **fde_array; size_t count; struct object *next; };
 extern struct object *D_00450278;
 #define objects D_00450278
-void s1_free(void *);
-#define free s1_free
+void free(void *);
 void func_00240328(void);
 #define abort func_00240328
 typedef int __gthread_mutex_t;

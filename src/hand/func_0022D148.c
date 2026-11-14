@@ -3,8 +3,8 @@ typedef struct { qword r[4]; } M4;
 struct O { char pad[0x40]; M4 mat; char pad1[0x98 - 0x80]; short k; char pad2[0xA0 - 0x9A]; struct O *pParent; };
 void InverseAffineMatrix4__FP7MATRIX4(M4 *pmDst, M4 *pmSrc);
 void MulMatrix4__FP7MATRIX4T0Pv(M4 *pmDst, M4 *pmA, M4 *pmB);
-void *s1_memcpy(void *d, void *s, int n);
-void *s1_memset(void *p, int c, int n);
+void *s1_memcpy(void *d, void *s, int n) asm("memcpy");
+void *s1_memset(void *p, int c, int n) asm("memset");
 M4 *DmatXf__FP2XFPv(M4 *pr, struct O *po);
 static __inline__ void AddM4(M4 *pmDst, M4 *pmA, M4 *pmB)
 {

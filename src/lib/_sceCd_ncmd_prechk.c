@@ -12,7 +12,7 @@ extern char D_002AB4F8[];
 void cmd_sem_init(void);
 int PollSema(int);
 int SignalSema(int);
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int sceCdSync(int);
 void sceSifInitRpc(int);
 int sceSifBindRpc(void *, unsigned int, int);
@@ -26,7 +26,7 @@ int _sceCd_ncmd_prechk(int cmd)
     int i;
     cmd_sem_init();
     if (D_002C6768 != PollSema(D_002C6768)) {
-        if (D_002C6750 > 0) func_00236960(D_002AB4D0, cmd, D_002C675C);
+        if (D_002C6750 > 0) scePrintf(D_002AB4D0, cmd, D_002C675C);
         return 0;
     }
     D_002C675C = cmd;
@@ -38,7 +38,7 @@ int _sceCd_ncmd_prechk(int cmd)
     if (D_002C677C < 0) {
         while (1) {
             if (sceSifBindRpc(&D_002C7910, 0x80000595, 0) < 0) {
-                if (D_002C6750 > 0) func_00236960(D_002AB4F8);
+                if (D_002C6750 > 0) scePrintf(D_002AB4F8);
                 nopdelay();
                 continue;
             }

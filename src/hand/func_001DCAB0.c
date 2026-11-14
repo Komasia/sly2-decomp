@@ -13,8 +13,8 @@ extern struct G g_sw;
 extern char g_game[],D_002A7A38[];
 char *func_0013E368(struct G *,int);
 int func_00161798(void *);
-int fiprintf(char *,const char *,...);
-char *s1_strcpy(char *,const char *);
+int sprintf(char *,const char *,...);
+char *s1_strcpy(char *,const char *) asm("strcpy");
 static inline void CopyId(char *p,int id)
 {
     s1_strcpy(p,func_0013E368(&g_sw,id));
@@ -38,7 +38,7 @@ void func_001DCAB0(char *pch)
                     char *fmt=D_002A7A38;
                     char *pch1=func_0013E368(pg,D_002BCD00[i].ids1);
                     char *pch2=func_0013E368(pg,D_002BCD00[i].ids2);
-                    fiprintf(pch,fmt,pch1,pch2,func_0013E368(pg,idsT));
+                    sprintf(pch,fmt,pch1,pch2,func_0013E368(pg,idsT));
                     return;
                 }
             }
@@ -48,7 +48,7 @@ void func_001DCAB0(char *pch)
         case 1: {
             unsigned int i=pt->x258;
             if(i<0x40) {
-                fiprintf(pch,func_0013E368(&g_sw,0xDB),D_002C3288[i].name);
+                sprintf(pch,func_0013E368(&g_sw,0xDB),D_002C3288[i].name);
                 return;
             }
             CopyId(pch,0xE3);

@@ -7,8 +7,8 @@ extern unsigned char D_0044388C[];
 extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA5A0[], D_002AA1C8[];
-void kprintf(const char *, ...);
-void *s1_memcpy(void *, void *, int);
+void printf(const char *, ...);
+void *s1_memcpy(void *, void *, int) asm("memcpy");
 void snd_FlushSoundCommands(void);
 void FlushCache(int);
 void func_00231F38(void *, int);
@@ -26,7 +26,7 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
             D_00443880[i] = buf[i];
     } else {
         if ((unsigned int)(*(int *)(buf + 8) + 0xC) > 0x200) {
-            kprintf(D_002AA5A0);
+            printf(D_002AA5A0);
             while (1)
                 ;
         }
@@ -41,7 +41,7 @@ int func_002325E0(int cmd, int size, unsigned char *buf)
     func_00231F38(gSyncBuffer, 1);
     while (sceSifCheckStatRpc(D_00443800)) {
         if (!D_002C46B8)
-            kprintf(D_002AA1C8);
+            printf(D_002AA1C8);
         snd_FlushSoundCommands();
         FlushCache(0);
     }

@@ -6,7 +6,7 @@ struct X {char pad[8];struct HT table;};
 extern struct X D_003E0EA8;
 extern const char D_002A7768[],D_002A7788[];
 int func_00210A88(void);
-int fiprintf(char *buf,const char *fmt,...);
+int sprintf(char *buf,const char *fmt,...);
 int SymFromName__FP6LAYOUTPc(struct HT *pt,const char *s);
 struct A *func_002109B8(int h);
 struct A *func_001D8CC8(struct A *p, struct A *pa);
@@ -20,7 +20,7 @@ struct A *func_001C7B18(int input)
     char buf[0x10];
     h = func_00210A88();
     if (h == -1) return 0;
-    fiprintf(buf, D_002A7768, n);
+    sprintf(buf, D_002A7768, n);
     k.a = Find(&D_003E0EA8, D_002A7788);
     k.b = n;
     a.c = 2;

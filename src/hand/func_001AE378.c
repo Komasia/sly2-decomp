@@ -1,6 +1,6 @@
 struct MSG { int cb; int nKind; };
 void *PvAllocStackImpl__Fi(struct MSG *pm);
-void s1_memset(void *p, int c, int n);
+void s1_memset(void *p, int c, int n) asm("memset");
 void *PvAllocStackClearImpl__Fi(struct MSG *pm)
 {
     struct MSG m = *pm;

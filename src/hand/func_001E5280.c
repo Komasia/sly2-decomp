@@ -2,7 +2,7 @@ struct VTE { short d; short pad; void (*pfn)(void *, int, int); };
 struct O { int pad[3]; struct VTE *vt; };
 struct P { char pad[0xA4]; int c; struct O *apo[4]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
-void *s1_memmove(void *pdst, const void *psrc, unsigned int cb);
+void *s1_memmove(void *pdst, const void *psrc, unsigned int cb) asm("memmove");
 static inline unsigned ByteOffset(int index){register unsigned result __asm__("$4");__asm__("sll %0,%1,2":"=r"(result):"r"(index));return result;}
 // name: SafeHouse port (ReleaseRunEffects)
 void ReleaseRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)

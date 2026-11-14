@@ -3,7 +3,7 @@ typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
 extern M3 D_002A2D00;
 M3 *BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(M3 *pm, float g, qword axis);
-void *s1_memcpy(void *pvDst, void *pvSrc, int cb);
+void *s1_memcpy(void *pvDst, void *pvSrc, int cb) asm("memcpy");
 // name: SafeHouse port (BuildRotateMatrixVector)
 M3 *BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR(M3 *pm, qword v)
 {

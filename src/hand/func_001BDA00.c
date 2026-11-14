@@ -23,7 +23,7 @@ typedef struct O {
 typedef struct DL { O *pvFirst; O *pvLast; int ibDle; } DL;
 extern DL D_003E1A40;
 O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
-void s1_memset(void *p, int c, int n);
+void s1_memset(void *p, int c, int n) asm("memset");
 void *PvAllocSwImpl__Fi(AREQ *preq);
 void AppendDlEntry__FP2DLPv(DL *pdl, O *p);
 void RemoveDlEntry__FP2DLPv(DL *pdl, O *p);

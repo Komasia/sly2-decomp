@@ -22,13 +22,13 @@ int SignalSema(int);
 int WaitSema(int);
 void sceMcSync(int, int, int);
 void sceSifInitRpc(int);
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 int sceSifBindRpc(void *, unsigned int, int);
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 static inline int bindmc(void)
 {
     if (sceSifBindRpc(&D_00450880, 0x80000400, 0) < 0) {
-        func_00236960(D_002AB7D8);
+        scePrintf(D_002AB7D8);
         while (1) ;
     }
     return D_00450880.server;
@@ -66,7 +66,7 @@ int sceMcInit(void)
         j = 0x100000;
         while (--j) ;
         if (++i >= 0x200) {
-            func_00236960(D_002AB7D8);
+            scePrintf(D_002AB7D8);
             return -91;
         }
     }
@@ -77,12 +77,12 @@ int sceMcInit(void)
         return -91;
     }
     if (D_00451E40[1] < 0x20A) {
-        func_00236960(D_002AB7F0);
+        scePrintf(D_002AB7F0);
         D_00450880.server = 0;
         return -120;
     }
     if (D_00451E40[2] < 0x20E) {
-        func_00236960(D_002AB818);
+        scePrintf(D_002AB818);
         D_00450880.server = 0;
         return -121;
     }

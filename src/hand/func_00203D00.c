@@ -6,7 +6,7 @@ struct M { struct X *px; char pad[0xC]; struct B *pb; char pad2[0x78 - 0x14]; in
 struct S { char pad[0x258]; struct M *pm0; struct M *pm1; };
 MATRIX4 InverseAffineMatrix4__FP7MATRIX4(MATRIX4 *ps);
 void MulMatrix4__FP7MATRIX4T0Pv(MATRIX4 *pd, MATRIX4 *pa, MATRIX4 *pb);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void MarkAloDirty__FP3ALO(struct S *p);
 // name: SafeHouse port (SetStepMesh)
 void SetStepMesh__FP3ALOPvi(struct S *p, struct M *pm, int f)

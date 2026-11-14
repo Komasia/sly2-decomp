@@ -4,7 +4,7 @@ struct O { int x0, x4, x8; struct VTE *vt; };
 struct S { int k; int x4; char a8[0x4C]; struct O *po; };
 struct G;
 extern struct G g_sw;
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void RestoreChkmgrFromCheckpoint(struct G *pg, void *p) asm("RestoreChkmgrFromCheckpoint__FP6CHKMGR");
 // name: SafeHouse port (SetWipeState)
 void SetWipeState__FPv5WIPES(struct S *p, int k)

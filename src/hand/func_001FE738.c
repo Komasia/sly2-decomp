@@ -10,7 +10,7 @@ void FireDialogTarget__FP8SOUNDMGRPv(struct P *, struct A *);
 void SetSmaGoal__FP3SMA3OID(void *, int);
 void Stop__4CSndf(struct Y *, float);
 void func_00259B48(struct Ref *, void *);
-void s1_memset(void *, int, int);
+void s1_memset(void *, int, int) asm("memset");
 static inline void Stop(struct Ref *pr)
 {
     if (pr && pr->px) {

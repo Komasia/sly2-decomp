@@ -16,7 +16,7 @@ extern "C"{
  int func_00177D48(C*);
  int FSameMsg(const STATE*,const STATE*) asm("FSameMsg__FP5AIMSGT0");
  void React(C*,const STATE*) asm("React__8JOBREACTP5AIMSG");
- void*s1_memset(void*,int,unsigned int) asm("s1_memset");
+ void*s1_memset(void*,int,unsigned int) asm("memset");
  int func_00208B38(P*,P*);
  float func_00208BB0(P*);
  P*PloGuardInterest(P*,P*) asm("PloGuardInterest__FP5GUARDP2LO");

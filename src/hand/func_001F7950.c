@@ -8,7 +8,7 @@ struct M { void *p0; int n4; void *p8; int nC; int n10; int pad[3]; qword q20; q
 struct G2 { void *p; };
 extern struct G2 D_002F7900;
 void SetAloEntryMode__FP3ALOi(struct P *, int);
-void s1_memset(void *, int, int);
+void s1_memset(void *, int, int) asm("memset");
 qword PosOfLo__FP2LO(struct P *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void PaloAcceptContact__FP5CTMSG(struct M *);

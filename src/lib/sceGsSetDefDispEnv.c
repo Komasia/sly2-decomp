@@ -23,7 +23,7 @@ extern char D_002AB330[];
 sceGsGParam *sceGsGetGParam(void);
 int checkModelVersion(void);
 void func_00240C28(int, int *, int *, int *, int *);
-int func_00236960(const char *, ...);
+int scePrintf(const char *, ...);
 void sceGsSetDefDispEnv(sceGsDispEnv *disp, short psm, short w, short h, short dx, short dy)
 {
     sceGsGParam *gp = sceGsGetGParam();
@@ -124,7 +124,7 @@ void sceGsSetDefDispEnv(sceGsDispEnv *disp, short psm, short w, short h, short d
         unsigned long t = hw | xm;
         disp->display = t | ((unsigned long)((dy + oy + 0x23) & 0xFFF) << 12);
     } else {
-        func_00236960(D_002AB330);
+        scePrintf(D_002AB330);
     }
     disp->bgcolor = 0;
 }

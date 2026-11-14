@@ -11,7 +11,7 @@ extern char D_002AB6D0[];
 int sceSifDmaStat(unsigned int);
 void func_00234F48(void *, void *);
 unsigned int sceSifSetDma(SifDmaData *, int);
-void func_00236960(const char *, ...);
+void scePrintf(const char *, ...);
 
 int _send_to_iop(int port, int slot)
 {
@@ -24,7 +24,7 @@ int _send_to_iop(int port, int slot)
     c = D_004505D0[port][slot].cmd;
     if (D_004505D0[port][slot].dmaid != 0 && sceSifDmaStat(D_004505D0[port][slot].dmaid) >= 0) {
         if (D_002C830C)
-            func_00236960(D_002AB6D0);
+            scePrintf(D_002AB6D0);
         return 0;
     }
     n = c->x0 + 1;
@@ -38,7 +38,7 @@ int _send_to_iop(int port, int slot)
     id = sceSifSetDma(dma, 1);
     if (id == 0) {
         if (D_002C830C)
-            func_00236960(D_002AB6D0);
+            scePrintf(D_002AB6D0);
         return 0;
     }
     D_004505D0[port][slot].dmaid = id;

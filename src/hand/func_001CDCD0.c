@@ -4,7 +4,7 @@ struct G { char pad[0x403C]; char pool[0x30]; struct O *x406C; };
 extern struct VTE g_vtso[];
 extern struct VTE g_vtripg[];
 void *func_0011CCC0(void *pool);
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void *__7GLOBSET(void *p);
 void *func_0015E3A8(struct G *p, int n);
 void func_0011A070(void *pl, void *pv);

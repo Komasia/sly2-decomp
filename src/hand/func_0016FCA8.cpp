@@ -12,7 +12,7 @@ struct TEXBITS{
 union TEX{ulong word;TEXBITS bits;};
 extern int D_002DEDB0;
 extern DISPLAY D_002DEBE0,D_002DECD0;
-extern "C" void*s1_memset(void*,int,uint) asm("s1_memset");
+extern "C" void*s1_memset(void*,int,uint) asm("memset");
 static inline ulong FrameBits(ulong frame){return (frame&0x1FFUL)|(((frame>>16)&0x3FUL)<<16)|(((frame>>24)&0x3FUL)<<24);}
 typedef char DISPLAY_Size[sizeof(DISPLAY)==240?1:-1];
 typedef char TEXBITS_Size[sizeof(TEXBITS)==8?1:-1];

@@ -56,7 +56,7 @@ extern SND g_game;
 extern char D_002DDEC0[];
 extern char g_sw[];
 
-extern void *s1_memset(void *pv, int b, int cb);
+extern void *s1_memset(void *pv, int b, int cb) asm("memset");
 extern int scePadRead(int port, int slot, unsigned char *pb);
 extern void CopyAb(void *dst, void *src, int cb) asm("CopyAb__FPvT0Ui");
 extern void GetJoyXYDeflection(JOY *p, unsigned char bX, unsigned char bY, float *px, float *py, float *pu,

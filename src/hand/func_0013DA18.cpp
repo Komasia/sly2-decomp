@@ -22,7 +22,7 @@ void *PvAllocSwImpl(AREQ *preq) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 void *PvAllocStackImpl(AREQ *preq) asm("PvAllocStackImpl__Fi");
 void CopyAb(void *pvDst, void *pvSrc, int cb) asm("CopyAb__FPvT0Ui");
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 void func_0012AE18(void);
 int S16Read(BIS *pbis) asm("S16Read__18CBinaryInputStream");
 int S32Read(BIS *pbis) asm("S32Read__18CBinaryInputStream");

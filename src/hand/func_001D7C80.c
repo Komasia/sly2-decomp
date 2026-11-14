@@ -1,6 +1,6 @@
 struct B { int c; unsigned char *pb; };
 struct Q { char pad[0x5400]; int n5400; int n5404; };
-void *s1_memset(void *p, int n, int cb);
+void *s1_memset(void *p, int n, int cb) asm("memset");
 static inline int Sum(unsigned char *pb, unsigned int n) { int sum = 0; while (n) { sum += *pb++; n--; } return sum; }
 // name: SafeHouse port (ValidateGameSave)
 void ValidateGameSave__FPvT0(struct B *p, struct Q *q) {

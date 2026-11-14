@@ -9,7 +9,7 @@
 #include "gifs.h"
 struct SEMA {int count,maxCount,initialCount,waitThreads;uint attributes,option;};
 struct M2 {float a[8];M2(){}void Identity();};
-extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,int) asm("memset");
 inline void M2::Identity(){s1_memset(this,0,sizeof(*this));a[0]=a[3]=1.0f;}
 struct CLOCK {float t,dt,ratio,realRatio,realDt,realT;char pad18[0x24];float frameT,frameDt;ulong tick;};
 struct FR {int n0;void *p4;char pad8[0x1C];void *packet;char pad28[8];int flags;};

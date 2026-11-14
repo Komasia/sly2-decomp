@@ -13,7 +13,7 @@ typedef struct frame_state {
 #define REG_SAVED_REG 2
 void abort(void);
 word_type *get_reg_addr(unsigned reg, frame_state *udata, frame_state *sub_udata);
-void *s1_memcpy(void *, const void *, unsigned long);
+void *s1_memcpy(void *, const void *, unsigned long) asm("memcpy");
 static inline int dwarf_reg_size(int reg) { return reg < 31 ? 16 : reg < 64 ? 4 : 8; }
 void copy_reg(unsigned reg, frame_state *udata, frame_state *target_udata)
 {

@@ -1,5 +1,5 @@
 struct S { char pad[0x64]; float f64; float f68; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void func_002162D8(struct S *p, float *m, float *v)
 {
     s1_memset(m, 0, 0x40);

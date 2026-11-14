@@ -6,7 +6,7 @@ struct X { char pad[0xF38]; struct Y *py; };
 struct X *PloPlayerPo__FP2SW(struct G *g);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 char *func_0013E368(struct G *g, int id);
-void s1_strcpy(char *dst, char *src);
+void s1_strcpy(char *dst, char *src) asm("strcpy");
 void func_002111F0(char *dst, int i)
 {
     struct G *g = &g_sw;

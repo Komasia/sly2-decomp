@@ -14,7 +14,7 @@ extern "C" {
 extern float D_002BD81C, D_002BD820, D_002BD824;
 extern qword g_posEyeDefault;
 extern qword g_posCenterDefault;
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 void RecalcCmFrustrum(CM *p) asm("RecalcCmFrustrum__FP2CM");
 void SetCmLookAt(CM *p, qword pos, qword tgt, float da, float db) asm("SetCmLookAt__FP2CMG9VU_VECTORT1ff");
 void CutCm(CM *p) asm("CutCm__FP2CM");

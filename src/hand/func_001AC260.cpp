@@ -10,7 +10,7 @@ struct Y {int flags;unsigned char*cursor;int left,consumed;unsigned char*raw;int
 struct K {uint x0,x4;char pad[0x34-8];uint x34;int pad2;uint x3C;};
 extern "C" {
 extern char D_002A6CB8[];
-int fiprintf(char *buf, const char *fmt, ...) asm("fiprintf");
+int sprintf(char *buf, const char *fmt, ...) asm("sprintf");
 int func_001AC7A0(void *p, char *name, int mode, int *ph);
 void *PvAllocStackImpl(REQUEST *pmsg) asm("PvAllocStackImpl__Fi");
 int func_00184D60(Y *py, X *px);
@@ -82,7 +82,7 @@ int func_001AC260(void *p, const char *a, K *k, const char *b)
     FRAME frame;
     char name[0x50];
     int ret;
-    fiprintf(name, D_002A6CB8, a, b);
+    sprintf(name, D_002A6CB8, a, b);
     int h = -1;
     ret = func_001AC7A0(p, name, 0x202, &h);
     if (ret == 0) {

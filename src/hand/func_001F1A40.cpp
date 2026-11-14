@@ -11,7 +11,7 @@ extern struct TABLE D_002C3968[],D_002C3748[];
 void ClearReward(struct OWNER *) asm("ClearReward__FP2LO");
 int func_00210AE0(void);
 int FIsBasicDerivedFrom(void *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-void *s1_memset(void *,int,int) asm("s1_memset");
+void *s1_memset(void *,int,int) asm("memset");
 struct OBJECT *PloFindSwNearest(void *,int,int,void *) asm("PloFindSwNearest__FP2LO3OIDii");
 int FTaskDone(void *) asm("FTaskDone__FP4TASK");
 float GRandInRange(float,float) asm("GRandInRange__Fff");

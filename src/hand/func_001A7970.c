@@ -5,7 +5,7 @@ extern char D_002A6A58[], D_002C46D8[], D_002C46C0[], g_clock[];
 extern void (*D_002BFCE0[])(void);
 void func_001700D0(void);
 struct B *__5CProgP4RGBAN31(struct B *b, struct C *c0, struct C *c1, struct C *c2, struct C *c3);
-int kprintf(char *format, ...);
+int printf(char *format, ...);
 void func_001C2A78(int n);
 void Begin__5CProg(struct B *b);
 void UpdateClock__FP5CLOCKi(void *p, int n);
@@ -29,7 +29,7 @@ void func_001A7970(void)
     c1.c=a1;
     }
     __5CProgP4RGBAN31(&b, &c0, &c1, &c2, &c3);
-    kprintf(D_002A6A58, D_002C46D8, D_002C46C0, 0x2B0);
+    printf(D_002A6A58, D_002C46D8, D_002C46C0, 0x2B0);
     func_001C2A78(1);
     Begin__5CProg(&b);
     f = 0;

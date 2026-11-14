@@ -26,7 +26,7 @@ void StartNewGameFromTitle__Fv(OBJ *);
 int func_001A2C98(void);
 void *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 void FRegionLanguages__FPiPUi(int *, int **);
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void PushPage__FP4MENUiPviUi(void *, int, ITEM *, void *, void *);
 void func_001DD920(OBJ *p)
 {

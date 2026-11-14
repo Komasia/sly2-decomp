@@ -13,7 +13,7 @@ extern G g_sw;
 extern H g_joy;
 extern I D_002E65E0;
 extern char D_002A7A70[];
-extern "C" char *s1_strcpy(char *, const char *) asm("s1_strcpy");
+extern "C" char *s1_strcpy(char *, const char *) asm("strcpy");
 extern "C" char *strcpy1(char *, const char *) asm("strcpy1");
 extern "C" int func_001A2C98(void);
 char *func_0013E368(G *, int);

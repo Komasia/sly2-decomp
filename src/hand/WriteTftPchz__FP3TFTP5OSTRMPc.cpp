@@ -3,7 +3,7 @@ class OSTRM {
 public:
     int CbWrite(void *pv, int cb);
 };
-extern "C" int s1_strlen(char *pch) asm("s1_strlen");
+extern "C" int s1_strlen(char *pch) asm("strlen");
 extern "C" char D_002A9370[];
 static inline void WritePad(OSTRM *postrm, char ch, int c)
 {

@@ -10,7 +10,7 @@ extern int D_002C6790;
 extern sceSifClientData D_00450510;
 extern int D_00450550[];
 extern int D_002C7940[];
-int printf(const char *fmt, ...);
+int scePrintf(const char *fmt, ...);
 int DIntr(void);
 int EIntr(void);
 void cmd_sem_init(void);
@@ -30,7 +30,7 @@ static __inline__ void nopdelay(void)
 int sceCdDiskReady_old(int mode)
 {
     int r;
-    if (D_002C6750 > 0) printf("DiskReady 0\n");
+    if (D_002C6750 > 0) scePrintf("DiskReady 0\n");
     r = DIntr();
     D_002C6780 = 1;
     if (r) EIntr();
@@ -45,7 +45,7 @@ int sceCdDiskReady_old(int mode)
     if (D_002C6790 < 0) {
         while (1) {
             if (sceSifBindRpc(&D_00450510, 0x8000059A, 0) < 0) {
-                if (D_002C6750 > 0) printf("Bind error\n");
+                if (D_002C6750 > 0) scePrintf("Bind error\n");
                 nopdelay();
                 continue;
             }
@@ -60,7 +60,7 @@ int sceCdDiskReady_old(int mode)
         if (mode == 8) return -1;
         return 6;
     }
-    if (D_002C6750 > 0) printf("DiskReady ended\n");
+    if (D_002C6750 > 0) scePrintf("DiskReady ended\n");
     r = *(int *)((unsigned int)D_002C7940 | 0x20000000);
     SignalSema(D_002C676C);
     return r;

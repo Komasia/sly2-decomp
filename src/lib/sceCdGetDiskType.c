@@ -1,23 +1,9 @@
-// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
-// SLY2_CFLAGS: -O2 -G0 
-// SLY2_ASM: gnu-reorder-db
-// SLY2_SAVES: sd
-extern char D_002C82C0[];
-extern int D_002C7940[];
-extern int D_002C676C;
-int _sceCd_scmd_prechk(int);
-int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
-int SignalSema(int);
+// SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
+// SLY2_CFLAGS: -O2 -G0
+/* libcdvd: the disc type, 0 when the S-command fails (sceCdGetDiskType2 returns -1 then). */
+int sceCdGetDiskType2(void);
 int sceCdGetDiskType(void)
 {
-    int r;
-    if (_sceCd_scmd_prechk(3) == 0)
-        return -1;
-    if (sceSifCallRpc(D_002C82C0, 4, 0, 0, 0, D_002C7940, 4, 0, 0) >= 0) {
-        r = *(int *)((unsigned int)D_002C7940 | 0x20000000);
-        SignalSema(D_002C676C);
-        return r;
-    }
-    SignalSema(D_002C676C);
-    return -1;
+    int r = sceCdGetDiskType2();
+    return (r == -1) ? 0 : r;
 }

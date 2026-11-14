@@ -1,4 +1,4 @@
-extern "C" void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+extern "C" void *s1_memset(void *pv, int b, int cb) asm("memset");
 class M {
 public:
     M() { s1_memset(this, 0, sizeof(*this)); }

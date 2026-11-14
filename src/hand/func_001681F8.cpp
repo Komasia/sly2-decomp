@@ -96,7 +96,7 @@ extern DMA D_002DEA28;
 extern G g_sw;
 extern "C" {
 void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");
-void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("memcpy");
 M4 *MulMatrix4(M4 *pmatDst, const M4 *pmatA, const M4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 float GMaxRowLengthMatrix3(const M3 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");
 RPL *func_001CD998(void);

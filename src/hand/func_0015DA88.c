@@ -2,7 +2,7 @@ struct X { char pad[0x128]; int k; };
 struct G { char pad[0x4774]; struct X *px; };
 extern struct G g_sw;
 void *func_0013E368(struct G *pg, int n);
-void s1_strcpy(void *p, void *q);
+void s1_strcpy(void *p, void *q) asm("strcpy");
 void func_0015DA88(void *p, int f)
 {
     struct X *px = g_sw.px;

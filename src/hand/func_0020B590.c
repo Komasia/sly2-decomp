@@ -10,7 +10,7 @@ extern float D_002C3DBC;
 extern const float D_002A88CC;
 void UpdateLo__FP2LO(struct S *p);
 void *func_00205458(struct O *po, int n);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 void React__8JOBREACTP5AIMSG(void *p, struct L *pl);
 void func_00153FF8(void *p);
 

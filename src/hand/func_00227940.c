@@ -3,7 +3,7 @@ struct T { struct E a[16]; };
 extern struct T D_002A97F8;
 extern char D_002A9878[];
 struct S { int x0, x4, flags; };
-void fiprintf(char *pch, char *fmt, int ch);
+void sprintf(char *pch, char *fmt, int ch);
 void func_00227940(struct S *p, char *pch)
 {
     struct T t = D_002A97F8;
@@ -11,6 +11,6 @@ void func_00227940(struct S *p, char *pch)
     *pch = 0;
     for (i = 0; i < 16; i++) {
         if (p->flags & t.a[i].mask)
-            fiprintf(pch, D_002A9878, t.a[i].ch);
+            sprintf(pch, D_002A9878, t.a[i].ch);
     }
 }

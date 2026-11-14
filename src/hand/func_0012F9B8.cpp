@@ -24,7 +24,7 @@ extern VTE D_002CAF48[];
 extern VTE D_002CAF08[];
 extern char D_002DE578[];
 P *func_0011CCC0(void *);
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 float GSuck(void *) asm("GSuck__FPv");
 void SetAsegaSpeed(P *, float) asm("SetAsegaSpeed__FP5ASEGAf");
 void AppendDlEntry(void *, void *) asm("AppendDlEntry__FP2DLPv");

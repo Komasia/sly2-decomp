@@ -13,7 +13,7 @@ typedef struct {
 } D;
 typedef struct { char p0[0x40]; D *sys; } sceMpeg;
 void _sceMpegError1(D *d, const char *fmt, unsigned int v);
-int func_00236960(const char *fmt, ...);
+int scePrintf(const char *fmt, ...);
 int _sceMpegNextHeader(D *d);
 int _sceMpegFlush(sceMpeg *mp);
 int _decodeOrSkip(sceMpeg *mp, int n, int limit);
@@ -29,10 +29,10 @@ int _getpic(sceMpeg *mp)
         return -1;
     }
     if (d->stop) {
-        ((int (*)(const char *))func_00236960)("Need to re-setup libipu since sceMpegGetPicture was aborted\n");
+        ((int (*)(const char *))scePrintf)("Need to re-setup libipu since sceMpegGetPicture was aborted\n");
         return -1;
     abort:
-        func_00236960("sceMpegGetPicture is aborted\n");
+        scePrintf("sceMpegGetPicture is aborted\n");
         return -1;
     }
     d->x834 = 0;

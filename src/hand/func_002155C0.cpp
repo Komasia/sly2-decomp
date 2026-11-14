@@ -8,7 +8,7 @@ void AllocSw(void *, int) asm("AllocSw__4DMASi");
 void AddPrimPack(void *, int, int, int) asm("AddPrimPack__4GIFSiiUl");
 void PackAD(void *, int, unsigned long) asm("PackAD__4GIFSll");
 void AddPrimEnd(void *) asm("AddPrimEnd__4GIFS");
-void DetachCopySw(void *, int, int *, int, int *) asm("DetachCopySw__4DMASPiPP2QWT2i");
+void DetachCopySw(void *, int, int *, int, int *) asm("DetachCopySw__4DMASP4HEAPPiPP2QWT3");
 }
 class FRAME { public: FRAME() { __10STACKSCOPE(this); } ~FRAME() { _$_10STACKSCOPE(this, 2); } };
 struct BUF { int a[12]; };

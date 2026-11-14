@@ -6,7 +6,7 @@ extern PadSt D_004505D0[2][4];
 int DIntr(void);
 int EIntr(void);
 unsigned char *scePadGetDmaStr(int port, int slot);
-void *s1_memcpy(void *, const void *, int);
+void *s1_memcpy(void *, const void *, int) asm("memcpy");
 int scePadRead(int port, int slot, unsigned char *rdata)
 {
     int r;

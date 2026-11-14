@@ -3,7 +3,7 @@ struct O { int f0; int f4; int f8; struct VTE *vt; char pad[0x460 - 0x10]; };
 struct G { char pad[0x4070]; int pool4070; char pad2[0x407c - 0x4074]; int f407c; int f4080; int f4084; };
 extern struct VTE D_002CB5D8[];
 struct O *func_0011CCC0(void *);
-void s1_memset(void *, int, int);
+void s1_memset(void *, int, int) asm("memset");
 void *func_0015E3A8(struct G *, int);
 void func_0011A070(void *, struct O *);
 struct O *func_001390D8(struct G *pg) {

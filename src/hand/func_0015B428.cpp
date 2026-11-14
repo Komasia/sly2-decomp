@@ -26,7 +26,7 @@ extern char g_sw[];
 PRG *func_001390D8(void *pv);
 void SetPsysFromEmitb(PRG *pprg, EMITTER *p) asm("SetPsysFromEmitb__FP4PSYSP8EMITTERN");
 BLK *func_00138FF8(void *pv, PRG *pprg);
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 int NRandInRange(int nMin, int nMax) asm("NRandInRange__Fii");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 void InsertPsysParticles(EMITTER *p, EMITX *px, int c, qword *apos, qword *av, float *ag1, float *ag2, qword *aa, qword *ab) asm("InsertPsysParticles__FP8EMITTERNP6VECTORiT1PfT4N21PG9VU_VECTOR");

@@ -13,7 +13,7 @@ extern int D_002C49E8;
 int CreateSema(SemaParam *);
 int DeleteSema(int);
 int CreateThread(ThreadParam *);
-int StartThread_002355E0(int, void *);
+int StartThread_2355E0(int, void *);
 int GetThreadId(void);
 int ChangeThreadPriority(int, int);
 void topThread(void *);
@@ -46,7 +46,7 @@ int InitThread(void)
         }
         D_00448948.x0 = 0;
         D_00448948.idx = 0;
-        StartThread_002355E0(D_002C49E8, &D_00448948);
+        StartThread_2355E0(D_002C49E8, &D_00448948);
         ChangeThreadPriority(GetThreadId(), 1);
     }
     return D_002C49E8;

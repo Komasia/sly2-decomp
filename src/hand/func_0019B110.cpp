@@ -128,7 +128,7 @@ extern float D_002BF8E4, D_002BF8E8, D_002BF8EC, D_002BF8F0, D_002BF8F4, D_002BF
 extern float D_002BF90C, D_002BF914, D_002BF918;
 
 qword PosOfLo(void *plo) asm("PosOfLo__FP2LO");                                         // PosLoWorld
-void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");                         // memset
+void *s1_memset(void *pv, int b, uint cb) asm("memset");                         // memset
 qword VelJumpLaunch(JTAIR *pjtair, int nKind) asm("VelJumpLaunch__FP4JUMPi");                         // JtPlanLaunchVz
 int FIsBasicDerivedFrom(void *plo, int cid) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void FitJumpToPoint(JTAIR *pjtair, VU_VECTOR v, void *plo, VU_VECTOR pos, VU_VECTOR dpos, float *pt, float *pg,

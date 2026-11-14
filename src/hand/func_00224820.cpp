@@ -33,7 +33,7 @@ extern RANGE g_lmZeroOne;
 extern "C" {
 COLL *PsoHitTestLineObjects(int,qword,qword,int,COLL **,LSG *) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
 O *PaloXpFilter(O *,int) asm("PaloXpFilter__FP3ALOUi");
-void *s1_memset(void *,int,unsigned int) asm("s1_memset");
+void *s1_memset(void *,int,unsigned int) asm("memset");
 qword VelXfPoint(NODE *,NODE *,qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 qword DvAloImpulse(O *,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
 qword func_001FAA48(O *,qword,qword);

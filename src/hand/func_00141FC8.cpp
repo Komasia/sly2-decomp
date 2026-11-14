@@ -14,7 +14,7 @@ extern CLOCK g_clock;
 extern char D_002A4D50[];
 extern char D_002A4D58[];
 void SetAbilityState(P *p, E *pe, int n) asm("SetAbilityState__FP5ACTORP6ABSLOTi");
-int fiprintf(char *pch, const char *fmt, ...) asm("fiprintf");
+int sprintf(char *pch, const char *fmt, ...) asm("sprintf");
 }
 CRef SetProgressPoCurrent(const CRef &ref, void *o, const char *fmt, ...) asm("SetProgressPoCurrent__FP4CRefPci");
 // name: SafeHouse port (SetActorAbilitySlot)
@@ -33,7 +33,7 @@ extern "C" void SetActorAbilitySlot__FP5ACTORii(P *p, unsigned int i, int id)
                 SetAbilityState(p, pe2, -1);
                 pe2->id = -1;
             }
-            fiprintf(ach, D_002A4D50, j);
+            sprintf(ach, D_002A4D50, j);
             VTE *e = &p->vt[103];
             SetProgressPoCurrent(CRef(0x15, p->ae[j].id), e->pfn((char *)p + e->d), D_002A4D58, ach, 0);
         }

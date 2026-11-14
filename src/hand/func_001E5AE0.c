@@ -7,7 +7,7 @@ extern char D_003E1560[];
 extern char g_sw[];
 extern struct VTE D_002D8C08[];
 struct S *func_0011CCC0(void *);
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 int PloFindSwNearest__FP2LO3OIDii(void *, int, int, int);
 void PrependDlEntry__FP2DLPv(void *, void *);
 // name: SafeHouse port (PrunNew)

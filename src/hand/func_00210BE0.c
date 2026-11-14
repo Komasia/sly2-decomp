@@ -4,7 +4,7 @@ typedef struct { int a[4]; } ALLOC;
 extern struct G { char pad[0x4640]; int f; } g_sw;
 extern ALLOC *__11CLinearHeapiPUc(ALLOC *, int, int);
 extern char *func_0013E368(struct G *, char *);
-extern int s1_strlen(char *);
+extern int s1_strlen(char *) asm("strlen");
 extern char *PchzAllocCopy__FP4HEAPPci(ALLOC *, char *, int);
 
 void func_00210BE0(TBL *p)

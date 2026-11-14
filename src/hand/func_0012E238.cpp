@@ -1,5 +1,5 @@
 extern "C" void *func_0012E1F0(unsigned int cb);
-extern "C" void *s1_memset(void *pv, int b, unsigned int cb) asm("s1_memset");
+extern "C" void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 struct MATRIX4 { float m[4][4]; };
 struct CBase {
     int k;

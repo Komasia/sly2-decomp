@@ -5,7 +5,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef struct {unsigned char r,g,b,a;} RGBA;
 struct RT {char pad[0x6C];float offsetX,offsetY,width,height,sx,sy,lineHeight,fontScale;int vAlign,hAlign,priority;};
 struct CONFIG {float offsetX,offsetY,width,height;RGBA color;int hAlign,vAlign;};
-extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,int) asm("memset");
 struct M23 {float a[8];enum INIT {Uninitialized,Zero};M23(INIT init=Uninitialized){if(init==Zero)s1_memset(this,0,sizeof(*this));}} __attribute__((aligned(16)));
 struct M4 {qword r[4];};
 struct DATA {RGBA color;int mode;float priority;int limit;qword v10,v20;};

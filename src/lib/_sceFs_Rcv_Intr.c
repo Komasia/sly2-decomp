@@ -13,7 +13,7 @@ extern int D_002C4A80;
 extern int D_002C4A78;
 extern volatile int D_002C49F8[32];
 extern FsPkt D_0044B300[];
-void *s1_memcpy(void *, const void *, unsigned int);
+void *s1_memcpy(void *, const void *, unsigned int) asm("memcpy");
 int iSignalSema(int);
 
 void _sceFs_Rcv_Intr(SifCmdHdr *cmd, void *userData)

@@ -195,7 +195,7 @@ extern "C" {
 void func_001681F8(MODEL *pmodel);
 int FUpdatableSaa(OBJ *pobj) asm("FUpdatableSaa__FP3SAA");
 void CopyAb(void *pvDst, const void *pvSrc, uint cb) asm("CopyAb__FPvT0Ui");
-void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("memcpy");
 void MulMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatA, const MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 void InverseAffineMatrix4(MATRIX4 *pmatDst, const MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 float GMaxRowLengthMatrix3(const MATRIX4 *pmat) asm("GMaxRowLengthMatrix3__FP7MATRIX3");

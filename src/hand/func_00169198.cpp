@@ -118,8 +118,8 @@ extern DMA D_002DEA28;
 extern G g_sw;
 extern MATRIX4 D_002A2D30;
 extern "C" {
-void *s1_memset(void *pv, int b, uint cb) asm("s1_memset");
-void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("s1_memcpy");
+void *s1_memset(void *pv, int b, uint cb) asm("memset");
+void *s1_memcpy(void *pvDst, const void *pvSrc, uint cb) asm("memcpy");
 void func_001A4AD8(G *pg, int c, void **apv, SHD *pshd);
 int FUpdatableSaa(OBJ *pobj) asm("FUpdatableSaa__FP3SAA");
 int func_001BEE10(ALO *palo, int n);

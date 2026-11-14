@@ -5,7 +5,7 @@ struct X { int a; int b; int c; int pad; M4 m; B7 b7; M4 m2; };
 struct Y { int a; int b; int c; };
 void InitEmitb__FP5EMITB(struct X *px);
 void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(void *p, struct X *px, struct Y *py);
-void s1_memset(void *pv, int b, int cb);
+void s1_memset(void *pv, int b, int cb) asm("memset");
 // name: SafeHouse port (LaunchWaterSpray)
 void LaunchWaterSpray__FG9VU_VECTORT0P2LON22iii(qword q0, qword q1, void *p, M4 *pm, B7 *pb7, int n1, int n2, int n3)
 {

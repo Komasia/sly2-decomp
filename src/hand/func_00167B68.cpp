@@ -23,7 +23,7 @@ extern int D_003E11EC;
 extern "C" LO *PloFindSwNearest(G *pg, int kind, int oid, void *owner) asm("PloFindSwNearest__FP2LO3OIDii");
 extern "C" void InverseAffineMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatSrc) asm("InverseAffineMatrix4__FP7MATRIX4");
 extern "C" void MulMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatA, MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
-extern "C" void *s1_memset(void *pv, int n, int cb) asm("s1_memset");
+extern "C" void *s1_memset(void *pv, int n, int cb) asm("memset");
 extern "C" void func_0022B7A0(LO *plo, X *px);
 // name: SafeHouse port (BindAloBones)
 extern "C" void BindAloBones__FP3ALO(S *p)

@@ -2,7 +2,7 @@ typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct POOL { int cb; int c; int nKind; void *pvFree; int cAlloc; void *pvBlock; } POOL;
 
 void *PvAllocSwImpl__Fi(MSG *pmsg);
-void *s1_memset(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 
 void *func_0011CCC0(POOL *ppool)
 {

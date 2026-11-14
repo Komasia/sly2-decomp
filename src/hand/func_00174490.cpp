@@ -11,7 +11,7 @@ struct R *PloAcquireProxyObject(void *p, int n) asm("PloAcquireProxyObject__FP2S
 void FDropOnGround(qword *pv, float a, float b, int c, int d) asm("FDropOnGround__FP6VECTORffiPv");
 int NRandInRange(int lo, int hi) asm("NRandInRange__Fii");
 void *func_00205458(struct R *r, int n);
-void *s1_memset(void *p, int c, int n) asm("s1_memset");
+void *s1_memset(void *p, int c, int n) asm("memset");
 }
 struct F { int a; int rest[0x1B]; F() { s1_memset(this, 0, sizeof *this); } };
 extern "C" {

@@ -5,7 +5,7 @@ struct S8 { char pad[0x24]; int c; };
 struct Y { int a; unsigned short grf; short pad; struct S8 *ps8; };
 ulong TexselFromShd__FP3SHDii(struct Y *py, int i, int n);
 void PackAD(void *pq, int reg, ulong val) asm("PackAD__4GIFSll");
-void *s1_memset(void *p, int b, int cb);
+void *s1_memset(void *p, int b, int cb) asm("memset");
 void func_001EA750(struct Y *py, int n, void *pq)
 {
     struct TEX1 tex1;

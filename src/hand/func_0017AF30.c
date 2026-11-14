@@ -19,7 +19,7 @@ float *PeventLaunch__FP5KINDEi(void *p, void *q);
 void SetAsegaTime__FP5ASEGAiff(void *p, float a, float b, int n);
 void SetState__5JOBB1i(struct S *p, int n);
 struct O *PloFindSwNearest__FP2LO3OIDii(struct G *g, int a, int b, int c);
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 qword PosOfLo__FP2LO(struct A *a);
 void func_00156698(void *p, qword v, struct A *a);
 // name: SafeHouse port (JOBB1::Message)

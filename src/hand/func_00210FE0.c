@@ -4,7 +4,7 @@ extern float D_002DE3B8, D_002DE514;
 extern char D_002A8AB8[], D_002A8AC0[], D_002A8AC8[], D_002A8AD0[], D_002A8AD8[];
 struct X *PloPlayerPo__FP2SW(void *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct X *, int);
-int fiprintf(char *, char *, ...);
+int sprintf(char *, char *, ...);
 int fptodp(float);
 void func_00210FE0(char *pch)
 {
@@ -21,16 +21,16 @@ void func_00210FE0(char *pch)
         break;
     }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x35)) {
-        fiprintf(pch, D_002A8AB8, (int)g);
+        sprintf(pch, D_002A8AB8, (int)g);
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x37)) {
-        fiprintf(pch, D_002A8AC0, fptodp(g));
+        sprintf(pch, D_002A8AC0, fptodp(g));
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x36)) {
         int n = (int)g;
         if (n < 4)
-            fiprintf(pch, D_002A8AC8, n);
+            sprintf(pch, D_002A8AC8, n);
         else if (n < 8)
-            fiprintf(pch, D_002A8AD0, n);
+            sprintf(pch, D_002A8AD0, n);
         else
-            fiprintf(pch, D_002A8AD8, n);
+            sprintf(pch, D_002A8AD8, n);
     }
 }

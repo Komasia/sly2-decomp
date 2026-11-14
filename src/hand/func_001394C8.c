@@ -31,7 +31,7 @@ struct P2 { char pad[0x1A0]; int n1A0; char pad1A4[0x3B0 - 0x1A4]; int c3B0; uns
 struct P3 { char pad[0x434]; int x434; int x438; int x43C; float g440; };
 
 void func_00139370(void *p, void *pv);
-void *s1_memset(void *pv, int b, int cb);
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 static __inline__ float GEval(struct POLY *pp, float t) { return pp->a + t * (pp->b + t * pp->c); }
 static __inline__ void InitS(float g, struct S150 *ps) { register float r asm("$f1") = 1.0f; /* register pin (Claude agent): f0/f1 tie */ ps->x0 = 0; ps->x8 = 0; ps->g4 = r / g; }
 static __inline__ float GMax3(float a, float b, float c) { if (b < a && c < a) return a; if (c < b) return b; return c; }

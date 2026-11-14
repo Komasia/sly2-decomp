@@ -77,7 +77,7 @@ void SetSource(void *p, SO *pso) asm("SetSource__4CSndPv");
 void SetFalloff(void *p, float a, float b) asm("SetFalloff__4CSndff");
 void func_00258040(void *pp, void *p);
 RIP *FLaunchHudRip(void *p, int k, int x) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
-void *s1_memset(void *p, int c, int cb) asm("s1_memset");
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void LaunchWaterSpray(qword pos, qword dir, int n, EMITP emitp, EMITV emitv, E *pe, int x, int y) asm("LaunchWaterSpray__FG9VU_VECTORT0P2LON22iii");
 }
 

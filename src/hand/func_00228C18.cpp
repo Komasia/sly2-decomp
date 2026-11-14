@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; int n[4]; } VU;
 typedef struct { qword r[3]; } M3;
-extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,int) asm("memset");
 enum Init { Uninitialized, Zero };
 struct M4 { VU r[4]; M4(Init mode) { if(mode==Zero)s1_memset(this,0,0x40); } };
 extern "C" M3 D_002A2D00;

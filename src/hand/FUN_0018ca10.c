@@ -15,9 +15,9 @@ typedef struct {
     unsigned char Reserve3[512];
 } ICONSYS;
 char *strcpy(char *, const char *);
-void *s1_memset(void *, int, unsigned int);
+void *s1_memset(void *, int, unsigned int) asm("memset");
 void func_001EEA70(char *, unsigned char *);
-int fiprintf(char *, const char *, ...);
+int sprintf(char *, const char *, ...);
 int func_001AC900(void *s, char *name, void *b, int n);
 
 int FUN_0018ca10(void *p, char *dir, char *title)
@@ -65,6 +65,6 @@ int FUN_0018ca10(void *p, char *dir, char *title)
     strcpy((char *)icon.FnameView, "memcard_icon.ico");
     strcpy((char *)icon.FnameCopy, "memcard_icon.ico");
     strcpy((char *)icon.FnameDel, "memcard_icon.ico");
-    fiprintf(name, "%s/%s", dir, "icon.sys");
+    sprintf(name, "%s/%s", dir, "icon.sys");
     return func_001AC900(p, name, &icon, sizeof(icon));
 }

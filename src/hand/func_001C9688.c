@@ -4,7 +4,7 @@ extern struct E D_003D3A00[5];
 extern char D_002C1740[], D_002C19C0[], D_002C1AC8[], D_002C1B50[], D_002C1BD8[];
 extern int D_002DD2E0, D_002DD2E4, D_002DD2E8, D_002DD2EC, D_002DD2F0, D_002DD2F4;
 extern char D_004520A8[], D_004520D0[], D_004520F8[], D_00452120[], D_00452148[], D_00452170[];
-void *s1_memset(void *p, int c, int cb);
+void *s1_memset(void *p, int c, int cb) asm("memset");
 void func_0011CCA8(void *p, int cb, int c, int align);
 static inline void SetRgba(struct RGBA *pc, int r, int g, int b, int a) { pc->r = r; pc->g = g; pc->b = b; pc->a = a; }
 static inline void InitE(struct E *pe, int n, void *p, int r, int g, int b, int a)

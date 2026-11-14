@@ -21,7 +21,7 @@ struct STATE { NODE *node; TRI *leaf; float t; U plane; };
 struct ROW { U a, b, planeA, planeB; float t0, t1; int flags; TRI *leaf; char tail[16]; };
 typedef char STATE_Size[sizeof(STATE) == 0x20 ? 1 : -1];
 typedef char ROW_Size[sizeof(ROW) == 0x60 ? 1 : -1];
-extern "C" void *s1_memset(void *, int, unsigned int) asm("s1_memset"); // memset
+extern "C" void *s1_memset(void *, int, unsigned int) asm("memset"); // memset
 extern "C" int func_001BF398(float);                      // 0: above +eps, 1: below -eps, 2: on the plane
 
 static inline float GetX(const qword &q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }

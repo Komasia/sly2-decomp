@@ -6,7 +6,7 @@ struct VTE { short delta,pad; qword (*fn)(void *); };
 struct P { char pad[0xC]; VTE *vt; char pad10[0x4C]; LO *object; };
 extern "C" M3 InverseMatrix3(const M3 *) asm("InverseMatrix3__FP7MATRIX3");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
-extern "C" void *s1_memset(void *,int,int) asm("s1_memset");
+extern "C" void *s1_memset(void *,int,int) asm("memset");
 extern "C" void HoldXfMode(P *,LO *);
 static inline M3 Mul(const M3 &a,const M3 &b) return r
 {

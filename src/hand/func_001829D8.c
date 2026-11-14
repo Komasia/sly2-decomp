@@ -5,7 +5,7 @@ struct CTX { struct S *p; int x4; void *pv; int xc; int x10; int pad[3]; qword q
 extern qword D_002A2DD0;
 qword PosOfLo__FP2LO(void *p);
 struct Q *PqNearestSwarm__FP2LOG9VU_VECTOR(struct S *p, qword q);
-void s1_memset(void *pv, int b, int cb);
+void s1_memset(void *pv, int b, int cb) asm("memset");
 int PaloAcceptContact__FP5CTMSG(struct CTX *pctx);
 void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(void *p, int a, int b, qword q1, qword q2, float g, float h);
 void SetSwarmQState__FP2LOP3SWQi(struct S *p, struct Q *q, int n);

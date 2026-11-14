@@ -5,9 +5,9 @@ extern char D_002F6900[];
 extern char D_002E5270[];
 extern int D_004425DC;
 int SemaCreate(int a, int b) asm("SemaCreate__Fii");
-void *s1_memset(void *pv, int c, int cb);
+void *s1_memset(void *pv, int c, int cb) asm("memset");
 int CreateThread(struct ThreadParam *ptp);
-int StartThread_002355E0(int id, void *arg);
+int StartThread_2355E0(int id, void *arg);
 void func_001B2828(void *);
 void func_001B2940(void)
 {
@@ -21,5 +21,5 @@ void func_001B2940(void)
     tp.stackSize = 0x1000;
     tp.initPriority = 2;
     D_004425DC = CreateThread(&tp);
-    StartThread_002355E0(D_004425DC, 0);
+    StartThread_2355E0(D_004425DC, 0);
 }

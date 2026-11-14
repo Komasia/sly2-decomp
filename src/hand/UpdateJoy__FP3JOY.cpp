@@ -19,7 +19,7 @@ int scePadGetState(int port, int slot) asm("scePadGetState");
 int scePadInfoMode(int port, int slot, int term, int offs) asm("scePadInfoMode");
 int scePadSetMainMode(int port, int slot, int offs, int lock) asm("scePadSetMainMode");
 int scePadInfoAct(int port, int slot, int term, int offs) asm("scePadInfoAct");
-void *s1_memset(void *pv, int b, int cb) asm("s1_memset");
+void *s1_memset(void *pv, int b, int cb) asm("memset");
 int scePadSetActAlign(int port, int slot, unsigned char *pb) asm("scePadSetActAlign");
 int scePadInfoPressMode(int port, int slot) asm("scePadInfoPressMode");
 int scePadEnterPressMode(int port, int slot) asm("scePadEnterPressMode");

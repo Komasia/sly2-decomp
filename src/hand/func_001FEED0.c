@@ -1,7 +1,7 @@
 struct M { int n0; int pad4; int n8; int nC; short h10; short pad12; int pad14[3]; short h20; short pad22; int pad24; int n28; int pad2C; };
 struct P { char pad[0x64]; int n64; char pad2[0xE8 - 0x68]; int nE8; char pad3[0x138 - 0xEC]; int n138; };
 int NRandInRange__Fii(int, int);
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void *IsoundFromSfxid__FP8SOUNDMGRi(struct P *, int);
 short func_001FD070(struct P *, void *);
 void func_002322F0(struct M *);

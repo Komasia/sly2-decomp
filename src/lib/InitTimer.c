@@ -6,7 +6,7 @@ typedef struct { long time; int id; int pad; int x10; Counter *free; } TimerSys;
 extern TimerSys D_002C5A30;
 extern Counter D_0044C300[128];
 void cbTimerHandler(void);
-void *s1_memset(void *, int, int);
+void *s1_memset(void *, int, int) asm("memset");
 void func_0023A618(void);
 int func_00234710(int, void *, int, void *);
 int DIntr(void);

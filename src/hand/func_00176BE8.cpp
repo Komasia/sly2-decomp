@@ -33,7 +33,7 @@ extern "C"{
 extern OBJECT*D_002F7900;
 extern void*D_003E14BC;extern void*D_003E14B0;extern void*D_003E14B8;struct GAMESTATE{char pad[0x4028];void*context;};extern GAMESTATE g_sw;
 extern CLOCK g_clock;extern float D_002BE620;
-void*s1_memset(void*,int,unsigned) asm("s1_memset");
+void*s1_memset(void*,int,unsigned) asm("memset");
 void React(S*,STATE*) asm("React__8JOBREACTP5AIMSG");
 qword PosOfLo(void*) asm("PosOfLo__FP2LO");M4*MatJtLo(void*) asm("MatJtLo__FP2LO");
 qword ConvertVec(void*,void*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");

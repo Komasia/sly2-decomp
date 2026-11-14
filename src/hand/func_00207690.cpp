@@ -17,7 +17,7 @@ extern "C" {
 void func_001F3C10(P *);
 int func_0014FD50(void *);
 void RenderGlob(EFFECT *,const M4 *,void *,float,float) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
-void *s1_memset(void *,int,unsigned int) asm("s1_memset");
+void *s1_memset(void *,int,unsigned int) asm("memset");
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
 float sinf(float);
 qword *func_00256D18(qword *,qword);

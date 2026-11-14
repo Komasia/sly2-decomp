@@ -17,7 +17,7 @@ typedef struct DZG {
 
 void *PvAllocStackClearImpl__Fi(MSG *pmsg);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
-void *s1_memset(void *pv, int b, unsigned int cb);
+void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 void InitDl__FP2DLi(DL *pdl, int ibDle);
 
 // name: SafeHouse port (InitDzgRows)

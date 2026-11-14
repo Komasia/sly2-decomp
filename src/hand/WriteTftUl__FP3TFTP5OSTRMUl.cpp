@@ -5,7 +5,7 @@ class OSTRM {public:char *buffer;int capacity,used;char unknownC[4];int written,
 int FNegTftUl(TFT *,UL *);
 int CchAchFromUl(char *,int,unsigned long,unsigned int);
 int UnRadixFromChConversion(unsigned char) __asm__("UnRadixFromChConversion__Fc");
-extern "C" unsigned int s1_strlen(const char *) asm("s1_strlen");
+extern "C" unsigned int s1_strlen(const char *) asm("strlen");
 extern "C" void UpperizePchz(char *) asm("UpperizePchz__FPc");
 static inline void WritePad(OSTRM *out,char ch,int count){char b=ch;while(count-- >0)if(out->CbWrite(&b,1)!=1)break;}
 void WriteTftUl(TFT *f,OSTRM *out,unsigned long n){

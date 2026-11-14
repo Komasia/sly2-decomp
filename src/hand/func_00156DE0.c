@@ -2,7 +2,7 @@ struct VTE { short d; short pad; void (*pfn)(); };
 struct O { int a[3]; struct VTE *vt; };
 struct S { char pad[0xE0]; int c; struct O *ao[1]; };
 int func_00156870(struct O *o);
-void *s1_memmove(void *dst, void *src, int cb);
+void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 void func_00156DE0(struct S *p, int f)
 {
     int i;

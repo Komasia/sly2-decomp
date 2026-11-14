@@ -4,7 +4,7 @@ struct PRM { int a; int k; int rest[8]; };
 extern "C" {
 extern char D_004520A8[];
 CRef *InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
-void *s1_memset(void *p, int c, int n) asm("s1_memset");
+void *s1_memset(void *p, int c, int n) asm("memset");
 OBJ *PpairNew(void) asm("PpairNew__Fv");
 void RefGetPeopid(CRef *ret, void *b, PRM *prm) asm("RefGetPeopid__FP5BASICP5EOPID");
 CRef *func_00129658(CRef *pref, CRef *prefSrc); /* CRef::operator= returns *this */

@@ -7,7 +7,7 @@ struct O { char pad[0x240]; qword x240; };
 struct P { struct O *x0; int x4; int pad[2]; struct E ae[1]; };
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *g, int k, int n, int m, int c, void **apv);
 float GCostSafeEntry__FP5ACTORPviPP3LO2(struct P *p, struct E *e, int c, void **apv);
-void s1_memset(void *p, int v, int cb);
+void s1_memset(void *p, int v, int cb) asm("memset");
 qword PosOfLo__FP2LO(void *p);
 // name: SafeHouse port (EntryBestSafe)
 void EntryBestSafe__FP5ACTORPv(struct P *p, struct E *pe)

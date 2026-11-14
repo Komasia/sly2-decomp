@@ -7,8 +7,8 @@ extern REC D_002BCD00[];
 extern char *D_002C3268[];
 extern char D_002A7A10[], D_002A7A18[], D_002A7A28[];
 char *func_0013E368(void *, int);
-char *s1_strcpy(char *, char *);
-int fiprintf(char *, char *, ...);
+char *s1_strcpy(char *, char *) asm("strcpy");
+int sprintf(char *, char *, ...);
 OBJ *func_001DAE20(GS *,int);
 void *PloPlayerPo__FP2SW(void *);
 int func_00141E78(void *, int);
@@ -32,10 +32,10 @@ void func_001DC598(char *out)
                 sz = D_002C3268[v];
             else
                 sz = D_002A7A10;
-            fiprintf(buf, func_0013E368(g_sw, D_002BCD00[D_003DA0F0.x48].x1C), sz, sz, sz);
+            sprintf(buf, func_0013E368(g_sw, D_002BCD00[D_003DA0F0.x48].x1C), sz, sz, sz);
             s = (unsigned char *)func_0013E368(g_sw, D_002BCD00[D_003DA0F0.x48].x18);
         }
-        fiprintf(out, D_002A7A18, func_0013E368(g_sw, D_002BCD00[D_003DA0F0.x48].x14),
+        sprintf(out, D_002A7A18, func_0013E368(g_sw, D_002BCD00[D_003DA0F0.x48].x14),
                       *s ? D_002A7A28 : D_002A7A10, s, buf);
     }
 }

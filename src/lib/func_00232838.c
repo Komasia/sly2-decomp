@@ -8,8 +8,8 @@ extern CB *gSndCommandReturnDefPtr[2];
 extern int gSyncBuffer[];
 extern char D_00443800[];
 extern char D_002AA1C8[], D_002AA5E8[], D_002AA610[], D_002AA670[];
-void kprintf(const char *, ...);
-void *s1_memcpy(void *, void *, int);
+void printf(const char *, ...);
+void *s1_memcpy(void *, void *, int) asm("memcpy");
 int snd_FlushSoundCommands(void);
 void FlushCache(int);
 void func_00231F38(void *, int);
@@ -29,7 +29,7 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
         func_00231F38(gSyncBuffer, 1);
         while (sceSifCheckStatRpc(D_00443800)) {
             if (!D_002C46B8)
-                kprintf(D_002AA1C8);
+                printf(D_002AA1C8);
             snd_FlushSoundCommands();
             FlushCache(0);
         }
@@ -41,7 +41,7 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
     if (len % 4)
         len += 4 - len % 4;
     if (len > 0x200) {
-        kprintf(D_002AA5E8);
+        printf(D_002AA5E8);
         while (1)
             ;
     }
@@ -52,11 +52,11 @@ void func_00232838(int cmd, int size, unsigned char *buf, void (*fn)(int, long),
         }
         snd_FlushSoundCommands();
         if (tries == 1 && !D_002C46B8)
-            kprintf(D_002AA610, gCommandFillBuffer, *gSndCommandBuffePtr[gCommandFillBuffer]);
+            printf(D_002AA610, gCommandFillBuffer, *gSndCommandBuffePtr[gCommandFillBuffer]);
         tries++;
     }
     if (tries && !D_002C46B8)
-        kprintf(D_002AA670, tries);
+        printf(D_002AA670, tries);
     if (held)
         gCaching = 1;
     p = (unsigned char *)gSndCommandBuffePtr[gCommandFillBuffer] - (gCommandBuffeBytesAvail[gCommandFillBuffer] - 0x1000);

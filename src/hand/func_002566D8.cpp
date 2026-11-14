@@ -8,7 +8,7 @@ void _$_10STACKSCOPE(MARK *, int);
 void *PvAllocStackImpl(DESC *) asm("PvAllocStackImpl__Fi");
 int S32Read(void *) asm("S32Read__18CBinaryInputStream");
 void Reserve(void *, int) asm("Reserve__9CDynArrayi");
-void *s1_memset(void *, int, int) asm("s1_memset");
+void *s1_memset(void *, int, int) asm("memset");
 }
 
 extern "C" void func_002566D8(O *p, void *pv)

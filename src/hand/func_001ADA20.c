@@ -12,7 +12,7 @@ int KindDataAccess__FP4MENU(struct G *g);
 void NProgress(struct CRef *ret, int a, void *b);
 void Decref(struct CRef *) asm("Decref__4CRef");
 char *func_0013E368(void *p, int n);
-char *s1_strcpy(char *d, const char *s);
+char *s1_strcpy(char *d, const char *s) asm("strcpy");
 char *strcpy1(char *d, const char *s);
 void func_001ADA20(char *buf)
 {

@@ -48,6 +48,6 @@ public:
     void ReadCb8(void *pv);
 };
 
-extern "C" void CopyAb(void *pvDst, void *pvSrc, uint cb);
+void CopyAb(void *pvDst, void *pvSrc, uint cb);   /* Sly 1 memory.h; C++ linkage (CopyAb__FPvT0Ui) */
 extern "C" void *memcpy(void *dst, const void *src, uint cb);
 #endif

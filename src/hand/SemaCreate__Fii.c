@@ -1,5 +1,5 @@
 struct SemaParam { int count; int maxCount; int initCount; int numWaitThreads; unsigned int attr; unsigned int option; };
-void *s1_memset(void *p, int c, int n);
+void *s1_memset(void *p, int c, int n) asm("memset");
 int CreateSema(struct SemaParam *sp);
 int SemaCreate__Fii(int initCount, int maxCount)
 {

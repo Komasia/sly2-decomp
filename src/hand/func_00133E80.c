@@ -2,7 +2,7 @@ struct X;
 struct E { int f0; struct X *px; float *pg; };
 struct P { char pad[0x3CCC]; int fDirty; int c; struct E *aae[3]; };
 void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *, struct X *, struct X *, int);
-void *s1_memmove(void *, void *, unsigned int);
+void *s1_memmove(void *, void *, unsigned int) asm("memmove");
 // name: SafeHouse port (UpdateSwAaox)
 void UpdateSwAaox__FP2SW(struct P *p)
 {
