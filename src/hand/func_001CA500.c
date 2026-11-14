@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
 struct MAT3 { qword a[3]; };
 struct MAT4 { float m[4][4]; };
 struct Y { char pad[0x24]; int x24; };
-struct LO { char pad[0xC]; struct VTE *vt; char p1[0x3C - 0x10]; struct Y *x3C; };
+struct LO { char pad[0xC]; VTENT *vt; char p1[0x3C - 0x10]; struct Y *x3C; };
 struct X { qword q; struct MAT3 mat; };
 struct Z { qword q; struct MAT4 mat; };
 struct A { int cb; int align; };
@@ -30,7 +30,7 @@ void func_001CA500(struct G *pg)
             pr->ap18[j] = pr->x14;
             for (k = 0; k < pr->n; k++) {
                 plo = pr->ap[j * pr->n + k];
-                ((void (*)(void *, void *, int))plo->vt[25].pf)((char *)plo + plo->vt[25].d, v, 1);
+                ((void (*)(void *, void *, int))plo->vt[25].pfn)(VT_THIS(plo, &plo->vt[25]), v, 1);
                 plo->x3C->x24 = 1;
             }
         }

@@ -1,5 +1,5 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-typedef struct { char pad0[0xC]; VTE *vt; } SUB;
+#include "vtbl.h"
+typedef struct { char pad0[0xC]; VTENT *vt; } SUB;
 typedef struct {
     int key;
     int a;
@@ -12,7 +12,7 @@ typedef struct {
 } E;
 typedef struct OBJ {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x20 - 0x10];
     int x20;
     SUB *x24;
@@ -35,7 +35,7 @@ void SetShopMsg__FP4SHOPii(OBJ *, int, int);
 void UpdateGadgetFlags__FPv(OBJ *);
 SUB *PloFindSwNearest__FP2LO3OIDii(void *, int, int, int);
 void SetGadgetMenu__FPvi(OBJ *p, int s);
-#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (SetGadgetMenu)
 void SetGadgetMenu__FPvi(OBJ *p, int s)
 {
@@ -93,7 +93,7 @@ void SetGadgetMenu__FPvi(OBJ *p, int s)
             float best;
             int key;
             int i;
-            ((void (*)(void *, int))e->vt[49].pfn)((char *)e + e->vt[49].d, 0x318);
+            ((void (*)(void *, int))e->vt[49].pfn)(VT_THIS(e, &e->vt[49]), 0x318);
             best = D_002A79CC;
             key = -1;
             for (i = 0; i < p->n; i++) {

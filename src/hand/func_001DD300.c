@@ -1,7 +1,7 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
+#include "vtbl.h"
 typedef struct SUB {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x58 - 0x10];
     int x58;
     char pad5c[0x70 - 0x5C];
@@ -12,7 +12,7 @@ typedef struct SUB {
 typedef struct { int x0, x4, x8; } E12;
 typedef struct OBJ {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x24 - 0x10];
     SUB *x24;
     char pad28[0x40 - 0x28];
@@ -37,7 +37,7 @@ void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
 void SetTimerTimers(SUB *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 void BuildJobHelp__FPv(OBJ *);
-#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (SetJobHelpPage)
 void SetJobHelpPage__FPvi(OBJ *p, int s)
 {
@@ -100,5 +100,5 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
     }
     }
     BuildJobHelp__FPv(p);
-    ((void (*)(void *, int))p->vt[14].pfn)((char *)p + p->vt[14].d, -1);
+    ((void (*)(void *, int))p->vt[14].pfn)(VT_THIS(p, &p->vt[14]), -1);
 }

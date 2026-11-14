@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V { qword q; float f[4]; };
-struct VTE { short d; short pad; void (*pf)(void *, qword); };
-struct S { char pad[0xC]; struct VTE *vt; char pad2[0x150-0x10]; int n150; };
+struct S { char pad[0xC]; VTENT *vt; char pad2[0x150-0x10]; int n150; };
 struct G { char pad[0x30]; qword q; };
 extern struct G D_002DDFA0;
 void UpdateSo__FP2SOf(struct S *p);
@@ -14,5 +14,5 @@ void UpdateSky__FP3SKY(struct S *p)
     UpdateSo__FP2SOf(p);
     v.q = D_002DDFA0.q;
     if (!p->n150) v.f[2] = GetZ(PosOfLo__FP2LO(p));
-    p->vt[29].pf((char *)p + p->vt[29].d, v.q);
+    ((void (*)(void *, qword))p->vt[29].pfn)(VT_THIS(p, &p->vt[29]), v.q);
 }

@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 struct E { int grf; struct LO *plo; };
 struct G { char pad[0x3D5C]; int x3D5C; int x3D60; int x3D64; char p1[0x3F14 - 0x3D68]; int c; int x3F18; int *pi; struct E *ae; };
 extern char D_003B3980[];
@@ -27,7 +27,7 @@ void RenderSw(struct G *p)
     for (i = 0; i < p->c; i++) {
         struct E *pe = &p->ae[i];
         if ((pe->grf & 0x88) == 8)
-            ((void (*)(void *))pe->plo->vt[19].pf)((char *)pe->plo + pe->plo->vt[19].d);
+            ((void (*)(void *))pe->plo->vt[19].pfn)(VT_THIS(pe->plo, &pe->plo->vt[19]));
     }
     p->pi = 0;
     DrawGadgetIcons__FP7FONTBRX(D_003DA0F0);

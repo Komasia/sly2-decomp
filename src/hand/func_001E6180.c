@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M { qword a,b,c,d; };
-struct VTE { short d,pad; void (*pf)(); };
 struct S {
- char pad[0xC]; struct VTE *vt; char pad10[0xE0-0x10];
+ char pad[0xC]; VTENT *vt; char pad10[0xE0-0x10];
  int mode; char padE4[4]; int n; char padEC[4];
  float *dist; qword *v; char padF8[8]; struct M mat;
  char pad140[0x174-0x140]; float duration; int pad178; void *sub;
@@ -28,7 +28,7 @@ void RecalcCrv__FP3CRV(struct S *p)
 {
  int i;
  RefreshCrv__FP3CRV(p);
- p->mat=*((struct M*(*)(void*))p->vt[31].pf)((char*)p+p->vt[31].d);
+ p->mat=*((struct M*(*)(void*))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
  if (p->mode==0) {
   float *d0=p->dist; float total=0.0f;
   qword prev;

@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; float *(*pfn)(void *); };
-struct O { int pad[3]; struct VTE *vt; char pad2[0x1A8 - 0x10]; float g1A8; char pad3[0x240 - 0x1AC]; qword v240; };
+struct O { int pad[3]; VTENT *vt; char pad2[0x1A8 - 0x10]; float g1A8; char pad3[0x240 - 0x1AC]; qword v240; };
 struct P { char pad[0x24]; struct O *po24; char pad2[0x44 - 0x28]; struct O *po44; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 qword PosOfLo__FP2LO(struct O *po);
@@ -21,8 +21,8 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
         } else {
             float *p1, *p2;
             uv.q = PosOfLo__FP2LO(po);
-            p1 = po->vt[0x1F].pfn((char *)po + po->vt[0x1F].d);
-            p2 = po->vt[0x1F].pfn((char *)po + po->vt[0x1F].d);
+            p1 = ((float * (*)(void *))po->vt[0x1F].pfn)(VT_THIS(po, &po->vt[0x1F]));
+            p2 = ((float * (*)(void *))po->vt[0x1F].pfn)(VT_THIS(po, &po->vt[0x1F]));
             g = atan2f(p1[1], p2[0]);
         }
     } else {
@@ -32,8 +32,8 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
             g = px->g1A8;
         } else {
             float *p1, *p2;
-            p1 = px->vt[0x1F].pfn((char *)px + px->vt[0x1F].d);
-            p2 = px->vt[0x1F].pfn((char *)px + px->vt[0x1F].d);
+            p1 = ((float * (*)(void *))px->vt[0x1F].pfn)(VT_THIS(px, &px->vt[0x1F]));
+            p2 = ((float * (*)(void *))px->vt[0x1F].pfn)(VT_THIS(px, &px->vt[0x1F]));
             g = atan2f(p1[1], p2[0]);
         }
     }

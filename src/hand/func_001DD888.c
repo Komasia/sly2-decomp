@@ -1,16 +1,16 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a, b, c; struct VTE *vt; };
-struct S { int a, b, c; struct VTE *vt; char pad[0x14]; struct O *po; };
+#include "vtbl.h"
+struct O { int a, b, c; VTENT *vt; };
+struct S { int a, b, c; VTENT *vt; char pad[0x14]; struct O *po; };
 void func_001DD888(struct S *p) {
     if (p->po) {
         {
-            struct VTE *e = &p->vt[11];
-            ((void (*)(void *))e->pfn)((char *)p + e->d);
+            VTENT *e = &p->vt[11];
+            ((void (*)(void *))e->pfn)(VT_THIS(p, e));
         }
         {
             struct O *po = p->po;
-            struct VTE *e = &po->vt[50];
-            ((void (*)(void *))e->pfn)((char *)po + e->d);
+            VTENT *e = &po->vt[50];
+            ((void (*)(void *))e->pfn)(VT_THIS(po, e));
         }
     }
 }

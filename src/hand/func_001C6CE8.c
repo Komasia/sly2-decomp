@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 void *PloFindSwNearest__FP2LO3OIDii(void *p, int a, int id, int b);
 struct LO *PloAcquireProxyObject__FP2SWi(void *pg, int n);
 void LockProxyRowOf__Fv(void *pg, struct LO *plo);
@@ -22,7 +22,7 @@ int CpickupInstances__FPviiPP2LO(void *p, int kind, int n, struct LO **aplo)
         if (i >= n) break;
         plo = PloAcquireProxyObject__FP2SWi(pg, 0);
         if (!plo) break;
-        ((void (*)(void *, int))plo->vt[76].pf)((char *)plo + plo->vt[76].d, 2);
+        ((void (*)(void *, int))plo->vt[76].pfn)(VT_THIS(plo, &plo->vt[76]), 2);
         c++;
         LockProxyRowOf__Fv(pg, plo);
         aplo[i] = plo;

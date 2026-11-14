@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { struct VTE a[12]; };
+struct VT { VTENT a[12]; };
 struct S8 { int a, b; };
 struct E { char pad[0xDC]; void *pDC; };
 struct L { char pad[0xC]; struct VT *pvt; char pad1[0x24 - 0x10]; struct L *next; char pad1b[0x40 - 0x28]; int v40; char pad2[0x64 - 0x44]; struct L *first; char pad3[0x70 - 0x68]; struct L *end; char pad4[0xE8 - 0x74]; struct E *pe; };
@@ -35,5 +35,5 @@ void OnSoAdd__FP2SO(struct L *p)
             PostDeferredPointerCall__FPvUi22PFNDEFERREDPOINTERCALLi(&g_sw, p, D_002A8270, 0);
     }
     for (q = p->first; q != p->end; q = q->next)
-        q->pvt->a[11].pfn((char *)q + q->pvt->a[11].d);
+        ((void (*)(void *))q->pvt->a[11].pfn)(VT_THIS(q, &q->pvt->a[11]));
 }

@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; char p1[0x100 - 0x10]; int x100; };
+struct LO { char pad[0xC]; VTENT *vt; char p1[0x100 - 0x10]; int x100; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
     char p1[0x210 - 0x154]; struct LO *x210;
 };
@@ -31,7 +31,7 @@ void SetClueState__FP2LOi(struct S *p, int n)
             struct M m;
             m.n = n;
             m.p = p;
-            ((void (*)(void *, struct M *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &m);
+            ((void (*)(void *, struct M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
         } else {
             SetSource__4CSndPv(PsndNewPlain__Fi(0x29), 0);
         }
@@ -39,12 +39,12 @@ void SetClueState__FP2LOi(struct S *p, int n)
         n = 2;
         qv = PosOfLo__FP2LO(p);
         func_00156B98(pg, 0, qv, p);
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
         q = PproxyOfInstance__FP2LO(p);
         if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 7)) {
             struct LO *plo = PproxyOfInstance__FP2LO(p);
             func_001C7C30(plo->x100, 1);
-            ((void (*)(void *))plo->vt[9].pf)((char *)plo + plo->vt[9].d);
+            ((void (*)(void *))plo->vt[9].pfn)(VT_THIS(plo, &plo->vt[9]));
             ShowClueCounter(pg);
         }
     }

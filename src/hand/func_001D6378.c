@@ -1,12 +1,12 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } MATRIX4;
 struct S;
 struct E { qword pos; float x10; long k:4; long m:8; void *child; struct S *next; };
-typedef struct { short d; short pad; void *pfn; } VTE;
 typedef struct { char pad[0xA4]; int xA4; } SUB;
 typedef struct OBJ {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x2D - 0x10];
     unsigned char x2D;
     char pad2e[0x38 - 0x2E];
@@ -27,7 +27,7 @@ float GMaxRowLengthMatrix3__FP7MATRIX3(MATRIX4 *);
 struct E *func_001D6508(void *, qword, float, float, int);
 void func_001D6378(OBJ *p)
 {
-    MATRIX4 m = *((MATRIX4 *(*)(void *))p->vt[31].pfn)((char *)p + p->vt[31].d);
+    MATRIX4 m = *((MATRIX4 *(*)(void *))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
     qword v;
     struct E *e;
     __asm__("vmulax.xyz $ACC, %1, %5x\n\tvmadday.xyz $ACC, %2, %5y\n\tvmaddaz.xyz $ACC, %3, %5z\n\tvmaddw.xyz %0, %4, $vf0w"

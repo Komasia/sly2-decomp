@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
+#include "vtbl.h"
 struct E { int k; char pad[0x4C]; };
 struct A { char pad[0x50]; int c; struct E *ae; char pad2[4]; char dl[1]; };
 struct C { char pad[0x18]; int x18; };
-struct S { int x0; int x4; int pad8; struct VTE *pvt; int pad10; struct A *pa; int x18; int x1C; int pad20[2]; struct E *pe28; struct E *pe2C; char pad30[0xEC - 0x30]; int xEC; };
+struct S { int x0; int x4; int pad8; VTENT *pvt; int pad10; struct A *pa; int x18; int x1C; int pad20[2]; struct E *pe28; struct E *pe2C; char pad30[0xEC - 0x30]; int xEC; };
 extern char D_003E1560[];
 extern char g_sw[];
-extern struct VTE D_002D8C08[];
+extern VTENT D_002D8C08[];
 struct S *func_0011CCC0(void *);
 void *s1_memset(void *, int, int) asm("memset");
 int PloFindSwNearest__FP2LO3OIDii(void *, int, int, int);
@@ -48,6 +48,6 @@ struct S *PrunNew__FP2LOPvP3RUN(struct A *pa, struct E *pe, struct C *pc)
     p->pe2C = p->pe28;
 done:
     PrependDlEntry__FP2DLPv(pa->dl, p);
-    p->pvt[1].pfn((char *)p + p->pvt[1].d);
+    ((void (*)(void *))p->pvt[1].pfn)(VT_THIS(p, &p->pvt[1]));
     return p;
 }

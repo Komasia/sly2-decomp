@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *pvt; char pad2[0x28 - 0x10]; ulong fl; };
+struct O { char pad[0xC]; VTENT *pvt; char pad2[0x28 - 0x10]; ulong fl; };
 struct E { char pad[0xDC]; int nDC; };
 struct P { char pad[0x64]; DL dl; char pad2[0xE8 - 0x70]; struct E *pe; char pad3[0x12C - 0xEC]; float f12C; int n130; };
 struct K { int a, b; };
@@ -45,6 +45,6 @@ void OnSoRemove__FP2SO(struct P *p)
     }
     InitDli(&dli, &p->dl);
     while ((po = PvNextDli(&dli)) != 0 && !(po->fl & (1L << 56)))
-        po->pvt[12].pfn((char *)po + po->pvt[12].d);
+        ((void (*)(void *))po->pvt[12].pfn)(VT_THIS(po, &po->pvt[12]));
     s_pdliFirst = dli.m_pdliNext;
 }

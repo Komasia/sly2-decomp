@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct LO { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x180 - 0x10]; int x180; float x184; int p188[2]; struct LO *x190; int x194; int p198; void *x19C; int p1A0; int x1A4;
     char p1[0x1F4 - 0x1A8]; void *x1F4; int p1F8; void *x1FC; int x200; int p204[2]; void *a20C[6];
 };
@@ -58,13 +58,13 @@ void SetVaultState__FP2LOi(struct S *p, int n)
             p->x1A4 = PsndStartDialog__FP8SOUNDMGRii(D_003DD040, p->x1F4, 0);
         break;
     case 1:
-        ((void (*)(void *, int))p->vt[79].pf)((char *)p + p->vt[79].d, 1);
+        ((void (*)(void *, int))p->vt[79].pfn)(VT_THIS(p, &p->vt[79]), 1);
         break;
     case 0:
     case 5: {
         struct LO *q = p->x190;
         if (q) {
-            ((void (*)(void *, int))q->vt[79].pf)((char *)q + q->vt[79].d, 1);
+            ((void (*)(void *, int))q->vt[79].pfn)(VT_THIS(q, &q->vt[79]), 1);
             p->x190 = 0;
             func_0020F1A8(g_sw);
         }

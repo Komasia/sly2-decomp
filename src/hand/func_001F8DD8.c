@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { struct VTE a[18]; };
+#include "vtbl.h"
+struct VT { VTENT a[18]; };
 struct X { char pad[0xC]; struct VT *pvt; };
 struct E { int fl; struct X *px; };
 struct P { char pad[0x3F14]; int c; int pad2; int *pi; struct E *ae; };
@@ -13,7 +13,7 @@ void UpdateSwPhys__FP2SW(struct P *p)
     p->pi = &i;
     for (i = 0; i < p->c; i++) {
         struct E *pe = &p->ae[i];
-        if ((pe->fl & 0x24) == 4) pe->px->pvt->a[17].pfn((char *)pe->px + pe->px->pvt->a[17].d);
+        if ((pe->fl & 0x24) == 4) ((void (*)(void *))pe->px->pvt->a[17].pfn)(VT_THIS(pe->px, &pe->px->pvt->a[17]));
     }
     p->pi = 0;
     SolvePassSw__FP2SWi(p, 1);

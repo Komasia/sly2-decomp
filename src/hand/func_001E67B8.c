@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M { qword a,b,c,d; };
-struct VTE { short d; short pad; void (*pf)(); };
-struct S { char pad[0xC]; struct VTE *vt; char pad2[0xE0-0x10]; int e0; char pad3[0xF4-0xE4]; qword *v; char pad4[0x140-0xF8]; qword *v140,*v144; };
+struct S { char pad[0xC]; VTENT *vt; char pad2[0xE0-0x10]; int e0; char pad3[0xF4-0xE4]; qword *v; char pad4[0x140-0xF8]; qword *v140,*v144; };
 union U { qword q; float f; };
 int ISegCrvG__FP3CRVPfT1f(struct S*,float,float*,float*);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*);
@@ -25,7 +25,7 @@ void EvalCrv__FP3CRVfP6VECTORT2(struct S *p,float g,qword *pos,qword *dir)
     register qword row0 __asm__("vf5"),row1 __asm__("vf4"),row2 __asm__("vf3");
     register qword tangent __asm__("vf2");
     int i=SegmentIndex(ISegCrvG__FP3CRVPfT1f(p,g,&elapsed,&duration));
-    m=* ((struct M *(*)(void*))p->vt[31].pf)((char*)p+p->vt[31].d);
+    m=* ((struct M *(*)(void*))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
     if (p->e0==0) {
         if (pos) {
             union U scalar;float t=elapsed/duration;
@@ -60,7 +60,6 @@ typedef char float_Width[sizeof(float)==4?1:-1];
 typedef char pointer_Width[sizeof(void*)==4?1:-1];
 typedef char M_Size[sizeof(struct M)==0x40?1:-1];
 typedef char M_Alignment[__alignof__(struct M)==16?1:-1];
-typedef char VTE_Size[sizeof(struct VTE)==8?1:-1];
 typedef char S_Prefix_Size[sizeof(struct S)==0x148?1:-1];
 typedef char U_Size[sizeof(union U)==16?1:-1];
 typedef char U_Alignment[__alignof__(union U)==16?1:-1];
@@ -68,8 +67,6 @@ typedef char M_a_Offset[FIELD_OFFSET(struct M,a)==0?1:-1];
 typedef char M_b_Offset[FIELD_OFFSET(struct M,b)==0x10?1:-1];
 typedef char M_c_Offset[FIELD_OFFSET(struct M,c)==0x20?1:-1];
 typedef char M_d_Offset[FIELD_OFFSET(struct M,d)==0x30?1:-1];
-typedef char VTE_d_Offset[FIELD_OFFSET(struct VTE,d)==0?1:-1];
-typedef char VTE_pf_Offset[FIELD_OFFSET(struct VTE,pf)==4?1:-1];
 typedef char S_vt_Offset[FIELD_OFFSET(struct S,vt)==0xC?1:-1];
 typedef char S_e0_Offset[FIELD_OFFSET(struct S,e0)==0xE0?1:-1];
 typedef char S_v_Offset[FIELD_OFFSET(struct S,v)==0xF4?1:-1];

@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
-struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct O;
 struct Q { char pad[0x60]; struct O *p60; };
-struct O { char pad[0xC]; struct VTE *pvt; char pad2[0x28 - 0x10]; ulong fl; char pad3[0xEC - 0x30]; struct Q *pq; };
+struct O { char pad[0xC]; VTENT *pvt; char pad2[0x28 - 0x10]; ulong fl; char pad3[0xEC - 0x30]; struct Q *pq; };
 struct G;
 extern struct G g_sw;
 struct O *PaloPhysRoot__FP3ALO(struct O *);
@@ -28,7 +28,7 @@ void ReRootAlo__FP3ALO(struct O *p)
                     if (q != po->pq->p60) {
                         RemoveAloSoes__FP3ALO(po);
                         if (!q->pq) {
-                            q->pq = q->pvt[53].pfn((char *)q + q->pvt[53].d);
+                            q->pq = ((void * (*)(void *))q->pvt[53].pfn)(VT_THIS(q, &q->pvt[53]));
                             RecalcSwOxfFilterForObject__FP2SWP2SO(&g_sw, q);
                         }
                         po->pq = q->pq;

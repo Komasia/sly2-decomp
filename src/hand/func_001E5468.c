@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pf)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x64]; struct O *po; };
 void func_001E5468(struct S *p)
 {
     struct O *po = p->po;
     if (po) {
-        po->vt[50].pf((char *)po + po->vt[50].d);
+        ((void (*)(void *))po->vt[50].pfn)(VT_THIS(po, &po->vt[50]));
         p->po = 0;
     }
 }

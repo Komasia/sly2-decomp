@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
-struct VTE { short d; short p; int (*pfn)(void *); };
 struct E { char pad[0x10]; ulong fl; char pad2[0xB0 - 0x18]; };
 struct P;
 struct Q { char pad[0x34]; char dl[0x2C]; struct P *p60; };
-struct P { char pad[0xC]; struct VTE *pvt; char pad2[0xE0 - 0x10]; int nE0; struct E *aE4; int nE8; struct Q *pq; };
+struct P { char pad[0xC]; VTENT *pvt; char pad2[0xE0 - 0x10]; int nE0; struct E *aE4; int nE8; struct Q *pq; };
 struct Q2 { char pad[0xEC]; struct Q *pq; };
 struct G;
 extern struct G g_sw;
@@ -36,5 +36,5 @@ void RemoveSoeFromOxa__FP3ALOP3SOE(struct P *p, struct E *pe)
         if (i < 0) p->pq = 0;
     }
 done:
-    if (!p->pvt[62].pfn((char *)p + p->pvt[62].d)) WakeAlo__FP3ALO(p);
+    if (!((int (*)(void *))p->pvt[62].pfn)(VT_THIS(p, &p->pvt[62]))) WakeAlo__FP3ALO(p);
 }

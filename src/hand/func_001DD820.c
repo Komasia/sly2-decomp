@@ -1,18 +1,18 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a, b, c; struct VTE *vt; };
-struct S { int a, b, c; struct VTE *vt; char pad[0x14]; struct O *po; };
+#include "vtbl.h"
+struct O { int a, b, c; VTENT *vt; };
+struct S { int a, b, c; VTENT *vt; char pad[0x14]; struct O *po; };
 void RumbleUnknown1(void) asm("RumbleUnknown1__Fv");
 // name: SafeHouse port (ShowTitle)
 void ShowTitle__FPv(struct S *p) {
     if (p->po) {
         {
-            struct VTE *e = &p->vt[10];
-            ((void (*)(void *))e->pfn)((char *)p + e->d);
+            VTENT *e = &p->vt[10];
+            ((void (*)(void *))e->pfn)(VT_THIS(p, e));
         }
         {
             struct O *po = p->po;
-            struct VTE *e = &po->vt[49];
-            ((void (*)(void *, int))e->pfn)((char *)po + e->d, -1);
+            VTENT *e = &po->vt[49];
+            ((void (*)(void *, int))e->pfn)(VT_THIS(po, e), -1);
         }
         RumbleUnknown1();
     }

@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void *pfn; };
-struct LO { int pad[3]; struct VTE *pvt; };
+struct LO { int pad[3]; VTENT *pvt; };
 struct M4 { qword r[3]; qword pos; };
 struct P { int pad[4]; struct LO *apo[4]; qword apos[2]; void *ap40[2]; int a48; };
 extern char D_002C44F0[];
@@ -13,8 +13,8 @@ void SetRopeEnd__FP4ROPEiP2LO(struct P *p, int i, struct LO *po)
     p->apo[i] = po;
     if (po) {
         struct M4 m;
-        struct VTE *pe = &po->pvt[32];
-        p->ap40[i] = ((void *(*)(void *, struct M4 *))pe->pfn)((char *)po + pe->d, &m);
+        VTENT *pe = &po->pvt[32];
+        p->ap40[i] = ((void *(*)(void *, struct M4 *))pe->pfn)(VT_THIS(po, pe), &m);
         *(p->apos + i) = m.pos;
     } else {
         float f;

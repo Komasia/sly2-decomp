@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} V;
 struct COEF {float a,b,c;};
-struct VE {short d,pad;qword(*fn)(void*);};
 struct OWNER {char pad[0xA0];void *parent;char padA4[0x4C];qword force;};
-struct S {char pad[0xC];struct VE *vt;char pad10[0x48];struct OWNER *owner;};
+struct S {char pad[0xC];VTENT *vt;char pad10[0x48];struct OWNER *owner;};
 #include "clock.h"
 qword PosOfLo__FP2LO(struct S*);
 qword VecConvertXfs__FP2XFT0G9VU_VECTOR(void*,void*,qword);
@@ -37,7 +37,7 @@ void AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2(struct S*input,qword pos
    }
  }
  if(d){
-   qword difference=Sub(speed.q,p->vt[33].fn((char*)p+p->vt[33].d));
+   qword difference=Sub(speed.q,((qword (*)(void*))p->vt[33].pfn)(VT_THIS(p, &p->vt[33])));
    float distance=Length(difference);
    if(1.0e-4f<distance){
      register void *parent asm("a1");

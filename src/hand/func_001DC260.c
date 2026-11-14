@@ -1,7 +1,7 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
+#include "vtbl.h"
 typedef struct SUB {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x58 - 0x10];
     int x58;
     char pad5c[0x70 - 0x5C];
@@ -11,7 +11,7 @@ typedef struct SUB {
 } SUB;
 typedef struct OBJ {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x24 - 0x10];
     SUB *x24;
     char pad28[0x40 - 0x28];
@@ -33,7 +33,7 @@ void *PsndNewPlain__Fi(int);
 void SetSource__4CSndPv(void *, int);
 void BuildShopList__FP4SHOP(OBJ *);
 void SelectShopRow__FP4SHOPi(OBJ *, int);
-#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d)
+#define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 void func_001DC260(OBJ *p, int s)
 {
     int old;
@@ -89,5 +89,5 @@ void func_001DC260(OBJ *p, int s)
     }
     BuildShopList__FP4SHOP(p);
     SelectShopRow__FP4SHOPi(p, 0);
-    ((void (*)(void *, int))p->vt[14].pfn)((char *)p + p->vt[14].d, -1);
+    ((void (*)(void *, int))p->vt[14].pfn)(VT_THIS(p, &p->vt[14]), -1);
 }

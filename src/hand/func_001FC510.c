@@ -1,7 +1,7 @@
+#include "vtbl.h"
 struct K { int n0; int n4; int n8; char bC; char pad[0x110 - 0xD]; };
 struct X { int n0; int n4; char pad[0x34 - 8]; int n34; int n38; int n3C; char pad2[0x4C - 0x40]; int n4C; };
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct P { char pad[0xC]; struct VTE *pvt; char pad1[0x14 - 0x10]; int n14; char pad2[0x44 - 0x18]; float f44; char pad3[0x52 - 0x48]; short h52; char pad4[0x60 - 0x54]; struct X *p60; char pad5[0x3B8 - 0x64]; int n3B8; };
+struct P { char pad[0xC]; VTENT *pvt; char pad1[0x14 - 0x10]; int n14; char pad2[0x44 - 0x18]; float f44; char pad3[0x52 - 0x48]; short h52; char pad4[0x60 - 0x54]; struct X *p60; char pad5[0x3B8 - 0x64]; int n3B8; };
 struct M { int n0; int n4; int n8; int nC; int n10; int n14; };
 struct G { char pad[0x10]; int n10; };
 extern struct G D_003DD040;
@@ -51,7 +51,7 @@ void StartIop__9CSndVoice(struct P *p)
             m.n14 = fl;
         }
         p->h52 = 1;
-        p->pvt[1].pfn((char *)p + p->pvt[1].d);
+        ((void (*)(void *))p->pvt[1].pfn)(VT_THIS(p, &p->pvt[1]));
         func_00233130(0x524B5553, 1, 0x18, &m, func_001FCBA8, p);
         SetDirty__4CSndUiUi(p, 0x3F, 0);
     } else {

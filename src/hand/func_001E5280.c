@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int, int); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct P { char pad[0xA4]; int c; struct O *apo[4]; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void *s1_memmove(void *pdst, const void *psrc, unsigned int cb) asm("memmove");
@@ -20,16 +20,13 @@ void ReleaseRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
         s1_memmove((void *)(dest+0xA8),(void *)(addr+0xAC),(p->c-i)*4-4);
     }
     p->c--;
-    po->vt[0x54].pfn((char *)po + po->vt[0x54].d, a, b);
+    ((void (*)(void *, int, int))po->vt[0x54].pfn)(VT_THIS(po, &po->vt[0x54]), a, b);
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_int[(sizeof(int)==4)?1:-1];
-typedef char layout_VTE[(sizeof(struct VTE)==8)?1:-1];
 typedef char layout_O_prefix[(sizeof(struct O)==16)?1:-1];
 typedef char layout_P_array_prefix[(sizeof(struct P)==0xB8)?1:-1];
-typedef char layout_VTE_delta[((unsigned)&((struct VTE*)0)->d==0)?1:-1];
-typedef char layout_VTE_function[((unsigned)&((struct VTE*)0)->pfn==4)?1:-1];
 typedef char layout_O_vtable[((unsigned)&((struct O*)0)->vt==0xC)?1:-1];
 typedef char layout_P_count[((unsigned)&((struct P*)0)->c==0xA4)?1:-1];
 typedef char layout_P_array[((unsigned)&((struct P*)0)->apo==0xA8)?1:-1];

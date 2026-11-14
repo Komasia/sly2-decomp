@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 extern struct { float t; float dt; } g_clock;
 typedef struct { int k; int pad[7]; qword q; int pad2[4]; } MSG;
 struct TGT;
-typedef struct { short d; short pad; void (*pf)(struct TGT *, MSG *); } VTE;
-typedef struct TGT { char pad[0xC]; VTE *vt; } TGT;
+typedef struct TGT { char pad[0xC]; VTENT *vt; } TGT;
 typedef struct {
     char pad0[0x70];
     qword x70;
@@ -24,7 +24,7 @@ void func_001D1160(OBJ *p)
             m.k = 4;
             m.q = p->x70;
             t = p->xF0;
-            t->vt[51].pf((TGT *)((char *)t + t->vt[51].d), &m);
+            ((void (*)(struct TGT *, MSG *))t->vt[51].pfn)((TGT *)VT_THIS(t, &t->vt[51]), &m);
             p->xF8 -= 1.0f;
         }
     }

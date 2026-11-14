@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M4 {qword a,b,c,d;};
 struct AL {int cb,align;};
-struct VTE {short d,pad;struct M4 *(*pf)(void*);};
-struct PATH {char pad[0xC];struct VTE *vt;char pad10[0xE8-0x10];int n;int padEC;float *dist;qword *v;};
+struct PATH {char pad[0xC];VTENT *vt;char pad10[0xE8-0x10];int n;int padEC;float *dist;qword *v;};
 struct S {int a,b;float g8;char padC[0x20-0xC];qword start,end;void *fn40,*fn44;struct PATH *path;int n4C;int pad50;qword *v54,*v58;float *dist;float g60;char pad64[8];float g6C,g70;char pad74[0x84-0x74];int n84;float g88;};
 extern char D_002C44F0[];
 void *PvAllocSwClearImpl__Fi(struct AL*);
@@ -18,7 +18,7 @@ struct S *InitRope__FP4ROPEP2LO(struct S *p,struct PATH *path) {
  p->g8=-1750.0f;p->g60=3.0f;p->g6C=500.0f;p->g70=5.0f;
  p->a=0;p->b=0;
  p->n84=p->path->n;p->g88=300.0f;
- m=p->path->vt[31].pf((char*)p->path+p->path->vt[31].d);
+ m=((struct M4 * (*)(void*))p->path->vt[31].pfn)(VT_THIS(p->path, &p->path->vt[31]));
  for(i=0;i<p->path->n;i++)p->v54[i]=Point(m,p->path->v[i]);
  p->fn40=p->fn44=D_002C44F0;
  if(p->path->n>0) {

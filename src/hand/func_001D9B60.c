@@ -1,5 +1,5 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-typedef struct { char pad0[0xC]; VTE *vt; } SUB;
+#include "vtbl.h"
+typedef struct { char pad0[0xC]; VTENT *vt; } SUB;
 typedef struct { int key; int pad[7]; } E;
 typedef struct { int a, b, c, xC; int pad[4]; } REC;
 typedef struct OBJ {
@@ -24,7 +24,7 @@ int func_001DAEA8(int);
 void func_00213B00(SUB *, int);
 void func_00213928(SUB *, int);
 void func_00212E40(SUB *, int, float);
-#define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)((char *)(o) + (o)->vt[n].d, a)
+#define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a)
 // name: SafeHouse port (SetGaugeState)
 void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
 {

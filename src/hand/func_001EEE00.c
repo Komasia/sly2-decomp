@@ -1,5 +1,5 @@
-struct VE {short delta,pad;void (*init)(void *);};
-struct O {int pad[3];struct VE *vt;int tag;struct O *previous,*next;};
+#include "vtbl.h"
+struct O {int pad[3];VTENT *vt;int tag;struct O *previous,*next;};
 struct STK {int tag,count;void *slots[1];};
 int func_001EF6F0(void);
 void *s1_memset(void *,int,int) asm("memset");
@@ -28,6 +28,6 @@ struct O *PjobPush__FP5GUARD3CID(struct STK *stack,int selector){
         object->previous=previous;
     }
     if(previous)previous->next=object;
-    object->vt[7].init((char *)object+object->vt[7].delta);
+    ((void (*)(void *))object->vt[7].pfn)(VT_THIS(object, &object->vt[7]));
     return object;
 }

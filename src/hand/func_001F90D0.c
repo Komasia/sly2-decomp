@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
-struct VT { short d; short pad; int (*pfn)(void *); };
-struct O { char pad[0xC]; struct VT *pvt; };
+struct O { char pad[0xC]; VTENT *pvt; };
 struct S { char pad[8]; struct O *po; char pad2[0x9C - 0xC]; int k; char pad3[0xA8 - 0xA0]; int i; struct S *pNext; };
 struct X;
 struct L { struct S *ps; struct L *pNext; char pad[4]; struct X *px; };
@@ -28,7 +28,7 @@ int CollectGroupXps__FiiiPviT3(int a, int b, int c, struct X **apx, int cMax, st
                 if (ps->k == 0xD) continue;
                 if (ps->k == 0xE) {
                     struct O *po = ps->po;
-                    if (!(po->pvt[85].pfn((char *)po + po->pvt[85].d) & 4)) continue;
+                    if (!(((int (*)(void *))po->pvt[85].pfn)(VT_THIS(po, &po->pvt[85])) & 4)) continue;
                 }
                 if (cs >= cMax) return cs;
                 ps->i = cs;

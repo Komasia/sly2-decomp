@@ -1,16 +1,16 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
 struct MAT { qword a[3]; };
-struct LO { char pad[0xC]; struct VTE *vt; };
+struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
-    char pad[0xC]; struct VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
     char p1[0x210 - 0x154]; struct LO *x210;
     char p2[0x230 - 0x214]; float x230; float x234; float x238; int x23C; int x240;
 };
 struct X {
     char pad[0x1C]; struct S *x1C; char p1[0x40 - 0x20]; struct MAT mat;
-    char p2[0xEC - 0x70]; struct VTE *vt; void *xF0; struct S *xF4; int xF8;
+    char p2[0xEC - 0x70]; VTENT *vt; void *xF0; struct S *xF4; int xF8;
 };
 struct M { int n; struct S *p; int pad[14]; };
 extern char g_sw[];
@@ -39,33 +39,33 @@ void SetCharmState__FP2LOi(struct S *p, int n)
         struct LO *q = PloPlayerPo__FP2SW(g_sw);
         struct X *px;
         struct LO *plo;
-        if (!((int (*)(void *))q->vt[80].pf)((char *)q + q->vt[80].d)) {
+        if (!((int (*)(void *))q->vt[80].pfn)(VT_THIS(q, &q->vt[80]))) {
             n = p->x150;
             break;
         }
         px = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(g_sw, 9, 0);
         if (px) {
-            struct VTE *e;
+            VTENT *e;
             px->xF4 = p;
             px->xF0 = D_002C0E10;
             px->xF8 = 0;
             e = &px->vt[1];
-            ((void (*)(void *, qword, int, float))e->pf)((char *)px + e->d, PosOfLo__FP2LO(p), 0, 1.0f);
+            ((void (*)(void *, qword, int, float))e->pfn)(VT_THIS(px, e), PosOfLo__FP2LO(p), 0, 1.0f);
             px->x1C = p;
             px->mat = *MatJtLo__FP2LO(p);
         } else {
             func_001C6AB0(p, 0);
         }
-        ((void (*)(void *, int, int))q->vt[81].pf)((char *)q + q->vt[81].d, p->x23C, p->x240);
+        ((void (*)(void *, int, int))q->vt[81].pfn)(VT_THIS(q, &q->vt[81]), p->x23C, p->x240);
         plo = p->x210;
         if (plo) {
             struct M m;
             m.n = 1;
             m.p = p;
-            ((void (*)(void *, struct M *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &m);
+            ((void (*)(void *, struct M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
         }
         n = 2;
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
         break;
     }
     }

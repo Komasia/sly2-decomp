@@ -1,12 +1,12 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { struct VTE a[10]; };
+#include "vtbl.h"
+struct VT { VTENT a[10]; };
 struct X { char pad[0xC]; struct VT *pvt; };
 struct Q { char pad[0x16C]; void *p16C; };
 struct P { char pad[0x3F4]; struct X *px3F4; struct X *px3F8; int n3FC; float g400; char pad2[0x494 - 0x404]; struct Q *pq; };
 #include "clock.h"
 extern int D_002C3738[];
 void SeekSma__FP3SMA3OID(void *, int);
-#define VF(q, n) (q)->pvt->a[n].pfn((char *)(q) + (q)->pvt->a[n].d)
+#define VF(q, n) ((void (*)(void *))(q)->pvt->a[n].pfn)(VT_THIS((q), &(q)->pvt->a[n]))
 // name: SafeHouse port (SetPocketMode)
 void SetPocketMode__FP2LOi(struct P *p, int k)
 {

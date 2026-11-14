@@ -1,14 +1,14 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct O { int x0; int x4; int x8; struct VTE *vt; char p1[0x80 - 0x10]; char x80[0xD0]; int x150; };
+#include "vtbl.h"
+struct O { int x0; int x4; int x8; VTENT *vt; char p1[0x80 - 0x10]; char x80[0xD0]; int x150; };
 struct G { char pad[0x403C]; char pool[0x30]; struct O *x406C; };
-extern struct VTE g_vtso[];
-extern struct VTE g_vtripg[];
+extern VTENT g_vtso[];
+extern VTENT g_vtripg[];
 void *func_0011CCC0(void *pool);
 void *s1_memset(void *p, int c, int cb) asm("memset");
 void *__7GLOBSET(void *p);
 void *func_0015E3A8(struct G *p, int n);
 void func_0011A070(void *pl, void *pv);
-#define VCALL0(o, n) ((void (*)(void *))(o)->vt[n].pf)((char *)(o) + (o)->vt[n].d)
+#define VCALL0(o, n) ((void (*)(void *))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (PripgNew)
 struct O *PripgNew__FP2SW5RIPGT(struct G *p, int a)
 {

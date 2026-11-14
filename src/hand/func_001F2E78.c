@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
-struct VTE { short d; short pad; void (*pfn)(void *, void *, void *); };
-struct O { char pad[0xC]; struct VTE *pvt; struct O *p10; char pad2[0x24 - 0x14]; struct O *pNext; ulong fl; char pad3[0x64 - 0x30]; struct O *pFirst; char pad4[0xE0 - 0x68]; int nE0; };
+struct O { char pad[0xC]; VTENT *pvt; struct O *p10; char pad2[0x24 - 0x14]; struct O *pNext; ulong fl; char pad3[0x64 - 0x30]; struct O *pFirst; char pad4[0xE0 - 0x68]; int nE0; };
 void func_001A5B80(struct O *, struct O *, struct O *);
 void RemoveAloSoes__FP3ALO(struct O *);
 void AddAloSoes__FP3ALO(struct O *);
@@ -16,7 +16,7 @@ void MoveAloPhys__FP3ALON20(struct O *p, struct O *pNew, struct O *pOld)
     int unused[4];
     func_001A5B80(p, pNew, pOld);
     for (po = p->pFirst; po; po = po->pNext)
-        po->pvt[13].pfn((char *)po + po->pvt[13].d, pNew, pOld);
+        ((void (*)(void *, void *, void *))po->pvt[13].pfn)(VT_THIS(po, &po->pvt[13]), pNew, pOld);
     if (!p->nE0) return;
     for (po = p; ; po = po->p10) {
         if (po->fl & (1L << 56)) return;

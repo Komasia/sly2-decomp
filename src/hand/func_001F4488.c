@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short p; void *pfn; };
-struct VT { struct VTE a[34]; };
+struct VT { VTENT a[34]; };
 struct O { char pad[0x94]; int n94; short k; char pad2[0xA0 - 0x9A]; int nA0; char pad3[0xB0 - 0xA4]; union { qword q; int a[4]; } v; };
 struct P { char pad[0xC]; struct VT *pvt; char pad2[0x58 - 0x10]; struct O *po; };
 int FXfmMoving(int);
@@ -18,7 +18,7 @@ void SetAloVelocityToLoad__FP3ALOG9VU_VECTOR(struct P *p, qword q)
     if (!po || po->n94 != 1) return;
     if (!FXfmMoving(po->k)) SetXfMode__FP3ALOP2XFi(p, po, 1);
     { float *pv = (float *)&po->v; pv[2] = 0.0f; pv[1] = 0.0f; pv[0] = 0.0f; }
-    cur = ((qword (*)(void *))p->pvt->a[33].pfn)((char *)p + p->pvt->a[33].d);
+    cur = ((qword (*)(void *))p->pvt->a[33].pfn)(VT_THIS(p, &p->pvt->a[33]));
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(q), "j"(cur));
     po->v.q = VecConvertXfs__FP2XFT0G9VU_VECTOR(0, po->nA0, d);
     HoldXfMode(p, po);

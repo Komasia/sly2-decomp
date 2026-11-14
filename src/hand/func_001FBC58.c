@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct P { char pad[0xC]; struct VTE *pvt; char pad1[0x14 - 0x10]; int n14; float f18; char pad2[0x44 - 0x1C]; float f44; char pad3[0x50 - 0x48]; unsigned short f50; unsigned short n52; char pad4[0x60 - 0x54]; int n60; };
+#include "vtbl.h"
+struct P { char pad[0xC]; VTENT *pvt; char pad1[0x14 - 0x10]; int n14; float f18; char pad2[0x44 - 0x1C]; float f44; char pad3[0x50 - 0x48]; unsigned short f50; unsigned short n52; char pad4[0x60 - 0x54]; int n60; };
 struct G { char pad[0xE8]; int nE8; };
 struct S { int n0; };
 struct M { int n0; int pad4; int n8; int nC; short h10; short pad12; int pad14[3]; short h20; short pad22; int pad24; int n28; int pad2C; };
@@ -49,7 +49,7 @@ void StartIop__9CSndPlain(struct P *p)
     }
     if (ps->n0 == 2) {
         p->n52 = 1;
-        p->pvt[1].pfn((char *)p + p->pvt[1].d);
+        ((void (*)(void *))p->pvt[1].pfn)(VT_THIS(p, &p->pvt[1]));
         func_00232320(&m, func_001FBAF8, p);
         SetDirty__4CSndUiUi(p, 0x7F, 0);
         return;
