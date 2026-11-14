@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern float D_002A5408;
-struct VTE { short d; short pad; void (*pfn)(void *); };
 struct X { qword a; qword v; };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x20]; int n30; int pad3; int n38; int n3C; char pad4[0xA8 - 0x40]; int nA8; int nAC; char pad5[0x10]; int nC0; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; int n30; int pad3; int n38; int n3C; char pad4[0xA8 - 0x40]; int nA8; int nAC; char pad5[0x10]; int nC0; };
 struct A { char pad[0x3CC]; void *p3CC; char pad2[0xF04 - 0x3D0]; float fF04; char pad3[0xF64 - 0xF08]; void *pF64; };
 struct P { char pad[0x60]; float f60; float f64; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; int n30; int n34; float f38; struct P *p3C; int pad4; int n44; char pad5[8]; qword v50; };
@@ -31,21 +31,21 @@ void SetPursueState__9JOBPURSUEi(struct S *p, int n) {
     p->f38 = g_clock.t;
     switch (n) {
     case 0:
-        { struct O *o = func_00205438(p->p10, 0xB3); struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0xB3); VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     case 1:
         {
             struct O *o = func_00205438(p->p10, 0xA4);
-            struct VTE *e;
+            VTENT *e;
             o->n30 = p->n30;
             o->n3C = (int)p->p3C;
             p->p10->fF04 = D_002A5408;
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         SetTargetrecTimer__FP9TARGETRECi(p->p10->p3CC, 3);
         break;
     case 2:
-        { struct O *o = func_00205438(p->p10, 0xAD); struct VTE *e; o->n38 = p->n30; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0xAD); VTENT *e; o->n38 = p->n30; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         SetTargetrecTimer__FP9TARGETRECi(p->p10->p3CC, 4);
         break;
     case 3:
@@ -53,7 +53,7 @@ void SetPursueState__9JOBPURSUEi(struct S *p, int n) {
             struct O *o = func_00205438(p->p10, 0xBA);
             qword v1, v2;
             struct X x;
-            struct VTE *e;
+            VTENT *e;
             o->nC0 = 1;
             o->n38 = 0x1C;
             v1 = PosOfLo__FP2LO(p->n30);
@@ -63,18 +63,18 @@ void SetPursueState__9JOBPURSUEi(struct S *p, int n) {
             SetGoal__7JOBGOTOP4GOAL(o, &x);
             o->nA8 = p->n30;
             o->nAC = 1;
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
             p->v50 = v1;
             p->n44 = PregionAt__FG9VU_VECTORi(v1, 1);
         }
         break;
     case 4:
-        { struct O *o = func_00205438(p->p10, 0x9D); struct VTE *e; o->n3C = 0xD; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 0xD; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         func_00154038(p->p10->pF64, p->n30, 0);
         SetGuardPursued__FP5GUARDP2LO(p->p10, 0);
         break;
     case 5:
-        { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e; o->n3C = 1; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->n3C = 1; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     }
 }

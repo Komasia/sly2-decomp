@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct X;
 struct X {
     char pad[0x40]; int fl;
@@ -17,13 +17,13 @@ void ResumeGame__FP9GAMEPAUSEi(void *pg, int n);
 void func_00213B00(struct O *po, int n);
 static __inline__ void VCall50(struct O *po)
 {
-    struct VTE *e = &po->vt[50];
-    ((void (*)(void *))e->pfn)((char *)po + e->d);
+    VTENT *e = &po->vt[50];
+    ((void (*)(void *))e->pfn)(VT_THIS(po, e));
 }
 static __inline__ void VCall49(struct O *po, int n)
 {
-    struct VTE *e = &po->vt[49];
-    ((void (*)(void *, int))e->pfn)((char *)po + e->d, n);
+    VTENT *e = &po->vt[49];
+    ((void (*)(void *, int))e->pfn)(VT_THIS(po, e), n);
 }
 // name: SafeHouse port (SetJobSeq)
 void SetJobSeq__FP3JOBi(struct X *p, int n)

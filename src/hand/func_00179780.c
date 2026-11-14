@@ -1,7 +1,7 @@
+#include "vtbl.h"
 struct E { int n; int a, b, c; };
 struct T { char pad[0x8D0]; struct E ae[1]; };
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct T2 { char pad[0xF64]; void *pF64; char pad2[0xFEC - 0xF68]; struct O *pFEC; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; struct E *p40; char pad3[0xC]; int n50; char pad4[8]; void *p5C; };
 extern char g_game[];
@@ -16,5 +16,5 @@ void Enter__7JOBHIT2(struct S *p) {
     Enter__6JOBHIT(p);
     BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x15, p->pt);
     func_00154038(((struct T2 *)p->pt)->pF64, p->n50, 2);
-    { struct O *o = ((struct T2 *)p->pt)->pFEC; if (o) { struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); } }
+    { struct O *o = ((struct T2 *)p->pt)->pFEC; if (o) { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); } }
 }

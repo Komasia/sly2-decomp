@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x54]; int n; float t; char pad2[0x78 - 0x5C]; float dt; char pad3[4]; struct O *po; };
 #include "clock.h"
 extern int D_003E0F9C;
@@ -19,11 +19,11 @@ void UpdateTask__FP2LO(struct S *p)
     if (po) {
         int f = p->n == 1; if (D_003E0F9C) f = 0;
         if (f) {
-            struct VTE *e = &po->vt[8];
-            e->pfn((char *)po + e->d);
+            VTENT *e = &po->vt[8];
+            ((void (*)(void *))e->pfn)(VT_THIS(po, e));
         } else {
-            struct VTE *e = &po->vt[9];
-            e->pfn((char *)po + e->d);
+            VTENT *e = &po->vt[9];
+            ((void (*)(void *))e->pfn)(VT_THIS(po, e));
         }
     }
 }

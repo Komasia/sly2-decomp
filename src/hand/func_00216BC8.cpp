@@ -20,7 +20,7 @@ extern CLOCK g_clock;
 extern const float D_002C40B8;
 extern "C" void *func_0013E368(WORLD *,int);
 extern "C" char *s1_strcpy(char *,const char *) asm("strcpy");
-extern "C" char *strcpy1(char *,const char *) asm("strcpy1");
+extern "C" char *strcat(char *,const char *);
 extern "C" RT *func_00215BA8(RT *,char *,S *,DATA *);
 extern "C" int StrWrapped(RT *) asm("StrWrapped__FP7FONTBRX");
 extern "C" void StrDialogSubtitleTyped(void *,RT *) asm("StrDialogSubtitleTyped__FP9DIALOGSUBPv");
@@ -76,12 +76,12 @@ extern "C" void func_00216BC8(S *p,T *t,DATA *data,int unused){
         func_00215CA8(&rt,marquee);
         scale=t->a[0];
         paddingWidth=DxTextUi(&rt)*scale;
-        strcpy1(marquee,text);
+        strcat(marquee,text);
         func_00215CA8(&rt,marquee);
         textWidth=DxTextUi(&rt)*scale;
-        strcpy1(marquee,D_002A8B88);
-        strcpy1(marquee,text);
-        strcpy1(marquee,D_002A8B88);
+        strcat(marquee,D_002A8B88);
+        strcat(marquee,text);
+        strcat(marquee,D_002A8B88);
         elapsed=g_clock.t-D_003DA0C0.time;
         if(elapsed<D_002C40B8){
             data->fade*=elapsed/D_002C40B8;

@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void *pfn; };
-struct SO { char pad[0xC]; struct VTE *vt; char pad1[0x240 - 0x10]; qword pos; };
+struct SO { char pad[0xC]; VTENT *vt; char pad1[0x240 - 0x10]; qword pos; };
 struct X {
     char pad[0x10]; struct SO *pso; int x14; void *x18; char pad1[0x30 - 0x1C]; int state; float t34;
     char pad2[0x40 - 0x38]; void *x40; float t44; float t48; int x4C; char pad3[0x54 - 0x50]; int x54;
@@ -30,11 +30,11 @@ void Update__5JOBB5(struct X *p)
                 struct SO *pso;
                 qword d = Sub(PosOfLo__FP2LO(p->x40), p->pso->pos);
                 pso = p->pso;
-                ((void (*)(void *, qword))pso->vt[29].pfn)((char *)pso + pso->vt[29].d, d);
+                ((void (*)(void *, qword))pso->vt[29].pfn)(VT_THIS(pso, &pso->vt[29]), d);
                 pso = p->pso;
-                ((void (*)(void *, qword))pso->vt[35].pfn)((char *)pso + pso->vt[35].d, D_002A2DD0);
+                ((void (*)(void *, qword))pso->vt[35].pfn)(VT_THIS(pso, &pso->vt[35]), D_002A2DD0);
                 pso = p->pso;
-                ((void (*)(void *, qword))pso->vt[36].pfn)((char *)pso + pso->vt[36].d, D_002A2DD0);
+                ((void (*)(void *, qword))pso->vt[36].pfn)(VT_THIS(pso, &pso->vt[36]), D_002A2DD0);
                 p->t48 = g_clock.t;
                 SetB5State__5JOBB5i(p, 1);
             }

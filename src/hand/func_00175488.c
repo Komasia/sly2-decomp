@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern qword D_002A2DD0;
-struct VTE { short d; short pad; int (*pfn)(void *, void *); };
-struct Q { char pad[0xC]; struct VTE *vt; };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x28]; struct Q *q38; int n3C; int n40; };
+struct Q { char pad[0xC]; VTENT *vt; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x28]; struct Q *q38; int n3C; int n40; };
 struct P { char pad[0xA0]; int nA0; char pad2[0x1C]; int nC0; };
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; struct Q *q30; int n34; float g38; struct P *p3C; };
 void func_00133448(struct Q *q, void *p);
@@ -27,7 +27,7 @@ void SetActState__6JOBACTi(struct S *p, int n) {
     case 0:
         {
             struct O *o;
-            struct VTE *e;
+            VTENT *e;
             func_001333C0(p->q30, p->p10);
             o = func_00205438(p->p10, 0x9F);
             o->q38 = p->q30;
@@ -35,19 +35,19 @@ void SetActState__6JOBACTi(struct S *p, int n) {
             if (p->p3C->nA0) {
                 struct B { char pad[0x30]; qword v; } b;
                 struct Q *q = p->q30;
-                struct VTE *f = &q->vt[0x20];
-                SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, p->p3C, f->pfn((char *)q + f->d, &b), b.v);
+                VTENT *f = &q->vt[0x20];
+                SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, p->p3C, ((int (*)(void *, void *))f->pfn)(VT_THIS(q, f), &b), b.v);
             }
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         break;
     case 1:
         {
             struct O *o = func_00205438(p->p10, 0x9D);
-            struct VTE *e;
+            VTENT *e;
             o->n3C = 4;
             o->q38 = p->q30;
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         break;
     case -1:

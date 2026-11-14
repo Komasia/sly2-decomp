@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 extern float D_002BE694;
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x28]; int n38; int n3C; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x28]; int n38; int n3C; };
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x34]; int n4C; char pad3[0xC0 - 0x50]; int nC0; int pad4; int nC8; int pad5; qword qD0; float gE0; };
 void SetState(struct S *p, int n) asm("SetState__9JOBFOLLOWi");
 void EndChildJob__FPP5AIJOB(void *p);
@@ -17,10 +17,10 @@ void func_001791C8(struct S *p, int n) {
         EndChildJob__FPP5AIJOB(p->a18);
         {
             struct O *o = func_00205438(p->p10, 0x9D);
-            struct VTE *e;
+            VTENT *e;
             o->n3C = p->nC0;
             if (p->nC0 == 8) o->n38 = p->nC8;
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         p->qD0 = PosOfLo__FP2LO(p->p10);
         p->gE0 = D_002BE694;
@@ -30,9 +30,9 @@ void func_001791C8(struct S *p, int n) {
         EndChildJob__FPP5AIJOB(p->a18);
         {
             struct O *o = func_00205438(p->p10, 0x9E);
-            struct VTE *e;
+            VTENT *e;
             o->n38 = p->nC8;
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         break;
     }

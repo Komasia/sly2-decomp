@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern float D_002BE7B0, D_002BE7B4;
-struct VTE { short d; short pad; void (*pfn)(void *); };
 struct SEG { qword a; qword b; };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x20]; qword v30; union { qword v40; int n40; } u40; char pad3[0x14]; float f64; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; qword v30; union { qword v40; int n40; } u40; char pad3[0x14]; float f64; };
 struct B { char pad[0xE8]; int nE8; char pad2[8]; qword *pF4; };
 struct A { char pad[0x294]; struct B *p294; };
 struct P { char pad[0x60]; struct SEG a60[(0x120 - 0x60) / 32]; int n120; };
@@ -48,7 +48,7 @@ void SetState__7JOBLINKi(struct S *p, int n) {
                 o->u40.n40 = 1;
                 o->f64 = 10.0f;
                 Follow__9JOBFOLLOWP3CRVi(o, b, 0);
-                { struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
+                { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
             }
             break;
         case 1:
@@ -62,7 +62,7 @@ void SetState__7JOBLINKi(struct S *p, int n) {
             struct SEG *sg = (struct SEG *)(p->n34 * 32 + (int)p->p30);
             o->v30 = sg[3].a;
             o->u40.v40 = sg[3].b;
-            { struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
+            { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         }
         break;
     }

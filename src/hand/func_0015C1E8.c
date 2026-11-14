@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef struct MSG { int cb; int nKind; } MSG;
 void *PvAllocSwClearImpl__Fi(MSG *pmsg);
 static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwClearImpl__Fi(pmsg); }
 struct C { int a[4]; };
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a[3]; struct VTE *vt; int pad[6]; unsigned long fl; };
+struct O { int a[3]; VTENT *vt; int pad[6]; unsigned long fl; };
 struct DA { int n0; int cMax; int c; struct O **a; };
 struct S { char pad[0xE0]; int c; struct O **apo; };
 void __10STACKSCOPE(struct C *);
@@ -27,8 +27,8 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
         struct O *o = da.a[i];
         o->fl |= 0x200000000000000L;
         if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x1E)) {
-            struct VTE *e = &o->vt[9];
-            e->pfn((char *)o + e->d);
+            VTENT *e = &o->vt[9];
+            ((void (*)())e->pfn)(VT_THIS(o, e));
         } else {
             p->apo[p->c++] = o;
         }

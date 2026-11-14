@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x8C - 0x10]; int f8c; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x8C - 0x10]; int f8c; };
 struct S { char pad[0x3BC4]; struct O *po; char pad2[0x476C - 0x3BC8]; float t; };
 #include "clock.h"
 // name: SafeHouse port (StartHudTimer)
@@ -7,10 +7,10 @@ void StartHudTimer__FPvf(struct S *p, float dt)
 {
     struct O *po = p->po;
     if (po) {
-        struct VTE *e;
+        VTENT *e;
         po->f8c = 0;
         e = &po->vt[49];
-        e->pfn((char *)po + e->d, -1);
+        ((void (*)(void *, int))e->pfn)(VT_THIS(po, e), -1);
     }
     p->t = g_clock.t + dt;
 }

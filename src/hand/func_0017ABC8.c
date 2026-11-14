@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
-struct VTE { short d; short pad; void *pfn; };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct R { int n0; int a[11]; };
 struct U { char pad[0x1C]; float g1C; };
 struct W { char pad[0xA0]; int nA0; };
@@ -18,7 +18,7 @@ void UpdateTarget__5JOBB1(struct S *p) {
     struct W *w;
     qword a;
     if (!p->n60) return;
-    { struct O *o = p->p5C; struct VTE *e = &o->vt[0x60]; ((void (*)(void *, struct R *, float))e->pfn)((char *)o + e->d, &r, p->p64->g1C - g_clock.t); }
+    { struct O *o = p->p5C; VTENT *e = &o->vt[0x60]; ((void (*)(void *, struct R *, float))e->pfn)(VT_THIS(o, e), &r, p->p64->g1C - g_clock.t); }
     if (!r.n0) { p->n60 = 0; return; }
     w = p->pt->p58;
     GetTarget__5JOBB1P12LAUNCHTARGETP6VECTORT2(p, &r, &q30, &q40);

@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
-typedef struct { short d; short pad; qword (*pfn)(void *); } VT;
 struct E8 { char pad[0x80]; qword x80; };
-struct O { char pad[0xC]; VT *vt; char pad2[0xE8-0x10]; struct E8 *xe8; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0xE8-0x10]; struct E8 *xe8; };
 struct S { char pad[0x1BC]; int x1bc; float x1c0; float x1c4; };
 struct P { struct O *x0; int x4; int x8; int pad[2]; struct S *x14; int x18; float x1c; };
 #include "clock.h"
@@ -42,9 +42,6 @@ typedef char P_PrefixSize[sizeof(struct P)==32?1:-1];
 typedef char SMP_PrefixSize[sizeof(struct SMP)==12?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VT_Size[sizeof(VT)==8?1:-1];
-typedef char VT_d_Offset[((unsigned int)&(((VT*)0x10000)->d)-0x10000)==0?1:-1];
-typedef char VT_fn_Offset[((unsigned int)&(((VT*)0x10000)->pfn)-0x10000)==4?1:-1];
 void func_00194170(struct P *p)
 {
     U v, w, r, k;
@@ -57,7 +54,7 @@ void func_00194170(struct P *p)
     s = p->x14;
     if (!s->x1bc)
         return;
-    v.q = p->x0->vt[33].pfn((char *)p->x0 + p->x0->vt[33].d);
+    v.q = ((qword (*)(void *))p->x0->vt[33].pfn)(VT_THIS(p->x0, &p->x0->vt[33]));
     EvalCrv__FP3CRVfP6VECTORT2(s, 0, &w, p->x1c);
     psmp = &D_002BF700;
     {

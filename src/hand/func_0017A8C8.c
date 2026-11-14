@@ -1,6 +1,6 @@
 #include "clock.h"
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x2C]; int n3C; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; };
 struct T { char pad[0x32C]; int n32C; };
 struct S { char pad[0x10]; struct T *p10; int pad2; char a18[0x18]; int n30; float g34; };
 void EndChildJob__FPP5AIJOB(void *p);
@@ -17,9 +17,9 @@ void SetState__5JOBB0i(struct S *p, int n) {
         {
             struct O *o = func_00205438(p->p10, 0x9D);
             int a[5] = { 18, 19, 20, 21, 19 };
-            struct VTE *e;
+            VTENT *e;
             o->n3C = a[p->n30];
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         p->p10->n32C = (unsigned)p->n30 < 2;
         break;

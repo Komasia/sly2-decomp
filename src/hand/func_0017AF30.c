@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct G { char pad[0x4028]; void *p4028; };
 extern struct G g_sw;
 extern void *D_002BE6D0[];
 extern int D_002BE6E8[];
-struct VTE { short d; short pad; void *pfn; };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct C { int pad; void *p4; void *p8; int nC; };
 struct A { char pad[0x33C]; int n33C; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; struct C *p40; char pad3[0xC]; int n50; int pad4; int n58; };
@@ -58,12 +58,12 @@ int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
             o = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, D_002BE6E8[i], 0);
             if (o) {
                 struct X x;
-                struct VTE *e;
+                VTENT *e;
                 s1_memset(&x, 0, sizeof x);
                 x.a = 5;
                 x.v = PosOfLo__FP2LO(p->p10);
                 e = &o->vt[0x33];
-                ((void (*)(void *, struct X *))e->pfn)((char *)o + e->d, &x);
+                ((void (*)(void *, struct X *))e->pfn)(VT_THIS(o, e), &x);
             }
             a = p->p10;
             {

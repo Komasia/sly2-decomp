@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pfn)(void *, int); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x19A0]; struct O *a; struct O *b; struct O *c; };
 void func_00205D10(struct S *p, int f);
 static __inline__ void Call(struct O *o, int n)
 {
-    struct VTE *e = &o->vt[21];
-    e->pfn((char *)o + e->d, n);
+    VTENT *e = &o->vt[21];
+    ((void (*)(void *, int))e->pfn)(VT_THIS(o, e), n);
 }
 void func_00189530(struct S *p, int f)
 {

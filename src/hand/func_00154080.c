@@ -1,8 +1,8 @@
 #include "clock.h"
+#include "vtbl.h"
 extern char g_game[];
-struct VTE { short d; short pad; void (*pfn)(); };
 struct E { int id; int n; float t; float tC; };
-struct O { int a[3]; struct VTE *vt; void *p10; };
+struct O { int a[3]; VTENT *vt; void *p10; };
 struct ARGS { struct E *pe; int *pn; int *pnNew; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
@@ -10,7 +10,7 @@ void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, void *q);
 void SetDetentryState__FP8DETECTORP8DETENTRYi(struct O *o, struct E *pe, int nNew)
 {
     struct ARGS args;
-    struct VTE *e;
+    VTENT *e;
     if (!pe || nNew == pe->n)
         return;
     if (pe->n == 0)
@@ -19,7 +19,7 @@ void SetDetentryState__FP8DETECTORP8DETENTRYi(struct O *o, struct E *pe, int nNe
     args.pn = &pe->n;
     args.pnNew = &nNew;
     e = &o->vt[3];
-    e->pfn((char *)o + e->d, 0x1C, 0, 3, &args, 0);
+    ((void (*)())e->pfn)(VT_THIS(o, e), 0x1C, 0, 3, &args, 0);
     pe->n = nNew;
     pe->t = g_clock.t;
     if (nNew == 1) {

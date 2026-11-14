@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x20]; union { int n30; qword v30; struct { int a, b, n38; } s; } u30; union { int n40; qword v40; } u40; char pad5[0xC0 - 0x50]; int nC0; int pad6; int nC8; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; union { int n30; qword v30; struct { int a, b, n38; } s; } u30; union { int n40; qword v40; } u40; char pad5[0xC0 - 0x50]; int nC0; int pad6; int nC8; };
 struct A { char pad[0x294]; int n294; char pad2[0xFE8 - 0x298]; int nFE8; };
 struct S {
     char pad[0x10]; struct A *p10; int pad2; struct O *p18; char pad3[0x14]; int n30; float f34;
@@ -18,23 +18,23 @@ void SetState__7JOBGOTOi(struct S *p, int n) {
     p->f34 = g_clock.t;
     switch (n) {
     case 4:
-        { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e; o->u30.s.n38 = p->nA8; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->u30.s.n38 = p->nA8; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     case 3:
-        { struct O *o = func_00205438(p->p10, 0xBE); struct VTE *e; o->u30.n30 = p->nB8; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0xBE); VTENT *e; o->u30.n30 = p->nB8; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     case 1:
     case 2:
         {
             struct O *o = p->p18;
             if (o == 0) {
-                struct VTE *e;
+                VTENT *e;
                 o = func_00205438(p->p10, 0xA7);
                 o->nC8 = p->nA8;
                 o->u40.n40 = p->nBC;
                 if (!p->nA8 || p->nAC || !(p->p10->nFE8 & 4)) o->nC0 = 9; else o->nC0 = 8;
                 Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
-                e = &o->vt[8]; e->pfn((char *)o + e->d);
+                e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
             } else {
                 Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
             }
@@ -44,7 +44,7 @@ void SetState__7JOBGOTOi(struct S *p, int n) {
     case 0:
         break;
     case 5:
-        { struct O *o = func_00205438(p->p10, 0xBF); struct VTE *e; o->u30.v30 = p->v80; o->u40.v40 = p->v90; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0xBF); VTENT *e; o->u30.v30 = p->v80; o->u40.v40 = p->v90; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     }
 }

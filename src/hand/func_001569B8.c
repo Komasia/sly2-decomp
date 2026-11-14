@@ -1,9 +1,9 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a[3]; struct VTE *vt; char pad[0x40]; int n50; float g54; int pad58[2]; float g60; int n64; };
+#include "vtbl.h"
+struct O { int a[3]; VTENT *vt; char pad[0x40]; int n50; float g54; int pad58[2]; float g60; int n64; };
 struct S { char pad[0x4020]; struct O *ao[7]; };
 extern float D_002BDD00, D_002BDD04, D_002BDD08, D_002BDD0C, D_002BDD10, D_002BDD14, D_002BDD18;
 struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
-static inline void Init(struct O *o) { struct VTE *e = &o->vt[9]; e->pfn((char *)o + e->d); }
+static inline void Init(struct O *o) { VTENT *e = &o->vt[9]; ((void (*)())e->pfn)(VT_THIS(o, e)); }
 void func_001569B8(struct S *p)
 {
     {

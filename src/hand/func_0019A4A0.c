@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct WORK{U u0,v10,v20,s;float at;U uq;qword incoming;U sum;};
@@ -6,8 +7,7 @@ struct C { char pad[0x88]; float g88; };
 struct B { char pad[0xE8]; struct C *pc; };
 struct S { struct B *pb; };
 struct SPACE;
-typedef struct { short d; short pad; struct SPACE *(*pfn)(void *, void *); } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 qword PosOfLo__FP2LO(void *p);
 qword VelXfPoint__FP2XFT0G9VU_VECTOR(struct SPACE *p, struct SPACE *stop, qword q);
 int FJumpTimeToHeight__FP5ACTORG9VU_VECTORN31Pf(struct S *p, qword a, qword b, qword c, qword d, float *pg);
@@ -43,7 +43,7 @@ void FitJumpToPoint__FP4JUMPG9VU_VECTORP2LON21PfT5P6VECTORT7(struct S *p, qword 
     __asm__("por %0,$zero,%1":"=r"(a):"r"(aInput));
     w.incoming=c;
     __asm__("por %0,$zero,%1":"=r"(pos):"r"(PosOfLo__FP2LO(p->pb)));
-    x=o->vt[32].pfn((char*)o+o->vt[32].d,0);
+    x=((struct SPACE * (*)(void *, void *))o->vt[32].pfn)(VT_THIS(o, &o->vt[32]),0);
     { register qword got __asm__("$2")=VelXfPoint__FP2XFT0G9VU_VECTOR(x, 0, b);
       register struct S*receiver __asm__("$4");
       register qword initial __asm__("$5"),velocity __asm__("$6");
@@ -127,9 +127,6 @@ typedef char B_physics[OFF(struct B,pc)==0xE8?1:-1];
 typedef char B_size[sizeof(struct B)==0xEC?1:-1];
 typedef char S_body[OFF(struct S,pb)==0?1:-1];
 typedef char S_size[sizeof(struct S)==4?1:-1];
-typedef char VTE_size[sizeof(VTE)==8?1:-1];
-typedef char VTE_delta[OFF(VTE,d)==0?1:-1];
-typedef char VTE_function[OFF(VTE,pfn)==4?1:-1];
 typedef char O_vtable[OFF(struct O,vt)==0xC?1:-1];
 typedef char O_prefix[sizeof(struct O)==0x10?1:-1];
 typedef char WORK_size[sizeof(struct WORK)==0x80?1:-1];

@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(void *); };
 struct LM { char pad[0x60]; float gMin; float gMax; };
-struct ASEG { char pad[0xC]; struct VTE *vt; char pad1[0x30 - 0x10]; int x30; char pad2[4]; int x38; int x3C; char pad3[0x40 - 0x40]; int x40;
+struct ASEG { char pad[0xC]; VTENT *vt; char pad1[0x30 - 0x10]; int x30; char pad2[4]; int x38; int x3C; char pad3[0x40 - 0x40]; int x40;
     char pad4[0xC0 - 0x44]; int xC0; char pad5[4]; int xC8; };
 struct ALO { char pad[0xE8]; int xE8; char pad1[0xF4 - 0xEC]; qword *pq; };
 struct SO { char pad[0x294]; struct ALO *palo; char pad1[0xF04 - 0x298]; float tF04; char pad2[0xFD0 - 0xF08]; char xFD0[4]; };
@@ -68,7 +68,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
             float g = atan2f(GetY(d), GetX(d)) + 3.1415927f;
             SetMoveHeading__FP7MOVEREF(p->pso->xFD0, g);
         }
-        pa->vt[8].pfn((char *)pa + pa->vt[8].d);
+        ((void (*)(void *))pa->vt[8].pfn)(VT_THIS(pa, &pa->vt[8]));
         p->g3C = D_002A5138;
         break;
     }
@@ -76,7 +76,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         struct ASEG *pa;
         pa = func_00205438(p->pso, 0x9E);
         pa->x38 = p->x4C;
-        pa->vt[8].pfn((char *)pa + pa->vt[8].d);
+        ((void (*)(void *))pa->vt[8].pfn)(VT_THIS(pa, &pa->vt[8]));
         break;
     }
     case 2: {
@@ -98,7 +98,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         pa->xC0 = 8;
         pa->xC8 = p->x4C;
         pa->x40 = 1;
-        pa->vt[8].pfn((char *)pa + pa->vt[8].d);
+        ((void (*)(void *))pa->vt[8].pfn)(VT_THIS(pa, &pa->vt[8]));
         break;
     }
     case 3: {
@@ -106,7 +106,7 @@ void SetB5State__5JOBB5i(struct X *p, int k)
         pa = func_00205438(p->pso, 0xA4);
         pa->x3C = (int)p->plm;
         pa->x30 = p->x4C;
-        pa->vt[8].pfn((char *)pa + pa->vt[8].d);
+        ((void (*)(void *))pa->vt[8].pfn)(VT_THIS(pa, &pa->vt[8]));
         p->pso->tF04 = D_002A5138;
         p->x50++;
         break;

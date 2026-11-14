@@ -1,12 +1,12 @@
 
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union{qword q;float f[4];}U;
-struct VTE{short delta,pad;void*fn;};
 struct STATE{char pad[0x18];float heading,amount;};
 struct MODEL{char pad14[0x14];void*table;char pad18[4];float base;char pad20[0x20];float scale;};
-struct COMPONENT{struct VTE*vt;};struct BINDING{int key;struct COMPONENT*component;};
+struct COMPONENT{VTENT*vt;};struct BINDING{int key;struct COMPONENT*component;};
 struct P{
- char padC[0xC];struct VTE*vt;
+ char padC[0xC];VTENT*vt;
  char pad10[0x150-0x10];struct STATE*state;
  char pad154[0x190-0x154];qword velocity;
  char pad1A0[8];float heading;
@@ -41,8 +41,8 @@ float GLimitAbs(float,float) asm("GLimitAbs__Fff");void RecalcBlend__FP6ASEGBL(v
 void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int FAsegaRetracted(void*) asm("FAsegaRetracted__FP5ASEGA");void func_001306A8(void**);
 static inline void*At(struct P*p,int offset){return(char*)p+offset;}
 static inline void ReadBinding(struct BINDING*b,struct MODEL*m,qword*out){
- struct COMPONENT*c=b->component;struct VTE*entry=&c->vt[3];
- ((void(*)(void*,int,qword*,float,float))entry->fn)((char*)c+entry->delta,0,out,m->base,m->scale);
+ struct COMPONENT*c=b->component;VTENT*entry=&c->vt[3];
+ ((void(*)(void*,int,qword*,float,float))entry->pfn)(VT_THIS(c, entry),0,out,m->base,m->scale);
 }
 static inline qword ScaleIn(qword a,qword b){__asm__("vmulx.xyzw %0,%0,%1x":"+j"(a):"j"(b));return a;}
 static inline qword FirstNegative(const qword*input,U*out,float g){qword a,s;register qword bits __asm__("$2");__asm__("lqc2 %0,%3\n\tmfc1 %1,%4\n\tqmtc2.ni %1,%2":"=j"(a),"=&r"(bits),"=j"(s):"m"(*input),"f"(g));out->q=s;return ScaleIn(a,out->q);}
@@ -100,11 +100,11 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  case 20:{struct MODEL*model;struct STATE*state;PrepareAnimation(p,&phase.scalar,&model,&state);SetAsegaSpeed(model,state->amount);SetStepPhysHeading__FP3ALOf(p,p->state->heading);break;}
  case 17:{struct STATE*state;float zero;p->velocity=NegativeWithState(p,&phase.scalar,&state,&zero);if(zero<state->amount)SetStepPhysHeading__FP3ALOf(p,state->heading);break;}
  case 24:{
-  register float one __asm__("$f20");register float weight __asm__("$f1");qword velocity;struct VTE*entry;
+  register float one __asm__("$f20");register float weight __asm__("$f1");qword velocity;VTENT*entry;
   func_001441E8(p,D_002BF3C4);
   if(p->submode==12){float angle=RadNormalize__Ff(RadStepHeading__FP4STEP(p)-p->heading);if(__builtin_fabsf(angle)<D_002BF3C8)SetJtJts__FP2JT3JTS4JTBS(p,24,13);}
   else SetStepPhysHeading__FP3ALOf(p,p->state->heading);
-  one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->fn)((char*)p+entry->delta);
+  one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->pfn)(VT_THIS(p, entry));
   weight=D_002BF3CC*GLimitAbs(Z(velocity)/(p->factor*D_002BF35C),one);
   {register float zero __asm__("$f2")=0.0f;register float magnitude __asm__("$f3");register float left __asm__("$f0");__asm__("abs.s %0,%2\n\tmax.s %1,%3,%2\n\tneg.s %2,%2":"=f"(magnitude),"=f"(left),"+f"(weight):"f"(zero));__asm__("swc1 %4,%0\n\tsub.s %1,%1,%5\n\tmax.s %2,%2,%6\n\tswc1 %2,%3":"=m"(p->left),"+f"(one),"+f"(zero),"=m"(p->right):"f"(left),"f"(magnitude),"f"(weight));p->middle=one;}
   RecalcBlend__FP6ASEGBL(p->blend);break;
@@ -117,12 +117,12 @@ void UpdateSlyInput__FP3SLY(struct P*p){
 
 typedef char qword_Size[(sizeof(qword)==16)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
-typedef char VTE_Size[(sizeof(struct VTE)==8)?1:-1];
+typedef char VTE_Size[(sizeof(VTENT)==8)?1:-1];
 typedef char PHASE_Size[(sizeof(union PHASE)==16)?1:-1];
 typedef char STATE_Size[(sizeof(struct STATE)==32)?1:-1];
 typedef char BINDING_Size[(sizeof(struct BINDING)==8)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((struct VTE*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((struct VTE*)0)->fn==4)?1:-1];
+typedef char VTE_delta_Offset[((unsigned)&((VTENT*)0)->delta==0)?1:-1];
+typedef char VTE_fn_Offset[((unsigned)&((VTENT*)0)->pfn==4)?1:-1];
 typedef char STATE_heading_Offset[((unsigned)&((struct STATE*)0)->heading==24)?1:-1];
 typedef char STATE_amount_Offset[((unsigned)&((struct STATE*)0)->amount==28)?1:-1];
 typedef char MODEL_table_Offset[((unsigned)&((struct MODEL*)0)->table==20)?1:-1];

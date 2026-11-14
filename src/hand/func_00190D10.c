@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 #include "mat.h"
+#include "vtbl.h"
 struct T { char pad[0x30]; qword x30; struct MATRIX4 m40; char pad2[0xA0-0x80]; char *xa0; int xa4; int xa8; };
-typedef struct { short d; short pad; void (*pfn)(void *); } VT;
 struct P {
-    char pad0[0xC]; VT *vt; char pad[0x1960-0x10]; qword x1960; char pad2[0x19A4-0x1970]; void *x19a4;
+    char pad0[0xC]; VTENT *vt; char pad[0x1960-0x10]; qword x1960; char pad2[0x19A4-0x1970]; void *x19a4;
     char pad3[0x19C4-0x19A8]; struct T *x19c4; int x19c8; struct T *x19cc;
 };
 struct G { char pad[0x3D58]; int x3d58; };
@@ -39,5 +39,5 @@ void DrawSlyHangPlace__FP3SLY(struct P *p)
         t2->m40 = m;
     }
     SolveAloPair__FP3ALOP7ALOPAIR(p, p->x19cc->xa8);
-    p->vt[18].pfn((char *)p + p->vt[18].d);
+    ((void (*)(void *))p->vt[18].pfn)(VT_THIS(p, &p->vt[18]));
 }

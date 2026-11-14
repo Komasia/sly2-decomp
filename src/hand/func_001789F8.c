@@ -1,13 +1,13 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G D_003DD020;
-struct VTE { short d; short pad; void *pfn; };
 struct Y { char pad[0x10]; void *p10; char pad2[0x0C]; char a20[1]; };
 struct X { char pad[0xDC]; struct Y *pDC; };
 struct A { char pad[0xE8]; struct X *pE8; };
 struct T { char pad[0x28]; unsigned long fl; char pad2[0x1D8 - 0x30]; int n1D8; };
 struct S {
-    char pad[0xC]; struct VTE *vt; struct A *p10; char pad1[0x30 - 0x14];
+    char pad[0xC]; VTENT *vt; struct A *p10; char pad1[0x30 - 0x14];
     void *p30; float g34; int n38; char pad2[4]; int n40; char pad3[8]; int n4C;
     char pad4[4]; struct T *p54; int n58; float g5C; float g60; char pad5[4]; float g68; float g6C;
     char pad6[0x80 - 0x70]; qword v80;
@@ -28,8 +28,8 @@ static inline float Dist(qword a, qword b) {
     return f;
 }
 static inline void Set(struct S *p, int n) {
-    struct VTE *e = &p->vt[15];
-    ((void (*)(void *, int))e->pfn)((char *)p + e->d, n);
+    VTENT *e = &p->vt[15];
+    ((void (*)(void *, int))e->pfn)(VT_THIS(p, e), n);
 }
 void func_001789F8(struct S *p) {
     float g;

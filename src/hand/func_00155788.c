@@ -1,6 +1,6 @@
 #include "clock.h"
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a[3]; struct VTE *vt; char pad[0x20]; int n30; int pad34; void *p38; int pad3c; int n40; char pad3[8]; int n4C; };
+#include "vtbl.h"
+struct O { int a[3]; VTENT *vt; char pad[0x20]; int n30; int pad34; void *p38; int pad3c; int n40; char pad3[8]; int n4C; };
 struct T { char pad[0x33C]; int n33C; char pad2[0x1018 - 0x340]; int n1018; };
 struct Q { char pad[0x20]; int n20; };
 struct S { int pad[4]; struct T *pt; int pad2; char ab18[0x18]; int k30; float t34; int n38; struct Q *pq; };
@@ -19,21 +19,21 @@ void SetB4State__5JOBB4i(struct S *p, int k)
     switch (k) {
     case 0: {
         struct O *o = func_00205438(p->pt, 0xB5);
-        struct VTE *e;
+        VTENT *e;
         o->p38 = p->pq;
         o->n4C = p->n38;
         e = &o->vt[8];
-        e->pfn((char *)o + e->d);
+        ((void (*)())e->pfn)(VT_THIS(o, e));
         p->pt->n1018 = p->pt->n33C;
         break;
     }
     case 1: {
         struct O *o = func_00205438(p->pt, 0xA5);
-        struct VTE *e;
+        VTENT *e;
         o->n30 = p->n38;
         o->n40 = k;
         e = &o->vt[8];
-        e->pfn((char *)o + e->d);
+        ((void (*)())e->pfn)(VT_THIS(o, e));
         break;
     }
     }

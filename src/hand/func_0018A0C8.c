@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { float x, y, z, w; } VEC;
 typedef union { qword q; VEC v; } UV;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct T { char pad[0x4C]; struct O *po; };
 struct S {
-    char pad[0xC]; struct VTE *vt; char p0[0x198]; float g1a8; char p1[0x5C]; struct T *pt208;
+    char pad[0xC]; VTENT *vt; char p0[0x198]; float g1a8; char p1[0x5C]; struct T *pt208;
     char p2[0xE1C]; void *x1028; char p3[8]; void *x1034; char p4[0x4DC]; int x1514; char p5[8];
     char x1520[0x100]; char x1620[0x3B4]; int x19d4, x19d8, x19dc, x19e0; char p6[0xC]; int x19f0, x19f4;
 };
@@ -21,14 +21,14 @@ void SetSmaState__FP3SMA3OID(void *p, int n);
 // name: SafeHouse port (UpdateSlyStanding)
 void UpdateSlyStanding__FP3SLY(struct S *p)
 {
-    struct VTE *e;
+    VTENT *e;
     SetSmaMask__FP3SMAUi(p->x1034, GrfActorLookMask__FP5ACTOR(p));
     e = &p->vt[92];
-    if (!((int (*)(void *))e->pfn)((char *)p + e->d) && p->pt208) {
+    if (!((int (*)(void *))e->pfn)(VT_THIS(p, e)) && p->pt208) {
         struct O *o = p->pt208->po;
         UV u;
         e = &o->vt[34];
-        u.q = ((qword (*)(void *))e->pfn)((char *)o + e->d);
+        u.q = ((qword (*)(void *))e->pfn)(VT_THIS(o, e));
         u.v.z = GLimitAbs(u.v.z, 10.0f);
         SetStepPhysHeading__FP3ALOf(p, p->g1a8 + u.v.z * g_clock.dt);
     }

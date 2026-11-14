@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G D_003DD020;
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0xA8 - 0x10]; int nA8; int nAC; char pad3[0xC]; int nBC; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0xA8 - 0x10]; int nA8; int nAC; char pad3[0xC]; int nBC; };
 struct S { char pad[0x10]; void *p10; char pad2[0x1C]; int n30; int pad3; float g38; int pad4; char a40[0x10]; int n50; int n54; int n58; };
 void Enter__5AIJOB(struct S *p);
 qword PosOfLo__FP2LO(void *p);
@@ -23,5 +23,5 @@ void Enter__11JOBPATHSTEP(struct S *p) {
     o->nAC = p->n54;
     o->nBC = p->n58;
     Step__11JOBPATHSTEPi(p, 1);
-    o->vt[8].pfn((char *)o + o->vt[8].d);
+    ((void (*)(void *))o->vt[8].pfn)(VT_THIS(o, &o->vt[8]));
 }

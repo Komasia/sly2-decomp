@@ -1,11 +1,11 @@
+void UpperizePchz(char *pchz);
 extern "C" {
-char *strupr(char *);
 char *strcat(char *, const char *);
 unsigned int strlen(const char *);
 }
 int CpchzTokenizePath(char *pchz)
 {
-    strupr(pchz);
+    UpperizePchz(pchz);
     int cch = strlen(pchz);
     if (cch != 0 && ((unsigned char *)pchz)[cch - 1] != '\\' && ((unsigned char *)pchz)[cch - 1] != '/') {
         strcat(pchz, ";1");

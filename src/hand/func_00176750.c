@@ -1,11 +1,11 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern float D_002BE618[2];
-struct VTE { short d; short pad; void (*pfn)(void *); };
 struct B6 { qword q[6]; };
 struct F { int a; int pad[3]; union { struct { int n10; float f14; } s; struct B6 b; } u; };
 struct O {
-    char pad[0xC]; struct VTE *vt; char pad2[0x20]; int n30; int pad3; int n38; int n3C;
+    char pad[0xC]; VTENT *vt; char pad2[0x20]; int n30; int pad3; int n38; int n3C;
     union { qword v40; float f40; } u40; struct B6 b50;
 };
 struct A { char pad[0x4B0]; qword v4B0; char pad2[0xF68 - 0x4C0]; int nF68; int pad3; qword vF70; char pad4[0x108C - 0xF80]; int n108C; };
@@ -17,7 +17,7 @@ void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct O *o, int a, int b, in
 void SetNoise__14JOBINVESTIGATEP5NOISE(struct O *o, int n);
 float GRandInRange__Fff(float a, float b);
 void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
-#define VCALL(o) { struct VTE *e = &(o)->vt[8]; e->pfn((char *)(o) + e->d); }
+#define VCALL(o) { VTENT *e = &(o)->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS((o), e)); }
 // name: SafeHouse port (JOBREACT::React)
 void React__8JOBREACTP5AIMSG(struct S *p, struct F *m) {
     int fl;

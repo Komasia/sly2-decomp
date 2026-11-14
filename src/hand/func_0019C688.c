@@ -1,6 +1,6 @@
-typedef struct { short d; short pad; void (*pfn)(void *, int); } VT;
+#include "vtbl.h"
 struct C { char pad[0x10C]; int x10c; char pad2[0x124-0x110]; int x124; };
-struct O { char pad[0xC]; VT *vt; char pad2[0x4C0-0x10]; char x4c0[0xF5C-0x4C0]; struct C *xf5c; float xf60;
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x4C0-0x10]; char x4c0[0xF5C-0x4C0]; struct C *xf5c; float xf60;
     char pad3[0x18C4-0xF64]; struct C *x18c4; char pad4[0x1F18-0x18C8]; struct C *x1f18; };
 struct P { struct O *x0; int x4; int x8; struct C *xc; int x10; float x14; int x18; int x1c; };
 extern int D_002DD5BC;
@@ -44,7 +44,7 @@ void ArriveJumpTarget__FP4JUMP(struct P *p)
     case 15:
         p->x0->xf5c = p->xc;
         p->x0->xf60 = p->x14;
-        p->x0->vt[88].pfn((char *)p->x0 + p->x0->vt[88].d, 8);
+        ((void (*)(void *, int))p->x0->vt[88].pfn)(VT_THIS(p->x0, &p->x0->vt[88]), 8);
         break;
     case 16:
     {

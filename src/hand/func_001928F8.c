@@ -1,5 +1,5 @@
-typedef struct { short d; short pad; void (*pfn)(void *, int); } VT;
-struct O { char pad[0xC]; VT *vt; char pad2[0x1854-0x10]; int x1854; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x1854-0x10]; int x1854; };
 struct P {
     struct O *x0; float x4; int x8; int pad0c[2]; int x14; int x18; char pad[0x440-0x1C]; char x440[0x4C4-0x440];
     int x4c4; char pad2[0x500-0x4C8]; int x500;
@@ -18,7 +18,7 @@ void StartInteract__FP5ACTORii3JTL(struct P *p, int n, int a, int b)
     p->x4 = g_clock.t;
     p->x18 = b;
     p->x14 = a;
-    p->x0->vt[88].pfn((char *)p->x0 + p->x0->vt[88].d, 2);
+    ((void (*)(void *, int))p->x0->vt[88].pfn)(VT_THIS(p->x0, &p->x0->vt[88]), 2);
     switch (n) {
     case 0: case 13:
         n = 5;

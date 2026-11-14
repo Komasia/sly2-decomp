@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { int a, b, c; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int a, b, c; VTENT *vt; };
 struct E { int id; int pad[3]; struct O *po; int pad2[7]; };
 struct S { char pad[0x4678]; int c; int pad1; struct E ae[1]; };
 #define P4744(p) (*(int *)((char *)(p) + 0x4744))
@@ -17,6 +17,6 @@ void ShowJtAura__FP2SWi(struct S *p, int id) {
     if (!pe) return;
     po = PloNewJtAura__FP2LOiP5JTENT(p, P4744(p), pe);
     if (!po) return;
-    if (pe->po) { struct O *o = pe->po; struct VTE *e = &o->vt[9]; e->pfn((char *)o + e->d); }
+    if (pe->po) { struct O *o = pe->po; VTENT *e = &o->vt[9]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
     pe->po = po;
 }

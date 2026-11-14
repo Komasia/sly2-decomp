@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a[3]; struct VTE *vt; };
+struct O { int a[3]; VTENT *vt; };
 struct P { int a; int b; float f; float g; qword q; qword r; qword s; };
 void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(struct O *o, int a, int b, float f, float g, qword q, qword r)
 {
     struct P p;
-    struct VTE *e;
+    VTENT *e;
     p.a = a;
     p.b = b;
     p.f = f;
@@ -13,5 +13,5 @@ void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(struct O *o, int a, int b, fl
     p.q = q;
     p.r = r;
     e = &o->vt[51];
-    e->pfn((char *)o + e->d, &p);
+    ((void (*)())e->pfn)(VT_THIS(o, e), &p);
 }

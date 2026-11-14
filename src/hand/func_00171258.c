@@ -1,8 +1,8 @@
+#include "vtbl.h"
 struct S;
-struct VTE { short d; short pad; void (*pfn)(); };
 struct T { int n0; char pad[0x4C]; int n50; };
 struct U { int n0; int n4; };
-struct S { int pad0; char a4[8]; struct VTE *vt; char pad[8]; char a18[0x18]; struct T *pt; int n34; int n38; int pad3; int n40; struct U *pu; int pad4; int n4C; };
+struct S { int pad0; char a4[8]; VTENT *vt; char pad[8]; char a18[0x18]; struct T *pt; int n34; int n38; int pad3; int n40; struct U *pu; int pad4; int n4C; };
 void EndChildJob__FPP5AIJOB(void *p);
 void func_00256EE0(struct S *p, int n);
 void func_002580A8(void *p, int n);
@@ -11,7 +11,7 @@ void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct S *p, struct T *t, int
     if (t == p->pt) return;
     if (p->pt) {
         EndChildJob__FPP5AIJOB(p->a18);
-        p->vt[3].pfn((char *)p + p->vt[3].d, 3, 0, 0, 0, 0);
+        ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 3, 0, 0, 0, 0);
         func_00256EE0(p, 0);
         func_002580A8(p->a4, 0);
         p->n34 = 0;
@@ -22,7 +22,7 @@ void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct S *p, struct T *t, int
     p->pt = t;
     if (!t) return;
     func_00256EE0(p, t->n0);
-    p->vt[3].pfn((char *)p + p->vt[3].d, 2, 0, 0, 0, 0);
+    ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 2, 0, 0, 0, 0);
     p->n4C = a;
     if (!u || !u->n0) {
         struct T *x = p->pt;
@@ -34,6 +34,6 @@ void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct S *p, struct T *t, int
         p->pu = u;
         p->n34 = u->n4;
     }
-    if (p->n38) p->vt[15].pfn((char *)p + p->vt[15].d, p->n38);
+    if (p->n38) ((void (*)())p->vt[15].pfn)(VT_THIS(p, &p->vt[15]), p->n38);
     p->pu = 0;
 }

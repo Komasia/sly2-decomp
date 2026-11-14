@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; char p1[0xEF0]; char xf00[4]; };
+struct O { char pad[0xC]; VTENT *vt; char p1[0xEF0]; char xf00[4]; };
 struct Q { char pad[0xC]; char xc[0x38]; int fl; };
-struct S { char pad[0xC]; struct VTE *vt; char p1[0x16C]; int x17c; char p2[0x10]; struct O *x190; };
+struct S { char pad[0xC]; VTENT *vt; char p1[0x16C]; int x17c; char p2[0x10]; struct O *x190; };
 struct M { struct Q *q; void *pv; };
 extern char g_sw[];
 int FAbsorbSoWkr__FP2SOP3WKR(struct S *p, struct Q *q);
@@ -14,7 +14,7 @@ void SetHideState__FP2LOi(struct S *p, int n);
 int FAcceptHideContact__FP3ALOP5CTMSG(struct S *p, struct Q *q)
 {
     struct M m;
-    struct VTE *e;
+    VTENT *e;
     if (!FAbsorbSoWkr__FP2SOP3WKR(p, q)) return 0;
     if (p->x17c == 3) return 1;
     if (!(q->fl & 8)) return 1;
@@ -24,12 +24,12 @@ int FAcceptHideContact__FP3ALOP5CTMSG(struct S *p, struct Q *q)
         SetBinocState__FP5ACTORi(p->x190->xf00, -1);
         o = p->x190;
         e = &o->vt[88];
-        ((void (*)(void *, int))e->pfn)((char *)o + e->d, 0);
+        ((void (*)(void *, int))e->pfn)(VT_THIS(o, e), 0);
     }
     SetHideState__FP2LOi(p, 3);
     m.q = q;
     m.pv = q->xc;
     e = &p->vt[3];
-    ((void (*)(void *, int, int, int, struct M *, int))e->pfn)((char *)p + e->d, 0xB, 0, 2, &m, 0);
+    ((void (*)(void *, int, int, int, struct M *, int))e->pfn)(VT_THIS(p, e), 0xB, 0, 2, &m, 0);
     return 1;
 }

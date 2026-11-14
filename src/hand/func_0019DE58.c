@@ -1,7 +1,7 @@
 #include "vec.h"
+#include "vtbl.h"
 struct R;
-typedef struct { short d; short pad; void (*pfn)(void *, float, float, struct VECTOR *, int); } VT;
-struct C { VT *vt; };
+struct C { VTENT *vt; };
 struct R { int x0; struct C *x4; };
 struct O { char pad[0x74]; float x74; };
 struct E { int x0; struct O *x4; int x8; float xc; };
@@ -19,8 +19,8 @@ void BindSlopeBlend__FP10SLOPEBLEND(struct P *p)
         if (o) {
             struct R *r = PchnFindAseg__FP4ASEGP3ALOPvi(o, p->x0, 1, 1);
             if (r) {
-                r->x4->vt[3].pfn((char *)r->x4 + r->x4->vt[3].d, 0.0f, 1.0f, &v0, 0);
-                r->x4->vt[3].pfn((char *)r->x4 + r->x4->vt[3].d, o->x74, 1.0f, &v1, 0);
+                ((void (*)(void *, float, float, struct VECTOR *, int))r->x4->vt[3].pfn)(VT_THIS(r->x4, &r->x4->vt[3]), 0.0f, 1.0f, &v0, 0);
+                ((void (*)(void *, float, float, struct VECTOR *, int))r->x4->vt[3].pfn)(VT_THIS(r->x4, &r->x4->vt[3]), o->x74, 1.0f, &v1, 0);
                 e->xc = (v0.z - v1.z) / o->x74;
             }
         }

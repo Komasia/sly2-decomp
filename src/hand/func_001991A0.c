@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;
-typedef struct { short d; short pad; void (*pfn)(void *, int, int, qword, qword, qword); } VT;
-struct O { char pad[0xC]; VT *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct C8 { int x0; int x4; };
 struct P {
     struct O *x0; char pad[0x1C-4]; int x1c; char pad2[0xC8-0x20]; struct C8 *xc8; char pad3[4];
@@ -30,6 +30,6 @@ void AddJumpLedgeContacts__FP5ACTOR(struct P *p)
         __asm__("vmulax.xyz $ACC, %2, %1x\n\tvmadday.xyz $ACC, %3, %1y\n\tvmaddz.xyz %0, %4, %1z"
                 : "=j"(v) : "j"(p->xf0), "j"(m.r[0]), "j"(m.r[1]), "j"(m.r[2]));
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(r.q) : "j"(r.q), "j"(v));
-        p->x0->vt[82].pfn((char *)p->x0 + p->x0->vt[82].d, 7, p->xc8->x4, r.q, D_002A2DB0, q.q);
+        ((void (*)(void *, int, int, qword, qword, qword))p->x0->vt[82].pfn)(VT_THIS(p->x0, &p->x0->vt[82]), 7, p->xc8->x4, r.q, D_002A2DB0, q.q);
     }
 }

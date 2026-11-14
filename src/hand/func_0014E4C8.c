@@ -1,6 +1,6 @@
 /* Matched by Claude agent (2026-10-17): compare against the parameters directly (no local E copy) and `for (i = 0, pe = p->ae; ...)`. */
-struct VTE { short d; short pad; void (*pfn)(void *, ...); };
-struct O { int pad[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int pad[3]; VTENT *vt; };
 struct E { int prio; struct O *po; int a; int b; };
 struct P { char pad[0x30C]; int c; struct E ae[8]; char pad2[0x390 - 0x390]; float t; };
 #include "clock.h"
@@ -29,8 +29,8 @@ void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(struct P *p, int grf, int prio, struct 
             }
             {
                 struct O *o = pe->po;
-                struct VTE *v = &o->vt[5];
-                ((void (*)(void *, int))v->pfn)((char *)o + v->d, pe->b);
+                VTENT *v = &o->vt[5];
+                ((void (*)(void *, int))v->pfn)(VT_THIS(o, v), pe->b);
             }
         } else {
             *peOut++ = *pe;
@@ -38,15 +38,15 @@ void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(struct P *p, int grf, int prio, struct 
     }
     p->c = peOut - p->ae;
     if (poTop) {
-        struct VTE *v = &poTop->vt[3];
-        ((void (*)(void *, int, int))v->pfn)((char *)poTop + v->d, aTop, bTop);
+        VTENT *v = &poTop->vt[3];
+        ((void (*)(void *, int, int))v->pfn)(VT_THIS(poTop, v), aTop, bTop);
     if (p->c > 0) {
         struct O *o;
-        struct VTE *v;
+        VTENT *v;
         p->t = g_clock.t;
         o = p->ae[0].po;
         v = &o->vt[2];
-        ((void (*)(void *, int, int))v->pfn)((char *)o + v->d, p->ae[0].a, p->ae[0].b);
+        ((void (*)(void *, int, int))v->pfn)(VT_THIS(o, v), p->ae[0].a, p->ae[0].b);
     }
     }
 }

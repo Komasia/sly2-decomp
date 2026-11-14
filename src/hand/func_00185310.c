@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int i[4];}U;
 typedef struct M4{U r[4];}M4;
-typedef struct VTE{short delta,pad;void*fn;}VTE;
 typedef struct I3{int index[3];}I3;
-typedef struct MESH{char pad0[0xC];VTE*vt;char pad10[0xD4];qword*vertices;int count;I3*triangles;}MESH;
+typedef struct MESH{char pad0[0xC];VTENT*vt;char pad10[0xD4];qword*vertices;int count;I3*triangles;}MESH;
 typedef struct TRIREF{int index;float u,v;}TRIREF;
 typedef struct WORK{M4 matrix;TRIREF candidate;TRIREF best __attribute__((aligned(16)));U closest,scalar;float parameter;U bestNormal,input,normal;}WORK;
 extern float D_002A5684;
@@ -12,9 +12,9 @@ static inline qword Unit(qword input){register qword a __asm__("vf3")=input,d __
 // name: SafeHouse port (FindClimbSurfClosestPoint)
 void FindClimbSurfClosestPoint__FP2LOG9VU_VECTORP6VECTORP7SURFLOCN22(MESH*mesh,qword point,void*inputReference,TRIREF*outReference,qword*outPoint,qword*outNormal){
  WORK w;register int i __asm__("$16")=0;register unsigned word __asm__("$2");qword bestPoint;register float bestDistance __asm__("$f22");
- VTE*entry=&mesh->vt[31];
+ VTENT*entry=&mesh->vt[31];
  w.input.q=point;
- word=(unsigned)((M4*(*)(void*))entry->fn)((char*)mesh+entry->delta);
+ word=(unsigned)((M4*(*)(void*))entry->pfn)(VT_THIS(mesh, entry));
  w.matrix=*(M4*)word;
  bestDistance=D_002A5684;
  if(mesh->count>0){word=12;do{
@@ -87,12 +87,12 @@ typedef char qword_Size[(sizeof(qword)==16)?1:-1];
 typedef char Pointer_Size[(sizeof(void*)==4)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char M4_Size[(sizeof(M4)==0x40)?1:-1];
-typedef char VTE_Size[(sizeof(VTE)==8)?1:-1];
+typedef char VTE_Size[(sizeof(VTENT)==8)?1:-1];
 typedef char I3_Size[(sizeof(I3)==12)?1:-1];
 typedef char TRIREF_Size[(sizeof(TRIREF)==12)?1:-1];
 typedef char WORK_Size[(sizeof(WORK)==0xC0)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTE*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTE*)0)->fn==4)?1:-1];
+typedef char VTE_delta_Offset[((unsigned)&((VTENT*)0)->delta==0)?1:-1];
+typedef char VTE_fn_Offset[((unsigned)&((VTENT*)0)->pfn==4)?1:-1];
 typedef char MESH_vt_Offset[((unsigned)&((MESH*)0)->vt==12)?1:-1];
 typedef char MESH_vertices_Offset[((unsigned)&((MESH*)0)->vertices==228)?1:-1];
 typedef char MESH_count_Offset[((unsigned)&((MESH*)0)->count==232)?1:-1];

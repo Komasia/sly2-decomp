@@ -1,6 +1,6 @@
+#include "vtbl.h"
 struct O;
-typedef struct { short d; short pad; void (*pfn)(void *, ...); } VTE;
-struct O { char pad[0xC]; VTE *vt; char pad2[0x58 - 0x10]; int x58; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x58 - 0x10]; int x58; };
 struct B { char pad[0x1A8]; float x1a8; };
 struct A { struct B *x0; char pad[0x1C]; int x20; char pad2[0x18]; float x3c; };
 struct S { struct A *x0; int x4; struct O *x8; int xc; struct O *x10; void *x14; };
@@ -27,7 +27,7 @@ void SetBinocWindowState__FP5ACTORi(struct S *p, int st)
         if (p->x0->x20 == 1) BroadcastTaskEvent__FP2SWiP2LO(g_game, 0xC, 0);
         else BroadcastTaskEvent__FP2SWiP2LO(g_game, 7, 0);
         if (p->x8) {
-            p->x8->vt[49].pfn((char *)p->x8 + p->x8->vt[49].d, -1);
+            ((void (*)(void *, ...))p->x8->vt[49].pfn)(VT_THIS(p->x8, &p->x8->vt[49]), -1);
             func_00213B00(p->x8, 0x352);
             func_00213B00(p->x8, 0x351);
             func_00212E40(p->x8, 0x352, (p->x0->x0->x1a8 + 3.1415927f) * 0.15915494f);
@@ -35,15 +35,15 @@ void SetBinocWindowState__FP5ACTORi(struct S *p, int st)
         }
         if (p->x0->x20 == 1) {
             func_00227788(D_004435F0);
-            if (p->x10) p->x10->vt[49].pfn((char *)p->x10 + p->x10->vt[49].d, -1);
+            if (p->x10) ((void (*)(void *, ...))p->x10->vt[49].pfn)(VT_THIS(p->x10, &p->x10->vt[49]), -1);
         }
         if (p->x14) SetPhotoPromptState__FPvi(p->x14, 0);
         break;
     case 2:
         if (p->x0->x20 == 1) BroadcastTaskEvent__FP2SWiP2LO(g_game, 0xD, 0);
         else BroadcastTaskEvent__FP2SWiP2LO(g_game, 8, 0);
-        if (p->x8) p->x8->vt[50].pfn((char *)p->x8 + p->x8->vt[50].d);
-        if (p->x10) p->x10->vt[50].pfn((char *)p->x10 + p->x10->vt[50].d);
+        if (p->x8) ((void (*)(void *, ...))p->x8->vt[50].pfn)(VT_THIS(p->x8, &p->x8->vt[50]));
+        if (p->x10) ((void (*)(void *, ...))p->x10->vt[50].pfn)(VT_THIS(p->x10, &p->x10->vt[50]));
         if (p->x14) SetPhotoPromptState__FPvi(p->x14, 10);
         break;
     case -1:

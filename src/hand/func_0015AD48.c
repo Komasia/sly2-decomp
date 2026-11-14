@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M4 { qword r[4]; };
 struct R { char pad[0x40]; struct M4 m; };
 struct BUF { qword a[4]; };
-struct VTE { short d; short pad; struct R *(*pfn)(void *, struct BUF *); };
-struct SO { char pad[0xC]; struct VTE *vt; };
+struct SO { char pad[0xC]; VTENT *vt; };
 struct Y { int x0, x4, k; };
 struct E { int x0, x4; struct SO **ppso; int xC; struct Y y; };
 void MulMatrix4__FP7MATRIX4T0Pv(struct M4 *pm, struct M4 *pa, struct BUF *pb);
@@ -20,7 +20,7 @@ void func_0015AD48(struct E *p, qword *pv, qword *pw)
     struct M4 m;
     struct R *r;
     if (!pso) return;
-    r = pso->vt[32].pfn((char *)pso + pso->vt[32].d, &buf);
+    r = ((struct R * (*)(void *, struct BUF *))pso->vt[32].pfn)(VT_THIS(pso, &pso->vt[32]), &buf);
     MulMatrix4__FP7MATRIX4T0Pv(&m, &r->m, &buf);
     *pv = func_001A72D0(&m, 0, *pv);
     if (py->k != 3) {

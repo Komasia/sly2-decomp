@@ -1,10 +1,10 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 struct G;
 extern struct G g_sw;
-struct VTE { short d; short pad; void *pfn; };
 struct T {
-    char pad[0xC]; struct VTE *vt; char pad2[0x18]; unsigned long fl28; char pad3[0x2DC - 0x30]; int n2DC;
+    char pad[0xC]; VTENT *vt; char pad2[0x18]; unsigned long fl28; char pad3[0x2DC - 0x30]; int n2DC;
     char pad4[0x4C8 - 0x2E0]; int n4C8; int n4CC; char pad5[0xF54 - 0x4D0]; int nF54; char pad6[0x18C8 - 0xF58]; int n18C8;
 };
 struct A { char pad[0xEC]; int nEC; char pad2[0xF00 - 0xF0]; int nF00; char pad3[0xF48 - 0xF04]; char aF48[8]; char aF50[8]; char aF58[8]; char pad4[0xFE8 - 0xF60]; int nFE8; };
@@ -43,8 +43,8 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
     if (!(a->nFE8 & 8) || a->nF00 || p->n3C || !p->p30 || !((int)(p->p30->fl28 >> 60) & 1)) return 0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x32)) {
         struct T *q = p->p30;
-        struct VTE *e = &q->vt[0x4D];
-        if (((int (*)(void *))e->pfn)((char *)q + e->d) == 2) return 0;
+        VTENT *e = &q->vt[0x4D];
+        if (((int (*)(void *))e->pfn)(VT_THIS(q, e)) == 2) return 0;
     }
     k = 0;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x34)) {

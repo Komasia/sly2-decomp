@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void *(*pfn)(void *, int); };
+#include "vtbl.h"
 struct MSG { int cb; int nKind; };
 struct Q { void *p0; void *p4; void *p8; void *pc; char pad[0x90]; char xa0[0x10]; char xb0[0x10]; };
-struct S { char pad[0xC]; struct VTE *vt; char p1[0x138]; unsigned long fl; };
+struct S { char pad[0xC]; VTENT *vt; char p1[0x138]; unsigned long fl; };
 int U8Read(void *pbis) asm("U8Read__18CBinaryInputStream");
 int S16Read(void *pbis) asm("S16Read__18CBinaryInputStream");
 void ReadVector__18CBinaryInputStreamP6VECTOR(void *pbis, void *pv);
@@ -10,8 +10,8 @@ void InitAloPairRest__FP7ALOPAIR(struct Q *q);
 void func_0012DD28(struct S *p, void *pv, int n, struct Q *q);
 static __inline__ void *PvLookup(struct S *p, void *pbis)
 {
-    struct VTE *e = &p->vt[51];
-    return e->pfn((char *)p + e->d, S16Read(pbis));
+    VTENT *e = &p->vt[51];
+    return ((void * (*)(void *, int))e->pfn)(VT_THIS(p, e), S16Read(pbis));
 }
 // name: SafeHouse port (LoadAloPairsFromBrx)
 void LoadAloPairsFromBrx__FP3ALOP18CBinaryInputStream(struct S *p, void *pbis)

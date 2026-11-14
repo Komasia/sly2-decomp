@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; int (*pfn)(void *); };
-struct SO { char pad[0xC]; struct VTE *vt; char pad1[0x240 - 0x10]; qword pos; char pad2[0x11AC - 0x250]; int x11AC; };
+struct SO { char pad[0xC]; VTENT *vt; char pad1[0x240 - 0x10]; qword pos; char pad2[0x11AC - 0x250]; int x11AC; };
 struct L { int x0; struct L *pNext; int x8; struct SO *pso; };
 struct C { char pad[0x64]; struct L *pl; };
 struct T { char pad[0xE4]; struct C *pc; void *xE8; void *xEC; int xF0; int xF4; int xF8; };
@@ -30,7 +30,7 @@ int NDetectState__FP8DETECTORP2LOi(struct T *p, struct SO *pso, int k)
     struct SO *pme = PloPlayerPo__FP2SW(g_sw);
     if (!pso) { k = 0; goto done; }
     if (!func_001A61A0(pso)) { k = 0; goto done; }
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x32) && pso->vt[77].pfn((char *)pso + pso->vt[77].d) == 2) { k = 0; goto done; }
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x32) && ((int (*)(void *))pso->vt[77].pfn)(VT_THIS(pso, &pso->vt[77])) == 2) { k = 0; goto done; }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x34) && pme && FIsBasicDerivedFrom__FP5BASIC3CID(pme, 0x46)) { k = 0; goto done; }
     if (func_0020F1B8(g_sw)) { k = 0; goto done; }
     if (p->xF4) { k = 0; goto done; }

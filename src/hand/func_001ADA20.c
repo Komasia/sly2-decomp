@@ -13,7 +13,7 @@ void NProgress(struct CRef *ret, int a, void *b);
 void Decref(struct CRef *) asm("Decref__4CRef");
 char *func_0013E368(void *p, int n);
 char *s1_strcpy(char *d, const char *s) asm("strcpy");
-char *strcpy1(char *d, const char *s);
+char *strcat(char *, const char *);
 void func_001ADA20(char *buf)
 {
     struct G *g = &D_003D9ED0;
@@ -45,8 +45,8 @@ void func_001ADA20(char *buf)
     case 0x19:
         s1_strcpy(buf, func_0013E368(gd, 0x29));
         if (f != 0.0f) {
-            strcpy1(buf, "\n");
-            strcpy1(buf, func_0013E368(gd, 0x25));
+            strcat(buf, "\n");
+            strcat(buf, func_0013E368(gd, 0x25));
         }
         break;
     }

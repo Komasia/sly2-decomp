@@ -1,7 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
-struct VTE { short d; short pad; void (*pfn)(void *); };
-struct O { char pad[0xC]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct X { char pad[0x14]; int n14; float g18; };
 struct E { struct O *po; int pad; float g8; struct X *px; int k; int pad2[3]; qword q; };
 struct S { char pad[0x58]; int c58; char pad2[0xA0 - 0x5C]; float gA0; float gA4; };
@@ -11,7 +11,7 @@ void ReleaseSlot__FP7SPAWNERP4SLOTii(struct S *p, struct E *pe, int k, int f) {
     pe->k = k;
     switch (k) {
     case 0:
-        { struct O *o = pe->po; struct VTE *e; pe->g8 = g_clock.t; e = &o->vt[9]; e->pfn((char *)o + e->d); }
+        { struct O *o = pe->po; VTENT *e; pe->g8 = g_clock.t; e = &o->vt[9]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         if ((f ^ 1) & 1) pe->px->g18 = g_clock.t;
         break;
     case 1:

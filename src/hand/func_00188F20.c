@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 #define F(T, o) (*(T *)((char *)p + (o)))
 #define A(o) ((char *)p + (o))
@@ -8,7 +9,6 @@ typedef struct LOB { char pad[0xC]; int xC; char pad1[0x44 - 0x10]; int x44; } L
 typedef struct MSGB { int x0; void *x4; LOB *x8; } MSGB;
 typedef struct CLR { int a, b, c; } CLR;
 typedef struct O1034 { char pad[0x30]; void *x30; } O1034;
-struct VTE { short d; short pad; void *pfn; };
 
 extern char g_sw[];
 extern char D_002BF2A0[];
@@ -113,7 +113,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
                 F(int, 0x1D2C) = 1;
                 ClearX((CLR *)A(0x190));
 
-                { struct VTE *e = &F(struct VTE *, 0xC)[35]; ((void (*)(void *, qword))e->pfn)(p + e->d, F(qword, 0x190)); }
+                { VTENT *e = &F(VTENT *, 0xC)[35]; ((void (*)(void *, qword))e->pfn)(p + e->delta, F(qword, 0x190)); }
                 px = func_00205458(F(void *, 0x10DC), 0xB1);
                 if (px)
                     SetState__5JOBB1i(px, 4);

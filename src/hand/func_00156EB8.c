@@ -1,6 +1,6 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int a[3]; struct VTE *vt; char pad[0x58 - 0x10]; struct O *pNext; };
-struct S { int a[3]; struct VTE *vt; char pad[0xE0 - 0x10]; unsigned int c; struct O *ao[8]; };
+#include "vtbl.h"
+struct O { int a[3]; VTENT *vt; char pad[0x58 - 0x10]; struct O *pNext; };
+struct S { int a[3]; VTENT *vt; char pad[0xE0 - 0x10]; unsigned int c; struct O *ao[8]; };
 extern struct O *D_003E148C;
 void UpdateLo__FP2LO(struct S *p);
 void func_00156DE0(struct S *p, int f);
@@ -21,11 +21,11 @@ void UpdateNoiseListener__FP2LO(struct S *p)
         if (!FListenerHearsNoise__FP2LOP5NOISE(p, o))
             continue;
         if (p->c < 8) {
-            struct VTE *e = &o->vt[1];
-            e->pfn((char *)o + e->d);
+            VTENT *e = &o->vt[1];
+            ((void (*)())e->pfn)(VT_THIS(o, e));
             p->ao[p->c++] = o;
             e = &p->vt[3];
-            e->pfn((char *)p + e->d, 5, 0, 0, 0, 0);
+            ((void (*)())e->pfn)(VT_THIS(p, e), 5, 0, 0, 0, 0);
         }
         return;
     }

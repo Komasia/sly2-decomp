@@ -1,9 +1,9 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern float D_002A5398;
-struct VTE { short d; short pad; void (*pfn)(void *); };
 struct X { qword a; qword v; };
-struct O { char pad[0xC]; struct VTE *vt; char pad2[0x2C]; int n3C; char pad3[0xC0 - 0x40]; int nC0; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; char pad3[0xC0 - 0x40]; int nC0; };
 struct A { char pad[0xFD0]; char aFD0[4]; };
 struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; int n30; float f34; float f38; char pad3[0xC]; int n48; };
 void EndChildJob__FPP5AIJOB(void *p);
@@ -28,20 +28,20 @@ void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
     p->f34 = g_clock.t;
     switch (n) {
     case 0:
-        { struct O *o = func_00205438(p->p10, 0x9D); struct VTE *e; o->n3C = 0xC; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 0xC; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     case 1:
         {
             struct O *o = func_00205438(p->p10, 0xBA);
             struct X x;
-            struct VTE *e;
+            VTENT *e;
             qword v;
             o->nC0 = 1;
             v = PosNoise__14JOBINVESTIGATE(p);
             func_002562A8(&x);
             x.v = v;
             SetGoal__7JOBGOTOP4GOAL(o, &x);
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
             p->f38 = D_002A5398;
         }
         break;
@@ -52,27 +52,27 @@ void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
             qword d;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
             SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(GetY(d), GetX(d)));
-            { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e = &o->vt[8]; e->pfn((char *)o + e->d); }
+            { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
             SetDeadlines__14JOBINVESTIGATE(p);
         }
         break;
     case 3:
         {
             struct O *o = func_00205438(p->p10, 0xBA);
-            struct VTE *e;
+            VTENT *e;
             o->nC0 = 1;
             FindSearchPlaces__14JOBINVESTIGATE(p);
             NextSearchPlace__14JOBINVESTIGATE(p);
-            e = &o->vt[8]; e->pfn((char *)o + e->d);
+            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
         }
         break;
     case 4:
-        { struct O *o = func_00205438(p->p10, 0x9D); struct VTE *e; o->n3C = 0xE; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 0xE; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         SetNoise__14JOBINVESTIGATEP5NOISE(p, 0);
         p->n48 = 0;
         break;
     case 5:
-        { struct O *o = func_00205438(p->p10, 0x9E); struct VTE *e; o->n3C = 1; e = &o->vt[8]; e->pfn((char *)o + e->d); }
+        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->n3C = 1; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         break;
     }
 }

@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G g_sw;
 extern float D_002A54D0;
-struct VTE { short d; short pad; void *(*pfn)(void *); };
-struct A { char pad[0xC]; struct VTE *vt; char pad2[0xFBC - 0x10]; int nFBC; char pad3[0x1010 - 0xFC0]; int n1010; };
+struct A { char pad[0xC]; VTENT *vt; char pad2[0xFBC - 0x10]; int nFBC; char pad3[0x1010 - 0xFC0]; int n1010; };
 struct S { char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; };
 struct F { int a; int pad[3]; void *p10; float f14; int rest[0x16]; };
 void *s1_memset(void *p, int c, int n) asm("memset");
@@ -33,7 +33,7 @@ void NextReaction__8JOBREACT(struct S *p) {
         f.a = 0xF;
     } else {
         void *q;
-        { struct A *a = p->p10; struct VTE *e = &a->vt[0x58]; q = e->pfn((char *)a + e->d); }
+        { struct A *a = p->p10; VTENT *e = &a->vt[0x58]; q = ((void * (*)(void *))e->pfn)(VT_THIS(a, e)); }
         if (q) {
             if (func_00208B38(p->p10, q)) {
                 f.a = 0x12;

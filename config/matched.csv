@@ -5548,7 +5548,7 @@ vsprintf,0x21EC60,29,match,src/hand/vsprintf.c
 sprintf,0x21ECD8,17,match,src/hand/sprintf.c
 strlen,0x21ED28,12,match,src/hand/strlen.cpp
 strcpy,0x21ED58,18,match,src/hand/strcpy.cpp
-strcpy1,0x21EDA0,22,match,src/hand/strcpy1.c
+strcat,0x21EDA0,22,match,src/hand/strcat.c
 strchr,0x21EDF8,12,match,src/hand/func_0021EDF8.c
 UpperizePchz__FPc,0x21EE30,18,match,src/hand/UpperizePchz__FPc.c
 func_0021EE78,0x21EE78,77,match,src/hand/func_0021EE78.c
