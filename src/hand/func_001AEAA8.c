@@ -1,11 +1,10 @@
 struct LO;
-typedef struct { short d; short pad; void (*pfn)(struct LO *, int); } VTE;
-struct LO { int x0, x4, x8; VTE *vt; };
-typedef struct { short d; short pad; void (*pfn)(void *); } VTS;
+#include "vtbl.h"
+struct LO { int x0, x4, x8; VTENT *vt; };
 struct T18 { int x0, x4, x8, xC, x10, x14, x18, x1C; };
 struct ENT { int k; int pad[7]; };
 typedef struct E { int x0; struct ENT *x4; struct LO *x8; int xC, x10; int x14; struct T18 *x18; } E;
-typedef struct S { int x0, x4, x8; VTS *vt; char pad[0x24 - 0x10]; int x24; E ae[1]; char pad2[0x1E8 - 0x28 - 0x1C]; int x1E8; } S;
+typedef struct S { int x0, x4, x8; VTENT *vt; char pad[0x24 - 0x10]; int x24; E ae[1]; char pad2[0x1E8 - 0x28 - 0x1C]; int x1E8; } S;
 struct DISPU { unsigned int dx : 12; unsigned int dy : 11; unsigned int r0 : 9; unsigned int r1; } __attribute__((aligned(8)));
 struct GS { char pad[0x18]; struct DISPU d1; };
 extern struct GS D_002DEB80;
@@ -36,7 +35,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
         }
         break;
     case 0:
-        s->vt[10].pfn((char *)s + s->vt[10].d);
+        ((void (*)(void *))s->vt[10].pfn)(VT_THIS(s, &s->vt[10]));
         break;
     case 1:
     case 11:
@@ -47,7 +46,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 1:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            p->vt[49].pfn((struct LO *)((char *)p + p->vt[49].d), pe->x18->x0);
+            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x0);
             func_00213B00(pe->x8, pe->x18->xC);
         }
         break;
@@ -63,7 +62,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 8:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            p->vt[49].pfn((struct LO *)((char *)p + p->vt[49].d), pe->x18->x8);
+            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x8);
             func_00213B00(pe->x8, pe->x18->x14);
         }
         break;
@@ -107,12 +106,12 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 7:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            p->vt[49].pfn((struct LO *)((char *)p + p->vt[49].d), pe->x18->x4);
+            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x4);
             func_00213B00(pe->x8, pe->x18->x10);
         }
         break;
     case 0:
-        s->vt[11].pfn((char *)s + s->vt[11].d);
+        ((void (*)(void *))s->vt[11].pfn)(VT_THIS(s, &s->vt[11]));
         break;
     }
 }

@@ -1,4 +1,5 @@
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *, int); } a[64]; } VT;
+#include "vtbl.h"
+typedef struct VT { VTENT a[64]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } W;
 typedef struct {
     char pad[0xDFC];
@@ -64,7 +65,7 @@ void InitGauge__FP5GAUGE(OBJ *p)
     }
     pw = p->pw;
     if (pw) {
-        pw->vt->a[49].pfn((char *)pw + pw->vt->a[49].d, p->ids[0]);
+        ((void (*)(void *, int))pw->vt->a[49].pfn)(VT_THIS(pw, &pw->vt->a[49]), p->ids[0]);
         func_00213B00(p->pw, 0x34F);
         func_00213B00(p->pw, 0x350);
         func_00212E40(p->pw, 0x34F, 1.0f - p->x20);

@@ -2,12 +2,12 @@ typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 #include "clock.h"
+#include "vtbl.h"
 extern char D_002E65E0[];
 extern char D_003DD040[];
 extern char g_cm[];
 extern char D_002DD598[];
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct E { int grf; struct O *po; };
 struct L { char pad[0x84]; struct L *pnext; };
 struct S { char pad[0x3D88]; DL dl; char pad1[0x3EAC - 0x3D94]; struct L *pl; char pad2[0x3F14 - 0x3EB0]; int c; int x3F18; int *pi; struct E *ae;
@@ -62,7 +62,7 @@ void RegisterSwPass__FPv(struct S *p)
             struct E *pe = &p->ae[i];
             if (pe->grf & 2) {
                 struct O *po = pe->po;
-                ((void (*)(void *))po->vt[16].pfn)((char *)po + po->vt[16].d);
+                ((void (*)(void *))po->vt[16].pfn)(VT_THIS(po, &po->vt[16]));
             }
         }
         p->pi = 0;

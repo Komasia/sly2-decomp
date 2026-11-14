@@ -1,6 +1,6 @@
+#include "vtbl.h"
 struct S;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct S { int x0, x4, x8; struct VTE *vt; char pad[0x134 - 0x10]; int x134; int pad1; int k; char pad2[0x158 - 0x140]; float t; int pad3; float dt; int x164; char a168[4]; };
+struct S { int x0, x4, x8; VTENT *vt; char pad[0x134 - 0x10]; int x134; int pad1; int k; char pad2[0x158 - 0x140]; float t; int pad3; float dt; int x164; char a168[4]; };
 struct G;
 extern struct G g_sw;
 extern char g_cm[];
@@ -26,5 +26,5 @@ void TriggerExit__FP4EXIT(struct S *p)
     RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(g_cm, 2, -1, g_cm + 0x520, 0, 0);
     SetExitState__FP2LOi(p, 4);
     p->t = g_clock.t + p->dt;
-    p->vt[3].pfn((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+    ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
 }

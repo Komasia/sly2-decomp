@@ -1,8 +1,9 @@
+#include "vtbl.h"
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 typedef struct OBJ OBJ;
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *, int, int, int, int, int); } a[8]; } VT;
+typedef struct VT { VTENT a[8]; } VT;
 struct OBJ {
     char pad[0xC];
     VT *vt;
@@ -54,6 +55,6 @@ void StopScptImpl__FP2LO(OBJ *p)
         else
             p->x40 &= ~2;
     }
-    p->vt->a[3].pfn((char *)p + p->vt->a[3].d, 6, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 6, 0, 0, 0, 0);
     s_pdliFirst = dli.pdliNext;
 }

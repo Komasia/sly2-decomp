@@ -1,10 +1,10 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0xC]; struct O *po; int k; };
 struct G { char pad[0x60]; float x; float y; };
 extern struct G g_cm;
 float atan2f(float y, float x);
-#define VCALL31(o) ((float *(*)(void *))(o)->vt[31].pfn)((char *)(o) + (o)->vt[31].d)
+#define VCALL31(o) ((float *(*)(void *))(o)->vt[31].pfn)(VT_THIS((o), &(o)->vt[31]))
 // name: SafeHouse port (RadTargetrec)
 float RadTargetrec__FP9TARGETREC(struct S *p)
 {

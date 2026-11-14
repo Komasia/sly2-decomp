@@ -1,5 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *, float, qword, int); } a[4]; } VT;
+typedef struct VT { VTENT a[4]; } VT;
 typedef struct {
     char pad[0x18];
     float x18;
@@ -40,7 +41,7 @@ void TouchRipKind1__FP4RIPNi(OBJ *p, int n)
 found:
     pe = FLaunchHudRip__FP2LOP6VECTORP7MATRIX3(&g_sw, 7, 0);
     if (pe) {
-        pe->vt->a[1].pfn((char *)pe + pe->vt->a[1].d, 40.0f, hit.pos, 0);
+        ((void (*)(void *, float, qword, int))pe->vt->a[1].pfn)(VT_THIS(pe, &pe->vt->a[1]), 40.0f, hit.pos, 0);
         pe->x18 = 0.75f;
         pe->x20 = 40.0f;
         pe->x24 = 30.0f;

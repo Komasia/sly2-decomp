@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct M4 { qword r[4]; } M4;
-typedef struct VT { short d; short pad; void *pfn; } VT;
 typedef struct LO LO;
 struct LO {
     char pad[0xC];
-    VT *vt;
+    VTENT *vt;
     char pad2[0x18];
     int x28;
     signed char ips;
@@ -27,7 +27,7 @@ void SetLoxParent__FP3LOXP3ALOP2XFi(LO *p, LO *pNew, LO *pParent, int grf)
     M4 m;
     if (grf & 3) {
         if (p->f) {
-            m = *((M4 * (*)(void *))p->vt[31].pfn)((char *)p + p->vt[31].d);
+            m = *((M4 * (*)(void *))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
         } else {
             LO *q;
             m = p->m60;
@@ -46,7 +46,7 @@ void SetLoxParent__FP3LOXP3ALOP2XFi(LO *p, LO *pNew, LO *pParent, int grf)
         p->x50 = 0;
     func_001A5900(p, pNew, pParent, grf);
     if (grf & 1)
-        ((void (*)(void *, qword))p->vt[29].pfn)((char *)p + p->vt[29].d, m.r[3]);
+        ((void (*)(void *, qword))p->vt[29].pfn)(VT_THIS(p, &p->vt[29]), m.r[3]);
     if (grf & 2)
-        ((void (*)(void *, M4 *))p->vt[30].pfn)((char *)p + p->vt[30].d, &m);
+        ((void (*)(void *, M4 *))p->vt[30].pfn)(VT_THIS(p, &p->vt[30]), &m);
 }

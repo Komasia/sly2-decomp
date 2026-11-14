@@ -1,11 +1,11 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { int k; int pad; struct O *po; };
 void RetractAsega__FP5ASEGA(struct O *po);
 void RetractSma__FP3SMA(struct O *po);
 void StopK2__FP6K2PLAY(struct O *po);
 void StopK3__FP6K3PLAY(struct O *po);
-#define VDEL(o) ((void (*)(void *))(o)->vt[2].pfn)((char *)(o) + (o)->vt[2].d)
+#define VDEL(o) ((void (*)(void *))(o)->vt[2].pfn)(VT_THIS((o), &(o)->vt[2]))
 // name: SafeHouse port (StopKinde)
 void StopKinde__FP5KINDE(struct S *p)
 {

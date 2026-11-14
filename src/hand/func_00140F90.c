@@ -4,11 +4,12 @@
 // MATCH (Claude agent for Lilly, T1682, 2026-10-25), no pins: from v6 (aligned 2), case 0x15E written with NO volatile asm and no vf6 pin.
 // The -1.0f VU_FLOAT's home store (s.q = sv) goes last, so sv stays live in vf5 across the transform and the earlyclobber output lands
 // in vf6 by itself; with the plain asms sched2 orders lh / lqc2 / lqc2 / addu / lw like the target.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct VT { struct { short d; short pad; void (*pfn)(); } a[64]; };
+struct VT { VTENT a[64]; };
 #define F(T, p, off) (*(T *)((char *)(p) + (off)))
 struct SO { char pad[0x18]; void *p18; };
 struct MSG { struct SO *pso; float g; int k; };
@@ -105,7 +106,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             __asm__("qmtc2.ni %1, %0" : "=j"(sv) : "r"(-1.0f));
             __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(F(qword, p, 0x190)) : "j"(v), "j"(sv));
             pvt = F(struct VT *, p, 0xC);
-            pthis = (char *)p + pvt->a[35].d;
+            pthis = VT_THIS(p, &pvt->a[35]);
             pfn = (void (*)(void *, qword))pvt->a[35].pfn;
             __asm__("vmulax.xyz ACC, %1, %2x\n\tvmadday.xyz ACC, %3, %2y\n\tvmaddz.xyz %0, %4, %2z"
                 : "=&j"(r) : "j"(pm[0]), "j"(v), "j"(pm[1]), "j"(pm[2]));
@@ -198,7 +199,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             for (i = 0; i < F(int, p, 0x1094); i++) {
                 void *po = F(struct ENT *, p, 0x1090)[i].po;
                 struct VT *pvt = F(struct VT *, po, 0xC);
-                ((void (*)(void *))pvt->a[8].pfn)((char *)po + pvt->a[8].d);
+                ((void (*)(void *))pvt->a[8].pfn)(VT_THIS(po, &pvt->a[8]));
                 F(struct ENT *, p, 0x1090)[i].x4 = 0;
             }
         }
@@ -212,7 +213,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             for (i = 0; i < F(int, p, 0x1094); i++) {
                 void *po = F(struct ENT *, p, 0x1090)[i].po;
                 struct VT *pvt = F(struct VT *, po, 0xC);
-                ((void (*)(void *))pvt->a[9].pfn)((char *)po + pvt->a[9].d);
+                ((void (*)(void *))pvt->a[9].pfn)(VT_THIS(po, &pvt->a[9]));
             }
         }
         break;

@@ -117,12 +117,9 @@ void UpdateSlyInput__FP3SLY(struct P*p){
 
 typedef char qword_Size[(sizeof(qword)==16)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
-typedef char VTE_Size[(sizeof(VTENT)==8)?1:-1];
 typedef char PHASE_Size[(sizeof(union PHASE)==16)?1:-1];
 typedef char STATE_Size[(sizeof(struct STATE)==32)?1:-1];
 typedef char BINDING_Size[(sizeof(struct BINDING)==8)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTENT*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTENT*)0)->pfn==4)?1:-1];
 typedef char STATE_heading_Offset[((unsigned)&((struct STATE*)0)->heading==24)?1:-1];
 typedef char STATE_amount_Offset[((unsigned)&((struct STATE*)0)->amount==28)?1:-1];
 typedef char MODEL_table_Offset[((unsigned)&((struct MODEL*)0)->table==20)?1:-1];

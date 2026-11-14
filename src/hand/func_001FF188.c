@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct X { char pad[0xC]; struct VTE *pvt; };
+#include "vtbl.h"
+struct X { char pad[0xC]; VTENT *pvt; };
 struct G { char pad[0x200]; struct X *r200; int n204; struct X *a208[8]; struct X *r228; };
 extern struct G D_003DD040;
 extern int D_002DD2E0, D_002DD2E4, D_002DD2E8, D_002DD2EC, D_002DD2F0, D_002DD2F4;
@@ -10,7 +10,7 @@ void func_00258348(struct G *, int);
 static inline void Release(struct X **pp)
 {
     struct X *px = *pp;
-    if (px) px->pvt[2].pfn((char *)px + px->pvt[2].d);
+    if (px) ((void (*)(void *))px->pvt[2].pfn)(VT_THIS(px, &px->pvt[2]));
 }
 void func_001FF188(int init, int prio)
 {

@@ -1,8 +1,8 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
+#include "vtbl.h"
 struct T { int a; int b; };
 extern struct T D_002C3D98[2];
 extern char g_game[];
-struct S { char pad[0xC]; VTE *vt; char pad2[0x2C0 - 0x10]; long fl; };
+struct S { char pad[0xC]; VTENT *vt; char pad2[0x2C0 - 0x10]; long fl; };
 struct L { int *pa; int *pb; };
 long func_00207A20(int n);
 void SetGuardStateMask__FP5GUARDUl(struct S *p, long fl);
@@ -19,7 +19,7 @@ void AddGuardState__FP5GUARDi(struct S *p, int n)
     b = -1;
     l.pa = &n;
     l.pb = &b;
-    ((void (*)(void *, int, int, int, struct L *, int))p->vt[3].pfn)((char *)p + p->vt[3].d, 7, 0, 2, &l, 0);
+    ((void (*)(void *, int, int, int, struct L *, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 7, 0, 2, &l, 0);
     for (i = 0; i < 2; i++) {
         if (func_002099F0(m, D_002C3D98[i].a))
             BroadcastTaskEvent__FP2SWiP2LO(g_game, D_002C3D98[i].b, p);

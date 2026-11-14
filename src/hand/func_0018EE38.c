@@ -1,5 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VT { struct { short d; short pad; float *(*pfn)(void *); } a[40]; };
+struct VT { VTENT a[40]; };
 struct P { char pad[0x18]; float g18; };
 struct T { char pad[0x50]; int n50; char pad1[0x5C - 0x54]; void *p5C; };
 struct O { char pad[0xC]; struct VT *pvt; char pad1[0x150 - 0x10]; struct P *p150; char pad2[0x10DC - 0x154]; char *p10DC;
@@ -44,8 +45,8 @@ int NSlyNextSwing__FP3SLY(struct O *p)
         }
     }
     if (p->n18D0 == 5) {
-        float *pa = p->pvt->a[31].pfn((char *)p + p->pvt->a[31].d);
-        float *pb = p->pvt->a[31].pfn((char *)p + p->pvt->a[31].d);
+        float *pa = ((float * (*)(void *))p->pvt->a[31].pfn)(VT_THIS(p, &p->pvt->a[31]));
+        float *pb = ((float * (*)(void *))p->pvt->a[31].pfn)(VT_THIS(p, &p->pvt->a[31]));
         float d = RadNormalize__Ff(p->p150->g18 - atan2f(pa[1], pb[0]));
         float ad = __builtin_fabsf(d);
         if (ad < 0.7853982f)

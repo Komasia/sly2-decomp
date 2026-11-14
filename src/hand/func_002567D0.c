@@ -1,10 +1,10 @@
-typedef struct VT { short d; short pad; void *pfn; } VT;
-typedef struct A { VT *vt; } A;
+#include "vtbl.h"
+typedef struct A { VTENT *vt; } A;
 typedef struct E { int key; int k; int v; struct E *next; } E;
 typedef struct H { int c; E **ap; int count; A *pa; } H;
 void *s1_memset(void *, int, int) asm("memset");
 
-#define FREE(pa, p) ((void (*)(void *, void *))(pa)->vt[3].pfn)((char *)(pa) + (pa)->vt[3].d, p)
+#define FREE(pa, p) ((void (*)(void *, void *))(pa)->vt[3].pfn)(VT_THIS((pa), &(pa)->vt[3]), p)
 
 void func_002567D0(H *h)
 {

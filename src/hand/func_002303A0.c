@@ -1,8 +1,8 @@
 #include "mat.h"
+#include "vtbl.h"
 typedef struct MATRIX4 M4;
 typedef struct VECTOR V;
-typedef struct VT { short d; short pad; void (*pfn)(void *, int); } VT;
-typedef struct S { char pad[0xC]; VT *vt; } S;
+typedef struct S { char pad[0xC]; VTENT *vt; } S;
 typedef struct P {
     char pad0[0x94];
     int x94;
@@ -63,5 +63,5 @@ void SetXfMode__FP3ALOP2XFi(S *s, P *p, int n)
     }
     p->x98 = n;
     if (!func_00230348(n))
-        s->vt[47].pfn((char *)s + s->vt[47].d, 4);
+        ((void (*)(void *, int))s->vt[47].pfn)(VT_THIS(s, &s->vt[47]), 4);
 }

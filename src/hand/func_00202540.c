@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} V;
 struct O;
-struct VT {short delta,pad;void(*fn)(void*,qword*);};
-struct O {char pad[0xC];struct VT *vt;char pad10[0x28];float height;char pad3C[0xA4];float radius;char padE4[0x24];int state;};
+struct O {char pad[0xC];VTENT *vt;char pad10[0x28];float height;char pad3C[0xA4];float radius;char padE4[0x24];int state;};
 struct REF {struct O*o;};
 struct P {char pad[0x20];V position;int count;struct O *items[20];char pad84[8];struct O*best;char pad90[0x18];struct REF *ref;};
 struct CAMERA {char pad[0x90];qword position;};
@@ -42,7 +42,7 @@ void func_00202540(struct P*p)
  struct O *owner=p->ref->o;
  float minimum;
  struct O **slot;
- owner->vt[97].fn((char*)owner+owner->vt[97].delta,&p->position.q);
+ ((void (*)(void*,qword*))owner->vt[97].pfn)(VT_THIS(owner, &owner->vt[97]),&p->position.q);
  p->position.f[2]+=20.0f;
  minimum=D_002A8550;
  if(p->count>0){slot=p->items;do{

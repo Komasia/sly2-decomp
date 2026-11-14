@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
-struct VE { short d; short pad; void (*pf)(void *,float,float,qword *,qword *); };
-struct CV { struct VE *vt; };
+struct CV { VTENT *vt; };
 struct C { int a; struct CV *pcv; };
 union FLOATWORD { float value; int bits; };
 struct O { char pad[0x74]; union FLOATWORD duration; };
@@ -34,8 +34,8 @@ void ResolveK3__FP5KIND3P3ALO(struct S *p,void *arg)
         if (!o)
             continue;
         c = PchnFindAseg__FP4ASEGP3ALOPvi(o,arg,1,1);
-        c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, 0.0f,1.0f,&v0.q,0);
-        c->pcv->vt[3].pf((char *)c->pcv + c->pcv->vt[3].d, o->duration.value,1.0f,&v1.q,0);
+        ((void (*)(void *,float,float,qword *,qword *))c->pcv->vt[3].pfn)(VT_THIS(c->pcv, &c->pcv->vt[3]), 0.0f,1.0f,&v0.q,0);
+        ((void (*)(void *,float,float,qword *,qword *))c->pcv->vt[3].pfn)(VT_THIS(c->pcv, &c->pcv->vt[3]), o->duration.value,1.0f,&v1.q,0);
         { register int bits __asm__("$17")=o->duration.bits;
           __asm__("qmtc2.ni %3,%0\n\tlqc2 %1,%4\n\tlqc2 %2,%5"
                   : "=j"(scalar),"=j"(start),"=j"(end)

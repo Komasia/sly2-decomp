@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct M4 { qword r[4]; } M4;
-typedef struct VT { short d; short pad; void (*pfn)(); } VT;
-typedef struct LO { char pad[0xC]; VT *vt; } LO;
+typedef struct LO { char pad[0xC]; VTENT *vt; } LO;
 typedef struct P {
     qword m[4];
     char pad40[0x80 - 0x40];
@@ -19,7 +19,7 @@ typedef struct P {
     qword xC0[4];
 } P;
 typedef struct C { char pad0[4]; LO *x4; P *x8; char padC[0x28 - 0xC]; struct C *x28; } C;
-typedef struct OBJ { VT *vt; } OBJ;
+typedef struct OBJ { VTENT *vt; } OBJ;
 typedef struct E { OBJ *x0; int x4; char pad8[8]; struct E *x10; } E;
 typedef struct A { char pad0[0x1C]; float x1C; char pad20[0x34 - 0x20]; C *x34; E *x38; char pad3C[4]; float x40; } A;
 typedef struct G { char pad[0x3D58]; int x3D58; } G;
@@ -94,10 +94,10 @@ void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
         p->xA4 = ++g_sw.x3D58;
     }
     for (i = 0; i < n; i++)
-        list[i]->vt[18].pfn((char *)list[i] + list[i]->vt[18].d);
+        ((void (*)())list[i]->vt[18].pfn)((char *)list[i] + list[i]->vt[18].delta);
     {
         E *e;
         for (e = a->x38; e; e = e->x10)
-            ((void (*)(void *, int, int, float, float))e->x0->vt[2].pfn)((char *)e->x0 + e->x0->vt[2].d, e->x4, 0, a->x1C, a->x40);
+            ((void (*)(void *, int, int, float, float))e->x0->vt[2].pfn)(VT_THIS(e->x0, &e->x0->vt[2]), e->x4, 0, a->x1C, a->x40);
     }
 }

@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct E { int grf; struct O *po; };
 struct Q { char pad[0x40]; unsigned int x40; };
 struct A { char pad[0x14]; struct Q *pq; };
@@ -33,7 +33,7 @@ void func_002267C0(struct S *p)
         struct E *pe = &p->ae[i];
         if ((pe->grf & 0x102) == 0x102) {
             struct O *po = pe->po;
-            ((void (*)(void *))po->vt[16].pfn)((char *)po + po->vt[16].d);
+            ((void (*)(void *))po->vt[16].pfn)(VT_THIS(po, &po->vt[16]));
         }
     }
     p->pi = 0;
@@ -47,7 +47,7 @@ void func_002267C0(struct S *p)
         struct E *pe = &p->ae[i];
         if ((pe->grf & 0x124) == 0x104) {
             struct O *po = pe->po;
-            ((void (*)(void *))po->vt[17].pfn)((char *)po + po->vt[17].d);
+            ((void (*)(void *))po->vt[17].pfn)(VT_THIS(po, &po->vt[17]));
         }
     }
     p->pi = 0;

@@ -1,9 +1,9 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { struct VTE a[8]; };
+#include "vtbl.h"
+struct VT { VTENT a[8]; };
 struct X { char pad[0xC]; struct VT *pvt; char pad2[0x40 - 0x10]; int f40; char pad3[0x50 - 0x44]; unsigned short fl; short s52; };
 void Resume__4CSnd(struct X *);
 void SetDirty__4CSndUiUi(struct X *, int, int);
-#define VF(q, n) (q)->pvt->a[n].pfn((char *)(q) + (q)->pvt->a[n].d)
+#define VF(q, n) ((void (*)(void *))(q)->pvt->a[n].pfn)(VT_THIS((q), &(q)->pvt->a[n]))
 void func_001FCBA8(int f, long l)
 {
     struct X *px = (struct X *)l;

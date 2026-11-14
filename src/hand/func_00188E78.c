@@ -1,5 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VT { struct { short d; short pad; qword (*pfn)(void *); } a[40]; };
+struct VT { VTENT a[40]; };
 struct PO { char pad[0xC]; struct VT *pvt; };
 struct E { char pad[0xC]; struct PO *po; qword v10; qword v20; qword v30; };
 extern void OnStepXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i);
@@ -21,7 +22,7 @@ void OnSlyXpUpdate__FP3ALOP2XPi(void *p, struct E *ae, int i)
     po = pe->po;
     if (po == p) {
         qword v = pe->v30;
-        qword w = po->pvt->a[34].pfn((char *)po + po->pvt->a[34].d);
+        qword w = ((qword (*)(void *))po->pvt->a[34].pfn)(VT_THIS(po, &po->pvt->a[34]));
         qword x = pe->v10;
         pe->v30 = VSub(v, VCross(w, VSub(x, PosOfLo__FP2LO(po))));
     }

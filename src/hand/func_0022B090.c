@@ -1,6 +1,6 @@
+#include "vtbl.h"
 struct O;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int x0, x4, x8; struct VTE *vt; };
+struct O { int x0, x4, x8; VTENT *vt; };
 struct S { int k; int x4; char a8[0x4C]; struct O *po; };
 struct G;
 extern struct G g_sw;
@@ -17,13 +17,13 @@ void SetWipeState__FPv5WIPES(struct S *p, int k)
         p->x4 = 0;
         s1_memset(p->a8, 0, 0x4C);
         po = p->po;
-        if (po) po->vt[50].pfn((char *)po + po->vt[50].d);
+        if (po) ((void (*)())po->vt[50].pfn)(VT_THIS(po, &po->vt[50]));
         break;
     case 1:
-        p->po->vt[49].pfn((char *)p->po + p->po->vt[49].d, 0x311);
+        ((void (*)())p->po->vt[49].pfn)(VT_THIS(p->po, &p->po->vt[49]), 0x311);
         break;
     case 2:
-        p->po->vt[49].pfn((char *)p->po + p->po->vt[49].d, 0x30F);
+        ((void (*)())p->po->vt[49].pfn)(VT_THIS(p->po, &p->po->vt[49]), 0x30F);
         break;
     case 3:
         RestoreChkmgrFromCheckpoint(&g_sw, p->a8);

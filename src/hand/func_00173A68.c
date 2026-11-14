@@ -82,7 +82,6 @@ void UpdateSpawner__FP2LO(struct P*p){
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_qword[(sizeof(qword)==16)?1:-1];
 typedef char layout_U[(sizeof(U)==16)?1:-1];
-typedef char layout_VT[(sizeof(VTENT)==8)?1:-1];
 typedef char layout_P[(sizeof(struct P)==0xB0)?1:-1];
 typedef char layout_LO[(sizeof(struct LO)==0xF68)?1:-1];
 typedef char layout_SELECTOR[(sizeof(struct SELECTOR)==0x1C)?1:-1];
@@ -91,8 +90,6 @@ typedef char layout_EVENT[(sizeof(struct EVENT)==0x30)?1:-1];
 typedef char layout_M3[(sizeof(struct M3)==0x30)?1:-1];
 typedef char layout_LINK[(sizeof(struct LINK)==4)?1:-1];
 typedef char layout_CRef[(sizeof(struct CRef)==8)?1:-1];
-typedef char layout_VT_delta[((unsigned)&((VTENT*)0)->delta==0x0)?1:-1];
-typedef char layout_VT_fn[((unsigned)&((VTENT*)0)->pfn==0x4)?1:-1];
 typedef char layout_P_vt[((unsigned)&((struct P*)0)->vt==0xc)?1:-1];
 typedef char layout_P_count[((unsigned)&((struct P*)0)->count==0x58)?1:-1];
 typedef char layout_P_capacity[((unsigned)&((struct P*)0)->capacity==0x5c)?1:-1];

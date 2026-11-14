@@ -1,11 +1,11 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct E { int k; int h; struct O *po; };
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(int h, char *p, int fl, struct O **ppo, float g, float f);
 void func_001F0198(int h, char *p, int a, int fl, struct O **ppo);
 void StartK2__FP5KIND2P3ALOiP6K2PLAY(int h, char *p, int fl, struct O *po);
 void StartK3__FP5KIND3iiP6K3PLAY(int h, char *p, int fl, struct O *po);
-#define VC1(o) ((void (*)(void *))(o)->vt[1].pfn)((char *)(o) + (o)->vt[1].d)
+#define VC1(o) ((void (*)(void *))(o)->vt[1].pfn)(VT_THIS((o), &(o)->vt[1]))
 // name: SafeHouse port (PlayKinde)
 void PlayKinde__FP5KINDEP5GUARDif(struct E *pe, char *p, int fl, float g)
 {

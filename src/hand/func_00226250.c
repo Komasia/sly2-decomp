@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct S { int a[3]; struct VTE *vt; char pad[0x140]; void *x; char pad2[0x6C]; void *y; void *z; void *w; };
+#include "vtbl.h"
+struct S { int a[3]; VTENT *vt; char pad[0x140]; void *x; char pad2[0x6C]; void *y; void *z; void *w; };
 int func_001C4700(void *x, int a);
 void *PloAcquireProxyObject__FP2SWi(void *y, int a);
 void func_001D6B00(void *z, void *v);
@@ -12,8 +12,8 @@ void UpdateTurretFire__FP3ALO(struct S *p)
             if (!v) return;
             p->w = v;
             if (p->z) func_001D6B00(p->z, v);
-            p->vt[3].pf((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+            ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
         } else
-            p->vt[3].pf((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+            ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
     }
 }

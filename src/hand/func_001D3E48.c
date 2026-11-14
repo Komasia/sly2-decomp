@@ -1,4 +1,5 @@
-typedef struct VT { struct { short d; short pad; int (*pfn)(void *); } a[64]; } VT;
+#include "vtbl.h"
+typedef struct VT { VTENT a[64]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } VOBJ;
 typedef struct { char pad[0x60]; VOBJ *p; } C;
 typedef struct { char pad[0xEC]; C *pc; } B;
@@ -19,7 +20,7 @@ void VehicleOwnContacts__FP3ALOP3SOEiii(OBJ *p, A *pa, int x, int y, int z)
     VOBJ *po;
     func_001F5990();
     po = pa->pb->pc->p;
-    if (po->vt->a[62].pfn((char *)po + po->vt->a[62].d)) {
+    if (((int (*)(void *))po->vt->a[62].pfn)(VT_THIS(po, &po->vt->a[62]))) {
         for (i = 0; i < p->c; i++)
             MarkWheel__FP7VEHICLEP12VEHICLEWHEELP3SOEiiP3BSPPP7CONTACT(p, &p->ae[i], pa, x, y, z, p->ae[i].b);
     }

@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct { short d; short pad; void *pfn; } VTE;
 extern qword D_002A2DD0;
-struct O { VTE *vt; };
+struct O { VTENT *vt; };
 struct X { int a; struct O *po; };
 struct TABLE;
 struct Q { char pad[0x14]; struct TABLE *table; char pad2[0x40 - 0x18]; float g40; };
@@ -15,7 +15,7 @@ qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct Q *q, float g)
         struct X *x = PchnFindAseg__FP4ASEGP3ALOPvi(q->table, p, 1, 1);
         if (x) {
             struct O *o = x->po;
-            ((void (*)(void *, qword *, qword *, float, float))o->vt[3].pfn)((char *)o + o->vt[3].d, 0, &r, g, q->g40);
+            ((void (*)(void *, qword *, qword *, float, float))o->vt[3].pfn)(VT_THIS(o, &o->vt[3]), 0, &r, g, q->g40);
         }
     }
     return r;

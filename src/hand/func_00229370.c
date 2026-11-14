@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int x0, x4, x8; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int x0, x4, x8; VTENT *vt; };
 struct N { int x0; struct O *po; int x8; struct N *next; };
 struct S { char pad[0x150]; struct N *pn; };
 struct MSG { struct S *p; struct O *po; };
@@ -37,7 +37,7 @@ void func_00229370(struct S *p, int k, struct O *q)
             func_00229738(pn->po, pn);
             func_002296C0(&g_sw, pn);
         }
-        msg.po->vt[4].pfn((char *)msg.po + msg.po->vt[4].d, 5, &msg);
+        ((void (*)())msg.po->vt[4].pfn)((char *)msg.po + msg.po->vt[4].delta, 5, &msg);
     }
     func_00133590(p, k, q);
 }

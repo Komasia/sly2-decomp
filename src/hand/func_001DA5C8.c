@@ -1,5 +1,6 @@
 #include "clock.h"
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *); } a[64]; } VT;
+#include "vtbl.h"
+typedef struct VT { VTENT a[64]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } LO;
 typedef struct {
     char pad[0x10];
@@ -42,7 +43,7 @@ void SetPromptState__FP6PROMPTi(OBJ *p, int n)
             StartPart__FP8SCREENRTi(p->x28, 0x312);
             break;
         case 3:
-            p->x28->vt->a[50].pfn((char *)p->x28 + p->x28->vt->a[50].d);
+            ((void (*)(void *))p->x28->vt->a[50].pfn)(VT_THIS(p->x28, &p->x28->vt->a[50]));
             break;
         case 1:
             func_00212880(p->x28, 1, &p->x18);

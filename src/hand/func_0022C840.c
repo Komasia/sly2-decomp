@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pf)(); };
-struct O { int a[3]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { int a[3]; VTENT *vt; };
 struct Q { char pad[0x80]; float a, b; void *pa, *pb; char pad2[8]; short k; short l; };
 extern float D_002A98D0;
 extern char D_002C44E0[];
@@ -17,5 +17,5 @@ void InvalidateXfParams__FP3ALOP2XF(struct O *p, struct Q *q)
         break;
     }
     q->l = 0;
-    p->vt[47].pf((char *)p + p->vt[47].d, 4);
+    ((void (*)())p->vt[47].pfn)(VT_THIS(p, &p->vt[47]), 4);
 }

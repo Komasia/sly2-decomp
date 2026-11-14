@@ -1,5 +1,5 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct Y { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct Y { char pad[0xC]; VTENT *vt; };
 struct D { int a; int b; int c; int d; };
 int CploFindSwNearest__FP2LO3OIDiiii(void *p, int k, int a, int b, int c, void **ppo);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
@@ -29,7 +29,7 @@ void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
         return;
     if (x) {
         *ppy = y;
-        ((void (*)(void *))y->vt[1].pfn)((char *)y + y->vt[1].d);
+        ((void (*)(void *))y->vt[1].pfn)(VT_THIS(y, &y->vt[1]));
         func_001333C0(y, x);
     }
     if (fl & 2)

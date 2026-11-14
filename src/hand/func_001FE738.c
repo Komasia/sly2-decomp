@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { struct VTE a[3]; };
+#include "vtbl.h"
+struct VT { VTENT a[3]; };
 struct X { char pad[0xC]; struct VT *pvt; };
 struct A { int a, b; };
 struct E { char pad[0x54]; int c; struct A *ae; };
@@ -36,7 +36,7 @@ void StopDialog__FP8SOUNDMGR(struct P *p)
     p->g24C = 0.0f;
     for (i = 0; i < 6; i++) {
         struct X *px = p->ap[i];
-        if (px) px->pvt->a[2].pfn((char *)px + px->pvt->a[2].d);
+        if (px) ((void (*)(void *))px->pvt->a[2].pfn)(VT_THIS(px, &px->pvt->a[2]));
     }
     s1_memset(p->ap, 0, 0x18);
 }

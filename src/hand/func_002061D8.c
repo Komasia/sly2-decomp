@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VE { short d; short pad; void (*pf)(void *); };
-struct O { char pad[0xC]; struct VE *vt; char pad2[0x50 - 0x10]; int n50; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x50 - 0x10]; int n50; };
 struct C3 { char pad[0x24]; int n24; };
 struct K { int a; int b; };
 struct S {
@@ -47,11 +47,11 @@ void PostStepguardLoad__FP9STEPGUARD(struct S *p)
     p->p2EC = PloNew__F3CIDP2SW3OIDi(0x71, 0, 0x2CB, -1);
     func_00170C90(p->p2EC, -1, -1, 40.0f);
     p->n2F0 = p->p2EC->n50;
-    p->p2EC->vt[9].pf((char *)p->p2EC + p->p2EC->vt[9].d);
+    ((void (*)(void *))p->p2EC->vt[9].pfn)(VT_THIS(p->p2EC, &p->p2EC->vt[9]));
     if (p->p3F4)
-        p->p3F4->vt[9].pf((char *)p->p3F4 + p->p3F4->vt[9].d);
+        ((void (*)(void *))p->p3F4->vt[9].pfn)(VT_THIS(p->p3F4, &p->p3F4->vt[9]));
     if (p->p3F8)
-        p->p3F8->vt[9].pf((char *)p->p3F8 + p->p3F8->vt[9].d);
+        ((void (*)(void *))p->p3F8->vt[9].pfn)(VT_THIS(p->p3F8, &p->p3F8->vt[9]));
     x = func_001F4C58(p, p->n18, 0xC);
     if (x)
         p->pFC4 = PctrlNewPos__FP3ALOP2XFPviiG9VU_VECTOR(p, x, 0, 7, 2, D_002A2DE0);

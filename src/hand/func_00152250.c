@@ -1,5 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VT { struct { short d; short pad; void (*pfn)(void *, qword); } a[40]; };
+struct VT { VTENT a[40]; };
 struct SO;
 struct P { char pad[0xC]; struct VT *pvt; char pad1[0x190 - 0x10]; qword v190; char pad2[0x1B0 - 0x1A0]; qword mat[3];
     char pad4[0x40C - 0x1E0]; int f40C; };
@@ -36,7 +37,7 @@ void OnDancerMessage__FP2LO5MSGIDPv(struct P *p, int msgk, struct MSG *pmsg)
                 qword r;
                 pp->v190 = VecMul(v, -1.0f);
                 __asm__("vmulax.xyz ACC, %1, %2x\n\tvmadday.xyz ACC, %3, %2y\n\tvmaddz.xyz %0, %4, %2z" : "=j"(r) : "j"(pm[0]), "j"(v), "j"(pm[1]), "j"(pm[2]));
-                ((void (*)(void *, qword))pvt->a[35].pfn)((char *)pp + pvt->a[35].d, r);
+                ((void (*)(void *, qword))pvt->a[35].pfn)(VT_THIS(pp, &pvt->a[35]), r);
                 break;
             }
             }

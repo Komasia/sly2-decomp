@@ -1,8 +1,8 @@
+#include "vtbl.h"
 struct O { char pad[0x44]; int n44; char pad2[0x54 - 0x48]; int k54; struct O *next; };
 struct VT;
 struct S { char pad[0xC]; struct VT *vt; char pad2[0xF04 - 0x10]; float tF04; char pad3[0xF64 - 0xF08]; void *pF64; };
-struct VE { short d; short pad; int (*pf)(void *, struct O *); };
-struct VT { struct VE e[90]; };
+struct VT { VTENT e[90]; };
 struct X { int a; int b; };
 extern struct { char pad[0x148C]; struct O *first; } D_003E0000;
 extern float g_clock;
@@ -21,7 +21,7 @@ struct O *PloGuardInterest__FP5GUARDP2LO(struct S *p, struct O *def)
         return def;
     best = def;
     for (o = D_003E0000.first; o; o = o->next) {
-        if (p->vt->e[89].pf((char *)p + p->vt->e[89].d, o)) {
+        if (((int (*)(void *, struct O *))p->vt->e[89].pfn)(VT_THIS(p, &p->vt->e[89]), o)) {
             if (!best || NCompareNoises__FP5GUARDP5NOISET1(p, o, best) < 0)
                 best = o;
         }

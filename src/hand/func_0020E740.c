@@ -1,5 +1,5 @@
-struct VE { short d; short pad; void (*pf)(void *); };
-struct O { char pad[0xC]; struct VE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S {
     char pad0[0x39D0]; int n39D0; int pad39D4; int n39D8; int pad39DC; struct O **ppoFirst; struct O **ppoLast;
     char pad1[0x403C - 0x39E8]; char a403C[0x18]; char a4054[0x1C]; char a4070[0x18]; char a4088[4];
@@ -44,7 +44,7 @@ void StartSw__FP2SW(struct S *p)
     InitHudWidgets(D_003D9E70);
     while (RunDeferredSpliceEvents__FP2SW(p), p->ppoLast != p->ppoFirst) {
         for (ppo = p->ppoFirst; ppo < p->ppoLast; ppo++)
-            (*ppo)->vt[15].pf((char *)*ppo + (*ppo)->vt[15].d);
+            ((void (*)(void *))(*ppo)->vt[15].pfn)(VT_THIS(*ppo, &(*ppo)->vt[15]));
         p->ppoLast = p->ppoFirst;
     }
     p->ppoLast = 0;

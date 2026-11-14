@@ -1,5 +1,5 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x2C0]; long fl; char pad2[0xFD0 - 0x2C8]; struct O *po; };
 long func_00207A20(int n);
 int func_002040F8(struct S *p);
@@ -13,6 +13,6 @@ int GrfGuardXp__FP3ALO(struct S *p)
     if (p->fl & m)
         return 0;
     if (p->po)
-        return ((int (*)(void *))p->po->vt[12].pfn)((char *)p->po + p->po->vt[12].d);
+        return ((int (*)(void *))p->po->vt[12].pfn)(VT_THIS(p->po, &p->po->vt[12]));
     return func_002040F8(p);
 }

@@ -1,6 +1,7 @@
+#include "vtbl.h"
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct OBJ OBJ;
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *, int, int, int, int, int); } a[8]; } VT;
+typedef struct VT { VTENT a[8]; } VT;
 struct OBJ {
     char pad[0xC];
     VT *vt;
@@ -32,7 +33,7 @@ void StartScptImpl__FP2LOi(OBJ *p, int n)
     p->x6C = n;
     p->x74 = 1;
     p->x78 = 0;
-    p->vt->a[3].pfn((char *)p + p->vt->a[3].d, 5, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 5, 0, 0, 0, 0);
     if (!p->x74)
         return;
     if (p->x7C) {

@@ -1,10 +1,11 @@
 // Recompute the bounds of an object from its list of child objects: run the due children's update, accumulate the
 // min/max of their two corner vectors, optionally grow by the object's size, then derive the center and radius and notify.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *); } a[16]; } VT;
+typedef struct VT { VTENT a[16]; } VT;
 typedef struct S {
     char pad0[0x14]; float time; char pad18[0x70 - 0x18]; qword cornerA; qword cornerB; char pad90[0xEC - 0x90];
     VT *vt; char padF0[0x154 - 0xF0]; float size; int pad158; DL children; char pad168[8];
@@ -50,7 +51,7 @@ void ProjectRipgTransform__FP4RIPGfi(S *p)
     hi.f[0] = D_002A77D4;
     while ((q = (S *)PvNextDli(&dli)) != 0) {
         if (g_clock.t >= q->time)
-            q->vt->a[4].pfn((char *)q + q->vt->a[4].d);
+            ((void (*)(void *))q->vt->a[4].pfn)(VT_THIS(q, &q->vt->a[4]));
         lo.q = Min(lo.q, Min(q->cornerA, q->cornerB));
         hi.q = Max(hi.q, Max(q->cornerA, q->cornerB));
     }

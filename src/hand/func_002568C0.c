@@ -1,6 +1,6 @@
 // (Claude agent) MATCH only via register-pinned local `register E *list asm("s1")` (scheduling tie list=0 vs i=0); coordinator decide if acceptable.
-typedef struct VT { short d; short pad; void *pfn; } VT;
-typedef struct A { VT *vt; } A;
+#include "vtbl.h"
+typedef struct A { VTENT *vt; } A;
 typedef struct E { unsigned int key; int k; int v; struct E *next; } E;
 typedef struct H { int c; E **ap; int count; A *pa; } H;
 void *s1_memset(void *, int, int) asm("memset");
@@ -20,7 +20,7 @@ void func_002568C0(H *h, int n)
         }
     }
     h->c = n;
-    h->ap = ((E **(*)(void *, void *, int, int))h->pa->vt[2].pfn)((char *)h->pa + h->pa->vt[2].d, h->ap, n * 4, 3);
+    h->ap = ((E **(*)(void *, void *, int, int))h->pa->vt[2].pfn)(VT_THIS(h->pa, &h->pa->vt[2]), h->ap, n * 4, 3);
     s1_memset(h->ap, 0, h->c * 4);
     for (e = list; e; e = next) {
         unsigned int j;

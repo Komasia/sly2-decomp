@@ -1,6 +1,6 @@
-struct VE { short d; short pad; void (*pf)(void *); };
+#include "vtbl.h"
 struct O {
-    char pad0[0xC]; struct VE *vt; char pad1[0x28 - 0x10]; unsigned long fl28;
+    char pad0[0xC]; VTENT *vt; char pad1[0x28 - 0x10]; unsigned long fl28;
     char pad2[0xF64 - 0x30]; void *pF64; char pad3[0xFF8 - 0xF68]; float tFF8; int pad4; int k1000;
 };
 struct S { char pad[0x50]; int c; struct O **apo; };
@@ -29,7 +29,7 @@ void UpdateGuardManager__FP2LO(struct S *p)
             case 0:
                 break;
             case 1:
-                o->vt[9].pf((char *)o + o->vt[9].d);
+                ((void (*)(void *))o->vt[9].pfn)(VT_THIS(o, &o->vt[9]));
                 break;
             case 2: {
                 void *x = func_00205458(o, 0x9C);

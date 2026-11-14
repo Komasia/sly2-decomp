@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct S;
-typedef struct { short d; short pad; int (*pfn)(); } VT;
-struct S { int x0, x4, x8; VT *vt; char pad[0x150 - 0x10]; int k; int x154; int x158; char pad2[0x16C - 0x15C]; struct S *pt; float r; char pad3[0x1A0 - 0x174]; int x1A0; };
+struct S { int x0, x4, x8; VTENT *vt; char pad[0x150 - 0x10]; int k; int x154; int x158; char pad2[0x16C - 0x15C]; struct S *pt; float r; char pad3[0x1A0 - 0x174]; int x1A0; };
 void UpdateSo__FP2SOf(struct S *p);
 void LandCarry__FP2LOT0(struct S *p, int a);
 qword PosOfLo__FP2LO(struct S *p);
@@ -23,6 +23,6 @@ void UpdateCarry__FP2LO(struct S *p)
         __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(l));
         f = p->r < g;
         if (f)
-            p->vt[75].pfn((struct S *)((char *)p + p->vt[75].d), 0);
+            ((int (*)())p->vt[75].pfn)((struct S *)VT_THIS(p, &p->vt[75]), 0);
     }
 }

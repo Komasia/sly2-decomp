@@ -1,3 +1,4 @@
+#include "vtbl.h"
 struct VT;
 struct S {
     char pad0[0xC]; struct VT *vt;
@@ -5,8 +6,7 @@ struct S {
     char pad2[0x1A4 - 0x184]; int k1A4; float f1A8;
     char pad3[0x208 - 0x1AC]; int n208; float t20C;
 };
-struct VE { short d; short pad; float *(*pf)(void *); };
-struct VT { struct VE e[32]; };
+struct VT { VTENT e[32]; };
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3C80[3];
 extern float g_lmZeroOne[2];
@@ -21,8 +21,8 @@ void UpdateStep__FP4STEPf(struct S *p)
     UpdateStepMesh__FP3ALO(p);
     switch (p->k1A4) {
     case 0: {
-        float *a = p->vt->e[31].pf((char *)p + p->vt->e[31].d);
-        float *b = p->vt->e[31].pf((char *)p + p->vt->e[31].d);
+        float *a = ((float * (*)(void *))p->vt->e[31].pfn)(VT_THIS(p, &p->vt->e[31]));
+        float *b = ((float * (*)(void *))p->vt->e[31].pfn)(VT_THIS(p, &p->vt->e[31]));
         float d = RadNormalize__Ff(p->f1A8 - atan2f(a[1], b[0]));
         float f;
         d = __builtin_fabsf(d);

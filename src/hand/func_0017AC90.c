@@ -100,7 +100,6 @@ void Update__5JOBB1(struct S *p) {
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_qword[(sizeof(qword)==16)?1:-1];
 typedef char layout_U[(sizeof(U)==16)?1:-1];
-typedef char layout_VTE[(sizeof(VTENT)==8)?1:-1];
 typedef char layout_C[(sizeof(struct C)==0x20)?1:-1];
 typedef char layout_B[(sizeof(struct B)==0x94)?1:-1];
 typedef char layout_A[(sizeof(struct A)==0x20C)?1:-1];
@@ -110,8 +109,6 @@ typedef char layout_S[(sizeof(struct S)==0x68)?1:-1];
 typedef char layout_OUT[(sizeof(struct OUT)==0x40)?1:-1];
 typedef char layout_U_q[((unsigned)&((U*)0)->q==0)?1:-1];
 typedef char layout_U_f[((unsigned)&((U*)0)->f==0)?1:-1];
-typedef char layout_VTE_delta[((unsigned)&((VTENT*)0)->delta==0)?1:-1];
-typedef char layout_VTE_fn[((unsigned)&((VTENT*)0)->pfn==4)?1:-1];
 typedef char layout_CLOCK_time[((unsigned)&((struct CLOCK*)0)->t==0)?1:-1];
 typedef char layout_CLOCK_dt[((unsigned)&((struct CLOCK*)0)->dt==4)?1:-1];
 typedef char layout_C_gain[((unsigned)&((struct C*)0)->g1C==0x1C)?1:-1];

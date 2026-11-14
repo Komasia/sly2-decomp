@@ -1,7 +1,7 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { int x0, x4, x8; struct VTE *vt; char pad[0x13C - 0x10]; int k; };
+#include "vtbl.h"
+struct O { int x0, x4, x8; VTENT *vt; char pad[0x13C - 0x10]; int k; };
 struct PR { int a, b; };
-struct S { int x0, x4, x8; struct VTE *vt; char pad[0xE0 - 0x10]; int xE0; char aE4[0x40]; int x124; char a128[0x20]; int c; struct PR apr[1]; };
+struct S { int x0, x4, x8; VTENT *vt; char pad[0xE0 - 0x10]; int xE0; char aE4[0x40]; int x124; char a128[0x20]; int c; struct PR apr[1]; };
 struct G;
 extern struct G g_sw;
 extern char g_game[];
@@ -22,7 +22,7 @@ void ApplyCheckpoint__FP2SW(struct S *p)
         struct O *po = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, ppr->a, p);
         if (po) {
             struct O *po2 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, ppr->b, p);
-            if (po2) po->vt[38].pfn((char *)po + po->vt[38].d, po2);
+            if (po2) ((void (*)())po->vt[38].pfn)(VT_THIS(po, &po->vt[38]), po2);
         }
     }
     ApplyRsmg__FP2LOiP4RSMGii(&g_sw, p->xE0, p->aE4, p, 1);
@@ -31,5 +31,5 @@ void ApplyCheckpoint__FP2SW(struct S *p)
         if (apo[j]->k != 2) SetExitState__FP2LOi(apo[j], 0);
     }
     CutCm(g_cm);
-    p->vt[3].pfn((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+    ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
 }

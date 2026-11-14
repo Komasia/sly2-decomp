@@ -1,8 +1,9 @@
+#include "vtbl.h"
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 extern int D_002DD318;
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *); } a[16]; } VT;
+typedef struct VT { VTENT a[16]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } LO;
 extern char D_003D9E80[], D_003D9ED0[], D_002E1E60[], D_003DA0F0[], D_003DA150[], D_003DA0C0[], D_003DA3C0[];
 extern char D_002E6550[], D_002E65A0[], D_003DA4F0[], D_003DA530[];
@@ -35,7 +36,7 @@ void func_001D9408(DL *pdl)
     LO *plo;
     InitDli(&dli, pdl);
     while ((plo = (LO *)PvNextDli(&dli)) != 0)
-        plo->vt->a[11].pfn((char *)plo + plo->vt->a[11].d);
+        ((void (*)(void *))plo->vt->a[11].pfn)(VT_THIS(plo, &plo->vt->a[11]));
     D_002DD318 = 0;
     func_001D9B30(D_003D9E80);
     func_001AE970(D_003D9ED0);

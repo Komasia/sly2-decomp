@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VE { short d; short pad; unsigned int (*pf)(void *); };
 struct EC { char pad[0x60]; void *p60; };
 struct X4 { char pad[0xEC]; struct EC *pec; };
 struct X { int pad; struct X4 *p4; };
-struct S { char pad[0xC]; struct VE *vt; char pad2[0x218 - 0x10]; qword *p218; qword *p21C; char pad3[0x258 - 0x220]; void *p258; };
+struct S { char pad[0xC]; VTENT *vt; char pad2[0x218 - 0x10]; qword *p218; qword *p21C; char pad3[0x258 - 0x220]; void *p258; };
 struct HIT { qword pos; qword q10; qword normal; qword q30; float t; int n44; int n48; int n4C; char pad[0x10]; };
 extern qword g_normalZ;
 extern char g_sw[];
@@ -22,7 +22,7 @@ void AddStepFloorXps__FP3ALOP3SOEiiii(struct S *p, struct X *x, int a2, int a3, 
     qword pos, n, d, tmp;
     float f;
     func_001F5990();
-    fl = p->vt[85].pf((char *)p + p->vt[85].d);
+    fl = ((unsigned int (*)(void *))p->vt[85].pfn)(VT_THIS(p, &p->vt[85]));
     if (!(fl & 1))
         return;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(x->p4->pec->p60, 0x33))

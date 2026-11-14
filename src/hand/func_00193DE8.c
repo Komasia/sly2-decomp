@@ -3,10 +3,8 @@ typedef union {qword q;float f[4];} U;
 typedef struct {qword row[4];} M4;
 struct LO;
 struct PROJECTION {qword direction;int kind;};
-typedef struct { short d; short pad; void (*pfn)(void *, int, void *, qword, qword, qword); } VT82;
-typedef struct { short d; short pad; qword (*pfn)(void *); } VT33;
-typedef union { VT82 v82; VT33 v33; } VTE;
-struct LO { char pad[0xC]; VTE *vt; char pad2[0x190 - 0x10]; qword x190; char pad3[0x218 - 0x1A0]; qword *x218; };
+#include "vtbl.h"
+struct LO { char pad[0xC]; VTENT *vt; char pad2[0x190 - 0x10]; qword x190; char pad3[0x218 - 0x1A0]; qword *x218; };
 struct T { char pad[0xE4]; int xe4; char pad2[0x1BC - 0xE8]; int x1bc; };
 struct S { struct LO *x0; int x4; int x8; int xc; int x10; struct T *x14; int x18; float x1c; float x20; };
 extern qword D_002A2DB0;
@@ -39,7 +37,7 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
     case 4: {
         U pos;
         pos.q = PosOfLo__FP2LO(p->x14);
-        p->x0->vt[82].v82.pfn((char *)p->x0 + p->x0->vt[82].v82.d, 0x23, p->x14, pos.q, D_002A2DB0, *p->x0->x218);
+        ((void (*)(void *, int, void *, qword, qword, qword))p->x0->vt[82].pfn)(VT_THIS(p->x0, &p->x0->vt[82]), 0x23, p->x14, pos.q, D_002A2DB0, *p->x0->x218);
         break;
     }
     case 3: {
@@ -53,7 +51,7 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
             M4 *m;
             register qword w __asm__("vf2");
             float d0, d1;
-            vel.q = p->x0->vt[33].v33.pfn((char *)p->x0 + p->x0->vt[33].v33.d);
+            vel.q = ((qword (*)(void *))p->x0->vt[33].pfn)(VT_THIS(p->x0, &p->x0->vt[33]));
             d0 = Dot(vel.q, v1.q);
             m = MatJtLo__FP2LO(p->x0);
             w=p->x0->x190;
@@ -70,7 +68,7 @@ void AddInteractContacts__FP5ACTOR(struct S *p)
                 __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v1.q) : "j"(v1.q), "j"(s.q));
             }
         }
-        p->x0->vt[82].v82.pfn((char *)p->x0 + p->x0->vt[82].v82.d, k, t, v0.q, v1.q, *p->x0->x218);
+        ((void (*)(void *, int, void *, qword, qword, qword))p->x0->vt[82].pfn)(VT_THIS(p->x0, &p->x0->vt[82]), k, t, v0.q, v1.q, *p->x0->x218);
         break;
     }
     }
@@ -88,17 +86,10 @@ typedef char offset_2_x1c[(unsigned)&((struct S*)0)->x1c==28?1:-1];
 typedef char offset_2_x20[(unsigned)&((struct S*)0)->x20==32?1:-1];
 typedef char offset_3_direction[(unsigned)&((struct PROJECTION*)0)->direction==0?1:-1];
 typedef char offset_3_kind[(unsigned)&((struct PROJECTION*)0)->kind==16?1:-1];
-typedef char offset_4_d[(unsigned)&((VT82*)0)->d==0?1:-1];
-typedef char offset_4_pfn[(unsigned)&((VT82*)0)->pfn==4?1:-1];
-typedef char offset_5_d[(unsigned)&((VT33*)0)->d==0?1:-1];
-typedef char offset_5_pfn[(unsigned)&((VT33*)0)->pfn==4?1:-1];
 typedef char offset_6_row[(unsigned)&((M4*)0)->row==0?1:-1];
 typedef char size_0[sizeof(qword)==16?1:-1];
 typedef char size_1[sizeof(U)==16?1:-1];
 typedef char size_2[sizeof(M4)==64?1:-1];
-typedef char size_3[sizeof(VTE)==8?1:-1];
-typedef char size_4[sizeof(VT82)==8?1:-1];
-typedef char size_5[sizeof(VT33)==8?1:-1];
 typedef char size_6[sizeof(struct PROJECTION)==32?1:-1];
 typedef char size_7[sizeof(struct LO)==544?1:-1];
 typedef char size_8[sizeof(struct T)==448?1:-1];
@@ -110,6 +101,5 @@ typedef char size_13[sizeof(void*)==4?1:-1];
 typedef char alignment_0[__alignof__(U)==16?1:-1];
 typedef char alignment_1[__alignof__(qword)==16?1:-1];
 typedef char alignment_2[__alignof__(M4)==16?1:-1];
-typedef char alignment_3[__alignof__(VTE)==4?1:-1];
 typedef char alignment_4[__alignof__(struct PROJECTION)==16?1:-1];
 typedef char alignment_5[__alignof__(struct S)==4?1:-1];

@@ -1,5 +1,5 @@
-struct VE { short d; short pad; int (*pf)(void *, int); };
-struct O { char pad[0xC]; struct VE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { struct O *po; int k; float t; int n; };
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3DF0;
@@ -23,7 +23,7 @@ void UpdateWatchA__FP6WATCHA(struct S *p)
         case 1:
             if (!f)
                 SetWatchA__FP6WATCHAi(p, 0);
-            else if (g_clock.t - p->t > D_002C3DF0 && !p->po->vt[76].pf((char *)p->po + p->po->vt[76].d, 0x4000))
+            else if (g_clock.t - p->t > D_002C3DF0 && !((int (*)(void *, int))p->po->vt[76].pfn)(VT_THIS(p->po, &p->po->vt[76]), 0x4000))
                 SetWatchA__FP6WATCHAi(p, 2);
             break;
         case 2:

@@ -1,6 +1,6 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VE { short d; short pad; void (*pf)(void *); };
-struct O { char pad[0xC]; struct VE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct P2F0 { char pad[8]; qword *pq; float f; };
 struct F64 { char pad[0xE0]; void *pE0; void *pE4; };
 struct S {
@@ -70,9 +70,9 @@ void ResetGuard__FP2LO(struct S *p)
         NextPocketPrize__FP2LO(p);
     }
     if (p->pFEC)
-        p->pFEC->vt[9].pf((char *)p->pFEC + p->pFEC->vt[9].d);
+        ((void (*)(void *))p->pFEC->vt[9].pfn)(VT_THIS(p->pFEC, &p->pFEC->vt[9]));
     o = func_00205438(p, 0x9C);
-    o->vt[8].pf((char *)o + o->vt[8].d);
+    ((void (*)(void *))o->vt[8].pfn)(VT_THIS(o, &o->vt[8]));
     ReparentBooty__FP3ALOii(p->pF64, p, 0xF);
     p->pF64->pE0 = p;
     p->pF64->pE4 = p->pEC;

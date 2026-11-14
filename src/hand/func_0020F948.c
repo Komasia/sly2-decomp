@@ -1,10 +1,10 @@
-typedef struct { short d; short pad; void *pfn; } VTE;
-struct O { char pad[0xC]; VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x60]; struct O *po; char pad2[0xC]; long fl; };
 struct B { char pad[0xEC]; struct S *ps; };
 struct E { int pad; struct B *pb; int pad2[2]; long fl; };
 int func_00134310(int a, int b);
-#define VC61(o, a) ((int (*)(void *, struct O *))(o)->vt[61].pfn)((char *)(o) + (o)->vt[61].d, a)
+#define VC61(o, a) ((int (*)(void *, struct O *))(o)->vt[61].pfn)(VT_THIS((o), &(o)->vt[61]), a)
 // name: SafeHouse port (NOverlapKind)
 int NOverlapKind__FP3ALOT0(struct S *p, struct E *e)
 {

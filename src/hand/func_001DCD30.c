@@ -1,4 +1,5 @@
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *); } a[32]; } VT;
+#include "vtbl.h"
+typedef struct VT { VTENT a[32]; } VT;
 typedef struct { char pad[0xC]; VT *vt; char pad10[0x58 - 0x10]; int x58; } W;
 typedef struct {
     char pad[0x10];
@@ -33,7 +34,7 @@ void UpdateJobHelp__FP2SW(OBJ *p)
             return;
         SetState__FP8SCREENRTi(p->pw, 1);
         SetTimerTimers(p->pw, 2);
-        p->pw->vt->a[16].pfn((char *)p->pw + p->pw->vt->a[16].d);
+        ((void (*)(void *))p->pw->vt->a[16].pfn)(VT_THIS(p->pw, &p->pw->vt->a[16]));
     }
     if (GrfbtnTakePressedJoy(p->x10, 0x800)) {
         SetJobHelpPage__FPvi(p, -1);

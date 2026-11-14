@@ -1,11 +1,11 @@
 /* (Claude agent, lane E13) Matched. c is reused as the insertion index (for (c--; ...)), and the sorted insert is
    an if + do-while instead of a for loop. */
-typedef struct VT { short d; short pad; void *pfn; } VT;
-typedef struct N { char pad[0xC]; int k; struct N *next; int x14; VT *vt; } N;
+#include "vtbl.h"
+typedef struct N { char pad[0xC]; int k; struct N *next; int x14; VTENT *vt; } N;
 typedef struct S { char pad[0x90]; N *first; } S;
 void InvalidateXfParams__FP3ALOP2XF(void *, S *);
 
-#define VCALL(o, k) ((void (*)(void *))(o)->vt[k].pfn)((char *)(o) + (o)->vt[k].d)
+#define VCALL(o, k) ((void (*)(void *))(o)->vt[k].pfn)(VT_THIS((o), &(o)->vt[k]))
 
 // name: SafeHouse port (SortXfCtrls)
 void SortXfCtrls__FP3ALOP2XF(void *ctx, S *s)

@@ -1,6 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword a[3]; } MATRIX3;
-struct VT { struct { short d; short pad; qword (*pfn)(void *); } a[40]; };
+struct VT { VTENT a[40]; };
 struct X { char pad[0xA0]; void *pA0; };
 struct O { char pad[0xC]; struct VT *pvt; char pad1[0x5C - 0x10]; struct X *p5C; char pad2[0x1C0 - 0x60]; int n1C0;
     char pad3[0x204 - 0x1C4]; float g204; char pad4[0x210 - 0x208]; qword v210; char pad5[0x378 - 0x220]; char a378[0xC]; float g384; };
@@ -24,7 +25,7 @@ void MoveEnemy(struct O *p)
     }
     if (p->n1C0 == 3) {
         qword v = p->v210;
-        qword w = p->pvt->a[33].pfn((char *)p + p->pvt->a[33].d);
+        qword w = ((qword (*)(void *))p->pvt->a[33].pfn)(VT_THIS(p, &p->pvt->a[33]));
         qword d, s, r;
         union { qword q; float f[4]; } u;
         d = VSub(v, w);

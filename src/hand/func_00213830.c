@@ -1,12 +1,12 @@
-struct VE { short d; short pad; void (*pf)(void *, int); };
-struct S { char pad[0xC]; struct VE *vt; char pad2[0x6C]; int x7c; char pad3[4]; void *x84; char pad4[0x24]; int xac; };
+#include "vtbl.h"
+struct S { char pad[0xC]; VTENT *vt; char pad2[0x6C]; int x7c; char pad3[4]; void *x84; char pad4[0x24]; int xac; };
 void func_00217BA0(void *p);
 void SetScreenObjListed__FP2LOi(struct S *p, int a);
 // name: SafeHouse port (StartPart)
 void StartPart__FP8SCREENRTi(struct S *p, int a)
 {
     func_00217BA0(p->x84);
-    p->vt[21].pf((char *)p + p->vt[21].d, 1);
+    ((void (*)(void *, int))p->vt[21].pfn)(VT_THIS(p, &p->vt[21]), 1);
     if (p->xac)
         SetScreenObjListed__FP2LOi(p, 0);
     p->x7c = a;

@@ -1,7 +1,8 @@
 #include "clock.h"
-typedef struct VT1 { struct { short d; short pad; void (*pfn)(void *, int); } a[64]; } VT1;
+#include "vtbl.h"
+typedef struct VT1 { VTENT a[64]; } VT1;
 typedef struct { char pad[0xC]; VT1 *vt; } W;
-typedef struct VT { struct { short d; short pad; void (*pfn)(void *, int, int, int, int, int); } a[8]; } VT;
+typedef struct VT { VTENT a[8]; } VT;
 typedef struct OBJ {
     char pad[0xC];
     VT *vt;
@@ -37,7 +38,7 @@ void SetVehicleMode__FP7VEHICLEi(OBJ *p, int n)
     case 0:
         pw = p->pw;
         if (pw) {
-            pw->vt->a[49].pfn((char *)pw + pw->vt->a[49].d, -1);
+            ((void (*)(void *, int))pw->vt->a[49].pfn)(VT_THIS(pw, &pw->vt->a[49]), -1);
             func_00213B00(p->pw, 0x34F);
             UpdateVehicleHealth__FP7VEHICLE(p);
         }
@@ -59,7 +60,7 @@ void SetVehicleMode__FP7VEHICLEi(OBJ *p, int n)
     case 0: {
         W *pw2 = p->pw;
         if (pw2)
-            ((void (*)(void *))pw2->vt->a[50].pfn)((char *)pw2 + pw2->vt->a[50].d);
+            ((void (*)(void *))pw2->vt->a[50].pfn)(VT_THIS(pw2, &pw2->vt->a[50]));
         {
             void **pps = &p->x598;
             if (*pps) {
@@ -73,7 +74,7 @@ void SetVehicleMode__FP7VEHICLEi(OBJ *p, int n)
         SetVehicleAiState__FP7VEHICLEi(p, 0);
         break;
     case 3:
-        p->vt->a[3].pfn((char *)p + p->vt->a[3].d, 5, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 5, 0, 0, 0, 0);
         break;
     }
     if (p->x570 && p->state != -1)

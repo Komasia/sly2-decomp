@@ -1,5 +1,5 @@
-struct VTE { short d; short pad; void (*pfn)(); };
-struct O { char pad[0x18]; struct VTE *vt; };
+#include "vtbl.h"
+struct O { char pad[0x18]; VTENT *vt; };
 struct S { char pad[0x80]; float gMin; float gMax; float *pg; int pad1; struct O *po; int pad2; short k; short state; };
 void ResetXfParams__FP2XFPv(void *pa, struct S *p);
 void SetXfMode__FP3ALOP2XFi(void *pa, struct S *p, int state);
@@ -9,7 +9,7 @@ void RefreshXf__FP3ALOP2XF(void *pa, struct S *p)
     float g = *p->pg;
     if (g < p->gMin || p->gMax < g || p->state >= 3) {
         if (p->po) {
-            p->po->vt[4].pfn((char *)p->po + p->po->vt[4].d);
+            ((void (*)())p->po->vt[4].pfn)(VT_THIS(p->po, &p->po->vt[4]));
             switch (p->k) {
             case 10:
                 if (p->state == 3 || p->state == 4) SetXfMode__FP3ALOP2XFi(pa, p, 7);
