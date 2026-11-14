@@ -103,10 +103,9 @@ struct P : BASE {
 };
 struct PX { char pad[0x10DC]; P *py; };
 struct S { P *p; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 struct SMP { float a, b, c; };
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002BC998, D_002BC99C, D_002BC9A0;
 extern SMP D_002BC9A8;
 extern qword g_normalZ, D_002A2DA0;

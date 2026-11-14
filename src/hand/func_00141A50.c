@@ -6,8 +6,7 @@ struct P {
     char pad[0xC]; struct VTE *vt; char pad1[0x150 - 0x10]; struct X150 *p150; char pad2[0x1180 - 0x154];
     struct E ae[3]; char pad3[0x1304 - 0x11A4]; float t1304;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern int D_002C3258[];
 extern struct T D_002BCD00[];
 int GrfPadctlTakePressed__FP6PADCTL(struct X150 *p, int mask, float g);

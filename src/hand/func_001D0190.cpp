@@ -16,9 +16,8 @@ struct M4 {qword r[4];};
 struct POLY {float a,b,c;};
 struct RIP {char pad0[0x14];float start,duration;void *material;POLY size;int unused2C;POLY opacity;char pad3C[0x34];qword position;};
 struct CAMERA {char pad0[0x90];qword position;};
-struct CLOCK {float time,dt;};
+#include "clock.h"
 extern CAMERA g_cm;
-extern CLOCK g_clock;
 extern POLY D_002C1FB0,D_002C1FD0,D_002C1FF0;
 extern float D_002C1FC0[2],D_002C1FE0[2],g_lmZeroOne[2];
 extern const qword D_002A2DA0,g_normalZ;
@@ -52,7 +51,7 @@ extern "C" void func_001D0190(RIP *p)
     M3 basis,rotation,product;
     M4 transform;
     qword direction=Subtract(g_cm.position,p->position);
-    float time=(g_clock.time-p->start)/p->duration;
+    float time=(g_clock.t-p->start)/p->duration;
     float distance=Length(direction)*0.001f;
     float size=Evaluate(p->size,time)*Clamp(Evaluate(D_002C1FB0,distance),D_002C1FC0[0],D_002C1FC0[1]);
     if(!FInsideCmPlanes(&g_cm,Scale(direction,VU_FLOAT(-1.0f)),BcG(size*100.0f))){RemoveRip(p);return;}

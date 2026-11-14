@@ -9,8 +9,7 @@ struct JT {
     char pad4[0xDF0 - 0x4D0]; char axDF0[4]; int xDF4; char pad5[0x1044 - 0xDF8]; int x1044; int pad6;
     float x104C; float x1050; char pad7[0x1060 - 0x1054]; VU x1060; qword x1070;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct GS { char pad[0x260]; struct JT *p260; char pad2[0x300 - 0x264]; int x300; };
 extern struct GS g_cm;
 extern float D_002BCC98, D_002BCC9C, D_002BCCA0, D_002BCCA4, D_002BCCA8, D_002BCCAC, D_002BCCB0, D_002BCCB4;

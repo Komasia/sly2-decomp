@@ -3,8 +3,7 @@ struct N;
 struct SP { struct N *p; };
 struct N { int cref; int x4; struct CRef ref; struct SP sp; };
 struct P { void *p0; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 extern char D_004520A8[];
 extern int D_0027A1D8[];

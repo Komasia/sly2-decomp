@@ -9,8 +9,7 @@ struct S {
     qword q170; qword q180; qword q190;
     char p2[0x1CC - 0x1A0]; float x1CC;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 extern qword D_002C0D60;
 extern float D_002A773C;

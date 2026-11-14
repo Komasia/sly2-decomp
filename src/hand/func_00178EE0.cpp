@@ -13,13 +13,12 @@ struct P {
     char pad1C[0x4C - 0x1C]; unsigned int mode; char pad50[0x80 - 0x50]; qword target;
     char pad90[0xC4 - 0x90]; float rate; char padC8[8]; qword cached; float timeout;
 };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct VU_FLOAT { qword qw; VU_FLOAT() {} VU_FLOAT(float g) { __asm__("qmtc2 %1, %0" : "=j"(qw) : "r"(g)); } };
 extern "C" {
 extern CLQ D_002BE6A0;
 extern LM g_lmZeroOne;
 extern float D_002BE694, D_002BE6B0;
-extern CLOCK g_clock;
 extern qword g_normalZ, D_002A2DD0;
 void func_001789F8(P *);
 qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");

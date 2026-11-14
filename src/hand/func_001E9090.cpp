@@ -40,8 +40,7 @@ struct CHAIN
     float *distance;        // rest distance along the chain
     float damping;
 };
-struct CLOCK { float t, dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DA0;    // fallback direction
 extern "C" {
 qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");

@@ -14,8 +14,7 @@ struct S : SB {
     struct X50 x50;
 };
 struct X { void *p0; void *p4; int pad[2]; qword q; X(); };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void *PloNear(struct S *p, int oid) asm("PloNear__9JOBSCRIPT3OID");
 void func_00171AF8(struct S *p, void *o, qword *pq, float *pg);
 void PlaceGuard(struct S *p, qword q, float g) asm("PlaceGuard__FP5GUARDG9VU_VECTORf");

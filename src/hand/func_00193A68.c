@@ -7,8 +7,7 @@ struct O {char pad[0x150];struct T*x150;char pad154[0x240-0x154];qword pos;};
 struct P {struct O*o;char pad4[0x260-4];float x260;char pad264[0x2A0-0x264];float x2A0;};
 struct CURVE;
 struct SMP {float g0,g1,g2;};
-struct CLOCK {float t,dt;};
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BF668;
 extern qword g_normalZ,D_002A2DD0;
 void EvalCrv__FP3CRVfP6VECTORT2(struct CURVE*,float,qword*,qword*);

@@ -9,9 +9,8 @@ struct O {
     char pad[0xC]; struct VTE *pvt; char pad1[0x58 - 0x10]; struct X *p58; struct X *p5C;
     char pad2[0x17C - 0x60]; int n17C; float g180; char pad3[0x18C - 0x184]; int n18C; struct T *p190;
 };
-struct CLOCK { float t; };
+#include "clock.h"
 extern "C" {
-extern struct CLOCK g_clock;
 extern qword D_002A2DD0;
 extern qword D_002BE8F0;
 extern char g_sw[];

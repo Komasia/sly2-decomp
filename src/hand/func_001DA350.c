@@ -1,4 +1,4 @@
-extern struct CLOCK { float t; float dt; } g_clock;
+#include "clock.h"
 typedef struct { char pad[0x58]; int x58; } W;
 typedef struct {
     char pad[0x10];

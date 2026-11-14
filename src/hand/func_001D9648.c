@@ -1,4 +1,4 @@
-extern struct CLOCK { float t; float dt; float g; } g_clock;
+#include "clock.h"
 typedef struct { char pad[0x100C]; int x100C; } PAD;
 extern int g_grfjoyt;
 extern int g_grfusr;
@@ -27,7 +27,7 @@ void func_001D9648(void *pdl)
 {
     PAD *pad;
     if (g_grfusr & 8) {
-        if (g_clock.g == 0.0f || 0.1f < g_clock.t / g_clock.g)
+        if (g_clock.rt == 0.0f || 0.1f < g_clock.t / g_clock.rt)
             RemoveGrfusr__Fi(8);
     }
     if (g_grfjoyt & 2)

@@ -19,9 +19,8 @@ struct TN { char pad0[0x18C]; int fNoCamClip; };
 struct CMPART2 { LO *pvHero; char pad4[0xC]; TN *ptn; char pad14[0x6C]; float tLastSeen; };
 struct VECTOR4 { float x, y, z, w; };
 struct CM { char pad0[0x4C]; float sNearClip; char pad50[0x40]; qword pos; char padA0[0x260]; int nCut; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern CM g_cm;
-extern CLOCK g_clock;
 extern SW g_sw;
 extern int g_grfusr;
 extern int D_002C4118;

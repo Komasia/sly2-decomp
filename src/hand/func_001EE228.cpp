@@ -1,4 +1,4 @@
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern CLOCK g_clock asm("g_clock");
 enum EYESS { EYESS_Nil = -1, EYESS_Open = 0, EYESS_Closing = 1, EYESS_Closed = 2, EYESS_Opening = 3 };
 struct SAI { int a; };

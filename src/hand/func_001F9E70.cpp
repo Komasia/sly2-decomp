@@ -5,8 +5,7 @@ struct OWNER {M3 matrix;U position;char pad40[0x60];OWNER *parent;int stamp;char
 struct VT {short delta,pad;void (*fn)(void *);};
 struct P {char padC[0xC];VT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x88];void *enabled;char padEC[4];U force[2];};
 struct G {char pad3D58[0x3D58];int stamp;};
-struct CLOCK {float time,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern G g_sw;
 extern "C" void HoldXfMode(P *,OWNER *);
 extern "C" qword VecConvertXfs(void *,OWNER *,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");
@@ -139,7 +138,3 @@ typedef char layout_P_force_Span[(sizeof(((P*)0)->force)==0x20)?1:-1];
 typedef char layout_G_PrefixSize[(sizeof(G)==0x3D5C)?1:-1];
 typedef char layout_G_Alignment[(__alignof__(G)==4)?1:-1];
 typedef char layout_G_stamp_Offset[((unsigned)&((G*)0)->stamp==0x3D58)?1:-1];
-typedef char layout_CLOCK_Size[(sizeof(CLOCK)==8)?1:-1];
-typedef char layout_CLOCK_Alignment[(__alignof__(CLOCK)==4)?1:-1];
-typedef char layout_CLOCK_time_Offset[((unsigned)&((CLOCK*)0)->time==0)?1:-1];
-typedef char layout_CLOCK_dt_Offset[((unsigned)&((CLOCK*)0)->dt==4)?1:-1];

@@ -1,7 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BD344;
 extern struct { float a; float b; } D_002BD348;
 extern qword D_002A2DA0;

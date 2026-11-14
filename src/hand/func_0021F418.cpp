@@ -13,11 +13,10 @@ struct CONTROL {char pad[0x18];float heading,speed;};
 struct O {char pad[0xC];VE *vt;int id;char pad14[0x13C];CONTROL *control;int field154,sentinel,actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0xE40];ASEGA *animation;char pad1034[0x39C];int mode;};
 struct EFFECT {char pad[0xC];VE *vt;};
 struct S {O *owner;int state;float time;O *peer,*selected;float idleThreshold,activeThreshold;RANGE bounds;float radius,scale;char pad2C[0x14];float blend0;char pad44[8];float blend1;char pad50[8];ASEG *animation0,*animation1,*animation2,*animation3;char pad68[0x30];ASEG *animation4,*animation5,*animation6;char padA4[0x18];ASEG *animation7;V targetLocal,secondary,targetWorld,velocity,transitionBegin,transitionEnd;float transitionStart,transitionDuration;int transitioning;EFFECT *effect;float distance;};
-struct CLOCK {float t,dt;};
+#include "clock.h"
 union SCRATCH {V vector;RANGE range;};
 struct WORK {SCRATCH scratch;V delta;float angle,radius;V ownerPosition,speed,vector,playerPosition;};
 extern O *D_002DD5BC;
-extern CLOCK g_clock;
 extern float D_002C40E0;
 extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {

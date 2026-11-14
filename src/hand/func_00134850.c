@@ -8,8 +8,7 @@ struct P {
     char a11B0[0x13D0 - 0x11B0]; int state; float t13D4; char pad6[0x16B4 - 0x13D8]; int x16B4;
     char pad7[0x1870 - 0x16B8]; int x1870;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BC930;
 void SetJumpKind__FP4JUMPiiP2LO(void *pv, int a, int b, int c);
 int FActorTargetInReach__FP5ACTORi(struct P *p, int n);

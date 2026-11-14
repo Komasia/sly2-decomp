@@ -1,5 +1,4 @@
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct S { char pad[0x10]; void *p10; int pad2; void *p18; char pad3[0x14]; float f30; float f34; int n38; char pad4[4]; int n40; };
 void Update__5AIJOB(struct S *p);
 int func_00209098(void *p);

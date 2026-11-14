@@ -4,8 +4,7 @@ struct PO { char pad[0x1A8]; float g1A8; char pad1[0x10B8 - 0x1AC]; int x10B8; }
 struct E { float f0; int pad[2]; float fC; int pad2[2]; void *p18; };
 struct S { struct PO *po; int state; int x8; int xC; int x10; int x14; float g18; float g1C; char a20[0x10]; float g30; float g34;
     struct E ae[6]; char pad[0xE0 - 0x38 - 6 * 28]; void *pvE0; void *pvE4; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct PO *, int, void *, int *, QF *, float, float, float);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);

@@ -16,12 +16,11 @@ struct STRETCH { void*frame; NODE*first,*second; char padC[0x94]; U position; ch
 struct MOTION;
 struct LINK { char pad[0x180]; OWNER*owner; char pad184[0xC]; GOAL*first; int pad194; GOAL*second; };
 struct P { char pad[0xC]; VTE*vt; char pad10[0x50]; NODE*node; char pad64[0x12C]; U velocity; char pad1A0[0xE90]; ANIM*anim; char pad1034[0x54]; PROXY*proxy; char pad108C[0x360]; ROOT*root; LINK*link; MOTION*m13F4,*m13F8,*m13FC,*m1400; int oldLeft,oldRight; char pad140C[0x3C]; int flag,pad144C,state; float time; char pad1458[0x19C]; NODE*targetFirst; int pad15F8; NODE*targetSecond; int pad1600; MOTION*m1604; int pad1608; MOTION*m160C; STRETCH*first,*second; MOTION*m1618,*m161C,*m1620,*m1624; };
-struct CLOCK { float time,dt; };
+#include "clock.h"
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char M4_Size[sizeof(M4)==64?1:-1];
 typedef char VTE_Size[sizeof(VTE)==8?1:-1];
 typedef char EVENT_Size[sizeof(EVENT)==16?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char STRETCH_Size[sizeof(STRETCH)==208?1:-1];
 typedef char VTE_delta_Offset[FIELD_OFFSET(VTE,delta)==0?1:-1];
 typedef char VTE_fn_Offset[FIELD_OFFSET(VTE,fn)==4?1:-1];
@@ -47,7 +46,6 @@ typedef char STRETCH_tuning_Offset[FIELD_OFFSET(STRETCH,tuning)==204?1:-1];
 typedef char LINK_owner_Offset[FIELD_OFFSET(LINK,owner)==384?1:-1];
 typedef char LINK_first_Offset[FIELD_OFFSET(LINK,first)==400?1:-1];
 typedef char LINK_second_Offset[FIELD_OFFSET(LINK,second)==408?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_node_Offset[FIELD_OFFSET(P,node)==96?1:-1];
 typedef char P_velocity_Offset[FIELD_OFFSET(P,velocity)==400?1:-1];
@@ -74,7 +72,6 @@ typedef char P_m1618_Offset[FIELD_OFFSET(P,m1618)==5656?1:-1];
 typedef char P_m161C_Offset[FIELD_OFFSET(P,m161C)==5660?1:-1];
 typedef char P_m1620_Offset[FIELD_OFFSET(P,m1620)==5664?1:-1];
 typedef char P_m1624_Offset[FIELD_OFFSET(P,m1624)==5668?1:-1];
-extern "C" CLOCK g_clock;
 extern "C" M4 D_002A2D30;
 extern "C" float D_002C0A3C,D_002C0A40;
 extern "C" void DeleteCtrl(MOTION**) asm("DeleteCtrl__FPP4CTRL");
@@ -102,7 +99,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
  if(p->state==state)return;
  if(p->state==1){DeleteCtrl(&p->m13FC);DeleteCtrl(&p->m1400);}
  p->state=state;
- p->time=g_clock.time;
+ p->time=g_clock.t;
  OWNER*owner;
  switch(state){
  case 0:p->flag=0;break;
@@ -126,7 +123,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   func_001B72B0(p,0,&predicted,&work.row[0].q,&work.row[1].q);
   if(FIsBasicDerivedFrom(owner,0x38))ReactGuardHeld(owner,(int)p);
   PickupVelocities(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
-  p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.time+duration,work.row[1].q,work.row[3].q);
+  p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.t+duration,work.row[1].q,work.row[3].q);
   VTE*entry=&owner->vt[35];
   void*receiver=(char*)owner+entry->delta;
   qword velocity=VecConvertXfs(owner->left->parent,0,work.row[2].q);

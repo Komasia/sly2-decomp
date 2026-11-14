@@ -12,15 +12,14 @@ struct RUMBLE {
     float dtRumble;
     float dtRumins;
 };
-struct CLOCK { float a[20]; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern "C" int scePadSetActDirect(int, int, byte *) asm("scePadSetActDirect");
 void SetRumbleRums(RUMBLE *prumble, RUMS rums);
 void StopRumbleActuators(RUMBLE *prumble);
 void UpdateRumble(RUMBLE *prumble)
 {
     byte abShockDirect[6];
-    float dtReal = g_clock.a[16];
+    float dtReal = g_clock.dtReal;
 
     switch (prumble->rums) {
     case RUMS_Rumble:

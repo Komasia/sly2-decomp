@@ -3,7 +3,7 @@
 // SLY2_ASM: gnu-reorder-db
 int DIntr(void);
 int EIntr(void);
-int func_00234790(int);
+int _DisableDmac(int);
 int func_002351E0(int ch)
 {
     int st;
@@ -11,7 +11,7 @@ int func_002351E0(int ch)
     __asm__ volatile("mfc0 %0, $12" : "=r"(st));
     st &= 0x10000;
     if (st) DIntr();
-    r = func_00234790(ch);
+    r = _DisableDmac(ch);
     __asm__ volatile("sync");
     if (st) EIntr();
     return r;

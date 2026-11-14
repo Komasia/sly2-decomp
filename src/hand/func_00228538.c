@@ -2,8 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G g_sw;
 extern char D_002F66B0[];
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct S { char pad[0xEC]; void *xEC; char pad1[0x138 - 0xF0]; int x138; int k; float t140; int x144; int c; int *a; int x150; int x154; float t158; float dt; };
 void UpdateLo__FP2LO(struct S *p);
 void QueueMovie__FPUcPv(void *a, int b);

@@ -3,8 +3,7 @@ struct V { float x, y, z, w; float pad[8]; };
 struct O { char pad[0x40]; char sub[0x30]; qword q70; };
 struct P { char pad[0x60]; struct O *po; };
 struct Out { int n0; int pad[3]; qword q10; qword q20; float g30; float g34; float g38; int n3C; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 qword VelXfPoint__FP2XFT0G9VU_VECTOR(struct O *, int, qword);
 void LevelMatrix3__FP7MATRIX3T0Pv(void *, int, struct V *);
 float atan2f(float, float);

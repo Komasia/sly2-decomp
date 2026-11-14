@@ -5,8 +5,7 @@ struct P {
     char pad5[0xF20 - 0xF08]; int xF20; char pad6[0x10D4 - 0xF24]; float g10D4; float g10D8;
     char pad7[0x19A0 - 0x10DC]; struct Y *py0; struct Y *py1;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern int D_002DDF54;
 extern struct P *D_002E1E40;
 extern float D_002BD268, D_002BD26C;

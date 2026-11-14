@@ -14,10 +14,9 @@ struct C{P*actor;int kind;char pad8[8];int*counter;char pad14[8];ACTION action;c
  void Stop() __asm__("NextStunned__FP5ACTOR");
  void Finish() __asm__("NextRecover__FP5ACTOR");
 };
-struct CLOCK{float time,dt;};
+#include "clock.h"
 struct G{char pad[0x4038];int channel;};
 extern "C"{
- extern CLOCK g_clock;
  extern char D_002DE578[],g_game[];
  extern G g_sw;
  extern qword D_002A2DD0,D_002BFB10;
@@ -72,14 +71,11 @@ typedef char RECORD_a_Offset[FIELD_OFFSET(RECORD,a)==48?1:-1];
 typedef char RECORD_b_Offset[FIELD_OFFSET(RECORD,b)==52?1:-1];
 typedef char RECORD_c_Offset[FIELD_OFFSET(RECORD,c)==56?1:-1];
 typedef char G_channel_Offset[FIELD_OFFSET(G,channel)==16440?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char int_Size[sizeof(int)==4?1:-1];
 typedef char unsigned_Size[sizeof(unsigned)==4?1:-1];
 typedef char float_Size[sizeof(float)==4?1:-1];
 typedef char pointer_Size[sizeof(void*)==4?1:-1];
 typedef char short_Size[sizeof(short)==2?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char RECORD_Alignment[__alignof__(RECORD)==16?1:-1];
 typedef char C_Prefix_Size[sizeof(C)==0x110?1:-1];
 typedef char P_Prefix_Size[sizeof(P)==0x11AC?1:-1];
@@ -100,7 +96,7 @@ extern "C" int FAcceptDamage__FP5ACTORP5CTMSG(C*p,RECORD*input){
  else delta=NScaleDamage(D_002DE578,input->delta);
  if(input->flags==0x100000){
   if(Add32(*p->counter,delta)>0){
-   if(p->mode!=1){p->mode=0;p->time=p->changed=g_clock.time;}
+   if(p->mode!=1){p->mode=0;p->time=p->changed=g_clock.t;}
    *p->counter=Add32(*p->counter,delta);
    if(p->effect)ApplyAsegCur(p->effect,p->actor,0.0f,1.0f,1,&p->output);
    goto sound;
@@ -121,7 +117,7 @@ notify:
   BroadcastTaskEvent(g_game,0xF,input->object);
   p->record=*input;p->record.delta=delta;func_001A15B0(p,0);
   int n=Add32(*p->counter,p->record.delta);*p->counter=n>=0?n:0;
-  if(*p->counter>0){p->mode=1;p->time=g_clock.time;}
+  if(*p->counter>0){p->mode=1;p->time=g_clock.t;}
   switch(input->flags){
   case 0x100:case 0x200:{
    ApplyDamageVelocity(p);

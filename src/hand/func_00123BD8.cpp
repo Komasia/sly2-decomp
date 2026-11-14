@@ -18,8 +18,7 @@ struct CRef {
 extern char D_004520A8[];
 struct G;
 extern G g_sw;
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 struct R { char pad[0xC]; int n; };
 extern "C" {
 void func_0011CD98(void *pheap, void *pv);

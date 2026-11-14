@@ -1,6 +1,6 @@
 typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
-extern struct CLOCK { float a[20]; } g_clock;
+#include "clock.h"
 extern DLI *s_pdliFirst;
 typedef struct {
     char pad[0x40];
@@ -42,9 +42,9 @@ void UpdateScpt__FP2LO(OBJ *p)
     if ((fl ^ 1) & 1)
         fl = *(unsigned int *)fl;
     if (fl & 0x100)
-        p->t += g_clock.a[16];
+        p->t += g_clock.dtReal;
     else
-        p->t += g_clock.a[1];
+        p->t += g_clock.dt;
     InitDli(&dli, &p->dl);
     while ((pv = PvNextDli(&dli)) != 0)
         RunRun__FP4PRUN(pv);

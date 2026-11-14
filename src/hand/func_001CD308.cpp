@@ -4,8 +4,7 @@ struct MAT { qword a[3]; };
 struct Q { char pad[0xA0]; void *xA0; };
 struct LO { char pad[0xC]; VTE *vt; int x10; char p1[0x58 - 0x14]; Q *x58; Q *x5C; };
 struct S { char pad[0x84]; LO *x84; char p1[0x94 - 0x88]; int x94; int x98; int x9C; LO *xA0; };
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern float D_002C1EF4;
 extern qword D_002A2DD0;
 extern "C" {

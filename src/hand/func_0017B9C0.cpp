@@ -6,9 +6,8 @@ struct POLY{float a,b,c;};
 struct P{char pad[0x28];unsigned long flags;char pad30[0xF94-0x30];int count;P*choices[4];P*Choice(int i){return choices[i];}int nearCount;P*near[0];};
 struct C{char pad[0x10];P*actor;char pad14[0x38-0x14];P*preferred;P*near;P*selected;float time;};
 struct WORK{float t,d,t2,d2;U origin,bestPoint;};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 extern "C"{
- extern CLOCK g_clock;
  extern RANGE D_002BE740;
  extern POLY D_002BE720,D_002BE730;
  float GRandInRange(float,float) asm("GRandInRange__Fff");
@@ -53,15 +52,13 @@ typedef char POLY_b_Offset[FIELD_OFFSET(POLY,b)==4?1:-1];
 typedef char POLY_c_Offset[FIELD_OFFSET(POLY,c)==8?1:-1];
 typedef char RANGE_lo_Offset[FIELD_OFFSET(RANGE,lo)==0?1:-1];
 typedef char RANGE_hi_Offset[FIELD_OFFSET(RANGE,hi)==4?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (JOBB2::Choose)
 extern "C" void Choose__5JOBB2(C*p){
  WORK work;
  P*best;
  float lower;
  qword zero;
- float now=g_clock.time;
+ float now=g_clock.t;
  if(now<p->time)return;
  // D_002BE710 holds the random-delay range.
  register unsigned int randomAddress __asm__("$2");
@@ -126,4 +123,3 @@ typedef char WORK_Alignment[__alignof__(WORK)==16?1:-1];
 typedef char P_View_Size[sizeof(P)==0xfb0?1:-1];
 typedef char P_Alignment[__alignof__(P)==8?1:-1];
 typedef char C_Size[sizeof(C)==0x48?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];

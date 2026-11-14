@@ -9,7 +9,7 @@ CRef *func_00104108(CRef *ret, void *pbasic, s32 cref, CRef *aref)
     s32 arg0_v;
     aotyp[0] = 0x2002;
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 1, aref, aotyp, &arg0_v);
-    SetS32__4CRefi(&ref, func_00154158(M2C_FIELD(pbasic, s32 *, 0xF64), arg0_v));
+    SetS32__4CRefi(&ref, func_00154158(*(s32 *)((char *)pbasic + 0xF64), arg0_v));
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

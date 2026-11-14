@@ -4,8 +4,7 @@ struct M3 {U rows[3];M3(){} M3(const M3&m){rows[0]=m.rows[0];rows[1]=m.rows[1];r
 struct OWNER {M3 matrix;char pad30[0x70];OWNER *parent;char padA4[0xC];qword velocity;char padC0[0x30];qword force;};
 struct P {char pad5C[0x5C];OWNER *owner;};
 struct COEF {float a,b,c;};
-struct CLOCK {float time,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern "C" M3 MatConvertXfs(OWNER *,OWNER *,const M3 *) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" M3 MulMat3TransposeA(const M3 *,const M3 *) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");

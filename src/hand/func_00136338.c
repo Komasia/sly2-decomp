@@ -1,8 +1,7 @@
-struct CLOCK { float t; };
+#include "clock.h"
 struct P { char pad[0x150]; void *p150; char pad0[0xF20 - 0x154]; int xF20; char pad1[0x1028 - 0xF24]; void *p1028; int pad2[2];
     void *p1034; char pad3[0x13D0 - 0x1038]; int x13D0; char pad4[0x16BC - 0x13D4]; int x16BC; char pad5[0x1700 - 0x16C0];
     float g1700; int pad6[3]; char a1710[4]; int x1714; char pad7[0x181C - 0x1718]; int x181C; };
-extern struct CLOCK g_clock;
 extern float D_002BC994;
 int func_001443D8(struct P *p);
 void SetBentleyState2__FP7BENTLEYi(struct P *p, int n);

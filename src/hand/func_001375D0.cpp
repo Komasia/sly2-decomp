@@ -60,9 +60,8 @@ struct Q {
 struct R { int x0; Q *pq; };
 struct X { char pad[0x78]; float g78; };
 struct S { P *p; int k; float t; int kCur; X *px0; X *px1; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002BC9B8;
 void FaceObject(P *p, int n) asm("FaceObject__FP5ACTORP2LO");
 R *PchnFindAseg(X *px, P *p, int a, int b) asm("PchnFindAseg__FP4ASEGP3ALOPvi");

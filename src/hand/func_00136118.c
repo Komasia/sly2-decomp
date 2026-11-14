@@ -3,8 +3,7 @@ struct O { char pad[0xC]; struct VTE *vt; char pad1[0x158 - 0x10]; int x158; cha
 struct Q { int x0; };
 struct P { char pad[0x150]; void *p150; char pad0[0x20C - 0x154]; float g20C; char padA[0x2C0 - 0x210]; char a2C0[0x1030 - 0x2C0]; void *p1030;
     char pad1[0x13D0 - 0x1034]; int x13D0; char pad2[0x16B0 - 0x13D4]; int x16B0; struct Q *pq; char pad3[0x186C - 0x16B8]; struct O *po; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
 void SetBentleyHold__FP7BENTLEYi(struct P *p, int n);
 void LandCarry__FP2LOT0(struct O *po, int n);

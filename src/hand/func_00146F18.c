@@ -1,8 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct X { char pad[0x1A8]; float g1A8; char pad2[0x1840 - 0x1AC]; int x1840; };
 struct P { char pad[0x10]; struct X *px; char pad2[0x30 - 0x14]; float g30; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern void *D_002E1E40;
 extern float D_002BD374, D_002BD378;
 void Update__5AIJOB(struct P *p);

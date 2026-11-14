@@ -1,5 +1,4 @@
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct P { char pad[0x90]; int state; float tState; };
 void EnterPad__FP2LO(struct P *p);
 void LeavePad__FP2LO(struct P *p);

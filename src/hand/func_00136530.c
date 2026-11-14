@@ -11,8 +11,7 @@ struct P {
     int k1800; float t1804; void *apv[2]; void *pv1810; void *pv1814;
 };
 extern struct G *D_002F7900;
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 void ReparentBooty__FP3ALOii(struct P *, int, int);
 void DeleteCtrl__FPP4CTRL(void *);

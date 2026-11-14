@@ -9,7 +9,7 @@ struct SHAPE {char pad[0x30];float radius;};
 struct O {char pad[0x60];void *component;char pad64[0x88];SHAPE *shape;};
 struct CONTROL {char pad[0x24];float zoom;};
 struct S {char pad[0x150];CONTROL *control;char pad154[0x2C];O *target;int aim,follow;char pad18c[0x20];RANGE range;float blend,velocity,strength;};
-struct CLOCK {float t,dt;};
+#include "clock.h"
 extern "C" {
 qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
@@ -17,7 +17,6 @@ void func_002309E8(void *,void *,M4 *,M4 *,float);
 float atanf(float) asm("atanf");
 float GLimitLm(void *,float) asm("GLimitLm__FP2LMf");
 float GSmoothA(float,float,float,float,SMP *,float *) asm("GSmoothA__FffffP4SMPAPf");
-extern CLOCK g_clock;
 extern float D_002DDF7C;
 extern char g_lmZeroOne[];
 extern float D_002C4418[2],D_002C4420[3];

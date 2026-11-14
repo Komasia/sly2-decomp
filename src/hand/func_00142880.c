@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 float GRandInRange__Fff(float a, float b);
 struct X { char pad[0x1138]; float a0, b0, a1, b1; int f; float tNext; };
 // name: SafeHouse port (ActorNextLookTime 0x142880)

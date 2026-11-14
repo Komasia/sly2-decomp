@@ -8,8 +8,7 @@ struct X {
     char pad3[0xA0 - 0x9C]; int cA0; struct X **aA4;
     char pad4[0xB0 - 0xA8]; int fB0; int fB4; struct O *pB8; struct O *pBC; struct X *fC0; int fC4; float fC8;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 int FTaskDone__FP4TASK(struct X *p);
 void func_001A6CA8(struct X *p, int n);

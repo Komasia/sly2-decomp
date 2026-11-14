@@ -8,8 +8,7 @@ struct M3 {
 };
 struct VTE {short delta,pad;void*fn;};
 struct P {char pad[0xC];VTE*vt;char pad10[0x17C];int flag;char pad190[0x30];float time;char pad1C4[0xC];P*target;float turnRate;};
-struct CLOCK{float time,dt;};
-extern "C" CLOCK g_clock;
+#include "clock.h"
 extern "C" qword g_normalZ;
 extern "C" void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
@@ -31,7 +30,7 @@ static inline M3 Mul(const M3&a,const M3&b) return r
 // name: SafeHouse port (UpdatePiece)
 extern "C" void UpdatePiece__FP2LO(P*p){
  UpdateSo(p);
- if(!p->flag&&p->time<=g_clock.time)((void(*)(void*,P*))p->vt[82].fn)((char*)p+p->vt[82].delta,0);
+ if(!p->flag&&p->time<=g_clock.t)((void(*)(void*,P*))p->vt[82].fn)((char*)p+p->vt[82].delta,0);
  if(!p->target||p->turnRate==0.0f)return;
  M3 rotation,matrix;
  qword position;

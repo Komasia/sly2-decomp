@@ -1,4 +1,4 @@
-extern struct CLOCK { float a[16]; } g_clock;
+#include "clock.h"
 extern float D_002A7984, D_002C3254;
 struct S { char p0[0x30]; int n30; float g34; int n38; };
 void *PsndNewPlain__Fi(int n);
@@ -17,7 +17,7 @@ void SetShopMsg__FP4SHOPii(struct S *p, int n, int m) {
         break;
     case 1:
     default:
-        p->g34 = g_clock.a[15] + D_002C3254;
+        p->g34 = g_clock.tReal + D_002C3254;
         SetSource__4CSndPv(PsndNewPlain__Fi(0x36), 0);
         break;
     }

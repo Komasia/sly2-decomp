@@ -1,6 +1,5 @@
 struct S { char pad[0x4CC]; int x4cc; char p1[0xA80]; char xf50[4]; int xf54; char p2[0x970]; int n; char p3[0x1D8]; float t; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct S *p, int *pf);
 void func_0019EA00(void *p, int *pf);
 // name: SafeHouse port (GetSlyCpdefi)

@@ -5,7 +5,8 @@ struct ACTION;struct ASEGA;struct ANIMATION;
 struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];INPUT*input;char pad154[0x2C0-0x154];char controller[0xF00-0x2C0];char action[0x1010-0xF00];U offset;char pad1020[0x10];ASEGA*asega;};
 struct PATH{char pad0[0x28];ulong flags;char pad30[0xE4-0x30];int cyclic;};
 struct C{P*actor;int state;float time;PATH*path;float distance,speed;int descending;float reset;int previous;char pad24[12];U offset;char pad40[0x10];float weight0;char pad54[8];float speed0,weight1;char pad64[8];float speed1;ANIMATION*animation;};
-struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct LM{float low,high;};struct WORK{U ahead,behind;union{U input;SMP smooth;}reuse;LM limit;};
+#include "clock.h"
+struct SMP{float maximum,minimum,duration;};struct LM{float low,high;};struct WORK{U ahead,behind;union{U input;SMP smooth;}reuse;LM limit;};
 extern "C"{
 extern CLOCK g_clock;extern U D_002A2DD0,g_normalZ;extern SMP D_002BF928;
 qword PosSmooth(qword,qword,float,SMP*,U*) asm("PosSmooth");
@@ -45,7 +46,6 @@ typedef char C_Size[sizeof(C)==128?1:-1];
 typedef char SMP_Size[sizeof(SMP)==12?1:-1];
 typedef char LM_Size[sizeof(LM)==8?1:-1];
 typedef char WORK_Size[sizeof(WORK)==64?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char INPUT_x_Offset[FIELD_OFFSET(INPUT,x)==16?1:-1];
 typedef char INPUT_y_Offset[FIELD_OFFSET(INPUT,y)==20?1:-1];
 typedef char INPUT_amount_Offset[FIELD_OFFSET(INPUT,amount)==28?1:-1];
@@ -81,8 +81,6 @@ typedef char WORK_ahead_Offset[FIELD_OFFSET(WORK,ahead)==0?1:-1];
 typedef char WORK_behind_Offset[FIELD_OFFSET(WORK,behind)==16?1:-1];
 typedef char WORK_reuse_Offset[FIELD_OFFSET(WORK,reuse)==32?1:-1];
 typedef char WORK_limit_Offset[FIELD_OFFSET(WORK,limit)==48?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (UpdateClimbTransitions)
 extern "C" void UpdateClimbTransitions__FP5ACTOR(C*p){
  WORK w;float lowSpeed,highSpeed;P*actor=p->actor;actor->offset.q=PosSmooth(actor->offset.q,D_002A2DD0.q,g_clock.dt,&D_002BF928,0);

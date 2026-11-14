@@ -10,7 +10,7 @@ struct PATH;struct ASEG;struct ASEGA;struct EFFECT;struct SOURCE;
 struct ENT{ASEG*clip;int flags;int pad;};   // per-state animation table entry (12 bytes)
 struct P{char pad0[12];VE*vt;char pad10[0x5C-0x10];void*group;char pad60[0x158-0x60];float low0,high0,low1,high1,lead;char pad16c[4];PATH*path;float parameter,phase;char pad17c[4];ENT aseg[4];char pad1B0[0x1C4-0x1B0];ASEGA*animation;char pad1c8[8];F speed;int oldMode;float heading;char pad1dc[4];M3 basis;float spin[3];float ratio;int state;float changed,randomDeadline,deadline;int amount;char pad234[12];U damageOffset;};
 struct WORK{U first,second,direction,velocity,scalar;float angle,parameter;};
-struct CLOCK{float t,dt;};
+#include "clock.h"
 extern "C"{
  extern CLOCK g_clock;extern U D_002A2DD0,D_002A2DA0;extern char g_sw[],D_002DE578[];
  void SetXfMode(P*,void*,int) asm("SetXfMode__FP3ALOP2XFi");void InvalidateXfParams(P*,void*) asm("InvalidateXfParams__FP3ALOP2XF");void ResetXfParams(P*,void*) asm("ResetXfParams__FP2XFPv");

@@ -4,8 +4,7 @@ struct L { struct { struct VTE *vt; } *po; int x4; int x8; int xC; struct L *pne
 struct P { int pad[3]; struct VTE *vt; int x10; struct Q *pq; int x18; float g1C; float g20; char pad2[0x38 - 0x24]; struct L *pl; int grf;
     float g40; char pad3[0x50 - 0x44]; int i50; };
 struct G { struct P *p; };
-struct CLOCK { float t; float dt; char pad[0x38]; float g40; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void FireAsegaEvents__FP5ASEGA(struct P *p);
 int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
 int FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pt, float *pdt);
@@ -26,7 +25,7 @@ void UpdateAsega__FP5ASEGA(struct P *p)
         __asm__ __volatile__("" : : "r"(&g) : "memory");
         ((void (*)(void *))p->vt[1].pfn)((char *)p + p->vt[1].d);
         if (GrfQ(p->pq) & 0x100)
-            p->g1C = p->g1C + p->g40 * g_clock.g40;
+            p->g1C = p->g1C + p->g40 * g_clock.dtReal;
         else
             p->g1C = p->g1C + p->g40 * g_clock.dt;
         FireAsegaEvents__FP5ASEGA(p);

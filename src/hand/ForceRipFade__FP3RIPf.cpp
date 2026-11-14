@@ -1,6 +1,5 @@
 struct RIP { char pad[0x14]; float t14; float g18; };
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 void ForceRipFade(RIP *prip, float dt)
 {
     float t = prip->g18 - (g_clock.t - prip->t14);

@@ -1,7 +1,6 @@
 struct VTE { short d; short pad; void (*pfn)(void *, int); };
 struct O { int a[3]; struct VTE *vt; char pad[0x140]; int n150; char pad2[0xE4]; float g238; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void UpdatePickupBase__FP2LO(struct O *p);
 void func_001C7778(struct O *p)
 {

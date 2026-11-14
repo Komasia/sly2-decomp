@@ -1,6 +1,5 @@
 typedef int qword __attribute__((mode(TI)));
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct X { qword a; qword v; };
 struct A { char pad[0xFD0]; char aFD0[4]; };
 struct S { char pad[0x10]; struct A *p10; int pad2; void *p18; char pad3[0x14]; int n30; float f34; float f38; float f3C; char pad4[8]; int n48; };

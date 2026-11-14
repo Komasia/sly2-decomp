@@ -3,8 +3,7 @@ struct VTE { short d; short p; void (*pfn)(void *); };
 struct VT { struct VTE a[10]; };
 struct E { char pad[0xDC]; void *pDC; };
 struct P { char pad[0xC]; struct VT *pvt; char pad2[0xE8 - 0x10]; struct E *pe; char pad3[0x12C - 0xEC]; float g12C; float g130; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void UpdateLo__FP2LO(struct P *);
 qword PosOfLo__FP2LO(struct P *);
 void *PregionAt__FG9VU_VECTORi(qword, int);

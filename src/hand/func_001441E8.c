@@ -1,6 +1,5 @@
 /* only diff: hazard nop placement (target: no nop after mfc1 before beqz, nop after mtc1); assembler-level */
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 int func_001441A0(void *p);
 void func_001441C0(void *p, int n);
 struct P { char pad[0x1308]; float g; };

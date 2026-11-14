@@ -6,8 +6,7 @@ struct O { char pad[0xC]; struct VE *vt; char pad1[0xE8-0x10]; struct X *xE8; ch
 struct P { struct O *o; int state; };
 extern "C" qword D_002A2DD0;
 extern "C" float D_002BFA90[];
-struct CLOCK { float t,dt; };
-extern "C" struct CLOCK g_clock;
+#include "clock.h"
 
 extern "C" void AccelAloTowardPosition(struct O *p,qword a,int n,qword b,float *c) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");
 static inline qword Broadcast(float g) { qword q; __asm__("qmtc2.ni %1,%0" : "=j"(q) : "r"(g));return q; }

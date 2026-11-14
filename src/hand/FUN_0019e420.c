@@ -1,8 +1,7 @@
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct CLOCK { float t, dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct VTE { short d; short pad; void (*pf)(); };
 struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; struct VTE *vt; };
 struct RIPG { char pad[0xC]; struct VTE *vt; char p1[0x15C - 0x10]; DL dl; };

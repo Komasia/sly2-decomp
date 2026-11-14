@@ -1,15 +1,16 @@
 #include "splicewrap.h"
-
+#include "vtbl.h"
+/* splice binding: calls the object's vtable entry 8 (AddLo in the base LO vtable) */
 
 CRef *func_00100A90(CRef *ret, void *pbasic, s32 cref, CRef *aref)
 {
     CRef ref;
-    void *temp_v0;
+    VTENT *avte;
     RefSetArgsFromSplice__FiP4CRefP4OTYPe(&ref, 0, aref, NULL);
     Decref__4CRef(&ref);
-    InitTag__4CRef(&ref, 0x24);
-    temp_v0 = M2C_FIELD(pbasic, void **, 0xC);
-    M2C_FIELD(temp_v0, void (**)(void *), 0x44)(pbasic + M2C_FIELD(temp_v0, s16 *, 0x40));
+    InitTag__4CRef(&ref, TAGK_Void);
+    avte = *(VTENT **)((char *)pbasic + 0xC);   /* the vtable */
+    ((void (*)(void *))avte[8].pfn)(VT_THIS(pbasic, &avte[8]));
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

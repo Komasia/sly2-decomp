@@ -1,7 +1,6 @@
 struct P { int id; };
 struct Q { void *p0; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char D_003DD040[];
 extern char D_002A97F0[];
 float func_001FCFD0(void *p, int id);

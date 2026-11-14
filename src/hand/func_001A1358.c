@@ -3,8 +3,7 @@ struct LO;
 typedef struct { short d; short pad; qword (*pfn)(struct LO *); } VTE;
 struct LO { int x0, x4, x8; VTE *vt; char pad10[0xD0 - 0x10]; float xD0; char padD4[0x1A8 - 0xD4]; float x1A8; char pad1AC[0x208 - 0x1AC]; int x208; };
 struct S { struct LO *po; int x4; float x8; char pad[0x90 - 0xC]; int x90; float x94, x98, x9C; };
-struct CLOCK { float t, dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BFAA0[3], D_002BFAB0[3], D_002BFAC0[];
 extern float g_lmZeroOne[2];
 void MarkAloDirty__FP3ALO(struct LO *po);

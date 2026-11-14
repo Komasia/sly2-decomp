@@ -1,5 +1,5 @@
 extern float D_003E1BFC;
-extern struct CLOCK { float t; float dt; } g_clock;
+#include "clock.h"
 extern char D_002A8AB0[];
 void sprintf(void *f, const char *fmt, ...);
 void func_00210F80(void *f)

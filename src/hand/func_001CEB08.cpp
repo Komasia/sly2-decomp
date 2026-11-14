@@ -3,11 +3,10 @@ union U {qw q;float f[4];int i[4];};
 struct POLY {float a,b,c;};
 struct RIP {int kind;char p4[0x10];float start,duration;char p1C[4];POLY scale;char p2C[0x44];U position;char p80[0x10];U velocity;U acceleration;char pB0[0x20];U angular;char pE0[0x10];float radius,restitution,friction;};
 struct SHAPE {void*frame;void*owner;};
-struct CLOCK {float time,dt;};
+#include "clock.h"
 struct PROX {float fraction,distance;};
 struct WORK {U temporary,scalar,tangent,afterTangent;PROX proximity;qw contact;U firstTorque,frictionTorque,frictionAxis,inertia,normal,offset;};
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002C1F60,D_002C1F64,D_002C1F68,D_002C1F6C;
 extern qw D_002A2DA0,D_002A2DD0;
 int FIsBasicDerivedFrom(void*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
@@ -41,7 +40,7 @@ int FBounceRip(RIP*p,SHAPE*incomingShape,qw point,qw normal){
  WORK w;float radius,elastic,friction;void*owner;
  {register qw incomingNormal __asm__("vf8");__asm__("qmtc2.ni %1,%0":"=j"(incomingNormal):"r"(normal));
  if(p->kind==8){w.contact=point;radius=p->radius;elastic=p->restitution;friction=p->friction;}else{w.contact=point;radius=100.0f;elastic=0.7f;friction=0.8f;}
- radius*=Evaluate(&p->scale,(g_clock.time-p->start)/p->duration);
+ radius*=Evaluate(&p->scale,(g_clock.t-p->start)/p->duration);
  owner=OwnerAndNormal(shape,w,incomingNormal);}
  int special=FIsBasicDerivedFrom(owner,0x59);register qw sampledNormal __asm__("vf8")=w.normal.q;
  if(special){
@@ -203,8 +202,6 @@ typedef char layout_ceb08_16[((unsigned)&((RIP*)0)->restitution==0xF4)?1:-1];
 typedef char layout_ceb08_17[((unsigned)&((RIP*)0)->friction==0xF8)?1:-1];
 typedef char layout_ceb08_18[((unsigned)&((SHAPE*)0)->frame==0x0)?1:-1];
 typedef char layout_ceb08_19[((unsigned)&((SHAPE*)0)->owner==0x4)?1:-1];
-typedef char layout_ceb08_20[((unsigned)&((CLOCK*)0)->time==0x0)?1:-1];
-typedef char layout_ceb08_21[((unsigned)&((CLOCK*)0)->dt==0x4)?1:-1];
 typedef char layout_ceb08_22[((unsigned)&((PROX*)0)->fraction==0x0)?1:-1];
 typedef char layout_ceb08_23[((unsigned)&((PROX*)0)->distance==0x4)?1:-1];
 typedef char layout_ceb08_24[((unsigned)&((WORK*)0)->temporary==0x0)?1:-1];
@@ -242,7 +239,6 @@ typedef char layout_ceb08_55[((unsigned)&((SPECIAL_PAGE*)0)->blend==0x1F64)?1:-1
 typedef char layout_ceb08_56[((unsigned)&((WORK*)0)->proximity.fraction==0x40)?1:-1];
 typedef char layout_ceb08_57[((unsigned)&((WORK*)0)->proximity.distance==0x44)?1:-1];
 typedef char layout_ceb08_58[((unsigned)&((RIP*)0)->velocity.f[2]==0x98)?1:-1];
-typedef char layout_ceb08_59[(sizeof(CLOCK)==8)?1:-1];
 typedef char layout_ceb08_60[(sizeof(((WORK*)0)->contact)==16)?1:-1];
 typedef char layout_ceb08_61[(sizeof(((WORK*)0)->normal)==16)?1:-1];
 typedef char layout_ceb08_62[(sizeof(((WORK*)0)->scalar)==16)?1:-1];

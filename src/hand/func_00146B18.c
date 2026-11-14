@@ -5,10 +5,9 @@ typedef int qword __attribute__((mode(TI)));
 struct Q { char pad[0x18]; float x18; float x1C; char pad2[0x30 - 0x20]; int x30; };
 struct PO { char pad[0x2DC]; int x2DC; };
 struct P { char pad[0x10]; struct PO *p10; char pad2[0x30 - 0x14]; int x30; float x34; void *p38; };
-struct CLOCK { float t; };
+#include "clock.h"
 struct CLQ { float g0, g1, g2, gPad; } __attribute__((aligned(16)));
 struct LM { float gMin, gMax; };
-extern struct CLOCK g_clock;
 void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword PosOfLo__FP2LO(void *p);
 float atan2f(float y, float x);

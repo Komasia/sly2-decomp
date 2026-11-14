@@ -20,8 +20,7 @@ struct P {
     int x14E0; char pad14E4[0x14F0 - 0x14E4]; char x14F0[0x1520 - 0x14F0]; qword v1520; char pad1530[0x15F0 - 0x1530];
     int x15F0; char pad15F4[0x1600 - 0x15F4]; char x1600[0x16B0 - 0x1600]; int x16B0; char pad16B4[0x181C - 0x16B4]; int x181C;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 extern struct LM g_lmZeroOne;
 extern struct POLY D_002BC940;

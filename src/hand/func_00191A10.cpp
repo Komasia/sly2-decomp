@@ -39,11 +39,10 @@ struct CONTEXT {
     char pad224[0x240 - 0x224]; PROGRAM program240; char pad2E4[0x330 - 0x2E4]; ENTRY axes2[8]; void *request2;
     char pad434[0x440 - 0x434]; char sub[0x10];
 };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct VU_FLOAT { qword q; };
 
 extern "C" {
-extern CLOCK g_clock;
 extern ACTOR *D_002E1E40;
 extern qword D_002A2DA0;                    // (1, 0, 0, 0)
 extern float D_002BF5BC, D_002BF5C0, D_002BF5C4, D_002BF5C8, D_002BF5CC;

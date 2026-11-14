@@ -1,8 +1,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct VT { short d; short pad; void *pfn; };
 struct P { char pad[0xC]; struct VT *pvt; char pad2[0x154 - 0x10]; float t154; float g158; char pad3[0x1F4 - 0x15C]; int f1F4; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void UpdateSo__FP2SOf(struct P *p);
 void EndProjectile__FP3ALO(struct P *p);
 void SweepProjectile__FP3ALO(struct P *p);

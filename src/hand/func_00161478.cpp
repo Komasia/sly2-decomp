@@ -8,9 +8,8 @@ struct CRef:CRefData{
 struct OPT;
 struct H{char pad[0x9C];float start,end,elapsed;};
 struct G{char pad[0x3B0C];H*object;char pad10[0xC];OPT*primary;char pad20[0x38];OPT*options[9];};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 extern G g_sw;
-extern CLOCK g_clock;
 extern int D_002E0C20;
 extern char D_003D4A60[],D_002DE578[];
 extern "C" CRef NProgress(OPT*,void*);
@@ -69,6 +68,3 @@ typedef char G_Object[FIELD_OFFSET(G,object)==0x3B0C?1:-1];
 typedef char G_Primary[FIELD_OFFSET(G,primary)==0x3B1C?1:-1];
 typedef char G_Options[FIELD_OFFSET(G,options)==0x3B58?1:-1];
 typedef char G_OptionCount[sizeof(((G*)0)->options)/sizeof(OPT*)==9?1:-1];
-typedef char Clock_Size[sizeof(CLOCK)==8?1:-1];
-typedef char Clock_Time[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char Clock_Delta[FIELD_OFFSET(CLOCK,dt)==4?1:-1];

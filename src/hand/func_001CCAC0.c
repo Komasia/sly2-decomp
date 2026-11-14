@@ -8,8 +8,7 @@ struct S {
     char p2[0x80 - 0x3C]; int x80; struct O *x84; int x88; struct O *x8C; int x90;
     int x94; int x98; int x9C; int xA0; int xA4; float xA8;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern struct P8 D_002A77C8;
 extern char g_sw[];
 void DeleteCtrl__FPP4CTRL(int *p);

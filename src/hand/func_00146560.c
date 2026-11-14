@@ -2,8 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct Q { char pad[0x18]; float x18; float x1C; char pad2[0x30 - 0x20]; int x30; };
 struct P { char pad[0x10]; void *p10; char pad2[0x30 - 0x14]; int x30; float x34; void *p38; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void Drive__5AIJOBP6PADCTL(struct P *p, struct Q *q);
 qword PosOfLo__FP2LO(void *p);
 float atan2f(float y, float x);

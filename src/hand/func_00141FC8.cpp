@@ -8,9 +8,8 @@ struct CRef {
 struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct E { int id; int a; float g; };
 struct P { char pad[0xC]; VTE *vt; char pad2[0x1180 - 0x10]; E ae[3]; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern char D_002A4D50[];
 extern char D_002A4D58[];
 void SetAbilityState(P *p, E *pe, int n) asm("SetAbilityState__FP5ACTORP6ABSLOTi");

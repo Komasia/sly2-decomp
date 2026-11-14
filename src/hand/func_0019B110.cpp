@@ -112,7 +112,7 @@ struct OBJCTX { JTAIR *pjtair; void *plo; int pad[2]; qword v; };               
 struct PAIR { JTAIR *pjtair; void *plo; };                                               // GScorePipeS
 struct SOLIST { int cpso; void **apso; };                                                // func_0019B0A8
 
-struct CLOCK { float t, dt; };
+#include "clock.h"
 typedef float (*PFNSCORE)(void *, float);
 
 extern "C" {
@@ -121,7 +121,6 @@ extern CURVE *D_003E13CC, *D_003E13C0, *D_003E13F0;
 extern HOOK *D_003E13B4;
 extern MESH *D_003E142C;
 extern STEPPLAYER *D_002F7900;      // the partner
-extern CLOCK g_clock;
 extern qword D_002A2DD0;            // zero vector
 extern float D_002BF8E0;            // score limit
 extern float D_002BF8E4, D_002BF8E8, D_002BF8EC, D_002BF8F0, D_002BF8F4, D_002BF8F8, D_002BF8FC, D_002BF904, D_002BF908;

@@ -1,7 +1,6 @@
 struct Q { int x0; char pad[0x40]; int x44; };
 struct P { char pad[0x1E0]; int x1E0; float x1E4; float x1E8; char pad2[0x2A8 - 0x1EC]; int x2A8; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void *FAbsorbSoWkr__FP2SOP3WKR(struct P *p, struct Q *q);
 int FPadAccepts__FP3PADi(struct P *p, int x);
 void func_001490A0(struct P *p, int f);

@@ -1,8 +1,7 @@
 struct VTE { short d; short pad; void (*pfn)(void *, int); };
 struct O { char pad[0xC]; struct VTE *vt; char pad2[0x8C - 0x10]; int f8c; };
 struct S { char pad[0x3BC4]; struct O *po; char pad2[0x476C - 0x3BC8]; float t; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 // name: SafeHouse port (StartHudTimer)
 void StartHudTimer__FPvf(struct S *p, float dt)
 {

@@ -4,8 +4,7 @@ struct COEF {float a,b,c;};
 struct VE {short d,pad;qword(*fn)(void*);};
 struct OWNER {char pad[0xA0];void *parent;char padA4[0x4C];qword force;};
 struct S {char pad[0xC];struct VE *vt;char pad10[0x48];struct OWNER *owner;};
-struct CLOCK {float time,dt;};
-extern struct CLOCK g_clock;
+#include "clock.h"
 qword PosOfLo__FP2LO(struct S*);
 qword VecConvertXfs__FP2XFT0G9VU_VECTOR(void*,void*,qword);
 static inline qword Sub(qword x,qword y){register qword a __asm__("vf1")=x,b __asm__("vf2")=y,r __asm__("vf3");__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}

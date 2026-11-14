@@ -3,7 +3,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} U;
 struct SPACE;
-struct M3{U r[3];};struct M4{U r[4];};struct LM{float low,high;};struct CLOCK{float time,dt;};
+struct M3{U r[3];};struct M4{U r[4];};struct LM{float low,high;};
+#include "clock.h"
 struct MODEL{char pad[0x1C];float base;char pad20[0x40-0x20];float scale;};
 struct AIM{char pad[0x150];struct SPACE*frame;};struct OWNER{char pad[0x494];struct AIM*aim;};
 struct GROUP{char pad[0xA0];struct SPACE*space;};struct FOCUS{char pad[0x58];struct GROUP*group;};
@@ -93,11 +94,11 @@ void UpdatePickpocketPose__FP3SLY(struct P*p){
   }
   {register int near __asm__("$2")=1;float distance=CorrectionDistance(p,residual);if(distance<limit){}else near=0;if(near){
    SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvYaw,tilt);SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvResidual,w.residual.q);SetCtrlSourceOffset__FP10CTRLSOURCEG9VU_VECTOR(p->dvX,axis);
-   p->valid=1;p->time=g_clock.time;return;
+   p->valid=1;p->time=g_clock.t;return;
   }}
  }}
  {register float remaining __asm__("$f0")=p->time,after __asm__("$f2"),gain __asm__("$f3");
-  {register float life __asm__("$f1")=D_002BF3BC,now __asm__("$f3")=g_clock.time;remaining=remaining+life;after=g_clock.dt;remaining=remaining-now;after=remaining-after;}
+  {register float life __asm__("$f1")=D_002BF3BC,now __asm__("$f3")=g_clock.t;remaining=remaining+life;after=g_clock.dt;remaining=remaining-now;after=remaining-after;}
   {register float zero __asm__("$f1")=0.0f;if(zero<after)gain=after/remaining;else gain=zero;}
   {register qword bits __asm__("$2");__asm__("mfc1 %0,%2\n\tsq %0,%1":"=&r"(bits),"=m"(w.gain.q):"f"(gain));}
   {
@@ -127,7 +128,6 @@ typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char M3_Size[(sizeof(struct M3)==48)?1:-1];
 typedef char M4_Size[(sizeof(struct M4)==64)?1:-1];
 typedef char LM_Size[(sizeof(struct LM)==8)?1:-1];
-typedef char CLOCK_Size[(sizeof(struct CLOCK)==8)?1:-1];
 typedef char DV_Size[(sizeof(struct DV)==48)?1:-1];
 typedef char WORK_Size[(sizeof(struct WORK)==240)?1:-1];
 typedef char MODEL_base_Offset[((unsigned)&((struct MODEL*)0)->base==28)?1:-1];
@@ -158,8 +158,6 @@ typedef char WORK_rotation_Offset[((unsigned)&((struct WORK*)0)->rotation==144)?
 typedef char WORK_relative_Offset[((unsigned)&((struct WORK*)0)->relative==192)?1:-1];
 typedef char WORK_residual_Offset[((unsigned)&((struct WORK*)0)->residual==208)?1:-1];
 typedef char WORK_gain_Offset[((unsigned)&((struct WORK*)0)->gain==224)?1:-1];
-typedef char CLOCK_time_Offset[((unsigned)&((struct CLOCK*)0)->time==0)?1:-1];
-typedef char CLOCK_dt_Offset[((unsigned)&((struct CLOCK*)0)->dt==4)?1:-1];
 typedef char LM_low_Offset[((unsigned)&((struct LM*)0)->low==0)?1:-1];
 typedef char LM_high_Offset[((unsigned)&((struct LM*)0)->high==4)?1:-1];
 

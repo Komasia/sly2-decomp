@@ -9,8 +9,7 @@ struct P{char pad[0xE8];TUNE*tuning;char padEC[0x314-0xEC];float close,far;char 
 typedef struct C{char pad[0x10];P*actor;int pad14;void*sub;char pad1C[0x30-0x1C];P*target;int state;char pad38[0x44-0x38];void*region;char pad48[8];U cached;}C;
 typedef struct X{void*a,*b;char pad8[8];qword point;}X;
 typedef struct WORK{X frame;U point;}WORK;
-typedef struct CLOCK{float time,dt;}CLOCK;
-extern CLOCK g_clock;
+#include "clock.h"
 extern float D_002BE614,D_003E1BE8;
 void Update__5AIJOB(C*);
 int FJobDone(C*) asm("FJobDone__FP5AIJOB");
@@ -57,7 +56,6 @@ static inline int Moved(C*p,U*point){
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char X_Size[sizeof(X)==32?1:-1];
 typedef char WORK_Size[sizeof(WORK)==48?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char P_tuning_Offset[FIELD_OFFSET(P,tuning)==232?1:-1];
 typedef char P_close_Offset[FIELD_OFFSET(P,close)==788?1:-1];
 typedef char P_far_Offset[FIELD_OFFSET(P,far)==792?1:-1];
@@ -79,8 +77,6 @@ typedef char X_b_Offset[FIELD_OFFSET(X,b)==4?1:-1];
 typedef char X_point_Offset[FIELD_OFFSET(X,point)==16?1:-1];
 typedef char WORK_frame_Offset[FIELD_OFFSET(WORK,frame)==0?1:-1];
 typedef char WORK_point_Offset[FIELD_OFFSET(WORK,point)==32?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 // name: SafeHouse port (JOBPURSUE::Update)
 void Update__9JOBPURSUE(C*p){
  WORK work;int old;
@@ -131,7 +127,7 @@ void Update__9JOBPURSUE(C*p){
    break;
   }
  }while(old!=p->state);
- if(p->actor->emit &&old<4 &&old>=0 &&p->actor->time<=g_clock.time &&D_003E1BE8<=g_clock.time)
+ if(p->actor->emit &&old<4 &&old>=0 &&p->actor->time<=g_clock.t &&D_003E1BE8<=g_clock.t)
   RaiseGuardAlarm__FP5GUARDP2LO(p->actor,p->target);
 }
 

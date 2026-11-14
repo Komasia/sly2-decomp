@@ -1,8 +1,7 @@
 struct X { int a; int b; int c; };
 struct E { int a[4]; };
 struct S { char pad[0x180]; int x180; int x184; char p1[0x38]; int n; float t; char p2[0x48]; struct X x; int p3; struct E ae[1]; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 static __inline__ void ClearX(struct X *px) { px->a = px->b = px->c = 0; }
 void PlayHackSeg__FP2LOP6HACKSO(struct S *p, struct E *pe);
 // name: SafeHouse port (SetEnemyState)

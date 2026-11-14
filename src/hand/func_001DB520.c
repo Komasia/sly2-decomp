@@ -23,7 +23,7 @@ typedef struct OBJ {
     int n;
     E *ae;
 } OBJ;
-extern struct CLOCK { float a[16]; } g_clock;
+#include "clock.h"
 extern char g_sw[];
 extern E D_002C2DE8[], D_002C3028[], D_002C3148[];
 extern float D_002A79CC;
@@ -48,7 +48,7 @@ void SetGadgetMenu__FPvi(OBJ *p, int s)
     }
     SelectGadget__FPvi(p, -1);
     p->x40 = s;
-    p->x44 = g_clock.a[15];
+    p->x44 = g_clock.tReal;
     switch (s) {
     case -1: {
         int i;

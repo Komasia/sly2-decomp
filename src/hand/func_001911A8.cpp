@@ -40,14 +40,13 @@ struct CONTEXT {
     ACTOR *pactor; float tStamp; int action; int step; float tHold; ACTOR *pactorFocus; char pad18[8]; float gParam;
     char pad24[0x440 - 0x24]; ATTACH attach; char pad478[0x500 - 0x478]; int fInhibit;
 };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct SWALLOC { int cb, cbAlign; };
 struct STACKSCOPE { STACKSCOPE(); ~STACKSCOPE(); };   // 0x1AE478 / 0x1AE4A0(this, 2)
 struct VU_FLOAT { qword q; };
 
 extern "C" {
 extern SW g_sw;                                   // the world
-extern CLOCK g_clock;
 extern uint g_grfusr;
 extern qword g_normalZ;                                // (0, 0, 1)
 extern float D_002BF5B0, D_002BF5B4, D_002BF5B8;

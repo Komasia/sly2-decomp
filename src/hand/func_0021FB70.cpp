@@ -43,9 +43,8 @@ struct JTTHROW {
 };
 // What the line test reports (the hit point first)
 struct HIT {V pos;char unk10[0x50];};
-struct CLOCK {float t,dt;};
+#include "clock.h"
 extern SW g_sw;
-extern CLOCK g_clock;
 extern CLQ D_002C40F0;                         // the launch elevation over the aim distance
 extern float D_002C40E4;                       // 1.35: tPredict scale with power-up 0x24
 extern float D_002C4100,D_002C4104;            // 3.0 / 2.0: flight time / blend rate limits per second

@@ -2,8 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct S { int x0; int x4; int pad[2]; long x10; };
 typedef struct E { int x0; int x4; struct S *x8; float xc; qword x10; } E;
 struct P { int x0; int c; int pad[2]; E ae[32]; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 void *s1_memset(void *p, int v, int cb) asm("memset");
 static __inline__ float Dist(qword a, qword b)

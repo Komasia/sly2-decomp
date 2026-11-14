@@ -13,13 +13,12 @@ struct FOLLOW {char pad80[0x80];qword velocity;};
 struct LO {char padC[0xC];VTE *vt;char pad10[0x48];CHANNEL *position,*orientation;SPACE *space;char pad64[0x84];FOLLOW *follow;char padEC[0xC4];M3 basis;char pad1E0[0xE50];ANIM *playing;};
 struct SOURCE {char padC[0xC];VTE *vt;};
 struct P {LO *owner;char pad4[0x30];SOURCE *source;char pad38[0x5C];JOB *positionJob,*otherJob,*orientationJob;};
-struct CLOCK {float time,dt;};
+#include "clock.h"
 union VIEWS {struct {M4 intermediate,product,inverse;} matrices;struct {M3 angles,converted;} basis;U scalar;};
 struct WORK {M4 original,sample,start,final;VIEWS views;qword velocity,destination,delta,endVelocity;};
 extern "C" {
 extern qword D_002C1EE0;
 extern float D_002C1EF0;
-extern CLOCK g_clock;
 void DeleteCtrl(JOB **) asm("DeleteCtrl__FPP4CTRL");
 float GEventAseg11(MOTION *,int) asm("GEventAseg11__Fv");
 void CalculateAsegMatrices(MOTION *,float,float,LO *,SPACE *,SPACE *,M4 *,M4 *) asm("CalculateAsegMatrices__FP4ASEGP3ALOP2XFT2ffP7MATRIX4T6");
@@ -137,7 +136,7 @@ extern "C" void StartReachGrab__FP5REACHP2LO(P *input,LO *other){
   :"=&r"(receiver),"=&r"(apply),"=m"(work.views.scalar.q),"=m"(work.endVelocity):"m"(table[35].delta),"m"(table[35].fn),"j"(inverse),"j"(negativeOrEnd),"r"(object));
  work.views.scalar.q=positive;apply(receiver,callbackVelocity);
  }
- float endTime=g_clock.time+phase;
+ float endTime=g_clock.t+phase;
  qword position=PosConvertXfs(0,object->position->space,work.final.rows[3]);
  qword endVelocity=VecConvertXfs(0,object->position->space,work.endVelocity);
  {
@@ -157,7 +156,6 @@ extern "C" void StartReachGrab__FP5REACHP2LO(P *input,LO *other){
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)
-typedef char motion_job_layout[(sizeof(void*)==4 && sizeof(qword)==16 && sizeof(U)==16 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && sizeof(VTE)==8 && sizeof(VIEWS)==0xC0 && sizeof(WORK)==0x200 && OFF(VTE,delta)==0 && OFF(VTE,fn)==4 && OFF(CHANNEL,current)==0x90 && OFF(CHANNEL,space)==0xA0 && OFF(CHANNEL,endTime)==0xA8 && OFF(ANIM,motion)==0x14 && OFF(ANIM,start)==0x1C && OFF(ANIM,duration)==0x40 && OFF(FOLLOW,velocity)==0x80 && OFF(LO,vt)==0xC && OFF(LO,position)==0x58 && OFF(LO,orientation)==0x5C && OFF(LO,space)==0x60 && OFF(LO,follow)==0xE8 && OFF(LO,basis)==0x1B0 && OFF(LO,playing)==0x1030 && OFF(SOURCE,vt)==0xC && OFF(P,owner)==0 && OFF(P,source)==0x34 && OFF(P,positionJob)==0x94 && OFF(P,otherJob)==0x98 && OFF(P,orientationJob)==0x9C && OFF(CLOCK,time)==0 && OFF(VIEWS,matrices.intermediate)==0 && OFF(VIEWS,matrices.product)==0x40 && OFF(VIEWS,matrices.inverse)==0x80 && OFF(VIEWS,basis.angles)==0 && OFF(VIEWS,basis.converted)==0x30 && OFF(WORK,original)==0 && OFF(WORK,sample)==0x40 && OFF(WORK,start)==0x80 && OFF(WORK,final)==0xC0 && OFF(WORK,views)==0x100 && OFF(WORK,velocity)==0x1C0 && OFF(WORK,destination)==0x1D0 && OFF(WORK,delta)==0x1E0 && OFF(WORK,endVelocity)==0x1F0)?1:-1];
 
 typedef char inverse_field_layout[(__alignof__(M4)==0x10 && OFF(WORK,views)+OFF(VIEWS,matrices.inverse)==0x180 && OFF(WORK,views)+OFF(VIEWS,matrices.intermediate)==0x100)?1:-1];
 
@@ -166,7 +164,6 @@ typedef char ccc88_final_0[(sizeof(int)==4)?1:-1];
 typedef char ccc88_final_1[(sizeof(unsigned)==4)?1:-1];
 typedef char ccc88_final_2[(sizeof(short)==2)?1:-1];
 typedef char ccc88_final_3[(sizeof(float)==4)?1:-1];
-typedef char ccc88_final_4[(sizeof(CLOCK)==8)?1:-1];
 typedef char ccc88_final_5[(__alignof__(qword)==16)?1:-1];
 typedef char ccc88_final_6[(__alignof__(U)==16)?1:-1];
 typedef char ccc88_final_7[(__alignof__(M4)==16)?1:-1];

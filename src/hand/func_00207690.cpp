@@ -6,11 +6,10 @@ union FLAGS {unsigned long value;unsigned char bytes[8];};
 struct P {char pad0[0x28];FLAGS flags;char pad30[0x30];SPACE *space;char pad64[0xC8];float opacity;int unused130;void *material;char pad138[0x108];float pivot[3];char pad24C[0x114];float start;};
 struct CAMERA {char pad0[0x14];int mask;char pad18[0x78];U position;};
 struct PROFILE {float a,b,c,unused,min,max;};
-struct CLOCK {float time,dt;};
+#include "clock.h"
 struct EFFECT;
 extern CAMERA g_cm;
 extern PROFILE D_003E1A60;
-extern CLOCK g_clock;
 extern float D_002C3D4C;
 extern float D_002C3D50[3],D_002C3D60[2],g_lmZeroOne[2];
 extern "C" {
@@ -47,7 +46,7 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             float gain=profile->a+distance*(profile->b+distance*profile->c);
             float min=profile->min,max=profile->max;
             if(gain<min)gain=min;else if(max<gain)gain=max;
-            float elapsed=g_clock.time-p->start;
+            float elapsed=g_clock.t-p->start;
             float along=gain,across=gain;
             if(elapsed<0.85f){
                 float wave=sinf(elapsed*D_002C3D4C);

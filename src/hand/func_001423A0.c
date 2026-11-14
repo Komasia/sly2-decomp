@@ -8,8 +8,7 @@ struct P {
     char pad[0x4C8]; int x4C8; char pad1[0x4D4 - 0x4CC]; int x4D4; char pad2[0x934 - 0x4D8]; struct O *po;
     char pad3[0x994 - 0x938]; struct X994 *p994; char pad4[0x9A4 - 0x998]; int x9A4;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void func_002309E8(void *a, int b, M4 *pm, int c, float g);
 qword PosOfLo__FP2LO(void *p);
 static __inline__ qword Mul(M4 *pm, qword v)

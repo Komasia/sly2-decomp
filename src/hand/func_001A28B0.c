@@ -14,8 +14,7 @@ struct P {
  char pad6[0x10A0-0xDF8]; float height10A0, alpha10A4;
  struct SMP smp10A8;
 };
-struct CLOCK { float t,dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 int FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR(struct P *p,void *o,qword *pos);
 void func_00228C18(void *o,qword pos,qword *dir,qword *v);
 void ApplyWaterToAlo__FP3ALOT0(struct P *p,void *o);

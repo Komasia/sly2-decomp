@@ -9,8 +9,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 typedef struct { float x, y, z, w; } V;
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 float RadNormalize__Ff(float);
 
 static __inline__ float FloatFromQw(qword q)

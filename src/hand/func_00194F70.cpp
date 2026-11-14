@@ -36,10 +36,9 @@ struct JTGRABCAND {
 };
 struct SW { char pad0[0x4678]; int cjtgrabcand; JTGRABCAND ajtgrabcand[4]; };
 struct STEPPLAYER { char pad0[0x9C4]; int idUnk9C4; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 
 extern "C" {
-extern CLOCK g_clock;
 extern int D_002E1E50;
 extern float D_002BF710, D_002BF714;
 extern SMP D_002BF718;

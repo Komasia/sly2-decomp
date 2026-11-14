@@ -8,7 +8,8 @@ struct CURVE{char pad0[0x1C];float value;char pad20[0x20];float slope;};
 struct ANIMATION{char pad0[0x74];float gain;};
 struct LINK{char pad0[4];P*object;};
 struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];PL*input;char pad154[0x1A8-0x154];float angle;char pad1AC[0xF00-0x1AC];char action[0x50];char padF50[0x1030-0xF50];CURVE*curve;char pad1034[0x18C4-0x1034];P*target;char pad18C8[8];int state;float changed;char pad18D8[0x1C];float farTime;int previous,flipped;LINK*link;char pad1904[0x1970-0x1904];float combined;char pad1974[8];float activeOnly;char pad1980[8];float idle;char pad198C[8];ANIMATION*animation;float speedBlend,activeBlend;};
-struct CLOCK{float time,dt;};struct LM{float values[3];};
+#include "clock.h"
+struct LM{float values[3];};
 struct WORK{U reference,direction,local;M3 matrix,returned;float heading;U target;};
 extern "C"{
  void RadHangFrame(P*,float*) asm("RadHangFrame__FP3SLYPf");float RadNormalize(float) asm("RadNormalize__Ff");void SetStepPhysHeading(P*,float) asm("SetStepPhysHeading__FP3ALOf");qword PosOfLo(P*) asm("PosOfLo__FP2LO");M3* BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");float atan2f(float,float) asm("atan2f");
@@ -34,7 +35,6 @@ typedef char PL_Size[sizeof(PL)==32?1:-1];
 typedef char CURVE_Size[sizeof(CURVE)==68?1:-1];
 typedef char ANIMATION_Size[sizeof(ANIMATION)==120?1:-1];
 typedef char LINK_Size[sizeof(LINK)==8?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char LM_Size[sizeof(LM)==12?1:-1];
 typedef char WORK_Size[sizeof(WORK)==176?1:-1];
 typedef char P_Size[sizeof(P)==6560?1:-1];
@@ -62,8 +62,6 @@ typedef char CURVE_value_Offset[FIELD_OFFSET(CURVE,value)==28?1:-1];
 typedef char CURVE_slope_Offset[FIELD_OFFSET(CURVE,slope)==64?1:-1];
 typedef char ANIMATION_gain_Offset[FIELD_OFFSET(ANIMATION,gain)==116?1:-1];
 typedef char LINK_object_Offset[FIELD_OFFSET(LINK,object)==4?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char WORK_reference_Offset[FIELD_OFFSET(WORK,reference)==0?1:-1];
 typedef char WORK_direction_Offset[FIELD_OFFSET(WORK,direction)==16?1:-1];
 typedef char WORK_local_Offset[FIELD_OFFSET(WORK,local)==32?1:-1];
@@ -78,7 +76,7 @@ extern "C" void UpdateSlyHangInput__FP3SLY(P*p){
  if(p->flipped)w.heading=RadNormalize(w.heading+3.1415927410125732421875f);
  SetStepPhysHeading(p,w.heading);
  float inputDifference=RadNormalize(p->input->angle-p->angle);
- if(p->input->amount>0.3f){float d=Abs(inputDifference);if(d<1.0471975803375244140625f){near=1;p->farTime=g_clock.time;}else if(d>2.094395160675048828125f){far=1;p->farTime=g_clock.time;}}
+ if(p->input->amount>0.3f){float d=Abs(inputDifference);if(d<1.0471975803375244140625f){near=1;p->farTime=g_clock.t;}else if(d>2.094395160675048828125f){far=1;p->farTime=g_clock.t;}}
  else p->previous=-1;
  w.reference.q=PosOfLo(p->target);register P*receiver __asm__("$4");
  __asm__("sq %2,%1\n\tdaddu %0,%3,$zero" : "=r"(receiver),"=m"(w.target.q) : "r"(w.reference.q),"r"(p));
@@ -111,13 +109,13 @@ extern "C" void UpdateSlyHangInput__FP3SLY(P*p){
  switch(next){
  case 0:
   if(far)next=2;
-  else if(near){if(g_clock.time-p->changed>D_002BF554){p->previous=0;next=1;}}
-  else if(g_clock.time-p->farTime>D_002BF55C)next=1;
+  else if(near){if(g_clock.t-p->changed>D_002BF554){p->previous=0;next=1;}}
+  else if(g_clock.t-p->farTime>D_002BF55C)next=1;
   break;
  case 2:
   if(near)next=0;
-  else if(far){if(g_clock.time-p->changed>D_002BF558){p->previous=2;next=1;}}
-  else if(g_clock.time-p->farTime>D_002BF55C)next=1;
+  else if(far){if(g_clock.t-p->changed>D_002BF558){p->previous=2;next=1;}}
+  else if(g_clock.t-p->farTime>D_002BF55C)next=1;
   break;
  case 1:
   if(near&&p->previous!=0){next=0;p->previous=-1;}
@@ -178,5 +176,4 @@ typedef char final_alignment_6[__alignof__(PL)==4?1:-1];
 typedef char final_alignment_7[__alignof__(CURVE)==4?1:-1];
 typedef char final_alignment_8[__alignof__(ANIMATION)==4?1:-1];
 typedef char final_alignment_9[__alignof__(LINK)==4?1:-1];
-typedef char final_alignment_10[__alignof__(CLOCK)==4?1:-1];
 typedef char final_alignment_11[__alignof__(LM)==4?1:-1];

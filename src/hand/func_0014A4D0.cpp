@@ -10,11 +10,10 @@ struct PSO { char pad[0xC]; VTE *vt; char pad1[0x258 - 0x10]; PATH *ppath; char 
 struct LO { char pad[0xC]; VTE *vt; };
 struct W { char pad[0x1010]; LO *plo; };
 struct P { char pad[0x10]; W *pw; char pad1[0x48 - 0x14]; float t48; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern "C" {
 extern G g_sw;
 extern SO *D_003E1450;
-extern CLOCK g_clock;
 extern float D_002BD460;
 extern float D_002BD468[2];
 extern float D_002BD470, D_002BD474, D_002BD478, D_002BD47C;

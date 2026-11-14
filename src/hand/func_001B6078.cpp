@@ -68,8 +68,7 @@ struct P {
     ASEG *clip21;           // 0x1AEC
 };
 extern "C" {
-struct CLOCK { float t, dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern U D_002A2DD0;
 extern int D_002DD5BC;
 void SetXfMode(P *, void *, int) asm("SetXfMode__FP3ALOP2XFi");

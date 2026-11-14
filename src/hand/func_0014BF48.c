@@ -1,5 +1,4 @@
-struct CLOCK { char pad[0x3C]; float g3C; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct Q { char pad[0x10B4]; int n; };
 extern struct Q g_joy;
 extern int D_003DA0B8;
@@ -19,5 +18,5 @@ void func_0014BF48(struct P *p, struct Q *q, unsigned short k)
             else n->i = 0;
         }
     }
-    p->g = g_clock.g3C + 1.0f;
+    p->g = g_clock.tReal + 1.0f;
 }

@@ -1,4 +1,4 @@
-extern struct CLOCK { float t; } g_clock;
+#include "clock.h"
 extern int D_002C2248[];
 struct S { char p0[0x150]; int n150; float g154; char p1[0x164-0x158]; void *p164; };
 void SeekSma__FP3SMA3OID(void *p, int n);

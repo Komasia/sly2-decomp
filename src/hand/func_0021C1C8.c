@@ -8,7 +8,7 @@ struct S {
     char pad168[0x18]; void *follow; float rate; float distance;
     char pad18c[4]; qword previous;
 };
-extern struct CLOCK { float t; float dt; } g_clock;
+#include "clock.h"
 void ProjectSoTransform__FP2SOfi(struct S *);
 qword PosOfLo__FP2LO(void *);
 void SetCenters__FP5TRAILG9VU_VECTOR(struct S *, qword);

@@ -10,9 +10,8 @@ struct S {
 };
 struct Q { char pad[0x18]; float duration; void *owner; char pad20[0xEC-0x20]; struct VTE *vt; void *emit; };
 struct CAMERA { char pad[0x60]; qword a,b; };
-struct CLOCK { float t; };
+#include "clock.h"
 extern struct CAMERA g_cm;
-extern struct CLOCK g_clock;
 extern qword D_002C0D80;
 extern float D_002C0D90;
 extern struct G g_sw;

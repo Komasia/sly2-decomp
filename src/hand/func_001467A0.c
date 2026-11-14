@@ -3,8 +3,7 @@ struct M3 { qword r[3]; };
 struct PO { char pad[0x2DC]; int x2DC; float g2E0; char pad2[0xDF4 - 0x2E4]; int xDF4; char pad3[0x18C8 - 0xDF8]; int x18C8; char pad4[0x18D8 - 0x18CC]; int x18D8; };
 struct T { char pad[0x330]; int x330; };
 struct P { char pad[0x10]; struct PO *p10; char pad2[0x30 - 0x14]; int x30; float x34; struct T *p38; };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DA0;
 extern float D_002BD360;
 extern float D_002BD368;

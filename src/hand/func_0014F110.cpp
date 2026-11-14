@@ -5,10 +5,9 @@
 // v is computed before posMin so the spill slots come out v 0x30 / posMin 0x40. No register pins.
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } VU_FLOAT(const float *pg) { __asm__("qmtc2.ni %1, %0" : "=j,j"(q) : "r,V"(*(const int *)pg)); } /* never-chosen "V" (non-offsettable mem) alternative: allocation-only (the word stays a MEM until reload) */ };
-struct CLOCK { float t, dt, x8, xC, dtPrev; };
+#include "clock.h"
 struct FRAME { int n; FRAME(); ~FRAME(); }; /* out-of-line ctor/dtor: __10STACKSCOPE / _$_10STACKSCOPE(this, 2) */
 extern "C" {
-extern CLOCK g_clock;
 extern qword D_002BD8F0, D_002BD900;
 extern float D_002BD8D8, D_002BD8DC;
 extern char g_sw[];
@@ -45,12 +44,12 @@ qword PosCmAvoid(void *p, qword pos, qword posTarget)
     CLOCK *pclock = &g_clock;
     int ii, jj;
     qword dpos = Sub(posTarget, pos);
-    qword v = DivideBy(dpos, VU_FLOAT(&pclock->dtPrev));
+    qword v = DivideBy(dpos, VU_FLOAT(&pclock->dtCm));
     qword posMin = Add(pos, D_002BD8F0);
     qword posMax = Add(pos, D_002BD900);
     FRAME frame;
     func_0020FAA0(g_sw, posMin, posMax, (void *)func_0014F030, 0, &ii, &jj);
     qword w = SquishCmEye(p, ii, jj, (void *)GCmAvoidWeight, pos, v, D_002BD8D8, Length(v) + D_002BD8DC);
-    qword r = AddScaled(pos, w, VU_FLOAT(&pclock->dtPrev));
+    qword r = AddScaled(pos, w, VU_FLOAT(&pclock->dtCm));
     return r;
 }

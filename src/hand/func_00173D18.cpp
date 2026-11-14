@@ -4,8 +4,7 @@
 // the second pass, giving the target's preheader order (1, hi BE5DC, giv 0, hi clock). Fewer layers (86) or more (94+) differ.
 extern "C" {
 typedef int qword __attribute__((mode(TI)));
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BE5DC;
 struct O { char pad[0x28]; unsigned long fl; char pad2[0x84 - 0x30]; float g84; char pad3[0x330 - 0x88]; int n330; };
 struct X { char pad[8]; struct O *po; };

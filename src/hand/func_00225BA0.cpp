@@ -5,8 +5,7 @@ union V {qword q;float f[4];};
 struct BOUND {float lo,hi;};
 struct CONTROL {char pad[0x10];float x,y;char pad18[8];float z;};
 struct S {char pad[0x150];CONTROL *control;char pad154[0x2C];void *target;int aim;int pad188;float pitch,yaw,vpitch,vyaw;BOUND yawRange,pitchRange;char pad1ac[0x10];float strength;char pad1c0[0xC];int output;char pad1d0[8];void *rotation;};
-struct CLOCK {float t,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern int D_003E0FE0;
 extern char D_003D4A60[];
 extern float D_002C4408[];

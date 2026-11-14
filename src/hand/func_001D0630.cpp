@@ -5,7 +5,7 @@ struct G { char pad[0x60]; M3 mat; };
 struct SPIN { char pad[0x40]; qword axis; };
 struct S {char pad[0x14];float start,duration;char pad1C[0x40-0x1C];M3 mat;char pad70[0xF0-0x70];SPIN *spin;char padF4[0x100-0xF4];qword pos;};
 extern G g_cm;
-extern struct CLOCK {float t,dt;} g_clock;
+#include "clock.h"
 extern "C" {
 qword ConvertCmScreenToWorld(G*,qword) asm("ConvertCmScreenToWorld__FP2CMG9VU_VECTOR");
 M3 MulMat3TransposeA(const M3&,const M3&) asm("MulMat3TransposeA__FP7MATRIX3T0Pv");

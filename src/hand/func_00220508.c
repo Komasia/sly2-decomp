@@ -1,7 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
 struct S { int a; int k; char pad[0x20]; float r; char pad2[0xB4]; qword e0; char pad3[0x10]; qword p100; qword p110; float t; float f; int g; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 qword PosOfLo__FP2LO(void *q);
 static inline float DivideBits(int bits,float denominator){register float value asm("$f0");register float rate asm("$f2")=denominator;__asm__ ("mtc1 %1,%0\n\tdiv.s %0,%0,%2":"=&f"(value):"r"(bits),"f"(rate));return value;}
 static inline float ClockNow(void){float value;__asm__ __volatile__ ("lwc1 %0,%1":"=f"(value):"m"(g_clock.t));return value;}

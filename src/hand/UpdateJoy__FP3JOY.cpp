@@ -11,8 +11,7 @@ struct JOY {
     int fRumbleEnabled; /* 0x10E8 */
 };
 
-struct CLOCK { char pad[0x3C]; float tReal; };
-extern "C" CLOCK g_clock;
+#include "clock.h"
 
 extern "C" {
 int scePadGetState(int port, int slot) asm("scePadGetState");

@@ -8,8 +8,7 @@ struct P {
     char pad[0x10]; void *p10; char pad1[0x4C - 0x14]; int x4C; float x50; char pad2[0x80 - 0x54];
     qword q80; char pad3[0xC0 - 0x90]; struct O *xC0; int xC4; float xC8; int xCC; float xD0;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword g_normalZ;
 extern float D_002BD2E0[3];
 extern float g_lmZeroOne[2];

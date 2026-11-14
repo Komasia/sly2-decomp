@@ -7,8 +7,7 @@ struct S { int n0; int n4; int n8; VT *pvt; int n10; P *p14; int pad18[2]; qword
 struct SW { char pad[0x3D68]; int c; char pad2[0x3FFC - 0x3D6C]; char dl[0xC]; char pool[0x10]; };
 extern SW g_sw;
 extern VT D_002CE2B8;
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern "C" {
 S *func_0011CCC0(void *);
 void *s1_memset(void *, int, int) asm("memset");

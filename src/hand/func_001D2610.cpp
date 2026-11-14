@@ -20,7 +20,7 @@ typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct M3 { U rows[3]; };
 struct LM { float min, max; };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct BINDING { char pad0[0x28]; float pitch; };
 struct P;
 struct ATTACH {
@@ -34,7 +34,6 @@ struct P {
     char pad520[0x20]; float heading, goalHeading, steering, wheelAngle, drive; char pad554[0x50];
     P *target; void *navigator; PATH *path; float cursor, nextAttack; P *selectedObject; ATTACH *selectedAttach;
 };
-extern CLOCK g_clock;
 extern const qword D_002A2DA0, g_normalZ;
 extern float D_002C20E8, D_002C20EC, D_002C20F0, D_002C20F4, D_002C20F8;
 extern "C" {

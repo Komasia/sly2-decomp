@@ -4,8 +4,7 @@ struct S {
     char pad[0x188]; int x188; float x18C; void *x190; int x194; int p198[2];
     char x1A0[8]; void *a1A8[9]; void *a1CC[14]; struct X *x204; void *x208;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002C1080;
 extern qword D_002C1090;
 void func_001306A8(void *p);

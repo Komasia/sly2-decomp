@@ -7,9 +7,8 @@ public:
     LOCK(P *p) : m_p(p) { p->vt[1].pfn((char *)p + p->vt[1].d); }
     ~LOCK() { m_p->vt[2].pfn((char *)m_p + m_p->vt[2].d); }
 };
-struct CLOCK { float t; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 int func_001E5778(P *p);
 void RemoveDlEntry(int *pdl, P *p) asm("RemoveDlEntry__FP2DLPv");
 void func_001E5370(P *p);

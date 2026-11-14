@@ -60,10 +60,9 @@ struct WATER { char pad[0x18]; int x18; char pad1c[0x178 - 0x1C]; EX *px178; EX 
 struct RIP { char pad[0x1C]; EX *pex; float g20; float g24; char pad28[0xEC - 0x28]; EVTT *pvt; };
 struct E { int x0, x4; EX *p8; EX *pC; WATER *p10; };
 union V4 { qword q; float a[4]; };
-struct CLOCK { float t; };
+#include "clock.h"
 
 extern "C" {
-extern CLOCK g_clock;
 extern int D_002BDEB0[];
 extern qword g_normalZ;
 extern char g_sw[];

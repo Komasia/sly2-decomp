@@ -6,8 +6,7 @@ struct P {
     char pad[0x10]; void *p10; char pad1[4]; char m18[0x30 - 0x18]; struct X30 *p30; char pad2[0x60 - 0x34];
     int state; float tState; char pad3[0x80 - 0x68]; qword v80; int x90;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void EndChildJob__FPP5AIJOB(void *p);
 struct O *func_00205438(void *p, int oid);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);

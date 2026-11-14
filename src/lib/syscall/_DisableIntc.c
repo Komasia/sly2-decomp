@@ -1,0 +1,15 @@
+/* EE kernel syscall stub 21 (hand-written assembly in Sony's libkernel).
+   name: the EE syscall table (syscall 21 = _DisableIntc; ps2tek BIOS EE_Syscalls, negative = the interrupt-handler form). */
+__asm__(
+    ".set noreorder\n"
+    ".text\n"
+    ".globl _DisableIntc\n"
+    ".ent _DisableIntc\n"
+    "_DisableIntc:\n"
+    "addiu $3, $0, 21\n"
+    "syscall\n"
+    "jr $31\n"
+    "nop\n"
+    ".end _DisableIntc\n"
+    ".set reorder\n"
+);

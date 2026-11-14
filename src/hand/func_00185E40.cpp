@@ -24,7 +24,7 @@ struct AXIS{float weight;int active;char pad8[8];U direction;};
 struct TRIREF{int index;float u,v;};
 struct LIST{int count;qword planes[8];};
 struct P{char pad0[0xC];VTE*vt;char pad10[0x140];CONTROL*control;char pad154[0x3C];U acceleration;char pad1A0[0x10];M3 basis;char pad1E0[0x1C30];AXIS axes[8];REQUEST*request;int pad1F14;void*mesh;TRIREF triangle;U points[3];};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 struct VU_FLOAT{qword qw;VU_FLOAT(){}VU_FLOAT(float f){__asm__("mfc1 %0,%1":"=r"(qw):"f"(f));}};
 extern "C"{
 extern U g_normalZ;extern M3 D_002DDFA0;extern CLOCK g_clock;extern PARAMS D_002BE920,D_002BE930,D_002BE940;

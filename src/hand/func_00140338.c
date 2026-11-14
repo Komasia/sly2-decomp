@@ -1,5 +1,4 @@
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 struct G { char pad[0x4A4]; int n4A4; };
 extern struct G g_cm;

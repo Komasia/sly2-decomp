@@ -1,4 +1,4 @@
-extern struct CLOCK { float a[16]; } g_clock;
+#include "clock.h"
 typedef struct {
     char pad[0x28];
     int state;
@@ -18,7 +18,7 @@ void SetShopDir__FP4SHOPi(OBJ *p, unsigned int n)
     if (n == p->state)
         return;
     p->state = n;
-    p->t = g_clock.a[15];
+    p->t = g_clock.tReal;
     switch (n) {
     case 0:
         func_001DC260(p, 1);

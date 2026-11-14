@@ -37,10 +37,9 @@ struct P {
     char pad0[0xC]; struct VT *pvt; char pad10[0xF0 - 0x10]; qword vF0; float g100; char pad104[0x120 - 0x104]; float g120;
     char pad124[0x160 - 0x124]; int x160; char pad164[0x170 - 0x164]; char x170[0x43C - 0x170]; int x43C; int pad440; int c444; struct DL dl;
 };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 #define CA(p) ((VEC *)((int)(p) - 0x560))
 #define CB(p) ((VEC *)((int)(p) - 0x2B0))
-extern struct CLOCK g_clock;
 extern struct DLI *s_pdliFirst;
 extern int D_002BC9C0;
 extern "C" {

@@ -5,8 +5,7 @@ typedef struct { short d; short pad; struct F *(*pfn)(void *); } VT;
 struct S { char pad[0x20]; VT *vt; };
 typedef struct E { struct F *x0; struct S *x4; int x8; float xc; float x10; int pad[3]; } __attribute__((aligned(16))) E;
 struct P { int x0; int c; int pad[2]; E ae[32]; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern "C" void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 extern "C" void *s1_memset(void *p, int v, int cb) asm("memset");
 // name: SafeHouse port (RecordSafeTarget)

@@ -26,8 +26,7 @@ struct HIT { qword position, other, normal; char pad30[0x10]; float fraction; ch
 
 // D_002DDF0C is read as a field of the clock struct: a struct field at a fixed address may alias
 // sel->mode (a scalar global may not), which keeps the clock load after the mode store.
-struct CLOCK { char pad[0x3C]; float t3C; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern float D_002C3280, D_002C3274, D_002C3278, D_002C327C, D_002A79C8;
 
 extern "C" {
@@ -82,7 +81,7 @@ void StepGadget(SELECTOR *sel, int mode)
     if (mode == sel->mode)
         return;
     sel->mode = mode;
-    sel->tChanged = g_clock.t3C;
+    sel->tChanged = g_clock.tReal;
     if (mode == -1 || sel->selected == -1)
         return;
     ITEM *current = func_001DAE20(sel, sel->selected);

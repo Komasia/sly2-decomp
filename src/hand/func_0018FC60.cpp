@@ -17,7 +17,7 @@ struct P{char pad0[0xC];VTE*vt;char pad10[0xD8];ACCEL*accel;char padEC[0x17D8];N
 struct CLQ{float g0,g1,g2;};
 struct LM{float gMin,gMax;};
 struct SMPA{float a,b,duration,limit;};
-struct CLOCK{float t,dt;};
+#include "clock.h"
 struct STATE{U direction,position,velocity;M3 rotation;};
 struct VU_FLOAT{qword qw;};
 extern "C"{
@@ -33,7 +33,6 @@ extern CLQ D_002BF4F0,D_002BF520;
 extern LM D_002BF500,g_lmZeroOne;
 extern float D_002BF508,D_002BF50C,D_002BF510,D_002BF514,D_002BF540,D_002BF544;
 extern SMPA D_002BF530;
-extern CLOCK g_clock;
 }
 static inline VU_FLOAT VuFloat(float g){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"r"(g));return v;}
 static inline VU_FLOAT VuFloatFromMemWord(int n){VU_FLOAT v;__asm__("qmtc2.ni %1,%0":"=j"(v.qw):"rV"(n));return v;}

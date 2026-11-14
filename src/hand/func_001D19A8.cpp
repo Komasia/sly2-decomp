@@ -13,8 +13,7 @@ struct ENTRY {int id;REF *reference;int unknown;float steering;char pad10[4];flo
 struct SIDE {int id;REF *reference;void *binding;LIMITS angleLimits;};
 struct SOUND {char pad0[0x4E];short references;};
 struct P {char pad0[0xC];VENTRY *vt;char pad10[0x50];FRAME *space;char pad64[0x11C];int mode;char pad184[0xC];int count;char pad194[0xC];ENTRY entries[8];float width;int sideCount;SIDE sides[4];int attachCount;ATTACH *attachments[8];char pad51C[0x24];float heading,goalHeading,steering,wheelAngle,drive,turn,acceleration;char pad55C[0x3C];SOUND *sound;int unused59C;float soundRate;P *target;char pad5A8[0x18];float lastCorrection;};
-struct CLOCK {float time,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern const qword g_normalZ;
 extern POLY D_002C2040,D_002C2060,D_002C2080;
 extern LIMITS D_002C2050,D_002C2070,D_002C2090;
@@ -108,7 +107,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
     asm("lwc1 $f3,%4\n\tmin.s %0,%0,%2\n\tlwc1 $f2,%5\n\tmul.s %0,%3,%0\n\tlw %1,%6\n\tmul.s %0,%0,$f3\n\tdiv.s %0,%0,$f2"
         :"+f"(limited),"=r"(table):"f"(p->drive),"f"(turnFactor),"m"(p->steering),"m"(p->width),"m"(p->vt):"$f2","$f3");
     p->turn=limited;
-    if(GetMatrixFrom(p,table)->basis.rows[2].f[2]>0.5f)p->lastCorrection=g_clock.time;
+    if(GetMatrixFrom(p,table)->basis.rows[2].f[2]>0.5f)p->lastCorrection=g_clock.t;
     i=0;
     if(p->sideCount>0){
         LIMITS*limits=&p->sides[0].angleLimits;SIDE*side=p->sides;
@@ -253,7 +252,6 @@ typedef char guard_43[(OFF(ATTACH,angle)==116)?1:-1];
 typedef char guard_44[(OFF(ATTACH,speed)==120)?1:-1];
 typedef char guard_45[(OFF(ATTACH,active)==160)?1:-1];
 typedef char guard_46[(OFF(SOUND,references)==78)?1:-1];
-typedef char guard_47[(OFF(CLOCK,dt)==4)?1:-1];
 typedef char guard_48[(sizeof(U)==16)?1:-1];
 typedef char guard_49[(sizeof(M3)==48)?1:-1];
 typedef char guard_50[(sizeof(M4)==64)?1:-1];
@@ -283,7 +281,6 @@ typedef char guard_73[(OFF(VENTRY,delta)==0)?1:-1];
 typedef char guard_74[(OFF(VENTRY,fn)==4)?1:-1];
 typedef char guard_75[(OFF(M4,basis)==0)?1:-1];
 typedef char guard_76[(OFF(M4,position)==0x30)?1:-1];
-typedef char guard_77[(OFF(CLOCK,time)==0)?1:-1];
 typedef char guard_78[(OFF(P,entries[1])-OFF(P,entries[0])==0x60)?1:-1];
 typedef char guard_79[(OFF(P,sides[1])-OFF(P,sides[0])==0x14)?1:-1];
 typedef char guard_80[(OFF(P,attachments[1])-OFF(P,attachments[0])==4)?1:-1];

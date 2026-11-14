@@ -70,10 +70,9 @@ struct EMITTER
 struct EMITX { PRG **ppprg; void *ppripg; EMITTER *pemitter; };
 struct SW;
 struct STEPPLAYER { char pad0[0x12F8]; EMITTER *pemitterGrab; };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 
 extern "C" {
-extern CLOCK g_clock;
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");                    // GRandInRange
 void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");          // memset
 void InsertPsysParticles(EMITB *pemitb, EMITX *pemitx, int cpart, VECTOR *apos, VECTOR *av, float *atBirth, float *atDeath,

@@ -32,9 +32,8 @@ struct P {
     char pad[0x50]; int state; char pad54[0x5C - 0x54]; float dt; int c; char pad64[0x70 - 0x64];
     ENT ae[6]; int stateHint; int iHint; char pad198[0x1A0 - 0x198]; qword pos; qword vel;
 };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern char D_003DD040[];
 extern float D_002BDB50, D_002BDB54, D_002BDB58, D_002BDB5C, D_002BDBB0;
 extern KEY D_002BDB70[4];

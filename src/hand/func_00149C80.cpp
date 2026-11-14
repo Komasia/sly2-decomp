@@ -49,8 +49,7 @@ struct EV {
     int nC;
 };
 struct LIST { void *pvFirst; void *pvLast; int ib; };
-struct CLOCK { float t; };
-extern CLOCK g_clock;
+#include "clock.h"
 
 struct MGR {
     char pad[0x39F0];

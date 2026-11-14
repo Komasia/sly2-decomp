@@ -1,6 +1,5 @@
 struct VTE { short d; short pad; void (*pfn)(); };
-typedef struct CLOCK { float t; float dt; } CLOCK;
-extern CLOCK g_clock;
+#include "clock.h"
 struct O { int a[3]; struct VTE *vt; int pad[6]; unsigned long fl; int pad2[14]; float t68; };
 // name: SafeHouse port (StartFadeLo)
 void StartFadeLo__FP2LO(struct O *o)

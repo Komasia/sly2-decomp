@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct O { char pad[0xFBC]; int xfbc; };
 struct S { char pad[0x4748]; int x4748; float x474c; };
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct S *, int, int, int, int, struct O **);

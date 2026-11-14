@@ -16,7 +16,7 @@ typedef struct {
 #define RS(a) (*(volatile int *)(a))
 int _ch4dma(int ch, void *arg);
 int func_00234740(int ch, int (*h)(int, void *), int next, void *arg);
-int func_00234750(int ch, int id);
+int RemoveDmacHandler(int ch, int id);
 int func_00235248(int ch);
 int func_002351E0(int ch);
 void FlushCache(int);
@@ -101,7 +101,7 @@ void _sceMpegCscStoreRefImage(D *d, P *p)
         st.size -= 0xFFFF;
         cscStore(d, n);
         func_002351E0(4);
-        func_00234750(4, id);
+        RemoveDmacHandler(4, id);
     } else {
         e = DIntr();
         { volatile unsigned int *m = (void *)0x1000B410, *q = (void *)0x1000B420, *c = (void *)0x1000B400;

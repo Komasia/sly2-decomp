@@ -16,8 +16,7 @@ struct P {
     char pad11[0x181C - 0x16D8]; int x181C; struct ASEG *p1820; char pad12[0x186C - 0x1824]; struct VO *p186C;
     char pad13[0x1878 - 0x1870]; struct ASEG *p1878;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 void SetXfMode__FP3ALOP2XFi(struct P *, void *, int);
 void ActorNextLookTime(struct P *) asm("ActorNextLookTime__FP5ACTOR");

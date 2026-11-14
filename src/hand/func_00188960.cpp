@@ -8,7 +8,8 @@ struct M4{U r[4];};struct VTE{short delta,pad;void*fn;};
 struct MODEL{char pad[0x1C];float base;};
 struct ACTOR{char pad[0x80];qword response;};
 struct P{char pad0[0xC];VTE*vt;char pad10[0xD8];ACTOR*actor;char padEC[0xF44];MODEL*model;char pad1034[0x894];int mode,unusedCC,submode;char pad18D4[0x1B0];void*lookup;};
-struct CLOCK{float time,dt;};struct WORK{U a,b;};
+#include "clock.h"
+struct WORK{U a,b;};
 extern "C"{
 extern CLOCK g_clock;extern qword g_normalZ;
 extern float D_002BF288,D_002BF28C,D_002BF290,D_002BF294;
@@ -95,4 +96,3 @@ typedef char P_model_Offset[((unsigned)&((P*)0)->model==4144)?1:-1];
 typedef char P_mode_Offset[((unsigned)&((P*)0)->mode==6344)?1:-1];
 typedef char P_submode_Offset[((unsigned)&((P*)0)->submode==6352)?1:-1];
 typedef char P_lookup_Offset[((unsigned)&((P*)0)->lookup==6788)?1:-1];
-typedef char CLOCK_dt_Offset[((unsigned)&((CLOCK*)0)->dt==4)?1:-1];

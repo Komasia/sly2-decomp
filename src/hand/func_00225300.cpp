@@ -20,7 +20,7 @@ struct A { char pad[0xC]; VE *vt; char pad10[0xFB4]; void *color; char padFC8[8]
 struct R { char pad[0x30]; int state; };
 struct S { char pad[0xC]; VE *vt; char pad10[0x140]; int state; float time; char pad158[0x58]; struct O *source; struct A *actor; };
 extern "C" {
-extern struct CLOCK { float t,dt; } g_clock;
+#include "clock.h"
 struct LM { float gMin, gMax; };
 extern float D_002C43B0,D_002C43C0[3];
 extern LM g_lmZeroOne;

@@ -10,8 +10,7 @@ struct BEND {ONZ bend,swivel;};
 union PAYLOAD {CIRCLE circle;BEND bend;};
 struct WRE {int kind,index;char pad8[8];V axis,vectorA;PAYLOAD data;};
 struct WR {char pad[0x50];float time;int count,count58,index5C;WRE entries[8];int count6E0;char pad6E4[0xC];M4 matrices[4],coordinates[4];char pad8F0[0xC];void *source;};
-struct CLOCK {float t,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern "C" {
 void UpdateLo(WR *) asm("UpdateLo__FP2LO");
 void UpdateWrStateVectors(WR *) asm("UpdateWrStateVectors__FP2WR");

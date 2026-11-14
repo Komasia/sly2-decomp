@@ -6,7 +6,7 @@ struct LO { char pad[0x38]; float radius; };
 struct S { char pad[0x14]; float start,duration; LO *lo; POLY size; int pad2; POLY alpha; };
 struct G { char pad[0x90]; qword pos; };
 extern G g_cm;
-extern struct CLOCK { float t,dt; } g_clock;
+#include "clock.h"
 extern struct LIMIT { float lo,hi; } g_lmZeroOne;
 extern "C" {
 int FInsideCmPlanes(G*,qword,qword) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");

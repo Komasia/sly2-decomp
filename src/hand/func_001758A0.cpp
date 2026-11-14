@@ -46,7 +46,7 @@ struct CREF {
     ~CREF() { Decref(this); }
 };
 struct POLY { float a, b, c; };
-struct CLOCK { float time, dt; };
+#include "clock.h"
 struct BASIC {
     char pad0[0xC];
     virtual void VUnk00();
@@ -54,7 +54,6 @@ struct BASIC {
     virtual void HandleSpliceEvent(unsigned symidEvent, int fPost, int cargs, void **ppvargs, CREF *pref);
 };
 extern "C" {
-extern CLOCK g_clock;
 extern POLY D_002BE600;
 extern LM g_lmZeroOne;
 extern char g_sw[];
@@ -148,7 +147,7 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
         if (!enabled)
             return 0;
     }
-    if (g_clock.time < p->cooldown)
+    if (g_clock.t < p->cooldown)
         return 0;
     if (FIsBasicDerivedFrom(target, 0x32)) {
         VTE *e = &target->vt[77];

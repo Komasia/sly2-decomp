@@ -9,9 +9,8 @@ struct ENTRY{int unknown;NODE*node;CONTACT*contacts;char padC[8];float tilt,spee
 struct P;
 struct VE{short delta,pad;qword(*fn)(P*);};
 struct P{char pad[0xC];VE*vt;char pad10[0x50];P*space;char pad64[0x12C];int count;char pad194[12];ENTRY entries[8];char pad4A0[0xB0];float drive;};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 struct G{char pad[0x3D58];int generation;};
-extern CLOCK g_clock;
 extern G g_sw;
 extern qword g_normalZ,D_002A2DB0;
 extern char D_002C21A0[],D_002C21B0[],D_002C21C0[];

@@ -1,6 +1,5 @@
 struct S { char pad[0x2044]; void *p2044; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern int D_003E1BEC;
 void SetClockFactor__FP5CLOCKif(struct CLOCK *pclock, int n, float g);
 void Stop__4CSndf(void *p, float g);

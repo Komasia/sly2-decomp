@@ -8,8 +8,7 @@ struct EMIT {char pad8[8];LO*owner;char padC[8];float start,duration;char pad1C[
 struct O;
 struct VE {short delta,pad;void(*fn)(void*,qword,int,float);};
 struct O {char pad18[0x18];float duration;LO*visual;char pad20[8];float spin;char pad2C[0x14];M3 matrix;U position;char pad80[0x10];U velocity;char padA0[0x4C];VE*vt;LO*space;};
-struct CLOCK {float t,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 extern qword D_002A2DA0,D_002A2DB0,g_normalZ;
 extern "C" {

@@ -4,8 +4,7 @@ struct P {
     struct O *x0; float x4; int x8; int pad0c[2]; int x14; int x18; char pad[0x440-0x1C]; char x440[0x4C4-0x440];
     int x4c4; char pad2[0x500-0x4C8]; int x500;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void SetInteractState__FP5ACTORi(struct P *p, int n);
 void SetSlyMode__FP3SLYi(struct O *o, int n);
 void UpdateSlyReach__FP3SLY(struct O *o);

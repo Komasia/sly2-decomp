@@ -1,10 +1,9 @@
 inline void *operator new(unsigned int,void *storage){return storage;}
-struct CLOCK {float t,dt;};
+#include "clock.h"
 struct S;
 struct E { struct S *object; int n4; float t8; int pad; E(S *source,const CLOCK&clock):object(source),n4(0),t8(clock.t){} };
 struct T { char pad[0xFC]; unsigned int c; struct E a[8]; };
 struct S { char pad[0x3A4]; int c3A4; char pad2[0xF64 - 0x3A8]; struct T *pt; };
-extern "C" CLOCK g_clock;
 extern "C" struct E *PdetentryFind(struct T *pt, struct S *object) asm("PdetentryFind__FP8DETECTORi");
 extern "C" void *s1_memmove(void *d, void *s, int n) asm("memmove");
 

@@ -3,8 +3,7 @@ typedef int qword __attribute__((mode(TI)));
 struct CTX { int a[4]; };
 struct G { char pad[0x3EB8]; int c; void *apo[1]; };
 extern struct G g_sw;
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct VTE { short d; short pad; void *pfn; };
 struct P {
     int pad[3]; struct VTE *vt; char pad1[0x1C0 - 0x10]; int x1C0; float x1C4; float x1C8; char pad2[0x1D8 - 0x1CC]; void *x1D8;

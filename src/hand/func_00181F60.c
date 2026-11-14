@@ -2,9 +2,8 @@ typedef int qword __attribute__((mode(TI)));
 struct Q { char pad[0x10]; char x10[0x2C]; float g3c; float g40; float g44; char p1[8]; float g50; float g54; float g58; float g5c; struct Q *next; };
 struct E { int a; int b; int c; int d; struct Q *pqFirst; void *pqLast; int ib; int x1c; float g; int oid; float g28; float g2c; };
 struct S { char pad[0x1C0]; int x1c0; char p0[4]; int c; struct E ae[4]; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 struct V { float a[4]; };
-extern struct CLOCK g_clock;
 extern void *D_002DFB80;
 extern char D_002BE888[];
 extern float D_002BE898, D_002BE89C, D_002BE8A0, D_002BE8A4;

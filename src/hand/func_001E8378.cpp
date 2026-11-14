@@ -42,8 +42,7 @@ struct CHAIN
     float bend, bendDamping;
     float shape, shapeDamping;
 };
-struct CLOCK { float t, dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern float D_002C3658[4];
 extern float D_002C3668[4];
 extern qword D_002A2DA0;

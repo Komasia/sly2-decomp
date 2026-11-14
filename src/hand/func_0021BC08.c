@@ -3,7 +3,7 @@ struct M { qword r[4]; };
 struct T { float t; float g; char pad[8]; struct M m; };
 struct VT { char pad[0xF8]; short d; short pd; struct M *(*matrix)(void *); };
 struct S { char pad[0xC]; struct VT *vt; char pad10[0x148]; int count; struct T *array; int index; int idle; };
-extern struct CLOCK { float t; float dt; } g_clock;
+#include "clock.h"
 static inline int Wrap(int index, int count)
 {
     return index % count;

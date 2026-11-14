@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002A70E0;
 struct S { char pad[0x168]; float f168; int x16C; char pad1[0x1C4 - 0x170]; int x1C4; char pad2[0x220 - 0x1C8]; int x220; int x224; float f228; float f22C; };
 void UpdateSo__FP2SOf(struct S *p);

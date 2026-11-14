@@ -14,10 +14,9 @@ struct SO { char pad[0x18]; void *p18; };
 struct MSG { struct SO *pso; float g; int k; };
 struct MSGB { void *p0; void *p4; };
 struct ENT { void *po; int x4; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 struct GS { char pad[0x4758]; float g4758; };
 struct GG { char pad[0x2010]; void *p2010; };
-extern struct CLOCK g_clock;
 extern struct GS g_sw;
 extern DL D_003E148C;
 extern struct GG *D_002E1E40;

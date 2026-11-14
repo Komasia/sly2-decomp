@@ -13,9 +13,8 @@ struct CONTROL{char pad0[4];void*curves;ASEGA*asega;};
 struct DELTA;
 struct REQUEST{int flag;float a,b;int pad;U point,direction;};
 struct C{char pad0[0x10];P*actor;char pad14[0x40-0x14];CONTROL*control;char pad44[12];int mode;float time;int pad58;P*target;int owned;DELTA*delta;};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 extern "C"{
- extern CLOCK g_clock;
  extern float D_002BE6FC,D_002BE700,D_002BE704;
  extern F D_002BE708;
  extern U g_normalZ;
@@ -76,7 +75,6 @@ typedef char P_Size[sizeof(P)==0x10E0?1:-1];
 typedef char GROUP_Size[sizeof(GROUP)==0xA4?1:-1];
 typedef char TUNE_Size[sizeof(TUNE)==0xD4?1:-1];
 typedef char CONTROL_Size[sizeof(CONTROL)==12?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
 typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char REQUEST_Size[sizeof(REQUEST)==48?1:-1];
@@ -109,8 +107,6 @@ typedef char REQUEST_direction_Offset[FIELD_OFFSET(REQUEST,direction)==32?1:-1];
 typedef char ENTRY_value_Offset[FIELD_OFFSET(ENTRY,value)==0?1:-1];
 typedef char ENTRY_kind_Offset[FIELD_OFFSET(ENTRY,kind)==4?1:-1];
 typedef char ENTRY_key_Offset[FIELD_OFFSET(ENTRY,key)==8?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 static inline int Still(int m){int f=0;if(m==4||m==5||m==0)f=1;return f;}
 // name: SafeHouse port (JOBB1::SetState)
 extern "C" void SetState__5JOBB1i(C*p,int next){

@@ -2,8 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { qword r[4]; };
 struct MATRIX3 { qword r[3]; };
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("" : "=r"(q) : "0"(*(int *)&f)); } };
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern MATRIX4 D_002A2D30;
 struct X { float x, y, z, w; qword axis; float gRot; float gScale; };
 void BuildRotateMatrixAxis(MATRIX3 *pm, float g, qword axis) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");

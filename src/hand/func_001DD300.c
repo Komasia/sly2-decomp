@@ -29,7 +29,7 @@ typedef struct OBJ {
     int x120;
     int x124;
 } OBJ;
-extern struct CLOCK { float a[16]; } g_clock;
+#include "clock.h"
 extern char g_sw[];
 extern int D_003E0F9C;
 void PauseGame__FP9GAMEPAUSEi(void *, int);
@@ -52,7 +52,7 @@ void SetJobHelpPage__FPvi(OBJ *p, int s)
     }
     old = p->x40;
     p->x40 = s;
-    p->x44 = g_clock.a[15];
+    p->x44 = g_clock.tReal;
     switch (s) {
     case -1:
         ResumeGame__FP9GAMEPAUSEi(g_sw, 0);

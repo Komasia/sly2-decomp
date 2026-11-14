@@ -11,7 +11,7 @@ struct SET {
     char pad0[0x50]; int csel; SEL *asel; char pad58[0x38];
     int cplo; LO **aplo; int cpos; qword *apos;
 };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct CAMERA { char pad0[0x60]; qword dir; };
 inline void *operator new(unsigned, void *p) { return p; }
 struct FRAME { int unk[4]; };
@@ -20,7 +20,6 @@ extern "C" {
 extern float D_002A53E0;
 extern float D_002BE5E4;
 extern float D_002BE5E8;
-extern CLOCK g_clock;
 extern LM g_lmZeroOne;
 extern CAMERA g_cm;
 extern qword g_normalZ;

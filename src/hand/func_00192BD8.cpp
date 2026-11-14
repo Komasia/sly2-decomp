@@ -58,12 +58,11 @@ struct CONTEXT {
     CLIP *clip4F0, *clip4F4, *clip4F8; int tag; int fInhibit; char pad504[0x50C - 0x504];
     CLIP *clip50C, *clip510, *clip514;
 };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct VU_FLOAT { qword q; };
 union U { qword q; float f[4]; int i[4]; };
 
 extern "C" {
-extern CLOCK g_clock;
 extern ACTOR *D_002E1E40;         // the player
 extern ACTOR *D_002F7900;
 extern MANAGER g_cm;

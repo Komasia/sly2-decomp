@@ -11,12 +11,11 @@ struct INNER{char pad[0x60];VALUE*value;};
 struct RIG{char pad[0xA8];INNER*inner;};
 struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];CONTROL*control;char pad154[8];int frozen;char pad160[0x190-0x160];U zero;char pad1A0[8];float yaw;int pad1AC;U forward;char pad1C0[0x1030-0x1C0];ASEGA*asega;COMPONENT*component;char pad1038[0x19B8-0x1038];RIG*first;RIG*second;};
 struct C{P*actor;int mode;float time;char padC[0x98-12];float changed;int pad9C;ASEG*clips[13];ASEG*Default(int next){ASEG**base=clips;int offset=next<8?0:0x20;return *(ASEG**)((char*)base+offset);}};
-struct CLOCK{float time,dt;};
+#include "clock.h"
 struct CM{char pad[0x90];U position;};
 struct POLY{float a,b,c;};
 struct LIMIT{float lo,hi;};
 extern "C"{
- extern CLOCK g_clock;
  extern CM g_cm;
  extern U D_002BFA00,D_002BFA10,D_002A2DD0;
  extern POLY D_002BFA20;
@@ -92,8 +91,6 @@ typedef char POLY_b_Offset[FIELD_OFFSET(POLY,b)==4?1:-1];
 typedef char POLY_c_Offset[FIELD_OFFSET(POLY,c)==8?1:-1];
 typedef char LIMIT_lo_Offset[FIELD_OFFSET(LIMIT,lo)==0?1:-1];
 typedef char LIMIT_hi_Offset[FIELD_OFFSET(LIMIT,hi)==4?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char qword_Alignment[__alignof__(qword)==16?1:-1];
 typedef char U_Alignment[__alignof__(U)==16?1:-1];
@@ -101,7 +98,6 @@ typedef char int_Size[sizeof(int)==4?1:-1];
 typedef char float_Size[sizeof(float)==4?1:-1];
 typedef char pointer_Size[sizeof(void*)==4?1:-1];
 typedef char short_Size[sizeof(short)==2?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char ASEGA_Prefix_Size[sizeof(ASEGA)==0x10?1:-1];
 typedef char CONTROL_Prefix_Size[sizeof(CONTROL)==0x1C?1:-1];
 typedef char VALUE_Prefix_Size[sizeof(VALUE)==0x30?1:-1];
@@ -133,7 +129,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
   if(FIsBasicDerivedFrom(p->actor,0x35)){
    P*actor=p->actor;actor->first->inner->value->value.Clear();actor->second->inner->value->value.Clear();
   }
-  p->actor->frozen=1;p->changed=g_clock.time;break;
+  p->actor->frozen=1;p->changed=g_clock.t;break;
  case 8:
   {qword moving=Vector(p->actor);P*actor=p->actor;
   register qword mv __asm__("vf4")=From(moving),axis __asm__("vf1"),dot __asm__("vf2"),one __asm__("vf3");float threshold;
@@ -177,7 +173,7 @@ extern "C" void SetDamageState__FP5ACTORi(C*p,int next){
   p->actor->control->yaw=p->actor->yaw;clip=p->clips[next];break;
  }
  MarkAloDirty(p->actor);
- p->mode=next;p->time=g_clock.time;
+ p->mode=next;p->time=g_clock.t;
  if(next!=-1){
   if(!clip)clip=p->Default(next);
   RetractAsegaPp(&p->actor->asega);ClearSmaHandle(&p->actor->component);

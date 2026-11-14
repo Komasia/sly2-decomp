@@ -16,9 +16,8 @@
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 struct P { char pad0[0x40]; M3 matrix; char pad70[0x20]; qword vel; char padA0[0x24]; float drag; };
-struct CLOCK { float time, dt; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002C2010[3], D_002C2020[2], D_002C2028, D_002C202C;
 extern qword D_002A2DA0;
 M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");

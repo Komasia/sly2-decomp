@@ -40,10 +40,9 @@ struct WAYPT
 };
 struct SW { char pad[0x3B0C]; int fUnk3B0C; char pad3B10[0xC40]; float tUnk4750, tUnk4754; char pad4758[0xC]; int cUnk4764, cUnk4768; };
 struct CM { char pad[0x90]; qword pos; };
-struct CLOCK { float t; };
+#include "clock.h"
 extern SW g_sw;
 extern CM g_cm;
-extern CLOCK g_clock;
 extern qword g_normalZ;
 extern LM g_lmZeroOne;
 extern float D_002C4494, D_002C4498, D_002C449C, D_002C44D8;

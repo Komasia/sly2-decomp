@@ -1,6 +1,5 @@
 // Interpolate alternating noise samples with smoothstep.
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 float UNoise(int n);
 static inline float GSmooth(float s)
 {

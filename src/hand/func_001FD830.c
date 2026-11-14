@@ -3,8 +3,7 @@ struct Q { char pad[0x38]; struct Q *pNext; };
 struct K { int a, b, c; };
 struct P { char pad[0x4C]; struct Q *pq; char pad1[0x58 - 0x50]; int n58; char pad2[0x15C - 0x5C]; float f15C; char pad3[0x1F0 - 0x160];
     long l1F0; long l1F8; struct X *r200; int c; struct X *a[8]; struct X *r228; };
-struct CLOCK { float t; float dt; char pad[0x40 - 8]; float f40; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern int g_cds;
 extern struct K D_002A8288;
 long func_0014D240(struct CLOCK *);
@@ -51,7 +50,7 @@ void UpdateSoundMgr__FPv(struct P *p)
     UpdateDialogEvents__FPv(p);
     k = D_002A8288;
     if (func_001FE5E0(p) && g_clock.dt == 0.0f) g = 0.0f;
-    f = GSmooth__FfffP3SMPPf(p->f15C, g, g_clock.f40, &k, 0);
+    f = GSmooth__FfffP3SMPPf(p->f15C, g, g_clock.dtReal, &k, 0);
     SetSoundChannelVolume__FP8SOUNDMGRiif(p, 0, f, 2);
     SetSoundChannelVolume__FP8SOUNDMGRiif(p, 1, f, 2);
     SetSoundChannelVolume__FP8SOUNDMGRiif(p, 2, g, 2);

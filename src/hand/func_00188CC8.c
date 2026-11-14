@@ -4,8 +4,7 @@ struct B { char pad[0x1BC]; int x1BC; };
 struct O { char pad[0x4C8]; int x4C8; int x4CC; char pad1[0x4D4 - 0x4D0]; struct B *p4D4; char pad2[0xDF0 - 0x4D8];
     char aDF0[0xF50 - 0xDF0]; char aF50[0x18C8 - 0xF50]; int n18C8; int x18CC; int n18D0; float g18D4;
     char pad3[0x1FF0 - 0x18D8]; char a1FF0[1]; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002BF298;
 extern float D_002BF29C;
 extern void OnStepXpNew__FP3ALOP2XPi(struct O *p, struct A *pa, void *pv);

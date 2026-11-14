@@ -11,7 +11,8 @@ struct M3{qword r[3];};
 struct LINK{struct LO**pp;};
 struct CRef{int tag;void*value;};
 extern char g_sw[];
-struct CLOCK{float t,dt;};extern struct CLOCK g_clock;extern float D_002BE5CC,D_002BE5D0,D_002BE5D4,D_002BE5D8;
+#include "clock.h"
+extern struct CLOCK g_clock;extern float D_002BE5CC,D_002BE5D0,D_002BE5D4,D_002BE5D8;
 void UpdateLo__FP2LO(struct P*);
 qword PosCenter__Fv(struct P*);
 void CheckSlots__FP7SPAWNERG9VU_VECTOR(struct P*,qword);

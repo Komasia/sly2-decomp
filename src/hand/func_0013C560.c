@@ -8,7 +8,7 @@
 typedef int qword __attribute__((mode(TI)));
 struct VTE { short d; short pad; void (*pfn)(); };
 struct VT { struct VTE a[64]; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 struct GS { char pad[0x4638]; void *p4638; };
 struct ST { char pad[0xC]; int xC; char pad1[0x18 - 0x10]; int x18; int c1C; int a20[1]; };
 struct SA0 { int x0; int x4; float g8; };
@@ -26,7 +26,6 @@ struct O {
     char pad3[0x180 - 0x168]; float g180; int st; float g188; struct E *pe;
 };
 struct MSG { int k; void *p; };
-extern struct CLOCK g_clock;
 extern struct GS g_sw;
 extern char g_game[];
 extern qword D_002A2DD0;

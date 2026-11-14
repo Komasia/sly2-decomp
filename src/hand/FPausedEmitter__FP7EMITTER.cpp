@@ -1,5 +1,4 @@
-struct CLOCK { float t; float dt; };
-extern CLOCK g_clock;
+#include "clock.h"
 struct EMITTER { char pad[0xF0]; int k; int c; char pad2[0x148 - 0xF8]; float tUnpause; };
 int FPausedEmitter(EMITTER *pemitter)
 {

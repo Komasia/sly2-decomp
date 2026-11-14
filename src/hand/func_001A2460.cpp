@@ -9,8 +9,7 @@ struct ENTRY{P*object;float time;};
 struct P {char pad[0xC];VTE*vt;char pad10[0x2CC];int state;char pad2E0[0xB14];int mode;char padDF8[0x294];L*link;ENTRY*entries;int count;float pad1098[2];float height;};
 struct HIT {L*target;int pad4;P*source;int tag,kind;char pad14[0xC];U point,direction;char pad40[0x20];};
 struct MSG {int type;char pad4[0x1C];U position;};
-struct CLOCK {float time,dt;};
-extern "C" CLOCK g_clock;
+#include "clock.h"
 extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 extern "C" void*s1_memset(void*,int,int) asm("memset");
 extern "C" P*PaloAcceptContact(HIT*) asm("PaloAcceptContact__FP5CTMSG");
@@ -58,7 +57,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
  register U*predpos __asm__("$20")=&predicted.r[3];
  for(;i<p->count;i++){
   ENTRY*entry=&p->entries[i];
-  if(g_clock.time-entry->time<0.05f)continue;
+  if(g_clock.t-entry->time<0.05f)continue;
   P*object=entry->object;
   position.q=PosOfLo(object);
   void*frame=((void*(*)(void*,M4*))object->vt[32].fn)((char*)object+object->vt[32].delta,pbase);
@@ -74,7 +73,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
    msg.type=4;
    EFFECT*effect=p->link->effect;
    ((void(*)(void*,MSG*))effect->vt[51].fn)((char*)effect+effect->vt[51].delta,&msg);
-   entry->time=g_clock.time;
+   entry->time=g_clock.t;
   }
  }
 }

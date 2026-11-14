@@ -10,8 +10,7 @@ struct SPACE;
 struct OWNER {M3 matrix;char pad30[0x70];SPACE *parent;char padA4[0xC];qword velocity;char padC0[0x30];qword force;};
 struct P {char pad5C[0x5C];OWNER *owner;};
 struct COEF {float a,b,c;};
-struct CLOCK {float time,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern "C" M3 *MatConvertXfs(M3 *,SPACE *,SPACE *,const M3 *) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 static inline M3 BuildFrame(SPACE*parent,const M3*orientation) return result {MatConvertXfs(&result,0,parent,orientation);}
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
@@ -81,4 +80,3 @@ typedef char check_owner_parent[((unsigned)&((OWNER*)0)->parent==0xA0)?1:-1];
 typedef char check_owner_velocity[((unsigned)&((OWNER*)0)->velocity==0xB0)?1:-1];
 typedef char check_owner_force[((unsigned)&((OWNER*)0)->force==0xF0)?1:-1];
 typedef char check_object_owner[((unsigned)&((P*)0)->owner==0x5C)?1:-1];
-typedef char check_clock_dt[((unsigned)&((CLOCK*)0)->dt==4)?1:-1];

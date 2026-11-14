@@ -5,8 +5,7 @@ struct G;
 extern struct G g_sw;
 extern char g_cm[];
 extern char g_game[];
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void SetExitState__FP2LOi(struct S *p, int k);
 struct S *func_002280D0(struct G *pg);
 void ApplyCheckpointTasks__FP2SWiP2LOPv(void *a, int b, void *c, struct S *p);

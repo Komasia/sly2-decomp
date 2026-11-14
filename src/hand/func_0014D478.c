@@ -8,8 +8,7 @@ struct CM {
     char pad4[0x620 - 0x390]; float g620; float g624;
 };
 struct G { char pad[0x3E38]; int x3E38; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002DDEE0;
 extern int g_grfjoyt;
 extern char g_joy[];

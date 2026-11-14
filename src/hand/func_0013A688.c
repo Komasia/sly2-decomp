@@ -1,8 +1,7 @@
-struct CLOCK { float t; char pad[0x3C]; float g40; };
+#include "clock.h"
 struct CM { char pad[0x100]; float g100; char pad1[0x10]; float g114; };
 struct P { char pad[0x110]; char a110[0x20]; char a130[0x10]; char a140[0x10]; char a150[0x10]; char pad1[0x1A0 - 0x160]; int x1A0;
     char pad2[0x1B0 - 0x1A4]; char a1B0[0x3B0 - 0x1B0]; int x3B0; char a3B4[0x434 - 0x3B4]; int x434; void *p438; int x43C; float g440; };
-extern struct CLOCK g_clock;
 extern struct CM g_cm;
 extern char D_002DEA28[];
 void UnpackHelper(void *pdma, int a, int b, int c, int d, void *ppv) asm("UnpackHelper__4VIFS3UPKiiPiPPUi");
@@ -26,7 +25,7 @@ void func_0013A688(struct P *p)
         pn[0] |= 1;
     pn[1] = p->x3B0;
     pn[2] = p->x1A0;
-    *(float *)&pn[3] = pclock->g40;
+    *(float *)&pn[3] = pclock->dtReal;
     AddVifUnpack(pdma, 0xE, p->x3B0, p->a3B4, 0x30 - p->x3B0);
     AddVifUnpack(pdma, 8, 1, p->a130, 1);
     AddVifUnpack(pdma, 8, 1, p->a110, 2);

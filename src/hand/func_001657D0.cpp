@@ -28,8 +28,7 @@ public:
     int ff4;
 };
 struct DL { void *pvFirst; void *pvLast; int ibDle; };
-struct CLOCK { float t; };
-extern CLOCK g_clock;
+#include "clock.h"
 extern DL D_003E0F90;
 extern char g_game[];
 extern int D_002DEB44;

@@ -1,4 +1,4 @@
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern CLOCK g_clock asm("g_clock");
 struct SAI { int a; };
 struct SHUFFLE { char pad[0x1C]; int cframe; char pad1[0x28 - 0x20]; unsigned short iframe; char pad2[0x34 - 0x2A]; SAI sai;

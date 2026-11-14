@@ -26,12 +26,11 @@ struct OBJ { char padEC[0xEC]; STATE *state; };
 struct NODE { int pad; NODE *next; char pad8[4]; OBJ *object; };
 struct PVE { short delta, pad; void (*fn)(void *); };
 struct P { char padC[0xC]; PVE *vt; char pad10[0xDC]; STATE *state; char padF0[0x60]; int mode; char pad154[8]; DL rips; };
-struct CLOCK { float t, dt; };
+#include "clock.h"
 struct REQ { int cb, align; };
 struct FRAME { int a[4]; };
 extern "C" {
 extern DLI *s_pdliFirst; /* innermost active list iterator */
-extern CLOCK g_clock;
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *, int);
 void *PvAllocStackImpl(const REQ *) asm("PvAllocStackImpl__Fi");

@@ -9,8 +9,7 @@ struct G { char pad[0x24]; float g24; char pad1[0x4C - 0x28]; float g4C; char pa
 extern struct G g_cm;
 extern char D_002C4120[];
 extern float D_002C41DC;
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void Activate__5CPLCYP2LOPv(struct S *p, void *pj, struct T *pt);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pj, int k);
 int func_0015E988(int a, int b);

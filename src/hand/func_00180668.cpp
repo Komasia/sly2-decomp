@@ -9,7 +9,7 @@ struct NODE{char pad0[12];VTE*vt;char pad10[0x18];ulong flags;char pad30[0x2C];F
 struct LM{float low,high;};
 struct RULE{int distanceEnabled,angleEnabled;LM enterDistance,stayDistance,enterAngle,stayAngle;};
 struct POLY{float a,b,c;};
-struct CLOCK{float t,dt;};
+#include "clock.h"
 struct P{NODE node;char padF0[0xD0];int state;float stateTime;int cooldown,active;void*binding;NODE*target;void*curve;float progress;qword previousSelf,previousTarget;float stamp,heading;char pad208[8];qword output;char pad220[0x50];RULE rules[5];float scale;char pad33C[4];POLY remaining;char pad34C[4];POLY angle;char pad35C[4];POLY simpleAngle;char pad36C[4];LM simpleClamp;};
 struct VU_FLOAT{qword qw;};
 extern "C"{
@@ -17,7 +17,6 @@ extern qword D_002A2DD0,D_002A2DA0;
 extern float D_002BE820,D_002BE824,D_002BE828;
 extern POLY D_002BE830,D_002BE840,D_002BE860;
 extern LM D_002BE850,g_lmZeroOne;
-extern CLOCK g_clock;
 extern char D_002DE578[],g_sw[];
 void UpdateSo(P*) asm("UpdateSo__FP2SOf");
 int FShipSegmentDone(P*) asm("FShipSegmentDone__FP2LO");

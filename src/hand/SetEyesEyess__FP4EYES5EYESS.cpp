@@ -1,4 +1,4 @@
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern CLOCK g_clock asm("g_clock");
 enum EYESS { EYESS_Nil = -1, EYESS_Open = 0, EYESS_Closing = 1, EYESS_Closed = 2 };
 struct EYES { char pad[0x1C]; int cframe; char pad1[0x50 - 0x20]; float dtBlink; float dtOpenMin; float dtOpenMax; float uDoubleBlink;

@@ -11,9 +11,8 @@ class ALO { public: char pad[0xC]; VT *pvt; int x10; char pad2[0xE4 - 0x14]; EMI
 struct EO { char pad[8]; ALO *palo; };
 struct EMITTER { char pad[8]; EO *peo; };
 struct TIMES { char pad[0xC]; float *at; };
-struct CLOCK { float t; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002A5150;
 void ChooseEmitParticles(int c, EMITB *pemitb, BUF *pb) asm("ChooseEmitParticles__FiP7EMITTERP3BUF");
 int FFloatsNear(float g1, float g2, float gEps) asm("FFloatsNear__Ffff");

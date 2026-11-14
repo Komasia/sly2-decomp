@@ -4,8 +4,7 @@ struct VTE { short d; short pad; void (*pfn)(void *, ...); };
 struct O { int pad[3]; struct VTE *vt; };
 struct E { int prio; struct O *po; int a; int b; };
 struct P { char pad[0x30C]; int c; struct E ae[8]; char pad2[0x390 - 0x390]; float t; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void *s1_memmove(void *dst, void *src, int cb) asm("memmove");
 static inline void Move(void *pvDst, void *pvSrc, int cb) { s1_memmove(pvDst, pvSrc, cb); }
 // name: SafeHouse port (SetCmPolicy)

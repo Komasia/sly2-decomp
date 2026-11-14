@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern CLOCK g_clock;
+#include "clock.h"
 struct PO { char pad[0x1024]; int x1024; };
 enum HFDK { HFDK_Nil };
 struct JT { PO *p0; char pad[0x28]; HFDK hfdk; float tHfdk; int x34; char pad2[0x50-0x38]; int x50; char pad3[0x68-0x54]; int x68; };

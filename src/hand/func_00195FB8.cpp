@@ -7,7 +7,8 @@ struct BODY{char pad0[0x70];U position;char pad80[0x20];SPACE*frame;};struct MOT
 struct ACTOR{char pad0[12];VTE*vt;char pad10[0x48];BODY*body;char pad5C[0x8C];MOTION*motion;char padEC[0x28];DATA*data;char pad118[0x78];U velocity;char pad1A0[8];float heading;char pad1AC[0x31C];int category;char pad4CC[0x434];char secondary[0x30];CLIP*secondaryClip;char pad934[0x50];SOURCE*secondaryFocus;char pad988[0x688];U offset;char pad1020[0x10];ANIMATION*animation;COMPONENT component;char pad1038[0x4DC];CLIP*clip1514;CLIP*clip1518;char pad151C[0x338];SOURCE*primaryFocus;char pad1858[0x4D0];EFFECT*effect;};
 struct LINK{SPACE*space;void*target;};union WORD{int bits;float amount;};struct TRACK{int opaque;WORD control;float weight;};struct QUERY{OBJECT*object;PROVIDER*provider;REFERENCE*reference;int tag;U point;};
 struct CONTEXT{ACTOR*actor;int state,variant;SOURCE*source;char pad10[8];float stamp;int mode;float time;int flags24,flags28,flags2C;int actionFlag;float gain,turnGain,height;int combo;float time44,time48,time4C;char pad50[0x6C];int fieldBC;char padC0[8];LINK*link;char padCC[4];U relative,direction,offset;char pad100[0x20];CLIP*base[5];CLIP*alternate[5];CLIP*special148,*special14C,*special150,*special154,*special158,*special15C;char pad160[8];float oldScale;void*focus;char pad170[4];int focused;CLIP*scripted;float scriptedGain;char pad180[4];TRACK tracks[4];char pad1B4[4];CLIP*multi;SOURCE*scriptFocus;char pad1C0[8];CLIP*special1C8;char pad1CC[4];QUERY query;EVENT*event;};
-struct CLOCK{float time,dt;};struct RANGE{float low,high;};struct TWO_ROWS{U row[2];};
+#include "clock.h"
+struct RANGE{float low,high;};struct TWO_ROWS{U row[2];};
 struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,velocity,endVelocity,duration;};
 extern "C"{extern SCENE g_sw;extern CLOCK g_clock;extern ACTOR*D_002E1E40;extern U D_002A2DB0,g_normalZ,D_002A2DD0;extern float D_002BF780[],D_002BF7A0;extern RANGE D_002BF798;
 void PairActorWith(ACTOR*,void*,int) asm("PairActorWith__FP5ACTORP2LOi");void RecalcSwOxfFilterForObject(SCENE*,void*) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");void SetHideState(SOURCE*,int) asm("SetHideState__FP2LOi");void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void SetReachState(SECONDARY*,int) asm("SetReachState__FP5REACHi");void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void SetSmaGoal(EFFECT*,int) asm("SetSmaGoal__FP3SMA3OID");void SetActorZone(ACTOR*,void*) asm("SetActorZone__FP5ACTORP2LO");void DeleteCtrl(EVENT**) asm("DeleteCtrl__FPP4CTRL");void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
@@ -42,7 +43,6 @@ typedef char WORD_amount_Offset[FIELD_OFFSET(WORD,amount)==0?1:-1];
 typedef char TRACK_Size[sizeof(TRACK)==12?1:-1];
 typedef char QUERY_Size[sizeof(QUERY)==32?1:-1];
 typedef char CONTEXT_Size[sizeof(CONTEXT)==512?1:-1];
-typedef char CLOCK_Size[sizeof(CLOCK)==8?1:-1];
 typedef char RANGE_Size[sizeof(RANGE)==8?1:-1];
 typedef char TWO_ROWS_Size[sizeof(TWO_ROWS)==32?1:-1];
 typedef char WORK_Size[sizeof(WORK)==192?1:-1];
@@ -126,8 +126,6 @@ typedef char CONTEXT_scriptFocus_Offset[FIELD_OFFSET(CONTEXT,scriptFocus)==444?1
 typedef char CONTEXT_special1C8_Offset[FIELD_OFFSET(CONTEXT,special1C8)==456?1:-1];
 typedef char CONTEXT_query_Offset[FIELD_OFFSET(CONTEXT,query)==464?1:-1];
 typedef char CONTEXT_event_Offset[FIELD_OFFSET(CONTEXT,event)==496?1:-1];
-typedef char CLOCK_time_Offset[FIELD_OFFSET(CLOCK,time)==0?1:-1];
-typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char RANGE_low_Offset[FIELD_OFFSET(RANGE,low)==0?1:-1];
 typedef char RANGE_high_Offset[FIELD_OFFSET(RANGE,high)==4?1:-1];
 typedef char TWO_ROWS_row_Offset[FIELD_OFFSET(TWO_ROWS,row)==0?1:-1];

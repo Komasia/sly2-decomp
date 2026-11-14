@@ -6,9 +6,8 @@ struct NODE {M3 basis;qword orientation;char pad40[0x60];NODE *parent;char padA4
 struct O;
 struct S {char pad[0x58];NODE *positionNode,*rotationNode;char pad60[0xF0];int state;float time;int sentinel,kind;O *nearest;char pad164[4];void *animation;char pad16C[0x10];void *rotationJob,*positionJob;char pad184[0xC];qword direction;};
 struct WORLD;
-struct CLOCK {float t,dt;};
+#include "clock.h"
 extern WORLD g_sw;
-extern CLOCK g_clock;
 extern qword g_normalZ;
 extern float D_002A97A8;
 extern O *D_002E1E40;

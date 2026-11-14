@@ -1,5 +1,4 @@
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct T { char pad[0x2CC]; float g2CC; float g2D0; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x1C]; float g30; };
 float GRandInRange__Fff(float a, float b);

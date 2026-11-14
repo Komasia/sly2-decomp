@@ -9,8 +9,7 @@ struct X {
     char pad[0x10]; struct SO *pso; int x14; int x18; char pad1[0x30 - 0x1C]; int state; float t34;
     char pad2[0x3C - 0x38]; float g3C; void *x40; float t44; float t48; int x4C; int x50; struct LM *plm;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 extern float D_002A5138;
 void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct SO *pso, int a, int b, qword q);

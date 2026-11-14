@@ -9,8 +9,7 @@ struct S {
     char p2[0xE1C]; void *x1028; char p3[8]; void *x1034; char p4[0x4DC]; int x1514; char p5[8];
     char x1520[0x100]; char x1620[0x3B4]; int x19d4, x19d8, x19dc, x19e0; char p6[0xC]; int x19f0, x19f4;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 int GrfActorLookMask__FP5ACTOR(struct S *p);
 void SetSmaMask__FP3SMAUi(void *p, int n);
 float GLimitAbs(float g, float h) asm("GLimitAbs__Fff");

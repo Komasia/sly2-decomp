@@ -26,7 +26,7 @@ struct HELPER{char pad0[0x58];float until;unsigned flags;};
 struct S{char pad0[0x10];OBJECT*actor;int pad14;HELPER*helper;char pad1C[0x14];STATE current;};
 struct SLOT{int kind;char pad4[0xC];};
 struct M4{qword r[4];};
-struct CLOCK{float t,dt;};
+#include "clock.h"
 struct WORK{STATE next;U scalar,own,other,copy,delta;};
 struct OFFSETINPUTS{qword own,other,copy;};
 extern "C"{
@@ -205,7 +205,6 @@ typedef char layout_STATE[(sizeof(STATE)==0x70)?1:-1];
 typedef char layout_HELPER[(sizeof(HELPER)==0x60)?1:-1];
 typedef char layout_SLOT[(sizeof(SLOT)==0x10)?1:-1];
 typedef char layout_M4[(sizeof(M4)==0x40)?1:-1];
-typedef char layout_CLOCK[(sizeof(CLOCK)==8)?1:-1];
 typedef char layout_U_q[((unsigned long)&((U*)0)->q==0x0)?1:-1];
 typedef char layout_U_f[((unsigned long)&((U*)0)->f==0x0)?1:-1];
 typedef char layout_VE_delta[((unsigned long)&((VE*)0)->delta==0x0)?1:-1];

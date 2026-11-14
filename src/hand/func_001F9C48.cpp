@@ -7,8 +7,7 @@ struct E {char pad34[0x34];NODE *first;};
 struct VT {short delta,pad;void (*fn)(void *);};
 struct P {char padC[0xC];VT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x8C];E *e;};
 struct G {char pad3D58[0x3D58];int stamp;};
-struct CLOCK {float time,dt;};
-extern CLOCK g_clock;
+#include "clock.h"
 extern G g_sw;
 extern "C" void ReleaseXfMode(P *,OWNER *) asm("ReleaseXfMode__FP3ALOP2XF");
 extern "C" qword *func_00256D18(qword *,qword);

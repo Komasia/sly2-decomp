@@ -12,11 +12,10 @@ struct HANDLE {O *object;};
 struct O {char pad[0xC];VE *vt;int id;char pad14[0x148];int actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0x710];CONTROL controller;char pad9A4[0x68C];ASEGA *animation;HANDLE extra;char pad1038[0x7C8];int playerState;};
 struct EFFECT {char pad[0xC];VE *vt;char pad10[0x144];int active,count;void *records;int reset;};
 struct S {O *owner;int state;float time;O *peer,*selected;char pad14[0x2C];float blend0;char pad44[8];float blend1;char pad50[8];ASEG *animation0,*animation1,*animation2,*animation3;char pad68[0x30];ASEG *animation4,*animation5,*animation6;char padA4[0x18];ASEG *animation7;V targetLocal,secondary,targetWorld,velocity;char pad100[0x28];int field128;EFFECT *effect;float distance;};
-struct CLOCK {float t,dt;};
+#include "clock.h"
 struct WORK {V scalar,saved,coefficient,velocity,point;};
 extern O *D_002DD5BC;
 extern WORLD g_sw;
-extern CLOCK g_clock;
 extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 void AttachReachObject(CONTROL *,O *) asm("AttachReachObject__FP5REACHP2LO");

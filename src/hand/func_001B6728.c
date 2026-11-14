@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct S { char pad[0x4CC]; int x4CC; char pad1[0x1080 - 0x4D0]; float t1080; char pad2[0x10E4 - 0x1084]; int x10E4; char pad3[0x13D0 - 0x10E8]; int k; };
 void GetActorCmTarget__FP5ACTORP9ACTORPOSE(struct S *p, int *pf);
 void GetJtThrowCpdefi__FP7JTTHROWP6CPDEFI(void *p, int *pf);

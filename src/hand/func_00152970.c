@@ -4,8 +4,7 @@ struct S {
     char pad60[0x1C0 - 0x60]; int c1C0; struct E a1C4[3];
     int n230; char pad234[0x284 - 0x234]; float g284; float g288; char x28C[0x18]; float g2A4;
 };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char D_003DD040[];
 extern char g_game[];
 void UpdateLo__FP2LO(struct S *);

@@ -10,7 +10,7 @@ struct S {
     char pad[0x14]; float start, duration; X *x; char pad20[0x40 - 0x20];
     M3 mat; qword pos, prev, vel, accel; char padB0[0xF0 - 0xB0]; qword axis; float angle;
 };
-extern struct CLOCK { float t, dt; } g_clock;
+#include "clock.h"
 extern "C" {
 void func_002309E8(void *, int, M4 *, M4 *, float);
 void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, qword *) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");

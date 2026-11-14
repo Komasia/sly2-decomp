@@ -5,8 +5,7 @@ struct E { char pad[0x10]; ulong fl; char pad2[0xB0 - 0x18]; };
 struct Q { char pad[0x98]; short h98; char pad2[0xB0 - 0x9A]; qword vB0; char padC0[0xF0 - 0xC0]; int aF0[3]; };
 struct R { char pad[0x60]; qword v60; qword v70; };
 struct P { char pad[0xC]; struct VTE *pvt; char pad2[0x58 - 0x10]; struct Q *p58; struct Q *p5C; char pad3[0xE0 - 0x60]; int nE0; struct E *aE4; struct R *pE8; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 void CopyAloSoeMatrices__FP3ALO(struct P *);
 void IntegrateSoeMesh__FP3SOEf(struct E *, float);
 int func_00230380(int);

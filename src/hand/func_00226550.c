@@ -1,8 +1,7 @@
 typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-struct CLOCK { float t; float dt; char pad[8]; float g10; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char D_002E65E0[];
 extern char D_003DD040[];
 extern char g_cm[];
@@ -83,7 +82,7 @@ void RegisterSwPass__FPv(struct S *p)
     }
     UpdateSave__FP4SAVE(D_002E65E0);
     UpdateSoundMgr__FPv(D_003DD040);
-    if (0.0f < g_clock.g10)
+    if (0.0f < g_clock.dtCm)
         UpdateCm__FP2CM(g_cm);
     StackCounters__FP2SW(p);
     func_00128148(D_002DD598);

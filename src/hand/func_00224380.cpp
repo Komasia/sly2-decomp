@@ -6,8 +6,7 @@ struct EDGE { struct SIDE as[2]; qword v80; char pad[0xC]; int k9C; char pad2[0x
 struct LN { struct EDGE *pe; struct LN *pNext; };
 struct Q { char pad[0x60]; int id; struct LN *pln; };
 struct S { char pad[0xEC]; struct Q *pq; char pad1[0x150 - 0xF0]; int x150; float t154; int x158; char pad2[0x190 - 0x15C]; qword v190; struct S *x1A0; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern float D_002C42E0;
 extern float D_002C3C60[];
 extern "C" void NotifyAloContacts(struct S *p) asm("NotifyAloContacts__FP3ALO");

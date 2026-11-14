@@ -9,8 +9,7 @@ struct object { void *pc_begin; void *pc_end; fde *fde_begin; fde **fde_array; s
 extern struct object *D_00450278;
 #define objects D_00450278
 void free(void *);
-void func_00240328(void);
-#define abort func_00240328
+void abort(void);
 typedef int __gthread_mutex_t;
 static __gthread_mutex_t object_mutex;
 static inline int __gthread_mutex_lock(__gthread_mutex_t *m) { return 0; }

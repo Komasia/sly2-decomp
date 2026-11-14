@@ -4,7 +4,7 @@
 // The one remaining trick is fresh3's commented clobber of the dead a0 in the c4678 block.
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 struct LM { float gMin; float gMax; };
 struct R { char pad[0x40]; M3 m40; char pad1[0xA0 - 0x70]; void *pA0; };
 struct Q { char pad[8]; R *p8; };
@@ -20,7 +20,6 @@ struct P {
 };
 struct GS { char pad[0x4678]; int c4678; char pad1[0x4690 - 0x467C]; S *ps4690; };
 extern "C" {
-extern CLOCK g_clock;
 extern int D_002DD640;
 extern float D_002A4D68;
 extern qword D_002A2DA0;

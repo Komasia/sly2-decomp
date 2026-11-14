@@ -4,8 +4,7 @@
 // so cse2 keeps the target's two lqc2 0x20(v0); k is read through a VU_FLOAT(const float *) ctor whose word input has a
 // never-chosen "V" alternative (the PosCmAvoid trick: lw instead of lwc1+mfc1).
 typedef int qword __attribute__((mode(TI)));
-struct CLOCK { float t; float dt; };
-extern "C" CLOCK g_clock;
+#include "clock.h"
 struct CM;
 extern "C" CM g_cm;
 struct CLQ { float g0, g1, g2, pad; };

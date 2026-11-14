@@ -1,8 +1,7 @@
 struct K { int a; int b; };
 extern const struct K D_002A4E80;
 extern char g_sw[];
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct PG { char pad[0x18C4]; int x18C4; int x18C8; };
 extern struct PG *D_002E1E40;
 struct E { int pad[2]; int x8; void *pxC; char pad2[0x30]; };

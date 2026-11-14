@@ -18,10 +18,9 @@ union FLOAT {float value;int bits;};
 struct DZ {int kind;float lower,upper,value;FLOAT target;int unused14;float *coefficients;int flags;DLE link;};
 struct DZS {char pad0[0x40];U normal;XP *source;float *coefficients;char pad58[8];};
 struct DZG {int capacity,count;DZ *rows;DL solved,pending,unused,active;int solvedCount;float *matrix,*inverse,*temporary,*results;int contactCount;XP **contacts;int objectCount;P **objects;DZS *states;};
-struct CLOCK {float time,dt;};
+#include "clock.h"
 struct GAME;
 struct FRAME;
-extern CLOCK g_clock;
 extern GAME g_sw;
 extern "C" {
 FRAME *__10STACKSCOPE(FRAME *);

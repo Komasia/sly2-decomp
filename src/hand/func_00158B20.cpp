@@ -12,9 +12,8 @@ struct ALO { char pad[0xE8]; ZZ *pzz; };
 struct SO { char pad[8]; ALO *palo; char pad2[0x80 - 0xC]; qword normal; char pad3[0x94 - 0x90]; float g94; char pad4[0x9C - 0x98]; int k9C; int padA0[4]; qword vB0; };
 struct F { char pad[0x40]; qword v; SO *pso; qword *av; char pad2[0x60 - 0x58]; };
 struct DZG { int x0; int cdz; DZ *adz; char pad[0x50 - 0xC]; int cso; SO **apso; int pad58[2]; F *af; };
-struct CLOCK { float t; float dt; };
+#include "clock.h"
 extern "C" {
-extern CLOCK g_clock;
 extern float D_002BDDE8;
 void SolveDzg(DZG *pdzg, int grf) asm("SolveDzg__FP3DZGiiPP2XPPiPPP2SO");
 void AppendDzgDz(DZG *pdzg, DZ *pdz, F *pf) asm("AppendDzgDz__FP3DZGP2DZ");

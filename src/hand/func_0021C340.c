@@ -9,7 +9,7 @@ struct RGBA { byte c[4]; };
 struct Batch { int count; char pad4[8]; U *positions; byte *uv; struct RGBA *colors; int pad18; struct Sample *samples; };
 struct N { void *record; int count; struct Batch *batches; struct N *next; };
 struct S { char pad[0xDC]; struct N *nodes; char padE0[0x4C]; float g; char pad130[0x20]; float fade; int pad154; int count; struct Ring *array; int index; char pad164[0x1C]; void *follow; };
-extern struct CLOCK { float t,dt; } g_clock;
+#include "clock.h"
 void RenderSoSelf__FP2SOP2CMP2RO(struct S *);
 static inline qword Broadcast(float f) { qword r; __asm__("qmtc2.ni %1,%0" : "=j"(r) : "r"(f)); return r; }
 static inline qword Transform(const struct M4 *m,qword p) {

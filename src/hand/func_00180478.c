@@ -1,7 +1,6 @@
 struct T { char pad[0x60]; void *p60; };
 struct S { char pad[0xEC]; struct T *pt; char p1[0xD0]; float t1c0; float g1c4; int n; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_sw[];
 void RecalcSwOxfFilterForObject__FP2SWP2SO(void *g, struct S *p);
 void func_00180478(struct S *p, int n)

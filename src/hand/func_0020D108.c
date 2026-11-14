@@ -1,5 +1,4 @@
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 struct F { int a[0x18]; };
 struct S { int n0; int n; float t; };
 void *s1_memset(void *pv, int c, int cb) asm("memset");

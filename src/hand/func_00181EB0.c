@@ -1,8 +1,7 @@
 struct R { char pad[0xC]; int c; char dl[0xC]; };
 struct Q { char pad[0x20]; struct R *pr; int n; float t; };
 struct S { char pad[0x28C]; char dl[0xC]; };
-struct CLOCK { float t; float dt; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern char g_game[];
 void RemoveDlEntry__FP2DLPv(void *pdl, void *pv);
 void AppendDlEntry__FP2DLPv(void *pdl, void *pv);

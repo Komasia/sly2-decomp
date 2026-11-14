@@ -22,7 +22,7 @@ typedef struct OBJ {
     int x260;
     int x264;
 } OBJ;
-extern struct CLOCK { float a[16]; } g_clock;
+#include "clock.h"
 extern char g_sw[];
 void SetClockFactor__FP5CLOCKif(struct CLOCK *, float, int);
 void PauseGame__FP9GAMEPAUSEi(void *, int);
@@ -49,7 +49,7 @@ void func_001DC260(OBJ *p, int s)
     }
     old = p->x40;
     p->x40 = s;
-    p->x44 = g_clock.a[15];
+    p->x44 = g_clock.tReal;
     switch (s) {
     case -1:
         VCALL(p->x24, 50);

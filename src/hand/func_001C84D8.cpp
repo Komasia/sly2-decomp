@@ -8,7 +8,7 @@ struct SGG;struct ALARM;
 struct S {char pad[0x150];struct POINT*input;char pad154[0x188-0x154];int state;int pad18C,pad190;int index,step;SGG*alarms;void*pending;char pad1A4[0x1F0-0x1A4];int target;char pad1F4[0x204-0x1F4];struct TIMER*timer;};
 extern float D_002C0FE8,D_002A7798;
 extern qword D_002C0FF0[9];
-extern struct CLOCK {float t,dt;} g_clock;
+#include "clock.h"
 extern "C" int GrfPadctlTakePressed(void*,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
 extern "C" void EnsureSggAlarm(SGG*,ALARM*) asm("EnsureSggAlarm__FP3SGGP5ALARM");
 extern "C" void SetVaultSub(struct S*,int) asm("SetVaultSub__FP2LOi");
@@ -63,4 +63,3 @@ extern "C" void UpdateVaultDial__FP2LO(struct S*p){
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)
-typedef char selection_layout[(sizeof(qword)==16 && sizeof(U)==16 && sizeof(float)==4 && sizeof(void*)==4 && OFF(POINT,x)==0x10 && OFF(POINT,y)==0x14 && OFF(TIMER,end)==0xA8 && OFF(S,input)==0x150 && OFF(S,state)==0x188 && OFF(S,index)==0x194 && OFF(S,step)==0x198 && OFF(S,alarms)==0x19C && OFF(S,pending)==0x1A0 && OFF(S,target)==0x1F0 && OFF(S,timer)==0x204 && OFF(CLOCK,t)==0 && OFF(CLOCK,dt)==4 && sizeof(D_002C0FF0)==0x90)?1:-1];

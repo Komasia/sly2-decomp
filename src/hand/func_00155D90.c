@@ -5,8 +5,7 @@ struct X {
     char pad[0x10]; struct SO *pso; int x14; void *x18; char pad1[0x30 - 0x1C]; int state; float t34;
     char pad2[0x40 - 0x38]; void *x40; float t44; float t48; int x4C; char pad3[0x54 - 0x50]; int x54;
 };
-struct CLOCK { float t; };
-extern struct CLOCK g_clock;
+#include "clock.h"
 extern qword D_002A2DD0;
 void Update__5AIJOB(struct X *p);
 int FJobDone(struct X *p) asm("FJobDone__FP5AIJOB");
