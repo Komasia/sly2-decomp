@@ -37,8 +37,8 @@ extern "C"{
  void func_001643B0(P*);
  P*PloFindSwNearest(G*,int,int,P*) asm("PloFindSwNearest__FP2LO3OIDii");
  void SetJobCur(G*,P*) asm("SetJobCur__FP7TASKMGRP3JOB");
- void func_00165DE8(G*,P*);
- void func_00165E10(G*,P*);
+ void SetTaskCur(G*,P*) asm("SetTaskCur__FP7TASKMGRP4TASK");
+ void SetTaskChk(G*,P*) asm("SetTaskChk__FP7TASKMGRP4TASK");
  void func_001629A0(P*);
  void ActivateTaskNow(P*) asm("ActivateTaskNow__FP4TASK");
  void func_001657A8(P*);
@@ -119,8 +119,8 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
   for(;i<count;i++){P*object=objects[i];OVERRIDE temp(object,1,0);RestoreTask(object);}
   G*g=&g_sw;
   SetJobCur(g,PloFindSwNearest(g,0x105,p->selections[0],0));
-  func_00165DE8(g,PloFindSwNearest(g,0x105,p->selections[1],0));
-  func_00165E10(g,PloFindSwNearest(g,0x105,p->selections[2],0));
+  SetTaskCur(g,PloFindSwNearest(g,0x105,p->selections[1],0));
+  SetTaskChk(g,PloFindSwNearest(g,0x105,p->selections[2],0));
   if(g->first)func_001629A0(g->first);
   if(g->second)ActivateTaskNow(g->second);
   if(g->flags&4){if(g->third)func_001657A8(g->third);else if(g->first)func_001657A8(g->first->child);}

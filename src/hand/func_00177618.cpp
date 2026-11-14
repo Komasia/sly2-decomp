@@ -31,7 +31,7 @@ extern "C"{
  P*func_00156B98(void*,int,qword,P*);
  void RemoveNoise(P*) asm("RemoveNoise__FP5NOISE");
  void SendHit(C*,int,P*) asm("SendHit__8JOBREACTii");
- int func_0017A9C0(H*);
+ int FDoneB0(H*) asm("FDone__5JOBB0");
  int FDone(H*) asm("FDone__11JOBNAVPOINT");
  int func_0017DE40(H*);
  void NextReaction(C*) asm("NextReaction__8JOBREACT");
@@ -147,7 +147,7 @@ extern "C" void Update__8JOBREACT(C*p){
    }
    break;
   }
-  case 6:if(func_0017A9C0(p->helper))NextReaction(p);break;
+  case 6:if(FDoneB0(p->helper))NextReaction(p);break;
   case 9:if(func_00174FB8(p->helper))NextReaction(p);break;
   case 10:if(func_00174FB8(p->helper))NextReaction(p);break;
   case 19:if(FDone(p->helper))NextReaction(p);break;

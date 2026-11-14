@@ -25,8 +25,8 @@ struct G;
 extern G g_sw;
 extern char g_game[];
 extern char D_003DA0C0[];
-extern "C" void func_00165DE8(G *pg, O *p);
-extern "C" void func_00165E10(G *pg, O *p);
+extern "C" void SetTaskCur(G *pg, O *p) asm("SetTaskCur__FP7TASKMGRP4TASK");
+extern "C" void SetTaskChk(G *pg, O *p) asm("SetTaskChk__FP7TASKMGRP4TASK");
 extern "C" int FJobCur(O *p) asm("FJobCur__FP3JOB");
 extern "C" void JobBegin(O *p) asm("JobBegin__FP3JOB");
 extern "C" int func_001637E8(O *p);
@@ -40,9 +40,9 @@ extern "C" void TriggerExit(LO *plo) asm("TriggerExit__FP4EXIT");
 extern "C" void ActivateTaskNow__FP4TASK(O *p)
 {
     G *pg = &g_sw;
-    func_00165DE8(pg, p);
+    SetTaskCur(pg, p);
     if (p->fb8 != -1)
-        func_00165E10(pg, p);
+        SetTaskChk(pg, p);
     if (p->f7c && !FJobCur(p->f7c))
         JobBegin(p->f7c);
     if (func_001637E8(p)) {

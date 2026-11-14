@@ -2,7 +2,7 @@ struct P { char pad[0xC]; void *pvt; char pad2[0x60 - 0x10]; int n60; char pad3[
 struct G { char pad[0x58]; int n58; char pad2[0x15C - 0x5C]; float a[1]; };
 extern struct G D_003DD040;
 extern char D_002D9BE0[];
-void func_001FAFD0(struct P *);
+void __4CSnd(struct P *);   /* CSnd::CSnd */
 void SetDirty__4CSndUiUi(struct P *, int, int);
 int ItrackFromStream__FP8SOUNDMGRP9SNDSTREAM(struct G *, int);
 void Pause__4CSnd(struct P *);
@@ -11,7 +11,7 @@ struct P *__9CSndVoiceii(struct P *p, int n, int m)
 {
     int i;
     struct G *pg;
-    func_001FAFD0(p);
+    __4CSnd(p);
     p->n60 = n;
     p->pvt = D_002D9BE0;
     p->n3B8 = m;

@@ -14,7 +14,7 @@ extern char g_sw[];
 int func_00162670(struct JOB *pjob);   /* SafeHouse: FJobLive */
 void JobBegin__FP3JOB(struct JOB *pjob);
 void func_00162F10(struct JOB *pjob);   /* SafeHouse: JobComplete */
-void func_00165E10(void *psw, struct TASK *ptask);   /* SafeHouse: SetTaskChk */
+void SetTaskChk__FP7TASKMGRP4TASK(void *psw, struct TASK *ptask);
 
 // name: SafeHouse port (JobTaskReached)
 void JobTaskReached__FP3JOBP4TASK(struct JOB *pjob, struct TASK *ptask)
@@ -25,6 +25,6 @@ void JobTaskReached__FP3JOBP4TASK(struct JOB *pjob, struct TASK *ptask)
         if (ptask == pjob->ptaskLast)
             func_00162F10(pjob);
         if (ptask->idChk != -1)
-            func_00165E10(g_sw, ptask);
+            SetTaskChk__FP7TASKMGRP4TASK(g_sw, ptask);
     }
 }

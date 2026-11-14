@@ -19,7 +19,7 @@ struct G { char pad[0x3B14]; O *f3b14; char pad2[0x3C88 - 0x3B18]; int f3c88; in
 extern G g_sw;
 extern char g_game[];
 extern "C" void SetJobCur(G *pg, O *p) asm("SetJobCur__FP7TASKMGRP3JOB");
-extern "C" void func_00165E10(G *pg, O *p);
+extern "C" void SetTaskChk(G *pg, O *p) asm("SetTaskChk__FP7TASKMGRP4TASK");
 extern "C" W *func_00210B70();
 extern "C" int func_00210A88();
 extern "C" W *func_00210990(int n);
@@ -38,7 +38,7 @@ extern "C" void DeactivateJob__FP3JOB(O *p)
 {
     SetJobCur(&g_sw, 0);
     if (g_sw.f3b14 && g_sw.f3b14->f7c && g_sw.f3b14->f7c == p)
-        func_00165E10(&g_sw, 0);
+        SetTaskChk(&g_sw, 0);
     W *pw1 = func_00210B70();
     W *pw2 = func_00210990(func_00210A88());
     if (FSame(pw1, pw2)) {

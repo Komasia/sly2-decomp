@@ -19,7 +19,7 @@ struct G;
 extern G g_sw;
 extern char g_game[];
 extern char D_003DA0C0[];
-extern "C" void func_00165DE8(G *pg, O *p);
+extern "C" void SetTaskCur(G *pg, O *p) asm("SetTaskCur__FP7TASKMGRP4TASK");
 extern "C" int func_001637E8(O *p);
 extern "C" void BroadcastTaskEvent(void *pv, int n, O *p) asm("BroadcastTaskEvent__FP2SWiP2LO");
 extern "C" void ApplyTaskObjects(O *p, int n, int c, int a) asm("ApplyTaskObjects__FPviiT0");
@@ -28,7 +28,7 @@ extern "C" void func_001DA578(void *pv, int n);
 // name: SafeHouse port (DeactivateTask)
 extern "C" void DeactivateTask__FP4TASK(O *p)
 {
-    func_00165DE8(&g_sw, 0);
+    SetTaskCur(&g_sw, 0);
     if (func_001637E8(p)) {
         BroadcastTaskEvent(g_game, 0x24, p);
         ApplyTaskObjects(p, 5, p->fa8, p->fac);
