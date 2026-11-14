@@ -1,6 +1,6 @@
 struct S { int x0; int x4; int x8; int xC; int x10; int x14; int x18; int x1C; int x20; int x24; int x28; };
 int func_00233018(void);
-unsigned int func_00232FC0(void);
+unsigned int snd_GetTransStatus(void);
 void func_001B2EB8(struct S *p)
 {
     if (p->x4 == 0x10) {
@@ -15,7 +15,7 @@ void func_001B2EB8(struct S *p)
         }
         p->x28 = p->x18 - p->x24;
     } else {
-        p->x24 = (func_00232FC0() & 0xFFFFFF) - p->x14 - p->x1C + (p->x18 - 0x400);
+        p->x24 = (snd_GetTransStatus() & 0xFFFFFF) - p->x14 - p->x1C + (p->x18 - 0x400);
         p->x24 %= p->x18;
         p->x28 = p->x18 - p->x24;
         p->x20 = p->x1C - p->x28 + p->x18;

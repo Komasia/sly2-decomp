@@ -15,7 +15,7 @@ extern double __infinity_d;
 double __ieee754_log10(double x);
 int func_00249C80(double x);
 int matherr(struct exception *x);
-int *func_002401C8(void);
+int *__errno(void);
 double log10(double x)
 {
     double z;
@@ -34,20 +34,20 @@ double log10(double x)
         if (x == 0.0) {
             exc.type = 2;
             if (__fdlib_version == 2)
-                *func_002401C8() = 34;
+                *__errno() = 34;
             else if (!matherr(&exc)) {
-                *func_002401C8() = 33;
+                *__errno() = 33;
             }
         } else {
             exc.type = 1;
             if (__fdlib_version == 2)
-                *func_002401C8() = 33;
+                *__errno() = 33;
             else if (!matherr(&exc)) {
-                *func_002401C8() = 33;
+                *__errno() = 33;
             }
         }
         if (exc.err != 0)
-            *func_002401C8() = exc.err;
+            *__errno() = exc.err;
         return exc.retval;
     } else
         return z;

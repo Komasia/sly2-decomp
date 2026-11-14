@@ -19,7 +19,7 @@ int func_00249C80(double x);
 int func_00249C60(double x);
 double rint(double x);
 int matherr(struct exception *x);
-int *func_002401C8(void);
+int *__errno(void);
 #define _LIB_VERSION __fdlib_version
 #define _IEEE_ -1
 #define _SVID_ 0
@@ -27,7 +27,7 @@ int *func_002401C8(void);
 #define DOMAIN 1
 #define OVERFLOW 3
 #define UNDERFLOW 4
-#define errno (*func_002401C8())
+#define errno (*__errno())
 #define EDOM 33
 #define ERANGE 34
 #define HUGE 3.40282346638528859812e+38

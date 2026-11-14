@@ -14,7 +14,7 @@ extern const int __fdlib_version;
 float __ieee754_atan2f(float y, float x);
 int func_0024A0C0(float x);
 int matherr(struct exception *x);
-int *func_002401C8(void);
+int *__errno(void);
 float atan2f(float y, float x)
 {
     struct exception exc;
@@ -31,12 +31,12 @@ float atan2f(float y, float x)
         exc.err = 0;
         exc.retval = 0.0;
         if (__fdlib_version == 2)
-            *func_002401C8() = 33;
+            *__errno() = 33;
         else if (!matherr(&exc)) {
-            *func_002401C8() = 33;
+            *__errno() = 33;
         }
         if (exc.err != 0)
-            *func_002401C8() = exc.err;
+            *__errno() = exc.err;
         return (float)exc.retval;
     } else
         return z;
