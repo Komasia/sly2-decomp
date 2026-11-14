@@ -48,7 +48,7 @@ void func_00139AB8(struct P *p);
 struct M4 UpdatePsys(void *p) asm("UpdatePsys__FP4PSYS");
 void Hermite(float, float, float, qword, qword, qword, qword, qword *, qword *, int) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 float RadNormalize(float g) asm("RadNormalize__Ff");
-void func_00139098(struct Q *pq);
+void RemoveBlip(struct Q *pq) asm("RemoveBlip__FP4BLIP");
 void func_00139DC0(struct P *p);
 }
 
@@ -149,7 +149,7 @@ void func_00139DC0(struct P *p)
         pq->c -= cDead;
         p->c444 -= cDead;
         if (pq->c <= 0)
-            func_00139098(pq);
+            RemoveBlip(pq);
         else
             pq->i = iNext;
     }

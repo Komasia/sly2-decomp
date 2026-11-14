@@ -1,6 +1,6 @@
 struct S { char pad[0x10C]; int x10C; int x110; int x114; char x118[0x48]; char x160[0x20]; char x180[0x10]; };
 extern int D_002E1E54, D_002DEDBC;
-void func_0013D558(void *p, int cb, unsigned int a);
+void Init__10CByteQueueiPv(void *pbq, int cb, unsigned int pv);
 void func_001B3040(void *p);
 int sceMpegInit(void);
 void sceMpegCreate(void *p, int a, int b);
@@ -16,7 +16,7 @@ void func_001B3EC0(struct S *p, int a)
 {
     p->x114 = a;
     p->x10C = 0;
-    func_0013D558(p->x160, 0x40000, (p->x110 + 0x245A80) | 0x20000000);
+    Init__10CByteQueueiPv(p->x160, 0x40000, (p->x110 + 0x245A80) | 0x20000000);
     func_001B3040(p->x180);
     sceMpegInit();
     sceMpegCreate(p->x118, p->x110 + 0x98000, 0x1ADA60);

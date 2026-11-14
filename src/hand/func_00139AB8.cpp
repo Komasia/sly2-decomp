@@ -44,7 +44,7 @@ void FlushCache(int);
 void func_00201998(void);
 int func_00139950(M4 *pm, VU_FLOATM dt, char *a, char *b, char *c, int n, int d, VECTOR *pvMin, VECTOR *pvMax);
 
-void func_00139098(Q *pq);
+void RemoveBlip(Q *pq) asm("RemoveBlip__FP4BLIP");
 int sceDmaSync(void *pch, int mode, int timeout);
 void func_00139AB8(PX *p);
 }
@@ -134,7 +134,7 @@ void func_00139AB8(PX *p)
         }
         pq->c -= n;
         p->c444 -= n;
-        if (pq->c <= 0) func_00139098(pq);
+        if (pq->c <= 0) RemoveBlip(pq);
         else pq->i = i;
         pq = pqNext;
     }
