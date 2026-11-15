@@ -1,28 +1,14 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_00212828(void *p, CRef *pref); CRef func_0010DE58(void *p, int c, void *aref); }
-CRef func_0010DE58(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_00212828(void *plo, CRef *pref); CRef func_0010DE58(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 1132: the screen object's arguments list (+0xCC, 0x212828). */
+CRef func_0010DE58(void *plo, int carg, void *aref)
 {
-    int k = 0x8010;
+    int otype = 0x8010;
     CRef r;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &r);
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &r);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_00212828(p, &r);
+    ref.InitTag(TAGK_Void);
+    func_00212828(plo, &r);
     return ref;
 }

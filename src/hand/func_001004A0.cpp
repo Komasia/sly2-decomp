@@ -1,29 +1,16 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_00132CC8(void *p, int n, void *pu); CRef func_001004A0(void *p, int c, void *aref); }
-CRef func_001004A0(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_00132CC8(void *plo, int n, void *pu); CRef func_001004A0(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 6 (script + loader): sets the object's sidebag option n to the value (0x132CC8),
+   keeping the value's own kind. */
+CRef func_001004A0(void *plo, int carg, void *aref)
 {
-    int ak[2] = {0x15, 9};
-    union { qword q; } u;
-    int n;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &n, &u);
+    int aotype[2] = {0x15, 9};
+    union { qword q; } value;
+    int optid;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &optid, &value);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_00132CC8(p, n, &u);
+    ref.InitTag(TAGK_Void);
+    func_00132CC8(plo, optid, &value);
     return ref;
 }

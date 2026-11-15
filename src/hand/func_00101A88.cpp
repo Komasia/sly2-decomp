@@ -1,30 +1,17 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void * PasegaEnsureAseg(void *p, int, int, float, float, int) asm("PasegaEnsureAseg__FP4ASEGP3ALO4SEEKffi"); CRef func_00101A88(void *p, int c, void *aref); }
-CRef func_00101A88(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void * PasegaEnsureAseg(void *plo, int, int, float, float, int) asm("PasegaEnsureAseg__FP4ASEGP3ALO4SEEKffi"); CRef func_00101A88(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 108 (an ASEG's option 216): ensures the ASEG on an ALO (object, seek kind, t, svt,
+   grfapl) and returns its ASEGA. */
+CRef func_00101A88(void *paseg, int carg, void *aref)
 {
-    int ak[5] = {0x2030, 0x100c, 0x1, 0x1, 0x100b};
-    int v0;
-    int v1;
-    float v2;
-    float v3;
-    int v4;
-    CRef ref = RefSetArgsFromSplice(5, aref, ak, &v0, &v1, &v2, &v3, &v4);
-    ref = PasegaEnsureAseg(p, v0, v1, v2, v3, v4);
+    int aotype[5] = {0x2030, 0x100c, OTYPE_Float, OTYPE_Float, 0x100b};
+    int palo;
+    int seek;
+    float t;
+    float svt;
+    int grfapl;
+    CRef ref = RefSetArgsFromSplice(5, aref, aotype, &palo, &seek, &t, &svt, &grfapl);
+    ref = PasegaEnsureAseg(paseg, palo, seek, t, svt, grfapl);
     return ref;
 }

@@ -1,27 +1,13 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { int NDetectState__FP8DETECTORP2LOi(void *p, int, int); CRef func_00104188(void *p, int c, void *aref); }
-CRef func_00104188(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { int NDetectState__FP8DETECTORP2LOi(void *plo, int, int); CRef func_00104188(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 347: a detector's state for an object (int). */
+CRef func_00104188(void *pdetector, int carg, void *aref)
 {
-    int ak[2] = {0x2002, 0x106b};
-    int v0;
-    int v1;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &v0, &v1);
-    ref = NDetectState__FP8DETECTORP2LOi(p, v0, v1);
+    int aotype[2] = {0x2002, 0x106b};
+    int ploTarget;
+    int n;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &ploTarget, &n);
+    ref = NDetectState__FP8DETECTORP2LOi(pdetector, ploTarget, n);
     return ref;
 }

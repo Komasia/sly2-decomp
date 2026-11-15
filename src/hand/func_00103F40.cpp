@@ -1,29 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_0020A100(void *p, int n, qword q); CRef func_00103F40(void *p, int c, void *aref); }
-CRef func_00103F40(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_0020A100(void *plo, int n, qword q); CRef func_00103F40(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 322: sets the guard's station - an object and a point in its frame (0x20A100). */
+CRef func_00103F40(void *plo, int carg, void *aref)
 {
-    int ak[2] = {0x2002, 2};
-    union { qword q; } u;
-    int n;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &n, &u);
+    int aotype[2] = {0x2002, OTYPE_Vector};
+    union { qword q; } posLocal;
+    int ploStation;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &ploStation, &posLocal);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_0020A100(p, n, u.q);
+    ref.InitTag(TAGK_Void);
+    func_0020A100(plo, ploStation, posLocal.q);
     return ref;
 }

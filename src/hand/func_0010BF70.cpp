@@ -1,23 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(const CRef &r);
-    void Decref();
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-};
+#include "splice_cref.h"
 extern "C" {
-CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-void *PloNearestPlayer(void *p, qword q) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
-CRef func_0010BF70(void *p, int c, void *aref);
+CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+void *PloNearestPlayer(void *plo, qword q) asm("PloNearestPlayer__FP6VECTORG9VU_VECTOR");
+CRef func_0010BF70(void *plo, int carg, void *aref);
 }
-CRef func_0010BF70(void *p, int c, void *aref)
+/* Splice method thunk, EOPID 929: the player nearest to a point. */
+CRef func_0010BF70(void *plo, int carg, void *aref)
 {
-    union { qword q; } u;
-    int k = 2;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
-    ref = PloNearestPlayer(p, u.q);
+    union { qword q; } pos;
+    int otype = OTYPE_Vector;
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &pos);
+    ref = PloNearestPlayer(plo, pos.q);
     return ref;
 }

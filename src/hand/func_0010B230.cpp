@@ -1,24 +1,10 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_00142310(void *p, float, float, void *, float, float, qword, qword); CRef func_0010B230(void *p, int c, void *aref); }
-CRef func_0010B230(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_00142310(void *plo, float, float, void *, float, float, qword, qword); CRef func_0010B230(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 760 (script + loader): the authored throw parameters (0x142310). */
+CRef func_0010B230(void *plo, int carg, void *aref)
 {
-    int ak[7] = {0x1, 0x1, 0xa, 0x1, 0x1, 0x2, 0x2};
+    int aotype[7] = {OTYPE_Float, OTYPE_Float, 0xa, OTYPE_Float, OTYPE_Float, OTYPE_Vector, OTYPE_Vector};
     union { qword q; } v2;
     union { qword q; } v5;
     union { qword q; } v6;
@@ -26,9 +12,9 @@ CRef func_0010B230(void *p, int c, void *aref)
     float v1;
     float v3;
     float v4;
-    CRef ref = RefSetArgsFromSplice(7, aref, ak, &v0, &v1, &v2, &v3, &v4, &v5, &v6);
+    CRef ref = RefSetArgsFromSplice(7, aref, aotype, &v0, &v1, &v2, &v3, &v4, &v5, &v6);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_00142310(p, v0, v1, &v2, v3, v4, v5.q, v6.q);
+    ref.InitTag(TAGK_Void);
+    func_00142310(plo, v0, v1, &v2, v3, v4, v5.q, v6.q);
     return ref;
 }

@@ -1,28 +1,14 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_001E0310(void *p, CRef *pref); CRef func_00106C08(void *p, int c, void *aref); }
-CRef func_00106C08(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_001E0310(void *plo, CRef *pref); CRef func_00106C08(void *plo, int carg, void *aref); }
+/* SCPT command thunk, EOPID 628: appends script command 3 with an int list (at most 4) (0x1E0310). */
+CRef func_00106C08(void *pscpt, int carg, void *aref)
 {
-    int k = 0x8006;
-    CRef r;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &r);
+    int otype = OTYPE_IntList;
+    CRef refList;
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &refList);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_001E0310(p, &r);
+    ref.InitTag(TAGK_Void);
+    func_001E0310(pscpt, &refList);
     return ref;
 }

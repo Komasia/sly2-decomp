@@ -1,26 +1,13 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void *func_001F0380(void *p, int a, int b, int c); CRef func_00104840(void *p, int c, void *aref); }
-CRef func_00104840(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void *func_001F0380(void *plo, int a, int b, int carg); CRef func_00104840(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 368 (an SM's option 214): runs the state machine on an ALO from a state
+   (object, state oid, grfapl) and returns the new SMA (0x1F0380). */
+CRef func_00104840(void *psm, int carg, void *aref)
 {
-    int ak[3] = {0x2030, 6, 0x100B};
-    int a, b, d;
-    CRef ref = RefSetArgsFromSplice(3, aref, ak, &a, &b, &d);
-    ref = func_001F0380(p, a, b, d);
+    int aotype[3] = {0x2030, OTYPE_Int, 0x100B};
+    int palo, oidState, grfapl;
+    CRef ref = RefSetArgsFromSplice(3, aref, aotype, &palo, &oidState, &grfapl);
+    ref = func_001F0380(psm, palo, oidState, grfapl);
     return ref;
 }

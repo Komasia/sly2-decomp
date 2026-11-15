@@ -1,31 +1,18 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_00163838(void *p, int, void *, int, int); CRef func_0010F030(void *p, int c, void *aref); }
-CRef func_0010F030(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_00163838(void *plo, int, void *, int, int); CRef func_0010F030(void *plo, int carg, void *aref); }
+/* Splice loader-option thunk, EOPID 1287: an object added in the task states of grf, removed in the others
+   (0x163838). */
+CRef func_0010F030(void *plo, int carg, void *aref)
 {
-    int ak[4] = {0x6, 0x9050, 0x6, 0xf};
+    int aotype[4] = {OTYPE_Int, 0x9050, OTYPE_Int, 0xf};
     CRef v1;
     int v0;
     int v2;
     int v3;
-    CRef ref = RefSetArgsFromSplice(4, aref, ak, &v0, &v1, &v2, &v3);
+    CRef ref = RefSetArgsFromSplice(4, aref, aotype, &v0, &v1, &v2, &v3);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_00163838(p, v0, &v1, v2, v3);
+    ref.InitTag(TAGK_Void);
+    func_00163838(plo, v0, &v1, v2, v3);
     return ref;
 }

@@ -1,29 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void SetActorFollow__FP5ACTORiG9VU_VECTOR(void *p, int n, qword q); CRef func_0010A940(void *p, int c, void *aref); }
-CRef func_0010A940(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void SetActorFollow__FP5ACTORiG9VU_VECTOR(void *plo, int n, qword q); CRef func_0010A940(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 733: the actor follows an object at an offset. */
+CRef func_0010A940(void *plo, int carg, void *aref)
 {
-    int ak[2] = {0x2002, 2};
-    union { qword q; } u;
-    int n;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &n, &u);
+    int aotype[2] = {0x2002, OTYPE_Vector};
+    union { qword q; } posOffset;
+    int ploTarget;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &ploTarget, &posOffset);
     ref.Decref();
-    ref.InitTag(0x24);
-    SetActorFollow__FP5ACTORiG9VU_VECTOR(p, n, u.q);
+    ref.InitTag(TAGK_Void);
+    SetActorFollow__FP5ACTORiG9VU_VECTOR(plo, ploTarget, posOffset.q);
     return ref;
 }

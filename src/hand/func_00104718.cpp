@@ -1,23 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(const CRef &r);
-    void Decref();
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(bool f);
-};
+#include "splice_cref.h"
 extern "C" {
-CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *a0) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-int FPointInShape(void *p, qword q) asm("FPointInShape__FP2LOG9VU_VECTOR");
-CRef func_00104718(void *p, int c, void *aref);
+CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, void *a0) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+int FPointInShape(void *plo, qword q) asm("FPointInShape__FP2LOG9VU_VECTOR");
+CRef func_00104718(void *plo, int carg, void *aref);
 }
-CRef func_00104718(void *p, int c, void *aref)
+/* Splice method thunk, EOPID 366 (a shape's option 108): is the point inside the shape? (bool) */
+CRef func_00104718(void *plo, int carg, void *aref)
 {
-    int ak[1] = {2};
-    union { qword q; } u;
-    CRef ref = RefSetArgsFromSplice(1, aref, ak, &u);
-    ref = FPointInShape(p, u.q) != 0;
+    int aotype[1] = {OTYPE_Vector};
+    union { qword q; } pos;
+    CRef ref = RefSetArgsFromSplice(1, aref, aotype, &pos);
+    ref = FPointInShape(plo, pos.q) != 0;
     return ref;
 }
