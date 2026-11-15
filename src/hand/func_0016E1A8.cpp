@@ -1,3 +1,5 @@
+// func_0016E1A8: a render pass's common setup: the VU1 microcode loaded, 11 cleared qwords unpacked at VU1 address
+// 10 and the microprogram at 0 started.
 #include "vifs.h"
 extern "C" void *s1_memset(void *pv, int n, int cb) asm("memset");
 extern "C" void EnsureVu1Code(VIFS *pvifs, void *pvStart, void *pvEnd) asm("EnsureVu1Code__FP4VIFSPvT1");

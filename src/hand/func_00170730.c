@@ -14,6 +14,9 @@ void AddPrimEnd(struct B *pb) asm("AddPrimEnd__4GIFS");
 void AddDmaEnd(struct B *pb) asm("AddDmaEnd__4DMAS");
 void Detach(struct B *pb, int a, int *pn) asm("Detach__4DMASPiPP2QW");
 void SendDmaSyncGsFinish(int a, int b) asm("SendDmaSyncGsFinish__FP10sceDmaChanP2QW");
+/* func_00170730: upload the textures of a shader key now: a GIF packet sized for the bitmaps / CLUTs counted
+ * (D_003DCF9C x 3 + D_003DCF98), filled by func_001ECC28 and, when it built anything, ended with a texture flush
+ * and FINISH and sent, waiting for the GS. */
 void func_00170730(void *p) {
     struct B b;
     struct MK mk;

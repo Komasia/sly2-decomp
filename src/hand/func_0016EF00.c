@@ -9,6 +9,8 @@ float func_002599D8(V4 *pv);
 float func_002599E0(V4 *pv);
 float func_002599E8(V4 *pv);
 
+/* func_0016EF00: reset entry i of an object's position records: the object's +0x148 bit 35 cleared, its +0x10 position
+ * zeroed with range 1e6, and the entry set from the (zero) vector's components with that range. */
 void func_0016EF00(S *p, int i)
 {
     float g = 1000000.0f;

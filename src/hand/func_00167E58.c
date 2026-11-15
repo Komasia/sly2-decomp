@@ -1,4 +1,6 @@
-/* RGBA (one byte per qword lane) -> 1555 conversion. The C16 bitfield struct copy gives the target's dead
+/* func_00167E58: convert VU1 output (RGBA, one byte per qword lane) to 16-bit 1555 colours and an alpha byte
+ * stream for the two halves of a buffer (the VU1 interrupt handler func_00167F78 runs it on VU1 data memory).
+ * RGBA (one byte per qword lane) -> 1555 conversion. The C16 bitfield struct copy gives the target's dead
    register copies after each sh. */
 typedef struct { unsigned char r, pad0[3], g, pad1[3], b, pad2[3], a, pad3[3]; } CQW;
 struct X { int pad[2]; int iA; int iB; int iEnd; char *ib14; char *ib18; int pad2; char *ib20; char *ib24; };

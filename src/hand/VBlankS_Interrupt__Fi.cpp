@@ -1,10 +1,12 @@
+// VBlankS_Interrupt (Sly 1 gs.c): the VBlank start handler: wake a SyncVBlank waiter; by the display state
+// (D_002DEDBC: 1 / 2 blend on a buffer mismatch, 3 flip the display buffer) update the display.
 struct DISPENV { int a[10]; };
-extern int D_002DFB58;
-extern int D_002DFB4C;
-extern int D_002DEDBC;
+extern int D_002DFB58;   /* a SyncVBlank is waiting */
+extern int D_002DFB4C;   /* its semaphore */
+extern int D_002DEDBC;   /* the display state */
 extern int D_002DFB5C;
 extern int D_002DFB60;
-extern int D_002DEDB0;
+extern int D_002DEDB0;   /* the frame counter (its bit 0: the display buffer) */
 extern int D_002BE590;
 extern int D_002BE594;
 extern DISPENV D_002DEB80[2];

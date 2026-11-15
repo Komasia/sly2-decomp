@@ -1,3 +1,5 @@
+// RestoreGsBuffers (Sly 1 gs.c): after a display flip done in the VBlank (state 3 -> 2), re-set the draw
+// environment of the buffer now drawn for the current field.
 struct CSR { unsigned int SIGNAL:1, FINISH:1, HSINT:1, VSINT:1, EDWINT:1, ZERO1:3, FLUSH:1, RESET:1, ZERO2:2, NFIELD:1, FIELD:1, FIFO:2, REV:8, ID:8; };
 extern int D_002DEDBC;
 extern int D_002DFB60;

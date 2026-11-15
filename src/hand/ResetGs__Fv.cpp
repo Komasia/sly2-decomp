@@ -1,5 +1,7 @@
-extern int D_002DFB54;
-extern int D_002DFB50;
+// ResetGs (Sly 1 gs.c): the GS FINISH interrupt handler: when SendDmaSyncGsFinish waits and GS CSR FINISH is set,
+// wake it.
+extern int D_002DFB54;   /* a FINISH is awaited */
+extern int D_002DFB50;   /* its semaphore */
 extern "C" void iSignalSema(int sid);
 int ResetGs()
 {

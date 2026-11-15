@@ -5,9 +5,11 @@ public:
     int U16Read();
     int S16Read();
 };
-struct E6 { short a; short b; char c; char pad; };
-struct E8 { int c; E6 *a; };
-struct T { int c; E8 *a; int *ai; };
+// LoadIdxTabFromBrx: load an index table: c rows of {two RGBA16 colours (AdjustRgba16), a byte} entries, then a list
+// of indices.
+struct IDXE { short rgba0; short rgba1; char b; char pad; };
+struct IDXROW { int c; IDXE *a; };
+struct IDXTAB { int c; IDXROW *a; int *ai; };
 extern "C" void *PvAllocStackClearImpl(ALLOCREQ *preq) asm("PvAllocStackClearImpl__Fi");
 extern "C" void AdjustRgba16(short *ps) asm("AdjustRgba16__FPUs");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
@@ -17,26 +19,26 @@ static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
     return PvAllocStackClearImpl(preq);
 }
 // name: SafeHouse port (LoadIdxTabFromBrx)
-extern "C" T *LoadIdxTabFromBrx__FP18CBinaryInputStreamT0(void *pv, CBinaryInputStream *pbis)
+extern "C" IDXTAB *LoadIdxTabFromBrx__FP18CBinaryInputStreamT0(void *pv, CBinaryInputStream *pbis)
 {
-    T *pt = 0;
+    IDXTAB *pt = 0;
     int c = pbis->U16Read();
     if (c) {
         ALLOCREQ req;
-        pt = (T *)PvAllocReq(&req, sizeof(T), 0x10);
+        pt = (IDXTAB *)PvAllocReq(&req, sizeof(IDXTAB), 0x10);
         pt->c = c;
-        pt->a = (E8 *)PvAllocReq(&req, c * sizeof(E8), 0x10);
+        pt->a = (IDXROW *)PvAllocReq(&req, c * sizeof(IDXROW), 0x10);
         for (int i = 0; i < pt->c; i++) {
-            E8 *pe = &pt->a[i];
+            IDXROW *pe = &pt->a[i];
             int n = pbis->U16Read();
-            pe->a = (E6 *)PvAllocReq(&req, n * sizeof(E6), 0x10);
+            pe->a = (IDXE *)PvAllocReq(&req, n * sizeof(IDXE), 0x10);
             for (int j = 0; j < n; j++) {
-                E6 *p6 = &pe->a[j];
-                short *pb = &p6->b;
-                p6->a = pbis->U16Read();
-                p6->b = pbis->U16Read();
-                p6->c = pbis->U8Read();
-                AdjustRgba16(&p6->a);
+                IDXE *p6 = &pe->a[j];
+                short *pb = &p6->rgba1;
+                p6->rgba0 = pbis->U16Read();
+                p6->rgba1 = pbis->U16Read();
+                p6->b = pbis->U8Read();
+                AdjustRgba16(&p6->rgba0);
                 AdjustRgba16(pb);
             }
         }

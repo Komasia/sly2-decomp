@@ -25,6 +25,9 @@ extern "C" void InverseAffineMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatSrc) asm("In
 extern "C" void MulMatrix4(MATRIX4 *pmatDst, MATRIX4 *pmatA, MATRIX4 *pmatB) asm("MulMatrix4__FP7MATRIX4T0Pv");
 extern "C" void *s1_memset(void *pv, int n, int cb) asm("memset");
 extern "C" void func_0022B7A0(LO *plo, X *px);
+/* BindAloBones: bind an object's skin groups to their bones: each item finds its object (by oid, near the owner)
+ * and bone, and keeps the bone's inverse (times the group's bone, if any) - or the group's bone, or identity; then
+ * each attachment record is bound to its object (func_0022B7A0). */
 // name: SafeHouse port (BindAloBones)
 extern "C" void BindAloBones__FP3ALO(S *p)
 {

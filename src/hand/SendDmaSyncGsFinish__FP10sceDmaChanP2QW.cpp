@@ -1,3 +1,5 @@
+// SendDmaSyncGsFinish (Sly 1 gs.c): send a DMA chain and wait until the GS signals FINISH (inside the GS critical
+// section): the FINISH flag cleared, its interrupt unmasked, the cache flushed, the chain sent, the semaphore awaited.
 struct CRITSECT;
 struct sceDmaChan;
 union QW;

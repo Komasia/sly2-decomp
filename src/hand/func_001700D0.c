@@ -1,4 +1,7 @@
-struct DB { union { int w; unsigned char b[4]; } u; int pad[9]; };
+/* func_001700D0 (Sly 1 gs.c StartupGs): start up the GS: its critical section, the graphics reset (interlaced NTSC
+ * field mode), the double buffer (512 x 224), the clear / FBA / framebuffer packets, the VBlank and FINISH
+ * semaphores, the VBlank and GS interrupt handlers, then the GS reset (GS_Interrupt) and GIF mode 0. */
+struct DB { union { int w; unsigned char b[4]; } u; int pad[9]; };   /* sceGsDBuff: its display env word */
 extern char D_002DFB40[];
 extern struct DB D_002DEB80[2];
 extern char D_002DEDC0[], D_002DF260[], D_002DF010[], D_002DF4B0[], D_002DF700[], D_002DF720[];

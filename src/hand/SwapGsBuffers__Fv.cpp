@@ -1,12 +1,15 @@
+// SwapGsBuffers (Sly 1 gs.c): at the next VBlank swap the double buffer: pick the field to draw (from GS CSR FIELD,
+// or field 0 while D_002BE594 counts down), set the draw buffer's half-pixel offset for it, flip, and blend when the
+// display state asks.
 struct CSR { unsigned int SIGNAL:1, FINISH:1, HSINT:1, VSINT:1, EDWINT:1, ZERO1:3, FLUSH:1, RESET:1, ZERO2:2, NFIELD:1, FIELD:1, FIFO:2, REV:8, ID:8; };
 struct CRITSECT;
 extern CRITSECT D_002DFB40;
-extern int D_002DFB5C;
-extern int D_002DEDB8;
-extern int D_002DEDB4;
-extern int D_002DEDB0;
-extern int D_002DEDBC;
-extern int D_002BE594;
+extern int D_002DFB5C;   /* a swap waits for the VBlank */
+extern int D_002DEDB8;   /* the previous frame's field */
+extern int D_002DEDB4;   /* the frame's field (half-pixel offset) */
+extern int D_002DEDB0;   /* the frame counter (bit 0: the buffer) */
+extern int D_002DEDBC;   /* the display state */
+extern int D_002BE594;   /* frames still drawn on field 0 */
 extern char D_002DEBE0[];
 extern char D_002DECD0[];
 extern char D_002DEB80[];
