@@ -1,68 +1,72 @@
+/* PxpAddSw (0x1A7C18): adds a contact between two geometry entries to the world: a new XP from the world's slot heap
+ * (SW +0x3D40) with end 0 at pos and end 1 at pos - normal * gDist; each end records its entry, the entry's
+ * transform and owner and the owner's attachment root, and its point in the transform's frame; the kind and its two
+ * tags, the default friction / elasticity (D_002BFD30 / D_002BFD34); each owner is told (vtable entry 55, with the
+ * end's index), the contact's movement is computed (RecalcSwXpMovement) and it is put at the head of *ppxp.
+ * SafeHouse so.cpp. */
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
+#include "h5_xp.h"
 typedef union { qword q; float f[4]; } U;
-struct LO;
-struct C;
 struct SUB { char pad[0x60]; void *x60; };
 struct LO { int x0, x4, x8; VTENT *vt; char pad[0xEC - 0x10]; struct SUB *xEC; };
-struct S { void *x0; struct LO *x4; };
-struct E { struct S *ps; void *x4; void *x8; struct LO *plo; qword pos; qword x20; int pad[4]; };
-struct C { struct E ae[2]; qword dir; float g; float x94, x98; int x9C, xA0, xA4; int xA8; struct C *next; };
-struct W { char pad[0x3D40]; char pool[1]; };
-extern float D_002BFD30, D_002BFD34;
-struct C *func_0011CCC0(void *pool);
-qword PosConvertXfs__FP2XFT0G9VU_VECTOR(int n, void *p, qword pos);
-void RecalcSwXpMovement__FP2SWiPP2XP(struct W *pw, int n, struct C **ppc);
+struct SOE { struct XF *pxf; struct LO *palo; };
+struct SW { char pad[0x3D40]; char slotheapXp[1]; };
+#define VT_ADD_XP 55
+extern float g_muDefault __asm__("D_002BFD30");
+extern float g_elasDefault __asm__("D_002BFD34");
+struct XP *func_0011CCC0(void *pslotheap);
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(int pxfFrom, void *pxfTo, qword pos);
+void RecalcSwXpMovement__FP2SWiPP2XP(struct SW *psw, int cpxp, struct XP **apxp);
 // name: SafeHouse port (PxpAddSw)
-void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct W *pw, struct S *a, struct S *b, qword pos, qword dir, int k, int x, int y, struct C **ppc, float g)
+void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(struct SW *psw, struct SOE *psoe0, struct SOE *psoe1, qword pos, qword normal, int xpk, int nTag0, int nTag1, struct XP **ppxp, float gDist)
 {
     U u;
-    struct C *c;
+    struct XP *pxp;
     int i;
-    struct E *e;
-    struct C *pc;
-    c = pc = func_0011CCC0(pw->pool);
-    pc->ae[0].pos = pos;
+    struct XPD *pxpd;
+    struct XP *pxpNew;
+    pxp = pxpNew = func_0011CCC0(psw->slotheapXp);
+    pxpNew->axpd[0].pos = pos;
     {
         qword s, r;
-        __asm__("qmtc2.ni %1, %0" : "=j"(s) : "r"(-g));
+        __asm__("qmtc2.ni %1, %0" : "=j"(s) : "r"(-gDist));
         u.q = s;
-        __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(pos), "j"(dir), "j"(s));
-        pc->ae[1].pos = r;
+        __asm__("vadda.xyzw $ACC, %1, $vf0\n\tvmaddx.xyzw %0, %2, %3x" : "=j"(r) : "j"(pos), "j"(normal), "j"(s));
+        pxpNew->axpd[1].pos = r;
     }
-    pc->dir = dir;
+    pxpNew->normal = normal;
     for (i = 0; i < 2; i++) {
-        e = &c->ae[i];
+        pxpd = &pxp->axpd[i];
         if (i == 0)
-            e->ps = a;
+            pxpd->psoe = psoe0;
         else
-            e->ps = b;
-        if (e->ps) {
-            e->x4 = e->ps->x0;
-            e->plo = e->ps->x4;
-            e->x8 = e->plo->xEC->x60;
+            pxpd->psoe = psoe1;
+        if (pxpd->psoe) {
+            pxpd->pxf = pxpd->psoe->pxf;
+            pxpd->palo = (struct ALO *)pxpd->psoe->palo;
+            pxpd->paloRoot = ((struct LO *)pxpd->palo)->xEC->x60;
         }
-        e->x20 = PosConvertXfs__FP2XFT0G9VU_VECTOR(0, e->x4, e->pos);
+        pxpd->posLocal = PosConvertXfs__FP2XFT0G9VU_VECTOR(0, pxpd->pxf, pxpd->pos);
     }
-    c->g = g;
-    c->x9C = k;
-    c->x94 = D_002BFD30;
-    c->x98 = D_002BFD34;
-    c->xA0 = x;
-    c->xA4 = y;
+    pxp->gDist = gDist;
+    pxp->xpk = xpk;
+    pxp->mu = g_muDefault;
+    pxp->elas = g_elasDefault;
+    pxp->nTag0 = nTag0;
+    pxp->nTag1 = nTag1;
     for (i = 0; i < 2; i++) {
         struct LO *plo;
-        e = &c->ae[i];
-        plo = e->plo;
+        pxpd = &pxp->axpd[i];
+        plo = (struct LO *)pxpd->palo;
         if (plo)
-            ((void (*)(struct LO *, struct C *, int))plo->vt[55].pfn)((struct LO *)VT_THIS(plo, &plo->vt[55]), c, i);
+            ((void (*)(struct LO *, struct XP *, int))plo->vt[VT_ADD_XP].pfn)((struct LO *)VT_THIS(plo, &plo->vt[VT_ADD_XP]), pxp, i);
     }
-    RecalcSwXpMovement__FP2SWiPP2XP(pw, 1, &c);
+    RecalcSwXpMovement__FP2SWiPP2XP(psw, 1, &pxp);
     {
-        struct C *t = c;
-        while (t->next)
-            t = t->next;
-        t->next = *ppc;
-        *ppc = c;
+        struct XP *pxpLast = pxp;
+        while (pxpLast->pxpNext)
+            pxpLast = pxpLast->pxpNext;
+        pxpLast->pxpNext = *ppxp;
+        *ppxp = pxp;
     }
 }

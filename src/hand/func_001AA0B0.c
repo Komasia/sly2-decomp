@@ -1,3 +1,6 @@
+/* MarkOwnContacts (0x1AA0B0): an entry owner's own contact test (its vtable entry 60) against an entry; for a sensor
+ * (a filter at +0x18) the contacts whose other side passes the filter are copied to its sensor list (+0x6C); the
+ * result is put in front of *ppxp. SafeHouse mark.cpp. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct E { union { qword q[12]; struct { void *x0; int pad[2]; void *xC; char pad2[0xAC - 0x10]; struct E *next; } s; } u; } E;

@@ -1,3 +1,7 @@
+/* PxpMarkOxaContacts (0x1AA1D8): the contacts between two objects' geometry entries (Sly 1 AddSoXps): for each pair
+ * of entries (sensors (bit 48) only with a filter (+0x18) that accepts the other) the swept vertices, then sphere-sphere,
+ * sphere-BSP or BSP-BSP contacts (the larger one's tree pruned by the smaller one's sphere); sensors' contacts go to
+ * their own lists; then the entries' own tests. Returns the new list. SafeHouse mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 struct LO { char pad0[0x70]; qword pos; };
 struct FILTER;

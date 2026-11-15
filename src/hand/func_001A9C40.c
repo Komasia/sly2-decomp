@@ -1,3 +1,5 @@
+/* MarkSphereSphere (0x1A9C40): two spheres (center XF +0x70, radius SOE +0x8): when they overlap, a kind-7 contact
+ * on the first sphere's surface along the centres' direction (g_normalZ when they coincide). SafeHouse mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 
 typedef union { qword q; float f[4]; } U;

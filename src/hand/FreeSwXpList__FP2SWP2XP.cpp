@@ -1,3 +1,5 @@
+/* FreeSwXpList (0x1A7E10): returns a list of contacts (linked by XP +0xAC) to the world's contact slot heap
+ * (SW +0x3D40). */
 struct SLOTHEAP { int a[4]; };
 struct XP { char pad[0xAC]; XP *pxpNextSw; };
 struct SW { char pad[0x3D40]; SLOTHEAP slotheapXp; };

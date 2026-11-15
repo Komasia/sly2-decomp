@@ -1,3 +1,6 @@
+/* MarkSweptVertices (0x1A9D38): the swept vertices of an entry: each vertex from its last position to its probe point
+ * is clipped against the other entry (ClipSegmentSoe, its matrix updated when its generation changed); the first hit
+ * makes a contact along the reversed sweep, deepened to the vertices' least depth. SafeHouse mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 struct M4{qword r[4];};
 struct LO{char pad[0x40];M4 m;};
@@ -23,7 +26,6 @@ static inline float MinDistance(qword pos,qword dir,int count0,const qword*const
 do {float d=Dot(Sub(*points,p),n);if(d<best)best=d;points++;}while(--count);}
  return best;
 }
-// Sweep vertices and create contacts from the first accepted segment hit.
 // name: SafeHouse port (MarkSweptVertices)
 extern "C" void MarkSweptVertices__FP3SOET0PP2XPPv(W*w,A*a,B*b,C**out){
  int i;

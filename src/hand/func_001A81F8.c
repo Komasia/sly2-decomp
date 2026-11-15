@@ -1,3 +1,6 @@
+/* ClsgClipSoBspEdges (0x1A81F8): like ClsgClipSoAllEdges for the edges of the selected surfaces only (each surface
+ * once: grf bits 1 selected / 2 done, cleared at the end), skipping edges whose vertex (grf bit 0) is clear.
+ * SafeHouse mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 typedef struct EDGE { unsigned short ipos[2]; unsigned short pad; unsigned short ivtx; struct EDGE *next; } EDGE;
 typedef struct LSG { char pad[0x54]; EDGE *pedge; int pad2[2]; } LSG;
@@ -7,7 +10,6 @@ typedef struct ENT { int x0; int x4; SURF *psurf; } ENT;
 typedef struct GEOM { char pad[0x94]; qword *apos; char pad2[0x9C - 0x98]; VTX *avtx; } GEOM;
 typedef struct SO { char pad[0x74]; void *pbsp; } SO;
 int ClipSegmentBsp__FP6BSPREFP6VECTORG9VU_VECTORT2iP3LSG(void *bsp, int max, qword a, qword b, int clsgMax, LSG *alsg);
-// Clip edges of selected surfaces and attach their originating edge.
 int ClsgClipSoBspEdges__FP2SOT0iP3BSPiP3LSG(void *unused, SO *pso, GEOM *pgeom, int cent, ENT *aent, int clsgMax, LSG *alsg)
 {
     int ilsg = 0;

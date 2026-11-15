@@ -1,9 +1,13 @@
-struct E { int bytes; unsigned int source; int argumentBytes; const char *arguments; int unknown10; };
+/* func_001A7630 (0x1A7630): the IOP start-up (Sly 1 main.c StartupSif's shape): SIF / CD / file system init (spinning forever
+ * without a valid CD mode); unless D_002E2058 is set the IOP is rebooted with the image D_002A6A48 and everything
+ * re-initialised; then each IRX module of the table D_004E5D80..D_004E5E38 is copied by SIF DMA (in chunks of at most
+ * 0xFFFC0 bytes) into one IOP heap buffer as large as the largest and loaded (sceSifLoadModuleBuffer). */
+struct E { int bytes; unsigned int source; int argumentBytes; const char *arguments; int unknown10; };  /* an IRX module: its size, EE address, load arguments */
 struct DMA { unsigned int source; unsigned int destination; int bytes; int attributes; };
-extern struct E *D_004E5D80;
-extern struct E *D_004E5E38;
-extern int D_002E2058;
-extern char D_002A6A48[];
+extern struct E *g_airxFirst __asm__("D_004E5D80");
+extern struct E *g_airxEnd __asm__("D_004E5E38");
+extern int g_fNoIopReboot __asm__("D_002E2058");
+extern char g_szIopImage[] __asm__("D_002A6A48");  /* the IOP reboot image's path */
 void sceSifInitRpc(int n);
 int sceSifLoadFileReset(void);
 int sceCdInit(int n);
@@ -41,8 +45,8 @@ void func_001A7630(void)
             ;
     SetCdMmode();
     sceFsReset();
-    if (!D_002E2058) {
-        CdPath(u.buf, D_002A6A48, 1);
+    if (!g_fNoIopReboot) {
+        CdPath(u.buf, g_szIopImage, 1);
         while (!sceSifRebootIop(u.buf))
             ;
         while (!sceSifSyncIop())
@@ -62,12 +66,12 @@ void func_001A7630(void)
     cbMax = 0;
     {
         struct E *p;
-        for (p = D_004E5D80; p < D_004E5E38; p++)
+        for (p = g_airxFirst; p < g_airxEnd; p++)
             if (p->bytes >= cbMax)
                 cbMax = p->bytes;
     }
     h = sceSifAllocIopHeap(cbMax);
-    for (pe = D_004E5D80; pe < D_004E5E38; pe++) {
+    for (pe = g_airxFirst; pe < g_airxEnd; pe++) {
         int cb = pe->bytes;
         int off = 0;
         while (cb) {

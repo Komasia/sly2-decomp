@@ -1,3 +1,6 @@
+/* MarkSphereBsp (0x1A9B28): the contacts of a sphere entry against another entry's BSP: SphereBspContacts (at most
+ * 64) gives the points, planes and kinds; each becomes a contact (PxpAddSw) along the plane's normal. SafeHouse
+ * mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; U(); };
 struct S0 { char pad[0x70]; qword x70; };

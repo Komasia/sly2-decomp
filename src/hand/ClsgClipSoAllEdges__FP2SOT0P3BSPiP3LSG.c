@@ -1,3 +1,5 @@
+/* ClsgClipSoAllEdges (0x1A80D8): clips every edge of a geometry against the other object's BSP (ClipSegmentBsp) into
+ * the LSG array, each piece remembering its edge; returns the number of pieces. SafeHouse mark.cpp. */
 typedef int qword __attribute__((mode(TI)));
 typedef struct EDGE { unsigned short ipos[2]; int pad[3]; } EDGE;
 typedef struct LSG { char pad[0x54]; EDGE *pedge; int pad2[2]; } LSG;

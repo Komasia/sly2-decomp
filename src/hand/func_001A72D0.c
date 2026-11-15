@@ -1,13 +1,15 @@
+/* func_001A72D0 (0x1A72D0): ConvertPos on matrices: a position through pmatFrom (if given), then through an inverse
+ * affine matrix when fInverse is set (InverseAffineMatrix4 into a local; the source matrix is the caller's). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 void InverseAffineMatrix4__FP7MATRIX4(M4 *pm);
-qword func_001A72D0(M4 *pm, int f, qword v)
+qword func_001A72D0(M4 *pm, int fInverse, qword v)
 {
     if (pm) {
         __asm__("vmulax.xyz $ACC, %2, %1x\n\tvmadday.xyz $ACC, %3, %1y\n\tvmaddaz.xyz $ACC, %4, %1z\n\tvmaddw.xyz %0, %5, $vf0w"
                 : "=j"(v) : "j"(v), "j"(pm->r[0]), "j"(pm->r[1]), "j"(pm->r[2]), "j"(pm->r[3]));
     }
-    if (f) {
+    if (fInverse) {
         M4 m;
         InverseAffineMatrix4__FP7MATRIX4(&m);
         __asm__("vmulax.xyz $ACC, %2, %1x\n\tvmadday.xyz $ACC, %3, %1y\n\tvmaddaz.xyz $ACC, %4, %1z\n\tvmaddw.xyz %0, %5, $vf0w"

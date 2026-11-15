@@ -1,3 +1,6 @@
+/* CPathAlsg (0x1A86B8): a breadth-first search (at most 64 nodes) through a list of clipped edges (LSG +0x5C links)
+ * for a path of edges from vertex iposStart to iposEnd, marking visited vertices (grf bit 2, cleared at the end);
+ * the path's LSGs go to aplsg from the end back; returns their number, 0 without a path. SafeHouse mark.cpp. */
 typedef struct EDGE { int x0; unsigned short ipos[2]; } EDGE;
 typedef struct LSG { char pad[0x54]; EDGE *pedge; int pad2; struct LSG *next; } LSG;
 typedef struct VTX { char pad[0x18]; int grf; int pad2[1]; } __attribute__((aligned(32))) VTX;
