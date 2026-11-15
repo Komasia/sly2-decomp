@@ -1,10 +1,11 @@
 typedef int qword __attribute__((mode(TI)));
 struct M4 { qword r[4]; };
-struct N { qword normal; char pad[0xC]; int index; };
-struct Geom { int count; qword *points; int countN; struct N *normals; int x10,x14; };
-struct REQ { int cb,kind; };
+/* Sly 1 geom.h GEOM / SURF (Sly 2: no radius first) */
+struct SURF { qword normal; char pad[0xC]; int ipos; };   /* the plane (normal, gDot), a point on it */
+struct GEOM { int cpos; qword *apos; int csurf; struct SURF *asurf; int cedge, aedge; };
+struct REQ { int cb,nKind; };
 void *PvAllocSwCopyImpl__FiPv(struct REQ *r,void *src);
-void PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(struct N *n,qword v,qword p);
+void PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(struct SURF *psurf,qword normal,qword pos);
 static inline qword Transform(const struct M4 *m,qword p) {
  qword r;
  __asm__("vmulax.xyz ACC,%1,%5x\n\tvmadday.xyz ACC,%2,%5y\n\tvmaddaz.xyz ACC,%3,%5z\n\tvmaddw.xyz %0,%4,$vf0w"
@@ -23,26 +24,28 @@ static inline qword Normalize(qword v) {
  __asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(l):"0"(l));
  __asm__("vdiv Q,$vf0w,%1x\n\tvwaitq\n\tvmulq.xyzw %0,%2,Q":"=j"(r):"j"(l),"j"(v));return r;
 }
+/* CopyTransformGeom: copy a geometry (its points and surfaces in new storage, the edges shared), transformed by
+ * pmat when given: the points transformed, each surface's plane rebuilt from its rotated normal and a point. */
 // name: SafeHouse port (CopyTransformGeom)
-void CopyTransformGeom__FP4GEOMP7MATRIX4T0(struct Geom *src,const struct M4 *transform,struct Geom *dest)
+void CopyTransformGeom__FP4GEOMP7MATRIX4T0(struct GEOM *pgeomSrc,const struct M4 *pmat,struct GEOM *pgeomDst)
 {
  struct REQ req;
  struct M4 m;
  int i,j;
- dest->count=src->count;
- req.cb=src->count*16;req.kind=16;
- dest->points=PvAllocSwCopyImpl__FiPv(&req,src->points);
- dest->countN=src->countN;
- req.cb=src->countN*32;req.kind=16;
- dest->normals=PvAllocSwCopyImpl__FiPv(&req,src->normals);
- dest->x10=src->x10;dest->x14=src->x14;
- if(transform) {
-  m=*transform;
-  for(i=0;i<dest->count;i++){ qword *point=(qword *)((int)dest->points+(i<<4)); *point=Transform(&m,*point); }
-  for(j=0;j<dest->countN;j++) {
-   struct N *n=&dest->normals[j];
+ pgeomDst->cpos=pgeomSrc->cpos;
+ req.cb=pgeomSrc->cpos*16;req.nKind=16;
+ pgeomDst->apos=PvAllocSwCopyImpl__FiPv(&req,pgeomSrc->apos);
+ pgeomDst->csurf=pgeomSrc->csurf;
+ req.cb=pgeomSrc->csurf*32;req.nKind=16;
+ pgeomDst->asurf=PvAllocSwCopyImpl__FiPv(&req,pgeomSrc->asurf);
+ pgeomDst->cedge=pgeomSrc->cedge;pgeomDst->aedge=pgeomSrc->aedge;
+ if(pmat) {
+  m=*pmat;
+  for(i=0;i<pgeomDst->cpos;i++){ qword *ppos=(qword *)((int)pgeomDst->apos+(i<<4)); *ppos=Transform(&m,*ppos); }
+  for(j=0;j<pgeomDst->csurf;j++) {
+   struct SURF *psurf=&pgeomDst->asurf[j];
    register const struct M4 *pm __asm__("$17")=&m;
-   PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(n,Normalize(Rotate(pm,n->normal)),dest->points[n->index]);
+   PlaneFromNormalPos__FP6VECTORG9VU_VECTORT1(psurf,Normalize(Rotate(pm,psurf->normal)),pgeomDst->apos[psurf->ipos]);
   }
  }
 }

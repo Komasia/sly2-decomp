@@ -1,4 +1,4 @@
-/* class: JOB (SafeHouse task.cpp: the job's option 1251 - its last task done). */
+/* func_00163400: whether a job is done (its last task done; SafeHouse task.cpp: the job's option 1251). */
 struct TASK;
 struct JOB {
     /* 0x00 */ char pad0[0x68];

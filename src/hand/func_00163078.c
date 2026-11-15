@@ -1,32 +1,35 @@
-struct S { char pad[0xB0]; int fb0; int fb4; void *fb8; void *fbc; void *fc0; int fc4; char pad2[0xCC - 0xC8]; void *fcc; };
-void UpdateLo__FP2LO(struct S *p);
-int FSpriteAnimPlaying__FP2LOi(void *p, int n);
-void JobCompleteClose__FP3JOB(struct S *p);
-void JobCompleteNext(struct S *p) asm("JobCompleteNext__FP3JOB");
-void SetJobSeq__FP3JOBi(struct S *p, int n);
+/* UpdateJob: a job's update: steps its completion sequence when each screen part has played: 1 (complete) closes
+ * the job and goes to 3 when there is a next task or exit, else 2; 2 (next) runs JobCompleteNext and ends; 3 waits
+ * for part 0x30F of the screen object 0x379. */
+#include "h2_task.h"
+void UpdateLo__FP2LO(JOB *pjob);
+int FSpriteAnimPlaying__FP2LOi(void *plo, int idPart);
+void JobCompleteClose__FP3JOB(JOB *pjob);
+void JobCompleteNext(JOB *pjob) asm("JobCompleteNext__FP3JOB");
+void SetJobSeq__FP3JOBi(JOB *pjob, int nSeq);
 // name: SafeHouse port (UpdateJob)
-void UpdateJob__FP2LO(struct S *p)
+void UpdateJob__FP2LO(JOB *pjob)
 {
-    UpdateLo__FP2LO(p);
-    switch (p->fc4) {
+    UpdateLo__FP2LO(pjob);
+    switch (pjob->nSeq) {
     case 1:
-        if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb0)) {
-            JobCompleteClose__FP3JOB(p);
-            if (p->fc0 || p->fcc)
-                SetJobSeq__FP3JOBi(p, 3);
+        if (!FSpriteAnimPlaying__FP2LOi(pjob->ploScreen, pjob->idPartComplete)) {
+            JobCompleteClose__FP3JOB(pjob);
+            if (pjob->ptaskNext || pjob->ploExit)
+                SetJobSeq__FP3JOBi(pjob, 3);
             else
-                SetJobSeq__FP3JOBi(p, 2);
+                SetJobSeq__FP3JOBi(pjob, 2);
         }
         break;
     case 2:
-        if (!FSpriteAnimPlaying__FP2LOi(p->fb8, p->fb4)) {
-            JobCompleteNext(p);
-            SetJobSeq__FP3JOBi(p, 0);
+        if (!FSpriteAnimPlaying__FP2LOi(pjob->ploScreen, pjob->idPartNext)) {
+            JobCompleteNext(pjob);
+            SetJobSeq__FP3JOBi(pjob, 0);
         }
         break;
     case 3:
-        if (!FSpriteAnimPlaying__FP2LOi(p->fbc, 0x30F))
-            JobCompleteNext(p);
+        if (!FSpriteAnimPlaying__FP2LOi(pjob->ploScreen379, 0x30F))
+            JobCompleteNext(pjob);
         break;
     }
 }

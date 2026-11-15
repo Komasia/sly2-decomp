@@ -1,4 +1,6 @@
-// Transform points and inverse-transpose plane normals.
+// TransformGeom: transform a geometry into another (not in place): its points by the matrix (func_00166428) and its
+// surface planes by the matrix's inverse transpose (VU0 microprogram 0x150, from each plane's normal and point).
+// (Sly 1 geom.h: GEOMETRY = GEOM, PLANE = SURF.)
 typedef int qword __attribute__((mode(TI)));
 struct M3{
  qword r[3];M3(){}

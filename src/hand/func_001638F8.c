@@ -1,85 +1,89 @@
+/* StartTask: a task's start (vt slot 15): after PostLoLoad it joins its job's task list, its prerequisite and next
+ * task oids become task pointers (the ones found), a task not yet current shows its "end" objects and goals, its
+ * play / done counts come from the progress, and a task with a time limit or a child list becomes updated (flag 2;
+ * activated always when its activation kind was 2). */
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
-struct E16 {int oidA,oidB,flags,level;};
-struct E24 {int state,oid,index,id,enabled,level;};
-struct SL {void*first;void*last;int nextOffset;};
-struct BF { unsigned long pad:52; long k:4; unsigned long pad2:8; };
-struct S {
+struct E16 {int oid,oidOwner,grfState,iwrec;};                     /* TASKOBJE */
+struct E24 {int nState,oid,oidSm,oidGoal,fNotInstant,iwrec;};     /* TASKSME */
+struct SL {void*first;void*last;int nextOffset;};                /* a DL */
+struct BF { unsigned long pad:52; long st:4; unsigned long pad2:8; };   /* LO +0x28: bits 52..55 the activation kind */
+struct TASK {
     char pad[0x28]; struct BF bf;
-    char pad0[0x40 - 0x30]; int fl;
-    char pad1[0x64 - 0x44]; int f64; int f68;
-    char pad2[0x78 - 0x6C]; float f78; struct S *f7c; struct SL children;
-    char pad3[0x90 - 0x8C]; int *a90; int c94; void **a98; int *a9C; int cA0; void **aA4; int fa8;struct E16*fac;int fb0;struct E24*fb4;
-    char pad4[0xC8 - 0xB8]; int fc8; int pad5; int fd0;
+    char pad0[0x40 - 0x30]; int grfUpd;
+    char pad1[0x64 - 0x44]; int cPlayed; int cDone;
+    char pad2[0x78 - 0x6C]; float dtLimit; struct TASK *pjob; struct SL children;
+    char pad3[0x90 - 0x8C]; int *aoidPrereq; int cptaskPrereq; void **aptaskPrereq; int *aoidNext; int cptaskNext; void **aptaskNext; int cobje;struct E16*aobje;int csme;struct E24*asme;
+    char pad4[0xC8 - 0xB8]; int prPlayed; int pad5; int prCDone;
 };
 extern char D_003D4A60[];
 extern char g_sw[];
-void PostLoLoad__FP2LO(struct S *p);
-void func_0011A070(struct SL *psl, struct S *p);
+void PostLoLoad__FP2LO(struct TASK *p);
+void func_0011A070(struct SL *pdl, struct TASK *p);   /* append to a DL */
 void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, void *owner);
-int FTaskCur__FP4TASK(struct S *p);
-int func_001637E8(struct S *p);
-void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, struct E16 *a);
-void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, struct E24 *a, int b);
+int FTaskCur__FP4TASK(struct TASK *p);
+int func_001637E8(struct TASK *p);
+void ApplyTaskObjects__FPviiT0(struct TASK *p, int nState, int cobje, struct E16 *aobje);
+void ApplyTaskSms__FPvT0iT0i(struct TASK *p, int nState, int csme, struct E24 *asme, int nMode);
 CRef *NProgress(CRef *pref, void *a, void *b);
 void Decref(CRef *pref) asm("Decref__4CRef");
-void func_001A6CA8(struct S *p, int n);
+void func_001A6CA8(struct TASK *p, int n);
 // name: SafeHouse port (StartTask)
-void StartTask__FP2SW(struct S *p)
+void StartTask__FP2SW(struct TASK *p)
 {
     CRef ref;
     int i;
     register int j asm("$16"); /* allocation: i/j tie in global alloc */
-    int *pnC8;
-    int *pnD0;
+    int *pnPlayed;
+    int *pnCDone;
     PostLoLoad__FP2LO(p);
-    if (p->f7c)
-        func_0011A070(&p->f7c->children, p);
+    if (p->pjob)
+        func_0011A070(&p->pjob->children, p);
     i = 0;
     j = 0;
-    pnC8 = &p->fc8;
-    pnD0 = &p->fd0;
-    if (p->c94 > 0) {
+    pnPlayed = &p->prPlayed;
+    pnCDone = &p->prCDone;
+    if (p->cptaskPrereq > 0) {
         do {
-            void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->a90[i], 0);
+            void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->aoidPrereq[i], 0);
             if (pv)
-                p->a98[j++] = pv;
-        } while (++i < p->c94);
+                p->aptaskPrereq[j++] = pv;
+        } while (++i < p->cptaskPrereq);
     }
-    p->c94 = j;
+    p->cptaskPrereq = j;
     j = 0;
-    for (i = 0; i < p->cA0; i++) {
-        void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->a9C[i], 0);
+    for (i = 0; i < p->cptaskNext; i++) {
+        void *pv = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x105, p->aoidNext[i], 0);
         if (pv)
-            p->aA4[j++] = pv;
+            p->aptaskNext[j++] = pv;
     }
-    p->cA0 = j;
+    p->cptaskNext = j;
     if (!FTaskCur__FP4TASK(p) && func_001637E8(p)) {
-        ApplyTaskObjects__FPviiT0(p, 5, p->fa8, p->fac);
-        ApplyTaskSms__FPvT0iT0i(p, 5, p->fb0, p->fb4, 1);
+        ApplyTaskObjects__FPviiT0(p, 5, p->cobje, p->aobje);
+        ApplyTaskSms__FPvT0iT0i(p, 5, p->csme, p->asme, 1);
     }
-    if (p->fc8) {
+    if (p->prPlayed) {
         int n;
-        NProgress(&ref, pnC8, D_003D4A60);
+        NProgress(&ref, pnPlayed, D_003D4A60);
         n = ref.m_tag;
         Decref(&ref);
-        p->f64 = n;
+        p->cPlayed = n;
     }
-    if (p->fd0) {
+    if (p->prCDone) {
         int n;
-        NProgress(&ref, pnD0, D_003D4A60);
+        NProgress(&ref, pnCDone, D_003D4A60);
         n = ref.m_tag;
         Decref(&ref);
-        p->f68 = n;
+        p->cDone = n;
     }
-    if (p->f78 != 0.0f || p->children.first) {
+    if (p->dtLimit != 0.0f || p->children.first) {
         int v;
-        if (p->bf.k == 2)
+        if (p->bf.st == 2)
             func_001A6CA8(p, 0);
-        v = p->fl;
+        v = p->grfUpd;
         if ((v ^ 1) & 1)
             *(int *)v |= 2;
         else
-            p->fl = v | 2;
+            p->grfUpd = v | 2;
     }
 }
 
@@ -91,26 +95,26 @@ typedef char layout_BF[(sizeof(struct BF)==8)?1:-1];
 typedef char layout_SL[(sizeof(struct SL)==12)?1:-1];
 typedef char layout_E16[(sizeof(struct E16)==16)?1:-1];
 typedef char layout_E24[(sizeof(struct E24)==24)?1:-1];
-typedef char layout_S_prefix[(sizeof(struct S)==0xD8)?1:-1];
-typedef char layout_S_bf[(((unsigned)&((struct S*)0)->bf==0x28))?1:-1];
-typedef char layout_S_fl[(((unsigned)&((struct S*)0)->fl==0x40))?1:-1];
-typedef char layout_S_f64[(((unsigned)&((struct S*)0)->f64==0x64))?1:-1];
-typedef char layout_S_f68[(((unsigned)&((struct S*)0)->f68==0x68))?1:-1];
-typedef char layout_S_f78[(((unsigned)&((struct S*)0)->f78==0x78))?1:-1];
-typedef char layout_S_f7c[(((unsigned)&((struct S*)0)->f7c==0x7c))?1:-1];
-typedef char layout_S_children[(((unsigned)&((struct S*)0)->children==0x80))?1:-1];
-typedef char layout_S_a90[(((unsigned)&((struct S*)0)->a90==0x90))?1:-1];
-typedef char layout_S_c94[(((unsigned)&((struct S*)0)->c94==0x94))?1:-1];
-typedef char layout_S_a98[(((unsigned)&((struct S*)0)->a98==0x98))?1:-1];
-typedef char layout_S_a9C[(((unsigned)&((struct S*)0)->a9C==0x9c))?1:-1];
-typedef char layout_S_cA0[(((unsigned)&((struct S*)0)->cA0==0xa0))?1:-1];
-typedef char layout_S_aA4[(((unsigned)&((struct S*)0)->aA4==0xa4))?1:-1];
-typedef char layout_S_fa8[(((unsigned)&((struct S*)0)->fa8==0xa8))?1:-1];
-typedef char layout_S_fac[(((unsigned)&((struct S*)0)->fac==0xac))?1:-1];
-typedef char layout_S_fb0[(((unsigned)&((struct S*)0)->fb0==0xb0))?1:-1];
-typedef char layout_S_fb4[(((unsigned)&((struct S*)0)->fb4==0xb4))?1:-1];
-typedef char layout_S_fc8[(((unsigned)&((struct S*)0)->fc8==0xc8))?1:-1];
-typedef char layout_S_fd0[(((unsigned)&((struct S*)0)->fd0==0xd0))?1:-1];
+typedef char layout_TASK_prefix[(sizeof(struct TASK)==0xD8)?1:-1];
+typedef char layout_TASK_bf[(((unsigned)&((struct TASK*)0)->bf==0x28))?1:-1];
+typedef char layout_TASK_fl[(((unsigned)&((struct TASK*)0)->grfUpd==0x40))?1:-1];
+typedef char layout_TASK_f64[(((unsigned)&((struct TASK*)0)->cPlayed==0x64))?1:-1];
+typedef char layout_TASK_f68[(((unsigned)&((struct TASK*)0)->cDone==0x68))?1:-1];
+typedef char layout_TASK_f78[(((unsigned)&((struct TASK*)0)->dtLimit==0x78))?1:-1];
+typedef char layout_TASK_f7c[(((unsigned)&((struct TASK*)0)->pjob==0x7c))?1:-1];
+typedef char layout_TASK_children[(((unsigned)&((struct TASK*)0)->children==0x80))?1:-1];
+typedef char layout_TASK_a90[(((unsigned)&((struct TASK*)0)->aoidPrereq==0x90))?1:-1];
+typedef char layout_TASK_c94[(((unsigned)&((struct TASK*)0)->cptaskPrereq==0x94))?1:-1];
+typedef char layout_TASK_a98[(((unsigned)&((struct TASK*)0)->aptaskPrereq==0x98))?1:-1];
+typedef char layout_TASK_a9C[(((unsigned)&((struct TASK*)0)->aoidNext==0x9c))?1:-1];
+typedef char layout_TASK_cA0[(((unsigned)&((struct TASK*)0)->cptaskNext==0xa0))?1:-1];
+typedef char layout_TASK_aA4[(((unsigned)&((struct TASK*)0)->aptaskNext==0xa4))?1:-1];
+typedef char layout_TASK_fa8[(((unsigned)&((struct TASK*)0)->cobje==0xa8))?1:-1];
+typedef char layout_TASK_fac[(((unsigned)&((struct TASK*)0)->aobje==0xac))?1:-1];
+typedef char layout_TASK_fb0[(((unsigned)&((struct TASK*)0)->csme==0xb0))?1:-1];
+typedef char layout_TASK_fb4[(((unsigned)&((struct TASK*)0)->asme==0xb4))?1:-1];
+typedef char layout_TASK_fc8[(((unsigned)&((struct TASK*)0)->prPlayed==0xc8))?1:-1];
+typedef char layout_TASK_fd0[(((unsigned)&((struct TASK*)0)->prCDone==0xd0))?1:-1];
 typedef char layout_SL_first[(((unsigned)&((struct SL*)0)->first==0))?1:-1];
 typedef char layout_SL_last[(((unsigned)&((struct SL*)0)->last==4))?1:-1];
 typedef char layout_SL_nextOffset[(((unsigned)&((struct SL*)0)->nextOffset==8))?1:-1];

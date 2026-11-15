@@ -1,38 +1,41 @@
-struct X { char pad[0xF0]; int fF0; int fF4; int fF8; };
+// func_00164BC8: force a task done (state 2) in mode 4 with no context, then pick the current job again (ChooseJob).
+struct TASK { char pad[0xF0]; int fF0; int nMode; int ploContext; };
+/* CSave: a task's change mode and context (TASK +0xF4 / +0xF8; a job's are at +0xF0 / +0xF4: m_p0) set for a scope */
+
 class CSave {
 public:
-    X *m_p0;
-    X *m_p4;
+    TASK *m_p0;
+    TASK *m_p4;
     int m_n8;
     int m_nC;
-    CSave(X *px)
+    CSave(TASK *ptask)
     {
         m_p0 = 0;
-        m_p4 = px;
-        if (px) {
-            m_n8 = px->fF4;
-            px->fF4 = 4;
-            m_nC = px->fF8;
-            px->fF8 = 0;
+        m_p4 = ptask;
+        if (ptask) {
+            m_n8 = ptask->nMode;
+            ptask->nMode = 4;
+            m_nC = ptask->ploContext;
+            ptask->ploContext = 0;
         }
     }
     ~CSave()
     {
         if (m_p0) {
             m_p0->fF0 = m_n8;
-            m_p0->fF4 = m_nC;
+            m_p0->nMode = m_nC;
         }
         if (m_p4) {
-            m_p4->fF4 = m_n8;
-            m_p4->fF8 = m_nC;
+            m_p4->nMode = m_n8;
+            m_p4->ploContext = m_nC;
         }
     }
 };
-extern "C" void ForceTaskState(X *px, int a, int b) asm("ForceTaskState__FP4TASKii");
+extern "C" void ForceTaskState(TASK *ptask, int nState, int ploContext) asm("ForceTaskState__FP4TASKii");
 extern "C" void ChooseJob() asm("ChooseJob__Fv");
-extern "C" void func_00164BC8(X *px)
+extern "C" void func_00164BC8(TASK *ptask)
 {
-    CSave save(px);
-    ForceTaskState(px, 2, 0);
+    CSave save(ptask);
+    ForceTaskState(ptask, 2, 0);
     ChooseJob();
 }

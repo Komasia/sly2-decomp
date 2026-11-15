@@ -1,16 +1,13 @@
-/* class: JOB (SafeHouse task.cpp, orig 0x00162F60 / 0x00162FD0 / 0x00162F10: the job complete - its sequence 1 when
- * +0xB8 is set, else closed and the next one). */
-struct JOB {
-    /* 0x00 */ char pad0[0xb8];
-    /* 0xb8 */ int fSeq;
-};
-void SetJobSeq__FP3JOBi(struct JOB *pjob, int n);
-void JobCompleteClose__FP3JOB(struct JOB *pjob, int n);
-void JobCompleteNext__FP3JOB(struct JOB *pjob);
+/* func_00162F10 (SafeHouse: JobComplete): the job's last task is reached: with a screen object the completion
+ * sequence starts (1), else the job is closed and the next one requested at once. */
+#include "h2_task.h"
+void SetJobSeq__FP3JOBi(JOB *pjob, int nSeq);
+void JobCompleteClose__FP3JOB(JOB *pjob, int n);
+void JobCompleteNext__FP3JOB(JOB *pjob);
 
-void func_00162F10(struct JOB *pjob, int n)
+void func_00162F10(JOB *pjob, int n)
 {
-    if (pjob->fSeq != 0) {
+    if (pjob->ploScreen != 0) {
         SetJobSeq__FP3JOBi(pjob, 1);
         return;
     }

@@ -1,16 +1,18 @@
-struct S { char pad[0x54]; int f54; int f58; int f5c; char p2[0xB8-0x60]; int fb8; int fbc; int fc0; char p3[0xF0-0xC4]; int ff0; int ff4; };
-struct G { char pad[0x3AFC]; int c; };
-extern struct G g_sw;
-void InitLo__FP2LO(struct S *p);
-void func_001635A0(struct S *p)
+/* func_001635A0: a task's Init (cid 0x85): the LO Init, then no state / dialog / checkpoint / world / player
+ * character / pending state, mode 0; the world's task count grows. */
+#include "h2_task.h"
+struct SW { char pad[0x3AFC]; int ctask; };
+extern struct SW g_sw;
+void InitLo__FP2LO(TASK *ptask);
+void func_001635A0(TASK *ptask)
 {
-    InitLo__FP2LO(p);
-    p->f54 = -1;
-    p->ff0 = -1;
-    p->f5c = -1;
-    p->fb8 = -1;
-    p->fbc = -1;
-    p->fc0 = -1;
-    p->ff4 = 0;
-    g_sw.c++;
+    InitLo__FP2LO(ptask);
+    ptask->nState = -1;
+    ptask->nPending = -1;
+    ptask->idDialog = -1;
+    ptask->oidChk = -1;
+    ptask->iwrec = -1;
+    ptask->oidPo = -1;
+    ptask->nMode = 0;
+    g_sw.ctask++;
 }

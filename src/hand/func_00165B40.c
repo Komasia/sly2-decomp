@@ -1,33 +1,35 @@
-struct Y { char pad[0x54]; int n; };
-struct X { char pad[0x54]; int n; char pad2[0x94 - 0x58]; int c; struct Y **apy; char pad3[0xF0 - 0x9C]; int fF0; };
-void func_00165A60(struct X *p, int n);
-void func_00165B40(struct X *p, int n)
+/* func_00165B40: a next task follows its prerequisite's new state (unless a change is pending on it): locked or
+ * available locks it; done / closed with all its prerequisites done unlocks a locked task (a closed one takes the
+ * prerequisite's state); otherwise it keeps its state. */
+struct TASK { char pad[0x54]; int nState; char pad2[0x94 - 0x58]; int cptaskPrereq; struct TASK **aptaskPrereq; char pad3[0xF0 - 0x9C]; int nPending; };
+void func_00165A60(struct TASK *ptask, int nStatePrereq);
+void func_00165B40(struct TASK *ptask, int nStatePrereq)
 {
-    int nNew; int nState;
-    if (p->fF0 != -1) return;
-    nState = p->n; nNew = nState;
-    if (n >= 0) {
-        if (n < 2) {
-            nNew = 0;
-        } else if (n < 4) {
-            int f = 1;
+    int nStateNew; int nState;
+    if (ptask->nPending != -1) return;
+    nState = ptask->nState; nStateNew = nState;
+    if (nStatePrereq >= 0) {
+        if (nStatePrereq < 2) {
+            nStateNew = 0;
+        } else if (nStatePrereq < 4) {
+            int fAllDone = 1;
             int i;
-            for (i = 0; i < p->c; i++) {
-                if (p->apy[i]->n < 2) {
-                    f = 0;
+            for (i = 0; i < ptask->cptaskPrereq; i++) {
+                if (ptask->aptaskPrereq[i]->nState < 2) {
+                    fAllDone = 0;
                     break;
                 }
             }
-            if (!f) {
-                nNew = 0;
+            if (!fAllDone) {
+                nStateNew = 0;
             } else {
-                switch (p->n) {
-                case 0: nNew = 1; break;
+                switch (ptask->nState) {
+                case 0: nStateNew = 1; break;
                 case 1: case 2: break;
-                case 3: nNew = n; break;
+                case 3: nStateNew = nStatePrereq; break;
                 }
             }
         }
     }
-    func_00165A60(p, nNew);
+    func_00165A60(ptask, nStateNew);
 }

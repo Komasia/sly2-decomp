@@ -1,5 +1,5 @@
 /* StartJob: a job's start (vt slot 15): after PostLoLoad, a job not yet current shows its "end" objects and goals;
- * its play count and time come from the progress, then its +0xA8 record and the objects oidAC and 0x379 are found. */
+ * its play count and time come from the progress, then its +0xA8 record and its screen objects (oidScreen, 0x379) are found. */
 #include "h2_task.h"
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
 extern char D_003D4A60[];
@@ -41,7 +41,7 @@ void StartJob__FP2SW(JOB *pjob)
         pjob->tElapsed = tElapsed;
     }
     pjob->pvA8 = func_001D7E80(g_sw.unk_0x3a18, &pjob->prE8, D_003D4A60);
-    if (pjob->oidAC != -1)
-        pjob->ploB8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, pjob->oidAC, 0);
-    pjob->ploBC = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x379, 0);
+    if (pjob->oidScreen != -1)
+        pjob->ploScreen = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, pjob->oidScreen, 0);
+    pjob->ploScreen379 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x379, 0);
 }

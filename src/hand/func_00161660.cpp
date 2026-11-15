@@ -7,7 +7,7 @@ public:
 };
 /* TASK: its state and whether it counts toward the percentage */
 struct TASK { char pad[0x54]; int nState; char pad2[0xA0 - 0x58]; int fCounts; };
-struct SW { char pad[0x3AFC]; int cplo; };   /* the world's object count */
+struct SW { char pad[0x3AFC]; int ctask; };   /* the world's task count (TASK Init counts them) */
 extern SW g_sw;
 extern "C" void *PvAllocStackClearImpl(ALLOCREQ *preq) asm("PvAllocStackClearImpl__Fi");
 extern "C" int CFindObjectsByClass(SW *psw, int grf, int cid, int ploCtx, int cMax, void **aplo) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
@@ -28,8 +28,8 @@ extern "C" int NTasksPercentDone__Fv()
     FRAME fr;
     ALLOCREQ req;
     SW *psw = &g_sw;
-    TASK **aptask = (TASK **)PvAllocReq(&req, psw->cplo * 4, 0x10);
-    int ctask = CFindObjectsByClass(psw, 5, 0x85, 0, psw->cplo, (void **)aptask);
+    TASK **aptask = (TASK **)PvAllocReq(&req, psw->ctask * 4, 0x10);
+    int ctask = CFindObjectsByClass(psw, 5, 0x85, 0, psw->ctask, (void **)aptask);
     for (int i = 0; i < ctask; i++) {
         TASK *ptask = aptask[i];
         if (ptask->fCounts) {
