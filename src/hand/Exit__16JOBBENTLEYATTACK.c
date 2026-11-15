@@ -1,9 +1,6 @@
 /* JOBBENTLEYATTACK::Exit (Bentley's attack job, cid 0xC4, AIJOB vt slot 9 = Exit): the base exit, then the actor's attacking flag
  * (+0x10E0 bit 0, set by the job's Enter) cleared. Layout: SafeHouse port (actorai.h JOBCOMPANIONATTACK). */
-struct ACTOR {
-    /* 0x0000 */ char pad0[0x10e0];
-    /* 0x10e0 */ int grf10E0;   /* field: SafeHouse port */
-};
+#include "actor.h"
 struct JOBBENTLEYATTACK {
     /* 0x00 */ char pad0[0x10];
     /* 0x10 */ struct ACTOR *pactor;   /* field: SafeHouse port (AIJOB +0x10) */
