@@ -1,63 +1,68 @@
+/* RetractAsega: an animation segment stops (held by a reference for the scope): the end list's remaining events
+ * fire at the current time, the event sound stops, it leaves the global and the ASEG's lists, its controllers come
+ * off their records and are freed, each scalar link's object is told one channel fewer drives it (vt slot 45) and the
+ * link freed, its sound handle cleared; then the retraction messages (vt slot 3 kind 3, the object's slot 5, the
+ * listeners). Layout: SafeHouse port (asega.h ASEGA / ASEGAL, xf.h CTRLASEG, sm.h ASEG). */
 #include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; };
-struct E { float f; int pad[3]; };
-struct Q { char pad[0x50]; char a50[0xA8 - 0x50]; int cA8; struct E *aAC; };
-struct L1 { int x0; void *x4; void *x8; char pad[0x28 - 0xC]; struct L1 *pnext; };
-struct L2 { int x0; int x4; struct O *po; int xC; struct L2 *pnext; };
-struct P { int pad[3]; VTENT *vt; int x10; struct Q *pq; struct O *x18; float g1C; char pad2[0x34 - 0x20]; struct L1 *pl1; struct L2 *pl2;
-    char pad3[0x54 - 0x3C]; int i54; int x58; char a5C[4]; };
-struct G { struct P *p; };
+struct LO { int pad[3]; VTENT *vt; };
+struct ASEGEV { float t; int pad[3]; };
+struct ASEG { char pad[0x50]; char dlAsega[0xA8 - 0x50]; int cevEnd; struct ASEGEV *aevEnd; };
+struct CTRLASEG { int kind; void *palo; void *pxf; char pad[0x28 - 0xC]; struct CTRLASEG *pnext; };
+struct ASEGAL { int ptrkg; int pg; struct LO *plo; int kind; struct ASEGAL *pnext; };
+struct ASEGA { int pad[3]; VTENT *vt; int cref; struct ASEG *paseg; struct LO *palo; float t; char pad2[0x34 - 0x20]; struct CTRLASEG *pctrlFirst; struct ASEGAL *palink;
+    char pad3[0x54 - 0x3C]; int ieaEnd; int fSound; char hsnd[4]; };
+struct ASEGAREF { struct ASEGA *pasega; };
 extern char D_003E1218[];
-int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
-void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p);
-void SetAsegaEventSound__FP5ASEGAi(struct P *p, int);
-void RemoveDlEntry__FP2DLPv(void *, struct P *);
-void RemoveXfCtrl__FP3ALOP2XFP4CTRL(void *, void *, struct L1 *);
-void func_0012E210(struct L1 *);
-void func_0012CE70(struct L2 *);
+int FAsegaRetracted(struct ASEGA *pasega) asm("FAsegaRetracted__FP5ASEGA");
+void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct ASEGA *pasega);
+void SetAsegaEventSound__FP5ASEGAi(struct ASEGA *pasega, int);
+void RemoveDlEntry__FP2DLPv(void *, struct ASEGA *);
+void RemoveXfCtrl__FP3ALOP2XFP4CTRL(void *, void *, struct CTRLASEG *);
+void func_0012E210(struct CTRLASEG *);
+void func_0012CE70(struct ASEGAL *);
 void func_00258040(void *, int);
-void func_00133508(struct P *, int, struct P *);
-static __inline__ void End(struct G *pg) { struct P *po = pg->p; ((void (*)(void *))po->vt[2].pfn)(VT_THIS(po, &po->vt[2])); }
+void func_00133508(struct ASEGA *, int, struct ASEGA *);
+static __inline__ void End(struct ASEGAREF *pg) { struct ASEGA *po = pg->pasega; ((void (*)(void *))po->vt[2].pfn)(VT_THIS(po, &po->vt[2])); }
 // name: SafeHouse port (RetractAsega)
-void RetractAsega__FP5ASEGA(struct P *p)
+void RetractAsega__FP5ASEGA(struct ASEGA *pasega)
 {
-    if (FAsegaRetracted(p))
+    if (FAsegaRetracted(pasega))
         return;
     {
-        struct G g;
-        struct L1 *pl1, *pl1Next;
-        struct L2 *pl2, *pl2Next;
-        g.p = p;
-        __asm__ __volatile__("" : : "r"(&g) : "memory");
-        ((void (*)(void *))p->vt[1].pfn)(VT_THIS(p, &p->vt[1]));
-        for (; p->i54 < p->pq->cA8; p->i54++) {
-            { register struct E *pe __asm__("$5") = p->pq->aAC; pe += p->i54; pe->f = p->g1C; }
-            FireAsegaEvent__FP5ASEGAP6ASEGEV(p);
-            if (FAsegaRetracted(p))
-                { End(&g); return; }
+        struct ASEGAREF ref;
+        struct CTRLASEG *pctrl, *pctrlNext;
+        struct ASEGAL *palink, *palinkNext;
+        ref.pasega = pasega;
+        __asm__ __volatile__("" : : "r"(&ref) : "memory");
+        ((void (*)(void *))pasega->vt[1].pfn)(VT_THIS(pasega, &pasega->vt[1]));
+        for (; pasega->ieaEnd < pasega->paseg->cevEnd; pasega->ieaEnd++) {
+            { register struct ASEGEV *pev __asm__("$5") = pasega->paseg->aevEnd; pev += pasega->ieaEnd; pev->t = pasega->t; }
+            FireAsegaEvent__FP5ASEGAP6ASEGEV(pasega);
+            if (FAsegaRetracted(pasega))
+                { End(&ref); return; }
         }
-        SetAsegaEventSound__FP5ASEGAi(p, 0);
-        RemoveDlEntry__FP2DLPv(D_003E1218, p);
-        RemoveDlEntry__FP2DLPv(p->pq->a50, p);
-        for (pl1 = p->pl1; pl1; pl1 = pl1Next) {
-            pl1Next = pl1->pnext;
-            RemoveXfCtrl__FP3ALOP2XFP4CTRL(pl1->x4, pl1->x8, pl1);
-            func_0012E210(pl1);
+        SetAsegaEventSound__FP5ASEGAi(pasega, 0);
+        RemoveDlEntry__FP2DLPv(D_003E1218, pasega);
+        RemoveDlEntry__FP2DLPv(pasega->paseg->dlAsega, pasega);
+        for (pctrl = pasega->pctrlFirst; pctrl; pctrl = pctrlNext) {
+            pctrlNext = pctrl->pnext;
+            RemoveXfCtrl__FP3ALOP2XFP4CTRL(pctrl->palo, pctrl->pxf, pctrl);
+            func_0012E210(pctrl);
         }
-        p->pl1 = 0;
-        for (pl2 = p->pl2; pl2; pl2 = pl2Next) {
-            struct O *po = pl2->po;
-            pl2Next = pl2->pnext;
-            ((void (*)(void *, int))po->vt[45].pfn)(VT_THIS(po, &po->vt[45]), pl2->xC);
-            func_0012CE70(pl2);
+        pasega->pctrlFirst = 0;
+        for (palink = pasega->palink; palink; palink = palinkNext) {
+            struct LO *plo = palink->plo;
+            palinkNext = palink->pnext;
+            ((void (*)(void *, int))plo->vt[45].pfn)(VT_THIS(plo, &plo->vt[45]), palink->kind);
+            func_0012CE70(palink);
         }
-        p->pl2 = 0;
-        func_00258040(p->a5C, 0);
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 3, 0, 0, 0, 0);
-        if (p->x18)
-            ((void (*)(void *, int, struct P *))p->x18->vt[5].pfn)(VT_THIS(p->x18, &p->x18->vt[5]), 2, p);
-        func_00133508(p, 2, p);
-        ((void (*)(void *))p->vt[2].pfn)(VT_THIS(p, &p->vt[2]));
-        End(&g);
+        pasega->palink = 0;
+        func_00258040(pasega->hsnd, 0);
+        ((void (*)(void *, int, int, int, int, int))pasega->vt[3].pfn)(VT_THIS(pasega, &pasega->vt[3]), 3, 0, 0, 0, 0);
+        if (pasega->palo)
+            ((void (*)(void *, int, struct ASEGA *))pasega->palo->vt[5].pfn)(VT_THIS(pasega->palo, &pasega->palo->vt[5]), 2, pasega);
+        func_00133508(pasega, 2, pasega);
+        ((void (*)(void *))pasega->vt[2].pfn)(VT_THIS(pasega, &pasega->vt[2]));
+        End(&ref);
     }
 }

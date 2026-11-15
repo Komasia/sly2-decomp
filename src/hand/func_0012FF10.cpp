@@ -1,5 +1,7 @@
-struct KEYID { int id : 20; int sub : 10; unsigned int f30 : 1; unsigned int f31 : 1; };
-struct R { char pad[0x94]; void *pv; };
+/* PchnFindAseg: the ASEG's position channel that drives palo's record of the given kind (XF +0x94, 1: translation) (fCheck: only
+ * channels flagged at bit 30), or null. Layout: SafeHouse port (aseg.h ASEGCHN). */
+struct ASEGCHNK { int oid : 20; int isub : 10; unsigned int fDisabled : 1; unsigned int fScalar : 1; };   // field: SafeHouse port (aseg.h ASEGCHN)
+struct XF { char pad[0x94]; void *kind /* an XF kind */; };   // +0x94 (SafeHouse lo.h: kind)
 struct O {
     char pad[0xC];
     virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4(); virtual void v5();
@@ -12,26 +14,26 @@ struct O {
     virtual void v36(); virtual void v37(); virtual void v38(); virtual void v39(); virtual void v40();
     virtual void v41(); virtual void v42(); virtual void v43(); virtual void v44(); virtual void v45();
     virtual void v46(); virtual void v47(); virtual void v48(); virtual void v49(); virtual void v50();
-    virtual R *Get(int sub);
+    virtual XF *Get(int isub);   // vt slot 51: the object's isub-th transform record
 };
-struct E { KEYID k; int x; };
-struct T { char pad[0x5C]; int c; E *ae; };
+struct E { ASEGCHNK k; int ptrk; };   // ASEGCHN
+struct T { char pad[0x5C]; int cchn; E *achn; };   // ASEG; field: SafeHouse port
 struct O2 : O { };
-extern "C" E *PchnFindAseg(T *t, O *po, void *pv, int fCheck) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
+extern "C" E *PchnFindAseg(T *paseg, O *palo, void *kind /* an XF kind */, int fCheck) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 // name: SafeHouse port (PchnFindAseg)
-E *PchnFindAseg(T *t, O *po, void *pv, int fCheck)
+E *PchnFindAseg(T *paseg, O *palo, void *kind /* an XF kind */, int fCheck)
 {
     int i;
-    for (i = 0; i < t->c; i++) {
-        E *pe = &t->ae[i];
-        if (fCheck && !pe->k.f30)
+    for (i = 0; i < paseg->cchn; i++) {
+        E *pchn = &paseg->achn[i];
+        if (fCheck && !pchn->k.fDisabled)
             continue;
-        if (pe->k.id != ((int *)po)[6])
+        if (pchn->k.oid != ((int *)palo)[6] /* LO +0x18: oid */)
             continue;
-        if (pe->k.f31)
+        if (pchn->k.fScalar)
             continue;
-        if (po->Get(pe->k.sub)->pv == pv)
-            return pe;
+        if (palo->Get(pchn->k.isub)->kind == kind)
+            return pchn;
     }
     return 0;
 }

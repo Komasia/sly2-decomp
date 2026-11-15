@@ -1,3 +1,5 @@
+// UpdateAsegaIeaCur: the index of the next timed event to fire from the ASEGA's time: the first event at or after t
+// when playing forward, one past the last event at or before t when playing backward. SafeHouse port (asega.h).
 // Matched by Claude agent (2026-10-23). Both searches are real loops that re-read pasega->paseg / pasega->t (only the
 // loads before the loop's first exit test get hoisted, which gives the target's paseg/cea copies). The `== 0` keeps
 // fast-math from folding !(a <= b) into a < b.

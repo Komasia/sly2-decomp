@@ -1,3 +1,5 @@
+// EnsureAseg: paseg's ASEGA on paloRoot (applied at time 0, speed 1 when there is none yet), then set to time t
+// by seek (SetAsegaTime: 0 absolute, 1 relative, 2 from the end) at speed svt. SafeHouse port (asega.h).
 struct ASEG; struct ALO; struct ASEGA;
 enum SEEK { SEEK_0 };
 ASEGA *PasegaFindAseg(ASEG *paseg, ALO *palo);

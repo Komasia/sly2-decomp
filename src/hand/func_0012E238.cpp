@@ -1,12 +1,17 @@
 extern "C" void *func_0012E1F0(unsigned int cb);
 extern "C" void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 struct MATRIX4 { float m[4][4]; };
-struct CBase {
+struct CBase {          // CTRL: kind, palo, pxf, prio, pnext, mode (SafeHouse xf.h)
     int k;
     int a1, a2, a3, a4, a5;
     void *operator new(unsigned int cb) { return func_0012E1F0(cb); }
     virtual void F();
 };
+// The controller classes by kind (SafeHouse xf.h; vtables 0x2CAF08..). The short class names are kept: they name
+// the local vtables the link check compares.
+//   0 CTRLASEG (an ASEGA's channel), 1 CTRLPOS (state 2 by default), 2 CTRLLOOKAT, 3 (one word), 4 CTRLLOOKMOTION,
+//   5 CTRLSOURCE, 6 the attach controller (an identity offset matrix), 7 the joint controller, 8 CTRLTARGET,
+//   9 CTRLSPIN (mode 0x14 XFM_Spin).
 struct C0 : CBase { int b[4]; C0() { k = 0; } virtual void F(); };
 struct C1 : CBase { int x; int b[4]; C1() { k = 1; x = 2; } virtual void F(); };
 struct C2 : CBase { int b[25]; C2() { k = 2; } virtual void F(); };
@@ -19,11 +24,12 @@ struct C6 : CBase { int pad; MATRIX4 mat;
 struct C7 : CBase { int b[1]; C7() { k = 7; } virtual void F(); };
 struct C8 : CBase { int b[9]; C8() { k = 8; } virtual void F(); };
 struct C9 : CBase { int b[5]; C9() { k = 9; a5 = 0x14; } virtual void F(); };
-extern "C" CBase *func_0012E238(int k);
-CBase *func_0012E238(int k)
+extern "C" CBase *func_0012E238(int kind);
+// A new controller of the given kind from the controller slot heap (0x12E1F0); null for an unknown kind.
+CBase *func_0012E238(int kind)
 {
     CBase *p;
-    switch (k) {
+    switch (kind) {
     case 0: p = new C0; break;
     case 1: p = new C1; break;
     case 2: p = new C2; break;

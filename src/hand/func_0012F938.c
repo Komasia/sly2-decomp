@@ -1,14 +1,16 @@
-typedef struct E { int a; int k; int n; int b; } E;
-typedef struct T { char pad[0xA0]; int c; E *a; } T;
+/* PeventLaunch: an ASEG's timed event of kind 11 (launch) whose word is n, or null. Layout: SafeHouse port. */
+typedef struct ASEGEV { int t; int kind; int n; int b; } ASEGEV;   /* field: SafeHouse port */
+typedef struct ASEG { char pad[0xA0]; int cevTimed; ASEGEV *aevTimed; } ASEG;
+#define ASEGEVK_Launch 0xB
 // name: SafeHouse port (PeventLaunch)
-E *PeventLaunch__FP5KINDEi(T *t, int n)
+ASEGEV *PeventLaunch__FP5KINDEi(ASEG *paseg, int n)
 {
-    int i;
-    E *e;
-    for (i = 0; i < t->c; i++) {
-        e = &t->a[i];
-        if ((e->k == 0xB) & (e->n == n))
-            return e;
+    int iev;
+    ASEGEV *pev;
+    for (iev = 0; iev < paseg->cevTimed; iev++) {
+        pev = &paseg->aevTimed[iev];
+        if ((pev->kind == ASEGEVK_Launch) & (pev->n == n))
+            return pev;
     }
     return 0;
 }
