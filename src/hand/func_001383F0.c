@@ -1,21 +1,24 @@
-struct X { char pad[0x80]; float f80; float f84; void *f88; void *f8c; char pad2[0x9a - 0x90]; short f9a; };
-struct C { int f0; int f4; struct X *px; char pad[0x1c - 0xc]; int f1c; char pad2[0x28 - 0x20]; struct C *pnext; };
-struct A { char pad[0x2c]; struct A *pnext; int f30; struct C *pcFirst; };
-struct S { char pad[0x50]; struct A *paFirst; char pad2[0xd4 - 0x54]; int fd4; };
-extern const float D_002A4AF0;
-extern char D_002C44E0[];
-int FFirst__4CTRL(struct C *);
+/* SetBlendDominant: the dominant BL of the blend (weight > 0.9999; its tracks are used directly); on a change every
+ * position controller of its playing ASEGAs that drives its record puts the record's parameters out of range (state 0),
+ * so the record fetches its segment again. Layout: SafeHouse port (blend.h, xf.h CTRLASEG, lo.h XF). */
+struct XF { char pad[0x80]; float g0; float g1; void *pg; void *pdgScale; char pad2[0x9a - 0x90]; short state; };   /* field: SafeHouse port (lo.h) */
+struct CTRLASEG { int kind; int palo; struct XF *pxf; char pad[0x1c - 0xc]; int ptrkp; char pad2[0x28 - 0x20]; struct CTRLASEG *pnextAsega; };   /* field: SafeHouse port */
+struct ASEGA { char pad[0x2c]; struct ASEGA *pnext; int f30; struct CTRLASEG *pctrlFirst; };   /* field: SafeHouse port */
+struct ASEGBL { char pad[0x50]; struct ASEGA *pasegaFirst; char pad2[0xd4 - 0x54]; int iblDominant; };   /* field: SafeHouse port */
+extern const float D_002A4AF0;   /* the parameters' out-of-range value */
+extern char D_002C44E0[];   /* its address: pg / pdgScale point at it */
+int FFirst__4CTRL(struct CTRLASEG *);
 // name: SafeHouse port (SetBlendDominant)
-void SetBlendDominant__FP6ASEGBLi(struct S *p, int n) {
-    struct A *pa;
-    struct C *pc;
-    if (n == p->fd4) return;
-    p->fd4 = n;
-    for (pa = p->paFirst; pa; pa = pa->pnext) {
-        for (pc = pa->pcFirst; pc; pc = pc->pnext) {
-            if (pc->f1c && FFirst__4CTRL(pc)) {
-                struct X *px = pc->px;
-                px->f80 = px->f84 = D_002A4AF0; px->f88 = px->f8c = D_002C44E0; px->f9a = 0;
+void SetBlendDominant__FP6ASEGBLi(struct ASEGBL *pbl, int ibl) {
+    struct ASEGA *pasega;
+    struct CTRLASEG *pctrl;
+    if (ibl == pbl->iblDominant) return;
+    pbl->iblDominant = ibl;
+    for (pasega = pbl->pasegaFirst; pasega; pasega = pasega->pnext) {
+        for (pctrl = pasega->pctrlFirst; pctrl; pctrl = pctrl->pnextAsega) {
+            if (pctrl->ptrkp && FFirst__4CTRL(pctrl)) {
+                struct XF *pxf = pctrl->pxf;
+                pxf->g0 = pxf->g1 = D_002A4AF0; pxf->pg = pxf->pdgScale = D_002C44E0; pxf->state = 0;
             }
         }
     }

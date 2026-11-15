@@ -1,3 +1,7 @@
+// TRKPBL::Setup (orig 0x138660): a blended position channel gives its record the segment around its parameter: the
+// blend's phase (or the blended table's segment), each weighted BL's track at the same phase of its own clip summed by
+// weight into the Hermite end points; the dominant BL's track is used directly. Layout: SafeHouse port (blend.h TRKPBL;
+// here A = ASEGBL, B = its segment table, E = a BL entry, Q = the record XF).
 // MATCH (Claude agent, laneC2c 2026-10-23): v10 plus b copied through an empty volatile "+j" asm before the 2nd Madd (the b reload is issued before the d load).
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));

@@ -1,3 +1,7 @@
+// EndProjectile (orig 0x13B860): the hits (a contact message to each victim near the impact: filter +0x1EC, state
+// +0x1F0, the impact's place, a push away from it) unless +0x164; the impact's place, orientation and velocities back;
+// its owner's burst (+0x168's slot 51); a noise at the impact by the thrower (+0x1E0); out of the world, its end time
+// D_002A4B1C, its script event 5. Source: SafeHouse port (projectile.cpp).
 // (Claude agent) frame declared at function scope with explicit init/free calls (free = dtor with in-charge 2) so msg2 reuses msg's slot.
 #include "cid.h"
 #include "vtbl.h"

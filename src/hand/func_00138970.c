@@ -1,3 +1,6 @@
+/* TRKPBL::Eval (orig 0x138970): a blended position channel's value / velocity at t: each weighted BL's track at the
+ * same phase (or segment fraction) of its own clip, rate-matched and summed by weight; BLs without the channel give
+ * the held value +0x10. Layout: SafeHouse port (blend.h TRKPBL; A = ASEGBL, B = its segment table, E = a BL). */
 /* Eval__6TRKPBLP7VECTOR4T1ff (Claude agent, laneC29 2026-10-24): MATCH from v7 (4). ONE register pin (wb in $16); every other extra asm operand below is allocation-only and emits nothing: the "r"(i) operands stand in for the loop weighting of i, the extra "j" operands on the Madd asms raise the VF priorities of a/v/b, and the earlyclobber "=&j" with an unused "j"(a.q) input keeps s2 out of a's register. */
 /* wip (Claude agent, 2026-10-17): aligned 28 (was 52). for-loop gives target s-reg numbering and a0 reuse at loop head; E.w read as int (lw->qmtc2); vadda operand order fixed. Left: loop.c hoists 0.0f (f22, frame 0x100) and iSeg*8 (s4) out of the loop; target keeps them inside. */
 #include "vtbl.h"

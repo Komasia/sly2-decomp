@@ -1,4 +1,5 @@
-struct S { char pad[0x154]; float f154; };
-extern float g_clock;
+/* ExpireIn: the projectile's flight ends within dt (its end time +0x154 only moves earlier). SafeHouse port. */
+struct BOMB { char pad[0x154]; float tEnd; };   /* field: SafeHouse port (projectile.cpp) */
+extern float g_clock;   /* g_clock.t */
 // name: SafeHouse port (ExpireIn)
-void ExpireIn__FP3ALOf(struct S *p, float f) { p->f154 = (p->f154 < g_clock + f) ? p->f154 : g_clock + f; }
+void ExpireIn__FP3ALOf(struct BOMB *pbomb, float dt) { pbomb->tEnd = (pbomb->tEnd < g_clock + dt) ? pbomb->tEnd : g_clock + dt; }

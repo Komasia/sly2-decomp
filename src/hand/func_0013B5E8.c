@@ -1,3 +1,5 @@
+// AploVictims: the objects near the impact (+0x180): the solid entries within the hit radius (+0x15C, a player's
+// +0x160) whose BSP touches the sphere, one per object (sorted, the repeats dropped by 0x13B7B8). SafeHouse port.
 // (Claude agent) SphereBspContacts__FG9VU_VECTORfP6SOPARTP3BSPiT3iP9CMCONTACT takes its float before the HIT* (see AGENT_GUIDE "Float vs. int parameter order").
 // Radius: fold turns `b >= a ? b : a` into MAX(b, a) only with both values in locals (a loaded first).
 #include "cid.h"

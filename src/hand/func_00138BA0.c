@@ -1,66 +1,70 @@
+/* TRKGBL::Eval: a blended scalar channel at t: the blend's phase (t over its length, or the segment of the blended
+ * table and the fraction into it), then each weighted BL's track evaluated at the same phase of its own clip (or of
+ * the same segment of its own table) with its rate scaled to match, summed by weight; BLs without the channel give g.
+ * Layout: SafeHouse port (blend.h TRKGBL). */
 #include "vtbl.h"
-struct E { float g0; float g4; };
-struct S8 { int ib; int x4; struct E *ae; };
-struct L { char pad[0x74]; float g74; char pad2[0xC0 - 0x78]; int cb; int c; char *ab; };
-struct W { float w; struct L *pl; };
+struct MRSG { float t; float dt; };   /* field: SafeHouse port (blend.h) */
+struct AMRSGT { int ibAmrsg; int cmrsg; struct MRSG *amrsg; };   /* a segment table */
+struct ASEGBL { char pad[0x74]; float tMax; char pad2[0xC0 - 0x78]; int cbBl; int cbl; char *abl; };   /* field: SafeHouse port (blend.h ASEGBL) */
+struct BLENDBL { float weight; struct ASEGBL *paseg; };   /* field: SafeHouse port */
 struct V;
-struct V { VTENT *vt; };
-struct P { int x0; struct L *pl; struct S8 *ps; struct V **apv; float g10; };
+struct V { VTENT *vt; };   /* a BL's scalar track (TRKG: vt slot 2 Eval) */
+struct TRKGBL { int x0; struct ASEGBL *pbl; struct AMRSGT *pamrsgt; struct V **atrk; float g; };   /* field: SafeHouse port (blend.h TRKGBL) */
 
 extern int ImrsgLookUp(int, int, float, float, float *) asm("ImrsgLookUp__FffiP4MRSGPf");
 
 // name: SafeHouse port (TRKGBL::Eval)
-void Eval__6TRKGBLPfT1ff(struct P *p, float t, float r, float *pa, float *pb)
+void Eval__6TRKGBLPfT1ff(struct TRKGBL *ptrk, float t, float dtScale, float *pg, float *pdg)
 {
-    float g0;
+    float dtIn;
     float g4;
     float g8;
-    float rate;
-    float sa, sb;
-    struct E *pe;
-    struct L *pl;
+    float uPhase;
+    float gSum, dgSum;
+    struct MRSG *pmrsg;
+    struct ASEGBL *pbl;
     int i;
-    int idx;
+    int imrsg;
 
-    if (p->ps == 0) {
-        rate = t / p->pl->g74;
+    if (ptrk->pamrsgt == 0) {
+        uPhase = t / ptrk->pbl->tMax;
     } else {
-        idx = ImrsgLookUp(p->ps->x4, (int)p->ps->ae, t, p->pl->g74, &g0);
-        pe = &p->ps->ae[idx];
-        rate = g0 / pe->g4;
+        imrsg = ImrsgLookUp(ptrk->pamrsgt->cmrsg, (int)ptrk->pamrsgt->amrsg, t, ptrk->pbl->tMax, &dtIn);
+        pmrsg = &ptrk->pamrsgt->amrsg[imrsg];
+        uPhase = dtIn / pmrsg->dt;
     }
-    sb = 0.0f;
-    sa = sb;
-    for (i = 0; i < p->pl->c; i++) {
-        struct W *pw = (struct W *)(p->pl->ab + i * p->pl->cb);
-        struct V *pv;
-        if (pw->w == 0.0f)
+    dgSum = 0.0f;
+    gSum = dgSum;
+    for (i = 0; i < ptrk->pbl->cbl; i++) {
+        struct BLENDBL *pblT = (struct BLENDBL *)(ptrk->pbl->abl + i * ptrk->pbl->cbBl);
+        struct V *ptrkBl;
+        if (pblT->weight == 0.0f)
             continue;
-        pv = p->apv[i];
-        if (pv == 0) {
+        ptrkBl = ptrk->atrk[i];
+        if (ptrkBl == 0) {
             g8 = 0;
-            g4 = p->g10;
+            g4 = ptrk->g;
         } else {
             float u, s;
-            if (p->ps == 0) {
-                float lim = pw->pl->g74;
-                s = r * lim / p->pl->g74;
-                u = rate * lim;
+            if (ptrk->pamrsgt == 0) {
+                float lim = pblT->paseg->tMax;
+                s = dtScale * lim / ptrk->pbl->tMax;
+                u = uPhase * lim;
             } else {
-                struct E *pf = &((struct E *)((char *)pw + p->ps->ib))[idx];
-                float lim = pw->pl->g74;
-                u = pf->g0 + rate * pf->g4;
-                s = r * pf->g4 / pe->g4;
+                struct MRSG *pmrsgBl = &((struct MRSG *)((char *)pblT + ptrk->pamrsgt->ibAmrsg))[imrsg];
+                float lim = pblT->paseg->tMax;
+                u = pmrsgBl->t + uPhase * pmrsgBl->dt;
+                s = dtScale * pmrsgBl->dt / pmrsg->dt;
                 if (lim < u)
                     u -= lim;
             }
-            ((void (*)(void *, float, float, float *, float *))pv->vt[2].pfn)(VT_THIS(pv, &pv->vt[2]), u, s, &g4, &g8);
+            ((void (*)(void *, float, float, float *, float *))ptrkBl->vt[2].pfn)(VT_THIS(ptrkBl, &ptrkBl->vt[2]), u, s, &g4, &g8);
         }
-        sa += pw->w * g4;
-        sb += pw->w * g8;
+        gSum += pblT->weight * g4;
+        dgSum += pblT->weight * g8;
     }
-    if (pa)
-        *pa = sa;
-    if (pb)
-        *pb = sb;
+    if (pg)
+        *pg = gSum;
+    if (pdg)
+        *pdg = dgSum;
 }

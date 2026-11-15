@@ -1,10 +1,12 @@
+/* UpdateBomb: the SO update; the flight ends when its end time has passed or its speed (vt slot 33's velocity) falls
+ * under svMin; otherwise a projectile with sweep entries sweeps. Layout: SafeHouse port (projectile.cpp). */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct P { char pad[0xC]; VTENT *pvt; char pad2[0x154 - 0x10]; float t154; float g158; char pad3[0x1F4 - 0x15C]; int f1F4; };
+struct BOMB { char pad[0xC]; VTENT *pvt; char pad2[0x154 - 0x10]; float tEnd; float svMin; char pad3[0x1F4 - 0x15C]; int csweep; };
 #include "clock.h"
-void UpdateSo__FP2SOf(struct P *p);
-void EndProjectile__FP3ALO(struct P *p);
-void SweepProjectile__FP3ALO(struct P *p);
+void UpdateSo__FP2SOf(struct BOMB *pbomb);
+void EndProjectile__FP3ALO(struct BOMB *pbomb);
+void SweepProjectile__FP3ALO(struct BOMB *pbomb);
 static __inline__ float GLength(qword v)
 {
     qword d, t;
@@ -19,20 +21,20 @@ static __inline__ float GLength(qword v)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(d));
     return g;
 }
-void UpdateBomb__FP4BOMBf(struct P *p)
+void UpdateBomb__FP4BOMBf(struct BOMB *pbomb)
 {
-    UpdateSo__FP2SOf(p);
-    if (p->t154 <= g_clock.t)
+    UpdateSo__FP2SOf(pbomb);
+    if (pbomb->tEnd <= g_clock.t)
         goto out;
     {
-        VTENT *vt = p->pvt;
-        qword v = ((qword (*)(void *))vt[33].pfn)(VT_THIS(p, &vt[33]));
-        int f = GLength(v) < p->g158;
-        if (f) {
+        VTENT *vt = pbomb->pvt;
+        qword v = ((qword (*)(void *))vt[33].pfn)(VT_THIS(pbomb, &vt[33]));
+        int fSlow = GLength(v) < pbomb->svMin;
+        if (fSlow) {
         out:
-            EndProjectile__FP3ALO(p);
-        } else if (p->f1F4) {
-            SweepProjectile__FP3ALO(p);
+            EndProjectile__FP3ALO(pbomb);
+        } else if (pbomb->csweep) {
+            SweepProjectile__FP3ALO(pbomb);
         }
     }
 }

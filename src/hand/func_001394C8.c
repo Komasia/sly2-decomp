@@ -1,4 +1,8 @@
 // MATCH (Claude agent, laneC10 2026-10-23): from v4; p->g120 stored in each branch of the if/else (gcc cross-jumps the two stores into one join block), which lets the g8C load schedule first. One commented register pin (r in InitS).
+// SetPsysFromEmitb: a particle system takes its emitter's settings: the blend kind (+0xC0; kind 1 with its value
+// +0xF0), the colours (reversed, halved) and their count, the shader (SetBlipgShader), the frame rate of a multi-frame
+// texture, the size / alpha curves prescaled to the particle life (+0x8C) with the size curve's maximum, and whether
+// the particles move (none: no velocity, gravity or drag and +0xC4 clear), else their motion set up (0x15BF40).
 typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }

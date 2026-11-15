@@ -1,11 +1,13 @@
+/* InitBooty (cid 0x67): InitSo, the carried scale (1, 1, 1), no state (-1), update flag 2. Layout: SafeHouse port
+ * (booty.cpp BOOTY). */
 typedef int ti128 __attribute__((mode(TI)));
-struct S { char pad[0x40]; int f40; char pad2[0x170 - 0x44]; ti128 v170; char pad3[4]; int f184; };
-extern ti128 D_002A2DE0;
-void InitSo__FP2SO(struct S *);
-void func_0013BDF0(struct S *p) {
-    int x;
-    InitSo__FP2SO(p);
-    p->v170 = D_002A2DE0; p->f184 = -1; x = p->f40;
-    if ((x ^ 1) & 1) *(int *)x |= 2;
-    else p->f40 = x | 2;
+struct BOOTY { char pad[0x40]; int grfUpd; char pad2[0x170 - 0x44]; ti128 vecScaleCarried; char pad3[4]; int state; };
+extern ti128 D_002A2DE0;   /* (1, 1, 1) */
+void InitSo__FP2SO(struct BOOTY *);
+void func_0013BDF0(struct BOOTY *pbooty) {
+    int grf;
+    InitSo__FP2SO(pbooty);
+    pbooty->vecScaleCarried = D_002A2DE0; pbooty->state = -1; grf = pbooty->grfUpd;
+    if ((grf ^ 1) & 1) *(int *)grf |= 2;
+    else pbooty->grfUpd = grf | 2;
 }

@@ -1,3 +1,5 @@
+// ImrsgLookUp: the segment of amrsg holding t (its start before t, wrapping at tMax, within its length + 1e-4; empty
+// segments skipped), *pdt the time into it; cmrsg when none. SafeHouse port (blend.h).
 struct MRSG { float t; float dt; };
 int ImrsgLookUp(float t, float tMax, int cmrsg, MRSG *amrsg, float *pdt)
 {

@@ -1,3 +1,5 @@
+/* RecordHit (orig 0x13B428): the impact recorded once (+0x174): its place (+0x180), the velocities (+0x1C0 / +0x1D0)
+ * and the orientation by +0x170 (0: the z row, else turned to the contact normal). SafeHouse port (projectile.cpp). */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;

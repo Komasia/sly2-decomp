@@ -1,61 +1,64 @@
-struct MRSG { float g0; float g4; };
-struct X { char pad[0x74]; float g74; };
-struct E { float w; struct X *px; };
-struct P { char pad[0xC0]; int cb; int c; char *ab; };
+/* CalculateBlendAmrsg: the blended segment table (cmrsg segments) of an ASEGBL: each segment's length is the
+ * BLs' lengths by weight and the first segment starts at the BLs' (weighted, wrapped) phase of their first segment;
+ * *ptMax the blend's length (without a table: the BLs' lengths by weight). Layout: SafeHouse port (blend.h). */
+struct MRSG { float t; float dt; };   /* field: SafeHouse port (blend.h) */
+struct ASEG { char pad[0x74]; float tMax; };
+struct BLENDBL { float weight; struct ASEG *paseg; };   /* field: SafeHouse port */
+struct ASEGBL { char pad[0xC0]; int cbBl; int cbl; char *abl; };   /* field: SafeHouse port (blend.h ASEGBL) */
 float GModPositive__Fff(float, float);
-void CalculateBlendAmrsg__FiiPviiP4MRSGPf(struct P *p, int ib, int c, struct MRSG *amrsg, float *pf)
+void CalculateBlendAmrsg__FiiPviiP4MRSGPf(struct ASEGBL *pbl, int ibAmrsg, int cmrsg, struct MRSG *amrsg, float *ptMax)
 {
-    float gSum = 0.0f;
+    float tSum = 0.0f;
     int i;
-    if (c == 0) {
-        if (pf) {
-            for (i = 0; i < p->c; i++) {
-                struct E *pe = (struct E *)(p->ab + i * p->cb);
-                if (pe->w != 0.0f)
-                    gSum += pe->px->g74 * pe->w;
+    if (cmrsg == 0) {
+        if (ptMax) {
+            for (i = 0; i < pbl->cbl; i++) {
+                struct BLENDBL *pblT = (struct BLENDBL *)(pbl->abl + i * pbl->cbBl);
+                if (pblT->weight != 0.0f)
+                    tSum += pblT->paseg->tMax * pblT->weight;
             }
-            *pf = gSum;
+            *ptMax = tSum;
         }
         return;
     }
-    for (i = 0; i < c; i++) {
+    for (i = 0; i < cmrsg; i++) {
         int j;
-        amrsg[i].g4 = 0.0f;
-        for (j = 0; j < p->c; j++) {
-            struct E *pe = (struct E *)(p->ab + j * p->cb);
-            if (pe->w != 0.0f)
-                amrsg[i].g4 += ((struct MRSG *)((char *)pe + ib))[i].g4 * pe->w;
+        amrsg[i].dt = 0.0f;
+        for (j = 0; j < pbl->cbl; j++) {
+            struct BLENDBL *pblT = (struct BLENDBL *)(pbl->abl + j * pbl->cbBl);
+            if (pblT->weight != 0.0f)
+                amrsg[i].dt += ((struct MRSG *)((char *)pblT + ibAmrsg))[i].dt * pblT->weight;
         }
-        gSum += amrsg[i].g4;
+        tSum += amrsg[i].dt;
     }
     {
         int fFirst = 1;
         float gAvg, gFirst;
-        for (i = 0; i < p->c; i++) {
-            struct E *pe = (struct E *)(p->ab + i * p->cb);
-            if (pe->w != 0.0f) {
+        for (i = 0; i < pbl->cbl; i++) {
+            struct BLENDBL *pblT = (struct BLENDBL *)(pbl->abl + i * pbl->cbBl);
+            if (pblT->weight != 0.0f) {
                 if (fFirst) {
                     fFirst = 0;
-                    gAvg = *(float *)((char *)pe + ib) / pe->px->g74;
+                    gAvg = *(float *)((char *)pblT + ibAmrsg) / pblT->paseg->tMax;
                     gFirst = gAvg;
                 } else {
-                    float d = *(float *)((char *)pe + ib) / pe->px->g74 - gFirst;
+                    float d = *(float *)((char *)pblT + ibAmrsg) / pblT->paseg->tMax - gFirst;
                     if (d <= -0.5f)
                         d += 1.0f;
                     else if (0.5f < d)
                         d -= 1.0f;
-                    gAvg += d * pe->w;
+                    gAvg += d * pblT->weight;
                 }
             }
         }
-        amrsg[0].g0 = GModPositive__Fff(gAvg, 1.0f) * gSum;
+        amrsg[0].t = GModPositive__Fff(gAvg, 1.0f) * tSum;
     }
-    for (i = 1; i < c; i++) {
-        float g = amrsg[i - 1].g0 + amrsg[i - 1].g4;
-        amrsg[i].g0 = g;
-        if (gSum <= g)
-            amrsg[i].g0 = g - gSum;
+    for (i = 1; i < cmrsg; i++) {
+        float g = amrsg[i - 1].t + amrsg[i - 1].dt;
+        amrsg[i].t = g;
+        if (tSum <= g)
+            amrsg[i].t = g - tSum;
     }
-    if (pf)
-        *pf = gSum;
+    if (ptMax)
+        *ptMax = tSum;
 }

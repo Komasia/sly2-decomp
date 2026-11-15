@@ -1,8 +1,10 @@
-struct K { int a; int b; };
-struct S { char pad[0x1f4]; int f1f4; int f1f8; int f1fc; };
-void func_001F36A8(struct S *);
-int PvAllocSwImpl__Fi(struct K *);
-void PostBombLoad__FP4BOMB(struct S *p) {
-    func_001F36A8(p);
-    if (p->f1f4) { struct K k; k.a = 0xc0; k.b = 0x10; p->f1fc = PvAllocSwImpl__Fi(&k); }
+/* PostBombLoad: the base post-load (0x1F36A8), then a projectile with sweep entries (+0x1F4) gets 0xC0 bytes of sweep
+ * state on the world heap (+0x1FC). Layout: SafeHouse port (projectile.cpp: +0x1F8 / +0x1FC the sweep). */
+struct AREQ { int cb; int cbAlign; };
+struct BOMB { char pad[0x1f4]; int csweep; int asweep; int psweepState; };
+void func_001F36A8(struct BOMB *);
+int PvAllocSwImpl__Fi(struct AREQ *);
+void PostBombLoad__FP4BOMB(struct BOMB *pbomb) {
+    func_001F36A8(pbomb);
+    if (pbomb->csweep) { struct AREQ areq; areq.cb = 0xc0; areq.cbAlign = 0x10; pbomb->psweepState = PvAllocSwImpl__Fi(&areq); }
 }

@@ -1,3 +1,6 @@
+/* FAcceptContactProjectile: whether a projectile (not one of kind 1) takes a contact: as an absorbing SO does; a taken
+ * contact with flag 8 records the impact (its place, the contact's direction normalized, else z) and ends the flight,
+ * in 0.25 s when the other object is a BOMB, else now. SafeHouse port (projectile.cpp). */
 #include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
