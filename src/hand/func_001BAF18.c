@@ -1,5 +1,4 @@
-#include "vtbl.h"
-typedef struct SO { char pad[0xC]; VTENT *vt; } SO;
+#include "so.h"
 typedef struct I { int kind; int value; } I;
 typedef struct E { int id; int unknown4; int actionCount; I *actions; } E;
 typedef struct P {
@@ -51,10 +50,10 @@ void GotoEvent__FP2LOi(P *p, int id)
                 }
                 switch ((unsigned int)pi->kind) {
                 case 0:
-                    ((void (*)(void *))ps->vt[8].pfn)(VT_THIS(ps, &ps->vt[8]));
+                    ((void (*)(void *))ps->lo.pvt[8].pfn)(VT_THIS(ps, &ps->lo.pvt[8]));
                     break;
                 case 1:
-                    ((void (*)(void *))ps->vt[9].pfn)(VT_THIS(ps, &ps->vt[9]));
+                    ((void (*)(void *))ps->lo.pvt[9].pfn)(VT_THIS(ps, &ps->lo.pvt[9]));
                     break;
                 case 2:
                     ShowAloGlobs__FP3ALOi(p, pi->value);
@@ -93,10 +92,10 @@ void GotoEvent__FP2LOi(P *p, int id)
                 }
                 switch ((unsigned int)pi->kind) {
                 case 0:
-                    ((void (*)(void *))ps->vt[9].pfn)(VT_THIS(ps, &ps->vt[9]));
+                    ((void (*)(void *))ps->lo.pvt[9].pfn)(VT_THIS(ps, &ps->lo.pvt[9]));
                     break;
                 case 1:
-                    ((void (*)(void *))ps->vt[8].pfn)(VT_THIS(ps, &ps->vt[8]));
+                    ((void (*)(void *))ps->lo.pvt[8].pfn)(VT_THIS(ps, &ps->lo.pvt[8]));
                     break;
                 case 2:
                     func_001F69F8(p, pi->value);
@@ -132,16 +131,14 @@ typedef char offset_1_actionCount[FIELD_OFFSET(E,actionCount)==8?1:-1];
 typedef char offset_1_actions[FIELD_OFFSET(E,actions)==12?1:-1];
 typedef char offset_2_kind[FIELD_OFFSET(I,kind)==0?1:-1];
 typedef char offset_2_value[FIELD_OFFSET(I,value)==4?1:-1];
-typedef char offset_3_vt[FIELD_OFFSET(SO,vt)==12?1:-1];
+typedef char offset_3_vt[FIELD_OFFSET(SO,lo.pvt)==12?1:-1];
 typedef char size_0[sizeof(P)==360?1:-1];
 typedef char size_1[sizeof(E)==16?1:-1];
 typedef char size_2[sizeof(I)==8?1:-1];
-typedef char size_3[sizeof(SO)==16?1:-1];
 typedef char size_5[sizeof(int)==4?1:-1];
 typedef char size_6[sizeof(short)==2?1:-1];
 typedef char size_7[sizeof(void*)==4?1:-1];
 typedef char alignment_0[__alignof__(P)==4?1:-1];
 typedef char alignment_1[__alignof__(E)==4?1:-1];
 typedef char alignment_2[__alignof__(I)==4?1:-1];
-typedef char alignment_3[__alignof__(SO)==4?1:-1];
 typedef char event_shift[sizeof(E)==(1<<EVENT_SHIFT)?1:-1];

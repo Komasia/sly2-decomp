@@ -5,7 +5,11 @@
 
 typedef unsigned long TICK;     /* 64-bit on the EE (gcc 2.95: long long is 128-bit) */
 
-enum CRK { CRK_Max = 9 };
+/* clock rate kinds: CLOCK::art[] index */
+enum CRK {
+    CRK_PowerUp = 1,   /* the gadget power-up rate (Lilly's Sly 2 types, func_0018D760.cpp) */
+    CRK_Max = 9
+};
 
 typedef struct CLOCK {
     /* 0x00 */ float t;            /* game time */

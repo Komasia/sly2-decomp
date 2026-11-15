@@ -1,6 +1,4 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-typedef struct SO { char pad[0xC]; VTENT *vt; } SO;
+#include "so.h"
 typedef struct I { int k; int v; } I;
 typedef struct E { int id; int n; int c; I *a; } E;
 typedef struct MSG { int a; SO *ps; char pad[0x38]; } MSG;
@@ -48,10 +46,10 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
             psPrev = ps;
             break;
         case 0:
-            ((void (*)(void *))ps->vt[8].pfn)(VT_THIS(ps, &ps->vt[8]));
+            ((void (*)(void *))ps->lo.pvt[8].pfn)(VT_THIS(ps, &ps->lo.pvt[8]));
             break;
         case 1:
-            ((void (*)(void *))ps->vt[9].pfn)(VT_THIS(ps, &ps->vt[9]));
+            ((void (*)(void *))ps->lo.pvt[9].pfn)(VT_THIS(ps, &ps->lo.pvt[9]));
             break;
         case 2:
             ShowAloGlobs__FP3ALOi(p, pi->v);
@@ -70,7 +68,7 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
                 MSG msg;
                 msg.a = 1;
                 msg.ps = psPrev ? psPrev : ps;
-                ((void (*)(void *, MSG *))ps->vt[51].pfn)(VT_THIS(ps, &ps->vt[51]), &msg);
+                ((void (*)(void *, MSG *))ps->lo.pvt[51].pfn)(VT_THIS(ps, &ps->lo.pvt[51]), &msg);
             }
             break;
         case 8:

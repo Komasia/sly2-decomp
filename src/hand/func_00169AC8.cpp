@@ -1,6 +1,5 @@
-#include "vtbl.h"
+#include "so.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
-typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 struct M4{qword rows[4];};
 struct D{char channel,segments;unsigned char flags;char kind;char pad4[4];void*chain;char padC[4];int words;};
@@ -9,7 +8,6 @@ union FLAGS{uint word;struct{uint pad:11,feature:1,other:20;} bits;};
 struct E{int value;TRANSFORM*transform;M4*parent;FLAGS flags;char*data;uint base;char pad18[12];void*sphere;};
 struct SPHERE{float center[3],radius,limit;uint metadata;};
 struct SO;
-struct SO{char pad[0xC];VTENT*vt;};
 struct P{SO*owner;};
 struct REQUEST{int bytes,alignment;REQUEST(int cb,int a):bytes(cb),alignment(a){}};
 struct MARK;
@@ -40,7 +38,7 @@ typedef char SPHERE_radius_Offset[FIELD_OFFSET(SPHERE,radius)==12?1:-1];
 typedef char SPHERE_limit_Offset[FIELD_OFFSET(SPHERE,limit)==16?1:-1];
 typedef char SPHERE_metadata_Offset[FIELD_OFFSET(SPHERE,metadata)==20?1:-1];
 typedef char TRANSFORM_matrix_Offset[FIELD_OFFSET(TRANSFORM,matrix)==64?1:-1];
-typedef char SO_vt_Offset[FIELD_OFFSET(SO,vt)==12?1:-1];
+typedef char SO_vt_Offset[FIELD_OFFSET(SO,lo.pvt)==12?1:-1];
 typedef char FACE_flags_Offset[FIELD_OFFSET(FACE,flags)==8?1:-1];
 typedef char FACE_indices_Offset[FIELD_OFFSET(FACE,indices)==20?1:-1];
 typedef char FACE_first_Offset[FIELD_OFFSET(FACE,first)==36?1:-1];
@@ -76,7 +74,7 @@ extern "C" void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHER
     if(sphere){*sphere=*sourceSphere;sphere->metadata=U32Read(stream);}
     {
         SO*object=p->owner;
-        VTENT*method=&object->vt[51];
+        VTENT*method=&object->lo.pvt[51];
         SO*receiver=(SO*)VT_THIS(object, method);
         int index=S16Read(stream);
         entry->transform=((TRANSFORM* (*)(SO*,int))method->pfn)(receiver,index);

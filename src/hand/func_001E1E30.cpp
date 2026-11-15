@@ -328,29 +328,7 @@ struct TASKPAIR
     int nState;
 };
 void SetTaskStates(GAME *pgame, int ctaskpair, TASKPAIR *ataskpair, LO *ploContext);
-typedef ulong TICK;
-enum CRK
-{
-    CRK_Max = 9
-};
-struct CLOCK
-{
-      float t;
-      float dt;
-      float rt;
-      float rtCm;
-      float dtCm;
-      float tCm;
-      float art[CRK_Max];
-      float tReal;
-      float dtReal;
-      undefined4 unk_0x44;
-      TICK tickFrame;
-      TICK tickLastRaw;
-      int cWrapAround;
-      undefined4 unk_0x5c;
-};
-extern CLOCK g_clock;
+#include "clock.h"
 void SetClockRate(CLOCK *pclock, CRK crk, float rt);
 struct EDGE
 {
