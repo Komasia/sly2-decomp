@@ -1,19 +1,16 @@
-/* class: CID_2E, the photo targets (InitPhotoTarget__FP2LO is its slot 7; vt slot 15 = PostLoad): PostLoLoad, then
- * the object at +0xEC told about it (0x1333C0). */
-struct LO;
-struct PHOTOTARGET {
-    /* 0x00 */ char pad0[0xec];
-    /* 0xec */ struct LO *ploEC;
-};
-void PostLoLoad__FP2LO(struct PHOTOTARGET *plo);
-void AddLoListener__FP2LOi(struct LO *plo, struct PHOTOTARGET *pphoto);
+/* func_00203638 (0x203638): PHOTOTARGET post-load (vt slot 15): the LO post-load, then the target listens to its
+ * task (AddLoListener). */
+#include "h6_photo.h"
 
-void func_00203638(struct PHOTOTARGET *pphoto)
+void PostLoLoad__FP2LO(PHOTOTARGET *ptarget);
+void AddLoListener__FP2LOi(PHOTOTASK *ptask, PHOTOTARGET *ptarget);
+
+void func_00203638(PHOTOTARGET *ptarget)
 {
-    struct LO *plo;
-    PostLoLoad__FP2LO(pphoto);
-    plo = pphoto->ploEC;
-    if (plo != 0) {
-        AddLoListener__FP2LOi(plo, pphoto);
+    PHOTOTASK *ptask;
+    PostLoLoad__FP2LO(ptarget);
+    ptask = ptarget->ptask;
+    if (ptask != 0) {
+        AddLoListener__FP2LOi(ptask, ptarget);
     }
 }

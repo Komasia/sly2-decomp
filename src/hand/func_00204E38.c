@@ -1,22 +1,26 @@
+/* VelActorAnimRoot (0x204E38): the velocity of the actor's animation root channel (kind 1) of pasega at its local time over dt
+ * (the channel's vt slot 3); zero when there is no ASEGA, it is retracted, or it has no such channel. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 extern qword D_002A2DD0;
-struct O { VTENT *vt; };
-struct X { int a; struct O *po; };
-struct TABLE;
-struct Q { char pad[0x14]; struct TABLE *table; char pad2[0x40 - 0x18]; float g40; };
-int FAsegaRetracted(struct Q *q) asm("FAsegaRetracted__FP5ASEGA");
-struct X *PchnFindAseg__FP4ASEGP3ALOPvi(struct TABLE *table, void *owner, int kind, int check);
+/* an animation channel */
+struct ACHN { VTENT *pvt; };
+/* PchnFindAseg's result */
+struct ASEGCHN { int unk_0x00; struct ACHN *pchn; };
+struct ASEG;
+struct ASEGA { char pad[0x14]; struct ASEG *paseg; char pad2[0x40 - 0x18]; float tLocal; };
+int FAsegaRetracted(struct ASEGA *pasega) asm("FAsegaRetracted__FP5ASEGA");
+struct ASEGCHN *PchnFindAseg__FP4ASEGP3ALOPvi(struct ASEG *paseg, void *palo, int chnk, int fRequire);
 // name: SafeHouse port (VelActorAnimRoot)
-qword VelActorAnimRoot__FP5ACTORPvf(void *p, struct Q *q, float g)
+qword VelActorAnimRoot__FP5ACTORPvf(void *pactor, struct ASEGA *pasega, float dt)
 {
-    qword r = D_002A2DD0;
-    if (q && !FAsegaRetracted(q)) {
-        struct X *x = PchnFindAseg__FP4ASEGP3ALOPvi(q->table, p, 1, 1);
-        if (x) {
-            struct O *o = x->po;
-            ((void (*)(void *, qword *, qword *, float, float))o->vt[3].pfn)(VT_THIS(o, &o->vt[3]), 0, &r, g, q->g40);
+    qword vel = D_002A2DD0;
+    if (pasega && !FAsegaRetracted(pasega)) {
+        struct ASEGCHN *pchnentry = PchnFindAseg__FP4ASEGP3ALOPvi(pasega->paseg, pactor, 1, 1);
+        if (pchnentry) {
+            struct ACHN *pchn = pchnentry->pchn;
+            ((void (*)(void *, qword *, qword *, float, float))pchn->pvt[3].pfn)(VT_THIS(pchn, &pchn->pvt[3]), 0, &vel, dt, pasega->tLocal);
         }
     }
-    return r;
+    return vel;
 }

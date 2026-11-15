@@ -1,16 +1,16 @@
-/* Prepare a new contact: reset its friction/response and set the limits for kind 14; for the
+/* OnStepXpNew (0x204250): STEP vt slot 55: prepare a new contact: reset its friction/response and set the limits for kind 14; for the
    side-facing kinds add a horizontal response contact (kind 10) through PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct ENDPOINT { void *shape, *owner, *object, *lo; qword pos; qword local; int pad[4]; };
-struct XP { struct ENDPOINT ae[2]; U normal; float distance, friction, response; int kind; float lower, upper; int tag; struct XP *next; };
-struct STATE { char pad[0xD0]; float mass; };
-struct P { char padE8[0xE8]; struct STATE *state; char padEC[0x258 - 0xEC]; void *mesh; };
+struct XP { struct ENDPOINT ae[2]; U normal; float distance, friction, response; int xpk; float lower, upper; int tag; struct XP *next; };
+struct SOPHYS { char pad[0xD0]; float mass; };
+struct STEP { char padE8[0xE8]; struct SOPHYS *psophys; char padEC[0x258 - 0xEC]; void *psoeCustom; };
 extern char g_sw[];
 extern qword D_002A2DA0;
-extern float D_002C3C60[], D_002C3C90;
-void func_001F4FB0(void);
-void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *pw, void *a, void *b, qword pos, qword dir, int k, int x, int y, struct XP **out, float g);
+extern float D_002C3C60[], D_002C3C90;   /* the sign of each contact side; the floor friction */
+void func_001F4FB0(void);   /* the base new-contact handler (nothing) */
+void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *pw, void *a, void *b, qword pos, qword dir, int k, int pxp, int y, struct XP **out, float g);
 
 /* The endpoint positions are passed by address (like C++ const VECTOR & operands): the address
    then comes out as offset + x, and the second read of the other position is a reload. */
@@ -63,41 +63,41 @@ static inline qword AddScaled(const qword *pa, qword b, float g)
 }
 
 // name: SafeHouse port (OnStepXpNew)
-void OnStepXpNew__FP3ALOP2XPi(struct P *p, struct XP *x, int side)
+void OnStepXpNew__FP3ALOP2XPi(struct STEP *pstep, struct XP *pxp, int ixpd)
 {
     U dir, diff, point;
     float d;
     float sign;
-    int kind;
+    int xpk;
     func_001F4FB0();
-    kind = x->kind;
-    x->friction = 0.0f;
-    x->response = 0.0f;
-    if (kind == 14) {
-        if (x->normal.f[2] > 0.7f) {
-            x->friction = D_002C3C90;
-            x->lower = p->state->mass * -4500.0f;
-            x->upper = p->state->mass * 9000.0f;
+    xpk = pxp->xpk;
+    pxp->friction = 0.0f;
+    pxp->response = 0.0f;
+    if (xpk == 14) {
+        if (pxp->normal.f[2] > 0.7f) {
+            pxp->friction = D_002C3C90;
+            pxp->lower = pstep->psophys->mass * -4500.0f;
+            pxp->upper = pstep->psophys->mass * 9000.0f;
         } else
-            x->upper = p->state->mass * 9000.0f;
+            pxp->upper = pstep->psophys->mass * 9000.0f;
         return;
     }
-    if (kind != 3) {
-        if (side != 1)
+    if (xpk != 3) {
+        if (ixpd != 1)
             return;
-        if (kind != side && kind != 4 && kind != 5 && kind != 6)
+        if (xpk != ixpd && xpk != 4 && xpk != 5 && xpk != 6)
             return;
     }
-    sign = D_002C3C60[side];
-    if (sign * x->normal.f[2] > 0.0f) {
+    sign = D_002C3C60[ixpd];
+    if (sign * pxp->normal.f[2] > 0.0f) {
         /* horizontal direction of the (side-signed) normal */
-        dir.q = Scale(x->normal.q, sign);
+        dir.q = Scale(pxp->normal.q, sign);
         dir.f[2] = 0.0f;
         Normal(&dir, D_002A2DA0);
         /* project this endpoint onto the other along that direction */
-        diff.q = Sub(&x->ae[side].pos, &x->ae[1 - side].pos);
+        diff.q = Sub(&pxp->ae[ixpd].pos, &pxp->ae[1 - ixpd].pos);
         d = Dot(diff.q, dir.q);
-        point.q = AddScaled(&x->ae[1 - side].pos, dir.q, d);
-        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(g_sw, p->mesh, x->ae[1 - side].shape, point.q, dir.q, 10, 0, 0, &x->next, d);
+        point.q = AddScaled(&pxp->ae[1 - ixpd].pos, dir.q, d);
+        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(g_sw, pstep->psoeCustom, pxp->ae[1 - ixpd].shape, point.q, dir.q, 10, 0, 0, &pxp->next, d);
     }
 }

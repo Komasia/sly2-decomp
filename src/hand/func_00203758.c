@@ -1,3 +1,4 @@
-struct S { char pad[0xEC]; void *p; int n; };
-int FTaskDone__FP4TASK(void *p);
-int func_00203758(struct S *p) { if (p->p) return FTaskDone__FP4TASK(p->p); return p->n; }
+/* func_00203758 (0x203758): whether a photo target is done: its task's FTaskDone, or its own flag without a task. */
+#include "h6_photo.h"
+int FTaskDone__FP4TASK(PHOTOTASK *ptask);
+int func_00203758(PHOTOTARGET *ptarget) { if (ptarget->ptask) return FTaskDone__FP4TASK(ptarget->ptask); return ptarget->fDone; }

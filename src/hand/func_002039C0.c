@@ -1,4 +1,4 @@
-/* LoadPoFromBrx__FP2POP18CBinaryInputStream (0x2039C0): STEP virtual slot 13 (Load*FromBrx): PO load, then cache STEP::qwUnk240 from
+/* LoadPoFromBrx__FP2POP18CBinaryInputStream (0x2039C0): STEP virtual slot 13 (Load*FromBrx): PO load, then cache STEP::vecBase from
  * ConvertPos__FP2LOT0G9VU_VECTOR(parent, step, zero vector) and finish with PregentEnsure__FP3ALO. */
 #include "step.h"
 
@@ -15,6 +15,6 @@ void LoadPoFromBrx__FP2POP18CBinaryInputStream(STEP *pstep, void *pbis)
     func_001C3DC8(pstep, pbis);
     qw = ConvertPos__FP2LOT0G9VU_VECTOR(pstep->po.so.lo.psoParent, pstep, D_002A2DD0);
 
-    pstep->qwUnk240 = qw;
+    pstep->vecBase = qw;
     PregentEnsure__FP3ALO(pstep);
 }
