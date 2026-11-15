@@ -1,10 +1,8 @@
-typedef int qword __attribute__((mode(TI)));
+#include "so.h"
 union U {qword q;float f[4];};
 struct M3 {qword r[3];};
 struct M4 {qword r[4];};
 struct LO;
-#include "vtbl.h"
-struct LO {char padC[0xC];VTENT*vt;};
 struct FRAME {char pad40[0x40];M3 basis;};
 struct SPACE {char padA0[0xA0];FRAME*frame;};
 struct ANIM {void*player;};
@@ -54,7 +52,7 @@ void UpdateReach(P*p){
  case 1:{qword found=PosOfLo(p->follow);__asm__("sq %1,%0":"=m"(w.position.q):"r"(found));cursor=&w.stage.late.context;break;}
  case 2:{
   M4*output=&w.stage.early.temporary;
-  M4*world=((M4*(*)(void*))p->follow->vt[31].pfn)(VT_THIS(p->follow, &p->follow->vt[31]));
+  M4*world=((M4*(*)(void*))p->follow->pvt[31].pfn)(VT_THIS(p->follow, &p->follow->pvt[31]));
   cursor=&w.stage.early.inverse;new(cursor)M4(InverseAffineMatrix4(&p->matrix));
   const M4*inverseArg=InverseArgument((M4*)cursor);
   MulMatrix4(output,world,inverseArg);
@@ -86,7 +84,7 @@ void UpdateReach(P*p){
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)
-typedef char path_layout[(sizeof(qword)==0x10 && sizeof(U)==0x10 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && sizeof(CTX)==0x20 && sizeof(EARLY)==0xC0 && sizeof(LATE)==0x90 && sizeof(STAGE)==0xC0 && sizeof(WORK)==0x120 && sizeof(P)==0xB0 && sizeof(void*)==0x4 && sizeof(float)==0x4 && OFF(LO,vt)==0xC && OFF(SPACE,frame)==0xA0 && sizeof(SPACE)==0xA4 && OFF(FRAME,basis)==0x40 && sizeof(FRAME)==0x70 && OFF(ANIM,player)==0x0 && OFF(MOTION,duration)==0x74 && OFF(P,owner)==0x0 && OFF(P,animation)==0x4 && OFF(P,weight)==0x8 && OFF(P,pathA)==0x14 && OFF(P,pathC)==0x18 && OFF(P,fraction)==0x1C && OFF(P,pathB)==0x28 && OFF(P,pathD)==0x2C && OFF(P,motion)==0x30 && OFF(P,space)==0x38 && OFF(P,matrix)==0x40 && OFF(P,job)==0x80 && OFF(P,path)==0x84 && OFF(P,time)==0x88 && OFF(P,follow)==0x8C && OFF(P,mode)==0x90 && OFF(P,active)==0xA4 && OFF(CTX,p)==0x0 && OFF(CTX,position)==0x10 && OFF(EARLY,product)==0x0 && OFF(EARLY,temporary)==0x40 && OFF(EARLY,inverse)==0x80 && OFF(LATE,context)==0x0 && OFF(LATE,local)==0x20 && OFF(LATE,transformed)==0x30 && OFF(LATE,temporary)==0x60 && OFF(WORK,position)==0x0 && OFF(WORK,basis)==0x10 && OFF(WORK,stage)==0x40 && OFF(WORK,t)==0x100 && OFF(WORK,result)==0x104 && OFF(WORK,projection)==0x108 && OFF(WORK,saved)==0x110)?1:-1];
+typedef char path_layout[(sizeof(qword)==0x10 && sizeof(U)==0x10 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && sizeof(CTX)==0x20 && sizeof(EARLY)==0xC0 && sizeof(LATE)==0x90 && sizeof(STAGE)==0xC0 && sizeof(WORK)==0x120 && sizeof(P)==0xB0 && sizeof(void*)==0x4 && sizeof(float)==0x4 && OFF(LO,pvt)==0xC && OFF(SPACE,frame)==0xA0 && sizeof(SPACE)==0xA4 && OFF(FRAME,basis)==0x40 && sizeof(FRAME)==0x70 && OFF(ANIM,player)==0x0 && OFF(MOTION,duration)==0x74 && OFF(P,owner)==0x0 && OFF(P,animation)==0x4 && OFF(P,weight)==0x8 && OFF(P,pathA)==0x14 && OFF(P,pathC)==0x18 && OFF(P,fraction)==0x1C && OFF(P,pathB)==0x28 && OFF(P,pathD)==0x2C && OFF(P,motion)==0x30 && OFF(P,space)==0x38 && OFF(P,matrix)==0x40 && OFF(P,job)==0x80 && OFF(P,path)==0x84 && OFF(P,time)==0x88 && OFF(P,follow)==0x8C && OFF(P,mode)==0x90 && OFF(P,active)==0xA4 && OFF(CTX,p)==0x0 && OFF(CTX,position)==0x10 && OFF(EARLY,product)==0x0 && OFF(EARLY,temporary)==0x40 && OFF(EARLY,inverse)==0x80 && OFF(LATE,context)==0x0 && OFF(LATE,local)==0x20 && OFF(LATE,transformed)==0x30 && OFF(LATE,temporary)==0x60 && OFF(WORK,position)==0x0 && OFF(WORK,basis)==0x10 && OFF(WORK,stage)==0x40 && OFF(WORK,t)==0x100 && OFF(WORK,result)==0x104 && OFF(WORK,projection)==0x108 && OFF(WORK,saved)==0x110)?1:-1];
 
 typedef char copy_layout[(sizeof(COPYPREFIX)==0x80 && __alignof__(COPYPREFIX)==0x10 && OFF(COPYPREFIX,position)==0x0 && OFF(COPYPREFIX,basis)==0x10 && OFF(COPYPREFIX,product)==0x40 && OFF(WORK,stage)+OFF(EARLY,temporary)==0x80 && OFF(WORK,stage)+OFF(EARLY,inverse)==0xC0)?1:-1];
 typedef char cc2e8_final_0[(sizeof(int)==4)?1:-1];

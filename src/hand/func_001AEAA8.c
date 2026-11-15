@@ -1,6 +1,5 @@
 struct LO;
-#include "vtbl.h"
-struct LO { int x0, x4, x8; VTENT *vt; };
+#include "so.h"
 struct T18 { int x0, x4, x8, xC, x10, x14, x18, x1C; };
 struct ENT { int k; int pad[7]; };
 typedef struct E { int x0; struct ENT *x4; struct LO *x8; int xC, x10; int x14; struct T18 *x18; } E;
@@ -46,7 +45,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 1:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x0);
+            ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x0);
             func_00213B00(pe->x8, pe->x18->xC);
         }
         break;
@@ -62,7 +61,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 8:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x8);
+            ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x8);
             func_00213B00(pe->x8, pe->x18->x14);
         }
         break;
@@ -106,7 +105,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
     case 7:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
-            ((void (*)(struct LO *, int))p->vt[49].pfn)((struct LO *)VT_THIS(p, &p->vt[49]), pe->x18->x4);
+            ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x4);
             func_00213B00(pe->x8, pe->x18->x10);
         }
         break;

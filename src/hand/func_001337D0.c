@@ -5,8 +5,7 @@
  *   had there), restoring the target's p/ae priority order;
  * - paae is set (before k3) so the aae address is computed ahead of the k3 constant, as in the target. */
 /* v2 (Claude agent laneB12, 2026-10-23): aligned 7 -> 3. The /12 pointer-diff divisions written out as (bytes * k3) >> 2 with k3 = 0xAAAAAAAB in ONE commented register pin ($21 = s5, as in the target): fixes the s4/s5 swap. Left: ori s5 before addiu fp, and i+1 (addiu s4) scheduled right after the sll instead of in the b delay slot (j = i + 1 / i = j step, split init: same 3). */
-#include "vtbl.h"
-struct LO { int pad[3]; VTENT *vt; };
+#include "so.h"
 struct X;
 struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; int f; };
 struct LX { char pad[0xEC]; struct X *px; };
@@ -21,7 +20,7 @@ void func_0011CD98(void *, void *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
 int FFindDlEntry__FP2DLPv(void *, struct X *);
 void *s1_memmove(void *, void *, int) asm("memmove");
-#define VCALL(po, n, T) ((T)(po)->vt[n].pfn)(VT_THIS((po), &(po)->vt[n])
+#define VCALL(po, n, T) ((T)(po)->pvt[n].pfn)(VT_THIS((po), &(po)->pvt[n])
 // name: SafeHouse port (RemoveSwOxa)
 void RemoveSwOxa__FP2SWP3OXA(struct P *p, struct X *px)
 {

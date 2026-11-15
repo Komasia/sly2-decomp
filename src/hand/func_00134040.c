@@ -1,5 +1,4 @@
-#include "vtbl.h"
-struct LO { int pad[3]; VTENT *vt; };
+#include "so.h"
 struct X;
 struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; };
 struct LX { char pad[0xEC]; struct X *px; };
@@ -14,7 +13,7 @@ void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct P *, struct X *, struct X *);
 void WakeAlo__FP3ALO(struct LO *);
 void RemoveDlEntry__FP2DLPv(void *, struct X *);
-#define VCALL(po, n, T) ((T)(po)->vt[n].pfn)(VT_THIS((po), &(po)->vt[n])
+#define VCALL(po, n, T) ((T)(po)->pvt[n].pfn)(VT_THIS((po), &(po)->pvt[n])
 // name: SafeHouse port (UpdateSwXps)
 void UpdateSwXps__FP2SW(struct P *p)
 {

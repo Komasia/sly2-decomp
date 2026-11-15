@@ -1,7 +1,5 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
+#include "so.h"
 struct MAT { qword a[3]; };
-struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
     char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
@@ -55,7 +53,7 @@ void SetCoinState__FP2LOi(struct S *p, int n)
             struct M m;
             m.n = 1;
             m.p = p;
-            ((void (*)(void *, struct M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
+            ((void (*)(void *, struct M *))plo->pvt[51].pfn)(VT_THIS(plo, &plo->pvt[51]), &m);
         }
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);

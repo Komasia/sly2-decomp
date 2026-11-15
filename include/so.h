@@ -97,7 +97,7 @@ typedef struct LO {
                ulong fInWorld : 1;  /* bit 60 */
     /* 0x30 */ float gUnk30;
     /* 0x34 */ void *plorunFirst;
-    /* 0x38 */ float sBusy;
+    /* 0x38 */ float sRadius;       /* field: SafeHouse port (activation / cull radius) */
     /* 0x3c */ void *ppxr;
     /* 0x40 */ int grfUnk40;
     /* 0x44 */ int unk_0x44[3];

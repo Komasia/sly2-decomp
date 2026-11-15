@@ -1,7 +1,5 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
+#include "so.h"
 typedef struct M4 { qword r[4]; } M4;
-typedef struct LO { char pad[0xC]; VTENT *vt; } LO;
 typedef struct P {
     qword m[4];
     char pad40[0x80 - 0x40];
@@ -94,7 +92,7 @@ void SnapAsegaXfs__FP5ASEGAi(A *a, int flag)
         p->xA4 = ++g_sw.x3D58;
     }
     for (i = 0; i < n; i++)
-        ((void (*)())list[i]->vt[18].pfn)((char *)list[i] + list[i]->vt[18].delta);
+        ((void (*)())list[i]->pvt[18].pfn)((char *)list[i] + list[i]->pvt[18].delta);
     {
         E *e;
         for (e = a->x38; e; e = e->x10)

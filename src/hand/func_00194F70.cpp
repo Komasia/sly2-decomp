@@ -3,14 +3,13 @@
 // Merges this frame's sorted grab candidates into the four the world keeps (SW::ajtgrabcand): an old candidate
 // whose object is found again takes the new distance and smooths its parameter towards the new one (wrapping
 // around the spot's range), one that is gone is dropped, and the remaining new ones are linked and appended.
-typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 
 struct LO;
 struct STEPPLAYER;
 struct SMP { float g0, g4, g8; };
 
-#include "vtbl.h"
+#include "so.h"
 
 struct GRABSPOT {
     char pad0[0x14];
@@ -18,7 +17,6 @@ struct GRABSPOT {
     char pad18[0x20 - 0x18];
     VTENT *pvt;         // slot 1: int FGetWrapRange(float *pasRange)
 };
-struct LO { char pad0[0xC]; VTENT *pvt; };
 
 struct JTGRABCAND {
     LO *plo;

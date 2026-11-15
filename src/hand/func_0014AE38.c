@@ -1,10 +1,8 @@
-typedef int qword __attribute__((mode(TI)));
+#include "so.h"
 extern qword D_002A2DD0;
 extern char g_sw[];
 #include "clock.h"
-#include "vtbl.h"
 struct V3 { int x; int y; int z; };
-struct LO { int pad[3]; VTENT *vt; };
 struct R { char pad[0x60]; float x60; float x64; };
 struct SP { char pad[0xE8]; int xE8; char pad2[0xF4 - 0xEC]; qword *xF4; };
 struct X {

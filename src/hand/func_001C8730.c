@@ -1,5 +1,4 @@
-#include "vtbl.h"
-struct LO { char pad[0xC]; VTENT *vt; };
+#include "so.h"
 struct S {
     char pad[0xC]; VTENT *vt;
     char p0[0x180 - 0x10]; int x180; float x184; int p188[2]; struct LO *x190; int x194; int p198; void *x19C; int p1A0; int x1A4;
@@ -64,7 +63,7 @@ void SetVaultState__FP2LOi(struct S *p, int n)
     case 5: {
         struct LO *q = p->x190;
         if (q) {
-            ((void (*)(void *, int))q->vt[79].pfn)(VT_THIS(q, &q->vt[79]), 1);
+            ((void (*)(void *, int))q->pvt[79].pfn)(VT_THIS(q, &q->pvt[79]), 1);
             p->x190 = 0;
             func_0020F1A8(g_sw);
         }

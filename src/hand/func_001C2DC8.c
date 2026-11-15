@@ -1,5 +1,4 @@
-#include "vtbl.h"
-struct LO { char pad[0xC]; VTENT *vt; };
+#include "so.h"
 struct S { char pad[0x150]; int x150; struct LO *x154; struct LO *x158; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
 struct LO *PloAcquireProxyObject__FP2SWi(struct LO *plo, int n);
@@ -24,9 +23,9 @@ int NReadyReward__FP2LOT0iPv(struct S *p, struct LO *plo, int id, void *pv)
     }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5E)) SetPickupLootKind__FP2LOi(p->x158, id);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5A))
-        ((void (*)(void *, int))p->x158->vt[76].pfn)(VT_THIS(p->x158, &p->x158->vt[76]), 2);
+        ((void (*)(void *, int))p->x158->pvt[76].pfn)(VT_THIS(p->x158, &p->x158->pvt[76]), 2);
     else
-        ((void (*)(void *))p->x158->vt[9].pfn)(VT_THIS(p->x158, &p->x158->vt[9]));
+        ((void (*)(void *))p->x158->pvt[9].pfn)(VT_THIS(p->x158, &p->x158->pvt[9]));
     p->x150 = func_001F4C58(p, pv, 0xD);
     return 3;
 }

@@ -1,5 +1,4 @@
-#include "vtbl.h"
-struct LO { char pad[0xC]; VTENT *vt; };
+#include "so.h"
 struct X14 { struct LO *plo; };
 struct P { char pad[0xC]; VTENT *vt; char pad1[0x14 - 0x10]; struct X14 *px14; char pad2[0x150 - 0x18]; int state; float tState; char pad3[0x160 - 0x158]; void *p160; };
 #include "clock.h"
@@ -28,7 +27,7 @@ void func_00147410(struct P *p, int state)
             struct LO *plo;
             AppendDlEntry__FP2DLPv(g_sw + 0x2C, p->px14);
             plo = p->px14->plo;
-            ((void (*)(void *))plo->vt[23].pfn)(VT_THIS(plo, &plo->vt[23]));
+            ((void (*)(void *))plo->pvt[23].pfn)(VT_THIS(plo, &plo->pvt[23]));
         }
         break;
     case 3:

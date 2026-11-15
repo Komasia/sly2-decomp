@@ -1,4 +1,4 @@
-struct LO { char pad[0x40]; int fl; };
+#include "so.h"
 struct S { char pad[0xC0]; void *pc0; char pad2[0xCC - 0xC4]; struct LO *pcc; };
 extern char D_002E1E88[];
 int func_001A4E70(void *p);
@@ -16,11 +16,11 @@ void JobCompleteNext(struct S *p)
         RequestTaskState__FP4TASKii(p->pc0, 4, p);
     } else if (p->pcc) {
         struct LO *plo = p->pcc;
-        int v = plo->fl;
+        int v = plo->grfUnk40;
         if ((v ^ 1) & 1)
             *(int *)v |= 0x100;
         else
-            plo->fl = v | 0x100;
+            plo->grfUnk40 = v | 0x100;
         TriggerExit__FP4EXIT(p->pcc);
     }
 }

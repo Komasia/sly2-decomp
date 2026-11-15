@@ -1,4 +1,4 @@
-#include "vtbl.h"
+#include "so.h"
 extern "C" {
 void Decref(void *p) asm("Decref__4CRef");
 void func_00129658(void *p, const void *q);
@@ -14,7 +14,6 @@ struct CRef {
     CRef &operator=(const CRef &r) { func_00129658(this, &r); return *this; }
 };
 struct ALS { int x0; int x4; };
-struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
     char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
@@ -48,7 +47,7 @@ void SetLootState(S *p, int n)
             M m;
             m.n = n;
             m.p = p;
-            ((void (*)(void *, M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
+            ((void (*)(void *, M *))plo->pvt[51].pfn)(VT_THIS(plo, &plo->pvt[51]), &m);
         }
         n = 2;
         ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);

@@ -5,7 +5,7 @@ public:
     virtual void V2();
     virtual void Msg(int msgid, int a, int c, void **apv, int d);
 };
-struct LO { char pad[0x40]; int fl; };
+#include "so.h"
 class O : public OBase {
 public:
     char pad[0x5C - 0x10];
@@ -56,11 +56,11 @@ extern "C" void ActivateTaskNow__FP4TASK(O *p)
         p->Msg(0x13, 0, 0, 0, 0);
         if (p->fc4) {
             LO *plo = p->fc4;
-            int v = plo->fl;
+            int v = plo->grfUnk40;
             if ((v ^ 1) & 1)
                 *(int *)v |= 0x100;
             else
-                plo->fl = v | 0x100;
+                plo->grfUnk40 = v | 0x100;
             TriggerExit(p->fc4);
         }
     }

@@ -1,6 +1,4 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct LO { char pad[0xC]; VTENT *vt; };
+#include "so.h"
 struct O { char pad[0x30]; qword q30; char p1[0xB0 - 0x40]; qword qB0; };
 struct S {
     char pad[0xC]; VTENT *vt;
@@ -59,10 +57,10 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
     }
     switch(n){
     case 0:case 4:case 5:
-        q=p->x16C;if(q)((void(*)(void*))q->vt[8].pfn)(VT_THIS(q, &q->vt[8]));
+        q=p->x16C;if(q)((void(*)(void*))q->pvt[8].pfn)(VT_THIS(q, &q->pvt[8]));
         break;
     default:
-        q=p->x16C;if(q)((void(*)(void*))q->vt[9].pfn)(VT_THIS(q, &q->vt[9]));
+        q=p->x16C;if(q)((void(*)(void*))q->pvt[9].pfn)(VT_THIS(q, &q->pvt[9]));
         break;
     }
     p->x150 = n;
@@ -70,7 +68,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
     if (anim != -1) {
         if (!p->x168) {
             p->x168 = func_001F0380(p->x164, p, anim, 0);
-            ((void (*)(void *))p->x168->vt[1].pfn)(VT_THIS(p->x168, &p->x168->vt[1]));
+            ((void (*)(void *))p->x168->pvt[1].pfn)(VT_THIS(p->x168, &p->x168->pvt[1]));
             if (p->x160 > 0.0f)
                 AdvanceSma__FP3SMAf(p->x168, p->x160);
         } else {
@@ -78,7 +76,7 @@ void SetPickupStateBase__FP2LOi(struct S *p, int n)
         }
     } else if (p->x168) {
         RetractSma__FP3SMA(p->x168);
-        ((void (*)(void *))p->x168->vt[2].pfn)(VT_THIS(p->x168, &p->x168->vt[2]));
+        ((void (*)(void *))p->x168->pvt[2].pfn)(VT_THIS(p->x168, &p->x168->pvt[2]));
         p->x168 = 0;
     }
 }

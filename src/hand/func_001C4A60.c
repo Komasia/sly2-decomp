@@ -1,9 +1,8 @@
-#include "vtbl.h"
+#include "so.h"
 struct LO;
-struct LO { char pad[0xC]; VTENT *vt; };
 struct G { char pad[0x3EFC]; struct LO *plo3EFC; struct LO *plo3F00; };
 struct LO *func_001C4A48(struct G *p);
-#define VCALL(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a)
+#define VCALL(o, n, a) ((void (*)(void *, int))(o)->pvt[n].pfn)(VT_THIS((o), &(o)->pvt[n]), a)
 // name: SafeHouse port (SetPoForced)
 void SetPoForced__FP2SWP2LO(struct G *p, struct LO *plo)
 {

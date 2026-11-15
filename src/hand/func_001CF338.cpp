@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct M3 { qword a,b,c; }; struct M4 { qword a,b,c,d; };
 union U { qword q; float f; };
 struct POLY { float a,b,c; };
-struct LO { char pad[0x38]; float radius; };
+#include "so.h"
 struct S { char pad[0x14]; float start,duration; LO *lo; POLY size; int pad2; POLY alpha; };
 struct G { char pad[0x90]; qword pos; };
 extern G g_cm;
@@ -32,7 +32,7 @@ int CollectRipDraws(S*p,qword pos,const M3&mat)
     G *pg=&g_cm;
     __asm__("vsub.xyzw %0,%1,%2":"=j"(delta):"j"(pos),"j"(pg->pos));
     if(!FInsideCmPlanes(pg,delta,BcG(size*100.0f)))return 1;
-    if(!FInsideCmMrd(pg,delta,p->lo->radius,&proj))return 0;
+    if(!FInsideCmMrd(pg,delta,p->lo->sRadius,&proj))return 0;
     if(alpha<0.0001f && size<0.0001f)return 1;
     M4 m;
     M4 tmp=func_0011C288(pos,mat,size);

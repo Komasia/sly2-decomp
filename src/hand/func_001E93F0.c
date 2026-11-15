@@ -1,6 +1,4 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct LO { int pad[3]; VTENT *pvt; };
+#include "so.h"
 struct M4 { qword r[3]; qword pos; };
 struct P { int pad[4]; struct LO *apo[4]; qword apos[2]; void *ap40[2]; int a48; };
 extern char D_002C44F0[];

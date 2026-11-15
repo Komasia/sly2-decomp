@@ -13,7 +13,7 @@
 // &gsb0, &frameT) get their spill slots in the order of the gcse expression hash-table size S = max_cuid/2|1. This source has
 // S = 171 after cse1; the game's slot order needs S = 201/203 (~60 more insns). `if (fNever)` is dead code (cprop folds it,
 // jump deletes it; the final code is unchanged) that only supplies those insns. What the game really had there is unknown.
-#include "vtbl.h"
+#include "so.h"
 extern "C" {
 struct BIS;
 struct AREQ { int cb; int cbAlign; };
@@ -68,7 +68,6 @@ extern char g_cm[];
 extern char D_002DEDC0[];
 extern int D_003E1C34;
 }
-struct LO { int pad[3]; VTENT *pvt; };
 struct WE {
     int c0; LO **apo; int c8; int cC; int x10; int x14; void *pv18; char ab1C[0x40]; int x5C; int x60; int pad64[2];
 };

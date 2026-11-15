@@ -1,5 +1,4 @@
-#include "vtbl.h"
-typedef struct LO { char pad[0xC]; VTENT *vt; } LO;
+#include "so.h"
 typedef struct L { int x0, x4; int c; LO **ap; } L;
 typedef struct X { char pad[0x10]; void *x10; char pad2[0x3C]; void *x50; char pad3[0xC]; char m60[0x40]; } X;
 void func_0022D670(void *);
@@ -15,6 +14,6 @@ void LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(X *p, void *pv, L *pl
     PopXfBase(p->x50);
     for (i = 0; i < pl->c; i++) {
         LO *lo = pl->ap[i];
-        ((void (*)(void *, void *))lo->vt[37].pfn)(VT_THIS(lo, &lo->vt[37]), p->m60);
+        ((void (*)(void *, void *))lo->pvt[37].pfn)(VT_THIS(lo, &lo->pvt[37]), p->m60);
     }
 }

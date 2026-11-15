@@ -1,7 +1,5 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
+#include "so.h"
 typedef union { qword q; float f[4]; } U;
-struct LO { char pad[0xC]; VTENT *vt; };
 struct P { char pad[0x150]; float g150; float g154; char pad2[0x220 - 0x158]; int n220; };
 extern char g_sw[];
 qword PosOfLo__FP2LO(void *p);
@@ -32,7 +30,7 @@ int StBirdSees__FP2LO(struct P *p)
     if (p->g154 < len)
         return r;
     if (p->g150 < len) {
-        qword v = ((qword (*)(void *))po->vt[33].pfn)(VT_THIS(po, &po->vt[33]));
+        qword v = ((qword (*)(void *))po->pvt[33].pfn)(VT_THIS(po, &po->pvt[33]));
         if (Length(v) < 150.0f)
             return r;
     }

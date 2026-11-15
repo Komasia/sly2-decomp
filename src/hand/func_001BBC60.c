@@ -1,8 +1,5 @@
 /* class: the breakables (SafeHouse breakable.cpp: method 0x10CE08 -> 0x1BBC60, an item 1 with an oid, -1 itself). */
-struct LO {
-    /* 0x00 */ char pad0[0x18];
-    /* 0x18 */ int oid;
-};
+#include "so.h"
 struct ITEM {
     /* 0x0 */ int kind;
     /* 0x4 */ int n;

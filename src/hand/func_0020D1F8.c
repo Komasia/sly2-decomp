@@ -1,6 +1,4 @@
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct LO { char pad[0xC]; VTENT *vt; };
+#include "so.h"
 struct X { char pad[0xC]; VTENT *vt; char pad2[0x188 - 0x10]; void *p188; };
 struct S { struct LO *po; int k; float t; struct X *x; int n; };
 extern struct { float t; float dt; } g_clock;
@@ -28,7 +26,7 @@ void UpdateWatchB__FP6WATCHB(struct S *p)
             pe = &x->vt[73];
             pthis = VT_THIS(x, pe);
             if (((int (*)(void *, qword))pe->pfn)(pthis, PosOfLo__FP2LO(p->po))) {
-                qword v = ((qword (*)(void *))p->po->vt[33].pfn)(VT_THIS(p->po, &p->po->vt[33]));
+                qword v = ((qword (*)(void *))p->po->pvt[33].pfn)(VT_THIS(p->po, &p->po->pvt[33]));
                 float z;
                 __asm__("pextuw %0, $zero, %1" : "=r"(z) : "r"(v));
                 if (z < 0.0f)
@@ -42,11 +40,11 @@ void UpdateWatchB__FP6WATCHB(struct S *p)
             if (!p->x)
                 SetWatchB__FP6WATCHBi(p, 0);
             else if (g_clock.t - p->t > D_002C3E58 &&
-                     !((int (*)(void *, void *))p->po->vt[76].pfn)(VT_THIS(p->po, &p->po->vt[76]), p->x->p188))
+                     !((int (*)(void *, void *))p->po->pvt[76].pfn)(VT_THIS(p->po, &p->po->pvt[76]), p->x->p188))
                 SetWatchB__FP6WATCHBi(p, 2);
             break;
         case 2:
-            if (!p->x || ((int (*)(void *, void *))p->po->vt[76].pfn)(VT_THIS(p->po, &p->po->vt[76]), p->x->p188))
+            if (!p->x || ((int (*)(void *, void *))p->po->pvt[76].pfn)(VT_THIS(p->po, &p->po->pvt[76]), p->x->p188))
                 SetWatchB__FP6WATCHBi(p, 0);
             break;
         }
