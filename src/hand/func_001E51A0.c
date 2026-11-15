@@ -1,19 +1,20 @@
+/* HoldRunEffects: the script holds a STEP actor's effect (kind, value) while it runs: added once per actor (at most
+ * 4, JSG apstepHold / anHold5 / anHold6) and applied through the actor's vt slot 0x53; ReleaseRunEffects undoes it. */
+#include "relay.h"
 #include "cid.h"
-#include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; };
-struct P { char pad[0xA4]; int c; struct O *apo[4]; int aB8[4]; int aC8[4]; };
+struct STEP { int pad[3]; VTENT *vt; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 // name: SafeHouse port (HoldRunEffects)
-void HoldRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
+void HoldRunEffects__FP3RUNP2LOii(JSG *pjsg, struct STEP *pstep, int nHold5, int nHold6)
 {
     int i;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_STEP)) return;
-    for (i = 0; i < p->c; i++)
-        if (p->apo[i] == po) return;
-    if ((unsigned)p->c >= 4) return;
-    p->aB8[p->c] = a;
-    p->aC8[p->c] = b;
-    p->apo[p->c] = po;
-    p->c++;
-    ((void (*)(void *, int, int))po->vt[0x53].pfn)(VT_THIS(po, &po->vt[0x53]), a, b);
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pstep, CID_STEP)) return;
+    for (i = 0; i < pjsg->cstepHold; i++)
+        if (pjsg->apstepHold[i] == pstep) return;
+    if ((unsigned)pjsg->cstepHold >= 4) return;
+    pjsg->anHold5[pjsg->cstepHold] = nHold5;
+    pjsg->anHold6[pjsg->cstepHold] = nHold6;
+    pjsg->apstepHold[pjsg->cstepHold] = pstep;
+    pjsg->cstepHold++;
+    ((void (*)(void *, int, int))pstep->vt[0x53].pfn)(VT_THIS(pstep, &pstep->vt[0x53]), nHold5, nHold6);
 }
