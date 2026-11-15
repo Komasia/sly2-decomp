@@ -1,82 +1,92 @@
+/* SetVehicleMode (SafeHouse vehicle.cpp, orig 0x1D4940): switch a vehicle between Idle / Ai / Focus / Dead.
+ * Leaving Idle shows the health widget and starts the (paused) engine sound; entering Idle hides the widget and stops
+ * the sound; Ai starts/stops the AI state; Dead sends message 5 through vtable slot 3. The state machine binding
+ * (+0x570) then seeks the mode's state (D_002C2208[mode]). */
 #include "clock.h"
 #include "vtbl.h"
+#include "h3_vehicle.h"
+
 typedef struct VT1 { VTENT a[64]; } VT1;
-typedef struct { char pad[0xC]; VT1 *vt; } W;
+typedef struct WIDGET { char pad[0xC]; VT1 *vt; } WIDGET;
 typedef struct VT { VTENT a[8]; } VT;
-typedef struct OBJ {
-    char pad[0xC];
-    VT *vt;
-    char pad10[0x180 - 0x10];
-    int state;
-    float t;
-    char pad188[0x568 - 0x188];
-    W *pw;
-    int pad56c;
-    void *x570;
-    char pad574[0x598 - 0x574];
-    void *x598;
-    int x59C;
-} OBJ;
-extern int D_002C2208[];
-void func_00213B00(W *, int);
-void UpdateVehicleHealth__FP7VEHICLE(OBJ *);
-void *PsndNewPlain__Fi(int);
-void SetSource__4CSndPv(void *, OBJ *);
-void func_00258040(void **, void *);
-void SetFalloff__4CSndff(void *, float, float);
-void Pause__4CSnd(void *);
-void Stop__4CSndf(void *, float);
-void SetVehicleAiState__FP7VEHICLEi(OBJ *, int);
-void SeekSma__FP3SMA3OID(void *, int);
+typedef struct VEHICLE {
+    /* 0x000 */ char pad0[0xC];
+    /* 0x00c */ VT *vt;
+    /* 0x010 */ char pad10[0x180 - 0x10];
+    /* 0x180 */ int mode;             /* field: SafeHouse port (VEHICLEMODE) */
+    /* 0x184 */ float tMode;          /* field: SafeHouse port */
+    /* 0x188 */ char pad188[0x568 - 0x188];
+    /* 0x568 */ WIDGET *pwidgetHealth; /* field: SafeHouse port */
+    /* 0x56c */ void *psm;            /* field: SafeHouse port */
+    /* 0x570 */ void *psma;           /* field: SafeHouse port */
+    /* 0x574 */ char pad574[0x598 - 0x574];
+    /* 0x598 */ void *psnd;           /* field: SafeHouse port (CSndRef) */
+    /* 0x59c */ int sndid;            /* field: SafeHouse port, -1 = none */
+} VEHICLE;
+
+#define WID_VEHICLEHEALTH 0x34F       /* widget value updated by UpdateVehicleHealth */
+
+extern int D_002C2208[];              /* state machine state per mode */
+void func_00213B00(WIDGET *pwidget, int wid);
+void UpdateVehicleHealth__FP7VEHICLE(VEHICLE *pvehicle);
+void *PsndNewPlain__Fi(int sndid);
+void SetSource__4CSndPv(void *psnd, VEHICLE *pvSource);
+void func_00258040(void **ppsnd, void *psnd);   /* CSndRef assign */
+void SetFalloff__4CSndff(void *psnd, float sMin, float sMax);
+void Pause__4CSnd(void *psnd);
+void Stop__4CSndf(void *psnd, float dtFade);
+void SetVehicleAiState__FP7VEHICLEi(VEHICLE *pvehicle, int aiState);
+void SeekSma__FP3SMA3OID(void *psma, int oidState);
+
 // name: SafeHouse port (SetVehicleMode)
-void SetVehicleMode__FP7VEHICLEi(OBJ *p, int n)
+void SetVehicleMode__FP7VEHICLEi(VEHICLE *pvehicle, int mode)
 {
-    W *pw;
-    if (n == p->state)
+    WIDGET *pwidget;
+    if (mode == pvehicle->mode)
         return;
-    switch (p->state) {
-    case 0:
-        pw = p->pw;
-        if (pw) {
-            ((void (*)(void *, int))pw->vt->a[49].pfn)(VT_THIS(pw, &pw->vt->a[49]), -1);
-            func_00213B00(p->pw, 0x34F);
-            UpdateVehicleHealth__FP7VEHICLE(p);
+    switch (pvehicle->mode) {
+    case VEHICLEMODE_Idle:
+        pwidget = pvehicle->pwidgetHealth;
+        if (pwidget) {
+            ((void (*)(void *, int))pwidget->vt->a[49].pfn)(VT_THIS(pwidget, &pwidget->vt->a[49]), -1);
+            func_00213B00(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH);
+            UpdateVehicleHealth__FP7VEHICLE(pvehicle);
         }
-        if (p->x59C != -1) {
-            void *ps = PsndNewPlain__Fi(p->x59C);
-            SetSource__4CSndPv(ps, p);
-            func_00258040(&p->x598, ps);
-            SetFalloff__4CSndff(p->x598, 500.0f, 1500.0f);
-            Pause__4CSnd(p->x598);
+        if (pvehicle->sndid != -1) {
+            void *psnd = PsndNewPlain__Fi(pvehicle->sndid);
+            SetSource__4CSndPv(psnd, pvehicle);
+            func_00258040(&pvehicle->psnd, psnd);
+            SetFalloff__4CSndff(pvehicle->psnd, 500.0f, 1500.0f);
+            Pause__4CSnd(pvehicle->psnd);
         }
         break;
-    case 1:
-        SetVehicleAiState__FP7VEHICLEi(p, -1);
+    case VEHICLEMODE_Ai:
+        SetVehicleAiState__FP7VEHICLEi(pvehicle, -1);
         break;
     }
-    p->state = n;
-    p->t = g_clock.t;
-    switch (n) {
-    case 0: {
-        W *pw2 = p->pw;
-        if (pw2)
-            ((void (*)(void *))pw2->vt->a[50].pfn)(VT_THIS(pw2, &pw2->vt->a[50]));
+    pvehicle->mode = mode;
+    pvehicle->tMode = g_clock.t;
+    switch (mode) {
+    case VEHICLEMODE_Idle: {
+        WIDGET *pwidgetHide = pvehicle->pwidgetHealth;
+        if (pwidgetHide)
+            ((void (*)(void *))pwidgetHide->vt->a[50].pfn)(VT_THIS(pwidgetHide, &pwidgetHide->vt->a[50]));
         {
-            void **pps = &p->x598;
-            if (*pps) {
-                Stop__4CSndf(*pps, 0.0f);
-                func_00258040(pps, 0);
+            void **ppsnd = &pvehicle->psnd;
+            if (*ppsnd) {
+                Stop__4CSndf(*ppsnd, 0.0f);
+                func_00258040(ppsnd, 0);
             }
         }
         break;
     }
-    case 1:
-        SetVehicleAiState__FP7VEHICLEi(p, 0);
+    case VEHICLEMODE_Ai:
+        SetVehicleAiState__FP7VEHICLEi(pvehicle, 0);
         break;
-    case 3:
-        ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 5, 0, 0, 0, 0);
+    case VEHICLEMODE_Dead:
+        ((void (*)(void *, int, int, int, int, int))pvehicle->vt->a[3].pfn)(VT_THIS(pvehicle, &pvehicle->vt->a[3]), 5, 0, 0, 0, 0);
         break;
     }
-    if (p->x570 && p->state != -1)
-        SeekSma__FP3SMA3OID(p->x570, D_002C2208[p->state]);
+    if (pvehicle->psma && pvehicle->mode != VEHICLEMODE_Nil)
+        SeekSma__FP3SMA3OID(pvehicle->psma, D_002C2208[pvehicle->mode]);
 }

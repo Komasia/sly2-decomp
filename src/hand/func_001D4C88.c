@@ -1,10 +1,22 @@
-struct S { char p0[0x55C]; int n55C, n560, f564; void *p568; };
-void func_00212E40(void *p, int n, float g);
+/* UpdateVehicleHealth (SafeHouse vehicle.cpp, orig 0x1D4C88): show health / maxHealth (or 1 - that when the
+ * display is inverted) on the vehicle's health widget. */
+struct VEHICLE {
+    /* 0x000 */ char pad0[0x55C];
+    /* 0x55c */ int maxHealth;       /* field: SafeHouse port */
+    /* 0x560 */ int health;          /* field: SafeHouse port */
+    /* 0x564 */ int fInvertHealth;   /* field: SafeHouse port */
+    /* 0x568 */ void *pwidgetHealth; /* field: SafeHouse port */
+};
+#define WID_VEHICLEHEALTH 0x34F
+void func_00212E40(void *pwidget, int wid, float g);   /* set a widget's value */
+
 // name: SafeHouse port (UpdateVehicleHealth)
-void UpdateVehicleHealth__FP7VEHICLE(struct S *p) {
-    if (p->p568) {
-        float g = (float)p->n560 / (float)p->n55C;
-        if (p->f564) g = 1.0f - g;
-        func_00212E40(p->p568, 0x34F, g);
+void UpdateVehicleHealth__FP7VEHICLE(struct VEHICLE *pvehicle)
+{
+    if (pvehicle->pwidgetHealth) {
+        float uHealth = (float)pvehicle->health / (float)pvehicle->maxHealth;
+        if (pvehicle->fInvertHealth)
+            uHealth = 1.0f - uHealth;
+        func_00212E40(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH, uHealth);
     }
 }

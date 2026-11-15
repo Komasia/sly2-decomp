@@ -1,10 +1,17 @@
-struct K { int a, b; };
-struct E { int n; int a, b; struct K k; };
-struct S { char pad[0x4A4]; unsigned int c; struct E ae[4]; };
-void func_001D4C48(struct S *p, int n, struct K *pk) {
-    if (p->c < 4) {
-        struct E *pe = &p->ae[p->c++];
-        pe->n = n;
-        pe->k = *pk;
+/* class: VEHICLE (SafeHouse vehicle.h sides, max 4): add a steering side with its node id and limits. */
+#include "h3_vehicle.h"
+
+struct VEHICLE {
+    /* 0x000 */ char pad0[0x4A4];
+    /* 0x4a4 */ unsigned int cside;                    /* field: SafeHouse port */
+    /* 0x4a8 */ VEHICLESIDE aside[CVEHICLESIDE_MAX];   /* field: SafeHouse port */
+};
+
+void func_001D4C48(struct VEHICLE *pvehicle, int id, LM *plmLimits)
+{
+    if (pvehicle->cside < CVEHICLESIDE_MAX) {
+        VEHICLESIDE *pside = &pvehicle->aside[pvehicle->cside++];
+        pside->id = id;
+        pside->lmLimits = *plmLimits;
     }
 }

@@ -1,8 +1,7 @@
-struct RUMINS { char pad[4]; unsigned char fHighSpeedMotor; unsigned char bLowSpeedMotor; };
-struct RUMPAT { RUMINS arumins[1]; };
-enum RUMS { RUMS_Dead, RUMS_Idle, RUMS_Rumble, RUMS_Stop, RUMS_Kill };
-struct RUMBLE { int nPort; int nSlot; RUMS rums; RUMPAT *prumpat; int pad; int pad2; float dtRumins; };
-extern float D_002DDF10;
+/* SetRumbleRums (Sly 1 rumble.c): change the rumble state. Rumble starts the pattern's first motor settings; Stop /
+ * Kill stop the motors and hold them stopped for 4 frames of real time (dtRumins = 4 * g_clock.dtReal). */
+#include "rumble.h"
+#include "clock.h"
 extern "C" int scePadSetActDirect(int, int, unsigned char *) asm("scePadSetActDirect");
 void StopRumbleActuators(RUMBLE *prumble);
 void SetRumbleRums(RUMBLE *prumble, RUMS rums)
@@ -21,7 +20,7 @@ void SetRumbleRums(RUMBLE *prumble, RUMS rums)
     case RUMS_Stop:
     case RUMS_Kill:
         StopRumbleActuators(prumble);
-        prumble->dtRumins = D_002DDF10 * 4.0f;
+        prumble->dtRumins = g_clock.dtReal * 4.0f;
     case RUMS_Dead:
     case RUMS_Idle:
     default:

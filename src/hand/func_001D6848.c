@@ -1,3 +1,7 @@
+/* VecBallisticVelocity (SafeHouse launcher.cpp, class 0x70's ballistic throw): the launch velocity that carries an
+ * object from start to end under the acceleration acc. The launch angle is the direct elevation angle raised toward
+ * vertical by sin(uPitch) of the remaining way; the speed solves the ballistic equation for that angle. Returns
+ * D_002A2DD0 (no solution) when the target cannot be reached at that angle. */
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float a[4]; };
 extern qword g_normalZ, D_002A2DD0;
@@ -32,12 +36,12 @@ static inline qword Norm(qword a) {
 }
 static inline qword Difference(qword end,const qword *start){qword result;__asm__("vsub.xyzw %0,%1,%2":"=j"(result):"j"(end),"j"(*start));return result;}
 // name: SafeHouse port (VecBallisticVelocity)
-qword VecBallisticVelocity__FfG9VU_VECTORN21(float g, qword start, qword end, qword acc)
+qword VecBallisticVelocity__FfG9VU_VECTORN21(float uPitch, qword start, qword end, qword acc)
 {
     union U delta, vel, scalar;
     qword d, s, n, r;
-    float k=sinf(g);
-    float z,len,q;
+    float k=sinf(uPitch);   /* fraction, then the launch angle */
+    float z,len,q;   /* rise, horizontal distance, scratch (accel term, then speed) */
     register float numerator __asm__("$f20");
     register float angle __asm__("$f12");
     d=Difference(end,&start);

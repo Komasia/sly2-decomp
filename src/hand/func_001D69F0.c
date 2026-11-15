@@ -8,13 +8,16 @@ static inline qword Bc(float g) {
     u.q=k;
     return k;
 }
-qword func_001D69F0(qword a, qword b, qword acc, float dt)
+/* class: launcher, class 0x70 (SafeHouse launcher.cpp): the launch velocity that takes an object from posStart to
+ * posEnd in dt seconds under the vertical acceleration acc: the horizontal part of the offset / dt plus, along
+ * g_normalZ, (dz - acc.z dt^2 / 2) / dt. */
+qword func_001D69F0(qword posStart, qword posEnd, qword acc, float dt)
 {
     float halfdt = dt * 0.5f;
     float accz = Z(acc);
-    qword delta, axis, dot, one, proj, flat, inv, vz, r;
+    qword delta, axis, dot, one, proj, flat, inv, vz, vel;
     float z, invdt;
-    __asm__("vsub.xyzw %0, %1, %2" : "=j"(delta) : "j"(b), "j"(a));
+    __asm__("vsub.xyzw %0, %1, %2" : "=j"(delta) : "j"(posEnd), "j"(posStart));
     z = Z(delta) - (dt * halfdt) * accz;
     invdt = 1.0f / dt;
     axis = g_normalZ;
@@ -23,6 +26,6 @@ qword func_001D69F0(qword a, qword b, qword acc, float dt)
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(flat) : "j"(delta), "j"(proj));
     inv = Bc(invdt);
     vz = Bc(z / dt);
-    __asm__("vmulax.xyzw $ACC, %1, %2x\n\tvmaddx.xyzw %0, %3, %4x" : "=j"(r) : "j"(flat), "j"(inv), "j"(axis), "j"(vz));
-    return r;
+    __asm__("vmulax.xyzw $ACC, %1, %2x\n\tvmaddx.xyzw %0, %3, %4x" : "=j"(vel) : "j"(flat), "j"(inv), "j"(axis), "j"(vz));
+    return vel;
 }
