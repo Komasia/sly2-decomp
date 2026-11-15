@@ -8,8 +8,8 @@ typedef struct HUDWIDGET {      /* a HUD widget (SafeHouse hudwidget.h; module 0
     /* 0x14 */ char pad14[0xc];
     /* 0x20 */ int oidScreen;        /* its screen object */
     /* 0x24 */ LO *ploScreen;
-    /* 0x28 */ int state;
-    /* 0x2c */ float tState;         /* g_clock.tReal at the state change */
+    /* 0x28 */ int dir;              /* the stick direction (SafeHouse shop.cpp) */
+    /* 0x2c */ float tDir;            /* g_clock.tReal at the direction change */
 } HUDWIDGET;
 
 void func_001DA7B0(HUDWIDGET *pwidget);

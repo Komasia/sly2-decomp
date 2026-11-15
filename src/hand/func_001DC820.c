@@ -1,15 +1,28 @@
-struct E { int n; int a; };
-struct G2 { char pad[0x4C]; struct E ae[0x40]; int nPad; int i; };
-extern struct G2 D_003DA150;
-struct T { int a[2]; char *pch; int b[5]; };
-extern struct T D_002BCD00[];
-extern char D_002A79A0[];
-void sprintf(char *pch, char *fmt, char *s);
-void func_001DC820(char *pch, int i) {
-    struct G2 *pg = &D_003DA150;
-    unsigned int n = pg->ae[pg->i + i].n;
-    char *s = 0;
-    if (n < 0x2B) s = D_002BCD00[n].pch;
-    if (s) sprintf(pch, D_002A79A0, s);
-    else *pch = 0;
+/* class: SHOP (a text callback of the shop's screen object): the cost of the item on visible row irow ("%d";
+ * empty when none or free). */
+#define CITEM 0x2B
+struct SHOPROW { int item; int idIcon; };   /* field: SafeHouse port */
+struct SHOP {                               /* D_003DA150 (field: SafeHouse port, shop.cpp SHOP) */
+    /* 0x000 */ char pad[0x4C];
+    /* 0x04c */ struct SHOPROW arow[0x40];
+    /* 0x24c */ int isel;
+    /* 0x250 */ int irowFirst;
+};
+extern struct SHOP D_003DA150;
+struct ITEM { int a[2]; int cost; int b[5]; };   /* the item table (SafeHouse shop.cpp: +8 the cost) */
+extern struct ITEM D_002BCD00[];
+extern char D_002A79A0[];                   /* "%d" */
+void sprintf(char *pch, char *pchzFormat, int n);
+
+void func_001DC820(char *pch, int irow)
+{
+    struct SHOP *pshop = &D_003DA150;
+    unsigned int item = pshop->arow[pshop->irowFirst + irow].item;
+    int cost = 0;
+    if (item < CITEM)
+        cost = D_002BCD00[item].cost;
+    if (cost)
+        sprintf(pch, D_002A79A0, cost);
+    else
+        *pch = 0;
 }

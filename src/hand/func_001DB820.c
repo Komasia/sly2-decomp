@@ -1,15 +1,29 @@
+/* class: SHOP (SafeHouse shop.cpp): reset the shop's state - no page (its time the real time), no prompt / up / down
+ * handles, and all 64 rows empty. */
 #include "clock.h"
-struct P { int a, b; };
-struct S { char p0[0x40]; int n40; float g44; int pad; struct P ap[64]; char p1[0x25C-0x24C]; int n25C, n260, n264; };
-void func_001DB820(struct S *p) {
-    unsigned int i;
-    p->n40 = -1;
-    p->g44 = g_clock.tReal;
-    p->n25C = -1;
-    p->n260 = -1;
-    p->n264 = -1;
-    for (i = 0; i < 64; i++) {
-        p->ap[i].a = -1;
-        p->ap[i].b = -1;
+struct SHOPROW { int id; int idIcon; };   /* field: SafeHouse port */
+struct SHOP {                         /* field: SafeHouse port (shop.cpp SHOP) */
+    /* 0x000 */ char pad0[0x40];
+    /* 0x040 */ int page;
+    /* 0x044 */ float tPage;
+    /* 0x048 */ int crow;
+    /* 0x04c */ struct SHOPROW arow[64];
+    /* 0x24c */ char pad24C[0x25C - 0x24C];   /* isel, first, itemBuy, itemSell */
+    /* 0x25c */ int idPrompt;
+    /* 0x260 */ int idUp;
+    /* 0x264 */ int idDown;
+};
+
+void func_001DB820(struct SHOP *pshop)
+{
+    unsigned int irow;
+    pshop->page = -1;
+    pshop->tPage = g_clock.tReal;
+    pshop->idPrompt = -1;
+    pshop->idUp = -1;
+    pshop->idDown = -1;
+    for (irow = 0; irow < 64; irow++) {
+        pshop->arow[irow].id = -1;
+        pshop->arow[irow].idIcon = -1;
     }
 }
