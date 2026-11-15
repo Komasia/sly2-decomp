@@ -1,10 +1,11 @@
+/* The object's sink value (LO +0x28 bits 48..51, SafeHouse lo.h: 0x13F990) set, and for an SO its children's too. */
 #include "cid.h"
-struct S { char pad[0x24]; struct S *pnext; unsigned long f28lo : 48; unsigned long f28b : 4; unsigned long f28hi : 12; char pad2[0x64 - 0x30]; struct S *pchild; };
-int FIsBasicDerivedFrom__FP5BASIC3CID(struct S *, int);
-void func_0013F990(struct S *p, int n) {
-    struct S *pc;
-    p->f28b = n;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_SO)) {
-        for (pc = p->pchild; pc; pc = pc->pnext) func_0013F990(pc, n);
+struct LO { char pad[0x24]; struct LO *ploSibling; unsigned long grfLo : 48; unsigned long nSink : 4; unsigned long grfHi : 12; char pad2[0x64 - 0x30]; struct LO *ploFirstChild; };   /* LO +0x28 bits 48..51 the sink's value (SafeHouse lo.h); SO +0x64 its children */
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *, int);
+void func_0013F990(struct LO *plo, int n) {
+    struct LO *ploChild;
+    plo->nSink = n;
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_SO)) {
+        for (ploChild = plo->ploFirstChild; ploChild; ploChild = ploChild->ploSibling) func_0013F990(ploChild, n);
     }
 }

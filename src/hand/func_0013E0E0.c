@@ -1,37 +1,39 @@
+/* LoadNodesFromBrx: the world's node tree (SW +0x4558): U16 count, then per node its position and two S16 children
+ * (-1: a leaf, numbered in order); then room for the leaves (0x20 bytes each). SafeHouse port. */
 struct AREQ { int cb; int cbAlign; };
-struct E { char pad[0x10]; struct E *p10; struct E *p14; int x18; int x1C; };
-struct P { char pad[0x4558]; int c; struct E *ae; int n; void *p4564; };
+struct NODE { char pad[0x10]; struct NODE *pnodeA; struct NODE *pnodeB; int ileafA; int ileafB; };   /* a position, then two children (or leaf indices) */
+struct SW { char pad[0x4558]; int cnode; struct NODE *anode; int cleaf; void *aleaf; };
 int U16Read(void *pbs) asm("U16Read__18CBinaryInputStream");
-void ReadVector4__18CBinaryInputStreamP7VECTOR4(void *pbs, struct E *pe);
+void ReadVector4__18CBinaryInputStreamP7VECTOR4(void *pbs, struct NODE *pnode);
 int S16Read(void *pbs) asm("S16Read__18CBinaryInputStream");
 void *PvAllocSwClearImpl__Fi(struct AREQ *preq);
 // name: SafeHouse port (LoadNodesFromBrx)
-void LoadNodesFromBrx__FP2SWP18CBinaryInputStream(struct P *p, void *pbs)
+void LoadNodesFromBrx__FP2SWP18CBinaryInputStream(struct SW *psw, void *pbs)
 {
     struct AREQ req;
     int i;
     int c = U16Read(pbs);
     req.cbAlign = 0x10;
-    req.cb = c * sizeof(struct E);
-    p->c = c;
-    p->ae = (struct E *)PvAllocSwClearImpl__Fi(&req);
-    p->n = 0;
-    for (i = 0; i < p->c; i++) {
-        struct E *pe = &p->ae[i];
+    req.cb = c * sizeof(struct NODE);
+    psw->cnode = c;
+    psw->anode = (struct NODE *)PvAllocSwClearImpl__Fi(&req);
+    psw->cleaf = 0;
+    for (i = 0; i < psw->cnode; i++) {
+        struct NODE *pnode = &psw->anode[i];
         int j;
-        ReadVector4__18CBinaryInputStreamP7VECTOR4(pbs, pe);
+        ReadVector4__18CBinaryInputStreamP7VECTOR4(pbs, pnode);
         j = S16Read(pbs);
         if (j >= 0)
-            pe->p10 = &p->ae[j];
+            pnode->pnodeA = &psw->anode[j];
         else
-            pe->x18 = p->n++;
+            pnode->ileafA = psw->cleaf++;
         j = S16Read(pbs);
         if (j >= 0)
-            pe->p14 = &p->ae[j];
+            pnode->pnodeB = &psw->anode[j];
         else
-            pe->x1C = p->n++;
+            pnode->ileafB = psw->cleaf++;
     }
     req.cbAlign = 0x10;
-    req.cb = p->n * sizeof(struct E);
-    p->p4564 = PvAllocSwClearImpl__Fi(&req);
+    req.cb = psw->cleaf * sizeof(struct NODE);
+    psw->aleaf = PvAllocSwClearImpl__Fi(&req);
 }

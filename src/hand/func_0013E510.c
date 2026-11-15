@@ -1,14 +1,16 @@
+/* PloCloneLo: a new object of plo's class (vt slot 6: its descriptor) with its oid under paloParent, made a copy of plo
+ * (vt slot 40). SafeHouse port. */
 #include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; int pad2[2]; int f18; };
-struct R { int f0; int f4; };
-struct O *PloNew__F3CIDP2SW3OIDi(int, int, int, int);
+struct LO { int pad[3]; VTENT *vt; int pad2[2]; int oid; };
+struct CLS { int pclsSuper; int cid; };   /* cls.h */
+struct LO *PloNew__F3CIDP2SW3OIDi(int, int, int, int);
 // name: SafeHouse port (PloCloneLo)
-struct O *PloCloneLo__FP2LOi(struct O *po, int a) {
-    struct R *pr;
-    struct O *pn;
-    if (!po) return 0;
-    pr = (struct R *)((void *(*)(void *))po->vt[6].pfn)(VT_THIS(po, &po->vt[6]));
-    pn = PloNew__F3CIDP2SW3OIDi(pr->f4, a, po->f18, -1);
-    ((void (*)(void *, struct O *))pn->vt[40].pfn)(VT_THIS(pn, &pn->vt[40]), po);
-    return pn;
+struct LO *PloCloneLo__FP2LOi(struct LO *plo, int paloParent) {
+    struct CLS *pcls;
+    struct LO *ploNew;
+    if (!plo) return 0;
+    pcls = (struct CLS *)((void *(*)(void *))plo->vt[6].pfn)(VT_THIS(plo, &plo->vt[6]));
+    ploNew = PloNew__F3CIDP2SW3OIDi(pcls->cid, paloParent, plo->oid, -1);
+    ((void (*)(void *, struct LO *))ploNew->vt[40].pfn)(VT_THIS(ploNew, &ploNew->vt[40]), plo);
+    return ploNew;
 }

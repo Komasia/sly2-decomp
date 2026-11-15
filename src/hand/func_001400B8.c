@@ -1,3 +1,7 @@
+/* PostLoadActorParts: the step's post-load, the actor's parts bound (BindLoParts with D_002BC9F0) and each part's
+ * post-load (jump, interaction, +0x9E0, damage, binoculars, throw, slope blend); the nearest objects of oid 0x2AB (16
+ * at most) kept at +0x1090 (vt slot 9 each); vt slots 79 / 104; the player counters; its target record (+0x1088); its
+ * mass 0.25; a root record (+0x54) of kind 0 gets an identity matrix and a new id (SW +0x3D58), ... SafeHouse port. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct K { int a; int b; };

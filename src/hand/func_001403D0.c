@@ -1,3 +1,7 @@
+/* UpdateActor: the step's update and the abilities; the world stats on the pad's 0x200; while not hurt (+0xDF4 -1) the
+ * watch, then (unless the watch holds it) the top of its control stack (+0x270: vt slot 14 with the pad) or its
+ * script runner drives it; the targets, the water, the noise and the look; a finished animation (+0xEFC) released;
+ * the gadget menu on the pad's 0x100 (when no menu camera is up and the joystick bits allow it); the AI jobs. */
 #include "vtbl.h"
 struct O { int pad[3]; VTENT *vt; };
 struct Q { char pad[0x80]; int x80; };
