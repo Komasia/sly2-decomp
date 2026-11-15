@@ -9,56 +9,56 @@ static __inline__ int FVecsNear(qword a, qword b)
     return FFloatsNear(GetX(a), GetX(b), 1e-4f) && FFloatsNear(GetY(a), GetY(b), 1e-4f) &&
            FFloatsNear(GetZ(a), GetZ(b), 1e-4f);
 }
-typedef struct KEY { float g; float dg; } KEY;
-typedef struct T { int pad; int c; float *at; KEY *ak[3]; int pad2[2]; float v[4]; } T;
+typedef struct KEYA2 { float g; float dg; } KEYA2;
+typedef struct TRKPA { int pvtbl; int ckey; float *at; KEYA2 *aakey[3]; int pad18[2]; float v[4]; } TRKPA;
 typedef union VQ { float af[4]; qword q; } VQ;
-typedef struct OBJ {
+typedef struct XF {
     char pad[0x80];
-    float t0;
-    float t1;
-    float *pt0;
-    float *pt1;
+    float g0;
+    float g1;
+    float *pg;
+    float *pdgScale;
     char pad90[0x9A - 0x90];
-    short s9A;
+    short state;
     char pad9C[0xC0 - 0x9C];
     VQ pos0;
-    VQ dpos0;
+    VQ vel0;
     VQ pos1;
-    VQ dpos1;
-} OBJ;
-int func_0012C708(T *t, float g);
-void func_0012C768(T *t, OBJ *po)
+    VQ vel1;
+} XF;
+int func_0012C708(TRKPA *ptrk, float g);
+void func_0012C768(TRKPA *ptrk, XF *pxf)
 {
-    int i;
-    unsigned int j;
-    int f;
-    if (t->c) {
-        i = func_0012C708(t, *po->pt0);
-        po->t0 = t->at[i - 1];
-        po->t1 = t->at[i];
+    int ikey;
+    unsigned int iaxis;
+    int fStill;
+    if (ptrk->ckey) {
+        ikey = func_0012C708(ptrk, *pxf->pg);
+        pxf->g0 = ptrk->at[ikey - 1];
+        pxf->g1 = ptrk->at[ikey];
     } else {
-        po->pt0 = &po->t0;
-        po->t1 = 1.0f;
-        po->pt1 = &po->t1;
-        po->t0 = 0;
+        pxf->pg = &pxf->g0;
+        pxf->g1 = 1.0f;
+        pxf->pdgScale = &pxf->g1;
+        pxf->g0 = 0;
     }
-    for (j = 0; j < 3; j++) {
-        KEY *ak = t->ak[j];
-        if (ak) {
-            KEY *k0 = &ak[i - 1];
-            KEY *k1 = &ak[i];
-            po->pos0.af[j] = k0->g;
-            po->dpos0.af[j] = k0->dg;
-            po->pos1.af[j] = k1->g;
-            po->dpos1.af[j] = k1->dg;
+    for (iaxis = 0; iaxis < 3; iaxis++) {
+        KEYA2 *akey = ptrk->aakey[iaxis];
+        if (akey) {
+            KEYA2 *pkey0 = &akey[ikey - 1];
+            KEYA2 *pkey1 = &akey[ikey];
+            pxf->pos0.af[iaxis] = pkey0->g;
+            pxf->vel0.af[iaxis] = pkey0->dg;
+            pxf->pos1.af[iaxis] = pkey1->g;
+            pxf->vel1.af[iaxis] = pkey1->dg;
         } else {
-            po->pos0.af[j] = t->v[j];
-            po->dpos0.af[j] = 0;
-            po->pos1.af[j] = t->v[j];
-            po->dpos1.af[j] = 0;
+            pxf->pos0.af[iaxis] = ptrk->v[iaxis];
+            pxf->vel0.af[iaxis] = 0;
+            pxf->pos1.af[iaxis] = ptrk->v[iaxis];
+            pxf->vel1.af[iaxis] = 0;
         }
     }
-    f = FVecsNear(po->pos0.q, po->pos1.q) && FVecsNear(D_002A2DD0, po->dpos0.q) &&
-        FVecsNear(D_002A2DD0, po->dpos1.q);
-    po->s9A = f ? 2 : 1;
+    fStill = FVecsNear(pxf->pos0.q, pxf->pos1.q) && FVecsNear(D_002A2DD0, pxf->vel0.q) &&
+        FVecsNear(D_002A2DD0, pxf->vel1.q);
+    pxf->state = fStill ? 2 : 1;
 }

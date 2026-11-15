@@ -1,31 +1,33 @@
+/* TRKPA::Eval for kind-4 tracks (keys {g, dg}): v (velocity 0), then each keyed axis by EvalHermite over the
+ * key segment around g. Layout: SafeHouse port (aseg.h). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct VECTOR { float x, y, z, w; } VECTOR;
-typedef struct KEY { float g; float dg; } KEY;
-typedef struct T { int pad; int c; float *at; KEY *ak[3]; int pad2; qword v; } T;
-int func_0012C708(T *t, float g);
+typedef struct KEYA2 { float g; float dg; } KEYA2;
+typedef struct TRKPA { int pvtbl; int ckey; float *at; KEYA2 *aakey[3]; int pad18; qword v; } TRKPA;
+int func_0012C708(TRKPA *ptrk, float g);
 void EvalHermite__FPfT0fffffff(float *pg, float *pdg, float dt, float u, float dtScale, float g0, float dg0, float g1, float dg1);
-void func_0012CA68(T *t, VECTOR *pv, VECTOR *pdv, float g, float dtScale)
+void func_0012CA68(TRKPA *ptrk, VECTOR *ppos, VECTOR *pvel, float g, float dtScale)
 {
-    if (pv)
-        *(qword *)pv = t->v;
-    if (pdv) {
-        pdv->z = 0;
-        pdv->y = 0;
-        pdv->x = 0;
+    if (ppos)
+        *(qword *)ppos = ptrk->v;
+    if (pvel) {
+        pvel->z = 0;
+        pvel->y = 0;
+        pvel->x = 0;
     }
-    if (t->c) {
-        int i = func_0012C708(t, g);
-        unsigned int j;
-        for (j = 0; j < 3; j++) {
-            KEY *ak = t->ak[j];
-            if (ak) {
-                float du = g - t->at[i - 1];
-                float dt = t->at[i] - t->at[i - 1];
-                KEY *k0 = &ak[i - 1];
-                KEY *k1 = &ak[i];
-                EvalHermite__FPfT0fffffff(pv ? &(&pv->x)[j] : 0, pdv ? &(&pdv->x)[j] : 0,
+    if (ptrk->ckey) {
+        int ikey = func_0012C708(ptrk, g);
+        unsigned int iaxis;
+        for (iaxis = 0; iaxis < 3; iaxis++) {
+            KEYA2 *akey = ptrk->aakey[iaxis];
+            if (akey) {
+                float du = g - ptrk->at[ikey - 1];
+                float dt = ptrk->at[ikey] - ptrk->at[ikey - 1];
+                KEYA2 *pkey0 = &akey[ikey - 1];
+                KEYA2 *pkey1 = &akey[ikey];
+                EvalHermite__FPfT0fffffff(ppos ? &(&ppos->x)[iaxis] : 0, pvel ? &(&pvel->x)[iaxis] : 0,
                               dt, du, dtScale,
-                              k0->g, k0->dg, k1->g, k1->dg);
+                              pkey0->g, pkey0->dg, pkey1->g, pkey1->dg);
             }
         }
     }
