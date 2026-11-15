@@ -1,6 +1,7 @@
 /* class: JOBCOMPANION (called by its PlanFollow / FNeedRecover; SafeHouse actorai.cpp: "0x145AA8: target's region,
  * SOST +0xDC -> +0x10"): the navigation region of the followed object (+0x30) - an SO's from its SOST, any other
  * object's from its position. */
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 
 typedef struct NAVREGION NAVREGION;
@@ -20,7 +21,7 @@ NAVREGION *PregionAt__FG9VU_VECTORi(qword pos, int n);
 
 NAVREGION *func_00145AA8(JOBCOMPANION *pjob)
 {
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(pjob->ploFollow, 0x30)) {   /* CID_SO */
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pjob->ploFollow, CID_SO)) {
         SOST *psost = ((SO *)pjob->ploFollow)->psost;
         SOSTX *psostx = 0;
         if (psost != 0) {

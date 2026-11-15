@@ -7,17 +7,26 @@
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 struct M4 { qword r[4]; };
-struct E;
-struct D { char pad[0x10]; E *pe; };
-struct C { char pad[0xDC]; D *pd; };
-struct B { char pad[0xE8]; int k; char pad2[0xF4 - 0xEC]; qword *pq; };
-struct A { char pad[0xE8]; C *pc; char pad2[0x294 - 0xEC]; B *pb; };
-struct O;
-struct VT { char pad[0x108]; short d; short pad2; qword (*pfn)(O *); };
-struct O { char pad[0xC]; VT *pvt; char pad2[0x190 - 0x10]; qword q190; char pad3[0x1A8 - 0x1A0]; float g1A8; };
-struct P {
-    char pad[0x10]; A *pa; char pad1[4]; void *p18; char pad2[0x30 - 0x1C]; O *po; char pad3[0x40 - 0x34];
-    qword q40; qword q50; char pad4[0x68 - 0x60]; float g68;
+// JOBCOMPANION::PlanFollow: the path to the followed object. Its position is predicted dtPredict ahead (a step: back
+// along its velocity in its heading's frame; another object: on by its velocity, in its joint frame), the companion's
+// offset added in that frame; then the actor's shared path is a straight line to it (no navigation region), stays on
+// the actor (the followed object is in another region, or the search fails) or is the path searched to it; the follow
+// job follows it. Layout: SafeHouse port (actorai.h JOBCOMPANION, actorai.cpp PlanFollow).
+struct NAVREGION;
+struct REGENT { char pad[0x10]; NAVREGION *preg; };          // the actor's navigation region entry
+struct SOST { char pad[0xDC]; REGENT *pregent; };
+struct CRV { char pad[0xE8]; int cpoint; char pad2[0xF4 - 0xEC]; qword *apos; };   // crv.h: the points
+struct ACTOR { char pad[0xE8]; SOST *psost; char pad2[0x294 - 0xEC]; CRV *pcrv; };  // +0x294 the path shared by actor jobs
+struct LOFOLLOW;
+struct LOFOLLOWVT { char pad[0x108]; short d; short pad2; qword (*pfn)(LOFOLLOW *); };  // vt slot 33: the velocity
+// the followed object: a STEP's velocity (+0x190) and heading (+0x1A8)
+struct LOFOLLOW { char pad[0xC]; LOFOLLOWVT *pvt; char pad2[0x190 - 0x10]; qword vecVel; char pad3[0x1A8 - 0x1A0]; float radHeading; };
+struct JOBCOMPANION {
+    char pad[0x10]; ACTOR *pactor; char pad1[4]; void *pchild; char pad2[0x30 - 0x1C]; LOFOLLOW *ploFollow; char pad3[0x40 - 0x34];
+    qword offset;      // +0x40 field: SafeHouse port
+    qword posFollow;   // +0x50 field: SafeHouse port
+    char pad4[0x68 - 0x60];
+    float dtPredict;   // +0x68 field: SafeHouse port
 };
 extern "C" {
 extern qword g_normalZ;
@@ -25,11 +34,11 @@ qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
 M3 BuildRotateMatrixAxis(qword axis, float g) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 int FIsBasicDerivedFrom(void *p, int k) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-E *func_00145AA8(P *p);
-int FNavPathCrv(E *pe, qword r, qword v, B *pb) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
-void RecalcCrv(B *pb) asm("RecalcCrv__FP3CRV");
-void Follow(void *p, B *pb, int n) asm("Follow__9JOBFOLLOWP3CRVi");
-void PlanFollow(P *p) asm("PlanFollow__12JOBCOMPANION");
+NAVREGION *func_00145AA8(JOBCOMPANION *pjob);   // the followed object's region
+int FNavPathCrv(NAVREGION *preg, qword posFrom, qword posTo, CRV *pcrv) asm("FNavPathCrv__FP9NAVREGIONiiP3CRV");
+void RecalcCrv(CRV *pcrv) asm("RecalcCrv__FP3CRV");
+void Follow(void *pjob, CRV *pcrv, int n) asm("Follow__9JOBFOLLOWP3CRVi");
+void PlanFollow(JOBCOMPANION *pjob) asm("PlanFollow__12JOBCOMPANION");
 }
 struct VU_FLOAT { qword q; VU_FLOAT(const VU_FLOAT &s) { q = s.q; } VU_FLOAT(float f) { qword t; __asm__("qmtc2.ni %1, %0" : "=j"(t) : "r"(f)); q = t; } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -65,37 +74,37 @@ static inline qword Add(qword a, qword b)
 }
 
 // name: SafeHouse port (JOBCOMPANION::PlanFollow)
-void PlanFollow(P *p)
+void PlanFollow(JOBCOMPANION *pjob)
 {
     union { M4 m4; struct { M3 m; qword pos; } s; } u;
-    p->q50 = PosOfLo(p->po);
-    if (FIsBasicDerivedFrom(p->po, CID_STEP)) {
-        O *po = p->po;
-        u.s.m = BuildRotateMatrixAxis(g_normalZ, po->g1A8);
-        u.s.pos = AddScaled(p->q50, VU_FLOAT(-p->g68), MulM3(u.s.m, po->q190));
+    pjob->posFollow = PosOfLo(pjob->ploFollow);
+    if (FIsBasicDerivedFrom(pjob->ploFollow, CID_STEP)) {
+        LOFOLLOW *plo = pjob->ploFollow;
+        u.s.m = BuildRotateMatrixAxis(g_normalZ, plo->radHeading);
+        u.s.pos = AddScaled(pjob->posFollow, VU_FLOAT(-pjob->dtPredict), MulM3(u.s.m, plo->vecVel));
     } else {
-        O *po;
-        u.s.m = *MatJtLo(p->po);
-        po = p->po;
-        u.s.pos = AddScaled(p->q50, VU_FLOATM(p->g68), po->pvt->pfn((O *)((char *)po + po->pvt->d)));
+        LOFOLLOW *plo;
+        u.s.m = *MatJtLo(pjob->ploFollow);
+        plo = pjob->ploFollow;
+        u.s.pos = AddScaled(pjob->posFollow, VU_FLOATM(pjob->dtPredict), plo->pvt->pfn((LOFOLLOW *)((char *)plo + plo->pvt->d)));
     }
-    u.s.pos = Add(u.s.pos, MulM3(u.s.m, p->q40));
+    u.s.pos = Add(u.s.pos, MulM3(u.s.m, pjob->offset));
     {
-        A *pa = p->pa;
-        B *pb = pa->pb;
-        D *pd = pa->pc ? pa->pc->pd : 0;
-        E *pe = pd ? pd->pe : 0;
-        qword r = PosOfLo(pa);
-        if (!pe) {
-            pb->k = 2;
-            pb->pq[0] = r;
-            pb->pq[1] = u.s.pos;
-            RecalcCrv(pb);
-        } else if (func_00145AA8(p) != pe) {
-            FNavPathCrv(pe, r, r, pb);
-        } else if (!FNavPathCrv(pe, r, u.s.pos, pb)) {
-            FNavPathCrv(pe, r, r, pb);
+        ACTOR *pactor = pjob->pactor;
+        CRV *pcrv = pactor->pcrv;
+        REGENT *pregent = pactor->psost ? pactor->psost->pregent : 0;
+        NAVREGION *preg = pregent ? pregent->preg : 0;
+        qword posActor = PosOfLo(pactor);
+        if (!preg) {
+            pcrv->cpoint = 2;
+            pcrv->apos[0] = posActor;
+            pcrv->apos[1] = u.s.pos;
+            RecalcCrv(pcrv);
+        } else if (func_00145AA8(pjob) != preg) {
+            FNavPathCrv(preg, posActor, posActor, pcrv);
+        } else if (!FNavPathCrv(preg, posActor, u.s.pos, pcrv)) {
+            FNavPathCrv(preg, posActor, posActor, pcrv);
         }
-        Follow(p->p18, pb, 0);
+        Follow(pjob->pchild, pcrv, 0);
     }
 }

@@ -1,32 +1,62 @@
-// Update__12JOBCOMPANION: camera/AI state update. Keys: `f = FNeedRecover__12JOBCOMPANION(p) != 0; if (f)` (stops loop.c hoisting constant 1), inline GClamp.
+// Match notes (Update__12JOBCOMPANION): `f = FNeedRecover__12JOBCOMPANION(p) != 0; if (f)` (stops loop.c hoisting constant 1), inline GClamp.
 typedef int qword __attribute__((mode(TI)));
+/* JOBCOMPANION::Update (AIJOB vt slot 10): the companion's state machine. 0 following: recover (1) when the followed
+ * object is off the companion's navigation, attack (2) an enemy within 600 of either; 1 recovering until the jump
+ * ends; 2 attacking (Murray / Bentley / Sly's attack job) until it is done, the enemy is out of 1200, or a recovery
+ * is needed. While following, the follow job skips avoidance off the navigation, the path is planned again once the
+ * followed object has moved 200, and the animation speed goes from svNear to svFar between sNear and sFar.
+ * Layout: SafeHouse port (actorai.h JOBCOMPANION). */
 struct LM { float gMin, gMax; };
-struct D { char pad[0x10]; void *p10; };
-struct C { char pad[0xDC]; struct D *pd; };
-struct PO { char pad[0xE8]; struct C *pc; char pad2[0x2DC - 0xEC]; int x2DC; char pad3[0x1030 - 0x2E0]; void *p1030; };
-struct X { char pad[0x40]; int x40; };
-struct SO;
-struct P {
-    char pad[0x10]; struct PO *p10; char pad1[4]; struct X *p18; char pad2[0x30 - 0x1C]; void *p30; char pad3[0x50 - 0x34];
-    qword q50; int x60; char pad4[0x6C - 0x64]; float g6C; float g70; float g74; float g78; char pad5[0x90 - 0x7C]; struct SO *p90;
+struct GUARD;
+struct REGENT { char pad[0x10]; void *preg; };   /* the actor's navigation region entry */
+struct SOST { char pad[0xDC]; struct REGENT *pregent; };
+struct ACTOR {
+    /* 0x0000 */ char pad[0xE8];
+    /* 0x00e8 */ struct SOST *psost;
+    /* 0x00ec */ char pad2[0x2DC - 0xEC];
+    /* 0x02dc */ int stJump;          /* jump.state: -1 when not jumping */
+    /* 0x02e0 */ char pad3[0x1030 - 0x2E0];
+    /* 0x1030 */ void *pasega;        /* field: SafeHouse port - the current animation */
 };
-extern float D_002A4E34;
-extern struct LM D_002BD330;
-extern struct LM D_002BD338;
-extern float D_002BD340;
-void Update__5AIJOB(struct P *p);
-int FJobDone(struct P *p) asm("FJobDone__FP5AIJOB");
+struct JOBACTORFOLLOW { char pad[0x40]; int fNoAvoid; };
+/* a companion's attack job (Murray / Bentley / Sly: JOBCOMPANIONATTACK) */
+struct JOBCOMPANIONATTACK;
+struct JOBCOMPANION {
+    /* 0x00 */ char pad[0x10];
+    /* 0x10 */ struct ACTOR *pactor;          /* field: SafeHouse port (AIJOB) */
+    /* 0x14 */ char pad1[4];
+    /* 0x18 */ struct JOBACTORFOLLOW *pchild; /* field: SafeHouse port (AIJOB) - the follow / attack job */
+    /* 0x1c */ char pad2[0x30 - 0x1C];
+    /* 0x30 */ void *ploFollow;               /* field: SafeHouse port */
+    /* 0x34 */ char pad3[0x50 - 0x34];
+    /* 0x50 */ qword posFollow;               /* field: SafeHouse port - where the path was planned to */
+    /* 0x60 */ int st;                        /* field: SafeHouse port */
+    /* 0x64 */ char pad4[0x6C - 0x64];
+    /* 0x6c */ float sNear;                   /* field: SafeHouse port */
+    /* 0x70 */ float sFar;                    /* field: SafeHouse port */
+    /* 0x74 */ float svNear;                  /* field: SafeHouse port */
+    /* 0x78 */ float svFar;                   /* field: SafeHouse port */
+    /* 0x7c */ char pad5[0x90 - 0x7C];
+    /* 0x90 */ struct GUARD *ploEnemy;        /* field: SafeHouse port */
+};
+#include "cid.h"
+extern float D_002A4E34;          /* FLT_MAX */
+extern struct LM D_002BD330;      /* 0..600: an enemy close enough to attack */
+extern struct LM D_002BD338;      /* 0..1200: an enemy close enough to keep attacking */
+extern float D_002BD340;          /* 200: the followed object's move that plans the path again */
+void Update__5AIJOB(struct JOBCOMPANION *pjob);
+int FJobDone(struct JOBCOMPANION *pjob) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void *p);
-struct SO *FindEnemy__12JOBCOMPANION(struct P *p);
-int FNeedRecover__12JOBCOMPANION(struct P *p);
+struct GUARD *FindEnemy__12JOBCOMPANION(struct JOBCOMPANION *pjob);
+int FNeedRecover__12JOBCOMPANION(struct JOBCOMPANION *pjob);
 int FCheckLm(struct LM *plm, float g) asm("FCheckLm__FP2LMf");
-void SetState__12JOBCOMPANIONi(struct P *p, int n);
-int func_00132EA0(void *p);
-int func_00145DA0(struct X *px);
-int func_00146298(struct X *px);
-int func_00146790(struct X *px);
-void PlanFollow__12JOBCOMPANION(struct P *p);
-void SetAsegaSpeed(void *p, float g) asm("SetAsegaSpeed__FP5ASEGAf");
+void SetState__12JOBCOMPANIONi(struct JOBCOMPANION *pjob, int st);
+int func_00132EA0(void *plo);   /* the object's class id */
+int func_00145DA0(void *pjob);   /* JOBMURRAYATTACK done */
+int func_00146298(void *pjob);   /* JOBBENTLEYATTACK done */
+int func_00146790(void *pjob);   /* JOBSLYATTACK done */
+void PlanFollow__12JOBCOMPANION(struct JOBCOMPANION *pjob);
+void SetAsegaSpeed(void *pasega, float svu) asm("SetAsegaSpeed__FP5ASEGAf");
 
 static __inline__ float LenXY(qword d)
 {
@@ -51,83 +81,83 @@ static __inline__ void GClamp(float *pg, float lo, float hi) { if (*pg < lo) *pg
 static __inline__ int FFar(qword a, qword b) { float lim = D_002BD340; return lim < LenXY(Sub(a, b)); }
 
 // name: SafeHouse port (JOBCOMPANION::Update)
-void Update__12JOBCOMPANION(struct P *p)
+void Update__12JOBCOMPANION(struct JOBCOMPANION *pjob)
 {
-    struct PO *po;
-    qword a, b;
-    float gXY, g;
-    struct SO *pso;
-    void *pv30;
-    Update__5AIJOB(p);
-    po = p->p10;
-    pv30 = p->p30;
-    a = PosOfLo__FP2LO(po);
-    b = PosOfLo__FP2LO(pv30);
-    gXY = LenXY(Sub(a, b));
-    pso = FindEnemy__12JOBCOMPANION(p);
-    if (pso) {
-        qword c = PosOfLo__FP2LO(pso);
-        float dA = Len(Sub(c, a));
-        float dB = Len(Sub(c, b));
-        g = dA < dB ? dA : dB;
+    struct ACTOR *pactor;
+    qword posActor, posFollow;
+    float sxyFollow, sEnemy;
+    struct GUARD *pguard;
+    void *ploFollow;
+    Update__5AIJOB(pjob);
+    pactor = pjob->pactor;
+    ploFollow = pjob->ploFollow;
+    posActor = PosOfLo__FP2LO(pactor);
+    posFollow = PosOfLo__FP2LO(ploFollow);
+    sxyFollow = LenXY(Sub(posActor, posFollow));
+    pguard = FindEnemy__12JOBCOMPANION(pjob);
+    if (pguard) {
+        qword posEnemy = PosOfLo__FP2LO(pguard);
+        float sFromActor = Len(Sub(posEnemy, posActor));
+        float sFromFollow = Len(Sub(posEnemy, posFollow));
+        sEnemy = sFromActor < sFromFollow ? sFromActor : sFromFollow;
     } else {
-        g = D_002A4E34;
+        sEnemy = D_002A4E34;
     }
-    while (!FJobDone(p)) {
-        int state = p->x60;
-        int f;
-        switch (state) {
+    while (!FJobDone(pjob)) {
+        int stOld = pjob->st;
+        int f;   /* a recovery is needed */
+        switch (stOld) {
         case 0:
-            f = FNeedRecover__12JOBCOMPANION(p) != 0;
+            f = FNeedRecover__12JOBCOMPANION(pjob) != 0;
             if (f)
-                SetState__12JOBCOMPANIONi(p, 1);
-            else if (FCheckLm(&D_002BD330, g)) {
-                p->p90 = pso;
-                SetState__12JOBCOMPANIONi(p, 2);
+                SetState__12JOBCOMPANIONi(pjob, 1);
+            else if (FCheckLm(&D_002BD330, sEnemy)) {
+                pjob->ploEnemy = pguard;
+                SetState__12JOBCOMPANIONi(pjob, 2);
             }
             break;
         case 1:
-            if (p->p10->x2DC == -1)
-                SetState__12JOBCOMPANIONi(p, 0);
+            if (pjob->pactor->stJump == -1)
+                SetState__12JOBCOMPANIONi(pjob, 0);
             break;
         case 2:
-            f = FNeedRecover__12JOBCOMPANION(p) != 0;
+            f = FNeedRecover__12JOBCOMPANION(pjob) != 0;
             if (f)
-                SetState__12JOBCOMPANIONi(p, 1);
-            else if (!FCheckLm(&D_002BD338, g))
-                SetState__12JOBCOMPANIONi(p, 0);
+                SetState__12JOBCOMPANIONi(pjob, 1);
+            else if (!FCheckLm(&D_002BD338, sEnemy))
+                SetState__12JOBCOMPANIONi(pjob, 0);
             else {
-                switch (func_00132EA0(p->p10)) {
-                case 0x36:
-                    if (func_00145DA0(p->p18))
-                        SetState__12JOBCOMPANIONi(p, 0);
+                switch (func_00132EA0(pjob->pactor)) {
+                case CID_MURRAY:
+                    if (func_00145DA0(pjob->pchild))
+                        SetState__12JOBCOMPANIONi(pjob, 0);
                     break;
-                case 0x37:
-                    if (func_00146298(p->p18))
-                        SetState__12JOBCOMPANIONi(p, 0);
+                case CID_BENTLEY:
+                    if (func_00146298(pjob->pchild))
+                        SetState__12JOBCOMPANIONi(pjob, 0);
                     break;
-                case 0x35:
-                    if (func_00146790(p->p18))
-                        SetState__12JOBCOMPANIONi(p, 0);
+                case CID_JT:
+                    if (func_00146790(pjob->pchild))
+                        SetState__12JOBCOMPANIONi(pjob, 0);
                     break;
                 }
             }
             break;
         }
-        if (p->x60 == state)
+        if (pjob->st == stOld)
             break;
     }
-    if (p->x60 == 0) {
-        struct D *pd = p->p10->pc ? p->p10->pc->pd : 0;
-        void *pv = pd ? pd->p10 : 0;
-        if (!pv)
-            p->p18->x40 = 1;
-        if (FFar(p->q50, b))
-            PlanFollow__12JOBCOMPANION(p);
-        if (po->p1030) {
-            float t = (gXY - p->g6C) / (p->g70 - p->g6C);
-            GClamp(&t, 0.0f, 1.0f);
-            SetAsegaSpeed(po->p1030, (1.0f - t) * p->g74 + t * p->g78);
+    if (pjob->st == 0) {
+        struct REGENT *pregent = pjob->pactor->psost ? pjob->pactor->psost->pregent : 0;
+        void *preg = pregent ? pregent->preg : 0;
+        if (!preg)
+            pjob->pchild->fNoAvoid = 1;
+        if (FFar(pjob->posFollow, posFollow))
+            PlanFollow__12JOBCOMPANION(pjob);
+        if (pactor->pasega) {
+            float u = (sxyFollow - pjob->sNear) / (pjob->sFar - pjob->sNear);
+            GClamp(&u, 0.0f, 1.0f);
+            SetAsegaSpeed(pactor->pasega, (1.0f - u) * pjob->svNear + u * pjob->svFar);
         }
     }
 }

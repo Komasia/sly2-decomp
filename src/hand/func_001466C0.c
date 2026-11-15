@@ -1,6 +1,12 @@
-void Init__5AIJOB(void *p);
-void func_001466C0(char *p)
+/* class: JOBCOMPANIONATTACK, Sly's (cid 0xC5) attack job, Init (AIJOB vt slot 7): the base init, then no state (-1, complete).
+ * Layout: SafeHouse port (actorai.h JOBCOMPANIONATTACK; actorai.cpp: orig 0x145CD0 / 0x1461C8 / 0x1466C0). */
+struct JOBCOMPANIONATTACK {
+    /* 0x00 */ char pad0[0x30];
+    /* 0x30 */ int st;   /* field: SafeHouse port - -1 complete */
+};
+void Init__5AIJOB(struct JOBCOMPANIONATTACK *pjob);
+void func_001466C0(struct JOBCOMPANIONATTACK *pjob)
 {
-    Init__5AIJOB(p);
-    *(int *)(p + 0x30) = -1;
+    Init__5AIJOB(pjob);
+    pjob->st = -1;
 }
