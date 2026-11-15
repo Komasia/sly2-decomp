@@ -1,31 +1,31 @@
+/* CFindObjectsByClass: find the objects of class cid (or derived) as seen from ploCtx: the context's ancestors or
+ * children, every object of the class family (the world's per-class lists, cid .. 198 while derived), or - for the
+ * other kinds - those lists matched against the context's namespace (func_0015E3E8). Returns the count, clamped to
+ * cMax unless GRFFIND_CountAll. */
+#include "h2_find.h"
 typedef struct LO LO;
 struct LO {
     char pad[0x10];
-    LO *pParent;
+    LO *paloParent;
     char pad14[0xC];
-    LO *pNextClass;
-    LO *pSibling;
+    LO *ploNextClass;       /* the next object in its class's list */
+    LO *ploSibling;         /* the next child of its parent */
     int x28;
-    signed char ips;
+    signed char ips;        /* the find's ancestor depth */
     char x2D;
-    long k : 4;
+    long nsk : 4;
     unsigned long b : 8;
-    unsigned int f : 1;
+    unsigned int fActive : 1;
     char pad30[0x34];
-    LO *pChild;
+    LO *ploChildFirst;
     char pad68[8];
-    LO *pChildEnd;
+    LO *ploChildActiveEnd;  /* where the active children end */
 };
-typedef struct ST {
-    int ips;
-    LO *plo;
-    int f;
-} ST;
-typedef struct CE { LO *plo; int a, b; } CE;
+typedef struct BUCKET { LO *plo; int a, b; } BUCKET;
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(LO *plo, int cid);
-extern CE *func_0015E3A8(void *psw, int k);
-extern int func_0015E988(int k, int cid);
-extern void func_0015E3E8(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
+extern BUCKET *func_0015E3A8(void *psw, int cid);
+extern int func_0015E988(int cidBase, int cid);
+extern void func_0015E3E8(void *psw, LO *plo, void *pnsn, unsigned int grf, LO *ploCtx, void *pnsnCtx, int cMax, int *pc, LO **aplo, int *pips);
 // name: SafeHouse port (CFindObjectsByClass)
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, LO *ploCtx, int cMax, LO **aplo)
 {
@@ -33,31 +33,31 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, L
     int cplo;
     int ips;
     LO *plo;
-    int f;
+    int fCountAll;
     LO *p;
-    int k;
-    if (cid == -1 || (!ploCtx && (grf & 0xFF) != 5))
+    int cidT;
+    if (cid == -1 || (!ploCtx && (grf & FINDK_Mask) != FINDK_Any))
         return 0;
     cplo = 0;
-    switch (grf & 0xFF) {
-    case 3:
-        f = grf & 0x200;
-        for (p = ploCtx->pParent; p; p = p->pParent) {
+    switch (grf & FINDK_Mask) {
+    case FINDK_Ancestors:
+        fCountAll = grf & GRFFIND_CountAll;
+        for (p = ploCtx->paloParent; p; p = p->paloParent) {
             if (!FIsBasicDerivedFrom__FP5BASIC3CID(p, cid))
                 continue;
-            if ((grf & 0x100) && p->f == 0)
+            if ((grf & GRFFIND_Active) && p->fActive == 0)
                 continue;
             if (cplo < cMax)
                 aplo[cplo] = p;
             cplo++;
         }
         break;
-    case 2: {
-        LO *pEnd = 0;
-        if (grf & 0x100)
-            pEnd = ploCtx->pChildEnd;
-        f = grf & 0x200;
-        for (p = ploCtx->pChild; p != pEnd; p = p->pSibling) {
+    case FINDK_Children: {
+        LO *ploEnd = 0;
+        if (grf & GRFFIND_Active)
+            ploEnd = ploCtx->ploChildActiveEnd;
+        fCountAll = grf & GRFFIND_CountAll;
+        for (p = ploCtx->ploChildFirst; p != ploEnd; p = p->ploSibling) {
             if (!FIsBasicDerivedFrom__FP5BASIC3CID(p, cid))
                 continue;
             if (cplo < cMax)
@@ -66,13 +66,13 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, L
         }
         break;
     }
-    case 5: {
-        int k = cid;
-        f = grf & 0x200;
-        for (; k < 199 && func_0015E988(k, cid); k++) {
-            func_0015E3A8(psw, k);
-            for (p = func_0015E3A8(psw, k)->plo; p; p = p->pNextClass) {
-                if ((grf & 0x100) && p->f == 0)
+    case FINDK_Any: {
+        int cidT = cid;
+        fCountAll = grf & GRFFIND_CountAll;
+        for (; cidT < 199 && func_0015E988(cidT, cid); cidT++) {
+            func_0015E3A8(psw, cidT);
+            for (p = func_0015E3A8(psw, cidT)->plo; p; p = p->ploNextClass) {
+                if ((grf & GRFFIND_Active) && p->fActive == 0)
                     continue;
                 if (cplo < cMax)
                     aplo[cplo] = p;
@@ -82,35 +82,35 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, L
         break;
     }
     default:
-        switch (grf & 0xFF) {
-        case 1:
-        case 3:
-        case 4:
-        case 5: {
+        switch (grf & FINDK_Mask) {
+        case FINDK_Below:
+        case FINDK_Ancestors:
+        case FINDK_Nearest:
+        case FINDK_Any: {
             int i = 0;
             p = ploCtx;
             plo = p;
-            f = grf & 0x200;
-            for (; p; p = p->pParent)
+            fCountAll = grf & GRFFIND_CountAll;
+            for (; p; p = p->paloParent)
                 p->ips = ++i;
             ips = 0x7FFFFFFF;
             break;
         }
         default:
             plo = 0;
-            f = grf & 0x200;
+            fCountAll = grf & GRFFIND_CountAll;
             break;
         }
-        for (k = cid; k < 199 && func_0015E988(k, cid); k++) {
-            func_0015E3A8(psw, k);
-            for (p = func_0015E3A8(psw, k)->plo; p; p = p->pNextClass)
-                func_0015E3E8(psw, p, 0, grf | 0x400, ploCtx, 0, cMax, &cplo, aplo, &ips);
+        for (cidT = cid; cidT < 199 && func_0015E988(cidT, cid); cidT++) {
+            func_0015E3A8(psw, cidT);
+            for (p = func_0015E3A8(psw, cidT)->plo; p; p = p->ploNextClass)
+                func_0015E3E8(psw, p, 0, grf | GRFFIND_AnyNs, ploCtx, 0, cMax, &cplo, aplo, &ips);
         }
-        for (p = plo; p; p = p->pParent)
+        for (p = plo; p; p = p->paloParent)
             p->ips = 0;
         break;
     }
-    if (!(grf & 0x200) && cMax < cplo)
+    if (!(grf & GRFFIND_CountAll) && cMax < cplo)
         cplo = cMax;
     return cplo;
 }

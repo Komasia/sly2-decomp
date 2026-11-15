@@ -1,14 +1,17 @@
-// ExplodeExplgExplso (Claude agent, lane D40): matched with Lilly's MATRIX3 operator* (src/hand/UpdateXfChain.cpp: rows of the LEFT
-// matrix into qword locals, VU_VECTOR4 row temps) and her QwRotateVec(MATRIX3 *, qword), with px->mat as the left operand.
+// ExplodeExplgExplso: an explosion group's burst: each child explosion bursts (vtable slot 51) in its own frame
+// relative to the group - inside the caller's frame when the caller gave one (GRFEXPLSO_Olxf), else in the group's.
+// (Claude agent, lane D40): matched with Lilly's MATRIX3 operator* (src/hand/UpdateXfChain.cpp: rows of the LEFT
+// matrix into qword locals, VU_VECTOR4 row temps) and her QwRotateVec(MATRIX3 *, qword), with polxf->mat as the left operand.
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { qword r[4]; };
 struct MATRIX3 { qword r[3]; };
 struct VEC { int x, y, z, w; } __attribute__((aligned(16)));
-struct XF { qword pos; MATRIX3 mat; VEC v; VEC w; };
-struct P { int fl; void *pv; int a8, aC; qword q10, q20; int x30; XF *pxf; int x38, x3C; };
-struct O { int pad[3]; VTENT *vt; char pad1[0x60 - 0x10]; MATRIX4 mat; };
-struct S { char pad[0x60]; MATRIX4 mat; char pad1[0xE0 - 0xA0]; int c; O **apo; };
+struct EMITOLXF { qword posLocal; MATRIX3 mat; VEC v; VEC w; };   /* Sly 1 EMITOLXF: position, orientation, velocities */
+struct EXPLSO { int grfexplso; void *paloReference; float rScale, sRadius; qword vec, posOrigin; void *psoTouch;
+                EMITOLXF *pemitolxf; int cParticle, unk_0x3c; };   /* include/h2_explso.h */
+struct EXPL { int pad[3]; VTENT *vt; char pad1[0x60 - 0x10]; MATRIX4 mat; };
+struct EXPLG { char pad[0x60]; MATRIX4 mat; char pad1[0xE0 - 0xA0]; int cpexpl; EXPL **apexpl; };
 MATRIX4 InverseAffineMatrix4(MATRIX4 *pm);
 MATRIX4 operator*(const MATRIX4 &a, const MATRIX4 &b);
 static inline qword Add(qword a, qword b) { qword d; __asm__("vadd.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b)); return d; }
@@ -39,35 +42,35 @@ inline qword QwRotateVec(const MATRIX3 *pmat, qword qwVec)
             : "j"(pmat->r[0]), "j"(pmat->r[1]), "j"(pmat->r[2]), "j"(qwVec));
     return qwResult;
 }
-extern "C" void ExplodeExplgExplso(S *p, P *pp) asm("ExplodeExplgExplso__FP5EXPLGP6EXPLSO");
-void ExplodeExplgExplso(S *p, P *pp)
+extern "C" void ExplodeExplgExplso(EXPLG *pexplg, EXPLSO *pexplso) asm("ExplodeExplgExplso__FP5EXPLGP6EXPLSO");
+void ExplodeExplgExplso(EXPLG *pexplg, EXPLSO *pexplso)
 {
-    P loc = *pp;
-    XF xf;
-    loc.pxf = &xf;
-    loc.fl |= 0x40;
-    if (loc.fl & 1) {
+    EXPLSO explso = *pexplso;
+    EMITOLXF olxf;
+    explso.pemitolxf = &olxf;
+    explso.grfexplso |= 0x40;           /* GRFEXPLSO_Olxf */
+    if (explso.grfexplso & 1) {         /* GRFEXPLSO_Reference */
     } else {
-        loc.pv = p;
-        loc.fl |= 1;
+        explso.paloReference = pexplg;
+        explso.grfexplso |= 1;
     }
-    for (int i = 0; i < p->c; i++) {
-        O *po = p->apo[i];
-        MATRIX4 mRel;
-        mRel = InverseAffineMatrix4(&p->mat) * po->mat;
-        MATRIX3 &m3 = *(MATRIX3 *)&mRel;
-        if (pp->fl & 0x40) {
-            XF *px = pp->pxf;
-            xf.mat = px->mat * m3;
-            xf.pos = Add(px->pos, QwRotateVec(&px->mat, mRel.r[3]));
-            xf.v = px->v;
-            xf.w = px->w;
+    for (int i = 0; i < pexplg->cpexpl; i++) {
+        EXPL *pexpl = pexplg->apexpl[i];
+        MATRIX4 matRel;
+        matRel = InverseAffineMatrix4(&pexplg->mat) * pexpl->mat;
+        MATRIX3 &mat3 = *(MATRIX3 *)&matRel;
+        if (pexplso->grfexplso & 0x40) {
+            EMITOLXF *polxf = pexplso->pemitolxf;
+            olxf.mat = polxf->mat * mat3;
+            olxf.posLocal = Add(polxf->posLocal, QwRotateVec(&polxf->mat, matRel.r[3]));
+            olxf.v = polxf->v;
+            olxf.w = polxf->w;
         } else {
-            xf.mat = m3;
-            xf.pos = mRel.r[3];
-            xf.v.x = xf.v.y = xf.v.z = 0;
-            xf.w.x = xf.w.y = xf.w.z = 0;
+            olxf.mat = mat3;
+            olxf.posLocal = matRel.r[3];
+            olxf.v.x = olxf.v.y = olxf.v.z = 0;
+            olxf.w.x = olxf.w.y = olxf.w.z = 0;
         }
-        ((void (*)(void *, P *))po->vt[51].pfn)(VT_THIS(po, &po->vt[51]), &loc);
+        ((void (*)(void *, EXPLSO *))pexpl->vt[51].pfn)(VT_THIS(pexpl, &pexpl->vt[51]), &explso);
     }
 }

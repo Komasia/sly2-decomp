@@ -1,36 +1,38 @@
+/* CmovieOpen: how many movies the movie list offers: all 0x10 when everything is unlocked (D_002BE26C), else the
+ * last open episode's count, less 2 when it was never played, less 1 when it is not complete. */
+#include "h2_epmenu.h"
 typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
-struct G { char pad[0x3B58]; void *apA[9]; void *apB[9]; };
-extern struct G g_sw;
+struct SW { char pad[0x3B58]; SWEPPROGRESS epprogress; };
+extern struct SW g_sw;
 extern char D_003D4A60[];
-extern int D_002BE26C;
-extern int D_002BE2D0[];
-struct S { char pad[0x118]; int i; };
-void NProgress(CRef *pref, void *p, void *q);
+extern int D_002BE26C;      /* everything unlocked */
+extern int D_002BE2D0[];    /* per episode: the movies open */
+void NProgress(CRef *pref, void *pvKey, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
 // name: SafeHouse port (CmovieOpen)
-int CmovieOpen__FP6EPMENU(struct S *p)
+int CmovieOpen__FP6EPMENU(EPMENU *pepmenu)
 {
-    void *pA, *pB;
-    int n;
+    void *pvDt, *pvPercent;
+    int cmovie;
     CRef ref;
-    float g;
+    float dt;
     if (D_002BE26C)
         return 0x10;
-    n = D_002BE2D0[p->i];
-    pA = g_sw.apA[p->i];
-    pB = g_sw.apB[p->i];
-    NProgress(&ref, pA, D_003D4A60);
-    g = ref.u.g;
+    cmovie = D_002BE2D0[pepmenu->max];
+    pvDt = g_sw.epprogress.apvDt[pepmenu->max];
+    pvPercent = g_sw.epprogress.apvPercent[pepmenu->max];
+    NProgress(&ref, pvDt, D_003D4A60);
+    dt = ref.u.g;
     Decref(&ref);
-    if (g == 0.0f) {
-        n -= 2;
+    if (dt == 0.0f) {
+        cmovie -= 2;
     } else {
-        int c;
-        NProgress(&ref, pB, D_003D4A60);
-        c = ref.u.n;
+        int nPercent;
+        NProgress(&ref, pvPercent, D_003D4A60);
+        nPercent = ref.u.n;
         Decref(&ref);
-        if (c <= 99)
-            n--;
+        if (nPercent <= 99)
+            cmovie--;
     }
-    return n;
+    return cmovie;
 }

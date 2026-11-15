@@ -1,22 +1,41 @@
-// (Claude agent) MATCH: g8 if/else reload form, max via local h=0.5f, pfrm transform split into mul asm + vadd asm with t loaded late.
-typedef int qword __attribute__((mode(TI)));
-typedef struct EMITP { int x0; int x4; int x8; int xC; int x10; } EMITP;
+// FireExplsExplso (Claude agent) MATCH: g8 if/else reload form, max via local h=0.5f, pfrm transform split into mul asm + vadd asm with t loaded late.
+#include "h2_explso.h"
+/* EMITB +8 (SafeHouse: EMITS) - the particle source settings */
+typedef struct EMITS { void *ploSource; void *pvKind2; int x8; int xC; void *psoTouch; } EMITS;
 typedef struct XF4 { qword v; } XF4;
 typedef struct X4 { char pad[0xF4]; XF4 *p; } X4;
-typedef struct FRM { qword pos; qword m[3]; } FRM;
+typedef struct EMITOLXF { qword pos; qword mat[3]; } EMITOLXF;   /* a frame to burst in: position, rotation rows */
+/* the emitter settings block (shared, reference-counted; emitter.h EMITB) */
 typedef struct EMITB {
-    int x0; int x4; EMITP *pemitp; int xC; int x10; int x14; int x18; FRM *pfrm; int pad20[4];
-    union { qword v; qword *pm; EMITP *pemitp; struct { char pad[0x20]; qword v; } *pq; } u30;
-    qword v40;
-    float g50, g54;
+    int cref;
+    int emitrk;                 /* the particle kind: 0 blips, 1 RIPs */
+    EMITS *pemits;
+    int xC;
+    int kindPos;                /* the position kind: 0 a point, 1 a box, 2 an object's (pvKind2), 3 a mesh */
+    int x14; int x18;
+    EMITOLXF *pemitolxf;        /* the frame of a burst (GRFEXPLSO_Olxf) */
+    int pad20[4];
+    union { qword pos; qword *pbox; EMITS *pemits; struct { char pad[0x20]; qword v; } *pmesh; } u30;   /* by kindPos */
+    qword vec;                  /* the direction */
+    float g50, g54;             /* scaled by the density limit (speeds?) */
     char pad58[0xD8 - 0x58];
-    float gD8, gDC;
-    qword vE0[2];
+    float sRipD8, sRipDC;       /* the RIPs' size (GRFEXPLSO_Radius) */
+    qword vE0[2];               /* scaled by the density (at least 0.5) */
 } EMITB;
-typedef struct SND { int id; float g4, g8, gC, g10; } SND;
-typedef struct EMITTER { char pad[0xE4]; EMITB *pemitb; int xE8, xEC; SND *psnd; float gF4, gF8; int xFC; int x100; int x104; } EMITTER;
-typedef struct EMITO { int grf; int x4; float g8; float gC; qword v10; qword v20; int x30; int x34; int x38; } EMITO;
-typedef struct EMITR { int *p104; int *p100; EMITTER *p; } EMITR;
+/* Sly 1 sound.h SFX */
+typedef struct SFX { int sfxid; float sStart, sFull, uVol, uPitch; } SFX;
+typedef struct LM { float gMin, gMax; } LM;
+typedef struct EXPLS {
+    char pad[0xE4];
+    EMITB *pemitb;
+    int xE8, xEC;
+    SFX *psfx;                  /* PsfxEnsureExpls */
+    LM lmcParticle;             /* the particle count range */
+    int fEmitg;                 /* emit into the explosion's own RIP group / particle system */
+    void *pripg;                /* field: SafeHouse port */
+    void *ppsys;                /* field: SafeHouse port */
+} EXPLS;
+typedef struct EMITG { void **pppsys; void **ppripg; EXPLS *pexpls; } EMITG;
 
 extern char D_002BDEC0[];
 extern float GRandInRange__Fff(float lo, float hi);
@@ -26,55 +45,57 @@ extern V4 __8VU_FLOATf(float g);
 extern V4 __9VU_VECTORRC6VECTOR(qword *pv);
 extern qword __ml__FG8VU_FLOATG9VU_VECTOR(qword a, qword b);
 extern void func_00256D18(qword *pv, qword a);
-extern void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(int c, EMITB *pb, EMITR *pr);
-extern qword ConvertPos__FP2LOT0G9VU_VECTOR(int x, int y, qword v);
-extern void *PsndNewPlain__Fi(int id);
+extern void EmitParticles__FP8EMITTERNP5EMITBP5EMITG(int c, EMITB *pemitb, EMITG *pemitg);
+extern qword ConvertPos__FP2LOT0G9VU_VECTOR(void *ploFrom, void *ploTo, qword pos);
+extern void *PsndNewPlain__Fi(int sfxid);
 extern void SetSource__4CSndPv(void *p, void *pso);
 extern void SetPosition__4CSndG9VU_VECTOR(void *p, qword v);
 extern void SetFalloff__4CSndff(void *p, float a, float b);
 extern void SetVolume__4CSndf(void *p, float g);
 extern void SetPitch__4CSndiif(void *p, float g);
 
-void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
+/* FireExplsExplso: an explosion's burst: copy its emitter settings, apply the EXPLSO overrides, emit the particles,
+ * then play its sound (if any) at the burst position. */
+void FireExplsExplso__FP5EXPLSP6EXPLSO(EXPLS *pexpls, EXPLSO *pexplso)
 {
-    EMITP emitp;
+    EMITS emits;
     EMITB b;
-    EMITR r;
-    EMITR *pr;
+    EMITG emitg;
+    EMITG *pemitg;
     int c;
     V4 pos;
     V4 h;
 
-    emitp = *p->pemitb->pemitp;
-    b = *p->pemitb;
-    b.pemitp = &emitp;
-    if (po->grf & 0x80)
-        c = po->x38;
+    emits = *pexpls->pemitb->pemits;
+    b = *pexpls->pemitb;
+    b.pemits = &emits;
+    if (pexplso->grfexplso & GRFEXPLSO_Count)
+        c = pexplso->cParticle;
     else
-        c = (int)GRandInRange__Fff(p->gF4, p->gF8);
-    if (po->grf & 1)
-        emitp.x0 = po->x4;
-    if (po->grf & 2)
-        b.v40 = po->v10;
-    if (po->grf & 4) {
-        b.u30.v = po->v20;
-        b.x10 = 0;
-    } else if (po->grf & 0x40) {
-        b.pfrm = (FRM *)po->x34;
+        c = (int)GRandInRange__Fff(pexpls->lmcParticle.gMin, pexpls->lmcParticle.gMax);
+    if (pexplso->grfexplso & GRFEXPLSO_Reference)
+        emits.ploSource = pexplso->paloReference;
+    if (pexplso->grfexplso & GRFEXPLSO_Vec)
+        b.vec = pexplso->vec;
+    if (pexplso->grfexplso & GRFEXPLSO_Pos) {
+        b.u30.pos = pexplso->posOrigin;
+        b.kindPos = 0;
+    } else if (pexplso->grfexplso & GRFEXPLSO_Olxf) {
+        b.pemitolxf = (EMITOLXF *)pexplso->pemitolxf;
     }
-    if ((po->grf & 8) && b.x4 == 0) {
+    if ((pexplso->grfexplso & GRFEXPLSO_Scale) && b.emitrk == 0) {
         float g;
         float gs;
         int n;
-        if (po->g8 == 0.0f)
-            g = po->gC * 0.01f;
+        if (pexplso->rScale == 0.0f)
+            g = pexplso->sRadius * 0.01f;
         else
-            g = po->g8;
+            g = pexplso->rScale;
         if (g < 1.0f)
             c = (int)(c * g);
         else
             c = (int)(c / g);
-        n = (int)p->gF8 / 2;
+        n = (int)pexpls->lmcParticle.gMax / 2;
         if (!(n < c))
             c = n;
         gs = GLimitLm(D_002BDEC0, g);
@@ -83,28 +104,28 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
         { float h = 0.5f; g = (h < g) ? g : h; }
         func_00256D18(b.vE0, __ml__FG8VU_FLOATG9VU_VECTOR(__8VU_FLOATf(g).q, __9VU_VECTORRC6VECTOR(b.vE0).q));
     }
-    if (b.x4 == 1) {
-        if (po->grf & 0x10)
-            b.gDC = b.gD8 = po->g8;
-        if (po->grf & 0x20)
-            b.pemitp->x10 = po->x30;
+    if (b.emitrk == 1) {
+        if (pexplso->grfexplso & GRFEXPLSO_Radius)
+            b.sRipDC = b.sRipD8 = pexplso->rScale;
+        if (pexplso->grfexplso & GRFEXPLSO_Touch)
+            b.pemits->psoTouch = pexplso->psoTouch;
     }
-    if (p->xFC) {
-        r.p104 = &p->x104;
-        r.p100 = &p->x100;
-        r.p = p;
-        pr = &r;
+    if (pexpls->fEmitg) {
+        emitg.pppsys = &pexpls->ppsys;
+        emitg.ppripg = &pexpls->pripg;
+        emitg.pexpls = pexpls;
+        pemitg = &emitg;
     } else {
-        pr = 0;
+        pemitg = 0;
     }
-    if (emitp.x0 == 0 && b.x10 != 2 && !(po->grf & 0x48))
-        emitp.x0 = (int)p;
-    EmitParticles__FP8EMITTERNP5EMITBP5EMITG(c, &b, pr);
-    if (p->psnd) {
+    if (emits.ploSource == 0 && b.kindPos != 2 && !(pexplso->grfexplso & (GRFEXPLSO_Scale | GRFEXPLSO_Olxf)))
+        emits.ploSource = pexpls;
+    EmitParticles__FP8EMITTERNP5EMITBP5EMITG(c, &b, pemitg);
+    if (pexpls->psfx) {
         void *ps;
-        switch (b.x10) {
+        switch (b.kindPos) {
         case 0:
-            pos.q = b.u30.v;
+            pos.q = b.u30.pos;
             break;
         case 1: {
             float half = 0.5f;
@@ -113,7 +134,7 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
                 __asm__("qmtc2.ni %1, %0" : "=j"(hv) : "r"(half));
                 h.q = hv;
                 {
-                    qword *pm = b.u30.pm;
+                    qword *pm = b.u30.pbox;
                     register qword m1 __asm__("vf2") = pm[1];
                     register qword m0 __asm__("vf3") = pm[0];
                     register qword r __asm__("vf1");
@@ -124,15 +145,15 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
             break;
         }
         case 2:
-            pos.q = ((X4 *)b.pemitp->x4)->p->v;
+            pos.q = ((X4 *)b.pemits->pvKind2)->p->v;
             break;
         case 3:
-            pos.q = b.u30.pq->v;
+            pos.q = b.u30.pmesh->v;
             break;
         }
-        if (b.pfrm) {
-            FRM *pf = b.pfrm;
-            qword *pm = pf->m;
+        if (b.pemitolxf) {
+            EMITOLXF *pf = b.pemitolxf;
+            qword *pm = pf->mat;
             register qword v __asm__("vf3") = pos.q;
             register qword m0 __asm__("vf4") = pm[0];
             register qword m1 __asm__("vf1") = pm[1];
@@ -145,12 +166,12 @@ void FireExplsExplso__FP5EXPLSP6EXPLSO(EMITTER *p, EMITO *po)
             }
             pos.q = v;
         }
-        pos.q = ConvertPos__FP2LOT0G9VU_VECTOR(emitp.x0, 0, pos.q);
-        ps = PsndNewPlain__Fi(p->psnd->id);
+        pos.q = ConvertPos__FP2LOT0G9VU_VECTOR(emits.ploSource, 0, pos.q);
+        ps = PsndNewPlain__Fi(pexpls->psfx->sfxid);
         SetSource__4CSndPv(ps, 0);
         SetPosition__4CSndG9VU_VECTOR(ps, pos.q);
-        SetFalloff__4CSndff(ps, p->psnd->g4, p->psnd->g8);
-        SetVolume__4CSndf(ps, p->psnd->gC);
-        SetPitch__4CSndiif(ps, p->psnd->g10);
+        SetFalloff__4CSndff(ps, pexpls->psfx->sStart, pexpls->psfx->sFull);
+        SetVolume__4CSndf(ps, pexpls->psfx->uVol);
+        SetPitch__4CSndiif(ps, pexpls->psfx->uPitch);
     }
 }

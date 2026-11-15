@@ -1,37 +1,39 @@
+/* LoadExplgFromBrx: load an explosion group: its transform, then its children; the children derived from EXPL
+ * (cid 0x1E) are kept in the group's array, any other child is removed (vtable slot 8). */
 #include "vtbl.h"
-typedef struct MSG { int cb; int nKind; } MSG;
-void *PvAllocSwClearImpl__Fi(MSG *pmsg);
-static inline void *PvAllocMsg(MSG *pmsg, int cb, int nKind) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwClearImpl__Fi(pmsg); }
-struct C { int a[4]; };
-struct O { int a[3]; VTENT *vt; int pad[6]; unsigned long fl; };
-struct DA { int n0; int cMax; int c; struct O **a; };
-struct S { char pad[0xE0]; int c; struct O **apo; };
-void __10STACKSCOPE(struct C *);
-void _$_10STACKSCOPE(struct C *, int);
-void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct S *p, void *q);
+typedef struct ALLOCREQ { int cb; int nKind; } ALLOCREQ;
+void *PvAllocSwClearImpl__Fi(ALLOCREQ *preq);
+static inline void *PvAllocSwClear(ALLOCREQ *preq, int cb, int nKind) { preq->cb = cb; preq->nKind = nKind; return PvAllocSwClearImpl__Fi(preq); }
+struct STACKSCOPE { int a[4]; };
+struct LO { int a[3]; VTENT *vt; int pad[6]; unsigned long grf; };
+struct DA { int n0; int cMax; int c; struct LO **aplo; };   /* the loaded children */
+struct EXPLG { char pad[0xE0]; int cpexpl; struct LO **apexpl; };
+void __10STACKSCOPE(struct STACKSCOPE *);
+void _$_10STACKSCOPE(struct STACKSCOPE *, int);
+void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct EXPLG *pexplg, void *pbis);
 void func_0013F888(struct DA *pda);
-void LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(struct S *p, void *q, struct DA *pda);
-int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct S *p, void *q)
+void LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(struct EXPLG *pexplg, void *pbis, struct DA *pda);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
+void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct EXPLG *pexplg, void *pbis)
 {
-    struct C ctx;
+    struct STACKSCOPE scope;
     struct DA da;
-    MSG msg;
+    ALLOCREQ req;
     int i;
-    LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(p, q);
-    __10STACKSCOPE(&ctx);
+    LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(pexplg, pbis);
+    __10STACKSCOPE(&scope);
     func_0013F888(&da);
-    LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(p, q, &da);
-    p->apo = PvAllocMsg(&msg, da.c * 4, 0x10);
+    LoadLoxChildrenFromBrx__FP3LOXP18CBinaryInputStreamPv(pexplg, pbis, &da);
+    pexplg->apexpl = PvAllocSwClear(&req, da.c * 4, 0x10);
     for (i = 0; i < da.c; i++) {
-        struct O *o = da.a[i];
-        o->fl |= 0x200000000000000L;
-        if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x1E)) {
-            VTENT *e = &o->vt[9];
-            ((void (*)())e->pfn)(VT_THIS(o, e));
+        struct LO *plo = da.aplo[i];
+        plo->grf |= 0x200000000000000L;   /* bit 57 */
+        if (!FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x1E)) {
+            VTENT *pvte = &plo->vt[9];
+            ((void (*)())pvte->pfn)(VT_THIS(plo, pvte));
         } else {
-            p->apo[p->c++] = o;
+            pexplg->apexpl[pexplg->cpexpl++] = plo;
         }
     }
-    _$_10STACKSCOPE(&ctx, 2);
+    _$_10STACKSCOPE(&scope, 2);
 }

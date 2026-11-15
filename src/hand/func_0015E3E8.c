@@ -1,40 +1,46 @@
+/* func_0015E3E8: CFindObjects' match of one candidate object: unless GRFFIND_AnyNs, its namespace node must be
+ * related to the context's namespace chain (by the object's namespace kind: 0 the same group, -1 on the chain, 1 any);
+ * then the find kind decides (below the context, a child of it, a deeper ancestor's, the nearest namespace - which
+ * restarts the list when a nearer one turns up - or anywhere); matches go into aplo up to cMax, *pc counts them all.
+ * The context's ancestors carry their depth (ips: 1 the context) during the find. */
+#include "h2_find.h"
 typedef struct LO LO;
 struct LO {
     char pad[0x10];
-    LO *pParent;
+    LO *paloParent;
     char pad14[0x14];
     int x28;
-    signed char ips;
+    signed char ips;        /* the find's ancestor depth (0: not an ancestor of the context) */
     char x2D;
-    long k : 4;
+    long nsk : 4;           /* the namespace kind */
     unsigned long b : 8;
-    unsigned int f : 1;
+    unsigned int fActive : 1;
 };
-typedef struct CH { void *p; struct CH *pNext; } CH;
-extern int func_001C9950(void *);
-void func_0015E3E8(void *pv, LO *plo, CH *pch, unsigned int grf, void *ctx, CH *pchList, int cMax, int *pc, LO **aplo, int *pips)
+typedef struct NSN { void *pv; struct NSN *pnsnNext; } NSN;   /* a namespace chain node */
+extern int func_001C9950(void *pv);   /* the node's group */
+void func_0015E3E8(void *psw, LO *plo, NSN *pnsn, unsigned int grf, void *ploCtx, NSN *pnsnCtx, int cMax, int *pc, LO **aplo, int *pips)
 {
     LO *p;
-    if (!(grf & 0x400)) {
-        CH *q;
-        switch (plo->k) {
+    if (!(grf & GRFFIND_AnyNs)) {
+        NSN *q;
+        switch (plo->nsk) {
         case 0:
-            q = pchList;
+            q = pnsnCtx;
             while (1) {
                 if (!q)
                     return;
-                if (func_001C9950(q->p) == func_001C9950(pch->p))
+                if (func_001C9950(q->pv) == func_001C9950(pnsn->pv))
                     break;
-                if (grf & 0x800)
+                if (grf & GRFFIND_NsFirst)
                     return;
-                q = q->pNext;
+                q = q->pnsnNext;
             }
             break;
         case -1:
-            while (pchList != pch) {
-                if (!pchList || (grf & 0x800))
+            while (pnsnCtx != pnsn) {
+                if (!pnsnCtx || (grf & GRFFIND_NsFirst))
                     return;
-                pchList = pchList->pNext;
+                pnsnCtx = pnsnCtx->pnsnNext;
             }
             break;
         case 1:
@@ -42,13 +48,13 @@ void func_0015E3E8(void *pv, LO *plo, CH *pch, unsigned int grf, void *ctx, CH *
         }
     }
 LMatch:
-    switch (grf & 0xFF) {
-    case 2:
-        if (plo->pParent == ctx)
+    switch (grf & FINDK_Mask) {
+    case FINDK_Children:
+        if (plo->paloParent == ploCtx)
             goto LAdd;
         return;
-    case 1:
-        for (p = plo; p; p = p->pParent) {
+    case FINDK_Below:
+        for (p = plo; p; p = p->paloParent) {
             if (p->ips == 0)
                 continue;
             if (p->ips == 1)
@@ -56,15 +62,15 @@ LMatch:
             return;
         }
         return;
-    case 3:
+    case FINDK_Ancestors:
         if (plo->ips >= 2)
             goto LAdd;
         return;
-    case 4: {
-        for (p = plo; p; p = p->pParent) {
+    case FINDK_Nearest: {
+        for (p = plo; p; p = p->paloParent) {
             int i = p->ips;
             if (i != 0 && i < *pips) {
-                if ((grf & 0x100) && plo->f == 0)
+                if ((grf & GRFFIND_Active) && plo->fActive == 0)
                     return;
                 *pips = i;
                 *pc = 0;
@@ -75,9 +81,9 @@ LMatch:
             return;
         goto LAdd;
     }
-    case 5:
+    case FINDK_Any:
     LAdd:
-        if ((grf & 0x100) && plo->f == 0)
+        if ((grf & GRFFIND_Active) && plo->fActive == 0)
             return;
     LAdd2:
         if (*pc < cMax)

@@ -2,15 +2,11 @@
  * change time is the real clock's. Layout: SafeHouse port (frontend.cpp EPMENU). */
 #include "clock.h"
 
-struct EPMENU {
-    /* 0x000 */ char pad0[0x12c];
-    /* 0x12c */ int hint;    /* field: SafeHouse port */
-    /* 0x130 */ float t130;  /* field: SafeHouse port */
-};
-void func_00213B00(struct EPMENU *pepmenu, int part);   /* SafeHouse: SelectScreenObjPart */   /* SafeHouse: SelectScreenObjPart */
+#include "h2_epmenu.h"
+void func_00213B00(EPMENU *pepmenu, int part);   /* SafeHouse: SelectScreenObjPart */
 
 // name: SafeHouse port (SetHint)
-void SetHint__FP6EPMENUi(struct EPMENU *pepmenu, int n)
+void SetHint__FP6EPMENUi(EPMENU *pepmenu, int n)
 {
     if (pepmenu->hint != n) {
         if (n != 0) {
@@ -20,6 +16,6 @@ void SetHint__FP6EPMENUi(struct EPMENU *pepmenu, int n)
             func_00213B00(pepmenu, 0x5BE);
         }
         pepmenu->hint = n;
-        pepmenu->t130 = g_clock.tReal;
+        pepmenu->tHint = g_clock.tReal;
     }
 }

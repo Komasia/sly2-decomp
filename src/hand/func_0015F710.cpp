@@ -1,51 +1,56 @@
 #include "gifs.h"
-struct HDR { char pad[4]; uchar b4, b5, b6, b7; float g8; ushort hC; };
-struct BMP { char pad[0xE]; ushort hE; char pad2[4]; int n14; int n18; char pad3[4]; ulong fl20; };
-struct CLUT { char pad[0xA]; ushort hA; int nC; int n10; int pad14; ulong fl18; };
-struct FD { HDR *phdr; int n4; BMP *pbmp; CLUT *pclut; };
-struct FONT {
-    int n0, n4, n8, nC; float g10, g14; char pad[0x50 - 0x18]; ulong fl50; int n58; QW *pqw5C;
-    QW aqw60[6]; int nC0; int nC4; int nC8; QW *pqwCC; QW aqwD0[6]; int n130; int n134; int n138; int n13C;
+struct FONTHDR { char pad[4]; uchar dxChar, dxSpace, dy, ifont; float rScale; ushort cglyff; };   /* the font file's header */
+struct BMP { char pad[0xE]; ushort ibmp; char pad2[4]; QW *aqwImage; int cqwImage; char pad3[4]; ulong tex0; };
+struct CLUT { char pad[0xA]; ushort iclut; QW *aqwImage; int cqwImage; int pad14; ulong tex0; };
+struct FONTDATA { FONTHDR *phdr; void *aglyff; BMP *pbmp; CLUT *pclut; };
+/* Sly 1 CFontBrx (Sly 2 offsets) */
+struct CFontBrx {
+    int ifont, m_dxCharUnscaled, m_dxSpaceUnscaled, m_dyUnscaled; float m_rxScale, m_ryScale; char pad[0x50 - 0x18];
+    ulong m_tex0; int m_cqwBmpGifs; QW *m_aqwBmpGifs; QW aqwBmpGifs[6]; int cqwBmpImage; QW *aqwBmpImage;
+    int m_cqwClutGifs; QW *m_aqwClutGifs; QW aqwClutGifs[6]; int cqwClutImage; QW *aqwClutImage;
+    int m_cglyff; void *m_aglyff;
 };
 extern "C" {
-void func_0015F888(FONT *pfont);
-int func_00170548(void *p, int n);
-void BuildBmpTex0__FP3BMPi(BMP *pbmp, int n);
-void func_001ECBF0(BMP *pbmp, int n, GIFS *pgifs);
-void func_001EC9D0(CLUT *pclut, int n);
-void BuildClutGifs__FP4CLUTiP4GIFS(CLUT *pclut, int n, GIFS *pgifs);
-void func_0015F710(FONT *pfont, FD *pfd, void *p)
+void func_0015F888(CFontBrx *pfont);
+int func_00170548(void *pzpr, int i);   /* the VRAM address of a bitmap / CLUT */
+void BuildBmpTex0__FP3BMPi(BMP *pbmp, int gsb);
+void func_001ECBF0(BMP *pbmp, int gsb, GIFS *pgifs);
+void func_001EC9D0(CLUT *pclut, int gsb);
+void BuildClutGifs__FP4CLUTiP4GIFS(CLUT *pclut, int gsb, GIFS *pgifs);
+/* func_0015F710: set up a built-in font from its data: metrics and glyphs from the header, registered in the font
+ * table; its bitmap (and CLUT) placed in VRAM (pzpr) with their upload packets built into the font's own storage. */
+void func_0015F710(CFontBrx *pfont, FONTDATA *pfontdata, void *pzpr)
 {
-    HDR *phdr = pfd->phdr;
-    pfont->n0 = phdr->b7;
+    FONTHDR *phdr = pfontdata->phdr;
+    pfont->ifont = phdr->ifont;
     func_0015F888(pfont);
-    pfont->n4 = phdr->b4;
-    pfont->n8 = phdr->b5;
-    pfont->nC = phdr->b6;
-    pfont->g10 = phdr->g8;
-    pfont->g14 = phdr->g8;
-    pfont->n138 = phdr->hC;
-    pfont->n13C = pfd->n4;
+    pfont->m_dxCharUnscaled = phdr->dxChar;
+    pfont->m_dxSpaceUnscaled = phdr->dxSpace;
+    pfont->m_dyUnscaled = phdr->dy;
+    pfont->m_rxScale = phdr->rScale;
+    pfont->m_ryScale = phdr->rScale;
+    pfont->m_cglyff = phdr->cglyff;
+    pfont->m_aglyff = pfontdata->aglyff;
     GIFS gifs;
-    BMP *pbmp = pfd->pbmp;
-    CLUT *pclut = pfd->pclut;
-    int n = func_00170548(p, pbmp->hE);
-    BuildBmpTex0__FP3BMPi(pbmp, n);
-    pfont->fl50 = pbmp->fl20;
-    gifs.AllocStatic(6, pfont->aqw60);
-    func_001ECBF0(pbmp, n, &gifs);
-    gifs.Detach(&pfont->n58, &pfont->pqw5C);
-    pfont->nC0 = pbmp->n18;
-    pfont->nC4 = pbmp->n14;
+    BMP *pbmp = pfontdata->pbmp;
+    CLUT *pclut = pfontdata->pclut;
+    int gsb = func_00170548(pzpr, pbmp->ibmp);
+    BuildBmpTex0__FP3BMPi(pbmp, gsb);
+    pfont->m_tex0 = pbmp->tex0;
+    gifs.AllocStatic(6, pfont->aqwBmpGifs);
+    func_001ECBF0(pbmp, gsb, &gifs);
+    gifs.Detach(&pfont->m_cqwBmpGifs, &pfont->m_aqwBmpGifs);
+    pfont->cqwBmpImage = pbmp->cqwImage;
+    pfont->aqwBmpImage = pbmp->aqwImage;
     if (pclut) {
-        n = func_00170548(p, pclut->hA);
-        func_001EC9D0(pclut, n);
-        pfont->fl50 |= pclut->fl18;
-        gifs.AllocStatic(6, pfont->aqwD0);
-        BuildClutGifs__FP4CLUTiP4GIFS(pclut, n, &gifs);
-        gifs.Detach(&pfont->nC8, &pfont->pqwCC);
-        pfont->n130 = pclut->n10;
-        pfont->n134 = pclut->nC;
+        gsb = func_00170548(pzpr, pclut->iclut);
+        func_001EC9D0(pclut, gsb);
+        pfont->m_tex0 |= pclut->tex0;
+        gifs.AllocStatic(6, pfont->aqwClutGifs);
+        BuildClutGifs__FP4CLUTiP4GIFS(pclut, gsb, &gifs);
+        gifs.Detach(&pfont->m_cqwClutGifs, &pfont->m_aqwClutGifs);
+        pfont->cqwClutImage = pclut->cqwImage;
+        pfont->aqwClutImage = pclut->aqwImage;
     }
 }
 }

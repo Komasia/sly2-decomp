@@ -1,6 +1,7 @@
-int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *a, int b, int c, int d, int e, int f, int g);
+/* CploFindSwNearest: count the objects of an oid found from ploCtx (CFindObjects with no namespace list). */
+int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, void *ploCtx, void *pnsn, int cMax, void **aplo);
 // name: SafeHouse port (CploFindSwNearest)
-int CploFindSwNearest__FP2LO3OIDiiii(void *a, int b, int c, int d, int f, int g)
+int CploFindSwNearest__FP2LO3OIDiiii(void *psw, int grf, int oid, void *ploCtx, int cMax, void **aplo)
 {
-    return CFindObjects__FP2SWi3OIDP2LOPviPP2LO(a, b, c, d, 0, f, g);
+    return CFindObjects__FP2SWi3OIDP2LOPviPP2LO(psw, grf, oid, ploCtx, 0, cMax, aplo);
 }

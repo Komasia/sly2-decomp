@@ -1,17 +1,18 @@
+/* ExplodeExplParams: burst an explosion with the given overrides (grfexplso says which apply), through vtable slot 51. */
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct O { int a[3]; VTENT *vt; };
-struct P { int a; int b; float f; float g; qword q; qword r; qword s; };
-void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(struct O *o, int a, int b, float f, float g, qword q, qword r)
+#include "h2_explso.h"
+struct EXPL { int a[3]; VTENT *vt; };
+void ExplodeExplParams__FP4EXPLUiP3ALOP6VECTORT3ff(struct EXPL *pexpl, int grfexplso, void *paloReference, float rScale,
+                                                  float sRadius, qword vec, qword posOrigin)
 {
-    struct P p;
-    VTENT *e;
-    p.a = a;
-    p.b = b;
-    p.f = f;
-    p.g = g;
-    p.q = q;
-    p.r = r;
-    e = &o->vt[51];
-    ((void (*)())e->pfn)(VT_THIS(o, e), &p);
+    EXPLSO explso;
+    VTENT *pvte;
+    explso.grfexplso = grfexplso;
+    explso.paloReference = paloReference;
+    explso.rScale = rScale;
+    explso.sRadius = sRadius;
+    explso.vec = vec;
+    explso.posOrigin = posOrigin;
+    pvte = &pexpl->vt[51];
+    ((void (*)())pvte->pfn)(VT_THIS(pexpl, pvte), &explso);
 }

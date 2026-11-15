@@ -1,27 +1,29 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-struct X { char pad[0x110]; int i; };
-struct G { char pad[0x3B7C]; void *ap[9]; char pad2[0x4774 - 0x3BA0]; struct X *px; };
-extern struct G g_sw;
+/* func_0015D8F8: format the current episode's completion percentage for the episode menu: 95% of its progress, plus
+ * 5 when its extra flag (D_002BE2F8) is set. */
+#include "h2_epmenu.h"
+typedef struct CRef { int m_tagk; int m_n; } CRef;
+struct SW { char pad[0x3B58]; SWEPPROGRESS epprogress; char pad2[0x4774 - 0x3BA0]; EPMENU *pepmenu; };
+extern struct SW g_sw;
 extern char D_003D4A60[];
 extern void *D_002BE2F8[];
-extern char D_002A5160[];
-void NProgress(CRef *pref, void *p, void *q);
+extern char D_002A5160[];   /* the format */
+void NProgress(CRef *pref, void *pvKey, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
-int func_001DAEA8(void *p);
+int func_001DAEA8(void *pv);
 void sprintf(char *pch, char *fmt, ...);
-void func_0015D8F8(char *pch)
+void func_0015D8F8(char *pchOut)
 {
-    struct G *pg = &g_sw;
-    void *p;
-    if (pg->px && (p = pg->ap[pg->px->i]) != 0) {
+    struct SW *psw = &g_sw;
+    void *pvPercent;
+    if (psw->pepmenu && (pvPercent = psw->epprogress.apvPercent[psw->pepmenu->cur]) != 0) {
         CRef ref;
-        int n;
-        NProgress(&ref, p, D_003D4A60);
-        n = ref.m_tag;
+        int nPercent;
+        NProgress(&ref, pvPercent, D_003D4A60);
+        nPercent = ref.m_n;
         Decref(&ref);
-        n = n * 95 / 100;
-        if (func_001DAEA8(D_002BE2F8[pg->px->i]))
-            n += 5;
-        sprintf(pch, D_002A5160, n);
+        nPercent = nPercent * 95 / 100;
+        if (func_001DAEA8(D_002BE2F8[psw->pepmenu->cur]))
+            nPercent += 5;
+        sprintf(pchOut, D_002A5160, nPercent);
     }
 }

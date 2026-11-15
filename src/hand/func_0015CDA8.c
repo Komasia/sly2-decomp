@@ -1,64 +1,66 @@
 typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
-struct G { char pad[0x3B58]; void *apA[9]; void *apB[9]; };
-extern struct G g_sw;
+#include "h2_epmenu.h"
+struct SW { char pad[0x3B58]; SWEPPROGRESS epprogress; };
+extern struct SW g_sw;
 extern char D_003D4A60[];
 extern char g_joy[];
-extern int D_002BE26C;
-extern int D_002BE270;
-struct S { char pad[0x110]; int i110; char pad2[4]; int i118; char pad3[0xC]; int n128; };
-void NProgress(CRef *pref, void *p, void *q);
+extern int D_002BE26C;      /* everything unlocked */
+extern int D_002BE270;      /* the movie the menu returns to (-1: none) */
+void NProgress(CRef *pref, void *pvKey, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
-void func_002123C8(struct S *p);
-void SetEpMode__FP6EPMENUii(struct S *p, int a, int b);
-void func_00187E78(void *p);
-static inline float GFromP(void *pv)
+void func_002123C8(EPMENU *pepmenu);
+void SetEpMode__FP6EPMENUii(EPMENU *pepmenu, int mode, int sub);
+void func_00187E78(void *pjoy);
+static inline float GProgress(void *pvKey)
 {
     CRef ref;
     float g;
-    NProgress(&ref, pv, D_003D4A60);
+    NProgress(&ref, pvKey, D_003D4A60);
     g = ref.u.g;
     Decref(&ref);
     return g;
 }
-static inline int NFromP(void *pv)
+static inline int NProgressKey(void *pvKey)
 {
     CRef ref;
     int n;
-    NProgress(&ref, pv, D_003D4A60);
+    NProgress(&ref, pvKey, D_003D4A60);
     n = ref.u.n;
     Decref(&ref);
     return n;
 }
+/* StartEpMenu: start the episode menu: the last open episode is the highest one played, or after one complete
+ * (all of them when D_002BE26C); then the start mode on it, or the movie list when coming back from a movie. */
 // name: SafeHouse port (StartEpMenu)
-void StartEpMenu__FP6EPMENU(struct S *p)
+void StartEpMenu__FP6EPMENU(EPMENU *pepmenu)
 {
-    func_002123C8(p);
-    p->i118 = 8;
+    func_002123C8(pepmenu);
+    pepmenu->max = 8;
     if (!D_002BE26C) {
         do {
-            int n;
-            void *pB;
-            if (GFromP(g_sw.apA[p->i118]) != 0.0f)
+            int nPercent;
+            void *pvPercent;
+            if (GProgress(g_sw.epprogress.apvDt[pepmenu->max]) != 0.0f)
                 break;
-            pB = g_sw.apB[p->i118 - 1];
-            n = 0;
-            if (pB)
-                n = NFromP(pB);
-            if (n >= 100)
+            pvPercent = g_sw.epprogress.apvPercent[pepmenu->max - 1];
+            nPercent = 0;
+            if (pvPercent)
+                nPercent = NProgressKey(pvPercent);
+            if (nPercent >= 100)
                 break;
-            p->i118--;
-            if (p->i118 < 2)
+            pepmenu->max--;
+            if (pepmenu->max < 2)
                 break;
         } while (!D_002BE26C);
     }
     if (D_002BE270 == -1) {
-        p->i110 = p->i118;
-        SetEpMode__FP6EPMENUii(p, 0, -1);
+        pepmenu->cur = pepmenu->max;
+        SetEpMode__FP6EPMENUii(pepmenu, EPMODE_Start, -1);
     } else {
-        p->n128 = D_002BE270;
-        p->i110 = 0;
+        pepmenu->imovie = D_002BE270;
+        pepmenu->cur = 0;
         D_002BE270 = -1;
-        SetEpMode__FP6EPMENUii(p, 8, 0);
+        SetEpMode__FP6EPMENUii(pepmenu, EPMODE_Movies, 0);
     }
     func_00187E78(g_joy);
 }

@@ -1,8 +1,10 @@
-int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *a, int b, int c, int d, int e, int f, int *pn);
-int func_0015E958(void *a, int b, int c, int d, int e)
+/* func_0015E958: the first object of an oid found from ploCtx (CFindObjects for one, counting all), or 0. */
+#include "h2_find.h"
+int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, void *ploCtx, void *pnsn, int cMax, void **aplo);
+void *func_0015E958(void *psw, int grf, int oid, void *ploCtx, void *pnsn)
 {
-    int n;
-    if (!CFindObjects__FP2SWi3OIDP2LOPviPP2LO(a, b | 0x200, c, d, e, 1, &n))
+    void *plo;
+    if (!CFindObjects__FP2SWi3OIDP2LOPviPP2LO(psw, grf | GRFFIND_CountAll, oid, ploCtx, pnsn, 1, &plo))
         return 0;
-    return n;
+    return plo;
 }

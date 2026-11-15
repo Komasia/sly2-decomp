@@ -1,5 +1,6 @@
-struct E { int a, b, c; };
-struct E *func_0015E3A8(char *p, int i)
+/* func_0015E3A8: the world's list of the objects of a class (SW +0x3038, by cid). */
+struct BUCKET { void *plo; int unk_0x4, unk_0x8; };
+struct BUCKET *func_0015E3A8(char *psw, int cid)
 {
-    return &((struct E *)(p + 0x3038))[i];
+    return &((struct BUCKET *)(psw + 0x3038))[cid];
 }
