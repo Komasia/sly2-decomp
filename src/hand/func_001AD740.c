@@ -1,3 +1,6 @@
+/* UpdateSlotEntry (0x1AD740): a save slot entry on the menu page: outside the load / save menu (D_002E6594 != 1) the
+ * menu is refreshed (0x1AF608); else the entry under the cursor (D_003D9EDC by the menu's +0x24) shows the screen
+ * object part 0x5C8 when it is this page's, else 0x5C5. SafeHouse menu.cpp. */
 struct E { int x0, x4; void *x8; int xc, x10; char *x14; int x18; };
 struct G { int pad[9]; int x24; };
 extern struct E D_003D9EDC[];

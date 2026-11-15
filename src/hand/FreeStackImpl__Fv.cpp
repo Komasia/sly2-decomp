@@ -1,3 +1,5 @@
+/* FreeStackImpl (0x1AE428, Sly 1 memory.c): closes a stack-heap frame: pops the stack bottom and leaves the critical
+ * section. */
 struct CRITSECT { int a[3]; };
 extern CRITSECT s_critsectStack;
 extern int s_ipvStackCur;

@@ -1,3 +1,6 @@
+/* SaveToTarget (0x1AD3E0): saves into the chosen slot: it becomes the game slot (MC +0xFD50 = +0xFD58), the prompt's
+ * +0x4C = 2; with no save progress (key D_003E0FE4) the prompt shows 0x22, else message 0x1A and the save runs
+ * (func_001ABD40). SafeHouse menu.cpp. */
 struct CRef { int m_tagk; int m_tag; };
 struct G { char pad[0xFD50]; int xFD50; int xFD54; int xFD58; };
 struct H { char pad[0x4C]; int x4C; };

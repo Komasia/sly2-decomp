@@ -1,3 +1,5 @@
+/* ShowMenuWidget (0x1AE9E8): opens the pause menu: 0x1D98B0, the game clock stopped (factor 0), the game paused, task
+ * event 0x28. SafeHouse menu.cpp. */
 struct G;
 extern struct G g_sw;
 extern char g_clock[], g_game[];

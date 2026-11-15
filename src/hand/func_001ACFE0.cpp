@@ -1,3 +1,7 @@
+/* CardNo (0x1ACFE0): the memory card prompt's "no" / OK: by message: the no-card / unformatted / ready / no-room
+ * notices from the title start a new game when the title's menu allows it; other notices close (prompt state 2) and
+ * refresh the menu; 0x1B / 0x1C / 0x20 just close; 0x22 (no progress) sets the option D_003E0FE4 and, for an auto
+ * save (+0x4C 1..3), saves anyway (message 0x1A). SafeHouse menu.cpp. */
 // Game-state transition handler: switch on the new state id (x40) and run the menu/HUD hooks for it.
 // State 34 sends an option message (CRef true) to the global option object D_003E0FE4.
 //

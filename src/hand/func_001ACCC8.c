@@ -1,3 +1,9 @@
+/* func_001ACCC8 (0x1ACCC8): the memory card prompt's frame step: once its screen object (+0x24) is fully shown (+0x58 /
+ * +0x64 == 2) for 0.1 s outside a world change, X answers a question (CardYes) and Triangle declines (CardNo), X closes a
+ * notice; then by message: card-state notices close once the card has its slots read (MCS_SLOTS); the saving / format
+ * / overwrite steps wait for the card thread and go on by its result (MC +0xFD6C, the MEMCARD's nResult): create the
+ * save (D_002A6D88, message 0x16), report 0x14 / 0x17 / 0x1D / 0x23, or close (after a save, the boot sequence or the
+ * menu by +0x4C). */
 #include "vtbl.h"
 struct P { char pad[0x58]; int x58; float x5C; int pad2; int x64; };
 struct S { char pad[0x10]; void *x10; char pad2[0x24 - 0x14]; struct P *x24; char pad3[0x40 - 0x28]; int x40; int x44; int pad4; int x4C; };

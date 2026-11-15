@@ -1,3 +1,5 @@
+/* func_001ADDF0 (0x1ADDF0): a HUD widget's constructor: the base 0x1DA728, screen object 0x5D4 (+0x20), then
+ * 0x1DA7D0 (no state). */
 extern "C" void func_001DA7D0(void *p);
 struct CBase {
     int a, b, c;

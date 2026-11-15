@@ -1,3 +1,5 @@
+/* CopyAb (0x1AE5A0, Sly 1 memory.c): copies cb bytes: byte by byte unless both pointers and the size are word aligned,
+ * then quadwords (CopyAqw) when 16-byte aligned, else words. */
 typedef unsigned int uint;
 typedef unsigned char uchar;
 void CopyAqw(void *pvDst, void *pvSrc, uint cqw) __asm__("func_001AE528");

@@ -1,3 +1,4 @@
+/* func_001ADE70 (0x1ADE70): a HUD widget hides its screen object (+0x24; its vtable entry 50). */
 #include "vtbl.h"
 struct O { char pad[0xC]; VTENT *vt; };
 struct S { char pad[0x24]; struct O *po; };

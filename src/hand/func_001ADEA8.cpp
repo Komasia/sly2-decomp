@@ -1,3 +1,4 @@
+/* func_001ADEA8 (0x1ADEA8): whether a HUD widget's screen object is shown or fading (+0x58 / +0x64 at least 2). */
 struct O { char pad[0x58]; int x58; int pad2[2]; int x64; };
 struct S { char pad[0x24]; O *po; };
 extern "C" int func_001ADEA8(S *p)

@@ -1,11 +1,13 @@
-struct H { char pad[0xFD50]; int x; };
-extern struct H D_002E65E0;
+/* func_001ACC38 (0x1ACC38): sets the memory card prompt's own state (+0x44) with its real time (+0x48); states 2 and 3
+ * also forget the save manager's game slot (MC +0xFD50, include/h5_mc.h). */
+struct MC { char pad[0xFD50]; int pslotGame; };
+extern struct MC g_mc __asm__("D_002E65E0");
 #include "clock.h"
-struct S { char pad[0x44]; int x44; float x48; };
-void func_001ACC38(struct S *p, int n)
+struct S { char pad[0x44]; int state; float tState; };
+void func_001ACC38(struct S *pprompt, int state)
 {
-    if (n == p->x44) return;
-    switch (n) { case 2: case 3: D_002E65E0.x = 0; }
-    p->x44 = n;
-    p->x48 = g_clock.tReal;
+    if (state == pprompt->state) return;
+    switch (state) { case 2: case 3: g_mc.pslotGame = 0; }
+    pprompt->state = state;
+    pprompt->tState = g_clock.tReal;
 }

@@ -1,4 +1,5 @@
-struct MSG { int cb; int nKind; };
+/* PvAllocStackClearImpl (0x1AE378, Sly 1 memory.c): a cleared stack-heap block. */
+struct MSG { int cb; int cbAlign; };  /* the request: size and alignment */
 void *PvAllocStackImpl__Fi(struct MSG *pm);
 void s1_memset(void *p, int c, int n) asm("memset");
 void *PvAllocStackClearImpl__Fi(struct MSG *pm)

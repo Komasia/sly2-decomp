@@ -1,3 +1,4 @@
+/* CopyAqw (0x1AE528, Sly 1 memory.c): copies cqw quadwords, the remainder first, then four at a time. */
 typedef int qword __attribute__((mode(TI)));
 void CopyAqw(void *pvDst, void *pvSrc, int cqw)
 {

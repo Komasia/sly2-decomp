@@ -1,3 +1,6 @@
+/* func_001AD538 (0x1AD538): the slot the load / save menu's cursor starts on: by the menu's data-access kind, the
+ * first empty slot (0x1E: new game), the first slot with a game (0x1F: load), or the game slot (0x19: save); the
+ * slots' time played is read from the progress key SW +0x3B1C. */
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
 struct CRef { int m_tagk; float m_tag; CRef(const CRef &) __asm__("__4CRefRC4CRef"); ~CRef() { Decref(this); } };
