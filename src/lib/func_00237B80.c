@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* _sceFsSigSema (libkernel fileio): release the fileio RPC semaphore. */
 extern int D_002C4A84;
 void SignalSema(int);
 void func_00237B80(void)

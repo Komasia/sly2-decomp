@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* Clear the SIF exec notify handler tables (system: 32 entries, user: none) at start-up. */
 extern int D_002C5A50;
 extern int D_002C5A54;
 extern char D_0044E708[];

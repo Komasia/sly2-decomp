@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* ftoi: convert the IEEE double whose bits are in `d` to int, rounding to nearest (halves up); 0 below
+   2^-53, 9999 from 2^13 up. */
 int ftoi(unsigned long d)
 {
     long e;

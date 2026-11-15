@@ -1,7 +1,8 @@
-// (Claude agent) MATCHES only with the empty asm barrier after the first call (same post-call-group issue). Without: 3/81 differ.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* _pictureHeader (libmpeg): parse picture_header(): temporal reference, picture coding type and (MPEG-1)
+   f_codes. The empty asm barrier after the first call keeps the store next to it, as Sony's scheduler did. */
 typedef struct {
     char p0[0x160]; int type; int full_pel_fwd; int fwd_f_code; int full_pel_bwd; int bwd_f_code;
     char p174[0x1BC - 0x174]; int tr;

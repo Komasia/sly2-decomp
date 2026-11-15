@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* fabs (newlib s_fabs.c): clear the sign bit of a double. */
 typedef unsigned long ulong;
 union DOUBLEWORD {double value;ulong bits;};
 static inline void SplitMagnitudeBits(ulong bits,long *high,ulong *low){

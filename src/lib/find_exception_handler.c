@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* find_exception_handler (libgcc, new EH table): find the handler covering pc for the thrown exception. */
 #define NULL ((void *)0)
 typedef void * (*__eh_matcher) (void *, void *, void *);
 typedef struct __eh_info { __eh_matcher match_function; short language; short version; } __eh_info;

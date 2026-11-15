@@ -1,8 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* dpcmp (Sony libgcc fp-bit, __cmpdf2): three-way double compare (NaN compares unordered). */
 __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
-// (Claude agent) near miss: 3/19, prologue save order only
 typedef unsigned long fractype;
 typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY } fp_class_type;
 typedef struct {

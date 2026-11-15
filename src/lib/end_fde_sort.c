@@ -1,7 +1,8 @@
-// libgcc frame.c (gcc 2.95) end_fde_sort with the original inline frame_heapsort (Claude agent)
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* end_fde_sort (libgcc frame.c, gcc 2.95): sort the collected FDEs by pc (split + heapsort + merge), with the
+   original inline frame_heapsort. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

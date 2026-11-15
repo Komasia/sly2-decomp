@@ -1,4 +1,5 @@
-/* _ri0_111 (hand-written MMI assembly in Sony libmpeg). */
+/* _ri0_111 (libmpeg, hand-written MMI assembly): motion-compensation kernel for one chroma (8x8, two planes) block,
+   half-pel horizontally, half-pel vertically, averaged with the prediction already in the block. Suffix bits: average, x half-pel, y half-pel. */
 __asm__(
     ".set noreorder\n"
     ".text\n"

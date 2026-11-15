@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* decode_sleb128 (libgcc frame.c): read a signed LEB128 number; returns the byte after it. */
 unsigned char *decode_sleb128(unsigned char *buf, int *r)
 {
     unsigned int shift = 0;

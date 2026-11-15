@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* frame_init (libgcc frame.c): build an object's sorted FDE array (count, add, sort) on first lookup. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef unsigned int uaddr;

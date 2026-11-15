@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* cosf (newlib/fdlibm sf_cos.c): cosine in float, by argument reduction to [-pi/4, pi/4]. */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

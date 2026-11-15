@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* count_fdes (libgcc frame.c): number of FDEs (non-CIE entries) in an unwind section. */
 typedef unsigned int uword;
 typedef int sword;
 typedef unsigned int size_t;

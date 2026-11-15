@@ -1,7 +1,7 @@
-// (Claude agent) only diff: Sony gas nop between c.eq/c.lt.s and bc1f (libm FPU compare hazard, toolchain); otherwise exact.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* asinf (newlib wf_asin.c): wrapper around __ieee754_asinf with the _LIB_VERSION / matherr error handling. */
 struct exception {
     int type;
     char *name;

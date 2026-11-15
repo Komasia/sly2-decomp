@@ -1,8 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* dpadd (Sony libgcc fp-bit, i.e. __adddf3): double addition on unpacked operands. */
 __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
-// (Claude agent) near miss: 5/22, prologue save order + a0/a2 arg setup order
 typedef unsigned long fractype;
 typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY } fp_class_type;
 typedef struct {

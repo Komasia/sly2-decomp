@@ -2,9 +2,12 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 typedef struct { int count; int max_count; int init_count; int wait_threads; unsigned attr; unsigned option; } ee_sema_t;
-extern int D_002C6760, D_002C6768, D_002C676C, D_002C6770, D_002C6774;
-extern char D_002AB418[], D_002AB428[], D_002AB438[], D_002AB448[];
+extern int D_002C6760, D_002C6768, D_002C676C, D_002C6770, D_002C6774;   /* callback, N-, S-, R-command semaphores */
+extern char D_002AB418[], D_002AB428[], D_002AB438[], D_002AB448[];      /* "SceCdNcmdSema", "SceCdScmdSema", "SceCdRcmdSema", "SceCdCallbackSema" */
 int CreateSema(ee_sema_t *);
+
+/* cmd_sem_init (libcdvd): create the command semaphores (binary, initially free) and the callback semaphore
+   (initially taken) once. */
 void cmd_sem_init(void)
 {
     ee_sema_t s;
