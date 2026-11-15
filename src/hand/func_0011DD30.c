@@ -1,3 +1,4 @@
+/* Colour vector -> RGBA: x, y, z scaled to bytes (rounded), with alpha a. */
 typedef struct VECTOR { float x, y, z; } VECTOR;
 typedef struct RGBA { unsigned char r, g, b, a; } RGBA;
 

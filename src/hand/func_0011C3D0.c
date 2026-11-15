@@ -1,3 +1,4 @@
+/* The relative transform of pmat to pv: pmat times the affine inverse of pv, into *pmatOut. */
 typedef struct MATRIX4 { float mat[4][4]; } __attribute__((aligned(16))) MATRIX4;
 
 MATRIX4 InverseAffineMatrix4__FP7MATRIX4(void *pv);

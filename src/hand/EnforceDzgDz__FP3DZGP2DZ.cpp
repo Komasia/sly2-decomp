@@ -1,30 +1,7 @@
 // EnforceDzgDz: Sly 1's dzg solver step (A/B/C/D constraint lists, Crout decomposition).
-#include "dl.h"
-struct DZ {
-    int nKind;
-    float gMin;
-    float gMax;
-    float gC;
-    float g10;
-    float g14;
-    float *ag;
-    int n1C;
-    DLE dle;
-};
-struct DZG {
-    int cdzMax;
-    int cdz;
-    DZ *adz;
-    DL dlA;
-    DL dlB;
-    DL dlC;
-    DL dlD;
-    int cdzA;
-    float *agMat;
-    float *agLu;
-    float *agB;
-    float *agX;
-};
+/* One LCP pivoting pass (at most 10 steps): adds pdz (if any) to the clamped set, solves the clamped system and
+ * moves the row that first hits a bound (or leaves one) between the clamped, lower and upper lists. */
+#include "dzg.h"
 
 extern "C" {
 void AppendDlEntry(DL *pdl, void *pv) asm("AppendDlEntry__FP2DLPv");
@@ -39,9 +16,9 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
 {
     int iter;
     if (pdz) {
-        RemoveDlEntry(&pdzg->dlD, pdz);
-        AppendDlEntry(&pdzg->dlA, pdz);
-        pdzg->cdzA++;
+        RemoveDlEntry(&pdzg->dlOpen, pdz);
+        AppendDlEntry(&pdzg->dlClamped, pdz);
+        pdzg->cdzClamped++;
     }
     for (iter = 0; iter < 10; iter++) {
         DZ *pdzI, *pdzJ, *pdzK, *pdzBest;
@@ -49,28 +26,28 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
         int i, k;
         float gMin;
 
-        float *pgMat = pdzg->agMat;
-        for (pdzI = (DZ *)pdzg->dlA.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
-            for (pdzJ = (DZ *)pdzg->dlA.head; pdzJ; pdzJ = (DZ *)pdzJ->dle.next)
-                *pgMat++ = pdzI->ag[pdzJ - pdzg->adz];
-        CroutDecomp(pdzg->cdzA, pdzg->agMat, pdzg->agLu);
+        float *pgA = pdzg->agA;
+        for (pdzI = (DZ *)pdzg->dlClamped.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
+            for (pdzJ = (DZ *)pdzg->dlClamped.head; pdzJ; pdzJ = (DZ *)pdzJ->dle.next)
+                *pgA++ = pdzI->agCoupling[pdzJ - pdzg->adz];
+        CroutDecomp(pdzg->cdzClamped, pdzg->agA, pdzg->agLu);
         float *pgB = pdzg->agB;
-        for (pdzI = (DZ *)pdzg->dlA.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
-            *pgB++ = -pdzI->g10;
-        CroutSolve(pdzg->cdzA, pdzg->agLu, pdzg->agB, pdzg->agX);
+        for (pdzI = (DZ *)pdzg->dlClamped.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
+            *pgB++ = -pdzI->gResidual;
+        CroutSolve(pdzg->cdzClamped, pdzg->agLu, pdzg->agB, pdzg->agX);
         for (i = 0; i < pdzg->cdz; i++) {
             float g = 0.0f;
             float *pgX = pdzg->agX;
-            for (pdzI = (DZ *)pdzg->dlA.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
-                g += *pgX++ * pdzI->ag[i];
-            pdzg->adz[i].g14 = g;
+            for (pdzI = (DZ *)pdzg->dlClamped.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
+                g += *pgX++ * pdzI->agCoupling[i];
+            pdzg->adz[i].dgResidual = g;
         }
 
         pdzBest = 0;
         gMin = 1.0f;
         k = 0;
         pg = pdzg->agX;
-        for (pdzI = (DZ *)pdzg->dlA.head; pdzI; pdzI = (DZ *)pdzI->dle.next) {
+        for (pdzI = (DZ *)pdzg->dlClamped.head; pdzI; pdzI = (DZ *)pdzI->dle.next) {
             float x = *pg++;
             if (x > 1e-4f) {
                 // Empty asm, allocation-only operands (emits nothing): two extra uses of the +-1e-4 constants
@@ -79,7 +56,7 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
                 // the constants get f5/f4 and the globals f7/f6 as in the target.
                 __asm__("" : : "f"(1e-4f), "f"(-1e-4f));
                 if (pdzI->gMax != D_002A4120) {
-                    float t = (pdzI->gMax - pdzI->gC) / x;
+                    float t = (pdzI->gMax - pdzI->g) / x;
                     if (t < gMin) {
                         gMin = t;
                         pdzBest = pdzI;
@@ -88,7 +65,7 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
                 }
             } else if (x < -1e-4f) {
                 if (pdzI->gMin != D_002A4124) {
-                    float t = (pdzI->gMin - pdzI->gC) / x;
+                    float t = (pdzI->gMin - pdzI->g) / x;
                     if (t < gMin) {
                         gMin = t;
                         pdzBest = pdzI;
@@ -97,9 +74,9 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
                 }
             }
         }
-        for (pdzK = (DZ *)pdzg->dlB.head; pdzK; pdzK = (DZ *)pdzK->dle.next) {
-            if (pdzK->g14 > -1e-4f) {} else {
-                float t = -pdzK->g10 / pdzK->g14;
+        for (pdzK = (DZ *)pdzg->dlLower.head; pdzK; pdzK = (DZ *)pdzK->dle.next) {
+            if (pdzK->dgResidual > -1e-4f) {} else {
+                float t = -pdzK->gResidual / pdzK->dgResidual;
                 if (t < gMin) {
                     gMin = t;
                     pdzBest = pdzK;
@@ -107,9 +84,9 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
                 }
             }
         }
-        for (pdzK = (DZ *)pdzg->dlC.head; pdzK; pdzK = (DZ *)pdzK->dle.next) {
-            if (pdzK->g14 < 1e-4f) {} else {
-                float t = -pdzK->g10 / pdzK->g14;
+        for (pdzK = (DZ *)pdzg->dlUpper.head; pdzK; pdzK = (DZ *)pdzK->dle.next) {
+            if (pdzK->dgResidual < 1e-4f) {} else {
+                float t = -pdzK->gResidual / pdzK->dgResidual;
                 if (t < gMin) {
                     gMin = t;
                     pdzBest = pdzK;
@@ -119,38 +96,38 @@ void EnforceDzgDz(DZG *pdzg, DZ *pdz)
         }
         for (i = 0; i < pdzg->cdz; i++) {
             DZ *pdzT = &pdzg->adz[i];
-            pdzT->g10 += gMin * pdzT->g14;
+            pdzT->gResidual += gMin * pdzT->dgResidual;
         }
         pg = pdzg->agX;
-        for (pdzI = (DZ *)pdzg->dlA.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
-            pdzI->gC += gMin * *pg++;
+        for (pdzI = (DZ *)pdzg->dlClamped.head; pdzI; pdzI = (DZ *)pdzI->dle.next)
+            pdzI->g += gMin * *pg++;
 
         switch (k) {
         case 0:
             return;
         case 2:
-            pdzg->cdzA--;
-            RemoveDlEntry(&pdzg->dlA, pdzBest);
-            AppendDlEntry(&pdzg->dlB, pdzBest);
+            pdzg->cdzClamped--;
+            RemoveDlEntry(&pdzg->dlClamped, pdzBest);
+            AppendDlEntry(&pdzg->dlLower, pdzBest);
             if (pdzBest == pdz)
                 return;
             break;
         case 1:
-            pdzg->cdzA++;
-            RemoveDlEntry(&pdzg->dlB, pdzBest);
-            AppendDlEntry(&pdzg->dlA, pdzBest);
+            pdzg->cdzClamped++;
+            RemoveDlEntry(&pdzg->dlLower, pdzBest);
+            AppendDlEntry(&pdzg->dlClamped, pdzBest);
             break;
         case 4:
-            pdzg->cdzA--;
-            RemoveDlEntry(&pdzg->dlA, pdzBest);
-            AppendDlEntry(&pdzg->dlC, pdzBest);
+            pdzg->cdzClamped--;
+            RemoveDlEntry(&pdzg->dlClamped, pdzBest);
+            AppendDlEntry(&pdzg->dlUpper, pdzBest);
             if (pdzBest == pdz)
                 return;
             break;
         case 3:
-            pdzg->cdzA++;
-            RemoveDlEntry(&pdzg->dlC, pdzBest);
-            AppendDlEntry(&pdzg->dlA, pdzBest);
+            pdzg->cdzClamped++;
+            RemoveDlEntry(&pdzg->dlUpper, pdzBest);
+            AppendDlEntry(&pdzg->dlClamped, pdzBest);
             break;
         }
     }

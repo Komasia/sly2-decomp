@@ -1,3 +1,4 @@
+/* The pan (heading about Z) and tilt (elevation) of a rotation matrix's first row. */
 struct MATRIX3 { float mat[3][4]; } __attribute__((aligned(16)));
 extern "C" float atan2f(float y, float x);
 static inline float sqrtf_(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }

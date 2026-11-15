@@ -1,3 +1,5 @@
+/* Builds a perspective projection: x / y scales rx / ry, the screen offsets in the third row, and z mapped
+ * from [sNear, sFar] with w = z. */
 struct MATRIX4 { float mat[4][4]; } __attribute__((aligned(16)));
 extern "C" void *memset(void *pv, int b, unsigned int cb);
 

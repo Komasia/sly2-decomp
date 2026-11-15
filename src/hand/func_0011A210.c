@@ -1,3 +1,4 @@
+/* Clears a list entry (both links). */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 
 void ClearDle__FP3DLE(SL *psl)

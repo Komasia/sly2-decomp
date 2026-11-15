@@ -1,3 +1,4 @@
+/* Sine and cosine of an angle: folded into [-pi/2, pi/2], a polynomial sine, the cosine from it. */
 static inline float sqrtf_(float x) { float r; __asm__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 static inline float GClamp(float g, float lo, float hi)
 {

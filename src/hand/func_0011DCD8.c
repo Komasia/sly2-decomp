@@ -1,3 +1,4 @@
+/* RGBA -> colour vector: the r, g, b bytes scaled to [0, 1]. */
 typedef struct RGBA { unsigned char r, g, b, a; } RGBA;
 
 void func_0011DCD8(RGBA *prgba, float *pg)

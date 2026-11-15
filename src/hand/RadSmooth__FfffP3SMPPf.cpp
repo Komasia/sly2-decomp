@@ -1,3 +1,4 @@
+/* GSmooth for angles: smooths the normalized difference to the target, so the shortest way round is taken. */
 struct SMP;
 float RadNormalize(float rad);
 float GSmooth(float gCur, float gTarget, float dt, SMP *psmp, float *pdgNext);

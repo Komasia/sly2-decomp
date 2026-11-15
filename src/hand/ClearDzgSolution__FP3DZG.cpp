@@ -1,21 +1,5 @@
-#include "dl.h"
-struct DZS {
-    char pad0[0xC];
-    float gC;
-    float g10;
-    char pad14[0xC];
-    DLE dle;
-};
-struct DZG {
-    int cdzsMax;
-    int cdzs;
-    DZS *adzs;
-    DL dlA;
-    DL dlB;
-    DL dlC;
-    DL dlD;
-    int n3C;
-};
+/* Resets a constraint system's solution: every row's g and residual to 0 and every row back in the open list. */
+#include "dzg.h"
 
 extern "C" {
 void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
@@ -27,16 +11,16 @@ void ClearDzgSolution(DZG *pdzg)
 {
     int i;
 
-    pdzg->n3C = 0;
-    ClearDl(&pdzg->dlA);
-    ClearDl(&pdzg->dlB);
-    ClearDl(&pdzg->dlC);
-    ClearDl(&pdzg->dlD);
+    pdzg->cdzClamped = 0;
+    ClearDl(&pdzg->dlClamped);
+    ClearDl(&pdzg->dlLower);
+    ClearDl(&pdzg->dlUpper);
+    ClearDl(&pdzg->dlOpen);
 
-    for (i = 0; i < pdzg->cdzs; i++) {
-        DZS *pdzs = &pdzg->adzs[i];
-        pdzs->gC = pdzs->g10 = 0.0f;
-        ClearDle(&pdzs->dle);
-        AppendDlEntry(&pdzg->dlD, pdzs);
+    for (i = 0; i < pdzg->cdz; i++) {
+        DZ *pdz = &pdzg->adz[i];
+        pdz->g = pdz->gResidual = 0.0f;
+        ClearDle(&pdz->dle);
+        AppendDlEntry(&pdzg->dlOpen, pdz);
     }
 }

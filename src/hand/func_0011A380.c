@@ -1,3 +1,4 @@
+/* Doubly-linked list: is pv in the list (it has a next link, or it is the tail)? */
 #include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))

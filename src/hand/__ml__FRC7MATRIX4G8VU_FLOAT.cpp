@@ -1,3 +1,4 @@
+/* MATRIX4 * scalar: every row scaled (VU0). */
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { qword r[4]; };
 struct VU_FLOAT { qword q; };

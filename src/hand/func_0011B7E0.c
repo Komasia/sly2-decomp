@@ -1,3 +1,4 @@
+/* Look-at matrix for a direction with the world Z axis as up (BuildLookAtMatrixZ in SafeHouse). */
 typedef int VU_VECTOR __attribute__((mode(TI)));
 typedef struct MATRIX3 { float mat[3][4]; } __attribute__((aligned(16))) MATRIX3;
 

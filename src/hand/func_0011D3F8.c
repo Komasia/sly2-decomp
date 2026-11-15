@@ -1,3 +1,4 @@
+/* A random int in [nLow, nHi]. */
 int NRandom(void) asm("NRandom__Fv");
 
 int NRandInRange__Fii(int nLow, int nHi)

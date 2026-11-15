@@ -1,3 +1,4 @@
+/* The cosine of the angle between two vectors (0 when either is shorter than 1e-4). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 static inline float Len(qword v)

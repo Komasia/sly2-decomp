@@ -1,3 +1,4 @@
+/* Case-folded string hash: n = n * 33 + toupper(ch) over the string (0: the empty string at 0x2A4150). */
 extern unsigned char D_002A4150[];
 extern unsigned char D_002AA6A1[];
 

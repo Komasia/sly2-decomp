@@ -1,3 +1,4 @@
+/* Truncates a float toward zero by masking its fraction bits. */
 typedef unsigned int uint;
 
 float GTrunc__Ff(float g)

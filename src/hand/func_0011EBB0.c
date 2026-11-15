@@ -1,3 +1,5 @@
+/* Ray / triangle intersection (Moller-Trumbore): does the ray orig + t dir (t >= 0) hit the triangle
+ * (v0, v1, v2)? The distance into *pt and the barycentric u, v into puv (each optional). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float af[4]; } V;
 static inline qword Sub(qword a, qword b)

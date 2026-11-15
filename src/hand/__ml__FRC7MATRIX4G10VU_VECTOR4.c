@@ -1,3 +1,4 @@
+/* MATRIX4 * VECTOR4: the rows weighted by the vector's components (VU0). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 qword ml(const M4 *m, qword v) __asm__("__ml__FRC7MATRIX4G10VU_VECTOR4");

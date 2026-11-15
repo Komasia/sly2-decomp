@@ -1,3 +1,4 @@
+/* GSmoothA for angles (the shortest way round). */
 struct SMPA;
 float RadNormalize(float rad);
 float GSmoothA(float gCur, float dgCur, float gTarget, float dt, SMPA *psmpa, float *pdgNext);

@@ -1,24 +1,8 @@
-#include "dl.h"
+/* Solves the rows of a constraint system: the two-sided rows clamped first, then the open row with the most
+ * negative residual (below -0.01) enforced until none is left. */
+#include "dzg.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; int nUnused; } DLI;
 
-typedef struct DZ {
-    int nKind;
-    char pad4[0xC];
-    float g10;
-    char pad14[0xC];
-    DLE dle;
-} DZ;
-
-typedef struct DZG {
-    int cdzsMax;
-    int cdzs;
-    void *adzs;
-    DL dlA;
-    DL dlB;
-    DL dlC;
-    DL dlD;
-    int n3C;
-} DZG;
 
 extern DLI *s_pdliFirst;
 void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv);
@@ -47,12 +31,12 @@ void EnforceDzgConstraints__FP3DZG(DZG *pdzg)
     DLI dli;
     DZ *pdz;
 
-    InitDli(&dli, &pdzg->dlD);
+    InitDli(&dli, &pdzg->dlOpen);
     while ((pdz = (DZ *)PvNextDli(&dli)) != 0) {
-        if (pdz->nKind == 1) {
-            RemoveDlEntry__FP2DLPv(&pdzg->dlD, pdz);
-            AppendDlEntry__FP2DLPv(&pdzg->dlA, pdz);
-            pdzg->n3C++;
+        if (pdz->kind == DZK_TwoSided) {
+            RemoveDlEntry__FP2DLPv(&pdzg->dlOpen, pdz);
+            AppendDlEntry__FP2DLPv(&pdzg->dlClamped, pdz);
+            pdzg->cdzClamped++;
         }
     }
     EnforceDzgDz(pdzg, 0);
@@ -62,9 +46,9 @@ void EnforceDzgConstraints__FP3DZG(DZG *pdzg)
         DZ *pdzMin = 0;
         float gMin = -0.01f;
         DZ *pdzT;
-        for (pdzT = (DZ *)pdzg->dlD.head; pdzT; pdzT = (DZ *)pdzT->dle.next) {
-            if (pdzT->g10 < gMin) {
-                gMin = pdzT->g10;
+        for (pdzT = (DZ *)pdzg->dlOpen.head; pdzT; pdzT = (DZ *)pdzT->dle.next) {
+            if (pdzT->gResidual < gMin) {
+                gMin = pdzT->gResidual;
                 pdzMin = pdzT;
             }
         }

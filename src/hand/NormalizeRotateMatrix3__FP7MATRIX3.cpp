@@ -1,3 +1,4 @@
+/* Re-orthonormalizes a rotation matrix: normalizes row 0, rebuilds row 2 = r0 x r1 and row 1 = r2 x r0. */
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX3 { qword r[3]; };
 static inline qword Normalize(qword v)
