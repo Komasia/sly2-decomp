@@ -7,12 +7,13 @@ struct CRef {
     CRef &operator=(const CRef &r);
 };
 extern "C" {
-CRef func_001249A8(int k, void *a, void *b, void *c);
-CRef func_00124F80(void *a, void *b, void *c);
+CRef RefOpHitTestObjectsImpl__F4BIFKiP4CRefP6CFrame(int k, void *a, void *b, void *c);
+CRef RefOpHitTestObjectsFirst__FiP4CRefP6CFrame(void *a, void *b, void *c);
 }
-CRef func_00124F80(void *a, void *b, void *c)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 124: RefOpHitTestObjectsImpl with its own BIFK 0x7C)
+CRef RefOpHitTestObjectsFirst__FiP4CRefP6CFrame(void *a, void *b, void *c)
 {
     CRef ref;
-    ref = func_001249A8(0x7C, a, b, c);
+    ref = RefOpHitTestObjectsImpl__F4BIFKiP4CRefP6CFrame(0x7C, a, b, c);
     return ref;
 }

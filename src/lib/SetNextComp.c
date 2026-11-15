@@ -18,8 +18,8 @@ typedef struct {
     int current_handling_timer_id;      /* 0x1C */
 } TimerGlobal;
 extern TimerGlobal D_002C5A30;  /* g_Timer */
-void func_00239AD0(int);   /* SetT2_COMP */
-void func_00239AC0(int);   /* SetT2_MODE */
+void SetT2_COMP(int);   /* SetT2_COMP */
+void SetT2_MODE(int);   /* SetT2_MODE */
 
 void SetNextComp(unsigned long now)
 {
@@ -32,8 +32,8 @@ void SetNextComp(unsigned long now)
         return;
     mode = T2_MODE;
     if (counter == 0) {
-        func_00239AD0(0);
-        func_00239AC0(mode & ~T_MODE_OVFF);
+        SetT2_COMP(0);
+        SetT2_MODE(mode & ~T_MODE_OVFF);
         return;
     }
     next = counter->timer_schedule + counter->timer_base_time - counter->timer_base_count;
@@ -47,10 +47,10 @@ void SetNextComp(unsigned long now)
         counter = counter->timer_next;
     }
     if ((long)(next - now) < TIMER_COMP_MARGIN) {
-        func_00239AD0(T2_COUNT + (int)((unsigned long)TIMER_COMP_MARGIN >> ((mode & T_MODE_CLKS) * 4)));
-        func_00239AC0(mode & ~T_MODE_OVFF);
+        SetT2_COMP(T2_COUNT + (int)((unsigned long)TIMER_COMP_MARGIN >> ((mode & T_MODE_CLKS) * 4)));
+        SetT2_MODE(mode & ~T_MODE_OVFF);
         return;
     }
-    func_00239AC0(mode & ~T_MODE_OVFF);
-    func_00239AD0(next >> ((mode & T_MODE_CLKS) * 4));
+    SetT2_MODE(mode & ~T_MODE_OVFF);
+    SetT2_COMP(next >> ((mode & T_MODE_CLKS) * 4));
 }

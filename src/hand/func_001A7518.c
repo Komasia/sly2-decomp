@@ -18,7 +18,7 @@ void RenderSw(void *) asm("RenderSw__FP2SW");
 void DrawSw(void *) asm("DrawSw__FP2SW");
 void UpdateRecyclable(void *) asm("UpdateRecyclable__3CGc");
 void DrawAnimatedOverlayFrame__FPv(void *);
-void func_00160A98(void);
+void CloseFrame__Fv(void);
 void func_001A7518(int a, int b)
 {
     __main__Fv();
@@ -42,7 +42,7 @@ void func_001A7518(int a, int b)
         }
         if (D_002DD644)
             DrawAnimatedOverlayFrame__FPv(D_002DD644);
-        func_00160A98();
+        CloseFrame__Fv();
         D_002BE538++;
     }
 }

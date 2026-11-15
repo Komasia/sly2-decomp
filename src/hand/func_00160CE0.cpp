@@ -15,7 +15,8 @@ extern "C" int FIsDlEmpty(DL*) asm("FIsDlEmpty__FP2DL");
 extern "C" void RemoveDlEntry(DL*,void*) asm("RemoveDlEntry__FP2DLPv");
 extern "C" void ClearDl(DL*) asm("ClearDl__FP2DL");
 extern "C" void func_0011CD98(void*,void*);
-extern "C" void func_00160CE0(FR*frame){
+// name: Sly 1 frm.c ClearPendingFrame (suggested by h2)
+extern "C" void ClearPendingFrame__FP3FRM(FR*frame){
  if(!FIsDlEmpty(&frame->dl34)){
   DLI iter(&frame->dl34);
   for(LO*object=(LO*)iter.Next();object;object=(LO*)iter.Next()){

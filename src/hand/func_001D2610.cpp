@@ -55,7 +55,7 @@ float RadNormalize(float) asm("RadNormalize__Ff");
 void SetSmaGoal(void *, int) asm("SetSmaGoal__FP3SMA3OID");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 void FollowVehiclePath(P *) asm("FollowVehiclePath__FP7VEHICLE");
-int func_001D4E08(ATTACH *);
+int FVehicleAttachmentReady__FP13VEHICLEATTACH(ATTACH *);
 int FPointInShape(void *, qword) asm("FPointInShape__FP2LOG9VU_VECTOR");
 }
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
@@ -231,7 +231,7 @@ extern "C" void UpdateVehicleAi__FP7VEHICLE(P *p)
     if (g_clock.t > p->nextAttack) {
         for (int i = 0; i < p->attachCount; i++) {
             ATTACH *attach = p->attachments[i];
-            if (!func_001D4E08(attach))
+            if (!FVehicleAttachmentReady__FP13VEHICLEATTACH(attach))
                 continue;
             if (attach->constraint && !FPointInShape(attach->constraint, target))
                 continue;

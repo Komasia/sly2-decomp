@@ -6,7 +6,8 @@ void *PloFindSwObject__FP2SWi3OIDP2LOPv(G *pg, int k, int a, LO *b, void *c);
 void SetBasic__4CRefP5BASIC(CRef *pref, void *p);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
-CRef *func_00124150(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 112: PloFindSwObject, relative 1 / global 5)
+CRef *RefOpFindObject__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     LO *b;

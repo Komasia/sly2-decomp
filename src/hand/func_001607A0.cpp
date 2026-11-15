@@ -10,7 +10,8 @@ extern int D_002DEB1C;
 extern DL D_002DEAF0;
 extern DL D_002DEB00;
 extern int D_004425D4;
-extern "C" void func_001607A0()
+// name: Sly 1 frm.c StartupFrame (same place before OpenFrame and shape; suggested by agent h2)
+extern "C" void StartupFrame__Fv()
 {
     func_00234700(5, func_00167F78, 0);
     func_00235178(5);

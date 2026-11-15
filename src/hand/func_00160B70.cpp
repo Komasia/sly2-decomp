@@ -19,12 +19,13 @@ extern "C" void WaitSema(int sid) asm("WaitSema");
 extern "C" void SignalSema(int sid) asm("SignalSema");
 extern "C" void func_001EE7B0(FR *pfr);
 extern "C" void func_00170048();
-extern "C" void func_00160F98();
+extern "C" void BlendPrevFrame__Fv();
 extern "C" void sceDmaSync(sceDmaChan *pch, int a, int b) asm("sceDmaSync");
 void RestoreGsBuffers();
 void SwapGsBuffers();
 void SendDmaSyncGsFinish(sceDmaChan *pch, QW *pqw);
-extern "C" void func_00160B70()
+// name: Sly 1 frm.c FrameRenderLoop (the render thread; suggested by h2)
+extern "C" void FrameRenderLoop__FPv()
 {
     for (;;) {
         D_002DEB20 = 1;
@@ -41,7 +42,7 @@ extern "C" void func_00160B70()
         SendDmaSyncGsFinish(g_pdcVif1, D_002DEB14->aqw24);
         SendDmaSyncGsFinish(g_pdcGif, D_002DEB14->aqwGifs);
         if (D_002DEB14->n30 & 1)
-            func_00160F98();
+            BlendPrevFrame__Fv();
         sceDmaSync(g_pdcVif1, 0, 0);
         SignalSema(D_002DEB1C);
         SwapGsBuffers();

@@ -3,11 +3,11 @@
 // SLY2_ASM: gnu-reorder-db
 /* __main (libgcc): run the global constructors once. */
 extern "C" int D_0045022C;              /* initialized */
-extern "C" void func_0023B728(void);    /* __do_global_ctors */
+extern "C" void __do_global_ctors(void);    /* __do_global_ctors */
 void __main(void)
 {
     if (D_0045022C == 0) {
         D_0045022C = 1;
-        func_0023B728();
+        __do_global_ctors();
     }
 }

@@ -5,7 +5,8 @@ void InitTag__4CRef(CRef *pref, int tagk);
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float g);
 extern char g_joy[];
-CRef *func_00125248(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 130: TriggerJoyRumbleRumk on the pad)
+CRef *RefOpStartRumble__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     void *p = g_joy;
     int n = aref[0].u.n;

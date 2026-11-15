@@ -14,7 +14,8 @@ struct VEHICLEATTACH {                          /* field: SafeHouse port */
     /* 0x70 */ int cost;
 };
 
-int func_001D4E08(struct VEHICLEATTACH *pattach)
+// name: SafeHouse port (vehicle.h FVehicleAttachmentReady, orig 0x1D4E08; suggested by h3)
+int FVehicleAttachmentReady__FP13VEHICLEATTACH(struct VEHICLEATTACH *pattach)
 {
     return pattach->powner->aresource[pattach->iresource].count >= pattach->cost;
 }

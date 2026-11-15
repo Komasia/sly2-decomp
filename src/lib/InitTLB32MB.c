@@ -15,7 +15,7 @@ extern char D_002AAD98[];   /* "# TLB spad=0 kernel=1:%d default=%d:%d extended=
 extern char D_002AADD0[], D_002AADE8[], D_002AAE00[];  /* "# TLB over flow (1)" .. "(3)" */
 int func_002369E0(const char *, ...);   /* kernel printf (Kprintf) */
 void func_002398D0(int);                /* exit with status */
-void func_0023B358(int, unsigned int, unsigned int, unsigned int, unsigned int);  /* SetTLBEntry (syscall 0x56) */
+void SetTLBEntry(int, unsigned int, unsigned int, unsigned int, unsigned int);  /* SetTLBEntry (syscall 0x56) */
 
 int InitTLB32MB(void)
 {
@@ -38,7 +38,7 @@ int InitTLB32MB(void)
     }
     ent = D_002C6098.pKernel;
     for (; i < n; i++, ent++)
-        func_0023B358(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
+        SetTLBEntry(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
 
     n = i + D_002C6098.nDefault;
     if (n > TLB_ENTRIES) {
@@ -47,7 +47,7 @@ int InitTLB32MB(void)
     }
     ent = D_002C6098.pDefault;
     for (; i < n; i++, ent++)
-        func_0023B358(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
+        SetTLBEntry(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
 
     D_002C6098.nWired = i;
     __asm__ __volatile__("mtc0 %0, $6\n\tsync.p" : : "r"(i));    /* Wired = i */
@@ -60,9 +60,9 @@ int InitTLB32MB(void)
         }
         ent = D_002C6098.pExtended;
         for (; i < n; i++, ent++)
-            func_0023B358(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
+            SetTLBEntry(i, ent->PageMask, ent->EntryHi, ent->EntryLo0, ent->EntryLo1);
     }
     for (j = i; j < TLB_ENTRIES; j++)
-        func_0023B358(j, 0, 0xE0000000 + (j << 13), 0, 0);
+        SetTLBEntry(j, 0, 0xE0000000 + (j << 13), 0, 0);
     return i;
 }

@@ -5,7 +5,8 @@ void InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");
 void func_001A71B0(MATRIX4 *pmat, int a, int b, int c);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
-CRef *func_001250D8(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 127: a matrix from one object's space to another's)
+CRef *RefOpConvertObjectMatrix__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     MATRIX4 mat;

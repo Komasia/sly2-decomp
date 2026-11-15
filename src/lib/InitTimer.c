@@ -17,11 +17,11 @@ extern Counter D_0044C300[TIMER_COUNTER_COUNT];    /* g_CounterBuf */
 void cbTimerHandler(void);
 void *s1_memset(void *, int, int) asm("memset");
 void func_0023A618(void);       /* init the alarm pool */
-int func_00234710(int, void *, int, void *);   /* AddIntcHandler2 (syscall 0x10) */
+int AddIntcHandler2(int, void *, int, void *);   /* AddIntcHandler2 (syscall 0x10) */
 int DIntr(void);
-void func_00239AB0(int);        /* SetT2_COUNT */
-void func_00239AC0(int);        /* SetT2_MODE */
-void func_00239AD0(int);        /* SetT2_COMP */
+void SetT2_COUNT(int);        /* SetT2_COUNT */
+void SetT2_MODE(int);        /* SetT2_MODE */
+void SetT2_COMP(int);        /* SetT2_COMP */
 int func_00235178(int);         /* EnableIntc */
 int EIntr(void);
 
@@ -50,7 +50,7 @@ int InitTimer(int prescale)
     }
     D_0044C300[TIMER_COUNTER_COUNT - 1].timer_next = 0;
     func_0023A618();
-    handler = func_00234710(INTC_TIM2, cbTimerHandler, 0, 0);
+    handler = AddIntcHandler2(INTC_TIM2, cbTimerHandler, 0, 0);
     if (handler < 0)
         return KE_EINT_HANDLER;
     D_002C5A30.intc_handler = handler;
@@ -59,11 +59,11 @@ int InitTimer(int prescale)
     mode = (mode & ~T_MODE_CLKS) | prescale;
     mode |= T_MODE_CMPE | T_MODE_OVFE;
     if (!(mode & T_MODE_CUE)) {
-        func_00239AB0(0);
+        SetT2_COUNT(0);
         mode |= T_MODE_OVFF | T_MODE_EQUF | T_MODE_CUE;
-        func_00239AD0(0xFFFF);
+        SetT2_COMP(0xFFFF);
     }
-    func_00239AC0(mode);
+    SetT2_MODE(mode);
     func_00235178(INTC_TIM2);
     if (intr) EIntr();
     return 0;

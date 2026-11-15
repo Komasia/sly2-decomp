@@ -60,7 +60,8 @@ extern "C" int ClipSegmentSoe(SO *pso, qword pos0, qword pos1, int f, HIT *phit)
 
 /* Script builtin: ray-cast segment aref[1]->aref[2] against every SO of each LO in list aref[0].
    pv == 0x7B: return list of (lo pos normal) for all hits; otherwise return (lo normal) of the first hit. */
-extern "C" CRef func_001249A8(int pv, int c, CRef *aref)
+// name: Sly 1 bif.cpp RefOpHitTestObjectsImpl (segment test of a list of objects, the caller's BIFK selects all / first)
+extern "C" CRef RefOpHitTestObjectsImpl__F4BIFKiP4CRefP6CFrame(int pv, int c, CRef *aref)
 {
     CRef ref;
     if (aref[0].m_tagk == 0) {

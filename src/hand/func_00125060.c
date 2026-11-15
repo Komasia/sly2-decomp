@@ -4,7 +4,8 @@ void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
 TI ConvertVec__FP2LOT0G9VU_VECTOR(void *a, void *b, TI v);
-CRef *func_00125060(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 126: ConvertVec)
+CRef *RefOpConvertObjectVector__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     TI *pv;

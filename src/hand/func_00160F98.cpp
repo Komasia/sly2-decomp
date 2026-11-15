@@ -12,7 +12,8 @@ static inline ulong Tex0FromDisp(ulong disp)
 {
     return ((disp & 0x1FF) << 5) | (((disp >> 16) & 0x3F) << 14) | (((disp >> 24) & 0x3F) << 20);
 }
-extern "C" void func_00160F98()
+// name: Sly 1 frm.c BlendPrevFrame (suggested by h2)
+extern "C" void BlendPrevFrame__Fv()
 {
     if (D_002DEB24 || D_003E12C8)
         return;

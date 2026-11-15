@@ -6,7 +6,8 @@ int DIntr(void);
 int iStartTimerCounter(int);
 int EIntr(void);
 
-int func_0023A3A0(int id)
+// name: libkernel StartTimerCounter (DIntr / iStartTimerCounter / EIntr like AllocTimerCounter; suggested by l1)
+int StartTimerCounter(int id)
 {
     int intr = DIntr();
     int ret = iStartTimerCounter(id);

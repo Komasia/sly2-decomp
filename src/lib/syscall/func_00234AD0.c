@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl func_00234AD0\n"
-    ".ent func_00234AD0\n"
-    "func_00234AD0:\n"
+    ".globl GetOsdConfigParam\n"
+    ".ent GetOsdConfigParam\n"
+    "GetOsdConfigParam:\n"
     "addiu $3, $0, 75\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end func_00234AD0\n"
+    ".end GetOsdConfigParam\n"
     ".set reorder\n"
 );

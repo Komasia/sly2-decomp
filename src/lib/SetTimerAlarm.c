@@ -16,7 +16,7 @@ int DIntr(void);
 int EIntr(void);
 int AllocTimerCounter(void);
 int SetTimerHandler(int, long, void *, void *);
-int func_0023A3A0(int);         /* StartTimerCounter */
+int StartTimerCounter(int);         /* StartTimerCounter */
 int func_0023A668(int, int, int, Alarm *);  /* AlarmHandler */
 
 static inline Alarm *AllocAlarm(void)
@@ -55,7 +55,7 @@ int SetTimerAlarm(long clocks, void *handler, void *arg)
     alarm->callback_handler_arg = arg;
     alarm->timer_counter_id = id;
     SetTimerHandler(id, clocks, func_0023A668, alarm);
-    func_0023A3A0(id);
+    StartTimerCounter(id);
     if (intr)
         EIntr();
     return ((int)alarm << 4) | (id & 0xFE) | 1;

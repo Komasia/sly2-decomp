@@ -2,13 +2,13 @@
 __asm__(
     ".set noreorder\n"
     ".text\n"
-    ".globl func_00234710\n"
-    ".ent func_00234710\n"
-    "func_00234710:\n"
+    ".globl AddIntcHandler2\n"
+    ".ent AddIntcHandler2\n"
+    "AddIntcHandler2:\n"
     "addiu $3, $0, 16\n"
     "syscall\n"
     "jr $31\n"
     "nop\n"
-    ".end func_00234710\n"
+    ".end AddIntcHandler2\n"
     ".set reorder\n"
 );

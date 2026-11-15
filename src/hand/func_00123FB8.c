@@ -1,7 +1,8 @@
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
-void func_00123EB0(CRef *ret, void *pbasic, int cref, CRef *aref, int k);
-CRef *func_00123FB8(CRef *ret, void *pbasic, int cref, CRef *aref)
+void RefOpObjectOption__FiP4CRefP6CFrame4BIFK(CRef *ret, void *pbasic, int cref, CRef *aref, int k);
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 108 = BIFK AddO, RefOpObjectOption 0x6C)
+CRef *RefOpAddO__FiP4CRefP6CFrame(CRef *ret, void *pbasic, int cref, CRef *aref)
 {
-    func_00123EB0(ret, pbasic, cref, aref, 0x6C);
+    RefOpObjectOption__FiP4CRefP6CFrame4BIFK(ret, pbasic, cref, aref, 0x6C);
     return ret;
 }

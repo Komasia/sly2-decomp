@@ -6,16 +6,16 @@ __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m
    version 1, read it back, restore the original; if it reads back as 0 the ExecPS2 patch is needed. */
 #define OSD_VERSION_SHIFT 13
 #define OSD_VERSION_MASK  (7 << OSD_VERSION_SHIFT)
-int func_00234AD0(unsigned int *);  /* GetOsdConfigParam (syscall 0x4B) */
-int func_00234AC0(unsigned int *);  /* SetOsdConfigParam (syscall 0x4A) */
+int GetOsdConfigParam(unsigned int *);  /* GetOsdConfigParam (syscall 0x4B) */
+int SetOsdConfigParam(unsigned int *);  /* SetOsdConfigParam (syscall 0x4A) */
 
 int PatchIsNeeded(void)
 {
     unsigned int saved, probe;
-    func_00234AD0(&saved);
+    GetOsdConfigParam(&saved);
     probe = (saved & ~OSD_VERSION_MASK) | (1 << OSD_VERSION_SHIFT);
-    func_00234AC0(&probe);
-    func_00234AD0(&probe);
-    func_00234AC0(&saved);
+    SetOsdConfigParam(&probe);
+    GetOsdConfigParam(&probe);
+    SetOsdConfigParam(&saved);
     return ((probe >> OSD_VERSION_SHIFT) & 7) == 0;
 }

@@ -14,9 +14,10 @@ CRef RefAddOption(void *a, void *b, CRef *pref) asm("RefAddOption__FP5BASICiP4CR
 CRef RefEnsureOption(void *a, void *b, CRef *pref) asm("RefEnsureOption__FP5BASICiP4CRef");
 CRef RefSetOption(void *a, void *b, CRef *pref) asm("RefSetOption__FP5BASICiP4CRef");
 CRef RefGetOption(void *a, void *b) asm("RefGetOption__FP5BASICi");
-CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op);
+CRef RefOpObjectOption__FiP4CRefP6CFrame4BIFK(void *pbasic, CRef *aref, void *pv, int op);
 }
-CRef func_00123EB0(void *pbasic, CRef *aref, void *pv, int op)
+// name: Sly 1 bif.cpp RefOpObjectOption (the add / ensure / set / get option switch on the BIFK, 0x6C..0x6F)
+CRef RefOpObjectOption__FiP4CRefP6CFrame4BIFK(void *pbasic, CRef *aref, void *pv, int op)
 {
     CRef ref;
     void *a = aref[0].u.pv;

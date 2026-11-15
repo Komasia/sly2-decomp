@@ -13,7 +13,8 @@ static __inline__ void SetVector(VECTOR *pv, float x, float y, float z)
     __asm__ ("pcpyld %0, %1, %2" : "=r"(t) : "r"(iz), "r"(t));
     *(qword *)pv = t;
 }
-CRef *func_00125168(CRef *ret)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 128: the camera position plus its view direction times the near clip distance)
+CRef *RefOpNearClipCenter__FiP4CRefP6CFrame(CRef *ret)
 {
     VECTOR vec;
     CM *pcm = &g_cm;

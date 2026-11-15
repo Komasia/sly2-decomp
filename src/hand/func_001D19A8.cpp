@@ -22,7 +22,7 @@ extern char D_002C2098[],D_002C20A8[];
 extern "C" {
 void UpdateSo(P *) asm("UpdateSo__FP2SOf");
 float atan2f(float,float) asm("atan2f");
-int func_001D4E08(ATTACH *);
+int FVehicleAttachmentReady__FP13VEHICLEATTACH(ATTACH *);
 void SetSmaGoal(void *,int) asm("SetSmaGoal__FP3SMA3OID");
 void UpdateVehiclePlayer(P *) asm("UpdateVehiclePlayer__FP7VEHICLE");
 void UpdateVehicleAi(P *) asm("UpdateVehicleAi__FP7VEHICLE");
@@ -73,7 +73,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
         ATTACH **current=p->attachments;
         do {
             ATTACH *attach=*current;
-            if(!func_001D4E08(attach))SetSmaGoal(attach->binding,0x65);
+            if(!FVehicleAttachmentReady__FP13VEHICLEATTACH(attach))SetSmaGoal(attach->binding,0x65);
             ++i;++current;
         }while(i<p->attachCount);
     }
@@ -149,7 +149,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
             asm("addu %0,%1,%2":"=r"(slotBase):"r"(p),"r"(i<<2));
             ATTACH *attach=slotBase->attachments[0];
             if(!attach->mesh)goto aim_next;
-            if(p->drive!=0.0f || !func_001D4E08(attach)){
+            if(p->drive!=0.0f || !FVehicleAttachmentReady__FP13VEHICLEATTACH(attach)){
                 attach->active=0;attach->speed=attach->speedLimits.low;attach->angle=0.0f;
             }else{
                 float time=Clamp(Evaluate(attach->flightTime,distance),attach->flightLimits.low,attach->flightLimits.high);

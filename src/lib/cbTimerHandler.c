@@ -27,7 +27,7 @@ typedef struct {
     int current_handling_timer_id;      /* 0x1C */
 } TimerGlobal;
 extern TimerGlobal D_002C5A30;  /* g_Timer */
-void func_00239AC0(unsigned int);   /* SetT2_MODE */
+void SetT2_MODE(unsigned int);   /* SetT2_MODE */
 Counter *UnlinkAlarm(Counter *);
 void InsertAlarm(Counter *);
 void SetNextComp(unsigned long);
@@ -39,7 +39,7 @@ static inline unsigned long GetTime(void)
     mode = T2_MODE;
     if (mode & T_MODE_OVFF) {
         D_002C5A30.timer_handled_count++;
-        func_00239AC0(mode & ~T_MODE_EQUF);
+        SetT2_MODE(mode & ~T_MODE_EQUF);
         count = T2_COUNT;
     }
     return ((D_002C5A30.timer_handled_count << 16) | count) << ((mode & T_MODE_CLKS) * 4);

@@ -5,7 +5,7 @@
 /* StartTimerSystemTime (libkernel): start timer 2 counting (system time). Returns 1 if it was already running. */
 int DIntr(void);
 int EIntr(void);
-void func_00239AC0(unsigned int);   /* SetT2_MODE */
+void SetT2_MODE(unsigned int);   /* SetT2_MODE */
 int iGetTimerSystemTime(void);
 void SetNextComp(int);
 
@@ -17,7 +17,7 @@ int StartTimerSystemTime(void)
         if (intr) EIntr();
         return 1;
     }
-    func_00239AC0((mode & ~(T_MODE_OVFF | T_MODE_EQUF)) | T_MODE_CUE);
+    SetT2_MODE((mode & ~(T_MODE_OVFF | T_MODE_EQUF)) | T_MODE_CUE);
     SetNextComp(iGetTimerSystemTime());
     if (intr) EIntr();
     return 0;

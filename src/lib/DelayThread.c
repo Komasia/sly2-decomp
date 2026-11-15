@@ -10,7 +10,7 @@ extern char D_002AA7F0[];   /* semaphore option tag (a name string) */
 int CreateSema(SemaParam *);
 int DeleteSema(int);
 int WaitSema(int);
-long func_0023A598(int, int);   /* microseconds -> bus clocks (TimerUSec2BusClock) */
+long TimerUSec2BusClock(int, int);   /* microseconds -> bus clocks (TimerUSec2BusClock) */
 int SetTimerAlarm(long, void *, int);
 int _DelayThreadHandler(int, unsigned short, void *);
 
@@ -29,7 +29,7 @@ int DelayThread(int usec)
     sema = CreateSema(&sema_param);
     if (sema < 0)
         return KE_ESEMAPHORE;
-    alarm = SetTimerAlarm(func_0023A598(0, usec), _DelayThreadHandler, sema);
+    alarm = SetTimerAlarm(TimerUSec2BusClock(0, usec), _DelayThreadHandler, sema);
     if (alarm >= 0) {
         WaitSema(sema);
         DeleteSema(sema);

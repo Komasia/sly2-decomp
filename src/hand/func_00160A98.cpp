@@ -24,7 +24,8 @@ void FinalizeFrameVifs(VIFS *pvifs, int *pcqw, QW **paqw);
 void FinalizeFrameGifs(GIFS *pgifs, int *pcqw, QW **paqw);
 extern "C" void ClearDl(DL *pdl) asm("ClearDl__FP2DL");
 extern "C" void SignalSema(int sid) asm("SignalSema");
-extern "C" void func_00160A98()
+// name: Sly 1 frm.c CloseFrame (after FinalizeFrameGifs in both games; suggested by h2)
+extern "C" void CloseFrame__Fv()
 {
     FinalizeFrameVifs(&D_002DEA28, &g_pfrmOpen->cqwVifs, &g_pfrmOpen->aqwVifs);
     FinalizeFrameGifs(&D_002DEA00, &g_pfrmOpen->cqwGifs, &g_pfrmOpen->aqwGifs);
