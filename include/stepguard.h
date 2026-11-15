@@ -15,6 +15,7 @@
 struct TARGETREC;
 struct DETECTOR;
 struct WATCHB;
+struct CMD;
 struct CTRLPOS;
 struct ASEG;
 struct ASEGA;
@@ -28,7 +29,7 @@ typedef struct GUARD {
     /* 0x2dc */ int savedPatrol[3];        /* SAVEDSCRIPT: the place in the patrol command list */
     /* 0x2e8 */ void *pcmdlistPatrol;      /* the patrol command list (EOPID 273) */
     /* 0x2ec */ void *pcmdlistHome;        /* a go-to its home */
-    /* 0x2f0 */ void *pcmdHome;
+    /* 0x2f0 */ struct CMD *pcmdHome;
     /* 0x2f4 */ int unk_0x2f4[3];
     /* 0x300 */ qword posHome;
     /* 0x310 */ float radHome;
@@ -67,9 +68,11 @@ typedef struct GUARD {
     /* 0x3d8 */ int unk_0x3d8[7];
     /* 0x3f4 */ struct LO *plo3F4;         /* option 304 */
     /* 0x3f8 */ struct LO *plo3F8;         /* option 305 */
-    /* 0x3fc */ char unk_0x3fc[0x48c - 0x3fc];
-    /* 0x48c */ int f48C;
-    /* 0x490 */ int unk_0x490;
+    /* 0x3fc */ char unk_0x3fc[0x484 - 0x3fc];
+    /* 0x484 */ int cPocket;               /* the pocket (pickpocket loot) entries */
+    /* 0x488 */ int iPocket;
+    /* 0x48c */ int fPocketReady;          /* SafeHouse f48C */
+    /* 0x490 */ int fPocketMore;
     /* 0x494 */ struct LO *plo494;         /* option 306 */
     /* 0x498 */ void *pwatchA;             /* ground watcher A */
     /* 0x49c */ struct WATCHB *pwatchB;    /* ground watcher B */
@@ -90,7 +93,9 @@ typedef struct GUARD {
     /* 0xe70 */ float dtGiveUpMax;
     /* 0xe74 */ struct LO *ploLeash;       /* option 327 */
     /* 0xe78 */ int nSearchKind;
-    /* 0xe7c */ int unk_0xe7c[4];
+    /* 0xe7c */ int unk_0xe7c[2];
+    /* 0xe84 */ int nE84;
+    /* 0xe88 */ int nE88;
     /* 0xe8c */ struct ASEG *pasegE8C;
     /* 0xe90 */ struct ASEGA *pasegaE90;
     /* 0xe94 */ uint cRegion;              /* its navigation regions (up to 8) */
@@ -145,7 +150,7 @@ typedef GUARD STEPGUARD;
 typedef char GUARD_check_a[sizeof(STEP) == 0x2c0 && GUARD_OFFSET_(grfState) == 0x2c0 && GUARD_OFFSET_(posHome) == 0x300 &&
                            GUARD_OFFSET_(nHealthMax) == 0x338 && GUARD_OFFSET_(ploPursued) == 0x38c ? 1 : -1];
 typedef char GUARD_check_b[GUARD_OFFSET_(ccidImmediate) == 0x3c0 && GUARD_OFFSET_(n3D4) == 0x3d4 &&
-                           GUARD_OFFSET_(plo3F4) == 0x3f4 && GUARD_OFFSET_(f48C) == 0x48c && GUARD_OFFSET_(pwatchB) == 0x49c &&
+                           GUARD_OFFSET_(plo3F4) == 0x3f4 && GUARD_OFFSET_(fPocketReady) == 0x48c && GUARD_OFFSET_(nE88) == 0xe88 && GUARD_OFFSET_(pwatchB) == 0x49c &&
                            GUARD_OFFSET_(akinde) == 0x4d0 && GUARD_OFFSET_(ploAlarm) == 0xe60 ? 1 : -1];
 typedef char GUARD_check_c[GUARD_OFFSET_(nSearchKind) == 0xe78 && GUARD_OFFSET_(pasegE8C) == 0xe8c &&
                            GUARD_OFFSET_(aRegion) == 0xe98 && GUARD_OFFSET_(ploResponse) == 0xf00 &&

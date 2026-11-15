@@ -1,14 +1,8 @@
+#include "stepguard.h"
 extern float D_002A8610;   /* -FLT_MAX */
 extern int D_002C3CF0;
 /* the guard's detector */
 struct DETECTOR { char pad[0xF0]; int fAlways; int fNever; };
-struct GUARD {
-    char p0[0x2DC]; int saved2DC[3]; int pcmdlistPatrol; char p1[0x330 - 0x2EC]; int fKnockoutNotified; char p2[0x360 - 0x334]; float g360;
-    char p3[0x390 - 0x364]; int ploTarget; char p4[0x484 - 0x394]; int cPocket, iPocket, fPocketReady, fPocketMore; char p5[0x4A0 - 0x494]; int f4A0;
-    char p6[0xE94 - 0x4A4]; int cRegion; char p7[0xF64 - 0xE98]; struct DETECTOR *pdet; int ploF68; char p8[0xF94 - 0xF6C]; int cploF98;
-    char p9[0xFA8 - 0xF98]; int cploFAC; char p10[0xFC8 - 0xFAC]; int fStill, ploFCC; char p11[0xFF4 - 0xFD0]; float tGaitFF4;
-    char p12[0x1000 - 0xFF8]; int nSpawnMode;
-};
 void func_001CB5D0(struct GUARD *pguard);
 void DetachGuardMove__FP5GUARD(struct GUARD *pguard);
 void *s1_memset(void *pv, int c, int cb) asm("memset");
@@ -27,7 +21,7 @@ void func_00206748(struct GUARD *pguard)
     func_001CB5D0(pguard);
     DetachGuardMove__FP5GUARD(pguard);
     pguard->pcmdlistPatrol = 0;
-    s1_memset(pguard->saved2DC, 0, 0xC);
+    s1_memset(pguard->savedPatrol, 0, 0xC);
     pguard->cRegion = 0;
     pguard->pdet->fAlways = 0;
     pguard->pdet->fNever = 0;
@@ -35,20 +29,20 @@ void func_00206748(struct GUARD *pguard)
     pguard->iPocket = 0;
     pguard->fPocketReady = 0;
     pguard->fPocketMore = 0;
-    pguard->cploF98 = 0;
-    pguard->cploFAC = 0;
+    pguard->cploAttack = 0;
+    pguard->cploTurnTo = 0;
     pguard->ploTarget = 0;
     SetGuardPursued__FP5GUARDP2LO(pguard, 0);
     func_002088E0(pguard);
     fOne = 1;
     pguard->fKnockoutNotified = 0;
-    pguard->ploF68 = 0;
+    pguard->ploStation = 0;
     pguard->fStill = 0;
-    pguard->ploFCC = 0;
+    pguard->ploFace = 0;
     pguard->g360 = -10.0f;
     pguard->f4A0 = fOne;
-    pguard->tGaitFF4 = D_002A8610;
-    pguard->nSpawnMode = D_002C3CF0;
+    pguard->tGait = D_002A8610;
+    pguard->fSpawned = D_002C3CF0;
     SetPocketMode__FP2LOi(pguard, -1);
     SetGuardMode__FP5GUARDi(pguard, -1);
 }

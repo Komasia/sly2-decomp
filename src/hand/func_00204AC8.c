@@ -1,10 +1,9 @@
+#include "step.h"
 #include "cid.h"
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
 struct OXA { char pad[0x60]; void *psoRoot; };
 struct ALOOWNER { char pad[0xEC]; struct OXA *poxa; };
 struct SOE { int pad; struct ALOOWNER *paloOwner; };
-struct STEP { char pad[0xC]; VTENT *pvt; char pad2[0x218 - 0x10]; qword *pposProbe0; qword *pposProbe1; char pad3[0x258 - 0x220]; void *psoeCustom; };
 #define GRFXP_FloorProbes 1
 #define GRFXP_LongProbe 2
 #define GRFXP_KeepNormal 8
@@ -12,7 +11,6 @@ struct STEP { char pad[0xC]; VTENT *pvt; char pad2[0x218 - 0x10]; qword *pposPro
 /* the segment clip's hit */
 struct HIT { qword pos; qword unk_0x10; qword normal; qword unk_0x30; float t; int unk_0x44; int fEdge; int isurf; char pad[0x10]; };
 extern qword g_normalZ;
-extern char g_sw[];
 void func_001F5990(void);   /* the base slot 60 (nothing) */
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
 qword PosOfLo__FP2LO(void *plo);
@@ -34,7 +32,7 @@ void AddStepFloorXps__FP3ALOP3SOEiiii(struct STEP *pstep, struct SOE *psoe, int 
     qword pos, normal, dpos, tmp;
     float gDist;
     func_001F5990();
-    grfxp = ((unsigned int (*)(void *))pstep->pvt[85].pfn)(VT_THIS(pstep, &pstep->pvt[85]));
+    grfxp = ((unsigned int (*)(void *))pstep->po.so.lo.pvt[85].pfn)(VT_THIS(pstep, &pstep->po.so.lo.pvt[85]));
     if (!(grfxp & GRFXP_FloorProbes))
         return;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(psoe->paloOwner->poxa->psoRoot, CID_STEP))
@@ -56,6 +54,6 @@ void AddStepFloorXps__FP3ALOP3SOEiiii(struct STEP *pstep, struct SOE *psoe, int 
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(dpos) : "j"(*pstep->pposProbe0), "j"(hit.pos));
         __asm__("vmul.xyz %0, %0, %2\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(dpos), "=&j"(tmp) : "j"(normal));
         __asm__("mtc1 %1, %0" : "=f"(gDist) : "r"(dpos));
-        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(g_sw, pstep->psoeCustom, psoe, *pstep->pposProbe0, normal, XPK_Floor, 0, 0, ppxp, gDist);
+        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(&g_sw, pstep->psoeCustom, psoe, *pstep->pposProbe0, normal, XPK_Floor, 0, 0, ppxp, gDist);
     }
 }
