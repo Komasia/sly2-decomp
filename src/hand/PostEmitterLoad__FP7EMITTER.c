@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct K { short a; short b; int c; };
 struct LM { float gMin; float gMax; };
@@ -100,7 +101,7 @@ void PostEmitterLoad__FP7EMITTER(struct EMITTER *pemitter)
         if (!pemitterNew) {
             VTENT *pvte;
             void *pthis;
-            pemitterNew = PloNew__F3CIDP2SW3OIDi(0x1D, 0, pemitter->oid118, -1);
+            pemitterNew = PloNew__F3CIDP2SW3OIDi(CID_EMITTER, 0, pemitter->oid118, -1);
             pemitterNew->pemitb = PvAllocCopy(0x100, pemitter->pemitb);
             pemitterNew->pemitb->n0 = 1;
             if (pemitter->pemitb->pemito->palo) {

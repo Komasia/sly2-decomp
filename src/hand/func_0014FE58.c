@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct X { void *po; };
@@ -10,7 +11,7 @@ qword PosFocus__7CPRECON(struct X *p)
     U s;
     U pos;
     pos.q = PosOfLo__FP2LO(p->po);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, 0x34)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, CID_ACTOR)) {
         register qword rs __asm__("vf2");
         register qword rp __asm__("vf3");
         register qword rd __asm__("vf1");

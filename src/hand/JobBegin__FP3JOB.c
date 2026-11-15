@@ -1,5 +1,6 @@
 /* JobBegin: a job begins (its first task reached): the task event 0x1C broadcast, the current player's booty
  * dropped (when it is an actor, cid 0x34), and the job becomes the current one. Source: SafeHouse port (task.cpp). */
+#include "cid.h"
 struct JOB;
 struct LO;
 extern char g_game[];
@@ -18,7 +19,7 @@ void JobBegin__FP3JOB(struct JOB *pjob)
         struct LO *ploPlayer;
         BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x1C, pjob);
         ploPlayer = PloPlayerPo__FP2SW(g_sw);
-        if (ploPlayer != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(ploPlayer, 0x34))
+        if (ploPlayer != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(ploPlayer, CID_ACTOR))
             DropActorBooty__FP5ACTORii(ploPlayer);
         JobSwitch__FP3JOB(pjob);
     }

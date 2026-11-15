@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct P;
@@ -45,9 +46,9 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
                 CutCm(&g_cm);
                 SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xB, 0, 0);
                 if (e.x4) {
-                    if (FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xB) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xD) ||
-                        FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x27) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xC) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x22) ||
-                        FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x26)) {
+                    if (FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, CID_PIPE) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, 0xD) ||
+                        FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, CID_SPIRE) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, CID_LEDGE) || FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, CID_WALL) ||
+                        FIsBasicDerivedFrom__FP5BASIC3CID(e.x0, CID_SWING)) {
                         CheckLoRoot__FP2SWP2LO(&g_sw, e.x0);
                         ChooseJumpTarget__FP4JUMPP2LO(p->x2c0, e.x0);
                     }

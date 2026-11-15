@@ -48,6 +48,7 @@ struct EMITV {
 typedef char check_emitp[(sizeof(EMITP) == 0x40) ? 1 : -1];
 typedef char check_emitv[(sizeof(EMITV) == 0x70) ? 1 : -1];
 
+#include "cid.h"
 #include "vtbl.h"
 struct VT { VTENT a[64]; };
 struct XE8 { char pad[0x80]; qword v; };
@@ -118,7 +119,7 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
     SND *psnd;
     float t, u;
     psnd = 0;
-    if (FIsBasicDerivedFrom(p, 0x32))
+    if (FIsBasicDerivedFrom(p, CID_PO))
         psnd = (SND *)p;
     if (d > 10.0f || fWake) {
         u = (d - 10.0f) * 0.0012658228f;

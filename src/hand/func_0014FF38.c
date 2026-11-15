@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef struct { float a, b; } F2;
 struct G { char pad[0x24]; float x24; char pad2[0x60 - 0x28]; int x60; };
 extern struct G g_cm;
@@ -37,7 +38,7 @@ void Activate__7CPRECONP2LOPv(struct X *p)
     Pause__4CSnd(p->x34);
     pg = &g_cm;
     DecomposeRotateMatrixPanTilt(&pg->x60, &p->x10, &p->x14);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0, 0x34)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0, CID_ACTOR)) {
         p->x3C = D_002BD950;
         p->x44 = D_002BD958;
     } else {

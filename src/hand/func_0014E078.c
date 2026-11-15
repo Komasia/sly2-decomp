@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0x110]; int k; };
 struct CM { char pad[0x90]; qword pos; };
@@ -12,7 +13,7 @@ void SortCmObjects__FP2CM(struct CM *p)
 {
     struct O *apo[32];
     qword pos = p->pos;
-    int n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x105, 5, 0, 0x20, apo);
+    int n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x105, CID_VOLUME, 0, 0x20, apo);
     int i;
     for (i = 0; i < n; i++)
         func_002273F0(apo[i], pos);

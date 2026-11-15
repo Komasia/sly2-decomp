@@ -12,6 +12,7 @@
 // - case 2 has its own SetControl for the `<= 0` test: the shared SetControl then has no label in front of it, so
 //   jump2's cross-jumping makes a new label there and does not merge the step-8 / case-11 anim tests afterwards.
 // - GLength takes a const reference (gcse hash table size, i.e. the order of the &cso / &apso copies: s4 / s6).
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
@@ -231,7 +232,7 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
                 SetControl(p->pactor, 0);
             break;
         case 5:
-            if (FIsBasicDerivedFrom(p->pactorFocus, 11) && FActorPoseDone(p->pactor)) {
+            if (FIsBasicDerivedFrom(p->pactorFocus, CID_PIPE) && FActorPoseDone(p->pactor)) {
                 p->pactor->ptarget = p->pactorFocus;
                 p->pactor->gTarget = p->gParam;
                 SetControl(p->pactor, 8);

@@ -1,4 +1,5 @@
 // MATCH (Claude agent, laneC20 2026-10-23): v4 + __4CRefRC4CRef (CRef copy ctor) declared returning void * instead of void.
+#include "cid.h"
 #include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
@@ -100,7 +101,7 @@ extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)
             if (pb->c >= 4 && memcmp(ps->pk, pb->pv, 8) == 0) f = 1;
             if (f) {
                 SO *apso[15];
-                int c = CFindObjectsByClass(g_sw, 5, 0x25, 0, 0xF, apso);
+                int c = CFindObjectsByClass(g_sw, 5, CID_BOOTYSTAND, 0, 0xF, apso);
                 for (int j = 0; j < c; j++) {
                     if (apso[j]->x180 == ps->pk->xC) {
                         p->p11A8->p15C = apso[j];

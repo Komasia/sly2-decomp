@@ -10,6 +10,7 @@
 // - GFromVf: one mtc1 asm from a TI qword (gcc emits the qmfc2 itself and schedules it).
 // - SqrtF: the usual volatile "=&f" sqrt.s helper (local-alloc must not tie it to its input).
 // - case 2 falls through into case 4; slow-path step choice is a ternary (blocks thread_jumps).
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
@@ -167,7 +168,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         PosSmooth(pos.q, goal.q, g_clock.dt, &smp, &vel);
         float lateral;
         qword offset;
-        if (FIsBasicDerivedFrom(ctx->focus, 38)) {
+        if (FIsBasicDerivedFrom(ctx->focus, CID_SWING)) {
             offset = QwZero();
             lateral = 0.0f;
         } else {
@@ -188,7 +189,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
             lateral = GMin(SqrtF(speedMax * speedMax - GFromVf(QwDot(vel.q, vel.q))), lateral);
             float s;
             FOCUS *focus;
-            if (FIsBasicDerivedFrom(ctx->focus, 12) && !(focus = ctx->focus)->cyclic) {
+            if (FIsBasicDerivedFrom(ctx->focus, CID_LEDGE) && !(focus = ctx->focus)->cyclic) {
                 float lo, hi;
                 GSmooth(ctx->value, SMinCrv(focus) + 30.0f, g_clock.dt, &smp, &lo);
                 GSmooth(ctx->value, SMaxCrv(focus) - 30.0f, g_clock.dt, &smp, &hi);
@@ -220,7 +221,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
             }
         } else {
             step = 0;
-            if (FIsBasicDerivedFrom(ctx->focus, 12)) {
+            if (FIsBasicDerivedFrom(ctx->focus, CID_LEDGE)) {
                 FOCUS *focus = ctx->focus;
                 if (lateral < -25.0f && (focus->flags & 1)) {
                     step = ctx->action == 0 && ctx->actor->role == 0 ? 3 : 2;

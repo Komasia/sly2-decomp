@@ -1,3 +1,4 @@
+#include "cid.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 struct P{
  char pad0[0x10];int aoidCur[3];char pad1[0x64-0x1C];P*ptaskFirst;
@@ -99,7 +100,7 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
  case 1:{
   if(Same(&D_003E1088,&D_002A37E8)){
    P*results[3];
-   int found=CFindObjectsByClass(&g_sw,5,0x34,0,3,results);
+   int found=CFindObjectsByClass(&g_sw,5,CID_ACTOR,0,3,results);
    if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->pvBooty)(void)AkeyReturnBooty(object,IdBooty(object->pvBooty));--count;++cursor;}while(count);}
   }
   break;

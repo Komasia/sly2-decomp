@@ -8,6 +8,7 @@ struct P {
     char pad[0x10]; void *p10; char pad1[0x4C - 0x14]; int x4C; float x50; char pad2[0x80 - 0x54];
     qword q80; char pad3[0xC0 - 0x90]; struct O *xC0; int xC4; float xC8; int xCC; float xD0;
 };
+#include "cid.h"
 #include "clock.h"
 extern qword g_normalZ;
 extern float D_002BD2E0[3];
@@ -83,7 +84,7 @@ void Drive__14JOBACTORFOLLOWP6PADCTL(struct P *p, struct Q *q)
             __asm__("qmtc2.ni %1, %0" : "=j"(b) : "r"(PosOfLo__FP2LO(po)));
             if (FFar(a, b))
                 q->x30 |= 8;
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x34))
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_ACTOR))
                 f = po->pvt->pfn((struct O *)((char *)po + po->pvt->d)) != 0;
             if (f) {
                 q->x30 |= p->xC0->x30 & p->xC4;

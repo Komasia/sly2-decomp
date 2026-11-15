@@ -1,4 +1,5 @@
 typedef int qword __attribute__((mode(TI)));
+#include "cid.h"
 #include "clock.h"
 #include "vtbl.h"
 struct G;
@@ -41,13 +42,13 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
     struct T *t;
     struct A *a = p->p10;
     if (!(a->nFE8 & 8) || a->nF00 || p->n3C || !p->p30 || !((int)(p->p30->fl28 >> 60) & 1)) return 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x32)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, CID_PO)) {
         struct T *q = p->p30;
         VTENT *e = &q->vt[0x4D];
         if (((int (*)(void *))e->pfn)(VT_THIS(q, e)) == 2) return 0;
     }
     k = 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x34)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, CID_ACTOR)) {
         t = p->p30;
         if (t->n4CC != -1) {
             if (t->n4C8 < 5) k = t->n4C8 >= 3;
@@ -56,7 +57,7 @@ int FCanShoot__9JOBPURSUE(struct S *p) {
             if (t->n2DC == 0x11) k = 1;
         }
         if (t->nF54 != -1) k = 1;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(t, 0x35)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(t, CID_JT)) {
             switch (t->n18C8) {
             case 3: case 0x15: case 0x16:
                 k = 1;

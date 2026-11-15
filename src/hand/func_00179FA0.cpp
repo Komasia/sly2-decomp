@@ -1,3 +1,4 @@
+#include "cid.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];};
@@ -86,7 +87,7 @@ extern "C" void Enter__6JOBUSE(C*p){
  unsigned long active=0;
  if(p->target){
   float heading;
-  if(FIsBasicDerivedFrom(p->target,10)){
+  if(FIsBasicDerivedFrom(p->target,CID_PATH)){
    P*target=p->target;
    qword position=PosOfLo(p->actor);
    NearestCrvAll(target,position,0,&p->point.q,&work.temp.first.direction.q,0,&work.curve);
@@ -103,9 +104,9 @@ extern "C" void Enter__6JOBUSE(C*p){
    p->basisValid=1;
    BuildRotateMatrixAxis(&work.temp.first.rotation,heading,g_normalZ);
    p->matrix=work.temp.first.rotation;
-  }else if(FIsBasicDerivedFrom(p->target,0x27)){
+  }else if(FIsBasicDerivedFrom(p->target,CID_SPIRE)){
    active|=func_00207A20(0x29);
-  }else if(FIsBasicDerivedFrom(p->target,11)){
+  }else if(FIsBasicDerivedFrom(p->target,CID_PIPE)){
    active|=func_00207A20(0x27);
    p->basisValid=1;
    MatPipeFrame(p->target,p->reverse,&p->matrix,work.curve);

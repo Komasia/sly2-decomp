@@ -6,6 +6,7 @@
  * event 15 is broadcast, the hit is kept (DAMAGE +0x30), the health counter updated and the flash started, and the
  * reaction by kind starts (with a cry when launched upward); finally the hit's noise. SafeHouse damage.cpp. */
 #include "vtbl.h"
+#include "cid.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 struct P;
@@ -114,7 +115,7 @@ extern "C" int FAcceptDamage__FP5ACTORP5CTMSG(C*pdmg,CTMSG*pctm){
   accepted.grfFilter=0x200;
   __asm__("sw $zero,4(%3)\n\tsw $zero,8(%3)\n\tsw $zero,%2":"=m"(accepted.vecY),"=m"(accepted.vecZ),"=m"(accepted.vecX):"r"(&accepted.vecX));
  }
- if(pctm->ploSender&&FIsBasicDerivedFrom(pctm->ploSender,0x38)){
+ if(pctm->ploSender&&FIsBasicDerivedFrom(pctm->ploSender,CID_STEPGUARD)){
   if(pctm->ploSender->state==8||pctm->ploSender->state==13)delta/=2;
  }
 notify:

@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct G;
 extern struct G g_sw;
@@ -16,7 +17,7 @@ void EntryBestSafe__FP5ACTORPv(struct P *p, struct E *pe)
     int c, i;
     float best;
     struct E *e;
-    c = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 0x505, 0x33, 0, 0x10, apv);
+    c = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 0x505, CID_STEP, 0, 0x10, apv);
     best = D_002A66A0;
     for (i = 0; i < p->x4; i++) {
         float g;

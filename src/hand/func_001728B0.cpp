@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int i[4];}U;
 typedef struct NODE{char pad0[0xE0];struct NODE*nextE0;char padE4[4];unsigned flags;char padEC[0x18];struct NODE*next104;char pad108[4];float reach;char pad110[0x64];struct NODE*next174;char pad178[0x3C];struct NODE*next1B4;}NODE;
@@ -79,11 +80,11 @@ extern "C" void FindSearchPlaces__14JOBINVESTIGATE(P*p){
  for(object=D_003E13B4;object;object=object->nextE0){
   if((object->flags&1)&&FIsBasicDerivedFrom(object,0x13)){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  }
- {int count=CFindObjectsByClass(&g_sw,0x505,0x23,0,0x100,w.result256);
+ {int count=CFindObjectsByClass(&g_sw,0x505,CID_USE,0,0x100,w.result256);
  if(count>0){cursor=w.result256;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
- {int count=CFindObjectsByClass(&g_sw,0x505,0x67,0,0x20,w.result32);
+ {int count=CFindObjectsByClass(&g_sw,0x505,CID_BOOTY,0,0x20,w.result32);
  if(count>0){cursor=w.result32;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
- {int count=CFindObjectsByClass(&g_sw,0x505,0x1B,0,0x80,w.result128);
+ {int count=CFindObjectsByClass(&g_sw,0x505,CID_CRAWLHOOK,0,0x80,w.result128);
  if(count>0){cursor=w.result128;remaining=count;do{NODE*item=*cursor++;--remaining;w.query.candidate.q=PosOfLo(item);AddSearchPlace(&w.query);}while(remaining);}}
  for(object=D_003E1450;object;object=object->next174){w.query.candidate.q=PosOfLo(object);AddSearchPlace(&w.query);}
  lastAngle=0.0f;

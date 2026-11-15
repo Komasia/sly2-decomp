@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vifs.h"
 // func_00167FC0: a render pass's setup (paired with func_001681B0): load its VU1 microcode, then upload the matrices
 // (0x30 bytes, at most 256, 32 per unpack) of every object of class 4 found (kind 0x505) that is not hidden (+0x160).
@@ -20,7 +21,7 @@ extern "C" void func_00167FC0(VIFS *pvifs)
     pvifs->AddDmaCnt();
     pvifs->AddVifFlusha();
     pvifs->AddVifBaseOffset(0x32, 0);
-    int c = CFindObjectsByClass(&g_sw, 0x505, 4, 0, 0x180, (void **)apx);
+    int c = CFindObjectsByClass(&g_sw, 0x505, CID_LIGHT, 0, 0x180, (void **)apx);
     for (i = 0; i < c; i++) {
         px = apx[i];
         if (!px->fHidden)

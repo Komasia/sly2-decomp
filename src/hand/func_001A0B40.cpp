@@ -6,6 +6,7 @@
  * then the reaction's segment (DAMAGE +0xA0 by state, else the default) is applied with grfapl (0x21: no blend).
  * SafeHouse damage.cpp. */
 #include "vtbl.h"
+#include "cid.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int bits[4];void Clear(){bits[0]=bits[1]=bits[2]=0;}};
@@ -19,7 +20,6 @@ struct PART{char pad[0xA8];CHAINSEG*pseg;};           /* a part record: +0xA8 it
 struct P{char pad0[12];VTENT*vt;char pad10[0x150-0x10];PADCTL*control;char pad154[8];int frozen;char pad160[0x190-0x160];U zero;char pad1A0[8];float yaw;int pad1AC;U forward;char pad1C0[0x1030-0x1C0];ASEGA*asega;COMPONENT*component;char pad1038[0x19B8-0x1038];PART*first;PART*second;};
 /* DAMAGE (ACTOR +0xDF0): SafeHouse actor.h */
 struct DAMAGE{P*actor;int mode;float tStart;char padC[0x98-12];float tFlashFade;int pad9C;ASEG*apasegReaction[13];ASEG*Default(int next){ASEG**base=apasegReaction;int offset=next<8?0:0x20;return *(ASEG**)((char*)base+offset);}};
-#define CID_SLY 0x35
 #define VT_SET_SLY_MODE 91          /* SafeHouse: SetSlyMode (Sly 0x18D548) */
 #define VT_START_REACTION 90
 #define VT_VEL_ALO_POS 33           /* VelAloPos */
@@ -127,7 +127,7 @@ extern "C" void SetDamageState__FP5ACTORi(DAMAGE*pdmg,int next){
  if(next==pdmg->mode)return;
  switch(pdmg->mode){
  case -1:
-  if(FIsBasicDerivedFrom(pdmg->actor,CID_SLY)){
+  if(FIsBasicDerivedFrom(pdmg->actor,CID_JT)){
    P*actor=pdmg->actor;actor->first->pseg->pchain->vecGravity=g_vecGravityFall;
    actor->second->pseg->pchain->vecGravity=g_vecGravityFall;
   }
@@ -135,13 +135,13 @@ extern "C" void SetDamageState__FP5ACTORi(DAMAGE*pdmg,int next){
   pdmg->actor->zero.Clear();pdmg->actor->frozen=0;pdmg->tFlashFade=g_flMax;
   break;
  case 3:case 10:
-  if(FIsBasicDerivedFrom(pdmg->actor,CID_SLY))pdmg->actor->first->pseg->pchain->vecGravity.Clear();
+  if(FIsBasicDerivedFrom(pdmg->actor,CID_JT))pdmg->actor->first->pseg->pchain->vecGravity.Clear();
   break;
  }
  ASEG*paseg=0;int grfapl=1;
  switch(next){
  case -1:
-  if(FIsBasicDerivedFrom(pdmg->actor,CID_SLY)){
+  if(FIsBasicDerivedFrom(pdmg->actor,CID_JT)){
    P*actor=pdmg->actor;actor->first->pseg->pchain->vecGravity.Clear();actor->second->pseg->pchain->vecGravity.Clear();
   }
   pdmg->actor->frozen=1;pdmg->tFlashFade=g_clock.t;break;
@@ -168,7 +168,7 @@ extern "C" void SetDamageState__FP5ACTORi(DAMAGE*pdmg,int next){
   grfapl=GRFAPL_NO_BLEND;
  case 3:
   paseg=pdmg->apasegReaction[next];
-  if(FIsBasicDerivedFrom(pdmg->actor,CID_SLY))pdmg->actor->first->pseg->pchain->vecGravity=g_vecGravityWater;
+  if(FIsBasicDerivedFrom(pdmg->actor,CID_JT))pdmg->actor->first->pseg->pchain->vecGravity=g_vecGravityWater;
   break;
  case 5:case 11:
   camera1.q=Position();

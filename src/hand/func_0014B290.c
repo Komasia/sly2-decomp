@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0x28]; int x28; signed char x2C; char x2D; long k : 4; unsigned long b : 8; unsigned int f : 1; };
 struct E { struct O *po; int fOn; int pad[2]; };
@@ -49,9 +50,9 @@ struct O *PloGuardTarget3F__FP5GUARD(struct P *p)
         float g;
         if (!pe->fOn)
             continue;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(pe->po, 0x34))
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pe->po, CID_ACTOR))
             k = 0;
-        else if (FIsBasicDerivedFrom__FP5BASIC3CID(pe->po, 0x3A))
+        else if (FIsBasicDerivedFrom__FP5BASIC3CID(pe->po, CID_GUNGUARD))
             k = 1;
         else
             k = 2;

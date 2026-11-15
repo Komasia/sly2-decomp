@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "clock.h"
 #include "vtbl.h"
 extern char g_game[];
@@ -24,7 +25,7 @@ void SetDetentryState__FP8DETECTORP8DETENTRYi(struct O *o, struct E *pe, int nNe
     pe->t = g_clock.t;
     if (nNew == 1) {
         void *q = o->p10;
-        if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x33))
+        if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_STEP))
             BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x13, q);
     }
 }

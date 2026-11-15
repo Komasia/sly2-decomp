@@ -1,3 +1,4 @@
+#include "cid.h"
 struct E { int a; int b; int x8; int xc; char p0[8]; float g18; char pad[0x24]; };
 struct S { char pad[0x1CC]; int x1cc; };
 void func_0017F1A0(struct S *p, struct E *ae, int i);
@@ -11,7 +12,7 @@ void OnPieceXpNew__FP3ALOP2XPi(struct S *p, struct E *ae, int i)
     func_0017F1A0(p, ae, i);
     pe = &ae[1 - i];
     oid = pe->xc;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(oid, 0x47) || !p->x1cc)
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(oid, CID_HACKSO) || !p->x1cc)
         PostKillHackSo__FP2LOi(p, oid);
     if (p->x1cc) ae[2].g18 = 1.0f;
 }

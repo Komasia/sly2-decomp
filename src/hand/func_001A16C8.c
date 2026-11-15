@@ -4,16 +4,13 @@
  * his frame, by the side of the point 150 behind him); pushes (0x100) go away from the sender (cid 0x4F; 0x51: along
  * its matrix row 0) at 600 and up at 800. SafeHouse damage.cpp. */
 #include "vtbl.h"
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int bits[4];}U;
 typedef union F{float value;int bits;}F;
 struct O{char pad[0xC];VTENT*vt;};
 struct M3{U row[3];};
 struct DAMAGE{struct O*pactor;char pad4[0x30-4];struct O*ploSender;char pad34[8];int grfFilter;char pad40[0x20];U vec;};  /* h5_damage.h layout: the hit at +0x30 */
-#define CID_SENDER_LAUNCH 0x33
-#define CID_MURRAY 0x36
-#define CID_PUSHER 0x4F
-#define CID_PUSHER_MAT 0x51
 #define VT_MAT_SENDER 31
 #define VT_SET_ALO_VELOCITY 35
 extern F g_gLaunchBoost __asm__("D_002BFACC");    /* 0.25: launches scaled by 1 + it */
@@ -73,7 +70,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct DAMAGE*pdmg){
     switch(pdmg->grfFilter){
     case 0x200:     /* launched */
     case 0x8000:    /* burned */
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_SENDER_LAUNCH)){
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_STEP)){
             qword k=Scalar(g_gLaunchBoost.value+1.0f);
             qword v=Scale(pdmg->vec.q,k);
             scratch.q=k;
@@ -98,10 +95,10 @@ void ApplyDamageVelocity__FP5ACTOR(struct DAMAGE*pdmg){
         }
         break;
     case 0x100:     /* pushed */
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_PUSHER)){
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_BOMB)){
             struct O*target=pdmg->ploSender;
             qword n,a,b,mixed,z;
-            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,CID_PUSHER_MAT)){
+            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,CID_ACCMISS)){
                 VTENT*vt=target->vt;
                 struct M3*basis=((struct M3*(*)(void*))vt[VT_MAT_SENDER].pfn)(VT_THIS(target, &vt[VT_MAT_SENDER]));
                 scratch=basis->row[0];

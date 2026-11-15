@@ -1,5 +1,6 @@
 /* LoadExplgFromBrx: load an explosion group: its transform, then its children; the children derived from EXPL
  * (cid 0x1E) are kept in the group's array, any other child is removed (vtable slot 8). */
+#include "cid.h"
 #include "vtbl.h"
 typedef struct ALLOCREQ { int cb; int nKind; } ALLOCREQ;
 void *PvAllocSwClearImpl__Fi(ALLOCREQ *preq);
@@ -28,7 +29,7 @@ void LoadExplgFromBrx__FP5EXPLGP18CBinaryInputStream(struct EXPLG *pexplg, void 
     for (i = 0; i < da.c; i++) {
         struct LO *plo = da.aplo[i];
         plo->grf |= 0x200000000000000L;   /* bit 57 */
-        if (!FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x1E)) {
+        if (!FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_EXPL)) {
             VTENT *pvte = &plo->vt[9];
             ((void (*)())pvte->pfn)(VT_THIS(plo, pvte));
         } else {

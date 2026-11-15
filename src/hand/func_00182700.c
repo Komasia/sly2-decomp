@@ -1,3 +1,4 @@
+#include "cid.h"
 struct E { int a; int b; int x8; int xc; char pad[0x30]; };
 struct S { char pad[0x188]; int n; };
 void func_0017F1A0(struct S *p, struct E *ae, int i);
@@ -10,7 +11,7 @@ void OnSwarmXpNew__FP3ALOP2XPi(struct S *p, struct E *ae, int i)
     if (p->n) {
         struct E *pe = &ae[1 - i];
         int oid = pe->xc;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(oid, 0x47))
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(oid, CID_HACKSO))
             PostKillHackSo__FP2LOi(p, oid);
     }
 }

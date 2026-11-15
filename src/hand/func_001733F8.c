@@ -1,3 +1,4 @@
+#include "cid.h"
 struct G;
 extern struct G g_sw;
 struct O { char pad[0x54]; int n54; };
@@ -23,7 +24,7 @@ void StartSpawner__FP2SW(struct S *p) {
             {
                 struct O *o;
                 e->p8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, e->n4, 0);
-                o = PloNew__F3CIDP2SW3OIDi(0x71, 0, 0x2CB, -1);
+                o = PloNew__F3CIDP2SW3OIDi(CID_CMDLIST, 0, 0x2CB, -1);
                 func_00170C50(o, e->n4, 1, -1);
                 e->n10 = o->n54;
                 e->pC = o;

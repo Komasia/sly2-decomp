@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
@@ -97,7 +98,7 @@ extern "C" void Update__8JOBREACT(C*p){
   case 3:{
    if(func_00177D20(p)){STATE next;Clear(&next);next.kind=12;React(p,&next);}
    else if(func_00174FB8(p->helper)){
-    STATE next;Clear(&next);if(FIsBasicDerivedFrom(p->actor,0x3B)){next.kind=13;next.payload.s.object=p->state.payload.s.object;}else{next.kind=4;next.payload.s.object=p->state.payload.s.object;}React(p,&next);
+    STATE next;Clear(&next);if(FIsBasicDerivedFrom(p->actor,CID_DIMITRI)){next.kind=13;next.payload.s.object=p->state.payload.s.object;}else{next.kind=4;next.payload.s.object=p->state.payload.s.object;}React(p,&next);
    }
    break;
   }
@@ -113,7 +114,7 @@ extern "C" void Update__8JOBREACT(C*p){
      if(object)Attack(p,&next,object);
      else{
       next.kind=1;P*other=h->object;
-      if(other&&FIsBasicDerivedFrom(other,0x34)&&Mode(other)==2){
+      if(other&&FIsBasicDerivedFrom(other,CID_ACTOR)&&Mode(other)==2){
        P*owner=func_00174898(other->extra);
        if(owner&&owner!=p->actor){next.payload.s.object=owner;next.kind=17;}
       }

@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct P { char pad[0x2C0]; qword pos; qword vel; qword pos2; qword vel2; };
 struct O { char pad[0x4F4]; int x4F4; };
@@ -10,7 +11,7 @@ void SpringCm__FP2CMP7VECTOR4T1G9VU_VECTORff(struct P *p, qword *ppos, qword *pv
 void AdjustCmCpdefi__FP2CMP2SOP6CPDEFI(struct P *p, struct O *po, struct S *ps)
 {
     qword q = CalcCmAdjust__FP2CMP6CPDEFI(p, ps);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x34)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_ACTOR)) {
         switch (po->x4F4) {
         case 0:
             SpringCm__FP2CMP7VECTOR4T1G9VU_VECTORff(p, &p->pos, &p->vel, q, 5.0f, -3.5f);

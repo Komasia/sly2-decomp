@@ -1,3 +1,4 @@
+#include "cid.h"
 struct ALLOCREQ { int cb; int nKind; };
 class FRAME {
 public:
@@ -25,7 +26,7 @@ extern "C" void func_00165C98(int *pctask, void **paptask)
     req.cb = psw->ctask * 4;
     req.nKind = 0x10;
     TASK **aptask = (TASK **)PvAllocStackClearImpl(&req);
-    int c = CFindObjectsByClass(psw, 5, 0x85, 0, psw->ctask, (void **)aptask);
+    int c = CFindObjectsByClass(psw, 5, CID_TASK, 0, psw->ctask, (void **)aptask);
     int i;
     for (i = 0; i < c; i++)
         aptask[i]->cVisit = 0;

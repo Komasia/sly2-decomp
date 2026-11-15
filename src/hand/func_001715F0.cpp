@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct K8 { float a, b; };
@@ -133,7 +134,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
             void *o = PloNear(p, qq->n4);
             if (o) {
                 func_00171AF8(p, o, 0, &p->g48);
-                if (FIsBasicDerivedFrom(o, 10)) x.p0 = o;
+                if (FIsBasicDerivedFrom(o, CID_PATH)) x.p0 = o;
                 else x.p4 = o;
             }
         }

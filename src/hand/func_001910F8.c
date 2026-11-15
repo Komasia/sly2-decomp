@@ -1,3 +1,4 @@
+#include "cid.h"
 struct S { char *p0; char pad[0x64]; void *x68; };
 void *PloNew__F3CIDP2SW3OIDi(int, int, int, int);
 void SetZoneForced__FP2LOi(void *, int);
@@ -9,7 +10,7 @@ void BindReach__FP5REACHP5ACTORPP5ASEGA(void *, char *, char *);
 // name: SafeHouse port (PostLoadInteract)
 void PostLoadInteract__FP5ACTOR(struct S *p) {
     char *pb = (char *)p;
-    p->x68 = PloNew__F3CIDP2SW3OIDi(0xF, 0, 0x148, -1);
+    p->x68 = PloNew__F3CIDP2SW3OIDi(CID_ZONE, 0, 0x148, -1);
     SetZoneForced__FP2LOi(p->x68, 0);
     ResetZoneInteract__FP2LO(p);
     BindRootBlend__FP9ROOTBLENDP3ALOPP5MULTI(p->p0, pb + 0x70, pb + 0x170);

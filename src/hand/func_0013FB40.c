@@ -1,4 +1,5 @@
 /* LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream (Claude agent, laneC11 2026-10-23): matched from wip v3. One commented register pin (pbis in s5). The plo1->x50 = 1 store is written in both arms of `if (cid == 0x84)`: gcc cross-jumps them and leaves the dead `li v1,0x84` the target has. */
+#include "cid.h"
 #include "vtbl.h"
 struct IF { VTENT *vt; int x4; int x8; };
 struct LO { char pad[0xC]; VTENT *vt; char pad2[0x50 - 0x10]; int x50; };
@@ -99,7 +100,7 @@ void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg
             }
         }
     create:
-        if (FIsCidDerivedFrom__F3CIDT0(cid, 6)) {
+        if (FIsCidDerivedFrom__F3CIDT0(cid, CID_PROXY)) {
             LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(&g_sw, psw, cid, oid, n, pbis, pif);
         } else {
             plo2 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, n);

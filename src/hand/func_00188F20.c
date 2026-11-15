@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 #define F(T, o) (*(T *)((char *)p + (o)))
@@ -100,7 +101,7 @@ void HandleJtMessage__FP2JT5MSGIDPv(char *p, int msg, void *pv)
             case 0x167:
                 if (F(void *, 0x10DC) && F(int, 0x1BD4)) {
                     void *po = PloTakePocket__FP2LO(F(void *, 0x10DC), PosOfLo__FP2LO(p));
-                    if (po && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5B) && !FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5D)) {
+                    if (po && !FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_COIN) && !FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_CHARM)) {
                         int oid = PloFindSwNearest__FP2LO3OIDii(g_sw, 1, 0x282, p);
                         F(void *, 0x1BCC) = po;
                         StartPrizeInteract__FP5ACTORP4ASEGP2LOi(p, oid, po, -1);

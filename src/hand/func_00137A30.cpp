@@ -1,6 +1,7 @@
 // NewBlend (Claude agent laneBE2, 2026-10-23): MATCH. Built from build/hand_wip/NewBlend.fresh14.cpp:
 // the E3-loop "r"(0x10) asm removed, one allocation-only empty asm on the i*4 giv, one register pin (mF31 in s5),
 // and the not-found slot written as `pentNew = &pxNew->aent[pxNew->c++];`.
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct AREQ { int cb; int cbAlign; AREQ(int c) { cb = c; cbAlign = 0x10; } };
 class FRAME { public: FRAME(); ~FRAME(); int a[4]; };
@@ -60,7 +61,7 @@ void NewBlend(void *p, int cb, int c, ELEM *aelem, int n, int *pa, int *pb, X **
     if (!pxFirst) { *ppx = 0; return; }
     {
         FRAME frame;
-        X *pxNew = PloNew(0x6E, p, -1, -1);
+        X *pxNew = PloNew(CID_ASEGBL, p, -1, -1);
         pxNew->Init();
         pxNew->cb = cb;
         pxNew->cElem = c;

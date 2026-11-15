@@ -1,3 +1,4 @@
+#include "cid.h"
 struct ALLOCREQ { int cb; int nKind; };
 class FRAME {
 public:
@@ -29,7 +30,7 @@ extern "C" int NTasksPercentDone__Fv()
     ALLOCREQ req;
     SW *psw = &g_sw;
     TASK **aptask = (TASK **)PvAllocReq(&req, psw->ctask * 4, 0x10);
-    int ctask = CFindObjectsByClass(psw, 5, 0x85, 0, psw->ctask, (void **)aptask);
+    int ctask = CFindObjectsByClass(psw, 5, CID_TASK, 0, psw->ctask, (void **)aptask);
     for (int i = 0; i < ctask; i++) {
         TASK *ptask = aptask[i];
         if (ptask->fCounts) {

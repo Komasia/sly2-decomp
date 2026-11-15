@@ -2,6 +2,7 @@
  * fNoBake (+0x160) clear, makes one (PloNew: cid 4 LIGHT, oid 0x188): directional, turned toward (-0.2, 0.3, -1)
  * (vtable slot 30 with the look-at matrix), strength 255, angle 240. SafeHouse lightsw.cpp. */
 #include "vtbl.h"
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 static __inline__ qword Make(float x, float y, float z)
@@ -18,7 +19,6 @@ static __inline__ qword Make(float x, float y, float z)
 struct LO;
 struct LO { int x0, x4, x8; VTENT *vt; char pad[0x20 - 0x10]; struct LO *x20; char pad2[0x160 - 0x24]; int x160; };
 extern struct LO *g_plightFirst __asm__("D_003E04F8");  /* the world's lights */
-#define CID_LIGHT 4
 #define OID_DEFAULT_LIGHT 0x188
 #define VT_SET_ROTATION 30
 extern qword g_normalZ;

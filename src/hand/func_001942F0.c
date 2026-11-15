@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct S4C { char pad[0x148]; long fl; };
@@ -29,21 +30,21 @@ void UpdateSafeInteract__FP5ACTOR(struct P *p)
         break;
     case 0:
     case 13:
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, 0xC)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, CID_LEDGE)) {
             if (p->x14->x19c)
                 return;
             g = p->x20;
             RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
             break;
         }
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, 0x26)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, CID_SWING)) {
             if (p->x14->xec)
                 return;
             g = 0.0f;
             RecordSafeTarget__FP5ACTORP2LOf(p->x0->x9e0, p->x18, g);
             break;
         }
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, 0x22)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x14, CID_WALL)) {
             if (p->x14->xec)
                 return;
             s = p->x14->x10c;

@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct P { char pad[0x10E4]; int x10E4; void *p10E8; int x10EC; };
@@ -13,7 +14,7 @@ int FActorTargetInReach__FP5ACTORi(struct P *p, int fX)
     float g;
     int f;
     if (p->x10EC != 4 || p->x10E4 == 3) return 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10E8, 0x3A)) gDist = D_002BCC7C;
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10E8, CID_GUNGUARD)) gDist = D_002BCC7C;
     else gDist = D_002BCC80;
     gMin = D_002BCC84;
     gMax = D_002BCC88;
