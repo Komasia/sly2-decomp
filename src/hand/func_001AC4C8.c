@@ -1,20 +1,26 @@
-struct B { char pad[0x5408]; char x5408[0x44]; int x544C; int x5450; };
+/* func_001AC4C8 (0x1AC4C8): reads a save slot from the card: the slot cleared, its file's directory entry read
+ * (0x1ABFC0) into the slot's entry; a file with the wrong attributes is error 0x14, one of the wrong size (not
+ * 0x5408) 0x1C; else its data read. */
+#include "h5_mc.h"
+#define CB_SAVE 0x5408
+#define GRFATTR_CHECK 0xD4
+#define GRFATTR_FILE 0x4
 void s1_memset(void *p, int c, int n) asm("memset");
-void func_001ABB10(void *s, void *b, char *name);
-int func_001ABFC0(void *s, char *name, void *p);
-int func_001AC9A0(void *s, char *name, void *b, int n);
-int func_001AC4C8(void *s, struct B *b)
+void func_001ABB10(void *pmc, void *pslot, char *szName);
+int func_001ABFC0(void *pmc, char *szName, void *pdirent);
+int func_001AC9A0(void *pmc, char *szName, void *pv, int cb);
+int func_001AC4C8(void *pmc, struct MCSLOT *pslot)
 {
-    char name[0x50];
-    int r;
-    s1_memset(b, 0, 0x5464);
-    func_001ABB10(s, b, name);
-    r = func_001ABFC0(s, name, b->x5408);
-    if (r)
-        return r;
-    if ((b->x5450 & 0xD4) != 4)
+    char szName[0x50];
+    int nErr;
+    s1_memset(pslot, 0, sizeof(struct MCSLOT));
+    func_001ABB10(pmc, pslot, szName);
+    nErr = func_001ABFC0(pmc, szName, &pslot->dirent);
+    if (nErr)
+        return nErr;
+    if ((*(int *)&pslot->dirent.grfattr & GRFATTR_CHECK) != GRFATTR_FILE)
         return 0x14;
-    if (b->x544C != 0x5408)
+    if (pslot->dirent.cb != CB_SAVE)
         return 0x1C;
-    return func_001AC9A0(s, name, b, 0x5408);
+    return func_001AC9A0(pmc, szName, pslot, CB_SAVE);
 }

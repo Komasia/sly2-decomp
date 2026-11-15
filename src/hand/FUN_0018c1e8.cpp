@@ -1,3 +1,6 @@
+/* FUN_0018c1e8 (0x1AB750): the size of a disc file given by its key record (the sector and size words stored XORed
+ * with +0x34 / +0x3C, the sector offset by 0xCA0): a file key (CFileLocation-style, 0x110 bytes) is made from it and
+ * its size returned (0x14B670); 0 for no key or an empty file. */
 struct S { int x0; int x4; char pad[0x2C]; int x34; int x38; int x3C; };
 struct K;
 extern "C" void func_00258248(K *k);

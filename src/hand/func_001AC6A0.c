@@ -1,24 +1,26 @@
-struct S { int x0; int x4; int pad[4]; int x18; int x1C; int x20; char pad2[0xFD5C - 0x24]; char xFD5C[1]; };
-int sceMcGetInfo(int a, int b, int *c, int *d, int *e);
-int func_001AB098(void *p, int a, int b, int c);
-int func_001AC6A0(struct S *s, int *out)
+/* func_001AC6A0 (0x1AC6A0): the card's free space in bytes (sceMcGetInfo's 1 KB clusters << 10) through pcbFree, 0
+ * on an error (a new card is not one; unformatted gives 12). Layout: include/h5_mc.h. */
+#include "h5_mc.h"
+int sceMcGetInfo(int port, int slot, int *ptype, int *pcfree, int *pfFormatted);
+int func_001AB098(void *pmemcard, int nResult, int kind, int pn);
+int func_001AC6A0(struct MC *pmc, int *pcbFree)
 {
-    void *p = s->xFD5C;
-    int h;
-    int r;
-    h = sceMcGetInfo(s->x0, s->x4, &s->x18, &s->x1C, &s->x20);
-    r = func_001AB098(p, h, 1, 0);
-    switch (r) {
+    void *pmemcard = pmc->memcard;
+    int nResult;
+    int nErr;
+    nResult = sceMcGetInfo(pmc->port, pmc->slot, &pmc->typeCard, &pmc->cclusterFree, &pmc->fFormatted);
+    nErr = func_001AB098(pmemcard, nResult, 1, 0);
+    switch (nErr) {
     case 9:
-        r = 0;
+        nErr = 0;
         break;
     case 10:
-        r = 12;
+        nErr = 12;
         break;
     }
-    if (r == 0)
-        *out = s->x1C << 10;
+    if (nErr == 0)
+        *pcbFree = pmc->cclusterFree << 10;
     else
-        *out = 0;
-    return r;
+        *pcbFree = 0;
+    return nErr;
 }

@@ -1,7 +1,9 @@
-int sceMcRead(int a, int b, int c);
-void func_001AB098(void *p, int r, int n, int d);
-struct S { char pad[0xFD5C]; char x[4]; };
-void func_001AC850(struct S *p, int a, int b, int c, int d)
+/* func_001AC850 (0x1AC850): reads from an open card file (sceMcRead: fd, buffer, size), the bytes read through pcb.
+ * Layout: include/h5_mc.h. */
+#include "h5_mc.h"
+int sceMcRead(int fd, int pv, int cb);
+void func_001AB098(void *pmemcard, int nResult, int kind, int pcb);
+void func_001AC850(struct MC *pmc, int fd, int pv, int cb, int pcb)
 {
-    func_001AB098(p->x, sceMcRead(a, b, c), 5, d);
+    func_001AB098(pmc->memcard, sceMcRead(fd, pv, cb), 5, pcb);
 }
