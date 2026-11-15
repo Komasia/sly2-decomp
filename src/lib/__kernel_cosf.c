@@ -1,7 +1,7 @@
-// (Claude agent) ee-gcc2.9 plain fdlibm: MATCH only with the proposed mfc1->noreorder-branch nop rule (notes/245000.md); 72/86 with current tool.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __kernel_cosf (newlib/fdlibm kf_cos.c): cos(x + y) on [-pi/4, pi/4], y the tail of x. */
 typedef union { float value; unsigned int word; } ieee_float_shape_type;
 #define GET_FLOAT_WORD(i,d) do { ieee_float_shape_type gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
 #define SET_FLOAT_WORD(d,i) do { ieee_float_shape_type sf_u; sf_u.word = (i); (d) = sf_u.value; } while (0)

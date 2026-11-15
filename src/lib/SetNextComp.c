@@ -1,54 +1,56 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-typedef struct TC {
-    struct TC *next;    /* 0x00 */
-    int x4;
-    long x8;
-    unsigned long base_count; /* 0x10 */
-    unsigned long base_time;  /* 0x18 */
-    unsigned long schedule;   /* 0x20 */
-} TC;
+#include "ee_kernel.h"
+/* SetNextComp (libkernel timer): program the T2 compare register for the next alarm. Alarms due within
+   TIMER_COMP_MARGIN of each other are merged; if the next one is (nearly) due already, fire it right away. */
+typedef struct Counter {
+    struct Counter *timer_next;     /* 0x00 */
+    int timer_previous;             /* 0x04 */
+    long timer_key_mode;            /* 0x08 timer_key, timer_mode */
+    unsigned long timer_base_time;  /* 0x10 */
+    unsigned long timer_base_count; /* 0x18 */
+    unsigned long timer_schedule;   /* 0x20 */
+} Counter;
 typedef struct {
     char pad[0x18];
-    TC *head;       /* 0x18 */
-    int current;    /* 0x1C */
-} TimerG;
-extern TimerG D_002C5A30;
+    Counter *timer_counter_buf_alarm;   /* 0x18 alarm list */
+    int current_handling_timer_id;      /* 0x1C */
+} TimerGlobal;
+extern TimerGlobal D_002C5A30;  /* g_Timer */
 void func_00239AD0(int);   /* SetT2_COMP */
 void func_00239AC0(int);   /* SetT2_MODE */
-#define T2_COUNT (*(volatile int *)0x10001000)
-#define T2_MODE  (*(volatile int *)0x10001010)
+
 void SetNextComp(unsigned long now)
 {
-    TC *t;
-    unsigned long a0, a1;
+    Counter *counter;
+    unsigned long next, fire;
     unsigned int mode;
 
-    t = D_002C5A30.head;
-    if (D_002C5A30.current >= 0)
+    counter = D_002C5A30.timer_counter_buf_alarm;
+    if (D_002C5A30.current_handling_timer_id >= 0)
         return;
     mode = T2_MODE;
-    if (t == 0) {
+    if (counter == 0) {
         func_00239AD0(0);
-        func_00239AC0(mode & ~0x800);
+        func_00239AC0(mode & ~T_MODE_OVFF);
         return;
     }
-    a0 = t->schedule + t->base_count - t->base_time;
-    t = t->next;
-    while (t != 0) {
-        a1 = t->schedule + t->base_count - t->base_time;
-        if (a1 < a0 + 0x7333)
-            a0 = a1;
+    next = counter->timer_schedule + counter->timer_base_time - counter->timer_base_count;
+    counter = counter->timer_next;
+    while (counter != 0) {
+        fire = counter->timer_schedule + counter->timer_base_time - counter->timer_base_count;
+        if (fire < next + TIMER_COMP_MARGIN)
+            next = fire;
         else
             break;
-        t = t->next;
+        counter = counter->timer_next;
     }
-    if ((long)(a0 - now) < 0x7333) {
-        func_00239AD0(T2_COUNT + (int)((unsigned long)0x7333 >> ((mode & 3) * 4)));
-        func_00239AC0(mode & ~0x800);
+    if ((long)(next - now) < TIMER_COMP_MARGIN) {
+        func_00239AD0(T2_COUNT + (int)((unsigned long)TIMER_COMP_MARGIN >> ((mode & T_MODE_CLKS) * 4)));
+        func_00239AC0(mode & ~T_MODE_OVFF);
         return;
     }
-    func_00239AC0(mode & ~0x800);
-    func_00239AD0(a0 >> ((mode & 3) * 4));
+    func_00239AC0(mode & ~T_MODE_OVFF);
+    func_00239AD0(next >> ((mode & T_MODE_CLKS) * 4));
 }

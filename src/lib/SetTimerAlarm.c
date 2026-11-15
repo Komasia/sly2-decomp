@@ -1,56 +1,62 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+#include "ee_kernel.h"
+/* SetTimerAlarm (libkernel): call `handler(id, scheduled, actual, arg)` once `clocks` bus clocks from now.
+   Takes an alarm from the pool, gives it a running timer counter whose handler is AlarmHandler, and returns
+   the alarm id. Thread-safe version of iSetTimerAlarm. */
 typedef struct Alarm {
-    struct Alarm *next;
-    volatile int id;
-    void *func;
-    void *arg;
+    struct Alarm *alarm_next;   /* free-list link */
+    volatile int timer_counter_id;
+    void *callback_handler;
+    void *callback_handler_arg;
 } Alarm;
-extern Alarm *D_0044E700;
+extern Alarm *D_0044E700;       /* g_pFreeAlarm */
 int DIntr(void);
 int EIntr(void);
 int AllocTimerCounter(void);
 int SetTimerHandler(int, long, void *, void *);
-int func_0023A3A0(int);
-int func_0023A668(int, int, int, Alarm *);
+int func_0023A3A0(int);         /* StartTimerCounter */
+int func_0023A668(int, int, int, Alarm *);  /* AlarmHandler */
+
 static inline Alarm *AllocAlarm(void)
 {
-    Alarm *p = D_0044E700;
-    if (p)
-        D_0044E700 = p->next;
-    return p;
+    Alarm *alarm = D_0044E700;
+    if (alarm)
+        D_0044E700 = alarm->alarm_next;
+    return alarm;
 }
-int SetTimerAlarm(long sched, void *func, void *arg)
+
+int SetTimerAlarm(long clocks, void *handler, void *arg)
 {
-    Alarm *p;
+    Alarm *alarm;
     int id;
-    int st;
-    if (func == 0)
-        return 0x80000016;
-    st = DIntr();
-    p = AllocAlarm();
-    if (p == 0) {
-        if (st)
+    int intr;
+    if (handler == 0)
+        return KE_EINVAL;
+    intr = DIntr();
+    alarm = AllocAlarm();
+    if (alarm == 0) {
+        if (intr)
             EIntr();
-        return 0x80008005;
+        return KE_ETIMER;
     }
     id = AllocTimerCounter();
     if (id < 0) {
-        Alarm *h = D_0044E700;
-        D_0044E700 = p;
-        p->next = h;
-        p->id = 0;
-        if (st)
+        Alarm *head = D_0044E700;   /* give the alarm back */
+        D_0044E700 = alarm;
+        alarm->alarm_next = head;
+        alarm->timer_counter_id = 0;
+        if (intr)
             EIntr();
         return id;
     }
-    p->func = func;
-    p->arg = arg;
-    p->id = id;
-    SetTimerHandler(id, sched, func_0023A668, p);
+    alarm->callback_handler = handler;
+    alarm->callback_handler_arg = arg;
+    alarm->timer_counter_id = id;
+    SetTimerHandler(id, clocks, func_0023A668, alarm);
     func_0023A3A0(id);
-    if (st)
+    if (intr)
         EIntr();
-    return ((int)p << 4) | (id & 0xFE) | 1;
+    return ((int)alarm << 4) | (id & 0xFE) | 1;
 }

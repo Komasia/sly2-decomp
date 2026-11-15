@@ -2,6 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_DIVNOP
+/* __ieee754_sqrtf (newlib/fdlibm ef_sqrt.c): bit-by-bit float square root. */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

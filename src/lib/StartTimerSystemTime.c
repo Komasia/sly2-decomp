@@ -1,21 +1,24 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
+#include "ee_kernel.h"
+/* StartTimerSystemTime (libkernel): start timer 2 counting (system time). Returns 1 if it was already running. */
 int DIntr(void);
 int EIntr(void);
-void func_00239AC0(unsigned int);
+void func_00239AC0(unsigned int);   /* SetT2_MODE */
 int iGetTimerSystemTime(void);
 void SetNextComp(int);
+
 int StartTimerSystemTime(void)
 {
-    int st = DIntr();
-    unsigned int mode = *(volatile unsigned int *)0x10001010;
-    if (mode & 0x80) {
-        if (st) EIntr();
+    int intr = DIntr();
+    unsigned int mode = T2_MODE;
+    if (mode & T_MODE_CUE) {
+        if (intr) EIntr();
         return 1;
     }
-    func_00239AC0((mode & 0xFFFFF3FF) | 0x80);
+    func_00239AC0((mode & ~(T_MODE_OVFF | T_MODE_EQUF)) | T_MODE_CUE);
     SetNextComp(iGetTimerSystemTime());
-    if (st) EIntr();
+    if (intr) EIntr();
     return 0;
 }

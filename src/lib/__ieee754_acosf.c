@@ -1,8 +1,8 @@
-// (Claude agent) fdlibm/newlib ef_acos.c, written fresh. Sony libm compiler = ee-gcc2.9-991111-01, whose divsf3 pattern is the
-// noreorder unit `nop; nop; div.s` (length 3: never put in a delay slot, but not a reorg search stop), so the DIVNOP emulation is not needed.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111-01
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __ieee754_acosf (newlib/fdlibm ef_acos.c): acos in float. Built with ee-gcc2.9-991111-01, Sony's libm
+   compiler, whose division is the noreorder unit `nop; nop; div.s`. */
 /* fdlibm/newlib ef_acos.c
  * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
  * Developed at SunPro, a Sun Microsystems, Inc. business.

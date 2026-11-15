@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __floatdisf (libgcc2): signed 64-bit integer -> float, rounding through double. */
 typedef int SItype;
 typedef unsigned int USItype;
 typedef long DItype;

@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* __unpack_f (libgcc fp-bit): split an IEEE float into class, sign, exponent and fraction. */
 typedef unsigned int fractype;
 typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY } fp_class_type;
 typedef struct {

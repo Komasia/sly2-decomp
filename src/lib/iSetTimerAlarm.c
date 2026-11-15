@@ -2,47 +2,51 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+#include "ee_kernel.h"
+/* iSetTimerAlarm (libkernel): interrupt-context SetTimerAlarm: run `handler` once after `clocks` bus clocks. */
 typedef struct Alarm {
-    struct Alarm *next;
-    volatile int id;
-    void *func;
-    void *arg;
+    struct Alarm *alarm_next;
+    volatile int timer_counter_id;
+    void *callback_handler;
+    void *callback_handler_arg;
 } Alarm;
-extern Alarm *D_0044E700;
+extern Alarm *D_0044E700;       /* g_pFreeAlarm */
 int iAllocTimerCounter(void);
 int iSetTimerHandler(int, long, void *, void *);
 int iStartTimerCounter(int);
-int func_0023A668(int, int, int, Alarm *);
+int func_0023A668(int, int, int, Alarm *);  /* AlarmHandler */
+
 static inline Alarm *AllocAlarm(void)
 {
-    Alarm *p = D_0044E700;
-    if (p)
-        D_0044E700 = p->next;
-    return p;
+    Alarm *alarm = D_0044E700;
+    if (alarm)
+        D_0044E700 = alarm->alarm_next;
+    return alarm;
 }
-int iSetTimerAlarm(long sched, void *func, void *arg)
+
+int iSetTimerAlarm(long clocks, void *handler, void *arg)
 {
-    Alarm *p;
+    Alarm *alarm;
     int id;
-    if (func == 0)
-        return 0x80000016;
-    p = AllocAlarm();
-    if (p == 0)
-        return 0x80008005;
+    if (handler == 0)
+        return KE_EINVAL;
+    alarm = AllocAlarm();
+    if (alarm == 0)
+        return KE_ETIMER;
     id = iAllocTimerCounter();
     if (id >= 0) {
-        p->func = func;
-        p->arg = arg;
-        p->id = id;
-        iSetTimerHandler(id, sched, func_0023A668, p);
+        alarm->callback_handler = handler;
+        alarm->callback_handler_arg = arg;
+        alarm->timer_counter_id = id;
+        iSetTimerHandler(id, clocks, func_0023A668, alarm);
         iStartTimerCounter(id);
-        return ((int)p << 4) | (id & 0xFE) | 1;
+        return ((int)alarm << 4) | (id & 0xFE) | 1;
     }
     {
-        Alarm *h = D_0044E700;
-        D_0044E700 = p;
-        p->next = h;
-        p->id = 0;
+        Alarm *head = D_0044E700;   /* give the alarm back */
+        D_0044E700 = alarm;
+        alarm->alarm_next = head;
+        alarm->timer_counter_id = 0;
     }
     return id;
 }

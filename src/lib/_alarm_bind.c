@@ -1,7 +1,12 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* _alarm_bind (libkernel sifrpc): alarm handler that retries sending a bind request packet to the IOP;
+   returns 0 (done) once the SIF command was queued, else the delay before the next try. */
+#define SIF_CMD_RPC_PACKET 0x80000008
+#define RPC_RETRY_DELAY 0x800
 unsigned int isceSifSendCmd(unsigned int, void *, int, void *, void *, int);
-int _alarm_bind(int id, unsigned short t, int a, void *rd)
+
+int _alarm_bind(int id, unsigned short time, int actual, void *packet)
 {
-    return isceSifSendCmd(0x80000008, rd, 0x40, 0, 0, 0) ? 0 : 0x800;
+    return isceSifSendCmd(SIF_CMD_RPC_PACKET, packet, 0x40, 0, 0, 0) ? 0 : RPC_RETRY_DELAY;
 }

@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __throw_type_match (libgcc): default exception matcher: types match when their names are equal. */
 int strcmp(const char *, const char *);
 void *__throw_type_match(void *catch_type, void *throw_type, void *obj)
 {

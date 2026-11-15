@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* __rethrow (libgcc, EH_TABLE_LOOKUP): rethrow the current exception from table index `index`. */
 #define FIRST_PSEUDO_REGISTER 79
 typedef struct frame_state
 {
