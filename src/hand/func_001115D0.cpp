@@ -1,3 +1,5 @@
+/* func_001115D0 (0x1115D0): factory (CLS::pfnNew) of class 49, derived from class 48 (SafeHouse: ALO): operator new
+ * of a zeroed 0x150-byte object; the inline constructors set the vtable (0x2D4260) and the base fields. */
 class CRef {
 public:
     CRef();

@@ -1,3 +1,5 @@
+/* Allocates n bytes from the SW heap (kind 0x10) through PvAllocSwImpl; the first argument is unused (a
+ * method's this: Sly 3 maps it to CGlobalHeap::PvAlloc). */
 typedef struct MSG { int n; int nKind; } MSG;
 void PvAllocSwImpl__Fi(MSG *pmsg);
 

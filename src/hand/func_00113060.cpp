@@ -1,3 +1,5 @@
+/* func_00113060 (0x113060): factory (CLS::pfnNew) of class 156, derived from class 155: operator new of a zeroed
+ * 0xB0-byte object; the inline constructors set the vtable (0x2D04A0) and the base fields. */
 extern "C" void *s1_memset(void *pv, int b, int cb) asm("memset");
 class M {
 public:

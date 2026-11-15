@@ -1,3 +1,5 @@
+/* func_00112B30 (0x112B30): factory (CLS::pfnNew) of class 124, derived from class 2 (SafeHouse: LO): operator new
+ * of a zeroed 0x160-byte object; the inline constructors set the vtable (0x2D5120) and the base fields. */
 typedef struct BASIC { int m0; int m4; int m8; void *pvtbl; } BASIC;
 extern char D_002D5120[];
 void *__builtin_new(int cb);

@@ -1,3 +1,5 @@
+/* CBinaryInputStream::ReadSz: reads a 16-bit length and that many characters into a string allocated by
+ * palloc (vtable slot 1, kind nKind); 0 for an empty string. */
 #include "vtbl.h"
 typedef struct ALLOC { VTENT *pvt; } ALLOC;
 typedef struct CBinaryInputStream CBinaryInputStream;

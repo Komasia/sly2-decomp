@@ -1,3 +1,6 @@
+/* func_00111728 (0x111728): factory (CLS::pfnNew) of class 55 (SafeHouse: BENTLEY), derived from class 52
+ * (SafeHouse: PLAYER): operator new of a zeroed 0x1880-byte object; the inline constructors set the vtable
+ * (0x2CB230) and the base fields. */
 class CRef {
 public:
     CRef();

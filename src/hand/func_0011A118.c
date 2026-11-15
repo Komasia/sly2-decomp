@@ -1,3 +1,5 @@
+/* Singly-linked list (SL): removes pv, fixing up any live iterators (SLI chain at g_psliFirst) that point at
+ * its link, and the list's last pointer. */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 typedef struct SLI { SL *psl; void **ppv; int ibNext; struct SLI *psliNext; } SLI;
 

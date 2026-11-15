@@ -1,4 +1,6 @@
 // func_00112100 MATCH (Claude agent, lane A12, 2026-10-23), from v3 (1): commented pin on the SUB vtable pointer (a0, as the target) plus a commented volatile empty asm before the vt store, which keeps `sw a0,0x170` ahead of the return move (sched2 tie-break).
+/* func_00112100 (0x112100): factory (CLS::pfnNew) of class 88, derived from class 48 (SafeHouse: ALO): operator new
+ * of a zeroed 0x1A0-byte object; the inline constructors set the vtable (0x2D20D0) and the base fields. */
 extern "C" void __7GLOBSET(void *);   /* GLOBSET::GLOBSET() (0x167310) */
 /* stand-in for the SO::globset member (named Globset so its inline constructor does not collide with __7GLOBSET) */
 class Globset {

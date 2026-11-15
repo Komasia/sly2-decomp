@@ -1,3 +1,4 @@
+/* Singly-linked list (SL): prepends pv. */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 
 void func_0011A098(SL *psl, void *pv)

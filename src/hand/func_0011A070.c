@@ -1,3 +1,4 @@
+/* Singly-linked list (SL): appends pv (its next link at the list's ibNext offset). */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 
 void func_0011A070(SL *psl, void *pv)

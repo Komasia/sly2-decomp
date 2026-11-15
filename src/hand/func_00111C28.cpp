@@ -1,3 +1,5 @@
+/* func_00111C28 (0x111C28): factory (CLS::pfnNew) of class 73, derived from class 71: operator new of a zeroed
+ * 0x390-byte object; the inline constructors set the vtable (0x2D1080) and the base fields. */
 class CRef {
 public:
     CRef();

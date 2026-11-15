@@ -1,3 +1,5 @@
+/* func_00111090 (0x111090): factory (CLS::pfnNew) of class 27, derived from class 22 (SafeHouse: SHAPE): operator
+ * new of a zeroed 0x160-byte object; the inline constructors set the vtable (0x2D1B60) and the base fields. */
 class M {
 public:
     M() {}

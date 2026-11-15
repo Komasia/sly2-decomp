@@ -1,3 +1,4 @@
+/* Singly-linked list (SL): is pv in a list (it has a next link, or it is the last entry)? */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 
 int func_0011A1B8(SL *psl, void *pv)

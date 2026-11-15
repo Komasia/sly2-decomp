@@ -1,3 +1,5 @@
+/* func_00110D60 (0x110D60): factory (CLS::pfnNew) of class 13, derived from class 10 (SafeHouse: PATH): operator
+ * new of a zeroed 0x1D0-byte object; the inline constructors set the vtable (0x2D6FE8) and the base fields. */
 class M {
 public:
     M() {}
