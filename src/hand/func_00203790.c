@@ -1,11 +1,12 @@
-struct O { char pad[0x28]; unsigned long fl; char pad2[0x24]; int n54; char pad3[0x94]; struct O *pEC; char pad4[0x10]; struct O *p100; };
-#define BIT60(o) ((int)((o)->fl >> 60) & 1)
-int func_00203790(struct O *p)
+/* func_00203790 (0x203790): whether a photo target can be taken: it is in the world, its linked LO is not, and its
+ * task (if any) is open (state 1). */
+#include "h6_photo.h"
+int func_00203790(PHOTOTARGET *ptarget)
 {
-    struct O *o;
-    if (!BIT60(p)) return 0;
-    if (p->p100 && BIT60(p->p100)) return 0;
-    o = p->pEC;
-    if (o && o->n54 != 1) return 0;
+    PHOTOTASK *ptask;
+    if (!FPhotoTargetInWorld(ptarget)) return 0;
+    if (ptarget->ploLinked && FPhotoTargetInWorld(ptarget->ploLinked)) return 0;
+    ptask = ptarget->ptask;
+    if (ptask && ptask->nState != 1) return 0;
     return 1;
 }

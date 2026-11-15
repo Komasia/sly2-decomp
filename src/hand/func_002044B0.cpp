@@ -1,8 +1,8 @@
 // OnStepXpUpdate__FP3ALOP2XPi: a STEP's contact-velocity adjustment (vtable slot 56; Sly 1 has AdjustStepXpVelocity(STEP *, XP *, int)).
 // After the base version (func_001F4FC0), for a kind-0xE contact: the closing speed along the contact normal is smoothed
-// with GSmooth (GSmooth) toward two limits (SMPs D_002C3C98 / D_002C3CA8), the change is limited to dt * 9000 up and
-// dt * -4500 down, and this side's velocity gets normal * -speed plus (matTarget * vUnk190 without its part along the
-// normal) * gUnk180. Finally the contact distance moves by gUnk210 - gUnk248.
+// with GSmooth toward two limits (SMPs D_002C3C98 / D_002C3CA8), the change is limited to dt * 9000 up and
+// dt * -4500 down, and this side's velocity gets normal * -speed plus (matTarget * vecVel without its part along the
+// normal) * uTurn. Finally the contact distance moves by sFloorTarget - zBase (vecBase.z).
 // Matched with one asm statement per VU0 operation, no register pins: the local pmat gives the target's pointer/row registers,
 // the two smoothing outputs are separate address-taken floats (frame slots after the VU_FLOAT home at 0($sp)).
 typedef int qword __attribute__((mode(TI)));
@@ -36,15 +36,15 @@ struct XP
 struct STEP
 {
     char pad0[0x180];
-    float gUnk180;
+    float uTurn;
     char pad184[0xC];
-    qword vUnk190;
+    qword vecVel;
     char pad1a0[0x10];
     struct M3 matTarget;
     char pad1e0[0x30];
-    float gUnk210;
+    float sFloorTarget;
     char pad214[0x34];
-    float gUnk248;
+    float zBase;
 };
 
 #include "clock.h"
@@ -126,7 +126,7 @@ extern "C" void OnStepXpUpdate__FP3ALOP2XPi(struct STEP *pstep, struct XP *pxp, 
     float gVn = FloatOfVf(QwDot(QwSub(pxp->axpd[0].v, pxp->axpd[1].v), pxp->normal));
     float gVnMin;
     float gVnTarget;
-    GSmooth(pxp->gDist, pstep->gUnk210, g_clock.dt, D_002C3C98, &gVnMin);
+    GSmooth(pxp->gDist, pstep->sFloorTarget, g_clock.dt, D_002C3C98, &gVnMin);
     GSmooth(pxp->gDist, 0.0f, g_clock.dt, D_002C3CA8, &gVnTarget);
     gVn = gVn > gVnMin ? gVn : gVnMin;
     if (gVn < gVnTarget)
@@ -144,11 +144,11 @@ extern "C" void OnStepXpUpdate__FP3ALOP2XPi(struct STEP *pstep, struct XP *pxp, 
 
     struct XPD *pxpd = &pxp->axpd[ixpd];
     struct M3 *pmat = &pstep->matTarget;
-    qword v = QwRotate(pmat, pstep->vUnk190);
+    qword v = QwRotate(pmat, pstep->vecVel);
     qword normal = pxp->normal;
     qword vT = QwSub(v, QwScale(normal, QwDot(v, normal)));
     struct VU_FLOAT vuVn = VuFloat(-gVn);
-    struct VU_FLOAT vuK = VuFloatFromMemWord(*(int *)&pstep->gUnk180);
+    struct VU_FLOAT vuK = VuFloatFromMemWord(*(int *)&pstep->uTurn);
     pxpd->v = QwAddScaled2(pxpd->v, normal, vuVn.qw, vT, vuK.qw);
-    pxp->gDist += pstep->gUnk210 - pstep->gUnk248;
+    pxp->gDist += pstep->sFloorTarget - pstep->zBase;
 }

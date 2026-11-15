@@ -1,13 +1,13 @@
 /* FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR (Lilly / Claude agent, T1593): terrain-fit of the crawl probes (our name UpdateCrawlCollide, 0x205910; see
  * re/symbols: the 3-probe floor follower of the vent crawl, called from UpdateJtGrab case 8).  MATCH, no register pins.
- * What it does: the actor's orientation is turned about the up axis (g_normalZ) by its heading (p+0x1A8) into a position+rotation
+ * What it does: the actor's orientation is turned about the up axis (g_normalZ) by its heading (STEP::radHeading) into a position+rotation
  * matrix matCur (copied to matOrig); the largest probe radius (length of the local probe points, start -FLT_MAX D_002A85F8) is the
- * sphere for the nearby-objects query (func_0020FC60, filter func_0020FA50 with p+0xEC as context).  Then D_002C3CE4 passes: every
+ * sphere for the nearby-objects query (func_0020FC60, filter func_0020FA50 with the attachment poxa as context).  Then D_002C3CE4 passes: every
  * probe point is placed with matCur and snapped to the floor by the line test FDropOnGround (height->max / height->min); a probe
  * that finds no floor is dropped by D_002C3CE0 along matCur's up row.  The plane through the three probes gives a normal (cross of
  * the two edges, g_normalZ if shorter than 0.0001), BuildRotateVectorsMatrix builds the rotation from matOrig's up row to it, DecomposeRotateMatrixRad
  * measures its angle, which is limited to D_002C3CE8 (BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR rebuilds the rotation about the same axis with the limit),
- * and matCur = adjustment * matOrig.  The final rotation is stored at p+0x1B0.
+ * and matCur = adjustment * matOrig.  The final rotation is stored in STEP::matHeading.
  * How it matches (everything came from the personal decomp's recipes, nothing from register pins):
  *  - M3 * M3 is the game's inline NRV operator* (three dead VU_VECTOR4 homes at +0x140), `pmatOrig` is a pointer declared in the loop
  *    so rows 1/2 of matOrig are read through a hoisted pointer register while row 0 is `0x40(sp)`.
@@ -31,10 +31,10 @@ struct VU_VECTOR4 {qword qw;};
 union U {qword q;float f[4];int i[4];};
 struct VU_FLOAT {qword qw;};
 struct FRAME {FRAME(){}~FRAME(){}};
-struct P {char pad0[0xEC];void *attachment;char padF0[0xB8];float heading;char pad1AC[4];MATRIX3 basis;};
+struct STEP {char pad0[0xEC];void *poxa;char padF0[0xB8];float radHeading;char pad1AC[4];MATRIX3 matHeading;};
 struct HEIGHT {float min,max;};
-struct GAME;
-extern GAME g_sw;
+struct SW;
+extern SW g_sw;
 extern qword g_normalZ;
 extern const float D_002A85F8;
 extern float D_002C3CE0;
@@ -44,11 +44,11 @@ extern "C" {
 MATRIX3 BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR(qword,float);
 MATRIX3 *func_0011B500r(MATRIX3 *,qword,float) __asm__("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
 MATRIX3 BuildRotateVectorsMatrix(qword,qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
-qword PosOfLo(P *) asm("PosOfLo__FP2LO");
+qword PosOfLo(STEP *) asm("PosOfLo__FP2LO");
 qword *func_00256D18(qword *,qword);
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *,int);
-void func_0020FC60(GAME *,qword,float,int (*)(void *,void *),void *,int *,void ***);
+void func_0020FC60(SW *,qword,float,int (*)(void *,void *),void *,int *,void ***);
 int func_0020FA50(void *,void *);
 int FDropOnGround(qword *,float,float,int,void *) asm("FDropOnGround__FP6VECTORffiPv");
 void DecomposeRotateMatrixRad(MATRIX3 *,float *,qword *) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
@@ -93,10 +93,10 @@ static inline void InitMat(MATRIX4 *pm,const MATRIX3 &rot,qword pos)
 // 10 empty asm volatile (see the header: gcse hash-table size)
 #define GCSE_PAD10 __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile(""); __asm__ volatile("");
 // name: SafeHouse port (FitStepToFloor)
-extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,int pointCount,const qword *localPoints)
+extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(STEP *pstep,HEIGHT *height,int pointCount,const qword *localPoints)
 {
     MATRIX4 matCur,matOrig;
-    InitMat(&matCur,Rotation(g_normalZ,p->heading),PosOfLo(p));
+    InitMat(&matCur,Rotation(g_normalZ,pstep->radHeading),PosOfLo(pstep));
     matOrig=matCur;
     float radius=D_002A85F8;
     for(int i=0;i<pointCount;i++){float length=GLength(localPoints[i]);radius=(radius>length)?radius:length;}
@@ -104,7 +104,7 @@ extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,
     FRAME *frame=&storage;
     __10STACKSCOPE(frame);
     int nearbyCount;void **nearby;
-    func_0020FC60(&g_sw,*(qword *)matCur.mat[3],radius,func_0020FA50,p->attachment,&nearbyCount,&nearby);
+    func_0020FC60(&g_sw,*(qword *)matCur.mat[3],radius,func_0020FA50,pstep->poxa,&nearbyCount,&nearby);
     U points[3];
     U point;
     for(int pass=0;pass<D_002C3CE4;pass++){
@@ -133,7 +133,7 @@ extern "C" void FitStepToFloor__FP3ALOP6VECTORiPG9VU_VECTOR(P *p,HEIGHT *height,
         *(MATRIX3 *)&matCur=adjustment**pmatOrig;
         matCur.mat[2][3]=0;matCur.mat[1][3]=0;matCur.mat[0][3]=0;
     }
-    p->basis=*(MATRIX3 *)&matCur;
+    pstep->matHeading=*(MATRIX3 *)&matCur;
     _$_10STACKSCOPE(frame,2);
     GCSE_PAD10
     GCSE_PAD10

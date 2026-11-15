@@ -1,10 +1,13 @@
 typedef int qword __attribute__((mode(TI)));
 typedef struct {qword a[4];} M4;
 union V {qword q;float f[4];};
-struct X {char pad40[0x40];M4 m;};
-struct B {union V *v;};
-struct M {struct X *px;char pad4[0xC];struct B *pb;char pad14[8];int count;char pad20[0x5C];union V *points;};
-struct S {char pad258[0x258];struct M *pm0,*pm1;};
+struct XFW {char pad40[0x40];M4 matWorld;};
+/* the moving mesh of an entry: its points' velocities */
+struct SOEMESH {union V *av;};
+/* SOE: one mesh entry of an ALO */
+struct SOE {struct XFW *pxf;char pad4[0xC];struct SOEMESH *pmesh;char pad14[8];int cposPinned;char pad20[0x5C];union V *apos;};
+/* the STEP's custom entry and its second mesh */
+struct STEP {char pad258[0x258];struct SOE *psoeCustom,*psoeOther;};
 struct CLK {float time,dt;};
 extern struct CLK g_clock;
 extern float D_002C3C68[];
@@ -22,51 +25,54 @@ static __inline__ void CopyMatrix(M4 *destination,const M4 *source) {
     destination->a[1]=row1;destination->a[2]=row2;
     destination->a[3]=row3;destination->a[0]=row0;
 }
+/* UpdateStepMesh (0x203E08): each frame, with both meshes set, the velocity of each of the custom entry's pinned
+ * points: its point smoothed (GSmooth, SMP D_002C3C68) toward the second mesh's point carried into the custom
+ * entry's frame, as a change per dt. */
 // name: SafeHouse port (UpdateStepMesh)
-void UpdateStepMesh__FP3ALO(struct S *input)
+void UpdateStepMesh__FP3ALO(struct STEP *pstep)
 {
-    void *context=input;
+    void *context=pstep;
     M4 m;
     union V v;
     M4 mm,mi;
     register M4 *pmi __asm__("$16");
     register M4 *pmm __asm__("$17");
-    register struct B *velocityContainer __asm__("$2");
-    register struct X *firstBasis __asm__("$5");
+    register struct SOEMESH *velocityContainer __asm__("$2");
+    register struct XFW *firstBasis __asm__("$5");
     union V *old;
     register union V *velocity __asm__("$20");
     int i,j;
-    register struct M *firstSource __asm__("$3");
-    register struct M *secondSource __asm__("$4");
+    register struct SOE *firstSource __asm__("$3");
+    register struct SOE *secondSource __asm__("$4");
     struct CLK *clock;
     float *pv;
     float *pt,*ps,*pd;
-    __asm__("lw %0,%1":"=r"(firstSource):"m"(((struct S*)context)->pm0));
+    __asm__("lw %0,%1":"=r"(firstSource):"m"(((struct STEP*)context)->psoeCustom));
     if(!firstSource)return;
-    __asm__("lw %0,%1":"=r"(secondSource):"m"(((struct S*)context)->pm1));
+    __asm__("lw %0,%1":"=r"(secondSource):"m"(((struct STEP*)context)->psoeOther));
     pmi=&mi;
     if(!secondSource)return;
-    __asm__("lw %0,%2\n\tlw %1,%3":"=r"(velocityContainer),"=r"(firstBasis):"m"(firstSource->pb),"m"(firstSource->px));
+    __asm__("lw %0,%2\n\tlw %1,%3":"=r"(velocityContainer),"=r"(firstBasis):"m"(firstSource->pmesh),"m"(firstSource->pxf));
     pmm=&mm;
     {register float *nextPoints __asm__("$18");
      register union V *oldPoints __asm__("$19");
      __asm__("lw %0,%4\n\tlw %1,%5\n\taddiu %2,%2,64\n\tlw %3,%6"
        :"=r"(nextPoints),"=r"(oldPoints),"+r"(firstBasis),"=r"(velocity)
-       :"m"(secondSource->points),"m"(firstSource->points),"m"(velocityContainer->v));
+       :"m"(secondSource->apos),"m"(firstSource->apos),"m"(velocityContainer->av));
      pd=nextPoints;old=oldPoints;}
     InverseAffineMatrix4__FP7MATRIX4(pmi,(M4 *)firstBasis);
-    {register struct M *currentSource __asm__("$2");
+    {register struct SOE *currentSource __asm__("$2");
      register M4 *destination __asm__("$4");
      register M4 *inverse __asm__("$5");
-     register struct X *basis __asm__("$6");
-     __asm__("lw %0,%1":"=r"(currentSource):"m"(((struct S*)context)->pm1));
+     register struct XFW *basis __asm__("$6");
+     __asm__("lw %0,%1":"=r"(currentSource):"m"(((struct STEP*)context)->psoeOther));
      __asm__("daddu %0,%3,$zero\n\tdaddu %1,%4,$zero\n\tlw %2,%5"
        :"=&r"(destination),"=&r"(inverse),"=r"(basis)
-       :"r"(pmm),"r"(pmi),"m"(currentSource->px));
-     MulMatrix4__FP7MATRIX4T0Pv(destination,inverse,&basis->m);}
+       :"r"(pmm),"r"(pmi),"m"(currentSource->pxf));
+     MulMatrix4__FP7MATRIX4T0Pv(destination,inverse,&basis->matWorld);}
 
     CopyMatrix(&m,&mm);
-    i=((struct S*)context)->pm1->count;
+    i=((struct STEP*)context)->psoeOther->cposPinned;
     if(--i>=0){
     pv=v.f;
     clock=&g_clock;

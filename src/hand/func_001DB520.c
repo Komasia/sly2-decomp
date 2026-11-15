@@ -5,7 +5,7 @@
  * x + y). */
 #include "vtbl.h"
 typedef struct { char pad0[0xC]; VTENT *vt; } SUB;
-#define GRFGADGET_Owned 4             /* UpdateGadgetFlags: func_001DAEA8 */
+#define GRFGADGET_Owned 4             /* UpdateGadgetFlags: FPowerupOwned */
 #define OID_SCREENGADGETS 0x375       /* + ichar: the three characters' gadget screens */
 #define WID_GADGETMENUOPEN 0x318
 typedef struct GADGETENT {            /* field: SafeHouse port (shop.cpp GADGETENT) */

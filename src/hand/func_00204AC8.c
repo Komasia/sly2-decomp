@@ -1,49 +1,61 @@
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct EC { char pad[0x60]; void *p60; };
-struct X4 { char pad[0xEC]; struct EC *pec; };
-struct X { int pad; struct X4 *p4; };
-struct S { char pad[0xC]; VTENT *vt; char pad2[0x218 - 0x10]; qword *p218; qword *p21C; char pad3[0x258 - 0x220]; void *p258; };
-struct HIT { qword pos; qword q10; qword normal; qword q30; float t; int n44; int n48; int n4C; char pad[0x10]; };
+struct OXA { char pad[0x60]; void *psoRoot; };
+struct ALOOWNER { char pad[0xEC]; struct OXA *poxa; };
+struct SOE { int pad; struct ALOOWNER *paloOwner; };
+struct STEP { char pad[0xC]; VTENT *pvt; char pad2[0x218 - 0x10]; qword *pposProbe0; qword *pposProbe1; char pad3[0x258 - 0x220]; void *psoeCustom; };
+#define GRFXP_FloorProbes 1
+#define GRFXP_LongProbe 2
+#define GRFXP_KeepNormal 8
+#define CID_STEP 0x33
+#define XPK_Floor 0xE
+/* the segment clip's hit */
+struct HIT { qword pos; qword unk_0x10; qword normal; qword unk_0x30; float t; int unk_0x44; int fEdge; int isurf; char pad[0x10]; };
 extern qword g_normalZ;
 extern char g_sw[];
-void func_001F5990(void);
-int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-qword PosOfLo__FP2LO(void *p);
-int func_0014C6D8(struct X *x, int a, qword pos, qword v, int n, struct HIT *phit);
-int FStepFloorNear__FP3ALOG9VU_VECTORP3SOEP4POLY(struct S *p, qword v, struct X *x, int n);
-void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *g, void *p, struct X *x, qword a, qword b, int k, int c, int d, int e, float f);
+void func_001F5990(void);   /* the base slot 60 (nothing) */
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
+qword PosOfLo__FP2LO(void *plo);
+int func_0014C6D8(   /* clips a segment against an entry */
+    struct SOE *psoe, int iroot, qword posFrom, qword posTo, int c, struct HIT *phit);
+int FStepFloorNear__FP3ALOG9VU_VECTORP3SOEP4POLY(struct STEP *pstep, qword pos, struct SOE *psoe, int isurf);
+void PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(void *psw, void *psoe, struct SOE *psoeOther, qword pos, qword normal, int xpk, int a, int b, int ppxp, float gDist);
 
+/* AddStepFloorXps (0x204AC8): STEP vt slot 60, the own contact test against another object's entry psoe (not a
+ * stepping object's), when vt slot 85 allows it: the segment from the object's position to the floor probe (the long
+ * one with GRFXP_LongProbe) is clipped against the entry; a hit adds a floor contact (kind 14) at the base probe
+ * along the hit's normal (as it is with GRFXP_KeepNormal; otherwise straight up when the face is a floor or a floor
+ * is near over its edges), separated by the probe's height over the hit. */
 // name: SafeHouse port (AddStepFloorXps)
-void AddStepFloorXps__FP3ALOP3SOEiiii(struct S *p, struct X *x, int a2, int a3, int a4, int a5)
+void AddStepFloorXps__FP3ALOP3SOEiiii(struct STEP *pstep, struct SOE *psoe, int inodeLimit, int ptree, int iroot, int ppxp)
 {
-    unsigned int fl;
+    unsigned int grfxp;
     struct HIT hit;
-    qword pos, n, d, tmp;
-    float f;
+    qword pos, normal, dpos, tmp;
+    float gDist;
     func_001F5990();
-    fl = ((unsigned int (*)(void *))p->vt[85].pfn)(VT_THIS(p, &p->vt[85]));
-    if (!(fl & 1))
+    grfxp = ((unsigned int (*)(void *))pstep->pvt[85].pfn)(VT_THIS(pstep, &pstep->pvt[85]));
+    if (!(grfxp & GRFXP_FloorProbes))
         return;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(x->p4->pec->p60, 0x33))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(psoe->paloOwner->poxa->psoRoot, CID_STEP))
         return;
-    pos = PosOfLo__FP2LO(p);
-    if (func_0014C6D8(x, a4, pos, *((fl & 2) ? p->p21C : p->p218), 1, &hit) <= 0)
+    pos = PosOfLo__FP2LO(pstep);
+    if (func_0014C6D8(psoe, iroot, pos, *((grfxp & GRFXP_LongProbe) ? pstep->pposProbe1 : pstep->pposProbe0), 1, &hit) <= 0)
         return;
     if (0.0f < hit.t) {
-        if (fl & 8)
-            n = hit.normal;
+        if (grfxp & GRFXP_KeepNormal)
+            normal = hit.normal;
         else if (0.7f < ((float *)&hit.normal)[2])
-            n = g_normalZ;
-        else if (hit.n48)
-            n = hit.normal;
-        else if (FStepFloorNear__FP3ALOG9VU_VECTORP3SOEP4POLY(p, *p->p218, x, hit.n4C))
-            n = g_normalZ;
+            normal = g_normalZ;
+        else if (hit.fEdge)
+            normal = hit.normal;
+        else if (FStepFloorNear__FP3ALOG9VU_VECTORP3SOEP4POLY(pstep, *pstep->pposProbe0, psoe, hit.isurf))
+            normal = g_normalZ;
         else
-            n = hit.normal;
-        __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(*p->p218), "j"(hit.pos));
-        __asm__("vmul.xyz %0, %0, %2\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(d), "=&j"(tmp) : "j"(n));
-        __asm__("mtc1 %1, %0" : "=f"(f) : "r"(d));
-        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(g_sw, p->p258, x, *p->p218, n, 0xE, 0, 0, a5, f);
+            normal = hit.normal;
+        __asm__("vsub.xyzw %0, %1, %2" : "=j"(dpos) : "j"(*pstep->pposProbe0), "j"(hit.pos));
+        __asm__("vmul.xyz %0, %0, %2\n\tvaddw.x %1, $vf0, $vf0w\n\tvadday.x $ACC, %0, %0y\n\tvmaddz.x %0, %1, %0z" : "+j"(dpos), "=&j"(tmp) : "j"(normal));
+        __asm__("mtc1 %1, %0" : "=f"(gDist) : "r"(dpos));
+        PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf(g_sw, pstep->psoeCustom, psoe, *pstep->pposProbe0, normal, XPK_Floor, 0, 0, ppxp, gDist);
     }
 }

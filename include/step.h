@@ -9,43 +9,50 @@ typedef struct XP {
     /* 0x48 */ struct SO *psoOther;    /* compared against an SO in SetStepOverlap__FP3ALOT0 */
 } XP;
 
+/* STEP::nMotion: what vt slot 70 (UpdateStepPhysMotion) does after gravity */
+enum STEPMOTION {
+    STEPMOTION_None = -1,
+    STEPMOTION_Brake = 0,    /* brake the rotation toward vBrake in the heading frame */
+    STEPMOTION_Target = 1    /* push the angular force toward posTarget */
+};
+
 typedef struct STEP {
     /* 0x000 */ PO po;
-    /* 0x180 */ float gUnk180;
+    /* 0x180 */ float uTurn;             /* gain of the turn toward the heading (field: SafeHouse port) */
     /* 0x184 */ int unk_0x184[3];
-    /* 0x190 */ float vUnk190[3];
+    /* 0x190 */ float vecVel[3];         /* velocity the feet push toward, in the heading's frame (field: SafeHouse port) */
     /* 0x19c */ int unk_0x19c;
     /* 0x1a0 */ float uGait;
-    /* 0x1a4 */ int nUnk1a4;
-    /* 0x1a8 */ float radTarget;
+    /* 0x1a4 */ int nMotion;             /* motion mode: STEPMOTION_* (field: SafeHouse port) */
+    /* 0x1a8 */ float radTarget;         /* heading (SetStepPhysHeading) */
     /* 0x1ac */ int unk_0x1ac;
-    /* 0x1b0 */ struct MATRIX3 matTarget;
-    /* 0x1e0 */ qword qwUnk1e0;
-    /* 0x1f0 */ float rSpin;
-    /* 0x1f4 */ float vSpin[3];
-    /* 0x200 */ float rUnk200;
-    /* 0x204 */ int nUnk204;
+    /* 0x1b0 */ struct MATRIX3 matTarget; /* rotation about z by radTarget */
+    /* 0x1e0 */ qword posTarget;         /* STEPMOTION_Target's goal angular velocity (field: SafeHouse port) */
+    /* 0x1f0 */ float gScale;            /* SetStepPhysScale (field: SafeHouse port) */
+    /* 0x1f4 */ float vBrake[3];         /* STEPMOTION_Brake speeds (field: SafeHouse port) */
+    /* 0x200 */ float uBrake;            /* scales vBrake x/y (field: SafeHouse port) */
+    /* 0x204 */ int fNoContacts;         /* field: SafeHouse port */
     /* 0x208 */ XP *pxpFloor;          /* contact with the floor */
-    /* 0x20c */ float tUnk20c;
-    /* 0x210 */ float gUnk210;
-    /* 0x214 */ float gUnk214;
-    /* 0x218 */ qword *pqwUnk218;
-    /* 0x21c */ qword *pqwUnk21c;
-    /* 0x220 */ float gUnk220;
+    /* 0x20c */ float tFloor;            /* when the floor contact was last there (field: SafeHouse port) */
+    /* 0x210 */ float sFloorTarget;      /* the floor contact's target height (field: SafeHouse port) */
+    /* 0x214 */ float sProbeDrop;        /* the second floor probe's depth below the first (-50 by default) */
+    /* 0x218 */ qword *pposProbe0;      /* floor probe at the base: a point of the custom entry (field: SafeHouse port) */
+    /* 0x21c */ qword *pposProbe1;      /* the probe sProbeDrop below it (field: SafeHouse port) */
+    /* 0x220 */ float sSupport;          /* radius of the floor-support triangles around pposProbe0 (30) */
     /* 0x224 */ int unk_0x224[3];
-    /* 0x230 */ qword qwUnk230;
-    /* 0x240 */ qword qwUnk240;
+    /* 0x230 */ qword posFloor;          /* world point of vecBase (field: SafeHouse port) */
+    /* 0x240 */ qword vecBase;           /* the object's base in its own frame (field: SafeHouse port) */
     /* 0x250 */ int unk_0x250[2];
-    /* 0x258 */ void *ppartUnk258;
-    /* 0x25c */ int unk_0x25c;
-    /* 0x260 */ float rUnk260;
-    /* 0x264 */ int idUnk264;
-    /* 0x268 */ void *precUnk268;
+    /* 0x258 */ void *psoeCustom;        /* SOE: the custom entry carrying the floor probes (field: SafeHouse port) */
+    /* 0x25c */ void *psoeOther;         /* SOE: the second mesh (SetStepMesh) (field: SafeHouse port) */
+    /* 0x260 */ float sSize;             /* SetStepPhysSize (field: SafeHouse port) */
+    /* 0x264 */ int oidMesh;             /* tag of the entry the custom entry is made from (field: SafeHouse port) */
+    /* 0x268 */ void *psoeSource;        /* SOE: that entry (turned off) (field: SafeHouse port) */
     /* 0x26c */ char bhvstk[0x28];     /* BHVSTK: behaviour stack */
-    /* 0x294 */ void *pvUnk294;
+    /* 0x294 */ struct LO *ploPath;     /* own path object (cid 0x0A oid 713) (field: SafeHouse port) */
     /* 0x298 */ int nUnk298;
     /* 0x29c */ int unk_0x29c;
-    /* 0x2a0 */ int acUnk2a0[6];
+    /* 0x2a0 */ int acUnk2a0[6];        /* hold counts of the six effect SMs (vt slots 83 / 84) */
 } STEP;
 
 #endif

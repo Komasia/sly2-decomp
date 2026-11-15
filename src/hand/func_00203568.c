@@ -1,10 +1,14 @@
-struct S { char pad[0xF4]; int a; int b; int c; char pad2[0x10]; int d; };
-void InitXfm__FP3XFM(struct S *p);
-void InitPhotoTarget__FP2LO(struct S *p) { InitXfm__FP3XFM(p);
-p->a = -1; //P
-p->d = -1; //P
-p->c = -1; //P
-p->b = -2; //P
-}
+/* InitPhotoTarget (0x203568): PHOTOTARGET vt slot 7: the XFM init, then no title, list title, dialog or message. */
+#include "h6_photo.h"
+
+void InitXfm__FP3XFM(PHOTOTARGET *ptarget);
 
 // name: SafeHouse port (InitPhotoTarget)
+void InitPhotoTarget__FP2LO(PHOTOTARGET *ptarget)
+{
+    InitXfm__FP3XFM(ptarget);
+    ptarget->title = -1;
+    ptarget->message = -1;
+    ptarget->dialog = -1;
+    ptarget->listTitle = -2;
+}

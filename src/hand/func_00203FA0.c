@@ -1,16 +1,13 @@
-/* An option setter (data-referenced): a new +0x204 flag, with +0x208 cleared when it turns on. */
-struct LO204 {
-    /* 0x000 */ char pad0[0x204];
-    /* 0x204 */ int f204;
-    /* 0x208 */ int n208;
-};
+/* func_00203FA0 (0x203FA0): STEP option setter (data-referenced): sets fNoContacts; turning it on forgets the floor
+ * contact. */
+#include "step.h"
 
-void func_00203FA0(struct LO204 *plo, int f)
+void func_00203FA0(STEP *pstep, int fNoContacts)
 {
-    if (plo->f204 != f) {
-        plo->f204 = f;
-        if (f != 0) {
-            plo->n208 = 0;
+    if (pstep->fNoContacts != fNoContacts) {
+        pstep->fNoContacts = fNoContacts;
+        if (fNoContacts != 0) {
+            pstep->pxpFloor = 0;
         }
     }
 }
