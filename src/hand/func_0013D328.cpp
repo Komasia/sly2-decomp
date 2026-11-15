@@ -1,3 +1,5 @@
+// SetStandBooty: the stand's booty becomes id in the save (its old booty out of the world first); a stand with booty
+// gets it attached (AttachStandBooty). SafeHouse port (booty.cpp).
 extern "C" { void *func_001291A8(void *, const void *); void Decref(void *) asm("Decref__4CRef"); }
 class CRef {
 public:
@@ -12,7 +14,7 @@ struct FRAME {
     FRAME();
     ~FRAME();
 };
-struct S { char pad[0x194]; void *f194; };
+struct S { char pad[0x194]; void *pbooty; };   // the stand
 struct O;
 extern char D_003D4A60[];
 extern "C" {
@@ -23,14 +25,14 @@ CRef func_00258200(O *, const CRef &, void *);
 }
 static inline void SetPv(O *pv, const CRef &r, void *) { CRef arg(r); const CRef &ret = func_00258200(pv, arg, D_003D4A60); }
 // name: SafeHouse port (SetStandBooty)
-extern "C" void SetStandBooty__FP2LOi(S *p, int n)
+extern "C" void SetStandBooty__FP2LOi(S *pstand, int id)
 {
-    if (p->f194) SetBootyState(p->f194, 0);
+    if (pstand->pbooty) SetBootyState(pstand->pbooty, 0);
     FRAME frame;
     {
-        O *po = AkeyStand(p);
-        CRef ref(0x15, n);
+        O *po = AkeyStand(pstand);
+        CRef ref(0x15 /* TAGK_S32 */, id);
         SetPv(po, ref, D_003D4A60);
     }
-    if (n != -1) AttachStandBooty(p, 0);
+    if (id != -1) AttachStandBooty(pstand, 0);
 }
