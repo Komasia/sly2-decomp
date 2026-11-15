@@ -2793,7 +2793,7 @@ func_0017E570,0x17E570,4,match,src/hand/func_0017E570.c
 NextRecord__7JOBLINK,0x17E580,27,match,src/hand/NextRecord__7JOBLINK.c
 func_0017E5F0,0x17E5F0,14,match,src/hand/func_0017E5F0.c
 func_0017E628,0x17E628,34,match,src/hand/func_0017E628.c
-SetState__7JOBLINKi,0x17E6B0,118,match,src/hand/func_0017E6B0.c
+SetState__7JOBLINKi,0x17E6B0,118,0.790,src/hand/func_0017E6B0.c
 Init__11JOBNAVPOINT,0x17E888,12,match,src/hand/Init__11JOBNAVPOINT.c
 Enter__11JOBNAVPOINT,0x17E8B8,11,match,src/hand/Enter__11JOBNAVPOINT.c
 Exit__11JOBNAVPOINT,0x17E8E8,12,match,src/hand/Exit__11JOBNAVPOINT.c
