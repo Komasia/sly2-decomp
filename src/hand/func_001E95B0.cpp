@@ -1,7 +1,8 @@
-/* SetRopeLength (Claude agent, wave-2 lane 7): append a time sample to a sampled path (two U arrays a/b, a
- * path with positions/distances, a time array). If the new time is earlier than the last sample the tail is
- * truncated; otherwise samples are inserted until the new time is within a step of the last one or the
- * capacity is reached, interpolating a/b/pos/dist for the sample that becomes the second-to-last.
+/* SetRopeLength (Claude agent, wave-2 lane 7): set a rope's length to s (SafeHouse rope.cpp). Shorter: the points
+ * past s dropped (the last one's rest distance s); longer: points added every sStep (the rope's points / velocities
+ * and the path's points / distances interpolated onto the old last segment) until s is within 1.5 steps
+ * (D_002C3678) of the last, up to the capacity cMax (else the rope's mode becomes ROPEK_Spring (0)).
+ * Layout: h3_rope.h ROPE and crv.h CRV, as this file declares them.
  *
  * Loop trick: the target loop is a real loop (its refs are weighted x2 for register allocation, which is what
  * puts the right-hand pointer of each Lerp in $a2 and n*4 in $a3) but loop.c did NOT optimize it (it hoists the
@@ -9,11 +10,11 @@
  * entered with a goto to its first label, so loop.c sees a jump into the loop and leaves it alone. */
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
-struct PATH {char pad[0xE8];int count;int padEC;float*dist;U*pos;};
-struct S {char pad[0x48];PATH*path;int active;int pad50;U*a;U*b;float*time;char pad60[0x84-0x60];int capacity;float step;};
+struct CRV {char pad[0xE8];int cpoint;int padEC;float*as;U*apos;};
+struct ROPE {char pad[0x48];CRV*ppath;int mode;int pad50;U*apos54;U*avel58;float*as5C;char pad60[0x84-0x60];int cMax;float sStep;};
 extern float D_002C3678;
-extern "C" void RefreshCrv(PATH*) asm("RefreshCrv__FP3CRV");
-extern "C" void SetRopeLength(S*,float) asm("SetRopeLength__FP4ROPEf");
+extern "C" void RefreshCrv(CRV*) asm("RefreshCrv__FP3CRV");
+extern "C" void SetRopeLength(ROPE*,float) asm("SetRopeLength__FP4ROPEf");
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v2)
@@ -25,41 +26,41 @@ static inline qword VecCombo(VU_FLOAT f1, VU_VECTOR v1, VU_FLOAT f2, VU_VECTOR v
 /* pd = p0 * cf + p1 * f */
 static inline void Lerp(U*pd,const U*p0,const U*p1,float f,float cf){pd->q=VecCombo(VU_FLOAT(cf),VU_VECTOR(p0->q),VU_FLOAT(f),VU_VECTOR(p1->q));}
 // name: SafeHouse port (SetRopeLength)
-void SetRopeLength(S*p,float time){
- int count=p->path->count;
+void SetRopeLength(ROPE*prope,float s){
+ int count=prope->ppath->cpoint;
  int n;
- if(time<p->time[count-1]){
+ if(s<prope->as5C[count-1]){
   int i=count;
-  for(;;){--i;if(i<0)break;if(p->time[i]<time)break;}
+  for(;;){--i;if(i<0)break;if(prope->as5C[i]<s)break;}
   i++;
-  p->path->count=i+1;
-  p->time[i]=time;
+  prope->ppath->cpoint=i+1;
+  prope->as5C[i]=s;
   goto refresh;
  }
  n=count;
- if(time<p->time[count-2]+D_002C3678*p->step){p->time[count-1]=time;goto finished;}
+ if(s<prope->as5C[count-2]+D_002C3678*prope->sStep){prope->as5C[count-1]=s;goto finished;}
  goto top;
  for(;;){
  top:
-  if(n<p->capacity){
+  if(n<prope->cMax){
    n++;
-   p->a[n-1]=p->a[n-2];
-   p->b[n-1]=p->b[n-2];
-   p->time[n-1]=time;
-   p->path->pos[n-1]=p->path->pos[n-2];
-   p->path->dist[n-1]=p->path->dist[n-2];
-   p->time[n-2]=p->time[n-3]+p->step;
-   float f=(p->time[n-2]-p->time[n-3])/(p->time[n-1]-p->time[n-3]);
+   prope->apos54[n-1]=prope->apos54[n-2];
+   prope->avel58[n-1]=prope->avel58[n-2];
+   prope->as5C[n-1]=s;
+   prope->ppath->apos[n-1]=prope->ppath->apos[n-2];
+   prope->ppath->as[n-1]=prope->ppath->as[n-2];
+   prope->as5C[n-2]=prope->as5C[n-3]+prope->sStep;
+   float f=(prope->as5C[n-2]-prope->as5C[n-3])/(prope->as5C[n-1]-prope->as5C[n-3]);
    float cf=1-f;
-   Lerp(&p->a[n-2],&p->a[n-3],&p->a[n-1],f,cf);
-   Lerp(&p->b[n-2],&p->b[n-3],&p->b[n-1],f,cf);
-   Lerp(&p->path->pos[n-2],&p->path->pos[n-3],&p->path->pos[n-1],f,cf);
-   p->path->dist[n-2]=cf*p->path->dist[n-3]+f*p->path->dist[n-1];
-   if(time<p->time[n-2]+D_002C3678*p->step){p->time[n-1]=time;break;}
-  }else{p->active=0;break;}
+   Lerp(&prope->apos54[n-2],&prope->apos54[n-3],&prope->apos54[n-1],f,cf);
+   Lerp(&prope->avel58[n-2],&prope->avel58[n-3],&prope->avel58[n-1],f,cf);
+   Lerp(&prope->ppath->apos[n-2],&prope->ppath->apos[n-3],&prope->ppath->apos[n-1],f,cf);
+   prope->ppath->as[n-2]=cf*prope->ppath->as[n-3]+f*prope->ppath->as[n-1];
+   if(s<prope->as5C[n-2]+D_002C3678*prope->sStep){prope->as5C[n-1]=s;break;}
+  }else{prope->mode=0;break;}
  }
 finished:
- p->path->count=n;
+ prope->ppath->cpoint=n;
 refresh:
- RefreshCrv(p->path);
+ RefreshCrv(prope->ppath);
 }

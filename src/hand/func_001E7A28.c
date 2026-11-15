@@ -1,18 +1,29 @@
-struct Q { char pad[0x4C]; int n; };
-struct P { char pad[0x40]; int fl; char pad2[0x17C - 0x44]; struct Q *px; };
-void *PropeEnsure__FP2LOi(struct P *p, int f);
-void func_001A6CA8(struct P *p, int n);
-void func_001E7A28(struct P *p, int n)
+/* func_001E7A28: rope option 1046's setter (EOPID 1212): the rope's mode; ROPEK_None turns the path's rope update
+ * off (GRFUPD_Unk20 on, GRFUPD_Rope off), any other mode makes the rope and turns it on (SafeHouse rope.cpp).
+ * The update flags word (LO +0x40): h3_update.h. */
+#include "h3_rope.h"
+#include "h3_update.h"
+
+/* the path object as this file sees it */
+struct PATHUPD {
+    /* 0x000 */ char pad0[0x40];
+    /* 0x040 */ int grfUpd;             /* LO +0x40: the update flags or a pointer to them */
+    /* 0x044 */ char pad44[0x17c - 0x44];
+    /* 0x17c */ ROPE *prope;            /* crv.h CRV::prope */
+};
+ROPE *PropeEnsure__FP2LOi(struct PATHUPD *ppath, int f);
+void func_001A6CA8(struct PATHUPD *ppath, int n);
+void func_001E7A28(struct PATHUPD *ppath, int mode)
 {
-    if (n != -1) {
-        PropeEnsure__FP2LOi(p, 1);
-        func_001A6CA8(p, 0);
-        { int v = p->fl; if ((v ^ 1) & 1) *(int *)v &= ~0x20; else p->fl = v & ~0x20; }
-        { int v = p->fl; if ((v ^ 1) & 1) *(int *)v |= 0xC; else p->fl = v | 0xC; }
+    if (mode != ROPEK_None) {
+        PropeEnsure__FP2LOi(ppath, 1);
+        func_001A6CA8(ppath, 0);
+        { int grf = ppath->grfUpd; if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags) *(int *)grf &= ~GRFUPD_Unk20; else ppath->grfUpd = grf & ~GRFUPD_Unk20; }
+        { int grf = ppath->grfUpd; if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags) *(int *)grf |= GRFUPD_Rope; else ppath->grfUpd = grf | GRFUPD_Rope; }
     } else {
-        func_001A6CA8(p, 0);
-        { int v = p->fl; if ((v ^ 1) & 1) *(int *)v |= 0x20; else p->fl = v | 0x20; }
-        { int v = p->fl; if ((v ^ 1) & 1) *(int *)v &= ~0xC; else p->fl = v & ~0xC; }
+        func_001A6CA8(ppath, 0);
+        { int grf = ppath->grfUpd; if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags) *(int *)grf |= GRFUPD_Unk20; else ppath->grfUpd = grf | GRFUPD_Unk20; }
+        { int grf = ppath->grfUpd; if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags) *(int *)grf &= ~GRFUPD_Rope; else ppath->grfUpd = grf & ~GRFUPD_Rope; }
     }
-    if (p->px) p->px->n = n;
+    if (ppath->prope) ppath->prope->mode = mode;
 }

@@ -1,4 +1,7 @@
-/* StepRopeSpring (Lilly's range): one RK4-style step of a spring rope (CHAIN, same struct as matched StepRopeTrail).
+/* StepRopeSpring (Lilly's range): one RK4-style step of a spring rope (h3_rope.h ROPE, as this file declares it, with
+ * the spring parameters; the same struct as StepRopeTrail's): four weighted passes of drag, stretch, bend and shape
+ * forces (SafeHouse rope.cpp); ROPEK_SpringResample (mode 3) then re-samples the path along the old polyline at its
+ * rest steps. The points go back into the path (crv.h CRV, in its frame) and its caches are dropped (RefreshCrv).
  * Matching tricks (T1869, see notes/190000-1F0000_lanes.md):
  *  - the 4 empty volatile asms at the end of the pass loop add 4 RTL insns (no code) so the hoisted start/startVel/end/endVel
  *    copies get vf12..14 in the game's order (global-alloc live length);
@@ -20,23 +23,23 @@ struct VU_FLOAT {
 };
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 struct M4 { qword r[4]; };
-struct SPACE { char pad[0x40]; M4 matrix; };
-struct PATH { char pad[0xC]; VTENT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
+struct XF { char pad[0x40]; M4 matWorld; };
+struct CRV { char pad[0xC]; VTENT *pvt; char pad10[0xE8 - 0x10]; int cpoint; int padEC; float *as; U *apos; };
 struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; void *owner[2]; };
-struct CHAIN
+struct ROPE
 {
     qword force;
-    qword pad10;
-    qword start;
-    qword end;
-    SPACE *first;
-    SPACE *last;
-    PATH *path;
-    int mode;
+    qword pad10;            // (the ends' objects +0x10 / +0x14)
+    qword posStart;            // the ends' points in their records
+    qword posEnd;
+    XF *pxfStart;           // the ends' records (XF: matWorld at +0x40)
+    XF *pxfEnd;
+    CRV *ppath;
+    int mode;               // ROPEK_*
     int pad50;
-    U *position;
-    U *velocity;
-    float *distance;
+    U *apos54;
+    U *avel58;
+    float *as5C;
     float damping;
     float stretch, stretchDamping;
     float bend, bendDamping;
@@ -48,12 +51,12 @@ extern float D_002C3668[4];
 extern qword D_002A2DA0;
 extern qword g_normalZ;
 extern "C" {
-qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
+qword VelXfPoint(XF *, XF *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 void CopyAb(void *, const void *, unsigned) asm("CopyAb__FPvT0Ui");
 int ClipSegmentSphere(qword posCenter, float sRadius, qword pos0, qword pos1, int clsgMax, LSG *alsg) asm("ClipSegmentSphere__FG9VU_VECTORfN20iP3LSG");
 M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");
-void RefreshCrv(PATH *) asm("RefreshCrv__FP3CRV");
-void StepRopeSpring(CHAIN *) asm("StepRopeSpring__FP4ROPE");
+void RefreshCrv(CRV *) asm("RefreshCrv__FP3CRV");
+void StepRopeSpring(ROPE *) asm("StepRopeSpring__FP4ROPE");
 }
 
 static inline VV TransformPoint(const M4 &m, VV v)
@@ -166,85 +169,85 @@ static inline float GMax(float a, float b) { return a < b ? b : a; }
 static inline int FWithin(VV a, VV b, float s) { return GFromQw(Length(Sub(a, b))) < s; }
 
 static inline void Store(U *pd, VV v) { pd->q = v; }
-static inline const qword &Q(const U *p) { return p->q; }
+static inline const qword &Q(const U *prope) { return prope->q; }
 static inline VV SubP(const U *a, const U *b) { return Sub(a->q, b->q); }
 static inline void Blend(U *pd, const U *pa, const qword &b, float t) { pd->q = VecCombo(VU_FLOAT(1.0f - t), VU_VECTOR(pa->q), VU_FLOAT(t), VU_VECTOR(b)); }
 static inline void LerpP(U *pd, const U *pa, const U *pb, float t) { pd->q = VecCombo(VU_FLOAT(1.0f - t), VU_VECTOR(pa->q), VU_FLOAT(t), VU_VECTOR(pb->q)); }
 
 // name: SafeHouse port (StepRopeSpring)
-void StepRopeSpring(CHAIN *p)
+void StepRopeSpring(ROPE *prope)
 {
     U newP[64], newV[64], accP[64], accV[64], force[64];
     int i;
-    int count = p->path->count;
-    VV start = TransformPoint(p->first->matrix, p->start);
-    VV startVel = VelXfPoint(p->first, 0, start);
-    VV end = TransformPoint(p->last->matrix, p->end);
-    VV endVel = VelXfPoint(p->last, 0, end);
+    int count = prope->ppath->cpoint;
+    VV start = TransformPoint(prope->pxfStart->matWorld, prope->posStart);
+    VV startVel = VelXfPoint(prope->pxfStart, 0, start);
+    VV end = TransformPoint(prope->pxfEnd->matWorld, prope->posEnd);
+    VV endVel = VelXfPoint(prope->pxfEnd, 0, end);
     if ((unsigned)count > 64)
         return;
-    CopyAb(accP, p->position, count * 16);
-    CopyAb(accV, p->velocity, count * 16);
+    CopyAb(accP, prope->apos54, count * 16);
+    CopyAb(accV, prope->avel58, count * 16);
     for (int pass = 0; pass < 4; pass++) {
         float w = D_002C3658[pass];
         float h = w * g_clock.dt;
-        Blend(&newP[0], &p->position[0], start, w);
-        Blend(&newV[0], &p->velocity[0], startVel, w);
-        Blend(&newP[count - 1], &p->position[count - 1], end, w);
-        Blend(&newV[count - 1], &p->velocity[count - 1], endVel, w);
+        Blend(&newP[0], &prope->apos54[0], start, w);
+        Blend(&newV[0], &prope->avel58[0], startVel, w);
+        Blend(&newP[count - 1], &prope->apos54[count - 1], end, w);
+        Blend(&newV[count - 1], &prope->avel58[count - 1], endVel, w);
         for (i = 1; i < count - 1; i++) {
-            Store(&newV[i], AddScaled(p->velocity[i].q, VU_FLOAT(h), force[i].q));
-            Store(&newP[i], AddScaled2(p->position[i].q, VU_FLOAT(h * 0.5f), p->velocity[i].q, newV[i].q));
+            Store(&newV[i], AddScaled(prope->avel58[i].q, VU_FLOAT(h), force[i].q));
+            Store(&newP[i], AddScaled2(prope->apos54[i].q, VU_FLOAT(h * 0.5f), prope->avel58[i].q, newV[i].q));
         }
         float scale = 0.75f - 0.25f / (count - 2);
-        float rest = p->distance[count - 1];
+        float rest = prope->as5C[count - 1];
         VV chord = SubP(&newP[0], &newP[count - 1]);
         float amplitude = scale * SqrtF(GMax(rest * rest - GFromQw(Dot(chord, chord)), 0.0f));
         for (i = 1; i < count - 1; i++) {
-            VV F = AddScaled(p->force, VU_FLOAT(-p->damping), newV[i].q);
-            if (p->stretch != 0.0f || p->stretchDamping != 0.0f) {
+            VV F = AddScaled(prope->force, VU_FLOAT(-prope->damping), newV[i].q);
+            if (prope->stretch != 0.0f || prope->stretchDamping != 0.0f) {
                 U dir1, dir2, proj1, proj2;
                 dir1.q = SubP(&newP[i - 1], &newP[i]);
                 dir2.q = SubP(&newP[i + 1], &newP[i]);
                 float len1 = Normalize(&dir1, D_002A2DA0);
                 float len2 = NormalizeV(&dir2, D_002A2DA0, len1);
-                float rest1 = p->distance[i] - p->distance[i - 1];
-                float rest2 = p->distance[i + 1] - p->distance[i];
+                float rest1 = prope->as5C[i] - prope->as5C[i - 1];
+                float rest2 = prope->as5C[i + 1] - prope->as5C[i];
                 proj1.q = Scale(dir1.q, Dot(SubP(&newV[i - 1], &newV[i]), dir1.q));
                 VV pr2 = Scale(dir2.q, Dot(SubX(newV[i + 1].q, newV[i].q), dir2.q));
-                VU_FLOAT g1(p->stretch * (len1 - rest1));
+                VU_FLOAT g1(prope->stretch * (len1 - rest1));
                 /* damping built per spring: cse merges the two "r" qmtc2s and reload_cse drops the 2nd home store (same vf, same slot);
                    that dropped store still lengthens the g1 store chain in sched1, so g1 is born before the dir2 reload like the game */
-                VU_FLOAT damping(&p->stretchDamping);
+                VU_FLOAT damping(&prope->stretchDamping);
                 proj2.q = pr2;
                 F = VecCombo3S1(F, g1, dir1.q, damping, proj1.q);
-                F = VecCombo3S2(F, VU_FLOAT(VfFromF(p->stretch * (len2 - rest2))), dir2.q, damping, proj2.q);
+                F = VecCombo3S2(F, VU_FLOAT(VfFromF(prope->stretch * (len2 - rest2))), dir2.q, damping, proj2.q);
             }
-            if (p->bend != 0.0f || p->bendDamping != 0.0f) {
+            if (prope->bend != 0.0f || prope->bendDamping != 0.0f) {
                 U mid, midV, dir, proj;
-                float r = (p->distance[i] - p->distance[i - 1]) / (p->distance[i + 1] - p->distance[i - 1]);
+                float r = (prope->as5C[i] - prope->as5C[i - 1]) / (prope->as5C[i + 1] - prope->as5C[i - 1]);
                 LerpP(&mid, &newP[i - 1], &newP[i + 1], r);
                 LerpP(&midV, &newV[i - 1], &newV[i + 1], r);
                 dir.q = SubP(&mid, &newP[i]);
                 float len = Normalize(&dir, g_normalZ);
                 proj.q = Scale(dir.q, Dot(SubP(&midV, &newV[i]), dir.q));
-                F = VecCombo3(F, VU_FLOAT(p->bend * len), dir.q, VU_FLOAT(&p->bendDamping), proj.q);
+                F = VecCombo3(F, VU_FLOAT(prope->bend * len), dir.q, VU_FLOAT(&prope->bendDamping), proj.q);
             }
-            if (p->shape != 0.0f || p->shapeDamping != 0.0f) {
+            if (prope->shape != 0.0f || prope->shapeDamping != 0.0f) {
                 U mid, midV, dir, proj;
-                float r = p->distance[i] / p->distance[count - 1];
+                float r = prope->as5C[i] / prope->as5C[count - 1];
                 LerpP(&mid, &newP[0], &newP[count - 1], r);
                 LerpP(&midV, &newV[0], &newV[count - 1], r);
                 dir.q = SubP(&mid, &newP[i]);
                 float len = Normalize(&dir, g_normalZ);
                 proj.q = Scale(dir.q, Dot(SubP(&midV, &newV[i]), dir.q));
                 float r4 = r * 4.0f;
-                F = VecCombo3(F, VU_FLOAT(p->shape * (len - amplitude * r4 * (1.0f - r))), dir.q, VU_FLOAT(&p->shapeDamping), proj.q);
+                F = VecCombo3(F, VU_FLOAT(prope->shape * (len - amplitude * r4 * (1.0f - r))), dir.q, VU_FLOAT(&prope->shapeDamping), proj.q);
             }
             float wk = D_002C3668[pass];
             float k = wk * g_clock.dt;
             Store(&accV[i], AddScaled(accV[i].q, VU_FLOAT(k), F));
-            Store(&accP[i], AddScaled2I(accP[i].q, VU_FLOAT(k * 0.5f), p->velocity[i].q, newV[i].q));
+            Store(&accP[i], AddScaled2I(accP[i].q, VU_FLOAT(k * 0.5f), prope->avel58[i].q, newV[i].q));
             Store(&force[i], F);
         }
         /* 4 empty asms: +4 RTL insns in the pass loop (live-length probe, emits nothing) */
@@ -253,60 +256,60 @@ void StepRopeSpring(CHAIN *p)
         __asm__ __volatile__("");
         __asm__ __volatile__("");
     }
-    if (p->mode == 3) {
+    if (prope->mode == 3) {
         LSG lsg;
         int j0 = 1;
-        p->position[0].q = start;
-        p->velocity[0].q = startVel;
+        prope->apos54[0].q = start;
+        prope->avel58[0].q = startVel;
         for (i = 1; i < count - 1; i++) {
-            float step = p->distance[i] - p->distance[i - 1];
-            if (FWithin(end, p->position[i - 1].q, step))
+            float step = prope->as5C[i] - prope->as5C[i - 1];
+            if (FWithin(end, prope->apos54[i - 1].q, step))
                 break;
             for (int j = j0; j < count; j++) {
                 float t;
-                if (!ClipSegmentSphere(p->position[i - 1].q, step, Q(&accP[j - 1]), Q(&accP[j]), 1, &lsg)) {
-                    p->position[i] = accP[j - 1];
+                if (!ClipSegmentSphere(prope->apos54[i - 1].q, step, Q(&accP[j - 1]), Q(&accP[j]), 1, &lsg)) {
+                    prope->apos54[i] = accP[j - 1];
                     t = 0.0f;
                 } else if (lsg.au[1] < 1.0f) {
                     t = lsg.au[1];
-                    p->position[i].q = lsg.apos[1];
+                    prope->apos54[i].q = lsg.apos[1];
                 } else
                     continue;
-                p->path->dist[i] = step;
+                prope->ppath->as[i] = step;
                 j0 = j;
-                LerpP(&p->velocity[i], &accV[j - 1], &accV[j], t);
+                LerpP(&prope->avel58[i], &accV[j - 1], &accV[j], t);
                 break;
             }
         }
-        p->position[i].q = end;
-        p->velocity[i].q = endVel;
+        prope->apos54[i].q = end;
+        prope->avel58[i].q = endVel;
         count = i + 1;
-        p->distance[i] = p->distance[i - 1] + GFromQw(Length(Sub(p->position[i].q, p->position[i - 1].q)));
-        p->path->dist[i] = p->distance[i];
-        p->path->count = count;
+        prope->as5C[i] = prope->as5C[i - 1] + GFromQw(Length(Sub(prope->apos54[i].q, prope->apos54[i - 1].q)));
+        prope->ppath->as[i] = prope->as5C[i];
+        prope->ppath->cpoint = count;
     } else {
-        p->position[0].q = start;
-        p->velocity[0].q = startVel;
-        p->position[count - 1].q = end;
-        p->velocity[count - 1].q = endVel;
-        CopyAb(&p->position[1], &accP[1], (count - 2) * 16);
-        CopyAb(&p->velocity[1], &accV[1], (count - 2) * 16);
+        prope->apos54[0].q = start;
+        prope->avel58[0].q = startVel;
+        prope->apos54[count - 1].q = end;
+        prope->avel58[count - 1].q = endVel;
+        CopyAb(&prope->apos54[1], &accP[1], (count - 2) * 16);
+        CopyAb(&prope->avel58[1], &accV[1], (count - 2) * 16);
     }
     M4 inverse;
     {
-        PATH *path = p->path;
-        VTENT *e = &path->vt[31];
+        CRV *path = prope->ppath;
+        VTENT *e = &path->pvt[31];
         InverseAffineMatrix4(&inverse, ((M4 * (*)(void *))e->pfn)(VT_THIS(path, e)));
     }
     for (i = 0; i < count; i++)
     {
-        PATH *path = p->path;
-        path->pos[i].q = TransformPoint(inverse, p->position[i].q);
+        CRV *path = prope->ppath;
+        path->apos[i].q = TransformPoint(inverse, prope->apos54[i].q);
     }
-    if (p->mode != 3) {
-        p->path->dist[0] = 0.0f;
+    if (prope->mode != 3) {
+        prope->ppath->as[0] = 0.0f;
         for (i = 1; i < count; i++)
-            p->path->dist[i] = p->path->dist[i - 1] + GFromQw(Length(Sub(p->path->pos[i - 1].q, p->path->pos[i].q)));
+            prope->ppath->as[i] = prope->ppath->as[i - 1] + GFromQw(Length(Sub(prope->ppath->apos[i - 1].q, prope->ppath->apos[i].q)));
     }
-    RefreshCrv(p->path);
+    RefreshCrv(prope->ppath);
 }

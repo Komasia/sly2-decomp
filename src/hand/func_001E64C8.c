@@ -1,14 +1,10 @@
-struct X {
-    char pad[0xE0];
-    int xE0;
-    char pad1[0xEC - 0xE4];
-    float *ag;
-    char pad2[0x14C - 0xF0];
-    float agSub[11];
-};
+/* GFromCrvS: the parameter of a curve at distance s: in its segment, linear in the distance for a linear curve,
+ * else found among the cached segment's sub-lengths (CacheSegCrv), one tenth of the segment's parameter span each.
+ * Layout: crv.h CRV. */
+#include "crv.h"
 
-int ISegCrvS__FP3CRVPfT1f(struct X *p, float *pa, float *pb, float time);
-void CacheSegCrv__FP3CRVi(struct X *p, int i);
+int ISegCrvS__FP3CRVPfT1f(CRV *pcrv, float *pds, float *pdsSeg, float s);
+void CacheSegCrv__FP3CRVi(CRV *pcrv, int iseg);
 
 static __inline__ float GLerp(float a, float b, float t)
 {
@@ -24,30 +20,30 @@ static inline float ReturnValue(float value)
 }
 
 // name: SafeHouse port (GFromCrvS)
-float GFromCrvS__FP3CRVf(struct X *p, float time)
+float GFromCrvS__FP3CRVf(CRV *pcrv, float s)
 {
-    float a, b;
+    float ds, dsSeg;
     float g;
-    int i = ISegCrvS__FP3CRVPfT1f(p, &a, &b, time);
+    int iseg = ISegCrvS__FP3CRVPfT1f(pcrv, &ds, &dsSeg, s);
 
-    if (p->xE0 == 0) {
+    if (pcrv->crvk == CRVK_Linear) {
         {
-            float fraction = a / b;
-            float upper = *(volatile float *)&p->ag[i + 1];
-            float lower = *(volatile float *)&p->ag[i];
-            g = GLerp(lower, upper, fraction);
+            float fraction = ds / dsSeg;
+            float gUpper = *(volatile float *)&pcrv->ag[iseg + 1];
+            float gLower = *(volatile float *)&pcrv->ag[iseg];
+            g = GLerp(gLower, gUpper, fraction);
         }
     } else {
-        int j;
-        CacheSegCrv__FP3CRVi(p, i);
-        for (j = 1; j < 10; j++)
-            if (a < p->agSub[j]) break;
-        j--;
+        int isub;
+        CacheSegCrv__FP3CRVi(pcrv, iseg);
+        for (isub = 1; isub < CSUB_CRV - 1; isub++)
+            if (ds < pcrv->asSub[isub]) break;
+        isub--;
         {
-            float part = (a - p->agSub[j]) / (p->agSub[j + 1] - p->agSub[j]);
-            float index = j;
-            part = (index + part) * 0.1f;
-            g = GLerp(p->ag[i], p->ag[i + 1], part);
+            float part = (ds - pcrv->asSub[isub]) / (pcrv->asSub[isub + 1] - pcrv->asSub[isub]);
+            float fsub = isub;
+            part = (fsub + part) * 0.1f;
+            g = GLerp(pcrv->ag[iseg], pcrv->ag[iseg + 1], part);
         }
     }
     return ReturnValue(g);

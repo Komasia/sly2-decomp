@@ -1,9 +1,13 @@
+/* EvalCrv: a curve's world position and unit direction at parameter g (either output may be null): in its segment
+ * (ISegCrvG), a linear curve's blend of the two points and their difference, a cubic one's Hermite point and tangent
+ * (out tangent of the first point, in tangent of the second); both through the world matrix (vt slot 31).
+ * Layout: crv.h CRV, as this file declares it. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M { qword a,b,c,d; };
-struct S { char pad[0xC]; VTENT *vt; char pad2[0xE0-0x10]; int e0; char pad3[0xF4-0xE4]; qword *v; char pad4[0x140-0xF8]; qword *v140,*v144; };
+struct CRV { char pad[0xC]; VTENT *pvt; char pad2[0xE0-0x10]; int crvk; char pad3[0xF4-0xE4]; qword *apos; char pad4[0x140-0xF8]; qword *avIn,*avOut; };
 union U { qword q; float f; };
-int ISegCrvG__FP3CRVPfT1f(struct S*,float,float*,float*);
+int ISegCrvG__FP3CRVPfT1f(struct CRV*,float,float*,float*);
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float,float,float,qword,qword,qword,qword,qword*,qword*,qword*);
 static inline qword ReadTangent(const qword*p){register qword a __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(a):"m"(*p));return a;}
 static inline qword ReadLinearSecond(const qword*p){register qword value __asm__("vf2");__asm__("lqc2 %0,%1":"=j"(value):"m"(*p));return value;}
@@ -14,42 +18,42 @@ static inline qword PointKept(qword keep,struct M *m,qword a) {__asm__("vmulax.x
 static inline qword HighWeight(float f){register qword value __asm__("vf4");__asm__("qmtc2.ni %1,%0":"=j"(value):"r"(f));return value;}
 static inline qword LowWeight(float f,union U*home){register qword value __asm__("vf1");__asm__("qmtc2.ni %2,%0\n\tsqc2 %0,%1":"=j"(value),"=m"(home->q):"r"(f));return value;}
 static inline qword FirstPointAndWeight(const qword*first,qword weight,union U*home){register qword point __asm__("vf3");__asm__("lqc2 %0,%2\n\tsqc2 %3,%1":"=&j"(point),"=m"(home->q):"m"(*first),"j"(weight));return point;}
-static inline unsigned PointOffset(int i){register unsigned bytes __asm__("$3");__asm__("sll %0,%1,4":"=r"(bytes):"r"(i));return bytes;}
+static inline unsigned PointOffset(int iseg){register unsigned bytes __asm__("$3");__asm__("sll %0,%1,4":"=r"(bytes):"r"(iseg));return bytes;}
 static inline qword TangentFirst(const qword*p){register qword point __asm__("vf1");__asm__("lqc2 %0,%1":"=j"(point):"m"(*p));return point;}
 static inline int SegmentIndex(int value){register int index __asm__("$18");__asm__("daddu %0,%1,$zero":"=r"(index):"r"(value));return index;}
 // name: SafeHouse port (EvalCrv)
-void EvalCrv__FP3CRVfP6VECTORT2(struct S *p,float g,qword *pos,qword *dir)
+void EvalCrv__FP3CRVfP6VECTORT2(struct CRV *pcrv,float g,qword *ppos,qword *pdir)
 {
     struct M m;
-    float elapsed,duration;
+    float dg,dgSeg;
     register qword row0 __asm__("vf5"),row1 __asm__("vf4"),row2 __asm__("vf3");
     register qword tangent __asm__("vf2");
-    int i=SegmentIndex(ISegCrvG__FP3CRVPfT1f(p,g,&elapsed,&duration));
-    m=* ((struct M *(*)(void*))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
-    if (p->e0==0) {
-        if (pos) {
-            union U scalar;float t=elapsed/duration;
-            qword *linearPoint=(qword*)(PointOffset(i)+(unsigned)p->v);
+    int iseg=SegmentIndex(ISegCrvG__FP3CRVPfT1f(pcrv,g,&dg,&dgSeg));
+    m=* ((struct M *(*)(void*))pcrv->pvt[31].pfn)(VT_THIS(pcrv, &pcrv->pvt[31]));
+    if (pcrv->crvk==0) {
+        if (ppos) {
+            union U scalar;float t=dg/dgSeg;
+            qword *linearPoint=(qword*)(PointOffset(iseg)+(unsigned)pcrv->apos);
             qword w1=HighWeight(t),w0=LowWeight(1.0f-t,&scalar);
-            {qword first=FirstPointAndWeight(linearPoint,w1,&scalar),second=ReadLinearSecond(linearPoint+1);qword blend=Lerp(first,second,w0,w1);*pos=PointKept(blend,&m,blend);}
+            {qword first=FirstPointAndWeight(linearPoint,w1,&scalar),second=ReadLinearSecond(linearPoint+1);qword blend=Lerp(first,second,w0,w1);*ppos=PointKept(blend,&m,blend);}
         }
-        if (!dir) return;
-        {register unsigned offset __asm__("$2")=(unsigned)i<<4;
-        register qword *base __asm__("$3")=p->v;
+        if (!pdir) return;
+        {register unsigned offset __asm__("$2")=(unsigned)iseg<<4;
+        register qword *base __asm__("$3")=pcrv->apos;
         register qword *first __asm__("$4"),*second __asm__("$2");
         __asm__("lqc2 %0,%2\n\taddu %1,%3,%4":"=j"(row0),"=r"(first):"m"(m.a),"r"(offset),"r"(base));
         __asm__("lqc2 %0,%2\n\tdaddu %1,%3,$zero":"=j"(row1),"=r"(second):"m"(m.b),"r"(first));
         tangent=Sub(ReadTangent(second+1),TangentFirst(first));}
     } else {
-        Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(duration,elapsed,1.0f,p->v[i],p->v144[i],p->v[i+1],p->v140[i+1],pos,dir,0);
-        if (pos) *pos=HermitePoint(&m,*pos);
-        if (!dir) return;
+        Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(dgSeg,dg,1.0f,pcrv->apos[iseg],pcrv->avOut[iseg],pcrv->apos[iseg+1],pcrv->avIn[iseg+1],ppos,pdir,0);
+        if (ppos) *ppos=HermitePoint(&m,*ppos);
+        if (!pdir) return;
         row0=m.a;
-        tangent=ReadTangent(dir);row1=m.b;
+        tangent=ReadTangent(pdir);row1=m.b;
     }
     row2=m.c;
     {register qword d __asm__("vf1"),one __asm__("vf6");
-    __asm__("vmulax.xyz $ACC,%4,%2x\n\tvmadday.xyz $ACC,%5,%2y\n\tvmaddz.xyz %2,%6,%2z\n\tvmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z\n\tvsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q\n\tvdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q\n\tsqc2 %0,%3":"=&j"(d),"=&j"(one),"+j"(tangent),"=m"(*dir):"j"(row0),"j"(row1),"j"(row2));}
+    __asm__("vmulax.xyz $ACC,%4,%2x\n\tvmadday.xyz $ACC,%5,%2y\n\tvmaddz.xyz %2,%6,%2z\n\tvmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z\n\tvsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q\n\tvdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%2,$Q\n\tsqc2 %0,%3":"=&j"(d),"=&j"(one),"+j"(tangent),"=m"(*pdir):"j"(row0),"j"(row1),"j"(row2));}
 }
 
 #define FIELD_OFFSET(t,m) ((unsigned)&(((t*)0x10000)->m)-0x10000)
@@ -60,17 +64,17 @@ typedef char float_Width[sizeof(float)==4?1:-1];
 typedef char pointer_Width[sizeof(void*)==4?1:-1];
 typedef char M_Size[sizeof(struct M)==0x40?1:-1];
 typedef char M_Alignment[__alignof__(struct M)==16?1:-1];
-typedef char S_Prefix_Size[sizeof(struct S)==0x148?1:-1];
+typedef char CRV_Prefix_Size[sizeof(struct CRV)==0x148?1:-1];
 typedef char U_Size[sizeof(union U)==16?1:-1];
 typedef char U_Alignment[__alignof__(union U)==16?1:-1];
 typedef char M_a_Offset[FIELD_OFFSET(struct M,a)==0?1:-1];
 typedef char M_b_Offset[FIELD_OFFSET(struct M,b)==0x10?1:-1];
 typedef char M_c_Offset[FIELD_OFFSET(struct M,c)==0x20?1:-1];
 typedef char M_d_Offset[FIELD_OFFSET(struct M,d)==0x30?1:-1];
-typedef char S_vt_Offset[FIELD_OFFSET(struct S,vt)==0xC?1:-1];
-typedef char S_e0_Offset[FIELD_OFFSET(struct S,e0)==0xE0?1:-1];
-typedef char S_v_Offset[FIELD_OFFSET(struct S,v)==0xF4?1:-1];
-typedef char S_v140_Offset[FIELD_OFFSET(struct S,v140)==0x140?1:-1];
-typedef char S_v144_Offset[FIELD_OFFSET(struct S,v144)==0x144?1:-1];
+typedef char CRV_pvt_Offset[FIELD_OFFSET(struct CRV,pvt)==0xC?1:-1];
+typedef char CRV_crvk_Offset[FIELD_OFFSET(struct CRV,crvk)==0xE0?1:-1];
+typedef char CRV_apos_Offset[FIELD_OFFSET(struct CRV,apos)==0xF4?1:-1];
+typedef char CRV_avIn_Offset[FIELD_OFFSET(struct CRV,avIn)==0x140?1:-1];
+typedef char CRV_avOut_Offset[FIELD_OFFSET(struct CRV,avOut)==0x144?1:-1];
 typedef char U_q_Offset[FIELD_OFFSET(union U,q)==0?1:-1];
 typedef char U_f_Offset[FIELD_OFFSET(union U,f)==0?1:-1];

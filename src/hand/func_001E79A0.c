@@ -1,10 +1,12 @@
-struct O { char pad[0x5C]; float *ag; };
-struct S { char pad[0xE8]; int c; };
-struct O *PropeEnsure__FP2LOi(struct S *p, int n);
-float func_001E79A0(struct S *p)
+/* func_001E79A0: rope option 1044's getter (EOPID 1210): the rope's length, its last point's rest distance
+ * (0 for a path without points) (SafeHouse rope.cpp). Layout: crv.h CRV, h3_rope.h ROPE. */
+#include "h3_rope.h"
+
+ROPE *PropeEnsure__FP2LOi(CRV *ppath, int f);
+float func_001E79A0(CRV *ppath)
 {
-    float g;
-    if (p->c > 0) g = PropeEnsure__FP2LOi(p, 0)->ag[p->c - 1];
-    else g = 0.0f;
-    return g;
+    float s;
+    if (ppath->cpoint > 0) s = PropeEnsure__FP2LOi(ppath, 0)->as5C[ppath->cpoint - 1];
+    else s = 0.0f;
+    return s;
 }

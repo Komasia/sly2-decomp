@@ -1,58 +1,53 @@
-typedef int qword __attribute__((mode(TI)));
-struct MSG { int cb; int nKind; };
-struct P {
-    char pad[0xE0];
-    int fE0;
-    int nE4;
-    int c;
-    int *aE;
-    float *aF0;
-    qword *aF4;
-    char pad2[0x140 - 0xF8];
-    qword *a140;
-    qword *a144;
-};
-void LoadLoxBaseFromBrx(struct P *, void *);
-int S8Read(void *) asm("S8Read__18CBinaryInputStream");
-int U16Read(void *) asm("U16Read__18CBinaryInputStream");
-void *PvAllocSwImpl__Fi(struct MSG *);
-void Read__18CBinaryInputStreamiPv(void *, int, void *);
-void ReadVector__18CBinaryInputStreamP6VECTOR(void *, qword *);
-void LoadOptionsFromBrx__FPvP18CBinaryInputStream(struct P *, void *);
-void RecalcCrv__FP3CRV(struct P *);
+/* LoadPathFromBrx: load a path object: the located-object base, the curve kind and closed flag, the points'
+ * parameters and positions, for a cubic curve the in / out tangents, then the options; the distances are then
+ * computed for its world matrix (RecalcCrv). Layout: crv.h CRV. */
+#include "crv.h"
+
+struct CBinaryInputStream;
+/* an allocation request: the size and the alignment */
+struct ALLOC { int cb; int cbAlign; };
+void LoadLoxBaseFromBrx(CRV *pcrv, struct CBinaryInputStream *pbis);
+int S8Read(struct CBinaryInputStream *pbis) asm("S8Read__18CBinaryInputStream");
+int U16Read(struct CBinaryInputStream *pbis) asm("U16Read__18CBinaryInputStream");
+void *PvAllocSwImpl__Fi(struct ALLOC *palloc);
+void Read__18CBinaryInputStreamiPv(struct CBinaryInputStream *pbis, int cb, void *pv);
+void ReadVector__18CBinaryInputStreamP6VECTOR(struct CBinaryInputStream *pbis, qword *pvec);
+void LoadOptionsFromBrx__FPvP18CBinaryInputStream(CRV *pcrv, struct CBinaryInputStream *pbis);
+void RecalcCrv__FP3CRV(CRV *pcrv);
+
 // name: SafeHouse port (LoadPathFromBrx)
-void LoadPathFromBrx__FP2LOP18CBinaryInputStream(struct P *p, void *pbis)
+void LoadPathFromBrx__FP2LOP18CBinaryInputStream(CRV *pcrv, struct CBinaryInputStream *pbis)
 {
-    struct MSG msg;
+    struct ALLOC alloc;
     int i;
-    LoadLoxBaseFromBrx(p, pbis);
-    p->fE0 = S8Read(pbis);
-    p->nE4 = S8Read(pbis);
-    p->c = U16Read(pbis);
-    msg.cb = p->c * 4;
-    msg.nKind = 0x10;
-    p->aE = PvAllocSwImpl__Fi(&msg);
-    msg.cb = p->c * 4;
-    msg.nKind = 0x10;
-    p->aF0 = PvAllocSwImpl__Fi(&msg);
-    msg.cb = p->c * 16;
-    msg.nKind = 0x10;
-    p->aF4 = PvAllocSwImpl__Fi(&msg);
-    Read__18CBinaryInputStreamiPv(pbis, p->c * 4, p->aE);
-    for (i = 0; i < p->c; i++)
-        ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->aF4[i]);
-    if (p->fE0) {
-        msg.cb = p->c * 16;
-        msg.nKind = 0x10;
-        p->a140 = PvAllocSwImpl__Fi(&msg);
-        msg.cb = p->c * 16;
-        msg.nKind = 0x10;
-        p->a144 = PvAllocSwImpl__Fi(&msg);
-        for (i = 0; i < p->c; i++)
-            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->a140[i]);
-        for (i = 0; i < p->c; i++)
-            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &p->a144[i]);
+    LoadLoxBaseFromBrx(pcrv, pbis);
+    pcrv->crvk = S8Read(pbis);
+    pcrv->fClosed = S8Read(pbis);
+    pcrv->cpoint = U16Read(pbis);
+    alloc.cb = pcrv->cpoint * 4;
+    alloc.cbAlign = 0x10;
+    pcrv->ag = PvAllocSwImpl__Fi(&alloc);
+    alloc.cb = pcrv->cpoint * 4;
+    alloc.cbAlign = 0x10;
+    pcrv->as = PvAllocSwImpl__Fi(&alloc);
+    alloc.cb = pcrv->cpoint * 16;
+    alloc.cbAlign = 0x10;
+    pcrv->apos = PvAllocSwImpl__Fi(&alloc);
+    Read__18CBinaryInputStreamiPv(pbis, pcrv->cpoint * 4, pcrv->ag);
+    for (i = 0; i < pcrv->cpoint; i++)
+        ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &pcrv->apos[i]);
+    if (pcrv->crvk != CRVK_Linear) {
+        alloc.cb = pcrv->cpoint * 16;
+        alloc.cbAlign = 0x10;
+        pcrv->avIn = PvAllocSwImpl__Fi(&alloc);
+        alloc.cb = pcrv->cpoint * 16;
+        alloc.cbAlign = 0x10;
+        pcrv->avOut = PvAllocSwImpl__Fi(&alloc);
+        for (i = 0; i < pcrv->cpoint; i++)
+            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &pcrv->avIn[i]);
+        for (i = 0; i < pcrv->cpoint; i++)
+            ReadVector__18CBinaryInputStreamP6VECTOR(pbis, &pcrv->avOut[i]);
     }
-    LoadOptionsFromBrx__FPvP18CBinaryInputStream(p, pbis);
-    RecalcCrv__FP3CRV(p);
+    LoadOptionsFromBrx__FPvP18CBinaryInputStream(pcrv, pbis);
+    RecalcCrv__FP3CRV(pcrv);
 }

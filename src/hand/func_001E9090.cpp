@@ -1,10 +1,11 @@
-/* StepRopeTrail: one simulation step of a rope-like path chain (wave-4 lane 2, from w3lane9's rewrite).
+/* StepRopeTrail: one simulation step of a path's rope in a trail mode (wave-4 lane 2, from w3lane9's rewrite).
+ * Layout: h3_rope.h ROPE and crv.h CRV, as this file declares them; the ends' records are XFs (matWorld at +0x40).
  *
  * The first point is the start offset transformed by the first space's matrix; its velocity comes from
  * VelXfPoint. Every later point is integrated (accel = force - damping * v, v += accel * dt,
  * pos += (v_old + v_new) * dt/2), then pulled back to the rest distance |dist[i] - dist[i-1]| from the previous
  * point along the normalized displacement (fallback direction D_002A2DA0 when shorter than 0.0001), and the
- * part of the relative velocity along that direction is removed. With mode 2 the last point is pinned to the
+ * part of the relative velocity along that direction is removed. With mode 2 (ROPEK_TrailPinned) the last point is pinned to the
  * end offset in the last space and SetRopeLength extends the path. Finally every point is transformed into
  * the path's local space (inverse of its world matrix, virtual slot 31) and RefreshCrv refreshes the path.
  *
@@ -22,32 +23,32 @@ union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct M4 { qword r[4]; };
-struct SPACE { char pad[0x40]; M4 matrix; };
-struct PATH { char pad[0xC]; VTENT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
-struct CHAIN
+struct XF { char pad[0x40]; M4 matWorld; };
+struct CRV { char pad[0xC]; VTENT *pvt; char pad10[0xE8 - 0x10]; int cpoint; int padEC; float *as; U *apos; };
+struct ROPE
 {
     qword force;
     qword pad10;
-    qword start;            // offset in the first space
-    qword end;              // offset in the last space
-    SPACE *first;
-    SPACE *last;
-    PATH *path;
+    qword posStart;            // offset in the first space
+    qword posEnd;              // offset in the last space
+    XF *pxfStart;
+    XF *pxfEnd;
+    CRV *ppath;
     int mode;               // 2: the last point is pinned to the end offset
     int pad50;
-    U *position;
-    U *velocity;
-    float *distance;        // rest distance along the chain
+    U *apos54;
+    U *avel58;
+    float *as5C;        // rest distance along the chain
     float damping;
 };
 #include "clock.h"
 extern qword D_002A2DA0;    // fallback direction
 extern "C" {
-qword VelXfPoint(SPACE *, SPACE *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
+qword VelXfPoint(XF *, XF *, qword) asm("VelXfPoint__FP2XFT0G9VU_VECTOR");
 M4 *InverseAffineMatrix4(M4 *, M4 *) asm("InverseAffineMatrix4__FP7MATRIX4");   // invert
-void SetRopeLength(CHAIN *, float) asm("SetRopeLength__FP4ROPEf");
-void RefreshCrv(PATH *) asm("RefreshCrv__FP3CRV");
-void StepRopeTrail(CHAIN *) asm("StepRopeTrail__FP4ROPE");
+void SetRopeLength(ROPE *, float) asm("SetRopeLength__FP4ROPEf");
+void RefreshCrv(CRV *) asm("RefreshCrv__FP3CRV");
+void StepRopeTrail(ROPE *) asm("StepRopeTrail__FP4ROPE");
 }
 
 static inline VV TransformPoint(const M4 &m, VV v)
@@ -104,47 +105,47 @@ static inline VV VecCombo3(VV base, VU_FLOAT g1, VV v1, VU_FLOAT g2, VV v2)
 static inline float Abs(float g) { return __builtin_fabsf(g); }
 
 // name: SafeHouse port (StepRopeTrail)
-void StepRopeTrail(CHAIN *p)
+void StepRopeTrail(ROPE *prope)
 {
     float dt = g_clock.dt;
-    VV prev = TransformPoint(p->first->matrix, p->start);
-    int n = p->path->count;
-    p->position[0].q = prev;
-    U *velocity = p->velocity;
-    VV prevVel = VelXfPoint(p->first, 0, prev);
+    VV prev = TransformPoint(prope->pxfStart->matWorld, prope->posStart);
+    int n = prope->ppath->cpoint;
+    prope->apos54[0].q = prev;
+    U *velocity = prope->avel58;
+    VV prevVel = VelXfPoint(prope->pxfStart, 0, prev);
     velocity[0].q = prevVel;
     int i;
     for (i = 1; i < n; i++)
     {
-        VV accel = AddScaled(p->force, VU_FLOAT(-p->damping), p->velocity[i].q);
-        VV vel = AddScaled(p->velocity[i].q, VU_FLOAT(dt), accel);
-        VV pos = VecCombo3(p->position[i].q, VU_FLOAT(dt * 0.5f), p->velocity[i].q, VU_FLOAT(dt * 0.5f), vel);
+        VV accel = AddScaled(prope->force, VU_FLOAT(-prope->damping), prope->avel58[i].q);
+        VV vel = AddScaled(prope->avel58[i].q, VU_FLOAT(dt), accel);
+        VV pos = VecCombo3(prope->apos54[i].q, VU_FLOAT(dt * 0.5f), prope->avel58[i].q, VU_FLOAT(dt * 0.5f), vel);
         VV delta = Sub(pos, prev);
         VV dir = NormalizeSafe(delta, D_002A2DA0);
         float proj = -GFromQw(DotVf1(Sub(vel, prevVel), dir));
-        float d = Abs(p->distance[i] - p->distance[i - 1]);
+        float d = Abs(prope->as5C[i] - prope->as5C[i - 1]);
         prev = AddScaled(prev, VU_FLOAT(d), dir);
         prevVel = AddScaled(vel, VU_FLOAT(proj), dir);
-        p->position[i].q = prev;
-        p->velocity[i].q = prevVel;
+        prope->apos54[i].q = prev;
+        prope->avel58[i].q = prevVel;
     }
 
-    if (p->mode == 2)
+    if (prope->mode == 2)
     {
-        p->position[n - 1].q = TransformPoint(p->last->matrix, p->end);
-        SetRopeLength(p, p->distance[n - 2] + GFromVf(Length(Sub(p->position[n - 2].q, p->position[n - 1].q))));
-        n = p->path->count;
+        prope->apos54[n - 1].q = TransformPoint(prope->pxfEnd->matWorld, prope->posEnd);
+        SetRopeLength(prope, prope->as5C[n - 2] + GFromVf(Length(Sub(prope->apos54[n - 2].q, prope->apos54[n - 1].q))));
+        n = prope->ppath->cpoint;
     }
     M4 inverse;
     {
-        PATH *path = p->path;
-        VTENT *e = &path->vt[31];
+        CRV *path = prope->ppath;
+        VTENT *e = &path->pvt[31];
         InverseAffineMatrix4(&inverse, ((M4 * (*)(void *))e->pfn)(VT_THIS(path, e)));
     }
     for (i = 0; i < n; i++)
     {
-        PATH *path = p->path;
-        path->pos[i].q = TransformPoint(inverse, p->position[i].q);
+        CRV *path = prope->ppath;
+        path->apos[i].q = TransformPoint(inverse, prope->apos54[i].q);
     }
-    RefreshCrv(p->path);
+    RefreshCrv(prope->ppath);
 }

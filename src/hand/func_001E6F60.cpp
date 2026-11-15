@@ -1,6 +1,6 @@
 // NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2 (w2lane4, wave 2): closest point of a path (a chain of control points, transformed by the path's
-// own matrix) to a query point. mode 0 walks every segment, projects the point on it (clamped to the segment), keeps the
-// nearest candidate and reports its position, direction, interpolated time and the path value at that time. mode 1 only
+// own matrix) to a query point. A linear curve (crvk 0) walks every segment, projects the point on it (clamped to the segment), keeps the
+// nearest candidate and reports its position, direction, interpolated time and the path value at that time. A cubic one only
 // measures the distances to the control points and hands the nearest vertex time to NearestCrv.
 // Matching notes (found by reading the local-alloc / global-alloc / reload dumps):
 //  * Spill slots of start / end / point follow the order in which the three pseudos get their stack home, i.e. the order in which
@@ -12,21 +12,23 @@
 //    result in a GPR pair with a reload-chosen VU register; the two spellings are not interchangeable.
 //  * Normalize ties its output to the length operand ("+j"), Dot's `one` is not early-clobber (the second dot reuses vf3).
 //  * The empty asm on `time` is allocation-only (see the comment at its use).
+// Layout: crv.h CRV, as this file declares it; the constraint (CNSTR) may drop
+// components (ProjectCnstrLocal).
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct M4 { qword a, b, c, d; };
-struct SPACE;
-struct PATH {
-    char padC[0xC]; VTENT *vt; char pad10[0xD0];
-    int mode, cyclic, count; float *times, *values; qword *points;
+struct CNSTR;
+struct CRV {
+    char padC[0xC]; VTENT *pvt; char pad10[0xD0];
+    int crvk, fClosed, cpoint; float *ag, *as; qword *apos;
 };
 extern "C" {
 extern float D_002A8138;
-qword ProjectCnstrLocal(SPACE *, qword) asm("ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR");
-float SFromCrvG(PATH *, float) asm("SFromCrvG__FP3CRV");
-void NearestCrv(PATH *, qword, SPACE *, qword *, qword *, float *, float *, float) asm("NearestCrv__FP3CRV");
+qword ProjectCnstrLocal(CNSTR *, qword) asm("ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR");
+float SFromCrvG(CRV *, float) asm("SFromCrvG__FP3CRV");
+void NearestCrv(CRV *, qword, CNSTR *, qword *, qword *, float *, float *, float) asm("NearestCrv__FP3CRV");
 }
 struct VU_FLOAT {
     qword q;
@@ -81,57 +83,57 @@ static inline float Clamp(float g, float lo, float hi)
     return g;
 }
 // name: SafeHouse port (NearestCrvAll)
-extern "C" void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(PATH *p, qword point, SPACE *space, qword *outPosition, qword *outDirection,
+extern "C" void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(CRV *pcrv, qword point, CNSTR *pcnstr, qword *outPosition, qword *outDirection,
                               float *outTime, float *outValue)
 {
     M4 matrix;
     U closest;
     qword start, end;
-    VTENT &v = p->vt[31];
-    matrix = *((M4 *(*)(void *))v.pfn)(VT_THIS(p, &v));
-    switch (p->mode) {
+    VTENT &v = pcrv->pvt[31];
+    matrix = *((M4 *(*)(void *))v.pfn)(VT_THIS(pcrv, &v));
+    switch (pcrv->crvk) {
     case 0: {
-        start = TransformPoint(matrix, p->points[0]);
+        start = TransformPoint(matrix, pcrv->apos[0]);
         float best = D_002A8138, time = -1.0f;
-        for (int index = 1; index < p->count; index++) {
+        for (int index = 1; index < pcrv->cpoint; index++) {
             // allocation-only: an in-place use/set of `time` makes global-alloc rank it ahead of `best`
             // (time gets f22, best f23); it emits no instruction.
             __asm__("" : "+f"(time));
-            qword direction = Sub(end = TransformPoint(matrix, p->points[index]), start);
+            qword direction = Sub(end = TransformPoint(matrix, pcrv->apos[index]), start);
             qword offset = Sub(point, start);
-            if (space) {
-                direction = ProjectCnstrLocal(space, direction);
-                offset = ProjectCnstrLocal(space, offset);
+            if (pcnstr) {
+                direction = ProjectCnstrLocal(pcnstr, direction);
+                offset = ProjectCnstrLocal(pcnstr, offset);
             }
             float t = ToFloat(Dot(offset, direction)) / ToFloat(Dot(direction, direction));
             t = Clamp(t, 0.0f, 1.0f);
             float u = 1.0f - t;
             closest.q = VecCombo(VU_FLOAT(u), start, VU_FLOAT(t), end);
             qword delta = Sub(point, closest.q);
-            if (space) delta = ProjectCnstrLocal(space, delta);
+            if (pcnstr) delta = ProjectCnstrLocal(pcnstr, delta);
             float distance = Length(delta);
             if (distance < best) {
                 best = distance;
-                time = u * p->times[index - 1] + t * p->times[index];
+                time = u * pcrv->ag[index - 1] + t * pcrv->ag[index];
                 if (outPosition) *outPosition = closest.q;
                 if (outDirection) *outDirection = Normalize(Sub(end, start));
             }
             start = end;
         }
         if (outTime) *outTime = time;
-        if (outValue) *outValue = SFromCrvG(p, time);
+        if (outValue) *outValue = SFromCrvG(pcrv, time);
         break;
     }
     case 1: {
         float best = D_002A8138;
         int closestIndex = -1;
-        for (int index = 0; index < p->count; index++) {
-            qword displacement = Sub(point, TransformPoint(matrix, p->points[index]));
-            if (space) displacement = ProjectCnstrLocal(space, displacement);
+        for (int index = 0; index < pcrv->cpoint; index++) {
+            qword displacement = Sub(point, TransformPoint(matrix, pcrv->apos[index]));
+            if (pcnstr) displacement = ProjectCnstrLocal(pcnstr, displacement);
             float distance = Length(displacement);
             if (distance < best) { best = distance; closestIndex = index; }
         }
-        NearestCrv(p, point, space, outPosition, outDirection, outTime, outValue, p->times[closestIndex]);
+        NearestCrv(pcrv, point, pcnstr, outPosition, outDirection, outTime, outValue, pcrv->ag[closestIndex]);
         break;
     }
     }

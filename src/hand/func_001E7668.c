@@ -1,5 +1,8 @@
-struct X { char pad[0xE8]; int c; float *agEC; float *ag; char pad2[0x178 - 0xF4]; int i; };
-float SWrapCrv__FP3CRVf(struct X *p, float g);
+/* ISegCrvS: the segment of a curve containing distance s (wrapped), searched from the last one found (iseg); also
+ * s's offset into it and its length. Layout: crv.h CRV. */
+#include "crv.h"
+
+float SWrapCrv__FP3CRVf(CRV *pcrv, float s);
 
 static inline int Before(int a, int b)
 {
@@ -15,39 +18,39 @@ static inline int LoopEnd(int value)
     return result;
 }
 
-static inline int Count(struct X *p)
+static inline int Cpoint(CRV *pcrv)
 {
     register int value __asm__("$3");
-    __asm__("lw %0,%1" : "=r"(value) : "m"(p->c));
+    __asm__("lw %0,%1" : "=r"(value) : "m"(pcrv->cpoint));
     return value;
 }
 
 // name: SafeHouse port (ISegCrvS)
-int ISegCrvS__FP3CRVPfT1f(struct X *p, float *pdg, float *pdgSeg, float g)
+int ISegCrvS__FP3CRVPfT1f(CRV *pcrv, float *pds, float *pdsSeg, float s)
 {
-    int i;
-    g = SWrapCrv__FP3CRVf(p, g);
-    i = p->i;
-    if (p->ag[i] < g) {
-        int limit = Count(p) - 1;
-        if (!Before(i, limit)) goto forwardDone;
-        if (g < p->ag[i]) goto forwardDone;
+    int iseg;
+    s = SWrapCrv__FP3CRVf(pcrv, s);
+    iseg = pcrv->iseg;
+    if (pcrv->as[iseg] < s) {
+        int isegLast = Cpoint(pcrv) - 1;
+        if (!Before(iseg, isegLast)) goto forwardDone;
+        if (s < pcrv->as[iseg]) goto forwardDone;
         {
-            int end = LoopEnd(limit);
+            int isegEnd = LoopEnd(isegLast);
             do {
-                ++i;
-                if (i >= end) break;
-                if (g < p->ag[i]) break;
+                ++iseg;
+                if (iseg >= isegEnd) break;
+                if (s < pcrv->as[iseg]) break;
             } while (1);
         }
 forwardDone:
-        --i;
+        --iseg;
     } else {
-        for (; i > 0; i--)
-            if (p->ag[i] <= g) break;
+        for (; iseg > 0; iseg--)
+            if (pcrv->as[iseg] <= s) break;
     }
-    if (pdg) *pdg = g - p->ag[i];
-    if (pdgSeg) *pdgSeg = p->ag[i + 1] - p->ag[i];
-    p->i = i;
-    return i;
+    if (pds) *pds = s - pcrv->as[iseg];
+    if (pdsSeg) *pdsSeg = pcrv->as[iseg + 1] - pcrv->as[iseg];
+    pcrv->iseg = iseg;
+    return iseg;
 }

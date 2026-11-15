@@ -1,19 +1,13 @@
-/* class: the ropes (SafeHouse rope.cpp: option 1046 / EOPID 1212's getter, the mode - -1 without a simulation). */
-struct ROPESIM {
-    /* 0x00 */ char pad0[0x4c];
-    /* 0x4c */ int mode;
-};
-struct ROPE {
-    /* 0x000 */ char pad0[0x17c];
-    /* 0x17c */ struct ROPESIM *psim;
-};
+/* func_001E7FF0: rope option 1046's getter (EOPID 1212): the path's rope mode, ROPEK_None without a simulation
+ * (SafeHouse rope.cpp). Layout: crv.h CRV, h3_rope.h ROPE. */
+#include "h3_rope.h"
 
-int func_001E7FF0(struct ROPE *prope)
+int func_001E7FF0(CRV *ppath)
 {
-    struct ROPESIM *psim = prope->psim;
-    int mode = -1;
-    if (psim != 0) {
-        mode = psim->mode;
+    ROPE *prope = ppath->prope;
+    int mode = ROPEK_None;
+    if (prope != 0) {
+        mode = prope->mode;
     }
     return mode;
 }

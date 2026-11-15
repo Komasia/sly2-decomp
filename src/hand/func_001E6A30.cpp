@@ -1,4 +1,4 @@
-// func_001E6A30 (w2lane4, wave 2): closest point on a path (chain of control points under the path's own matrix) to a query point,
+// func_001E6A30 (w2lane4, wave 2): NearestCrv's search on a linear curve (SafeHouse crv.h). Closest point on a path (chain of control points under the path's own matrix) to a query point,
 // searched from a starting time. ISegCrvG turns the starting time into a segment index; the loop projects the point on that
 // segment (segment vector rotated by the matrix, point minus the transformed start) and walks to the next / previous segment (wrapping
 // when the path is cyclic) until the projection falls inside a segment. Afterwards the position, direction, time and value outputs
@@ -18,20 +18,21 @@
 //  * The size and the projection are converted with the single-asm `mtc1 %1,%0 : "r"(vu)` form (ToFloatR): the qmfc2 is then a
 //    reload move scheduled before the in-place normalize, and the distance bits land in $a0 instead of $v0.
 //  * Normalize output is tied to the length operand ("+j"), DotInto ties the result to the second operand (the point delta).
+// Layout: crv.h CRV, as this file declares it; the constraint (CNSTR) may drop components (ProjectCnstrLocal).
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct M4 { U rows[4]; };
-struct SPACE;
-struct PATH {
-    char padC[0xC]; VTENT *vt; char pad10[0xD4];
-    int cyclic, count; float *times; int padF0; qword *points;
+struct CNSTR;
+struct CRV {
+    char padC[0xC]; VTENT *pvt; char pad10[0xD4];
+    int fClosed, cpoint; float *ag; int padF0; qword *apos;
 };
 extern "C" {
-int ISegCrvG(PATH *, float, float *, float *) asm("ISegCrvG__FP3CRVPfT1f");
-qword ProjectCnstrLocal(SPACE *, qword) asm("ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR");
-float SFromCrvG(PATH *, float) asm("SFromCrvG__FP3CRV");
+int ISegCrvG(CRV *, float, float *, float *) asm("ISegCrvG__FP3CRVPfT1f");
+qword ProjectCnstrLocal(CNSTR *, qword) asm("ProjectCnstrLocal__FP6CNSTRSG9VU_VECTOR");
+float SFromCrvG(CRV *, float) asm("SFromCrvG__FP3CRV");
 }
 struct VU_FLOAT {
     qword q;
@@ -103,24 +104,24 @@ static inline VV Normalize(VV a)
     __asm__("vdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %0,%1,$Q" : "+j"(length) : "j"(a));
     return length;
 }
-extern "C" void func_001E6A30(PATH *p, qword point, SPACE *space, qword *outPosition, qword *outDirection,
+extern "C" void func_001E6A30(CRV *pcrv, qword point, CNSTR *pcnstr, qword *outPosition, qword *outDirection,
                               float *outTime, float *outValue, float initial)
 {
     U segment;
     M4 matrix;
     float elapsed, duration;
     int backward = 0, forward = 0, previous;
-    int index = ISegCrvG(p, initial, &elapsed, &duration);
-    matrix = *((M4 *(*)(void *))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
+    int index = ISegCrvG(pcrv, initial, &elapsed, &duration);
+    matrix = *((M4 *(*)(void *))pcrv->pvt[31].pfn)(VT_THIS(pcrv, &pcrv->pvt[31]));
     float fraction;
     for (;;) {
         const M4 *basis = &matrix;
-        qword start = p->points[index], end = p->points[index + 1];
+        qword start = pcrv->apos[index], end = pcrv->apos[index + 1];
         segment.q = Rotate(matrix, basis, Sub(end, start));
         qword delta = Sub(point, TransformPoint(matrix, start));
-        if (space) {
-            delta = ProjectCnstrLocal(space, delta);
-            segment.q = ProjectCnstrLocal(space, segment.q);
+        if (pcnstr) {
+            delta = ProjectCnstrLocal(pcnstr, delta);
+            segment.q = ProjectCnstrLocal(pcnstr, segment.q);
         }
         qword length = LengthOf(segment);
         float size = ToFloatR(length);
@@ -131,17 +132,17 @@ extern "C" void func_001E6A30(PATH *p, qword point, SPACE *space, qword *outPosi
             if (forward) { fraction = 1.0f; index = previous; break; }
             if (index > 0) --index;
             else {
-                if (!p->cyclic) { fraction = 0.0f; break; }
-                index = p->count - 2;
+                if (!pcrv->fClosed) { fraction = 0.0f; break; }
+                index = pcrv->cpoint - 2;
             }
             backward = 1;
             previous = index;
             continue;
         } else if (size < distance) {
             if (backward) { fraction = 0.0f; index = previous; break; }
-            if (index < p->count - 2) ++index;
+            if (index < pcrv->cpoint - 2) ++index;
             else {
-                if (!p->cyclic) { fraction = 1.0f; break; }
+                if (!pcrv->fClosed) { fraction = 1.0f; break; }
                 index = 0;
             }
             forward = 1;
@@ -153,15 +154,15 @@ extern "C" void func_001E6A30(PATH *p, qword point, SPACE *space, qword *outPosi
         }
     }
     if (outPosition) {
-        *outPosition = TransformPoint(matrix, VecCombo(VU_FLOAT(1.0f - fraction), p->points[index],
-                                                       VU_FLOAT(fraction), p->points[index + 1]));
+        *outPosition = TransformPoint(matrix, VecCombo(VU_FLOAT(1.0f - fraction), pcrv->apos[index],
+                                                       VU_FLOAT(fraction), pcrv->apos[index + 1]));
     }
     if (outDirection) {
         const M4 *basis = &matrix;
-        qword tangent = Rotate(matrix, basis, Sub(p->points[index + 1], p->points[index]));
+        qword tangent = Rotate(matrix, basis, Sub(pcrv->apos[index + 1], pcrv->apos[index]));
         *outDirection = Normalize(tangent);
     }
-    fraction = (1.0f - fraction) * p->times[index] + fraction * p->times[index + 1];
+    fraction = (1.0f - fraction) * pcrv->ag[index] + fraction * pcrv->ag[index + 1];
     if (outTime) *outTime = fraction;
-    if (outValue) *outValue = SFromCrvG(p, fraction);
+    if (outValue) *outValue = SFromCrvG(pcrv, fraction);
 }

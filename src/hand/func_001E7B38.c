@@ -1,12 +1,15 @@
-struct S { char pad[0xE4]; int fWrap; };
-float SMaxCrv__FP3CRV(struct S *p);
-float func_001E7B38(struct S *p, float a, float b)
+/* func_001E7B38: the distance from sFrom to sTo along a curve; on a closed curve the shorter way round
+ * (SafeHouse aijobs.cpp). Layout: crv.h CRV. */
+#include "crv.h"
+
+float SMaxCrv__FP3CRV(CRV *pcrv);
+float func_001E7B38(CRV *pcrv, float sFrom, float sTo)
 {
-    float d = b - a;
-    if (p->fWrap) {
-        float r = SMaxCrv__FP3CRV(p);
-        if (d > r * 0.5f) d -= r;
-        else if (d < r * -0.5f) d += r;
+    float ds = sTo - sFrom;
+    if (pcrv->fClosed) {
+        float sLength = SMaxCrv__FP3CRV(pcrv);
+        if (ds > sLength * 0.5f) ds -= sLength;
+        else if (ds < sLength * -0.5f) ds += sLength;
     }
-    return d;
+    return ds;
 }

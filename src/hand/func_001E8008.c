@@ -1,3 +1,8 @@
+/* SRandCrvNear: a random distance along a curve within sSpread of s (on an open curve the window kept on it),
+ * distributed by D_002C3650 (0 uniform, 1 r|r|, 2 smoothstep-like, 3 signed square root; the default 1), wrapped on
+ * a closed curve (SafeHouse jt.cpp). Layout: crv.h CRV. */
+#include "crv.h"
+
 static inline float StoreEndpointAndUpperBits(float *endpoint,float upper,unsigned highHalf)
 {
     register unsigned bits __asm__("$1");
@@ -6,11 +11,10 @@ static inline float StoreEndpointAndUpperBits(float *endpoint,float upper,unsign
             :"=m"(*endpoint),"=f"(bound),"=&r"(bits):"f"(upper),"i"(highHalf));
     return bound;
 }
-struct P { char pad[0xE4]; int fE4; };
-extern int D_002C3650;
-float SMaxCrv__FP3CRV(struct P *);
-float GRandInRange__Fff(float, float);
-float SWrapCrv__FP3CRVf(struct P *, float);
+extern int D_002C3650;      /* the distribution (0..3) */
+float SMaxCrv__FP3CRV(CRV *pcrv);
+float GRandInRange__Fff(float gMin, float gMax);
+float SWrapCrv__FP3CRVf(CRV *pcrv, float s);
 static inline float sqrtf_(float x) { float r; __asm__ __volatile__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }
 static inline float GClamp(float x, float lo, float hi)
 {
@@ -21,50 +25,45 @@ static inline float GClamp(float x, float lo, float hi)
 static inline float GMin(float a, float b) { return b < a ? b : a; }
 static inline float GMax(float a, float b) { return a < b ? b : a; }
 // name: SafeHouse port (SRandCrvNear)
-float SRandCrvNear__FP3CRVff(struct P *p, float a, float b)
+float SRandCrvNear__FP3CRVff(CRV *pcrv, float s, float sSpread)
 {
-    float r[2];
-    float t,u,upper,minimum;
-    {register float upper __asm__("$f0"),lower __asm__("$f1");
-    if (p->fE4) {
-        lower = a - b;
-        upper = a + b;
+    float as[2];        /* the window */
+    float r, sRand, upper, gMinusOne;
+    {register float sUpper __asm__("$f0"),sLower __asm__("$f1");
+    if (pcrv->fClosed) {
+        sLower = s - sSpread;
+        sUpper = s + sSpread;
     } else {
-        float m = SMaxCrv__FP3CRV(p);
-        float c = GClamp(a, b, m - b);
-        lower = GMax(c - b, 0.0f);
-        upper = GMin(c + b, m);
+        float sLength = SMaxCrv__FP3CRV(pcrv);
+        float sMid = GClamp(s, sSpread, sLength - sSpread);
+        sLower = GMax(sMid - sSpread, 0.0f);
+        sUpper = GMin(sMid + sSpread, sLength);
     }
-    minimum=StoreEndpointAndUpperBits(&r[1],upper,0xBF800000u>>16);
-    r[0] = lower;
+    /* as[1] = sUpper; gMinusOne = -1.0f (0xBF800000) */
+    gMinusOne=StoreEndpointAndUpperBits(&as[1],sUpper,0xBF800000u>>16);
+    as[0] = sLower;
     }
-    t = GRandInRange__Fff(minimum, 1.0f);
+    r = GRandInRange__Fff(gMinusOne, 1.0f);
     switch (D_002C3650) {
     case 0:
         break;
     case 1:
-        t = t * __builtin_fabsf(t);
+        r = r * __builtin_fabsf(r);
         break;
     case 2:
-        if (0.0f < t) upper = t * t * (3.0f - (t + t));
-        else upper = t * t * (-3.0f - (t + t));
-        t = upper;
+        if (0.0f < r) upper = r * r * (3.0f - (r + r));
+        else upper = r * r * (-3.0f - (r + r));
+        r = upper;
         break;
     case 3:
-        if (0.0f < t) upper = sqrtf_(t);
-        else upper = -sqrtf_(-t);
-        t = upper;
+        if (0.0f < r) upper = sqrtf_(r);
+        else upper = -sqrtf_(-r);
+        r = upper;
         break;
     }
-    t = t * 0.5f + 0.5f;
-    u = (1.0f - t) * r[0] + t * r[1];
-    if (p->fE4)
-        u = SWrapCrv__FP3CRVf(p, u);
-    return u;
+    r = r * 0.5f + 0.5f;
+    sRand = (1.0f - r) * as[0] + r * as[1];
+    if (pcrv->fClosed)
+        sRand = SWrapCrv__FP3CRVf(pcrv, sRand);
+    return sRand;
 }
-
-typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
-typedef char layout_int[(sizeof(int)==4)?1:-1];
-typedef char layout_float[(sizeof(float)==4)?1:-1];
-typedef char layout_P[(sizeof(struct P)==0xE8)?1:-1];
-typedef char layout_P_closed[((unsigned)&((struct P*)0)->fE4==0xE4)?1:-1];

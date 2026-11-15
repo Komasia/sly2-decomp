@@ -1,30 +1,33 @@
+/* func_001E94B0: a new linear path object oid with cpoint points (PloNew CID_PATH, no world): an identity local
+ * matrix, parameters 0, 1, ..., cpoint - 1, room for the distances and the points (SafeHouse: e.g. 0x1E94B0(713, 16),
+ * the POs' path; 0x1E94B0(0x62C, c), the AI chase curve). Layout: crv.h CRV. */
 #include "cid.h"
-struct AR { int cb; int cbAlign; };
-typedef struct { float m[4][4]; } MATRIX4;
-struct X { char pad[0x60]; MATRIX4 mat; char pad2[0xE0 - 0xA0]; int xE0; int xE4; int xE8; float *ag; float *agF0; void *pvF4; };
-struct X *PloNew__F3CIDP2SW3OIDi(int k, int n, void *pv, int m);
-void s1_memset(void *p, int b, int cb) asm("memset");
-void *PvAllocSwImpl__Fi(struct AR *par);
-struct X *func_001E94B0(void *pv, int c)
+#include "crv.h"
+
+struct ALLOC { int cb; int cbAlign; };
+CRV *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
+void s1_memset(void *pv, int b, int cb) asm("memset");
+void *PvAllocSwImpl__Fi(struct ALLOC *palloc);
+CRV *func_001E94B0(int oid, int cpoint)
 {
-    struct AR ar;
+    struct ALLOC alloc;
     int i;
-    struct X *p = PloNew__F3CIDP2SW3OIDi(CID_PATH, 0, pv, -1);
-    MATRIX4 *pm;
-    p->xE0 = 0;
-    p->xE4 = 0;
-    pm = &p->mat;
-    s1_memset(pm, 0, 0x40);
-    pm->m[3][3] = 1.0f; pm->m[2][2] = 1.0f; pm->m[1][1] = 1.0f; pm->m[0][0] = 1.0f;
-    ar.cb = c * 4;
-    ar.cbAlign = 0x10;
-    p->ag = PvAllocSwImpl__Fi(&ar);
-    for (i = 0; i < c; i++) p->ag[i] = i;
-    ar.cb = c * 4;
-    ar.cbAlign = 0x10;
-    p->agF0 = PvAllocSwImpl__Fi(&ar);
-    ar.cb = c * 16;
-    ar.cbAlign = 0x10;
-    p->pvF4 = PvAllocSwImpl__Fi(&ar);
-    return p;
+    CRV *pcrv = PloNew__F3CIDP2SW3OIDi(CID_PATH, 0, oid, -1);
+    float (*pmat)[4];
+    pcrv->crvk = CRVK_Linear;
+    pcrv->fClosed = 0;
+    pmat = pcrv->matLocal;
+    s1_memset(pmat, 0, 0x40);
+    pmat[3][3] = 1.0f; pmat[2][2] = 1.0f; pmat[1][1] = 1.0f; pmat[0][0] = 1.0f;
+    alloc.cb = cpoint * 4;
+    alloc.cbAlign = 0x10;
+    pcrv->ag = PvAllocSwImpl__Fi(&alloc);
+    for (i = 0; i < cpoint; i++) pcrv->ag[i] = i;
+    alloc.cb = cpoint * 4;
+    alloc.cbAlign = 0x10;
+    pcrv->as = PvAllocSwImpl__Fi(&alloc);
+    alloc.cb = cpoint * 16;
+    alloc.cbAlign = 0x10;
+    pcrv->apos = PvAllocSwImpl__Fi(&alloc);
+    return pcrv;
 }

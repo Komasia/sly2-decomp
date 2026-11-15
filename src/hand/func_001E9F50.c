@@ -1,3 +1,5 @@
+/* PpolyAtPoint: the AI polygon containing pos: among the polygons near it (at most 64) in the region under it
+ * (PregionAt), the first that contains it; null when none (SafeHouse spawner.cpp). */
 typedef int qword __attribute__((mode(TI)));
 void *PregionAt__FG9VU_VECTORi(qword q, int n);
 int CpolyNear__FP9NAVREGIONP6VECTORG9VU_VECTORT2iPP7NAVPOLY(void *p, int n, qword q, qword q2, int c, void **ap);

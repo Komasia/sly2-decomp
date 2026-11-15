@@ -1,26 +1,30 @@
+/* SetRopeEnd: end iend of a rope on object plo: the object's point in its record (vt slot 32 gives the record and
+ * the point), else the path's own end (its first / last parameter's point) in the world. Layout: h3_rope.h ROPE. */
 #include "so.h"
+#include "h3_rope.h"
+
+/* vt slot 32's output: a frame whose last row is the point */
 struct M4 { qword r[3]; qword pos; };
-struct P { int pad[4]; struct LO *apo[4]; qword apos[2]; void *ap40[2]; int a48; };
-extern char D_002C44F0[];
-float GMinCrv__FP3CRV(int);
-float GMaxCrv__FP3CRV(int);
-void EvalCrv__FP3CRVfP6VECTORT2(int, qword *, int, float);
+extern char D_002C44F0[];   /* the world's record */
+float GMinCrv__FP3CRV(CRV *pcrv);
+float GMaxCrv__FP3CRV(CRV *pcrv);
+void EvalCrv__FP3CRVfP6VECTORT2(CRV *pcrv, qword *ppos, int pdir, float g);
 // name: SafeHouse port (SetRopeEnd)
-void SetRopeEnd__FP4ROPEiP2LO(struct P *p, int i, struct LO *po)
+void SetRopeEnd__FP4ROPEiP2LO(ROPE *prope, int iend, struct LO *plo)
 {
-    p->apo[i] = po;
-    if (po) {
+    prope->apo[iend] = plo;
+    if (plo) {
         struct M4 m;
-        VTENT *pe = &po->pvt[32];
-        p->ap40[i] = ((void *(*)(void *, struct M4 *))pe->pfn)(VT_THIS(po, pe), &m);
-        *(p->apos + i) = m.pos;
+        VTENT *pe = &plo->pvt[32];
+        prope->apxf[iend] = ((struct XF *(*)(void *, struct M4 *))pe->pfn)(VT_THIS(plo, pe), &m);
+        *(prope->apos + iend) = m.pos;
     } else {
-        float f;
-        p->ap40[i] = D_002C44F0;
-        if (i == 0)
-            f = GMinCrv__FP3CRV(p->a48);
+        float g;
+        prope->apxf[iend] = (struct XF *)D_002C44F0;
+        if (iend == 0)
+            g = GMinCrv__FP3CRV(prope->ppath);
         else
-            f = GMaxCrv__FP3CRV(p->a48);
-        EvalCrv__FP3CRVfP6VECTORT2(p->a48, &p->apos[i], 0, f);
+            g = GMaxCrv__FP3CRV(prope->ppath);
+        EvalCrv__FP3CRVfP6VECTORT2(prope->ppath, &prope->apos[iend], 0, g);
     }
 }

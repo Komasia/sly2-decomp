@@ -1,10 +1,11 @@
+/* DgStepCrv: a search step along a curve: its parameter span over ten times its point count. Layout: crv.h CRV. */
+#include "crv.h"
 
-struct S { char pad[0xE8]; int c; };
-float GMaxCrv__FP3CRV(struct S *p);
-float GMinCrv__FP3CRV(struct S *p);
+float GMaxCrv__FP3CRV(CRV *pcrv);
+float GMinCrv__FP3CRV(CRV *pcrv);
 // name: SafeHouse port (DgStepCrv)
-float DgStepCrv__FP3CRV(struct S *p)
+float DgStepCrv__FP3CRV(CRV *pcrv)
 {
-    float a = GMaxCrv__FP3CRV(p);
-    return (a - GMinCrv__FP3CRV(p)) / (p->c * 10.0f);
+    float gMax = GMaxCrv__FP3CRV(pcrv);
+    return (gMax - GMinCrv__FP3CRV(pcrv)) / (pcrv->cpoint * 10.0f);
 }

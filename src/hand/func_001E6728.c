@@ -1,11 +1,14 @@
-struct S { char pad[0xE4]; int fWrap; };
-float SMinCrv__FP3CRV(struct S *p);
-float SMaxCrv__FP3CRV(struct S *p);
-float SWrapCrv__FP3CRVf(struct S *p, float g);
-static __inline__ float GClamp(float g, float lo, float hi) { if (g < lo) return lo; if (g > hi) return hi; return g; }
+/* SClampCrv: a distance along a curve kept on it: wrapped on a closed curve, else clamped to [start, end].
+ * Layout: crv.h CRV. */
+#include "crv.h"
+
+float SMinCrv__FP3CRV(CRV *pcrv);
+float SMaxCrv__FP3CRV(CRV *pcrv);
+float SWrapCrv__FP3CRVf(CRV *pcrv, float s);
+static __inline__ float GClamp(float g, float gMin, float gMax) { if (g < gMin) return gMin; if (g > gMax) return gMax; return g; }
 // name: SafeHouse port (SClampCrv)
-float SClampCrv__FP3CRVf(struct S *p, float g)
+float SClampCrv__FP3CRVf(CRV *pcrv, float s)
 {
-    if (p->fWrap) return SWrapCrv__FP3CRVf(p, g);
-    return GClamp(g, SMinCrv__FP3CRV(p), SMaxCrv__FP3CRV(p));
+    if (pcrv->fClosed) return SWrapCrv__FP3CRVf(pcrv, s);
+    return GClamp(s, SMinCrv__FP3CRV(pcrv), SMaxCrv__FP3CRV(pcrv));
 }

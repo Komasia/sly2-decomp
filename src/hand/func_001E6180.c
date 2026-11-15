@@ -1,14 +1,18 @@
+/* RecalcCrv: recompute a curve's distances for its world matrix (vt slot 31, cached in amat): a linear curve's
+ * from the transformed points, a cubic one's from each segment's cached length (CacheSegCrv); then the rope's rest
+ * distances follow (CopyRopeDistances). Layout: crv.h CRV, as this file declares it (sSeg = asSub[10], the cached
+ * segment's length). */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M { qword a,b,c,d; };
-struct S {
- char pad[0xC]; VTENT *vt; char pad10[0xE0-0x10];
- int mode; char padE4[4]; int n; char padEC[4];
- float *dist; qword *v; char padF8[8]; struct M mat;
- char pad140[0x174-0x140]; float duration; int pad178; void *sub;
+struct CRV {
+ char pad[0xC]; VTENT *pvt; char pad10[0xE0-0x10];
+ int crvk; char padE4[4]; int cpoint; char padEC[4];
+ float *as; qword *apos; char padF8[8]; struct M amat;
+ char pad140[0x174-0x140]; float sSeg; int pad178; void *prope;
 };
-void RefreshCrv__FP3CRV(struct S*);
-void CacheSegCrv__FP3CRVi(struct S*,int);
+void RefreshCrv__FP3CRV(struct CRV*);
+void CacheSegCrv__FP3CRVi(struct CRV*,int);
 void CopyRopeDistances__FP4ROPE(void*);
 static inline qword Point(struct M *m,qword a) {
  qword r;
@@ -24,32 +28,32 @@ static inline qword LenVec(qword a) {
  return d;
 }
 // name: SafeHouse port (RecalcCrv)
-void RecalcCrv__FP3CRV(struct S *p)
+void RecalcCrv__FP3CRV(struct CRV *pcrv)
 {
  int i;
- RefreshCrv__FP3CRV(p);
- p->mat=*((struct M*(*)(void*))p->vt[31].pfn)(VT_THIS(p, &p->vt[31]));
- if (p->mode==0) {
-  float *d0=p->dist; float total=0.0f;
+ RefreshCrv__FP3CRV(pcrv);
+ pcrv->amat=*((struct M*(*)(void*))pcrv->pvt[31].pfn)(VT_THIS(pcrv, &pcrv->pvt[31]));
+ if (pcrv->crvk==0) {
+  float *as0=pcrv->as; float sTotal=0.0f;
   qword prev;
-  prev=Point(&p->mat,p->v[0]);
-  d0[0]=total;
-  for(i=1;i<p->n;i++) {
-   qword cur=Point(&p->mat,p->v[i]);
+  prev=Point(&pcrv->amat,pcrv->apos[0]);
+  as0[0]=sTotal;
+  for(i=1;i<pcrv->cpoint;i++) {
+   qword cur=Point(&pcrv->amat,pcrv->apos[i]);
    qword lenv=LenVec(Sub(prev,cur));
    float len;
    prev=Move(cur);
    __asm__("mtc1 %1,%0":"=f"(len):"r"(lenv));
-   total+=len;
-   p->dist[i]=total;
+   sTotal+=len;
+   pcrv->as[i]=sTotal;
   }
  } else {
   int j;
-  p->dist[0]=0;
-  for(j=0;j<p->n-1;j++) {
-   CacheSegCrv__FP3CRVi(p,j);
-   p->dist[j+1]=p->dist[j]+p->duration;
+  pcrv->as[0]=0;
+  for(j=0;j<pcrv->cpoint-1;j++) {
+   CacheSegCrv__FP3CRVi(pcrv,j);
+   pcrv->as[j+1]=pcrv->as[j]+pcrv->sSeg;
   }
  }
- if(p->sub)CopyRopeDistances__FP4ROPE(p->sub);
+ if(pcrv->prope)CopyRopeDistances__FP4ROPE(pcrv->prope);
 }

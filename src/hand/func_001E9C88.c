@@ -1,82 +1,82 @@
-/* func_001E9C88: samples the path po from its start to its end in steps of D_002C367C, collects the distinct
- * objects found at each sample (PregionAt__FG9VU_VECTORi) into apv[64] and the parameter ranges where consecutive samples
- * do not stay inside one object (func_001C0920) into aseg[64] (joining the first/last range when po->fE4), then copies
- * both lists to the heap (PvAllocSwCopyImpl__FiPv) into ps.
- * Matching note: the &apv argument of the final PvAllocSwCopyImpl__FiPv call must go through an inline helper; integrate.c
- * then puts sp+0x200 straight into a1, so gcse has nothing to hoist and the apv[cpv++] cursor (s6) keeps an
- * un-noted init in the loop preheader. The MSG request reuses pos2's stack slot. */
-typedef int qword __attribute__((mode(TI)));
-struct MSG { int cb; int nKind; };
-struct SEG { float a, b; };
-struct O { char padC[0xC]; void *vt; char pad10[0xE0-0x10]; int curved; int fE4; int count; float *parameters; float *distances; qword *points; };
-struct S { struct O *po; int c4; struct SEG *aseg; int cC; struct SEG aseg10[16]; int c90; void **apv; int n98; };
-extern float D_002C367C;
-float SMinCrv__FP3CRV(struct O *);
-float SMaxCrv__FP3CRV(struct O *);
-void EvalCrvS(struct O *, float, qword *, qword *) asm("EvalCrvS__FP3CRVfP6VECTORT2");
-void *PregionAt__FG9VU_VECTORi(qword, int);
-int func_001C0920(void *, qword, int);
-void *PvAllocSwCopyImpl__FiPv(struct MSG *, void *);
+/* func_001E9C88: build a path's AI record: sample the path from its start to its end every D_002C367C (50),
+ * collect the distinct AI regions under the samples (PregionAt__FG9VU_VECTORi) into apreg[64] and the spans
+ * where the path is off the regions (no region, a different region than the sample before, or off its triangles:
+ * func_001C0920) into aspan[64] (joining the first and last span across the seam of a closed path), then copy
+ * both lists to the heap (PvAllocSwCopyImpl__FiPv); the spans in use start as the loaded ones, stamp -1.
+ * SafeHouse spawner.cpp (Pathrec). Layout: h3_rope.h PATHREC, crv.h CRV.
+ * Matching note: the &apreg argument of the final PvAllocSwCopyImpl__FiPv call must go through an inline helper;
+ * integrate.c then puts sp+0x200 straight into a1, so gcse has nothing to hoist and the apreg[cpreg++] cursor (s6)
+ * keeps an un-noted init in the loop preheader. The ALLOC request reuses pos2's stack slot. */
+#include "h3_rope.h"
+
+struct ALLOC { int cb; int cbAlign; };
+extern float D_002C367C;    /* the sampling step, 50 */
+float SMinCrv__FP3CRV(CRV *pcrv);
+float SMaxCrv__FP3CRV(CRV *pcrv);
+void EvalCrvS(CRV *pcrv, float s, qword *ppos, qword *pdir) asm("EvalCrvS__FP3CRVfP6VECTORT2");
+void *PregionAt__FG9VU_VECTORi(qword pos, int f);
+int func_001C0920(void *preg, qword pos, int n);
+void *PvAllocSwCopyImpl__FiPv(struct ALLOC *palloc, void *pv);
 void CopyAb(void *, const void *, unsigned) asm("CopyAb__FPvT0Ui");
-static inline void *PvReallocMsg(struct MSG *pmsg, int cb, int nKind, void *pv) { pmsg->cb = cb; pmsg->nKind = nKind; return PvAllocSwCopyImpl__FiPv(pmsg, pv); }
-void func_001E9C88(struct S *ps, struct O *po)
+static inline void *PvReallocMsg(struct ALLOC *palloc, int cb, int cbAlign, void *pv) { palloc->cb = cb; palloc->cbAlign = cbAlign; return PvAllocSwCopyImpl__FiPv(palloc, pv); }
+void func_001E9C88(PATHREC *ppathrec, CRV *ppath)
 {
-    struct SEG aseg[64];
-    void *apv[64];
+    PATHSPAN aspan[64];
+    void *apreg[CREG_PATHREC_MAX];
     qword pos;
     qword pos2;
-    struct SEG *pseg = 0;
-    int cpv = 0;
-    int cseg = 0;
-    float tStart, tPrev, t, tEnd;
-    void *pPrev;
+    PATHSPAN *pspan = 0;
+    int cpreg = 0;
+    int cspan = 0;
+    float sStart, sPrev, s, sEnd;
+    void *pregPrev;
 
-    ps->po = po;
-    tStart = SMinCrv__FP3CRV(po);
-    tPrev = tStart;
-    t = tStart;
-    tEnd = SMaxCrv__FP3CRV(ps->po);
-    EvalCrvS(ps->po, tStart, &pos, 0);
-    pPrev = PregionAt__FG9VU_VECTORi(pos, 0);
-    for (; t < tEnd; t += D_002C367C) {
-        void *pCur;
-        int outside;
-        EvalCrvS(ps->po, t, &pos2, 0);
-        pCur = PregionAt__FG9VU_VECTORi(pos2, 0);
-        if (pCur) {
+    ppathrec->ppath = ppath;
+    sStart = SMinCrv__FP3CRV(ppath);
+    sPrev = sStart;
+    s = sStart;
+    sEnd = SMaxCrv__FP3CRV(ppathrec->ppath);
+    EvalCrvS(ppathrec->ppath, sStart, &pos, 0);
+    pregPrev = PregionAt__FG9VU_VECTORi(pos, 0);
+    for (; s < sEnd; s += D_002C367C) {
+        void *preg;
+        int fOff;
+        EvalCrvS(ppathrec->ppath, s, &pos2, 0);
+        preg = PregionAt__FG9VU_VECTORi(pos2, 0);
+        if (preg) {
             int i;
-            for (i = 0; i < cpv; i++)
-                if (apv[i] == pCur)
+            for (i = 0; i < cpreg; i++)
+                if (apreg[i] == preg)
                     break;
-            if (i >= cpv && (unsigned)cpv < 64)
-                apv[cpv++] = pCur;
+            if (i >= cpreg && (unsigned)cpreg < CREG_PATHREC_MAX)
+                apreg[cpreg++] = preg;
         }
-        outside = 0;
-        if (!pCur || pPrev != pCur || !func_001C0920(pPrev, pos2, 0))
-            outside = 1;
-        if (outside) {
-            if (!pseg && cseg < 64) {
-                pseg = &aseg[cseg++];
-                pseg->a = tPrev;
+        fOff = 0;
+        if (!preg || pregPrev != preg || !func_001C0920(pregPrev, pos2, 0))
+            fOff = 1;
+        if (fOff) {
+            if (!pspan && cspan < 64) {
+                pspan = &aspan[cspan++];
+                pspan->sMin = sPrev;
             }
-        } else if (pseg) {
-            pseg->b = t;
-            pseg = 0;
+        } else if (pspan) {
+            pspan->sMax = s;
+            pspan = 0;
         }
-        tPrev = t;
-        pPrev = pCur;
+        sPrev = s;
+        pregPrev = preg;
     }
-    if (pseg)
-        pseg->b = tEnd;
-    if (cseg >= 2 && ps->po->fE4 && aseg[0].a == tStart && aseg[cseg - 1].b == tEnd) {
-        aseg[0].a = aseg[cseg - 1].a - tEnd;
-        aseg[cseg - 1].b = aseg[0].b + tEnd;
+    if (pspan)
+        pspan->sMax = sEnd;
+    if (cspan >= 2 && ppathrec->ppath->fClosed && aspan[0].sMin == sStart && aspan[cspan - 1].sMax == sEnd) {
+        aspan[0].sMin = aspan[cspan - 1].sMin - sEnd;
+        aspan[cspan - 1].sMax = aspan[0].sMax + sEnd;
     }
-    ps->c4 = cseg;
-    ps->aseg = PvReallocMsg((struct MSG *)&pos2, cseg * 8, 0x10, aseg);
-    ps->cC = cseg;
-    CopyAb(ps->aseg10, aseg, cseg * 8);
-    ps->c90 = cpv;
-    ps->apv = PvReallocMsg((struct MSG *)&pos2, cpv * 4, 0x10, apv);
-    ps->n98 = -1;
+    ppathrec->cspanLoaded = cspan;
+    ppathrec->aspanLoaded = PvReallocMsg((struct ALLOC *)&pos2, cspan * 8, 0x10, aspan);
+    ppathrec->cspan = cspan;
+    CopyAb(ppathrec->aspan, aspan, cspan * 8);
+    ppathrec->cpreg = cpreg;
+    ppathrec->apreg = PvReallocMsg((struct ALLOC *)&pos2, cpreg * 4, 0x10, apreg);
+    ppathrec->nStamp = -1;
 }

@@ -1,10 +1,13 @@
+/* PlaceRopeMeshScene: a rope mesh (class 0x6A, vt slot 19; SafeHouse rope.cpp) bent along its path: each vertex at its
+ * sample's point of the path (EvalCrv at the sample's distance, at most the path's end) plus its offset rotated into
+ * that point's basis (BuildLookAtMatrix of the direction and the object's up axis); drawn before and after. */
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword a,b,c; };
 struct V { float x,y,z,w; };
 union U { qword q; float f[4]; };
 struct E { int n; char pad4[8]; V *out; char pad10[0x1C-0x10]; U *samples; };
 struct NODE { int pad; int n; E *entries; NODE *next; };
-struct S { char pad[0xDC]; NODE *head; char padE0[0x150-0xE0]; void *path; };
+struct S { char pad[0xDC]; NODE *head; char padE0[0x150-0xE0]; void *ppath; };
 extern "C" {
 void RenderSoSelf(S*) asm("RenderSoSelf__FP2SOP2CMP2RO");
 float GMaxCrv(void*) asm("GMaxCrv__FP3CRV");
@@ -24,7 +27,7 @@ static inline float Min(float a,float b) {return b<a?b:a;}
 void PlaceRopeMeshScene(S *p)
 {
  RenderSoSelf(p);
- float end=GMaxCrv(p->path);
+ float end=GMaxCrv(p->ppath);
  qword axis=MatJtLo(p)->c;
  NODE *node;
  for(node=p->head;node;node=node->next) {
@@ -35,7 +38,7 @@ void PlaceRopeMeshScene(S *p)
    int k;
    for(k=0;k<e->n;k++) {
     U pos,dir;
-    EvalCrv(p->path,Min(end,src->f[3]),&pos.q,&dir.q);
+    EvalCrv(p->ppath,Min(end,src->f[3]),&pos.q,&dir.q);
     M3 m;
     M3 tmp=BuildLookAtMatrix(dir.q,axis);
     m=tmp;

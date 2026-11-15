@@ -1,13 +1,15 @@
-struct LM { float gMin; float gMax; };
-struct S { char pad[0xC]; int c; struct LM alm[1]; };
+/* FInPathSpan: the span of a path's AI record (the spans in use) containing distance s, if any (SafeHouse
+ * spawner.cpp). Layout: h3_rope.h PATHREC. */
+#include "h3_rope.h"
+
 // name: SafeHouse port (FInPathSpan)
-struct LM *FInPathSpan__FP7PATHRECf(struct S *p, float g)
+PATHSPAN *FInPathSpan__FP7PATHRECf(PATHREC *ppathrec, float s)
 {
     int i;
-    struct LM *alm = p->alm;
-    for (i = 0; i < p->c; i++) {
-        struct LM *plm = &alm[i];
-        if (plm->gMin <= g && g <= plm->gMax) return plm;
+    PATHSPAN *aspan = ppathrec->aspan;
+    for (i = 0; i < ppathrec->cspan; i++) {
+        PATHSPAN *pspan = &aspan[i];
+        if (pspan->sMin <= s && s <= pspan->sMax) return pspan;
     }
     return 0;
 }

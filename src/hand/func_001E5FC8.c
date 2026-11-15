@@ -1,19 +1,21 @@
-// Cache eleven Hermite samples of one path segment (control points transformed by the path matrix)
-// and the cumulative lengths between them.
+/* CacheSegCrv: cache the sub-lengths of segment iseg of a cubic curve: eleven Hermite samples at parameter
+ * fractions 0, 0.1, ..., 1 (the points and tangents transformed by the curve's world matrix amat) and the cumulative
+ * lengths between them (asSub; the last is the segment's length). Layout: crv.h CRV, as this file declares it (a
+ * local copy with its own matrix struct). */
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f; };
 struct M4 { qword a, b, c, d; };
-struct PATH {
+struct CRV {
     char pad[0xEC];
-    float *times;       // 0xEC
-    float *dist;        // 0xF0
-    qword *points;      // 0xF4
+    float *ag;       // 0xEC, the parameters
+    float *as;        // 0xF0, the distances
+    qword *apos;      // 0xF4, the points
     char padF8[8];
-    struct M4 mat;      // 0x100
-    qword *in;          // 0x140, incoming tangents
-    qword *out;         // 0x144, outgoing tangents
-    int segment;        // 0x148, segment currently cached
-    float lengths[11];  // 0x14C
+    struct M4 amat;      // 0x100
+    qword *avIn;          // 0x140, the incoming tangents
+    qword *avOut;         // 0x144, outgoing tangents
+    int isegCached;        // 0x148, the segment cached (-1: none)
+    float asSub[11];  // 0x14C
 };
 void Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(float duration, float t, float scale, qword start, qword startTangent, qword end, qword endTangent,
                    qword *pos, qword *vel, qword *acc);
@@ -44,7 +46,7 @@ static inline float Len(qword a)
 }
 
 // name: SafeHouse port (CacheSegCrv)
-void CacheSegCrv__FP3CRVi(struct PATH *p, int i)
+void CacheSegCrv__FP3CRVi(struct CRV *pcrv, int iseg)
 {
     union U prev, cur;
     // Plain qwords: they live across the call in the loop, so reload spills them to 0x20..0x50 and
@@ -52,26 +54,26 @@ void CacheSegCrv__FP3CRVi(struct PATH *p, int i)
     qword start, end, a, b;
     int j;
     float duration;
-    if (i == p->segment)
+    if (iseg == pcrv->isegCached)
         return;
     {
-        struct M4 *m = &p->mat;
-        qword v0 = p->points[i], v1 = p->points[i + 1], o0 = p->out[i], i1 = p->in[i + 1];
-        qword m1 = m->b, m2 = m->c, m3 = m->d, m0 = p->mat.a;
-        p->lengths[0] = 0;
+        struct M4 *m = &pcrv->amat;
+        qword v0 = pcrv->apos[iseg], v1 = pcrv->apos[iseg + 1], o0 = pcrv->avOut[iseg], i1 = pcrv->avIn[iseg + 1];
+        qword m1 = m->b, m2 = m->c, m3 = m->d, m0 = pcrv->amat.a;
+        pcrv->asSub[0] = 0;
         // Computed in argument order; the scheduler then emits them as b, end, start, a.
         start = Point(m0, m1, m2, m3, v0);
         a = Dir(m0, m1, m2, o0);
         end = Point(m0, m1, m2, m3, v1);
         b = Dir(m0, m1, m2, i1);
     }
-    duration = p->times[i + 1] - p->times[i];
+    duration = pcrv->ag[iseg + 1] - pcrv->ag[iseg];
     for (j = 0; j < 11; j++) {
         float frac = (float)j * 0.1f;
         Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27(duration, frac * duration, 1.0f, start, a, end, b, &cur.q, 0, 0);
         if (j > 0)
-            p->lengths[j] = p->lengths[j - 1] + Len(Sub(prev.q, cur.q));
+            pcrv->asSub[j] = pcrv->asSub[j - 1] + Len(Sub(prev.q, cur.q));
         prev.q = cur.q;
     }
-    p->segment = i;
+    pcrv->isegCached = iseg;
 }

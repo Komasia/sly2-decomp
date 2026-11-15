@@ -1,8 +1,11 @@
+/* func_001E77B0: the point of a curve nearest pos (NearestCrvAll over the whole curve). pos is declared
+ * int: the caller's 128-bit position register is passed on as it is. */
 typedef int qword __attribute__((mode(TI)));
-void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(void *a, int b, int c, qword *pq, int d, int e, int f);
-qword func_001E77B0(void *a, int b)
+struct CRV;
+void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct CRV *pcrv, int pos, int pcnstr, qword *pposNearest, int pdir, int pg, int ps);
+qword func_001E77B0(struct CRV *pcrv, int pos)
 {
-    qword q;
-    NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(a, b, 0, &q, 0, 0, 0);
-    return q;
+    qword posNearest;
+    NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(pcrv, pos, 0, &posNearest, 0, 0, 0);
+    return posNearest;
 }

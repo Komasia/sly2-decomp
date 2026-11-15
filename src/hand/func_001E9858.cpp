@@ -1,4 +1,6 @@
-/* PostLoadRopeMesh: rebuild every mesh entry's sample array in path-local coordinates.
+/* PostLoadRopeMesh: a rope mesh's post-load (class 0x6A, vt slot 15, after the base 0x1F36A8; SafeHouse rope.cpp): each
+ * vertex of its model sampled against its path (+0x150, option 1311): its offset in the basis of the path's nearest
+ * point and that point's distance along the path, so PlaceRopeMeshScene (0x1E9AC0) can bend the model along it.
  *
  * For each mesh node and each of its entries: copy the entry's vertices to a scratch array, allocate the
  * output sample array, then for every vertex
@@ -26,7 +28,7 @@ struct OWNER { char pad[0x40]; M4 mat; };
 struct STATE { int pad; OWNER *object; char pad8[0x28 - 8]; };
 struct NODE { MESH *mesh; int n; E *entries; NODE *next; };
 struct CONFIG { void *owner; char pad4[0xC]; U zero; float limit; char pad24[0x18]; MESH *meshes; STATE *states; void *ae; };
-struct S { char pad[0x80]; CONFIG config; char padD0[0xDC - 0xD0]; NODE *head; char padE0[0x150 - 0xE0]; void *path; };
+struct S { char pad[0x80]; CONFIG config; char padD0[0xDC - 0xD0]; NODE *head; char padE0[0x150 - 0xE0]; void *ppath; };
 struct AL { int cb, align; };
 union PHASE { AL request; U hit; };
 struct WORK { PHASE phase; U direction; M3 basis, temporary, inverse; float distance; };
@@ -82,7 +84,7 @@ void PostLoadRopeMesh(S *p)
     U vertices[128];
     WORK w;
     func_001F36A8(p);
-    if (!p->path || !p->head) return;
+    if (!p->ppath || !p->head) return;
     qword axis = MatJtLo(p)->c.q;
     NODE *head = p->head;
     for (NODE *node = head; node; node = node->next) {
@@ -105,7 +107,7 @@ void PostLoadRopeMesh(S *p)
                 e->samples = out;
                 for (k = 0; k < e->n; k++) {
                     qword world = Point(&object->mat, vertices[k].q);
-                    NearestCrvAll(p->path, world, 0, &phase->hit.q, &w.direction.q, &w.distance, 0);
+                    NearestCrvAll(p->ppath, world, 0, &phase->hit.q, &w.direction.q, &w.distance, 0);
                     BuildLookAtMatrix(&w.temporary, w.direction.q, axis);
                     qword difference = PointDifference(world, w.phase.hit.q);
                     w.basis = w.temporary;
@@ -124,6 +126,6 @@ void PostLoadRopeMesh(S *p)
 #define OFF(T, f) ((unsigned)&((T *)0)->f)
 typedef char guard_E[(sizeof(E) == 0x20 && OFF(E, vertices) == 0xC && OFF(E, samples) == 0x1C) ? 1 : -1];
 typedef char guard_NODE[(sizeof(NODE) == 16 && OFF(NODE, entries) == 8 && OFF(NODE, next) == 0xC) ? 1 : -1];
-typedef char guard_S[(OFF(S, config.meshes) == 0xBC && OFF(S, config.states) == 0xC0 && OFF(S, head) == 0xDC && OFF(S, path) == 0x150) ? 1 : -1];
+typedef char guard_S[(OFF(S, config.meshes) == 0xBC && OFF(S, config.states) == 0xC0 && OFF(S, head) == 0xDC && OFF(S, ppath) == 0x150) ? 1 : -1];
 typedef char guard_OWNER[(OFF(OWNER, mat) == 0x40 && sizeof(STATE) == 40 && OFF(STATE, object) == 4 && sizeof(MESH) == 20) ? 1 : -1];
 typedef char guard_WORK[(sizeof(WORK) == 0xC0 && OFF(WORK, direction) == 0x10 && OFF(WORK, temporary) == 0x50 && OFF(WORK, distance) == 0xB0) ? 1 : -1];
