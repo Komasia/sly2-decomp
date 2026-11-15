@@ -1,26 +1,29 @@
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; };
-struct S { char pad[0xC]; struct O *po; int k; };
-struct G { char pad[0x60]; float x; float y; };
-extern struct G g_cm;
+struct LOV { char pad[0xC]; VTENT *pvt; };
+/* a pursuit target record: its object and how its heading is taken (nMode) */
+struct TARGETREC { char pad[0xC]; struct LOV *plo; int nMode; };
+struct CM { char pad[0x60]; float xFwd; float yFwd; };
+extern struct CM g_cm;
 float atan2f(float y, float x);
-#define VCALL31(o) ((float *(*)(void *))(o)->vt[31].pfn)(VT_THIS((o), &(o)->vt[31]))
+#define VCALL31(o) ((float *(*)(void *))(o)->pvt[31].pfn)(VT_THIS((o), &(o)->pvt[31]))
+/* RadTargetrec (0x20A690): the heading of a pursuit target record: by nMode 0 the camera's (its +0x60 row), 1 the
+ * object's (the x row of its vt slot 31 matrix), -1 zero. */
 // name: SafeHouse port (RadTargetrec)
-float RadTargetrec__FP9TARGETREC(struct S *p)
+float RadTargetrec__FP9TARGETREC(struct TARGETREC *ptargetrec)
 {
-    float r = 0.0f;
-    switch (p->k) {
+    float rad = 0.0f;
+    switch (ptargetrec->nMode) {
     case 0:
-        r = atan2f(g_cm.y, g_cm.x);
+        rad = atan2f(g_cm.yFwd, g_cm.xFwd);
         break;
     case 1: {
-        float *a = VCALL31(p->po);
-        float *b = VCALL31(p->po);
-        r = atan2f(a[1], b[0]);
+        float *pmatA = VCALL31(ptargetrec->plo);
+        float *pmatB = VCALL31(ptargetrec->plo);
+        rad = atan2f(pmatA[1], pmatB[0]);
         break;
     }
     case -1:
         break;
     }
-    return r;
+    return rad;
 }

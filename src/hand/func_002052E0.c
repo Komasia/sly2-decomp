@@ -2,6 +2,7 @@
  * offset vecBase taken back (vt slots 29 / 30); an actor's camera target goes sHeight above the place; the
  * velocities are zeroed (slots 35 / 36) and the floor contact forgotten. A destination that is not an XFM-derived
  * object (cid 3) goes to the ALO version (0x1F49C8). */
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U { qword q; float f; } U;
@@ -15,8 +16,6 @@ typedef struct STEP {
     char pad3[0x1048 - 0x250]; FLOATWORD sHeight;    /* ACTOR: height of the camera target */
     char pad4[0x1060 - 0x104C]; qword posCmTarget;    /* ACTOR: the last camera target (field: SafeHouse port) */
 } STEP;
-#define CID_XFM 3
-#define CID_ACTOR 0x34
 extern qword D_002A2DD0, g_normalZ;
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(BASIC *, int);
 extern void func_001F49C8(STEP *, BASIC *);

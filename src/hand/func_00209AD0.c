@@ -1,29 +1,32 @@
-struct E { char pad[0x10]; long id; char pad2[8]; };
-struct S { char pad[0x4C0]; int c; char pad2[0xC]; struct E a[1]; };
-long func_00207A20(int n);
-int func_00209A28(long id, long mask);
+/* an entry of the guard's kind table (0x20 bytes): a KINDE, then its state mask */
+struct KINDEM { char pad[0x10]; long grfKind; char pad2[8]; };
+struct GUARD { char pad[0x4C0]; int ckindem; char pad2[0xC]; struct KINDEM akindem[1]; };
+long func_00207A20(int st);
+int func_00209A28(long grfKind, long grfState);
+/* PkindeBest (0x209AD0): the kind table entry that best fits the state mask: all of its states set, its states
+ * including the lowest state of grfState, and the most states. */
 // name: SafeHouse port (PkindeBest)
-struct E *PkindeBest__FP5GUARDUl(struct S *p, long mask)
+struct KINDEM *PkindeBest__FP5GUARDUl(struct GUARD *pguard, long grfState)
 {
     int i;
-    int k = 0;
-    long m = 0;
-    int best = 0;
-    struct E *pbest = 0;
-    struct E *pe;
-    for (; k < 0x30; k++) {
-        m = func_00207A20(k);
-        if (mask & m)
+    int st = 0;
+    long grfLowest = 0;
+    int cstBest = 0;
+    struct KINDEM *pkindemBest = 0;
+    struct KINDEM *pkindem;
+    for (; st < 0x30; st++) {
+        grfLowest = func_00207A20(st);
+        if (grfState & grfLowest)
             break;
     }
-    for (i = 0; i < p->c; i++) {
-        int r;
-        pe = &p->a[i];
-        r = func_00209A28(pe->id, mask);
-        if (r && (pe->id & m) && best < r) {
-            best = r;
-            pbest = pe;
+    for (i = 0; i < pguard->ckindem; i++) {
+        int cst;
+        pkindem = &pguard->akindem[i];
+        cst = func_00209A28(pkindem->grfKind, grfState);
+        if (cst && (pkindem->grfKind & grfLowest) && cstBest < cst) {
+            cstBest = cst;
+            pkindemBest = pkindem;
         }
     }
-    return pbest;
+    return pkindemBest;
 }

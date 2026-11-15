@@ -1,38 +1,40 @@
-struct O { char pad[0x30]; int n30; };
-struct E { int k; int h; struct O *po; };
-int FAsegaRetracted(struct O *po) asm("FAsegaRetracted__FP5ASEGA");
-int FSmaRetracted(struct O *po) asm("FSmaRetracted__FP3SMA");
-int FK2Done(struct O *po) asm("FK2Done__FP6K2PLAY");
-int FK3Done(struct O *po) asm("FK3Done__FP6K3PLAY");
+struct PLAYV { char pad[0x30]; int fActive; };
+struct KINDE { int k; int plo; struct PLAYV *pvState; };
+int FAsegaRetracted(struct PLAYV *pplay) asm("FAsegaRetracted__FP5ASEGA");
+int FSmaRetracted(struct PLAYV *pplay) asm("FSmaRetracted__FP3SMA");
+int FK2Done(struct PLAYV *pplay) asm("FK2Done__FP6K2PLAY");
+int FK3Done(struct PLAYV *pplay) asm("FK3Done__FP6K3PLAY");
+/* FKindeDone (0x209430): whether what plays a guard kind entry is done (nothing plays, it is retracted / done, or
+ * the SMA is no longer active); an empty entry is always done. */
 // name: SafeHouse port (FKindeDone)
-int FKindeDone__FP5KINDE(struct E *pe)
+int FKindeDone__FP5KINDE(struct KINDE *pkinde)
 {
-    int f;
-    switch (pe->k) {
+    int fDone;
+    switch (pkinde->k) {
     case 0:
-        f = 0;
-        if (!pe->po || FAsegaRetracted(pe->po))
-            f = 1;
+        fDone = 0;
+        if (!pkinde->pvState || FAsegaRetracted(pkinde->pvState))
+            fDone = 1;
         break;
     case 1:
-        f = 0;
-        if (!pe->po || FSmaRetracted(pe->po) || !pe->po->n30)
-            f = 1;
+        fDone = 0;
+        if (!pkinde->pvState || FSmaRetracted(pkinde->pvState) || !pkinde->pvState->fActive)
+            fDone = 1;
         break;
     case 2:
-        f = 0;
-        if (!pe->po || FK2Done(pe->po))
-            f = 1;
+        fDone = 0;
+        if (!pkinde->pvState || FK2Done(pkinde->pvState))
+            fDone = 1;
         break;
     case 3:
-        f = 0;
-        if (!pe->po || FK3Done(pe->po))
-            f = 1;
+        fDone = 0;
+        if (!pkinde->pvState || FK3Done(pkinde->pvState))
+            fDone = 1;
         break;
     case -1:
     default:
-        f = 1;
+        fDone = 1;
         break;
     }
-    return f;
+    return fDone;
 }

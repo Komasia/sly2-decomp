@@ -1,7 +1,8 @@
-struct ENTRY;
-struct S { char pad[0x2C0]; long mask; };
-struct ENTRY *PkindeBest__FP5GUARDUl(struct S *p, long mask);
-struct ENTRY *func_00209BC0(struct S *p)
+/* func_00209BC0 (0x209BC0): the kind table entry that best fits the guard's current states. */
+struct KINDEM;
+struct GUARD { char pad[0x2C0]; long grfState; };
+struct KINDEM *PkindeBest__FP5GUARDUl(struct GUARD *pguard, long grfState);
+struct KINDEM *func_00209BC0(struct GUARD *pguard)
 {
-    return PkindeBest__FP5GUARDUl(p, p->mask);
+    return PkindeBest__FP5GUARDUl(pguard, pguard->grfState);
 }

@@ -1,4 +1,4 @@
-/* class: GUARD (SafeHouse guardstart.cpp: 0x103F40 -> 0x20A100, the guard's station - +0xF68 the object, +0xF70 the
+/* func_0020A100 (0x20A100, via 0x103F40): sets the guard's station - +0xF68 the object, +0xF70 the
  * point in its frame; a running station job (0x9C) in state 16 gets them too). */
 typedef int qword __attribute__((mode(TI)));
 struct LO;
@@ -16,20 +16,20 @@ struct JOB9C {
 };
 struct GUARD {
     /* 0x000 */ char pad0[0x26c];
-    /* 0x26c */ char stack[4];         /* SafeHouse port: the job stack */
+    /* 0x26c */ char bhvstk[4];        /* the job stack (field: SafeHouse port) */
     /* 0x270 */ char pad270[0xf68 - 0x270];
     /* 0xf68 */ struct LO *ploStation;   /* field: SafeHouse port */
     /* 0xf6c */ int padf6c;
     /* 0xf70 */ qword posStation;        /* field: SafeHouse port - in the object's frame */
 };
-struct JOB9C *PjobFind__FP5GUARDPv(void *pstack, int cid);
+struct JOB9C *PjobFind__FP5GUARDPv(void *pbhvstk, int cid);
 
 void func_0020A100(struct GUARD *pguard, struct LO *plo, qword pos)
 {
     struct JOB9C *pjob;
     pguard->ploStation = plo;
     pguard->posStation = pos;
-    pjob = PjobFind__FP5GUARDPv(pguard->stack, 0x9C);
+    pjob = PjobFind__FP5GUARDPv(pguard->bhvstk, 0x9C);
     if (pjob != 0) {
         struct LO *ploStation = pguard->ploStation;
         if (ploStation != 0 && pjob->st == 0x10) {

@@ -1,63 +1,60 @@
-struct H { int id; void *table; };
-struct DIRECTION_STATE;
-struct MARKER;
-union PAYLOAD {
-    int oid;
-    struct H *curvature;
-    struct DIRECTION_STATE *direction;
-    void *resource;
-};
-struct E { int kind; union PAYLOAD value; int n8, nC; };
+/* ResolveKinde (0x209130): resolves a guard kind entry: a KIND2 / KIND3 resolves its clips; otherwise its oid is
+ * looked up near the guard (FSO_FindNearest): an ASEG with a launch event 0x22 becomes a KIND2 around it, another ASEG stays
+ * an ASEG entry, an SM an SM entry (unset ApplyAseg flags become 0); anything else, or nothing, no entry. */
+#include "cid.h"
+#include "h6_guard.h"
 extern char g_sw[];
-void func_0020BD88(struct H *, void *);
-void ResolveK3__FP5KIND3P3ALO(struct DIRECTION_STATE *, void *);
-void *PloFindSwNearest__FP2LO3OIDii(void *, int, int, void *);
-int func_00132EA0(void *);
-struct MARKER *PeventLaunch__FP5KINDEi(void *, int);
-struct H *func_0020C010(int);
-void func_0020BD78(struct H *);
+void func_0020BD88(KIND2 *pk2, void *pguard);                  /* resolves a KIND2 */
+void ResolveK3__FP5KIND3P3ALO(KIND3 *pk3, void *pguard);
+void *PloFindSwNearest__FP2LO3OIDii(void *psw, int grffso, int oid, void *ploNear);
+#define FSO_FindNearest 4   /* GRFFSO find mode: the nearest object with the oid (Sly 1 so.h FSO_FindNearest) */
+int func_00132EA0(void *plo);                                  /* the object's cid */
+void *PeventLaunch__FP5KINDEi(void *paseg, int nEvent);
+KIND2 *func_0020C010(int cb);                                  /* new KIND2 */
+void func_0020BD78(KIND2 *pk2);                                /* KIND2 init */
+
 
 // name: SafeHouse port (ResolveKinde)
-void ResolveKinde__FP5KINDEP5GUARD(struct E *e, void *context)
+void ResolveKinde__FP5KINDEP5GUARD(KINDE *pkinde, void *pguard)
 {
-    void *resource;
-    if (e->kind != 2) {
-        if (e->kind == 3) {
-            ResolveK3__FP5KIND3P3ALO(e->value.direction, context);
+    void *plo;
+    if (pkinde->k != KINDK_Kind2) {
+        if (pkinde->k == KINDK_Kind3) {
+            ResolveK3__FP5KIND3P3ALO(pkinde->u.pk3, pguard);
             return;
         }
     } else {
-        func_0020BD88(e->value.curvature, context);
+        func_0020BD88(pkinde->u.pk2, pguard);
         return;
     }
-    resource = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, e->value.oid, context);
-    if (!resource) {
-        e->kind = -1;
+    plo = PloFindSwNearest__FP2LO3OIDii(g_sw, FSO_FindNearest, pkinde->u.oid, pguard);
+    if (!plo) {
+        pkinde->k = KINDK_None;
         return;
     }
-    switch (func_00132EA0(resource)) {
-    case 0x6D:
-        if (PeventLaunch__FP5KINDEi(resource, 0x22)) {
-            e->kind = 2;
-            e->value.curvature = func_0020C010(0x40);
-            func_0020BD78(e->value.curvature);
-            e->value.curvature->table = resource;
-            func_0020BD88(e->value.curvature, context);
-            if (e->nC == -1)
-                e->nC = 0;
+    switch (func_00132EA0(plo)) {
+    case CID_ASEG:
+        if (PeventLaunch__FP5KINDEi(plo, 0x22)) {
+            pkinde->k = KINDK_Kind2;
+            pkinde->u.pk2 = func_0020C010(sizeof(KIND2));
+            func_0020BD78(pkinde->u.pk2);
+            pkinde->u.pk2->paseg = plo;
+            func_0020BD88(pkinde->u.pk2, pguard);
+            if (pkinde->grf == -1)
+                pkinde->grf = 0;
         } else {
-            e->value.resource = resource;
-            e->kind = 0;
+            pkinde->u.plo = plo;
+            pkinde->k = KINDK_Aseg;
         }
         break;
-    case 0x6F:
-        e->kind = 1;
-        e->value.resource = resource;
-        if (e->nC == -1)
-            e->nC = 0;
+    case CID_SM:
+        pkinde->k = KINDK_Sm;
+        pkinde->u.plo = plo;
+        if (pkinde->grf == -1)
+            pkinde->grf = 0;
         break;
     default:
-        e->kind = -1;
+        pkinde->k = KINDK_None;
         break;
     }
 }

@@ -1,25 +1,29 @@
 #include "cid.h"
 extern struct { float t; float dt; } g_clock;
-extern float D_002C3DAC;
-struct X { int pad; int n4; int pad2; float tC; };
-struct S { char pad[0x2C0]; long fl; char pad2[0x3D0 - 0x2C8]; int n3D0; char pad3[0xF64 - 0x3D4]; void *pF64; };
-int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int n);
-long func_00207A20(int n);
-struct X *PdetentryFind__FP8DETECTORi(void *p, void *q);
+extern float D_002C3DAC;   /* how long a just-seen source still surprises */
+/* a detector entry: its state and when it was seen */
+struct DETENTRY { int pad; int st; int pad2; float tC; };
+struct GUARD { char pad[0x2C0]; long grfState; char pad2[0x3D0 - 0x2C8]; int n3D0; char pad3[0xF64 - 0x3D4]; void *pdet; };
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
+long func_00207A20(int st);
+struct DETENTRY *PdetentryFind__FP8DETECTORi(void *pdet, void *plo);
+/* FGuardSurprised (0x20A298): whether a hit from psource takes the guard by surprise: not after +0x3D0; yes for Murray
+ * (cid 0x36) unless the guard is cid 0x3A or in state 6; yes when the detector has not seen the source, or saw it
+ * only just now; otherwise only in the states of grfMask. */
 // name: SafeHouse port (FGuardSurprised)
-int FGuardSurprised__FP5GUARDP2LOUl(struct S *p, void *q, long mask)
+int FGuardSurprised__FP5GUARDP2LOUl(struct GUARD *pguard, void *psource, long grfMask)
 {
-    struct X *x;
-    if (p->n3D0)
+    struct DETENTRY *pdetentry;
+    if (pguard->n3D0)
         goto ret0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_MURRAY) && !FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_GUNGUARD) && !(p->fl & func_00207A20(6)))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(psource, CID_MURRAY) && !FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_GUNGUARD) && !(pguard->grfState & func_00207A20(6)))
         goto ret1;
-    x = PdetentryFind__FP8DETECTORi(p->pF64, q);
-    if (!x)
+    pdetentry = PdetentryFind__FP8DETECTORi(pguard->pdet, psource);
+    if (!pdetentry)
         goto ret1;
-    if (!x->n4 || g_clock.t - x->tC < D_002C3DAC)
+    if (!pdetentry->st || g_clock.t - pdetentry->tC < D_002C3DAC)
         goto ret1;
-    if (!(p->fl & mask))
+    if (!(pguard->grfState & grfMask))
         goto ret0;
 ret1:
     return 1;

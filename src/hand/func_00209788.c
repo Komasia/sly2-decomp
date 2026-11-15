@@ -1,4 +1,4 @@
-/* class: MOVEREF, a guard's current move (SafeHouse aijobs.cpp: "pg->move.pjob = this; // orig 0x209788"). */
+/* func_00209788 (0x209788): MOVEREF: the guard's current move job set (SafeHouse aijobs.cpp: "pg->move.pjob = this"). */
 struct AIJOB;
 struct GUARD;
 /* the guard's current move (GUARD +0xFD0; SafeHouse guard.h MOVEREF) */

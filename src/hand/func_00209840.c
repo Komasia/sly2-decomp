@@ -1,5 +1,5 @@
-/* class: MOVEREF, a guard's current move (SafeHouse aijobs.cpp / carry.cpp: the heading's frame (the guard's +0x1B0
- * rows) set unless the heading is locked). */
+/* func_00209840 (0x209840): MOVEREF: the guard's heading frame (STEP::matTarget, +0x1B0
+ * rows) set unless the heading is locked (SafeHouse aijobs.cpp / carry.cpp). */
 typedef int qword __attribute__((mode(TI)));
 struct AIJOB;
 struct M3ROWS {

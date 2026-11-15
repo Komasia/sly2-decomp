@@ -1,65 +1,72 @@
 #include "cid.h"
 typedef int qword __attribute__((mode(TI)));
-struct L { char pad[0x28]; unsigned long fl28; };
-struct Y { char pad[0x50]; void *p50; char pad2[0x5C - 0x54]; void *p5C; };
-struct X { char pad[0x10DC]; void *p10DC; int pad2; int n10E4; char pad3[0x10F0 - 0x10E8]; int n10F0; };
-struct S {
-    char pad0[0x2C0]; unsigned long fl2C0; char pad1[0x364 - 0x2C8]; int n364; char a368[8]; char a370[8]; float f378; int n37C;
-    char a380[8]; float f388; void *p38C; char pad2[0x3F4 - 0x390]; struct L *p3F4; struct L *p3F8;
+struct LOF { char pad[0x28]; unsigned long grfLo; };
+/* the hit (0xA1 / 0xA2: its source) and carry (0xB1: its owner) jobs */
+struct JOBHIT { char pad[0x50]; void *psource; char pad2[0x5C - 0x54]; void *ploOwner; };
+/* the actor's current target (+0x10DC) and its kind, and whether it can be targeted */
+struct ACTOR { char pad[0x10DC]; void *ploTarget; int pad2; int nTargetKind; char pad3[0x10F0 - 0x10E8]; int fTargetable; };
+struct GUARD {
+    char pad0[0x2C0]; unsigned long grfState; char pad1[0x364 - 0x2C8]; int fNear; char lmNearCarry[8]; char lmNear[8]; float sNear; int fFar;
+    char lmFar[8]; float sFar; void *ploPursued; char pad2[0x3F4 - 0x390]; struct LOF *plo3F4; struct LOF *plo3F8;
 };
-extern float D_002C3D90;
-extern float D_002C3D94;
-void LookScore__FP5ACTORP2LOPP2LOPfT3(struct X *x, struct S *p, void *pv, float *pd, float *pa);
+extern float D_002C3D90;   /* -500 */
+extern float D_002C3D94;   /* 0.7 */
+void LookScore__FP5ACTORP2LOPP2LOPfT3(struct ACTOR *pactor, struct GUARD *pguard, void *pploTarget, float *pdxy, float *pdz);
 unsigned long func_00207A20(int n);
-int FGuardState(struct S *p, int n) asm("FGuardState__FP5GUARDi");
-struct Y *func_00205458(struct S *p, int n);
+int FGuardState(struct GUARD *pguard, int n) asm("FGuardState__FP5GUARDi");
+struct JOBHIT *func_00205458(struct GUARD *pguard, int cid);   /* PjobFind */
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *po, int n);
-qword PosOfLo__FP2LO(void *p);
-int FPointInShape__FP2LOG9VU_VECTOR(struct L *pl, qword q);
-int FCheckLm(void *p, float f) asm("FCheckLm__FP2LMf");
+qword PosOfLo__FP2LO(void *pv);
+int FPointInShape__FP2LOG9VU_VECTOR(struct LOF *pl, qword q);
+int FCheckLm(void *plm, float g) asm("FCheckLm__FP2LMf");
 
+/* NRankGuard (0x208E70): the guard's rank for the actor: 4 the actor is the object of its pursuit / hit / carry
+ * (or any actor is), 3 the actor is inside its volume +0x3F4 (+0x3F8 when it is the actor's current target of
+ * kind 3), 2 near (within sNear * 0.7 and the near height range), 1 far (within sFar and the far height range),
+ * else 0; *pgDist the horizontal distance (500 nearer for the actor it carries). Field names: SafeHouse port
+ * (target.cpp NRankGuard). */
 // name: SafeHouse port (NRankGuard)
-int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
+int NRankGuard__FP5GUARDP5ACTORPf(struct GUARD *pguard, struct ACTOR *pactor, float *pgDist)
 {
-    float d, ang;
-    void *o;
-    struct L *pl;
-    void *pv;
-    LookScore__FP5ACTORP2LOPP2LOPfT3(x, p, &x->p10DC, &d, &ang);
-    if (pout)
-        *pout = d;
-    if (!(p->fl2C0 & func_00207A20(1))) {
-        if (p->n364 && x->n10F0) {
-            if (FGuardState(p, 0x1D))
-                o = p->p38C;
-            else if (FGuardState(p, 5))
-                o = func_00205458(p, 0xA1)->p50;
-            else if (FGuardState(p, 6))
-                o = func_00205458(p, 0xA2)->p50;
-            else if (FGuardState(p, 0x17)) {
-                o = func_00205458(p, 0xB1)->p5C;
-                if (o == x)
-                    *pout += D_002C3D90;
+    float dxy, dz;
+    void *ploGrab;
+    struct LOF *ploVolume;
+    void *plmNear;
+    LookScore__FP5ACTORP2LOPP2LOPfT3(pactor, pguard, &pactor->ploTarget, &dxy, &dz);
+    if (pgDist)
+        *pgDist = dxy;
+    if (!(pguard->grfState & func_00207A20(1))) {
+        if (pguard->fNear && pactor->fTargetable) {
+            if (FGuardState(pguard, 0x1D))
+                ploGrab = pguard->ploPursued;
+            else if (FGuardState(pguard, 5))
+                ploGrab = func_00205458(pguard, 0xA1)->psource;
+            else if (FGuardState(pguard, 6))
+                ploGrab = func_00205458(pguard, 0xA2)->psource;
+            else if (FGuardState(pguard, 0x17)) {
+                ploGrab = func_00205458(pguard, 0xB1)->ploOwner;
+                if (ploGrab == pactor)
+                    *pgDist += D_002C3D90;
             } else
-                o = 0;
-            if (o) {
-                if (o == x)
+                ploGrab = 0;
+            if (ploGrab) {
+                if (ploGrab == pactor)
                     return 4;
-                if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_ACTOR))
+                if (FIsBasicDerivedFrom__FP5BASIC3CID(ploGrab, CID_ACTOR))
                     return 4;
             }
         }
-        if (p == x->p10DC && x->n10E4 == 3)
-            pl = p->p3F8;
+        if (pguard == pactor->ploTarget && pactor->nTargetKind == 3)
+            ploVolume = pguard->plo3F8;
         else
-            pl = p->p3F4;
-        if (pl && !!((pl->fl28 >> 60) & 1) && FPointInShape__FP2LOG9VU_VECTOR(pl, PosOfLo__FP2LO(x)))
+            ploVolume = pguard->plo3F4;
+        if (ploVolume && !!((ploVolume->grfLo >> 60) & 1) && FPointInShape__FP2LOG9VU_VECTOR(ploVolume, PosOfLo__FP2LO(pactor)))
             return 3;
     }
-    pv = FGuardState(p, 0x17) ? p->a368 : p->a370;
-    if (d <= p->f378 * D_002C3D94 && FCheckLm(pv, ang) && p->n364)
+    plmNear = FGuardState(pguard, 0x17) ? pguard->lmNearCarry : pguard->lmNear;
+    if (dxy <= pguard->sNear * D_002C3D94 && FCheckLm(plmNear, dz) && pguard->fNear)
         return 2;
-    if (d <= p->f388 && FCheckLm(p->a380, ang) && p->n37C)
+    if (dxy <= pguard->sFar && FCheckLm(pguard->lmFar, dz) && pguard->fFar)
         return 1;
     return 0;
 }
