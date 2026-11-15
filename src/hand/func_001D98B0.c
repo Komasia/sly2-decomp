@@ -1,7 +1,7 @@
 /* class: HUD widget (HUD widget vtable entries: 9 focus change, 10 Show 0x1D98B0, 11 Hide 0x1D9910, 12 find the screen object
  * 0x1DA770, 13 reset 0x1DA7B0, 14 the state): the base Show (entry 10; ShowMenuWidget calls it) - the widget moved to the front of the
  * HUD's list D_003D9E70, then the focus brought up to date (0x1D95B8). */
-typedef struct DL { void *head; void *tail; int ibDle; } DL;
+#include "dl.h"
 typedef struct HUDLIST {
     /* 0x0 */ DL dl;
     /* 0xc */ void *pwidgetFocus;

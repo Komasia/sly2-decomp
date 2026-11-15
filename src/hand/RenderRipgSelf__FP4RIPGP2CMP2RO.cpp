@@ -1,4 +1,4 @@
-struct DL { void *head; void *tail; int ibDle; };
+#include "dl.h"
 struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; DLI *m_pdliNext; };
 extern DLI *s_pdliFirst;
 #include "clock.h"

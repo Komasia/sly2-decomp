@@ -5,9 +5,9 @@
 // `struct EMPTY { ~EMPTY() {} };` and `struct { int n; ~X() {} }` both MATCH; ctor-only empty class = no slot (18/321);
 // an unused local whose address goes to an inline helper that ignores it is purged (18/321). So the real object is a
 // never-touched RAII-style object (inline empty dtor) or a volatile. Rest of the code is lilly4 (StoreX estimate).
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 struct MSG { int cb; int nKind; };
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
 struct NAV { char pad[0x124]; int index; };
 struct EDGE { char pad[0x128]; NAV *pnavDest; int pad12C; qword posBegin; qword posEnd; };
 struct ADJ { int cedge; int *aiedge; };
@@ -87,7 +87,7 @@ extern "C" int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(GRAPH *pgraph,
     pnode->state = 2;
     AppendNode(&dlOpen, pnode);
     while (!FIsDlEmpty(&dlOpen)) {
-        pnode = (NODE *)dlOpen.pvFirst;
+        pnode = (NODE *)dlOpen.head;
         if (fExact) {
             if (pnode->pnav == pnavGoal)
                 break;
@@ -135,7 +135,7 @@ extern "C" int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(GRAPH *pgraph,
             pnodeDest->gEstimate = gEstimate;
             pnodeDest->state = 2;
             NODE *pnodeNext;
-            for (pnodeNext = (NODE *)dlOpen.pvFirst; pnodeNext; pnodeNext = pnodeNext->pnodeNext) {
+            for (pnodeNext = (NODE *)dlOpen.head; pnodeNext; pnodeNext = pnodeNext->pnodeNext) {
                 if (pnodeNext->gEstimate > pnodeDest->gEstimate)
                     break;
             }

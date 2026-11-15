@@ -1,5 +1,4 @@
-typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
-typedef struct DLE { void *pvNext; void *pvPrev; } DLE;
+#include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; int nUnused; } DLI;
 
 typedef struct DZ {
@@ -63,7 +62,7 @@ void EnforceDzgConstraints__FP3DZG(DZG *pdzg)
         DZ *pdzMin = 0;
         float gMin = -0.01f;
         DZ *pdzT;
-        for (pdzT = (DZ *)pdzg->dlD.pvFirst; pdzT; pdzT = (DZ *)pdzT->dle.pvNext) {
+        for (pdzT = (DZ *)pdzg->dlD.head; pdzT; pdzT = (DZ *)pdzT->dle.next) {
             if (pdzT->g10 < gMin) {
                 gMin = pdzT->g10;
                 pdzMin = pdzT;

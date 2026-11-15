@@ -1,3 +1,4 @@
+#include "dl.h"
 // func_00139DC0 (0x139DC0): CPU fallback of func_00139AB8 (taken when p->x160 != 0 or D_002BC9C0 is set). For every particle
 // batch in the DLI list at p->dl it copies the live particles (b.w > clock.t) from abuf[i] to abuf[(i + 1) & 1]: x160 0 =
 // velocity transformed by UpdatePsys's matrix, 1 = plain copy, 2 = Hermite path; x43C == 2 updates c.w through
@@ -28,7 +29,6 @@ static inline qword Mid(qword a, qword b, VU_FLOAT h)
 struct M4 { qword r[4]; };
 struct VECTOR { union { struct { float x, y, z; } v; qword q; }; };
 
-struct DL { void *head; void *tail; int ibDle; };
 struct DLI { struct DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; };
 struct BUF { VEC a[0x2B]; VEC b[0x2B]; VEC c[0x2B]; char pad[0x840 - 0x810]; };
 struct E { qword v0; qword v10; };

@@ -1,4 +1,4 @@
-struct DL { void *a, *b; int ib; };
+#include "dl.h"
 struct S { char pad[0x58]; int n58; struct DL dl; };
 void InitLo__FP2LO(struct S *p);
 void InitDl__FP2DLi(struct DL *pdl, int ib);

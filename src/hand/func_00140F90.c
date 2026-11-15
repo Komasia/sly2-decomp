@@ -1,3 +1,4 @@
+#include "dl.h"
 // HandleActorMessage__FP5ACTOR5MSGIDPv (0x140F90): message handler (p, msg, pv): msg 3 resets x1038 and stops the 0xDF0/0x11B0 actions, msg 9 (pso->p18 == p)
 // switches on pmsg->k (0x15E: x190 = -v and virtual slot 35 called with the 0x1B0 rows times v; 0x161/0x162; 0x27B/0x27C; 0x1C7/0x1C8),
 // msgs 4/5 call virtual slots 8/9 on the 0x1090 entries, msg 1 / msg 11 release 0x4D4 / 0x1310; then forwards to OfferJobMessage__FP5GUARDii/HandlePoMessage__FP2PO5MSGIDPv.
@@ -6,7 +7,6 @@
 // in vf6 by itself; with the plain asms sched2 orders lh / lqc2 / lqc2 / addu / lw like the target.
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 struct VT { VTENT a[64]; };

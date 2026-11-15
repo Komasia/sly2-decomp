@@ -9,6 +9,7 @@
 //    ranks the vF0 chain above mat.r[2] (vF0 vf1 instead of vf2).
 //  * Plain Sub (2 refs on pcm->pos): with SubE's duplicate operand the cm pos qty outranks the vF0 chain (vf2/vf3 swap).
 //  * The empty "=r"(z) asm only exists for sched2 (see the comment there).
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 struct CM;
 struct M3 { qword r[3]; };
@@ -23,7 +24,6 @@ struct VU_FLOAT {
        (sched1 then keeps the lw and the lui apart, and both get v0 like the target) */
     VU_FLOAT(const float *pf, CM *pcm) { __asm__("lw %0, %1" : "=r"(q) : "m"(*pf), "r"(pcm)); }
 };
-struct DL { void *head; void *tail; int ibDle; };
 struct LO;
 struct EX { int pad[2]; struct LO **pplo; };
 struct LO { char pad[0x10]; LO *x10; char pad14[0x38 - 0x14]; float g38; char pad3C[0xE4 - 0x3C]; EX *xE4; char padE8[0x11C - 0xE8]; LO *x11C; char pad120[8]; LO *x128; };

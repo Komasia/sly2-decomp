@@ -1,9 +1,9 @@
 #include "vtbl.h"
-struct DL{void*first;void*last;int linkOffset;};
+#include "dl.h"
 extern void*s_pdliFirst;
 struct DLI{
  DL*list;void**next;int linkOffset;void*previous;
- DLI(DL*owner){int offset=owner->linkOffset;previous=s_pdliFirst;s_pdliFirst=this;list=owner;next=(void**)owner;linkOffset=offset;}
+ DLI(DL*owner){int offset=owner->ibDle;previous=s_pdliFirst;s_pdliFirst=this;list=owner;next=(void**)owner;linkOffset=offset;}
  ~DLI(){s_pdliFirst=previous;}
  void*Next(){void*value=*next;next=(void**)((unsigned int)value+linkOffset);return value;}
 };
@@ -38,10 +38,6 @@ extern "C" void func_00160CE0(FR*frame){
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef char Pointer_Size[sizeof(void*)==4?1:-1];
 typedef char Integer_Size[sizeof(int)==4&&sizeof(unsigned int)==4?1:-1];
-typedef char DL_Size[sizeof(DL)==12?1:-1];
-typedef char DL_First[FIELD_OFFSET(DL,first)==0?1:-1];
-typedef char DL_Last[FIELD_OFFSET(DL,last)==4?1:-1];
-typedef char DL_LinkOffset[FIELD_OFFSET(DL,linkOffset)==8?1:-1];
 typedef char DLI_Size[sizeof(DLI)==16?1:-1];
 typedef char DLI_List[FIELD_OFFSET(DLI,list)==0?1:-1];
 typedef char DLI_Next[FIELD_OFFSET(DLI,next)==4?1:-1];

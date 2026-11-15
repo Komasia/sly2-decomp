@@ -1,6 +1,6 @@
 #include "vifs.h"
 #include "gifs.h"
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
+#include "dl.h"
 struct FR {
     int cqwGifs;     /* 0x00 */
     QW *aqwGifs;     /* 0x04 */

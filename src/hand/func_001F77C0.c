@@ -1,7 +1,7 @@
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
 struct DLI { struct DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; };
 extern struct DLI *s_pdliFirst;
 #include "clock.h"
+#include "dl.h"
 struct E { char pad[0x4C]; float t; };
 struct P { char pad[0x4118]; char pool[0x18]; struct DL dl; };
 void RemoveDlEntry__FP2DLPv(struct DL *, void *);

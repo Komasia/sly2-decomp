@@ -1,4 +1,4 @@
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
+#include "dl.h"
 extern "C" void func_00234700(int n, int (*pfn)(), int m);
 extern "C" void func_00235178(int n);
 extern "C" void InitDl(DL *pdl, int ib) asm("InitDl__FP2DLi");

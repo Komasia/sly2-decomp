@@ -9,6 +9,7 @@
    - px lives in $s1 for both polygon loops in the original; without the pin it swaps with the polygon index (s0/s1)
      (single register pin; GetMat is written out by hand because an inline helper's parameter copy fights the pin). */
 #include "vtbl.h"
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct CTX;
@@ -16,7 +17,6 @@ extern "C" CTX*__10STACKSCOPE(CTX*);
 extern "C" void _$_10STACKSCOPE(CTX*,int);
 struct CTX { CTX(){(void)__10STACKSCOPE(this);}~CTX(){_$_10STACKSCOPE(this,2);} };
 struct AREQ { int cb; int align; AREQ(int c, int a) { cb = c; align = a; } };
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
 struct DLI { DL *pdl; void **ppv; int ibDle; DLI *pdliNext; };
 struct X;
 struct X { int x0, x4, x8; VTENT *vt; char pad[0xE4 - 0x10]; int xE4; int c; char pad2[0xF4 - 0xEC]; qword *apos;

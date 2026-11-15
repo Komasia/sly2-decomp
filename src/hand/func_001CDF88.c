@@ -1,9 +1,9 @@
 // Recompute the bounds of an object from its list of child objects: run the due children's update, accumulate the
 // min/max of their two corner vectors, optionally grow by the object's size, then derive the center and radius and notify.
 #include "vtbl.h"
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
-typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 typedef struct VT { VTENT a[16]; } VT;
 typedef struct S {

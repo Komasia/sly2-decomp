@@ -1,5 +1,4 @@
-typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
-typedef struct DLE { void *pvNext; void *pvPrev; } DLE;
+#include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))
 
@@ -13,7 +12,7 @@ void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv)
 
     while (pdli) {
         if ((DLE *)pdli->ppv == pdle) {
-            void *pvPrev = pdle->pvPrev;
+            void *pvPrev = pdle->prev;
             if (pvPrev) {
                 pdli->ppv = (void **)PDLE(pdl, pvPrev);
             } else {
@@ -23,20 +22,20 @@ void RemoveDlEntry__FP2DLPv(DL *pdl, void *pv)
         pdli = pdli->pdliNext;
     }
 
-    pvT = pdle->pvPrev;
+    pvT = pdle->prev;
     if (pvT) {
-        PDLE(pdl, pvT)->pvNext = pdle->pvNext;
+        PDLE(pdl, pvT)->next = pdle->next;
     } else {
-        pdl->pvFirst = pdle->pvNext;
+        pdl->head = pdle->next;
     }
 
-    pvT = pdle->pvNext;
+    pvT = pdle->next;
     if (pvT) {
-        PDLE(pdl, pvT)->pvPrev = pdle->pvPrev;
+        PDLE(pdl, pvT)->prev = pdle->prev;
     } else {
-        pdl->pvLast = pdle->pvPrev;
+        pdl->tail = pdle->prev;
     }
 
-    pdle->pvNext = 0;
-    pdle->pvPrev = 0;
+    pdle->next = 0;
+    pdle->prev = 0;
 }

@@ -1,4 +1,4 @@
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
+#include "dl.h"
 extern struct DL D_003E1A4C;
 void RemoveDlEntry__FP2DLPv(struct DL *pdl, void *pv);
 void func_001BD040(void *pv);
@@ -7,7 +7,7 @@ int FIsDlEmpty__FP2DL(struct DL *pdl);
 void UpdateNavPolys__Fv(void)
 {
     while (!FIsDlEmpty__FP2DL(&D_003E1A4C)) {
-        void *pv = D_003E1A4C.pvFirst;
+        void *pv = D_003E1A4C.head;
         RemoveDlEntry__FP2DLPv(&D_003E1A4C, pv);
         func_001BD040(pv);
     }

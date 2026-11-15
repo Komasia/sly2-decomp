@@ -1,5 +1,5 @@
 #include "clock.h"
-struct DL { void *a, *b; int c; };
+#include "dl.h"
 extern struct DL D_003E1444;
 struct S { char pad[0xFF8]; float t; };
 void func_001F3E00(struct S *p);

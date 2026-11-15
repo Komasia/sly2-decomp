@@ -1,6 +1,6 @@
 /* func_0014C2D8 (called by StartupJoy): the cheat codes (Sly 1 joy.h CODE, 0x38-byte records 0x2BD4E0..0x2BD7F0)
  * - the list's entry offset set to 0x18 (0x11A050), then the 15 codes added (0x14BEA8, Sly 1 AddCode). */
-typedef struct DL { void *head; void *tail; int ibDle; } DL;
+#include "dl.h"
 typedef struct CODE { char ab[0x38]; } CODE;
 
 void func_0011A050(DL *pdl, int ibDle);

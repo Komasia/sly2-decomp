@@ -27,8 +27,8 @@ public:
     char pad5[0xF4 - 0xB8];
     int ff4;
 };
-struct DL { void *pvFirst; void *pvLast; int ibDle; };
 #include "clock.h"
+#include "dl.h"
 extern DL D_003E0F90;
 extern char g_game[];
 extern int D_002DEB44;

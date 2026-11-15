@@ -6,11 +6,11 @@
 // store_constructor clears the struct (sq zero) and then ALWAYS emits a CLOBBER for the union member, even when already
 // cleared (expr.c, UNION_TYPE). That clobber is deleted by reload, so it only exists for sched1: it sits between lwc1 A
 // and lui B in the sched1 stream, which lets local-alloc give both pool his $v0 (and the zero reload $v1).
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 #define FLT_MAX 3.40282347e+38f /* $LC0/$LC1 at 0x2A4AF4/0x2A4AF8: this function's literal pool */
 struct VECTOR { union { struct { float x, y, z; } v; qword q; }; };
 struct M4 { qword a[4]; };
-struct DL { void *head; void *tail; int ibDle; };
 struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; DLI *m_pdliNext; };
 struct BUF { char ab[0x2B0]; char ab2[0x560 - 0x2B0]; char ab3[0x840 - 0x560]; };
 struct Q { BUF abuf[2]; int i; int c; };

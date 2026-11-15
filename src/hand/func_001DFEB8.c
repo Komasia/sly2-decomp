@@ -1,5 +1,5 @@
 #include "vtbl.h"
-typedef struct DL { void *pvFirst; void *pvLast; int ibDle; } DL;
+#include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 typedef struct OBJ OBJ;

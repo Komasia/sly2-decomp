@@ -13,6 +13,7 @@
 #include "common.h"
 #include "mat.h"
 #include "vtbl.h"
+#include "dl.h"
 
 #ifndef SLY2_QWORD
 #define SLY2_QWORD
@@ -34,8 +35,6 @@ enum {
     VT_UpdateSoBounds = 49  /* slot 48, introduced by SO */
 };
 
-typedef struct DLE { void *next; void *prev; } DLE;          /* doubly-linked list entry */
-typedef struct DL { void *head; void *tail; int ibDle; } DL;  /* list head; ibDle = offset of the DLE in an item */
 
 struct SO;
 

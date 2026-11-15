@@ -1,6 +1,6 @@
 #include "vtbl.h"
+#include "dl.h"
 typedef unsigned long ulong;
-typedef struct DL { void *head; void *tail; int ibDle; } DL;
 typedef struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext; } DLI;
 extern DLI *s_pdliFirst;
 struct O { char pad[0xC]; VTENT *pvt; char pad2[0x28 - 0x10]; ulong fl; };
