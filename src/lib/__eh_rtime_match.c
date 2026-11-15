@@ -5,6 +5,9 @@
 typedef void *(*__eh_matcher)(void *, void *, void *);
 typedef struct { __eh_matcher match_function; short language; short version; } __eh_info;
 void **__get_eh_info(void);
+
+/* __eh_rtime_match (libgcc): does the exception being thrown match the runtime type `rtime`? Asks the
+   language-specific matcher in the current __eh_info. */
 int __eh_rtime_match(void *rtime)
 {
     void *info;

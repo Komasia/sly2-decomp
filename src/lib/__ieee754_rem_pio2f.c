@@ -1,7 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fno-strength-reduce
 // SLY2_ASM: gnu-reorder-db
-// (Claude agent) fdlibm ef_rem_pio2f; two8 copied to a local before the tx loop fixes the hoist order.
+/* __ieee754_rem_pio2f (newlib/fdlibm ef_rem_pio2.c): x mod pi/2 in float, returns the quadrant.
+   two8 is copied to a local before the tx loop (keeps the original hoist order). */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

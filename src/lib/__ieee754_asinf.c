@@ -1,8 +1,8 @@
-// (Claude agent) fdlibm ef_asin.c (old newlib constants pio2_hi 0x3FC90FDA, pio2_lo 0x33A22168). Built with ee-gcc2.9-991111-01,
-// whose divsf3 is the native Sony `nop; nop; div.s` noreorder unit (fixes the reorg delay-slot gap).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111-01
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __ieee754_asinf (newlib/fdlibm ef_asin.c, old newlib constants pio2_hi 0x3FC90FDA, pio2_lo 0x33A22168):
+   asin in float. Built with Sony's libm compiler ee-gcc2.9-991111-01 (division = `nop; nop; div.s`). */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

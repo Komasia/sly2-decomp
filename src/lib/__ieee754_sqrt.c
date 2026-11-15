@@ -1,7 +1,7 @@
-// (Claude agent) fdlibm e_sqrt.c; ee-gcc2.9-991111 gnu-reorg.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorg
+/* __ieee754_sqrt (newlib/fdlibm e_sqrt.c): bit-by-bit double square root. */
 /*
  * Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
  * Developed at SunPro, a Sun Microsystems, Inc. business.

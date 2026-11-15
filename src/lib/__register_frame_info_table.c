@@ -1,5 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* __register_frame_info_table (libgcc frame.c): register a table of FDE pointers as an unwind object; it is
+   sorted lazily on first use. */
 struct object { void *pc_begin; void *pc_end; void *fde_begin; void **fde_array; unsigned int count; struct object *next; };
 extern struct object *objects;
 void __register_frame_info_table(void *begin, struct object *ob)

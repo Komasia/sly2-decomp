@@ -4,6 +4,7 @@ typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY 
 typedef unsigned long fractype;
 typedef struct { fp_class_type class; unsigned int sign; int normal_exp; union { fractype ll; } fraction; } fp_number_type;
 double __pack_d(fp_number_type *);
+/* __make_dp (libgcc fp-bit): build a double from class, sign, exponent and fraction. */
 double __make_dp(fp_class_type class, unsigned int sign, int exp, fractype frac)
 {
   fp_number_type in;

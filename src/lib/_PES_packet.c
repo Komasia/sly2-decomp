@@ -1,9 +1,10 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-/* (Claude agent) libmpeg demux: MPEG-2 PES packet header parser. BS helpers as in src/lib/_pack_header.c.
-   Keys: tests on pes->id (no local copy); PTS/DTS as lo/hi like _pack_header; `flags == 3` test outside the
-   `flags & 2` block; block-scoped `len` in the no-header branch. tbl = bit sizes of ES_rate/DSM/copy/CRC fields. */
+/* _PES_packet (libmpeg demux): parse one MPEG-2 PES packet header (ISO 13818-1 2.4.3.6): stream id, length,
+   PTS/DTS and the optional fields, and locate the payload. Bit-stream helpers as in _pack_header.c.
+   Matching notes: tests read pes->id (no local copy); PTS/DTS are built as lo/hi words; the
+   PTS_DTS_flags == 3 test sits outside the `& 2` block; `len` is block-scoped in the no-header branch. */
 typedef struct {
     unsigned long buf, pos;
     unsigned char *base;
@@ -23,6 +24,18 @@ typedef struct {
     int top;            /* bit position of the packet start */
 } PES;
 typedef struct MI MI;
+
+/* stream_id values (kept in the top 32 bits of PES.id) */
+#define PES_ID(sid) ((unsigned long)(sid) << 32)
+#define SID_PROGRAM_STREAM_MAP   PES_ID(0xBC)
+#define SID_PRIVATE_STREAM_1     PES_ID(0xBD)
+#define SID_PADDING_STREAM       PES_ID(0xBE)
+#define SID_PRIVATE_STREAM_2     PES_ID(0xBF)
+#define SID_ECM                  PES_ID(0xF0)
+#define SID_EMM                  PES_ID(0xF1)
+#define SID_DSMCC                PES_ID(0xF2)
+#define SID_ITU_H222_1_E         PES_ID(0xF8)
+#define SID_PROGRAM_STREAM_DIR   PES_ID(0xFF)
 void _sceMpegError(MI *mi, const char *msg);
 
 static __inline__ void Skip(BS *p, int n)
@@ -58,6 +71,8 @@ static __inline__ void SkipBytes(BS *p, int n)
 
 int _PES_packet(MI *mi, BS *p, PES *pes)
 {
+    /* total bits of ES_rate (22+2), DSM_trick_mode (8), additional_copy_info (8) and previous_PES_CRC (16),
+       indexed by their four flags */
     unsigned char tbl[16] = {0, 16, 8, 24, 8, 24, 16, 32, 24, 40, 32, 48, 32, 48, 40, 56};
     unsigned int hi, lo;
     unsigned int flags, escr, misc, ext, hdrlen, a, b, c;
@@ -70,8 +85,8 @@ int _PES_packet(MI *mi, BS *p, PES *pes)
     pes->len = Get(p, 16);
     pes->dts = -1;
     pes->pts = -1;
-    if (pes->id != 0xBC00000000 && pes->id != 0xBE00000000 && pes->id != 0xBF00000000 && pes->id != 0xF000000000
-        && pes->id != 0xF100000000 && pes->id != 0xFF00000000 && pes->id != 0xF200000000 && pes->id != 0xF800000000) {
+    if (pes->id != SID_PROGRAM_STREAM_MAP && pes->id != SID_PADDING_STREAM && pes->id != SID_PRIVATE_STREAM_2 && pes->id != SID_ECM
+        && pes->id != SID_EMM && pes->id != SID_PROGRAM_STREAM_DIR && pes->id != SID_DSMCC && pes->id != SID_ITU_H222_1_E) {
         Skip(p, 2);
         pes->scrambling = Get(p, 2);
         Skip(p, 4);
@@ -135,20 +150,20 @@ int _PES_packet(MI *mi, BS *p, PES *pes)
         n = pes->len - hdrlen - 3;
         pes->datalen = n;
         pes->data = p->pos;
-        if (pes->id == 0xBD00000000) {
+        if (pes->id == SID_PRIVATE_STREAM_1) {
             pes->id |= Get(p, 32);
             n -= 4;
         }
         SkipBytes(p, n);
-    } else if (pes->id == 0xBC00000000 || pes->id == 0xBF00000000 || pes->id == 0xF000000000 || pes->id == 0xF100000000
-               || pes->id == 0xFF00000000 || pes->id == 0xF200000000 || pes->id == 0xF800000000) {
+    } else if (pes->id == SID_PROGRAM_STREAM_MAP || pes->id == SID_PRIVATE_STREAM_2 || pes->id == SID_ECM || pes->id == SID_EMM
+               || pes->id == SID_PROGRAM_STREAM_DIR || pes->id == SID_DSMCC || pes->id == SID_ITU_H222_1_E) {
         int len = pes->len;
-        if (pes->id == 0xBF00000000) {
+        if (pes->id == SID_PRIVATE_STREAM_2) {
             pes->id |= Get(p, 32);
             len -= 4;
         }
         SkipBytes(p, len);
-    } else if (pes->id == 0xBE00000000) {
+    } else if (pes->id == SID_PADDING_STREAM) {
         SkipBytes(p, pes->len);
     }
     return 1;

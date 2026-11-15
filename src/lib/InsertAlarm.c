@@ -1,24 +1,33 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// 26/33: normal mode (target has beql = gcc reorg ON). Structure right; regs differ (target al=a2,key=a3,p=a1) and
-// target has the 2.96-style `nop` after the `b` (loop alignment). 2.96: 25/34. Tried 5 loop shapes, -fstrict-aliasing.
-typedef struct ALARM { struct ALARM *next; struct ALARM *prev; int pad[2]; unsigned long a; unsigned long b; unsigned long c; } ALARM;
-typedef struct { int pad[6]; ALARM *head; } ALARMQ;
-extern ALARMQ D_002C5A30;
-void InsertAlarm(ALARM *al)
+/* InsertAlarm (libkernel timer): insert a counter into the alarm list, kept sorted by the system time at which
+   it fires (schedule + base_time - base_count). */
+typedef struct Counter {
+    struct Counter *timer_next;     /* 0x00 */
+    struct Counter *timer_previous; /* 0x04 */
+    int timer_key;                  /* 0x08 */
+    unsigned int timer_mode;        /* 0x0C */
+    unsigned long timer_base_time;  /* 0x10 */
+    unsigned long timer_base_count; /* 0x18 */
+    unsigned long timer_schedule;   /* 0x20 */
+} Counter;
+typedef struct { int pad[6]; Counter *timer_counter_buf_alarm; /* 0x18 */ } TimerGlobal;
+extern TimerGlobal D_002C5A30;  /* g_Timer */
+
+void InsertAlarm(Counter *counter)
 {
-    ALARM *prev = 0, *p;
-    unsigned long key = al->c + al->a - al->b;
-    p = D_002C5A30.head;
-    while (p) {
-        if (key < p->c + p->a - p->b) break;
-        prev = p;
-        p = prev->next;
+    Counter *prev = 0, *cur;
+    unsigned long fire = counter->timer_schedule + counter->timer_base_time - counter->timer_base_count;
+    cur = D_002C5A30.timer_counter_buf_alarm;
+    while (cur) {
+        if (fire < cur->timer_schedule + cur->timer_base_time - cur->timer_base_count) break;
+        prev = cur;
+        cur = prev->timer_next;
     }
-    al->prev = prev;
-    al->next = p;
-    if (p) p->prev = al;
-    if (prev) prev->next = al;
-    else D_002C5A30.head = al;
+    counter->timer_previous = prev;
+    counter->timer_next = cur;
+    if (cur) cur->timer_previous = counter;
+    if (prev) prev->timer_next = counter;
+    else D_002C5A30.timer_counter_buf_alarm = counter;
 }

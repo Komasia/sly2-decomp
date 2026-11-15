@@ -1,7 +1,7 @@
-// (Claude agent) 5/65: exact except the mfc1->bnel hazard nop (needs gnu_reorder.py rule, see notes/245000.md); MATCH with that rule in scratch.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __kernel_sinf (newlib/fdlibm kf_sin.c): sin(x + y) on [-pi/4, pi/4], y the tail of x. */
 typedef union { float value; unsigned int word; } ieee_float_shape_type;
 #define GET_FLOAT_WORD(i,d) do { ieee_float_shape_type gf_u; gf_u.value = (d); (i) = gf_u.word; } while (0)
 static const float

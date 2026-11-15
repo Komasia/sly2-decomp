@@ -1,5 +1,6 @@
-/* iGetTimerSystemTime: T0 count + overflow counter, scaled by the T0 clock prescaler
-   (hand-written assembly in Sony's libkernel: t-registers, lwu). */
+/* iGetTimerSystemTime (libkernel): system time in bus clocks = (overflow count << 16 | T2 count), scaled by
+   the T2 prescaler; a pending overflow (T_MODE_OVFF) is counted in. D_002C5A30 is g_Timer, whose first field
+   is the overflow count. Hand-written assembly in Sony's libkernel (t-registers, lwu). */
 __asm__(
     ".set noreorder\n"
     ".text\n"

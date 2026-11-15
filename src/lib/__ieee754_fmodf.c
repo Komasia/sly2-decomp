@@ -2,6 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_DIVNOP
+/* __ieee754_fmodf (newlib/fdlibm ef_fmod.c): float remainder of x / y with the sign of x. */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

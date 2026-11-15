@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __frame_state_for (libgcc frame.c): run the DWARF CFA program for pc_target and return the frame state. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

@@ -10,12 +10,15 @@ void InitThread(void);
 void InitExecPS2(void);
 void InitTLBFunctions(void);
 void func_0023A8E8(void);
+
+/* _InitSys (libkernel): runtime start-up called from crt0: locate the syscall table, install the kernel patches
+   and start the timer, alarm and top-thread services. */
 void _InitSys(void)
 {
     supplement_crt0();
     InitSystemCallTableAddress();
     InitAlarm();
-    InitTimer(2);
+    InitTimer(2);   /* T2 counts BUSCLK/256 */
     StartTimerSystemTime();
     InitThread();
     InitExecPS2();

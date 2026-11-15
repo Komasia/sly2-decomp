@@ -1,4 +1,5 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* __terminate (libgcc): call the current terminate handler (std::terminate). */
 extern void (*__terminate_func)(void);
 void __terminate(void) { (*__terminate_func)(); }

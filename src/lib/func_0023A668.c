@@ -1,22 +1,26 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* Timer handler behind every alarm (ps2sdk: AlarmHandler): call the user's alarm handler with the alarm id;
+   if it returns 0 the alarm is finished, so put it back in the pool and return -1 (free the counter). */
 typedef struct Alarm {
-    struct Alarm *next;
-    int x4;
-    int (*func)(int, int, int, void *);
-    void *arg;
+    struct Alarm *alarm_next;
+    int timer_counter_id;
+    int (*callback_handler)(int, int, int, void *);
+    void *callback_handler_arg;
 } Alarm;
-extern Alarm * volatile D_0044E700;
-int func_0023A668(int id, int a1, int a2, Alarm *p)
+extern Alarm * volatile D_0044E700;     /* g_pFreeAlarm */
+
+int func_0023A668(int id, int scheduled, int actual, Alarm *alarm)
 {
-    int r = p->func(((int)p << 4) | (id & 0xFE) | 1, a1, a2, p->arg);
-    if (r == 0) {
-        Alarm *h = D_0044E700;
-        D_0044E700 = p;
-        p->next = h;
-        p->x4 = 0;
+    int ret = alarm->callback_handler(((int)alarm << 4) | (id & 0xFE) | 1, scheduled, actual,
+                                      alarm->callback_handler_arg);
+    if (ret == 0) {
+        Alarm *head = D_0044E700;
+        D_0044E700 = alarm;
+        alarm->alarm_next = head;
+        alarm->timer_counter_id = 0;
         return -1;
     }
-    return r;
+    return ret;
 }

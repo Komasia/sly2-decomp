@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* __sjthrow (libgcc): setjmp/longjmp EH: longjmp to the innermost dynamic handler, running cleanups first. */
 struct eh_context
 {
   void *handler_label;

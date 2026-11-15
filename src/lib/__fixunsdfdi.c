@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* __fixunsdfdi (libgcc2): double -> unsigned 64-bit integer (negative values give 0). */
 typedef int SItype;
 typedef unsigned int USItype;
 typedef long DItype;
