@@ -1,3 +1,4 @@
+/* Are g1 and g2 equal within the relative tolerance gEpsilon (relative to |g1|, or absolute below 1)? */
 int FFloatsNear(float g1, float g2, float gEpsilon)
 {
     g2 = g1 - g2;

@@ -1,3 +1,4 @@
+/* The rotation vector of a matrix: its axis scaled by its angle. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 void DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR(void *pmat, float *pg, U *pv);

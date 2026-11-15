@@ -1,11 +1,8 @@
-#include "dl.h"
-typedef int qword __attribute__((mode(TI)));
-struct E { char pad[0x18]; float *ag; char pad2[0x28 - 0x1C]; };
-struct F { char pad[0x54]; qword *av; char pad2[0x60 - 0x58]; };
-struct DZG { int x0; int c; struct E *ae; char pad[0x30 - 0xC]; struct DL dl; char pad2[0x60 - 0x3C]; struct F *af; };
-struct Y { char pad[0xA8]; int i; };
-struct X { char pad[0x40]; qword v; char pad2[0x50 - 0x50]; struct Y *py; };
-extern void AppendDlEntry__FP2DLPv(struct DL *pdl, void *pv);
+/* AppendDzgDz: adds a row to a constraint system's open list, filling the new column of every row whose
+ * couplings are already computed: the row's normal dotted with that row's response to the new contact. */
+#include "dzg.h"
+struct XP { char pad[0xA8]; int ixp; };   /* +0xA8: the contact's index in the system */
+extern void AppendDlEntry__FP2DLPv(DL *pdl, void *pv);
 static __inline__ int Dot(qword a, qword b)
 {
     qword r, one;
@@ -14,22 +11,22 @@ static __inline__ int Dot(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(r));
     return g;
 }
-void AppendDzgDz(struct DZG *pdzg, void *pdz, struct X *px) __asm__("AppendDzgDz__FP3DZGP2DZ");
-void AppendDzgDz(struct DZG *pdzg, void *pdz, struct X *px)
+void AppendDzgDz(DZG *pdzg, DZ *pdz, DZENT *pent) __asm__("AppendDzgDz__FP3DZGP2DZ");
+void AppendDzgDz(DZG *pdzg, DZ *pdz, DZENT *pent)
 {
     int i;
-    int k = px->py->i;
-    for (i = 0; i < pdzg->c; i++) {
-        struct E *pe = &pdzg->ae[i];
-        int *ag = (int *)pe->ag;
-        if (ag) {
+    int ixp = pent->pxp->ixp;
+    for (i = 0; i < pdzg->cdz; i++) {
+        DZ *pdzI = &pdzg->adz[i];
+        int *agCoupling = (int *)pdzI->agCoupling;
+        if (agCoupling) {
             __asm__ __volatile__("" ::: "memory");
             {
-                struct F *pf = &pdzg->af[i];
-                ag[pdzg->c] = Dot(px->v, pf->av[k]);
+                DZENT *pentI = &pdzg->aent[i];
+                agCoupling[pdzg->cdz] = Dot(pent->normal, pentI->aresp[ixp]);
             }
         }
     }
-    AppendDlEntry__FP2DLPv(&pdzg->dl, pdz);
-    pdzg->c++;
+    AppendDlEntry__FP2DLPv(&pdzg->dlOpen, pdz);
+    pdzg->cdz++;
 }

@@ -1,3 +1,5 @@
+/* Doubly-linked list: unlinks pv, first moving any live iterator (DLI chain at s_pdliFirst) that points at
+ * its entry back to the previous entry (or the list head). */
 #include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 #define PDLE(pdl, pv) ((DLE *)((char *)(pv) + (pdl)->ibDle))

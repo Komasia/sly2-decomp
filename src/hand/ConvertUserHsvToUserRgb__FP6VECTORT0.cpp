@@ -1,3 +1,4 @@
+/* HSV -> RGB in the editor's units (saturation / value and the result in 0..255). */
 struct VECTOR { float x, y, z; } __attribute__((aligned(16)));
 extern "C" void RgbFromHsv(VECTOR *pvecHsv, VECTOR *pvecRgb) asm("RgbFromHsv__FP6VECTORT0");
 

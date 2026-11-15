@@ -1,3 +1,4 @@
+/* Normalizes an angle into [-pi, pi]. */
 float GModPositive__Fff(float gDividend, float gDivisor);
 
 float RadNormalize__Ff(float rad)

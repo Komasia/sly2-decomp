@@ -1,3 +1,5 @@
+/* Slot heap: takes a cleared entry from the free list, first carving a new block of c entries of cb bytes
+ * (allocated from the SW heap) when the list is empty. */
 typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct POOL { int cb; int c; int nKind; void *pvFree; int cAlloc; void *pvBlock; } POOL;
 

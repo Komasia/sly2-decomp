@@ -1,3 +1,4 @@
+/* Clamps g to [-gLimit, gLimit]. */
 float GLimitAbs(float g, float gLimit)
 {
     if (g > gLimit) {

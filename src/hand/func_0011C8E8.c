@@ -1,3 +1,4 @@
+/* Transposes the c x c matrix agSrc (row stride cStride) into agDst. */
 void func_0011C8E8(int cStride, int c, float *agSrc, float *agDst)
 {
     int i, j;

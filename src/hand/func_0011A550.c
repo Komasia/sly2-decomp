@@ -1,19 +1,7 @@
-#include "dl.h"
+/* Initializes a constraint system for at most cdzMax rows: the rows (0x28 bytes each, cleared), the four row
+ * lists and the solver's matrices / vectors, all on the stack heap. */
+#include "dzg.h"
 typedef struct MSG { int cb; int nKind; } MSG;
-typedef struct DZG {
-    int cpsoMax;
-    int cpso;
-    void *apso;
-    DL dlA;
-    DL dlB;
-    DL dlC;
-    DL dlD;
-    int n3C;
-    void *pv40;
-    void *pv44;
-    void *pv48;
-    void *pv4C;
-} DZG;
 
 void *PvAllocStackClearImpl__Fi(MSG *pmsg);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
@@ -21,35 +9,35 @@ void *s1_memset(void *pv, int b, unsigned int cb) asm("memset");
 void InitDl__FP2DLi(DL *pdl, int ibDle);
 
 // name: SafeHouse port (InitDzgRows)
-DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cpsoMax)
+DZG *InitDzgRows__FP3DZGi(DZG *pdzg, int cdzMax)
 {
     MSG msg;
 
-    pdzg->cpsoMax = cpsoMax;
-    pdzg->n3C = 0;
-    pdzg->cpso = 0;
-    msg.cb = cpsoMax * 0x28;
+    pdzg->cdzMax = cdzMax;
+    pdzg->cdzClamped = 0;
+    pdzg->cdz = 0;
+    msg.cb = cdzMax * sizeof(DZ);
     msg.nKind = 0x10;
-    pdzg->apso = PvAllocStackClearImpl__Fi(&msg);
-    s1_memset(&pdzg->dlA, 0, sizeof(DL));
-    s1_memset(&pdzg->dlB, 0, sizeof(DL));
-    s1_memset(&pdzg->dlC, 0, sizeof(DL));
-    s1_memset(&pdzg->dlD, 0, sizeof(DL));
-    InitDl__FP2DLi(&pdzg->dlA, 0x20);
-    InitDl__FP2DLi(&pdzg->dlB, 0x20);
-    InitDl__FP2DLi(&pdzg->dlC, 0x20);
-    InitDl__FP2DLi(&pdzg->dlD, 0x20);
-    msg.cb = cpsoMax * cpsoMax * 4;
+    pdzg->adz = (DZ *)PvAllocStackClearImpl__Fi(&msg);
+    s1_memset(&pdzg->dlClamped, 0, sizeof(DL));
+    s1_memset(&pdzg->dlLower, 0, sizeof(DL));
+    s1_memset(&pdzg->dlUpper, 0, sizeof(DL));
+    s1_memset(&pdzg->dlOpen, 0, sizeof(DL));
+    InitDl__FP2DLi(&pdzg->dlClamped, IB_DZ_DLE);
+    InitDl__FP2DLi(&pdzg->dlLower, IB_DZ_DLE);
+    InitDl__FP2DLi(&pdzg->dlUpper, IB_DZ_DLE);
+    InitDl__FP2DLi(&pdzg->dlOpen, IB_DZ_DLE);
+    msg.cb = cdzMax * cdzMax * sizeof(float);
     msg.nKind = 0x10;
-    pdzg->pv40 = PvAllocStackImpl__Fi(&msg);
-    msg.cb = cpsoMax * cpsoMax * 4;
+    pdzg->agA = (float *)PvAllocStackImpl__Fi(&msg);
+    msg.cb = cdzMax * cdzMax * sizeof(float);
     msg.nKind = 0x10;
-    pdzg->pv44 = PvAllocStackImpl__Fi(&msg);
-    msg.cb = cpsoMax * 4;
+    pdzg->agLu = (float *)PvAllocStackImpl__Fi(&msg);
+    msg.cb = cdzMax * sizeof(float);
     msg.nKind = 0x10;
-    pdzg->pv48 = PvAllocStackImpl__Fi(&msg);
-    msg.cb = cpsoMax * 4;
+    pdzg->agB = (float *)PvAllocStackImpl__Fi(&msg);
+    msg.cb = cdzMax * sizeof(float);
     msg.nKind = 0x10;
-    pdzg->pv4C = PvAllocStackImpl__Fi(&msg);
+    pdzg->agX = (float *)PvAllocStackImpl__Fi(&msg);
     return pdzg;
 }

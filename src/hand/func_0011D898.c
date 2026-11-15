@@ -1,3 +1,4 @@
+/* fmod with a non-negative result (for a positive divisor). */
 float fmodf(float x, float y);
 
 float GModPositive__Fff(float gDividend, float gDivisor)

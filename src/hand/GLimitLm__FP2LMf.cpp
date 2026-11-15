@@ -1,3 +1,4 @@
+/* Clamps g to the limit's [gMin, gMax]. */
 struct LM { float gMin; float gMax; };
 
 float GLimitLm(LM *plm, float g)

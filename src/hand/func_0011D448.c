@@ -1,3 +1,4 @@
+/* A random float in [gMin, gMax] (0x16A1B steps). */
 int NRandom(void) asm("NRandom__Fv");
 float GRandInRange__Fff(float gMin, float gMax)
 {

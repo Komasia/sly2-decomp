@@ -1,3 +1,5 @@
+/* Builds a 4x4 transform from a position, a rotation and a uniform scale: the rotation's rows scaled by g,
+ * the position as the last row. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 typedef struct { qword r[3]; } M3;

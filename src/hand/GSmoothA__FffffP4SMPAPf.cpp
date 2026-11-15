@@ -1,3 +1,5 @@
+/* GSmooth with an acceleration limit: the new rate is kept within gAccel * dt of the current rate dgCur (and
+ * the value moved by the accelerated step instead). */
 struct SMP {
     float gMaxSpeed;
     float gMinSpeed;

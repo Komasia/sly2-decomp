@@ -1,3 +1,4 @@
+/* The component-wise maximum of c vectors (starting from the small vector at 0x2A2E00). */
 typedef int qword __attribute__((mode(TI)));
 extern qword D_002A2E00;
 

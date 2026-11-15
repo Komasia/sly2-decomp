@@ -1,3 +1,5 @@
+/* Finds a local minimum of pfn(pv, g) in [gMin, gMax] starting at g with step dg: walks downhill, then
+ * halves the bracket; the best g and its value into *pg / *pgResult. */
 typedef float (*PFNGG)(void *, float);
 struct GG { float g; float gResult; };
 

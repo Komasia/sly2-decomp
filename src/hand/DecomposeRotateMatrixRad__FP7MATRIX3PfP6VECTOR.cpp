@@ -1,3 +1,5 @@
+/* Axis-angle decomposition of a rotation matrix: the angle into *prad and the unit axis into *pvec (with the
+ * signs fixed for the 180-degree case). */
 struct MATRIX3 { float mat[3][4]; } __attribute__((aligned(16)));
 struct VECTOR { float x, y, z, w; } __attribute__((aligned(16)));
 extern VECTOR D_002A2DA0;

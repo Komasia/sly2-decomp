@@ -1,3 +1,4 @@
+/* Truncates a double toward zero by masking its fraction bits. */
 typedef unsigned long ulong;
 
 union DBL {
