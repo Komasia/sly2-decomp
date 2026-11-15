@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceOpen (fileio): open a host/cdrom/mc file through the IOP fileio server; returns an EE file descriptor
+   (iob slot index) or a negative errno. */
 typedef char *va_list;
 #define va_start(ap, last) (ap = ((char *)__builtin_next_arg(last) - (__builtin_args_info(2) >= 8 ? 0 : (8 - __builtin_args_info(2)) * 8)))
 #define va_arg(ap, T) (*(T *)((ap += 8) - 8))
@@ -14,13 +16,13 @@ struct SemaParam {
     unsigned int option;
 };
 typedef struct { int sema; int *res; int rsize; int flags; int mode; char name[0x400]; int idx; } OpenArg;
-extern int D_002C4A7C;
-extern int D_002C4A88;
-extern OpenArg D_0044A680;
-extern struct iob D_0044BB80[];
-extern char D_0044BD80[];
-extern int D_0044B2C0[];
-extern char D_002AAAB0[];
+extern int D_002C4A7C;    /* fileio initialised */
+extern int D_002C4A88;    /* iob table semaphore */
+extern OpenArg D_0044A680;    /* RPC argument block */
+extern struct iob D_0044BB80[];    /* open-file (iob) table */
+extern char D_0044BD80[];    /* fileio RPC client */
+extern int D_0044B2C0[];    /* RPC reply (read uncached) */
+extern char D_002AAAB0[];    /* "SceStdioOpenSema" */
 int _sceFsWaitS(int);
 void func_00237B80(void);
 void sceFsInit(void);

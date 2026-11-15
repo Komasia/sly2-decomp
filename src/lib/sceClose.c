@@ -2,6 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+/* sceClose (fileio): close `fd`; -9 (EBADF) for a bad descriptor, -11 (EAGAIN) if the RPC fails. */
 struct iob { int fd, busy, x8, xC; };
 struct SemaParam {
     int currentCount;
@@ -12,12 +13,12 @@ struct SemaParam {
     unsigned int option;
 };
 typedef struct { int sema; int *res; int rsize; int fd; int idx; } CloseArg;
-extern int D_002C4A7C;
-extern CloseArg D_0044A680;
-extern struct iob D_0044BB80[];
-extern char D_0044BD80[];
-extern int D_0044B2C0[];
-extern char D_002AAAC8[];
+extern int D_002C4A7C;    /* fileio initialised */
+extern CloseArg D_0044A680;    /* RPC argument block */
+extern struct iob D_0044BB80[];    /* open-file (iob) table */
+extern char D_0044BD80[];    /* fileio RPC client */
+extern int D_0044B2C0[];    /* RPC reply (read uncached) */
+extern char D_002AAAC8[];    /* "SceStdioCloseSema" */
 struct iob *get_iob(int);
 int _sceFsWaitS(int);
 void func_00237B80(void);

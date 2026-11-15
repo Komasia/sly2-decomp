@@ -1,7 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-/* libkernel fileio sceIoctl (Claude agent). Keys: `volatile` sema table D_002C49F8 (case-1 loop); the request
+/* sceIoctl (fileio): device control request `req` on `fd` (the nowait-status request is answered locally).
+   codegen keys: `volatile` sema table D_002C49F8 (case-1 loop); the request
    dispatch is written as the switch's own decision tree (==2, <3, ==1, ==3) with the case-1 constant in a local `one`
    set at entry - that is what keeps 1 in $s5 from the prologue; arg->sema is stored before res/rsize (gcc rotates it
    into the jal delay slot). */
@@ -17,16 +18,16 @@ struct SemaParam {
 typedef struct { char b[0x400]; } IoctlData;
 typedef struct { int sema; int *res; int rsize; int fd; int req; IoctlData data; int x414; int x418; int size; } IoctlArg;
 typedef struct { char b[0x440]; } FsStat;
-extern int D_002C4A7C;
+extern int D_002C4A7C;    /* fileio initialised */
 extern int D_002C4A78;
-extern int D_002C4A8C;
-extern volatile int D_002C49F8[32];
-extern void *D_0044A648;
-extern IoctlArg D_0044A680;
+extern int D_002C4A8C;    /* nowait-request table semaphore */
+extern volatile int D_002C49F8[32];    /* per-iob semaphore of a pending nowait request (-1 = none) */
+extern void *D_0044A648;    /* ioctl result pointer */
+extern IoctlArg D_0044A680;    /* RPC argument block */
 extern FsStat D_0044B310[];
-extern char D_0044BD80[];
-extern int D_0044B2C0[];
-extern char D_002AAB28[];
+extern char D_0044BD80[];    /* fileio RPC client */
+extern int D_0044B2C0[];    /* RPC reply (read uncached) */
+extern char D_002AAB28[];    /* "SceStdioIoctlSema" */
 struct iob *get_iob(int);
 int _sceFsWaitS(int);
 void func_00237B80(void);

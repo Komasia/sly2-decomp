@@ -1,7 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-/* libkernel fileio sceWrite (Lilly's agent, T1573; same recipe as sceRead, T1568). Keys: `nowait` assigned in a nested
+/* sceWrite (fileio): write `size` bytes from `buf` to `fd` (a nowait file returns at once); byte count or a negative errno.
+   codegen keys: `nowait` assigned in a nested
    do{do{}while(0);}while(0) after `i = 0` (loop-depth weight gives the target's s4 nowait > s5 sema > s6 size > s7 flags
    priority); a separate counter j for the head-copy loop; and a dead first statement in each arm (`r = (int)D_002C49F8;`,
    `n = buf & 0xF;`): it computes the arm's `lui`/andi itself, so gcse PRE no longer appends it AFTER `i = 0` / `nowait = 0`. */
@@ -15,14 +16,14 @@ struct SemaParam {
     unsigned int option;
 };
 typedef struct { int sema; int *res; int rsize; int fd; void *buf; int size; int nhead; char head[16]; int idx; } WriteArg;
-extern int D_002C4A7C;
-extern int D_002C4A8C;
-extern int D_002C49F8[32];
-extern WriteArg D_0044A680;
-extern struct iob D_0044BB80[];
-extern char D_0044BD80[];
-extern int D_0044B2C0[];
-extern char D_002AAB10[];
+extern int D_002C4A7C;    /* fileio initialised */
+extern int D_002C4A8C;    /* nowait-request table semaphore */
+extern int D_002C49F8[32];    /* per-iob semaphore of a pending nowait request (-1 = none) */
+extern WriteArg D_0044A680;    /* RPC argument block */
+extern struct iob D_0044BB80[];    /* open-file (iob) table */
+extern char D_0044BD80[];    /* fileio RPC client */
+extern int D_0044B2C0[];    /* RPC reply (read uncached) */
+extern char D_002AAB10[];    /* "SceStdioWriteSema" */
 struct iob *get_iob(int);
 int _sceFsWaitS(int);
 void func_00237B80(void);
