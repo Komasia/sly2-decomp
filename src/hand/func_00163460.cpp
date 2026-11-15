@@ -9,7 +9,9 @@ struct CRef{
  ~CRef(){Decref(this);}
 };
 struct OPT{int kind,value;};
-struct S{char pad[0x7C];int n;char pad80[0x24];float g;char padA8[0x28];OPT a,b,c;};
+// func_00163460: save a job's progress: its play count, whether it is done (func_00163400) and its play time.
+/* JOB (include/h2_task.h): cPlayed, tElapsed, the progress refs prPlayed / prDone / prElapsed */
+struct S{char pad[0x7C];int cPlayed;char pad80[0x24];float tElapsed;char padA8[0x28];OPT prPlayed,prDone,prElapsed;};
 extern char D_003D4A60[];
 extern "C" CRef func_00258200(OPT*,const CRef&,void*);
 extern "C" int func_00163400(S*);
@@ -17,7 +19,7 @@ static inline void SetPv(OPT*p,const CRef&r,void*context=0){CRef arg(r);const CR
 static inline void SetInt(OPT*p,int n){CRef r(n);SetPv(p,r);}
 static inline void SetBool(OPT*p,bool b,void*context=0){CRef r(b);SetPv(p,r,context);}
 extern "C" void func_00163460(S*p){
- {OPT*opt=&p->a;if(opt->kind){SetInt(opt,p->n);}}
- {OPT*opt=&p->b;if(opt->kind){void*key=D_003D4A60;int f=func_00163400(p);{SetBool(opt,f!=0,key);}}}
- {OPT*opt=&p->c;if(opt->kind){CRef r(p->g);SetPv(opt,r);}}
+ {OPT*opt=&p->prPlayed;if(opt->kind){SetInt(opt,p->cPlayed);}}
+ {OPT*opt=&p->prDone;if(opt->kind){void*key=D_003D4A60;int f=func_00163400(p);{SetBool(opt,f!=0,key);}}}
+ {OPT*opt=&p->prElapsed;if(opt->kind){CRef r(p->tElapsed);SetPv(opt,r);}}
 }

@@ -1,3 +1,5 @@
+/* func_00166428: transform count points by a matrix on VU0 (microprograms at 0xF0 / 0x120, two points in flight):
+ * input from in0, results to output. */
 typedef int qword __attribute__((mode(TI)));
 typedef struct M4 { qword r[4]; } M4;
 

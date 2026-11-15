@@ -1,26 +1,28 @@
 #include "so.h"
-struct S { char pad[0xC0]; void *pc0; char pad2[0xCC - 0xC4]; struct LO *pcc; };
-extern char D_002E1E88[];
-int func_001A4E70(void *p);
-void func_001A4E80(void *p);
-void RequestTaskState__FP4TASKii(void *p, int n, struct S *ps);
+/* JobCompleteNext: after a job's completion: run the front end's queued action if any, else request the next job's
+ * task, else trigger the job's exit (its update flag 0x100 set first; LO +0x40 is the flags or a pointer to them). */
+struct JOB { char pad[0xC0]; void *ptaskNext; char pad2[0xCC - 0xC4]; struct LO *ploExit; };
+extern char D_002E1E88[];   /* the front end's action queue */
+int func_001A4E70(void *pqueue);
+void func_001A4E80(void *pqueue);
+void RequestTaskState__FP4TASKii(void *ptask, int nState, struct JOB *pjob);
 void TriggerExit__FP4EXIT(struct LO *plo);
 // name: SafeHouse port (task.cpp JobCompleteNext, "// 0x162FD0"; same body)
-void JobCompleteNext(struct S *p) asm("JobCompleteNext__FP3JOB");
-void JobCompleteNext(struct S *p)
+void JobCompleteNext(struct JOB *pjob) asm("JobCompleteNext__FP3JOB");
+void JobCompleteNext(struct JOB *pjob)
 {
-    char *pv = D_002E1E88;
-    if (func_001A4E70(pv)) {
-        func_001A4E80(pv);
-    } else if (p->pc0) {
-        RequestTaskState__FP4TASKii(p->pc0, 4, p);
-    } else if (p->pcc) {
-        struct LO *plo = p->pcc;
-        int v = plo->grfUnk40;
-        if ((v ^ 1) & 1)
-            *(int *)v |= 0x100;
+    char *pqueue = D_002E1E88;
+    if (func_001A4E70(pqueue)) {
+        func_001A4E80(pqueue);
+    } else if (pjob->ptaskNext) {
+        RequestTaskState__FP4TASKii(pjob->ptaskNext, 4, pjob);
+    } else if (pjob->ploExit) {
+        struct LO *plo = pjob->ploExit;
+        int grfUpd = plo->grfUnk40;
+        if ((grfUpd ^ 1) & 1)
+            *(int *)grfUpd |= 0x100;
         else
-            plo->grfUnk40 = v | 0x100;
-        TriggerExit__FP4EXIT(p->pcc);
+            plo->grfUnk40 = grfUpd | 0x100;
+        TriggerExit__FP4EXIT(pjob->ploExit);
     }
 }

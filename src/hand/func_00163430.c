@@ -1,9 +1,9 @@
-struct X { char pad[0x54]; int n; };
-struct S { char pad[0x64]; struct X *a; struct X *b; };
+/* NJobOpen: how far a job is open: its first task's state until that is done, then its last task's (at least 1). */
+#include "h2_task.h"
 static inline int Max(int a, int b) { return a > b ? a : b; }
 // name: SafeHouse port (NJobOpen)
-int NJobOpen__FP3JOB(struct S *p)
+int NJobOpen__FP3JOB(JOB *pjob)
 {
-    int n = p->a->n;
-    return n < 2 ? n : Max(p->b->n, 1);
+    int nState = pjob->ptaskFirst->nState;
+    return nState < 2 ? nState : Max(pjob->ptaskLast->nState, 1);
 }

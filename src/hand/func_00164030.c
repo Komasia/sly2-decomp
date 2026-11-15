@@ -1,18 +1,20 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-struct S { char pad[0x54]; int n; char pad2[0xD8 - 0x58]; int fd8; };
+/* FTaskDone: whether a task is done: a task not loaded in this world (state -1) answers from its saved "done" flag,
+ * else its state is done or closed. */
+#include "h2_task.h"
+typedef struct CRef { int m_tagk; int m_n; } CRef;
 extern char D_003D4A60[];
-void NProgress(CRef *pref, void *a, void *b);
+void NProgress(CRef *pref, PROGREF *ppr, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
 // name: SafeHouse port (FTaskDone)
-int FTaskDone__FP4TASK(struct S *p)
+int FTaskDone__FP4TASK(TASK *ptask)
 {
-    if (p->n == -1 && p->fd8) {
+    if (ptask->nState == -1 && ptask->prDone.ckey) {
         CRef ref;
-        int n;
-        NProgress(&ref, &p->fd8, D_003D4A60);
-        n = ref.m_tag;
+        int fDone;
+        NProgress(&ref, &ptask->prDone, D_003D4A60);
+        fDone = ref.m_n;
         Decref(&ref);
-        return n;
+        return fDone;
     }
-    return p->n >= 2;
+    return ptask->nState >= TASKS_Done;
 }

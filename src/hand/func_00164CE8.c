@@ -1,22 +1,25 @@
-struct X;
-struct Y { char pad[0x78]; int f78; };
-struct X { char pad[0x54]; int n; char pad2[0x7C - 0x58]; struct Y *py; char pad3[0x94 - 0x80]; int c; struct X **apx; char pad4[0xF0 - 0x9C]; int fF0; };
+struct TASK;
+struct JOB { char pad[0x78]; int fNoClose; };
+struct TASK { char pad[0x54]; int nState; char pad2[0x7C - 0x58]; struct JOB *pjob; char pad3[0x94 - 0x80]; int cptaskPrereq; struct TASK **aptaskPrereq; char pad4[0xF0 - 0x9C]; int nPending; };
+/* CollectTasks: collect the tasks a state change carries along: depth first through the prerequisites, each task
+ * below the target state and not yet pending gets it (a done change closes - state 3 - prerequisites in no job or
+ * in another job that does not keep them open). */
 // name: SafeHouse port (CollectTasks)
-void CollectTasks__FP4TASKiPiPv(struct X *p, int n, int *pc, struct X **apx)
+void CollectTasks__FP4TASKiPiPv(struct TASK *p, int nState, int *pcptask, struct TASK **aptask)
 {
     int i;
-    for (i = 0; i < p->c; i++) {
-        struct X *px = p->apx[i];
-        int nChild = n;
-        if (n == 2) {
-            struct Y *py = px->py;
-            if (!py || (py != p->py && !py->f78))
-                nChild = 3;
+    for (i = 0; i < p->cptaskPrereq; i++) {
+        struct TASK *px = p->aptaskPrereq[i];
+        int nStatePrereq = nState;
+        if (nState == 2) {
+            struct JOB *pjob = px->pjob;
+            if (!pjob || (pjob != p->pjob && !pjob->fNoClose))
+                nStatePrereq = 3;
         }
-        CollectTasks__FP4TASKiPiPv(px, nChild, pc, apx);
+        CollectTasks__FP4TASKiPiPv(px, nStatePrereq, pcptask, aptask);
     }
-    if (p->fF0 == -1 && p->n < n) {
-        apx[(*pc)++] = p;
-        p->fF0 = n;
+    if (p->nPending == -1 && p->nState < nState) {
+        aptask[(*pcptask)++] = p;
+        p->nPending = nState;
     }
 }

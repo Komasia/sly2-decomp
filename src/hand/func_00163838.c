@@ -1,13 +1,14 @@
-struct E { int a, b, c, d; };
-struct S { char pad[0x50]; int f50; char pad2[0xA8 - 0x54]; int c; struct E *ae; };
-int func_00162050(void *p);
-void func_00163838(struct S *p, int a, void *pv, int b, int d)
+/* func_00163838: add an object shown in some task states (the states an object's option 0x1050 lists; at most 32). */
+#include "h2_task.h"
+struct TASKV { char pad[0x50]; int fDisabled; char pad2[0xA8 - 0x54]; int cobje; TASKOBJE *aobje; };
+int func_00162050(void *plo);
+void func_00163838(struct TASKV *ptask, int oid, void *ploStates, int oidOwner, int iwrec)
 {
-    if (p->f50 == 0 && p->c < 32) {
-        struct E *pe = &p->ae[p->c++];
-        pe->a = a;
-        pe->b = b;
-        pe->c = func_00162050(pv);
-        pe->d = d;
+    if (ptask->fDisabled == 0 && ptask->cobje < 32) {
+        TASKOBJE *pobje = &ptask->aobje[ptask->cobje++];
+        pobje->oid = oid;
+        pobje->oidOwner = oidOwner;
+        pobje->grfState = func_00162050(ploStates);
+        pobje->iwrec = iwrec;
     }
 }

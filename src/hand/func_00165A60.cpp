@@ -1,44 +1,46 @@
-struct X { char pad[0xF0]; int fF0; int fF4; int fF8; };
+struct TASK { char pad[0x54]; int nState; char pad2[0xA0 - 0x58]; int cptaskNext; TASK **aptaskNext; char pad3[0xF0 - 0xA8]; int fF0; int nMode; int ploContext; };
+/* CSave: a task's change mode and context (+0xF4 / +0xF8) set for a scope */
 class CSave {
 public:
-    X *m_p0;
-    X *m_p4;
+    TASK *m_p0;
+    TASK *m_p4;
     int m_n8;
     int m_nC;
-    CSave(X *px, int nF4, int nF8)
+    CSave(TASK *ptaskNext, int nMode, int ploContext)
     {
         m_p0 = 0;
-        m_p4 = px;
-        if (px) {
-            m_n8 = px->fF4;
-            px->fF4 = nF4;
-            m_nC = m_p4->fF8;
-            m_p4->fF8 = nF8;
+        m_p4 = ptaskNext;
+        if (ptaskNext) {
+            m_n8 = ptaskNext->nMode;
+            ptaskNext->nMode = nMode;
+            m_nC = m_p4->ploContext;
+            m_p4->ploContext = ploContext;
         }
     }
     ~CSave()
     {
         if (m_p0) {
             m_p0->fF0 = m_n8;
-            m_p0->fF4 = m_nC;
+            m_p0->nMode = m_nC;
         }
         if (m_p4) {
-            m_p4->fF4 = m_n8;
-            m_p4->fF8 = m_nC;
+            m_p4->nMode = m_n8;
+            m_p4->ploContext = m_nC;
         }
     }
 };
-struct S { char pad[0x54]; int n; char pad2[0xA0 - 0x58]; int c; X **apx; char pad3[0xF4 - 0xA8]; int fF4; int fF8; };
-extern "C" void SetTaskState(S *p, int n) asm("SetTaskState__FP4TASKi");
-extern "C" void func_00165B40(X *px, int n);
-extern "C" void func_00165A60(S *p, int n)
+
+extern "C" void SetTaskState(TASK *p, int nState) asm("SetTaskState__FP4TASKi");
+extern "C" void func_00165B40(TASK *ptaskNext, int nState);
+// func_00165A60: set a task's state, then let each next task follow it (func_00165B40) in its mode and context.
+extern "C" void func_00165A60(TASK *p, int nState)
 {
     int i;
-    if (p->n == n) return;
-    SetTaskState(p, n);
-    for (i = 0; i < p->c; i++) {
-        X *px = p->apx[i];
-        CSave save(px, p->fF4, p->fF8);
-        func_00165B40(px, p->n);
+    if (p->nState == nState) return;
+    SetTaskState(p, nState);
+    for (i = 0; i < p->cptaskNext; i++) {
+        TASK *ptaskNext = p->aptaskNext[i];
+        CSave save(ptaskNext, p->nMode, p->ploContext);
+        func_00165B40(ptaskNext, p->nState);
     }
 }

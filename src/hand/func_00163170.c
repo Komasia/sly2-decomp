@@ -1,88 +1,94 @@
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; };
+/* SetJobSeq: step a job's completion sequence. Starting it picks the next task (a successor of the job's last task
+ * with its +0xC4 set, whose other prerequisites are done), makes the job always active with update flags 0x102 and
+ * pauses the game; 1 shows the screen object's "complete" part, 2 its "next" part, 3 the screen object 0x379; 0 hides
+ * them, restores the job's activation and resumes the game. */
+struct SCREENOBJ { char pad[0xC]; VTENT *vt; };
+/* JOB and TASK share this view (include/h2_task.h has both) */
 struct X;
 struct X {
-    char pad[0x40]; int fl;
-    char pad1[0x68 - 0x44]; struct X *f68;
-    char pad2[0x94 - 0x6C]; int c94; struct X **a98;
-    char pad3[0xA0 - 0x9C]; int cA0; struct X **aA4;
-    char pad4[0xB0 - 0xA8]; int fB0; int fB4; struct O *pB8; struct O *pBC; struct X *fC0; int fC4; float fC8;
+    char pad[0x40]; int grfUpd;
+    char pad1[0x68 - 0x44]; struct X *ptaskLast;                       /* JOB */
+    char pad2[0x94 - 0x6C]; int cptaskPrereq; struct X **aptaskPrereq;  /* TASK */
+    char pad3[0xA0 - 0x9C]; int cptaskNext; struct X **aptaskNext;      /* TASK */
+    char pad4[0xB0 - 0xA8]; int idPartComplete; int idPartNext; struct SCREENOBJ *ploScreen; struct SCREENOBJ *ploScreen379;
+    struct X *ptaskNext; int nSeq; float tSeq;                           /* JOB; +0xC4 of a TASK: ploC4 */
 };
 #include "clock.h"
 extern char g_sw[];
 int FTaskDone__FP4TASK(struct X *p);
-void func_001A6CA8(struct X *p, int n);
+void func_001A6CA8(struct X *p, int st);   /* the activation kind */
 void PauseGame__FP9GAMEPAUSEi(void *pg, int n);
 void ResumeGame__FP9GAMEPAUSEi(void *pg, int n);
-void func_00213B00(struct O *po, int n);
-static __inline__ void VCall50(struct O *po)
+void func_00213B00(struct SCREENOBJ *pscrobj, int idPart);   /* SelectScreenObjPart */
+static __inline__ void VCall50(struct SCREENOBJ *po)   /* hide */
 {
     VTENT *e = &po->vt[50];
     ((void (*)(void *))e->pfn)(VT_THIS(po, e));
 }
-static __inline__ void VCall49(struct O *po, int n)
+static __inline__ void VCall49(struct SCREENOBJ *po, int n)   /* show */
 {
     VTENT *e = &po->vt[49];
     ((void (*)(void *, int))e->pfn)(VT_THIS(po, e), n);
 }
 // name: SafeHouse port (SetJobSeq)
-void SetJobSeq__FP3JOBi(struct X *p, int n)
+void SetJobSeq__FP3JOBi(struct X *pjob, int nSeq)
 {
     int i;
-    if (p->fC4 == n) return;
-    if (p->fC4 == 0) {
-        int v;
-        p->fC0 = 0;
-        for (i = 0; i < p->f68->cA0; i++) {
-            struct X *px = p->f68->aA4[i];
-            if (px->fC4) {
-                p->fC0 = px;
+    if (pjob->nSeq == nSeq) return;
+    if (pjob->nSeq == 0) {
+        int grfUpd;
+        pjob->ptaskNext = 0;
+        for (i = 0; i < pjob->ptaskLast->cptaskNext; i++) {
+            struct X *px = pjob->ptaskLast->aptaskNext[i];
+            if (px->nSeq) {
+                pjob->ptaskNext = px;
                 break;
             }
         }
-        if (p->fC0) {
+        if (pjob->ptaskNext) {
             int j;
-            for (j = 0; j < p->fC0->c94; j++) {
-                struct X *px = p->fC0->a98[j];
-                if (px != p->f68 && !FTaskDone__FP4TASK(px)) {
-                    p->fC0 = 0;
+            for (j = 0; j < pjob->ptaskNext->cptaskPrereq; j++) {
+                struct X *px = pjob->ptaskNext->aptaskPrereq[j];
+                if (px != pjob->ptaskLast && !FTaskDone__FP4TASK(px)) {
+                    pjob->ptaskNext = 0;
                     break;
                 }
             }
         }
-        func_001A6CA8(p, 1);
-        v = p->fl;
-        if ((v ^ 1) & 1)
-            *(int *)v |= 0x102;
+        func_001A6CA8(pjob, 1);
+        grfUpd = pjob->grfUpd;
+        if ((grfUpd ^ 1) & 1)
+            *(int *)grfUpd |= 0x102;
         else
-            p->fl = v | 0x102;
+            pjob->grfUpd = grfUpd | 0x102;
         PauseGame__FP9GAMEPAUSEi(g_sw, 2);
     }
-    p->fC4 = n;
-    p->fC8 = g_clock.t;
-    switch (n) {
+    pjob->nSeq = nSeq;
+    pjob->tSeq = g_clock.t;
+    switch (nSeq) {
     case 0: {
-        int v;
-        if (p->pBC) VCall50(p->pBC);
-        if (p->pB8) VCall50(p->pB8);
-        func_001A6CA8(p, 2);
-        v = p->fl;
-        if ((v ^ 1) & 1)
-            *(int *)v &= ~0x102;
+        int grfUpd;
+        if (pjob->ploScreen379) VCall50(pjob->ploScreen379);
+        if (pjob->ploScreen) VCall50(pjob->ploScreen);
+        func_001A6CA8(pjob, 2);
+        grfUpd = pjob->grfUpd;
+        if ((grfUpd ^ 1) & 1)
+            *(int *)grfUpd &= ~0x102;
         else
-            p->fl = v & ~0x102;
+            pjob->grfUpd = grfUpd & ~0x102;
         ResumeGame__FP9GAMEPAUSEi(g_sw, 2);
         break;
     }
     case 1:
-        VCall49(p->pB8, -1);
-        func_00213B00(p->pB8, p->fB0);
+        VCall49(pjob->ploScreen, -1);
+        func_00213B00(pjob->ploScreen, pjob->idPartComplete);
         break;
     case 3:
-        VCall49(p->pBC, -1);
+        VCall49(pjob->ploScreen379, -1);
         break;
     case 2:
-        func_00213B00(p->pB8, p->fB4);
+        func_00213B00(pjob->ploScreen, pjob->idPartNext);
         break;
     }
 }

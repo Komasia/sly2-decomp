@@ -46,9 +46,14 @@ typedef struct JOB {
     /* 0x58 */ int *anEndClose;
     /* 0x5c */ int cnEnd;           /* events that end it (at most 32) */
     /* 0x60 */ int *anEnd;
-    /* 0x64 */ char unk_0x64[0x7c - 0x64];
+    /* 0x64 */ struct TASK *ptaskFirst;   /* reaching it begins the job */
+    /* 0x68 */ struct TASK *ptaskLast;    /* reaching it completes the job */
+    /* 0x6c */ int idName;          /* its name / description strings */
+    /* 0x70 */ int idDesc;
+    /* 0x74 */ int unk_0x74;
+    /* 0x78 */ int fNoClose;        /* completing it does not close its last task (nor auto-save) */
     /* 0x7c */ int cPlayed;
-    /* 0x80 */ struct TASK *ptaskFirst;   /* its tasks (TASK::ptaskNext) */
+    /* 0x80 */ struct TASK *ptaskList;    /* a list of its tasks (linked through TASK +0x84) */
     /* 0x84 */ char unk_0x84[0x8c - 0x84];
     /* 0x8c */ int cobje;           /* at most 32 */
     /* 0x90 */ TASKOBJE *aobje;
@@ -58,17 +63,65 @@ typedef struct JOB {
     /* 0xa0 */ float tSuckEnd;      /* 720 */
     /* 0xa4 */ float tElapsed;      /* the play time */
     /* 0xa8 */ void *pvA8;
-    /* 0xac */ int oidAC;
-    /* 0xb0 */ int nB0;
-    /* 0xb4 */ int nB4;
-    /* 0xb8 */ void *ploB8;         /* the object oidAC */
-    /* 0xbc */ void *ploBC;         /* the object 0x379 */
-    /* 0xc0 */ char unk_0xc0[0xd0 - 0xc0];
+    /* 0xac */ int oidScreen;       /* the screen object of the completion sequence */
+    /* 0xb0 */ int idPartComplete;  /* its parts: sequence 1 (complete), 2 (next) */
+    /* 0xb4 */ int idPartNext;
+    /* 0xb8 */ void *ploScreen;     /* the object oidScreen (0: no sequence) */
+    /* 0xbc */ void *ploScreen379;  /* the screen object 0x379 (sequence 3) */
+    /* 0xc0 */ struct TASK *ptaskNext;    /* the next job's task (SetJobSeq) */
+    /* 0xc4 */ int nSeq;            /* the completion sequence: 0 none, 1 complete, 2 next, 3 the next job */
+    /* 0xc8 */ float tSeq;
+    /* 0xcc */ void *ploExit;       /* an exit triggered at the end */
     /* 0xd0 */ PROGREF prPlayed;
-    /* 0xd8 */ PROGREF prD8;
+    /* 0xd8 */ PROGREF prDone;
     /* 0xe0 */ PROGREF prElapsed;
     /* 0xe8 */ PROGREF prE8;
     /* 0xf0 */ int nMode;           /* the change's mode (2 / 3: no task updates) */
+    /* 0xf4 */ void *ploContext;
 } JOB;
+
+/* a task (the LO part first) */
+typedef struct TASK {
+    /* 0x000 */ char unk_lo[0x54];
+    /* 0x054 */ int nState;
+    /* 0x058 */ float tState;       /* when the state changed */
+    /* 0x05c */ int idDialog;
+    /* 0x060 */ int fDialog;
+    /* 0x064 */ int cPlayed;
+    /* 0x068 */ int cDone;
+    /* 0x06c */ int fPrereqAvailable;  /* as a prerequisite, available already counts */
+    /* 0x070 */ int unk_0x70[2];
+    /* 0x078 */ float dtLimit;
+    /* 0x07c */ JOB *pjob;
+    /* 0x080 */ void *ploShown;     /* present while the task is available */
+    /* 0x084 */ struct TASK *ptaskNextJob;
+    /* 0x088 */ struct TASK *ptaskNextAll;   /* all tasks (D_003E0F90) */
+    /* 0x08c */ int unk_0x8c;
+    /* 0x090 */ int *aoidPrereq;
+    /* 0x094 */ int cptaskPrereq;
+    /* 0x098 */ struct TASK **aptaskPrereq;
+    /* 0x09c */ int *aoidNext;
+    /* 0x0a0 */ int cptaskNext;
+    /* 0x0a4 */ struct TASK **aptaskNext;
+    /* 0x0a8 */ int cobje;
+    /* 0x0ac */ TASKOBJE *aobje;
+    /* 0x0b0 */ int csme;
+    /* 0x0b4 */ TASKSME *asme;
+    /* 0x0b8 */ int oidChk;         /* its checkpoint (the transition's point; -1 none) */
+    /* 0x0bc */ int iwrec;          /* its world (-1: any) */
+    /* 0x0c0 */ int oidPo;          /* the player character it starts with (-1: keep) */
+    /* 0x0c4 */ void *ploExit;      /* an exit triggered when it activates */
+    /* 0x0c8 */ PROGREF prPlayed;
+    /* 0x0d0 */ PROGREF prCDone;
+    /* 0x0d8 */ PROGREF prDone;
+    /* 0x0e0 */ PROGREF prState;
+    /* 0x0e8 */ PROGREF prRestart;
+    /* 0x0f0 */ int nPending;       /* the state a change is taking it to (-1: none) */
+    /* 0x0f4 */ int nMode;          /* the change's mode */
+    /* 0x0f8 */ void *ploContext;
+    /* 0x0fc */ int cVisit;         /* VisitTask */
+    /* 0x100 */ int nDepth;
+    /* 0x104 */ int nJobDepth;
+} TASK;
 
 #endif
