@@ -2,28 +2,45 @@
 // laneL3v6 (Claude agent, 2026-10-24): aligned 10 (11 differing). laneL3v5 + the loop-1 counter i reused for t (i = state & 1): one global pseudo gives s4 for both like the target and lets sched2 put the andi in the call's delay slot. Left: j-preheader order only.
 // laneL2v1 (Claude agent, 2026-10-24): aligned 82 (fresh1 90). C++ VU_VECTOR/VU_FLOAT class helpers in the j loop: pass-1 loop 128 / pass-2 101 insns, so 1.0/512/224 and HIGH(D_002BD410) stay in the loop and only f20 is saved. Left: extra dead VU temp stores at 0xC0, D_002BD3B0[j] still strength-reduced, &rw spilled instead of fp.
 // fresh1 (Claude agent, 2026-10-23): aligned 90 (old 98): unsigned loop counters stop gcc reversing both loops (target uses sltiu). Left: p in s1 vs s3; the target's inner loop does not hoist 1.0/512/224/&D_002BD410 or strength-reduce D_002BD3B0[j]; ours hoists them all (f21-f23).
-// DRAFT (Claude agent): HUD 2-matrix GIF sprite draw (state loop 0..2 over x164/x168/x16C; logic complete, regalloc/frame not yet: extra f21-f23, p in s1 vs s3).
+// DRAFT notes (Claude agent): HUD 2-matrix GIF sprite draw (sheet loop 0..2 over canClose/canSkip/accepts).
+// DrawAnimatedOverlayFrame: the overlay owning the screen drawn: in state 1 the frame is captured (CaptureOverlayFrame)
+// and the state moves to 2; then (states 2 / 3) the screen is cleared to black and the captured frame drawn as up to
+// three textured quads, one per sheet: sheet 0 when it can close and accepts input, sheet 1 when it can be skipped,
+// sheet 0 again when it can close but does not accept input; each quad is one of the two display parts' matrices
+// (relative to the owner's) times the corners, projected (D_002BD410) to the screen. Layout: SafeHouse port
+// (overlay.cpp OVERLAY, DrawAnimatedOverlayFrame).
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 struct VECTOR4F { float x, y, z, w; };
 struct M4 { qword r[4]; };
 struct GIFS { int a[16]; };
 struct TEX { ulong ul0; ulong pad; ulong ul10; };
-struct X { char pad[0x24]; void *x24; char pad2[0x30 - 0x28]; int x30; };
-struct P { char pad[0x60]; void *p60; char pad2[0x150 - 0x64]; int x150; int pad154; char *ap158[2]; int pad160; int x164; int x168; int x16C; };
+struct FRM { char pad[0x24]; void *pv24; char pad2[0x30 - 0x28]; int grf; };   /* the open frame */
+struct OVERLAY {
+    char pad[0x60];
+    void *pxfOwner;     // +0x60 the owner's frame (SafeHouse: "owner+60 is the ALO's third reference")
+    char pad2[0x150 - 0x64];
+    int state;          // +0x150 field: SafeHouse port
+    int pad154;
+    char *apxfPart[2];  // +0x158 the two display parts' transform records (their matrix at +0x40)
+    int pad160;
+    int canClose;       // +0x164 field: SafeHouse port
+    int canSkip;        // +0x168 field: SafeHouse port
+    int accepts;        // +0x16C field: SafeHouse port
+};
 extern "C" {
-extern struct X *g_pfrmOpen;
+extern struct FRM *g_pfrmOpen;
 extern void *D_002DEA34;
 extern struct GIFS D_002DEA00;
 extern struct TEX D_002DECD0;
 extern char D_002DF4B0[];
 extern float D_002BD398[];
 extern float D_002BD39C[];
-extern struct VECTOR4F D_002BD3B0[4];
-extern float D_002BD3F0[8];
-extern struct M4 D_002BD410;
-void CaptureOverlayFrame(struct P *p) asm("CaptureOverlayFrame__Fv");
-void func_00147410(struct P *p, int n);
+extern struct VECTOR4F D_002BD3B0[4];   // the quad's corners
+extern float D_002BD3F0[8];            // the corners' texture coordinates
+extern struct M4 D_002BD410;           // the projection to the screen
+void CaptureOverlayFrame(struct OVERLAY *poverlay) asm("CaptureOverlayFrame__Fv");
+void func_00147410(struct OVERLAY *poverlay, int state);   // the overlay's state
 void EndDmaCnt(struct GIFS *pgifs) asm("EndDmaCnt__4DMAS");
 void AddDmaRefs(struct GIFS *pgifs, int n, void *pv) asm("AddDmaRefs__4DMASiP2QW");
 void AddDmaCnt(struct GIFS *pgifs) asm("AddDmaCnt__4DMAS");
@@ -55,16 +72,16 @@ static inline int IFix(const float &g, const int &off) { return ((int)g + off) <
 static inline float Screen(const float &g, const float &s) { return (g + 0.5f) * s + 0.5f; }
 
 // name: SafeHouse port (DrawAnimatedOverlayFrame)
-extern "C" void DrawAnimatedOverlayFrame__FPv(struct P *p)
+extern "C" void DrawAnimatedOverlayFrame__FPv(struct OVERLAY *poverlay)
 {
     struct M4 am[2];
     float rw;
     unsigned int i;
     int state, stateNext;
-    switch (p->x150) {
+    switch (poverlay->state) {
     case 1:
-        CaptureOverlayFrame(p);
-        func_00147410(p, 2);
+        CaptureOverlayFrame(poverlay);
+        func_00147410(poverlay, 2);
         break;
     case 2:
     case 3:
@@ -72,9 +89,9 @@ extern "C" void DrawAnimatedOverlayFrame__FPv(struct P *p)
     default:
         return;
     }
-    g_pfrmOpen->x30 &= ~1;
-    if (!g_pfrmOpen->x24)
-        g_pfrmOpen->x24 = D_002DEA34;
+    g_pfrmOpen->grf &= ~1;
+    if (!g_pfrmOpen->pv24)
+        g_pfrmOpen->pv24 = D_002DEA34;
     struct TEX *ptex = &D_002DECD0;
     EndDmaCnt(&D_002DEA00);
     AddDmaRefs(&D_002DEA00, 0x25, D_002DF4B0);
@@ -87,7 +104,7 @@ extern "C" void DrawAnimatedOverlayFrame__FPv(struct P *p)
     PackAD(&D_002DEA00, 8, 0x3800080000AUL);
     for (i = 0; i < 2; i++) {
         struct M4 m;
-        func_0022FF40(&m, 0, p->p60, p->ap158[i] + 0x40);
+        func_0022FF40(&m, 0, poverlay->pxfOwner, poverlay->apxfPart[i] + 0x40);
         am[i] = m;
     }
     state = 0;
@@ -95,17 +112,17 @@ extern "C" void DrawAnimatedOverlayFrame__FPv(struct P *p)
         switch (state) {
         case 0:
             stateNext = 1;
-            if (!p->x164 || !p->x16C)
+            if (!poverlay->canClose || !poverlay->accepts)
                 goto next;
             break;
         case 1:
             stateNext = 2;
-            if (!p->x168)
+            if (!poverlay->canSkip)
                 goto next;
             break;
         case 2:
             stateNext = 3;
-            if (!p->x164 || p->x16C)
+            if (!poverlay->canClose || poverlay->accepts)
                 goto next;
             break;
         }

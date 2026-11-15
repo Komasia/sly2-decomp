@@ -5,7 +5,8 @@
 struct BTN {
     /* 0x00 */ char pad0[0x8C];
     /* 0x8C */ float svSpeed;     /* field: SafeHouse port (speed, 1) */
-    /* 0x90 */ int oid90;         /* -1 (OID_Nil), as Sly 1 InitBtn sets its oidDialog; its use in Sly 2 is not checked */
+    /* 0x90 */ int oid90;         /* -1, as Sly 1 InitBtn sets its oidDialog; SafeHouse trigger.cpp: +0x90 is the trigger
+                                 * state (-1 none) of the same embedded object */
     /* 0x94 */ int pad94;
     /* 0x98 */ float dtRearm;     /* field: SafeHouse port (pad.cpp dtRearm, 1 s) */
 };

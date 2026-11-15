@@ -1,22 +1,46 @@
+/* JOBACTORWALK::Enter (AIJOB vt slot 8): the base enter, then a follow job (0xA8) pushed on the actor with the walk's
+ * settings (no avoidance when running, the arrival distance, walking, the speed), the goal's path planned, and the
+ * follow job entered. Layout: SafeHouse port (actorai.h JOBACTORWALK / JOBACTORFOLLOW). */
 #include "vtbl.h"
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x40 - 0x10]; int n40; char pad3[0x64 - 0x44]; float g64; char pad4[0xCC - 0x68]; int nCC; float gD0; };
-struct P { char pad[0x10]; void *o10; char pad2[0x30 - 0x14]; int n30; float g34; int n38; float g3C; qword q40; };
-void Enter__5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
-void SetGoal__12JOBACTORWALKG9VU_VECTOR(struct P *p, qword q);
+struct JOBACTORFOLLOW {
+    /* 0x00 */ char pad0[0xC];
+    /* 0x0c */ VTENT *pvt;
+    /* 0x10 */ char pad10[0x40 - 0x10];
+    /* 0x40 */ int fNoAvoid;        /* field: SafeHouse port (JOBFOLLOW) */
+    /* 0x44 */ char pad44[0x64 - 0x44];
+    /* 0x64 */ float sArrive;       /* field: SafeHouse port (JOBFOLLOW) */
+    /* 0x68 */ char pad68[0xCC - 0x68];
+    /* 0xcc */ int fWalk;           /* field: SafeHouse port */
+    /* 0xd0 */ float uSpeedActor;   /* field: SafeHouse port */
+};
+struct JOBACTORWALK {
+    /* 0x00 */ char pad0[0x10];
+    /* 0x10 */ void *pactor;        /* field: SafeHouse port (AIJOB) */
+    /* 0x14 */ char pad14[0x30 - 0x14];
+    /* 0x30 */ int fRun;            /* field: SafeHouse port */
+    /* 0x34 */ float sArrive;       /* field: SafeHouse port */
+    /* 0x38 */ int fWalk;           /* field: SafeHouse port */
+    /* 0x3c */ float uSpeed;        /* field: SafeHouse port */
+    /* 0x40 */ qword posGoal;       /* field: SafeHouse port */
+};
+#define VTS_AIJOB_Enter 8
+void Enter__5AIJOB(void *pjob);
+struct JOBACTORFOLLOW *func_00205438(void *pactor, int cid);   /* push a job of a class on the actor */
+void SetGoal__12JOBACTORWALKG9VU_VECTOR(struct JOBACTORWALK *pjob, qword posGoal);
 // name: SafeHouse port (JOBACTORWALK::Enter)
-void Enter__12JOBACTORWALK(struct P *p)
+void Enter__12JOBACTORWALK(struct JOBACTORWALK *pjob)
 {
-    struct O *o;
-    VTENT *e;
-    Enter__5AIJOB(p);
-    o = func_00205438(p->o10, 0xA8);
-    o->n40 = p->n30;
-    o->g64 = p->g34;
-    o->nCC = p->n38;
-    o->gD0 = p->g3C;
-    SetGoal__12JOBACTORWALKG9VU_VECTOR(p, p->q40);
-    e = &o->vt[8];
-    ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+    struct JOBACTORFOLLOW *pjobFollow;
+    VTENT *pvte;
+    Enter__5AIJOB(pjob);
+    pjobFollow = func_00205438(pjob->pactor, CID_JOBACTORFOLLOW);
+    pjobFollow->fNoAvoid = pjob->fRun;
+    pjobFollow->sArrive = pjob->sArrive;
+    pjobFollow->fWalk = pjob->fWalk;
+    pjobFollow->uSpeedActor = pjob->uSpeed;
+    SetGoal__12JOBACTORWALKG9VU_VECTOR(pjob, pjob->posGoal);
+    pvte = &pjobFollow->pvt[VTS_AIJOB_Enter];
+    ((void (*)(void *))pvte->pfn)(VT_THIS(pjobFollow, pvte));
 }
