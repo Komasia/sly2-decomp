@@ -1,28 +1,32 @@
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x184 - 0x10]; int n184; int n188; };
-struct S { struct O *po; int state; float t; struct O *pc; };
-struct L { struct O *pc; int pad; struct O *po; int a; int b; int pad2[3]; qword v20; qword v30; char pad3[0x20]; };
+/* an object: its vtable; for the water, its contact state (+0x184) and filter (+0x188) */
+struct LOV { char pad[0xC]; VTENT *pvt; char pad2[0x184 - 0x10]; int nState; int grfFilter; };
+struct WATCHB { struct LOV *pguard; int st; float t; struct LOV *pwater; };
+/* the contact message (CTMSG) */
+struct CTMSG { struct LOV *ploSender; int pad; struct LOV *ploReceiver; int grfFilter; int nState; int pad2[3]; qword pos; qword vec; char pad3[0x20]; };
 extern struct { float t; float dt; } g_clock;
-void s1_memset(void *p, int c, int n) asm("memset");
-qword PosOfLo__FP2LO(struct O *po);
-void PaloAcceptContact__FP5CTMSG(struct L *pl);
+void s1_memset(void *pv, int c, int cb) asm("memset");
+qword PosOfLo__FP2LO(struct LOV *plo);
+void PaloAcceptContact__FP5CTMSG(struct CTMSG *pctm);
+/* SetWatchB (0x20D3C0): the water watcher's state, noting when it changed; state 2 sends the guard the water's
+ * contact (its filter and state) at the guard's position and velocity (vt slot 33). */
 // name: SafeHouse port (SetWatchB)
-void SetWatchB__FP6WATCHBi(struct S *p, int state)
+void SetWatchB__FP6WATCHBi(struct WATCHB *pwatch, int st)
 {
-    if (state != p->state) {
-        p->state = state;
-        p->t = g_clock.t;
-        if (state == 2) {
-            struct L l;
-            s1_memset(&l, 0, sizeof(l));
-            l.pc = p->pc;
-            l.po = p->po;
-            l.a = p->pc->n188;
-            l.b = p->pc->n184;
-            l.v20 = PosOfLo__FP2LO(p->po);
-            l.v30 = ((qword (*)(void *))p->po->vt[33].pfn)(VT_THIS(p->po, &p->po->vt[33]));
-            PaloAcceptContact__FP5CTMSG(&l);
+    if (st != pwatch->st) {
+        pwatch->st = st;
+        pwatch->t = g_clock.t;
+        if (st == 2) {
+            struct CTMSG ctm;
+            s1_memset(&ctm, 0, sizeof(ctm));
+            ctm.ploSender = pwatch->pwater;
+            ctm.ploReceiver = pwatch->pguard;
+            ctm.grfFilter = pwatch->pwater->grfFilter;
+            ctm.nState = pwatch->pwater->nState;
+            ctm.pos = PosOfLo__FP2LO(pwatch->pguard);
+            ctm.vec = ((qword (*)(void *))pwatch->pguard->pvt[33].pfn)(VT_THIS(pwatch->pguard, &pwatch->pguard->pvt[33]));
+            PaloAcceptContact__FP5CTMSG(&ctm);
         }
     }
 }

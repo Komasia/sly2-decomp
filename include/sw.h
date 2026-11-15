@@ -16,10 +16,10 @@ typedef struct SW {
     /* 0x39d8 */ SWREC12 *aUnk39d8;        /* 12-byte records, handed out by func_00210120 */
     /* 0x39dc */ int cUnk39dc;
     /* 0x39e0 */ char unk_0x39e0[0x3d78 - 0x39e0];
-    /* 0x3d78 */ int cHandsOff;           /* > 0: the player has no control (FUSR_HandsOff) */
-    /* 0x3d7c */ int cNoPause;            /* > 0: the game may not be paused (FUSR_NoPause) */
-    /* 0x3d80 */ int cUnk3d80;
-    /* 0x3d84 */ int cUnk3d84;
+    /* 0x3d78 */ int cHandsOff;           /* > 0: the game is paused for the player (FUSR_HandsOff; PauseGame) */
+    /* 0x3d7c */ int cNoPause;            /* > 0: a talk: the game may not be paused (FUSR_NoPause; PauseTalk) */
+    /* 0x3d80 */ int cSubtitles;          /* PauseGame grf 1: > 0 while the subtitle box shows */
+    /* 0x3d84 */ int cPauseAi;            /* PauseGame grf 2: > 0 pauses the guards (field: SafeHouse port, ai.h GAMEPAUSE) */
     /* 0x3d88 */ char unk_0x3d88[0x3e10 - 0x3d88];
     /* 0x3e10 */ qword hsvLight;
     /* 0x3e20 */ float gLightScale;

@@ -1,4 +1,7 @@
-// Load the pending world and restore actor and view state.
+// func_0020E890 (0x20E890): the pending world change, at the top of a frame (SafeHouse transition.h
+// PswUpdateTransition): the old world unloaded (UnloadWorld), the clock reset, the pad locked while loading, the new
+// world read from its (compressed) stream and started; the HUD timer's seconds left are kept unless the request
+// says otherwise.
 #include "cid.h"
 #include "vtbl.h"
 typedef unsigned int uint;

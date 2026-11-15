@@ -1,31 +1,24 @@
+/* OSTRM::Flush (Sly 1 stream.c): the write buffer goes to its file (sceWrite), or with no file to the console in
+ * 128-byte pieces (scePrintf "%s", D_002A8910); memory streams have nothing to flush. */
+#include "stream.h"
+
 extern "C" {
-void *CopyAb(void *d, const void *s, int n) asm("CopyAb__FPvT0Ui");
+void *CopyAb(void *pvDst, const void *pvSrc, int cb) asm("CopyAb__FPvT0Ui");
 int scePrintf(const char *fmt, ...);
 int sceWrite(int fd, const void *pv, int cb) asm("sceWrite");
 }
-extern char D_002A8910[];
-class OSTRM {
-public:
-    char *m_pbMem;
-    int m_cbMemMax;
-    int m_cbMem;
-    int m_fd;
-    int m_cbTotal;
-    int m_cbBuf;
-    char m_ab[0x400];
-    void Flush();
-    int CbWrite(void *pv, int cb);
-};
+extern char D_002A8910[];   /* the console format */
+
 void OSTRM::Flush()
 {
-    if (m_cbBuf == 0 || m_pbMem)
+    if (m_cbBuffered == 0 || m_abDest)
         return;
     if (m_fd < 0) {
-        char *pb = m_ab;
+        char *pb = (char *)m_abBuffered;
         int ib;
-        for (ib = 0; ib < m_cbBuf; ) {
+        for (ib = 0; ib < m_cbBuffered; ) {
             char ach[0x88];
-            int cbRem = m_cbBuf - ib;
+            int cbRem = m_cbBuffered - ib;
             int cb = 0x80;
             if (cbRem < 0x80)
                 cb = cbRem;
@@ -36,7 +29,7 @@ void OSTRM::Flush()
             scePrintf(D_002A8910, ach);
         }
     } else {
-        sceWrite(m_fd, m_ab, m_cbBuf);
+        sceWrite(m_fd, m_abBuffered, m_cbBuffered);
     }
-    m_cbBuf = 0;
+    m_cbBuffered = 0;
 }

@@ -1,17 +1,21 @@
-struct S { char pad[0x3D78]; int n; };
-struct G;
-extern struct G g_joy;
-void RemoveGrfusr__Fi(int n);
-void ClearJoyBtns__FP6JOYPS2Ui(struct G *pg, int n);
-void func_0020F160(struct S *p);
-void func_0020F1A8(struct S *p);
+/* ResumeGame (0x20F030): one pause less: the last one gives the players their control back and drops a held Start
+ * (pad button 8); grf 1 / 2 undo PauseGame's subtitle box / guards' pause. */
+#include "sw.h"
+struct JOYPS2;
+extern struct JOYPS2 g_joy;
+void RemoveGrfusr__Fi(int grfusr);
+void ClearJoyBtns__FP6JOYPS2Ui(struct JOYPS2 *pjoy, int grfbtn);
+void func_0020F160(SW *psw);   /* the subtitle box */
+void func_0020F1A8(SW *psw);   /* the guards */
+#define GRFPAUSE_Subtitles 1
+#define GRFPAUSE_Ai 2
 // name: SafeHouse port (ResumeGame)
-void ResumeGame__FP9GAMEPAUSEi(struct S *p, int grf)
+void ResumeGame__FP9GAMEPAUSEi(SW *psw, int grf)
 {
-    if (--p->n == 0) {
-        RemoveGrfusr__Fi(2);
+    if (--psw->cHandsOff == 0) {
+        RemoveGrfusr__Fi(2);   /* FUSR_HandsOff */
         ClearJoyBtns__FP6JOYPS2Ui(&g_joy, 8);
     }
-    if (grf & 1) func_0020F160(p);
-    if (grf & 2) func_0020F1A8(p);
+    if (grf & GRFPAUSE_Subtitles) func_0020F160(psw);
+    if (grf & GRFPAUSE_Ai) func_0020F1A8(psw);
 }

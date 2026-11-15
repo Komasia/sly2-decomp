@@ -1,3 +1,4 @@
-struct S { int a; int b; int c; int d; };
-void SetWatchA__FP6WATCHAi(struct S *p, int n);
-void func_0020CE40(struct S *p) { p->b = -1; p->d = 1; SetWatchA__FP6WATCHAi(p, 0); }
+/* func_0020CE40 (0x20CE40): WATCHA reset: on, state 0 (on the ground). */
+struct WATCHA { void *pguard; int st; float t; int fOn; };
+void SetWatchA__FP6WATCHAi(struct WATCHA *pwatch, int st);
+void func_0020CE40(struct WATCHA *pwatch) { pwatch->st = -1; pwatch->fOn = 1; SetWatchA__FP6WATCHAi(pwatch, 0); }

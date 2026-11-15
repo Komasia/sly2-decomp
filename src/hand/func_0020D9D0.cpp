@@ -1,3 +1,6 @@
+// func_0020D9D0 (0x20D9D0): the world's (SW, 0x4790 bytes) constructor: the BASIC header and vtable (D_002DC018),
+// its slot heaps (slot size, count, alignment), lists and counters set up; the rest of the record cleared. The field
+// names are the offsets (SafeHouse sw.h names few of them: e.g. +0x3F04 the groups, +0x3F14 the update entries).
 #include "dl.h"
 struct POOL {int bytes,count,alignment;void *first;int extra[2];};
 struct F2 {float x,y;};struct F3 {float x,y,z;};
