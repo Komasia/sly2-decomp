@@ -47,13 +47,9 @@ struct STEP
     float gUnk248;
 };
 
-struct CLOCK
-{
-    float t;
-    float dt;
-};
+#include "clock.h"
 
-extern struct CLOCK g_clock;
+
 extern float D_002C3C98[];
 extern float D_002C3CA8[];
 

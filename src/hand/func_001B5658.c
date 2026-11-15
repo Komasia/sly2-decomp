@@ -24,8 +24,7 @@ typedef struct P {
     char pad1514[0x151C - 0x1514];
     R *x151C;
 } P;
-typedef struct { float t,dt; } CLOCK;
-extern CLOCK g_clock;
+#include "clock.h"
 typedef char R_x74_Offset[FIELD_OFFSET(R,x74)==116?1:-1];
 typedef char B_pr_Offset[FIELD_OFFSET(B,pr)==20?1:-1];
 typedef char B_x1C_Offset[FIELD_OFFSET(B,x1C)==28?1:-1];

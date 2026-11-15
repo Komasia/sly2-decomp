@@ -2,6 +2,7 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
 struct CLOCK { float t; union { float g; int n; } dt; };
+// layout note: CLOCK is include/clock.h's g_clock (t +0x0, dt +0x4); this copy reads dt as an int / union bit pattern, which the header's float field does not reproduce.
 extern struct CLOCK g_clock;
 struct P { char pad[0x300]; int f300; };
 // name: SafeHouse port (SpringCm)

@@ -11,12 +11,12 @@ struct SEMA {int count,maxCount,initialCount,waitThreads;uint attributes,option;
 struct M2 {float a[8];M2(){}void Identity();};
 extern "C" void *s1_memset(void *,int,int) asm("memset");
 inline void M2::Identity(){s1_memset(this,0,sizeof(*this));a[0]=a[3]=1.0f;}
-struct CLOCK {float t,dt,ratio,realRatio,realDt,realT;char pad18[0x24];float frameT,frameDt;ulong tick;};
+#include "clock.h"
 struct FR {int n0;void *p4;char pad8[0x1C];void *packet;char pad28[8];int flags;};
 extern VIFS D_002DEA28;
 extern GIFS D_002DEA00;
 extern FR *g_pfrmOpen;
-extern CLOCK g_clock;
+
 extern float *D_002DD314;
 extern int D_003D3A3C,D_003D3A40,D_003D3A44,D_002DEDBC,D_002DEB18;
 extern uint D_002BE538;
@@ -53,7 +53,7 @@ extern "C" void func_001C9190(void *)
             BeginFrame();
             ReferSemaStatus(D_003D3A40,&status);
             if(status.count!=0)break;
-            float t=-*D_002DD314+g_clock.frameT;
+            float t=-*D_002DD314+g_clock.tReal;
             float scale=1.0f+D_002C10B0*sinf(t*D_002C10B4);
             matrix.Identity();
             matrix.a[0]=D_002C10A0*scale;

@@ -41,16 +41,12 @@ typedef struct JOY {
     float gDpad;     /* 0x10EC */
 } JOY;
 
-typedef struct CLOCK {
-    char pad[0x3C];
-    float tReal;  /* 0x3C */
-    float x40;    /* 0x40 */
-} CLOCK;
+#include "clock.h"
 
 typedef struct G { char pad[0x30C]; int x30c; int x310; void *x314; char pad318[0x3A0 - 0x318]; int x3a0; } G;
 typedef struct SND { float t; } SND;
 
-extern CLOCK g_clock;
+
 extern G g_cm;
 extern SND g_game;
 extern char D_002DDEC0[];
@@ -123,10 +119,10 @@ int FReadJoy__FP3JOY(JOY *p)
                 p->uDeflect = 1.0f;
             }
         }
-        p->dx = (p->x - x) / g_clock.x40;
-        p->dy = (p->y - y) / g_clock.x40;
-        p->dx2 = (p->x2 - x2) / g_clock.x40;
-        p->dy2 = (p->y2 - y2) / g_clock.x40;
+        p->dx = (p->x - x) / g_clock.dtReal;
+        p->dy = (p->y - y) / g_clock.dtReal;
+        p->dx2 = (p->x2 - x2) / g_clock.dtReal;
+        p->dy2 = (p->y2 - y2) / g_clock.dtReal;
         func_0014BF48(D_002DDEC0, p, old & 0xFFFF);
         p->tRead = g_clock.tReal;
         if (p->grfbtn != 0 || p->uDeflect != 0.0f || p->uDeflect2 != 0.0f) {

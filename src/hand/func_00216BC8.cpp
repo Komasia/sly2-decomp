@@ -9,14 +9,13 @@ typedef struct {char *text,*cur;void *font,*basefont,*altfont;RGBA color,basecol
 typedef struct {char pad[0x3BE8];void *font;} WORLD;
 typedef struct {int id;void (*get)(char *,void *,void *);void *context;} STRINGGEN;
 typedef struct {char pad10[0x10];int state;float time;int pad18;float finish;} SCROLL;
-typedef struct {float t,dt;} CLOCK;
+#include "clock.h"
 extern WORLD g_sw;
 extern STRINGGEN D_003E1C88[];
 extern const char D_002A8B80[],D_002A8B88[];
 extern char D_004435F0[];
 extern RGBA D_004435F4;
 extern SCROLL D_003DA0C0;
-extern CLOCK g_clock;
 extern const float D_002C40B8;
 extern "C" void *func_0013E368(WORLD *,int);
 extern "C" char *s1_strcpy(char *,const char *) asm("strcpy");

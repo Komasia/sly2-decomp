@@ -2,8 +2,8 @@
 struct LO { char pad[0xC]; VTENT *vt; };
 struct X14 { struct LO *plo; };
 struct P { char pad[0xC]; VTENT *vt; char pad1[0x14 - 0x10]; struct X14 *px14; char pad2[0x150 - 0x18]; int state; float tState; char pad3[0x160 - 0x158]; void *p160; };
-struct CLOCK { char pad[0x3C]; float t3C; };
-extern struct CLOCK g_clock;
+#include "clock.h"
+
 extern struct P *D_002DD644;
 extern char D_003DD040[];
 extern char g_sw[];
@@ -36,7 +36,7 @@ void func_00147410(struct P *p, int state)
         break;
     }
     p->state = state;
-    p->tState = g_clock.t3C;
+    p->tState = g_clock.tReal;
     switch (state) {
     case -1:
         D_002DD644 = 0;

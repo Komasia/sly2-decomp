@@ -1,6 +1,7 @@
 struct E { char pad[8]; short h8; short pad2; float fC; int x10; void *x14; };
 struct S { char pad[8]; struct E *ae; char padc[4]; unsigned long ul10; float f18; int x1C; int x20; };
 extern struct CLOCK { unsigned long ticks; } D_002DDF18;
+// layout note: D_002DDF18 is g_clock.tickFrame (include/clock.h CLOCK +0x48); kept as its own symbol, the code reads it as a separate global.
 void Stop__4CSndf(void *p, float f);
 void func_00258040(void **pp, void *next);
 void func_00217F38(struct S *p, int i);

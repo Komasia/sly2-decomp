@@ -22,6 +22,7 @@ extern char g_sw[];
 extern qword D_002A2DD0;
 extern float D_002A45A8;
 struct CLOCK { float t; int dt; };
+// layout note: CLOCK is include/clock.h's g_clock (t +0x0, dt +0x4); this copy reads dt as an int / union bit pattern, which the header's float field does not reproduce.
 extern struct CLOCK g_clock;
 extern int D_002DDED4;  /* g_clock.dt */
 void *PloFindSwNearest__FP2LO3OIDii(void *pg, int k, int n, void *pv);

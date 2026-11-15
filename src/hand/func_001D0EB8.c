@@ -6,6 +6,7 @@ struct S { char pad[0x70]; qword pos; char pad80[0x10]; qword vel; };
 extern qword D_002A2DD0,D_002A2DA0,g_normalZ;
 union FLOATWORD {float value;int bits;};
 struct CLOCK {float time;union FLOATWORD dt;};
+// layout note: CLOCK is include/clock.h's g_clock (t +0x0, dt +0x4); this copy reads dt as an int / union bit pattern, which the header's float field does not reproduce.
 extern union FLOATWORD D_002DDED4;
 void MoveRip__FP4RIPN(struct S*);
 float GRandInRange__Fff(float,float);

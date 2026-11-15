@@ -30,6 +30,7 @@ struct P {
 };
 union FLOATWORD { float value; int bits; };
 struct CLOCK { float time; FLOATWORD dt; };
+// layout note: CLOCK is include/clock.h's g_clock (t +0x0, dt +0x4); this copy reads dt as an int / union bit pattern, which the header's float field does not reproduce.
 struct CAMERA { char pad90[0x90]; qword position; };
 struct SW { char pad3D58[0x3D58]; int stamp; };
 extern "C" {

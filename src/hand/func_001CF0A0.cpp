@@ -4,6 +4,7 @@ struct M3 {U r[3];M3(){} M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];} M3
 struct PHYS {qword accel,axis;float rate,scale;};
 struct S {char pad[0x40];M3 mat;qword pos,prev,vel;PHYS phys;qword omega;float gE0,gE4;};
 extern struct CLOCK {float time;union{float dt;int dtbits;};} g_clock;
+// layout note: CLOCK is include/clock.h's g_clock (t +0x0, dt +0x4); this copy reads dt as an int / union bit pattern, which the header's float field does not reproduce.
 extern "C" {
 int func_001CF010(qword);int func_001CEFC8(qword);int func_001CF058(qword);
 M3*BuildRotateMatrixAxis(M3*,qword,float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");M4 *UpdatePsys(M4*,PHYS*) asm("UpdatePsys__FP4PSYS");

@@ -100,13 +100,10 @@ struct LM
 {
     float gMin, gMax;
 };
-struct CLOCK
-{
-    float t, dt;
-};
+#include "clock.h"
 extern "C" {
 extern char D_003DD020[];
-extern CLOCK g_clock;
+
 extern qword D_002A2DA0, g_normalZ, D_002A2DD0;
 extern float D_002BE630, D_002BE634, D_002BE658, D_002BE65C, D_002BE660, D_002BE664, D_002BE668, D_002BE66C, D_002BE670, D_002BE674, D_002BE690;
 extern CLQ D_002BE640, D_002BE680;

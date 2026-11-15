@@ -3,7 +3,7 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
-typedef unsigned long long TICK;
+typedef unsigned long TICK;     /* 64-bit on the EE (gcc 2.95: long long is 128-bit) */
 
 enum CRK { CRK_Max = 9 };
 

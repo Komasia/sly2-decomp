@@ -163,10 +163,7 @@ struct VIEW
     qword posCam;
     qword aqwPlane[3];
 };
-struct CLOCK
-{
-    float t, dt;
-};
+#include "clock.h"
 struct G
 {
     char pad[0x3BEC];
@@ -189,7 +186,7 @@ struct RPL
 extern DMA D_002DEA28;
 extern G g_sw;
 extern VIEW g_cm;
-extern CLOCK g_clock;
+
 extern MATRIX4 D_002A2D30;
 extern "C" {
 void func_001681F8(MODEL *pmodel);

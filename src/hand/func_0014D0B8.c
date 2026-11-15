@@ -1,8 +1,5 @@
 typedef unsigned long ulong;
-struct CLOCK {
-    float t; float dt; float rDt; float rDtReal; float dtReal; float tReal; char pad[0x24 - 0x18]; float r24;
-    char pad2[0x3C - 0x28]; float t3C; float dt40; ulong tick;
-};
+#include "clock.h"
 extern char g_game[];
 ulong func_0014D240(struct CLOCK *p);
 void UpdateGameTimers__Fv(void *p);
@@ -18,18 +15,18 @@ static __inline__ float GClamp(float g, float gMin, float gMax)
 void UpdateClock__FP5CLOCKi(struct CLOCK *p, int fPaused)
 {
     ulong tick = func_0014D240(p);
-    float dt = GClamp((float)(tick - p->tick) * 3.3908420e-9f, 1.0f / 60.0f, 1.0f / 30.0f);
-    p->dtReal = dt * p->rDtReal;
-    p->tReal += p->dtReal;
+    float dt = GClamp((float)(tick - p->tickFrame) * 3.3908420e-9f, 1.0f / 60.0f, 1.0f / 30.0f);
+    p->dtCm = dt * p->rtCm;
+    p->tCm += p->dtCm;
     {
-    float dt2 = dt * p->r24;
-    p->dt40 = dt2;
+    float dt2 = dt * p->art[3];
+    p->dtReal = dt2;
     if (!fPaused) {
-        p->dt = dt2 * p->rDt;
+        p->dt = dt2 * p->rt;
         p->t += p->dt;
         UpdateGameTimers__Fv(g_game);
     }
     }
-    p->tick = tick;
-    p->t3C += p->dt40;
+    p->tickFrame = tick;
+    p->tReal += p->dtReal;
 }

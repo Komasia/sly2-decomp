@@ -29,9 +29,9 @@ struct P {
     int unused52C; LIMITS limits; float reverseLimit, contactScale; char pad540[0x10]; float drive, turn, acceleration;
     char pad55C[0x64]; float lastCorrection;
 };
-struct CLOCK { float time, dt; };
+#include "clock.h"
 union PHASE { M3 rotation; struct { U acceleration, world, limited; } impulse; };
-extern CLOCK g_clock;
+
 extern const qword g_normalZ, D_002A2DD0;
 extern POLY D_002C2100, D_002C2120, D_002C2130;
 extern float D_002C2110, D_002C2114, D_002C2140, D_002C2144, D_002C2148;
@@ -96,7 +96,7 @@ static inline float Abs(float f) { return __builtin_fabsf(f); }
 extern "C" void VehicleForces__FP3ALO(P *p)
 {
     ApplyAloGravity(p);
-    if (g_clock.time - p->lastCorrection > 3.0f) {
+    if (g_clock.t - p->lastCorrection > 3.0f) {
         M3 reset;
         LevelMatrix3(MatJtLo(p), 0, &reset);
         AccelAloTowardRotation(p, &reset, &D_002C2100, D_002A2DD0, 0);
