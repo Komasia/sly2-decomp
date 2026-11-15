@@ -1,12 +1,17 @@
+/* FIsBasicDerivedFrom: whether the object's class (its descriptor from vt slot 6) is cid or derives from it: its
+ * cid lies in [cid, cidMac) of the class table entry D_002BAAE8[cid]. Layout: include/cls.h CLS. */
 #include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; };
-struct R { int f0; int f4; };
-struct T { int f0; int f4; int f8; int fc; int f10; };
-extern struct T D_002BAAE8[];
-int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n) {
-    struct R *pr = (struct R *)((void *(*)(void *))po->vt[6].pfn)(VT_THIS(po, &po->vt[6]));
-    int x = pr->f4;
+#include "cls.h"
+struct BASIC { int pad[3]; VTENT *vt; };
+extern CLS D_002BAAE8[];   /* the class descriptors by cid */
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct BASIC *pbasic, int cid)
+{
+    CLS *pcls = (CLS *)((void *(*)(void *))pbasic->vt[6].pfn)(VT_THIS(pbasic, &pbasic->vt[6]));
+    int cidObj = pcls->cid;
     int f = 0;
-    if (x >= n) { struct T *pt = &D_002BAAE8[n]; f = x < pt->f8; }
+    if (cidObj >= cid) {
+        CLS *pclsBase = &D_002BAAE8[cid];
+        f = cidObj < pclsBase->cidMac;
+    }
     return f;
 }

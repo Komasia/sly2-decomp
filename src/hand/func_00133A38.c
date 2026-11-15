@@ -1,66 +1,70 @@
+/* UpdateSwPox: the overlap of a pair of attachments (k 1: overlapping, 2: not, 0: as recorded, else the boxes and
+ * the objects' overlap kinds decide): a new pair of overlap records when they start overlapping; when they stop, both
+ * objects are told (vt slot 54), the records unlinked, the contacts freed with the objects woken unless still, and the
+ * records freed. Layout: SafeHouse port (so.h OX / OXA, bbmark.cpp). */
 #include "so.h"
-struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; int f; };
-struct X { char pad[0x60]; struct LO *plo; struct L *pl; };
-struct P { char pad[0x3CF8]; char aCF8[4]; };
-int FOverlapOxa__FP3OXAT0Pv(struct P *, struct X *, struct X *);
-struct L *PoxAddSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
-struct L *PoxRemoveSw__FP2SWP3OXAT1(struct P *, struct X *, struct X *);
-void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
+struct OX { void *pxp; struct OX *poxNext; struct OX *poxOther; struct LO *psoOther; int fOverlap; };   /* field: SafeHouse port */
+struct OXA { char pad[0x60]; struct LO *pso; struct OX *pox; };   /* field: SafeHouse port */
+struct SW { char pad[0x3CF8]; char slotheapOx[4]; };
+int FOverlapOxa__FP3OXAT0Pv(struct SW *, struct OXA *, struct OXA *);
+struct OX *PoxAddSw__FP2SWP3OXAT1(struct SW *, struct OXA *, struct OXA *);
+struct OX *PoxRemoveSw__FP2SWP3OXAT1(struct SW *, struct OXA *, struct OXA *);
+void FreeSwXpList(struct SW *, void *) asm("FreeSwXpList__FP2SWP2XP");
 void WakeAlo__FP3ALO(struct LO *);
-void func_0011CD98(void *, struct L *);
+void func_0011CD98(void *, struct OX *);
 #define VCALL(po, n, T) ((T)(po)->pvt[n].pfn)(VT_THIS((po), &(po)->pvt[n])
 // name: SafeHouse port (UpdateSwPox)
-void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *p, struct X *px1, struct X *px2, int k)
+void UpdateSwPox__FP2SWP3OXAT1Uc(struct SW *psw, struct OXA *poxa, struct OXA *poxaOther, int k)
 {
-    struct L *pl;
-    struct L *plT;
-    int f;
-    for (plT = px1->pl; plT; plT = plT->pnext) {
-        if (plT->po == px2->plo)
+    struct OX *pox;
+    struct OX *poxFound;
+    int fOverlap;
+    for (poxFound = poxa->pox; poxFound; poxFound = poxFound->poxNext) {
+        if (poxFound->psoOther == poxaOther->pso)
             break;
     }
     switch (k) {
     case 1:
-        f = 1;
+        fOverlap = 1;
         break;
     case 2:
-        f = 0;
+        fOverlap = 0;
         break;
     case 0:
-        f = 0;
-        if (plT)
-            f = plT->f;
+        fOverlap = 0;
+        if (poxFound)
+            fOverlap = poxFound->fOverlap;
         break;
     }
-    pl = plT;
-    if (f || FOverlapOxa__FP3OXAT0Pv(p, px1, px2)) {
-        if (!pl) {
-            struct L *pl2;
-            plT = PoxAddSw__FP2SWP3OXAT1(p, px1, px2);
-            pl2 = PoxAddSw__FP2SWP3OXAT1(p, px2, px1);
-            plT->pother = pl2;
-            pl2->pother = plT;
-            pl = plT;
+    pox = poxFound;
+    if (fOverlap || FOverlapOxa__FP3OXAT0Pv(psw, poxa, poxaOther)) {
+        if (!pox) {
+            struct OX *pox2;
+            poxFound = PoxAddSw__FP2SWP3OXAT1(psw, poxa, poxaOther);
+            pox2 = PoxAddSw__FP2SWP3OXAT1(psw, poxaOther, poxa);
+            poxFound->poxOther = pox2;
+            pox2->poxOther = poxFound;
+            pox = poxFound;
         }
-    } else if (pl) {
-        struct L *pl1, *pl2;
-        VCALL(px1->plo, 54, void (*)(void *, struct LO *)), px2->plo);
-        VCALL(px2->plo, 54, void (*)(void *, struct LO *)), px1->plo);
-        pl1 = PoxRemoveSw__FP2SWP3OXAT1(p, px1, px2);
-        pl2 = PoxRemoveSw__FP2SWP3OXAT1(p, px2, px1);
-        if (pl1->pv) {
-            FreeSwXpList(p, pl1->pv);
-            if (!VCALL(pl1->po, 62, int (*)(void *))))
-                WakeAlo__FP3ALO(pl1->po);
-            if (!VCALL(pl2->po, 62, int (*)(void *))))
-                WakeAlo__FP3ALO(pl2->po);
+    } else if (pox) {
+        struct OX *pox1, *pox2;
+        VCALL(poxa->pso, 54, void (*)(void *, struct LO *)), poxaOther->pso);
+        VCALL(poxaOther->pso, 54, void (*)(void *, struct LO *)), poxa->pso);
+        pox1 = PoxRemoveSw__FP2SWP3OXAT1(psw, poxa, poxaOther);
+        pox2 = PoxRemoveSw__FP2SWP3OXAT1(psw, poxaOther, poxa);
+        if (pox1->pxp) {
+            FreeSwXpList(psw, pox1->pxp);
+            if (!VCALL(pox1->psoOther, 62, int (*)(void *))))
+                WakeAlo__FP3ALO(pox1->psoOther);
+            if (!VCALL(pox2->psoOther, 62, int (*)(void *))))
+                WakeAlo__FP3ALO(pox2->psoOther);
         }
-        func_0011CD98(p->aCF8, pl1);
-        func_0011CD98(p->aCF8, pl2);
-        pl = 0;
+        func_0011CD98(psw->slotheapOx, pox1);
+        func_0011CD98(psw->slotheapOx, pox2);
+        pox = 0;
     }
-    if (pl) {
-        pl->pother->f = f;
-        pl->f = f;
+    if (pox) {
+        pox->poxOther->fOverlap = fOverlap;
+        pox->fOverlap = fOverlap;
     }
 }

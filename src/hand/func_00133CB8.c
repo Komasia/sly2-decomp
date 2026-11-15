@@ -1,22 +1,25 @@
-struct N { int f0; struct N *pnext; int f8; int key; };
-struct L { char pad[0x64]; struct N *phead; };
-struct K { char pad[0x60]; int key; };
+/* PoxRemoveSw: the overlap record of poxaOther's object unlinked from poxa's list (OXA +0x64) and returned (null:
+ * none). Layout: SafeHouse port (so.h OX / OXA, bbmark.cpp). */
+struct OX { int pxp; struct OX *poxNext; int poxOther; int psoOther; };   /* field: SafeHouse port */
+struct OXA { char pad[0x64]; struct OX *pox; };
+struct OXAK { char pad[0x60]; int pso; };
 // name: SafeHouse port (PoxRemoveSw)
-struct N *PoxRemoveSw__FP2SWP3OXAT1(void *unused, struct L *pl, struct K *pk) {
-    int key = pk->key;
-    struct N *pn = pl->phead;
-    if (pn) {
-        struct N **ppn = &pn->pnext;
-        if (pn->key == key) {
-            pl->phead = pn->pnext;
+struct OX *PoxRemoveSw__FP2SWP3OXAT1(void *psw, struct OXA *poxa, struct OXAK *poxaOther)
+{
+    int pso = poxaOther->pso;
+    struct OX *pox = poxa->pox;
+    if (pox) {
+        struct OX **ppox = &pox->poxNext;
+        if (pox->psoOther == pso) {
+            poxa->pox = pox->poxNext;
         } else {
             for (;;) {
-                pn = pn->pnext;
-                if (!pn) break;
-                if (pn->key == key) { *ppn = pn->pnext; break; }
-                ppn = &pn->pnext;
+                pox = pox->poxNext;
+                if (!pox) break;
+                if (pox->psoOther == pso) { *ppox = pox->poxNext; break; }
+                ppox = &pox->poxNext;
             }
         }
     }
-    return pn;
+    return pox;
 }

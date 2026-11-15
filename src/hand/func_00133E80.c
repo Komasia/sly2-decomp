@@ -1,39 +1,42 @@
-struct X;
-struct E { int f0; struct X *px; float *pg; };
-struct P { char pad[0x3CCC]; int fDirty; int c; struct E *aae[3]; };
-void UpdateSwPox__FP2SWP3OXAT1Uc(struct P *, struct X *, struct X *, int);
+/* UpdateSwAaox: when the sweep lists are dirty, an insertion sort of each of the three (by the entries' coordinate):
+ * an entry passing an entry of the other kind (a min past a max or back) updates that pair's overlap (UpdateSwPox, k 0).
+ * Layout: SafeHouse port (so.h AOX / PHYSW, bbmark.cpp). */
+struct OXA;
+struct AOX { int fMax; struct OXA *poxa; float *pg; };   /* field: SafeHouse port */
+struct SW { char pad[0x3CCC]; int fAaoxDirty; int caox; struct AOX *aaox[3]; };   /* field: SafeHouse port (PHYSW) */
+void UpdateSwPox__FP2SWP3OXAT1Uc(struct SW *, struct OXA *, struct OXA *, int);
 void *s1_memmove(void *, void *, unsigned int) asm("memmove");
 // name: SafeHouse port (UpdateSwAaox)
-void UpdateSwAaox__FP2SW(struct P *p)
+void UpdateSwAaox__FP2SW(struct SW *psw)
 {
     int i;
-    if (!p->fDirty)
+    if (!psw->fAaoxDirty)
         return;
-    p->fDirty = 0;
-    if (!p->c)
+    psw->fAaoxDirty = 0;
+    if (!psw->caox)
         return;
     for (i = 0; i < 3; i++) {
-        struct E *pe = p->aae[i];
-        struct E *ae = pe;
-        float gMax = *pe->pg;
+        struct AOX *paox = psw->aaox[i];
+        struct AOX *aaox = paox;
+        float gMax = *paox->pg;
         int j;
-        for (j = p->c, pe++; --j > 0; pe++) {
-            float g = *pe->pg;
+        for (j = psw->caox, paox++; --j > 0; paox++) {
+            float g = *paox->pg;
             if (gMax <= g) {
                 gMax = g;
             } else {
-                struct E *pe2;
-                struct E e;
-                for (pe2 = pe - 1; pe2 >= ae; pe2--) {
-                    if (*pe2->pg <= g)
+                struct AOX *paoxIns;
+                struct AOX aox;
+                for (paoxIns = paox - 1; paoxIns >= aaox; paoxIns--) {
+                    if (*paoxIns->pg <= g)
                         break;
-                    if (pe->f0 != pe2->f0)
-                        UpdateSwPox__FP2SWP3OXAT1Uc(p, pe->px, pe2->px, 0);
+                    if (paox->fMax != paoxIns->fMax)
+                        UpdateSwPox__FP2SWP3OXAT1Uc(psw, paox->poxa, paoxIns->poxa, 0);
                 }
-                pe2++;
-                e = *pe;
-                s1_memmove(pe2 + 1, pe2, (pe - pe2) * sizeof(struct E));
-                *pe2 = e;
+                paoxIns++;
+                aox = *paox;
+                s1_memmove(paoxIns + 1, paoxIns, (paox - paoxIns) * sizeof(struct AOX));
+                *paoxIns = aox;
             }
         }
     }

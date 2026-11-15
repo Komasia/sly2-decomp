@@ -1,35 +1,38 @@
+/* TellBarrierContacts (queued by OnBarrierXpNew): each object in contact with the barrier (the other end of each
+ * contact of each overlap in its attachment +0xEC, 16 distinct at most) is put in +0x17C and the barrier gets its
+ * splice event 5 (vt slot 3). Layout: SafeHouse port (barrier.cpp); XP / OXA names after Sly 1. */
 #include "vtbl.h"
-struct P;
-struct E { int x0; int x4; struct P *p8; char pad[0x34]; };
-struct A { struct E ae[2]; char pad[0xAC - 0x80]; struct A *pnext; };
-struct L { struct A *pa; struct L *pnext; };
-struct O { char pad[0x64]; struct L *pl; };
-struct P { char pad[0xC]; VTENT *pvt; char pad1[0xEC - 0x10]; struct O *po; char pad2[0x17C - 0xF0]; struct P *p17C; };
-static __inline__ int IEnd(struct A *pa, struct P *p) { return pa->ae[0].p8 == p ? 0 : 1; }
+struct BARRIER;
+struct XPEND { int x0; int x4; struct BARRIER *pso; char pad[0x34]; };
+struct XP { struct XPEND axpe[2]; char pad[0xAC - 0x80]; struct XP *pnext; };
+struct XPL { struct XP *pxpFirst; struct XPL *pnext; };
+struct OXA { char pad[0x64]; struct XPL *pxplFirst; };
+struct BARRIER { char pad[0xC]; VTENT *pvt; char pad1[0xEC - 0x10]; struct OXA *poxa; char pad2[0x17C - 0xF0]; struct BARRIER *psoToucher; };
+static __inline__ int IxpeSelf(struct XP *pxp, struct BARRIER *pbarrier) { return pxp->axpe[0].pso == pbarrier ? 0 : 1; }
 // name: SafeHouse port (TellBarrierContacts)
-void TellBarrierContacts__FPv(struct P *p)
+void TellBarrierContacts__FPv(struct BARRIER *pbarrier)
 {
-    struct P *ap[16];
-    int c = 0;
-    struct L *pl;
+    struct BARRIER *apso[16];
+    int cpso = 0;
+    struct XPL *pxpl;
     int i;
-    for (pl = p->po->pl; pl; pl = pl->pnext) {
-        struct A *pa;
-        for (pa = pl->pa; pa; pa = pa->pnext) {
-            struct P *pT = pa->ae[1 - IEnd(pa, p)].p8;
-            for (i = 0; i < c; i++)
-                if (pT == ap[i])
+    for (pxpl = pbarrier->poxa->pxplFirst; pxpl; pxpl = pxpl->pnext) {
+        struct XP *pxp;
+        for (pxp = pxpl->pxpFirst; pxp; pxp = pxp->pnext) {
+            struct BARRIER *psoOther = pxp->axpe[1 - IxpeSelf(pxp, pbarrier)].pso;
+            for (i = 0; i < cpso; i++)
+                if (psoOther == apso[i])
                     break;
-            if (i >= c) {
-                ap[c++] = pT;
-                if (c >= sizeof(ap) / sizeof(ap[0]))
+            if (i >= cpso) {
+                apso[cpso++] = psoOther;
+                if (cpso >= sizeof(apso) / sizeof(apso[0]))
                     goto done;
             }
         }
     }
 done:
-    for (i = 0; i < c; i++) {
-        p->p17C = ap[i];
-        ((void (*)(void *, int, int, int, int, int))p->pvt[3].pfn)(VT_THIS(p, &p->pvt[3]), 5, 0, 0, 0, 0);
+    for (i = 0; i < cpso; i++) {
+        pbarrier->psoToucher = apso[i];
+        ((void (*)(void *, int, int, int, int, int))pbarrier->pvt[3].pfn)(VT_THIS(pbarrier, &pbarrier->pvt[3]), 5, 0, 0, 0, 0);
     }
 }

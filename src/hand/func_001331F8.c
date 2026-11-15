@@ -1,38 +1,42 @@
+/* HandleLoSpliceEvent (SafeHouse update.cpp, orig 0x1331F8): when the object's splice frame binds the event symid,
+ * its arguments (carg values at apv, typed by the event's OTYP list D_0027A10C[D_0027A1D8[symid]]) become a list,
+ * the form (symid object args...) is built (0x132ED8) and either queued as a deferred call at the clock's time
+ * (0x133040) or evaluated now (0x133000, the result into prefResult). */
 struct CRef { int m_tagk; void *pv; };
-struct N;
-struct SP { struct N *p; };
-struct N { int cref; int x4; struct CRef ref; struct SP sp; };
-struct P { void *p0; };
+struct CPair;
+struct SP { struct CPair *p; };   /* a CPair handle */
+struct CPair { int cref; int x4; struct CRef refCar; struct SP spCdr; };   /* a list cell */
+struct LO { void *pframe; };   /* LO +0x0: its splice frame */
 #include "clock.h"
 extern char g_sw[];
 extern char D_004520A8[];
 extern int D_0027A1D8[];
 extern int D_0027A10C[];
-int PrefFindBinding(void *p, int k, int n) asm("PrefFindBinding__6CFrameUii");
-struct CRef *RefSetArgListFromPvs__FiP4OTYPPPv(struct CRef *ret, int x, int *pn, int y);
-struct SP *func_00132ED8(struct SP *ret, struct P *p, int k, struct CRef *pref);
-void func_00133040(void *pg, struct P *p, struct N *pn, float t);
-void func_00133000(struct P *p, struct N *pn, void *p0, int z);
+int PrefFindBinding(void *pframe, int symid, int n) asm("PrefFindBinding__6CFrameUii");
+struct CRef *RefSetArgListFromPvs__FiP4OTYPPPv(struct CRef *ret, int carg, int *aotyp, int apv);
+struct SP *func_00132ED8(struct SP *ret, struct LO *plo, int symid, struct CRef *pref);
+void func_00133040(void *pg, struct LO *plo, struct CPair *pn, float t);
+void func_00133000(struct LO *plo, struct CPair *ppairForm, void *pframe, int prefResult);
 void func_00256D40(struct SP *psp, int n);
 void Decref(struct CRef *pref) asm("Decref__4CRef");
 void func_002550F8(void *pv);
 void func_0011CD98(void *pool, void *pv);
-void func_001331F8(struct P *p, int k, int f, int x, int y, int z)
+void func_001331F8(struct LO *plo, int symid, int fDeferred, int carg, int apv, int prefResult)
 {
-    if (p->p0 && PrefFindBinding(p->p0, k, 1)) {
+    if (plo->pframe && PrefFindBinding(plo->pframe, symid, 1)) {
         struct CRef ref;
         struct SP sp;
-        RefSetArgListFromPvs__FiP4OTYPPPv(&ref, x, &D_0027A10C[D_0027A1D8[k]], y);
-        func_00132ED8(&sp, p, k, &ref);
-        if (f)
-            func_00133040(g_sw, p, sp.p, g_clock.t);
+        RefSetArgListFromPvs__FiP4OTYPPPv(&ref, carg, &D_0027A10C[D_0027A1D8[symid]], apv);
+        func_00132ED8(&sp, plo, symid, &ref);
+        if (fDeferred)
+            func_00133040(g_sw, plo, sp.p, g_clock.t);
         else
-            func_00133000(p, sp.p, p->p0, z);
+            func_00133000(plo, sp.p, plo->pframe, prefResult);
         {
-            struct N *pt = sp.p;
+            struct CPair *pt = sp.p;
             if (pt && --pt->cref == 0) {
-                func_00256D40(&pt->sp, 2);
-                Decref(&pt->ref);
+                func_00256D40(&pt->spCdr, 2);
+                Decref(&pt->refCar);
                 func_002550F8(pt);
                 func_0011CD98(D_004520A8, pt);
             }

@@ -1,49 +1,52 @@
-struct Q { char pad[0x74]; float tMax; };
-struct P { int pad[5]; struct Q *pq; char pad1[0x3C - 0x18]; int grf; char pad2[0x44 - 0x40]; float g44; };
+/* FWrapAsegaTime: the time back into [0, tMax]: looping (grfapl & 8) wraps it, ping-pong (0x10) reflects it and turns
+ * the speed around, otherwise it stops at the end (speed 0). Returns whether the end was passed in the direction of
+ * play. Layout: SafeHouse port (asega.h ASEGA). */
+struct ASEG { char pad[0x74]; float tMax; };
+struct ASEGA { int pad[5]; struct ASEG *paseg; char pad1[0x3C - 0x18]; int grfapl; char pad2[0x44 - 0x40]; float svtLocal; };
 float fmodf(float a, float b);
 float GModPositive__Fff(float a, float b);
-static __inline__ void PingPong(struct P *p, float *pt, float *pdt, float tMax, float t2)
+static __inline__ void PingPong(struct ASEGA *pasega, float *pt, float *psvt, float tMax, float tPeriod)
 {
-    *pdt = __builtin_fabsf(*pdt);
-    p->g44 = __builtin_fabsf(p->g44);
+    *psvt = __builtin_fabsf(*psvt);
+    pasega->svtLocal = __builtin_fabsf(pasega->svtLocal);
     if (tMax <= *pt) {
-        *pt = t2 - *pt;
-        *pdt = -*pdt;
-        p->g44 = -p->g44;
+        *pt = tPeriod - *pt;
+        *psvt = -*psvt;
+        pasega->svtLocal = -pasega->svtLocal;
     }
 }
 // name: SafeHouse port (FWrapAsegaTime)
-int FWrapAsegaTime__FP5ASEGAPfT1(struct P *p, float *pt, float *pdt)
+int FWrapAsegaTime__FP5ASEGAPfT1(struct ASEGA *pasega, float *pt, float *psvt)
 {
-    float tMax = p->pq->tMax;
+    float tMax = pasega->paseg->tMax;
     float t = *pt;
-    int f = 0;
+    int fWrapped = 0;
     if (tMax <= t) {
-        if (0.0f < *pdt)
-            f = 1;
-        if (p->grf & 8) {
+        if (0.0f < *psvt)
+            fWrapped = 1;
+        if (pasega->grfapl & 8) {
             *pt = fmodf(t, tMax);
-        } else if (p->grf & 0x10) {
-            float t2 = tMax + tMax;
-            *pt = fmodf(t, t2);
-            PingPong(p, pt, pdt, tMax, t2);
+        } else if (pasega->grfapl & 0x10) {
+            float tPeriod = tMax + tMax;
+            *pt = fmodf(t, tPeriod);
+            PingPong(pasega, pt, psvt, tMax, tPeriod);
         } else {
             *pt = tMax;
-            *pdt = 0.0f < *pdt ? 0.0f : *pdt;
+            *psvt = 0.0f < *psvt ? 0.0f : *psvt;
         }
     } else if (t < 0.0f) {
-        if (*pdt < 0.0f)
-            f = 1;
-        if (p->grf & 8) {
+        if (*psvt < 0.0f)
+            fWrapped = 1;
+        if (pasega->grfapl & 8) {
             *pt = GModPositive__Fff(t, tMax);
-        } else if (p->grf & 0x10) {
-            float t2 = tMax + tMax;
-            *pt = fmodf(-t, t2);
-            PingPong(p, pt, pdt, tMax, t2);
+        } else if (pasega->grfapl & 0x10) {
+            float tPeriod = tMax + tMax;
+            *pt = fmodf(-t, tPeriod);
+            PingPong(pasega, pt, psvt, tMax, tPeriod);
         } else {
             *pt = 0.0f;
-            *pdt = *pdt < 0.0f ? 0.0f : *pdt;
+            *psvt = *psvt < 0.0f ? 0.0f : *psvt;
         }
     }
-    return f;
+    return fWrapped;
 }

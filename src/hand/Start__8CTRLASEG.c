@@ -1,4 +1,4 @@
-/* CTRLASEG::Start: an animation channel's controller with a weight track (+0x20) eases its record's pair: the pair
+/* CTRLASEG::Start: an animation channel's controller with a weight track (+0x20) eases its record's joint pair: the pair
  * (the record's +0xA8) gets the track and the time of the playing ASEGA (+0x1C); otherwise the base start.
  * Layout: SafeHouse port (xf.h CTRLASEG, asega.h ASEGA). */
 #include "ctrl.h"

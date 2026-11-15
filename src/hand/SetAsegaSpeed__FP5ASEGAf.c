@@ -1,15 +1,15 @@
-/* ASEGA: an animation segment's instance on an object (Sly 1 asega.h), only the speed fields here.
- * The playback rate svt is the caller's rate times the master rate and the "suck" scale. */
+/* SetAsegaSpeed: the speed asked for an animation segment player, and its effective speed (asked-for speed * ASEG
+ * speed * suck speed). Layout: SafeHouse port (asega.h ASEGA). */
 struct ASEGA {
     /* 0x00 */ char pad0[0x40];
-    /* 0x40 */ float svt;           /* effective rate */
-    /* 0x44 */ float svtRate;       /* the rate SetAsegaSpeed was given */
-    /* 0x48 */ float svtMaster;
-    /* 0x4c */ float svtSuck;
+    /* 0x40 */ float svt;           /* field: SafeHouse port - the effective speed */
+    /* 0x44 */ float svtLocal;      /* field: SafeHouse port - the speed asked for */
+    /* 0x48 */ float svtAseg;       /* field: SafeHouse port - the ASEG's speed */
+    /* 0x4c */ float svtSuck;       /* field: SafeHouse port - from the suck history */
 };
 
 void SetAsegaSpeed__FP5ASEGAf(struct ASEGA *pasega, float svt)
 {
-    pasega->svtRate = svt;
-    pasega->svt = svt * pasega->svtMaster * pasega->svtSuck;
+    pasega->svtLocal = svt;
+    pasega->svt = svt * pasega->svtAseg * pasega->svtSuck;
 }

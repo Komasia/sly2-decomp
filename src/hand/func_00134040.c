@@ -1,79 +1,84 @@
+/* UpdateSwXps: the boxes recomputed (dirty list 1) and the sweep lists sorted; then each moved attachment (dirty list 2,
+ * flag 0x10 while done) and each of its overlap partners gets new contacts (PxpMarkOxaContacts; both objects told by vt
+ * slot 54 and woken unless still when there were or are contacts); the moved ones leave dirty list 2 with their internal
+ * contacts freed (vt slots 54 / 59), and every marked attachment's object gets vt slot 58. Layout: SafeHouse port
+ * (so.h OX / OXA / PHYSW, bbmark.cpp). */
 #include "so.h"
-struct X;
-struct L { void *pv; struct L *pnext; struct L *pother; struct LO *po; };
-struct LX { char pad[0xEC]; struct X *px; };
-struct X { char pad[0x58]; struct X *pnext; int x5C; struct LO *plo; struct L *pl; void *pv68; int x6C; unsigned long grf; };
-struct P { char pad[0x3D34]; struct X *pxFirst; };
-struct C { int a[4]; };
-void FlushSwOxaDirty1__FP2SW(struct P *p);
-void UpdateSwAaox__FP2SW(struct P *p);
-struct C *__10STACKSCOPE(struct C *);
-void _$_10STACKSCOPE(struct C *, int);
-void FreeSwXpList(struct P *, void *) asm("FreeSwXpList__FP2SWP2XP");
-void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct P *, struct X *, struct X *);
+struct OXA;
+struct OX { void *pxp; struct OX *poxNext; struct OX *poxOther; struct LO *psoOther; };   /* field: SafeHouse port */
+struct SOX { char pad[0xEC]; struct OXA *poxa; };   /* the SO's attachment (+0xEC) */
+struct OXA { char pad[0x58]; struct OXA *poxaNextDirty2; int x5C; struct LO *pso; struct OX *pox; void *pxpInternal; int pxpSensor; unsigned long grf; };   /* field: SafeHouse port */
+struct SW { char pad[0x3D34]; struct OXA *poxaDirty2First; };   /* field: SafeHouse port (PHYSW apoxaDirty2) */
+struct STACKSCOPE { int a[4]; };
+void FlushSwOxaDirty1__FP2SW(struct SW *psw);
+void UpdateSwAaox__FP2SW(struct SW *psw);
+struct STACKSCOPE *__10STACKSCOPE(struct STACKSCOPE *);
+void _$_10STACKSCOPE(struct STACKSCOPE *, int);
+void FreeSwXpList(struct SW *, void *) asm("FreeSwXpList__FP2SWP2XP");
+void *PxpMarkOxaContacts__FP3OXAT0P2SO(struct SW *, struct OXA *, struct OXA *);
 void WakeAlo__FP3ALO(struct LO *);
-void RemoveDlEntry__FP2DLPv(void *, struct X *);
+void RemoveDlEntry__FP2DLPv(void *, struct OXA *);
 #define VCALL(po, n, T) ((T)(po)->pvt[n].pfn)(VT_THIS((po), &(po)->pvt[n])
 // name: SafeHouse port (UpdateSwXps)
-void UpdateSwXps__FP2SW(struct P *p)
+void UpdateSwXps__FP2SW(struct SW *psw)
 {
-    struct C ctx;
-    struct X *apx[0x300];
-    int c = 0;
-    struct X *px;
+    struct STACKSCOPE ctx;
+    struct OXA *apoxaMarked[0x300];
+    int cpoxaMarked = 0;
+    struct OXA *poxa;
     int i;
-    FlushSwOxaDirty1__FP2SW(p);
-    UpdateSwAaox__FP2SW(p);
+    FlushSwOxaDirty1__FP2SW(psw);
+    UpdateSwAaox__FP2SW(psw);
     __10STACKSCOPE(&ctx);
-    for (px = p->pxFirst; px; px = px->pnext) {
-        unsigned long grf = px->grf;
-        struct L *pl;
+    for (poxa = psw->poxaDirty2First; poxa; poxa = poxa->poxaNextDirty2) {
+        unsigned long grf = poxa->grf;
+        struct OX *pox;
         if (grf & 4)
             continue;
         grf |= 0x10;
-        px->grf = grf;
+        poxa->grf = grf;
         if (!(grf & 8)) {
-            px->grf = grf | 8;
-            apx[c++] = px;
+            poxa->grf = grf | 8;
+            apoxaMarked[cpoxaMarked++] = poxa;
         }
-        for (pl = px->pl; pl; pl = pl->pnext) {
-            struct X *px2 = ((struct LX *)pl->po)->px;
-            unsigned long grf2 = px2->grf;
-            void *pv;
-            if (grf2 & 0x10)
+        for (pox = poxa->pox; pox; pox = pox->poxNext) {
+            struct OXA *poxaOther = ((struct SOX *)pox->psoOther)->poxa;
+            unsigned long grfOther = poxaOther->grf;
+            void *pxpOld;
+            if (grfOther & 0x10)
                 continue;
-            if (grf2 & 4)
+            if (grfOther & 4)
                 continue;
-            if (!(grf2 & 8)) {
-                px2->grf = grf2 | 8;
-                apx[c++] = px2;
+            if (!(grfOther & 8)) {
+                poxaOther->grf = grfOther | 8;
+                apoxaMarked[cpoxaMarked++] = poxaOther;
             }
-            VCALL(px->plo, 54, void (*)(void *, struct LO *)), px2->plo);
-            VCALL(px2->plo, 54, void (*)(void *, struct LO *)), px->plo);
-            pv = pl->pv;
-            FreeSwXpList(p, pv);
-            { void *pvNew = PxpMarkOxaContacts__FP3OXAT0P2SO(p, px, px2); pl->pv = pvNew; pl->pother->pv = pvNew; }
-            if (pv || pl->pv) {
-                if (!VCALL(px->plo, 62, int (*)(void *))))
-                    WakeAlo__FP3ALO(px->plo);
-                if (!VCALL(px2->plo, 62, int (*)(void *))))
-                    WakeAlo__FP3ALO(px2->plo);
+            VCALL(poxa->pso, 54, void (*)(void *, struct LO *)), poxaOther->pso);
+            VCALL(poxaOther->pso, 54, void (*)(void *, struct LO *)), poxa->pso);
+            pxpOld = pox->pxp;
+            FreeSwXpList(psw, pxpOld);
+            { void *pvNew = PxpMarkOxaContacts__FP3OXAT0P2SO(psw, poxa, poxaOther); pox->pxp = pvNew; pox->poxOther->pxp = pvNew; }
+            if (pxpOld || pox->pxp) {
+                if (!VCALL(poxa->pso, 62, int (*)(void *))))
+                    WakeAlo__FP3ALO(poxa->pso);
+                if (!VCALL(poxaOther->pso, 62, int (*)(void *))))
+                    WakeAlo__FP3ALO(poxaOther->pso);
             }
         }
     }
-    for (px = p->pxFirst; px; px = p->pxFirst) {
-        px->grf &= ~0x10L;
-        VCALL(px->plo, 54, void (*)(void *, struct LO *)), 0);
-        FreeSwXpList(p, px->pv68);
-        px->pv68 = 0;
-        VCALL(px->plo, 59, void (*)(void *)));
-        px->grf &= ~2L;
-        RemoveDlEntry__FP2DLPv(&p->pxFirst, px);
+    for (poxa = psw->poxaDirty2First; poxa; poxa = psw->poxaDirty2First) {
+        poxa->grf &= ~0x10L;
+        VCALL(poxa->pso, 54, void (*)(void *, struct LO *)), 0);
+        FreeSwXpList(psw, poxa->pxpInternal);
+        poxa->pxpInternal = 0;
+        VCALL(poxa->pso, 59, void (*)(void *)));
+        poxa->grf &= ~2L;
+        RemoveDlEntry__FP2DLPv(&psw->poxaDirty2First, poxa);
     }
-    for (i = 0; i < c; i++) {
-        px = apx[i];
-        px->grf &= ~8L;
-        VCALL(px->plo, 58, void (*)(void *)));
+    for (i = 0; i < cpoxaMarked; i++) {
+        poxa = apoxaMarked[i];
+        poxa->grf &= ~8L;
+        VCALL(poxa->pso, 58, void (*)(void *)));
     }
     _$_10STACKSCOPE(&ctx, 2);
 }

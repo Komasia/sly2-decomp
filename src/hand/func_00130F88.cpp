@@ -1,14 +1,17 @@
-// MATCH (Claude agent laneB9, 2026-10-23): the t copy pinned to $f1 (one commented register pin) declared inside an `if (i < pq->c)` block, take-branch ends with continue (reorg puts the mov.s in the bc1t delay slot).
-// fresh1 (Claude agent, 2026-10-23): aligned 16 -> 15: pq->ae[i] indexed in the compare, then (pe = &pq->ae[i], 1) as in FireAsegaStartEvents (fixes addu order). Left: target t in f2 plus a mov.s f1,f2 copy used only by c.eq.s (bc1t delay slot).
-struct E { float t; int k; int x8; int xC; };
-struct Q { char pad[0xA0]; int c; struct E *ae; };
-struct B { int pad[3]; virtual void Begin(); virtual void End(); };
-struct P : B { int x10; struct Q *pq; int x18; float g1C; float g20; char pad2[0x40 - 0x24]; float g40;
-    char pad3[0x50 - 0x44]; int i50; };
-struct G { P *p; G(P *pp) : p(pp) { p->Begin(); } ~G() { p->End(); } };
+/* FireAsegaEvents: the timed events between the last scan time and now fire in order (forward: those reached, an
+ * event exactly at t only when playing forward; backward: those passed going down), stopping when the ASEGA gets
+ * retracted. Layout: SafeHouse port (asega.h ASEGA, aseg.h ASEGEV). */
+// MATCH (Claude agent laneB9, 2026-10-23): the t copy pinned to $f1 (one commented register pin) declared inside an `if (i < paseg->cevTimed)` block, take-branch ends with continue (reorg puts the mov.s in the bc1t delay slot).
+// fresh1 (Claude agent, 2026-10-23): aligned 16 -> 15: paseg->aevTimed[i] indexed in the compare, then (pe = &paseg->aevTimed[i], 1) as in FireAsegaStartEvents (fixes addu order). Left: target t in f2 plus a mov.s f1,f2 copy used only by c.eq.s (bc1t delay slot).
+struct ASEGEV { float t; int kind; int n; int g; };
+struct ASEG { char pad[0xA0]; int cevTimed; struct ASEGEV *aevTimed; };
+struct B { int pad[3]; virtual void AddRef(); virtual void Release(); };   // vt slots 1 / 2
+struct ASEGA : B { int cref; struct ASEG *paseg; int palo; float t; float tEvent; char pad2[0x40 - 0x24]; float svt;
+    char pad3[0x50 - 0x44]; int iea; };
+struct ASEGAREF { ASEGA *pasega; ASEGAREF(ASEGA *pasegaHeld) : pasega(pasegaHeld) { pasega->AddRef(); } ~ASEGAREF() { pasega->Release(); } };
 extern "C" {
-void FireAsegaEvent(struct P *p, struct E *pe) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
-int FAsegaRetracted(struct P *p) asm("FAsegaRetracted__FP5ASEGA");
+void FireAsegaEvent(struct ASEGA *pasega, struct ASEGEV *pe) asm("FireAsegaEvent__FP5ASEGAP6ASEGEV");
+int FAsegaRetracted(struct ASEGA *pasega) asm("FAsegaRetracted__FP5ASEGA");
 }
 static inline int FGe(float a, float b) { return b < a || a == b; }
 static inline int FGe2(float a, float b) { return b < a || (a == b); }
@@ -17,29 +20,29 @@ static inline int FB(float a, float b, float d) { return a < b || (b == a && 0.0
 static inline int FB2(float b, float a, float d) { return a < b || (b == a && 0.0f < d); }
 static inline int FC(float a, float b, float d) { return a < b || (a == b && d < 0.0f); }
 // name: SafeHouse port (FireAsegaEvents)
-extern "C" void FireAsegaEvents__FP5ASEGA(struct P *p)
+extern "C" void FireAsegaEvents__FP5ASEGA(struct ASEGA *pasega)
 {
-    if (p->pq->c) {
-    G g(p);
-    p->g20 = p->g1C;
-    while (!FAsegaRetracted(p)) {
-        struct Q *pq = p->pq;
-        int i = p->i50;
-        float t = p->g20;
-        struct E *pe;
-        if (i < pq->c) {
+    if (pasega->paseg->cevTimed) {
+    ASEGAREF ref(pasega);
+    pasega->tEvent = pasega->t;
+    while (!FAsegaRetracted(pasega)) {
+        struct ASEG *paseg = pasega->paseg;
+        int i = pasega->iea;
+        float t = pasega->tEvent;
+        struct ASEGEV *pe;
+        if (i < paseg->cevTimed) {
             register float tc __asm__("$f1") = t; /* register pin: t copy in f1 for the == test */
-            if ((pq->ae[i].t < t || (tc == pq->ae[i].t && 0.0f < p->g40)) && (pe = &pq->ae[i], 1)) {
-                p->i50 = i + 1;
-                FireAsegaEvent(p, pe);
+            if ((paseg->aevTimed[i].t < t || (tc == paseg->aevTimed[i].t && 0.0f < pasega->svt)) && (pe = &paseg->aevTimed[i], 1)) {
+                pasega->iea = i + 1;
+                FireAsegaEvent(pasega, pe);
                 continue;
             }
         }
-        if (p->i50 > 0 && (t < p->pq->ae[p->i50 - 1].t || (t == p->pq->ae[p->i50 - 1].t && p->g40 < 0.0f))) {
-            p->i50 = p->i50 - 1;
-            FireAsegaEvent(p, &p->pq->ae[p->i50]);
+        if (pasega->iea > 0 && (t < pasega->paseg->aevTimed[pasega->iea - 1].t || (t == pasega->paseg->aevTimed[pasega->iea - 1].t && pasega->svt < 0.0f))) {
+            pasega->iea = pasega->iea - 1;
+            FireAsegaEvent(pasega, &pasega->paseg->aevTimed[pasega->iea]);
         } else {
-            p->g1C = t;
+            pasega->t = t;
             break;
         }
     }
