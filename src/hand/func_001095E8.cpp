@@ -1,30 +1,16 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_001E1488(void *p, qword, qword, float); CRef func_001095E8(void *p, int c, void *aref); }
-CRef func_001095E8(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_001E1488(void *plo, qword, qword, float); CRef func_001095E8(void *plo, int carg, void *aref); }
+/* SCPT command thunk, EOPID 689: appends the vector command 0x3F (0x1E1488). */
+CRef func_001095E8(void *pscpt, int carg, void *aref)
 {
-    int ak[3] = {0x2, 0x2, 0x1};
+    int aotype[3] = {OTYPE_Vector, OTYPE_Vector, OTYPE_Float};
     union { qword q; } v0;
     union { qword q; } v1;
     float v2;
-    CRef ref = RefSetArgsFromSplice(3, aref, ak, &v0, &v1, &v2);
+    CRef ref = RefSetArgsFromSplice(3, aref, aotype, &v0, &v1, &v2);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_001E1488(p, v0.q, v1.q, v2);
+    ref.InitTag(TAGK_Void);
+    func_001E1488(pscpt, v0.q, v1.q, v2);
     return ref;
 }

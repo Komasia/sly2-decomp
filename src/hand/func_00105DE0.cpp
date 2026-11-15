@@ -1,31 +1,17 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
 extern "C" {
-void func_00170B60(void *p, void *pv);
-CRef func_00105DE0(void *p, int c, void *aref);
+void func_00170B60(void *plo, void *pv);
+CRef func_00105DE0(void *plo, int carg, void *aref);
 }
-CRef func_00105DE0(void *p, int c, void *aref)
+/* Splice method thunk, EOPID 596 (script + loader): a 4-word range argument to 0x170B60. */
+CRef func_00105DE0(void *plo, int carg, void *aref)
 {
     union { qword q; } u;
-    int k = 0xA;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
+    int otype = 0xA;
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &u);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_00170B60(p, &u);
+    ref.InitTag(TAGK_Void);
+    func_00170B60(plo, &u);
     return ref;
 }

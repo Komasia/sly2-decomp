@@ -1,29 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void * func_001F03A8(void *p, int, int, int, int); CRef func_001048F0(void *p, int c, void *aref); }
-CRef func_001048F0(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void * func_001F03A8(void *plo, int, int, int, int); CRef func_001048F0(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 369: as EOPID 368 with one more argument (0x1F03A8). */
+CRef func_001048F0(void *psm, int carg, void *aref)
 {
-    int ak[4] = {0x2030, 0x6, 0x100b, 0x1054};
+    int aotype[4] = {0x2030, OTYPE_Int, 0x100b, 0x1054};
     int v0;
     int v1;
     int v2;
     int v3;
-    CRef ref = RefSetArgsFromSplice(4, aref, ak, &v0, &v1, &v2, &v3);
-    ref = func_001F03A8(p, v0, v1, v2, v3);
+    CRef ref = RefSetArgsFromSplice(4, aref, aotype, &v0, &v1, &v2, &v3);
+    ref = func_001F03A8(psm, v0, v1, v2, v3);
     return ref;
 }

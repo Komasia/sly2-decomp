@@ -1,27 +1,14 @@
 #include "so.h"
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" CRef func_00100C80(LO *p, int c, void *aref);
-CRef func_00100C80(LO *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" CRef func_00100C80(LO *plo, int carg, void *aref);
+/* Splice method thunk, EOPID 43: the object's vtable slot 73 asked about a point (bool). */
+CRef func_00100C80(LO *plo, int carg, void *aref)
 {
     union { qword q; } u;
-    int k = 2;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
-    VTENT *pvt = &p->pvt[73];
-    ref = ((int (*)(void *, qword))pvt->pfn)(VT_THIS(p, pvt), u.q) != 0;
+    int otype = OTYPE_Vector;
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &u);
+    VTENT *pvt = &plo->pvt[73];
+    ref = ((int (*)(void *, qword))pvt->pfn)(VT_THIS(plo, pvt), u.q) != 0;
     return ref;
 }

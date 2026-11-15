@@ -1,24 +1,16 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(const CRef &r);
-    void Decref();
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(bool f);
-};
+#include "splice_cref.h"
 extern "C" {
-CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *a0, void *a1) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-int func_00227D20(void *p, qword q, float g);
-CRef func_001047A0(void *p, int c, void *aref);
+CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, void *a0, void *a1) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+int func_00227D20(void *plo, qword q, float g);
+CRef func_001047A0(void *plo, int carg, void *aref);
 }
-CRef func_001047A0(void *p, int c, void *aref)
+/* Splice method thunk, EOPID 367: a point and a float tested against the shape (bool, 0x227D20). */
+CRef func_001047A0(void *plo, int carg, void *aref)
 {
-    int ak[2] = {2, 0x16};
+    int aotype[2] = {OTYPE_Vector, 0x16};
     union { qword q; } u;
     float g;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &u, &g);
-    ref = func_00227D20(p, u.q, g) != 0;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &u, &g);
+    ref = func_00227D20(plo, u.q, g) != 0;
     return ref;
 }

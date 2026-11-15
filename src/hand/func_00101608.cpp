@@ -1,29 +1,16 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_001F82B8(void *p, int, void *); CRef func_00101608(void *p, int c, void *aref); }
-CRef func_00101608(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_001F82B8(void *plo, int, void *); CRef func_00101608(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 79 (script + loader): passes an int and a 4-word argument to 0x1F82B8 (the
+   object's control record mode). */
+CRef func_00101608(void *plo, int carg, void *aref)
 {
-    int ak[2] = {0x104d, 0xa};
+    int aotype[2] = {0x104d, 0xa};
     union { qword q; } v1;
     int v0;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &v0, &v1);
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &v0, &v1);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_001F82B8(p, v0, &v1);
+    ref.InitTag(TAGK_Void);
+    func_001F82B8(plo, v0, &v1);
     return ref;
 }

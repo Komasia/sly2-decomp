@@ -1,31 +1,17 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_001F8A78(void *p, int, int, qword); CRef RefXfhMovePos(void *p, int c, void *aref) asm("RefXfhMovePos__FP5BASICiP4CRef"); }
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_001F8A78(void *plo, int, int, qword); CRef RefXfhMovePos(void *plo, int carg, void *aref) asm("RefXfhMovePos__FP5BASICiP4CRef"); }
+/* Splice method thunk, EOPID 1228: moves a transform handle to a world point (mode, priority, point). */
 // name: SafeHouse port (RefXfhMovePos)
-CRef RefXfhMovePos(void *p, int c, void *aref)
+CRef RefXfhMovePos(void *plo, int carg, void *aref)
 {
-    int ak[3] = {0x100d, 0x5, 0x2};
-    union { qword q; } v2;
-    int v0;
-    int v1;
-    CRef ref = RefSetArgsFromSplice(3, aref, ak, &v0, &v1, &v2);
+    int aotype[3] = {0x100d, 0x5, OTYPE_Vector};
+    union { qword q; } pos;
+    int mode;
+    int priority;
+    CRef ref = RefSetArgsFromSplice(3, aref, aotype, &mode, &priority, &pos);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_001F8A78(p, v0, v1, v2.q);
+    ref.InitTag(TAGK_Void);
+    func_001F8A78(plo, mode, priority, pos.q);
     return ref;
 }

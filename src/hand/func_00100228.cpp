@@ -1,22 +1,15 @@
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(const CRef &r);
-    void Decref();
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(bool f);
-};
+#include "splice_cref.h"
 extern "C" {
-CRef RefSetArgsFromSplice(int c, void *aref, int *ak, int *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-int FIsBasicDerivedFrom(void *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-CRef func_00100228(void *p, int c, void *aref);
+CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, int *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+int FIsBasicDerivedFrom(void *plo, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
+CRef func_00100228(void *plo, int carg, void *aref);
 }
-CRef func_00100228(void *p, int c, void *aref)
+/* Splice method thunk, EOPID 2 (every object's option 3): is the object derived from class n? (bool) */
+CRef func_00100228(void *plo, int carg, void *aref)
 {
-    int k = 7;
-    int n;
-    CRef ref = RefSetArgsFromSplice(1, aref, &k, &n);
-    ref = FIsBasicDerivedFrom(p, n) != 0;
+    int otype = 7;
+    int cid;
+    CRef ref = RefSetArgsFromSplice(1, aref, &otype, &cid);
+    ref = FIsBasicDerivedFrom(plo, cid) != 0;
     return ref;
 }

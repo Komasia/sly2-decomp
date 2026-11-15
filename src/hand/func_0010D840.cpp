@@ -1,27 +1,14 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void * func_00156698(void *p, qword, int); CRef func_0010D840(void *p, int c, void *aref); }
-CRef func_0010D840(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void * func_00156698(void *plo, qword, int); CRef func_0010D840(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 1095 (a noise template's option 214): creates a noise at a point from a source
+   and returns it (0x156698). */
+CRef func_0010D840(void *pnoisetmpl, int carg, void *aref)
 {
-    int ak[2] = {0x2, 0x2002};
-    union { qword q; } v0;
-    int v1;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &v0, &v1);
-    ref = func_00156698(p, v0.q, v1);
+    int aotype[2] = {OTYPE_Vector, 0x2002};
+    union { qword q; } pos;
+    int ploSource;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &pos, &ploSource);
+    ref = func_00156698(pnoisetmpl, pos.q, ploSource);
     return ref;
 }

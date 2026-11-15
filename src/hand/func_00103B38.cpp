@@ -1,29 +1,15 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void func_0020A058(void *p, void *, void *); CRef func_00103B38(void *p, int c, void *aref); }
-CRef func_00103B38(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void func_0020A058(void *plo, void *, void *); CRef func_00103B38(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 302 (a guard's option 426): two lists of at most 4 objects (0x20A058). */
+CRef func_00103B38(void *plo, int carg, void *aref)
 {
-    int ak[2] = {0xa002, 0xa002};
+    int aotype[2] = {0xa002, 0xa002};
     CRef v0;
     CRef v1;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &v0, &v1);
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &v0, &v1);
     ref.Decref();
-    ref.InitTag(0x24);
-    func_0020A058(p, &v0, &v1);
+    ref.InitTag(TAGK_Void);
+    func_0020A058(plo, &v0, &v1);
     return ref;
 }

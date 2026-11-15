@@ -1,26 +1,12 @@
-typedef int qword __attribute__((mode(TI)));
-struct CRef {
-    int m_tagk; union { int n; float g; void *pv; } u;
-    CRef() { m_tagk = -1; }
-    CRef(int tagk) { InitTag(tagk); }
-    CRef(const CRef &r);
-    void Decref();
-    void InitTag(int tagk);
-    ~CRef() { Decref(); }
-    CRef &operator=(const CRef &r);
-    CRef &operator=(void *pv);
-    CRef &operator=(qword q);
-    CRef &operator=(bool f);
-    CRef &operator=(int n);
-    CRef &operator=(float g);
-};
-extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-extern "C" { void *PsndStartDialog__FP8SOUNDMGRii(void *p, int a, int b); CRef func_00102038(void *p, int c, void *aref); }
-CRef func_00102038(void *p, int c, void *aref)
+#include "splice_cref.h"
+extern "C" CRef RefSetArgsFromSplice(int carg, void *aref, int *aotype, ...) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
+extern "C" { void *PsndStartDialog__FP8SOUNDMGRii(void *plo, int a, int b); CRef func_00102038(void *plo, int carg, void *aref); }
+/* Splice method thunk, EOPID 137 (a sound manager method): starts dialog n and returns the sound. */
+CRef func_00102038(void *psoundmgr, int carg, void *aref)
 {
-    int ak[2] = {0x10, 0x105D};
-    int a, b;
-    CRef ref = RefSetArgsFromSplice(2, aref, ak, &a, &b);
-    ref = PsndStartDialog__FP8SOUNDMGRii(p, a, b);
+    int aotype[2] = {0x10, 0x105D};
+    int dialog, n;
+    CRef ref = RefSetArgsFromSplice(2, aref, aotype, &dialog, &n);
+    ref = PsndStartDialog__FP8SOUNDMGRii(psoundmgr, dialog, n);
     return ref;
 }
