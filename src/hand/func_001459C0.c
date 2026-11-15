@@ -2,12 +2,10 @@
  * region other than the actor's (not the region of oid 0x2CA), not jumping (an actor), its position is on that
  * region's navigation and there is ground under it; the point found is kept for the recovery (+0x80).
  * Layout: SafeHouse port (actorai.h JOBCOMPANION, actorai.cpp FNeedRecover). */
+#include "actor.h"
 #include "cid.h"
-typedef int qword __attribute__((mode(TI)));
 struct NAVREGION { char pad[0x18]; int oid; };   /* +0x18 compared with oid 0x2CA (SafeHouse: its mesh's oid) */
 struct REGENT { char pad[0x10]; struct NAVREGION *preg; };
-struct SOST { char pad[0xDC]; struct REGENT *pregent; };
-struct ACTOR { char pad[0xE8]; struct SOST *psost; };
 struct LOFOLLOW { char pad[0x2DC]; int stJump; };   /* an actor's jump.state (-1 when not jumping) */
 struct JOBCOMPANION {
     /* 0x00 */ char pad[0x10];
@@ -31,7 +29,7 @@ int FNeedRecover__12JOBCOMPANION(struct JOBCOMPANION *pjob)
     struct NAVREGION *pregActor;
     qword pos;
     if (!preg) return 0;
-    pregent = pjob->pactor->psost ? pjob->pactor->psost->pregent : 0;
+    pregent = pjob->pactor->so.psophys ? pjob->pactor->so.psophys->pregent : 0;
     pregActor = pregent ? pregent->preg : 0;
     if (preg == pregActor) return 0;
     if (preg->oid == OID_NoRecoverRegion) return 0;

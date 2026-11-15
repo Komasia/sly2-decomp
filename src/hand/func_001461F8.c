@@ -1,13 +1,8 @@
 /* class: JOBCOMPANIONATTACK, Bentley's (cid 0xC4) attack job, Enter (AIJOB vt slot 8): the base enter, state 0, the enemy made the
  * actor's targets (vt slot 95, SafeHouse SetActorTargets(pactor, 4, ploEnemy, 4, ploEnemy)) and the actor's
  * attacking flag (+0x10E0 bit 0) set. Layout: SafeHouse port (actorai.h JOBCOMPANIONATTACK). */
+#include "actor.h"
 #include "vtbl.h"
-struct ACTOR {
-    /* 0x0000 */ char pad0[0xC];
-    /* 0x000c */ VTENT *vt;
-    /* 0x0010 */ char pad10[0x10E0 - 0x10];
-    /* 0x10e0 */ int grf10E0;   /* field: SafeHouse port - bit 0: attacking */
-};
 struct JOBCOMPANIONATTACK {
     /* 0x00 */ char pad0[0x10];
     /* 0x10 */ struct ACTOR *pactor;   /* field: SafeHouse port (AIJOB) */
@@ -25,7 +20,7 @@ void func_001461F8(struct JOBCOMPANIONATTACK *pjob)
     Enter__5AIJOB(pjob);
     SetState__16JOBBENTLEYATTACKi(pjob, 0);
     pactor = pjob->pactor;
-    pvte = &pactor->vt[VTS_SetActorTargets];
+    pvte = &pactor->so.lo.pvt[VTS_SetActorTargets];
     ((void (*)(void *, int, int, int, int))pvte->pfn)(VT_THIS(pactor, pvte), 4, pjob->ploEnemy, 4, pjob->ploEnemy);
     pjob->pactor->grf10E0 |= ACTORF_Attacking;
 }
