@@ -11,7 +11,7 @@ void NProgress(struct R *r, int a, void *b);
 void Decref(struct R *r) asm("Decref__4CRef");
 void func_001ACB58(struct G1 *p, int n);
 void func_001ABD40(struct G2 *p);
-void func_001660F8(void);
+void StartBootSequence__Fv(void);
 void func_001B0878(struct S *p)
 {
     BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x2D, 0);
@@ -30,7 +30,7 @@ void func_001B0878(struct S *p)
             func_001ABD40(&D_002E65E0);
         }
     } else {
-        func_001660F8();
+        StartBootSequence__Fv();
     }
     if (p) p->f |= 2;
 }

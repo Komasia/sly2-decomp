@@ -2,7 +2,7 @@ struct G { char pad[0xC]; int xC; };
 extern struct G g_game;
 struct P { char pad[0x9BC]; int x9BC; char pad1[0x10DC - 0x9C0]; int x10DC; char pad2[0x130C - 0x10E0]; int x130C; char pad3[0x13E8 - 0x1310]; int x13E8; char pad4[0x143C - 0x13EC]; int x143C; char pad5[0x1AC4 - 0x1440]; int x1AC4; };
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, struct P *b);
-void func_00141CD0(struct P *p, int k);
+void SpendActorPower__FP5ACTORi(struct P *p, int k);
 void func_00141D38(struct P *p, int k);
 void func_001B6078(struct P *p, int n);
 void SetMurrayBerserk__FP6MURRAYi(struct P *p, int n);
@@ -14,7 +14,7 @@ void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
     BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, p);
     switch (k) {
     case 20:
-        func_00141CD0(p, k);
+        SpendActorPower__FP5ACTORi(p, k);
         func_001B6078(p, 0xC);
         SetMurrayBerserk__FP6MURRAYi(p, 0);
         SetMurrayBerserk__FP6MURRAYi(p, 1);
@@ -25,12 +25,12 @@ void StartMurrayAbility__FP5ACTORi(struct P *p, int k)
         StartInteract__FP5ACTORii3JTL((char *)p + 0x4C0, 0xB, 0, 0);
         break;
     case 19:
-        func_00141CD0(p, k);
+        SpendActorPower__FP5ACTORi(p, k);
         p->x143C = 1;
         func_001B6078(p, 8);
         break;
     case 22:
-        func_00141CD0(p, k);
+        SpendActorPower__FP5ACTORi(p, k);
         p->x13E8 = 1;
         func_001B6078(p, 3);
         break;

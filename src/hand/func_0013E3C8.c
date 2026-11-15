@@ -9,7 +9,7 @@ void func_00256EE0(struct LO *plo, void *pv);
 void *func_0015E380(struct G *pg, int oid);
 void *func_0015E3A8(struct G *pg, int cid);
 void func_0011A070(void *pdl, struct LO *plo);
-int func_001A61A0(struct LO *plo);
+int FLoActive__FP2LO(struct LO *plo);
 #define VCALL(p, n) ((void (*)(void *))(p)->pvt[n].pfn)(VT_THIS((p), &(p)->pvt[n]))
 struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n)
 {
@@ -23,7 +23,7 @@ struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n)
     VCALL(plo, 7);
     if (plo->f)
         VCALL(plo, 11);
-    if (func_001A61A0(plo))
+    if (FLoActive__FP2LO(plo))
         VCALL(plo, 23);
     if (pg->pplo)
         *pg->pplo++ = plo;

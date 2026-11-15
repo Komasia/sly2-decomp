@@ -17,7 +17,7 @@ extern char D_002C35F0[];
 void func_001DD8E0(void);
 void func_001DA808(OBJ *);
 int GrfbtnTakePressedJoy(PAD *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
-int func_00187DD0(PAD *, int);
+int GrfbtnPressed__FP6JOYPS2Ui(PAD *, int);
 void SetJoyPs2BtnHandled__FP6JOYPS2Ui(PAD *, int);
 void AentOptions__FPv(int);
 void func_001ACC38(void *, int);
@@ -48,7 +48,7 @@ void func_001DD920(OBJ *p)
         }
         return;
     }
-    if (func_00187DD0(p->pad10, 0x100) && (p->pad10->fl & 0x108) == 0x100) {
+    if (GrfbtnPressed__FP6JOYPS2Ui(p->pad10, 0x100) && (p->pad10->fl & 0x108) == 0x100) {
         SetJoyPs2BtnHandled__FP6JOYPS2Ui(p->pad10, 0x100);
         AentOptions__FPv(0);
         return;

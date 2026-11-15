@@ -25,14 +25,14 @@ void RecalcSwOxfFilterForObject(WORLD *,O *) asm("RecalcSwOxfFilterForObject__FP
 float RadStepHeading(O *) asm("RadStepHeading__FP4STEP");
 void SetStepPhysHeading(O *,float) asm("SetStepPhysHeading__FP3ALOf");
 qword PosOfLo(O *) asm("PosOfLo__FP2LO");
-void func_002046B0(O *,qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(O *,qword);
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 void ReparentBooty(O *,int,int) asm("ReparentBooty__FP3ALOii");
 void FadeAloOut(O *,float) asm("FadeAloOut__FP3ALOf");
 void RecalcBlend(ASEG *) asm("RecalcBlend__FP6ASEGBL");
 qword ConvertPos(O *,O *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 void UpdateJtThrowArc(S *,int) asm("UpdateJtThrowArc__FP7JTTHROWi");
-void func_00141CD0(O *,int);
+void SpendActorPower__FP5ACTORi(O *,int);
 void ClearSmaHandle(HANDLE *) asm("ClearSmaHandle__FPP3SMA");
 void ApplyAsegCur(ASEG *,O *,float,float,int,ASEGA **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
@@ -128,7 +128,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  case -1:SetStepPhysHeading(s->owner,RadStepHeading(s->owner));s->owner->movement=0;break;
  case 7:
   {O*getterOwner;w.saved.q=SavedTargetAndOwner(s,getterOwner);
-   qword position=PosOfLo(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);func_002046B0(receiver,Sub(target,current));}
+   qword position=PosOfLo(getterOwner);qword current=ToVF(position);O *receiver;qword target=RestoreTarget(&receiver,s,w.saved);SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(receiver,Sub(target,current));}
   s->owner->movement=0;
   break;
  default:s->owner->direction.q=D_002A2DD0.q;s->owner->movement=1;break;
@@ -170,7 +170,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  case 6:animation=s->animation6;break;
  case 7:
   animation=s->animation7;
-  if(FIsBasicDerivedFrom(s->selected,0x64))func_00141CD0(s->owner,s->selected->actorId);
+  if(FIsBasicDerivedFrom(s->selected,0x64))SpendActorPower__FP5ACTORi(s->owner,s->selected->actorId);
   break;
  }
  ClearSmaHandle(&s->owner->extra);

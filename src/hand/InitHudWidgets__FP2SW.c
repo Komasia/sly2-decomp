@@ -14,7 +14,7 @@ extern char D_003DA3C0[];
 extern char D_003DA4F0[];
 extern char D_003DA530[];
 void InitGauge__FP5GAUGE(void *pgauge);
-void func_001AE928(void *pv);   /* SafeHouse: InitMenu */
+void InitMenu__FP4MENU(void *pv);   /* SafeHouse: InitMenu */
 void func_001A3020(void *pv);
 void func_001DA770(void *pv);
 void func_001DA2E0(void *pv);
@@ -26,7 +26,7 @@ void func_001DD690(void *pv);
 void InitHudWidgets__FP2SW(void)
 {
     InitGauge__FP5GAUGE(D_003D9E80);
-    func_001AE928(D_003D9ED0);
+    InitMenu__FP4MENU(D_003D9ED0);
     func_001A3020(D_002E1E60);
     func_001DA770(D_003DA0F0);
     func_001DA770(D_003DA150);

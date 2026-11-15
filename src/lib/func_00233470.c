@@ -1,11 +1,11 @@
-/* func_00233470 (newlib r5900 strncmp; MMI string routine like memset/memcpy, kept as a top-level asm block). */
+/* strncmp (newlib r5900 strncmp; MMI string routine like memset/memcpy, kept as a top-level asm block). */
 __asm__(
     ".set noreorder\n"
     ".set noat\n"
     ".text\n"
-    ".globl func_00233470\n"
-    ".ent func_00233470\n"
-    "func_00233470:\n"
+    ".globl strncmp\n"
+    ".ent strncmp\n"
+    "strncmp:\n"
     "bnez $a2, L233480\n"
     "or $v1, $a0, $a1\n"
     "L233478:\n"
@@ -131,7 +131,7 @@ __asm__(
     "lbu $v1, 0x0($a0)\n"
     "jr $ra\n"
     "subu $v0, $v1, $v0\n"
-    ".end func_00233470\n"
+    ".end strncmp\n"
     ".set at\n"
     ".set reorder\n"
 );

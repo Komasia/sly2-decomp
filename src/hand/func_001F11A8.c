@@ -5,7 +5,7 @@ struct Q { char pad[0x14]; struct T *pt; char pad2[0x1C - 0x18]; float f1C; char
 struct P { char pad[0x24]; void *p24; char pad2[0x30 - 0x28]; struct Q *pq; int n34; char pad3[0x40 - 0x38]; struct A *pa; char pad4[0x48 - 0x44]; int n48; };
 extern char D_002DE578[];
 int FSmaRetracted(struct P *) asm("FSmaRetracted__FP3SMA");
-int func_001F0438(void *, int);
+int IsmsFindSmRequired__FP2SM3OID(void *, int);
 struct A *PsmtPath__FP2SMUiii(void *, int, int, int, int);
 float GSuck__FPv(void *);
 static inline float Eval(struct V3 *pv, float t)
@@ -18,7 +18,7 @@ float func_001F11A8(struct P *p, int k)
     int end, cur;
     struct A *pa;
     if (FSmaRetracted(p)) return r;
-    end = func_001F0438(p->p24, k);
+    end = IsmsFindSmRequired__FP2SM3OID(p->p24, k);
     if (!p->pq) {
         cur = p->n34;
     } else {

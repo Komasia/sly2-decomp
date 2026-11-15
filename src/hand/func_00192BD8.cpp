@@ -73,8 +73,8 @@ qword PosOfLo(void *) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(void *) asm("MatJtLo__FP2LO");
 void NearestCrvAll(SOURCE *, qword, void *, void *, void *, float *, float *) asm("NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2");
 void SetHideState(SOURCE *, int) asm("SetHideState__FP2LOi");
-void func_001333C0(SOURCE *, ACTOR *);
-void func_00133448(SOURCE *, ACTOR *);
+void AddLoListener__FP2LOi(SOURCE *, ACTOR *);
+void RemoveLoListener__FP2LOi(SOURCE *, ACTOR *);
 void PairActorWith(ACTOR *, SOURCE *, int) asm("PairActorWith__FP5ACTORP2LOi");
 void EvalCrv(SOURCE *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 EFFECT *PsndNewPlain(int) asm("PsndNewPlain__Fi");
@@ -82,7 +82,7 @@ void SetSource(EFFECT *, SOURCE *) asm("SetSource__4CSndPv");
 void func_00258040(EFFECT **, EFFECT *);
 void FaceObject(ACTOR *, SOURCE *) asm("FaceObject__FP5ACTORP2LO");
 void TurnActorNow(ACTOR *) asm("TurnActorNow__FP5ACTOR");
-void func_002046B0(ACTOR *, qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(ACTOR *, qword);
 void SetCmPolicy(MANAGER *, int, CAMERA *, ACTOR *, void *) asm("SetCmPolicy__FP2CM3CPPP5CPLCYii");
 void RevokeCmPolicy(MANAGER *, int, int, CAMERA *, ACTOR *, void *) asm("RevokeCmPolicy__FP2CMi3CPPP5CPLCYii");
 void SetSlyMode(ACTOR *, int) asm("SetSlyMode__FP3SLYi");
@@ -206,7 +206,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         case 4: {
             SOURCE *source = p->focus;
             SourceState(source, 5);
-            func_001333C0(source, p->pactor);
+            AddLoListener__FP2LOi(source, p->pactor);
             PairActorWith(p->pactor, source, 1);
             ACTOR *actor = p->pactor;
             actor->position = PosOfLo(source);
@@ -216,7 +216,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             SOURCE *source = p->focus;
             U dir, tangent;
             SourceState(source, 5);
-            func_001333C0(source, p->pactor);
+            AddLoListener__FP2LOi(source, p->pactor);
             PairActorWith(p->pactor, source, 1);
             p->index = -1;
             EvalCrv(source, p->param, &p->pactor->position, &tangent.q);
@@ -234,7 +234,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         }
         case 11:
             if (p->focus)
-                func_001333C0(p->focus, p->pactor);
+                AddLoListener__FP2LOi(p->focus, p->pactor);
             break;
         case 12:
             if (p->focus)
@@ -252,7 +252,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                 qword pos = PosOfLo(source->other);
                 SetVector(p->pactor, 29, Sub(pos, p->pactor->posOffset));
                 p->pactor->motion = AddScaled(pos, g_normalZ, VuFloat(p->pactor->height));
-                func_002046B0(p->pactor, MatJtLo(source->other)->row[0]);
+                SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p->pactor, MatJtLo(source->other)->row[0]);
                 SetPointer(p->pactor, 30, p->pactor->local);
                 SetVector(p->pactor, 35, D_002A2DD0);
                 SetVector(p->pactor, 36, D_002A2DD0);
@@ -287,7 +287,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         case 4: {
             SOURCE *source = p->focus;
             SourceState(source, 6);
-            func_00133448(source, p->pactor);
+            RemoveLoListener__FP2LOi(source, p->pactor);
             PairActorWith(p->pactor, source, 0);
             break;
         }
@@ -297,7 +297,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
             break;
         case 11:
             if (p->focus)
-                func_00133448(p->focus, p->pactor);
+                RemoveLoListener__FP2LOi(p->focus, p->pactor);
             p->pactor->x130C = 0;
             p->pactor->x9BC = -1;
             break;
@@ -479,7 +479,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         clip = p->clip324;
         if (source->other) {
             M3 basis = *MatJtLo(source->other);
-            func_002046B0(p->pactor, basis.row[0]);
+            SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p->pactor, basis.row[0]);
         }
         p->pactor->velocity = D_002A2DD0;
         SourceState(source, 5);

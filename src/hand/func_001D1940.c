@@ -7,7 +7,8 @@ struct VEHICLE {
 void SetCmFocusObject__FP2LOi(struct VEHICLE *plo, int fFocus);
 void SetVehicleMode__FP7VEHICLEi(struct VEHICLE *pvehicle, int mode);
 
-void func_001D1940(struct VEHICLE *pvehicle, int fFocus)
+// name: SafeHouse port (vehicle.h SetVehicleFocus, orig 0x1D1940)
+void SetVehicleFocus__FP7VEHICLEi(struct VEHICLE *pvehicle, int fFocus)
 {
     SetCmFocusObject__FP2LOi(pvehicle, fFocus);
     if (fFocus != 0) {

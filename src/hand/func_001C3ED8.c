@@ -5,7 +5,7 @@ extern struct G g_sw;
 int NPoEnabled__FP2LO(struct LO *p);
 void *__builtin_new(int cb);
 void *func_001C4280(void *pv, struct LO *p);
-void func_001C4940(struct G *pg, struct LO *plo);
+void SetPoCurrent__FP2SWP2LO(struct G *pg, struct LO *plo);
 void SetPadctlControl__FP6PADCTLi(void *pv, int n);
 // name: SafeHouse port (EnablePo)
 void EnablePo__FP2POi(struct LO *p, int n)
@@ -23,14 +23,14 @@ void EnablePo__FP2POi(struct LO *p, int n)
         struct LO *plo = pg->plo3EFC;
         if (p != plo) {
             if (plo) ((void (*)(void *, int))plo->vt[79].pfn)(VT_THIS(plo, &plo->vt[79]), 0);
-            func_001C4940(pg, p);
+            SetPoCurrent__FP2SWP2LO(pg, p);
         }
         break;
     }
     case -1:
     case 0: {
         struct G *pg = &g_sw;
-        if (p == pg->plo3EFC) func_001C4940(pg, 0);
+        if (p == pg->plo3EFC) SetPoCurrent__FP2SWP2LO(pg, 0);
         break;
     }
     }

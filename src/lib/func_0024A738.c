@@ -29,7 +29,8 @@ static inline void PackWordParts(ulong *low,ulong *high){
  asm("and %0,%0,%2\n\tdsll32 %1,%1,0":"+&r"(bottom),"+r"(top):"r"(mask));
  *low=bottom;*high=top;
 }
-double func_0024A738(double x,double y){
+// name: newlib libm copysign (Sly 3 symbol, fnmap 97)
+double copysign(double x,double y){
  union DOUBLEWORD magnitude,signValue,result;
  ulong low,combined;long high,sign;
  magnitude.value=x;signValue.value=y;

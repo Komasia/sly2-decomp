@@ -20,7 +20,7 @@ typedef struct OBJ {
 extern E D_002C2DE8[], D_002C3028[], D_002C3148[];
 extern REC D_002BCD00[];
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-int func_001DAEA8(int);
+int FPowerupOwned__Fi(int);
 void func_00213B00(SUB *, int);
 void func_00213928(SUB *, int);
 void func_00212E40(SUB *, int, float);
@@ -62,7 +62,7 @@ void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
         found = 0;
         for (i = 0; i < n; i++) {
             int id = tbl[i].key;
-            if (func_001DAEA8(id)) {
+            if (FPowerupOwned__Fi(id)) {
                 REC r = D_002BCD00[id];
                 if (r.xC > 0) {
                     found = 1;

@@ -5,7 +5,8 @@ void Decref__4CRef(CRef *pref);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 CRef *__as__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 CRef *RefEval__FP5CPairP6CFrame(CRef *ret, LO *plo, CRef *aref);
-CRef *func_00127190(CRef *ret, BASIC *pbasic, CRef *aref)
+// name: Sly 1 eval.cpp RefEvalLambdaBody (evaluates the body expressions, keeps the last; called by RefEvalApply for a proc); SafeHouse eval.h RefEvalLambdaBody(CProc*, CFrame*) 0x127190
+CRef *RefEvalLambdaBody__FP5CProcP6CFrame(CRef *ret, BASIC *pbasic, CRef *aref)
 {
     CRef ref;
     CRef refT;

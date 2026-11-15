@@ -15,7 +15,7 @@ extern char g_joy[];
 extern char D_002E0D00[];
 void UpdateSo__FP2SOf(OBJ *);
 int func_0014FD50(void *);
-int func_00187E88(void *);
+int NStepLeftRight__FP6JOYPS2(void *);
 int GrfbtnTakePressedJoy(void *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void *OidSmaCur(void *) asm("OidSmaCur__FP3SMA");
 OBJ *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, OBJ *);
@@ -42,7 +42,7 @@ void UpdateSafeHouse__FP2LO(OBJ *p)
         pad = g_joy;
     else
         pad = D_002E0D00;
-    n = func_00187E88(pad);
+    n = NStepLeftRight__FP6JOYPS2(pad);
     if (n == 0) {
         for (i = 0; ; i++) {
             OBJ *q;

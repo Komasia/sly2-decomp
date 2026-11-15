@@ -2,7 +2,7 @@ typedef struct CRef { int m_tagk; int m_tag; } CRef;
 typedef struct LO { char pad[0xC]; struct LO *pc; char pad2[0x2C]; void *pv; } LO;
 typedef struct G { char pad[0x3F0C]; void *pv; } G;
 extern G g_sw;
-void *func_0015E958(G *pg, int k, int a, LO *b, void *c);
+void *PloFindSwObject__FP2SWi3OIDP2LOPv(G *pg, int k, int a, LO *b, void *c);
 void SetBasic__4CRefP5BASIC(CRef *pref, void *p);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
@@ -23,7 +23,7 @@ CRef *func_00124150(CRef *ret, void *pbasic, CRef *aref)
         G *pg = &g_sw;
         int k = b ? 1 : 5;
         int a = aref[0].m_tag;
-        SetBasic__4CRefP5BASIC(&ref, func_0015E958(pg, k, a, b, plo ? plo->pv : pg->pv));
+        SetBasic__4CRefP5BASIC(&ref, PloFindSwObject__FP2SWi3OIDP2LOPv(pg, k, a, b, plo ? plo->pv : pg->pv));
     }
     __4CRefRC4CRef(ret, &ref);
     Decref(&ref);

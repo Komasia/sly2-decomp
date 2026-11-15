@@ -65,7 +65,7 @@ float RadNormalize(float) asm("RadNormalize__Ff");
 void SetInteractState(CONTEXT *, int) asm("SetInteractState__FP5ACTORi");
 void SetGaitMix(PROGRAM *, float) asm("SetGaitMix__FP4GAITf");
 void UpdateGaitFeet(PROGRAM *) asm("UpdateGaitFeet__FP4GAIT");
-void func_001441E8(ACTOR *, float);
+void DrainActorPower__FP5ACTORf(ACTOR *, float);
 void NearestCrv(FOCUS *, qword, void *, U *, U *, float *, float *, float) asm("NearestCrv__FP3CRV");
 void SetJumpKind(void *, int, int, int) asm("SetJumpKind__FP4JUMPiiP2LO");
 float atan2f(float, float) asm("atan2f");
@@ -248,7 +248,7 @@ extern "C" void UpdateInteract__FP5ACTOR(CONTEXT *ctx)
         }
         break;
     case 2:
-        func_001441E8(ctx->actor, D_002BF5C0);
+        DrainActorPower__FP5ACTORf(ctx->actor, D_002BF5C0);
         if (ctx->step == 0 ? 0.1f < pjoy->amount : 0.0f < pjoy->amount) {
             SetInteractState(ctx, 4);
             SetGaitMix((PROGRAM *)((char *)ctx->actor + 0x1C30), pjoy->amount * D_002BF5C4);

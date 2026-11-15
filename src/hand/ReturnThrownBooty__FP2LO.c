@@ -10,7 +10,7 @@ struct BOOTY {
     /* 0x184 */ int state;          /* field: SafeHouse port */
 };
 void SetBootyState__FP2LOi(struct BOOTY *pbooty, int st);
-int func_001A61A0(struct LO *plo);   /* SafeHouse: in the world, its root active */
+int FLoActive__FP2LO(struct LO *plo);   /* SafeHouse: in the world, its root active */
 
 // name: SafeHouse port (ReturnThrownBooty)
 void ReturnThrownBooty__FP2LO(struct BOOTY *pbooty)
@@ -21,7 +21,7 @@ void ReturnThrownBooty__FP2LO(struct BOOTY *pbooty)
         pbooty->pstand = 0;
         prec = pbooty->prec;
         SetBootyState__FP2LOi(pbooty, 0);
-        if (pstand != 0 && func_001A61A0(pstand)) {
+        if (pstand != 0 && FLoActive__FP2LO(pstand)) {
             pbooty->pstand = pstand;
             pbooty->prec = prec;
             SetBootyState__FP2LOi(pbooty, 1);

@@ -13,12 +13,12 @@ typedef struct HUDWIDGET {      /* a HUD widget (SafeHouse hudwidget.h; module 0
 } HUDWIDGET;
 
 void func_001D98A8(HUDWIDGET *pwidget, int fFocus);
-void func_00187E78(void *pjoy);
+void ClearJoySteps__FP6JOYPS2(void *pjoy);
 
 void func_001AE9A8(HUDWIDGET *pwidget, int fFocus)
 {
     func_001D98A8(pwidget, fFocus);
     if (fFocus != 0) {
-        func_00187E78(pwidget->pjoy);
+        ClearJoySteps__FP6JOYPS2(pwidget->pjoy);
     }
 }

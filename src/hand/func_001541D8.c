@@ -9,7 +9,7 @@ struct BUF { char a[0x180]; };
 extern char g_sw[];
 extern struct W *D_003E1480;
 void *PloPlayerPo__FP2SW(void *p);
-int func_001A61A0(struct SO *p);
+int FLoActive__FP2LO(struct SO *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 int func_0020F1B8(void *p);
 qword PosOfLo__FP2LO(struct SO *p);
@@ -29,7 +29,7 @@ int NDetectState__FP8DETECTORP2LOi(struct T *p, struct SO *pso, int k)
     struct W *pw;
     struct SO *pme = PloPlayerPo__FP2SW(g_sw);
     if (!pso) { k = 0; goto done; }
-    if (!func_001A61A0(pso)) { k = 0; goto done; }
+    if (!FLoActive__FP2LO(pso)) { k = 0; goto done; }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x32) && ((int (*)(void *))pso->vt[77].pfn)(VT_THIS(pso, &pso->vt[77])) == 2) { k = 0; goto done; }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pso, 0x34) && pme && FIsBasicDerivedFrom__FP5BASIC3CID(pme, 0x46)) { k = 0; goto done; }
     if (func_0020F1B8(g_sw)) { k = 0; goto done; }

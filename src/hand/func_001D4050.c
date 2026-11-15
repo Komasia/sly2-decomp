@@ -14,7 +14,8 @@ void func_001F4FB0(void *, OBJ *, int);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(void *, void *, S8, void *);
 static inline float GetZ(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
-void func_001D4050(void *a, OBJ *p, int n)
+// name: SafeHouse port (vehicle.h VehicleContactMaterial, orig 0x1D4050)
+void VehicleContactMaterial__FP3ALOP2XPi(void *a, OBJ *p, int n)
 {
     void *e;
     qword v;

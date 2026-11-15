@@ -24,14 +24,14 @@ typedef struct {
 extern char g_cm[];
 extern float D_002C2000;
 extern qword g_clqOne;
-void func_001CE920(OBJ *, qword);
+void InitRip__FP3RIPG9VU_VECTORfP2SO(OBJ *, qword);
 qword ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(void *, qword);
 float GRandInRange__Fff(float, float);
 void func_001D04E8(OBJ *p, qword q)
 {
     DEF *d;
     float x, y;
-    func_001CE920(p, q);
+    InitRip__FP3RIPG9VU_VECTORfP2SO(p, q);
     d = p->xF0;
     p->x100 = ConvertCmWorldToScreen__FP2CMG9VU_VECTOR(g_cm, q);
     x = GRandInRange__Fff(d->x20[0], d->x30[0]);

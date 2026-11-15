@@ -10,7 +10,7 @@ void SetSoundMgrFlags__FP8SOUNDMGRUii(void *p, int a, int b);
 void SetClockFactor__FP5CLOCKif(struct CLOCK *p, int a, float g);
 void PauseGame__FP9GAMEPAUSEi(void *p, int a);
 void ResumeGame__FP9GAMEPAUSEi(void *p, int a);
-int func_001A61A0(struct P *p);
+int FLoActive__FP2LO(struct P *p);
 void AppendDlEntry__FP2DLPv(void *p, struct X14 *px);
 void SetAsegaAsegSpeed__FP5ASEGAf(void *p, float g);
 void func_00147410(struct P *p, int state)
@@ -23,7 +23,7 @@ void func_00147410(struct P *p, int state)
         SetClockFactor__FP5CLOCKif(&g_clock, 8, 0.0f);
         PauseGame__FP9GAMEPAUSEi(g_sw, 0);
         ((void (*)(void *))p->vt[8].pfn)(VT_THIS(p, &p->vt[8]));
-        if (!func_001A61A0(p)) {
+        if (!FLoActive__FP2LO(p)) {
             struct LO *plo;
             AppendDlEntry__FP2DLPv(g_sw + 0x2C, p->px14);
             plo = p->px14->plo;

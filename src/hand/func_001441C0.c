@@ -1,7 +1,8 @@
 /* class: ACTOR (SafeHouse gadget.cpp SetActorPower: the gadgets' power set, clamped to +0x1300 (100)). */
 
 #include "actor.h"
-void func_001441C0(struct ACTOR *pactor, int n)
+// name: SafeHouse port (gadget.h SetActorPower, orig 0x1441C0)
+void SetActorPower__FP5ACTORi(struct ACTOR *pactor, int n)
 {
     int *pn = pactor->pnPower;
     if (pn != 0) {

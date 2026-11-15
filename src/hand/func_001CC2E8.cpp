@@ -31,7 +31,7 @@ qword DecomposeEulerMatrix(const M3*) asm("DecomposeEulerMatrix__FP7MATRIX3");
 void SetCtrlPos(void*,qword) asm("SetCtrlPos__FP7CTRLPOSG9VU_VECTOR");
 void SetAsegaTime(void*,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void RecalcBlend(MOTION*) asm("RecalcBlend__FP6ASEGBL");
-void func_002046B0(LO*,qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(LO*,qword);
 void TurnActorNow(LO*) asm("TurnActorNow__FP5ACTOR");
 void UpdateReach(P*) asm("UpdateReach__FP5REACH");
 }
@@ -79,7 +79,7 @@ void UpdateReach(P*p){
  RecalcBlend(p->motion);
  w.saved.q=w.position.q;
  LO*receiver;qword delta=DifferenceFromSaved(&w.saved,PosOfLo(p->owner),p,receiver);
- func_002046B0(receiver,delta);
+ SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(receiver,delta);
  TurnActorNow(p->owner);
 }
 

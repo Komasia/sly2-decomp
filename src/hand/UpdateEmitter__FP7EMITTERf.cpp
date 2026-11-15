@@ -19,7 +19,7 @@ struct EMITX { PRG **ppprg; RIPG **ppripg; EMITTER *pemitter; };
 extern "C" {
 void UpdateLo(EMITTER *p) asm("UpdateLo__FP2LO");
 int FIsDlEmpty(int *pdl) asm("FIsDlEmpty__FP2DL");
-int func_001A61A0(EMITTER *p);
+int FLoActive__FP2LO(EMITTER *p);
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
 float GRandInRange(float gMin, float gMax) asm("GRandInRange__Fff");
 int CPvDl(int *pdl) asm("CPvDl__FP2DL");
@@ -53,7 +53,7 @@ void UpdateEmitter(EMITTER *p, float dt)
     if (!FIsDlEmpty(&p->dl11C)) {
         EMITTER *pe;
         for (pe = (EMITTER *)p->dl11C; pe; pe = pe->pNext) {
-            if (!func_001A61A0(pe))
+            if (!FLoActive__FP2LO(pe))
                 continue;
             if (!pe->x10)
                 goto LActive;

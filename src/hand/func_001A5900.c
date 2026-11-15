@@ -10,7 +10,7 @@ void func_001A5448(ALO *p, void **ppdl, ALO ***pppalo);
 void RemoveDlEntry__FP2DLPv(void *pdl, void *p);
 void AppendDlEntry__FP2DLPv(void *pdl, void *p);
 void InsertDlEntryBefore__FP2DLPvT1(void *pdl, void *pBefore, void *p);
-int func_001A61A0(ALO *p);
+int FLoActive__FP2LO(ALO *p);
 void CheckLoRoot__FP2SWP2LO(void *g, ALO *p);
 void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
 {
@@ -39,7 +39,7 @@ void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
         RemoveDlEntry__FP2DLPv(pdlOld, palo);
         InsertDlEntryBefore__FP2DLPvT1(pdlNew, *ppaloNew, palo);
     }
-    if (func_001A61A0(palo)) {
+    if (FLoActive__FP2LO(palo)) {
         VFN(palo, 22, void (*)(ALO *))(VTHIS(palo, 22));
         if (*palo->x14 == palo)
             RemoveDlEntry__FP2DLPv(D_003DD4BC, palo->x14);
@@ -58,7 +58,7 @@ void func_001A5900(ALO *palo, ALO *paloParent, int a, int b)
         else
             VFN(palo, 12, void (*)(ALO *))(VTHIS(palo, 12));
     }
-    if (func_001A61A0(palo))
+    if (FLoActive__FP2LO(palo))
         VFN(palo, 23, void (*)(ALO *))(VTHIS(palo, 23));
     else if (!palo->x10 && fNew)
         CheckLoRoot__FP2SWP2LO(g_sw, palo);

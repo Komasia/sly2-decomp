@@ -4,7 +4,7 @@ struct O { char pad[0x28]; long bits; };
 struct S { char pad[0xE4]; char aE4[0x18]; char aFC[0x10]; struct O *p10C; int c; void *a; void *cur; int x11C; char pad2[0x164 - 0x120]; int flags; };
 void LoadLoxBaseFromBrx(struct S *p, void *pbis);
 void ReadGeom(void *pbis, void *pv) asm("ReadGeom__18CBinaryInputStreamP4GEOM");
-void func_00118220(void *pbis, void *pv, void *pv2);
+void ReadBspc__18CBinaryInputStreamP4GEOMP4BSPC(void *pbis, void *pv, void *pv2);
 MARK *__10STACKSCOPE(MARK *pm);
 void _$_10STACKSCOPE(MARK *pm, int n);
 void *PvAllocStackImpl__Fi(MSG *pmsg);
@@ -22,7 +22,7 @@ void LoadZoneFromBrx__FP2LOP18CBinaryInputStream(struct S *p, void *pbis)
     void *pv;
     LoadLoxBaseFromBrx(p, pbis);
     ReadGeom(pbis, p->aE4);
-    func_00118220(pbis, p->aE4, p->aFC);
+    ReadBspc__18CBinaryInputStreamP4GEOMP4BSPC(pbis, p->aE4, p->aFC);
     __10STACKSCOPE(&mark);
     {
         MSG *pm = &msg;

@@ -7,7 +7,7 @@ struct P {
     ulong fl;
 };
 
-int func_001A61A0(struct P *);
+int FLoActive__FP2LO(struct P *);
 void func_001D6378(struct P *);
 void func_001D6310(struct P *);
 
@@ -38,7 +38,7 @@ void func_001F3B28(struct P *p, int enabled)
                     __asm__("sw %1,%0" : "=m"(p->v40) : "r"(value));
                 }
             }
-            if ((p->fl & (1L << 35)) && func_001A61A0(p))
+            if ((p->fl & (1L << 35)) && FLoActive__FP2LO(p))
                 func_001D6378(p);
         } else {
             if (!has8)

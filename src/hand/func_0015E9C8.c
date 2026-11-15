@@ -24,8 +24,8 @@ typedef struct ST {
 typedef struct CE { LO *plo; int a, b; } CE;
 extern int FIsBasicDerivedFrom__FP5BASIC3CID(LO *plo, int cid);
 extern CE *func_0015E3A8(void *psw, int k);
-extern int func_0015E988(int k, int cid);
-extern void func_0015E3E8(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
+extern int FIsCidDerivedFrom__F3CIDT0(int k, int cid);
+extern void MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
 // name: SafeHouse port (CFindObjectsByClass)
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, LO *ploCtx, int cMax, LO **aplo)
 {
@@ -69,7 +69,7 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, L
     case 5: {
         int k = cid;
         f = grf & 0x200;
-        for (; k < 199 && func_0015E988(k, cid); k++) {
+        for (; k < 199 && FIsCidDerivedFrom__F3CIDT0(k, cid); k++) {
             func_0015E3A8(psw, k);
             for (p = func_0015E3A8(psw, k)->plo; p; p = p->pNextClass) {
                 if ((grf & 0x100) && p->f == 0)
@@ -101,10 +101,10 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *psw, int grf, int cid, L
             f = grf & 0x200;
             break;
         }
-        for (k = cid; k < 199 && func_0015E988(k, cid); k++) {
+        for (k = cid; k < 199 && FIsCidDerivedFrom__F3CIDT0(k, cid); k++) {
             func_0015E3A8(psw, k);
             for (p = func_0015E3A8(psw, k)->plo; p; p = p->pNextClass)
-                func_0015E3E8(psw, p, 0, grf | 0x400, ploCtx, 0, cMax, &cplo, aplo, &ips);
+                MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, p, 0, grf | 0x400, ploCtx, 0, cMax, &cplo, aplo, &ips);
         }
         for (p = plo; p; p = p->pParent)
             p->ips = 0;

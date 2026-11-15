@@ -78,7 +78,7 @@ FRAME *PframeNew() asm("PframeNew__Fv");
 CRef RefEval(NODE *p, FRAME *pframe) asm("RefEval__FP5CPairP6CFrame");
 CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref) asm("RefAddBinding__6CFrameUiP4CRef");
 void SetSingleParent(FRAME *pframe, FRAME *pframeParent) asm("SetSingleParent__6CFrame");
-CRef func_00127190(LAMBDA *plambda, FRAME *pframe);
+CRef RefEvalLambdaBody__FP5CProcP6CFrame(LAMBDA *plambda, FRAME *pframe);
 CRef RefEvalApply(NODE *p, FRAME *pframe) asm("RefEvalApply__FP5CPairP6CFrame");
 }
 
@@ -153,7 +153,7 @@ CRef RefEvalApply(NODE *p, FRAME *pframe)
             CRef r = RefAddBinding(spf.p, pparam->ref.u.n, &aref[i]);
             pparam = pparam->pnext.p;
         }
-        ref = func_00127190(plambda, spf.p);
+        ref = RefEvalLambdaBody__FP5CProcP6CFrame(plambda, spf.p);
         break;
     }
     case 0x22:

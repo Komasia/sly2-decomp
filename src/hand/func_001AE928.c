@@ -12,7 +12,8 @@ struct MENU {
 };
 struct LO *PloFindSwNearest__FP2LO3OIDii(struct SW *psw, int grf, int oid, int n);
 
-void func_001AE928(struct MENU *pmenu)
+// name: SafeHouse port (menu.h InitMenu, orig 0x1AE928)
+void InitMenu__FP4MENU(struct MENU *pmenu)
 {
     pmenu->ploScreen = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x370, 0);
     pmenu->n1EC = -1;

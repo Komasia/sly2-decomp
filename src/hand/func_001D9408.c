@@ -11,7 +11,7 @@ void func_001D9B30(void *);
 void func_001AE970(void *);
 void func_001A3070(void *);
 void func_001DAA48(void *);
-void func_001DB7F0(void *);
+void InitShop__FP4SHOP(void *);
 void func_001DA320(void *);
 void func_001DCCD8(void *);
 void func_001ACB38(void *);
@@ -42,7 +42,7 @@ void func_001D9408(DL *pdl)
     func_001AE970(D_003D9ED0);
     func_001A3070(D_002E1E60);
     func_001DAA48(D_003DA0F0);
-    func_001DB7F0(D_003DA150);
+    InitShop__FP4SHOP(D_003DA150);
     func_001DA320(D_003DA0C0);
     func_001DCCD8(D_003DA3C0);
     func_001ACB38(D_002E6550);

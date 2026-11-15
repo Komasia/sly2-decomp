@@ -21,7 +21,7 @@ extern float D_002C40E0;
 extern V g_normalZ,D_002A2DA0,D_002A2DD0;
 extern "C" {
 qword PosOfLo(O *) asm("PosOfLo__FP2LO");
-int func_001DAEA8(int);
+int FPowerupOwned__Fi(int);
 qword SetVectorCylind(float,float,float) asm("SetVectorCylind__Ffff");
 void ConvertVectorToCylind(qword,float *,float *,float *) asm("ConvertVectorToCylind__FG9VU_VECTORPfN21");
 float GLimitLm(RANGE *,float) asm("GLimitLm__FP2LMf");
@@ -153,7 +153,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
   }
   else{
    CopyRange(w.scratch.range,s->bounds);
-   if(func_001DAEA8(0x24))w.scratch.range.hi*=D_002C40E0;
+   if(FPowerupOwned__Fi(0x24))w.scratch.range.hi*=D_002C40E0;
    float dt=PlanarSnapshot(Sub(s->targetWorld.q,w.ownerPosition.q),w.delta,g_clock.dt);
    float elevation;
    float scale;qword delta;

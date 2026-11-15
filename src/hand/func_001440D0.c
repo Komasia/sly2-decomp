@@ -4,7 +4,7 @@ extern char D_002A4E18[];
 extern char D_002A4E20[];
 int *PnProgressSlot__FPvi(void *p, char *name, int n);
 void func_00144188(struct P *p, int n);
-void func_001441C0(struct P *p, int n);
+void SetActorPower__FP5ACTORi(struct P *p, int n);
 // name: SafeHouse port (StartPlayerCounters)
 void StartPlayerCounters__FP5ACTORi(struct P *p, int f)
 {
@@ -16,7 +16,7 @@ void StartPlayerCounters__FP5ACTORi(struct P *p, int f)
     }
     if (*p->pnE00 == 0 || f) {
         func_00144188(p, p->nDFC);
-        func_001441C0(p, p->n1300);
+        SetActorPower__FP5ACTORi(p, p->n1300);
         p->n1308 = 0;
     }
 }

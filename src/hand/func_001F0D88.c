@@ -8,7 +8,7 @@ int FSmaRetracted(struct P *) asm("FSmaRetracted__FP3SMA");
 struct A *PsmtLeaving__FP2SMUii(struct G *, int, int, int);
 struct A *PsmtPath__FP2SMUiii(struct G *, int, int, int, int);
 void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *, int, float, float, int, struct ANIMATION **);
-void func_001333C0(struct ANIMATION *, struct P *);
+void AddLoListener__FP2LOi(struct ANIMATION *, struct P *);
 void RetractAsega__FP5ASEGA(struct ANIMATION *);
 void NotifySmaState__FP3SMAii(struct P *, int, int);
 static inline struct P *Receiver(struct P *p){register struct P *r __asm__("$4");__asm__("daddu %0,%1,$zero":"=r"(r):"r"(p));return r;}
@@ -72,7 +72,7 @@ apply:
                 pArgument=Receiver(p);
             }else{
                 int old;
-                if(!fl){func_001333C0(p->n30,p);return;}
+                if(!fl){AddLoListener__FP2LOi(p->n30,p);return;}
                 fl=p->n38;
                 old=p->n34;
                 p->n34=fl;

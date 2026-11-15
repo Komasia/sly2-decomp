@@ -71,8 +71,8 @@ void MarkBspBsp(SW *, SO *, SO *, int, BSP *, BSP *, XP **) asm("MarkBspBsp__FP3
 void AttachReachObject(ATTACH *, ACTOR *) asm("AttachReachObject__FP5REACHP2LO");
 int FIsBasicDerivedFrom(ACTOR *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int FActorPoseDone(ACTOR *) asm("FActorPoseDone__FP5ACTOR");
-int func_001441A0(ACTOR *);
-uint func_00141EA8(ACTOR *, int);
+int NActorPower__FP5ACTOR(ACTOR *);
+uint GrfAbilityButton__FP5ACTORi(ACTOR *, int);
 }
 void FreeSwXpList(SW *, XP *);
 
@@ -238,7 +238,7 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             }
             break;
         case 2:
-            if (func_001441A0(p->pactor) <= 0) {
+            if (NActorPower__FP5ACTOR(p->pactor) <= 0) {
                 SetControl(p->pactor, 0);
                 break;
             }
@@ -248,7 +248,7 @@ extern "C" void UpdateInteractTransitions__FP5ACTOR(CONTEXT *p)
             }
             if (g_grfusr & 1)
                 break;
-            if (pjoy->grfbtn & func_00141EA8(p->pactor, 0x28))
+            if (pjoy->grfbtn & GrfAbilityButton__FP5ACTORi(p->pactor, 0x28))
                 break;
             SetControl(p->pactor, 0);
             break;

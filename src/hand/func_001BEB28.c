@@ -23,7 +23,7 @@ typedef struct P {
 } P;
 extern R D_003E1A78[];
 extern char D_003DD4BC[];
-int func_001A61A0(O *o);
+int FLoActive__FP2LO(O *o);
 void AppendDlEntry__FP2DLPv(void *pdl, void *p);
 
 // name: SafeHouse port (TakeRtgt)
@@ -48,7 +48,7 @@ R *TakeRtgt__FPv(P *p)
             if (!((int)(o->x28 >> 60) & 1)) {
                 p->af[j] = 1;
                 ((void (*)(void *))o->vt[8].pfn)(VT_THIS(o, &o->vt[8]));
-                if (!func_001A61A0(o)) {
+                if (!FLoActive__FP2LO(o)) {
                     VO *q;
                     AppendDlEntry__FP2DLPv(D_003DD4BC, o->x14);
                     q = *o->x14;

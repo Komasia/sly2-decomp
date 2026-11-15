@@ -3,7 +3,8 @@ struct O { char pad[0xFBC]; int xfbc; };
 struct S { char pad[0x4748]; int x4748; float x474c; };
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct S *, int, int, int, int, struct O **);
 void SetGuardMode__FP5GUARDi(struct O *, int);
-void func_0019F170(struct S *p, int f) {
+// name: SafeHouse port (gadget.h SetGuardsFrozen, orig 0x19F170)
+void SetGuardsFrozen__FP2SWi(struct S *p, int f) {
     struct O *ap[32];
     int c, i;
     p->x4748 = f;

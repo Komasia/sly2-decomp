@@ -2,7 +2,7 @@ typedef int qword __attribute__((mode(TI)));
 struct P { char pad[0x1420]; qword q1420; };
 void func_001B6078(struct P *p, int n);
 qword PosOfLo__FP2LO(void *p);
-void func_002046B0(struct P *p, qword q);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct P *p, qword q);
 // name: SafeHouse port (StartMurrayThrow)
 void StartMurrayThrow__FP6MURRAYP2LO(struct P *p, void *pv)
 {
@@ -13,6 +13,6 @@ void StartMurrayThrow__FP6MURRAYP2LO(struct P *p, void *pv)
         p->q1420 = a;
         b = PosOfLo__FP2LO(p);
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-        func_002046B0(p, d);
+        SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p, d);
     }
 }

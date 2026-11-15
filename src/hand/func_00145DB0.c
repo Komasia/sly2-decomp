@@ -8,7 +8,7 @@ struct Q { char pad[0x330]; int x330; };
 struct R { char pad[0xDF4]; int xDF4; char pad2[0x1810 - 0xDF8]; int x1810; };
 struct P { char pad[0x10]; struct R *p10; char pad2[0x30 - 0x14]; int x30; float x34; struct Q *p38; };
 void Update__5AIJOB(struct P *);
-int func_001A61A0(struct Q *);
+int FLoActive__FP2LO(struct Q *);
 qword PosOfLo__FP2LO(void *);
 qword *MatJtLo__FP2LO(void *);
 void SetState__15JOBMURRAYATTACKi(struct P *, int);
@@ -22,7 +22,7 @@ void Update__15JOBMURRAYATTACK(struct P *p)
     Update__5AIJOB(p);
     if (p->x30 == -1)
         return;
-    if (p->p10->xDF4 != -1 || !func_001A61A0(p->p38) || p->p38->x330) {
+    if (p->p10->xDF4 != -1 || !FLoActive__FP2LO(p->p38) || p->p38->x330) {
         SetState__15JOBMURRAYATTACKi(p, -1);
         return;
     }

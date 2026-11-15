@@ -57,7 +57,7 @@ extern "C" void UpdateMurrayBehavior(P*) asm("UpdateMurrayBehavior__FP6MURRAY");
 extern "C" void UpdateMurrayBerserkTransitions(P*) asm("UpdateMurrayBerserkTransitions__FP6MURRAY");
 extern "C" void UpdateJtThrow(void*) asm("UpdateJtThrow__FP7JTTHROW");
 extern "C" void UpdateClimbTransitions(void*) asm("UpdateClimbTransitions__FP5ACTOR");
-extern "C" int func_00141EA8(P*,int);
+extern "C" int GrfAbilityButton__FP5ACTORi(P*,int);
 static inline PL*CopyPL(PL*source){PL*result;__asm__("daddu %0,%1,$zero":"=r"(result):"r"(source));return result;}
 static inline int Can(P*p,int kind){return ((int(*)(void*,int))p->vt[99].pfn)(VT_THIS(p, &p->vt[99]),kind);}
 // name: SafeHouse port (UpdateMurrayTransitions)
@@ -136,7 +136,7 @@ extern "C" void UpdateMurrayTransitions__FP6MURRAY(P*p){
    break;
   case 21:
    if(GrfPadctlTakePressed(p->input,0x40,0.0f))SetJumpKind(&p->control,13,0,0);
-   else if(!(p->input->flags&func_00141EA8(p,0x10)))func_001B6078(p,0);
+   else if(!(p->input->flags&GrfAbilityButton__FP5ACTORi(p,0x10)))func_001B6078(p,0);
    break;
   default:break;
   }

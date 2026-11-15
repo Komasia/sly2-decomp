@@ -17,7 +17,7 @@ void StopDialog(P *, int) asm("StopDialog__FP8SOUNDMGR");
 D *PstreamFindDialog(P *, int) asm("PstreamFindDialog__FP8SOUNDMGRi");
 X *PsndNewVoice(D *, int) asm("PsndNewVoice__FP9SNDSTREAMPv");
 void SetDialogSubtitle(void *, int, int) asm("SetDialogSubtitle__FP9DIALOGSUBii");
-X *func_0015ED78(G *, int, int, int);
+X *PloFindSwObjectByClass__FP2SWi3CIDP2LO(G *, int, int, int);
 int func_001FD0C0(P *, int);
 X *PsmaFindAloSm(X *, int) asm("PsmaFindAloSm__Fi3OID");
 }
@@ -34,7 +34,7 @@ extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
     p->n24C = 0;
     if (!f) SetDialogSubtitle(D_004435F0, k, pd->n48);
     if (pd->n48 != -1 && pd->n54) {
-        register X *po __asm__("$19")=func_0015ED78(&g_sw, 5, pd->n48, 0);
+        register X *po __asm__("$19")=PloFindSwObjectByClass__FP2SWi3CIDP2LO(&g_sw, 5, pd->n48, 0);
         if (po) {
             register int i __asm__("$18")=0;
             register int primaryRole __asm__("$20")=3;

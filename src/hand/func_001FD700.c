@@ -7,7 +7,7 @@ struct P {
 };
 extern qword D_002A2DD0;
 extern char D_004435F0[];
-void func_00232408(void);
+void snd_StopAllSounds(void);
 void func_00233048(int, int, int, int, int, int, int);
 int snd_FlushSoundCommands(void);
 void SetHeldNoise__FPP5NOISEG9VU_VECTORiP2LO(int, qword, int, void *);
@@ -20,7 +20,7 @@ void ResetSoundVolumes__FPv(struct P *);
 // name: SafeHouse port (ResetSoundMgr)
 void ResetSoundMgr__FP8SOUNDMGR(struct P *p)
 {
-    func_00232408();
+    snd_StopAllSounds();
     func_00233048(0x524B5553, 10, 0, 0, 0, 0, 0);
     while (snd_FlushSoundCommands())
         ;

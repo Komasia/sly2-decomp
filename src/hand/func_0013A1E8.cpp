@@ -46,7 +46,7 @@ void _$_10STACKSCOPE(FRAME *pf, int n);
 int FIsDlEmpty(void *pdl) asm("FIsDlEmpty__FP2DL");
 int CPvDl(void *pdl) asm("CPvDl__FP2DL");
 void *PvAllocStackImpl(const AL &al) asm("PvAllocStackImpl__Fi");
-int func_001A61A0(LO *plo);
+int FLoActive__FP2LO(LO *plo);
 qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
 M3 *MatJtLo(LO *plo) asm("MatJtLo__FP2LO");
 int FInsideCmPlanes(CM *pcm, qword d, VU_FLOAT r) asm("FInsideCmPlanes__FP2CMG9VU_VECTORT1");
@@ -93,7 +93,7 @@ void func_0013A1E8(P *p)
         if (!plo) goto done;
         pmId = &D_002A2D00;
     top:
-            if (!func_001A61A0(plo))
+            if (!FLoActive__FP2LO(plo))
                 goto next;
             {
             LO **pplo = plo->xE4->pplo;

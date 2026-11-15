@@ -2,7 +2,8 @@ struct E { int id; int cref; struct E *pnext; };
 struct S { int pad[2]; struct E *pfirst; };
 extern char D_003E1144[];
 struct E *func_0011CCC0(void *);
-void func_001333C0(struct S *p, int id) {
+// name: SafeHouse port (update.h: 0x1333C0 AddLoListener, counted by id)
+void AddLoListener__FP2LOi(struct S *p, int id) {
     struct E *pe;
     for (pe = p->pfirst; pe; pe = pe->pnext) {
         if (pe->id == id) { pe->cref++; return; }

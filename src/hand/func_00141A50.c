@@ -12,9 +12,10 @@ extern struct T D_002BCD00[];
 int GrfPadctlTakePressed__FP6PADCTL(struct X150 *p, int mask, float g);
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);
-int func_001441A0(struct P *p);
+int NActorPower__FP5ACTOR(struct P *p);
 void SetAbilityState__FP5ACTORP6ABSLOTi(struct P *p, struct E *pe, int n);
-void func_00141A50(struct P *p)
+// name: SafeHouse port (gadget.h UpdateActorAbilities, orig 0x141A50)
+void UpdateActorAbilities__FP5ACTOR(struct P *p)
 {
     int i;
     int *pmask;
@@ -31,7 +32,7 @@ void func_00141A50(struct P *p)
                 if (!((int (*)(void *, ...))p->vt[99].pfn)(VT_THIS(p, &p->vt[99]), id)) {
                     SetSource__4CSndPv(PsndNewPlain__Fi(0x2E), 0);
                 } else {
-                    int n = func_001441A0(p);
+                    int n = NActorPower__FP5ACTOR(p);
                     if (n < D_002BCD00[id].xC) {
                         SetSource__4CSndPv(PsndNewPlain__Fi(0x2E), 0);
                         p->t1304 = g_clock.t;

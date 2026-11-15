@@ -11,7 +11,7 @@ int GrfbtnTakePressedJoy(PAD *, int) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void ClearJoyBtns__FP6JOYPS2Ui(PAD *, int);
 int AentPause__FPv(int);
 int FIsDlEmpty__FP2DL(void *);
-void func_001AEEE0(void *);
+void UpdateMenu__FP4MENU(void *);
 void UpdateShop__FP2SW(void *);
 void UpdateGadgetMenu__FP2SW(void *);
 void func_0014BFF8(void *);
@@ -45,7 +45,7 @@ void func_001D9648(void *pdl)
         if (r && f)
             AentPause__FPv(0);
     }
-    func_001AEEE0(D_003D9ED0);
+    UpdateMenu__FP4MENU(D_003D9ED0);
     UpdateShop__FP2SW(D_003DA150);
     UpdateGadgetMenu__FP2SW(D_003DA0F0);
     func_0014BFF8(D_002DDEC0);

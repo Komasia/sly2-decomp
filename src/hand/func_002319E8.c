@@ -19,7 +19,8 @@ void sceSifInitRpc(int);
 int sceSifBindRpc(void *, int, int);
 int snd_SendIOPCommandAndWait__FiiPc(int, int, void *);
 
-void func_002319E8(int flags)
+// name: 989snd snd_StartSoundSystem (Sly 1 989snd.c: binds the RPCs, then command 0 and wait); SafeHouse snd989.h 0x2319E8
+void snd_StartSoundSystem(int flags)
 {
     int i;
     int buf[2];

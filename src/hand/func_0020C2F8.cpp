@@ -13,7 +13,7 @@ struct GAME;
 extern GAME g_sw;
 void ApplyAsegCur(ASEG *,ALO *,float,float,int,ASEGA **);
 extern "C" {
-void func_001333C0(ASEGA *,int);
+void AddLoListener__FP2LOi(ASEGA *,int);
 qword func_001F5860(ALO *);
 int FIsBasicDerivedFrom(ALO *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void DetachGuardMove(ALO *) asm("DetachGuardMove__FP5GUARD");
@@ -51,7 +51,7 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
     switch(state){
     case 0:
         ApplyAsegCur(p->tuning->animation,p->subject,0.0f,1.0f,p->index,&p->job);
-        func_001333C0(p->job,(int)p);
+        AddLoListener__FP2LOi(p->job,(int)p);
         p->previousVelocity.q=func_001F5860(p->subject);
         break;
     case 1:{

@@ -11,7 +11,7 @@ struct GADGETMENU {
     /* 0x50 */ struct GADGETENT *aent;  /* field: SafeHouse port */
 };
 int func_001DAE58(int key);   /* SafeHouse: FItemOpen */
-int func_001DAEA8(int key);   /* SafeHouse: FItemOwned */
+int FPowerupOwned__Fi(int key);   /* SafeHouse: FItemOwned */
 
 // name: SafeHouse port (UpdateGadgetFlags)
 void UpdateGadgetFlags__FPv(struct GADGETMENU *pgm)
@@ -20,6 +20,6 @@ void UpdateGadgetFlags__FPv(struct GADGETMENU *pgm)
     for (i = 0; i < pgm->cent; i++) {
         struct GADGETENT *pent = &pgm->aent[i];
         pent->grf = (pent->grf & ~2) | ((func_001DAE58(pent->key) & 1) << 1);
-        pent->grf = (pent->grf & ~4) | ((func_001DAEA8(pent->key) & 1) << 2);
+        pent->grf = (pent->grf & ~4) | ((FPowerupOwned__Fi(pent->key) & 1) << 2);
     }
 }

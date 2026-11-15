@@ -6,7 +6,7 @@ struct G;
 extern G g_sw;
 extern "C" void func_001D6310(L *);
 extern "C" void func_001D6378(L *);
-extern "C" void func_00147E88(G *, int);
+extern "C" void QueueLoRoot__FP2SWP2LO(G *, int);
 extern "C" void func_001F3118(L *p, float t)
 {
     L *q;
@@ -18,7 +18,7 @@ extern "C" void func_001F3118(L *p, float t)
     }
     if (!p->parent) {
         bool f = p->b60;
-        if (f) func_00147E88(&g_sw, p->n14);
+        if (f) QueueLoRoot__FP2SWP2LO(&g_sw, p->n14);
     }
     for (q = p->first; q; q = q->next) {
         if (t < q->g38) ((void (*)(void *, float))q->pvt->a[42].pfn)(VT_THIS(q, &q->pvt->a[42]), t);

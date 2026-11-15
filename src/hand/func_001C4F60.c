@@ -8,14 +8,14 @@ struct S {
 };
 extern char g_sw[];
 void func_001F36A8(struct S *p);
-struct LO *func_0015ED78(void *pg, int a, int b, struct S *p);
+struct LO *PloFindSwObjectByClass__FP2SWi3CIDP2LO(void *pg, int a, int b, struct S *p);
 void *PloFindSwNearest__FP2LO3OIDii(void *pg, int a, int b, struct S *p);
 // name: SafeHouse port (PostLoadPickup)
 void PostLoadPickup__FP2LO(struct S *p)
 {
     struct LO *plo;
     func_001F36A8(p);
-    plo = func_0015ED78(g_sw, 1, 0x12, p);
+    plo = PloFindSwObjectByClass__FP2SWi3CIDP2LO(g_sw, 1, 0x12, p);
     p->x16C = plo;
     if (plo)
         ((void (*)(void *))plo->pvt[9].pfn)(VT_THIS(plo, &plo->pvt[9]));

@@ -16,7 +16,7 @@ extern "C" qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 extern "C" qword ConvertPos(P*,void*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");
 extern "C" void func_002309E8(void*,void*,M4*,float,M4*);
 extern "C" void PosNearestSegment(qword,qword,qword,qword*,float*,float*) asm("PosNearestSegment__FG9VU_VECTORN20P6VECTORN23");
-extern "C" int func_0015ED78(G*,int,int,P*);
+extern "C" int PloFindSwObjectByClass__FP2SWi3CIDP2LO(G*,int,int,P*);
 extern "C" float atan2f(float,float) asm("atan2f");
 extern "C" float RadNormalize(float) asm("RadNormalize__Ff");
 struct VU_FLOAT{qword qw;};
@@ -30,7 +30,7 @@ static inline qword Sub(const qword &a,const qword &b){qword q;__asm__("vsub.xyz
 static inline qword GetVelocity(P*p){VTENT*e=&p->vt[33];qword(*f)(void*)=(qword(*)(void*))e->pfn;return f(VT_THIS(p, e));}
 static inline void*GetFrame(P*p,M4*out){return ((void*(*)(void*,M4*))p->vt[32].pfn)(VT_THIS(p, &p->vt[32]),out);}
 static inline float AbsF(const float &f){return __builtin_fabsf(f);}
-static inline int IsBonus(P*const &n){return func_0015ED78(&g_sw,3,0x33,n);}
+static inline int IsBonus(P*const &n){return PloFindSwObjectByClass__FP2SWi3CIDP2LO(&g_sw,3,0x33,n);}
 // name: SafeHouse port (ChooseAttackTarget)
 extern "C" void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(P*p,float headingInput,int mask,float dtInput,U*offset,P**out,qword*outvector,float cone){
  register float heading __asm__("$f21")=headingInput; float dt=dtInput; // the one pin: heading in f21 (else f20/f21 swap)

@@ -1,7 +1,8 @@
 struct E { int id; int a, b; };
 struct X { char pad[0x1180]; struct E ae[3]; };
 extern int D_002C3258[];
-int func_00141EA8(struct X *p, int id)
+// name: SafeHouse port (gadget.h GrfAbilityButton, orig 0x141EA8)
+int GrfAbilityButton__FP5ACTORi(struct X *p, int id)
 {
     int i;
     int m = 0;

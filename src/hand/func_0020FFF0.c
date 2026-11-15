@@ -4,7 +4,7 @@ struct D { int a; int b; int c; int d; };
 int CploFindSwNearest__FP2LO3OIDiiii(void *p, int k, int a, int b, int c, void **ppo);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *o, int n);
 struct Y *PsmaFindAloSm__Fi3OID(void *o, int b);
-void func_001333C0(struct Y *y, int x);
+void AddLoListener__FP2LOi(struct Y *y, int x);
 void SnapSmaGoal__FP3SMA3OID(struct Y *y, int id);
 void SetSmaGoal__FP3SMA3OID(struct Y *y, int id);
 void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
@@ -30,7 +30,7 @@ void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
     if (x) {
         *ppy = y;
         ((void (*)(void *))y->vt[1].pfn)(VT_THIS(y, &y->vt[1]));
-        func_001333C0(y, x);
+        AddLoListener__FP2LOi(y, x);
     }
     if (fl & 2)
         SnapSmaGoal__FP3SMA3OID(y, id);

@@ -17,7 +17,7 @@ int FMemcardThreadValid(void *p) asm("FMemcardThreadValid__FP7MEMCARD");
 void CreateMemcardThread__FP7MEMCARDii(void *p, VTENT pmf);
 void func_001ACB58(struct S *s, int n);
 void func_001ACBB8(struct S *s);
-void func_001660F8(void);
+void StartBootSequence__Fv(void);
 void CloseMenu__Fii(void *p);
 void func_001ACCC8(struct S *s)
 {
@@ -94,7 +94,7 @@ void func_001ACCC8(struct S *s)
             func_001ACBB8(s);
             switch (s->x4C) {
             case 1:
-                func_001660F8();
+                StartBootSequence__Fv();
                 return;
             case 2:
                 CloseMenu__Fii(D_003D9ED0);

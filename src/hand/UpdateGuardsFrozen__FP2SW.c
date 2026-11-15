@@ -7,11 +7,11 @@ struct SW {
 };
 extern float D_002BF938;   /* 6.0 */
 extern float g_clock;      /* g_clock.t */
-void func_0019F170(struct SW *psw, int fFrozen);   /* SafeHouse: SetGuardsFrozen */
+void SetGuardsFrozen__FP2SWi(struct SW *psw, int fFrozen);   /* SafeHouse: SetGuardsFrozen */
 
 // name: SafeHouse port (UpdateGuardsFrozen)
 void UpdateGuardsFrozen__FP2SW(struct SW *psw)
 {
     if (psw->fFrozen && D_002BF938 < g_clock - psw->tFrozen)
-        func_0019F170(psw, 0);
+        SetGuardsFrozen__FP2SWi(psw, 0);
 }

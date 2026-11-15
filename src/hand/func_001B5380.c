@@ -15,7 +15,7 @@ void func_001B6078(struct P *p, int n);
 int GrfPadctlPressedWithin__FP6PADCTLUif(struct PL *pl,unsigned int k,float g);
 int GrfPadctlTakePressed__FP6PADCTL(struct PL *pl, int k, float g);
 void ForgetPadctlPresses__FP6PADCTLUi(struct PL *pl, int k);
-int func_001DAEA8(int n);
+int FPowerupOwned__Fi(int n);
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 void OpenBinoc__FP5ACTORiP2LOT2(void *p, int a, int b, int c);
 void SetMurrayCarryMove__FP6MURRAYi(struct P *p, int n);
@@ -46,7 +46,7 @@ void UpdateMurrayCarryHeld__FP6MURRAY(struct P *p)
                 func_001B7D20(p);
                 p->p13F0 = 0;
                 func_001B6078(p, 0);
-            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0x40, 0.1f) && func_001DAEA8(0x12)) {
+            } else if (GrfPadctlPressedWithin__FP6PADCTLUif(p->pl, 0x40, 0.1f) && FPowerupOwned__Fi(0x12)) {
                 ForgetPadctlPresses__FP6PADCTLUi(p->pl, 0x40);
                 SetJumpKind__FP4JUMPiiP2LO(p->x2C0, 0xF, 0, 0);
             } else if (GrfPadctlTakePressed__FP6PADCTL(p->pl, 0xA0, 0.0f)) {
@@ -62,7 +62,7 @@ void UpdateMurrayCarryHeld__FP6MURRAY(struct P *p)
                 struct PL*pl=CopyPL(source);
                 float g=source->g1C;
                 if (p->x1458 == 0 ? 0.1f < g : 0.0f < g) {
-                    if ((pl->x30 & 8) && func_001DAEA8(0x12))
+                    if ((pl->x30 & 8) && FPowerupOwned__Fi(0x12))
                         SetMurrayCarryMove__FP6MURRAYi(p, 2);
                     else
                         SetMurrayCarryMove__FP6MURRAYi(p, 1);

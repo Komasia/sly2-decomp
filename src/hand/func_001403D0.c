@@ -14,7 +14,7 @@ extern struct G g_joy;
 extern char D_002DE2E0[];
 extern char D_003DA0F0[];
 void UpdateStep__FP4STEPf(struct P *p);
-void func_00141A50(struct P *p);
+void UpdateActorAbilities__FP5ACTOR(struct P *p);
 int GrfPadctlTakePressed__FP6PADCTL(struct Q *q, float g, int n);
 int GrfPadctlPressedWithin__FP6PADCTLUif(struct Q *q, float g, int n);
 void ShowWorldStats__Fv(struct P *p);
@@ -37,7 +37,7 @@ void UpdateActor(struct P *p)
 {
     int *pl;
     UpdateStep__FP4STEPf(p);
-    func_00141A50(p);
+    UpdateActorAbilities__FP5ACTOR(p);
     if (GrfPadctlTakePressed__FP6PADCTL(p->x150, 0.0f, 0x200))
         ShowWorldStats__Fv(p);
     pl = &p->xFD0;

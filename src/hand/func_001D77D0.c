@@ -8,7 +8,7 @@ typedef struct {
     void *a[8];
 } OBJ;
 void *OidSmaCur(void *) asm("OidSmaCur__FP3SMA");
-int func_001F0438(LIST *, void *);
+int IsmsFindSmRequired__FP2SM3OID(LIST *, void *);
 void *OidFromSmIsms__FP2SMi(LIST *, int);
 void SetSmaGoal__FP3SMA3OID(void *, void *);
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int, OBJ *, int, int, void **);
@@ -18,7 +18,7 @@ void func_001D77D0(OBJ *p, int d)
     int i;
     if (p->x188 == 0)
         return;
-    i = func_001F0438(p->plist, OidSmaCur(p->x188));
+    i = IsmsFindSmRequired__FP2SM3OID(p->plist, OidSmaCur(p->x188));
     i0 = i;
     for (;;) {
         void *pv;

@@ -12,9 +12,10 @@ typedef unsigned int __uint32_t;
 typedef union {float value;__uint32_t word;} ieee_float_shape_type;
 #define GET_FLOAT_WORD(i,d) do {ieee_float_shape_type u;u.value=(d);(i)=u.word;}while(0)
 #define SET_FLOAT_WORD(d,i) do {ieee_float_shape_type u;u.word=(i);(d)=u.value;}while(0)
-float func_0024A780(float,float);
+float copysignf(float,float);
 static const float two25=3.355443200e+07,twom25=2.9802322388e-08,huge=1.0e+30,tiny=1.0e-30;
-float func_0024A0E8(float x,int n)
+// name: newlib libm scalbnf (Sly 3 symbol, fnmap 100; __kernel_rem_pio2f calls it)
+float scalbnf(float x,int n)
 {
     __int32_t k,ix;
     GET_FLOAT_WORD(ix,x);
@@ -28,11 +29,11 @@ float func_0024A0E8(float x,int n)
     }
     if(k==0xff)return x+x;
     k=k+n;
-    if(k>0xfe)return huge*func_0024A780(huge,x);
+    if(k>0xfe)return huge*copysignf(huge,x);
     if(k>0){SET_FLOAT_WORD(x,(ix&0x807fffff)|(k<<23));return x;}
     if(k<=-25){
-        if(n>50000)return huge*func_0024A780(huge,x);
-        else return tiny*func_0024A780(tiny,x);
+        if(n>50000)return huge*copysignf(huge,x);
+        else return tiny*copysignf(tiny,x);
     }
     k+=25;
     SET_FLOAT_WORD(x,(ix&0x807fffff)|(k<<23));

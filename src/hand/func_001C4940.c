@@ -8,7 +8,8 @@ void Decref(struct CRef *p) asm("Decref__4CRef");
 void TrackJt__FP5ACTORP5JTENTiP10JTGRABCAND(struct G *p, int a, int b, int c);
 void func_001C48C0(struct G *p);
 #define VCALL(o, n, a) ((void (*)(void *, int))(o)->pvt[n].pfn)(VT_THIS((o), &(o)->pvt[n]), a)
-void func_001C4940(struct G *p, struct LO *plo)
+// name: SafeHouse port (po.h SetPoCurrent, orig 0x1C4940; sets the progress oidPoCurrent)
+void SetPoCurrent__FP2SWP2LO(struct G *p, struct LO *plo)
 {
     struct LO *cur = func_001C4A48(p);
     struct LO *nw = p->plo3F00;

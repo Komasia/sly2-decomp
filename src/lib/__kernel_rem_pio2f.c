@@ -3,9 +3,8 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorg
 typedef int __int32_t;
-float func_0024A0E8(float x, int n);
+float scalbnf(float x, int n);
 float floorf(float x);
-#define scalbnf func_0024A0E8
 #define floorf floorf
 
 static const int init_jk[] = {4,7,9};

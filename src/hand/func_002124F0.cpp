@@ -18,7 +18,7 @@ extern "C" int func_00184D60(BIS *,KEY *);
 extern "C" void SetDecompress(BIS *,int,void *) asm("SetDecompress__18CBinaryInputStreamiPUc");
 extern "C" unsigned char U8Read(BIS *) asm("U8Read__18CBinaryInputStream");
 extern "C" unsigned short U16Read(BIS *) asm("U16Read__18CBinaryInputStream");
-extern "C" int func_00233470(const void *,const void *,unsigned int);
+extern "C" int strncmp(const void *,const void *,unsigned int);
 extern "C" void SetState(S *,int) asm("SetState__FP8SCREENRTi");
 extern "C" void LoadElemsFromBrx(S *,BIS *,S *,int *,void **) asm("LoadElemsFromBrx__FPvP18CBinaryInputStreamT0PiT3");
 extern "C" void LoadGroupsFromBrx(S *,BIS *,S *) asm("LoadGroupsFromBrx__FP5OWNERP18CBinaryInputStreamP4ROOT");
@@ -74,7 +74,7 @@ extern "C" void func_002124F0(S *p) {
     work.tmp.magic[2]=U8Read(bs);
     work.tmp.magic[3]=U8Read(bs);
     version=U16Read(bs);
-    if(!func_00233470(work.tmp.magic,D_002A8AE8,4)&&version==6)goto load;
+    if(!strncmp(work.tmp.magic,D_002A8AE8,4)&&version==6)goto load;
 fail:
     func_00184950(bs,2);
     _$_10STACKSCOPE(&work.frame,2);

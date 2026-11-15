@@ -11,7 +11,7 @@ struct WORK{U ahead,behind;LM limit;U point,world,target;};
 #include "clock.h"
 extern "C"{
 extern CLOCK g_clock;extern U g_normalZ;extern P*D_002E1E40;
-void func_001333C0(PATH*,P*);void func_00133448(PATH*,P*);
+void AddLoListener__FP2LOi(PATH*,P*);void RemoveLoListener__FP2LOi(PATH*,P*);
 void PairActorWith(P*,PATH*,int) asm("PairActorWith__FP5ACTORP2LOi");
 float SClampCrv(PATH*,float) asm("SClampCrv__FP3CRVf");void EvalCrvS(PATH*,float,U*,U*) asm("EvalCrvS__FP3CRVfP6VECTORT2");
 void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GLimitLm(LM*,float) asm("GLimitLm__FP2LMf");
@@ -98,7 +98,7 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  WORK w;
  switch(old){
  case -1:{
-  PathState(p->path,5);func_001333C0(p->path,p->actor);PairActorWith(p->actor,p->path,1);
+  PathState(p->path,5);AddLoListener__FP2LOi(p->path,p->actor);PairActorWith(p->actor,p->path,1);
   p->previous=old;
   EvalCrvS(p->path,SClampCrv(p->path,p->distance+50.0f),&w.ahead,0);
   EvalCrvS(p->path,SClampCrv(p->path,p->distance-50.0f),&w.behind,0);
@@ -121,7 +121,7 @@ extern "C" void SetClimbState__FP5ACTORi(C*p,int next){
  ASEG*clip=0;float position=0.0f,speed=1.0f;int flags=1;
  switch(next){
  case -1:{
-  PathState(p->path,6);func_00133448(p->path,p->actor);PairActorWith(p->actor,p->path,0);
+  PathState(p->path,6);RemoveLoListener__FP2LOi(p->path,p->actor);PairActorWith(p->actor,p->path,0);
   P*actor=p->actor;w.target=actor->goal;
   void*focus;actor->motion.q=GoalInputs(&w.target,PosOfLo(actor),focus);
   p->actor->motion.i[2]=0;SetActorZone(p->actor,focus);

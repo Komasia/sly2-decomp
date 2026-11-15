@@ -6,7 +6,7 @@ extern void *D_002E1E40;
 extern float D_002BD374, D_002BD378;
 void Update__5AIJOB(struct P *p);
 qword PosOfLo__FP2LO(void *p);
-void func_002046B0(struct X *px, qword v);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct X *px, qword v);
 float atan2f(float y, float x);
 float RadNormalize__Ff(float g);
 float RadStepHeading__FP4STEP(struct X *px);
@@ -25,7 +25,7 @@ void Update__13JOBMURRAYRAGE(struct P *p)
             a = PosOfLo__FP2LO(D_002E1E40);
             b = PosOfLo__FP2LO(p->px);
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-            func_002046B0(p->px, d);
+            SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p->px, d);
         }
         p->g30 = p->px->g1A8;
         break;

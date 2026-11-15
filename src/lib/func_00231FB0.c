@@ -13,7 +13,8 @@ void FlushCache(int);
 int sceSifCheckStatRpc(void *);
 int sceSifCallRpc(void *, int, int, void *, int, void *, int, void *, void *);
 
-int func_00231FB0(int a, int b)
+// name: 989snd snd_BankLoadByLoc (Sly 1 989snd.c: busy / CD checks, loader RPC 3); SafeHouse snd989.h 0x231FB0
+int snd_BankLoadByLoc(int a, int b)
 {
     D_002C4648 = 0;
     if (gLoadBusy) {

@@ -3,7 +3,7 @@ struct T { int c; struct LO **a; };
 struct A { int x0; int x4; int x8; };
 struct S { char pad[0xE0]; struct T *pt; };
 int func_001CA930(struct S *p, struct A *pa);
-int func_001A61A0(struct LO *plo);
+int FLoActive__FP2LO(struct LO *plo);
 // name: SafeHouse port (NScoreRow)
 int NScoreRow__FP2WEPv(struct S *p, struct A *pa)
 {
@@ -15,7 +15,7 @@ int NScoreRow__FP2WEPv(struct S *p, struct A *pa)
     for (j = 0; j < p->pt->c; j++) {
         struct LO *plo = p->pt->a[i * p->pt->c + j];
         if (!((int)(plo->x28 >> 60) & 1)) v = 3;
-        else if (func_001A61A0(plo)) { r = 1; goto out; }
+        else if (FLoActive__FP2LO(plo)) { r = 1; goto out; }
         else v = 2;
         if (v < r) r = v;
     }

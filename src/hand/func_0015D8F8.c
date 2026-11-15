@@ -7,7 +7,7 @@ extern void *D_002BE2F8[];
 extern char D_002A5160[];
 void NProgress(CRef *pref, void *p, void *q);
 void Decref(CRef *pref) asm("Decref__4CRef");
-int func_001DAEA8(void *p);
+int FPowerupOwned__Fi(void *p);
 void sprintf(char *pch, char *fmt, ...);
 void func_0015D8F8(char *pch)
 {
@@ -20,7 +20,7 @@ void func_0015D8F8(char *pch)
         n = ref.m_tag;
         Decref(&ref);
         n = n * 95 / 100;
-        if (func_001DAEA8(D_002BE2F8[pg->px->i]))
+        if (FPowerupOwned__Fi(D_002BE2F8[pg->px->i]))
             n += 5;
         sprintf(pch, D_002A5160, n);
     }

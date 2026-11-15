@@ -23,7 +23,7 @@ extern struct G g_sw;
 W *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(Q *, int);
-int func_001441A0(Q *);
+int NActorPower__FP5ACTOR(Q *);
 void func_00213B00(W *, int);
 void func_00212E40(W *, int, float);
 // name: SafeHouse port (InitGauge)
@@ -43,7 +43,7 @@ void InitGauge__FP5GAUGE(OBJ *p)
         return;
     }
     p->x20 = p->x24 = (float)*p->q->pn / (float)p->q->c;
-    p->x28 = p->x2C = (float)func_001441A0(p->q) / (float)p->q->cMax;
+    p->x28 = p->x2C = (float)NActorPower__FP5ACTOR(p->q) / (float)p->q->cMax;
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->q, 0x37)) {
             p->ids[0] = 0x347;
             p->ids[1] = 0x348;

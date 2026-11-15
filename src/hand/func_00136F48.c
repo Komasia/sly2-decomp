@@ -8,7 +8,7 @@ struct S { struct PO *po; int state; int x8; int xC; int x10; int x14; float g18
 extern qword D_002A2DD0;
 void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct PO *, int, void *, int *, QF *, float, float, float);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);
-void func_002046B0(struct PO *, qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct PO *, qword);
 void TurnActorNow__FP5ACTOR(struct PO *);
 void RecalcBlend__FP6ASEGBL(void *);
 void ApplyAsegCur(void *, struct PO *, int, void **, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
@@ -50,7 +50,7 @@ void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
         r.q = ConvertPos__FP2LOT0G9VU_VECTOR(ps->pvE4, ps->po, D_002A2DD0);
         ps->x8 = 0.0f < r.a[1] ? 1 : 0;
         if (state == 0 && f) {
-            func_002046B0(ps->po, v.q);
+            SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(ps->po, v.q);
             TurnActorNow__FP5ACTOR(ps->po);
         }
     }
