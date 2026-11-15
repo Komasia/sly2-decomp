@@ -126,7 +126,9 @@ typedef struct ACTOR {
     /* 0x0fd0 */ char watch[0x10];          /* the follower's watch (+0xFD0 sub-object) */
     /* 0x0fe0 */ char unk_0x0fe0[0x1000 - 0xfe0];
     /* 0x1000 */ int grfPlayer;             /* the actor's player bit (SafeHouse n1000) */
-    /* 0x1004 */ char unk_0x1004[0x1024 - 0x1004];
+    /* 0x1004 */ char unk_0x1004[0x1010 - 0x1004];
+    /* 0x1010 */ qword vecDrawOffset;       /* the body drawn this far from its physics position (SafeHouse) */
+    /* 0x1020 */ float g1020;               /* 100 by default (SafeHouse g1020) */
     /* 0x1024 */ struct LO *ploZone;        /* the current player's camera zone (SafeHouse plo1024) */
     /* 0x1028 */ void *psmIdle;             /* the idle state machine (SafeHouse) */
     /* 0x102c */ void *psm102C;
@@ -136,10 +138,12 @@ typedef struct ACTOR {
     /* 0x1040 */ int nSide;                 /* the side the interaction faces, 1 flips it (SafeHouse n1040) */
     /* 0x1044 */ char unk_0x1044[0x1084 - 0x1044];
     /* 0x1084 */ void *prunScript;          /* the script runner driving it */
-    /* 0x1088 */ char unk_0x1088[0x10dc - 0x1088];
+    /* 0x1088 */ char unk_0x1088[0x10c4 - 0x1088];
+    /* 0x10c4 */ struct LO *ploNoise;       /* its noise template (child oid 684, cid 0x75; SafeHouse) */
+    /* 0x10c8 */ char unk_0x10c8[0x10dc - 0x10c8];
     /* 0x10dc */ struct LO *ploFace;        /* the object faced (SafeHouse plo10DC) */
     /* 0x10e0 */ int grf10E0;
-    /* 0x10e4 */ char unk_0x10e4[0x10e8 - 0x10e4];
+    /* 0x10e4 */ int n10E4;                 /* -1 by the init 0x13FF70 (SafeHouse n10E4) */
     /* 0x10e8 */ struct LO *ploTarget;      /* the target picked (SafeHouse plo10E8) */
     /* 0x10ec */ int nTargetKind;           /* its kind: 4 a guard in reach (SafeHouse n10EC) */
     /* 0x10f0 */ char unk_0x10f0[0x10f8 - 0x10f0];
@@ -156,7 +160,11 @@ typedef struct ACTOR {
     /* 0x11b8 */ char unk_0x11b8[0x12fc - 0x11b8];
     /* 0x12fc */ int *pnPower;              /* "mpCur", the gadgets' power */
     /* 0x1300 */ int nPowerMax;             /* SafeHouse n1300 */
-    /* 0x1304 */ char unk_0x1304[0x1318 - 0x1304];
+    /* 0x1304 */ float g1304;               /* -60 by default (SafeHouse g1304) */
+    /* 0x1308 */ int unk_0x1308;
+    /* 0x130c */ struct ASEG *pasegAbility;   /* the pending cane animation (SafeHouse) */
+    /* 0x1310 */ struct ASEGA *pasegaAbility; /* the active cane animation (SafeHouse) */
+    /* 0x1314 */ int idAbility;             /* the active ability, -1 after clearing (SafeHouse) */
     /* 0x1318 */ int n1318;
 } ACTOR;
 
@@ -178,7 +186,9 @@ typedef char ACTOR_check_step[ACTOR_OFFSET_(ACTOR, pctl) == 0x150 && ACTOR_OFFSE
                               ACTOR_OFFSET_(ACTOR, vecBase) == 0x240 && ACTOR_OFFSET_(ACTOR, psoeSource) == 0x268 &&
                               ACTOR_OFFSET_(ACTOR, cJob) == 0x270 ? 1 : -1];
 typedef char ACTOR_check_e[ACTOR_OFFSET_(ACTOR, ploClimb) == 0xf5c && ACTOR_OFFSET_(ACTOR, pasega) == 0x1030 &&
-                           ACTOR_OFFSET_(ACTOR, nSide) == 0x1040 && ACTOR_OFFSET_(ACTOR, nTargetKind) == 0x10ec ? 1 : -1];
+                           ACTOR_OFFSET_(ACTOR, nSide) == 0x1040 && ACTOR_OFFSET_(ACTOR, nTargetKind) == 0x10ec &&
+                           ACTOR_OFFSET_(ACTOR, vecDrawOffset) == 0x1010 && ACTOR_OFFSET_(ACTOR, ploNoise) == 0x10c4 &&
+                           ACTOR_OFFSET_(ACTOR, idAbility) == 0x1314 ? 1 : -1];
 typedef char ACTOR_check_d[ACTOR_OFFSET_(ACTOR, stThrow) == 0x11b4 && ACTOR_OFFSET_(ACTOR, nPowerMax) == 0x1300 &&
                            ACTOR_OFFSET_(ACTOR, n1318) == 0x1318 ? 1 : -1];
 #undef ACTOR_OFFSET_
