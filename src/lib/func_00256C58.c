@@ -1,21 +1,23 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0 -ffast-math -mvu0-use-vf0-vf31
-typedef struct { int ref; char pad[4]; int c; char pad2[4]; void *m; } S;
-extern char D_004520A8[];
+/* CPair refcounted pointer assignment: *pppair = ppairNew (add a reference to the new pair, release the old one;
+   a pair whose count drops to 0 releases its cdr and car, leaves the live list and goes back to the pool). */
+typedef struct { int cref; char pad[4]; int car; char pad2[4]; void *ppairCdr; } S;   /* car: a CRef */
+extern char D_004520A8[];   /* CPair slot heap */
 void func_00256D40(void *, int);
 void Decref(void *) asm("Decref__4CRef"); void func_002550F8(S *); void func_0011CD98(void *, S *);
-void func_00256C58(S **pp, S *n)
+void func_00256C58(S **pppair, S *ppairNew)
 {
-    S *p;
-    if (n) n->ref++;
-    p = *pp;
-    if (p) {
-        if (--p->ref == 0) {
-            func_00256D40(&p->m, 2);
-            Decref(&p->c);
-            func_002550F8(p);
-            func_0011CD98(D_004520A8, p);
+    S *ppair;
+    if (ppairNew) ppairNew->cref++;
+    ppair = *pppair;
+    if (ppair) {
+        if (--ppair->cref == 0) {
+            func_00256D40(&ppair->ppairCdr, 2);
+            Decref(&ppair->car);
+            func_002550F8(ppair);                    /* unlink from the live list */
+            func_0011CD98(D_004520A8, ppair);        /* free the slot */
         }
     }
-    *pp = n;
+    *pppair = ppairNew;
 }

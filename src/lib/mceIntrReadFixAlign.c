@@ -1,8 +1,10 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-typedef struct { int size1; int size2; char *dst1; char *dst2; char buf1[0x40]; char buf2[0x40]; } FixAlign;
-extern int D_002C8358;
+/* libmc sceMcRead RPC end callback: copy the unaligned head and tail bytes the IOP sent separately into the
+   destination (both cached and uncached views), then signal completion. */
+typedef struct { int size1; int size2; char *dst1; char *dst2; char buf1[0x40]; char buf2[0x40]; } FixAlign;   /* unaligned head / tail */
+extern int D_002C8358;      /* libmc completion semaphore */
 int iSignalSema(int);
 void mceIntrReadFixAlign(void *data)
 {

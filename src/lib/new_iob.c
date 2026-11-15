@@ -2,10 +2,10 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
-// (Claude agent) near miss: 17/34, target keeps %hi(sema) in s1 across the loop (frame 0x30), ours 0x20
-struct iob { int x0, x4, x8, xC; };
-extern int D_002C4A88;
-extern struct iob D_0044BB80[];
+/* new_iob (fileio): claim the first free iob slot (0 if all 32 are in use). */
+struct iob { int fd, flags, x8, xC; };     /* flags 0 = free */
+extern int D_002C4A88;              /* iob table semaphore */
+extern struct iob D_0044BB80[];     /* 32 open-file slots */
 void _sceFsIobSemaMK(void);
 int WaitSema(int);
 int SignalSema(int);
@@ -15,8 +15,8 @@ struct iob *new_iob(void)
     _sceFsIobSemaMK();
     WaitSema(D_002C4A88);
     for (io = D_0044BB80; io < D_0044BB80 + 32; io++) {
-        if (io->x4 == 0) {
-            io->x4 = 0x10000000;
+        if (io->flags == 0) {
+            io->flags = 0x10000000;     /* in use */
             SignalSema(D_002C4A88);
             return io;
         }

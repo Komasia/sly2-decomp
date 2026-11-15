@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* new_eh_context (libgcc2.c): allocate a zeroed per-thread exception-handling context whose dynamic handler chain
+   points at its own top element. */
 struct eh_context { void *handler_label; void **dynamic_handler_chain; void *info; void *table_index; };
 void *malloc(unsigned long);
 void *s1_memset(void *, int, unsigned long) asm("memset");

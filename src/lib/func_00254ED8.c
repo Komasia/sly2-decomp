@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* crt: register this module's exception frame table (__EH_FRAME_BEGIN__ D_002C8934, object D_00452080). */
 extern char D_002C8934[];
 extern char D_00452080[];
 void __register_frame_info_table(void *, void *);
