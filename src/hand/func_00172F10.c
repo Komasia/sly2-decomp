@@ -1,27 +1,29 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
 extern float D_002A53D4;
-struct Q2 { qword a, b; };
-struct E { qword pos; qword pad; };
-struct S { char pad[0x18]; void *p18; char pad2[0x20]; float g3C; char pad3[0x10]; struct E ae[4]; unsigned int cD0; };
-int NArrived__7JOBGOTO(void *p);
-void func_002562A8(struct Q2 *pq);
-void SetGoal__7JOBGOTOP4GOAL(void *p, struct Q2 *pq);
+struct GOAL { qword a, b; };
+struct WAYPOS { qword pos; qword pad; };
+struct JOBINVESTIGATE { char pad[0x18]; void *pchild; char pad2[0x20]; float tSearch; char pad3[0x10]; struct WAYPOS aposWay[4]; unsigned int iway; };
+int NArrived__7JOBGOTO(void *pjob);
+void func_002562A8(struct GOAL *pq);
+void SetGoal__7JOBGOTOP4GOAL(void *pjob, struct GOAL *pq);
+/* JOBINVESTIGATE::NextSearchPlace: once the go-to arrived and a second passed, go to the next of the four search
+ * places (cycling). */
 // name: SafeHouse port (JOBINVESTIGATE::NextSearchPlace)
-void NextSearchPlace__14JOBINVESTIGATE(struct S *p) {
-    void *p18;
-    struct E *pe;
-    struct Q2 q;
-    if (p->cD0 >= 4) return;
-    p18 = p->p18;
-    if (p->g3C == D_002A53D4) {
-        if (NArrived__7JOBGOTO(p18)) p->g3C = g_clock.t + 1.0f;
+void NextSearchPlace__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob) {
+    void *pchild;
+    struct WAYPOS *pway;
+    struct GOAL goal;
+    if (pjob->iway >= 4) return;
+    pchild = pjob->pchild;
+    if (pjob->tSearch == D_002A53D4) {
+        if (NArrived__7JOBGOTO(pchild)) pjob->tSearch = g_clock.t + 1.0f;
     }
-    if (g_clock.t < p->g3C) return;
-    pe = &p->ae[p->cD0++];
-    if (p->cD0 >= 4) p->cD0 = 0;
-    func_002562A8(&q);
-    q.b = pe->pos;
-    SetGoal__7JOBGOTOP4GOAL(p18, &q);
-    p->g3C = D_002A53D4;
+    if (g_clock.t < pjob->tSearch) return;
+    pway = &pjob->aposWay[pjob->iway++];
+    if (pjob->iway >= 4) pjob->iway = 0;
+    func_002562A8(&goal);
+    goal.b = pway->pos;
+    SetGoal__7JOBGOTOP4GOAL(pchild, &goal);
+    pjob->tSearch = D_002A53D4;
 }

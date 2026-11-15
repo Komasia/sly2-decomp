@@ -1,78 +1,82 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
 #include "vtbl.h"
+#include "cid.h"
 extern float D_002A5398;
-struct X { qword a; qword v; };
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; char pad3[0xC0 - 0x40]; int nC0; };
-struct A { char pad[0xFD0]; char aFD0[4]; };
-struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; int n30; float f34; float f38; char pad3[0xC]; int n48; };
-void EndChildJob__FPP5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
-qword PosNoise__14JOBINVESTIGATE(struct S *p);
-qword PosOfLo__FP2LO(void *p);
-void func_002562A8(struct X *x);
-void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
+struct GOAL { qword a; qword pos; };
+struct AIJOBV { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int nAnim; char pad3[0xC0 - 0x40]; int fRun; };
+struct GUARD { char pad[0xFD0]; char moveref[4]; };
+struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; int pad2; char pchild[0x18]; int st; float tSt; float tEnd; char pad3[0xC]; int fNew; };
+void EndChildJob__FPP5AIJOB(void *ppjob);
+struct AIJOBV *func_00205438(void *pguard, int cid);   /* the guard's job of a class */
+qword PosNoise__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob);
+qword PosOfLo__FP2LO(void *plo);
+void func_002562A8(struct GOAL *x);
+void SetGoal__7JOBGOTOP4GOAL(void *pjob, struct GOAL *x);
 float atan2f(float y, float x);
-void SetMoveHeading__FP7MOVEREF(void *p, float f);
-void SetDeadlines__14JOBINVESTIGATE(struct S *p);
-void FindSearchPlaces__14JOBINVESTIGATE(struct S *p);
-void NextSearchPlace__14JOBINVESTIGATE(struct S *p);
-void SetNoise__14JOBINVESTIGATEP5NOISE(struct S *p, int n);
+void SetMoveHeading__FP7MOVEREF(void *pmoveref, float f);
+void SetDeadlines__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob);
+void FindSearchPlaces__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob);
+void NextSearchPlace__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob);
+void SetNoise__14JOBINVESTIGATEP5NOISE(struct JOBINVESTIGATE *pjob, int pnoise);
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
+/* JOBINVESTIGATE::SetInvestigateState: leave the state's child job and start the new one: alerted (a move,
+ * animation 12), going (a go-to the noise, with a deadline), looking (face the noise, a stand, the deadlines),
+ * searching (a go-to over the search places), giving up (a move, animation 14, the noise dropped), paused (a stand). */
 // name: SafeHouse port (JOBINVESTIGATE::SetInvestigateState)
-void SetInvestigateState__14JOBINVESTIGATEi(struct S *p, int n) {
-    if (n == p->n30) return;
-    EndChildJob__FPP5AIJOB(p->a18);
-    p->n30 = n;
-    p->f34 = g_clock.t;
-    switch (n) {
+void SetInvestigateState__14JOBINVESTIGATEi(struct JOBINVESTIGATE *pjob, int stNew) {
+    if (stNew == pjob->st) return;
+    EndChildJob__FPP5AIJOB(pjob->pchild);
+    pjob->st = stNew;
+    pjob->tSt = g_clock.t;
+    switch (stNew) {
     case 0:
-        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 0xC; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+        { struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBMOVE); VTENT *pvte; pjobChild->nAnim = 0xC; pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte)); }
         break;
     case 1:
         {
-            struct O *o = func_00205438(p->p10, 0xBA);
-            struct X x;
-            VTENT *e;
-            qword v;
-            o->nC0 = 1;
-            v = PosNoise__14JOBINVESTIGATE(p);
+            struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBGOTO);
+            struct GOAL x;
+            VTENT *pvte;
+            qword pos;
+            pjobChild->fRun = 1;
+            pos = PosNoise__14JOBINVESTIGATE(pjob);
             func_002562A8(&x);
-            x.v = v;
-            SetGoal__7JOBGOTOP4GOAL(o, &x);
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
-            p->f38 = D_002A5398;
+            x.pos = pos;
+            SetGoal__7JOBGOTOP4GOAL(pjobChild, &x);
+            pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte));
+            pjob->tEnd = D_002A5398;
         }
         break;
     case 2:
         {
-            qword a = PosNoise__14JOBINVESTIGATE(p);
-            qword b = PosOfLo__FP2LO(p->p10);
-            qword d;
-            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(a), "j"(b));
-            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(GetY(d), GetX(d)));
-            { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
-            SetDeadlines__14JOBINVESTIGATE(p);
+            qword a = PosNoise__14JOBINVESTIGATE(pjob);
+            qword b = PosOfLo__FP2LO(pjob->pguard);
+            qword dpos;
+            __asm__("vsub.xyzw %0, %1, %2" : "=j"(dpos) : "j"(a), "j"(b));
+            SetMoveHeading__FP7MOVEREF(pjob->pguard->moveref, atan2f(GetY(dpos), GetX(dpos)));
+            { struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBSTAND); VTENT *pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte)); }
+            SetDeadlines__14JOBINVESTIGATE(pjob);
         }
         break;
     case 3:
         {
-            struct O *o = func_00205438(p->p10, 0xBA);
-            VTENT *e;
-            o->nC0 = 1;
-            FindSearchPlaces__14JOBINVESTIGATE(p);
-            NextSearchPlace__14JOBINVESTIGATE(p);
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBGOTO);
+            VTENT *pvte;
+            pjobChild->fRun = 1;
+            FindSearchPlaces__14JOBINVESTIGATE(pjob);
+            NextSearchPlace__14JOBINVESTIGATE(pjob);
+            pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte));
         }
         break;
     case 4:
-        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 0xE; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
-        SetNoise__14JOBINVESTIGATEP5NOISE(p, 0);
-        p->n48 = 0;
+        { struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBMOVE); VTENT *pvte; pjobChild->nAnim = 0xE; pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte)); }
+        SetNoise__14JOBINVESTIGATEP5NOISE(pjob, 0);
+        pjob->fNew = 0;
         break;
     case 5:
-        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->n3C = 1; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+        { struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBSTAND); VTENT *pvte; pjobChild->nAnim = 1; pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte)); }
         break;
     }
 }

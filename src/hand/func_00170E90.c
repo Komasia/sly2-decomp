@@ -1,8 +1,8 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union {qword q;float f[4];} U;
-struct N{int kind,tag;qword*position;char padC[0xC];struct N*next;};
-struct P{char pad[0x50];struct N*head;};
-struct CHOICE{struct N*node;struct P*object;float value;};
+struct N{int kind,tag;qword*position;char padC[0xC];struct N*next;};   /* CMD (include/h2_cmdlist.h): op, oid, point */
+struct P{char pad[0x50];struct N*head;};                              /* CMDLIST: its commands */
+struct CHOICE{struct N*node;struct P*object;float value;};           /* SAVEDSCRIPT: the command, the near object, the path progress */
 extern char g_sw[];
 extern float D_002A52B0;
 struct P*PloFindSwNearest__FP2LO3OIDii(void*,int,int,struct P*);
@@ -11,7 +11,9 @@ void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct P*,qword,void*,qwor
 void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(struct P*,qword,void*,qword*,qword*,float*,float*,float);
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword v){qword d,one;float f;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"0"(v));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(d):"0"(d));__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(d));return f;}
-// Choose the closest eligible point while walking the selector chain.
+/* RefindSavedScript: find the command of a list nearest a position (outside lock / unlock spans): look and go-to
+ * commands by their aim point, path commands by the nearest point of the path (from the saved progress for the saved
+ * command); the result is a saved place to resume from. */
 // name: SafeHouse port (RefindSavedScript)
 void RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT(struct P*root,qword pos,struct CHOICE*out){
  struct CHOICE choice;

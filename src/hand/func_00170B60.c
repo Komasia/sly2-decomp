@@ -1,4 +1,5 @@
-struct K { int a, b; };
-struct R { int x, y; struct K k; };
-struct R *PcmdAppend__FP7CMDLISTi3OID(void *p, int a, int b);
-void func_00170B60(void *p, struct K *pk) { PcmdAppend__FP7CMDLISTi3OID(p, 1, -1)->k = *pk; }
+/* func_00170B60: append an op-1 command (a range: its 8 bytes at +0x8). */
+struct RANGE { int n0, n4; };
+struct CMD { int op, oid; struct RANGE range; };
+struct CMD *PcmdAppend__FP7CMDLISTi3OID(void *pcmdlist, int op, int oid);
+void func_00170B60(void *pcmdlist, struct RANGE *prange) { PcmdAppend__FP7CMDLISTi3OID(pcmdlist, 1, -1)->range = *prange; }

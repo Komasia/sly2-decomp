@@ -1,3 +1,7 @@
+// func_001715F0 (SafeHouse: JOBSCRIPT::Execute, vt slot 15): start a command: by its op the near object, the
+// guard's ranges, a look, a message, a wait, a path move (rail / ladder / pipe kinds), a go-to (an object or a point,
+// with a heading), a sound, a jump, lock / unlock, a sub-job or an animation; the commands that take time leave the
+// job running.
 #include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
@@ -9,10 +13,11 @@ struct P38 { int n0; int n4; void *p8; float gC; };
 struct X50 { int n50; int n54; int n58; int n5C; };
 struct P44 { int a, b; float g8; };
 struct SB { int a, b, c; virtual void V1(); virtual void V2(); virtual void Msg(int, int, int, void **, int); };
+/* JOBSCRIPT (include/h2_aijobs.h) */
 struct S : SB {
-    struct A *p10; char pad1[0x30 - 0x14];
-    void *p30; void *n34; struct P38 *p38; float g3C; int n40; struct P44 *p44; float g48; int n4C;
-    struct X50 x50;
+    struct A *pguard; char pad1[0x30 - 0x14];
+    void *pcmdlist; void *ploNear; struct P38 *pcmd; float tCmd; int fRunning; struct P44 *psaved; float radFace; int fFromReact;
+    struct X50 kinde50;
 };
 struct X { void *p0; void *p4; int pad[2]; qword q; X(); };
 #include "clock.h"
@@ -35,7 +40,7 @@ void func_002090D0(struct X50 *x, struct A *a);
 void ResolveKinde(struct X50 *x, struct A *a) asm("ResolveKinde__FP5KINDEP5GUARD");
 void EnsureSggAlarm(void *o, int n) asm("EnsureSggAlarm__FP3SGGP5ALARM");
 
-struct O2 : O { char pad1[0x30 - 0x10]; void *p30; int n34; float g38; char pad2[0x50-0x3C]; void *n50; int pad3; int n58; };
+struct O2 : O { char pad1[0x30 - 0x10]; void *pcmdlist; int ploNear; float g38; char pad2[0x50-0x3C]; void *n50; int pad3; int n58; };
 struct O3 : O { char pad1[0xA8 - 0x10]; void *nA8; int pad2; float gB0; int pad3[2]; int nBC; };
 struct O4 : O { char pad1[0x60 - 0x10]; void *p60; int n64; int n68; };
 struct O5 : O { char pad1[0x40 - 0x10]; struct X50 *p40; };
@@ -52,13 +57,13 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
     int n;
     switch (c->op) {
     case 0:
-        p->n34 = PloNear(p, c->n4);
+        p->ploNear = PloNear(p, c->n4);
         break;
     case 1:
-        p->p10->k2CC = c->u.k8;
+        p->pguard->k2CC = c->u.k8;
         break;
     case 2:
-        p->p10->k2D4 = c->u.k8;
+        p->pguard->k2D4 = c->u.k8;
         break;
     case 3: {
         func_00171AF8(p, PloNear(p, c->n4), &q.q, &g);
@@ -70,7 +75,7 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         p->Msg(4, 0, 1, &apv, 0);
         break;
     case 5: {
-        struct A *a = p->p10;
+        struct A *a = p->pguard;
         int k;
         switch (a->nF80) {
         case 2:
@@ -85,70 +90,70 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
             ((struct O *)func_00205438(a, 0x9E))->V8();
             break;
         }
-        p->n40 = 1;
+        p->fRunning = 1;
         break;
     }
     case 6: {
-        void *o = PloNear(p, p->p38->n4);
+        void *o = PloNear(p, p->pcmd->n4);
         struct A *a;
         if (!o) break;
-        a = p->p10;
+        a = p->pguard;
         n = a->nF80;
         switch (n) {
         case -1: {
             struct O2 *o2 = (struct O2 *)func_00205438(a, 0xC0);
-            o2->p30 = o;
-            o2->n34 = c->u.s.n8;
-            o2->n58 = p->n4C;
-            if (!p->n4C) func_001E9C30(o);
-            if (p->p44) o2->g38 = p->p44->g8;
+            o2->pcmdlist = o;
+            o2->ploNear = c->u.s.n8;
+            o2->n58 = p->fFromReact;
+            if (!p->fFromReact) func_001E9C30(o);
+            if (p->psaved) o2->g38 = p->psaved->g8;
             if (c->u.s.nC != -1) o2->n50 = PloNear(p, c->u.s.nC);
             VCALL8(o2);
             break;
         }
         case 0: {
             struct O *o2 = (struct O *)func_00205438(a, 0xB8);
-            SetDirection(o2, (int)p->p38->p8);
+            SetDirection(o2, (int)p->pcmd->p8);
             VCALL8(o2);
             break;
         }
         case 1: {
             struct O *o2 = (struct O *)func_00205438(a, 0xB9);
-            SetDirectionLadder(o2, (int)p->p38->p8);
+            SetDirectionLadder(o2, (int)p->pcmd->p8);
             VCALL8(o2);
             break;
         }
         }
-        p->n40 = 1;
+        p->fRunning = 1;
         break;
     }
     case 7: {
         struct P38 *qq;
         struct A *a;
         X x;
-        qq = p->p38;
+        qq = p->pcmd;
         if (qq->n4 == -1) {
             x.q = *(qword *)qq->p8;
-            p->g48 = qq->gC;
+            p->radFace = qq->gC;
         } else {
             void *o = PloNear(p, qq->n4);
             if (o) {
-                func_00171AF8(p, o, 0, &p->g48);
+                func_00171AF8(p, o, 0, &p->radFace);
                 if (FIsBasicDerivedFrom(o, CID_PATH)) x.p0 = o;
                 else x.p4 = o;
             }
         }
-        a = p->p10;
+        a = p->pguard;
         n = a->nF80;
         if (n == -1) {
             struct O3 *o3 = (struct O3 *)func_00205438(a, 0xBA);
             SetGoal(o3, &x);
             if (c->n10 != -1) o3->nA8 = PloNear(p, c->n10);
             o3->gB0 = c->g14;
-            o3->nBC = p->n4C;
+            o3->nBC = p->fFromReact;
             VCALL8(o3);
         }
-        p->n40 = 1;
+        p->fRunning = 1;
         break;
     }
     case 8: {
@@ -158,8 +163,8 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
     case 9:
         break;
     case 10: {
-        void *o = func_001711F0(p->p30, c->n4);
-        if (o) p->p38 = (struct P38 *)o;
+        void *o = func_001711F0(p->pcmdlist, c->n4);
+        if (o) p->pcmd = (struct P38 *)o;
         break;
     }
     case 11:
@@ -169,30 +174,30 @@ extern "C" void Execute__9JOBSCRIPTP3CMD(struct S *p, struct CMD *c)
         UnlockJob(p);
         break;
     case 13: {
-        void *o = PloNear(p, p->p38->n4);
-        struct O4 *o4 = (struct O4 *)func_00205438(p->p10, 0xAC);
+        void *o = PloNear(p, p->pcmd->n4);
+        struct O4 *o4 = (struct O4 *)func_00205438(p->pguard, 0xAC);
         o4->p60 = o;
         o4->n68 = 1;
         o4->n64 = c->u.s.n8;
         VCALL8(o4);
-        p->n40 = 1;
+        p->fRunning = 1;
         break;
     }
     case 14:
-        func_002090D0(&p->x50, p->p10);
-        p->x50.n54 = c->n4;
-        p->x50.n5C = c->u.s.n8;
-        ResolveKinde(&p->x50, p->p10);
-        if (p->p10->nF80 == -1) {
-            struct O5 *o5 = (struct O5 *)func_00205438(p->p10, 0x9D);
-            o5->p40 = &p->x50;
+        func_002090D0(&p->kinde50, p->pguard);
+        p->kinde50.n54 = c->n4;
+        p->kinde50.n5C = c->u.s.n8;
+        ResolveKinde(&p->kinde50, p->pguard);
+        if (p->pguard->nF80 == -1) {
+            struct O5 *o5 = (struct O5 *)func_00205438(p->pguard, 0x9D);
+            o5->p40 = &p->kinde50;
             VCALL8(o5);
-            p->n40 = 1;
+            p->fRunning = 1;
         }
         break;
     case 15:
         EnsureSggAlarm(PloNear(p, c->n4), c->u.s.n8);
         break;
     }
-    p->g3C = g_clock.t;
+    p->tCmd = g_clock.t;
 }

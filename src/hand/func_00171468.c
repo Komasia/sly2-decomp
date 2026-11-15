@@ -1,44 +1,48 @@
 #include "clock.h"
-struct E { int k; int pad; float g8; };
-struct O { char pad[0xF80]; int nF80; char pad2[0xFD0 - 0xF84]; char aFD0[4]; };
-struct S { char pad[0x10]; struct O *p10; int pad2; void *p18; char pad3[0x1C]; struct E *pe; float g3C; int n40; int pad4; float g48; };
-int FDone__11JOBPATHSTEP(void *p);
-int func_0017CE30(void *p);
-int func_0017D188(void *p);
-int NArrived__7JOBGOTO(void *p);
-int func_00174FB8(void *p);
-void SetMoveHeading__FP7MOVEREF(void *p, float g);
-void EndChildJob__FPP5AIJOB(void *p);
+#include "h2_cmdlist.h"
+struct GUARD { char pad[0xF80]; int nF80; char pad2[0xFD0 - 0xF84]; char moveref[4]; };   /* nF80: the guard's path follower kind (-1, 0, 1) */
+/* JOBSCRIPT (include/h2_aijobs.h) */
+struct JOBSCRIPT { char pad[0x10]; struct GUARD *pguard; int pad2; void *pchild; char pad3[0x1C]; CMD *pcmd; float tCmd; int fRunning; int pad4; float radFace; };
+int FDone__11JOBPATHSTEP(void *pjob);
+int func_0017CE30(void *pjob);
+int func_0017D188(void *pjob);
+int NArrived__7JOBGOTO(void *pjob);
+int func_00174FB8(void *pjob);
+void SetMoveHeading__FP7MOVEREF(void *pjob, float g);
+void EndChildJob__FPP5AIJOB(void *pjob);
+/* JOBSCRIPT::FRunning: whether the current command still runs: a path move until the path job is done, a go-to
+ * until it arrives (then the guard turns to its heading), a wait until its time is up, a sub-job / animation until
+ * its child is done; when it stops the child job is ended. */
 // name: SafeHouse port (JOBSCRIPT::FRunning)
-int FRunning__9JOBSCRIPT(struct S *p) {
-    if (!p->n40) return 0;
-    switch (p->pe->k) {
-    case 6:
-        switch (p->p10->nF80) {
+int FRunning__9JOBSCRIPT(struct JOBSCRIPT *pjob) {
+    if (!pjob->fRunning) return 0;
+    switch (pjob->pcmd->op) {
+    case CMDOP_Path:
+        switch (pjob->pguard->nF80) {
         case -1:
-            if (FDone__11JOBPATHSTEP(p->p18)) p->n40 = 0;
+            if (FDone__11JOBPATHSTEP(pjob->pchild)) pjob->fRunning = 0;
             break;
         case 0:
-            if (func_0017CE30(p->p18)) p->n40 = 0;
+            if (func_0017CE30(pjob->pchild)) pjob->fRunning = 0;
             break;
         case 1:
-            if (func_0017D188(p->p18)) p->n40 = 0;
+            if (func_0017D188(pjob->pchild)) pjob->fRunning = 0;
             break;
         }
         break;
-    case 7:
-        if (NArrived__7JOBGOTO(p->p18)) {
-            p->n40 = 0;
-            SetMoveHeading__FP7MOVEREF(p->p10->aFD0, p->g48);
+    case CMDOP_Goto:
+        if (NArrived__7JOBGOTO(pjob->pchild)) {
+            pjob->fRunning = 0;
+            SetMoveHeading__FP7MOVEREF(pjob->pguard->moveref, pjob->radFace);
         }
         break;
-    case 5:
-        if (p->pe->g8 < g_clock.t - p->g3C) p->n40 = 0;
+    case CMDOP_Wait:
+        if (*(float *)&pjob->pcmd->n8 < g_clock.t - pjob->tCmd) pjob->fRunning = 0;
         break;
-    case 13: case 14:
-        if (func_00174FB8(p->p18)) p->n40 = 0;
+    case CMDOP_Job: case CMDOP_Anim:
+        if (func_00174FB8(pjob->pchild)) pjob->fRunning = 0;
         break;
     }
-    if (!p->n40) EndChildJob__FPP5AIJOB(&p->p18);
-    return p->n40;
+    if (!pjob->fRunning) EndChildJob__FPP5AIJOB(&pjob->pchild);
+    return pjob->fRunning;
 }

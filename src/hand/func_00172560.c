@@ -1,12 +1,14 @@
 #include "clock.h"
 extern float D_002BE5A0;
-struct T { char pad[0xE6C]; float gE6C; float gE70; int pad2; int nE78; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x24]; float g38; float g3C; };
+struct GUARD { char pad[0xE6C]; float dtGiveUpMin; float dtGiveUpMax; int pad2; int nSearchKind; };
+struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; char pad2[0x24]; float tEnd; float tSearch; };
 float GRandInRange__Fff(float a, float b);
+/* JOBINVESTIGATE::SetDeadlines: give up after a random time in the guard's range (+0xE6C..+0xE70); guards of kind 1
+ * (+0xE78) start searching after D_002BE5A0, others never. */
 // name: SafeHouse port (JOBINVESTIGATE::SetDeadlines)
-void SetDeadlines__14JOBINVESTIGATE(struct S *p) {
+void SetDeadlines__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob) {
     float t = g_clock.t;
-    p->g38 = t + GRandInRange__Fff(p->pt->gE6C, p->pt->gE70);
-    if (p->pt->nE78 == 1) p->g3C = g_clock.t + D_002BE5A0;
-    else p->g3C = 3.40282346638528859812e+38f;
+    pjob->tEnd = t + GRandInRange__Fff(pjob->pguard->dtGiveUpMin, pjob->pguard->dtGiveUpMax);
+    if (pjob->pguard->nSearchKind == 1) pjob->tSearch = g_clock.t + D_002BE5A0;
+    else pjob->tSearch = 3.40282346638528859812e+38f;
 }

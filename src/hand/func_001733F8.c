@@ -1,46 +1,47 @@
 #include "cid.h"
 struct G;
 extern struct G g_sw;
-struct O { char pad[0x54]; int n54; };
-struct E { int n0; int n4; void *p8; struct O *pC; int n10; int pad[2]; };
-struct S { char pad[0x40]; unsigned int u40; char pad2[0xC]; int n50; struct E *a54; int pad3; int n5C; void *p60; };
-struct AL { int cb; int n; };
-void PostLoLoad__FP2LO(struct S *p);
+#include "h2_spawner.h"
+struct CMDLIST { char pad[0x54]; int pcmdLast; };
+struct ALLOCREQ { int cb; int nKind; };
+void PostLoLoad__FP2LO(struct SPAWNER *pspawner);
 void *PloFindSwNearest__FP2LO3OIDii(struct G *g, int a, int b, int c);
-struct O *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
-void func_00170C50(struct O *o, int a, int b, int c);
-void *PvAllocSwClearImpl__Fi(struct AL *a);
-void func_001A6CA8(struct S *p, int n);
+struct CMDLIST *PloNew__F3CIDP2SW3OIDi(int a, int b, int c, int d);
+void func_00170C50(struct CMDLIST *pcmdlist, int a, int b, int c);
+void *PvAllocSwClearImpl__Fi(struct ALLOCREQ *a);
+void func_001A6CA8(struct SPAWNER *pspawner, int st);   /* the activation kind */
+/* StartSpawner: a spawner's start: each source finds its object; a path source gets its own command list (a move
+ * along the path, func_00170C50); the slots are made, and the spawner is always active and updated. */
 // name: SafeHouse port (StartSpawner)
-void StartSpawner__FP2SW(struct S *p) {
+void StartSpawner__FP2SW(struct SPAWNER *pspawner) {
     int i;
-    struct AL al;
-    unsigned int f;
-    PostLoLoad__FP2LO(p);
-    for (i = 0; i < p->n50; i++) {
-        struct E *e = &p->a54[i];
-        switch (e->n0) {
-        case 1:
+    struct ALLOCREQ req;
+    unsigned int grfUpd;
+    PostLoLoad__FP2LO(pspawner);
+    for (i = 0; i < pspawner->csrc; i++) {
+        struct SOURCE *psrc = &pspawner->asrc[i];
+        switch (psrc->kind) {
+        case SRCK_Path:
             {
-                struct O *o;
-                e->p8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, e->n4, 0);
-                o = PloNew__F3CIDP2SW3OIDi(CID_CMDLIST, 0, 0x2CB, -1);
-                func_00170C50(o, e->n4, 1, -1);
-                e->n10 = o->n54;
-                e->pC = o;
+                struct CMDLIST *pcmdlist;
+                psrc->plo = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, psrc->oid, 0);
+                pcmdlist = PloNew__F3CIDP2SW3OIDi(CID_CMDLIST, 0, 0x2CB, -1);
+                func_00170C50(pcmdlist, psrc->oid, 1, -1);
+                psrc->pcmdPath = pcmdlist->pcmdLast;
+                psrc->plist = pcmdlist;
             }
             break;
-        case 0:
-        case 2:
-            e->p8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, e->n4, 0);
+        case SRCK_Proxy:
+        case SRCK_Point:
+            psrc->plo = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, psrc->oid, 0);
             break;
         }
     }
-    al.cb = p->n5C * 0x30;
-    al.n = 0x10;
-    p->p60 = PvAllocSwClearImpl__Fi(&al);
-    func_001A6CA8(p, 1);
-    f = p->u40;
-    if ((f ^ 1) & 1) *(int *)f |= 2;
-    else p->u40 = f | 2;
+    req.cb = pspawner->cslot * 0x30;
+    req.nKind = 0x10;
+    pspawner->aslot = (SLOT *)PvAllocSwClearImpl__Fi(&req);
+    func_001A6CA8(pspawner, 1);
+    grfUpd = pspawner->grfUpd;
+    if ((grfUpd ^ 1) & 1) *(int *)grfUpd |= 2;
+    else pspawner->grfUpd = grfUpd | 2;
 }

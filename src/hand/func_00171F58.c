@@ -1,5 +1,6 @@
-struct S { char pad[0x10]; void *p10; char pad2[0x1C]; int n30; int pad3; float g38; int pad4; float g40; };
-void Init__5AIJOB(struct S *p);
-void AddGuardState__FP5GUARDi(void *p, int n);
+/* JOBINVESTIGATE::Init: the base init, the guard's state 0x1F (investigating), no state, no deadlines. */
+#include "h2_aijobs.h"
+void Init__5AIJOB(JOBINVESTIGATE *pjob);
+void AddGuardState__FP5GUARDi(void *pguard, int gs);
 // name: SafeHouse port (JOBINVESTIGATE::Init)
-void Init__14JOBINVESTIGATE(struct S *p) { Init__5AIJOB(p); AddGuardState__FP5GUARDi(p->p10, 0x1F); p->n30 = -1; p->g40 = p->g38 = 3.40282346638528859812e+38f; }
+void Init__14JOBINVESTIGATE(JOBINVESTIGATE *pjob) { Init__5AIJOB(pjob); AddGuardState__FP5GUARDi(pjob->aijob.pguard, 0x1F); pjob->st = -1; pjob->t40 = pjob->tEnd = 3.40282346638528859812e+38f; }

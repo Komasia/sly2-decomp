@@ -1,39 +1,43 @@
+/* JOBSCRIPT::SetTarget: switch the job to another command list: the old one's child job ended, message 3, its frame
+ * and sidebag dropped and its state cleared; then the new list's frame, message 2, the run flag, and the cursor at its
+ * first command (or the saved place) executed (vt slot 15). */
 #include "vtbl.h"
-struct S;
-struct T { int n0; char pad[0x4C]; int n50; };
-struct U { int n0; int n4; };
-struct S { int pad0; char a4[8]; VTENT *vt; char pad[8]; char a18[0x18]; struct T *pt; int n34; int n38; int pad3; int n40; struct U *pu; int pad4; int n4C; };
-void EndChildJob__FPP5AIJOB(void *p);
-void func_00256EE0(struct S *p, int n);
-void func_002580A8(void *p, int n);
+struct JOBSCRIPT;
+struct CMDLIST { int pframe; char pad[0x4C]; int pcmdFirst; };   /* CMDLIST */
+struct SAVEDSCRIPT { int pcmd; int plo; };                         /* SAVEDSCRIPT */
+/* JOBSCRIPT (include/h2_aijobs.h) */
+struct JOBSCRIPT { int pad0; char psidebag[8]; VTENT *vt; char pad[8]; char pchild[0x18]; struct CMDLIST *pcmdlist; int ploNear; int pcmd; int pad3; int fRunning; struct SAVEDSCRIPT *psaved; int pad4; int fFromReact; };
+void EndChildJob__FPP5AIJOB(void *pjob);
+void func_00256EE0(struct JOBSCRIPT *pjob, int n);
+void func_002580A8(void *pjob, int n);
 // name: SafeHouse port (JOBSCRIPT::SetTarget)
-void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct S *p, struct T *t, int a, struct U *u) {
-    if (t == p->pt) return;
-    if (p->pt) {
-        EndChildJob__FPP5AIJOB(p->a18);
-        ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 3, 0, 0, 0, 0);
-        func_00256EE0(p, 0);
-        func_002580A8(p->a4, 0);
-        p->n34 = 0;
-        p->n38 = 0;
-        p->n40 = 0;
-        p->n4C = 0;
+void SetTarget__9JOBSCRIPTP7CMDLISTiP11SAVEDSCRIPT(struct JOBSCRIPT *pjob, struct CMDLIST *pcmdlistNew, int fFromReact, struct SAVEDSCRIPT *psavedNew) {
+    if (pcmdlistNew == pjob->pcmdlist) return;
+    if (pjob->pcmdlist) {
+        EndChildJob__FPP5AIJOB(pjob->pchild);
+        ((void (*)())pjob->vt[3].pfn)(VT_THIS(pjob, &pjob->vt[3]), 3, 0, 0, 0, 0);
+        func_00256EE0(pjob, 0);
+        func_002580A8(pjob->psidebag, 0);
+        pjob->ploNear = 0;
+        pjob->pcmd = 0;
+        pjob->fRunning = 0;
+        pjob->fFromReact = 0;
     }
-    p->pt = t;
-    if (!t) return;
-    func_00256EE0(p, t->n0);
-    ((void (*)())p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 2, 0, 0, 0, 0);
-    p->n4C = a;
-    if (!u || !u->n0) {
-        struct T *x = p->pt;
-        int n = x->n50;
-        p->n34 = (int)x;
-        p->n38 = n;
+    pjob->pcmdlist = pcmdlistNew;
+    if (!pcmdlistNew) return;
+    func_00256EE0(pjob, pcmdlistNew->pframe);
+    ((void (*)())pjob->vt[3].pfn)(VT_THIS(pjob, &pjob->vt[3]), 2, 0, 0, 0, 0);
+    pjob->fFromReact = fFromReact;
+    if (!psavedNew || !psavedNew->pcmd) {
+        struct CMDLIST *pcmdlistT = pjob->pcmdlist;
+        int n = pcmdlistT->pcmdFirst;
+        pjob->ploNear = (int)pcmdlistT;
+        pjob->pcmd = n;
     } else {
-        p->n38 = u->n0;
-        p->pu = u;
-        p->n34 = u->n4;
+        pjob->pcmd = psavedNew->pcmd;
+        pjob->psaved = psavedNew;
+        pjob->ploNear = psavedNew->plo;
     }
-    if (p->n38) ((void (*)())p->vt[15].pfn)(VT_THIS(p, &p->vt[15]), p->n38);
-    p->pu = 0;
+    if (pjob->pcmd) ((void (*)())pjob->vt[15].pfn)(VT_THIS(pjob, &pjob->vt[15]), pjob->pcmd);
+    pjob->psaved = 0;
 }

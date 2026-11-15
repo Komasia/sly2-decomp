@@ -5,6 +5,8 @@ struct T { char pad[0xC]; VTENT *vt; char pad2[0x1A0]; char a1B0[0x10]; };
 struct S { char pad[0x10]; struct T *pt; };
 void DetachGuardMove__FP5GUARD(struct T *t);
 void SetStepPhysHeading__FP3ALOf(struct T *t, float g);
+/* PlaceGuard: put a guard at a position with a heading: detached from its move, positioned (vt slot 0x1D), its
+ * step heading set, its transform updated (0x1E), velocity and angular velocity zeroed (0x23 / 0x24). */
 // name: SafeHouse port (PlaceGuard)
 void PlaceGuard__FP5GUARDG9VU_VECTORf(struct S *p, qword q, float g) {
     struct T *t = p->pt;

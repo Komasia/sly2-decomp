@@ -7,6 +7,8 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int n);
 void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(struct O *po, qword pos, int a, qword *pq, struct VEC *pv, int b, int c);
 float atan2f(float y, float x);
 qword PosOfLo__FP2LO(struct O *po);
+/* GetCmdAim: where and which way a command aims: on a path object (CID_PATH) the nearest point and its direction,
+ * on another object its position and heading (vt slot 31's matrix), with no object the position itself, heading 0. */
 // name: SafeHouse port (GetCmdAim)
 void GetCmdAim__FP5GUARDG9VU_VECTORP2LOP6VECTORPf(void *pv, qword pos, struct O *po, qword *ppos, float *pg) {
     union { qword q; } u;

@@ -1,3 +1,5 @@
+// FindSearchPlaces (SafeHouse: JOBINVESTIGATE::FindSearchPlaces): pick the investigation's four search places: candidate
+// places around the noise (AddSearchPlace, sorted by bearing, func_00172888), spread around the guard.
 #include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int i[4];}U;

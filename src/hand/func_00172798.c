@@ -6,6 +6,9 @@ extern struct R D_002A53C0, D_002A53C8;
 void ConvertVectorToSphere__FG9VU_VECTORPfN21(qword v, float *pa, float *pb, float *pc);
 int FCheckLm(struct R *pr, float g) asm("FCheckLm__FP2LMf");
 float RadNormalize__Ff(float g);
+/* AddSearchPlace: add the query's candidate place to an investigation's search places (at most 0x40) when its
+ * elevation and distance from the guard are in range (D_002A53C0 / D_002A53C8), with its bearing relative to the
+ * guard's heading (0..2 pi). */
 // name: SafeHouse port (AddSearchPlace)
 int AddSearchPlace__FP8WAYQUERY(struct S *p) {
     float a, b, c;

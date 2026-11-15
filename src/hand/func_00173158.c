@@ -1,3 +1,5 @@
-struct S { char pad[0x80]; float g80; int n84; int n88; int n8C; char pad2[0x10]; float gA0; float gA4; };
-void InitLo__FP2LO(struct S *p);
-void func_00173158(struct S *p) { InitLo__FP2LO(p); p->g80 = 5500.0f; p->n84 = p->n8C = p->n88 = 1; p->gA0 = 30.0f; p->gA4 = 50.0f; }
+/* func_00173158: a spawner's Init (CID_SPAWNER): the LO Init, then spawning range 5500 with the edge, range and
+ * occlusion checks on, and the far waits 30 / 50 s. */
+#include "h2_spawner.h"
+void InitLo__FP2LO(SPAWNER *pspawner);
+void func_00173158(SPAWNER *pspawner) { InitLo__FP2LO(pspawner); pspawner->sPlanar = 5500.0f; pspawner->fEdge = pspawner->fOcclusion = pspawner->fRange = 1; pspawner->dtWaitFar = 30.0f; pspawner->dtUntilFar = 50.0f; }
