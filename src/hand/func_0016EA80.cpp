@@ -1,10 +1,10 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 struct TRANSFORM;
 struct STREAM;
 struct SO;
-struct VE{short delta,pad;void(*readTransform)(SO*,STREAM*,TRANSFORM**);};
-struct SO{char pad[0xC];VE*vt;char pad10[0x10];uint flags;char position[0x10];char list[0x10];int vectorCount;void*vectors;};
+struct SO{char pad[0xC];VTENT*vt;char pad10[0x10];uint flags;char position[0x10];char list[0x10];int vectorCount;void*vectors;};
 struct D{char channel,segments;int flags:8;char kind;char pad4[4];void*chain;char padC[4];int words;};
 union FLAGS{uint word;struct{uint pad:11,feature:1,matrix:1,first:9,last:9,reserved:1;}bits;};
 struct E{int value;TRANSFORM*transform;void*parent;FLAGS flags;char*data;uint base;char*segments;int word1C;SO*object;void*sphere;};
@@ -14,7 +14,6 @@ struct REQUEST{int bytes,alignment;};
 typedef char D_Size[sizeof(D)==20?1:-1];
 typedef char E_Size[sizeof(E)==40?1:-1];
 typedef char LINK_Size[sizeof(LINK)==20?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char REQUEST_Size[sizeof(REQUEST)==8?1:-1];
 typedef char FLAGS_Size[sizeof(FLAGS)==4?1:-1];
 typedef char D_channel_Offset[FIELD_OFFSET(D,channel)==0?1:-1];
@@ -46,8 +45,6 @@ typedef char SO_vectors_Offset[FIELD_OFFSET(SO,vectors)==72?1:-1];
 typedef char LINK_bounds_Offset[FIELD_OFFSET(LINK,bounds)==4?1:-1];
 typedef char LINK_object_Offset[FIELD_OFFSET(LINK,object)==12?1:-1];
 typedef char LINK_next_Offset[FIELD_OFFSET(LINK,next)==16?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_readTransform_Offset[FIELD_OFFSET(VE,readTransform)==4?1:-1];
 extern "C"{
 extern int D_003DA790;
 extern LINK D_003DA798[];
@@ -60,7 +57,7 @@ void func_0011A098(void*,LINK*);
 void func_001EC740(int,int,int,uint,uint);
 }
 static inline void*Copy(int bytes,void*source){REQUEST request;request.bytes=bytes;request.alignment=16;return PvAllocSwCopyImpl(&request,source);}
-static inline void ReadTransform(SO*object,STREAM*stream,TRANSFORM**output){VE*method=&object->vt[52];method->readTransform((SO*)((char*)object+method->delta),stream,output);}
+static inline void ReadTransform(SO*object,STREAM*stream,TRANSFORM**output){VTENT*method=&object->vt[52];((void (*)(SO*,STREAM*,TRANSFORM**))method->pfn)((SO*)VT_THIS(object, method),stream,output);}
 static inline void CopyObjects(P*p){for(int i=0;i<p->objectCount;i++){if(p->objects[i]->flags&4){p->objects=(SO**)Copy(p->objectCount*4,p->objects);return;}}}
 extern "C" void func_0016EA80(P*p,SO*owner,STREAM*stream){
     int bytes;

@@ -1,10 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-union U{qword q;float f[4];int i[4];};struct M3{U row[3];};struct VTE{short delta,pad;void*fn;};
+union U{qword q;float f[4];int i[4];};struct M3{U row[3];};
 struct SPACE;struct OBJECT;struct PROVIDER;struct REFERENCE;struct EVENT;struct EFFECT;struct SCENE;struct SECONDARY;
 struct DATA{char pad0[4];float amount;};struct SOURCE{char pad0[0x114];DATA*data;char pad118[0x64];int state;};
 struct CLIP{char pad0[0x74];float duration;};struct ANIMATION{char pad0[0x14];CLIP*clip;};struct COMPONENT{void*object;};
 struct BODY{char pad0[0x70];U position;char pad80[0x20];SPACE*frame;};struct MOTION{char pad0[0x80];U acceleration;};
-struct ACTOR{char pad0[12];VTE*vt;char pad10[0x48];BODY*body;char pad5C[0x8C];MOTION*motion;char padEC[0x28];DATA*data;char pad118[0x78];U velocity;char pad1A0[8];float heading;char pad1AC[0x31C];int category;char pad4CC[0x434];char secondary[0x30];CLIP*secondaryClip;char pad934[0x50];SOURCE*secondaryFocus;char pad988[0x688];U offset;char pad1020[0x10];ANIMATION*animation;COMPONENT component;char pad1038[0x4DC];CLIP*clip1514;CLIP*clip1518;char pad151C[0x338];SOURCE*primaryFocus;char pad1858[0x4D0];EFFECT*effect;};
+struct ACTOR{char pad0[12];VTENT*vt;char pad10[0x48];BODY*body;char pad5C[0x8C];MOTION*motion;char padEC[0x28];DATA*data;char pad118[0x78];U velocity;char pad1A0[8];float heading;char pad1AC[0x31C];int category;char pad4CC[0x434];char secondary[0x30];CLIP*secondaryClip;char pad934[0x50];SOURCE*secondaryFocus;char pad988[0x688];U offset;char pad1020[0x10];ANIMATION*animation;COMPONENT component;char pad1038[0x4DC];CLIP*clip1514;CLIP*clip1518;char pad151C[0x338];SOURCE*primaryFocus;char pad1858[0x4D0];EFFECT*effect;};
 struct LINK{SPACE*space;void*target;};union WORD{int bits;float amount;};struct TRACK{int opaque;WORD control;float weight;};struct QUERY{OBJECT*object;PROVIDER*provider;REFERENCE*reference;int tag;U point;};
 struct CONTEXT{ACTOR*actor;int state,variant;SOURCE*source;char pad10[8];float stamp;int mode;float time;int flags24,flags28,flags2C;int actionFlag;float gain,turnGain,height;int combo;float time44,time48,time4C;char pad50[0x6C];int fieldBC;char padC0[8];LINK*link;char padCC[4];U relative,direction,offset;char pad100[0x20];CLIP*base[5];CLIP*alternate[5];CLIP*special148,*special14C,*special150,*special154,*special158,*special15C;char pad160[8];float oldScale;void*focus;char pad170[4];int focused;CLIP*scripted;float scriptedGain;char pad180[4];TRACK tracks[4];char pad1B4[4];CLIP*multi;SOURCE*scriptFocus;char pad1C0[8];CLIP*special1C8;char pad1CC[4];QUERY query;EVENT*event;};
 #include "clock.h"
@@ -13,7 +14,7 @@ struct WORK{U temp;M3 basis;U scalar,bodyPosition,goal,delta,acceleration,veloci
 extern "C"{extern SCENE g_sw;extern CLOCK g_clock;extern ACTOR*D_002E1E40;extern U D_002A2DB0,g_normalZ,D_002A2DD0;extern float D_002BF780[],D_002BF7A0;extern RANGE D_002BF798;
 void PairActorWith(ACTOR*,void*,int) asm("PairActorWith__FP5ACTORP2LOi");void RecalcSwOxfFilterForObject(SCENE*,void*) asm("RecalcSwOxfFilterForObject__FP2SWP2SO");void SetHideState(SOURCE*,int) asm("SetHideState__FP2LOi");void SetXfMode(ACTOR*,BODY*,int) asm("SetXfMode__FP3ALOP2XFi");void SetReachState(SECONDARY*,int) asm("SetReachState__FP5REACHi");void SetSlyMode(ACTOR*,int) asm("SetSlyMode__FP3SLYi");void SetSmaGoal(EFFECT*,int) asm("SetSmaGoal__FP3SMA3OID");void SetActorZone(ACTOR*,void*) asm("SetActorZone__FP5ACTORP2LO");void DeleteCtrl(EVENT**) asm("DeleteCtrl__FPP4CTRL");void SetAloContactsOff(ACTOR*,int) asm("SetAloContactsOff__FP3ALOi");
 qword PosConvertXfs(SPACE*,SPACE*,qword) asm("PosConvertXfs__FP2XFT0G9VU_VECTOR");qword VecConvertXfs(SPACE*,SPACE*,qword) asm("VecConvertXfs__FP2XFT0G9VU_VECTOR");void BuildOrthonormalVectors(qword,qword,qword,TWO_ROWS*) asm("BuildOrthonormalVectors__FG9VU_VECTORN20P6VECTOR");qword PosOfLo(ACTOR*) asm("PosOfLo__FP2LO");void SetStepPhysSize(ACTOR*,float) asm("SetStepPhysSize__FP3ALOf");qword VelJumpLaunch(CONTEXT*,int) asm("VelJumpLaunch__FP4JUMPi");void SetStepPhysHeading(ACTOR*,float) asm("SetStepPhysHeading__FP3ALOf");void RecalcBlend(CLIP*) asm("RecalcBlend__FP6ASEGBL");int FIsBasicDerivedFrom(OBJECT*,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");qword PosSafeEntry(ACTOR*,QUERY*,float) asm("PosSafeEntry__FP5ACTORPvf");float TJumpTo(qword,qword,float,float,float,float) asm("TJumpTo__FG9VU_VECTORT0ffff");EVENT*PctrlNewTarget(ACTOR*,BODY*,int,float,qword,qword) asm("PctrlNewTarget__FP3ALOP2XFPvfG9VU_VECTORT4");void func_002046B0(ACTOR*,qword);void ClearSmaHandle(COMPONENT*) asm("ClearSmaHandle__FPP3SMA");void ApplyAsegCur(CLIP*,ACTOR*,float,float,int,ANIMATION**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");}
-static inline void Notify(ACTOR*p,int slot){VTE&v=p->vt[slot];((void(*)(void*))v.fn)((char*)p+v.delta);}
+static inline void Notify(ACTOR*p,int slot){VTENT&v=p->vt[slot];((void(*)(void*))v.pfn)(VT_THIS(p, &v));}
 static inline void ClearXYZ(U*v){v->i[2]=0;v->i[1]=0;v->i[0]=0;}
 static inline void ClearVelocity(ACTOR*p){ClearXYZ(&p->velocity);}
 static inline bool Less(int x,int limit){return x<limit;}
@@ -27,7 +28,6 @@ typedef char WORK_Alignment[__alignof__(WORK)==16?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char M3_Size[sizeof(M3)==48?1:-1];
-typedef char VTE_Size[sizeof(VTE)==8?1:-1];
 typedef char DATA_Size[sizeof(DATA)==8?1:-1];
 typedef char SOURCE_Size[sizeof(SOURCE)==384?1:-1];
 typedef char CLIP_Size[sizeof(CLIP)==120?1:-1];
@@ -46,8 +46,6 @@ typedef char CONTEXT_Size[sizeof(CONTEXT)==512?1:-1];
 typedef char RANGE_Size[sizeof(RANGE)==8?1:-1];
 typedef char TWO_ROWS_Size[sizeof(TWO_ROWS)==32?1:-1];
 typedef char WORK_Size[sizeof(WORK)==192?1:-1];
-typedef char VTE_delta_Offset[FIELD_OFFSET(VTE,delta)==0?1:-1];
-typedef char VTE_fn_Offset[FIELD_OFFSET(VTE,fn)==4?1:-1];
 typedef char DATA_amount_Offset[FIELD_OFFSET(DATA,amount)==4?1:-1];
 typedef char SOURCE_data_Offset[FIELD_OFFSET(SOURCE,data)==276?1:-1];
 typedef char SOURCE_state_Offset[FIELD_OFFSET(SOURCE,state)==380?1:-1];
@@ -192,7 +190,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
  case 11:case 12:case 13:case 14:case 15:
   SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;p->variant=0;clip=p->base[0];
   if(Less(p->mode,16)&&!Less(p->mode,14)){ACTOR*actor=p->actor;if(actor==D_002E1E40){actor->primaryFocus=p->source;SetSlyMode(actor,0);}else{actor->secondaryFocus=p->source;weight=0.0f;SetReachState((SECONDARY*)p->actor->secondary,0);clip=p->actor->secondaryClip;blend=clip->duration*0.5f;}}break;
- case 9:case 10:case 16:case 18:{SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;ACTOR*actor=p->actor;VTE&v=actor->vt[35];void*receiver=(char*)actor+v.delta;qword velocity=VelJumpLaunch(p,4);((void(*)(void*,qword))v.fn)(receiver,velocity);p->variant=0;if(p->mode==16)clip=p->special14C;else clip=p->special148;active=0;break;}
+ case 9:case 10:case 16:case 18:{SetXfMode(p->actor,p->actor->body,17);ClearVelocity(p->actor);p->flags28=0;ACTOR*actor=p->actor;VTENT&v=actor->vt[35];void*receiver=VT_THIS(actor, &v);qword velocity=VelJumpLaunch(p,4);((void(*)(void*,qword))v.pfn)(receiver,velocity);p->variant=0;if(p->mode==16)clip=p->special14C;else clip=p->special148;active=0;break;}
  case -1:if(p->focused){SetStepPhysSize(p->actor,p->oldScale);SetActorZone(p->actor,0);p->focused=0;}p->fieldBC=0;p->state=-1;break;
  case 19:SetStepPhysHeading(p->actor,p->actor->heading-D_002BF780[p->variant]);p->flags28=0;clip=p->scripted;SetActorZone(p->actor,p->scriptFocus);p->scriptFocus->data->amount=D_002BF798.low*0.5f+D_002BF798.high*0.5f;if(p->actor->effect)SetSmaGoal(p->actor->effect,0x5F7);break;
  case 20:p->tracks[0].control.bits=0;p->tracks[1].control.bits=0;p->tracks[2].control.bits=0;p->tracks[3].control.bits=0;p->scriptedGain=1.0f;RecalcBlend(p->multi);clip=p->multi;flags=9;break;
@@ -218,7 +216,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
   {register float negativeHalf __asm__("$f1")=-0.5f;register ACTOR*velocityOwner __asm__("$5");
    __asm__("max.s %0,%0,%3\n\tlw %1,%4\n\tmul.s %2,%0,%2"
     :"+f"(maximum),"=r"(velocityOwner),"+f"(negativeHalf):"f"(solved),"m"(p->actor));
-   register qword full __asm__("vf1"),quotient __asm__("vf3");register VTE*vt __asm__("$2");register unsigned halfBits __asm__("$3");
+   register qword full __asm__("vf1"),quotient __asm__("vf3");register VTENT*vt __asm__("$2");register unsigned halfBits __asm__("$3");
    __asm__("lqc2 $vf2,%4\n\tmfc1 %3,%5\n\tqmtc2.ni %3,%0\n\tlw %2,%6\n\tmfc1 %3,%7\n\tvdiv $Q,$vf0w,%0x\n\tvwaitq\n\tvmulq.xyzw %1,$vf2,$Q"
     :"=j"(full),"=j"(quotient),"=r"(vt),"=&r"(halfBits)
     :"m"(w.delta.q),"f"(maximum),"m"(velocityOwner->vt),"f"(negativeHalf):"vf2");
@@ -228,7 +226,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
    register int adjustment __asm__("$4");
    __asm__("lh %0,0x118(%2)\n\tsqc2 %3,%1":"=r"(adjustment),"=m"(w.velocity.q):"r"(vt),"j"(velocity),"m"(vt[35].delta));
    register void*receiver __asm__("$4");register VECTOR_SETTER setter __asm__("$3");
-   __asm__("addu %0,%2,%4\n\tlw %1,0x11C(%3)":"=&r"(receiver),"=r"(setter):"r"(velocityOwner),"r"(vt),"0"(adjustment),"m"(vt[35].fn));
+   __asm__("addu %0,%2,%4\n\tlw %1,0x11C(%3)":"=&r"(receiver),"=r"(setter):"r"(velocityOwner),"r"(vt),"0"(adjustment),"m"(vt[35].pfn));
    PublishReal(&w.temp,full);
    register qword velocityArg __asm__("$5");
    __asm__ volatile("lq %0,%2\n\tsqc2 %3,%1":"=r"(velocityArg),"=m"(w.temp.q):"m"(w.velocity.q),"j"(half));

@@ -1,13 +1,14 @@
 // Update target-facing movement modes and animation weights.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));typedef unsigned int uint;
 union U{qword q;float f[4];int i[4];};
 struct M3{U row[3];M3(){}M3(const M3&m){row[0]=m.row[0];row[1]=m.row[1];row[2]=m.row[2];}M3&operator=(const M3&m){row[0]=m.row[0];row[1]=m.row[1];row[2]=m.row[2];return *this;}};
-struct VE{short delta,pad;void*fn;};struct P;
+struct P;
 struct PL{char pad0[0x18];float angle,amount;};
 struct CURVE{char pad0[0x1C];float value;char pad20[0x20];float slope;};
 struct ANIMATION{char pad0[0x74];float gain;};
 struct LINK{char pad0[4];P*object;};
-struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];PL*input;char pad154[0x1A8-0x154];float angle;char pad1AC[0xF00-0x1AC];char action[0x50];char padF50[0x1030-0xF50];CURVE*curve;char pad1034[0x18C4-0x1034];P*target;char pad18C8[8];int state;float changed;char pad18D8[0x1C];float farTime;int previous,flipped;LINK*link;char pad1904[0x1970-0x1904];float combined;char pad1974[8];float activeOnly;char pad1980[8];float idle;char pad198C[8];ANIMATION*animation;float speedBlend,activeBlend;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x150-0x10];PL*input;char pad154[0x1A8-0x154];float angle;char pad1AC[0xF00-0x1AC];char action[0x50];char padF50[0x1030-0xF50];CURVE*curve;char pad1034[0x18C4-0x1034];P*target;char pad18C8[8];int state;float changed;char pad18D8[0x1C];float farTime;int previous,flipped;LINK*link;char pad1904[0x1970-0x1904];float combined;char pad1974[8];float activeOnly;char pad1980[8];float idle;char pad198C[8];ANIMATION*animation;float speedBlend,activeBlend;};
 #include "clock.h"
 struct LM{float values[3];};
 struct WORK{U reference,direction,local;M3 matrix,returned;float heading;U target;};
@@ -24,13 +25,12 @@ static inline float Abs(float a){return fabsf(a);}
 static inline qword Local(const M3&m,qword v){qword q,one,a,b,c;__asm__("vmul.xyzw %2,%5,%8\n\tvmaxw.xyzw %1,$vf0,$vf0w\n\tvmul.xyzw %3,%6,%8\n\tvmul.xyzw %4,%7,%8\n\tvadday.x $ACC,%2,%2y\n\tvmaddz.x %0,%1,%2z\n\tvaddax.y $ACC,%3,%3x\n\tvmaddz.y %0,%1,%3z\n\tvaddax.z $ACC,%4,%4x\n\tvmaddy.z %0,%1,%4y":"=j"(q),"=&j"(one),"=&j"(a),"=&j"(b),"=&j"(c):"j"(m.row[0].q),"j"(m.row[1].q),"j"(m.row[2].q),"j"(v));return q;}
 static inline qword LengthSquared(qword value){qword n,one;__asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(n),"=&j"(one):"j"(value));return n;}
 static inline float X(qword value){float f;__asm__("qmfc2.ni %0,%1":"=r"(f):"j"(value));return f;}
-static inline qword Velocity(P*p){return ((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);}
-static inline int Can(P*p,int mode){return ((int(*)(void*,int))p->vt[99].fn)((char*)p+p->vt[99].delta,mode);}
+static inline qword Velocity(P*p){return ((qword(*)(void*))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));}
+static inline int Can(P*p,int mode){return ((int(*)(void*,int))p->vt[99].pfn)(VT_THIS(p, &p->vt[99]),mode);}
 static inline float Clamp(float f,float low,float high){if(f<low)return low;else if(f>high)return high;return f;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char M3_Size[sizeof(M3)==48?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char PL_Size[sizeof(PL)==32?1:-1];
 typedef char CURVE_Size[sizeof(CURVE)==68?1:-1];
 typedef char ANIMATION_Size[sizeof(ANIMATION)==120?1:-1];
@@ -148,9 +148,6 @@ extern "C" void UpdateSlyHangInput__FP3SLY(P*p){
  p->curve->slope=GLimitAbs((target-p->curve->value)/g_clock.dt,D_002BF590);
 }
 
-typedef char final_offset_0_0[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char final_offset_0_1[FIELD_OFFSET(VE,pad)==2?1:-1];
-typedef char final_offset_0_2[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char final_offset_1_0[FIELD_OFFSET(U,q)==0?1:-1];
 typedef char final_offset_1_1[FIELD_OFFSET(U,f)==0?1:-1];
 typedef char final_offset_1_2[FIELD_OFFSET(U,i)==0?1:-1];
@@ -171,7 +168,6 @@ typedef char final_alignment_1[__alignof__(U)==16?1:-1];
 typedef char final_alignment_2[__alignof__(M3)==16?1:-1];
 typedef char final_alignment_3[__alignof__(WORK)==16?1:-1];
 typedef char final_alignment_4[__alignof__(P)==4?1:-1];
-typedef char final_alignment_5[__alignof__(VE)==4?1:-1];
 typedef char final_alignment_6[__alignof__(PL)==4?1:-1];
 typedef char final_alignment_7[__alignof__(CURVE)==4?1:-1];
 typedef char final_alignment_8[__alignof__(ANIMATION)==4?1:-1];

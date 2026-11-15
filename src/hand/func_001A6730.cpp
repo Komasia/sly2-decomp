@@ -1,3 +1,4 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef unsigned long ulong;
@@ -10,17 +11,15 @@ struct RR;
 struct REQUEST{int bytes,alignment;};
 struct NODE{int pad0;NODE*next;int key,chain;P*owner;int link;char list[12];int pad24;};
 struct META{char pad[0xC];uint bytes;};
-struct VE{short delta,pad;META*(*type)(P*);};
 union FLAGS{ulong word;struct{ulong pad:48;int kind:4,mode:4;uint reserved:1,autoA:1,autoB:1,end:5;}bits;};
 struct TAG{int word;int Get()const{register int v __asm__("$4")=word;if(!(v&1))v=*(int*)v;return v;}void Set(int v){v&=~1;int d=word;if(!(d&1))*(int*)d=v|(*(int*)d&1);else word=v|(d&1);}};
-struct P{ROOT*root;FIELD*field;int pad8;VE*vt;char pad10[0x18];FLAGS flags;int pad30;int word34;float scale;NODE*nodes;TAG tag;char pad44[12];};
+struct P{ROOT*root;FIELD*field;int pad8;VTENT*vt;char pad10[0x18];FLAGS flags;int pad30;int word34;float scale;NODE*nodes;TAG tag;char pad44[12];};
 struct G{char pad[0x3F10];int phase;};
 typedef char BINDING_Size[sizeof(BINDING)==24?1:-1];
 typedef char FIELD_Size[sizeof(FIELD)==12?1:-1];
 typedef char ROOT_Size[sizeof(ROOT)==32?1:-1];
 typedef char REQUEST_Size[sizeof(REQUEST)==8?1:-1];
 typedef char NODE_Size[sizeof(NODE)==40?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char META_Size[sizeof(META)==16?1:-1];
 typedef char P_Size[sizeof(P)==80?1:-1];
 typedef char FLAGS_Size[sizeof(FLAGS)==8?1:-1];
@@ -46,8 +45,6 @@ typedef char P_word34_Offset[FIELD_OFFSET(P,word34)==52?1:-1];
 typedef char P_scale_Offset[FIELD_OFFSET(P,scale)==56?1:-1];
 typedef char P_nodes_Offset[FIELD_OFFSET(P,nodes)==60?1:-1];
 typedef char P_tag_Offset[FIELD_OFFSET(P,tag)==64?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_type_Offset[FIELD_OFFSET(VE,type)==4?1:-1];
 typedef char META_bytes_Offset[FIELD_OFFSET(META,bytes)==12?1:-1];
 typedef char G_phase_Offset[FIELD_OFFSET(G,phase)==16144?1:-1];
 extern "C"{
@@ -78,7 +75,7 @@ struct RR{ROOT*p;RR(){}RR(const RR&r):p(r.p){if(p)++p->refs;}~RR(){ROOT*r=p;if(r
 typedef char FieldRefSize[sizeof(RF)==4?1:-1];
 typedef char RootRefSize[sizeof(RR)==4?1:-1];
 static inline NODE*CopyNode(int bytes,REQUEST*r,NODE*n){r->bytes=bytes;r->alignment=16;return(NODE*)PvAllocSwCopyImpl(r,n);}
-static inline META*Type(P*p){VE*v=&p->vt[6];return v->type((P*)((char*)p+v->delta));}
+static inline META*Type(P*p){VTENT*v=&p->vt[6];return ((META* (*)(P*))v->pfn)((P*)VT_THIS(p, v));}
 extern "C" void CloneLo__FP2LOT0(P*p,const P*source){
     func_00128148(D_002DD598);
     if(source->field){

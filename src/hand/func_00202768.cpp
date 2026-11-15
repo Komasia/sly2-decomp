@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef unsigned int uint;
-struct VT {short adjustment,unused;void *function;};
 struct ACTOR {char pad0[0xF4];int id;int unusedF8,key;};
-struct X {char pad0[0xC];VT *vtable;char pad10[0x30];uint flags;char pad44[0x14];void *shown;char pad5C[0x98];ACTOR *actor;};
+struct X {char pad0[0xC];VTENT *vtable;char pad10[0x30];uint flags;char pad44[0x14];void *shown;char pad5C[0x98];ACTOR *actor;};
 struct P {int state;char pad4[0x70];int specialCount;char pad78[0x14];ACTOR *actor;char pad90[0x10];uint savedFlags;void *resource;X **model;X *primary,*secondary;char padB4[8];int selected,pending;};
 extern char g_sw[],D_003DD040[],g_clock[],D_002DE390[],g_game[];
 extern "C" {
@@ -31,8 +31,8 @@ void func_00212E40(X *,int,float);
 void SetState(X *,int) asm("SetState__FP8SCREENRTi");
 void SetTimerTimers(X *,int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 }
-static inline void Post(X *x,int n){VT *entry=&x->vtable[49];((void (*)(void *,int))entry->function)((char *)x+entry->adjustment,n);}
-static inline void Clear(X *x){VT *entry=&x->vtable[50];((void (*)(void *))entry->function)((char *)x+entry->adjustment);}
+static inline void Post(X *x,int n){VTENT *entry=&x->vtable[49];((void (*)(void *,int))entry->pfn)(VT_THIS(x, entry),n);}
+static inline void Clear(X *x){VTENT *entry=&x->vtable[50];((void (*)(void *))entry->pfn)(VT_THIS(x, entry));}
 static inline int Untag(int word)
 {
     register int result __asm__("v0");

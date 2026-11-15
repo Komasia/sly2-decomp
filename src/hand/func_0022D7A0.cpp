@@ -1,4 +1,5 @@
 // Read transform records and their optional animation jobs from a binary stream.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 struct V {float f[4];} __attribute__((aligned(16)));
@@ -6,14 +7,13 @@ struct V2 {float x,y;};
 struct M4 {V r[4];};
 struct S;struct E;struct JOB;
 struct RESOURCE {char pad[0x30];float position[3];};
-struct VE {short delta,pad;RESOURCE *(*get)(void *,int);};
 struct JOB {int kind;S *owner;E *entry;int order;JOB *next;int id;void *vt;};
 struct J1 {JOB h;int selector;qword initial;};
 struct J2 {JOB h;int pad1C;qword initial;V begin,end;V2 timingBegin,timingEnd;float g;int a,b,c;char pad70[0x10];};
 struct J4 {JOB h;float lo,hi;int pad24;};
 struct J9 {JOB h;int pad1C;V value;};
 struct E {M4 matrix;char pad40[0x50];JOB *jobs;int kind,pad98,tag;RESOURCE *reference;int padA4;RESOURCE *origin;short lo,hi;char padB0[0x10];qword current;char padD0[0x10];qword previous;char padF0[0x10];};
-struct S {char pad0[0xC];VE *vt;char pad10[0x30];int flags;char pad44[0xC];int count;E *records;RESOURCE *a,*b,*c;};
+struct S {char pad0[0xC];VTENT *vt;char pad10[0x30];int flags;char pad44[0xC];int count;E *records;RESOURCE *a,*b,*c;};
 struct REQ {int size,kind;};
 extern char D_002CA820[],D_002CA7E0[],D_002CA7A0[],D_002CA6A0[];
 extern "C" {
@@ -41,7 +41,7 @@ static inline J1 *CreateJ1(){J1 *j;j=(J1 *)func_0012E1F0(sizeof(J1));j->h.vt=D_0
 static inline J2 *CreateJ2(){J2 *j;j=(J2 *)func_0012E1F0(sizeof(J2));j->h.kind=2;j->h.vt=D_002CA7E0;return j;}
 static inline J4 *CreateJ4(){J4 *j;j=(J4 *)func_0012E1F0(sizeof(J4));j->h.kind=4;j->h.vt=D_002CA7A0;return j;}
 static inline J9 *CreateJ9(){J9 *j;j=(J9 *)func_0012E1F0(sizeof(J9));j->h.vt=D_002CA6A0;j->h.kind=9;j->h.id=20;return j;}
-static inline RESOURCE *Lookup(S *p,int id){VE *ve=&p->vt[51];return ve->get((char *)p+ve->delta,id);}
+static inline RESOURCE *Lookup(S *p,int id){VTENT *ve=&p->vt[51];return ((RESOURCE * (*)(void *,int))ve->pfn)(VT_THIS(p, ve),id);}
 static inline int ToInt(float f){return (int)f;}
 static inline void Identity(M4 *m){s1_memset(m,0,sizeof(*m));m->r[3].f[3]=1.0f;m->r[2].f[2]=1.0f;m->r[1].f[1]=1.0f;m->r[0].f[0]=1.0f;}
 static inline void ClearFlag(S *p){int f=p->flags;if((f^1)&1)*(int *)f&=~0x20;else p->flags=f&~0x20;}

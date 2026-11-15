@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{
@@ -6,7 +7,7 @@ struct M3{
 };
 struct M4{U r[4];};
 struct FRAME{M4 local,world;char pad80[0x20];FRAME*parent;int stamp;};
-struct VTE{short delta,pad;void*fn;};struct CONTROL{VTE*vt;};
+struct CONTROL{VTENT*vt;};
 struct REQUEST{
  FRAME*primary,*current,*output,*ancestor;M4 snapshot;M3 rest;
  qword translation,axis,localPoint,mappedPoint;float firstLength,secondLength,referenceAngle,twist;
@@ -104,15 +105,12 @@ typedef char qword_Size[(sizeof(qword)==16)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char M3_Size[(sizeof(M3)==0x30)?1:-1];
 typedef char M4_Size[(sizeof(M4)==0x40)?1:-1];
-typedef char VTE_Size[(sizeof(VTE)==8)?1:-1];
 typedef char REQUEST_Size[(sizeof(REQUEST)==0xE0)?1:-1];
 typedef char FRAME_Size[(sizeof(FRAME)==0xB0)?1:-1];
 typedef char FRAME_local_Offset[((unsigned)&((FRAME*)0)->local==0)?1:-1];
 typedef char FRAME_world_Offset[((unsigned)&((FRAME*)0)->world==64)?1:-1];
 typedef char FRAME_parent_Offset[((unsigned)&((FRAME*)0)->parent==160)?1:-1];
 typedef char FRAME_stamp_Offset[((unsigned)&((FRAME*)0)->stamp==164)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTE*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTE*)0)->fn==4)?1:-1];
 typedef char CONTROL_vt_Offset[((unsigned)&((CONTROL*)0)->vt==0)?1:-1];
 typedef char REQUEST_primary_Offset[((unsigned)&((REQUEST*)0)->primary==0)?1:-1];
 typedef char REQUEST_current_Offset[((unsigned)&((REQUEST*)0)->current==4)?1:-1];

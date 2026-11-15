@@ -1,13 +1,14 @@
 // UpdateSlyMotion__FP3SLY (Claude agent, lane G9, 2026-10-24): MATCH, no register pins, VU helper asms only (Lilly style).
 // Keys: the 0x20 stack slot is the by-value VU_FLOAT temporary (not a WORK field); WORK = {a, b} at 0x0/0x10 shared by cases 14 and 24; Reject = QwProjectOut.
 
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];};
 struct M3{U r[3];M3(){}M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return*this;}};
-struct M4{U r[4];};struct VTE{short delta,pad;void*fn;};
+struct M4{U r[4];};
 struct MODEL{char pad[0x1C];float base;};
 struct ACTOR{char pad[0x80];qword response;};
-struct P{char pad0[0xC];VTE*vt;char pad10[0xD8];ACTOR*actor;char padEC[0xF44];MODEL*model;char pad1034[0x894];int mode,unusedCC,submode;char pad18D4[0x1B0];void*lookup;};
+struct P{char pad0[0xC];VTENT*vt;char pad10[0xD8];ACTOR*actor;char padEC[0xF44];MODEL*model;char pad1034[0x894];int mode,unusedCC,submode;char pad18D4[0x1B0];void*lookup;};
 #include "clock.h"
 struct WORK{U a,b;};
 extern "C"{
@@ -44,8 +45,8 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  case 7:func_00194170((char*)p+0x4C0);break;
  case 6:UpdateSlyDodgeMotion((char*)p+0x1FF0);break;
  case 14:{
-  VTE*e=&p->vt[33];
-  w.a.q=((qword(*)(void*))e->fn)((char*)p+e->delta);
+  VTENT*e=&p->vt[33];
+  w.a.q=((qword(*)(void*))e->pfn)(VT_THIS(p, e));
   w.b.q=VelActorAnimRoot(p,p->model,p->model->base);
   float cap=GEventAseg11(p->lookup,0x16D);
   if(p->model->base<cap){
@@ -57,8 +58,8 @@ extern "C" void UpdateSlyMotion__FP3SLY(P*p){
  }
  case 24:
   if(p->submode==13){
-   VTE*e=&p->vt[33];qword position=((qword(*)(void*))e->fn)((char*)p+e->delta);
-   e=&p->vt[34];qword direction=((qword(*)(void*))e->fn)((char*)p+e->delta);
+   VTENT*e=&p->vt[33];qword position=((qword(*)(void*))e->pfn)(VT_THIS(p, e));
+   e=&p->vt[34];qword direction=((qword(*)(void*))e->pfn)(VT_THIS(p, e));
    M4*m=MatJtLo(p);M3 basis;basis.r[0]=m->r[0];basis.r[1]=m->r[1];basis.r[2]=m->r[2];
    float projection=GSplitVector(position,basis.r[0].q,&w.a.q,&w.b.q);
    float dt=g_clock.dt;
@@ -84,10 +85,7 @@ typedef char Unsigned_Size[(sizeof(unsigned)==4)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char M3_Size[(sizeof(M3)==0x30)?1:-1];
 typedef char M4_Size[(sizeof(M4)==0x40)?1:-1];
-typedef char VTE_Size[(sizeof(VTE)==8)?1:-1];
 //typedef char WORK_Size[(sizeof(WORK)==0x90)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTE*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTE*)0)->fn==4)?1:-1];
 typedef char MODEL_base_Offset[((unsigned)&((MODEL*)0)->base==28)?1:-1];
 typedef char ACTOR_response_Offset[((unsigned)&((ACTOR*)0)->response==128)?1:-1];
 typedef char P_vt_Offset[((unsigned)&((P*)0)->vt==12)?1:-1];

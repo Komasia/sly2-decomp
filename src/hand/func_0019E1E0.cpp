@@ -1,8 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));typedef unsigned long ulong;
-union U{qword q;float f[4];int i[4];};struct VE{short delta,pad;void*fn;};
+union U{qword q;float f[4];int i[4];};
 struct INPUT{char pad0[0x10];float x,y;char pad18[4];float amount;};
 struct ACTION;struct ASEGA;struct ANIMATION;
-struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];INPUT*input;char pad154[0x2C0-0x154];char controller[0xF00-0x2C0];char action[0x1010-0xF00];U offset;char pad1020[0x10];ASEGA*asega;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x150-0x10];INPUT*input;char pad154[0x2C0-0x154];char controller[0xF00-0x2C0];char action[0x1010-0xF00];U offset;char pad1020[0x10];ASEGA*asega;};
 struct PATH{char pad0[0x28];ulong flags;char pad30[0xE4-0x30];int cyclic;};
 struct C{P*actor;int state;float time;PATH*path;float distance,speed;int descending;float reset;int previous;char pad24[12];U offset;char pad40[0x10];float weight0;char pad54[8];float speed0,weight1;char pad64[8];float speed1;ANIMATION*animation;};
 #include "clock.h"
@@ -17,7 +18,7 @@ void LmClimb(C*,LM*) asm("LmClimb__FP5ACTORPf");float GSmooth(float,float,float,
 float fabsf(float);
 }
 static inline ulong Eligible(PATH*p){return (p->flags>>60)&1;}
-static inline int CanAct(P*p,int kind){VE&v=p->vt[99];return ((int(*)(void*,int))v.fn)((char*)p+v.delta,kind);}
+static inline int CanAct(P*p,int kind){VTENT&v=p->vt[99];return ((int(*)(void*,int))v.pfn)(VT_THIS(p, &v),kind);}
 static inline qword Sub(qword a,qword b){qword q;__asm__("vsub.xyzw %0,%1,%2":"=j"(q):"j"(a),"j"(b));return q;}
 static inline qword Direction(U*a,U*b,U*&axis){
  register qword direction __asm__("vf3");register U*address __asm__("$2");
@@ -38,7 +39,6 @@ static inline qword Normal(qword v,U*axis){
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char INPUT_Size[sizeof(INPUT)==32?1:-1];
 typedef char P_Size[sizeof(P)==4160?1:-1];
 typedef char PATH_Size[sizeof(PATH)==232?1:-1];

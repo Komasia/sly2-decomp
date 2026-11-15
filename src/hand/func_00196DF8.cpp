@@ -1,6 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};struct M3{U row[3];};struct M4{U row[4];};
-struct VTE{short delta,pad;void*fn;};struct BODY{char pad0[0xB0];U angularVelocity;char padC0[0x30];U angularAcceleration;};struct MOTION{char pad0[0x80];U acceleration;};struct ACTOR{char pad0[12];VTE*vt;char pad10[0x4C];BODY*body;char pad60[0x88];MOTION*motion;char padEC[0x190-0xEC];U velocity;};
+struct BODY{char pad0[0xB0];U angularVelocity;char padC0[0x30];U angularAcceleration;};struct MOTION{char pad0[0x80];U acceleration;};struct ACTOR{char pad0[12];VTENT*vt;char pad10[0x4C];BODY*body;char pad60[0x88];MOTION*motion;char padEC[0x190-0xEC];U velocity;};
 struct CONTEXT{ACTOR*actor;int state;char pad8[0x10];float stamp;int mode;char pad20[0x14];float gain;char pad38[0x68];U desired;char padB0[0x110];float targetX,targetZ;};
 struct CLOCK{float time,dt;};struct SMP{float maximum,minimum,duration;};struct RANGE{float low,high;};struct POLY{float c0,c1,c2;};struct PARAMS{float values[3];};
 /* The basis writer and later vectors share their actual stack homes. */
@@ -8,7 +9,7 @@ union BASE_PHASE{M3 returned;struct{U local,acceleration,corrected,scalar;}vecto
 union WORK{struct{U local,scalar;M3 basis,rotation,returned;U original;}turn;struct{U direction;M3 basis;BASE_PHASE phase;}move;U scalar;};
 extern "C"{extern CLOCK g_clock;extern U D_002A2DA0,g_normalZ,D_002A2DD0;extern SMP D_002BF7A8,D_002BF7B8,D_002BF7C8;extern float D_002BF7D4,D_002BF7F0,D_002BF7F4,D_002BF7F8,D_002BF810,D_002BF814;extern PARAMS D_002BF7E0;extern POLY D_002BF800;extern RANGE g_lmZeroOne;
 qword ConvertVec(ACTOR*,ACTOR*,qword) asm("ConvertVec__FP2LOT0G9VU_VECTOR");M3*BuildRotateMatrixVector(M3*,qword) asm("BuildRotateMatrixVector__FP6VECTORG9VU_VECTOR");M3*func_0011B7E0(M3*,qword);M4*MatJtLo(ACTOR*) asm("MatJtLo__FP2LO");float GSmooth(float,float,float,SMP*,float*) asm("GSmooth__FfffP3SMPPf");qword LimitVectorLength(qword,float) asm("LimitVectorLength__FG9VU_VECTORf");void AccelAloPos(ACTOR*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");void AccelAloTowardPosition(ACTOR*,qword,PARAMS*,qword,PARAMS*) asm("AccelAloTowardPosition__FP3ALOG9VU_VECTORP3CLQT1T2");void PushJumpOffWalls(CONTEXT*,U*) asm("PushJumpOffWalls__FP4JUMPP6VECTOR");}
-static inline qword Velocity(ACTOR*p){VTE&v=p->vt[33];return ((qword(*)(void*))v.fn)((char*)p+v.delta);}
+static inline qword Velocity(ACTOR*p){VTENT&v=p->vt[33];return ((qword(*)(void*))v.pfn)(VT_THIS(p, &v));}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword a,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(a),"j"(k));return r;}
 static inline qword Rotate(qword r0,qword r1,qword r2,qword vector,qword seed){__asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"+j"(seed):"j"(r0),"j"(r1),"j"(r2),"j"(vector));return seed;}
@@ -19,7 +20,6 @@ typedef char M3_Size[sizeof(M3)==48?1:-1];
 typedef char M4_Size[sizeof(M4)==64?1:-1];
 typedef char M3_row_Offset[FIELD_OFFSET(M3,row)==0?1:-1];
 typedef char M4_row_Offset[FIELD_OFFSET(M4,row)==0?1:-1];
-typedef char VTE_Size[sizeof(VTE)==8?1:-1];
 typedef char BODY_Size[sizeof(BODY)==256?1:-1];
 typedef char MOTION_Size[sizeof(MOTION)==144?1:-1];
 typedef char ACTOR_Size[sizeof(ACTOR)==416?1:-1];

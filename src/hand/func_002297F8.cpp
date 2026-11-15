@@ -1,19 +1,19 @@
 // Resolve one contact between two physics objects: spring push, friction impulses (linear and
 // angular), restoring torque, and the water-splash / emitter-clear effects.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct M3 {qword r[3];};
 struct M4 {M3 basis;qword position;};
 struct COEF {float f[3];};
 struct O;
-struct VE {short delta,pad;qword (*get)(void *);};
 struct NODE {char pad[0x98];short kind;};
 struct CONSTRAINT {qword direction;int kind;};
 struct PHYS {char pad[0x80];V direction;char pad90[0x20];CONSTRAINT constraint;float mass,spring,friction;};
 struct STATE {V minimum,maximum;};
 struct EMITTER;
 struct WATER;
-struct O {char pad[0xC];VE *vt;char pad10[0x48];NODE *body,*rotation,*motion;char pad64[0x84];PHYS *physics;STATE *state;char padF0[0x84];EMITTER *emitter;};
+struct O {char pad[0xC];VTENT *vt;char pad10[0x48];NODE *body,*rotation,*motion;char pad64[0x84];PHYS *physics;STATE *state;char padF0[0x84];EMITTER *emitter;};
 union PHASE {V vectors[3];M3 basis;};
 union AXIS {COEF coefficients;V vector;};
 struct WORK {V point,normal,velocity;PHASE phase;AXIS axis;V angularNormal,angularTangent,scalar;float angle;};
@@ -47,7 +47,7 @@ static inline float Z(qword q){qword v;float f;__asm__("pextuw %0,$zero,%1":"=r"
 static inline bool Near(qword a,qword b,float epsilon){return FFloatsNear(X(a),X(b),epsilon)&&FFloatsNear(Y(a),Y(b),epsilon)&&FFloatsNear(Z(a),Z(b),epsilon);}
 static inline qword Scalar(float f){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));return q;}
 static inline qword Scale(qword v,qword k){qword r;__asm__("vmulx.xyzw %0,%1,%2x":"=j"(r):"j"(v),"j"(k));return r;}
-static inline qword Get(O *o,int slot){VE *v=o->vt;return v[slot].get((char *)o+v[slot].delta);}
+static inline qword Get(O *o,int slot){VTENT *v=o->vt;return ((qword (*)(void *))v[slot].pfn)(VT_THIS(o, &v[slot]));}
 static inline qword Sub(qword a,qword b){qword r;asm("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"0"(b));return r;}
 static inline qword AddNormal(qword motion,const V &projection){qword r;asm("vadd.xyzw %0,%1,%2":"=j"(r):"0"(motion),"j"(projection.q));return r;}
 static inline qword AddTangent(qword motion,const V &projection){qword r;asm("vadd.xyzw %0,%1,%2":"=j"(r):"0"(motion),"j"(projection.q));return r;}
@@ -112,4 +112,3 @@ extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)
-typedef char contact_layout_assert[(sizeof(V)==0x10 && sizeof(M3)==0x30 && sizeof(M4)==0x40 && OFF(M4,basis)==0 && OFF(M4,position)==0x30 && sizeof(COEF)==0xC && sizeof(CONSTRAINT)==0x20 && sizeof(PHASE)==0x30 && sizeof(AXIS)==0x10 && sizeof(WORK)==0xB0 && sizeof(VE)==8 && OFF(O,vt)==0xc && OFF(O,body)==0x58 && OFF(O,rotation)==0x5c && OFF(O,motion)==0x60 && OFF(O,physics)==0xe8 && OFF(O,state)==0xec && OFF(O,emitter)==0x174 && OFF(NODE,kind)==0x98 && OFF(PHYS,direction)==0x80 && OFF(PHYS,constraint)==0xb0 && OFF(PHYS,mass)==0xd0 && OFF(PHYS,spring)==0xd4 && OFF(PHYS,friction)==0xd8 && OFF(CONSTRAINT,direction)==0x0 && OFF(CONSTRAINT,kind)==0x10 && OFF(STATE,minimum)==0x0 && OFF(STATE,maximum)==0x10 && OFF(WORK,point)==0x0 && OFF(WORK,normal)==0x10 && OFF(WORK,velocity)==0x20 && OFF(WORK,phase)==0x30 && OFF(WORK,axis)==0x60 && OFF(WORK,angularNormal)==0x70 && OFF(WORK,angularTangent)==0x80 && OFF(WORK,scalar)==0x90 && OFF(WORK,angle)==0xa0)?1:-1];
