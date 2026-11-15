@@ -1,11 +1,21 @@
+/* class: JOBHELP, the Job Help HUD widget D_003DA3C0 (SafeHouse shop.cpp): its constructor - the base HUD widget,
+ * its vtable D_002D8468, its screen object 0x4E0, then its state reset (func_001DCD08). */
+#define OID_SCREENJOBHELP 0x4E0
 extern char D_002D8468[];
-struct S { int a, b, c; void *vt; char pad[0x10]; int n20; };
-struct S *func_001DA728(struct S *p);
-void func_001DCD08(struct S *p);
-struct S *func_001DCC58(struct S *p) {
-    func_001DA728(p);
-    p->vt = D_002D8468;
-    p->n20 = 0x4E0;
-    func_001DCD08(p);
-    return p;
+struct JOBHELP {
+    /* 0x00 */ int a, b, c;
+    /* 0x0c */ void *pvt;
+    /* 0x10 */ char pad10[0x10];
+    /* 0x20 */ int oidScreen;
+};
+struct JOBHELP *func_001DA728(struct JOBHELP *pjobhelp);   /* the base constructor */
+void func_001DCD08(struct JOBHELP *pjobhelp);
+
+struct JOBHELP *func_001DCC58(struct JOBHELP *pjobhelp)
+{
+    func_001DA728(pjobhelp);
+    pjobhelp->pvt = D_002D8468;
+    pjobhelp->oidScreen = OID_SCREENJOBHELP;
+    func_001DCD08(pjobhelp);
+    return pjobhelp;
 }
