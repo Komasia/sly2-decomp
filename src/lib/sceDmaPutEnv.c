@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0 -fstrict-aliasing
 // SLY2_ASM: gnu-reorder-db
+/* sceDmaPutEnv (libdma): program the DMAC common registers (CTRL stall/MFIFO fields, PCR, SQWC, RBOR/RBSR)
+   from `env`; negative return for an out-of-range field. */
 typedef unsigned int u_int;
 typedef unsigned short u_short;
 typedef unsigned char u_char;
@@ -19,7 +21,7 @@ typedef struct {
 extern const u_char D_002AB3A8[]; /* sts map */
 extern const u_char D_002AB3B8[]; /* std map */
 extern const u_char D_002AB3C8[]; /* mfd map */
-extern sceDmaEnv D_00450280;
+extern sceDmaEnv D_00450280;          /* copy of the environment last set */
 int sceDmaPutEnv(sceDmaEnv *env)
 {
     u_int ctrl, pcr, sqwc, rbsr, rbor;
@@ -29,6 +31,7 @@ int sceDmaPutEnv(sceDmaEnv *env)
     rbor = *D_RBOR;
     rbsr = *D_RBSR;
 
+    /* sts/std/mfd: channel numbers, mapped to the CTRL field codes; rcyc: release cycle 0 (off) or 1..6 */
     if (env->sts >= 10) return -1;
     if (env->std >= 10) return -2;
     if (env->mfd >= 10) return -3;
@@ -37,7 +40,7 @@ int sceDmaPutEnv(sceDmaEnv *env)
     ctrl = (ctrl & ~0xC0) | (D_002AB3B8[env->std] << 6);
     ctrl = (ctrl & ~0xC) | (D_002AB3C8[env->mfd] << 2);
     if (env->rcyc) {
-        ctrl |= 2;
+        ctrl |= 2;          /* RELE: release the bus every RCYC cycles */
         ctrl = (ctrl & ~0x300) | ((env->rcyc - 1) << 8);
     } else {
         ctrl &= ~2;

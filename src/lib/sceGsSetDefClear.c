@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceGsSetDefClear (libgraph): build the A+D packet that clears a rectangle to (r, g, b, a) and depth z. Returns its
+   qword count (6). */
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef unsigned char u_char;
@@ -23,13 +25,14 @@ int sceGsSetDefClear(sceGsClear *cp, short ztest, short x, short y, short w, sho
                      u_char r, u_char g, u_char b, u_char a, u_int z)
 {
     u_long zz = z;
-    cp->testaaddr = 0x47;
+    /* sprite covering (x, y, w, h) with depth test ALWAYS, then the requested depth test */
+    cp->testaaddr = 0x47;           /* TEST_1 */
     cp->testa = SET_TEST(0, 0, 0, 0, 0, 0, 1, 1);
-    cp->primaddr = 0;
-    cp->prim = 6;
-    cp->rgbaqaddr = 1;
+    cp->primaddr = 0;               /* PRIM */
+    cp->prim = 6;                   /* sprite */
+    cp->rgbaqaddr = 1;              /* RGBAQ, q = 1.0f */
     cp->rgbaq = Combine((u_long)r,(u_long)0x3f800000 << 32) | Combine((u_long)b << 16,(u_long)g << 8) | ((u_long)a << 24);
-    cp->xyz2aaddr = 5;
+    cp->xyz2aaddr = 5;              /* XYZ2 */
     cp->xyz2a = SET_XYZ(x << 4, y << 4, zz);
     cp->xyz2baddr = 5;
     cp->xyz2b = SET_XYZ((x + w) << 4, (y + h) << 4, zz);

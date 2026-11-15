@@ -1,4 +1,6 @@
-// sceCdInit (T1576): MATCH. Keys: the bind-ok path sits inside the while(1) loop and stores 6798 = 0 BEFORE the mode
+/* sceCdInit (libcdvd): mode SCECdINIT (0) / SCECdINoD (1): bind the init server, set up the command semaphores
+   and the power-off callback; SCECdEXIT (5): shut libcdvd down. Returns 1, or 2 for an old IOP module, 0 on failure. */
+// codegen: the bind-ok path sits inside the while(1) loop and stores 6798 = 0 BEFORE the mode
 // (its hi register then has a shorter live length, so global-alloc gives hi(6798) s4 and hi(679C) s5); the init-counter
 // increment is a volatile store of a plain read (the read must not depend on the volatile 6764 store); init store order
 // found by an exhaustive/hill-climb search (sched1 order), checked against the relocation symbols too.
@@ -6,23 +8,23 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 typedef struct { int pad[9]; void *serve; int pad2[6]; } sceSifClientData;
-extern int D_002C6750;
-extern volatile int D_002C6760;
-extern volatile int D_002C6764;
-extern volatile int D_002C6768;
-extern volatile int D_002C676C;
-extern int D_002C6778;
-extern int D_002C677C;
-extern int D_002C6784;
+extern int D_002C6750;    /* debug print level */
+extern volatile int D_002C6760;    /* callback semaphore */
+extern volatile int D_002C6764;    /* init in progress */
+extern volatile int D_002C6768;    /* N-command semaphore */
+extern volatile int D_002C676C;    /* S-command semaphore */
+extern int D_002C6778;     /* sceCdRead flags */
+extern int D_002C677C;     /* RPC server bind states, -1 = not bound: */
+extern int D_002C6784;     /* libcdvd initialised */
 extern int D_002C6788;
 extern int D_002C678C;
-extern int D_002C6790;
+extern int D_002C6790;     /*   DiskReady */
 extern int D_002C6794;
-extern int D_002C6798;
-extern int D_002C679C;
-extern sceSifClientData D_004504E8;
-extern int D_00450540[];
-extern int D_002C7940[];
+extern int D_002C6798;     /*   init */
+extern int D_002C679C;     /* sceCdInit call count */
+extern sceSifClientData D_004504E8;   /* init RPC client */
+extern int D_00450540[];   /* init send buffer */
+extern int D_002C7940[];    /* S-command receive buffer */
 extern char D_002AB570[];   // "Libcdvd bind err %d CD_Init %d\n"
 extern char D_002AB590[];   // "Libcdvd Exit\n"
 int scePrintf(const char *, ...);
@@ -57,7 +59,7 @@ int sceCdInit(int mode)
     D_002C6778 = 0;
     *(volatile int *)&D_002C679C = D_002C679C + 1;
     while (1) {
-        int b = sceSifBindRpc(&D_004504E8, 0x80000592, 0);
+        int b = sceSifBindRpc(&D_004504E8, 0x80000592 /* cdvd init server */, 0);
         if (b < 0) {
             if (D_002C6750 > 0) scePrintf(D_002AB570, b, D_002C679C);
             nopdelay();
@@ -84,7 +86,7 @@ int sceCdInit(int mode)
         r = 1;
         if (a == 0xFF) {
         } else if (a == 0xFE) {
-            D_002C6750 = 1;
+            D_002C6750 = 1;         /* debug build of the IOP module: turn on the prints */
         } else if (b / 256 < 2 || c / 256 < 2) {
             r = 2;
         }

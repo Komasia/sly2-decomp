@@ -1,15 +1,16 @@
-// (Claude agent) libcdvd sceCdDiskReady_old: bind retry loop sets the bound flag before break; both failure exits written out (gcc cross-jumps them).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceCdDiskReady_old (libcdvd): sceCdDiskReady through the older DiskReady server, serialised with the S-commands.
+   codegen: the bind retry loop sets the bound flag before break; both failure exits are written out (gcc cross-jumps them). */
 typedef struct { int pad[9]; void *serve; int pad2[6]; } sceSifClientData;
-extern int D_002C6750;
-extern int D_002C6780;
-extern volatile int D_002C676C;
-extern int D_002C6790;
-extern sceSifClientData D_00450510;
-extern int D_00450550[];
-extern int D_002C7940[];
+extern int D_002C6750;    /* debug print level */
+extern int D_002C6780;              /* 1 while the old DiskReady server is used */
+extern volatile int D_002C676C;    /* S-command semaphore */
+extern int D_002C6790;              /* DiskReady server bound (0) or not (-1) */
+extern sceSifClientData D_00450510; /* DiskReady RPC client */
+extern int D_00450550[];            /* DiskReady send buffer */
+extern int D_002C7940[];    /* S-command receive buffer */
 int scePrintf(const char *fmt, ...);
 int DIntr(void);
 int EIntr(void);
@@ -30,7 +31,7 @@ static __inline__ void nopdelay(void)
 int sceCdDiskReady_old(int mode)
 {
     int r;
-    if (D_002C6750 > 0) scePrintf("DiskReady 0\n");
+    if (D_002C6750 > 0) scePrintf("OLD DiskReady Call\n");
     r = DIntr();
     D_002C6780 = 1;
     if (r) EIntr();
@@ -44,8 +45,8 @@ int sceCdDiskReady_old(int mode)
     sceSifInitRpc(0);
     if (D_002C6790 < 0) {
         while (1) {
-            if (sceSifBindRpc(&D_00450510, 0x8000059A, 0) < 0) {
-                if (D_002C6750 > 0) scePrintf("Bind error\n");
+            if (sceSifBindRpc(&D_00450510, 0x8000059A /* DiskReady (old) */, 0) < 0) {
+                if (D_002C6750 > 0) scePrintf("Libcdvd bind err CdDiskReady\n");
                 nopdelay();
                 continue;
             }

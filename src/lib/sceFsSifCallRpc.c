@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceFsSifCallRpc (fileio): sceSifCallRpc, retried up to 100 times while the IOP is busy unless `nowait`.
+   Returns nonzero if the call failed. */
 int sceSifCallRpc(void *cd, int rpc, int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int DelayThread(int);
 int sceFsSifCallRpc(void *cd, int rpc, int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg, int nowait)
@@ -17,6 +19,6 @@ int sceFsSifCallRpc(void *cd, int rpc, int mode, void *send, int ssize, void *re
         if ((int)delay < 0x7F)
             delay *= 2;
         i++;
-    } while (i < 101);
+    } while (i < 101);          /* back off 1, 2, 4 .. 128 ms between retries */
     return r;
 }

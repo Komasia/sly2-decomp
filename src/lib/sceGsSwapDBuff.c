@@ -2,6 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+/* sceGsSwapDBuff (libgraph): show buffer `id` of the double buffer and send the draw environment of the other. */
 typedef struct { char d[0x28]; } sceGsDispEnv;
 typedef struct { sceGsDispEnv disp[2]; char giftag0[0xF0]; char giftag1[0xF0]; } sceGsDBuff;
 void sceGsPutDispEnv(sceGsDispEnv *);

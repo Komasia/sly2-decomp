@@ -1,5 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* sceGsPutDrawEnv (libgraph): send a draw environment packet (GIF tag + A+D data) to the GS over DMA channel 2 (GIF).
+   Returns -1 if the channel is still busy after a long wait. */
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef struct { u_long NLOOP:15, EOP:1, pad16:16, id:14, PRE:1, PRIM:11, FLG:2, NREG:4; u_long REGS; } sceGifTag;
@@ -13,17 +15,17 @@ int sceGsPutDrawEnv(sceGifTag *giftag)
     u_int cnt = 0;
     if (*D2_CHCR & 0x100) {
         do {
-            if (cnt++ > 0x1000000) {
+            if (cnt++ > 0x1000000) {    /* time out */
                 scePrintf(D_002AB2F0) /* "sceGsPutDrawEnv: DMA Ch.2 does not terminate" */;
                 return -1;
             }
         } while (*D2_CHCR & 0x100);
     }
-    *D2_QWC = giftag->NLOOP + 1;
-    if (((u_int)giftag & 0x70000000) == 0x70000000)
-        *D2_MADR = ((u_int)giftag & 0x0FFFFFFF) | 0x80000000;
+    *D2_QWC = giftag->NLOOP + 1;      /* the GIF tag plus NLOOP A+D qwords */
+    if (((u_int)giftag & 0x70000000) == 0x70000000)          /* scratchpad */
+        *D2_MADR = ((u_int)giftag & 0x0FFFFFFF) | 0x80000000;    /* MADR.SPR */
     else
         *D2_MADR = (u_int)giftag & 0x0FFFFFFF;
-    *D2_CHCR = 0x101;
+    *D2_CHCR = 0x101;                 /* from memory, normal mode, start */
     return 0;
 }

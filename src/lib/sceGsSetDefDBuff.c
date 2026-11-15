@@ -1,6 +1,8 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceGsSetDefDBuff (libgraph): set up a double buffer (two display + draw environments, optional clear packets)
+   for a w x h frame buffer of format psm with depth buffer format zpsm. */
 typedef unsigned long u_long;
 typedef unsigned int u_int;
 typedef int u_long128 __attribute__((mode(TI)));
@@ -42,15 +44,17 @@ void sceGsSetDefDBuff(sceGsDBuff *dp, short psm, short w, short h, short ztest, 
     }
     *(u_long128 *)&dp->giftag0 = 0;
     *(u_long128 *)&dp->giftag1 = 0;
+    /* packed A+D GIF tags: 8 draw-environment registers, plus 6 clear registers */
     dp->giftag0.NLOOP = clear ? 14 : 8;
     dp->giftag0.EOP = 1;
     dp->giftag0.NREG = 1;
-    dp->giftag0.REGS0 = 0xE;
+    dp->giftag0.REGS0 = 0xE;    /* A+D */
     dp->giftag1.NLOOP = clear ? 14 : 8;
     dp->giftag1.EOP = 1;
     dp->giftag1.NREG = 1;
     dp->giftag1.REGS0 = 0xE;
     fbp = sceGszbufaddr(psm, w, h);
+    /* frame mode / non-interlaced: the second buffer starts after the first (FBP in 2-page units) */
     if ((gp->sceGsInterMode == 1 && gp->sceGsFFMode == 1) || gp->sceGsInterMode == 0) {
         short s = fbp >> 1;
         dp->disp[1].dispfb.FBP = s;

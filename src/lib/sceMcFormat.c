@@ -2,12 +2,14 @@
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+#include "libmc_rpc.h"
+/* sceMcFormat (libmc): format the card in (port, slot). Asynchronous: returns 0 once the request is sent; sceMcSync gives the result. */
 typedef struct { char p[0x24]; int server; } RpcCD;
-extern RpcCD D_00450880;
-extern int D_00450900[];
-extern int D_00451E40[];
-extern int D_002C8354;
-extern int D_002C8350;
+extern RpcCD D_00450880;    /* libmc RPC client */
+extern int D_00450900[];    /* libmc send buffer */
+extern int D_00451E40[];    /* libmc receive buffer (command result) */
+extern int D_002C8354;    /* libmc command semaphore */
+extern int D_002C8350;    /* command in progress (sceMcFunc*), 0 = none */
 void func_00243ED8(void *);
 int PollSema(int);
 int SignalSema(int);
@@ -15,15 +17,15 @@ int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, v
 int sceMcFormat(int port, int slot)
 {
     if (D_00450880.server == 0)
-        return -100;
+        return MC_ERR_NOT_INIT;
     if (PollSema(D_002C8354) < 0)
-        return -200;
+        return MC_ERR_BUSY;
     D_00450900[1] = port;
     D_00450900[2] = slot;
-    if (sceSifCallRpc(&D_00450880, 0x10, 1, D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) == 0) {
-        D_002C8350 = 0x10;
+    if (sceSifCallRpc(&D_00450880, sceMcFuncNoFormat, 1 /* SIF_RPCM_NOWAIT */, D_00450900, 0x30, D_00451E40, 4, func_00243ED8, 0) == 0) {
+        D_002C8350 = sceMcFuncNoFormat;
         return 0;
     }
     SignalSema(D_002C8354);
-    return -91;
+    return MC_ERR_RPC;
 }

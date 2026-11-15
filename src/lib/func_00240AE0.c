@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* sceGsSetHalfOffset (libgraph): centre XYOFFSET on (x, y) for the env's scissor size, with a half-pixel offset when `half`. */
 typedef unsigned long u_long;
 typedef struct {
     u_long SCAX0:11, :5, SCAX1:11, :5, SCAY0:11, :5, SCAY1:11, :5;

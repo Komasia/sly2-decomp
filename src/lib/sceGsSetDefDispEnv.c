@@ -1,6 +1,6 @@
-// sceGsSetDefDispEnv (libgraph, 0x240C38): fill a sceGsDispEnv (PMODE/SMODE2/DISPFB/DISPLAY/BGCOLOR) for the
-// current video mode (NTSC 2 / PAL 3, interlaced or not, 480p 0x50).
-// The non-interlaced arms divide by w three times: gcc keeps one div but all three divide-by-zero traps; the two
+/* sceGsSetDefDispEnv (libgraph): fill a sceGsDispEnv (PMODE/SMODE2/DISPFB/DISPLAY/BGCOLOR) for the
+   current video mode (SCE_GS_NTSC 2 / SCE_GS_PAL 3, interlaced or not, SCE_GS_DTV480P 0x50). */
+// codegen: the non-interlaced arms divide by w three times: gcc keeps one div but all three divide-by-zero traps; the two
 // later traps print nothing (div_trap outputs "" when anti-dependent on an earlier trap) yet still gate the ox/oy
 // stack loads in the scheduler, which is why the target computes h-1 right after the div (T1587).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
@@ -34,7 +34,7 @@ void sceGsSetDefDispEnv(sceGsDispEnv *disp, short psm, short w, short h, short d
     } else {
         ox = oy = ow = oh = 0;
     }
-    disp->pmode = 0x66;
+    disp->pmode = 0x66;             /* circuit 2 on, alpha from ALP, blend with the background */
     if (gp->sceGsInterMode != 0) {
         if (gp->sceGsFFMode)
             disp->smode2 = 3;
@@ -124,7 +124,7 @@ void sceGsSetDefDispEnv(sceGsDispEnv *disp, short psm, short w, short h, short d
         unsigned long t = hw | xm;
         disp->display = t | ((unsigned long)((dy + oy + 0x23) & 0xFFF) << 12);
     } else {
-        scePrintf(D_002AB330);
+        scePrintf(D_002AB330);      /* unsupported video mode */
     }
     disp->bgcolor = 0;
 }

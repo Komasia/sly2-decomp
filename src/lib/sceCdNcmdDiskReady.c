@@ -2,12 +2,13 @@
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
-extern char D_002C7910[];
-extern int D_002C67C0[];
-extern int D_002C6768;
+extern char D_002C7910[];   /* N-command RPC client */
+extern int D_002C67C0[];    /* N-command receive buffer */
+extern int D_002C6768;      /* N-command semaphore */
 int _sceCd_ncmd_prechk(int);
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
 int SignalSema(int);
+/* sceCdNcmdDiskReady (libcdvd): drive state through the N-command server (SCECdComplete 2 or SCECdNotReady 6), 0 on failure. */
 int sceCdNcmdDiskReady(void)
 {
     int r;

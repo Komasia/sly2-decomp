@@ -10,11 +10,11 @@ struct SemaParam {
     unsigned int attr;
     unsigned int option;
 };
-extern RpcCD D_00450880;
-extern char D_00450900[];
-extern int D_00451E40[];
-extern int D_002C8354;
-extern int D_002C8358;
+extern RpcCD D_00450880;    /* libmc RPC client */
+extern char D_00450900[];    /* libmc send buffer */
+extern int D_00451E40[];    /* libmc receive buffer (command result) */
+extern int D_002C8354;    /* libmc command semaphore */
+extern int D_002C8358;    /* libmc completion semaphore */
 extern char D_002AB7B0[], D_002AB7C0[], D_002AB7D8[], D_002AB7F0[], D_002AB818[];
 int CreateSema(struct SemaParam *);
 int DeleteSema(int);

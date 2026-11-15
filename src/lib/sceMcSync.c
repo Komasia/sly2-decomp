@@ -1,14 +1,15 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// (Claude agent) matches with ee-gcc 2.9 (old 2.95.3-114 near miss)
-extern int D_002C8350;
-extern int D_002C8354;
-extern int D_002C8358;
-extern int D_00451E40;
+extern int D_002C8350;    /* command in progress (sceMcFunc*), 0 = none */
+extern int D_002C8354;    /* libmc command semaphore */
+extern int D_002C8358;    /* libmc completion semaphore */
+extern int D_00451E40;    /* libmc receive buffer (command result) */
 int PollSema(int);
 int WaitSema(int);
 int SignalSema(int);
+/* sceMcSync (libmc): mode 0 waits for the pending command, otherwise polls. Returns 1 when it has finished
+   (with its sceMcFunc number in *cmd and its result in *result), 0 while still busy, -1 if none is pending. */
 int sceMcSync(int mode, int *cmd, int *result)
 {
     int r;

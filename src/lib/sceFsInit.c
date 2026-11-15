@@ -1,4 +1,6 @@
-// sceFsInit (T1563): MATCH. -fstrict-aliasing is what fixes the prologue: flag (int) and next (pointer) get different alias
+/* sceFsInit (fileio): bind the IOP fileio server (0x80000001), install the read-end / power-off SIF command
+   handlers, clear the iob table and fetch the server version. 0 on success, -22 if the bind fails. */
+// codegen: -fstrict-aliasing is what fixes the prologue: flag (int) and next (pointer) get different alias
 // sets, so the two stores before DIntr are independent and the s0 save/lui chain outranks the s1 save in sched2.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fstrict-aliasing
@@ -7,17 +9,17 @@ typedef struct { int pad[9]; void *serve; } ClientData;
 typedef struct { char c[4]; } B4;
 struct iob { int fd, busy, x8, xC; };
 struct FsPoffData { int flag; void *next; };
-extern struct FsPoffData D_0044BE00;
-extern char D_0044BDC0[];
-extern ClientData D_0044BD80;
-extern int D_002C4A88;
-extern struct iob D_0044BB80[32];
-extern void *D_0044A640[2];
-extern char D_0044B300[];
-extern B4 D_0044B2C0[2];
-extern B4 D_0044BDA8;
-extern int D_002C4A7C;
-extern int D_002C4A80;
+extern struct FsPoffData D_0044BE00;   /* power-off callback data */
+extern char D_0044BDC0[];              /* read-end handler data */
+extern ClientData D_0044BD80;          /* fileio RPC client */
+extern int D_002C4A88;                 /* iob table semaphore */
+extern struct iob D_0044BB80[32];      /* open-file table */
+extern void *D_0044A640[2];            /* init arguments: the two EE receive buffers */
+extern char D_0044B300[];              /* EE receive buffers (2 x 0x440) */
+extern B4 D_0044B2C0[2];               /* init reply (read uncached) */
+extern B4 D_0044BDA8;                  /* IOP fileio version */
+extern int D_002C4A7C;                 /* fileio initialised */
+extern int D_002C4A80;                 /* version-2 server */
 void sceSifInitRpc(int);
 int DIntr(void);
 int EIntr(void);
@@ -39,8 +41,8 @@ int sceFsInit(void)
     D_0044BE00.flag = 0;
     p->next = 0;
     oldei = DIntr();
-    sceSifAddCmdHandler(0x80000011, _sceFs_Rcv_Intr, D_0044BDC0);
-    sceSifAddCmdHandler(0x80000013, _sceFs_Poff_Intr, p);
+    sceSifAddCmdHandler(0x80000011, _sceFs_Rcv_Intr, D_0044BDC0);   /* read finished */
+    sceSifAddCmdHandler(0x80000013, _sceFs_Poff_Intr, p);            /* power off */
     if (oldei) EIntr();
     while (1) {
         if (sceSifBindRpc(&D_0044BD80, 0x80000001, 0) < 0)

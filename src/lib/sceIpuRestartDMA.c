@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* sceIpuRestartDMA (libipu): resume the IPU DMA channels saved by sceIpuStopDMA. */
 typedef struct {
     unsigned int d4madr;
     unsigned int d4tadr;
@@ -11,27 +12,28 @@ typedef struct {
     unsigned int d3chcr;
     unsigned int ipubp;
 } sceIpuDmaEnv;
+#include "ee_regs.h"
 void setD3_CHCR(unsigned int);
 void setD4_CHCR(unsigned int);
 void sceIpuRestartDMA(sceIpuDmaEnv *env)
 {
-    int bp = env->ipubp & 0x7F;
-    int fifo = ((env->ipubp >> 16) & 3) + ((env->ipubp >> 8) & 0xF);
-    unsigned int madr = env->d4madr - fifo * 16;
+    int bp = env->ipubp & 0x7F;                                         /* IPU_BP.BP: bit position */
+    int fifo = ((env->ipubp >> 16) & 3) + ((env->ipubp >> 8) & 0xF);  /* FP + IFC: qwords held in the FIFO */
+    unsigned int madr = env->d4madr - fifo * 16;                        /* re-send what the FIFO held */
     unsigned int qwc = env->d4qwc + fifo;
 
     if (env->d3madr && env->d3qwc) {
-        *(volatile unsigned int *)0x1000B010 = env->d3madr;
-        *(volatile unsigned int *)0x1000B020 = env->d3qwc;
-        setD3_CHCR(env->d3chcr | 0x100);
+        EE_REG(D3_MADR_ADDR) = env->d3madr;
+        EE_REG(D3_QWC_ADDR) = env->d3qwc;
+        setD3_CHCR(env->d3chcr | D_CHCR_STR_BIT);
     }
-    while (*(volatile int *)0x10002010 < 0);
-    *(volatile unsigned int *)0x10002000 = bp;
-    while (*(volatile int *)0x10002010 < 0);
+    while (*(volatile int *)IPU_CTRL_ADDR < 0);
+    EE_REG(IPU_CMD_ADDR) = IPU_CMD_BCLR | bp;   /* empty the FIFO, restore the bit position */
+    while (*(volatile int *)IPU_CTRL_ADDR < 0);
     if (madr && qwc) {
-        *(volatile unsigned int *)0x1000B410 = madr;
-        *(volatile unsigned int *)0x1000B430 = env->d4tadr;
-        *(volatile unsigned int *)0x1000B420 = qwc;
-        setD4_CHCR(env->d4chcr | 0x100);
+        EE_REG(D4_MADR_ADDR) = madr;
+        EE_REG(D4_TADR_ADDR) = env->d4tadr;
+        EE_REG(D4_QWC_ADDR) = qwc;
+        setD4_CHCR(env->d4chcr | D_CHCR_STR_BIT);
     }
 }

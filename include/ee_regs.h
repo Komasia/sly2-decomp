@@ -57,4 +57,16 @@
 
 #define MAX_QWC 0xFFFF              /* largest QWC of one normal-mode transfer */
 
+/* GS privileged registers (64-bit) */
+#define GS_PMODE_ADDR    0x12000000
+#define GS_SMODE2_ADDR   0x12000020
+#define GS_DISPFB1_ADDR  0x12000070
+#define GS_DISPLAY1_ADDR 0x12000080
+#define GS_DISPFB2_ADDR  0x12000090
+#define GS_DISPLAY2_ADDR 0x120000A0
+#define GS_EXTDATA_ADDR  0x120000C0
+#define GS_BGCOLOR_ADDR  0x120000E0
+#define GS_CSR_ADDR      0x12001000
+#define GS_IMR_ADDR      0x12001010
+
 #endif /* EE_REGS_H */
