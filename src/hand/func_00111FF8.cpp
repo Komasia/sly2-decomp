@@ -1,3 +1,5 @@
+/* func_00111FF8 (0x111FF8): factory (CLS::pfnNew) of class 85, derived from class 84: operator new of a zeroed
+ * 0x1D0-byte object; the inline constructors set the vtable (0x2D8738) and the base fields. */
 class CRef {
 public:
     CRef();

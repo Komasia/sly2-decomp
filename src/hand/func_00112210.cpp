@@ -1,3 +1,5 @@
+/* func_00112210 (0x112210): factory (CLS::pfnNew) of class 92, derived from class 90: operator new of a zeroed
+ * 0x240-byte object; the inline constructors set the vtable (0x2D6448) and the base fields. */
 class CRef {
 public:
     CRef();

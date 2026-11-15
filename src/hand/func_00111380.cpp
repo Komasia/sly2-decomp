@@ -1,3 +1,5 @@
+/* func_00111380 (0x111380): factory (CLS::pfnNew) of class 39, derived from class 3 (SafeHouse: LOX): operator new
+ * of a zeroed 0x110-byte object; the inline constructors set the vtable (0x2D9DD0) and the base fields. */
 class M {
 public:
     M() {}

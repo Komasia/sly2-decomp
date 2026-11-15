@@ -1,3 +1,5 @@
+/* func_00110EC0 (0x110EC0): factory (CLS::pfnNew) of class 19, derived from class 18: operator new of a zeroed
+ * 0x140-byte object; the inline constructors set the vtable (0x2D2978) and the base fields. */
 class M {
 public:
     M() {}

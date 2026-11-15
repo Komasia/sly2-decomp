@@ -1,3 +1,5 @@
+/* func_00111B18 (0x111B18): factory (CLS::pfnNew) of class 70, derived from class 50 (SafeHouse: SO): operator new
+ * of a zeroed 0x240-byte object; the inline constructors set the vtable (0x2D80D0) and the base fields. */
 class CRef {
 public:
     CRef();

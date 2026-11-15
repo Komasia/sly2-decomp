@@ -1,3 +1,6 @@
+/* Classifies cpos points against a BSP tree, descending while they all lie on one side of a node's plane
+ * (eps 1e-4): returns 1 (in front: out of the solid), 0 (behind: in it) or 2 (straddling) - for a straddled node whose
+ * children disagree its surface is appended once (marked with flag 0x4000) through *pppsurf, while *pcsurf > 0. */
 typedef int qword __attribute__((mode(TI)));
 class VUF {
 public:

@@ -1,3 +1,5 @@
+/* func_00113708 (0x113708): factory (CLS::pfnNew) of class 186, derived from class 155: operator new of a zeroed
+ * 0xD0-byte object; the inline constructors set the vtable (0x2CFE20) and the base fields. */
 class M {
 public:
     M();

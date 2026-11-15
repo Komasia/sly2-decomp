@@ -1,3 +1,5 @@
+/* func_001112F0 (0x1112F0): factory (CLS::pfnNew) of class 37, derived from class 35: operator new of a zeroed
+ * 0x1A0-byte object; the inline constructors set the vtable (0x2CB9F8) and the base fields. */
 class M {
 public:
     M() {}

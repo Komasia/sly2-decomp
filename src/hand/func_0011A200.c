@@ -1,3 +1,4 @@
+/* Clears a list head (both ends). */
 typedef struct SL { void *pvFirst; void *pvLast; int ibNext; } SL;
 
 void ClearDl__FP2DL(SL *psl)

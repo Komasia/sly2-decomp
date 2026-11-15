@@ -1,3 +1,4 @@
+/* Reads a string from the stream into *ppchz, allocated from px's heap (kind 7). */
 typedef struct ALLOC ALLOC;
 typedef struct CBinaryInputStream CBinaryInputStream;
 typedef struct HEAPHOLDER { ALLOC *palloc; } HEAPHOLDER;

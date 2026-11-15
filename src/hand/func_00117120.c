@@ -1,3 +1,5 @@
+/* Hermite curve between (p0, v0) and (p1, v1) over dt, evaluated at t (VU0): the position, velocity and
+ * acceleration into the non-null outputs, the derivatives scaled by dtScale. */
 /* (Claude agent) BODY IS EXACT: identical to the target except the 2 leading nops the build adds before the
    function-entry div.s. Those nops ARE in the original binary at 0x117120-0x117127, but config/junk.csv lists
    0x117120..0x117128 as a dead-code scrap and functions.csv starts this function at 0x117128. Fix: make the function

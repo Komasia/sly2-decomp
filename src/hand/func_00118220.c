@@ -1,3 +1,5 @@
+/* CBinaryInputStream::ReadBsp: reads a BSP tree (node count, two header words, then per node the 16-bit item
+ * index into powner's 0x20-byte items, 0xFFFF for an empty leaf, and the two 32-bit child indices, ~0 for none). */
 typedef struct CBinaryInputStream CBinaryInputStream;
 typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct ITEM { char ab[0x20]; } ITEM;

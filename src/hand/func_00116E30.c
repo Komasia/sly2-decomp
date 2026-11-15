@@ -1,3 +1,5 @@
+/* CDynArray append: reserves room for c more items and copies them from pv to the end of the array (Sly 3:
+ * CDynArray::Append). */
 typedef struct DYNA { char *ab; int c; int cMax; int cb; } DYNA;
 
 void Reserve__9CDynArrayi(DYNA *pdyna, int c);

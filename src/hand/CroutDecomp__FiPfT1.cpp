@@ -1,3 +1,5 @@
+/* Crout LU decomposition of the n x n matrix a into lu (row-major); pivots below 1e-8 are treated as zero
+ * (their column is cleared) so a singular system still solves. */
 static inline float GAbs(float g) { return __builtin_fabsf(g); }
 void CroutDecomp(int n, float *a, float *lu)
 {

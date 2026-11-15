@@ -1,3 +1,5 @@
+/* Solves lu x = b with CroutDecomp's decomposition (forward then back substitution); rows with a zero pivot
+ * get x = 0. */
 void CroutSolve(int n, float *a, float *b, float *x)
 {
     int i, j;

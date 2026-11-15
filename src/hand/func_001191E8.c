@@ -1,3 +1,5 @@
+/* Clones a BSP tree: copies the counts, allocates the nodes and rebases every node's item pointer (from
+ * pownerSrc's items to pownerDst's) and child pointers (from the source node array to the new one). */
 typedef struct MSG { int cb; int nKind; } MSG;
 typedef struct ITEM { char ab[0x20]; } ITEM;
 typedef struct OWNER { char pad[0xC]; ITEM *aitem; } OWNER;

@@ -1,3 +1,5 @@
+/* func_001110D8 (0x1110D8): factory (CLS::pfnNew) of class 28, derived from class 3 (SafeHouse: LOX): operator new
+ * of a zeroed 0x460-byte object; the inline constructors set the vtable (0x2CB5D8) and the base fields. */
 class E {
 public:
     E() {}
