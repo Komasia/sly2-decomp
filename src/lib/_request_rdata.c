@@ -1,33 +1,54 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+#include "sif_rpc.h"
+/* _request_rdata (libkernel sifrpc): SIF_CMD_RPC_RDATA handler: the IOP asks us to send it `size` bytes from
+   `src`. The data goes along with an RPC end packet (retried from an alarm if the SIF queue is full). */
 typedef struct {
-    int x0, x4, x8, xc;
-    unsigned int x10;
-    int x14, x18, x1c;
-    int x20, x24, x28, x2c, x30, x34, x38, x3c;
-} Pkt;
-Pkt *_sceRpcGetFPacket(void *data);
-Pkt *_sceRpcGetFPacket2(void *data, int n);
+    SifCmdHeader sifcmd;    /* 0x00 */
+    unsigned int rec_id;    /* 0x10 bit 2: answer in the client packet slot in bits 16.. */
+    int pkt_addr;           /* 0x14 */
+    int rpc_id;             /* 0x18 */
+    int client;             /* 0x1C */
+    int src;                /* 0x20 */
+    int dest;               /* 0x24 */
+    int size;               /* 0x28 */
+    int pad[5];
+} SifRpcRdataPkt;
+typedef struct {
+    SifCmdHeader sifcmd;    /* 0x00 */
+    unsigned int rec_id;    /* 0x10 */
+    int pkt_addr;           /* 0x14 */
+    int rpc_id;             /* 0x18 */
+    int client;             /* 0x1C */
+    int cid;                /* 0x20 command that ended */
+    int src;                /* 0x24 */
+    int dest;               /* 0x28 */
+    int size;               /* 0x2C */
+    int pad[4];
+} SifRpcEndPkt;
+SifRpcEndPkt *_sceRpcGetFPacket(void *data);
+SifRpcEndPkt *_sceRpcGetFPacket2(void *data, int n);
 unsigned int isceSifSendCmd(unsigned int cid, void *pkt, int size, int src, int dst, int n);
 int iSetTimerAlarm(unsigned short t, void (*h)(void *), void *arg);
 void _alarm_rdata(void *);
-void _request_rdata(Pkt *r, void *data)
+
+void _request_rdata(SifRpcRdataPkt *rdata, void *data)
 {
-    Pkt *p;
-    if (r->x10 & 4)
-        p = _sceRpcGetFPacket2(data, r->x10 >> 16);
+    SifRpcEndPkt *rend;
+    if (rdata->rec_id & 4)
+        rend = _sceRpcGetFPacket2(data, rdata->rec_id >> 16);
     else
-        p = _sceRpcGetFPacket(data);
+        rend = _sceRpcGetFPacket(data);
     {
-        int a = r->x14, b = r->x1c;
-        p->x14 = a;
-        p->x1c = b;
+        int pkt_addr = rdata->pkt_addr, client = rdata->client;
+        rend->pkt_addr = pkt_addr;
+        rend->client = client;
     }
-    p->x20 = 0x8000000C;
-    p->x24 = r->x20;
-    p->x28 = r->x24;
-    p->x2c = r->x28;
-    if (isceSifSendCmd(0x80000008, p, 0x40, r->x20, r->x24, r->x28) == 0)
-        iSetTimerAlarm(0x800, _alarm_rdata, p);
+    rend->cid = SIF_CMD_RPC_RDATA;
+    rend->src = rdata->src;
+    rend->dest = rdata->dest;
+    rend->size = rdata->size;
+    if (isceSifSendCmd(SIF_CMD_RPC_END, rend, SIF_RPC_PACKET_SIZE, rdata->src, rdata->dest, rdata->size) == 0)
+        iSetTimerAlarm(0x800, _alarm_rdata, rend);
 }

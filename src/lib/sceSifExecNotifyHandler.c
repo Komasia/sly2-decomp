@@ -1,10 +1,10 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-typedef struct { void (*func)(void *, void *); void *arg; void *gp; int pad; } CmdData;
-extern CmdData D_0044E708[];
-extern CmdData *D_002C5A50;
-extern int D_002C5A54;
+typedef struct { void (*func)(void *, void *); void *arg; void *gp; int pad; } NotifyHandler;
+extern NotifyHandler D_0044E708[];  /* system notify handlers, 32 */
+extern NotifyHandler *D_002C5A50;   /* user notify handlers */
+extern int D_002C5A54;              /* count of user handlers */
 static inline void *SetGP(void *gp)
 {
     void *old;
@@ -17,9 +17,11 @@ static inline void *GetGP(void)
     __asm__ volatile("move %0, $gp" : "=r"(gp));
     return gp;
 }
+/* sceSifExecNotifyHandler (libkernel): call every registered system (sys != 0) or user notify handler with
+   `data`, each with its own $gp (sceSifResetIop calls both before an IOP reset). */
 void *sceSifExecNotifyHandler(int sys, void *data)
 {
-    CmdData *p;
+    NotifyHandler *p;
     int n;
     void *gp;
     if (sys) {
@@ -31,7 +33,7 @@ void *sceSifExecNotifyHandler(int sys, void *data)
     }
     gp = GetGP();
     if (n > 0) {
-        CmdData *q = p;
+        NotifyHandler *q = p;
         int i = n;
         do {
             if (q->func) {

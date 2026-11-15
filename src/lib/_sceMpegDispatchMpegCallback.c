@@ -1,11 +1,10 @@
-// (Claude agent) callback table is a struct {int x0,x4,x8; CB cb[];} indexed t->cb[type] (not (t+type)[1]).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 typedef struct { int type; } sceMpegCbData;
 typedef int (*sceMpegCallback)(void *mp, sceMpegCbData *cbd, void *data);
 typedef struct { sceMpegCallback func; void *data; void *gp; } CB;
-typedef struct { int x0, x4, x8; CB cb[8]; } CBT;
+typedef struct { int x0, x4, x8; CB cb[8]; } CBT;  /* decoder state: callbacks from 0x0C */
 typedef struct { char p0[0x40]; CBT *cb; } sceMpeg;
 static inline void *SetGp(void *gp)
 {
@@ -13,6 +12,8 @@ static inline void *SetGp(void *gp)
     __asm__ volatile("move %0, $28\n\tmove $28, %1" : "=&r"(old) : "r"(gp) : "memory");
     return old;
 }
+/* _sceMpegDispatchMpegCallback (libmpeg): call the application callback registered for cbd->type (with the
+   $gp it was registered with); returns its result, or 0 if there is none. */
 int _sceMpegDispatchMpegCallback(sceMpeg *mp, sceMpegCbData *cbd)
 {
     int ret = 0; CBT *t; sceMpegCallback f;

@@ -14,10 +14,15 @@ typedef struct {
     unsigned int size;
     unsigned int mode;
 } sceSifDmaData;
-extern void *D_0044EDE0;
+#define SIF_DMA_INT_O 0x04
+#define SIF_DMA_ERT   0x40
+extern void *D_0044EDE0;    /* IOP-side command buffer (sceSifCmdData.iopbuf) */
 void sceSifWriteBackDCache(void *, int);
 unsigned int isceSifSetDma(sceSifDmaData *, int);
 unsigned int sceSifSetDma(sceSifDmaData *, int);
+/* _sceSifSendCmd (libkernel sifcmd): queue one or two SIF DMA transfers: the optional extra data (`size` bytes
+   from src to dest) and the command packet itself (16..112 bytes) into the IOP command buffer. Returns the
+   DMA id, or 0 on failure. */
 unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void *dest, int size)
 {
     sceSifDmaData dma[2];
@@ -35,7 +40,7 @@ unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void
         p->dest = (unsigned int)dest;
         dma[0].size = size;
         dma[0].mode = 0;
-        if (mode & 4) sceSifWriteBackDCache(src, size);
+        if (mode & 4 /* SIF_CMD_M_WBDC */) sceSifWriteBackDCache(src, size);
     } else {
         p->dsize = 0;
         p->dest = 0;
@@ -45,9 +50,9 @@ unsigned int _sceSifSendCmd(int cid, int mode, void *pp, int ps, void *src, void
     dma[count].size = ps;
     p->cid = cid;
     p->psize = ps;
-    dma[count].mode = 0x44;
+    dma[count].mode = SIF_DMA_ERT | SIF_DMA_INT_O;
     count++;
     sceSifWriteBackDCache(p, ps);
-    if (mode & 1) return isceSifSetDma(dma, count);
+    if (mode & 1 /* SIF_CMD_M_INTR */) return isceSifSetDma(dma, count);
     return sceSifSetDma(dma, count);
 }

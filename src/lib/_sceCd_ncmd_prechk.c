@@ -2,13 +2,14 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 typedef struct { char p[0x24]; int server; } RpcCD;
-extern RpcCD D_002C7910;
-extern volatile int D_002C6768;
-extern int D_002C6750;
-extern int D_002C675C;
-extern int D_002C677C;
-extern char D_002AB4D0[];
-extern char D_002AB4F8[];
+#define CD_RPC_NCMD 0x80000595
+extern RpcCD D_002C7910;            /* N-command RPC client */
+extern volatile int D_002C6768;     /* N-command semaphore */
+extern int D_002C6750;              /* debug print level */
+extern int D_002C675C;              /* command in progress */
+extern int D_002C677C;              /* <0 until bound */
+extern char D_002AB4D0[];           /* "Ncmd fail sema cur_cmd:%d keep_cmd:%d\n" */
+extern char D_002AB4F8[];           /* "Libcdvd bind err N CMD\n" */
 void cmd_sem_init(void);
 int PollSema(int);
 int SignalSema(int);
@@ -18,12 +19,13 @@ void sceSifInitRpc(int);
 int sceSifBindRpc(void *, unsigned int, int);
 static __inline__ void nopdelay(void)
 {
-    int i = 0x100000;
-    while (i--) ;
+    int delay = 0x100000;
+    while (delay--) ;
 }
+/* _sceCd_ncmd_prechk (libcdvd): before an N-command (read etc.): take the command semaphore, make sure no
+   other N-command is running and bind the N-command RPC server if needed. Returns 1 if ok to go. */
 int _sceCd_ncmd_prechk(int cmd)
 {
-    int i;
     cmd_sem_init();
     if (D_002C6768 != PollSema(D_002C6768)) {
         if (D_002C6750 > 0) scePrintf(D_002AB4D0, cmd, D_002C675C);
@@ -37,7 +39,7 @@ int _sceCd_ncmd_prechk(int cmd)
     sceSifInitRpc(0);
     if (D_002C677C < 0) {
         while (1) {
-            if (sceSifBindRpc(&D_002C7910, 0x80000595, 0) < 0) {
+            if (sceSifBindRpc(&D_002C7910, CD_RPC_NCMD, 0) < 0) {
                 if (D_002C6750 > 0) scePrintf(D_002AB4F8);
                 nopdelay();
                 continue;

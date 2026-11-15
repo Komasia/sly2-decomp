@@ -2,13 +2,13 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 __asm__(".macro sq r, m\n\tsd \\r, \\m\n\t.endm\n\t.macro lq r, m\n\tld \\r, \\m\n\t.endm");
-// (Claude agent) near miss: 3/28, SemaParam store order (all 6 orders tried, void* option too)
 struct SemaParam { int currentCount; int maxCount; int initCount; int numWaitThreads; unsigned int attr; unsigned int option; };
-extern int D_002C4A88;
-extern int D_002C4A8C;
-extern char D_002AAA10[];
-extern char D_002AAA20[];
+extern int D_002C4A88;      /* iob semaphore */
+extern int D_002C4A8C;      /* second fileio semaphore */
+extern char D_002AAA10[], D_002AAA20[];     /* semaphore option tags */
 int CreateSema(struct SemaParam *);
+
+/* _sceFsIobSemaMK (libkernel fileio): create the fileio iob semaphores once. */
 void _sceFsIobSemaMK(void)
 {
     struct SemaParam p;

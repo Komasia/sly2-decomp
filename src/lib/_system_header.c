@@ -1,8 +1,9 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-/* (Claude agent, 2026-10-17) Same Skip inline as _pack_header; the stuffing loop is
-   `if (c) do Skip(p,24); while (c);` with c = (int)(buf>>63) == 1 (no sign-test fold, beql loop). */
+/* _system_header (libmpeg demux): skip an MPEG-2 program stream system_header(): the fixed fields, then one
+   3-byte entry per stream while the next bit is 1. Same Skip inline as _pack_header; the stream loop is
+   `if (c) do ...; while (c);` (no sign-test fold, beql loop). */
 typedef struct {
     unsigned long buf,pos;
     int pad10;
@@ -26,8 +27,8 @@ static __inline__ void Skip(BS *p,int n)
 }
 int _system_header(BS *p, struct HEADER *out)
 {
-    Skip(p, 56);
-    Skip(p, 40);
+    Skip(p, 56);   /* start code (32), header_length (16), marker + rate_bound (8 of 24) */
+    Skip(p, 40);   /* rest of rate_bound, audio_bound .. reserved */
     if ((int)(p->buf >> 63) == 1)
         do
             Skip(p, 24);

@@ -12,7 +12,11 @@ typedef struct {
     CmdHandler *usr;
     int nusr;
 } CmdData;
-extern CmdData D_0044EDD8;
+extern CmdData D_0044EDD8;          /* the sifcmd module state */
+
+/* _sceSifCmdIntrHdlr (libkernel sifcmd): SIF0 DMA interrupt handler. Copies the received command packet out
+   of the receive buffer, re-arms the SIF0 chain, and dispatches it to the system (cid top bit set) or user
+   handler with that handler's $gp. Register pinning reproduces Sony's hand-scheduled original. */
 void isceSifSetDChain(void);
 static inline void *SetGP(void *gp)
 {

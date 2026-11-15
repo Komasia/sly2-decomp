@@ -3,9 +3,11 @@
 int DisableIntc(int);
 int RemoveIntcHandler(int, int);
 extern int _sif_cmd_handler_id; extern int _sif_cmd_inited;
+#define INTC_SBUS 5
+/* sceSifExitCmd (libkernel sifcmd): stop handling SIF commands (unhook the SBUS interrupt). */
 void sceSifExitCmd(void)
 {
-    DisableIntc(5);
-    RemoveIntcHandler(5, _sif_cmd_handler_id);
+    DisableIntc(INTC_SBUS);
+    RemoveIntcHandler(INTC_SBUS, _sif_cmd_handler_id);
     _sif_cmd_inited = 0;
 }
