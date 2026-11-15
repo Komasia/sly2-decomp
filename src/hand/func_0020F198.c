@@ -1,7 +1,7 @@
-/* func_0020F198: increments the world counter cUnk3d84 (tested by func_0020F1B8). */
+/* func_0020F198 (0x20F198): PauseGame's grf 2: the guards paused one more time (tested by func_0020F1B8). */
 #include "sw.h"
 
 void func_0020F198(SW *psw)
 {
-    psw->cUnk3d84++;
+    psw->cPauseAi++;
 }

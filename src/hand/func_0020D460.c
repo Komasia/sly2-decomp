@@ -1,5 +1,5 @@
-/* class: WATCHB, a guard's +0x49C watcher (SafeHouse guard.h / guard.cpp: its object +0xC, the water set by the
- * guard's messages 4 / 5). */
+/* func_0020D460 (0x20D460): the water watcher's (+0x49C) water (+0xC), set by the
+ * guard's messages 4 / 5. */
 struct LO;
 struct WATCHB {
     /* 0x0 */ char pad0[0xc];

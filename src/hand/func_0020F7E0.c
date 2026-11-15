@@ -1,45 +1,49 @@
-struct F8 { char pad[0x14]; float v; };
-struct O { char pad[0xF8]; struct F8 *pf8; };
-struct E { struct O *po; float v; int f; };
-struct S { char pad[0x3BA0]; struct E ae[4]; char pad2[0x476C - 0x3BD0]; float t476C; int n4770; };
+struct SCRPOS { char pad[0x14]; float y; };   /* the screen object's placement: its offset */
+struct SCREENRT { char pad[0xF8]; struct SCRPOS *ppos; };
+/* a stacked HUD counter: its screen object, the offset's speed, whether it was hidden */
+struct COUNTER { struct SCREENRT *pscr; float dy; int fHidden; };
+struct SW { char pad[0x3BA0]; struct COUNTER acounter[4]; char pad2[0x476C - 0x3BD0]; float tTimerEnd; int sTimerLast; };
 extern struct { float t; float dt; } g_clock;
-extern char D_002C3E88[];
-extern float D_002C3E80;
-int FVisible__FP8SCREENRT(struct O *po);
-float GSmoothA(float a, float b, float c, void *p, float *pv, float dt) asm("GSmoothA__FffffP4SMPAPf");
-void *PsndNewPlain__Fi(int n);
-void SetSource__4CSndPv(void *p, void *source);
+extern char D_002C3E88[];   /* the offsets' smoothing */
+extern float D_002C3E80;   /* the space between counters */
+int FVisible__FP8SCREENRT(struct SCREENRT *pscr);
+float GSmoothA(float gCur, float dgCur, float gTarget, void *psmpa, float *pdgNext, float dt) asm("GSmoothA__FffffP4SMPAPf");
+void *PsndNewPlain__Fi(int sfx);
+void SetSource__4CSndPv(void *psnd, void *pvSource);
 
+/* StackCounters (0x20F7E0): the visible HUD counters are stacked one below the other (their offsets smoothed into
+ * place; a counter shown again starts in place); with the last one, each second of the timer left ticks a sound
+ * (0x30 / 0x31 alternately). */
 // name: SafeHouse port (StackCounters)
-void StackCounters__FP2SW(struct S *p)
+void StackCounters__FP2SW(struct SW *psw)
 {
-    float z;
-    float t = 0.0f;
+    float yZero;
+    float y = 0.0f;
     int i;
-    z = t;
+    yZero = y;
     for (i = 0; i < 4; i++) {
-        struct E *e = &p->ae[i];
-        struct O *o = e->po;
-        if (!o || !FVisible__FP8SCREENRT(o)) {
-            e->f = 1;
+        struct COUNTER *pcounter = &psw->acounter[i];
+        struct SCREENRT *pscr = pcounter->pscr;
+        if (!pscr || !FVisible__FP8SCREENRT(pscr)) {
+            pcounter->fHidden = 1;
             continue;
         }
-        if (e->f) {
-            o->pf8->v = t;
-            e->v = 0.0f;
-            e->f = 0;
+        if (pcounter->fHidden) {
+            pscr->ppos->y = y;
+            pcounter->dy = 0.0f;
+            pcounter->fHidden = 0;
         } else {
-            o->pf8->v = GSmoothA(o->pf8->v, e->v, t, D_002C3E88, &e->v, g_clock.dt);
+            pscr->ppos->y = GSmoothA(pscr->ppos->y, pcounter->dy, y, D_002C3E88, &pcounter->dy, g_clock.dt);
         }
-        t += D_002C3E80;
+        y += D_002C3E80;
         if (i == 3) {
-            float d = -g_clock.t + p->t476C;
-            int n;
-            d = (0.0f > d) ? 0.0f : d;
-            n = (int)d;
-            if (n != p->n4770) {
-                SetSource__4CSndPv(PsndNewPlain__Fi((n & 1) ? 0x30 : 0x31), 0);
-                p->n4770 = n;
+            float dt = -g_clock.t + psw->tTimerEnd;
+            int s;
+            dt = (0.0f > dt) ? 0.0f : dt;
+            s = (int)dt;
+            if (s != psw->sTimerLast) {
+                SetSource__4CSndPv(PsndNewPlain__Fi((s & 1) ? 0x30 : 0x31), 0);
+                psw->sTimerLast = s;
             }
         }
     }

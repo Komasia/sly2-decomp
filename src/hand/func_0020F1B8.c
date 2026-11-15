@@ -1,7 +1,7 @@
-/* func_0020F1B8: whether the world counter cUnk3d84 is raised. */
+/* func_0020F1B8 (0x20F1B8): whether the guards are paused (SafeHouse ai.h FGamePausedForAi). */
 #include "sw.h"
 
 int func_0020F1B8(SW *psw)
 {
-    return psw->cUnk3d84 > 0;
+    return psw->cPauseAi > 0;
 }

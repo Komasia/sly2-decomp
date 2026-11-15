@@ -14,6 +14,9 @@ struct OSTRM {
 
     OSTRM(int fd);
     OSTRM(void *abDest, int cbDest);
+    ~OSTRM();
+    int CbWrite(void *pv, int cb);
+    void Flush();
 };
 
 #endif

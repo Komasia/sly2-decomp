@@ -1,3 +1,4 @@
-struct S { int a; int b; int c; int d; int e; };
-void SetWatchB__FP6WATCHBi(struct S *p, int n);
-void func_0020D1C8(struct S *p) { p->b = -1; p->e = 1; SetWatchB__FP6WATCHBi(p, 0); }
+/* func_0020D1C8 (0x20D1C8): WATCHB reset: on, state 0. */
+struct WATCHB { void *pguard; int st; float t; void *plo; int fOn; };
+void SetWatchB__FP6WATCHBi(struct WATCHB *pwatch, int st);
+void func_0020D1C8(struct WATCHB *pwatch) { pwatch->st = -1; pwatch->fOn = 1; SetWatchB__FP6WATCHBi(pwatch, 0); }
