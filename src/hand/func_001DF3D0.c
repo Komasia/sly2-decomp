@@ -1,64 +1,59 @@
+/* func_001DF3D0: the laser's own part of UpdateLaser: advances every moving (path) endpoint along its motion profile
+ * by dt times the laser's speed multiplier (wrapping into the next segment when the current one runs out), marks the
+ * laser's bound-box attachment dirty (once: flag 2, appended to the dirty list D_003E11C4), and refreshes the
+ * lengths of each moved beam that has no contacts. */
 #include "clock.h"
-typedef struct { float a; float b; float c; float max; float u; } SEG;
-typedef struct {
-    int pad0;
-    int kind;
-    char pad8[0x14 - 0x8];
-    float x14;
-    int c;
-    SEG aseg[6];
-    int i;
-    char pad98[0xA0 - 0x98];
-} TRK;
-typedef struct { TRK atrk[2]; float x140; float x144; void *x148; char pad14c[4]; } ENT;
-typedef struct { char pad[0x70]; unsigned long fl; } W;
-typedef struct OBJ {
-    char pad[0xEC];
-    W *pw;
-    char padF0[0x198 - 0xF0];
-    int c;
-    ENT *ae;
-    char pad1a0[0x1C0 - 0x1A0];
-    float speed;
-} OBJ;
-typedef struct { int a[8]; } VPAIR;
-extern char D_003E11C4[];
+#include "h3_laser.h"
+
+typedef struct OXA { char unk_0x0[0x70]; unsigned long grf; } OXA;   /* bound-box attachment (SafeHouse port) */
+#define GRFOXA_Dirty 0x2
+typedef struct LASER {
+    /* 0x000 */ char unk_so[0xEC];    /* the SO base */
+    /* 0x0ec */ OXA *poxa;
+    /* 0x0f0 */ char unk_so_f0[0x198 - 0xF0];
+    /* 0x198 */ int cpair;
+    /* 0x19c */ LASERPAIR *apair;
+    /* 0x1a0 */ char unk_0x1a0[0x1C0 - 0x1A0];
+    /* 0x1c0 */ float rSpeed;         /* moving-endpoint speed multiplier */
+} LASER;
+typedef struct { int an[8]; } ENDPOS;
+extern char D_003E11C4[];          /* the dirty attachment list (DL) */
 float fmodf(float, float);
-void AppendDlEntry__FP2DLPv(void *, W *);
-void func_001DEF98(OBJ *, ENT *, VPAIR *, float *);
-void func_001DF3D0(OBJ *p)
+void AppendDlEntry__FP2DLPv(void *pdl, OXA *poxa);
+void func_001DEF98(LASER *plaser, LASERPAIR *ppair, ENDPOS *pendpos, float *psLength);   /* endpoint positions */
+void func_001DF3D0(LASER *plaser)
 {
-    int i;
-    for (i = 0; i < p->c; i++) {
-        ENT *e = &p->ae[i];
-        int f = 0;
-        unsigned int j;
-        for (j = 0; j < 2; j++) {
-            TRK *q = &e->atrk[j];
-            SEG *ps;
-            float u;
-            if (q->kind != 1)
+    int ipair;
+    for (ipair = 0; ipair < plaser->cpair; ipair++) {
+        LASERPAIR *ppair = &plaser->apair[ipair];
+        int fMoved = 0;
+        unsigned int iend;
+        for (iend = 0; iend < 2; iend++) {
+            LASEREND *pend = &ppair->aend[iend];
+            LASERSEG *pseg;
+            float t;
+            if (pend->kind != LASERENDK_Path)
                 continue;
-            ps = &q->aseg[q->i];
-            ps->u = u = ps->u + p->speed * g_clock.dt;
-            if (ps->max < u) {
-                float r = fmodf(u, ps->max);
-                q->i = (q->i + 1) % q->c;
-                ps = &q->aseg[q->i];
-                ps->u = r;
+            pseg = &pend->track.motion.aseg[pend->track.motion.iseg];
+            pseg->elapsed = t = pseg->elapsed + plaser->rSpeed * g_clock.dt;
+            if (pseg->duration < t) {
+                float tOver = fmodf(t, pseg->duration);
+                pend->track.motion.iseg = (pend->track.motion.iseg + 1) % pend->track.motion.cseg;
+                pseg = &pend->track.motion.aseg[pend->track.motion.iseg];
+                pseg->elapsed = tOver;
             }
-            q->x14 = ps->a + ps->b * ps->u + ps->c * ps->u * ps->u * 0.5f;
-            if (!(p->pw->fl & 2)) {
-                p->pw->fl |= 2;
-                AppendDlEntry__FP2DLPv(D_003E11C4, p->pw);
+            pend->track.s = pseg->start + pseg->speed * pseg->elapsed + pseg->accel * pseg->elapsed * pseg->elapsed * 0.5f;
+            if (!(plaser->poxa->grf & GRFOXA_Dirty)) {
+                plaser->poxa->grf |= GRFOXA_Dirty;
+                AppendDlEntry__FP2DLPv(D_003E11C4, plaser->poxa);
             }
-            f = 1;
+            fMoved = 1;
         }
-        if (f && e->x148 == 0) {
-            VPAIR v;
-            float g;
-            func_001DEF98(p, e, &v, &g);
-            e->x140 = e->x144 = g;
+        if (fMoved && ppair->pxpFirst == 0) {
+            ENDPOS endpos;
+            float sLength;
+            func_001DEF98(plaser, ppair, &endpos, &sLength);
+            ppair->sLength = ppair->sVisible = sLength;
         }
     }
 }

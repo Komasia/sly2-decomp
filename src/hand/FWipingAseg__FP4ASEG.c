@@ -1,9 +1,11 @@
-struct ASEG { char pad[0x84]; int c; int a[1]; };
-int FWipingAseg__FP4ASEG(struct ASEG *paseg, int n)
+/* FWipingAseg (0x1E00E8): whether the relay has the alarm (oid) in its alarm list (SafeHouse scpt.cpp: FHasAlarm).
+ * The function's name is kept for its symbol; the object is a relay (relay.h), not an ASEG. */
+#include "relay.h"
+int FWipingAseg__FP4ASEG(RELAY *prelay, OID oidAlarm)
 {
     int i;
-    for (i = 0; i < paseg->c; i++) {
-        if (paseg->a[i] == n) return 1;
+    for (i = 0; i < prelay->calarm; i++) {
+        if (prelay->aoidAlarm[i] == oidAlarm) return 1;
     }
     return 0;
 }

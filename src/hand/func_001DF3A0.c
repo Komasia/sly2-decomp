@@ -1,5 +1,5 @@
-/* UpdateLaser__FP2LOf: Update (virtual slot 15) of class 85, derived from class 84: the SO Update, then the class's own
- * part. */
+/* UpdateLaser__FP2LOf: Update (virtual slot 15) of the laser (class 0x55, h3_laser.h): the SO Update, then moves the
+ * path endpoints (func_001DF3D0). */
 #include "so.h"
 
 void UpdateSo__FP2SOf(SO *p, float dt);

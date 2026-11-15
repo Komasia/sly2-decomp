@@ -1,10 +1,12 @@
-struct S { char pad[0x50]; int n50; int n54; int n58; char pad2[0x80-0x5C]; int n80; };
-void func_001E01C8(struct S *p, int n)
+/* func_001E01C8: sets the relay's command limit (Splice setter 622): only a limit in 1..0x1FF, and only before any
+ * command but the opening BlockBegin was added; marks the limit as the script's own (fCustomMax). */
+#include "relay.h"
+void func_001E01C8(RELAY *prelay, int crelaycmdMax)
 {
-    if (n > 0) {
-        if (n < 0x200 && p->n50 < 2) {
-            p->n58 = n;
-            p->n80 = 1;
+    if (crelaycmdMax > 0) {
+        if (crelaycmdMax < 0x200 && prelay->crelaycmd < 2) {
+            prelay->crelaycmdMax = crelaycmdMax;
+            prelay->fCustomMax = 1;
         }
     }
 }

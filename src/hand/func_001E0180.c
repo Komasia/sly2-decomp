@@ -1,13 +1,13 @@
-struct T { char pad[0x10]; int n; };
-struct O { char pad[0x28]; struct T *pt; char pad2[0xE4-0x2C]; struct O *pNext; };
-struct S { char pad[0x5C]; struct O *pFirst; };
+/* PrunFind: the first script (JSG) of the relay, other than pjsgSkip, whose block opens with a BlockBegin labelled
+ * oidLabel (StopBlock / WaitBlocks look blocks up by label); 0 if none. */
+#include "relay.h"
 // name: SafeHouse port (PrunFind)
-struct O *PrunFind__FP4SCPTiP3RUN(struct S *s, int n, struct O *pSkip)
+JSG *PrunFind__FP4SCPTiP3RUN(RELAY *prelay, OID oidLabel, JSG *pjsgSkip)
 {
     int unused[4];
-    struct O *p;
-    for (p = s->pFirst; p; p = p->pNext) {
-        if (p != pSkip && p->pt->n == n) return p;
+    JSG *pjsg;
+    for (pjsg = prelay->dlJsg.head; pjsg; pjsg = pjsg->dleRelay.next) {
+        if (pjsg != pjsgSkip && pjsg->prelaycmdFirst->u.blockBegin.oidLabel == oidLabel) return pjsg;
     }
     return 0;
 }

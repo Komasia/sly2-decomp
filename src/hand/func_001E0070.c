@@ -1,12 +1,13 @@
-struct SGG { char pad[0x84]; int calarm; void *apalarm[8]; };
+/* func_001E0070: removes an alarm (oid) from the relay's alarm list (SafeHouse scpt.cpp: RemoveAlarm). */
+#include "relay.h"
 void *s1_memmove(void *d, void *s, int cb) asm("memmove");
-void func_001E0070(struct SGG *psgg, void *palarm)
+void func_001E0070(RELAY *prelay, OID oidAlarm)
 {
     int i;
-    for (i = 0; i < psgg->calarm; i++) {
-        if (psgg->apalarm[i] == palarm) {
-            s1_memmove(psgg->apalarm + i, psgg->apalarm + i + 1, (psgg->calarm - i) * 4 - 4);
-            psgg->calarm--;
+    for (i = 0; i < prelay->calarm; i++) {
+        if (prelay->aoidAlarm[i] == oidAlarm) {
+            s1_memmove(prelay->aoidAlarm + i, prelay->aoidAlarm + i + 1, (prelay->calarm - i) * 4 - 4);
+            prelay->calarm--;
             return;
         }
     }

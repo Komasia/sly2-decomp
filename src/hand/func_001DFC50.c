@@ -1,20 +1,14 @@
-#include "dl.h"
-typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
+/* UpdateScpt (vt slot 15): updates a firing relay: the LO update, advances its time since firing (on the real clock
+ * with GRFUPD_RealTime), runs each of its scripts (JSGs), and stops the relay once no script is left. */
+#include "relay.h"
 #include "clock.h"
+#include "h3_update.h"
+typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;   /* list iterator (safe against removal) */
 extern DLI *s_pdliFirst;
-typedef struct {
-    char pad[0x40];
-    unsigned int x40;
-    char pad44[0x5C - 0x44];
-    DL dl;
-    char pad68[0x70 - 0x68];
-    float t;
-    int x74;
-} OBJ;
-void UpdateLo__FP2LO(OBJ *);
+void UpdateLo__FP2LO(RELAY *);
 void RunRun__FP4PRUN(void *);
 int FIsDlEmpty__FP2DL(DL *);
-void StopScptImpl__FP2LO(OBJ *);
+void StopScptImpl__FP2LO(RELAY *);
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
     pdli->pdl = pdl;
@@ -30,25 +24,25 @@ static inline void *PvNextDli(DLI *pdli)
     return pv;
 }
 // name: SafeHouse port (UpdateScpt)
-void UpdateScpt__FP2LO(OBJ *p)
+void UpdateScpt__FP2LO(RELAY *prelay)
 {
     DLI dli;
-    void *pv;
-    unsigned int fl;
-    UpdateLo__FP2LO(p);
-    if (p->x74 == 0)
+    void *pjsg;
+    unsigned int grf;
+    UpdateLo__FP2LO(prelay);
+    if (prelay->fFiring == 0)
         return;
-    fl = p->x40;
-    if ((fl ^ 1) & 1)
-        fl = *(unsigned int *)fl;
-    if (fl & 0x100)
-        p->t += g_clock.dtReal;
+    grf = prelay->lo.grfUnk40;
+    if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags)
+        grf = *(unsigned int *)grf;
+    if (grf & GRFUPD_RealTime)
+        prelay->tFired += g_clock.dtReal;
     else
-        p->t += g_clock.dt;
-    InitDli(&dli, &p->dl);
-    while ((pv = PvNextDli(&dli)) != 0)
-        RunRun__FP4PRUN(pv);
-    if (FIsDlEmpty__FP2DL(&p->dl))
-        StopScptImpl__FP2LO(p);
+        prelay->tFired += g_clock.dt;
+    InitDli(&dli, &prelay->dlJsg);
+    while ((pjsg = PvNextDli(&dli)) != 0)
+        RunRun__FP4PRUN(pjsg);
+    if (FIsDlEmpty__FP2DL(&prelay->dlJsg))
+        StopScptImpl__FP2LO(prelay);
     s_pdliFirst = dli.pdliNext;
 }
