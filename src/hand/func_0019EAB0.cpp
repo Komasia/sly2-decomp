@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
-struct VE{short delta,pad;void*fn;};
 struct ASEG{char pad[0x74];float duration;};
 struct ASEGA;struct COMPONENT;struct EFFECT;
-struct P{char pad0[12];VE*vt;char pad10[0x190-0x10];U velocity;char pad1a0[0x1010-0x1A0];U offset;char pad1020[0x10];ASEGA*asega;COMPONENT*component;char pad1038[0x1060-0x1038];U goal,motion;char pad1080[0x14D4-0x1080];int alternate;};
-struct PATH{char pad0[12];VE*vt;char pad10[0x190-0x10];void*focus;char pad194[0x1D0-0x194];int attachEffectId;int releaseEffectId;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x190-0x10];U velocity;char pad1a0[0x1010-0x1A0];U offset;char pad1020[0x10];ASEGA*asega;COMPONENT*component;char pad1038[0x1060-0x1038];U goal,motion;char pad1080[0x14D4-0x1080];int alternate;};
+struct PATH{char pad0[12];VTENT*vt;char pad10[0x190-0x10];void*focus;char pad194[0x1D0-0x194];int attachEffectId;int releaseEffectId;};
 struct C{P*actor;int state;float time;PATH*path;float distance;int pad14;int descending;float reset;int previous;char pad24[12];U offset;char pad40[0x30];ASEG*clip2;ASEG*clip0;ASEG*clip1;ASEG*fallback;};
 struct LM{float low,high;};
 struct WORK{U ahead,behind;LM limit;U point,world,target;};
@@ -21,7 +21,7 @@ EFFECT*PsndNewPlain(int) asm("PsndNewPlain__Fi");void SetSource(EFFECT*,void*) a
 void SetSlyMode(P*,int) asm("SetSlyMode__FP3SLYi");void ClearSmaHandle(COMPONENT**) asm("ClearSmaHandle__FPP3SMA");
 void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
-static inline void PathState(PATH*p,int state){VE&v=p->vt[3];((void(*)(void*,int,void*,void*,void*,void*))v.fn)((char*)p+v.delta,state,0,0,0,0);}
+static inline void PathState(PATH*p,int state){VTENT&v=p->vt[3];((void(*)(void*,int,void*,void*,void*,void*))v.pfn)(VT_THIS(p, &v),state,0,0,0,0);}
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline qword Vector(qword q){qword v;__asm__("qmtc2.ni %1,%0":"=j"(v):"r"(q));return v;}
 static inline qword Direction(U*a,U*b,U*&axis){
@@ -54,7 +54,6 @@ static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(
 static inline void Clear(U*v){v->i[0]=v->i[1]=v->i[2]=0;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char WORK_Size[sizeof(WORK)==96?1:-1];
 typedef char LM_Size[sizeof(LM)==8?1:-1];
 typedef char C_actor_Offset[FIELD_OFFSET(C,actor)==0?1:-1];
@@ -83,8 +82,6 @@ typedef char PATH_focus_Offset[FIELD_OFFSET(PATH,focus)==400?1:-1];
 typedef char PATH_attachEffectId_Offset[FIELD_OFFSET(PATH,attachEffectId)==464?1:-1];
 typedef char PATH_releaseEffectId_Offset[FIELD_OFFSET(PATH,releaseEffectId)==468?1:-1];
 typedef char ASEG_duration_Offset[FIELD_OFFSET(ASEG,duration)==116?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char WORK_ahead_Offset[FIELD_OFFSET(WORK,ahead)==0?1:-1];
 typedef char WORK_behind_Offset[FIELD_OFFSET(WORK,behind)==16?1:-1];
 typedef char WORK_limit_Offset[FIELD_OFFSET(WORK,limit)==32?1:-1];

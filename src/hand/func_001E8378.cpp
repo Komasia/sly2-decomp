@@ -7,6 +7,7 @@
  *  - proj2 is computed into a local first and stored into the U after the shared `damping` VU_FLOAT, so its home store has the
  *    higher LUID (sched1 tie-break) and issues after the damping store.
  * Repeated "j" inputs are allocation-only (local-alloc priority). */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
@@ -20,8 +21,7 @@ struct VU_FLOAT {
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
 struct M4 { qword r[4]; };
 struct SPACE { char pad[0x40]; M4 matrix; };
-struct VT { short delta, pad; M4 *(*fn)(void *); };
-struct PATH { char pad[0xC]; VT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
+struct PATH { char pad[0xC]; VTENT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
 struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; void *owner[2]; };
 struct CHAIN
 {
@@ -295,8 +295,8 @@ void StepRopeSpring(CHAIN *p)
     M4 inverse;
     {
         PATH *path = p->path;
-        VT *e = &path->vt[31];
-        InverseAffineMatrix4(&inverse, e->fn((char *)path + e->delta));
+        VTENT *e = &path->vt[31];
+        InverseAffineMatrix4(&inverse, ((M4 * (*)(void *))e->pfn)(VT_THIS(path, e)));
     }
     for (i = 0; i < count; i++)
     {

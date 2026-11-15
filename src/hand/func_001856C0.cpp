@@ -7,12 +7,12 @@
 // and the vector operand last (Transform rows vf4/7/6/5, 18 -> 1). (5) neighbor checks as mesh->neighbors[i].index[k]
 // (addu operand order, 1 -> 0 aligned). (6) `for (int i ...)`: i's pseudo number moves the gcse PRE hash order of
 // i+1 / 2i, which fixes the 0xD0/0xD4 spill slots (MATCH).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U { qword q; float f[4]; } U;
 typedef struct M4 { U r[4]; } M4;
-typedef struct VTE { short delta, pad; void *fn; } VTE;
 typedef struct I3 { int index[3]; } I3;
-typedef struct MESH { char pad0[0xC]; VTE *vt; char pad10[0xD4]; qword *vertices; int count; I3 *triangles; I3 *neighbors; } MESH;
+typedef struct MESH { char pad0[0xC]; VTENT *vt; char pad10[0xD4]; qword *vertices; int count; I3 *triangles; I3 *neighbors; } MESH;
 typedef struct LIST { int count; int pad[3]; qword planes[1]; } LIST;
 typedef struct PARAMS { float a, b, duration; } PARAMS;
 extern "C" {
@@ -75,9 +75,9 @@ extern "C" void AddClimbSurfEdgePlanes__FP2LOP4LISTiP6VECTORP6PARAMSf(MESH *mesh
     float dist, clamped;
     int edge, n;
     M4 *pm;
-    VTE *e = &mesh->vt[31];
+    VTENT *e = &mesh->vt[31];
     float stop, step;
-    pm = ((M4 *(*)(void *))e->fn)((char *)mesh + e->delta);
+    pm = ((M4 *(*)(void *))e->pfn)(VT_THIS(mesh, e));
     mat = *pm;
     float h = (params->a + params->b) * 0.5f;
     step = D_002DDED4 * 0.5f;

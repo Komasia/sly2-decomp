@@ -11,25 +11,25 @@
 //     gives it v0 and the physics pointer v1 like the target (physics = 2 refs over a shorter life would otherwise be allocated first).
 // Other allocation-shaping asm helpers: VuFloatMemBits (lw into a TI GPR pseudo), QwAddScaled2/QwScale2 (VU_FLOAT listed twice),
 // GFromQw users. See notes/190000-1F0000_lanes.md "UpdateJumpInput__FP4JUMP - T1862" and the T1870 note.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int i[4]; };
 struct EMPTY { ~EMPTY() {} };
 struct M3 { qword r[3]; };
 struct M4 { U r[4]; };
-struct VTE { short delta, pad; void *fn; };
 struct SPACE;
 struct CLIP;
 struct INPUT { char pad0[0x18]; float heading; float amount; };
 struct PHYSICS { char pad0[0x80]; U gravity; };
 struct BODY { char pad0[0x30]; U position; char pad40[0x60]; SPACE *frame; char padA4[4]; float deadline; char padAC[4]; U velocity; U goal; U velocityGoal; };
 struct ACTOR {
-    char pad0[0xC]; VTE *vt; char pad10[0x48]; BODY *body; char pad5C[0x8C]; PHYSICS *physics; char padEC[0x64]; INPUT *input;
+    char pad0[0xC]; VTENT *vt; char pad10[0x48]; BODY *body; char pad5C[0x8C]; PHYSICS *physics; char padEC[0x64]; INPUT *input;
     char pad154[0x3C]; U velocity; char pad1A0[8]; float heading; char pad1AC[4]; M3 local; char pad1E0[0x60]; U offset;
 };
 struct DATA { char pad0[4]; float amount; };
 struct FOCUS { char pad0[0x114]; DATA *data; };
-struct SOURCE { char pad0[0xC]; VTE *vt; char pad10[0x148]; float height; char pad15C[0x18]; SOURCE *next; char pad178[4]; int state; };
-struct OBJECT { char pad0[0xC]; VTE *vt; char pad10[0xD0]; OBJECT *next; char padE4[4]; float radius; char padEC[0x48]; int state; };
+struct SOURCE { char pad0[0xC]; VTENT *vt; char pad10[0x148]; float height; char pad15C[0x18]; SOURCE *next; char pad178[4]; int state; };
+struct OBJECT { char pad0[0xC]; VTENT *vt; char pad10[0xD0]; OBJECT *next; char padE4[4]; float radius; char padEC[0x48]; int state; };
 struct TRACK { int id; float weight; float pad; };
 struct CONTEXT {
     ACTOR *actor; int state; int variant; void *source; float parameter; float value; float stamp; int mode; float time;
@@ -87,9 +87,9 @@ qword LimitVectorLength(qword, float) asm("LimitVectorLength__FG9VU_VECTORf");
 void SetActorZone(ACTOR *, void *) asm("SetActorZone__FP5ACTORP2LO");
 }
 
-static inline qword GetVelocity(void *p) { VTE &v = ((SOURCE *)p)->vt[33]; return ((qword (*)(void *))v.fn)((char *)p + v.delta); }
-static inline SPACE *GetFrame(void *p) { VTE &v = ((SOURCE *)p)->vt[32]; return ((SPACE * (*)(void *, void *))v.fn)((char *)p + v.delta, 0); }
-static inline int FFacing(ACTOR *p) { VTE &v = p->vt[92]; return ((int (*)(void *))v.fn)((char *)p + v.delta); }
+static inline qword GetVelocity(void *p) { VTENT &v = ((SOURCE *)p)->vt[33]; return ((qword (*)(void *))v.pfn)(VT_THIS(p, &v)); }
+static inline SPACE *GetFrame(void *p) { VTENT &v = ((SOURCE *)p)->vt[32]; return ((SPACE * (*)(void *, void *))v.pfn)(VT_THIS(p, &v), 0); }
+static inline int FFacing(ACTOR *p) { VTENT &v = p->vt[92]; return ((int (*)(void *))v.pfn)(VT_THIS(p, &v)); }
 
 static inline VU_FLOAT VuFloatHomed(float g) { union { volatile qword home; } u; qword q; __asm__("qmtc2.ni %1,%0" : "=j"(q) : "r"(g)); u.home = q; VU_FLOAT v; v.q = q; return v; }
 static inline VU_FLOAT VuFloat(float g) { VU_FLOAT v; __asm__("qmtc2.ni %1,%0" : "=j"(v.q) : "r"(g)); return v; }

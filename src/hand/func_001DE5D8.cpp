@@ -11,15 +11,15 @@
 //    an endpoint-relative address), fields stored in struct order;
 //  - the search loop reuses `seg` (set many times, so sched1 does not boost its sets), which lets `next` take $v0;
 //  - the bound points are written through a block-local pointer so the address is loaded before each call.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 typedef unsigned int uint;
 
-struct VTE { short delta, pad; void *fn; };
 struct M4 { qword rows[4]; };
 struct PATH {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0xE8 - 0x10];
     int count;
     int padEC;
@@ -50,7 +50,7 @@ struct BOUND {
 };
 struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[8];
     int id;
     char pad1C[0xC];
@@ -96,7 +96,7 @@ static inline qword Transform(const M4 *m, qword p)
     return r;
 }
 static inline float Clamp(float f, float low, float high) { if (f < low) return low; else if (high < f) return high; else return f; }
-static inline M4 *GetMatrix(PATH *path) { VTE *v = &path->vt[31]; return ((M4 * (*)(void *))v->fn)((char *)path + v->delta); }
+static inline M4 *GetMatrix(PATH *path) { VTENT *v = &path->vt[31]; return ((M4 * (*)(void *))v->pfn)(VT_THIS(path, v)); }
 static inline void SetDirty(P *p) { uint f = p->flags; if ((f ^ 1) & 1) *(uint *)f |= 2; else p->flags = f | 2; }
 
 // name: SafeHouse port (BindEnd)

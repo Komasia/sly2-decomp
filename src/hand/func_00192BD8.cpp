@@ -10,10 +10,10 @@
 // - step -1 reset: the zeros are a chained `param = value = 0.0f` (0.0f in f0) and sched1 puts the stores that kill
 //   -1 / 0.0f first, so their statement order is chosen to give the target's store order.
 
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 
-struct VTE { short delta, pad; void *fn; };
 struct M3 { qword row[3]; };
 struct CLIP { char pad0[0x74]; float duration; };
 struct JOY { char pad0[0x1C]; float amount; };
@@ -24,9 +24,9 @@ struct MANAGER;
 struct CAMERA;
 struct COMPONENT { void *object; };
 struct PROGRAM_ITEM { void *owner; CLIP *clip; char pad8[0xA0 - 8]; };
-struct LO { char pad0[0xC]; VTE *vt; char pad10[0x40 - 0x10]; uint flags; };
+struct LO { char pad0[0xC]; VTENT *vt; char pad10[0x40 - 0x10]; uint flags; };
 struct ACTOR {
-    char pad0[0xC]; VTE *vt; char pad10[0x40 - 0x10]; uint flags; char pad44[0x150 - 0x44]; JOY *pjoy;
+    char pad0[0xC]; VTENT *vt; char pad10[0x40 - 0x10]; uint flags; char pad44[0x150 - 0x44]; JOY *pjoy;
     char pad154[0x190 - 0x154]; qword velocity; char pad1A0[0x1B0 - 0x1A0]; char local[0x20C - 0x1B0]; float tStamp;
     char pad210[0x230 - 0x210]; qword position; qword posOffset; char pad250[0x900 - 0x250]; char secondary[0x9BC - 0x900];
     int x9BC; char pad9C0[0x1024 - 0x9C0]; void *focus; char pad1028[0x1030 - 0x1028]; ANIMATION *animation;
@@ -38,7 +38,7 @@ struct ACTOR {
 };
 struct DATA { char pad0[0x10]; float x; char pad14[0xC]; float y; char pad24[0xC]; float z; };
 struct SOURCE {
-    char pad0[0xC]; VTE *vt; char pad10[0xE0 - 0x10]; ACTOR *owner; char padE4[0x10C - 0xE4]; float parameter;
+    char pad0[0xC]; VTENT *vt; char pad10[0xE0 - 0x10]; ACTOR *owner; char padE4[0x10C - 0xE4]; float parameter;
     char pad110[0x15C - 0x110]; ACTOR *other; char pad160[0x190 - 0x160]; ACTOR *actor; char pad194[0x1BC - 0x194];
     int enabled;
 };
@@ -102,13 +102,13 @@ void SetSlyHandles(ACTOR *, int) asm("SetSlyHandles__FP3SLYUi");
 
 static inline void SourceState(SOURCE *p, int state)
 {
-    VTE &v = p->vt[3];
-    ((void (*)(void *, int, void *, void *, void *, void *))v.fn)((char *)p + v.delta, state, 0, 0, 0, 0);
+    VTENT &v = p->vt[3];
+    ((void (*)(void *, int, void *, void *, void *, void *))v.pfn)(VT_THIS(p, &v), state, 0, 0, 0, 0);
 }
-static inline void Notify(LO *p, int slot) { VTE &v = p->vt[slot]; ((void (*)(void *))v.fn)((char *)p + v.delta); }
-static inline void Notify(ACTOR *p, int slot) { VTE &v = p->vt[slot]; ((void (*)(void *))v.fn)((char *)p + v.delta); }
-static inline void SetVector(ACTOR *p, int slot, qword q) { VTE &v = p->vt[slot]; ((void (*)(void *, qword))v.fn)((char *)p + v.delta, q); }
-static inline void SetPointer(ACTOR *p, int slot, void *pv) { VTE &v = p->vt[slot]; ((void (*)(void *, void *))v.fn)((char *)p + v.delta, pv); }
+static inline void Notify(LO *p, int slot) { VTENT &v = p->vt[slot]; ((void (*)(void *))v.pfn)(VT_THIS(p, &v)); }
+static inline void Notify(ACTOR *p, int slot) { VTENT &v = p->vt[slot]; ((void (*)(void *))v.pfn)(VT_THIS(p, &v)); }
+static inline void SetVector(ACTOR *p, int slot, qword q) { VTENT &v = p->vt[slot]; ((void (*)(void *, qword))v.pfn)(VT_THIS(p, &v), q); }
+static inline void SetPointer(ACTOR *p, int slot, void *pv) { VTENT &v = p->vt[slot]; ((void (*)(void *, void *))v.pfn)(VT_THIS(p, &v), pv); }
 // bit 0 set: the word holds the flags itself; otherwise it points to them
 static inline void AddFlags(uint *pflags, uint bits)
 {

@@ -4,16 +4,16 @@
 // CalculateSlyHangAccel__FP3SLY laneH10v3 (Claude agent lane H10): laneH10v2 + GMinOf/GMaxOf written (b<a)?b:a / (b>a)?b:a (min.s/max.s operand order): aligned 47.
 // CalculateSlyHangAccel__FP3SLY laneH9v1 (Claude agent lane H9): laneH8v1 + const-ref QwDivide, QwSub, QwProjectOut and QwCombo(a) (134 -> 75).
 /* laneH8v1 (Claude agent): fresh Lilly-style rewrite of CalculateSlyHangAccel__FP3SLY, aligned 134 (old .cpp 162), frame 0x2A0 exact, no pins, VU helper asms only. */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{U r[3];M3(){}M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return*this;}};
 struct M4{U r[4];};
-struct VTE{short delta,pad;void*fn;};
-struct NODE{char pad0[0xC];VTE*vt;char pad10[0x124];float property;};
+struct NODE{char pad0[0xC];VTENT*vt;char pad10[0x124];float property;};
 struct ACCEL{char pad0[0x80];U value;};
 struct LINK{int header;NODE*object;};
 struct DELTA{U first,second;};
-struct P{char pad0[0xC];VTE*vt;char pad10[0xD8];ACCEL*accel;char padEC[0x17D8];NODE*target;char pad18C8[8];int state;float stamp;char pad18D8[0x24];int reverse;LINK*other;char pad1904[0xC];DELTA response[2];};
+struct P{char pad0[0xC];VTENT*vt;char pad10[0xD8];ACCEL*accel;char padEC[0x17D8];NODE*target;char pad18C8[8];int state;float stamp;char pad18D8[0x24];int reverse;LINK*other;char pad1904[0xC];DELTA response[2];};
 struct CLQ{float g0,g1,g2;};
 struct LM{float gMin,gMax;};
 struct SMPA{float a,b,duration,limit;};
@@ -58,8 +58,8 @@ static inline float GEvaluateClq(CLQ*p,float x){return p->g0+x*(p->g1+x*p->g2);}
 static inline float GLimitG(float g,float gMin,float gMax){if(g<gMin)return gMin;if(gMax<g)return gMax;return g;}
 static inline float GMinOf(float a,float b){return(b<a)?b:a;}
 static inline float GMaxOf(float a,float b){return(b>a)?b:a;}
-static inline qword Velocity(void*p){VTE*e=&((NODE*)p)->vt[33];return((qword(*)(void*))e->fn)((char*)p+e->delta);}
-static inline void*Space(NODE*p){VTE*e=&p->vt[32];return((void*(*)(void*,void*))e->fn)((char*)p+e->delta,0);}
+static inline qword Velocity(void*p){VTENT*e=&((NODE*)p)->vt[33];return((qword(*)(void*))e->pfn)(VT_THIS(p, e));}
+static inline void*Space(NODE*p){VTENT*e=&p->vt[32];return((void*(*)(void*,void*))e->pfn)(VT_THIS(p, e),0);}
 static inline qword QwNormalize(qword v,qword fallback){qword len=QwSqrt(QwDot(v,v));qword r;if(GXOfQw(len)<0.0001f)r=fallback;else r=QwDivide(v,len);return r;}
 static inline CLOCK*Addr(CLOCK*p){return p;}
 static inline qword QwAddScaled2Q(qword base,qword a,qword b,qword k){qword r;__asm__("vadda.xyzw $ACC,%1,$vf0\n\tvmaddax.xyzw $ACC,%2,%4x\n\tvmaddx.xyzw %0,%3,%4x":"=j"(r):"j"(base),"j"(a),"j"(b),"j"(k),"j"(k));return r;} /* second "j"(k) is allocation-only: makes k VF-preferred so it is spilled across the call (target 0x1F0) */

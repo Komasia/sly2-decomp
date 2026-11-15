@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct V {float x,y,z,w;}__attribute__((aligned(16)));
-struct VT {short delta,pad;void*fn;};
-struct P {char pad[0xC];VT*vt;char pad10[0x1E8-0x10];int disabled;char pad1EC[0x278-0x1EC];float deadline;char opaque27C[4];qword targetVelocity;};
+struct P {char pad[0xC];VTENT*vt;char pad10[0x1E8-0x10];int disabled;char pad1EC[0x278-0x1EC];float deadline;char opaque27C[4];qword targetVelocity;};
 #include "clock.h"
 extern "C" {
 extern qword D_002A2DD0;
@@ -14,7 +14,7 @@ void AccelAloPos(P*,qword) asm("AccelAloPos__FP3ALOG9VU_VECTOR");
 int FFloatsNear(float,float,float)__asm__("FFloatsNear__Ffff");
 static inline float Y(qword q){qword b;float f;__asm__("prot3w %0,%1":"=r"(b):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(b));return f;}
 static inline float Z(qword q){qword b;float f;__asm__("pextuw %0,$zero,%1":"=r"(b):"r"(q));__asm__("mtc1 %1,%0":"=f"(f):"r"(b));return f;}
-static inline qword Velocity(P*p){VT*vt=p->vt;return ((qword(*)(void*))vt[33].fn)((char*)p+vt[33].delta);}
+static inline qword Velocity(P*p){VTENT*vt=p->vt;return ((qword(*)(void*))vt[33].pfn)(VT_THIS(p, &vt[33]));}
 static inline float Max(float a,float b){return a>b?a:b;}
 static inline float Min(float a,float b){return a<b?a:b;}
 static inline int CaptureDestinationAndEqual(P*p,const V*output,V*destination){
@@ -39,10 +39,10 @@ extern "C" void UpdateHomingMissileAccel__FP3ALO(P*p){
   __asm__("mfc1 %0,%2\n\tsq %0,%1":"=r"(scaleWord),"=m"(w.scale.q):"f"(1.5f/remaining));
   w.integrated.q=scaleWord;
   qword position=PosOfLo(p);
-  register qword destination __asm__("vf1"),delta __asm__("vf2");register VT*table __asm__("$3");register float negative __asm__("$f0");
+  register qword destination __asm__("vf1"),delta __asm__("vf2");register VTENT*table __asm__("$3");register float negative __asm__("$f0");
   __asm__("lqc2 %0,%5\n\tqmtc2.ni %6,%1\n\tlw %2,%7\n\tvsub.xyzw %1,%0,%1\n\tli.s %3,%8\n\tsqc2 %1,%4":"=j"(destination),"=j"(delta),"=r"(table),"=f"(negative),"=m"(w.delta.q):"m"(w.destination),"r"(position),"m"(p->vt),"F"(-0.5f));
   register qword(*method)(void*) __asm__("$2");register void*receiver __asm__("$4");register qword copiedNegative __asm__("$3");
-  __asm__("mfc1 %0,%4\n\tlh %1,%5\n\tsq %0,%3\n\tlw %0,%6\n\taddu %1,%7,%1\n\tlq %2,%3":"=&r"(method),"=&r"(receiver),"=r"(copiedNegative),"=m"(w.negative.q):"f"(negative),"m"(table[33].delta),"m"(table[33].fn),"r"(p));
+  __asm__("mfc1 %0,%4\n\tlh %1,%5\n\tsq %0,%3\n\tlw %0,%6\n\taddu %1,%7,%1\n\tlq %2,%3":"=&r"(method),"=&r"(receiver),"=r"(copiedNegative),"=m"(w.negative.q):"f"(negative),"m"(table[33].delta),"m"(table[33].pfn),"r"(p));
   w.integrated.q=copiedNegative;
   qword velocity=method(receiver);
   register qword factor __asm__("vf2"),difference __asm__("vf3"),minus __asm__("vf4"),value __asm__("vf5"),result __asm__("vf1");
@@ -58,8 +58,8 @@ extern "C" void UpdateHomingMissileAccel__FP3ALO(P*p){
  __asm__("lq %2,%5\n\tpor %1,$zero,%6\n\tlq %3,%7\n\tpor %0,$zero,%8\n\tli.s %4,%9":"=r"(startPosition),"=&r"(startVelocity),"=&r"(endPosition),"=&r"(endVelocity),"=f"(tension):"m"(w.destination),"r"(velocity),"m"(w.output),"r"(position),"F"(1.0f));
  Hermite(remaining,frameDt,tension,startPosition,startVelocity,endPosition,endVelocity,0,&w.integrated.q,0);
  w.copy=w.integrated;
- VT*table=p->vt;register qword(*method)(void*) __asm__("$2");register int displacement __asm__("$4");
- __asm__("lw %0,%2\n\tlh %1,%3":"=&r"(method),"=r"(displacement):"m"(table[33].fn),"m"(table[33].delta));
+ VTENT*table=p->vt;register qword(*method)(void*) __asm__("$2");register int displacement __asm__("$4");
+ __asm__("lw %0,%2\n\tlh %1,%3":"=&r"(method),"=r"(displacement):"m"(table[33].pfn),"m"(table[33].delta));
  qword current=method((char*)p+displacement);
  register qword copied __asm__("vf1"),actualCurrent __asm__("vf3");register P*owner __asm__("$4");register unsigned int dtWord __asm__("$17");
  __asm__("lqc2 %0,%4\n\tdaddu %1,%5,$zero\n\tqmtc2.ni %6,%2\n\tlw %3,%7":"=j"(copied),"=r"(owner),"=j"(actualCurrent),"=r"(dtWord):"m"(w.copy.q),"r"(p),"r"(current),"m"(clock->dt));
@@ -76,8 +76,6 @@ typedef char V_x_Offset[FIELD_OFFSET(V,x)==0?1:-1];
 typedef char V_y_Offset[FIELD_OFFSET(V,y)==4?1:-1];
 typedef char V_z_Offset[FIELD_OFFSET(V,z)==8?1:-1];
 typedef char V_w_Offset[FIELD_OFFSET(V,w)==12?1:-1];
-typedef char VT_delta_Offset[FIELD_OFFSET(VT,delta)==0?1:-1];
-typedef char VT_fn_Offset[FIELD_OFFSET(VT,fn)==4?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_disabled_Offset[FIELD_OFFSET(P,disabled)==488?1:-1];
 typedef char P_deadline_Offset[FIELD_OFFSET(P,deadline)==632?1:-1];
@@ -96,8 +94,6 @@ typedef char U_PrefixSize[sizeof(U)==16?1:-1];
 typedef char U_Alignment[__alignof__(U)==16?1:-1];
 typedef char V_PrefixSize[sizeof(V)==16?1:-1];
 typedef char V_Alignment[__alignof__(V)==16?1:-1];
-typedef char VT_PrefixSize[sizeof(VT)==8?1:-1];
-typedef char VT_Alignment[__alignof__(VT)==4?1:-1];
 typedef char P_PrefixSize[sizeof(P)==656?1:-1];
 typedef char P_Alignment[__alignof__(P)==16?1:-1];
 typedef char WORK_PrefixSize[sizeof(WORK)==128?1:-1];

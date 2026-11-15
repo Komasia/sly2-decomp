@@ -1,12 +1,12 @@
 // Compute motion correction in a predicted target frame.
 
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short delta,pad; void *fn; };
 struct M4 { qword row[4]; };
 union V { qword q; float a[4]; };
 struct MOTION { char before[0x80]; qword acceleration; };
 struct OBJECT {
-    char beforeVt[0xC]; VTE *vt; char beforeMotion[0xE8-0x10];
+    char beforeVt[0xC]; VTENT *vt; char beforeMotion[0xE8-0x10];
     MOTION *motion; char beforeRadius[0x1020-0xEC]; float radius;
 };
 struct CONTEXT { OBJECT *owner; };
@@ -36,8 +36,6 @@ typedef char V_Size[(sizeof(V))==16?1:-1];
 typedef char V_Align[(__alignof__(V))==16?1:-1];
 typedef char M4_Size[(sizeof(M4))==64?1:-1];
 typedef char M4_Align[(__alignof__(M4))==16?1:-1];
-typedef char VTE_Size[(sizeof(VTE))==8?1:-1];
-typedef char VTE_Align[(__alignof__(VTE))==4?1:-1];
 typedef char MOTION_Size[(sizeof(MOTION))==144?1:-1];
 typedef char MOTION_Align[(__alignof__(MOTION))==16?1:-1];
 typedef char OBJECT_Size[(sizeof(OBJECT))==4132?1:-1];
@@ -46,9 +44,6 @@ typedef char CONTEXT_Size[(sizeof(CONTEXT))==4?1:-1];
 typedef char CONTEXT_Align[(__alignof__(CONTEXT))==4?1:-1];
 typedef char V_q_Offset[((unsigned)&((V*)0)->q)==0?1:-1];
 typedef char V_a_Offset[((unsigned)&((V*)0)->a)==0?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTE*)0)->delta)==0?1:-1];
-typedef char VTE_pad_Offset[((unsigned)&((VTE*)0)->pad)==2?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTE*)0)->fn)==4?1:-1];
 typedef char MOTION_acceleration_Offset[((unsigned)&((MOTION*)0)->acceleration)==128?1:-1];
 typedef char OBJECT_vt_Offset[((unsigned)&((OBJECT*)0)->vt)==12?1:-1];
 typedef char OBJECT_motion_Offset[((unsigned)&((OBJECT*)0)->motion)==232?1:-1];
@@ -68,13 +63,13 @@ extern "C" void GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f(CONTEXT *context,O
     V future,position,oldVelocity,comparison,prediction;
     position.q=PosOfLo(context->owner);
     OBJECT *owner=context->owner;
-    VTE *vt=owner->vt;
-    oldVelocity.q=((VECTOR_GETTER)vt[33].fn)((OBJECT*)((char*)owner+vt[33].delta));
+    VTENT *vt=owner->vt;
+    oldVelocity.q=((VECTOR_GETTER)vt[33].pfn)((OBJECT*)VT_THIS(owner, &vt[33]));
     register M4*inverseOwner __asm__("$17");
     SPACE*frame;
     {
       register M4*inverseArgument __asm__("$5");
-      register VTE*targetVt __asm__("$6");
+      register VTENT*targetVt __asm__("$6");
       register MOTION*motion __asm__("$3");
       register qword time __asm__("vf3");
       __asm__("la %0,%a6\n\tlw $2,%7\n\tdaddu %1,%0,$zero\n\tmfc1 $3,%8\n\tqmtc2.ni $3,%2\n\tlw %3,%9\n\tlw %4,0xe8($2)\n\tsqc2 %2,%5"
@@ -94,7 +89,7 @@ extern "C" void GFitJump__FP5ACTORP2LOG9VU_VECTORP6VECTORN23f(CONTEXT *context,O
         :"=r"(receiver),"=j"(halfVector):"0"(delta),"r"(target),"f"(half):"$2");
       __asm__ volatile("lqc2 $vf3,%1\n\tlqc2 $vf4,%2\n\tlqc2 $vf2,%3\n\tvadda.xyzw $ACC,$vf2,$vf0\n\tvmaddax.xyzw $ACC,$vf3,%4x\n\tvmaddx.xyzw $vf2,$vf4,%4x\n\tsqc2 $vf2,%0"
         :"=m"(prediction.q):"m"(oldVelocity.q),"m"(future.q),"m"(position.q),"j"(halfVector):"vf2","vf3","vf4");
-      INVERSE_GETTER inverseFunction=(INVERSE_GETTER)targetVt[32].fn;
+      INVERSE_GETTER inverseFunction=(INVERSE_GETTER)targetVt[32].pfn;
       scalar.q=halfVector;
       frame=inverseFunction(receiver,inverseArgument);
     }

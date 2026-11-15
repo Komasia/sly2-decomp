@@ -14,6 +14,7 @@
 //    its stack slot 0x30. Call 2 reads axis through Ref(), a non-scalar MEM that waits for the .first store
 //    (target lq a1 points before lq a2 axis).
 // No register pins; two commented allocation-only empty asms remain (removing either one costs 1-25 aligned).
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
@@ -21,8 +22,7 @@ union U{qword q;float f[4];};
 struct DELTA{U first,second;};
 struct P;
 struct OBJ{P*p;};
-struct VE{short delta,pad;void(*fn)(P*,DELTA*,qword,U*);};
-struct P{char pad[12];VE*vt;};
+struct P{char pad[12];VTENT*vt;};
 extern "C"{
 qword PosOfLo(P*) asm("PosOfLo__FP2LO");
 qword DvAloImpulse(P*,qword) asm("DvAloImpulse__FP3ALOG9VU_VECTOR");
@@ -46,10 +46,7 @@ static inline U*Addr(U*p){return p;}
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char DELTA_Size[sizeof(DELTA)==32?1:-1];
 typedef char P_Size[sizeof(P)==16?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char DELTA_first_Offset[FIELD_OFFSET(DELTA,first)==0?1:-1];
 typedef char DELTA_second_Offset[FIELD_OFFSET(DELTA,second)==16?1:-1];
 /* const-ref read: a non-scalar MEM, so the axis load for call 2 waits for the .first store */
@@ -70,7 +67,7 @@ extern "C" void func_0018F958(P*p,P*other,qword*point,float*input,DELTA*out){
    (second-1)->q=DvAloImpulse(objects[side].p,axis);
    /* empty asm, allocation-only: two extra refs make the arg and .second store givs outrank objects/points in global-alloc (target s1 store, s2 arg, s3 objects, s4 points); "=m"(scalar) keeps it a non-barrier */__asm__("" : "=m"(scalar) : "r"(effect),"r"(second));
    second->q=func_001FAA48(object,Addr(&points[side])->q,Ref(axis));
-   VE*method=&p->vt[69];method->fn((P*)((char*)p+method->delta),effect,*point,&velocity[side]);
+   VTENT*method=&p->vt[69];((void (*)(P*,DELTA*,qword,U*))method->pfn)((P*)VT_THIS(p, method),effect,*point,&velocity[side]);
   }
   relative[axisIndex].q=Sub(velocity[0].q,velocity[1].q);
  }

@@ -1,7 +1,6 @@
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VTE5 { short d; short p; void (*pfn)(void *, int, int, int, int, int); };
-struct VT { VTE a[3]; VTE5 a3; };
+#include "vtbl.h"
+struct VT { VTENT a[3]; VTENT a3; };
 struct P { int n0; char pad[0x64 - 4]; int n64; };
 struct S { int n0; int n4; int n8; VT *pvt; int n10; P *p14; int pad18[2]; qword q20; qword q30; int n40; int pad44; int n48; float f4C; int n50; int n54; int pad58[2]; };
 struct SW { char pad[0x3D68]; int c; char pad2[0x3FFC - 0x3D6C]; char dl[0xC]; char pool[0x10]; };
@@ -16,8 +15,8 @@ void func_00256EE0(S *, int);
 }
 struct Lock {
     S *p;
-    Lock(S *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
-    ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
+    Lock(S *pp) { p = pp; ((void (*)(void *))p->pvt->a[1].pfn)(VT_THIS(p, &p->pvt->a[1])); }
+    ~Lock() { ((void (*)(void *))p->pvt->a[2].pfn)(VT_THIS(p, &p->pvt->a[2])); }
 };
 // name: SafeHouse port (PnoiseNew)
 extern "C" void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(P *p, qword q, int b, S **pps)
@@ -35,9 +34,9 @@ extern "C" void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(P *p, qword q, int b
     ps->f4C = g_clock.t;
     ps->n54 = p->n64;
     AppendDlEntry(g_sw.dl, ps);
-    ps->pvt->a[1].pfn((char *)ps + ps->pvt->a[1].d);
+    ((void (*)(void *))ps->pvt->a[1].pfn)(VT_THIS(ps, &ps->pvt->a[1]));
     Lock l(ps);
     func_00256EE0(ps, p->n0);
     if (pps) *pps = ps;
-    ps->pvt->a3.pfn((char *)ps + ps->pvt->a3.d, 2, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))ps->pvt->a3.pfn)(VT_THIS(ps, &ps->pvt->a3), 2, 0, 0, 0, 0);
 }

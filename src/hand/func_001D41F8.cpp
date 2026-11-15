@@ -1,4 +1,5 @@
 // Update contact heights and rolling transforms for the linked actor nodes.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V{qword q;float f[4];};
 struct M3{V r[3];};
@@ -7,8 +8,7 @@ struct NODE{M4 matrix,local;char pad80[0x20];NODE*parent;int generation;};
 struct CONTACT{char pad[0x90];float height;};
 struct ENTRY{int unknown;NODE*node;CONTACT*contacts;char padC[8];float tilt,speed,angle,radius;char pad24[12];float x,y;char pad38[0x20];float height;char pad5C[4];};
 struct P;
-struct VE{short delta,pad;qword(*fn)(P*);};
-struct P{char pad[0xC];VE*vt;char pad10[0x50];P*space;char pad64[0x12C];int count;char pad194[12];ENTRY entries[8];char pad4A0[0xB0];float drive;};
+struct P{char pad[0xC];VTENT*vt;char pad10[0x50];P*space;char pad64[0x12C];int count;char pad194[12];ENTRY entries[8];char pad4A0[0xB0];float drive;};
 #include "clock.h"
 struct G{char pad[0x3D58];int generation;};
 extern G g_sw;
@@ -37,8 +37,8 @@ static inline M3 Mul(const M3&a,const M3&b) return r{
 // name: SafeHouse port (DrawVehiclePose)
 extern "C" void DrawVehiclePose__FP3ALO(P*p){
  V velocity,point;M3 basis;
- VE*method=&p->vt[33];
- velocity.q=ConvertVec(0,p,method->fn((P*)((char*)p+method->delta)));
+ VTENT*method=&p->vt[33];
+ velocity.q=ConvertVec(0,p,((qword (*)(P*))method->pfn)((P*)VT_THIS(p, method)));
  for(int i=0;i<p->count;i++){
   ENTRY*e=&p->entries[i];
   point.q=PosConvertXfs(0,(NODE*)p->space,e->node->local.position.q);

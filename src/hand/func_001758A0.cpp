@@ -3,10 +3,10 @@
 // (Claude agent, T1672) MATCH from lanef10v1 with real C++ locals instead of the SLOT union and explicit calls:
 // FRAME with out-of-line ctor/dtor (__10STACKSCOPE / _$_10STACKSCOPE(this, 2)), CRef(bool) with inline dtor
 // (Decref), and `void *argument = (char *)entry + 0x18;` declared after the CRef.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct M4 { U row[4]; };
-struct VTE { short delta, pad; void *fn; };
 struct NAME { unsigned identity; };
 struct SCALE { char pad[0x20]; float value; };
 struct LM { float low, high; };
@@ -21,7 +21,7 @@ struct ENTRY {
 };
 struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0x18];
     unsigned long flags;
     char pad30[0xC];
@@ -150,8 +150,8 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
     if (g_clock.t < p->cooldown)
         return 0;
     if (FIsBasicDerivedFrom(target, 0x32)) {
-        VTE *e = &target->vt[77];
-        if (((int (*)(void *))e->fn)((char *)target + e->delta))
+        VTENT *e = &target->vt[77];
+        if (((int (*)(void *))e->pfn)(VT_THIS(target, e)))
             return 0;
     }
     if (gate && !FTargetrecAllows(gate, p))
@@ -213,8 +213,8 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
                 continue;
             if (entry->response) {
                 M4 frame;
-                VTE *e = &target->vt[32];
-                void *owner = ((void *(*)(void *, M4 *))e->fn)((char *)target + e->delta, &frame);
+                VTENT *e = &target->vt[32];
+                void *owner = ((void *(*)(void *, M4 *))e->pfn)(VT_THIS(target, e), &frame);
                 SetGuardResponse(p, entry, owner, frame.row[3].q);
                 entry = 0;
                 if (gate)

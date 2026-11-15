@@ -12,10 +12,10 @@
 //    is tied to its first dying input, which gives the original vf numbering.
 //  * `count`, start, target and offset are plain values; the stack slots at sp+0x60..0x90 are their spill slots, and
 //    `dest` is caller-saved around the duration call.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
-struct VTE { short delta, pad; void *fn; };
-struct SO { char pad0[0xC]; VTE *vt; char pad10[0x60]; qword position; };
+struct SO { char pad0[0xC]; VTENT *vt; char pad10[0x60]; qword position; };
 struct OWNER { char pad0[0x150]; SO *source; void *factory; SO *first; };
 struct LM { float gMin, gMax; };
 struct GAME { int dummy; };
@@ -74,10 +74,10 @@ static inline qword Transform(const M3 &m, qword q)
     return r;
 }
 static inline float Rand(const LM &lm) { return GRandInRange(lm.gMin, lm.gMax); }
-static inline void SetState(SO *p, int state) { VTE *v = p->vt; ((void (*)(void *, int))v[76].fn)((char *)p + v[76].delta, state); }
-static inline void Reset(SO *p) { VTE *v = p->vt; ((void (*)(void *))v[8].fn)((char *)p + v[8].delta); }
-static inline void SetParent(SO *p, SO *parent) { VTE *v = p->vt; ((void (*)(void *, SO *))v[39].fn)((char *)p + v[39].delta, parent); }
-static inline void SetVelocity(SO *p, qword velocity) { VTE *v = p->vt; ((void (*)(void *, qword))v[35].fn)((char *)p + v[35].delta, velocity); }
+static inline void SetState(SO *p, int state) { VTENT *v = p->vt; ((void (*)(void *, int))v[76].pfn)(VT_THIS(p, &v[76]), state); }
+static inline void Reset(SO *p) { VTENT *v = p->vt; ((void (*)(void *))v[8].pfn)(VT_THIS(p, &v[8])); }
+static inline void SetParent(SO *p, SO *parent) { VTENT *v = p->vt; ((void (*)(void *, SO *))v[39].pfn)(VT_THIS(p, &v[39]), parent); }
+static inline void SetVelocity(SO *p, qword velocity) { VTENT *v = p->vt; ((void (*)(void *, qword))v[35].pfn)(VT_THIS(p, &v[35]), velocity); }
 
 // name: SafeHouse port (PloLaunchReward)
 extern "C" SO *PloLaunchReward__FP2LOi(OWNER *p, int count)

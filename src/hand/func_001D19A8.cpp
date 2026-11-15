@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M3 {U rows[3];};
 struct M4 {M3 basis;U position;};
 struct FRAME {M4 matrix,world;};
-struct VENTRY {short delta,pad;void (*fn)();};
 struct REF {char pad0[0x70];U position;char pad80[0x20];FRAME *parent;};
 struct POLY {float a,b,c;};
 struct LIMITS {float low,high;};
@@ -12,7 +12,7 @@ struct ATTACH {char pad0[0x10];P *owner;int index,id;void *object;void *binding;
 struct ENTRY {int id;REF *reference;int unknown;float steering;char pad10[4];float tilt;char pad18[0x48];};
 struct SIDE {int id;REF *reference;void *binding;LIMITS angleLimits;};
 struct SOUND {char pad0[0x4E];short references;};
-struct P {char pad0[0xC];VENTRY *vt;char pad10[0x50];FRAME *space;char pad64[0x11C];int mode;char pad184[0xC];int count;char pad194[0xC];ENTRY entries[8];float width;int sideCount;SIDE sides[4];int attachCount;ATTACH *attachments[8];char pad51C[0x24];float heading,goalHeading,steering,wheelAngle,drive,turn,acceleration;char pad55C[0x3C];SOUND *sound;int unused59C;float soundRate;P *target;char pad5A8[0x18];float lastCorrection;};
+struct P {char pad0[0xC];VTENT *vt;char pad10[0x50];FRAME *space;char pad64[0x11C];int mode;char pad184[0xC];int count;char pad194[0xC];ENTRY entries[8];float width;int sideCount;SIDE sides[4];int attachCount;ATTACH *attachments[8];char pad51C[0x24];float heading,goalHeading,steering,wheelAngle,drive,turn,acceleration;char pad55C[0x3C];SOUND *sound;int unused59C;float soundRate;P *target;char pad5A8[0x18];float lastCorrection;};
 #include "clock.h"
 extern const qword g_normalZ;
 extern POLY D_002C2040,D_002C2060,D_002C2080;
@@ -60,8 +60,8 @@ static inline void ResetDrive(P *p){
  p->drive=zero;
  p->goalHeading=heading;
 }
-static inline M4*GetMatrixFrom(P*p,VENTRY*vt){VENTRY&e=vt[31];return ((M4*(*)(void*))e.fn)((char*)p+e.delta);}
-static inline qword GetVelocity(P *p){VENTRY &e=p->vt[33];return ((qword (*)(void *))e.fn)((char *)p+e.delta);}
+static inline M4*GetMatrixFrom(P*p,VTENT*vt){VTENT&e=vt[31];return ((M4*(*)(void*))e.pfn)(VT_THIS(p, &e));}
+static inline qword GetVelocity(P *p){VTENT &e=p->vt[33];return ((qword (*)(void *))e.pfn)(VT_THIS(p, &e));}
 // name: SafeHouse port (UpdateVehicleControl)
 extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
 {
@@ -103,7 +103,7 @@ extern "C" void UpdateVehicleControl__FP7VEHICLE(P *p)
     if(high<response)turnFactor=high;
     else turnFactor=response;
  response_done:;
-    float limited=D_002C2030;VENTRY*table;
+    float limited=D_002C2030;VTENT*table;
     asm("lwc1 $f3,%4\n\tmin.s %0,%0,%2\n\tlwc1 $f2,%5\n\tmul.s %0,%3,%0\n\tlw %1,%6\n\tmul.s %0,%0,$f3\n\tdiv.s %0,%0,$f2"
         :"+f"(limited),"=r"(table):"f"(p->drive),"f"(turnFactor),"m"(p->steering),"m"(p->width),"m"(p->vt):"$f2","$f3");
     p->turn=limited;
@@ -260,7 +260,6 @@ typedef char guard_52[(sizeof(REF)==176)?1:-1];
 typedef char guard_53[(sizeof(ENTRY)==96)?1:-1];
 typedef char guard_54[(sizeof(SIDE)==20)?1:-1];
 typedef char guard_55[(sizeof(ATTACH)==176)?1:-1];
-typedef char guard_56[(sizeof(VENTRY)==8)?1:-1];
 typedef char guard_57[(sizeof(POLY)==12)?1:-1];
 typedef char guard_58[(sizeof(LIMITS)==8)?1:-1];
 typedef char guard_59[(sizeof(int)==4)?1:-1];
@@ -277,8 +276,6 @@ typedef char guard_69[(OFF(POLY,b)==4)?1:-1];
 typedef char guard_70[(OFF(POLY,c)==8)?1:-1];
 typedef char guard_71[(OFF(LIMITS,low)==0)?1:-1];
 typedef char guard_72[(OFF(LIMITS,high)==4)?1:-1];
-typedef char guard_73[(OFF(VENTRY,delta)==0)?1:-1];
-typedef char guard_74[(OFF(VENTRY,fn)==4)?1:-1];
 typedef char guard_75[(OFF(M4,basis)==0)?1:-1];
 typedef char guard_76[(OFF(M4,position)==0x30)?1:-1];
 typedef char guard_78[(OFF(P,entries[1])-OFF(P,entries[0])==0x60)?1:-1];

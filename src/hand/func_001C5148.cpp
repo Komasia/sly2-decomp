@@ -12,18 +12,18 @@
 //  * operator* is the usual inline matrix product with a named return value plus a dead local copy `t`; each row is stored to
 //    `t` and `mat` right after its asm (the order of those stores decides the vf numbering of the loaded rows).
 //  * `spin` is a second variable for p->orientation so that `current` and the later reload get different registers.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int words[4]; };
 union M3 { qword rows[3]; float values[12]; };
-struct VTE { short delta, pad; void *fn; };
 struct CHANNEL { M3 matrix; qword position; char pad40[0x64]; int stamp; char padA8[8]; qword velocity; };
-struct MOTION { VTE *vt; };
+struct MOTION { VTENT *vt; };
 struct ENTRY { unsigned int key; MOTION *motion; };
 struct ACTION { char pad5C[0x5C]; int count; ENTRY *entries; };
 struct ANIM { char pad14[0x14]; ACTION *action; int word18; float time; char pad20[0x20]; float duration; };
 struct HOLDER { char pad30[0x30]; ANIM *animation; };
 struct P {
-    char padC[0xC]; VTE *vt; char pad10[8]; int id; char pad1C[0x3C];
+    char padC[0xC]; VTENT *vt; char pad10[8]; int id; char pad1C[0x3C];
     CHANNEL *position, *orientation;
     char pad60[0xF0]; int state; char pad154[0x14]; HOLDER *holder; char pad16C[4];
     qword coordinate, velocity, acceleration;
@@ -100,13 +100,13 @@ static inline M3 operator*(const M3 &matL, const M3 &matR) return mat
 }
 static inline CHANNEL *GetChannel(P *p, int channel)
 {
-    VTE &e = p->vt[51];
-    return ((CHANNEL *(*)(P *, int))e.fn)((P *)((char *)p + e.delta), channel);
+    VTENT &e = p->vt[51];
+    return ((CHANNEL *(*)(P *, int))e.pfn)((P *)VT_THIS(p, &e), channel);
 }
 static inline void Sample(MOTION *motion, const ANIM *animation, qword *value, qword *velocity)
 {
-    VTE &e = motion->vt[3];
-    ((void (*)(MOTION *, float, float, qword *, qword *))e.fn)((MOTION *)((char *)motion + e.delta), animation->time, animation->duration, value, velocity);
+    VTENT &e = motion->vt[3];
+    ((void (*)(MOTION *, float, float, qword *, qword *))e.pfn)((MOTION *)VT_THIS(motion, &e), animation->time, animation->duration, value, velocity);
 }
 
 // name: SafeHouse port (UpdatePickupMotion)

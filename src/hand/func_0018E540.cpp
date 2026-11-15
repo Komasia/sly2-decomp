@@ -1,10 +1,10 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
-struct VE{short delta,pad;void*fn;};
 struct ASEG{char pad0[0x74];float duration;};
 struct ASEGA{char pad0[0x1C];float localTime;char pad20[0x40-0x20];float elapsed;char pad44[4];float rate;};
 struct EFFECT;struct ACTION;struct SM;struct COMPONENT;
-struct NODE{char pad0[12];VE*vt;};
+struct NODE{char pad0[12];VTENT*vt;};
 struct TARGET{char pad0[0x130];int exitEffect;};
 struct POINT{char pad0[0x70];U position;};
 struct BLEND{float incoming,unknown4,unknown8,outgoing,unknown10,unknown14;ASEG*clip;};
@@ -76,9 +76,9 @@ void func_0018F560(P*,BLEND*,ASEG*);int IsmsFindSmOptional(SM*,int) asm("IsmsFin
 void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");void SetAsegaSeekTime(ASEGA*,float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static __inline__ void Emit(P*p,int id){if(id!=-1){EFFECT*effect=PsndNewPlain(id);SetSource(effect,0);SetPosition(effect,PosOfLo(p));}}
-static __inline__ void Active(NODE*p){VE&v=p->vt[8];((void(*)(void*))v.fn)((char*)p+v.delta);}
-static __inline__ void Link(NODE*p,NODE*other){VE&v=p->vt[38];((void(*)(void*,NODE*))v.fn)((char*)p+v.delta,other);}
-static __inline__ void Inactive(NODE*p){VE&v=p->vt[9];((void(*)(void*))v.fn)((char*)p+v.delta);}
+static __inline__ void Active(NODE*p){VTENT&v=p->vt[8];((void(*)(void*))v.pfn)(VT_THIS(p, &v));}
+static __inline__ void Link(NODE*p,NODE*other){VTENT&v=p->vt[38];((void(*)(void*,NODE*))v.pfn)(VT_THIS(p, &v),other);}
+static __inline__ void Inactive(NODE*p){VTENT&v=p->vt[9];((void(*)(void*))v.pfn)(VT_THIS(p, &v));}
 // name: SafeHouse port (SetSlyMode)
 extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
  if(p->state==state)return;
@@ -254,10 +254,7 @@ extern "C" void SetSlyMode__FP3SLYi(P*p,int state){
 typedef char layout_qword[(sizeof(qword)==16)?1:-1];
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_U[(sizeof(U)==16)?1:-1];
-typedef char layout_VE[(sizeof(VE)==8)?1:-1];
 typedef char layout_BLEND[(sizeof(BLEND)==0x1C)?1:-1];
-typedef char layout_VE_delta[((unsigned long)&((VE*)0)->delta==0x0)?1:-1];
-typedef char layout_VE_fn[((unsigned long)&((VE*)0)->fn==0x4)?1:-1];
 typedef char layout_ASEG_duration[((unsigned long)&((ASEG*)0)->duration==0x74)?1:-1];
 typedef char layout_ASEGA_localTime[((unsigned long)&((ASEGA*)0)->localTime==0x1c)?1:-1];
 typedef char layout_ASEGA_elapsed[((unsigned long)&((ASEGA*)0)->elapsed==0x40)?1:-1];

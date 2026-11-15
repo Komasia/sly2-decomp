@@ -1,6 +1,6 @@
 // Update attachment state and projected velocity.
 typedef int qword __attribute__((mode(TI)));
-struct VT { short d; short pad; void *pfn; };
+#include "vtbl.h"
 #include "clock.h"
 extern char g_sw[];
 extern qword g_normalZ;
@@ -11,7 +11,7 @@ struct MSG { void *x0; int x4; void *x8; int xC; int x10; char pad[0x20 - 0x14];
 struct Q { char pad[0x14]; void *x14; };
 struct V3 { float x, y, z; };
 struct P {
-    char pad0[0xC]; struct VT *vt; char pad1[0x190 - 0x10]; struct V3 v190; char pad2[0x1030 - 0x19C]; struct Q *p1030;
+    char pad0[0xC]; VTENT *vt; char pad1[0x190 - 0x10]; struct V3 v190; char pad2[0x1030 - 0x19C]; struct Q *p1030;
     char pad3[0x131C - 0x1034]; float g131C; char pad4[0x13D8 - 0x1320]; int x13D8; float g13DC; char pad5[0x13E4 - 0x13E0];
     struct LINK *plink;
 };
@@ -26,15 +26,12 @@ static inline void Zero(struct V3 *pv) { pv->z = 0.0f; pv->y = 0.0f; pv->x = 0.0
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char WORD_Size[sizeof(union WORD)==4?1:-1];
-typedef char VT_Size[sizeof(struct VT)==8?1:-1];
 typedef char SIDE_Size[sizeof(struct SIDE)==64?1:-1];
 typedef char LINK_Size[sizeof(struct LINK)==176?1:-1];
 typedef char MSG_Size[sizeof(struct MSG)==96?1:-1];
 typedef char Q_Size[sizeof(struct Q)==24?1:-1];
 typedef char V3_Size[sizeof(struct V3)==12?1:-1];
 typedef char P_Size[sizeof(struct P)==5096?1:-1];
-typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
-typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
 typedef char CLOCK_t_Offset[FIELD_OFFSET(CLOCK,t)==0?1:-1];
 typedef char CLOCK_dt_Offset[FIELD_OFFSET(CLOCK,dt)==4?1:-1];
 typedef char SIDE_x0_Offset[FIELD_OFFSET(SIDE,x0)==0?1:-1];
@@ -83,14 +80,14 @@ void SetMurrayFlopPhase__FP6MURRAYi(struct P *p, int s)
         union { qword q; float f[4]; } u;
         register qword v __asm__("vf3"),up __asm__("vf2"),d __asm__("vf1"),r __asm__("vf1"),k __asm__("vf4");
         register unsigned int bits __asm__("$2");
-        register struct VT*vt __asm__("$5");
+        register VTENT*vt __asm__("$5");
         register int delta __asm__("$4");
         register void(*setter)(void*,qword) __asm__("$2");
         register qword argument __asm__("$5");
-        v=((qword(*)(void*))p->vt[33].pfn)((char*)p+p->vt[33].d);
+        v=((qword(*)(void*))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));
         __asm__("lw %0,%3\n\tlqc2 %1,%4\n\tlui %2,%5":"=&r"(vt),"=j"(up),"=r"(bits):"m"(p->vt),"m"(g_normalZ),"I"(0x2C));
         __asm__("vmul.xyz %0,%3,%4\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z\n\tlw %2,%5":"=&j"(d),"=&j"(k),"+r"(bits):"j"(v),"j"(up),"m"(((int*)bits)[0x9A8/4]));
-        __asm__("vmulx.xyzw %0,%2,%0x\n\tlh %1,%3":"+j"(d),"=r"(delta):"j"(up),"m"(vt[35].d));
+        __asm__("vmulx.xyzw %0,%2,%0x\n\tlh %1,%3":"+j"(d),"=r"(delta):"j"(up),"m"(vt[35].delta));
         __asm__("qmtc2.ni %5,%1\n\tvsub.xyzw %0,%0,%6\n\tlw %2,%8\n\tvadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %3,%7,%1x\n\tqmfc2.ni %4,%3":"+&j"(v),"=&j"(k),"=r"(setter),"=j"(r),"=r"(argument):"r"(bits),"j"(d),"j"(up),"m"(vt[35].pfn));
         u.q=k;
         setter((char*)p+delta,argument);

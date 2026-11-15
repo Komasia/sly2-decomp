@@ -1,3 +1,4 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
@@ -6,9 +7,8 @@ struct M3{U rows[3];};
 struct PL{char pad[0x18];float angle,strength;char pad20[0x10];uint flags;};
 struct ANIM{char pad[0x40];float rate;};
 struct ENTRY{float weight;int active;char pad8[8];U direction;};
-struct VT{short delta,pad;void*fn;};
 struct P{
- char pad[12];VT*vt;char pad10[0x140];PL*input;char pad154[0x3C];U acceleration;
+ char pad[12];VTENT*vt;char pad10[0x140];PL*input;char pad154[0x3C];U acceleration;
  char pad1A0[0x10];M3 orientation;char pad1E0[0xE0];char controller[0x200];char context[0xA40];char requestF00[0x130];
  ANIM*animation;int pad1034,side;char pad103C[0xA0];void*target;
  char pad10E0[0x2F0];int mainState;char pad13D4[0x18];void*root;
@@ -48,7 +48,6 @@ typedef char M3_Size[sizeof(M3)==48?1:-1];
 typedef char PL_Size[sizeof(PL)==52?1:-1];
 typedef char ANIM_Size[sizeof(ANIM)==68?1:-1];
 typedef char ENTRY_Size[sizeof(ENTRY)==32?1:-1];
-typedef char VT_Size[sizeof(VT)==8?1:-1];
 typedef char PL_angle_Offset[FIELD_OFFSET(PL,angle)==24?1:-1];
 typedef char PL_strength_Offset[FIELD_OFFSET(PL,strength)==28?1:-1];
 typedef char PL_flags_Offset[FIELD_OFFSET(PL,flags)==48?1:-1];
@@ -56,8 +55,6 @@ typedef char ANIM_rate_Offset[FIELD_OFFSET(ANIM,rate)==64?1:-1];
 typedef char ENTRY_weight_Offset[FIELD_OFFSET(ENTRY,weight)==0?1:-1];
 typedef char ENTRY_active_Offset[FIELD_OFFSET(ENTRY,active)==4?1:-1];
 typedef char ENTRY_direction_Offset[FIELD_OFFSET(ENTRY,direction)==16?1:-1];
-typedef char VT_delta_Offset[FIELD_OFFSET(VT,delta)==0?1:-1];
-typedef char VT_fn_Offset[FIELD_OFFSET(VT,fn)==4?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_input_Offset[FIELD_OFFSET(P,input)==336?1:-1];
 typedef char P_acceleration_Offset[FIELD_OFFSET(P,acceleration)==400?1:-1];
@@ -89,7 +86,7 @@ extern "C" void UpdateMurrayBehavior__FP6MURRAY(P*p){
     if(!FInteractCircle(p->context,0x80,0)&&p->root){p->reset=0;func_001B6078(p,4);}
    }
    else if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x80,D_002C08DC))StartMurrayPunch(p);
-   else if(GrfPadctlPressedWithin(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].fn)((P*)((char*)p+p->vt[99].delta),3)){
+   else if(GrfPadctlPressedWithin(p->input,0x400,0.15f)&&((int(*)(P*,int))p->vt[99].pfn)((P*)VT_THIS(p, &p->vt[99]),3)){
     ForgetPadctlPresses(p->input,0x400);OpenBinoc(p->requestF00,0,0,0);
    }
    else if(func_001B84E0(p)&&GrfPadctlTakePressed(p->input,0x10,D_002C08DC))func_001B85D0(p);

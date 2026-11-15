@@ -1,8 +1,8 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 struct P;
-struct VE{short delta,pad;void(*fn)();};
-struct P{char pad0[12];VE*vt;char pad10[0x38C-0x10];P*selected;char pad390[0xE20-0x390];void*extra;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x38C-0x10];P*selected;char pad390[0xE20-0x390];void*extra;};
 struct H{char pad0[0x30];P*object;char pad34[16];P*target;char pad48[8];int mode;char pad54[8];P*extra;};
 struct STATE{int kind,pad4,pad8,padC;union{qword data[6];struct{P*object;float amount;char pad18[0x60-8];}s;}payload;};
 struct C{char pad0[16];P*actor;int pad14;H*helper;char pad1C[0x30-0x1C];STATE state;float started,expires;};
@@ -35,18 +35,15 @@ extern "C"{
  int func_0017DE40(H*);
  void NextReaction(C*) asm("NextReaction__8JOBREACT");
 }
-static inline P*Target(P*p){VE*v=&p->vt[88];return ((P*(*)(P*))v->fn)((P*)((char*)p+v->delta));}
-static inline int Mode(P*p){VE*v=&p->vt[77];return ((int(*)(P*))v->fn)((P*)((char*)p+v->delta));}
+static inline P*Target(P*p){VTENT*v=&p->vt[88];return ((P*(*)(P*))v->pfn)((P*)VT_THIS(p, v));}
+static inline int Mode(P*p){VTENT*v=&p->vt[77];return ((int(*)(P*))v->pfn)((P*)VT_THIS(p, v));}
 static inline void Clear(STATE*s){s1_memset(s,0,sizeof(*s));}
 static inline void Attack(C*p,STATE*s,P*object){
  if(func_00208B38(p->actor,object)){s->kind=18;s->payload.s.object=object;s->payload.s.amount=func_00208BB0(p->actor);}
  else{s->kind=3;s->payload.s.object=object;}
 }
 typedef char qword_Size[sizeof(qword)==16?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char STATE_Size[sizeof(STATE)==112?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_selected_Offset[FIELD_OFFSET(P,selected)==908?1:-1];
 typedef char P_extra_Offset[FIELD_OFFSET(P,extra)==3616?1:-1];

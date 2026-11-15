@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];int i[4];};
 struct M3 {U r[3];M3(){} M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];} M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return *this;}};
 struct OWNER {M3 matrix;U position;char pad40[0x60];OWNER *parent;int stamp;char padA8[8];U velocity;};
-struct VT {short delta,pad;void (*fn)(void *);};
-struct P {char padC[0xC];VT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x88];void *enabled;char padEC[4];U force[2];};
+struct P {char padC[0xC];VTENT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x88];void *enabled;char padEC[4];U force[2];};
 struct G {char pad3D58[0x3D58];int stamp;};
 #include "clock.h"
 extern G g_sw;
@@ -91,7 +91,7 @@ extern "C" void ApplyAloVelocityChangesMoving__FP3ALO(P *input)
                 rotation->matrix.r[0].i[3]=0;
                 rotation->stamp=++g_sw.stamp;
             }
-            p->vt[18].fn((char *)p+p->vt[18].delta);
+            ((void (*)(void *))p->vt[18].pfn)(VT_THIS(p, &p->vt[18]));
         }
     }
 }
@@ -121,11 +121,6 @@ typedef char layout_OWNER_position_Offset[((unsigned)&((OWNER*)0)->position==0x3
 typedef char layout_OWNER_parent_Offset[((unsigned)&((OWNER*)0)->parent==0xA0)?1:-1];
 typedef char layout_OWNER_stamp_Offset[((unsigned)&((OWNER*)0)->stamp==0xA4)?1:-1];
 typedef char layout_OWNER_velocity_Offset[((unsigned)&((OWNER*)0)->velocity==0xB0)?1:-1];
-typedef char layout_VT_Size[(sizeof(VT)==8)?1:-1];
-typedef char layout_VT_Alignment[(__alignof__(VT)==4)?1:-1];
-typedef char layout_VT_delta_Offset[((unsigned)&((VT*)0)->delta==0)?1:-1];
-typedef char layout_VT_delta_Size[(sizeof(((VT*)0)->delta)==2)?1:-1];
-typedef char layout_VT_fn_Offset[((unsigned)&((VT*)0)->fn==4)?1:-1];
 typedef char layout_P_PrefixSize[(sizeof(P)==0x110)?1:-1];
 typedef char layout_P_Alignment[(__alignof__(P)==16)?1:-1];
 typedef char layout_P_vt_Offset[((unsigned)&((P*)0)->vt==0xC)?1:-1];

@@ -48,13 +48,12 @@ struct EMITV {
 typedef char check_emitp[(sizeof(EMITP) == 0x40) ? 1 : -1];
 typedef char check_emitv[(sizeof(EMITV) == 0x70) ? 1 : -1];
 
-struct VTE { short d; short pad; qword (*pfn)(void *); };
-struct VT { VTE a[64]; };
+#include "vtbl.h"
+struct VT { VTENT a[64]; };
 struct XE8 { char pad[0x80]; qword v; };
 struct SO { int x0, x4, x8; VT *pvt; char pad10[0xE8 - 0x10]; XE8 *pxE8; };
 struct SND { char pad[0x170]; float t; void *psnd; };
-struct EVT { short d; short pad; void (*pfn)(void *, float, qword, int); };
-struct EVTT { EVT a[4]; };
+struct EVTT { VTENT a[4]; };
 struct EX { char pad[0x18]; int id; };
 struct WATER { char pad[0x18]; int x18; char pad1c[0x178 - 0x1C]; EX *px178; EX *px17C; int x180; };
 struct RIP { char pad[0x1C]; EX *pex; float g20; float g24; char pad28[0xEC - 0x28]; EVTT *pvt; };
@@ -113,8 +112,8 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
 void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac, float gScale)
 {
     float g = 0.0f;
-    VTE *pvte = &p->pvt->a[33];
-    float d = GetX(Length(Sub(pos, pvte->pfn((char *)p + pvte->d))));
+    VTENT *pvte = &p->pvt->a[33];
+    float d = GetX(Length(Sub(pos, ((qword (*)(void *))pvte->pfn)(VT_THIS(p, pvte)))));
     int fWake = GRandInRange(g, 3.0f) < dt;
     SND *psnd;
     float t, u;
@@ -151,8 +150,8 @@ void WakeSoWater(SO *p, WATER *pwater, qword pos, qword v, float dt, float gFrac
         if (fWake && pwater->px17C) {
             RIP *prip = FLaunchHudRip(g_sw, 7, 0);
             if (prip) {
-                EVT *pe = &prip->pvt->a[1];
-                pe->pfn((char *)prip + pe->d, gScale, v, 0);
+                VTENT *pe = &prip->pvt->a[1];
+                ((void (*)(void *, float, qword, int))pe->pfn)(VT_THIS(prip, pe), gScale, v, 0);
                 prip->g20 = gScale;
                 prip->g24 = gScale * 0.6f;
                 prip->pex = pwater->px17C;

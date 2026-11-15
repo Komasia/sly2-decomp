@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int i[4]; };
 struct M3 { U r[3]; M3(){} M3(const M3 &m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];} M3 &operator=(const M3 &m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return *this;} };
 struct LO { M3 matrix; U position; M3 rotation; char pad[0x30]; LO *parent; int stamp; };
-struct VTE { short delta,pad; void (*fn)(void *); };
-struct P { char pad[0xC]; VTE *vt; char pad10[0x4C]; LO *object; };
+struct P { char pad[0xC]; VTENT *vt; char pad10[0x4C]; LO *object; };
 struct G { char pad[0x3D58]; int stamp; };
 extern G g_sw;
 extern "C" M3 InverseMatrix3(const M3 *) asm("InverseMatrix3__FP7MATRIX3");
@@ -43,7 +43,7 @@ extern "C" void SetAloRotation__FP3ALOP7MATRIX3(P *p,const M3 *basis)
         dest->r[2].i[3]=0;
         int stamp=++g_sw.stamp;
         p->object->stamp=stamp;
-        p->vt[18].fn((char *)p+p->vt[18].delta);
+        ((void (*)(void *))p->vt[18].pfn)(VT_THIS(p, &p->vt[18]));
         DetachAloContacts(p);
         HoldXfMode(p,p->object);
         CopyAloSoeMatrices(p);

@@ -16,14 +16,14 @@
  *  - AddScaled lists its vector input twice (allocation only): the velocity read then outranks the tied
  *    force/acceleration quantity (8 vs 6 refs), so it gets vf1 as in the target.
  */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct M4 { qword r[4]; };
 struct SPACE { char pad[0x40]; M4 matrix; };
-struct VT { short delta, pad; M4 *(*fn)(void *); };
-struct PATH { char pad[0xC]; VT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
+struct PATH { char pad[0xC]; VTENT *vt; char pad10[0xE8 - 0x10]; int count; int padEC; float *dist; U *pos; };
 struct CHAIN
 {
     qword force;
@@ -138,8 +138,8 @@ void StepRopeTrail(CHAIN *p)
     M4 inverse;
     {
         PATH *path = p->path;
-        VT *e = &path->vt[31];
-        InverseAffineMatrix4(&inverse, e->fn((char *)path + e->delta));
+        VTENT *e = &path->vt[31];
+        InverseAffineMatrix4(&inverse, ((M4 * (*)(void *))e->pfn)(VT_THIS(path, e)));
     }
     for (i = 0; i < n; i++)
     {

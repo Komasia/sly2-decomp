@@ -1,15 +1,15 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int bits[4];void Clear(){bits[0]=bits[1]=bits[2]=0;}};
-struct VE{short delta,pad;void(*fn)();};
-struct ASEGA{char pad[12];VE*vt;};
+struct ASEGA{char pad[12];VTENT*vt;};
 struct ASEG;
 struct COMPONENT;
 struct CONTROL{char pad[0x18];float yaw;};
 struct VALUE{char pad[0x20];U value;};
 struct INNER{char pad[0x60];VALUE*value;};
 struct RIG{char pad[0xA8];INNER*inner;};
-struct P{char pad0[12];VE*vt;char pad10[0x150-0x10];CONTROL*control;char pad154[8];int frozen;char pad160[0x190-0x160];U zero;char pad1A0[8];float yaw;int pad1AC;U forward;char pad1C0[0x1030-0x1C0];ASEGA*asega;COMPONENT*component;char pad1038[0x19B8-0x1038];RIG*first;RIG*second;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x150-0x10];CONTROL*control;char pad154[8];int frozen;char pad160[0x190-0x160];U zero;char pad1A0[8];float yaw;int pad1AC;U forward;char pad1C0[0x1030-0x1C0];ASEGA*asega;COMPONENT*component;char pad1038[0x19B8-0x1038];RIG*first;RIG*second;};
 struct C{P*actor;int mode;float time;char padC[0x98-12];float changed;int pad9C;ASEG*clips[13];ASEG*Default(int next){ASEG**base=clips;int offset=next<8?0:0x20;return *(ASEG**)((char*)base+offset);}};
 #include "clock.h"
 struct CM{char pad[0x90];U position;};
@@ -35,9 +35,9 @@ extern "C"{
  void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
  void ReplaceSmaHandle(void*,P*,int,void*,COMPONENT**) asm("ReplaceSmaHandle__FP2SMi3OIDiPP3SMA");
 }
-static inline qword Vector(P*p){VE*v=&p->vt[33];return ((qword(*)(P*))v->fn)((P*)((char*)p+v->delta));}
-static inline void SetVector(P*p,qword q){VE*v=&p->vt[36];((void(*)(P*,qword))v->fn)((P*)((char*)p+v->delta),q);}
-static inline void Invoke(P*p,int slot){VE*v=&p->vt[slot];((void(*)(P*))v->fn)((P*)((char*)p+v->delta));}
+static inline qword Vector(P*p){VTENT*v=&p->vt[33];return ((qword(*)(P*))v->pfn)((P*)VT_THIS(p, v));}
+static inline void SetVector(P*p,qword q){VTENT*v=&p->vt[36];((void(*)(P*,qword))v->pfn)((P*)VT_THIS(p, v),q);}
+static inline void Invoke(P*p,int slot){VTENT*v=&p->vt[slot];((void(*)(P*))v->pfn)((P*)VT_THIS(p, v));}
 static inline qword Position(){
  register CM*manager __asm__("$2")=&g_cm;
  register qword value __asm__("$2");
@@ -63,7 +63,6 @@ static inline float ClampKnownLower(float value,float lo,LIMIT*range){
  return value;
 }
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char POLY_Size[sizeof(POLY)==12?1:-1];
 typedef char LIMIT_Size[sizeof(LIMIT)==8?1:-1];
 typedef char C_actor_Offset[FIELD_OFFSET(C,actor)==0?1:-1];

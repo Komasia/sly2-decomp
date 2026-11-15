@@ -1,11 +1,11 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];int i[4];};
 struct M3 {U r[3];M3(){} M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];} M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return *this;}};
 struct OWNER {M3 matrix;U position;char pad40[0x60];OWNER *parent;int stamp;char padA8[8];U velocity;};
 struct NODE {char pad10[0x10];unsigned long flags;char pad18[0x48];NODE *next;};
 struct E {char pad34[0x34];NODE *first;};
-struct VT {short delta,pad;void (*fn)(void *);};
-struct P {char padC[0xC];VT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x8C];E *e;};
+struct P {char padC[0xC];VTENT *vt;char pad10[0x48];OWNER *position,*rotation;char pad60[0x8C];E *e;};
 struct G {char pad3D58[0x3D58];int stamp;};
 #include "clock.h"
 extern G g_sw;
@@ -54,7 +54,7 @@ extern "C" void StepAloBackHalfFrame__FP3ALO(P *p)
     {M3 *dest=&rotation->matrix;*dest=frame;dest->r[1].i[3]=0;dest->r[2].i[3]=0;dest->r[0].i[3]=0;}
     rotation->stamp=++global->stamp;
     Clear(rotationVelocity);
-    p->vt[18].fn((char*)p+p->vt[18].delta);
+    ((void (*)(void *))p->vt[18].pfn)(VT_THIS(p, &p->vt[18]));
     CopyAloSoeMatrices(p);
     if(p->e){
         for(node=p->e->first;node;node=node->next){

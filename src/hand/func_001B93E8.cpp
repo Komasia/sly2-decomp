@@ -1,29 +1,26 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 union U { qword q; float f[4]; int i[4]; };
 struct M4 { U row[4]; };
-struct VTE { short delta,pad; void *fn; };
 struct NODE { M4 local,world; char pad80[0x18]; short state; char pad9A[6]; NODE*parent; };
-struct OWNER { char pad[0xC]; VTE*vt; char pad10[0x18]; ulong flags; char pad30[0x28]; NODE*left,*right; };
+struct OWNER { char pad[0xC]; VTENT*vt; char pad10[0x18]; ulong flags; char pad30[0x28]; NODE*left,*right; };
 struct ASEG;
 struct EVENT { float time; int kind,tag,pad; };
 struct ANIM { char pad[0x14]; ASEG*clip; int pad18; float time; char pad20[0x20]; float rate; };
 struct ROOT { char pad[0x60]; NODE*node; };
 struct PROXY { char pad[0x1C]; int active; };
-struct GOAL { char pad[0xC]; VTE*vt; };
+struct GOAL { char pad[0xC]; VTENT*vt; };
 struct STRETCH { void*frame; NODE*first,*second; char padC[0x94]; U position; char padB0[0x1C]; float tuning; };
 struct MOTION;
 struct LINK { char pad[0x180]; OWNER*owner; char pad184[0xC]; GOAL*first; int pad194; GOAL*second; };
-struct P { char pad[0xC]; VTE*vt; char pad10[0x50]; NODE*node; char pad64[0x12C]; U velocity; char pad1A0[0xE90]; ANIM*anim; char pad1034[0x54]; PROXY*proxy; char pad108C[0x360]; ROOT*root; LINK*link; MOTION*m13F4,*m13F8,*m13FC,*m1400; int oldLeft,oldRight; char pad140C[0x3C]; int flag,pad144C,state; float time; char pad1458[0x19C]; NODE*targetFirst; int pad15F8; NODE*targetSecond; int pad1600; MOTION*m1604; int pad1608; MOTION*m160C; STRETCH*first,*second; MOTION*m1618,*m161C,*m1620,*m1624; };
+struct P { char pad[0xC]; VTENT*vt; char pad10[0x50]; NODE*node; char pad64[0x12C]; U velocity; char pad1A0[0xE90]; ANIM*anim; char pad1034[0x54]; PROXY*proxy; char pad108C[0x360]; ROOT*root; LINK*link; MOTION*m13F4,*m13F8,*m13FC,*m1400; int oldLeft,oldRight; char pad140C[0x3C]; int flag,pad144C,state; float time; char pad1458[0x19C]; NODE*targetFirst; int pad15F8; NODE*targetSecond; int pad1600; MOTION*m1604; int pad1608; MOTION*m160C; STRETCH*first,*second; MOTION*m1618,*m161C,*m1620,*m1624; };
 #include "clock.h"
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char M4_Size[sizeof(M4)==64?1:-1];
-typedef char VTE_Size[sizeof(VTE)==8?1:-1];
 typedef char EVENT_Size[sizeof(EVENT)==16?1:-1];
 typedef char STRETCH_Size[sizeof(STRETCH)==208?1:-1];
-typedef char VTE_delta_Offset[FIELD_OFFSET(VTE,delta)==0?1:-1];
-typedef char VTE_fn_Offset[FIELD_OFFSET(VTE,fn)==4?1:-1];
 typedef char M4_row_Offset[FIELD_OFFSET(M4,row)==0?1:-1];
 typedef char NODE_state_Offset[FIELD_OFFSET(NODE,state)==152?1:-1];
 typedef char NODE_parent_Offset[FIELD_OFFSET(NODE,parent)==160?1:-1];
@@ -124,10 +121,10 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   if(FIsBasicDerivedFrom(owner,0x38))ReactGuardHeld(owner,(int)p);
   PickupVelocities(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
   p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.t+duration,work.row[1].q,work.row[3].q);
-  VTE*entry=&owner->vt[35];
-  void*receiver=(char*)owner+entry->delta;
+  VTENT*entry=&owner->vt[35];
+  void*receiver=VT_THIS(owner, entry);
   qword velocity=VecConvertXfs(owner->left->parent,0,work.row[2].q);
-  ((void(*)(void*,qword))entry->fn)(receiver,velocity);
+  ((void(*)(void*,qword))entry->pfn)(receiver,velocity);
   p->m1400=PctrlNewPos(owner,owner->right,(void*)5,7,2,work.row[0].q);
   break;
  }
@@ -152,7 +149,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   if(p->link->first){
    GOAL*goal=p->link->first;
    STRETCH*stretch=p->first;
-   stretch->frame=((void*(*)(void*,M4*))goal->vt[32].fn)((char*)goal+goal->vt[32].delta,&frame);
+   stretch->frame=((void*(*)(void*,M4*))goal->vt[32].pfn)(VT_THIS(goal, &goal->vt[32]),&frame);
    stretch->position=frame.row[3];
    stretch->tuning=D_002C0A3C;
    p->m1618=func_0012DD28(p,stretch->first,(void*)5,stretch);
@@ -162,7 +159,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   if(p->link->second){
    GOAL*goal=p->link->second;
    STRETCH*stretch=p->second;
-   stretch->frame=((void*(*)(void*,M4*))goal->vt[32].fn)((char*)goal+goal->vt[32].delta,&frame);
+   stretch->frame=((void*(*)(void*,M4*))goal->vt[32].pfn)(VT_THIS(goal, &goal->vt[32]),&frame);
    stretch->position=frame.row[3];
    stretch->tuning=D_002C0A40;
    p->m1620=func_0012DD28(p,stretch->first,(void*)5,stretch);

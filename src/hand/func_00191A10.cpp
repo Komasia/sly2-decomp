@@ -10,15 +10,15 @@
 // - GFromVf: one mtc1 asm from a TI qword (gcc emits the qmfc2 itself and schedules it).
 // - SqrtF: the usual volatile "=&f" sqrt.s helper (local-alloc must not tie it to its input).
 // - case 2 falls through into case 4; slow-path step choice is a ternary (blocks thread_jumps).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 
 union U { qword q; float f[4]; int i[4]; };
 struct M3 { U r[3]; };
-struct VTE { short delta, pad; void *fn; };
 struct JOY { char pad0[0x10]; float x, y, heading, amount; };
 struct ANIM { char pad0[0x14]; void *table; char pad18[4]; float phase; char pad20[0x20]; float rate; };
-struct COMPONENT { VTE *vt; };
+struct COMPONENT { VTENT *vt; };
 struct BINDING { int key; COMPONENT *component; };
 struct SMP { float svFast, svSlow, dtFast; };
 struct HEIGHT { float min, max; };
@@ -26,7 +26,7 @@ struct ENTRY { float weight; int active; char pad8[8]; U direction; };
 struct PROGRAM { void *owner; void *clip; char pad8[0x18]; float x20; char pad24[0x3C]; float x60; char pad64[0x40]; };
 struct FOCUS { char pad0[0xE4]; int cyclic; char padE8[0x18C - 0xE8]; int enabled; char pad190[0x1BC - 0x190]; uint flags; char pad1C0[8]; FOCUS *other; };
 struct ACTOR {
-    char pad0[0xC]; VTE *vt; char pad10[0x150 - 0x10]; JOY *pjoy; char pad154[0x190 - 0x154]; U velocity;
+    char pad0[0xC]; VTENT *vt; char pad10[0x150 - 0x10]; JOY *pjoy; char pad154[0x190 - 0x154]; U velocity;
     char pad1A0[8]; float heading; char pad1AC[4]; M3 local; char pad1E0[0x218 - 0x1E0]; qword *ppos;
     char pad21C[0x2C0 - 0x21C]; char control[0x1024 - 0x2C0]; void *x1024; char pad1028[0x1030 - 0x1028]; ANIM *anim;
     char pad1034[0x1040 - 0x1034]; int role; char pad1044[0x1520 - 0x1044]; char x1520[0x100]; char x1620[0x19D4 - 0x1620];
@@ -80,12 +80,12 @@ void RebuildSlyFootProbe(ACTOR *, void *, void *, void *, float, void *) asm("Re
 void func_00193C98(ACTOR *, void *, void *);
 }
 
-static inline qword GetVelocity(ACTOR *p) { VTE &v = p->vt[33]; return ((qword (*)(void *))v.fn)((char *)p + v.delta); }
+static inline qword GetVelocity(ACTOR *p) { VTENT &v = p->vt[33]; return ((qword (*)(void *))v.pfn)(VT_THIS(p, &v)); }
 static inline void ReadBinding(BINDING *b, ANIM *a, U *out)
 {
     COMPONENT *c = b->component;
-    VTE &v = c->vt[3];
-    ((void (*)(void *, int, U *, float, float))v.fn)((char *)c + v.delta, 0, out, a->phase, a->rate);
+    VTENT &v = c->vt[3];
+    ((void (*)(void *, int, U *, float, float))v.pfn)(VT_THIS(c, &v), 0, out, a->phase, a->rate);
 }
 
 static inline VU_FLOAT VuFloat(float g) { VU_FLOAT v; __asm__("qmtc2.ni %1,%0" : "=j"(v.q) : "r"(g)); return v; }

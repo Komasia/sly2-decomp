@@ -10,18 +10,15 @@ struct LO;
 struct STEPPLAYER;
 struct SMP { float g0, g4, g8; };
 
-struct VTGRAB1 { short d; short pad; int (*pfn)(void *, float *); };
-struct VTGRAB3 { short d; short pad; void (*pfn)(void *, STEPPLAYER *, qword *, void *, float); };
-union VTGRAB { VTGRAB1 v1; VTGRAB3 v3; };
-struct VTLO { short d; short pad; void (*pfn)(void *, qword); };
+#include "vtbl.h"
 
 struct GRABSPOT {
     char pad0[0x14];
     int nUnk14;          // hint text id, -1 for none
     char pad18[0x20 - 0x18];
-    VTGRAB *pvt;         // slot 1: int FGetWrapRange(float *pasRange)
+    VTENT *pvt;         // slot 1: int FGetWrapRange(float *pasRange)
 };
-struct LO { char pad0[0xC]; VTLO *pvt; };
+struct LO { char pad0[0xC]; VTENT *pvt; };
 
 struct JTGRABCAND {
     LO *plo;
@@ -88,7 +85,7 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
                     pcandOld->dsParam = 0.0f;
                 } else {
                     float sRange;
-                    int fWrap = pcand->pspot->pvt[1].v1.pfn((char *)pcand->pspot + pcand->pspot->pvt[1].v1.d, asRange);
+                    int fWrap = ((int (*)(void *, float *))pcand->pspot->pvt[1].pfn)(VT_THIS(pcand->pspot, &pcand->pspot->pvt[1]), asRange);
                     if (fWrap) {
                         float ds;
                         sRange = asRange[1] - asRange[0];
@@ -124,8 +121,8 @@ void TrackJt(SW *psw, STEPPLAYER *pstepplayer, int ccand, JTGRABCAND *ajtgrabcan
                             pcandOld->sParam = pcandOld->sParam + sRange;
                     }
                     GRABSPOT *pspot = pcandOld->pspot;
-                    pspot->pvt[3].v3.pfn((char *)pspot + pspot->pvt[3].v3.d, pstepplayer, &qwPos, 0, pcandOld->sParam);
-                    pcandOld->ploUnk10->pvt[29].pfn((char *)pcandOld->ploUnk10 + pcandOld->ploUnk10->pvt[29].d, qwPos);
+                    ((void (*)(void *, STEPPLAYER *, qword *, void *, float))pspot->pvt[3].pfn)(VT_THIS(pspot, &pspot->pvt[3]), pstepplayer, &qwPos, 0, pcandOld->sParam);
+                    ((void (*)(void *, qword))pcandOld->ploUnk10->pvt[29].pfn)(VT_THIS(pcandOld->ploUnk10, &pcandOld->ploUnk10->pvt[29]), qwPos);
                 }
                 s1_memmove(pcand, pcand + 1, (ccand - j) * (int)sizeof(JTGRABCAND) - (int)sizeof(JTGRABCAND));
                 ccand--;

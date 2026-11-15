@@ -1,4 +1,5 @@
 // Emit an oriented particle in the supplied parent space.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M3 {qword r[3];};
@@ -6,8 +7,7 @@ struct LO {char pad158[0x158];float height;};
 struct POLY {float a,b,c;};
 struct EMIT {char pad8[8];LO*owner;char padC[8];float start,duration;char pad1C[4];POLY size;};
 struct O;
-struct VE {short delta,pad;void(*fn)(void*,qword,int,float);};
-struct O {char pad18[0x18];float duration;LO*visual;char pad20[8];float spin;char pad2C[0x14];M3 matrix;U position;char pad80[0x10];U velocity;char padA0[0x4C];VE*vt;LO*space;};
+struct O {char pad18[0x18];float duration;LO*visual;char pad20[8];float spin;char pad2C[0x14];M3 matrix;U position;char pad80[0x10];U velocity;char padA0[0x4C];VTENT*vt;LO*space;};
 #include "clock.h"
 extern char g_sw[];
 extern qword D_002A2DA0,D_002A2DB0,g_normalZ;
@@ -40,7 +40,7 @@ O *PripDecal(EMIT*p,LO*visual,LO*space,qword position,qword direction){
    U local;local.q=PosConvertXfs(0,space,position);
    float size=Polynomial(&p->size,(g_clock.t-p->start)/p->duration);
    size*=GRandInRange(0.8f,1.4f);
-   object->vt[1].fn((char*)object+object->vt[1].delta,local.q,0,size);
+   ((void (*)(void*,qword,int,float))object->vt[1].pfn)(VT_THIS(object, &object->vt[1]),local.q,0,size);
    object->visual=visual;object->duration=5.0f;object->spin=-size;object->space=space;
    M3 frame;frame.r[2]=direction;
    BuildOrthonormalVectors(direction,D_002A2DA0,D_002A2DB0,frame.r);

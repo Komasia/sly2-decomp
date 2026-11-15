@@ -1,13 +1,13 @@
 // Smooth movement and update directional animation weights.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M3{qword r[3];};
 struct M4{qword r[4];};
-struct VTE{short delta,pad;void*fn;};
-struct O{char pad[0xC];VTE*vt;};
+struct O{char pad[0xC];VTENT*vt;};
 struct PARAM{char pad[0x10];float y,z;int pad18;float weight;};
 struct ANIM;
-struct P{char pad[0xC];VTE*vt;char pad10[0x140];PARAM*params;char pad154[0x5C];M3 matrix;char pad1E0[0x16E4];O*object;char pad18C8[0x698];float base;char pad1F64[8];float left;char pad1F70[8];float middle;char pad1F7C[8];float right;char pad1F88[8];ANIM*anim;float amount,weight;char pad1F9C[4];qword offset;};
+struct P{char pad[0xC];VTENT*vt;char pad10[0x140];PARAM*params;char pad154[0x5C];M3 matrix;char pad1E0[0x16E4];O*object;char pad18C8[0x698];float base;char pad1F64[8];float left;char pad1F70[8];float middle;char pad1F7C[8];float right;char pad1F88[8];ANIM*anim;float amount,weight;char pad1F9C[4];qword offset;};
 #include "clock.h"
 struct SMP{float a,b,c;};
 extern "C" M3 D_002DDFA0;
@@ -72,7 +72,7 @@ static inline float SmoothInputs(M4*source,const CLOCK*clock,float factor,unsign
 
 // name: SafeHouse port (UpdateSlyHangFollow)
 extern "C" void UpdateSlyHangFollow__FP3SLY(P*p){
- M4 m=*((M4*(*)(void*))p->object->vt[31].fn)((char*)p->object+p->object->vt[31].delta);
+ M4 m=*((M4*(*)(void*))p->object->vt[31].pfn)(VT_THIS(p->object, &p->object->vt[31]));
  U direction,position,scratch,negative;
  *(M3*)&p->matrix=*(M3*)&m;
  M4*current=MatJtLo(p);
@@ -80,10 +80,10 @@ extern "C" void UpdateSlyHangFollow__FP3SLY(P*p){
  float factor=0.5f;
  unsigned samplePage=SmoothSamplePage();M3*receiver,*optional;SMP*sample;float smoothDt=SmoothInputs(current,clock,factor,samplePage,receiver,optional,sample);
  SmoothMatrix(receiver,&p->matrix,sample,optional,&direction.q,smoothDt);
- ((void(*)(void*,qword))p->vt[36].fn)((char*)p+p->vt[36].delta,direction.q);
+ ((void(*)(void*,qword))p->vt[36].pfn)(VT_THIS(p, &p->vt[36]),direction.q);
  U target;P*owner=NegativeTarget(m,p->offset,&negative,&scratch,&target,p);
  (void)PosSmooth(PosOfLo(owner),target.q,&D_002BF408,&position.q,clock->dt*factor);
- ((void(*)(void*,qword))p->vt[35].fn)((char*)p+p->vt[35].delta,position.q);
+ ((void(*)(void*,qword))p->vt[35].pfn)(VT_THIS(p, &p->vt[35]),position.q);
  qword relative;
  {
   register PARAM*params __asm__("$3");register M3*camera __asm__("$2");register float zero __asm__("$f2");
@@ -121,7 +121,6 @@ typedef char Pointer_Size[(sizeof(void*)==4)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char M3_Size[(sizeof(M3)==48)?1:-1];
 typedef char M4_Size[(sizeof(M4)==64)?1:-1];
-typedef char VTE_Size[(sizeof(VTE)==8)?1:-1];
 typedef char O_Size[(sizeof(O)==16)?1:-1];
 typedef char PARAM_Size[(sizeof(PARAM)==32)?1:-1];
 typedef char SMP_Size[(sizeof(SMP)==12)?1:-1];
@@ -135,8 +134,6 @@ typedef char U_q_Offset[((unsigned)&((U*)0)->q==0)?1:-1];
 typedef char U_f_Offset[((unsigned)&((U*)0)->f==0)?1:-1];
 typedef char M3_r_Offset[((unsigned)&((M3*)0)->r==0)?1:-1];
 typedef char M4_r_Offset[((unsigned)&((M4*)0)->r==0)?1:-1];
-typedef char VTE_delta_Offset[((unsigned)&((VTE*)0)->delta==0)?1:-1];
-typedef char VTE_fn_Offset[((unsigned)&((VTE*)0)->fn==4)?1:-1];
 typedef char O_vt_Offset[((unsigned)&((O*)0)->vt==12)?1:-1];
 typedef char PARAM_y_Offset[((unsigned)&((PARAM*)0)->y==16)?1:-1];
 typedef char PARAM_z_Offset[((unsigned)&((PARAM*)0)->z==20)?1:-1];

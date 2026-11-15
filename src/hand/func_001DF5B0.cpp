@@ -14,14 +14,14 @@
 //  * BuildLookAtMatrix / func_0011C210 return M3 / M4 by value (hidden result pointer), assigned to locals.
 //  * `matrix` is declared at link-loop scope and the facing branch writes rows 1/2 and the corner through a pointer
 //    (pm), rows 0 and the w words directly: that is the mixed sp / s2 addressing of the original.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int bits[4]; };
 struct M3 { U rows[3]; };
 struct M4 { U rows[4]; };
 struct ENTRY { char pad0[0x144]; float maximumLength; char pad148[8]; };
 struct CONFIG { char pad0[0x1C]; float first; char pad20[0x20]; float second; };
-struct VENTRY { short delta, pad; void (*fn)(void *, U *, int, float, float); };
-struct HOOK { VENTRY *vt; };
+struct HOOK { VTENT *vt; };
 struct ENDPOINT { void *object; int unused4; CONFIG *config; HOOK *scale; };
 struct BOUND { char pad0[0x20]; U position; float radius; };
 struct P {
@@ -127,8 +127,8 @@ extern "C" void CollectLaserDraws__FP3ALO(P *p)
                 if (end->scale) {
                     U scale;
                     HOOK *hook = end->scale;
-                    VENTRY &callback = hook->vt[3];
-                    callback.fn((char *)hook + callback.delta, &scale, 0, end->config->first, end->config->second);
+                    VTENT &callback = hook->vt[3];
+                    ((void (*)(void *, U *, int, float, float))callback.pfn)(VT_THIS(hook, &callback), &scale, 0, end->config->first, end->config->second);
                     matrix = func_0011C210(points[j].q, &basis, &scale);
                 } else {
                     M4 *pm = &matrix;

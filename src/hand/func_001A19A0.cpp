@@ -1,12 +1,12 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 struct P;
 struct C;
 typedef void(C::*ACTION)();
-struct VE{short delta,pad;void(*fn)();};
 struct COUNT{int a,b,c;};
 struct W{char pad[0x158];COUNT*count;};
-struct P{char pad0[12];VE*vt;char pad10[0x29C-0x10];int guard;char pad2A0[0x4C8-0x2A0];int mode;char pad4CC[8];P*delegate;char pad4D8[0xFBC-0x4D8];int state;char padFC0[0x11A8-0xFC0];W*widget;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x29C-0x10];int guard;char pad2A0[0x4C8-0x2A0];int mode;char pad4CC[8];P*delegate;char pad4D8[0xFBC-0x4D8];int state;char padFC0[0x11A8-0xFC0];W*widget;};
 struct RECORD{P*object;int pad4,pad8;int flags;int delta;char pad14[0x30-0x14];int a,b,c;char pad3C[0x60-0x3C];}__attribute__((aligned(16)));
 struct C{P*actor;int kind;char pad8[8];int*counter;char pad14[8];ACTION action;char pad24[0x30-0x24];RECORD record;int mode;float time,changed;char pad9C[0x108-0x9C];void*effect;void*output;
  void Reaction() __asm__("NextGetUp__FP5ACTOR");
@@ -36,15 +36,14 @@ extern "C"{
  void*func_00156698(int,qword,P*);
 }
 static inline int Add32(int a,int b){return (int)((unsigned)a+(unsigned)b);}
-static inline int Reject(P*p,int flags){VE*v=&p->vt[76];return ((int(*)(P*,int))v->fn)((P*)((char*)p+v->delta),flags);}
-static inline int Delegate(P*p,RECORD*r){VE*v=&p->vt[75];return ((int(*)(P*,RECORD*))v->fn)((P*)((char*)p+v->delta),r);}
-static inline qword Vector(P*p,int slot){VE*v=&p->vt[slot];return ((qword(*)(P*))v->fn)((P*)((char*)p+v->delta));}
-static inline void SetVector(P*p,int slot,qword value){VE*v=&p->vt[slot];((void(*)(P*,qword))v->fn)((P*)((char*)p+v->delta),value);}
-static inline void Notify(P*p,int value){VE*v=&p->vt[88];((void(*)(P*,int))v->fn)((P*)((char*)p+v->delta),value);}
+static inline int Reject(P*p,int flags){VTENT*v=&p->vt[76];return ((int(*)(P*,int))v->pfn)((P*)VT_THIS(p, v),flags);}
+static inline int Delegate(P*p,RECORD*r){VTENT*v=&p->vt[75];return ((int(*)(P*,RECORD*))v->pfn)((P*)VT_THIS(p, v),r);}
+static inline qword Vector(P*p,int slot){VTENT*v=&p->vt[slot];return ((qword(*)(P*))v->pfn)((P*)VT_THIS(p, v));}
+static inline void SetVector(P*p,int slot,qword value){VTENT*v=&p->vt[slot];((void(*)(P*,qword))v->pfn)((P*)VT_THIS(p, v),value);}
+static inline void Notify(P*p,int value){VTENT*v=&p->vt[88];((void(*)(P*,int))v->pfn)((P*)VT_THIS(p, v),value);}
 static inline float Z(qword value){register int word __asm__("$9");float result;__asm__("pextuw %0,$zero,%1":"=r"(word):"r"(value));__asm__("mtc1 %1,%0":"=f"(result):"r"(word));return result;}
 typedef char RECORD_Size[sizeof(RECORD)==96?1:-1];
 typedef char ACTION_Size[sizeof(ACTION)==8?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char C_actor_Offset[FIELD_OFFSET(C,actor)==0?1:-1];
 typedef char C_kind_Offset[FIELD_OFFSET(C,kind)==4?1:-1];

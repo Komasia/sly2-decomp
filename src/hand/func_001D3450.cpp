@@ -7,6 +7,7 @@
 //  3. two support passes pair points by surface, find the deepest tangency of the wheel circle with each support plane,
 //     and post the best one as a kind-10 contact (PxpAdd 0x1A7C18).
 // Names follow Lilly's SphereBspContacts port (SURF/EDGE/BSP/LSG/GEOM/STACKSCOPE/PvAllocStack). Notes: notes/190000-1F0000_lanes.md.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 typedef unsigned short ushort;
@@ -37,9 +38,8 @@ struct STACKSCOPE;
 extern "C" STACKSCOPE *__10STACKSCOPE(STACKSCOPE *);
 extern "C" void _$_10STACKSCOPE(STACKSCOPE *, int);
 struct STACKSCOPE { STACKSCOPE(); ~STACKSCOPE(); };
-struct VTE { short delta, pad; M4 *(*pfn)(void *); };
 struct SHAPE;
-struct OWNER { char pad0[0xC]; VTE *vt; char pad10[0xE4 - 0x10]; SHAPE *shape; };
+struct OWNER { char pad0[0xC]; VTENT *vt; char pad10[0xE4 - 0x10]; SHAPE *shape; };
 struct WHEEL { char pad0[0x20]; float radius, bottom, top; char pad2C[0x24]; qword pos; };
 struct CONTACT;
 struct GAME;
@@ -61,7 +61,7 @@ qword func_001193D8(M4 *, qword);
 void PxpAddSw(GAME *, SHAPE *, SOPART *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");
 }
 
-static inline M4 *GetMatrix(OWNER *p) { return p->vt[31].pfn((char *)p + p->vt[31].delta); }
+static inline M4 *GetMatrix(OWNER *p) { return ((M4 * (*)(void *))p->vt[31].pfn)(VT_THIS(p, &p->vt[31])); }
 static inline void *PvAllocStack(int cb) { SWALLOC swalloc; swalloc.cb = cb; swalloc.cbAlign = 0x10; return PvAllocStackImpl(&swalloc); }
 static inline void ClearAb(void *pv, int cb) { s1_memset(pv, 0, cb); }
 static inline float Sqrt(float f) { float r; __asm__ __volatile__("sqrt.s %0,%1" : "=&f"(r) : "f"(f)); return r; }

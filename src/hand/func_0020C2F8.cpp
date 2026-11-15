@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct ALO;
-struct VENTRY {short delta,pad;void (*fn)(void *,qword);};
 struct SPACE {char pad0[0x70];U position;char pad80[0x20];SPACE *parent;};
-struct ALO {char pad0[0xC];VENTRY *vt;char pad10[0x48];SPACE *space;char pad5C[0xEC];unsigned long flags;char pad150[0x348];void *control;};
+struct ALO {char pad0[0xC];VTENT *vt;char pad10[0x48];SPACE *space;char pad5C[0xEC];unsigned long flags;char pad150[0x348];void *control;};
 struct ASEG;
 struct ASEGA {char pad0[0x40];float playbackRate;};
 struct TUNING {int unused0;ASEG *animation;int unused8;float afterStart,afterEnd,flightTime,minimumTime;int unused1C;U acceleration;};
@@ -88,9 +88,9 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
         }else time=motionTuning->flightTime/playbackRate;
         time=Max(p->tuning->minimumTime/playbackRate,time);
         ALO *subject=p->subject;
-        VENTRY &entry=subject->vt[35];
+        VTENT &entry=subject->vt[35];
         short adjustment=entry.delta;
-        void (*applyVelocity)(void *,qword)=entry.fn;
+        void (*applyVelocity)(void *,qword)=((void (*)(void *,qword))entry.pfn);
         scalar.q=Scalar(1.0f/time);
         qword inverseTime=scalar.q;
         scalar.q=Scalar(-0.5f*time);
@@ -143,10 +143,6 @@ typedef char qword_Width[(sizeof(qword)==16)?1:-1];
 typedef char qword_Alignment[(__alignof__(qword)==16)?1:-1];
 typedef char U_Size[(sizeof(U)==16)?1:-1];
 typedef char U_Alignment[(__alignof__(U)==16)?1:-1];
-typedef char VENTRY_Prefix_Size[(sizeof(VENTRY)==0x8)?1:-1];
-typedef char VENTRY_delta_Offset[(FIELD_OFFSET(VENTRY,delta)==0x0)?1:-1];
-typedef char VENTRY_pad_Offset[(FIELD_OFFSET(VENTRY,pad)==0x2)?1:-1];
-typedef char VENTRY_fn_Offset[(FIELD_OFFSET(VENTRY,fn)==0x4)?1:-1];
 typedef char SPACE_Prefix_Size[(sizeof(SPACE)==0xB0)?1:-1];
 typedef char SPACE_position_Offset[(FIELD_OFFSET(SPACE,position)==0x70)?1:-1];
 typedef char SPACE_parent_Offset[(FIELD_OFFSET(SPACE,parent)==0xA0)?1:-1];

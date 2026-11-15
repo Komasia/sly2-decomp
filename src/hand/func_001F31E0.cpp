@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef unsigned long ulong;
 typedef unsigned int uint;
 typedef int qword __attribute__((mode(TI)));
@@ -6,12 +7,11 @@ struct TREE {int count,a,b;void *nodes;};
 struct M4 {qword rows[4];};
 struct E;
 struct P;
-struct VE {short delta,pad;void (*fn)();};
 union FLAGS {ulong raw;struct {void *mesh;short state;unsigned short high;} fields;};
 struct E {void *object;P *owner;float radius;int tag;FLAGS flags;int id,pinned;M4 matrix;char pad60[8];TREE tree;GEO local,world;int state,stamp;};
 struct STATE {qword rows[3];char pad30[0xA0];float mass;char padD4[0xC];};
 struct DATA {char pad0[0x38];void *guard;char pad3C[0x24];};
-struct P {char pad0[0xC];VE *vt;char pad10[0x30];uint flags;char pad44[0x3C];DATA data;int count;E *entries;STATE *state;};
+struct P {char pad0[0xC];VTENT *vt;char pad10[0x30];uint flags;char pad44[0x3C];DATA data;int count;E *entries;STATE *state;};
 struct MSG {int bytes,alignment;};
 extern char D_002C44F0[];
 extern "C" {
@@ -34,9 +34,9 @@ void func_001F2500(P *);
 void LoadSwObjsFromBrx(P *,void *,void *) asm("LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream");
 void func_001A6D28(P *,int);
 }
-static inline int Extra(P *p){VE *v=&p->vt[63];return ((int (*)(P *))v->fn)((P *)((char *)p+v->delta));}
-static inline void *Lookup(P *p,int id){VE *v=&p->vt[51];return ((void *(*)(P *,int))v->fn)((P *)((char *)p+v->delta),id);}
-static inline void Post(P *p){VE *v=&p->vt[64];((void (*)(P *))v->fn)((P *)((char *)p+v->delta));}
+static inline int Extra(P *p){VTENT *v=&p->vt[63];return ((int (*)(P *))v->pfn)((P *)VT_THIS(p, v));}
+static inline void *Lookup(P *p,int id){VTENT *v=&p->vt[51];return ((void *(*)(P *,int))v->pfn)((P *)VT_THIS(p, v),id);}
+static inline void Post(P *p){VTENT *v=&p->vt[64];((void (*)(P *))v->pfn)((P *)VT_THIS(p, v));}
 static inline void SetActive(P *p){uint f=p->flags;if((f^1)&1)*(uint *)f|=8;else p->flags=f|8;}
 extern "C" void LoadSoFromBrx__FP2SOP18CBinaryInputStream(P *p,void *stream)
 {

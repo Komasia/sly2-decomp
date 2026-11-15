@@ -1,12 +1,12 @@
 // Movement-state transitions and actor response.
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int bits[4];void Assign(const U&v){q=v.q;}};
 union F{float value;int bits;};
-struct VE{short delta,pad;void(*fn)();};
 struct GROUP{char pad[0xA0];void*space;};
 struct TUNE{char pad[0xD0];float speed;};
-struct P{char pad0[12];VE*vt;char pad10[0x58-0x10];GROUP*first;GROUP*second;char pad60[0xE8-0x60];TUNE*tuning;char padEC[0x334-0xEC];int attention;char pad338[0x10DC-0x338];P*owner;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x58-0x10];GROUP*first;GROUP*second;char pad60[0xE8-0x60];TUNE*tuning;char padEC[0x334-0xEC];int attention;char pad338[0x10DC-0x338];P*owner;};
 struct ASEGA;
 struct ENTRY{float value;int kind,key,pad;};
 struct CONTROL{char pad0[4];void*curves;ASEGA*asega;};
@@ -35,9 +35,9 @@ extern "C"{
  void TriggerJoyRumbleRumk(void*,int,float) asm("TriggerJoyRumbleRumk__FP3JOY4RUMKf");
  ENTRY*PeventLaunch(void*,int) asm("PeventLaunch__FP5KINDEi");
 }
-static inline void Request(P*p,REQUEST*r,float duration){VE*v=&p->vt[96];((void(*)(P*,REQUEST*,float))v->fn)((P*)((char*)p+v->delta),r,duration);}
+static inline void Request(P*p,REQUEST*r,float duration){VTENT*v=&p->vt[96];((void(*)(P*,REQUEST*,float))v->pfn)((P*)VT_THIS(p, v),r,duration);}
 static inline void BlendSet(C*p,qword current,U*desired,U*scale,U*scratch){
- register P*actor __asm__("$7");register VE*vt __asm__("$6");register int word __asm__("$4");
+ register P*actor __asm__("$7");register VTENT*vt __asm__("$6");register int word __asm__("$4");
  register qword a __asm__("vf1"),b __asm__("vf2"),d __asm__("vf3"),lift __asm__("vf2"),axis __asm__("vf1"),k __asm__("vf4");
  const unsigned gainAddress=0x2BE708;
  register char*gainBase __asm__("$4");
@@ -56,7 +56,7 @@ static inline void BlendSet(C*p,qword current,U*desired,U*scale,U*scratch){
  register void(*setter)() __asm__("$3");
  __asm__("lqc2 %0,%4\n\tlh %1,%5\n\tlqc2 %2,%6\n\tlw %3,%7"
   :"=j"(axis),"=r"(adjustment),"=j"(k),"=r"(setter)
-  :"m"(axisAddress->q),"m"(vt[35].delta),"m"(scale->q),"m"(vt[35].fn));
+  :"m"(axisAddress->q),"m"(vt[35].delta),"m"(scale->q),"m"(((void (*)())vt[35].pfn)));
  register qword packed __asm__("$5");
  register P*adjusted __asm__("$4");
  __asm__("vmulax.xyzw $ACC,%3,%0x\n\tvmaddx.xyzw %0,%4,%5x\n\tqmfc2.ni %1,%0\n\taddu %2,%6,%7"
@@ -75,12 +75,9 @@ typedef char P_Size[sizeof(P)==0x10E0?1:-1];
 typedef char GROUP_Size[sizeof(GROUP)==0xA4?1:-1];
 typedef char TUNE_Size[sizeof(TUNE)==0xD4?1:-1];
 typedef char CONTROL_Size[sizeof(CONTROL)==12?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char REQUEST_Size[sizeof(REQUEST)==48?1:-1];
 typedef char U_Size[sizeof(U)==16?1:-1];
 typedef char F_Size[sizeof(F)==4?1:-1];
-typedef char VE_Size[sizeof(VE)==8?1:-1];
 typedef char ENTRY_Size[sizeof(ENTRY)==16?1:-1];
 typedef char C_actor_Offset[FIELD_OFFSET(C,actor)==16?1:-1];
 typedef char C_control_Offset[FIELD_OFFSET(C,control)==64?1:-1];

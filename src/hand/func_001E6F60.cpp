@@ -12,14 +12,14 @@
 //    result in a GPR pair with a reload-chosen VU register; the two spellings are not interchangeable.
 //  * Normalize ties its output to the length operand ("+j"), Dot's `one` is not early-clobber (the second dot reuses vf3).
 //  * The empty asm on `time` is allocation-only (see the comment at its use).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct M4 { qword a, b, c, d; };
-struct VTE { short delta, pad; void *fn; };
 struct SPACE;
 struct PATH {
-    char padC[0xC]; VTE *vt; char pad10[0xD0];
+    char padC[0xC]; VTENT *vt; char pad10[0xD0];
     int mode, cyclic, count; float *times, *values; qword *points;
 };
 extern "C" {
@@ -87,8 +87,8 @@ extern "C" void NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(PATH *p, qword 
     M4 matrix;
     U closest;
     qword start, end;
-    VTE &v = p->vt[31];
-    matrix = *((M4 *(*)(void *))v.fn)((char *)p + v.delta);
+    VTENT &v = p->vt[31];
+    matrix = *((M4 *(*)(void *))v.pfn)(VT_THIS(p, &v));
     switch (p->mode) {
     case 0: {
         start = TransformPoint(matrix, p->points[0]);

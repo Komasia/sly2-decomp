@@ -1,14 +1,14 @@
 // Mover/follower state controller: switch from the current state to `next`.
 // Leaving states -1/0/2/3 restores the group's default action; entering a state sets up its velocity, mode, timers or
 // effect; afterwards the new state, its time stamp and (except for state 2) the state's animation entry are recorded.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 union F{float value;int bits;};
-struct VE{short delta,pad;void*fn;};
 struct M4{U row[4];};struct M3{U row[3];};
 struct PATH;struct ASEG;struct ASEGA;struct EFFECT;struct SOURCE;
 struct ENT{ASEG*clip;int flags;int pad;};   // per-state animation table entry (12 bytes)
-struct P{char pad0[12];VE*vt;char pad10[0x5C-0x10];void*group;char pad60[0x158-0x60];float low0,high0,low1,high1,lead;char pad16c[4];PATH*path;float parameter,phase;char pad17c[4];ENT aseg[4];char pad1B0[0x1C4-0x1B0];ASEGA*animation;char pad1c8[8];F speed;int oldMode;float heading;char pad1dc[4];M3 basis;float spin[3];float ratio;int state;float changed,randomDeadline,deadline;int amount;char pad234[12];U damageOffset;};
+struct P{char pad0[12];VTENT*vt;char pad10[0x5C-0x10];void*group;char pad60[0x158-0x60];float low0,high0,low1,high1,lead;char pad16c[4];PATH*path;float parameter,phase;char pad17c[4];ENT aseg[4];char pad1B0[0x1C4-0x1B0];ASEGA*animation;char pad1c8[8];F speed;int oldMode;float heading;char pad1dc[4];M3 basis;float spin[3];float ratio;int state;float changed,randomDeadline,deadline;int amount;char pad234[12];U damageOffset;};
 struct WORK{U first,second,direction,velocity,scalar;float angle,parameter;};
 #include "clock.h"
 extern "C"{
@@ -22,7 +22,7 @@ extern "C"{
  qword ConvertPos(P*,P*,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");void DropPickups(void*,qword,int,int,P*) asm("DropPickups__FP6VECTORG9VU_VECTORiiP2LO");
  void ApplyAsegCur(ASEG*,P*,float,float,int,ASEGA**) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
-static inline void SetVelocity(P*p,qword q){VE&v=p->vt[35];((void(*)(void*,qword))v.fn)((char*)p+v.delta,q);}
+static inline void SetVelocity(P*p,qword q){VTENT&v=p->vt[35];((void(*)(void*,qword))v.pfn)(VT_THIS(p, &v),q);}
 static inline void SetZeroVelocity(P*p){SetVelocity(p,D_002A2DD0.q);}
 // broadcast a float into a VU register and keep the scratch store the original left in `home`
 static inline qword SplatInto(float f,U*home){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(f));home->q=q;return q;}
@@ -36,9 +36,9 @@ static inline qword DivBy(qword v,qword n){qword r;__asm__("vdiv $Q,$vf0w,%1x\n\
 static inline qword SplatBits(int bits){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 #define LEN1M(d,one,v) __asm__("vmul.xyz %0,%2,%2\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=j"(d),"=&j"(one):"j"(v):"memory")
 #define LEN2M(d) __asm__("vsqrt $Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,$Q":"+j"(d): :"memory")
-static inline void Call(P*p,int index){VE&v=p->vt[index];((void(*)(void*))v.fn)((char*)p+v.delta);}
-static inline void SetMode(P*p){VE&v=p->vt[47];((void(*)(void*,int))v.fn)((char*)p+v.delta,4);}
-static inline M4*GetMatrix(P*p){VE&v=p->vt[31];return ((M4*(*)(void*))v.fn)((char*)p+v.delta);}
+static inline void Call(P*p,int index){VTENT&v=p->vt[index];((void(*)(void*))v.pfn)(VT_THIS(p, &v));}
+static inline void SetMode(P*p){VTENT&v=p->vt[47];((void(*)(void*,int))v.pfn)(VT_THIS(p, &v),4);}
+static inline M4*GetMatrix(P*p){VTENT&v=p->vt[31];return ((M4*(*)(void*))v.pfn)(VT_THIS(p, &v));}
 
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef char P_Prefix_Size[sizeof(P)==0x250?1:-1];

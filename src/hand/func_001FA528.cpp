@@ -1,10 +1,10 @@
 // Apply queued translation and rotation, then refresh changed objects.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;int i[4];float f[4];};
 struct M3 {qword r[3];};
 struct LO {M3 matrix;U position;char pad40[0x60];LO *parent;int stamp;};
-struct VE {short delta,pad;void(*fn)(void*);};
-struct P {char padC[0xC];VE *vt;char pad10[0x48];LO *translation,*rotation;char pad60[0x88];int enabled;char padEC[4];U shift,turn;};
+struct P {char padC[0xC];VTENT *vt;char pad10[0x48];LO *translation,*rotation;char pad60[0x88];int enabled;char padEC[4];U shift,turn;};
 extern qword D_002A2DD0;
 extern struct GAME {char pad3D58[0x3D58];int stamp;} g_sw;
 extern "C" int FFloatsNear(float,float,float) asm("FFloatsNear__Ffff");
@@ -55,6 +55,6 @@ extern "C" void ApplyAloDisplacement__FP3ALO(P*p)
             ((int*)&object->matrix.r[0])[3]=0;
             object->stamp=++g_sw.stamp;
         }
-        if(changed){p->vt[18].fn((char*)p+p->vt[18].delta);MarkAloDirty(p);}
+        if(changed){((void (*)(void*))p->vt[18].pfn)(VT_THIS(p, &p->vt[18]));MarkAloDirty(p);}
     }
 }

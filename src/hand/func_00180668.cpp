@@ -1,11 +1,11 @@
 // UpdateEnemy__FP2LO (Claude agent, lane G19, 2026-10-24): MATCH, no register pins. From laneH9v5 (aligned 3): the case-3 first refresh subtract (target - previousTarget) uses QwSubC, the same vsub with a clobber of the dead vf3. Reload hands out spill regs round-robin over {v0,v1,vf1,vf2,vf3}; after the case 1/2 vsub (target vf1, self vf2) the next VF reload would get vf3; with vf3 clobbered (and prev in vf1) the target reload gets vf2 as in the target.
 // history: UpdateEnemy__FP2LO laneH9v5 (Claude agent lane H9, from laneH6v1): indexed for loop + const-ref loop helpers (R*): the loop has 96 RTL insns in loop pass 2, so loop.c no longer hoists the D_002A2DA0 high. aligned 3.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
 typedef union U{qword q;float f[4];int i[4];}U;
-struct VTE{short delta,pad;qword(*fn)(void*);};
 struct FRAME{char pad0[0xA0];void*space;};
-struct NODE{char pad0[12];VTE*vt;char pad10[0x18];ulong flags;char pad30[0x2C];FRAME*frame;char pad60[0x8C];void*group;};
+struct NODE{char pad0[12];VTENT*vt;char pad10[0x18];ulong flags;char pad30[0x2C];FRAME*frame;char pad60[0x8C];void*group;};
 struct LM{float low,high;};
 struct RULE{int distanceEnabled,angleEnabled;LM enterDistance,stayDistance,enterAngle,stayAngle;};
 struct POLY{float a,b,c;};
@@ -119,8 +119,8 @@ dispatch:
  case 3:{
   qword target=PosOfLo(p->target);
   qword self=PosOfLo(p);
-  VTE*vte=&p->node.vt[33];
-  vte->fn((char*)p+vte->delta);
+  VTENT*vte=&p->node.vt[33];
+  ((qword (*)(void*))vte->pfn)(VT_THIS(p, vte));
   int refresh=0;
   if(D_002BE820<Length(QwSubC(target,p->previousTarget)))refresh=1;
   else if(D_002BE820<Length(QwSub(self,p->previousSelf)))refresh=1;

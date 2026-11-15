@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M3 {
@@ -6,8 +7,7 @@ struct M3 {
  M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}
  M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return *this;}
 };
-struct VTE {short delta,pad;void*fn;};
-struct P {char pad[0xC];VTE*vt;char pad10[0x17C];int flag;char pad190[0x30];float time;char pad1C4[0xC];P*target;float turnRate;};
+struct P {char pad[0xC];VTENT*vt;char pad10[0x17C];int flag;char pad190[0x30];float time;char pad1C4[0xC];P*target;float turnRate;};
 #include "clock.h"
 extern "C" qword g_normalZ;
 extern "C" void UpdateSo(P*) asm("UpdateSo__FP2SOf");
@@ -30,19 +30,19 @@ static inline M3 Mul(const M3&a,const M3&b) return r
 // name: SafeHouse port (UpdatePiece)
 extern "C" void UpdatePiece__FP2LO(P*p){
  UpdateSo(p);
- if(!p->flag&&p->time<=g_clock.t)((void(*)(void*,P*))p->vt[82].fn)((char*)p+p->vt[82].delta,0);
+ if(!p->flag&&p->time<=g_clock.t)((void(*)(void*,P*))p->vt[82].pfn)(VT_THIS(p, &p->vt[82]),0);
  if(!p->target||p->turnRate==0.0f)return;
  M3 rotation,matrix;
  qword position;
  position=PosOfLo(p->target);
  qword displacement=Sub(position,PosOfLo(p));
  float desired=atan2f(Y(displacement),X(displacement));
- qword direction=((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);
+ qword direction=((qword(*)(void*))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));
  float current=atan2f(Y(direction),X(direction));
  float angle=GLimitAbs(RadNormalize(desired-current),p->turnRate*g_clock.dt);
  rotation=BuildRotateMatrixAxis(g_normalZ,angle);
- ((void(*)(void*,qword))p->vt[35].fn)((char*)p+p->vt[35].delta,Transform(rotation,direction));
+ ((void(*)(void*,qword))p->vt[35].pfn)(VT_THIS(p, &p->vt[35]),Transform(rotation,direction));
  // The original reads this local matrix before initialization.
  matrix=Mul(rotation,matrix);
- ((void(*)(void*,M3*))p->vt[30].fn)((char*)p+p->vt[30].delta,&matrix);
+ ((void(*)(void*,M3*))p->vt[30].pfn)(VT_THIS(p, &p->vt[30]),&matrix);
 }

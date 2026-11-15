@@ -1,8 +1,8 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
 struct P;struct ITEM;struct INPUT;struct POOL;struct OPT;
-struct VTE{short delta,pad;void(*fn)(POOL*);};
-struct POOL{char pad[0xC];VTE*vt;};
+struct POOL{char pad[0xC];VTENT*vt;};
 struct ITEM{int kind;void(*select)(ITEM*);char pad8[8];void(*update)(ITEM*);char pad14[8];uint flags;};
 struct META{char pad[0xC];int ready,pad10,back,forward,reverse;};
 struct GROUP{int count;ITEM*items;POOL*pool;int back;int pad10,index;META*meta;};
@@ -34,7 +34,6 @@ extern MENU D_002E6550;
 }
 static inline float Value(OPT*key,CONTEXT*context){CRef result=NProgress(key,context);return result.f;}
 static inline void Select(CONTEXT*contexts,CONTEXT*context){BANK*bank=(BANK*)((char*)contexts-0x24);bank->current=context;}
-typedef char VTE_Size[sizeof(VTE)==8?1:-1];
 typedef char ITEM_Size[sizeof(ITEM)==32?1:-1];
 typedef char META_Size[sizeof(META)==32?1:-1];
 typedef char GROUP_Size[sizeof(GROUP)==28?1:-1];
@@ -93,7 +92,7 @@ extern "C" void func_001AEEE0(P*p){
  case 8:{
   if(FSpriteAnimPlaying(group->pool,0x314))break;
  close:
-  POOL*pool=group->pool;VTE*method=&pool->vt[50];method->fn((POOL*)((char*)pool+method->delta));
+  POOL*pool=group->pool;VTENT*method=&pool->vt[50];((void (*)(POOL*))method->pfn)((POOL*)VT_THIS(pool, method));
   SetMenuState(p,0);
   break;
  }

@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int i[4]; };
 struct M3 { U r[3]; M3(){} M3(const M3 &m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];} M3 &operator=(const M3 &m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return *this;} };
 struct LO { M3 matrix; U position; M3 rotation; char pad[0x24]; int kind; short state; char pad9A[6]; LO *parent; int stamp; char padA8[8]; U velocity; };
-struct VTE { short delta,pad; qword (*fn)(void *); };
-struct P { char pad[0xC]; VTE *vt; char pad10[0x4C]; LO *object; };
+struct P { char pad[0xC]; VTENT *vt; char pad10[0x4C]; LO *object; };
 extern "C" M3 InverseMatrix3(const M3 *) asm("InverseMatrix3__FP7MATRIX3");
 extern "C" void NormalizeRotateMatrix3__FP7MATRIX3(M3 *);
 extern "C" void *s1_memset(void *,int,int) asm("memset");
@@ -35,7 +35,7 @@ extern "C" void SetAloAngVelocityToLoad__FP3ALOG9VU_VECTOR(P *p,qword position)
     const M3 *rotation=&object->rotation;
     Clear(&object->velocity);
     M3 normalized;
-    qword origin=p->vt[34].fn((char *)p+p->vt[34].delta);
+    qword origin=((qword (*)(void *))p->vt[34].pfn)(VT_THIS(p, &p->vt[34]));
     normalized=*rotation;
     NormalizeRotateMatrix3__FP7MATRIX3(&normalized);
     M3 relative=Mul(*rotation,InverseMatrix3(&normalized));

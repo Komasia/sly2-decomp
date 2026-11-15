@@ -12,18 +12,18 @@
 // UpdateSlyClimbSurf__FP3SLY laneH13v3 (Claude agent lane H13): v2 + one pseudo for len/dir in the movement normalize and allocation-only "r"(fallback) on its mtc1 (66 -> 62).
 // UpdateSlyClimbSurf__FP3SLY laneH9v1 (Claude agent lane H9): laneH7v5 + const-ref QwAdd and BuildM4 pos (78 -> 75).
 /* laneH7v5 (Claude agent): fresh Lilly-style rewrite of UpdateSlyClimbSurf__FP3SLY, no pins, VU helper asms only. */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct M3{U r[3];M3(){}M3(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];}M3&operator=(const M3&m){r[0]=m.r[0];r[1]=m.r[1];r[2]=m.r[2];return*this;}};
 struct M4{U r[4];};
-struct VTE{short delta,pad;void*fn;};
 struct PARAMS{float a,b,duration;};
 struct CONTROL{char pad0[0x10];float y,z;int pad18;float speed;};
 struct REQUEST{char pad0[0x78];float multiplier;};
 struct AXIS{float weight;int active;char pad8[8];U direction;};
 struct TRIREF{int index;float u,v;};
 struct LIST{int count;qword planes[8];};
-struct P{char pad0[0xC];VTE*vt;char pad10[0x140];CONTROL*control;char pad154[0x3C];U acceleration;char pad1A0[0x10];M3 basis;char pad1E0[0x1C30];AXIS axes[8];REQUEST*request;int pad1F14;void*mesh;TRIREF triangle;U points[3];};
+struct P{char pad0[0xC];VTENT*vt;char pad10[0x140];CONTROL*control;char pad154[0x3C];U acceleration;char pad1A0[0x10];M3 basis;char pad1E0[0x1C30];AXIS axes[8];REQUEST*request;int pad1F14;void*mesh;TRIREF triangle;U points[3];};
 #include "clock.h"
 struct VU_FLOAT{qword qw;VU_FLOAT(){}VU_FLOAT(float f){__asm__("mfc1 %0,%1":"=r"(qw):"f"(f));}};
 extern "C"{
@@ -73,7 +73,7 @@ static inline qword QwRotateVecR(const M3*m,qword v){qword r;__asm__("vmulax.xyz
 static inline qword QwRotateVecRJ(const M3*m,qword v){qword r;__asm__("vmulax.xyz $ACC,%1,%4x\n\tvmadday.xyz $ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z":"=j"(r):"j"(m->r[0].q),"j"(m->r[1].q),"j"(m->r[2].q),"j"(v),"j"(v),"j"(v),"j"(m->r[1].q));return r;}
 static inline void MulM3(M3*r,const M3*a,const M3*b){qword c0=QwRotateVecR(a,b->r[0].q),c1=QwRotateVecR(a,b->r[1].q),c2=QwRotateVecR(a,b->r[2].q);r->r[0].q=c0;r->r[1].q=c1;r->r[2].q=c2;}
 static inline qword QwRotateVecV(qword v,M3 m){return QwRotateVec(&m,v);}
-static inline void SetVec(P*p,int slot,qword q){VTE*e=&p->vt[slot];((void(*)(void*,qword))e->fn)((char*)p+e->delta,q);}
+static inline void SetVec(P*p,int slot,qword q){VTENT*e=&p->vt[slot];((void(*)(void*,qword))e->pfn)(VT_THIS(p, e),q);}
 // name: SafeHouse port (UpdateSlyClimbSurf)
 extern "C" void UpdateSlyClimbSurf__FP3SLY(P*p){
  U closest,normal;

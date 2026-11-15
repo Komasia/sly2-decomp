@@ -6,14 +6,14 @@
 //     kind 0: point - direction * D_002BFC90), clamped to D_002BFC94 * limit from the point; basis from BuildOrthonormalVectors,
 //     row 2 = dir * extent; packet (M4 rows + kind + fraction) unpacked with tag 0x6C05C00E after aligning to 12 mod 16.
 #include "vifs.h"
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; uint u[4]; };
 struct M3 { U row[3]; };
 struct M4 { U row[4]; };
 struct BLOCK { uint words[12]; };
-struct VTE { short delta; short pad; M4 *(*pfn)(void *); };
 struct OBJ {
-    char pad0[0xC]; VTE *vt; char pad10[0xA0 - 0x10];
+    char pad0[0xC]; VTENT *vt; char pad10[0xA0 - 0x10];
     qword direction;              // 0xA0
     char padB0[0xE0 - 0xB0];
     int kind;                     // 0xE0
@@ -144,7 +144,7 @@ extern "C" void ShadowOfLightContext__FP8LIGHTSETP6VECTORT1(WORLD *world, M4 *tr
                     VU_FLOAT vw(w);
                     M4 *m;
                     total += w;
-                    m = o->vt[31].pfn((char *)o + o->vt[31].delta);
+                    m = ((M4 * (*)(void *))o->vt[31].pfn)(VT_THIS(o, &o->vt[31]));
                     sum = AddScaled(sum, m->row[3].q, vw);
                     break;
                 }

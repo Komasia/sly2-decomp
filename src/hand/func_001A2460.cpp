@@ -1,12 +1,12 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];int i[4];};
 struct M4 {U r[4];};
-struct VTE {short delta,pad;void*fn;};
 struct P;
-struct EFFECT {char pad[0xC];VTE*vt;};
-struct L {char pad[0xC];VTE*vt;char pad10[0x164];EFFECT*effect;char pad178[0xC];int kind,tag;};
+struct EFFECT {char pad[0xC];VTENT*vt;};
+struct L {char pad[0xC];VTENT*vt;char pad10[0x164];EFFECT*effect;char pad178[0xC];int kind,tag;};
 struct ENTRY{P*object;float time;};
-struct P {char pad[0xC];VTE*vt;char pad10[0x2CC];int state;char pad2E0[0xB14];int mode;char padDF8[0x294];L*link;ENTRY*entries;int count;float pad1098[2];float height;};
+struct P {char pad[0xC];VTENT*vt;char pad10[0x2CC];int state;char pad2E0[0xB14];int mode;char padDF8[0x294];L*link;ENTRY*entries;int count;float pad1098[2];float height;};
 struct HIT {L*target;int pad4;P*source;int tag,kind;char pad14[0xC];U point,direction;char pad40[0x20];};
 struct MSG {int type;char pad4[0x1C];U position;};
 #include "clock.h"
@@ -17,7 +17,7 @@ extern "C" int FWaterSurfaceUnder(P*,L*,qword*) asm("FWaterSurfaceUnder__FP5ACTO
 extern "C" void func_002309E8(void*,void*,M4*,M4*,float);
 extern "C" M4 MulMatrix4(const M4*,const M4*) asm("MulMatrix4__FP7MATRIX4T0Pv");
 static inline float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
-static inline qword Direction(P*p){return ((qword(*)(void*))p->vt[33].fn)((char*)p+p->vt[33].delta);}
+static inline qword Direction(P*p){return ((qword(*)(void*))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));}
 // name: SafeHouse port (UpdateActorWater)
 extern "C" void UpdateActorWater__FP5ACTOR(P*p){
  U point;
@@ -27,7 +27,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
   point.f[2]+=p->height;
   if(p->mode==3||p->mode==10)point.f[2]-=10.0f;
   L*link=p->link;
-  valid=((int(*)(void*,qword))link->vt[73].fn)((char*)link+link->vt[73].delta,point.q);
+  valid=((int(*)(void*,qword))link->vt[73].pfn)(VT_THIS(link, &link->vt[73]),point.q);
  }else valid=0;
  if(!valid)return;
  if(p->link->kind){
@@ -60,7 +60,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
   if(g_clock.t-entry->time<0.05f)continue;
   P*object=entry->object;
   position.q=PosOfLo(object);
-  void*frame=((void*(*)(void*,M4*))object->vt[32].fn)((char*)object+object->vt[32].delta,pbase);
+  void*frame=((void*(*)(void*,M4*))object->vt[32].pfn)(VT_THIS(object, &object->vt[32]),pbase);
   func_002309E8(frame,0,ppred,0,g_clock.dt);
   predicted=MulMatrix4(ppred,pbase);
   int crossed=0;
@@ -72,7 +72,7 @@ extern "C" void UpdateActorWater__FP5ACTOR(P*p){
    msg.position.f[2]=point.f[2];
    msg.type=4;
    EFFECT*effect=p->link->effect;
-   ((void(*)(void*,MSG*))effect->vt[51].fn)((char*)effect+effect->vt[51].delta,&msg);
+   ((void(*)(void*,MSG*))effect->vt[51].pfn)(VT_THIS(effect, &effect->vt[51]),&msg);
    entry->time=g_clock.t;
   }
  }

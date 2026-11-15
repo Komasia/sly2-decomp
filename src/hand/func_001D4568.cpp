@@ -13,13 +13,13 @@
  *    spilled pseudos, so it needs no reload. With "j" it was an extra reload that made vf5 a spill register and moved reload's
  *    round-robin, so the two final vadds got vf4/vf5 and vf1/vf2 instead of vf1/vf2 and vf3/vf4.
  */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct VU_VECTOR4 { qword q; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct VU_FLOAT { qword q; VU_FLOAT() {} VU_FLOAT(float f) { __asm__("mfc1 %0, %1" : "=r"(q) : "f"(f)); } };
 static inline VU_FLOAT VuFloat(float g) { VU_FLOAT v; __asm__("qmtc2.ni %1, %0" : "=j"(v.q) : "r"(g)); return v; }
-struct VENTRY { short delta, pad; void *fn; };
-struct P { char pad0[0xC]; VENTRY *vt; char pad10[0x550]; int remaining; };
+struct P { char pad0[0xC]; VTENT *vt; char pad10[0x550]; int remaining; };
 struct EVENT { P *sender; char pad4[8]; int kind, change; };
 extern qword D_002A2DA0, g_normalZ;
 extern float D_002C21D0[2], D_002C21D8[2], D_002C21E0[2], D_002C21E8[2], D_002C21F0[2], D_002C21F8[2], D_002C2200[2];
@@ -71,11 +71,11 @@ static inline float Random(const float *range) { return GRandInRange(range[0], r
 /* object vector (virtual get) += delta (virtual set) */
 static inline void AddVector(P *p, int get, int set, const VU_VECTOR4 &delta)
 {
-    VENTRY *vt = p->vt;
-    VENTRY *pset = &vt[set];
-    void *receiver = (char *)p + pset->delta;
-    VV original = ((qword (*)(void *))vt[get].fn)((char *)p + vt[get].delta);
-    ((void (*)(void *, qword))pset->fn)(receiver, Add(original, delta.q));
+    VTENT *vt = p->vt;
+    VTENT *pset = &vt[set];
+    void *receiver = VT_THIS(p, pset);
+    VV original = ((qword (*)(void *))vt[get].pfn)(VT_THIS(p, &vt[get]));
+    ((void (*)(void *, qword))pset->pfn)(receiver, Add(original, delta.q));
 }
 
 // name: SafeHouse port (AcceptVehicleContact)

@@ -3,17 +3,17 @@
 // "ApplyAseg" tail that restarts the animation player (+0x1030) and the component (+0x1034).
 // Lane 4 (Claude agent): hacks of the earlier drafts (xori/mtc1/addiu asm, 6 pins) are gone; this has ONE pin
 // (the zero-vector temp in case 7) and one VU vsub.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; int i[4]; };
-struct VE { short delta, pad; void (*fn)(); };
-struct OBJ { char pad[12]; VE *vt; };
+struct OBJ { char pad[12]; VTENT *vt; };
 struct ASEG { char pad[0x74]; float duration; };
 struct ASEGA { char pad[0x14]; ASEG *clip; char pad18[4]; float time; char pad20[0x40 - 0x20]; float rate; };
 struct COMPONENT;
 struct ENTRY { float value; int kind, key, pad; };
 struct P {
     char pad0[12];
-    VE *vt;
+    VTENT *vt;
     char pad10[72];
     void *first;            // 0x58
     void *second;           // 0x5C
@@ -104,8 +104,8 @@ void SetAsegaSeekTime(ASEGA *, float) asm("SetAsegaSeekTime__FP5ASEGAf");
 }
 static inline void *Block(P *p, int offset) { return (void *)((char *)p + offset); }
 // virtual call through slot `index` of an object whose vptr is at +0xC
-static inline void Call(OBJ *p, int index) { VE &v = p->vt[index]; ((void (*)(void *))v.fn)((char *)p + v.delta); }
-static inline void SetVelocity(P *p, qword q) { VE &v = p->vt[35]; ((void (*)(void *, qword))v.fn)((char *)p + v.delta, q); }
+static inline void Call(OBJ *p, int index) { VTENT &v = p->vt[index]; ((void (*)(void *))v.pfn)(VT_THIS(p, &v)); }
+static inline void SetVelocity(P *p, qword q) { VTENT &v = p->vt[35]; ((void (*)(void *, qword))v.pfn)(VT_THIS(p, &v), q); }
 extern "C" void func_001B6078(P *p, int next)
 {
     if (next == p->state)

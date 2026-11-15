@@ -1,10 +1,10 @@
 // Handle movement-state response events.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];};
-struct VE{short delta,pad;void*fn;};
 struct ASEG;struct ASEGA;struct TUNE;
 struct OBJECT{
- char pad0[0xC];VE*vt;
+ char pad0[0xC];VTENT*vt;
  char pad10[0x28C];int suppressAmount;
  char pad2A0[0x9C];int reserve,capacity,progress;ASEG*clip;ASEGA*animation;
  unsigned mask9,mask10,mask11;char pad35C[4];float animationTime;
@@ -55,7 +55,7 @@ void*PkindeBest(OBJECT*,unsigned long) asm("PkindeBest__FP5GUARDUl");
 int Message__5AIJOBiPv(S*,int,MSG*);
 }
 static __inline__ void Clear(STATE*s){(void)s1_memset(s,0,sizeof(*s));}
-static __inline__ int Accept(OBJECT*p,MSG*m){VE&v=p->vt[86];return((int(*)(void*,MSG*))v.fn)((char*)p+v.delta,m);}
+static __inline__ int Accept(OBJECT*p,MSG*m){VTENT&v=p->vt[86];return((int(*)(void*,MSG*))v.pfn)(VT_THIS(p, &v),m);}
 static __inline__ SLOT*Slot(OBJECT*p,unsigned kind,int offset){int index=IbitLow(kind);return(SLOT*)((char*)p+offset+index*sizeof(SLOT));}
 static __inline__ float Max(float a,float b){register float right __asm__("$f1")=b;__asm__("max.s %0,%0,%1":"+f"(a):"f"(right));return a;}
 static __inline__ qword Raw(float value){register qword bits __asm__("$10");__asm__("mfc1 %0,%1":"=r"(bits):"f"(value));return bits;}
@@ -198,7 +198,6 @@ typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_mask[(sizeof(unsigned long)==8)?1:-1];
 typedef char layout_qword[(sizeof(qword)==16)?1:-1];
 typedef char layout_U[(sizeof(U)==16)?1:-1];
-typedef char layout_VE[(sizeof(VE)==8)?1:-1];
 typedef char layout_MSGDATA[(sizeof(MSGDATA)==0x60)?1:-1];
 typedef char layout_MSG[(sizeof(MSG)==0x60)?1:-1];
 typedef char layout_STATE[(sizeof(STATE)==0x70)?1:-1];
@@ -207,8 +206,6 @@ typedef char layout_SLOT[(sizeof(SLOT)==0x10)?1:-1];
 typedef char layout_M4[(sizeof(M4)==0x40)?1:-1];
 typedef char layout_U_q[((unsigned long)&((U*)0)->q==0x0)?1:-1];
 typedef char layout_U_f[((unsigned long)&((U*)0)->f==0x0)?1:-1];
-typedef char layout_VE_delta[((unsigned long)&((VE*)0)->delta==0x0)?1:-1];
-typedef char layout_VE_fn[((unsigned long)&((VE*)0)->fn==0x4)?1:-1];
 typedef char layout_MSGDATA_object[((unsigned long)&((MSGDATA*)0)->object==0x0)?1:-1];
 typedef char layout_MSGDATA_kind[((unsigned long)&((MSGDATA*)0)->kind==0xc)?1:-1];
 typedef char layout_MSGDATA_amount[((unsigned long)&((MSGDATA*)0)->amount==0x10)?1:-1];

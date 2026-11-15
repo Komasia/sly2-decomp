@@ -12,11 +12,11 @@
 // - case 2 has its own SetControl for the `<= 0` test: the shared SetControl then has no label in front of it, so
 //   jump2's cross-jumping makes a new label there and does not merge the step-8 / case-11 anim tests afterwards.
 // - GLength takes a const reference (gcse hash table size, i.e. the order of the &cso / &apso copies: s4 / s6).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
 typedef unsigned long ulong;
 
-struct VTE { short delta, pad; void *fn; };
 struct JOY { char pad0[0x1C]; float amount; char pad20[0x10]; uint grfbtn; };
 struct SURF;
 struct BSP { BSP *pbspNeg, *pbspPos; SURF *psurf; };
@@ -25,13 +25,13 @@ struct SW;
 struct ASEGA;
 struct GEOM { int cpos; qword *apos; };
 struct SO {
-    char pad0[0xC]; VTE *vt; ulong flags; char pad18[0x6C - 0x18]; int cbsp; char pad70[4]; BSP *absp;
+    char pad0[0xC]; VTENT *vt; ulong flags; char pad18[0x6C - 0x18]; int cbsp; char pad70[4]; BSP *absp;
     char pad78[0x90 - 0x78]; GEOM geomWorld;
 };
 // Line segment hit (0x60 bytes, as in SphereBspContacts)
 struct LSG { qword apos[2]; qword anormal[2]; float au[2]; int lsgk; void *apsurf[2]; void *pedge; int iiposSwap; LSG *plsgNext; };
 struct ACTOR {
-    char pad0[0xC]; VTE *vt; char pad10[0xEC - 0x10]; void *pvFilter; char padF0[0x150 - 0xF0]; JOY *pjoy;
+    char pad0[0xC]; VTENT *vt; char pad10[0xEC - 0x10]; void *pvFilter; char padF0[0x150 - 0xF0]; JOY *pjoy;
     char pad154[0x240 - 0x154]; qword posOffset; char pad250[0x268 - 0x250]; SO *pso; char pad26C[0xF5C - 0x26C];
     ACTOR *ptarget; float gTarget; char padF64[0x1030 - 0xF64]; ASEGA *pasega; char pad1034[0x10EC - 0x1034]; int x10EC;
 };
@@ -76,9 +76,9 @@ uint func_00141EA8(ACTOR *, int);
 }
 void FreeSwXpList(SW *, XP *);
 
-static inline void SetControl(ACTOR *p, int n) { VTE &v = p->vt[88]; ((void (*)(void *, int))v.fn)((char *)p + v.delta, n); }
-static inline int CanAct(ACTOR *p, int n) { VTE &v = p->vt[99]; return ((int (*)(void *, int))v.fn)((char *)p + v.delta, n); }
-static inline void Notify(ACTOR *p, ACTOR *q) { VTE &v = p->vt[51]; ((void (*)(void *, ACTOR *))v.fn)((char *)p + v.delta, q); }
+static inline void SetControl(ACTOR *p, int n) { VTENT &v = p->vt[88]; ((void (*)(void *, int))v.pfn)(VT_THIS(p, &v), n); }
+static inline int CanAct(ACTOR *p, int n) { VTENT &v = p->vt[99]; return ((int (*)(void *, int))v.pfn)(VT_THIS(p, &v), n); }
+static inline void Notify(ACTOR *p, ACTOR *q) { VTENT &v = p->vt[51]; ((void (*)(void *, ACTOR *))v.pfn)(VT_THIS(p, &v), q); }
 static inline void *PvAllocStack(int cb) { SWALLOC swalloc; swalloc.cb = cb; swalloc.cbAlign = 0x10; return PvAllocStackImpl(&swalloc); }
 
 static inline VU_FLOAT VuFloat(float g) { VU_FLOAT v; __asm__("qmtc2.ni %1,%0" : "=j"(v.q) : "r"(g)); return v; }

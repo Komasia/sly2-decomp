@@ -1,3 +1,4 @@
+#include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
@@ -8,8 +9,7 @@ union FLAGS{uint word;struct{uint pad:11,feature:1,other:20;} bits;};
 struct E{int value;TRANSFORM*transform;M4*parent;FLAGS flags;char*data;uint base;char pad18[12];void*sphere;};
 struct SPHERE{float center[3],radius,limit;uint metadata;};
 struct SO;
-struct VE{short delta,pad;TRANSFORM*(*fn)(SO*,int);};
-struct SO{char pad[0xC];VE*vt;};
+struct SO{char pad[0xC];VTENT*vt;};
 struct P{SO*owner;};
 struct REQUEST{int bytes,alignment;REQUEST(int cb,int a):bytes(cb),alignment(a){}};
 struct MARK;
@@ -26,7 +26,6 @@ typedef char FaceSize[sizeof(FACE)==64?1:-1];
 typedef char LinkSize[sizeof(LINK)==6?1:-1];
 typedef char LinkSetSize[sizeof(LINKS)==8?1:-1];
 typedef char BindingSize[sizeof(BINDING)==12?1:-1];
-typedef char VirtualEntrySize[sizeof(VE)==8?1:-1];
 typedef char D_flags_Offset[FIELD_OFFSET(D,flags)==2?1:-1];
 typedef char D_kind_Offset[FIELD_OFFSET(D,kind)==3?1:-1];
 typedef char D_chain_Offset[FIELD_OFFSET(D,chain)==8?1:-1];
@@ -42,8 +41,6 @@ typedef char SPHERE_limit_Offset[FIELD_OFFSET(SPHERE,limit)==16?1:-1];
 typedef char SPHERE_metadata_Offset[FIELD_OFFSET(SPHERE,metadata)==20?1:-1];
 typedef char TRANSFORM_matrix_Offset[FIELD_OFFSET(TRANSFORM,matrix)==64?1:-1];
 typedef char SO_vt_Offset[FIELD_OFFSET(SO,vt)==12?1:-1];
-typedef char VE_delta_Offset[FIELD_OFFSET(VE,delta)==0?1:-1];
-typedef char VE_fn_Offset[FIELD_OFFSET(VE,fn)==4?1:-1];
 typedef char FACE_flags_Offset[FIELD_OFFSET(FACE,flags)==8?1:-1];
 typedef char FACE_indices_Offset[FIELD_OFFSET(FACE,indices)==20?1:-1];
 typedef char FACE_first_Offset[FIELD_OFFSET(FACE,first)==36?1:-1];
@@ -79,10 +76,10 @@ extern "C" void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHER
     if(sphere){*sphere=*sourceSphere;sphere->metadata=U32Read(stream);}
     {
         SO*object=p->owner;
-        VE*method=&object->vt[51];
-        SO*receiver=(SO*)((char*)object+method->delta);
+        VTENT*method=&object->vt[51];
+        SO*receiver=(SO*)VT_THIS(object, method);
         int index=S16Read(stream);
-        entry->transform=method->fn(receiver,index);
+        entry->transform=((TRANSFORM* (*)(SO*,int))method->pfn)(receiver,index);
     }
     if(entry->flags.word&0x1000)ReadMatrix4(stream,&matrix);
     else{entry->parent=(M4*)Allocate(sizeof(M4));ReadMatrix4(stream,entry->parent);}

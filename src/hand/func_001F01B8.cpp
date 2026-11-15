@@ -1,6 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VTE5 { short d; short p; void (*pfn)(void *, int, int, int, int, int); };
-struct VT { VTE a[3]; VTE5 a3; };
+#include "vtbl.h"
+struct VT { VTENT a[3]; VTENT a3; };
 struct P { int n0; char pad[0xC - 4]; VT *pvt; char pad2[0x68 - 0x10]; char dl68[0xC]; };
 struct S { int n0; int n4; int n8; VT *pvt; char pad[0x24 - 0x10]; P *p24; int n28; int n2C; int pad30; int n34; int n38; int n3C; int pad40; float f44; int n48; int pad4C; };
 struct SW { char pad[0x3DDC]; char dl[0xC]; char pool[0x10]; };
@@ -18,8 +17,8 @@ void ChooseSmaTransition(S *, int) asm("ChooseSmaTransition__FP3SMAi");
 }
 struct Lock {
     P *p;
-    Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
-    ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
+    Lock(P *pp) { p = pp; ((void (*)(void *))p->pvt->a[1].pfn)(VT_THIS(p, &p->pvt->a[1])); }
+    ~Lock() { ((void (*)(void *))p->pvt->a[2].pfn)(VT_THIS(p, &p->pvt->a[2])); }
 };
 // name: SafeHouse port (PsmaApplySm)
 extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S **pps)
@@ -38,10 +37,10 @@ extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S
     ps->f44 = 1.0f;
     AppendDlEntry(g_sw.dl, ps);
     AppendDlEntry(p->dl68, ps);
-    ps->pvt->a[1].pfn((char *)ps + ps->pvt->a[1].d);
+    ((void (*)(void *))ps->pvt->a[1].pfn)(VT_THIS(ps, &ps->pvt->a[1]));
     Lock l(p);
     func_00256EE0(ps, p->n0);
-    ps->pvt->a3.pfn((char *)ps + ps->pvt->a3.d, 2, 0, 0, 0, 0);
+    ((void (*)(void *, int, int, int, int, int))ps->pvt->a3.pfn)(VT_THIS(ps, &ps->pvt->a3), 2, 0, 0, 0, 0);
     if (FSmaRetracted(ps)) return;
     if (b != -1) {
         int v = func_001F0438(p, b);

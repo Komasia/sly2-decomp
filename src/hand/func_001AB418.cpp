@@ -1,3 +1,4 @@
+#include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
 struct CRef {
@@ -5,7 +6,6 @@ struct CRef {
     CRef(const CRef &) __asm__("__4CRefRC4CRef");
     ~CRef() { Decref(this); }
 };
-struct PMF { short delta; short pad; int (*pfn)(void *); };
 struct SLOT { char pad[0x5408]; char x5408[0x5C]; };
 struct THR;
 struct MC {
