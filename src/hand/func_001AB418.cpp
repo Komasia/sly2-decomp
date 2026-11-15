@@ -1,3 +1,9 @@
+/* func_001AB418 (0x1AB418): the save manager's state change: leaving MCS_SLOTS forgets the newest slot and, with a
+ * game slot and the memory card prompt in state 1, shows the prompt (state 3) with message 0x23 (the save icon on
+ * when 0x1ADEA8 allows) or 0x24; entering MCS_NO_CARD / 1 starts the card thread at func_001AB0A0, MCS_READY at
+ * func_001AB0F0; entering MCS_SLOTS picks the newest slot with a game played (progress key SW +0x3B1C not 0, by
+ * CompareSaves) and resets the slots without one; then the state and its real time. SafeHouse frontend.cpp.
+ * Layout: include/h5_mc.h. */
 #include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
@@ -6,20 +12,15 @@ struct CRef {
     CRef(const CRef &) __asm__("__4CRefRC4CRef");
     ~CRef() { Decref(this); }
 };
-struct SLOT { char pad[0x5408]; char x5408[0x5C]; };
-struct THR;
-struct MC {
-    int x0; int x4; int state; int xC; float x10; char pad[0x24 - 0x14];
-    SLOT aslot[3];
-    int xFD50; SLOT *pslotCur; int xFD58; THR *thr[1];
-};
-struct G { char pad[0x3B1C]; int x3B1C; };
+#include "h5_mc.h"
+typedef MCSLOT SLOT;
+struct G { char pad[0x3B1C]; int x3B1C; };  /* the world: +0x3B1C the "time played" progress key */
 #include "clock.h"
-struct ST { char pad[0x44]; int x44; };
+struct ST { char pad[0x44]; int x44; };  /* the memory card prompt: +0x44 its state */
 extern "C" {
 extern G g_sw;
-extern ST D_002E6550;
-extern char D_002E65A0[];
+extern ST D_002E6550;    /* the memory card prompt */
+extern char D_002E65A0[]; /* the save icon */
 void func_001ACC38(ST *, int);
 int func_001ADEA8(void *);
 void func_001ACB58(ST *, int);
@@ -33,14 +34,14 @@ static inline float GetF(int k, SLOT *p) { return Eval(k, p).u.g; }
 struct X { int A() __asm__("func_001AB0A0"); int B() __asm__("func_001AB0F0"); };
 void StartThread(void *, int (X::*)()) __asm__("CreateMemcardThread__FP7MEMCARDii");
 
-void func_001AB418(MC *p, int state)
+void func_001AB418(MC *pmc, int state)
 {
     int i;
-    if (state == p->state)
+    if (state == pmc->state)
         return;
-    if (p->state == 6) {
-        p->pslotCur = 0;
-        if (p->xFD50) {
+    if (pmc->state == MCS_SLOTS) {
+        pmc->pslotNewest = 0;
+        if (pmc->pslotGame) {
             ST *pst = &D_002E6550;
             if (pst->x44 == 1) {
                 func_001ACC38(pst, 3);
@@ -55,26 +56,26 @@ void func_001AB418(MC *p, int state)
     }
     switch (state) {
     case 0:
-    case 1:
-        StartThread(&p->thr, &X::A);
+    case MCS_NO_CARD:
+        StartThread(pmc->memcard, &X::A);
         break;
-    case 3:
-        StartThread(&p->thr, &X::B);
+    case MCS_READY:
+        StartThread(pmc->memcard, &X::B);
         break;
-    case 6:
-        p->pslotCur = &p->aslot[0];
+    case MCS_SLOTS:
+        pmc->pslotNewest = &pmc->aslot[0];
         for (i = 0; i < 3; i++) {
-            SLOT *pslot = &p->aslot[i];
-            float g = GetF(g_sw.x3B1C, pslot);
-            if (g != 0.0f) {
-                if (CompareSaves(p->pslotCur->x5408, pslot->x5408) < 0)
-                    p->pslotCur = pslot;
+            SLOT *pslot = &pmc->aslot[i];
+            float tPlayed = GetF(g_sw.x3B1C, pslot);
+            if (tPlayed != 0.0f) {
+                if (CompareSaves((char *)&pmc->pslotNewest->dirent, (char *)&pslot->dirent) < 0)
+                    pmc->pslotNewest = pslot;
             } else {
                 ResetSlotKeepSettings(pslot, 0);
             }
         }
         break;
     }
-    p->state = state;
-    p->x10 = g_clock.tReal;
+    pmc->state = state;
+    pmc->tState = g_clock.tReal;
 }

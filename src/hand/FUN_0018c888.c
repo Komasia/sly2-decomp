@@ -1,3 +1,6 @@
+/* FUN_0018c888 (0x1ABE78): lists a card directory: up to 18 entries (0x25 above) of path (kept in D_002E6500;
+ * null: continue the last listing) read by sceMcGetDir into D_002E6080, then each converted to a save directory entry
+ * (0x1AA9B8 = FUN_0018b780); a path over 64 characters is error 0xD. */
 typedef struct { char a[0x40]; } ENT;
 typedef struct { char a[0x5C]; } OUT;
 extern char D_002E6500[];
@@ -9,12 +12,12 @@ int sceMcGetDir(int, int, char *, int, int, ENT *);
 int func_001AB098(void *, int, int, int *);
 void func_001AA9B8(ENT *, OUT *);
 
-int FUN_0018c888(int *p, char *path, int c, OUT *aout, int *pc)
+int FUN_0018c888(int *pmc, char *path, int centMax, OUT *adirent, int *pcent)
 {
     int f;
     int r;
     int i;
-    if (c > 0x12)
+    if (centMax > 0x12)
         return 0x25;
     if (path) {
         if (s1_strlen(path) > 0x40)
@@ -26,10 +29,10 @@ int FUN_0018c888(int *p, char *path, int c, OUT *aout, int *pc)
         path = D_002E6500;
     }
     s1_memset(D_002E6080, 0, 0x480);
-    r = func_001AB098((char *)p + 0xFD5C, sceMcGetDir(p[0], p[1], path, f, c, D_002E6080), 0xD, pc);
+    r = func_001AB098((char *)pmc + 0xFD5C, sceMcGetDir(pmc[0], pmc[1], path, f, centMax, D_002E6080), 0xD, pcent);
     if (r)
         return r;
-    for (i = 0; i < *pc; i++)
-        func_001AA9B8(&D_002E6080[i], &aout[i]);
+    for (i = 0; i < *pcent; i++)
+        func_001AA9B8(&D_002E6080[i], &adirent[i]);
     return 0;
 }

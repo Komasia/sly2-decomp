@@ -1,18 +1,21 @@
+/* func_001AAF18 (0x1AAF18): the memory card worker thread's entry (Sly 1 memcard.c): with the card semaphore held it
+ * runs its MC method on the save manager D_002E65E0 and keeps the result, clears the method, marks the thread gone
+ * (also D_004425D8), releases the semaphore and exits. */
 #include "vtbl.h"
-struct S { int x0; int x4; VTENT pmf; int x10; };
-extern char D_002E65E0[];
-extern int D_004425D8[];
+struct MEMCARD { int semaId; int threadId; VTENT pmf; int nResult; };
+extern char g_mc[] __asm__("D_002E65E0");        /* the save manager (MC, include/h5_mc.h) */
+extern int g_athidMemcard[] __asm__("D_004425D8"); /* the worker thread's id (-1 none) */
 void WaitSema(int);
 void SignalSema(int);
 void ExitDeleteThread(void);
 void *s1_memset(void *, int, unsigned int) asm("memset");
-void func_001AAF18(struct S *s)
+void func_001AAF18(struct MEMCARD *pmemcard)
 {
-    WaitSema(s->x0);
-    s->x10 = ((int (*)(void *))s->pmf.pfn)(D_002E65E0 + s->pmf.delta);
-    s1_memset(&s->pmf, 0, sizeof(s->pmf));
-    s->x4 = -1;
-    D_004425D8[0] = -1;
-    SignalSema(s->x0);
+    WaitSema(pmemcard->semaId);
+    pmemcard->nResult = ((int (*)(void *))pmemcard->pmf.pfn)(g_mc + pmemcard->pmf.delta);
+    s1_memset(&pmemcard->pmf, 0, sizeof(pmemcard->pmf));
+    pmemcard->threadId = -1;
+    g_athidMemcard[0] = -1;
+    SignalSema(pmemcard->semaId);
     ExitDeleteThread();
 }

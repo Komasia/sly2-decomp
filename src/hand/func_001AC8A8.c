@@ -1,7 +1,9 @@
-int sceMcWrite(int a, int b, int c);
-void func_001AB098(void *p, int r, int n, int d);
-struct S { char pad[0xFD5C]; char x[4]; };
-void func_001AC8A8(struct S *p, int a, int b, int c, int d)
+/* func_001AC8A8 (0x1AC8A8): writes to an open card file (sceMcWrite: fd, buffer, size), the bytes written through
+ * pcb. Layout: include/h5_mc.h. */
+#include "h5_mc.h"
+int sceMcWrite(int fd, int pv, int cb);
+void func_001AB098(void *pmemcard, int nResult, int kind, int pcb);
+void func_001AC8A8(struct MC *pmc, int fd, int pv, int cb, int pcb)
 {
-    func_001AB098(p->x, sceMcWrite(a, b, c), 6, d);
+    func_001AB098(pmc->memcard, sceMcWrite(fd, pv, cb), 6, pcb);
 }

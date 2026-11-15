@@ -1,3 +1,6 @@
+/* FUN_0018ca10 (0x1AC008): writes the save's icon.sys (the PS2 browser's icon description: background colours,
+ * three lights, the ambient colour, the title converted by 0x1EEA70 and "memcard_icon.ico" for all three views) into
+ * the save directory. */
 typedef struct {
     char Head[4];
     unsigned short Reserv1;

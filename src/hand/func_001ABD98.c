@@ -1,3 +1,6 @@
+/* HudAutoSave (0x1ABD98): saves the game automatically when there is a game slot, outside a world change and when
+ * 0x210AE0 allows it (or forced): with no save progress yet (the progress key SW +0x3B54 is 0) the memory card prompt
+ * shows message 0x22 (its +0x4C set to 3), else the save runs (func_001ABCE8) with the save icon shown. SafeHouse hudwidget.cpp. */
 struct CRef { int m_tagk; int m_tag; };
 struct G { char pad[0x3B54]; int x3B54; };
 struct H { char pad[0x4C]; int x4C; };

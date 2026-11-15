@@ -1,8 +1,10 @@
-int func_001ABE78(int a, int b, int c, int d, int *pn);
-int FUN_0018c9c0(int a, int b, int c)
+/* FUN_0018c9c0 (0x1ABFC0): one card file's directory entry: the listing (FUN_0018c888) of exactly that path must
+ * give one entry, else error 0xE. */
+int func_001ABE78(int pmc, int szPath, int centMax, int adirent, int *pcent);
+int FUN_0018c9c0(int pmc, int szPath, int pdirent)
 {
-    int n;
-    int r = func_001ABE78(a, b, 1, c, &n);
-    if (r) return r;
-    return n == 1 ? 0 : 0xE;
+    int cent;
+    int nErr = func_001ABE78(pmc, szPath, 1, pdirent, &cent);
+    if (nErr) return nErr;
+    return cent == 1 ? 0 : 0xE;
 }

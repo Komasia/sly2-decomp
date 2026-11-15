@@ -1,4 +1,5 @@
-/* The save slots' reset (SafeHouse frontend.h: g_save 0x2E65E0): 0x1613F8 on the game, D_004425D8 -1, InitSave. */
+/* func_001AA978 (0x1AA978): the save system's start-up (SafeHouse frontend.h: g_save 0x2E65E0): 0x1613F8 on the
+ * game, no card thread (D_004425D8 -1), InitSave on port 0 slot 0. */
 struct SW;
 struct SAVE;
 extern struct SW g_game;

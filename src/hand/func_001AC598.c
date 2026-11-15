@@ -1,36 +1,40 @@
-struct S { int x0; int x4; int x8; int xC; int x10; float x14; int x18; int x1C; int x20; char pad2[0xFD5C - 0x24]; char xFD5C[1]; };
-extern float D_002DDF0C;
-int sceMcGetInfo(int a, int b, int *c, int *d, int *e);
-int func_001AB098(void *p, int a, int b, int c);
-int func_001AC598(struct S *s)
+/* func_001AC598 (0x1AC598): checks the card (sceMcGetInfo: its type, free space and format) and sets the wanted
+ * state from the result: no card / not a PS2 card -> MCS_NO_CARD, unformatted -> MCS_UNFORMATTED, a new card ->
+ * at least MCS_READY; the next check in 0.3 s (g_clock.tReal). Layout: include/h5_mc.h. */
+#include "h5_mc.h"
+#define MCTYPE_PS2 2
+extern float g_tReal __asm__("D_002DDF0C");  /* g_clock.tReal */
+int sceMcGetInfo(int port, int slot, int *ptype, int *pcfree, int *pfFormatted);
+int func_001AB098(void *pmemcard, int nResult, int kind, int pn);
+int func_001AC598(struct MC *pmc)
 {
-    void *p = s->xFD5C;
-    int h;
-    int r;
-    h = sceMcGetInfo(s->x0, s->x4, &s->x18, &s->x1C, &s->x20);
-    r = func_001AB098(p, h, 1, 0);
-    switch (r) {
+    void *pmemcard = pmc->memcard;
+    int nResult;
+    int nErr;
+    nResult = sceMcGetInfo(pmc->port, pmc->slot, &pmc->typeCard, &pmc->cclusterFree, &pmc->fFormatted);
+    nErr = func_001AB098(pmemcard, nResult, 1, 0);
+    switch (nErr) {
     case 11:
-        s->xC = 1;
+        pmc->stateWanted = MCS_NO_CARD;
         break;
     case 9:
-        s->xC = 3;
+        pmc->stateWanted = MCS_READY;
         break;
     case 10:
     case 12:
-        r = 12;
-        s->xC = 2;
+        nErr = 12;
+        pmc->stateWanted = MCS_UNFORMATTED;
         break;
     case 0:
-        if (s->x20) { if (s->xC < 3) s->xC = 3; } else s->xC = 2;
+        if (pmc->fFormatted) { if (pmc->stateWanted < MCS_READY) pmc->stateWanted = MCS_READY; } else pmc->stateWanted = MCS_UNFORMATTED;
         break;
     }
-    if (r == 0 || r == 12) {
-        if (s->x18 != 2) {
-            r = 11;
-            s->xC = 1;
+    if (nErr == 0 || nErr == 12) {
+        if (pmc->typeCard != MCTYPE_PS2) {
+            nErr = 11;
+            pmc->stateWanted = MCS_NO_CARD;
         }
     }
-    s->x14 = D_002DDF0C + 0.3f;
-    return r;
+    pmc->tPoll = g_tReal + 0.3f;
+    return nErr;
 }

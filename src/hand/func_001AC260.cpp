@@ -1,3 +1,6 @@
+/* func_001AC260 (0x1AC260): copies a disc file (given by its key record) into a new card file "<dir>/<name>": opened for
+ * writing (0x202), the disc file streamed (CBinaryInputStream over a 0x403F-byte stack buffer) in 4 KB pieces written
+ * to it; 0x27 when the disc file cannot be opened, 7 on a short write; the card file closed. */
 typedef unsigned int uint;
 struct FRAME;extern "C" void _$_10STACKSCOPE(FRAME*,int);
 struct FRAME {FRAME()__asm__("__10STACKSCOPE");~FRAME(){_$_10STACKSCOPE(this,2);}};
