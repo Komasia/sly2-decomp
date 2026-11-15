@@ -1,3 +1,5 @@
+// UpdateSlyDodgeMotion: while dodging around the object Sly faces (+0x10DC), his velocity relative to it turns about
+// z to keep the distance D_002BC998 (GSmooth), limited in acceleration; the change becomes an acceleration.
 // UpdateSlyDodgeMotion__FP3SLY (Claude agent laneB24, 2026-10-23): matched. len as an mtc1 asm from the qword (gcc emits the qmfc2), cz via a pextuw asm with a float "=r" output (gcc emits the mtc1).
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };

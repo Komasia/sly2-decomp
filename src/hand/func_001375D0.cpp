@@ -1,3 +1,6 @@
+/* SetSlyDodgeState: Sly's dodge state: -1 ends it (his velocity scaled by D_002BC9B8); 0 / 1 dodge to one side: he
+ * faces his object (+0x10DC), the dodge clip's root channel velocity at its speed becomes his velocity (in world space)
+ * and its reverse his +0x190, and the clip is applied. Layout: SafeHouse port (sly.cpp, asega.h). */
 // MATCH (Claude agent, laneB7, 2026-10-23), from fresh3 (2). One commented register pin: vel pinned to vf2 in the VU_FLOATM operator*, and the allocation-only duplicate g operand is "jm" (memory allowed, so it needs no second reload of the spilled g). The VU_FLOATM ctor is asm("lw") from "m"(f).
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT {
@@ -57,9 +60,9 @@ struct Q {
     virtual void v2();
     virtual void Eval(int n, qword *pv, float g0, float g1);
 };
-struct R { int x0; Q *pq; };
-struct X { char pad[0x78]; float g78; };
-struct S { P *p; int k; float t; int kCur; X *px0; X *px1; };
+struct R { int x0; Q *pq; };   // ASEGCHN: its position track
+struct X { char pad[0x78]; float svt; };   // ASEG: +0x78 its speed (SafeHouse sm.h)
+struct S { P *p; int state; float tState; int stateLast; X *paseg0; X *paseg1; };   // SLYDODGE (Sly +0x1FF0)
 #include "clock.h"
 extern "C" {
 extern float D_002BC9B8;
@@ -71,32 +74,32 @@ void ApplyAsegCur(X *px, P *p, int n, void *pv, float g0, float g1) asm("ApplyAs
 #define PXOF(p) ((PX *)(p))
 
 // name: SafeHouse port (SetSlyDodgeState)
-extern "C" void SetSlyDodgeState__FP3SLYi(S *s, int k)
+extern "C" void SetSlyDodgeState__FP3SLYi(S *s, int state)
 {
     X *px;
-    if (k == s->k)
+    if (state == s->state)
         return;
-    s->k = k;
+    s->state = state;
     px = 0;
-    s->t = g_clock.t;
-    if (k == -1) {
+    s->tState = g_clock.t;
+    if (state == -1) {
         VU_FLOATM g(D_002BC9B8);
         qword vel = s->p->GetVel();
         qword r = VU_VECTOR(vel) * g;
         s->p->SetVel(r);
         return;
     }
-    if (k >= -1) if (k < 2) {
+    if (state >= -1) if (state < 2) {
         union { qword q; } v;
-        if (k == 0)
-            px = s->px0;
+        if (state == 0)
+            px = s->paseg0;
         else
-            px = s->px1;
+            px = s->paseg1;
         FaceObject(s->p, PXOF(s->p)->x10DC);
-        PchnFindAseg(px, s->p, 1, 1)->pq->Eval(0, &v.q, 0.0f, px->g78);
+        PchnFindAseg(px, s->p, 1, 1)->pq->Eval(0, &v.q, 0.0f, px->svt);
         s->p->SetVel(PXOF(s->p)->m1B0 * VU_VECTOR(v.q));
         PXOF(s->p)->v190 = VU_VECTOR(v.q) * VU_FLOAT(-1.0f);
-        s->kCur = k;
+        s->stateLast = state;
     }
     ClearSmaHandle(PXOF(s->p)->a1034);
     ApplyAsegCur(px, s->p, 1, &PXOF(s->p)->a1030, 0.0f, 1.0f);

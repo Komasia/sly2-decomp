@@ -1,4 +1,5 @@
-/* Sly 2 version takes a base pointer in $a0 and saak in $a1 and returns a pointer into it. */
+/* PabilFind (SafeHouse gang.cpp, orig 0x136A28; the Sly 1 name CbFromSaak is a shape match): the address of
+ * Bentley's ability record of id saak (BENTLEY::aabil at +0x1824 + 0xC i: ids 5, 7, 9, 11, 13, 4), 0 for other ids. */
 int CbFromSaak__F4SAAK(char *p, int saak)
 {
     switch (saak) {

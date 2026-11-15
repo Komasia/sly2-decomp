@@ -1,7 +1,8 @@
-struct S { char pad[0x13d0]; int st; };
+/* BentleyJumpKind: Bentley's state as the jump code's state kind (-1: none); the inverse of SetBentleyJumpState. */
+struct BENTLEY { char pad[0x13d0]; int state; };
 // name: SafeHouse port (BentleyJumpKind)
-int BentleyJumpKind__FP7BENTLEY(struct S *p) {
-    switch (p->st) {
+int BentleyJumpKind__FP7BENTLEY(struct BENTLEY *pbentley) {
+    switch (pbentley->state) {
     case 0: return 0;
     case 2: return 1;
     case 3: return 2;

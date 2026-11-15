@@ -1,82 +1,87 @@
+/* SetBentleySubMode: the square's swing (-1 none, 0..2 by the state): a new swing from none picks a target point
+ * (mask 2, near the sub's vector 0.15 s ahead, within 1.5 rad of the heading, 3.15 for mode 0) whose height within
+ * [+0x30, +0x34] weights the pair of clips (0.5 without a target), the side of +0xE4 chooses the pair, and mode 0 turns
+ * Bentley toward the target; the blend applied over the swing (seeking, 1/15 s), its hand record demoted after the
+ * release (+0x10). Layout: SafeHouse port (gang.cpp SetBentleySubMode, gang.h BENTLEYSUB). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float a[4]; } QF;
-struct PO { char pad[0x1A8]; float g1A8; char pad1[0x10B8 - 0x1AC]; int x10B8; };
-struct E { float f0; int pad[2]; float fC; int pad2[2]; void *p18; };
-struct S { struct PO *po; int state; int x8; int xC; int x10; int x14; float g18; float g1C; char a20[0x10]; float g30; float g34;
-    struct E ae[6]; char pad[0xE0 - 0x38 - 6 * 28]; void *pvE0; void *pvE4; };
+struct BENTLEY { char pad[0x1A8]; float radHeading; char pad1[0x10B8 - 0x1AC]; int pxf10B8; };   /* field: SafeHouse port */
+struct BLENDE { float g0; int pad[2]; float g1; int pad2[2]; void *pbl; };   /* a blend of two: the two weights (+0, +0xC), the blend */
+struct BENTLEYSUB { struct BENTLEY *pbentley; int state; int n8; int nC; int n10; int n14; float t18; float g1C; char v20[0x10]; float g30; float g34;
+    struct BLENDE ae[6]; char pad[0xE0 - 0x38 - 6 * 28]; void *pasega; void *ploE4; };   /* field: SafeHouse port (gang.h BENTLEYSUB) */
 #include "clock.h"
 extern qword D_002A2DD0;
-void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct PO *, int, void *, int *, QF *, float, float, float);
-qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct PO *, qword);
-void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct PO *, qword);
-void TurnActorNow__FP5ACTOR(struct PO *);
+void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct BENTLEY *, int, void *, int *, QF *, float, float, float);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(void *, struct BENTLEY *, qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct BENTLEY *, qword);
+void TurnActorNow__FP5ACTOR(struct BENTLEY *);
 void RecalcBlend__FP6ASEGBL(void *);
-void ApplyAsegCur(void *, struct PO *, int, void **, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
-void DemoteAsegaOnXf__FiiP2XF(void *, struct PO *, int);
+void ApplyAsegCur(void *, struct BENTLEY *, int, void **, float, float) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
+void DemoteAsegaOnXf__FiiP2XF(void *, struct BENTLEY *, int);
 void SetAsegaSeekTime__FP5ASEGAf(void *, float);
-static __inline__ float Clamp(float g, float gMin, float gMax)
+static __inline__ float Clamp(float radRange, float gMin, float gMax)
 {
-    if (g < gMin)
+    if (radRange < gMin)
         return gMin;
-    if (gMax < g)
+    if (gMax < radRange)
         return gMax;
-    return g;
+    return radRange;
 }
 // name: SafeHouse port (SetBentleySubMode)
-void SetBentleySubMode__FP7BENTLEYi(struct S *ps, int state)
+void SetBentleySubMode__FP7BENTLEYi(struct BENTLEYSUB *psub, int state)
 {
-    void *pv;
+    void *pbl;
     float dt;
-    if (state == ps->state)
+    if (state == psub->state)
         return;
-    if (ps->state == -1) {
-        int f;
-        QF v;
+    if (psub->state == -1) {
+        int fTarget;
+        QF posTarget;
         QF r;
-        float g;
-        ps->g18 = g_clock.t;
-        ps->xC = 0;
-        ps->x10 = 0;
-        ps->x14 = 0;
-        g = 1.5f;
+        float radRange;
+        psub->t18 = g_clock.t;
+        psub->nC = 0;
+        psub->n10 = 0;
+        psub->n14 = 0;
+        radRange = 1.5f;
         if (state == 0)
-            g = 3.15f;
-        ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(ps->po, 2, ps->a20, &f, &v, ps->po->g1A8, 0.15f, g);
-        if (f) {
-            ps->g1C = Clamp((v.a[2] - ps->g30) / (ps->g34 - ps->g30), 0.0f, 1.0f);
+            radRange = 3.15f;
+        ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(psub->pbentley, 2, psub->v20, &fTarget, &posTarget, psub->pbentley->radHeading, 0.15f, radRange);
+        if (fTarget) {
+            psub->g1C = Clamp((posTarget.a[2] - psub->g30) / (psub->g34 - psub->g30), 0.0f, 1.0f);
         } else {
-            ps->g1C = 0.5f;
+            psub->g1C = 0.5f;
         }
-        r.q = ConvertPos__FP2LOT0G9VU_VECTOR(ps->pvE4, ps->po, D_002A2DD0);
-        ps->x8 = 0.0f < r.a[1] ? 1 : 0;
-        if (state == 0 && f) {
-            SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(ps->po, v.q);
-            TurnActorNow__FP5ACTOR(ps->po);
+        r.q = ConvertPos__FP2LOT0G9VU_VECTOR(psub->ploE4, psub->pbentley, D_002A2DD0);
+        psub->n8 = 0.0f < r.a[1] ? 1 : 0;
+        if (state == 0 && fTarget) {
+            SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(psub->pbentley, posTarget.q);
+            TurnActorNow__FP5ACTOR(psub->pbentley);
         }
     }
-    ps->state = state;
+    psub->state = state;
     dt = 0.0f;
     switch (state) {
     case -1:
-        pv = 0;
+        pbl = 0;
         break;
     case 0:
     case 1:
     case 2: {
-        struct E *pe = &ps->ae[state * 2 + ps->x8];
-        pe->f0 = 1.0f - ps->g1C;
-        pv = pe->p18;
-        pe->fC = ps->g1C;
+        struct BLENDE *pblende = &psub->ae[state * 2 + psub->n8];
+        pblende->g0 = 1.0f - psub->g1C;
+        pbl = pblende->pbl;
+        pblende->g1 = psub->g1C;
         dt = 0.06666667f;
-        RecalcBlend__FP6ASEGBL(pv);
+        RecalcBlend__FP6ASEGBL(pbl);
         break;
     }
     }
-    ApplyAsegCur(pv, ps->po, 1, &ps->pvE0, g_clock.t - ps->g18, 1.0f);
-    if (!ps->pvE0)
+    ApplyAsegCur(pbl, psub->pbentley, 1, &psub->pasega, g_clock.t - psub->t18, 1.0f);
+    if (!psub->pasega)
         return;
-    if (ps->x10)
-        DemoteAsegaOnXf__FiiP2XF(ps->pvE0, ps->po, ps->po->x10B8);
-    if (ps->pvE0 && dt != 0.0f)
-        SetAsegaSeekTime__FP5ASEGAf(ps->pvE0, g_clock.t + dt);
+    if (psub->n10)
+        DemoteAsegaOnXf__FiiP2XF(psub->pasega, psub->pbentley, psub->pbentley->pxf10B8);
+    if (psub->pasega && dt != 0.0f)
+        SetAsegaSeekTime__FP5ASEGAf(psub->pasega, g_clock.t + dt);
 }

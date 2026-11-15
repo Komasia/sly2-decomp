@@ -1,68 +1,72 @@
-struct E { int x0; void *p4; void *p8; };
-struct O { char pad[0x15C]; int x15C; char pad1[0x16C - 0x160]; void *p16C; };
-struct G { int x0; int x4; int x8; int xC; };
-struct P { char pad[0x4C0]; char a4C0[0x9BC - 0x4C0]; int x9BC; char pad1[0x11B0 - 0x9C0]; char a11B0[4]; int x11B4; int pad2[2];
-    struct O *po11C0; char pad3[0x130C - 0x11C4]; int x130C; char pad4[0x16B4 - 0x1310]; struct E *pe16B4;
-    char pad5[0x1874 - 0x16B8]; int x1874; };
-extern struct G g_game;
-void BroadcastTaskEvent__FP2SWiP2LO(struct G *pg, int n, struct P *p);
-struct E *CbFromSaak(struct P *p, int k) asm("CbFromSaak__F4SAAK");
+/* StartBentleyAbility: the ability k starts (task event 0x3C broadcast with it): a gadget (4, 5, 7, 9, 11, 13) is
+ * thrown while aiming one (the throw state 7), picked up again when it is out there (an interaction 0xB), carried and
+ * aimed (7, 11: an instance of its proxy, state 12, the throw state 4) or used (power spent, the hold state 6); 10
+ * (power spent, state 14), 8 (an interaction), others by the actor base (0x141D38). Layout: SafeHouse port (gang.h). */
+struct ABILITY { int id; void *plo4; void *plo8; };   /* field: SafeHouse port */
+struct CARRY { char pad[0x15C]; int kind; char pad1[0x16C - 0x160]; void *plo16C; };   /* field: SafeHouse port (CARRY kind, carrier) */
+struct GAME { int x0; int x4; int x8; int idAbilityLast; };
+struct BENTLEY { char pad[0x4C0]; char interact[0x9BC - 0x4C0]; int n9BC; char pad1[0x11B0 - 0x9C0]; char jtthrow[4]; int nJtthrowState; int pad2[2];
+    struct CARRY *pcarrySelected; char pad3[0x130C - 0x11C4]; int n130C; char pad4[0x16B4 - 0x1310]; struct ABILITY *pabil16B4;
+    char pad5[0x1874 - 0x16B8]; int n1874; };
+extern struct GAME g_game;
+void BroadcastTaskEvent__FP2SWiP2LO(struct GAME *pgame, int n, struct BENTLEY *pbentley);
+struct ABILITY *CbFromSaak(struct BENTLEY *pbentley, int k) asm("CbFromSaak__F4SAAK");
 void SetJtThrowState__FP7JTTHROWi(void *pv, int n);
 void StartInteract__FP5ACTORii3JTL(void *pv, int n, void *pv2, int m);
-struct O *PloAcquireProxyObject__FP2SWi(void *pv, int n);
-int func_00224610(struct O *po);
-void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, struct O *po);
-void GrfAbilityButton__FP5ACTORi(struct P *p, int k);
-void SetBentleyState__FP7BENTLEYi(struct P *p, int n);
-void SpendActorPower__FP5ACTORi(struct P *p, int k);
-void func_00141D38(struct P *p, int k);
+struct CARRY *PloAcquireProxyObject__FP2SWi(void *pv, int n);
+int func_00224610(struct CARRY *pcarry);
+void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct BENTLEY *pbentley, struct ABILITY *pabil, struct CARRY *pcarry);
+void GrfAbilityButton__FP5ACTORi(struct BENTLEY *pbentley, int k);
+void SetBentleyState__FP7BENTLEYi(struct BENTLEY *pbentley, int n);
+void SpendActorPower__FP5ACTORi(struct BENTLEY *pbentley, int k);
+void func_00141D38(struct BENTLEY *pbentley, int k);
 // name: SafeHouse port (StartBentleyAbility)
-void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
+void StartBentleyAbility__FP5ACTORi(struct BENTLEY *pbentley, int k)
 {
-    g_game.xC = k;
-    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, p);
+    g_game.idAbilityLast = k;
+    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x3C, pbentley);
     switch (k) {
     case 4: case 5: case 7: case 9: case 11: case 13: {
-        struct E *pe = CbFromSaak(p, k);
-        if ((unsigned int)(p->x11B4 - 4) < 3) {
-            SetJtThrowState__FP7JTTHROWi(p->a11B0, 7);
+        struct ABILITY *pabil = CbFromSaak(pbentley, k);
+        if ((unsigned int)(pbentley->nJtthrowState - 4) < 3) {
+            SetJtThrowState__FP7JTTHROWi(pbentley->jtthrow, 7);
             return;
         }
-        if (pe->p8) {
-            StartInteract__FP5ACTORii3JTL(p->a4C0, 0xB, pe->p8, 0);
+        if (pabil->plo8) {
+            StartInteract__FP5ACTORii3JTL(pbentley->interact, 0xB, pabil->plo8, 0);
             return;
         }
-        p->pe16B4 = pe;
+        pbentley->pabil16B4 = pabil;
         if (k == 7 || k == 11) {
-            struct O *po = PloAcquireProxyObject__FP2SWi(pe->p4, 0);
-            if (!po)
+            struct CARRY *pcarry = PloAcquireProxyObject__FP2SWi(pabil->plo4, 0);
+            if (!pcarry)
                 return;
-            po->x15C = pe->x0;
-            if (func_00224610(po)) {
-                po->p16C = p;
-                SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(p, pe, po);
+            pcarry->kind = pabil->id;
+            if (func_00224610(pcarry)) {
+                pcarry->plo16C = pbentley;
+                SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(pbentley, pabil, pcarry);
             }
-            p->po11C0 = po;
-            GrfAbilityButton__FP5ACTORi(p, k);
-            SetBentleyState__FP7BENTLEYi(p, 0xC);
-            SetJtThrowState__FP7JTTHROWi(p->a11B0, 4);
+            pbentley->pcarrySelected = pcarry;
+            GrfAbilityButton__FP5ACTORi(pbentley, k);
+            SetBentleyState__FP7BENTLEYi(pbentley, 0xC);
+            SetJtThrowState__FP7JTTHROWi(pbentley->jtthrow, 4);
             return;
         }
-        SpendActorPower__FP5ACTORi(p, k);
-        SetBentleyState__FP7BENTLEYi(p, 6);
+        SpendActorPower__FP5ACTORi(pbentley, k);
+        SetBentleyState__FP7BENTLEYi(pbentley, 6);
         return;
     }
     case 10:
-        SpendActorPower__FP5ACTORi(p, k);
-        SetBentleyState__FP7BENTLEYi(p, 0xE);
+        SpendActorPower__FP5ACTORi(pbentley, k);
+        SetBentleyState__FP7BENTLEYi(pbentley, 0xE);
         return;
     case 8:
-        p->x9BC = k;
-        p->x130C = p->x1874;
-        StartInteract__FP5ACTORii3JTL(p->a4C0, 0xB, 0, 0);
+        pbentley->n9BC = k;
+        pbentley->n130C = pbentley->n1874;
+        StartInteract__FP5ACTORii3JTL(pbentley->interact, 0xB, 0, 0);
         return;
     default:
-        func_00141D38(p, k);
+        func_00141D38(pbentley, k);
         return;
     }
 }
