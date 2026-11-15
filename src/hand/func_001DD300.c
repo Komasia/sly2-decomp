@@ -9,96 +9,100 @@ typedef struct SUB {
     int x74;
     int x78;
 } SUB;
-typedef struct { int x0, x4, x8; } E12;
-typedef struct OBJ {
-    char pad0[0xC];
-    VTENT *vt;
-    char pad10[0x24 - 0x10];
-    SUB *x24;
-    char pad28[0x40 - 0x28];
-    int x40;
-    float x44;
-    int x48;
-    E12 a4C[1];
-    char pad58[0x10C - 0x58];
-    int x10C;
-    int x110;
-    int x114;
-    int x118;
-    int x11C;
-    int x120;
-    int x124;
-} OBJ;
+/* SetJobHelpPage (SafeHouse shop.cpp): show Job Help at page 0 (the jobs, 10 rows) or 1 (the selected job's goals,
+ * 4 rows; the current job when none is selected), or close it (-1; also without a screen object). Opening pauses the
+ * game and shows the widget; closing resumes, hides it and drops the part handles. A page sets its screen object's
+ * title parts (+0x70..+0x78) and restarts it; then the rows are rebuilt and the stick direction reset. */
+typedef struct { void *pv; int idRow; int idDone; } JOBHELPROW;   /* the job / task and its part handles */
+typedef struct JOBHELP {              /* field: SafeHouse port (shop.cpp JOBHELP) */
+    /* 0x000 */ char pad0[0xC];
+    /* 0x00c */ VTENT *vt;
+    /* 0x010 */ char pad10[0x24 - 0x10];
+    /* 0x024 */ SUB *pscreen;
+    /* 0x028 */ char pad28[0x40 - 0x28];
+    /* 0x040 */ int page;
+    /* 0x044 */ float tPage;
+    /* 0x048 */ int crow;
+    /* 0x04c */ JOBHELPROW arow[1];
+    /* 0x058 */ char pad58[0x10C - 0x58];
+    /* 0x10c */ int crowMax;
+    /* 0x110 */ void *pjob;           /* the job shown on page 1 */
+    /* 0x114 */ int fFromJobs;
+    /* 0x118 */ int isel;
+    /* 0x11c */ int idPrompt;
+    /* 0x120 */ int idUp;
+    /* 0x124 */ int idDown;
+} JOBHELP;
 #include "clock.h"
 extern char g_sw[];
-extern int D_003E0F9C;
+extern void *D_003E0F9C;             /* the current job */
 void PauseGame__FP9GAMEPAUSEi(void *, int);
 void ResumeGame__FP9GAMEPAUSEi(void *, int);
 void SetState__FP8SCREENRTi(SUB *, int);
 void SetTimerTimers(SUB *, int) asm("SetTimerTimers__FP5TIMER6TIMERS");
-void BuildJobHelp__FPv(OBJ *);
+void BuildJobHelp__FPv(JOBHELP *);
 #define VCALL(o, n) ((void (*)(void *))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]))
 // name: SafeHouse port (SetJobHelpPage)
-void SetJobHelpPage__FPvi(OBJ *p, int s)
+void SetJobHelpPage__FPvi(JOBHELP *pjobhelp, int page)
 {
-    int old;
-    if (!p->x24)
-        s = -1;
-    if (s == p->x40)
+    int pageOld;
+    if (!pjobhelp->pscreen)
+        page = -1;
+    if (page == pjobhelp->page)
         return;
-    if (p->x40 == -1) {
+    if (pjobhelp->page == -1) {
         PauseGame__FP9GAMEPAUSEi(g_sw, 0);
-        VCALL(p, 10);
+        VCALL(pjobhelp, 10);
     }
-    old = p->x40;
-    p->x40 = s;
-    p->x44 = g_clock.tReal;
-    switch (s) {
+    pageOld = pjobhelp->page;
+    pjobhelp->page = page;
+    pjobhelp->tPage = g_clock.tReal;
+    switch (page) {
     case -1:
         ResumeGame__FP9GAMEPAUSEi(g_sw, 0);
-        VCALL(p, 11);
-        if (p->x24->x58 > 0)
-            SetTimerTimers(p->x24, 1);
-        p->x11C = s;
-        p->x120 = s;
-        p->x124 = s;
+        VCALL(pjobhelp, 11);
+        if (pjobhelp->pscreen->x58 > 0)
+            SetTimerTimers(pjobhelp->pscreen, 1);
+        pjobhelp->idPrompt = page;
+        pjobhelp->idUp = page;
+        pjobhelp->idDown = page;
         break;
     case 0:
-        p->x10C = 0xA;
-        p->x24->x70 = 0x4E3;
-        p->x24->x78 = 0x4E2;
-        if (old == 1)
-            p->x24->x74 = 0x4E8;
+        pjobhelp->crowMax = 0xA;
+        pjobhelp->pscreen->x70 = 0x4E3;
+        pjobhelp->pscreen->x78 = 0x4E2;
+        if (pageOld == 1)
+            pjobhelp->pscreen->x74 = 0x4E8;
         else
-            p->x24->x74 = 0x4E1;
-        if (p->x24->x58) {
-            SetState__FP8SCREENRTi(p->x24, 1);
-            SetTimerTimers(p->x24, 2);
-            VCALL(p->x24, 16);
+            pjobhelp->pscreen->x74 = 0x4E1;
+        if (pjobhelp->pscreen->x58) {
+            SetState__FP8SCREENRTi(pjobhelp->pscreen, 1);
+            SetTimerTimers(pjobhelp->pscreen, 2);
+            VCALL(pjobhelp->pscreen, 16);
         }
         break;
     case 1: {
-        int i = p->x118;
-        if (i >= 0 && i < p->x48)
-            p->x110 = p->a4C[i].x0;
+        int isel = pjobhelp->isel;
+        if (isel >= 0 && isel < pjobhelp->crow)
+            pjobhelp->pjob = pjobhelp->arow[isel].pv;
         else
-            p->x110 = D_003E0F9C;
-        p->x114 = (old == 0);
-        p->x10C = 4;
-        p->x24->x70 = 0x4E6;
-        p->x24->x78 = 0x4E5;
-        if (old == 0)
-            p->x24->x74 = 0x4E7;
+            pjobhelp->pjob = D_003E0F9C;
+        pjobhelp->fFromJobs = (pageOld == 0);
+        pjobhelp->crowMax = 4;
+        pjobhelp->pscreen->x70 = 0x4E6;
+        pjobhelp->pscreen->x78 = 0x4E5;
+        if (pageOld == 0)
+            pjobhelp->pscreen->x74 = 0x4E7;
         else
-            p->x24->x74 = 0x4E4;
-        if (p->x24->x58) {
-            SetState__FP8SCREENRTi(p->x24, 1);
-            SetTimerTimers(p->x24, 2);
-            VCALL(p->x24, 16);
+            pjobhelp->pscreen->x74 = 0x4E4;
+        if (pjobhelp->pscreen->x58) {
+            SetState__FP8SCREENRTi(pjobhelp->pscreen, 1);
+            SetTimerTimers(pjobhelp->pscreen, 2);
+            VCALL(pjobhelp->pscreen, 16);
         }
         break;
     }
     }
-    BuildJobHelp__FPv(p);
-    ((void (*)(void *, int))p->vt[14].pfn)(VT_THIS(p, &p->vt[14]), -1);
+    BuildJobHelp__FPv(pjobhelp);
+    ((void (*)(void *, int))pjobhelp->vt[14].pfn)(VT_THIS(pjobhelp, &pjobhelp->vt[14]), -1);
 }
