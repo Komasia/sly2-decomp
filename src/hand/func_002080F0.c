@@ -1,4 +1,4 @@
-/* class: GUARD (SafeHouse guardstart.cpp, orig 0x2080F0: the kind entries resolved - the table (+0x4C0 of them,
+/* func_002080F0 (0x2080F0): all of the guard's kind entries resolved: the table (+0x4C0 of them,
  * 0x20 bytes each from +0x4D0), then +0xC10, +0x8D0, +0xA70). */
 struct KINDE {
     /* 0x00 */ char ab[0x20];
@@ -10,7 +10,7 @@ struct GUARD {
     /* 0x4d0 */ struct KINDE akinde[1];
 };
 void ResolveKinde__FP5KINDEP5GUARD(struct KINDE *pkinde, struct GUARD *pguard);
-void func_002080A0(struct GUARD *pguard, void *p);
+void func_002080A0(struct GUARD *pguard, void *akinde);
 
 void func_002080F0(struct GUARD *pguard)
 {

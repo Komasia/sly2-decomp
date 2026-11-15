@@ -1,79 +1,85 @@
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct O { char pad[0xC]; VTENT *vt; };
-struct P2F0 { char pad[8]; qword *pq; float f; };
-struct F64 { char pad[0xE0]; void *pE0; void *pE4; };
-struct S {
-    char pad0[0xEC]; void *pEC; char pad1[0x26C - 0xF0]; char a26C[0x2F0 - 0x26C]; struct P2F0 *p2F0;
-    char pad2[0x300 - 0x2F4]; qword q300; float f310; char pad3[0x338 - 0x314]; int n338; int n33C; int n340; int n344;
-    char pad4[0x494 - 0x348]; int n494; void *p498; void *p49C; char pad5[0xE78 - 0x4A0]; int nE78; char pad6[0xE84 - 0xE7C];
-    int nE84; int nE88; char pad7[0xF64 - 0xE8C]; struct F64 *pF64; char pad8[0xFD0 - 0xF68]; char aFD0[0xFE8 - 0xFD0];
-    int flFE8; struct O *pFEC;
+struct LOV { char pad[0xC]; VTENT *pvt; };
+/* the home go-to command */
+struct CMD { char pad[8]; qword *pposGoal; float radGoal; };
+/* the guard's detector: its owner and the owner's attachment */
+struct DETECTOR { char pad[0xE0]; void *pguardOwner; void *poxaOwner; };
+struct GUARD {
+    char pad0[0xEC]; void *poxa; char pad1[0x26C - 0xF0]; char bhvstk[0x2F0 - 0x26C]; struct CMD *pcmdHome;
+    char pad2[0x300 - 0x2F4]; qword posHome; float radHome; char pad3[0x338 - 0x314]; int nHealthMax; int nHealth; int n340; int n344;
+    char pad4[0x494 - 0x348]; int n494; void *pwatchA; void *pwatchB; char pad5[0xE78 - 0x4A0]; int nE78; char pad6[0xE84 - 0xE7C];
+    int nE84; int nE88; char pad7[0xF64 - 0xE8C]; struct DETECTOR *pdet; char pad8[0xFD0 - 0xF68]; char move[0xFE8 - 0xFD0];
+    int grfFE8; struct LOV *ploFEC;
 };
-extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648;
-void func_001CB518(struct S *p);
-void ClearJobs__FP5ACTOR(void *p);
-void func_00209778(void *p);
-void SetGuardStateMask__FP5GUARDUl(struct S *p, int n);
-void func_0020CE40(void *p);
-void func_0020D1C8(void *p);
-void func_0020D1A0(void *p);
-qword PosOfLo__FP2LO(void *p);
-float RadStepHeading__FP4STEP(struct S *p);
-void SetStepPhysHeading__FP3ALOf(struct S *p, float f);
-unsigned long func_00207A20(int n);
-void *PkindeBest__FP5GUARDUl(struct S *p, unsigned long m);
-void func_00153EF8(struct F64 *pf, struct S *p, int n);
-void FillPocket__FP2LO(struct S *p);
-void NextPocketPrize__FP2LO(struct S *p);
-struct O *func_00205438(struct S *p, int n);
-void ReparentBooty__FP3ALOii(struct F64 *pf, struct S *p, int n);
+extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648;   /* the player and the other objects the detector watches */
+void func_001CB518(struct GUARD *pguard);
+void ClearJobs__FP5ACTOR(void *pv);
+void func_00209778(void *pv);
+void SetGuardStateMask__FP5GUARDUl(struct GUARD *pguard, int n);
+void func_0020CE40(void *pv);
+void func_0020D1C8(void *pv);
+void func_0020D1A0(void *pv);
+qword PosOfLo__FP2LO(void *pv);
+float RadStepHeading__FP4STEP(struct GUARD *pguard);
+void SetStepPhysHeading__FP3ALOf(struct GUARD *pguard, float f);
+unsigned long func_00207A20(int n);   /* the state mask bit of state n */
+void *PkindeBest__FP5GUARDUl(struct GUARD *pguard, unsigned long m);
+void func_00153EF8(struct DETECTOR *pdetector, struct GUARD *pguard, int n);
+void FillPocket__FP2LO(struct GUARD *pguard);
+void NextPocketPrize__FP2LO(struct GUARD *pguard);
+struct LOV *func_00205438(struct GUARD *pguard, int cid);   /* PjobPush */
+void ReparentBooty__FP3ALOii(struct DETECTOR *pdetector, struct GUARD *pguard, int n);
 
+/* ResetGuard (0x206518): GUARD reset: the base reset, health and the counters back to their authored values, the job
+ * stack and the current move cleared, no state, the ground watchers reset, home = where it stands now, the moves it
+ * has (grfFE8: bits its kind table), the detector watching the players, the pocket refilled, the
+ * option object +0xFEC reset (vt slot 9), the stand job (0x9C) started, the booty reparented to the detector. */
 // name: SafeHouse port (ResetGuard)
-void ResetGuard__FP2LO(struct S *p)
+void ResetGuard__FP2LO(struct GUARD *pguard)
 {
-    struct O *o;
-    qword *pq;
-    func_001CB518(p);
-    pq = &p->q300;
-    p->n33C = p->n338;
-    p->nE88 = p->nE84;
-    p->n344 = p->n340;
-    ClearJobs__FP5ACTOR(p->a26C);
-    func_00209778(p->aFD0);
-    SetGuardStateMask__FP5GUARDUl(p, 0);
-    func_0020CE40(p->p498);
-    func_0020D1C8(p->p49C);
-    func_0020D1A0(p->p498);
-    p->q300 = PosOfLo__FP2LO(p);
-    p->f310 = RadStepHeading__FP4STEP(p);
-    p->p2F0->pq = pq;
-    p->p2F0->f = p->f310;
-    SetStepPhysHeading__FP3ALOf(p, p->f310);
-    p->flFE8 = 0;
-    if (PkindeBest__FP5GUARDUl(p, func_00207A20(9)))
-        p->flFE8 |= 2;
+    struct LOV *pjob;
+    qword *pposHome;
+    func_001CB518(pguard);
+    pposHome = &pguard->posHome;
+    pguard->nHealth = pguard->nHealthMax;
+    pguard->nE88 = pguard->nE84;
+    pguard->n344 = pguard->n340;
+    ClearJobs__FP5ACTOR(pguard->bhvstk);
+    func_00209778(pguard->move);
+    SetGuardStateMask__FP5GUARDUl(pguard, 0);
+    func_0020CE40(pguard->pwatchA);
+    func_0020D1C8(pguard->pwatchB);
+    func_0020D1A0(pguard->pwatchA);
+    pguard->posHome = PosOfLo__FP2LO(pguard);
+    pguard->radHome = RadStepHeading__FP4STEP(pguard);
+    pguard->pcmdHome->pposGoal = pposHome;
+    pguard->pcmdHome->radGoal = pguard->radHome;
+    SetStepPhysHeading__FP3ALOf(pguard, pguard->radHome);
+    pguard->grfFE8 = 0;   /* bits: 1 kind 0xF, 2 kind 9 (a walk), 4 kind 8, 8 kind 0x11 */
+    if (PkindeBest__FP5GUARDUl(pguard, func_00207A20(9)))
+        pguard->grfFE8 |= 2;
     else
-        p->nE78 = 2;
-    if (PkindeBest__FP5GUARDUl(p, func_00207A20(8)))
-        p->flFE8 |= 4;
-    if (PkindeBest__FP5GUARDUl(p, func_00207A20(0xF)))
-        p->flFE8 |= 1;
-    if (PkindeBest__FP5GUARDUl(p, func_00207A20(0x11)))
-        p->flFE8 |= 8;
-    func_00153EF8(p->pF64, p, D_002E1E40);
-    func_00153EF8(p->pF64, p, D_002F7900);
-    func_00153EF8(p->pF64, p, D_002DD5BC);
-    func_00153EF8(p->pF64, p, D_002DD648);
-    if (p->n494) {
-        FillPocket__FP2LO(p);
-        NextPocketPrize__FP2LO(p);
+        pguard->nE78 = 2;
+    if (PkindeBest__FP5GUARDUl(pguard, func_00207A20(8)))
+        pguard->grfFE8 |= 4;
+    if (PkindeBest__FP5GUARDUl(pguard, func_00207A20(0xF)))
+        pguard->grfFE8 |= 1;
+    if (PkindeBest__FP5GUARDUl(pguard, func_00207A20(0x11)))
+        pguard->grfFE8 |= 8;
+    func_00153EF8(pguard->pdet, pguard, D_002E1E40);
+    func_00153EF8(pguard->pdet, pguard, D_002F7900);
+    func_00153EF8(pguard->pdet, pguard, D_002DD5BC);
+    func_00153EF8(pguard->pdet, pguard, D_002DD648);
+    if (pguard->n494) {
+        FillPocket__FP2LO(pguard);
+        NextPocketPrize__FP2LO(pguard);
     }
-    if (p->pFEC)
-        ((void (*)(void *))p->pFEC->vt[9].pfn)(VT_THIS(p->pFEC, &p->pFEC->vt[9]));
-    o = func_00205438(p, 0x9C);
-    ((void (*)(void *))o->vt[8].pfn)(VT_THIS(o, &o->vt[8]));
-    ReparentBooty__FP3ALOii(p->pF64, p, 0xF);
-    p->pF64->pE0 = p;
-    p->pF64->pE4 = p->pEC;
+    if (pguard->ploFEC)
+        ((void (*)(void *))pguard->ploFEC->pvt[9].pfn)(VT_THIS(pguard->ploFEC, &pguard->ploFEC->pvt[9]));
+    pjob = func_00205438(pguard, 0x9C);
+    ((void (*)(void *))pjob->pvt[8].pfn)(VT_THIS(pjob, &pjob->pvt[8]));
+    ReparentBooty__FP3ALOii(pguard->pdet, pguard, 0xF);
+    pguard->pdet->pguardOwner = pguard;
+    pguard->pdet->poxaOwner = pguard->poxa;
 }

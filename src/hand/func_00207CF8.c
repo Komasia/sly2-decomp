@@ -1,10 +1,11 @@
-long MaskOfList__FPv(int a);
-void *PkindeOfMask__FP5GUARDUl(void *p, long id);
-void SetGuardKind3__FP5GUARDiiiii(void *p, int a, int b, int c, int d, int e);
-void ResolveKinde__FP5KINDEP5GUARD(void *pe, void *p);
-void func_00207CF8(void *p, int a, int b, int c, int d, int e)
+/* func_00207CF8 (0x207CF8): the live splice method 244 (0x102D30): SetGuardKind3, then the entry resolved at once. */
+long MaskOfList__FPv(int plist);
+void *PkindeOfMask__FP5GUARDUl(void *pguard, long grf);
+void SetGuardKind3__FP5GUARDiiiii(void *pguard, int plist, int oid0, int oid1, int oid2, int oid3);
+void ResolveKinde__FP5KINDEP5GUARD(void *pkinde, void *pguard);
+void func_00207CF8(void *pguard, int plist, int oid0, int oid1, int oid2, int oid3)
 {
-    void *pe = PkindeOfMask__FP5GUARDUl(p, MaskOfList__FPv(a));
-    SetGuardKind3__FP5GUARDiiiii(p, a, b, c, d, e);
-    ResolveKinde__FP5KINDEP5GUARD(pe, p);
+    void *pkinde = PkindeOfMask__FP5GUARDUl(pguard, MaskOfList__FPv(plist));
+    SetGuardKind3__FP5GUARDiiiii(pguard, plist, oid0, oid1, oid2, oid3);
+    ResolveKinde__FP5KINDEP5GUARD(pkinde, pguard);
 }

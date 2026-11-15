@@ -1,17 +1,20 @@
-// Choose an eligible actor using lock state, priority and weighted distance.
+// PloGuardTarget (0x2082D0): the object the guard goes for: its current target while that is in the world; otherwise
+// the nearest of its detector's entries that it has seen (or, in modes 34 / 37, any other guard), skipping excluded
+// ones (0x2089F0) and taking an immediate one (0x208B38) at once; the pursued object's distance and other guards'
+// in modes 34 / 37 are weighted (D_002C3D70 / D_002C3D80), and objects of its target classes come first.
 typedef unsigned long ulong;
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
-struct O {char pad28[0x28];ulong flags;};
-struct ENTRY {O *object;int available;int x8,xC;};
-struct GROUP {char padFC[0xFC];int count;ENTRY entries[1];};
-struct P {char pad38C[0x38C];O *previous,*current;char pad394[0xBD0];GROUP *group;char padF68[0x54];int mode;};
+struct LOF {char pad28[0x28];ulong grfLo;};   /* an LO: its flag qword (bit 60: in the world) */
+struct DETENTRY {LOF *plo;int fSeen;int x8,xC;};   /* a detector entry */
+struct DETECTOR {char padFC[0xFC];int cdetentry;DETENTRY adetentry[1];};
+struct GUARD {char pad38C[0x38C];LOF *ploPursued,*ploTarget;char pad394[0xBD0];DETECTOR *pdet;char padF68[0x54];int nMode;};
 extern float D_002A886C,D_002C3D70[3],D_002C3D80[3];
 extern "C" qword PosOfLo(void *) asm("PosOfLo__FP2LO");
-extern "C" int FIsBasicDerivedFrom(O *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
-extern "C" int func_002089F0(P *,O *);
-extern "C" int func_00208B38(P *,O *);
-extern "C" int FTargetClass(P *,O *) asm("FTargetClass__FPvP2LO");
+extern "C" int FIsBasicDerivedFrom(LOF *,int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
+extern "C" int func_002089F0(GUARD *,LOF *);   /* an excluded target class */
+extern "C" int func_00208B38(GUARD *,LOF *);   /* an immediate target class */
+extern "C" int FTargetClass(GUARD *,LOF *) asm("FTargetClass__FPvP2LO");
 static inline qword Sub(const qword&a,qword b){
     qword d,bv,av;
     __asm__("lqc2 %2,%4\n\tqmtc2.ni %3,%1\n\tvsub.xyzw %0,%2,%1":"=&j"(d),"=&j"(bv),"=&j"(av):"r"(b),"m"(a));
@@ -28,28 +31,28 @@ static inline float Length(qword d){
 }
 static inline float Weight(float distance,const float *k){return k[0]+distance*(k[1]+distance*k[2]);}
 // name: SafeHouse port (PloGuardTarget)
-extern "C" O *PloGuardTarget__FP5GUARD(P*p)
+extern "C" LOF *PloGuardTarget__FP5GUARD(GUARD*pguard)
 {
-    O *best=0;
-    if(p->current&&(((unsigned int)(p->current->flags>>60))&1)){best=p->current;goto done;}
+    LOF *best=0;
+    if(pguard->ploTarget&&(((unsigned int)(pguard->ploTarget->grfLo>>60))&1)){best=pguard->ploTarget;goto done;}
     {
         float bestDistance=D_002A886C;
-        U origin;origin.q=PosOfLo(p);
-        for(int i=0;i<p->group->count;i++){
-            ENTRY *entry=&p->group->entries[i];
-            O *candidate=entry->object;
-            if(!candidate)continue;
-            if(!entry->available&&(!(p->mode==0x22||p->mode==0x25)||!FIsBasicDerivedFrom(candidate,0x38)))continue;
-            if(func_002089F0(p,candidate))continue;
-            if(func_00208B38(p,candidate))return candidate;
-            qword delta=Sub(origin.q,PosOfLo(candidate));O *previous=p->previous;
+        U posGuard;posGuard.q=PosOfLo(pguard);
+        for(int i=0;i<pguard->pdet->cdetentry;i++){
+            DETENTRY *pdetentry=&pguard->pdet->adetentry[i];
+            LOF *ploCandidate=pdetentry->plo;
+            if(!ploCandidate)continue;
+            if(!pdetentry->fSeen&&(!(pguard->nMode==0x22||pguard->nMode==0x25)||!FIsBasicDerivedFrom(ploCandidate,0x38)))continue;
+            if(func_002089F0(pguard,ploCandidate))continue;
+            if(func_00208B38(pguard,ploCandidate))return ploCandidate;
+            qword delta=Sub(posGuard.q,PosOfLo(ploCandidate));LOF *ploPursued=pguard->ploPursued;
             float distance=Length(delta);
-            if(candidate==previous)distance=Weight(distance,D_002C3D70);
-            if((p->mode==0x22||p->mode==0x25)&&FIsBasicDerivedFrom(candidate,0x38))distance=Weight(distance,D_002C3D80);
-            if(FTargetClass(p,candidate)){
-                if(best&&!FTargetClass(p,best)){bestDistance=distance;goto take;}
-            }else if(best&&FTargetClass(p,best))continue;
-            if(distance<bestDistance){bestDistance=distance;take:best=candidate;}
+            if(ploCandidate==ploPursued)distance=Weight(distance,D_002C3D70);
+            if((pguard->nMode==0x22||pguard->nMode==0x25)&&FIsBasicDerivedFrom(ploCandidate,0x38))distance=Weight(distance,D_002C3D80);
+            if(FTargetClass(pguard,ploCandidate)){
+                if(best&&!FTargetClass(pguard,best)){bestDistance=distance;goto take;}
+            }else if(best&&FTargetClass(pguard,best))continue;
+            if(distance<bestDistance){bestDistance=distance;take:best=ploCandidate;}
         }
     }
     done:return best;

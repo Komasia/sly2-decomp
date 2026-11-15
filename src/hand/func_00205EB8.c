@@ -18,7 +18,7 @@ struct GUARD {
     char padB[0xE78 - 0xE74]; int nE78; float fE7C; float fE80; int nE84; char padC[0xF40 - 0xE88]; int nF40; int padF44;
     float gF48; float gF4C; float fF50; float fF54; float fF58; float fF5C; char padD[0xF64 - 0xF60]; struct DETECTOR *pdet;
     char padE[0xF80 - 0xF68]; int kMove; char padF[0xFBC - 0xF84]; int nMode; char padG[0xFD0 - 0xFC0]; struct MOVEREF move;
-    float tGaitFF4; char padH[0x1000 - 0xFF8]; int fSpawned;
+    float tGaitFF4; char padH[0x1000 - 0xFF8]; int nSpawnMode;   /* the spawn mode (0, 1 or 2) */
 };
 extern float D_002A8600;   /* FLT_MAX */
 extern float D_002A8604;
@@ -90,7 +90,7 @@ void InitStepguard__FP9STEPGUARD(struct GUARD *pguard)
     pguard->n3FC = -1;
     pguard->nMode = -1;
     pguard->tGaitFF4 = D_002A8604;
-    pguard->fSpawned = D_002C3CF0;
+    pguard->nSpawnMode = D_002C3CF0;
     func_002081C8(pguard);
     func_00209768(&pguard->move, pguard);
 }

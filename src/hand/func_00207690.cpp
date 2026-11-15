@@ -1,23 +1,25 @@
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct M4 {U rows[4];M4(){}M4(const M4 &m){rows[0]=m.rows[0];rows[1]=m.rows[1];rows[2]=m.rows[2];rows[3]=m.rows[3];}M4 &operator=(const M4 &m){rows[0]=m.rows[0];rows[1]=m.rows[1];rows[2]=m.rows[2];rows[3]=m.rows[3];return *this;}};
-struct SPACE {char pad0[0x40];M4 matrix;};
+struct XFW {char pad0[0x40];M4 matWorld;};
 union FLAGS {unsigned long value;unsigned char bytes[8];};
-struct P {char pad0[0x28];FLAGS flags;char pad30[0x30];SPACE *space;char pad64[0xC8];float opacity;int unused130;void *material;char pad138[0x108];float pivot[3];char pad24C[0x114];float start;};
-struct CAMERA {char pad0[0x14];int mask;char pad18[0x78];U position;};
+/* the GUARD fields used here: the LO flag qword (byte 5 its visibility bits), the root record, alpha, the shader, the
+ * base point STEP::vecBase, the squash start time (+0x360) */
+struct GUARD {char pad0[0x28];FLAGS flags;char pad30[0x30];XFW *pxfRoot;char pad64[0xC8];float uAlpha;int unused130;void *pshd;char pad138[0x108];float vecBase[3];char pad24C[0x114];float tSquash;};
+struct CM {char pad0[0x14];int grfvis;char pad18[0x78];U position;};
 struct PROFILE {float a,b,c,unused,min,max;};
 #include "clock.h"
-struct EFFECT;
-extern CAMERA g_cm;
+struct GLOBSET;
+extern CM g_cm;
 extern PROFILE D_003E1A60;
 extern float D_002C3D4C;
 extern float D_002C3D50[3],D_002C3D60[2],g_lmZeroOne[2];
 extern "C" {
-void func_001F3C10(P *);
+void func_001F3C10(GUARD *);
 int func_0014FD50(void *);
-void RenderGlob(EFFECT *,const M4 *,void *,float,float) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
+void RenderGlob(GLOBSET *,const M4 *,void *,float,float) asm("RenderGlob__FP4GLOBP7MATRIX4ffP3SHD");
 void *s1_memset(void *,int,unsigned int) asm("memset");
-qword PosOfLo(P *) asm("PosOfLo__FP2LO");
+qword PosOfLo(GUARD *) asm("PosOfLo__FP2LO");
 float sinf(float);
 qword *func_00256D18(qword *,qword);
 M4 *MulMatrix4(M4 *,const M4 *,const M4 *) asm("MulMatrix4__FP7MATRIX4T0Pv");
@@ -25,28 +27,31 @@ M4 *InverseAffineMatrix4(M4 *,const M4 *) asm("InverseAffineMatrix4__FP7MATRIX4"
 }
 static inline qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static inline float Length(qword a){qword one;float f;__asm__("vmul.xyz %0,%0,%0\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"+j"(a),"=&j"(one));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(a));__asm__("mtc1 %1,%0":"=f"(f):"r"(a));return f;}
-extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
+/* RenderStepguardSelf (0x207690): GUARD vt slot 18: when visible to the camera, its globset (+0x80) is rendered; with
+ * the camera policy at g_cm +0x3B0 active it is scaled by the distance gain, and for 0.85 s after tSquash
+ * squashed and stretched about the base point (a sine wave clamped by D_002C3D50 / D_002C3D60) in its root frame. */
+extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(GUARD *pguard)
 {
     M4 local;
     U offset;
-    M4 basis,matrix,product,inverse;
-    CAMERA *camera=&g_cm;
-    if(p->flags.bytes[5]&camera->mask){
-        func_001F3C10(p);
-        if(!func_0014FD50((char *)camera+0x3B0)){
-            RenderGlob((EFFECT *)((char *)p+0x80),0,p->material,p->opacity,p->opacity);
+    M4 basis,matWorld,product,inverse;
+    CM *pcm=&g_cm;
+    if(pguard->flags.bytes[5]&pcm->grfvis){
+        func_001F3C10(pguard);
+        if(!func_0014FD50((char *)pcm+0x3B0)){
+            RenderGlob((GLOBSET *)((char *)pguard+0x80),0,pguard->pshd,pguard->uAlpha,pguard->uAlpha);
         }else{
             s1_memset(&local,0,sizeof(M4));
             local.rows[3].f[3]=1.0f;
             local.rows[2].f[2]=1.0f;
             local.rows[1].f[1]=1.0f;
             local.rows[0].f[0]=1.0f;
-            float distance=Length(Subtract(PosOfLo(p),camera->position.q));
+            float distance=Length(Subtract(PosOfLo(pguard),pcm->position.q));
             PROFILE *profile=&D_003E1A60;
             float gain=profile->a+distance*(profile->b+distance*profile->c);
             float min=profile->min,max=profile->max;
             if(gain<min)gain=min;else if(max<gain)gain=max;
-            float elapsed=g_clock.t-p->start;
+            float elapsed=g_clock.t-pguard->tSquash;
             float along=gain,across=gain;
             if(elapsed<0.85f){
                 float wave=sinf(elapsed*D_002C3D4C);
@@ -63,23 +68,23 @@ extern "C" void RenderStepguardSelf__FP9STEPGUARDP2CMP2RO(P *p)
             local.rows[0].f[0]=across;
             local.rows[1].f[1]=across;
             local.rows[2].f[2]=along;
-            offset.f[0]=(1.0f-across)*p->pivot[0];
-            offset.f[2]=(1.0f-along)*p->pivot[2];
-            offset.f[1]=(1.0f-across)*p->pivot[1];
+            offset.f[0]=(1.0f-across)*pguard->vecBase[0];
+            offset.f[2]=(1.0f-along)*pguard->vecBase[2];
+            offset.f[1]=(1.0f-across)*pguard->vecBase[1];
             func_00256D18(&local.rows[3].q,offset.q);
             local.rows[3].f[3]=1.0f;
             M4 *productPointer=&product;
             M4 *basisPointer=&basis;
-            M4 *matrixPointer=&matrix;
-            basis.rows[0]=p->space->matrix.rows[0];
-            basis.rows[1]=p->space->matrix.rows[1];
-            basis.rows[2]=p->space->matrix.rows[2];
-            basis.rows[3]=p->space->matrix.rows[3];
+            M4 *matrixPointer=&matWorld;
+            basis.rows[0]=pguard->pxfRoot->matWorld.rows[0];
+            basis.rows[1]=pguard->pxfRoot->matWorld.rows[1];
+            basis.rows[2]=pguard->pxfRoot->matWorld.rows[2];
+            basis.rows[3]=pguard->pxfRoot->matWorld.rows[3];
             MulMatrix4(productPointer,basisPointer,&local);
             M4 *inversePointer=&inverse;
             InverseAffineMatrix4(inversePointer,basisPointer);
             MulMatrix4(matrixPointer,productPointer,inversePointer);
-            RenderGlob((EFFECT *)((char *)p+0x80),matrixPointer,p->material,p->opacity,p->opacity);
+            RenderGlob((GLOBSET *)((char *)pguard+0x80),matrixPointer,pguard->pshd,pguard->uAlpha,pguard->uAlpha);
         }
     }
 }

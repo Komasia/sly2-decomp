@@ -1,4 +1,4 @@
-/* class: STEPGUARD (CloneStepguard calls it): after a clone, each of its mask kind entries (+0x4D0, 0x20 bytes,
+/* func_00208250 (0x208250), after CloneStepguard's clone: each of its mask kind entries (+0x4D0, 0x20 bytes,
  * +0x4C0 of them; SafeHouse GUARD akinde) fixed up (0x209590), then its three 26-entry KINDE arrays (+0xC10, +0x8D0,
  * +0xA70: 0x208208). */
 typedef struct GUARD GUARD;

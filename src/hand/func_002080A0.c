@@ -1,12 +1,6 @@
-/* class: GUARD (SafeHouse guardstart.cpp: the guard's 26-entry KINDE arrays): each entry of one array resolved
- * (ResolveKinde). */
+/* func_002080A0 (0x2080A0): each entry of one of the guard's 26-entry kind arrays resolved (ResolveKinde). */
+#include "h6_guard.h"
 typedef struct GUARD GUARD;
-typedef struct KINDE {           /* a guard kind entry (SafeHouse guardstart.cpp KINDE; 0x10 bytes) */
-    /* 0x0 */ int k;             /* 2 / 3: +0x4 is a KIND2 / KIND3 from its slot heap; -1 none */
-    /* 0x4 */ union { int oid; void *pk; } u;
-    /* 0x8 */ int n8;
-    /* 0xc */ int grf;
-} KINDE;
 
 void ResolveKinde__FP5KINDEP5GUARD(KINDE *pkinde, GUARD *pguard);
 

@@ -1,12 +1,12 @@
-/* class: GUARD (SafeHouse guardstart.cpp EOPID 255, +0x33C): the getter. */
+/* func_002064A0 (0x2064A0): GUARD option getter (EOPID 255): the hit points left. */
 struct GUARD {
     /* 0x000 */ char pad0[0x338];
-    /* 0x338 */ int n338;   /* field: SafeHouse port - EOPID 254, the authored health */
-    /* 0x33c */ int n33C;   /* field: SafeHouse port - EOPID 255, the hit points left */
+    /* 0x338 */ int nHealthMax;   /* EOPID 254: the authored health, in tenths (field: SafeHouse port) */
+    /* 0x33c */ int nHealth;      /* EOPID 255: the hit points left, in tenths (field: SafeHouse port) */
 };
 
 int func_002064A0(struct GUARD *pguard)
 {
-    int n = pguard->n33C - 1;
-    return (n <= -1 ? 0 : n) + 1;
+    int nHealthLess1 = pguard->nHealth - 1;
+    return (nHealthLess1 <= -1 ? 0 : nHealthLess1) + 1;
 }

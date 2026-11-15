@@ -1,24 +1,25 @@
 extern struct { float t; float dt; } g_clock;
-extern float D_002C3D40[3];
-struct S { char pad[0xFBC]; int k; float t; };
-void SetGuardMode__FP5GUARDi(struct S *p, int n);
+extern float D_002C3D40[3];   /* how long modes 8 / 13, 34 / 37 and 21 last */
+struct GUARD { char pad[0xFBC]; int nMode; float tMode; };
+void SetGuardMode__FP5GUARDi(struct GUARD *pguard, int nMode);
+/* UpdateGuardTimedMode (0x207288): the timed guard modes end (back to -1) once their time (D_002C3D40) is up. */
 // name: SafeHouse port (UpdateGuardTimedMode)
-void UpdateGuardTimedMode__FP5GUARD(struct S *p)
+void UpdateGuardTimedMode__FP5GUARD(struct GUARD *pguard)
 {
-    switch (p->k) {
+    switch (pguard->nMode) {
     case 8:
     case 13:
-        if (g_clock.t - p->t > D_002C3D40[0])
-            SetGuardMode__FP5GUARDi(p, -1);
+        if (g_clock.t - pguard->tMode > D_002C3D40[0])
+            SetGuardMode__FP5GUARDi(pguard, -1);
         break;
     case 34:
     case 37:
-        if (g_clock.t - p->t > D_002C3D40[1])
-            SetGuardMode__FP5GUARDi(p, -1);
+        if (g_clock.t - pguard->tMode > D_002C3D40[1])
+            SetGuardMode__FP5GUARDi(pguard, -1);
         break;
     case 21:
-        if (g_clock.t - p->t > D_002C3D40[2])
-            SetGuardMode__FP5GUARDi(p, -1);
+        if (g_clock.t - pguard->tMode > D_002C3D40[2])
+            SetGuardMode__FP5GUARDi(pguard, -1);
         break;
     }
 }

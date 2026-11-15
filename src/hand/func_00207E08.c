@@ -1,10 +1,11 @@
-long MaskOfList__FPv(int a);
-void *PkindeOfMask__FP5GUARDUl(void *p, long id);
-void func_00207D98(void *p, int a, int b, float c, float d, float e, float f);
-void ResolveKinde__FP5KINDEP5GUARD(void *pe, void *p);
-void func_00207E08(void *p, int a, int b, float c, float d, float e, float f)
+/* func_00207E08 (0x207E08): the live splice method 245 (0x102F38): 0x207D98, then the entry resolved at once. */
+long MaskOfList__FPv(int plist);
+void *PkindeOfMask__FP5GUARDUl(void *pguard, long grf);
+void func_00207D98(void *pguard, int plist, int oid, float a, float b, float c, float d);
+void ResolveKinde__FP5KINDEP5GUARD(void *pkinde, void *pguard);
+void func_00207E08(void *pguard, int plist, int oid, float a, float b, float c, float d)
 {
-    void *pe = PkindeOfMask__FP5GUARDUl(p, MaskOfList__FPv(a));
-    func_00207D98(p, a, b, c, d, e, f);
-    ResolveKinde__FP5KINDEP5GUARD(pe, p);
+    void *pkinde = PkindeOfMask__FP5GUARDUl(pguard, MaskOfList__FPv(plist));
+    func_00207D98(pguard, plist, oid, a, b, c, d);
+    ResolveKinde__FP5KINDEP5GUARD(pkinde, pguard);
 }

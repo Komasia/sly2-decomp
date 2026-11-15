@@ -1,27 +1,27 @@
 extern "C" {
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
-struct P;
-struct ENTRY {struct P *object;int mode;float stamp;int unusedC;};
-struct MANAGER {char pad0[0xFC];int count;struct ENTRY entries[8];};
-struct ANCHOR {int unused0;float stamp;int mode;struct P *object;};
-struct P {char pad0[0x2C0];ulong flags;char pad2C8[0xCC];int kindCount;int kinds[3];int generated;char pad3A8[0x24];struct ANCHOR *anchor;char pad3D0[0xB94];struct MANAGER *manager;};
-struct CANDIDATE {float distance;int *source;struct P *object;int mode;float stamp;int unused14;};
-struct GAME;
-extern struct GAME g_sw;
+struct GUARD;
+struct DETENTRY {struct GUARD *object;int mode;float stamp;int unusedC;};
+struct DETECTOR {char pad0[0xFC];int cdetentry;struct DETENTRY adetentry[8];};
+struct TARGETREC {int unused0;float stamp;int mode;struct GUARD *object;};
+struct GUARD {char pad0[0x2C0];ulong grfState;char pad2C8[0xCC];int ccidTarget;int acidTarget[3];int cdetentryGenerated;char pad3A8[0x24];struct TARGETREC *ptargetrec;char pad3D0[0xB94];struct DETECTOR *pdet;};
+struct CANDIDATE {float distance;int *source;struct GUARD *object;int mode;float stamp;int unused14;};
+struct SW;
+extern struct SW g_sw;
 extern int D_003DD488;
-extern ulong D_003DD480;
+extern ulong D_003DD480;   /* the busy states' mask (made once, D_003DD488) */
 extern float D_002A8614;
 extern float D_002C3D04,D_002C3D08,D_002C3D0C;
 ulong func_00207A20(int);
-int CFindObjectsByClass(struct GAME *,int,int,int,int,struct P **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
-qword PosOfLo(struct P *) asm("PosOfLo__FP2LO");
+int CFindObjectsByClass(struct SW *,int,int,int,int,struct GUARD **) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
+qword PosOfLo(struct GUARD *) asm("PosOfLo__FP2LO");
 void qsort(void *,unsigned int,unsigned int,int (*)(const void *,const void *)) asm("qsort");
 int func_002068D8(const void *,const void *);
-int func_002085D0(struct P *,struct P *,int);
-void UpdateDetector(struct MANAGER *) asm("UpdateDetector__FP8DETECTOR");
-struct ENTRY *PdetentryFind(struct MANAGER *,struct P *) asm("PdetentryFind__FP8DETECTORi");
-void SetTargetrecTimer(struct ANCHOR *,int) asm("SetTargetrecTimer__FP9TARGETRECi");
+int func_002085D0(struct GUARD *,struct GUARD *,int);
+void UpdateDetector(struct DETECTOR *) asm("UpdateDetector__FP8DETECTOR");
+struct DETENTRY *PdetentryFind(struct DETECTOR *,struct GUARD *) asm("PdetentryFind__FP8DETECTORi");
+void SetTargetrecTimer(struct TARGETREC *,int) asm("SetTargetrecTimer__FP9TARGETRECi");
 static __inline__ qword Subtract(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;}
 static __inline__ float LengthXY(qword a){qword r;float f;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(r):"j"(a));__asm__("vsqrt Q,%0x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"+j"(r));__asm__("mtc1 %1,%0":"=f"(f):"r"(r));return f;}
 static __inline__ float Z(qword q){float f;__asm__("pextuw %0,$zero,%1":"=r"(f):"r"(q));return f;}
@@ -37,11 +37,15 @@ static __inline__ int Near(qword difference){return LengthXY(difference)<D_002C3
 #define PAD1 __asm__ volatile("");
 #define PAD4 PAD1 PAD1 PAD1 PAD1
 #define LOOP_SIZE_PAD PAD4 PAD4 PAD4 PAD4 PAD4 PAD4
+/* RefreshGuardTargets (0x206900): unless the guard's state is one of the busy ones (states 5 6 23 7 16 1 22 42), the
+ * objects of its nearby classes within D_002C3D04 become its generated detector entries, nearest first, keeping the
+ * mode/stamp of entries it already had; then the detector updates and the pursued target's record gets its timer (1
+ * seen, 2 lost but near). */
 // name: SafeHouse port (RefreshGuardTargets)
-void RefreshGuardTargets__FP5GUARD(struct P *p)
+void RefreshGuardTargets__FP5GUARD(struct GUARD *pguard)
 {
     struct CANDIDATE candidates[64];
-    struct P *objects[256];
+    struct GUARD *objects[256];
     qword anchorPosition,ownerPosition;
     if(!D_003DD488){
         ulong a=func_00207A20(5);
@@ -55,22 +59,22 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
         D_003DD488=1;
         D_003DD480=a|b|c|d|e|f|g|h;
     }
-    if(p->flags&D_003DD480)return;
-    if(p->kindCount){
+    if(pguard->grfState&D_003DD480)return;
+    if(pguard->ccidTarget){
         int candidateCount=0;
         int kind;
-        for(kind=0;kind<p->kindCount;kind++){
-            int *source=&p->kinds[kind];
+        for(kind=0;kind<pguard->ccidTarget;kind++){
+            int *source=&pguard->acidTarget[kind];
             int objectCount=CFindObjectsByClass(&g_sw,0x505,*source,0,256,objects);
             int i=0;
             if(objectCount>0){
                 float initialStamp=D_002A8614;
                 do{
-                    struct P *object=objects[i];
-                    if(object!=p){
+                    struct GUARD *object=objects[i];
+                    if(object!=pguard){
                         qword otherPosition;
                         float distance;
-                        ownerPosition=PosOfLo(p);
+                        ownerPosition=PosOfLo(pguard);
                         otherPosition=PosOfLo(object);
                         distance=LengthXY(Subtract(ownerPosition,otherPosition));
                         if(distance<D_002C3D04 && (unsigned int)candidateCount<64){
@@ -83,11 +87,11 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
                             record->object=object;
                             record->stamp=initialStamp;
                             candidateCount++;
-                            for(old=p->manager->count-p->generated;old<p->manager->count;old++){
-                                struct ENTRY *entry=&p->manager->entries[old];
-                                if(entry->object==record->object){
-                                    record->mode=entry->mode;
-                                    record->stamp=entry->stamp;
+                            for(old=pguard->pdet->cdetentry-pguard->cdetentryGenerated;old<pguard->pdet->cdetentry;old++){
+                                struct DETENTRY *pdetentry=&pguard->pdet->adetentry[old];
+                                if(pdetentry->object==record->object){
+                                    record->mode=pdetentry->mode;
+                                    record->stamp=pdetentry->stamp;
                                     break;
                                 }
                             }
@@ -99,35 +103,35 @@ void RefreshGuardTargets__FP5GUARD(struct P *p)
             }
         }
         qsort(candidates,candidateCount,sizeof(struct CANDIDATE),func_002068D8);
-        p->manager->count-=p->generated;
-        p->generated=0;
+        pguard->pdet->cdetentry-=pguard->cdetentryGenerated;
+        pguard->cdetentryGenerated=0;
         if(candidateCount>0){
             int absentMode=-1;
             struct CANDIDATE *record=candidates;
             do{
-                if(func_002085D0(p,record->object,(int)record->source)){
-                    p->generated++;
+                if(func_002085D0(pguard,record->object,(int)record->source)){
+                    pguard->cdetentryGenerated++;
                     if(record->mode!=absentMode){
-                        struct ENTRY *entry=&p->manager->entries[p->manager->count-1];
-                        entry->mode=record->mode;
-                        entry->stamp=record->stamp;
+                        struct DETENTRY *pdetentry=&pguard->pdet->adetentry[pguard->pdet->cdetentry-1];
+                        pdetentry->mode=record->mode;
+                        pdetentry->stamp=record->stamp;
                     }
                 }
                 record++;
             }while(--candidateCount);
         }
     }
-    UpdateDetector(p->manager);
-    if(p->anchor){
-        struct ENTRY *entry=PdetentryFind(p->manager,p->anchor->object);
-        if(entry){
-            switch(entry->mode){case 1:SetTargetrecTimer(p->anchor,1);break;
+    UpdateDetector(pguard->pdet);
+    if(pguard->ptargetrec){
+        struct DETENTRY *pdetentry=PdetentryFind(pguard->pdet,pguard->ptargetrec->object);
+        if(pdetentry){
+            switch(pdetentry->mode){case 1:SetTargetrecTimer(pguard->ptargetrec,1);break;
             case 2:{
                 qword ownPosition,difference;
-                anchorPosition=PosOfLo(p->anchor->object);
-                ownPosition=PosOfLo(p);
+                anchorPosition=PosOfLo(pguard->ptargetrec->object);
+                ownPosition=PosOfLo(pguard);
                 difference=Subtract(anchorPosition,ownPosition);
-                if(Near(difference))SetTargetrecTimer(p->anchor,2);
+                if(Near(difference))SetTargetrecTimer(pguard->ptargetrec,2);
             }break;
             }
         }
