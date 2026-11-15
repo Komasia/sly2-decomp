@@ -1,82 +1,68 @@
-/* JOBLINK::SetState: the child job ends; at a record: walked: the guard's curve set straight to the record's point
- * and a JOBFOLLOW along it (no avoiding, arrival within 10), with a deadline of the length / the walk speed (at
- * least the minimum); jumped: a JOBUSE to it (0x17E628); straight to it: a JOBNAVPOINT to the record. */
+typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
 #include "vtbl.h"
-#include "cid.h"
-#include "h2_aijobs.h"
-
-extern float D_002BE7B0;   /* the walk speed of the deadline (75) */
-extern float D_002BE7B4;   /* the least deadline (2) */
-/* a pushed child job, as seen through its vtable: JOBNAVPOINT (+0x30 goal), JOBFOLLOW (+0x40 fNoAvoid, +0x64 the
- * arrival distance) */
-struct JOBVT {
-    char pad0[0xC]; VTENT *vt; char pad10[0x20];
-    qword q30; union { qword q; int fNoAvoid; } u40; char pad50[0x14]; float sArrive;
-};
-/* the guard's curve: its points */
-struct CRV { char pad0[0xE8]; int cpos; char padEC[8]; qword *apos; };
-struct GUARD {
-    /* 0x000 */ char pad0[0x294];
-    /* 0x294 */ struct CRV *pcrv;       /* field: SafeHouse port (crv294) - the curve its paths are written to */
-};
-void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
-struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
-qword PosOfLo__FP2LO(struct GUARD *pguard);
-qword PosGoal__FP4GOALG9VU_VECTOR(GOAL *pgoal, qword posFrom);
-void RecalcCrv__FP3CRV(struct CRV *pcrv);
-void Follow__9JOBFOLLOWP3CRVi(struct JOBVT *pjobFollow, struct CRV *pcrv, int n);
-void func_0017E628(JOBLINK *pjob);   /* a JOBUSE to the record */
-
+extern float D_002BE7B0, D_002BE7B4;
+struct SEG { qword a; qword b; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; qword v30; union { qword v40; int n40; } u40; char pad3[0x14]; float f64; };
+struct B { char pad[0xE8]; int nE8; char pad2[8]; qword *pF4; };
+struct A { char pad[0x294]; struct B *p294; };
+struct P { char pad[0x60]; struct SEG a60[(0x120 - 0x60) / 32]; int n120; };
+struct S { char pad[0x10]; struct A *p10; int pad2; char a18[0x18]; struct P *p30; int n34; int n38; float f3C; float f40; };
+void EndChildJob__FPP5AIJOB(void *p);
+struct O *func_00205438(void *p, int n);
+qword PosOfLo__FP2LO(void *p);
+qword PosGoal__FP4GOALG9VU_VECTOR(struct SEG *s, qword v);
+void RecalcCrv__FP3CRV(struct B *b);
+void Follow__9JOBFOLLOWP3CRVi(struct O *o, struct B *b, int n);
+void func_0017E628(struct S *p);
 // name: SafeHouse port (JOBLINK::SetState)
-void SetState__7JOBLINKi(JOBLINK *pjob, int st)
-{
-    if (st == pjob->st) return;
-    EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
-    pjob->st = st;
-    pjob->tSt = g_clock.t;
-    switch (st) {
-    case LINKS_Record:
-        switch (pjob->plink->kind) {
-        case NAVLINKK_Walked:
+void SetState__7JOBLINKi(struct S *p, int n) {
+    if (n == p->n38) return;
+    EndChildJob__FPP5AIJOB(p->a18);
+    p->n38 = n;
+    p->f3C = g_clock.t;
+    switch (n) {
+    case 0:
+        switch (p->p30->n120) {
+        case 0:
             {
-                struct JOBVT *pjobFollow = func_00205438(pjob->aijob.pguard, CID_JOBFOLLOW);
-                struct CRV *pcrv = pjob->aijob.pguard->pcrv;
-                qword posGuard = PosOfLo__FP2LO(pjob->aijob.pguard);
-                qword posRec = PosGoal__FP4GOALG9VU_VECTOR(&pjob->plink->agoal[pjob->irec], posGuard);
+                struct O *o = func_00205438(p->p10, 0xA7);
+                struct B *b = p->p10->p294;
+                qword pos = PosOfLo__FP2LO(p->p10);
+                qword q = PosGoal__FP4GOALG9VU_VECTOR(&p->p30->a60[p->n34], pos);
                 qword d;
                 float len;
                 float t = g_clock.t;
-                __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(posGuard), "j"(posRec));
+                __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pos), "j"(q));
                 __asm__("vmul.xy %0, %1, %1\n\tvaddy.x %0, %0, %0y" : "=j"(d) : "j"(d));
                 __asm__("vsqrt $Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "=j"(d) : "j"(d));
                 __asm__("qmfc2.ni %0, %1" : "=r"(len) : "j"(d));
                 {
-                    float dt = len / D_002BE7B0;
-                    pjob->tEnd = t + (dt < D_002BE7B4 ? D_002BE7B4 : dt);
+                    float g = len / D_002BE7B0;
+                    p->f40 = t + (g < D_002BE7B4 ? D_002BE7B4 : g);
                 }
-                pcrv->cpos = 2;
-                pcrv->apos[0] = posGuard;
-                pcrv->apos[1] = posRec;
-                RecalcCrv__FP3CRV(pcrv);
-                pjobFollow->u40.fNoAvoid = 1;
-                pjobFollow->sArrive = 10.0f;
-                Follow__9JOBFOLLOWP3CRVi(pjobFollow, pcrv, 0);
-                { VTENT *pvte = &pjobFollow->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobFollow, pvte)); }
+                b->nE8 = 2;
+                b->pF4[0] = pos;
+                b->pF4[1] = q;
+                RecalcCrv__FP3CRV(b);
+                o->u40.n40 = 1;
+                o->f64 = 10.0f;
+                Follow__9JOBFOLLOWP3CRVi(o, b, 0);
+                { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
             }
             break;
-        case NAVLINKK_Jumped:
-            func_0017E628(pjob);
+        case 1:
+            func_0017E628(p);
             break;
         }
         break;
-    case LINKS_Point:
+    case 1:
         {
-            struct JOBVT *pjobPoint = func_00205438(pjob->aijob.pguard, CID_JOBNAVPOINT);
-            qword *aqRec = (qword *)&pjob->plink->agoal[pjob->irec];   /* the record's goal, as two quadwords */
-            pjobPoint->q30 = aqRec[0];
-            pjobPoint->u40.q = aqRec[1];
-            { VTENT *pvte = &pjobPoint->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobPoint, pvte)); }
+            struct O *o = func_00205438(p->p10, 0xBF);
+            struct SEG *sg = (struct SEG *)(p->n34 * 32 + (int)p->p30);
+            o->v30 = sg[3].a;
+            o->u40.v40 = sg[3].b;
+            { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
         }
         break;
     }
