@@ -1,18 +1,21 @@
-typedef struct { int x0,x4,cost,xC,x10,ids1,ids2,x1C; } REC;
-typedef struct { char *name; int ids,pad; } REC2;
-typedef struct {
-    char pad[0x30];
-    int x30,pad34,x38,pad3C,x40;
-    char pad44[0x254-0x44];
-    int x254,x258;
-} TBL;
-extern TBL D_003DA150;
-extern REC D_002BCD00[];
-extern REC2 D_002C3288[];
+/* class: SHOP (a text callback of the shop's screen object, SafeHouse shop.cpp): the shop's info text - the message
+ * when one is shown; on the buy page "<name><description><can / cannot afford>" (text 0xDA when the coins cover the
+ * cost, else 0xD9; 0xDC with no item); on the sell page text 0xDB with the loot's value (0xE3 with none). */
+typedef struct { int use,kind,cost,power,iepisode,idName,idDescription,x1C; } ITEM;   /* the item table */
+typedef struct { int nValue; int ids,pad; } LOOT;   /* the loot table: its value */
+typedef struct SHOP {                 /* field: SafeHouse port (shop.cpp SHOP) */
+    /* 0x000 */ char pad[0x30];
+    /* 0x030 */ int msg, pad34, idMsg, pad3C, page;
+    /* 0x044 */ char pad44[0x254-0x44];
+    /* 0x254 */ int itemBuy, itemSell;
+} SHOP;
+extern SHOP D_003DA150;
+extern ITEM D_002BCD00[];
+extern LOOT D_002C3288[];
 extern struct G g_sw;
-extern char g_game[],D_002A7A38[];
+extern char g_game[],D_002A7A38[];    /* D_002A7A38: the buy text format */
 char *func_0013E368(struct G *,int);
-int func_00161798(void *);
+int func_00161798(void *pgame);       /* the coins (SafeHouse CCoins) */
 int sprintf(char *,const char *,...);
 char *s1_strcpy(char *,const char *) asm("strcpy");
 static inline void CopyId(char *p,int id)
@@ -21,23 +24,23 @@ static inline void CopyId(char *p,int id)
 }
 void func_001DCAB0(char *pch)
 {
-    TBL *pt=&D_003DA150;
-    if(pt->x30!=-1) {
-        CopyId(pch,pt->x38);
+    SHOP *pshop=&D_003DA150;
+    if(pshop->msg!=-1) {
+        CopyId(pch,pshop->idMsg);
         return;
     } else {
-        switch(pt->x40) {
+        switch(pshop->page) {
         case 0: {
-            unsigned int i=pt->x254;
-            if(i<0x2B) {
-                if(D_002BCD00[i].ids2!=pt->x30) {
-                    int *pc=&D_002BCD00[i].cost;
-                    int count=func_00161798(g_game);
-                    int idsT=count<*pc?0xD9:0xDA;
+            unsigned int item=pshop->itemBuy;
+            if(item<0x2B) {
+                if(D_002BCD00[item].idDescription!=pshop->msg) {
+                    int *pc=&D_002BCD00[item].cost;
+                    int ccoin=func_00161798(g_game);
+                    int idsT=ccoin<*pc?0xD9:0xDA;
                     struct G *pg=&g_sw;
                     char *fmt=D_002A7A38;
-                    char *pch1=func_0013E368(pg,D_002BCD00[i].ids1);
-                    char *pch2=func_0013E368(pg,D_002BCD00[i].ids2);
+                    char *pch1=func_0013E368(pg,D_002BCD00[item].idName);
+                    char *pch2=func_0013E368(pg,D_002BCD00[item].idDescription);
                     sprintf(pch,fmt,pch1,pch2,func_0013E368(pg,idsT));
                     return;
                 }
@@ -46,9 +49,9 @@ void func_001DCAB0(char *pch)
             return;
         }
         case 1: {
-            unsigned int i=pt->x258;
-            if(i<0x40) {
-                sprintf(pch,func_0013E368(&g_sw,0xDB),D_002C3288[i].name);
+            unsigned int loot=pshop->itemSell;
+            if(loot<0x40) {
+                sprintf(pch,func_0013E368(&g_sw,0xDB),D_002C3288[loot].nValue);
                 return;
             }
             CopyId(pch,0xE3);

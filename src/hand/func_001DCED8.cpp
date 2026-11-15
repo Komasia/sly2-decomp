@@ -1,3 +1,7 @@
+/* BuildJobHelp (SafeHouse shop.cpp): rebuild Job Help's rows (their part handles released first) from the tasks
+ * (func_00165C98, sorted by func_00165C28): page 0 lists each open job (a task's +0x7C, with a title +0x6C) once,
+ * selecting the job shown before; page 1 lists the shown job's tasks that have a text (+0x5C), stopping by their
+ * +0x54 state. */
 struct FRAME {
     int a;
     FRAME();

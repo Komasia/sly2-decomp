@@ -1,5 +1,6 @@
-// Change a selector's input mode and, when the joystick points somewhere, move the selection to the
-// enabled item that lies closest along that direction from the current one.
+// StepGadget (SafeHouse shop.cpp, the gadget menu's vtable entry 14): change the stick direction and, when the
+// stick points somewhere, move the selection to the owned gadget that lies closest along that direction from the
+// current one.
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
 
