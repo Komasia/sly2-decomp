@@ -1,31 +1,30 @@
-/* func_001D7748: append a 3-word entry {oid, a value, oid} to the safe house's list at +0x190 (at most 12, count at
- * +0x18C). Called by the splice method func_0010F590 (option 1338 of the safe house, cid 0x46; Sly 3's thunk map
- * has the same EOPID at 0x10F590).
- * name: was AddStepguardEffect__FP9STEPGUARD3OID3ZPK, a bad Sly 1 shape match: it sits in the safe house module
- * (after SetSafeHouseState__FP2SWi 0x1D7480, before the safe house's state stepper 0x1D77D0) and its object is the
- * safe house, not a STEPGUARD. The entries' meaning is not known (the SafeHouse port does not implement option
- * 1338), so it keeps its address name. */
+/* class: the safe house, class 0x46: add an action entry {state, buttons, target} (option 1338, given by the splice
+ * method func_0010F590) to the list at +0x190 (at most 12, count at +0x18C). UpdateSafeHouse (0x1D72A8) runs the
+ * entry of the current state when its buttons are pressed: target 0x378 opens the shop, else a script starts
+ * (SafeHouse po.cpp UpdateSafeHouse: "option 1338: {state, buttons, target}").
+ * name: was AddStepguardEffect__FP9STEPGUARD3OID3ZPK, a bad Sly 1 shape match (it sits in the safe house module
+ * between SetSafeHouseState 0x1D7480 and the state stepper 0x1D77D0, and its object is the safe house). */
 typedef int OID;
-struct SAFEHOUSEENTRY {
-    /* 0x0 */ OID oid0;
-    /* 0x4 */ int n4;       /* the splice argument of type 0x103C */
-    /* 0x8 */ OID oid8;
+struct SAFEHOUSEACTION {
+    /* 0x0 */ OID oidState;     /* the state machine state it applies to */
+    /* 0x4 */ int grfbtn;       /* the buttons (the splice argument of type 0x103C) */
+    /* 0x8 */ OID oidTarget;    /* 0x378: the shop; -1: none; else a script */
 };
 struct SAFEHOUSE {
     /* 0x000 */ char pad0[0x18C];
-    /* 0x18C */ unsigned int centry;
-    /* 0x190 */ struct SAFEHOUSEENTRY aentry[12];
+    /* 0x18C */ unsigned int caction;
+    /* 0x190 */ struct SAFEHOUSEACTION aaction[12];
 };
 
-void func_001D7748(struct SAFEHOUSE *psh, OID oid0, int n4, OID oid8)
+void func_001D7748(struct SAFEHOUSE *psh, OID oidState, int grfbtn, OID oidTarget)
 {
-    unsigned int i = psh->centry;
-    if (i < 12) {
-        struct SAFEHOUSEENTRY *pentry;
-        psh->centry = i + 1;
-        pentry = &psh->aentry[i];
-        pentry->oid0 = oid0;
-        pentry->n4 = n4;
-        pentry->oid8 = oid8;
+    unsigned int iaction = psh->caction;
+    if (iaction < 12) {
+        struct SAFEHOUSEACTION *paction;
+        psh->caction = iaction + 1;
+        paction = &psh->aaction[iaction];
+        paction->oidState = oidState;
+        paction->grfbtn = grfbtn;
+        paction->oidTarget = oidTarget;
     }
 }

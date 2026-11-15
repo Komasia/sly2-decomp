@@ -1,5 +1,5 @@
 /* AcceptVehicleContact (Claude agent, wave-3 lane 9): hit reaction. After the base handler (FAbsorbSoWkr) accepts the event, the
- * remaining count is updated (clamped at 0) and, for kind 0x100 (random hit) or 0x1000 (hit from a sender), a random linear
+ * health (+0x560) is updated (clamped at 0) and, for kind 0x100 (random hit) or 0x1000 (hit from a sender), a random linear
  * and angular impulse is built and added to the object's velocity through its virtual get/set pairs (vtable slots 33/35 and
  * 34/36).
  *
@@ -19,18 +19,18 @@ struct VU_VECTOR4 { qword q; };
 struct VV { qword q; VV() {} VV(const qword &v) { q = v; } operator qword() const { return q; } };
 struct VU_FLOAT { qword q; VU_FLOAT() {} VU_FLOAT(float f) { __asm__("mfc1 %0, %1" : "=r"(q) : "f"(f)); } };
 static inline VU_FLOAT VuFloat(float g) { VU_FLOAT v; __asm__("qmtc2.ni %1, %0" : "=j"(v.q) : "r"(g)); return v; }
-struct P { char pad0[0xC]; VTENT *vt; char pad10[0x550]; int remaining; };
-struct EVENT { P *sender; char pad4[8]; int kind, change; };
+struct VEHICLE { char pad0[0xC]; VTENT *vt; char pad10[0x550]; int health; /* +0x560, field: SafeHouse port */ };
+struct EVENT { VEHICLE *sender; char pad4[8]; int kind, change; };
 extern qword D_002A2DA0, g_normalZ;
 extern float D_002C21D0[2], D_002C21D8[2], D_002C21E0[2], D_002C21E8[2], D_002C21F0[2], D_002C21F8[2], D_002C2200[2];
 extern "C" {
-int FAbsorbSoWkr(P *, EVENT *) asm("FAbsorbSoWkr__FP2SOP3WKR");
-void UpdateVehicleHealth(P *) asm("UpdateVehicleHealth__FP7VEHICLE");
-void SetVehicleMode(P *, int) asm("SetVehicleMode__FP7VEHICLEi");
+int FAbsorbSoWkr(VEHICLE *, EVENT *) asm("FAbsorbSoWkr__FP2SOP3WKR");
+void UpdateVehicleHealth(VEHICLE *) asm("UpdateVehicleHealth__FP7VEHICLE");
+void SetVehicleMode(VEHICLE *, int) asm("SetVehicleMode__FP7VEHICLEi");
 float GRandInRange(float, float) asm("GRandInRange__Fff");
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
-qword PosOfLo(P *) asm("PosOfLo__FP2LO");
-int AcceptVehicleContact(P *, EVENT *) asm("AcceptVehicleContact__FP3ALOP5CTMSG");
+qword PosOfLo(VEHICLE *) asm("PosOfLo__FP2LO");
+int AcceptVehicleContact(VEHICLE *, EVENT *) asm("AcceptVehicleContact__FP3ALOP5CTMSG");
 }
 static inline VV Zero() { qword r; __asm__("vsub.xyzw %0, $vf0, $vf0" : "=j"(r)); return r; }
 static inline VU_VECTOR4 VecZero() { VU_VECTOR4 v; v.q = Zero(); return v; }
@@ -69,7 +69,7 @@ static inline VV VecCombo(VU_FLOAT f1, VV v1, VU_FLOAT f2, VV v2)
 }
 static inline float Random(const float *range) { return GRandInRange(range[0], range[1]); }
 /* object vector (virtual get) += delta (virtual set) */
-static inline void AddVector(P *p, int get, int set, const VU_VECTOR4 &delta)
+static inline void AddVector(VEHICLE *p, int get, int set, const VU_VECTOR4 &delta)
 {
     VTENT *vt = p->vt;
     VTENT *pset = &vt[set];
@@ -79,17 +79,17 @@ static inline void AddVector(P *p, int get, int set, const VU_VECTOR4 &delta)
 }
 
 // name: SafeHouse port (AcceptVehicleContact)
-int AcceptVehicleContact(P *p, EVENT *event)
+int AcceptVehicleContact(VEHICLE *p, EVENT *event)
 {
     if (!FAbsorbSoWkr(p, event))
         return 0;
-    int remaining = p->remaining + event->change;
-    if (remaining < 0)
-        remaining = 0;
-    p->remaining = remaining;
+    int health = p->health + event->change;
+    if (health < 0)
+        health = 0;
+    p->health = health;
     UpdateVehicleHealth(p);
-    if (!p->remaining)
-        SetVehicleMode(p, 3);
+    if (!p->health)
+        SetVehicleMode(p, 3);   /* VEHICLEMODE_Dead */
     VU_VECTOR4 linear, angular;
     linear = VecZero();
     angular = linear;

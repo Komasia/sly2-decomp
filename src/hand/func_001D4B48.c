@@ -1,11 +1,19 @@
-struct K { int a, b; };
-struct E { int n; int a[7]; float g; struct K k; int pad[13]; };
-struct S { char pad[0x190]; unsigned int c; int pad2[3]; struct E ae[8]; };
-void func_001D4B48(struct S *p, int n, struct K *pk, float g) {
-    if (p->c < 8) {
-        struct E *pe = &p->ae[p->c++];
-        pe->n = n;
-        pe->g = g;
-        pe->k = *pk;
+/* class: VEHICLE (SafeHouse vehicle.h wheels, max 8): add a wheel with its node id, suspension travel and radius. */
+#include "h3_vehicle.h"
+
+struct VEHICLE {
+    /* 0x000 */ char pad0[0x190];
+    /* 0x190 */ unsigned int cwheel;                     /* field: SafeHouse port */
+    /* 0x194 */ int pad194[3];
+    /* 0x1a0 */ VEHICLEWHEEL awheel[CVEHICLEWHEEL_MAX];  /* field: SafeHouse port */
+};
+
+void func_001D4B48(struct VEHICLE *pvehicle, int id, LM *plmTravel, float radius)
+{
+    if (pvehicle->cwheel < CVEHICLEWHEEL_MAX) {
+        VEHICLEWHEEL *pwheel = &pvehicle->awheel[pvehicle->cwheel++];
+        pwheel->id = id;
+        pwheel->radius = radius;
+        pwheel->lmTravel = *plmTravel;
     }
 }

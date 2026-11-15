@@ -1,20 +1,8 @@
-typedef unsigned char byte;
-/* Sly 2 order differs from Sly 1: (rums == Stop) yields 1 */
-enum RUMS { RUMS_Nil = -1, RUMS_Dead = 0, RUMS_Idle = 1, RUMS_Rumble = 2, RUMS_Stop = 3, RUMS_Kill = 4 };
-struct RUMINS { byte fHighSpeedMotor; byte bLowSpeedMotor; float dt; };
-struct RUMPAT { int crumins; RUMINS arumins[32]; };
-struct RUMBLE {
-    int nPort;
-    int nSlot;
-    RUMS rums;
-    RUMPAT *prumpat;
-    int irumins;
-    float dtRumble;
-    float dtRumins;
-};
+/* UpdateRumble (Sly 1 rumble.c): per frame (real time), step the rumble pattern while rumbling, and keep the
+ * motors stopped for the stop delay before going Idle (Stop) or Dead (Kill). */
+#include "rumble.h"
 #include "clock.h"
 extern "C" int scePadSetActDirect(int, int, byte *) asm("scePadSetActDirect");
-void SetRumbleRums(RUMBLE *prumble, RUMS rums);
 void StopRumbleActuators(RUMBLE *prumble);
 void UpdateRumble(RUMBLE *prumble)
 {

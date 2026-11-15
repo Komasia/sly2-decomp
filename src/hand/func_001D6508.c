@@ -1,9 +1,27 @@
+/* Find or make the render tree entry for a sphere (pos, sRadius) with draw distance sMax and channel mask grfChannels.
+ * Starting at the world's root block (+0x3E5C), each level (a chain of 4-entry blocks linked through the last
+ * entry's pblockNext) is searched for the node entry (kind 1) whose sphere contains this one, whose draw distance
+ * covers it (1e10 = unlimited) and whose channels include the mask; the best (smallest r * min(sMax, 1e5)^2) node
+ * is descended into. When no node fits, a free entry (kind -1) of the level is used, or a new block is chained on;
+ * it gets the sphere, sMax and mask and is returned (the caller sets its kind). */
 typedef int qword __attribute__((mode(TI)));
-struct E { union { qword q; struct { float x, y, z, r; } s; } u; float x10; long k:4; long m:8; struct S *child; struct S *next; };
-struct S { struct E ae[4]; };
-extern float D_002A7870;
-typedef struct { char pad[0x3E5C]; struct S *ps; } G;
-struct S *func_001D6480(G *g);
+
+#define KIND_FREE -1
+#define KIND_NODE 1
+
+struct BLOCK;
+struct RENDER {
+    /* 0x00 */ union { qword q; struct { float x, y, z, r; } s; } sphere;
+    /* 0x10 */ float sMax;            /* draw distance, 1e10 = unlimited */
+    /* 0x14 */ long kind : 4;
+    long channels : 8;
+    /* 0x18 */ struct BLOCK *pblockChild;
+    /* 0x1c */ struct BLOCK *pblockNext;
+};
+struct BLOCK { struct RENDER arender[4]; };
+extern float D_002A7870;              /* the starting best score (a large value) */
+typedef struct { char pad[0x3E5C]; struct BLOCK *pblockRoot; } SW;
+struct BLOCK *func_001D6480(SW *psw);
 static inline float Min(float a, float b) { return b < a ? b : a; }
 static inline float Dist(qword a, qword b)
 {
@@ -15,62 +33,62 @@ static inline float Dist(qword a, qword b)
     __asm__("qmfc2.ni %0, %1" : "=r"(f) : "j"(d));
     return f;
 }
-struct E *func_001D6508(G *g, qword pos, float r, float f, int mask)
+struct RENDER *func_001D6508(SW *psw, qword pos, float sRadius, float sMax, int grfChannels)
 {
-    struct S *psLevel = g->ps;
-    struct S *ps;
-    struct S *psChild;
-    struct E *peFree;
+    struct BLOCK *pblockLevel = psw->pblockRoot;
+    struct BLOCK *pblock;
+    struct BLOCK *pblockChild;
+    struct RENDER *prenderFree;
     float best;
-    if (!psLevel)
+    if (!pblockLevel)
         return 0;
     for (;;) {
-        ps = psLevel;
+        pblock = pblockLevel;
         best = D_002A7870;
-        psChild = 0;
-        peFree = 0;
+        pblockChild = 0;
+        prenderFree = 0;
         for (;;) {
-            struct S *psNext = ps->ae[3].next;
-            unsigned int i;
-            for (i = 0; i < 4; i++) {
-                struct E *pe = &ps->ae[i];
-                int k = pe->k;
-                if (k != -1) {
-                    if (k == 1) {
-                        float dist = Dist(pos, pe->u.q), o;
-                        if (dist + r <= pe->u.s.r) {
-                            o = pe->x10;
-                            if (o == 1e10f || dist + f <= o) {
-                                if (!(mask & ~pe->m)) {
-                                    float v = pe->u.s.r * Min(o, 100000.0f) * Min(o, 100000.0f);
-                                    if (v < best) {
-                                        best = v;
-                                        psChild = pe->child;
+            struct BLOCK *pblockNext = pblock->arender[3].pblockNext;
+            unsigned int irender;
+            for (irender = 0; irender < 4; irender++) {
+                struct RENDER *prender = &pblock->arender[irender];
+                int kind = prender->kind;
+                if (kind != KIND_FREE) {
+                    if (kind == KIND_NODE) {
+                        float dist = Dist(pos, prender->sphere.q), sMaxNode;
+                        if (dist + sRadius <= prender->sphere.s.r) {
+                            sMaxNode = prender->sMax;
+                            if (sMaxNode == 1e10f || dist + sMax <= sMaxNode) {
+                                if (!(grfChannels & ~prender->channels)) {
+                                    float score = prender->sphere.s.r * Min(sMaxNode, 100000.0f) * Min(sMaxNode, 100000.0f);
+                                    if (score < best) {
+                                        best = score;
+                                        pblockChild = prender->pblockChild;
                                     }
                                 }
                             }
                         }
                     }
-                } else if (!peFree) {
-                    peFree = pe;
+                } else if (!prenderFree) {
+                    prenderFree = prender;
                 }
             }
-            if (!psNext)
+            if (!pblockNext)
                 break;
-            ps = psNext;
+            pblock = pblockNext;
         }
-        if (!psChild) {
-            if (!peFree) {
-                ps->ae[3].next = func_001D6480(g);
-                peFree = ps->ae[3].next->ae;
+        if (!pblockChild) {
+            if (!prenderFree) {
+                pblock->arender[3].pblockNext = func_001D6480(psw);
+                prenderFree = pblock->arender[3].pblockNext->arender;
             }
-            peFree->x10 = f;
-            peFree->u.q = pos;
-            peFree->u.s.r = r;
-            peFree->m = mask;
+            prenderFree->sMax = sMax;
+            prenderFree->sphere.q = pos;
+            prenderFree->sphere.s.r = sRadius;
+            prenderFree->channels = grfChannels;
             break;
         }
-        psLevel = psChild;
+        pblockLevel = pblockChild;
     }
-    return peFree;
+    return prenderFree;
 }

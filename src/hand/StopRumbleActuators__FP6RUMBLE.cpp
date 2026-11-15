@@ -1,4 +1,5 @@
-struct RUMBLE { int nPort; int nSlot; };
+/* StopRumbleActuators (Sly 1 rumble.c): switch both of the pad's motors off. */
+#include "rumble.h"
 extern "C" int scePadSetActDirect(int, int, unsigned char *) asm("scePadSetActDirect");
 void StopRumbleActuators(RUMBLE *prumble)
 {
