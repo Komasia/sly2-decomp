@@ -1,5 +1,13 @@
-struct S { char pad[0x10]; void *p10; char pad2[0x1C]; int n30; };
-void Init__5AIJOB(struct S *p);
-void AddGuardState__FP5GUARDi(void *p, int n);
+/* JOBSURROUND::Init (0xB3): the guard's state 0x19 added; no state yet. */
+#include "h2_aijobs.h"
+
+void Init__5AIJOB(JOBSURROUND *pjob);
+void AddGuardState__FP5GUARDi(struct GUARD *pguard, int gs);
+
 // name: SafeHouse port (JOBSURROUND::Init)
-void Init__11JOBSURROUND(struct S *p) { Init__5AIJOB(p); AddGuardState__FP5GUARDi(p->p10, 0x19); p->n30 = -1; }
+void Init__11JOBSURROUND(JOBSURROUND *pjob)
+{
+    Init__5AIJOB(pjob);
+    AddGuardState__FP5GUARDi(pjob->aijob.pguard, 0x19);
+    pjob->st = SURS_None;
+}

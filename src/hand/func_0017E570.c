@@ -1,10 +1,7 @@
-/* class: JOBLINK (SafeHouse aijobs.cpp (0x17E570): the link crossed, its state -1). */
-struct JOBLINK {
-    /* 0x00 */ char pad0[0x38];
-    /* 0x38 */ int st;
-};
+/* JOBLINK: crossed (no state). class: JOBLINK (SafeHouse aijobs.cpp 0x17E570). */
+#include "h2_aijobs.h"
 
-int func_0017E570(struct JOBLINK *pjob)
+int func_0017E570(JOBLINK *pjob)
 {
-    return pjob->st == -1;
+    return pjob->st == LINKS_None;
 }

@@ -1,19 +1,32 @@
-typedef int qword __attribute__((mode(TI)));
-struct T { char pad[0x2DC]; int n2DC; char pad2[8]; int n2E8; int n2EC; char pad3[0xFE8 - 0x2F0]; int nFE8; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; int n40; };
-void Enter__5AIJOB(struct S *p);
-void SetWaitState__7JOBWAITi(struct S *p, int n);
-qword PosOfLo__FP2LO(void *p);
-void RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT(int n, qword q, void *pv);
-int func_00209098(struct T *t);
+/* JOBWAIT::Enter: the guard's patrol (or, for a guard that walks home, its home list; neither: idle), its saved place
+ * re-found nearest the guard, then the patrol (or held, when the guard is held still). */
+#include "h2_aijobs.h"
+#include "h2_cmdlist.h"
+
+struct GUARD {
+    /* 0x000 */ char pad0[0x2DC];
+    /* 0x2dc */ struct SAVEDSCRIPT saved;          /* field: SafeHouse port (saved2DC) */
+    /* 0x2e8 */ struct CMDLIST *pcmdlistPatrol;    /* field: SafeHouse port */
+    /* 0x2ec */ struct CMDLIST *pcmdlistHome;      /* field: SafeHouse port */
+    /* 0x2f0 */ char pad2F0[0xFE8 - 0x2F0];
+    /* 0xfe8 */ int grfFE8;                        /* field: SafeHouse port - 2: it walks (home) */
+};
+void Enter__5AIJOB(JOBWAIT *pjob);
+void SetWaitState__7JOBWAITi(JOBWAIT *pjob, int st);
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+void RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT(struct CMDLIST *pcmdlist, qword pos, struct SAVEDSCRIPT *psaved);
+int func_00209098(struct GUARD *pguard);   /* SafeHouse port: FGuardStill (0x209098) */
+
 // name: SafeHouse port (JOBWAIT::Enter)
-void Enter__7JOBWAIT(struct S *p) {
-    struct T *t;
-    Enter__5AIJOB(p);
-    t = p->pt;
-    if (t->n2E8) p->n40 = t->n2E8;
-    else if (t->nFE8 & 2) p->n40 = t->n2EC;
-    else { p->n40 = 0; SetWaitState__7JOBWAITi(p, 2); return; }
-    if (p->pt->n2DC) RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT(p->n40, PosOfLo__FP2LO(p->pt), &p->pt->n2DC);
-    if (func_00209098(p->pt)) SetWaitState__7JOBWAITi(p, 3); else SetWaitState__7JOBWAITi(p, 0);
+void Enter__7JOBWAIT(JOBWAIT *pjob)
+{
+    struct GUARD *pguard;
+    Enter__5AIJOB(pjob);
+    pguard = pjob->aijob.pguard;
+    if (pguard->pcmdlistPatrol) pjob->pcmdlist = pguard->pcmdlistPatrol;
+    else if (pguard->grfFE8 & 2) pjob->pcmdlist = pguard->pcmdlistHome;
+    else { pjob->pcmdlist = 0; SetWaitState__7JOBWAITi(pjob, WAITS_Idle); return; }
+    if (pjob->aijob.pguard->saved.pcmd)
+        RefindSavedScript__FP7CMDLISTG9VU_VECTORP11SAVEDSCRIPT(pjob->pcmdlist, PosOfLo__FP2LO(pjob->aijob.pguard), &pjob->aijob.pguard->saved);
+    if (func_00209098(pjob->aijob.pguard)) SetWaitState__7JOBWAITi(pjob, WAITS_Held); else SetWaitState__7JOBWAITi(pjob, WAITS_Patrol);
 }

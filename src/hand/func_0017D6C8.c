@@ -1,61 +1,72 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBGOTO::Update: while the guard walks (+0xFE8 bit 1) and the job is not done, steps the state machine until it
+ * settles: on a path: arrived at the goal's region -> the link; the way searched again when it is old or the
+ * navigation changed; stuck -> straight on to a point a bit further along the path; crossing a link / at the point:
+ * searched again once done. */
 #include "clock.h"
-extern float D_002BE758, D_002BE75C;
-struct W { int pad[0x28 / 4]; int n28; };
-struct G { char pad[0x45CC]; struct W *p45CC; };
-extern struct G g_sw;
-struct T { char pad[0x30]; void *p30; float f34; };
-struct V { int pad[2]; float f8; };
-struct A { char pad[0x218]; struct V *p218; char pad2[0xFE8 - 0x21C]; int nFE8; };
-struct S {
-    char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30;
-    char pad4[0x80 - 0x34]; int n80; int n84; char pad5[8]; float a90[4]; float fA0; int nA4;
+#include "h2_aijobs.h"
+
+extern float D_002BE758;   /* how long a found way is kept */
+extern float D_002BE75C;   /* how far on along the path when stuck */
+struct NAVSERIAL { char pad0[0x28]; int nSerial; };
+struct SW { char pad0[0x45CC]; struct NAVSERIAL *pnavserial; };
+extern struct SW g_sw;
+/* the follow child: its path and the distance on it (field: SafeHouse port, aijobs.h JOBFOLLOW) */
+struct JOBFOLLOW { char pad0[0x30]; struct CRV *pcrv; float s; };
+/* the guard's fields used here */
+struct VECTOR3 { float x, y, z; };
+struct GUARD {
+    /* 0x000 */ char pad0[0x218];
+    /* 0x218 */ struct VECTOR3 *pposProbe; /* field: SafeHouse port (STEP +0x218) - the floor probe's point */
+    /* 0x21c */ char pad21C[0xFE8 - 0x21C];
+    /* 0xfe8 */ int grfFE8;             /* field: SafeHouse port - 2: it walks */
 };
-void Update__5AIJOB(struct S *p);
-int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
-int FArrived__9JOBFOLLOW(struct T *t);
-void SetState__7JOBGOTOi(struct S *p, int n);
-int FStuck__9JOBFOLLOW(struct T *t);
-float SMaxCrv__FP3CRV(void *p);
-void EvalCrvS(void *p, float f, float *pv, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
-int func_0017E570(struct T *t);
-int FDone__11JOBNAVPOINT(struct T *t);
-void Search__7JOBGOTO(struct S *p);
+void Update__5AIJOB(JOBGOTO *pjob);
+int FJobDone(JOBGOTO *pjob) asm("FJobDone__FP5AIJOB");
+int FArrived__9JOBFOLLOW(struct JOBFOLLOW *pjobFollow);
+void SetState__7JOBGOTOi(JOBGOTO *pjob, int st);
+int FStuck__9JOBFOLLOW(struct JOBFOLLOW *pjobFollow);
+float SMaxCrv__FP3CRV(struct CRV *pcrv);
+void EvalCrvS(struct CRV *pcrv, float s, qword *ppos, int n) asm("EvalCrvS__FP3CRVfP6VECTORT2");
+int func_0017E570(struct JOBFOLLOW *pjobLink);        /* JOBLINK: crossed */
+int FDone__11JOBNAVPOINT(struct JOBFOLLOW *pjobPoint);
+void Search__7JOBGOTO(JOBGOTO *pjob);
+
 // name: SafeHouse port (JOBGOTO::Update)
-void Update__7JOBGOTO(struct S *p) {
-    int s;
-    Update__5AIJOB(p);
-    if (!(p->p10->nFE8 & 2)) return;
-    while (!FJobDone(p)) {
-        s = p->n30;
-        switch (s) {
-        case 1:
-        case 2:
+void Update__7JOBGOTO(JOBGOTO *pjob)
+{
+    int st;
+    Update__5AIJOB(pjob);
+    if (!(pjob->aijob.pguard->grfFE8 & 2)) return;
+    while (!FJobDone(pjob)) {
+        st = pjob->st;
+        switch (st) {
+        case GOTOS_Path:
+        case GOTOS_PathOpen:
             {
-                struct T *t = p->p18;
-                if (s == 2 && FArrived__9JOBFOLLOW(t)) {
-                    SetState__7JOBGOTOi(p, 3);
-                } else if (g_clock.t - p->fA0 > D_002BE758 || p->nA4 != g_sw.p45CC->n28) {
-                    Search__7JOBGOTO(p);
-                } else if (FStuck__9JOBFOLLOW(t)) {
-                    float f = t->f34 + D_002BE75C;
-                    float hi = SMaxCrv__FP3CRV(t->p30);
-                    p->n80 = 0;
-                    p->n84 = 0;
-                    EvalCrvS(t->p30, f < hi ? f : hi, p->a90, 0);
-                    p->a90[2] = p->p10->p218->f8;
-                    SetState__7JOBGOTOi(p, 5);
+                struct JOBFOLLOW *pjobFollow = (struct JOBFOLLOW *)pjob->aijob.pchild;
+                if (st == GOTOS_PathOpen && FArrived__9JOBFOLLOW(pjobFollow)) {
+                    SetState__7JOBGOTOi(pjob, GOTOS_Link);
+                } else if (g_clock.t - pjob->tSearch > D_002BE758 || pjob->nSerial != g_sw.pnavserial->nSerial) {
+                    Search__7JOBGOTO(pjob);
+                } else if (FStuck__9JOBFOLLOW(pjobFollow)) {
+                    float s = pjobFollow->s + D_002BE75C;
+                    float sMax = SMaxCrv__FP3CRV(pjobFollow->pcrv);
+                    pjob->goalFallback.pcrv = 0;
+                    pjob->goalFallback.plo = 0;
+                    EvalCrvS(pjobFollow->pcrv, s < sMax ? s : sMax, &pjob->goalFallback.pos, 0);
+                    ((float *)&pjob->goalFallback.pos)[2] = pjob->aijob.pguard->pposProbe->z;
+                    SetState__7JOBGOTOi(pjob, GOTOS_Point);
                 }
             }
             break;
-        case 3:
-            if (func_0017E570(p->p18)) Search__7JOBGOTO(p);
+        case GOTOS_Link:
+            if (func_0017E570((struct JOBFOLLOW *)pjob->aijob.pchild)) Search__7JOBGOTO(pjob);
             break;
-        case 5:
-            if (FDone__11JOBNAVPOINT(p->p18)) Search__7JOBGOTO(p);
+        case GOTOS_Point:
+            if (FDone__11JOBNAVPOINT((struct JOBFOLLOW *)pjob->aijob.pchild)) Search__7JOBGOTO(pjob);
             break;
         }
-        if (s != p->n30) continue;
+        if (st != pjob->st) continue;
         break;
     }
 }

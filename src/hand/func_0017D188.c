@@ -1,3 +1,4 @@
-struct T { char pad[0xF88]; float gF88; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x24]; float g38; };
-int func_0017D188(struct S *p) { return __builtin_fabsf(p->pt->gF88 - p->g38) < 50.0f; }
+/* JOBLADDER::FDone: the guard is within 50 of the goal along the pipe. */
+#include "h2_aijobs.h"
+struct GUARD { char pad0[0xF88]; float sMove; };   /* sMove: field: SafeHouse port */
+int func_0017D188(JOBLADDER *pjob) { return __builtin_fabsf(pjob->aijob.pguard->sMove - pjob->sGoal) < 50.0f; }

@@ -1,3 +1,4 @@
-struct S { char pad[0x3C]; int n3C; };
-void Init__7JOBMOVE(struct S *p);
-void func_00179750(struct S *p) { Init__7JOBMOVE(p); p->n3C = 6; }
+/* JOBHIT2::Init (0xA2): a move of animation state index 6. */
+#include "aijob.h"
+void Init__7JOBMOVE(JOBMOVE *pjob);
+void func_00179750(JOBMOVE *pjob) { Init__7JOBMOVE(pjob); pjob->nAnim = 6; }

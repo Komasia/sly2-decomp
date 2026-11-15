@@ -1,17 +1,28 @@
-struct E { int n; int a, b, c; };
-struct T { char pad[0xA70]; struct E ae[1]; };
-struct T2 { char pad[0xF64]; void *pF64; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; struct E *p40; char pad3[0xC]; int n50; char pad4[8]; void *p5C; };
-extern char g_game[];
-int IbitLow__FUi(void *p);
-void Enter__6JOBHIT(struct S *p);
-void BroadcastTaskEvent__FP2SWiP2LO(void *g, int n, void *p);
-void func_00154038(void *p, int a, int b);
+/* JOBHIT1::Enter: the hit's entry from the guard's second kind array (+0xA70) by the hit's kind (none: the best for the
+ * mask), then JOBHIT's enter, the tasks' event 0x15 (guard hit) and the hit's source marked lost in the detector. */
+#include "h2_aijobs.h"
+
+struct SW;
+struct DETECTOR;
+extern struct SW g_game;
+struct KINDE { int k; void *pv; void *pvState; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+struct GUARD {
+    /* 0x000 */ char pad0[0xA70];
+    /* 0xa70 */ struct KINDE akinde[26];  /* field: SafeHouse port (aakinde[1]) - by the hit kind's bit */
+    /* 0xc10 */ char padC10[0xF64 - 0xC10];
+    /* 0xf64 */ struct DETECTOR *pdet;    /* field: SafeHouse port */
+};
+int IbitLow__FUi(unsigned int grf);
+void Enter__6JOBHIT(JOBHIT *pjob);
+void BroadcastTaskEvent__FP2SWiP2LO(struct SW *psw, int nEvent, struct GUARD *pguard);
+void func_00154038(struct DETECTOR *pdet, struct LO *plo, int st);
+
 // name: SafeHouse port (JOBHIT1::Enter)
-void Enter__7JOBHIT1(struct S *p) {
-    p->p40 = &p->pt->ae[IbitLow__FUi(p->p5C)];
-    if (p->p40->n == -1) p->p40 = 0;
-    Enter__6JOBHIT(p);
-    BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x15, p->pt);
-    func_00154038(((struct T2 *)p->pt)->pF64, p->n50, 2);
+void Enter__7JOBHIT1(JOBHIT *pjob)
+{
+    pjob->jobmove.pkinde = &pjob->jobmove.aijob.pguard->akinde[IbitLow__FUi(pjob->grfKind)];
+    if (pjob->jobmove.pkinde->k == -1) pjob->jobmove.pkinde = 0;
+    Enter__6JOBHIT(pjob);
+    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x15, pjob->jobmove.aijob.pguard);
+    func_00154038(pjob->jobmove.aijob.pguard->pdet, pjob->psource, 2);
 }

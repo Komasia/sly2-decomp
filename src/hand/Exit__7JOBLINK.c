@@ -1,20 +1,16 @@
-/* JOBLINK::Exit (AIJOB subclass method, AIJOB vt slot 9). */
-#include "aijob.h"
+/* JOBLINK::Exit (AIJOB vt slot 9): the base exit, no state, the job unlocked and the guard state 0x2C gone. */
+#include "h2_aijobs.h"
 
-struct GUARD;
-struct JOBLINK {
-    /* 0x00 */ AIJOB aijob;
-};
 void Exit__5AIJOB(AIJOB *pjob);
-void SetState(struct JOBLINK *pjob, int n) asm("SetState__7JOBLINKi");
+void SetState(JOBLINK *pjob, int n) asm("SetState__7JOBLINKi");
 void UnlockJob(AIJOB *pjob) asm("UnlockJob__FP5AIJOB");
 void RemoveGuardState(struct GUARD *pguard, int gs) asm("RemoveGuardState__FP5GUARDi");
 
 // name: SafeHouse port (JOBLINK::Exit)
-void Exit__7JOBLINK(struct JOBLINK *pjob)
+void Exit__7JOBLINK(JOBLINK *pjob)
 {
     Exit__5AIJOB(&pjob->aijob);
-    SetState(pjob, -1);
+    SetState(pjob, LINKS_None);
     UnlockJob(&pjob->aijob);
     RemoveGuardState(pjob->aijob.pguard, 0x2C);
 }

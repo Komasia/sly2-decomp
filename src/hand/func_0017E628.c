@@ -1,15 +1,20 @@
+/* JOBLINK (SafeHouse aijobs.cpp 0x17E628): a jumped record: a JOBUSE (extra 1) to the record's point. */
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x40]; qword q50; char pad3[8]; int n68; };
-struct S { char pad[0x10]; void *p10; char pad2[0x1C]; char *p30; int n34; };
-struct O *func_00205438(void *p, int n);
-qword PosOfLo__FP2LO(void *p);
-qword PosGoal__FP4GOALG9VU_VECTOR(void *pe, qword q);
-void func_0017E628(struct S *p) {
-    struct O *o = func_00205438(p->p10, 0xAC);
-    VTENT *e;
-    o->n68 = 1;
-    o->q50 = PosGoal__FP4GOALG9VU_VECTOR(p->p30 + 0x60 + p->n34 * 32, PosOfLo__FP2LO(p->p10));
-    e = &o->vt[8];
-    ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* the pushed JOBUSE, as seen through its vtable (pos 0x50, nExtra 0x68) */
+struct JOBVT { char pad0[0xC]; VTENT *vt; char pad10[0x40]; qword pos; char pad60[8]; int nExtra; };
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+qword PosGoal__FP4GOALG9VU_VECTOR(GOAL *pgoal, qword posFrom);
+
+void func_0017E628(JOBLINK *pjob)
+{
+    struct JOBVT *pjobUse = func_00205438(pjob->aijob.pguard, CID_JOBUSE);
+    VTENT *pvte;
+    pjobUse->nExtra = 1;
+    pjobUse->pos = PosGoal__FP4GOALG9VU_VECTOR(&pjob->plink->agoal[pjob->irec], PosOfLo__FP2LO(pjob->aijob.pguard));
+    pvte = &pjobUse->vt[8];
+    ((void (*)(void *))pvte->pfn)(VT_THIS(pjobUse, pvte));
 }

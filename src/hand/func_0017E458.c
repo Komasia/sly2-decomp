@@ -1,42 +1,51 @@
+/* JOBLINK::Update: while crossing: at the point: on to the next record once there; at a record: jumped: once the
+ * jump (JOBUSE) is done, the next record when near it, else straight to it; walked: past the deadline straight to
+ * it, else the next record once the guard is in the link's end region and the follower arrived. */
 #include "clock.h"
-struct D { char pad[0x10]; int n10; };
-struct C { char pad[0xDC]; struct D *pDC; };
-struct O { char pad[0xE8]; struct C *pE8; };
-struct T { char pad[0x120]; int n120; int pad2; int n128; };
-struct S { char pad[0x10]; struct O *p10; int pad2; void *p18; char pad3[0x14]; struct T *p30; int pad4; int n38; int pad5; float g40; };
-void Update__5AIJOB(struct S *p);
-int func_0017E570(struct S *p);
-int FDone__11JOBNAVPOINT(void *p);
-int func_00174FB8(void *p);
-int func_0017E5F0(struct S *p);
-void NextRecord__7JOBLINK(struct S *p);
-void SetState__7JOBLINKi(struct S *p, int n);
-int FArrived__9JOBFOLLOW(void *p);
+#include "h2_aijobs.h"
+
+/* the guard's fields used here */
+struct NAV { char pad0[0x10]; struct NAVREGION *pnavregion; };
+struct SOPHYS { char pad0[0xDC]; struct NAV *pnav; };
+struct GUARD {
+    /* 0x000 */ char pad0[0xE8];
+    /* 0x0e8 */ struct SOPHYS *pE8;     /* -> +0xDC -> +0x10: the navigation region it is in */
+};
+void Update__5AIJOB(JOBLINK *pjob);
+int func_0017E570(JOBLINK *pjob);                /* crossed (no state) */
+int FDone__11JOBNAVPOINT(AIJOB *pjobPoint);
+int func_00174FB8(AIJOB *pjobMove);              /* JOBMOVE: done */
+int func_0017E5F0(JOBLINK *pjob);                /* near the current record */
+void NextRecord__7JOBLINK(JOBLINK *pjob);
+void SetState__7JOBLINKi(JOBLINK *pjob, int st);
+int FArrived__9JOBFOLLOW(AIJOB *pjobFollow);
+
 // name: SafeHouse port (JOBLINK::Update)
-void Update__7JOBLINK(struct S *p) {
-    Update__5AIJOB(p);
-    if (func_0017E570(p)) return;
-    switch (p->n38) {
-    case 1:
-        if (FDone__11JOBNAVPOINT(p->p18)) NextRecord__7JOBLINK(p);
+void Update__7JOBLINK(JOBLINK *pjob)
+{
+    Update__5AIJOB(pjob);
+    if (func_0017E570(pjob)) return;
+    switch (pjob->st) {
+    case LINKS_Point:
+        if (FDone__11JOBNAVPOINT(pjob->aijob.pchild)) NextRecord__7JOBLINK(pjob);
         break;
-    case 0: {
-        struct T *t = p->p30;
-        switch (t->n120) {
-        case 1:
-            if (func_00174FB8(p->p18)) {
-                if (func_0017E5F0(p)) NextRecord__7JOBLINK(p);
-                else SetState__7JOBLINKi(p, 1);
+    case LINKS_Record: {
+        NAVLINK *plink = pjob->plink;
+        switch (plink->kind) {
+        case NAVLINKK_Jumped:
+            if (func_00174FB8(pjob->aijob.pchild)) {
+                if (func_0017E5F0(pjob)) NextRecord__7JOBLINK(pjob);
+                else SetState__7JOBLINKi(pjob, LINKS_Point);
             }
             break;
-        case 0:
-            if (p->g40 < g_clock.t) {
-                SetState__7JOBLINKi(p, 1);
+        case NAVLINKK_Walked:
+            if (pjob->tEnd < g_clock.t) {
+                SetState__7JOBLINKi(pjob, LINKS_Point);
             } else {
-                struct C *c = p->p10->pE8;
-                struct D *d = c ? c->pDC : 0;
-                int n = d ? d->n10 : 0;
-                if (n == t->n128 && FArrived__9JOBFOLLOW(p->p18)) NextRecord__7JOBLINK(p);
+                struct SOPHYS *psophys = pjob->aijob.pguard->pE8;
+                struct NAV *pnav = psophys ? psophys->pnav : 0;
+                struct NAVREGION *pregion = pnav ? pnav->pnavregion : 0;
+                if (pregion == plink->pregionEnd && FArrived__9JOBFOLLOW(pjob->aijob.pchild)) NextRecord__7JOBLINK(pjob);
             }
             break;
         }

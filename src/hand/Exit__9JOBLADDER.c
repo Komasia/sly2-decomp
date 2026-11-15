@@ -1,16 +1,12 @@
-/* JOBLADDER::Exit (AIJOB subclass method, AIJOB vt slot 9). */
-#include "aijob.h"
+/* JOBLADDER::Exit (AIJOB vt slot 9): the base exit, no state, the guard's state 0x27 removed. */
+#include "h2_aijobs.h"
 
-struct GUARD;
-struct JOBLADDER {
-    /* 0x00 */ AIJOB aijob;
-};
 void Exit__5AIJOB(AIJOB *pjob);
-void SetLadderState(struct JOBLADDER *pjob, int n) asm("SetLadderState__9JOBLADDERi");
+void SetLadderState(JOBLADDER *pjob, int st) asm("SetLadderState__9JOBLADDERi");
 void RemoveGuardState(struct GUARD *pguard, int gs) asm("RemoveGuardState__FP5GUARDi");
 
 // name: SafeHouse port (JOBLADDER::Exit)
-void Exit__9JOBLADDER(struct JOBLADDER *pjob)
+void Exit__9JOBLADDER(JOBLADDER *pjob)
 {
     Exit__5AIJOB(&pjob->aijob);
     SetLadderState(pjob, -1);

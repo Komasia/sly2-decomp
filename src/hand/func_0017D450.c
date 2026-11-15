@@ -1,50 +1,66 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBGOTO::SetState: the child job ends (kept between the path states), then the new state's child: arrived: a
+ * JOBSTAND facing the object; crossing a link: a JOBLINK; on a path: the JOBFOLLOW (new or reused) set on the
+ * guard's curve; to the fallback point: a JOBNAVPOINT. */
 #include "clock.h"
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; union { int n30; qword v30; struct { int a, b, n38; } s; } u30; union { int n40; qword v40; } u40; char pad5[0xC0 - 0x50]; int nC0; int pad6; int nC8; };
-struct A { char pad[0x294]; int n294; char pad2[0xFE8 - 0x298]; int nFE8; };
-struct S {
-    char pad[0x10]; struct A *p10; int pad2; struct O *p18; char pad3[0x14]; int n30; float f34;
-    char pad4[0x80 - 0x38]; qword v80; qword v90; char pad5[0xA8 - 0xA0]; int nA8; int nAC; char pad6[8]; int nB8; int nBC;
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* a pushed child job, as seen through its vtable: JOBSTAND (+0x38 ploFace), JOBLINK (+0x30 plink), JOBNAVPOINT
+ * (+0x30 goal), JOBFOLLOW (+0x40 fNoAvoid, +0xC0 the walk's guard state, +0xC8 the object followed) */
+struct JOBVT {
+    char pad0[0xC]; VTENT *vt; char pad10[0x20];
+    union { NAVLINK *plink; qword q; struct { int pad[2]; struct LO *ploFace; } stand; } u30;
+    union { int fNoAvoid; qword q; } u40;
+    char pad50[0xC0 - 0x50]; int nAnim; int padC4; struct LO *plo;
 };
-void EndChildJob__FPP5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
-void Follow__9JOBFOLLOWP3CRVi(struct O *o, int a, int b);
+/* the guard's fields used here */
+struct GUARD {
+    /* 0x000 */ char pad0[0x294];
+    /* 0x294 */ struct CRV *pcrv;       /* field: SafeHouse port (crv294) - the curve its paths are written to */
+    /* 0x298 */ char pad298[0xFE8 - 0x298];
+    /* 0xfe8 */ int grfFE8;             /* field: SafeHouse port */
+};
+void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+void Follow__9JOBFOLLOWP3CRVi(struct JOBVT *pjobFollow, struct CRV *pcrv, int n);
+
 // name: SafeHouse port (JOBGOTO::SetState)
-void SetState__7JOBGOTOi(struct S *p, int n) {
-    if (n == p->n30) return;
-    if (!((unsigned)n < 3 && p->n30 >= 0 && p->n30 < 3)) EndChildJob__FPP5AIJOB((char *)p + 0x18);
-    p->n30 = n;
-    p->f34 = g_clock.t;
-    switch (n) {
-    case 4:
-        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->u30.s.n38 = p->nA8; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+void SetState__7JOBGOTOi(JOBGOTO *pjob, int st)
+{
+    if (st == pjob->st) return;
+    if (!((unsigned)st < 3 && pjob->st >= 0 && pjob->st < 3)) EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
+    pjob->st = st;
+    pjob->tSt = g_clock.t;
+    switch (st) {
+    case GOTOS_Arrived:
+        { struct JOBVT *pjobStand = func_00205438(pjob->aijob.pguard, CID_JOBSTAND); VTENT *pvte; pjobStand->u30.stand.ploFace = pjob->plo; pvte = &pjobStand->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobStand, pvte)); }
         break;
-    case 3:
-        { struct O *o = func_00205438(p->p10, 0xBE); VTENT *e; o->u30.n30 = p->nB8; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+    case GOTOS_Link:
+        { struct JOBVT *pjobLink = func_00205438(pjob->aijob.pguard, CID_JOBLINK); VTENT *pvte; pjobLink->u30.plink = pjob->aplink[0]; pvte = &pjobLink->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobLink, pvte)); }
         break;
-    case 1:
-    case 2:
+    case GOTOS_Path:
+    case GOTOS_PathOpen:
         {
-            struct O *o = p->p18;
-            if (o == 0) {
-                VTENT *e;
-                o = func_00205438(p->p10, 0xA7);
-                o->nC8 = p->nA8;
-                o->u40.n40 = p->nBC;
-                if (!p->nA8 || p->nAC || !(p->p10->nFE8 & 4)) o->nC0 = 9; else o->nC0 = 8;
-                Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
-                e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct JOBVT *pjobFollow = (struct JOBVT *)pjob->aijob.pchild;
+            if (pjobFollow == 0) {
+                VTENT *pvte;
+                pjobFollow = func_00205438(pjob->aijob.pguard, CID_JOBFOLLOW);
+                pjobFollow->plo = pjob->plo;
+                pjobFollow->u40.fNoAvoid = pjob->fDirect;
+                if (!pjob->plo || pjob->fAC || !(pjob->aijob.pguard->grfFE8 & 4)) pjobFollow->nAnim = 9; else pjobFollow->nAnim = 8;
+                Follow__9JOBFOLLOWP3CRVi(pjobFollow, pjob->aijob.pguard->pcrv, 0);
+                pvte = &pjobFollow->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobFollow, pvte));
             } else {
-                Follow__9JOBFOLLOWP3CRVi(o, p->p10->n294, 0);
+                Follow__9JOBFOLLOWP3CRVi(pjobFollow, pjob->aijob.pguard->pcrv, 0);
             }
         }
         break;
-    case -1:
-    case 0:
+    case GOTOS_None:
+    case GOTOS_Search:
         break;
-    case 5:
-        { struct O *o = func_00205438(p->p10, 0xBF); VTENT *e; o->u30.v30 = p->v80; o->u40.v40 = p->v90; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+    case GOTOS_Point:
+        { struct JOBVT *pjobPoint = func_00205438(pjob->aijob.pguard, CID_JOBNAVPOINT); VTENT *pvte; pjobPoint->u30.q = ((qword *)&pjob->goalFallback)[0]; pjobPoint->u40.q = ((qword *)&pjob->goalFallback)[1]; pvte = &pjobPoint->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobPoint, pvte)); }
         break;
     }
 }

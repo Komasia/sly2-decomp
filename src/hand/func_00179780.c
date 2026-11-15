@@ -1,20 +1,37 @@
+/* JOBHIT2::Enter: the hit's entry from the guard's first kind array (+0x8D0) by the hit's kind, then JOBHIT's enter,
+ * the tasks' event 0x15 (guard hit), the hit's source marked lost in the detector, and the guard's +0xFEC object added
+ * to the world while the hit lasts (its vt slot 8; JOBHIT2::Exit removes it, slot 9). */
 #include "vtbl.h"
-struct E { int n; int a, b, c; };
-struct T { char pad[0x8D0]; struct E ae[1]; };
-struct O { char pad[0xC]; VTENT *vt; };
-struct T2 { char pad[0xF64]; void *pF64; char pad2[0xFEC - 0xF68]; struct O *pFEC; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; struct E *p40; char pad3[0xC]; int n50; char pad4[8]; void *p5C; };
-extern char g_game[];
-int IbitLow__FUi(void *p);
-void Enter__6JOBHIT(struct S *p);
-void BroadcastTaskEvent__FP2SWiP2LO(void *g, int n, void *p);
-void func_00154038(void *p, int a, int b);
+#include "h2_aijobs.h"
+
+struct SW;
+struct DETECTOR;
+extern struct SW g_game;
+struct KINDE { int k; void *pv; void *pvState; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+struct LOVT { char pad0[0xC]; VTENT *vt; };
+struct GUARD {
+    /* 0x000 */ char pad0[0x8D0];
+    /* 0x8d0 */ struct KINDE akinde[26];  /* field: SafeHouse port (aakinde[0]) - by the hit kind's bit */
+    /* 0xa70 */ char padA70[0xF64 - 0xA70];
+    /* 0xf64 */ struct DETECTOR *pdet;    /* field: SafeHouse port */
+    /* 0xf68 */ char padF68[0xFEC - 0xF68];
+    /* 0xfec */ struct LOVT *ploFEC;      /* field: SafeHouse port (option 331) */
+};
+int IbitLow__FUi(unsigned int grf);
+void Enter__6JOBHIT(JOBHIT *pjob);
+void BroadcastTaskEvent__FP2SWiP2LO(struct SW *psw, int nEvent, struct GUARD *pguard);
+void func_00154038(struct DETECTOR *pdet, struct LO *plo, int st);
+
 // name: SafeHouse port (JOBHIT2::Enter)
-void Enter__7JOBHIT2(struct S *p) {
-    p->p40 = &p->pt->ae[IbitLow__FUi(p->p5C)];
-    if (p->p40->n == -1) p->p40 = 0;
-    Enter__6JOBHIT(p);
-    BroadcastTaskEvent__FP2SWiP2LO(g_game, 0x15, p->pt);
-    func_00154038(((struct T2 *)p->pt)->pF64, p->n50, 2);
-    { struct O *o = ((struct T2 *)p->pt)->pFEC; if (o) { VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); } }
+void Enter__7JOBHIT2(JOBHIT *pjob)
+{
+    pjob->jobmove.pkinde = &pjob->jobmove.aijob.pguard->akinde[IbitLow__FUi(pjob->grfKind)];
+    if (pjob->jobmove.pkinde->k == -1) pjob->jobmove.pkinde = 0;
+    Enter__6JOBHIT(pjob);
+    BroadcastTaskEvent__FP2SWiP2LO(&g_game, 0x15, pjob->jobmove.aijob.pguard);
+    func_00154038(pjob->jobmove.aijob.pguard->pdet, pjob->psource, 2);
+    {
+        struct LOVT *plo = pjob->jobmove.aijob.pguard->ploFEC;
+        if (plo) { VTENT *pvte = &plo->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(plo, pvte)); }
+    }
 }

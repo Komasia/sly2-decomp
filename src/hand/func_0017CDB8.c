@@ -1,11 +1,23 @@
-struct T { char pad[0xF84]; void *pF84; float gF88; int nF8C; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x28]; float g3C; };
-float SMaxCrv__FP3CRV(void *p);
-float SMinCrv__FP3CRV(void *p);
-void SetRailState__7JOBRAILi(struct S *p, int n);
+/* JOBRAIL::SetDirection: the goal is the rail's end (forward) or its start; the guard's direction set from it, then
+ * moving. */
+#include "h2_aijobs.h"
+
+struct CRV;
+struct GUARD {
+    /* 0x000 */ char pad0[0xF84];
+    /* 0xf84 */ struct CRV *pcrvMove;   /* field: SafeHouse port (ploMove) */
+    /* 0xf88 */ float sMove;            /* field: SafeHouse port */
+    /* 0xf8c */ int fForward;           /* field: SafeHouse port (nMoveKind) */
+};
+float SMaxCrv__FP3CRV(struct CRV *pcrv);
+float SMinCrv__FP3CRV(struct CRV *pcrv);
+void SetRailState__7JOBRAILi(JOBRAIL *pjob, int st);
+
 // name: SafeHouse port (JOBRAIL::SetDirection)
-void SetDirection__7JOBRAILi(struct S *p, int f) {
-    void *pv = p->pt->pF84; if (f) p->g3C = SMaxCrv__FP3CRV(pv); else p->g3C = SMinCrv__FP3CRV(pv);
-    p->pt->nF8C = p->pt->gF88 < p->g3C;
-    SetRailState__7JOBRAILi(p, 0);
+void SetDirection__7JOBRAILi(JOBRAIL *pjob, int fForward)
+{
+    struct CRV *pcrv = pjob->aijob.pguard->pcrvMove;
+    if (fForward) pjob->sGoal = SMaxCrv__FP3CRV(pcrv); else pjob->sGoal = SMinCrv__FP3CRV(pcrv);
+    pjob->aijob.pguard->fForward = pjob->aijob.pguard->sMove < pjob->sGoal;
+    SetRailState__7JOBRAILi(pjob, 0);
 }

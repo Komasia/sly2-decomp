@@ -1,24 +1,25 @@
-typedef int qword __attribute__((mode(TI)));
-struct B { char pad[0x90]; qword v; };
-struct C { char pad[0x30]; qword v; };
-struct A { char pad[0x60]; struct C *p60; char pad2[0xF90 - 0x64]; struct B *pF90; };
-struct O {
-    char pad[0x10];
-    struct A *p10;
-    char pad2[0x50 - 0x14];
-    qword v50;
-    char pad3[0x70 - 0x60];
-    qword m[3];
+/* OffsetUseByHands: the use's place offset for the guard's hands: pos minus the guard's +0x60 object's +0x30 vector,
+ * minus the hands' point (+0xF90's +0x90) turned by the use's orientation mat. */
+#include "h2_aijobs.h"
+
+struct OBJ60 { char pad0[0x30]; qword vec; };
+struct LOHANDS { char pad0[0x90]; qword pos; };
+struct GUARD {
+    /* 0x000 */ char pad0[0x60];
+    /* 0x060 */ struct OBJ60 *p60;
+    /* 0x064 */ char pad64[0xF90 - 0x64];
+    /* 0xf90 */ struct LOHANDS *ploHands;   /* field: SafeHouse port (ploF90: its hands' point) */
 };
+
 // name: SafeHouse port (OffsetUseByHands)
-void OffsetUseByHands__FP6JOBUSE(struct O *p)
+void OffsetUseByHands__FP6JOBUSE(JOBUSE *pjob)
 {
-    struct A *a = p->p10;
-    qword *m = p->m;
+    struct GUARD *pguard = pjob->jobmove.aijob.pguard;
+    qword *mat = pjob->mat;
     qword d, t;
-    __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(p->v50), "j"(a->p60->v));
+    __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(pjob->pos.q), "j"(pguard->p60->vec));
     __asm__("vmulax.xyz $ACC, %2, %1x\n\tvmadday.xyz $ACC, %3, %1y\n\tvmaddz.xyz %0, %4, %1z"
-            : "=j"(t) : "j"(a->pF90->v), "j"(m[0]), "j"(m[1]), "j"(m[2]));
+            : "=j"(t) : "j"(pguard->ploHands->pos), "j"(mat[0]), "j"(mat[1]), "j"(mat[2]));
     __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(d), "j"(t));
-    p->v50 = d;
+    pjob->pos.q = d;
 }

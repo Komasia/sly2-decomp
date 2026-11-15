@@ -1,12 +1,27 @@
-typedef int qword __attribute__((mode(TI)));
-extern qword D_002A2DD0;
-struct T { char pad[0xF64]; void *pF64; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x48]; int n5C; };
-void Enter__7JOBMOVE(struct S *p);
-void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct T *t, int a, int b, qword q);
-void DetachGuardMove__FP5GUARD(struct T *t);
-void SetState__5JOBB1i(struct S *p, int n);
-void LockJob__FP5AIJOB(struct S *p);
-void func_00154038(void *p, int a, int b);
+/* JOBB1::Enter: the move starts, the guard's response cleared, its navigation-link move dropped, the launch starts
+ * (rising), the job locks the guard and the launching owner is marked lost in the detector. */
+#include "h2_aijobs.h"
+
+struct DETECTOR;
+extern qword D_002A2DD0;                /* a zero vector */
+struct GUARD {
+    /* 0x000 */ char pad0[0xF64];
+    /* 0xf64 */ struct DETECTOR *pdet;  /* field: SafeHouse port */
+};
+void Enter__7JOBMOVE(JOBB1 *pjob);
+void SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(struct GUARD *pguard, int paction, int n, qword vec);
+void DetachGuardMove__FP5GUARD(struct GUARD *pguard);
+void SetState__5JOBB1i(JOBB1 *pjob, int st);
+void LockJob__FP5AIJOB(JOBB1 *pjob);
+void func_00154038(struct DETECTOR *pdet, struct LO *plo, int st);
+
 // name: SafeHouse port (JOBB1::Enter)
-void Enter__5JOBB1(struct S *p) { Enter__7JOBMOVE(p); SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->pt, 0, 0, D_002A2DD0); DetachGuardMove__FP5GUARD(p->pt); SetState__5JOBB1i(p, 0); LockJob__FP5AIJOB(p); func_00154038(p->pt->pF64, p->n5C, 2); }
+void Enter__5JOBB1(JOBB1 *pjob)
+{
+    Enter__7JOBMOVE(pjob);
+    SetGuardResponse__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(pjob->jobmove.aijob.pguard, 0, 0, D_002A2DD0);
+    DetachGuardMove__FP5GUARD(pjob->jobmove.aijob.pguard);
+    SetState__5JOBB1i(pjob, LAUNCHS_Rise);
+    LockJob__FP5AIJOB(pjob);
+    func_00154038(pjob->jobmove.aijob.pguard->pdet, pjob->ploOwner, 2);
+}

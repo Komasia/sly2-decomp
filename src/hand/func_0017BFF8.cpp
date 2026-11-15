@@ -1,16 +1,22 @@
-// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf MATCH (Claude agent lane H14), no pins: laneH13v2 with the inner loop as `int k=0;int i=hits;do{SEGMENT*base=segments;Closest(target,&base[k],...);...;k++;}while(--i);`. base is its own pseudo inside the do-body (cse block after the loop label, so not shared with the 1C0A40 call arg, which stays `addiu t0,sp,0x50`); loop.c hoists it to the inner preheader, the &base[k] giv is then initialised as a copy of it, and pass 1 hoists base once more into the index-loop preheader (s4), like the target.
-// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH13v2 (Claude agent lane H13): inner loop `SEGMENT*segment=base;int i=hits;do{...segment++;}while(--i);` with a function-scope `SEGMENT*base=segments;` so cse cannot share &segments with the 1C0A40 call arg (rematerialized like the target), 22 -> 17. Left: base is set before the mode loop (s6) instead of the index-loop preheader (target s4), which shifts s-reg roles.
-// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH12v1 (Claude agent lane H12): laneH11v2 + `U point` at function scope between selected and segments, and the two VU scales passed as a qword (QwFromMemWord) into QwOffset(base,v,const qword&g,U*scratch) that stores g into point (target sqc2 0x40): frame and the whole VU block exact (82 -> 72 differing, aligned 26).
-// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH11v2 (Claude agent lane H11): laneH6v1 + 11EE08 call via inline Closest(qword,const SEGMENT*,U&,float&) (55->33) + plain QwAddScaled with `U point` declared mid-block before `if(hits>0)` (frame 0x460 exact, 33->26).
-// PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf laneH6v1 (Claude agent lane H6): fresh Lilly-style rewrite, no pins, VU helper asms only. aligned 55 (old .c 81, which used lw/lqc2 instruction asms).
-// Left: frame 0x480 vs 0x460 (VU_FLOAT temps get their own slot 0x370; target stores them into point at 0x40), region spilled instead of fp, &point/&distance hoisted by loop.c into s-regs (target rematerializes them).
+/* PosSurroundPlace: where the guard should stand around the target at origin facing heading: its own direction from
+ * the target, limited to the target record's narrow angle (+0x14) and the guard's near range (+0x31C, both ranges
+ * scaled by its scale controller in modes 8 / 13), kept on the navigation region - taken when that lands within the
+ * wide angle (+0x18) and the surround range (+0x324). Otherwise rays are cast (10 within the near range and the
+ * narrow angle, 10 within the surround range and the wide angle, then 15 all around; all around when +0x10 is -1) and
+ * the free-navigation segment point nearest the target wins; failing all, the origin kept on the navigation region,
+ * or the origin. SafeHouse port (aipursuit.cpp PosSurroundPlace).
+ * Matching notes (Claude agent lanes H6..H14): no register pins, only VU helper asms; the inner loop is
+ * `int k=0;int i=hits;do{SEGMENT*base=segments;Closest(target,&base[k],...);...;k++;}while(--i);` so base stays its
+ * own pseudo in the do-body (not shared with the AtFreeNav call's &segments) and loop.c hoists it like the target;
+ * `U point` sits between selected and segments and the two VU scales go through QwOffset(), which stores g into point
+ * (the target's sqc2 0x40), giving the 0x460 frame. */
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};
 struct LM{float low,high;};
-struct TUNING{char pad[0x10];int override;float narrow,wide;};
+struct TARGETREC{char pad[0x10];int n10;float radNarrow,radWide;};
 struct SCALE{char pad[0x20];float value;};
-struct ACTOR{char pad31C[0x31C];LM first,second;char pad32C[0x3CC-0x32C];TUNING*tuning;char pad3D0[0xFBC-0x3D0];int mode;char padFC0[4];SCALE*scale;};
-struct P{char pad[0x10];ACTOR*actor;};
+struct ACTOR{char pad31C[0x31C];LM lmNear,lmSurround;char pad32C[0x3CC-0x32C];TARGETREC*ptarget;char pad3D0[0xFBC-0x3D0];int nMode;char padFC0[4];SCALE*pscale;};
+struct JOBSURROUND{char pad[0x10];ACTOR*pguard;};
 struct FLOW{float polarAngle,polarLength,candidateAngle,candidateLength,distance;};
 struct SEGMENT{qword a,b;char data[0x40];};
 extern "C"{
@@ -33,32 +39,32 @@ static inline qword QwAddScaled(qword base,qword v,VU_FLOAT g){qword r;__asm__("
 
 static inline void Closest(qword t,const SEGMENT*s,U&pt,float&d){PosNearestSegment(t,s->a,s->b,&pt.q,0,&d);}
 // name: SafeHouse port (PosSurroundPlace)
-extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(P*p,void*region,qword origin,float heading){
- U closest;LM first,second,selected;U point;SEGMENT segments[8];FLOW flow;
- TUNING*tuning;
- first=p->actor->first;second=p->actor->second;
- if(p->actor->mode==8||p->actor->mode==13){
-  SCALE*scale=p->actor->scale;
-  if(scale){float factor=scale->value;first.low*=factor;first.high*=factor;second.low*=factor;second.high*=factor;}
+extern "C" qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(JOBSURROUND*p,void*region,qword origin,float heading){
+ U closest;LM lmNear,lmSurround,selected;U point;SEGMENT segments[8];FLOW flow;
+ TARGETREC*ptarget;
+ lmNear=p->pguard->lmNear;lmSurround=p->pguard->lmSurround;
+ if(p->pguard->nMode==8||p->pguard->nMode==13){
+  SCALE*scale=p->pguard->pscale;
+  if(scale){float factor=scale->value;lmNear.low*=factor;lmNear.high*=factor;lmSurround.low*=factor;lmSurround.high*=factor;}
  }
- tuning=p->actor->tuning;
- ConvertVectorToCylind(QwSub(PosOfLo(p->actor),origin),&flow.polarAngle,&flow.polarLength,0);
- float angle=heading+GLimitAbs(RadNormalize(flow.polarAngle-heading),tuning->narrow);
- float length=GLimitLm(&first,flow.polarLength);
+ ptarget=p->pguard->ptarget;
+ ConvertVectorToCylind(QwSub(PosOfLo(p->pguard),origin),&flow.polarAngle,&flow.polarLength,0);
+ float angle=heading+GLimitAbs(RadNormalize(flow.polarAngle-heading),ptarget->radNarrow);
+ float length=GLimitLm(&lmNear,flow.polarLength);
  if(FKeepOnNav(region,QwAdd(origin,SetVectorCylind(angle,length,0.0f)),&closest.q)){
   ConvertVectorToCylind(QwSub(closest.q,origin),&flow.candidateAngle,&flow.candidateLength,0);
-  if(__builtin_fabsf(RadNormalize(flow.candidateAngle-heading))<tuning->wide&&FCheckLm(&second,flow.candidateLength))return closest.q;
+  if(__builtin_fabsf(RadNormalize(flow.candidateAngle-heading))<ptarget->radWide&&FCheckLm(&lmSurround,flow.candidateLength))return closest.q;
  }
  qword target,best;
  int mode;
  for(mode=0;mode<3;mode++){
   int count;float limit;
   switch(mode){
-  case 0:selected=first;count=10;limit=tuning->narrow;break;
-  case 1:selected=second;count=10;limit=tuning->wide;break;
-  case 2:selected.low=0.0f;selected.high=second.high;count=15;limit=3.14159265f;break;
+  case 0:selected=lmNear;count=10;limit=ptarget->radNarrow;break;
+  case 1:selected=lmSurround;count=10;limit=ptarget->radWide;break;
+  case 2:selected.low=0.0f;selected.high=lmSurround.high;count=15;limit=3.14159265f;break;
   }
-  if(tuning->override==-1)limit=3.14159265f;
+  if(ptarget->n10==-1)limit=3.14159265f;
   float bestDistance=D_002A5600;
   int index;
   for(index=0;index<count;index++){

@@ -1,26 +1,33 @@
+/* JOBB2::SetB2State: the child job ends; standing: a JOBSTAND, the guard pursued by nobody; pursuing: a JOBPURSUE of
+ * the selected object (+0x40 set); held: a JOBSTAND of kind 1. */
 #include "clock.h"
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x20]; int n30; char pad3[8]; int n3C; int n40; };
-struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; int n30; float g34; char pad3[8]; int n40; };
-void EndChildJob__FPP5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
-void SetGuardPursued__FP5GUARDP2LO(void *p, int n);
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* a pushed child job, as seen through its vtable (JOBSTAND: +0x3C nAnim; JOBPURSUE: +0x30 the target, +0x40) */
+struct JOBVT { char pad0[0xC]; VTENT *vt; char pad10[0x30 - 0x10]; struct LO *ptarget; char pad34[0x3C - 0x34]; int nAnim; int n40; };
+void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+void SetGuardPursued__FP5GUARDP2LO(struct GUARD *pguard, struct LO *plo);
+
 // name: SafeHouse port (JOBB2::SetB2State)
-void SetB2State__5JOBB2i(struct S *p, int n) {
-    if (n == p->n30) return;
-    EndChildJob__FPP5AIJOB(p->a18);
-    p->n30 = n;
-    p->g34 = g_clock.t;
-    switch (n) {
-    case 0:
-        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
-        SetGuardPursued__FP5GUARDP2LO(p->p10, 0);
+void SetB2State__5JOBB2i(JOBB2 *pjob, int st)
+{
+    if (st == pjob->st) return;
+    EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
+    pjob->st = st;
+    pjob->tSt = g_clock.t;
+    switch (st) {
+    case B2S_Stand:
+        { struct JOBVT *pjobStand = func_00205438(pjob->aijob.pguard, CID_JOBSTAND); VTENT *pvte = &pjobStand->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobStand, pvte)); }
+        SetGuardPursued__FP5GUARDP2LO(pjob->aijob.pguard, 0);
         break;
-    case 1:
-        { struct O *o = func_00205438(p->p10, 0xA5); VTENT *e; o->n30 = p->n40; o->n40 = 1; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+    case B2S_Pursue:
+        { struct JOBVT *pjobPursue = func_00205438(pjob->aijob.pguard, CID_JOBPURSUE); VTENT *pvte; pjobPursue->ptarget = pjob->ploSelected; pjobPursue->n40 = 1; pvte = &pjobPursue->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobPursue, pvte)); }
         break;
-    case 2:
-        { struct O *o = func_00205438(p->p10, 0x9E); VTENT *e; o->n3C = 1; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+    case B2S_Held:
+        { struct JOBVT *pjobStand = func_00205438(pjob->aijob.pguard, CID_JOBSTAND); VTENT *pvte; pjobStand->nAnim = 1; pvte = &pjobStand->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobStand, pvte)); }
         break;
     }
 }

@@ -1,11 +1,23 @@
-struct T { char pad[0xF84]; void *pF84; float gF88; int nF8C; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x24]; float g38; };
-float SMaxCrv__FP3CRV(void *p);
-float SMinCrv__FP3CRV(void *p);
-void SetLadderState__9JOBLADDERi(struct S *p, int n);
+/* JOBLADDER::SetDirection: the goal is the pipe's end (forward) or its start; the guard's direction set from it, then
+ * climbing. */
+#include "h2_aijobs.h"
+
+struct CRV;
+struct GUARD {
+    /* 0x000 */ char pad0[0xF84];
+    /* 0xf84 */ struct CRV *pcrvMove;   /* field: SafeHouse port (ploMove) */
+    /* 0xf88 */ float sMove;            /* field: SafeHouse port */
+    /* 0xf8c */ int fForward;           /* field: SafeHouse port (nMoveKind) */
+};
+float SMaxCrv__FP3CRV(struct CRV *pcrv);
+float SMinCrv__FP3CRV(struct CRV *pcrv);
+void SetLadderState__9JOBLADDERi(JOBLADDER *pjob, int st);
+
 // name: SafeHouse port (JOBLADDER::SetDirection)
-void SetDirection__9JOBLADDERi(struct S *p, int f) {
-    void *pv = p->pt->pF84; if (f) p->g38 = SMaxCrv__FP3CRV(pv); else p->g38 = SMinCrv__FP3CRV(pv);
-    p->pt->nF8C = p->pt->gF88 < p->g38;
-    SetLadderState__9JOBLADDERi(p, 0);
+void SetDirection__9JOBLADDERi(JOBLADDER *pjob, int fForward)
+{
+    struct CRV *pcrv = pjob->aijob.pguard->pcrvMove;
+    if (fForward) pjob->sGoal = SMaxCrv__FP3CRV(pcrv); else pjob->sGoal = SMinCrv__FP3CRV(pcrv);
+    pjob->aijob.pguard->fForward = pjob->aijob.pguard->sMove < pjob->sGoal;
+    SetLadderState__9JOBLADDERi(pjob, 0);
 }
