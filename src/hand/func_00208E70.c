@@ -1,14 +1,10 @@
+#include "stepguard.h"
 #include "cid.h"
-typedef int qword __attribute__((mode(TI)));
 struct LOF { char pad[0x28]; unsigned long grfLo; };
 /* the hit (0xA1 / 0xA2: its source) and carry (0xB1: its owner) jobs */
 struct JOBHIT { char pad[0x50]; void *psource; char pad2[0x5C - 0x54]; void *ploOwner; };
 /* the actor's current target (+0x10DC) and its kind, and whether it can be targeted */
 struct ACTOR { char pad[0x10DC]; void *ploTarget; int pad2; int nTargetKind; char pad3[0x10F0 - 0x10E8]; int fTargetable; };
-struct GUARD {
-    char pad0[0x2C0]; unsigned long grfState; char pad1[0x364 - 0x2C8]; int fNear; char lmNearCarry[8]; char lmNear[8]; float sNear; int fFar;
-    char lmFar[8]; float sFar; void *ploPursued; char pad2[0x3F4 - 0x390]; struct LOF *plo3F4; struct LOF *plo3F8;
-};
 extern float D_002C3D90;   /* -500 */
 extern float D_002C3D94;   /* 0.7 */
 void LookScore__FP5ACTORP2LOPP2LOPfT3(struct ACTOR *pactor, struct GUARD *pguard, void *pploTarget, float *pdxy, float *pdz);

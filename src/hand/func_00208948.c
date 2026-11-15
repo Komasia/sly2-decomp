@@ -1,5 +1,5 @@
 /* func_00208948 (0x208948): removes a class from the guard's excluded classes (moving on after each removal, as the game does). */
-struct GUARD { char pad[0x3A8]; int ccidExcluded; int acidExcluded[1]; };
+#include "stepguard.h"
 void *s1_memmove(void *pvDst, void *pvSrc, int cb) asm("memmove");
 void func_00208948(struct GUARD *pguard, int cid)
 {

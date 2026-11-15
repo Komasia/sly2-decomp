@@ -1,5 +1,5 @@
 /* func_00208A90 (0x208A90): removes a class from the guard's immediate classes (moving on after each removal, as the game does). */
-struct GUARD { char pad[0x3C0]; int ccidImmediate; int acidImmediate[1]; };
+#include "stepguard.h"
 void *s1_memmove(void *pvDst, void *pvSrc, int cb) asm("memmove");
 void func_00208A90(struct GUARD *pguard, int cid)
 {

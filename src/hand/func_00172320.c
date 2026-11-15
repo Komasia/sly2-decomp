@@ -1,11 +1,10 @@
-typedef int qword __attribute__((mode(TI)));
+#include "stepguard.h"
 #include "clock.h"
 #include "vtbl.h"
 #include "cid.h"
 extern float D_002A5398;
 struct GOAL { qword a; qword pos; };
 struct AIJOBV { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int nAnim; char pad3[0xC0 - 0x40]; int fRun; };
-struct GUARD { char pad[0xFD0]; char moveref[4]; };
 struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; int pad2; char pchild[0x18]; int st; float tSt; float tEnd; char pad3[0xC]; int fNew; };
 void EndChildJob__FPP5AIJOB(void *ppjob);
 struct AIJOBV *func_00205438(void *pguard, int cid);   /* the guard's job of a class */
@@ -55,7 +54,7 @@ void SetInvestigateState__14JOBINVESTIGATEi(struct JOBINVESTIGATE *pjob, int stN
             qword b = PosOfLo__FP2LO(pjob->pguard);
             qword dpos;
             __asm__("vsub.xyzw %0, %1, %2" : "=j"(dpos) : "j"(a), "j"(b));
-            SetMoveHeading__FP7MOVEREF(pjob->pguard->moveref, atan2f(GetY(dpos), GetX(dpos)));
+            SetMoveHeading__FP7MOVEREF(pjob->pguard->move, atan2f(GetY(dpos), GetX(dpos)));
             { struct AIJOBV *pjobChild = func_00205438(pjob->pguard, CID_JOBSTAND); VTENT *pvte = &pjobChild->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobChild, pvte)); }
             SetDeadlines__14JOBINVESTIGATE(pjob);
         }

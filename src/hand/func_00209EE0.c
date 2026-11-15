@@ -1,9 +1,8 @@
+#include "stepguard.h"
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
 extern float D_002C3DA8;   /* 800: the speed a released guard keeps at most */
 /* the hold (0xB0) / carry (0xB1) jobs: the carry's launch state */
 struct JOBB1 { char pad[0x50]; int stLaunch; };
-struct GUARD { char pad[0xC]; VTENT *pvt; };
 int FGuardState(struct GUARD *pguard, int st) asm("FGuardState__FP5GUARDi");
 struct JOBB1 *func_00205458(struct GUARD *pguard, int cid);
 void SetState__5JOBB0i(struct JOBB1 *pjob, int st);
@@ -25,8 +24,8 @@ void ReleaseGuardHeld__FP2LO(struct GUARD *pguard)
             SetState__5JOBB1i(pjob, 2);
     }
     {
-        qword vel = ((qword (*)(void *))pguard->pvt[33].pfn)(VT_THIS(pguard, &pguard->pvt[33]));
+        qword vel = ((qword (*)(void *))pguard->step.po.so.lo.pvt[33].pfn)(VT_THIS(pguard, &pguard->step.po.so.lo.pvt[33]));
         vel = LimitVectorLength__FG9VU_VECTORf(vel, D_002C3DA8);
-        ((void (*)(void *, qword))pguard->pvt[35].pfn)(VT_THIS(pguard, &pguard->pvt[35]), vel);
+        ((void (*)(void *, qword))pguard->step.po.so.lo.pvt[35].pfn)(VT_THIS(pguard, &pguard->step.po.so.lo.pvt[35]), vel);
     }
 }

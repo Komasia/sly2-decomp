@@ -1,10 +1,10 @@
+#include "stepguard.h"
 #include "vtbl.h"
 /* the other object (an ALO): vtable, attachment */
 struct ALOV { char pad[0xC]; VTENT *pvt; char pad2[0xEC - 0x10]; void *poxa; };
 struct ALOX { char pad[0xEC]; void *poxa; };
 /* the guard's carry job (cid 0xB1) */
 struct JOBB1 { char pad[0x50]; int nState; char pad2[8]; struct ALOX *paloTarget; };
-struct GUARD { char pad[0x26C]; char bhvstk[4]; };
 int OverlapKindAlo__FP3ALOT0(struct GUARD *pguard, struct ALOV *paloOther);
 int FGuardState(struct GUARD *pguard, int st) asm("FGuardState__FP5GUARDi");
 struct JOBB1 *PjobFind__FP5GUARDPv(void *pbhvstk, int cid);
@@ -20,7 +20,7 @@ int OverlapKindGuard__FP3ALOT0(struct GUARD *pguard, struct ALOV *paloOther)
         if (!((int (*)(void *))paloOther->pvt[62].pfn)(VT_THIS(paloOther, &paloOther->pvt[62])))
             okResult = func_00134310(okResult, 1);
     } else if (FGuardState(pguard, 0x17)) {
-        struct JOBB1 *pjob = PjobFind__FP5GUARDPv(pguard->bhvstk, 0xB1);
+        struct JOBB1 *pjob = PjobFind__FP5GUARDPv(pguard->step.bhvstk, 0xB1);
         if (paloOther->poxa == pjob->paloTarget->poxa) {
             switch (pjob->nState) {
             case 0:

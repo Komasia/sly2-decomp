@@ -1,9 +1,9 @@
 inline void *operator new(unsigned int,void *storage){return storage;}
+#include "stepguard.h"
 #include "clock.h"
 struct GUARD;
 struct DETENTRY { struct GUARD *plo; int nState; float tSeen; int pad; DETENTRY(GUARD *ploSource,const CLOCK&clock):plo(ploSource),nState(0),tSeen(clock.t){} };
 struct DETECTOR { char pad[0xFC]; unsigned int cdetentry; struct DETENTRY adetentry[8]; };
-struct GUARD { char pad[0x3A4]; int cdetentryGenerated; char pad2[0xF64 - 0x3A8]; struct DETECTOR *pdet; };
 extern "C" struct DETENTRY *PdetentryFind(struct DETECTOR *pdet, struct GUARD *plo) asm("PdetentryFind__FP8DETECTORi");
 extern "C" void *s1_memmove(void *pvDst, void *pvSrc, int cb) asm("memmove");
 

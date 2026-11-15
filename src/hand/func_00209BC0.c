@@ -1,6 +1,6 @@
 /* func_00209BC0 (0x209BC0): the kind table entry that best fits the guard's current states. */
+#include "stepguard.h"
 struct KINDEM;
-struct GUARD { char pad[0x2C0]; long grfState; };
 struct KINDEM *PkindeBest__FP5GUARDUl(struct GUARD *pguard, long grfState);
 struct KINDEM *func_00209BC0(struct GUARD *pguard)
 {

@@ -1,6 +1,6 @@
+#include "stepguard.h"
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3D40[3];   /* how long modes 8 / 13, 34 / 37 and 21 last */
-struct GUARD { char pad[0xFBC]; int nMode; float tMode; };
 void SetGuardMode__FP5GUARDi(struct GUARD *pguard, int nMode);
 /* UpdateGuardTimedMode (0x207288): the timed guard modes end (back to -1) once their time (D_002C3D40) is up. */
 // name: SafeHouse port (UpdateGuardTimedMode)

@@ -1,6 +1,6 @@
+#include "stepguard.h"
 #include "clock.h"
 #include "h2_cmdlist.h"
-struct GUARD { char pad[0xF80]; int nF80; char pad2[0xFD0 - 0xF84]; char moveref[4]; };   /* nF80: the guard's path follower kind (-1, 0, 1) */
 /* JOBSCRIPT (include/h2_aijobs.h) */
 struct JOBSCRIPT { char pad[0x10]; struct GUARD *pguard; int pad2; void *pchild; char pad3[0x1C]; CMD *pcmd; float tCmd; int fRunning; int pad4; float radFace; };
 int FDone__11JOBPATHSTEP(void *pjob);
@@ -18,7 +18,7 @@ int FRunning__9JOBSCRIPT(struct JOBSCRIPT *pjob) {
     if (!pjob->fRunning) return 0;
     switch (pjob->pcmd->op) {
     case CMDOP_Path:
-        switch (pjob->pguard->nF80) {
+        switch (pjob->pguard->kMove) {
         case -1:
             if (FDone__11JOBPATHSTEP(pjob->pchild)) pjob->fRunning = 0;
             break;
@@ -33,7 +33,7 @@ int FRunning__9JOBSCRIPT(struct JOBSCRIPT *pjob) {
     case CMDOP_Goto:
         if (NArrived__7JOBGOTO(pjob->pchild)) {
             pjob->fRunning = 0;
-            SetMoveHeading__FP7MOVEREF(pjob->pguard->moveref, pjob->radFace);
+            SetMoveHeading__FP7MOVEREF(pjob->pguard->move, pjob->radFace);
         }
         break;
     case CMDOP_Wait:

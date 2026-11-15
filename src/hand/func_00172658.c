@@ -1,5 +1,4 @@
-typedef int qword __attribute__((mode(TI)));
-struct GUARD { char pad[0xE74]; struct GUARD *ploLeash; int nSearchKind; char pad2[0xFE8 - 0xE7C]; int grfMove; };
+#include "stepguard.h"
 struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; };
 qword PosOfLo__FP2LO(struct GUARD *pjob);
 qword PosNoise__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob);
