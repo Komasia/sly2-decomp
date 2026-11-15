@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct Y { char pad[0xC]; VTENT *vt; };
 struct D { int a; int b; int c; int d; };
@@ -16,7 +17,7 @@ void func_0020FFF0(void *p, struct D *pd, int b, int fl, int x, struct Y **ppy)
         *ppy = 0;
     if (CploFindSwNearest__FP2LO3OIDiiii(p, 0x204, pd->a, b, 1, &o) != 1)
         return;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x30))
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_SO))
         return;
     y = PsmaFindAloSm__Fi3OID(o, pd->b);
     if (!y)

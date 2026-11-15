@@ -1,4 +1,5 @@
 // Choose a weighted reward and distribute the remaining pickup count.
+#include "cid.h"
 extern "C" {
 struct ITEM {int kind,flags,key,count;};
 struct PICK {int weight,key;};
@@ -25,11 +26,11 @@ void FillPocket__FP2LO(struct P *p)
     ClearReward(p->owner);
     if(p->busy)return;
     id=func_00210AE0();if(id==-1)id=1;
-    if(FIsBasicDerivedFrom(p,0x3A))table=&D_002C3968[id];else table=&D_002C3748[id];
+    if(FIsBasicDerivedFrom(p,CID_GUNGUARD))table=&D_002C3968[id];else table=&D_002C3748[id];
     s1_memset(&reward,0,sizeof(reward));
     if(p->count>0){
         struct OBJECT *object=PloFindSwNearest(g_sw,4,p->items[0].kind,p->owner);
-        if(object && FIsBasicDerivedFrom(object,0x5C) && object->state && FTaskDone(object->state))p->count=0;
+        if(object && FIsBasicDerivedFrom(object,CID_PRIZE) && object->state && FTaskDone(object->state))p->count=0;
         if(p->count>0){reward=p->items[0];}
         else goto choose_reward;
     }else{

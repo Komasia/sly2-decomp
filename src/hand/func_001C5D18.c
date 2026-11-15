@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 #include "clock.h"
 extern char g_sw[];
@@ -18,7 +19,7 @@ void TestPickupCollect__FP2LO(struct S *p)
     n = func_001C4BD8(g_sw, 0x10, ap);
     for (i = 0; ; i++) {
         if (i >= n) break;
-        if (i > 0 && !FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x5B)) break;
+        if (i > 0 && !FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_COIN)) break;
         if (FPickupTouched__FP2LOP6PICKUP(p, ap[i])) break;
     }
 }

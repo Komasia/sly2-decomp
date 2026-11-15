@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct X { char pad[0x1044]; int n1044; float f1048; char pad2[0x1060 - 0x104C]; qword v1060; qword v1070; };
 struct P { char pad[0x24]; struct X *p24; char pad2[0x74 - 0x28]; void *p74; };
@@ -8,7 +9,7 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *, void *, qword *, int);
 void func_001E5000(struct P *p, void *pv)
 {
     struct X *px;
-    if (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, 0x34))
+    if (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, CID_ACTOR))
         px = p->p24;
     else
         px = 0;

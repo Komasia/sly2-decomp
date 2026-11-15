@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct I { int a; int b; } I;
@@ -37,7 +38,7 @@ void RunHit__FP2LO(P *p)
         p->x168 = 0xE;
     } else {
         v = p->x170;
-        if (v == 0x100 || v == 0x10000 || v == 0x20000 || (p->x16C && FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x3B)))
+        if (v == 0x100 || v == 0x10000 || v == 0x20000 || (p->x16C && FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, CID_DIMITRI)))
             p->x168 = 8;
         else
             p->x168 = 0;
@@ -47,7 +48,7 @@ void RunHit__FP2LO(P *p)
     pe = &p->ae[p->i];
     RunItems__FP2LOP3BRK(p, p->ae - 1);
     RunItems__FP2LOP3BRK(p, pe);
-    if (!p->x16C || !FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x38) || FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x3C)) {
+    if (!p->x16C || !FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, CID_STEPGUARD) || FIsBasicDerivedFrom__FP5BASIC3CID(p->x16C, 0x3C)) {
         func_00156B98(g_sw, 0, PosOfLo__FP2LO(p), p->x16C);
     }
     if (pe->n > 0) {

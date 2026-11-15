@@ -1,4 +1,5 @@
 // Transition controller states and select the corresponding animation.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
@@ -114,7 +115,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  switch(old){
  case -1:
   if(s->selected!=D_002DD5BC)AttachReachObject(&s->owner->controller,s->selected);
-  if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,0);
+  if(FIsBasicDerivedFrom(s->selected,CID_CARRY))IntCall(s->selected,76,0);
   ZeroXYZ(s->owner->target);
   break;
  case 3:
@@ -149,7 +150,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
     VectorCall(D_002DD5BC,35,w.velocity.q);
   }
   else if(s->selected->id==s->peer->id){
-   if(FIsBasicDerivedFrom(s->selected,0x64))IntCall(s->selected,76,4);
+   if(FIsBasicDerivedFrom(s->selected,CID_CARRY))IntCall(s->selected,76,4);
    else{ReparentBooty(s->selected,0,0xF);FadeAloOut(s->selected,0.25f);}
   }
   ReleaseReachObject(&s->owner->controller);
@@ -170,7 +171,7 @@ extern "C" void SetJtThrowState__FP7JTTHROWi(S *s,int state){
  case 6:animation=s->animation6;break;
  case 7:
   animation=s->animation7;
-  if(FIsBasicDerivedFrom(s->selected,0x64))SpendActorPower__FP5ACTORi(s->owner,s->selected->actorId);
+  if(FIsBasicDerivedFrom(s->selected,CID_CARRY))SpendActorPower__FP5ACTORi(s->owner,s->selected->actorId);
   break;
  }
  ClearSmaHandle(&s->owner->extra);

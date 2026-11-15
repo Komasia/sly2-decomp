@@ -1,10 +1,11 @@
+#include "cid.h"
 struct O { char pad[0xF40]; struct O *xF40; };
 struct G;
 extern struct G g_sw;
 struct O *PloPlayerPo__FP2SW(struct G *p);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *p, int n);
 struct O*PloFindSwNearest__FP2LO3OIDii(struct G *p, int a, int b, struct O *po);
-static __inline__ struct O *Get(struct O *po) { return (po && FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x34)) ? po->xF40 : po; }
+static __inline__ struct O *Get(struct O *po) { return (po && FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_ACTOR)) ? po->xF40 : po; }
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0x10000)->m)-0x10000)
 typedef char O_xF40_Offset[FIELD_OFFSET(struct O,xF40)==3904?1:-1];
 typedef char Size_0[sizeof(struct O)==3908?1:-1];

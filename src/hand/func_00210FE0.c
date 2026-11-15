@@ -1,3 +1,4 @@
+#include "cid.h"
 struct X { char pad[0xF20]; int xF20; char padf24[0x18]; float xF3C; };
 extern char g_sw[];
 extern float D_002DE3B8, D_002DE514;
@@ -10,7 +11,7 @@ void func_00210FE0(char *pch)
 {
     struct X *x = PloPlayerPo__FP2SW(g_sw);
     float g;
-    if (!x || !FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x34))
+    if (!x || !FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_ACTOR))
         return;
     switch (x->xF20) {
     case 0:
@@ -20,11 +21,11 @@ void func_00210FE0(char *pch)
         g = D_002DE514 * x->xF3C;
         break;
     }
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x35)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_JT)) {
         sprintf(pch, D_002A8AB8, (int)g);
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x37)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_BENTLEY)) {
         sprintf(pch, D_002A8AC0, fptodp(g));
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x36)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_MURRAY)) {
         int n = (int)g;
         if (n < 4)
             sprintf(pch, D_002A8AC8, n);

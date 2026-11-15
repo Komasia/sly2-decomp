@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct BSP;
 struct O { char pad[0x2DC]; int x2DC; };
@@ -27,7 +28,7 @@ extern "C" void EvaluateZone__FP2LO(struct S *p)
     if(initial==sentinel) f=IbspFindPoint(p->p108, 0x7FFFFFFF, ConvertPos(0, p, PosOfLo(po))) != 0;
     else f=initial;
     if (p->x124) goto set;
-    if (!FIsBasicDerivedFrom(po, 0x34)) goto set;
+    if (!FIsBasicDerivedFrom(po, CID_ACTOR)) goto set;
     if (po->x2DC == -1) goto set;
     if (D_002DE240) goto set;
     if (p->x13C == -1) return;

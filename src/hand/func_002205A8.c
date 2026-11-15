@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { int x0, x4, x8; VTENT *vt; char pad[0x13D0 - 0x10]; int x13D0; };
@@ -29,7 +30,7 @@ void ReleaseJtThrow__FP7JTTHROW(struct S *p)
         po = (struct O *)VT_THIS(po, pve);
         ((void (*)())pve->pfn)(po, ConvertVec__FP2LOT0G9VU_VECTOR(p->p0, 0, p->q30));
     }
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, 100))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, CID_CARRY))
         ((void (*)())p->po->vt[76].pfn)(VT_THIS(p->po, &p->po->vt[76]), 1);
 tail:
     if (p->p12C)

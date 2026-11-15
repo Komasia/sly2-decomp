@@ -1,4 +1,5 @@
 // Load the pending world and restore actor and view state.
+#include "cid.h"
 #include "vtbl.h"
 typedef unsigned int uint;
 struct HEADER {int words[16];};
@@ -134,13 +135,13 @@ extern "C" void PswUpdateTransition__FP2SW(SW *p)
             }
             for(int i=0;i<p->actorCount;i++){
                 ACTOR *actor=p->actors[i];
-                if(actor!=selected&&FIsBasicDerivedFrom(actor,0x34)&&!NPoEnabled(actor))Hide(actor);
+                if(actor!=selected&&FIsBasicDerivedFrom(actor,CID_ACTOR)&&!NPoEnabled(actor))Hide(actor);
             }
         }
     }
     if(!func_00210AE0()){
         ACTOR *actor=PloPlayerPo(p);
-        if(actor&&FIsBasicDerivedFrom(actor,0x34)&&actor->widget&&!actor->widget->shown)SetState(actor->widget,1);
+        if(actor&&FIsBasicDerivedFrom(actor,CID_ACTOR)&&actor->widget&&!actor->widget->shown)SetState(actor->widget,1);
     }
     UpdateCm(g_cm);
     CutCm(g_cm);

@@ -3,6 +3,7 @@ union U {qw q;float f[4];int i[4];};
 struct POLY {float a,b,c;};
 struct RIP {int kind;char p4[0x10];float start,duration;char p1C[4];POLY scale;char p2C[0x44];U position;char p80[0x10];U velocity;U acceleration;char pB0[0x20];U angular;char pE0[0x10];float radius,restitution,friction;};
 struct SHAPE {void*frame;void*owner;};
+#include "cid.h"
 #include "clock.h"
 struct PROX {float fraction,distance;};
 struct WORK {U temporary,scalar,tangent,afterTangent;PROX proximity;qw contact;U firstTorque,frictionTorque,frictionAxis,inertia,normal,offset;};
@@ -42,7 +43,7 @@ int FBounceRip(RIP*p,SHAPE*incomingShape,qw point,qw normal){
  if(p->kind==8){w.contact=point;radius=p->radius;elastic=p->restitution;friction=p->friction;}else{w.contact=point;radius=100.0f;elastic=0.7f;friction=0.8f;}
  radius*=Evaluate(&p->scale,(g_clock.t-p->start)/p->duration);
  owner=OwnerAndNormal(shape,w,incomingNormal);}
- int special=FIsBasicDerivedFrom(owner,0x59);register qw sampledNormal __asm__("vf8")=w.normal.q;
+ int special=FIsBasicDerivedFrom(owner,CID_WATER);register qw sampledNormal __asm__("vf8")=w.normal.q;
  if(special){
   qw*output;qw samplePoint;void*sampleOwner=SampleOwner(shape,w,output,samplePoint);
   func_00228C18(sampleOwner,samplePoint,output,0);

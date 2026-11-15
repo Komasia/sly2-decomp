@@ -1,3 +1,4 @@
+#include "cid.h"
 struct O { char pad[0x208]; int n208; char pad2[0x498 - 0x20C]; void *p498; };
 struct S { char pad[0x10]; int k; float t14; char pad2[0x34 - 0x18]; struct O *po; int h38; char pad3[0x50 - 0x3C]; float t50; float t54; char pad4[0x60 - 0x58]; int n60; };
 extern struct { float t; float dt; } g_clock;
@@ -26,7 +27,7 @@ void UpdateK2__FP6K2PLAY(struct S *p)
             else if (p->t50 <= g_clock.t) {
                 if (p->n60)
                     SetK2State__FP6K2PLAYi(p, 3);
-                else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, 0x38))
+                else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->po, CID_STEPGUARD))
                     func_0020D1A0(p->po->p498);
             }
             break;

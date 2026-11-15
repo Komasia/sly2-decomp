@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct L { char pad[0x28]; unsigned long fl28; };
 struct Y { char pad[0x50]; void *p50; char pad2[0x5C - 0x54]; void *p5C; };
@@ -44,7 +45,7 @@ int NRankGuard__FP5GUARDP5ACTORPf(struct S *p, struct X *x, float *pout)
             if (o) {
                 if (o == x)
                     return 4;
-                if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x34))
+                if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_ACTOR))
                     return 4;
             }
         }

@@ -1,3 +1,4 @@
+#include "cid.h"
 struct X { char pad[0xC];
   virtual void v1(); virtual void v2(); virtual void v3(); virtual void v4();
   virtual void v5(); virtual void v6(); virtual void v7(); virtual void v8(); virtual void v9(); };
@@ -10,7 +11,7 @@ extern "C" X *AddRemoveByOid__FPv3OIDif(void *pv, int fOn, int id, float g)
 {
     X *p = PloFindSwNearest(pv, 4, id);
     if (p) {
-        if (g != 0.0f && FIsBasicDerivedFrom(p, 0x30)) {
+        if (g != 0.0f && FIsBasicDerivedFrom(p, CID_SO)) {
             if (fOn)
                 FadeAloIn(p, g);
             else

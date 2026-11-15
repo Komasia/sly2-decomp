@@ -1,4 +1,5 @@
 // Choose an eligible actor using lock state, priority and weighted distance.
+#include "cid.h"
 typedef unsigned long ulong;
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
@@ -39,13 +40,13 @@ extern "C" O *PloGuardTarget__FP5GUARD(P*p)
             ENTRY *entry=&p->group->entries[i];
             O *candidate=entry->object;
             if(!candidate)continue;
-            if(!entry->available&&(!(p->mode==0x22||p->mode==0x25)||!FIsBasicDerivedFrom(candidate,0x38)))continue;
+            if(!entry->available&&(!(p->mode==0x22||p->mode==0x25)||!FIsBasicDerivedFrom(candidate,CID_STEPGUARD)))continue;
             if(func_002089F0(p,candidate))continue;
             if(func_00208B38(p,candidate))return candidate;
             qword delta=Sub(origin.q,PosOfLo(candidate));O *previous=p->previous;
             float distance=Length(delta);
             if(candidate==previous)distance=Weight(distance,D_002C3D70);
-            if((p->mode==0x22||p->mode==0x25)&&FIsBasicDerivedFrom(candidate,0x38))distance=Weight(distance,D_002C3D80);
+            if((p->mode==0x22||p->mode==0x25)&&FIsBasicDerivedFrom(candidate,CID_STEPGUARD))distance=Weight(distance,D_002C3D80);
             if(FTargetClass(p,candidate)){
                 if(best&&!FTargetClass(p,best)){bestDistance=distance;goto take;}
             }else if(best&&FTargetClass(p,best))continue;

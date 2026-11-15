@@ -4,6 +4,7 @@
  * 4) and removes the class 0x4F ones (vt slot 9), binds its state machine at the progress state "oidPoCurrent"
  * (D_002A7878; else the machine's first), steps to an allowed state, clears the pad's pressed buttons and sends
  * event 5. */
+#include "cid.h"
 #include "so.h"
 struct CRef {
     int m_tagk;
@@ -60,16 +61,16 @@ extern "C" void SetSafeHouseState__FP2SWi(OBJ *p, int nState)
         int idx;
         if (g_sw.pjobCur && !g_sw.pjobCur->f74)
             func_00162E38(g_sw.pjobCur);
-        n = CFindObjectsByClass(&g_sw, 5, 0x34, 0, 3, apsoPlayer);
+        n = CFindObjectsByClass(&g_sw, 5, CID_ACTOR, 0, 3, apsoPlayer);
         for (int i0 = 0; i0 < n; i0++) {
             SO *so = apsoPlayer[i0];
             ReturnActorBooty(so);
             StartPlayerCounters(so, 1);
         }
-        n = CFindObjectsByClass(&g_sw, 0x105, 0x64, 0, 0x20, apso64);
+        n = CFindObjectsByClass(&g_sw, 0x105, CID_CARRY, 0, 0x20, apso64);
         for (int i1 = 0; i1 < n; i1++)
             ((void (*)(void *, int))apso64[i1]->lo.pvt[76].pfn)((char *)apso64[i1] + apso64[i1]->lo.pvt[76].delta, 4);
-        n = CFindObjectsByClass(&g_sw, 0x105, 0x4F, 0, 0x20, apso4F);
+        n = CFindObjectsByClass(&g_sw, 0x105, CID_BOMB, 0, 0x20, apso4F);
         for (int i2 = 0; i2 < n; i2++)
             VCALL(apso4F[i2], 9);
         if (p->psm) {

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct T { char pad[0x14]; int n14; };
 struct A { char pad[0x200]; struct T *pt; };
@@ -12,7 +13,7 @@ int FAcceptContactGuard__FP3ALOP5CTMSG(struct S *p, struct Q *q)
     if (!((int (*)(void *))p->vt[86].pfn)(VT_THIS(p, &p->vt[86]))) {
         if (((int (*)(void *, int))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]), q->nC))
             return 1;
-        if (q->pa && FIsBasicDerivedFrom__FP5BASIC3CID(q->pa, 0x4F) && q->pa->pt->n14 == p->n14)
+        if (q->pa && FIsBasicDerivedFrom__FP5BASIC3CID(q->pa, CID_BOMB) && q->pa->pt->n14 == p->n14)
             return 1;
         if (!FAbsorbSoWkr__FP2SOP3WKR(p, q))
             return 0;

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
@@ -27,7 +28,7 @@ void EmitAloContact__FP3ALO(struct P *p)
     m.p8 = p;
     m.q20 = PosOfLo__FP2LO(p);
     m.q30 = ((qword (*)(void *))p->pvt->a[33].pfn)(VT_THIS(p, &p->pvt->a[33]));
-    if (k == 3 && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x38)) {
+    if (k == 3 && FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_STEPGUARD)) {
         m.nC = 0x40000; m.n10 = -50; m.p0 = D_002F7900.p;
     } else {
         m.p0 = p; m.nC = 0x20000; m.n10 = p->u.c.b1;

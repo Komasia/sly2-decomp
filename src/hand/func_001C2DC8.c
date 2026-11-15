@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "so.h"
 struct S { char pad[0x150]; int x150; struct LO *x154; struct LO *x158; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct LO *plo, int n);
@@ -9,20 +10,20 @@ int NReadyReward__FP2LOT0iPv(struct S *p, struct LO *plo, int id, void *pv)
 {
     if (p->x158) return 0;
     p->x154 = 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 6)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_PROXY)) {
         p->x154 = plo;
         p->x158 = PloAcquireProxyObject__FP2SWi(plo, 0);
         if (!p->x158) {
             p->x154 = 0;
             return 1;
         }
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x30)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_SO)) {
         p->x158 = plo;
     } else {
         return 2;
     }
     if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5E)) SetPickupLootKind__FP2LOi(p->x158, id);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, 0x5A))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x158, CID_PICKUP_BASE))
         ((void (*)(void *, int))p->x158->pvt[76].pfn)(VT_THIS(p->x158, &p->x158->pvt[76]), 2);
     else
         ((void (*)(void *))p->x158->pvt[9].pfn)(VT_THIS(p->x158, &p->x158->pvt[9]));

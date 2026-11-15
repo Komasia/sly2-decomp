@@ -1,3 +1,4 @@
+#include "cid.h"
 struct L { char pad[0x24]; struct L *next; char pad2[0x64 - 0x28]; struct L *first; char pad3[0x70 - 0x68]; struct L *end; char pad4[0xA4 - 0x74]; int c; void **ap; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 void SetEyesClosed__FP4EYESf(void *, float);
@@ -8,8 +9,8 @@ void SetAloEyesClosed__FP3ALOf(struct L *p, float f)
     struct L *q;
     for (i = 0; i < p->c; i++) {
         void *pv = p->ap[i];
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x8E)) SetEyesClosed__FP4EYESf(pv, f);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pv, CID_EYES)) SetEyesClosed__FP4EYESf(pv, f);
     }
     for (q = p->first; q != p->end; q = q->next)
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30)) SetAloEyesClosed__FP3ALOf(q, f);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_SO)) SetAloEyesClosed__FP3ALOf(q, f);
 }

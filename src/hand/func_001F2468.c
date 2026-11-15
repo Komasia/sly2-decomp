@@ -1,3 +1,4 @@
+#include "cid.h"
 struct R { int pad[2]; int c; };
 struct L { char pad[0x24]; struct L *next; char pad2[0x64 - 0x28]; struct L *first; char pad3[0x70 - 0x68]; struct L *end; char pad4[0x134 - 0x74]; struct R *pr; };
 struct Pool;
@@ -13,6 +14,6 @@ void func_001F2468(struct L *p)
         p->pr = 0;
     }
     for (q = p->first; q != p->end; q = q->next) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30)) func_001F2468(q);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_SO)) func_001F2468(q);
     }
 }

@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct V3 { float x, y, z; float w; };
 struct O { char pad[0x54]; float f54; float f58; float f5C; };
@@ -27,7 +28,7 @@ void func_001FDA48(struct P *p)
     }
     po = 0;
     pv = PloPlayerPo__FP2SW(&g_sw);
-    if (pv && FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x34) && 0.5f < p->f70) {
+    if (pv && FIsBasicDerivedFrom__FP5BASIC3CID(pv, CID_ACTOR) && 0.5f < p->f70) {
         float y;
         po = g_sw.p4034;
         q = PosOfLo__FP2LO(pv);

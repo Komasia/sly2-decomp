@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct O { int x0, x4, x8; VTENT *vt; char pad[0x13C - 0x10]; int k; };
 struct PR { int a, b; };
@@ -27,7 +28,7 @@ void ApplyCheckpoint__FP2SW(struct S *p)
     }
     ApplyRsmg__FP2LOiP4RSMGii(&g_sw, p->xE0, p->aE4, p, 1);
     ApplyCheckpointTasks__FP2SWiP2LOPv(g_game, p->x124, p->a128, p);
-    for (j = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, 0x1A, 0, 0x20, apo) - 1; j >= 0; j--) {
+    for (j = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, CID_EXIT, 0, 0x20, apo) - 1; j >= 0; j--) {
         if (apo[j]->k != 2) SetExitState__FP2LOi(apo[j], 0);
     }
     CutCm(g_cm);

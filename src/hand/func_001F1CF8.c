@@ -1,3 +1,4 @@
+#include "cid.h"
 struct X { char pad[0x54]; int n54; };
 struct O { char pad[0x230]; struct X *px; };
 struct Ent { int a0; int a4; int a8; int aC; };
@@ -19,7 +20,7 @@ void NextPocketPrize__FP2LO(struct P *p)
         if (!po) continue;
         a8 = pe->a8;
         k = 0x2B0;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x5C)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_PRIZE)) {
             struct X *px = po->px;
             if (px) {
                 int n = px->n54;

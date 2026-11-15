@@ -1,5 +1,6 @@
 /* SetGaugeState (SafeHouse hudwidget.cpp, orig 0x1D9B60): change the gauge's state and show the state's animation;
  * Idle shows both meters - the power meter only when the player owns a gadget that uses power. */
+#include "cid.h"
 #include "vtbl.h"
 #include "h3_hud.h"
 typedef struct { char pad0[0xC]; VTENT *vt; } SUB;
@@ -53,13 +54,13 @@ void SetGaugeState__FP5GAUGEi(GAUGE *pgauge, int state)
         VCALL1(pgauge->pscreen, 49, pgauge->idIdle);
         SelectScreenObjPart__FP2LOi(pgauge->pscreen, WID_HEALTHMETER);
         SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x35)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_JT)) {
             cslot = 0x12;
             aslot = D_002C2DE8;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x37)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_BENTLEY)) {
             cslot = 9;
             aslot = D_002C3028;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x36)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_MURRAY)) {
             cslot = 8;
             aslot = D_002C3148;
         }

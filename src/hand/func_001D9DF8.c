@@ -3,6 +3,7 @@
  * and power (down: Hidden; lost health: Hit; gained: Heal; power changed: Power; +0x10EC 4: State7; +0x10C8 set:
  * State6), Hit / Back wait for their animation, Hidden comes back when health rises, Heal / Power smooth their meter
  * to the target (D_002C3248) and return to Idle when they meet. */
+#include "cid.h"
 #include "clock.h"
 #include "h3_hud.h"
 typedef struct { char pad0[0xC]; void *vt; } SUB;
@@ -52,7 +53,7 @@ void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
     pplayerOld = pgauge->pplayer;
     pgauge->pplayer = 0;
     pplayer = PloPlayerPo__FP2SW(&g_sw);
-    if (pplayer && FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, 0x34))
+    if (pplayer && FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, CID_ACTOR))
         pgauge->pplayer = pplayer;
     if (!pgauge->pplayer) {
         pgauge->hShown = pgauge->hTarget = 0;
@@ -66,11 +67,11 @@ void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
             SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Heal);
         else
             SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Back);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x35)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_JT)) {
             pgauge->idIdle = IDGAUGE_Player; pgauge->idHit = IDGAUGE_Player + 1; pgauge->idHide = IDGAUGE_Player + 2; pgauge->idBack = IDGAUGE_Player + 3; pgauge->idLow = IDGAUGE_Player + 4;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x37)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_BENTLEY)) {
             pgauge->idIdle = IDGAUGE_Player37; pgauge->idHit = IDGAUGE_Player37 + 1; pgauge->idHide = IDGAUGE_Player37 + 2; pgauge->idBack = IDGAUGE_Player37 + 3; pgauge->idLow = IDGAUGE_Player37 + 4;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x36)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_MURRAY)) {
             pgauge->idIdle = IDGAUGE_Player36; pgauge->idHit = IDGAUGE_Player36 + 1; pgauge->idHide = IDGAUGE_Player36 + 2; pgauge->idBack = IDGAUGE_Player36 + 3; pgauge->idLow = IDGAUGE_Player36 + 4;
         }
         pgauge->hShown = pgauge->hTarget = (float)*pgauge->pplayer->xE00 / (float)pgauge->pplayer->xDFC;

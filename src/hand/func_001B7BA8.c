@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct X { char pad[0xC]; VTENT *vt; };
@@ -28,7 +29,7 @@ void CancelMurrayCarry__FP6MURRAY(struct P *p)
     }
     func_001B7D20(p);
     x = p->x13F0->x180;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x38)) ReleaseGuardHeld__FP2LO(x);
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_STEPGUARD)) ReleaseGuardHeld__FP2LO(x);
     else SetAloEntryMode__FP3ALOi(x, 1);
     switch (p->x13D0) {
     case 5: {

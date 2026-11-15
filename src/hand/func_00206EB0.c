@@ -1,3 +1,4 @@
+#include "cid.h"
 struct X { char pad[0x4C]; int n4C; };
 int FGuardState(void *p, int n) asm("FGuardState__FP5GUARDi");
 struct X *func_00205458(void *p, int n);
@@ -26,8 +27,8 @@ int FGuardModeAllowed__FP5GUARDi(void *p, int k)
     case 0x25:
         return !func_00206D48(p);
     case 0xB:
-        return !(FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3B) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3D) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x40) ||
-                 FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3E) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x41) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3F) ||
+        return !(FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_DIMITRI) || FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_RAJAN) || FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_CONTESSA) ||
+                 FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3E) || FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_ARPEGGIO) || FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_CARMELITA) ||
                  FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3C) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x42) || FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x43));
     }
     return 0;

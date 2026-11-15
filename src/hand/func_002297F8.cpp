@@ -1,5 +1,6 @@
 // Resolve one contact between two physics objects: spring push, friction impulses (linear and
 // angular), restoring torque, and the water-splash / emitter-clear effects.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
@@ -108,7 +109,7 @@ extern "C" void ApplyWaterToAlo__FP3ALOT0(O *a,O *b){
   float radius=((a->state->maximum.f[0]-a->state->minimum.f[0])+(a->state->maximum.f[1]-a->state->minimum.f[1]))*0.25f;
   WakeSoWater(a,(WATER *)b,D_002DDED4,w.velocity.q,w.point.q,0.1f,radius);
  }
- else if(FIsBasicDerivedFrom(a,0x32))Clear(&a->emitter);
+ else if(FIsBasicDerivedFrom(a,CID_PO))Clear(&a->emitter);
 }
 
 #define OFF(t,m) ((int)&((t*)0)->m)

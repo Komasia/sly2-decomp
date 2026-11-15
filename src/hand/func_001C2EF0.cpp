@@ -12,6 +12,7 @@
 //    is tied to its first dying input, which gives the original vf numbering.
 //  * `count`, start, target and offset are plain values; the stack slots at sp+0x60..0x90 are their spill slots, and
 //    `dest` is caller-saved around the duration call.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
@@ -90,7 +91,7 @@ extern "C" SO *PloLaunchReward__FP2LOi(OWNER *p, int count)
             node = p->first;
         else {
             node = PloAcquireProxyObject(p->factory, 0);
-            if (node && FIsBasicDerivedFrom(node, 0x5A))
+            if (node && FIsBasicDerivedFrom(node, CID_PICKUP_BASE))
                 SetState(node, 2);
         }
         if (!node)
@@ -107,9 +108,9 @@ extern "C" SO *PloLaunchReward__FP2LOi(OWNER *p, int count)
         mat = BuildLookAtMatrix(Normalize(side, D_002A2DA0), g_normalZ);
         qword dest = Add(target, Transform(mat, offset));
         qword velocity = func_001D69F0(start, dest, D_002C0D60, Rand(D_002C0CE0));
-        if (FIsBasicDerivedFrom(node, 0x5A)) {
+        if (FIsBasicDerivedFrom(node, CID_PICKUP_BASE)) {
             float lifetime;
-            if (FIsBasicDerivedFrom(node, 0x5B) || FIsBasicDerivedFrom(node, 0x5D))
+            if (FIsBasicDerivedFrom(node, CID_COIN) || FIsBasicDerivedFrom(node, CID_CHARM))
                 lifetime = (float)i * D_002C0CEC;
             else
                 lifetime = D_002A76E8;

@@ -3,6 +3,7 @@
  * selection; the other face buttons (0x7E8) explain the selected gadget (text 0x31 with entry bit 1, else 0xE2);
  * each of the three assign buttons (D_002C3258) puts an owned gadget with bit 1 in that ability slot (sound 0x34),
  * else says why (0x32 not owned, 0x33 no bit 1). */
+#include "cid.h"
 #define GRFGADGET_1 1                 /* set elsewhere (meaning not checked) */
 #define GRFGADGET_Owned 4             /* UpdateGadgetFlags: FPowerupOwned (bit 2 is FItemOpen, open) */
 typedef struct { char pad[0x1C]; int grf; } GADGETENT;   /* field: SafeHouse port */
@@ -49,7 +50,7 @@ void UpdateGadgetMenu__FP2SW(GADGETMENU *pmenu)
         return;
     }
     pplayer = PloPlayerPo__FP2SW(&g_sw);
-    if (pplayer == 0 || !FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, 0x34)) {
+    if (pplayer == 0 || !FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, CID_ACTOR)) {
         SetGadgetMenu__FPvi(pmenu, -1);
         return;
     }

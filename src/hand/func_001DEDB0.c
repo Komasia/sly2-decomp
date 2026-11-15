@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef struct { char pad[0x18]; int x18; } Q;
 typedef struct { int pad; int x4; } R;
 typedef struct { void *o; Q *q; void *r; int xC; } ENT;
@@ -17,7 +18,7 @@ void func_001DEDB0(OBJ *p)
         R *r;
         if (o == 0)
             continue;
-        CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 2, 0x6D, o, 1, &e->q);
+        CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 2, CID_ASEG, o, 1, &e->q);
         q = e->q;
         if (q == 0)
             continue;

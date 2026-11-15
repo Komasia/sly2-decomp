@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef unsigned long ulong;
 struct L { char pad[0x24]; struct L *next; char pad2[0x64 - 0x28]; struct L *first; char pad3[0x148 - 0x68]; ulong lo : 35; ulong b35 : 1; ulong hi : 28; };
 struct G { char pad[0x3E5C]; int f; };
@@ -16,6 +17,6 @@ void SetAloIced__FP3ALOl(struct L *p, long f)
             else func_001D6310(p);
         }
         for (q = p->first; q; q = q->next)
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x30)) SetAloIced__FP3ALOl(q, f);
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_SO)) SetAloIced__FP3ALOl(q, f);
     }
 }

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
@@ -118,7 +119,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
   M4 work=func_001A71B0(p,0,&predicted);
   predicted=work;
   func_001B72B0(p,0,&predicted,&work.row[0].q,&work.row[1].q);
-  if(FIsBasicDerivedFrom(owner,0x38))ReactGuardHeld(owner,(int)p);
+  if(FIsBasicDerivedFrom(owner,CID_STEPGUARD))ReactGuardHeld(owner,(int)p);
   PickupVelocities(p,work.row[1].q,&event->time,&duration,&work.row[2].q,&work.row[3].q);
   p->m13FC=PctrlNewTarget(owner,owner->left,(void*)5,g_clock.t+duration,work.row[1].q,work.row[3].q);
   VTENT*entry=&owner->vt[35];
@@ -166,7 +167,7 @@ extern "C" void SetMurrayCarry__FP6MURRAYi(P*p,int state) {
    p->m1624=func_0012DD28(p,stretch->second,(void*)5,stretch);
    p->m160C=func_0012DDB0(p,p->targetSecond,(void*)5,(void*)5,(int)stretch->frame,&frame);
   }
-  if(FIsBasicDerivedFrom(owner,0x38))CarryGuardHeld(owner);
+  if(FIsBasicDerivedFrom(owner,CID_STEPGUARD))CarryGuardHeld(owner);
   ClearXYZ(&p->velocity);
   break;
  }

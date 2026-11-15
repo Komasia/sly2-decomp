@@ -8,6 +8,7 @@
 //    loop.c's ~95-insn limit, so i * sizeof(ENTRY) stays a mult inside the loop as in the target;
 //  - Len(v) = Sqrt(Dot(v, v)) with a two-input Dot, one asm per VU step (target VU order and vf registers);
 //  - the distance is a float in a GPR (qmfc2) passed bit-for-bit as PxpAdd's int argument (v0 scratch, not v1).
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct CONTACT;
 struct ENDPOINT { int id, kind; char unknown8[8]; qword value; char unknown20[0x80]; };
@@ -84,7 +85,7 @@ extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(OBJ *p, REQUEST *q, int a2
         func_001DEF98(p, e->endpoint, seg, 0);
         if (!ClipSegmentSoe(q, seg[0], seg[1], 1, &hit)) {
             void *so = *q->x4->x14;
-            if (FIsBasicDerivedFrom(so, 0x33))
+            if (FIsBasicDerivedFrom(so, CID_STEP))
                 found = HitStepSupport(so, seg[0], seg[1], &pos.q);
         } else {
             found = 1;

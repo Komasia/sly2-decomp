@@ -1,4 +1,5 @@
 // Change selection state and prepare the nearest eligible actor.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
@@ -71,7 +72,7 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
         float gBest;
         struct O *poBest;
         Vec pos(p->x1B0?SourcePosition(p->x1B0):PosOfLo__FP2LO(p));
-        c = CFindObjectsByClass(&g_sw, 0x105, 0x38, 0, 0x20, apo);
+        c = CFindObjectsByClass(&g_sw, 0x105, CID_STEPGUARD, 0, 0x20, apo);
         gBest = 400.0f;
         poBest = 0;
         for (i = 0; i < c; i++) {

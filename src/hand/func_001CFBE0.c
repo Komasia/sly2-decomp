@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct C { char pad[0x60]; void *p60; };
 struct B { char pad[0xEC]; struct C *pc; };
@@ -8,8 +9,8 @@ void RemoveRip(void *p) asm("RemoveRip__FP3RIP");
 int FBounceShrapnel__FP8SHRAPNELP2SOP6VECTORT2(void *p, struct A *pa, qword q0, qword q1)
 {
     void *plo = pa->pb->pc->p60;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x32)) return 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x59)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_PO)) return 0;
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_WATER)) {
         RemoveRip(p);
         return 1;
     }

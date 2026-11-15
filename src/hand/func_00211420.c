@@ -1,3 +1,4 @@
+#include "cid.h"
 struct E { int x0; int x4; int x8; };
 extern struct E D_002C3288[];
 struct Z { int x0; int x4; };
@@ -12,14 +13,14 @@ void func_00211420(char *pch)
 {
     int id = -1;
     struct X *x = PloPlayerPo__FP2SW(g_sw);
-    if (x && FIsBasicDerivedFrom__FP5BASIC3CID(x, 0x34)) {
+    if (x && FIsBasicDerivedFrom__FP5BASIC3CID(x, CID_ACTOR)) {
         struct Y *y = x->x9A0;
         if (y) {
             int k = x->x4C8;
             if (k == 0xC) {
                 if (FIsBasicDerivedFrom__FP5BASIC3CID(y, 0x5E))
                     id = D_002C3288[y->x244->x4].x4;
-                else if (FIsBasicDerivedFrom__FP5BASIC3CID(y, 0x5C))
+                else if (FIsBasicDerivedFrom__FP5BASIC3CID(y, CID_PRIZE))
                     id = y->x224;
                 else
                     id = x->x1318;
