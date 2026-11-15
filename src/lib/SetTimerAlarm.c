@@ -12,7 +12,7 @@ int DIntr(void);
 int EIntr(void);
 int AllocTimerCounter(void);
 int SetTimerHandler(int, long, void *, void *);
-int func_0023A3A0(int);
+int StartTimerCounter(int);
 int func_0023A668(int, int, int, Alarm *);
 static inline Alarm *AllocAlarm(void)
 {
@@ -49,7 +49,7 @@ int SetTimerAlarm(long sched, void *func, void *arg)
     p->arg = arg;
     p->id = id;
     SetTimerHandler(id, sched, func_0023A668, p);
-    func_0023A3A0(id);
+    StartTimerCounter(id);
     if (st)
         EIntr();
     return ((int)p << 4) | (id & 0xFE) | 1;

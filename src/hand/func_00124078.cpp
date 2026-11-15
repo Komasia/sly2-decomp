@@ -16,9 +16,10 @@ struct NODE { int cref; int pad; CRef ref; NODE *pnext; };
 extern "C" {
 NODE *PpairNew() asm("PpairNew__Fv");
 void func_00256C58(NODE **pp, NODE *p);
-CRef func_00124078(int c, O **apo);
+CRef RefPairFromAplo__FiPP2LO(int c, O **apo);
 }
-CRef func_00124078(int c, O **apo)
+// name: Sly 1 bif.cpp RefPairFromAplo (a list CRef from c objects; after RefOpGetO in both games)
+CRef RefPairFromAplo__FiPP2LO(int c, O **apo)
 {
     if (c == 0)
         return CRef(0);

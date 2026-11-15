@@ -28,7 +28,7 @@ extern int D_002DDF54;
 extern QW D_002DF740[];
 extern "C" void func_001C2A78(int phase);
 extern "C" void WaitSema(int sid) asm("WaitSema");
-extern "C" void func_00160CE0(FR *pfr);
+extern "C" void ClearPendingFrame__FP3FRM(FR *pfr);
 void OpenFrame()
 {
     if (!D_003D3980)
@@ -37,7 +37,7 @@ void OpenFrame()
     g_pfrmOpen = &D_002DEA50[D_002DEB10++];
     if (D_002DEB10 >= 2)
         D_002DEB10 = 0;
-    func_00160CE0(g_pfrmOpen);
+    ClearPendingFrame__FP3FRM(g_pfrmOpen);
     g_pfrmOpen->n4C = D_002DDF54;
     g_pfrmOpen->n30 = 1;
     g_pfrmOpen->n2C = 0;

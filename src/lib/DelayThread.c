@@ -7,7 +7,7 @@ extern char D_002AA7F0[];
 int CreateSema(SemaParam *);
 int DeleteSema(int);
 int WaitSema(int);
-long func_0023A598(int, int);
+long TimerUSec2BusClock(int, int);
 int SetTimerAlarm(long, void *, int);
 int _DelayThreadHandler(int, unsigned short, void *);
 int DelayThread(int usec)
@@ -25,7 +25,7 @@ int DelayThread(int usec)
     sema = CreateSema(&sp);
     if (sema < 0)
         return 0x80008003;
-    al = SetTimerAlarm(func_0023A598(0, usec), _DelayThreadHandler, sema);
+    al = SetTimerAlarm(TimerUSec2BusClock(0, usec), _DelayThreadHandler, sema);
     if (al >= 0) {
         WaitSema(sema);
         DeleteSema(sema);

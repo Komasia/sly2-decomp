@@ -18,7 +18,8 @@ do {									\
     __CTOR_LIST__[i] ();						\
 } while (0)
 
-void func_0023B728(void)
+// name: libgcc2.c __do_global_ctors (walks __CTOR_LIST__, called once from __main; suggested by l1)
+void __do_global_ctors(void)
 {
     DO_GLOBAL_CTORS_BODY;
 }

@@ -11,12 +11,13 @@ extern int D_002DEB1C;
 extern int D_002DEDBC;
 extern "C" int WaitSema(int sid) asm("WaitSema");
 extern "C" int SignalSema(int sid) asm("SignalSema");
-extern "C" void func_00160C80(FR *pfr, int f);
-extern "C" void func_00160F98();
-extern "C" void func_00160CE0(FR *pfr);
+extern "C" void RenderFrame__FP3FRMi(FR *pfr, int f);
+extern "C" void BlendPrevFrame__Fv();
+extern "C" void ClearPendingFrame__FP3FRM(FR *pfr);
 extern "C" void func_001C2BA8(int phase);
 void SwapGsBuffers();
-extern "C" void func_00160E68(int fReset)
+// name: Sly 1 frm.c FlushFrames(fFreeze) (suggested by h2)
+extern "C" void FlushFrames__Fi(int fReset)
 {
     unsigned int i;
     for (i = 0; i < 2; i++)
@@ -27,9 +28,9 @@ extern "C" void func_00160E68(int fReset)
         ;
     if (fReset && D_002DEB14) {
         for (int j = 0; j < 3; j++) {
-            func_00160C80(D_002DEB14, 1);
+            RenderFrame__FP3FRMi(D_002DEB14, 1);
             if (D_002DEB14->n30 & 1)
-                func_00160F98();
+                BlendPrevFrame__Fv();
             SwapGsBuffers();
         }
         D_002DEDBC = 3;
@@ -37,7 +38,7 @@ extern "C" void func_00160E68(int fReset)
     if (fReset) {
         FR *pfr = D_002DEA50;
         do {
-            func_00160CE0(pfr);
+            ClearPendingFrame__FP3FRM(pfr);
             pfr++;
         } while (pfr < D_002DEA50 + 2);
     }

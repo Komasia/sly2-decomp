@@ -2,11 +2,11 @@
 // SLY2_CFLAGS: -O2 -fno-exceptions -G0
 // SLY2_ASM: gnu-reorder-db
 extern "C" int D_0045022C;
-extern "C" void func_0023B728(void);
+extern "C" void __do_global_ctors(void);
 void __main(void)
 {
     if (D_0045022C == 0) {
         D_0045022C = 1;
-        func_0023B728();
+        __do_global_ctors();
     }
 }

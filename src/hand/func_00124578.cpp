@@ -13,10 +13,11 @@ struct G { char pad[0x3F0C]; void *pv; };
 extern G g_sw;
 extern "C" {
 int CFindObjects(G *pg, int k, void *a, Q *b, void *c, int n, void **ap) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
-CRef func_00124078(int c, void **ap);
-CRef func_00124578(void *pbasic, CRef *aref);
+CRef RefPairFromAplo__FiPP2LO(int c, void **ap);
+CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref);
 }
-CRef func_00124578(void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 116: CFindObjects with FSO_FindNearest 4 into a list)
+CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref)
 {
     CRef ref;
     void *ap[0x40];
@@ -34,6 +35,6 @@ CRef func_00124578(void *pbasic, CRef *aref)
     else
         pv = pg->pv;
     int c = CFindObjects(pg, 4, p0, pq, pv, 0x40, ap);
-    ref = func_00124078(c, ap);
+    ref = RefPairFromAplo__FiPP2LO(c, ap);
     return ref;
 }

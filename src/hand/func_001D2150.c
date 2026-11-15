@@ -24,7 +24,7 @@ typedef struct {
     float x54C;
     float x550;
 } OBJ;
-int func_001D4E08(ITEM *);
+int FVehicleAttachmentReady__FP13VEHICLEATTACH(ITEM *);
 void SetSmaGoal__FP3SMA3OID(void *, int);
 int GrfPadctlTakePressed__FP6PADCTL(SUB *, int, float);
 // name: SafeHouse port (UpdateVehiclePlayer)
@@ -43,7 +43,7 @@ void UpdateVehiclePlayer__FP7VEHICLE(OBJ *p)
     }
     for (i = 0; i < p->c; i++) {
         ITEM *q = p->a[i];
-        if (func_001D4E08(q)) {
+        if (FVehicleAttachmentReady__FP13VEHICLEATTACH(q)) {
             if (p->psub->fl & q->fl)
                 SetSmaGoal__FP3SMA3OID(q->x20, 0x67);
             else if (GrfPadctlTakePressed__FP6PADCTL(p->psub, q->x28, 0.0f))

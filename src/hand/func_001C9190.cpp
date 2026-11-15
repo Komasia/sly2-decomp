@@ -28,7 +28,7 @@ extern "C" int SignalSema(int) asm("SignalSema");
 extern "C" int ReferSemaStatus(int,SEMA *);
 extern "C" float sinf(float);
 extern "C" void func_001C93E0(GIFS *,M2 *,float);
-extern "C" void func_00160A98(void);
+extern "C" void CloseFrame__Fv(void);
 extern "C" void UpdateClock(CLOCK *,int) asm("UpdateClock__FP5CLOCKi");
 void OpenFrame(void);
 static inline void Clamp(float *value,const float *bounds){float low=bounds[0],high=bounds[1];if(*value<low)*value=low;else if(high<*value)*value=high;}
@@ -62,10 +62,10 @@ extern "C" void func_001C9190(void *)
             float alpha=D_002C10C0[0]+t*(D_002C10C0[1]+t*D_002C10C0[2]);
             Clamp(&alpha,g_lmZeroOne);
             func_001C93E0(&D_002DEA00,&matrix,alpha);
-            func_00160A98();D_002BE538++;
+            CloseFrame__Fv();D_002BE538++;
         }
         do{g_pfrmOpen->flags&=-2;}while(0);
-        func_00160A98();D_002BE538++;
+        CloseFrame__Fv();D_002BE538++;
         do {ReferSemaStatus(D_002DEB18,&status);}while(status.count==0);
         WaitSema(D_003D3A40);
         SignalSema(D_003D3A44);

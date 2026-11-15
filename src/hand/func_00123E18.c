@@ -4,7 +4,8 @@ void InitTag__4CRef(CRef *pref, int tagk);
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 extern float g_clock;
-CRef *func_00123E18(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 107: sets the object's next update time +0x30 to now + dt; SafeHouse 107 defer-object-update)
+CRef *RefOpDeferObjectUpdate__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     CRef refT;

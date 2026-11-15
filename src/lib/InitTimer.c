@@ -8,11 +8,11 @@ extern Counter D_0044C300[128];
 void cbTimerHandler(void);
 void *s1_memset(void *, int, int) asm("memset");
 void func_0023A618(void);
-int func_00234710(int, void *, int, void *);
+int AddIntcHandler2(int, void *, int, void *);
 int DIntr(void);
-void func_00239AB0(int);
-void func_00239AC0(int);
-void func_00239AD0(int);
+void SetT2_COUNT(int);
+void SetT2_MODE(int);
+void SetT2_COMP(int);
 int func_00235178(int);
 int EIntr(void);
 int InitTimer(int mode)
@@ -40,7 +40,7 @@ int InitTimer(int mode)
     }
     D_0044C300[127].next = 0;
     func_0023A618();
-    r = func_00234710(0xB, cbTimerHandler, 0, 0);
+    r = AddIntcHandler2(0xB, cbTimerHandler, 0, 0);
     if (r < 0)
         return 0x80009021;
     D_002C5A30.id = r;
@@ -49,11 +49,11 @@ int InitTimer(int mode)
     m = (m & ~3) | mode;
     m |= 0x300;
     if (!(m & 0x80)) {
-        func_00239AB0(0);
+        SetT2_COUNT(0);
         m |= 0xC80;
-        func_00239AD0(0xFFFF);
+        SetT2_COMP(0xFFFF);
     }
-    func_00239AC0(m);
+    SetT2_MODE(m);
     func_00235178(0xB);
     if (oldei) EIntr();
     return 0;

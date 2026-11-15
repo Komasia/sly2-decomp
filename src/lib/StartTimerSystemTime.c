@@ -3,7 +3,7 @@
 // SLY2_ASM: gnu-reorder-db
 int DIntr(void);
 int EIntr(void);
-void func_00239AC0(unsigned int);
+void SetT2_MODE(unsigned int);
 int iGetTimerSystemTime(void);
 void SetNextComp(int);
 int StartTimerSystemTime(void)
@@ -14,7 +14,7 @@ int StartTimerSystemTime(void)
         if (st) EIntr();
         return 1;
     }
-    func_00239AC0((mode & 0xFFFFF3FF) | 0x80);
+    SetT2_MODE((mode & 0xFFFFF3FF) | 0x80);
     SetNextComp(iGetTimerSystemTime());
     if (st) EIntr();
     return 0;

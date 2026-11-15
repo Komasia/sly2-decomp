@@ -16,7 +16,7 @@ extern char D_002A8A88[];
 extern ACTOR *D_002E1E40,*D_002DD5BC,*D_002F7900;
 extern SW g_sw;
 extern "C" {
-void func_00160E68(int);
+void FlushFrames__Fi(int);
 FRAME *__10STACKSCOPE(FRAME *);
 void _$_10STACKSCOPE(FRAME *,int);
 void func_001C2A78(int);
@@ -73,7 +73,7 @@ static inline STREAM *StreamHome(STREAM *home){register STREAM *result __asm__("
 extern "C" void PswUpdateTransition__FP2SW(SW *p)
 {
     if(!p->pending)return;
-    func_00160E68(1);
+    FlushFrames__Fi(1);
     REQUEST request=p->request;
     REQUEST *destination=&p->request;
     p->pending=0;

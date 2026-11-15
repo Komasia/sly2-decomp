@@ -5,7 +5,8 @@ CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void InitTag__4CRef(CRef *pref, int tagk);
 void func_00129248(CRef *pref, TI vec);
 TI ConvertPos__FP2LOT0G9VU_VECTOR(int a, int b, TI v);
-CRef *func_00125000(CRef *ret, void *pbasic, CRef *aref)
+// name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 125: ConvertPos)
+CRef *RefOpConvertObjectPosition__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
 {
     CRef ref;
     func_00129248(&ref, ConvertPos__FP2LOT0G9VU_VECTOR(aref[0].m_tag, aref[1].m_tag, *(TI *)aref[2].m_tag));

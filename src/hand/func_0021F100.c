@@ -5,7 +5,7 @@ struct ThreadParam {
 extern int D_004425D0[2];
 extern char D_004425F0[];
 extern char D_002E5270[];
-void func_00160B70(void *);
+void FrameRenderLoop__FPv(void *);
 int GetThreadId(void);
 void ChangeThreadPriority(int tid, int prio);
 void *s1_memset(void *p, int c, int n) asm("memset");
@@ -22,6 +22,6 @@ void StartupThread__Fv(void)
     tp.stack = D_004425F0;
     tp.initPriority = 2;
     tp.gpReg = D_002E5270;
-    tp.entry = func_00160B70;
+    tp.entry = FrameRenderLoop__FPv;
     ptid[1] = CreateThread(&tp);
 }
