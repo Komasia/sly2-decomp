@@ -1,7 +1,9 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-extern char D_002AB320[];
+/* checkModelVersion (libcdvd): read the ROM version string; nonzero if its build date (the 8 digits before
+   the end) is after 2001-06-08. Returns -1 if rom0:ROMVER cannot be opened. */
+extern char D_002AB320[];   /* "rom0:ROMVER" */
 int sceOpen(const char *, int, ...);
 int sceRead(int, void *, int);
 int sceClose(int);

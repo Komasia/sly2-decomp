@@ -1,4 +1,6 @@
-/* libmpeg _clearOnce. The 0x70000000 scratchpad base is held in a local (Sony constant-in-local pattern). */
+/* _clearOnce (libmpeg, from sceMpegCreate): set up the IPU (MPEG-1 mode off) and the macroblock work buffers:
+   in scratchpad RAM (0x70000000..) for mode 0, or in the decoder work area (uncached-accelerated) for mode 1.
+   The scratchpad base is held in a local (Sony constant-in-local pattern). */
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db

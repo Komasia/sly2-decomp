@@ -1,9 +1,9 @@
-// (Claude agent) MATCHES only with the empty asm barriers after each 'd->x = call()' statement: emulates Sony's scheduler keeping
-// the return-value consumer right after the call (gcc3 in_post_call_group_p-like). Without them 24/121 differ (sw moves into jal slot).
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-114
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+/* _pictureCodingExtension (libmpeg): parse picture_coding_extension(). The empty asm barriers after each
+   `d->x = call()` keep the store right after the call, as Sony's scheduler did. */
 typedef struct {
     char p0[0xE8]; int xE8;
     char pEC[0x174 - 0xEC]; int f_code[4]; int picture_structure; int top_field_first;

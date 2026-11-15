@@ -1,4 +1,5 @@
-/* _ri0_000 (hand-written MMI assembly in Sony libmpeg). */
+/* _ri0_000 (libmpeg, hand-written MMI assembly): motion-compensation kernel for one chroma (8x8, two planes) block,
+   full-pel horizontally, full-pel vertically, stored. Suffix bits: average, x half-pel, y half-pel. */
 __asm__(
     ".set noreorder\n"
     ".text\n"

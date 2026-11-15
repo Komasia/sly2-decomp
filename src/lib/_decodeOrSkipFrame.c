@@ -1,7 +1,9 @@
-// (Claude agent) inline _decodeFrame: `t = 0` set after the _updateRefImage call (v0 still live -> t in v1).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* _decodeOrSkipFrame (libmpeg): decode the next frame picture, or skip it (Nodata callback only) once `n`
+   pictures of its type reached `limit`; then output it and advance the picture counters. In the inlined
+   _decodeFrame, `t = 0` is set after the _updateRefImage call. */
 typedef struct { int type; int pad[7]; } sceMpegCbData;
 typedef int (*sceMpegCallback)(void *mp, sceMpegCbData *cbd, void *data);
 typedef struct { sceMpegCallback func; void *data; void *gp; } CB;

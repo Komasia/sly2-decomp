@@ -1,4 +1,5 @@
-/* _rix_001 (hand-written MMI assembly in Sony libmpeg). */
+/* _rix_001 (libmpeg, hand-written MMI assembly): motion-compensation kernel for one luma (16x16) block,
+   full-pel horizontally, half-pel vertically, stored. Suffix bits: average, x half-pel, y half-pel. */
 __asm__(
     ".set noreorder\n"
     ".text\n"

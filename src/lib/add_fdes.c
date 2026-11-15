@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* add_fdes (libgcc frame.c): add every FDE of an object to the sort accumulator, tracking the pc range. */
 typedef unsigned int uword;
 typedef int sword;
 typedef struct dwarf_fde {

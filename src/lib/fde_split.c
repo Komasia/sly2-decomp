@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* fde_split (libgcc frame.c): split the FDE accumulator into a sorted linear run and the erratic rest. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

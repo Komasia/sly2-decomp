@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* find_fde (libgcc frame.c): find the FDE covering pc, initialising each object's sorted table on first use. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

@@ -1,8 +1,9 @@
-// (Claude agent) libmpeg _motionComp0: intra-path pointer setup in do{}while(0) (loop-depth ref weighting fixes s-reg priority),
-// non-intra pointers set before _getAllRefs; first IPU wait is a goto loop (unpadded, address rematerialised).
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* _motionComp0 (libmpeg): set up motion compensation for macroblock `addr`: for an intra block only the output
+   address, otherwise fetch the reference blocks (_getAllRefs, DMA via SPR) first. The intra pointer setup is in
+   do {} while (0) and the first IPU wait is a goto loop (both keep the original register allocation). */
 typedef struct { int x0; int p4[3]; int x10; } FRM;
 typedef struct {
     char p0[0x12C]; int x12C;

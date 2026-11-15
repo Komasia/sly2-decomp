@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* copy_reg (libgcc frame.c): copy a saved register value between two frames' save areas (throw_helper). */
 typedef int ptr_type __attribute__ ((mode (pointer)));
 typedef int word_type __attribute__ ((mode (DI)));
 typedef struct frame_state {

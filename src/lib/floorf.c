@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* floorf (newlib/fdlibm sf_floor.c): round a float down to an integer value. */
 typedef int __int32_t;
 typedef unsigned int __uint32_t;
 typedef union { float value; __uint32_t word; } ieee_float_shape_type;

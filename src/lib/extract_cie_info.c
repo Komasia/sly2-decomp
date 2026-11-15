@@ -2,6 +2,8 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
+/* extract_cie_info (libgcc frame.c): parse the CIE of an FDE (augmentation, alignment factors, return
+   column); returns its first CFA instruction or 0 for an unknown augmentation. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

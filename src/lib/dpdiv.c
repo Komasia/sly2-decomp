@@ -1,7 +1,7 @@
-// WIP (Claude agent): 44 diffs, all in the divide loop: target computes num<den once after the normalise-if (both paths) and jumps past the first in-loop sltu (PRE across loop entry); ours enters at loop top. Flags/do-while no help.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* dpdiv (Sony libgcc fp-bit, __divdf3): double division by restoring long division of the fractions. */
 typedef unsigned long fractype;
 typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY } fp_class_type;
 typedef struct {

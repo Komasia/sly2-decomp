@@ -1,7 +1,8 @@
-// (Claude agent) MATCH. Same shape as _dispRefImageField: 2.9-991111, setField inline with pointer params, shared else-store, long bit temps, descending pC, checkSize inline returning ok.
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* _dispRefImage (libmpeg): output a decoded frame: convert it to RGB32 (CSC) into the caller's buffer and fill in
+   the sceMpeg picture info. Same shape as _dispRefImageField (setField / checkSize inlined). */
 typedef struct { char p0[0x10]; long x10; long x18; long x20; } MP;
 typedef struct {
     int x0; int x4; int x8; int xC; int x10; int p14; long x18; long x20;

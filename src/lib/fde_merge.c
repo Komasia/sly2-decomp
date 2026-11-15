@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* fde_merge (libgcc frame.c): merge the sorted erratic FDE list into the linear one. */
 typedef unsigned int size_t;
 typedef unsigned int uword;
 typedef int sword;

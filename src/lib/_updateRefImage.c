@@ -1,7 +1,8 @@
-// (Claude agent) one reused `temp` for the three swaps; check=out1, out2 if type==1.
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0 -fstrict-aliasing
 // SLY2_ASM: gnu-reorder-db
+/* _updateRefImage (libmpeg): for a new picture, rotate the reference / output image buffers (frame and both
+   fields) and decide which finished picture can be output now. One shared temp serves the three swaps. */
 typedef struct IMG {
     char pad0[0x18]; long pts, dts; int ready;
     int structure, type, temporal, width, parameter;

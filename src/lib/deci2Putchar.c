@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* deci2Putchar (libkernel): write one character to the DECI2 debug console (TTY protocol). */
 extern int D_002C49EC;
 extern char D_00448D50[];
 void kputs(char *);
