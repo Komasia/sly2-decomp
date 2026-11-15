@@ -1,43 +1,48 @@
-struct E { unsigned int x0; int x4; void *x8; int xC; int x10; int x14; int x18; };
-struct S { int x0; struct E a[16]; int x1C4; };
-struct P { char pad[0x108]; int x108; };
-struct H { char pad[0x44]; int x44; };
-extern struct P D_002F66B0;
-extern struct H D_002E6550;
-extern char g_sw[], D_002BFCA0[], g_game[];
-int func_001A4E70(struct S *s);
-void QueueMovie__FPUcPv(struct P *p, int n);
-void RequestTransition__FP2SWPUc3OIDT2iT2(void *g, void *a, int b, int c, int d, int e);
-void RequestTaskStartByOid__FP2SWi3OID(void *g, int a, int b);
-void func_001ACC38(struct H *h, int n);
-void func_001A4E80(struct S *s)
+/* func_001A4E80 (0x1A4E80): runs the front end's next queued action (SafeHouse frontend.cpp): a movie (queued on
+ * D_002F66B0, then the transition to the boot world D_002BFCA0), a world transition, a task start, nothing, or the
+ * memory card's messages on (then the next action at once). */
+#include "h5_frontq.h"
+struct MOVIEQ { char pad[0x108]; int f108; };
+struct CARDMSG { char pad[0x44]; int fOn; };
+#define OID_BOOT_WARP 0x189
+#define GRF_TRANSITION_TASK 0x30A
+extern struct MOVIEQ g_movieq __asm__("D_002F66B0");
+extern struct CARDMSG g_cardmsg __asm__("D_002E6550");
+extern char g_sw[], g_game[];
+extern char g_pbWorldAfterMovie[] __asm__("D_002BFCA0");
+int func_001A4E70(struct ACTIONQ *pq);
+void QueueMovie__FPUcPv(struct MOVIEQ *pmovieq, void *pbMovie);
+void RequestTransition__FP2SWPUc3OIDT2iT2(void *psw, void *pbWorld, int oid, int oidFrom, int grf, int n);
+void RequestTaskStartByOid__FP2SWi3OID(void *pgame, int nTask, int oid);
+void func_001ACC38(struct CARDMSG *pcardmsg, int fOn);
+void func_001A4E80(struct ACTIONQ *pq)
 {
-    struct E *e;
-    struct P *p;
-    if (!func_001A4E70(s))
+    struct ACTION *pact;
+    struct MOVIEQ *pmovieq;
+    if (!func_001A4E70(pq))
         return;
-    e = &s->a[s->x1C4++];
-    switch (e->x0) {
-    case 0:
-    case 1:
-        p = &D_002F66B0;
-        QueueMovie__FPUcPv(p, e->x4);
-        if (e->x0 == 1)
-            p->x108 = e->x0;
-        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, D_002BFCA0, 0x189, -1, 0, -1);
+    pact = &pq->aact[pq->iact++];
+    switch (pact->actk) {
+    case ACTK_MOVIE:
+    case ACTK_MOVIE_F108:
+        pmovieq = &g_movieq;
+        QueueMovie__FPUcPv(pmovieq, pact->pbMovie);
+        if (pact->actk == ACTK_MOVIE_F108)
+            pmovieq->f108 = pact->actk;
+        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, g_pbWorldAfterMovie, OID_BOOT_WARP, -1, 0, -1);
         break;
-    case 2:
-        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, e->x8, e->xC, -1, e->x10, 0x30A);
+    case ACTK_WORLD:
+        RequestTransition__FP2SWPUc3OIDT2iT2(g_sw, pact->pbWorld, pact->oidWorld, -1, pact->grfWorld, GRF_TRANSITION_TASK);
         break;
-    case 3:
-        RequestTaskStartByOid__FP2SWi3OID(g_game, e->x14, e->x18);
+    case ACTK_TASK:
+        RequestTaskStartByOid__FP2SWi3OID(g_game, pact->nTask, pact->oidTask);
         break;
-    case 4:
+    case ACTK_NONE:
         break;
-    case 5:
-        if (!D_002E6550.x44)
-            func_001ACC38(&D_002E6550, 1);
-        func_001A4E80(s);
+    case ACTK_CARD:
+        if (!g_cardmsg.fOn)
+            func_001ACC38(&g_cardmsg, 1);
+        func_001A4E80(pq);
         break;
     }
 }

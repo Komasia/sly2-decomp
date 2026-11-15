@@ -1,3 +1,6 @@
+/* AppendLaserLine (0x1A5FB8): draws a laser beam from posA to posB as the object's extra draw: a matrix facing the
+ * camera (g_cm +0x90): row 0 the line's normal toward the viewer, row 1 the side scaled to the width, row 2 the line
+ * scaled by 0.01 (the unit model is 100 long), row 3 posA; nothing when the line points at the camera. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; int i[4]; } U;
 struct M4 { U r[4]; };
@@ -13,15 +16,15 @@ static inline qword Normalize(qword v) { qword l=LenV(v),r; __asm__("vdiv Q,$vf0
 static inline qword Broadcast(float g) { qword r; __asm__("qmtc2.ni %1,%0" : "=j"(r) : "r"(g));return r; }
 static inline qword Scale(qword v,qword k) { qword r; __asm__("vmulx.xyzw %0,%1,%2x" : "=j"(r) : "j"(v),"j"(k));return r; }
 // name: SafeHouse port (AppendLaserLine)
-void AppendLaserLine__FP5SCENEG9VU_VECTORT1ff(void *p,qword a,qword b,float width,float scale)
+void AppendLaserLine__FP5SCENEG9VU_VECTORT1ff(void *palo,qword posA,qword posB,float width,float scale)
 {
  U x,y,z;
  struct M4 m; struct M4 *pm;
  U uk;
  qword d,n,t,k;
  float len;
- d=Sub(b,a);
- n=Cross(Sub(a,g_cm.pos),d);
+ d=Sub(posB,posA);
+ n=Cross(Sub(posA,g_cm.pos),d);
  y.q=n;
  len=GetX(LenV(n));
  if(0.01f<len) {
@@ -35,12 +38,12 @@ void AppendLaserLine__FP5SCENEG9VU_VECTORT1ff(void *p,qword a,qword b,float widt
   k=Broadcast(0.01f);
   uk.q=k;
   z.q=Scale(d,k);
-  func_00256D18(&m.r[3].q,a);
+  func_00256D18(&m.r[3].q,posA);
   pm->r[0].q=x.q;
   pm->r[1].q=y.q;
   pm->r[2].q=z.q;
   m.r[0].i[3]=m.r[1].i[3]=m.r[2].i[3]=0;
   pm->r[3].f[3]=1.0f;
-  AppendAloExtraDraws__FP5SCENEP3ALOff(p,pm,scale,scale);
+  AppendAloExtraDraws__FP5SCENEP3ALOff(palo,pm,scale,scale);
  }
 }

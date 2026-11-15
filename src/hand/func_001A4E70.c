@@ -1,11 +1,7 @@
-/* The game's pending state (SafeHouse task.cpp "TODO(M4): 0x1A4E70 / 0x1A4E80"): +0x1C4 below the first word. */
-struct GAMEQUEUE {
-    /* 0x000 */ int c;
-    /* 0x004 */ char pad4[0x1c4 - 4];
-    /* 0x1c4 */ int i;
-};
+/* func_001A4E70 (0x1A4E70): whether the front end's action queue has an action left to run. */
+#include "h5_frontq.h"
 
-int func_001A4E70(struct GAMEQUEUE *pq)
+int func_001A4E70(struct ACTIONQ *pq)
 {
-    return pq->i < pq->c;
+    return pq->iact < (int)pq->cact;
 }

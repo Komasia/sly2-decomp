@@ -1,3 +1,8 @@
+/* CloneLo (0x1A6730): makes an LO a copy of another (the clone's source): its sidebag (+0x4) and frame (+0x0) cloned
+ * for it, the scale (+0x38), the flags' kind / mode / auto bits, the +0x40 tag, +0x34; the names list (+0x3C) is
+ * shared, except while the world loads (SW +0x3F10 == -2) when each of the source's own entries is copied for the
+ * clone and linked into the world's oid table; then the class's remaining bytes after +0x50 (vt slot 6: the class
+ * descriptor's size) are copied. */
 #include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((uint)&(((t*)0)->m))
 typedef unsigned int uint;
@@ -76,7 +81,7 @@ typedef char FieldRefSize[sizeof(RF)==4?1:-1];
 typedef char RootRefSize[sizeof(RR)==4?1:-1];
 static inline NODE*CopyNode(int bytes,REQUEST*r,NODE*n){r->bytes=bytes;r->alignment=16;return(NODE*)PvAllocSwCopyImpl(r,n);}
 static inline META*Type(P*p){VTENT*v=&p->vt[6];return ((META* (*)(P*))v->pfn)((P*)VT_THIS(p, v));}
-extern "C" void CloneLo__FP2LOT0(P*p,const P*source){
+extern "C" void CloneLo__FP2LOT0(P*p,const P*source){  /* p: the clone, source: what it copies */
     func_00128148(D_002DD598);
     if(source->field){
         {RF r=CloneTo__8CSidebagP8CSidebag(source->field,p);func_002580A8(&p->field,r.p);}

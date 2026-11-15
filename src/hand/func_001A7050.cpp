@@ -1,3 +1,5 @@
+/* func_001A7050 (0x1A7050): converts a rotation matrix from ploFrom's frame (null: the world) to ploTo's (null: the
+ * world), like ConvertVec for each row. */
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 extern "C" M3 *MatJtLo(void *p) asm("MatJtLo__FP2LO");
@@ -12,13 +14,13 @@ static inline M3 Mul(const M3 &a, const M3 &b) return r
     __asm__("vmulax.xyz ACC,%1,%4x\n\tvmadday.xyz ACC,%2,%4y\n\tvmaddz.xyz %0,%3,%4z"
         : "=j"(r.r[2]) : "j"(a0), "j"(a1), "j"(a2), "j"(b.r[2]));
 }
-extern "C" M3 func_001A7050(void *a, void *b, const M3 *m)
+extern "C" M3 func_001A7050(void *ploFrom, void *ploTo, const M3 *pmat)
 {
     M3 result;
-    if (a) result = Mul(*MatJtLo(a), *m);
-    else result = *m;
-    if (b) {
-        result = Mul(InverseMatrix3(MatJtLo(b)), result);
+    if (ploFrom) result = Mul(*MatJtLo(ploFrom), *pmat);
+    else result = *pmat;
+    if (ploTo) {
+        result = Mul(InverseMatrix3(MatJtLo(ploTo)), result);
     }
     return result;
 }

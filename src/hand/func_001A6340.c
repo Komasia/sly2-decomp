@@ -1,3 +1,5 @@
+/* func_001A6340 (0x1A6340): the LO's rotation as Euler angles in degrees (its world matrix decomposed, times
+ * 180 / pi). */
 typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
@@ -9,12 +11,13 @@ static __inline__ qword Make(float x, float y, float z)
             : "=&r"(q), "=&r"(t) : "f"(x), "f"(y), "f"(z));
     return q;
 }
+#define RAD_TO_DEG 57.2957763671875f
 extern void *MatJtLo__FP2LO(void);
 extern qword DecomposeEulerMatrix__FP7MATRIX3(void *p);
 qword func_001A6340(void)
 {
-    union { qword q; float f; } r;
-    qword v = DecomposeEulerMatrix__FP7MATRIX3(MatJtLo__FP2LO());
-    r.q = Make(GetX(v) * 57.2957763671875f, GetY(v) * 57.2957763671875f, GetZ(v) * 57.2957763671875f);
-    return r.q;
+    union { qword q; float f; } deg;
+    qword rad = DecomposeEulerMatrix__FP7MATRIX3(MatJtLo__FP2LO());
+    deg.q = Make(GetX(rad) * RAD_TO_DEG, GetY(rad) * RAD_TO_DEG, GetZ(rad) * RAD_TO_DEG);
+    return deg.q;
 }

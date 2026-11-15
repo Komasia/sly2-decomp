@@ -1,3 +1,8 @@
+/* InitLo (0x1A5270): the LO's init (vt slot 7): defaults in its flags word (+0x28: bits 48..51 0xF, the activation
+ * kind (bits 52..55) 2, bits 40..47 0xFF), no radius limit (+0x38 1e10); a child takes its parent's root id (+0x14)
+ * and in-world bit (60), a root gets its own LOROOT (func_001A53A0) and is in the world; +0x40 = 0x21; the namespace
+ * row (+0x3C) from the parent, else D_003E139C; then the LO is linked before the parent's first removed child
+ * (func_001A5448). SafeHouse activate.cpp / brx.cpp. */
 struct S {
     int x0, x4, x8, xC;
     struct S *x10;
@@ -9,27 +14,27 @@ struct S {
     int x3C;
     int x40;
 };
-extern int D_003E139C;
+extern int g_ploNsRowDefault __asm__("D_003E139C");
 void func_001A53A0(struct S *s);
-void func_001A5448(struct S *p, void **a, void ***b);
+void func_001A5448(struct S *psoParent, void **ppdl, void ***ppploFirstRemoved);
 void InsertDlEntryBefore__FP2DLPvT1(void *a, void *b, struct S *s);
-void InitLo__FP2LO(struct S *s)
+void InitLo__FP2LO(struct S *plo)
 {
-    void *a;
-    void **b;
-    s->x28.b.f48 = 0xF;
-    s->x38 = 1e10f;
-    s->x28.b.st = 2;
-    s->x28.b.b40 = 0xFF;
-    if (s->x10) {
-        s->x14 = s->x10->x14;
-        s->x28.b.f60 = (int)(s->x10->x28.u >> 60);
+    void *pdl;
+    void **pploFirstRemoved;
+    plo->x28.b.f48 = 0xF;
+    plo->x38 = 1e10f;
+    plo->x28.b.st = 2;
+    plo->x28.b.b40 = 0xFF;
+    if (plo->x10) {
+        plo->x14 = plo->x10->x14;
+        plo->x28.b.f60 = (int)(plo->x10->x28.u >> 60);
     } else {
-        func_001A53A0(s);
-        s->x28.b.f60 = 1;
+        func_001A53A0(plo);
+        plo->x28.b.f60 = 1;
     }
-    s->x40 = 0x21;
-    s->x3C = s->x10 ? s->x10->x3C : D_003E139C;
-    func_001A5448(s->x10, &a, &b);
-    InsertDlEntryBefore__FP2DLPvT1(a, *b, s);
+    plo->x40 = 0x21;
+    plo->x3C = plo->x10 ? plo->x10->x3C : g_ploNsRowDefault;
+    func_001A5448(plo->x10, &pdl, &pploFirstRemoved);
+    InsertDlEntryBefore__FP2DLPvT1(pdl, *pploFirstRemoved, plo);
 }
