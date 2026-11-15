@@ -1,3 +1,4 @@
+#include "cid.h"
 // PloGuardTarget (0x2082D0): the object the guard goes for: its current target while that is in the world; otherwise
 // the nearest of its detector's entries that it has seen (or, in modes 34 / 37, any other guard), skipping excluded
 // ones (0x2089F0) and taking an immediate one (0x208B38) at once; the pursued object's distance and other guards'
@@ -42,13 +43,13 @@ extern "C" LOF *PloGuardTarget__FP5GUARD(GUARD*pguard)
             DETENTRY *pdetentry=&pguard->pdet->adetentry[i];
             LOF *ploCandidate=pdetentry->plo;
             if(!ploCandidate)continue;
-            if(!pdetentry->fSeen&&(!(pguard->nMode==0x22||pguard->nMode==0x25)||!FIsBasicDerivedFrom(ploCandidate,0x38)))continue;
+            if(!pdetentry->fSeen&&(!(pguard->nMode==0x22||pguard->nMode==0x25)||!FIsBasicDerivedFrom(ploCandidate,CID_STEPGUARD)))continue;
             if(func_002089F0(pguard,ploCandidate))continue;
             if(func_00208B38(pguard,ploCandidate))return ploCandidate;
             qword delta=Sub(posGuard.q,PosOfLo(ploCandidate));LOF *ploPursued=pguard->ploPursued;
             float distance=Length(delta);
             if(ploCandidate==ploPursued)distance=Weight(distance,D_002C3D70);
-            if((pguard->nMode==0x22||pguard->nMode==0x25)&&FIsBasicDerivedFrom(ploCandidate,0x38))distance=Weight(distance,D_002C3D80);
+            if((pguard->nMode==0x22||pguard->nMode==0x25)&&FIsBasicDerivedFrom(ploCandidate,CID_STEPGUARD))distance=Weight(distance,D_002C3D80);
             if(FTargetClass(pguard,ploCandidate)){
                 if(best&&!FTargetClass(pguard,best)){bestDistance=distance;goto take;}
             }else if(best&&FTargetClass(pguard,best))continue;

@@ -3,6 +3,7 @@
  * the base vecBase and sProbeDrop below it (and the origin); sFloorTarget is its lowest pinned point and
  * pposProbe0 / pposProbe1 the probes' world points. A live object's entries are removed and re-added around it.
  * (Claude agent) matched: mesh->geomLocal.apos loaded into a $2 pointer after qmtc2, vmadd fed the VF3 scalar directly, slot = c*16 + (int)dst computed before the u.q store. */
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 struct POINT { float x; float y; float z; float w; };
@@ -48,7 +49,7 @@ void MakeStepCustomEntry__FP3ALOP3SOE(struct STEP *pstep, struct SOE *psoeSrc)
     pstep->csoe = isoe + 1;
     fAllPinned = 0;
     pstep->psoeCustom = (struct SOE *)(pstep->asoe + isoe * 0xB0);
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pstep, 0x34))
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pstep, CID_ACTOR))
         fAllPinned = psoeSrc->cposPinned == psoeSrc->geomLocal.cpos;
     RebuildSoe__FP3SOEP2XFiT0(psoeSrc, pstep->pxfRoot, !fAllPinned ? 2 : 3, pstep->psoeCustom);
     EnsureSoeMesh__FP3SOE(pstep->psoeCustom);

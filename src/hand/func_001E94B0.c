@@ -1,3 +1,4 @@
+#include "cid.h"
 struct AR { int cb; int cbAlign; };
 typedef struct { float m[4][4]; } MATRIX4;
 struct X { char pad[0x60]; MATRIX4 mat; char pad2[0xE0 - 0xA0]; int xE0; int xE4; int xE8; float *ag; float *agF0; void *pvF4; };
@@ -8,7 +9,7 @@ struct X *func_001E94B0(void *pv, int c)
 {
     struct AR ar;
     int i;
-    struct X *p = PloNew__F3CIDP2SW3OIDi(10, 0, pv, -1);
+    struct X *p = PloNew__F3CIDP2SW3OIDi(CID_PATH, 0, pv, -1);
     MATRIX4 *pm;
     p->xE0 = 0;
     p->xE4 = 0;

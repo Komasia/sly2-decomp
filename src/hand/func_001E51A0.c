@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct O { int pad[3]; VTENT *vt; };
 struct P { char pad[0xA4]; int c; struct O *apo[4]; int aB8[4]; int aC8[4]; };
@@ -6,7 +7,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void HoldRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
 {
     int i;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x33)) return;
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_STEP)) return;
     for (i = 0; i < p->c; i++)
         if (p->apo[i] == po) return;
     if ((unsigned)p->c >= 4) return;

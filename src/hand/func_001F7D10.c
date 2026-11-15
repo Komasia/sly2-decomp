@@ -1,5 +1,6 @@
 /* class: ALO (SafeHouse physworld.cpp, orig 0x001F7D10: EOPID 57, option 129 - the fade value +0x12C; <= 0 removes
  * the object (vt slot 9) unless it is a class 0x69, otherwise it is added back (vt slot 8)). */
+#include "cid.h"
 #include "vtbl.h"
 struct ALO {
     /* 0x000 */ char pad0[0xc];
@@ -13,7 +14,7 @@ void func_001F7D10(struct ALO *palo, int n, float gFade)
 {
     VTENT *pvte;
     if (gFade <= 0.0f) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(palo, 0x69) == 0) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(palo, CID_TRAIL) == 0) {
             pvte = &palo->pvt[9];
             ((void (*)(void *))pvte->pfn)(VT_THIS(palo, pvte));
         }

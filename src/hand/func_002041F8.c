@@ -15,5 +15,5 @@ void SetStepRotation__FP4STEPP7MATRIX3(STEP *pstep, struct MATRIX4 *pmat)
     SetStepPhysHeading__FP3ALOf(pstep, RadStepHeading__FP4STEP(pstep));
     pctl = pstep->po.pctl;
     if (pctl != NULL)
-        pctl->radLeft = pstep->radTarget;
+        pctl->radLeft = pstep->radHeading;
 }

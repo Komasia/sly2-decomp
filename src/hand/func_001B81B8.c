@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct O { char pad[0xC]; VTENT *vt; };
 struct T { char pad[0x180]; struct O *po; };
@@ -15,12 +16,12 @@ void func_001B81B8(struct P *p, int b)
         if (!o) return;
         p->xF1C = o;
         VCALL(o, 21, 0);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xF1C, 0x33)) VCALL(p->xF1C, 87, b);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xF1C, CID_STEP)) VCALL(p->xF1C, 87, b);
     } else {
         o = p->xF1C;
         if (!o) return;
         VCALL(o, 21, 1);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xF1C, 0x33)) VCALL(p->xF1C, 87, 0);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xF1C, CID_STEP)) VCALL(p->xF1C, 87, 0);
         p->xF1C = 0;
     }
 }

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct O { int pad[3]; VTENT *vt; char pad2[0x28 - 0x10]; unsigned long flPad : 60; unsigned int fBit60 : 1; char pad3[0xE0 - 0x30]; void *pvE0; };
 struct G { int a; };
@@ -18,6 +19,6 @@ void func_001E4F20(struct P *p, struct O *po)
     p->po = po;
     p->fActive = !po->fBit60;
     if (p->fActive) ((void (*)(void *))po->vt[8].pfn)(VT_THIS(po, &po->vt[8]));
-    po->pvE0 = (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, 0x30)) ? p->p24 : func_001C4A48(&g_sw);
+    po->pvE0 = (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, CID_SO)) ? p->p24 : func_001C4A48(&g_sw);
     SetZoneForced__FP2LOi(po, 1);
 }

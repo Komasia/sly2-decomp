@@ -1,3 +1,4 @@
+#include "cid.h"
 struct LO { char pad[0x124]; int x124; char p1[0x150 - 0x128]; int x150; };
 struct AL { int cb; int cbAlign;  };
 struct S { char pad[0x10]; int c; int *aid; struct LO **aplo; int x1C; int c2; struct LO **aplo2; int x28; int x2C; };
@@ -20,7 +21,7 @@ void func_001C1138(struct S *p)
         plo->x124 = i;
         p->aplo[i] = plo;
     }
-    n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(WorldAddress(worldPage), 0x205, 0x7C, QueryScope(), 0x400, ap);
+    n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(WorldAddress(worldPage), 0x205, CID_NAVLINK, QueryScope(), 0x400, ap);
     {register int alignment __asm__("$7")=0x10;
     c = 0x400;
     if (n < 0x400) c = n;

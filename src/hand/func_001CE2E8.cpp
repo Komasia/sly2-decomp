@@ -11,6 +11,7 @@
  *    `entries` store, which sched1 then issues right after the allocation call (the target's store order and $v0 for p->state);
  *  - ClipBspPlane uses the matched callee's argument order (pos, eps, count, entries).
  */
+#include "cid.h"
 #include "vtbl.h"
 #include "dl.h"
 typedef int qword __attribute__((mode(TI)));
@@ -52,7 +53,7 @@ void BounceRipgRips(P *p)
         NODE *node;
         for (node = p->state->nodes; node; node = node->next) {
             if (node->object->state->flags & 4) continue;
-            int special = FIsBasicDerivedFrom(node->object->state->subject, 0x59);
+            int special = FIsBasicDerivedFrom(node->object->state->subject, CID_WATER);
             DLI shapes;
             Init(&shapes, &node->object->state->shapes);
             SHAPE *shape;

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "so.h"
 struct G { char pad[0x3EFC]; struct LO *plo3EFC; struct LO *plo3F00; };
 struct CRef { int m_tagk; int m_tag; int pad[2]; };
@@ -17,7 +18,7 @@ void SetPoCurrent__FP2SWP2LO(struct G *p, struct LO *plo)
     if (cur != nw && cur) VCALL(cur, 78, 0);
     p->plo3EFC = plo;
     if (cur != nw && nw) VCALL(nw, 78, 1);
-    if (plo && FIsBasicDerivedFrom__FP5BASIC3CID(plo, 0x34)) {
+    if (plo && FIsBasicDerivedFrom__FP5BASIC3CID(plo, CID_ACTOR)) {
         struct CRef ret, ref;
         ref.m_tagk = 0x15;
         ref.m_tag = plo->oid;

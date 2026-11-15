@@ -11,6 +11,7 @@
 //    an endpoint-relative address), fields stored in struct order;
 //  - the search loop reuses `seg` (set many times, so sched1 does not boost its sets), which lets `next` take $v0;
 //  - the bound points are written through a block-local pointer so the address is loaded before each call.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
@@ -116,7 +117,7 @@ extern "C" void BindEnd__FP3ALO(P *p)
             if (endpoint->id != -1) {
                 void *object = PloFindSwNearest(&g_sw, 1, endpoint->id, p);
                 if (object) {
-                    if (FIsBasicDerivedFrom(object, 10)) {
+                    if (FIsBasicDerivedFrom(object, CID_PATH)) {
                         PATH *path = (PATH *)object;
                         PARAMS params = endpoint->track.params;
                         int reverse = 0;
@@ -229,7 +230,7 @@ extern "C" void BindEnd__FP3ALO(P *p)
                             }
                             SetDirty(p);
                         }
-                    } else if (FIsBasicDerivedFrom(object, 3) || FIsBasicDerivedFrom(object, 0x30)) {
+                    } else if (FIsBasicDerivedFrom(object, CID_XFM) || FIsBasicDerivedFrom(object, CID_SO)) {
                         endpoint->kind = 0;
                         endpoint->point = PosOfLo(object);
                     }

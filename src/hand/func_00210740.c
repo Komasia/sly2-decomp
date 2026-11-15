@@ -1,4 +1,5 @@
 // Complete WIP; true source-object lookup and sound-reference contracts.
+#include "cid.h"
 static inline void Clamp(float *f,float *b) {float lo=b[0],hi=b[1]; if(*f<lo)*f=lo; else if(hi<*f)*f=hi;}
 struct VT { char pad[0x40]; short d; short pd; int (*kind)(void *); };
 struct M { char pad[0xC]; struct VT *vt; };
@@ -27,7 +28,7 @@ void PlayAsegaSound__FfffPviiiiN33PPv(float offset, float fade, float scale, str
     __asm__ volatile("" ::: "$4");
     if(oid!=-1)fallback=PloFindSwNearest__FP2LO3OIDii(p,4,oid,owner);
     o=SelectedValue(fallback);
-    if (o && FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x38) && o->curve) {
+    if (o && FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_STEPGUARD) && o->curve) {
         float v = o->curve->value;
         float f = D_002C3EA0[0] + v * (D_002C3EA0[1] + v * D_002C3EA0[2]);
         Clamp(&f, D_002C3EB0);

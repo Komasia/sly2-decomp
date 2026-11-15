@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef struct E { int a; int b; } E;
 typedef struct O {
@@ -33,7 +34,7 @@ void UpdateBreakableContacts__FP3ALO(O *p)
             if (!pe->b) continue;
             if (!FIsBasicDerivedFrom__FP5BASIC3CID(pl->po, pe->a)) continue;
             if (!(p->x148 & 0x3000000)) PostHit__FP2LOii(p, pl->po, 0);
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(pl->po, 0x62)) {
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(pl->po, CID_BREAKABLE)) {
                 O *q = pl->po;
                 for (j = 0; j < q->c150; j++) {
                     E *pe2 = &q->a154[j];

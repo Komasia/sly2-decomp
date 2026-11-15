@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct J { char pad[0xC]; VTENT *vt; char pad1[0x2DC - 0x10]; int x2DC; };
@@ -37,7 +38,7 @@ void UpdateMarker__FP2LO(struct P *p)
     } else f = 0;
     if ((p->x150 == 0 || p->x150 == 2) && g_sw.x3B0C)
         f = 0;
-    if (f && FIsBasicDerivedFrom__FP5BASIC3CID(pj, 0x34) &&
+    if (f && FIsBasicDerivedFrom__FP5BASIC3CID(pj, CID_ACTOR) &&
         (pj->x2DC != -1 || ((int (*)(void *))pj->vt[77].pfn)(VT_THIS(pj, &pj->vt[77])) == 2))
         f = p->x164;
     if (f != p->x164) {

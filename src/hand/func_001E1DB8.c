@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef struct S { char pad[0x18]; int x18; } S;
 extern struct G g_sw;
 void *PloFindSwNearest__FP2LO3OIDii(struct G *g, int k, int id, int x);
@@ -11,7 +12,7 @@ void *PloFind__FP3RUNi(S *p, int id)
         q = 0;
     } else {
         q = PloFindSwNearest__FP2LO3OIDii(&g_sw, 4, id, p->x18);
-        if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 6)) q = func_001CB2E0(q);
+        if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_PROXY)) q = func_001CB2E0(q);
     }
     return q;
 }

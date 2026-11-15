@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "so.h"
 typedef struct I { int k; int v; } I;
 typedef struct E { int id; int n; int c; I *a; } E;
@@ -64,7 +65,7 @@ void RunItems__FP2LOP3BRK(P *p, E *pe)
             func_001F6B48(p, pi->v);
             break;
         case 7:
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(ps, 0x1E)) {
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(ps, CID_EXPL)) {
                 MSG msg;
                 msg.a = 1;
                 msg.ps = psPrev ? psPrev : ps;

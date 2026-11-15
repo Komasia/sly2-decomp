@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { int pad[3]; VTENT *vt; char pad2[0x1A8 - 0x10]; float g1A8; char pad3[0x240 - 0x1AC]; qword v240; };
@@ -15,7 +16,7 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
     struct O *px = p->po24;
     if (!px) px = p->po44;
     if (po) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0xA)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_PATH)) {
             NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(po, PosOfLo__FP2LO(px), 0, &uv.q, ag, 0, 0);
             g = atan2f(ag[1], ag[0]);
         } else {
@@ -27,7 +28,7 @@ void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *p, struct O *po, qword *pv, float
         }
     } else {
         uv.q = PosOfLo__FP2LO(px);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(px, 0x33)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(px, CID_STEP)) {
             __asm__("vadd.xyzw %0, %1, %2" : "=j"(uv.q) : "j"(uv.q), "j"(px->v240));
             g = px->g1A8;
         } else {

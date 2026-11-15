@@ -1,3 +1,4 @@
+#include "cid.h"
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3DAC;
 struct X { int pad; int n4; int pad2; float tC; };
@@ -11,7 +12,7 @@ int FGuardSurprised__FP5GUARDP2LOUl(struct S *p, void *q, long mask)
     struct X *x;
     if (p->n3D0)
         goto ret0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x36) && !FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x3A) && !(p->fl & func_00207A20(6)))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_MURRAY) && !FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_GUNGUARD) && !(p->fl & func_00207A20(6)))
         goto ret1;
     x = PdetentryFind__FP8DETECTORi(p->pF64, q);
     if (!x)

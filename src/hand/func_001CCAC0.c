@@ -8,6 +8,7 @@ struct S {
     char p2[0x80 - 0x3C]; int x80; struct O *x84; int x88; struct O *x8C; int x90;
     int x94; int x98; int x9C; int xA0; int xA4; float xA8;
 };
+#include "cid.h"
 #include "clock.h"
 extern struct P8 D_002A77C8;
 extern char g_sw[];
@@ -35,13 +36,13 @@ void SetReachState__FP5REACHi(struct S *p, int n)
     case 1:
         p->x8C = p->x84;
         p->x90 = 1;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 10)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, CID_PATH)) {
             struct O *po = p->x84;
             NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(po, PosOfLo__FP2LO(p->x0), 0, 0, 0, 0, &p->x88);
             p->x90 = 0;
         } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 0x14) && (p->x84->xE0 & p->x0->x1000)) {
             p->x90 = 2;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, 0x30)) {
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x84, CID_SO)) {
             struct O *po = PloReachGrip__FP5ACTORi(p->x0, p->x84);
             if (po) {
                 p->x8C = po;

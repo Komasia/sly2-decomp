@@ -1,4 +1,5 @@
 // Select and normalize three animation blend weights.
+#include "cid.h"
 extern "C" {
 struct REF {char pad50[0x50];unsigned short flags,state;};
 struct COEF {float a,b,c;};
@@ -22,7 +23,7 @@ void UpdateStemWeights__FPv(struct P *input)
     p->selected=1;
     if(p->modeA)p->selected=2;
     else if(p->modeB)p->selected=0;
-    else if(func_001C4A48(g_sw) && FIsBasicDerivedFrom(func_001C4A48(g_sw),0x34)){
+    else if(func_001C4A48(g_sw) && FIsBasicDerivedFrom(func_001C4A48(g_sw),CID_ACTOR)){
         struct PLAYER *player=func_001C4A48(g_sw);
         if(player->state==3)p->selected=0;
         else if(player->state==4)p->selected=2;

@@ -1,4 +1,5 @@
 /* FMurrayAbilityOk__FP6MURRAYi (Claude agent, 2026-10-17): matched. The p/k s0/s1 swap came from declaring func_001443D8 with (p, k): it takes only p (as in func_0018D760), and the extra k use raised k's allocation priority. */
+#include "cid.h"
 struct O { char pad[0x180]; void *x180; };
 struct P { char pad[0x2C4]; int x2C4; char pad1[0x12F0 - 0x2C8]; int x12F0; char pad2[0x13D0 - 0x12F4]; int x13D0; char pad3[0x13F0 - 0x13D4]; struct O *x13F0; };
 extern int g_grfjoyt;
@@ -27,7 +28,7 @@ int FMurrayAbilityOk__FP6MURRAYi(struct P *p, int k)
         break;
     case 5:
         if (k == 3) return 1;
-        if (k == 19) { if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x13F0->x180, 0x38)) return 1; }
+        if (k == 19) { if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x13F0->x180, CID_STEPGUARD)) return 1; }
         return 0;
     default:
         return 0;

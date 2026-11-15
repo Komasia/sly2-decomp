@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct A { void *x0; void *x4; };
 struct S { char pad[0xF0]; void *xF0; };
@@ -11,7 +12,7 @@ int func_001CF968(struct S *p, struct A *pa, qword q0, qword q1)
     for (i = 0; i < sizeof(D_002C1F70) / sizeof(D_002C1F70[0]); i++) {
         if (FIsBasicDerivedFrom__FP5BASIC3CID(pa->x4, D_002C1F70[i])) return 0;
     }
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pa->x4, 0x59)) PripDecal__FP4RIPNP4RIPGP2LOG9VU_VECTORT3(p, p->xF0, pa->x0, q0, q1);
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pa->x4, CID_WATER)) PripDecal__FP4RIPNP4RIPGP2LOG9VU_VECTORT3(p, p->xF0, pa->x0, q0, q1);
     RemoveRip(p);
     return 1;
 }

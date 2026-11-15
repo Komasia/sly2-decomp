@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct A { char pad[0xA0]; int nA0; };
 struct O { char pad[0x10]; struct O *pParent; };
@@ -15,7 +16,7 @@ void PostLoadGuardAction__FP2LO(struct S *p)
 {
     struct O *o;
     PostLoLoad__FP2LO(p);
-    for (o = p->pParent; o && !FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x38); o = o->pParent)
+    for (o = p->pParent; o && !FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_STEPGUARD); o = o->pParent)
         ;
     p->pAC = o;
     ResolveKinde__FP5KINDEP5GUARD(p->eB0, o);

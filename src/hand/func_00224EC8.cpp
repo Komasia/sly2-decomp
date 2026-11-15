@@ -6,6 +6,7 @@ struct NODE {M3 basis;qword orientation;char pad40[0x60];NODE *parent;char padA4
 struct O;
 struct S {char pad[0x58];NODE *positionNode,*rotationNode;char pad60[0xF0];int state;float time;int sentinel,kind;O *nearest;char pad164[4];void *animation;char pad16C[0x10];void *rotationJob,*positionJob;char pad184[0xC];qword direction;};
 struct WORLD;
+#include "cid.h"
 #include "clock.h"
 extern WORLD g_sw;
 extern qword g_normalZ;
@@ -94,7 +95,7 @@ extern "C" void SetCarryStateBase__FP2LOi(S *p,int state){
   if(p->kind!=0x29){SetAloCnstrAng(p,0);break;}
   SetAloCnstrAng(p,1);
   O *objects[32];
-  int count=CFindObjectsByClass(&g_sw,0x105,0x38,0,32,objects);
+  int count=CFindObjectsByClass(&g_sw,0x105,CID_STEPGUARD,0,32,objects);
   p->nearest=FindNearest(p,count,objects,D_002E1E40,D_002A97A8);
   break;
  }

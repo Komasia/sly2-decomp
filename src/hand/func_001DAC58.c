@@ -1,6 +1,7 @@
 /* DrawGadgetIcons (SafeHouse shop.cpp): on the open gadget menu, mark each gadget the player has put in one of
  * its three ability slots with that slot's button icon (D_002C3268[slot], the icon font at scale D_002C3264) in a
  * 32 x 32 box at the entry's position. */
+#include "cid.h"
 typedef struct { float x, y, dx, dy; char pad[0x10]; } TXT;
 typedef struct { char ab[0xA0]; } FONT;
 typedef struct { int key; int a; int b; } SLOT;   /* an ability slot: its gadget */
@@ -39,7 +40,7 @@ void DrawGadgetIcons__FP7FONTBRX(GADGETMENU *pmenu)
     q = PloPlayerPo__FP2SW(&g_sw);
     if (q == 0)
         return;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_ACTOR))
         return;
     for (ient = 0; ient < pmenu->cent; ient++) {
         GADGETENT *pent = &pmenu->aent[ient];

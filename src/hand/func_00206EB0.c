@@ -1,3 +1,4 @@
+#include "cid.h"
 /* the script job (cid 0xA9) */
 struct JOBSCRIPT { char pad[0x4C]; int fFromReact; };
 int FGuardState(void *pguard, int st) asm("FGuardState__FP5GUARDi");
@@ -30,8 +31,8 @@ int FGuardModeAllowed__FP5GUARDi(void *pguard, int nMode)
     case 0x25:
         return !func_00206D48(pguard);
     case 0xB:
-        return !(FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3B) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3D) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x40) ||
-                 FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3E) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x41) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3F) ||
+        return !(FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_DIMITRI) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_RAJAN) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_CONTESSA) ||
+                 FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3E) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_ARPEGGIO) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, CID_CARMELITA) ||
                  FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x3C) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x42) || FIsBasicDerivedFrom__FP5BASIC3CID(pguard, 0x43));
     }
     return 0;

@@ -1,6 +1,7 @@
 /* InitGauge (SafeHouse hudwidget.cpp, orig 0x1D9968): find the gauge's screen object and the player (class 0x34),
  * start the meters at the player's health and power, pick the player class's animation set and show the idle one
  * with both meters. */
+#include "cid.h"
 #include "vtbl.h"
 #include "h3_hud.h"
 typedef struct VT { VTENT a[64]; } VT;
@@ -39,7 +40,7 @@ void InitGauge__FP5GAUGE(GAUGE *pgauge)
     pgauge->state = GAUGES_Hidden;
     pgauge->pplayer = 0;
     pplayer = PloPlayerPo__FP2SW(&g_sw);
-    if (pplayer && FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, 0x34))
+    if (pplayer && FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, CID_ACTOR))
         pgauge->pplayer = pplayer;
     if (pgauge->pplayer == 0) {
         pgauge->hShown = pgauge->hTarget = 0.0f;
@@ -48,13 +49,13 @@ void InitGauge__FP5GAUGE(GAUGE *pgauge)
     }
     pgauge->hShown = pgauge->hTarget = (float)*pgauge->pplayer->pn / (float)pgauge->pplayer->c;
     pgauge->gShown = pgauge->gTarget = (float)NActorPower__FP5ACTOR(pgauge->pplayer) / (float)pgauge->pplayer->cMax;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x37)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_BENTLEY)) {
         pgauge->ids[0] = IDGAUGE_Player37;
         pgauge->ids[1] = IDGAUGE_Player37 + 1;
         pgauge->ids[2] = IDGAUGE_Player37 + 2;
         pgauge->ids[3] = IDGAUGE_Player37 + 3;
         pgauge->ids[4] = IDGAUGE_Player37 + 4;
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x36)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, CID_MURRAY)) {
         pgauge->ids[0] = IDGAUGE_Player36;
         pgauge->ids[1] = IDGAUGE_Player36 + 1;
         pgauge->ids[2] = IDGAUGE_Player36 + 2;

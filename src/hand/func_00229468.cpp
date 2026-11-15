@@ -1,4 +1,5 @@
 // Query the vertical hit span and optional point and normal outputs.
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct MSG { int cb; int cbAlign; } MSG;
 struct MARK {};
@@ -44,7 +45,7 @@ extern "C" float GWaterDepth__FP3ALOT0P6VECTORT2(struct S *p, struct J *pj, qwor
     int c;
     float g;
     work.a.q = work.b.q = PosOfLo(pj);
-    if (FIsBasicDerivedFrom(pj, 0x33)) {
+    if (FIsBasicDerivedFrom(pj, CID_STEP)) {
         work.a.f[2] = work.a.f[2] + pj->g248;
         if (pj->x208)
             work.a.f[2] = work.a.f[2] > pj->g238 ? work.a.f[2] : pj->g238;

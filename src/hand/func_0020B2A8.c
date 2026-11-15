@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct A { char pad[0x124]; int k124; };
 struct S { char pad[0xF80]; int kF80; struct A *pF84; int xF88; int nF8C; void *pF90; };
@@ -11,7 +12,7 @@ void AttachGuardMove__FP5GUARDP2LOi(struct S *p, struct A *pa, int n)
 {
     p->pF84 = pa;
     p->nF8C = n;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(pa, 0xB)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pa, CID_PIPE)) {
         p->kF80 = 1;
         NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(p->pF84, PosOfLo__FP2LO(p->pF90), 0, 0, 0, 0, &p->xF88);
         PairActorWith__FP5ACTORP2LOi(p, p->pF84, 1);
@@ -22,7 +23,7 @@ void AttachGuardMove__FP5GUARDP2LOi(struct S *p, struct A *pa, int n)
     } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->pF84, 0x13) && p->pF84->k124 == 3) {
         p->kF80 = 2;
         PairActorWith__FP5ACTORP2LOi(p, p->pF84, 1);
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->pF84, 0x27)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->pF84, CID_SPIRE)) {
         p->kF80 = 3;
         PairActorWith__FP5ACTORP2LOi(p, p->pF84, 1);
     } else {

@@ -1,3 +1,4 @@
+#include "cid.h"
 extern char g_sw[];
 struct S { char pad[0x30]; int n30; int a34[16]; char pad2[0xA4 - 0x74]; int nA4; int *pA8; int nAC; int nB0; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(int a, int b);
@@ -6,11 +7,11 @@ int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(void *p, int a, int b, int c, 
 void func_00201E88(struct S *p);
 void func_00201DC8(struct S *p)
 {
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(*p->pA8, 0x35)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(*p->pA8, CID_JT)) {
         p->nAC = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x405, 0x362, 0);
         p->nB0 = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x405, 0x365, 0);
     }
     p->nA4 = PloFindSwNearest__FP2LO3OIDii(g_sw, 0x405, 0x602, 0);
-    p->n30 = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x405, 0x2E, 0, 16, p->a34);
+    p->n30 = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(g_sw, 0x405, CID_RECONTARGET, 0, 16, p->a34);
     func_00201E88(p);
 }

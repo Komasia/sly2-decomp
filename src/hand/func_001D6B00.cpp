@@ -15,6 +15,7 @@
 //    subtraction (allocation-only operand: VU preference, so posAim is spilled rather than kept in $s4).
 //  * The spin direction uses NormalizeTo, whose fallback arm comes after the division (goto form), and an explicit qmtc2 of the
 //    packed VECTOR, which keeps the packed value in a GPR (the game's dead `sq v1`).
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 union MATRIX4 { qword r[4]; float m[4][4]; };
 struct MATRIX3 { qword r[3]; };
@@ -209,7 +210,7 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     qword posAim;
     qword posLaunch = AddScaled(posOrigin, VU_FLOAT(offset), Normalize(dpos));
     posAim = QwFromVf(posLaunch);
-    if (FIsBasicDerivedFrom(pso, 0x4F)) {
+    if (FIsBasicDerivedFrom(pso, CID_BOMB)) {
         SetProjectileLauncher(pso, plaunch);
         RecalcSwOxfFilterForObject(g_sw, pso);
     }
@@ -217,9 +218,9 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
     SetAloCnstrLin(pso, 0);
     SetAloCnstrAng(pso, 0);
     ReparentBooty(pso, 0, 3);
-    if (FIsBasicDerivedFrom(pso, 0x52)) {
+    if (FIsBasicDerivedFrom(pso, CID_HOMINGMISS)) {
         SetAloVelocity(pso, VECTOR(pso->svLaunch, 0.0f, 0.0f).q);
-    } else if (FIsBasicDerivedFrom(pso, 0x51)) {
+    } else if (FIsBasicDerivedFrom(pso, CID_ACCMISS)) {
         qword v = VuFloatFromWord(pso->svLaunch) * Normalize2(posAim, posStart);
         pso->SetVelocity(v);
         MATRIX3 mat;
@@ -238,6 +239,6 @@ extern "C" void func_001D6B00(LAUNCH *plaunch, SO *pso)
         qword w = NormalizeTo(QwToVf(VECTOR(x, y, z).q)) * VU_FLOAT(g);
         pso->SetAngularVelocity(w);
     }
-    if (FIsBasicDerivedFrom(pso, 0x50))
+    if (FIsBasicDerivedFrom(pso, CID_MISSILE))
         pso->SetTarget(plaunch->psoSource, VECTOR4(plaunch->posTarget));
 }

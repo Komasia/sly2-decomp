@@ -1,4 +1,5 @@
 // Update the controller target and consume state/animation transitions.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
@@ -202,7 +203,7 @@ extern "C" void UpdateJtThrow__FP7JTTHROW(S *s){
    if(!animation||FAsegaRetracted(animation)){if(D_002DD5BC->mode==8)SetJtThrowState(s,4);else SetJtThrowState(s,0);}
    break;
   case 4:case 5:case 6:{
-   if(FIsBasicDerivedFrom(s->selected,0x64)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
+   if(FIsBasicDerivedFrom(s->selected,CID_CARRY)&&s->selected->sentinel!=-1){IntCall(s->owner,88,0);break;}
    float margin=0.1f;
    if(GrfPadctlTakePressed(control,0xC0,margin)){SetJtThrowState(s,7);break;}
    if(GrfPadctlTakePressed(control,0x30,margin)){

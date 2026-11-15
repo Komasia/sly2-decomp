@@ -1,3 +1,4 @@
+#include "cid.h"
 struct G;
 extern struct G g_sw;
 struct Z { char pad[0xF8]; int xF8; };
@@ -11,7 +12,7 @@ void func_002111F0(char *dst, int i)
 {
     struct G *g = &g_sw;
     struct X *p = PloPlayerPo__FP2SW(g);
-    if (p && FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x34)) {
+    if (p && FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_ACTOR)) {
         struct Y *y = p->py;
         if (y && i < y->c)
             s1_strcpy(dst, func_0013E368(g, y->a[i]->xF8));

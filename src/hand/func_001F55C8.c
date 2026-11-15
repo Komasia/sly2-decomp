@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef unsigned long ulong;
 struct O;
@@ -19,7 +20,7 @@ void ReRootAlo__FP3ALO(struct O *p)
     int n;
     if (!((p->fl >> 60) & 1)) return;
     if (PaloPhysRoot__FP3ALO(p) != p->pq->p60) {
-        n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 1, 0x30, p, 0x40, ap);
+        n = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 1, CID_SO, p, 0x40, ap);
         for (i = 0; i < n; i++) {
             {
                 struct O *po = ap[i];

@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef struct O O;
 typedef struct PAIR PAIR;
@@ -97,7 +98,7 @@ extern "C" void UpdateWater__FP5WATER(O *p){
    work.origin.q=D_002A2DD0;
    work.start.q=Sub(c->position.q,work.origin.q);
    work.end.q=Sub(c->source->position.q,work.origin.q);
-   if(FIsBasicDerivedFrom(o,0x33))dz=o->height;
+   if(FIsBasicDerivedFrom(o,CID_STEP))dz=o->height;
    else dz=o->state->minimum.f[2]-c->source->position.f[2];
    work.start.f[2]+=dz;work.end.f[2]+=dz;
    if(CClipSegmentEntries(work.start.q,work.end.q,work.count,objects,16,work.intervals)>0){

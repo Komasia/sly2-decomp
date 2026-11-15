@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
@@ -55,7 +56,7 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
         p->previousVelocity.q=func_001F5860(p->subject);
         break;
     case 1:{
-        if(FIsBasicDerivedFrom(p->subject,0x38)){
+        if(FIsBasicDerivedFrom(p->subject,CID_STEPGUARD)){
             ALO *subject=p->subject;
             DetachGuardMove(subject);
             func_0020D178(subject->control);
@@ -77,7 +78,7 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
         float time;
         if(ballistic){
             float low,high,slopeLow,slopeHigh;
-            if(p->related&&(FIsBasicDerivedFrom(p->related,0x13)||FIsBasicDerivedFrom(p->related,0xB))){
+            if(p->related&&(FIsBasicDerivedFrom(p->related,0x13)||FIsBasicDerivedFrom(p->related,CID_PIPE))){
                 low=1250.0f;slopeLow=1.1f;high=0.0f;slopeHigh=50.0f;
             }else if(p->steep){
                 low=1500.0f;slopeLow=1.33f;high=-1500.0f;slopeHigh=-1.33f;
@@ -129,7 +130,7 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
     case 4:
         if(p->ballistic)ReleaseK2Ballistic(p);
         SetAloGravity(p->subject,p->previousVelocity.q);
-        if(FIsBasicDerivedFrom(p->subject,0x38))func_0020D1A0(p->subject->control);
+        if(FIsBasicDerivedFrom(p->subject,CID_STEPGUARD))func_0020D1A0(p->subject->control);
         break;
     }
 }

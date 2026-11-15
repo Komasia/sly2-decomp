@@ -1,3 +1,4 @@
+#include "cid.h"
 struct Q { void *p0; int pad; float g8; float gC; };
 struct E { char pad[0xDC]; struct Q *pq; };
 struct P { char pad[0xE8]; struct E *pe; };
@@ -13,7 +14,7 @@ struct Q *PregentEnsure__FP3ALO(struct P *p)
         struct CB cb;
         struct Q *q = PvAllocMsg(&cb, 0x70, 0x10);
         q->p0 = p;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x34)) q->g8 = 150.0f;
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_ACTOR)) q->g8 = 150.0f;
         else q->g8 = 75.0f;
         q->gC = 1.0f;
         p->pe->pq = q;

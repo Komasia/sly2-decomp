@@ -1,4 +1,5 @@
 #include "vtbl.h"
+#include "cid.h"
 /* the source's owner (+0x200): its team */
 struct SOSRCOWNER { char pad[0x14]; int nTeam; };
 struct SOSRC { char pad[0x200]; struct SOSRCOWNER *pownerSrc; };
@@ -17,7 +18,7 @@ int FAcceptContactGuard__FP3ALOP5CTMSG(struct GUARD *pguard, struct CTMSG *pctm)
     if (!((int (*)(void *))pguard->pvt[86].pfn)(VT_THIS(pguard, &pguard->pvt[86]))) {
         if (((int (*)(void *, int))pguard->pvt[76].pfn)(VT_THIS(pguard, &pguard->pvt[76]), pctm->zpk))
             return 1;
-        if (pctm->psoSrc && FIsBasicDerivedFrom__FP5BASIC3CID(pctm->psoSrc, 0x4F) && pctm->psoSrc->pownerSrc->nTeam == pguard->nTeam)
+        if (pctm->psoSrc && FIsBasicDerivedFrom__FP5BASIC3CID(pctm->psoSrc, CID_BOMB) && pctm->psoSrc->pownerSrc->nTeam == pguard->nTeam)
             return 1;
         if (!FAbsorbSoWkr__FP2SOP3WKR(pguard, pctm))
             return 0;
