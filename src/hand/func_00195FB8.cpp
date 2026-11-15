@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];int i[4];};struct M3{U row[3];};
@@ -198,7 +199,7 @@ extern "C" void SetJumpAnimState__FP4JUMPiP2LO(CONTEXT*p,int newMode,SOURCE*sour
   __asm__("lw $2,0(%4)\n\tlw %1,0x1D0(%4)\n\tlw %0,0x58($2)\n\tli.s %2,-1.00000000000000000000e3\n\tlq %0,0x70(%0)\n\tli.s %3,-1.00000000000000000000e0"
    :"=&r"(bodyPosition),"=r"(queryObject),"=f"(minimum),"=f"(maximum):"r"(p),"m"(p->actor),"m"(p->query.object):"$2","at","memory");
   w.bodyPosition.q=bodyPosition;
-  if(queryObject&&(FIsBasicDerivedFrom(queryObject,19)||FIsBasicDerivedFrom(p->query.object,11))){minimum=0.0f;maximum=500.0f;}
+  if(queryObject&&(FIsBasicDerivedFrom(queryObject,19)||FIsBasicDerivedFrom(p->query.object,CID_PIPE))){minimum=0.0f;maximum=500.0f;}
   qword queried=PosSafeEntry(p->actor,&p->query,D_002BF7A0);
   register ACTOR*queryOwner __asm__("$3");register qword queriedVector __asm__("vf2");register float maximumArg __asm__("$f15"),minimumArg __asm__("$f13");
   __asm__("lw %0,%5\n\tqmtc2.ni %4,%1\n\tsq %4,%2\n\tmov.s %3,%6"

@@ -1,5 +1,6 @@
 /* StrPhotoScript: a text of the current player's photo prompt (actor +0xF38): 0 the subject (0x202730), 1 the
  * feedback (0x2026F8), copied into pch when there is one. Source: SafeHouse port (photo.cpp). */
+#include "cid.h"
 #include "actor.h"
 struct PHOTOPROMPT;
 extern char g_sw[];
@@ -13,7 +14,7 @@ char *strcpy(char *pchDst, const char *pchSrc);
 void StrPhotoScript__FPci(char *pch, int n)
 {
     struct ACTOR *pactor = PloPlayerPo__FP2SW(g_sw);
-    if (pactor != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(pactor, 0x34)) {
+    if (pactor != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(pactor, CID_ACTOR)) {
         struct PHOTOPROMPT *pprompt = pactor->pprompt;
         char *pchText = 0;
         if (pprompt != 0) {

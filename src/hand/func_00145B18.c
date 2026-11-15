@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0xC]; VTENT *vt; char pad1[0x38 - 0x10]; int x38; char pad2[0xC0 - 0x3C]; int xC0; int xC4; float gC8; };
@@ -30,7 +31,7 @@ void SetState__12JOBCOMPANIONi(struct P *p, int state)
     switch (state) {
     case 0: {
         struct O *po = func_00205438(p->p10, 0xA8);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x32)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, CID_PO)) {
             po->xC0 = p->p30->x150;
             po->xC4 = 8;
             po->gC8 = GRandInRange__Fff(0.1f, 0.3f);

@@ -1,6 +1,7 @@
 /* BindHackSegs: a hack object's state segments ({oid, ASEG, SM, grfapl}, 0x10 bytes each) get their objects found
  * from the object (PloFindSwNearest kind 4): an ASEG (cid 0x6D) or an SM (cid 0x6F). Source: SafeHouse port
  * (hack.cpp HACKSEG). */
+#include "cid.h"
 struct LO;
 struct HACKSEG {
     /* 0x0 */ int oid;           /* field: SafeHouse port */
@@ -21,9 +22,9 @@ void BindHackSegs__FP2LOP6HACKSOPv(struct LO *plo, int cseg, struct HACKSEG *ase
         if (pseg->oid != -1) {
             struct LO *ploFound = PloFindSwNearest__FP2LO3OIDii(g_sw, 4, pseg->oid, plo);
             if (ploFound != 0) {
-                if (FIsBasicDerivedFrom__FP5BASIC3CID(ploFound, 0x6D))
+                if (FIsBasicDerivedFrom__FP5BASIC3CID(ploFound, CID_ASEG))
                     pseg->paseg = ploFound;
-                else if (FIsBasicDerivedFrom__FP5BASIC3CID(ploFound, 0x6F))
+                else if (FIsBasicDerivedFrom__FP5BASIC3CID(ploFound, CID_SM))
                     pseg->psm = ploFound;
             }
         }

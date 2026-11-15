@@ -1,5 +1,6 @@
 // UpdateEnemy__FP2LO (Claude agent, lane G19, 2026-10-24): MATCH, no register pins. From laneH9v5 (aligned 3): the case-3 first refresh subtract (target - previousTarget) uses QwSubC, the same vsub with a clobber of the dead vf3. Reload hands out spill regs round-robin over {v0,v1,vf1,vf2,vf3}; after the case 1/2 vsub (target vf1, self vf2) the next VF reload would get vf3; with vf3 clobbered (and prev in vf1) the target reload gets vf2 as in the target.
 // history: UpdateEnemy__FP2LO laneH9v5 (Claude agent lane H9, from laneH6v1): indexed for loop + const-ref loop helpers (R*): the loop has 96 RTL insns in loop pass 2, so loop.c no longer hoists the D_002A2DA0 high. aligned 3.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned long ulong;
@@ -144,7 +145,7 @@ dispatch:
   float speed=Limit(Evaluate(&p->remaining,remaining),&g_lmZeroOne)*Limit(Evaluate(&p->angle,turn),&g_lmZeroOne)*Limit(Evaluate(&D_002BE830,response),&g_lmZeroOne)*p->scale;
   qword force=QwScaleX(unit.q,VuFloat(speed));
   NODE*objects[64];
-  int n=CFindObjectsByClass(g_sw,0x105,0x49,0,64,objects);
+  int n=CFindObjectsByClass(g_sw,0x105,CID_HACKENEMY,0,64,objects);
   for(int i=0;i<n;i++){
    NODE*object=objects[i];
    if(object!=&p->node&&object->group!=p->node.group){

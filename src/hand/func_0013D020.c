@@ -1,3 +1,4 @@
+#include "cid.h"
 struct I { int x0; int x4; int x8; int xC; int x10; int x14; };
 struct A { char pad[0x158]; struct I *pi; void *p15C; void *p160; };
 struct Q { char pad[0x11A8]; struct A *pa; };
@@ -17,7 +18,7 @@ void UseObjectBase__FP2LOi(struct P *p, struct Q *q);
 void FUseBootyStand__FP2LOP5ACTOR(struct P *p, struct Q *q)
 {
     struct A *pqa, *ppa;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(q, CID_ACTOR))
         return;
     pqa = q->pa;
     ppa = p->pa;

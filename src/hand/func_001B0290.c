@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef struct M { int id; int a[7]; } M;
 typedef struct MENU { char pad[0x20]; int x20; } MENU;
 typedef struct G { char pad[0x3B0C]; int x3B0C; } G;
@@ -32,7 +33,7 @@ int AentPause__FPv(X *px)
     if (func_0020E040(&g_sw)) return 0;
     if (func_001D9880(D_002E6550)) return 0;
     pl = PloPlayerPo__FP2SW(&g_sw);
-    if (pl && FIsBasicDerivedFrom__FP5BASIC3CID(pl, 0x34)) SetBinocState__FP5ACTORi(pl + 0xF00, -1);
+    if (pl && FIsBasicDerivedFrom__FP5BASIC3CID(pl, CID_ACTOR)) SetBinocState__FP5ACTORi(pl + 0xF00, -1);
     if (!func_002127C8()) return 0;
     psrc = D_002C00E8;
     pdst = D_002F65D0;

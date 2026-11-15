@@ -1,3 +1,4 @@
+#include "cid.h"
 struct O { char pad[0x10C]; int x10c; };
 struct E { struct O *x0; int x4; float x8; int pad[9]; };
 struct G { char pad[0x4678]; int c; int pad2; struct E ae[1]; };
@@ -19,18 +20,18 @@ int FInteractCircle__FP5ACTOR(struct P *p)
         int k;
         if (e->x8 > D_002BF660) break;
         o = e->x0;
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(o, 0xB))
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x13) || FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_PIPE))
             k = (p->x0 == D_002E1E40) ? 6 : 5;
-        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x1B))
+        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_CRAWLHOOK))
             k = 8;
-        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0xC))
+        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_LEDGE))
             k = 0;
-        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x22))
+        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_WALL))
             k = 0;
-        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x26))
+        else if (FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_SWING))
             k = e->x0->x10c;
         else
-            k = FIsBasicDerivedFrom__FP5BASIC3CID(o, 0x23) ? 7 : -1;
+            k = FIsBasicDerivedFrom__FP5BASIC3CID(o, CID_USE) ? 7 : -1;
         if (k != -1) {
             StartInteract__FP5ACTORii3JTL(p, k, o, e->x4);
             return 1;

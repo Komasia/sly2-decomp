@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct E;
 struct D { char pad[0x10]; struct E *pe; };
@@ -23,7 +24,7 @@ int FNeedRecover__12JOBCOMPANION(struct P *p)
     pe = pd ? pd->pe : 0;
     if ((struct E *)pso == pe) return 0;
     if (pso->k == 0x2CA) return 0;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, 0x34) && p->p30->x2DC != -1) return 0;
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p30, CID_ACTOR) && p->p30->x2DC != -1) return 0;
     pos = PosOfLo__FP2LO(p->p30);
     if (!func_001C09A0(pso, pos, 0)) return 0;
     if (!FDropOnGround__FP6VECTORffiPv(&pos, 100.0f, -150.0f, 0, 0)) return 0;

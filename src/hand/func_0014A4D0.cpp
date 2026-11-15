@@ -1,19 +1,20 @@
 // Aim (Claude agent, lane D16). From v4: the vsub reads q (the pinned Add result) with `posT = q` after it, and its posMe operand is repeated as an allocation-only operand (reload then puts posMe in vf4 like the target).
-#include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
+#include "cid.h"
+#include "so.h"
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct G;
-struct XEC { char pad[0x20]; qword pos; float g30; };
-struct SO { char pad[0xC]; VTENT *vt; char pad1[0xE8 - 0x10]; int grfE8; XEC *pxEC; char pad2[0x174 - 0xF0]; SO *pnext; };
+// a breakable (cid 0x62): an SO on the breakables list D_003E1450 (slots 22 / 23 of the class add / remove it)
+struct BREAKABLE { SO so; char unk_0x150[0x174 - 0x150]; DLE dleBreakable; };
+// a point (cid 0x12, an XFM), as found around a breakable
+struct PNT { XFM xfm; char unk_0xe0[0xE8 - 0xE0]; int grf; float sRadius; };
 struct PATH { char pad[0x90]; int c; qword *av; };
 struct PSO { char pad[0xC]; VTENT *vt; char pad1[0x258 - 0x10]; PATH *ppath; char pad2[0x2DC - 0x25C]; int x2DC; };
-struct LO { char pad[0xC]; VTENT *vt; };
 struct W { char pad[0x1010]; LO *plo; };
 struct P { char pad[0x10]; W *pw; char pad1[0x48 - 0x14]; float t48; };
 #include "clock.h"
 extern "C" {
 extern G g_sw;
-extern SO *D_003E1450;
+extern BREAKABLE *D_003E1450;   // the breakables list (a DL: its head)
 extern float D_002BD460;
 extern float D_002BD468[2];
 extern float D_002BD470, D_002BD474, D_002BD478, D_002BD47C;
@@ -23,8 +24,8 @@ float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 int IsSwHandsOff(G *pg) asm("IsSwHandsOff__FP2SW");
 int FIsBasicDerivedFrom(PSO *p, int n) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 void SetGuardPursued(W *pw, void *p) asm("SetGuardPursued__FP5GUARDP2LO");
-int func_001BBE48(SO *p);
-int CFindObjectsByClass(G *pg, int a, int b, void *c, int d, SO **apso) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
+int func_001BBE48(BREAKABLE *pbrk);   // the breakable is broken
+int CFindObjectsByClass(G *pg, int grffso, int cid, void *ploContext, int cploMax, PNT **apnt) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 qword SetVectorSphere(float a, float b, float c) asm("SetVectorSphere__Ffff");
 float RadBetweenVectors(qword a, qword b, void *p) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
@@ -90,7 +91,7 @@ void Aim(P *p)
         p->t48 = g_clock.t;
     float dt = g_clock.t - p->t48;
     if (GRandInRange(D_002BD468[0], D_002BD468[1]) < dt && !IsSwHandsOff(pg)) {
-        if (FIsBasicDerivedFrom(pso, 0x34) && pso->x2DC == 0x11) {
+        if (FIsBasicDerivedFrom(pso, CID_ACTOR) && pso->x2DC == 0x11) {
             PATH *ppath = pso->ppath;
             pos = PosOfLo(pso);
             int c = ppath->c;
@@ -103,25 +104,25 @@ void Aim(P *p)
         SetGuardPursued(p->pw, pso);
         return;
     }
-    for (SO *ps = D_003E1450; ps; ps = ps->pnext) {
-        if (!func_001BBE48(ps)) {
-            SO *apso[8];
-            qword posT = PosOfLo(ps);
+    for (BREAKABLE *pbrk = D_003E1450; pbrk; pbrk = (BREAKABLE *)pbrk->dleBreakable.next) {
+        if (!func_001BBE48(pbrk)) {
+            PNT *apnt[8];
+            qword posT = PosOfLo(pbrk);
             float r = D_002BD478;
-            if (ps->pxEC) {
-                posT = ps->pxEC->pos;
-                r = ps->pxEC->g30;
+            if (pbrk->so.ptree) {   // its bounds
+                posT = pbrk->so.ptree->qwCenter;
+                r = pbrk->so.ptree->sRadius;
             }
-            int c = CFindObjectsByClass(&g_sw, 1, 0x12, ps, 8, apso);
+            int c = CFindObjectsByClass(&g_sw, 1, 0x12, pbrk, 8, apnt);   // its points (cid 0x12)
             int k = 0;
             for (int i = 0; i < c; i++) {
-                if (apso[i]->grfE8 & 0x17E)
-                    apso[k++] = apso[i];
+                if (apnt[i]->grf & 0x17E)
+                    apnt[k++] = apnt[i];
             }
             if (k) {
-                SO *pt = apso[NRandInRange(0, k - 1)];
-                posT = PosOfLo(pt);
-                r = *(float *)&pt->pxEC;
+                PNT *pnt = apnt[NRandInRange(0, k - 1)];
+                posT = PosOfLo(pnt);
+                r = pnt->sRadius;
             }
             if (!FLess(D_002BD478 * D_002BD478, LenSq(Sub(posT, posPlayer)))) {
                 float pan = GRandInRange(-3.1415927f, 3.1415927f);
@@ -153,7 +154,7 @@ void Aim(P *p)
 done:
     {
         LO *plo = p->pw->plo;
-        VTENT *e = &plo->vt[29];
+        VTENT *e = &plo->pvt[29];
         ((void (*)(void *, qword))e->pfn)(VT_THIS(plo, e), pos);
     }
     SetGuardPursued(p->pw, p->pw->plo);

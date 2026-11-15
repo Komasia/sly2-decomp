@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct VEC { float x, y, z, w; };
@@ -13,7 +14,7 @@ void GetCmdAim__FP5GUARDG9VU_VECTORP2LOP6VECTORPf(void *pv, qword pos, struct O 
     struct VEC v;
     float f;
     if (po) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 10)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_PATH)) {
             NearestCrvAll__FP3CRVG9VU_VECTORP6VECTORT2PfT4T2(po, pos, 0, &q, &v, 0, 0);
             f = atan2f(v.y, v.x);
         } else {

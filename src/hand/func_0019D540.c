@@ -1,3 +1,4 @@
+#include "cid.h"
 struct G;
 extern struct G g_sw;
 struct Q { int x0; };
@@ -8,13 +9,13 @@ void func_00201DC8(void *p);
 void func_0019DCA0(struct P *p, void *q);
 void func_0019D540(struct P *p)
 {
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, 0x35)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, CID_JT)) {
         p->x8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x35F, 0);
         p->xc = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x368, 0);
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, 0x37)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, CID_BENTLEY)) {
         p->x8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x360, 0);
         p->xc = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x369, 0);
-    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, 0x36)) {
+    } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x0->x0, CID_MURRAY)) {
         p->x8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x361, 0);
         p->xc = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x36A, 0);
     }

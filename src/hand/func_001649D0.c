@@ -1,3 +1,4 @@
+#include "cid.h"
 struct X { char pad[0x64]; void *f64; void *f68; };
 struct G { char pad[0x3B0C]; struct X *f3b0c; };
 extern struct G g_sw;
@@ -10,7 +11,7 @@ void ChooseJob__Fv(void)
 {
     struct X *apx[256];
     struct X *pxFound = 0;
-    int c = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, 0x84, 0, 0x100, (void **)apx);
+    int c = CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(&g_sw, 5, CID_MISSION, 0, 0x100, (void **)apx);
     int i;
     for (i = 0; i < c; i++) {
         struct X *px = apx[i];

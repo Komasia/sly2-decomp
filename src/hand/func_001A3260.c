@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
@@ -30,7 +31,7 @@ void func_001A3260(void)
         if (p->x160 == 0) break;
     }
     if (p) return;
-    p = PloNew__F3CIDP2SW3OIDi(4, 0, 0x188, -1);
+    p = PloNew__F3CIDP2SW3OIDi(CID_LIGHT, 0, 0x188, -1);
     r.q = Make(-0.2f, 0.3f, -1.0f);
     BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1(&m, r.q, g_normalZ);
     c = m;

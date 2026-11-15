@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct T { char pad[0xE0]; void *xE0; };
@@ -9,7 +10,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int k);
 qword PosDetectorEye__FP8DETECTOR(struct T *p)
 {
     if (!p->xE0) return PosOfLo__FP2LO(p);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xE0, 0x38)) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->xE0, CID_STEPGUARD)) {
         U g;
         qword r;
         qword pos = PosOfLo__FP2LO(p->xE0);

@@ -1,3 +1,4 @@
+#include "cid.h"
 struct ALLOCREQ { int cb; int nKind; };
 class FRAME {
 public:
@@ -23,7 +24,7 @@ extern "C" void func_00165C98(int *pc, void **ppv)
     req.cb = pg->c * 4;
     req.nKind = 0x10;
     X **apx = (X **)PvAllocStackClearImpl(&req);
-    int c = CFindObjectsByClass(pg, 5, 0x85, 0, pg->c, (void **)apx);
+    int c = CFindObjectsByClass(pg, 5, CID_TASK, 0, pg->c, (void **)apx);
     int i;
     for (i = 0; i < c; i++)
         apx[i]->fFC = 0;

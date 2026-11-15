@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "dl.h"
 // HandleActorMessage__FP5ACTOR5MSGIDPv (0x140F90): message handler (p, msg, pv): msg 3 resets x1038 and stops the 0xDF0/0x11B0 actions, msg 9 (pso->p18 == p)
 // switches on pmsg->k (0x15E: x190 = -v and virtual slot 35 called with the 0x1B0 rows times v; 0x161/0x162; 0x27B/0x27C; 0x1C7/0x1C8),
@@ -132,7 +133,7 @@ void HandleActorMessage__FP5ACTOR5MSGIDPv(void *p, int msg, void *pv)
             if (F(int, p, 0x4C8) == 0xB) {
                 void *po;
                 int n;
-                if (F(void *, p, 0x4D4) != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, p, 0x4D4), 100)) {
+                if (F(void *, p, 0x4D4) != 0 && FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, p, 0x4D4), CID_CARRY)) {
                     po = F(void *, p, 0x4D4);
                     if (func_00224590(po))
                         func_002245B8(po);

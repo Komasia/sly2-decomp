@@ -1,4 +1,5 @@
 // (Claude agent) frame declared at function scope with explicit init/free calls (free = dtor with in-charge 2) so msg2 reuses msg's slot.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
@@ -94,7 +95,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
     if (p->x1E0) {
         PO *po = p->p200;
         void *pv = p;
-        if (po != (PO *)p && FIsBasicDerivedFrom(po, 0x70) && po->pp14) {
+        if (po != (PO *)p && FIsBasicDerivedFrom(po, CID_LAUNCHER) && po->pp14) {
             PO *pT = *po->pp14;
             if (pT != po) pv = pT;
         }

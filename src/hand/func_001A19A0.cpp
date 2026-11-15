@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 typedef int qword __attribute__((mode(TI)));
@@ -105,7 +106,7 @@ extern "C" int FAcceptDamage__FP5ACTORP5CTMSG(C*p,RECORD*input){
   accepted.flags=0x200;
   __asm__("sw $zero,4(%3)\n\tsw $zero,8(%3)\n\tsw $zero,%2":"=m"(accepted.b),"=m"(accepted.c),"=m"(accepted.a):"r"(&accepted.a));
  }
- if(input->object&&FIsBasicDerivedFrom(input->object,0x38)){
+ if(input->object&&FIsBasicDerivedFrom(input->object,CID_STEPGUARD)){
   if(input->object->state==8||input->object->state==13)delta/=2;
  }
 notify:

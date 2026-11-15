@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vifs.h"
 struct X { char pad[0x120]; QW amat[3]; int f150[4]; int f160; };
 struct G;
@@ -18,7 +19,7 @@ extern "C" void func_00167FC0(VIFS *pvifs)
     pvifs->AddDmaCnt();
     pvifs->AddVifFlusha();
     pvifs->AddVifBaseOffset(0x32, 0);
-    int c = CFindObjectsByClass(&g_sw, 0x505, 4, 0, 0x180, (void **)apx);
+    int c = CFindObjectsByClass(&g_sw, 0x505, CID_LIGHT, 0, 0x180, (void **)apx);
     for (i = 0; i < c; i++) {
         px = apx[i];
         if (!px->f160)

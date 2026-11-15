@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct O { char pad[0xC]; VTENT *vt; char pad2[0x18]; unsigned long f28; };
@@ -18,7 +19,7 @@ void PutDownMurrayCarry__FP6MURRAY(struct S *p)
     po = p->pt->po;
     p->pt = 0;
     if ((int)(po->f28 >> 60) & 1) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x38)) ThrowGuardHeld__FP2LO(po);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_STEPGUARD)) ThrowGuardHeld__FP2LO(po);
         q = ConvertVec__FP2LOT0G9VU_VECTOR(p, 0, D_002C09D0);
         ((void (*)(void *, qword))po->vt[35].pfn)(VT_THIS(po, &po->vt[35]), q);
         ((void (*)(void *, qword))po->vt[36].pfn)(VT_THIS(po, &po->vt[36]), D_002A2DD0);

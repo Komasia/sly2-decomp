@@ -1,3 +1,4 @@
+#include "cid.h"
 struct A { void *p0; int pad[3]; float g10; float g14; int pad2[7]; void *p34; void *p38; int pad3[4]; float g4C; float g50; };
 extern char g_cm[];
 void Stop__4CSndf(void *p, float g);
@@ -17,7 +18,7 @@ void Deactivate__7CPRECONP2LOPv(struct A *a, int n, void *b)
 {
     Release(&a->p34, 0.0f);
     Release(&a->p38, 0.5f);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(a->p0, 0x34))
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(a->p0, CID_ACTOR))
         SetCmCut__FP2CMff(g_cm, a->g10 + 3.1415927f, -a->g14);
     else
         SetCmCut__FP2CMff(g_cm, a->g4C + 3.1415927f, -a->g50);

@@ -10,6 +10,7 @@
 // - step -1 reset: the zeros are a chained `param = value = 0.0f` (0.0f in f0) and sched1 puts the stores that kill
 //   -1 / 0.0f first, so their statement order is chosen to give the target's store order.
 
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef unsigned int uint;
@@ -190,7 +191,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         p->pactor->x1038 = -1;
         break;
     case -1:
-        if (p->focus && FIsBasicDerivedFrom(p->focus, 10)) {
+        if (p->focus && FIsBasicDerivedFrom(p->focus, CID_PATH)) {
             SOURCE *source = p->focus;
             NearestCrvAll(source, PosOfLo(p->pactor), 0, 0, 0, &p->param, &p->value);
         }
@@ -406,7 +407,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         case 0:
             clip = p->clip170;
             if (!p->pactor->focus) {
-                if (FIsBasicDerivedFrom(p->focus, 12)) {
+                if (FIsBasicDerivedFrom(p->focus, CID_LEDGE)) {
                     SOURCE *source = p->focus;
                     if (source->actor)
                         SetActorZone(p->pactor, source->actor);
@@ -415,7 +416,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                         p->aux->target = source;
                         SetActorZone(p->pactor, p->aux);
                     }
-                } else if (FIsBasicDerivedFrom(p->focus, 34)) {
+                } else if (FIsBasicDerivedFrom(p->focus, CID_WALL)) {
                     SOURCE *source = p->focus;
                     if (source->owner)
                         SetActorZone(p->pactor, source->owner);
@@ -427,7 +428,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
                         p->aux->value = source->parameter;
                         SetActorZone(p->pactor, p->aux);
                     }
-                } else if (FIsBasicDerivedFrom(p->focus, 38)) {
+                } else if (FIsBasicDerivedFrom(p->focus, CID_SWING)) {
                     SOURCE *source = p->focus;
                     if (source->owner)
                         SetActorZone(p->pactor, source->owner);
@@ -516,7 +517,7 @@ extern "C" void SetInteractState__FP5ACTORi(CONTEXT *p, int step)
         ApplyAsegCur(clip, p->pactor, blend, speed, flags, &p->pactor->animation);
         ReplaceSmaHandle(script, p->pactor, -1, flags, &p->pactor->component);
         Notify(p->pactor, 90);
-        if (FIsBasicDerivedFrom(p->pactor, 53))
+        if (FIsBasicDerivedFrom(p->pactor, CID_JT))
             SetSlyHandles(p->pactor, special);
     }
 }

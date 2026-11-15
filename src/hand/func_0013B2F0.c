@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
 struct M { int x0; char pad[0x2C]; qword v30; char pad2[4]; int x44; };
@@ -43,7 +44,7 @@ int FAcceptContactProjectile__FP3ALOP5CTMSG(struct P *p, struct M *pm)
         }
         pu->q = n;
         RecordHit__FP3ALOG9VU_VECTORT1(p, PosOfLo__FP2LO(p), u.q);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(pm->x0, 0x4F))
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pm->x0, CID_BOMB))
             ExpireIn__FP3ALOf(p, 0.25f);
         else
             ExpireIn__FP3ALOf(p, 0.0f);

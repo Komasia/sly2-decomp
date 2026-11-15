@@ -3,6 +3,7 @@
 // (Claude agent, T1672) MATCH from lanef10v1 with real C++ locals instead of the SLOT union and explicit calls:
 // FRAME with out-of-line ctor/dtor (__10STACKSCOPE / _$_10STACKSCOPE(this, 2)), CRef(bool) with inline dtor
 // (Decref), and `void *argument = (char *)entry + 0x18;` declared after the CRef.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4]; };
@@ -149,7 +150,7 @@ extern "C" ENTRY *PactionSelect__FP5GUARDP2LOP9TARGETREC(P *p, P *target, void *
     }
     if (g_clock.t < p->cooldown)
         return 0;
-    if (FIsBasicDerivedFrom(target, 0x32)) {
+    if (FIsBasicDerivedFrom(target, CID_PO)) {
         VTENT *e = &target->vt[77];
         if (((int (*)(void *))e->pfn)(VT_THIS(target, e)))
             return 0;

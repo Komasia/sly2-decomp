@@ -12,6 +12,7 @@ typedef struct S {
     qword v40; float g50; int pad54[5]; C *p68;
 } S;
 typedef struct R { unsigned int x0; char pad[0x30 - 4]; float g30; int x34; int pad38; int x3C; } R;
+#include "cid.h"
 #include "clock.h"
 struct SMP {float a,b,duration;};
 
@@ -55,7 +56,7 @@ extern "C" void GetInteractCpdefi__FP5ACTORP9ACTORPOSE(S *ps, R *pr)
     goto tail;
     {
     a12:
-        if (FIsBasicDerivedFrom(ps->p14, 0xC)) {
+        if (FIsBasicDerivedFrom(ps->p14, CID_LEDGE)) {
             B *pb = ps->p14;
             if (ps->x2C == 1) {
                 g = ps->g20 + (ps->g50*125.0f)*ps->g50;
@@ -102,7 +103,7 @@ c0:
         lift=50.0f;__asm__("lwc1 %0,%1":"=f"(height):"m"(((float*)&ps->v40)[2]));
         liftValue:((float*)&ps->v40)[2]=height+lift;
 tail:
-    if (FIsBasicDerivedFrom(ps->p14, 0xC) && ps->p14->xE4 == 0) {
+    if (FIsBasicDerivedFrom(ps->p14, CID_LEDGE) && ps->p14->xE4 == 0) {
         float k;
         float c = 30.0f;
         register float h __asm__("$f0")=SMaxCrv(ps->p14)-c;

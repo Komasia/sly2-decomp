@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 struct EV { float g0; unsigned int k; void *pv; union { float g; int n; } uC; };
 struct Q { char pad[0xA0]; int cev; struct EV *aev; };
@@ -153,7 +154,7 @@ extern "C" void FireAsegaEvent__FP5ASEGAP6ASEGEV(struct P *p, struct EV *pev)
         func_001F81E0(p->po, -1);
         break;
     case 24:
-        if (p->po && FIsBasicDerivedFrom(p->po, 0x34)) {
+        if (p->po && FIsBasicDerivedFrom(p->po, CID_ACTOR)) {
             char *pb = (char *)pev->pv;
             func_00143090(p->po, pb, pb + 8, pb + 0x10);
         }

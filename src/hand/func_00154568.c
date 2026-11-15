@@ -1,3 +1,4 @@
+#include "cid.h"
 struct EC { char pad[0x70]; unsigned long fl; };
 struct O { int pad[4]; struct O *pNext; int n14; char pad2[0xEC - 0x18]; struct EC *pec; };
 struct A { int pad[5]; int n14; };
@@ -15,7 +16,7 @@ int func_00154568(struct A *a, struct B *b)
         return 0;
     {
         struct O *p = po;
-        while (p && !FIsBasicDerivedFrom__FP5BASIC3CID(p, 0x33))
+        while (p && !FIsBasicDerivedFrom__FP5BASIC3CID(p, CID_STEP))
             p = p->pNext;
         return p == 0;
     }

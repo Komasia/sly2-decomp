@@ -1,5 +1,6 @@
 // Update actor movement modes and curve transition checks.
 
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 #define F(T, o) (*(T *)((char *)p + (o)))
 #define A(o) ((char *)p + (o))
@@ -118,7 +119,7 @@ void UpdateJt__FP2JTf(char *p)
     }
     UpdateSlyReach__FP3SLY(p);
     if (F(int, 0x18D8) == 0) {
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), 0xB)) {
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(F(void *, 0x1854), CID_PIPE)) {
             void *po2 = F(void *, 0x1854);
             for (i = 0; i < 3; i++)
                 NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(po2, ((qword *)A(0x1890))[i], 0, &av[i], 0, 0, 0, F(float, 0x1858));

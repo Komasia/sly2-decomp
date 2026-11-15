@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 extern float D_002BE7BC, D_002BE7C0, D_002BE7C4;
 struct R { float f0; float f4; };
@@ -17,7 +18,7 @@ void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
 void Step__11JOBPATHSTEPi(struct S *p, int force) {
     float d;
     float t;
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, 0x3A)) d = D_002BE7BC; else d = D_002BE7C0;
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, CID_GUNGUARD)) d = D_002BE7BC; else d = D_002BE7C0;
     if (p->n34 == 0) d = -d;
     t = p->f38 + d;
     if (p->p30->nE4 == 0) {

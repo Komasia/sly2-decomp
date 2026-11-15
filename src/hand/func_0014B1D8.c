@@ -1,5 +1,6 @@
 /* class: CID_3F, a step guard kind (vt slot 15 = PostLoad; SafeHouse guardstart.cpp: after the step guard's post-load,
  * +0x1010 = a new class 3 object, oid 0x62B: its aim point). */
+#include "cid.h"
 struct SW;
 struct LO;
 struct GUARD3F {
@@ -12,5 +13,5 @@ struct LO *PloNew__F3CIDP2SW3OIDi(int cid, struct SW *psw, int oid, int n);
 void func_0014B1D8(struct GUARD3F *pguard)
 {
     PostStepguardLoad__FP9STEPGUARD(pguard);
-    pguard->plo1010 = PloNew__F3CIDP2SW3OIDi(3, 0, 0x62B, -1);
+    pguard->plo1010 = PloNew__F3CIDP2SW3OIDi(CID_XFM, 0, 0x62B, -1);
 }

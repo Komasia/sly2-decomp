@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct T {
     int pad[4];
@@ -34,7 +35,7 @@ void DropPickups__FP6VECTORG9VU_VECTORiiP2LO(S *p, qword q, int n, int dn, void 
         p->x4 = NRandInRange__Fii(a, b);
     }
     {
-        int d = FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x38) ? -2 : -1;
+        int d = FIsBasicDerivedFrom__FP5BASIC3CID(pv, CID_STEPGUARD) ? -2 : -1;
         p->x0 += d;
         p->x4 += dn;
     }

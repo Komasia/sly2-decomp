@@ -1,5 +1,6 @@
 /* class: CID_1C (vt slot 51; SafeHouse emitter.cpp: slot 51 with the emitter (group) it draws for). After the base
  * 0x1333C0, an EMITTER (cid 0x1D) is kept at +0xE0 and its radius copied. */
+#include "cid.h"
 struct LO;
 struct EMITTER {
     /* 0x00 */ char pad0[0x38];
@@ -17,7 +18,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(struct EMITTER *pbasic, int cid);
 void func_00139900(struct CID1C *p, struct EMITTER *pemitter)
 {
     AddLoListener__FP2LOi(p, pemitter);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(pemitter, 0x1D) != 0) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(pemitter, CID_EMITTER) != 0) {
         p->pemitterPar = pemitter;
         p->sRadius = pemitter->sRadius;
     }

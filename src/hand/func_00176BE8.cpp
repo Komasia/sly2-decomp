@@ -1,4 +1,5 @@
 // Handle movement-state response events.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U{qword q;float f[4];};
@@ -159,7 +160,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
  }
  if(flags&0x40){w.next.kind=11;w.next.msg=*selected;selected=&w.next.msg;}
  if(flags&0xE0){
-  if(FIsBasicDerivedFrom(selected->data.object,0x34)){
+  if(FIsBasicDerivedFrom(selected->data.object,CID_ACTOR)){
    qword own=PosOfLo(p->actor);OBJECT*otherObject=selected->data.object;w.own.q=own;w.other.q=PosOfLo(otherObject);
    qword scalar=Raw(-150.0f);w.copy.q=scalar;OBJECT*frameObject=selected->data.object;w.scalar.q=scalar;
    M4*frame=MatJtLo(frameObject);
@@ -184,7 +185,7 @@ extern "C" int Message__8JOBREACTiPv(S*p,int event,MSG*msg){
    }
    qword normalized=Normalize(direction);*(qword*)&w.scalar=Scalar(500.0f);
    selected->data.direction=ScaleInPlace(normalized,w.scalar.q);
-  }else if(p->actor->mode==-1&&FIsBasicDerivedFrom(selected->data.object,0x38)&&selected->data.object->mode==0x22)SetGuardMode(p->actor,0x22);
+  }else if(p->actor->mode==-1&&FIsBasicDerivedFrom(selected->data.object,CID_STEPGUARD)&&selected->data.object->mode==0x22)SetGuardMode(p->actor,0x22);
   p->current.kind=-1;React(p,&w.next);
  }
 finish:

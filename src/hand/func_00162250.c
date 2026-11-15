@@ -1,6 +1,7 @@
 /* func_00162250: apply one state-machine goal for a task state: when it is for this state (or any), this world and
  * not skipped by an instant change, set (mode 1 / 4: snap) the goal of the object's state machine; a goal for any
  * state is by the state (0x612..0x615). */
+#include "cid.h"
 #include "h2_task.h"
 struct SW;
 extern struct SW g_sw;
@@ -19,7 +20,7 @@ void func_00162250(void *pvUnused, TASKSME *psme, int nState, int nMode)
     if (psme->fNotInstant && !nMode) return;
     if (psme->iwrec != -1 && psme->iwrec != func_00210A88()) return;
     if (CploFindSwNearest__FP2LO3OIDiiii(&g_sw, 0x205, psme->oid, 0, 1, &palo) != 1) return;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(palo, 0x30)) return;   /* an ALO */
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(palo, CID_SO)) return;   /* an ALO */
     psma = PsmaFindAloSm__Fi3OID(palo, psme->oidSm);
     if (!psma) return;
     oidGoal = psme->oidGoal;

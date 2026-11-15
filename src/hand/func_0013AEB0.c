@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct VT { VTENT a[64]; } VT;
@@ -122,7 +123,7 @@ void ProjectileContacts__FP3ALO(P *p)
                 break;
             case 2: {
                 P *pOther = AE(pq)[IOther(pq, p)].p;
-                if (FIsBasicDerivedFrom__FP5BASIC3CID(pOther, 0x32)) {
+                if (FIsBasicDerivedFrom__FP5BASIC3CID(pOther, CID_PO)) {
                     f = 0;
                     if (func_001C4098(pOther))
                         f = 1;

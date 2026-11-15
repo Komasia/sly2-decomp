@@ -1,3 +1,4 @@
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct Z { char pad[0xE4]; int xE4; char pad1[0x194 - 0xE8]; int x194; };
 struct SO { char pad[0x4C8]; int x4C8; int x4CC; char pad1[0x4D4 - 0x4D0]; Z *x4D4; char pad2[0x1040 - 0x4D8]; int x1040; };
@@ -21,15 +22,15 @@ static inline float Dot(qword a, const VECTOR &b)
 // name: SafeHouse port (FTargetHidden)
 int FTargetHidden(void *p, SO *pso)
 {
-    if (!FIsBasicDerivedFrom(pso, 0x34)) return 0;
+    if (!FIsBasicDerivedFrom(pso, CID_ACTOR)) return 0;
     if (pso->x4CC == -1) return 0;
     VECTOR d; d.q = Sub(PosOfLo(pso), PosOfLo(p));
     switch (pso->x4C8) {
     case 0:
     case 13:
-        if (FIsBasicDerivedFrom(pso->x4D4, 0xC)) {
+        if (FIsBasicDerivedFrom(pso->x4D4, CID_LEDGE)) {
             if (pso->x4D4->x194) return 0;
-        } else if (FIsBasicDerivedFrom(pso->x4D4, 0x22)) {
+        } else if (FIsBasicDerivedFrom(pso->x4D4, CID_WALL)) {
             if (pso->x4D4->xE4) return 0;
         } else {
             return !pso->x4D4->xE4;

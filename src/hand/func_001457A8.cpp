@@ -3,6 +3,7 @@
 // local first, then copies it into q (an asm output straight into the member goes through a second stack temp).
 // Branch 2: the VU_FLOAT is loaded with an asm lw from "m"(f) (VU_FLOATM, as in SetSlyDodgeState), and AddScaled takes
 // its operands in (a, s, b) order.
+#include "cid.h"
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 struct M4 { qword r[4]; };
@@ -68,7 +69,7 @@ void PlanFollow(P *p)
 {
     union { M4 m4; struct { M3 m; qword pos; } s; } u;
     p->q50 = PosOfLo(p->po);
-    if (FIsBasicDerivedFrom(p->po, 0x33)) {
+    if (FIsBasicDerivedFrom(p->po, CID_STEP)) {
         O *po = p->po;
         u.s.m = BuildRotateMatrixAxis(g_normalZ, po->g1A8);
         u.s.pos = AddScaled(p->q50, VU_FLOAT(-p->g68), MulM3(u.s.m, po->q190));

@@ -9,6 +9,7 @@ struct PO { char pad[0xEC]; struct X *xEC; char pad2[0x2DC - 0xF0]; int x2DC; ch
 struct T { char pad[0x130]; float x130; };
 struct R { char pad[0x4C]; int x4C; };
 struct P { struct PO *p0; char pad[0xC]; qword pos; float d20; float t24; int f28; };
+#include "cid.h"
 #include "clock.h"
 extern float D_002BD2D0;
 extern float D_002BD2D4;
@@ -67,7 +68,7 @@ void UpdateActorWatch__FP5ACTOR(struct P *p)
             for (pso = pln->pso; pso; pso = pso->pnext) {
                 int i = IOther(p->p0, pso);
                 struct T *po = pso->ae[1 - i].x8;
-                if (FIsBasicDerivedFrom__FP5BASIC3CID(po, 0x38)) {
+                if (FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_STEPGUARD)) {
                     struct R *pr = func_00205458(po, 0xA9);
                     if (!pr || !pr->x4C) {
                         if (0.0f <= po->x130)

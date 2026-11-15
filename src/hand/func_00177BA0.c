@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct G;
@@ -20,7 +21,7 @@ void React__8JOBREACTP5AIMSG(struct S *p, struct F *f);
 void NextReaction__8JOBREACT(struct S *p) {
     struct F f;
     s1_memset(&f, 0, sizeof f);
-    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, 0x3B) && p->p10->n1010 > 0) {
+    if (FIsBasicDerivedFrom__FP5BASIC3CID(p->p10, CID_DIMITRI) && p->p10->n1010 > 0) {
         f.a = 0xD;
         f.p10 = PloPlayerPo__FP2SW(&g_sw);
     } else if (p->p10->nFBC == 0x15) {

@@ -1,4 +1,5 @@
 // Select and blend the movement vector for the active mode.
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int bits[4];}U;
@@ -56,7 +57,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
     switch(p->mode){
     case 0x200:
     case 0x8000:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x33)){
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,CID_STEP)){
             qword k=Scalar(D_002BFACC.value+1.0f);
             qword v=Scale(p->velocity.q,k);
             scratch.q=k;
@@ -66,7 +67,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
         }
         break;
     case 0x40:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x36)){
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,CID_MURRAY)){
             struct O*target=p->target;
             struct M3*basis;
             qword delta,local;
@@ -81,10 +82,10 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
         }
         break;
     case 0x100:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x4F)){
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,CID_BOMB)){
             struct O*target=p->target;
             qword n,a,b,mixed,z;
-            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,0x51)){
+            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,CID_ACCMISS)){
                 VTENT*vt=target->vt;
                 struct M3*basis=((struct M3*(*)(void*))vt[31].pfn)(VT_THIS(target, &vt[31]));
                 scratch=basis->row[0];

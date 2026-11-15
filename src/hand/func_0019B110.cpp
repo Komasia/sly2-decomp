@@ -112,6 +112,7 @@ struct OBJCTX { JTAIR *pjtair; void *plo; int pad[2]; qword v; };               
 struct PAIR { JTAIR *pjtair; void *plo; };                                               // GScorePipeS
 struct SOLIST { int cpso; void **apso; };                                                // func_0019B0A8
 
+#include "cid.h"
 #include "clock.h"
 typedef float (*PFNSCORE)(void *, float);
 
@@ -198,7 +199,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
     vLaunch.q = VelJumpLaunch(pjtair, 4);
     float tBest = 0.0f;
 
-    if (FIsBasicDerivedFrom(pjtair->pstepplayer, 0x35)) {
+    if (FIsBasicDerivedFrom(pjtair->pstepplayer, CID_JT)) {
         for (SHAPE *pshape = D_003E13D8; pshape; pshape = pshape->pshapeNext) {
             if (!(pshape->grf & grf))
                 continue;
@@ -348,7 +349,7 @@ extern "C" void ChooseJumpTarget__FP4JUMPP2LO(JTAIR *pjtair, void *ploForce)
         }
     }
 
-    if (FIsBasicDerivedFrom(pjtair->pstepplayer, 0x37) && D_002F7900 && D_002F7900->nPartnerState == 15 &&
+    if (FIsBasicDerivedFrom(pjtair->pstepplayer, CID_BENTLEY) && D_002F7900 && D_002F7900->nPartnerState == 15 &&
         !D_002F7900->fPartnerBusy) {
         posTarget.q = PosOfLo(D_002F7900->ploPartnerTarget);
         FitJumpToPoint(pjtair, vLaunch, D_002F7900->ploPartnerTarget, posTarget, D_002A2DD0, &t, &g, &posHit, &vHit);
