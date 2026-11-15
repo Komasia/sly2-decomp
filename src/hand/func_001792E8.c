@@ -1,3 +1,4 @@
-struct S { char pad[0x4C]; int n4C; char pad2[0x90]; float gE0; };
+struct JOBFOLLOW { char pad[0x4C]; int st; char pad2[0x90]; float gE0; };
+/* JOBFOLLOW::FStuck: whether the follow is stuck: in states 0 / 1 with a negative +0xE0. */
 // name: SafeHouse port (JOBFOLLOW::FStuck)
-int FStuck__9JOBFOLLOW(struct S *p) { int f = 0; if (p->n4C < 2) { if (p->n4C >= 0) f = p->gE0 < 0.0f; } return f; }
+int FStuck__9JOBFOLLOW(struct JOBFOLLOW *pjob) { int fStuck = 0; if (pjob->st < 2) { if (pjob->st >= 0) fStuck = pjob->gE0 < 0.0f; } return fStuck; }

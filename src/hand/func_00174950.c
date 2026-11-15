@@ -1,15 +1,17 @@
-struct S { char pad[0x10]; void *p10; char pad2[0x28]; int n3C; int n40; };
-void Enter__5AIJOB(struct S *p);
-void AddGuardState__FP5GUARDi(void *p, int n);
-int func_00209BC0(void *p);
-void SetMoveState__7JOBMOVEi(struct S *p, int n);
+struct JOBMOVE { char pad[0x10]; void *pguard; char pad2[0x28]; int nAnim; int pkinde; };
+void Enter__5AIJOB(struct JOBMOVE *pjob);
+void AddGuardState__FP5GUARDi(void *pjob, int st);
+int func_00209BC0(void *pjob);
+void SetMoveState__7JOBMOVEi(struct JOBMOVE *pjob, int st);
+/* JOBMOVE::Enter: the guard gets the move's state; without a kind entry the guard's best one (func_00209BC0); with
+ * none it ends at once (1), else it plays (0). */
 // name: SafeHouse port (JOBMOVE::Enter)
-void Enter__7JOBMOVE(struct S *p) {
-    Enter__5AIJOB(p);
-    AddGuardState__FP5GUARDi(p->p10, p->n3C);
-    if (!p->n40) {
-        p->n40 = func_00209BC0(p->p10);
-        if (!p->n40) { SetMoveState__7JOBMOVEi(p, 1); return; }
+void Enter__7JOBMOVE(struct JOBMOVE *pjob) {
+    Enter__5AIJOB(pjob);
+    AddGuardState__FP5GUARDi(pjob->pguard, pjob->nAnim);
+    if (!pjob->pkinde) {
+        pjob->pkinde = func_00209BC0(pjob->pguard);
+        if (!pjob->pkinde) { SetMoveState__7JOBMOVEi(pjob, 1); return; }
     }
-    SetMoveState__7JOBMOVEi(p, 0);
+    SetMoveState__7JOBMOVEi(pjob, 0);
 }

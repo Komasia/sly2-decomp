@@ -1,26 +1,28 @@
 #include "clock.h"
 extern float D_002BE5E0;
-struct E { int n; float g4; float g8; int pad[9]; };
-struct S { char pad[0x5C]; int c; struct E *ae; };
+struct SLOT { int plo; float tTime; float tWait; int pad[9]; };
+struct SPAWNER { char pad[0x5C]; int cslot; struct SLOT *aslot; };
+/* PslotChoose: the slot to use for a spawn of kind k: the free slot waiting longest (past its wait), else (when
+ * none) the longest-used slot of another kind older than D_002BE5E0. */
 // name: SafeHouse port (PslotChoose)
-struct E *PslotChoose__FP7SPAWNERi(struct S *p, int k) {
+struct SLOT *PslotChoose__FP7SPAWNERi(struct SPAWNER *pspawner, int k) {
     float t4 = g_clock.t - D_002BE5E0;
     float t8 = g_clock.t;
-    struct E *peBest = 0;
-    struct E *pe;
+    struct SLOT *pslotBest = 0;
+    struct SLOT *pslot;
     int i;
-    for (i = 0; i < p->c; i++) {
-        pe = &p->ae[i];
-        if (pe->n != 0) {
-            if (pe->n == k) continue;
-            if (peBest && peBest->n == 0) continue;
-            if (t4 <= pe->g4) continue;
-            t4 = pe->g4;
+    for (i = 0; i < pspawner->cslot; i++) {
+        pslot = &pspawner->aslot[i];
+        if (pslot->plo != 0) {
+            if (pslot->plo == k) continue;
+            if (pslotBest && pslotBest->plo == 0) continue;
+            if (t4 <= pslot->tTime) continue;
+            t4 = pslot->tTime;
         } else {
-            if (t8 <= pe->g8) continue;
-            t8 = pe->g8;
+            if (t8 <= pslot->tWait) continue;
+            t8 = pslot->tWait;
         }
-        peBest = pe;
+        pslotBest = pslot;
     }
-    return peBest;
+    return pslotBest;
 }

@@ -1,5 +1,6 @@
-struct T { char pad[0xF3C]; int nF3C; };
-struct S { char pad[0x10]; struct T *pt; };
-void Exit__7JOBMOVE(struct S *p);
+struct GUARD { char pad[0xF3C]; int fStriking; };
+struct JOBSTRIKE { char pad[0x10]; struct GUARD *pguard; };
+void Exit__7JOBMOVE(struct JOBSTRIKE *pjob);
+/* JOBSTRIKE::Exit: the base exit; the guard is no longer striking (+0xF3C). */
 // name: SafeHouse port (JOBSTRIKE::Exit)
-void Exit__9JOBSTRIKE(struct S *p) { Exit__7JOBMOVE(p); p->pt->nF3C = 0; }
+void Exit__9JOBSTRIKE(struct JOBSTRIKE *pjob) { Exit__7JOBMOVE(pjob); pjob->pguard->fStriking = 0; }

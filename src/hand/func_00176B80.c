@@ -1,6 +1,7 @@
-struct F { int a0; int pad; int n8; int nC; int n10; int pad2[0x13]; };
-struct S { char pad[0x10]; int n10; };
-void *s1_memset(void *p, int c, int n) asm("memset");
-void PaloAcceptContact__FP5CTMSG(struct F *pf);
+struct CTMSG { int psource; int pvOther; int preceiver; int grfKind; int n; int pad2[0x13]; };   /* the contact message (SafeHouse ai.h HIT) */
+struct JOBREACT { char pad[0x10]; int pguard; };
+void *s1_memset(void *pv, int b, int cb) asm("memset");
+void PaloAcceptContact__FP5CTMSG(struct CTMSG *pctmsg);
+/* JOBREACT::SendHit: send a contact message to the guard: kind 0x40000 from plo, with the amount n. */
 // name: SafeHouse port (JOBREACT::SendHit)
-void SendHit__8JOBREACTii(struct S *p, int a, int b) { struct F f; s1_memset(&f, 0, sizeof(f)); f.a0 = b; f.n10 = a; f.nC = 0x40000; f.n8 = p->n10; PaloAcceptContact__FP5CTMSG(&f); }
+void SendHit__8JOBREACTii(struct JOBREACT *pjob, int n, int plo) { struct CTMSG ctmsg; s1_memset(&ctmsg, 0, sizeof(ctmsg)); ctmsg.psource = plo; ctmsg.n = n; ctmsg.grfKind = 0x40000; ctmsg.preceiver = pjob->pguard; PaloAcceptContact__FP5CTMSG(&ctmsg); }

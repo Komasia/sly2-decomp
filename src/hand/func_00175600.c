@@ -1,23 +1,25 @@
-struct S { char pad[0x18]; void *p18; char pad2[0x18]; int n34; char pad3[8]; int n40; };
-void Update__5AIJOB(struct S *p);
-int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
-int func_00174FB8(void *p);
-void SetActState__6JOBACTi(struct S *p, int n);
+struct JOBACT { char pad[0x18]; void *pchild; char pad2[0x18]; int st; char pad3[8]; int fTriggered; };
+void Update__5AIJOB(struct JOBACT *pjob);
+int FJobDone(struct JOBACT *pjob) asm("FJobDone__FP5AIJOB");
+int func_00174FB8(void *pjob);
+void SetActState__6JOBACTi(struct JOBACT *pjob, int stNew);
+/* JOBACT::Update: while not done: acting (0) goes on to 1 once triggered (+0x40), either ends (-1) when the child
+ * move is done. */
 // name: SafeHouse port (JOBACT::Update)
-void Update__6JOBACT(struct S *p) {
-    int s;
-    Update__5AIJOB(p);
+void Update__6JOBACT(struct JOBACT *pjob) {
+    int stOld;
+    Update__5AIJOB(pjob);
     do {
-        if (FJobDone(p)) return;
-        s = p->n34;
-        switch (s) {
+        if (FJobDone(pjob)) return;
+        stOld = pjob->st;
+        switch (stOld) {
         case 0:
-            if (p->n40) SetActState__6JOBACTi(p, 1);
-            else if (func_00174FB8(p->p18)) SetActState__6JOBACTi(p, -1);
+            if (pjob->fTriggered) SetActState__6JOBACTi(pjob, 1);
+            else if (func_00174FB8(pjob->pchild)) SetActState__6JOBACTi(pjob, -1);
             break;
         case 1:
-            if (func_00174FB8(p->p18)) SetActState__6JOBACTi(p, -1);
+            if (func_00174FB8(pjob->pchild)) SetActState__6JOBACTi(pjob, -1);
             break;
         }
-    } while (s != p->n34);
+    } while (stOld != pjob->st);
 }
