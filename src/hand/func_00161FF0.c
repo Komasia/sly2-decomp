@@ -1,9 +1,10 @@
-int func_00161FC8(int i);
-int func_00161FF0(int c, int *ai)
+/* func_00161FF0: the state mask of a list of task states. */
+int func_00161FC8(int nState);
+int func_00161FF0(int cnState, int *anState)
 {
-    int grf = 0;
+    int grfState = 0;
     int i;
-    for (i = 0; i < c; i++)
-        grf |= func_00161FC8(ai[i]);
-    return grf;
+    for (i = 0; i < cnState; i++)
+        grfState |= func_00161FC8(anState[i]);
+    return grfState;
 }

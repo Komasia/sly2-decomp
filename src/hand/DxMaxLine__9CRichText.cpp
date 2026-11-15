@@ -1,3 +1,4 @@
+// CRichText::DxMaxLine (Sly 1 font.c): the width of the text's widest line.
 class CFontBrx {
 public:
     float DxFromCh(char ch);

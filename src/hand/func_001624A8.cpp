@@ -6,10 +6,11 @@ public:
     ~FRAME();
 };
 class CBinaryInputStream;
-struct S { char pad[0x54]; int c54; void *a58; int c5C; void *a60; char pad2[0x8C - 0x64]; int c8C; void *a90; int c94; void *a98; };
+/* JOB (include/h2_task.h): its event lists (+0x54 / +0x5C), objects (+0x8C) and state-machine goals (+0x94) */
+struct JOB { char pad[0x54]; int cnEndClose; void *anEndClose; int cnEnd; void *anEnd; char pad2[0x8C - 0x64]; int cobje; void *aobje; int csme; void *asme; };
 extern "C" void *PvAllocStackImpl(ALLOCREQ *preq) asm("PvAllocStackImpl__Fi");
 extern "C" void *PvAllocSwCopyImpl(ALLOCREQ *preq, void *pv) asm("PvAllocSwCopyImpl__FiPv");
-extern "C" void LoadLoFromBrx(S *p, CBinaryInputStream *pbis) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
+extern "C" void LoadLoFromBrx(JOB *pjob, CBinaryInputStream *pbis) asm("LoadLoFromBrx__FP2LOP18CBinaryInputStream");
 extern "C" void ReadDebugString(CBinaryInputStream *pbis) asm("ReadDebugString__FP18CBinaryInputStream");
 static inline void *PvAllocReq(ALLOCREQ *preq, int cb, int nKind)
 {
@@ -23,19 +24,21 @@ static inline void *PvShrinkReq(ALLOCREQ *preq, int cb, int nKind, void *pv)
     preq->nKind = nKind;
     return PvAllocSwCopyImpl(preq, pv);
 }
+/* LoadMissionFromBrx: load a job: its four lists get room for 32 entries while the options fill them, then shrink to
+ * their counts. */
 // name: SafeHouse port (LoadMissionFromBrx)
-extern "C" void LoadMissionFromBrx__FP2LOP18CBinaryInputStream(S *p, CBinaryInputStream *pbis)
+extern "C" void LoadMissionFromBrx__FP2LOP18CBinaryInputStream(JOB *pjob, CBinaryInputStream *pbis)
 {
     FRAME fr;
     ALLOCREQ req;
-    p->a90 = PvAllocReq(&req, 0x200, 0x10);
-    p->a98 = PvAllocReq(&req, 0x300, 0x10);
-    p->a58 = PvAllocReq(&req, 0x80, 0x10);
-    p->a60 = PvAllocReq(&req, 0x80, 0x10);
-    LoadLoFromBrx(p, pbis);
-    p->a90 = PvShrinkReq(&req, p->c8C * 16, 0x10, p->a90);
-    p->a98 = PvShrinkReq(&req, p->c94 * 0x18, 0x10, p->a98);
-    p->a58 = PvShrinkReq(&req, p->c54 * 4, 0x10, p->a58);
-    p->a60 = PvShrinkReq(&req, p->c5C * 4, 0x10, p->a60);
+    pjob->aobje = PvAllocReq(&req, 32 * 16, 0x10);
+    pjob->asme = PvAllocReq(&req, 32 * 0x18, 0x10);
+    pjob->anEndClose = PvAllocReq(&req, 32 * 4, 0x10);
+    pjob->anEnd = PvAllocReq(&req, 32 * 4, 0x10);
+    LoadLoFromBrx(pjob, pbis);
+    pjob->aobje = PvShrinkReq(&req, pjob->cobje * 16, 0x10, pjob->aobje);
+    pjob->asme = PvShrinkReq(&req, pjob->csme * 0x18, 0x10, pjob->asme);
+    pjob->anEndClose = PvShrinkReq(&req, pjob->cnEndClose * 4, 0x10, pjob->anEndClose);
+    pjob->anEnd = PvShrinkReq(&req, pjob->cnEnd * 4, 0x10, pjob->anEnd);
     ReadDebugString(pbis);
 }

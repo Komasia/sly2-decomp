@@ -1,15 +1,17 @@
-struct X { char pad[0x64]; int f64; char pad2[0x84 - 0x68]; struct X *pNext; };
-struct S { char pad[0x7C]; int f7c; struct X *pFirst; };
-void func_001643B0(struct X *p);
-void func_00163460(struct S *p);
+/* ResetJob: clear the play counts of the job and of each of its tasks (each task then re-saved, func_001643B0; the
+ * job by func_00163460). */
+#include "h2_task.h"
+struct TASK { char pad[0x64]; int cPlayed; char pad2[0x84 - 0x68]; struct TASK *ptaskNext; };
+void func_001643B0(struct TASK *ptask);
+void func_00163460(JOB *pjob);
 // name: SafeHouse port (ResetJob)
-void ResetJob__FP3JOB(struct S *p)
+void ResetJob__FP3JOB(JOB *pjob)
 {
-    struct X *px;
-    for (px = p->pFirst; px; px = px->pNext) {
-        px->f64 = 0;
-        func_001643B0(px);
+    struct TASK *ptask;
+    for (ptask = pjob->ptaskFirst; ptask; ptask = ptask->ptaskNext) {
+        ptask->cPlayed = 0;
+        func_001643B0(ptask);
     }
-    p->f7c = 0;
-    func_00163460(p);
+    pjob->cPlayed = 0;
+    func_00163460(pjob);
 }

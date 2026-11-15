@@ -1,3 +1,6 @@
+// name: Sly 1 frm.c ClearPendingFrame (suggested by h2)
+// ClearPendingFrame__FP3FRM (Sly 1 frm.c ClearPendingFrame): empty a frame's pending-release lists once it is rendered: each
+// object is unlinked and released (vtable entry 2), each buffer freed (its storage too) back to its slot heap.
 #include "vtbl.h"
 #include "dl.h"
 extern void*s_pdliFirst;
@@ -8,31 +11,30 @@ struct DLI{
  void*Next(){void*value=*next;next=(void**)((unsigned int)value+linkOffset);return value;}
 };
 struct LO{char pad[12];VTENT*vt;};
-struct Y{char pad[0x1088];void*storage;};
-struct FR{char pad[0x34];DL dl34,dl40;};
-extern char D_003E1530[],D_003E1518[];
+struct BUF{char pad[0x1088];void*storage;};
+struct FRM{char pad[0x34];DL dlRelease,dlFree;};
+extern char D_003E1530[],D_003E1518[];   /* the slot heaps of the storage / the buffers */
 extern "C" int FIsDlEmpty(DL*) asm("FIsDlEmpty__FP2DL");
 extern "C" void RemoveDlEntry(DL*,void*) asm("RemoveDlEntry__FP2DLPv");
 extern "C" void ClearDl(DL*) asm("ClearDl__FP2DL");
-extern "C" void func_0011CD98(void*,void*);
-// name: Sly 1 frm.c ClearPendingFrame (suggested by h2)
-extern "C" void ClearPendingFrame__FP3FRM(FR*frame){
- if(!FIsDlEmpty(&frame->dl34)){
-  DLI iter(&frame->dl34);
+extern "C" void func_0011CD98(void*,void*);   /* free a slot */
+extern "C" void ClearPendingFrame__FP3FRM(FRM*frame){
+ if(!FIsDlEmpty(&frame->dlRelease)){
+  DLI iter(&frame->dlRelease);
   for(LO*object=(LO*)iter.Next();object;object=(LO*)iter.Next()){
-   RemoveDlEntry(&frame->dl34,object);
+   RemoveDlEntry(&frame->dlRelease,object);
    VTENT*entry=&object->vt[2];((void (*)(void*))entry->pfn)(VT_THIS(object, entry));
   }
-  ClearDl(&frame->dl34);
+  ClearDl(&frame->dlRelease);
  }
- if(!FIsDlEmpty(&frame->dl40)){
-  DLI iter(&frame->dl40);
-  for(Y*object=(Y*)iter.Next();object;object=(Y*)iter.Next()){
+ if(!FIsDlEmpty(&frame->dlFree)){
+  DLI iter(&frame->dlFree);
+  for(BUF*object=(BUF*)iter.Next();object;object=(BUF*)iter.Next()){
    if(object->storage)func_0011CD98(D_003E1530,object->storage);
-   RemoveDlEntry(&frame->dl40,object);
+   RemoveDlEntry(&frame->dlFree,object);
    func_0011CD98(D_003E1518,object);
   }
-  ClearDl(&frame->dl40);
+  ClearDl(&frame->dlFree);
  }
 }
 
@@ -46,8 +48,8 @@ typedef char DLI_LinkOffset[FIELD_OFFSET(DLI,linkOffset)==8?1:-1];
 typedef char DLI_Previous[FIELD_OFFSET(DLI,previous)==12?1:-1];
 typedef char LO_PrefixSize[sizeof(LO)==16?1:-1];
 typedef char LO_VT[FIELD_OFFSET(LO,vt)==12?1:-1];
-typedef char Y_PrefixSize[sizeof(Y)==0x108C?1:-1];
-typedef char Y_Storage[FIELD_OFFSET(Y,storage)==0x1088?1:-1];
-typedef char FR_PrefixSize[sizeof(FR)==0x4C?1:-1];
-typedef char FR_FirstList[FIELD_OFFSET(FR,dl34)==0x34?1:-1];
-typedef char FR_SecondList[FIELD_OFFSET(FR,dl40)==0x40?1:-1];
+typedef char BUF_PrefixSize[sizeof(BUF)==0x108C?1:-1];
+typedef char BUF_Storage[FIELD_OFFSET(BUF,storage)==0x1088?1:-1];
+typedef char FRM_PrefixSize[sizeof(FRM)==0x4C?1:-1];
+typedef char FRM_FirstList[FIELD_OFFSET(FRM,dlRelease)==0x34?1:-1];
+typedef char FRM_SecondList[FIELD_OFFSET(FRM,dlFree)==0x40?1:-1];

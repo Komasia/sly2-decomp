@@ -4,10 +4,11 @@ public:
     int S8Read();
     int S16Read();
 };
-struct E;
-struct LOX { char pad[0xA8]; E *pe; };
-struct E { LOX *p0; LOX *p4; int n8; int nC; };
-extern LOX D_002C44F0;
+struct ALOLINK;
+struct LOX { char pad[0xA8]; ALOLINK *palolink; };   /* the linked object's record */
+/* field: SafeHouse port (lo.h ALOLINK): plo follows ploTarget in world space */
+struct ALOLINK { LOX *ploTarget; LOX *plo; int fPosition; int fRotation; };
+extern LOX D_002C44F0;   /* the default target (no object found) */
 class LOBase {
 public:
     int a, b, c;
@@ -18,26 +19,28 @@ public:
     V(31) V(32) V(33) V(34) V(35) V(36) V(37) V(38) V(39) V(40)
     V(41) V(42) V(43) V(44) V(45) V(46) V(47) V(48) V(49) V(50)
 #undef V
-    virtual LOX *PloFind(int n);
+    virtual LOX *PloFind(int oid);
 };
 extern "C" void *PvAllocSwClearImpl(ALLOCREQ *preq) asm("PvAllocSwClearImpl__Fi");
-extern "C" void SetXfMode(LOBase *p, LOX *plo, int n) asm("SetXfMode__FP3ALOP2XFi");
+extern "C" void SetXfMode(LOBase *palo, LOX *plo, int xfm) asm("SetXfMode__FP3ALOP2XFi");
 // name: SafeHouse port (LoadAloLinksFromBrx)
-extern "C" void LoadAloLinksFromBrx__FP3ALOP18CBinaryInputStream(LOBase *p, CBinaryInputStream *pbis)
+/* LoadAloLinksFromBrx: load an object's links: per link the target and the linked object (found by oid from the
+ * object), whether the position / rotation follow; the linked object's transform mode becomes 15 (UpdateXfLink). */
+extern "C" void LoadAloLinksFromBrx__FP3ALOP18CBinaryInputStream(LOBase *palo, CBinaryInputStream *pbis)
 {
-    int c = pbis->S8Read();
-    for (int i = 0; i < c; i++) {
+    int clink = pbis->S8Read();
+    for (int i = 0; i < clink; i++) {
         ALLOCREQ req;
         req.cb = 0x10;
         req.nKind = 0x10;
-        E *pe = (E *)PvAllocSwClearImpl(&req);
-        pe->p0 = p->PloFind(pbis->S16Read());
-        if (!pe->p0)
-            pe->p0 = &D_002C44F0;
-        pe->p4 = p->PloFind(pbis->S16Read());
-        pe->n8 = pbis->S8Read();
-        pe->nC = pbis->S8Read();
-        pe->p4->pe = pe;
-        SetXfMode(p, pe->p4, 0xF);
+        ALOLINK *palolink = (ALOLINK *)PvAllocSwClearImpl(&req);
+        palolink->ploTarget = palo->PloFind(pbis->S16Read());
+        if (!palolink->ploTarget)
+            palolink->ploTarget = &D_002C44F0;
+        palolink->plo = palo->PloFind(pbis->S16Read());
+        palolink->fPosition = pbis->S8Read();
+        palolink->fRotation = pbis->S8Read();
+        palolink->plo->palolink = palolink;
+        SetXfMode(palo, palolink->plo, 0xF);   /* XFM_Link */
     }
 }

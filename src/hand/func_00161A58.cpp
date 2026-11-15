@@ -1,25 +1,25 @@
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((t*)0)->m))
 struct P{
- char pad0[0x10];int selections[3];char pad1[0x64-0x1C];P*child;
- char pad2[0xF4-0x68];int x,y;char pad3[0x11A8-0xFC];void*widget;
+ char pad0[0x10];int aoidCur[3];char pad1[0x64-0x1C];P*ptaskFirst;
+ char pad2[0xF4-0x68];int nMode,ploContext;char pad3[0x11A8-0xFC];void*pvBooty;
 };
-struct CONTEXT{char pad[0xF0];int x,y;};
+struct CONTEXT{char pad[0xF0];int nMode,ploContext;};
 struct CHECK{int words[16];};
 struct G{
- char pad0[0x3B0C];P*first;P*second;P*third;int pad18;void*primary;
- char pad1[0x3BF4-0x3B20];int flags;
- char pad2[0x3C88-0x3BF8];int a,b;
- char pad3[0x3E38-0x3C90];int ready;
+ char pad0[0x3B0C];P*pjobCur;P*ptaskCur;P*ptaskChk;int pad18;void*poptTimePlayed;   /* SW +0x3B0C.. the task fields (SafeHouse task.h TASKSW) */
+ char pad1[0x3BF4-0x3B20];int grfReq;
+ char pad2[0x3C88-0x3BF8];int a,b;   /* the reload transition's arguments */
+ char pad3[0x3E38-0x3C90];int fReady;
 };
 struct BANK{
- char pad0[8];int mode;char pad1[0xFD50-12];int selected;void*current;
+ char pad0[8];int mode;char pad1[0xFD50-12];int fSelected;void*pgamesave;
 };
 struct LEASE;
 struct CRef;
 extern "C"{
  extern G g_sw;
- extern BANK D_002E65E0;
- extern CHECK D_003E1088,D_002A37E8;
+ extern BANK D_002E65E0;   /* g_save */
+ extern CHECK D_003E1088,D_002A37E8;   /* the current world's name, the world compared with */
  extern char D_003D4A60[];
  int CFindObjectsByClass(G*,int,int,P*,int,P**) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
  int IdBooty(void*) asm("IdBooty__FP2LO");
@@ -47,9 +47,10 @@ extern "C"{
  void Decref(CRef*) asm("Decref__4CRef");
 }
 struct LEASE{LEASE(){__10STACKSCOPE(this);}void Release(){_$_10STACKSCOPE(this,2);}};
-struct OVERRIDE{CONTEXT*context;P*object;int oldX,oldY;
- OVERRIDE(P*p,int x,int y):context(0),object(p){if(object){oldX=object->x;object->x=x;oldY=object->y;object->y=y;}}
- ~OVERRIDE(){if(context){context->x=oldX;context->y=oldY;}if(object){object->x=oldX;object->y=oldY;}}
+/* CSave-like: a task's change mode and context overridden for a scope */
+struct OVERRIDE{CONTEXT*context;P*object;int nModeOld,ploContextOld;
+ OVERRIDE(P*p,int nMode,int ploContext):context(0),object(p){if(object){nModeOld=object->nMode;object->nMode=nMode;ploContextOld=object->ploContext;object->ploContext=ploContext;}}
+ ~OVERRIDE(){if(context){context->nMode=nModeOld;context->ploContext=ploContextOld;}if(object){object->nMode=nModeOld;object->ploContext=ploContextOld;}}
 };
 struct CRef{int kind;union{int n;float g;};CRef(const CRef&r){__4CRefRC4CRef(this,&r);}~CRef(){Decref(this);}};
 extern "C" CRef NProgress(void*,void*);
@@ -63,31 +64,35 @@ typedef char CHECK_Size[sizeof(CHECK)==64?1:-1];
 typedef char OVERRIDE_Size[sizeof(OVERRIDE)==16?1:-1];
 typedef char CRef_Size[sizeof(CRef)==8?1:-1];
 typedef char LEASE_Size[sizeof(LEASE)==1?1:-1];
-typedef char P_selections_Offset[FIELD_OFFSET(P,selections)==16?1:-1];
-typedef char P_child_Offset[FIELD_OFFSET(P,child)==100?1:-1];
-typedef char P_x_Offset[FIELD_OFFSET(P,x)==244?1:-1];
-typedef char P_y_Offset[FIELD_OFFSET(P,y)==248?1:-1];
-typedef char P_widget_Offset[FIELD_OFFSET(P,widget)==4520?1:-1];
-typedef char CONTEXT_x_Offset[FIELD_OFFSET(CONTEXT,x)==240?1:-1];
-typedef char CONTEXT_y_Offset[FIELD_OFFSET(CONTEXT,y)==244?1:-1];
+typedef char P_selections_Offset[FIELD_OFFSET(P,aoidCur)==16?1:-1];
+typedef char P_child_Offset[FIELD_OFFSET(P,ptaskFirst)==100?1:-1];
+typedef char P_x_Offset[FIELD_OFFSET(P,nMode)==244?1:-1];
+typedef char P_y_Offset[FIELD_OFFSET(P,ploContext)==248?1:-1];
+typedef char P_widget_Offset[FIELD_OFFSET(P,pvBooty)==4520?1:-1];
+typedef char CONTEXT_x_Offset[FIELD_OFFSET(CONTEXT,nMode)==240?1:-1];
+typedef char CONTEXT_y_Offset[FIELD_OFFSET(CONTEXT,ploContext)==244?1:-1];
 typedef char CHECK_words_Offset[FIELD_OFFSET(CHECK,words)==0?1:-1];
-typedef char G_first_Offset[FIELD_OFFSET(G,first)==15116?1:-1];
-typedef char G_second_Offset[FIELD_OFFSET(G,second)==15120?1:-1];
-typedef char G_third_Offset[FIELD_OFFSET(G,third)==15124?1:-1];
-typedef char G_primary_Offset[FIELD_OFFSET(G,primary)==15132?1:-1];
-typedef char G_flags_Offset[FIELD_OFFSET(G,flags)==15348?1:-1];
+typedef char G_first_Offset[FIELD_OFFSET(G,pjobCur)==15116?1:-1];
+typedef char G_second_Offset[FIELD_OFFSET(G,ptaskCur)==15120?1:-1];
+typedef char G_third_Offset[FIELD_OFFSET(G,ptaskChk)==15124?1:-1];
+typedef char G_primary_Offset[FIELD_OFFSET(G,poptTimePlayed)==15132?1:-1];
+typedef char G_flags_Offset[FIELD_OFFSET(G,grfReq)==15348?1:-1];
 typedef char G_a_Offset[FIELD_OFFSET(G,a)==15496?1:-1];
 typedef char G_b_Offset[FIELD_OFFSET(G,b)==15500?1:-1];
-typedef char G_ready_Offset[FIELD_OFFSET(G,ready)==15928?1:-1];
+typedef char G_ready_Offset[FIELD_OFFSET(G,fReady)==15928?1:-1];
 typedef char BANK_mode_Offset[FIELD_OFFSET(BANK,mode)==8?1:-1];
-typedef char BANK_selected_Offset[FIELD_OFFSET(BANK,selected)==64848?1:-1];
-typedef char BANK_current_Offset[FIELD_OFFSET(BANK,current)==64852?1:-1];
+typedef char BANK_selected_Offset[FIELD_OFFSET(BANK,fSelected)==64848?1:-1];
+typedef char BANK_current_Offset[FIELD_OFFSET(BANK,pgamesave)==64852?1:-1];
 typedef char OVERRIDE_context_Offset[FIELD_OFFSET(OVERRIDE,context)==0?1:-1];
 typedef char OVERRIDE_object_Offset[FIELD_OFFSET(OVERRIDE,object)==4?1:-1];
-typedef char OVERRIDE_oldX_Offset[FIELD_OFFSET(OVERRIDE,oldX)==8?1:-1];
-typedef char OVERRIDE_oldY_Offset[FIELD_OFFSET(OVERRIDE,oldY)==12?1:-1];
+typedef char OVERRIDE_oldX_Offset[FIELD_OFFSET(OVERRIDE,nModeOld)==8?1:-1];
+typedef char OVERRIDE_oldY_Offset[FIELD_OFFSET(OVERRIDE,ploContextOld)==12?1:-1];
 typedef char CRef_kind_Offset[FIELD_OFFSET(CRef,kind)==0?1:-1];
 typedef char CRef_g_Offset[FIELD_OFFSET(CRef,g)==4?1:-1];
+/* OnGameRecordEvent: the task manager's part of a game event: 1 (in that world) each booty carrier returns its booty;
+ * 3 a new game / reload resets or restores the task state and applies the save's settings; 4 starts the queued task;
+ * 5 (after the load) restores the tasks and the current job / task / checkpoint from the saved oids; 16 with no job
+ * requests the reload transition. */
 // name: SafeHouse port (OnGameRecordEvent)
 extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
  switch(action){
@@ -95,18 +100,18 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
   if(Same(&D_003E1088,&D_002A37E8)){
    P*results[3];
    int found=CFindObjectsByClass(&g_sw,5,0x34,0,3,results);
-   if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->widget)(void)AkeyReturnBooty(object,IdBooty(object->widget));--count;++cursor;}while(count);}
+   if(found>0){P**cursor=results;int count=found;do{P*object=*cursor;if(object->pvBooty)(void)AkeyReturnBooty(object,IdBooty(object->pvBooty));--count;++cursor;}while(count);}
   }
   break;
  }
  case 3:{
-  if(g_sw.flags&1){func_001613F8(p);D_002E65E0.selected=0;}
-  else if(g_sw.flags&0x40)func_00166008();
+  if(g_sw.grfReq&1){func_001613F8(p);D_002E65E0.fSelected=0;}
+  else if(g_sw.grfReq&0x40)func_00166008();
   func_001AB630(&D_002E65E0);
   if(func_00210AE0())break;
-  if(D_002E65E0.mode!=6||D_002E65E0.selected||!D_002E65E0.current)break;
-  if(GetFloat(g_sw.primary,D_003D4A60)!=0.0f)break;
-  if(GetFloat(g_sw.primary,D_002E65E0.current)!=0.0f)ApplyGameSettings(D_002E65E0.current);
+  if(D_002E65E0.mode!=6||D_002E65E0.fSelected||!D_002E65E0.pgamesave)break;
+  if(GetFloat(g_sw.poptTimePlayed,D_003D4A60)!=0.0f)break;
+  if(GetFloat(g_sw.poptTimePlayed,D_002E65E0.pgamesave)!=0.0f)ApplyGameSettings(D_002E65E0.pgamesave);
   break;
  }
  case 4:StartQueuedTask(p);break;
@@ -118,17 +123,17 @@ extern "C" void OnGameRecordEvent__FP8GAMESAVEi(P*p,int action){
   func_00165C98(&count,&objects);
   for(;i<count;i++){P*object=objects[i];OVERRIDE temp(object,1,0);RestoreTask(object);}
   G*g=&g_sw;
-  SetJobCur(g,PloFindSwNearest(g,0x105,p->selections[0],0));
-  SetTaskCur(g,PloFindSwNearest(g,0x105,p->selections[1],0));
-  SetTaskChk(g,PloFindSwNearest(g,0x105,p->selections[2],0));
-  if(g->first)func_001629A0(g->first);
-  if(g->second)ActivateTaskNow(g->second);
-  if(g->flags&4){if(g->third)func_001657A8(g->third);else if(g->first)func_001657A8(g->first->child);}
+  SetJobCur(g,PloFindSwNearest(g,0x105,p->aoidCur[0],0));
+  SetTaskCur(g,PloFindSwNearest(g,0x105,p->aoidCur[1],0));
+  SetTaskChk(g,PloFindSwNearest(g,0x105,p->aoidCur[2],0));
+  if(g->pjobCur)func_001629A0(g->pjobCur);
+  if(g->ptaskCur)ActivateTaskNow(g->ptaskCur);
+  if(g->grfReq&4){if(g->ptaskChk)func_001657A8(g->ptaskChk);else if(g->pjobCur)func_001657A8(g->pjobCur->ptaskFirst);}
   for(int j=0;j<count;j++){P*object=objects[j];OVERRIDE temp(object,0,0);func_001643B0(object);}
   mark.Release();
   break;
  }
- case 16:{G*g=&g_sw;if(!g->first)RequestTransition(g,0,g->a,g->b,g->ready?0x20:0,0x30A);break;}
+ case 16:{G*g=&g_sw;if(!g->pjobCur)RequestTransition(g,0,g->a,g->b,g->fReady?0x20:0,0x30A);break;}
  case 2:case 6:case 7:case 8:case 9:case 10:case 11:case 12:case 13:case 14:case 15:break;
  }
 }

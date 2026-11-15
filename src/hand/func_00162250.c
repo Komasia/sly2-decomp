@@ -1,37 +1,40 @@
-struct E { int n0; int oid; int n8; int id; int f10; int f14; };
-struct G;
-extern struct G g_sw;
-int func_00210A88(void);
-int CploFindSwNearest__FP2LO3OIDiiii(struct G *pg, int kind, int oid, int a, int c, void **apv);
-int FIsBasicDerivedFrom__FP5BASIC3CID(void *pv, int n);
-void *PsmaFindAloSm__Fi3OID(void *pv, int n);
-void SnapSmaGoal__FP3SMA3OID(void *p, int id);
-void SetSmaGoal__FP3SMA3OID(void *p, int id);
-void func_00162250(void *pvUnused, struct E *pe, int n, int k)
+/* func_00162250: apply one state-machine goal for a task state: when it is for this state (or any), this world and
+ * not skipped by an instant change, set (mode 1 / 4: snap) the goal of the object's state machine; a goal for any
+ * state is by the state (0x612..0x615). */
+#include "h2_task.h"
+struct SW;
+extern struct SW g_sw;
+int func_00210A88(void);   /* the world's index */
+int CploFindSwNearest__FP2LO3OIDiiii(struct SW *psw, int grf, int oid, void *ploCtx, int cMax, void **aplo);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
+void *PsmaFindAloSm__Fi3OID(void *palo, int oidSm);
+void SnapSmaGoal__FP3SMA3OID(void *psma, int oidGoal);
+void SetSmaGoal__FP3SMA3OID(void *psma, int oidGoal);
+void func_00162250(void *pvUnused, TASKSME *psme, int nState, int nMode)
 {
-    void *pv;
-    void *ps;
-    int id;
-    if (pe->n0 != -1 && pe->n0 != n) return;
-    if (pe->f10 && !k) return;
-    if (pe->f14 != -1 && pe->f14 != func_00210A88()) return;
-    if (CploFindSwNearest__FP2LO3OIDiiii(&g_sw, 0x205, pe->oid, 0, 1, &pv) != 1) return;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pv, 0x30)) return;
-    ps = PsmaFindAloSm__Fi3OID(pv, pe->n8);
-    if (!ps) return;
-    id = pe->id;
-    if (pe->n0 == -1) {
-        switch (n) {
-        case 0: id = 0x612; break;
-        case 1: id = 0x613; break;
-        case 2: id = 0x614; break;
-        case 3: id = 0x615; break;
+    void *palo;
+    void *psma;
+    int oidGoal;
+    if (psme->nState != -1 && psme->nState != nState) return;
+    if (psme->fNotInstant && !nMode) return;
+    if (psme->iwrec != -1 && psme->iwrec != func_00210A88()) return;
+    if (CploFindSwNearest__FP2LO3OIDiiii(&g_sw, 0x205, psme->oid, 0, 1, &palo) != 1) return;
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(palo, 0x30)) return;   /* an ALO */
+    psma = PsmaFindAloSm__Fi3OID(palo, psme->oidSm);
+    if (!psma) return;
+    oidGoal = psme->oidGoal;
+    if (psme->nState == -1) {
+        switch (nState) {
+        case TASKS_Locked: oidGoal = 0x612; break;
+        case TASKS_Available: oidGoal = 0x613; break;
+        case TASKS_Done: oidGoal = 0x614; break;
+        case TASKS_Closed: oidGoal = 0x615; break;
         }
     }
-    if (id != -1) {
-        if (k == 1 || k == 4)
-            SnapSmaGoal__FP3SMA3OID(ps, id);
+    if (oidGoal != -1) {
+        if (nMode == 1 || nMode == 4)
+            SnapSmaGoal__FP3SMA3OID(psma, oidGoal);
         else
-            SetSmaGoal__FP3SMA3OID(ps, id);
+            SetSmaGoal__FP3SMA3OID(psma, oidGoal);
     }
 }

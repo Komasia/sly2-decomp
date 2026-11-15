@@ -8,20 +8,21 @@ public:
     ~CRef() { Decref(this); }
 
 };
-struct O;
+struct OPT;
 extern char D_003D4A60[];
-extern "C" CRef func_00258200(O *, const CRef &, void *);
-static inline void SetPv(O *pv,const CRef&r,void*){CRef arg(r);const CRef&ret=func_00258200(pv,arg,D_003D4A60);}
-struct G { char pad[0x3B20]; O *f3b20; };
-extern G g_sw;
-extern "C" void ShowCoinCounter(G *pg) asm("ShowCoinCounter__FP2SW");
-extern "C" void func_001617E0(void *pv, int n)
+extern "C" CRef func_00258200(OPT *, const CRef &, void *);   /* set a progress value */
+static inline void SetPv(OPT *pv,const CRef&r,void*){CRef arg(r);const CRef&ret=func_00258200(pv,arg,D_003D4A60);}
+struct SW { char pad[0x3B20]; OPT *poptCoins; };   /* the progress "loot ccoin" (SafeHouse screenrt.cpp) */
+extern SW g_sw;
+extern "C" void ShowCoinCounter(SW *psw) asm("ShowCoinCounter__FP2SW");
+/* func_001617E0: set the coin count in the progress and show the coin counter. */
+extern "C" void func_001617E0(void *pv, int ccoin)
 {
-    G *pg = &g_sw;
+    SW *psw = &g_sw;
     {
-        O *po = pg->f3b20;
-        CRef ref(n);
-        SetPv(po, ref, D_003D4A60);
+        OPT *popt = psw->poptCoins;
+        CRef ref(ccoin);
+        SetPv(popt, ref, D_003D4A60);
     }
-    ShowCoinCounter(pg);
+    ShowCoinCounter(psw);
 }
