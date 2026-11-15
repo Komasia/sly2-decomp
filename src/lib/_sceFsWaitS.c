@@ -3,6 +3,7 @@
 void _sceFsSemInit(void);
 int WaitSema(int);
 extern int _sceFs_sema;
+/* _sceFsWaitS (libkernel fileio): take the fileio RPC semaphore. */
 int _sceFsWaitS(void)
 {
     _sceFsSemInit();

@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+#include "ee_regs.h"
 typedef struct {
     char p0[0x134]; int hsize; int vsize;
     char p13C[0x144 - 0x13C]; int bit_rate; int vbv_size; int progressive_sequence; int chroma_format;
@@ -8,6 +9,8 @@ typedef struct {
 } D;
 unsigned int _sceMpegNextBit(D *d, int n);
 void _sceMpegError(D *d, const char *msg);
+/* _sequenceExtension (libmpeg): parse sequence_extension(): marks the stream MPEG-2, checks 4:2:0 and the
+   supported profile/levels (Main@Main/High-1440, Simple@Main), and adds the size / rate extension bits. */
 void _sequenceExtension(D *d)
 {
     unsigned int v;
@@ -15,7 +18,7 @@ void _sequenceExtension(D *d)
     unsigned int hext, vext, brext, vbvext;
 
     d->mpeg2 = 1;
-    *(volatile unsigned int *)0x10002010 &= 0xFF7FFFFF;
+    EE_REG(IPU_CTRL_ADDR) &= ~IPU_CTRL_MP1;
     v = _sceMpegNextBit(d, 28);
     brext = (v >> 1) & 0xFFF;
     vext = (v >> 13) & 3;

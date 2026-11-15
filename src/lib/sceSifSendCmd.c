@@ -2,6 +2,7 @@
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
 unsigned int _sceSifSendCmd(int cid, int mode, void *pkt, int pktsize, void *src, void *dest, int size);
+/* sceSifSendCmd (libkernel sifcmd): send a command packet (plus optional extra data) to the IOP. */
 unsigned int sceSifSendCmd(int cid, void *pkt, int pktsize, void *src, void *dest, int size)
 {
     int mode = 0;

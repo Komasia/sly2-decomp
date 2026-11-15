@@ -1,38 +1,40 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-/* _send_to_iop (libpad): DMA the 0x20-byte pad command to the IOP double buffer (Claude agent). */
-typedef struct { int x0; int x4; int x8; unsigned char data[0x14]; } PadCmd;
+/* _send_to_iop (libpad): DMA the 0x20-byte pad command for (port, slot) into the IOP's double buffer, after
+   bumping its sequence count and checksumming it. Returns 0 if the previous transfer is still running or the
+   DMA could not be queued. */
+typedef struct { int seq; int x4; int x8; unsigned char data[0x14]; } PadCmd;
 typedef struct { unsigned char *buf; PadCmd *cmd; unsigned int dest; unsigned int dmaid; int open; int x14; int x18; } PadSt;
 typedef struct { void *src; void *dest; int size; int attr; } SifDmaData;
-extern PadSt D_004505D0[2][4];
-extern int D_002C830C;
-extern char D_002AB6D0[];
+extern PadSt D_004505D0[2][4];  /* per port and slot */
+extern int D_002C830C;          /* debug print enabled */
+extern char D_002AB6D0[];       /* "libpad: sceSifSetDma faild\n" */
 int sceSifDmaStat(unsigned int);
-void func_00234F48(void *, void *);
+void func_00234F48(void *, void *);     /* checksum the command bytes */
 unsigned int sceSifSetDma(SifDmaData *, int);
 void scePrintf(const char *, ...);
 
 int _send_to_iop(int port, int slot)
 {
     SifDmaData dma[16];
-    PadCmd *c;
+    PadCmd *cmd;
     unsigned int id;
     unsigned int dest;
     int n;
 
-    c = D_004505D0[port][slot].cmd;
+    cmd = D_004505D0[port][slot].cmd;
     if (D_004505D0[port][slot].dmaid != 0 && sceSifDmaStat(D_004505D0[port][slot].dmaid) >= 0) {
         if (D_002C830C)
             scePrintf(D_002AB6D0);
         return 0;
     }
-    n = c->x0 + 1;
-    dest = D_004505D0[port][slot].dest + ((n & 1) << 5);
-    c->x0 = n;
-    func_00234F48(c, (char *)c + 0x1F);
+    n = cmd->seq + 1;
+    dest = D_004505D0[port][slot].dest + ((n & 1) << 5);   /* alternate halves */
+    cmd->seq = n;
+    func_00234F48(cmd, (char *)cmd + 0x1F);
     dma[0].dest = (void *)dest;
-    dma[0].src = c;
+    dma[0].src = cmd;
     dma[0].size = 0x20;
     dma[0].attr = 0;
     id = sceSifSetDma(dma, 1);

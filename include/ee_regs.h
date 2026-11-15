@@ -10,7 +10,23 @@
 #define IPU_CTRL_ADDR 0x10002010
 #define IPU_BP_ADDR   0x10002020
 #define IPU_TOP_ADDR  0x10002030
+/* IPU_CMD commands (top nibble) */
+#define IPU_CMD_BCLR  0x00000000    /* clear the input FIFO */
+#define IPU_CMD_IDEC  0x10000000    /* intra decode */
+#define IPU_CMD_BDEC  0x20000000    /* block decode */
+#define IPU_CMD_VDEC  0x30000000    /* variable-length decode */
+#define IPU_CMD_FDEC  0x40000000    /* fixed-length decode (read bits) */
+#define IPU_CMD_SETIQ 0x50000000    /* load a quantiser matrix */
+#define IPU_CMD_SETVQ 0x60000000
 #define IPU_CMD_CSC   0x70000000    /* colour space conversion; low bits = macroblock count */
+#define IPU_CMD_PACK  0x80000000
+#define IPU_CMD_SETTH 0x90000000
+#define IPU_CMD_MASK  0xF0000000
+/* IPU_CTRL bits */
+#define IPU_CTRL_ECD  0x00004000    /* error code (start code) detected */
+#define IPU_CTRL_RST  0x40000000
+#define IPU_CTRL_BUSY 0x80000000
+#define IPU_CTRL_MP1  0x00800000    /* MPEG-1 bitstream */
 
 /* DMA channel 3 (fromIPU) and 4 (toIPU) */
 #define D3_CHCR_ADDR 0x1000B000
@@ -25,6 +41,11 @@
 #define D_CTRL_ADDR 0x1000E000
 #define D_STAT_ADDR 0x1000E010
 #define D_PCR_ADDR  0x1000E020
+#define D_ENABLER_ADDR 0x1000F520   /* DMA hold state (read) */
+#define D_ENABLEW_ADDR 0x1000F590   /* DMA hold control (write) */
+#define D_ENABLE_CPND  0x10000      /* suspend all channels */
+#define D9_CHCR_ADDR 0x1000D400     /* toSPR */
+#define D9_QWC_ADDR  0x1000D420
 
 /* Dn_CHCR bits */
 #define D_CHCR_DIR_FROM_MEM 0x001   /* direction: memory -> peripheral */
