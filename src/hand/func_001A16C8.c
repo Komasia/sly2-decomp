@@ -1,19 +1,36 @@
-// Select and blend the movement vector for the active mode.
+/* ApplyDamageVelocity (0x1A16C8): the hit's velocity by its kind (DAMAGE +0x3C, the message's grfFilter), set on the
+ * actor (vtable slot 35), then reaction 7: launches (0x200 / 0x8000) from a cid 0x33 sender scale the message's velocity
+ * by 1.25, limit it to 1200 with z at least 700; Murray's hits (0x40) knock to his left or right ((1000, +-900, 950) in
+ * his frame, by the side of the point 150 behind him); pushes (0x100) go away from the sender (cid 0x4F; 0x51: along
+ * its matrix row 0) at 600 and up at 800. SafeHouse damage.cpp. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union U{qword q;float f[4];int bits[4];}U;
 typedef union F{float value;int bits;}F;
 struct O{char pad[0xC];VTENT*vt;};
 struct M3{U row[3];};
-struct P{struct O*self;char pad4[0x30-4];struct O*target;char pad34[8];int mode;char pad40[0x20];U velocity;};
-extern F D_002BFACC,D_002BFAD0,D_002BFAD4,D_002BFB00,D_002BFB04;
-extern U D_002BFAE0,D_002BFAF0,D_002A2DA0,g_normalZ;
+struct DAMAGE{struct O*pactor;char pad4[0x30-4];struct O*ploSender;char pad34[8];int grfFilter;char pad40[0x20];U vec;};  /* h5_damage.h layout: the hit at +0x30 */
+#define CID_SENDER_LAUNCH 0x33
+#define CID_MURRAY 0x36
+#define CID_PUSHER 0x4F
+#define CID_PUSHER_MAT 0x51
+#define VT_MAT_SENDER 31
+#define VT_SET_ALO_VELOCITY 35
+extern F g_gLaunchBoost __asm__("D_002BFACC");    /* 0.25: launches scaled by 1 + it */
+extern F g_svLaunchZMin __asm__("D_002BFAD0");    /* 700 */
+extern F g_svLaunchMax __asm__("D_002BFAD4");     /* 1200 */
+extern F g_svPush __asm__("D_002BFB00");          /* 600 */
+extern F g_svPushUp __asm__("D_002BFB04");        /* 800 */
+extern U g_vecMurrayLeft __asm__("D_002BFAE0");   /* (1000, 900, 950) */
+extern U g_vecMurrayRight __asm__("D_002BFAF0");  /* (1000, -900, 950) */
+extern U g_vecX __asm__("D_002A2DA0");            /* (1, 0, 0) */
+extern U g_normalZ;
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct O*,int);
 qword LimitVectorLength__FG9VU_VECTORf(qword,float);
 qword PosOfLo__FP2LO(struct O*);
 struct M3*MatJtLo__FP2LO(struct O*);
 qword ConvertVec__FP2LOT0G9VU_VECTOR(struct O*,struct O*,qword);
-void SetDamageState__FP5ACTORi(struct P*,int);
+void SetDamageState__FP5ACTORi(struct DAMAGE*,int);
 static inline float Max(float a,float b){return a>b?a:b;}
 static inline qword Scalar(float f){qword q;int bits;__asm__("mfc1 %0,%1":"=r"(bits):"f"(f));__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
 static inline qword Word(float f){qword q;__asm__("mfc1 %0,%1":"=r"(q):"f"(f));return q;}
@@ -49,53 +66,53 @@ static inline qword Difference(U*first,qword target){
     __asm__("vsub.xyzw %0,%1,%2":"=j"(r):"j"(a),"j"(b));return r;
 }
 // name: SafeHouse port (ApplyDamageVelocity)
-void ApplyDamageVelocity__FP5ACTOR(struct P*p){
-    U output=p->velocity;
+void ApplyDamageVelocity__FP5ACTOR(struct DAMAGE*pdmg){
+    U output=pdmg->vec;
     U scratch,scalar;
     U selfPosition,targetPosition,negative,otherPosition;
-    switch(p->mode){
-    case 0x200:
-    case 0x8000:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x33)){
-            qword k=Scalar(D_002BFACC.value+1.0f);
-            qword v=Scale(p->velocity.q,k);
+    switch(pdmg->grfFilter){
+    case 0x200:     /* launched */
+    case 0x8000:    /* burned */
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_SENDER_LAUNCH)){
+            qword k=Scalar(g_gLaunchBoost.value+1.0f);
+            qword v=Scale(pdmg->vec.q,k);
             scratch.q=k;
             output.q=v;
-            output.q=LimitVectorLength__FG9VU_VECTORf(v,D_002BFAD4.value);
-            output.f[2]=Max(output.f[2],D_002BFAD0.value);
+            output.q=LimitVectorLength__FG9VU_VECTORf(v,g_svLaunchMax.value);
+            output.f[2]=Max(output.f[2],g_svLaunchZMin.value);
         }
         break;
-    case 0x40:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x36)){
-            struct O*target=p->target;
+    case 0x40:      /* hit by Murray */
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_MURRAY)){
+            struct O*target=pdmg->ploSender;
             struct M3*basis;
             qword delta,local;
-            selfPosition.q=PosOfLo__FP2LO(p->self);
+            selfPosition.q=PosOfLo__FP2LO(pdmg->pactor);
             targetPosition.q=PosOfLo__FP2LO(target);
             {qword k=Word(-150.0f);scratch.q=k;negative.q=k;}
             basis=MatJtLo__FP2LO(target);
             delta=Intercept(&selfPosition,&targetPosition,basis,&negative);
             local=ConvertVec__FP2LOT0G9VU_VECTOR(0,target,delta);
-            if(Z(local)>0.0f)output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,D_002BFAE0.q);
-            else output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,D_002BFAF0.q);
+            if(Z(local)>0.0f)output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,g_vecMurrayLeft.q);
+            else output.q=ConvertVec__FP2LOT0G9VU_VECTOR(target,0,g_vecMurrayRight.q);
         }
         break;
-    case 0x100:
-        if(FIsBasicDerivedFrom__FP5BASIC3CID(p->target,0x4F)){
-            struct O*target=p->target;
+    case 0x100:     /* pushed */
+        if(FIsBasicDerivedFrom__FP5BASIC3CID(pdmg->ploSender,CID_PUSHER)){
+            struct O*target=pdmg->ploSender;
             qword n,a,b,mixed,z;
-            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,0x51)){
+            if(FIsBasicDerivedFrom__FP5BASIC3CID(target,CID_PUSHER_MAT)){
                 VTENT*vt=target->vt;
-                struct M3*basis=((struct M3*(*)(void*))vt[31].pfn)(VT_THIS(target, &vt[31]));
+                struct M3*basis=((struct M3*(*)(void*))vt[VT_MAT_SENDER].pfn)(VT_THIS(target, &vt[VT_MAT_SENDER]));
                 scratch=basis->row[0];
             }else{
                 qword targetPoint;
-                otherPosition.q=PosOfLo__FP2LO(p->self);
+                otherPosition.q=PosOfLo__FP2LO(pdmg->pactor);
                 targetPoint=PosOfLo__FP2LO(target);
                 scratch.q=Difference(&otherPosition,targetPoint);
             }
             scratch.bits[2]=0;
-            n=Normal(&scratch,D_002A2DA0.q);
+            n=Normal(&scratch,g_vecX.q);
             {
                 register int first __asm__("$4"),second __asm__("$3");
                 register U*up __asm__("$2");
@@ -103,7 +120,7 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
                 // Read blend data and initialize the scalar temporary.
                 __asm__("lui %0,%%hi(%7)\n\tlui %1,%%hi(%8)\n\tlui %2,%%hi(%9)\n\tlw %0,%%lo(%7)(%0)\n\taddiu %2,%2,%%lo(%9)\n\tlw %1,%%lo(%8)(%1)\n\tlqc2 %5,0(%2)\n\tqmtc2.ni %0,%3\n\tqmtc2.ni %1,%4\n\tsqc2 %3,%6"
                     :"=&r"(first),"=&r"(second),"=&r"(up),"=j"(weight),"=j"(lift),"=j"(axis),"=m"(scalar.q)
-                    :"i"(&D_002BFB00.bits),"i"(&D_002BFB04.bits),"i"(&g_normalZ):"memory");
+                    :"i"(&g_svPush.bits),"i"(&g_svPushUp.bits),"i"(&g_normalZ):"memory");
                 a=weight;b=lift;z=axis;
             }
 
@@ -115,9 +132,9 @@ void ApplyDamageVelocity__FP5ACTOR(struct P*p){
         break;
     }
     {
-        struct O*object=p->self;
+        struct O*object=pdmg->pactor;
         VTENT*vt=object->vt;
-        ((void(*)(void*,qword))vt[35].pfn)(VT_THIS(object, &vt[35]),output.q);
+        ((void(*)(void*,qword))vt[VT_SET_ALO_VELOCITY].pfn)(VT_THIS(object, &vt[VT_SET_ALO_VELOCITY]),output.q);
     }
-    SetDamageState__FP5ACTORi(p,7);
+    SetDamageState__FP5ACTORi(pdmg,7);
 }

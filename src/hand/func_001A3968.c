@@ -1,78 +1,85 @@
+/* ComputeLight (0x1A3968): rebuilds a light's record (+0x120) and its light-context selection data (+0x100 / +0x110 /
+ * +0x114) from its options: the angular falloff from the angle (at least 30) and the brightness (max of strength and
+ * the colour's value) by ConvertAngleStrength; the colour (HSV -> RGB, then 0x1ED2D8's adjustment) and the strength
+ * divided by the brightness; directional (kind 0): the direction is the world matrix's first row (vtable slot 31);
+ * point (kind 1): the position, with the distance falloff fitted from sNear (1) to sFar (0). Then func_001A3B38.
+ * Field names: include/light.h, SafeHouse lightsw.cpp LIGHTREC / LIGHTSEL. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { float x, y, z; } V3;
-struct S;
-struct S {
+struct LIGHT;
+struct LIGHT {
     int x0, x4, x8;
     VTENT *vt;
     char pad10[0xE0 - 0x10];
-    int xE0;
+    int kind;            /* 0 directional, 1 point */
     char padE4[0xF0 - 0xE4];
-    char xF0[8];
-    float xF8;
+    char hsv[8];
+    float hsvValue;      /* hsv[2] */
     int xFC;
-    union { qword q; struct { float x, y, z, w; } f; } x100;
-    float x110, x114;
+    union { qword q; struct { float x, y, z, w; } f; } posSel;   /* the selection: the light's position (point) */
+    float gSelConst, gSelSlope;   /* the selection's brightness by distance: const + slope d */
     int pad118[2];
-    int x120;
-    float x124, x128, x12C;
-    float x130, x134, x138, x13C;
-    V3 x140;
-    float x14C, x150, x154;
+    int kindRec;          /* the record (+0x120): its kind */
+    float angularOffset, angularScale, distanceOffset;
+    float r, g, b, a;     /* the colour and strength over the brightness */
+    V3 dirOrPos;
+    float distanceScale, strength, angle;
     int pad158[3];
-    float x164, x168;
+    float sNear, sFar;
 };
 void ConvertAngleStrength(float a, float b, float c, float d, float *pa, float *pb) asm("ConvertAngleStrength__FffffPfT4");
 void ConvertUserHsvToUserRgb(void *p, V3 *pv) asm("ConvertUserHsvToUserRgb__FP6VECTORT0");
 void func_001ED2D8(V3 *pv);
-qword PosOfLo__FP2LO(struct S *p);
+qword PosOfLo__FP2LO(struct LIGHT *p);
 void FitLinearFunction__FffffPfT4(float a, float b, float c, float d, float *pa, float *pb);
-void func_001A3B38(struct S *p);
+void func_001A3B38(struct LIGHT *p);
 static inline float Max1(float a, float b) { return (a > b) ? a : b; }
+#define VT_MAT_WORLD 31
 // name: SafeHouse port (ComputeLight)
-void ComputeLight__FP11LIGHTPARAMS(struct S *p)
+void ComputeLight__FP11LIGHTPARAMS(struct LIGHT *plight)
 {
-    V3 v;
-    float g;
-    float a;
-    g = Max1(p->x150, p->xF8);
-    a = (p->x154 > 30.0f) ? p->x154 : 30.0f;
-    ConvertAngleStrength(a, 0.0f, 0.0f, g, &p->x124, &p->x128);
-    ConvertUserHsvToUserRgb(p->xF0, &v);
-    func_001ED2D8(&v);
-    p->x130 = v.x;
-    p->x134 = v.y;
-    p->x138 = v.z;
-    p->x13C = p->x150;
-    if (0.0f < g) {
-        p->x130 = p->x130 / g;
-        p->x134 = p->x134 / g;
-        p->x138 = p->x138 / g;
-        p->x13C = p->x13C / g;
+    V3 rgb;
+    float gBright;
+    float deg;
+    gBright = Max1(plight->strength, plight->hsvValue);
+    deg = (plight->angle > 30.0f) ? plight->angle : 30.0f;
+    ConvertAngleStrength(deg, 0.0f, 0.0f, gBright, &plight->angularOffset, &plight->angularScale);
+    ConvertUserHsvToUserRgb(plight->hsv, &rgb);
+    func_001ED2D8(&rgb);
+    plight->r = rgb.x;
+    plight->g = rgb.y;
+    plight->b = rgb.z;
+    plight->a = plight->strength;
+    if (0.0f < gBright) {
+        plight->r = plight->r / gBright;
+        plight->g = plight->g / gBright;
+        plight->b = plight->b / gBright;
+        plight->a = plight->a / gBright;
     }
-    p->x128 = -p->x128;
-    switch (p->x120 = p->xE0) {
+    plight->angularScale = -plight->angularScale;
+    switch (plight->kindRec = plight->kind) {
     case 0:
         {
-            struct F4 { float x, y, z, w; } *pv = (struct F4 *)&p->x100;
+            struct F4 { float x, y, z, w; } *pv = (struct F4 *)&plight->posSel;
             pv->z = 0.0f;
             pv->y = 0.0f;
             pv->x = 0.0f;
         }
-        p->x110 = 1.0f;
-        p->x114 = 0.0f;
-        p->x140 = *((V3 * (*)(struct S *))p->vt[31].pfn)((struct S *)VT_THIS(p, &p->vt[31]));
+        plight->gSelConst = 1.0f;
+        plight->gSelSlope = 0.0f;
+        plight->dirOrPos = *((V3 * (*)(struct LIGHT *))plight->vt[VT_MAT_WORLD].pfn)((struct LIGHT *)VT_THIS(plight, &plight->vt[VT_MAT_WORLD]));
         break;
     case 1:
-        p->x100.q = PosOfLo__FP2LO(p);
-        p->x140 = *(V3 *)&p->x100;
-        FitLinearFunction__FffffPfT4(p->x164, 1.0f, p->x168, 0.0f, &p->x12C, &p->x14C);
-        p->x110 = p->x12C;
-        p->x114 = p->x14C;
+        plight->posSel.q = PosOfLo__FP2LO(plight);
+        plight->dirOrPos = *(V3 *)&plight->posSel;
+        FitLinearFunction__FffffPfT4(plight->sNear, 1.0f, plight->sFar, 0.0f, &plight->distanceOffset, &plight->distanceScale);
+        plight->gSelConst = plight->distanceOffset;
+        plight->gSelSlope = plight->distanceScale;
         break;
     }
-    g = Max1(p->xF8, p->x150);
-    p->x110 = p->x110 * g;
-    p->x114 = p->x114 * g;
-    func_001A3B38(p);
+    gBright = Max1(plight->hsvValue, plight->strength);
+    plight->gSelConst = plight->gSelConst * gBright;
+    plight->gSelSlope = plight->gSelSlope * gBright;
+    func_001A3B38(plight);
 }

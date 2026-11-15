@@ -1,30 +1,33 @@
+/* func_001A3B80 (0x1A3B80): inserts a light (its slot bit) into the light set's plane tree: a sphere (pos, sRadius)
+ * goes down each side its distance to the node's plane reaches; at a leaf the slot's bit is set in the leaf's 256-bit
+ * light mask (+0x4564). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
-struct N { qword plane; struct N *x10; struct N *x14; int x18; int x1C; };
-struct S { char pad[0x4564]; char *x4564; };
+struct NODE { qword plane; struct NODE *pnodeBelow; struct NODE *pnodeAbove; int ileafBelow; int ileafAbove; };
+struct LIGHTSET { char pad[0x4564]; char *aleaf; };
 void func_002564B8(void *p);
-struct BS { int a[8]; };
+struct LEAFMASK { int a[8]; };  /* 256 light bits */
 static __inline__ void SetBit(int *a, int bit) { int *pw = &a[bit / 32]; *pw |= 1 << bit; }
-void func_001A3B80(struct S *s, struct N *n, qword pos, float r, int bit)
+void func_001A3B80(struct LIGHTSET *pset, struct NODE *pnode, qword pos, float sRadius, int islot)
 {
     U d, one;
     qword plane;
     float dist;
-    plane = n->plane;
+    plane = pnode->plane;
     func_002564B8(&d);
     func_002564B8(&one);
     __asm__("vmul.xyz %1, %3, %4\n\tvaddw.x %0, $vf0, $vf0w\n\tvadday.x $ACC, %1, %1y\n\tvmaddaz.x $ACC, %0, %1z\n\tvmsubw.x %1, %0, %3w\n\tqmfc2.ni %2, %1"
             : "=&j"(one.q), "=&j"(d.q), "=r"(dist) : "j"(plane), "j"(pos));
-    if (dist < r) {
-        if (n->x10)
-            func_001A3B80(s, n->x10, pos, r, bit);
+    if (dist < sRadius) {
+        if (pnode->pnodeBelow)
+            func_001A3B80(pset, pnode->pnodeBelow, pos, sRadius, islot);
         else
-            SetBit(((struct BS *)s->x4564)[n->x18].a, bit);
+            SetBit(((struct LEAFMASK *)pset->aleaf)[pnode->ileafBelow].a, islot);
     }
-    if (-r < dist) {
-        if (n->x14)
-            func_001A3B80(s, n->x14, pos, r, bit);
+    if (-sRadius < dist) {
+        if (pnode->pnodeAbove)
+            func_001A3B80(pset, pnode->pnodeAbove, pos, sRadius, islot);
         else
-            SetBit(((struct BS *)s->x4564)[n->x1C].a, bit);
+            SetBit(((struct LEAFMASK *)pset->aleaf)[pnode->ileafAbove].a, islot);
     }
 }

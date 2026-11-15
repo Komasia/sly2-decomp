@@ -1,3 +1,5 @@
+/* ConvertAngleStrength (0x1A38A8): a light's angular falloff: fits du + ru s through (s(deg0), g0 / 255) and
+ * (s(deg1), g1 / 255), with s(deg) = c + c^3 for c = cos(deg / 2). SafeHouse lightsw.cpp. */
 float cosf(float) __asm__("func_00244E10");
 void FitLinearFunction(float x0, float y0, float x1, float y1, float *pdu, float *pru);
 void ConvertAngleStrength(float deg0, float g0, float deg1, float g1, float *pdu, float *pru)
