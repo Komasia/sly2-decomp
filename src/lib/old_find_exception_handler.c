@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* old_find_exception_handler (libgcc2.c): innermost handler of the old-style (-1 terminated) exception table covering `pc`. */
 typedef struct old_exception_table {
     void *start_region;
     void *end_region;

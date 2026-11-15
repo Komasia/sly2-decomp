@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0 -fexceptions
 // SLY2_ASM: gnu-reorder-db
+/* get_reg_addr (libgcc2.c): address where register `reg` of the frame `udata` was saved (following REG_SAVED_REG chains). */
 #define FIRST_PSEUDO_REGISTER 79
 #define REG_SAVED_OFFSET 1
 #define REG_SAVED_REG 2

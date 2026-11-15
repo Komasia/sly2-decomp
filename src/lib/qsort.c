@@ -1,5 +1,6 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
+/* qsort (newlib, BSD qsort: median-of-3 quicksort with insertion sort for small runs). */
 typedef unsigned int size_t;
 
 static inline char *med3(char *, char *, char *, int (*)());

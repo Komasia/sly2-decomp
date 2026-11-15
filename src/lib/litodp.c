@@ -1,7 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorg
-/* MATCHES with the reorg+short-loop+GNU-as model: LOOPMAX=5 python3 build/hand_wip/hyb_asm_experiment.py build/hand_wip/litodp.c litodp (see notes/23C000.md). Normal mode: only the 6-insn loop differs. */
+/* litodp (libgcc fp-bit.c, -msoft-float): convert a long long to a double. Needs the gnu-reorg assembler model
+   (its short normalisation loop keeps an empty delay slot). */
 typedef unsigned long fractype;
 typedef int SItype;
 typedef enum { CLASS_SNAN, CLASS_QNAN, CLASS_ZERO, CLASS_NUMBER, CLASS_INFINITY } fp_class_type;

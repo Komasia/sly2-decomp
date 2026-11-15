@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
+/* next_stack_level (libgcc2.c): frame state of the caller of the frame `udata` describes (CFA from the unwound register). */
 typedef int ptr_type __attribute__ ((mode (pointer)));
 typedef int word_type __attribute__ ((mode (DI)));
 typedef struct frame_state {

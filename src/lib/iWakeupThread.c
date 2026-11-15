@@ -1,11 +1,13 @@
 // SLY2_CC: tools/compilers/extra/ee-gcc2.9-991111
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-typedef struct { unsigned char cmd; unsigned char id; } WQE;
+/* iWakeupThread (libkernel): wake thread `id` from an interrupt handler. A thread cannot wake itself through the
+   syscall, so that case is queued for the deferred-request thread instead. */
+typedef struct { unsigned char cmd; unsigned char id; } WQE;           /* deferred request: cmd 0 = wake up */
 typedef struct { int x0; int idx; WQE q[0x200]; } WQ;
-extern int D_00448940;
-extern WQ D_00448948;
-extern int D_002C49E8;
+extern int D_00448940;      /* semaphore of the deferred-request thread */
+extern WQ D_00448948;       /* deferred-request ring (0x200 entries) */
+extern int D_002C49E8;      /* deferred-request thread running */
 int _iWakeupThread(int);
 int iSignalSema(int);
 int iWakeupThread(int id)
@@ -13,7 +15,7 @@ int iWakeupThread(int id)
     int cur;
     WQ *q;
     int i;
-    __asm__ volatile("addiu $3, $0, -0x2F\n\tsyscall\n\tmove %0, $2" : "=r"(cur) : : "$2", "$3");
+    __asm__ volatile("addiu $3, $0, -0x2F\n\tsyscall\n\tmove %0, $2" : "=r"(cur) : : "$2", "$3");   /* iGetThreadId */
     if (cur != id)
         return _iWakeupThread(id);
     if ((unsigned)cur >= 0x100 || D_002C49E8 == 0)

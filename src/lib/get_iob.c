@@ -2,9 +2,10 @@
 // SLY2_CFLAGS: -O2 -G0 
 // SLY2_ASM: gnu-reorder-db
 // SLY2_SAVES: sd
-struct iob { int x0, x4, x8, xC; };
-extern int D_002C4A88;
-extern struct iob D_0044BB80[];
+/* get_iob (fileio): the iob slot of file descriptor `fd`, or 0 if it is out of range. */
+struct iob { int fd, flags, x8, xC; };     /* flags 0 = free */
+extern int D_002C4A88;              /* iob table semaphore */
+extern struct iob D_0044BB80[];     /* 32 open-file slots */
 void _sceFsIobSemaMK(void);
 int WaitSema(int);
 int SignalSema(int);
