@@ -1,8 +1,9 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *RefOpIsLm__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *pref)
+/* BIF lm?: is the argument a limit (LM)? */
+#include "splice.h"
+CRef *RefOpIsLm__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int tagk = pref->m_tagk;
-    ret->m_tagk = 0x17;
-    ret->m_tag = tagk == 0x1D;
+    int tagk = aref->m_tagk;
+    ret->m_tagk = TAGK_Bool;
+    ret->m_tag.m_bool = tagk == TAGK_Lm;
     return ret;
 }

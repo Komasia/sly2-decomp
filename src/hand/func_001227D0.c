@@ -1,5 +1,5 @@
-typedef int qword __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
+/* BIF vector-length. */
+#include "splice.h"
 static __inline__ int GLength(qword *pa)
 {
     register qword a __asm__("vf1") = *pa;
@@ -15,10 +15,10 @@ static __inline__ int GLength(qword *pa)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef *RefOpVectorLth__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpVectorLth__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int g = GLength((qword *)aref[0].m_tag);
-    ret->m_tagk = 0x16;
-    *(volatile int *)&ret->m_tag = g;
+    int g = GLength((qword *)aref[0].m_tag.m_pv);
+    ret->m_tagk = TAGK_F32;
+    *(volatile int *)&ret->m_tag.m_n = g;
     return ret;
 }

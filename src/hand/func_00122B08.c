@@ -1,13 +1,12 @@
-typedef int qword __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
+/* BIF vector-project-normal: the part of a vector along a normal. */
+#include "splice.h"
 CRef *func_00129248(CRef *pref, qword v);
-CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
-CRef *RefOpVectorProjectNormal__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpVectorProjectNormal__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
     CRef ref;
-    register qword a __asm__("vf1") = *(qword *)aref[0].m_tag;
-    register qword b __asm__("vf2") = *(qword *)aref[1].m_tag;
+    register qword a __asm__("vf1") = *(qword *)aref[0].m_tag.m_pv;
+    register qword b __asm__("vf2") = *(qword *)aref[1].m_tag.m_pv;
     register qword t __asm__("vf3");
     __asm__ ("vmul.xyz %0, %0, %2\n"
         "vaddw.x %1, $vf0, $vf0w\n"

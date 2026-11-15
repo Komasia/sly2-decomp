@@ -1,19 +1,17 @@
-typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
-void Decref__4CRef(CRef *pref);
-void InitTag__4CRef(CRef *pref, int tagk);
+/* BIF lm: builds a limit (LM) from two numbers. */
+#include "splice.h"
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
-CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
-CRef *RefOpLm__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpLm__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
     CRef ref;
     int i;
     float *pg;
-    InitTag__4CRef(&ref, 0x1D);
-    pg = (float *)ref.u.pv;
+    InitTag__4CRef(&ref, TAGK_Lm);
+    pg = (float *)ref.m_tag.m_pv;
     for (i = 0; i < 2; i++) {
         CRef tmp;
         RefCoerceF32__4CRef(&tmp, &aref[i]);
-        pg[i] = tmp.u.g;
+        pg[i] = tmp.m_tag.m_g;
         Decref__4CRef(&tmp);
     }
     __4CRefRC4CRef(ret, &ref);

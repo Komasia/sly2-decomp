@@ -1,9 +1,10 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *RefOpIntEqual__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+/* BIF: are the two integer arguments equal? (bool) */
+#include "splice.h"
+CRef *RefOpIntEqual__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int a = aref[0].m_tag;
-    int b = aref[1].m_tag;
-    ret->m_tagk = 0x17;
-    ret->m_tag = a == b;
+    int a = aref[0].m_tag.m_n;
+    int b = aref[1].m_tag.m_n;
+    ret->m_tagk = TAGK_Bool;
+    ret->m_tag.m_bool = a == b;
     return ret;
 }

@@ -1,10 +1,9 @@
-typedef int qword __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-typedef struct VECTOR { float x, y, z, w; } __attribute__((aligned(16))) VECTOR;
+#include "splice.h"
+typedef struct VECTOR4 VECTOR4;
 typedef struct CM { char pad[0x4C]; float g; char pad2[0x10]; qword mat[4]; } CM;
 extern CM g_cm;
 CRef *func_00129248(CRef *pref, qword v);
-static __inline__ void SetVector(VECTOR *pv, float x, float y, float z)
+static __inline__ void SetVector(VECTOR4 *pv, float x, float y, float z)
 {
     register qword t __asm__("$6");
     register int ix __asm__("$6"), iy __asm__("$4"), iz __asm__("$4");
@@ -16,7 +15,7 @@ static __inline__ void SetVector(VECTOR *pv, float x, float y, float z)
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 128: the camera position plus its view direction times the near clip distance)
 CRef *RefOpNearClipCenter__FiP4CRefP6CFrame(CRef *ret)
 {
-    VECTOR vec;
+    VECTOR4 vec;
     CM *pcm = &g_cm;
     qword *pm = pcm->mat;
     SetVector(&vec, pcm->g, 0.0f, 0.0f);
