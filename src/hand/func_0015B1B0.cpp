@@ -49,7 +49,7 @@ extern "C" {
 extern char g_sw[];
 SO *PripgNew(void *p, int n) asm("PripgNew__FP2SW5RIPGT");
 void SetRipgEmitb(SO *pso, EMITTER *pemit) asm("SetRipgEmitb__FP4RIPGP5EMITB");
-void func_001333C0(SO *pso, void *p);
+void AddLoListener__FP2LOi(SO *pso, void *p);
 PART *FLaunchHudRip(void *p, int n, SO *pso) asm("FLaunchHudRip__FP2LOP6VECTORP7MATRIX3");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
 void func_0015BF40(void *p, EMITTER *pemit);
@@ -72,7 +72,7 @@ extern "C" void EmitParticleObjects__FP8EMITTERNP6VECTORiT1PfN24(EMITTER *pemit,
             *px->ppso = pso;
         SetRipgEmitb(pso, pemit);
         if (px && px->p8)
-            func_001333C0(pso, px->p8);
+            AddLoListener__FP2LOi(pso, px->p8);
     }
     if (!pso)
         return;

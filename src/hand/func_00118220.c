@@ -10,7 +10,8 @@ int U16Read(CBinaryInputStream *pbis) asm("U16Read__18CBinaryInputStream");
 void *PvAllocSwClearImpl__Fi(MSG *pmsg);
 extern char D_002BBAF0[];
 
-void func_00118220(CBinaryInputStream *pbis, OWNER *powner, TREE *ptree)
+// name: Sly 1 bis.cpp ReadBspc (right after ReadGeom in both games: reads the BSP nodes of a GEOM); SafeHouse bis.h ReadBsp 0x118220
+void ReadBspc__18CBinaryInputStreamP4GEOMP4BSPC(CBinaryInputStream *pbis, OWNER *powner, TREE *ptree)
 {
     int i;
     MSG msg;

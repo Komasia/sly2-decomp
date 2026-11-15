@@ -4,14 +4,14 @@
 struct BENTLEY;
 void func_00141E70(struct BENTLEY *pbentley);                 /* the base slot 105 */
 int func_001C40C0(struct BENTLEY *pbentley);                  /* the current player? */
-int func_00141EA8(struct BENTLEY *pbentley, int idAbility);   /* the buttons the ability is on */
+int GrfAbilityButton__FP5ACTORi(struct BENTLEY *pbentley, int idAbility);   /* the buttons the ability is on */
 void ShowAloGlobs__FP3ALOi(struct BENTLEY *palo, int idGroup);
 void func_001F69F8(struct BENTLEY *palo, int idGroup);        /* hides the glob group */
 
 void func_00136C50(struct BENTLEY *pbentley)
 {
     func_00141E70(pbentley);
-    if (func_001C40C0(pbentley) != 0 && func_00141EA8(pbentley, 12) != 0) {
+    if (func_001C40C0(pbentley) != 0 && GrfAbilityButton__FP5ACTORi(pbentley, 12) != 0) {
         ShowAloGlobs__FP3ALOi(pbentley, 0x24D);
         return;
     }

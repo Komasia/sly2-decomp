@@ -4,7 +4,7 @@ struct S { char pad[0xE0]; char aE0[0x10]; int c; qword *points; char pad1[0x18]
 extern float D_002A9880;
 void LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(struct S *p, void *pbis);
 void ReadGeom(void *pbis, void *pv) asm("ReadGeom__18CBinaryInputStreamP4GEOM");
-void func_00118220(void *pbis, void *pv, void *pv2);
+void ReadBspc__18CBinaryInputStreamP4GEOMP4BSPC(void *pbis, void *pv, void *pv2);
 qword func_0011F288(int c, qword *points);
 qword func_0011F2B8(int c, qword *points);
 // name: SafeHouse port (LoadShapeFromBrx)
@@ -12,7 +12,7 @@ void LoadShapeFromBrx__FP5SHAPEP18CBinaryInputStream(struct S *p, void *pbis)
 {
     LoadXfmFromBrx__FP3XFMP18CBinaryInputStream(p, pbis);
     ReadGeom(pbis, &p->c);
-    func_00118220(pbis, &p->c, p->aE0);
+    ReadBspc__18CBinaryInputStreamP4GEOMP4BSPC(pbis, &p->c, p->aE0);
     if (p->c > 0) {
         VU u;
         qword a,b,m,one; register qword h __asm__("vf1");

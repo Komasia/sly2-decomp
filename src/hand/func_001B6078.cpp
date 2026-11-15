@@ -91,10 +91,10 @@ int GrfActorLookMask(P *) asm("GrfActorLookMask__FP5ACTOR");
 void ActorSetLookFlag(P *, int) asm("ActorSetLookFlag__FP5ACTORi");
 void ResetGaitFeet(void *) asm("ResetGaitFeet__FP4GAIT");
 void SetBinocState(void *, int) asm("SetBinocState__FP5ACTORi");
-int func_001DAEA8(int);
+int FPowerupOwned__Fi(int);
 void ChooseMurrayThrowTarget(P *) asm("ChooseMurrayThrowTarget__FP6MURRAY");
 qword PosOfLo(P *) asm("PosOfLo__FP2LO");
-void func_002046B0(P *, qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(P *, qword);
 void RetractAsegaPp(ASEGA **) asm("RetractAsegaPp__FPP5ASEGA");
 void ClearSmaHandle(COMPONENT **) asm("ClearSmaHandle__FPP3SMA");
 void ApplyAsegCur(ASEG *, P *, float, float, int, ASEGA **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
@@ -168,13 +168,13 @@ extern "C" void func_001B6078(P *p, int next)
         p->velocity = D_002A2DD0; SetMurrayCarry(p, 0); break;
     case 7: {
         ASEG *a = p->extra7;
-        if (a && func_001DAEA8(0x11)) clip = p->extra7; else clip = p->clip7;
+        if (a && FPowerupOwned__Fi(0x11)) clip = p->extra7; else clip = p->clip7;
         { register qword zero __asm__("$3") = D_002A2DD0.q; p->velocity.q = zero; }   // pin: the zero vector goes through $v1 here
         ChooseMurrayThrowTarget(p);
         U point = p->goal; qword current = PosOfLo(p);
         qword difference;
         __asm__("vsub.xyzw %0,%0,%2" : "=j"(difference) : "0"(point.q), "j"(current));
-        func_002046B0(p, difference); break;
+        SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p, difference); break;
     }
     case 8: { ASEG *a = p->extra8; if (a && p->alternate8) clip = a; else clip = p->clip8; goto clear_velocity; }
     case 9: SetMurrayBehaviorAnim(p, 0); Call((OBJ *)p, 90); return;

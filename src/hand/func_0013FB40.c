@@ -13,9 +13,9 @@ void Skip__18CBinaryInputStreami(void *pbis, int cb);
 int func_001C9940(int, int);
 int func_001C99D8(int, int, int *);
 int PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int, int);
-int func_0015E958(struct G *, int, int, int, int);
+int PloFindSwObject__FP2SWi3OIDP2LOPv(struct G *, int, int, int, int);
 int FFilterMatches__FiPs(int c, short *a);
-int func_0015E988(int, int);
+int FIsCidDerivedFrom__F3CIDT0(int, int);
 struct LO *PloNew__F3CIDP2SW3OIDi(int cid, void *psw, int oid, int n);
 void LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(struct G *, void *psw, int cid, int oid, int n, void *pbis, struct IF *pif);
 
@@ -72,7 +72,7 @@ void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg
                 }
                 obj.x4 = 1;
             } else {
-                if (func_0015E958(pg, 0x805, oid, 0, r)) {
+                if (PloFindSwObject__FP2SWi3OIDP2LOPv(pg, 0x805, oid, 0, r)) {
                     goto skip;
                 }
                 obj.x4 = 0;
@@ -99,7 +99,7 @@ void LoadSwObjsFromBrx__FP2SWP3ALOP18CBinaryInputStream(void *psw, void *pbisArg
             }
         }
     create:
-        if (func_0015E988(cid, 6)) {
+        if (FIsCidDerivedFrom__F3CIDT0(cid, 6)) {
             LoadProxyFromBrx__FP2SWP3ALO3CID3OIDiP18CBinaryInputStreamP6LOSINK(&g_sw, psw, cid, oid, n, pbis, pif);
         } else {
             plo2 = PloNew__F3CIDP2SW3OIDi(cid, psw, oid, n);

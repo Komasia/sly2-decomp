@@ -15,7 +15,7 @@ struct CTX *__10STACKSCOPE(struct CTX *);
 void _$_10STACKSCOPE(struct CTX *, int);
 void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
 int CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO(struct G *, int, int, int, int, void **);
-int func_001A61A0(void *);
+int FLoActive__FP2LO(void *);
 qword PosOfLo__FP2LO(void *);
 int FPointInShape__FP2LOG9VU_VECTOR(struct P *, qword);
 void qsort(void *, int, int, int (*)(const void *, const void *));
@@ -52,7 +52,7 @@ void UpdateVolbtn__FP6VOLBTNf(struct P *p)
         j = 0;
         if (j < c) do {
             void *po = apo[j];
-            if (po && func_001A61A0(po) && FPointInShape__FP2LOG9VU_VECTOR(p, PosOfLo__FP2LO(po))) {
+            if (po && FLoActive__FP2LO(po) && FPointInShape__FP2LOG9VU_VECTOR(p, PosOfLo__FP2LO(po))) {
                 fFound = 1;
                 if (!p->x1D8)
                     p->x1D8 = po;

@@ -3,7 +3,8 @@ struct SHOP;
 void func_001DA7B0(struct SHOP *pshop);
 void func_001DB820(struct SHOP *pshop);
 
-void func_001DB7F0(struct SHOP *pshop)
+// name: SafeHouse port (shop.h InitShop, orig 0x1DB7F0)
+void InitShop__FP4SHOP(struct SHOP *pshop)
 {
     func_001DA7B0(pshop);
     func_001DB820(pshop);

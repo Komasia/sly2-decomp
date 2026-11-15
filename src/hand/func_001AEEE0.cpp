@@ -17,7 +17,7 @@ extern "C"{
 void func_001D9870();
 int FSpriteAnimPlaying(POOL*,int) asm("FSpriteAnimPlaying__FP2LOi");
 void SetMenuState(P*,int) asm("SetMenuState__FP4MENUi");
-int func_001880D8(INPUT*);
+int NStepUpDown__FP6JOYPS2(INPUT*);
 uint GrfbtnTakePressedJoy(INPUT*,uint) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 void BackReplaced(P*) asm("BackReplaced__FP4MENU");
 void func_001AF608(P*);
@@ -62,7 +62,8 @@ typedef char BANK_contexts_Offset[FIELD_OFFSET(BANK,contexts)==36?1:-1];
 typedef char BANK_current_Offset[FIELD_OFFSET(BANK,current)==64856?1:-1];
 typedef char CRef_tag_Offset[FIELD_OFFSET(CRef,tag)==0?1:-1];
 typedef char CRef_f_Offset[FIELD_OFFSET(CRef,f)==4?1:-1];
-extern "C" void func_001AEEE0(P*p){
+// name: SafeHouse port (menu.h UpdateMenu, orig 0x1AEEE0; it calls SetMenuState__FP4MENUi)
+extern "C" void UpdateMenu__FP4MENU(P*p){
  int direction;
  func_001D9870();
  if(p->depth<=0)return;
@@ -101,7 +102,7 @@ extern "C" void func_001AEEE0(P*p){
  activate:
   SetMenuState(p,7);
   if(!p->input)break;
-  {INPUT*input=p->input;direction=func_001880D8(input);if(direction<0)goto up;goto positive;}
+  {INPUT*input=p->input;direction=NStepUpDown__FP6JOYPS2(input);if(direction<0)goto up;goto positive;}
  case 6:
   if(FSpriteAnimPlaying(group->pool,group->meta->reverse))break;goto activate;
  case 7:{
@@ -129,7 +130,7 @@ extern "C" void func_001AEEE0(P*p){
   }
   if(!group)break;
  {
-   direction=func_001880D8(p->input);
+   direction=NStepUpDown__FP6JOYPS2(p->input);
    if(direction>=0)goto positive;
  up:SetMenuState(p,6);break;
  positive:if(direction<=0)break;SetMenuState(p,5);break;

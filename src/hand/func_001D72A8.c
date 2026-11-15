@@ -1,5 +1,5 @@
 /* UpdateSafeHouse (SafeHouse po.cpp, the safe house's vt slot 16, class 0x46): while the safe house is shown
- * (state 1) and the camera's menu (func_0014FD50) is not taking the pad, left / right (func_00187E88) step through
+ * (state 1) and the camera's menu (func_0014FD50) is not taking the pad, left / right (NStepLeftRight__FP6JOYPS2) step through
  * its allowed states (func_001D77D0); otherwise a pressed button of the current state's action entry (option 1338:
  * {state, buttons, target}) opens the shop (target 0x378) or starts the target script found from the safe house. */
 typedef int OID;
@@ -28,7 +28,7 @@ extern char g_joy[];
 extern char D_002E0D00[];
 void UpdateSo__FP2SOf(SAFEHOUSE *psh);
 int func_0014FD50(void *pv);
-int func_00187E88(void *pjoy);       /* -1 / 0 / 1: left / none / right */
+int NStepLeftRight__FP6JOYPS2(void *pjoy);       /* -1 / 0 / 1: left / none / right */
 int GrfbtnTakePressedJoy(void *pjoy, int grfbtn) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
 OID OidSmaCur(void *psma) asm("OidSmaCur__FP3SMA");
 SAFEHOUSE *PloFindSwNearest__FP2LO3OIDii(struct G *psw, int kind, int oid, SAFEHOUSE *pshFrom);
@@ -56,7 +56,7 @@ void UpdateSafeHouse__FP2LO(SAFEHOUSE *psh)
         pjoy = g_joy;
     else
         pjoy = D_002E0D00;
-    dState = func_00187E88(pjoy);
+    dState = NStepLeftRight__FP6JOYPS2(pjoy);
     if (dState == 0) {
         for (iaction = 0; ; iaction++) {
             SAFEHOUSE *pscpt;

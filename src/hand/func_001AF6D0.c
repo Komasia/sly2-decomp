@@ -11,8 +11,8 @@ extern float D_002DDF10;
 extern float D_002C01C8, D_002C01CC;
 extern float D_002F6468, D_002F646C;
 extern struct GS D_002DEB80;
-int func_00187E88(int);
-int func_001880D8(int);
+int NStepLeftRight__FP6JOYPS2(int);
+int NStepUpDown__FP6JOYPS2(int);
 float GLimitLm(void *, float) asm("GLimitLm__FP2LMf");
 void SetSoundChannelVolume__FP8SOUNDMGRiif(struct G *, int, float, int);
 void func_00212E40(void *, int, float);
@@ -22,7 +22,7 @@ void UpdateSlider__FP4PAGEP7MENUENTPi(struct S *s, struct P *p, int *pk)
 {
     switch (*pk) {
     case 0x67: {
-        float f = (float)func_00187E88(s->x10);
+        float f = (float)NStepLeftRight__FP6JOYPS2(s->x10);
         float g;
         if (f == 0.0f)
             return;
@@ -32,7 +32,7 @@ void UpdateSlider__FP4PAGEP7MENUENTPi(struct S *s, struct P *p, int *pk)
         break;
     }
     case 0x68: {
-        float f = (float)func_00187E88(s->x10);
+        float f = (float)NStepLeftRight__FP6JOYPS2(s->x10);
         float g;
         if (f == 0.0f)
             return;
@@ -43,8 +43,8 @@ void UpdateSlider__FP4PAGEP7MENUENTPi(struct S *s, struct P *p, int *pk)
         break;
     }
     case 0x3F: {
-        float x = (float)func_00187E88(s->x10);
-        float y = (float)func_001880D8(s->x10);
+        float x = (float)NStepLeftRight__FP6JOYPS2(s->x10);
+        float y = (float)NStepUpDown__FP6JOYPS2(s->x10);
         float v;
         int n;
         if (x == 0.0f && y == 0.0f)

@@ -10,7 +10,8 @@ static __inline__ float GClamp(float g, float lo, float hi)
     if (g > hi) return hi;
     return g;
 }
-int func_001880D8(struct JOY *p)
+// name: SafeHouse port (frontend.h NStepUpDown, orig 0x1880D8)
+int NStepUpDown__FP6JOYPS2(struct JOY *p)
 {
     float g;
     if (!p->dirY) {

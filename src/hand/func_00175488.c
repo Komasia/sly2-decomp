@@ -6,8 +6,8 @@ struct Q { char pad[0xC]; VTENT *vt; };
 struct O { char pad[0xC]; VTENT *vt; char pad2[0x28]; struct Q *q38; int n3C; int n40; };
 struct P { char pad[0xA0]; int nA0; char pad2[0x1C]; int nC0; };
 struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; struct Q *q30; int n34; float g38; struct P *p3C; };
-void func_00133448(struct Q *q, void *p);
-void func_001333C0(struct Q *q, void *p);
+void RemoveLoListener__FP2LOi(struct Q *q, void *p);
+void AddLoListener__FP2LOi(struct Q *q, void *p);
 void SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(void *p, void *po, int n, qword v);
 void EndChildJob__FPP5AIJOB(void *p);
 void UnlockJob__FP5AIJOB(struct S *p);
@@ -16,7 +16,7 @@ struct O *func_00205438(void *p, int n);
 void SetActState__6JOBACTi(struct S *p, int n) {
     if (n == p->n34) return;
     if (p->n34 == 0) {
-        func_00133448(p->q30, p->p10);
+        RemoveLoListener__FP2LOi(p->q30, p->p10);
         p->q30 = 0;
         SetGuardActionAim__FP5GUARDP9ACTIONOBJiG9VU_VECTOR(p->p10, 0, 0, D_002A2DD0);
     }
@@ -28,7 +28,7 @@ void SetActState__6JOBACTi(struct S *p, int n) {
         {
             struct O *o;
             VTENT *e;
-            func_001333C0(p->q30, p->p10);
+            AddLoListener__FP2LOi(p->q30, p->p10);
             o = func_00205438(p->p10, 0x9F);
             o->q38 = p->q30;
             o->n40 = p->p3C->nC0;

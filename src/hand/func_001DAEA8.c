@@ -4,7 +4,8 @@ void sprintf(char *pch, char *fmt, int n);
 void func_001D8A38(CRef *pref, char *a, char *b, char *c, int d);
 void __as__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
-int func_001DAEA8(int n) {
+// name: SafeHouse port (gadget.h FPowerupOwned, orig 0x1DAEA8: the progress powerUps mppukfAcquired <id>)
+int FPowerupOwned__Fi(int n) {
     CRef ref;
     char ach[0x20];
     CRef tmp;

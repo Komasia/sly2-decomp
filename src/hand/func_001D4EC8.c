@@ -11,7 +11,7 @@ void func_001F36A8(struct VEHICLEPICKUP *ppickup);   /* the base post-load */
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(void *psm, struct VEHICLEPICKUP *ppickup, int oid, int n, void **ppsma);
 void SetVehiclePickupState__FP2LOi(struct VEHICLEPICKUP *ppickup, int state);
 
-void func_001D4EC8(struct VEHICLEPICKUP *ppickup)
+void PostLoadVehiclePickup__FP2LO(struct VEHICLEPICKUP *ppickup)
 {
     func_001F36A8(ppickup);
     ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(ppickup->psm, ppickup, -1, 0, &ppickup->psma);

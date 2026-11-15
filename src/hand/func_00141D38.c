@@ -10,7 +10,7 @@ typedef struct ACTOR {
 
 void StartInteract__FP5ACTORii3JTL(void *pinteract, int kind, void *plo, int jtl);
 void SetJumpKind__FP4JUMPiiP2LO(void *pjump, int kind, int n, void *plo);
-void func_00141CD0(ACTOR *pactor, int kAbility);   /* spend the ability's power (SafeHouse SpendActorPower) */
+void SpendActorPower__FP5ACTORi(ACTOR *pactor, int kAbility);   /* spend the ability's power (SafeHouse SpendActorPower) */
 
 void func_00141D38(ACTOR *pactor, int kAbility)
 {
@@ -22,7 +22,7 @@ void func_00141D38(ACTOR *pactor, int kAbility)
         StartInteract__FP5ACTORii3JTL(pactor->interact, 11, 0, 0);
         break;
     case 12:
-        func_00141CD0(pactor, 12);
+        SpendActorPower__FP5ACTORi(pactor, 12);
         SetJumpKind__FP4JUMPiiP2LO(pactor->jump, 17, 0, 0);
         break;
     }

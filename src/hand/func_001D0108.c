@@ -10,11 +10,11 @@ struct RIP {
 };
 extern qword D_002C1F90;
 extern qword D_002C1FA0;
-void func_001CE920(struct RIP *prip);
+void InitRip__FP3RIPG9VU_VECTORfP2SO(struct RIP *prip);
 
 void func_001D0108(struct RIP *prip)
 {
-    func_001CE920(prip);
+    InitRip__FP3RIPG9VU_VECTORfP2SO(prip);
     prip->sLife = 0.5f;
     prip->qw30 = D_002C1F90;
     prip->qw20 = D_002C1FA0;

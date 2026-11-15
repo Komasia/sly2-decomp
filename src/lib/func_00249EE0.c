@@ -17,7 +17,7 @@ typedef union {
 #define EXTRACT_WORDS(ix0,ix1,d) do { ieee_double_shape_type ew_u; ew_u.value = (d); (ix0) = ew_u.parts.msw; (ix1) = ew_u.parts.lsw; } while (0)
 #define GET_HIGH_WORD(i,d) do { ieee_double_shape_type gh_u; gh_u.value = (d); (i) = gh_u.parts.msw; } while (0)
 #define SET_HIGH_WORD(d,v) do { ieee_double_shape_type sh_u; sh_u.value = (d); sh_u.parts.msw = (v); (d) = sh_u.value; } while (0)
-double func_0024A738(double, double);
+double copysign(double, double);
 static const double
 two54 = 1.80143985094819840000e+16,
 twom54 = 5.55111512312578270212e-17,
@@ -37,13 +37,13 @@ double func_00249EE0(double x, int n)
     }
     if (k == 0x7ff) return x + x;
     k = k + n;
-    if (k > 0x7fe) return huge * func_0024A738(huge, x);
+    if (k > 0x7fe) return huge * copysign(huge, x);
     if (k > 0) { SET_HIGH_WORD(x, (hx & 0x800fffff) | (k << 20)); return x; }
     if (k <= -54) {
         if (n > 50000)
-            return huge * func_0024A738(huge, x);
+            return huge * copysign(huge, x);
         else
-            return tiny * func_0024A738(tiny, x);
+            return tiny * copysign(tiny, x);
     }
     k += 54;
     SET_HIGH_WORD(x, (hx & 0x800fffff) | (k << 20));

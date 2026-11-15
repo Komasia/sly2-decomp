@@ -4,13 +4,13 @@ struct S { char pad[0x10]; int a; int b; char pad2[0x10]; ulong f; char pad3[0x3
 extern char g_sw[];
 void func_001D6310(struct S *p);
 void func_001D6378(struct S *p);
-void func_00147E88(void *g, int b);
+void QueueLoRoot__FP2SWP2LO(void *g, int b);
 // name: SafeHouse port (PostUpdateAloXfs)
 void PostUpdateAloXfs__FP3ALO(struct S *p)
 {
     if (!!((p->f >> 60) & 1)) {
         int k = p->k;
         if (k != -1 && p->t->k != k) { func_001D6310(p); func_001D6378(p); }
-        if (p->a == 0) func_00147E88(g_sw, p->b);
+        if (p->a == 0) QueueLoRoot__FP2SWP2LO(g_sw, p->b);
     }
 }

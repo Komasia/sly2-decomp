@@ -6,7 +6,7 @@ struct PHOTOTARGET {
     /* 0xec */ struct LO *ploEC;
 };
 void PostLoLoad__FP2LO(struct PHOTOTARGET *plo);
-void func_001333C0(struct LO *plo, struct PHOTOTARGET *pphoto);
+void AddLoListener__FP2LOi(struct LO *plo, struct PHOTOTARGET *pphoto);
 
 void func_00203638(struct PHOTOTARGET *pphoto)
 {
@@ -14,6 +14,6 @@ void func_00203638(struct PHOTOTARGET *pphoto)
     PostLoLoad__FP2LO(pphoto);
     plo = pphoto->ploEC;
     if (plo != 0) {
-        func_001333C0(plo, pphoto);
+        AddLoListener__FP2LOi(plo, pphoto);
     }
 }

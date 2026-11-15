@@ -10,7 +10,7 @@ extern float D_002BD368;
 extern float D_002BD36C;
 extern float D_002BD370;
 void Update__5AIJOB(struct P *p);
-int func_001A61A0(struct T *p);
+int FLoActive__FP2LO(struct T *p);
 qword PosOfLo__FP2LO(void *p);
 struct M3 *MatJtLo__FP2LO(void *p);
 void SetState__12JOBSLYATTACKi(struct P *p, int n);
@@ -56,7 +56,7 @@ void Update__12JOBSLYATTACK(struct P *p)
     Update__5AIJOB(p);
     if (p->x30 == -1)
         return;
-    if (p->p10->xDF4 != -1 || !func_001A61A0(p->p38) || p->p38->x330) {
+    if (p->p10->xDF4 != -1 || !FLoActive__FP2LO(p->p38) || p->p38->x330) {
         SetState__12JOBSLYATTACKi(p, -1);
         return;
     }

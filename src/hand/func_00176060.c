@@ -1,5 +1,5 @@
 struct T { char pad[0x3CC]; void *p3CC; int pad2; int n3D4; };
 struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; int n40; };
-int func_0020A7E0(void *p);
+int FTargetrecExpired__FP9TARGETREC(void *p);
 // name: SafeHouse port (JOBPURSUE::FLost)
-int FLost__9JOBPURSUE(struct S *p) { int f; if (p->n40) f = 0; else if (p->pt->n3D4) f = 0; else f = func_0020A7E0(p->pt->p3CC); return f; }
+int FLost__9JOBPURSUE(struct S *p) { int f; if (p->n40) f = 0; else if (p->pt->n3D4) f = 0; else f = FTargetrecExpired__FP9TARGETREC(p->pt->p3CC); return f; }

@@ -74,9 +74,9 @@ float GSmooth(float, float, float, SMP *, float *) asm("GSmooth__FfffP3SMPPf");
 void RecalcBlend(CLIP *) asm("RecalcBlend__FP6ASEGBL");
 void EvalCrv(void *, float, qword *, qword *) asm("EvalCrv__FP3CRVfP6VECTORT2");
 void UpdateReach(void *) asm("UpdateReach__FP5REACH");
-void func_002046B0(ACTOR *, qword);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(ACTOR *, qword);
 void SetStepPhysHeading(ACTOR *, float) asm("SetStepPhysHeading__FP3ALOf");
-void func_001441E8(ACTOR *, float);
+void DrainActorPower__FP5ACTORf(ACTOR *, float);
 qword SetVectorCylind(float, float, float) asm("SetVectorCylind__Ffff");
 M3 BuildRotateVectorsMatrix(qword, qword) asm("BuildRotateVectorsMatrix__FP7MATRIX3G9VU_VECTORT1");
 M3 BuildRotateMatrixAxis(qword, float) asm("BuildRotateMatrixAxis__FP7MATRIX3fG9VU_VECTOR");
@@ -401,13 +401,13 @@ extern "C" void UpdateJumpInput__FP4JUMP(CONTEXT *p)
             target.q = PosOfLo(p->source);
         if (p->actor != D_002E1E40)
             UpdateReach((char *)p->actor + 0x900);
-        func_002046B0(p->actor, QwSub(target.q, pos.q));
+        SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p->actor, QwSub(target.q, pos.q));
         heading = p->actor->heading;
         break;
     }
     case 22: {
         M3 basis;
-        func_001441E8(p->actor, D_002BF878);
+        DrainActorPower__FP5ACTORf(p->actor, D_002BF878);
         {
             ACTOR *actor = p->actor;
             actor->velocity.q = SetVectorCylind(input->heading + 3.14159265f, input->amount * D_002BF87C, D_002BF880);

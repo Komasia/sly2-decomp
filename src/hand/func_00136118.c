@@ -7,7 +7,7 @@ struct P { char pad[0x150]; void *p150; char pad0[0x20C - 0x154]; float g20C; ch
 int FAsegaRetracted(void *pv) asm("FAsegaRetracted__FP5ASEGA");
 void SetBentleyHold__FP7BENTLEYi(struct P *p, int n);
 void LandCarry__FP2LOT0(struct O *po, int n);
-int func_00141EA8(struct P *p, int n);
+int GrfAbilityButton__FP5ACTORi(struct P *p, int n);
 int func_001C4728(void *pv, int n);
 void ReleaseBentleyCarried__FP7BENTLEY(struct P *p);
 void SetJumpKind__FP4JUMPiiP2LO(void *pv, int a, int b, int c);
@@ -29,7 +29,7 @@ void UpdateBentleyHold__FP7BENTLEY(struct P *p)
                 LandCarry__FP2LOT0(po, po->x1A0);
                 goto common;
             }
-            if (po->x158 == 4 || !func_001C4728(p->p150, func_00141EA8(p, p->pq->x0) | 0x10)) {
+            if (po->x158 == 4 || !func_001C4728(p->p150, GrfAbilityButton__FP5ACTORi(p, p->pq->x0) | 0x10)) {
                 ((void (*)(void *, int))po->vt[76].pfn)(VT_THIS(po, &po->vt[76]), 1);
             common:
                 ReleaseBentleyCarried__FP7BENTLEY(p);

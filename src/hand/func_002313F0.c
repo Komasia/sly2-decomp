@@ -1,5 +1,5 @@
 extern char g_sw[];
-void func_00147E88(void *, int);
+void QueueLoRoot__FP2SWP2LO(void *, int);
 typedef struct S {
     char pad[0x10];
     int x10;
@@ -20,5 +20,5 @@ void TouchLox__FP3LOX(S *p)
 {
     p->x54 = -1;
     if (p->x10 == 0 && p->f)
-        func_00147E88(g_sw, p->x14);
+        QueueLoRoot__FP2SWP2LO(g_sw, p->x14);
 }

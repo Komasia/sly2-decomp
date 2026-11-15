@@ -1,7 +1,7 @@
 #include "vtbl.h"
 struct S { int x0, x4, x8; VTENT *vt; void *x10; int x14; char pad[0x10]; unsigned long x28; };
 extern char D_003DD4BC[], g_sw[];
-int func_001A61A0(struct S *s);
+int FLoActive__FP2LO(struct S *s);
 void RemoveDlEntry__FP2DLPv(void *a, void *b);
 void DequeueLoRoot__FP2SWP2LO(void *a, int b);
 void func_001A5448(void *p, void **a, struct S ***b);
@@ -18,7 +18,7 @@ void RemoveLo(struct S *s)
     int n, i;
     if (s->x28 & 0x0100000000000000UL)
         return;
-    if (func_001A61A0(s)) {
+    if (FLoActive__FP2LO(s)) {
         e = &s->vt[0xB0 / 8];
         ((void (*)(void *))e->pfn)(VT_THIS(s, e));
         if (!s->x10)

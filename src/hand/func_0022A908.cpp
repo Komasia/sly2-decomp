@@ -50,7 +50,7 @@ extern CLQ D_002C44A0, D_002C44B0, D_002C44C0;
 extern LM D_002C44D0;
 extern "C" {
 void RenderSoSelf(WAYPT *pwaypt) asm("RenderSoSelf__FP2SOP2CMP2RO");
-int func_001DAEA8(int ipuk);
+int FPowerupOwned__Fi(int ipuk);
 int func_00163400(void *pcond);
 void PlaceMarker(WAYPT *pwaypt) asm("PlaceMarker__FP2LO");
 qword PosOfLo(LO *plo) asm("PosOfLo__FP2LO");
@@ -133,7 +133,7 @@ extern "C" void CollectMarkerDraws__FP2LO(WAYPT *pwaypt)
         break;
     case 2:
         if (g_sw.cUnk4764 < g_sw.cUnk4768 || g_sw.fUnk3B0C ||
-            (pwaypt->ipukReq != -1 && func_001DAEA8(pwaypt->ipukReq)) ||
+            (pwaypt->ipukReq != -1 && FPowerupOwned__Fi(pwaypt->ipukReq)) ||
             (pwaypt->pcond && !func_00163400(pwaypt->pcond)))
             uShow = uLabel = 0.0f;
         break;

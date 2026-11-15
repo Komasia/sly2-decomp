@@ -11,7 +11,7 @@ void *s1_memset(void *, int, int) asm("memset");
 void AppendDlEntry(void *, S *) asm("AppendDlEntry__FP2DLPv");
 void func_00256EE0(S *, int);
 int FSmaRetracted(S *) asm("FSmaRetracted__FP3SMA");
-int func_001F0438(P *, int);
+int IsmsFindSmRequired__FP2SM3OID(P *, int);
 void NotifySmaState(S *, int, int) asm("NotifySmaState__FP3SMAii");
 void ChooseSmaTransition(S *, int) asm("ChooseSmaTransition__FP3SMAi");
 }
@@ -43,7 +43,7 @@ extern "C" void PsmaApplySm__FP2SM3OIDiUiiPv(P *p, int a, int b, int c, int d, S
     ((void (*)(void *, int, int, int, int, int))ps->pvt->a3.pfn)(VT_THIS(ps, &ps->pvt->a3), 2, 0, 0, 0, 0);
     if (FSmaRetracted(ps)) return;
     if (b != -1) {
-        int v = func_001F0438(p, b);
+        int v = IsmsFindSmRequired__FP2SM3OID(p, b);
         ps->n34 = v;
         ps->n3C = v;
         NotifySmaState(ps, -1, v);

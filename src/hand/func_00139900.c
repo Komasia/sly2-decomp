@@ -11,12 +11,12 @@ struct CID1C {
     /* 0x3c */ char pad3c[0xe0 - 0x3c];
     /* 0xe0 */ struct EMITTER *pemitterPar;   /* field: SafeHouse port - the emitter it draws for */
 };
-void func_001333C0(struct CID1C *p, struct EMITTER *pemitter);
+void AddLoListener__FP2LOi(struct CID1C *p, struct EMITTER *pemitter);
 int FIsBasicDerivedFrom__FP5BASIC3CID(struct EMITTER *pbasic, int cid);
 
 void func_00139900(struct CID1C *p, struct EMITTER *pemitter)
 {
-    func_001333C0(p, pemitter);
+    AddLoListener__FP2LOi(p, pemitter);
     if (FIsBasicDerivedFrom__FP5BASIC3CID(pemitter, 0x1D) != 0) {
         p->pemitterPar = pemitter;
         p->sRadius = pemitter->sRadius;

@@ -7,7 +7,7 @@ struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; VTENT *vt; };
 struct RIPG { char pad[0xC]; VTENT *vt; char p1[0x15C - 0x10]; DL dl; };
 void AddRipRef(struct RIP *prip) asm("AddRipRef__FP3RIP");
 void ReleaseRip__FP3RIP(struct RIP *prip);
-int func_001A61A0(struct RIPG *p);
+int FLoActive__FP2LO(struct RIPG *p);
 int FIsDlEmpty__FP2DL(DL *pdl);
 void BounceRipgRips__FP4RIPG(struct RIPG *p);
 static inline void InitDli(DLI *pdli, DL *pdl)
@@ -35,7 +35,7 @@ void FUN_0019e420(struct RIPG *pripg)
         ((void (*)(void *))prip->vt[5].pfn)(VT_THIS(prip, &prip->vt[5]));
         ReleaseRip__FP3RIP(prip);
     }
-    if (!func_001A61A0(pripg) || FIsDlEmpty__FP2DL(&pripg->dl))
+    if (!FLoActive__FP2LO(pripg) || FIsDlEmpty__FP2DL(&pripg->dl))
         ((void (*)(void *))pripg->vt[9].pfn)(VT_THIS(pripg, &pripg->vt[9]));
     else
         BounceRipgRips__FP4RIPG(pripg);

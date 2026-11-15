@@ -16,12 +16,12 @@ struct O {
     unsigned char b2D;
 };
 extern char g_sw[];
-void func_00147E88(void *, void *);
+void QueueLoRoot__FP2SWP2LO(void *, void *);
 void func_001A6D28(struct O *p, int b)
 {
     struct O *q;
     if (p->psw->palo->f60)
-        func_00147E88(g_sw, p->psw);
+        QueueLoRoot__FP2SWP2LO(g_sw, p->psw);
     {
         VTENT *e = &p->vt[46];
         ((void (*)(void *, int))e->pfn)(VT_THIS(p, e), b);

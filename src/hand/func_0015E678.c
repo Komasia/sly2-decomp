@@ -25,7 +25,7 @@ typedef struct ST {
 extern void *D_003E139C;
 extern LO **func_0015E380(void *psw, int oid);
 extern ENT **func_0015E3C0(void *psw, int oid);
-extern void func_0015E3E8(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
+extern void MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
 // name: SafeHouse port (CFindObjects)
 int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx, void *pchList, int cMax, LO **aplo)
 {
@@ -62,7 +62,7 @@ int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx
     func_0015E380(psw, oid);
     for (p = *func_0015E380(psw, oid); p; p = p->pNextHash) {
         if (p->oid == oid)
-            func_0015E3E8(psw, p, p->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
+            MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, p, p->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
     }
     func_0015E3C0(psw, oid);
     for (pe = *func_0015E3C0(psw, oid); pe; pe = pe->pNext) {
@@ -80,7 +80,7 @@ int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx
             if (i < cplo)
                 continue;
         }
-        func_0015E3E8(psw, pe->plo, pe->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
+        MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, pe->plo, pe->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
     }
     for (p = plo; p; p = p->pParent)
         p->ips = 0;

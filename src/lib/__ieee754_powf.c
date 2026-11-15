@@ -12,8 +12,7 @@ typedef union { float value; __uint32_t word; } ieee_float_shape_type;
 float func_00244EF8(float x);
 #define fabsf func_00244EF8
 float __ieee754_sqrtf(float x);
-float func_0024A0E8(float x, int n);
-#define scalbnf func_0024A0E8
+float scalbnf(float x, int n);
 
 static const float
 bp[] = {1.0, 1.5,},

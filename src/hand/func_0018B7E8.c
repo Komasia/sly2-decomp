@@ -34,9 +34,9 @@ void UpdateSlyHangInput__FP3SLY(struct P*);void UpdateJumpInput__FP4JUMP(void*);
 void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*,void*,int,float,float);void UpdatePickpocketPose__FP3SLY(struct P*);
 void SetGaitMix__FP4GAITf(void*,float);void FaceObject__FP5ACTORP2LO(struct P*,void*);
 qword SetVectorCylind__Ffff(float,float,float);qword ConvertVec__FP2LOT0G9VU_VECTOR(void*,void*,qword);
-int func_001DAEA8(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct MODEL*,float);
+int FPowerupOwned__Fi(int);void UpdateSlyJuggleVelocity__FP3SLY(struct P*);qword VelActorAnimRoot__FP5ACTORPvf(struct P*,struct MODEL*,float);
 void SetAsegaSpeed(struct MODEL*,float) asm("SetAsegaSpeed__FP5ASEGAf");void SetStepPhysHeading__FP3ALOf(struct P*,float);
-void func_001441E8(struct P*,float);void SetJtJts__FP2JT3JTS4JTBS(struct P*,int,int);
+void DrainActorPower__FP5ACTORf(struct P*,float);void SetJtJts__FP2JT3JTS4JTBS(struct P*,int,int);
 float GLimitAbs(float,float) asm("GLimitAbs__Fff");void RecalcBlend__FP6ASEGBL(void*);
 void UpdateDamage__FP5ACTOR(void*);void UpdateSafeGround__FP5ACTOR(struct P*);int FAsegaRetracted(void*) asm("FAsegaRetracted__FP5ASEGA");void func_001306A8(void**);
 static inline void*At(struct P*p,int offset){return(char*)p+offset;}
@@ -93,7 +93,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
   case 8:case 9:phase.direction=SetVectorCylind__Ffff(p->state->heading+3.14159265f,p->state->amount*D_002BF3C0,0.0f);p->velocity=ConvertVec__FP2LOT0G9VU_VECTOR(0,p,phase.direction);break;
  }break;
  case 16:
-  if(func_001DAEA8(0x1C))UpdateSlyJuggleVelocity__FP3SLY(p);
+  if(FPowerupOwned__Fi(0x1C))UpdateSlyJuggleVelocity__FP3SLY(p);
   else if(p->enabled){struct BINDING*b=PchnFindAseg__FP4ASEGP3ALOPvi(p->table,p,(void*)1,1);if(b){ReadBinding(b,p->model,&phase.direction);p->velocity=SecondNegative(&phase.direction,&scalar,-1.0f);}}
   break;
  case 19:p->velocity=NegativeModelNative(p,&phase.scalar);break;
@@ -101,7 +101,7 @@ void UpdateSlyInput__FP3SLY(struct P*p){
  case 17:{struct STATE*state;float zero;p->velocity=NegativeWithState(p,&phase.scalar,&state,&zero);if(zero<state->amount)SetStepPhysHeading__FP3ALOf(p,state->heading);break;}
  case 24:{
   register float one __asm__("$f20");register float weight __asm__("$f1");qword velocity;VTENT*entry;
-  func_001441E8(p,D_002BF3C4);
+  DrainActorPower__FP5ACTORf(p,D_002BF3C4);
   if(p->submode==12){float angle=RadNormalize__Ff(RadStepHeading__FP4STEP(p)-p->heading);if(__builtin_fabsf(angle)<D_002BF3C8)SetJtJts__FP2JT3JTS4JTBS(p,24,13);}
   else SetStepPhysHeading__FP3ALOf(p,p->state->heading);
   one=1.0f;entry=&p->vt[34];velocity=((qword(*)(void*))entry->pfn)(VT_THIS(p, entry));

@@ -12,7 +12,8 @@ struct LO {
 };
 typedef struct CH { void *p; struct CH *pNext; } CH;
 extern int func_001C9950(void *);
-void func_0015E3E8(void *pv, LO *plo, CH *pch, unsigned int grf, void *ctx, CH *pchList, int cMax, int *pc, LO **aplo, int *pips)
+// name: Sly 1 find.c MatchSwObject (the per-object match of CploFindSwObjects / CploFindSwObjectsByClass, just before them); SafeHouse animfind.h names 0x15E3E8
+void MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(void *pv, LO *plo, CH *pch, unsigned int grf, void *ctx, CH *pchList, int cMax, int *pc, LO **aplo, int *pips)
 {
     LO *p;
     if (!(grf & 0x400)) {

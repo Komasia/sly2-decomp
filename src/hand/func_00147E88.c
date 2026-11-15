@@ -11,7 +11,8 @@ struct SW {
 void DequeueLoRoot__FP2SWP2LO(struct SW *psw, struct LO *plo);
 void InsertDlEntryBefore__FP2DLPvT1(DL *pdl, void *pvBefore, void *pv);
 
-void func_00147E88(struct SW *psw, struct LO *ploRoot)
+// name: SafeHouse port (activate.h QueueLoRoot, orig 0x147E88)
+void QueueLoRoot__FP2SWP2LO(struct SW *psw, struct LO *ploRoot)
 {
     DequeueLoRoot__FP2SWP2LO(psw, ploRoot);
     InsertDlEntryBefore__FP2DLPvT1(&psw->dlQueued, psw->pvQueueBefore, ploRoot);

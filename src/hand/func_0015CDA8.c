@@ -10,7 +10,7 @@ void NProgress(CRef *pref, void *p, void *q);
 void Decref(CRef *pref) asm("Decref__4CRef");
 void func_002123C8(struct S *p);
 void SetEpMode__FP6EPMENUii(struct S *p, int a, int b);
-void func_00187E78(void *p);
+void ClearJoySteps__FP6JOYPS2(void *p);
 static inline float GFromP(void *pv)
 {
     CRef ref;
@@ -60,5 +60,5 @@ void StartEpMenu__FP6EPMENU(struct S *p)
         D_002BE270 = -1;
         SetEpMode__FP6EPMENUii(p, 8, 0);
     }
-    func_00187E78(g_joy);
+    ClearJoySteps__FP6JOYPS2(g_joy);
 }

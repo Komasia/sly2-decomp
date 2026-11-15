@@ -18,7 +18,7 @@ void EntryBestSafe__FP5ACTORPv(void *p, E *e);
 struct P *PloPlayerPo__FP2SW(struct G *g);
 qword PosSafeEntry__FP5ACTORPvf(struct P *p, E *e, float g);
 float TJumpTo__FG9VU_VECTORT0ffff(qword a, qword b, float c, float d, float e, float f);
-void func_002046B0(struct P *p, qword q);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct P *p, qword q);
 void CutCm(struct D *d) asm("CutCm__FP2CM");
 void SetJumpKind__FP4JUMPiiP2LO(void *p, int a, int b, int c);
 int FIsBasicDerivedFrom__FP5BASIC3CID(int a, int b);
@@ -40,7 +40,7 @@ void RecoverActorTo__FP5ACTORPv(struct P *p, E *q)
                 int save = p->x9e4;
                 ((void (*)(void *, qword))p->vt[29].pfn)(VT_THIS(p, &p->vt[29]), VSub(r, p->x240));
                 p->x9e4 = save;
-                func_002046B0(p, g_cm.x60);
+                SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p, g_cm.x60);
                 ((void (*)(void *, void *))p->vt[30].pfn)(VT_THIS(p, &p->vt[30]), p->x1b0);
                 CutCm(&g_cm);
                 SetJumpKind__FP4JUMPiiP2LO(p->x2c0, 0xB, 0, 0);

@@ -38,7 +38,7 @@ CRef func_001D8A38(const char *, ...);
 int IsmsFindSmOptional(void *, int) asm("IsmsFindSmOptional__FP2SM3OID");
 int OidFromSmIsms(void *, int) asm("OidFromSmIsms__FP2SMi");
 void func_001D77D0(OBJ *, int);
-void func_00187E78(void *pjoy);   /* clear the pad's pressed buttons */
+void ClearJoySteps__FP6JOYPS2(void *pjoy);   /* clear the pad's pressed buttons */
 }
 #define VCALL(o, n) ((void (*)(void *))(o)->lo.pvt[n].pfn)(VT_THIS((o), &(o)->lo.pvt[n]))
 #define VCALL5(o, n, a1, a2, a3, a4, a5) ((void (*)(void *, int, int, int, int, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a1, a2, a3, a4, a5)
@@ -83,7 +83,7 @@ extern "C" void SetSafeHouseState__FP2SWi(OBJ *p, int nState)
         }
         ReplaceSmaHandle(p->psm, p, idx, 0, p->psma);
         func_001D77D0(p, 0);
-        func_00187E78((g_grfjoyt & 2) ? g_joy : D_002E0D00);
+        ClearJoySteps__FP6JOYPS2((g_grfjoyt & 2) ? g_joy : D_002E0D00);
         VCALL5(p, 3, 5, 0, 0, 0, 0);
     }
 }

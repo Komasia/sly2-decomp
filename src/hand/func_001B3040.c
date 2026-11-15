@@ -5,7 +5,7 @@ struct S { int x0; int x4; char x8[0x28]; char x30[0x20]; char x50[0x50]; int xA
 void snd_PauseAllSoundsInGroup(unsigned int m);
 void StopDialog__FP8SOUNDMGR(void *p);
 void func_00227788(void *p);
-void func_00232408(void);
+void snd_StopAllSounds(void);
 int snd_FlushSoundCommands(void);
 void snd_StreamSafeCheckCDIdle(int n);
 void snd_StreamSafeCdSync(int n);
@@ -17,7 +17,7 @@ void func_001B3040(struct S *p)
     snd_PauseAllSoundsInGroup(0xFFFFFFFF);
     StopDialog__FP8SOUNDMGR(D_003DD040);
     func_00227788(D_004435F0);
-    func_00232408();
+    snd_StopAllSounds();
     while (snd_FlushSoundCommands()) ;
     snd_StreamSafeCheckCDIdle(1);
     snd_StreamSafeCdSync(0);

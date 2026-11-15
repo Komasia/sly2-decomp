@@ -7,8 +7,8 @@ extern char g_sw[];
 void func_001A5448(struct S *p, void **a, struct S ***b);
 void RemoveDlEntry__FP2DLPv(void *a, struct S *s);
 void InsertDlEntryBefore__FP2DLPvT1(void *a, struct S *b, struct S *s);
-void func_00147E88(void *g, int n);
-int func_001A61A0(struct S *s);
+void QueueLoRoot__FP2SWP2LO(void *g, int n);
+int FLoActive__FP2LO(struct S *s);
 void CheckLoRoot__FP2SWP2LO(void *g, struct S *s);
 // name: SafeHouse port (LO vt slot 8, AddLo 0x1A5478) + Sly 1 AddLo
 void AddLo(struct S *s) asm("AddLo__FP2LO");
@@ -38,7 +38,7 @@ void AddLo(struct S *s)
     ((void (*)(void *))e->pfn)(VT_THIS(s, e));
 skip:
     if (!s->x10 && s->x28.b.st != 2)
-        func_00147E88(g_sw, s->x14);
+        QueueLoRoot__FP2SWP2LO(g_sw, s->x14);
     e = &s->vt[0xE0 / 8];
     n = ((int (*)(void *, struct S ***))e->pfn)(VT_THIS(s, e), &list);
     for (i = 0; i < n; i++) {
@@ -46,7 +46,7 @@ skip:
         VTENT *g = &p->vt[0x40 / 8];
         ((void (*)(void *))g->pfn)(VT_THIS(p, g));
     }
-    if (func_001A61A0(s)) {
+    if (FLoActive__FP2LO(s)) {
         e = &s->vt[0xB8 / 8];
         ((void (*)(void *))e->pfn)(VT_THIS(s, e));
     } else if (!s->x10) {

@@ -12,7 +12,7 @@ extern float D_002C41DC;
 #include "clock.h"
 void Activate__5CPLCYP2LOPv(struct S *p, void *pj, struct T *pt);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pj, int k);
-int func_0015E988(int a, int b);
+int FIsCidDerivedFrom__F3CIDT0(int a, int b);
 void InitCmeTilt__FP7ZONECME(void *pe);
 void GetCmCpdefi__FP2CMP2SOP6CPDEFI(struct G *pg, void *pj, void *pq);
 void PosCmeFocus__FP7ZONECMEP6CPDEFIP6ZONECMPv(void *pe, void *pa, qword *pb, struct T *pt);
@@ -39,7 +39,7 @@ void Activate__8CPFOLLOWP2LOPv(struct S *p, void *pj, struct T *pt)
         int i;
         for (i = 1; i < p->pt->x110; i++) {
             struct E *peT = &p->pt->ae[i];
-            if (FIsBasicDerivedFrom__FP5BASIC3CID(pj, peT->x0) && func_0015E988(peT->x0, pe->x0))
+            if (FIsBasicDerivedFrom__FP5BASIC3CID(pj, peT->x0) && FIsCidDerivedFrom__F3CIDT0(peT->x0, pe->x0))
                 pe = peT;
         }
         p->pe = pe;

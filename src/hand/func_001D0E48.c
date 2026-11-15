@@ -6,13 +6,13 @@ struct S {
     char pad3[0xC4 - 0xB0]; float fC4;
 };
 extern qword D_002C1F40;
-extern void func_001CE920(struct S *);
+extern void InitRip__FP3RIPG9VU_VECTORfP2SO(struct S *);
 
 void func_001D0E48(struct S *p)
 {
     union U u;
     qword k, r;
-    func_001CE920(p);
+    InitRip__FP3RIPG9VU_VECTORfP2SO(p);
     p->f20 = 0.33f;
     __asm__("qmtc2.ni %1, %0" : "=j"(k) : "r"(-0.2f));
     u.q = k;

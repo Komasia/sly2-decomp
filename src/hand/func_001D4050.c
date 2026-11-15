@@ -30,7 +30,7 @@ int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
 void PostDeferredCall__FPvUi15PFNDEFERREDCALLi(void *psw, void *pvReceiver, DEFERREDCALL pfn, void *pvArg);
 static inline float GetZ(qword q) { float f; __asm__("pextuw %0, $0, %1" : "=r"(f) : "r"(q)); return f; }
 
-void func_001D4050(void *palo, XP *pxp, int ixpd)
+void VehicleContactMaterial__FP3ALOP2XPi(void *palo, XP *pxp, int ixpd)
 {
     void *paloOther;
     qword normal;

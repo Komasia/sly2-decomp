@@ -12,9 +12,9 @@ void StartInteract__FP5ACTORii3JTL(void *pv, int n, void *pv2, int m);
 struct O *PloAcquireProxyObject__FP2SWi(void *pv, int n);
 int func_00224610(struct O *po);
 void SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(struct P *p, struct E *pe, struct O *po);
-void func_00141EA8(struct P *p, int k);
+void GrfAbilityButton__FP5ACTORi(struct P *p, int k);
 void SetBentleyState__FP7BENTLEYi(struct P *p, int n);
-void func_00141CD0(struct P *p, int k);
+void SpendActorPower__FP5ACTORi(struct P *p, int k);
 void func_00141D38(struct P *p, int k);
 // name: SafeHouse port (StartBentleyAbility)
 void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
@@ -43,17 +43,17 @@ void StartBentleyAbility__FP5ACTORi(struct P *p, int k)
                 SetAbilityCarried__FP7BENTLEYP7ABILITYP2LO(p, pe, po);
             }
             p->po11C0 = po;
-            func_00141EA8(p, k);
+            GrfAbilityButton__FP5ACTORi(p, k);
             SetBentleyState__FP7BENTLEYi(p, 0xC);
             SetJtThrowState__FP7JTTHROWi(p->a11B0, 4);
             return;
         }
-        func_00141CD0(p, k);
+        SpendActorPower__FP5ACTORi(p, k);
         SetBentleyState__FP7BENTLEYi(p, 6);
         return;
     }
     case 10:
-        func_00141CD0(p, k);
+        SpendActorPower__FP5ACTORi(p, k);
         SetBentleyState__FP7BENTLEYi(p, 0xE);
         return;
     case 8:

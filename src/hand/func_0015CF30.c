@@ -20,9 +20,9 @@ extern int D_002BE2A8[];
 void func_00212C50(struct X *p);
 int func_001D9880(void *p);
 int IdPartCur__FP6EPMENU(struct X *p);
-int func_001880D8(void *p);
+int NStepUpDown__FP6JOYPS2(void *p);
 int GrfbtnTakePressedJoy(void *p, int n) asm("GrfbtnTakePressedJoy__FP6JOYPS2Ui");
-int func_00187E88(void *p);
+int NStepLeftRight__FP6JOYPS2(void *p);
 void SetEpMode__FP6EPMENUii(struct X *p, int a, int b);
 void NProgress(void *pref, void *p, void *q);
 void Decref(void *pref) asm("Decref__4CRef");
@@ -59,7 +59,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
     case -1:
         return;
     case 2: {
-        float g = func_001880D8(g_joy);
+        float g = NStepUpDown__FP6JOYPS2(g_joy);
         if (g < 0.0f && p->n110 <= 0) {
             PlaySound(0x36);
             return;
@@ -141,7 +141,7 @@ void UpdateEpMenu__FP6EPMENU(struct X *p)
                 SetEpMode__FP6EPMENUii(p, 9, -1);
                 return;
             }
-            g = func_00187E88(g_joy);
+            g = NStepLeftRight__FP6JOYPS2(g_joy);
             if (g < 0.0f && p->n128 <= 0) {
                 PlaySound(0x36);
                 return;

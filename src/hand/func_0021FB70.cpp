@@ -54,7 +54,7 @@ extern "C" {
  qword ConvertPos(LO *,LO *,qword) asm("ConvertPos__FP2LOT0G9VU_VECTOR");         // ConvertLoPos
  qword PosOfLo(LO *) asm("PosOfLo__FP2LO");                    // PosLoWorld
  qword VecBallisticVelocity(qword,qword,qword,float) asm("VecBallisticVelocity__FfG9VU_VECTORN21"); // CalculateLaunchVelocity
- int func_001DAEA8(int);                       // FPowerUpAcquired
+ int FPowerupOwned__Fi(int);                       // FPowerUpAcquired
  void func_0020FAA0(SW *,qword,qword,int (*)(void *,SO *),void *,int *,SO ***); // FindSwObjectsInBox
  int ArcEntry(void *,SO *) asm("ArcEntry__FP3OXAP3SOE");
  SO *PsoHitTestLineObjects(int,qword,qword,int,SO **,HIT *) asm("PsoHitTestLineObjects__FiP6VECTORT1iPP2SOP3LSG");
@@ -112,7 +112,7 @@ extern "C" void UpdateJtThrowArc__FP7JTTHROWi(JTTHROW *pjtthrow,int fUpdateBlend
  float tApex=GMax(-GZOfQw(vLaunch)/GZOfQw(vAccel),0.0f);
  qword posApex=PosOnArc(posLaunch,vAccel,vLaunch,tApex,0.5f);
  float t;
- if(func_001DAEA8(0x24))t=D_002C40E4*pjtthrow->tPredict;
+ if(FPowerupOwned__Fi(0x24))t=D_002C40E4*pjtthrow->tPredict;
  else t=pjtthrow->tPredict;
  qword posEnd=PosOnArc(posLaunch,vAccel,vLaunch,t,0.5f);
  STACKSCOPE stackscope;

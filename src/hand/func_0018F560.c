@@ -4,7 +4,7 @@ struct S { char pad[0x1A8]; float g; char p1[0x1714]; int n; char p2[4]; int st;
 extern char D_002BF4C0[];
 void ChooseAttackTarget__FP5ACTORfUifP6VECTORPvPG9VU_VECTORf(struct S *p, int a, void *pv, int *pn, VEC *pq, float g, float h, float k);
 void RecalcBlend__FP6ASEGBL(void *p);
-void func_002046B0(struct S *p, qword q);
+void SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(struct S *p, qword q);
 void TurnActorNow__FP5ACTOR(struct S *p);
 static __inline__ float GClamp(float g, float lo, float hi)
 {
@@ -27,7 +27,7 @@ void func_0018F560(struct S *p, VEC *pvOut, void *pv)
     RecalcBlend__FP6ASEGBL(pv);
     p->n = n;
     if (n && p->st == 0) {
-        func_002046B0(p, *(qword *)&v);
+        SetStepPhysHeadingToward__FP3ALOG9VU_VECTOR(p, *(qword *)&v);
         TurnActorNow__FP5ACTOR(p);
     }
 }

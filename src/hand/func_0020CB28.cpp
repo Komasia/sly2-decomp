@@ -11,7 +11,7 @@ extern const float D_002A8904;
 extern float D_002C3DE4;
 extern "C" struct TAG *PeventLaunch(struct ASEG*,int) asm("PeventLaunch__FP5KINDEi");
 void ApplyAsegCur(struct ASEG*,struct ALO*,float,float,int,struct ASEGA**);
-extern "C" void func_001333C0(struct ASEGA*,int);
+extern "C" void AddLoListener__FP2LOi(struct ASEGA*,int);
 static inline qword Dot(qword a,qword b){qword r,one;
 __asm__("vmul.xyz %0,%2,%3\n\tvaddw.x %1,$vf0,$vf0w\n\tvadday.x $ACC,%0,%0y\n\tvmaddz.x %0,%1,%0z":"=&j"(r),"=&j"(one):"j"(a),"j"(b));return r;}
 static inline qword DotReuse(qword a,qword b){qword one;
@@ -58,7 +58,7 @@ extern "C" void SelectK3__FP6K3PLAYG9VU_VECTOR(struct P*p,qword v)
    tag=PeventLaunch(animation,id);
    if(tag)time=tag->value;
    ApplyAsegCur(best->animation,p->root,time,1.0f,p->flags,&p->active);
-   func_001333C0(p->active,(int)p);
+   AddLoListener__FP2LOi(p->active,(int)p);
    p->best=best;
  }
  }
