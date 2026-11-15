@@ -1,3 +1,4 @@
+/* FitRecipFunction: fits du + ru / x through (x0, y0) and (x1, y1); the constant y0 when x0 ~= x1 or either is ~0. */
 int FFloatsNear(float a, float b, float eps) __asm__("func_0011D4D0");
 void FitRecipFunction(float x0, float y0, float x1, float y1, float *pdu, float *pru)
 {

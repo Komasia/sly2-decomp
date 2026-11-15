@@ -1,45 +1,48 @@
+/* FWaterSurfaceUnder (0x1A2788): the water's surface at the actor: collects the water's entries (CsoeCollect with the
+ * filter 0x229D60) on the stack and clips the vertical segment from the actor's position + sWaterTop (+0x109C) down to
+ * + sWaterBottom (+0x1098) against them; the first hit point is the surface (*ppos). SafeHouse damage.cpp. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 struct FRAME { int a[4]; FRAME(); ~FRAME(); };
-struct MSG { int cb; int nKind; };
-struct HIT { qword pos; char pad[0x5F0]; };
-struct O { char pad[0x1098]; float x1098; float x109C; };
-struct L { char pad[0xE0]; int xE0; };
+struct STACKREQ { int cb; int nKind; };  /* a stack allocation request */
+struct LSG { qword pos; char pad[0x5F0]; };  /* the clipped segments (16 entries) */
+struct O { char pad[0x1098]; float x1098; float x109C; };  /* ACTOR: +0x1098 / +0x109C the segment's ends below / above */
+struct ALO { char pad[0xE0]; int csoe; };  /* the water: +0xE0 its entry count */
 extern "C" {
-extern qword D_002A2DD0;
+extern qword g_vecZero asm("D_002A2DD0");
 qword PosOfLo(void *p) asm("PosOfLo__FP2LO");
-void *PvAllocStackImpl(MSG *pmsg) asm("PvAllocStackImpl__Fi");
-int CsoeCollect(L *pl, void *pfn, int n, void *pv) asm("CsoeCollect__FP3ALOPvN21");
-int CClipSegmentEntries(qword a, qword b, int n, void *pv, int c, HIT *phit) asm("CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3");
+void *PvAllocStackImpl(STACKREQ *preq) asm("PvAllocStackImpl__Fi");
+int CsoeCollect(ALO *palo, void *pfnFilter, int n, void *apsoe) asm("CsoeCollect__FP3ALOPvN21");
+int CClipSegmentEntries(qword posA, qword posB, int csoe, void *apsoe, int clsgMax, LSG *alsg) asm("CClipSegmentEntries__FG9VU_VECTORT0iP3LSGiT3");
 void func_00229D60(void);
-int FWaterSurfaceUnder(O *po, L *pl, qword *pv) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
+int FWaterSurfaceUnder(O *pactor, ALO *pwater, qword *ppos) asm("FWaterSurfaceUnder__FP5ACTORP3ALOP6VECTOR");
 }
 // name: SafeHouse port (FWaterSurfaceUnder)
-int FWaterSurfaceUnder(O *po, L *pl, qword *pv)
+int FWaterSurfaceUnder(O *pactor, ALO *pwater, qword *ppos)
 {
-    U off, b, a;
-    HIT hit;
-    off.q = D_002A2DD0;
+    U off, posBottom, posTop;
+    LSG alsg;
+    off.q = g_vecZero;
     {
-        qword p = PosOfLo(po);
+        qword p = PosOfLo(pactor);
         qword d;
         __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(p), "j"(off.q));
-        a.q = d;
-        b.q = d;
+        posTop.q = d;
+        posBottom.q = d;
     }
-    a.f[2] += po->x109C;
-    b.f[2] += po->x1098;
+    posTop.f[2] += pactor->x109C;
+    posBottom.f[2] += pactor->x1098;
     FRAME frame;
-    MSG msg;
-    MSG *pmsg = &msg;
-    pmsg->cb = pl->xE0 * 4;
-    pmsg->nKind = 0x10;
-    void *pbuf = PvAllocStackImpl(pmsg);
-    int n = CsoeCollect(pl, (void *)func_00229D60, 0, pbuf);
-    if (!CClipSegmentEntries(a.q, b.q, n, pbuf, 0x10, &hit))
+    STACKREQ req;
+    STACKREQ *preq = &req;
+    preq->cb = pwater->csoe * 4;
+    preq->nKind = 0x10;
+    void *apsoe = PvAllocStackImpl(preq);
+    int csoe = CsoeCollect(pwater, (void *)func_00229D60, 0, apsoe);
+    if (!CClipSegmentEntries(posTop.q, posBottom.q, csoe, apsoe, 0x10, &alsg))
         return 0;
     qword r;
-    __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(hit.pos), "j"(off.q));
-    *pv = r;
+    __asm__("vadd.xyzw %0, %1, %2" : "=j"(r) : "j"(alsg.pos), "j"(off.q));
+    *ppos = r;
     return 1;
 }

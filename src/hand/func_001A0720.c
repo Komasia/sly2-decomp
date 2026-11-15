@@ -1,4 +1,8 @@
-// Update directional acceleration and side state.
+/* MoveAroundTarget (0x1A0720): Sly's walk around his target (ACTOR +0x10DC; with +0x10E4 == 3 the guard's +0x494): faces
+ * it, takes the stick (rad, u) in the heading's frame; past gSideThreshold (0.3) sideways it picks the side's root
+ * blend entries (1: 1 / 3 / 5, 0: 0 / 2 / 4), a change of side first removes the sideways velocity; the velocity
+ * (+0x190, "acceleration" in the local fragment) is the blend of the entries' root velocities at the ASEGA's speed,
+ * with no z. SafeHouse sly.cpp. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union{qword q;float f[4];int i[4];}U;
@@ -6,8 +10,9 @@ struct M4{qword r[4];};
 struct O{char pad[0x494];struct O*anchor;};
 struct ANIM{char pad[0x40];int ratebits;};
 struct P{char pad[0xC];VTENT*vt;char pad10[0x180];U acceleration;char pad1A0[8];float heading;char pad1AC[0xE84];struct ANIM*anim;int pad1034;int side;char pad103C[0xA0];struct O*target;int pad10E0;int targetMode;};
-struct AXES{char pad[0x10];qword a;char pad20[0x10];qword b;char pad40[0x10];qword c;char pad60[0x10];qword d;char pad80[0x10];qword e;char padA0[0x10];qword f;};
-extern float D_002BF9F0;
+/* the root blend: 8 entries of 0x20 bytes {weight, ASEG *, pad, root velocity}; vel0..vel5 are entries 0..5' velocities */
+struct ROOTBLEND{char pad[0x10];qword vel0;char pad20[0x10];qword vel1;char pad40[0x10];qword vel2;char pad60[0x10];qword vel3;char pad80[0x10];qword vel4;char padA0[0x10];qword vel5;};
+extern float gSideThreshold __asm__("D_002BF9F0"); /* 0.3: the stick's sideways dead zone */
 void FaceObject__FP5ACTORP2LO(struct P*,struct O*);
 float RadNormalize__Ff(float);
 qword SetVectorCylind__Ffff(float,float,float);
@@ -34,60 +39,60 @@ static inline void RemoveSide(struct P*p,U*result,U*old){
  SetVel(p,value);
 }
 static inline qword PureBits(int bits){qword q;__asm__("qmtc2.ni %1,%0":"=j"(q):"r"(bits));return q;}
-static inline void BlendPositive(struct P*p,struct AXES*axes,float xin,const U*input,U*out){
+static inline void BlendPositive(struct P*p,struct ROOTBLEND*prb,float xin,const U*input,U*out){
  float x=xin;
  register float y __asm__("$f3"),zero __asm__("$f0"),left __asm__("$f2"),right __asm__("$f0");
  register qword a __asm__("vf2"),b __asm__("vf1"),c __asm__("vf4");
  register qword ka __asm__("vf3"),kb __asm__("vf5"),kc __asm__("vf6");
  register int ybits __asm__("$2"),leftbits __asm__("$2");
  __asm__("lwc1 %1,%3\n\tmtc1 $%2,%0":"=f"(zero),"=f"(y):"J"(0),"m"(input->f[1]));
- __asm__("mfc1 %0,%3\n\tmin.s %1,%4,%5\n\tlqc2 %2,%6":"=&r"(ybits),"=f"(left),"=j"(c):"f"(y),"f"(zero),"f"(x),"m"(axes->f));
+ __asm__("mfc1 %0,%3\n\tmin.s %1,%4,%5\n\tlqc2 %2,%6":"=&r"(ybits),"=f"(left),"=j"(c):"f"(y),"f"(zero),"f"(x),"m"(prb->vel5));
  __asm__("qmtc2.ni %4,%0\n\tneg.s %1,%1\n\tmax.s %2,%5,%6\n\tsqc2 %0,%3":"=j"(ka),"+&f"(left),"=f"(right),"=m"(out->q):"r"(ybits),"f"(zero),"f"(x));
  __asm__("qmtc2.ni %1,%0":"=j"(kb):"r"(right));
- __asm__("mfc1 %0,%4\n\tlqc2 %1,%5\n\tqmtc2.ni %0,%2\n\tlqc2 %3,%6":"=&r"(leftbits),"=j"(a),"=j"(kc),"=j"(b):"f"(left),"m"(axes->b),"m"(axes->d));
+ __asm__("mfc1 %0,%4\n\tlqc2 %1,%5\n\tqmtc2.ni %0,%2\n\tlqc2 %3,%6":"=&r"(leftbits),"=j"(a),"=j"(kc),"=j"(b):"f"(left),"m"(prb->vel1),"m"(prb->vel3));
  out->q=kb;
  __asm__("vmulax.xyzw ACC,%1,%4x\n\tvmaddax.xyzw ACC,%2,%5x\n\tvmaddx.xyzw %0,%3,%6x":"=j"(ka):"j"(a),"j"(b),"j"(c),"0"(ka),"j"(kb),"j"(kc));
  p->acceleration.q=ka;out->q=kc;
 }
-static inline void BlendNegative(struct P*p,struct AXES*axes,float xin,const U*input,U*out){
+static inline void BlendNegative(struct P*p,struct ROOTBLEND*prb,float xin,const U*input,U*out){
  float x=xin;
  register float y __asm__("$f2"),zero __asm__("$f0"),left __asm__("$f3"),right __asm__("$f0"),negativeY __asm__("$f2");
  register qword a __asm__("vf3"),b __asm__("vf1"),c __asm__("vf4");
  register qword ka __asm__("vf2"),kb __asm__("vf6"),kc __asm__("vf5");
  __asm__("mtc1 $%2,%0\n\tlwc1 %1,%3":"=f"(zero),"=f"(y):"J"(0),"m"(input->f[1]));
- __asm__("min.s %0,%2,%3\n\tlqc2 %1,%4":"=f"(left),"=j"(c):"f"(zero),"f"(x),"m"(axes->e));
+ __asm__("min.s %0,%2,%3\n\tlqc2 %1,%4":"=f"(left),"=j"(c):"f"(zero),"f"(x),"m"(prb->vel4));
  __asm__("max.s %0,%2,%3\n\tneg.s %1,%4":"=&f"(right),"=f"(negativeY):"0"(zero),"f"(x),"f"(y));
  __asm__("qmtc2.ni %2,%0\n\tneg.s %1,%1":"=j"(kb),"+f"(left):"r"(right));
  __asm__("qmtc2.ni %2,%0\n\tsqc2 %0,%1":"=j"(ka),"=m"(out->q):"r"(negativeY));
- __asm__("qmtc2.ni %3,%0\n\tlqc2 %1,%4\n\tlqc2 %2,%5":"=j"(kc),"=j"(a),"=j"(b):"r"(left),"m"(axes->a),"m"(axes->c));
+ __asm__("qmtc2.ni %3,%0\n\tlqc2 %1,%4\n\tlqc2 %2,%5":"=j"(kc),"=j"(a),"=j"(b):"r"(left),"m"(prb->vel0),"m"(prb->vel2));
  out->q=kb;
  __asm__("vmulax.xyzw ACC,%1,%4x\n\tvmaddax.xyzw ACC,%2,%5x\n\tvmaddx.xyzw %0,%3,%6x":"=j"(ka):"j"(a),"j"(b),"j"(c),"0"(ka),"j"(kb),"j"(kc));
  __asm__("sqc2 %2,%0\n\tsqc2 %3,%1":"=m"(p->acceleration.q),"=m"(out->q):"j"(ka),"j"(kc));
 }
 // name: SafeHouse port (MoveAroundTarget)
-void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*p,struct AXES*axes,int enabled,float heading,float magnitude){
+void MoveAroundTarget__FP3SLYP9ROOTBLENDiff(struct P*p,struct ROOTBLEND*prb,int fOn,float rad,float u){
  U input,scalar,old;
  register int side __asm__("$3");
  float zero;
  struct O*target;
- if(!enabled)return;
+ if(!fOn)return;
  target=p->target;
  if(target){if(p->targetMode==3)target=target->anchor;
  FaceObject__FP5ACTORP2LO(p,target);}
  zero=0.0f;
- input.q=SetVectorCylind__Ffff(RadNormalize__Ff(heading-p->heading),magnitude,zero);
- if(D_002BF9F0<input.f[1]){
+ input.q=SetVectorCylind__Ffff(RadNormalize__Ff(rad-p->heading),u,zero);
+ if(gSideThreshold<input.f[1]){
   if(p->side==0){input.f[1]=zero;RemoveSide(p,&scalar,&old);}
   side=1;
- }else if(input.f[1]<-D_002BF9F0){
+ }else if(input.f[1]<-gSideThreshold){
   if(p->side==1){input.f[1]=zero;RemoveSide(p,&scalar,&old);}
   side=0;
  }else{side=p->side;if(side==-1)side=0;}
  {register float x __asm__("$f1")=input.f[0];
  if(side==1){
-  BlendPositive(p,axes,x,&input,&scalar);
+  BlendPositive(p,prb,x,&input,&scalar);
  }else{
-  BlendNegative(p,axes,x,&input,&scalar);
+  BlendNegative(p,prb,x,&input,&scalar);
  }
  }
  p->acceleration.i[2]=0;
@@ -124,14 +129,14 @@ typedef char layout_P_anim[(FIELD_OFFSET(struct P,anim)==0x1030)?1:-1];
 typedef char layout_P_side[(FIELD_OFFSET(struct P,side)==0x1038)?1:-1];
 typedef char layout_P_target[(FIELD_OFFSET(struct P,target)==0x10DC)?1:-1];
 typedef char layout_P_targetMode[(FIELD_OFFSET(struct P,targetMode)==0x10E4)?1:-1];
-typedef char layout_AXES_size[(sizeof(struct AXES)==0xC0)?1:-1];
-typedef char layout_AXES_alignment[(__alignof__(struct AXES)==16)?1:-1];
-typedef char layout_AXES_a[(FIELD_OFFSET(struct AXES,a)==0x10)?1:-1];
-typedef char layout_AXES_b[(FIELD_OFFSET(struct AXES,b)==0x30)?1:-1];
-typedef char layout_AXES_c[(FIELD_OFFSET(struct AXES,c)==0x50)?1:-1];
-typedef char layout_AXES_d[(FIELD_OFFSET(struct AXES,d)==0x70)?1:-1];
-typedef char layout_AXES_e[(FIELD_OFFSET(struct AXES,e)==0x90)?1:-1];
-typedef char layout_AXES_f[(FIELD_OFFSET(struct AXES,f)==0xB0)?1:-1];
+typedef char layout_ROOTBLEND_size[(sizeof(struct ROOTBLEND)==0xC0)?1:-1];
+typedef char layout_ROOTBLEND_alignment[(__alignof__(struct ROOTBLEND)==16)?1:-1];
+typedef char layout_ROOTBLEND_vel0[(FIELD_OFFSET(struct ROOTBLEND,vel0)==0x10)?1:-1];
+typedef char layout_ROOTBLEND_vel1[(FIELD_OFFSET(struct ROOTBLEND,vel1)==0x30)?1:-1];
+typedef char layout_ROOTBLEND_vel2[(FIELD_OFFSET(struct ROOTBLEND,vel2)==0x50)?1:-1];
+typedef char layout_ROOTBLEND_vel3[(FIELD_OFFSET(struct ROOTBLEND,vel3)==0x70)?1:-1];
+typedef char layout_ROOTBLEND_vel4[(FIELD_OFFSET(struct ROOTBLEND,vel4)==0x90)?1:-1];
+typedef char layout_ROOTBLEND_vel5[(FIELD_OFFSET(struct ROOTBLEND,vel5)==0xB0)?1:-1];
 typedef char layout_int_size[(sizeof(int)==4)?1:-1];
 typedef char layout_float_size[(sizeof(float)==4)?1:-1];
 typedef char layout_pointer_size[(sizeof(void*)==4)?1:-1];

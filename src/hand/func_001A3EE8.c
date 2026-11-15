@@ -1,16 +1,19 @@
-struct S { char pad[0x4154]; void *a[256]; int x4554; int x4558, x455c; int x4560; void *x4564; int x4568, x456c; char x4570[0x20]; };
+/* func_001A3EE8 (0x1A3EE8): rebuilds the world's light set if marked (+0x4554): clears the pending bitmap (+0x4570)
+ * and every leaf's light mask (+0x4564, +0x4560 leaves of 32 bytes), then re-inserts every slotted light
+ * (func_001A3D00). */
+struct LIGHTSET { char pad[0x4154]; void *aplight[256]; int fRebuild; int x4558; void *pnodeRoot; int cleaf; void *aleaf; int x4568, x456c; char grfPending[0x20]; };
 void s1_memset(void *p, int c, int n) asm("memset");
-void func_001A3D00(struct S *s, void *p);
-void func_001A3EE8(struct S *s)
+void func_001A3D00(struct LIGHTSET *pset, void *plight);
+void func_001A3EE8(struct LIGHTSET *pset)
 {
-    unsigned int i;
-    if (s->x4554) {
-        s->x4554 = 0;
-        s1_memset(s->x4570, 0, 0x20);
-        s1_memset(s->x4564, 0, s->x4560 << 5);
-        for (i = 0; i < 0x100; i++) {
-            if (s->a[i])
-                func_001A3D00(s, s->a[i]);
+    unsigned int islot;
+    if (pset->fRebuild) {
+        pset->fRebuild = 0;
+        s1_memset(pset->grfPending, 0, 0x20);
+        s1_memset(pset->aleaf, 0, pset->cleaf << 5);
+        for (islot = 0; islot < 0x100; islot++) {
+            if (pset->aplight[islot])
+                func_001A3D00(pset, pset->aplight[islot]);
         }
     }
 }

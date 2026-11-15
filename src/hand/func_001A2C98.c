@@ -1,3 +1,4 @@
-struct S { int a; int b[3]; };
-void FRegionLanguages__FPiPUi(struct S *p, int n);
-int func_001A2C98(void) { struct S s; FRegionLanguages__FPiPUi(&s, 0); return s.a; }
+/* func_001A2C98 (0x1A2C98): the number of languages on the disc (the region's count; SafeHouse region.h CLanguages). */
+struct LANGCOUNT { int clang; int pad[3]; };
+void FRegionLanguages__FPiPUi(struct LANGCOUNT *pclang, int paLang);
+int func_001A2C98(void) { struct LANGCOUNT lc; FRegionLanguages__FPiPUi(&lc, 0); return lc.clang; }

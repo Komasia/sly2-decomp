@@ -1,23 +1,24 @@
-// Give an object a slot from the 256-entry free bitmap (if it has none yet), then insert it into the
-// tree or, when it can't be inserted now, mark its slot as pending.
+/* func_001A3D00 (0x1A3D00): adds a light to the world's light set (SW +0x4154): gives it a slot from the 256-entry
+ * free bitmap if it has none yet, then (unless the set awaits a rebuild or the light is not a context candidate)
+ * inserts a slotted point light into the plane tree, or marks its slot pending (directional, fNoBake, no tree). */
 typedef int qword __attribute__((mode(TI)));
 
 struct NODE { qword plane; struct NODE *left, *right; int leftLeaf, rightLeaf; };
-struct OBJ {
+struct LIGHT {
     char pad000[0xE0];
-    int xE0;
+    int kind;           // 0xE0, 0 directional, 1 point
     char pad0E4[0x118 - 0xE4];
     int slot;           // 0x118, < 0 until a slot is assigned
     char pad11C[0x15C - 0x11C];
-    int x15C;
-    int x160;
+    int fNoContext;     // 0x15C
+    int fNoBake;        // 0x160
     int pad164;
     float radius;       // 0x168
 };
-struct SLOTS {
+struct LIGHTSET {
     char pad0000[0x4154];
-    struct OBJ *objects[0x100];   // 0x4154
-    int disabled;                 // 0x4554
+    struct LIGHT *objects[0x100];   // 0x4154
+    int fRebuild;                 // 0x4554, the set awaits a rebuild (func_001A3EE8)
     int pad4558;
     struct NODE *root;            // 0x455C
     int pad4560;
@@ -28,7 +29,7 @@ struct SLOTS {
 };
 
 qword PosOfLo__FP2LO(void *p);
-void func_001A3B80(struct SLOTS *s, struct NODE *node, qword pos, float radius, int slot);
+void func_001A3B80(struct LIGHTSET *s, struct NODE *node, qword pos, float radius, int slot);
 
 static __inline__ void SetBit(int *a, int bit)
 {
@@ -37,7 +38,7 @@ static __inline__ void SetBit(int *a, int bit)
     *pw |= m;
 }
 
-void func_001A3D00(struct SLOTS *s, struct OBJ *o)
+void func_001A3D00(struct LIGHTSET *s, struct LIGHT *o)
 {
     if (o->slot < 0) {
         unsigned int i;
@@ -65,11 +66,11 @@ void func_001A3D00(struct SLOTS *s, struct OBJ *o)
         s->objects[slot] = o;
         o->slot = slot;
     }
-    if (s->disabled)
+    if (s->fRebuild)
         return;
-    if (o->x15C)
+    if (o->fNoContext)
         return;
-    if (!o->xE0 || o->x160 || !s->root)
+    if (!o->kind || o->fNoBake || !s->root)
         SetBit(s->pending, o->slot);
     else
         func_001A3B80(s, s->root, PosOfLo__FP2LO(o), o->radius, o->slot);

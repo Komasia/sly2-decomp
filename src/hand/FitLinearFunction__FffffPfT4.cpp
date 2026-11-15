@@ -1,3 +1,4 @@
+/* FitLinearFunction (0x1A3730): fits du + ru x through (x0, y0) and (x1, y1); for x0 ~= x1 the constant y0. */
 int FFloatsNear(float a, float b, float eps) __asm__("func_0011D4D0");
 void FitLinearFunction(float x0, float y0, float x1, float y1, float *pdu, float *pru)
 {
