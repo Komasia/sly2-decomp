@@ -1,16 +1,16 @@
-typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
-void Decref__4CRef(CRef *pref);
+/* BIF lm-check: is a number within a limit? */
+#include "splice.h"
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 int FCheckLm(int n, float g) asm("FCheckLm__FP2LMf");
-CRef *RefOpLmCheck__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpLmCheck__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int n = aref[0].u.n;
+    int n = aref[0].m_tag.m_n;
     CRef ref;
     int f;
     RefCoerceF32__4CRef(&ref, &aref[1]);
-    f = FCheckLm(n, ref.u.g) != 0;
-    ret->m_tagk = 0x17;
-    ret->u.n = f;
+    f = FCheckLm(n, ref.m_tag.m_g) != 0;
+    ret->m_tagk = TAGK_Bool;
+    ret->m_tag.m_bool = f;
     Decref__4CRef(&ref);
     return ret;
 }

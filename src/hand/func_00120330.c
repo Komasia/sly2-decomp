@@ -1,11 +1,10 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-void Decref__4CRef(CRef *pref);
-void InitTag__4CRef(CRef *pref, int tagk);
+/* BIF print-sidebag: a no-op in the retail game (returns void). */
+#include "splice.h"
 CRef *RefOpPrintSidebag__FiP4CRefP6CFrame(CRef *ret)
 {
     CRef ref;
-    ref.m_tagk = -1;
-    InitTag__4CRef(ret, 0x24);
+    ref.m_tagk = TAGK_Nil;
+    InitTag__4CRef(ret, TAGK_Void);
     Decref__4CRef(&ref);
     return ret;
 }

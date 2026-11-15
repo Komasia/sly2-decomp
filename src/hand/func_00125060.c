@@ -1,17 +1,14 @@
+#include "splice.h"
 typedef int TI __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-void Decref__4CRef(CRef *pref);
-CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
-void InitTag__4CRef(CRef *pref, int tagk);
 TI ConvertVec__FP2LOT0G9VU_VECTOR(void *a, void *b, TI v);
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 126: ConvertVec)
-CRef *RefOpConvertObjectVector__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+CRef *RefOpConvertObjectVector__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
     CRef ref;
     TI *pv;
-    InitTag__4CRef(&ref, 0x1A);
-    pv = ref.m_p;
-    *pv = ConvertVec__FP2LOT0G9VU_VECTOR(aref[0].m_p, aref[1].m_p, *(TI *)aref[2].m_p);
+    InitTag__4CRef(&ref, TAGK_Vector);
+    pv = ref.m_tag.m_pv;
+    *pv = ConvertVec__FP2LOT0G9VU_VECTOR(aref[0].m_tag.m_pv, aref[1].m_tag.m_pv, *(TI *)aref[2].m_tag.m_pv);
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

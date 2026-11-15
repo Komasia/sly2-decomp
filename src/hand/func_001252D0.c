@@ -1,5 +1,5 @@
+#include "splice.h"
 typedef struct AREQ { int cb; int cbAlign; } AREQ;
-typedef struct CRef { int m_tagk; union { int n; float g; void *pv; } u; } CRef;
 typedef struct NODE { int pad[2]; CRef ref; struct NODE *pnext; } NODE;
 typedef struct ARR { int c; short *a; } ARR;
 short *PvAllocStackImpl__Fi(AREQ *preq);
@@ -18,8 +18,8 @@ void AkeyFromList__FP4CRefP3ARR(NODE *pnode, ARR *parr)
         req.cbAlign = 0x10;
         parr->a = PvAllocStackImpl__Fi(&req);
         for (p = pnode, i = 0; p; p = p->pnext, i++) {
-            if (p->ref.m_tagk == 0x15 || p->ref.m_tagk == 0x18)
-                { int n = p->ref.u.n; parr->a[i] = n; }
+            if (p->ref.m_tagk == TAGK_S32 || p->ref.m_tagk == TAGK_Symid)
+                { int n = p->ref.m_tag.m_n; parr->a[i] = n; }
         }
     }
 }

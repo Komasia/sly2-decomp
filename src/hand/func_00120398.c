@@ -1,30 +1,31 @@
-typedef struct CRef { int m_tagk; union { int n; float g; } u; } CRef;
+/* RefCmp: compares two numeric references (ints converted to float) by op (enum CMPK) into a bool. */
+#include "splice.h"
 CRef *RefCmp__FP4CRef4CMPK(CRef *ret, CRef *aref, int op)
 {
     float ag[2];
     int i;
     int f;
     for (i = 0; i < 2; i++) {
-        if (aref[i].m_tagk == 0x16)
-            ag[i] = aref[i].u.g;
+        if (aref[i].m_tagk == TAGK_F32)
+            ag[i] = aref[i].m_tag.m_g;
         else
-            ag[i] = (float)aref[i].u.n;
+            ag[i] = (float)aref[i].m_tag.m_n;
     }
     switch (op) {
-    case 0:
+    case CMPK_L:
         f = ag[0] < ag[1];
         break;
-    case 1:
+    case CMPK_LE:
         f = ag[0] <= ag[1];
         break;
-    case 2:
+    case CMPK_G:
         f = ag[0] > ag[1];
         break;
-    case 3:
+    case CMPK_GE:
         f = ag[0] >= ag[1];
         break;
     }
-    ret->u.n = f;
-    ret->m_tagk = 0x17;
+    ret->m_tag.m_bool = f;
+    ret->m_tagk = TAGK_Bool;
     return ret;
 }

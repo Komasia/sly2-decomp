@@ -1,8 +1,9 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *RefOpIsClq__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *pref)
+/* BIF clq?: is the argument a quadratic (CLQ)? */
+#include "splice.h"
+CRef *RefOpIsClq__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int tagk = pref->m_tagk;
-    ret->m_tagk = 0x17;
-    ret->m_tag = tagk == 0x1C;
+    int tagk = aref->m_tagk;
+    ret->m_tagk = TAGK_Bool;
+    ret->m_tag.m_bool = tagk == TAGK_Clq;
     return ret;
 }

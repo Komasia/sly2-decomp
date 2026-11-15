@@ -1,8 +1,9 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *RefOpModulo__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+/* BIF modulo. */
+#include "splice.h"
+CRef *RefOpModulo__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    int r = aref[0].m_tag % aref[1].m_tag;
-    ret->m_tagk = 0x15;
-    ret->m_tag = r;
+    int r = aref[0].m_tag.m_n % aref[1].m_tag.m_n;
+    ret->m_tagk = TAGK_S32;
+    ret->m_tag.m_n = r;
     return ret;
 }

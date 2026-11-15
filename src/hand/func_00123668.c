@@ -1,8 +1,9 @@
-typedef struct CRef { int m_tagk; float m_g; } CRef;
-CRef *RefOpFloor__FiP4CRefP6CFrame(CRef *ret, void *pbasic, CRef *aref)
+/* BIF floor. */
+#include "splice.h"
+CRef *RefOpFloor__FiP4CRefP6CFrame(CRef *ret, int carg, CRef *aref)
 {
-    float g = aref->m_g;
-    ret->m_tagk = 0x15;
-    *(int *)&ret->m_g = (int)g;
+    float g = aref->m_tag.m_g;
+    ret->m_tagk = TAGK_S32;
+    *(int *)&ret->m_tag.m_g = (int)g;
     return ret;
 }
