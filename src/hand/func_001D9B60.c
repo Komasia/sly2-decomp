@@ -1,91 +1,95 @@
+/* SetGaugeState (SafeHouse hudwidget.cpp, orig 0x1D9B60): change the gauge's state and show the state's animation;
+ * Idle shows both meters - the power meter only when the player owns a gadget that uses power. */
 #include "vtbl.h"
+#include "h3_hud.h"
 typedef struct { char pad0[0xC]; VTENT *vt; } SUB;
-typedef struct { int key; int pad[7]; } E;
-typedef struct { int a, b, c, xC; int pad[4]; } REC;
-typedef struct OBJ {
-    char pad0[0x20];
-    float x20;
-    char pad24[0x28 - 0x24];
-    float x28;
-    char pad2c[0x30 - 0x2C];
-    int x30;
-    void *x34;
-    SUB *x38;
-    int x3C;
-    int x40;
-    int x44;
-    int x48;
-    int x4C;
-} OBJ;
-extern E D_002C2DE8[], D_002C3028[], D_002C3148[];
-extern REC D_002BCD00[];
+typedef struct { int gadget; int pad[7]; } GADGETSLOT;     /* a player class's gadget list entry */
+typedef struct { int use, kind, cost, power; int pad[4]; } ITEM;   /* the item table (SafeHouse shop.cpp / gadget.cpp) */
+typedef struct GAUGE {                /* field: SafeHouse port (hudwidget.cpp GAUGE) */
+    /* 0x00 */ char pad0[0x20];
+    /* 0x20 */ float hShown;
+    /* 0x24 */ char pad24[0x28 - 0x24];
+    /* 0x28 */ float gShown;
+    /* 0x2c */ char pad2c[0x30 - 0x2C];
+    /* 0x30 */ int state;             /* GAUGES */
+    /* 0x34 */ void *pplayer;
+    /* 0x38 */ SUB *pscreen;
+    /* 0x3c */ int idIdle;            /* the screen object's animations */
+    /* 0x40 */ int idHit;
+    /* 0x44 */ int idHide;
+    /* 0x48 */ int idBack;
+    /* 0x4c */ int idLow;
+} GAUGE;
+extern GADGETSLOT D_002C2DE8[], D_002C3028[], D_002C3148[];   /* the gadgets of classes 0x35, 0x37, 0x36 */
+extern ITEM D_002BCD00[];
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-int FPowerupOwned__Fi(int);
-void func_00213B00(SUB *, int);
-void func_00213928(SUB *, int);
-void func_00212E40(SUB *, int, float);
+int FPowerupOwned__Fi(int item);           /* the item is acquired */
+void func_00213B00(SUB *pscreen, int wid);          /* SafeHouse SelectScreenObjPart */
+void func_00213928(SUB *pscreen, int wid);          /* SafeHouse ResetScreenObjPart */
+void func_00212E40(SUB *pscreen, int wid, float g); /* SafeHouse SetScreenObjFraction */
+/* vt slot 49 of the screen object: show an animation (SafeHouse ShowScreenObj) */
 #define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a)
 // name: SafeHouse port (SetGaugeState)
-void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
+void SetGaugeState__FP5GAUGEi(GAUGE *pgauge, int state)
 {
-    int old = p->x30;
-    if (old == s)
+    int stateOld = pgauge->state;
+    if (stateOld == state)
         return;
-    if (!p->x38)
+    if (!pgauge->pscreen)
         return;
-    if (old == 2 || old == 6)
-        VCALL1(p->x38, 49, p->x3C);
-    p->x30 = s;
-    switch (s) {
-    case 0:
-    case 5:
-        VCALL1(p->x38, 49, p->x44);
+    if (stateOld == GAUGES_Hit || stateOld == GAUGES_State6)
+        VCALL1(pgauge->pscreen, 49, pgauge->idIdle);
+    pgauge->state = state;
+    switch (state) {
+    case GAUGES_Hidden:
+    case GAUGES_Back:
+        VCALL1(pgauge->pscreen, 49, pgauge->idHide);
         break;
-    case 1: {
-        int n = 0;
-        E *tbl = 0;
-        int found;
-        int i;
-        VCALL1(p->x38, 49, p->x3C);
-        func_00213B00(p->x38, 0x34F);
-        func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x35)) {
-            n = 0x12;
-            tbl = D_002C2DE8;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x37)) {
-            n = 9;
-            tbl = D_002C3028;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x36)) {
-            n = 8;
-            tbl = D_002C3148;
+    case GAUGES_Idle: {
+        int cslot = 0;
+        GADGETSLOT *aslot = 0;
+        int fPower;
+        int islot;
+        VCALL1(pgauge->pscreen, 49, pgauge->idIdle);
+        func_00213B00(pgauge->pscreen, WID_HEALTHMETER);
+        func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x35)) {
+            cslot = 0x12;
+            aslot = D_002C2DE8;
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x37)) {
+            cslot = 9;
+            aslot = D_002C3028;
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x36)) {
+            cslot = 8;
+            aslot = D_002C3148;
         }
-        found = 0;
-        for (i = 0; i < n; i++) {
-            int id = tbl[i].key;
-            if (FPowerupOwned__Fi(id)) {
-                REC r = D_002BCD00[id];
-                if (r.xC > 0) {
-                    found = 1;
+        fPower = 0;
+        for (islot = 0; islot < cslot; islot++) {
+            int gadget = aslot[islot].gadget;
+            if (FPowerupOwned__Fi(gadget)) {
+                ITEM item = D_002BCD00[gadget];
+                if (item.power > 0) {
+                    fPower = 1;
                     break;
                 }
             }
         }
-        if (found) {
-            func_00213B00(p->x38, 0x350);
-            func_00212E40(p->x38, 0x350, 1.0f - p->x28);
+        if (fPower) {
+            func_00213B00(pgauge->pscreen, WID_POWERMETER);
+            func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
         } else {
-            func_00213928(p->x38, 0x350);
+            func_00213928(pgauge->pscreen, WID_POWERMETER);
         }
         break;
     }
-    case 2:
-        VCALL1(p->x38, 49, p->x40);
+    case GAUGES_Hit:
+        VCALL1(pgauge->pscreen, 49, pgauge->idHit);
         break;
-    case 6:
-        VCALL1(p->x38, 49, p->x48);
+    case GAUGES_State6:
+        VCALL1(pgauge->pscreen, 49, pgauge->idBack);
         break;
-    case 7:
-        VCALL1(p->x38, 49, p->x4C);
+    case GAUGES_State7:
+        VCALL1(pgauge->pscreen, 49, pgauge->idLow);
         break;
     }
 }

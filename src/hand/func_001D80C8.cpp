@@ -1,3 +1,7 @@
+/* FSetProgress (SafeHouse savedata.h, orig 0x1D80C8): write a value at the path in the save pbSave, converted to
+ * the node's kind (a bool of an indexed node sets / clears one bit); nothing when the path does not resolve to a
+ * value. Returns a Void CRef. */
+#define TAGK_Void 0x24
 struct QW16 { int a[4]; } __attribute__((aligned(16)));
 struct V2 { int a[2]; };
 struct V3 { int a[3]; };
@@ -10,45 +14,35 @@ struct CRef {
     void InitTag(int);
     void Decref();
 };
-struct ENT {
-    short ch;
-    signed char kind;
-    unsigned char fBits;
-    unsigned short ib;
-    unsigned short iChild;
-    unsigned short iSibling;
-};
-struct TRIE;
-struct KEY;
-struct OUT { ENT *pe; int n; };
-extern "C" int FFindEntryKey(TRIE *, KEY *, OUT *) asm("FFindEntryKey__FP4TRIEPP4PENTPi");
+#include "h3_progress.h"
+extern "C" int FFindEntryKey(LAYOUT *playout, KEY *pkey, PENTFOUND *pfound) asm("FFindEntryKey__FP4TRIEPP4PENTPi");
 // name: SafeHouse port (FSetProgress)
-extern "C" CRef FSetProgress__FP4TRIEP4CRefT1Pc(TRIE *p, KEY *key, const CRef &val, char *pb)
+extern "C" CRef FSetProgress__FP4TRIEP4CRefT1Pc(LAYOUT *playout, KEY *pkey, const CRef &val, char *pbSave)
 {
-    CRef ref(0x24);
-    OUT out;
-    ENT *pe;
-    if (!FFindEntryKey(p, key, &out) || (pe = out.pe)->kind == -1)
+    CRef ref(TAGK_Void);
+    PENTFOUND found;
+    PENT *pent;
+    if (!FFindEntryKey(playout, pkey, &found) || (pent = found.pent)->kind == PROGK_Node)
         return ref;
     {
-        unsigned char *pv = (unsigned char *)pb + pe->ib;
-        switch (pe->kind) {
-        case 0:
-        case 1:
-        case 2:
-        case 9:
-        case 10:
-            ((int *)pv)[out.n] = val.m_tag;
+        unsigned char *pv = (unsigned char *)pbSave + pent->ib;
+        switch (pent->kind) {
+        case PROGK_S32:
+        case PROGK_S32_1:
+        case PROGK_S32_2:
+        case PROGK_S32_9:
+        case PROGK_S32_10:
+            ((int *)pv)[found.i] = val.m_tag;
             break;
-        case 3:
-            ((float *)pv)[out.n] = val.m_g;
+        case PROGK_F32:
+            ((float *)pv)[found.i] = val.m_g;
             break;
-        case 4:
-            if (pe->fBits) {
-                int n = out.n;
+        case PROGK_Bool:
+            if (pent->fIndexed) {
+                int ibit = found.i;
                 unsigned char b;
-                pv += n / 8;
-                b = 1 << (n % 8);
+                pv += ibit / 8;
+                b = 1 << (ibit % 8);
                 if (val.m_tag)
                     *pv |= b;
                 else
@@ -57,15 +51,15 @@ extern "C" CRef FSetProgress__FP4TRIEP4CRefT1Pc(TRIE *p, KEY *key, const CRef &v
                 *(int *)pv = val.m_tag;
             }
             break;
-        case 5:
-        case 6:
-            ((QW16 *)pv)[out.n] = *(QW16 *)val.m_pv;
+        case PROGK_Vector:
+        case PROGK_S32x4:
+            ((QW16 *)pv)[found.i] = *(QW16 *)val.m_pv;
             break;
-        case 7:
-            ((V2 *)pv)[out.n] = *(V2 *)val.m_pv;
+        case PROGK_S32x2:
+            ((V2 *)pv)[found.i] = *(V2 *)val.m_pv;
             break;
-        case 8:
-            ((V3 *)pv)[out.n] = *(V3 *)val.m_pv;
+        case PROGK_S32x3:
+            ((V3 *)pv)[found.i] = *(V3 *)val.m_pv;
             break;
         }
     }

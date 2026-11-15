@@ -1,15 +1,16 @@
-struct E { unsigned int h; char *s; int n; struct E *next; };
-struct S { struct E *ap[0x35]; int c; struct E *ae; };
-unsigned int func_001D8640(char *s);
-int strcasecmp(char *a, char *b);
+/* SymFromName (SafeHouse savedata.cpp, orig 0x1D8720): a name's progress symbol (case-insensitive), -1 if none. */
+#include "h3_progress.h"
+unsigned int func_001D8640(char *pchz);
+int strcasecmp(char *pchzA, char *pchzB);
+
 // name: SafeHouse port (SymFromName)
-int SymFromName__FP6LAYOUTPc(struct S *p, char *s)
+int SymFromName__FP6LAYOUTPc(NAMETABLE *pnametable, char *pchz)
 {
-    unsigned int h = func_001D8640(s);
-    struct E *pe;
-    for (pe = p->ap[h % 0x35]; pe; pe = pe->next) {
-        if (pe->h == h && strcasecmp(pe->s, s) == 0)
-            return pe->n;
+    unsigned int h = func_001D8640(pchz);
+    NAME *pname;
+    for (pname = pnametable->apname[h % CNAMEBUCKET]; pname; pname = pname->pnameNext) {
+        if (pname->h == h && strcasecmp(pname->pchz, pchz) == 0)
+            return pname->sym;
     }
     return -1;
 }

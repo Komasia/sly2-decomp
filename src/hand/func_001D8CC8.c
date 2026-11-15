@@ -1,21 +1,23 @@
+/* class: progress path: a new KEY (on the stack heap) that is path pkeyA followed by path pkeyB. */
+#include "h3_progress.h"
 struct MSG { int cb; int nKind; };
-typedef struct { int c; short *a; } SA;
 void *PvAllocStackImpl__Fi(struct MSG *pmsg);
-void CopyAb(void *, void *, int) asm("CopyAb__FPvT0Ui");
-SA *func_001D8CC8(SA *p1, SA *p2)
+void CopyAb(void *pvDst, void *pvSrc, int cb) asm("CopyAb__FPvT0Ui");
+
+KEY *func_001D8CC8(KEY *pkeyA, KEY *pkeyB)
 {
     struct MSG msg;
-    SA *r;
-    int c;
+    KEY *pkey;
+    int csym;
     msg.cb = 8;
     msg.nKind = 0x10;
-    r = (SA *)PvAllocStackImpl__Fi(&msg);
-    c = p1->c + p2->c;
-    r->c = c;
-    msg.cb = c * 2;
+    pkey = (KEY *)PvAllocStackImpl__Fi(&msg);
+    csym = pkeyA->csym + pkeyB->csym;
+    pkey->csym = csym;
+    msg.cb = csym * 2;
     msg.nKind = 0x10;
-    r->a = (short *)PvAllocStackImpl__Fi(&msg);
-    CopyAb(r->a, p1->a, p1->c * 2);
-    CopyAb(r->a + p1->c, p2->a, p2->c * 2);
-    return r;
+    pkey->asym = (unsigned short *)PvAllocStackImpl__Fi(&msg);
+    CopyAb(pkey->asym, pkeyA->asym, pkeyA->csym * 2);
+    CopyAb(pkey->asym + pkeyA->csym, pkeyB->asym, pkeyB->csym * 2);
+    return pkey;
 }

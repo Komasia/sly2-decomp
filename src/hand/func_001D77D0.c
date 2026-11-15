@@ -1,44 +1,50 @@
-typedef struct { char pad[0x50]; int c; } LIST;
-typedef struct {
-    char pad[0x184];
-    LIST *plist;
-    void *x188;
-    char pad18c[0x220 - 0x18C];
-    int c;
-    void *a[8];
-} OBJ;
-void *OidSmaCur(void *) asm("OidSmaCur__FP3SMA");
-int IsmsFindSmRequired__FP2SM3OID(LIST *, void *);
-void *OidFromSmIsms__FP2SMi(LIST *, int);
-void SetSmaGoal__FP3SMA3OID(void *, void *);
-void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int, OBJ *, int, int, void **);
-void func_001D77D0(OBJ *p, int d)
+/* class: the safe house, class 0x46 (SafeHouse po.cpp StepSafeHouse, orig 0x1D77D0): step the safe house's state
+ * machine d states (wrapping) from its current state to the next allowed one (the list at +0x220, see
+ * func_001D7780); d 0 means the current one if allowed, else the next. With no allowed state the binding is
+ * released. */
+typedef int OID;
+typedef struct { char pad[0x50]; int csms; } SM;   /* the state machine: its state count */
+typedef struct SAFEHOUSE {
+    /* 0x000 */ char pad0[0x184];
+    /* 0x184 */ SM *psm;
+    /* 0x188 */ void *psma;           /* field: SafeHouse port */
+    /* 0x18c */ char pad18c[0x220 - 0x18C];
+    /* 0x220 */ int coidAllowed;
+    /* 0x224 */ OID aoidAllowed[8];
+} SAFEHOUSE;
+OID OidSmaCur(void *psma) asm("OidSmaCur__FP3SMA");
+int IsmsFindSmRequired__FP2SM3OID(SM *psm, OID oid);   /* the state's index */
+OID OidFromSmIsms__FP2SMi(SM *psm, int isms);
+void SetSmaGoal__FP3SMA3OID(void *psma, OID oid);
+void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int psm, SAFEHOUSE *psh, int oid, int n, void **ppsma);
+
+void func_001D77D0(SAFEHOUSE *psh, int dState)
 {
-    int i0;
-    int i;
-    if (p->x188 == 0)
+    int ismsStart;
+    int isms;
+    if (psh->psma == 0)
         return;
-    i = IsmsFindSmRequired__FP2SM3OID(p->plist, OidSmaCur(p->x188));
-    i0 = i;
+    isms = IsmsFindSmRequired__FP2SM3OID(psh->psm, OidSmaCur(psh->psma));
+    ismsStart = isms;
     for (;;) {
-        void *pv;
-        int j;
-        i += d;
-        if (i < 0)
-            i = p->plist->c - 1;
-        else if (i >= p->plist->c)
-            i = 0;
-        pv = OidFromSmIsms__FP2SMi(p->plist, i);
-        for (j = 0; j < p->c; j++) {
-            if (p->a[j] == pv) {
-                SetSmaGoal__FP3SMA3OID(p->x188, pv);
+        OID oid;
+        int ioid;
+        isms += dState;
+        if (isms < 0)
+            isms = psh->psm->csms - 1;
+        else if (isms >= psh->psm->csms)
+            isms = 0;
+        oid = OidFromSmIsms__FP2SMi(psh->psm, isms);
+        for (ioid = 0; ioid < psh->coidAllowed; ioid++) {
+            if (psh->aoidAllowed[ioid] == oid) {
+                SetSmaGoal__FP3SMA3OID(psh->psma, oid);
                 return;
             }
         }
-        if (d == 0)
-            d = 1;
-        else if (i == i0)
+        if (dState == 0)
+            dState = 1;
+        else if (isms == ismsStart)
             break;
     }
-    ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(0, p, -1, 0, &p->x188);
+    ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(0, psh, -1, 0, &psh->psma);
 }

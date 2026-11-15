@@ -1,13 +1,20 @@
-struct B { int c; unsigned char *pb; };
-struct Q { char pad[0x5400]; int n5400; int n5404; };
-void *s1_memset(void *p, int n, int cb) asm("memset");
-static inline int Sum(unsigned char *pb, unsigned int n) { int sum = 0; while (n) { sum += *pb++; n--; } return sum; }
+/* ValidateGameSave (SafeHouse savedata.cpp, orig 0x1D7C80): a save made for another progress layout is cleared:
+ * unless it carries the layout's identity (its last record's ib and the records' byte sum), the values are zeroed
+ * and the save is stamped with this layout's identity. */
+#include "h3_progress.h"
+void *s1_memset(void *pv, int b, int cb) asm("memset");
+/* the layout's trie records as bytes */
+#define PbRecords(playout) ((unsigned char *)(playout)->aent)
+static inline int Sum(unsigned char *pb, unsigned int cb) { int sum = 0; while (cb) { sum += *pb++; cb--; } return sum; }
+
 // name: SafeHouse port (ValidateGameSave)
-void ValidateGameSave__FPvT0(struct B *p, struct Q *q) {
-    int sum = Sum(p->pb, p->c * 10);
-    int n = *(unsigned short *)(p->pb + p->c * 10 - 6);
-    if (n == q->n5400 && sum == q->n5404) return;
-    s1_memset(q, 0, 0x5400);
-    q->n5400 = n;
-    q->n5404 = sum;
+void ValidateGameSave__FPvT0(LAYOUT *playout, GAMESAVE *pgamesave)
+{
+    int sum = Sum(PbRecords(playout), playout->cent * 10);
+    int nLayout = *(unsigned short *)(PbRecords(playout) + playout->cent * 10 - 6);
+    if (nLayout == pgamesave->nLayout && sum == pgamesave->sumLayout)
+        return;
+    s1_memset(pgamesave, 0, CB_GAMESAVEVALUES);
+    pgamesave->nLayout = nLayout;
+    pgamesave->sumLayout = sum;
 }

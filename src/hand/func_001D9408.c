@@ -1,8 +1,12 @@
+/* class: the HUD's widget list (SafeHouse hudwidget.cpp: "orig 0x1D9408", before the world is freed): reset the HUD -
+ * every widget in the list gets vtable entry 11 (Hide), the screen object pause count (D_002DD318) is cleared, then
+ * each HUD widget is reset: the gauge, the menu, the dialog subtitles, the gadget menu, the shop, the prompt, the job
+ * help, D_002E6550, and the dialogs D_002E65A0 / D_003DA4F0 / D_003DA530 (the base reset 0x1DA7B0). */
 #include "vtbl.h"
 #include "dl.h"
 typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
 extern DLI *s_pdliFirst;
-extern int D_002DD318;
+extern int D_002DD318;                /* the screen objects' pause count */
 typedef struct VT { VTENT a[16]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } LO;
 extern char D_003D9E80[], D_003D9ED0[], D_002E1E60[], D_003DA0F0[], D_003DA150[], D_003DA0C0[], D_003DA3C0[];

@@ -4,7 +4,7 @@
 extern "C" {
 void Decref(void *p) asm("Decref__4CRef");
 void *func_001291A8(void *p, const void *q); /* CRef copy ctor: returns this */
-extern void *D_003E0FD8;   /* the progress record */
+extern void *D_003E0FD8;   /* the progress key ("flags" "fNoVibration", a KEY *) */
 extern int D_002C2D8C;     /* the vibration option (SafeHouse g_vibrationSetting) */
 void ApplyVibrationSetting(void) asm("ApplyVibrationSetting__Fv");
 }
@@ -22,7 +22,7 @@ struct CRef {
     CRef(const RAW &r) { func_001291A8(this, &r); }
     ~CRef() { Decref(this); }
 };
-extern char D_003D4A60[];   /* the progress key of the fNoVibration flag */
+extern char D_003D4A60[];   /* g_gamesave, the saved progress values (SafeHouse savedata.h) */
 extern "C" CRef func_00258200(void *pv, const CRef &ref, void *p);   /* set a progress value */
 static inline void SetPv(void *pv, const RAW &r, void *)
 {

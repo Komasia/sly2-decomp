@@ -1,55 +1,60 @@
+/* SetPromptState (SafeHouse hudwidget.cpp, orig 0x1DA5C8): change the prompt's state. Closing reopened in the same
+ * frame goes straight to Shown; leaving Changing makes the next prompt current; Off forgets the prompt. On the
+ * screen object: back from Changing plays WID_PROMPTIN, Changing plays WID_PROMPTCHANGE, Closing hides it (vt slot
+ * 50) and Opening shows it with the prompt's id (func_00212880). */
 #include "clock.h"
+#include "h3_hud.h"
 #include "vtbl.h"
 typedef struct VT { VTENT a[64]; } VT;
 typedef struct { char pad[0xC]; VT *vt; } LO;
-typedef struct {
-    char pad[0x10];
-    int state;
-    float t;
-    int x18;
-    float x1C;
-    int x20;
-    float x24;
-    LO *x28;
-} OBJ;
+typedef struct PROMPT {               /* field: SafeHouse port (hudwidget.cpp PROMPT) */
+    /* 0x00 */ char pad[0x10];
+    /* 0x10 */ int state;             /* PROMPTS */
+    /* 0x14 */ float t;               /* the state's start (g_clock.t) */
+    /* 0x18 */ int id;                /* the prompt shown */
+    /* 0x1c */ float g;
+    /* 0x20 */ int idNext;            /* the prompt asked for next */
+    /* 0x24 */ float gNext;
+    /* 0x28 */ LO *pscreen;           /* the screen object */
+} PROMPT;
 void StartPart__FP8SCREENRTi(LO *, int);
-void func_00212880(LO *, int, int *);
+void func_00212880(LO *pscreen, int cid, int *aid);   /* show with arguments (SafeHouse ShowScreenObjArgs) */
 // name: SafeHouse port (SetPromptState)
-void SetPromptState__FP6PROMPTi(OBJ *p, int n)
+void SetPromptState__FP6PROMPTi(PROMPT *pprompt, int state)
 {
-    LO *plo;
-    if (n == p->state)
+    LO *pscreen;
+    if (state == pprompt->state)
         return;
-    switch (p->state) {
-    case 3:
-        if (n == 1 && p->t == g_clock.t)
-            n = 2;
+    switch (pprompt->state) {
+    case PROMPTS_Closing:
+        if (state == PROMPTS_Opening && pprompt->t == g_clock.t)
+            state = PROMPTS_Shown;
         break;
-    case 4:
-        p->x18 = p->x20;
-        p->x1C = p->x24;
-        p->x20 = -1;
-        p->x24 = -1.0f;
+    case PROMPTS_Changing:
+        pprompt->id = pprompt->idNext;
+        pprompt->g = pprompt->gNext;
+        pprompt->idNext = -1;
+        pprompt->gNext = -1.0f;
         break;
     }
-    if (n == 0)
-        p->x18 = -1;
-    plo = p->x28;
-    if (plo) {
-        if (p->state == 4 && n == 2)
-            StartPart__FP8SCREENRTi(plo, 0x310);
-        switch (n) {
-        case 4:
-            StartPart__FP8SCREENRTi(p->x28, 0x312);
+    if (state == PROMPTS_Off)
+        pprompt->id = -1;
+    pscreen = pprompt->pscreen;
+    if (pscreen) {
+        if (pprompt->state == PROMPTS_Changing && state == PROMPTS_Shown)
+            StartPart__FP8SCREENRTi(pscreen, WID_PROMPTIN);
+        switch (state) {
+        case PROMPTS_Changing:
+            StartPart__FP8SCREENRTi(pprompt->pscreen, WID_PROMPTCHANGE);
             break;
-        case 3:
-            ((void (*)(void *))p->x28->vt->a[50].pfn)(VT_THIS(p->x28, &p->x28->vt->a[50]));
+        case PROMPTS_Closing:
+            ((void (*)(void *))pprompt->pscreen->vt->a[50].pfn)(VT_THIS(pprompt->pscreen, &pprompt->pscreen->vt->a[50]));
             break;
-        case 1:
-            func_00212880(p->x28, 1, &p->x18);
+        case PROMPTS_Opening:
+            func_00212880(pprompt->pscreen, 1, &pprompt->id);
             break;
         }
     }
-    p->state = n;
-    p->t = g_clock.t;
+    pprompt->state = state;
+    pprompt->t = g_clock.t;
 }

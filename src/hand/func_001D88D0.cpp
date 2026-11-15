@@ -1,3 +1,5 @@
+/* class: progress path: a KEY built from a NULL-terminated list of path strings (func_001D87C0) that lasts: the KEY
+ * and its symbols are copied to the world heap (the symbols are built on the stack heap, released with the frame). */
 typedef char *va_list;
 #define va_start(ap, last) (ap = ((char *)__builtin_next_arg(last) - (__builtin_args_info(2) >= 8 ? 0 : (8 - __builtin_args_info(2)) * 8)))
 struct MSG { int cb; int nKind; };
@@ -6,27 +8,27 @@ struct FRAME {
     FRAME();
     ~FRAME();
 };
-struct V { int c; void *pv; };
-V *PvAllocSwImpl(MSG *pmsg) asm("PvAllocSwImpl__Fi");
+#include "h3_progress.h"
+KEY *PvAllocSwImpl(MSG *pmsg) asm("PvAllocSwImpl__Fi");
 void *PvAllocSwCopyImpl(MSG *pmsg, void *pv) asm("PvAllocSwCopyImpl__FiPv");
-void func_001D87C0(void *p, va_list ap, V *pv);
-extern "C" V *func_001D88D0(void *p, ...)
+extern "C" void func_001D87C0(void *pchz, va_list ap, KEY *pkey);
+extern "C" KEY *func_001D88D0(void *pchz, ...)
 {
     FRAME frame;
     MSG msg;
     MSG *pmsg = &msg;
     va_list ap;
-    V *pv;
-    va_start(ap, p);
+    KEY *pkey;
+    va_start(ap, pchz);
     pmsg->cb = 8;
     pmsg->nKind = 0x10;
-    pv = PvAllocSwImpl(pmsg);
-    func_001D87C0(p, ap, pv);
+    pkey = PvAllocSwImpl(pmsg);
+    func_001D87C0(pchz, ap, pkey);
     {
-        void *pvOld = pv->pv;
-        pmsg->cb = pv->c * 2;
+        void *pvStack = pkey->asym;
+        pmsg->cb = pkey->csym * 2;
         pmsg->nKind = 0x10;
-        pv->pv = PvAllocSwCopyImpl(pmsg, pvOld);
+        pkey->asym = (unsigned short *)PvAllocSwCopyImpl(pmsg, pvStack);
     }
-    return pv;
+    return pkey;
 }
