@@ -1,3 +1,4 @@
+/* MulMatrix4: *pm = a * b for 4x4 matrices (VU0 multiply-accumulate per row). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 // name: SafeHouse port (MulMatrix4)

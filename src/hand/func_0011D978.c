@@ -1,3 +1,4 @@
+/* RadLimitLm: the angle rad clamped into the angular range *plm (measured around its middle, normalized). */
 typedef struct LM { float gMin; float gMax; } LM;
 float RadNormalize__Ff(float rad);
 float GLimitAbs__Fff(float g, float gLimit);

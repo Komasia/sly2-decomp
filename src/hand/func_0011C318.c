@@ -1,3 +1,4 @@
+/* InverseAffineMatrix4: the inverse of an affine 4x4 matrix (inverted rotation, translation brought back through it). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 // name: SafeHouse port (InverseAffineMatrix4)

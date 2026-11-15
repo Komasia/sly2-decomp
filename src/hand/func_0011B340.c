@@ -1,3 +1,4 @@
+/* InverseMatrix3: the inverse of a 3x3 matrix (adjugate rows from cross products, divided by the determinant). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 // name: SafeHouse port (InverseMatrix3)

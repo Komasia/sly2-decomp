@@ -1,3 +1,5 @@
+/* CBinaryInputStream::ReadGeom: reads a convex geometry: its positions, then per face three corner indices
+ * (the face plane), four unused floats and its edges; links each face's edge loop and the edges facing each face. */
 typedef int qword __attribute__((mode(TI)));
 struct BIS;
 struct AREQ { int cb; int cbAlign; };

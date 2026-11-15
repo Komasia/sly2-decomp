@@ -1,3 +1,5 @@
+/* GSplitVector: splits a into its parts parallel (*ppar) and perpendicular (*pperp) to the unit vector b; either
+ * may be null. Returns a . b. */
 typedef int qword __attribute__((mode(TI)));
 // name: SafeHouse port (GSplitVector)
 float GSplitVector__FG9VU_VECTORT0P6VECTORT2(qword a, qword b, qword *ppar, qword *pperp)

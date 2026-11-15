@@ -1,3 +1,5 @@
+/* ClipBspPlane: walks the BSP tree down from pnode for the point pos: one child when the point is clearly on one
+ * side of a node's plane (beyond eps), both when it is on the plane; collects the reached leaves in *ppnode. */
 typedef int qword __attribute__((mode(TI)));
 class VUF {
 public:

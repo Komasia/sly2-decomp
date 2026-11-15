@@ -1,3 +1,4 @@
+/* GMaxRowLengthMatrix3: the length of the longest row of a 3x3 matrix (its largest axis scale). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 static inline float sqrtf_(float x) { float r; __asm__("sqrt.s %0, %1" : "=&f"(r) : "f"(x)); return r; }

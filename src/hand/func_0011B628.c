@@ -1,3 +1,4 @@
+/* BuildEulerMatrix: the rotation matrix of the Euler angles v (x, y, z). */
 typedef struct { float x, y, z, w; } __attribute__((aligned(16))) VECTOR;
 typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }

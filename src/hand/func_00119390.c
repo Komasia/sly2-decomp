@@ -1,3 +1,4 @@
+/* PlaneFromNormalPos: the plane with normal vecNormal through vecPos (normal in xyz, normal . pos in w). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct PLANE { float x, y, z, d; } __attribute__((aligned(16))) PLANE;
 

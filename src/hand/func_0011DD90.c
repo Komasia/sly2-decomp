@@ -1,3 +1,4 @@
+/* RgbFromHsv: converts the colour *phsv (hue in degrees 0..360, negative = none; saturation, value 0..1) to RGB. */
 typedef struct VECTOR { float x, y, z; } VECTOR;
 float floorf(float g);
 

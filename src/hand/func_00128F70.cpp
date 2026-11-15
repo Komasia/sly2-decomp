@@ -7,10 +7,10 @@ struct O {
     int cref;
     int x4;
     SPX spx;
-    int xC;
-    int x10;
-    SPY spy14;
-    SPY spy18;
+    int crefReq;
+    int fVarArg;
+    SPY sppairFormals;
+    SPY sppairBody;
     ~O();
 };
 struct SPO {
@@ -35,9 +35,9 @@ SPO CloneTo(O *poSrc, X *px)
         sp->spx = px;
     else
         sp->spx = poSrc->spx.p;
-    sp->spy14 = poSrc->spy14.p;
-    sp->xC = poSrc->xC;
-    sp->x10 = poSrc->x10;
-    sp->spy18 = poSrc->spy18.p;
+    sp->sppairFormals = poSrc->sppairFormals.p;
+    sp->crefReq = poSrc->crefReq;
+    sp->fVarArg = poSrc->fVarArg;
+    sp->sppairBody = poSrc->sppairBody.p;
     return SPO(sp.p);
 }

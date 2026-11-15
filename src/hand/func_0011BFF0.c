@@ -1,3 +1,4 @@
+/* DecomposeEulerMatrix: the Euler angles (x, y, z) of a rotation matrix; at the poles (tilt = +-pi/2) x is 0. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
 typedef struct { float m[3][4]; } MATRIX3;

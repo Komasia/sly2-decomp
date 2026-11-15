@@ -1,3 +1,5 @@
+/* DistSegments: the closest points of two segments: their clamped parameters in puv[0..1], the distance in *pdist
+ * and the unit direction between them in *pnormal (a default when they touch). */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 extern qword D_002A2DA0;

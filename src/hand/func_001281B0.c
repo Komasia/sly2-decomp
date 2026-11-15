@@ -3,7 +3,7 @@
  * (a frame's bindings and parents, a closure's frame and body, a pair's value and cdr).
  * Register keys (Claude agent, 2026-10-17): one function-level `pproc` for every closure pointer (the TAGK_Method
  * case marks through the stale pointer of an earlier TAGK_Proc case - original behaviour), one `pframe` for the
- * popped frame and the closure's frame, one `ppair` for the closure's marked-list walk, its body and the popped
+ * popped frame and the closure's frame, one `ppair` for the closure's formals walk, its body and the popped
  * pair. */
 /* Splice objects collected by the GC start with an 8-byte header; bit 31 of its second word is the mark bit
  * (the rest are pool links, see 0x1286E0). Layouts are Sly 1's splice classes (frame.h, pair.h, proc.h, gc.h)
@@ -13,8 +13,8 @@ typedef struct CRef { int m_tagk; GCHDR *pobj; } CRef;
 typedef struct CVarb { int x0; unsigned nLinks : 31; unsigned fMark : 1; int symid; CRef ref; struct CVarb *pvarbNext; } CVarb;   /* a binding */
 typedef struct CFrame { int x0; unsigned nLinks : 31; unsigned fMark : 1; int cpframeParent; struct CFrame *apframeParent[4]; CVarb *pvarbFirst; } CFrame;
 typedef struct CPair { int x0; unsigned nLinks : 31; unsigned fMark : 1; CRef ref; struct CPair *ppairNext; } CPair;
-/* 0x14: a pair list whose cells are only marked, not traced (Sly 1 has crefReq / fVarArg there); 0x18: the body */
-typedef struct CProc { int x0; unsigned nLinks : 31; unsigned fMark : 1; CFrame *pframe; int xC; int x10; CPair *ppairMarked; CPair *ppairCodeExpr; } CProc;
+/* Sly 1 CProc after the header (RefEvalLambda 0x127068 fills crefReq / fVarArg); the formals are only marked, not traced */
+typedef struct CProc { int x0; unsigned nLinks : 31; unsigned fMark : 1; CFrame *pframe; int crefReq; int fVarArg; CPair *ppairFormals; CPair *ppairCodeExpr; } CProc;
 /* the collector's work stacks (Sly 1 CGc m_cpframeStack .. m_approcStack, here as pointers to stack arrays) */
 typedef struct CGc { int f; int cpframeStack; CFrame **apframeStack; int cppairStack; CPair **appairStack; int cpprocStack; CProc **approcStack; } CGc;
 extern unsigned int D_002DD598[1];   /* the current mark value; likely g_gc's first word (Collect 0x1286E0 flips pgc->f) */
@@ -64,7 +64,7 @@ void func_001281B0(CGc *pgc)
         {
             pproc = (pgc->cpprocStack > 0) ? pgc->approcStack[--pgc->cpprocStack] : 0;
             if (pproc) {
-                for (ppair = pproc->ppairMarked; ppair; ppair = ppair->ppairNext) {
+                for (ppair = pproc->ppairFormals; ppair; ppair = ppair->ppairNext) {
                     if (ppair->fMark != D_002DD598[0])
                         ppair->fMark = D_002DD598[0];
                 }

@@ -1,3 +1,4 @@
+/* SetVectorCylind: the vector of the cylindrical coordinates (angle rad, radius r, height z). */
 typedef int qword __attribute__((mode(TI)));
 static __inline__ qword Make(float x, float y, float z)
 {

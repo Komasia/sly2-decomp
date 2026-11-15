@@ -1,3 +1,4 @@
+/* LimitVectorLength: v scaled down to length gMax when it is longer. */
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 // name: SafeHouse port (LimitVectorLength)

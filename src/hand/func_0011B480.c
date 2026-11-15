@@ -1,3 +1,4 @@
+/* BuildRotateMatrixSinCos: the rotation about the unit axis given the angle's sine s and cosine c (Rodrigues). */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 // name: SafeHouse port (BuildRotateMatrixSinCos)

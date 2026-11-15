@@ -1,3 +1,4 @@
+/* SetVectorSphere: the vector of the spherical coordinates (pan, tilt, radius r). */
 typedef int qword __attribute__((mode(TI)));
 static __inline__ qword Make(float x, float y, float z)
 {

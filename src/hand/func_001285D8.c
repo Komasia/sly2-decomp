@@ -6,8 +6,8 @@ typedef struct CRef { int m_tagk; GCHDR *pobj; } CRef;
 typedef struct CVarb { int x0; unsigned nLinks : 31; unsigned fMark : 1; int symid; CRef ref; struct CVarb *pvarbNext; } CVarb;   /* a binding */
 typedef struct CFrame { int x0; unsigned nLinks : 31; unsigned fMark : 1; int cpframeParent; struct CFrame *apframeParent[4]; CVarb *pvarbFirst; } CFrame;
 typedef struct CPair { int x0; unsigned nLinks : 31; unsigned fMark : 1; CRef ref; struct CPair *ppairNext; } CPair;
-/* 0x14: a pair list whose cells are only marked, not traced (Sly 1 has crefReq / fVarArg there); 0x18: the body */
-typedef struct CProc { int x0; unsigned nLinks : 31; unsigned fMark : 1; CFrame *pframe; int xC; int x10; CPair *ppairMarked; CPair *ppairCodeExpr; } CProc;
+/* Sly 1 CProc after the header (RefEvalLambda 0x127068 fills crefReq / fVarArg); the formals are only marked, not traced */
+typedef struct CProc { int x0; unsigned nLinks : 31; unsigned fMark : 1; CFrame *pframe; int crefReq; int fVarArg; CPair *ppairFormals; CPair *ppairCodeExpr; } CProc;
 /* the collector's work stacks (Sly 1 CGc m_cpframeStack .. m_approcStack, here as pointers to stack arrays) */
 typedef struct CGc { int f; int cpframeStack; CFrame **apframeStack; int cppairStack; CPair **appairStack; int cpprocStack; CProc **approcStack; } CGc;
 extern unsigned int D_002DD598[1];   /* the current mark value; likely g_gc's first word (Collect 0x1286E0 flips pgc->f) */

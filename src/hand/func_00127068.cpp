@@ -11,10 +11,10 @@ struct O {
     int cref;
     int x4;
     SPX spx;
-    int xC;
-    int x10;
-    SPY spy14;
-    SPY spy18;
+    int crefReq;
+    int fVarArg;
+    SPY sppairFormals;
+    SPY sppairBody;
     ~O();
 };
 struct SPO {
@@ -41,14 +41,14 @@ CRef RefEvalLambda(P *p, X *px)
     SPO sp(PprocNew());
     sp->spx = px;
     if (pq->f == 0)
-        sp->spy14 = 0;
+        sp->sppairFormals = 0;
     else
-        sp->spy14 = pq->py;
-    sp->spy18 = py;
+        sp->sppairFormals = pq->py;
+    sp->sppairBody = py;
     int f = 0;
     int c = 0;
     Y *pyT;
-    for (pyT = sp->spy14.p; pyT;) {
+    for (pyT = sp->sppairFormals.p; pyT;) {
         if (pyT->k == TAGK_Dot) {
             f = 1;
             pyT = 0;
@@ -57,7 +57,7 @@ CRef RefEvalLambda(P *p, X *px)
             c++;
         }
     }
-    sp->xC = c;
-    sp->x10 = f;
+    sp->crefReq = c;
+    sp->fVarArg = f;
     return CRef(sp.p);
 }

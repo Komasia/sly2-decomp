@@ -1,3 +1,4 @@
+/* BuildPanTiltMatrix: the rotation panned by g1 about +Z, then tilted by -g2 about the axis D_002A2DB0. */
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
 extern qword D_002A2DB0;

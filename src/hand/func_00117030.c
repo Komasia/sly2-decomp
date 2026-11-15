@@ -1,3 +1,5 @@
+/* EvalHermite: the cubic Hermite curve from (g0, dg0) to (g1, dg1) over dt, at time t: its value in *pg and its
+ * slope (times dtScale) in *pdg; either may be null. */
 static inline float GDiv(float a, float b) { float r; __asm__ __volatile__("div.s %0, %1, %2" : "=f"(r) : "f"(a), "f"(b)); return r; }
 // name: SafeHouse port (EvalHermite)
 void EvalHermite__FPfT0fffffff(float *pg, float *pdg, float dt, float t, float dtScale, float g0, float dg0, float g1, float dg1)

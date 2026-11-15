@@ -1,3 +1,4 @@
+/* PanTiltFromVector: the pan (about +Z) and tilt (up from the XY plane) angles of v; either output may be null. */
 typedef int qword __attribute__((mode(TI)));
 static __inline__ float GetX(qword q) { float x; __asm__("mtc1 %1,%0" : "=f"(x) : "r"(q)); return x; }
 static __inline__ float GetY(qword q) { float y; __asm__("prot3w %0,%1" : "=r"(y) : "r"(q)); return y; }
