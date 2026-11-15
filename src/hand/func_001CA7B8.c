@@ -8,7 +8,8 @@ struct E *PvAllocSwCopyImpl__FiPv(struct AL *pal, struct E *pv);
 void CloneTo__6CFrameP6CFrame(struct SP *pret, struct RC *p, struct S *ps);
 void func_00257078(struct RC *p, int n);
 void AddRootFrame__3CGc(struct RC *p);
-void func_001CA7B8(struct S *p, struct S *q)
+// name: vt slot 41 = Clone (CloneLo / CloneEmitter / CloneVolbtn in the same slot) of PROXY (cid 0x06); Sly 1 proxy.c CloneProxy
+void CloneProxy__FP5PROXYT0(struct S *p, struct S *q)
 {
     int i;
     union { struct AL al; struct SP sp; } u;

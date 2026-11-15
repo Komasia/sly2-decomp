@@ -3975,7 +3975,7 @@ func_001CA308,0x1CA308,26,match,src/hand/func_001CA308.c
 func_001CA370,0x1CA370,99,match,src/hand/func_001CA370.c
 func_001CA500,0x1CA500,162,match,src/hand/func_001CA500.c
 func_001CA788,0x1CA788,12,match,src/hand/func_001CA788.c
-func_001CA7B8,0x1CA7B8,65,match,src/hand/func_001CA7B8.c
+CloneProxy__FP5PROXYT0,0x1CA7B8,65,match,src/hand/func_001CA7B8.c
 func_001CA8C0,0x1CA8C0,7,match,src/hand/func_001CA8C0.c
 func_001CA8E0,0x1CA8E0,20,match,src/hand/func_001CA8E0.c
 func_001CA930,0x1CA930,10,match,src/hand/func_001CA930.c
@@ -4472,7 +4472,7 @@ PrunNew__FP2LOPvP3RUN,0x1E5AE0,82,match,src/hand/func_001E5AE0.c
 func_001E5C28,0x1E5C28,77,match,src/hand/func_001E5C28.c
 func_001E5D60,0x1E5D60,8,match,src/hand/func_001E5D60.c
 func_001E5D80,0x1E5D80,13,match,src/hand/func_001E5D80.c
-func_001E5DB8,0x1E5DB8,15,match,src/hand/func_001E5DB8.c
+ClonePath__FP4PATHT0,0x1E5DB8,15,match,src/hand/func_001E5DB8.c
 LoadPathFromBrx__FP2LOP18CBinaryInputStream,0x1E5DF8,115,match,src/hand/func_001E5DF8.c
 CacheSegCrv__FP3CRVi,0x1E5FC8,110,match,src/hand/func_001E5FC8.c
 RecalcCrv__FP3CRV,0x1E6180,107,match,src/hand/func_001E6180.c
@@ -5578,7 +5578,7 @@ func_00220ED0,0x220ED0,45,match,src/hand/func_00220ED0.c
 func_00220F88,0x220F88,18,match,src/hand/func_00220F88.c
 LoadZoneFromBrx__FP2LOP18CBinaryInputStream,0x220FD0,84,match,src/hand/func_00220FD0.c
 func_00221120,0x221120,8,match,src/hand/func_00221120.c
-func_00221140,0x221140,13,match,src/hand/func_00221140.c
+CloneZone__FP4ZONET0,0x221140,13,match,src/hand/func_00221140.c
 UpdateZoneCamera__FP2LOi,0x221178,60,match,src/hand/func_00221178.c
 SetZoneForced__FP2LOi,0x221268,11,match,src/hand/func_00221268.c
 EvaluateZone__FP2LO,0x221298,60,match,src/hand/func_00221298.cpp

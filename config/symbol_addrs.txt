@@ -3193,3 +3193,6 @@ snd_StreamSafeCheckCDIdle = 0x232D80; // type:func
 snd_StartMovieSound = 0x232F88; // type:func
 tolower = 0x2345B8; // type:func
 strcasecmp = 0x2342D0; // type:func
+CloneProxy__FP5PROXYT0 = 0x1CA7B8; // type:func
+ClonePath__FP4PATHT0 = 0x1E5DB8; // type:func
+CloneZone__FP4ZONET0 = 0x221140; // type:func

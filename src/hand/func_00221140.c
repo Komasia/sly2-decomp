@@ -10,7 +10,8 @@ struct ZONE {
 void func_002311B0(struct ZONE *pzone, struct LO *ploBase);   /* the LOX clone */
 struct LO *PloCloneLo__FP2LOi(struct LO *plo, struct LO *ploParent);
 
-void func_00221140(struct ZONE *pzone, struct LO *ploBase)
+// name: vt slot 41 = Clone (CloneLo / CloneEmitter / CloneVolbtn in the same slot) of ZONE (cid 0x0F)
+void CloneZone__FP4ZONET0(struct ZONE *pzone, struct LO *ploBase)
 {
     func_002311B0(pzone, ploBase);
     pzone->plo10C = PloCloneLo__FP2LOi(pzone->plo10C, pzone->psoParent);
