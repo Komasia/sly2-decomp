@@ -1,4 +1,4 @@
-/* class: KIND2 (a KINDE's kind-2 payload; StopKinde 0x2090D0 calls it): returned to its slot heap D_003E1AD8. */
+/* func_0020C030 (0x20C030): a KIND2 (a kind entry's payload; 0x2090D0 calls it) returned to its slot heap D_003E1AD8. */
 #include "slotheap.h"
 
 extern SLOTHEAP D_003E1AD8;

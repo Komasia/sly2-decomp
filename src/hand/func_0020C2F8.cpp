@@ -7,8 +7,8 @@ struct SPACE {char pad0[0x70];U position;char pad80[0x20];SPACE *parent;};
 struct ALO {char pad0[0xC];VTENT *vt;char pad10[0x48];SPACE *space;char pad5C[0xEC];unsigned long flags;char pad150[0x348];void *control;};
 struct ASEG;
 struct ASEGA {char pad0[0x40];float playbackRate;};
-struct TUNING {int unused0;ASEG *animation;int unused8;float afterStart,afterEnd,flightTime,minimumTime;int unused1C;U acceleration;};
-struct P {char pad0[0x10];int state;float stateTime;char pad18[8];U previousVelocity;TUNING *tuning;ALO *subject;ASEGA *job;int index;U target;float arrival,end;ALO *related;int kind;int ballistic,steep;void *constraint;};
+struct KIND2 {int unused0;ASEG *animation;int unused8;float afterStart,afterEnd,flightTime,minimumTime;int unused1C;U acceleration;};
+struct K2PLAY {char pad0[0x10];int state;float stateTime;char pad18[8];U previousVelocity;KIND2 *tuning;ALO *subject;ASEGA *job;int index;U target;float arrival,end;ALO *related;int kind;int ballistic,steep;void *constraint;};
 #include "clock.h"
 struct GAME;
 extern GAME g_sw;
@@ -27,7 +27,7 @@ void RecalcSwOxfFilterForObject(GAME *,ALO *) asm("RecalcSwOxfFilterForObject__F
 void SetAloGravity(ALO *,qword) asm("SetAloGravity__FP3ALOG9VU_VECTOR");
 void SetAsegaTime(ASEGA *,int,float,float) asm("SetAsegaTime__FP5ASEGAiff");
 void AttachGuardMove(ALO *,ALO *,int) asm("AttachGuardMove__FP5GUARDP2LOi");
-void ReleaseK2Ballistic(P *) asm("ReleaseK2Ballistic__FP6K2PLAY");
+void ReleaseK2Ballistic(K2PLAY *) asm("ReleaseK2Ballistic__FP6K2PLAY");
 void func_0020D1A0(void *);
 }
 static inline qword Scalar(float f){qword r;__asm__("qmtc2 %1,%0":"=j"(r):"r"(f));return r;}
@@ -42,53 +42,59 @@ static inline qword MotionScalar(U *home,float value){
     return home->q;
 }
 static inline qword MotionAcceleration(qword value,qword scalar){register qword result __asm__("vf2");__asm__("vmulx.xyzw %0,%1,%2x":"=j"(result):"j"(value),"j"(scalar));return result;}
+// SetK2State (0x20C2F8): the kind-2 player's state change (K2ST_*, by number): 0 plays the clip, listens to it and
+// keeps the object's gravity; 1 (the flight; a guard first lets go of what it moves on) launches the object at the
+// target in the jump time (TJumpTo for a ballistic flight, which also gets a target controller, else the tuning's)
+// under the tuning's gravity scaled by the clip speed squared; 2 / 3 move the clip to its after-start / after-end
+// times (3 also attaches the object to the related one); 4 ends a ballistic flight and restores the gravity.
+// Field names follow SafeHouse guard.h K2PLAY (previousVelocity is its dvGravityPrev, related ploRelated).
 // name: SafeHouse port (SetK2State)
-extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
+extern "C" void SetK2State__FP6K2PLAYi(K2PLAY *pk2play,int state)
 {
     U scalar,delta,acceleration,velocity,finalVelocity;
-    if(state==p->state)return;
-    p->state=state;
-    p->stateTime=g_clock.t;
+    if(state==pk2play->state)return;
+    pk2play->state=state;
+    pk2play->stateTime=g_clock.t;
     switch(state){
     case 0:
-        ApplyAsegCur(p->tuning->animation,p->subject,0.0f,1.0f,p->index,&p->job);
-        AddLoListener__FP2LOi(p->job,(int)p);
-        p->previousVelocity.q=func_001F5860(p->subject);
+        ApplyAsegCur(pk2play->tuning->animation,pk2play->subject,0.0f,1.0f,pk2play->index,&pk2play->job);
+        AddLoListener__FP2LOi(pk2play->job,(int)pk2play);
+        pk2play->previousVelocity.q=func_001F5860(pk2play->subject);
         break;
     case 1:{
-        if(FIsBasicDerivedFrom(p->subject,CID_STEPGUARD)){
-            ALO *subject=p->subject;
+        if(FIsBasicDerivedFrom(pk2play->subject,CID_STEPGUARD)){
+            ALO *subject=pk2play->subject;
             DetachGuardMove(subject);
             func_0020D178(subject->control);
         }
-        float playbackRate=p->job->playbackRate;
-        register ALO *motionSubject __asm__("$3")=p->subject;
+        float playbackRate=pk2play->job->playbackRate;
+        register ALO *motionSubject __asm__("$3")=pk2play->subject;
         register SPACE *motionSpace __asm__("$4");
-        register TUNING *motionTuning __asm__("$3");
+        register KIND2 *motionTuning __asm__("$3");
         register float square __asm__("$f0");
         __asm__("lw %0,%3\n\tmul.s %1,%4,%4\n\tlw %2,%5"
           :"=&r"(motionSpace),"=f"(square),"=r"(motionTuning)
-          :"m"(motionSubject->space),"f"(playbackRate),"m"(p->tuning));
+          :"m"(motionSubject->space),"f"(playbackRate),"m"(pk2play->tuning));
         register qword rateSquared __asm__("vf3");
         register int ballistic __asm__("$2");
         __asm__("lqc2 $vf4,%4\n\tlqc2 $vf1,%5\n\tmfc1 %0,%8\n\tqmtc2.ni %0,%1\n\tvmulx.xyzw $vf2,$vf1,%1x\n\tsqc2 $vf2,%2\n\tlqc2 $vf2,%6\n\tvsub.xyzw $vf1,$vf2,$vf4\n\tsqc2 $vf1,%3\n\tlw %0,%7"
           :"=&r"(ballistic),"=&j"(rateSquared),"=m"(acceleration.q),"=m"(delta.q)
-          :"m"(motionSpace->position.q),"m"(motionTuning->acceleration.q),"m"(p->target.q),"m"(p->ballistic),"f"(square):"vf1","vf2","vf4");
+          :"m"(motionSpace->position.q),"m"(motionTuning->acceleration.q),"m"(pk2play->target.q),"m"(pk2play->ballistic),"f"(square):"vf1","vf2","vf4");
         scalar.q=rateSquared;
         float time;
         if(ballistic){
             float low,high,slopeLow,slopeHigh;
-            if(p->related&&(FIsBasicDerivedFrom(p->related,0x13)||FIsBasicDerivedFrom(p->related,CID_PIPE))){
+            if(pk2play->related&&(FIsBasicDerivedFrom(pk2play->related,CID_HOOK)||FIsBasicDerivedFrom(pk2play->related,CID_PIPE))){
                 low=1250.0f;slopeLow=1.1f;high=0.0f;slopeHigh=50.0f;
-            }else if(p->steep){
+            }else if(pk2play->steep){
                 low=1500.0f;slopeLow=1.33f;high=-1500.0f;slopeHigh=-1.33f;
             }else{
                 low=1250.0f;slopeLow=1.1f;high=-1250.0f;slopeHigh=-1.1f;
             }
             time=TJumpTo(delta.q,acceleration.q,low,high,slopeLow,slopeHigh);
         }else time=motionTuning->flightTime/playbackRate;
-        time=Max(p->tuning->minimumTime/playbackRate,time);
-        ALO *subject=p->subject;
+        time=Max(pk2play->tuning->minimumTime/playbackRate,time);
+        ALO *subject=pk2play->subject;
         VTENT &entry=subject->vt[35];
         short adjustment=entry.delta;
         void (*applyVelocity)(void *,qword)=((void (*)(void *,qword))entry.pfn);
@@ -98,39 +104,39 @@ extern "C" void SetK2State__FP6K2PLAYi(P *p,int state)
         qword initialVelocity=Combine(delta.q,inverseTime,acceleration.q,scalar.q);
         Store(&velocity,initialVelocity);
         applyVelocity((char *)subject+adjustment,velocity.q);
-        p->arrival=g_clock.t+time;
-        p->end=p->arrival-p->tuning->minimumTime/playbackRate;
-        if(p->ballistic){
+        pk2play->arrival=g_clock.t+time;
+        pk2play->end=pk2play->arrival-pk2play->tuning->minimumTime/playbackRate;
+        if(pk2play->ballistic){
             register qword timeScalar __asm__("vf1"),motionVelocity __asm__("vf2"),force __asm__("vf3");
             register ALO *launchSubject __asm__("$3");
             register qword target __asm__("$6");
             __asm__("qmtc2.ni %4,%0\n\tlqc2 %1,%5\n\tlqc2 %2,%6\n\tlw %3,%7"
               :"=j"(timeScalar),"=j"(motionVelocity),"=j"(force),"=r"(launchSubject)
-              :"r"(time),"m"(velocity.q),"m"(acceleration.q),"m"(p->subject));
+              :"r"(time),"m"(velocity.q),"m"(acceleration.q),"m"(pk2play->subject));
             __asm__("vadda.xyzw $ACC,%0,$vf0\n\tvmaddx.xyzw %0,%2,%3x\n\tlq %1,%4"
-              :"+j"(motionVelocity),"=r"(target):"j"(force),"j"(timeScalar),"m"(p->target.q));
+              :"+j"(motionVelocity),"=r"(target):"j"(force),"j"(timeScalar),"m"(pk2play->target.q));
             register SPACE *parentSpace __asm__("$2");
             __asm__("sqc2 %4,%0\n\tlw %1,%5\n\tsqc2 %3,%2"
               :"=m"(finalVelocity.q),"=r"(parentSpace),"=m"(scalar.q)
               :"j"(timeScalar),"j"(motionVelocity),"m"(launchSubject->space));
             qword position=PosConvertXfs(0,parentSpace->parent,target);
-            qword speed=VecConvertXfs(0,p->subject->space->parent,finalVelocity.q);
-            p->constraint=PctrlNewTarget(p->subject,p->subject->space,5,position,speed,p->arrival);
-            p->subject->flags|=0x04000000ul;
-            RecalcSwOxfFilterForObject(&g_sw,p->subject);
+            qword speed=VecConvertXfs(0,pk2play->subject->space->parent,finalVelocity.q);
+            pk2play->constraint=PctrlNewTarget(pk2play->subject,pk2play->subject->space,5,position,speed,pk2play->arrival);
+            pk2play->subject->flags|=0x04000000ul;
+            RecalcSwOxfFilterForObject(&g_sw,pk2play->subject);
         }
-        SetAloGravity(p->subject,acceleration.q);
+        SetAloGravity(pk2play->subject,acceleration.q);
         break;
     }
-    case 2:SetAsegaTime(p->job,0,p->tuning->afterStart,1.0f);break;
+    case 2:SetAsegaTime(pk2play->job,0,pk2play->tuning->afterStart,1.0f);break;
     case 3:
-        SetAsegaTime(p->job,0,p->tuning->afterEnd,1.0f);
-        if(p->related)AttachGuardMove(p->subject,p->related,p->kind);
+        SetAsegaTime(pk2play->job,0,pk2play->tuning->afterEnd,1.0f);
+        if(pk2play->related)AttachGuardMove(pk2play->subject,pk2play->related,pk2play->kind);
         break;
     case 4:
-        if(p->ballistic)ReleaseK2Ballistic(p);
-        SetAloGravity(p->subject,p->previousVelocity.q);
-        if(FIsBasicDerivedFrom(p->subject,CID_STEPGUARD))func_0020D1A0(p->subject->control);
+        if(pk2play->ballistic)ReleaseK2Ballistic(pk2play);
+        SetAloGravity(pk2play->subject,pk2play->previousVelocity.q);
+        if(FIsBasicDerivedFrom(pk2play->subject,CID_STEPGUARD))func_0020D1A0(pk2play->subject->control);
         break;
     }
 }
@@ -154,26 +160,26 @@ typedef char ALO_flags_Offset[(FIELD_OFFSET(ALO,flags)==0x148)?1:-1];
 typedef char ALO_control_Offset[(FIELD_OFFSET(ALO,control)==0x498)?1:-1];
 typedef char ASEGA_Prefix_Size[(sizeof(ASEGA)==0x44)?1:-1];
 typedef char ASEGA_playbackRate_Offset[(FIELD_OFFSET(ASEGA,playbackRate)==0x40)?1:-1];
-typedef char TUNING_Prefix_Size[(sizeof(TUNING)==0x30)?1:-1];
-typedef char TUNING_animation_Offset[(FIELD_OFFSET(TUNING,animation)==0x4)?1:-1];
-typedef char TUNING_afterStart_Offset[(FIELD_OFFSET(TUNING,afterStart)==0xC)?1:-1];
-typedef char TUNING_afterEnd_Offset[(FIELD_OFFSET(TUNING,afterEnd)==0x10)?1:-1];
-typedef char TUNING_flightTime_Offset[(FIELD_OFFSET(TUNING,flightTime)==0x14)?1:-1];
-typedef char TUNING_minimumTime_Offset[(FIELD_OFFSET(TUNING,minimumTime)==0x18)?1:-1];
-typedef char TUNING_acceleration_Offset[(FIELD_OFFSET(TUNING,acceleration)==0x20)?1:-1];
-typedef char P_Prefix_Size[(sizeof(P)==0x70)?1:-1];
-typedef char P_state_Offset[(FIELD_OFFSET(P,state)==0x10)?1:-1];
-typedef char P_stateTime_Offset[(FIELD_OFFSET(P,stateTime)==0x14)?1:-1];
-typedef char P_previousVelocity_Offset[(FIELD_OFFSET(P,previousVelocity)==0x20)?1:-1];
-typedef char P_tuning_Offset[(FIELD_OFFSET(P,tuning)==0x30)?1:-1];
-typedef char P_subject_Offset[(FIELD_OFFSET(P,subject)==0x34)?1:-1];
-typedef char P_job_Offset[(FIELD_OFFSET(P,job)==0x38)?1:-1];
-typedef char P_index_Offset[(FIELD_OFFSET(P,index)==0x3C)?1:-1];
-typedef char P_target_Offset[(FIELD_OFFSET(P,target)==0x40)?1:-1];
-typedef char P_arrival_Offset[(FIELD_OFFSET(P,arrival)==0x50)?1:-1];
-typedef char P_end_Offset[(FIELD_OFFSET(P,end)==0x54)?1:-1];
-typedef char P_related_Offset[(FIELD_OFFSET(P,related)==0x58)?1:-1];
-typedef char P_kind_Offset[(FIELD_OFFSET(P,kind)==0x5C)?1:-1];
-typedef char P_ballistic_Offset[(FIELD_OFFSET(P,ballistic)==0x60)?1:-1];
-typedef char P_steep_Offset[(FIELD_OFFSET(P,steep)==0x64)?1:-1];
-typedef char P_constraint_Offset[(FIELD_OFFSET(P,constraint)==0x68)?1:-1];
+typedef char TUNING_Prefix_Size[(sizeof(KIND2)==0x30)?1:-1];
+typedef char TUNING_animation_Offset[(FIELD_OFFSET(KIND2,animation)==0x4)?1:-1];
+typedef char TUNING_afterStart_Offset[(FIELD_OFFSET(KIND2,afterStart)==0xC)?1:-1];
+typedef char TUNING_afterEnd_Offset[(FIELD_OFFSET(KIND2,afterEnd)==0x10)?1:-1];
+typedef char TUNING_flightTime_Offset[(FIELD_OFFSET(KIND2,flightTime)==0x14)?1:-1];
+typedef char TUNING_minimumTime_Offset[(FIELD_OFFSET(KIND2,minimumTime)==0x18)?1:-1];
+typedef char TUNING_acceleration_Offset[(FIELD_OFFSET(KIND2,acceleration)==0x20)?1:-1];
+typedef char P_Prefix_Size[(sizeof(K2PLAY)==0x70)?1:-1];
+typedef char P_state_Offset[(FIELD_OFFSET(K2PLAY,state)==0x10)?1:-1];
+typedef char P_stateTime_Offset[(FIELD_OFFSET(K2PLAY,stateTime)==0x14)?1:-1];
+typedef char P_previousVelocity_Offset[(FIELD_OFFSET(K2PLAY,previousVelocity)==0x20)?1:-1];
+typedef char P_tuning_Offset[(FIELD_OFFSET(K2PLAY,tuning)==0x30)?1:-1];
+typedef char P_subject_Offset[(FIELD_OFFSET(K2PLAY,subject)==0x34)?1:-1];
+typedef char P_job_Offset[(FIELD_OFFSET(K2PLAY,job)==0x38)?1:-1];
+typedef char P_index_Offset[(FIELD_OFFSET(K2PLAY,index)==0x3C)?1:-1];
+typedef char P_target_Offset[(FIELD_OFFSET(K2PLAY,target)==0x40)?1:-1];
+typedef char P_arrival_Offset[(FIELD_OFFSET(K2PLAY,arrival)==0x50)?1:-1];
+typedef char P_end_Offset[(FIELD_OFFSET(K2PLAY,end)==0x54)?1:-1];
+typedef char P_related_Offset[(FIELD_OFFSET(K2PLAY,related)==0x58)?1:-1];
+typedef char P_kind_Offset[(FIELD_OFFSET(K2PLAY,kind)==0x5C)?1:-1];
+typedef char P_ballistic_Offset[(FIELD_OFFSET(K2PLAY,ballistic)==0x60)?1:-1];
+typedef char P_steep_Offset[(FIELD_OFFSET(K2PLAY,steep)==0x64)?1:-1];
+typedef char P_constraint_Offset[(FIELD_OFFSET(K2PLAY,constraint)==0x68)?1:-1];

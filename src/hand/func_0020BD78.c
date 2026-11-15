@@ -1,9 +1,7 @@
-/* The kind-2 player's entry (SafeHouse kind2.cpp, orig 0x20C010 / 0x20BD78 / 0x20BD88): no object (-1). */
-struct KIND2E {
-    /* 0x0 */ int oid;
-};
+/* func_0020BD78 (0x20BD78): KIND2 init: no ASEG oid. */
+#include "h6_guard.h"
 
-void func_0020BD78(struct KIND2E *pe)
+void func_0020BD78(KIND2 *pk2)
 {
-    pe->oid = -1;
+    pk2->oid = -1;
 }

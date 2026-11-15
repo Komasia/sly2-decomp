@@ -1,6 +1,6 @@
-/* A new object from the pool D_003E1AF0: the four-direction players' tuning objects (SafeHouse kind3.cpp). */
-extern char D_003E1AF0[];
-void *func_0011CCC0(void *ppool);   /* the pool's allocation */
+/* func_0020CA00 (0x20CA00): a new KIND3 from its slot heap D_003E1AF0 (SafeHouse kind3.cpp). */
+extern char D_003E1AF0[];   /* the KIND3 slot heap */
+void *func_0011CCC0(void *pslotheap);   /* the slot heap's allocation */
 
 void *func_0020CA00(void)
 {

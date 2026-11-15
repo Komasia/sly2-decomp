@@ -1,4 +1,4 @@
-/* FK3Done: a kind-3 player is done when it plays no animation (+0x24). Layout: SafeHouse port (kind3.cpp K3PLAY). */
+/* FK3Done (0x20CA98): a kind-3 player is done when it plays no animation (+0x24). Layout: SafeHouse port (kind3.cpp K3PLAY). */
 struct ASEGA;
 struct K3PLAY {
     /* 0x00 */ char pad0[0x24];

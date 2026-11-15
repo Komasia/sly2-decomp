@@ -1,24 +1,28 @@
 typedef int qword __attribute__((mode(TI)));
 extern struct { float t; float dt; } g_clock;
-extern float D_002C3DB8;
-extern struct { char pad[0x4030]; int n4030; } g_sw;
-struct X { char pad[0x30]; qword v; char pad2[4]; void *p44; char pad3[0xC]; int n54; };
-struct S { char pad[0xE60]; int nE60; char pad2[0xF44 - 0xE64]; float t; };
-qword PosOfLo__FP2LO(void *p);
-void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(int a, qword v, struct S *p, struct X **ppx);
-struct X *func_00156698(int a, qword v, struct S *p);
+extern float D_002C3DB8;   /* the time between alarms */
+extern struct { char pad[0x4030]; int pnoisetmplAlarmDefault; } g_sw;
+/* a noise: the alarm's target place, the target, its kind */
+struct NOISE { char pad[0x30]; qword posTarget; char pad2[4]; void *ploTarget44; char pad3[0xC]; int nKind; };
+struct GUARD { char pad[0xE60]; int pnoisetmplAlarm; char pad2[0xF44 - 0xE64]; float tF44; };
+qword PosOfLo__FP2LO(void *plo);
+void PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(int pnoisetmpl, qword pos, struct GUARD *ploOwner, struct NOISE **ppnoise);
+struct NOISE *func_00156698(int pnoisetmpl, qword pos, struct GUARD *ploOwner);
+/* RaiseGuardAlarm (0x20B140): a pursuing guard raises an alarm about its target: a kind-4 noise at the guard (from
+ * its alarm template +0xE60, else the world's), with the target and its place; the next alarm not before
+ * D_002C3DB8 from now (+0xF44). */
 // name: SafeHouse port (RaiseGuardAlarm)
-void RaiseGuardAlarm__FP5GUARDP2LO(struct S *p, void *q)
+void RaiseGuardAlarm__FP5GUARDP2LO(struct GUARD *pguard, void *ploTarget)
 {
-    struct X *px;
-    qword v = PosOfLo__FP2LO(q);
-    px = 0;
-    if (p->nE60)
-        PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(p->nE60, PosOfLo__FP2LO(p), p, &px);
+    struct NOISE *pnoise;
+    qword posTarget = PosOfLo__FP2LO(ploTarget);
+    pnoise = 0;
+    if (pguard->pnoisetmplAlarm)
+        PnoiseNew__FP9NOISETMPLG9VU_VECTORiP6VECTOR(pguard->pnoisetmplAlarm, PosOfLo__FP2LO(pguard), pguard, &pnoise);
     else
-        px = func_00156698(g_sw.n4030, PosOfLo__FP2LO(p), p);
-    px->v = v;
-    px->p44 = q;
-    px->n54 = 4;
-    p->t = g_clock.t + D_002C3DB8;
+        pnoise = func_00156698(g_sw.pnoisetmplAlarmDefault, PosOfLo__FP2LO(pguard), pguard);
+    pnoise->posTarget = posTarget;
+    pnoise->ploTarget44 = ploTarget;
+    pnoise->nKind = 4;
+    pguard->tF44 = g_clock.t + D_002C3DB8;
 }

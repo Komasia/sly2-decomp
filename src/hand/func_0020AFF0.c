@@ -1,16 +1,23 @@
-struct X { int a; };
-struct E { int n; struct X *px; int b; int c; };
-struct S { char pad[0xAC]; int nAC; struct E e; };
-void func_002090D0(struct E *pe, int n);
-struct X *func_0020C010(int cb);
-void func_0020BD78(struct X *px);
-void func_0020AFF0(struct S *p, int a)
+/* func_0020AFF0 (0x20AFF0, splice method {oid}): the guard action's kind entry becomes a new KIND2 with the ASEG oid. */
+#include "h6_guard.h"
+typedef struct GUARD GUARD;
+/* a guard action (cid 0x78): its guard and kind entry */
+typedef struct GUARDACTION {
+    /* 0x00 */ char pad0[0xac];
+    /* 0xac */ GUARD *pguard;
+    /* 0xb0 */ KINDE kinde;
+} GUARDACTION;
+
+void func_002090D0(KINDE *pkinde, GUARD *pguard);   /* clears a kind entry */
+KIND2 *func_0020C010(int cb);   /* new KIND2 */
+void func_0020BD78(KIND2 *pk2);  /* KIND2 init */
+void func_0020AFF0(GUARDACTION *paction, int oid)
 {
-    struct E *pe = &p->e;
-    func_002090D0(pe, p->nAC);
-    p->e.n = 2;
-    pe->px = func_0020C010(0x40);
-    func_0020BD78(pe->px);
-    pe->px->a = a;
-    pe->c = 0;
+    KINDE *pkinde = &paction->kinde;
+    func_002090D0(pkinde, paction->pguard);
+    paction->kinde.k = KINDK_Kind2;
+    pkinde->u.pk2 = func_0020C010(sizeof(KIND2));
+    func_0020BD78(pkinde->u.pk2);
+    pkinde->u.pk2->oid = oid;
+    pkinde->grf = 0;
 }

@@ -1,39 +1,41 @@
 typedef int qword __attribute__((mode(TI)));
-struct Z { float a; float b; };
-struct EN { int a; int b; struct Z *pz; };
-struct X { char pad[0x18]; void *p18; float g; };
-struct Y { char pad[0x50]; struct X *px; char pad2[0x74 - 0x54]; float f74; char pad3[0xD0 - 0x78]; struct EN *aen; };
-struct S { int pad0; struct Y *py; char pad1[0x50 - 8]; float t50; char pad2[0x90 - 0x54]; int h90; float f94; float f98; int af[2]; };
-float GModPositive__Fff(float a, float b);
-void *PsndNewPlain__Fi(int h);
-void SetSource__4CSndPv(void *p, void *source);
-qword PosOfLo__FP2LO(void *p);
-void SetPosition__4CSndG9VU_VECTOR(void *p, qword q);
-void SetFalloff__4CSndff(void *p, float a, float b);
-void SetVolume__4CSndf(void *p, float t);
+struct SEGMARK { float a; float b; };
+struct SEGMARKREF { int a; int b; struct SEGMARK *pz; };
+struct ASEGA { char pad[0x18]; void *palo; float tLocal; };
+struct ASEGBLG { char pad[0x50]; struct ASEGA *pasega; char pad2[0x74 - 0x54]; float tLoop; char pad3[0xD0 - 0x78]; struct SEGMARKREF *amrsg; };
+struct GAIT { int pad0; struct ASEGBLG *pasegbl; char pad1[0x50 - 8]; float uMix; char pad2[0x90 - 0x54]; int sfx; float gVolLo; float gVolHi; int afFoot[2]; };
+float GModPositive__Fff(float g, float gMod);
+void *PsndNewPlain__Fi(int sfx);
+void SetSource__4CSndPv(void *psnd, void *pvSource);
+qword PosOfLo__FP2LO(void *plo);
+void SetPosition__4CSndG9VU_VECTOR(void *psnd, qword pos);
+void SetFalloff__4CSndff(void *psnd, float sNear, float sFar);
+void SetVolume__4CSndf(void *psnd, float uVol);
 
+/* UpdateGaitFeet (0x20BC08): each foot's marker segment state from the blend's clip time; when a foot wraps, a
+ * footstep sound at the actor, its volume between gVolLo and gVolHi by the mix. Field names: SafeHouse port. */
 // name: SafeHouse port (UpdateGaitFeet)
-void UpdateGaitFeet__FP4GAIT(struct S *p)
+void UpdateGaitFeet__FP4GAIT(struct GAIT *pgait)
 {
-    struct X *x = p->py->px;
-    float g = x->g;
+    struct ASEGA *pasega = pgait->pasegbl->pasega;
+    float tLocal = pasega->tLocal;
     int i;
     for (i = 0; i < 2; i++) {
-        struct Y *y = p->py;
-        struct Z *z = y->aen[i].pz;
-        int f = z->b <= GModPositive__Fff(g - z->a, y->f74);
-        if (f == p->af[i])
+        struct ASEGBLG *pasegbl = pgait->pasegbl;
+        struct SEGMARK *pmark = pasegbl->amrsg[i].pz;
+        int fPast = pmark->b <= GModPositive__Fff(tLocal - pmark->a, pasegbl->tLoop);
+        if (fPast == pgait->afFoot[i])
             continue;
-        if (!f) {
-            float t = p->t50;
-            void *h;
-            { float u = 1.0f - t; t *= p->f98; t += u * p->f94; }
-            h = PsndNewPlain__Fi(p->h90);
-            SetSource__4CSndPv(h, 0);
-            SetPosition__4CSndG9VU_VECTOR(h, PosOfLo__FP2LO(x->p18));
-            SetFalloff__4CSndff(h, 500.0f, 2000.0f);
-            SetVolume__4CSndf(h, t);
+        if (!fPast) {
+            float uVol = pgait->uMix;
+            void *psnd;
+            { float u = 1.0f - uVol; uVol *= pgait->gVolHi; uVol += u * pgait->gVolLo; }
+            psnd = PsndNewPlain__Fi(pgait->sfx);
+            SetSource__4CSndPv(psnd, 0);
+            SetPosition__4CSndG9VU_VECTOR(psnd, PosOfLo__FP2LO(pasega->palo));
+            SetFalloff__4CSndff(psnd, 500.0f, 2000.0f);
+            SetVolume__4CSndf(psnd, uVol);
         }
-        p->af[i] = f;
+        pgait->afFoot[i] = fPast;
     }
 }
