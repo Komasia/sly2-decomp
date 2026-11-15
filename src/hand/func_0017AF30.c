@@ -1,76 +1,90 @@
+/* JOBB1::Message: after the move's own handling: message 9 (an animation event): the entry's event 0x3D resets the
+ * launch count; message 12 (a contact): another launching hit (0x200000, accepted with bit 8) while not rising: the
+ * entry restarts if it was done, seeks the latest launch event for the count (0x38.., at most 4), the launch starts over
+ * (rising), a sound object for the count is told (its vt slot 0x33, message 5) at the guard, the guard's hit points
+ * lowered (at least 5) and a noise made (SW +0x4028's template). SafeHouse port (aihit.cpp JOBB1::Message). */
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct G { char pad[0x4028]; void *p4028; };
-extern struct G g_sw;
-extern void *D_002BE6D0[];
-extern int D_002BE6E8[];
-struct O { char pad[0xC]; VTENT *vt; };
-struct C { int pad; void *p4; void *p8; int nC; };
-struct A { char pad[0x33C]; int n33C; };
-struct S { char pad[0x10]; struct A *p10; char pad2[0x2C]; struct C *p40; char pad3[0xC]; int n50; int pad4; int n58; };
-struct M { int n0; int pad; int n8; int nC; int n10; char pad2[0x30]; int n44; };
-struct X { int a; int pad[7]; qword v; qword pad2; };
-int Message__7JOBMOVEiPv(struct S *p, int msg, struct M *pm);
-int PasegaOfKinde__FP5KINDE(struct C *c);
-int FKindeDone__FP5KINDE(struct C *c);
-void StopKinde__FP5KINDE(struct C *c);
-void PlayKinde__FP5KINDEP5GUARDif(struct C *c, struct A *a, int fl, float g);
-float *PeventLaunch__FP5KINDEi(void *p, void *q);
-void SetAsegaTime__FP5ASEGAiff(void *p, float a, float b, int n);
-void SetState__5JOBB1i(struct S *p, int n);
-struct O *PloFindSwNearest__FP2LO3OIDii(struct G *g, int a, int b, int c);
-void *s1_memset(void *p, int c, int n) asm("memset");
-qword PosOfLo__FP2LO(struct A *a);
-void func_00156698(void *p, qword v, struct A *a);
+#include "h2_aijobs.h"
+
+struct NOISETMPL;
+struct SW { char pad0[0x4028]; struct NOISETMPL *ptmpl4028; };   /* field: SafeHouse port (template 708) */
+extern struct SW g_sw;
+extern void *D_002BE6D0[];              /* the launch events by count */
+extern int D_002BE6E8[];                /* the sound objects' oids by count */
+struct LOVT { char pad0[0xC]; VTENT *vt; };
+struct ASEG;
+struct ASEGA;
+struct KINDE { int k; struct ASEG *paseg; struct ASEGA *pasega; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+struct GUARD {
+    /* 0x000 */ char pad0[0x33C];
+    /* 0x33c */ int nHp;                /* field: SafeHouse port (n33C) - its hit points */
+};
+/* messages 9 (ASEGMSG9: n0 the ASEGA, n8 the event) and 12 (CTMSG: the rest) */
+struct AIMSGV { int n0; int pad4; int nEvent; unsigned int grfFilter; int nAmount; char pad14[0x30]; unsigned int grfAccepted; };
+/* the sound object's message */
+struct SNDMSG { int k; int pad[7]; qword pos; qword pad2; };
+int Message__7JOBMOVEiPv(JOBB1 *pjob, int msg, struct AIMSGV *pmsg);
+int PasegaOfKinde__FP5KINDE(struct KINDE *pkinde);
+int FKindeDone__FP5KINDE(struct KINDE *pkinde);
+void StopKinde__FP5KINDE(struct KINDE *pkinde);
+void PlayKinde__FP5KINDEP5GUARDif(struct KINDE *pkinde, struct GUARD *pguard, int grf, float t);
+float *PeventLaunch__FP5KINDEi(struct ASEG *paseg, void *pvEvent);
+void SetAsegaTime__FP5ASEGAiff(struct ASEGA *pasega, float t, float svt, int n);
+void SetState__5JOBB1i(JOBB1 *pjob, int st);
+struct LOVT *PloFindSwNearest__FP2LO3OIDii(struct SW *psw, int a, int oid, int c);
+void *s1_memset(void *pv, int c, int cb) asm("memset");
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+void func_00156698(struct NOISETMPL *ptmpl, qword pos, struct GUARD *pguard);   /* SafeHouse port: PnoiseNew */
+
 // name: SafeHouse port (JOBB1::Message)
-int Message__5JOBB1iPv(struct S *p, int msg, struct M *pm) {
-    if (Message__7JOBMOVEiPv(p, msg, pm)) return 1;
+int Message__5JOBB1iPv(JOBB1 *pjob, int msg, struct AIMSGV *pmsg)
+{
+    if (Message__7JOBMOVEiPv(pjob, msg, pmsg)) return 1;
     switch (msg) {
     case 9:
-        if (p->p40 == 0) return 0;
-        if (PasegaOfKinde__FP5KINDE(p->p40) != pm->n0) return 0;
-        if (pm->n8 == 0x3D) p->n58 = 0;
+        if (pjob->jobmove.pkinde == 0) return 0;
+        if (PasegaOfKinde__FP5KINDE(pjob->jobmove.pkinde) != pmsg->n0) return 0;
+        if (pmsg->nEvent == 0x3D) pjob->nLaunch = 0;
         return 0;
     case 0xC:
         {
-            int i, n;
-            float g;
-            struct G *pg;
-            struct O *o;
-            struct A *a;
-            if (pm->nC != 0x200000) return 0;
-            if (!(pm->n44 & 8)) return 0;
-            if (!p->n50) return 0;
-            if (FKindeDone__FP5KINDE(p->p40)) {
-                StopKinde__FP5KINDE(p->p40);
-                PlayKinde__FP5KINDEP5GUARDif(p->p40, p->p10, p->p40->nC | 1, 0.0f);
+            int i;
+            float t;
+            struct LOVT *plo;
+            struct GUARD *pguard;
+            if (pmsg->grfFilter != HITK_Launch) return 0;
+            if (!(pmsg->grfAccepted & 8)) return 0;
+            if (!pjob->stLaunch) return 0;
+            if (FKindeDone__FP5KINDE(pjob->jobmove.pkinde)) {
+                StopKinde__FP5KINDE(pjob->jobmove.pkinde);
+                PlayKinde__FP5KINDEP5GUARDif(pjob->jobmove.pkinde, pjob->jobmove.aijob.pguard, pjob->jobmove.pkinde->grf | 1, 0.0f);
             }
-            p->n58++;
-            g = 0.0f;
-            i = 4; if (p->n58 <= 3) i = p->n58;
+            pjob->nLaunch++;
+            t = 0.0f;
+            i = 4; if (pjob->nLaunch <= 3) i = pjob->nLaunch;
             while (i > 0) {
-                float *r = PeventLaunch__FP5KINDEi(p->p40->p4, D_002BE6D0[i]);
-                if (r) { g = *r; break; }
+                float *pt = PeventLaunch__FP5KINDEi(pjob->jobmove.pkinde->paseg, D_002BE6D0[i]);
+                if (pt) { t = *pt; break; }
                 i--;
             }
-            SetAsegaTime__FP5ASEGAiff(p->p40->p8, g, 1.0f, 0);
-            SetState__5JOBB1i(p, 0);
-            o = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, D_002BE6E8[i], 0);
-            if (o) {
-                struct X x;
-                VTENT *e;
-                s1_memset(&x, 0, sizeof x);
-                x.a = 5;
-                x.v = PosOfLo__FP2LO(p->p10);
-                e = &o->vt[0x33];
-                ((void (*)(void *, struct X *))e->pfn)(VT_THIS(o, e), &x);
+            SetAsegaTime__FP5ASEGAiff(pjob->jobmove.pkinde->pasega, t, 1.0f, 0);
+            SetState__5JOBB1i(pjob, LAUNCHS_Rise);
+            plo = PloFindSwNearest__FP2LO3OIDii(&g_sw, 5, D_002BE6E8[i], 0);
+            if (plo) {
+                struct SNDMSG sndmsg;
+                VTENT *pvte;
+                s1_memset(&sndmsg, 0, sizeof sndmsg);
+                sndmsg.k = 5;
+                sndmsg.pos = PosOfLo__FP2LO(pjob->jobmove.aijob.pguard);
+                pvte = &plo->vt[0x33];
+                ((void (*)(void *, struct SNDMSG *))pvte->pfn)(VT_THIS(plo, pvte), &sndmsg);
             }
-            a = p->p10;
+            pguard = pjob->jobmove.aijob.pguard;
             {
-                int m = a->n33C + pm->n10;
-                a->n33C = m < 5 ? 5 : m;
+                int nHpNew = pguard->nHp + pmsg->nAmount;
+                pguard->nHp = nHpNew < 5 ? 5 : nHpNew;
             }
-            func_00156698(g_sw.p4028, PosOfLo__FP2LO(p->p10), p->p10);
+            func_00156698(g_sw.ptmpl4028, PosOfLo__FP2LO(pjob->jobmove.aijob.pguard), pjob->jobmove.aijob.pguard);
             return 1;
         }
     }

@@ -1,7 +1,21 @@
-struct U { char pad[0x10]; int n10; };
-struct T { int a, b; struct U *p8; };
-struct S { char pad[0x10]; char *p10; char pad1[0x1C]; int n30; char pad2[0xC]; struct T *p40; char pad3[0x28]; int n6C; int a70[4]; };
-void Update__7JOBMOVE(struct S *p);
-void func_00209840(void *p, void *q);
+/* JOBUSE::Update: the move goes on; a use with an orientation turns the guard's move frame to it while the move is in
+ * its state 0 and the entry's player's +0x10 is 2 or more. */
+#include "h2_aijobs.h"
+
+struct MOVEREF { struct AIJOB *pjob; int fHeadingLocked; int n8; struct GUARD *pguard; };  /* field: SafeHouse port */
+struct GUARD {
+    /* 0x000 */ char pad0[0xFD0];
+    /* 0xfd0 */ struct MOVEREF move;    /* field: SafeHouse port */
+};
+struct PLAYER { char pad0[0x10]; int n10; };
+struct KINDE { int k; void *pv; struct PLAYER *pvState; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+void Update__7JOBMOVE(JOBUSE *pjob);
+void func_00209840(struct MOVEREF *pmove, qword *pmat);   /* the move's frame set */
+
 // name: SafeHouse port (JOBUSE::Update)
-void Update__6JOBUSE(struct S *p) { Update__7JOBMOVE(p); if (p->n6C && !p->n30 && p->p40->p8->n10 >= 2) func_00209840(p->p10 + 0xFD0, p->a70); }
+void Update__6JOBUSE(JOBUSE *pjob)
+{
+    Update__7JOBMOVE(pjob);
+    if (pjob->fBasis && !pjob->jobmove.st && pjob->jobmove.pkinde->pvState->n10 >= 2)
+        func_00209840(&pjob->jobmove.aijob.pguard->move, pjob->mat);
+}

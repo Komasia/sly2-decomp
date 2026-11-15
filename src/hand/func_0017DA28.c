@@ -1,88 +1,98 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBGOTO::Search: chooses the way to the goal (once started, while the guard walks): the current goal; no link:
+ * a path to it; a link: a path to its first record, or - a walked link the guard is already next to (within 50,
+ * height within 300) - the link itself. The path goes onto the guard's curve (straight when going direct); no path:
+ * straight to the point. The search's time and the navigation's serial are remembered. */
 #include "clock.h"
-struct W { int pad[0x28 / 4]; int n28; };
-struct G { char pad[0x45CC]; struct W *p45CC; };
-extern struct G g_sw;
-struct X { qword a; qword v; };
-struct Q { char pad[0x60]; struct X x60; struct X x80; char pad2[0x120 - 0xA0]; int n120; };
-struct B { char pad[0xE8]; int nE8; char pad2[8]; qword *pF4; };
-struct D { char pad[0x10]; void *p10; };
-struct C { char pad[0xDC]; struct D *pDC; };
-struct A { char pad[0xE8]; struct C *pE8; char pad2[0x294 - 0xEC]; struct B *p294; char pad3[0xFE8 - 0x298]; int nFE8; };
-struct S {
-    char pad[0x10]; struct A *p10; char pad2[0x1C]; int n30; char pad3[0x2C]; struct X x60; struct X x80;
-    float fA0; int nA4; char pad4[0xC]; int nB4; struct Q *pB8; int nBC;
+#include "h2_aijobs.h"
+
+struct NAVSERIAL { char pad0[0x28]; int nSerial; };
+struct SW { char pad0[0x45CC]; struct NAVSERIAL *pnavserial; };
+extern struct SW g_sw;
+/* the guard's curve: its points */
+struct CRV { char pad0[0xE8]; int cpos; char padEC[8]; qword *apos; };
+/* the guard's fields used here */
+struct NAV { char pad0[0x10]; struct NAVREGION *pnavregion; };
+struct SOPHYS { char pad0[0xDC]; struct NAV *pnav; };
+struct GUARD {
+    /* 0x000 */ char pad0[0xE8];
+    /* 0x0e8 */ struct SOPHYS *pE8;     /* -> +0xDC -> +0x10: the navigation region it is in */
+    /* 0x0ec */ char padEC[0x294 - 0xEC];
+    /* 0x294 */ struct CRV *pcrv;       /* field: SafeHouse port (crv294) - the curve its paths are written to */
+    /* 0x298 */ char pad298[0xFE8 - 0x298];
+    /* 0xfe8 */ int grfFE8;             /* field: SafeHouse port - 2: it walks */
 };
-int FJobDone(struct S *p) asm("FJobDone__FP5AIJOB");
-void SetState__7JOBGOTOi(struct S *p, int n);
-void func_0017D8A8(struct S *p);
-void func_002562A8(struct X *x);
-qword PosOfLo__FP2LO(void *p);
-qword PosGoal__FP4GOALG9VU_VECTOR(struct X *s, qword v);
-void PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(qword p, qword a, qword b, qword *pc, float *pt, int n);
-void RecalcCrv__FP3CRV(struct B *b);
-int FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
+int FJobDone(JOBGOTO *pjob) asm("FJobDone__FP5AIJOB");
+void SetState__7JOBGOTOi(JOBGOTO *pjob, int st);
+void func_0017D8A8(JOBGOTO *pjob);      /* the current goal */
+void func_002562A8(GOAL *pgoal);        /* the goal cleared */
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+qword PosGoal__FP4GOALG9VU_VECTOR(GOAL *pgoal, qword posFrom);
+void PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(qword pos, qword posA, qword posB, qword *pposNearest, float *pu, int n);
+void RecalcCrv__FP3CRV(struct CRV *pcrv);
+int FNavPathCrv__FP9NAVREGIONiiP3CRV(struct NAVREGION *pnavregion, qword posFrom, qword posTo, struct CRV *pcrv);
 static __inline__ float GetZ(qword q) { float z; __asm__("pextuw %0,$0,%1" : "=r"(z) : "r"(q)); return z; }
+
 // name: SafeHouse port (JOBGOTO::Search)
-void Search__7JOBGOTO(struct S *p) {
-    struct X x;
-    int k;
-    if (p->n30 == -1) return;
-    if (!(p->p10->nFE8 & 2)) return;
-    if (FJobDone(p)) return;
-    SetState__7JOBGOTOi(p, 0);
-    func_0017D8A8(p);
-    func_002562A8(&x);
-    if (p->nB4 == 0) {
-        x = p->x60;
-        k = 1;
+void Search__7JOBGOTO(JOBGOTO *pjob)
+{
+    GOAL goal;
+    int st;
+    if (pjob->st == GOTOS_None) return;
+    if (!(pjob->aijob.pguard->grfFE8 & 2)) return;
+    if (FJobDone(pjob)) return;
+    SetState__7JOBGOTOi(pjob, GOTOS_Search);
+    func_0017D8A8(pjob);
+    func_002562A8(&goal);
+    if (pjob->cplink == 0) {
+        goal = pjob->goalCur;
+        st = GOTOS_Path;
     } else {
-        struct Q *q = p->pB8;
-        x = q->x60;
-        k = 2;
-        if (q->n120 == 0) {
-            union { qword q; float f[4]; } c;
-            float t;
-            qword pos = PosOfLo__FP2LO(p->p10);
-            qword a = PosGoal__FP4GOALG9VU_VECTOR(&q->x60, pos);
-            qword b = PosGoal__FP4GOALG9VU_VECTOR(&q->x80, pos);
-            int f;
-            PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(pos, a, b, &c.q, &t, 0);
-            f = 0;
-            if (t > 0.0f && t < 1.0f) {
+        NAVLINK *plink = pjob->aplink[0];
+        goal = plink->agoal[0];
+        st = GOTOS_PathOpen;
+        if (plink->kind == NAVLINKK_Walked) {
+            union { qword q; float f[4]; } posNearest;
+            float u;
+            qword posGuard = PosOfLo__FP2LO(pjob->aijob.pguard);
+            qword posA = PosGoal__FP4GOALG9VU_VECTOR(&plink->agoal[0], posGuard);
+            qword posB = PosGoal__FP4GOALG9VU_VECTOR(&plink->agoal[1], posGuard);
+            int fNear;
+            PosNearestSegment__FG9VU_VECTORN20P6VECTORN23(posGuard, posA, posB, &posNearest.q, &u, 0);
+            fNear = 0;
+            if (u > 0.0f && u < 1.0f) {
                 qword d, l;
-                float g;
-                __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(c.q), "j"(pos));
+                float dist;
+                __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(posNearest.q), "j"(posGuard));
                 __asm__("vmul.xy %0, %1, %1\n\tvaddy.x %0, %0, %0y" : "=j"(d) : "j"(d));
                 __asm__("vsqrt $Q, %1x\n\tvwaitq\n\tvaddq.x %0, $vf0, $Q" : "=j"(l) : "j"(d));
-                __asm__("qmfc2.ni %0, %1" : "=r"(g) : "j"(l));
-                if (g < 50.0f) {
-                    if (__builtin_fabsf(c.f[2] - GetZ(pos)) < 300.0f) f = 1;
+                __asm__("qmfc2.ni %0, %1" : "=r"(dist) : "j"(l));
+                if (dist < 50.0f) {
+                    if (__builtin_fabsf(posNearest.f[2] - GetZ(posGuard)) < 300.0f) fNear = 1;
                 }
             }
-            if (f) k = 3;
+            if (fNear) st = GOTOS_Link;
         }
     }
-    if (k > 0) if (k < 3) {
-        struct B *b = p->p10->p294;
-        qword pos = PosOfLo__FP2LO(p->p10);
-        qword q = PosGoal__FP4GOALG9VU_VECTOR(&x, pos);
-        if (p->nBC) {
-            b->nE8 = 2;
-            b->pF4[0] = pos;
-            b->pF4[1] = q;
-            RecalcCrv__FP3CRV(b);
+    if (st > 0) if (st < 3) {
+        struct CRV *pcrv = pjob->aijob.pguard->pcrv;
+        qword posGuard = PosOfLo__FP2LO(pjob->aijob.pguard);
+        qword posGoal = PosGoal__FP4GOALG9VU_VECTOR(&goal, posGuard);
+        if (pjob->fDirect) {
+            pcrv->cpos = 2;
+            pcrv->apos[0] = posGuard;
+            pcrv->apos[1] = posGoal;
+            RecalcCrv__FP3CRV(pcrv);
         } else {
-            struct C *c = p->p10->pE8;
-            struct D *d = c ? c->pDC : 0;
-            void *e = d ? d->p10 : 0;
-            if (!FNavPathCrv__FP9NAVREGIONiiP3CRV(e, pos, q, b)) {
-                p->x80 = x;
-                k = 5;
+            struct SOPHYS *psophys = pjob->aijob.pguard->pE8;
+            struct NAV *pnav = psophys ? psophys->pnav : 0;
+            struct NAVREGION *pregion = pnav ? pnav->pnavregion : 0;
+            if (!FNavPathCrv__FP9NAVREGIONiiP3CRV(pregion, posGuard, posGoal, pcrv)) {
+                pjob->goalFallback = goal;
+                st = GOTOS_Point;
             }
         }
     }
-    SetState__7JOBGOTOi(p, k);
-    p->fA0 = g_clock.t;
-    p->nA4 = g_sw.p45CC->n28;
+    SetState__7JOBGOTOi(pjob, st);
+    pjob->tSearch = g_clock.t;
+    pjob->nSerial = g_sw.pnavserial->nSerial;
 }

@@ -1,21 +1,28 @@
+/* JOBLADDER::SetLadderState: the child job ends; at the goal (1): a JOBMOVE of animation state index 2 and the speed
+ * cleared; climbing (0): a JOBMOVE of index 9. */
 #include "clock.h"
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; };
-struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; int n30; float g34; int pad3; int n3C; };
-void EndChildJob__FPP5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* a pushed child job, as seen through its vtable */
+struct JOBVT { char pad0[0xC]; VTENT *vt; char pad10[0x3C - 0x10]; int nAnim; };
+void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+
 // name: SafeHouse port (JOBLADDER::SetLadderState)
-void SetLadderState__9JOBLADDERi(struct S *p, int n) {
-    if (n == p->n30) return;
-    EndChildJob__FPP5AIJOB(p->a18);
-    p->n30 = n;
-    p->g34 = g_clock.t;
-    switch (n) {
+void SetLadderState__9JOBLADDERi(JOBLADDER *pjob, int st)
+{
+    if (st == pjob->st) return;
+    EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
+    pjob->st = st;
+    pjob->tSt = g_clock.t;
+    switch (st) {
     case 1:
-        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 2; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); } p->n3C = 0;
+        { struct JOBVT *pjobMove = func_00205438(pjob->aijob.pguard, CID_JOBMOVE); VTENT *pvte; pjobMove->nAnim = 2; pvte = &pjobMove->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobMove, pvte)); } pjob->gSpeed = 0.0f;
         break;
     case 0:
-        { struct O *o = func_00205438(p->p10, 0x9D); VTENT *e; o->n3C = 9; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+        { struct JOBVT *pjobMove = func_00205438(pjob->aijob.pguard, CID_JOBMOVE); VTENT *pvte; pjobMove->nAnim = 9; pvte = &pjobMove->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobMove, pvte)); }
         break;
     }
 }

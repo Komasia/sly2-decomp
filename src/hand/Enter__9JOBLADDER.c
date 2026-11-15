@@ -1,14 +1,11 @@
-/* JOBLADDER::Enter (AIJOB subclass method, AIJOB vt slot 8). */
-#include "aijob.h"
+/* JOBLADDER::Enter (AIJOB vt slot 8): the base enter, then climbing. */
+#include "h2_aijobs.h"
 
-struct JOBLADDER {
-    /* 0x00 */ AIJOB aijob;
-};
 void Enter__5AIJOB(AIJOB *pjob);
-void SetLadderState(struct JOBLADDER *pjob, int n) asm("SetLadderState__9JOBLADDERi");
+void SetLadderState(JOBLADDER *pjob, int st) asm("SetLadderState__9JOBLADDERi");
 
 // name: SafeHouse port (JOBLADDER::Enter)
-void Enter__9JOBLADDER(struct JOBLADDER *pjob)
+void Enter__9JOBLADDER(JOBLADDER *pjob)
 {
     Enter__5AIJOB(&pjob->aijob);
     SetLadderState(pjob, 0);

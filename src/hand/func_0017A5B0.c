@@ -1,21 +1,32 @@
+/* JOBSLEEP::SetSleepState: asleep: an SM entry gets the goal 0x44, the wake time is drawn from the guard's sleep range
+ * (+0xE7C..+0xE80); waking: an SM entry gets the goal 0x43. */
 #include "clock.h"
-struct U { int k; int pad; void *p8; };
-struct T { char pad[0xE7C]; float gE7C; float gE80; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x2C]; struct U *p40; char pad3[0xC]; int n50; float g54; float g58; };
-void SetSmaGoal__FP3SMA3OID(void *p, int n);
-float GRandInRange__Fff(float a, float b);
+#include "h2_aijobs.h"
+
+struct SMA;
+struct KINDE { int k; void *pv; struct SMA *psma; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+#define KINDK_Sm 1
+struct GUARD {
+    /* 0x000 */ char pad0[0xE7C];
+    /* 0xe7c */ float tSleepMin;        /* field: SafeHouse port (gE7C) */
+    /* 0xe80 */ float tSleepMax;        /* field: SafeHouse port (gE80) */
+};
+void SetSmaGoal__FP3SMA3OID(struct SMA *psma, int oidGoal);
+float GRandInRange__Fff(float gMin, float gMax);
+
 // name: SafeHouse port (JOBSLEEP::SetSleepState)
-void SetSleepState__8JOBSLEEPi(struct S *p, int n) {
-    if (n == p->n50) return;
-    p->n50 = n;
-    p->g54 = n;
-    switch (n) {
-    case 0:
-        if (p->p40->k == 1) SetSmaGoal__FP3SMA3OID(p->p40->p8, 0x44);
-        { float t = g_clock.t; p->g58 = t + GRandInRange__Fff(p->pt->gE7C, p->pt->gE80); }
+void SetSleepState__8JOBSLEEPi(JOBSLEEP *pjob, int st)
+{
+    if (st == pjob->stSleep) return;
+    pjob->stSleep = st;
+    pjob->gSt = st;
+    switch (st) {
+    case SLEEPS_Asleep:
+        if (pjob->jobmove.pkinde->k == KINDK_Sm) SetSmaGoal__FP3SMA3OID(pjob->jobmove.pkinde->psma, 0x44);
+        { float t = g_clock.t; pjob->tWake = t + GRandInRange__Fff(pjob->jobmove.aijob.pguard->tSleepMin, pjob->jobmove.aijob.pguard->tSleepMax); }
         break;
-    case 1:
-        if (p->p40->k == n) SetSmaGoal__FP3SMA3OID(p->p40->p8, 0x43);
+    case SLEEPS_Waking:
+        if (pjob->jobmove.pkinde->k == st) SetSmaGoal__FP3SMA3OID(pjob->jobmove.pkinde->psma, 0x43);
         break;
     }
 }

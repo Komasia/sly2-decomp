@@ -1,67 +1,71 @@
-typedef int qword __attribute__((mode(TI)));
-struct G { char pad[0x45CC]; void *p45CC; };
-extern struct G g_sw;
-struct I { char pad[0x128]; void *p128; };
-struct D { char pad[0x10]; void *p10; };
-struct C { char pad[0xDC]; struct D *pDC; };
-struct A { char pad[0xE8]; struct C *pE8; };
-struct V2 { qword a; qword b; };
-struct S {
-    char pad[0x10]; struct A *p10; char pad2[0x2C];
-    struct V2 v40;
-    union { struct V2 v60; struct { int n60; int n64; char pad[8]; qword v70; } s; } u;
-    char pad3[0xB4 - 0x80]; int nB4; struct I *aB8[1]; int nBC; int nC0;
+/* JOBGOTO (SafeHouse: Target17D8A8, orig 0x17D8A8): the current goal: the goal itself; unless going straight, when
+ * the goal lies in another navigation region, the link path to it (exact, else - if allowed - inexact) and the
+ * nearest point of the goal in the region the link leads to; no region / no path: the guard's own position. */
+#include "h2_aijobs.h"
+
+struct NAVSERIAL;
+struct SW { char pad0[0x45CC]; struct NAVSERIAL *pnavserial; };
+extern struct SW g_sw;
+/* the guard's fields used here */
+struct NAV { char pad0[0x10]; struct NAVREGION *pnavregion; };
+struct SOPHYS { char pad0[0xDC]; struct NAV *pnav; };
+struct GUARD {
+    /* 0x000 */ char pad0[0xE8];
+    /* 0x0e8 */ struct SOPHYS *pE8;     /* -> +0xDC -> +0x10: the navigation region it is in */
 };
-qword PosOfLo__FP2LO(struct A *p);
-qword PosGoal__FP4GOALG9VU_VECTOR(struct V2 *p, qword v);
-void *PregionAt__FG9VU_VECTORi(qword v, int n);
-int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(void *a, struct A *b, qword v, int c, int d, struct I **pp);
-void func_001C0940(void *a, qword v, qword *pv, int n);
-void func_0017D8A8(struct S *p) {
-    p->nB4 = 0;
-    p->u.v60 = p->v40;
-    if (p->nBC == 0) {
-        qword pos = PosOfLo__FP2LO(p->p10);
-        qword v = PosGoal__FP4GOALG9VU_VECTOR(&p->v40, pos);
-        struct C *c = p->p10->pE8;
-        struct D *d = c ? c->pDC : 0;
-        void *q = d ? d->p10 : 0;
-        void *r;
-        int fail;
-        r = PregionAt__FG9VU_VECTORi(v, 0);
-        fail = 0;
-        if (r == 0) {
-            fail = 1;
-        } else if (r != q) {
-            struct G *g = &g_sw;
-            int n;
-            if ((p->nB4 = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(g->p45CC, p->p10, v, 1, 1, p->aB8)) <= 0) {
-                if (p->nC0 == 0) {
-                    fail = 1;
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+qword PosGoal__FP4GOALG9VU_VECTOR(GOAL *pgoal, qword posFrom);
+struct NAVREGION *PregionAt__FG9VU_VECTORi(qword pos, int n);
+int CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(struct NAVSERIAL *pnav, struct GUARD *pguard, qword posTarget,
+                                                       int fExact, int cMax, NAVLINK **aplink);
+void func_001C0940(struct NAVREGION *pnavregion, qword pos, qword *ppos, int n);   /* the region's nearest point */
+
+void func_0017D8A8(JOBGOTO *pjob)
+{
+    pjob->cplink = 0;
+    pjob->goalCur = pjob->goal;
+    if (pjob->fDirect == 0) {
+        qword posGuard = PosOfLo__FP2LO(pjob->aijob.pguard);
+        qword posGoal = PosGoal__FP4GOALG9VU_VECTOR(&pjob->goal, posGuard);
+        struct SOPHYS *psophys = pjob->aijob.pguard->pE8;
+        struct NAV *pnav = psophys ? psophys->pnav : 0;
+        struct NAVREGION *pregionGuard = pnav ? pnav->pnavregion : 0;
+        struct NAVREGION *pregionGoal;
+        int fFail;
+        pregionGoal = PregionAt__FG9VU_VECTORi(posGoal, 0);
+        fFail = 0;
+        if (pregionGoal == 0) {
+            fFail = 1;
+        } else if (pregionGoal != pregionGuard) {
+            struct SW *psw = &g_sw;
+            int cplink;
+            if ((pjob->cplink = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(psw->pnavserial, pjob->aijob.pguard, posGoal, 1, 1, pjob->aplink)) <= 0) {
+                if (pjob->fInexact == 0) {
+                    fFail = 1;
                 } else {
-                    n = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(g->p45CC, p->p10, v, 0, 1, p->aB8);
-                    p->nB4 = n;
-                    if (n == 0) {
-                        fail = 1;
+                    cplink = CNavLinkPath__FP5GUARDP6VECTORG9VU_VECTORiiPP4EDGE(psw->pnavserial, pjob->aijob.pguard, posGoal, 0, 1, pjob->aplink);
+                    pjob->cplink = cplink;
+                    if (cplink == 0) {
+                        fFail = 1;
                     } else {
-                        void *a;
-                        if (p->aB8[0] == 0) {
-                            a = q;
-                            p->nB4 = 0;
+                        struct NAVREGION *pregion;
+                        if (pjob->aplink[0] == 0) {
+                            pregion = pregionGuard;
+                            pjob->cplink = 0;
                         } else {
-                            a = p->aB8[n - 1]->p128;
+                            pregion = pjob->aplink[cplink - 1]->pregionEnd;
                         }
-                        p->u.s.n60 = 0;
-                        p->u.s.n64 = 0;
-                        func_001C0940(a, v, &p->u.s.v70, 1);
+                        pjob->goalCur.pcrv = 0;
+                        pjob->goalCur.plo = 0;
+                        func_001C0940(pregion, posGoal, &pjob->goalCur.pos, 1);
                     }
                 }
             }
         }
-        if (fail) {
-            p->u.s.n60 = 0;
-            p->u.s.n64 = 0;
-            p->u.s.v70 = pos;
+        if (fFail) {
+            pjob->goalCur.pcrv = 0;
+            pjob->goalCur.plo = 0;
+            pjob->goalCur.pos = posGuard;
         }
     }
 }

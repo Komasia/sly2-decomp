@@ -1,48 +1,62 @@
-typedef int qword __attribute__((mode(TI)));
-typedef union { qword q; float f; } U;
-extern float D_002BE74C;
-struct L { int pad[2]; void *p8; };
-struct T { char pad[0x40]; struct L *p40; };
-struct A { char pad[0xF84]; void *pF84; float fF88; int nF8C; char pad2[0xFD0 - 0xF90]; char aFD0[4]; };
-struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; int pad4; float f38; float f3C; };
-union V { qword q; float f[4]; };
-void Update__5AIJOB(struct S *p);
-qword PosOfLo__FP2LO(void *p);
-float SWrapCrv__FP3CRVf(void *p, float f);
-void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(void *p, float f, qword v, int a, int b, union V *pv, int c, float *pt);
-int func_0017CE30(struct S *p);
-void SetRailState__7JOBRAILi(struct S *p, int n);
+/* JOBRAIL::Update: moving along the rail: the guard's place on the rail's curve (+0xF88) advanced toward the goal
+ * (D_002BE74C ahead, wrapped) from the nearest point to the guard; at the goal: done (state 1); otherwise the guard
+ * heads along the curve's direction (reversed when going back) and its walk clip plays at the job's speed.
+ * Repeats while the state changes. */
+#include "h2_aijobs.h"
+
+extern float D_002BE74C;                /* the look-ahead along the rail */
+struct CRV;
+struct ASEGA;
+struct MOVEREF { struct AIJOB *pjob; int fHeadingLocked; int n8; struct GUARD *pguard; };  /* field: SafeHouse port */
+struct GUARD {
+    /* 0x000 */ char pad0[0xF84];
+    /* 0xf84 */ struct CRV *pcrvMove;   /* field: SafeHouse port (ploMove) - the rail it moves on */
+    /* 0xf88 */ float sMove;            /* field: SafeHouse port - its place along the rail */
+    /* 0xf8c */ int fForward;           /* field: SafeHouse port (nMoveKind) - moving toward the rail's end */
+    /* 0xf90 */ char padF90[0xFD0 - 0xF90];
+    /* 0xfd0 */ struct MOVEREF move;    /* field: SafeHouse port */
+};
+struct KINDE { int k; void *pv; struct ASEGA *pasega; int grf; };   /* field: SafeHouse port (guard.h KINDE) */
+void Update__5AIJOB(JOBRAIL *pjob);
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+float SWrapCrv__FP3CRVf(struct CRV *pcrv, float s);
+void NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(struct CRV *pcrv, float s, qword pos, int a, int b, QVEC *pdir, int c, float *ps);
+int func_0017CE30(JOBRAIL *pjob);
+void SetRailState__7JOBRAILi(JOBRAIL *pjob, int st);
 float atan2f(float y, float x);
-void SetMoveHeading__FP7MOVEREF(void *p, float f);
-void SetAsegaSpeed(void *p, float f) asm("SetAsegaSpeed__FP5ASEGAf");
+void SetMoveHeading__FP7MOVEREF(struct MOVEREF *pmove, float rad);
+void SetAsegaSpeed(struct ASEGA *pasega, float svt) asm("SetAsegaSpeed__FP5ASEGAf");
+
 // name: SafeHouse port (JOBRAIL::Update)
-void Update__7JOBRAIL(struct S *p) {
-    int s;
-    Update__5AIJOB(p);
+void Update__7JOBRAIL(JOBRAIL *pjob)
+{
+    int st;
+    Update__5AIJOB(pjob);
     do {
-        s = p->n30;
-        if (s == 0) {
-            struct A *a = p->p10;
-            void *q = a->pF84;
-            float t = a->fF88;
+        st = pjob->st;
+        if (st == 0) {
+            struct GUARD *pguard = pjob->aijob.pguard;
+            struct CRV *pcrv = pguard->pcrvMove;
+            float s = pguard->sMove;
             qword pos;
-            union V v;
-            a->nF8C = t < p->f3C;
-            pos = PosOfLo__FP2LO(p->p10);
-            NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(q, SWrapCrv__FP3CRVf(q, p->p10->nF8C ? t + D_002BE74C : t - D_002BE74C), pos, 0, 0, &v, 0, &t);
-            p->p10->fF88 = t;
-            if (func_0017CE30(p)) {
-                SetRailState__7JOBRAILi(p, 1);
+            QVEC dir;
+            pguard->fForward = s < pjob->sGoal;
+            pos = PosOfLo__FP2LO(pjob->aijob.pguard);
+            NearestCrvS__FP3CRVG9VU_VECTORPvP6VECTORT3PfT5f(pcrv, SWrapCrv__FP3CRVf(pcrv, pjob->aijob.pguard->fForward ? s + D_002BE74C : s - D_002BE74C), pos, 0, 0, &dir, 0, &s);
+            pjob->aijob.pguard->sMove = s;
+            if (func_0017CE30(pjob)) {
+                SetRailState__7JOBRAILi(pjob, 1);
             } else {
-                if (p->p10->nF8C == 0) {
-                    qword w = v.q;
-                    U u;
-                    __asm__("qmtc2.ni %1, %0" : "=j"(u.q) : "r"(-1.0f));
-                    __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(v.q) : "j"(w), "j"(u.q));
+                if (pjob->aijob.pguard->fForward == 0) {
+                    /* going back: face against the curve */
+                    qword dirFwd = dir.q;
+                    QVEC minus;
+                    __asm__("qmtc2.ni %1, %0" : "=j"(minus.q) : "r"(-1.0f));
+                    __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(dir.q) : "j"(dirFwd), "j"(minus.q));
                 }
-                SetMoveHeading__FP7MOVEREF(p->p10->aFD0, atan2f(v.f[1], v.f[0]));
-                SetAsegaSpeed(p->p18->p40->p8, p->f38);
+                SetMoveHeading__FP7MOVEREF(&pjob->aijob.pguard->move, atan2f(dir.f[1], dir.f[0]));
+                SetAsegaSpeed(((JOBMOVE *)pjob->aijob.pchild)->pkinde->pasega, pjob->uSpeed);
             }
         }
-    } while (p->n30 != s);
+    } while (pjob->st != st);
 }

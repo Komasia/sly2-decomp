@@ -1,15 +1,12 @@
-/* JOBSHOOT::Enter (AIJOB subclass method, AIJOB vt slot 8). */
-#include "aijob.h"
+/* JOBSHOOT::Enter (AIJOB vt slot 8): the base enter, then the shot starts. */
+#include "h2_aijobs.h"
 
-struct JOBSHOOT {
-    /* 0x00 */ AIJOB aijob;
-};
 void Enter__5AIJOB(AIJOB *pjob);
-void SetShootState(struct JOBSHOOT *pjob, int n) asm("SetShootState__8JOBSHOOTi");
+void SetShootState(JOBSHOOT *pjob, int st) asm("SetShootState__8JOBSHOOTi");
 
 // name: SafeHouse port (JOBSHOOT::Enter)
-void Enter__8JOBSHOOT(struct JOBSHOOT *pjob)
+void Enter__8JOBSHOOT(JOBSHOOT *pjob)
 {
     Enter__5AIJOB(&pjob->aijob);
-    SetShootState(pjob, 0);
+    SetShootState(pjob, SHOOTS_Shoot);
 }

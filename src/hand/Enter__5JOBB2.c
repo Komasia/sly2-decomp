@@ -1,15 +1,12 @@
-/* JOBB2::Enter (AIJOB subclass method, AIJOB vt slot 8). */
-#include "aijob.h"
+/* JOBB2::Enter (AIJOB vt slot 8): the base enter, then standing. */
+#include "h2_aijobs.h"
 
-struct JOBB2 {
-    /* 0x00 */ AIJOB aijob;
-};
 void Enter__5AIJOB(AIJOB *pjob);
-void SetB2State(struct JOBB2 *pjob, int n) asm("SetB2State__5JOBB2i");
+void SetB2State(JOBB2 *pjob, int st) asm("SetB2State__5JOBB2i");
 
 // name: SafeHouse port (JOBB2::Enter)
-void Enter__5JOBB2(struct JOBB2 *pjob)
+void Enter__5JOBB2(JOBB2 *pjob)
 {
     Enter__5AIJOB(&pjob->aijob);
-    SetB2State(pjob, 0);
+    SetB2State(pjob, B2S_Stand);
 }

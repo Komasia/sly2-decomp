@@ -1,16 +1,12 @@
-/* JOBB1::Exit (AIJOB subclass method, AIJOB vt slot 9). */
-#include "aijob.h"
+/* JOBB1::Exit (AIJOB vt slot 9): no launch state, then the move ends. */
+#include "h2_aijobs.h"
 
-struct JOBB1 {
-    /* 0x00 */ AIJOB aijob;
-};
-void SetState(struct JOBB1 *pjob, int n) asm("SetState__5JOBB1i");
-struct JOBMOVE;
-void Exit__7JOBMOVE(struct JOBMOVE *pjob);
+void SetState(JOBB1 *pjob, int st) asm("SetState__5JOBB1i");
+void Exit__7JOBMOVE(JOBMOVE *pjob);
 
 // name: SafeHouse port (JOBB1::Exit)
-void Exit__5JOBB1(struct JOBB1 *pjob)
+void Exit__5JOBB1(JOBB1 *pjob)
 {
-    SetState(pjob, -1);
-    Exit__7JOBMOVE((struct JOBMOVE *)pjob);
+    SetState(pjob, LAUNCHS_None);
+    Exit__7JOBMOVE(&pjob->jobmove);
 }

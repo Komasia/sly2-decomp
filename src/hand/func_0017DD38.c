@@ -1,6 +1,12 @@
-typedef int qword __attribute__((mode(TI)));
-struct Q2 { qword a, b; };
-struct S { char pad[0x40]; struct Q2 q; char pad2[0x40]; float gA0; };
-void Search__7JOBGOTO(struct S *p);
+/* JOBGOTO::SetGoal: a new goal, searched for at once (the last search's time reset). */
+#include "h2_aijobs.h"
+
+void Search__7JOBGOTO(JOBGOTO *pjob);
+
 // name: SafeHouse port (JOBGOTO::SetGoal)
-void SetGoal__7JOBGOTOP4GOAL(struct S *p, struct Q2 *pq) { p->q = *pq; p->gA0 = -3.40282346638528859812e+38f; Search__7JOBGOTO(p); }
+void SetGoal__7JOBGOTOP4GOAL(JOBGOTO *pjob, GOAL *pgoal)
+{
+    pjob->goal = *pgoal;
+    pjob->tSearch = -3.40282346638528859812e+38f;
+    Search__7JOBGOTO(pjob);
+}

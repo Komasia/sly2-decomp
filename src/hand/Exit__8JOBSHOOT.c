@@ -1,15 +1,12 @@
-/* JOBSHOOT::Exit (AIJOB subclass method, AIJOB vt slot 9). */
-#include "aijob.h"
+/* JOBSHOOT::Exit (AIJOB vt slot 9): the base exit, then no shot state. */
+#include "h2_aijobs.h"
 
-struct JOBSHOOT {
-    /* 0x00 */ AIJOB aijob;
-};
 void Exit__5AIJOB(AIJOB *pjob);
-void SetShootState(struct JOBSHOOT *pjob, int n) asm("SetShootState__8JOBSHOOTi");
+void SetShootState(JOBSHOOT *pjob, int st) asm("SetShootState__8JOBSHOOTi");
 
 // name: SafeHouse port (JOBSHOOT::Exit)
-void Exit__8JOBSHOOT(struct JOBSHOOT *pjob)
+void Exit__8JOBSHOOT(JOBSHOOT *pjob)
 {
     Exit__5AIJOB(&pjob->aijob);
-    SetShootState(pjob, -1);
+    SetShootState(pjob, SHOOTS_None);
 }

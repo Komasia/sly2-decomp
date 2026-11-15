@@ -1,59 +1,69 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBSTATION::SetState: the child job ends; hurrying: a JOBGOTO (move 0x1C) after the object itself; held: a
+ * JOBSTAND facing it (kind 1); going: a JOBGOTO to the station point (moved out of the object's frame). The object's
+ * position is remembered (posLast) for the goal updates. */
 #include "clock.h"
 #include "vtbl.h"
-struct X { qword a; qword v; };
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x28]; int n38; int n3C; char pad3[0xA8 - 0x40]; void *pA8; int nAC; char pad4[0x10]; int nC0; };
-struct S { char pad[0x10]; void *p10; int pad2; char a18[0x18]; void *p30; char pad3[0xC]; qword v40; int n50; float f54; char pad4[8]; qword v60; };
-void EndChildJob__FPP5AIJOB(void *p);
-struct O *func_00205438(void *p, int n);
-qword PosOfLo__FP2LO(void *p);
-qword ConvertPos__FP2LOT0G9VU_VECTOR(void *p, int n, qword v);
-void func_002562A8(struct X *x);
-void SetGoal__7JOBGOTOP4GOAL(void *p, struct X *x);
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* a goal (SafeHouse aijobs.h GOAL): a path, an object, or a fixed point */
+/* a pushed child job, as seen through its vtable (JOBSTAND +0x38 / +0x3C; JOBGOTO +0x38 nAnim, +0xA8 / +0xAC, +0xC0) */
+struct JOBVT {
+    char pad0[0xC]; VTENT *vt; char pad10[0x38 - 0x10]; int n38; int n3C; char pad40[0xA8 - 0x40];
+    struct LO *ploA8; int nAC; char padB0[0x10]; int nC0;
+};
+void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+qword PosOfLo__FP2LO(struct LO *plo);
+qword ConvertPos__FP2LOT0G9VU_VECTOR(struct LO *ploFrom, int ploTo, qword pos);
+void func_002562A8(struct GOAL *pgoal);   /* the goal cleared */
+void SetGoal__7JOBGOTOP4GOAL(struct JOBVT *pjobGoto, struct GOAL *pgoal);
+
 // name: SafeHouse port (JOBSTATION::SetState)
-void SetState__10JOBSTATIONi(struct S *p, int n) {
-    struct X x;
-    if (n == p->n50) return;
-    EndChildJob__FPP5AIJOB(p->a18);
-    p->n50 = n;
-    p->f54 = g_clock.t;
-    switch (n) {
-    case 1:
+void SetState__10JOBSTATIONi(JOBSTATION *pjob, int st)
+{
+    struct GOAL goal;
+    if (st == pjob->st) return;
+    EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
+    pjob->st = st;
+    pjob->tSt = g_clock.t;
+    switch (st) {
+    case STATS_Hurrying:
         {
-            struct O *o = func_00205438(p->p10, 0xBA);
-            qword v = PosOfLo__FP2LO(p->p30);
-            VTENT *e;
-            p->v60 = v;
-            o->nC0 = 1; o->pA8 = p->p30; o->nAC = 1;
-            func_002562A8(&x);
-            x.v = v;
-            SetGoal__7JOBGOTOP4GOAL(o, &x);
-            o->n38 = 0x1C;
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct JOBVT *pjobGoto = func_00205438(pjob->aijob.pguard, CID_JOBGOTO);
+            qword pos = PosOfLo__FP2LO(pjob->plo);
+            VTENT *pvte;
+            pjob->posLast = pos;
+            pjobGoto->nC0 = 1; pjobGoto->ploA8 = pjob->plo; pjobGoto->nAC = 1;
+            func_002562A8(&goal);
+            goal.pos = pos;
+            SetGoal__7JOBGOTOP4GOAL(pjobGoto, &goal);
+            pjobGoto->n38 = 0x1C;
+            pvte = &pjobGoto->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobGoto, pvte));
         }
         break;
-    case 2:
+    case STATS_Held:
         {
-            struct O *o = func_00205438(p->p10, 0x9E);
-            VTENT *e;
-            o->n38 = (int)p->p30;
-            o->n3C = 1;
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct JOBVT *pjobStand = func_00205438(pjob->aijob.pguard, CID_JOBSTAND);
+            VTENT *pvte;
+            pjobStand->n38 = (int)pjob->plo;
+            pjobStand->n3C = 1;
+            pvte = &pjobStand->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobStand, pvte));
         }
         break;
-    case 0:
+    case STATS_Going:
         {
-            struct O *o = func_00205438(p->p10, 0xBA);
-            qword v;
-            VTENT *e;
-            p->v60 = PosOfLo__FP2LO(p->p30);
-            v = ConvertPos__FP2LOT0G9VU_VECTOR(p->p30, 0, p->v40);
-            o->nC0 = 1;
-            func_002562A8(&x);
-            x.v = v;
-            SetGoal__7JOBGOTOP4GOAL(o, &x);
-            o->pA8 = p->p30;
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct JOBVT *pjobGoto = func_00205438(pjob->aijob.pguard, CID_JOBGOTO);
+            qword pos;
+            VTENT *pvte;
+            pjob->posLast = PosOfLo__FP2LO(pjob->plo);
+            pos = ConvertPos__FP2LOT0G9VU_VECTOR(pjob->plo, 0, pjob->pos);
+            pjobGoto->nC0 = 1;
+            func_002562A8(&goal);
+            goal.pos = pos;
+            SetGoal__7JOBGOTOP4GOAL(pjobGoto, &goal);
+            pjobGoto->ploA8 = pjob->plo;
+            pvte = &pjobGoto->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobGoto, pvte));
         }
         break;
     }

@@ -1,6 +1,21 @@
+/* class: CID_JOBHOLD2 (0xBC, on a 0x27 object; SafeHouse aijobs.cpp JOBHOLD::Enter, shared with 0xBB, without the
+ * frame turn): the base enter, then a JOBMOVE of animation state index 2 (standing). */
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; };
-struct S { char pad[0x10]; void *p10; };
-void Enter__5AIJOB(struct S *p);
-struct O *func_00205438(void *p, int n);
-void func_0017D2E0(struct S *p) { struct O *o; VTENT *e; Enter__5AIJOB(p); o = func_00205438(p->p10, 0x9D); o->n3C = 2; e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e)); }
+#include "cid.h"
+#include "aijob.h"
+
+/* a pushed child job, as seen through its vtable */
+struct JOBVT { char pad0[0xC]; VTENT *vt; char pad10[0x3C - 0x10]; int nAnim; };
+void Enter__5AIJOB(AIJOB *pjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+
+void func_0017D2E0(AIJOB *pjob)
+{
+    struct JOBVT *pjobMove;
+    VTENT *pvte;
+    Enter__5AIJOB(pjob);
+    pjobMove = func_00205438(pjob->pguard, CID_JOBMOVE);
+    pjobMove->nAnim = 2;
+    pvte = &pjobMove->vt[8];
+    ((void (*)(void *))pvte->pfn)(VT_THIS(pjobMove, pvte));
+}

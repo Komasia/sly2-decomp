@@ -1,19 +1,27 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBHIT::Update: the move goes on, the guard's held noise follows it; at tJolt the camera jolts, at tEntryHit the
+ * guard's body entries strike back (entry mode 2). */
 #include "clock.h"
-extern char g_cm[];
-struct V { char pad[0x20]; qword q20; };
-struct T { char pad[0x35C]; struct V *p35C; };
-struct S { char pad[0x10]; struct T *pt; char pad2[0x9C]; float gB0; float gB4; };
-void Update__7JOBMOVE(struct S *p);
-qword PosOfLo__FP2LO(void *p);
-void JoltCm__FP2CMi(void *p, int n);
-void SetAloEntryMode__FP3ALOi(struct T *t, int n);
+#include "h2_aijobs.h"
+
+struct CM;
+extern struct CM g_cm;
+struct NOISE { char pad0[0x20]; qword pos; };
+struct GUARD {
+    /* 0x000 */ char pad0[0x35C];
+    /* 0x35c */ struct NOISE *pnoise;   /* field: SafeHouse port - the guard's held noise */
+};
+void Update__7JOBMOVE(JOBHIT *pjob);
+qword PosOfLo__FP2LO(struct GUARD *pguard);
+void JoltCm__FP2CMi(struct CM *pcm, int n);
+void SetAloEntryMode__FP3ALOi(struct GUARD *pguard, int mode);
+
 // name: SafeHouse port (JOBHIT::Update)
-void Update__6JOBHIT(struct S *p) {
+void Update__6JOBHIT(JOBHIT *pjob)
+{
     float t;
-    Update__7JOBMOVE(p);
-    { struct T *pt = p->pt; struct V *v = pt->p35C; v->q20 = PosOfLo__FP2LO(pt); }
+    Update__7JOBMOVE(pjob);
+    { struct GUARD *pguard = pjob->jobmove.aijob.pguard; struct NOISE *pnoise = pguard->pnoise; pnoise->pos = PosOfLo__FP2LO(pguard); }
     t = g_clock.t + 0.0001f;
-    if (p->gB0 < t) { p->gB0 = 3.40282346638528859812e+38f; JoltCm__FP2CMi(g_cm, 0); }
-    if (p->gB4 < t) { p->gB4 = 3.40282346638528859812e+38f; SetAloEntryMode__FP3ALOi(p->pt, 2); }
+    if (pjob->tJolt < t) { pjob->tJolt = 3.40282346638528859812e+38f; JoltCm__FP2CMi(&g_cm, 0); }
+    if (pjob->tEntryHit < t) { pjob->tEntryHit = 3.40282346638528859812e+38f; SetAloEntryMode__FP3ALOi(pjob->jobmove.aijob.pguard, 2); }
 }

@@ -1,47 +1,49 @@
-/* Update__10JOBSTATION (Claude agent): state-machine controller. pos is a plain qword (spilled pseudo) so p->v60=pos goes qmfc2+sq; the goto loop + explicit 250.0f local stops loop.c hoisting the case-1 constant. */
-typedef int qword __attribute__((mode(TI)));
-typedef union {qword q;float f[4];} U;
-struct X {qword header,v;};
-struct P {char pad10[0x10];void*p10;int pad14;void*p18;char pad1C[4];int pending;char pad24[12];void*p30;char pad34[0x40-0x34];qword v40;int state;float time;int pad58[2];qword v60;};
-void Update__5AIJOB(struct P*);
-int FJobDone(struct P*) asm("FJobDone__FP5AIJOB");
+/* JOBSTATION::Update: going: held when the guard is held still, hurrying when the object is farther than 1000 (xy),
+ * else a new goal (the station point out of the object's frame) once the object has moved more than 250 since the
+ * last one; hurrying: held, going again within 700, else the goal follows the object the same way; held: going again
+ * once free. Repeats while the state changes (until the job is done).
+ * Matching notes (Claude agent): pos is a plain qword (spilled pseudo) so posLast=pos goes qmfc2+sq; the goto loop and
+ * the explicit 250.0f local stop loop.c hoisting the case-1 constant. */#include "h2_aijobs.h"
+/* a goal (SafeHouse aijobs.h GOAL): a path, an object, or a fixed point */
+void Update__5AIJOB(JOBSTATION*);
+int FJobDone(JOBSTATION*) asm("FJobDone__FP5AIJOB");
 qword PosOfLo__FP2LO(void*);
 qword ConvertPos__FP2LOT0G9VU_VECTOR(void*,void*,qword);
-int func_00209098(void*);
-void SetState__10JOBSTATIONi(struct P*,int);
-void func_002562A8(struct X*);
-void SetGoal__7JOBGOTOP4GOAL(void*,const struct X*);
+int func_00209098(void*);   /* SafeHouse port: FGuardStill (0x209098) */
+void SetState__10JOBSTATIONi(JOBSTATION*,int);
+void func_002562A8(struct GOAL*);   /* the goal cleared */
+void SetGoal__7JOBGOTOP4GOAL(void*,const struct GOAL*);
 static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=&j"(r):"j"(a),"j"(b));return r;}
 static inline qword SubIn(qword a,qword b){__asm__("vsub.xyzw %0,%0,%1":"+j"(a):"j"(b));return a;}
 static inline float LenXY(qword v){float r;__asm__("vmul.xy %0,%1,%1\n\tvaddy.x %0,%0,%0y":"=j"(v):"0"(v));__asm__("vsqrt Q,%1x\n\tvwaitq\n\tvaddq.x %0,$vf0,Q":"=j"(v):"0"(v));__asm__("qmfc2.ni %0,%1":"=r"(r):"j"(v));return r;}
 // name: SafeHouse port (JOBSTATION::Update)
-void Update__10JOBSTATION(struct P*p){
- struct X x;qword pos;float dist;int state;float lim=250.0f;
+void Update__10JOBSTATION(JOBSTATION*p){
+ struct GOAL goal;qword pos;float dist;int state;float lim=250.0f;
  Update__5AIJOB(p);
- pos=PosOfLo__FP2LO(p->p30);
- dist=LenXY(Sub(pos,PosOfLo__FP2LO(p->p10)));
+ pos=PosOfLo__FP2LO(p->plo);
+ dist=LenXY(Sub(pos,PosOfLo__FP2LO(p->aijob.pguard)));
  goto test;
  top:{
-  state=p->state;
+  state=p->st;
   switch(state){
-  case 0:
-   if(func_00209098(p->p10))SetState__10JOBSTATIONi(p,2);
-   else if(1000.0f<dist)SetState__10JOBSTATIONi(p,1);
-   else if(lim<LenXY(SubIn(p->v60,pos))){
-    qword v;p->v60=pos;v=ConvertPos__FP2LOT0G9VU_VECTOR(p->p30,0,p->v40);
-    func_002562A8(&x);x.v=v;SetGoal__7JOBGOTOP4GOAL(p->p18,&x);
+  case STATS_Going:
+   if(func_00209098(p->aijob.pguard))SetState__10JOBSTATIONi(p,STATS_Held);
+   else if(1000.0f<dist)SetState__10JOBSTATIONi(p,STATS_Hurrying);
+   else if(lim<LenXY(SubIn(p->posLast,pos))){
+    qword v;p->posLast=pos;v=ConvertPos__FP2LOT0G9VU_VECTOR(p->plo,0,p->pos);
+    func_002562A8(&goal);goal.pos=v;SetGoal__7JOBGOTOP4GOAL(p->aijob.pchild,&goal);
    }
    break;
-  case 1:
-   if(func_00209098(p->p10))SetState__10JOBSTATIONi(p,2);
-   else if(dist<700.0f)SetState__10JOBSTATIONi(p,0);
-   else if(lim<LenXY(SubIn(p->v60,pos))){
-    p->v60=pos;func_002562A8(&x);x.v=pos;SetGoal__7JOBGOTOP4GOAL(p->p18,&x);
+  case STATS_Hurrying:
+   if(func_00209098(p->aijob.pguard))SetState__10JOBSTATIONi(p,STATS_Held);
+   else if(dist<700.0f)SetState__10JOBSTATIONi(p,STATS_Going);
+   else if(lim<LenXY(SubIn(p->posLast,pos))){
+    p->posLast=pos;func_002562A8(&goal);goal.pos=pos;SetGoal__7JOBGOTOP4GOAL(p->aijob.pchild,&goal);
    }
    break;
-  case 2:if(!func_00209098(p->p10))SetState__10JOBSTATIONi(p,0);break;
+  case STATS_Held:if(!func_00209098(p->aijob.pguard))SetState__10JOBSTATIONi(p,STATS_Going);break;
   }
-  if(state==p->state)return;
+  if(state==p->st)return;
  }
  test:
  if(!FJobDone(p))goto top;
@@ -49,17 +51,11 @@ void Update__10JOBSTATION(struct P*p){
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
 typedef char layout_qword[(sizeof(qword)==16)?1:-1];
-typedef char layout_U[(sizeof(U)==16)?1:-1];
-typedef char layout_X[(sizeof(struct X)==32)?1:-1];
-typedef char layout_P[(sizeof(struct P)==0x70)?1:-1];
 typedef char layout_float[(sizeof(float)==4)?1:-1];
-typedef char layout_P_p10[((unsigned)&((struct P*)0)->p10==0x10)?1:-1];
-typedef char layout_P_p18[((unsigned)&((struct P*)0)->p18==0x18)?1:-1];
-typedef char layout_P_pending[((unsigned)&((struct P*)0)->pending==0x20)?1:-1];
-typedef char layout_P_p30[((unsigned)&((struct P*)0)->p30==0x30)?1:-1];
-typedef char layout_P_v40[((unsigned)&((struct P*)0)->v40==0x40)?1:-1];
-typedef char layout_P_state[((unsigned)&((struct P*)0)->state==0x50)?1:-1];
-typedef char layout_P_time[((unsigned)&((struct P*)0)->time==0x54)?1:-1];
-typedef char layout_P_v60[((unsigned)&((struct P*)0)->v60==0x60)?1:-1];
-typedef char layout_X_header[((unsigned)&((struct X*)0)->header==0x0)?1:-1];
-typedef char layout_X_v[((unsigned)&((struct X*)0)->v==0x10)?1:-1];
+typedef char layout_GOAL[(sizeof(struct GOAL)==32)?1:-1];
+typedef char layout_GOAL_pos[((unsigned)&((struct GOAL*)0)->pos==0x10)?1:-1];
+typedef char layout_JOBSTATION[(sizeof(JOBSTATION)==0x70)?1:-1];
+typedef char layout_JOBSTATION_plo[((unsigned)&((JOBSTATION*)0)->plo==0x30)?1:-1];
+typedef char layout_JOBSTATION_pos[((unsigned)&((JOBSTATION*)0)->pos==0x40)?1:-1];
+typedef char layout_JOBSTATION_st[((unsigned)&((JOBSTATION*)0)->st==0x50)?1:-1];
+typedef char layout_JOBSTATION_posLast[((unsigned)&((JOBSTATION*)0)->posLast==0x60)?1:-1];

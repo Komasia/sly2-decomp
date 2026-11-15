@@ -1,4 +1,5 @@
-struct S { char pad[0x3C]; int n3C; };
-void Init__7JOBMOVE(struct S *p);
+/* JOBHIT3::Init (0xA3, knocked out): a move of animation state index 7. */
+#include "aijob.h"
+void Init__7JOBMOVE(JOBMOVE *pjob);
 // name: SafeHouse port (JOBHIT3::Init)
-void Init__7JOBHIT3(struct S *p) { Init__7JOBMOVE(p); p->n3C = 7; }
+void Init__7JOBHIT3(JOBMOVE *pjob) { Init__7JOBMOVE(pjob); pjob->nAnim = 7; }

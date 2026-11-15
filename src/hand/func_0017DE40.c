@@ -1,10 +1,7 @@
-/* class: JOBBD (SafeHouse aijobs.cpp (0x17DE40): JOBBD done, st == -1). */
-struct JOBBD {
-    /* 0x00 */ char pad0[0x30];
-    /* 0x30 */ int st;
-};
+/* JOBBD: done (no state). class: JOBBD (SafeHouse aijobs.cpp 0x17DE40). */
+#include "h2_aijobs.h"
 
-int func_0017DE40(struct JOBBD *pjob)
+int func_0017DE40(JOBBD *pjob)
 {
-    return pjob->st == -1;
+    return pjob->st == BDS_None;
 }

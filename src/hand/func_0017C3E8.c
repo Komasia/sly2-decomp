@@ -1,60 +1,78 @@
-typedef int qword __attribute__((mode(TI)));
+/* JOBSURROUND::Update: while following: the path is recomputed (to the guard's place around the target,
+ * PosSurroundPlace, in its navigation region) and followed again unless the follow is still fresh (its +0x70 at most
+ * D_002BE748) and the path's end is still in the place's zone: within the target's angle (TARGETREC +0x18) of the
+ * target's heading and in the guard's distance range (+0x324). */
+#include "h2_aijobs.h"
+
 extern float D_002BE748;
-struct D { char pad[0x10]; void *p10; };
-struct C { char pad[0xDC]; struct D *pDC; };
-struct B { char pad[0xE8]; int nE8; char pad2[8]; qword *pF4; };
-struct K { char pad[0xC]; void *pC; char pad2[8]; float f18; };
-struct A { char pad[0xE8]; struct C *pE8; char pad2[0x294 - 0xEC]; struct B *p294; char pad3[0x324 - 0x298]; char a324[0xA8]; struct K *p3CC; };
-struct T { char pad[0x70]; float f70; };
-struct S { char pad[0x10]; struct A *p10; int pad2; struct T *p18; char pad3[0x14]; int n30; };
-void Update__5AIJOB(struct S *p);
-float RadTargetrec__FP9TARGETREC(struct K *k);
-qword PosOfLo__FP2LO(void *p);
-void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword v, float *a, float *b, int n);
-float RadNormalize__Ff(float f);
-int FCheckLm(void *p, float f) asm("FCheckLm__FP2LMf");
-qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(struct S *p, void *q, float f, qword v);
-void FNavPathCrv__FP9NAVREGIONiiP3CRV(void *q, qword a, qword b, struct B *c);
-void Follow__9JOBFOLLOWP3CRVi(struct T *t, struct B *b, int n);
+struct NAVREGION;
+struct NAV { char pad0[0x10]; struct NAVREGION *pnavregion; };
+struct SOPHYS { char pad0[0xDC]; struct NAV *pnav; };
+/* the guard's curve: its points */
+struct CRV { char pad0[0xE8]; int cpos; char padEC[8]; qword *apos; };
+/* the pursued object's record; field: SafeHouse port (aipursuit.h TARGETREC) */
+struct TARGETREC { char pad0[0xC]; struct LO *plo; char pad10[8]; float radWide; };
+struct GUARD {
+    /* 0x000 */ char pad0[0xE8];
+    /* 0x0e8 */ struct SOPHYS *pE8;     /* -> +0xDC -> +0x10: the navigation region it is in */
+    /* 0x0ec */ char padEC[0x294 - 0xEC];
+    /* 0x294 */ struct CRV *pcrv;       /* field: SafeHouse port (crv294) */
+    /* 0x298 */ char pad298[0x324 - 0x298];
+    /* 0x324 */ char lmSurround[0xA8];  /* field: SafeHouse port (g324 / g328) - the distance range around the target */
+    /* 0x3cc */ struct TARGETREC *ptarget;   /* field: SafeHouse port (ptarget3CC) */
+};
+struct JOBFOLLOW { char pad0[0x70]; float g70; };
+void Update__5AIJOB(JOBSURROUND *pjob);
+float RadTargetrec__FP9TARGETREC(struct TARGETREC *ptarget);
+qword PosOfLo__FP2LO(void *plo);
+void ConvertVectorToCylind__FG9VU_VECTORPfN21(qword vec, float *prad, float *ps, int pz);
+float RadNormalize__Ff(float rad);
+int FCheckLm(void *plm, float g) asm("FCheckLm__FP2LMf");
+qword PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(JOBSURROUND *pjob, struct NAVREGION *pnavregion, float rad, qword pos);
+void FNavPathCrv__FP9NAVREGIONiiP3CRV(struct NAVREGION *pnavregion, qword posFrom, qword posTo, struct CRV *pcrv);
+void Follow__9JOBFOLLOWP3CRVi(struct JOBFOLLOW *pjobFollow, struct CRV *pcrv, int n);
+
 // name: SafeHouse port (JOBSURROUND::Update)
-void Update__11JOBSURROUND(struct S *p) {
-    struct A *a;
-    struct C *c;
-    struct D *d;
-    void *q;
-    struct B *b;
-    struct K *k;
-    void *o;
-    float g;
-    struct T *t;
-    float out[2];
-    qword pos;
-    Update__5AIJOB(p);
-    d = 0;
-    if (p->n30 != 0) {
-    a = p->p10;
-    c = a->pE8;
-    b = a->p294;
-    if (c) d = c->pDC;
-    q = d ? d->p10 : 0;
-    k = a->p3CC;
-    o = k->pC;
-    g = RadTargetrec__FP9TARGETREC(k);
-    pos = PosOfLo__FP2LO(o);
-    t = p->p18;
-    if (t->f70 > D_002BE748) goto doit;
-    {
-        qword dv;
-        __asm__("vsub.xyzw %0, %1, %2" : "=j"(dv) : "j"(b->pF4[b->nE8 - 1]), "j"(pos));
-        ConvertVectorToCylind__FG9VU_VECTORPfN21(dv, &out[0], &out[1], 0);
-    }
-    if (__builtin_fabsf(RadNormalize__Ff(out[0] - g)) > k->f18) goto doit;
-    if (FCheckLm(p->p10->a324, out[1])) return;
-doit:
-    {
-        qword v = PosOfLo__FP2LO(p->p10);
-        FNavPathCrv__FP9NAVREGIONiiP3CRV(q, v, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(p, q, g, pos), b);
-    }
-    Follow__9JOBFOLLOWP3CRVi(t, b, 0);
+void Update__11JOBSURROUND(JOBSURROUND *pjob)
+{
+    struct GUARD *pguard;
+    struct SOPHYS *psophys;
+    struct NAV *pnav;
+    struct NAVREGION *pnavregion;
+    struct CRV *pcrv;
+    struct TARGETREC *ptarget;
+    void *ploTarget;
+    float radTarget;
+    struct JOBFOLLOW *pjobFollow;
+    float cyl[2];
+    qword posTarget;
+    Update__5AIJOB(pjob);
+    pnav = 0;
+    if (pjob->st != SURS_Stand) {
+        pguard = pjob->aijob.pguard;
+        psophys = pguard->pE8;
+        pcrv = pguard->pcrv;
+        if (psophys) pnav = psophys->pnav;
+        pnavregion = pnav ? pnav->pnavregion : 0;
+        ptarget = pguard->ptarget;
+        ploTarget = ptarget->plo;
+        radTarget = RadTargetrec__FP9TARGETREC(ptarget);
+        posTarget = PosOfLo__FP2LO(ploTarget);
+        pjobFollow = (struct JOBFOLLOW *)pjob->aijob.pchild;
+        if (pjobFollow->g70 > D_002BE748) goto repath;
+        {
+            /* the path's end, from the target */
+            qword dv;
+            __asm__("vsub.xyzw %0, %1, %2" : "=j"(dv) : "j"(pcrv->apos[pcrv->cpos - 1]), "j"(posTarget));
+            ConvertVectorToCylind__FG9VU_VECTORPfN21(dv, &cyl[0], &cyl[1], 0);
+        }
+        if (__builtin_fabsf(RadNormalize__Ff(cyl[0] - radTarget)) > ptarget->radWide) goto repath;
+        if (FCheckLm(pjob->aijob.pguard->lmSurround, cyl[1])) return;
+repath:
+        {
+            qword pos = PosOfLo__FP2LO(pjob->aijob.pguard);
+            FNavPathCrv__FP9NAVREGIONiiP3CRV(pnavregion, pos, PosSurroundPlace__FP5GUARDP9NAVREGIONG9VU_VECTORf(pjob, pnavregion, radTarget, posTarget), pcrv);
+        }
+        Follow__9JOBFOLLOWP3CRVi(pjobFollow, pcrv, 0);
     }
 }

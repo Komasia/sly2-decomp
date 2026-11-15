@@ -1,31 +1,42 @@
+/* JOBB0::SetState: the child job ends; each held state plays its move (JOBMOVE child, animation state index 18 grabbed,
+ * 19 carried, 20 let go, 21 thrown, 19 extracted) and the guard is busy (+0x32C) while grabbed or carried; no state:
+ * the job lets go of the guard. */
 #include "clock.h"
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; char pad2[0x2C]; int n3C; };
-struct T { char pad[0x32C]; int n32C; };
-struct S { char pad[0x10]; struct T *p10; int pad2; char a18[0x18]; int n30; float g34; };
-void EndChildJob__FPP5AIJOB(void *p);
-void UnlockJob__FP5AIJOB(struct S *p);
-struct O *func_00205438(void *p, int n);
+#include "cid.h"
+#include "h2_aijobs.h"
+
+/* a pushed child job, as seen through its vtable */
+struct JOBVT { char pad0[0xC]; VTENT *vt; char pad10[0x3C - 0x10]; int nAnim; };
+struct GUARD {
+    /* 0x000 */ char pad0[0x32C];
+    /* 0x32c */ int fBusy;              /* field: SafeHouse port (f32C: busy) */
+};
+void EndChildJob__FPP5AIJOB(struct AIJOB **ppjob);
+void UnlockJob__FP5AIJOB(JOBB0 *pjob);
+struct JOBVT *func_00205438(struct GUARD *pguard, int cid);   /* SafeHouse port: PjobPush - a child job of the class */
+
 // name: SafeHouse port (JOBB0::SetState)
-void SetState__5JOBB0i(struct S *p, int n) {
-    if (p->n30 == n) return;
-    EndChildJob__FPP5AIJOB(p->a18);
-    p->n30 = n;
-    p->g34 = g_clock.t;
-    switch (n) {
-    case 0: case 1: case 2: case 3: case 4:
+void SetState__5JOBB0i(JOBB0 *pjob, int st)
+{
+    if (pjob->stHeld == st) return;
+    EndChildJob__FPP5AIJOB(&pjob->aijob.pchild);
+    pjob->stHeld = st;
+    pjob->tHeld = g_clock.t;
+    switch (st) {
+    case HELDS_Grabbed: case HELDS_Carried: case HELDS_LetGo: case HELDS_Thrown: case HELDS_Extracted:
         {
-            struct O *o = func_00205438(p->p10, 0x9D);
-            int a[5] = { 18, 19, 20, 21, 19 };
-            VTENT *e;
-            o->n3C = a[p->n30];
-            e = &o->vt[8]; ((void (*)(void *))e->pfn)(VT_THIS(o, e));
+            struct JOBVT *pjobMove = func_00205438(pjob->aijob.pguard, CID_JOBMOVE);
+            int anAnim[5] = { 18, 19, 20, 21, 19 };
+            VTENT *pvte;
+            pjobMove->nAnim = anAnim[pjob->stHeld];
+            pvte = &pjobMove->vt[8]; ((void (*)(void *))pvte->pfn)(VT_THIS(pjobMove, pvte));
         }
-        p->p10->n32C = (unsigned)p->n30 < 2;
+        pjob->aijob.pguard->fBusy = (unsigned)pjob->stHeld < 2;
         break;
-    case -1:
-        UnlockJob__FP5AIJOB(p);
-        p->p10->n32C = 0;
+    case HELDS_None:
+        UnlockJob__FP5AIJOB(pjob);
+        pjob->aijob.pguard->fBusy = 0;
         break;
     }
 }
