@@ -1,21 +1,23 @@
-extern void *D_003E1AC8;
-int IdBooty__FP2LO(void *p);
-void DropActorBooty__FP5ACTORii(void *p);
-void *PloAcquireProxyObject__FP2SWi(void *p, int n);
-void SelectBootyRecord__FP2LOi(void *p, int n);
-void SetBootyState__FP2LOi(void *p, int n);
+/* GiveActorBooty: the actor carries the booty idBooty (unless it already does): its old one dropped, then (not -1) an
+ * instance of the booty proxy with that record, carried by the actor (state 6, then 4). SafeHouse port (booty.cpp). */
+extern void *D_003E1AC8;   /* the booty proxy */
+int IdBooty__FP2LO(void *pactor);
+void DropActorBooty__FP5ACTORii(void *pactor);
+void *PloAcquireProxyObject__FP2SWi(void *pactor, int idBooty);
+void SelectBootyRecord__FP2LOi(void *pactor, int idBooty);
+void SetBootyState__FP2LOi(void *pactor, int idBooty);
 // name: SafeHouse port (GiveActorBooty)
-void GiveActorBooty__FP5ACTORi(char *p, int n)
+void GiveActorBooty__FP5ACTORi(char *pactor, int idBooty)
 {
-    void *q = *(void **)(p + 0x11A8);
-    char *o;
-    if (q && IdBooty__FP2LO(q) == n) return;
-    DropActorBooty__FP5ACTORii(p);
-    if (n == -1) return;
+    void *pbooty = *(void **)(pactor + 0x11A8);
+    char *pbootyNew;
+    if (pbooty && IdBooty__FP2LO(pbooty) == idBooty) return;
+    DropActorBooty__FP5ACTORii(pactor);
+    if (idBooty == -1) return;
     if (!D_003E1AC8) return;
-    o = PloAcquireProxyObject__FP2SWi(D_003E1AC8, 1);
-    SelectBootyRecord__FP2LOi(o, n);
-    *(void **)(o + 0x160) = p;
-    SetBootyState__FP2LOi(o, 6);
-    SetBootyState__FP2LOi(o, 4);
+    pbootyNew = PloAcquireProxyObject__FP2SWi(D_003E1AC8, 1);
+    SelectBootyRecord__FP2LOi(pbootyNew, idBooty);
+    *(void **)(pbootyNew + 0x160) = pactor;   /* pcarrier */
+    SetBootyState__FP2LOi(pbootyNew, 6);
+    SetBootyState__FP2LOi(pbootyNew, 4);
 }
