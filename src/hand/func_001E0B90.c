@@ -1,12 +1,13 @@
-typedef struct S { char pad[0x10]; int a; float f; float g; int c; int d; int e; } S;
-S *PcmdNew__FP4SCPTii(void *p, int cb);
-void func_001E0B90(void *p, int a, int b, int c, int d, float f, float g)
+/* func_001E0B90: appends a RELAYCK_GoTo command to the relay (oidTarget, uRun, gArrive, oidActor, idClip); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E0B90(RELAY *prelay, int oidTarget, int fAsync, int oidActor, int idClip, float uRun, float gArrive)
 {
-    S *s = PcmdNew__FP4SCPTii(p, 0x24);
-    s->a = a;
-    s->f = f;
-    s->g = g;
-    s->c = c;
-    s->d = d;
-    s->e = 1;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_GoTo, fAsync);
+    prelaycmd->u.goTo.oidTarget = oidTarget;
+    prelaycmd->u.goTo.uRun = uRun;
+    prelaycmd->u.goTo.gArrive = gArrive;
+    prelaycmd->u.goTo.oidActor = oidActor;
+    prelaycmd->u.goTo.idClip = idClip;
+    prelaycmd->u.goTo.fUnk9 = 1;
 }

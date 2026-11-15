@@ -1,8 +1,10 @@
-struct CMD { int kind; int b; int n8; int nC; int n10; int n14; int n18; int n1C; };
-struct CMDF { int kind; int b; int n8; int nC; float g10; float g14; int n18; int n1C; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E09D0(void *pq, int a, int b, int c)
+/* func_001E09D0: appends a RELAYCK_StepCmd1E command to the relay (oidA, oidB, oidActor); the script waits for it to complete. */
+#include "relay.h"
+
+void func_001E09D0(RELAY *prelay, int oidA, int oidB, int oidActor)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0x1E, 0);
-    p->n10 = a; p->n14 = b; p->n18 = c;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_StepCmd1E, 0);
+    prelaycmd->u.stepCmd1E.oidA = oidA;
+    prelaycmd->u.stepCmd1E.oidB = oidB;
+    prelaycmd->u.stepCmd1E.oidActor = oidActor;
 }

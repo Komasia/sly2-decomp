@@ -1,9 +1,12 @@
-union U { int n; float g; };
-struct CMD { int kind; int b; int n8; int nC; union U a[6]; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E05A0(void *pq, int a, int b, int c, int x, int d)
+/* func_001E05A0: appends a RELAYCK_ApplySm command to the relay (oidSm, oidUnk5, oidState, fUnk7); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E05A0(RELAY *prelay, int oidSm, int oidUnk5, int oidState, int fAsync, int fUnk7)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0xD, x);
-    p->a[0].n = a; p->a[1].n = b; p->a[2].n = c; p->a[3].n = d;
-    if (d) p->b = 1;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_ApplySm, fAsync);
+    prelaycmd->u.applySm.oidSm = oidSm;
+    prelaycmd->u.applySm.oidUnk5 = oidUnk5;
+    prelaycmd->u.applySm.oidState = oidState;
+    prelaycmd->u.applySm.fUnk7 = fUnk7;
+    if (fUnk7) prelaycmd->fAsync = 1;
 }

@@ -236,8 +236,8 @@ typedef struct JSG {
     /* 0x34 */ float tCommand;
     /* 0x38 */ int fHandsOff;
     /* 0x3c */ int grfHandsOff;
-    /* 0x40 */ RELAYCMD *prelaycmdJt;
-    /* 0x44 */ LO *pjt;
+    /* 0x40 */ RELAYCMD *prelaycmdJt;      /* the pending command (SafeHouse: icPending; SetRunPending, FinishRunPending) */
+    /* 0x44 */ LO *pjt;                    /* the object working on it (SafeHouse: ploWatch) */
     /* 0x48 */ int fHoldBtn10;
     /* 0x4c */ void *pasegaCur;
     /* 0x50 */ RELAY *prelayWait;

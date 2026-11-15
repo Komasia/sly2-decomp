@@ -1,13 +1,14 @@
-struct O { int n0; char pad[0xC]; int n10; };
-struct S { char pad[0x40]; struct O *po; };
-int FCmdDone__FP3RUNP7SCPTCMD(struct S *p, struct O *po);
-void SetRunPending__FP3RUNiP2LO(struct S *p, int a, int b);
+/* FinishRunPending: if the script's pending command is done, clears it (SetRunPending(0, 0)) - except a StepCmd1D
+ * with a goal object, which stays pending. */
+#include "relay.h"
+int FCmdDone__FP3RUNP7SCPTCMD(JSG *pjsg, RELAYCMD *prelaycmd);
+void SetRunPending__FP3RUNiP2LO(JSG *pjsg, int ic, LO *plo);
 // name: SafeHouse port (FinishRunPending)
-void FinishRunPending__FP3RUN(struct S *p)
+void FinishRunPending__FP3RUN(JSG *pjsg)
 {
-    if (p->po && FCmdDone__FP3RUNP7SCPTCMD(p, p->po)) {
-        int f = 1;
-        if (p->po->n0 == 0x1D) f = (p->po->n10 == -1);
-        if (f) SetRunPending__FP3RUNiP2LO(p, 0, 0);
+    if (pjsg->prelaycmdJt && FCmdDone__FP3RUNP7SCPTCMD(pjsg, pjsg->prelaycmdJt)) {
+        int fClear = 1;
+        if (pjsg->prelaycmdJt->relayck == RELAYCK_StepCmd1D) fClear = (pjsg->prelaycmdJt->u.stepCmd1D.oidGoal == -1);
+        if (fClear) SetRunPending__FP3RUNiP2LO(pjsg, 0, 0);
     }
 }

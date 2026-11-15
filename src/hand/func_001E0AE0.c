@@ -1,8 +1,11 @@
-union U { int n; float g; void *pv; };
-struct CMD { int kind; int b; int n8; int nC; union U a[4]; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E0AE0(void *pq, int a, int b, int c, int d)
+/* func_001E0AE0: appends a RELAYCK_StepCmd22 command to the relay (oidTarget, nMode, nUnk6, oidActor); the script waits for it to complete. */
+#include "relay.h"
+
+void func_001E0AE0(RELAY *prelay, int oidTarget, int nMode, int nUnk6, int oidActor)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0x22, 0);
-    p->a[0].n = a; p->a[1].n = b; p->a[2].n = c; p->a[3].n = d;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_StepCmd22, 0);
+    prelaycmd->u.stepCmd22.oidTarget = oidTarget;
+    prelaycmd->u.stepCmd22.nMode = nMode;
+    prelaycmd->u.stepCmd22.nUnk6 = nUnk6;
+    prelaycmd->u.stepCmd22.oidActor = oidActor;
 }

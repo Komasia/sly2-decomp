@@ -1,24 +1,28 @@
+/* func_001E4F20: sets the script's current tunnel object (JSG ptnCur) to ptn: the previous one is unforced from its
+ * zone, unbound, and removed again (vt slot 9) if the script added it; the new one is added (vt slot 8) when it is not
+ * in the world yet (fHideTn: the script added it, so it removes it later), bound to the script's actor if that is an
+ * SO (else func_001C4A48(&g_sw)), and forced into its zone. */
+#include "relay.h"
 #include "cid.h"
-#include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; char pad2[0x28 - 0x10]; unsigned long flPad : 60; unsigned int fBit60 : 1; char pad3[0xE0 - 0x30]; void *pvE0; };
+struct TN { int pad[3]; VTENT *vt; char pad2[0x28 - 0x10]; unsigned long flPad : 60; unsigned int fInWorld : 1; char pad3[0xE0 - 0x30]; void *paloBound; };
 struct G { int a; };
 extern struct G g_sw;
-struct P { char pad[0x24]; void *p24; char pad2[0x6C - 0x28]; struct O *po; int fActive; };
-void SetZoneForced__FP2LOi(struct O *po, int n);
-int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
-void *func_001C4A48(struct G *pg);
-void func_001E4F20(struct P *p, struct O *po)
+struct RUNTN { char pad[0x24]; void *ploActor; char pad2[0x6C - 0x28]; struct TN *ptnCur; int fHideTn; };   /* relay.h JSG */
+void SetZoneForced__FP2LOi(struct TN *ptn, int fForced);
+int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
+void *func_001C4A48(struct G *psw);
+void func_001E4F20(struct RUNTN *pjsg, struct TN *ptn)
 {
-    if (p->po) {
-        SetZoneForced__FP2LOi(p->po, -1);
-        p->po->pvE0 = 0;
-        if (p->fActive) ((void (*)(void *))p->po->vt[9].pfn)(VT_THIS(p->po, &p->po->vt[9]));
-        p->po = 0;
+    if (pjsg->ptnCur) {
+        SetZoneForced__FP2LOi(pjsg->ptnCur, -1);
+        pjsg->ptnCur->paloBound = 0;
+        if (pjsg->fHideTn) ((void (*)(void *))pjsg->ptnCur->vt[9].pfn)(VT_THIS(pjsg->ptnCur, &pjsg->ptnCur->vt[9]));
+        pjsg->ptnCur = 0;
     }
-    if (!po) return;
-    p->po = po;
-    p->fActive = !po->fBit60;
-    if (p->fActive) ((void (*)(void *))po->vt[8].pfn)(VT_THIS(po, &po->vt[8]));
-    po->pvE0 = (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, CID_SO)) ? p->p24 : func_001C4A48(&g_sw);
-    SetZoneForced__FP2LOi(po, 1);
+    if (!ptn) return;
+    pjsg->ptnCur = ptn;
+    pjsg->fHideTn = !ptn->fInWorld;
+    if (pjsg->fHideTn) ((void (*)(void *))ptn->vt[8].pfn)(VT_THIS(ptn, &ptn->vt[8]));
+    ptn->paloBound = (pjsg->ploActor && FIsBasicDerivedFrom__FP5BASIC3CID(pjsg->ploActor, CID_SO)) ? pjsg->ploActor : func_001C4A48(&g_sw);
+    SetZoneForced__FP2LOi(ptn, 1);
 }

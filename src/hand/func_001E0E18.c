@@ -1,8 +1,11 @@
-union U { int n; float g; void *pv; };
-struct CMD { int kind; int b; int n8; int nC; union U a[4]; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E0E18(void *pq, int a, int b, int c, int x, int d)
+/* func_001E0E18: appends a RELAYCK_Respawn command to the relay (oidSpot, nUnk5, nUnk6, oidActor); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E0E18(RELAY *prelay, int oidSpot, int nUnk5, int nUnk6, int fAsync, int oidActor)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0x2A, x);
-    p->a[0].n = a; p->a[1].n = b; p->a[2].n = c; p->a[3].n = d;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Respawn, fAsync);
+    prelaycmd->u.respawn.oidSpot = oidSpot;
+    prelaycmd->u.respawn.nUnk5 = nUnk5;
+    prelaycmd->u.respawn.nUnk6 = nUnk6;
+    prelaycmd->u.respawn.oidActor = oidActor;
 }

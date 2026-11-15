@@ -1,8 +1,10 @@
-struct CMD { int kind; int b; int n8; int nC; int n10; int n14; int n18; int n1C; };
-struct CMDF { int kind; int b; int n8; int nC; int n10; float g14; int n18; int n1C; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E08C0(void *pq, int a, int b, int c, float g)
+/* func_001E08C0: appends a RELAYCK_PipeTo command to the relay (oidTarget, gTolerance, oidActor); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E08C0(RELAY *prelay, int oidTarget, int fAsync, int oidActor, float gTolerance)
 {
-    struct CMDF *p = (struct CMDF *)PcmdNew__FP4SCPTii(pq, 0x1A, b);
-    p->n10 = a; p->g14 = g; p->n18 = c;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_PipeTo, fAsync);
+    prelaycmd->u.pipeTo.oidTarget = oidTarget;
+    prelaycmd->u.pipeTo.gTolerance = gTolerance;
+    prelaycmd->u.pipeTo.oidActor = oidActor;
 }

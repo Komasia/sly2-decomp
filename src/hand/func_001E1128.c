@@ -1,8 +1,10 @@
-struct CMD { int kind; int b; int n8; int nC; int n10; int n14; int n18; int n1C; };
-struct CMDF { int kind; int b; int n8; int nC; int n10; int n14; float g18; int n1C; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E1128(void *pq, int a, int b, float g)
+/* func_001E1128: appends a RELAYCK_Eyes command to the relay (oidA, oidB, dtEyes); asynchronous (the script does not wait for it). */
+#include "relay.h"
+
+void func_001E1128(RELAY *prelay, int oidA, int oidB, float dtEyes)
 {
-    struct CMDF *p = (struct CMDF *)PcmdNew__FP4SCPTii(pq, 0x35, 1);
-    p->n10 = a; p->n14 = b; p->g18 = g;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_Eyes, 1);
+    prelaycmd->u.eyes.oidA = oidA;
+    prelaycmd->u.eyes.oidB = oidB;
+    prelaycmd->u.eyes.dtEyes = dtEyes;
 }

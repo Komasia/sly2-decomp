@@ -1,8 +1,10 @@
-struct CMD { int kind; int b; int n8; int nC; int n10; int n14; int n18; int n1C; };
-struct CMDF { int kind; int b; int n8; int nC; float g10; float g14; int n18; int n1C; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E0940(void *pq, int a, int b, int c, int d)
+/* func_001E0940: appends a RELAYCK_HeroState command to the relay (nUnk4, nState, oidActor); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E0940(RELAY *prelay, int nUnk4, int nState, int fAsync, int oidActor)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0x1C, c);
-    p->n10 = a; p->n14 = b; p->n18 = d;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_HeroState, fAsync);
+    prelaycmd->u.heroState.nUnk4 = nUnk4;
+    prelaycmd->u.heroState.nState = nState;
+    prelaycmd->u.heroState.oidActor = oidActor;
 }

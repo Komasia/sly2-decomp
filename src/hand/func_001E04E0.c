@@ -1,8 +1,10 @@
-struct CMD { int kind; int b; int n8; int nC; int n10; int n14; int n18; int n1C; };
-struct CMDF { int kind; int b; int n8; int nC; float g10; float g14; int n18; int n1C; };
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
-void func_001E04E0(void *pq, int a, int b, int c, int d)
+/* func_001E04E0: appends a RELAYCK_PlayAseg command to the relay (oidAseg, oidRoot, grfapl); its fAsync argument decides whether the script waits for it. */
+#include "relay.h"
+
+void func_001E04E0(RELAY *prelay, int oidAseg, int oidRoot, int fAsync, int grfapl)
 {
-    struct CMD *p = PcmdNew__FP4SCPTii(pq, 0xA, c);
-    p->n10 = a; p->n14 = b; p->n18 = d;
+    RELAYCMD *prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_PlayAseg, fAsync);
+    prelaycmd->u.playAseg.oidAseg = oidAseg;
+    prelaycmd->u.playAseg.oidRoot = oidRoot;
+    prelaycmd->u.playAseg.grfapl = grfapl;
 }
