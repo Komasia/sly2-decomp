@@ -1,7 +1,8 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
 // SLY2_ASM: gnu-reorder-db
-// NOTE: exact MATCH when compiled WITH delayed-branch filling + GNU as reorder (see notes/245000.md round 9); not with current gnu-reorder ().
+#include "ee_regs.h"
+/* sceMpegInit (libmpeg): stop both IPU DMA channels and reset the IPU. */
 int DIntr(void);
 int EIntr(void);
 void sceIpuInit(void);
@@ -9,13 +10,13 @@ void sceIpuInit(void);
 int sceMpegInit(void)
 {
   int s = DIntr();
-  REG(0x1000F590) = REG(0x1000F520) | 0x10000;
-  REG(0x1000B000) = REG(0x1000B000) & ~0x100;
-  REG(0x1000B400) = REG(0x1000B400) & ~0x100;
-  REG(0x1000F590) = REG(0x1000F520) & ~0x10000;
+  REG(D_ENABLEW_ADDR) = REG(D_ENABLER_ADDR) | D_ENABLE_CPND;       /* hold all DMA channels */
+  REG(D3_CHCR_ADDR) = REG(D3_CHCR_ADDR) & ~D_CHCR_STR_BIT;         /* stop fromIPU */
+  REG(D4_CHCR_ADDR) = REG(D4_CHCR_ADDR) & ~D_CHCR_STR_BIT;         /* stop toIPU */
+  REG(D_ENABLEW_ADDR) = REG(D_ENABLER_ADDR) & ~D_ENABLE_CPND;
   if (s) EIntr();
-  REG(0x1000B020) = 0;
-  REG(0x1000B420) = 0;
+  REG(D3_QWC_ADDR) = 0;
+  REG(D4_QWC_ADDR) = 0;
   sceIpuInit();
   return 1;
 }

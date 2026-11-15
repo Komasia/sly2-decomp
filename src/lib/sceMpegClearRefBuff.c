@@ -1,6 +1,7 @@
 // SLY2_CC: tools/compilers/bundle/ee-gcc2.95.3-136
 // SLY2_CFLAGS: -O2 -G0
-typedef struct { char pad[0x28]; int f; } IMG;
+/* sceMpegClearRefBuff (libmpeg): mark all reference pictures empty (e.g. before a seek). */
+typedef struct { char pad[0x28]; int f; } IMG;     /* f: picture is valid */
 typedef struct { char pad[0x1C8]; IMG *a0; IMG *b0; int p0[2]; IMG *a1; IMG *b1; int p1[2]; IMG *a2; IMG *b2; } DEC;
 typedef struct { char pad[0x40]; DEC *d; } sceMpeg;
 int sceMpegClearRefBuff(sceMpeg *mp)

@@ -1,5 +1,6 @@
-// scePadPortOpen (0x243088) MATCH (Lilly's agent, T1642, 2026-10-24). Plain C, no asm/pins/volatile; from lilly9 (T1636).
-// The key: the IOP request buffer D_004507C0 is used directly (lilly9 reused the loop pointer p, which has no alias base).
+#include "libpad_rpc.h"
+/* scePadPortOpen (libpad): open (port, slot) with the 64-byte aligned, 256-byte DMA buffer `addr`; returns 1 on success. */
+// codegen: plain C. The key: the IOP request buffer D_004507C0 is used directly (lilly9 reused the loop pointer p, which has no alias base).
 // With strict aliasing the field types decide which tail stores conflict: open/dmaid/x0 (int) conflict, cmd/iopcmd
 // (PadCmd *) conflict, buf (PadData *) and the void * read of D_004507C0[5] are alone. The int return read
 // D_004507C0[3] has a known base in sched1, so it stays independent of the PadSt stores there; in sched2 (hard-reg
@@ -13,11 +14,11 @@ typedef struct { unsigned char x0[0x58]; int frame; int x5C; int len; int x64; u
 typedef struct { PadData *buf; PadCmd *cmd; PadCmd *iopcmd; int dmaid; int open; int x14; int x18; } PadSt;
 extern PadSt D_004505D0[2][4];
 extern PadCmd D_004506C0[2][4];
-extern char D_00450580[];
-extern int D_004507C0[];
-extern int D_002C830C;
-extern char D_002AB6F0[];
-extern char D_002AB720[];
+extern char D_00450580[];   /* padman RPC client */
+extern int D_004507C0[];    /* RPC request/reply buffer */
+extern int D_002C830C;      /* debug prints enabled */
+extern char D_002AB6F0[];   /* "libpad: buffer addr is not 64 byte align. %08x\n" */
+extern char D_002AB720[];   /* "libpad: pad port is already open [%d][%d]\n" */
 int scePrintf(const char *, ...);
 void *s1_memset(void *, int, int) asm("memset");
 int sceSifCallRpc(void *cd, int fno, unsigned int mode, void *send, int ssize, void *recv, int rsize, void *end, void *earg);
@@ -38,14 +39,14 @@ int scePadPortOpen(int port, int slot, void *addr)
     p = (PadData *)addr;
     for (i = 0; i < 2; i++) {
         p->frame = 0;
-        p->state = 5;
-        p->req = 2;
+        p->state = scePadStateExecCmd;
+        p->req = scePadReqStateBusy;
         p->x68[-1] = 0;
         s1_memset(p, 0xFF, 0x20);
         p->len = 0;
         p++;
     }
-    D_004507C0[0] = 1;
+    D_004507C0[0] = PAD_RPCCMD_OPEN;
     D_004507C0[1] = port;
     D_004507C0[2] = slot;
     D_004507C0[4] = (int)addr;
