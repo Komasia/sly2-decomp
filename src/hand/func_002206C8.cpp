@@ -1,4 +1,5 @@
 // Transition controller states and select the corresponding animation.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct O;
@@ -6,11 +7,10 @@ struct S;
 struct ASEG;
 struct ASEGA;
 struct WORLD;
-struct VE {short delta,pad;union {void (*plain)(void *);void (*integer)(void *,int);void (*vector)(void *,qword);} f;};
 struct CONTROL {char pad[0xA0];O *selected;};
 struct HANDLE {O *object;};
-struct O {char pad[0xC];VE *vt;int id;char pad14[0x148];int actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0x710];CONTROL controller;char pad9A4[0x68C];ASEGA *animation;HANDLE extra;char pad1038[0x7C8];int playerState;};
-struct EFFECT {char pad[0xC];VE *vt;char pad10[0x144];int active,count;void *records;int reset;};
+struct O {char pad[0xC];VTENT *vt;int id;char pad14[0x148];int actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0x710];CONTROL controller;char pad9A4[0x68C];ASEGA *animation;HANDLE extra;char pad1038[0x7C8];int playerState;};
+struct EFFECT {char pad[0xC];VTENT *vt;char pad10[0x144];int active,count;void *records;int reset;};
 struct S {O *owner;int state;float time;O *peer,*selected;char pad14[0x2C];float blend0;char pad44[8];float blend1;char pad50[8];ASEG *animation0,*animation1,*animation2,*animation3;char pad68[0x30];ASEG *animation4,*animation5,*animation6;char padA4[0x18];ASEG *animation7;V targetLocal,secondary,targetWorld,velocity;char pad100[0x28];int field128;EFFECT *effect;float distance;};
 #include "clock.h"
 struct WORK {V scalar,saved,coefficient,velocity,point;};
@@ -36,10 +36,10 @@ void func_00141CD0(O *,int);
 void ClearSmaHandle(HANDLE *) asm("ClearSmaHandle__FPP3SMA");
 void ApplyAsegCur(ASEG *,O *,float,float,int,ASEGA **) asm("ApplyAsegCur__FP4ASEGP3ALOffiPP5ASEGA");
 }
-static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
-static inline void PlainCall(O *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
-static inline void EffectCall(EFFECT *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
-static inline void VectorCall(O *o,int slot,qword value){VE *v=o->vt;v[slot].f.vector((char *)o+v[slot].delta,value);}
+static inline void IntCall(O *o,int slot,int value){VTENT *v=o->vt;((void (*)(void *,int))v[slot].pfn)(VT_THIS(o, &v[slot]),value);}
+static inline void PlainCall(O *o,int slot){VTENT *v=o->vt;((void (*)(void *))v[slot].pfn)(VT_THIS(o, &v[slot]));}
+static inline void EffectCall(EFFECT *o,int slot){VTENT *v=o->vt;((void (*)(void *))v[slot].pfn)(VT_THIS(o, &v[slot]));}
+static inline void VectorCall(O *o,int slot,qword value){VTENT *v=o->vt;((void (*)(void *,qword))v[slot].pfn)(VT_THIS(o, &v[slot]),value);}
 static inline qword LoadUp(){register qword q __asm__("vf1");__asm__("lqc2 %0,0(%1)":"=j"(q):"r"(&g_normalZ),"m"(g_normalZ));return q;}
 static inline qword PointVF(qword q){register qword r __asm__("vf3");__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(q));return r;}
 static inline qword RestorePoint(const V &v){register qword q __asm__("vf3");__asm__("lqc2 %0,%1":"=j"(q):"m"(v));return q;}

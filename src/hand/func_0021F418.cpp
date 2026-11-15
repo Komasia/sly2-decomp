@@ -1,17 +1,17 @@
 // Update the controller target and consume state/animation transitions.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct RANGE {float lo,hi;};
 struct O;
 struct S;
 struct ASEG;
-struct VE {short delta,pad;union {void (*plain)(void *);void (*integer)(void *,int);void (*vector)(void *,qword);void (*evaluate)(void *,int,V *,float,float);} f;};
-struct TRACK {VE *vt;};
+struct TRACK {VTENT *vt;};
 struct TRACKREF {int tag;TRACK *track;};
 struct ASEGA {char pad[0x14];ASEG *definition;char pad18[4];float time;char pad20[0x20];float scale;};
 struct CONTROL {char pad[0x18];float heading,speed;};
-struct O {char pad[0xC];VE *vt;int id;char pad14[0x13C];CONTROL *control;int field154,sentinel,actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0xE40];ASEGA *animation;char pad1034[0x39C];int mode;};
-struct EFFECT {char pad[0xC];VE *vt;};
+struct O {char pad[0xC];VTENT *vt;int id;char pad14[0x13C];CONTROL *control;int field154,sentinel,actorId;char pad160[0x30];V target;char pad1A0[4];int movement;char pad1A8[0x38];V direction;char pad1F0[0xE40];ASEGA *animation;char pad1034[0x39C];int mode;};
+struct EFFECT {char pad[0xC];VTENT *vt;};
 struct S {O *owner;int state;float time;O *peer,*selected;float idleThreshold,activeThreshold;RANGE bounds;float radius,scale;char pad2C[0x14];float blend0;char pad44[8];float blend1;char pad50[8];ASEG *animation0,*animation1,*animation2,*animation3;char pad68[0x30];ASEG *animation4,*animation5,*animation6;char padA4[0x18];ASEG *animation7;V targetLocal,secondary,targetWorld,velocity,transitionBegin,transitionEnd;float transitionStart,transitionDuration;int transitioning;EFFECT *effect;float distance;};
 #include "clock.h"
 union SCRATCH {V vector;RANGE range;};
@@ -37,9 +37,9 @@ int GrfPadctlTakePressed(CONTROL *,int,float) asm("GrfPadctlTakePressed__FP6PADC
 void SetBentleyCarried(O *,int) asm("SetBentleyCarried__FP7BENTLEYi");
 TRACKREF *PchnFindAseg(ASEG *,O *,void *,int) asm("PchnFindAseg__FP4ASEGP3ALOPvi");
 }
-static inline void IntCall(O *o,int slot,int value){VE *v=o->vt;v[slot].f.integer((char *)o+v[slot].delta,value);}
-static inline void EffectCall(EFFECT *o,int slot){VE *v=o->vt;v[slot].f.plain((char *)o+v[slot].delta);}
-static inline void Evaluate(TRACK *o,int optional,V *result,float time,float scale){VE *v=o->vt;v[3].f.evaluate((char *)o+v[3].delta,optional,result,time,scale);}
+static inline void IntCall(O *o,int slot,int value){VTENT *v=o->vt;((void (*)(void *,int))v[slot].pfn)(VT_THIS(o, &v[slot]),value);}
+static inline void EffectCall(EFFECT *o,int slot){VTENT *v=o->vt;((void (*)(void *))v[slot].pfn)(VT_THIS(o, &v[slot]));}
+static inline void Evaluate(TRACK *o,int optional,V *result,float time,float scale){VTENT *v=o->vt;((void (*)(void *,int,V *,float,float))v[3].pfn)(VT_THIS(o, &v[3]),optional,result,time,scale);}
 static inline qword CPUFloat(float f){register qword r asm("$2");__asm__("mfc1 %0,%1":"=r"(r):"f"(f));return r;}
 static inline qword Scalar(float f){qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r;}
 static inline qword ScalarHome(V &home,qword value){home.q=value;return home.q;}
@@ -84,10 +84,10 @@ static inline float LaunchLengthX(qword length){register int bits asm("$3");regi
 static inline qword LaunchVelocity(qword direction,qword speed,qword up,qword height){register qword result asm("vf1")=up,d asm("vf3")=direction,s asm("vf4")=speed,h asm("vf2")=height;
  asm("vmulax.xyzw ACC,%1,%2x\n\tvmaddx.xyzw %0,%0,%3x":"+j"(result):"j"(d),"j"(s),"j"(h));return result;
 }
-static inline void LaunchVectorCall(O *owner,const V &home){qword velocity=LoadVF(home);VE *table=owner->vt;
+static inline void LaunchVectorCall(O *owner,const V &home){qword velocity=LoadVF(home);VTENT *table=owner->vt;
  register int delta asm("$4");register qword argument asm("$5");
  asm("lh %0,%2\n\tqmfc2.ni %1,%3":"=&r"(delta),"=r"(argument):"m"(table[35].delta),"j"(velocity));
- table[35].f.vector((char *)owner+delta,argument);
+ ((void (*)(void *,qword))table[35].pfn)((char *)owner+delta,argument);
 }
 static inline qword PlanarUnit(qword input,qword up){
  register qword point asm("vf4")=input,normal asm("vf1")=up,projection asm("vf2"),direction asm("vf3");

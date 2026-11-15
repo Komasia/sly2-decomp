@@ -1,5 +1,5 @@
-struct VT { short d0; short p0; void *f0; char pad[0x40]; short d9; short p9; void (*pf9)(void *); };
-struct S { char pad[0xC]; struct VT *pvt; char pad10[0x11C]; float x12C; float x130; char pad134[0x24]; int x158; char pad15c[8]; int x164; };
+#include "vtbl.h"
+struct S { char pad[0xC]; VTENT *pvt; char pad10[0x11C]; float x12C; float x130; char pad134[0x24]; int x158; char pad15c[8]; int x164; };
 #include "clock.h"
 void UpdateLo__FP2LO(struct S *p);
 void func_0021C0D8(struct S *p)
@@ -17,5 +17,5 @@ void func_0021C0D8(struct S *p)
         }
     }
     if (p->x12C <= 0.0f && p->x130 <= 0.0f && !(p->x164 < p->x158))
-        ((void (*)(void *))p->pvt->pf9)((char *)p + p->pvt->d9);
+        ((void (*)(void *))p->pvt[9].pfn)(VT_THIS(p, &p->pvt[9]));
 }
