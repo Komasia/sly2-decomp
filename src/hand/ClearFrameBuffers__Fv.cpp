@@ -1,3 +1,4 @@
+// ClearFrameBuffers (Sly 1 gs.c): clear both frame buffers with the clear packet D_002DF260 (BlastAqwGifsBothFrames).
 #include "dmas.h"
 extern QW D_002DF260[];
 void BlastAqwGifsBothFrames(QW *aqw);

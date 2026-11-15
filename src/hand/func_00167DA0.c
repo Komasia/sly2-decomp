@@ -20,6 +20,8 @@ static inline float Length(qword v)
 }
 static inline qword Broadcast(float f) { qword r;__asm__("qmtc2.ni %1,%0":"=j"(r):"r"(f));return r; }
 static inline qword MAdd(qword p,qword v,qword k) {qword r;__asm__("vadda.xyzw ACC,%1,$vf0\n\tvmaddx.xyzw %0,%2,%3x":"=j"(r):"j"(p),"j"(v),"j"(k));return r; }
+/* func_00167DA0: grow a bounding sphere (center p, *radius) to also hold the point D_002BE570 transformed by m:
+ * the new sphere spans the old one and the point; returns its center. */
 qword func_00167DA0(const struct M4 *m,qword p,float *radius)
 {
  U u;

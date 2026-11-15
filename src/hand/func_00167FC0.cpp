@@ -1,5 +1,7 @@
 #include "vifs.h"
-struct X { char pad[0x120]; QW amat[3]; int f150[4]; int f160; };
+// func_00167FC0: a render pass's setup (paired with func_001681B0): load its VU1 microcode, then upload the matrices
+// (0x30 bytes, at most 256, 32 per unpack) of every object of class 4 found (kind 0x505) that is not hidden (+0x160).
+struct X { char pad[0x120]; QW amat[3]; int f150[4]; int fHidden; };
 struct G;
 extern G g_sw;
 extern char D_0025E090[];
@@ -21,7 +23,7 @@ extern "C" void func_00167FC0(VIFS *pvifs)
     int c = CFindObjectsByClass(&g_sw, 0x505, 4, 0, 0x180, (void **)apx);
     for (i = 0; i < c; i++) {
         px = apx[i];
-        if (!px->f160)
+        if (!px->fHidden)
             cActive++;
     }
     if (cActive > 0x100)
@@ -35,7 +37,7 @@ extern "C" void func_00167FC0(VIFS *pvifs)
     int iEnd = 0;
     for (i = 0; i < c; i++) {
         px = apx[i];
-        if (px->f160)
+        if (px->fHidden)
             continue;
         if (n >= iEnd) {
             iEnd = n + Min(cActive - n, 32);

@@ -3,6 +3,8 @@ typedef struct ALLOCREQ { int cb; int nKind; } ALLOCREQ;
 struct X { int pad[4]; int cqw; };
 struct Y { int pad[4]; QW *aqw; char *pb; };
 QW *PvAllocSwCopyImpl__FiPv(ALLOCREQ *preq, QW *aqw);
+/* func_00169EB8: copy a VIF packet into the world heap (cqw qwords) and, when fReloc, move its references by
+ * nNew - nOld: walking the DMA tags (id 4: a REF, its address adjusted; 1: a CNT, skipped with its data; 6: END). */
 void func_00169EB8(struct X *px, struct Y *py, int cqw, QW *aqwSrc, int fReloc, int nNew, int nOld)
 {
     ALLOCREQ req;

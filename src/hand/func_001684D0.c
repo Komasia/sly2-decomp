@@ -37,6 +37,9 @@ static __inline__ void Align(uint align)
     }
 }
 
+/* FGlobBoneMatrices: append a sub-glob's bone matrices to the VIF packet (an UNPACK V4-32 of count x 4 qwords at
+ * the descriptor's VU address): each bone's world matrix times its local (inverse bind) matrix, on VU0
+ * (microprogram 0x60), the next bone's matrices loaded while VU0 runs. */
 // name: SafeHouse port (FGlobBoneMatrices)
 void FGlobBoneMatrices__FP3ALOP4DESCP5ENTRY(void *context, DESC *descriptor, ENTRY *entry)
 {

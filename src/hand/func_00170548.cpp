@@ -1,6 +1,9 @@
+// func_00170548: allocate cb units (VRAM blocks) from a ZPR: the first free block of a large enough size class (the
+// rest goes back to the list of its new size), else from the allocation point (closing the page first when the
+// allocation would cross a 0x80 boundary). Returns the first unit.
 extern "C" {
-struct B { int n0; int n4; struct B *next; };
-struct S { char pad0[4]; int n4; char pad8[4]; struct B *ap[8]; };
+struct B { int n0; int n4; struct B *next; };   /* a free range: first, limit, next (func_001704B8 BLK) */
+struct S { char pad0[4]; int n4; char pad8[4]; struct B *ap[8]; };   /* ZPR: the allocation point, the free lists */
 int func_00170448(int n);
 void func_001704B8(struct S *p);
 int func_00170548(struct S *input, int cb)

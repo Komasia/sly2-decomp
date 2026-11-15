@@ -1,3 +1,5 @@
+// BlastAqwGifsBothFrames (Sly 1 gs.c): send a GIF chain to both frame buffers: per buffer its draw environment is
+// set, then the chain sent and the GS FINISH awaited, inside the GS critical section.
 #include "qw.h"
 struct CRITSECT { int a; };
 struct GSDB { int a; };

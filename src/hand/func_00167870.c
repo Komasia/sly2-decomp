@@ -19,6 +19,9 @@ float F32Read(struct STREAM*) __asm__("F32Read__18CBinaryInputStream");
 unsigned char U8Read(struct STREAM*) __asm__("U8Read__18CBinaryInputStream");
 void*PvAllocSwClearImpl__Fi(struct REQUEST*);
 static inline float Min(float a,float b){float r;__asm__("min.s %0,%1,%2":"=f"(r):"f"(a),"f"(b));return r;}
+/* LoadGlobSpheresFromBrx: load the glob set's bounding sphere tree: groups of up to four spheres (kind -1 ends a
+ * group early); a kind 0 sphere bounds a sub-glob (its channel, its "feature" flag and index from it; a sub-glob
+ * with flag 0x1000 makes it kind 3, linked to its matrix), a kind 1 sphere links to a child group. */
 // name: SafeHouse port (LoadGlobSpheresFromBrx)
 void LoadGlobSpheresFromBrx__FP7GLOBSETP18CBinaryInputStream(struct P*p,struct STREAM*stream){
     int count=S16Read(stream);

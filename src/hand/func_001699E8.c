@@ -2,6 +2,8 @@ struct A { int a[5]; };
 struct B { int a[10]; };
 struct C { int a[6]; };
 void LoadGlobSubmeshFromBrx__FP7GLOBSETP18CBinaryInputStreamPvP6SPHEREN22T3iPiPP4FACEP6STREAM(void *p, struct A *pa0, struct B *pb0, struct C *pc0, struct A *pa, struct B *pb, struct C *pc, int x, int y, int z, int w);
+/* LoadGlobSubmeshesFromBrx: load the c sub-meshes after the first (entries 1..c of the three parallel arrays; the
+ * third is optional). */
 // name: SafeHouse port (LoadGlobSubmeshesFromBrx)
 void LoadGlobSubmeshesFromBrx__FP7GLOBSETP18CBinaryInputStreamPvT2iiiii(void *p, struct A *aa, struct B *ab, struct C *ac, int c, int x, int y, int z, int w)
 {

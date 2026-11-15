@@ -1,3 +1,5 @@
+// GIFS::AddPrimPack (Sly 1 gifs.c): close the open primitive and start a PACKED GIF tag (NLOOP filled in at its end)
+// for prim with creg registers (regs: their 4-bit descriptors).
 #include "gifs.h"
 
 void GIFS::AddPrimPack(int prim, int creg, ulong regs)

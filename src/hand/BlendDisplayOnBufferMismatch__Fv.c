@@ -1,3 +1,6 @@
+/* BlendDisplayOnBufferMismatch (Sly 1 gs.c): when the field shown and the field drawn differ, display both
+ * circuits blended (PMODE / DISPFB / DISPLAY written to the GS privileged registers) so the frame does not jitter;
+ * else the single buffer. */
 typedef struct { unsigned long EN1:1, EN2:1, CRTMD:3, MMOD:1, AMOD:1, SLBG:1, ALP:8, reserved:48; } __attribute__((packed)) PMODE_FIELDS;
 typedef union { PMODE_FIELDS field; unsigned long word; } __attribute__((packed)) PMODE;
 typedef struct { unsigned int FBP:9, FBW:6, PSM:5, reserved0:12, DBX:11, DBY:11, reserved1:10; } __attribute__((packed)) DISPFB;
