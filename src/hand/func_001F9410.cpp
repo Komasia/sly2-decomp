@@ -5,6 +5,7 @@
 // Args: (game, flags, objectCount, objects, contactCount, contacts). flags&1 = resting contacts,
 // flags&4 = position pass first (returns early when flags == 4).
 #include "vtbl.h"
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 union U {qword q;float f[4];};
 struct XP;
@@ -12,8 +13,6 @@ struct BODY {char pad0[0x98];short kind;char pad9A[0x16];U velocity;};
 struct MOTION {char pad0[0x60];U linear,angular;};
 struct P {char pad0[0xC];VTENT *vtable;char pad10[0x48];BODY *first,*second;char pad60[0x88];MOTION *motion;};
 struct XP {char pad0[0x80];U normal;float value;int unused94;float elasticity;int kind;float start,end;int index;int unusedAC;U velocity;};
-struct DLE {void *next,*previous;};
-struct DL {void *first,*last;int offset;};
 union FLOAT {float value;int bits;};
 struct DZ {int kind;float lower,upper,value;FLOAT target;int unused14;float *coefficients;int flags;DLE link;};
 struct DZS {char pad0[0x40];U normal;XP *source;float *coefficients;char pad58[8];};

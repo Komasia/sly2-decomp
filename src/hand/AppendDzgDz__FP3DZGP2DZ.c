@@ -1,7 +1,7 @@
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
 struct E { char pad[0x18]; float *ag; char pad2[0x28 - 0x1C]; };
 struct F { char pad[0x54]; qword *av; char pad2[0x60 - 0x58]; };
-struct DL { void *a, *b; int c; };
 struct DZG { int x0; int c; struct E *ae; char pad[0x30 - 0xC]; struct DL dl; char pad2[0x60 - 0x3C]; struct F *af; };
 struct Y { char pad[0xA8]; int i; };
 struct X { char pad[0x40]; qword v; char pad2[0x50 - 0x50]; struct Y *py; };

@@ -12,8 +12,8 @@
  *  - ClipBspPlane uses the matched callee's argument order (pos, eps, count, entries).
  */
 #include "vtbl.h"
+#include "dl.h"
 typedef int qword __attribute__((mode(TI)));
-struct DL { void *head, *tail; int offset; };
 struct DLI { DL *list; void **next; int offset; DLI *outer; };
 struct ENTRY { int a, b; void *poly; };
 struct SHAPE { char pad10[0x10]; unsigned long flags; char pad18[0x54]; int capacity; char pad70[4]; void *tree; };
@@ -41,7 +41,7 @@ void BounceRipgRips(P *) asm("BounceRipgRips__FP4RIPG");
 }
 /* the scratch request and the rip iterator share one stack slot */
 union PHASE { REQ request; DLI rip; };
-static inline void Init(DLI *it, DL *list) { it->list = list; it->next = (void **)list; it->offset = list->offset; it->outer = s_pdliFirst; s_pdliFirst = it; }
+static inline void Init(DLI *it, DL *list) { it->list = list; it->next = (void **)list; it->offset = list->ibDle; it->outer = s_pdliFirst; s_pdliFirst = it; }
 static inline void *Next(DLI *it) { void *p = *it->next; it->next = (void **)((char *)p + it->offset); return p; }
 static inline void SetAlign(REQ *r, int a) { r->align = a; }
 static inline const qword &Origin(STATE *s) { return s->origin; }

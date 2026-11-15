@@ -1,8 +1,7 @@
 // name: Sly 1 frm.c ClearPendingFrame (suggested by h2)
 // ClearPendingFrame__FP3FRM (Sly 1 frm.c ClearPendingFrame): empty a frame's pending-release lists once it is rendered: each
 // object is unlinked and released (vtable entry 2), each buffer freed (its storage too) back to its slot heap.
-#include "vtbl.h"
-#include "dl.h"
+#include "so.h"
 extern void*s_pdliFirst;
 struct DLI{
  DL*list;void**next;int linkOffset;void*previous;
@@ -10,7 +9,6 @@ struct DLI{
  ~DLI(){s_pdliFirst=previous;}
  void*Next(){void*value=*next;next=(void**)((unsigned int)value+linkOffset);return value;}
 };
-struct LO{char pad[12];VTENT*vt;};
 struct BUF{char pad[0x1088];void*storage;};
 struct FRM{char pad[0x34];DL dlRelease,dlFree;};
 extern char D_003E1530[],D_003E1518[];   /* the slot heaps of the storage / the buffers */
@@ -23,7 +21,7 @@ extern "C" void ClearPendingFrame__FP3FRM(FRM*frame){
   DLI iter(&frame->dlRelease);
   for(LO*object=(LO*)iter.Next();object;object=(LO*)iter.Next()){
    RemoveDlEntry(&frame->dlRelease,object);
-   VTENT*entry=&object->vt[2];((void (*)(void*))entry->pfn)(VT_THIS(object, entry));
+   VTENT*entry=&object->pvt[2];((void (*)(void*))entry->pfn)(VT_THIS(object, entry));
   }
   ClearDl(&frame->dlRelease);
  }
@@ -46,8 +44,6 @@ typedef char DLI_List[FIELD_OFFSET(DLI,list)==0?1:-1];
 typedef char DLI_Next[FIELD_OFFSET(DLI,next)==4?1:-1];
 typedef char DLI_LinkOffset[FIELD_OFFSET(DLI,linkOffset)==8?1:-1];
 typedef char DLI_Previous[FIELD_OFFSET(DLI,previous)==12?1:-1];
-typedef char LO_PrefixSize[sizeof(LO)==16?1:-1];
-typedef char LO_VT[FIELD_OFFSET(LO,vt)==12?1:-1];
 typedef char BUF_PrefixSize[sizeof(BUF)==0x108C?1:-1];
 typedef char BUF_Storage[FIELD_OFFSET(BUF,storage)==0x1088?1:-1];
 typedef char FRM_PrefixSize[sizeof(FRM)==0x4C?1:-1];
