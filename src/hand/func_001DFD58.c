@@ -1,61 +1,49 @@
-#include "vtbl.h"
-#include "dl.h"
-typedef struct OBJ OBJ;
-typedef struct VT { VTENT a[8]; } VT;
-struct OBJ {
-    char pad[0xC];
-    VT *vt;
-    char pad10[0x40 - 0x10];
-    int x40;
-    char pad44[0x54 - 0x44];
-    void *x54;
-    int pad58;
-    DL dl;
-    char pad68[0x6C - 0x68];
-    int x6C;
-    int x70;
-    int x74;
-    int x78;
-    int x7C;
-};
-void func_001E02C0(OBJ *);
-void *PrunNew__FP2LOPvP3RUN(OBJ *, void *, int);
-void RunRun__FP4PRUN(void *);
+/* StartScptImpl: fires the relay with ploFirer as the firer, unless it is firing already: sends the Splice event 5
+ * (fired, vt slot 3), appends the closing BlockEnd command if still due, starts a script (JSG) at the first command and
+ * runs it. If scripts are left running, the relay goes on the update list (func_001A6CA8 + GRFUPD_Update) unless it
+ * already updates. Each step re-checks fFiring, since the event or the script may stop the relay. */
+#include "relay.h"
+#include "h3_update.h"
+#define SPLICEEVENT_Fired 5
+typedef void (*PFNSPLICEEVENT)(void *plo, int event, int, int, int, int);
+void func_001E02C0(RELAY *prelay);            /* append a BlockEnd command */
+void *PrunNew__FP2LOPvP3RUN(RELAY *prelay, RELAYCMD *prelaycmdFirst, int);
+void RunRun__FP4PRUN(void *pjsg);
 int FIsDlEmpty__FP2DL(DL *);
-void StopScptImpl__FP2LO(OBJ *);
-void func_001A6CA8(OBJ *, int);
+void StopScptImpl__FP2LO(RELAY *);
+void func_001A6CA8(RELAY *, int);             /* update list: 1 add, 2 remove (SafeHouse SetLoSt) */
 // name: SafeHouse port (StartScptImpl)
-void StartScptImpl__FP2LOi(OBJ *p, int n)
+void StartScptImpl__FP2LOi(RELAY *prelay, LO *ploFirer)
 {
-    int fl;
-    if (p->x74)
+    int grf;
+    if (prelay->fFiring)
         return;
-    p->x6C = n;
-    p->x74 = 1;
-    p->x78 = 0;
-    ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 5, 0, 0, 0, 0);
-    if (!p->x74)
+    prelay->ploFirer = ploFirer;
+    prelay->fFiring = 1;
+    prelay->fUpdating = 0;
+    ((PFNSPLICEEVENT)prelay->lo.pvt[3].pfn)(VT_THIS(prelay, &prelay->lo.pvt[3]), SPLICEEVENT_Fired, 0, 0, 0, 0);
+    if (!prelay->fFiring)
         return;
-    if (p->x7C) {
-        func_001E02C0(p);
-        p->x7C = 0;
+    if (prelay->fAppendEnd) {
+        func_001E02C0(prelay);
+        prelay->fAppendEnd = 0;
     }
-    RunRun__FP4PRUN(PrunNew__FP2LOPvP3RUN(p, p->x54, 0));
-    if (!p->x74)
+    RunRun__FP4PRUN(PrunNew__FP2LOPvP3RUN(prelay, prelay->arelaycmd, 0));
+    if (!prelay->fFiring)
         return;
-    if (FIsDlEmpty__FP2DL(&p->dl)) {
-        StopScptImpl__FP2LO(p);
+    if (FIsDlEmpty__FP2DL(&prelay->dlJsg)) {
+        StopScptImpl__FP2LO(prelay);
         return;
     }
-    fl = p->x40;
-    if ((fl ^ 1) & 1)
-        fl = *(int *)fl;
-    if (fl & 2)
+    grf = prelay->lo.grfUnk40;
+    if ((grf ^ GRFUPD_Flags) & GRFUPD_Flags)
+        grf = *(int *)grf;
+    if (grf & GRFUPD_Update)
         return;
-    func_001A6CA8(p, 1);
-    if ((p->x40 ^ 1) & 1)
-        *(int *)p->x40 |= 2;
+    func_001A6CA8(prelay, 1);
+    if ((prelay->lo.grfUnk40 ^ GRFUPD_Flags) & GRFUPD_Flags)
+        *(int *)prelay->lo.grfUnk40 |= GRFUPD_Update;
     else
-        p->x40 |= 2;
-    p->x78 = 1;
+        prelay->lo.grfUnk40 |= GRFUPD_Update;
+    prelay->fUpdating = 1;
 }

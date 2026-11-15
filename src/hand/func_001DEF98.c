@@ -1,30 +1,26 @@
-typedef int qword __attribute__((mode(TI)));
-typedef struct {
-    int x0;
-    int kind;
-    char pad8[0x10 - 0x8];
-    union { qword q; struct { void *pv; float f; } s; } u;
-    char pad20[0xA0 - 0x20];
-} E;
-typedef struct { char pad[0x60]; void *x60; } OBJ;
-qword PosConvertXfs__FP2XFT0G9VU_VECTOR(void *, int, qword);
-void EvalCrvS(void *, qword *, int, float) asm("EvalCrvS__FP3CRVfP6VECTORT2");
-void func_001DEF98(OBJ *p, E *e, qword *out, float *pdist)
+/* func_001DEF98: the world positions of a beam's two endpoints (apos[0], apos[1]): a fixed point is converted from
+ * the laser's local space (its XF at +0x60), a path endpoint is evaluated on its path at its current distance.
+ * With psLength it also returns the distance between them. */
+#include "h3_laser.h"
+typedef struct LASER { char unk_so[0x60]; void *pxf; } LASER;   /* SO +0x60: the root XF */
+qword PosConvertXfs__FP2XFT0G9VU_VECTOR(void *pxfFrom, int pxfTo, qword pos);
+void EvalCrvS(void *pcrv, qword *ppos, int pdpos, float s) asm("EvalCrvS__FP3CRVfP6VECTORT2");
+void func_001DEF98(LASER *plaser, LASEREND *pend, qword *apos, float *psLength)
 {
-    unsigned int i;
-    for (i = 0; i < 2; i++, e++) {
-        switch (e->kind) {
-        case 0:
-            out[i] = PosConvertXfs__FP2XFT0G9VU_VECTOR(p->x60, 0, e->u.q);
+    unsigned int iend;
+    for (iend = 0; iend < 2; iend++, pend++) {
+        switch (pend->kind) {
+        case LASERENDK_Point:
+            apos[iend] = PosConvertXfs__FP2XFT0G9VU_VECTOR(plaser->pxf, 0, pend->pos);
             break;
-        case 1:
-            EvalCrvS(e->u.s.pv, &out[i], 0, e->u.s.f);
+        case LASERENDK_Path:
+            EvalCrvS(pend->track.pcrv, &apos[iend], 0, pend->track.s);
             break;
         }
     }
-    if (pdist) {
-        int f;
-        __asm__("lqc2 $vf1, %1\n\tlqc2 $vf2, %2\n\tvsub.xyzw $vf2, $vf2, $vf1\n\tvmul.xyz $vf2, $vf2, $vf2\n\tvaddw.x $vf3, $vf0, $vf0w\n\tvadday.x $ACC, $vf2, $vf2y\n\tvmaddz.x $vf2, $vf3, $vf2z\n\tvsqrt $Q, $vf2x\n\tvwaitq\n\tvaddq.x $vf2, $vf0, $Q\n\tqmfc2.ni %0, $vf2" : "=r"(f) : "m"(out[1]), "m"(out[0]));
-        *(int *)pdist = f;
+    if (psLength) {
+        int sLength;   /* |apos[1] - apos[0]|, moved out of the VU as raw float bits */
+        __asm__("lqc2 $vf1, %1\n\tlqc2 $vf2, %2\n\tvsub.xyzw $vf2, $vf2, $vf1\n\tvmul.xyz $vf2, $vf2, $vf2\n\tvaddw.x $vf3, $vf0, $vf0w\n\tvadday.x $ACC, $vf2, $vf2y\n\tvmaddz.x $vf2, $vf3, $vf2z\n\tvsqrt $Q, $vf2x\n\tvwaitq\n\tvaddq.x $vf2, $vf0, $Q\n\tqmfc2.ni %0, $vf2" : "=r"(sLength) : "m"(apos[1]), "m"(apos[0]));
+        *(int *)psLength = sLength;
     }
 }

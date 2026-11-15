@@ -1,9 +1,11 @@
-struct S { char p0[0x50]; int n50; char p1[0x7C-0x54]; int n7C; };
-void StopScptImpl__FP2LO(struct S *p);
-void func_001E0290(struct S *p, int n);
-void func_001DFFE0(struct S *p) {
-    StopScptImpl__FP2LO(p);
-    p->n50 = 0;
-    func_001E0290(p, -1);
-    p->n7C = 1;
+/* func_001DFFE0: clears the relay's script (Splice method 0x106A08): stops it, drops all commands, and starts over with
+ * the opening BlockBegin (no label: -1) and the closing BlockEnd still to append - as BeginScptLoad does. */
+#include "relay.h"
+void StopScptImpl__FP2LO(RELAY *prelay);
+void func_001E0290(RELAY *prelay, int oidLabel);   /* append a BlockBegin command */
+void func_001DFFE0(RELAY *prelay) {
+    StopScptImpl__FP2LO(prelay);
+    prelay->crelaycmd = 0;
+    func_001E0290(prelay, -1);
+    prelay->fAppendEnd = 1;
 }

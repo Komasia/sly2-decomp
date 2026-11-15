@@ -1,25 +1,14 @@
-#include "vtbl.h"
-#include "dl.h"
-typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;
+/* StopScptImpl: stops a firing relay: clears the firer and the time, retires each running script (JSG), forgets its
+ * alarms, takes it off the update list if firing put it there, and sends the Splice event 6 (stopped, vt slot 3). */
+#include "relay.h"
+#include "h3_update.h"
+#define SPLICEEVENT_Stopped 6
+typedef void (*PFNSPLICEEVENT)(void *plo, int event, int, int, int, int);
+typedef struct DLI { DL *pdl; void **ppv; int ibDle; struct DLI *pdliNext; } DLI;   /* list iterator (safe against removal) */
 extern DLI *s_pdliFirst;
-typedef struct OBJ OBJ;
-typedef struct VT { VTENT a[8]; } VT;
-struct OBJ {
-    char pad[0xC];
-    VT *vt;
-    char pad10[0x40 - 0x10];
-    int x40;
-    char pad44[0x5C - 0x44];
-    DL dl;
-    char pad68[0x6C - 0x68];
-    int x6C;
-    int x70;
-    int x74;
-    int x78;
-};
-void RetireRun__FP4PRUN(void *);
-void func_001E0120(OBJ *);
-void func_001A6CA8(OBJ *, int);
+void RetireRun__FP4PRUN(void *pjsg);
+void func_001E0120(RELAY *prelay);            /* forget the alarms */
+void func_001A6CA8(RELAY *, int);             /* update list: 1 add, 2 remove (SafeHouse SetLoSt) */
 static inline void InitDli(DLI *pdli, DL *pdl)
 {
     pdli->pdl = pdl;
@@ -35,26 +24,26 @@ static inline void *PvNextDli(DLI *pdli)
     return pv;
 }
 // name: SafeHouse port (StopScptImpl)
-void StopScptImpl__FP2LO(OBJ *p)
+void StopScptImpl__FP2LO(RELAY *prelay)
 {
     DLI dli;
-    void *pv;
-    if (p->x74 == 0)
+    void *pjsg;
+    if (prelay->fFiring == 0)
         return;
-    p->x6C = 0;
-    p->x70 = 0;
-    p->x74 = 0;
-    InitDli(&dli, &p->dl);
-    while ((pv = PvNextDli(&dli)) != 0)
-        RetireRun__FP4PRUN(pv);
-    func_001E0120(p);
-    if (p->x78) {
-        func_001A6CA8(p, 2);
-        if ((p->x40 ^ 1) & 1)
-            *(int *)p->x40 &= ~2;
+    prelay->ploFirer = 0;
+    prelay->tFired = 0.0f;
+    prelay->fFiring = 0;
+    InitDli(&dli, &prelay->dlJsg);
+    while ((pjsg = PvNextDli(&dli)) != 0)
+        RetireRun__FP4PRUN(pjsg);
+    func_001E0120(prelay);
+    if (prelay->fUpdating) {
+        func_001A6CA8(prelay, 2);
+        if ((prelay->lo.grfUnk40 ^ GRFUPD_Flags) & GRFUPD_Flags)
+            *(int *)prelay->lo.grfUnk40 &= ~GRFUPD_Update;
         else
-            p->x40 &= ~2;
+            prelay->lo.grfUnk40 &= ~GRFUPD_Update;
     }
-    ((void (*)(void *, int, int, int, int, int))p->vt->a[3].pfn)(VT_THIS(p, &p->vt->a[3]), 6, 0, 0, 0, 0);
+    ((PFNSPLICEEVENT)prelay->lo.pvt[3].pfn)(VT_THIS(prelay, &prelay->lo.pvt[3]), SPLICEEVENT_Stopped, 0, 0, 0, 0);
     s_pdliFirst = dli.pdliNext;
 }

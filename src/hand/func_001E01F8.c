@@ -1,17 +1,18 @@
-struct CMD { int kind; int b; char pad[0x48]; };
-struct Q { char pad[0x50]; int c; struct CMD *a; int cMax; };
-extern struct CMD D_003DA740;
+/* PcmdNew: appends a zeroed command of kind relayck to the relay and returns it; when the relay is full (its
+ * crelaycmdMax, or 0x200 when that is unset) it returns the dummy command D_003DA740 instead. */
+#include "relay.h"
+extern RELAYCMD D_003DA740;        /* the dummy command (written to when full) */
 void s1_memset(void *p, int b, int cb) asm("memset");
 // name: SafeHouse port (PcmdNew)
-struct CMD *PcmdNew__FP4SCPTii(struct Q *pq, int kind, int b)
+RELAYCMD *PcmdNew__FP4SCPTii(RELAY *prelay, int relayck, int fAsync)
 {
-    struct CMD *p;
-    int cMax = pq->cMax;
-    if (cMax <= -1) cMax = 0x200;
-    if (pq->c >= cMax) return &D_003DA740;
-    p = &pq->a[pq->c++];
-    s1_memset(p, 0, sizeof(struct CMD));
-    p->kind = kind;
-    p->b = b;
-    return p;
+    RELAYCMD *prelaycmd;
+    int crelaycmdMax = prelay->crelaycmdMax;
+    if (crelaycmdMax <= -1) crelaycmdMax = 0x200;
+    if (prelay->crelaycmd >= crelaycmdMax) return &D_003DA740;
+    prelaycmd = &prelay->arelaycmd[prelay->crelaycmd++];
+    s1_memset(prelaycmd, 0, sizeof(RELAYCMD));
+    prelaycmd->relayck = relayck;
+    prelaycmd->fAsync = fAsync;
+    return prelaycmd;
 }

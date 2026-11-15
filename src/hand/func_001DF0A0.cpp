@@ -1,41 +1,39 @@
-// AddLaserContacts__FP3ALOP3SOEiiiPP2XP: for every segment entry of p, find where the segment's two endpoints hit the request (first
+// AddLaserContacts__FP3ALOP3SOEiiiPP2XP: for every beam of the laser, find where the segment between its two endpoints hits the other shape entry (first
 // ClipSegmentSoe, else the shape test FIsBasicDerivedFrom + HitStepSupport) and add a kind-10 contact there with PxpAdd
-// (PxpAddSw), then post the OBJ::Notify (ApplyLaserContacts__FP3ALO) message through PostDeferredCall.
+// (PxpAddSw), then post the LASER::Notify (ApplyLaserContacts__FP3ALO) message through PostDeferredCall.
 // What mattered (w3lane2):
 //  - the same 6-argument virtual signature as AddSwarmXps / MarkProjectileSweep, with every argument passed through to
 //    the empty base stub func_001F5990 (no code, but the call's argument uses fix the prologue schedule);
 //  - VU helpers taking VU_VECTOR parameters (const qword & conversion): the extra RTL copies keep the loop above
-//    loop.c's ~95-insn limit, so i * sizeof(ENTRY) stays a mult inside the loop as in the target;
+//    loop.c's ~95-insn limit, so i * sizeof(LASERPAIR) stays a mult inside the loop as in the target;
 //  - Len(v) = Sqrt(Dot(v, v)) with a two-input Dot, one asm per VU step (target VU order and vf registers);
 //  - the distance is a float in a GPR (qmfc2) passed bit-for-bit as PxpAdd's int argument (v0 scratch, not v1).
+#include "h3_laser.h"
 #include "cid.h"
-typedef int qword __attribute__((mode(TI)));
-struct CONTACT;
-struct ENDPOINT { int id, kind; char unknown8[8]; qword value; char unknown20[0x80]; };
-struct ENTRY { ENDPOINT endpoint[2]; char unknown140[8]; CONTACT *head; int unknown14C; };
-struct OBJ {
+struct LASER {
     char pad0[0xE4];
-    void *shape;
+    void *psoe;          // SO +0xE4: the laser's shape entry (its single bound)
     char padE8[0x198 - 0xE8];
-    int entryCount;
-    ENTRY *entries;
+    int cpair;
+    LASERPAIR *apair;
     void Notify() __asm__("ApplyLaserContacts__FP3ALO");
 };
-struct SUB { char pad[0x14]; void **x14; };
-struct REQUEST { int x0; SUB *x4; };
+struct SUB { char pad[0x14]; void **ppalo; };
+struct SOE { int x0; SUB *psub; };   // the other object's shape entry (psub->ppalo: its object, SafeHouse other->palo)
+
 struct HIT { qword pos; char pad[0x50]; };
 union VECTOR { qword q; float f[4]; };
 struct G;
 extern G g_sw;
-typedef void (OBJ::*PMF)();
+typedef void (LASER::*PMF)();
 extern "C" {
-void func_001F5990(OBJ *, REQUEST *, int, int, int, CONTACT **);
-void func_001DEF98(OBJ *, ENDPOINT *, qword *, float *);
-int ClipSegmentSoe(REQUEST *, qword, qword, int, HIT *) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
+void func_001F5990(LASER *, SOE *, int, int, int, XP **);
+void func_001DEF98(LASER *, LASEREND *, qword *, float *);
+int ClipSegmentSoe(SOE *, qword, qword, int, HIT *) asm("ClipSegmentSoe__FP3SOEG9VU_VECTORT1iP3LSG");
 int FIsBasicDerivedFrom(void *, int) asm("FIsBasicDerivedFrom__FP5BASIC3CID");
 int HitStepSupport(void *, qword, qword, qword *) asm("HitStepSupport__FP3ALOG9VU_VECTORT1P6VECTOR");
-void PxpAddSw(G *, void *, REQUEST *, qword, qword, int, int, int, CONTACT **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");   // PxpAdd
-void PostDeferredCall(G *, OBJ *, PMF, int) asm("PostDeferredCall__FPvUi15PFNDEFERREDCALLi");
+void PxpAddSw(G *, void *, SOE *, qword, qword, int, int, int, XP **, float) asm("PxpAddSw__FP3SOET0P6VECTORG9VU_VECTORT3iiiPvf");   // PxpAdd
+void PostDeferredCall(G *, LASER *, PMF, int) asm("PostDeferredCall__FPvUi15PFNDEFERREDCALLi");
 }
 
 struct VU_VECTOR { qword q; VU_VECTOR(const qword &v) { q = v; } };
@@ -72,19 +70,19 @@ static inline float Scalar(VU_VECTOR v)
 }
 
 // name: SafeHouse port (AddLaserContacts)
-extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(OBJ *p, REQUEST *q, int a2, int a3, int a4, CONTACT **pout)
+extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(LASER *plaser, SOE *psoeOther, int a2, int a3, int a4, XP **pout)
 {
     int i;
-    func_001F5990(p, q, a2, a3, a4, pout);
-    for (i = 0; i < p->entryCount; i++) {
-        ENTRY *e = &p->entries[i];
-        qword seg[2];
+    func_001F5990(plaser, psoeOther, a2, a3, a4, pout);
+    for (i = 0; i < plaser->cpair; i++) {
+        LASERPAIR *ppair = &plaser->apair[i];
+        qword seg[2];   // the beam's endpoints
         VECTOR pos;
         HIT hit;
         int found = 0;
-        func_001DEF98(p, e->endpoint, seg, 0);
-        if (!ClipSegmentSoe(q, seg[0], seg[1], 1, &hit)) {
-            void *so = *q->x4->x14;
+        func_001DEF98(plaser, ppair->aend, seg, 0);
+        if (!ClipSegmentSoe(psoeOther, seg[0], seg[1], 1, &hit)) {
+            void *so = *psoeOther->psub->ppalo;   // the object owning the other shape
             if (FIsBasicDerivedFrom(so, CID_STEP))
                 found = HitStepSupport(so, seg[0], seg[1], &pos.q);
         } else {
@@ -95,8 +93,8 @@ extern "C" void AddLaserContacts__FP3ALOP3SOEiiiPP2XP(OBJ *p, REQUEST *q, int a2
             float dist = Scalar(Len(Sub(seg[0], pos.q)));
             qword dir = Sub(seg[1], seg[0]);
             dir = Div(dir, Len(dir));
-            PxpAddSw(&g_sw, p->shape, q, pos.q, dir, 10, *(int *)&dist, 0, &e->head, 0.0f);
-            PostDeferredCall(&g_sw, p, &OBJ::Notify, 0);
+            PxpAddSw(&g_sw, plaser->psoe, psoeOther, pos.q, dir, 10, *(int *)&dist, 0, &ppair->pxpFirst, 0.0f);
+            PostDeferredCall(&g_sw, plaser, &LASER::Notify, 0);
         }
     }
 }

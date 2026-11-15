@@ -1,22 +1,23 @@
+/* func_001E0310: appends a RELAYCK_WaitBlocks command to the relay: the script waits for the blocks labelled by the
+ * oid-list argument (at most 4 are kept). Called from the Splice binding func_00106C08. */
+#include "relay.h"
 struct CRef { int tagk; int tag; };
-struct CMD { char pad[0x10]; unsigned int c; int a[4]; };
-void func_002013D8(struct CRef *pref, void *x, int a, int b, unsigned int *pc, int *pa);
-struct CMD *PcmdNew__FP4SCPTii(void *pq, int kind, int b);
+void func_002013D8(struct CRef *pref, void *pvArgs, int cMin, int cMax, unsigned int *pc, OID *aoid);   /* read an oid list argument */
 void CopyAb(void *pdst, void *psrc, int cb) asm("CopyAb__FPvT0Ui");
 void Decref(struct CRef *pref) asm("Decref__4CRef");
-void func_001E0310(void *pq, void *x)
+void func_001E0310(RELAY *prelay, void *pvArgs)
 {
-    int a[8];
+    OID aoid[8];
     struct CRef ref;
-    unsigned int c;
-    struct CMD *p;
-    func_002013D8(&ref, x, 6, 8, &c, a);
-    p = PcmdNew__FP4SCPTii(pq, 3, 0);
-    if (c > 4) c = 4;
+    unsigned int coid;
+    RELAYCMD *prelaycmd;
+    func_002013D8(&ref, pvArgs, 6, 8, &coid, aoid);
+    prelaycmd = PcmdNew__FP4SCPTii(prelay, RELAYCK_WaitBlocks, 0);
+    if (coid > 4) coid = 4;
     {
-        unsigned int n = c;
-        p->c = n;
-        CopyAb(&p->a, a, n * 4);
+        unsigned int c = coid;
+        prelaycmd->u.waitBlocks.coid = c;
+        CopyAb(&prelaycmd->u.waitBlocks.aoid, aoid, c * 4);
     }
     Decref(&ref);
 }

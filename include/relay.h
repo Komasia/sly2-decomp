@@ -210,13 +210,14 @@ typedef struct RELAY {
     /* 0x5c */ DL dlJsg;
     /* 0x68 */ struct JSG *pjsgSignal;  /* the script waiting in a Signal command */
     /* 0x6c */ LO *ploFirer;
-    /* 0x70 */ float tFired;
+    /* 0x70 */ float tFired;          /* time since it fired (real clock with GRFUPD_RealTime) */
     /* 0x74 */ int fFiring;
-    /* 0x78 */ int fBusy;
-    /* 0x7c */ int fAppendEnd;
-    /* 0x80 */ int nUnk80;
+    /* 0x78 */ int fUpdating;          /* firing put it on the update list (GRFUPD_Update set by StartScptImpl) */
+    /* 0x7c */ int fAppendEnd;         /* the closing BlockEnd command is still to be appended */
+    /* 0x80 */ int fCustomMax;         /* crelaycmdMax was set by script (func_001E01C8): a clone copies the commands */
     /* 0x84 */ int calarm;
-    /* 0x88 */ struct ALARM *apalarm[8];
+    /* 0x88 */ int aoidAlarm[8];        /* its alarms (oids; SafeHouse: analarm): added by EnsureSggAlarm (0x1E0020),
+                                         * tested by FWipingAseg (0x1E00E8), removed by func_001E0070, cleared by func_001E0120 */
     /* 0xa8 */ int unk_0xa8[2];
 } RELAY;
 
