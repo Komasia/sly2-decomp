@@ -1,7 +1,9 @@
+// CFontBrx::DxDrawCh (Sly 1 font.c): draw one character as a textured sprite at (x, y) unless it is off screen
+// (640 x 492.8 virtual), and return its scaled advance (the space's for a character without a glyph).
 // (Claude agent, lane E7) MATCH from the 3-diff wip: ONE register pin, the 0.0f compare constant in $f12 (x's incoming reg;
 // without the pin global-alloc gives it $f4).
 struct GIFS;
-struct GLYPH { unsigned short ch; unsigned short u; unsigned short v; unsigned short dx; };
+struct GLYFF { unsigned short wch; unsigned short u; unsigned short v; unsigned short dx; };
 struct TEX0 {
     unsigned long TBP0 : 14;
     unsigned long TBW : 6;
@@ -19,7 +21,7 @@ struct TEX0 {
 class CFontBrx {
 public:
     int pad0[2];
-    int m_dxSpace;
+    int m_dxSpaceUnscaled;
     int m_dyUnscaled;
     float m_rxScale;
     float m_ryScale;
@@ -30,27 +32,27 @@ public:
     float DxDrawCh(char ch, float x, float y, unsigned int rgba, GIFS *pgifs);
 };
 extern "C" {
-GLYPH *func_0015F8A8(CFontBrx *pfont, unsigned char ch);
+GLYFF *func_0015F8A8(CFontBrx *pfont, unsigned char ch);   /* PglyffFromCh */
 void ListRGBAQ(GIFS *pgifs, unsigned int rgba) asm("ListRGBAQ__4GIFSUif");
 void ListUV(GIFS *pgifs, int u, int v) asm("ListUV__4GIFSii");
 void ListXYZF(GIFS *pgifs, int x, int y, int z, int f) asm("ListXYZF__4GIFSiiii");
 }
 float CFontBrx::DxDrawCh(char ch, float x, float y, unsigned int rgba, GIFS *pgifs)
 {
-    GLYPH *pglyph = func_0015F8A8(this, ch);
-    if (pglyph) {
+    GLYFF *pglyff = func_0015F8A8(this, ch);
+    if (pglyff) {
         int dyTex = 1 << m_tex0.TH;
-        float xRight = x + (float)pglyph->dx * m_rxScale;
+        float xRight = x + (float)pglyff->dx * m_rxScale;
         float yBottom = y + (float)m_dyUnscaled * m_ryScale;
         register float zero __asm__("$f12") = 0.0f; // register pin (the 0.0f compare constant)
         if (xRight >= zero && x <= 640.0f && yBottom >= zero && y <= 492.80002f) {
             ListRGBAQ(pgifs, (rgba & 0xFFFFFF) | ((((rgba >> 24) + 1) & 0x1FE) << 23));
-            ListUV(pgifs, pglyph->u << 4, (dyTex - pglyph->v) << 4);
+            ListUV(pgifs, pglyff->u << 4, (dyTex - pglyff->v) << 4);
             ListXYZF(pgifs, (int)((x * 0.8f + 1792.0f) * 16.0f), (int)((y * 0.45454547f + 1936.0f) * 16.0f), m_z, 0);
-            ListUV(pgifs, (pglyph->u + pglyph->dx) << 4, (dyTex - (pglyph->v + m_dyUnscaled)) << 4);
+            ListUV(pgifs, (pglyff->u + pglyff->dx) << 4, (dyTex - (pglyff->v + m_dyUnscaled)) << 4);
             ListXYZF(pgifs, (int)((xRight * 0.8f + 1792.0f) * 16.0f), (int)((yBottom * 0.45454547f + 1936.0f) * 16.0f), m_z, 0);
         }
-        return m_rxScale * (float)(pglyph->dx + 1);
+        return m_rxScale * (float)(pglyff->dx + 1);
     }
-    return (float)m_dxSpace * m_rxScale;
+    return (float)m_dxSpaceUnscaled * m_rxScale;
 }

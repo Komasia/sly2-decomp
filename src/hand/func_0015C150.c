@@ -1,13 +1,13 @@
+/* ExplodeExpl: burst an explosion with its own settings (an empty EXPLSO through vtable slot 51, ExplodeXxxExplso). */
 #include "vtbl.h"
-typedef int qword __attribute__((mode(TI)));
-struct O { int a[3]; VTENT *vt; };
-struct P { int a; int b; float f; float g; qword q; qword r; qword s; };
+#include "h2_explso.h"
+struct EXPL { int a[3]; VTENT *vt; };
 void s1_memset(void *pv, int b, int cb) asm("memset");
-void ExplodeExpl__FP4EXPL(struct O *o)
+void ExplodeExpl__FP4EXPL(struct EXPL *pexpl)
 {
-    struct P p = {0};
-    VTENT *vt;
+    EXPLSO explso = {0};
+    VTENT *pvte;
 
-    vt = o->vt;
-    ((void (*)())vt[51].pfn)(VT_THIS(o, &vt[51]), &p);
+    pvte = pexpl->vt;
+    ((void (*)())pvte[51].pfn)(VT_THIS(pexpl, &pvte[51]), &explso);
 }

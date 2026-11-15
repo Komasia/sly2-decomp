@@ -1,26 +1,28 @@
+/* func_0015D9C0: format the current episode's play time (its "dt" progress, in seconds) as hours and minutes for
+ * the episode menu. */
+#include "h2_epmenu.h"
 typedef struct CRef { int m_tagk; float m_g; } CRef;
-struct X { char pad[0x110]; int i; };
-struct G { char pad[0x3B58]; void *ap[9]; char pad2[0x4774 - 0x3B7C]; struct X *px; };
-extern struct G g_sw;
+struct SW { char pad[0x3B58]; SWEPPROGRESS epprogress; char pad2[0x4774 - 0x3BA0]; EPMENU *pepmenu; };
+extern struct SW g_sw;
 extern char D_003D4A60[];
-extern char D_002A5168[];
-void NProgress(CRef *pref, void *p, void *q);
+extern char D_002A5168[];   /* the format */
+void NProgress(CRef *pref, void *pvKey, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
 float fmodf(float a, float b);
 void sprintf(char *pch, char *fmt, ...);
-void func_0015D9C0(char *pch)
+void func_0015D9C0(char *pchOut)
 {
-    struct G *pg = &g_sw;
-    void *p;
-    if (pg->px && (p = pg->ap[pg->px->i]) != 0) {
+    struct SW *psw = &g_sw;
+    void *pvDt;
+    if (psw->pepmenu && (pvDt = psw->epprogress.apvDt[psw->pepmenu->cur]) != 0) {
         CRef ref;
-        float g;
-        int h, m;
-        NProgress(&ref, p, D_003D4A60);
-        g = ref.m_g;
+        float dt;
+        int cHour, cMinute;
+        NProgress(&ref, pvDt, D_003D4A60);
+        dt = ref.m_g;
         Decref(&ref);
-        h = (int)(g / 3600.0f);
-        m = (int)(fmodf(g, 3600.0f) / 60.0f);
-        sprintf(pch, D_002A5168, h, m);
+        cHour = (int)(dt / 3600.0f);
+        cMinute = (int)(fmodf(dt, 3600.0f) / 60.0f);
+        sprintf(pchOut, D_002A5168, cHour, cMinute);
     }
 }

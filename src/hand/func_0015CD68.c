@@ -1,12 +1,14 @@
-struct S { char pad[0x110]; int a; int b; int c; int d; int e; };
-extern struct S *D_003E1C04;
-void InitLo__FP2LO(struct S *p);
-void func_0015CD68(struct S *p)
+/* func_0015CD68: init the episode menu's screen object, reset its episodes / mode / sub-mode and make it
+ * the one menu (D_003E1C04). */
+#include "h2_epmenu.h"
+extern EPMENU *D_003E1C04;
+void InitLo__FP2LO(EPMENU *pepmenu);
+void func_0015CD68(EPMENU *pepmenu)
 {
-    InitLo__FP2LO(p);
-    p->a = -1;
-    p->b = -1;
-    p->d = -1;
-    p->e = -1;
-    D_003E1C04 = p;
+    InitLo__FP2LO(pepmenu);
+    pepmenu->cur = -1;
+    pepmenu->next = -1;
+    pepmenu->mode = -1;
+    pepmenu->sub = -1;
+    D_003E1C04 = pepmenu;
 }

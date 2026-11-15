@@ -1,3 +1,4 @@
+// CRichText::Reset (Sly 1 font.c): rewind to the start of the text with the base font and base colour.
 struct RGBA { unsigned char r, g, b, a; };
 struct CFont;
 class CRichText {
@@ -6,7 +7,7 @@ public:
     char *m_pchCur;
     CFont *m_pfontCur;
     CFont *m_pfontBase;
-    char pad[0x150 - 0x10];
+    char m_fontOther[0x150 - 0x10];   /* CFontBrx */
     int m_unknown;
     RGBA m_rgbaCur;
     RGBA m_rgbaSet;

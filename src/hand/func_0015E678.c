@@ -1,90 +1,89 @@
+/* CFindObjects: find the objects of an oid as seen from ploCtx: the context's ancestors are numbered (ips) for the
+ * match, then every object of the oid in the world's hash and every instance alias of it (skipping objects already
+ * found) is matched (MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7). Returns the count, clamped to cMax unless GRFFIND_CountAll. */
+#include "h2_find.h"
 typedef struct LO LO;
 struct LO {
     char pad[0x10];
-    LO *pParent;
+    LO *paloParent;
     char pad14[4];
     int oid;
-    LO *pNextHash;
+    LO *ploNextHash;        /* the next object in the oid's hash bucket */
     char pad20[0xC];
-    signed char ips;
+    signed char ips;        /* the find's ancestor depth */
     char pad2D[0xF];
-    void *pch;
+    void *pnsn;             /* its namespace node */
 };
-typedef struct ENT {
+typedef struct ALIAS {      /* an instance alias in the world's alias hash */
     int x0;
-    void *pch;
+    void *pnsn;
     int oid;
-    struct ENT *pNext;
+    struct ALIAS *paliasNext;
     LO *plo;
-} ENT;
-typedef struct ST {
-    int ips;
-    LO *plo;
-    int f;
-} ST;
-extern void *D_003E139C;
+} ALIAS;
+extern void *D_003E139C;    /* the world's namespace node */
 extern LO **func_0015E380(void *psw, int oid);
-extern ENT **func_0015E3C0(void *psw, int oid);
-extern void MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(void *pv, LO *plo, void *pch, unsigned int grf, LO *ctx, void *pchList, int cMax, int *pc, LO **aplo, int *pips);
+extern ALIAS **func_0015E3C0(void *psw, int oid);
+extern void MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(void *psw, LO *plo, void *pnsn, unsigned int grf, LO *ploCtx, void *pnsnCtx, int cMax, int *pc, LO **aplo, int *pips);
 // name: SafeHouse port (CFindObjects)
-int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx, void *pchList, int cMax, LO **aplo)
+int CFindObjects__FP2SWi3OIDP2LOPviPP2LO(void *psw, int grf, int oid, LO *ploCtx, void *pnsnCtx, int cMax, LO **aplo)
 {
     volatile int unused; /* unreferenced stack slot at 0x10 in the original */
     int cplo;
     int ips;
     LO *plo;
-    int f;
+    int fCountAll;
     LO *p;
-    ENT *pe;
-    if (oid == -1 || (!ploCtx && (grf & 0xFF) != 5))
+    ALIAS *palias;
+    if (oid == -1 || (!ploCtx && (grf & FINDK_Mask) != FINDK_Any))
         return 0;
-    if (!pchList)
-        pchList = ploCtx ? ploCtx->pch : D_003E139C;
+    if (!pnsnCtx)
+        pnsnCtx = ploCtx ? ploCtx->pnsn : D_003E139C;
     cplo = 0;
-    switch (grf & 0xFF) {
-    case 1:
-    case 3:
-    case 4: {
+    switch (grf & FINDK_Mask) {
+    case FINDK_Below:
+    case FINDK_Ancestors:
+    case FINDK_Nearest: {
         int i = 0;
         p = ploCtx;
         plo = p;
-        f = grf & 0x200;
-        for (; p; p = p->pParent)
+        fCountAll = grf & GRFFIND_CountAll;
+        for (; p; p = p->paloParent)
             p->ips = ++i;
         ips = 0x7FFFFFFF;
         break;
     }
     default:
         plo = 0;
-        f = grf & 0x200;
+        fCountAll = grf & GRFFIND_CountAll;
         break;
     }
     func_0015E380(psw, oid);
-    for (p = *func_0015E380(psw, oid); p; p = p->pNextHash) {
+    for (p = *func_0015E380(psw, oid); p; p = p->ploNextHash) {
         if (p->oid == oid)
-            MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, p, p->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
+            MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, p, p->pnsn, grf, ploCtx, pnsnCtx, cMax, &cplo, aplo, &ips);
     }
     func_0015E3C0(psw, oid);
-    for (pe = *func_0015E3C0(psw, oid); pe; pe = pe->pNext) {
-        LO *ploE;
-        if (pe->oid != oid)
+    for (palias = *func_0015E3C0(psw, oid); palias; palias = palias->paliasNext) {
+        LO *ploAlias;
+        if (palias->oid != oid)
             continue;
-        ploE = pe->plo;
-        if (!ploE)
+        ploAlias = palias->plo;
+        if (!ploAlias)
             continue;
-        if (ploE->oid == oid) {
+        if (ploAlias->oid == oid) {   /* already found through the hash? */
             int i;
             for (i = 0; i < cplo; i++)
-                if (aplo[i] == pe->plo)
+                if (aplo[i] == palias->plo)
                     break;
             if (i < cplo)
                 continue;
         }
-        MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, pe->plo, pe->pch, grf, ploCtx, pchList, cMax, &cplo, aplo, &ips);
+        MatchSwObject__FP2SWP2LOPviT1T2iPiPP2LOT7(psw, palias->plo, palias->pnsn, grf, ploCtx, pnsnCtx, cMax, &cplo, aplo, &ips);
     }
-    for (p = plo; p; p = p->pParent)
+    for (p = plo; p; p = p->paloParent)
         p->ips = 0;
-    if (!f && cMax < cplo)
+    if (!fCountAll && cMax < cplo)
         cplo = cMax;
     return cplo;
 }
