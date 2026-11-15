@@ -1,6 +1,6 @@
 #include "dl.h"
 extern "C" void func_00234700(int n, int (*pfn)(), int m);
-extern "C" void func_00235178(int n);
+extern "C" void EnableIntc(int n);
 extern "C" void InitDl(DL *pdl, int ib) asm("InitDl__FP2DLi");
 extern "C" void StartThread_2355E0(int n, int m) asm("StartThread_2355E0");
 extern "C" int func_00167F78();
@@ -14,7 +14,7 @@ extern int D_004425D4;
 extern "C" void StartupFrame__Fv()
 {
     func_00234700(5, func_00167F78, 0);
-    func_00235178(5);
+    EnableIntc(5);
     D_002DEB18 = SemaCreate(0, 2);
     D_002DEB1C = SemaCreate(2, 2);
     InitDl(&D_002DEAF0, 0x454);

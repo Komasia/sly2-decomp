@@ -3,10 +3,10 @@
 extern char D_002A7AB8[];   /* "%d%%" */
 extern char D_003D4A60[];
 extern char D_003E0EA8[];
-int func_001D82B8(void *p, void *psave);
+int NGamePercent__FPvPUc(void *p, void *psave);
 int sprintf(char *, const char *, ...);
 
 void func_001DDFB0(char *pch)
 {
-    sprintf(pch, D_002A7AB8, func_001D82B8(D_003E0EA8, D_003D4A60));
+    sprintf(pch, D_002A7AB8, NGamePercent__FPvPUc(D_003E0EA8, D_003D4A60));
 }

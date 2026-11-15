@@ -3,7 +3,7 @@
 #include "clock.h"
 
 #include "h2_epmenu.h"
-void func_00213B00(EPMENU *pepmenu, int part);   /* SafeHouse: SelectScreenObjPart */
+void SelectScreenObjPart__FP2LOi(EPMENU *pepmenu, int part);   /* SafeHouse: SelectScreenObjPart */
 
 // name: SafeHouse port (SetHint)
 void SetHint__FP6EPMENUi(EPMENU *pepmenu, int n)
@@ -11,9 +11,9 @@ void SetHint__FP6EPMENUi(EPMENU *pepmenu, int n)
     if (pepmenu->hint != n) {
         if (n != 0) {
             if (n == 1)
-                func_00213B00(pepmenu, 0x5BD);
+                SelectScreenObjPart__FP2LOi(pepmenu, 0x5BD);
         } else {
-            func_00213B00(pepmenu, 0x5BE);
+            SelectScreenObjPart__FP2LOi(pepmenu, 0x5BE);
         }
         pepmenu->hint = n;
         pepmenu->tHint = g_clock.tReal;

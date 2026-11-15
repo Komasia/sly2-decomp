@@ -4,7 +4,8 @@
 int DIntr(void);
 int EIntr(void);
 int _EnableIntc(int);
-int func_00235178(int ch)
+// name: libkernel EnableIntc (DIntr / _EnableIntc / EIntr wrapper; suggested by l1)
+int EnableIntc(int ch)
 {
     int st;
     int r;

@@ -24,8 +24,8 @@ W *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(Q *, int);
 int NActorPower__FP5ACTOR(Q *);
-void func_00213B00(W *, int);
-void func_00212E40(W *, int, float);
+void SelectScreenObjPart__FP2LOi(W *, int);
+void SetScreenObjFraction__FP2LOif(W *, int, float);
 // name: SafeHouse port (InitGauge)
 void InitGauge__FP5GAUGE(OBJ *p)
 {
@@ -66,9 +66,9 @@ void InitGauge__FP5GAUGE(OBJ *p)
     pw = p->pw;
     if (pw) {
         ((void (*)(void *, int))pw->vt->a[49].pfn)(VT_THIS(pw, &pw->vt->a[49]), p->ids[0]);
-        func_00213B00(p->pw, 0x34F);
-        func_00213B00(p->pw, 0x350);
-        func_00212E40(p->pw, 0x34F, 1.0f - p->x20);
-        func_00212E40(p->pw, 0x350, 1.0f - p->x28);
+        SelectScreenObjPart__FP2LOi(p->pw, 0x34F);
+        SelectScreenObjPart__FP2LOi(p->pw, 0x350);
+        SetScreenObjFraction__FP2LOif(p->pw, 0x34F, 1.0f - p->x20);
+        SetScreenObjFraction__FP2LOif(p->pw, 0x350, 1.0f - p->x28);
     }
 }

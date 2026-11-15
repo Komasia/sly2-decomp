@@ -31,8 +31,8 @@ void func_00213CD8(SUB *, int, M2 *);
 void SelectScreenObjPartHandle__FP2LOiPi(SUB *, int, int *);
 void func_00213BD8(SUB *, int, int);
 void func_00213A08(SUB *, int, int);
-void func_00213B00(SUB *, int);
-void func_00213928(SUB *, int);
+void SelectScreenObjPart__FP2LOi(SUB *, int);
+void ResetScreenObjPart__FP2LOi(SUB *, int);
 // name: SafeHouse port (UpdateShopLook)
 void UpdateShopLook__FP4SHOP(OBJ *p)
 {
@@ -89,14 +89,14 @@ void UpdateShopLook__FP4SHOP(OBJ *p)
         }
     }
     if (p->x24C >= 0) {
-        func_00213B00(p->x24, 0x437);
+        SelectScreenObjPart__FP2LOi(p->x24, 0x437);
         s1_memset(&m, 0, sizeof(m));
         m.a[3] = 1.0f;
         m.a[0] = 1.0f;
         m.a[5] = D_002C35B0 * (float)(p->x24C - p->x250);
         func_00213CD8(p->x24, 0x437, &m);
     } else {
-        func_00213928(p->x24, 0x437);
+        ResetScreenObjPart__FP2LOi(p->x24, 0x437);
     }
     if (end < p->x48) {
         int id = p->x40 == 0 ? 0x4DD : 0x4A4;

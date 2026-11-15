@@ -3,7 +3,8 @@ struct C { char pad[8]; short h8; char pada[0xE]; };
 struct A { unsigned short c; unsigned short c2; struct E *ae; struct C *ac; char padc[0x14]; int x20; char pad24[0xC]; };
 struct S { char pad[0x80]; unsigned short c80; short pad82; struct A *aa; };
 void func_00213F70(struct S *p, int j, int l, int y, int z);
-void func_00213928(struct S *p, int k)
+// name: SafeHouse port (screenrt.cpp / hudwidget.cpp ResetScreenObjPart 0x213928; suggested by h3)
+void ResetScreenObjPart__FP2LOi(struct S *p, int k)
 {
     int j, l, m;
     for (j = 0; j < p->c80; j++) {

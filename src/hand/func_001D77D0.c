@@ -12,7 +12,8 @@ int IsmsFindSmRequired__FP2SM3OID(LIST *, void *);
 void *OidFromSmIsms__FP2SMi(LIST *, int);
 void SetSmaGoal__FP3SMA3OID(void *, void *);
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int, OBJ *, int, int, void **);
-void func_001D77D0(OBJ *p, int d)
+// name: SafeHouse port (po.cpp StepSafeHouse, orig 0x1D77D0: the safe house's state machine; suggested by h3)
+void StepSafeHouse__FP9SAFEHOUSEi(OBJ *p, int d)
 {
     int i0;
     int i;

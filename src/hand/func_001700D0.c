@@ -13,7 +13,7 @@ int SemaCreate(int a, int b) asm("SemaCreate__Fii");
 void VBlankS_Interrupt(void) asm("VBlankS_Interrupt__Fi");
 void ResetGs(void) asm("ResetGs__Fv");
 void func_00234700(int a, void (*pfn)(void), int b);
-void func_00235178(int a);
+void EnableIntc(int a);
 void GS_Interrupt(void) asm("GS_Interrupt__Fi");
 void func_001700D0(void) {
     int i;
@@ -40,9 +40,9 @@ void func_001700D0(void) {
     D_002DFB4C = SemaCreate(0, 1);
     D_002DFB50 = SemaCreate(0, 1);
     func_00234700(2, VBlankS_Interrupt, 0);
-    func_00235178(2);
+    EnableIntc(2);
     func_00234700(0, ResetGs, 0);
-    func_00235178(0);
+    EnableIntc(0);
     GS_Interrupt();
     *(volatile int *)0x10003010 = 0;
 }

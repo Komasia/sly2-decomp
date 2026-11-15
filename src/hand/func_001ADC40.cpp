@@ -13,7 +13,7 @@ extern "C" {
  void*func_001D89A8(void*,...);
  int func_001DDD40(int);
  void*func_0013E368(void*,int);
- int func_001D82B8(void*,void*);
+ int NGamePercent__FPvPUc(void*,void*);
  int sprintf(char*,const char*,...) asm("sprintf");
  char*s1_strcpy(char*,const char*) asm("strcpy");
  int KindDataAccess(void*) asm("KindDataAccess__FP4MENU");
@@ -30,7 +30,7 @@ extern "C" void func_001ADC40(char*buf,int idx){
   void*value=func_001D89A8(D_002A6EE0,0);
   int tag;
   if(value)tag=GetN(ref,value,pb);else tag=GetN(ref,pg->fallback,pb);
-  sprintf(buf,D_002A6EC8,(char*)func_0013E368(&g_sw,func_001DDD40(tag)),func_001D82B8(g_sw.object,pb));
+  sprintf(buf,D_002A6EC8,(char*)func_0013E368(&g_sw,func_001DDD40(tag)),NGamePercent__FPvPUc(g_sw.object,pb));
   _$_10STACKSCOPE(frame,2);
  }else{
   switch(KindDataAccess(D_003D9ED0)){

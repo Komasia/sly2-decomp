@@ -21,9 +21,9 @@ extern E D_002C2DE8[], D_002C3028[], D_002C3148[];
 extern REC D_002BCD00[];
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 int FPowerupOwned__Fi(int);
-void func_00213B00(SUB *, int);
-void func_00213928(SUB *, int);
-void func_00212E40(SUB *, int, float);
+void SelectScreenObjPart__FP2LOi(SUB *, int);
+void ResetScreenObjPart__FP2LOi(SUB *, int);
+void SetScreenObjFraction__FP2LOif(SUB *, int, float);
 #define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a)
 // name: SafeHouse port (SetGaugeState)
 void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
@@ -47,8 +47,8 @@ void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
         int found;
         int i;
         VCALL1(p->x38, 49, p->x3C);
-        func_00213B00(p->x38, 0x34F);
-        func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
+        SelectScreenObjPart__FP2LOi(p->x38, 0x34F);
+        SetScreenObjFraction__FP2LOif(p->x38, 0x34F, 1.0f - p->x20);
         if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x35)) {
             n = 0x12;
             tbl = D_002C2DE8;
@@ -71,10 +71,10 @@ void SetGaugeState__FP5GAUGEi(OBJ *p, int s)
             }
         }
         if (found) {
-            func_00213B00(p->x38, 0x350);
-            func_00212E40(p->x38, 0x350, 1.0f - p->x28);
+            SelectScreenObjPart__FP2LOi(p->x38, 0x350);
+            SetScreenObjFraction__FP2LOif(p->x38, 0x350, 1.0f - p->x28);
         } else {
-            func_00213928(p->x38, 0x350);
+            ResetScreenObjPart__FP2LOi(p->x38, 0x350);
         }
         break;
     }

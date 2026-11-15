@@ -4,7 +4,7 @@ extern int D_002E1E40, D_002F7900, D_002DD5BC, D_002DD648, D_003D4A54, D_002DE57
 extern int D_003E1C40, D_003E1C44, D_003E1C48, D_003E1C4C, D_003E1C50, D_003DD48C;
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int a, int b);
 void RestartJob__FP3JOB(int h);
-void func_001D9408(void *p);
+void ResetHudWidgets__FP2DL(void *p);
 void func_001FF830(struct S *p);
 void func_00161458(void *p);
 void ResetCm__FP2CM(void *p);
@@ -22,7 +22,7 @@ void UnloadWorld__FPv(struct S *p)
         RestartJob__FP3JOB(p->h3B18);
         p->h3B18 = 0;
     }
-    func_001D9408(D_003D9E70);
+    ResetHudWidgets__FP2DL(D_003D9E70);
     func_001FF830(p);
     func_00161458(pv);
     ResetCm__FP2CM(g_cm);

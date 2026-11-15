@@ -35,7 +35,8 @@ static inline int Clamp(int n, int lo, int hi)
     return n;
 }
 static inline int NFind(OBJ *p, char *pch) { return SymFromName(p->ht, pch); }
-extern "C" int func_001D82B8(OBJ *p, unsigned char *pb)
+// name: SafeHouse port (savedata.h, orig 0x1D82B8: a save's game percent; suggested by h3)
+extern "C" int NGamePercent__FPvPUc(OBJ *p, unsigned char *pb)
 {
     int sum = 0;
     int total = 0;

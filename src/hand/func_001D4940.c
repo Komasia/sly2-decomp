@@ -27,7 +27,7 @@ typedef struct VEHICLE {
 #define WID_VEHICLEHEALTH 0x34F       /* widget value updated by UpdateVehicleHealth */
 
 extern int D_002C2208[];              /* state machine state per mode */
-void func_00213B00(WIDGET *pwidget, int wid);
+void SelectScreenObjPart__FP2LOi(WIDGET *pwidget, int wid);
 void UpdateVehicleHealth__FP7VEHICLE(VEHICLE *pvehicle);
 void *PsndNewPlain__Fi(int sndid);
 void SetSource__4CSndPv(void *psnd, VEHICLE *pvSource);
@@ -49,7 +49,7 @@ void SetVehicleMode__FP7VEHICLEi(VEHICLE *pvehicle, int mode)
         pwidget = pvehicle->pwidgetHealth;
         if (pwidget) {
             ((void (*)(void *, int))pwidget->vt->a[49].pfn)(VT_THIS(pwidget, &pwidget->vt->a[49]), -1);
-            func_00213B00(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH);
+            SelectScreenObjPart__FP2LOi(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH);
             UpdateVehicleHealth__FP7VEHICLE(pvehicle);
         }
         if (pvehicle->sndid != -1) {

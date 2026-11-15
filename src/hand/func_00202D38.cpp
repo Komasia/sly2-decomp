@@ -18,16 +18,16 @@ extern PLAYER *D_002E1E40;
 extern char D_002DE2E0[];
 extern "C" {
 void CloseBinoc(MODEL *) asm("CloseBinoc__FP5ACTOR");
-void func_00213928(DISPLAY *,int);
+void ResetScreenObjPart__FP2LOi(DISPLAY *,int);
 void func_00202540(P *);
 void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 int func_002022D8(P *);
 void SetPhotoPromptState(P *,int) asm("SetPhotoPromptState__FPvi");
 qword PosOfLo(ACTOR *) asm("PosOfLo__FP2LO");
 qword ConvertCmWorldToScreen(CM *,qword) asm("ConvertCmWorldToScreen__FP2CMG9VU_VECTOR");
-void func_00212E40(DISPLAY *,int,float);
+void SetScreenObjFraction__FP2LOif(DISPLAY *,int,float);
 int FSpriteAnimPlaying(DISPLAY *,int) asm("FSpriteAnimPlaying__FP2LOi");
-void func_00213B00(DISPLAY *,int);
+void SelectScreenObjPart__FP2LOi(DISPLAY *,int);
 int func_00203758(ACTOR *);
 int func_0014FD50(void *);
 int GrfPadctlTakePressed(void *,int,float) asm("GrfPadctlTakePressed__FP6PADCTL");
@@ -62,7 +62,7 @@ extern "C" void UpdatePhotoPrompt__FPv(P *p)
     if(!p->primary)return;
     if(!p->secondary)return;
     if(p->refreshPending){p->refreshPending=0;CloseBinoc(p->model);}
-    if(p->choiceTime+5.0f<g_clock.t)func_00213928(p->primary,0x35B);
+    if(p->choiceTime+5.0f<g_clock.t)ResetScreenObjPart__FP2LOi(p->primary,0x35B);
     if(p->state<8)if(p->state>=2){
         func_00202540(p);
         DistanceModels(p);
@@ -108,13 +108,13 @@ extern "C" void UpdatePhotoPrompt__FPv(P *p)
         if(!p->actor)SetPhotoPromptState(p,2);
         else if(p->proximity<1.0f)SetPhotoPromptState(p,4);
         else if(p->sizeGain>=1.0f-p->actor->threshold)SetPhotoPromptState(p,7);
-        else func_00212E40(p->secondary,0x35A,p->sizeGain);
+        else SetScreenObjFraction__FP2LOif(p->secondary,0x35A,p->sizeGain);
         break;
     case 6:
         if(!p->actor)SetPhotoPromptState(p,2);
         else if(p->proximity<1.0f)SetPhotoPromptState(p,4);
         else if(p->sizeGain>=1.0f-p->actor->threshold)SetPhotoPromptState(p,7);
-        else func_00212E40(p->secondary,0x35A,p->sizeGain);
+        else SetScreenObjFraction__FP2LOif(p->secondary,0x35A,p->sizeGain);
         break;
     case 7:
         if(p->actor){
@@ -140,7 +140,7 @@ extern "C" void UpdatePhotoPrompt__FPv(P *p)
                 else{p->pending=p->primary->emptyChoice;SetPhotoPromptState(p,2);}
                 changed=1;
             }
-            if(changed){func_00213B00(p->primary,0x35B);p->choiceTime=g_clock.t;}
+            if(changed){SelectScreenObjPart__FP2LOi(p->primary,0x35B);p->choiceTime=g_clock.t;}
         }
         break;
     case 9:

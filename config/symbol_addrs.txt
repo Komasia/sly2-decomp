@@ -3302,3 +3302,16 @@ __fdlib_version = 0x2AC138; // type:data
 __infinity_d = 0x2AC130; // type:data
 __thenan_df = 0x450230; // type:data
 _ctype_ = 0x2AA6A0; // type:data
+
+// ---- N1 batch 3 ----
+StepSafeHouse__FP9SAFEHOUSEi = 0x1D77D0; // type:func
+NGamePercent__FPvPUc = 0x1D82B8; // type:func
+ResetHudWidgets__FP2DL = 0x1D9408; // type:func
+UpdateHudWidgets__FP2DL = 0x1D9648; // type:func
+FItemOpen__Fi = 0x1DAE58; // type:func
+SetScreenObjFraction__FP2LOif = 0x212E40; // type:func
+ResetScreenObjPart__FP2LOi = 0x213928; // type:func
+SelectScreenObjPart__FP2LOi = 0x213B00; // type:func
+EnableIntc = 0x235178; // type:func
+EnableDmac = 0x235248; // type:func
+sceSifGetSreg = 0x23AAC8; // type:func

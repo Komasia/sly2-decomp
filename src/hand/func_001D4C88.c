@@ -8,7 +8,7 @@ struct VEHICLE {
     /* 0x568 */ void *pwidgetHealth; /* field: SafeHouse port */
 };
 #define WID_VEHICLEHEALTH 0x34F
-void func_00212E40(void *pwidget, int wid, float g);   /* set a widget's value */
+void SetScreenObjFraction__FP2LOif(void *pwidget, int wid, float g);   /* set a widget's value */
 
 // name: SafeHouse port (UpdateVehicleHealth)
 void UpdateVehicleHealth__FP7VEHICLE(struct VEHICLE *pvehicle)
@@ -17,6 +17,6 @@ void UpdateVehicleHealth__FP7VEHICLE(struct VEHICLE *pvehicle)
         float uHealth = (float)pvehicle->health / (float)pvehicle->maxHealth;
         if (pvehicle->fInvertHealth)
             uHealth = 1.0f - uHealth;
-        func_00212E40(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH, uHealth);
+        SetScreenObjFraction__FP2LOif(pvehicle->pwidgetHealth, WID_VEHICLEHEALTH, uHealth);
     }
 }

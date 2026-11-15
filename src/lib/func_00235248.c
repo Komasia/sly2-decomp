@@ -4,7 +4,8 @@
 int DIntr(void);
 int EIntr(void);
 int _EnableDmac(int);
-int func_00235248(int ch)
+// name: libkernel EnableDmac (DIntr / _EnableDmac / EIntr wrapper; suggested by l1)
+int EnableDmac(int ch)
 {
     int st;
     int r;

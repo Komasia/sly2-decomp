@@ -35,7 +35,7 @@ int NActorPower__FP5ACTOR(Q *);
 int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 int FSpriteAnimPlaying__FP2LOi(SUB *, int);
-void func_00212E40(SUB *, int, float);
+void SetScreenObjFraction__FP2LOif(SUB *, int, float);
 // name: SafeHouse port (UpdateGauge)
 void UpdateGauge__FP5GAUGE(OBJ *p)
 {
@@ -105,9 +105,9 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
         p->x2C = (float)NActorPower__FP5ACTOR(p->x34) / (float)p->x34->x1300;
         if (p->x20 < p->x24) {
             p->x20 = p->x24;
-            func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
+            SetScreenObjFraction__FP2LOif(p->x38, 0x34F, 1.0f - p->x20);
             p->x28 = p->x2C;
-            func_00212E40(p->x38, 0x350, 1.0f - p->x28);
+            SetScreenObjFraction__FP2LOif(p->x38, 0x350, 1.0f - p->x28);
             SetGaugeState__FP5GAUGEi(p, 1);
         }
         break;
@@ -117,7 +117,7 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
             p->x20 = p->x24;
         else
             p->x20 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x20, p->x24, g_clock.dt);
-        func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
+        SetScreenObjFraction__FP2LOif(p->x38, 0x34F, 1.0f - p->x20);
         if (FFloatsNear(p->x20, p->x24, 0.0001f))
             SetGaugeState__FP5GAUGEi(p, 1);
         break;
@@ -127,7 +127,7 @@ void UpdateGauge__FP5GAUGE(OBJ *p)
             p->x28 = p->x2C;
         else
             p->x28 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x28, p->x2C, g_clock.dt);
-        func_00212E40(p->x38, 0x350, 1.0f - p->x28);
+        SetScreenObjFraction__FP2LOif(p->x38, 0x350, 1.0f - p->x28);
         if (FFloatsNear(p->x28, p->x2C, 0.0001f))
             SetGaugeState__FP5GAUGEi(p, 1);
         break;
