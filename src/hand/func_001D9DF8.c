@@ -1,3 +1,10 @@
+/* UpdateGauge (SafeHouse hudwidget.cpp, orig 0x1D9DF8): follow the current player (class 0x34): a new player resets
+ * the meters and the animation set; then per state: Idle (and 6 / 7) picks the next state from the player's health
+ * and power (down: Hidden; lost health: Hit; gained: Heal; power changed: Power; +0x10EC 4: State7; +0x10C8 set:
+ * State6), Hit / Back wait for their animation, Hidden comes back when health rises, Heal / Power smooth their meter
+ * to the target (D_002C3248) and return to Idle when they meet. */
+#include "clock.h"
+#include "h3_hud.h"
 typedef struct { char pad0[0xC]; void *vt; } SUB;
 typedef struct Q {
     char pad0[0xDFC];
@@ -10,126 +17,125 @@ typedef struct Q {
     char pad3[0x1300 - 0x10F0];
     int x1300;
 } Q;
-typedef struct OBJ {
-    char pad0[0x20];
-    float x20;
-    float x24;
-    float x28;
-    float x2C;
-    int x30;
-    Q *x34;
-    SUB *x38;
-    int x3C;
-    int x40;
-    int x44;
-    int x48;
-    int x4C;
-} OBJ;
+typedef struct GAUGE {                /* field: SafeHouse port (hudwidget.cpp GAUGE) */
+    /* 0x00 */ char pad0[0x20];
+    /* 0x20 */ float hShown;          /* the health shown */
+    /* 0x24 */ float hTarget;         /* the player's health */
+    /* 0x28 */ float gShown;          /* the gadget power shown */
+    /* 0x2c */ float gTarget;
+    /* 0x30 */ int state;             /* GAUGES */
+    /* 0x34 */ Q *pplayer;
+    /* 0x38 */ SUB *pscreen;
+    /* 0x3c */ int idIdle;            /* the screen object's animations */
+    /* 0x40 */ int idHit;
+    /* 0x44 */ int idHide;
+    /* 0x48 */ int idBack;
+    /* 0x4c */ int idLow;
+} GAUGE;
 extern struct G g_sw;
-extern struct { float t; float dt; } g_clock;
-extern char D_002C3248[];
+extern char D_002C3248[];             /* the meters' smoothing (SMP {100, 0, 0.5}) */
 Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-void SetGaugeState__FP5GAUGEi(OBJ *, int);
-int func_001441A0(Q *);
+void SetGaugeState__FP5GAUGEi(GAUGE *pgauge, int state);
+int func_001441A0(Q *q);              /* the player's gadget power */
 int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 int FSpriteAnimPlaying__FP2LOi(SUB *, int);
-void func_00212E40(SUB *, int, float);
+void func_00212E40(SUB *pscreen, int wid, float g);   /* SafeHouse SetScreenObjFraction */
 // name: SafeHouse port (UpdateGauge)
-void UpdateGauge__FP5GAUGE(OBJ *p)
+void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
 {
-    Q *old;
-    Q *q;
-    if (!p->x38)
+    Q *pplayerOld;
+    Q *pplayer;
+    if (!pgauge->pscreen)
         return;
-    old = p->x34;
-    p->x34 = 0;
-    q = PloPlayerPo__FP2SW(&g_sw);
-    if (q && FIsBasicDerivedFrom__FP5BASIC3CID(q, 0x34))
-        p->x34 = q;
-    if (!p->x34) {
-        p->x20 = p->x24 = 0;
-        p->x28 = p->x2C = 0;
-        if (old)
-            SetGaugeState__FP5GAUGEi(p, 0);
+    pplayerOld = pgauge->pplayer;
+    pgauge->pplayer = 0;
+    pplayer = PloPlayerPo__FP2SW(&g_sw);
+    if (pplayer && FIsBasicDerivedFrom__FP5BASIC3CID(pplayer, 0x34))
+        pgauge->pplayer = pplayer;
+    if (!pgauge->pplayer) {
+        pgauge->hShown = pgauge->hTarget = 0;
+        pgauge->gShown = pgauge->gTarget = 0;
+        if (pplayerOld)
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Hidden);
         return;
     }
-    if (old != p->x34) {
-        if (!old)
-            SetGaugeState__FP5GAUGEi(p, 3);
+    if (pplayerOld != pgauge->pplayer) {
+        if (!pplayerOld)
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Heal);
         else
-            SetGaugeState__FP5GAUGEi(p, 5);
-        if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x35)) {
-            p->x3C = 0x33D; p->x40 = 0x33E; p->x44 = 0x33F; p->x48 = 0x340; p->x4C = 0x341;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x37)) {
-            p->x3C = 0x347; p->x40 = 0x348; p->x44 = 0x349; p->x48 = 0x34A; p->x4C = 0x34B;
-        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(p->x34, 0x36)) {
-            p->x3C = 0x342; p->x40 = 0x343; p->x44 = 0x344; p->x48 = 0x345; p->x4C = 0x346;
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Back);
+        if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x35)) {
+            pgauge->idIdle = IDGAUGE_Player; pgauge->idHit = IDGAUGE_Player + 1; pgauge->idHide = IDGAUGE_Player + 2; pgauge->idBack = IDGAUGE_Player + 3; pgauge->idLow = IDGAUGE_Player + 4;
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x37)) {
+            pgauge->idIdle = IDGAUGE_Player37; pgauge->idHit = IDGAUGE_Player37 + 1; pgauge->idHide = IDGAUGE_Player37 + 2; pgauge->idBack = IDGAUGE_Player37 + 3; pgauge->idLow = IDGAUGE_Player37 + 4;
+        } else if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x36)) {
+            pgauge->idIdle = IDGAUGE_Player36; pgauge->idHit = IDGAUGE_Player36 + 1; pgauge->idHide = IDGAUGE_Player36 + 2; pgauge->idBack = IDGAUGE_Player36 + 3; pgauge->idLow = IDGAUGE_Player36 + 4;
         }
-        p->x20 = p->x24 = (float)*p->x34->xE00 / (float)p->x34->xDFC;
-        p->x28 = p->x2C = (float)func_001441A0(p->x34) / (float)p->x34->x1300;
+        pgauge->hShown = pgauge->hTarget = (float)*pgauge->pplayer->xE00 / (float)pgauge->pplayer->xDFC;
+        pgauge->gShown = pgauge->gTarget = (float)func_001441A0(pgauge->pplayer) / (float)pgauge->pplayer->x1300;
     }
-    switch (p->x30) {
-    case 1:
-    case 6:
-    case 7:
-        p->x24 = (float)*p->x34->xE00 / (float)p->x34->xDFC;
-        p->x2C = (float)func_001441A0(p->x34) / (float)p->x34->x1300;
-        if (*p->x34->xE00 <= 0) {
-            SetGaugeState__FP5GAUGEi(p, 0);
-        } else if (p->x20 > p->x24) {
-            SetGaugeState__FP5GAUGEi(p, 2);
-        } else if (p->x20 < p->x24) {
-            SetGaugeState__FP5GAUGEi(p, 3);
-        } else if (!FFloatsNear(p->x28, p->x2C, 0.0001f)) {
-            SetGaugeState__FP5GAUGEi(p, 4);
-        } else if (p->x34->x10EC == 4) {
-            SetGaugeState__FP5GAUGEi(p, 7);
-        } else if (p->x34->x10C8 != -1) {
-            SetGaugeState__FP5GAUGEi(p, 6);
+    switch (pgauge->state) {
+    case GAUGES_Idle:
+    case GAUGES_State6:
+    case GAUGES_State7:
+        pgauge->hTarget = (float)*pgauge->pplayer->xE00 / (float)pgauge->pplayer->xDFC;
+        pgauge->gTarget = (float)func_001441A0(pgauge->pplayer) / (float)pgauge->pplayer->x1300;
+        if (*pgauge->pplayer->xE00 <= 0) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Hidden);
+        } else if (pgauge->hShown > pgauge->hTarget) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Hit);
+        } else if (pgauge->hShown < pgauge->hTarget) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Heal);
+        } else if (!FFloatsNear(pgauge->gShown, pgauge->gTarget, 0.0001f)) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Power);
+        } else if (pgauge->pplayer->x10EC == 4) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_State7);
+        } else if (pgauge->pplayer->x10C8 != -1) {
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_State6);
         } else {
-            SetGaugeState__FP5GAUGEi(p, 1);
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         }
         break;
-    case 2:
-        if (!FSpriteAnimPlaying__FP2LOi(p->x38, p->x40))
-            SetGaugeState__FP5GAUGEi(p, 3);
+    case GAUGES_Hit:
+        if (!FSpriteAnimPlaying__FP2LOi(pgauge->pscreen, pgauge->idHit))
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Heal);
         break;
-    case 5:
-        if (!FSpriteAnimPlaying__FP2LOi(p->x38, p->x44))
-            SetGaugeState__FP5GAUGEi(p, 1);
+    case GAUGES_Back:
+        if (!FSpriteAnimPlaying__FP2LOi(pgauge->pscreen, pgauge->idHide))
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         break;
-    case 0:
-        p->x24 = (float)*p->x34->xE00 / (float)p->x34->xDFC;
-        p->x2C = (float)func_001441A0(p->x34) / (float)p->x34->x1300;
-        if (p->x20 < p->x24) {
-            p->x20 = p->x24;
-            func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
-            p->x28 = p->x2C;
-            func_00212E40(p->x38, 0x350, 1.0f - p->x28);
-            SetGaugeState__FP5GAUGEi(p, 1);
+    case GAUGES_Hidden:
+        pgauge->hTarget = (float)*pgauge->pplayer->xE00 / (float)pgauge->pplayer->xDFC;
+        pgauge->gTarget = (float)func_001441A0(pgauge->pplayer) / (float)pgauge->pplayer->x1300;
+        if (pgauge->hShown < pgauge->hTarget) {
+            pgauge->hShown = pgauge->hTarget;
+            func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+            pgauge->gShown = pgauge->gTarget;
+            func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         }
         break;
-    case 3:
-        p->x24 = (float)*p->x34->xE00 / (float)p->x34->xDFC;
-        if (p->x20 < p->x24)
-            p->x20 = p->x24;
+    case GAUGES_Heal:
+        pgauge->hTarget = (float)*pgauge->pplayer->xE00 / (float)pgauge->pplayer->xDFC;
+        if (pgauge->hShown < pgauge->hTarget)
+            pgauge->hShown = pgauge->hTarget;
         else
-            p->x20 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x20, p->x24, g_clock.dt);
-        func_00212E40(p->x38, 0x34F, 1.0f - p->x20);
-        if (FFloatsNear(p->x20, p->x24, 0.0001f))
-            SetGaugeState__FP5GAUGEi(p, 1);
+            pgauge->hShown = GSmooth__FfffP3SMPPf(D_002C3248, 0, pgauge->hShown, pgauge->hTarget, g_clock.dt);
+        func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+        if (FFloatsNear(pgauge->hShown, pgauge->hTarget, 0.0001f))
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         break;
-    case 4:
-        p->x2C = (float)func_001441A0(p->x34) / (float)p->x34->x1300;
-        if (p->x28 < p->x2C)
-            p->x28 = p->x2C;
+    case GAUGES_Power:
+        pgauge->gTarget = (float)func_001441A0(pgauge->pplayer) / (float)pgauge->pplayer->x1300;
+        if (pgauge->gShown < pgauge->gTarget)
+            pgauge->gShown = pgauge->gTarget;
         else
-            p->x28 = GSmooth__FfffP3SMPPf(D_002C3248, 0, p->x28, p->x2C, g_clock.dt);
-        func_00212E40(p->x38, 0x350, 1.0f - p->x28);
-        if (FFloatsNear(p->x28, p->x2C, 0.0001f))
-            SetGaugeState__FP5GAUGEi(p, 1);
+            pgauge->gShown = GSmooth__FfffP3SMPPf(D_002C3248, 0, pgauge->gShown, pgauge->gTarget, g_clock.dt);
+        func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+        if (FFloatsNear(pgauge->gShown, pgauge->gTarget, 0.0001f))
+            SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         break;
     }
 }

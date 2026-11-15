@@ -1,51 +1,55 @@
+/* UpdatePrompt (SafeHouse hudwidget.cpp, orig 0x1DA350): advance the prompt: Opening -> Shown once its screen object
+ * is open (+0x58 state 2); Shown changes to the next prompt, closes when its time is 0, and holds its start time
+ * while hidden; Closing -> Off once closed; Changing -> Shown (or Off) when the change animation ends. */
 #include "clock.h"
+#include "h3_hud.h"
 typedef struct { char pad[0x58]; int x58; } W;
-typedef struct {
-    char pad[0x10];
-    int state;
-    float t;
-    int x18;
-    float x1C;
-    int x20;
-    float x24;
-    W *pw;
-} OBJ;
-void SetPromptState__FP6PROMPTi(OBJ *, int);
+typedef struct PROMPT {               /* field: SafeHouse port (hudwidget.cpp PROMPT) */
+    /* 0x00 */ char pad[0x10];
+    /* 0x10 */ int state;             /* PROMPTS */
+    /* 0x14 */ float t;               /* the state's start (g_clock.t) */
+    /* 0x18 */ int id;                /* the prompt shown */
+    /* 0x1c */ float g;               /* its time (0: closes, < 0: stays) */
+    /* 0x20 */ int idNext;            /* the prompt asked for next (-1: none) */
+    /* 0x24 */ float gNext;
+    /* 0x28 */ W *pw;                 /* the screen object */
+} PROMPT;
+void SetPromptState__FP6PROMPTi(PROMPT *pprompt, int state);
 int FVisible__FP8SCREENRT(W *);
 int FSpriteAnimPlaying__FP2LOi(W *, int);
 // name: SafeHouse port (UpdatePrompt)
-void UpdatePrompt__FP6PROMPT(OBJ *p)
+void UpdatePrompt__FP6PROMPT(PROMPT *pprompt)
 {
-    if (p->pw == 0)
+    if (pprompt->pw == 0)
         return;
-    switch (p->state) {
-    case 0:
+    switch (pprompt->state) {
+    case PROMPTS_Off:
         break;
-    case 1:
-        if (p->pw->x58 == 2)
-            SetPromptState__FP6PROMPTi(p, 2);
+    case PROMPTS_Opening:
+        if (pprompt->pw->x58 == 2)
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Shown);
         break;
-    case 2:
-        if (p->x20 != -1) {
-            SetPromptState__FP6PROMPTi(p, 4);
-        } else if (p->x1C == 0.0f) {
-            SetPromptState__FP6PROMPTi(p, 3);
-        } else if (0.0f < p->x1C) {
-            if (p->pw && !FVisible__FP8SCREENRT(p->pw))
-                p->t += g_clock.dt;
+    case PROMPTS_Shown:
+        if (pprompt->idNext != -1) {
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Changing);
+        } else if (pprompt->g == 0.0f) {
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Closing);
+        } else if (0.0f < pprompt->g) {
+            if (pprompt->pw && !FVisible__FP8SCREENRT(pprompt->pw))
+                pprompt->t += g_clock.dt;
         }
         break;
-    case 3:
-        if (p->pw->x58 < 2)
-            SetPromptState__FP6PROMPTi(p, 0);
+    case PROMPTS_Closing:
+        if (pprompt->pw->x58 < 2)
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Off);
         break;
-    case 4:
-        if (FSpriteAnimPlaying__FP2LOi(p->pw, 0x312))
+    case PROMPTS_Changing:
+        if (FSpriteAnimPlaying__FP2LOi(pprompt->pw, WID_PROMPTCHANGE))
             break;
-        if (p->x20 == -1)
-            SetPromptState__FP6PROMPTi(p, 0);
+        if (pprompt->idNext == -1)
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Off);
         else
-            SetPromptState__FP6PROMPTi(p, 2);
+            SetPromptState__FP6PROMPTi(pprompt, PROMPTS_Shown);
         break;
     }
 }

@@ -1,21 +1,26 @@
+/* class: items (SafeHouse shop.cpp FItemOwned, the gadget menu's owned flag): is item n acquired - the progress value
+ * "powerUps" "mppukfAcquired" "<n>"? (-1: no item.) */
 typedef struct CRef { int tagk; int tag; } CRef;
-extern char D_002A79A0[], D_002A79A8[], D_002A79B8[];
-void sprintf(char *pch, char *fmt, int n);
-void func_001D8A38(CRef *pref, char *a, char *b, char *c, int d);
+extern char D_002A79A0[], D_002A79A8[], D_002A79B8[];   /* "%d", "powerUps", "mppukfAcquired" */
+void sprintf(char *pch, char *pchzFormat, int n);
+void func_001D8A38(CRef *pref, char *pchz0, char *pchz1, char *pchz2, int pchzEnd);   /* the progress value at a path */
 void __as__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
 void Decref(CRef *pref) asm("Decref__4CRef");
-int func_001DAEA8(int n) {
+
+int func_001DAEA8(int item)
+{
     CRef ref;
-    char ach[0x20];
-    CRef tmp;
-    int r;
-    if (n == -1) return 0;
+    char achItem[0x20];
+    CRef refT;
+    int fAcquired;
+    if (item == -1)
+        return 0;
     ref.tagk = -1;
-    sprintf(ach, D_002A79A0, n);
-    func_001D8A38(&tmp, D_002A79A8, D_002A79B8, ach, 0);
-    __as__4CRefRC4CRef(&ref, &tmp);
-    Decref(&tmp);
-    r = ref.tag;
+    sprintf(achItem, D_002A79A0, item);
+    func_001D8A38(&refT, D_002A79A8, D_002A79B8, achItem, 0);
+    __as__4CRefRC4CRef(&ref, &refT);
+    Decref(&refT);
+    fAcquired = ref.tag;
     Decref(&ref);
-    return r;
+    return fAcquired;
 }

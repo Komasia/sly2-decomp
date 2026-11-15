@@ -2,9 +2,9 @@
  * Off -> no; title shown (1) -> the saved progress record's fNoVibration flag decides. */
 typedef struct CRef { int tagk; int tag; } CRef;
 extern int D_002C2D8C;          /* the vibration option (SafeHouse g_vibrationSetting) */
-extern void *D_003E0FD8;        /* the progress record */
-extern char D_003D4A60[];       /* the progress key of the fNoVibration flag */
-void NProgress(CRef *pref, void *pvRecord, char *pchzKey);
+extern void *D_003E0FD8;        /* the progress key ("flags" "fNoVibration", a KEY *) */
+extern char D_003D4A60[];       /* g_gamesave, the saved progress values (SafeHouse savedata.h) */
+void NProgress(CRef *pref, void *pkey, char *pbSave);
 void Decref(CRef *pref) asm("Decref__4CRef");
 
 #define VIBRATION_Boot 0

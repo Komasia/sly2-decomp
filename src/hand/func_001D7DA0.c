@@ -1,46 +1,40 @@
-typedef struct {
-    short ch;
-    signed char x2;
-    unsigned char x3;
-    unsigned short x4;
-    unsigned short iChild;
-    unsigned short iSibling;
-} ENT;
-typedef struct { int pad; ENT *ae; } TRIE;
-typedef struct { int c; unsigned short *a; } KEY;
-typedef struct { ENT *pe; int n; } OUT;
+/* FFindEntryKey (SafeHouse savedata.cpp, orig 0x1D7DA0): walk a path down the progress trie. Each path symbol is
+ * looked for among the current node's children (sibling chain); an indexed node takes the next path element as its
+ * index. Found (the path used up at a node): the node and index in *pfound, 1. */
+#include "h3_progress.h"
+
 // name: SafeHouse port (FFindEntryKey)
-int FFindEntryKey__FP4TRIEPP4PENTPi(TRIE *p, KEY *key, OUT *out)
+int FFindEntryKey__FP4TRIEPP4PENTPi(LAYOUT *playout, KEY *pkey, PENTFOUND *pfound)
 {
-    ENT *ae = p->ae;
-    ENT *e;
-    int i;
-    if (ae->iChild == 0)
+    PENT *aent = playout->aent;
+    PENT *pent;
+    int isym;
+    if (aent->iChild == 0)
         return 0;
-    e = &ae[ae->iChild];
-    out->n = 0;
-    i = 0;
+    pent = &aent[aent->iChild];
+    pfound->i = 0;
+    isym = 0;
     for (;;) {
-        if (e->ch == key->a[i]) {
-            i++;
-            if (i == key->c) {
-                out->pe = e;
+        if (pent->ch == pkey->asym[isym]) {
+            isym++;
+            if (isym == pkey->csym) {
+                pfound->pent = pent;
                 return 1;
             }
-            if (e->x3) {
-                out->pe = e;
-                out->n = key->a[i++];
-                return i == key->c;
+            if (pent->fIndexed) {
+                pfound->pent = pent;
+                pfound->i = pkey->asym[isym++];
+                return isym == pkey->csym;
             }
-            if (e->x2 != -1)
+            if (pent->kind != PROGK_Node)
                 return 0;
-            if (!e->iChild)
+            if (!pent->iChild)
                 return 0;
-            e = &p->ae[e->iChild];
+            pent = &playout->aent[pent->iChild];
         } else {
-            if (!e->iSibling)
+            if (!pent->iSibling)
                 return 0;
-            e = &p->ae[e->iSibling];
+            pent = &playout->aent[pent->iSibling];
         }
     }
 }
