@@ -1,3 +1,5 @@
+// AkeyStandHeldBy: the save key of the booty stand holding booty id: the progress tree searched under the keys
+// D_002A4D88..D_002A4DA0 (each world, each stand, 15 slots) for the value id; a copy of the key on the stack heap, or null.
 struct CRef {
     int m_tagk;
     int m_tag;

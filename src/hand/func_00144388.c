@@ -1,10 +1,11 @@
-int OverlapKindAlo__FP3ALOT0(void *p, int a);
-int OverlapKindJtThrow__FP7JTTHROWP3ALOi(void *p, int a, int b);
-void func_001CC9A8(void *p, int a, int b);
+/* OverlapKindActor (vt slot 61): the ALO's overlap kind, adjusted by the throw (+0x11B0) and by +0x900. */
+int OverlapKindAlo__FP3ALOT0(void *pactor, int plo);
+int OverlapKindJtThrow__FP7JTTHROWP3ALOi(void *pactor, int plo, int b);
+void func_001CC9A8(void *pactor, int plo, int b);
 // name: SafeHouse port (OverlapKindActor)
-void OverlapKindActor__FP3ALOi(char *p, int a)
+void OverlapKindActor__FP3ALOi(char *pactor, int plo)
 {
-    int x = OverlapKindAlo__FP3ALOT0(p, a);
-    x = OverlapKindJtThrow__FP7JTTHROWP3ALOi(p + 0x11B0, a, x);
-    func_001CC9A8(p + 0x900, a, x);
+    int kind = OverlapKindAlo__FP3ALOT0(pactor, plo);
+    kind = OverlapKindJtThrow__FP7JTTHROWP3ALOi(pactor + 0x11B0, plo, kind);
+    func_001CC9A8(pactor + 0x900, plo, kind);
 }

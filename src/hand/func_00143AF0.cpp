@@ -1,3 +1,5 @@
+// AkeyReturnBooty: in the save, the stand slot that holds the actor (by its oid, AkeyStandHeldBy) gets the booty id,
+// and the actor's carried booty (key D_002A4DB0) becomes -1; returns that stand slot's key (null when none).
 #include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");

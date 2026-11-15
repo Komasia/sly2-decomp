@@ -1,16 +1,18 @@
+/* FActorPoseDone: whether the actor's pose interaction (state 5, with +0x4D4) is done: its object near (5 units) the
+ * point its pose gives (vt slot 32, in world space), and for kind 1 (+0x9A4) its animation's time reached. */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct BUF { char pad[0x30]; qword pos; };
-struct O { char pad[0xC]; VTENT *vt; };
-struct X994 { char pad[0x1C]; float t; };
-struct P {
-    char pad[0x4C8]; int x4C8; char pad1[0x4D4 - 0x4CC]; int x4D4; char pad2[0x934 - 0x4D8]; struct O *po;
-    char pad3[0x994 - 0x938]; struct X994 *p994; char pad4[0x9A4 - 0x998]; int x9A4;
+struct LO { char pad[0xC]; VTENT *vt; };
+struct ASEGA { char pad[0x1C]; float t; };
+struct ACTOR {
+    char pad[0x4C8]; int n4C8; char pad1[0x4D4 - 0x4CC]; int n4D4; char pad2[0x934 - 0x4D8]; struct LO *ploPose;
+    char pad3[0x994 - 0x938]; struct ASEGA *pasega994; char pad4[0x9A4 - 0x998]; int n9A4;
 };
 #include "clock.h"
 void func_002309E8(void *a, int b, M4 *pm, int c, float g);
-qword PosOfLo__FP2LO(void *p);
+qword PosOfLo__FP2LO(void *pactor);
 static __inline__ qword Mul(M4 *pm, qword v)
 {
     qword o;
@@ -34,16 +36,16 @@ static __inline__ float GDist(qword a, qword b)
     return g;
 }
 // name: SafeHouse port (FActorPoseDone)
-int FActorPoseDone__FP5ACTOR(struct P *p)
+int FActorPoseDone__FP5ACTOR(struct ACTOR *pactor)
 {
     struct BUF buf;
     M4 m;
     qword v;
-    if (p->x4C8 != 5 || !p->x4D4) return 1;
-    func_002309E8(((void * (*)(void *, struct BUF *))p->po->vt[32].pfn)(VT_THIS(p->po, &p->po->vt[32]), &buf), 0, &m, 0, 0.0f);
+    if (pactor->n4C8 != 5 || !pactor->n4D4) return 1;
+    func_002309E8(((void * (*)(void *, struct BUF *))pactor->ploPose->vt[32].pfn)(VT_THIS(pactor->ploPose, &pactor->ploPose->vt[32]), &buf), 0, &m, 0, 0.0f);
     v = Mul(&m, buf.pos);
-    if (5.0f < GDist(PosOfLo__FP2LO(p->po), v)) return 0;
-    if (p->x9A4 != 1) return 1;
-    if (g_clock.t < p->p994->t) return 0;
+    if (5.0f < GDist(PosOfLo__FP2LO(pactor->ploPose), v)) return 0;
+    if (pactor->n9A4 != 1) return 1;
+    if (g_clock.t < pactor->pasega994->t) return 0;
     return 1;
 }

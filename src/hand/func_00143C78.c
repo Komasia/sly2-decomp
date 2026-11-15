@@ -1,14 +1,16 @@
+/* GrfActorStance: the actor's contact stance flags: 0 with +0x204 set; 4 in interaction states 3 / 4; 1 in a jump;
+ * by the damage state: 7 when not hurt (-1, 0, 6), 1 in states 4, 7, 8, 12; else 0. */
 // name: SafeHouse port (GrfActorStance)
-int GrfActorStance__FP5ACTOR(char *p)
+int GrfActorStance__FP5ACTOR(char *pactor)
 {
-    if (*(int *)(p + 0x204)) return 0;
-    switch (*(int *)(p + 0x4C8)) {
+    if (*(int *)(pactor + 0x204)) return 0;
+    switch (*(int *)(pactor + 0x4C8)) {
     case 3:
     case 4:
         return 4;
     }
-    if (*(int *)(p + 0x2DC) != -1) return 1;
-    switch (*(int *)(p + 0xDF4)) {
+    if (*(int *)(pactor + 0x2DC) != -1) return 1;
+    switch (*(int *)(pactor + 0xDF4)) {
     case -1:
     case 0:
     case 6:

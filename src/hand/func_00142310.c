@@ -1,3 +1,4 @@
+/* The throw's parameters (+0x11C4..+0x11D8, the target +0x1280 and +0x11E0), as given. */
 typedef int qword __attribute__((mode(TI)));
 struct S8 { float a, b; };
 struct X {
