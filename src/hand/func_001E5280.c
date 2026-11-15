@@ -1,27 +1,29 @@
 #include "cid.h"
 #include "vtbl.h"
-struct O { int pad[3]; VTENT *vt; };
-struct P { char pad[0xA4]; int c; struct O *apo[4]; };
+/* ReleaseRunEffects: undoes HoldRunEffects for one STEP actor: removes it from the script's held list (JSG +0xA4
+ * cstepHold / +0xA8 apstepHold) and releases the effect through its vt slot 0x54. */
+struct O { int pad[3]; VTENT *vt; };   /* the STEP actor */
+struct P { char pad[0xA4]; int cstepHold; struct O *apstepHold[4]; };   /* relay.h JSG */
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *p, int cid);
 void *s1_memmove(void *pdst, const void *psrc, unsigned int cb) asm("memmove");
 static inline unsigned ByteOffset(int index){register unsigned result __asm__("$4");__asm__("sll %0,%1,2":"=r"(result):"r"(index));return result;}
 // name: SafeHouse port (ReleaseRunEffects)
-void ReleaseRunEffects__FP3RUNP2LOii(struct P *p, struct O *po, int a, int b)
+void ReleaseRunEffects__FP3RUNP2LOii(struct P *pjsg, struct O *pstep, int nHold5, int nHold6)
 {
     int i;
-    if (!FIsBasicDerivedFrom__FP5BASIC3CID(po, CID_STEP)) return;
-    for(i=0;i<p->c;i++) {
-        if(p->apo[i]==po)break;
+    if (!FIsBasicDerivedFrom__FP5BASIC3CID(pstep, CID_STEP)) return;
+    for(i=0;i<pjsg->cstepHold;i++) {
+        if(pjsg->apstepHold[i]==pstep)break;
     }
-    if (i >= p->c) return;
+    if (i >= pjsg->cstepHold) return;
     {
-        register unsigned int addr __asm__("$5") = ByteOffset(i)+(unsigned int)p;
+        register unsigned int addr __asm__("$5") = ByteOffset(i)+(unsigned int)pjsg;
         unsigned int dest;
         __asm__("daddu %0,%1,$zero":"=r"(dest):"r"(addr));
-        s1_memmove((void *)(dest+0xA8),(void *)(addr+0xAC),(p->c-i)*4-4);
+        s1_memmove((void *)(dest+0xA8),(void *)(addr+0xAC),(pjsg->cstepHold-i)*4-4);
     }
-    p->c--;
-    ((void (*)(void *, int, int))po->vt[0x54].pfn)(VT_THIS(po, &po->vt[0x54]), a, b);
+    pjsg->cstepHold--;
+    ((void (*)(void *, int, int))pstep->vt[0x54].pfn)(VT_THIS(pstep, &pstep->vt[0x54]), nHold5, nHold6);
 }
 
 typedef char layout_pointer[(sizeof(void*)==4)?1:-1];
@@ -29,5 +31,5 @@ typedef char layout_int[(sizeof(int)==4)?1:-1];
 typedef char layout_O_prefix[(sizeof(struct O)==16)?1:-1];
 typedef char layout_P_array_prefix[(sizeof(struct P)==0xB8)?1:-1];
 typedef char layout_O_vtable[((unsigned)&((struct O*)0)->vt==0xC)?1:-1];
-typedef char layout_P_count[((unsigned)&((struct P*)0)->c==0xA4)?1:-1];
-typedef char layout_P_array[((unsigned)&((struct P*)0)->apo==0xA8)?1:-1];
+typedef char layout_P_count[((unsigned)&((struct P*)0)->cstepHold==0xA4)?1:-1];
+typedef char layout_P_array[((unsigned)&((struct P*)0)->apstepHold==0xA8)?1:-1];

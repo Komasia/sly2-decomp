@@ -1,10 +1,12 @@
-struct S { char pad[0x84]; int a84[3]; int n90; int n94; int n98; int n9C; };
+/* EndRunCamera: ends the script's camera control: records the end mode, clears the flag and revokes the script's
+ * camera policy (JSG +0x84) from the camera g_cm. */
+#include "relay.h"
 extern char g_cm[];
-void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(void *a, int b, int c, void *d, int e, void *f);
+void RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(void *pcm, int a, int cpp, void *pcplcy, int b, void *pv);
 // name: SafeHouse port (EndRunCamera)
-void EndRunCamera__FP3RUNi(struct S *p, int n)
+void EndRunCamera__FP3RUNi(JSG *pjsg, int n)
 {
-    p->n90 = n;
-    p->n9C = 0;
-    RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(g_cm, 2, 10, g_cm + 0x500, 0, p->a84);
+    pjsg->nUnk90 = n;
+    pjsg->fUnk9c = 0;
+    RevokeCmPolicy__FP2CMi3CPPP5CPLCYii(g_cm, 2, 10, g_cm + 0x500, 0, pjsg->unk_0x84);
 }

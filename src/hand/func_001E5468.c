@@ -1,11 +1,11 @@
-#include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; };
-struct S { char pad[0x64]; struct O *po; };
-void func_001E5468(struct S *p)
+/* func_001E5468: the script lets go of the widget it showed (vt slot 50) and forgets it. */
+#include "relay.h"
+struct WIDGET { char pad[0xC]; VTENT *vt; };
+void func_001E5468(JSG *pjsg)
 {
-    struct O *po = p->po;
-    if (po) {
-        ((void (*)(void *))po->vt[50].pfn)(VT_THIS(po, &po->vt[50]));
-        p->po = 0;
+    struct WIDGET *pwidget = pjsg->ploWidget;
+    if (pwidget) {
+        ((void (*)(void *))pwidget->vt[50].pfn)(VT_THIS(pwidget, &pwidget->vt[50]));
+        pjsg->ploWidget = 0;
     }
 }

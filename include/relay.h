@@ -249,7 +249,7 @@ typedef struct JSG {
     /* 0x68 */ RELAYCMD *prelaycmdLine;
     /* 0x6c */ void *ptnCur;
     /* 0x70 */ int fHideTn;
-    /* 0x74 */ int unk_0x74;
+    /* 0x74 */ void *ploCmTarget;           /* the object the actor's camera target is fixed on (func_001E5000) */
     /* 0x78 */ float sGoTo;
     /* 0x7c */ float sPipe;
     /* 0x80 */ float tBlendEnd;

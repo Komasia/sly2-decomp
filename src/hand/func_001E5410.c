@@ -1,15 +1,15 @@
-
-#include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; };
-struct S { char pad[0x58]; struct O *po; int n5C; };
-void RemoveLoListener__FP2LOi(struct O *po, struct S *p);
+/* RUN::ReleaseSmaWatch: stops watching the state machine of the script's ApplySm command: removes the script as its
+ * listener, releases it (vt slot 2) and clears the wait. */
+#include "relay.h"
+struct SMA { char pad[0xC]; VTENT *vt; };
+void RemoveLoListener__FP2LOi(struct SMA *psma, JSG *pjsg);
 // name: SafeHouse port (RUN::ReleaseSmaWatch)
-void ReleaseSmaWatch__3RUN(struct S *p)
+void ReleaseSmaWatch__3RUN(JSG *pjsg)
 {
-    if (p->po) {
-        RemoveLoListener__FP2LOi(p->po, p);
-        { struct O *po = p->po; ((void (*)(void *))po->vt[2].pfn)(VT_THIS(po, &po->vt[2])); }
-        p->po = 0;
-        p->n5C = 0;
+    if (pjsg->psmaCur) {
+        RemoveLoListener__FP2LOi(pjsg->psmaCur, pjsg);
+        { struct SMA *psma = pjsg->psmaCur; ((void (*)(void *))psma->vt[2].pfn)(VT_THIS(psma, &psma->vt[2])); }
+        pjsg->psmaCur = 0;
+        pjsg->fSmaReached = 0;
     }
 }

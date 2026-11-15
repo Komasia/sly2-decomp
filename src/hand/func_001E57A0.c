@@ -1,8 +1,13 @@
+/* StartRunCamera: the script takes the camera for a CamBlendFrom / CamBlendTo pair of commands: the blend's end time
+ * (JSG tBlendEnd +0x80; FLT_MAX-like D_002A8124 when untimed), a camera policy (JSG +0x84: the from / to camera
+ * positions + Euler angles + fov, the blend time, owner) whose angles are unwrapped to the shortest turn and whose
+ * unset (zero) positions / angles / fov come from the current camera; then installs it (SetCmPolicy, policy kind 10)
+ * after revoking any policy of that kind. */
 typedef int qword __attribute__((mode(TI)));
-struct T { qword v0; qword v10; float f20; };
+struct T { qword v0; qword v10; float f20; };   /* camera: position, Euler angles (rad), fov */
 struct A { int n0; int n4; int pad8[2]; struct T t; float f40; int n44; };
 struct SUB { struct T *apt[2]; float f8C; int n90; int n94; void *p98; int n9C; };
-struct P { char pad[0x80]; float f80; struct SUB sub; };
+struct P { char pad[0x80]; float f80; struct SUB sub; };   /* relay.h JSG: tBlendEnd, the camera policy */
 struct G2 { char pad[0x30]; qword v30; };
 struct G { char pad[0x20]; float f20; char pad24[0x60 - 0x24]; struct G2 m60; char pad2[0x500 - 0xA0]; char m500[0x10]; int n510; };
 extern qword D_002A2DD0;

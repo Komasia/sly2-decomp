@@ -1,17 +1,20 @@
+/* func_001E5570: when a script is cut short inside its block while its actor follows a path or walks (FollowPath /
+ * WalkTo), clears the actor's jobs (+0x26C) so it stops. */
+#include "relay.h"
 #include "cid.h"
-struct O { char pad[0x26C]; int a; };
-struct P { char pad[0x24]; struct O *po; int *pnMin; int *pnMax; int *pn; };
-int FIsBasicDerivedFrom__FP5BASIC3CID(struct O *po, int cid);
+struct ACTORJ { char pad[0x26C]; int jobs; };
+#define ACTOR_OF(pjsg) ((struct ACTORJ *)(pjsg)->ploActor)
+int FIsBasicDerivedFrom__FP5BASIC3CID(struct ACTORJ *pactor, int cid);
 void ClearJobs__FP5ACTOR(void *p);
-void func_001E5570(struct P *p)
+void func_001E5570(JSG *pjsg)
 {
-    if (p->pnMin < p->pn && p->pn < p->pnMax) {
-        switch (*p->pn) {
-        case 0x27:
-            if (p->po && FIsBasicDerivedFrom__FP5BASIC3CID(p->po, CID_ACTOR)) ClearJobs__FP5ACTOR(&p->po->a);
+    if (pjsg->prelaycmdFirst < pjsg->prelaycmdCur && pjsg->prelaycmdCur < pjsg->prelaycmdLast) {
+        switch (pjsg->prelaycmdCur->relayck) {
+        case RELAYCK_FollowPath:
+            if (ACTOR_OF(pjsg) && FIsBasicDerivedFrom__FP5BASIC3CID(ACTOR_OF(pjsg), CID_ACTOR)) ClearJobs__FP5ACTOR(&ACTOR_OF(pjsg)->jobs);
             break;
-        case 0x28:
-            if (p->po && FIsBasicDerivedFrom__FP5BASIC3CID(p->po, CID_ACTOR)) ClearJobs__FP5ACTOR(&p->po->a);
+        case RELAYCK_WalkTo:
+            if (ACTOR_OF(pjsg) && FIsBasicDerivedFrom__FP5BASIC3CID(ACTOR_OF(pjsg), CID_ACTOR)) ClearJobs__FP5ACTOR(&ACTOR_OF(pjsg)->jobs);
             break;
         }
     }

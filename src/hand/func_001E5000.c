@@ -1,35 +1,44 @@
+/* func_001E5000: fixes the camera target of the script's actor on plo (0: releases it). Releasing puts the target
+ * offset back relative to the actor (offset = last target - actor position, z 0) so it smooths back; fixing aims the
+ * target at plo (GetRunAim), raised by the actor's height, with no offset. Fields: SafeHouse port (actor.h). */
+#include "relay.h"
 #include "cid.h"
-typedef int qword __attribute__((mode(TI)));
-struct X { char pad[0x1044]; int n1044; float f1048; char pad2[0x1060 - 0x104C]; qword v1060; qword v1070; };
-struct P { char pad[0x24]; struct X *p24; char pad2[0x74 - 0x28]; void *p74; };
-extern qword D_002A2DD0;
+struct ACTORCM {
+    /* 0x0000 */ char pad[0x1044];
+    /* 0x1044 */ int fCmTargetFixed;
+    /* 0x1048 */ float sHeight;
+    /* 0x104c */ char pad2[0x1060 - 0x104C];
+    /* 0x1060 */ qword posCmTarget;
+    /* 0x1070 */ qword vecOffset;
+};
+extern qword D_002A2DD0;           /* the zero vector */
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
-qword PosOfLo__FP2LO(struct X *);
-void GetRunAim__FP3RUNP2LOP6VECTORPf(struct P *, void *, qword *, int);
-void func_001E5000(struct P *p, void *pv)
+qword PosOfLo__FP2LO(struct ACTORCM *);
+void GetRunAim__FP3RUNP2LOP6VECTORPf(JSG *, void *, qword *, int);
+void func_001E5000(JSG *pjsg, void *plo)
 {
-    struct X *px;
-    if (p->p24 && FIsBasicDerivedFrom__FP5BASIC3CID(p->p24, CID_ACTOR))
-        px = p->p24;
+    struct ACTORCM *pactor;
+    if (pjsg->ploActor && FIsBasicDerivedFrom__FP5BASIC3CID(pjsg->ploActor, CID_ACTOR))
+        pactor = (struct ACTORCM *)pjsg->ploActor;
     else
-        px = 0;
-    if (p->p74) {
-        if (px) {
-            qword v = px->v1060, q, d;
-            px->n1044 = 0;
-            q = PosOfLo__FP2LO(px);
-            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(v), "j"(q));
-            px->v1070 = d;
-            ((float *)&px->v1070)[2] = 0.0f;
+        pactor = 0;
+    if (pjsg->ploCmTarget) {
+        if (pactor) {
+            qword posTarget = pactor->posCmTarget, pos, d;
+            pactor->fCmTargetFixed = 0;
+            pos = PosOfLo__FP2LO(pactor);
+            __asm__("vsub.xyzw %0, %1, %2" : "=j"(d) : "j"(posTarget), "j"(pos));
+            pactor->vecOffset = d;
+            ((float *)&pactor->vecOffset)[2] = 0.0f;
         }
-        p->p74 = 0;
+        pjsg->ploCmTarget = 0;
     }
-    if (!pv) return;
-    if (px) {
-        px->n1044 = 1;
-        GetRunAim__FP3RUNP2LOP6VECTORPf(p, pv, &px->v1060, 0);
-        ((float *)&px->v1060)[2] += px->f1048;
-        px->v1070 = D_002A2DD0;
+    if (!plo) return;
+    if (pactor) {
+        pactor->fCmTargetFixed = 1;
+        GetRunAim__FP3RUNP2LOP6VECTORPf(pjsg, plo, &pactor->posCmTarget, 0);
+        ((float *)&pactor->posCmTarget)[2] += pactor->sHeight;
+        pactor->vecOffset = D_002A2DD0;
     }
-    p->p74 = pv;
+    pjsg->ploCmTarget = plo;
 }
