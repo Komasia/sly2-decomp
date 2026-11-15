@@ -1,7 +1,7 @@
 /* InitAseg (Sly 1 aseg.c): an animation segment initialized: the LO's init, its list of playing ASEGAs (their
  * links at +0x2C), the speed 1, the suck speed polynomial {1, 0, 0} clamped to [0, 1], and the flag 0x40.
  * Layout: SafeHouse port (sm.h ASEG). */
-struct DL { int a[3]; };
+#include "dl.h"
 struct ASEG {
     /* 0x00 */ char pad0[0x40];
     /* 0x40 */ unsigned int grfAseg;   /* field: SafeHouse port */

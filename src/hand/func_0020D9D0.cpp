@@ -1,4 +1,4 @@
-struct DL {void *first,*last;int offset;};
+#include "dl.h"
 struct POOL {int bytes,count,alignment;void *first;int extra[2];};
 struct F2 {float x,y;};struct F3 {float x,y,z;};
 struct SW {
