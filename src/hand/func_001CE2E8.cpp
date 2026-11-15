@@ -11,6 +11,7 @@
  *    `entries` store, which sched1 then issues right after the allocation call (the target's store order and $v0 for p->state);
  *  - ClipBspPlane uses the matched callee's argument order (pos, eps, count, entries).
  */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct DL { void *head, *tail; int offset; };
 struct DLI { DL *list; void **next; int offset; DLI *outer; };
@@ -18,14 +19,12 @@ struct ENTRY { int a, b; void *poly; };
 struct SHAPE { char pad10[0x10]; unsigned long flags; char pad18[0x54]; int capacity; char pad70[4]; void *tree; };
 struct XP { qword position, other, normal; char pad30[0x10]; float fraction; char pad44[0x1C]; };
 struct RIP;
-struct RVE { short delta, pad; int (*fn)(void *, SHAPE *, qword, qword); };
-struct RIP { char pad14[0x14]; float start; char pad18[0x58]; qword position, extra; char pad90[0x5C]; RVE *vt; };
+struct RIP { char pad14[0x14]; float start; char pad18[0x58]; qword position, extra; char pad90[0x5C]; VTENT *vt; };
 struct NODE;
 struct STATE { char pad20[0x20]; qword origin; float radius; DL shapes; char pad40[0x20]; void *subject; NODE *nodes; char pad68[8]; unsigned long flags; };
 struct OBJ { char padEC[0xEC]; STATE *state; };
 struct NODE { int pad; NODE *next; char pad8[4]; OBJ *object; };
-struct PVE { short delta, pad; void (*fn)(void *); };
-struct P { char padC[0xC]; PVE *vt; char pad10[0xDC]; STATE *state; char padF0[0x60]; int mode; char pad154[8]; DL rips; };
+struct P { char padC[0xC]; VTENT *vt; char pad10[0xDC]; STATE *state; char padF0[0x60]; int mode; char pad154[8]; DL rips; };
 #include "clock.h"
 struct REQ { int cb, align; };
 struct FRAME { int a[4]; };
@@ -86,7 +85,7 @@ void BounceRipgRips(P *p)
                         int i = 0;
                         if (i < count) do {
                             XP *hit = &contacts[i];
-                            if (hit->fraction != 0.0f && rip->vt[8].fn((char *)rip + rip->vt[8].delta, shape, hit->position, hit->normal)) break;
+                            if (hit->fraction != 0.0f && ((int (*)(void *, SHAPE *, qword, qword))rip->vt[8].pfn)(VT_THIS(rip, &rip->vt[8]), shape, hit->position, hit->normal)) break;
                             i++;
                         } while (i < count);
                     }
@@ -96,6 +95,6 @@ void BounceRipgRips(P *p)
             }
             s_pdliFirst = shapes.outer;
         }
-        if (FIsDlEmpty(&p->rips)) p->vt[9].fn((char *)p + p->vt[9].delta);
+        if (FIsDlEmpty(&p->rips)) ((void (*)(void *))p->vt[9].pfn)(VT_THIS(p, &p->vt[9]));
     }
 }

@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef struct O O;
 typedef struct PAIR PAIR;
 typedef struct EVENT EVENT;
@@ -23,7 +24,6 @@ union V {qword q;float f[4];};
 struct O;
 struct PAIR {O *owner,*object;};
 struct EVENT {int kind,pad4;float strength;int padC;qword normal;V position;char pad30[0x10];};
-struct VE {short delta,pad;union {qword (*velocity)(void *);void (*signal)(void *,int,PAIR *);void (*event)(void *,EVENT *);} f;};
 struct SOURCE {char pad[0x70];V position;};
 struct COLL {SOURCE *source;char pad4[0xC];ulong flags;char pad18[0x38];V position;char pad60[0x50];};
 struct PHYS {char pad[0xD4];float scale;};
@@ -31,7 +31,7 @@ struct META {char pad[0x98];short kind;};
 struct LINK {int pad0;LINK *next;int pad8;O *object;};
 struct STATE {V minimum,maximum;char pad20[0x44];LINK *first;char pad68[8];ulong flags;};
 struct N {O *owner,*object;int pad8;N *next;};
-struct O {char pad[0xC];VE *vt;char pad10[0x48];META *body;char pad5C[0x84];int count;COLL *colliders;PHYS *physics;STATE *state;char padF0[0x58];long flags;N *first;char pad154[0x1C];O *recipient;char pad174[0xD4];float height;};
+struct O {char pad[0xC];VTENT *vt;char pad10[0x48];META *body;char pad5C[0x84];int count;COLL *colliders;PHYS *physics;STATE *state;char padF0[0x58];long flags;N *first;char pad154[0x1C];O *recipient;char pad174[0xD4];float height;};
 struct LSG {V first;char pad10[0x50];};
 struct REQ {int size,alignment;};
 struct MARK;
@@ -66,9 +66,9 @@ static inline qword Sub(qword a,qword b){qword r;__asm__("vsub.xyzw %0,%1,%2":"=
 static inline qword Add(qword a,qword b){qword r;__asm__("vadd.xyzw %0,%1,%2":"=j"(r):"0"(a),"j"(b));return r;}
 static inline REQ*Fields(REQ*p){register REQ*copy __asm__("$3");__asm__("daddu %0,%1,$zero":"=r"(copy):"r"(p));return copy;}
 static inline float Min(float a,float b){return b<a?b:a;}
-static inline qword Velocity(O *o){VE *v=o->vt;return v[33].f.velocity((char *)o+v[33].delta);}
-static inline void Impact(O *o,EVENT *e){VE *v=o->vt;v[51].f.event((char *)o+v[51].delta,e);}
-static inline void Signal(O *o,int event,PAIR *pair){VE *v=o->vt;v[4].f.signal((char *)o+v[4].delta,event,pair);}
+static inline qword Velocity(O *o){VTENT *v=o->vt;return ((qword (*)(void *))v[33].pfn)(VT_THIS(o, &v[33]));}
+static inline void Impact(O *o,EVENT *e){VTENT *v=o->vt;((void (*)(void *,EVENT *))v[51].pfn)(VT_THIS(o, &v[51]),e);}
+static inline void Signal(O *o,int event,PAIR *pair){VTENT *v=o->vt;((void (*)(void *,int,PAIR *))v[4].pfn)(VT_THIS(o, &v[4]),event,pair);}
 // name: SafeHouse port (UpdateWater)
 extern "C" void UpdateWater__FP5WATER(O *p){
  WORK work;N *n;COLL **objects;LINK *link;

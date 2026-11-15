@@ -13,14 +13,14 @@
 // - One register pin: Pin() keeps `owner` in $21 (s5); without it count/owner swap s5/s6 (global.c priority 370 vs 375).
 // - MkVuk*/ScaleK/AddScaledK take their scalar as a by-value struct TEMPORARY: that temp is the shared 0x60($sp)
 //   home of the original (sqc2 vf,0x60 / qmfc2+sq 0x60), so there is no separate `scalar` local.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union V {qword q;float f[4];};
 struct O;
-struct VE {short delta,pad;union {qword (*get)(void *);void (*set)(void *,qword);} f;};
 struct NODE {char pad[0x70];V position;};
 struct PHYS;
 struct STATE {char pad[0x60];O *owner;};
-struct O {char pad[0xC];VE *vt;char pad10[0x4C];NODE *rotation,*motion;char pad64[0x84];PHYS *physics;STATE *state;};
+struct O {char pad[0xC];VTENT *vt;char pad10[0x4C];NODE *rotation,*motion;char pad64[0x84];PHYS *physics;STATE *state;};
 struct COLL {void *source;O *object;};
 struct LSG {qword point;char remainder[0x50];};
 struct HIT {O *owner;int field4;O *object;int filter,channel;char pad14[0xC];qword point,impulse;char pad40[0x20];};
@@ -54,8 +54,8 @@ static inline qword ScaleK(qword v,VUK k){qword r;__asm__("vmulx.xyzw %0,%1,%2x"
 static inline qword AddScaledK(qword old,qword v,VUK k){__asm__("vadda.xyzw ACC,%0,$vf0\n\tvmaddx.xyzw %0,%2,%1x":"+j"(old):"j"(k.q),"j"(v));return old;}
 
 static inline float Clamp(float f,float lo,float hi){float r;if(f<lo)r=lo;else if(hi<f)r=hi;else r=f;return r;}
-static inline qword Get(O *o,int slot){VE *v=o->vt;return v[slot].f.get((char *)o+v[slot].delta);}
-static inline void Set(O *o,int slot,qword q){VE *v=o->vt;v[slot].f.set((char *)o+v[slot].delta,q);}
+static inline qword Get(O *o,int slot){VTENT *v=o->vt;return ((qword (*)(void *))v[slot].pfn)(VT_THIS(o, &v[slot]));}
+static inline void Set(O *o,int slot,qword q){VTENT *v=o->vt;((void (*)(void *,qword))v[slot].pfn)(VT_THIS(o, &v[slot]),q);}
 static inline O *Pin(O *p){register O *r asm("$21");asm("daddu %0,%1,$zero":"=r"(r):"r"(p));return r;}
 extern "C" void func_00224820(O *ownerIn,int filter,int channel,qword start,qword end,int queryCount,COLL **objects,int capacity,int *count,HIT *records){
  O *owner=Pin(ownerIn);LSG hit;int bits;
