@@ -1,13 +1,20 @@
-typedef struct LO { int tagk; int pad[6]; struct LO *pother; } LO;
-typedef struct SW { int pad[0x24]; LO *pfirst; } SW;
-typedef struct T { int pad[2]; SW *psw; } T;
+/* CTRL::FFirst: whether this controller drives its record: it is the record's head controller, or the head is a
+ * source controller (kind 5, CTRLSOURCE) forwarding to it. Layout: SafeHouse port (xf.h CTRL / CTRLSOURCE, lo.h XF). */
+typedef struct CTRL {
+    /* 0x00 */ int kind;                 /* field: SafeHouse port */
+    /* 0x04 */ int pad4[6];
+    /* 0x1c */ struct CTRL *psrcCur;     /* field: SafeHouse port - CTRLSOURCE: the controller it forwards to */
+} CTRL;
+typedef struct XF { int pad[0x24]; CTRL *pctrlFirst; } XF;   /* +0x90; field: SafeHouse port */
+typedef struct CTRLX { int pad[2]; XF *pxf; } CTRLX;
+#define CTRLK_Source 5
 // name: SafeHouse port (CTRL::FFirst)
-int FFirst__4CTRL(T *p)
+int FFirst__4CTRL(CTRLX *pctrl)
 {
-    LO *q = p->psw->pfirst;
-    if (q == (LO *)p)
+    CTRL *pctrlHead = pctrl->pxf->pctrlFirst;
+    if (pctrlHead == (CTRL *)pctrl)
         return 1;
-    if (q && q->tagk == 5 && q->pother == (LO *)p)
+    if (pctrlHead && pctrlHead->kind == CTRLK_Source && pctrlHead->psrcCur == (CTRL *)pctrl)
         return 1;
     return 0;
 }

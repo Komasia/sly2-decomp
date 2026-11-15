@@ -1,5 +1,5 @@
 // Fetch__14CTRLLOOKMOTION (Claude agent, 2026-10-23): MATCH. From hand_wip v5; the virtual at vtable slot 5 takes a float 4th
-// argument, and the caller passes p->g20 (that is why the target loads g20 into $f12 for the 0 < g20 test).
+// argument, and the caller passes pctrl->gHi (that is why the target loads gHi into $f12 for the 0 < gHi test).
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
@@ -35,87 +35,92 @@ static inline float GetX(qword q)
     return f;
 }
 
-struct O { int x0; void *x4; int pad[4]; VTENT *pvt; };
-struct X {
-    M3 m0;
-    qword v30;
-    M3 m40;
-    qword v70;
-    float g80, g84;
-    float *pg88, *pg8C;
-    O *po90;
-    int x94;
-    unsigned short u98;
-    short s9A;
+struct CTRL { int kind; void *palo; int pad[4]; VTENT *pvt; };
+// Layout: SafeHouse port (lo.h XF, xf.h CTRLLOOKMOTION / CTRLJOB: gLo +0x1C and gHi +0x20 are the job's two floats,
+// used as the lead: the mover's velocity gHi seconds ahead blends in by gLo / gHi).
+// CTRLLOOKMOTION::Fetch: the record looks along the motion of the first translation record (kind 1) up its chain:
+// that record's velocity (by its mode / state), in world space, through BuildLookAtMatrix into the segment; under
+// 100 units/s it keeps the current world direction. No mover: the record's own matrix.
+struct XF {
+    M3 mat;
+    qword pos;
+    M3 matWorld;
+    qword posWorld;
+    float g0, g1;
+    float *pg, *pdgScale;
+    CTRL *pctrlFirst;
+    int kind;
+    unsigned short mode;
+    short state;
     int x9C;
-    X *pxA0;
+    XF *pxfRef;
     int padA4[3];
-    qword vB0;
-    M3 mC0;
-    qword vF0;
+    qword vel;
+    M3 aseg;
+    qword vel1;
 };
-struct P { int x0; void *x4; X *px8; int xC; int pad10[3]; float g1C; float g20; X *px24; };
+struct CTRLLOOKMOTION { int kind; void *palo; XF *pxf; int prio; int pad10[3]; float gLo; float gHi; XF *pxfMover; };
 
 extern "C" {
 extern qword D_002A2DD0, g_normalZ, D_002BC380;
-void RefreshXf(void *pv, X *px) asm("RefreshXf__FP3ALOP2XF");
+void RefreshXf(void *pv, XF *pxfCur) asm("RefreshXf__FP3ALOP2XF");
 void Hermite(qword a, qword da, qword b, qword db, float dt, float t, float dtScale, void *pv, void *pdv, int n) asm("Hermite__FG9VU_VECTORN30fffPG9VU_VECTORN27");
 M3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-void MatConvertXfs(M3 *pm, int n, X *px, M3 *pmSrc) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
+void MatConvertXfs(M3 *pm, int n, XF *pxfCur, M3 *pmSrc) asm("MatConvertXfs__FP2XFT0P7MATRIX3Pv");
 }
 
-static inline void SetMat(X *px, const M3 &m)
+static inline void SetMat(XF *pxfCur, const M3 &m)
 {
-    px->mC0 = m;
-    px->s9A = 5;
+    pxfCur->aseg = m;
+    pxfCur->state = 5;
 }
 
-static inline void Fin(P *p, M3 &mT, M3 m)
+static inline void Fin(CTRLLOOKMOTION *pctrl, M3 &mT, M3 m)
 {
     mT = m;
-    X *px = p->px8;
-    M3 *pm = &px->mC0;
-    MatConvertXfs(&m, 0, px->pxA0, &mT);
+    XF *pxfCur = pctrl->pxf;
+    M3 *pm = &pxfCur->aseg;
+    MatConvertXfs(&m, 0, pxfCur->pxfRef, &mT);
     *pm = m;
-    p->px8->s9A = 5;
+    pctrl->pxf->state = 5;
 }
 
 // name: SafeHouse port (CTRLLOOKMOTION::Fetch)
-extern "C" void Fetch__14CTRLLOOKMOTION(P *p)
+extern "C" void Fetch__14CTRLLOOKMOTION(CTRLLOOKMOTION *pctrl)
 {
-    X *py;
+    XF *pxfM;
     union { qword q; } vT;
     M3 mT;
-    if (p->px24 == 0) {
-        X *px = p->px8;
-        X *pz;
-        for (pz = px->pxA0; pz != 0 && pz->x94 != 1; pz = pz->pxA0)
+    if (pctrl->pxfMover == 0) {
+        XF *pxfCur = pctrl->pxf;
+        XF *pxfUp;
+        for (pxfUp = pxfCur->pxfRef; pxfUp != 0 && pxfUp->kind != 1; pxfUp = pxfUp->pxfRef)
             ;
-        if (pz == 0) {
-            M3 *pm = &p->px8->mC0;
-            *pm = p->px8->m0;
-            p->px8->s9A = 5;
+        if (pxfUp == 0) {
+            M3 *pm = &pctrl->pxf->aseg;
+            *pm = pctrl->pxf->mat;
+            pctrl->pxf->state = 5;
             return;
         }
-        p->px24 = pz;
+        pctrl->pxfMover = pxfUp;
     }
-    py = p->px24;
-    if (py->po90)
-        RefreshXf(py->po90->x4, py);
+    pxfM = pctrl->pxfMover;
+    if (pxfM->pctrlFirst)
+        RefreshXf(pxfM->pctrlFirst->palo, pxfM);
     qword v;
-    switch ((short)(p->px24->u98 - 1)) {
+    switch ((short)(pctrl->pxfMover->mode - 1)) {
     case 0: case 1: case 6: case 7: case 8: case 10: case 16: case 17: case 19: case 20:
-        v = py->vB0;
+        v = pxfM->vel;
         break;
     case 4: case 5: {
         qword w;
-        switch (py->s9A) {
+        switch (pxfM->state) {
         case 3: case 4:
-            w = py->mC0.r[1];
+            w = pxfM->aseg.r[1];
             break;
         case 1:
-            Hermite(py->mC0.r[0], py->mC0.r[1], py->mC0.r[2], py->vF0,
-                py->g84 - py->g80, *py->pg88 - py->g80, *py->pg8C, 0, &vT.q, 0);
+            Hermite(pxfM->aseg.r[0], pxfM->aseg.r[1], pxfM->aseg.r[2], pxfM->vel1,
+                pxfM->g1 - pxfM->g0, *pxfM->pg - pxfM->g0, *pxfM->pdgScale, 0, &vT.q, 0);
             w = vT.q;
             break;
         case 0: case 2: case 5:
@@ -130,20 +135,20 @@ extern "C" void Fetch__14CTRLLOOKMOTION(P *p)
         __asm__("vsub.xyzw %0, $vf0, $vf0" : "=j"(v));
         break;
     }
-    if (py->pxA0)
-        v = MulM3(py->pxA0->m40, v);
+    if (pxfM->pxfRef)
+        v = MulM3(pxfM->pxfRef->matWorld, v);
     if (GetX(VLen(v)) < 100.0f) {
-        Fin(p, mT, BuildLookAtMatrix(p->px8->m40.r[0], g_normalZ));
+        Fin(pctrl, mT, BuildLookAtMatrix(pctrl->pxf->matWorld.r[0], g_normalZ));
     } else {
         qword u = D_002BC380;
-        if (0.0f < p->g20 && 0.0f < p->g1C && py->po90) {
-            O *po = py->po90;
+        if (0.0f < pctrl->gHi && 0.0f < pctrl->gLo && pxfM->pctrlFirst) {
+            CTRL *po = pxfM->pctrlFirst;
             VTENT *pe = &po->pvt[5];
-            ((void (*)(void *, int, qword *, float))pe->pfn)(VT_THIS(po, pe), 0, &vT.q, p->g20);
-            if (py->pxA0)
-                vT.q = MulM3(py->pxA0->m40, vT.q);
-            u = AddScaledDiff(u, vT.q, v, VU_FLOAT(p->g1C / p->g20));
+            ((void (*)(void *, int, qword *, float))pe->pfn)(VT_THIS(po, pe), 0, &vT.q, pctrl->gHi);
+            if (pxfM->pxfRef)
+                vT.q = MulM3(pxfM->pxfRef->matWorld, vT.q);
+            u = AddScaledDiff(u, vT.q, v, VU_FLOAT(pctrl->gLo / pctrl->gHi));
         }
-        Fin(p, mT, BuildLookAtMatrix(v, u));
+        Fin(pctrl, mT, BuildLookAtMatrix(v, u));
     }
 }

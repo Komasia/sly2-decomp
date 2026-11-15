@@ -1,11 +1,21 @@
-typedef struct T { int a; int b; int c; int d; int e; int f; } T;
-T *func_0012E238(void *p);
-T *func_0012DB50(void *p, int b, int c, int d, int f)
+/* A new controller of the given kind (0x12E238 picks the class) for the record pxf of palo, with its priority and
+ * the record mode it sets while it is the head; not yet added to the record (the PctrlNew* callers add it).
+ * Layout: SafeHouse port (xf.h CTRL). */
+typedef struct CTRL {
+    /* 0x00 */ int kind;    /* field: SafeHouse port */
+    /* 0x04 */ int palo;    /* field: SafeHouse port */
+    /* 0x08 */ int pxf;     /* field: SafeHouse port */
+    /* 0x0c */ int prio;    /* field: SafeHouse port */
+    /* 0x10 */ int pnext;   /* field: SafeHouse port */
+    /* 0x14 */ int mode;    /* field: SafeHouse port */
+} CTRL;
+CTRL *func_0012E238(void *kind);   /* a new controller of the kind (sets kind) */
+CTRL *func_0012DB50(void *kind, int palo, int pxf, int prio, int mode)
 {
-    T *t = func_0012E238(p);
-    t->b = b;
-    t->c = c;
-    t->d = d;
-    t->f = f;
-    return t;
+    CTRL *pctrl = func_0012E238(kind);
+    pctrl->palo = palo;
+    pctrl->pxf = pxf;
+    pctrl->prio = prio;
+    pctrl->mode = mode;
+    return pctrl;
 }

@@ -1,9 +1,17 @@
+/* CTRLSOURCE::Fetch: the source fetches the record's segment, then both end values move by the offset
+ * (+0x20); without a source, CTRL::Fetch (nothing). Layout: SafeHouse port (xf.h CTRLSOURCE, lo.h XF). */
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct O { char pad[0x18]; VTENT *vt; } O;
-typedef struct SW { char pad[0xC0]; qword a; char pad2[0x10]; qword b; } SW;
-typedef struct T2 { char pad[8]; SW *psw; char pad1[0x10]; O *po; qword v; } T2;
-void func_0012CF28(T2 *p);
+typedef struct CTRL { char pad[0x18]; VTENT *vt; } CTRL;   /* a controller: its vtable at +0x18 */
+typedef struct XF { char pad[0xC0]; qword pos0; char pad2[0x10]; qword pos1; } XF;   /* aseg[0], aseg[2]; field: SafeHouse port */
+typedef struct CTRLSOURCE {
+    /* 0x00 */ char pad[8];
+    /* 0x08 */ XF *pxf;
+    /* 0x0c */ char pad1[0x10];
+    /* 0x1c */ CTRL *psrcCur;   /* field: SafeHouse port */
+    /* 0x20 */ qword ofs;       /* field: SafeHouse port */
+} CTRLSOURCE;
+void func_0012CF28(CTRLSOURCE *pctrl);   /* CTRL::Fetch (empty) */
 static __inline__ void AddV(qword *pd, qword *ps)
 {
     register qword b __asm__("vf2") = *ps;
@@ -12,14 +20,14 @@ static __inline__ void AddV(qword *pd, qword *ps)
     *pd = a;
 }
 // name: SafeHouse port (CTRLSOURCE::Fetch)
-void Fetch__10CTRLSOURCE(T2 *p)
+void Fetch__10CTRLSOURCE(CTRLSOURCE *pctrl)
 {
-    O *po = p->po;
-    if (po) {
-        ((void (*)(void *))po->vt[4].pfn)(VT_THIS(po, &po->vt[4]));
-        AddV(&p->psw->a, &p->v);
-        AddV(&p->psw->b, &p->v);
+    CTRL *psrc = pctrl->psrcCur;
+    if (psrc) {
+        ((void (*)(void *))psrc->vt[4].pfn)(VT_THIS(psrc, &psrc->vt[4]));   /* Fetch */
+        AddV(&pctrl->pxf->pos0, &pctrl->ofs);
+        AddV(&pctrl->pxf->pos1, &pctrl->ofs);
     } else {
-        func_0012CF28(p);
+        func_0012CF28(pctrl);
     }
 }
