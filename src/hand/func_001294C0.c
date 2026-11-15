@@ -6,8 +6,8 @@
 CRef *func_001294C0(CRef *pref, BASIC *pbasic)
 {
     if (pbasic != NULL) {
-        VTE *pvt = pbasic->pvt;
-        ((void (*)(void *))pvt[1].pfn)((char *)pbasic + pvt[1].d);
+        VTENT *pvt = pbasic->pvt;
+        ((void (*)(void *))pvt[1].pfn)(VT_THIS(pbasic, &pvt[1]));
     }
     pref->m_tag.m_pbasic = pbasic;
     pref->m_tagk = TAGK_Basic;

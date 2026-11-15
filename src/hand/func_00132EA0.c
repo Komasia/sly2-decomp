@@ -5,7 +5,7 @@
 
 int func_00132EA0(BASIC *pbasic)
 {
-    VTE *pvt = pbasic->pvt;
-    CLS *pcls = ((CLS *(*)(void *))pvt[6].pfn)((char *)pbasic + pvt[6].d);
+    VTENT *pvt = pbasic->pvt;
+    CLS *pcls = ((CLS *(*)(void *))pvt[6].pfn)(VT_THIS(pbasic, &pvt[6]));
     return pcls->cid;
 }

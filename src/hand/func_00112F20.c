@@ -3,7 +3,7 @@
 #include "so.h"
 
 void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
-extern VTE g_vtcircler[];
+extern VTENT g_vtcircler[];
 
 BASIC *func_00112F20(void)
 {

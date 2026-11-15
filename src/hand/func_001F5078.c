@@ -7,11 +7,11 @@ void HoldXfMode(SO *pso, XF *pxf);
 // name: SafeHouse port (WakeAlo)
 void WakeAlo__FP3ALO(SO *pso)
 {
-    VTE *pvte;
+    VTENT *pvte;
 
     if (pso->ptree != NULL) {
         pvte = &pso->lo.pvt[47];   /* slot 46 */
-        ((void (*)(void *, int))pvte->pfn)((char *)pso + pvte->d, 4);
+        ((void (*)(void *, int))pvte->pfn)(VT_THIS(pso, pvte), 4);
         if (pso->psophys != NULL) {
             HoldXfMode(pso, pso->pxfUnk58);
             HoldXfMode(pso, pso->pxfUnk5c);

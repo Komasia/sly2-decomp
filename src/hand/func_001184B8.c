@@ -4,11 +4,11 @@
 
 typedef struct BISMEM {
     /* 0x00 */ char bis[0x30];   /* CBinaryInputStream fields (bis.h) */
-    /* 0x30 */ VTE *pvt;
+    /* 0x30 */ VTENT *pvt;
 } BISMEM;
 
 void __builtin_delete(void *pv);
-extern VTE D_002CA5A0[];
+extern VTENT D_002CA5A0[];
 
 void func_001184B8(BISMEM *pbis, int grfDelete)
 {

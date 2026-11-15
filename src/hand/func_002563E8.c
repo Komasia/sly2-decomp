@@ -11,8 +11,8 @@ typedef struct JT {
     /* 0x2048 */ int unk_0x2048;
 } JT;
 
-extern VTE g_vtso[];
-extern VTE g_vtjt[];
+extern VTENT g_vtso[];
+extern VTENT g_vtjt[];
 void *__7GLOBSET(void *pglobset);   /* GLOBSET::GLOBSET() (0x167310) */
 
 JT *func_002563E8(JT *pjt)

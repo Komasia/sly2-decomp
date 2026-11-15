@@ -8,12 +8,12 @@ void TouchLox__FP3LOX(XFM *pxfm);
 
 void func_002311B0(XFM *pxfm, XFM *pxfmBase)
 {
-    VTE *pvte;
+    VTENT *pvte;
 
     CloneLo__FP2LOT0(&pxfm->lo, &pxfmBase->lo);
     pvte = &pxfmBase->lo.pvt[50];   /* slot 49: map an XF link */
-    ((void (*)(void *, XFM *, XF **))pvte->pfn)((char *)pxfmBase + pvte->d, pxfmBase, &pxfmBase->pxf);
+    ((void (*)(void *, XFM *, XF **))pvte->pfn)(VT_THIS(pxfmBase, pvte), pxfmBase, &pxfmBase->pxf);
     pvte = &pxfm->lo.pvt[50];
-    ((void (*)(void *, XFM *, XF **))pvte->pfn)((char *)pxfm + pvte->d, pxfmBase, &pxfm->pxf);
+    ((void (*)(void *, XFM *, XF **))pvte->pfn)(VT_THIS(pxfm, pvte), pxfmBase, &pxfm->pxf);
     TouchLox__FP3LOX(pxfm);
 }

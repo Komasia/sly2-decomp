@@ -2,7 +2,7 @@
  * (D_002CD528). */
 #include "cm.h"
 
-extern VTE D_002CD528[];
+extern VTENT D_002CD528[];
 CPLCY *func_0014FCA8(CPLCY *pcplcy);
 
 CPLCY *func_0014FD68(CPLCY *pcplcy)

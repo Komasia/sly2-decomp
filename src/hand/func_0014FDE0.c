@@ -2,7 +2,7 @@
  * zoom limit 7, no sound references. */
 #include "cm.h"
 
-extern VTE D_002CD4E0[];
+extern VTENT D_002CD4E0[];
 CPLCY *func_0014FCA8(CPLCY *pcplcy);
 
 CPLOOK *func_0014FDE0(CPLOOK *pcplook)

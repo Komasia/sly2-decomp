@@ -21,7 +21,7 @@ typedef struct CPLCY {
     /* 0x00 */ void *pvHero;
     /* 0x04 */ float gFovTargetSaved;
     /* 0x08 */ float sNearClipSaved;
-    /* 0x0c */ VTE *pvt;
+    /* 0x0c */ VTENT *pvt;
 } CPLCY;
 
 typedef struct LM { float gMin, gMax; } LM;

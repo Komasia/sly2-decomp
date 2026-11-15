@@ -12,8 +12,8 @@ extern char D_003E159C[];
 
 BASIC *func_001ED850(BASIC *pbasic)
 {
-    VTE *pvt = pbasic->pvt;
-    CLS *pcls = ((CLS *(*)(void *))pvt[6].pfn)((char *)pbasic + pvt[6].d);
+    VTENT *pvt = pbasic->pvt;
+    CLS *pcls = ((CLS *(*)(void *))pvt[6].pfn)(VT_THIS(pbasic, &pvt[6]));
     BASIC *pbasicNew = (BASIC *)pcls->pfnNew();
 
     CopyAb__FPvT0Ui(pbasicNew, pbasic, pcls->cb);

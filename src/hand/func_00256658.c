@@ -5,7 +5,7 @@
 typedef struct LINK {
     /* 0x0 */ int n0;
     /* 0x4 */ struct LINK *pnext;
-    /* 0x8 */ VTE *pvt;
+    /* 0x8 */ VTENT *pvt;
 } LINK;
 typedef struct SPLOBJ {
     /* 0x00 */ char pad0[0x10];
@@ -21,7 +21,7 @@ void func_00256658(SPLOBJ *p)
 
     Free__9CDynArray(p->dynarray);
     for (plink = p->plink; plink != 0; plink = plink->pnext) {
-        VTE *pvt = plink->pvt;
-        ((void (*)(void *))pvt[1].pfn)((char *)plink + pvt[1].d);
+        VTENT *pvt = plink->pvt;
+        ((void (*)(void *))pvt[1].pfn)(VT_THIS(plink, &pvt[1]));
     }
 }

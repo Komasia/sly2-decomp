@@ -9,8 +9,8 @@ typedef struct MURRAY {
     /* 0x1890 */ char unk_0x1890[0x70];   /* class 145 object */
 } MURRAY;
 
-extern VTE g_vtso[];
-extern VTE g_vtmurray[];
+extern VTENT g_vtso[];
+extern VTENT g_vtmurray[];
 void *__7GLOBSET(void *pglobset);   /* GLOBSET::GLOBSET() (0x167310) */
 void *func_0020C058(void *p);      /* class 145 constructor */
 

@@ -5,10 +5,10 @@
 // name: SafeHouse port (PlaceAloAt)
 void PlaceAloAt__FP3ALOP7MATRIX4(LO *plo, struct MATRIX4 *pmat)
 {
-    VTE *pvte;
+    VTENT *pvte;
 
     pvte = &plo->pvt[29];   /* slot 28: translate to position */
-    ((void (*)(void *, qword))pvte->pfn)((char *)plo + pvte->d, *(qword *)pmat->mat[3]);
+    ((void (*)(void *, qword))pvte->pfn)(VT_THIS(plo, pvte), *(qword *)pmat->mat[3]);
     pvte = &plo->pvt[30];   /* slot 29: rotate to matrix */
-    ((void (*)(void *, struct MATRIX4 *))pvte->pfn)((char *)plo + pvte->d, pmat);
+    ((void (*)(void *, struct MATRIX4 *))pvte->pfn)(VT_THIS(plo, pvte), pmat);
 }

@@ -4,7 +4,7 @@
 
 void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 BASIC *func_00212158(BASIC *pbasic);   /* class 126 constructor */
-extern VTE D_002DAA50[];   /* class 128 vtable */
+extern VTENT D_002DAA50[];   /* class 128 vtable */
 
 BASIC *func_00112C50(void)
 {

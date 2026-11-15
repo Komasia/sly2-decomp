@@ -3,8 +3,8 @@
  * with its own vtable (D_002CD378). */
 #include "cm.h"
 
-extern VTE D_002CA4D0[];
-extern VTE D_002CD378[];
+extern VTENT D_002CA4D0[];
+extern VTENT D_002CD378[];
 CPLCY *func_0014FCA8(CPLCY *pcplcy);     /* CPLCY */
 CPLCY *func_0014FD68(CPLCY *pcplcy);     /* CMPART1 (+0x3A0) */
 void *func_00221990(void *pcmpart2);     /* CMPART2 (+0x3B0) */

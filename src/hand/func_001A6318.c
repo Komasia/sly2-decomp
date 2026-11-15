@@ -4,7 +4,7 @@
 // name: SafeHouse port (MatJtLo)
 void MatJtLo__FP2LO(LO *plo)
 {
-    VTE *pvte = &plo->pvt[31];   /* slot 30: world matrix */
+    VTENT *pvte = &plo->pvt[31];   /* slot 30: world matrix */
 
-    ((struct MATRIX4 *(*)(void *))pvte->pfn)((char *)plo + pvte->d);
+    ((struct MATRIX4 *(*)(void *))pvte->pfn)(VT_THIS(plo, pvte));
 }

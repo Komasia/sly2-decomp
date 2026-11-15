@@ -4,8 +4,8 @@
 // name: SafeHouse port (PosOfLo)
 qword PosOfLo__FP2LO(LO *plo)
 {
-    VTE *pvte = &plo->pvt[31];   /* slot 30: world matrix */
-    struct MATRIX4 *pmat = ((struct MATRIX4 *(*)(void *))pvte->pfn)((char *)plo + pvte->d);
+    VTENT *pvte = &plo->pvt[31];   /* slot 30: world matrix */
+    struct MATRIX4 *pmat = ((struct MATRIX4 *(*)(void *))pvte->pfn)(VT_THIS(plo, pvte));
 
     return *(qword *)pmat->mat[3];
 }

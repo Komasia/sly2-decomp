@@ -2,7 +2,7 @@
  * target (-1), no sound references. */
 #include "cm.h"
 
-extern VTE D_002CD498[];
+extern VTENT D_002CD498[];
 CPLCY *func_0014FCA8(CPLCY *pcplcy);
 
 CPZOOM *func_00150728(CPZOOM *pcpzoom)

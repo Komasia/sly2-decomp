@@ -5,7 +5,7 @@
 
 void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
 BASIC *func_00256360(BASIC *pbasic);   /* class 56 (STEPGUARD) constructor */
-extern VTE D_002C8EF0[];   /* class 65 vtable */
+extern VTENT D_002C8EF0[];   /* class 65 vtable */
 
 BASIC *func_001119A8(void)
 {

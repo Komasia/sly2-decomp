@@ -4,13 +4,13 @@
 
 typedef struct BISMEM {
     /* 0x00 */ char bis[0x30];   /* CBinaryInputStream fields (bis.h) */
-    /* 0x30 */ VTE *pvt;
+    /* 0x30 */ VTENT *pvt;
     /* 0x34 */ int cbBlock;      /* the block not yet handed out by Fill */
     /* 0x38 */ void *pbBlock;
 } BISMEM;
 
 void __18CBinaryInputStream(void *pbis);
-extern VTE D_002CA5A0[];
+extern VTENT D_002CA5A0[];
 
 BISMEM *func_00118480(BISMEM *pbis)
 {

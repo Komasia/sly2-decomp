@@ -5,20 +5,19 @@
  * SO = 48). Fields whose meaning is unknown keep an offset-based name (gUnkXX, unk_0xXX).
  *
  * Virtual calls: every object starts with BASIC (pframe, psidebag, prefnodeFirst) followed by the g++ 2.x
- * vtable pointer at +0x0C. A vtable entry is {this-delta, pfn}; entry 0 is reserved, so virtual slot n is
+ * vtable pointer at +0x0C. A vtable entry is a VTENT (vtbl.h: {this-delta, index, pfn}); entry 0 is reserved, so virtual slot n is
  * pvt[n + 1]. VT_* below are entry indices (slot + 1) of the slots named so far (see scratchpad r2_renames).
  */
 #ifndef SO_H
 #define SO_H
 #include "common.h"
 #include "mat.h"
+#include "vtbl.h"
 
 #ifndef SLY2_QWORD
 #define SLY2_QWORD
 typedef int qword __attribute__((mode(TI)));
 #endif
-
-typedef struct VTE { short d; short pad; void *pfn; } VTE;   /* g++ 2.x vtable entry */
 
 /* vtable entry indices (slot + 1) */
 enum {
@@ -45,7 +44,7 @@ typedef struct BASIC {
     /* 0x00 */ void *pframe;         /* CRefPtr<CFrame> */
     /* 0x04 */ void *psidebag;       /* CRefPtr<CSidebag> */
     /* 0x08 */ void *prefnodeFirst;
-    /* 0x0c */ VTE *pvt;
+    /* 0x0c */ VTENT *pvt;
 } BASIC;
 
 /* transform node: world matrix at +0x40, update stamp at +0xA4 */
@@ -80,7 +79,7 @@ typedef struct LO {
     /* 0x00 */ void *pframe;
     /* 0x04 */ void *psidebag;
     /* 0x08 */ void *prefnodeFirst;
-    /* 0x0c */ VTE *pvt;
+    /* 0x0c */ VTENT *pvt;
     /* 0x10 */ struct SO *psoParent;
     /* 0x14 */ void *ploroot;
     /* 0x18 */ int oid;

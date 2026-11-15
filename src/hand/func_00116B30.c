@@ -6,12 +6,12 @@
 #include "so.h"
 
 typedef struct HEAPSW {
-    /* 0x0 */ VTE *pvt;
+    /* 0x0 */ VTENT *pvt;
     /* 0x4 */ int nKind;
 } HEAPSW;
 
 extern HEAPSW g_heapSw;
-extern VTE D_002CA578[];   /* g_heapSw's vtable */
+extern VTENT D_002CA578[];   /* g_heapSw's vtable */
 extern int D_002DD2E0;
 extern int D_002DD2E4;
 extern int D_002DD2E8;

@@ -5,15 +5,15 @@
 #include "so.h"
 
 typedef struct HEAPSW {
-    /* 0x0 */ VTE *pvt;
+    /* 0x0 */ VTENT *pvt;
     /* 0x4 */ int nKind;   /* -1: use the caller's */
 } HEAPSW;
 
 void *func_00116A58(HEAPSW *pheap, void *pv, int cb, int nKind)
 {
-    VTE *pvt = pheap->pvt;
+    VTENT *pvt = pheap->pvt;
     int nKindHeap = pheap->nKind;
 
-    return ((void *(*)(void *, int, int))pvt[1].pfn)((char *)pheap + pvt[1].d, cb,
+    return ((void *(*)(void *, int, int))pvt[1].pfn)(VT_THIS(pheap, &pvt[1]), cb,
                                                      (nKindHeap == -1) ? nKind : nKindHeap);
 }

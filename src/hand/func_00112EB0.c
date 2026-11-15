@@ -3,7 +3,7 @@
 #include "so.h"
 
 void *__builtin_new(int cb);   /* zeroed, 16-byte aligned allocation (operator new) */
-extern VTE g_vteyes[];
+extern VTENT g_vteyes[];
 
 BASIC *func_00112EB0(void)
 {
