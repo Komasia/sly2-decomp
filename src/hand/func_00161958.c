@@ -1,13 +1,14 @@
+/* StopHudTimer: hide the HUD timer (vt slot 50) and clear its end time. */
 #include "vtbl.h"
-struct O { char pad[0xC]; VTENT *vt; };
-struct S { char pad[0x3BC4]; struct O *po; char pad2[0x476C - 0x3BC8]; int n; };
+struct SCREENOBJ { char pad[0xC]; VTENT *vt; };
+struct SW { char pad[0x3BC4]; struct SCREENOBJ *pscrobjTimer; char pad2[0x476C - 0x3BC8]; int tTimerEnd; };
 // name: SafeHouse port (StopHudTimer)
-void StopHudTimer__FPv(struct S *p)
+void StopHudTimer__FPv(struct SW *psw)
 {
-    struct O *po = p->po;
-    if (po) {
-        VTENT *e = &po->vt[50];
-        ((void (*)(void *))e->pfn)(VT_THIS(po, e));
+    struct SCREENOBJ *pscrobj = psw->pscrobjTimer;
+    if (pscrobj) {
+        VTENT *pvte = &pscrobj->vt[50];
+        ((void (*)(void *))pvte->pfn)(VT_THIS(pscrobj, pvte));
     }
-    p->n = 0;
+    psw->tTimerEnd = 0;
 }

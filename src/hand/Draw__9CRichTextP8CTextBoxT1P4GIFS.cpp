@@ -1,24 +1,24 @@
 struct RGBA { unsigned char r, g, b, a; };
 struct GIFS;
-struct FONT { char pad[0xC]; int dy; char pad10[4]; float ry; };
+struct CFontM { char pad[0xC]; int m_dyUnscaled; char pad10[4]; float m_ryScale; };   /* CFont's metrics */
 struct CFont;
 class CTextBox {
 public:
     float x, y, dx, dy;
     RGBA rgba;
-    int jh;
-    int jv;
+    int jh;     /* 0 left, 1 centre, 2 right */
+    int jv;     /* 0 top, 1 centre, 2 bottom */
 };
 class CRichText {
 public:
     unsigned char *m_achz;
     unsigned char *m_pchCur;
     CFont *m_pfontCur;
-    FONT *m_pfontBase;
+    CFontM *m_pfontBase;
     char pad[0x150 - 0x10];
     int m_fDirty;
     unsigned int m_rgbaCur;
-    void Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs);
+    void Draw(CTextBox *ptbx, CTextBox *ptbxClip, GIFS *pgifs);
 };
 extern "C" {
 void *s1_memset(void *, int, unsigned int) asm("memset");
@@ -31,7 +31,10 @@ void SwitchTex0(CFont *pfont, GIFS *pgifs) asm("SwitchTex0__8CFontBrxP4GIFS");
 float DxDrawCh(CFont *pfont, int ch, float x, float y, unsigned int rgba, GIFS *pgifs) asm("DxDrawCh__8CFontBrxcffUiP4GIFS");
 void func_0015F000(CFont *pfont, CTextBox *ptb, GIFS *pgifs);
 }
-void CRichText::Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs)
+/* CRichText::Draw (Sly 1 font.c): draw the text in a text box: measure each line (up to 64), place the block by the
+ * box's vertical justification and each line by its horizontal one, then draw glyph by glyph, setting up the font
+ * once and switching its texture when the markup changes font. */
+void CRichText::Draw(CTextBox *ptbx, CTextBox *ptbxClip, GIFS *pgifs)
 {
     float adx[64];
     int fNewLine = 1;
@@ -52,16 +55,16 @@ void CRichText::Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs)
                 adx[iline] += DxFromCh(m_pfontCur, chT);
         }
     }
-    if (ptb->jv == 0) {
-        y = ptb->y;
+    if (ptbx->jv == 0) {
+        y = ptbx->y;
     } else {
-        float dy = (float)(iline + 1) * ((float)m_pfontBase->dy * m_pfontBase->ry);
-        if (ptb->jv == 2)
-            y = ptb->y + ptb->dy - dy;
+        float dy = (float)(iline + 1) * ((float)m_pfontBase->m_dyUnscaled * m_pfontBase->m_ryScale);
+        if (ptbx->jv == 2)
+            y = ptbx->y + ptbx->dy - dy;
         else
-            y = ptb->y + (ptb->dy - dy) * 0.5f;
+            y = ptbx->y + (ptbx->dy - dy) * 0.5f;
     }
-    rgba = ptb->rgba;
+    rgba = ptbx->rgba;
     SetBaseColor(this, &rgba);
     pfontSetup = 0;
     Reset(this);
@@ -70,23 +73,23 @@ void CRichText::Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs)
         if (ch == '\n') {
             fNewLine = 1;
             pdx++;
-            y += (float)m_pfontBase->dy * m_pfontBase->ry;
+            y += (float)m_pfontBase->m_dyUnscaled * m_pfontBase->m_ryScale;
             continue;
         }
         if (fNewLine) {
-            if (ptb->jh == 0)
-                x = ptb->x;
+            if (ptbx->jh == 0)
+                x = ptbx->x;
             else {
                 float dxLine = *pdx;
-                if (ptb->jh == 2)
-                    x = ptb->x + ptb->dx - dxLine;
+                if (ptbx->jh == 2)
+                    x = ptbx->x + ptbx->dx - dxLine;
                 else
-                    x = ptb->x + (ptb->dx - dxLine) * 0.5f;
+                    x = ptbx->x + (ptbx->dx - dxLine) * 0.5f;
             }
             fNewLine = 0;
         }
         if (!pfontSetup) {
-            SetupDraw(m_pfontCur, ptbClip, pgifs);
+            SetupDraw(m_pfontCur, ptbxClip, pgifs);
             pfontSetup = m_pfontCur;
         } else if (m_fDirty) {
             SwitchTex0(m_pfontCur, pgifs);
@@ -94,5 +97,5 @@ void CRichText::Draw(CTextBox *ptb, CTextBox *ptbClip, GIFS *pgifs)
         }
         x += DxDrawCh(m_pfontCur, ch, x, y, m_rgbaCur, pgifs);
     }
-    func_0015F000(m_pfontCur, ptbClip, pgifs);
+    func_0015F000(m_pfontCur, ptbxClip, pgifs);
 }

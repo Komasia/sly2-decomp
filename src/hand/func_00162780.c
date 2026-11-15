@@ -1,53 +1,47 @@
+/* StartJob: a job's start (vt slot 15): after PostLoLoad, a job not yet current shows its "end" objects and goals;
+ * its play count and time come from the progress, then its +0xA8 record and the objects oidAC and 0x379 are found. */
+#include "h2_task.h"
 typedef struct CRef { int m_tagk; int m_tag; } CRef;
-struct S {
-    char pad[0x7C]; int f7c;
-    char pad1[0x8C - 0x80]; int f8c, f90, f94, f98;
-    char pad2[0xA4 - 0x9C]; float fa4; void *fa8; int fac;
-    char pad3[0xB8 - 0xB0]; void *fb8; void *fbc;
-    char pad4[0xD0 - 0xC0]; int fd0;
-    char pad5[0xE0 - 0xD4]; int fe0;
-    char pad6[0xE8 - 0xE4]; int fe8;
-};
 extern char D_003D4A60[];
-struct G { char pad[0x3A18]; char m3a18[0x10]; };
-extern struct G g_sw;
-void PostLoLoad__FP2LO(struct S *p);
-int FJobCur__FP3JOB(struct S *p);
-int func_00162670(struct S *p);
-void ApplyTaskObjects__FPviiT0(struct S *p, int n, int c, int a);
-void ApplyTaskSms__FPvT0iT0i(struct S *p, int n, int c, int a, int b);
-void NProgress(CRef *pref, void *a, void *b);
+struct SW { char pad[0x3A18]; char unk_0x3a18[0x10]; };
+extern struct SW g_sw;
+void PostLoLoad__FP2LO(JOB *pjob);
+int FJobCur__FP3JOB(JOB *pjob);
+int func_00162670(JOB *pjob);
+void ApplyTaskObjects__FPviiT0(JOB *pjob, int nState, int cobje, TASKOBJE *aobje);
+void ApplyTaskSms__FPvT0iT0i(JOB *pjob, int nState, int csme, TASKSME *asme, int nMode);
+void NProgress(CRef *pref, PROGREF *ppr, void *pv);
 void Decref(CRef *pref) asm("Decref__4CRef");
-void *func_001D7E80(void *p, void *q, void *r);
-void *PloFindSwNearest__FP2LO3OIDii(void *pg, int kind, int oid, void *owner);
+void *func_001D7E80(void *pv, PROGREF *ppr, void *pvCtx);
+void *PloFindSwNearest__FP2LO3OIDii(void *psw, int grf, int oid, void *ploCtx);
 // name: SafeHouse port (StartJob)
-void StartJob__FP2SW(struct S *p)
+void StartJob__FP2SW(JOB *pjob)
 {
     CRef ref;
-    int *pn;
-    PostLoLoad__FP2LO(p);
-    if (!FJobCur__FP3JOB(p) && func_00162670(p)) {
-        ApplyTaskObjects__FPviiT0(p, 5, p->f8c, p->f90);
-        ApplyTaskSms__FPvT0iT0i(p, 5, p->f94, p->f98, 1);
+    PROGREF *ppr;
+    PostLoLoad__FP2LO(pjob);
+    if (!FJobCur__FP3JOB(pjob) && func_00162670(pjob)) {
+        ApplyTaskObjects__FPviiT0(pjob, TASKS_End, pjob->cobje, pjob->aobje);
+        ApplyTaskSms__FPvT0iT0i(pjob, TASKS_End, pjob->csme, pjob->asme, 1);
     }
-    pn = &p->fd0;
-    if (*pn) {
-        int n;
-        NProgress(&ref, pn, D_003D4A60);
-        n = ref.m_tag;
+    ppr = &pjob->prPlayed;
+    if (ppr->ckey) {
+        int cPlayed;
+        NProgress(&ref, ppr, D_003D4A60);
+        cPlayed = ref.m_tag;
         Decref(&ref);
-        p->f7c = n;
+        pjob->cPlayed = cPlayed;
     }
-    pn = &p->fe0;
-    if (*pn) {
-        float g;
-        NProgress(&ref, pn, D_003D4A60);
-        g = *(float *)&ref.m_tag;
+    ppr = &pjob->prElapsed;
+    if (ppr->ckey) {
+        float tElapsed;
+        NProgress(&ref, ppr, D_003D4A60);
+        tElapsed = *(float *)&ref.m_tag;
         Decref(&ref);
-        p->fa4 = g;
+        pjob->tElapsed = tElapsed;
     }
-    p->fa8 = func_001D7E80(g_sw.m3a18, &p->fe8, D_003D4A60);
-    if (p->fac != -1)
-        p->fb8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, p->fac, 0);
-    p->fbc = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x379, 0);
+    pjob->pvA8 = func_001D7E80(g_sw.unk_0x3a18, &pjob->prE8, D_003D4A60);
+    if (pjob->oidAC != -1)
+        pjob->ploB8 = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, pjob->oidAC, 0);
+    pjob->ploBC = PloFindSwNearest__FP2LO3OIDii(&g_sw, 0x405, 0x379, 0);
 }

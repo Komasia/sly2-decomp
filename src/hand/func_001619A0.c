@@ -1,22 +1,24 @@
-struct X { char pad[0x7C]; void *f7c; char pad2[0x88 - 0x80]; struct X *pNext; };
-struct G { char pad[0x3B0C]; void *f3b0c; };
-extern struct G g_sw;
-extern struct X *D_003E0F90;
-extern char D_002DE578[];
-void OnGameRecordEvent__FP8GAMESAVEi(void *pv, int n, void *p);
-void SuckOnEvent__FP2LOiPv(void *pv, int n, void *p);
-void func_00165170(struct X *px, int n, void *p);
-void JobOnEvent__FP3JOBii(void *pv, int n, void *p);
+/* BroadcastTaskEvent: pass a game event to the game record, the suck meter, every task of the current job
+ * (func_00165170) and the current job itself. */
+struct TASK { char pad[0x7C]; void *pjob; char pad2[0x88 - 0x80]; struct TASK *ptaskNextAll; };
+struct SW { char pad[0x3B0C]; void *pjobCur; };
+extern struct SW g_sw;
+extern struct TASK *D_003E0F90;   /* all tasks */
+extern char D_002DE578[];         /* the suck meter */
+void OnGameRecordEvent__FP8GAMESAVEi(void *pgame, int nEvent, void *plo);
+void SuckOnEvent__FP2LOiPv(void *psuck, int nEvent, void *plo);
+void func_00165170(struct TASK *ptask, int nEvent, void *plo);
+void JobOnEvent__FP3JOBii(void *pjob, int nEvent, void *plo);
 // name: SafeHouse port (BroadcastTaskEvent)
-void BroadcastTaskEvent__FP2SWiP2LO(void *pv, int n, void *p)
+void BroadcastTaskEvent__FP2SWiP2LO(void *pgame, int nEvent, void *plo)
 {
-    struct X *px;
-    OnGameRecordEvent__FP8GAMESAVEi(pv, n, p);
-    SuckOnEvent__FP2LOiPv(D_002DE578, n, p);
-    for (px = D_003E0F90; px; px = px->pNext) {
-        if (px->f7c == g_sw.f3b0c)
-            func_00165170(px, n, p);
+    struct TASK *ptask;
+    OnGameRecordEvent__FP8GAMESAVEi(pgame, nEvent, plo);
+    SuckOnEvent__FP2LOiPv(D_002DE578, nEvent, plo);
+    for (ptask = D_003E0F90; ptask; ptask = ptask->ptaskNextAll) {
+        if (ptask->pjob == g_sw.pjobCur)
+            func_00165170(ptask, nEvent, plo);
     }
-    if (g_sw.f3b0c)
-        JobOnEvent__FP3JOBii(g_sw.f3b0c, n, p);
+    if (g_sw.pjobCur)
+        JobOnEvent__FP3JOBii(g_sw.pjobCur, nEvent, plo);
 }

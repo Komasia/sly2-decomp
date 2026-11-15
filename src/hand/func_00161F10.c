@@ -1,11 +1,12 @@
-struct E { int a; int b; };
-int func_00161F10(int x, struct E *ae, int cMax, int *pc, int a, int b)
+/* func_00161F10: append a checkpoint task entry {oid, state} to a list of at most cMax (0 when full). */
+struct CHKTASK { int oid; int nState; };
+int func_00161F10(int unused, struct CHKTASK *achktask, int cMax, int *pc, int oid, int nState)
 {
-    struct E *pe;
+    struct CHKTASK *pchktask;
     if (*pc < cMax) {
-        pe = &ae[(*pc)++];
-        pe->a = a;
-        pe->b = b;
+        pchktask = &achktask[(*pc)++];
+        pchktask->oid = oid;
+        pchktask->nState = nState;
         return 1;
     }
     return 0;

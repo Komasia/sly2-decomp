@@ -1,7 +1,10 @@
+// CRichText::ClineWrap (Sly 1 font.c): wrap the text to dxMax (0: no limit) by turning the last breakable blank
+// before the overflow (one not followed by a no-break character, D_002AA6A1 bit 0x10) into a newline, or breaking at
+// the overflow when there is none; returns the line count.
 // (Claude agent) newline kept in a local (two copies of 10 in the target); the register pin only swaps s2/s3 with the hoisted compare constant.
 struct CFont;
 extern "C" {
-extern const unsigned char D_002AA6A1[];
+extern const unsigned char D_002AA6A1[];   /* character class flags */
 float DxFromCh(CFont *pfont, int ch) asm("DxFromCh__8CFontBrxc");
 }
 class CRichText {
@@ -11,8 +14,8 @@ public:
     CFont *m_pfontCur;
     int ClineWrap(float dxMax);
 };
-extern "C" void Reset(CRichText *p) asm("Reset__9CRichText");
-extern "C" int ChNext(CRichText *p) asm("ChNext__9CRichText");
+extern "C" void Reset(CRichText *prt) asm("Reset__9CRichText");
+extern "C" int ChNext(CRichText *prt) asm("ChNext__9CRichText");
 int CRichText::ClineWrap(float dxMax)
 {
     int cline = 1;

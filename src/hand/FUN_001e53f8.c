@@ -1,7 +1,8 @@
-struct S { char pad[0x54]; int c; int *a; };
-void FUN_001e53f8(struct S *p, int n)
+/* FUN_001e53f8: add an event that closes the job (at most 32). */
+#include "h2_task.h"
+void FUN_001e53f8(JOB *pjob, int nEvent)
 {
-    if (p->c < 32) {
-        p->a[p->c++] = n;
+    if (pjob->cnEndClose < 32) {
+        pjob->anEndClose[pjob->cnEndClose++] = nEvent;
     }
 }

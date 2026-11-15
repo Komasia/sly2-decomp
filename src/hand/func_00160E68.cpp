@@ -1,19 +1,23 @@
+// func_00160E68 (Sly 1 frm.c FlushFrames): wait until both frames are rendered and the render thread is idle; when
+// fReset, render the current frame three more times (with its blend) and clear both frames' pending releases.
 union QW;
-struct FR {
+struct FRM {
     int cqwGifs; QW *aqwGifs; QW *aqwGifsBuf; int cqwGifsBuf;
     int cqwVifs; QW *aqwVifs; QW *aqwVifsBuf; int cqwVifsBuf;
-    int cqw20; QW *aqw24; int n28; int n2C; int n30; int adl[6]; int n4C;
+    int cqwVifsRender; QW *aqwVifsRender; int n28; int grfFontLoaded;
+    int grf;            /* bit 0: blend the previous frame */
+    int adl[6]; int n4C;
 };
-extern FR *D_002DEB14;
-extern FR D_002DEA50[2];
-extern volatile int D_002DEB20;
-extern int D_002DEB1C;
+extern FRM *D_002DEB14;            /* the frame being rendered */
+extern FRM D_002DEA50[2];
+extern volatile int D_002DEB20;    /* the render thread is idle */
+extern int D_002DEB1C;             /* semaphore: frames free to build */
 extern int D_002DEDBC;
 extern "C" int WaitSema(int sid) asm("WaitSema");
 extern "C" int SignalSema(int sid) asm("SignalSema");
-extern "C" void func_00160C80(FR *pfr, int f);
-extern "C" void func_00160F98();
-extern "C" void func_00160CE0(FR *pfr);
+extern "C" void func_00160C80(FRM *pfrm, int fRenderGifs);   /* RenderFrame */
+extern "C" void func_00160F98();                             /* BlendPrevFrame */
+extern "C" void func_00160CE0(FRM *pfrm);                    /* ClearPendingFrame */
 extern "C" void func_001C2BA8(int phase);
 void SwapGsBuffers();
 extern "C" void func_00160E68(int fReset)
@@ -28,18 +32,18 @@ extern "C" void func_00160E68(int fReset)
     if (fReset && D_002DEB14) {
         for (int j = 0; j < 3; j++) {
             func_00160C80(D_002DEB14, 1);
-            if (D_002DEB14->n30 & 1)
+            if (D_002DEB14->grf & 1)
                 func_00160F98();
             SwapGsBuffers();
         }
         D_002DEDBC = 3;
     }
     if (fReset) {
-        FR *pfr = D_002DEA50;
+        FRM *pfrm = D_002DEA50;
         do {
-            func_00160CE0(pfr);
-            pfr++;
-        } while (pfr < D_002DEA50 + 2);
+            func_00160CE0(pfrm);
+            pfrm++;
+        } while (pfrm < D_002DEA50 + 2);
     }
     func_001C2BA8(3);
     D_002DEB14 = 0;
