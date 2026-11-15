@@ -5859,7 +5859,7 @@ snd_PostMessage__Fv,0x232BB8,16,match,src/lib/func_00232BB8.c
 snd_SendCurrentBatch__Fv,0x232BF8,82,match,src/lib/snd_SendCurrentBatch__Fv.cpp
 snd_StreamSafeCheckCDIdle,0x232D80,10,match,src/lib/snd_StreamSafeCheckCDIdle.c
 snd_StreamSafeCdSync,0x232DA8,48,match,src/hand/func_00232DA8.c
-func_00232EE8,0x232EE8,15,match,src/lib/func_00232EE8.c
+snd_InitMovieSound,0x232EE8,15,match,src/lib/snd_InitMovieSound.c
 snd_ResetMovieSound,0x232F28,9,match,src/hand/snd_ResetMovieSound.c
 snd_CloseMovieSound,0x232F60,9,match,src/hand/snd_CloseMovieSound.c
 snd_StartMovieSound,0x232F88,14,match,src/lib/snd_StartMovieSound.c

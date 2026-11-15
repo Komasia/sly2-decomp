@@ -404,6 +404,7 @@ PxfFindLox__FP2LOi = 0x22D750; // type:func
 snd_FlushSoundCommands = 0x231C48; // type:func
 junk_0x0011d3e8 = 0x2324C8; // type:func
 snd_SendCurrentBatch__Fv = 0x232BF8; // type:func
+snd_InitMovieSound = 0x232EE8; // type:func
 snd_ResetMovieSound = 0x232F28; // type:func
 snd_CloseMovieSound = 0x232F60; // type:func
 snd_GetTransStatus = 0x232FC0; // type:func
