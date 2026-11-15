@@ -1,5 +1,6 @@
 /* func_00203670 (0x203670): PHOTOTARGET message handler: the base handler, then on message 0x11 (its task changed)
  * the current player's photo prompt (ACTOR +0xF38, actors only: cid 0x34) relists the targets and their marks. */
+#include "cid.h"
 struct SW;
 extern struct SW g_sw;
 struct PLAYERACTOR { char pad[0xF38]; void *pphotoprompt; };
@@ -10,7 +11,6 @@ void func_00202030(void *pphotoprompt);   /* lists the targets (SafeHouse: List)
 void ListMarks__FP11PHOTOPROMPT(void *pphotoprompt);
 
 #define MSG_TaskChanged 0x11
-#define CID_ACTOR 0x34
 
 void func_00203670(void *ptarget, int msg, void *pv)
 {

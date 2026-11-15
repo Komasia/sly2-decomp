@@ -1,11 +1,12 @@
-struct S { char pad[0x2C0]; long fl; char pad2[0xE64 - 0x2C8]; int nE64; };
-long func_00207A20(int n);
+/* FGuardFreeN (0x208D70): 0 while the guard is in one of the busy states (11 29 7 5 6 16 1 22 42), else nE64. */
+struct GUARD { char pad[0x2C0]; long grfState; char pad2[0xE64 - 0x2C8]; int nE64; };
+long func_00207A20(int st);   /* the state's mask bit */
 // name: SafeHouse port (FGuardFreeN)
-int FGuardFreeN__FP5GUARD(struct S *p)
+int FGuardFreeN__FP5GUARD(struct GUARD *pguard)
 {
-    long m = func_00207A20(0xB) | func_00207A20(0x1D) | func_00207A20(7) | func_00207A20(5) | func_00207A20(6)
+    long grfBusy = func_00207A20(0xB) | func_00207A20(0x1D) | func_00207A20(7) | func_00207A20(5) | func_00207A20(6)
            | func_00207A20(0x10) | func_00207A20(1) | func_00207A20(0x16) | func_00207A20(0x2A);
-    if (m & p->fl)
+    if (grfBusy & pguard->grfState)
         return 0;
-    return p->nE64;
+    return pguard->nE64;
 }

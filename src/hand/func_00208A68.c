@@ -1,2 +1,3 @@
-struct S { char pad[0x3C0]; unsigned int c; int a[2]; };
-void func_00208A68(struct S *p, int n) { if (p->c < 2) p->a[p->c++] = n; }
+/* func_00208A68 (0x208A68): adds a class to the guard's immediate classes (at most 2). */
+struct GUARD { char pad[0x3C0]; unsigned int ccidImmediate; int acidImmediate[2]; };
+void func_00208A68(struct GUARD *pguard, int cid) { if (pguard->ccidImmediate < 2) pguard->acidImmediate[pguard->ccidImmediate++] = cid; }

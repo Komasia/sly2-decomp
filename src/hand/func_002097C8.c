@@ -1,4 +1,4 @@
-/* class: MOVEREF, a guard's current move (SafeHouse guard.h: the heading locked, message 0x25). */
+/* func_002097C8 (0x2097C8): MOVEREF: the guard's heading locked (message 0x25). */
 struct AIJOB;
 struct GUARD;
 /* the guard's current move (GUARD +0xFD0; SafeHouse guard.h MOVEREF) */

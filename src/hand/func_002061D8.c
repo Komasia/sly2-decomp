@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 /* an LO with its vtable (and, for the home command list, its first command at +0x50) */
@@ -12,7 +13,6 @@ struct GUARD {
     char pad5[0x3F4 - 0x2F4]; struct LOV *plo3F4; struct LOV *plo3F8; char pad6[0x498 - 0x3FC]; void *pwatchA; void *pwatchB;
     char pad7[0xFC4 - 0x4A0]; void *pscaleFC4;
 };
-#define CID_CMDLIST 0x71
 #define OID_GUARD_HOME 0x2CB
 #define XFK_Scale 0xC
 extern char D_002C3CF8[];   /* the guard parts table */

@@ -3,6 +3,7 @@
  * (FLT_MAX), the hits that matter by state (grf350..358), size 1.5, no coins, walking (kMove -1); then 0x2081C8 and
  * the current move (0x209768). Field names: SafeHouse port (guard.h GUARD); the rest keep their offsets. */
 // (Claude agent, nonvu16, 2026-10-17) plain stores, no register pins; store order tuned (see notes/200000.md).
+#include "cid.h"
 struct GUARD;
 /* the current move (MOVEREF): its job, the heading lock, the guard */
 struct MOVEREF {char unknown[0xC];struct GUARD *pguard;char tail[0x14];};
@@ -23,7 +24,6 @@ struct GUARD {
 extern float D_002A8600;   /* FLT_MAX */
 extern float D_002A8604;
 extern int D_002C3CF0;
-#define CID_DETECTOR 0x10
 #define OID_GUARD_DETECTOR 0x288
 void InitStep__FP4STEP(struct GUARD *pguard);
 void func_00205E70(void);   /* makes the guards' shared object */

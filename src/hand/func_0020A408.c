@@ -1,40 +1,45 @@
 #include "vtbl.h"
-struct O { char pad[0x44]; int n44; char pad2[0x54 - 0x48]; int k54; struct O *next; };
+/* a noise: its kind-4 target, kind, and the next live noise */
+struct NOISE { char pad[0x44]; int ploTarget; char pad2[0x54 - 0x48]; int nKind; struct NOISE *pnoiseNext; };
 struct VT;
-struct S { char pad[0xC]; struct VT *vt; char pad2[0xF04 - 0x10]; float tF04; char pad3[0xF64 - 0xF08]; void *pF64; };
+struct GUARD { char pad[0xC]; struct VT *pvt; char pad2[0xF04 - 0x10]; float tF04; char pad3[0xF64 - 0xF08]; void *pdet; };
 struct VT { VTENT e[90]; };
-struct X { int a; int b; };
-extern struct { char pad[0x148C]; struct O *first; } D_003E0000;
-extern float g_clock;
-extern float D_002C3DB0;
-int FGuardFreeN__FP5GUARD(struct S *p);
-int NCompareNoises__FP5GUARDP5NOISET1(struct S *p, struct O *a, struct O *b);
-struct X *PdetentryFind__FP8DETECTORi(void *p, int n);
-void SetDetentryState__FP8DETECTORP8DETENTRYi(void *p, struct X *x, int n);
+/* a detector entry: its state at +0x4 */
+struct DETENTRY { int unk_0x00; int st; };
+extern struct { char pad[0x148C]; struct NOISE *pnoiseFirst; } D_003E0000;   /* the live noises (D_003E148C) */
+extern float g_clock;   /* g_clock.t */
+extern float D_002C3DB0;   /* the response cooldown */
+int FGuardFreeN__FP5GUARD(struct GUARD *pguard);
+int NCompareNoises__FP5GUARDP5NOISET1(struct GUARD *pguard, struct NOISE *pnoiseA, struct NOISE *pnoiseB);
+struct DETENTRY *PdetentryFind__FP8DETECTORi(void *pdet, int plo);
+void SetDetentryState__FP8DETECTORP8DETENTRYi(void *pdet, struct DETENTRY *pdetentry, int st);
 
+/* PloGuardInterest (0x20A408): the noise that interests a free guard most (vt slot 89 accepts it, NCompareNoises
+ * orders them), else pnoiseDefault. A kind-4 noise about one of its detector entries instead wakes that entry
+ * (state 2, with the response cooldown) and gives pnoiseDefault. */
 // name: SafeHouse port (PloGuardInterest)
-struct O *PloGuardInterest__FP5GUARDP2LO(struct S *p, struct O *def)
+struct NOISE *PloGuardInterest__FP5GUARDP2LO(struct GUARD *pguard, struct NOISE *pnoiseDefault)
 {
-    struct O *o, *best;
+    struct NOISE *pnoise, *pnoiseBest;
     int unused[4];
-    if (!FGuardFreeN__FP5GUARD(p))
-        return def;
-    best = def;
-    for (o = D_003E0000.first; o; o = o->next) {
-        if (((int (*)(void *, struct O *))p->vt->e[89].pfn)(VT_THIS(p, &p->vt->e[89]), o)) {
-            if (!best || NCompareNoises__FP5GUARDP5NOISET1(p, o, best) < 0)
-                best = o;
+    if (!FGuardFreeN__FP5GUARD(pguard))
+        return pnoiseDefault;
+    pnoiseBest = pnoiseDefault;
+    for (pnoise = D_003E0000.pnoiseFirst; pnoise; pnoise = pnoise->pnoiseNext) {
+        if (((int (*)(void *, struct NOISE *))pguard->pvt->e[89].pfn)(VT_THIS(pguard, &pguard->pvt->e[89]), pnoise)) {
+            if (!pnoiseBest || NCompareNoises__FP5GUARDP5NOISET1(pguard, pnoise, pnoiseBest) < 0)
+                pnoiseBest = pnoise;
         }
     }
-    if (best && best->k54 == 4) {
-        struct X *x = PdetentryFind__FP8DETECTORi(p->pF64, best->n44);
-        if (x) {
-            if (!x->b) {
-                SetDetentryState__FP8DETECTORP8DETENTRYi(p->pF64, x, 2);
-                p->tF04 = g_clock + D_002C3DB0;
+    if (pnoiseBest && pnoiseBest->nKind == 4) {
+        struct DETENTRY *pdetentry = PdetentryFind__FP8DETECTORi(pguard->pdet, pnoiseBest->ploTarget);
+        if (pdetentry) {
+            if (!pdetentry->st) {
+                SetDetentryState__FP8DETECTORP8DETENTRYi(pguard->pdet, pdetentry, 2);
+                pguard->tF04 = g_clock + D_002C3DB0;
             }
-            return def;
+            return pnoiseDefault;
         }
     }
-    return best;
+    return pnoiseBest;
 }

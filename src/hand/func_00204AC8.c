@@ -1,3 +1,4 @@
+#include "cid.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct OXA { char pad[0x60]; void *psoRoot; };
@@ -7,7 +8,6 @@ struct STEP { char pad[0xC]; VTENT *pvt; char pad2[0x218 - 0x10]; qword *pposPro
 #define GRFXP_FloorProbes 1
 #define GRFXP_LongProbe 2
 #define GRFXP_KeepNormal 8
-#define CID_STEP 0x33
 #define XPK_Floor 0xE
 /* the segment clip's hit */
 struct HIT { qword pos; qword unk_0x10; qword normal; qword unk_0x30; float t; int unk_0x44; int fEdge; int isurf; char pad[0x10]; };

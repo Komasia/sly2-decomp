@@ -1,10 +1,11 @@
-/* A step guard's sub-record (called by InitStepguard__FP9STEPGUARD...): its +0xC object set. */
-struct GUARDREC {
+/* func_00209768 (0x209768): MOVEREF init (InitStepguard): the move reference belongs to the guard. */
+struct GUARD;
+struct MOVEREF {
     /* 0x0 */ char pad0[0xc];
-    /* 0xc */ void *pC;
+    /* 0xc */ struct GUARD *pguard;   /* field: SafeHouse port */
 };
 
-void func_00209768(struct GUARDREC *prec, void *p)
+void func_00209768(struct MOVEREF *pmove, struct GUARD *pguard)
 {
-    prec->pC = p;
+    pmove->pguard = pguard;
 }

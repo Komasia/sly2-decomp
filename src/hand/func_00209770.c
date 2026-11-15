@@ -1,10 +1,11 @@
-/* A step guard's sub-record (called by CloneStepguard__FP9STEPGUARD...): its +0xC object set. */
-struct GUARDREC {
+/* func_00209770 (0x209770): MOVEREF clone (CloneStepguard): the move reference belongs to the new guard. */
+struct GUARD;
+struct MOVEREF {
     /* 0x0 */ char pad0[0xc];
-    /* 0xc */ void *pC;
+    /* 0xc */ struct GUARD *pguard;   /* field: SafeHouse port */
 };
 
-void func_00209770(struct GUARDREC *prec, void *p)
+void func_00209770(struct MOVEREF *pmove, struct GUARD *pguard)
 {
-    prec->pC = p;
+    pmove->pguard = pguard;
 }
