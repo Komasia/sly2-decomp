@@ -2,7 +2,7 @@ struct S { char pad[0x7C]; int x7c; char pad2[0x90]; int x110; };
 extern struct G g_sw;
 void func_002128E8(struct S *p, int k);
 void PauseGame__FP9GAMEPAUSEi(struct G *g, int a);
-void func_00213B00(struct S *p, int a);
+void SelectScreenObjPart__FP2LOi(struct S *p, int a);
 // name: SafeHouse port (ShowFailureScreen)
 void ShowFailureScreen__FP8SCREENRTi(struct S *p, int k)
 {
@@ -10,6 +10,6 @@ void ShowFailureScreen__FP8SCREENRTi(struct S *p, int k)
         func_002128E8(p, k);
         PauseGame__FP9GAMEPAUSEi(&g_sw, 0);
         p->x110 = 1;
-        func_00213B00(p, 0x33A);
+        SelectScreenObjPart__FP2LOi(p, 0x33A);
     }
 }

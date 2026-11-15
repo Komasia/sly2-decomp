@@ -14,7 +14,7 @@ int FTaskDone__FP4TASK(struct X *p);
 void func_001A6CA8(struct X *p, int n);
 void PauseGame__FP9GAMEPAUSEi(void *pg, int n);
 void ResumeGame__FP9GAMEPAUSEi(void *pg, int n);
-void func_00213B00(struct O *po, int n);
+void SelectScreenObjPart__FP2LOi(struct O *po, int n);
 static __inline__ void VCall50(struct O *po)
 {
     VTENT *e = &po->vt[50];
@@ -76,13 +76,13 @@ void SetJobSeq__FP3JOBi(struct X *p, int n)
     }
     case 1:
         VCall49(p->pB8, -1);
-        func_00213B00(p->pB8, p->fB0);
+        SelectScreenObjPart__FP2LOi(p->pB8, p->fB0);
         break;
     case 3:
         VCall49(p->pBC, -1);
         break;
     case 2:
-        func_00213B00(p->pB8, p->fB4);
+        SelectScreenObjPart__FP2LOi(p->pB8, p->fB4);
         break;
     }
 }

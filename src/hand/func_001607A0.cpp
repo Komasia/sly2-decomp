@@ -4,7 +4,7 @@
 // lists of the open frame (objects linked at +0x454, buffers at +0x1090) and the render thread.
 #include "dl.h"
 extern "C" void func_00234700(int intc, int (*pfn)(), int next);   /* add an interrupt handler */
-extern "C" void func_00235178(int intc);                          /* enable the interrupt */
+extern "C" void EnableIntc(int intc);                          /* enable the interrupt */
 extern "C" void InitDl(DL *pdl, int ib) asm("InitDl__FP2DLi");
 extern "C" void StartThread_2355E0(int tid, int arg) asm("StartThread_2355E0");
 extern "C" int func_00167F78();
@@ -17,7 +17,7 @@ extern int D_004425D4;   /* the render thread */
 extern "C" void StartupFrame__Fv()
 {
     func_00234700(5, func_00167F78, 0);
-    func_00235178(5);
+    EnableIntc(5);
     D_002DEB18 = SemaCreate(0, 2);
     D_002DEB1C = SemaCreate(2, 2);
     InitDl(&D_002DEAF0, 0x454);

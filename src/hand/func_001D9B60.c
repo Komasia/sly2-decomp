@@ -24,9 +24,9 @@ extern GADGETSLOT D_002C2DE8[], D_002C3028[], D_002C3148[];   /* the gadgets of 
 extern ITEM D_002BCD00[];
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *, int);
 int FPowerupOwned__Fi(int item);           /* the item is acquired */
-void func_00213B00(SUB *pscreen, int wid);          /* SafeHouse SelectScreenObjPart */
-void func_00213928(SUB *pscreen, int wid);          /* SafeHouse ResetScreenObjPart */
-void func_00212E40(SUB *pscreen, int wid, float g); /* SafeHouse SetScreenObjFraction */
+void SelectScreenObjPart__FP2LOi(SUB *pscreen, int wid);          /* SafeHouse SelectScreenObjPart */
+void ResetScreenObjPart__FP2LOi(SUB *pscreen, int wid);          /* SafeHouse ResetScreenObjPart */
+void SetScreenObjFraction__FP2LOif(SUB *pscreen, int wid, float g); /* SafeHouse SetScreenObjFraction */
 /* vt slot 49 of the screen object: show an animation (SafeHouse ShowScreenObj) */
 #define VCALL1(o, n, a) ((void (*)(void *, int))(o)->vt[n].pfn)(VT_THIS((o), &(o)->vt[n]), a)
 // name: SafeHouse port (SetGaugeState)
@@ -51,8 +51,8 @@ void SetGaugeState__FP5GAUGEi(GAUGE *pgauge, int state)
         int fPower;
         int islot;
         VCALL1(pgauge->pscreen, 49, pgauge->idIdle);
-        func_00213B00(pgauge->pscreen, WID_HEALTHMETER);
-        func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+        SelectScreenObjPart__FP2LOi(pgauge->pscreen, WID_HEALTHMETER);
+        SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
         if (FIsBasicDerivedFrom__FP5BASIC3CID(pgauge->pplayer, 0x35)) {
             cslot = 0x12;
             aslot = D_002C2DE8;
@@ -75,10 +75,10 @@ void SetGaugeState__FP5GAUGEi(GAUGE *pgauge, int state)
             }
         }
         if (fPower) {
-            func_00213B00(pgauge->pscreen, WID_POWERMETER);
-            func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+            SelectScreenObjPart__FP2LOi(pgauge->pscreen, WID_POWERMETER);
+            SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
         } else {
-            func_00213928(pgauge->pscreen, WID_POWERMETER);
+            ResetScreenObjPart__FP2LOi(pgauge->pscreen, WID_POWERMETER);
         }
         break;
     }

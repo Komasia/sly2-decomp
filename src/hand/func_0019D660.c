@@ -8,8 +8,8 @@ extern char g_game[];
 extern char D_004435F0[];
 void SetBinocWindowArgs__FP8BINOCWIN(struct S *p);
 void BroadcastTaskEvent__FP2SWiP2LO(void *p, int n, int m);
-void func_00213B00(struct O *p, int n);
-void func_00212E40(struct O *p, int n, float f);
+void SelectScreenObjPart__FP2LOi(struct O *p, int n);
+void SetScreenObjFraction__FP2LOif(struct O *p, int n, float f);
 void func_00227788(void *p);
 void SetPhotoPromptState__FPvi(void *p, int n);
 void SetState__FP8SCREENRTi(struct O *p, int n);
@@ -28,10 +28,10 @@ void SetBinocWindowState__FP5ACTORi(struct S *p, int st)
         else BroadcastTaskEvent__FP2SWiP2LO(g_game, 7, 0);
         if (p->x8) {
             ((void (*)(void *, ...))p->x8->vt[49].pfn)(VT_THIS(p->x8, &p->x8->vt[49]), -1);
-            func_00213B00(p->x8, 0x352);
-            func_00213B00(p->x8, 0x351);
-            func_00212E40(p->x8, 0x352, (p->x0->x0->x1a8 + 3.1415927f) * 0.15915494f);
-            func_00212E40(p->x8, 0x351, p->x0->x3c);
+            SelectScreenObjPart__FP2LOi(p->x8, 0x352);
+            SelectScreenObjPart__FP2LOi(p->x8, 0x351);
+            SetScreenObjFraction__FP2LOif(p->x8, 0x352, (p->x0->x0->x1a8 + 3.1415927f) * 0.15915494f);
+            SetScreenObjFraction__FP2LOif(p->x8, 0x351, p->x0->x3c);
         }
         if (p->x0->x20 == 1) {
             func_00227788(D_004435F0);

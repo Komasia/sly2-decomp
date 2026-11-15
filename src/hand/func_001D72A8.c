@@ -1,6 +1,6 @@
 /* UpdateSafeHouse (SafeHouse po.cpp, the safe house's vt slot 16, class 0x46): while the safe house is shown
  * (state 1) and the camera's menu (func_0014FD50) is not taking the pad, left / right (NStepLeftRight__FP6JOYPS2) step through
- * its allowed states (func_001D77D0); otherwise a pressed button of the current state's action entry (option 1338:
+ * its allowed states (StepSafeHouse__FP9SAFEHOUSEi); otherwise a pressed button of the current state's action entry (option 1338:
  * {state, buttons, target}) opens the shop (target 0x378) or starts the target script found from the safe house. */
 typedef int OID;
 typedef struct SAFEHOUSEACTION {     /* option 1338, added by func_001D7748 */
@@ -34,7 +34,7 @@ OID OidSmaCur(void *psma) asm("OidSmaCur__FP3SMA");
 SAFEHOUSE *PloFindSwNearest__FP2LO3OIDii(struct G *psw, int kind, int oid, SAFEHOUSE *pshFrom);
 void func_001DC260(void *pshop, int ipage);   /* open the shop at a page */
 void StartScptImpl__FP2LOi(SAFEHOUSE *pscpt, int n);
-void func_001D77D0(SAFEHOUSE *psh, int dState);
+void StepSafeHouse__FP9SAFEHOUSEi(SAFEHOUSE *psh, int dState);
 
 // name: SafeHouse port (UpdateSafeHouse)
 void UpdateSafeHouse__FP2LO(SAFEHOUSE *psh)
@@ -80,6 +80,6 @@ void UpdateSafeHouse__FP2LO(SAFEHOUSE *psh)
             }
         }
     } else {
-        func_001D77D0(psh, dState);
+        StepSafeHouse__FP9SAFEHOUSEi(psh, dState);
     }
 }

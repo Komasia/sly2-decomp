@@ -6,7 +6,7 @@ extern int D_002E6594;
 struct S { int x0, x4; char *x8; };
 void func_001AF608(struct G *g);
 int func_001B0108(struct G *g);
-void func_00213B00(void *a, char *b);
+void SelectScreenObjPart__FP2LOi(void *a, char *b);
 // name: SafeHouse port (UpdateSlotEntry)
 void UpdateSlotEntry__FP4PAGE(struct S *s)
 {
@@ -19,7 +19,7 @@ void UpdateSlotEntry__FP4PAGE(struct S *s)
         return;
     e = &D_003D9EDC[D_003D9ED0.x24];
     if (e->x14 == s->x8)
-        func_00213B00(e->x8, s->x8 + 0x5C8);
+        SelectScreenObjPart__FP2LOi(e->x8, s->x8 + 0x5C8);
     else
-        func_00213B00(e->x8, s->x8 + 0x5C5);
+        SelectScreenObjPart__FP2LOi(e->x8, s->x8 + 0x5C5);
 }

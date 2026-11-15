@@ -21,7 +21,7 @@ extern char D_002A79D0[];
 extern char D_002A79D8[];
 extern "C" int sprintf(char *, const char *, ...) asm("sprintf");
 extern "C" CRef func_001D8A38(const char *, ...);
-extern "C" int func_001DAE58(int);
+extern "C" int FItemOpen__Fi(int);
 extern "C" int FPowerupOwned__Fi(int);
 extern "C" void SelectShopRow(OBJ *, int) asm("SelectShopRow__FP4SHOPi");
 // name: SafeHouse port (BuildShopList)
@@ -37,7 +37,7 @@ extern "C" void BuildShopList__FP4SHOP(OBJ *p)
     case 0: {
         int i;
         for (i = 7; i < 0x2B; i++) {
-            if (!func_001DAE58(i))
+            if (!FItemOpen__Fi(i))
                 continue;
             if (FPowerupOwned__Fi(i))
                 continue;

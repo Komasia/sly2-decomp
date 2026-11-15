@@ -10,8 +10,8 @@ void ResumeGame(void *,int) asm("ResumeGame__FP9GAMEPAUSEi");
 void DistanceModels(P *) asm("DistanceModels__FP11PHOTOPROMPT");
 void func_00202030(P *);
 void ListMarks(P *) asm("ListMarks__FP11PHOTOPROMPT");
-void func_00213928(X *,int);
-void func_00213B00(X *,int);
+void ResetScreenObjPart__FP2LOi(X *,int);
+void SelectScreenObjPart__FP2LOi(X *,int);
 void SetScreenObjListed(X *,int) asm("SetScreenObjListed__FP2LOi");
 void SetClockFactor(void *,int,float) asm("SetClockFactor__FP5CLOCKif");
 void SetSoundMgrFlags(void *,int,int) asm("SetSoundMgrFlags__FP8SOUNDMGRUii");
@@ -27,7 +27,7 @@ void func_00201F90(P *);
 void func_00201F00(P *);
 void *PsndNewPlain(int) asm("PsndNewPlain__Fi");
 void SetSource(void *,void *) asm("SetSource__4CSndPv");
-void func_00212E40(X *,int,float);
+void SetScreenObjFraction__FP2LOif(X *,int,float);
 void SetState(X *,int) asm("SetState__FP8SCREENRTi");
 void SetTimerTimers(X *,int) asm("SetTimerTimers__FP5TIMER6TIMERS");
 }
@@ -61,26 +61,26 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
     case 1:
         DistanceModels(p);
         func_00202030(p);
-        func_00213B00(p->primary,0x35D);
-        if(p->specialCount>0)func_00213B00(p->primary,0x35E);
+        SelectScreenObjPart__FP2LOi(p->primary,0x35D);
+        if(p->specialCount>0)SelectScreenObjPart__FP2LOi(p->primary,0x35E);
         ListMarks(p);
         break;
     case 4:
-        func_00213928(p->secondary,0x359);
+        ResetScreenObjPart__FP2LOi(p->secondary,0x359);
         break;
     case 5:case 6:
-        func_00213928(p->secondary,0x35A);
+        ResetScreenObjPart__FP2LOi(p->secondary,0x35A);
         break;
     case 7:
-        func_00213928(p->primary,0x356);
-        func_00213928(p->secondary,0x356);
-        func_00213928(p->secondary,0x357);
+        ResetScreenObjPart__FP2LOi(p->primary,0x356);
+        ResetScreenObjPart__FP2LOi(p->secondary,0x356);
+        ResetScreenObjPart__FP2LOi(p->secondary,0x357);
         break;
     case 8:
         Restore(*p->model,p->savedFlags);
         SetClockFactor(g_clock,0,1.0f);
         SetSoundMgrFlags(D_003DD040,1,1);
-        func_00213928(p->primary,0x358);
+        ResetScreenObjPart__FP2LOi(p->primary,0x358);
         break;
     case 9:
         ResetZoom(D_002DE390);
@@ -94,8 +94,8 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
         BroadcastTaskEvent(g_game,10,0);
         p->actor=0;
         if(func_002022D8(p)){
-            func_00213B00(p->primary,0x35D);
-            if(p->specialCount>0)func_00213B00(p->primary,0x35E);
+            SelectScreenObjPart__FP2LOi(p->primary,0x35D);
+            if(p->specialCount>0)SelectScreenObjPart__FP2LOi(p->primary,0x35E);
         }
         ListMarks(p);
         break;
@@ -112,27 +112,27 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
         BroadcastTaskEvent(g_game,9,0);
         break;
     case 1:
-        func_00213928(p->primary,0x35D);
+        ResetScreenObjPart__FP2LOi(p->primary,0x35D);
         Post(p->secondary,0x339);
         break;
     case 5:
-        func_00213B00(p->secondary,0x35A);
-        func_00212E40(p->secondary,0x35A,0.0f);
+        SelectScreenObjPart__FP2LOi(p->secondary,0x35A);
+        SetScreenObjFraction__FP2LOif(p->secondary,0x35A,0.0f);
         break;
     case 6:
-        func_00213B00(p->secondary,0x35A);
-        func_00212E40(p->secondary,0x35A,0.0f);
+        SelectScreenObjPart__FP2LOi(p->secondary,0x35A);
+        SetScreenObjFraction__FP2LOif(p->secondary,0x35A,0.0f);
         break;
     case 7:
         SetSource(PsndNewPlain(0x52),0);
         p->selected=p->actor->id;
-        func_00213B00(p->primary,0x356);
-        func_00213B00(p->secondary,0x356);
-        func_00213B00(p->secondary,0x357);
+        SelectScreenObjPart__FP2LOi(p->primary,0x356);
+        SelectScreenObjPart__FP2LOi(p->secondary,0x356);
+        SelectScreenObjPart__FP2LOi(p->secondary,0x357);
         break;
     case 8: {
-        func_00213928(p->primary,0x35B);
-        func_00213B00(p->primary,0x358);
+        ResetScreenObjPart__FP2LOi(p->primary,0x35B);
+        SelectScreenObjPart__FP2LOi(p->primary,0x358);
         register X **model __asm__("a1");
         register X *widget __asm__("v0");
         register int flags __asm__("a0");
@@ -162,8 +162,8 @@ extern "C" void SetPhotoPromptState__FPvi(P *p,int nextState)
     case 3:case 4:
         p->secondary->actor=p->actor;
         Post(p->secondary,0x337);
-        func_00213B00(p->secondary,0x359);
-        func_00212E40(p->secondary,0x359,0.0f);
+        SelectScreenObjPart__FP2LOi(p->secondary,0x359);
+        SetScreenObjFraction__FP2LOif(p->secondary,0x359,0.0f);
         break;
     case 2:
         Post(p->secondary,0x339);

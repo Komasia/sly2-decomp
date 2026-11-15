@@ -28,7 +28,7 @@ struct OBJ {
     int x118;
 };
 extern "C" {
-void func_00213928(void *, int);
+void ResetScreenObjPart__FP2LOi(void *, int);
 void s1_memset(void *, int, unsigned int) asm("memset");
 void func_00165C98(int *, SO ***);
 void qsort(void *, int, int, int (*)(const void *, const void *)) asm("qsort");
@@ -43,11 +43,11 @@ extern "C" void BuildJobHelp__FPv(OBJ *p)
     for (int i = 0; i < p->n; i++) {
         E *e = &p->ae[i];
         if (e->a != -1) {
-            func_00213928(p->x24, e->a);
+            ResetScreenObjPart__FP2LOi(p->x24, e->a);
             e->a = -1;
         }
         if (e->b != -1) {
-            func_00213928(p->x24, e->b);
+            ResetScreenObjPart__FP2LOi(p->x24, e->b);
             e->b = -1;
         }
     }

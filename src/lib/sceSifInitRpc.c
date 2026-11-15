@@ -32,7 +32,7 @@ void sceSifAddCmdHandler(unsigned int cid, void (*h)(void *, void *), void *data
 int sceSifGetReg(unsigned int reg);
 void func_00234E20(unsigned int reg, int val);   /* sceSifSetReg */
 unsigned int sceSifSendCmd(unsigned int cid, void *pkt, int size, void *src, void *dst, int n);
-int func_0023AAC8(int);        /* sceSifGetSreg: software register set by the IOP */
+int sceSifGetSreg(int);        /* sceSifGetSreg: software register set by the IOP */
 void _request_end(void *, void *);
 void _request_bind(void *, void *);
 void _request_call(void *, void *);
@@ -69,7 +69,7 @@ void sceSifInitRpc(unsigned int mode)
     cmd = (SifCmdHeaderWords *)(D_00448E00 + 0x40);
     cmd->opt = 1;
     sceSifSendCmd(SIF_CMD_INIT_CMD, cmd, 16, 0, 0, 0);
-    while (func_0023AAC8(0) == 0)
+    while (sceSifGetSreg(0) == 0)
         ;
     func_00234E20(SIF_SYSREG_RPCINIT, 1);
 }

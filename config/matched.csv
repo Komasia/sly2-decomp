@@ -4183,7 +4183,7 @@ func_001D7418,0x1D7418,26,match,src/hand/func_001D7418.c
 SetSafeHouseState__FP2SWi,0x1D7480,177,match,src/hand/func_001D7480.cpp
 func_001D7748,0x1D7748,14,match,src/hand/func_001D7748.c
 func_001D7780,0x1D7780,19,match,src/hand/func_001D7780.c
-func_001D77D0,0x1D77D0,66,match,src/hand/func_001D77D0.c
+StepSafeHouse__FP9SAFEHOUSEi,0x1D77D0,66,match,src/hand/func_001D77D0.c
 func_001D78D8,0x1D78D8,77,match,src/hand/func_001D78D8.c
 func_001D7A10,0x1D7A10,8,match,src/hand/func_001D7A10.c
 func_001D7A30,0x1D7A30,77,match,src/hand/func_001D7A30.c
@@ -4195,7 +4195,7 @@ FFindEntryKey__FP4TRIEPP4PENTPi,0x1D7DA0,56,match,src/hand/func_001D7DA0.c
 func_001D7E80,0x1D7E80,22,match,src/hand/func_001D7E80.c
 RefGetProgress__FP4TRIEP3KEYPc,0x1D7ED8,124,match,src/hand/func_001D7ED8.cpp
 FSetProgress__FP4TRIEP4CRefT1Pc,0x1D80C8,123,match,src/hand/func_001D80C8.cpp
-func_001D82B8,0x1D82B8,126,match,src/hand/func_001D82B8.cpp
+NGamePercent__FPvPUc,0x1D82B8,126,match,src/hand/func_001D82B8.cpp
 CopyGameSaveForSlot__FP6LAYOUTP8GAMESAVE,0x1D84B0,84,match,src/hand/func_001D84B0.c
 func_001D8600,0x1D8600,16,match,src/hand/func_001D8600.c
 func_001D8640,0x1D8640,20,match,src/hand/func_001D8640.c
@@ -4213,10 +4213,10 @@ ApplyGameSettings__FP8GAMESAVE,0x1D8FF8,161,match,src/hand/func_001D8FF8.cpp
 func_001D9280,0x1D9280,77,match,src/hand/func_001D9280.c
 func_001D93B8,0x1D93B8,8,match,src/hand/func_001D93B8.c
 func_001D93D8,0x1D93D8,11,match,src/hand/func_001D93D8.c
-func_001D9408,0x1D9408,69,match,src/hand/func_001D9408.c
+ResetHudWidgets__FP2DL,0x1D9408,69,match,src/hand/func_001D9408.c
 InitHudWidgets__FP2SW,0x1D9520,38,match,src/hand/InitHudWidgets__FP2SW.c
 func_001D95B8,0x1D95B8,36,match,src/hand/func_001D95B8.c
-func_001D9648,0x1D9648,118,match,src/hand/func_001D9648.c
+UpdateHudWidgets__FP2DL,0x1D9648,118,match,src/hand/func_001D9648.c
 UpdateRecyclable__3CGc,0x1D9820,20,match,src/hand/UpdateRecyclable__3CGc.c
 func_001D9870,0x1D9870,2,match,src/hand/func_001D9870.c
 func_001D9878,0x1D9878,2,match,src/hand/func_001D9878.c
@@ -4249,7 +4249,7 @@ func_001DAA78,0x1DAA78,6,match,src/hand/func_001DAA78.c
 UpdateGadgetMenu__FP2SW,0x1DAA90,113,match,src/hand/func_001DAA90.c
 DrawGadgetIcons__FP7FONTBRX,0x1DAC58,113,match,src/hand/func_001DAC58.c
 func_001DAE20,0x1DAE20,14,match,src/hand/func_001DAE20.c
-func_001DAE58,0x1DAE58,20,match,src/hand/func_001DAE58.c
+FItemOpen__Fi,0x1DAE58,20,match,src/hand/func_001DAE58.c
 FPowerupOwned__Fi,0x1DAEA8,36,match,src/hand/func_001DAEA8.c
 func_001DAF38,0x1DAF38,54,match,src/hand/func_001DAF38.cpp
 UpdateGadgetFlags__FPv,0x1DB010,45,match,src/hand/UpdateGadgetFlags__FPv.c
@@ -5419,7 +5419,7 @@ RefreshScreenObj__FP2LO,0x212A30,8,match,src/hand/RefreshScreenObj__FP2LO.c
 SetTimerTimers__FP5TIMER6TIMERS,0x212A50,8,match,src/hand/SetTimerTimers__FP5TIMER6TIMERS.cpp
 SetState__FP8SCREENRTi,0x212A70,119,match,src/hand/func_00212A70.c
 func_00212C50,0x212C50,123,match,src/hand/func_00212C50.c
-func_00212E40,0x212E40,77,match,src/hand/func_00212E40.c
+SetScreenObjFraction__FP2LOif,0x212E40,77,match,src/hand/func_00212E40.c
 SetScreenObjTime__FP2LOif,0x212F80,77,match,src/hand/func_00212F80.c
 func_002130C0,0x2130C0,131,match,src/hand/func_002130C0.c
 FVisible__FP8SCREENRT,0x2132D0,12,match,src/hand/FVisible__FP8SCREENRT.c
@@ -5427,9 +5427,9 @@ func_00213300,0x213300,316,match,src/hand/func_00213300.cpp
 func_002137F0,0x2137F0,15,match,src/hand/func_002137F0.c
 StartPart__FP8SCREENRTi,0x213830,25,match,src/hand/func_00213830.c
 func_00213898,0x213898,35,match,src/hand/func_00213898.cpp
-func_00213928,0x213928,55,match,src/hand/func_00213928.c
+ResetScreenObjPart__FP2LOi,0x213928,55,match,src/hand/func_00213928.c
 func_00213A08,0x213A08,62,match,src/hand/func_00213A08.c
-func_00213B00,0x213B00,53,match,src/hand/func_00213B00.c
+SelectScreenObjPart__FP2LOi,0x213B00,53,match,src/hand/func_00213B00.c
 func_00213BD8,0x213BD8,36,match,src/hand/func_00213BD8.c
 func_00213C68,0x213C68,27,match,src/hand/func_00213C68.c
 func_00213CD8,0x213CD8,53,match,src/hand/func_00213CD8.cpp
@@ -6028,9 +6028,9 @@ _sceIDC,0x234FD0,41,match,src/lib/_sceIDC.c
 func_00235078,0x235078,31,match,src/lib/func_00235078.c
 func_00235100,0x235100,4,match,src/lib/func_00235100.c
 func_00235110,0x235110,26,match,src/lib/func_00235110.c
-func_00235178,0x235178,26,match,src/lib/func_00235178.c
+EnableIntc,0x235178,26,match,src/lib/func_00235178.c
 func_002351E0,0x2351E0,26,match,src/lib/func_002351E0.c
-func_00235248,0x235248,26,match,src/lib/func_00235248.c
+EnableDmac,0x235248,26,match,src/lib/func_00235248.c
 topThread,0x2352B0,54,match,src/lib/topThread.c
 InitThread,0x235388,59,match,src/lib/InitThread.c
 iWakeupThread,0x235478,37,match,src/lib/iWakeupThread.c
@@ -6146,7 +6146,7 @@ func_0023A9C8,0x23A9C8,3,match,src/hand/func_0023A9C8.c
 kputs,0x23AA40,9,match,src/lib/kputs.c
 func_0023AA98,0x23AA98,7,match,src/lib/func_0023AA98.c
 func_0023AAB8,0x23AAB8,3,match,src/hand/func_0023AAB8.c
-func_0023AAC8,0x23AAC8,6,match,src/lib/func_0023AAC8.c
+sceSifGetSreg,0x23AAC8,6,match,src/lib/func_0023AAC8.c
 sceSifInitCmd,0x23AAF0,160,match,src/lib/sceSifInitCmd.c
 sceSifExitCmd,0x23AD70,13,match,src/lib/sceSifExitCmd.c
 sceSifAddCmdHandler,0x23ADA8,30,match,src/hand/sceSifAddCmdHandler.c

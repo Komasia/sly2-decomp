@@ -15,8 +15,8 @@ typedef struct {
     int n;
     E *ae;
 } OBJ;
-void func_00213928(void *, int);
-void func_00213B00(void *, int);
+void ResetScreenObjPart__FP2LOi(void *, int);
+void SelectScreenObjPart__FP2LOi(void *, int);
 // name: SafeHouse port (SelectGadget)
 void SelectGadget__FPvi(OBJ *p, int key)
 {
@@ -35,10 +35,10 @@ void SelectGadget__FPvi(OBJ *p, int key)
             v = -1;
         if (v != e->cur) {
             if (p->x24 && e->cur != -1)
-                func_00213928(p->x24, e->cur);
+                ResetScreenObjPart__FP2LOi(p->x24, e->cur);
             e->cur = v;
             if (p->x24 && v != -1)
-                func_00213B00(p->x24, v);
+                SelectScreenObjPart__FP2LOi(p->x24, v);
         }
     }
 }

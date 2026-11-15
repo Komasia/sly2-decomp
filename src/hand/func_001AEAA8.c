@@ -9,8 +9,8 @@ struct GS { char pad[0x18]; struct DISPU d1; };
 extern struct GS D_002DEB80;
 extern float D_002F6468, D_002F646C;
 extern float D_003DD190, D_003DD18C;
-void func_00213B00(struct LO *, int);
-void func_00212E40(struct LO *, int, float);
+void SelectScreenObjPart__FP2LOi(struct LO *, int);
+void SetScreenObjFraction__FP2LOif(struct LO *, int, float);
 // name: SafeHouse port (SetMenuState)
 void SetMenuState__FP4MENUi(S *s, int st)
 {
@@ -46,56 +46,56 @@ void SetMenuState__FP4MENUi(S *s, int st)
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
             ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x0);
-            func_00213B00(pe->x8, pe->x18->xC);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->xC);
         }
         break;
     case 3:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, pe->x18->x14);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->x14);
         break;
     case 4:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, pe->x18->xC);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->xC);
         break;
     case 2:
     case 8:
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
             ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x8);
-            func_00213B00(pe->x8, pe->x18->x14);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->x14);
         }
         break;
     case 5:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, pe->x18->x18);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->x18);
         break;
     case 6:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, pe->x18->x1C);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->x1C);
         break;
     case 11:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, 0x331);
+            SelectScreenObjPart__FP2LOi(pe->x8, 0x331);
         break;
     case 9:
         if (pe && pe->x8)
-            func_00213B00(pe->x8, 0x332);
+            SelectScreenObjPart__FP2LOi(pe->x8, 0x332);
         break;
     case 10:
         if (pe && pe->x8) {
             switch (*(int *)((char *)pe->x4 + (pe->x14 << 5))) {
             case 0x67:
-                func_00213B00(pe->x8, 0x333);
-                func_00213B00(pe->x8, 0x315);
-                func_00212E40(pe->x8, 0x315, D_003DD190);
+                SelectScreenObjPart__FP2LOi(pe->x8, 0x333);
+                SelectScreenObjPart__FP2LOi(pe->x8, 0x315);
+                SetScreenObjFraction__FP2LOif(pe->x8, 0x315, D_003DD190);
                 break;
             case 0x68:
-                func_00213B00(pe->x8, 0x334);
-                func_00213B00(pe->x8, 0x315);
-                func_00212E40(pe->x8, 0x315, D_003DD18C);
+                SelectScreenObjPart__FP2LOi(pe->x8, 0x334);
+                SelectScreenObjPart__FP2LOi(pe->x8, 0x315);
+                SetScreenObjFraction__FP2LOif(pe->x8, 0x315, D_003DD18C);
                 break;
             case 0x3F:
-                func_00213B00(pe->x8, 0x335);
+                SelectScreenObjPart__FP2LOi(pe->x8, 0x335);
                 D_002F6468 = D_002DEB80.d1.dx;
                 D_002F646C = D_002DEB80.d1.dy;
                 break;
@@ -106,7 +106,7 @@ void SetMenuState__FP4MENUi(S *s, int st)
         if (pe && pe->x8) {
             struct LO *p = pe->x8;
             ((void (*)(struct LO *, int))p->pvt[49].pfn)((struct LO *)VT_THIS(p, &p->pvt[49]), pe->x18->x4);
-            func_00213B00(pe->x8, pe->x18->x10);
+            SelectScreenObjPart__FP2LOi(pe->x8, pe->x18->x10);
         }
         break;
     case 0:

@@ -4,7 +4,7 @@
  * each of the three assign buttons (D_002C3258) puts an owned gadget with bit 1 in that ability slot (sound 0x34),
  * else says why (0x32 not owned, 0x33 no bit 1). */
 #define GRFGADGET_1 1                 /* set elsewhere (meaning not checked) */
-#define GRFGADGET_Owned 4             /* UpdateGadgetFlags: FPowerupOwned (bit 2 is func_001DAE58, open) */
+#define GRFGADGET_Owned 4             /* UpdateGadgetFlags: FPowerupOwned (bit 2 is FItemOpen, open) */
 typedef struct { char pad[0x1C]; int grf; } GADGETENT;   /* field: SafeHouse port */
 typedef struct GADGETMENU {           /* field: SafeHouse port (shop.cpp) */
     /* 0x00 */ char pad[0x10];

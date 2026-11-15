@@ -35,7 +35,8 @@ void func_001ACCC8(void *);
 void func_001ADEE8(void *);
 void func_001DA808(void *);
 void func_001DD920(void *);
-void func_001D9648(void *pdl)
+// name: SafeHouse port (hudwidget.cpp, orig 0x1D9648: the per-frame HUD widget update; suggested by h3)
+void UpdateHudWidgets__FP2DL(void *pdl)
 {
     PAD *pjoy;
     if (g_grfusr & 8) {

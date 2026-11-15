@@ -35,7 +35,7 @@ void EIntr(void);
 void FlushCache(int);
 void sceSifSetDChain(void);
 int func_00234730(int, void *, int);    /* AddDmacHandler (syscall 0x12) */
-int func_00235248(int);                 /* EnableDmac */
+int EnableDmac(int);                 /* EnableDmac */
 unsigned int sceSifGetReg(unsigned int);
 unsigned int func_00234E20(unsigned int, unsigned int);    /* sceSifSetReg (syscall 0x79) */
 void sceSifSendCmd(unsigned int, void *, unsigned int, void *, void *, unsigned int);
@@ -78,7 +78,7 @@ void sceSifInitCmd(void)
     if (!(*(volatile unsigned int *)0x1000C000 & 0x100))     /* D5_CHCR.STR: start the SIF0 chain if idle */
         sceSifSetDChain();
     D_0044EDD4 = func_00234730(DMAC_SIF0, (void *)_sceSifCmdIntrHdlr, 0);
-    func_00235248(DMAC_SIF0);
+    EnableDmac(DMAC_SIF0);
     D_0044EDD8.iopbuf = (void *)sceSifGetReg(SIF_SYSREG_SUBADDR);
     if (D_0044EDD8.iopbuf) {
         D_0044EDC0.buf = D_0044ED00;

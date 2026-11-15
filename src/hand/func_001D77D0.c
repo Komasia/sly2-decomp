@@ -13,12 +13,13 @@ typedef struct SAFEHOUSE {
     /* 0x224 */ OID aoidAllowed[8];
 } SAFEHOUSE;
 OID OidSmaCur(void *psma) asm("OidSmaCur__FP3SMA");
+// name: SafeHouse port (po.cpp StepSafeHouse, orig 0x1D77D0: the safe house's state machine; suggested by h3)
 int IsmsFindSmRequired__FP2SM3OID(SM *psm, OID oid);   /* the state's index */
 OID OidFromSmIsms__FP2SMi(SM *psm, int isms);
 void SetSmaGoal__FP3SMA3OID(void *psma, OID oid);
 void ReplaceSmaHandle__FP2SMi3OIDiPP3SMA(int psm, SAFEHOUSE *psh, int oid, int n, void **ppsma);
 
-void func_001D77D0(SAFEHOUSE *psh, int dState)
+void StepSafeHouse__FP9SAFEHOUSEi(SAFEHOUSE *psh, int dState)
 {
     int ismsStart;
     int isms;

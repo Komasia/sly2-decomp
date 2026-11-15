@@ -1,3 +1,4 @@
+// name: SafeHouse port (savedata.h, orig 0x1D82B8: a save's game percent; suggested by h3)
 struct CRef {
     int m_tagk;
     int m_tag;
@@ -33,7 +34,7 @@ static inline int NFind(LAYOUT *playout, char *pchz) { return SymFromName(&playo
 /* class: progress (SafeHouse savedata.h NGamePercent, orig 0x1D82B8): a save's game percent - each episode's
  * percent_complete by its weight, plus 26 for each vault (the "fVault" bool entries of the layout, bit sets
  * counted bit by bit), out of the total; 0 or 100 exactly only when nothing / everything is done, else 1..99. */
-extern "C" int func_001D82B8(LAYOUT *playout, unsigned char *pbSave)
+extern "C" int NGamePercent__FPvPUc(LAYOUT *playout, unsigned char *pbSave)
 {
     int sum = 0;
     int total = 0;

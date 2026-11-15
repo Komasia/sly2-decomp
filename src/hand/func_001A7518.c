@@ -11,7 +11,7 @@ void UpdateCd(void) asm("UpdateCd__Fv");
 void StartupCm(void *) asm("StartupCm__Fv");
 void UpdateClock__FP5CLOCKi(void *, int);
 void RegisterSwPass__FPv(void *);
-void func_001D9648(void *);
+void UpdateHudWidgets__FP2DL(void *);
 void OpenFrame(void) asm("OpenFrame__Fv");
 int FAnimatedOverlayDrawNormal__FPc(void *);
 void RenderSw(void *) asm("RenderSw__FP2SW");
@@ -33,7 +33,7 @@ void func_001A7518(int a, int b)
         StartupCm(g_cm);
         UpdateClock__FP5CLOCKi(g_clock, 0);
         RegisterSwPass__FPv(g_sw);
-        func_001D9648(D_003D9E70);
+        UpdateHudWidgets__FP2DL(D_003D9E70);
         OpenFrame();
         if (!D_002DD644 || FAnimatedOverlayDrawNormal__FPc(D_002DD644)) {
             RenderSw(g_sw);

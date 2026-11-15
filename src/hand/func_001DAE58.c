@@ -11,7 +11,8 @@ struct ITEM {                         /* field: SafeHouse port (shop.cpp: the it
 extern struct ITEM D_002BCD00[];
 int func_00210B28(void);              /* the current episode */
 
-int func_001DAE58(int item)
+// name: SafeHouse port (shop.cpp FItemOpen: the item table's episode vs the current one; suggested by h3)
+int FItemOpen__Fi(int item)
 {
     struct ITEM *pitem = &D_002BCD00[item];
     if (pitem->iepisode == -1)

@@ -22,7 +22,7 @@ int DIntr(void);
 void SetT2_COUNT(int);        /* SetT2_COUNT */
 void SetT2_MODE(int);        /* SetT2_MODE */
 void SetT2_COMP(int);        /* SetT2_COMP */
-int func_00235178(int);         /* EnableIntc */
+int EnableIntc(int);         /* EnableIntc */
 int EIntr(void);
 
 int InitTimer(int prescale)
@@ -64,7 +64,7 @@ int InitTimer(int prescale)
         SetT2_COMP(0xFFFF);
     }
     SetT2_MODE(mode);
-    func_00235178(INTC_TIM2);
+    EnableIntc(INTC_TIM2);
     if (intr) EIntr();
     return 0;
 }

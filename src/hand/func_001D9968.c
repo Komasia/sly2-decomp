@@ -28,8 +28,8 @@ W *PloFindSwNearest__FP2LO3OIDii(struct G *, int, int, int);
 Q *PloPlayerPo__FP2SW(struct G *);
 int FIsBasicDerivedFrom__FP5BASIC3CID(Q *, int);
 int NActorPower__FP5ACTOR(Q *q);                         /* the player's gadget power */
-void func_00213B00(W *pw, int wid);              /* SafeHouse SelectScreenObjPart */
-void func_00212E40(W *pw, int wid, float g);     /* SafeHouse SetScreenObjFraction */
+void SelectScreenObjPart__FP2LOi(W *pw, int wid);              /* SafeHouse SelectScreenObjPart */
+void SetScreenObjFraction__FP2LOif(W *pw, int wid, float g);     /* SafeHouse SetScreenObjFraction */
 // name: SafeHouse port (InitGauge)
 void InitGauge__FP5GAUGE(GAUGE *pgauge)
 {
@@ -71,9 +71,9 @@ void InitGauge__FP5GAUGE(GAUGE *pgauge)
     if (pscreen) {
         /* vt slot 49: show an animation (SafeHouse ShowScreenObj) */
         ((void (*)(void *, int))pscreen->vt->a[49].pfn)(VT_THIS(pscreen, &pscreen->vt->a[49]), pgauge->ids[0]);
-        func_00213B00(pgauge->pscreen, WID_HEALTHMETER);
-        func_00213B00(pgauge->pscreen, WID_POWERMETER);
-        func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
-        func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+        SelectScreenObjPart__FP2LOi(pgauge->pscreen, WID_HEALTHMETER);
+        SelectScreenObjPart__FP2LOi(pgauge->pscreen, WID_POWERMETER);
+        SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+        SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
     }
 }

@@ -14,7 +14,7 @@ struct S {
     char pad4[0x248 - 0x234]; struct E a248[3]; int pade; struct O *p294; int n298; int n29C; struct O *p2A0; void *p2A4; int n2A8;
 };
 extern "C" {
-void func_00213B00(struct O *o, int n);
+void SelectScreenObjPart__FP2LOi(struct O *o, int n);
 void UpdateHackHud(struct S *p) asm("UpdateHackHud__FP2LO");
 void *PsndNewPlain(int n) asm("PsndNewPlain__Fi");
 void SetSource(void *p, int n) asm("SetSource__4CSndPv");
@@ -45,7 +45,7 @@ void SetShipState(struct S *p, int n) {
             struct O *q = p->p2A0;
             if (q) {
                 { VTENT *e = &q->vt[0x31]; ((void (*)(void *, int))e->pfn)(VT_THIS(q, e), -1); }
-                func_00213B00(p->p2A0, 0x34F);
+                SelectScreenObjPart__FP2LOi(p->p2A0, 0x34F);
                 UpdateHackHud(p);
                 if (p->n2A8 != old) {
                     void *r = PsndNewPlain(p->n2A8);

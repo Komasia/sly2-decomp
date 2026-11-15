@@ -41,7 +41,7 @@ int NActorPower__FP5ACTOR(Q *q);              /* the player's gadget power */
 int FFloatsNear(float, float, float) asm("FFloatsNear__Ffff");
 float GSmooth__FfffP3SMPPf(void *, int, float, float, float);
 int FSpriteAnimPlaying__FP2LOi(SUB *, int);
-void func_00212E40(SUB *pscreen, int wid, float g);   /* SafeHouse SetScreenObjFraction */
+void SetScreenObjFraction__FP2LOif(SUB *pscreen, int wid, float g);   /* SafeHouse SetScreenObjFraction */
 // name: SafeHouse port (UpdateGauge)
 void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
 {
@@ -111,9 +111,9 @@ void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
         pgauge->gTarget = (float)NActorPower__FP5ACTOR(pgauge->pplayer) / (float)pgauge->pplayer->x1300;
         if (pgauge->hShown < pgauge->hTarget) {
             pgauge->hShown = pgauge->hTarget;
-            func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+            SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
             pgauge->gShown = pgauge->gTarget;
-            func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+            SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
             SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         }
         break;
@@ -123,7 +123,7 @@ void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
             pgauge->hShown = pgauge->hTarget;
         else
             pgauge->hShown = GSmooth__FfffP3SMPPf(D_002C3248, 0, pgauge->hShown, pgauge->hTarget, g_clock.dt);
-        func_00212E40(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
+        SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_HEALTHMETER, 1.0f - pgauge->hShown);
         if (FFloatsNear(pgauge->hShown, pgauge->hTarget, 0.0001f))
             SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         break;
@@ -133,7 +133,7 @@ void UpdateGauge__FP5GAUGE(GAUGE *pgauge)
             pgauge->gShown = pgauge->gTarget;
         else
             pgauge->gShown = GSmooth__FfffP3SMPPf(D_002C3248, 0, pgauge->gShown, pgauge->gTarget, g_clock.dt);
-        func_00212E40(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
+        SetScreenObjFraction__FP2LOif(pgauge->pscreen, WID_POWERMETER, 1.0f - pgauge->gShown);
         if (FFloatsNear(pgauge->gShown, pgauge->gTarget, 0.0001f))
             SetGaugeState__FP5GAUGEi(pgauge, GAUGES_Idle);
         break;

@@ -34,7 +34,8 @@ static inline void *PvNextDli(DLI *pdli)
     pdli->ppv = (void **)((char *)pv + pdli->ibDle);
     return pv;
 }
-void func_001D9408(DL *pdl)
+// name: SafeHouse port (hudwidget.cpp / transition.cpp ResetHudWidgets, orig 0x1D9408; suggested by h3)
+void ResetHudWidgets__FP2DL(DL *pdl)
 {
     DLI dli;
     LO *plo;
