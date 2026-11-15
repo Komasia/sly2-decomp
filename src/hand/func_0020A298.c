@@ -1,9 +1,9 @@
+#include "stepguard.h"
 #include "cid.h"
 extern struct { float t; float dt; } g_clock;
 extern float D_002C3DAC;   /* how long a just-seen source still surprises */
 /* a detector entry: its state and when it was seen */
 struct DETENTRY { int pad; int st; int pad2; float tC; };
-struct GUARD { char pad[0x2C0]; long grfState; char pad2[0x3D0 - 0x2C8]; int n3D0; char pad3[0xF64 - 0x3D4]; void *pdet; };
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
 long func_00207A20(int st);
 struct DETENTRY *PdetentryFind__FP8DETECTORi(void *pdet, void *plo);

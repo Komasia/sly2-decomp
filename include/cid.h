@@ -116,7 +116,7 @@ enum {
     CID_TRAIL                = 0x69,  /*       base SO */
     CID_ROPEMESH             = 0x6A,  /*       base SO */
     CID_MARKER               = 0x6B,  /*       base SO */
-    CID_PICKUP_6C            = 0x6C,  /*       base SO, (??) */
+    CID_VEHICLEPICKUP        = 0x6C,  /*       base SO, SafeHouse: PICKUP_6C; vehiclebindings.cpp: the vehicles' ammunition pickups */
     CID_ASEG                 = 0x6D,  /*     base LO */
     CID_ASEGBL               = 0x6E,  /*       base ASEG */
     CID_SM                   = 0x6F,  /*     base LO */

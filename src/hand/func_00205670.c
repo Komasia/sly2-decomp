@@ -1,7 +1,6 @@
-typedef int qword __attribute__((mode(TI)));
+#include "step.h"
 typedef union {qword q;float f[4];int i[4];} V;
 /* the STEP fields used here */
-struct STEP {char pad[0x208];int pxpFloor;};
 extern qword g_normalZ;
 void func_002057E8(struct STEP*,V*);   /* the two floor-support triangles */
 int func_0011EBB0(qword,qword,qword,qword,qword,float*,float*);   /* ray / triangle test */

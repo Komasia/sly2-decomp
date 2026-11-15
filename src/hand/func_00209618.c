@@ -1,4 +1,4 @@
-typedef int qword __attribute__((mode(TI)));
+#include "stepguard.h"
 typedef union { qword q; float f; } U;
 struct ASEGA { char pad[0x1C]; float dtStep; };
 struct SMA { char pad[0x10]; qword vel; char pad2[0x30 - 0x20]; struct ASEGA *pasega; };
@@ -6,7 +6,6 @@ struct K2PLAY { char pad[0x10]; int st; char pad2[0x38 - 0x14]; struct ASEGA *pa
 struct KINDE { int k; int oid; void *pvState; };
 union FLOATWORD { float g; int bits; };
 struct CTRLPOS { int pad[2]; union FLOATWORD *pfScale; };
-struct GUARD { char pad[0x190]; qword vecVel; char pad2[0x1E0 - 0x1A0]; qword posTarget; char pad3[0xFC4 - 0x1F0]; struct CTRLPOS *pscaleFC4; };
 extern qword D_002A2DD0;
 qword VelActorAnimRoot__FP5ACTORPvf(struct GUARD *, struct ASEGA *, float);
 qword func_00204ED8(struct GUARD *, struct ASEGA *, float);
@@ -61,8 +60,8 @@ void SteerByKinde__FP5KINDEP5GUARD(struct KINDE *pkinde, struct GUARD *pguard)
     }
     {
       register qword current __asm__("vf2")=vel.q;
-      if (pguard->pscaleFC4) {
-        register union FLOATWORD *wordAddress __asm__("v0")=pguard->pscaleFC4->pfScale;
+      if (pguard->pscale) {
+        register union FLOATWORD *wordAddress __asm__("v0")=pguard->pscale->pfScale;
         register int parameterWord __asm__("v0");
         __asm__("lw %0,0(%2)\n\tqmtc2.ni %0,%1":"=r"(parameterWord),"=j"(scalar):"r"(wordAddress),"m"(wordAddress->bits));
         factor.q=scalar;
@@ -70,10 +69,10 @@ void SteerByKinde__FP5KINDEP5GUARD(struct KINDE *pkinde, struct GUARD *pguard)
         vel.q=current;
       }
     }
-    pguard->posTarget = extra;
+    pguard->step.posTarget = extra;
     __asm__ __volatile__("qmtc2.ni %1, %0" : "=j"(scalar) : "r"(-1.0f));
     factor.q=scalar;
     { register qword source __asm__("vf3")=vel.q;
       __asm__("vmulx.xyzw %0,%1,%2x":"=j"(neg):"j"(source),"j"(factor.q)); }
-    pguard->vecVel = neg;
+    *(qword *)pguard->step.vecVel = neg;   /* STEP::vecVel as a quadword */
 }

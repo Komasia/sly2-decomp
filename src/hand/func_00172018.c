@@ -1,7 +1,6 @@
-typedef int qword __attribute__((mode(TI)));
+#include "stepguard.h"
 #include "clock.h"
 struct GOAL { qword a; qword pos; };
-struct GUARD { char pad[0xFD0]; char moveref[4]; };
 struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; int pad2; void *pchild; char pad3[0x14]; int st; float tSt; float tEnd; float tSearch; char pad4[8]; int fNew; };
 void Update__5AIJOB(struct JOBINVESTIGATE *pjob);
 int FJobDone(struct JOBINVESTIGATE *pjob) asm("FJobDone__FP5AIJOB");
@@ -72,7 +71,7 @@ void Update__14JOBINVESTIGATE(struct JOBINVESTIGATE *pjob) {
                 qword b = PosOfLo__FP2LO(pjob->pguard);
                 qword dpos;
                 __asm__("vsub.xyzw %0, %1, %2" : "=j"(dpos) : "j"(a), "j"(b));
-                SetMoveHeading__FP7MOVEREF(pjob->pguard->moveref, atan2f(GetY(dpos), GetX(dpos)));
+                SetMoveHeading__FP7MOVEREF(pjob->pguard->move, atan2f(GetY(dpos), GetX(dpos)));
             }
             break;
         case 3:

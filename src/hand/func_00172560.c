@@ -1,6 +1,6 @@
+#include "stepguard.h"
 #include "clock.h"
 extern float D_002BE5A0;
-struct GUARD { char pad[0xE6C]; float dtGiveUpMin; float dtGiveUpMax; int pad2; int nSearchKind; };
 struct JOBINVESTIGATE { char pad[0x10]; struct GUARD *pguard; char pad2[0x24]; float tEnd; float tSearch; };
 float GRandInRange__Fff(float a, float b);
 /* JOBINVESTIGATE::SetDeadlines: give up after a random time in the guard's range (+0xE6C..+0xE70); guards of kind 1

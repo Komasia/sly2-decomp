@@ -1,5 +1,5 @@
 /* func_00208B38 (0x208B38): whether plo is of one of the guard's immediate classes. */
-struct GUARD { char pad[0x3C0]; int ccidImmediate; int acidImmediate[1]; };
+#include "stepguard.h"
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
 int func_00208B38(struct GUARD *pguard, void *plo)
 {

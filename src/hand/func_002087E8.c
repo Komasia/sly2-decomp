@@ -1,4 +1,4 @@
-struct GUARD { char pad[0x394]; int ccidTarget; int acidTarget[1]; };
+#include "stepguard.h"
 int FIsBasicDerivedFrom__FP5BASIC3CID(void *pbasic, int cid);
 /* FTargetClass (0x2087E8): whether plo is of one of the guard's target classes. */
 // name: SafeHouse port (FTargetClass)

@@ -123,7 +123,16 @@ typedef struct GEOM {
     void *aedge;
 } GEOM;
 
-/* one collision part of an SO (SO::apart[i]) */
+/* a BSP tree's node array (Sly 1 bsp.h BSPC) */
+struct BSP;
+typedef struct BSPC {
+    /* 0x00 */ int cbsp;
+    /* 0x04 */ int cbspFull;
+    /* 0x08 */ int nUnk08;
+    /* 0x0c */ struct BSP *absp;
+} BSPC;
+
+/* one collision part of an SO (SO::apart[i]; SafeHouse SOE) */
 typedef struct SOPART {
     /* 0x00 */ XF *pxf;
     /* 0x04 */ struct SO *pso;
@@ -140,7 +149,7 @@ typedef struct SOPART {
     /* 0x1c */ int nUnk1c;
     /* 0x20 */ struct MATRIX4 matWorld;
     /* 0x60 */ DLE dle;
-    /* 0x68 */ char bspc[0x10];
+    /* 0x68 */ BSPC bspc;
     /* 0x78 */ GEOM geomLocal;
     /* 0x90 */ GEOM geomWorld;
     /* 0xa8 */ int nStampGeom;      /* XF::nStamp when geomWorld was last rebuilt */

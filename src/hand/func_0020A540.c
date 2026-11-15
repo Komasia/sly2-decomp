@@ -1,8 +1,8 @@
 /* the reaction job (0x9C): its state */
+#include "stepguard.h"
 struct JOBREACT { char pad[0x30]; int st; };
 /* an AI message: its kind */
 struct AIMSG { int k; int an[27]; };
-struct GUARD { char pad[0x26C]; char bhvstk[0x2DC - 0x26C]; int saved2DC[3]; int pcmdlistPatrol; };
 void *s1_memset(void *pv, int c, int cb) asm("memset");
 struct JOBREACT *PjobFind__FP5GUARDPv(void *pbhvstk, int cid);
 void React__8JOBREACTP5AIMSG(struct JOBREACT *pjobreact, struct AIMSG *pmsg);
@@ -14,8 +14,8 @@ void SetGuardPatrol__FP5GUARDi(struct GUARD *pguard, int pcmdlist)
     if (pguard->pcmdlistPatrol != pcmdlist) {
         struct JOBREACT *pjobreact;
         pguard->pcmdlistPatrol = pcmdlist;
-        s1_memset(pguard->saved2DC, 0, 0xC);
-        pjobreact = PjobFind__FP5GUARDPv(pguard->bhvstk, 0x9C);
+        s1_memset(pguard->savedPatrol, 0, 0xC);
+        pjobreact = PjobFind__FP5GUARDPv(pguard->step.bhvstk, 0x9C);
         if (pjobreact) {
             int st = pjobreact->st;
             if (st == 1) {
@@ -23,7 +23,7 @@ void SetGuardPatrol__FP5GUARDi(struct GUARD *pguard, int pcmdlist)
                 s1_memset(&msg, 0, sizeof(msg));
                 msg.k = -1;
                 React__8JOBREACTP5AIMSG(pjobreact, &msg);
-                s1_memset(pguard->saved2DC, 0, 0xC);
+                s1_memset(pguard->savedPatrol, 0, 0xC);
                 msg.k = st;
                 React__8JOBREACTP5AIMSG(pjobreact, &msg);
             }

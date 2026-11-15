@@ -1,8 +1,7 @@
-typedef int qword __attribute__((mode(TI)));
+#include "step.h"
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
 struct M3 { qword r[3]; };
 /* the STEP fields used here */
-struct STEP { char pad[0x218]; qword *pposProbe0; int pposProbe1; float sSupport; };
 extern "C" {
 M3 *MatJtLo(STEP *pstep) asm("MatJtLo__FP2LO");
 qword PosOfLo(STEP *pstep) asm("PosOfLo__FP2LO");

@@ -52,7 +52,7 @@ typedef struct STEP {
     /* 0x294 */ struct LO *ploPath;     /* own path object (cid 0x0A oid 713) (field: SafeHouse port) */
     /* 0x298 */ int nUnk298;
     /* 0x29c */ int unk_0x29c;
-    /* 0x2a0 */ int acUnk2a0[6];        /* hold counts of the six effect SMs (vt slots 83 / 84) */
+    /* 0x2a0 */ int acHoldEffect[6];     /* hold counts of the six effect SMs (vt slots 83 / 84) */
 } STEP;
 
 #endif

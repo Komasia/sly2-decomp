@@ -20,8 +20,7 @@ typedef struct XP {
     /* 0x98 */ float elas;          /* elasticity */
 } XP;
 
-#define CID_VEHICLE 0x4D
-#define CID_VEHICLEPICKUP 0x6C
+#include "cid.h"
 
 extern char g_sw[];
 extern DEFERREDCALL D_002A7840;      /* func_001D3FF0, the pickup collect call */

@@ -1,11 +1,9 @@
+#include "stepguard.h"
 extern "C" {
-typedef int qword __attribute__((mode(TI)));
-typedef unsigned long ulong;
 struct GUARD;
 struct DETENTRY {struct GUARD *object;int mode;float stamp;int unusedC;};
 struct DETECTOR {char pad0[0xFC];int cdetentry;struct DETENTRY adetentry[8];};
 struct TARGETREC {int unused0;float stamp;int mode;struct GUARD *object;};
-struct GUARD {char pad0[0x2C0];ulong grfState;char pad2C8[0xCC];int ccidTarget;int acidTarget[3];int cdetentryGenerated;char pad3A8[0x24];struct TARGETREC *ptargetrec;char pad3D0[0xB94];struct DETECTOR *pdet;};
 struct CANDIDATE {float distance;int *source;struct GUARD *object;int mode;float stamp;int unused14;};
 struct SW;
 extern struct SW g_sw;
@@ -122,16 +120,16 @@ void RefreshGuardTargets__FP5GUARD(struct GUARD *pguard)
         }
     }
     UpdateDetector(pguard->pdet);
-    if(pguard->ptargetrec){
-        struct DETENTRY *pdetentry=PdetentryFind(pguard->pdet,pguard->ptargetrec->object);
+    if(pguard->ptarget3CC){
+        struct DETENTRY *pdetentry=PdetentryFind(pguard->pdet,pguard->ptarget3CC->object);
         if(pdetentry){
-            switch(pdetentry->mode){case 1:SetTargetrecTimer(pguard->ptargetrec,1);break;
+            switch(pdetentry->mode){case 1:SetTargetrecTimer(pguard->ptarget3CC,1);break;
             case 2:{
                 qword ownPosition,difference;
-                anchorPosition=PosOfLo(pguard->ptargetrec->object);
+                anchorPosition=PosOfLo(pguard->ptarget3CC->object);
                 ownPosition=PosOfLo(pguard);
                 difference=Subtract(anchorPosition,ownPosition);
-                if(Near(difference))SetTargetrecTimer(pguard->ptargetrec,2);
+                if(Near(difference))SetTargetrecTimer(pguard->ptarget3CC,2);
             }break;
             }
         }

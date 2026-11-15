@@ -1,4 +1,4 @@
-struct GUARD { char pad[0x394]; int ccidTarget; int acidTarget[1]; };
+#include "stepguard.h"
 void *s1_memmove(void *pvDst, void *pvSrc, int cb) asm("memmove");
 /* RemoveTargetClass (0x208728): removes a class from the guard's target classes (moving on after each removal, as the
  * game does). */
