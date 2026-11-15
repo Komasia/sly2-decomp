@@ -1,3 +1,6 @@
+/* RefEvalLambda: (lambda formals body...) - a new closure over the current frame; counts the required
+ * arguments and notes a rest parameter (TAGK_Dot) in the formals. */
+#include "splice_tagk.h"
 struct X;
 struct Y { int a, b; int k; int c; Y *pnext; };
 struct O;
@@ -46,7 +49,7 @@ CRef RefEvalLambda(P *p, X *px)
     int c = 0;
     Y *pyT;
     for (pyT = sp->spy14.p; pyT;) {
-        if (pyT->k == 0x14) {
+        if (pyT->k == TAGK_Dot) {
             f = 1;
             pyT = 0;
         } else {

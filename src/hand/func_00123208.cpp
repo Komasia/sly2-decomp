@@ -1,3 +1,5 @@
+/* BIF matrix-look-at: the rotation looking from aref[0] towards aref[1], with aref[2] (default +Z) as up. */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -15,7 +17,7 @@ struct W { char pad[0xC]; qword *pv; };
 extern qword g_normalZ;
 extern "C" {
 MATRIX3 BuildLookAtMatrix(qword a, qword b) asm("BuildLookAtMatrix__FP6VECTORG9VU_VECTORT1");
-CRef RefOpMatrixLookAt(void *pbasic, CRef *aref) asm("RefOpMatrixLookAt__FiP4CRefP6CFrame");
+CRef RefOpMatrixLookAt(int carg, CRef *aref) asm("RefOpMatrixLookAt__FiP4CRefP6CFrame");
 }
 static inline qword VecSub(qword *pb, qword *pa)
 {
@@ -24,16 +26,16 @@ static inline qword VecSub(qword *pb, qword *pa)
     __asm__ ("vsub.xyzw %0, %0, %1" : "+j"(b) : "j"(a));
     return b;
 }
-CRef RefOpMatrixLookAt(void *pbasic, CRef *aref)
+CRef RefOpMatrixLookAt(int carg, CRef *aref)
 {
     qword *pup;
-    if (aref[2].m_tagk == 0)
+    if (aref[2].m_tagk == TAGK_None)
         pup = &g_normalZ;
     else
         pup = ((W *)aref[2].u.pv)->pv;
     union { qword q; } v;
     v.q = VecSub((qword *)aref[1].u.pv, (qword *)aref[0].u.pv);
-    CRef ref(0x1B);
+    CRef ref(TAGK_Matrix);
     MATRIX3 *pmat = (MATRIX3 *)ref.u.pv;
     *pmat = BuildLookAtMatrix(v.q, *pup);
     pmat->mat[2].w = 0.0f;

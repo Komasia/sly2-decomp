@@ -1,3 +1,5 @@
+/* BIF matrix-tilt-upright: the matrix aref[0] with its rotation levelled upright, its translation kept. */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -16,13 +18,13 @@ struct XF { char pad[0x30]; qword pos; };
 extern "C" {
 void LevelMatrix3(XF *pxf, int f, MATRIX3 *pmat) asm("LevelMatrix3__FP7MATRIX3T0Pv");
 VECTOR *func_00256D18(VECTOR *pv, qword q);
-CRef RefOpMatrixTiltUpright(void *pbasic, CRef *aref) asm("RefOpMatrixTiltUpright__FiP4CRefP6CFrame");
+CRef RefOpMatrixTiltUpright(int carg, CRef *aref) asm("RefOpMatrixTiltUpright__FiP4CRefP6CFrame");
 }
-CRef RefOpMatrixTiltUpright(void *pbasic, CRef *aref)
+CRef RefOpMatrixTiltUpright(int carg, CRef *aref)
 {
     MATRIX3 mat;
     LevelMatrix3((XF *)aref[0].u.pv, 0, &mat);
-    CRef ref(0x1B);
+    CRef ref(TAGK_Matrix);
     MATRIX4 *pmat = (MATRIX4 *)ref.u.pv;
     func_00256D18(&pmat->pos, ((XF *)aref[0].u.pv)->pos);
     *(MATRIX3 *)pmat = mat;

@@ -1,3 +1,5 @@
+/* AkeyFromList: the integer / symbol elements of a list as an array of 16-bit keys (stack-allocated), the
+ * path of a progress value. */
 #include "splice.h"
 typedef struct AREQ { int cb; int cbAlign; } AREQ;
 typedef struct NODE { int pad[2]; CRef ref; struct NODE *pnext; } NODE;

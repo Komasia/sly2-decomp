@@ -1,3 +1,5 @@
+/* BIF member?: is aref[0] equal? to any element of the list aref[1]? (bool) */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -19,13 +21,13 @@ CRef RefOpIsMember(int carg, CRef *aref, void *pctx)
     CRef arefT[2];
     CRef res(false);
     CRef *pres = &res;
-    if (aref[1].m_tagk == 0x1F) {
+    if (aref[1].m_tagk == TAGK_Pair) {
         NODE *p;
         arefT[0] = aref[0];
         for (p = (NODE *)aref[1].u.pv; p; p = p->pnext) {
             arefT[1] = p->ref;
             ref = RefOpEqual(2, arefT, pctx);
-            if (ref.m_tagk == 0x17 && ref.u.n) {
+            if (ref.m_tagk == TAGK_Bool && ref.u.n) {
                 pres->u.n = 1;
                 break;
             }

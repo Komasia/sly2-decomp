@@ -1,3 +1,6 @@
+/* CRef::operator== (eqv?): same tag, then the payload by tag: scalars and objects by value / identity, matrices
+ * bytewise, lm by 2 floats and vector / clq / smp by 3; other tags are equal by tag alone. */
+#include "splice_tagk.h"
 struct VECTOR { float x, y, z; };
 struct VECTOR2 { float x, y; };
 extern "C" int memcmp(const void *a, const void *b, int cb);
@@ -11,14 +14,14 @@ bool CRef::operator==(const CRef &ref)
     if (m_tagk != ref.m_tagk)
         return false;
     switch (m_tagk) {
-    case 0x15: case 0x16: case 0x17: case 0x18: case 0x19:
-    case 0x1F: case 0x20: case 0x21: case 0x22: case 0x23:
+    case TAGK_S32: case TAGK_F32: case TAGK_Bool: case TAGK_Symid: case TAGK_Bifk:
+    case TAGK_Pair: case TAGK_Proc: case TAGK_Basic: case TAGK_Method: case TAGK_Err:
         return u.n == ref.u.n;
-    case 0x1B:
+    case TAGK_Matrix:
         return memcmp(u.pv, ref.u.pv, 0x40) == 0;
-    case 0x1D:
+    case TAGK_Lm:
         return u.pvec2->x == ref.u.pvec2->x && u.pvec2->y == ref.u.pvec2->y;
-    case 0x1A: case 0x1C: case 0x1E:
+    case TAGK_Vector: case TAGK_Clq: case TAGK_Smp:
         return u.pvec->x == ref.u.pvec->x && u.pvec->y == ref.u.pvec->y && u.pvec->z == ref.u.pvec->z;
     }
     return true;

@@ -1,3 +1,4 @@
+/* BIF 113 find-objects: the list of objects with id aref[0], relative to aref[1] (kind 1) or global (5). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -14,10 +15,10 @@ extern G g_sw;
 extern "C" {
 int CFindObjects(G *pg, int k, void *a, Q *b, void *c, int n, void **ap) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
 CRef RefPairFromAplo__FiPP2LO(int c, void **ap);
-CRef RefOpFindObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref);
+CRef RefOpFindObjects__FiP4CRefP6CFrame(int carg, CRef *aref);
 }
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 113: CFindObjects into a list, relative 1 / global 5)
-CRef RefOpFindObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref)
+CRef RefOpFindObjects__FiP4CRefP6CFrame(int carg, CRef *aref)
 {
     CRef ref;
     void *ap[0x40];

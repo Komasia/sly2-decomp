@@ -1,3 +1,4 @@
+/* BIF 132 set-progress: sets the saved progress value at the key path aref[0] to aref[1]. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -14,9 +15,9 @@ extern char D_003D4A60[];
 extern "C" {
 void AkeyFromList(void *pv, X *px) asm("AkeyFromList__FP4CRefP3ARR");
 CRef FSetProgress(void *a, X *px, CRef *pref, void *b) asm("FSetProgress__FP4TRIEP4CRefT1Pc");
-CRef func_00125450(void *pbasic, CRef *aref);
+CRef func_00125450(int carg, CRef *aref);
 }
-CRef func_00125450(void *pbasic, CRef *aref)
+CRef func_00125450(int carg, CRef *aref)
 {
     CRef ref;
     OBJ obj;

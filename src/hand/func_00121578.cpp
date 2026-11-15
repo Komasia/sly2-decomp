@@ -1,3 +1,6 @@
+/* Map/filter/for-each helper: builds the call expression ((quote proc) (quote arg)) and returns the cells of
+ * its two quoted values in *pprefProc / *pprefArg, so the caller can fill them in and evaluate the call per element. */
+#include "splice_tagk.h"
 struct NODE;
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -49,13 +52,13 @@ SPN func_00121578(CRef **ppref1, CRef **ppref2)
     *pref1 = PpairNew();
     pn1->SetNext(PpairNew());
     NODE *pn2 = (NODE *)pref1->u.pv;
-    pn2->ref.SetTag(0x12);
+    pn2->ref.SetTag(TAGK_Quote);
     pn2->SetNext(PpairNew());
     *ppref1 = &pn2->pnext.p->ref;
     CRef *pref2 = &pn1->pnext.p->ref;
     *pref2 = PpairNew();
     NODE *pn3 = (NODE *)pref2->u.pv;
-    pn3->ref.SetTag(0x12);
+    pn3->ref.SetTag(TAGK_Quote);
     pn3->SetNext(PpairNew());
     *ppref2 = &pn3->pnext.p->ref;
     return SPN(sp.p);

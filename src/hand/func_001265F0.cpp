@@ -1,3 +1,5 @@
+/* RefEvalAssert: (assert expr msg ...) - prints the message when expr is false; void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -34,6 +36,6 @@ CRef RefEvalAssert(P *p, CRef *aref)
         RefOpPrint(1, &pq2->x8, aref);
     }
     ref.Decref();
-    ref.InitTag(0x24);
+    ref.InitTag(TAGK_Void);
     return ref;
 }

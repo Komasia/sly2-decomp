@@ -1,3 +1,4 @@
+/* BIF set-option (BIFK 0x6E): RefOpObjectOption with that kind. */
 #include "splice.h"
 void RefOpObjectOption__FiP4CRefP6CFrame4BIFK(CRef *ret, void *pbasic, int cref, CRef *aref, int k);
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 110 = BIFK SetO, RefOpObjectOption 0x6E)

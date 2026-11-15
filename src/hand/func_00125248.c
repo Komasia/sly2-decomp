@@ -1,3 +1,4 @@
+/* BIF 130 start-rumble: rumbles the pad with rumble kind aref[0] for aref[1] seconds; void. */
 #include "splice.h"
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 void TriggerJoyRumbleRumk__FP3JOY4RUMKf(void *p, int n, float g);

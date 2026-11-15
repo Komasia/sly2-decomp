@@ -1,3 +1,5 @@
+/* BIF vector-radian-normal: the angle between two vectors and their rotation axis, as the list (radians normal). */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -39,14 +41,14 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" float RadBetweenVectors(qword a, qword b, void *pvec) asm("RadBetweenVectors__FG9VU_VECTORT0P6VECTOR");
-extern "C" CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref) asm("RefOpVectorRadianNormal__FiP4CRefP6CFrame");
-CRef RefOpVectorRadianNormal(void *pbasic, CRef *aref)
+extern "C" CRef RefOpVectorRadianNormal(int carg, CRef *aref) asm("RefOpVectorRadianNormal__FiP4CRefP6CFrame");
+CRef RefOpVectorRadianNormal(int carg, CRef *aref)
 {
     SPN sp;
     sp.Set(PpairNew());
     sp->SetNext(PpairNew());
     CRef *pref = &sp->pnext.p->ref;
-    pref->SetTag(0x1A);
+    pref->SetTag(TAGK_Vector);
     sp->ref = RadBetweenVectors(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, pref->u.pv);
     return CRef(sp.p);
 }

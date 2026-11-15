@@ -1,3 +1,5 @@
+/* CFrame::CloneTo: a new frame with the same parents and a clone of every binding (values cloned for the new
+ * frame). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

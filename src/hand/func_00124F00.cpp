@@ -1,3 +1,4 @@
+/* BIF hit-test-objects (BIFK 0x7B): RefOpHitTestObjectsImpl with that kind (all hits). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

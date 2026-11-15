@@ -1,3 +1,6 @@
+/* CRef::Decref: releases one reference to the payload, returning a pooled node to its pool (or freeing a pair /
+ * closure / method) when its count reaches zero; game objects release through their vtable. */
+#include "splice_tagk.h"
 #include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct SLOTHEAP { int a[6]; };
@@ -37,55 +40,55 @@ struct O22 {
 void CRef::Decref()
 {
     switch (m_tagk) {
-    case 0x1A: {
+    case TAGK_Vector: {
         NV *p = (NV *)m_pv;
         if (--p->cref == 0)
             func_0011CD98(&D_00452188, p);
         break;
     }
-    case 0x1B: {
+    case TAGK_Matrix: {
         NM *p = (NM *)m_pv;
         if (--p->cref == 0)
             func_0011CD98(&D_004521A0, p);
         break;
     }
-    case 0x1C: {
+    case TAGK_Clq: {
         NV *p = (NV *)m_pv;
         if (--p->cref == 0)
             func_0011CD98(&D_004521B8, p);
         break;
     }
-    case 0x1D: {
+    case TAGK_Lm: {
         N2 *p = (N2 *)m_pv;
         if (--p->cref == 0)
             func_0011CD98(&D_004521D0, p);
         break;
     }
-    case 0x1E: {
+    case TAGK_Smp: {
         N3 *p = (N3 *)m_pv;
         if (--p->cref == 0)
             func_0011CD98(&D_004521E8, p);
         break;
     }
-    case 0x1F: {
+    case TAGK_Pair: {
         NODE *p = (NODE *)m_pv;
         if (--p->cref == 0)
             delete p;
         break;
     }
-    case 0x20: {
+    case TAGK_Proc: {
         O20 *p = (O20 *)m_pv;
         if (--p->cref == 0)
             delete p;
         break;
     }
-    case 0x21: {
+    case TAGK_Basic: {
         O21 *p = (O21 *)m_pv;
         if (p)
             ((void (*)(void *))p->vt[2].pfn)(VT_THIS(p, &p->vt[2]));
         break;
     }
-    case 0x22: {
+    case TAGK_Method: {
         O22 *p = (O22 *)m_pv;
         if (--p->cref == 0 && p) {
             func_00256120(p);

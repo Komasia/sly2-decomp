@@ -1,3 +1,4 @@
+/* CSidebag::CloneTo: a new sidebag with a clone of every binding (0x12B0E8). */
 struct BINDING;
 extern char D_004520D0[];
 extern char D_00452148[];

@@ -1,3 +1,4 @@
+/* BIF list?: is the argument a list (a pair or the empty list)? (bool) */
 struct CRef {
     int m_tagk;
     int m_tag;

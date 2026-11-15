@@ -1,3 +1,6 @@
+/* BIF matrix: a new matrix: identity (no arguments), a uniform scale (one), 3 or 4 vector rows, or 9 / 16
+ * elements row by row. */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { float m[4][4]; };
 struct CRef {
@@ -18,7 +21,7 @@ CRef RefOpMatrix(int carg, CRef *pref) asm("RefOpMatrix__FiP4CRefP6CFrame");
 }
 CRef RefOpMatrix(int carg, CRef *pref)
 {
-    CRef ref(0x1B);
+    CRef ref(TAGK_Matrix);
     MATRIX4 *pm = (MATRIX4 *)ref.u.pv;
     NODE *pn;
     if (carg > 0)

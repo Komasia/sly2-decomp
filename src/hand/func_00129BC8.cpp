@@ -1,3 +1,6 @@
+/* CRef::CloneTo: a copy of the reference for a new owner: pooled values get a fresh node, lists and closures
+ * are deep-copied for the new frame, everything else is shared. */
+#include "splice_tagk.h"
 struct VECTOR; struct MATRIX4; struct V16; struct V8; struct V12; struct OBJ;
 struct NODE; struct O;
 extern char D_004520A8[];
@@ -56,14 +59,14 @@ CRef CloneTo(CRef *pref, void *a, void *b) asm("CloneTo__4CRefP4CRefP6CFrame");
 CRef CloneTo(CRef *pref, void *a, void *b)
 {
     switch (pref->m_tagk) {
-    case 0x1A: return CRef((const VECTOR *)pref->u.pv);
-    case 0x1B: return CRef((const MATRIX4 *)pref->u.pv);
-    case 0x1C: return CRef((const V16 *)pref->u.pv);
-    case 0x1D: return CRef((const V8 *)pref->u.pv);
-    case 0x1E: return CRef((const V12 *)pref->u.pv);
-    case 0x1F: return CRef(CloneTo__5CPairP5CPairP6CFrame((NODE *)pref->u.pv, a, b).p);
-    case 0x20: return CRef(CloneTo__5CProcP5CProc((O *)pref->u.pv, a).p);
-    case 0x21: return CRef((OBJ *)pref->u.pv);
+    case TAGK_Vector: return CRef((const VECTOR *)pref->u.pv);
+    case TAGK_Matrix: return CRef((const MATRIX4 *)pref->u.pv);
+    case TAGK_Clq: return CRef((const V16 *)pref->u.pv);
+    case TAGK_Lm: return CRef((const V8 *)pref->u.pv);
+    case TAGK_Smp: return CRef((const V12 *)pref->u.pv);
+    case TAGK_Pair: return CRef(CloneTo__5CPairP5CPairP6CFrame((NODE *)pref->u.pv, a, b).p);
+    case TAGK_Proc: return CRef(CloneTo__5CProcP5CProc((O *)pref->u.pv, a).p);
+    case TAGK_Basic: return CRef((OBJ *)pref->u.pv);
     }
     return CRef(*pref);
 }

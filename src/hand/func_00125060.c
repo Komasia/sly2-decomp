@@ -1,3 +1,4 @@
+/* BIF 126 convert-object-vector: the direction aref[2] taken from object aref[0]'s space to aref[1]'s. */
 #include "splice.h"
 typedef int TI __attribute__((mode(TI)));
 TI ConvertVec__FP2LOT0G9VU_VECTOR(void *a, void *b, TI v);

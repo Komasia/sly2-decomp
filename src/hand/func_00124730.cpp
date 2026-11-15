@@ -1,3 +1,5 @@
+/* BIF find-class-objects: the list of objects of class aref[0] (up to 0x180), under object aref[1] (search
+ * flags 0x401) or anywhere (0x405). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -10,10 +12,10 @@ extern char g_sw[];
 extern "C" {
 int CFindObjectsByClass(void *pg, int k, void *a, int b, int c, void **ap) asm("CFindObjectsByClass__FP5BASICiiPP5BASICiPP2LO");
 CRef RefPairFromAplo__FiPP2LO(int c, void **ap);
-CRef RefOpFindClassObjects(void *pbasic, CRef *aref) asm("RefOpFindClassObjects__FiP4CRefP6CFrame");
+CRef RefOpFindClassObjects(int carg, CRef *aref) asm("RefOpFindClassObjects__FiP4CRefP6CFrame");
 }
 // name: Sly 1 bif.cpp RefOpFindClassObjects (BIF 120: CFindObjectsByClass; Sly 1 order FindCameraObject, FindClassObjects, FindObjectsInBoundingBox; was RefOpFindObjects, which is BIF 113 0x1241E8)
-CRef RefOpFindClassObjects(void *pbasic, CRef *aref)
+CRef RefOpFindClassObjects(int carg, CRef *aref)
 {
     CRef ref;
     void *ap[0x180];

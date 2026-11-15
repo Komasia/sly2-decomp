@@ -1,3 +1,4 @@
+/* TRKPC::Setup: a constant position track at the transform's position, with zero velocity. */
 typedef struct VEC3 { float x, y, z; } VEC3;
 typedef struct VECTOR { float x, y, z; } __attribute__((aligned(16))) VECTOR;
 typedef struct S { int pad; VEC3 pos; } S;

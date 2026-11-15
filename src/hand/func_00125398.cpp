@@ -1,3 +1,4 @@
+/* BIF 131 get-progress: the saved progress value at the key path aref[0]. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -14,9 +15,9 @@ extern char D_003D4A60[];
 extern "C" {
 void AkeyFromList(void *pv, X *px) asm("AkeyFromList__FP4CRefP3ARR");
 CRef RefGetProgress(void *a, X *px, void *b) asm("RefGetProgress__FP4TRIEP3KEYPc");
-CRef func_00125398(void *pbasic, CRef *aref);
+CRef func_00125398(int carg, CRef *aref);
 }
-CRef func_00125398(void *pbasic, CRef *aref)
+CRef func_00125398(int carg, CRef *aref)
 {
     CRef ref;
     OBJ obj;

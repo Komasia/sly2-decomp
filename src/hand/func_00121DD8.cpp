@@ -1,3 +1,5 @@
+/* BIF vector: a new vector from no arguments (zero), one (x = y = z) or three coordinates. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -17,7 +19,7 @@ CRef RefOpVector(int c, CRef *pref) asm("RefOpVector__FiP4CRefP6CFrame");
 }
 CRef RefOpVector(int c, CRef *pref)
 {
-    CRef ref(0x1A);
+    CRef ref(TAGK_Vector);
     VECTOR *pv = (VECTOR *)ref.u.pv;
     NODE *pn;
     if (c > 0)

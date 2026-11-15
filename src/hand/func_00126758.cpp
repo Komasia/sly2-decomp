@@ -1,3 +1,5 @@
+/* RefEvalIf: (if cond then [else]) - void when cond is false and there is no else branch. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -30,7 +32,7 @@ CRef RefEvalIf(P *p, CRef *aref)
         ref = RefEval(pqElse, aref);
     else {
         ref.Decref();
-        ref.InitTag(0x24);
+        ref.InitTag(TAGK_Void);
     }
     return ref;
 }

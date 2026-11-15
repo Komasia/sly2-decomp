@@ -1,3 +1,4 @@
+/* BIF 127 convert-object-matrix: the matrix aref[2] taken from object aref[0]'s space to aref[1]'s. */
 #include "splice.h"
 typedef struct MATRIX4 MATRIX4;
 void InitTag(CRef *pref, int tagk) asm("InitTag__4CRef");

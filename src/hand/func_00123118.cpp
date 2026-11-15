@@ -1,3 +1,5 @@
+/* BIF matrix-decompose-to-radian-normal: a rotation matrix as the list (radians normal) of its angle and axis. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -38,15 +40,15 @@ struct SPN {
     NODE *operator->() { return p; }
 };
 extern "C" void DecomposeRotateMatrixRad(void *pv, float *pg, void *pvec) asm("DecomposeRotateMatrixRad__FP7MATRIX3PfP6VECTOR");
-extern "C" CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref) asm("RefOpMatrixDecomposeToRadianNormal__FiP4CRefP6CFrame");
-CRef RefOpMatrixDecomposeToRadianNormal(void *pbasic, CRef *aref)
+extern "C" CRef RefOpMatrixDecomposeToRadianNormal(int carg, CRef *aref) asm("RefOpMatrixDecomposeToRadianNormal__FiP4CRefP6CFrame");
+CRef RefOpMatrixDecomposeToRadianNormal(int carg, CRef *aref)
 {
     SPN sp;
     struct { float g, h, i; } g;
     sp.Set(PpairNew());
     sp->SetNext(PpairNew());
     CRef *pref = &sp->pnext.p->ref;
-    pref->SetTag(0x1A);
+    pref->SetTag(TAGK_Vector);
     DecomposeRotateMatrixRad(aref[0].u.pv, &g.g, pref->u.pv);
     sp->ref = g.g;
     return CRef(sp.p);

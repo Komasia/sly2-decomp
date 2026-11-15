@@ -1,3 +1,4 @@
+/* BIF 107 defer-object-update (object dt): the object's next update waits until t + dt (LO +0x30); void. */
 #include "splice.h"
 void RefCoerceF32__4CRef(CRef *pref, CRef *prefSrc);
 extern float g_clock;

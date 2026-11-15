@@ -1,3 +1,5 @@
+/* BIF filter: a new list of the elements of aref[1] for which (proc elem) is true (proc = aref[0]). */
+#include "splice_tagk.h"
 struct NODE;
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; NODE *pnode; } u;
@@ -46,15 +48,15 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
-extern "C" CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpFilter__FiP4CRefP6CFrame");
-CRef RefOpFilter(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
+extern "C" CRef RefOpFilter(int carg, CRef *aref, CRef *arefCall) asm("RefOpFilter__FiP4CRefP6CFrame");
+CRef RefOpFilter(int carg, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == TAGK_None) return aref[1];
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
  *pa = aref[0];
  SP spRes; NODE *pTail; NODE *pn = aref[1].u.pnode;
  while (pn) {
    *pb = pn->ref;
    CRef r = RefEval(sp.p, arefCall);
-   if (r.m_tagk == 0x17 && r.u.n) {
+   if (r.m_tagk == TAGK_Bool && r.u.n) {
      SPN spNew; NODE *pnNew = PpairNew(); spNew.Set(pnNew);
      spNew->ref = pn->ref;
      if (!spRes.p) { NODE *pnR = PpairNew(); spRes = pnR; spRes->ref = spNew.p; } else pTail->pnext = spNew.p;

@@ -1,3 +1,6 @@
+/* BIF vector-normalize: the unit vector along aref[0]; a near-zero vector becomes the fallback aref[1]
+ * (default: the vector at D_002A2DD0). */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; qword *pq; } u;
@@ -11,7 +14,7 @@ struct CRef {
 };
 struct W { char pad[0xC]; qword *pv; };
 extern qword D_002A2DD0;
-extern "C" CRef RefOpVectorNormalize(void *pbasic, CRef *aref) asm("RefOpVectorNormalize__FiP4CRefP6CFrame");
+extern "C" CRef RefOpVectorNormalize(int carg, CRef *aref) asm("RefOpVectorNormalize__FiP4CRefP6CFrame");
 static __inline__ qword VLen(qword c)
 {
     qword l, one;
@@ -49,4 +52,4 @@ static __inline__ void Normalize1(qword *pv, qword *pdef)
         *pv = rn;
     }
 }
-CRef RefOpVectorNormalize(void *pbasic, CRef *aref) { CRef ref((qword *)aref[0].u.pv); if (aref[1].m_tagk == 0) Normalize1(ref.u.pq, &D_002A2DD0); else Normalize(ref.u.pq, ((W *)aref[1].u.pv)->pv); return ref; }
+CRef RefOpVectorNormalize(int carg, CRef *aref) { CRef ref((qword *)aref[0].u.pv); if (aref[1].m_tagk == TAGK_None) Normalize1(ref.u.pq, &D_002A2DD0); else Normalize(ref.u.pq, ((W *)aref[1].u.pv)->pv); return ref; }

@@ -1,3 +1,5 @@
+/* CFrame::PrefFindBinding: the value cell bound to sym in this frame or (with fRecurse) its parents, depth
+ * first; fBusy guards against revisiting a frame on a cycle. 0 when unbound. */
 struct CRef { int m_tagk; int m_tag; };
 struct BINDING { int a, b; unsigned int sym; CRef ref; BINDING *pnext; };
 class CFrame {

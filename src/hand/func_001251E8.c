@@ -1,3 +1,4 @@
+/* BIF start-sound: starts the sound aref[0] from source object aref[1] and returns it as a sound reference. */
 #include "splice.h"
 void *PsndNewPlain__Fi(int n);
 void SetSource__4CSndPv(void *p, int n);

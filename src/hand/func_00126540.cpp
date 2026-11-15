@@ -1,3 +1,4 @@
+/* RefEvalDefine: (define sym expr) - evaluates expr and binds sym to it in the current frame. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

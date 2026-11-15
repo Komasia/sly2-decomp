@@ -1,3 +1,5 @@
+/* BIF find-objects-in-bounding-sphere: the list of objects within radius aref[1] of the point aref[0]. */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -16,14 +18,14 @@ extern "C" {
 void func_0020FC60(void *pg, qword a, void *p3, void *p4, float g, int *pc, void **pap);
 void func_0020FDC8(int c, void *ap, int *pc, void **pap);
 CRef RefPairFromAplo__FiPP2LO(int c, void *ap);
-CRef RefOpFindObjectsInBoundingSphere__FiP4CRefP6CFrame(void *pbasic, CRef *aref);
+CRef RefOpFindObjectsInBoundingSphere__FiP4CRefP6CFrame(int carg, CRef *aref);
 }
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 122: objects within a radius of a position)
-CRef RefOpFindObjectsInBoundingSphere__FiP4CRefP6CFrame(void *pbasic, CRef *aref)
+CRef RefOpFindObjectsInBoundingSphere__FiP4CRefP6CFrame(int carg, CRef *aref)
 {
     CRef ref;
     float g;
-    if (aref[1].m_tagk == 0x15)
+    if (aref[1].m_tagk == TAGK_S32)
         g = (float)aref[1].u.n;
     else
         g = aref[1].u.g;

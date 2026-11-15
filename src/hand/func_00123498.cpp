@@ -1,3 +1,5 @@
+/* BIF clq-fit: the quadratic curve (clq) fitted through the four numbers in the arguments (FitClq). */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -12,11 +14,11 @@ struct CRef {
 extern "C" {
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 void FitClq(void *pv, float a, float b, float c, float d) asm("FitClq__FffffP3CLQ");
-CRef RefOpClqFit(void *pbasic, CRef *aref) asm("RefOpClqFit__FiP4CRefP6CFrame");
+CRef RefOpClqFit(int carg, CRef *aref) asm("RefOpClqFit__FiP4CRefP6CFrame");
 }
-CRef RefOpClqFit(void *pbasic, CRef *aref)
+CRef RefOpClqFit(int carg, CRef *aref)
 {
-    CRef ref(0x1C);
+    CRef ref(TAGK_Clq);
     {
         CRef r0 = RefCoerceF32(&aref[0]);
         float g0 = r0.u.g;

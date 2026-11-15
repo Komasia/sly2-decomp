@@ -1,3 +1,5 @@
+/* BIF find-object: the object with id aref[0], relative to aref[1] (search kind 1) or global (5), searched from
+ * aref[2]'s or aref[1]'s world. */
 #include "splice.h"
 typedef struct LO { char pad[0xC]; struct LO *pc; char pad2[0x2C]; void *pv; } LO;
 typedef struct G { char pad[0x3F0C]; void *pv; } G;

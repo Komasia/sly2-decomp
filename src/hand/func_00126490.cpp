@@ -1,3 +1,4 @@
+/* RefEvalSet: (set! sym expr) - evaluates expr and stores it in sym's existing binding; void. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

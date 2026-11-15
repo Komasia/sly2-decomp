@@ -1,3 +1,4 @@
+/* CPair::CloneTo: a copy of the list from this cell on, each value cloned (CRef::CloneTo) for the new frame. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

@@ -1,3 +1,5 @@
+/* CSidebag::RefSetBinding: gives sym's existing binding the value *pref (nothing when unbound); void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -22,14 +24,14 @@ CRef CSidebag::RefSetBinding(int sym, CRef *pref)
             CRef ref;
             pb->ref = *pref;
             ref.Decref();
-            ref.InitTag(0x24);
+            ref.InitTag(TAGK_Void);
             return ref;
         }
     }
     {
         CRef ref;
         ref.Decref();
-        ref.InitTag(0x24);
+        ref.InitTag(TAGK_Void);
         return ref;
     }
 }

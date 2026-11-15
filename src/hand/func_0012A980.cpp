@@ -1,3 +1,5 @@
+/* CSidebag::RefAddBinding: binds symbol sym to *pref at the front of the sidebag's binding list; void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -47,5 +49,5 @@ CRef RefAddBinding(FRAME *pframe, int sym, CRef *pref)
     sp->ref = *pref;
     sp->pnext = ppbFirst->p;
     *ppbFirst = sp;
-    return CRef(0x24);
+    return CRef(TAGK_Void);
 }

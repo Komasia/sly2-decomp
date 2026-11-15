@@ -1,3 +1,6 @@
+/* BIF map: a new list of (proc elem) for every element of the list aref[1] (proc = aref[0]); an empty list
+ * is returned as is. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -39,10 +42,10 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
-extern "C" CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpMap__FiP4CRefP6CFrame");
-CRef RefOpMap(void *pbasic, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == 0) return aref[1];
+extern "C" CRef RefOpMap(int carg, CRef *aref, CRef *arefCall) asm("RefOpMap__FiP4CRefP6CFrame");
+CRef RefOpMap(int carg, CRef *aref, CRef *arefCall) { if (aref[1].m_tagk == TAGK_None) return aref[1];
  SPN spRes; spRes.Set(PpairNew());
  SPN sp; CRef *pa; CRef *pb; func_00121578(&sp, &pa, &pb);
  *pa = aref[0]; NODE *pTail; NODE *pn; pn = (NODE *)aref[1].u.pv; while (pn) { *pb = pn->ref; SPN spNew; NODE *pnNew = PpairNew(); spNew.Set(pnNew); spNew->ref = RefEval(sp.p, arefCall);
-   if (spRes->ref.m_tagk != 0x1F) spRes->ref = spNew.p; else pTail->pnext = spNew.p;
+   if (spRes->ref.m_tagk != TAGK_Pair) spRes->ref = spNew.p; else pTail->pnext = spNew.p;
    NODE *p = spNew.p; pn = pn->pnext.p; pTail = p; } return CRef((NODE *)spRes->ref.u.pv); }

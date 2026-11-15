@@ -1,3 +1,4 @@
+/* Clones a binding list (CVarb chain) for a new owner: symbol and cloned value, recursively down the chain. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

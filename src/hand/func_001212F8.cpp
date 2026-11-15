@@ -1,3 +1,6 @@
+/* BIF append: the concatenation of the lists in the argument list (copying every list but the last; non-list
+ * elements are skipped); the empty list when there is nothing to append. */
+#include "splice_tagk.h"
 struct NODE;
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; NODE *pnode; } u;
@@ -38,11 +41,11 @@ struct SP {
     NODE *operator->() { return p; }
 };
 extern "C" SP CloneTo(NODE *src, void *a, void *b) asm("CloneTo__5CPairP5CPairP6CFrame");
-extern "C" CRef RefOpAppend(void *pbasic, CRef *aref) asm("RefOpAppend__FiP4CRefP6CFrame");
-CRef RefOpAppend(void *pbasic, CRef *aref) { if (aref[0].m_tagk == 0) return aref[0];
+extern "C" CRef RefOpAppend(int carg, CRef *aref) asm("RefOpAppend__FiP4CRefP6CFrame");
+CRef RefOpAppend(int carg, CRef *aref) { if (aref[0].m_tagk == TAGK_None) return aref[0];
  SP spRes; NODE *pTail;
  for (NODE *pn = aref[0].u.pnode; pn; pn = pn->pnext.p) {
-   if (pn->ref.m_tagk != 0x1F) continue;
+   if (pn->ref.m_tagk != TAGK_Pair) continue;
    SP spCopy;
    if (pn->pnext.p) { SP t = CloneTo(pn->ref.u.pnode, 0, 0); spCopy = t.p; } else spCopy = pn->ref.u.pnode;
    if (!spRes.p) { spRes = PpairNew(); spRes->ref = spCopy.p; } else pTail->pnext = spCopy.p;

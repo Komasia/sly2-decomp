@@ -1,3 +1,4 @@
+/* BIF find-camera-object: the camera (g_cm) as an object reference. */
 #include "splice.h"
 void SetBasic__4CRefP5BASIC(CRef *pref, void *p);
 extern char g_cm[];

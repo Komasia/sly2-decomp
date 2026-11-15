@@ -1,3 +1,5 @@
+/* BIF 105 schedule-callback (dt proc . args): schedules the call (proc 'arg ...) for t + dt and returns its id. */
+#include "splice_tagk.h"
 struct NODE;
 struct OBJ;
 struct CRef {
@@ -48,4 +50,4 @@ struct SPN {
 };
 extern "C" CRef RefOpScheduleCallback__FiP4CRefP6CFrame(int c, CRef *aref);
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 105; Sly 1 order ScheduleCallback after CurrentTime; SafeHouse gamebif.cpp 105 schedule-callback)
-CRef RefOpScheduleCallback__FiP4CRefP6CFrame(int c, CRef *aref) { CRef res(-1, 0x15); SPN sp; OBJ *pobj = (OBJ *)aref[1].u.pv; NODE *pnNew = PpairNew(); sp.Set(pnNew); sp->ref = PpairNew(); NODE *pn = sp->ref.u.pnode; pn->ref = pobj; if (c >= 3) { NODE *pnT = pn; for (NODE *pw = aref[2].u.pnode; pw; pw = pw->pnext.p) { pnT->SetNext(PpairNew()); pnT = pnT->pnext.p; CRef *pref = &pnT->ref; *pref = PpairNew(); NODE *pc = pref->u.pnode; pc->ref.SetTag(0x12); pc->SetNext(PpairNew()); pc->pnext.p->ref = pw->ref; } } G *pg = &g_sw; float t = g_clock.t; R *pr = func_00133040(pg, 0, sp.p, t + RefCoerceF32(aref).u.g); res = pr->n; return res; }
+CRef RefOpScheduleCallback__FiP4CRefP6CFrame(int c, CRef *aref) { CRef res(-1, 0x15); SPN sp; OBJ *pobj = (OBJ *)aref[1].u.pv; NODE *pnNew = PpairNew(); sp.Set(pnNew); sp->ref = PpairNew(); NODE *pn = sp->ref.u.pnode; pn->ref = pobj; if (c >= 3) { NODE *pnT = pn; for (NODE *pw = aref[2].u.pnode; pw; pw = pw->pnext.p) { pnT->SetNext(PpairNew()); pnT = pnT->pnext.p; CRef *pref = &pnT->ref; *pref = PpairNew(); NODE *pc = pref->u.pnode; pc->ref.SetTag(TAGK_Quote); pc->SetNext(PpairNew()); pc->pnext.p->ref = pw->ref; } } G *pg = &g_sw; float t = g_clock.t; R *pr = func_00133040(pg, 0, sp.p, t + RefCoerceF32(aref).u.g); res = pr->n; return res; }

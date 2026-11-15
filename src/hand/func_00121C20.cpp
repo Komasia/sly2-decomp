@@ -1,3 +1,5 @@
+/* BIF for-each: calls (proc elem) for every element of the list aref[1] (proc = aref[0]); returns void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -37,10 +39,10 @@ struct SPN {
 };
 extern "C" void func_00121578(SPN *psp, CRef **ppa, CRef **ppb);
 extern "C" CRef RefEval(NODE *pn, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
-extern "C" CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall) asm("RefOpForEach__FiP4CRefP6CFrame");
-CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall)
+extern "C" CRef RefOpForEach(int carg, CRef *aref, CRef *arefCall) asm("RefOpForEach__FiP4CRefP6CFrame");
+CRef RefOpForEach(int carg, CRef *aref, CRef *arefCall)
 {
-    if (aref[1].m_tagk == 0x1F) {
+    if (aref[1].m_tagk == TAGK_Pair) {
         SPN sp;
         CRef *pa;
         CRef *pb;
@@ -54,5 +56,5 @@ CRef RefOpForEach(void *pbasic, CRef *aref, CRef *arefCall)
             pn = pn->pnext.p;
         }
     }
-    return CRef(0x24);
+    return CRef(TAGK_Void);
 }

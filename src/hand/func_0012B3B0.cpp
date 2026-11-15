@@ -1,3 +1,4 @@
+/* PtrkpNew: a new position track (TRKP) of kind 0..5 (key-frame track classes of the ASEG module). */
 struct AREQ { int cb; int cbAlign; };
 extern "C" void *PvAllocSwClearImpl(AREQ *preq) asm("PvAllocSwClearImpl__Fi");
 struct CBase {

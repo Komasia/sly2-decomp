@@ -1,3 +1,5 @@
+/* BIF 125 convert-object-position: the point aref[2] taken from object aref[0]'s space to aref[1]'s (nil: the
+ * world). */
 #include "splice.h"
 typedef int TI __attribute__((mode(TI)));
 void func_00129248(CRef *pref, TI vec);

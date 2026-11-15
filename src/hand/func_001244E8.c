@@ -1,3 +1,4 @@
+/* BIF find-nearest-object: the object with id aref[0] nearest to aref[1] in the hierarchy (search kind 4). */
 #include "splice.h"
 typedef struct LO { char pad[0xC]; struct LO *pc; char pad2[0x2C]; void *pv; } LO;
 typedef struct G { char pad[0x3F0C]; void *pv; } G;

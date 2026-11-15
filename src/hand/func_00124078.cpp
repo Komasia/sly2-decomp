@@ -1,3 +1,4 @@
+/* RefPairFromAplo: a list reference holding the c objects of apo (the empty list for none). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

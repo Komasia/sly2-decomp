@@ -1,3 +1,6 @@
+/* BIF 133: the binding of symbol aref[0] in the parent of the calling code's module frame (the chain of
+ * single-parent frames walked up to the first module frame), e.g. an instance's start calling its group's start;
+ * else the void built-in (BIFK 0x86). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -12,8 +15,8 @@ struct CRef {
 };
 struct O { int pad[2]; int k; O *pparent; int pad2[5]; int f; };
 class CFrame { public: CRef *PrefFindBinding(unsigned int sym, int fRecurse); };
-extern "C" CRef func_00125510(void *pbasic, CRef *aref, O *po);
-CRef func_00125510(void *pbasic, CRef *aref, O *po)
+extern "C" CRef func_00125510(int carg, CRef *aref, O *po);
+CRef func_00125510(int carg, CRef *aref, O *po)
 {
     if (po && po->k == 1) {
         while (!po->f) {

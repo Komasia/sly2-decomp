@@ -1,3 +1,5 @@
+/* BIF random: a random number in [aref[0], aref[1]]: an integer when both bounds are integers, else a float. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -14,12 +16,12 @@ extern "C" {
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 int NRandInRange(int a, int b) asm("NRandInRange__Fii");
 float GRandInRange(float a, float b) asm("GRandInRange__Fff");
-CRef RefOpRandom(void *pbasic, CRef *aref) asm("RefOpRandom__FiP4CRefP6CFrame");
+CRef RefOpRandom(int carg, CRef *aref) asm("RefOpRandom__FiP4CRefP6CFrame");
 }
-CRef RefOpRandom(void *pbasic, CRef *aref)
+CRef RefOpRandom(int carg, CRef *aref)
 {
     CRef ref;
-    if (aref[0].m_tagk == 0x15 && aref[1].m_tagk == aref[0].m_tagk) {
+    if (aref[0].m_tagk == TAGK_S32 && aref[1].m_tagk == aref[0].m_tagk) {
         ref = NRandInRange(aref[0].u.n, aref[1].u.n);
     } else {
         float g0 = RefCoerceF32(&aref[0]).u.g;

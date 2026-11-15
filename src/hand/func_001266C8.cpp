@@ -1,3 +1,5 @@
+/* RefEvalDebug: Sly 2's debug form - evaluates its argument if there is one, else void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -15,4 +17,4 @@ CRef RefEval(void *pv, CRef *aref) asm("RefEval__FP5CPairP6CFrame");
 CRef RefEvalDebug(P *p, CRef *aref) asm("RefEvalDebug__FP5CPairP6CFrame");
 }
 // name: SafeHouse port (RefEvalDebug)
-CRef RefEvalDebug(P *p, CRef *aref) { CRef ref; void *pv = p->pq->pv; if (pv) { ref = RefEval(pv, aref); } else { ref.Decref(); ref.InitTag(0x24); } return ref; }
+CRef RefEvalDebug(P *p, CRef *aref) { CRef ref; void *pv = p->pq->pv; if (pv) { ref = RefEval(pv, aref); } else { ref.Decref(); ref.InitTag(TAGK_Void); } return ref; }

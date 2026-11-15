@@ -1,3 +1,4 @@
+/* TRKPK::Load: reads the key count and each key (time in 1/60 s frames, position, velocity, acceleration). */
 typedef struct VECTOR3 { float x, y, z; } VECTOR3;
 typedef struct KEY { VECTOR3 pos; float t; VECTOR3 dpos; int pad; VECTOR3 dpos2; int pad2; } KEY;
 typedef struct T { int pad; int c; KEY *a; } T;

@@ -1,3 +1,6 @@
+/* RefEvalLet: (let ((sym expr) ...) body...) - binds the evaluated exprs in a new frame under the current one
+ * (no bindings: the current frame) and evaluates the body there. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -36,7 +39,7 @@ CRef RefEvalLet(P *p, FRAME *pframe)
     SPF spf;
     NODE *pargs = p->pv->pargs;
     NODE *pn;
-    if (pargs->ref.m_tagk == 0x1F) {
+    if (pargs->ref.m_tagk == TAGK_Pair) {
         FRAME *pfNew = PframeNew();
         spf = pfNew;
         for (pn = (NODE *)pargs->ref.u.pv; pn; pn = pn->pnext) {

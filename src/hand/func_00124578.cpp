@@ -1,3 +1,4 @@
+/* BIF 116 find-nearest-objects: the list of objects with id aref[0] under aref[1] (search kind 4). */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -14,10 +15,10 @@ extern G g_sw;
 extern "C" {
 int CFindObjects(G *pg, int k, void *a, Q *b, void *c, int n, void **ap) asm("CFindObjects__FP2SWi3OIDP2LOPviPP2LO");
 CRef RefPairFromAplo__FiPP2LO(int c, void **ap);
-CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref);
+CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(int carg, CRef *aref);
 }
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 116: CFindObjects with FSO_FindNearest 4 into a list)
-CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(void *pbasic, CRef *aref)
+CRef RefOpFindNearestObjects__FiP4CRefP6CFrame(int carg, CRef *aref)
 {
     CRef ref;
     void *ap[0x40];

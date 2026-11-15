@@ -1,3 +1,5 @@
+/* RefEvalOr: (or expr ...) - the first value that is not #f, else #f. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -24,7 +26,7 @@ CRef RefEvalOr(P *p, CRef *aref)
     Q *pq;
     for (pq = p->pr->pq; pq; pq = pq->pnext) {
         ref = RefEval(pq, aref);
-        if (ref.m_tagk != 0x17 || ref.u.n != 0)
+        if (ref.m_tagk != TAGK_Bool || ref.u.n != 0)
             return ref;
     }
     ref = false;

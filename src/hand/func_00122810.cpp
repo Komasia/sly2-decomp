@@ -1,3 +1,5 @@
+/* BIF vector-distance: the distance between two vectors (the second defaults to the vector at D_002A2DD0). */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -13,7 +15,7 @@ struct CRef {
 struct W { char pad[0xC]; qword *pv; };
 extern qword D_002A2DD0;
 extern "C" {
-CRef RefOpVectorDistance(void *pbasic, CRef *aref) asm("RefOpVectorDistance__FiP4CRefP6CFrame");
+CRef RefOpVectorDistance(int carg, CRef *aref) asm("RefOpVectorDistance__FiP4CRefP6CFrame");
 }
 static inline float SDist(qword *pa, qword *pb)
 {
@@ -33,10 +35,10 @@ static inline float SDist(qword *pa, qword *pb)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef RefOpVectorDistance(void *pbasic, CRef *aref)
+CRef RefOpVectorDistance(int carg, CRef *aref)
 {
     CRef ref;
-    if (aref[1].m_tagk == 0)
+    if (aref[1].m_tagk == TAGK_None)
         ref = SDist((qword *)aref[0].u.pv, &D_002A2DD0);
     else
     {

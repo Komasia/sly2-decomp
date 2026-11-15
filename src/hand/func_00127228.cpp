@@ -1,3 +1,5 @@
+/* RefEvalBegin: (begin expr ...) - the last value, void when empty. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -20,7 +22,7 @@ CRef RefEvalBegin(P *p, CRef *aref)
     CRef ref;
     Q *pq;
     ref.Decref();
-    ref.InitTag(0x24);
+    ref.InitTag(TAGK_Void);
     for (pq = p->pr->pq; pq; pq = pq->pnext)
         ref = RefEval(pq, aref);
     return ref;

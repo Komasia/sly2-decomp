@@ -1,3 +1,6 @@
+/* CGc::Collect: flips the mark value, pushes the root frames, marks the sidebags' bindings and pushes the root
+ * list's pairs, traces everything reachable (MarkLiveObjects 0x1281B0), then sweeps each pool (0x257510..0x257C18),
+ * freeing what was left unmarked. */
 typedef struct N { int x0; unsigned prev : 13; unsigned prevpg : 2; unsigned p1 : 1; unsigned next : 13; unsigned nextpg : 2; unsigned fMark : 1; } N;
 typedef struct BIND { int x0; unsigned n : 31; unsigned fMark : 1; int x8; int ref[2]; struct BIND *pbNext; } BIND;
 typedef struct ENV { int x0; unsigned prev : 13; unsigned prevpg : 2; unsigned p1 : 1; unsigned next : 13; unsigned nextpg : 2; unsigned fMark : 1; BIND *pbFirst; } ENV;

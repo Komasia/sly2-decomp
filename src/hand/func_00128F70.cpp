@@ -1,3 +1,4 @@
+/* CProc::CloneTo: a copy of the closure over pframe (or its own frame when null), sharing formals and body. */
 struct X;
 struct Y;
 struct SPX { X *p; ~SPX(); SPX &operator=(X *px); };

@@ -1,3 +1,5 @@
+/* RefEvalWhile: (while cond body) - evaluates body while cond is not #f; void. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -24,11 +26,11 @@ CRef RefEvalWhile(P *p, CRef *aref)
     Q *pqBody = pqCond->pnext;
     for (;;) {
         ref = RefEval(pqCond, aref);
-        if (ref.m_tagk == 0x17 && ref.u.n == 0)
+        if (ref.m_tagk == TAGK_Bool && ref.u.n == 0)
             break;
         ref = RefEval(pqBody, aref);
     }
     ref.Decref();
-    ref.InitTag(0x24);
+    ref.InitTag(TAGK_Void);
     return ref;
 }

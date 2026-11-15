@@ -1,3 +1,5 @@
+/* CFrame::FFindBinding: does symid have a binding in the frame (or, with fRecurse, an enclosing frame)? Copies
+ * its value into *pref when pref is given. */
 int PrefFindBinding(void *a, void *b, void *c, void *d) asm("PrefFindBinding__6CFrameUii");
 void __as__4CRefRC4CRef(void *a, int b);
 int FFindBinding__6CFrameUiiP4CRef(void *a, void *b, void *c, void *d)

@@ -10,7 +10,7 @@ typedef struct CPair { int x0; unsigned nLinks : 31; unsigned fMark : 1; CRef re
 typedef struct CProc { int x0; unsigned nLinks : 31; unsigned fMark : 1; CFrame *pframe; int xC; int x10; CPair *ppairMarked; CPair *ppairCodeExpr; } CProc;
 /* the collector's work stacks (Sly 1 CGc m_cpframeStack .. m_approcStack, here as pointers to stack arrays) */
 typedef struct CGc { int f; int cpframeStack; CFrame **apframeStack; int cppairStack; CPair **appairStack; int cpprocStack; CProc **approcStack; } CGc;
-extern unsigned int D_002DD598[1];   /* the current mark value (flips each collection) */
+extern unsigned int D_002DD598[1];   /* the current mark value; likely g_gc's first word (Collect 0x1286E0 flips pgc->f) */
 
 static inline void PushPair(CGc *pgc, CPair *ppair) { pgc->appairStack[pgc->cppairStack++] = ppair; }
 static inline void PushProc(CGc *pgc, CProc *pproc) { pgc->approcStack[pgc->cpprocStack++] = pproc; }

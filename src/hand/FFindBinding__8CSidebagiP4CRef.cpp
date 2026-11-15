@@ -1,3 +1,4 @@
+/* CSidebag::FFindBinding: does sym have a binding in the sidebag? Copies its value into *pref when given. */
 struct CRef { int m_tagk; int m_tag; };
 void func_00129658(CRef *pref, CRef *prefSrc) asm("__as__4CRefRC4CRef");
 struct BINDING { int pad[2]; int sym; CRef ref; BINDING *pnext; };

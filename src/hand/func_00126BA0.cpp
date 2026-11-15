@@ -1,3 +1,6 @@
+/* RefEvalCase: (case key (datums body...) ... [(else body...)]) - evaluates the body of the first clause
+ * with a datum eqv? to key; void when none matches. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -23,14 +26,14 @@ CRef RefEvalCase(P *p, void *penv)
     NODE *pkey;
     NODE *pcl;
     ref.Decref();
-    ref.InitTag(0x24);
+    ref.InitTag(TAGK_Void);
     pkey = p->pv->pargs;
     arefT[0] = RefEval(pkey, penv);
     pcl = pkey->pnext;
     while (pcl) {
         NODE *pc = (NODE *)pcl->ref.u.pv;
         int f;
-        if (pc->ref.m_tagk == 0xB) {
+        if (pc->ref.m_tagk == TAGK_Else) {
             f = 1;
         } else {
             NODE *pk;
@@ -39,7 +42,7 @@ CRef RefEvalCase(P *p, void *penv)
             while (pk) {
                 arefT[1] = pk->ref;
                 test = RefOpEqv(2, arefT, penv);
-                if (test.m_tagk == 0x17 && test.u.n) {
+                if (test.m_tagk == TAGK_Bool && test.u.n) {
                     f = 1;
                     pk = 0;
                 } else {

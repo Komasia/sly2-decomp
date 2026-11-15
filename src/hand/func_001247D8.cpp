@@ -1,3 +1,4 @@
+/* BIF find-objects-in-bounding-box: the list of objects inside the box between the vectors aref[0] and aref[1]. */
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -16,10 +17,10 @@ extern "C" {
 void func_0020FAA0(void *pg, qword a, qword b, void *p3, void *p4, int *pc, void **pap);
 void func_0020FDC8(int c, void *ap, int *pc, void **pap);
 CRef RefPairFromAplo__FiPP2LO(int c, void *ap);
-CRef RefOpFindObjectsInBoundingBox__FiP4CRefP6CFrame(void *pbasic, CRef *aref);
+CRef RefOpFindObjectsInBoundingBox__FiP4CRefP6CFrame(int carg, CRef *aref);
 }
 // name: Sly 1 bif.cpp (BIF table g_mpbifkbif 0x2BBB90 entry 121: objects between two corner vectors)
-CRef RefOpFindObjectsInBoundingBox__FiP4CRefP6CFrame(void *pbasic, CRef *aref)
+CRef RefOpFindObjectsInBoundingBox__FiP4CRefP6CFrame(int carg, CRef *aref)
 {
     CRef ref;
     OBJ obj;

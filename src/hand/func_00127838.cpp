@@ -1,3 +1,6 @@
+/* RefEval: evaluates one expression cell: self-evaluating values are returned as they are, symbols are looked up,
+ * special forms dispatch to their RefEvalXxx, a list is an application (RefEvalApply). */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -33,26 +36,26 @@ CRef RefEval(NODE *p, CRef *aref)
     switch (p->ref.m_tagk) {
     default:
         return p->ref;
-    case 0x18:
+    case TAGK_Symid:
         return RefEvalSymbol(p, aref);
-    case 0x1F: {
+    case TAGK_Pair: {
         NODE *pn = (NODE *)p->ref.u.pv;
         switch (pn->ref.m_tagk) {
-        case 1: return RefEvalSet(p, aref);
-        case 2: return RefEvalDefine(p, aref);
-        case 5: return RefEvalAssert(p, aref);
-        case 6: return RefEvalDebug(p, aref);
-        case 7: return RefEvalIf(p, aref);
-        case 8: return RefEvalOr(p, aref);
-        case 9: return RefEvalAnd(p, aref);
-        case 10: return RefEvalCond(p, aref);
-        case 12: return RefEvalCase(p, aref);
-        case 13: return RefEvalLet(p, aref);
-        case 14: return RefEvalWhile(p, aref);
-        case 16: return RefEvalBegin(p, aref);
-        case 15: return RefEvalLambda(p, aref);
-        case 18: return pn->px10->ref;
-        case 17: return CRef(-1);
+        case TAGK_Set: return RefEvalSet(p, aref);
+        case TAGK_Define: return RefEvalDefine(p, aref);
+        case TAGK_Assert: return RefEvalAssert(p, aref);
+        case TAGK_Debug: return RefEvalDebug(p, aref);
+        case TAGK_If: return RefEvalIf(p, aref);
+        case TAGK_Or: return RefEvalOr(p, aref);
+        case TAGK_And: return RefEvalAnd(p, aref);
+        case TAGK_Cond: return RefEvalCond(p, aref);
+        case TAGK_Case: return RefEvalCase(p, aref);
+        case TAGK_Let: return RefEvalLet(p, aref);
+        case TAGK_While: return RefEvalWhile(p, aref);
+        case TAGK_Begin: return RefEvalBegin(p, aref);
+        case TAGK_Lambda: return RefEvalLambda(p, aref);
+        case TAGK_Quote: return pn->px10->ref;
+        case TAGK_Import: return CRef(-1);
         }
         return RefEvalApply(p, aref);
     }

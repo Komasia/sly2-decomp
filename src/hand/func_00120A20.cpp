@@ -1,3 +1,4 @@
+/* BIF procedure?: is the argument callable (a lambda closure or a built-in function)? (bool) */
 struct CRef {
     int m_tagk;
     int m_tag;

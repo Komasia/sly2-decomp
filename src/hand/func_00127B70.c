@@ -1,3 +1,5 @@
+/* CFrame::RemoveParent: removes pframeParent from the frame's parent list (releasing that reference) and closes
+ * the gap. */
 typedef struct T { int a; int b; int c; void *ap[1]; } T;
 void func_00256EE0(void *pp, int n);
 void CopyAb(void *pvDst, void *pvSrc, unsigned int cb) asm("CopyAb__FPvT0Ui");

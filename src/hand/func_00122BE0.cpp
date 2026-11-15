@@ -1,3 +1,6 @@
+/* BIF vector-ballistic-velocity: the launch velocity from aref[0] to aref[1] at speed aref[2]; the third vector
+ * (the acceleration, default (0, 0, -1750)) comes from object aref[3]'s transform when given. */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -17,9 +20,9 @@ struct W { char pad[0xC]; O *po; };
 extern "C" {
 CRef RefCoerceF32(CRef *pref) asm("RefCoerceF32__4CRef");
 qword VecBallisticVelocity(qword a, qword b, qword c, float g) asm("VecBallisticVelocity__FfG9VU_VECTORN21");
-CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref) asm("RefOpVectorBallisticVelocity__FiP4CRefP6CFrame");
+CRef RefOpVectorBallisticVelocity(int carg, CRef *aref) asm("RefOpVectorBallisticVelocity__FiP4CRefP6CFrame");
 }
-CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref)
+CRef RefOpVectorBallisticVelocity(int carg, CRef *aref)
 {
     VQ v;
     v.v.x = 0.0f;
@@ -30,7 +33,7 @@ CRef RefOpVectorBallisticVelocity(void *pbasic, CRef *aref)
         if (po && po->pxfm)
             v.q = po->pxfm->pos;
     }
-    CRef ref(0x1A);
+    CRef ref(TAGK_Vector);
     qword *pq = (qword *)ref.u.pv;
     *pq = VecBallisticVelocity(*(qword *)aref[0].u.pv, *(qword *)aref[1].u.pv, v.q, RefCoerceF32(&aref[2]).u.g);
     return ref;

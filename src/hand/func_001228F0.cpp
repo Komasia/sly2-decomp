@@ -1,3 +1,5 @@
+/* BIF vector-distance-squared: the squared distance between two vectors (the second defaults to D_002A2DD0). */
+#include "splice_tagk.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -13,7 +15,7 @@ struct CRef {
 struct W { char pad[0xC]; qword *pv; };
 extern qword D_002A2DD0;
 extern "C" {
-CRef RefOpVectorDistanceSquared(void *pbasic, CRef *aref) asm("RefOpVectorDistanceSquared__FiP4CRefP6CFrame");
+CRef RefOpVectorDistanceSquared(int carg, CRef *aref) asm("RefOpVectorDistanceSquared__FiP4CRefP6CFrame");
 }
 static inline float SDistSq(qword *pa, qword *pb)
 {
@@ -30,4 +32,4 @@ static inline float SDistSq(qword *pa, qword *pb)
     __asm__ ("qmfc2.ni %0, %1" : "=r"(g) : "j"(a));
     return g;
 }
-CRef RefOpVectorDistanceSquared(void *pbasic, CRef *aref) { CRef ref; if (aref[1].m_tagk == 0) ref = SDistSq((qword *)aref[0].u.pv, &D_002A2DD0); else { register W *pw __asm__("$5") = (W *)aref[1].u.pv; ref = SDistSq((qword *)aref[0].u.pv, pw->pv);} return ref; }
+CRef RefOpVectorDistanceSquared(int carg, CRef *aref) { CRef ref; if (aref[1].m_tagk == TAGK_None) ref = SDistSq((qword *)aref[0].u.pv, &D_002A2DD0); else { register W *pw __asm__("$5") = (W *)aref[1].u.pv; ref = SDistSq((qword *)aref[0].u.pv, pw->pv);} return ref; }

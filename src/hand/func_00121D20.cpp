@@ -1,3 +1,4 @@
+/* BIF eval: evaluates the argument as an expression in the calling frame. */
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }

@@ -1,3 +1,5 @@
+/* BIF cons: a new pair (aref[0] . aref[1]); a non-list cdr leaves the pair's cdr empty. */
+#include "splice_tagk.h"
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
     CRef() { m_tagk = -1; }
@@ -35,14 +37,14 @@ struct SPN {
     ~SPN() { NODE *pn = p; if (pn && --pn->cref == 0) delete pn; }
     NODE *operator->() { return p; }
 };
-extern "C" CRef RefOpCons(void *pbasic, CRef *aref) asm("RefOpCons__FiP4CRefP6CFrame");
-CRef RefOpCons(void *pbasic, CRef *aref)
+extern "C" CRef RefOpCons(int carg, CRef *aref) asm("RefOpCons__FiP4CRefP6CFrame");
+CRef RefOpCons(int carg, CRef *aref)
 {
     SPN sp;
     sp.Set(PpairNew());
     sp->ref = aref[0];
     CRef *pref = &aref[1];
-    if (pref->m_tagk == 0x1F)
+    if (pref->m_tagk == TAGK_Pair)
         sp->pnext = (NODE *)pref->u.pv;
     return CRef(sp.p);
 }

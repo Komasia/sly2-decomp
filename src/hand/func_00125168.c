@@ -1,3 +1,4 @@
+/* BIF 128 near-clip-center: the camera's position plus its view direction times its near-clip distance. */
 #include "splice.h"
 typedef struct VECTOR4 VECTOR4;
 typedef struct CM { char pad[0x4C]; float g; char pad2[0x10]; qword mat[4]; } CM;
