@@ -1,19 +1,15 @@
-typedef int TI __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct VR { TI vec; int cref; } VR;
-extern char D_004521B8[];
-VR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
+/* CRef::SetClq: drops the old payload and makes the reference a fresh pooled copy of the quadratic *pclq. */
+#include "splice_ref.h"
 // name: SafeHouse port (CRef::SetClq)
-CRef *SetClq__4CRefP3CLQ(CRef *pref, TI *pvec)
+CRef *SetClq__4CRefP3CLQ(CRef *pref, qword *pclq)
 {
-    VR *p;
+    REFCLQ *p;
     Decref__4CRef(pref);
-    pref->m_tagk = 0x1C;
-    p = func_0011CCC0(D_004521B8);
+    pref->m_tagk = TAGK_Clq;
+    p = (REFCLQ *)func_0011CCC0(&D_004521B8);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((VR *)pref->m_p)->vec = *pvec;
+    ((REFCLQ *)pref->m_tag.m_pv)->clq = *pclq;
     return pref;
 }

@@ -1,19 +1,15 @@
-typedef struct MATRIX4 { float m[4][4]; } __attribute__((aligned(16))) MATRIX4;
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct MR { MATRIX4 mat; int cref; } MR;
-extern char D_004521A0[];
-MR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
+/* CRef::SetMatrix: drops the old payload and makes the reference a fresh pooled copy of *pmat. */
+#include "splice_ref.h"
 // name: SafeHouse port (CRef::SetMatrix)
-CRef *SetMatrix__4CRefP7MATRIX4(CRef *pref, MATRIX4 *pmat)
+CRef *SetMatrix__4CRefP7MATRIX4(CRef *pref, struct MATRIX4 *pmat)
 {
-    MR *p;
+    REFMATRIX *p;
     Decref__4CRef(pref);
-    pref->m_tagk = 0x1B;
-    p = func_0011CCC0(D_004521A0);
+    pref->m_tagk = TAGK_Matrix;
+    p = (REFMATRIX *)func_0011CCC0(&D_004521A0);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((MR *)pref->m_p)->mat = *pmat;
+    ((REFMATRIX *)pref->m_tag.m_pv)->mat = *pmat;
     return pref;
 }

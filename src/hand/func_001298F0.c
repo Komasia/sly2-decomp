@@ -1,19 +1,15 @@
-typedef struct CLT { int a, b, c; } CLT;
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct TR { CLT v; int cref; } TR;
-extern char D_004521E8[];
-TR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
+/* CRef::SetSmp: drops the old payload and makes the reference a fresh pooled copy of *psmp. */
+#include "splice_ref.h"
 // name: SafeHouse port (CRef::SetSmp)
-CRef *SetSmp__4CRefP3SMP(CRef *pref, CLT *pv)
+CRef *SetSmp__4CRefP3SMP(CRef *pref, SMP *psmp)
 {
-    TR *p;
+    REFSMP *p;
     Decref__4CRef(pref);
-    pref->m_tagk = 0x1E;
-    p = func_0011CCC0(D_004521E8);
+    pref->m_tagk = TAGK_Smp;
+    p = (REFSMP *)func_0011CCC0(&D_004521E8);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((TR *)pref->m_p)->v = *pv;
+    ((REFSMP *)pref->m_tag.m_pv)->smp = *psmp;
     return pref;
 }

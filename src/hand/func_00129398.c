@@ -1,16 +1,13 @@
-typedef struct CLQ { int a, b; } CLQ;
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct LR { CLQ v; int cref; } LR;
-extern char D_004521D0[];
-LR *func_0011CCC0(void *pslotheap);
-CRef *func_00129398(CRef *pref, CLQ *pv)
+/* CRef::CRef(LM *): constructs an lm (range) reference holding a fresh pooled copy of *plm. */
+#include "splice_ref.h"
+CRef *func_00129398(CRef *pref, LM *plm)
 {
-    LR *p;
-    pref->m_tagk = 0x1D;
-    p = func_0011CCC0(D_004521D0);
+    REFLM *p;
+    pref->m_tagk = TAGK_Lm;
+    p = (REFLM *)func_0011CCC0(&D_004521D0);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((LR *)pref->m_p)->v = *pv;
+    ((REFLM *)pref->m_tag.m_pv)->lm = *plm;
     return pref;
 }

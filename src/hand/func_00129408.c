@@ -1,18 +1,14 @@
-typedef struct CLT { int a, b, c; } CLT;
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct TR { CLT v; int cref; } TR;
-extern char D_004521E8[];
-TR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
-CRef *func_00129408(CRef *pref, CLT *pv)
+/* CRef::CRef(SMP *): constructs an smp reference holding a fresh pooled copy of *psmp. */
+#include "splice_ref.h"
+CRef *func_00129408(CRef *pref, SMP *psmp)
 {
-    TR *p;
+    REFSMP *p;
 
-    pref->m_tagk = 0x1E;
-    p = func_0011CCC0(D_004521E8);
+    pref->m_tagk = TAGK_Smp;
+    p = (REFSMP *)func_0011CCC0(&D_004521E8);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((TR *)pref->m_p)->v = *pv;
+    ((REFSMP *)pref->m_tag.m_pv)->smp = *psmp;
     return pref;
 }

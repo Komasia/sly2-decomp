@@ -1,32 +1,34 @@
+/* CRef::Incref (Sly 1 ref.h): counts one more reference to the payload: the pooled vector / matrix / clq / lm /
+ * smp node, the pair / closure / method (refcount first), or a game object through its vtable slot 1. */
 #include "vtbl.h"
-typedef struct O { char pad[0xC]; VTENT *vt; } O;
-typedef struct CRef { int m_tagk; union { int *pn; char *pb; O *po; } u; } CRef;
+#include "splice_ref.h"
+typedef struct BASIC { char pad[0xC]; VTENT *pvtbasic; } BASIC;
 void Incref__4CRef(CRef *pref)
 {
     switch (pref->m_tagk) {
-    case 0x1B:
-        (*(int *)(pref->u.pb + 0x40))++;
+    case TAGK_Matrix:
+        ((REFMATRIX *)pref->m_tag.m_pv)->cref++;
         break;
-    case 0x1A:
-    case 0x1C:
-        (*(int *)(pref->u.pb + 0x10))++;
+    case TAGK_Vector:
+    case TAGK_Clq:
+        ((REFVECTOR *)pref->m_tag.m_pv)->cref++;
         break;
-    case 0x1D:
-        (*(int *)(pref->u.pb + 0x8))++;
+    case TAGK_Lm:
+        ((REFLM *)pref->m_tag.m_pv)->cref++;
         break;
-    case 0x1E:
-        (*(int *)(pref->u.pb + 0xC))++;
+    case TAGK_Smp:
+        ((REFSMP *)pref->m_tag.m_pv)->cref++;
         break;
-    case 0x21: {
-        O *po = pref->u.po;
-        if (po)
-            ((void (*)(void *))po->vt[1].pfn)(VT_THIS(po, &po->vt[1]));
+    case TAGK_Basic: {
+        BASIC *pbasic = pref->m_tag.m_pbasic;
+        if (pbasic)
+            ((void (*)(void *))pbasic->pvtbasic[1].pfn)(VT_THIS(pbasic, &pbasic->pvtbasic[1]));
         break;
     }
-    case 0x1F:
-    case 0x20:
-    case 0x22:
-        (*pref->u.pn)++;
+    case TAGK_Pair:
+    case TAGK_Proc:
+    case TAGK_Method:
+        (*(int *)pref->m_tag.m_pv)++;
         break;
     }
 }

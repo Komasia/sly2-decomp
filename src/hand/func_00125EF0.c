@@ -1,10 +1,9 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-void Decref__4CRef(CRef *pref);
-CRef *__4CRefRC4CRef(CRef *pref, CRef *prefSrc);
+/* One of the stub BIFs 140..168: returns nil. */
+#include "splice.h"
 CRef *func_00125EF0(CRef *ret)
 {
     CRef ref;
-    ref.m_tagk = -1;
+    ref.m_tagk = TAGK_Nil;
     __4CRefRC4CRef(ret, &ref);
     Decref__4CRef(&ref);
     return ret;

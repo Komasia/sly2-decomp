@@ -1,8 +1,10 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-CRef *func_001294A0(CRef *ret, int *p)
+/* CRef::CRef(CProc *): constructs a lambda-closure reference to pproc and counts the new reference
+ * (a CProc starts with its reference count). */
+#include "splice.h"
+CRef *func_001294A0(CRef *ret, int *pproc)
 {
-    ret->m_tag = (int)p;
-    ret->m_tagk = 0x20;
-    (*p)++;
+    ret->m_tag.m_pv = pproc;
+    ret->m_tagk = TAGK_Proc;
+    (*pproc)++;
     return ret;
 }

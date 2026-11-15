@@ -1,10 +1,10 @@
-typedef struct CRef { int m_tagk; int m_tag; } CRef;
-void Decref__4CRef(CRef *pref);
+/* CRef::SetBifk: drops the old payload and makes the reference the built-in function bifk. */
+#include "splice.h"
 // name: SafeHouse port (CRef::SetBifk)
-CRef *SetBifk__4CRef4BIFK(CRef *pref, int n)
+CRef *SetBifk__4CRef4BIFK(CRef *pref, int bifk)
 {
     Decref__4CRef(pref);
-    pref->m_tag = n;
-    pref->m_tagk = 0x19;
+    pref->m_tag.m_n = bifk;
+    pref->m_tagk = TAGK_Bifk;
     return pref;
 }

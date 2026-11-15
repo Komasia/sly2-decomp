@@ -1,62 +1,53 @@
-typedef int qword __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; void *m_pv; } CRef;
-typedef struct SLOTHEAP { int a[6]; } SLOTHEAP;
-typedef struct NV { qword v; int cref; } NV;
-typedef struct NM { qword m[4]; int cref; } NM;
-typedef struct N2 { int a[2]; int cref; } N2;
-typedef struct N3 { int a[3]; int cref; } N3;
-extern SLOTHEAP D_00452188;
-extern SLOTHEAP D_004521A0;
-extern SLOTHEAP D_004521B8;
-extern SLOTHEAP D_004521D0;
-extern SLOTHEAP D_004521E8;
-void *func_0011CCC0(SLOTHEAP *psh);
+/* CRef::SetTag (Sly 1 ref.h; SafeHouse ref.h "InitTag 0x12A0B0"): gives the reference a tag. The kinds with a
+ * pooled payload (vector, matrix, clq, lm, smp) get a fresh node holding one reference; every other kind starts
+ * with a null payload. */
+#include "splice_ref.h"
 void InitTag__4CRef(CRef *pref, int tagk)
 {
     pref->m_tagk = tagk;
     switch (tagk) {
-    case 0x1A: {
-        NV *p = (NV *)func_0011CCC0(&D_00452188);
+    case TAGK_Vector: {
+        REFVECTOR *p = (REFVECTOR *)func_0011CCC0(&D_00452188);
         p->cref = 0;
-        pref->m_pv = p;
+        pref->m_tag.m_pv = p;
         p->cref++;
         break;
     }
-    case 0x1B: {
-        NM *p = (NM *)func_0011CCC0(&D_004521A0);
+    case TAGK_Matrix: {
+        REFMATRIX *p = (REFMATRIX *)func_0011CCC0(&D_004521A0);
         p->cref = 0;
-        pref->m_pv = p;
+        pref->m_tag.m_pv = p;
         p->cref++;
         break;
     }
-    case 0x1C: {
-        NV *p = (NV *)func_0011CCC0(&D_004521B8);
+    case TAGK_Clq: {
+        REFCLQ *p = (REFCLQ *)func_0011CCC0(&D_004521B8);
         p->cref = 0;
-        pref->m_pv = p;
+        pref->m_tag.m_pv = p;
         p->cref++;
         break;
     }
-    case 0x1D: {
-        N2 *p = (N2 *)func_0011CCC0(&D_004521D0);
+    case TAGK_Lm: {
+        REFLM *p = (REFLM *)func_0011CCC0(&D_004521D0);
         p->cref = 0;
-        pref->m_pv = p;
+        pref->m_tag.m_pv = p;
         p->cref++;
         break;
     }
-    case 0x1E: {
-        N3 *p = (N3 *)func_0011CCC0(&D_004521E8);
+    case TAGK_Smp: {
+        REFSMP *p = (REFSMP *)func_0011CCC0(&D_004521E8);
         p->cref = 0;
-        pref->m_pv = p;
+        pref->m_tag.m_pv = p;
         p->cref++;
         break;
     }
-    case 0x1F:
-    case 0x20:
-    case 0x21:
-    case 0x22:
-    case 0x23:
+    case TAGK_Pair:
+    case TAGK_Proc:
+    case TAGK_Basic:
+    case TAGK_Method:
+    case 0x23:      /* TAGK_Err in SafeHouse (unconfirmed) */
     default:
-        pref->m_pv = 0;
+        pref->m_tag.m_pv = 0;
         break;
     }
 }

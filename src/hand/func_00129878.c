@@ -1,19 +1,15 @@
-typedef struct CLQ { int a, b; } CLQ;
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct LR { CLQ v; int cref; } LR;
-extern char D_004521D0[];
-LR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
+/* CRef::SetLm: drops the old payload and makes the reference a fresh pooled copy of the range *plm. */
+#include "splice_ref.h"
 // name: SafeHouse port (CRef::SetLm)
-CRef *SetLm__4CRefP2LM(CRef *pref, CLQ *pv)
+CRef *SetLm__4CRefP2LM(CRef *pref, LM *plm)
 {
-    LR *p;
+    REFLM *p;
     Decref__4CRef(pref);
-    pref->m_tagk = 0x1D;
-    p = func_0011CCC0(D_004521D0);
+    pref->m_tagk = TAGK_Lm;
+    p = (REFLM *)func_0011CCC0(&D_004521D0);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((LR *)pref->m_p)->v = *pv;
+    ((REFLM *)pref->m_tag.m_pv)->lm = *plm;
     return pref;
 }

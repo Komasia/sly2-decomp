@@ -1,18 +1,14 @@
-typedef int TI __attribute__((mode(TI)));
-typedef struct CRef { int m_tagk; void *m_p; } CRef;
-typedef struct VR { TI vec; int cref; } VR;
-extern char D_00452188[];
-VR *func_0011CCC0(void *pslotheap);
-void Decref__4CRef(CRef *pref);
-CRef *func_001296A8(CRef *pref, TI *pvec)
+/* CRef::SetVector(VECTOR *): drops the old payload and makes the reference a fresh pooled copy of *pvec. */
+#include "splice_ref.h"
+CRef *func_001296A8(CRef *pref, qword *pvec)
 {
-    VR *p;
+    REFVECTOR *p;
     Decref__4CRef(pref);
-    pref->m_tagk = 0x1A;
-    p = func_0011CCC0(D_00452188);
+    pref->m_tagk = TAGK_Vector;
+    p = (REFVECTOR *)func_0011CCC0(&D_00452188);
     p->cref = 0;
-    pref->m_p = p;
+    pref->m_tag.m_pv = p;
     p->cref++;
-    ((VR *)pref->m_p)->vec = *pvec;
+    ((REFVECTOR *)pref->m_tag.m_pv)->vec = *pvec;
     return pref;
 }
