@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
+#include "vtbl.h"
 struct Q { char pad[0x5C]; int dl; };
-struct P { int pad[3]; VTE *vt; int pad10; Q *pq; char pad2[0x9C - 0x18]; int x9C; char pad3[0xEC - 0xA0]; void *pvEC; };
+struct P { int pad[3]; VTENT *vt; int pad10; Q *pq; char pad2[0x9C - 0x18]; int x9C; char pad3[0xEC - 0xA0]; void *pvEC; };
 class LOCK {
 public:
     P *m_p;
-    LOCK(P *p) : m_p(p) { p->vt[1].pfn((char *)p + p->vt[1].d); }
-    ~LOCK() { m_p->vt[2].pfn((char *)m_p + m_p->vt[2].d); }
+    LOCK(P *p) : m_p(p) { ((void (*)(void *))p->vt[1].pfn)(VT_THIS(p, &p->vt[1])); }
+    ~LOCK() { ((void (*)(void *))m_p->vt[2].pfn)(VT_THIS(m_p, &m_p->vt[2])); }
 };
 #include "clock.h"
 extern "C" {
@@ -52,5 +52,5 @@ void RetireRun(P *p)
         func_00258040(ppv, 0);
     }
     if (p->x9C) EndRunCamera(p, 1);
-    p->vt[2].pfn((char *)p + p->vt[2].d);
+    ((void (*)(void *))p->vt[2].pfn)(VT_THIS(p, &p->vt[2]));
 }

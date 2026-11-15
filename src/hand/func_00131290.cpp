@@ -1,4 +1,4 @@
-struct VTE { short d; short pad; void (*pfn)(); };
+#include "vtbl.h"
 struct EV { float g0; unsigned int k; void *pv; union { float g; int n; } uC; };
 struct Q { char pad[0xA0]; int cev; struct EV *aev; };
 struct A0 { int x0; int x4; int x8; int xC; float g10; float g14; float g18; };

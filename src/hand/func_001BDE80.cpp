@@ -8,6 +8,7 @@
    - MulPt uses a plain "=j" output (an in/out "+j" or an earlyclobber changes the VF allocation).
    - px lives in $s1 for both polygon loops in the original; without the pin it swaps with the polygon index (s0/s1)
      (single register pin; GetMat is written out by hand because an inline helper's parameter copy fights the pin). */
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[4]; } M4;
 struct CTX;
@@ -18,8 +19,7 @@ struct AREQ { int cb; int align; AREQ(int c, int a) { cb = c; align = a; } };
 struct DL { void *pvFirst; void *pvLast; int ibDle; };
 struct DLI { DL *pdl; void **ppv; int ibDle; DLI *pdliNext; };
 struct X;
-struct VT { short d; short pad; void *pfn; };
-struct X { int x0, x4, x8; VT *vt; char pad[0xE4 - 0x10]; int xE4; int c; char pad2[0xF4 - 0xEC]; qword *apos;
+struct X { int x0, x4, x8; VTENT *vt; char pad[0xE4 - 0x10]; int xE4; int c; char pad2[0xF4 - 0xEC]; qword *apos;
            char pad3[0x190 - 0xF8]; int x190; char pad4[0x1C0 - 0x194]; int x1C0; DL dl; char pad5[0x1D8 - 0x1D0]; X*x1D8; };
 extern DLI *s_pdliFirst;
 extern qword D_002A2DD0;
@@ -71,7 +71,7 @@ extern "C" void MergePolys__FiPP7NAVPOLY(int n, X **ap)
     k = -16;
     do {
         px = ap[polygon];
-        M4 m=*((M4 *(*)(X *))px->vt[31].pfn)((X *)((char *)px + px->vt[31].d));   /* virtual GetMatrix() */
+        M4 m=*((M4 *(*)(X *))px->vt[31].pfn)((X *)VT_THIS(px, &px->vt[31]));   /* virtual GetMatrix() */
         j = 0;
         if (j < px->c - 1) {
             qword *pw = (qword*)((unsigned)k + (unsigned)apos);
@@ -91,7 +91,7 @@ extern "C" void MergePolys__FiPP7NAVPOLY(int n, X **ap)
         /* sum /= (c-1) via vdiv/vmulq; the extra "+j"(k2) is allocation/ordering only: it keeps the dead store of k2 after the vmulq */
         __asm__("vdiv $Q, $vf0w, %2x\n\tvwaitq\n\tvmulq.xyzw %0, %0, $Q" : "+j"(sum), "+j"(k2) : "j"(k2));
         void (*pfn)(X *, qword) = (void (*)(X *, qword))pNew->vt[29].pfn;   /* virtual SetCenter(sum); pfn load must precede the u store */
-        pfn((X *)((char *)pNew + pNew->vt[29].d), (u.q = k2, sum));
+        pfn((X *)VT_THIS(pNew, &pNew->vt[29]), (u.q = k2, sum));
         int pointIndex = pNew->c;
         while (--pointIndex >= 0) {
             qword point=pNew->apos[pointIndex];
@@ -110,7 +110,7 @@ extern "C" void MergePolys__FiPP7NAVPOLY(int n, X **ap)
                 pv->x1D8 = 0;
                 AddPolyMember(pv, pNew);
             }
-            ((void (*)(X *))px->vt[9].pfn)((X *)((char *)px + px->vt[9].d));
+            ((void (*)(X *))px->vt[9].pfn)((X *)VT_THIS(px, &px->vt[9]));
             AppendDlEntry(&D_003E1A40, px);
             s_pdliFirst = dli.pdliNext;
         } else {

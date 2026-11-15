@@ -1,15 +1,15 @@
 typedef int qword __attribute__((mode(TI)));
 #include "clock.h"
+#include "vtbl.h"
 extern "C" qword D_002A2DD0;
 extern "C" char g_game[];
 struct M4 { qword r[4]; };
-struct VTE { short d; short pad; void *pfn; };
-struct O { char pad[0xC]; struct VTE *vt; int n10; };
+struct O { char pad[0xC]; VTENT *vt; int n10; };
 struct N { char pad[0xA0]; int nA0; };
 struct E { void *p0; int pad[5]; };
 struct Q { int a[4]; };
 struct S {
-    char pad[0xC]; struct VTE *vt; char pad2[0x44]; struct N *p54; struct N *p58; struct N *p5C;
+    char pad[0xC]; VTENT *vt; char pad2[0x44]; struct N *p54; struct N *p58; struct N *p5C;
     char pad3[0x1C0 - 0x60]; int n1C0; float f1C4; struct Q a1C8[6]; char padq[8]; int n230;
     char pad4[0x248 - 0x234]; struct E a248[3]; int pade; struct O *p294; int n298; int n29C; struct O *p2A0; void *p2A4; int n2A8;
 };
@@ -44,7 +44,7 @@ void SetShipState(struct S *p, int n) {
         {
             struct O *q = p->p2A0;
             if (q) {
-                { struct VTE *e = &q->vt[0x31]; ((void (*)(void *, int))e->pfn)((char *)q + e->d, -1); }
+                { VTENT *e = &q->vt[0x31]; ((void (*)(void *, int))e->pfn)(VT_THIS(q, e), -1); }
                 func_00213B00(p->p2A0, 0x34F);
                 UpdateHackHud(p);
                 if (p->n2A8 != old) {
@@ -82,7 +82,7 @@ void SetShipState(struct S *p, int n) {
     case -1:
         {
             struct O *q = p->p2A0;
-            if (q) { struct VTE *e = &q->vt[0x32]; ((void (*)(void *))e->pfn)((char *)q + e->d); }
+            if (q) { VTENT *e = &q->vt[0x32]; ((void (*)(void *))e->pfn)(VT_THIS(q, e)); }
             void **pp = &p->p2A4;
             if (*pp) {
                 Stop(*pp, 0.0f);
@@ -95,11 +95,11 @@ void SetShipState(struct S *p, int n) {
             struct M4 m;
             int r;
 
-            { struct O *q = p->p294; struct VTE *e = &q->vt[0x20]; r = ((int (*)(void *, struct M4 *))e->pfn)((char *)q + e->d, &m); }
+            { struct O *q = p->p294; VTENT *e = &q->vt[0x20]; r = ((int (*)(void *, struct M4 *))e->pfn)(VT_THIS(q, e), &m); }
             m = func_0022FF40(p->p54->nA0, p->p58->nA0, &m);
-            { struct VTE *e = &p->vt[0xA]; ((void (*)(void *, int, int, int))e->pfn)((char *)p + e->d, p->p294->n10, r, 3); }
-            { struct VTE *e = &p->vt[0x23]; ((void (*)(void *, qword))e->pfn)((char *)p + e->d, D_002A2DD0); }
-            { struct VTE *e = &p->vt[0x24]; ((void (*)(void *, qword))e->pfn)((char *)p + e->d, D_002A2DD0); }
+            { VTENT *e = &p->vt[0xA]; ((void (*)(void *, int, int, int))e->pfn)(VT_THIS(p, e), p->p294->n10, r, 3); }
+            { VTENT *e = &p->vt[0x23]; ((void (*)(void *, qword))e->pfn)(VT_THIS(p, e), D_002A2DD0); }
+            { VTENT *e = &p->vt[0x24]; ((void (*)(void *, qword))e->pfn)(VT_THIS(p, e), D_002A2DD0); }
             p->n298 = PctrlNewPos(p, p->p58, 1, 7, 2, m.r[3]);
             p->n29C = PctrlNewPos(p, p->p5C, 1, 7, 2, DecomposeEulerMatrix(&m));
             SetAloCnstrLin(p, 1);

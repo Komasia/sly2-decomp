@@ -1,8 +1,8 @@
 // Change selection state and prepare the nearest eligible actor.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } VU;
-struct VTE { short d; short pad; qword (*pfn)(void *,...); };
-struct O { char pad[0xC]; struct VTE *vt; char pad1[0xFC4 - 0x10]; void *xFC4; };
+struct O { char pad[0xC]; VTENT *vt; char pad1[0xFC4 - 0x10]; void *xFC4; };
 struct P;
 struct N {struct P *owner;struct O *object;struct N *next;};
 struct P { char pad[0x150]; int k; char pad1[0x1B0 - 0x154]; void *x1B0; struct O *po; struct N hook; };
@@ -91,14 +91,14 @@ extern "C" void SetExtractorState__FP2LOi(struct P *p, int k)
             p->hook.owner = p;
             p->hook.object = poBest;
             LinkObjNode(poBest, &p->hook);
-            q = poBest->vt[33].pfn((char *)poBest + poBest->vt[33].d);
+            q = ((qword (*)(void *,...))poBest->vt[33].pfn)(VT_THIS(poBest, &poBest->vt[33]));
             s=LoadCoefficient();
             u.q = q;
             __asm__("vmulx.xyzw %0, %1, %2x" : "=j"(r) : "j"(q), "j"(s));
             u.q = r;
             v.q = s;
             u.f[2] = D_002C43F4;
-            ((void (*)(void *, qword))poBest->vt[35].pfn)((char *)poBest + poBest->vt[35].d, u.q);
+            ((void (*)(void *, qword))poBest->vt[35].pfn)(VT_THIS(poBest, &poBest->vt[35]), u.q);
             ReactGuardHeld(poBest, 0);
         }
     }

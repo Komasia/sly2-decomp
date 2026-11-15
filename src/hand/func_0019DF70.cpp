@@ -1,11 +1,11 @@
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f; } U;
 #include "mat.h"
+#include "vtbl.h"
 typedef struct MATRIX3 M3;
-typedef struct { short d; short pad; qword (*pfn)(void *); } VT;
 struct S14 { char pad[0x74]; float x74; };
 struct S1030 { char pad[0x14]; struct S14 *x14; int pad2; float x1c; };
-struct O { char pad[0xC]; VT *vt; char pad2[0x1030-0x10]; struct S1030 *x1030; };
+struct O { char pad[0xC]; VTENT *vt; char pad2[0x1030-0x10]; struct S1030 *x1030; };
 struct CURVE;
 struct P { struct O *x0; int x4; int x8; struct CURVE *xc; float x10; int x14; int x18; };
 #include "clock.h"
@@ -35,10 +35,7 @@ typedef char O_PrefixSize[sizeof(struct O)==4148?1:-1];
 typedef char P_PrefixSize[sizeof(struct P)==28?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
 typedef char U_Size[sizeof(U)==16?1:-1];
-typedef char VT_Size[sizeof(VT)==8?1:-1];
 typedef char M3_Size[sizeof(M3)==48?1:-1];
-typedef char VT_d_Offset[((unsigned int)&(((VT*)0x10000)->d)-0x10000)==0?1:-1];
-typedef char VT_fn_Offset[((unsigned int)&(((VT*)0x10000)->pfn)-0x10000)==4?1:-1];
 typedef char M3_mat_Offset[((unsigned int)&(((M3*)0x10000)->mat)-0x10000)==0?1:-1];
 // name: SafeHouse port (UpdateClimbMotion)
 extern "C" void UpdateClimbMotion__FP5ACTOR(struct P *p)
@@ -55,12 +52,12 @@ extern "C" void UpdateClimbMotion__FP5ACTOR(struct P *p)
         M3 *pa;
         g = g > dt ? g : dt;
         pa = MatJtLo(o);
-        MatHermiteRotation(pa, g, dt, 1.0f, p->x0->vt[34].pfn((char *)p->x0 + p->x0->vt[34].d), &m, D_002A2DD0, &m2, 0);
+        MatHermiteRotation(pa, g, dt, 1.0f, ((qword (*)(void *))p->x0->vt[34].pfn)(VT_THIS(p->x0, &p->x0->vt[34])), &m, D_002A2DD0, &m2, 0);
     } else {
         m2 = m;
     }
     pm = &m2;
     m4 = MulMat3TransposeA(MatJtLo(p->x0), pm);
     DecomposeRotateMatrixRad(&m4, &f, &vec);
-    {O *o=p->x0;VT *vt=o->vt;void (*call)(void *,qword)=(void(*)(void*,qword))vt[36].pfn;void *thisp=(char*)o+vt[36].d;call(thisp,Scale(vec.q,f/g_clock.dt));}
+    {O *o=p->x0;VTENT *vt=o->vt;void (*call)(void *,qword)=(void(*)(void*,qword))vt[36].pfn;void *thisp=VT_THIS(o, &vt[36]);call(thisp,Scale(vec.q,f/g_clock.dt));}
 }

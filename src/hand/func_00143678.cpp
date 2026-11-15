@@ -1,4 +1,5 @@
 // MATCH (Claude agent, laneC20 2026-10-23): v4 + __4CRefRC4CRef (CRef copy ctor) declared returning void * instead of void.
+#include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void *func_001291A8(CRef *, const CRef *); // CRef copy ctor returns this (void *); declaring it void scheduled the pv copy early
@@ -13,10 +14,9 @@ struct CRef {
 };
 struct CRef16 : CRef { int pad[2]; CRef16(int k, int n) : CRef(k, n) {} };
 struct MARK { int a[4]; MARK(); ~MARK(); };
-struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct Y { int x0; int x4; };
 struct X { char pad[0x158]; Y *p158; void *p15C; };
-struct LO { char pad[0xC]; VTE *vt; char pad2[0x18 - 0x10]; void *p18; char pad3[0x11A8 - 0x1C]; X *p11A8; };
+struct LO { char pad[0xC]; VTENT *vt; char pad2[0x18 - 0x10]; void *p18; char pad3[0x11A8 - 0x1C]; X *p11A8; };
 struct Q { char pad[0x194]; void *p194; };
 struct SO { char pad[0x180]; int x180; };
 struct K { char pad[0xC]; unsigned short xC; };
@@ -49,7 +49,7 @@ static inline void SetPv(void *pv, const CRef &r, void *)
     func_00258200(pv, *(CRef *)&arg, &D_003D4A60);
     Decref((CRef *)&arg);
 }
-static inline void *Vcall103(LO *p) { VTE *e = &p->vt[103]; return e->pfn((char *)p + e->d); }
+static inline void *Vcall103(LO *p) { VTENT *e = &p->vt[103]; return ((void * (*)(void *))e->pfn)(VT_THIS(p, e)); }
 
 // name: SafeHouse port (SaveBootyMove)
 extern "C" void SaveBootyMove__FP5ACTORiP2LO(LO *p, int n, Q *q)

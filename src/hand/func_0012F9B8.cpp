@@ -1,5 +1,5 @@
 // MATCH (Claude agent, laneB6, 2026-10-23), from the 116/aligned-25 draft: (1) no f4/f2 locals (`(grf >> 2) & 1` and `grf & 2` at their uses), so the vtable address is hoisted into fp; (2) AddXfCtrl takes pn as a 3rd argument; (3) pn->xC before pn->x14; (4) floats before pp in the prototype (prologue copy order).
-struct VTE { short d; short pad; void (*pfn)(); };
+#include "vtbl.h"
 struct POLY { float a, b, c; };
 struct E60 { unsigned int k; int x4; };
 struct E68 { int x0; int x4; int x8; };
@@ -9,19 +9,19 @@ struct T {
     int x0; char pad4[0x50 - 4]; struct DL dl50; int x5C; struct E60 *ae60; int c64; struct E68 *ae68; int x6C;
     int x70; int pad74; float g78; int pad7C; struct POLY poly; int pad8C; float g90; float g94; int cev; struct EV *aev; int xA0;
 };
-struct N34 { int x0; int x4; int x8; int xC; int x14_pad; int x14; VTE *pvt; int x1C; int x20; struct P *p24; struct N34 *pnNext; };
+struct N34 { int x0; int x4; int x8; int xC; int x14_pad; int x14; VTENT *pvt; int x1C; int x20; struct P *p24; struct N34 *pnNext; };
 struct N38 { int x0; int x4; int x8; int xC; struct N38 *pnNext; };
 struct P {
-    int x0; int x4; int x8; VTE *pvt; int x10; struct T *pt; int x18; float g1C; float g20; char pad24[0x34 - 0x24];
+    int x0; int x4; int x8; VTENT *pvt; int x10; struct T *pt; int x18; float g1C; float g20; char pad24[0x34 - 0x24];
     struct N34 *pn34; struct N38 *pn38; int x3C; float g40; int x44; float g48; float g4C; int x50; int pad54[2]; int x5C;
 };
-struct G { P *p; G(P *pp) : p(pp) { ((void (*)(P *))p->pvt[1].pfn)((P *)((char *)p + p->pvt[1].d)); }
-    ~G() { ((void (*)(P *))p->pvt[2].pfn)((P *)((char *)p + p->pvt[2].d)); } };
+struct G { P *p; G(P *pp) : p(pp) { ((void (*)(P *))p->pvt[1].pfn)((P *)VT_THIS(p, &p->pvt[1])); }
+    ~G() { ((void (*)(P *))p->pvt[2].pfn)((P *)VT_THIS(p, &p->pvt[2])); } };
 extern "C" {
 extern char D_003E1224[];
 extern char D_003E1218[];
-extern VTE D_002CAF48[];
-extern VTE D_002CAF08[];
+extern VTENT D_002CAF48[];
+extern VTENT D_002CAF08[];
 extern char D_002DE578[];
 P *func_0011CCC0(void *);
 void *s1_memset(void *, int, int) asm("memset");
@@ -65,7 +65,7 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
     SetAsegaSpeed(p, g1);
     AppendDlEntry(D_003E1218, p);
     AppendDlEntry(&pt->dl50, p);
-    ((void (*)(P *))p->pvt[1].pfn)((P *)((char *)p + p->pvt[1].d));
+    ((void (*)(P *))p->pvt[1].pfn)((P *)VT_THIS(p, &p->pvt[1]));
     G g(p);
     func_00256EE0(p, pt->x0);
     if (pp)
@@ -108,7 +108,7 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
             pn->pnNext = p->pn38;
             p->pn38 = pn;
             P *po = (P *)a;
-            ((void (*)(P *, int))po->pvt[44].pfn)((P *)((char *)po + po->pvt[44].d), pe->x0);
+            ((void (*)(P *, int))po->pvt[44].pfn)((P *)VT_THIS(po, &po->pvt[44]), pe->x0);
         }
     }
     SetAsegaEventSound(p, pt->x70);
@@ -124,5 +124,5 @@ extern "C" void ApplyAseg__FP4ASEGiiffPP5ASEGA(struct T *pt, int x, int grf, flo
     } else {
         UpdateAsegaIeaCur(p);
     }
-    ((void (*)(P *, int, int, int, int, int))p->pvt[3].pfn)((P *)((char *)p + p->pvt[3].d), 2, 0, 0, 0, 0);
+    ((void (*)(P *, int, int, int, int, int))p->pvt[3].pfn)((P *)VT_THIS(p, &p->pvt[3]), 2, 0, 0, 0, 0);
 }

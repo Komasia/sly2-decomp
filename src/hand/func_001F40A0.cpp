@@ -1,3 +1,4 @@
+#include "vtbl.h"
 extern "C" {
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword r[3]; } M3;
@@ -7,8 +8,7 @@ struct LO { char pad[0x30]; V4 v30; M4 m40; char pad2[0xA0 - 0x80]; struct LO *p
 struct REGION;
 struct REGION_LINK;
 struct E { char pad[0xDC]; struct REGION_LINK *regionLink; };
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct P { char pad[0xC]; struct VTE *pvt; char pad2[0x58 - 0x10]; struct LO *p58; char pad3[0x60 - 0x5C]; struct LO *p60; char pad4[0xE8 - 0x64]; struct E *pe; };
+struct P { char pad[0xC]; VTENT *pvt; char pad2[0x58 - 0x10]; struct LO *p58; char pad3[0x60 - 0x5C]; struct LO *p60; char pad4[0xE8 - 0x64]; struct E *pe; };
 struct SW { char pad[0x3D58]; int n3D58; };
 extern struct SW g_sw;
 qword *func_00256D18(qword *, qword);
@@ -63,7 +63,7 @@ void SetAloPos__FP3ALOG9VU_VECTOR(struct P *p, qword v)
     func_00256D18(&plo->v30.q, mC0.r[3]);
     plo->v30.f[3] = 1.0f;
     { int stamp=++g_sw.n3D58;p->p58->nA4=stamp; }
-    p->pvt[18].pfn((char *)p + p->pvt[18].d);
+    ((void (*)(void *))p->pvt[18].pfn)(VT_THIS(p, &p->pvt[18]));
     DetachAloContacts(p);
     HoldXfMode(p, p->p58);
     CopyAloSoeMatrices(p);

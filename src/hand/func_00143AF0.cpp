@@ -1,3 +1,4 @@
+#include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
 extern "C" void func_001291A8(CRef *, const CRef *);
@@ -10,8 +11,7 @@ struct CRef {
     ~CRef() { Decref(this); }
 };
 struct CRefRaw { int tagk; int tag; };  /* same layout, no ctor/dtor */
-struct VTE { short d; short pad; void *(*pfn)(void *); };
-struct LO { char pad[0xC]; VTE *vt; char pad2[0x18 - 0x10]; void *p18; };
+struct LO { char pad[0xC]; VTENT *vt; char pad2[0x18 - 0x10]; void *p18; };
 struct G;
 extern "C" G D_003D4A60;
 extern char D_002A4DB0[];
@@ -41,7 +41,7 @@ extern "C" void *AkeyReturnBooty__FP5ACTORi(LO *p, int x)
         CRef a(x, 0x15);
         SetPv(pv, a, &D_003D4A60);
     }
-    VTE *e = &p->vt[103];
-    CRef ret = SetProgressPoCurrent(CRef(0x15, -1, 0), e->pfn((char *)p + e->d), D_002A4DB0, 0);
+    VTENT *e = &p->vt[103];
+    CRef ret = SetProgressPoCurrent(CRef(0x15, -1, 0), ((void * (*)(void *))e->pfn)(VT_THIS(p, e)), D_002A4DB0, 0);
     return pv;
 }

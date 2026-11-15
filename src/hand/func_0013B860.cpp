@@ -1,10 +1,10 @@
 // (Claude agent) frame declared at function scope with explicit init/free calls (free = dtor with in-charge 2) so msg2 reuses msg's slot.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword q; float f[4]; } U;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct PO { int pad[3]; VTE *pvt; int x10; struct PO **pp14; };
+struct PO { int pad[3]; VTENT *pvt; int x10; struct PO **pp14; };
 struct P {
-    int pad0[3]; VTE *pvt; char pad10[0x28 - 0x10]; unsigned long ul28; char pad30[0x154 - 0x30]; float g154; int pad158;
+    int pad0[3]; VTENT *pvt; char pad10[0x28 - 0x10]; unsigned long ul28; char pad30[0x154 - 0x30]; float g154; int pad158;
     float g15C; int pad160; int x164; PO *p168; float g16C; int pad170; int x174; int pad178[2];
     qword v180; char ab190[0x30]; qword v1C0; qword v1D0; int x1E0; int pad1E4[2]; int x1EC; int x1F0; int pad1F4[3]; PO *p200;
 };
@@ -78,10 +78,10 @@ extern "C" void EndProjectile__FP3ALO(P *p)
         }
         FrameFree(&frame, 2);
     }
-    ((void (*)(P *, qword))p->pvt[29].pfn)((P *)((char *)p + p->pvt[29].d), p->v180);
-    ((void (*)(P *, void *))p->pvt[30].pfn)((P *)((char *)p + p->pvt[30].d), p->ab190);
-    ((void (*)(P *, qword))p->pvt[35].pfn)((P *)((char *)p + p->pvt[35].d), p->v1C0);
-    ((void (*)(P *, qword))p->pvt[36].pfn)((P *)((char *)p + p->pvt[36].d), p->v1D0);
+    ((void (*)(P *, qword))p->pvt[29].pfn)((P *)VT_THIS(p, &p->pvt[29]), p->v180);
+    ((void (*)(P *, void *))p->pvt[30].pfn)((P *)VT_THIS(p, &p->pvt[30]), p->ab190);
+    ((void (*)(P *, qword))p->pvt[35].pfn)((P *)VT_THIS(p, &p->pvt[35]), p->v1C0);
+    ((void (*)(P *, qword))p->pvt[36].pfn)((P *)VT_THIS(p, &p->pvt[36]), p->v1D0);
     if (p->p168) {
         MSG2 msg2;
         PO *po = p->p168;
@@ -89,7 +89,7 @@ extern "C" void EndProjectile__FP3ALO(P *p)
         msg2.g8 = p->g16C;
         msg2.gC = p->g15C;
         msg2.p = p;
-        ((void (*)(PO *, MSG2 *))po->pvt[51].pfn)((PO *)((char *)po + po->pvt[51].d), &msg2);
+        ((void (*)(PO *, MSG2 *))po->pvt[51].pfn)((PO *)VT_THIS(po, &po->pvt[51]), &msg2);
     }
     if (p->x1E0) {
         PO *po = p->p200;
@@ -100,8 +100,8 @@ extern "C" void EndProjectile__FP3ALO(P *p)
         }
         func_00156698(g_sw.x402C, PosOfLo(p), pv)[0x54 / 4] = 1;
     }
-    ((void (*)(P *))p->pvt[9].pfn)((P *)((char *)p + p->pvt[9].d));
+    ((void (*)(P *))p->pvt[9].pfn)((P *)VT_THIS(p, &p->pvt[9]));
     p->x174 = 0;
     p->g154 = D_002A4B1C;
-    ((void (*)(P *, int, int, int, int, int))p->pvt[3].pfn)((P *)((char *)p + p->pvt[3].d), 5, 0, 0, 0, 0);
+    ((void (*)(P *, int, int, int, int, int))p->pvt[3].pfn)((P *)VT_THIS(p, &p->pvt[3]), 5, 0, 0, 0, 0);
 }

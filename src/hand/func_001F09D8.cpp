@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { VTE a[3]; };
+#include "vtbl.h"
+struct VT { VTENT a[3]; };
 struct P { char pad[0xC]; VT *pvt; char pad2[0x24 - 0x10]; void *p24; char pad3[0x30 - 0x28]; void *p30; int n34; int n38; int n3C; };
 extern "C" int FSmaRetracted(P *) asm("FSmaRetracted__FP3SMA");
 extern "C" int func_001F0438(void *, int);
@@ -8,8 +8,8 @@ extern "C" void NotifySmaState(P *, int, int) asm("NotifySmaState__FP3SMAii");
 extern "C" void ChooseSmaTransition(P *, int) asm("ChooseSmaTransition__FP3SMAi");
 struct Lock {
     P *p;
-    Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
-    ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
+    Lock(P *pp) { p = pp; ((void (*)(void *))p->pvt->a[1].pfn)(VT_THIS(p, &p->pvt->a[1])); }
+    ~Lock() { ((void (*)(void *))p->pvt->a[2].pfn)(VT_THIS(p, &p->pvt->a[2])); }
 };
 // name: SafeHouse port (SetSmaState)
 extern "C" void SetSmaState__FP3SMA3OID(P *p, int n)

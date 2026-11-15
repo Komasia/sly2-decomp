@@ -1,3 +1,4 @@
+#include "vtbl.h"
 struct CRef;
 extern "C" void Decref(CRef *) asm("Decref__4CRef");
 struct CRef {
@@ -5,9 +6,8 @@ struct CRef {
     CRef(int k, int n) { tagk = k; tag = n; }
     ~CRef() { Decref(this); }
 };
-struct VTE { short d; short pad; void *(*pfn)(void *); };
 struct E { int id; int a; float g; };
-struct P { char pad[0xC]; VTE *vt; char pad2[0x1180 - 0x10]; E ae[3]; };
+struct P { char pad[0xC]; VTENT *vt; char pad2[0x1180 - 0x10]; E ae[3]; };
 #include "clock.h"
 extern "C" {
 extern char D_002A4D50[];
@@ -33,10 +33,10 @@ extern "C" void SetActorAbilitySlot__FP5ACTORii(P *p, unsigned int i, int id)
                 pe2->id = -1;
             }
             sprintf(ach, D_002A4D50, j);
-            VTE *e = &p->vt[103];
-            SetProgressPoCurrent(CRef(0x15, p->ae[j].id), e->pfn((char *)p + e->d), D_002A4D58, ach, 0);
+            VTENT *e = &p->vt[103];
+            SetProgressPoCurrent(CRef(0x15, p->ae[j].id), ((void * (*)(void *))e->pfn)(VT_THIS(p, e)), D_002A4D58, ach, 0);
         }
-        VTE *e = &p->vt[105];
-        ((void (*)(void *))e->pfn)((char *)p + e->d);
+        VTENT *e = &p->vt[105];
+        ((void (*)(void *))e->pfn)(VT_THIS(p, e));
     }
 }

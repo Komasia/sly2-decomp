@@ -7,11 +7,11 @@
 // gcc emits the mfc1 itself (with its latency, so a free insn lands between mfc1 and qmtc2 like the target) and g stays in f20.
 // (2) path 2 uses VUF2, the same ctor with a VOLATILE empty asm (keeps the qB0 lqc2 after the mfc1), through
 // BuildRotationS(const VUF2 &f, qword v) { BuildRotateMatrixVector(&m, Scale(v, f)); }. Left: SetM4 row store order (r1,r2,r0) and path-3 *pm = t store order.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef union { qword r[4]; float m[4][4]; } M4;
 struct M3 { qword r[3]; };
-struct VT { short d; short pad; void (*pfn)(); };
-struct OB { char pad[0x18]; VT *vt; };
+struct OB { char pad[0x18]; VTENT *vt; };
 struct O {
     M4 local; char pad40[0x90 - 0x40]; OB *pob; int k94; short k98; short k9A; char pad9C[0xB0 - 0x9C]; qword qB0;
 };
@@ -77,7 +77,7 @@ void PredictXf(O *po, M4 *pm, M4 *pm2, float g)
         qword q[2];
         M4 t;
         OB *pob = po->pob;
-        ((void (*)(void *, qword *, qword *))pob->vt[5].pfn)((char *)pob + pob->vt[5].d, &q[0], &q[1]);
+        ((void (*)(void *, qword *, qword *))pob->vt[5].pfn)(VT_THIS(pob, &pob->vt[5]), &q[0], &q[1]);
         MatXfWithValue(&t, po, q[0]);
         *pm = t;
         switch (po->k94) {

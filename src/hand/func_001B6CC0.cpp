@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VT { short d; short pad; void *pfn; };
 struct O { char pad[0x80]; qword v80; };
 struct P {
-    char pad0[0xC]; struct VT *vt; char pad1[0xE8 - 0x10]; struct O *pE8; char pad1b[0x190 - 0xEC]; qword v190;
+    char pad0[0xC]; VTENT *vt; char pad1[0xE8 - 0x10]; struct O *pE8; char pad1b[0x190 - 0xEC]; qword v190;
     char pad4[0x13D8 - 0x1A0]; int x13D8;
 };
 extern "C" qword g_normalZ;
@@ -24,14 +24,11 @@ static inline qword Projection(qword a,qword b) {
 /* The load replaces its address carrier with the actual scalar word. */
 static inline int ReadFactor(void){unsigned int bits=FACTOR_ADDRESS & ~0xFFFF;__asm__("lw %0,%1":"+r"(bits):"m"(((int*)bits)[(FACTOR_ADDRESS&0xFFFF)/4]));return bits;}
 #define FIELD_OFFSET(t,m) ((unsigned int)&(((struct t*)0x10000)->m)-0x10000)
-typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
-typedef char VT_pfn_Offset[FIELD_OFFSET(VT,pfn)==4?1:-1];
 typedef char O_v80_Offset[FIELD_OFFSET(O,v80)==128?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_pE8_Offset[FIELD_OFFSET(P,pE8)==232?1:-1];
 typedef char P_v190_Offset[FIELD_OFFSET(P,v190)==400?1:-1];
 typedef char P_x13D8_Offset[FIELD_OFFSET(P,x13D8)==5080?1:-1];
-typedef char VT_PrefixSize[sizeof(struct VT)==8?1:-1];
 typedef char O_PrefixSize[sizeof(struct O)==144?1:-1];
 typedef char P_PrefixSize[sizeof(struct P)==5088?1:-1];
 typedef char qword_Size[sizeof(qword)==16?1:-1];
@@ -46,7 +43,7 @@ extern "C" void UpdateMurrayFlopMotion__FP6MURRAY(struct P *p)
     case 0:
         AccelAloPos(p, Scale(p->pE8->v80, -1.0f));
     case 1: {
-        qword v = ((qword (*)(void *))p->vt[33].pfn)((char *)p + p->vt[33].d);
+        qword v = ((qword (*)(void *))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));
         U u; register qword kn __asm__("vf5"); register qword n __asm__("vf1");
         __asm__("qmtc2.ni %1,%0":"=j"(kn):"r"(-1.0f));
         __asm__("vmulx.xyzw %0,%1,%2x":"=j"(n):"j"(p->v190),"j"(kn));

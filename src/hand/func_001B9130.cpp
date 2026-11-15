@@ -1,7 +1,7 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct VTE { short d; short pad; void (*pfn)(); } VTE;
 typedef union U { int i; float f; } U;
-typedef struct Q { char pad[0xC]; VTE *vt; } Q;
+typedef struct Q { char pad[0xC]; VTENT *vt; } Q;
 typedef struct E { char pad0[0xC]; struct Q *pq; char pad[0x30]; } E;
 typedef struct X {
     char pad0[0xC];
@@ -12,7 +12,7 @@ typedef struct X {
 } X;
 typedef struct P {
     char pad0[0xC];
-    VTE *vt;
+    VTENT *vt;
     char pad10[0xDF0 - 0x10];
     char xDF0[0xF50 - 0xDF0];
     char xF50[0x13D0 - 0xF50];
@@ -48,9 +48,9 @@ extern "C" void OnMurrayXpNew__FP3ALOP2XPi(P *p, X *px, int i)
         n = p->x1840;
         if (n == 1) {
             Q *pq = *(Q **)((char *)px + ((n-i)<<6) + 0xC);
-            if (((int (*)(void *))pq->vt[62].pfn)((char *)pq + pq->vt[62].d)) {
+            if (((int (*)(void *))pq->vt[62].pfn)(VT_THIS(pq, &pq->vt[62]))) {
                 if (*(float *)((char *)px + 0x88) < 0.7f) {
-                    qword v = ((qword (*)(void *))p->vt[33].pfn)((char *)p + p->vt[33].d);
+                    qword v = ((qword (*)(void *))p->vt[33].pfn)(VT_THIS(p, &p->vt[33]));
                     qword r = func_0011F198(v, px->x80);
                     float g; __asm__("mtc1 %1,%0" : "=f"(g) : "r"(r));
                     int f = g < D_002C0A38;

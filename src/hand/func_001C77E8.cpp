@@ -1,4 +1,4 @@
-struct VTE { short d; short pad; void (*pf)(); };
+#include "vtbl.h"
 extern "C" {
 void Decref(void *p) asm("Decref__4CRef");
 void func_00129658(void *p, const void *q);
@@ -14,9 +14,9 @@ struct CRef {
     CRef &operator=(const CRef &r) { func_00129658(this, &r); return *this; }
 };
 struct ALS { int x0; int x4; };
-struct LO { char pad[0xC]; VTE *vt; };
+struct LO { char pad[0xC]; VTENT *vt; };
 struct S {
-    char pad[0xC]; VTE *vt;
+    char pad[0xC]; VTENT *vt;
     char p0[0x150 - 0x10]; int x150;
     char p1[0x210 - 0x154]; LO *x210;
     char p2[0x230 - 0x214]; float x230; float x234; float x238;
@@ -48,10 +48,10 @@ void SetLootState(S *p, int n)
             M m;
             m.n = n;
             m.p = p;
-            ((void (*)(void *, M *))plo->vt[51].pf)((char *)plo + plo->vt[51].d, &m);
+            ((void (*)(void *, M *))plo->vt[51].pfn)(VT_THIS(plo, &plo->vt[51]), &m);
         }
         n = 2;
-        ((void (*)(void *, int, int, int, int, int))p->vt[3].pf)((char *)p + p->vt[3].d, 5, 0, 0, 0, 0);
+        ((void (*)(void *, int, int, int, int, int))p->vt[3].pfn)(VT_THIS(p, &p->vt[3]), 5, 0, 0, 0, 0);
         break;
     }
     }

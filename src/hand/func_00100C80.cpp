@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct CRef {
     int m_tagk; union { int n; float g; void *pv; } u;
@@ -15,15 +16,14 @@ struct CRef {
     CRef &operator=(float g);
 };
 extern "C" CRef RefSetArgsFromSplice(int c, void *aref, int *ak, void *an) asm("RefSetArgsFromSplice__FiP4CRefP4OTYPe");
-struct VT { short d; short pad; void *pfn; };
-struct LO { char pad[0xC]; VT *pvt; };
+struct LO { char pad[0xC]; VTENT *pvt; };
 extern "C" CRef func_00100C80(LO *p, int c, void *aref);
 CRef func_00100C80(LO *p, int c, void *aref)
 {
     union { qword q; } u;
     int k = 2;
     CRef ref = RefSetArgsFromSplice(1, aref, &k, &u);
-    VT *pvt = &p->pvt[73];
-    ref = ((int (*)(void *, qword))pvt->pfn)((char *)p + pvt->d, u.q) != 0;
+    VTENT *pvt = &p->pvt[73];
+    ref = ((int (*)(void *, qword))pvt->pfn)(VT_THIS(p, pvt), u.q) != 0;
     return ref;
 }

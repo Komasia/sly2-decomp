@@ -1,11 +1,11 @@
-struct VTE { short d; short pad; void (*pfn)(void *); };
+#include "vtbl.h"
 struct E { int n0; int n4; };
-struct P { int pad[3]; VTE *vt; char pad2[0x28 - 0x10]; E *peFirst; E *peMax; E *peCur; };
+struct P { int pad[3]; VTENT *vt; char pad2[0x28 - 0x10]; E *peFirst; E *peMax; E *peCur; };
 class LOCK {
 public:
     P *m_p;
-    LOCK(P *p) : m_p(p) { p->vt[1].pfn((char *)p + p->vt[1].d); }
-    ~LOCK() { m_p->vt[2].pfn((char *)m_p + m_p->vt[2].d); }
+    LOCK(P *p) : m_p(p) { ((void (*)(void *))p->vt[1].pfn)(VT_THIS(p, &p->vt[1])); }
+    ~LOCK() { ((void (*)(void *))m_p->vt[2].pfn)(VT_THIS(m_p, &m_p->vt[2])); }
 };
 extern "C" {
 void ExecuteRun(P *p) asm("ExecuteRun__FP4PRUN");

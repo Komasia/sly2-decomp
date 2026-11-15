@@ -2,8 +2,8 @@ struct DL { void *head; void *tail; int ibDle; };
 struct DLI { DL *m_pdl; void **m_ppv; int m_ibDle; DLI *m_pdliNext; };
 extern DLI *s_pdliFirst;
 #include "clock.h"
-struct VTE { short d; short pad; void (*pf)(); };
-struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; VTE *vt; };
+#include "vtbl.h"
+struct RIP { char pad[0x14]; float tStart; char p1[0xEC - 0x18]; VTENT *vt; };
 struct RIPG { char pad[0x15C]; DL dl; };
 struct CM;
 struct RO;
@@ -28,7 +28,7 @@ void RenderRipgSelf(RIPG *pripg, CM *pcm, RO *pro)
     InitDli(&dli, &pripg->dl);
     while ((prip = (RIP *)PvNextDli(&dli)) != 0) {
         if (g_clock.t <= prip->tStart) continue;
-            ((void (*)(void *))prip->vt[6].pf)((char *)prip + prip->vt[6].d);
+            ((void (*)(void *))prip->vt[6].pfn)(VT_THIS(prip, &prip->vt[6]));
     }
     s_pdliFirst = dli.m_pdliNext;
 }

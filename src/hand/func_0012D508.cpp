@@ -1,5 +1,6 @@
 // Fetch__14CTRLLOOKMOTION (Claude agent, 2026-10-23): MATCH. From hand_wip v5; the virtual at vtable slot 5 takes a float 4th
 // argument, and the caller passes p->g20 (that is why the target loads g20 into $f12 for the 0 < g20 test).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M3 { qword r[3]; };
 struct VU_FLOAT {
@@ -34,8 +35,7 @@ static inline float GetX(qword q)
     return f;
 }
 
-struct VTE { short d; short pad; void (*pfn)(void *, int, qword *, float); };
-struct O { int x0; void *x4; int pad[4]; VTE *pvt; };
+struct O { int x0; void *x4; int pad[4]; VTENT *pvt; };
 struct X {
     M3 m0;
     qword v30;
@@ -138,8 +138,8 @@ extern "C" void Fetch__14CTRLLOOKMOTION(P *p)
         qword u = D_002BC380;
         if (0.0f < p->g20 && 0.0f < p->g1C && py->po90) {
             O *po = py->po90;
-            VTE *pe = &po->pvt[5];
-            pe->pfn((char *)po + pe->d, 0, &vT.q, p->g20);
+            VTENT *pe = &po->pvt[5];
+            ((void (*)(void *, int, qword *, float))pe->pfn)(VT_THIS(po, pe), 0, &vT.q, p->g20);
             if (py->pxA0)
                 vT.q = MulM3(py->pxA0->m40, vT.q);
             u = AddScaledDiff(u, vT.q, v, VU_FLOAT(p->g1C / p->g20));

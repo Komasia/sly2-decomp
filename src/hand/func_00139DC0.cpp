@@ -6,6 +6,7 @@
 // MATCH (Claude agent for Lilly, T1677, 2026-10-25): lilly5 (T1673) + the T1675 func_00139AB8 prologue fix: VECTOR is a
 // struct with an anonymous union, so store_constructor emits a sched1-only CLOBBER after the clear, which gives both pool
 // his $v0 and the zero reload $v1. Loop givs: the post-switch copies go through c-based pointers pcs/pcd (laneC2f).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 #define FLT_MAX 3.40282347e+38f /* $LC0/$LC1 at 0x2A4AFC/0x2A4B00: this function's literal pool */
 typedef union { qword q; struct { float x, y, z, w; } v; } VEC;
@@ -32,9 +33,8 @@ struct DLI { struct DL *m_pdl; void **m_ppv; int m_ibDle; struct DLI *m_pdliNext
 struct BUF { VEC a[0x2B]; VEC b[0x2B]; VEC c[0x2B]; char pad[0x840 - 0x810]; };
 struct E { qword v0; qword v10; };
 struct Q { struct BUF abuf[2]; int i; int c; struct E *ae; };
-struct VT { short d; short pad; void (*pfn)(void *); };
 struct P {
-    char pad0[0xC]; struct VT *pvt; char pad10[0xF0 - 0x10]; qword vF0; float g100; char pad104[0x120 - 0x104]; float g120;
+    char pad0[0xC]; VTENT *pvt; char pad10[0xF0 - 0x10]; qword vF0; float g100; char pad104[0x120 - 0x104]; float g120;
     char pad124[0x160 - 0x124]; int x160; char pad164[0x170 - 0x164]; char x170[0x43C - 0x170]; int x43C; int pad440; int c444; struct DL dl;
 };
 #include "clock.h"
@@ -153,8 +153,8 @@ void func_00139DC0(struct P *p)
             pq->i = iNext;
     }
     if (p->c444 <= 0) {
-        struct VT *pvt = p->pvt;
-        pvt[9].pfn((char *)p + pvt[9].d);
+        VTENT *pvt = p->pvt;
+        ((void (*)(void *))pvt[9].pfn)(VT_THIS(p, &pvt[9]));
     } else {
         qword c, d, one, l;
         float g;

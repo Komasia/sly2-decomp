@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { VTE a[3]; };
+#include "vtbl.h"
+struct VT { VTENT a[3]; };
 struct A { char pad[0x74]; float g74; };
 struct Q { char pad[0x14]; A *pa; int pad2; float g1C; };
 struct P { char pad[0xC]; VT *pvt; char pad2[0x30 - 0x10]; Q *pq; };
@@ -8,8 +8,8 @@ extern "C" void RetractAsega(Q *) asm("RetractAsega__FP5ASEGA");
 extern "C" void SetAsegaTime(Q *, int, float, float) asm("SetAsegaTime__FP5ASEGAiff");
 struct Lock {
     P *p;
-    Lock(P *pp) { p = pp; p->pvt->a[1].pfn((char *)p + p->pvt->a[1].d); }
-    ~Lock() { p->pvt->a[2].pfn((char *)p + p->pvt->a[2].d); }
+    Lock(P *pp) { p = pp; ((void (*)(void *))p->pvt->a[1].pfn)(VT_THIS(p, &p->pvt->a[1])); }
+    ~Lock() { ((void (*)(void *))p->pvt->a[2].pfn)(VT_THIS(p, &p->pvt->a[2])); }
 };
 // name: SafeHouse port (AdvanceSma)
 extern "C" void AdvanceSma__FP3SMAf(P *p, float t)

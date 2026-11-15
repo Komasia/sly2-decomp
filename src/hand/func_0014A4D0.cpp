@@ -1,13 +1,13 @@
 // Aim (Claude agent, lane D16). From v4: the vsub reads q (the pinned Add result) with `posT = q` after it, and its posMe operand is repeated as an allocation-only operand (reload then puts posMe in vf4 like the target).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct VU_FLOAT { qword q; VU_FLOAT(float f) { __asm__("qmtc2.ni %1, %0" : "=j"(q) : "r"(f)); } };
-struct VTE { short d; short pad; void *pfn; };
 struct G;
 struct XEC { char pad[0x20]; qword pos; float g30; };
-struct SO { char pad[0xC]; VTE *vt; char pad1[0xE8 - 0x10]; int grfE8; XEC *pxEC; char pad2[0x174 - 0xF0]; SO *pnext; };
+struct SO { char pad[0xC]; VTENT *vt; char pad1[0xE8 - 0x10]; int grfE8; XEC *pxEC; char pad2[0x174 - 0xF0]; SO *pnext; };
 struct PATH { char pad[0x90]; int c; qword *av; };
-struct PSO { char pad[0xC]; VTE *vt; char pad1[0x258 - 0x10]; PATH *ppath; char pad2[0x2DC - 0x25C]; int x2DC; };
-struct LO { char pad[0xC]; VTE *vt; };
+struct PSO { char pad[0xC]; VTENT *vt; char pad1[0x258 - 0x10]; PATH *ppath; char pad2[0x2DC - 0x25C]; int x2DC; };
+struct LO { char pad[0xC]; VTENT *vt; };
 struct W { char pad[0x1010]; LO *plo; };
 struct P { char pad[0x10]; W *pw; char pad1[0x48 - 0x14]; float t48; };
 #include "clock.h"
@@ -83,8 +83,8 @@ void Aim(P *p)
     qword v;
     qword pos;
     {
-        VTE *e = &pso->vt[33];
-        v = ((qword (*)(void *))e->pfn)((char *)pso + e->d);
+        VTENT *e = &pso->vt[33];
+        v = ((qword (*)(void *))e->pfn)(VT_THIS(pso, e));
     }
     if (FLess(D_002BD460, Len(v)))
         p->t48 = g_clock.t;
@@ -153,8 +153,8 @@ void Aim(P *p)
 done:
     {
         LO *plo = p->pw->plo;
-        VTE *e = &plo->vt[29];
-        ((void (*)(void *, qword))e->pfn)((char *)plo + e->d, pos);
+        VTENT *e = &plo->vt[29];
+        ((void (*)(void *, qword))e->pfn)(VT_THIS(plo, e), pos);
     }
     SetGuardPursued(p->pw, p->pw->plo);
 }

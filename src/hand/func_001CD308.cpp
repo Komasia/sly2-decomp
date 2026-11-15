@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pf)(); };
 struct MAT { qword a[3]; };
 struct Q { char pad[0xA0]; void *xA0; };
-struct LO { char pad[0xC]; VTE *vt; int x10; char p1[0x58 - 0x14]; Q *x58; Q *x5C; };
+struct LO { char pad[0xC]; VTENT *vt; int x10; char p1[0x58 - 0x14]; Q *x58; Q *x5C; };
 struct S { char pad[0x84]; LO *x84; char p1[0x94 - 0x88]; int x94; int x98; int x9C; LO *xA0; };
 #include "clock.h"
 extern float D_002C1EF4;
@@ -32,9 +32,9 @@ void PlaceReachObject(S *p, LO *po)
     DeleteCtrl(&p->x9C);
     if (po->x10) {
         
-        void *pv = ((void *(*)(void *, void *))po->vt[32].pf)((char *)po + po->vt[32].d, &mat);
+        void *pv = ((void *(*)(void *, void *))po->vt[32].pfn)(VT_THIS(po, &po->vt[32]), &mat);
         LO *pa = p->xA0;
-        ((void (*)(void *, int, void *, int))pa->vt[10].pf)((char *)pa + pa->vt[10].d, po->x10, pv, 0xF);
+        ((void (*)(void *, int, void *, int))pa->vt[10].pfn)(VT_THIS(pa, &pa->vt[10]), po->x10, pv, 0xF);
     } else {
         ReparentBooty(p->xA0, 0, 0xF);
     }

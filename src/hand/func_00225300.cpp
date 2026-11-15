@@ -10,15 +10,15 @@
 //    an argument pseudo; loop.c's single-use substitution then gives %hi(g_game) life 2 in loop pass 2, so it is
 //    hoisted, wins s7 (a later hoist has the shortest live length) and pushes &g_lmZeroOne out of the registers.
 //  - The colour broadcast is one asm for both pextlw (t ties to the mfc1 register, the lw of the colour sits between).
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-typedef struct { short d,pad; void (*fn)(void *,...); } VE;
 struct M3 { qword r[3]; };
 struct M4 {M3 basis;qword position;};
-struct O { char pad[0xC]; VE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct CONTROL {int id,state,pad;void *object;};
-struct A { char pad[0xC]; VE *vt; char pad10[0xFB4]; void *color; char padFC8[8]; struct CONTROL basis; };
+struct A { char pad[0xC]; VTENT *vt; char pad10[0xFB4]; void *color; char padFC8[8]; struct CONTROL basis; };
 struct R { char pad[0x30]; int state; };
-struct S { char pad[0xC]; VE *vt; char pad10[0x140]; int state; float time; char pad158[0x58]; struct O *source; struct A *actor; };
+struct S { char pad[0xC]; VTENT *vt; char pad10[0x140]; int state; float time; char pad158[0x58]; struct O *source; struct A *actor; };
 extern "C" {
 #include "clock.h"
 struct LM { float gMin, gMax; };
@@ -61,9 +61,9 @@ extern "C" void UpdateExtractor__FP2LO(struct S *p) {
         if(old==5) {
             struct R *r;
             if(!p->actor) {
-                p->vt[76].fn((char*)p+p->vt[76].d,3);
+                ((void (*)(void *,...))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]),3);
             } else if(!(r=func_00205458(p->actor,0xB0)) || FDoneB0(r)) {
-                p->vt[76].fn((char*)p+p->vt[76].d,2);
+                ((void (*)(void *,...))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]),2);
             } else {
                 M3 m((p->source?MatJtLo(p->source):MatJtLo(p))->basis);
                 func_00209840(&p->actor->basis,&m);
@@ -81,11 +81,11 @@ extern "C" void UpdateExtractor__FP2LO(struct S *p) {
                 }
                 if(D_002C43B0<g_clock.t-p->time) {
                     SpawnPickups(g_sw,0x5D,PosOfLo(p->source),p,1);
-                    p->actor->vt[9].fn((char*)p->actor+p->actor->vt[9].d);
+                    ((void (*)(void *,...))p->actor->vt[9].pfn)(VT_THIS(p->actor, &p->actor->vt[9]));
                     // PIN: &g_game straight into $a0 keeps %hi(g_game) inside the loop (see the header).
                     register GAME *pgame asm("$4")=&g_game;
                     BroadcastTaskEvent(pgame,0x18,p->actor);
-                    p->vt[76].fn((char*)p+p->vt[76].d,3);
+                    ((void (*)(void *,...))p->vt[76].pfn)(VT_THIS(p, &p->vt[76]),3);
                 }
             }
         }

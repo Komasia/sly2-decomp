@@ -1,5 +1,5 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
-struct VTE { short d; short pad; void (*pfn)(); };
 struct K8 { float a, b; };
 struct A { char pad[0x2CC]; struct K8 k2CC; struct K8 k2D4; char pad2[0xF80 - 0x2DC]; int nF80; };
 struct O { int a, b, c; virtual void V1(); virtual void V2(); virtual void V3(); virtual void V4(); virtual void V5(); virtual void V6(); virtual void V7(); virtual void V8(); };

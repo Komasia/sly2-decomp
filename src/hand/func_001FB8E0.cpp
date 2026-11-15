@@ -1,8 +1,8 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct P { char pad[0xC]; VTE *pvt; float f10; char pad2[0x40 - 0x14]; int n40; float f44; char pad3[0x50 - 0x48]; unsigned short f50; unsigned short n52; };
+#include "vtbl.h"
+struct P { char pad[0xC]; VTENT *pvt; float f10; char pad2[0x40 - 0x14]; int n40; float f44; char pad3[0x50 - 0x48]; unsigned short f50; unsigned short n52; };
 extern "C" void SetDirty(P *, int, int) asm("SetDirty__4CSndUiUi");
-#define VCALL(p, n) ((p)->pvt[n].pfn((char *)(p) + (p)->pvt[n].d))
-#define ICALL(p, n) (((int (*)(void *))(p)->pvt[n].pfn)((char *)(p) + (p)->pvt[n].d))
+#define VCALL(p, n) (((void (*)(void *))(p)->pvt[n].pfn)(VT_THIS((p), &(p)->pvt[n])))
+#define ICALL(p, n) (((int (*)(void *))(p)->pvt[n].pfn)(VT_THIS((p), &(p)->pvt[n])))
 struct Lock {
     P *p;
     Lock(P *pp) { p = pp; VCALL(p, 1); }

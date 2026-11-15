@@ -1,12 +1,12 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 typedef struct { qword a[3]; } MATRIX3;
-struct VTE { short d; short pad; void *pfn; };
 struct X { char pad[0x9A]; short n9A; char pad1[0xA0 - 0x9C]; void *pA0; char pad2[0xC0 - 0xA4]; qword vC0; };
 struct XV { int x, y; float z; int w; };
 struct T { char pad[0x60]; void *p60; char pad1[0x10BC - 0x64]; void *p10BC; };
 struct S2 { char pad[0x70]; qword v70; };
 struct O {
-    char pad[0xC]; struct VTE *pvt; char pad1[0x58 - 0x10]; struct X *p58; struct X *p5C;
+    char pad[0xC]; VTENT *pvt; char pad1[0x58 - 0x10]; struct X *p58; struct X *p5C;
     char pad2[0x17C - 0x60]; int n17C; float g180; char pad3[0x18C - 0x184]; int n18C; struct T *p190;
 };
 #include "clock.h"
@@ -43,12 +43,12 @@ void SetHideState(struct O *p, int n)
             p->p58->n9A = 0;
             SetXfMode(p, p->p5C, 1);
             p->p5C->n9A = 0;
-            { struct VTE *e = &p->pvt[35]; ((void (*)(void *, qword))e->pfn)((char *)p + e->d, D_002A2DD0); }
+            { VTENT *e = &p->pvt[35]; ((void (*)(void *, qword))e->pfn)(VT_THIS(p, e), D_002A2DD0); }
             SetAloCnstrLin(p, 0);
             SetAloCnstrAng(p, 0);
             SetAloSensors(p, 0);
         }
-        { struct VTE *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 6, 0, 0, 0, 0); }
+        { VTENT *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)(VT_THIS(p, e), 6, 0, 0, 0, 0); }
         UpdateSwActivation(g_sw);
         p->p190 = 0;
     }
@@ -62,7 +62,7 @@ void SetHideState(struct O *p, int n)
             ps = (struct S2 *)p->p190->p10BC;
             if (!ps)
                 ps = (struct S2 *)p->p190->p60;
-            { struct VTE *e = &p->pvt[10]; ((void (*)(void *, struct T *, void *, int))e->pfn)((char *)p + e->d, p->p190, ps, 3); }
+            { VTENT *e = &p->pvt[10]; ((void (*)(void *, struct T *, void *, int))e->pfn)(VT_THIS(p, e), p->p190, ps, 3); }
             LevelMatrix3(MatJtLo(p), 0, &m);
             m = MatConvertXfs(0, p->p5C->pA0, &m);
 
@@ -86,7 +86,7 @@ void SetHideState(struct O *p, int n)
             p->p58->n9A = n;
             SetAloSensors(p, 1);
         }
-        { struct VTE *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)((char *)p + e->d, 5, 0, 0, 0, 0); }
+        { VTENT *e = &p->pvt[3]; ((void (*)(void *, int, int, int, int, int))e->pfn)(VT_THIS(p, e), 5, 0, 0, 0, 0); }
     }
     p->n17C = n;
     p->g180 = g_clock.t;

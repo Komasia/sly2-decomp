@@ -1,6 +1,6 @@
+#include "vtbl.h"
 struct ASEG; struct ALO;
-struct VTE { short d; short pad; void (*pfn)(); };
-struct ASEGA { int pad[3]; VTE *vt; };
+struct ASEGA { int pad[3]; VTENT *vt; };
 void RetractAsegaPp(ASEGA **);
 void ApplyAseg(ASEG *paseg, ALO *paloRoot, float t, float svt, int grfapl, ASEGA **ppasega);
 void ApplyAsegCur(ASEG *paseg, ALO *paloRoot, float t, float svt, int grfapl, ASEGA **ppasega)
@@ -10,6 +10,6 @@ void ApplyAsegCur(ASEG *paseg, ALO *paloRoot, float t, float svt, int grfapl, AS
     {
         ApplyAseg(paseg, paloRoot, t, svt, grfapl, ppasega);
         ASEGA *pasega = *ppasega;
-        ((void (*)(void *))pasega->vt[1].pfn)((char *)pasega + pasega->vt[1].d);
+        ((void (*)(void *))pasega->vt[1].pfn)(VT_THIS(pasega, &pasega->vt[1]));
     }
 }

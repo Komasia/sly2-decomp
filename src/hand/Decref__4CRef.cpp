@@ -1,3 +1,4 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct SLOTHEAP { int a[6]; };
 extern SLOTHEAP D_00452170, D_00452188, D_004521A0, D_004521B8, D_004521D0, D_004521E8;
@@ -9,8 +10,7 @@ void func_00256120(void *pv);
 }
 struct NODE;
 struct SPM { NODE *p; ~SPM(); };
-struct VT { short d; short pad; void (*pfn)(void *); };
-struct O21 { char pad[0xC]; VT *vt; };
+struct O21 { char pad[0xC]; VTENT *vt; };
 struct CRef {
     int m_tagk;
     void *m_pv;
@@ -82,7 +82,7 @@ void CRef::Decref()
     case 0x21: {
         O21 *p = (O21 *)m_pv;
         if (p)
-            p->vt[2].pfn((char *)p + p->vt[2].d);
+            ((void (*)(void *))p->vt[2].pfn)(VT_THIS(p, &p->vt[2]));
         break;
     }
     case 0x22: {

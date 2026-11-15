@@ -1,13 +1,13 @@
 // ExplodeExplgExplso (Claude agent, lane D40): matched with Lilly's MATRIX3 operator* (src/hand/UpdateXfChain.cpp: rows of the LEFT
 // matrix into qword locals, VU_VECTOR4 row temps) and her QwRotateVec(MATRIX3 *, qword), with px->mat as the left operand.
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct MATRIX4 { qword r[4]; };
 struct MATRIX3 { qword r[3]; };
 struct VEC { int x, y, z, w; } __attribute__((aligned(16)));
 struct XF { qword pos; MATRIX3 mat; VEC v; VEC w; };
 struct P { int fl; void *pv; int a8, aC; qword q10, q20; int x30; XF *pxf; int x38, x3C; };
-struct VTE { short d; short pad; void (*pfn)(void *, P *); };
-struct O { int pad[3]; VTE *vt; char pad1[0x60 - 0x10]; MATRIX4 mat; };
+struct O { int pad[3]; VTENT *vt; char pad1[0x60 - 0x10]; MATRIX4 mat; };
 struct S { char pad[0x60]; MATRIX4 mat; char pad1[0xE0 - 0xA0]; int c; O **apo; };
 MATRIX4 InverseAffineMatrix4(MATRIX4 *pm);
 MATRIX4 operator*(const MATRIX4 &a, const MATRIX4 &b);
@@ -68,6 +68,6 @@ void ExplodeExplgExplso(S *p, P *pp)
             xf.v.x = xf.v.y = xf.v.z = 0;
             xf.w.x = xf.w.y = xf.w.z = 0;
         }
-        po->vt[51].pfn((char *)po + po->vt[51].d, &loc);
+        ((void (*)(void *, P *))po->vt[51].pfn)(VT_THIS(po, &po->vt[51]), &loc);
     }
 }

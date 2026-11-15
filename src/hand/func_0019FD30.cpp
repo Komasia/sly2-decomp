@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct F { char pad[0x28]; long fl; };
 struct S;
-typedef struct { short d; short pad; struct F *(*pfn)(void *); } VT;
-struct S { char pad[0x20]; VT *vt; };
+struct S { char pad[0x20]; VTENT *vt; };
 typedef struct E { struct F *x0; struct S *x4; int x8; float xc; float x10; int pad[3]; } __attribute__((aligned(16))) E;
 struct P { int x0; int c; int pad[2]; E ae[32]; };
 #include "clock.h"
@@ -31,7 +31,7 @@ extern "C" void RecordSafeTarget__FP5ACTORP2LOf(struct P *p, struct S *s, float 
     }
     e = &p->ae[0];
     s1_memset(e, 0, sizeof(E));
-    p->ae[0].x0 = s->vt[6].pfn((char *)s + s->vt[6].d);
+    p->ae[0].x0 = ((struct F * (*)(void *))s->vt[6].pfn)(VT_THIS(s, &s->vt[6]));
     e->x4 = s;
     e->x10 = g;
     e->xc = g_clock.t;

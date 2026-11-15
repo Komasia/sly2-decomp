@@ -1,8 +1,8 @@
+#include "vtbl.h"
 extern "C" {
 typedef int qword __attribute__((mode(TI)));
 extern float D_002BE5F0[2];
-struct VTE { short d; short pad; void *pfn; };
-struct O { char pad[0xC]; struct VTE *vt; };
+struct O { char pad[0xC]; VTENT *vt; };
 struct R { char pad[0x2E8]; int n2E8; char pad2[0x1000 - 0x2EC]; int n1000; };
 struct Q { int pad[2]; int n8; };
 struct M { int n0; int pad; void *p8; int nC; struct Q *p10; };
@@ -40,8 +40,8 @@ extern "C" struct R *PloSpawn__FP7SPAWNERP6SOURCEP6VECTORii(struct S *p, struct 
         }
         for (i = 0; i < p->n90; i++) {
             struct O *o = p->a94[idx[i]];
-            { struct VTE *e = &o->vt[0x1D]; ((void (*)(void *, qword))e->pfn)((char *)o + e->d, *pv); }
-            { struct VTE *e = &o->vt[0x1E]; ((void (*)(void *, int))e->pfn)((char *)o + e->d, a3); }
+            { VTENT *e = &o->vt[0x1D]; ((void (*)(void *, qword))e->pfn)(VT_THIS(o, e), *pv); }
+            { VTENT *e = &o->vt[0x1E]; ((void (*)(void *, int))e->pfn)(VT_THIS(o, e), a3); }
             r = PloAcquireProxyObject(o, 0);
             if (r) break;
         }

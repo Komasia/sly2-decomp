@@ -1,11 +1,11 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { VTE a[8]; };
+#include "vtbl.h"
+struct VT { VTENT a[8]; };
 struct X { char pad[0xC]; VT *pvt; char pad2[0x40 - 0x10]; int n40; char pad3[0x50 - 0x44]; unsigned short fl; unsigned short c52; };
 struct S { int c; void *a[8]; };
 struct P { char pad[0x204]; S s; };
 struct Ref {
     X *px;
-    ~Ref() { if (px) px->pvt->a[2].pfn((char *)px + px->pvt->a[2].d); }
+    ~Ref() { if (px) ((void (*)(void *))px->pvt->a[2].pfn)(VT_THIS(px, &px->pvt->a[2])); }
 };
 extern "C" void RefTakeMusic(Ref *, P *, int) asm("RefTakeMusic__FP8SOUNDMGRi");
 extern "C" void Stop(X *, float) asm("Stop__4CSndf");
@@ -21,7 +21,7 @@ extern "C" void PopMusic__FP8SOUNDMGRi(P *p, int n)
         if (!f) {
             Stop(r.px, 0.0f);
             func_00259B48(&r, p->s.c > 0 ? *(p->s.a + p->s.c - 1) : 0);
-            if (r.px) r.px->pvt->a[7].pfn((char *)r.px + r.px->pvt->a[7].d);
+            if (r.px) ((void (*)(void *))r.px->pvt->a[7].pfn)((char *)r.px + r.px->pvt->a[7].delta);
         }
     }
 }

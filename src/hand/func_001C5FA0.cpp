@@ -1,8 +1,8 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 struct M4 { qword a, b, c, d; };
 struct V { float x, y, z, w; } __attribute__((aligned(16)));
-struct VTE { short d; short pad; void (*pf)(); };
-struct OBJ { VTE *vt; };
+struct OBJ { VTENT *vt; };
 struct H { int x0; OBJ *pobj; };
 struct Q { char pad[0x14]; void *x14; char p1[0x1C - 0x18]; float x1C; char p2[0x40 - 0x20]; float x40; };
 struct R { char pad[0x30]; Q *x30; };
@@ -26,7 +26,7 @@ void func_001C5FA0(LO *p)
         if (ph) {
             V v;
             OBJ *pobj = ph->pobj;
-            ((void (*)(void *, V *, int, float, float))pobj->vt[3].pf)((char *)pobj + pobj->vt[3].d, &v, 0, q->x1C, q->x40);
+            ((void (*)(void *, V *, int, float, float))pobj->vt[3].pfn)(VT_THIS(pobj, &pobj->vt[3]), &v, 0, q->x1C, q->x40);
             M4 m;
             m = func_0011C210(PosOfLo(p), MatJtLo(p), &v);
             AppendAloExtraDraws(p, m, p->x12C, p->x12C);

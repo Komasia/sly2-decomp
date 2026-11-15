@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct X { char pad[0xC]; VTE *pvt; };
+#include "vtbl.h"
+struct X { char pad[0xC]; VTENT *pvt; };
 struct Ref;
 extern "C" void func_00259B48(Ref *, X *);
 struct Ref {
@@ -43,8 +43,8 @@ extern "C" X *PsndStartDialog__FP8SOUNDMGRii(P *p, int k, int f)
                 if(i==primaryRole)p->a[3]=po;
                 else *slot=PsmaFindAloSm(po,func_001FD0C0(p,i));
                 { X *current=*slot;
-                  if(current) { VTE &entry=current->pvt[1];
-                    entry.pfn((char *)current+entry.d); } }
+                  if(current) { VTENT &entry=current->pvt[1];
+                    ((void (*)(void *))entry.pfn)(VT_THIS(current, &entry)); } }
             }
         }
     }

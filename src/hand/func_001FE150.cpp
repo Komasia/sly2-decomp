@@ -1,5 +1,5 @@
-struct VTE { short d; short p; void (*pfn)(void *); };
-struct VT { VTE a[8]; };
+#include "vtbl.h"
+struct VT { VTENT a[8]; };
 struct X { char pad[0xC]; VT *pvt; };
 struct Ref;
 extern "C" void func_00259BB0(Ref *, X *);
@@ -10,7 +10,7 @@ struct Ref {
     Ref(const Ref &r) { func_00259BB0(this, r.px); }
     Ref &operator=(const Ref &r) { func_00259B48(this, r.px); return *this; }
     Ref &operator=(X *p) { func_00259B48(this, p); return *this; }
-    ~Ref() { if (px) px->pvt->a[2].pfn((char *)px + px->pvt->a[2].d); }
+    ~Ref() { if (px) ((void (*)(void *))px->pvt->a[2].pfn)(VT_THIS(px, &px->pvt->a[2])); }
 };
 struct S { int c; Ref a[8]; };
 struct P { char pad[0x204]; S s; };
@@ -33,7 +33,7 @@ extern "C" X *PsndPushMusic__FP8SOUNDMGRi(P *p, int n)
     X *top = p->s.c > 0 ? (p->s.a + p->s.c - 1)->px : 0;
     if (top) Stop(top, 0.0f);
     if (r.px) {
-        r.px->pvt->a[7].pfn((char *)r.px + r.px->pvt->a[7].d);
+        ((void (*)(void *))r.px->pvt->a[7].pfn)((char *)r.px + r.px->pvt->a[7].delta);
     } else {
         X *v = PstreamFindMusic(p, n);
         if (!v || p->s.c == 8) return 0;

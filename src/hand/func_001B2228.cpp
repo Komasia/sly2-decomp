@@ -1,9 +1,9 @@
+#include "vtbl.h"
 typedef int qword __attribute__((mode(TI)));
 union U { qword q; float f[4];};
 struct V { float x,y,z,w; } __attribute__((aligned(16)));
-struct VT { short d,pad;void *fn; };
 struct LO;struct CONTROLLER;struct ASEG;struct ASEGA;struct ACTION;
-struct P {char pad0[0xC];VT *vt;char pad1[0x5C-0x10];CONTROLLER *controller;
+struct P {char pad0[0xC];VTENT *vt;char pad1[0x5C-0x10];CONTROLLER *controller;
  char pad2[0x210-0x60];LO *source;char opaque214[12];V position;
  ASEG *aseg;ASEGA *asega[12];int enabled;ACTION *action;float parameter;
  float g270,g274,g278;};
@@ -26,10 +26,10 @@ extern "C" void SetHomingMissileTarget__FP3ALOP2LOP6VECTOR(P*p,LO*source,V*point
  if(p->g270>0.0f)p->g278=g_clock.t+p->g270;
  else{
   PredictProjectileAim((V*)&w.velocity,p,0.5f);
-  register qword copied __asm__("$2");register VT*table __asm__("$3");register float negative __asm__("$f0");
+  register qword copied __asm__("$2");register VTENT*table __asm__("$3");register float negative __asm__("$f0");
   __asm__("lq %0,%4\n\tlw %1,%5\n\tli.s %2,%6\n\tsq %0,%3":"=&r"(copied),"=r"(table),"=f"(negative),"=m"(w.dir):"m"(w.velocity.q),"m"(p->vt),"F"(-0.5f));
   register qword k __asm__("vf1");register qword(*method)(void*) __asm__("$2");register void*receiver __asm__("$4");
-  __asm__("mfc1 %0,%4\n\tlh %1,%5\n\tqmtc2.ni %0,%2\n\tlw %0,%6\n\tsqc2 %2,%3\n\taddu %1,%7,%1":"=&r"(method),"=&r"(receiver),"=j"(k),"=m"(w.tmp.q):"f"(negative),"m"(table[33].d),"m"(table[33].fn),"r"(p));
+  __asm__("mfc1 %0,%4\n\tlh %1,%5\n\tqmtc2.ni %0,%2\n\tlw %0,%6\n\tsqc2 %2,%3\n\taddu %1,%7,%1":"=&r"(method),"=&r"(receiver),"=j"(k),"=m"(w.tmp.q):"f"(negative),"m"(table[33].delta),"m"(table[33].pfn),"r"(p));
   w.spill.q=k;
   qword raw=method(receiver);
   w.velocity.q=Scale(raw,w.spill.q);
@@ -67,8 +67,6 @@ typedef char V_x_Offset[FIELD_OFFSET(V,x)==0?1:-1];
 typedef char V_y_Offset[FIELD_OFFSET(V,y)==4?1:-1];
 typedef char V_z_Offset[FIELD_OFFSET(V,z)==8?1:-1];
 typedef char V_w_Offset[FIELD_OFFSET(V,w)==12?1:-1];
-typedef char VT_d_Offset[FIELD_OFFSET(VT,d)==0?1:-1];
-typedef char VT_fn_Offset[FIELD_OFFSET(VT,fn)==4?1:-1];
 typedef char P_vt_Offset[FIELD_OFFSET(P,vt)==12?1:-1];
 typedef char P_controller_Offset[FIELD_OFFSET(P,controller)==92?1:-1];
 typedef char P_source_Offset[FIELD_OFFSET(P,source)==528?1:-1];
@@ -102,8 +100,6 @@ typedef char U_PrefixSize[sizeof(U)==16?1:-1];
 typedef char U_Alignment[__alignof__(U)==16?1:-1];
 typedef char V_PrefixSize[sizeof(V)==16?1:-1];
 typedef char V_Alignment[__alignof__(V)==16?1:-1];
-typedef char VT_PrefixSize[sizeof(VT)==8?1:-1];
-typedef char VT_Alignment[__alignof__(VT)==4?1:-1];
 typedef char P_PrefixSize[sizeof(P)==640?1:-1];
 typedef char P_Alignment[__alignof__(P)==16?1:-1];
 typedef char HIT_PrefixSize[sizeof(HIT)==96?1:-1];
